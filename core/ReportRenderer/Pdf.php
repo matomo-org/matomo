@@ -66,6 +66,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 	private $report;
 	private $reportMetadata;
 	private $displayGraph;
+	private $evolutionGraph;
 	private $displayTable;
 	private $reportColumns;
 	private $reportRowsMetadata;
@@ -274,6 +275,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		$this->reportMetadata = $processedReport['metadata'];
 		$this->reportRowsMetadata = $processedReport['reportMetadata'];
 		$this->displayGraph = $processedReport['displayGraph'];
+		$this->evolutionGraph = $processedReport['evolutionGraph'];
 		$this->displayTable = $processedReport['displayTable'];
 		list($this->report, $this->reportColumns) = self::processTableFormat($this->reportMetadata, $processedReport['reportData'], $processedReport['columns']);
 
@@ -403,10 +405,15 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 		} else {
 			$imageWidth = self::IMAGE_GRAPH_WIDTH_LANDSCAPE;
 			$imageHeight = self::IMAGE_GRAPH_HEIGHT_LANDSCAPE;
+
+			// evolution graphs in landscape are better looking if they have the same height as in portrait
+			if(empty($this->reportMetadata['dimension']) || ($this->evolutionGraph && !empty($this->reportMetadata['imageGraphEvolutionUrl'])))
+			{
+				$imageHeight = self::IMAGE_GRAPH_HEIGHT_PORTRAIT;
+			}
 		}
 
-		$imageGraphUrl = $this->reportMetadata['imageGraphUrl'];
-		$imageGraph = parent::getStaticGraph($imageGraphUrl, $imageWidth, $imageHeight);
+		$imageGraph = parent::getStaticGraph($this->reportMetadata, $imageWidth, $imageHeight, $this->evolutionGraph);
 
 		$this->TCPDF->Image(
 			'@'.$imageGraph,

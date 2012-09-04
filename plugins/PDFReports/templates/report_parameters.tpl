@@ -5,7 +5,8 @@
 
 					var reportParameters = {ldelim}
 						'displayFormat' : '{$defaultDisplayFormat}',
-						'emailMe' : {$defaultEmailMe} == 1,
+						'emailMe' : {$defaultEmailMe},
+						'evolutionGraph' : {$defaultEvolutionGraph},
 						'additionalEmails' : null
 					{rdelim};
 
@@ -24,6 +25,11 @@
 					else
 						$('#report_email_me').removeProp('checked');
 
+					if(reportParameters.evolutionGraph === true)
+						$('#report_evolution_graph').prop('checked', 'checked');
+					else
+						$('#report_evolution_graph').removeProp('checked');
+
 					if(reportParameters.additionalEmails != null)
 						$('#report_additional_emails').text(reportParameters.additionalEmails.join('\n'));
 					else
@@ -37,6 +43,7 @@
 
 					parameters.displayFormat = $('#display_format option:selected').val();
 					parameters.emailMe = $('#report_email_me').prop('checked');
+					parameters.evolutionGraph = $('#report_evolution_graph').prop('checked');
 
 					additionalEmails = $('#report_additional_emails').val();
 					parameters.additionalEmails =
@@ -69,5 +76,8 @@
 			<option {if $formatValue==1}selected{/if} value="{$formatValue}">{$formatLabel}</option>
 		{/foreach}
 		</select>
+		<br/><br/>
+		<input type="checkbox" id="report_evolution_graph"/>
+		<label for="report_evolution_graph">{'PDFReports_EvolutionGraph'|translate} </label>
 	</td>
 </tr>

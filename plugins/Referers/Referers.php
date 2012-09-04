@@ -64,6 +64,7 @@ class Piwik_Referers extends Piwik_Plugin
         			'module' => 'Referers',
         			'action' => 'getRefererType',
         			'dimension' => Piwik_Translate('Referers_ColumnRefererType'),
+					'constantRowsCount' => true,
         			'documentation' => Piwik_Translate('Referers_TypeReportDocumentation').'<br />'
         					.'<b>'.Piwik_Translate('Referers_DirectEntry').':</b> '.Piwik_Translate('Referers_DirectEntryDocumentation').'<br />'
         					.'<b>'.Piwik_Translate('Referers_SearchEngines').':</b> '.Piwik_Translate('Referers_SearchEnginesDocumentation',

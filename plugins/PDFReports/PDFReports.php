@@ -26,14 +26,17 @@ class Piwik_PDFReports extends Piwik_Plugin
 	const DEFAULT_PERIOD = 'week';
 
 	const EMAIL_ME_PARAMETER = 'emailMe';
+	const EVOLUTION_GRAPH_PARAMETER = 'evolutionGraph';
 	const ADDITIONAL_EMAILS_PARAMETER = 'additionalEmails';
 	const DISPLAY_FORMAT_PARAMETER = 'displayFormat';
 	const EMAIL_ME_PARAMETER_DEFAULT_VALUE = true;
+	const EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE = false;
 
 	const EMAIL_TYPE = 'email';
 
 	static private $availableParameters = array(
 		self::EMAIL_ME_PARAMETER => false,
+		self::EVOLUTION_GRAPH_PARAMETER => false,
 		self::ADDITIONAL_EMAILS_PARAMETER => false,
 		self::DISPLAY_FORMAT_PARAMETER => true,
 	);
@@ -135,7 +138,17 @@ class Piwik_PDFReports extends Piwik_Plugin
 			}
 			else
 			{
-				$parameters[self::EMAIL_ME_PARAMETER] = (bool)$parameters[self::EMAIL_ME_PARAMETER];
+				$parameters[self::EMAIL_ME_PARAMETER] = self::valueIsTrue($parameters[self::EMAIL_ME_PARAMETER]);
+			}
+
+			// evolutionGraph is an optional parameter
+			if(!isset($parameters[self::EVOLUTION_GRAPH_PARAMETER]))
+			{
+				$parameters[self::EVOLUTION_GRAPH_PARAMETER] = self::EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE;
+			}
+			else
+			{
+				$parameters[self::EVOLUTION_GRAPH_PARAMETER] = self::valueIsTrue($parameters[self::EVOLUTION_GRAPH_PARAMETER]);
 			}
 
 			// additionalEmails is an optional parameter
@@ -144,6 +157,12 @@ class Piwik_PDFReports extends Piwik_Plugin
 				$parameters[self::ADDITIONAL_EMAILS_PARAMETER] = self::checkAdditionalEmails($parameters[self::ADDITIONAL_EMAILS_PARAMETER]);
 			}
 		}
+	}
+
+	// based on http://www.php.net/manual/en/filter.filters.validate.php -> FILTER_VALIDATE_BOOLEAN
+	static private function valueIsTrue($value)
+	{
+		return $value == 'true' || $value == 1 || $value == '1' || $value === true;
 	}
 
 	/**
@@ -222,6 +241,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 			$report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
 
 			$displayFormat = $report['parameters'][self::DISPLAY_FORMAT_PARAMETER];
+			$evolutionGraph = $report['parameters'][self::EVOLUTION_GRAPH_PARAMETER];
 
 			foreach ($processedReports as &$processedReport)
 			{
@@ -239,6 +259,8 @@ class Piwik_PDFReports extends Piwik_Plugin
 					&& Piwik::isGdExtensionEnabled()
 					&& Piwik_PluginsManager::getInstance()->isPluginActivated('ImageGraph')
 					&& !empty($metadata['imageGraphUrl']);
+
+				$processedReport['evolutionGraph'] = $evolutionGraph;
 
 				// remove evolution metrics from MultiSites.getAll
 				if($metadata['module'] == 'MultiSites')
@@ -268,8 +290,14 @@ class Piwik_PDFReports extends Piwik_Plugin
 			$notificationInfo = $notification->getNotificationInfo();
 
 			$reportFormat = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY]['format'];
+			$outputType = $notificationInfo[Piwik_PDFReports_API::OUTPUT_TYPE_INFO_KEY];
 
 			$reportRenderer = Piwik_ReportRenderer::factory($reportFormat);
+
+			if($reportFormat == Piwik_ReportRenderer::HTML_FORMAT)
+			{
+				$reportRenderer->setRenderImageInline($outputType != Piwik_PDFReports_API::OUTPUT_SAVE_ON_DISK);
+			}
 		}
 	}
 
@@ -445,7 +473,8 @@ class Piwik_PDFReports extends Piwik_Plugin
 		$view->displayFormats = self::getDisplayFormats();
 		$view->reportType = self::EMAIL_TYPE;
 		$view->defaultDisplayFormat = self::DEFAULT_DISPLAY_FORMAT;
-		$view->defaultEmailMe = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE;
+		$view->defaultEmailMe = self::EMAIL_ME_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
+		$view->defaultEvolutionGraph = self::EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE ? 'true' : 'false';
 		$out .= $view->render();
 	}
 

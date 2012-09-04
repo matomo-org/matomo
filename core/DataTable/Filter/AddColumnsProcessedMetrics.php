@@ -43,8 +43,18 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
 		{
 			$nbVisits = $this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS);
 			$nbActions = $this->getColumn($row, Piwik_Archive::INDEX_NB_ACTIONS);
+
+			// @review 	Filter AddColumnsProcessedMetrics should not normally be called on Goals.* DataTables
+			//			However, calling API.getRowEvolution with module=Goals method=getVisitsUntilConversion does trigger this filter
+			//			because API.loadRowEvolutionDataFromAPI sets filter_add_columns_when_show_all_columns
+			// 			Goals.getVisitsUntilConversion contains only the nb_conversions metric, therefore, every DataTable Row are removed in this filter
+			//
+			//			The other way to solve this issue is to add the following exceptions in API.getRowEvolution: module=Goals AND (method=getVisitsUntilConversion OR getDaysToConversion)
+			$conversions = $this->getColumn($row, Piwik_Archive::INDEX_NB_CONVERSIONS);
+
 			if($nbVisits == 0
 				&& $nbActions == 0
+				&& $conversions == 0
 				&& $this->deleteRowsWithNoVisit)
 			{
 				// case of keyword/website/campaign with a conversion for this day, 

@@ -35,8 +35,6 @@ abstract class Piwik_ReportRenderer
 		self::HTML_FORMAT,
 	);
 
-	protected $renderImageInline = false;
-
 	/**
 	 * Return the ReportRenderer associated to the renderer type $rendererType
 	 *
@@ -63,18 +61,6 @@ abstract class Piwik_ReportRenderer
 				)
 			);
 		}
-	}
-
-	/**
-	 * Currently only used for HTML reports.
-	 * When sent by mail, images are attached to the mail: renderImageInline = false
-	 * When downloaded, images are included base64 encoded in the report body: renderImageInline = true
-	 *
-	 * @param boolean $renderImageInline
-	 */
-	public function setRenderImageInline($renderImageInline)
-	{
-		$this->renderImageInline = $renderImageInline;
 	}
 
 	/**
@@ -234,7 +220,14 @@ abstract class Piwik_ReportRenderer
 		);
 	}
 
-	public static function getStaticGraph($imageGraphUrl, $width, $height) {
+	public static function getStaticGraph($reportMetadata, $width, $height, $evolution) {
+
+		$imageGraphUrl = $reportMetadata['imageGraphUrl'];
+
+		if($evolution && !empty($reportMetadata['imageGraphEvolutionUrl']))
+		{
+			$imageGraphUrl = $reportMetadata['imageGraphEvolutionUrl'];
+		}
 
 		$request = new Piwik_API_Request(
 			$imageGraphUrl .

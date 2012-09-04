@@ -18,11 +18,8 @@
 abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_StaticGraph
 {
 	const GRAPHIC_COLOR_KEY = 'GRAPHIC_COLOR';
-	const DEFAULT_GRAPHIC_COLOR = '5170AE';
 	const VALUE_COLOR_KEY = 'VALUE_COLOR';
-	const DEFAULT_VALUE_COLOR = '444444';
 	const GRID_COLOR_KEY = 'GRID_COLOR';
-	const DEFAULT_GRID_COLOR = 'CCCCCC';
 
 	const DEFAULT_TICK_ALPHA = 20;
 	const DEFAULT_SERIE_WEIGHT = 0.5;
@@ -39,9 +36,14 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	protected function getDefaultColors()
 	{
 		return array(
-			self::GRAPHIC_COLOR_KEY => self::DEFAULT_GRAPHIC_COLOR,
-			self::VALUE_COLOR_KEY => self::DEFAULT_VALUE_COLOR,
-			self::GRID_COLOR_KEY => self::DEFAULT_GRID_COLOR,
+			self::VALUE_COLOR_KEY => '444444',
+			self::GRID_COLOR_KEY => 'CCCCCC',
+			self::GRAPHIC_COLOR_KEY . '1' => '5170AE',
+			self::GRAPHIC_COLOR_KEY . '2' => 'F29007',
+			self::GRAPHIC_COLOR_KEY . '3' => 'CC3399',
+			self::GRAPHIC_COLOR_KEY . '4' => '9933CC',
+			self::GRAPHIC_COLOR_KEY . '5' => '80A033',
+			self::GRAPHIC_COLOR_KEY . '6' => '246AD2'
 		);
 	}
 
@@ -54,9 +56,13 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	{
 		$this->initpData();
 
-		$this->pData->setSerieWeight($this->metricTitle, self::DEFAULT_SERIE_WEIGHT);
-		$graphicColor = $this->colors[self::GRAPHIC_COLOR_KEY];
-		$this->pData->setPalette($this->metricTitle, $graphicColor);
+		$colorIndex = 1;
+		foreach($this->ordinateSeries as $column => $data)
+		{
+			$this->pData->setSerieWeight($column, self::DEFAULT_SERIE_WEIGHT);
+			$graphicColor = $this->colors[self::GRAPHIC_COLOR_KEY . $colorIndex++];
+			$this->pData->setPalette($column, $graphicColor);
+		}
 
 		$this->initpImage();
 
@@ -77,17 +83,17 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 		$skippedLabels = 0;
 		if(!$horizontalGraph)
 		{
-			$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSerie);
+			$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSeries);
 			$abscissaMaxWidth = $abscissaMaxWidthHeight[self::WIDTH_KEY];
 			$graphWidth = $bottomRightXValue - $topLeftXValue;
 			$maxNumOfLabels = floor($graphWidth / ($abscissaMaxWidth + self::LABEL_SPACE_VERTICAL_GRAPH));
 
-			$abscissaSerieCount = count($this->abscissaSerie);
-			if($maxNumOfLabels < $abscissaSerieCount)
+			$abscissaSeriesCount = count($this->abscissaSeries);
+			if($maxNumOfLabels < $abscissaSeriesCount)
 			{
-				for($candidateSkippedLabels = 1 ; $candidateSkippedLabels < $abscissaSerieCount; $candidateSkippedLabels++)
+				for($candidateSkippedLabels = 1 ; $candidateSkippedLabels < $abscissaSeriesCount; $candidateSkippedLabels++)
 				{
-					$numberOfSegments = $abscissaSerieCount / ($candidateSkippedLabels + 1);
+					$numberOfSegments = $abscissaSeriesCount / ($candidateSkippedLabels + 1);
 					$numberOfCompleteSegments = floor($numberOfSegments);
 
 					$numberOfLabels = $numberOfCompleteSegments;
@@ -105,9 +111,19 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 			}
 		}
 
-		$ordinateAxisLength = $horizontalGraph ? $bottomRightXValue - $topLeftXValue : $this->getGraphHeight($horizontalGraph);
+		$ordinateAxisLength =
+			$horizontalGraph ? $bottomRightXValue - $topLeftXValue : $this->getGraphHeight($horizontalGraph);
 
-		$maxOrdinateValue = $this->pData->getMax($this->metricTitle);
+		$maxOrdinateValue = 0;
+		foreach($this->ordinateSeries as $column => $data)
+		{
+			$currentMax = $this->pData->getMax($column);
+
+			if($currentMax > $maxOrdinateValue)
+			{
+				$maxOrdinateValue = $currentMax;
+			}
+		}
 
 		$gridColor = $this->colors[self::GRID_COLOR_KEY];
 
@@ -138,16 +154,18 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 			)
 		);
 
-		if($this->showMetricTitle)
+		if($this->showLegend)
 		{
+			$legendColor = $this->colors[self::VALUE_COLOR_KEY];
 			$this->pImage->drawLegend(
 				$topLeftXValue + self::LEGEND_LEFT_MARGIN,
-				$this->getMetricTitleHeight() / 2,
+				$this->getLegendHeight() / 2,
 				array(
 					 'Style' => LEGEND_NOBORDER,
-					 'FontR' => $graphicColor['R'],
-					 'FontG' => $graphicColor['G'],
-					 'FontB' => $graphicColor['B'],
+					 'Mode' => LEGEND_HORIZONTAL,
+					 'FontR' => $legendColor['R'],
+					 'FontG' => $legendColor['G'],
+					 'FontB' => $legendColor['B'],
 				)
 			);
 		}
@@ -164,7 +182,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 		if($withLabel)
 		{
-			$maxWidthHeight = $this->maxWidthHeight($horizontalGraph ? $this->abscissaSerie : $this->ordinateSerie);
+			$maxWidthHeight = $this->maxWidthHeight($horizontalGraph ? $this->abscissaSeries : $this->ordinateSeries);
 			$gridLeftMargin += $maxWidthHeight[self::WIDTH_KEY];
 		}
 
@@ -173,7 +191,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 	protected function getGridTopMargin($horizontalGraph)
 	{
-		$ordinateMaxWidthHeight = $this->maxWidthHeight($this->ordinateSerie);
+		$ordinateMaxWidthHeight = $this->maxWidthHeight($this->ordinateSeries);
 		$ordinateMaxHeight = $ordinateMaxWidthHeight[self::HEIGHT_KEY];
 
 		if($horizontalGraph)
@@ -185,18 +203,28 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 			$topMargin = $ordinateMaxHeight / 2;
 		}
 
-		if($this->showMetricTitle)
+		if($this->showLegend)
 		{
-			$topMargin += $this->getMetricTitleHeight() + self::LEGEND_BOTTOM_MARGIN;
+			$topMargin += $this->getLegendHeight() + self::LEGEND_BOTTOM_MARGIN;
 		}
 
 		return $topMargin;
 	}
 
-	private function getMetricTitleHeight()
+	private function getLegendHeight()
 	{
-		$metricTitleWidthHeight = $this->getTextWidthHeight($this->metricTitle);
-		return $metricTitleWidthHeight[self::HEIGHT_KEY];
+		$maxMetricLegendHeight = 0;
+		foreach($this->ordinateLabels as $column => $label)
+		{
+			$metricTitleWidthHeight = $this->getTextWidthHeight($label);
+			$metricTitleHeight = $metricTitleWidthHeight[self::HEIGHT_KEY];
+			if($metricTitleHeight > $maxMetricLegendHeight)
+			{
+				$maxMetricLegendHeight = $metricTitleHeight;
+			}
+		}
+
+		return $maxMetricLegendHeight;
 	}
 
 	protected function getGraphHeight($horizontalGraph)
@@ -206,7 +234,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 	private function getGridBottomMargin()
 	{
-		$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSerie);
+		$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSeries);
 		return $abscissaMaxWidthHeight[self::HEIGHT_KEY] + self::BOTTOM_GRID_MARGIN;
 	}
 
@@ -214,7 +242,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	{
 		if($horizontalGraph)
 		{
-			$ordinateMaxWidthHeight = $this->maxWidthHeight($this->ordinateSerie);
+			$ordinateMaxWidthHeight = $this->maxWidthHeight($this->ordinateSeries);
 			return self::RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH + $ordinateMaxWidthHeight[self::WIDTH_KEY];
 		}
 		else

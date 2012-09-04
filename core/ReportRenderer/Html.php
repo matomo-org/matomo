@@ -28,11 +28,25 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 	const HTML_CONTENT_TYPE = 'text/html';
 	const HTML_FILE_EXTENSION = 'html';
 
+	protected $renderImageInline = false;
+
 	private $rendering = "";
 
 	public function setLocale($locale)
 	{
 		//Nothing to do
+	}
+
+	/**
+	 * Currently only used for HTML reports.
+	 * When sent by mail, images are attached to the mail: renderImageInline = false
+	 * When downloaded, images are included base64 encoded in the report body: renderImageInline = true
+	 *
+	 * @param boolean $renderImageInline
+	 */
+	public function setRenderImageInline($renderImageInline)
+	{
+		$this->renderImageInline = $renderImageInline;
 	}
 
 	public function sendToDisk($filename)
@@ -116,6 +130,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 		$smarty->assign("displayTable", $processedReport['displayTable']);
 
 		$displayGraph = $processedReport['displayGraph'];
+		$evolutionGraph = $processedReport['evolutionGraph'];
 		$smarty->assign("displayGraph", $displayGraph);
 
 		if($displayGraph)
@@ -126,8 +141,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 
 			if($this->renderImageInline)
 			{
-				$imageGraphUrl = $reportMetadata['imageGraphUrl'];
-				$staticGraph = parent::getStaticGraph($imageGraphUrl, self::IMAGE_GRAPH_WIDTH, self::IMAGE_GRAPH_HEIGHT);
+				$staticGraph = parent::getStaticGraph($reportMetadata, self::IMAGE_GRAPH_WIDTH, self::IMAGE_GRAPH_HEIGHT, $evolutionGraph);
 				$smarty->assign("generatedImageGraph", base64_encode($staticGraph));
 				unset($generatedImageGraph);
 			}

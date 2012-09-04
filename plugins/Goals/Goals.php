@@ -159,6 +159,7 @@ class Piwik_Goals extends Piwik_Plugin
 				'module' => 'Goals',
 				'action' => 'getVisitsUntilConversion',
 				'dimension' => Piwik_Translate('Goals_VisitsUntilConv'),
+				'constantRowsCount' => true,
 				'parameters' => array(),
 				'metrics' => $conversionReportMetrics,
 				'order' => 5
@@ -171,6 +172,7 @@ class Piwik_Goals extends Piwik_Plugin
 				'module' => 'Goals',
 				'action' => 'getDaysToConversion',
 				'dimension' => Piwik_Translate('Goals_DaysToConv'),
+				'constantRowsCount' => true,
 				'parameters' => array(),
 				'metrics' => $conversionReportMetrics,
 				'order' => 10
@@ -199,6 +201,7 @@ class Piwik_Goals extends Piwik_Plugin
 					'module' => 'Goals',
 					'action' => 'getVisitsUntilConversion',
 					'dimension' => Piwik_Translate('Goals_VisitsUntilConv'),
+					'constantRowsCount' => true,
 					'parameters' => array('idGoal' => $goal['idgoal']),
 					'metrics' => $conversionReportMetrics,
 					'order' => 51 + $goal['idgoal'] * 3
@@ -211,6 +214,7 @@ class Piwik_Goals extends Piwik_Plugin
 					'module' => 'Goals',
 					'action' => 'getDaysToConversion',
 					'dimension' => Piwik_Translate('Goals_DaysToConv'),
+					'constantRowsCount' => true,
 					'parameters' => array('idGoal' => $goal['idgoal']),
 					'metrics' => $conversionReportMetrics,
 					'order' => 52 + $goal['idgoal'] * 3
@@ -248,6 +252,7 @@ class Piwik_Goals extends Piwik_Plugin
 					'module' => 'Goals',
 					'action' => 'getVisitsUntilConversion',
 					'dimension' => Piwik_Translate('Goals_VisitsUntilConv'),
+					'constantRowsCount' => true,
 					'metrics' => $conversionReportMetrics,
 					'parameters' => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER),
 					'order' => 11
@@ -258,6 +263,7 @@ class Piwik_Goals extends Piwik_Plugin
 					'module' => 'Goals',
 					'action' => 'getDaysToConversion',
 					'dimension' => Piwik_Translate('Goals_DaysToConv'),
+					'constantRowsCount' => true,
 					'metrics' => $conversionReportMetrics,
 					'parameters' => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER),
 					'order' => 12
@@ -288,6 +294,7 @@ class Piwik_Goals extends Piwik_Plugin
 					'module' => 'Goals',
 					'action' => 'getVisitsUntilConversion',
 					'dimension' => Piwik_Translate('Goals_VisitsUntilConv'),
+					'constantRowsCount' => true,
 					'metrics' => $conversionReportMetrics,
 					'parameters' => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_CART),
 					'order' => 20
@@ -298,6 +305,7 @@ class Piwik_Goals extends Piwik_Plugin
 					'module' => 'Goals',
 					'action' => 'getDaysToConversion',
 					'dimension' => Piwik_Translate('Goals_DaysToConv'),
+					'constantRowsCount' => true,
 					'metrics' => $conversionReportMetrics,
 					'parameters' => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_CART),
 					'order' => 25

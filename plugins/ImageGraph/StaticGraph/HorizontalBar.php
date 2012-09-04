@@ -54,36 +54,61 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 
 		// truncate report
 		$graphHeight = $this->getGraphBottom() - $this->getGridTopMargin($horizontalGraph = true);
-		$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSerie);
+
+		$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSeries);
 		$abscissaMaxHeight = $abscissaMaxWidthHeight[self::HEIGHT_KEY];
-		$minLineWidth = ($abscissaMaxHeight > $maxLogoHeight ? $abscissaMaxHeight : $maxLogoHeight) + self::MIN_SPACE_BETWEEN_HORIZONTAL_VALUES;
+
+		$ordinateMaxWidthHeight = $this->maxWidthHeight($this->ordinateSeries);
+		$numberOfSeries = count($this->ordinateSeries);
+		$ordinateMaxHeight = $ordinateMaxWidthHeight[self::HEIGHT_KEY] * $numberOfSeries;
+
+		$textMaxHeight = $abscissaMaxHeight > $ordinateMaxHeight ? $abscissaMaxHeight : $ordinateMaxHeight;
+
+		$minLineWidth = ($textMaxHeight > $maxLogoHeight ? $textMaxHeight : $maxLogoHeight) + (self::MIN_SPACE_BETWEEN_HORIZONTAL_VALUES * $numberOfSeries);
 		$maxNumOfValues = floor($graphHeight / $minLineWidth);
-		$abscissaSerieCount = count($this->abscissaSerie);
-		
-		if($maxNumOfValues < $abscissaSerieCount - 1)
+		$abscissaSeriesCount = count($this->abscissaSeries);
+
+		if($maxNumOfValues < $abscissaSeriesCount - 1)
 		{
-			$truncatedOrdinateSerie = array();
+			$sumOfOthers = array();
+			$truncatedOrdinateSeries = array();
 			$truncatedOrdinateLogos = array();
-			$truncatedAbscissaSerie = array();
+			$truncatedAbscissaSeries = array();
+			foreach($this->ordinateSeries as $column => $data)
+			{
+				$truncatedOrdinateSeries[$column] = array();
+				$sumOfOthers[$column] = 0;
+			}
 
 			$i = 0;
 			for(; $i < $maxNumOfValues; $i++)
 			{
-				$truncatedOrdinateSerie[] = $this->ordinateSerie[$i];
+				foreach($this->ordinateSeries as $column => $data)
+				{
+					$truncatedOrdinateSeries[$column][] = $data[$i];
+				}
+
 				$truncatedOrdinateLogos[] = isset($this->ordinateLogos[$i]) ? $this->ordinateLogos[$i] : null;
-				$truncatedAbscissaSerie[] = $this->abscissaSerie[$i];
+				$truncatedAbscissaSeries[] = $this->abscissaSeries[$i];
 			}
 
-			$sumOfOthers = 0;
-			for(; $i < $abscissaSerieCount; $i++)
+			for(; $i < $abscissaSeriesCount; $i++)
 			{
-				$sumOfOthers += $this->ordinateSerie[$i];
+				foreach($this->ordinateSeries as $column => $data)
+				{
+					$sumOfOthers[$column] += $data[$i];
+				}
 			}
-			$truncatedOrdinateSerie[] = $sumOfOthers;
-			$truncatedAbscissaSerie[] = Piwik_Translate('General_Others');
-			$this->ordinateSerie = $truncatedOrdinateSerie;
+
+			foreach($this->ordinateSeries as $column => $data)
+			{
+				$truncatedOrdinateSeries[$column][] = $sumOfOthers[$column];
+			}
+
+			$truncatedAbscissaSeries[] = Piwik_Translate('General_Others');
+			$this->abscissaSeries = $truncatedAbscissaSeries;
+			$this->ordinateSeries = $truncatedOrdinateSeries;
 			$this->ordinateLogos = $truncatedOrdinateLogos;
-			$this->abscissaSerie = $truncatedAbscissaSerie;
 		}
 
 		// blank characters are used to pad labels so the logo can be displayed
@@ -103,9 +128,16 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		$gridRightMargin = $this->getGridRightMargin($horizontalGraph = true);
 		$minGraphSize = ($this->width - $gridRightMargin) / 2;
 		
-		$metricTitleWidthHeight = $this->getTextWidthHeight($this->metricTitle);
-		$legendWidth = $metricTitleWidthHeight[self::WIDTH_KEY] + self::LEGEND_LEFT_MARGIN + self::LEGEND_SQUARE_WIDTH;
-		if($this->showMetricTitle)
+
+		$metricLegendWidth = 0;
+		foreach($this->ordinateLabels as $column => $label)
+		{
+			$metricTitleWidthHeight = $this->getTextWidthHeight($label);
+			$metricLegendWidth += $metricTitleWidthHeight[self::WIDTH_KEY];
+		}
+
+		$legendWidth = $metricLegendWidth + ((self::LEGEND_LEFT_MARGIN + self::LEGEND_SQUARE_WIDTH)  * $numberOfSeries);
+		if($this->showLegend)
 		{
 			if($legendWidth > $minGraphSize)
 			{
@@ -124,7 +156,7 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		// truncate labels if needed
 		$truncationTextWidthHeight = $this->getTextWidthHeight(self::TRUNCATION_TEXT);
 		$truncationTextWidth = $truncationTextWidthHeight[self::WIDTH_KEY];
-		foreach($this->abscissaSerie as &$label)
+		foreach($this->abscissaSeries as &$label)
 		{
 			$labelWidthHeight = $this->getTextWidthHeight($label);
 			$labelWidth = $labelWidthHeight[self::WIDTH_KEY];
@@ -139,7 +171,7 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		$gridLeftMarginBeforePadding = $this->getGridLeftMargin($horizontalGraph = true, $withLabel = true);
 
 		// pad labels for logo space
-		foreach($this->abscissaSerie as &$label)
+		foreach($this->abscissaSeries as &$label)
 		{
 			$label .= $paddingText;
 		}
@@ -162,33 +194,32 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 			)
 		);
 
-		// display icons
+//		// display icons
 		$graphData = $this->pData->getData();
-		$sizeOfOrdinateSerie = sizeof($this->ordinateSerie);
-		$logoInterleave = $this->getGraphHeight(true) / $sizeOfOrdinateSerie;
-		for($i = 0; $i < $sizeOfOrdinateSerie; $i++)
+		$numberOfRows = count($this->abscissaSeries);
+		$logoInterleave = $this->getGraphHeight(true) / $numberOfRows;
+		for($i = 0; $i < $numberOfRows; $i++)
 		{
 			if(isset($this->ordinateLogos[$i]))
 			{
 				$logoPath = $this->ordinateLogos[$i];
 				$absoluteLogoPath = self::getAbsoluteLogoPath($logoPath);
-				
-				
+
 				if(isset($logoPathToSizes[$absoluteLogoPath]))
 				{
 					$logoWidthHeight = $logoPathToSizes[$absoluteLogoPath];
-	
+
 					$pathInfo = pathinfo($logoPath);
 					$logoExtension = strtoupper($pathInfo['extension']);
 					$drawingFunction = 'drawFrom' . $logoExtension;
-	
+
 					$logoYPosition =
 							($logoInterleave * $i)
 							+ $this->getGridTopMargin(true)
 							+ $graphData['Axis'][1]['Margin']
 							- $logoWidthHeight[self::HEIGHT_KEY] / 2
 							+ 1;
-	
+
 					$this->pImage->$drawingFunction(
 						$gridLeftMarginBeforePadding,
 						$logoYPosition,

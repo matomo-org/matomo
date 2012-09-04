@@ -114,6 +114,30 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $config['otherRequestParameters']['label']     = 'my>dir>' . urlencode('/page3?foo=bar&baz=bar');
         $return[]                                      = array('API.getRowEvolution', $config);
 
+        // Goals > Visits Until Conversion, idGoal != 0
+        $config['testSuffix']                          = '_goals_visitsUntilConversion';
+        $config['periods']                             = array('day');
+        $config['otherRequestParameters']['date']      = '2010-02-06,2010-03-06';
+        $config['otherRequestParameters']['period']    = 'day';
+        $config['otherRequestParameters']['apiModule'] = 'Goals';
+        $config['otherRequestParameters']['apiAction'] = 'getVisitsUntilConversion';
+        $config['otherRequestParameters']['label']     = '1 visit, 2 visits';
+        $config['otherRequestParameters']['idGoal']    = '2';
+        $return[]                                      = array('API.getRowEvolution', $config);
+
+        // Goals > Visits Until Conversion, idGoal != 0, without specifying labels
+        $config['testSuffix']                                   = '_goals_visitsUntilConversion_WithoutLabels';
+        $config['periods']                                      = array('day');
+        $config['otherRequestParameters']['date']               = '2010-02-06,2010-03-06';
+        $config['otherRequestParameters']['period']             = 'day';
+        $config['otherRequestParameters']['apiModule']          = 'Goals';
+        $config['otherRequestParameters']['apiAction']          = 'getVisitsUntilConversion';
+        $config['otherRequestParameters']['label']              = false;
+        $config['otherRequestParameters']['filter_limit']       = 2;
+        $config['otherRequestParameters']['filter_sort_column'] = 'nb_conversions';
+        $config['otherRequestParameters']['idGoal']             = '2';
+        $return[]                                               = array('API.getRowEvolution', $config);
+
         return $return;
     }
 
@@ -125,7 +149,9 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
     protected static function setUpWebsitesAndGoals()
     {
         self::createWebsite('2010-02-01 11:22:33');
-    }
+		Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered php', 'manually', '', '');
+		Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'another triggered php', 'manually', '', '', false, false, true);
+	}
 
     protected static function trackVisits()
     {
@@ -140,6 +166,14 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
             $t->setUrl('http://example.org/my/dir/page' . ($daysIntoPast % 4) . '?foo=bar&baz=bar');
             $t->setForceVisitDateTime($visitDateTime);
             self::checkResponse($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
+
+			// Trigger goal n°1 once
+			self::checkResponse($t->doTrackGoal(1));
+
+			// Trigger goal n°2 twice
+			self::checkResponse($t->doTrackGoal(2));
+			$t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(0.1)->getDatetime());
+			self::checkResponse($t->doTrackGoal(2));
 
             // VISIT 2: search engine
             $t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(3)->getDatetime());

@@ -44,10 +44,10 @@ abstract class Piwik_ImageGraph_StaticGraph
 
 	protected $pImage;
 	protected $pData;
-	protected $metricTitle;
-	protected $showMetricTitle;
-	protected $abscissaSerie;
-	protected $ordinateSerie;
+	protected $ordinateLabels;
+	protected $showLegend;
+	protected $abscissaSeries;
+	protected $ordinateSeries;
 	protected $ordinateLogos;
 	protected $colors;
 	protected $font;
@@ -140,9 +140,9 @@ abstract class Piwik_ImageGraph_StaticGraph
 		$this->font = $font;
 	}
 
-	public function setOrdinateSerie($ordinateSerie)
+	public function setOrdinateSeries($ordinateSeries)
 	{
-		$this->ordinateSerie = $ordinateSerie;
+		$this->ordinateSeries = $ordinateSeries;
 	}
 
 	public function setOrdinateLogos($ordinateLogos)
@@ -150,19 +150,19 @@ abstract class Piwik_ImageGraph_StaticGraph
 		$this->ordinateLogos = $ordinateLogos;
 	}
 
-	public function setAbscissaSerie($abscissaSerie)
+	public function setAbscissaSeries($abscissaSeries)
 	{
-		$this->abscissaSerie = $abscissaSerie;
+		$this->abscissaSeries = $abscissaSeries;
 	}
 
-	public function setShowMetricTitle($showMetricTitle)
+	public function setShowLegend($showLegend)
 	{
-		$this->showMetricTitle = $showMetricTitle;
+		$this->showLegend = $showLegend;
 	}
 
-	public function setMetricTitle($metricTitle)
+	public function setOrdinateLabels($ordinateLabels)
 	{
-		$this->metricTitle = $metricTitle;
+		$this->ordinateLabels = $ordinateLabels;
 	}
 
 	public function setAliasedGraph($aliasedGraph)
@@ -208,10 +208,13 @@ abstract class Piwik_ImageGraph_StaticGraph
 	{
 		$this->pData = new pData();
 
-		$this->pData->addPoints($this->ordinateSerie, $this->metricTitle);
-		$this->pData->setAxisName(0, '', $this->metricTitle);
+		foreach($this->ordinateSeries as $column => $data)
+		{
+			$this->pData->addPoints($data, $column);
+			$this->pData->setSerieDescription($column,$this->ordinateLabels[$column]);
+		}
 
-		$this->pData->addPoints($this->abscissaSerie, self::ABSCISSA_SERIE_NAME);
+		$this->pData->addPoints($this->abscissaSeries, self::ABSCISSA_SERIE_NAME);
 		$this->pData->setAbscissa(self::ABSCISSA_SERIE_NAME);
 	}
 
@@ -240,22 +243,30 @@ abstract class Piwik_ImageGraph_StaticGraph
 
 	protected function maxWidthHeight($values)
 	{
+		if(array_values($values) === $values)
+		{
+			$values = array('' => $values);
+		}
+
 		$maxWidth = 0;
 		$maxHeight = 0;
-		foreach($values as $value)
+		foreach($values as $column => $data)
 		{
-			$valueWidthHeight = $this->getTextWidthHeight($value);
-			$valueWidth= $valueWidthHeight[self::WIDTH_KEY];
-			$valueHeight= $valueWidthHeight[self::HEIGHT_KEY];
-
-			if($valueWidth > $maxWidth)
+			foreach($data as $value)
 			{
-				$maxWidth = $valueWidth;
-			}
+				$valueWidthHeight = $this->getTextWidthHeight($value);
+				$valueWidth= $valueWidthHeight[self::WIDTH_KEY];
+				$valueHeight= $valueWidthHeight[self::HEIGHT_KEY];
 
-			if($valueHeight > $maxHeight)
-			{
-				$maxHeight = $valueHeight;
+				if($valueWidth > $maxWidth)
+				{
+					$maxWidth = $valueWidth;
+				}
+
+				if($valueHeight > $maxHeight)
+				{
+					$maxHeight = $valueHeight;
+				}
 			}
 		}
 

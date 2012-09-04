@@ -9,7 +9,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>0</avg_time_on_site>
+				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				
 			</row>
@@ -24,7 +24,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>0</avg_time_on_site>
+				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				
 			</row>
@@ -39,7 +39,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>0</avg_time_on_site>
+				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				
 			</row>
@@ -54,7 +54,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>0</avg_time_on_site>
+				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				
 			</row>
@@ -69,7 +69,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>0</avg_time_on_site>
+				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				
 			</row>
@@ -84,7 +84,7 @@
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>0</avg_time_on_site>
+				<avg_time_on_site>365</avg_time_on_site>
 				<bounce_rate>100%</bounce_rate>
 				
 			</row>
@@ -120,6 +120,8 @@
 			</nb_actions_per_visit>
 			<avg_time_on_site>
 				<name>Avg. Time on Website</name>
+				<min>0</min>
+				<max>365</max>
 
 			</avg_time_on_site>
 			<bounce_rate>

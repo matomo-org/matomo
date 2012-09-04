@@ -191,6 +191,8 @@ class Piwik_API_DocumentationGenerator
         $aParameters['label'] = false;
 		$aParameters['flat'] = false;
 		$aParameters['include_aggregate_rows'] = false;
+        $aParameters['filter_limit'] = false; //@review without adding this, I can not set filter_limit in $otherRequestParameters integration tests
+        $aParameters['filter_sort_column'] = false; //@review without adding this, I can not set filter_sort_column in $otherRequestParameters integration tests
         $aParameters['filter_truncate'] = false;
         $aParameters['hideColumns'] = false;
         $aParameters['showColumns'] = false;

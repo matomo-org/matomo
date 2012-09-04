@@ -12,6 +12,9 @@
 
 class Piwik_ImageGraph extends Piwik_Plugin
 {
+	static private $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
+		'Referers_getRefererType',
+	);
 
 	public function getInformation()
 	{
@@ -101,12 +104,16 @@ class Piwik_ImageGraph extends Piwik_Plugin
 		$urlPrefix = "index.php?";
 		foreach($reports as &$report)
 		{
+			$reportModule = $report['module'];
+			$reportAction = $report['action'];
+			$reportUniqueId = $reportModule.'_'.$reportAction;
+
 			$parameters = array();
 			$parameters['module'] = 'API';
 			$parameters['method'] = 'ImageGraph.get';
 			$parameters['idSite'] = $idSite;
-			$parameters['apiModule'] = $report['module'];
-			$parameters['apiAction'] = $report['action'];
+			$parameters['apiModule'] = $reportModule;
+			$parameters['apiAction'] = $reportAction;
 			if(!empty($token_auth))
 			{
 				$parameters['token_auth'] = $token_auth;
@@ -136,7 +143,16 @@ class Piwik_ImageGraph extends Piwik_Plugin
 			}
 			
 			$report['imageGraphUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);
+
+			// thanks to API.getRowEvolution, reports with dimensions can now be plotted using an evolution graph
+			// however, most reports with a fixed set of dimension values are excluded
+			// this is done so Piwik Mobile and Scheduled Reports do not display them
+			if(empty($report['constantRowsCount']) || in_array($reportUniqueId,self::$CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS))
+			{
+				$parameters['period'] = $periodForMultiplePeriodGraph;
+				$parameters['date'] = $dateForMultiplePeriodGraph;
+				$report['imageGraphEvolutionUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);
+			}
 		}
-			
 	}
 }

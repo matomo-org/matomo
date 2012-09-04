@@ -22,23 +22,23 @@ abstract class Piwik_ImageGraph_StaticGraph_PieGraph extends Piwik_ImageGraph_St
 	const PIE_RIGHT_MARGIN = 20;
 	const SECTOR_GAP = 2.5;
 
+	const SLICE_COLOR_KEY = "SLICE_COLOR";
+
 	protected $pieChart;
 	protected $xPosition;
 	protected $yPosition;
 	protected $pieConfig;
 
-	static private $DEFAULT_SLICE_COLORS = array(
-		'SLICE_1' => '3C5A69',
-		'SLICE_2' => '679BB5',
-		'SLICE_3' => '695A3C',
-		'SLICE_4' => 'B58E67',
-		'SLICE_5' => '8AA68A',
-		'SLICE_6' => 'A4D2A6'
-	);
-
 	protected function getDefaultColors()
 	{
-		return self::$DEFAULT_SLICE_COLORS;
+		return array(
+			self::SLICE_COLOR_KEY . '1' => '3C5A69',
+			self::SLICE_COLOR_KEY . '2' => '679BB5',
+			self::SLICE_COLOR_KEY . '3' => '695A3C',
+			self::SLICE_COLOR_KEY . '4' => 'B58E67',
+			self::SLICE_COLOR_KEY . '5' => '8AA68A',
+			self::SLICE_COLOR_KEY . '6' => 'A4D2A6',
+		);
 	}
 
 	protected function initPieGraph($showLegend)
@@ -58,15 +58,15 @@ abstract class Piwik_ImageGraph_StaticGraph_PieGraph extends Piwik_ImageGraph_St
 
 		$this->pieChart = new pPie($this->pImage, $this->pData);
 
-		$i = 0;
-		foreach($this->colors as $color)
+		$numberOfSlices = count($this->abscissaSeries);
+		$numberOfAvailableColors = count($this->colors);
+		for($i = 0; $i < $numberOfSlices; $i++)
 		{
-			$this->pieChart->setSliceColor($i, $color);
-			$i++;
+			$this->pieChart->setSliceColor($i, $this->colors[self::SLICE_COLOR_KEY . (($i % $numberOfAvailableColors) + 1)]);
 		}
 
 		// max abscissa label width is used to set the pie right margin
-		$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSerie);
+		$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSeries);
 		$maxAbscissaLabelWidth = $abscissaMaxWidthHeight[self::WIDTH_KEY];
 
 		$this->xPosition = $this->width - $radius - $maxAbscissaLabelWidth - self::PIE_RIGHT_MARGIN;
@@ -95,23 +95,27 @@ abstract class Piwik_ImageGraph_StaticGraph_PieGraph extends Piwik_ImageGraph_St
 	 */
 	private function truncateSmallValues()
 	{
+		$metricColumns = array_keys($this->ordinateSeries);
+		$metricColumn = $metricColumns[0];
+
 		$ordinateValuesSum = 0;
-		foreach($this->ordinateSerie as $ordinateValue)
+		foreach($this->ordinateSeries[$metricColumn] as $ordinateValue)
 		{
 			$ordinateValuesSum += $ordinateValue;
 		}
 
-		$ordinateValuesCount = count($this->ordinateSerie);
-		$truncatedOrdinateSerie = array();
-		$truncatedAbscissaSerie = array();
+		$truncatedOrdinateSeries[$metricColumn] = array();
+		$truncatedAbscissaSeries = array();
 		$smallValuesSum = 0;
+
+		$ordinateValuesCount = count($this->ordinateSeries[$metricColumn]);
 		for($i = 0; $i < $ordinateValuesCount - 1 ; $i++)
 		{
-			$ordinateValue = $this->ordinateSerie[$i];
+			$ordinateValue = $this->ordinateSeries[$metricColumn][$i];
 			if($ordinateValue / $ordinateValuesSum > 0.01)
 			{
-				$truncatedOrdinateSerie[] = $ordinateValue;
-				$truncatedAbscissaSerie[] = $this->abscissaSerie[$i];
+				$truncatedOrdinateSeries[$metricColumn][] = $ordinateValue;
+				$truncatedAbscissaSeries[] = $this->abscissaSeries[$i];
 			}
 			else
 			{
@@ -119,14 +123,14 @@ abstract class Piwik_ImageGraph_StaticGraph_PieGraph extends Piwik_ImageGraph_St
 			}
 		}
 
-		$smallValuesSum += $this->ordinateSerie[$ordinateValuesCount - 1];
+		$smallValuesSum += $this->ordinateSeries[$metricColumn][$ordinateValuesCount - 1];
 		if(($smallValuesSum / $ordinateValuesSum) > 0.01)
 		{
-			$truncatedOrdinateSerie[] = $smallValuesSum;
-			$truncatedAbscissaSerie[] = $this->abscissaSerie[$ordinateValuesCount - 1];
+			$truncatedOrdinateSeries[$metricColumn][] = $smallValuesSum;
+			$truncatedAbscissaSeries[] = Piwik_Translate('General_Others');
 		}
 
-		$this->ordinateSerie = $truncatedOrdinateSerie;
-		$this->abscissaSerie = $truncatedAbscissaSerie;
+		$this->ordinateSeries = $truncatedOrdinateSeries;
+		$this->abscissaSeries = $truncatedAbscissaSeries;
 	}
 }

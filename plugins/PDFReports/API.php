@@ -41,6 +41,7 @@ class Piwik_PDFReports_API
 	const OUTPUT_RETURN = 4;
 
 	const REPORT_TYPE_INFO_KEY = 'reportType';
+	const OUTPUT_TYPE_INFO_KEY = 'outputType';
 	const ID_SITE_INFO_KEY = 'idSite';
 	const REPORT_KEY = 'report';
 	const REPORT_CONTENT_KEY = 'contents';
@@ -324,18 +325,11 @@ class Piwik_PDFReports_API
 			$reportFormat  = $report['format'];
 		}
 
-		// override report parameters
-		if(!empty($parameters))
-		{
-			$report['parameters'] = Piwik_Common::json_decode(
-				self::validateReportParameters($reportType, $parameters),
-				true
-			);
-		}
-		else
-		{
-			$parameters = $report['parameters'];
-		}
+		// override and/or validate report parameters
+		$report['parameters'] = Piwik_Common::json_decode(
+			self::validateReportParameters($reportType, empty($parameters) ? $report['parameters'] : $parameters),
+			true
+		);
 
 		// decode report list
 		$reportUniqueIds = $report['reports'];
@@ -416,6 +410,7 @@ class Piwik_PDFReports_API
 
 		$notificationInfo = array(
 			self::REPORT_TYPE_INFO_KEY => $reportType,
+			self::OUTPUT_TYPE_INFO_KEY => $outputType,
 			self::REPORT_KEY => $report,
 		);
 
@@ -436,7 +431,6 @@ class Piwik_PDFReports_API
 
 		// init report renderer
 		$reportRenderer->setLocale($language);
-		$reportRenderer->setRenderImageInline($outputType != self::OUTPUT_SAVE_ON_DISK);
 
 		// render report
 		$websiteName = Piwik_Site::getNameFor($idSite);
@@ -462,9 +456,10 @@ class Piwik_PDFReports_API
 							$additionalFile['cid'] = $report['metadata']['uniqueId'];
 							$additionalFile['content'] =
 									Piwik_ReportRenderer::getStaticGraph(
-										$report['metadata']['imageGraphUrl'],
+										$report['metadata'],
 										Piwik_ReportRenderer_Html::IMAGE_GRAPH_WIDTH,
-										Piwik_ReportRenderer_Html::IMAGE_GRAPH_HEIGHT
+										Piwik_ReportRenderer_Html::IMAGE_GRAPH_HEIGHT,
+										$report['evolutionGraph']
 									);
 							$additionalFile['mimeType'] = 'image/png';
 							$additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
