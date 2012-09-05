@@ -45,6 +45,7 @@
 
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getWebsites&amp;period=range&amp;date=2010-01-03%2C2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getWebsites&amp;period=day&amp;date=2010-01-03%2C2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>Referers_getWebsites</uniqueId>
 
 	</metadata>
