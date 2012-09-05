@@ -77,13 +77,13 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 				'main_url' => Piwik_Site::getMainUrlFor($idSite),
 				'name' => Piwik_Site::getNameFor($idSite),
 				'visits' => 0,
-				'actions' => 0
+				'pageviews' => 0
 			);
 			
 			if ($period != 'range')
 			{
 				$digestableData[$idSite]['visits_evolution'] = 0;
-				$digestableData[$idSite]['actions_evolution'] = 0;
+				$digestableData[$idSite]['pageviews_evolution'] = 0;
 			}
 			
 			if ($displayRevenueColumn)
@@ -104,7 +104,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			$site = &$digestableData[$idsite];
 			
 			$site['visits'] = (int)$row->getColumn('nb_visits');
-			$site['actions'] = (int)$row->getColumn('nb_actions');
+			$site['pageviews'] = (int)$row->getColumn('nb_pageviews');
 
 			if ($displayRevenueColumn)
 			{
@@ -117,7 +117,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 			if ($period != 'range')
 			{
 				$site['visits_evolution'] = $row->getColumn('visits_evolution');
-				$site['actions_evolution'] = $row->getColumn('actions_evolution');
+				$site['pageviews_evolution'] = $row->getColumn('pageviews_evolution');
 				
 				if ($displayRevenueColumn)
 				{
@@ -137,16 +137,10 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		$view->orderBy = $this->orderBy;
 		$view->order = $this->order;
 		$view->totalVisits = $dataTable->getMetadata('total_nb_visits');
-		
-		$totalRevenue = false;
-		if (Piwik_Common::isGoalPluginEnabled())
-		{
-			$totalRevenue = $dataTable->getMetadata('total_'.Piwik_Goals::getRecordName('revenue'));
-		}
-		$view->totalRevenue = $totalRevenue;
+		$view->totalRevenue = $dataTable->getMetadata('total_revenue');
 		
 		$view->displayRevenueColumn = $displayRevenueColumn;
-		$view->totalActions = $dataTable->getMetadata('total_nb_actions');
+		$view->totalPageviews = $dataTable->getMetadata('total_nb_pageviews');
 		$view->pastTotalVisits = $dataTable->getMetadata('last_period_total_nb_visits');
 		
 		$view->totalVisitsEvolution = $dataTable->getMetadata('total_visits_evolution');

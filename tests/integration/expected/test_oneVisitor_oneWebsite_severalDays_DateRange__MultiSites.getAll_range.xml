@@ -4,6 +4,7 @@
 		<label>Piwik test</label>
 		<nb_visits>6</nb_visits>
 		<nb_actions>9</nb_actions>
+		<nb_pageviews>9</nb_pageviews>
 		<revenue />
 		<idsite>1</idsite>
 	</row>

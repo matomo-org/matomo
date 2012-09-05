@@ -27,6 +27,8 @@ class Piwik_MultiSites_API
 
 	const NB_VISITS_METRIC = 'nb_visits';
 	const NB_ACTIONS_METRIC = 'nb_actions';
+	const NB_PAGEVIEWS_LABEL = 'nb_pageviews';
+	const NB_PAGEVIEWS_METRIC = 'Actions_nb_pageviews';
 	const GOAL_REVENUE_METRIC = 'revenue';
 	const GOAL_CONVERSION_METRIC = 'nb_conversions';
 	const ECOMMERCE_ORDERS_METRIC = 'orders';
@@ -45,6 +47,12 @@ class Piwik_MultiSites_API
 			self::METRIC_RECORD_NAME_KEY => self::NB_ACTIONS_METRIC,
 			self::METRIC_IS_ECOMMERCE_KEY => false,
 		),
+		self::NB_PAGEVIEWS_LABEL => array (
+			self::METRIC_TRANSLATION_KEY => 'General_ColumnPageviews',
+			self::METRIC_EVOLUTION_COL_NAME_KEY => 'pageviews_evolution',
+			self::METRIC_RECORD_NAME_KEY => self::NB_PAGEVIEWS_METRIC,
+			self::METRIC_IS_ECOMMERCE_KEY => false,
+		)
 	);
 
 	/**
@@ -354,20 +362,18 @@ class Piwik_MultiSites_API
 			}
 			
 			$totals = array();
-			foreach ($apiMetrics as $metricInfo)
+			foreach ($apiMetrics as $label => $metricInfo)
 			{
-				$totalMetadataName = self::getTotalMetadataName($metricInfo[self::METRIC_RECORD_NAME_KEY]);
+				$totalMetadataName = self::getTotalMetadataName($label);
 				$totals[$totalMetadataName] = 0;
 			}
 			
 			foreach ($dataTable->getRows() as $row)
 			{
-				foreach ($apiMetrics as $metricInfo)
+				foreach ($apiMetrics as $label => $metricInfo)
 				{
-					$recordName = $metricInfo[self::METRIC_RECORD_NAME_KEY];
-					$totalMetadataName = self::getTotalMetadataName($recordName);
-					
-					$totals[$totalMetadataName] = $row->getColumn($recordName);
+					$totalMetadataName = self::getTotalMetadataName($label);
+					$totals[$totalMetadataName] += $row->getColumn($metricInfo[self::METRIC_RECORD_NAME_KEY]);
 				}
 			}
 			
@@ -402,10 +408,10 @@ class Piwik_MultiSites_API
 			// calculate total visits/actions/revenue for past data
 			$this->setMetricsTotalsMetadata($pastData, $apiMetrics);
 			
-			foreach ($apiMetrics as $metricInfo)
+			foreach ($apiMetrics as $label => $metricInfo)
 			{
 				// get the names of metadata to set
-				$totalMetadataName = self::getTotalMetadataName($metricInfo[self::METRIC_RECORD_NAME_KEY]);
+				$totalMetadataName = self::getTotalMetadataName($label);
 				$lastPeriodTotalMetadataName = self::getLastPeriodMetadataName($totalMetadataName);
 				$totalEvolutionMetadataName =
 					self::getTotalMetadataName($metricInfo[self::METRIC_EVOLUTION_COL_NAME_KEY]);

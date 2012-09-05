@@ -11,6 +11,8 @@
 			<visits_evolution>Visits Evolution</visits_evolution>
 			<nb_actions>Actions</nb_actions>
 			<actions_evolution>Actions Evolution</actions_evolution>
+			<nb_pageviews>Pageviews</nb_pageviews>
+			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 			<revenue>Revenue</revenue>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions>Conversions</nb_conversions>
@@ -49,6 +51,8 @@
 			<visits_evolution>Visits Evolution</visits_evolution>
 			<nb_actions>Actions</nb_actions>
 			<actions_evolution>Actions Evolution</actions_evolution>
+			<nb_pageviews>Pageviews</nb_pageviews>
+			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 			<revenue>Revenue</revenue>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions>Conversions</nb_conversions>

@@ -7,20 +7,24 @@
 	<result date="2010-12-14">
 		<row>
 			<label>Piwik test</label>
+			<nb_pageviews>3</nb_pageviews>
 			<nb_actions>3</nb_actions>
 			<nb_visits>2</nb_visits>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
+			<pageviews_evolution>100%</pageviews_evolution>
 			<idsite>1</idsite>
 		</row>
 	</result>
 	<result date="2010-12-15">
 		<row>
 			<label>Piwik test</label>
+			<nb_pageviews>3</nb_pageviews>
 			<nb_actions>3</nb_actions>
 			<nb_visits>2</nb_visits>
 			<visits_evolution>0%</visits_evolution>
 			<actions_evolution>0%</actions_evolution>
+			<pageviews_evolution>0%</pageviews_evolution>
 			<idsite>1</idsite>
 		</row>
 	</result>

@@ -9,7 +9,7 @@
     %visits%
 </td>
 <td class="multisites-column">
-    %actions%
+    %pageviews%
 </td>
 {if $displayRevenueColumn}
 <td class="multisites-column">
@@ -19,7 +19,7 @@
 {if $period!='range'}
 	<td style="width:170px">
 	    <div class="visits" style="display:none">%visitsSummary%</div>
-	    <div class="actions"style="display:none">%actionsSummary%</div>
+	    <div class="pageviews"style="display:none">%pageviewsSummary%</div>
 		{if $displayRevenueColumn}
 	    <div class="revenue"style="display:none">%revenueSummary%</div>
 	    {/if}

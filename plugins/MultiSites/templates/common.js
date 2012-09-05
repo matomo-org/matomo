@@ -5,16 +5,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-function setRowData (idsite, visits, actions, revenue, name, url, visitsSummaryValue, actionsSummaryValue, revenueSummaryValue)
+function setRowData (idsite, visits, pageviews, revenue, name, url, visitsSummaryValue, pageviewsSummaryValue, revenueSummaryValue)
 {
 	this.idsite = idsite;
 	this.visits = visits;
 	this.revenue = revenue;
 	this.name = name;
 	this.url = url;
-	this.actions = actions;
+	this.pageviews = pageviews;
 	this.visitsSummaryValue = parseFloat(visitsSummaryValue);
-	this.actionsSummaryValue = parseFloat(actionsSummaryValue);
+	this.pageviewsSummaryValue = parseFloat(pageviewsSummaryValue);
 	this.revenueSummaryValue = parseFloat(revenueSummaryValue) || 0;
 }
 
@@ -82,13 +82,13 @@ function orderBy(allSites, params)
 			return (a['visits'] < b['visits']) ? -1 : 1;
 		});
 	}
-	else if(params['mOrderBy'] == 'actions')
+	else if(params['mOrderBy'] == 'pageviews')
 	{
 		allSites.sort(function (a,b) {
-			if (a['actions'] == b['actions']) {
+			if (a['pageviews'] == b['pageviews']) {
 				return 0;
 			}
-			return (a['actions'] < b['actions']) ? -1 : 1;
+			return (a['pageviews'] < b['pageviews']) ? -1 : 1;
 		});
 	}
 	else if(params['mOrderBy'] == 'revenue')
@@ -109,13 +109,13 @@ function orderBy(allSites, params)
 			return (a['revenueSummaryValue'] - b['revenueSummaryValue'] <= 0.01) ? -1 : 1;
 		});
 	}
-	else if(params['mOrderBy'] == 'actionsSummary')
+	else if(params['mOrderBy'] == 'pageviewsSummary')
 	{
 		allSites.sort(function (a,b) {
-			if (a['actionsSummaryValue'] == b['actionsSummaryValue']) {
+			if (a['pageviewsSummaryValue'] == b['pageviewsSummaryValue']) {
 				return 0;
 			}
-			return (a['actionsSummaryValue'] - b['actionsSummaryValue'] <= 0.01) ? -1 : 1;
+			return (a['pageviewsSummaryValue'] - b['pageviewsSummaryValue'] <= 0.01) ? -1 : 1;
 		});
 	}
 	else if(params['mOrderBy'] == 'visitsSummary')
@@ -144,7 +144,7 @@ function limitBy(allSites, params)
 
 function switchEvolution(params)
 {
-	$('.actions').hide();
+	$('.pageviews').hide();
 	$('.revenue').hide();
 	$('.visits').hide();
 	$('.' + params['evolutionBy']).show();
@@ -161,10 +161,10 @@ function displayRows(allSites, params)
 	{
 		var str = params['row'];
 		str = str.replace(/%revenueSummary%/g, getImageForSummary(allSites[i].revenueSummaryValue));
-		str = str.replace(/%actionsSummary%/g, getImageForSummary(allSites[i].actionsSummaryValue));
+		str = str.replace(/%pageviewsSummary%/g, getImageForSummary(allSites[i].pageviewsSummaryValue));
 		str = str.replace(/%visitsSummary%/g, getImageForSummary(allSites[i].visitsSummaryValue));
 		str = str.replace(/%sparkline%/g, getSparklineImg(allSites[i].idsite, params['evolutionBy'], params));
-		str = str.replace(/%actions%/g, allSites[i].actions);
+		str = str.replace(/%pageviews%/g, allSites[i].pageviews);
 		str = str.replace(/%idsite%/g, allSites[i].idsite);
 		str = str.replace(/%visits%/g, allSites[i].visits);
 		str = str.replace(/%name%/g, allSites[i].name);
@@ -177,7 +177,7 @@ function displayRows(allSites, params)
 	}
 
 	$(".table_row").show();
-	$('.actions').hide();
+	$('.pageviews').hide();
 	$('.revenue').hide();
 	$('.visits').hide();
 	$('#main_indicator').hide();

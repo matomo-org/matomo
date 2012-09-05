@@ -8,7 +8,7 @@
 	var allSites = new Array();
 	var params = new Array();
 	{foreach from=$sitesData key=i item=site}
-		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.actions}, {if empty($site.revenue)}0{else}{$site.revenue}{/if}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{if isset($site.visits_evolution)}{$site.visits_evolution|replace:",":"."}{/if}', '{if isset($site.actions_evolution)}{$site.actions_evolution|replace:",":"."}{/if}', '{if isset($site.revenue_evolution)}{$site.revenue_evolution|replace:",":"."}{/if}');
+		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.pageviews}, {if empty($site.revenue)}0{else}{$site.revenue}{/if}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{if isset($site.visits_evolution)}{$site.visits_evolution|replace:",":"."}{/if}', '{if isset($site.pageviews_evolution)}{$site.pageviews_evolution|replace:",":"."}{/if}', '{if isset($site.revenue_evolution)}{$site.revenue_evolution|replace:",":"."}{/if}');
 	{/foreach}
 	params['period'] = '{$period}';
 	params['date'] = '{$dateRequest}';
@@ -34,7 +34,7 @@
 
 <h2>{'General_AllWebsitesDashboard'|translate} 
 	<span class='smallTitle' {if $totalVisitsEvolution}title="{'MultiSites_TotalsEvolutionSummary'|translate:$totalVisits:$prettyDate:$pastTotalVisits:$totalVisitsEvolution:$pastPeriodPretty}"{/if}>
-		{'General_TotalVisitsActionsRevenue'|translate:"<strong>$totalVisits</strong>":"<strong>$totalActions</strong>":"<strong>$totalRevenue</strong>"}
+		{'General_TotalVisitsPageviewsRevenue'|translate:"<strong>$totalVisits</strong>":"<strong>$totalPageviews</strong>":"<strong>$totalRevenue</strong>"}
 	</span>
 </h2>
 
@@ -49,9 +49,9 @@
 			<span>{'General_ColumnNbVisits'|translate}</span>
 			<span class="arrow {if $evolutionBy=='visits'}multisites_{$order}{/if}"></span>
 		</th>
-		<th id="actions" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'actions');">
+		<th id="pageviews" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'pageviews');">
 			<span>{'General_ColumnPageviews'|translate}</span>
-			<span class="arrow {if $evolutionBy=='actions'}multisites_{$order}{/if}"></span>
+			<span class="arrow {if $evolutionBy=='pageviews'}multisites_{$order}{/if}"></span>
 		</th>
 		{if $displayRevenueColumn}
 		<th id="revenue" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'revenue');">
@@ -64,7 +64,7 @@
 			<span class="evolution" style="cursor:pointer;" onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {'MultiSites_Evolution'|translate}</span>
 			<select class="selector" id="evolution_selector" onchange="params['evolutionBy'] = $('#evolution_selector').val(); switchEvolution(params);">
 				<option value="visits" {if $evolutionBy eq 'visits'} selected {/if}>{'General_ColumnNbVisits'|translate}</option>
-				<option value="actions" {if $evolutionBy eq 'actions'} selected {/if}>{'General_ColumnPageviews'|translate}</option>
+				<option value="pageviews" {if $evolutionBy eq 'pageviews'} selected {/if}>{'General_ColumnPageviews'|translate}</option>
 				{if $displayRevenueColumn}<option value="revenue" {if $evolutionBy eq 'revenue'} selected {/if}>{'Goals_ColumnRevenue'|translate}</option>{/if}
 			</select>
 		</th>
