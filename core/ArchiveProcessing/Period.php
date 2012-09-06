@@ -383,11 +383,12 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		$key = self::FLAG_TABLE_PURGED . $blobTable;
 		$timestamp = Piwik_GetOption($key);
 		
-		// we shall purge temporary archives after their timeout is finished, plus an extra 2 hours 
+		// we shall purge temporary archives after their timeout is finished, plus an extra 6 hours 
 		// in case archiving is disabled or run once a day, we give it this extra time to run 
-		// and re-process more recent records
+		// and re-process more recent records... 
+		// TODO: Instead of hardcoding 6 we should put the actual number of hours between 2 archiving runs
 		$temporaryArchivingTimeout = self::getTodayArchiveTimeToLive();
-		$purgeEveryNSeconds = max($temporaryArchivingTimeout, 24 * 3600);
+		$purgeEveryNSeconds = max($temporaryArchivingTimeout, 6 * 3600);
 
 		// we only delete archives if we are able to process them, otherwise, the browser might process reports
 		// when &segment= is specified (or custom date range) and would below, delete temporary archives that the 
