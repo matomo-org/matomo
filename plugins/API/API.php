@@ -1119,6 +1119,18 @@ class Piwik_API_API
 	 */
 	public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false)
     {
+		// validation of requested $period & $date
+		if ($period == 'range')
+		{
+			// load days in the range
+			$period = 'day';
+		}
+
+		if(!Piwik_Archive::isMultiplePeriod($date, $period))
+		{
+			throw new Exception("Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.");
+		}
+
 		// this is needed because Piwik_API_Proxy uses Piwik_Common::getRequestVar which in turn
 		// uses Piwik_Common::sanitizeInputValue. This causes the > that separates recursive labels
 		// to become &gt; and we need to undo that here.
@@ -1132,11 +1144,14 @@ class Piwik_API_API
 		}
 		else
 		{
-			// retrieve top labels
-			$dataTableArray = $this->loadRowEvolutionDataFromAPI(
+			$range = new Piwik_Period_Range($period, $date);
+			$lastDate = $range->getDateEnd();
+
+			// retrieve top labels for the most recent period
+			$mostRecentDataTable = $this->loadRowEvolutionDataFromAPI(
 				$idSite,
 				$period,
-				$date,
+				$lastDate,
 				$apiModule,
 				$apiAction,
 				null,
@@ -1144,11 +1159,10 @@ class Piwik_API_API
 				$idGoal
 			);
 
-			// get the last, ie. most recent, datatable
-			$dataTables = $dataTableArray->getArray();
-			$mostRecentDataTable = end($dataTables);
-
 			$labels = $mostRecentDataTable->getColumn('label');
+
+			//@review $labelCount can be equal to 0, this means there are no data what should this API return in that case?
+			if(!count($labels)) return null;
 		}
 
 		if (count($labels) > 1)
@@ -1244,16 +1258,10 @@ class Piwik_API_API
 	 * @param $segment
 	 * @param $idGoal
 	 * @throws Exception
-	 * @return Piwik_DataTable_Array
+	 * @return Piwik_DataTable_Array|Piwik_DataTable
 	 */
 	private function loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $idGoal = false)
 	{	
-		if ($period == 'range')
-		{
-			// load days in the range
-			$period = 'day';
-		}
-		
 		$parameters = array(
 			'method' => $apiModule.'.'.$apiAction,
 			'label' => $label,
@@ -1267,7 +1275,16 @@ class Piwik_API_API
 		);
 		
 		// add "processed metrics" like actions per visit or bounce rate
-		if ($apiModule != 'Actions' && $label)
+		// note: some reports should not be filtered with AddColumnProcessedMetrics
+		// specifically, reports without the Piwik_Archive::INDEX_NB_VISITS metric such as Goals.getVisitsUntilConversion & Goal.getDaysToConversion
+		// this is because the AddColumnProcessedMetrics filter removes all datable rows lacking this metric
+		if
+		(
+			$apiModule != 'Actions'
+			&&
+			($apiModule != 'Goals' || ($apiAction != 'getVisitsUntilConversion' && $apiAction != 'getDaysToConversion'))
+			&& $label // do not request processed metrics when retrieving top n labels
+		)
 		{
 			$parameters['filter_add_columns_when_show_all_columns'] = '1';
 		}
@@ -1276,15 +1293,9 @@ class Piwik_API_API
         $request = new Piwik_API_Request($url);
 		
 		try {
-        	$dataTable = $request->process();
-        } catch (Exception $e) {
-        	throw new Exception("API returned an error: ".$e->getMessage()."\n");
-        }
-		
-		if (!($dataTable instanceof Piwik_DataTable_Array))
-		{
-			throw new Exception("API didn't return a DataTable array. Maybe you used "
-				."a single date (i.e. not YYYY-MM-DD,YYYY-MM-DD)");
+			$dataTable = $request->process();
+		} catch (Exception $e) {
+			throw new Exception("API returned an error: ".$e->getMessage()."\n");
 		}
 		
 		return $dataTable;

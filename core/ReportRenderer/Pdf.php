@@ -24,9 +24,8 @@ require_once PIWIK_INCLUDE_PATH . '/core/TCPDF.php';
 class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 {
 	const IMAGE_GRAPH_WIDTH_LANDSCAPE = 1050;
-	const IMAGE_GRAPH_HEIGHT_LANDSCAPE = 330;
 	const IMAGE_GRAPH_WIDTH_PORTRAIT = 760;
-	const IMAGE_GRAPH_HEIGHT_PORTRAIT = 220;
+	const IMAGE_GRAPH_HEIGHT = 220;
 
 	const LANDSCAPE = 'L';
 	const PORTRAIT = 'P';
@@ -398,22 +397,12 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 	}
 	private function paintGraph()
 	{
-
-		if($this->orientation == self::PORTRAIT) {
-			$imageWidth = self::IMAGE_GRAPH_WIDTH_PORTRAIT;
-			$imageHeight = self::IMAGE_GRAPH_HEIGHT_PORTRAIT;
-		} else {
-			$imageWidth = self::IMAGE_GRAPH_WIDTH_LANDSCAPE;
-			$imageHeight = self::IMAGE_GRAPH_HEIGHT_LANDSCAPE;
-
-			// evolution graphs in landscape are better looking if they have the same height as in portrait
-			if(empty($this->reportMetadata['dimension']) || ($this->evolutionGraph && !empty($this->reportMetadata['imageGraphEvolutionUrl'])))
-			{
-				$imageHeight = self::IMAGE_GRAPH_HEIGHT_PORTRAIT;
-			}
-		}
-
-		$imageGraph = parent::getStaticGraph($this->reportMetadata, $imageWidth, $imageHeight, $this->evolutionGraph);
+		$imageGraph = parent::getStaticGraph(
+			$this->reportMetadata,
+			$this->orientation == self::PORTRAIT ? self::IMAGE_GRAPH_WIDTH_PORTRAIT : self::IMAGE_GRAPH_WIDTH_LANDSCAPE,
+			self::IMAGE_GRAPH_HEIGHT,
+			$this->evolutionGraph
+		);
 
 		$this->TCPDF->Image(
 			'@'.$imageGraph,

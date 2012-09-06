@@ -230,7 +230,12 @@ class Piwik_ImageGraph_API
 				{
 					if(empty($reportColumns[$column]))
 					{
-						throw new Exception(Piwik_Translate('ImageGraph_ColumnOrdinateMissing', $column));
+						throw new Exception(
+							Piwik_Translate(
+								'ImageGraph_ColumnOrdinateMissing',
+								array($column, implode(',',array_keys($reportColumns)))
+							)
+						);
 					}
 				}
 			}
@@ -300,6 +305,12 @@ class Piwik_ImageGraph_API
 					$idGoal,
 					$plottedMetric
 				);
+
+				//@review this test will need to be updated after evaluating the @review comment in API/API.php
+				if(!$processedReport)
+				{
+					throw new Exception(Piwik_Translate('General_NoDataForGraph'));
+				}
 
 				// restoring generic filter parameters
 				if(!$labels)
