@@ -30,6 +30,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
         parent::setUpBeforeClass();
         try {
             self::setUpWebsitesAndGoals();
+			self::setUpScheduledReports(self::$idSite1);
             self::trackVisits();
         } catch(Exception $e) {
             // Skip whole test suite if an error occurs while setup
@@ -37,9 +38,13 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
         }
     }
 
-	public function testSetUpScheduledReports()
+	/**
+	 * @group        Integration
+	 * @group        TwoVisitors_TwoWebsites_DifferentDays
+	 */
+	public function testImagesIncludedInTests()
 	{
-		$this->setUpScheduledReports(self::$idSite1);
+		$this->alertWhenImagesExcludedFromTests();
 	}
 
     /**

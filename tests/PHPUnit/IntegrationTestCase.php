@@ -246,7 +246,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	 * @see canImagesBeIncludedInScheduledReports
 	 * @param int $idSite id of website created
 	 */
-	protected function setUpScheduledReports($idSite)
+	protected static function setUpScheduledReports($idSite)
 	{
 		$includeImages = self::canImagesBeIncludedInScheduledReports();
 
@@ -297,13 +297,16 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			array("MultiSites_getAll"),
 			array("phoneNumbers"=>array())
 		);
+	}
 
-		if(!$includeImages)
+	protected function alertWhenImagesExcludedFromTests()
+	{
+		if(!self::canImagesBeIncludedInScheduledReports())
 		{
 			$this->markTestSkipped(
 				'Do take note that scheduled reports are not being tested with images. ' .
-				'If images contained in scheduled reports have been altered, tests will fail on the Piwik QA Server. ' .
-				'To include images in the test suite, please use a machine with the following specifications :' // TODO update with new Piwik QA Server
+					'If images contained in scheduled reports have been altered, tests will fail on the Piwik QA Server. ' .
+					'To include images in the test suite, please use a machine with the following specifications :' // TODO update with new Piwik QA Server
 			);
 		}
 	}

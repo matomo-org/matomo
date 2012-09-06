@@ -22,6 +22,7 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         parent::setUpBeforeClass();
         try {
             self::setUpWebsitesAndGoals();
+			self::setUpScheduledReports(self::$idSite);
             self::trackVisits();
         } catch(Exception $e) {
             // Skip whole test suite if an error occurs while setup
@@ -29,9 +30,13 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         }
     }
 
-	public function testSetUpScheduledReports()
+	/**
+	 * @group        Integration
+	 * @group        EcommerceOrderWithItems
+	 */
+	public function testImagesIncludedInTests()
 	{
-		$this->setUpScheduledReports(self::$idSite);
+		$this->alertWhenImagesExcludedFromTests();
 	}
 
     /**
