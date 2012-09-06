@@ -10,7 +10,7 @@ require_once 'PDFReports/PDFReports.php';
 
 class PDFReportsTest extends DatabaseTestCase
 {
-    protected $idSiteAccess;
+    protected $idSiteAccess = 1;
 
     public function setUp()
     {
@@ -24,19 +24,13 @@ class PDFReportsTest extends DatabaseTestCase
         Piwik_PluginsManager::getInstance()->loadPlugins( array('API', 'UserCountry', 'PDFReports') );
         Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 
-        $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("Test",array("http://piwik.net"));
+        Piwik_SitesManager_API::getInstance()->addSite("Test",array("http://piwik.net"));
         
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite("Test",array("http://piwik.net"));
+        Piwik_SitesManager_API::getInstance()->addSite("Test",array("http://piwik.net"));
         FakeAccess::setIdSitesView( array($this->idSiteAccess,2));
         
     }
 
-    public function tearDown()
-    {
-        Piwik_PDFReports_API::$cache = array();
-        parent::tearDown();
-    }
-    
     /**
      * @group Plugins
      * @group PDFReports
@@ -44,16 +38,17 @@ class PDFReportsTest extends DatabaseTestCase
     public function testAddReportGetReports()
     {
         $data = array(
-            'idsite' => $this->idSiteAccess,
+            'idsite'      => $this->idSiteAccess,
             'description' => 'test description"',
-            'type' => 'email',
-            'period' => 'day',
-            'format' => 'pdf',
-            'reports' => array('UserCountry_getCountry'),
-            'parameters' => array(
-                'displayFormat' => '1',
-                'emailMe' => true,
-                'additionalEmails' => array('test@test.com', 't2@test.com')
+            'type'        => 'email',
+            'period'      => 'day',
+            'format'      => 'pdf',
+            'reports'     => array('UserCountry_getCountry'),
+            'parameters'  => array(
+                'displayFormat'    => '1',
+                'emailMe'          => true,
+                'additionalEmails' => array('test@test.com', 't2@test.com'),
+                'evolutionGraph'   => true
             )
         );
 
@@ -190,16 +185,17 @@ class PDFReportsTest extends DatabaseTestCase
     protected function _getAddReportData()
     {
         return array(
-            'idsite' => $this->idSiteAccess,
+            'idsite'      => $this->idSiteAccess,
             'description' => 'test description"',
-            'period' => 'day',
-            'type' => 'email',
-            'format' => 'pdf',
-            'reports' => array('UserCountry_getCountry'),
-            'parameters' => array(
-                'displayFormat' => '1',
-                'emailMe' => true,
-                'additionalEmails' => array('test@test.com', 't2@test.com')
+            'period'      => 'day',
+            'type'        => 'email',
+            'format'      => 'pdf',
+            'reports'     => array('UserCountry_getCountry'),
+            'parameters'  => array(
+                'displayFormat'    => '1',
+                'emailMe'          => true,
+                'additionalEmails' => array('test@test.com', 't2@test.com'),
+                'evolutionGraph'   => false
             )
         );
     }
@@ -207,16 +203,17 @@ class PDFReportsTest extends DatabaseTestCase
     protected function _getYetAnotherAddReportData()
     {
         return array(
-            'idsite' => $this->idSiteAccess,
+            'idsite'      => $this->idSiteAccess,
             'description' => 'very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. ',
-            'period' => 'month',
-            'type' => 'email',
-            'format' => 'pdf',
-            'reports' => array('UserCountry_getContinent'),
-            'parameters' => array(
-                'displayFormat' => '1',
-                'emailMe' => false,
-                'additionalEmails' => array('blabla@ec.fr')
+            'period'      => 'month',
+            'type'        => 'email',
+            'format'      => 'pdf',
+            'reports'     => array('UserCountry_getContinent'),
+            'parameters'  => array(
+                'displayFormat'    => '1',
+                'emailMe'          => false,
+                'additionalEmails' => array('blabla@ec.fr'),
+                'evolutionGraph'   => false
             )
         );
     }
@@ -255,7 +252,7 @@ class PDFReportsTest extends DatabaseTestCase
         foreach($data as $key => $value)
         {
             if($key == 'description') $value = substr($value,0,250);
-            $this->assertEquals($value, $report[$key], "Error for $key for report ".var_export($report ,true)." and data ".var_export($data,true)." ---> %s ");
+            $this->assertEquals($value, $report[$key], "Error for $key for report ".var_export($report ,true)." and data ".var_export($data,true));
         }
     }
 
