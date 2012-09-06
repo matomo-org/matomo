@@ -46,7 +46,6 @@ $translations = array(
 	'General_Name' => 'Név',
 	'General_Value' => 'Érték',
 	'General_Total' => 'Összesítve',
-	'General_TotalVisitsActionsRevenue' => '(Összesen: %s látogatás, %s akció, %s bevétel)',
 	'General_AverageOrderValue' => 'Átlagos rendelési érték',
 	'General_PurchasedProducts' => 'Vásárolt termékek',
 	'General_EcommerceOrders' => 'E-kereskedelmi rendelések',

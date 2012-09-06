@@ -48,7 +48,6 @@ $translations = array(
 	'General_Name' => 'نام',
 	'General_Value' => 'مقدار',
 	'General_Total' => 'کل',
-	'General_TotalVisitsActionsRevenue' => '(کل: %s بازدیدها, %s عملیات, %s revenue)',
 	'General_AverageOrderValue' => 'ارزش ترتیبی متوسط',
 	'General_PurchasedProducts' => 'محصولات خریداری شده',
 	'General_EcommerceOrders' => 'سفارشات تجارت الکترونیک',

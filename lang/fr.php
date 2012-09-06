@@ -53,7 +53,6 @@ $translations = array(
 	'General_Name' => 'Nom',
 	'General_Value' => 'Valeur',
 	'General_Total' => 'Total',
-	'General_TotalVisitsActionsRevenue' => '(Total: %s visites, %s actions, %s recettes)',
 	'General_AverageOrderValue' => 'Valeur Moyenne d\'une Commande',
 	'General_PurchasedProducts' => 'Produits Achetés',
 	'General_EcommerceOrders' => 'Commandes e-commerce',
@@ -1554,5 +1553,4 @@ $translations = array(
 	'PDFReports_Pagination' => 'Page %s sur %s',
 	'PDFReports_ReportIncludeNWebsites' => 'Le rapport incluera les métriques principales pour tous les sites web qui ont au moisn une visite (depuis les %s sites web actuellement disponibles)',
 	'ImageGraph_PluginDescription' => 'Génère de magnifiques graphiques en image PNG statique pour tous vos rapports Piwik.',
-	'ImageGraph_ColumnOrdinateMissing' => 'La colonne \'%s\' n\'est pas trouvée dans ce rapport',
 );

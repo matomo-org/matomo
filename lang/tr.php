@@ -44,7 +44,6 @@ $translations = array(
 	'General_Name' => 'İsim',
 	'General_Value' => 'Değer',
 	'General_Total' => 'Toplam',
-	'General_TotalVisitsActionsRevenue' => '(Toplam: %s ziyaretçi, %s eylem, %s kazanç)',
 	'General_AverageOrderValue' => 'Ortalama Sipariş Değeri',
 	'General_PurchasedProducts' => 'Satın Alınan Ürünler',
 	'General_EcommerceOrders' => 'ETicaret Siparişleri',

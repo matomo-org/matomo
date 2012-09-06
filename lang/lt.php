@@ -42,7 +42,6 @@ $translations = array(
 	'General_Name' => 'Pavadinimas',
 	'General_Value' => 'Reikšmė',
 	'General_Total' => 'Iš viso',
-	'General_TotalVisitsActionsRevenue' => '(Iš viso: %s apsilankymų, %s veiksmų, %s pajamų)',
 	'General_AverageOrderValue' => 'Vidutinė užsakymo vertė',
 	'General_PurchasedProducts' => 'Įsigyta produkcija',
 	'General_EcommerceOrders' => 'El. prekybos užsakymai',

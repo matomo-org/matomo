@@ -48,7 +48,6 @@ $translations = array(
 	'General_Name' => 'Emër',
 	'General_Value' => 'Vlerë',
 	'General_Total' => 'Gjithsej',
-	'General_TotalVisitsActionsRevenue' => '(Gjithsej: %s vizita, %s veprime, %s të ardhura)',
 	'General_AverageOrderValue' => 'Vlerë Mesatare Porosie',
 	'General_PurchasedProducts' => 'Produkte të Blerë',
 	'General_EcommerceOrders' => 'Porosi E-tregtie',
@@ -1453,5 +1452,4 @@ $translations = array(
 	'PDFReports_TopOfReport' => 'Mbrapsht në krye',
 	'PDFReports_Pagination' => 'Faqja %s nga %s',
 	'ImageGraph_PluginDescription' => 'Prodhoni për çfarëdo raporti Piwik figura të mrekullueshme PNG statike Grafikësh.',
-	'ImageGraph_ColumnOrdinateMissing' => 'Në këtë raport nuk u gjet shtylla \'%s\'.',
 );

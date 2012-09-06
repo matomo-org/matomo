@@ -51,7 +51,6 @@ $translations = array(
 	'General_Name' => 'ชื่อ',
 	'General_Value' => 'ค่า',
 	'General_Total' => 'รวม',
-	'General_TotalVisitsActionsRevenue' => '(รวมทั้งหมด: %s การเข้าชม, %s การกระทำ, %s รายได้)',
 	'General_AverageOrderValue' => 'มูลค่าการสั่งซื้อเฉลี่ย',
 	'General_PurchasedProducts' => 'ผลิตภัณฑ์ที่ซื้อ',
 	'General_EcommerceOrders' => 'สั่งซื้อสินค้าอีคอมเมิร์ซ',

@@ -53,7 +53,6 @@ $translations = array(
 	'General_Name' => 'Namn',
 	'General_Value' => 'Verdi',
 	'General_Total' => 'Total',
-	'General_TotalVisitsActionsRevenue' => '(Totalt: %s vitjingar, %s handlingar, %s inntekter)',
 	'General_AverageOrderValue' => 'Gjennomsnittleg verdi på ordre',
 	'General_PurchasedProducts' => 'Kjøpte produkt',
 	'General_EcommerceOrders' => 'Ordrar i netthandel',
@@ -1233,5 +1232,4 @@ $translations = array(
 	'VisitTime_SubmenuTimes' => 'Tid',
 	'VisitTime_NHour' => '%st',
 	'ImageGraph_PluginDescription' => 'Opprett vakre statiske grafar som PNG-bilete for ein Piwik-rapport.',
-	'ImageGraph_ColumnOrdinateMissing' => 'Kolonna \'%s\' vart ikkje funnen i denne rapporten.',
 );

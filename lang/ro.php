@@ -53,7 +53,6 @@ $translations = array(
 	'General_Name' => 'Nume',
 	'General_Value' => 'Valoare',
 	'General_Total' => 'Total',
-	'General_TotalVisitsActionsRevenue' => '(Total: %s vizite, %s actiuni, %s venit)',
 	'General_AverageOrderValue' => 'Valoare medie a comenzii',
 	'General_PurchasedProducts' => 'Produse cumparate',
 	'General_EcommerceOrders' => 'Comenzi ecommerce',

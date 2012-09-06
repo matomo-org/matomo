@@ -52,7 +52,6 @@ $translations = array(
 	'General_Name' => 'Име',
 	'General_Value' => 'Стойност',
 	'General_Total' => 'Общо',
-	'General_TotalVisitsActionsRevenue' => 'Общо: %s посещения, %s действия, %s приход',
 	'General_AverageOrderValue' => 'Средна стойност на поръчка',
 	'General_PurchasedProducts' => 'Купени продукти',
 	'General_EcommerceOrders' => 'Поръчки Електронна търговия',
@@ -1550,5 +1549,4 @@ $translations = array(
 	'PDFReports_Pagination' => 'Страница %s от %s',
 	'PDFReports_ReportIncludeNWebsites' => 'Този отчет ще включва главните метрични данни за всички уеб сайтове, които са били посещавани поне веднъж (от %s сайта, които са налични).',
 	'ImageGraph_PluginDescription' => 'Генерирайте красиви статични PNG графични изображения за всеки Piwik доклад.',
-	'ImageGraph_ColumnOrdinateMissing' => 'Колоната \'%s\' не беше намерена на този доклад.',
 );

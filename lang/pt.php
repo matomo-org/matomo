@@ -46,7 +46,6 @@ $translations = array(
 	'General_Name' => 'Nome',
 	'General_Value' => 'Valor',
 	'General_Total' => 'Total',
-	'General_TotalVisitsActionsRevenue' => '(Total: %s visitas, %s ações, %s receitas)',
 	'General_AverageOrderValue' => 'Valor médio dos pedidos',
 	'General_PurchasedProducts' => 'Produtos comprados',
 	'General_EcommerceOrders' => 'Pedidos Comércio Electronico',
@@ -1438,5 +1437,4 @@ $translations = array(
 	'PDFReports_TopOfReport' => 'Voltar ao topo',
 	'PDFReports_Pagination' => 'Página %s de %s',
 	'ImageGraph_PluginDescription' => 'Gera uma imagem de gráfico PNG estática para qualquer relatório Piwik',
-	'ImageGraph_ColumnOrdinateMissing' => 'A coluna \'%s\' não foi encontrada neste relatório.',
 );

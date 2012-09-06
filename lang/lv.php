@@ -48,7 +48,6 @@ $translations = array(
 	'General_Name' => 'Vārds',
 	'General_Value' => 'Vērtība',
 	'General_Total' => 'Kopā',
-	'General_TotalVisitsActionsRevenue' => '(Kopā: %s apmeklējumi, %s darbības, %s ienākumi)',
 	'General_AverageOrderValue' => 'Vidējā pasūtījuma vērtība',
 	'General_PurchasedProducts' => 'Iegādātie produkti',
 	'General_EcommerceOrders' => 'E-komercijas pasūtījumi',
@@ -1199,5 +1198,4 @@ $translations = array(
 	'PDFReports_TopOfReport' => 'Atpakaļ uz sākumu',
 	'PDFReports_Pagination' => '%s. lapa no %s',
 	'ImageGraph_PluginDescription' => 'Ģenerējiet skaistus, statiskus PNG formāta grafikus jebkurai Piwik atskaitei.',
-	'ImageGraph_ColumnOrdinateMissing' => 'Kolonna \'%s\' šajā atskaitē netika atrasta.',
 );

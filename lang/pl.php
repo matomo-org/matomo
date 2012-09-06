@@ -46,7 +46,6 @@ $translations = array(
 	'General_Name' => 'Nazwa',
 	'General_Value' => 'Parametr',
 	'General_Total' => 'Ogólnie',
-	'General_TotalVisitsActionsRevenue' => '(Ilość użytkowników: %s, Ilość odsłon: %s,  Przychód: %s)',
 	'General_AverageOrderValue' => 'Średnia wartość zamówienia',
 	'General_PurchasedProducts' => 'Zakupione produkty',
 	'General_EcommerceOrders' => 'Zamówienia e-commerce',

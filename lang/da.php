@@ -53,7 +53,6 @@ $translations = array(
 	'General_Name' => 'Navn',
 	'General_Value' => 'Værdi',
 	'General_Total' => 'Total',
-	'General_TotalVisitsActionsRevenue' => '(Total: %s besøg, %s handlinger, %s indtægter)',
 	'General_AverageOrderValue' => 'Gennemsnitlig ordreværdi',
 	'General_PurchasedProducts' => 'Købte produkter',
 	'General_EcommerceOrders' => 'E-handel ordre',
@@ -1544,5 +1543,4 @@ $translations = array(
 	'PDFReports_Pagination' => 'Side %s af %s',
 	'PDFReports_ReportIncludeNWebsites' => 'Rapporten indeholder de vigtigste nøgletal for alle hjemmesider, der har mindst ét ​​besøg (fra %s hjemmesider der pt er tilgængelige).',
 	'ImageGraph_PluginDescription' => 'Generere flotte statiske PNG diagrammer til Piwik rapporter.',
-	'ImageGraph_ColumnOrdinateMissing' => 'Kolonnen \'%s\' blev ikke fundet i denne rapport.',
 );

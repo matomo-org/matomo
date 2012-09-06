@@ -52,7 +52,6 @@ $translations = array(
 	'General_Name' => 'Jméno',
 	'General_Value' => 'Hodnota',
 	'General_Total' => 'Celkem',
-	'General_TotalVisitsActionsRevenue' => '(Celkem: %s návštěv, %s akcí, %s cílů)',
 	'General_AverageOrderValue' => 'Průměrná hodnota objednávky',
 	'General_PurchasedProducts' => 'Zakoupené produkty',
 	'General_EcommerceOrders' => 'Elektronické objednávky',

@@ -41,7 +41,6 @@ $translations = array(
 	'General_Name' => 'Ime',
 	'General_Value' => 'Vrednost',
 	'General_Total' => 'Ukupno',
-	'General_TotalVisitsActionsRevenue' => '(Ukupno: %s poseta, %s akcija, %s zarada)',
 	'General_AverageOrderValue' => 'Prosečna vrednost porudžbine',
 	'General_PurchasedProducts' => 'Kupljeni proizvodi',
 	'General_EcommerceOrders' => 'Elektronske porudžbine',

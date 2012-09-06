@@ -53,7 +53,6 @@ $translations = array(
 	'General_Name' => '名前',
 	'General_Value' => '値',
 	'General_Total' => '合計',
-	'General_TotalVisitsActionsRevenue' => '(合計: %s ビジット, %s アクション, ￥ %s 収益)',
 	'General_AverageOrderValue' => '平均注文額',
 	'General_PurchasedProducts' => '購入された製品',
 	'General_EcommerceOrders' => 'eコマース受注',
@@ -1550,5 +1549,4 @@ $translations = array(
 	'PDFReports_TopOfReport' => 'トップへ戻る',
 	'PDFReports_Pagination' => 'Page %s of %s',
 	'ImageGraph_PluginDescription' => 'Piwikリポートの美しい静的PNGグラフ画像を生成します。',
-	'ImageGraph_ColumnOrdinateMissing' => 'カラム \'%s\' はこのリポートにはありません。',
 );

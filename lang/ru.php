@@ -1580,7 +1580,6 @@ $translations = array(
 	'PDFReports_Pagination' => 'Страница %s из %s',
 	'PDFReports_ReportIncludeNWebsites' => 'Отчет будет содержать основные показатели для всех сайтов, у которых было хотя бы одно посещение (всего сейчас доступно %s сайтов).',
 	'ImageGraph_PluginDescription' => 'Генерировать красивый статичный PNG-график для всех отчетов Piwik.',
-	'ImageGraph_ColumnOrdinateMissing' => 'Колонка \'%s\' не была найдена в данном отчете.',
 	'RowEvolution_MetricsFor' => 'Показатели для %s',
 	'RowEvolution_AvailableMetrics' => 'Доступные показатели',
 	'RowEvolution_MetricBetweenText' => 'Между %s и %s',

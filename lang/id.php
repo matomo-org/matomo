@@ -49,7 +49,6 @@ $translations = array(
 	'General_Name' => 'Nama',
 	'General_Value' => 'Nilai',
 	'General_Total' => 'Jumlah',
-	'General_TotalVisitsActionsRevenue' => '(Jumlah: %s kunjungan, %s tindakan, %s pendapatan)',
 	'General_AverageOrderValue' => 'Rerata Nilai Permintaan',
 	'General_PurchasedProducts' => 'Pesan Produk',
 	'General_EcommerceOrders' => 'Pesanan Niaga-E',

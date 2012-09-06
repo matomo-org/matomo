@@ -47,7 +47,6 @@ $translations = array(
 	'General_Name' => 'Meno',
 	'General_Value' => 'Hodnota',
 	'General_Total' => 'Spolu',
-	'General_TotalVisitsActionsRevenue' => '(Spolu: %s návštev, %s akcií, %s príjmov)',
 	'General_AverageOrderValue' => 'Prierná hodnota nákupu',
 	'General_PurchasedProducts' => 'Nakúpené produkty',
 	'General_EcommerceOrders' => 'Ecommerce objednávky',

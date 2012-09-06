@@ -46,7 +46,6 @@ $translations = array(
 	'General_Name' => 'Ime',
 	'General_Value' => 'Vrednost',
 	'General_Total' => 'Skupaj',
-	'General_TotalVisitsActionsRevenue' => '(Skupaj: %s obiskov, %s dejanj, %s izkupiček)',
 	'General_AverageOrderValue' => 'Povprečna vrednost naročila',
 	'General_PurchasedProducts' => 'Kupljeni Izdelki',
 	'General_EcommerceOrders' => 'Ecommerce Naročila',
@@ -868,5 +867,4 @@ $translations = array(
 	'PDFReports_TopOfReport' => 'Nazaj na vrh',
 	'PDFReports_Pagination' => 'Stran %s od %s',
 	'ImageGraph_PluginDescription' => 'Ustvarite prelepe, statične, PNG grafe za vsa Piwik poročila.',
-	'ImageGraph_ColumnOrdinateMissing' => 'Vrstice \'%s\' ni bilo moč najti v tem poročilu.',
 );

@@ -47,7 +47,6 @@ $translations = array(
 	'General_Name' => 'Імя',
 	'General_Value' => 'Значэнне',
 	'General_Total' => 'Агульна',
-	'General_TotalVisitsActionsRevenue' => '(Агульна: %s наведванні, %s дзеянні, %s прыбыткі)',
 	'General_AverageOrderValue' => 'Сярэдні кошт замоў',
 	'General_PurchasedProducts' => 'Набытыя тавары',
 	'General_EcommerceOrders' => 'Замовы электроннай камерціі',
