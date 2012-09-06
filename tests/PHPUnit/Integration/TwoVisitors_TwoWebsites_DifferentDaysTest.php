@@ -30,13 +30,17 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
         parent::setUpBeforeClass();
         try {
             self::setUpWebsitesAndGoals();
-			self::setUpScheduledReports(self::$idSite1);
             self::trackVisits();
         } catch(Exception $e) {
             // Skip whole test suite if an error occurs while setup
             throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
         }
     }
+
+	public function testSetUpScheduledReports()
+	{
+		$this->setUpScheduledReports(self::$idSite1);
+	}
 
     /**
      * @dataProvider getApiForTesting

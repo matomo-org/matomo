@@ -22,13 +22,17 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
         parent::setUpBeforeClass();
         try {
             self::setUpWebsitesAndGoals();
-			self::setUpScheduledReports(self::$idSite);
             self::trackVisits();
         } catch(Exception $e) {
             // Skip whole test suite if an error occurs while setup
             throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
         }
     }
+
+	public function testSetUpScheduledReports()
+	{
+		$this->setUpScheduledReports(self::$idSite);
+	}
 
     /**
      * @dataProvider getApiForTesting

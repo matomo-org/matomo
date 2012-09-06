@@ -238,10 +238,18 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Create one MAIL and two MOBILE scheduled reports
 	 *
+	 * Reports sent by mail can contain PNG graphs when the user specifies it.
+	 * Depending on the system under test, generated images differ slightly.
+	 * Because of this discrepancy, PNG graphs are only tested if the system under test
+	 * has the characteristics described in 'canImagesBeIncludedInScheduledReports'
+	 *
+	 * @see canImagesBeIncludedInScheduledReports
 	 * @param int $idSite id of website created
 	 */
-	protected static function setUpScheduledReports($idSite)
+	protected function setUpScheduledReports($idSite)
 	{
+		$includeImages = self::canImagesBeIncludedInScheduledReports();
+
 		// fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'PDFReports.addReport'
 		$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
@@ -256,6 +264,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			$availableReportIds[] = $reportMetadata['uniqueId'];
 		}
 
+		//@review should we also test evolution graphs?
 		// set-up mail report
 		Piwik_PDFReports_API::getInstance()->addReport(
 			$idSite,
@@ -264,7 +273,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			Piwik_PDFReports::EMAIL_TYPE,
 			Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
 			$availableReportIds,
-			array("displayFormat"=>Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
+			array("displayFormat" => $includeImages ? Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS : Piwik_PDFReports::DISPLAY_FORMAT_TABLES_ONLY)
 		);
 
 		// set-up sms report for one website
@@ -288,6 +297,30 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			array("MultiSites_getAll"),
 			array("phoneNumbers"=>array())
 		);
+
+		if(!$includeImages)
+		{
+			$this->markTestSkipped(
+				'Do take note that scheduled reports are not being tested with images. ' .
+				'If images contained in scheduled reports have been altered, tests will fail on the Piwik QA Server. ' .
+				'To include images in the test suite, please use a machine with the following specifications :' // TODO update with new Piwik QA Server
+			);
+		}
+	}
+
+	/**
+	 * Return true if system under test has the following characteristics :
+	 *  - // TODO update doc with new Piwik QA Server technical characteristics
+	 *
+	 */
+	private static function canImagesBeIncludedInScheduledReports()
+	{
+		// TODO update to match new Piwik QA Server
+		$gdInfo = gd_info();
+		return
+			stristr(php_uname(),'Linux precise32') &&
+			phpversion() == '5.3.10-1ubuntu3.2' &&
+			$gdInfo['GD Version'] == '2.0';
 	}
 
 	/**
@@ -301,12 +334,14 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected static function getApiForTestingScheduledReports($dateTime, $period)
 	{
+		$reportContentPostfix = self::canImagesBeIncludedInScheduledReports() ? '_tables_and_graph' : '_tables_only';
+
 		return array(
 			// HTML Scheduled Report
 			array(
 				'PDFReports.generateReport',
 				array(
-					'testSuffix' => '_scheduled_report_in_html',
+					'testSuffix' => '_scheduled_report_in_html' . $reportContentPostfix,
 					'date' => $dateTime,
 					'periods' => array($period),
 					'format' => 'original',
@@ -322,7 +357,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			array(
 				'PDFReports.generateReport',
 				array(
-					'testSuffix' => '_scheduled_report_in_pdf',
+					'testSuffix' => '_scheduled_report_in_pdf' . $reportContentPostfix,
 					'date' => $dateTime,
 					'periods' => array($period),
 					'format' => 'original',
