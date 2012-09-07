@@ -30,7 +30,7 @@ $(document).ready( function() {
 {/literal}
 
 {if $displayFullReport}
-	{if $nb_conversions > 0}
+	{if $nb_conversions > 0 || $cart_nb_conversions > 0}
 		{include file="Goals/templates/table_by_dimension.tpl"}
 	{/if}
 {/if}

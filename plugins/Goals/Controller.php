@@ -156,7 +156,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	public function getEcommerceLog($fetch = false)
 	{
 		$saveGET = $_GET;
-		$_GET['filterEcommerce'] = 1;
+		$_GET['filterEcommerce'] = Piwik_Common::getRequestVar('filterEcommerce', 1, 'int');
 		$_GET['widget'] = 1;
 		$_GET['segment'] = 'visitEcommerceStatus!=none';
 		$output = Piwik_FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
