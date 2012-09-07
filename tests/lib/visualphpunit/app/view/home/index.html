@@ -236,10 +236,25 @@
           </div>
         </div>
       </div>
-      <div class='row execution-time' style="margin-bottom:20px">
+      <div class='row execution-stats' style="margin-bottom:20px">
         <div class='span8'>
-          <h3>Total Execution Time</h3>
-          <div><em><%= _.reduce(_.values(suites), function(sum, suite){ return sum + suite.time; }, 0) %>s</em></div>
+          <h3>Execution Statistics</h3>
+        </div>
+          
+        <div class='span4'>
+          <h4>Total Elapsed Time</h4>
+          <p><em><%= totalElapsedTime %></em></p>
+          
+          <h4>Total Execution Time</h4>
+          <p><em><%= _.reduce(_.values(suites), function(sum, suite){ return sum + suite.time; }, 0) %>s</em></p>
+        </div>
+        
+        <div class='span4 offset1'>
+          <h4>Peak Memory Usage</h4>
+          <p><em><%= memory_stats.memory_peak %></em></p>
+          
+          <h4>Total Memory Delta</h4>
+          <p><em><%= memory_stats.memory_delta %></em></p>
         </div>
       </div>
 
@@ -285,7 +300,13 @@
           <% var statusCap = suite.status.charAt(0).toUpperCase() + suite.status.slice(1); %>
           <h3><%= suite.name %></h3>
           <div class='suite-status'>
-            <span class="label label-<%= suite.status %>"><%= statusCap %></span>
+            <p>
+              <span class="label label-<%= suite.status %>"><%= statusCap %></span>
+            </p>
+            <p>
+              <strong><em>Peak memory usage:</em></strong> <%= suite.memory_peak %><br/>
+              <strong><em>Memory delta:</em></strong> <%= suite.memory_delta %>
+            </p>
           </div>
 
           <% _.each(suite.tests, function(test) { %>
@@ -298,8 +319,9 @@
               <% } %>
               <ul class='nav'>
                 <li class='test-details'>
-                  <em>Execution time:</em>
-                  <%= test.time %>s
+                  <p>
+                    <em>Execution time:</em> <%= test.time %>s
+                  </p>
                 </li>
                 <% if ( test.output ) { %>
                 <li class='test-details'>
@@ -386,6 +408,25 @@
           done(result);
         };
         
+        var getPrettyMemory = function(bytes) {
+          if (bytes == 0) {
+            return '0M';
+          }
+          
+          var units = ['B', 'K', 'M', 'G', 'T'];
+		  for (var i = 0; i != units.length; ++i) {
+		    var unit = units[i];
+		    
+		    if (bytes >= 1024) {
+		      bytes = bytes / 1024;
+		    } else {
+		      break;
+		    }
+		  }
+		  
+		  return (Math.round(bytes * 100) / 100) + unit;
+        };
+        
         var runSelectedTests = function(file_selections) {
           var $form = $('#test-runner-form'),
               $output = $('#test-output');
@@ -415,8 +456,13 @@
                     failed: 0,
                     total: 0
                   }
+                },
+                memory_stats: {
+                  memory_delta: 0,
+                  memory_peak: 0
                 }
               };
+              var startTime = new Date();
               
               var baseReqData = {};
               $.each($form.serializeArray(), function(_, kv) {
@@ -479,6 +525,8 @@
                         allResults.suites[key].time += response.suites[key].time;
                       } else {
                         allResults.suites[key] = response.suites[key];
+                        allResults.suites[key].memory_peak = getPrettyMemory(response.memory_stats.memory_peak);
+                        allResults.suites[key].memory_delta = getPrettyMemory(response.memory_stats.memory_delta);
                       }
                     }
                     
@@ -497,6 +545,10 @@
                       allResults.stats[key].percentSucceeded = (allResults.stats[key].succeeded / total) * 100;
                     }
                     
+                    allResults.memory_stats.memory_delta += response.memory_stats.memory_delta;
+                    allResults.memory_stats.memory_peak = Math.max(
+                      allResults.memory_stats.memory_peak, response.memory_stats.memory_peak);
+                    
                     runTest(testIdx + 1, callback);
                   },
                   error: function(xhr, status, error) {
@@ -511,7 +563,8 @@
               }
               
               runTest(0, function() {
-                var template = $("#test-results").html();
+                var template = $("#test-results").html(),
+                    elapsed = ((new Date()) - startTime) / 1000;
 
                 $output.fadeOut(300, function() {
                   $output.html(_.template(template, {
@@ -519,10 +572,15 @@
                     notifications: allResults.notifications,
                     suites: allResults.suites,
                     stats: allResults.stats,
+                    memory_stats: {
+                      memory_peak: getPrettyMemory(allResults.memory_stats.memory_peak),
+                      memory_delta: getPrettyMemory(allResults.memory_stats.memory_delta),
+                    },
                     display_failed: $('#display-failed').is(':checked'),
                     display_incomplete: $('#display-incomplete').is(':checked'),
                     display_skipped: $('#display-skipped').is(':checked'),
-                    display_succeeded: $('#display-succeeded').is(':checked')
+                    display_succeeded: $('#display-succeeded').is(':checked'),
+                    totalElapsedTime: elapsed + 's'
                   }));
 
                   $('#sort').triggerHandler('change');

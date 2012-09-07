@@ -465,14 +465,22 @@ class VPU {
         // parsing of test debug output
         $html_errors = ini_get('html_errors');
         ini_set('html_errors', 0);
+        
+        $memory_start = memory_get_usage();
 
         ob_start();
         $suite->run($result);
         $results = ob_get_contents();
         ob_end_clean();
+        
+        $memory_end = memory_get_usage();
+        $memory_stats = array(
+        	'memory_delta' => $memory_end - $memory_start,
+        	'memory_peak' => memory_get_peak_usage()
+        );
 
         ini_set('html_errors', $html_errors);
-        return $results;
+        return array($results, $memory_stats);
     }
 
    /**
@@ -500,7 +508,9 @@ class VPU {
 
         $start = strpos($results, '{');
         $end = strrpos($results, '}');
-        return substr($results, $start, $end - $start + 1);
+        $results = substr($results, $start, $end - $start + 1);
+        
+        return array($results, array());
     }
 
 }

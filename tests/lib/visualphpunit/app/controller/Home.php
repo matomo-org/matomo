@@ -91,7 +91,7 @@ class Home extends \app\core\Controller {
             }
         }
 
-        $results = ( $xml_config )
+        list($results, $memory_stats) = ( $xml_config )
             ? $vpu->run_with_xml($xml_config)
             : $vpu->run_tests($tests, $data);
         $results = $vpu->compile_suites($results, 'web');
@@ -103,7 +103,7 @@ class Home extends \app\core\Controller {
         $suites = $results['suites'];
         $stats = $results['stats'];
         $errors = $vpu->get_errors();
-        $to_view = compact('suites', 'stats', 'errors');
+        $to_view = compact('suites', 'stats', 'errors', 'memory_stats');
 
         if ( $request->data['create_snapshots'] ) {
             $notifications[] = $this->_create_snapshot($to_view);
