@@ -213,10 +213,6 @@
 		<value>Total</value>
 	</row>
 	<row>
-		<label>General_TotalVisitsActionsRevenue</label>
-		<value>(Total: %s visites, %s actions, %s recettes)</value>
-	</row>
-	<row>
 		<label>General_AverageOrderValue</label>
 		<value>Valeur Moyenne d'une Commande</value>
 	</row>
@@ -6215,9 +6211,5 @@
 	<row>
 		<label>ImageGraph_PluginDescription</label>
 		<value>Génère de magnifiques graphiques en image PNG statique pour tous vos rapports Piwik.</value>
-	</row>
-	<row>
-		<label>ImageGraph_ColumnOrdinateMissing</label>
-		<value>La colonne '%s' n'est pas trouvée dans ce rapport</value>
 	</row>
 </result>
