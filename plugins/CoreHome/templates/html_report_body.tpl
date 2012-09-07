@@ -33,6 +33,7 @@
 			{/foreach}
 		</thead>
 		<tbody>
+			{cycle name='tr-background-color' delimiter=';' values=";background-color: rgb(`$tableBgColor`)" print=false reset=true advance=false}
 			{foreach from=$reportRows item=row key=rowId}
 
 			{assign var=rowMetrics value=$row->getColumns()}
@@ -43,7 +44,7 @@
 				{assign var=rowMetadata value=null}
 			{/if}
 
-			<tr style="{cycle delimiter=';' values=";background-color: rgb(`$tableBgColor`)" }">
+			<tr style="{cycle name='tr-background-color'}">
 				{foreach from=$reportColumns key=columnId item=columnName}
 				<td style="font-size: {$reportTableRowTextSize}pt; border-bottom: 1px solid rgb({$tableCellBorderColor}); padding: 5px 0 5px 5px;">
 					{if $columnId eq 'label'}
