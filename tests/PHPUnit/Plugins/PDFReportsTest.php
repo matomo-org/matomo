@@ -28,6 +28,7 @@ class PDFReportsTest extends DatabaseTestCase
         
         Piwik_SitesManager_API::getInstance()->addSite("Test",array("http://piwik.net"));
         FakeAccess::setIdSitesView( array($this->idSiteAccess,2));
+        Piwik_PDFReports_API::$cache = array();
         
     }
 
