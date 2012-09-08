@@ -758,6 +758,14 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
             $expected = $this->removeXmlElement($expected, 'nb_visits_converted');
             $response = $this->removeXmlElement($response, 'nb_visits_converted');
+            
+            
+             if (strpos($requestUrl, 'date=') !== false)
+            {
+            	$regex = "/date=[-0-9,%Ca-z]+/"; // need to remove %2C which is encoded ,
+            	$expected = preg_replace($regex, 'date=', $expected);
+            	$response = preg_replace($regex, 'date=', $response);
+            } 
         }
 
         // if idSubtable is in request URL, make sure idSubtable values are not in any urls
@@ -820,6 +828,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     protected function removeXmlElement($input, $xmlElement, $testNotSmallAfter = true)
     {
+    	// Only raise error if there was some data before
+    	$testNotSmallAfter = strlen($input > 100 ) && $testNotSmallAfter;
+    	
         $input = preg_replace('/(<'.$xmlElement.'>.+?<\/'.$xmlElement.'>)/', '', $input);
         //check we didn't delete the whole string
         if($testNotSmallAfter)
