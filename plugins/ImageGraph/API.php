@@ -273,6 +273,8 @@ class Piwik_ImageGraph_API
 					break;
 			}
 
+			$ordinateLogos = array();
+
 			// row evolutions
 			if($isMultiplePeriod && $reportHasDimension)
 			{
@@ -336,6 +338,17 @@ class Piwik_ImageGraph_API
 						$ordinateColumn = $plottedMetric . '_' . $i++;
 						$ordinateColumns[] = $metric;
 						$ordinateLabels[$ordinateColumn] = $info['name'];
+
+						if(isset($info['logo']))
+						{
+							$ordinateLogo = $info['logo'];
+
+							// @review pChart does not support gifs in graph legends, would it be possible to convert all plugin pictures (cookie.gif, flash.gif, ..) to png files?
+							if(!strstr($ordinateLogo, '.gif'))
+							{
+								$ordinateLogos[$ordinateColumn] = $ordinateLogo;
+							}
+						}
 					}
 				}
 				else
@@ -362,8 +375,8 @@ class Piwik_ImageGraph_API
 			}
 			// prepare abscissa and ordinate series
 			$abscissaSeries = array();
+			$abscissaLogos = array();
 			$ordinateSeries = array();
-			$ordinateLogos = array();
 			$reportData = $processedReport['reportData'];
 			$hasData = false;
 			$hasNonZeroValue = false;
@@ -397,7 +410,7 @@ class Piwik_ImageGraph_API
 						$rowMetadata = $reportMetadata[$i]->getColumns();
 						if(isset($rowMetadata['logo']))
 						{
-							$ordinateLogos[$i] = $rowMetadata['logo'];
+							$abscissaLogos[$i] = $rowMetadata['logo'];
 						}
 					}
 					$i++;
@@ -466,9 +479,14 @@ class Piwik_ImageGraph_API
 			$graph->setShowLegend($showLegend);
 			$graph->setAliasedGraph($aliasedGraph);
 			$graph->setAbscissaSeries($abscissaSeries);
+			$graph->setAbscissaLogos($abscissaLogos);
 			$graph->setOrdinateSeries($ordinateSeries);
 			$graph->setOrdinateLogos($ordinateLogos);
 			$graph->setColors(!empty($colors) ? explode(',', $colors) : array());
+			if($period == 'day')
+			{
+				$graph->setForceSkippedLabels(6);
+			}
 
 			// render graph
 			$graph->renderGraph();

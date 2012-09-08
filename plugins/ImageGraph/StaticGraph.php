@@ -28,6 +28,8 @@ abstract class Piwik_ImageGraph_StaticGraph
 	const GRAPH_TYPE_3D_PIE = "3dPie";
 	const GRAPH_TYPE_BASIC_PIE = "pie";
 
+	const CAUTIONARY_FONT_HEIGHT_OFFSET = 4;
+
 	static private $availableStaticGraphTypes = array(
 		self::GRAPH_TYPE_BASIC_LINE => 'Piwik_ImageGraph_StaticGraph_Evolution',
 		self::GRAPH_TYPE_VERTICAL_BAR => 'Piwik_ImageGraph_StaticGraph_VerticalBar',
@@ -37,8 +39,6 @@ abstract class Piwik_ImageGraph_StaticGraph
 	);
 
 	const ABSCISSA_SERIE_NAME = 'ABSCISSA';
-	const WIDTH_KEY = 'WIDTH';
-	const HEIGHT_KEY = 'HEIGHT';
 
 	private $aliasedGraph;
 
@@ -47,6 +47,7 @@ abstract class Piwik_ImageGraph_StaticGraph
 	protected $ordinateLabels;
 	protected $showLegend;
 	protected $abscissaSeries;
+	protected $abscissaLogos;
 	protected $ordinateSeries;
 	protected $ordinateLogos;
 	protected $colors;
@@ -54,6 +55,7 @@ abstract class Piwik_ImageGraph_StaticGraph
 	protected $fontSize;
 	protected $width;
 	protected $height;
+	protected $forceSkippedLabels = false;
 
 	abstract protected function getDefaultColors();
 
@@ -150,6 +152,11 @@ abstract class Piwik_ImageGraph_StaticGraph
 		$this->ordinateLogos = $ordinateLogos;
 	}
 
+	public function setAbscissaLogos($abscissaLogos)
+	{
+		$this->abscissaLogos = $abscissaLogos;
+	}
+
 	public function setAbscissaSeries($abscissaSeries)
 	{
 		$this->abscissaSeries = $abscissaSeries;
@@ -158,6 +165,11 @@ abstract class Piwik_ImageGraph_StaticGraph
 	public function setShowLegend($showLegend)
 	{
 		$this->showLegend = $showLegend;
+	}
+
+	public function setForceSkippedLabels($forceSkippedLabels)
+	{
+		$this->forceSkippedLabels = $forceSkippedLabels;
 	}
 
 	public function setOrdinateLabels($ordinateLabels)
@@ -212,6 +224,11 @@ abstract class Piwik_ImageGraph_StaticGraph
 		{
 			$this->pData->addPoints($data, $column);
 			$this->pData->setSerieDescription($column,$this->ordinateLabels[$column]);
+			if(isset($this->ordinateLogos[$column]))
+			{
+				$ordinateLogo = $this->ordinateLogos[$column];
+				$this->pData->setSeriePicture($column, $ordinateLogo);
+			}
 		}
 
 		$this->pData->addPoints($this->abscissaSeries, self::ABSCISSA_SERIE_NAME);
@@ -231,17 +248,33 @@ abstract class Piwik_ImageGraph_StaticGraph
 		);
 	}
 
-	protected function getTextWidthHeight($text)
+	protected function getTextWidth($text, $fontSize = false)
 	{
-		$position = imageftbbox($this->fontSize, 0, $this->font, $text);
+		if(!$fontSize)
+		{
+			$fontSize = $this->fontSize;
+		}
 
-		return array(
-			self::WIDTH_KEY => ($position[0]) + abs($position[2]),
-			self::HEIGHT_KEY => ($position[1]) + abs($position[5])
+		if(!$this->pImage)
+		{
+			$this->initpImage();
+		}
+
+		// could not find a way to get pixel perfect width & height info using imageftbbox
+		// drawing the text with no opacity and looking at its properties does return accurate width (not height)
+		$textInfo = $this->pImage->drawText(
+			0, 0, $text,
+			array(
+				'Alpha'=>0,
+				'FontSize'=>$fontSize,
+				'FontName' => $this->font
+			)
 		);
+
+		return $textInfo[1]["X"] + 1;
 	}
 
-	protected function maxWidthHeight($values)
+	protected function getMaximumTextWidth($values)
 	{
 		if(array_values($values) === $values)
 		{
@@ -249,31 +282,33 @@ abstract class Piwik_ImageGraph_StaticGraph
 		}
 
 		$maxWidth = 0;
-		$maxHeight = 0;
 		foreach($values as $column => $data)
 		{
 			foreach($data as $value)
 			{
-				$valueWidthHeight = $this->getTextWidthHeight($value);
-				$valueWidth= $valueWidthHeight[self::WIDTH_KEY];
-				$valueHeight= $valueWidthHeight[self::HEIGHT_KEY];
+				$valueWidth= $this->getTextWidth($value);
 
 				if($valueWidth > $maxWidth)
 				{
 					$maxWidth = $valueWidth;
 				}
-
-				if($valueHeight > $maxHeight)
-				{
-					$maxHeight = $valueHeight;
-				}
 			}
 		}
 
-		return array(
-			self::WIDTH_KEY => $maxWidth,
-			self::HEIGHT_KEY => $maxHeight
-		);
+		return $maxWidth;
+	}
+
+	protected function getMaximumTextHeight($fontSize = false)
+	{
+		if(!$fontSize)
+		{
+			$fontSize = $this->fontSize;
+		}
+
+		// could not find a way to accurately get a text height
+		// pChart uses the font size, however, the font size is not always the maximum character height
+		// after trialing, a safe cautionary font height offset has been set
+		return $fontSize + self::CAUTIONARY_FONT_HEIGHT_OFFSET;
 	}
 
 	private static function hex2rgb($hexColor)

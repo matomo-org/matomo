@@ -24,7 +24,8 @@ class Piwik_ImageGraph_StaticGraph_Evolution extends Piwik_ImageGraph_StaticGrap
 			$displayVerticalGridLines = true,
 			$drawCircles = true,
 			$horizontalGraph = false,
-			$showTicks = true
+			$showTicks = true,
+			$verticalLegend = true
 		);
 
 		$this->pImage->drawLineChart();

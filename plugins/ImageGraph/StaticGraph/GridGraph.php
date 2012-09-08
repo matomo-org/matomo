@@ -26,12 +26,21 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	const LEFT_GRID_MARGIN = 4;
 	const BOTTOM_GRID_MARGIN = 10;
 	const TOP_GRID_MARGIN_HORIZONTAL_GRAPH = 1;
-	const RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH = 5;
-	const LEGEND_LEFT_MARGIN = 4;
-	const LEGEND_BOTTOM_MARGIN = 10;
+	const RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH = 4;
 	const OUTER_TICK_WIDTH = 5;
 	const INNER_TICK_WIDTH = 0;
 	const LABEL_SPACE_VERTICAL_GRAPH = 10;
+
+	const HORIZONTAL_LEGEND_TOP_MARGIN = 2;
+	const LEGEND_LEFT_MARGIN = 5;
+	const HORIZONTAL_LEGEND_BOTTOM_MARGIN = 10;
+	const LEGEND_FONT_SIZE_OFFSET = -1;
+	const LEGEND_BULLET_SIZE = 5;
+	const LEGEND_BULLET_RIGHT_PADDING = 5;
+	const LEGEND_ITEM_HORIZONTAL_INTERSTICE = 6;
+	const LEGEND_ITEM_VERTICAL_INTERSTICE = 12;
+	const LEGEND_SHADOW_OPACITY = 20;
+	const PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE = 5;
 
 	protected function getDefaultColors()
 	{
@@ -51,7 +60,8 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 		$displayVerticalGridLines,
 		$drawCircles,
 		$horizontalGraph,
-		$showTicks
+		$showTicks,
+		$verticalLegend
 	)
 	{
 		$this->initpData();
@@ -68,9 +78,9 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 		// graph area coordinates
 		$topLeftXValue = $this->getGridLeftMargin($horizontalGraph, $withLabel = true);
-		$topLeftYValue = $this->getGridTopMargin($horizontalGraph);
+		$topLeftYValue = $this->getGridTopMargin($horizontalGraph, $verticalLegend);
 		$bottomRightXValue = $this->width - $this->getGridRightMargin($horizontalGraph);
-		$bottomRightYValue = $this->getGraphBottom();
+		$bottomRightYValue = $this->getGraphBottom($horizontalGraph);
 
 		$this->pImage->setGraphArea(
 			$topLeftXValue,
@@ -83,8 +93,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 		$skippedLabels = 0;
 		if(!$horizontalGraph)
 		{
-			$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSeries);
-			$abscissaMaxWidth = $abscissaMaxWidthHeight[self::WIDTH_KEY];
+			$abscissaMaxWidth = $this->getMaximumTextWidth($this->abscissaSeries);
 			$graphWidth = $bottomRightXValue - $topLeftXValue;
 			$maxNumOfLabels = floor($graphWidth / ($abscissaMaxWidth + self::LABEL_SPACE_VERTICAL_GRAPH));
 
@@ -111,8 +120,13 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 			}
 		}
 
+		if($this->forceSkippedLabels && $skippedLabels && $skippedLabels < $this->forceSkippedLabels)
+		{
+			$skippedLabels = $this->forceSkippedLabels;
+		}
+
 		$ordinateAxisLength =
-			$horizontalGraph ? $bottomRightXValue - $topLeftXValue : $this->getGraphHeight($horizontalGraph);
+			$horizontalGraph ? $bottomRightXValue - $topLeftXValue : $this->getGraphHeight($horizontalGraph, $verticalLegend);
 
 		$maxOrdinateValue = 0;
 		foreach($this->ordinateSeries as $column => $data)
@@ -156,24 +170,112 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 		if($this->showLegend)
 		{
+			$legendFontSize = $this->getLegendFontSize();
+			$maxLegendTextHeight = $this->getMaximumTextHeight($legendFontSize);
+			$legendTopLeftXValue = $topLeftXValue + self::LEGEND_LEFT_MARGIN;
+
+			// this value is used by pChart to position the top edge of item bullets
+			$legendTopLeftYValue = ($verticalLegend ? 0 : self::HORIZONTAL_LEGEND_TOP_MARGIN) + ($maxLegendTextHeight / 4);
+
+			// maximum logo width & height
+			$maxLogoWidth = 0;
+			$maxLogoHeight = 0;
+			foreach($this->ordinateLogos as $metricCode => $logo)
+			{
+				$pathInfo = getimagesize($this->ordinateLogos[$metricCode]);
+				$logoWidth = $pathInfo[0];
+				$logoHeight = $pathInfo[1];
+
+				if($logoWidth > $maxLogoWidth)
+				{
+					$maxLogoWidth = $logoWidth;
+				}
+				if($logoHeight > $maxLogoHeight)
+				{
+					$maxLogoHeight = $logoHeight;
+				}
+			}
+
+			// add colored background to each legend item
+			$currentPosition = $verticalLegend ? $legendTopLeftYValue : $legendTopLeftXValue;
+			$colorIndex = 1;
+			foreach($this->ordinateLabels as $metricCode => $label)
+			{
+				$color = $this->colors[self::GRAPHIC_COLOR_KEY . $colorIndex++];
+
+				$bulletSize = self::LEGEND_BULLET_SIZE;
+				if(isset($this->ordinateLogos[$metricCode]))
+				{
+					$bulletSize = $maxLogoWidth;
+				}
+
+				$rectangleTopLeftXValue = $verticalLegend ? $legendTopLeftXValue : $currentPosition;
+				$rectangleTopLeftYValue = $verticalLegend ? $currentPosition : self::HORIZONTAL_LEGEND_TOP_MARGIN;
+
+				$rectangleWidth = $bulletSize + self::LEGEND_BULLET_RIGHT_PADDING + $this->getTextWidth($label, $legendFontSize);
+				$legendItemWidth = $rectangleWidth + self::LEGEND_ITEM_HORIZONTAL_INTERSTICE;
+				$rectangleBottomRightXValue = $rectangleTopLeftXValue + $rectangleWidth;
+				$rectangleBottomRightYValue = $rectangleTopLeftYValue + $maxLegendTextHeight;
+
+				$this->pImage->drawFilledRectangle(
+					$rectangleTopLeftXValue,
+					$rectangleTopLeftYValue,
+					$rectangleBottomRightXValue,
+					$rectangleBottomRightYValue,
+					array(
+						'Alpha' => self::LEGEND_SHADOW_OPACITY,
+						'R' => $color['R'],
+						'G' => $color['G'],
+						'B' => $color['B'],
+					)
+				);
+
+				$currentPosition +=
+					$verticalLegend
+						? ($maxLogoHeight > self::LEGEND_ITEM_VERTICAL_INTERSTICE ? $maxLogoHeight : self::LEGEND_ITEM_VERTICAL_INTERSTICE) + self::PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE
+						: $legendItemWidth;
+			}
+
+			// draw legend
 			$legendColor = $this->colors[self::VALUE_COLOR_KEY];
 			$this->pImage->drawLegend(
-				$topLeftXValue + self::LEGEND_LEFT_MARGIN,
-				$this->getLegendHeight() / 2,
+				$legendTopLeftXValue,
+				$legendTopLeftYValue,
 				array(
-					 'Style' => LEGEND_NOBORDER,
-					 'Mode' => LEGEND_HORIZONTAL,
-					 'FontR' => $legendColor['R'],
-					 'FontG' => $legendColor['G'],
-					 'FontB' => $legendColor['B'],
+					'Style' => LEGEND_NOBORDER,
+					'FontSize' => $legendFontSize,
+					'FontName' => $this->font,
+					'BoxWidth' => self::LEGEND_BULLET_SIZE,
+					'XSpacing' => self::LEGEND_ITEM_HORIZONTAL_INTERSTICE, // not effective when vertical
+					'Mode' => $verticalLegend ? LEGEND_VERTICAL : LEGEND_HORIZONTAL,
+					'BoxHeight' => $verticalLegend ? self::LEGEND_ITEM_VERTICAL_INTERSTICE : null,
+					'Family' => $drawCircles ? LEGEND_FAMILY_LINE : LEGEND_FAMILY_BOX,
+					'FontR' => $legendColor['R'],
+					'FontG' => $legendColor['G'],
+					'FontB' => $legendColor['B'],
 				)
 			);
 		}
 
 		if($drawCircles)
 		{
+			// drawPlotChart uses series pictures when they are specified
+			// remove series pictures (ie. logos) so that drawPlotChart draws simple dots
+			foreach($this->ordinateSeries as $column => $data)
+			{
+				if(isset($this->ordinateLogos[$column]))
+				{
+					$this->pData->setSeriePicture($column,null);
+				}
+			}
+
 			$this->pImage->drawPlotChart();
 		}
+	}
+
+	protected function getLegendFontSize()
+	{
+		return $this->fontSize + self::LEGEND_FONT_SIZE_OFFSET;
 	}
 
 	protected function getGridLeftMargin($horizontalGraph, $withLabel)
@@ -182,17 +284,15 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 		if($withLabel)
 		{
-			$maxWidthHeight = $this->maxWidthHeight($horizontalGraph ? $this->abscissaSeries : $this->ordinateSeries);
-			$gridLeftMargin += $maxWidthHeight[self::WIDTH_KEY];
+			$gridLeftMargin += $this->getMaximumTextWidth($horizontalGraph ? $this->abscissaSeries : $this->ordinateSeries);
 		}
 
 		return $gridLeftMargin;
 	}
 
-	protected function getGridTopMargin($horizontalGraph)
+	protected function getGridTopMargin($horizontalGraph, $verticalLegend)
 	{
-		$ordinateMaxWidthHeight = $this->maxWidthHeight($this->ordinateSeries);
-		$ordinateMaxHeight = $ordinateMaxWidthHeight[self::HEIGHT_KEY];
+		$ordinateMaxHeight = $this->getMaximumTextHeight();
 
 		if($horizontalGraph)
 		{
@@ -203,47 +303,40 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 			$topMargin = $ordinateMaxHeight / 2;
 		}
 
-		if($this->showLegend)
+		if($this->showLegend && !$verticalLegend)
 		{
-			$topMargin += $this->getLegendHeight() + self::LEGEND_BOTTOM_MARGIN;
+			$topMargin += $this->getHorizontalLegendHeight();
 		}
 
 		return $topMargin;
 	}
 
-	private function getLegendHeight()
+	private function getHorizontalLegendHeight()
 	{
-		$maxMetricLegendHeight = 0;
-		foreach($this->ordinateLabels as $column => $label)
+		return $this->getMaximumTextHeight($this->getLegendFontSize()) + self::HORIZONTAL_LEGEND_BOTTOM_MARGIN + self::HORIZONTAL_LEGEND_TOP_MARGIN;
+	}
+
+	protected function getGraphHeight($horizontalGraph, $verticalLegend)
+	{
+		return $this->getGraphBottom($horizontalGraph) - $this->getGridTopMargin($horizontalGraph, $verticalLegend);
+	}
+
+	private function getGridBottomMargin($horizontalGraph)
+	{
+		$gridBottomMargin = self::BOTTOM_GRID_MARGIN;
+		if(!$horizontalGraph)
 		{
-			$metricTitleWidthHeight = $this->getTextWidthHeight($label);
-			$metricTitleHeight = $metricTitleWidthHeight[self::HEIGHT_KEY];
-			if($metricTitleHeight > $maxMetricLegendHeight)
-			{
-				$maxMetricLegendHeight = $metricTitleHeight;
-			}
+			$gridBottomMargin += $this->getMaximumTextHeight();
 		}
-
-		return $maxMetricLegendHeight;
-	}
-
-	protected function getGraphHeight($horizontalGraph)
-	{
-		return $this->getGraphBottom() - $this->getGridTopMargin($horizontalGraph);
-	}
-
-	private function getGridBottomMargin()
-	{
-		$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSeries);
-		return $abscissaMaxWidthHeight[self::HEIGHT_KEY] + self::BOTTOM_GRID_MARGIN;
+		return $gridBottomMargin;
 	}
 
 	protected function getGridRightMargin($horizontalGraph)
 	{
 		if($horizontalGraph)
 		{
-			$ordinateMaxWidthHeight = $this->maxWidthHeight($this->ordinateSeries);
-			return self::RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH + $ordinateMaxWidthHeight[self::WIDTH_KEY];
+			// in horizontal graphs, metric values are displayed on the far right of the bar
+			return self::RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH + $this->getMaximumTextWidth($this->ordinateSeries);
 		}
 		else
 		{
@@ -251,8 +344,8 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 		}
 	}
 
-	protected function getGraphBottom()
+	protected function getGraphBottom($horizontalGraph)
 	{
-		return $this->height - $this->getGridBottomMargin();
+		return $this->height - $this->getGridBottomMargin($horizontalGraph);
 	}
 }

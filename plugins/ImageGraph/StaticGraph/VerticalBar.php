@@ -25,7 +25,8 @@ class Piwik_ImageGraph_StaticGraph_VerticalBar extends Piwik_ImageGraph_StaticGr
 			$displayVerticalGridLines = false, 
 			$drawCircles = false,
 			$horizontalGraph = false,
-			$showTicks = true
+			$showTicks = true,
+			$verticalLegend = false
 		);
 
 		$this->pImage->drawBarChart(
