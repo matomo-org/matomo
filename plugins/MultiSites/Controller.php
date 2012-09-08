@@ -230,7 +230,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 		}
-		$api = "VisitsSummary.get";
+		$api = "API.get";
 		
 		if($columns == 'revenue')
 		{
