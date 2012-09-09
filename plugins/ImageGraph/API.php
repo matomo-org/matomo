@@ -346,7 +346,11 @@ class Piwik_ImageGraph_API
 							// @review pChart does not support gifs in graph legends, would it be possible to convert all plugin pictures (cookie.gif, flash.gif, ..) to png files?
 							if(!strstr($ordinateLogo, '.gif'))
 							{
-								$ordinateLogos[$ordinateColumn] = $ordinateLogo;
+								$absoluteLogoPath = self::getAbsoluteLogoPath($ordinateLogo);
+								if(file_exists($absoluteLogoPath))
+								{
+									$ordinateLogos[$ordinateColumn] = $absoluteLogoPath;
+								}
 							}
 						}
 					}
@@ -410,7 +414,11 @@ class Piwik_ImageGraph_API
 						$rowMetadata = $reportMetadata[$i]->getColumns();
 						if(isset($rowMetadata['logo']))
 						{
-							$abscissaLogos[$i] = $rowMetadata['logo'];
+							$absoluteLogoPath = self::getAbsoluteLogoPath($rowMetadata['logo']);
+							if(file_exists($absoluteLogoPath))
+							{
+								$abscissaLogos[$i] = $absoluteLogoPath;
+							}
 						}
 					}
 					$i++;
@@ -559,5 +567,10 @@ class Piwik_ImageGraph_API
 	private static function getFontPath($font)
 	{
 		return PIWIK_INCLUDE_PATH . self::FONT_DIR . $font;
+	}
+
+	protected static function getAbsoluteLogoPath($relativeLogoPath)
+	{
+		return PIWIK_INCLUDE_PATH . '/' . $relativeLogoPath;
 	}
 }

@@ -29,29 +29,12 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		$verticalLegend = false;
 
 		// determine the maximum logo width & height
-		$maxLogoWidth = 0;
-		$maxLogoHeight = 0;
-		$logoPathToHeight = array();
+		list($maxLogoWidth, $maxLogoHeight) = self::getMaxLogoSize($this->abscissaLogos);
+
 		foreach($this->abscissaLogos as $logoPath)
 		{
-			$absoluteLogoPath = self::getAbsoluteLogoPath($logoPath);
-			if(file_exists($absoluteLogoPath))
-			{
-				$pathInfo = getimagesize($absoluteLogoPath);
-				$logoWidth = $pathInfo[0];
-				$logoHeight = $pathInfo[1];
-	
-				$logoPathToHeight[$absoluteLogoPath] = $logoHeight;
-				if($logoWidth > $maxLogoWidth)
-				{
-					$maxLogoWidth = $logoWidth;
-				}
-	
-				if($logoHeight > $maxLogoHeight)
-				{
-					$maxLogoHeight = $logoHeight;
-				}
-			}
+			list($logoWidth, $logoHeight) = self::getLogoSize($logoPath);
+			$logoPathToHeight[$logoPath] = $logoHeight;
 		}
 
 		// truncate report
@@ -200,11 +183,10 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 			if(isset($this->abscissaLogos[$i]))
 			{
 				$logoPath = $this->abscissaLogos[$i];
-				$absoluteLogoPath = self::getAbsoluteLogoPath($logoPath);
 
-				if(isset($logoPathToHeight[$absoluteLogoPath]))
+				if(isset($logoPathToHeight[$logoPath]))
 				{
-					$logoHeight = $logoPathToHeight[$absoluteLogoPath];
+					$logoHeight = $logoPathToHeight[$logoPath];
 
 					$pathInfo = pathinfo($logoPath);
 					$logoExtension = strtoupper($pathInfo['extension']);
@@ -220,15 +202,10 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 					$this->pImage->$drawingFunction(
 						$gridLeftMarginBeforePadding,
 						$logoYPosition,
-						$absoluteLogoPath
+						$logoPath
 					);
 				}
 			}
 		}
-	}
-
-	private static function getAbsoluteLogoPath($relativeLogoPath)
-	{
-		return PIWIK_INCLUDE_PATH . '/' . $relativeLogoPath;
 	}
 }
