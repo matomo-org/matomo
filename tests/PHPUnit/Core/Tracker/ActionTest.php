@@ -15,6 +15,8 @@ class Tracker_ActionTest extends DatabaseTestCase
         $config = Piwik_Config::getInstance();
         $config->clear();
         $config->setTestEnvironment($userFile, false);
+        
+        Piwik_PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
     }
 
     protected function setUpRootAccess()

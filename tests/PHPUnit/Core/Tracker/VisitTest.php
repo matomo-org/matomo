@@ -16,6 +16,8 @@ class Tracker_VisitTest extends DatabaseTestCase
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
         Zend_Registry::set('access', $pseudoMockAccess);
+        
+        Piwik_PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
     }
 
     /**
