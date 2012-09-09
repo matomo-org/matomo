@@ -103,11 +103,16 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
     public function testPiwikTrackerDebugIsOff()
     {
         $this->assertTrue(!isset($GLOBALS['PIWIK_TRACKER_DEBUG']));
+        
+        $oldGet = $_GET;
+        $_GET = array('idsite' => 1);
 
         // hiding echoed out message on empty request
         ob_start();
         include PIWIK_PATH_TEST_TO_ROOT . "/piwik.php";
         ob_end_clean();
+        
+        $_GET = $oldGet;
 
         $this->assertTrue($GLOBALS['PIWIK_TRACKER_DEBUG'] === false);
     }
