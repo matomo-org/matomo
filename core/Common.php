@@ -50,6 +50,8 @@ class Piwik_Common
 		return base_convert($stringHash, 16, 10);
 	}
 	
+	static public $cachedTablePrefix = null;
+	
 	/**
 	 * Returns the table name prefixed by the table prefix.
 	 * Works in both Tracker and UI mode.
@@ -59,12 +61,11 @@ class Piwik_Common
 	 */
 	static public function prefixTable($table)
 	{
-		static $prefixTable = null;
-		if(is_null($prefixTable))
+		if(is_null(self::$cachedTablePrefix))
 		{
-			$prefixTable = Piwik_Config::getInstance()->database['tables_prefix'];
+			self::$cachedTablePrefix = Piwik_Config::getInstance()->database['tables_prefix'];
 		}
-		return $prefixTable . $table;
+		return self::$cachedTablePrefix . $table;
 	}
 	
 	/**

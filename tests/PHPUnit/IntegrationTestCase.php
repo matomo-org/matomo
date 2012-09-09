@@ -22,24 +22,55 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * @var string
      */
     protected $lastLanguage;
+	
+	/**
+	 * Creates a config object for use w/ tests.
+	 */
+	public static function createTestConfig()
+	{
+        Piwik::createConfigObject();
+        Piwik_Config::getInstance()->setTestEnvironment();
+	}
+	
+	/**
+	 * Connects to MySQL w/o specifying a database.
+	 */
+	public static function connectWithoutDatabase()
+	{
+        $dbConfig = Piwik_Config::getInstance()->database;
+        $oldDbName = $dbConfig['dbname'];
+        $dbConfig['dbname'] = null;
+        
+        Piwik::createDatabaseObject($dbConfig);
+        
+        $dbConfig['dbname'] = $oldDbName;
+	}
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass( $dbName = false, $createEmptyDatabase = true, $createConfig = true )
     {
         try {
-            Piwik::createConfigObject();
-            Piwik_Config::getInstance()->setTestEnvironment();
-
-            $dbConfig = Piwik_Config::getInstance()->database;
-            $dbName = $dbConfig['dbname'];
-            $dbConfig['dbname'] = null;
-
-            Piwik::createDatabaseObject($dbConfig);
-
-            Piwik::dropDatabase();
+        	if ($createConfig)
+        	{
+	        	self::createTestConfig();
+        	}
+        	
+        	if ($dbName === false) // must be after test config is created
+        	{
+        		$dbName = Piwik_Config::getInstance()->database['dbname'];
+        	}
+        	
+        	self::connectWithoutDatabase();
+            if ($createEmptyDatabase)
+            {
+                Piwik::dropDatabase();
+            }
             Piwik::createDatabase($dbName);
             Piwik::disconnectDatabase();
-
+			
+			// reconnect once we're sure the database exists
+			Piwik_Config::getInstance()->database['dbname'] = $dbName;
             Piwik::createDatabaseObject();
+            
             Piwik::createTables();
             Piwik::createLogObject();
 
@@ -66,7 +97,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $plugins = $pluginsManager->readPluginsDirectory();
 
         $pluginsManager->loadPlugins( $plugins );
-        $pluginsManager->installLoadedPlugins();
+        if ($createEmptyDatabase) // only install if database is empty
+        {
+	        $pluginsManager->installLoadedPlugins();
+        }
 
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';
@@ -81,16 +115,22 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         self::setApiToCall( array());
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass( $dropDatabase = true )
     {
         try {
             $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
             foreach($plugins AS $plugin) {
-                $plugin->uninstall();
+            	if ($dropDatabase)
+            	{
+	                $plugin->uninstall();
+                }
             }
             Piwik_PluginsManager::getInstance()->unloadPlugins();
         } catch (Exception $e) {}
-        Piwik::dropDatabase();
+        if ($dropDatabase)
+        {
+            Piwik::dropDatabase();
+        }
         Piwik_DataTable_Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
         Piwik_Site::clearCache();
@@ -211,11 +251,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      *
      * @return int    idSite of website created
      */
-    public static function createWebsite( $dateTime, $ecommerce = 0, $siteName = 'Piwik test' )
+    public static function createWebsite( $dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false )
     {
         $idSite = Piwik_SitesManager_API::getInstance()->addSite(
             $siteName,
-            "http://piwik.net/",
+            $siteUrl === false ? "http://piwik.net/" : $siteUrl,
             $ecommerce,
             $ips = null,
             $excludedQueryParameters = null,
@@ -444,7 +484,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return string
 	 */
-	protected static function getTrackerUrl()
+	public static function getTrackerUrl()
 	{
 		return self::getRootUrl().'tests/PHPUnit/proxy/piwik.php';
 	}
