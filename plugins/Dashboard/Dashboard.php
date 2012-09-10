@@ -44,7 +44,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 		$nameless = 1;
 		foreach ($dashboards AS &$dashboard) {
 			if (!empty($dashboard['name'])) {
-				$dashboard['name'] = Piwik_Common::unsanitizeInputValue($dashboard['name']);
+				$dashboard['name'] = $dashboard['name'];
 			} else {
 				$dashboard['name'] = Piwik_Translate('Dashboard_DashboardOf', $login);
 				if($nameless > 1) {
@@ -62,6 +62,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 				$dashboard['layout'] = Piwik_Common::json_decode($layout);
 				$nameless++;
 			}
+			$dashboard['name'] = Piwik_Common::unsanitizeInputValue($dashboard['name']);
 			$pos++;
 		}
 		return $dashboards;

@@ -3,7 +3,7 @@
     {include file="CoreHome/templates/period_select.tpl"}
     <div id="Dashboard"><ul>
     {foreach from=$dashboards item=dashboard}
-        <li class="dashboardMenuItem" id="Dashboard_embeddedIndex_{$dashboard.iddashboard}"><a href="javascript:$('#dashboardWidgetsArea').dashboard('loadDashboard', {$dashboard.iddashboard});">{$dashboard.name}</a></li>
+        <li class="dashboardMenuItem" id="Dashboard_embeddedIndex_{$dashboard.iddashboard}"><a href="javascript:$('#dashboardWidgetsArea').dashboard('loadDashboard', {$dashboard.iddashboard});">{$dashboard.name|escape}</a></li>
     {/foreach}
     </ul></div>
     <div class="clear"></div>
