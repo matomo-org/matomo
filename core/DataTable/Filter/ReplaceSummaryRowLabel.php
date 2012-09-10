@@ -47,5 +47,15 @@ class Piwik_DataTable_Filter_ReplaceSummaryRowLabel extends Piwik_DataTable_Filt
 				break;
 			}
 		}
+		
+		// recurse
+		foreach ($rows as $row)
+		{
+			if ($row->isSubtableLoaded())
+			{
+				$subTable = Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable());
+				$this->filter($subTable);
+			}
+		}
 	}
 }

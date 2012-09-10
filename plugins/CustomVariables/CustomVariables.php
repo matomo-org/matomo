@@ -316,7 +316,9 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		$recordName = 'CustomVariables_valueByName';
 		$table = $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestByCustomVariablesAndValue, $this->interestByCustomVariables);
 
-		$blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable);
+		$blob = $table->getSerialized(
+			$this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
+			$columnToSort = Piwik_Archive::INDEX_NB_VISITS);
 		$archiveProcessing->insertBlobRecord($recordName, $blob);
 		destroy($table);
 	}
@@ -332,6 +334,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
 		$dataTableToSum = 'CustomVariables_valueByName';
-		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable);
+		$nameToCount = $archiveProcessing->archiveDataTable(
+			$dataTableToSum, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, 
+			$columnToSort = Piwik_Archive::INDEX_NB_VISITS);
 	}
 }

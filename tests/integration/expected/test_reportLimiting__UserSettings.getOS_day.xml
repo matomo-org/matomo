@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Linux</label>
+		<nb_uniq_visitors>4</nb_uniq_visitors>
+		<nb_visits>16</nb_visits>
+		<nb_actions>16</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>16</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/UserSettings/images/os/LIN.gif</logo>
+		<shortLabel>Linux</shortLabel>
+	</row>
+	<row>
+		<label>Android</label>
+		<nb_uniq_visitors>3</nb_uniq_visitors>
+		<nb_visits>12</nb_visits>
+		<nb_actions>12</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>12</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/UserSettings/images/os/AND.gif</logo>
+		<shortLabel>Android</shortLabel>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_uniq_visitors>8</nb_uniq_visitors>
+		<nb_visits>32</nb_visits>
+		<nb_actions>32</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>32</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<logo>plugins/UserSettings/images/os/-1.gif</logo>
+		<shortLabel>-1</shortLabel>
+	</row>
+</result>

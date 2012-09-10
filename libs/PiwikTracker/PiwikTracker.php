@@ -89,7 +89,7 @@ class PiwikTracker
     	{
     		self::$URL = $apiUrl;
     	}
-    	$this->visitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
+    	$this->setNewVisitorId();
     	
 		// Allow debug while blocking the request
     	$this->requestTimeout = 600;
@@ -222,8 +222,13 @@ class PiwikTracker
     	return $cookieDecoded[$id];
     }
     
-    
-    
+    /**
+     * Sets the current visitor ID to a random new one.
+     */
+    public function setNewVisitorId()
+    {
+    	$this->visitorId = substr(md5(uniqid(rand(), true)), 0, self::LENGTH_VISITOR_ID);
+    }
     
     /**
      * Sets the Browser language. Used to guess visitor countries when GeoIP is not enabled
@@ -780,7 +785,11 @@ class PiwikTracker
     	// if doing a bulk request, store the url
     	if ($this->doBulkRequests && !$force)
     	{
-    		$this->storedTrackingActions[] = $url;
+    		$this->storedTrackingActions[]
+    			= $url
+    			. (!empty($this->userAgent) ? ('&ua='.urlencode($this->userAgent)) : '')
+    			. (!empty($this->acceptLanguage) ? ('&lang='.urlencode($this->acceptLanguage)) : '')
+    			;
     		return true;
     	}
     	
