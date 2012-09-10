@@ -40,11 +40,11 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		// truncate report
 		$graphHeight = $this->getGraphBottom($horizontalGraph = true) - $this->getGridTopMargin($horizontalGraph = true, $verticalLegend);
 
-		$maximumTextHeight = $this->getMaximumTextHeight();
-		$abscissaMaxHeight = $maximumTextHeight;
+		list($abscissaMaxWidth, $abscissaMaxHeight) = $this->getMaximumTextWidthHeight($this->abscissaSeries);
+		list($ordinateMaxWidth, $ordinateMaxHeight) = $this->getMaximumTextWidthHeight($this->ordinateSeries);
 
 		$numberOfSeries = count($this->ordinateSeries);
-		$ordinateMaxHeight = $maximumTextHeight * $numberOfSeries;
+		$ordinateMaxHeight = $ordinateMaxHeight * $numberOfSeries;
 
 		$textMaxHeight = $abscissaMaxHeight > $ordinateMaxHeight ? $abscissaMaxHeight : $ordinateMaxHeight;
 
@@ -103,7 +103,7 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 			while($paddingWidth < $maxLogoWidth + self::LOGO_MIN_RIGHT_MARGIN)
 			{
 				$paddingText .= self::PADDING_CHARS;
-				$paddingWidth = $this->getTextWidth($paddingText);
+				list($paddingWidth, $paddingHeight) = $this->getTextWidthHeight($paddingText);
 			}
 		}
 
@@ -114,7 +114,8 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 		$metricLegendWidth = 0;
 		foreach($this->ordinateLabels as $column => $label)
 		{
-			$metricLegendWidth += $this->getTextWidth($label);
+			list($textWidth, $textHeight) = $this->getTextWidthHeight($label);
+			$metricLegendWidth += $textWidth;
 		}
 
 		$legendWidth = $metricLegendWidth + ((self::LEGEND_LEFT_MARGIN + self::LEGEND_SQUARE_WIDTH)  * $numberOfSeries);
@@ -135,10 +136,12 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 				- $minGraphSize;
 
 		// truncate labels if needed
-		$truncationTextWidth = $this->getTextWidth(self::TRUNCATION_TEXT);
+		list($textWidth, $textHeight) = $this->getTextWidthHeight(self::TRUNCATION_TEXT);
+		$truncationTextWidth = $textWidth;
 		foreach($this->abscissaSeries as &$label)
 		{
-			$labelWidth = $this->getTextWidth($label);
+			list($textWidth, $textHeight) = $this->getTextWidthHeight($label);
+			$labelWidth = $textWidth;
 			if($labelWidth > $labelWidthLimit)
 			{
 				$averageCharWidth = $labelWidth / strlen($label);

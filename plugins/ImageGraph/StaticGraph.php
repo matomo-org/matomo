@@ -28,8 +28,6 @@ abstract class Piwik_ImageGraph_StaticGraph
 	const GRAPH_TYPE_3D_PIE = "3dPie";
 	const GRAPH_TYPE_BASIC_PIE = "pie";
 
-	const CAUTIONARY_FONT_HEIGHT_OFFSET = 4;
-
 	static private $availableStaticGraphTypes = array(
 		self::GRAPH_TYPE_BASIC_LINE => 'Piwik_ImageGraph_StaticGraph_Evolution',
 		self::GRAPH_TYPE_VERTICAL_BAR => 'Piwik_ImageGraph_StaticGraph_VerticalBar',
@@ -248,7 +246,7 @@ abstract class Piwik_ImageGraph_StaticGraph
 		);
 	}
 
-	protected function getTextWidth($text, $fontSize = false)
+	protected function getTextWidthHeight($text, $fontSize = false)
 	{
 		if(!$fontSize)
 		{
@@ -261,7 +259,6 @@ abstract class Piwik_ImageGraph_StaticGraph
 		}
 
 		// could not find a way to get pixel perfect width & height info using imageftbbox
-		// drawing the text with no opacity and looking at its properties does return accurate width (not height)
 		$textInfo = $this->pImage->drawText(
 			0, 0, $text,
 			array(
@@ -271,10 +268,10 @@ abstract class Piwik_ImageGraph_StaticGraph
 			)
 		);
 
-		return $textInfo[1]["X"] + 1;
+		return array($textInfo[1]["X"] + 1, $textInfo[0]["Y"]-$textInfo[2]["Y"]);
 	}
 
-	protected function getMaximumTextWidth($values)
+	protected function getMaximumTextWidthHeight($values)
 	{
 		if(array_values($values) === $values)
 		{
@@ -282,33 +279,26 @@ abstract class Piwik_ImageGraph_StaticGraph
 		}
 
 		$maxWidth = 0;
+		$maxHeight = 0;
 		foreach($values as $column => $data)
 		{
 			foreach($data as $value)
 			{
-				$valueWidth= $this->getTextWidth($value);
+				list($valueWidth, $valueHeight) = $this->getTextWidthHeight($value);
 
 				if($valueWidth > $maxWidth)
 				{
 					$maxWidth = $valueWidth;
 				}
+
+				if($valueHeight > $maxHeight)
+				{
+					$maxHeight = $valueHeight;
+				}
 			}
 		}
 
-		return $maxWidth;
-	}
-
-	protected function getMaximumTextHeight($fontSize = false)
-	{
-		if(!$fontSize)
-		{
-			$fontSize = $this->fontSize;
-		}
-
-		// could not find a way to accurately get a text height
-		// pChart uses the font size, however, the font size is not always the maximum character height
-		// after trialing, a safe cautionary font height offset has been set
-		return $fontSize + self::CAUTIONARY_FONT_HEIGHT_OFFSET;
+		return array($maxWidth, $maxHeight);
 	}
 
 	private static function hex2rgb($hexColor)

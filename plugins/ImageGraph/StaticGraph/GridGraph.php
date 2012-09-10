@@ -35,12 +35,13 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	const LEGEND_LEFT_MARGIN = 5;
 	const HORIZONTAL_LEGEND_BOTTOM_MARGIN = 10;
 	const HORIZONTAL_LEGEND_FONT_SIZE_OFFSET = 2;
-	const LEGEND_BULLET_SIZE = 5;
+	const LEGEND_LINE_BULLET_WIDTH = 9;
+	const LEGEND_BOX_BULLET_WIDTH = 5;
 	const LEGEND_BULLET_RIGHT_PADDING = 5;
 	const LEGEND_ITEM_HORIZONTAL_INTERSTICE = 6;
-	const LEGEND_ITEM_VERTICAL_INTERSTICE = 12;
-	const LEGEND_SHADOW_OPACITY = 20;
-	const LEGEND_SHADOW_PADDING = 2;
+	const LEGEND_ITEM_VERTICAL_INTERSTICE_OFFSET = 4;
+	const LEGEND_SHADOW_OPACITY = 25;
+	const LEGEND_SHADOW_PADDING = 6;
 	const PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE = 5;
 
 	protected function getDefaultColors()
@@ -94,7 +95,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 		$skippedLabels = 0;
 		if(!$horizontalGraph)
 		{
-			$abscissaMaxWidth = $this->getMaximumTextWidth($this->abscissaSeries);
+			list($abscissaMaxWidth, $abscissaMaxHeight) = $this->getMaximumTextWidthHeight($this->abscissaSeries);
 			$graphWidth = $bottomRightXValue - $topLeftXValue;
 			$maxNumOfLabels = floor($graphWidth / ($abscissaMaxWidth + self::LABEL_SPACE_VERTICAL_GRAPH));
 
@@ -119,11 +120,11 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 					}
 				}
 			}
-		}
 
-		if($this->forceSkippedLabels && $skippedLabels && $skippedLabels < $this->forceSkippedLabels)
-		{
-			$skippedLabels = $this->forceSkippedLabels;
+			if($this->forceSkippedLabels && $skippedLabels && $skippedLabels < $this->forceSkippedLabels)
+			{
+				$skippedLabels = $this->forceSkippedLabels;
+			}
 		}
 
 		$ordinateAxisLength =
@@ -171,39 +172,65 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 		if($this->showLegend)
 		{
-			$legendFontSize = $this->getLegendFontSize($verticalLegend);
-			$maxLegendTextHeight = $this->getMaximumTextHeight($legendFontSize);
-			$legendTopLeftXValue = $topLeftXValue + self::LEGEND_LEFT_MARGIN;
+			// currently only used in evolution graphs
+			if($drawCircles)
+			{
+				$bulletType = LEGEND_FAMILY_LINE;
+				$bulletWidth = self::LEGEND_LINE_BULLET_WIDTH;
+				$nbPixelsAboveSymmetricalAxe = 0;
+			}
+			else
+			{
+				$bulletType = LEGEND_FAMILY_BOX;
+				$bulletWidth = self::LEGEND_BOX_BULLET_WIDTH;
+				$nbPixelsAboveSymmetricalAxe = 3;
+			}
 
-			// this value is used by pChart to position the top edge of item bullets
-			$legendTopLeftYValue = ($verticalLegend ? 0 : self::HORIZONTAL_LEGEND_TOP_MARGIN) + ($maxLegendTextHeight / 4);
+			$legendFontSize = $this->getLegendFontSize($verticalLegend);
+			$legendTopLeftXValue = $topLeftXValue + self::LEGEND_LEFT_MARGIN;
 
 			// maximum logo width & height
 			list($maxLogoWidth, $maxLogoHeight) = self::getMaxLogoSize(array_values($this->ordinateLogos));
+			if($maxLogoHeight >= $legendFontSize)
+			{
+				$heightOfTextAboveBulletTop = 0;
+				$effectiveShadowPadding = self::LEGEND_SHADOW_PADDING - ($maxLogoHeight - $legendFontSize);
+			}
+			else
+			{
+				$heightOfTextAboveBulletTop = $legendFontSize / 2 - $nbPixelsAboveSymmetricalAxe;
+				$effectiveShadowPadding = self::LEGEND_SHADOW_PADDING;
+			}
+
+			$itemVerticalInterstice = $legendFontSize + self::LEGEND_ITEM_VERTICAL_INTERSTICE_OFFSET;
+
+			// this value is used by pChart to position the top edge of item bullets, pChart will add to this value half of $itemVerticalInterstice
+			$legendTopLeftYValue = ($verticalLegend ? 0 : self::HORIZONTAL_LEGEND_TOP_MARGIN) + $heightOfTextAboveBulletTop + $effectiveShadowPadding / 2;
 
 			// add colored background to each legend item
 			if(count($this->ordinateLabels) > 1)
 			{
-				$currentPosition = $verticalLegend ? $legendTopLeftYValue - self::LEGEND_SHADOW_PADDING: $legendTopLeftXValue;
+				$currentPosition = $verticalLegend ? ($heightOfTextAboveBulletTop ? $itemVerticalInterstice : 0) / 2 : $legendTopLeftXValue;
 				$colorIndex = 1;
 				foreach($this->ordinateLabels as $metricCode => $label)
 				{
 					$color = $this->colors[self::GRAPHIC_COLOR_KEY . $colorIndex++];
 
-					$bulletSize = self::LEGEND_BULLET_SIZE;
+					$paddedBulletWidth = $bulletWidth;
 					if(isset($this->ordinateLogos[$metricCode]))
 					{
-						$bulletSize = $maxLogoWidth;
+						$paddedBulletWidth = $maxLogoWidth;
 					}
+					$paddedBulletWidth += self::LEGEND_BULLET_RIGHT_PADDING;
 
-					$rectangleTopLeftXValue = $verticalLegend ? $legendTopLeftXValue : $currentPosition;
-					$rectangleTopLeftYValue = $verticalLegend ? $currentPosition : self::HORIZONTAL_LEGEND_TOP_MARGIN - self::LEGEND_SHADOW_PADDING;
+					$rectangleTopLeftXValue = ($verticalLegend ? $legendTopLeftXValue : $currentPosition) + $paddedBulletWidth;
+					$rectangleTopLeftYValue = $verticalLegend ? $currentPosition : self::HORIZONTAL_LEGEND_TOP_MARGIN;
 
-					$rectangleWidth = $bulletSize + self::LEGEND_BULLET_RIGHT_PADDING + $this->getTextWidth($label, $legendFontSize);
-					$legendItemWidth = $rectangleWidth + self::LEGEND_ITEM_HORIZONTAL_INTERSTICE;
-					$rectangleBottomRightXValue = $rectangleTopLeftXValue + $rectangleWidth;
+					list($labelWidth, $labelHeight) = $this->getTextWidthHeight($label, $legendFontSize);
+					$legendItemWidth = $paddedBulletWidth + $labelWidth + self::LEGEND_ITEM_HORIZONTAL_INTERSTICE;
+					$rectangleBottomRightXValue = $rectangleTopLeftXValue + $labelWidth;
 
-					$legendItemHeight = ($maxLogoHeight > $maxLegendTextHeight ? $maxLogoHeight : $maxLegendTextHeight) + self::LEGEND_SHADOW_PADDING;
+					$legendItemHeight = max($maxLogoHeight, $legendFontSize) + $effectiveShadowPadding;
 					$rectangleBottomRightYValue = $rectangleTopLeftYValue + $legendItemHeight;
 
 					$this->pImage->drawFilledRectangle(
@@ -219,10 +246,16 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 						)
 					);
 
-					$currentPosition +=
-						$verticalLegend
-							? ($maxLogoHeight > self::LEGEND_ITEM_VERTICAL_INTERSTICE ? $maxLogoHeight : self::LEGEND_ITEM_VERTICAL_INTERSTICE) + self::PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE
-							: $legendItemWidth;
+					if($verticalLegend)
+					{
+						$currentPositionIncrement = max($maxLogoHeight, $itemVerticalInterstice, $legendFontSize) + self::PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE;
+					}
+					else
+					{
+						$currentPositionIncrement = $legendItemWidth;
+					}
+
+					$currentPosition += $currentPositionIncrement;
 				}
 			}
 
@@ -234,11 +267,11 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 				array(
 					'Style' => LEGEND_NOBORDER,
 					'FontSize' => $legendFontSize,
-					'BoxWidth' => self::LEGEND_BULLET_SIZE,
+					'BoxWidth' => $bulletWidth,
 					'XSpacing' => self::LEGEND_ITEM_HORIZONTAL_INTERSTICE, // not effective when vertical
 					'Mode' => $verticalLegend ? LEGEND_VERTICAL : LEGEND_HORIZONTAL,
-					'BoxHeight' => $verticalLegend ? self::LEGEND_ITEM_VERTICAL_INTERSTICE : null,
-					'Family' => $drawCircles ? LEGEND_FAMILY_LINE : LEGEND_FAMILY_BOX,
+					'BoxHeight' => $verticalLegend ? $itemVerticalInterstice : null,
+					'Family' => $bulletType,
 					'FontR' => $legendColor['R'],
 					'FontG' => $legendColor['G'],
 					'FontB' => $legendColor['B'],
@@ -305,7 +338,8 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 		if($withLabel)
 		{
-			$gridLeftMargin += $this->getMaximumTextWidth($horizontalGraph ? $this->abscissaSeries : $this->ordinateSeries);
+			list($maxTextWidth, $maxTextHeight) = $this->getMaximumTextWidthHeight($horizontalGraph ? $this->abscissaSeries : $this->ordinateSeries);
+			$gridLeftMargin += $maxTextWidth;
 		}
 
 		return $gridLeftMargin;
@@ -313,7 +347,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 	protected function getGridTopMargin($horizontalGraph, $verticalLegend)
 	{
-		$ordinateMaxHeight = $this->getMaximumTextHeight();
+		list($ordinateMaxWidth, $ordinateMaxHeight) = $this->getMaximumTextWidthHeight($this->ordinateSeries);
 
 		if($horizontalGraph)
 		{
@@ -334,7 +368,10 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 	private function getHorizontalLegendHeight()
 	{
-		return $this->getMaximumTextHeight($this->getLegendFontSize($verticalLegend = false)) + self::HORIZONTAL_LEGEND_BOTTOM_MARGIN + self::HORIZONTAL_LEGEND_TOP_MARGIN;
+		list($maxMetricLegendWidth, $maxMetricLegendHeight) =
+			$this->getMaximumTextWidthHeight(array_values($this->ordinateLabels), $this->getLegendFontSize($verticalLegend = false));
+
+		return $maxMetricLegendHeight + self::HORIZONTAL_LEGEND_BOTTOM_MARGIN + self::HORIZONTAL_LEGEND_TOP_MARGIN;
 	}
 
 	protected function getGraphHeight($horizontalGraph, $verticalLegend)
@@ -347,7 +384,8 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 		$gridBottomMargin = self::BOTTOM_GRID_MARGIN;
 		if(!$horizontalGraph)
 		{
-			$gridBottomMargin += $this->getMaximumTextHeight();
+			list($abscissaMaxWidth, $abscissaMaxHeight) = $this->getMaximumTextWidthHeight($this->abscissaSeries);
+			$gridBottomMargin += $abscissaMaxHeight;
 		}
 		return $gridBottomMargin;
 	}
@@ -357,7 +395,8 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 		if($horizontalGraph)
 		{
 			// in horizontal graphs, metric values are displayed on the far right of the bar
-			return self::RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH + $this->getMaximumTextWidth($this->ordinateSeries);
+			list($ordinateMaxWidth, $ordinateMaxHeight) = $this->getMaximumTextWidthHeight($this->ordinateSeries);
+			return self::RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH + $ordinateMaxWidth;
 		}
 		else
 		{
