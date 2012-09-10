@@ -458,6 +458,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 				$additionalEMails = $parameters[self::ADDITIONAL_EMAILS_PARAMETER];
 				$recipients = array_merge($recipients, $additionalEMails);
 			}
+			$recipients = array_filter($recipients);
 		}
 	}
 
@@ -615,11 +616,16 @@ class Piwik_PDFReports extends Piwik_Plugin
 		foreach($additionalEmails as &$email)
 		{
 			$email = trim($email);
-			if(!Piwik::isValidEmailString($email))
+			if(empty($email))
+			{
+				$email = false;
+			}
+			elseif(!Piwik::isValidEmailString($email))
 			{
 				throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidEmail') . ' ('.$email.')');
 			}
 		}
+		$additionalEmails = array_filter($additionalEmails);
 		return $additionalEmails;
 	}
 
