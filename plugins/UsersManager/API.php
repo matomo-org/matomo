@@ -542,7 +542,11 @@ class Piwik_UsersManager_API
 		{
 			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		}
-		
+
+		if(empty($idSites))
+		{
+			throw new Exception('Specify at least one website ID in &idSites=');
+		}
 		// it is possible to set user access on websites only for the websites admin
 		// basically an admin can give the view or the admin access to any user for the websites he manages
 		Piwik::checkUserHasAdminAccess( $idSites );

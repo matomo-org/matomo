@@ -187,16 +187,15 @@ class Piwik_Site
 	/**
 	 * Checks the given string for valid site ids and returns them as an array
 	 *
-	 * @param string $string comma separated idSite list
+	 * @param string $ids comma separated idSite list
 	 * @return array of valid integer
 	 */
-	static public function getIdSitesFromIdSitesString( $string )
+	static public function getIdSitesFromIdSitesString( $ids )
 	{
-		if(is_array($string))
+		if(!is_array($ids))
 		{
-			return $string;
+			$ids = explode(',', $ids);
 		}
-		$ids = explode(',', $string);
 		$validIds = array();
 		foreach($ids as $id)
 		{
@@ -206,6 +205,9 @@ class Piwik_Site
 			    $validIds[] = $id;
 			}
 		}
+		$validIds = array_filter($validIds);
+		$validIds = array_unique($validIds);
+
 		return $validIds;
 	}
 
