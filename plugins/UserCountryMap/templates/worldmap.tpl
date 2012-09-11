@@ -28,7 +28,7 @@
 	var isSafari = (navigator.userAgent.toLowerCase().indexOf("safari") != -1 &&
             navigator.userAgent.toLowerCase().indexOf("chrome") == -1);
 	
-	fv.dataUrl = encodeURIComponent("{$dataUrl}");
+	fv.dataUrl = encodeURIComponent("{$dataUrl|escape:'javascript'}");
 	fv.hueMin = {$hueMin};
 	fv.hueMax = {$hueMax};
 	fv.satMin = {$satMin};
