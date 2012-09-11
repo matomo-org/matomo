@@ -5,7 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @version $Id$
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_ImageGraph
  */
@@ -13,24 +13,24 @@
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
  * Supported graph types are: line plot, 2D/3D pie chart and vertical bar chart.
- * 
+ *
  * A few notes about some of the parameters available:<br/>
  * - $graphType defines the type of graph plotted, accepted values are: 'evolution', 'verticalBar', 'pie' and '3dPie'<br/>
  * - $colors accepts a comma delimited list of colors that will overwrite the default Piwik colors <br/>
  * - you can also customize the width, height, font size, metric being plotted (in case the data contains multiple columns/metrics).
- * 
+ *
  * See also <a href='http://piwik.org/docs/analytics-api/metadata/#toc-static-image-graphs'>How to embed static Image Graphs?</a> for more information.
- * 
+ *
  * @package Piwik_ImageGraph
- */ 
+ */
 class Piwik_ImageGraph_API
 {
 	const FILENAME_KEY = 'filename';
 	const TRUNCATE_KEY = 'truncate';
 	const WIDTH_KEY = 'width';
 	const HEIGHT_KEY = 'height';
-	const MAX_WIDTH = 1024;
-	const MAX_HEIGHT = 1024; 
+	const MAX_WIDTH = 1900;
+	const MAX_HEIGHT = 1024;
 
 	static private $DEFAULT_PARAMETERS = array(
 		Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_BASIC_LINE => array(
@@ -104,7 +104,7 @@ class Piwik_ImageGraph_API
 		}
 		return self::$instance;
 	}
-	
+
 	public function get($idSite, $period, $date, $apiModule, $apiAction, $graphType = false,
 						$outputType = Piwik_ImageGraph_API::GRAPH_OUTPUT_INLINE, $columns = false, $labels = false, $showLegend = true,
 						$width = false, $height = false, $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE, $aliasedGraph = true,
@@ -119,7 +119,7 @@ class Piwik_ImageGraph_API
 		}
 
 		$useUnicodeFont = array(
-			'am', 'ar', 'el', 'fa' , 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw', 
+			'am', 'ar', 'el', 'fa' , 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
 		);
 		$languageLoaded = Piwik_Translate::getInstance()->getLanguageLoaded();
 		$font = self::getFontPath(self::DEFAULT_FONT);
@@ -128,7 +128,7 @@ class Piwik_ImageGraph_API
 			$unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
 			$font = file_exists($unicodeFontPath) ? $unicodeFontPath : $font;
 		}
-		
+
 		// save original GET to reset after processing. Important for API-in-API-call
 		$savedGET = $_GET;
 
@@ -476,7 +476,7 @@ class Piwik_ImageGraph_API
 			{
 				throw new Exception(Piwik_Translate('General_NoDataForGraph'));
 			}
-			
+
 			//Setup the graph
 			$graph = Piwik_ImageGraph_StaticGraph::factory($graphType);
 			$graph->setWidth($width);
@@ -498,7 +498,7 @@ class Piwik_ImageGraph_API
 
 			// render graph
 			$graph->renderGraph();
-			
+
 		} catch (Exception $e) {
 
 			$graph = new Piwik_ImageGraph_StaticGraph_Exception();
@@ -544,7 +544,7 @@ class Piwik_ImageGraph_API
 	{
 		$_GET['filter_truncate'] = Piwik_Common::getRequestVar('filter_truncate', $default, 'int');
 	}
-	
+
 	private static function parseOrdinateValue($ordinateValue)
 	{
 		$ordinateValue = @str_replace(',', '.', $ordinateValue);
