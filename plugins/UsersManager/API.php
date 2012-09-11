@@ -489,7 +489,7 @@ class Piwik_UsersManager_API
 	}
 	
 	/**
-	 * Returns true if user with given email (userEmail) is known in the database
+	 * Returns true if user with given email (userEmail) is known in the database, or the super user
 	 *
 	 * @return bool true if the user is known
 	 */
@@ -499,7 +499,8 @@ class Piwik_UsersManager_API
 		$count = Piwik_FetchOne("SELECT count(*) 
 								FROM ".Piwik_Common::prefixTable("user"). " 
 								WHERE email = ?", $userEmail);
-		return $count != 0;	
+		return $count != 0
+				||  Piwik_Config::getInstance()->superuser['email'] == $userEmail;
 	}
 	
 	/**
