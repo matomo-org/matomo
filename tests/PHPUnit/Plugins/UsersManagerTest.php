@@ -650,13 +650,14 @@ class UsersManagerTest extends DatabaseTestCase
     public function testSetUserAccessIdsitesEmpty()
     {
         Piwik_UsersManager_API::getInstance()->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com", "alias");
-        
-        Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array());
-        
-        $access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
-        $access = $this->_flatten($access);
-        $this->assertEquals( array(), $access);
-        
+
+	    try {
+	        Piwik_UsersManager_API::getInstance()->setUserAccess("gegg4564eqgeqag", "view", array());
+		    $access = Piwik_UsersManager_API::getInstance()->getSitesAccessFromUser("gegg4564eqgeqag");
+	    } catch(Exception $e) {
+		    return;
+	    }
+	    $this->fail('Expected exception not raised');
     }
     
     /**
