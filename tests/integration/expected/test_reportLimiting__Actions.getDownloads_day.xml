@@ -12,7 +12,7 @@
 		<exit_nb_visits>5</exit_nb_visits>
 		<subtable>
 			<row>
-				<label>//download</label>
+				<label>/20/download</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
@@ -24,7 +24,7 @@
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<url>http://cloudsite5.com//download</url>
+				<url>http://cloudsite5.com/20/download</url>
 			</row>
 			<row>
 				<label>Others</label>
@@ -54,7 +54,7 @@
 		<exit_nb_visits>5</exit_nb_visits>
 		<subtable>
 			<row>
-				<label>//download</label>
+				<label>/24/download</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
@@ -66,7 +66,7 @@
 				<entry_bounce_count>1</entry_bounce_count>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>
-				<url>http://cloudsite6.com//download</url>
+				<url>http://cloudsite6.com/24/download</url>
 			</row>
 			<row>
 				<label>Others</label>

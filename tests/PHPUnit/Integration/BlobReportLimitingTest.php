@@ -227,7 +227,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 		}
 		else if ($actionType == 'download')
 		{
-			$root = is_null($actionNum) ? "http://cloudsite$visitorCounter.com/"
+			$root = is_null($actionNum) ? "http://cloudsite$visitorCounter.com"
 				: "http://cloudsite$visitorCounter.com/$actionNum";
 			
 			$t->doTrackAction("$root/download", 'download');
