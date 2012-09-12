@@ -3,31 +3,31 @@
 	<row>
 		<label>Linux / Firefox / 1920x1080</label>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
-		<nb_visits>8</nb_visits>
-		<nb_actions>8</nb_actions>
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>8</bounce_count>
+		<bounce_count>10</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 	<row>
 		<label>Android / Chrome / 1280x1024</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits>4</nb_visits>
-		<nb_actions>4</nb_actions>
+		<nb_visits>5</nb_visits>
+		<nb_actions>5</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>4</bounce_count>
+		<bounce_count>5</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 	<row>
 		<label>Others</label>
 		<nb_uniq_visitors>12</nb_uniq_visitors>
-		<nb_visits>48</nb_visits>
-		<nb_actions>48</nb_actions>
+		<nb_visits>60</nb_visits>
+		<nb_actions>60</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>48</bounce_count>
+		<bounce_count>60</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 </result>

@@ -2,12 +2,12 @@
 <result>
 	<row>
 		<label>Direct Entry</label>
-		<nb_uniq_visitors>10</nb_uniq_visitors>
-		<nb_visits>40</nb_visits>
-		<nb_actions>40</nb_actions>
+		<nb_uniq_visitors>15</nb_uniq_visitors>
+		<nb_visits>55</nb_visits>
+		<nb_actions>55</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>40</bounce_count>
+		<bounce_count>55</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 	</row>
 	<row>

@@ -3,11 +3,11 @@
 	<row>
 		<label>Firefox 6.0</label>
 		<nb_uniq_visitors>3</nb_uniq_visitors>
-		<nb_visits>12</nb_visits>
-		<nb_actions>12</nb_actions>
+		<nb_visits>15</nb_visits>
+		<nb_actions>15</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>12</bounce_count>
+		<bounce_count>15</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/UserSettings/images/browsers/FF.gif</logo>
 		<shortLabel>Firefox 6.0</shortLabel>
@@ -15,11 +15,11 @@
 	<row>
 		<label>Chrome 3.0</label>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
-		<nb_visits>8</nb_visits>
-		<nb_actions>8</nb_actions>
+		<nb_visits>10</nb_visits>
+		<nb_actions>10</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>8</bounce_count>
+		<bounce_count>10</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
 		<shortLabel>Chrome 3.0</shortLabel>
@@ -27,11 +27,11 @@
 	<row>
 		<label>Others</label>
 		<nb_uniq_visitors>10</nb_uniq_visitors>
-		<nb_visits>40</nb_visits>
-		<nb_actions>40</nb_actions>
+		<nb_visits>50</nb_visits>
+		<nb_actions>50</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>40</bounce_count>
+		<bounce_count>50</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
 		<shortLabel>-1</shortLabel>

@@ -174,17 +174,22 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 			list($w, $h) = explode('x', $resolutions[$visitorCounter]);
 			$t->setResolution((int)$w, (int)$h);
 			
+			// one visit to root url
+			$t->setUrl("http://piwik.net/$visitorCounter/");
+			$t->setUrlReferrer(null);
+			$t->setForceVisitDateTime($visitDate->getDatetime());
+			self::trackAction($t, $actionType, $visitorCounter, null);
+			
 			for ($j = 0; $j != 4; ++$j)
 			{
 				// NOTE: to test referers w/o creating too many visits, we don't actually track 4 actions, but
 				//	   4 separate visits
-				$actionDate = $visitDate->addHour($j);
+				$actionDate = $visitDate->addHour($j + 1);
 				
 				$actionIdx = $i * 4 + $j;
 				$actionNum = $visitorCounter * 4 + $j;
 				
 				$t->setUrl("http://piwik.net/$visitorCounter/$actionNum");
-				
 				$t->setForceVisitDateTime($actionDate->getDatetime());
 				
 				if (!is_null($referrers))
@@ -208,19 +213,29 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 					}
 				}
 				
-				if ($actionType == 'pageview')
-				{
-					$t->doTrackPageView("title_$visitorCounter / title_$actionNum");
-				}
-				else if ($actionType == 'download')
-				{
-					$t->doTrackAction("http://cloudsite$visitorCounter.com/$actionNum/download", 'download');
-				}
-				else if ($actionType == 'outlink')
-				{
-					$t->doTrackAction("http://othersite$visitorCounter.com/$actionNum/", 'link');
-				}
+				self::trackAction($t, $actionType, $visitorCounter, $actionNum);
 			}
+		}
+	}
+	
+	private static function trackAction($t, $actionType, $visitorCounter, $actionNum)
+	{
+		if ($actionType == 'pageview')
+		{
+			$t->doTrackPageView(
+				is_null($actionNum) ? "title_$visitorCounter" : "title_$visitorCounter / title_$actionNum");
+		}
+		else if ($actionType == 'download')
+		{
+			$root = is_null($actionNum) ? "http://cloudsite$visitorCounter.com/"
+				: "http://cloudsite$visitorCounter.com/$actionNum";
+			
+			$t->doTrackAction("$root/download", 'download');
+		}
+		else if ($actionType == 'outlink')
+		{
+			$t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
+				: "http://othersite$visitorCounter.com/$actionNum/", 'link');
 		}
 	}
 }

@@ -102,14 +102,17 @@
 	</row>
 	<row>
 		<label>Others</label>
-		<nb_visits>12</nb_visits>
-		<nb_hits>12</nb_hits>
+		<nb_visits>17</nb_visits>
+		<nb_hits>17</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<entry_nb_visits>12</entry_nb_visits>
-		<entry_nb_actions>12</entry_nb_actions>
+		<entry_nb_visits>17</entry_nb_visits>
+		<entry_nb_actions>17</entry_nb_actions>
 		<entry_sum_visit_length>0</entry_sum_visit_length>
-		<entry_bounce_count>12</entry_bounce_count>
-		<exit_nb_visits>12</exit_nb_visits>
+		<entry_bounce_count>17</entry_bounce_count>
+		<exit_nb_visits>17</exit_nb_visits>
+		<nb_uniq_visitors>5</nb_uniq_visitors>
+		<entry_nb_uniq_visitors>5</entry_nb_uniq_visitors>
+		<exit_nb_uniq_visitors>5</exit_nb_uniq_visitors>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
