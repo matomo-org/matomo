@@ -746,7 +746,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$toRecord = Piwik_Common::getRequestVar($parameterForceRecord, false, 'int', $this->request);
 			if(!$toRecord)
 			{
-				printDebug($_SERVER['REQUEST_METHOD'].' parameter '.$parameterForceRecord.' not found in URL, request excluded');
+				printDebug(@$_SERVER['REQUEST_METHOD'].' parameter '.$parameterForceRecord.' not found in URL, request excluded');
 				$excluded = true;
 				printDebug("'$parameterForceRecord' parameter not found.");
 			}

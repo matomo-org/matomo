@@ -121,10 +121,7 @@ class FakeAccess
 			$websitesAccess=Piwik_SitesManager_API::getInstance()->getAllSitesId();
 		}
 		
-		if(!is_array($idSites))
-		{
-			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
-		}
+		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		foreach($idSites as $idsite)
 		{
 			if(!in_array($idsite, $websitesAccess))

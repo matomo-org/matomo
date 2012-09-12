@@ -55,11 +55,8 @@ class Piwik_Goals_API
 	{
 		//TODO calls to this function could be cached as static
 		// would help UI at least, since some UI requests would call this 2-3 times..
-		if(!is_array($idSite))
-		{
-			$idSite = Piwik_Site::getIdSitesFromIdSitesString($idSite);
-		}
-		if(empty($idSite)) 
+		$idSite = Piwik_Site::getIdSitesFromIdSitesString($idSite);
+		if(empty($idSite))
 		{
 			return array();
 		}

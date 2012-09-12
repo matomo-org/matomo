@@ -539,7 +539,7 @@ class Piwik_UsersManager_API
 			$idSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAdminAccess();
 		}
 		// in case the idSites is an integer we build an array		
-		elseif(!is_array($idSites))
+		else
 		{
 			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		}

@@ -85,7 +85,7 @@ class Piwik_RankingQuery
 	 * The constructor.
 	 * Can be used as a shortcut for setLimit() 
 	 */
-	public function __construct($limit=false)
+	public function __construct($limit = false)
 	{
 		if ($limit !== false)
 		{

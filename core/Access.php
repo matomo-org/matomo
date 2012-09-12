@@ -394,10 +394,7 @@ class Piwik_Access
 			$idSites = $this->getSitesIdWithAtLeastViewAccess();
 		}
 		
-		if(!is_array($idSites))
-		{
-			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
-		}
+		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		if(empty($idSites))
 		{
 			throw new Piwik_Access_NoAccessException("The parameter 'idSite=' is missing from the request.");
