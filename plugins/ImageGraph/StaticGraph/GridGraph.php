@@ -32,7 +32,9 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	const LABEL_SPACE_VERTICAL_GRAPH = 10;
 
 	const HORIZONTAL_LEGEND_TOP_MARGIN = 5;
-	const LEGEND_LEFT_MARGIN = 5;
+	const VERTICAL_LEGEND_TOP_MARGIN = 8;
+	const HORIZONTAL_LEGEND_LEFT_MARGIN = 5;
+	const VERTICAL_LEGEND_LEFT_MARGIN = 10;
 	const HORIZONTAL_LEGEND_BOTTOM_MARGIN = 10;
 	const HORIZONTAL_LEGEND_FONT_SIZE_OFFSET = 2;
 	const LEGEND_LINE_BULLET_WIDTH = 9;
@@ -41,7 +43,8 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	const LEGEND_ITEM_HORIZONTAL_INTERSTICE = 6;
 	const LEGEND_ITEM_VERTICAL_INTERSTICE_OFFSET = 4;
 	const LEGEND_SHADOW_OPACITY = 25;
-	const LEGEND_SHADOW_PADDING = 6;
+	const LEGEND_VERTICAL_SHADOW_PADDING = 3;
+	const LEGEND_HORIZONTAL_SHADOW_PADDING = 2;
 	const PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE = 5;
 
 	protected function getDefaultColors()
@@ -187,30 +190,39 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 			}
 
 			$legendFontSize = $this->getLegendFontSize($verticalLegend);
-			$legendTopLeftXValue = $topLeftXValue + self::LEGEND_LEFT_MARGIN;
+			$legendTopLeftXValue = $topLeftXValue + ($verticalLegend ? self::VERTICAL_LEGEND_LEFT_MARGIN : self::HORIZONTAL_LEGEND_LEFT_MARGIN);
 
 			// maximum logo width & height
 			list($maxLogoWidth, $maxLogoHeight) = self::getMaxLogoSize(array_values($this->ordinateLogos));
 			if($maxLogoHeight >= $legendFontSize)
 			{
 				$heightOfTextAboveBulletTop = 0;
-				$effectiveShadowPadding = self::LEGEND_SHADOW_PADDING - ($maxLogoHeight - $legendFontSize);
+				$paddingCreatedByLogo = $maxLogoHeight - $legendFontSize;
+				$effectiveShadowPadding = $paddingCreatedByLogo < self::LEGEND_VERTICAL_SHADOW_PADDING * 2 ? self::LEGEND_VERTICAL_SHADOW_PADDING - ($paddingCreatedByLogo / 2) : 0;
 			}
 			else
 			{
 				$heightOfTextAboveBulletTop = $legendFontSize / 2 - $nbPixelsAboveSymmetricalAxe;
-				$effectiveShadowPadding = self::LEGEND_SHADOW_PADDING;
+				$effectiveShadowPadding = self::LEGEND_VERTICAL_SHADOW_PADDING;
 			}
 
-			$itemVerticalInterstice = $legendFontSize + self::LEGEND_ITEM_VERTICAL_INTERSTICE_OFFSET;
+			$effectiveLegendItemVerticalInterstice = $legendFontSize + self::LEGEND_ITEM_VERTICAL_INTERSTICE_OFFSET;
+			$effectiveLegendItemHorizontalInterstice = self::LEGEND_ITEM_HORIZONTAL_INTERSTICE + self::LEGEND_HORIZONTAL_SHADOW_PADDING;
 
-			// this value is used by pChart to position the top edge of item bullets, pChart will add to this value half of $itemVerticalInterstice
-			$legendTopLeftYValue = ($verticalLegend ? 0 : self::HORIZONTAL_LEGEND_TOP_MARGIN) + $heightOfTextAboveBulletTop + $effectiveShadowPadding / 2;
+			// this value is used by pChart to position the top edge of item bullets, pChart will add to this value half of $effectiveLegendItemVerticalInterstice
+			$legendTopMargin = $verticalLegend ? self::VERTICAL_LEGEND_TOP_MARGIN : self::HORIZONTAL_LEGEND_TOP_MARGIN;
+			$requiredPaddingAboveItemBullet = $legendTopMargin + $heightOfTextAboveBulletTop + $effectiveShadowPadding;
+			$paddingInducedByVerticalInterstice = $verticalLegend ? $effectiveLegendItemVerticalInterstice / 2 : 0;
+			if($maxLogoHeight > $paddingInducedByVerticalInterstice)
+			{
+				$paddingInducedByVerticalInterstice = 0;
+			}
+			$legendTopLeftYValue = $paddingInducedByVerticalInterstice < $requiredPaddingAboveItemBullet ? $requiredPaddingAboveItemBullet - $paddingInducedByVerticalInterstice : 0;
 
 			// add colored background to each legend item
 			if(count($this->ordinateLabels) > 1)
 			{
-				$currentPosition = $verticalLegend ? ($heightOfTextAboveBulletTop ? $itemVerticalInterstice : 0) / 2 : $legendTopLeftXValue;
+				$currentPosition = $verticalLegend ? $legendTopMargin : $legendTopLeftXValue;
 				$colorIndex = 1;
 				foreach($this->ordinateLabels as $metricCode => $label)
 				{
@@ -223,14 +235,14 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 					}
 					$paddedBulletWidth += self::LEGEND_BULLET_RIGHT_PADDING;
 
-					$rectangleTopLeftXValue = ($verticalLegend ? $legendTopLeftXValue : $currentPosition) + $paddedBulletWidth;
-					$rectangleTopLeftYValue = $verticalLegend ? $currentPosition : self::HORIZONTAL_LEGEND_TOP_MARGIN;
+					$rectangleTopLeftXValue = ($verticalLegend ? $legendTopLeftXValue : $currentPosition) + $paddedBulletWidth - self::LEGEND_HORIZONTAL_SHADOW_PADDING;
+					$rectangleTopLeftYValue = $verticalLegend ? $currentPosition : $legendTopMargin;
 
 					list($labelWidth, $labelHeight) = $this->getTextWidthHeight($label, $legendFontSize);
-					$legendItemWidth = $paddedBulletWidth + $labelWidth + self::LEGEND_ITEM_HORIZONTAL_INTERSTICE;
-					$rectangleBottomRightXValue = $rectangleTopLeftXValue + $labelWidth;
+					$legendItemWidth = $paddedBulletWidth + $labelWidth + $effectiveLegendItemHorizontalInterstice;
+					$rectangleBottomRightXValue = $rectangleTopLeftXValue + $labelWidth + (self::LEGEND_HORIZONTAL_SHADOW_PADDING * 2);
 
-					$legendItemHeight = max($maxLogoHeight, $legendFontSize) + $effectiveShadowPadding;
+					$legendItemHeight = max($maxLogoHeight, $legendFontSize) + ($effectiveShadowPadding * 2);
 					$rectangleBottomRightYValue = $rectangleTopLeftYValue + $legendItemHeight;
 
 					$this->pImage->drawFilledRectangle(
@@ -248,7 +260,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 					if($verticalLegend)
 					{
-						$currentPositionIncrement = max($maxLogoHeight, $itemVerticalInterstice, $legendFontSize) + self::PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE;
+						$currentPositionIncrement = max($maxLogoHeight, $effectiveLegendItemVerticalInterstice, $legendFontSize) + self::PCHART_HARD_CODED_VERTICAL_LEGEND_INTERSTICE;
 					}
 					else
 					{
@@ -268,9 +280,9 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 					'Style' => LEGEND_NOBORDER,
 					'FontSize' => $legendFontSize,
 					'BoxWidth' => $bulletWidth,
-					'XSpacing' => self::LEGEND_ITEM_HORIZONTAL_INTERSTICE, // not effective when vertical
+					'XSpacing' => $effectiveLegendItemHorizontalInterstice, // not effective when vertical
 					'Mode' => $verticalLegend ? LEGEND_VERTICAL : LEGEND_HORIZONTAL,
-					'BoxHeight' => $verticalLegend ? $itemVerticalInterstice : null,
+					'BoxHeight' => $verticalLegend ? $effectiveLegendItemVerticalInterstice : null,
 					'Family' => $bulletType,
 					'FontR' => $legendColor['R'],
 					'FontG' => $legendColor['G'],

@@ -118,7 +118,7 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 			$metricLegendWidth += $textWidth;
 		}
 
-		$legendWidth = $metricLegendWidth + ((self::LEGEND_LEFT_MARGIN + self::LEGEND_SQUARE_WIDTH)  * $numberOfSeries);
+		$legendWidth = $metricLegendWidth + ((self::HORIZONTAL_LEGEND_LEFT_MARGIN + self::LEGEND_SQUARE_WIDTH)  * $numberOfSeries);
 		if($this->showLegend)
 		{
 			if($legendWidth > $minGraphSize)
