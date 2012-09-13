@@ -729,7 +729,15 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				$row = $maybeDatatableRow;
 			}
 			
-			$dataTableToReturn->addRow($row);
+			if ($row->getMetadata('issummaryrow') == true)
+			{
+				$row->deleteMetadata('issummaryrow');
+				$dataTableToReturn->addSummaryRow($row);
+			}
+			else
+			{
+				$dataTableToReturn->addRow($row);
+			}
 		}
 		return $dataTableToReturn;
 	}

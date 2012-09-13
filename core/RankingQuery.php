@@ -80,6 +80,11 @@ class Piwik_RankingQuery
 	 */
 	private $partitionColumnValues = array();
 	
+	/**
+	 * The value to use in the label of the 'Others' row.
+	 * @var string
+	 */
+	private $othersLabelValue = 'Others';
 	
 	/**
 	 * The constructor.
@@ -101,6 +106,16 @@ class Piwik_RankingQuery
 	public function setLimit($limit)
 	{
 		$this->limit = $limit;
+	}
+	
+	/**
+	 * Set the value to use for the label in the 'Others' row.
+	 * 
+	 * @param $value string
+	 */
+	public function setOthersLabel($value)
+	{
+		$this->othersLabelValue = $value;
 	}
 	
 	/**
@@ -273,7 +288,7 @@ class Piwik_RankingQuery
 		{
 			$labelColumnsOthersSwitch[] = "
 				CASE
-					WHEN counter = $limit THEN \"Others\" 
+					WHEN counter = $limit THEN \"{$this->othersLabelValue}\" 
 					ELSE `$column`
 				END AS `$column`
 			";

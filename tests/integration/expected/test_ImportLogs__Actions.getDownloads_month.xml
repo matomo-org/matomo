@@ -5,11 +5,11 @@
 		<nb_visits>3</nb_visits>
 		<nb_hits>3</nb_hits>
 		<sum_time_spent>122</sum_time_spent>
+		<exit_nb_visits>1</exit_nb_visits>
 		<entry_nb_visits>1</entry_nb_visits>
 		<entry_nb_actions>3</entry_nb_actions>
 		<entry_sum_visit_length>123</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
-		<exit_nb_visits>1</exit_nb_visits>
 		<subtable>
 			<row>
 				<label>/other.png</label>

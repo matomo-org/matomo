@@ -234,6 +234,11 @@ datatable_archiving_maximum_rows_subtable_actions = 100
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
 
+; maximum number of rows to fetch from the database when archiving. if set to 0, no limit is used.
+; this can be used to speed up the archiving process, but is only useful if you're site has a large
+; amount of actions, referrers or custom variable name/value pairs.
+archiving_ranking_query_row_limit = 50000
+
 ; by default, the real time Live! widget will update every 5 seconds and refresh with new visits/actions/etc.
 ; you can change the timeout so the widget refreshes more often, or not as frequently
 live_widget_refresh_after_seconds = 5

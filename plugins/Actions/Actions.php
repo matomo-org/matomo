@@ -28,6 +28,13 @@ class Piwik_Actions extends Piwik_Plugin
 	protected $maximumRowsInSubDataTable;
 	protected $columnToSortByBeforeTruncation;
 	
+	const OTHERS_ROW_KEY = '';
+	
+	/**
+	 * The maximum number of rows to get from the database per action type.
+	 */
+	protected $rankingQueryRowLimit;
+	
 	public function getInformation()
 	{
 		$info = array(
@@ -440,6 +447,11 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	public function __construct()
 	{
+		$this->reloadConfig();
+	}
+	
+	public function reloadConfig()
+	{
 		// for BC, we read the old style delimiter first (see #1067)
 		$actionDelimiter = @Piwik_Config::getInstance()->General['action_category_delimiter'];
 		if(empty($actionDelimiter))
@@ -456,6 +468,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
 		$this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
 		$this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
+		$this->rankingQueryRowLimit = Piwik_Config::getInstance()->General['archiving_ranking_query_row_limit'];
 
 		// Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED must be greater than the category level limit
 		Piwik_DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
@@ -521,6 +534,8 @@ class Piwik_Actions extends Piwik_Plugin
 											Piwik_Archive::INDEX_PAGE_NB_HITS => 1,
 										)));
 
+		$rankingQuery = false;
+		
 		/*
 		 * Page URLs and Page names, general stats
 		 */
@@ -547,25 +562,62 @@ class Piwik_Actions extends Piwik_Plugin
 				AND log_link_visit_action.%s IS NOT NULL";
 			
 		$groupBy = "log_action.idaction";
-		$orderBy = "`". Piwik_Archive::INDEX_PAGE_NB_HITS ."` DESC";
+		$orderBy = "`". Piwik_Archive::INDEX_PAGE_NB_HITS ."` DESC, name ASC";
+		
+		if ($this->rankingQueryRowLimit > 0)
+		{
+			$rankingQuery = new Piwik_RankingQuery($this->rankingQueryRowLimit);
+			$rankingQuery->setOthersLabel('-1');
+			$rankingQuery->addLabelColumn(array('idaction', 'name'));
+			$rankingQuery->addColumn(array('url_prefix', Piwik_Archive::INDEX_NB_UNIQ_VISITORS));
+			$rankingQuery->addColumn(array(Piwik_Archive::INDEX_PAGE_NB_HITS, Piwik_Archive::INDEX_NB_VISITS), 'sum');
+			$rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
+		}
 		
 		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
-				"idaction_url", $archiveProcessing);
+				"idaction_url", $archiveProcessing, $rankingQuery);
 		
 		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
-				"idaction_name", $archiveProcessing);
+				"idaction_name", $archiveProcessing, $rankingQuery);
 		
 		/*
 		 * Entry actions for Page URLs and Page names
 		 */
-		$select = "log_visit.%s as idaction,
+		if ($this->rankingQueryRowLimit > 0)
+		{
+			$rankingQuery = new Piwik_RankingQuery($this->rankingQueryRowLimit);
+			$rankingQuery->setOthersLabel('-1');
+			$rankingQuery->addLabelColumn('idaction');
+			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS);
+			$rankingQuery->addColumn(array(Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS,
+										   Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS,
+										   Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH,
+										   Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT), 'sum');
+			$rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
+			
+			$extraSelects = 'log_action.type, log_action.name,';
+			$from = array(
+				"log_visit",
+				array(
+					"table" => "log_action",
+					"joinOn" => "log_visit.%s = log_action.idaction"
+				)
+			);
+			$orderBy = "`".Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS."` DESC, log_action.name ASC";
+		}
+		else
+		{
+			$extraSelects = false;
+			$from = "log_visit";
+			$orderBy = false;
+		}
+		
+		$select = "log_visit.%s as idaction, $extraSelects
 				count(distinct log_visit.idvisitor) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS ."`,
 				count(*) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS ."`,
 				sum(log_visit.visit_total_actions) as `". Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS ."`,
 				sum(log_visit.visit_total_time) as `". Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH ."`,
 				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `". Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT ."`";
-		
-		$from = "log_visit";
 		
 		$where = "log_visit.visit_last_action_time >= ?
 				AND log_visit.visit_last_action_time <= ?
@@ -574,20 +626,44 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		$groupBy = "log_visit.%s, idaction";
 		
-		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
-				"visit_entry_idaction_url", $archiveProcessing);
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+				"visit_entry_idaction_url", $archiveProcessing, $rankingQuery);
 		
-		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
-				"visit_entry_idaction_name", $archiveProcessing);
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+				"visit_entry_idaction_name", $archiveProcessing, $rankingQuery);
 		
 		/*
 		 * Exit actions
 		 */
-		$select = "log_visit.%s as idaction,
+		if ($this->rankingQueryRowLimit > 0)
+		{
+			$rankingQuery = new Piwik_RankingQuery($this->rankingQueryRowLimit);
+			$rankingQuery->setOthersLabel('-1');
+			$rankingQuery->addLabelColumn('idaction');
+			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS);
+			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS, 'sum');
+			$rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
+			
+			$extraSelects = 'log_action.type, log_action.name,';
+			$from = array(
+				"log_visit",
+				array(
+					"table" => "log_action",
+					"joinOn" => "log_visit.%s = log_action.idaction"
+				)
+			);
+			$orderBy = "`".Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS."` DESC, log_action.name ASC";
+		}
+		else
+		{
+			$extraSelects = false;
+			$from = "log_visit";
+			$orderBy = false;
+		}
+		
+		$select = "log_visit.%s as idaction, $extraSelects
 				count(distinct log_visit.idvisitor) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS ."`,
 				count(*) as `". Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS ."`";
-		
-		$from = "log_visit";
 		
 		$where = "log_visit.visit_last_action_time >= ?
 				AND log_visit.visit_last_action_time <= ?
@@ -596,20 +672,42 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		$groupBy = "log_visit.%s, idaction";
 		
-		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
-				"visit_exit_idaction_url", $archiveProcessing);
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+				"visit_exit_idaction_url", $archiveProcessing, $rankingQuery);
 		
-		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
-				"visit_exit_idaction_name", $archiveProcessing);
-		
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+				"visit_exit_idaction_name", $archiveProcessing, $rankingQuery);
 		
 		/*
 		 * Time per action
 		 */
-		$select = "log_link_visit_action.%s as idaction,
-				sum(log_link_visit_action.time_spent_ref_action) as `".Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT."`";
+		if ($this->rankingQueryRowLimit > 0)
+		{
+			$rankingQuery = new Piwik_RankingQuery($this->rankingQueryRowLimit);
+			$rankingQuery->setOthersLabel('-1');
+			$rankingQuery->addLabelColumn('idaction');
+			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
+			$rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
+			
+			$extraSelects = "log_action.type, log_action.name, count(*) as `".Piwik_Archive::INDEX_PAGE_NB_HITS."`,";
+			$from = array(
+				"log_link_visit_action",
+				array(
+					"table" => "log_action",
+					"joinOn" => "log_link_visit_action.%s = log_action.idaction"
+				)
+			);
+			$orderBy = "`".Piwik_Archive::INDEX_PAGE_NB_HITS."` DESC, log_action.name ASC";
+		}
+		else
+		{
+			$extraSelects = false;
+			$from = "log_link_visit_action";
+			$orderBy = false;
+		}
 		
-		$from = "log_link_visit_action";
+		$select = "log_link_visit_action.%s as idaction, $extraSelects
+				sum(log_link_visit_action.time_spent_ref_action) as `".Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT."`";
 		
 		$where = "log_link_visit_action.server_time >= ?
 				AND log_link_visit_action.server_time <= ?
@@ -619,11 +717,11 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		$groupBy = "log_link_visit_action.%s, idaction";
 		
-		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
-				"idaction_url_ref", $archiveProcessing);
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+				"idaction_url_ref", $archiveProcessing, $rankingQuery);
 		
-		$this->archiveDayQueryProcess($select, $from, $where, $orderBy=false, $groupBy,
-				"idaction_name_ref", $archiveProcessing);
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+				"idaction_name_ref", $archiveProcessing, $rankingQuery);
 
 		// Empty static cache
 		self::$cacheParsedAction = array();
@@ -640,10 +738,11 @@ class Piwik_Actions extends Piwik_Plugin
 	 * @param $groupBy
 	 * @param $sprintfField
 	 * @param Piwik_ArchiveProcessing $archiveProcessing
+	 * @param Piwik_RankingQuery|false $rankingQuery
 	 * @return int
 	 */
 	protected function archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
-			$sprintfField, $archiveProcessing)
+			$sprintfField, $archiveProcessing, $rankingQuery = false)
 	{
 		// idaction field needs to be set in select clause before calling getSelectQuery().
 		// if a complex segmentation join is needed, the field needs to be propagated
@@ -652,12 +751,17 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		// get query with segmentation
 		$bind = array();
-		$orderBy = false;
 		$query = $archiveProcessing->getSegment()->getSelectQuery(
 					$select, $from, $where, $bind, $orderBy, $groupBy);
 		
 		// replace the rest of the %s
 		$querySql = str_replace("%s", $sprintfField, $query['sql']);
+		
+		// apply ranking query
+		if ($rankingQuery)
+		{
+			$querySql = $rankingQuery->generateQuery($querySql);
+		}
 		
 		// extend bindings
 		$bind = array_merge(array($archiveProcessing->getStartDatetimeUTC(),
@@ -706,15 +810,20 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	protected function deleteInvalidSummedColumnsFromDataTable($dataTable)
 	{
-		foreach($dataTable->getRows() as $row)
+		foreach($dataTable->getRows() as $id => $row)
 		{
-			if(($idSubtable = $row->getIdSubDataTable()) !== null)
+			if(($idSubtable = $row->getIdSubDataTable()) !== null || $id === Piwik_DataTable::ID_SUMMARY_ROW)
 			{
 				foreach(self::$invalidSummedColumnNameToDeleteFromDayArchive as $name)
 				{
 					$row->deleteColumn($name);
 				}
-				$this->deleteInvalidSummedColumnsFromDataTable(Piwik_DataTable_Manager::getInstance()->getTable($idSubtable));
+				
+				if ($idSubtable !== null)
+				{
+					$subtable = Piwik_DataTable_Manager::getInstance()->getTable($idSubtable);
+					$this->deleteInvalidSummedColumnsFromDataTable($subtable);
+				}
 			}
 		}
 	}
@@ -847,7 +956,55 @@ class Piwik_Actions extends Piwik_Plugin
 	const CACHE_PARSED_INDEX_NAME = 0;
 	const CACHE_PARSED_INDEX_TYPE = 1;
 	static $cacheParsedAction = array();
-
+	
+	/**
+	 * Get cached action row by id & type. If $idAction is set to -1, the 'Others' row
+	 * for the specific action type will be returned.
+	 * 
+	 * @param int $idAction
+	 * @param int $actionType
+	 * @return Piwik_DataTable_Row|false
+	 */
+	private static function getCachedActionRow( $idAction, $actionType )
+	{
+		$cacheLabel = self::getCachedActionRowKey($idAction, $actionType);
+		
+		if (!isset(self::$cacheParsedAction[$cacheLabel]))
+		{
+			// This can happen when
+			// - We select an entry page ID that was only seen yesterday, so wasn't selected in the first query
+			// - We count time spent on a page, when this page was only seen yesterday
+			return false;
+		}
+		
+		return self::$cacheParsedAction[$cacheLabel];
+	}
+	
+	/**
+	 * Set cached action row for an id & type.
+	 * 
+	 * @param int $idAction
+	 * @param int $actionType
+	 * @param Piwik_DataTable_Row
+	 */
+	private static function setCachedActionRow( $idAction, $actionType, $actionRow )
+	{
+		$cacheLabel = self::getCachedActionRowKey($idAction, $actionType);
+		self::$cacheParsedAction[$cacheLabel] = $actionRow;
+	}
+	
+	/**
+	 * Gets the key for the cache of action rows from an action ID and type.
+	 * 
+	 * @param int $idAction
+	 * @param int $actionType
+	 * @return string|int
+	 */
+	private static function getCachedActionRowKey( $idAction, $actionType )
+	{
+		return $idAction == -1 ? $actionType.'_others' : $idAction;
+	}
+	
 	/**
 	 * @param Zend_Db_Statement|PDOStatement $query
 	 * @param string|bool $fieldQueried
@@ -873,28 +1030,27 @@ class Piwik_Actions extends Piwik_Plugin
 				$actionName = $row['name'];
 				$actionType = $row['type'];
 				$urlPrefix = $row['url_prefix'];
+				$idaction = $row['idaction'];
 				
     			// in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
     			if(empty($actionType))
     			{
-    				self::$cacheParsedAction[$row['idaction']] = false;
+    				if ($idaction != -1)
+    				{
+	    				self::setCachedActionRow($idaction, $actionType, false);
+    				}
+    				
     				continue;
     			}
     
     			$currentTable = $this->parseActionNameCategoriesInDataTable($actionName, $actionType, $urlPrefix);
     			
-				self::$cacheParsedAction[$row['idaction']] = $currentTable;
+    			self::setCachedActionRow($idaction, $actionType, $currentTable);
 			}
 			else
 			{
-				if(!isset(self::$cacheParsedAction[$row['idaction']]))
-				{
-					// This can happen when
-					// - We select an entry page ID that was only seen yesterday, so wasn't selected in the first query
-					// - We count time spent on a page, when this page was only seen yesterday
-					continue;
-				}
-				$currentTable = self::$cacheParsedAction[$row['idaction']];
+				$currentTable = self::getCachedActionRow($row['idaction'], $row['type']);
+				
 				// Action processed as "to skip" for some reasons
 				if($currentTable === false)
 				{
@@ -906,6 +1062,12 @@ class Piwik_Actions extends Piwik_Plugin
 			unset($row['type']);
 			unset($row['idaction']);
 			unset($row['url_prefix']);
+			
+			if (is_null($currentTable))
+			{
+				continue;
+			}
+			
 			foreach($row as $name => $value)
 			{
 				// in some edge cases, we have twice the same action name with 2 different idaction
@@ -955,17 +1117,38 @@ class Piwik_Actions extends Piwik_Plugin
 	{
 		// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
 		$currentTable =& $this->actionsTablesByType[$actionType];
-
+		
+		// check for ranking query cut-off
+		if ($actionName == -1)
+		{
+			return $this->createOthersRow($currentTable, $actionType);
+		}
+		
 		// go to the level of the subcategory
 		$actionExplodedNames = $this->getActionExplodedNames($actionName, $actionType, $urlPrefix);
 		$end = count($actionExplodedNames)-1;
+		$maxRows = $this->maximumRowsInDataTableLevelZero;
 		for($level = 0 ; $level < $end; $level++)
 		{
 			$actionCategory = $actionExplodedNames[$level];
+			
+			$othersRow = $this->getOthersRowIfTableFull($currentTable, $actionCategory, $actionType, $maxRows);
+			if ($othersRow)
+			{
+				return $othersRow;
+			}
+			
 			$currentTable =& $currentTable[$actionCategory];
+			$maxRows = $this->maximumRowsInSubDataTable;
 		}
 		$actionShortName = $actionExplodedNames[$end];
-
+		
+		$othersRow = $this->getOthersRowIfTableFull($currentTable, $actionShortName, $actionType, $maxRows);
+		if ($othersRow)
+		{
+			return $othersRow;
+		}
+		
 		// currentTable is now the array element corresponding the the action
 		// at this point we may be for example at the 4th level of depth in the hierarchy
 		$currentTable =& $currentTable[$actionShortName];
@@ -973,29 +1156,95 @@ class Piwik_Actions extends Piwik_Plugin
 		// add the row to the matching sub category subtable
 		if(!($currentTable instanceof Piwik_DataTable_Row))
 		{
-			$defaultColumnsNewRow = array(
-    									'label' => (string)$actionShortName,
-    									Piwik_Archive::INDEX_NB_VISITS => 0,
-    									Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0,
-    									Piwik_Archive::INDEX_PAGE_NB_HITS => 0,
-    									Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT => 0,
-        	);
-			if( $actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME )
-			{
-				$currentTable = new Piwik_DataTable_Row(array(
-						Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
-					));
-			}
-			else
-			{
-				$currentTable = new Piwik_DataTable_Row(array(
-						Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
-						Piwik_DataTable_Row::METADATA => array('url' =>
-							Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix)),
-					));
-			}
+			$currentTable = $this->createActionsTableRow(
+				(string)$actionShortName, $actionType, $actionName, $urlPrefix);
 		}
 		return $currentTable;
+	}
+	
+	/**
+	 * Checks if the given table is full (has the maximum number of rows allowed in config)
+	 * and if so, returns an 'Others' summary row. Returns false if the table is not full.
+	 * 
+	 * @param array $currentTable Array of Piwik_DataTable_Rows.
+	 * @param string $actionCategory The current table key.
+	 * @param int $actionType The action type.
+	 * @param int $maxRows The maximum number of rows allowed in $currentTable.
+	 * @return Piwik_DataTable_Row|false
+	 */
+	private function getOthersRowIfTableFull( &$currentTable, $actionCategory, $actionType, $maxRows )
+	{
+		if (!isset($currentTable[$actionCategory]))
+		{
+			if (count($currentTable) == $maxRows - 1)
+			{
+				return $this->createOthersRow($currentTable, $actionType);
+			}
+			else if (count($currentTable) >= $maxRows)
+			{
+				return $currentTable[self::OTHERS_ROW_KEY]; // return existing 'others' row
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Create an 'Others' action row. The row created by this function is used
+	 * as the summary row in a truncated DataTable.
+	 * 
+	 * @param array $currentTable The array of rows to add the 'Others' row to.
+	 * @param int $actionType The type of actions the row will hold stats for.
+	 * @return Piwik_DataTable_Row
+	 */
+	private function createOthersRow( &$currentTable, $actionType )
+	{
+		// create other row and return it
+		$othersRow = $this->createActionsTableRow(Piwik_DataTable::LABEL_SUMMARY_ROW, $actionType);
+		$othersRow->setMetadata('issummaryrow', true);
+		
+		$currentTable[self::OTHERS_ROW_KEY] = $othersRow;
+		return $othersRow;
+	}
+	
+	/**
+	 * Creates a new empty row for DataTables created by this plugin.
+	 * 
+	 * @param string $label The row label.
+	 * @param int $actionType The action type of the action the row will describe.
+	 * @param string $actionName
+	 * @param string $urlPrefix
+	 * @return Piwik_DataTable_Row
+	 */
+	private function createActionsTableRow( $label, $actionType, $actionName = null, $urlPrefix = null )
+	{
+		$defaultColumnsNewRow = array(
+									'label' => $label,
+									Piwik_Archive::INDEX_NB_VISITS => 0,
+									Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0,
+									Piwik_Archive::INDEX_PAGE_NB_HITS => 0,
+									Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT => 0,
+    	);
+		if( $actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME )
+		{
+			return new Piwik_DataTable_Row(array(
+					Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
+				));
+		}
+		else
+		{
+			$metadata = array();
+			if (!is_null($actionName))
+			{
+				$url = Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix);
+				$metadata['url'] = $url;
+			}
+			
+			return new Piwik_DataTable_Row(array(
+					Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
+					Piwik_DataTable_Row::METADATA => $metadata,
+				));
+		}
 	}
 	
 	/**

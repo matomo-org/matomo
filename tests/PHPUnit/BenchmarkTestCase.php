@@ -82,19 +82,6 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
 	}
 	
 	/**
-	 * Drops all archive tables.
-	 */
-	public static function deleteArchiveTables()
-	{
-		foreach (Piwik::getTablesArchivesInstalled() as $table)
-		{
-			Piwik_Query("DROP TABLE IF EXISTS $table");
-		}
-		
-		Piwik_TablePartitioning::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload = true);
-	}
-	
-	/**
 	 * Creates a tracking object that invokes the tracker directly (w/o going through HTTP).
 	 */
 	public static function getLocalTracker( $idSite )

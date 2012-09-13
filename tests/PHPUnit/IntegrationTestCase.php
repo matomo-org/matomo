@@ -172,6 +172,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     );
 
     const DEFAULT_USER_PASSWORD = 'nopass';
+    
+    protected $missingExpectedFiles = array();
+    protected $comparisonFailures = array();
 
     /**
      * Forces the test to only call and fetch XML for the specified plugins,
@@ -828,15 +831,23 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $response = str_replace('.1</revenue>', '</revenue>', $response);
         }
 
-        if (strpos($requestUrl, 'format=xml') !== false) {
-            $this->assertXmlStringEqualsXmlString($expected, $response, "Differences with expected in: $processedFilePath");
-        } else {
-            $this->assertEquals(strlen($expected), strlen($response), "Differences with expected in: $processedFilePath");
-            $this->assertEquals($expected, $response, "Differences with expected in: $processedFilePath");
-        }
-        if (trim($response) == trim($expected)) {
-            file_put_contents($processedFilePath, $response);
-        }
+		try
+		{
+		    if (strpos($requestUrl, 'format=xml') !== false) {
+		        $this->assertXmlStringEqualsXmlString($expected, $response, "Differences with expected in: $processedFilePath");
+		    } else {
+		        $this->assertEquals(strlen($expected), strlen($response), "Differences with expected in: $processedFilePath");
+		        $this->assertEquals($expected, $response, "Differences with expected in: $processedFilePath");
+		    }
+		    
+		    if (trim($response) == trim($expected)) {
+		        file_put_contents($processedFilePath, $response);
+		    }
+	    }
+	    catch (Exception $ex)
+	    {
+	    	$this->comparisonFailures[] = $ex;
+	    }
     }
 
     protected function removeAllLiveDatesFromXml($input)
@@ -905,7 +916,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         if(empty($result))
         {
             $expectedDir = dirname($filePath);
-            $this->markTestIncomplete(" ERROR: Could not find expected API output '$filePath'. For new tests, to pass the test, you can copy files from the processed/ directory into $expectedDir  after checking that the output is valid. %s ");
+            $this->missingExpectedFiles[] = $filePath;
             return null;
         }
         return $result;
@@ -986,6 +997,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     protected function runApiTests($api, $params)
     {
         $testName = 'test_' . $this->getOutputPrefix();
+        $this->missingExpectedFiles = array();
+        $this->comparisonFailures = array();
 
         $this->_setCallableApi($api);
 
@@ -1031,6 +1044,20 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         if ($this->lastLanguage != 'en')
         {
             $this->changeLanguage('en');
+        }
+        
+        if (!empty($this->missingExpectedFiles))
+        {
+            $expectedDir = dirname(reset($this->missingExpectedFiles));
+            $this->markTestIncomplete(" ERROR: Could not find expected API output '"
+            	. implode("', '", $this->missingExpectedFiles)
+            	. "'. For new tests, to pass the test, you can copy files from the processed/ directory into"
+            	. " $expectedDir  after checking that the output is valid. %s ");
+        }
+        
+        if (!empty($this->comparisonFailures))
+        {
+        	throw reset($this->comparisonFailures);
         }
     }
 
@@ -1141,4 +1168,17 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     		Piwik_Query($sql);
     	}
     }
+	
+	/**
+	 * Drops all archive tables.
+	 */
+	public static function deleteArchiveTables()
+	{
+		foreach (Piwik::getTablesArchivesInstalled() as $table)
+		{
+			Piwik_Query("DROP TABLE IF EXISTS $table");
+		}
+		
+		Piwik_TablePartitioning::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload = true);
+	}
 }

@@ -58,6 +58,31 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 	{
 		$this->runApiTests($api, $params);
 	}
+	
+	/**
+	 * @group		Integration
+	 * @group		BlobReportLimiting
+	 */
+	public function testApiWithRankingQuery()
+	{
+		// custom setup
+		self::deleteArchiveTables();
+		$generalConfig['datatable_archiving_maximum_rows_referers'] = 4;
+		$generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 4;
+		$generalConfig['datatable_archiving_maximum_rows_actions'] = 4;
+		$generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 4;
+		$generalConfig['datatable_archiving_maximum_rows_standard'] = 4;
+		Piwik_Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
+		Piwik_PluginsManager::getInstance()->getLoadedPlugin('Actions')->reloadConfig();
+		
+		foreach ($this->getApiForTesting() as $pair)
+		{
+			list($apiToCall, $params) = $pair;
+			$params['testSuffix'] = '_rankingQuery';
+			
+			$this->runApiTests($apiToCall, $params);
+		}
+	}
 
 	public function getOutputPrefix()
 	{
@@ -73,6 +98,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 		$generalConfig['datatable_archiving_maximum_rows_actions'] = 3;
 		$generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 2;
 		$generalConfig['datatable_archiving_maximum_rows_standard'] = 3;
+		$generalConfig['archiving_ranking_query_row_limit'] = 50000;
 	}
 
 	protected static function setUpWebsitesAndGoals()
