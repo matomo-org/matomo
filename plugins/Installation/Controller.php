@@ -462,7 +462,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		// Assign the html output to a smarty variable
 		$view->trackingHelp = $viewTrackingHelp->render();
-		$view->displaySiteName = urldecode($siteName);
+		$view->displaySiteName = $siteName;
 		
 		$view->showNextStep = true;
 
