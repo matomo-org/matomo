@@ -1342,6 +1342,10 @@ class Piwik_DataTable
 	 */
 	public function getMetadata( $name )
 	{
+		if (!isset($this->metadata[$name]))
+		{
+			return false;
+		}
 		return $this->metadata[$name];
 	}
 	
