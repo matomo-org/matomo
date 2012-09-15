@@ -1246,6 +1246,12 @@ dataTable.prototype =
 			var tr = $(this);
 			var td = tr.find('td:first');
 			
+			// if the row actions cell is hidden, don't show anything
+			if (td.is(':hidden'))
+			{
+				return;
+			}
+			
 			// load available actions for this row
 			var availableActions = DataTable_RowActions_Registry.getAvailableActions(self.param, tr);
 			if (availableActions.length == 0)
