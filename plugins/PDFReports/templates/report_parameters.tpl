@@ -78,6 +78,6 @@
 		</select>
 		<br/><br/>
 		<input type="checkbox" id="report_evolution_graph"/>
-		<label for="report_evolution_graph">{'PDFReports_EvolutionGraph'|translate} </label>
+		<label for="report_evolution_graph"><i>{'PDFReports_EvolutionGraph'|translate:5}</i></label>
 	</td>
 </tr>
