@@ -30,11 +30,6 @@ class Piwik_Actions extends Piwik_Plugin
 	
 	const OTHERS_ROW_KEY = '';
 	
-	/**
-	 * The maximum number of rows to get from the database per action type.
-	 */
-	protected $rankingQueryRowLimit;
-	
 	public function getInformation()
 	{
 		$info = array(
@@ -468,7 +463,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
 		$this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
 		$this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
-		$this->rankingQueryRowLimit = Piwik_Config::getInstance()->General['archiving_ranking_query_row_limit'];
+		$rankingQueryLimit = Piwik_Config::getInstance()->General['archiving_ranking_query_row_limit'];
 
 		// Piwik_DataTable::MAXIMUM_DEPTH_LEVEL_ALLOWED must be greater than the category level limit
 		Piwik_DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
@@ -533,7 +528,8 @@ class Piwik_Actions extends Piwik_Plugin
 											Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 1,
 											Piwik_Archive::INDEX_PAGE_NB_HITS => 1,
 										)));
-
+		
+		$rankingQueryLimit = self::getRankingQueryLimit();
 		$rankingQuery = false;
 		
 		/*
@@ -564,10 +560,10 @@ class Piwik_Actions extends Piwik_Plugin
 		$groupBy = "log_action.idaction";
 		$orderBy = "`". Piwik_Archive::INDEX_PAGE_NB_HITS ."` DESC, name ASC";
 		
-		if ($this->rankingQueryRowLimit > 0)
+		if ($rankingQueryLimit > 0)
 		{
-			$rankingQuery = new Piwik_RankingQuery($this->rankingQueryRowLimit);
-			$rankingQuery->setOthersLabel('-1');
+			$rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
+			$rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
 			$rankingQuery->addLabelColumn(array('idaction', 'name'));
 			$rankingQuery->addColumn(array('url_prefix', Piwik_Archive::INDEX_NB_UNIQ_VISITORS));
 			$rankingQuery->addColumn(array(Piwik_Archive::INDEX_PAGE_NB_HITS, Piwik_Archive::INDEX_NB_VISITS), 'sum');
@@ -583,10 +579,10 @@ class Piwik_Actions extends Piwik_Plugin
 		/*
 		 * Entry actions for Page URLs and Page names
 		 */
-		if ($this->rankingQueryRowLimit > 0)
+		if ($rankingQueryLimit > 0)
 		{
-			$rankingQuery = new Piwik_RankingQuery($this->rankingQueryRowLimit);
-			$rankingQuery->setOthersLabel('-1');
+			$rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
+			$rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
 			$rankingQuery->addLabelColumn('idaction');
 			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS);
 			$rankingQuery->addColumn(array(Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS,
@@ -635,10 +631,10 @@ class Piwik_Actions extends Piwik_Plugin
 		/*
 		 * Exit actions
 		 */
-		if ($this->rankingQueryRowLimit > 0)
+		if ($rankingQueryLimit > 0)
 		{
-			$rankingQuery = new Piwik_RankingQuery($this->rankingQueryRowLimit);
-			$rankingQuery->setOthersLabel('-1');
+			$rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
+			$rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
 			$rankingQuery->addLabelColumn('idaction');
 			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS);
 			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS, 'sum');
@@ -681,10 +677,10 @@ class Piwik_Actions extends Piwik_Plugin
 		/*
 		 * Time per action
 		 */
-		if ($this->rankingQueryRowLimit > 0)
+		if ($rankingQueryLimit > 0)
 		{
-			$rankingQuery = new Piwik_RankingQuery($this->rankingQueryRowLimit);
-			$rankingQuery->setOthersLabel('-1');
+			$rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
+			$rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
 			$rankingQuery->addLabelColumn('idaction');
 			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
 			$rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
@@ -1002,7 +998,7 @@ class Piwik_Actions extends Piwik_Plugin
 	 */
 	private static function getCachedActionRowKey( $idAction, $actionType )
 	{
-		return $idAction == -1 ? $actionType.'_others' : $idAction;
+		return $idAction == Piwik_DataTable::LABEL_SUMMARY_ROW ? $actionType.'_others' : $idAction;
 	}
 	
 	/**
@@ -1035,7 +1031,7 @@ class Piwik_Actions extends Piwik_Plugin
     			// in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
     			if(empty($actionType))
     			{
-    				if ($idaction != -1)
+    				if ($idaction != Piwik_DataTable::LABEL_SUMMARY_ROW)
     				{
 	    				self::setCachedActionRow($idaction, $actionType, false);
     				}
@@ -1119,7 +1115,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$currentTable =& $this->actionsTablesByType[$actionType];
 		
 		// check for ranking query cut-off
-		if ($actionName == -1)
+		if ($actionName == Piwik_DataTable::LABEL_SUMMARY_ROW)
 		{
 			return $this->createOthersRow($currentTable, $actionType);
 		}
@@ -1255,6 +1251,22 @@ class Piwik_Actions extends Piwik_Plugin
 	public static function getSubCategoryLevelLimit()
 	{
 		return Piwik_Config::getInstance()->General['action_category_level_limit'];
+	}
+	
+	/**
+	 * Returns the limit to use with RankingQuery for this plugin.
+	 * 
+	 * @return int
+	 */
+	public static function getRankingQueryLimit()
+	{
+		$configGeneral = Piwik_Config::getInstance()->General;
+		$configLimit = $configGeneral['archiving_ranking_query_row_limit'];
+		return $configLimit == 0 ? 0 : max(
+			$configLimit,
+			$configGeneral['datatable_archiving_maximum_rows_actions'],
+			$configGeneral['datatable_archiving_maximum_rows_subtable_actions']
+		);
 	}
 }
 
