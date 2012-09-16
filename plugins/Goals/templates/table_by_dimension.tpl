@@ -46,7 +46,7 @@
 </div>
 <div class="clear"></div>
 <script type="text/javascript">
-var preloadAbandonedCart = {if $cart_nb_conversions > 0 && $nb_conversions == 0}1{else}0{/if};
+var preloadAbandonedCart = {if !empty($cart_nb_conversions) && $nb_conversions == 0}1{else}0{/if};
 {literal}
 $(document).ready( function() {
 	var countLoaded = 0;
