@@ -66,10 +66,9 @@ abstract class Piwik_ImageGraph_StaticGraph_PieGraph extends Piwik_ImageGraph_St
 		}
 
 		// max abscissa label width is used to set the pie right margin
-		$abscissaMaxWidthHeight = $this->maxWidthHeight($this->abscissaSeries);
-		$maxAbscissaLabelWidth = $abscissaMaxWidthHeight[self::WIDTH_KEY];
+		list($abscissaMaxWidth, $abscissaMaxHeight) = $this->getMaximumTextWidthHeight($this->abscissaSeries);
 
-		$this->xPosition = $this->width - $radius - $maxAbscissaLabelWidth - self::PIE_RIGHT_MARGIN;
+		$this->xPosition = $this->width - $radius - $abscissaMaxWidth - self::PIE_RIGHT_MARGIN;
 		$this->yPosition = $this->height / 2;
 
 		if ($showLegend)
