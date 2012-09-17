@@ -1,5 +1,7 @@
 {assign var=showSitesSelection value=false}
+{if !$isWidgetized}
 {include file="CoreHome/templates/header.tpl"}
+{/if}
 
 <div id="multisites">
 <div id="main">
@@ -11,7 +13,7 @@
 		allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.pageviews}, {if empty($site.revenue)}0{else}{$site.revenue}{/if}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{if isset($site.visits_evolution)}{$site.visits_evolution|replace:",":"."}{/if}', '{if isset($site.pageviews_evolution)}{$site.pageviews_evolution|replace:",":"."}{/if}', '{if isset($site.revenue_evolution)}{$site.revenue_evolution|replace:",":"."}{/if}');
 	{/foreach}
 	params['period'] = '{$period}';
-	params['date'] = '{$dateRequest}';
+	params['date'] = '{$date}';
 	params['evolutionBy'] = '{$evolutionBy}';
 	params['mOrderBy'] = '{$orderBy}';
 	params['order'] = '{$order}';
@@ -25,10 +27,12 @@
 
 {postEvent name="template_headerMultiSites"}
 
+{if !$isWidgetized}
 <div class="top_controls_inner">
     {include file="CoreHome/templates/period_select.tpl"}
     {include file="CoreHome/templates/header_message.tpl"}
 </div>
+{/if}
 
 <div class="centerLargeDiv">
 

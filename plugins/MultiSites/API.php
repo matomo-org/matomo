@@ -64,7 +64,7 @@ class Piwik_MultiSites_API
 	 * Returns the singleton instance of this class. The instance is created
 	 * if it hasn't been already.
 	 * 
-	 * @return Piwik_Goals_API
+	 * @return Piwik_MultiSites_API
 	 */
 	static public function getInstance()
 	{
