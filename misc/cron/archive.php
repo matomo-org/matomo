@@ -395,7 +395,7 @@ class Archiving
 		$this->log($tasksOutput);
 		$this->log("done");
 	}
-	
+
 	/**
 	 * @return bool True on success, false if some request failed
 	 */
@@ -409,14 +409,7 @@ class Archiving
 	    // already processed above for "day"
 	    if($period != "day")
 	    {
-			$ch = curl_init($url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			
-			if($this->acceptInvalidSSLCertificate)
-			{
-				curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, false); 
-				curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, false); 
-			}
+		    $ch = $this->getNewCurlHandle($url);
 			
 			curl_multi_add_handle($mh, $ch);
 			$aCurl[$url] = $ch;
@@ -425,8 +418,8 @@ class Archiving
 	    $urlNoSegment = $url;
 	    foreach ($this->segments as $segment) {
 	    	$segmentUrl = $url.'&segment='.urlencode($segment);
-			$ch = curl_init($segmentUrl);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		    $ch = $this->getNewCurlHandle($segmentUrl);
+
 			curl_multi_add_handle($mh, $ch);
 			$aCurl[$segmentUrl] = $ch;
 			$this->requests++;
@@ -441,10 +434,10 @@ class Archiving
 	    $visitsAllDaysInPeriod = false;
         foreach($aCurl as $url => $ch){
         	$content = curl_multi_getcontent($ch);
-        	$sucessResponse = $this->checkResponse($content, $url);
-            $success = $sucessResponse && $success;
+        	$successResponse = $this->checkResponse($content, $url);
+            $success = $successResponse && $success;
             if($url == $urlNoSegment
-            	&& $sucessResponse)
+            	&& $successResponse)
             {
             	$stats = unserialize($content);
             	if(!is_array($stats))
@@ -465,8 +458,22 @@ class Archiving
                     . (!empty($timerWebsite) ? $timerWebsite->__toString() : $timer->__toString()));
 	    return $success;
 	}
-	
-	
+
+	private function getNewCurlHandle($url)
+	{
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		if ($this->acceptInvalidSSLCertificate) {
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		}
+		curl_setopt($ch, CURLOPT_USERAGENT, Piwik_Http::getUserAgent());
+		Piwik_Http::configCurlCertificate($ch);
+		return $ch;
+	}
+
+
 	/**
 	 * Logs a section in the output
 	 */
@@ -484,7 +491,7 @@ class Archiving
 		// How to test the error handling code?
 		// - Generate some hits since last archive.php run
 		// - Start the script, in the middle, shutdown apache, then restore
-		// Some errors should be logged and script should succesfully finish and then report the errors and trigger a PHP error
+		// Some errors should be logged and script should successfully finish and then report the errors and trigger a PHP error
 		if(!empty($this->errors))
 		{
 			$this->logSection("SUMMARY OF ERRORS");
@@ -500,7 +507,7 @@ class Archiving
 		}
 		else
 		{
-			// No error -> Logs the succesful script execution until completion
+			// No error -> Logs the successful script execution until completion
 			Piwik_SetOption(self::OPTION_ARCHIVING_FINISHED_TS, time());
 		}
 	}
