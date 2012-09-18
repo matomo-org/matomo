@@ -72,6 +72,9 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 				 KEY `mainkey` (`before`)
 				) ENGINE=MyISAM;
 			" => false,
+
+			// grouping by name only would be case-insensitive, so we GROUP BY name,hash
+			// ON (action.type = 1 AND canonical.hash = action.hash) will use index (type, hash)
 			"   INSERT INTO `$duplicates` (
 				  SELECT 
 					action.idaction AS `before`,
@@ -87,13 +90,13 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 					  WHERE
 						type = 1 AND
 						url_prefix IS NOT NULL
-					  GROUP BY name, hash # only grouping by name would be case-insensitive
+					  GROUP BY name, hash
 					  HAVING COUNT(idaction) > 1
 					)
 					AS canonical
 				  LEFT JOIN
 					`$action` AS action
-					ON (action.type = 1 AND canonical.hash = action.hash) # use index (type, hash)
+					ON (action.type = 1 AND canonical.hash = action.hash)
 					AND canonical.name = action.name
 					AND canonical.idaction != action.idaction
 				);
