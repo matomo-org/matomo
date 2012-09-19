@@ -399,7 +399,7 @@ class Piwik_Referers extends Piwik_Plugin
 	 * @throws Exception
 	 * @return void
 	 */
-	protected function archiveDayAggregateVisits(Piwik_ArchiveProcessing $archiveProcessing)
+	protected function archiveDayAggregateVisits(Piwik_ArchiveProcessing_Day $archiveProcessing)
 	{
 	    $dimension = array("referer_type", "referer_name", "referer_keyword", "referer_url");
 	    $query = $archiveProcessing->queryVisitsByDimension($dimension);
