@@ -1,5 +1,15 @@
 <script>
+
+	function updateEvolutionGraphParameterVisibility ()
+	{ldelim}
+		var evolutionGraphParameterInput = $('.report_evolution_graph');
+		var nonApplicableDisplayFormats = ['1','4'];
+		$.inArray($('#display_format option:selected').val(), nonApplicableDisplayFormats) != -1 ?
+			evolutionGraphParameterInput.hide() : evolutionGraphParameterInput.show();
+	{rdelim}
+	
 	$(function() {ldelim}
+		
 		resetReportParametersFunctions ['{$reportType}'] =
 				function () {ldelim}
 
@@ -19,6 +29,7 @@
 					if(reportParameters == null) return;
 
 					$('#display_format option[value='+reportParameters.displayFormat+']').prop('selected', 'selected');
+					updateEvolutionGraphParameterVisibility();
 
 					if(reportParameters.emailMe === true)
 						$('#report_email_me').prop('checked', 'checked');
@@ -51,6 +62,9 @@
 
 					return parameters;
 				{rdelim};
+
+		$('#display_format').change(updateEvolutionGraphParameterVisibility);
+
 	{rdelim});
 </script>
 
@@ -76,8 +90,10 @@
 			<option {if $formatValue==1}selected{/if} value="{$formatValue}">{$formatLabel}</option>
 		{/foreach}
 		</select>
-		<br/><br/>
-		<input type="checkbox" id="report_evolution_graph"/>
-		<label for="report_evolution_graph"><i>{'PDFReports_EvolutionGraph'|translate:5}</i></label>
+		<div class='report_evolution_graph'>
+			<br/>
+			<input type="checkbox" id="report_evolution_graph"/>
+			<label for="report_evolution_graph"><i>{'PDFReports_EvolutionGraph'|translate:5}</i></label>
+		</div>
 	</td>
 </tr>
