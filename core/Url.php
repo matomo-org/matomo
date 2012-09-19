@@ -381,7 +381,7 @@ class Piwik_Url
 		$requestUri = isset($_SERVER['SCRIPT_URI']) ? $_SERVER['SCRIPT_URI'] : '';
 		$parseRequest = @parse_url($requestUri);
 		$hosts = array(	self::getHost(), self::getCurrentHost() );
-		if(isset($parseRequest['host']))
+		if(!empty($parseRequest['host']))
 		{
 			$hosts[] = $parseRequest['host'];
 		}
@@ -391,9 +391,10 @@ class Piwik_Url
 
 		// compare scheme and host
 		$parsedUrl = @parse_url($url);
-		$host = Piwik_IP::sanitizeIp($parsedUrl['host']);
-		return  !empty($parsedUrl['scheme'])
-				&& in_array($parsedUrl['scheme'], array('http', 'https'))
-				&& in_array($host, $hosts);
+		$host = Piwik_IP::sanitizeIp(@$parsedUrl['host']);
+		return     !empty($host)
+				&& in_array($host, $hosts)
+				&& !empty($parsedUrl['scheme'])
+				&& in_array($parsedUrl['scheme'], array('http', 'https'));
 	}
 }
