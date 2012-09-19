@@ -137,7 +137,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 		
 		$parameters = array(
 			'method' => 'API.getRowEvolution',
-			'label' => $this->label,
+			'label' => urlencode($this->label),
 			'apiModule' => $apiModule,
 			'apiAction' => $apiAction,
 			'idSite' => $this->idSite,
