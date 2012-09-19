@@ -391,8 +391,9 @@ class Piwik_Url
 
 		// compare scheme and host
 		$parsedUrl = @parse_url($url);
-		$scheme = $parsedUrl['scheme'];
 		$host = Piwik_IP::sanitizeIp($parsedUrl['host']);
-		return (in_array($scheme, array('http', 'https')) && in_array($host, $hosts));
+		return  !empty($parsedUrl['scheme'])
+				&& in_array($parsedUrl['scheme'], array('http', 'https'))
+				&& in_array($host, $hosts);
 	}
 }
