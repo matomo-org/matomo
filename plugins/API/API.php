@@ -1320,7 +1320,7 @@ class Piwik_API_API
 		if(!empty($idGoal)) {
 			$apiParameters = array( 'idGoal' => $idGoal);
 		}
-		$reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, false, true);
+		$reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc = false, $showSubtableReports = true);
 		
         if (empty($reportMetadata))
         {
