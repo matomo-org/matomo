@@ -140,7 +140,8 @@ class Piwik_FrontController
 			Piwik_PostEvent('FrontController.NoAccessException', $e);					
 		} catch(Exception $e) {
 			$debugTrace = $e->getTraceAsString();
-			Piwik_ExitWithMessage($e->getMessage(), Piwik::shouldLoggerLog() ? $debugTrace : '', true);
+			$message = Piwik_Common::sanitizeInputValue($e->getMessage());
+			Piwik_ExitWithMessage($message, Piwik::shouldLoggerLog() ? $debugTrace : '', true);
 		}
 	}
 	
