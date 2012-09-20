@@ -22,7 +22,7 @@ class Piwik_ImageGraph_StaticGraph_Evolution extends Piwik_ImageGraph_StaticGrap
 	{
 		$this->initGridChart(
 			$displayVerticalGridLines = true,
-			$drawCircles = true,
+			$bulletType = LEGEND_FAMILY_LINE,
 			$horizontalGraph = false,
 			$showTicks = true,
 			$verticalLegend = true

@@ -63,7 +63,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 	protected function initGridChart(
 		$displayVerticalGridLines,
-		$drawCircles,
+		$bulletType,
 		$horizontalGraph,
 		$showTicks,
 		$verticalLegend
@@ -175,18 +175,17 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 
 		if($this->showLegend)
 		{
-			// currently only used in evolution graphs
-			if($drawCircles)
+			switch($bulletType)
 			{
-				$bulletType = LEGEND_FAMILY_LINE;
-				$bulletWidth = self::LEGEND_LINE_BULLET_WIDTH;
-				$nbPixelsAboveSymmetricalAxe = 0;
-			}
-			else
-			{
-				$bulletType = LEGEND_FAMILY_BOX;
-				$bulletWidth = self::LEGEND_BOX_BULLET_WIDTH;
-				$nbPixelsAboveSymmetricalAxe = 3;
+				case LEGEND_FAMILY_LINE:
+					$bulletWidth = self::LEGEND_LINE_BULLET_WIDTH;
+					$nbPixelsAboveSymmetricalAxe = 0;
+					break;
+
+				case LEGEND_FAMILY_BOX:
+					$bulletWidth = self::LEGEND_BOX_BULLET_WIDTH;
+					$nbPixelsAboveSymmetricalAxe = 3;
+					break;
 			}
 
 			$legendFontSize = $this->getLegendFontSize($verticalLegend);
@@ -289,21 +288,6 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 					'FontB' => $legendColor['B'],
 				)
 			);
-		}
-
-		if($drawCircles)
-		{
-			// drawPlotChart uses series pictures when they are specified
-			// remove series pictures (ie. logos) so that drawPlotChart draws simple dots
-			foreach($this->ordinateSeries as $column => $data)
-			{
-				if(isset($this->ordinateLogos[$column]))
-				{
-					$this->pData->setSeriePicture($column,null);
-				}
-			}
-
-			$this->pImage->drawPlotChart();
 		}
 	}
 

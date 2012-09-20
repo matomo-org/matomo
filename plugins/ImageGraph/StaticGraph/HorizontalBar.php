@@ -160,7 +160,7 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 
 		$this->initGridChart(
 			$displayVerticalGridLines = false,
-			$drawCircles = false,
+			$bulletType = LEGEND_FAMILY_BOX,
 			$horizontalGraph = true,
 			$showTicks = false,
 			$verticalLegend

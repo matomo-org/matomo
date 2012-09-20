@@ -22,8 +22,8 @@ class Piwik_ImageGraph_StaticGraph_VerticalBar extends Piwik_ImageGraph_StaticGr
 	public function renderGraph()
 	{
 		$this->initGridChart(
-			$displayVerticalGridLines = false, 
-			$drawCircles = false,
+			$displayVerticalGridLines = false,
+			$bulletType = LEGEND_FAMILY_BOX,
 			$horizontalGraph = false,
 			$showTicks = true,
 			$verticalLegend = false
