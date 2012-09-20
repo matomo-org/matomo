@@ -64,14 +64,15 @@ $config = array(
     // Paths to any necessary bootstraps
     'bootstraps' => array(
         "{$piwik_root}/tests/PHPUnit/bootstrap.php",
-        "{$piwik_root}/libs/Event/Dispatcher.php"
+        "{$piwik_root}/libs/Event/Dispatcher.php",
+        "{$piwik_root}/tests/lib/xhprof-0.9.2/xhprof_lib/utils/xhprof_runs.php"
     ),
     
     // whether to show hidden files in the file explorer
     'show_hidden_files' => false,
     
     // XHProf root url
-    'xhprof_root' => '/xhprof',
+    'xhprof_root' => '/tests/lib/xhprof-0.9.2',
     
     // namespace to use w/ xhprof
     'xhprof_namespace' => 'piwik',

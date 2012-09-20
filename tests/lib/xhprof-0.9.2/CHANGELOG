@@ -1,0 +1,63 @@
+Modification History:
+
+ *** NOTE ***
+ DO NOT UPDATE THIS FILE. UPDATE package.xml INSTEAD.
+  This file contains the CHANGELOG for the initial release. For subsequent
+  releases, the CHANGLELOG is maintained in the package.xml file itself.
+  Please edit package.xml instead.
+ ************
+
+ 03/02/2008   kannan, checkin xhprof_html/ and xhprof_lib/ directories.
+              cjiang  [These contain PHP sources for the UI as well
+                      as various supporting libraries to compute
+                      "flat" info, diff reports, aggregate results
+                      of multiple runs, typeahead support, etc.]
+ 02/20/2008   kannan  add basic sanity tests for the extension
+ 02/19/2008   kannan  register constants for optional profiler flags;
+                      add xhprof.output_dir ini setting.
+ 01/22/2008   ps      port cpu affinity functions to FreeBSD
+ 01/15/2008   kannan  intercept builtins even if zend_execute_internal
+                      were null to begin with
+ 01/14/2008   kannan  track builtins by default;
+                      fix compiler warnings with fwd decls
+ 12/22/2008   cjiang  Further refactoring of the code for open sourcing:
+                      (1). Remove level 1 profiling mode.
+                      (2). Add xhprof_sample_enable, xhprof_sample_disable.
+                      (3). Unifiy function and global variable prefix.
+                      (4). Group relevant functions together.
+                      (5). Migrate change history to CHANAGELOG file.
+ 12/19/2008   kannan  First step refactoring for open sourcing:
+                      (1). Put basic direcotry structure
+                      (2). Rename extension and function names
+                      (3). Add LICENCE header.
+ 06/17/2008   veeve   use cycle_timer() for XHPROF_MODE_SAMPLED
+ 03/27/2008   cjiang  Add a 'hash-based' filter to reduce the number
+                      of expensive call-stack tranversal on recursion
+                      detection.
+ 03/17/2008   kannan  must not keep state on C stack to handle
+                      exit (which causes _zend_bailout to longjmp
+ 02/25/2008   kannan  add xhprof_flags to toggle various metric
+                      collections (buitins on/off, cpu metric on/off
+                      memory stats on/off)
+ 02/14/2008   cjiang  Use cycle_timer based on 'rdtsc' instruction
+                      on x86 machines to replace gettimeofday. rdtsc
+                      is extremely cheap compared with gettimeofday
+                      or getrusage.
+ 12/06/2007   veeve   bump version 1.1.2,
+                      added hp_global_t
+                      added mode callbacks, made modes extensible
+                      added sampler mode
+ 12/05/2007   veeve   added doc; house cleaning
+ 11/28/2007   kannan  split include accounting into load/run_init
+ 11/09/2007   kannan  memory usage profiling
+ 10/27/2007   kannan  handle recursive calls, "include" operations
+ 10/20/2007   kannan  add hierarchical profiling; incl vs. exclusive
+                      function times; browser based UI; diff and
+                      aggregation support
+ 10/10/2007   hzhao   creation (flat function profiles)
+
+Authors:
+  Haiping Zhao           hzhao@facebook.com
+  Kannan Muthukkaruppan  kannan@facebook.com
+  Venkat Venkataramani   veeve@facebook.com
+  Changhao Jiang         cjiang@facebook.com
