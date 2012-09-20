@@ -111,6 +111,19 @@
                   <option value='1' <?php if ( $sandbox_errors ) echo "selected='selected'"; ?>>Yes</option>
                 </select>
               </li>
+              <li <?php if ( !$xhprof_installed ) echo "style='display:none;'"; ?>>
+                <label for='use_xhprof' class='options-description'>
+                  <i class='icon-time'></i>
+                  Profile with XHProf
+                </label>
+                <select id='use_xhprof' name='use_xhprof' class='test-options'>
+                  <option value='0' selected='selected'>No</option>
+                  <option value='1'>Yes</option>
+                </select>
+                <p class='help-block'>
+                  Note that currently you cannot use XHProf with multiple test selections.
+                </p>
+              </li>
               <li>
                 <label for='use_xml' class='options-description'>
                   <i class='icon-wrench'></i>
@@ -256,6 +269,13 @@
           <h4>Total Memory Delta</h4>
           <p><em><%= memory_stats.memory_delta %></em></p>
         </div>
+        
+        <% if ( xhprof_url ) { %>
+        <div class='span4'>
+          <h4>XHProf Profile</h4>
+          <a href="<%= xhprof_url %>"><%= xhprof_url %></a>
+        </div>
+        <% } %>
       </div>
 
       <% if ( errors.length ) { %>
@@ -474,6 +494,11 @@
                 }
               });
               
+              // only allow XHProf to use w/ one file
+              if (test_files.length > 1) {
+                  baseReqData.use_xhprof = 0;
+              }
+              
               _.each(['data_keys', 'data_values'], function(key) {
                 if (baseReqData[key] == '') {
                   baseReqData[key] = [];
@@ -548,6 +573,7 @@
                     allResults.memory_stats.memory_delta += response.memory_stats.memory_delta;
                     allResults.memory_stats.memory_peak = Math.max(
                       allResults.memory_stats.memory_peak, response.memory_stats.memory_peak);
+                    allResults.xhprof_url = response.xhprof_url;
                     
                     runTest(testIdx + 1, callback);
                   },
@@ -576,6 +602,7 @@
                       memory_peak: getPrettyMemory(allResults.memory_stats.memory_peak),
                       memory_delta: getPrettyMemory(allResults.memory_stats.memory_delta),
                     },
+                    xhprof_url: allResults.xhprof_url,
                     display_failed: $('#display-failed').is(':checked'),
                     display_incomplete: $('#display-incomplete').is(':checked'),
                     display_skipped: $('#display-skipped').is(':checked'),

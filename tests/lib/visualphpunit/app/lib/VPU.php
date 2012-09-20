@@ -430,7 +430,7 @@ class VPU {
     * @access public
     * @return string
     */
-    public function run_tests($tests, $data) {
+    public function run_tests($tests, $data, $use_xhprof = false) {
         $suite = new \PHPUnit_Framework_TestSuite();
 
         $tests = $this->_parse_tests($tests);
@@ -466,6 +466,10 @@ class VPU {
         $html_errors = ini_get('html_errors');
         ini_set('html_errors', 0);
         
+        if ($use_xhprof) {
+            $this->xhprof_start();
+        }
+        
         $memory_start = memory_get_usage();
 
         ob_start();
@@ -479,8 +483,13 @@ class VPU {
         	'memory_peak' => memory_get_peak_usage()
         );
 
+        $run_id = false;
+        if ($use_xhprof) {
+            $run_id = $this->xhprof_finish();
+        }
+
         ini_set('html_errors', $html_errors);
-        return array($results, $memory_stats);
+        return array($results, $memory_stats, $run_id);
     }
 
    /**
@@ -488,10 +497,11 @@ class VPU {
     *
     * @param mixed $xml_config    The path to the PHPUnit XML configuration
     *                             file.
+    * @param bool $use_xhprof     Whether to get profiling data w/ XHProf.
     * @access public
     * @return string
     */
-    public function run_with_xml($xml_config) {
+    public function run_with_xml($xml_config, $use_xhprof = false) {
         $command = new \PHPUnit_TextUI_Command();
 
         // We need to temporarily turn off html_errors to ensure correct
@@ -499,20 +509,48 @@ class VPU {
         $html_errors = ini_get('html_errors');
         ini_set('html_errors', 0);
 
+        if ($use_xhprof) {
+            $this->xhprof_start();
+        }
+        
         ob_start();
         $command->run(array('--configuration', $xml_config), false);
         $results = ob_get_contents();
         ob_end_clean();
 
+        $run_id = false;
+        if ($use_xhprof) {
+            $run_id = $this->xhprof_finish();
+        }
+        
         ini_set('html_errors', $html_errors);
 
         $start = strpos($results, '{');
         $end = strrpos($results, '}');
         $results = substr($results, $start, $end - $start + 1);
         
-        return array($results, array());
+        return array($results, array(), $run_id);
     }
 
+    /**
+     * Start profiling w/ XHProf.
+     */
+    private function xhprof_start() {
+        xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
+    }
+    
+    /**
+     * Finish profiling w/ XHProf.
+     * 
+     * @return string The run ID.
+     */
+    private function xhprof_finish() {
+        $profiler_namespace = \app\lib\Library::retrieve('xhprof_namespace');
+        $xhprof_data = xhprof_disable();
+
+        $xhprof_runs = new \XHProfRuns_Default();
+        return $xhprof_runs->save_run($xhprof_data, $profiler_namespace);
+    }
 }
 
 ?>

@@ -49,6 +49,7 @@ class Home extends \app\core\Controller {
             $create_snapshots = \app\lib\Library::retrieve('create_snapshots');
             $sandbox_errors = \app\lib\Library::retrieve('sandbox_errors');
             $use_xml = \app\lib\Library::retrieve('xml_configuration_file');
+            $xhprof_installed = \app\lib\Library::isXHProfInstalled();
             return compact(
                 'create_snapshots',
                 'sandbox_errors',
@@ -56,7 +57,8 @@ class Home extends \app\core\Controller {
                 'store_statistics',
                 'suites',
                 'test_directory',
-                'use_xml'
+                'use_xml',
+                'xhprof_installed'
             );
         }
 
@@ -90,11 +92,20 @@ class Home extends \app\core\Controller {
                 );
             }
         }
+        
+        $use_xhprof = $request->data['use_xhprof'];
 
-        list($results, $memory_stats) = ( $xml_config )
-            ? $vpu->run_with_xml($xml_config)
-            : $vpu->run_tests($tests, $data);
+        list($results, $memory_stats, $xhprof_run_id) = ( $xml_config )
+            ? $vpu->run_with_xml($xml_config, $use_xhprof)
+            : $vpu->run_tests($tests, $data, $use_xhprof);
         $results = $vpu->compile_suites($results, 'web');
+        
+        $xhprof_url = false;
+        if ($xhprof_run_id !== false) {
+            $xhprof_url_root = \app\lib\Library::retrieve('xhprof_root').'/xhprof_html/';
+            $xhprof_ns = \app\lib\Library::retrieve('xhprof_namespace');
+            $xhprof_url = $xhprof_url_root.'?source='.urlencode($xhprof_ns).'&run='.urlencode($xhprof_run_id);
+        }
 
         if ( $request->data['sandbox_errors'] ) {
             restore_error_handler();
@@ -103,7 +114,7 @@ class Home extends \app\core\Controller {
         $suites = $results['suites'];
         $stats = $results['stats'];
         $errors = $vpu->get_errors();
-        $to_view = compact('suites', 'stats', 'errors', 'memory_stats');
+        $to_view = compact('suites', 'stats', 'errors', 'memory_stats', 'xhprof_url');
 
         if ( $request->data['create_snapshots'] ) {
             $notifications[] = $this->_create_snapshot($to_view);

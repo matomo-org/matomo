@@ -69,6 +69,12 @@ $config = array(
     
     // whether to show hidden files in the file explorer
     'show_hidden_files' => false,
+    
+    // XHProf root url
+    'xhprof_root' => '/xhprof',
+    
+    // namespace to use w/ xhprof
+    'xhprof_namespace' => 'piwik',
 );
 
 set_include_path(

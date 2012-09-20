@@ -38,7 +38,15 @@ class Library {
     public static function store($config = array()) {
         self::$_config = $config;
     }
-
+    
+    /**
+     * Returns whether XHProf is installed or not.
+     * 
+     * @return bool
+     */
+    public static function isXHProfInstalled() {
+        return extension_loaded('xhprof');
+    }
 }
 
 ?>
