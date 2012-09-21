@@ -20,6 +20,11 @@ var DataTable_RowActions_Registry = {
 	},
 	
 	getAvailableActions: function(dataTableParams, tr) {
+		if (dataTableParams.disable_row_actions == '1')
+		{
+			return [];
+		}
+		
 		var available = [];
 		for (var i = 0; i < this.registry.length; i++) {
 			if (this.registry[i].isAvailable(dataTableParams, tr)) {

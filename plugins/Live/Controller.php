@@ -77,6 +77,12 @@ class Piwik_Live_Controller extends Piwik_Controller
 		// disable the RSS feed
 		$view->disableShowExportAsRssFeed();
 		
+		// disable all row actions
+		if ($view instanceof Piwik_ViewDataTable_HtmlTable)
+		{
+			$view->disableRowActions();
+		}
+		
 		$view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')));
 		$view->setCustomParameter('dataTablePreviousIsFirst', 1);
 		$view->setCustomParameter('filterEcommerce', Piwik_Common::getRequestVar('filterEcommerce', 0, 'int'));

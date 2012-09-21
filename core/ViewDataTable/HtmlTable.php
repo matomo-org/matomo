@@ -225,4 +225,12 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	{
 		$this->variablesDefault['disable_row_evolution'] = true;
 	}
+	
+	/**
+	 * Disables row actions.
+	 */
+	public function disableRowActions()
+	{
+		$this->variablesDefault['disable_row_actions'] = true;
+	}
 }
