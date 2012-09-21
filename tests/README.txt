@@ -236,6 +236,56 @@ NOTE:
   - You don't need git to do this, but it's much easier w/ git.
   - It's a good idea to make sure the tests pass before benchmarking.
 
+ PROFILING WITH XHPROF
+======================
+
+Piwik is distributed with a copy of XHProf, the PHP profiler created by Facebook. Piwik
+also comes with a copy of VisualPHPUnit that has been modified to easily use XHProf. Using
+these two tools, you can profile tests and benchmarks.
+
+- Installing XHProf -
+
+First, XHProf must be built (this guide assumes you're using a linux variant):
+
+    * Navigate to the XHProf extension directory.
+      $ cd /path/to/piwik/trunk/tests/lib/xhprof-0.9.2/extension
+    
+    * Build XHProf.
+      $ ./configure
+      $ make
+    
+      xhprof.so will now exist in the ./modules directory.
+    
+    * Configure PHP to use XHProf. Add the following to your php.ini file:
+      
+      [xhprof]
+      extension=/path/to/piwik/trunk/tests/lib/xhprof-0.9.2/extension/modules/xhprof.so
+      xhprof.output_dir=/path/to/output/dir
+      
+      Replace /path/to/output/dir with an existing directory. All your profiles will be
+      stored there.
+
+Restart your webserver and you're done. VisualPHPUnit will automatically detect if XHProf
+is installed and act accordingly.
+
+- Using XHProf -
+
+To use XHProf, first load VisualPHPUnit by pointing your browser to:
+
+http://path/to/piwik/trunk/tests/lib/visualphpunit/
+
+Select a test or get ready to run a benchmark. Make sure the 'Profile with XHProf' select
+box is set to 'Yes' and click 'Run Tests'.
+
+When the test finishes, a link will be displayed that will let you view the profile that
+was created.
+
+NOTE:
+    * Currently, it is not possible to use XHProf with more than one test, so if multiple
+      tests are selected, XHProf will not be used.
+    * XHProf will not delete old profiles, you must do that yourself, though individual
+      profiles do not take much space.
+
  JAVASCRIPT TESTS
 =================
 piwik.js is unit tested and you can run tests via piwik/tests/javascript/
