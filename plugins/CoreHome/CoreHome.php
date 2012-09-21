@@ -70,6 +70,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$jsFiles[] = "plugins/CoreHome/templates/tooltip.js";
 		$jsFiles[] = "plugins/CoreHome/templates/datatable.js";
 		$jsFiles[] = "plugins/CoreHome/templates/datatable_rowactions.js";
+		$jsFiles[] = "plugins/CoreHome/templates/popover.js";
 		$jsFiles[] = "plugins/CoreHome/templates/broadcast.js";
 		$jsFiles[] = "plugins/CoreHome/templates/menu.js";
 		$jsFiles[] = "plugins/CoreHome/templates/calendar.js";

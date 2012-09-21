@@ -151,3 +151,33 @@ div.pk-emptyGraph {
     text-align: center;
     font-style: italic;
 }
+
+
+/**
+ * Popover
+ * @see popover.js
+ */
+
+.Piwik_Popover {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.Piwik_Popover_Loading_Name {
+	padding: 50px 0 65px 0;
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: normal;
+	text-align: center;
+	background: url(../../../themes/default/images/loading-blue.gif) no-repeat center 20px;
+}
+
+.Piwik_Popover_Loading_NameWithSubject {
+	padding-bottom: 30px;
+}
+
+.Piwik_Popover_Loading_Subject {
+	padding: 0 70px 55px 70px;
+	color: #7e7363;
+	text-align: center;
+	font-size: 14px;
+}
