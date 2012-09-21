@@ -111,6 +111,10 @@
 	margin-bottom: 11px;
 }
 
+.Transitions_CenterBoxMetrics .Transitions_Highlighted {
+	color: #E07000;
+}
+
 span.Transitions_Metric {
 	font-weight: bold;
 	cursor: default;
@@ -173,4 +177,5 @@ body .piwik-tooltip.Transitions_Tooltip_Small {
 
 .Transitions_SingleLine {
 	font-size: 12px;
+	height: 21px;
 }

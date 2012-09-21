@@ -76,6 +76,10 @@ Piwik_Transitions.prototype.reset = function(link) {
 	
 	this.leftOpenGroup = 'previousPages';
 	this.rightOpenGroup = 'followingPages';
+	
+	this.highlightedGroup = false;
+	this.highlightedGroupSide = false;
+	this.highlightedGroupCenterEl = false;
 };
 
 /** Open the popover */
@@ -136,32 +140,32 @@ Piwik_Transitions.prototype.render = function() {
 };
 
 /** Render left side: referrer groups & direct entries */
-Piwik_Transitions.prototype.renderLeftSide = function() {
-	this.renderGroups(this.leftGroups, this.leftOpenGroup, 'left');
-	this.renderEntries();
+Piwik_Transitions.prototype.renderLeftSide = function(onlyBg) {
+	this.renderGroups(this.leftGroups, this.leftOpenGroup, 'left', onlyBg);
+	this.renderEntries(onlyBg);
 	
-	this.reRenderIfNeededToCenter('left');
+	this.reRenderIfNeededToCenter('left', onlyBg);
 };
 
 /** Render right side: following pages & exits */
-Piwik_Transitions.prototype.renderRightSide = function() {
-	this.renderGroups(this.rightGroups, this.rightOpenGroup, 'right');
-	this.renderExits();
+Piwik_Transitions.prototype.renderRightSide = function(onlyBg) {
+	this.renderGroups(this.rightGroups, this.rightOpenGroup, 'right', onlyBg);
+	this.renderExits(onlyBg);
 	
-	this.reRenderIfNeededToCenter('right');
+	this.reRenderIfNeededToCenter('right', onlyBg);
 };
 
 /** Helper method to render open and closed groups for both sides */
-Piwik_Transitions.prototype.renderGroups = function(groups, openGroup, side) {
+Piwik_Transitions.prototype.renderGroups = function(groups, openGroup, side, onlyBg) {
 	for (var i = 0; i < groups.length; i++) {
 		var groupName = groups[i];
 		if (groupName == openGroup) {
 			if (i != 0) {
 				this.canvas.addBoxSpacing(13, side);
 			}
-			this.renderOpenGroup(groupName, side);
+			this.renderOpenGroup(groupName, side, onlyBg);
 		} else {
-			this.renderClosedGroup(groupName, side);
+			this.renderClosedGroup(groupName, side, onlyBg);
 		}
 	} 
 	
@@ -172,14 +176,14 @@ Piwik_Transitions.prototype.renderGroups = function(groups, openGroup, side) {
  * If one side doesn't have much information, it doesn't look good to start from y=0.
  * In this case, add some spacing on top and redraw.
  */
-Piwik_Transitions.prototype.reRenderIfNeededToCenter = function(side) {
+Piwik_Transitions.prototype.reRenderIfNeededToCenter = function(side, onlyBg) {
 	var height = (side == 'left' ? this.canvas.leftBoxPositionY : this.canvas.rightBoxPositionY) - 20;
 	if (height < 460 && !this.reRendering) {
 		var yOffset = (460 - height) / 2;
-		this.canvas.clearSide(side);
+		this.canvas.clearSide(side, onlyBg);
 		this.canvas.addBoxSpacing(yOffset, side);
 		this.reRendering = true;
-		side == 'left' ? this.renderLeftSide() : this.renderRightSide();
+		side == 'left' ? this.renderLeftSide(onlyBg) : this.renderRightSide(onlyBg);
 		this.reRendering = false;
 	}
 };
@@ -193,22 +197,30 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 			box.find('.Transitions_Pageviews'), this.model.pageviews);
 
 	var self = this;
-	var showMetric = function(cssClass, modelProperty) {
+	var showMetric = function(cssClass, modelProperty, highlightCurveOnSide) {
 		var el = box.find('.Transitions_' + cssClass);
 		Piwik_Transitions_Util.replacePlaceholderInHtml(el, self.model[modelProperty]);
 		self.addTooltipShowingPercentageOfAllPageviews(el, modelProperty);
+		if (highlightCurveOnSide && self.model[modelProperty] > 0) {
+			var groupName = cssClass.charAt(0).toLowerCase() + cssClass.substr(1);
+			el.hover(function() {
+				self.highlightGroup(groupName, highlightCurveOnSide);
+			}, function() {
+				self.unHighlightGroup(groupName, highlightCurveOnSide);
+			});
+		}
 	};
 
-	showMetric('DirectEntries', 'directEntries');
-	showMetric('PreviousPages', 'previousPagesNbTransitions');
-	showMetric('SearchEngines', 'searchEnginesNbTransitions');
-	showMetric('Websites', 'websitesNbTransitions');
+	showMetric('DirectEntries', 'directEntries', 'left');
+	showMetric('PreviousPages', 'previousPagesNbTransitions', 'left');
+	showMetric('SearchEngines', 'searchEnginesNbTransitions', 'left');
+	showMetric('Websites', 'websitesNbTransitions', 'left');
 
-	showMetric('FollowingPages', 'followingPagesNbTransitions');
-	showMetric('Outlinks', 'outlinksNbTransitions');
-	showMetric('Downloads', 'downloadsNbTransitions');
-	showMetric('Exits', 'exits');
-	showMetric('Bounces', 'bounces');
+	showMetric('FollowingPages', 'followingPagesNbTransitions', 'right');
+	showMetric('Outlinks', 'outlinksNbTransitions', 'right');
+	showMetric('Downloads', 'downloadsNbTransitions', 'right');
+	showMetric('Exits', 'exits', 'right');
+	showMetric('Bounces', 'bounces', false);
 
 	box.find('.Transitions_CenterBoxMetrics').show();
 };
@@ -225,7 +237,7 @@ Piwik_Transitions.prototype.addTooltipShowingPercentageOfAllPageviews = function
 	});
 };
 
-/** Render the loops (i.e. page refreshes) */
+/** Render the loops (i.e. page reloads) */
 Piwik_Transitions.prototype.renderLoops = function() {
 	if (this.model.loops == 0) {
 		return;
@@ -239,38 +251,62 @@ Piwik_Transitions.prototype.renderLoops = function() {
 	this.canvas.renderLoops(this.model.getPercentage('loops'));
 };
 
-Piwik_Transitions.prototype.renderEntries = function() {
+Piwik_Transitions.prototype.renderEntries = function(onlyBg) {
 	if (this.model.directEntries > 0) {
+		var self = this;
+		var gradient = this.canvas.createHorizontalGradient('#CFEDCA', '#91DE83', 'left');
+		if (this.highlightedGroup == 'directEntries') {
+			gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', 'left')
+		}
 		this.canvas.renderBox({
 			side: 'left',
+			onlyBg: onlyBg,
 			share: this.model.getPercentage('directEntries'),
-			gradient: this.canvas.createHorizontalGradient('#CFEDCA', '#91DE83', 'left'),
+			gradient: gradient,
 			boxText: Piwik_Transitions_Translations.directEntries,
 			boxTextNumLines: 1,
 			boxTextCssClass: 'SingleLine',
-			smallBox: true
+			smallBox: true,
+			onMouseOver: function() {
+				self.highlightGroup('directEntries', 'left');
+			},
+			onMouseOut: function() {
+				self.unHighlightGroup('directEntries', 'left');
+			}
 		});
 		this.canvas.addBoxSpacing(20, 'left');
 	}
 };
 
-Piwik_Transitions.prototype.renderExits = function() {
+Piwik_Transitions.prototype.renderExits = function(onlyBg) {
 	if (this.model.exits > 0) {
+		var self = this;
+		var gradient = this.canvas.createHorizontalGradient('#CFEDCA', '#91DE83', 'right');
+		if (this.highlightedGroup == 'exits') {
+			gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', 'right')
+		}
 		this.canvas.renderBox({
 			side: 'right',
+			onlyBg: onlyBg,
 			share: this.model.getPercentage('exits'),
-			gradient: this.canvas.createHorizontalGradient('#CFEDCA', '#91DE83', 'right'),
+			gradient: gradient,
 			boxText: Piwik_Transitions_Translations.exits,
 			boxTextNumLines: 1,
 			boxTextCssClass: 'SingleLine',
-			smallBox: true
+			smallBox: true,
+			onMouseOver: function() {
+				self.highlightGroup('exits', 'right');
+			},
+			onMouseOut: function() {
+				self.unHighlightGroup('exits', 'right');
+			}
 		});
 		this.canvas.addBoxSpacing(20, 'right');
 	}
 };
 
 /** Render the open group with the detailed data */
-Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
+Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side, onlyBg) {
 	var self = this;
 	
 	// get data from the model
@@ -287,6 +323,9 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 	var gradientItems = this.canvas.createHorizontalGradient('#E3DFD1', '#E8E4D5', side);
 	var gradientOthers = this.canvas.createHorizontalGradient('#F5F3EB', '#E8E4D5', side);
 	var gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#B0CAE8', side);
+	if (groupName == this.highlightedGroup) {
+		gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#FAD293', side)
+	}
 	
 	// remember current offsets to reset them later for drawing the background
 	var boxPositionBefore, curvePositionBefore;
@@ -307,8 +346,15 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 		titleX = this.canvas.rightBoxBeginX - 1;
 		titleClass = 'BoxTextRight';
 	}
-	var groupTitle = self.model.getGroupTitle(groupName);
-	this.canvas.renderText(groupTitle, titleX , boxPositionBefore + 11, [titleClass, 'TitleOfOpenGroup']);
+	if (!onlyBg) {
+		var groupTitle = self.model.getGroupTitle(groupName);
+		var titleEl = this.canvas.renderText(groupTitle, titleX , boxPositionBefore + 11, [titleClass, 'TitleOfOpenGroup']);
+		titleEl.hover(function() {
+			self.highlightGroup(groupName, side);
+		}, function() {
+			self.unHighlightGroup(groupName, side);
+		});
+	}
 	this.canvas.addBoxSpacing(34, side);
 	
 	// draw detail boxes
@@ -341,6 +387,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 		
 		this.canvas.renderBox({
 			side: side,
+			onlyBg: onlyBg,
 			share: data.percentage / 100 * totalShare,
 			gradient: isOthers ? gradientOthers : gradientItems,
 			boxText: label,
@@ -379,9 +426,12 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side) {
 };
 
 /** Render a closed group without detailed data, only one box for the sum */
-Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side) {
+Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side, onlyBg) {
 	var self = this;
 	var gradient = this.canvas.createHorizontalGradient('#DDE4ED', '#9BBADE', side);
+	if (groupName == this.highlightedGroup) {
+		gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', side)
+	}
 	
 	var nbTransitionsVarName = groupName + 'NbTransitions';
 	
@@ -391,6 +441,7 @@ Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side) {
 	
 	self.canvas.renderBox({
 		side: side,
+		onlyBg: onlyBg,
 		share: self.model.getPercentage(nbTransitionsVarName),
 		gradient: gradient,
 		boxText: self.model.getGroupTitle(groupName),
@@ -399,7 +450,14 @@ Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side) {
 		boxIcon: 'themes/default/images/plus_blue.png',
 		smallBox: true,
 		onClick: function() {
+			self.unHighlightGroup(groupName, side);
 			self.openGroup(side, groupName);
+		},
+		onMouseOver: function() {
+			self.highlightGroup(groupName, side);
+		},
+		onMouseOut: function() {
+			self.unHighlightGroup(groupName, side);
 		}
 	});
 };
@@ -423,6 +481,52 @@ Piwik_Transitions.prototype.openGroup = function(side, groupName) {
 		this.renderRightSide();
 	}
 	
+	this.renderLoops();
+};
+
+/** Highlight a group: change curve color and highlight metric in the center box */
+Piwik_Transitions.prototype.highlightGroup = function(groupName, side) {
+	if (this.highlightedGroup == groupName) {
+		return;
+	}
+	if (this.highlightedGroup !== false) {
+		this.unHighlightGroup(this.highlightedGroup, this.highlightedGroupSide);
+	}
+	
+	this.highlightedGroup = groupName;
+	this.highlightedGroupSide = side;
+	
+	var cssClass = 'Transitions_' + groupName.charAt(0).toUpperCase() + groupName.substr(1);
+	this.highlightedGroupCenterEl = this.canvas.container.find('.' + cssClass);
+	this.highlightedGroupCenterEl.addClass('Transitions_Highlighted');
+	
+	this.canvas.clearSide(side, true);
+	if (side == 'left') {
+		this.renderLeftSide(true);
+	} else {
+		this.renderRightSide(true);
+	}
+	this.renderLoops();
+};
+
+/** Remove highlight after using highlightGroup() */
+Piwik_Transitions.prototype.unHighlightGroup = function(groupName, side) {
+	if (this.highlightedGroup === false) {
+		return;
+	}
+	
+	this.highlightedGroupCenterEl.removeClass('Transitions_Highlighted');
+	
+	this.highlightedGroup = false;
+	this.highlightedGroupSide = false;
+	this.highlightedGroupCenterEl = false;
+	
+	this.canvas.clearSide(side, true);
+	if (side == 'left') {
+		this.renderLeftSide(true);
+	} else {
+		this.renderRightSide(true);
+	}
 	this.renderLoops();
 };
 
@@ -585,6 +689,9 @@ Piwik_Transitions_Canvas.prototype.addDomElement = function(tagName, cssClass) {
  * smallBox: use this.smallBoxHeight instead of this.boxHeight (optional)
  * boxIcon: path to an icon that is put in front of the text (optional)
  * onClick: click callback for the text in the box (optional)
+ * onMouseOver: mouse over callback for the text in the box (optional)
+ * onMouseOut: mouse over callback for the text in the box (optional)
+ * onlyBg: render only the background, not the text; used for highlighting (optional)
  * 
  * Only used for background:
  * curveHeight: fix height in px instead of share
@@ -615,7 +722,7 @@ Piwik_Transitions_Canvas.prototype.renderBox = function(params) {
 	}
 	
 	// text inside the box
-	if (params.boxText) {
+	if (params.boxText && !params.onlyBg) {
 		var onClick = typeof params.onClick == 'function' ? params.onClick : false;
 		var boxTextLeft, boxTextTop, el;
 		if (params.side == 'left') {
@@ -639,10 +746,16 @@ Piwik_Transitions_Canvas.prototype.renderBox = function(params) {
 				Piwik_Tooltip.hide();
 			});
 		}
+		if (typeof params.onMouseOver == 'function') {
+			el.mouseenter(params.onMouseOver);
+		}
+		if (typeof params.onMouseOut == 'function') {
+			el.mouseleave(params.onMouseOut);
+		}
 	}
 
 	// text at the beginning of the curve
-	if (params.curveText) {
+	if (params.curveText && !params.onlyBg) {
 		var curveTextLeft, curveTextTop;
 		if (params.side == 'left') {
 			curveTextLeft = this.leftBoxBeginX + this.boxWidth + 12;
@@ -806,7 +919,7 @@ Piwik_Transitions_Canvas.prototype.renderLoops = function(share) {
 };
 
 /** Clear one side for redrawing */
-Piwik_Transitions_Canvas.prototype.clearSide = function(side) {
+Piwik_Transitions_Canvas.prototype.clearSide = function(side, onlyBg) {
 	var x = (side == 'left' ? 0 : this.width / 2);
 	var y = 0;
 	var w = this.width / 2;
@@ -816,13 +929,17 @@ Piwik_Transitions_Canvas.prototype.clearSide = function(side) {
 	this.bgContext.clearRect(x, y, w, h);
 	
 	if (side == 'left') {
-		this.container.find('.Transitions_BoxTextLeft').remove();
-		this.container.find('.Transitions_CurveTextLeft').remove();
+		if (!onlyBg) {
+			this.container.find('.Transitions_BoxTextLeft').remove();
+			this.container.find('.Transitions_CurveTextLeft').remove();
+		}
 		this.leftBoxPositionY = this.originalBoxPositionY;
 		this.leftCurvePositionY = this.originalCurvePositionY;	
 	} else {
-		this.container.find('.Transitions_BoxTextRight').remove();
-		this.container.find('.Transitions_CurveTextRight').remove();
+		if (!onlyBg) {
+			this.container.find('.Transitions_BoxTextRight').remove();
+			this.container.find('.Transitions_CurveTextRight').remove();
+		}
 		this.rightBoxPositionY = this.originalBoxPositionY;
 		this.rightCurvePositionY = this.originalCurvePositionY;
 	}
