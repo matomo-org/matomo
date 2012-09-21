@@ -350,6 +350,15 @@ class Configuration(object):
             '--encoding', dest='encoding', default='utf8',
             help="Log files encoding (default: %default)"
         )
+        option_parser.add_option(
+            '--disable-bulk-tracking', dest='use_bulk_tracking',
+            default=True, action='store_false',
+            help="Disables use of bulk tracking so recorders record one hit at a time."
+        )
+        option_parser.add_option(
+            '--debug-force-one-hit-every-Ns', dest='force_one_action_interval', default=False, type='float',
+            help="Debug option that will force each recorder to record one hit every N secs."
+        )
 
         self.options, self.filenames = option_parser.parse_args(sys.argv[1:])
 
@@ -924,6 +933,10 @@ class Recorder(object):
 
     def __init__(self):
         self.queue = Queue.Queue(maxsize=10000)
+        
+        # if bulk tracking disabled, make sure we can store hits outside of the Queue
+        if not config.options.use_bulk_tracking:
+            self.unrecorded_hits = []
 
     @staticmethod
     def launch(recorder_count):
@@ -933,7 +946,10 @@ class Recorder(object):
         for i in xrange(recorder_count):
             recorder = Recorder()
             Recorder.recorders.append(recorder)
-            t = threading.Thread(target=recorder._run)
+            
+            run = recorder._run_bulk if config.options.use_bulk_tracking else recorder._run_single
+            t = threading.Thread(target=run)
+            
             t.daemon = True
             t.start()
             logging.debug('Launched recorder')
@@ -960,7 +976,7 @@ class Recorder(object):
         for recorder in Recorder.recorders:
             recorder._wait_empty()
 
-    def _run(self):
+    def _run_bulk(self):
         while True:
             hits = self.queue.get()
             if len(hits) > 0:
@@ -970,6 +986,22 @@ class Recorder(object):
                     fatal_error(e, hits[0].filename, hits[0].lineno) # approximate location of error
             self.queue.task_done()
 
+    def _run_single(self):
+        while True:
+            if config.options.force_one_action_interval != False:
+                time.sleep(config.options.force_one_action_interval)
+            
+            if len(self.unrecorded_hits) > 0:
+                hit = self.unrecorded_hits.pop(0)
+            
+                try:
+                    self._record_hits([hit])
+                except Piwik.Error, e:
+                    fatal_error(e, hit.filename, hit.lineno)
+            else:
+                self.unrecorded_hits = self.queue.get()
+                self.queue.task_done()
+        
     def _wait_empty(self):
         """
         Wait until the queue is empty.
