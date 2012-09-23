@@ -888,7 +888,7 @@ Piwik_Transitions_Canvas.prototype.renderLoops = function(share) {
 	this.context.lineTo(point7.x, point7.y);
 	
 	// line to lower left connection to the center box
-	var point8 = {x: point1.x, y: point1.y +  + curveHeight};
+	var point8 = {x: point1.x, y: point1.y + curveHeight};
 	cpLeftX += 30;
 	var cp7 = {x: cpLeftX, y: point7.y};
 	var cp8 = {x: cpLeftX, y: point8.y};
