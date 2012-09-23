@@ -223,11 +223,11 @@ class Archiving
 				// 2) OR always if script never executed for this website before
 		    	$shouldArchivePeriods = true;
 		    }
-		    
+
+
 		    // (*) If the website is archived because it is a new day in its timezone
 		    // We make sure all periods are archived, even if there is 0 visit today
-		    if(!$shouldArchivePeriods
-		    	&& in_array($idsite, $this->websiteDayHasFinishedSinceLastRun))
+		    if(in_array($idsite, $this->websiteDayHasFinishedSinceLastRun))
 		    {
 		    	$shouldArchivePeriods = true;
 		    }
@@ -241,10 +241,8 @@ class Archiving
 		    }
 		    
 		    // Test if we should process this website at all
-		    
 		    $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
-		    if(!$shouldArchivePeriods
-		    	&& $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive) 
+		    if( $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive)
 		    {
 		    	$this->log("Skipped website id $idsite, already processed today's report in recent run, "
 					.Piwik::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
@@ -322,7 +320,7 @@ class Archiving
 					Piwik_SetOption( $this->lastRunKey($idsite, "periods"), time() );
 					
 					// Remove this website from the list of websites to be invalidated
-					// since it now just been re-processing the reports, job is done!
+					// since it's now just been re-processing the reports, job is done!
 					if( in_array($idsite, $this->idSitesInvalidatedOldReports ) )
 					{
 						$websiteIdsInvalidated = Piwik_CoreAdminHome_API::getWebsiteIdsToInvalidate();
@@ -758,13 +756,13 @@ class Archiving
 			{
 				$processedDateInTz = Piwik_Date::factory((int)$timestampActiveTraffic, $timezone);
 				$currentDateInTz = Piwik_Date::factory('now', $timezone);
-				
+
 				if($processedDateInTz->toString() != $currentDateInTz->toString() )
 				{
 					$timezoneToProcess[] = $timezone;
 				}
 			}
-			
+
 			$websiteDayHasFinishedSinceLastRun = Piwik_SitesManager_API::getInstance()->getSitesIdFromTimezones($timezoneToProcess);
 			$websiteDayHasFinishedSinceLastRun = array_diff($websiteDayHasFinishedSinceLastRun, $this->websites);
 			$this->websiteDayHasFinishedSinceLastRun = $websiteDayHasFinishedSinceLastRun;
@@ -775,8 +773,6 @@ class Archiving
 				
 				$this->websites = array_merge($this->websites, $websiteDayHasFinishedSinceLastRun);
 			}
-
-			
 		}
 	}
 
