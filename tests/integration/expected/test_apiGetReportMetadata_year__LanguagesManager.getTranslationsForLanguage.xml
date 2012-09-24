@@ -49,6 +49,10 @@
 		<value>Tableau de bord de tous les sites</value>
 	</row>
 	<row>
+		<label>General_SingleWebsitesDashboard</label>
+		<value>Tableau de bord d'un seul site</value>
+	</row>
+	<row>
 		<label>General_API</label>
 		<value>API</value>
 	</row>
@@ -417,6 +421,10 @@
 		<value>Au</value>
 	</row>
 	<row>
+		<label>General_LastDaysShort</label>
+		<value>Derniers %s jours</value>
+	</row>
+	<row>
 		<label>General_PreviousDays</label>
 		<value>%s précédents jours (aujourd'hui non-inclus)</value>
 	</row>
@@ -667,6 +675,10 @@
 	<row>
 		<label>General_ColumnAverageTimeOnPage</label>
 		<value>Temps moyen sur la page</value>
+	</row>
+	<row>
+		<label>General_TimeOnPage</label>
+		<value>Temps sur la page</value>
 	</row>
 	<row>
 		<label>General_ColumnAverageTimeOnPageDocumentation</label>
@@ -1313,6 +1325,10 @@
 		<value>Informations Générales</value>
 	</row>
 	<row>
+		<label>General_ReportGeneratedFrom</label>
+		<value>Ce rapport a été généré en utilisant des données de %s.</value>
+	</row>
+	<row>
 		<label>Actions_PluginDescription</label>
 		<value>Effectue des rapports sur les affichages de pages, les liens sortants et les téléchargements. Le suivi des liens sortants et des téléchargements est automatique!</value>
 	</row>
@@ -1781,6 +1797,18 @@
 		<value>Désactiver la prise en charge de &quot;Ne pas Suivre&quot;</value>
 	</row>
 	<row>
+		<label>PrivacyManager_GetPurgeEstimate</label>
+		<value>Obtenir l'estimation de la purge</value>
+	</row>
+	<row>
+		<label>PrivacyManager_CannotLockSoDeleteLogActions</label>
+		<value>La table log_action ne sera pas purgée : veuillez accorder le privilège LOCK TABLES à l'utilisateur MYSQL '%s'.</value>
+	</row>
+	<row>
+		<label>PrivacyManager_DBPurged</label>
+		<value>BDD purgée.</value>
+	</row>
+	<row>
 		<label>CoreHome_PluginDescription</label>
 		<value>Structure des rapports statistiques web.</value>
 	</row>
@@ -1853,8 +1881,24 @@
 		<value>%shortDay% %day% %shortMonth%</value>
 	</row>
 	<row>
+		<label>CoreHome_ShortDateFormatWithYear</label>
+		<value>%day% %shortMonth% %shortYear%</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortMonthFormat</label>
+		<value>%shortMonth% %longYear%</value>
+	</row>
+	<row>
 		<label>CoreHome_LongMonthFormat</label>
 		<value>%longMonth% %longYear%</value>
+	</row>
+	<row>
+		<label>CoreHome_ShortWeekFormat</label>
+		<value>%dayFrom% %shortMonthFrom% - %dayTo% %shortMonthTo% %shortYearTo%</value>
+	</row>
+	<row>
+		<label>CoreHome_LongWeekFormat</label>
+		<value>%dayFrom% %longMonthFrom% - %dayTo% %longMonthTo% %longYearTo%</value>
 	</row>
 	<row>
 		<label>CoreHome_PeriodDay</label>
@@ -2395,6 +2439,10 @@
 	<row>
 		<label>Dashboard_Close_js</label>
 		<value>Fermer</value>
+	</row>
+	<row>
+		<label>Dashboard_Refresh_js</label>
+		<value>Actualiser</value>
 	</row>
 	<row>
 		<label>Dashboard_Maximise_js</label>
@@ -3153,6 +3201,10 @@
 		<value>Continuer vers Piwik</value>
 	</row>
 	<row>
+		<label>Installation_SiteSetup</label>
+		<value>Veuillez configurer le premier site web que vous voulez suivre et analyser avc Piwik :</value>
+	</row>
+	<row>
 		<label>Installation_SetupWebsite</label>
 		<value>Paramétrer un site</value>
 	</row>
@@ -3167,6 +3219,10 @@
 	<row>
 		<label>Installation_Timezone</label>
 		<value>fuseau horaire du site web</value>
+	</row>
+	<row>
+		<label>Installation_SiteSetupFootnote</label>
+		<value>Note : une fois que l'installation de Piwik est terminée, vous pourrez ajouter d'autres sites web à suivre!</value>
 	</row>
 	<row>
 		<label>Installation_SetupWebsiteError</label>
@@ -5637,6 +5693,10 @@
 		<value>Paramètres utilisateurs anonymes</value>
 	</row>
 	<row>
+		<label>UsersManager_NoteNoAnonymousUserAccessSettingsWontBeUsed2</label>
+		<value>Note : Vous ne pouvez pas modifier les paramètres dans cette section, ce parce que vous n'avez aucun site web accessible par des utilisateurs anonymes.</value>
+	</row>
+	<row>
 		<label>UsersManager_WhenUsersAreNotLoggedInAndVisitPiwikTheyShouldAccess</label>
 		<value>Quand les utilisateurs ne sont pas connectés et accèdent à Piwik, ils verront</value>
 	</row>
@@ -6061,6 +6121,18 @@
 		<value>%sh</value>
 	</row>
 	<row>
+		<label>VisitTime_VisitsByDayOfWeek</label>
+		<value>Visites par Jour de la Semaine</value>
+	</row>
+	<row>
+		<label>VisitTime_DayOfWeek</label>
+		<value>Jour de la semaine</value>
+	</row>
+	<row>
+		<label>VisitTime_WidgetByDayOfWeekDocumentation</label>
+		<value>Ce graphique affiche le nombre de visites que votre site web a reçu durant chaque jour de la semaine.</value>
+	</row>
+	<row>
 		<label>Widgetize_PluginDescription</label>
 		<value>Le plugin rend simple l'export de n'importe quel Widget Piwik dans votre blog, site web ou sur Igoogle et Netvibes!</value>
 	</row>
@@ -6091,6 +6163,14 @@
 	<row>
 		<label>PDFReports_SendReportTo</label>
 		<value>Envoyer le(s) rapport(s) à</value>
+	</row>
+	<row>
+		<label>PDFReports_NoRecipients</label>
+		<value>Ce rapport n'a aucun destinataire</value>
+	</row>
+	<row>
+		<label>PDFReports_ReportType</label>
+		<value>Envoyer le rapport via</value>
 	</row>
 	<row>
 		<label>PDFReports_ReportFormat</label>
