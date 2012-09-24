@@ -29,6 +29,7 @@ var Piwik_Popover = (function() {
 				piwikHelper.abortQueueAjax();
 				$('.ui-widget-overlay').off('click.popover');
 				isOpen = false;
+				broadcast.propagateNewSecondHash(false);
 			}
 		});
 		
@@ -121,7 +122,9 @@ var Piwik_Popover = (function() {
 
 		/** Close the popover */
 		close: function() {
-			container.dialog('close');
+			if (isOpen) {
+				container.dialog('close');
+			}
 		}
 
 	};

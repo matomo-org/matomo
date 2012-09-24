@@ -27,6 +27,16 @@ var broadcast = {
      */
     _isInit: false,
 
+	/**
+	 * Last known hash parts
+	 */
+	currentHashParts: [null],
+
+	/**
+	 * Callbacks for second hash change
+	 */
+	secondHashHandlers: [],
+
     /**
      * Initializes broadcast object
      * @return {void}
@@ -60,19 +70,50 @@ var broadcast = {
 
         // Unbind any previously attached resize handlers
         $(window).off('resize');
-
-        // hash doesn't contain the first # character.
-        if( hash ) {
-            // restore ajax loaded state
-            broadcast.loadAjaxContent(hash);
-
-            // Hack: make sure the "Widgets & Dashboard" is deleted on reload
-            $('#dashboardSettings').remove();
-            $('#dashboardWidgetsArea').dashboard('destroy');
-        } else {
-            // start page
-            $('#content').empty();
-        }
+			
+		// hash doesn't contain the first # character.
+		if( hash ) {
+			var hashParts = hash.split('#');
+			
+			var firstHashUpdated = (hashParts.length == 1); // i.e. no second hash yet
+			var secondHashUpdated = (hashParts.length > 1 && hashParts[0] == broadcast.currentHashParts[0]);
+			if (broadcast.currentHashParts[0] === null) {
+				// new page load
+				firstHashUpdated = true;
+				secondHashUpdated = (hashParts.length > 1);
+			}
+			
+			if (firstHashUpdated) {
+				Piwik_Popover.close();
+				
+				if (hashParts[0] != broadcast.currentHashParts[0]) {
+					// restore ajax loaded state
+					broadcast.loadAjaxContent(hashParts[0]);
+		
+					// make sure the "Widgets & Dashboard" is deleted on reload
+					$('#dashboardSettings').remove();
+					$('#dashboardWidgetsArea').dashboard('destroy');
+				}
+			}
+			
+			if (secondHashUpdated && hashParts[1] == '') {
+				Piwik_Popover.close();
+			} else if (secondHashUpdated) {
+				var secondHashParts = hashParts[1].split(':');
+				var handlerName = secondHashParts[0];
+				secondHashParts.shift();
+				var param = secondHashParts.join(':');
+				if (typeof broadcast.secondHashHandlers[handlerName] != 'undefined') {
+					broadcast.secondHashHandlers[handlerName](param);
+				}
+			}
+			
+		} else {
+			// start page
+			$('#content').empty();
+		}
+		
+		broadcast.currentHashParts = hashParts;
     },
 
     /**
@@ -99,7 +140,7 @@ var broadcast = {
         var currentHashStr = broadcast.getHash();
 
         ajaxUrl = ajaxUrl.replace(/^\?|&#/,'');
-
+		
         var params_vals = ajaxUrl.split("&");
         for( var i=0; i<params_vals.length; i++ )
         {
@@ -229,6 +270,24 @@ var broadcast = {
 
         return urlStr;
     },
+
+	/**
+	 * Update the part after the second hash
+	 */
+	propagateNewSecondHash: function(handlerName, value)
+	{
+		var url = window.location.href;
+		var urlParts = url.split('#');
+		urlParts[2] = handlerName === false ? '' : handlerName + ':' + value;
+		window.location.href = urlParts.join('#');
+	},
+
+	/**
+	 * Add a handler for the secon hash
+	 */
+	addSecondHashHandler: function(handlerName, callback) {
+		this.secondHashHandlers[handlerName] = callback;
+	},
 
     /**
      * Loads the given url with ajax and replaces the content
@@ -427,7 +486,7 @@ var broadcast = {
      */
     getHash: function ()
     {
-        return broadcast.getHashFromUrl().replace(/^#/, '');
+        return broadcast.getHashFromUrl().replace(/^#/, '').split('#')[0];
     },
 	
 	/**

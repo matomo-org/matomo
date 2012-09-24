@@ -16,6 +16,13 @@ var DataTable_RowActions_Registry = {
 	registry: [],
 	
 	register: function(action) {
+		var createInstance = action.createInstance;
+		action.createInstance = function(dataTable) {
+			var instance = createInstance(dataTable);
+			instance.actionName = action.name;
+			return instance;
+		};
+		
 		this.registry.push(action);
 	},
 	
@@ -32,6 +39,14 @@ var DataTable_RowActions_Registry = {
 			}
 		}
 		return available;
+	},
+	
+	getActionByName: function(name) {
+		for (var i = 0; i < this.registry.length; i++) {
+			if (this.registry[i].name == name) {
+				return this.registry[i];
+			}
+		}
 	}
 	
 };
@@ -85,6 +100,9 @@ function DataTable_RowAction(dataTable) {
 	
 	// has to be overridden in subclasses
 	this.trEventName = 'piwikTriggerRowAction';
+	
+	// set in registry
+	this.actionName = 'RowAction';
 }
 
 /** Initialize a row when the table is loaded */
@@ -164,17 +182,21 @@ DataTable_RowAction.prototype.getLabelFromTr = function(tr) {
 
 /**
  * Base method for opening popovers.
- * TODO: In the future, this method will remember the parameter in the url.
- * After doing general things, doOpenPopover is called.
+ * This method will remember the parameter in the url and call doOpenPopover().
  */
 DataTable_RowAction.prototype.openPopover = function(parameter) {
-	// maybe add popover name / param after a second hash?
-	//var currentHashStr = broadcast.getHashFromUrl().replace(/^#/, '');
-	//currentHashStr = broadcast.updateParamValue('foo=bar', currentHashStr);
-	//$.history.load(currentHashStr);
-
-	this.doOpenPopover(parameter);
+	broadcast.propagateNewSecondHash('RowAction', this.actionName + ':' + parameter);
 };
+
+broadcast.addSecondHashHandler('RowAction', function(param) {
+	var paramParts = param.split(':');
+	var rowActionName = paramParts[0];
+	paramParts.shift();
+	param = paramParts.join(':');
+	
+	var rowAction = DataTable_RowActions_Registry.getActionByName(rowActionName);
+	rowAction.createInstance().doOpenPopover(param);
+});
 
 /** To be overridden */
 DataTable_RowAction.prototype.performAction = function(label, tr, e) {

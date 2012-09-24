@@ -33,7 +33,6 @@ DataTable_RowActions_Transitions.prototype.doOpenPopover = function(link) {
 	this.transitions.showPopover();
 };
 
-
 DataTable_RowActions_Registry.register({
 	
 	name: 'Transitions',
@@ -235,7 +234,7 @@ Piwik_Transitions.prototype.renderEntries = function(onlyBg) {
 		var self = this;
 		var gradient = this.canvas.createHorizontalGradient('#CFEDCA', '#91DE83', 'left');
 		if (this.highlightedGroup == 'directEntries') {
-			gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', 'left')
+			gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', 'left');
 		}
 		this.canvas.renderBox({
 			side: 'left',
@@ -262,7 +261,7 @@ Piwik_Transitions.prototype.renderExits = function(onlyBg) {
 		var self = this;
 		var gradient = this.canvas.createHorizontalGradient('#CFEDCA', '#91DE83', 'right');
 		if (this.highlightedGroup == 'exits') {
-			gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', 'right')
+			gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', 'right');
 		}
 		this.canvas.renderBox({
 			side: 'right',
@@ -303,7 +302,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side, onlyBg) 
 	var gradientOthers = this.canvas.createHorizontalGradient('#F5F3EB', '#E8E4D5', side);
 	var gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#B0CAE8', side);
 	if (groupName == this.highlightedGroup) {
-		gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#FAD293', side)
+		gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#FAD293', side);
 	}
 	
 	// remember current offsets to reset them later for drawing the background
@@ -409,7 +408,7 @@ Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side, onlyBg
 	var self = this;
 	var gradient = this.canvas.createHorizontalGradient('#DDE4ED', '#9BBADE', side);
 	if (groupName == this.highlightedGroup) {
-		gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', side)
+		gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', side);
 	}
 	
 	var nbTransitionsVarName = groupName + 'NbTransitions';
@@ -443,7 +442,6 @@ Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side, onlyBg
 
 /** Reload the entire popover for a different URL */
 Piwik_Transitions.prototype.reloadPopover = function(url) {
-	Piwik_Popover.close();
 	this.rowAction.openPopover(url);
 };
 
