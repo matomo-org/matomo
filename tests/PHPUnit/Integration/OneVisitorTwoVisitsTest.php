@@ -53,6 +53,11 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
             "idSite=".self::$idSite."&date=2010-03-06&format=json&expanded=1&period=day&method="
                 . "VisitorInterest.getNumberOfVisitsPerVisitDuration"
         );
+        foreach ($bulkUrls as &$url)
+        {
+        	$url = urlencode($url);
+        }
+        
         return array(
             array('all', array('idSite' => self::$idSite, 'date' => self::$dateTime)),
 

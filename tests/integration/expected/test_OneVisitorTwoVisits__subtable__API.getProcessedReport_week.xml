@@ -27,7 +27,7 @@
 		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2010-03-06&amp;idSubtable=</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2009-08-10%2C2010-03-07&amp;idSubtable=</imageGraphEvolutionUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2009-08-10,2010-03-07&amp;idSubtable=</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageUrls</uniqueId>
 
 	</metadata>
