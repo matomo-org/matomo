@@ -592,8 +592,16 @@ table.dataTable .dataTableRowActions {
 table.dataTable .dataTableRowActions a {
 	display: block;
 	float: left;
-	padding: 6px;
-	margin: 0 6px 0 0;
+	padding: 6px 6px 6px 0;
+	margin: 0;
+}
+
+table.dataTable .dataTableRowActions a.leftmost {
+	padding-left: 6px;
+}
+
+table.dataTable .dataTableRowActions a.rightmost {
+	padding-right: 10px;
 }
 
 table.dataTable .dataTableRowActions a img {

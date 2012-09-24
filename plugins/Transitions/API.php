@@ -119,7 +119,7 @@ class Piwik_Transitions_API
 		
 		if ($dataTable->getRowsCount() == 0)
 		{
-			throw new Exception("The label '$label' could not be found in Actions.getPageUrls\n");
+			throw new Exception('NoDataForUrl');
 		}
 		
 		$row = $dataTable->getFirstRow();

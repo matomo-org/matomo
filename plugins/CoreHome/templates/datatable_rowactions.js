@@ -47,6 +47,7 @@ var DataTable_RowActions_Registry = {
 				return this.registry[i];
 			}
 		}
+		return false;
 	}
 	
 };
@@ -195,7 +196,9 @@ broadcast.addSecondHashHandler('RowAction', function(param) {
 	param = paramParts.join(':');
 	
 	var rowAction = DataTable_RowActions_Registry.getActionByName(rowActionName);
-	rowAction.createInstance().doOpenPopover(param);
+	if (rowAction) {
+		rowAction.createInstance().doOpenPopover(param);
+	}
 });
 
 /** To be overridden */

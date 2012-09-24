@@ -37,7 +37,7 @@ DataTable_RowActions_Registry.register({
 	
 	name: 'Transitions',
 	
-	dataTableIcon: 'plugins/Transitions/templates/transitions_rowaction.png',
+	dataTableIcon: 'plugins/Transitions/templates/transitions_icon.png',
 	
 	createInstance: function(dataTable) {
 		return new DataTable_RowActions_Transitions(dataTable);
@@ -208,6 +208,7 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 	showMetric('PreviousPages', 'previousPagesNbTransitions', 'left');
 	showMetric('SearchEngines', 'searchEnginesNbTransitions', 'left');
 	showMetric('Websites', 'websitesNbTransitions', 'left');
+	showMetric('Campaigns', 'campaignsNbTransitions', 'left');
 
 	showMetric('FollowingPages', 'followingPagesNbTransitions', 'right');
 	showMetric('Outlinks', 'outlinksNbTransitions', 'right');
@@ -875,7 +876,7 @@ Piwik_Transitions_Canvas.prototype.renderLoops = function(share) {
 	
 	// curve from the upper left connection to the center box to the lower left connection to the text box 
 	var point1 = {x: this.leftCurveEndX, y: this.leftCurvePositionY};
-	var point2 = {x: this.leftCurveEndX, y: 460};
+	var point2 = {x: this.leftCurveEndX, y: 470};
 	
 	var cpLeftX = (this.leftCurveBeginX + this.leftCurveEndX) / 2 + 30;
 	var cp1 = {x: cpLeftX, y: point1.y};
@@ -1144,7 +1145,27 @@ Piwik_Transitions_Ajax.prototype.callApi = function(method, params, callback) {
 
 	piwikHelper.queueAjaxRequest($.post('index.php', params, function(result) {
 		if (typeof result.result != 'undefined' && result.result == 'error') {
-			alert(result.message);
+			var errorName = result.message;
+			var errorTitle = Piwik_Transitions_Translations[errorName];
+			var errorMessage = Piwik_Transitions_Translations[errorName + 'Details'];
+			var errorBack = Piwik_Transitions_Translations[errorName + 'Back'];
+			
+			if (typeof errorTitle == 'undefined') {
+				alert(result.message);
+				return;
+			}
+			
+			if (typeof params.pageUrl != 'undefined') {
+				var url = params.pageUrl;
+				url = Piwik_Transitions_Util.addBreakpoints(url, '|||');
+				url = $(document.createElement('p')).text(url).html();
+				url = url.replace(/\|\|\|/g, '<wbr />');
+				errorTitle = errorTitle.replace(/%s/, '<span>' + url + '</span>');
+			}
+			
+			errorMessage = errorMessage.replace(/%s/g, '<br />');
+			
+			Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
 		} else {
 			callback(result);
 		}
@@ -1180,8 +1201,9 @@ Piwik_Transitions_Util = {
 	},
 
 	/** Add break points to string so that it can be displayed more compactly */
-	addBreakpoints: function(text) {
-		return text.replace(/([\/&=?\.%#:])/g, '$1<wbr>');
+	addBreakpoints: function(text, breakpointMarkup) {
+		return text.replace(/([\/&=?\.%#:])/g, '$1' + 
+			(typeof breakpointMarkup == 'undefined' ? '<wbr>' : breakpointMarkup));
 	},
 
 	/**

@@ -119,6 +119,34 @@ var Piwik_Popover = (function() {
 			container.html(html);
 			centerPopover();
 		},
+		
+		/** Show an error message. All params are HTML! */
+		showError: function(title, message, backLabel) {
+			var error = $(document.createElement('div')).addClass('Piwik_Popover_Error');
+			
+			var p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Title');
+			error.append(p.html(title));
+
+			if (message) {
+				p = $(document.createElement('p')).addClass('Piwik_Popover_Error_Message');
+				error.append(p.html(message));
+			}
+			
+			if (backLabel) {
+				var back = $(document.createElement('a')).addClass('Piwik_Popover_Error_Back');
+				back.attr('href', '#').click(function() {
+					history.back();
+					return false;
+				});
+				error.append(back.html(backLabel));
+			}
+
+			if (!isOpen) {
+				openPopover();
+			}
+				
+			this.setContent(error);
+		},
 
 		/** Close the popover */
 		close: function() {

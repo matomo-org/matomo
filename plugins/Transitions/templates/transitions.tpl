@@ -11,6 +11,7 @@
 				<p class="Transitions_PreviousPages">{$translations.fromPreviousPagesInline|translate}</p>
 				<p class="Transitions_SearchEngines">{$translations.fromSearchEnginesInline|translate}</p>
 				<p class="Transitions_Websites">{$translations.fromWebsitesInline|translate}</p>
+				<p class="Transitions_Campaigns">{$translations.fromCampaignsInline|translate}</p>
 			</div>
 			
 			<div class="Transitions_OutgoingTraffic">

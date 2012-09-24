@@ -158,7 +158,7 @@ div.pk-emptyGraph {
  * @see popover.js
  */
 
-.Piwik_Popover {
+#Piwik_Popover {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -181,3 +181,33 @@ div.pk-emptyGraph {
 	text-align: center;
 	font-size: 14px;
 }
+
+.Piwik_Popover_Error {
+	padding: 50px 20px 65px 20px;
+	text-align: center;
+}
+
+.Piwik_Popover_Error_Title {
+	color: #E87500;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.Piwik_Popover_Error_Title span {
+	color: #222;
+	font-weight: normal;
+	font-size: 16px;
+}
+
+.Piwik_Popover_Error_Message {
+	color: #7e7363;
+	padding: 20px 0 0 0;
+	font-size: 14px;
+}
+
+a.Piwik_Popover_Error_Back {
+	display: block;
+	margin: 20px 0 0 0;
+	color: #1D3256;
+	font-size: 14px;
+} 

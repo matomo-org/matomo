@@ -52,7 +52,10 @@ class Piwik_Transitions_Controller extends Piwik_Controller
 	 */
 	private static $jsTranslations = array(
 		'XOfY' => 'Transitions_XOutOfYVisits',
-		'XOfAllPageviews' => 'Transitions_XOfAllPageviews'
+		'XOfAllPageviews' => 'Transitions_XOfAllPageviews',
+		'NoDataForUrl' => 'Transitions_NoDataForUrl',
+		'NoDataForUrlDetails' => 'Transitions_NoDataForUrlDetails',
+		'NoDataForUrlBack' => 'Transitions_ErrorBack'
 	);
 
 	public static function getTranslation($key)

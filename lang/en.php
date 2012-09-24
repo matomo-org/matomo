@@ -1683,5 +1683,8 @@ And thank you for using Piwik!',
 	'Transitions_FromCampaignsInline' => '%s from campaigns',
 	'Transitions_ExitsInline' => '%s exits',
 	'Transitions_BouncesInline' => '%s bounces',
-	'Transitions_ShareOfAllPageviews' => 'This page had %s pageviews (%s of all pageviews)'
+	'Transitions_ShareOfAllPageviews' => 'This page had %s pageviews (%s of all pageviews)',
+	'Transitions_NoDataForUrl' => 'There\'s no data for the URL %s',
+	'Transitions_NoDataForUrlDetails' => 'Either the URL had no pageviews during the period %s or the URL was truncated from the actions report %s because there were too many distinct URLs during the period %s or the URL is invalid.',
+	'Transitions_ErrorBack' => 'Go back to the previous URL',
 );

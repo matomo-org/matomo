@@ -114,12 +114,12 @@ var broadcast = {
 				}
 			}
 			
+			broadcast.currentHashParts = hashParts;
+			
 		} else {
 			// start page
 			$('#content').empty();
 		}
-		
-		broadcast.currentHashParts = hashParts;
     },
 
     /**

@@ -1293,13 +1293,20 @@ dataTable.prototype =
 	{
 		var container = $(document.createElement('div')).addClass('dataTableRowActions');
 		
-		for (var i = 0; i < availableActions.length; i++)
+		for (var i = availableActions.length - 1; i >= 0; i--)
 		{
 			var action = availableActions[i];
 			
 			var actionEl = $(document.createElement('a')).attr({href: '#'}).addClass('action' + action.name);
 			actionEl.append($(document.createElement('img')).attr({src: action.dataTableIcon}));
 			container.append(actionEl);
+			
+			if (i == availableActions.length - 1) {
+				actionEl.addClass('leftmost');
+			}
+			if (i == 0) {
+				actionEl.addClass('rightmost');
+			}
 			
 			actionEl.click((function(action)
 			{

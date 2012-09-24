@@ -32,7 +32,7 @@
 #Transitions_CenterBox {
 	margin: 60px 0 0 345px;
 	width: 208px;
-	height: 344px;
+	height: 354px;
 	background: #f7f7f7;
 	border: 1px solid #a9a399;
 	border-radius:10px;
@@ -86,7 +86,7 @@
 }
 
 #Transitions_Loops {
-	margin: 435px 0 0 346px;
+	margin: 445px 0 0 346px;
 	width: 208px;
 	text-align: center;
 	line-height: 25px;
@@ -101,7 +101,7 @@
 	padding: 0;
 	cursor: default;
 	font-size: 12px;
-	line-height: 16px;
+	line-height: 15px;
 }
 
 .Transitions_CenterBoxMetrics p.Transitions_Margin {
