@@ -37,7 +37,7 @@
 
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2010-01-03&amp;idSubtable=</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2009-12-05%2C2010-01-03&amp;idSubtable=</imageGraphEvolutionUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2009-12-05,2010-01-03&amp;idSubtable=</imageGraphEvolutionUrl>
 		<uniqueId>CustomVariables_getCustomVariablesValuesFromNameId</uniqueId>
 
 	</metadata>
