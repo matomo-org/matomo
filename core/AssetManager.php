@@ -296,6 +296,7 @@ class Piwik_AssetManager
 			'libs/',
 			'themes/default/common.js',
 			'themes/default/',
+			'plugins/CoreHome/templates/broadcast.js',
 			'plugins/',
 		);
 
