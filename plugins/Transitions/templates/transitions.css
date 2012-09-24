@@ -43,10 +43,6 @@
 	z-index: 1503;
 }
 
-#Transitions_CenterBox.Transitions_Loading {
-	background: url(../../../themes/default/images/loading-blue.gif) no-repeat center center #f7f7f7;
-}
-
 #Transitions_CenterBox h2 {
 	font-size: 12px;
 	line-height: 16px;

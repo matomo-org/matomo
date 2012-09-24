@@ -134,13 +134,13 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		}
 
 		// mask visits to *.piwik.org
-		if(self::isPiwikUrl($url))
+		if (!self::isPiwikUrl($url))
 		{
-			echo
-'<html><head>
-<meta http-equiv="refresh" content="0;url=' . $url . '" />
-</head></html>';
+			Piwik::checkUserHasSomeViewAccess();
 		}
+		
+		echo '<html><head><meta http-equiv="refresh" content="0;url=' . $url . '" /></head></html>';
+		
 		exit;
 	}
 

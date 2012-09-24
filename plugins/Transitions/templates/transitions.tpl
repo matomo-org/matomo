@@ -1,6 +1,6 @@
 
 <div id="Transitions_Container">
-	<div id="Transitions_CenterBox" class="Transitions_Text Transitions_Loading">
+	<div id="Transitions_CenterBox" class="Transitions_Text">
 		<h2></h2>
 		<div class="Transitions_CenterBoxMetrics">
 			<p class="Transitions_Pageviews Transitions_Margin">{$translations.pageviewsInline|translate}</p>

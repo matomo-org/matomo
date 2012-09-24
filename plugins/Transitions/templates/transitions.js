@@ -98,7 +98,10 @@ Piwik_Transitions.prototype.showPopover = function() {
 		self.centerBox = self.popover.find('#Transitions_CenterBox');
 
 		var link = Piwik_Transitions_Util.shortenUrl(self.link, true);
-		self.centerBox.find('h2').html(Piwik_Transitions_Util.addBreakpoints(link));
+		var title = self.centerBox.find('h2').html(Piwik_Transitions_Util.addBreakpoints(link));
+		title.click(function() {
+			self.openExternalUrl(self.link);
+		}).css('cursor', 'pointer');
 
 		self.model.loadData(self.link, function() {
 			self.render();
@@ -169,8 +172,7 @@ Piwik_Transitions.prototype.reRenderIfNeededToCenter = function(side, onlyBg) {
 /** Render the center box with the main metrics */
 Piwik_Transitions.prototype.renderCenterBox = function() {
 	var box = this.centerBox;
-	box.removeClass('Transitions_Loading');
-
+	
 	Piwik_Transitions_Util.replacePlaceholderInHtml(
 			box.find('.Transitions_Pageviews'), this.model.pageviews);
 
@@ -345,6 +347,10 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side, onlyBg) 
 			onClick = (function(url) {
 				return function() { self.reloadPopover(url); };
 			})(label);
+		} else if (!isOthers && (groupName == 'outlinks' || groupName == 'websites' || groupName == 'downloads')) {
+			onClick = (function(url) {
+				return function() { self.openExternalUrl(url); };
+			})(label);
 		}
 		
 		var tooltip = Piwik_Transitions_Translations.XOfY;
@@ -505,6 +511,12 @@ Piwik_Transitions.prototype.unHighlightGroup = function(groupName, side) {
 		this.renderRightSide(true);
 	}
 	this.renderLoops();
+};
+
+/** Open a link in a new tab */
+Piwik_Transitions.prototype.openExternalUrl = function(url) {
+	url = piwik.piwik_url + '?module=Proxy&action=redirect&url=' + encodeURIComponent(url);
+	window.open(url, '_newtab');
 };
 
 
