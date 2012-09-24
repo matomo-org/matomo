@@ -38,7 +38,10 @@ class Piwik_Transitions_API
 		
 		$pageUrl = Piwik_Common::unsanitizeInputValue($pageUrl);
 		
-		$report = array();
+		$report = array(
+			'generalText' => '',
+		);
+		
 		$this->addMainPageMetricsToReport($report, $pageUrl, $idSite, $period, $date, $segment);
 		$this->addLiveTransitionsDataToReport($report, $pageUrl, $idSite, $period, $date, $segment, $limitBeforeGrouping);
 		
@@ -55,6 +58,17 @@ class Piwik_Transitions_API
 				$report[$reportName]->filter('ReplaceColumnNames', array($columnNames));
 			}
 		}
+		
+		// add general text
+		$allPageviews = Piwik_Actions_API::getInstance()->get($idSite, $period, $date, $segment, 'nb_pageviews');
+		$allPageviewsInt = intval($allPageviews->getFirstRow()->getColumn('nb_pageviews'));
+		$pageviews = $report['pageMetrics']['pageviews'];
+		$pageviewsShare = round($pageviews / $allPageviewsInt, 1).'%';
+		
+		$prettyDate = Piwik_Period_Day::advancedFactory($period, $date)->getLocalizedShortString();
+		
+		$report['generalText'] = htmlentities(Piwik_Translate('Transitions_ShareOfAllPageviews', array($pageviews, $pageviewsShare)))
+				. '<br /><i>' . htmlentities(Piwik_Translate('General_DateRange').' '.$prettyDate) . '</i>';
 		
 		return $report;
 	}

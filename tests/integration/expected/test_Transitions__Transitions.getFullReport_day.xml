@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
+	<generalText>This page had 12 pageviews (0.5% of all pageviews)&lt;br /&gt;&lt;i&gt;Date range: Sat 6 Mar&lt;/i&gt;</generalText>
 	<pageMetrics>
 		<pageviews>12</pageviews>
 		<exits>3</exits>

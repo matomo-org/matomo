@@ -45,7 +45,8 @@ DataTable_RowActions_Registry.register({
 	
 	isAvailable: function(dataTableParams, tr) {
 		return dataTableParams.module == 'Actions'
-			&& dataTableParams.action == 'getPageUrls'
+			&& (dataTableParams.action == 'getPageUrls' || dataTableParams.action == 'getEntryPageUrls'
+					|| dataTableParams.action == 'getExitPageUrls')
 			&& tr.find('> td:first > a').size() > 0;
 	}
 
@@ -93,15 +94,22 @@ Piwik_Transitions.prototype.showPopover = function() {
 
 		var canvasDom = self.popover.find('#Transitions_Canvas')[0];
 		var canvasBgDom = self.popover.find('#Transitions_Canvas_Background')[0];
-		self.canvas = new Piwik_Transitions_Canvas(canvasDom, canvasBgDom, 850, 550);
+		self.canvas = new Piwik_Transitions_Canvas(canvasDom, canvasBgDom, 900, 550);
 
 		self.centerBox = self.popover.find('#Transitions_CenterBox');
 
 		var link = Piwik_Transitions_Util.shortenUrl(self.link, true);
 		var title = self.centerBox.find('h2').html(Piwik_Transitions_Util.addBreakpoints(link));
+		
 		title.click(function() {
 			self.openExternalUrl(self.link);
 		}).css('cursor', 'pointer');
+		
+		title.add(self.popover.find('p.Transitions_Pageviews')).hover(function() {
+			Piwik_Tooltip.show(self.model.generalText, 'Transitions_Tooltip_Small');
+		}, function() {
+			Piwik_Tooltip.hide();
+		});
 
 		self.model.loadData(self.link, function() {
 			self.render();
@@ -180,14 +188,19 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 	var showMetric = function(cssClass, modelProperty, highlightCurveOnSide) {
 		var el = box.find('.Transitions_' + cssClass);
 		Piwik_Transitions_Util.replacePlaceholderInHtml(el, self.model[modelProperty]);
-		self.addTooltipShowingPercentageOfAllPageviews(el, modelProperty);
-		if (highlightCurveOnSide && self.model[modelProperty] > 0) {
+		
+		if (self.model[modelProperty] == 0) {
+			el.addClass('Transitions_Value0');
+		} else {
+			self.addTooltipShowingPercentageOfAllPageviews(el, modelProperty);
 			var groupName = cssClass.charAt(0).toLowerCase() + cssClass.substr(1);
-			el.hover(function() {
-				self.highlightGroup(groupName, highlightCurveOnSide);
-			}, function() {
-				self.unHighlightGroup(groupName, highlightCurveOnSide);
-			});
+			if (groupName != 'bounces') {
+				el.hover(function() {
+					self.highlightGroup(groupName, highlightCurveOnSide);
+				}, function() {
+					self.unHighlightGroup(groupName, highlightCurveOnSide);
+				});
+			}
 		}
 	};
 
@@ -549,13 +562,13 @@ function Piwik_Transitions_Canvas(canvasDom, canvasBgDom, width, height) {
 	this.rightCurvePositionY = this.originalCurvePositionY;
 
 	/** Width of the rectangular box */
-	this.boxWidth = 140;
+	this.boxWidth = 175;
 	/** Height of the rectangular box */
 	this.boxHeight = 53;
 	/** Height of a smaller rectangular box */
 	this.smallBoxHeight = 30;
 	/** Width of the curve that connects the boxes to the center */
-	this.curveWidth = 180;
+	this.curveWidth = 170;
 	/** Line-height of the text */
 	this.lineHeight = 14;
 	/** Spacing between rectangular boxes */
@@ -752,10 +765,10 @@ Piwik_Transitions_Canvas.prototype.renderBox = function(params) {
 	if (params.curveText && !params.onlyBg) {
 		var curveTextLeft, curveTextTop;
 		if (params.side == 'left') {
-			curveTextLeft = this.leftBoxBeginX + this.boxWidth + 12;
+			curveTextLeft = this.leftBoxBeginX + this.boxWidth + 3;
 			curveTextTop = this.leftBoxPositionY + boxHeight / 2 - this.lineHeight / 2;
 		} else {
-			curveTextLeft = this.rightBoxBeginX - 35;
+			curveTextLeft = this.rightBoxBeginX - 37;
 			curveTextTop = this.rightBoxPositionY + boxHeight / 2 - this.lineHeight / 2;
 		}
 		var textDiv = this.renderText(params.curveText, curveTextLeft, curveTextTop,
@@ -979,6 +992,8 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 	this.outlinksNbTransitions = 0;
 	this.outlinks = [];
 	
+	this.generalText = '';
+	
 	this.groupTitles = {
 		previousPages: Piwik_Transitions_Translations.fromPreviousPages,
 		followingPages: Piwik_Transitions_Translations.toFollowingPages,
@@ -1001,6 +1016,8 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 			expanded: 1
 		},
 		function(report) {
+			self.generalText = report.generalText;
+			
 			// load page metrics
 			self.pageviews = report.pageMetrics.pageviews;
 			self.exits = report.pageMetrics.exits;

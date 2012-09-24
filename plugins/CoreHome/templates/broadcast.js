@@ -37,6 +37,11 @@ var broadcast = {
 	 */
 	secondHashHandlers: [],
 
+	/**
+	 * Force reload once
+	 */
+	foceReload: false,
+
     /**
      * Initializes broadcast object
      * @return {void}
@@ -83,10 +88,10 @@ var broadcast = {
 				secondHashUpdated = (hashParts.length > 1);
 			}
 			
-			if (firstHashUpdated) {
+			if (firstHashUpdated || broadcast.forceReload) {
 				Piwik_Popover.close();
 				
-				if (hashParts[0] != broadcast.currentHashParts[0]) {
+				if (hashParts[0] != broadcast.currentHashParts[0] || broadcast.forceReload) {
 					// restore ajax loaded state
 					broadcast.loadAjaxContent(hashParts[0]);
 		
@@ -95,6 +100,7 @@ var broadcast = {
 					$('#dashboardWidgetsArea').dashboard('destroy');
 				}
 			}
+			broadcast.forceReload = false;
 			
 			if (secondHashUpdated && hashParts[1] == '') {
 				Piwik_Popover.close();
@@ -161,6 +167,7 @@ var broadcast = {
             currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
         }
         // Let history know about this new Hash and load it.
+		broadcast.forceReload = true;
         $.history.load(currentHashStr);
     },
 
@@ -219,6 +226,7 @@ var broadcast = {
         if(oldUrl == newUrl) {
             window.location.reload();
         } else {
+			this.forceReload = true;
             window.location.href = newUrl;
         }
         return false;
