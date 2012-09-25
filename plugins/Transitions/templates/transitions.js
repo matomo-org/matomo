@@ -112,6 +112,11 @@ Piwik_Transitions.prototype.showPopover = function() {
 		});
 
 		self.model.loadData(self.link, function() {
+			if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0
+					+ self.model.campaignsNbTransitions > 0) {
+				self.canvas.narrowMode();
+			}
+			
 			self.render();
 			Piwik_Popover.showPreparedContent();
 		});
@@ -150,7 +155,8 @@ Piwik_Transitions.prototype.renderGroups = function(groups, openGroup, side, onl
 		var groupName = groups[i];
 		if (groupName == openGroup) {
 			if (i != 0) {
-				this.canvas.addBoxSpacing(13, side);
+				var spacing = this.canvas.isNarrowMode() ? 7 : 13;
+				this.canvas.addBoxSpacing(spacing, side);
 			}
 			this.renderOpenGroup(groupName, side, onlyBg);
 		} else {
@@ -185,7 +191,7 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 			box.find('.Transitions_Pageviews'), this.model.pageviews);
 
 	var self = this;
-	var showMetric = function(cssClass, modelProperty, highlightCurveOnSide) {
+	var showMetric = function(cssClass, modelProperty, highlightCurveOnSide, groupCanBeExpanded) {
 		var el = box.find('.Transitions_' + cssClass);
 		Piwik_Transitions_Util.replacePlaceholderInHtml(el, self.model[modelProperty]);
 		
@@ -202,27 +208,32 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 		} else {
 			self.addTooltipShowingPercentageOfAllPageviews(el, modelProperty);
 			var groupName = cssClass.charAt(0).toLowerCase() + cssClass.substr(1);
-			if (groupName != 'bounces') {
+			if (highlightCurveOnSide !== false) {
 				el.hover(function() {
 					self.highlightGroup(groupName, highlightCurveOnSide);
 				}, function() {
 					self.unHighlightGroup(groupName, highlightCurveOnSide);
 				});
 			}
+			if (groupCanBeExpanded) {
+				el.click(function() {
+					self.openGroup(highlightCurveOnSide, groupName);
+				}).css('cursor', 'pointer');
+			}
 		}
 	};
 
-	showMetric('DirectEntries', 'directEntries', 'left');
-	showMetric('PreviousPages', 'previousPagesNbTransitions', 'left');
-	showMetric('SearchEngines', 'searchEnginesNbTransitions', 'left');
-	showMetric('Websites', 'websitesNbTransitions', 'left');
-	showMetric('Campaigns', 'campaignsNbTransitions', 'left');
+	showMetric('DirectEntries', 'directEntries', 'left', false);
+	showMetric('PreviousPages', 'previousPagesNbTransitions', 'left', true);
+	showMetric('SearchEngines', 'searchEnginesNbTransitions', 'left', true);
+	showMetric('Websites', 'websitesNbTransitions', 'left', true);
+	showMetric('Campaigns', 'campaignsNbTransitions', 'left', true);
 
-	showMetric('FollowingPages', 'followingPagesNbTransitions', 'right');
-	showMetric('Outlinks', 'outlinksNbTransitions', 'right');
-	showMetric('Downloads', 'downloadsNbTransitions', 'right');
-	showMetric('Exits', 'exits', 'right');
-	showMetric('Bounces', 'bounces', false);
+	showMetric('FollowingPages', 'followingPagesNbTransitions', 'right', true);
+	showMetric('Outlinks', 'outlinksNbTransitions', 'right', true);
+	showMetric('Downloads', 'downloadsNbTransitions', 'right', true);
+	showMetric('Exits', 'exits', 'right', false);
+	showMetric('Bounces', 'bounces', false, false);
 
 	box.find('.Transitions_CenterBoxMetrics').show();
 };
@@ -428,7 +439,8 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side, onlyBg) 
 		bgCanvas: true
 	});
 	
-	this.canvas.addBoxSpacing(15, side);
+	var spacing = this.canvas.isNarrowMode() ? 8 : 15;
+	this.canvas.addBoxSpacing(spacing, side);
 };
 
 /** Render a closed group without detailed data, only one box for the sum */
@@ -569,7 +581,7 @@ function Piwik_Transitions_Canvas(canvasDom, canvasBgDom, width, height) {
 	this.leftCurvePositionY = this.originalCurvePositionY = 110;
 	this.rightBoxPositionY = this.originalBoxPositionY;
 	this.rightCurvePositionY = this.originalCurvePositionY;
-
+	
 	/** Width of the rectangular box */
 	this.boxWidth = 175;
 	/** Height of the rectangular box */
@@ -598,6 +610,20 @@ function Piwik_Transitions_Canvas(canvasDom, canvasBgDom, width, height) {
 	this.rightBoxBeginX = this.rightCurveEndX = this.rightBoxEndX - this.boxWidth;
 	this.rightCurveBeginX = this.rightCurveEndX - this.curveWidth;
 }
+
+/**
+ * Activate narrow mode: draw groups a bit more compact in order to save space
+ * for more than 3 referrer groups.
+ */
+Piwik_Transitions_Canvas.prototype.narrowMode = function() {
+	this.smallBoxHeight = 30;
+	this.boxSpacing = 5;
+	this.narrowMode = true;
+};
+
+Piwik_Transitions_Canvas.prototype.isNarrowMode = function() {
+	return typeof this.narrowMode != 'undefined';
+};
 
 /**
  * Helper to create horizontal gradients

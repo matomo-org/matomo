@@ -63,7 +63,7 @@ class Piwik_Transitions_API
 		$allPageviews = Piwik_Actions_API::getInstance()->get($idSite, $period, $date, $segment, 'nb_pageviews');
 		$allPageviewsInt = intval($allPageviews->getFirstRow()->getColumn('nb_pageviews'));
 		$pageviews = $report['pageMetrics']['pageviews'];
-		$pageviewsShare = round($pageviews / $allPageviewsInt, 1).'%';
+		$pageviewsShare = round($pageviews / $allPageviewsInt * 100, 1).'%';
 		
 		$prettyDate = Piwik_Period_Day::advancedFactory($period, $date)->getLocalizedShortString();
 		
@@ -148,6 +148,11 @@ class Piwik_Transitions_API
 		$transitionsArchiving = new Piwik_Transitions;
 		
 		$data = $transitionsArchiving->queryInternalReferrers($idaction, $archiveProcessing, $limitBeforeGrouping);
+		
+		if ($data['pageviews'] == 0) {
+			throw new Exception('NoDataForUrl');
+		}
+		
 		$report['previousPages'] = &$data['previousPages'];
 		$report['pageMetrics']['loops'] = $data['loops'];
 		$report['pageMetrics']['pageviews'] = $data['pageviews'];
@@ -207,8 +212,6 @@ class Piwik_Transitions_API
 		// idactions get mapped to one row in the actions report. in this case, the numbers
 		// are higher. we compensate for that here.
 		if (isset($report['pageMetrics']['exits'])) {
-			$report['pageMetrics']['exitsBefore'] = $report['pageMetrics']['exits'];
-			
 			$followingActions = $transitionsArchiving->getTotalTransitionsToFollowingActions();
 			$report['pageMetrics']['exits'] = min($report['pageMetrics']['exits'],
 					$report['pageMetrics']['pageviews'] - $followingActions);
