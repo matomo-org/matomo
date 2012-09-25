@@ -255,14 +255,22 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 			$parameters = array( $parameters );
 		}
 
-		foreach($parameters as $i=>$p) 
-		{
-			$parameters[$i] = addslashes($p);
-		}
-		$query = str_replace('?', "'%s'", $query);
-		array_unshift($parameters, $query);
-		$query = call_user_func_array('sprintf', $parameters);
+		$this->paramNb = 0;
+		$this->params = &$parameters;
+		$query = preg_replace_callback('/\?/', array($this, 'replaceParam'), $query);
+		
 		return $query;
+	}
+	
+	public function replaceParam($match) {
+		$param = &$this->params[$this->paramNb];
+		$this->paramNb++;
+		
+		if ($param === null) {
+			return 'NULL';
+		} else {
+			return "'".addslashes($param)."'";
+		}
 	}
 
 	/**
