@@ -189,7 +189,15 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 		var el = box.find('.Transitions_' + cssClass);
 		Piwik_Transitions_Util.replacePlaceholderInHtml(el, self.model[modelProperty]);
 		
-		if (self.model[modelProperty] == 0) {
+		if (self.model[modelProperty] === null) {
+			// bounces and exits are null if the url was not found in the actions report.
+			// this happens when the report has been truncated.
+			if (modelProperty == 'exits') {
+				el.parent().hide();
+			} else {
+				el.hide();
+			}
+		} else if (self.model[modelProperty] == 0) {
 			el.addClass('Transitions_Value0');
 		} else {
 			self.addTooltipShowingPercentageOfAllPageviews(el, modelProperty);
@@ -1021,9 +1029,15 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 			
 			// load page metrics
 			self.pageviews = report.pageMetrics.pageviews;
-			self.exits = report.pageMetrics.exits;
-			self.bounces = report.pageMetrics.bounces;
 			self.loops = report.pageMetrics.loops;
+			
+			if (typeof report.pageMetrics.exits == 'undefined') {
+				self.exits = null;
+				self.bounces = null;
+			} else {
+				self.exits = report.pageMetrics.exits;
+				self.bounces = report.pageMetrics.bounces;
+			}
 			
 			// load referrers: split direct entries and others
 			for (var i = 0; i < report.referrers.length; i++) {
@@ -1049,7 +1063,7 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 			self.loadAndSumReport(report, 'followingPages');
 			self.loadAndSumReport(report, 'downloads');
 			self.loadAndSumReport(report, 'outlinks');
-
+			
 			callback();
 		});
 };

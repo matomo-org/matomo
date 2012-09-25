@@ -186,14 +186,14 @@ DataTable_RowAction.prototype.getLabelFromTr = function(tr) {
  * This method will remember the parameter in the url and call doOpenPopover().
  */
 DataTable_RowAction.prototype.openPopover = function(parameter) {
-	broadcast.propagateNewSecondHash('RowAction', this.actionName + ':' + parameter);
+	broadcast.propagateNewSecondHash('RowAction', this.actionName + ':' + encodeURIComponent(parameter));
 };
 
 broadcast.addSecondHashHandler('RowAction', function(param) {
 	var paramParts = param.split(':');
 	var rowActionName = paramParts[0];
 	paramParts.shift();
-	param = paramParts.join(':');
+	param = decodeURIComponent(paramParts.join(':'));
 	
 	var rowAction = DataTable_RowActions_Registry.getActionByName(rowActionName);
 	if (rowAction) {

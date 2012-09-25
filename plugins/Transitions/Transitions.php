@@ -140,14 +140,15 @@ class Piwik_Transitions extends Piwik_Plugin
 		$rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
 		$rankingQuery->addLabelColumn(array('name', 'url_prefix'));
 		$rankingQuery->setColumnToMarkExcludedRows('is_self');
+		$rankingQuery->partitionResultIntoMultipleGroups('is_page', array(0, 1));
 		
 		$addSelect = '
 			log_action.name, log_action.url_prefix,
-			CASE WHEN log_link_visit_action.idaction_url_ref = '.intval($idaction).' THEN 1 ELSE 0 END AS is_self';
+			CASE WHEN log_link_visit_action.idaction_url_ref = '.intval($idaction).' THEN 1 ELSE 0 END AS is_self,
+			CASE WHEN log_action.type = '.Piwik_Tracker_Action::TYPE_ACTION_URL.' THEN 1 ELSE 0 END AS is_page';
 		
 		$where = '
-			log_link_visit_action.idaction_url = '.intval($idaction).' AND
-			log_action.type = '.Piwik_Tracker_Action::TYPE_ACTION_URL;
+			log_link_visit_action.idaction_url = '.intval($idaction);
 		
 		$orderBy = '`'.Piwik_Archive::INDEX_NB_ACTIONS.'` DESC';
 		
@@ -155,24 +156,38 @@ class Piwik_Transitions extends Piwik_Plugin
 		$data = $archiveProcessing->queryActionsByDimension(array($dimension), $where, $metrics, $orderBy,
 					$rankingQuery, $dimension, $addSelect);
 		
+		$nbPageviews = 0;
 		$previousPagesDataTable = new Piwik_DataTable;
-		foreach ($data['result'] as &$page)
-		{
-			$previousPagesDataTable->addRow(new Piwik_DataTable_Row(array(
-				Piwik_DataTable_Row::COLUMNS => array(
-					'label' => Piwik_Tracker_Action::reconstructNormalizedUrl($page['name'], $page['url_prefix']),
-					Piwik_Archive::INDEX_NB_ACTIONS => intval($page[Piwik_Archive::INDEX_NB_ACTIONS])
-				)
-			)));
+		if (isset($data['result'][1])) {
+			foreach ($data['result'][1] as &$page)
+			{
+				$nbActions = intval($page[Piwik_Archive::INDEX_NB_ACTIONS]);
+				$previousPagesDataTable->addRow(new Piwik_DataTable_Row(array(
+					Piwik_DataTable_Row::COLUMNS => array(
+						'label' => Piwik_Tracker_Action::reconstructNormalizedUrl($page['name'], $page['url_prefix']),
+						Piwik_Archive::INDEX_NB_ACTIONS => $nbActions
+					)
+				)));
+				$nbPageviews += $nbActions;
+			}
+		}
+		
+		if (isset($data['result'][0])) {
+			foreach ($data['result'][0] as &$referrer)
+			{
+				$nbPageviews += intval($referrer[Piwik_Archive::INDEX_NB_ACTIONS]);
+			}
 		}
 		
 		$loops = 0;
 		if (count($data['excludedFromLimit']))
 		{
 			$loops = intval($data['excludedFromLimit'][0][Piwik_Archive::INDEX_NB_ACTIONS]);
+			$nbPageviews += $loops;
 		}
 		
 		return array(
+			'pageviews' => $nbPageviews,
 			'previousPages' => $previousPagesDataTable,
 			'loops' => $loops
 		);
@@ -212,6 +227,7 @@ class Piwik_Transitions extends Piwik_Plugin
 		$data = $archiveProcessing->queryActionsByDimension(array($dimension), $where, $metrics, $orderBy, 
 					$rankingQuery, $dimension, $addSelect);
 		
+		$this->totalTransitionsToFollowingActions = 0;
 		$dataTables = array();
 		foreach ($types as $type => $recordName)
 		{
@@ -220,20 +236,30 @@ class Piwik_Transitions extends Piwik_Plugin
 			{
 				foreach ($data[$type] as &$record)
 				{
+					$actions = intval($record[Piwik_Archive::INDEX_NB_ACTIONS]);
 					$dataTable->addRow(new Piwik_DataTable_Row(array(
 						Piwik_DataTable_Row::COLUMNS => array(
 							'label' => $type == Piwik_Tracker_Action::TYPE_ACTION_URL ?
 									Piwik_Tracker_Action::reconstructNormalizedUrl($record['name'], $record['url_prefix']) :
 									$record['name'],
-							Piwik_Archive::INDEX_NB_ACTIONS => intval($record[Piwik_Archive::INDEX_NB_ACTIONS])
+							Piwik_Archive::INDEX_NB_ACTIONS => $actions
 						)
 					)));
+					$this->totalTransitionsToFollowingActions += $actions;
 				}
 			}
 			$dataTables[$recordName] = $dataTable;
 		}
 		
 		return $dataTables;
+	}
+	
+	/**
+	 * Get the sum of all transitions to following actions (pages, outlinks, downloads).
+	 * Only works if queryFollowingActions() has been used directly before. 
+	 */
+	public function getTotalTransitionsToFollowingActions() {
+		return $this->totalTransitionsToFollowingActions;
 	}
 	
 }

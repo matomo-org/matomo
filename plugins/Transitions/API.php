@@ -117,26 +117,13 @@ class Piwik_Transitions_API
 			throw new Exception("Actions.getPageUrls returned an error: ".$e->getMessage()."\n");
 		}
 		
-		if ($dataTable->getRowsCount() == 0)
+		if ($dataTable->getRowsCount() > 0 && ($row = $dataTable->getFirstRow()) !== false)
 		{
-			throw new Exception('NoDataForUrl');
+			$report['pageMetrics'] = array(
+				'exits'     => intval($row->getColumn('exit_nb_visits')),
+				'bounces'   => intval($row->getColumn('entry_bounce_count'))
+			);
 		}
-		
-		$row = $dataTable->getFirstRow();
-
-        if ($row !== false) {
-            $report['pageMetrics'] = array(
-                'pageviews' => intval($row->getColumn('nb_hits')),
-                'exits'     => intval($row->getColumn('exit_nb_visits')),
-                'bounces'   => intval($row->getColumn('entry_bounce_count'))
-            );
-        } else {
-            $report['pageMetrics'] = array(
-                'pageviews' => 0,
-                'exits'     => 0,
-                'bounces'   => 0
-            );
-        }
 	}
 
 	/**
@@ -162,7 +149,8 @@ class Piwik_Transitions_API
 		
 		$data = $transitionsArchiving->queryInternalReferrers($idaction, $archiveProcessing, $limitBeforeGrouping);
 		$report['previousPages'] = &$data['previousPages'];
-		$report['pageMetrics']['loops'] = intval($data['loops']);
+		$report['pageMetrics']['loops'] = $data['loops'];
+		$report['pageMetrics']['pageviews'] = $data['pageviews'];
 		
 		$data = $transitionsArchiving->queryFollowingActions($idaction, $archiveProcessing, $limitBeforeGrouping);
 		foreach ($data as $tableName => $table) {
@@ -212,6 +200,22 @@ class Piwik_Transitions_API
 				'shortName' => Piwik_getRefererTypeLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY),
 				'visits' => 0
 			);
+		}
+		
+		// sanitize values taken from the actions report in addMainPageMetricsToReport().
+		// in some cases (e.g. URLs in DB with hash, actions report without hash), multiple
+		// idactions get mapped to one row in the actions report. in this case, the numbers
+		// are higher. we compensate for that here.
+		if (isset($report['pageMetrics']['exits'])) {
+			$report['pageMetrics']['exitsBefore'] = $report['pageMetrics']['exits'];
+			
+			$followingActions = $transitionsArchiving->getTotalTransitionsToFollowingActions();
+			$report['pageMetrics']['exits'] = min($report['pageMetrics']['exits'],
+					$report['pageMetrics']['pageviews'] - $followingActions);
+			$report['pageMetrics']['bounces'] = min($report['pageMetrics']['bounces'],
+					$report['pageMetrics']['exits']);
+			$report['pageMetrics']['bounces'] = min($report['pageMetrics']['bounces'],
+					$report['pageMetrics']['entries']);
 		}
 	}
 	

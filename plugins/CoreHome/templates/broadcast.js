@@ -100,12 +100,18 @@ var broadcast = {
 					$('#dashboardWidgetsArea').dashboard('destroy');
 				}
 			}
+			
 			broadcast.forceReload = false;
+			broadcast.currentHashParts = hashParts;
 			
 			if (secondHashUpdated && hashParts[1] == '') {
 				Piwik_Popover.close();
 			} else if (secondHashUpdated) {
-				var secondHashParts = hashParts[1].split(':');
+				var secondHash = hashParts[1];
+				for (var i = 2; i < hashParts.length; i++) {
+					secondHash += '#' + hashParts[i];
+				}
+				var secondHashParts = secondHash.split(':');
 				var handlerName = secondHashParts[0];
 				secondHashParts.shift();
 				var param = secondHashParts.join(':');
@@ -114,7 +120,7 @@ var broadcast = {
 				}
 			}
 			
-			broadcast.currentHashParts = hashParts;
+			
 			
 		} else {
 			// start page
