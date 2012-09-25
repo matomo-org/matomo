@@ -38,6 +38,12 @@ DataTable_RowActions_Registry.register({
 	name: 'Transitions',
 	
 	dataTableIcon: 'plugins/Transitions/templates/transitions_icon.png',
+	dataTableIconHover: 'plugins/Transitions/templates/transitions_icon_hover.png',
+	
+	dataTableIconTooltip: [
+		_pk_translate('CoreHome_TransitionsRowActionTooltipTitle_js'),
+		_pk_translate('CoreHome_TransitionsRowActionTooltip_js')
+	],
 	
 	createInstance: function(dataTable) {
 		return new DataTable_RowActions_Transitions(dataTable);

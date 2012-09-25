@@ -58,6 +58,12 @@ DataTable_RowActions_Registry.register({
 	name: 'RowEvolution',
 	
 	dataTableIcon: 'themes/default/images/row_evolution.png',
+	dataTableIconHover: 'themes/default/images/row_evolution_hover.png',
+	
+	dataTableIconTooltip: [
+		_pk_translate('CoreHome_RowEvolutionRowActionTooltipTitle_js'),
+		_pk_translate('CoreHome_RowEvolutionRowActionTooltip_js')
+	],
 	
 	createInstance: function(dataTable) {
 		return new DataTable_RowActions_RowEvolution(dataTable);

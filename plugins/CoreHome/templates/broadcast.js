@@ -80,7 +80,8 @@ var broadcast = {
 		if( hash ) {
 			var hashParts = hash.split('#');
 			
-			var firstHashUpdated = (hashParts.length == 1); // i.e. no second hash yet
+			var firstHashUpdated = (hashParts.length == 1 ||
+					(broadcast.currentHashParts[0] !== null && broadcast.currentHashParts[0] != hashParts[0]));
 			var secondHashUpdated = (hashParts.length > 1 && hashParts[0] == broadcast.currentHashParts[0]);
 			if (broadcast.currentHashParts[0] === null) {
 				// new page load

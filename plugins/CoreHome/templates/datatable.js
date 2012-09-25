@@ -1314,10 +1314,45 @@ dataTable.prototype =
 				{
 					$(this).blur();
 					container.hide();
+					Piwik_Tooltip.hide();
 					actionInstances[action.name].trigger(tr, e);
 					return false;
 				}
 			})(action));
+			
+			if (typeof action.dataTableIconHover != 'undefined')
+			{
+				actionEl.append($(document.createElement('img')).attr({src: action.dataTableIconHover}).hide());
+				
+				actionEl.hover(function()
+				{
+					var img = $(this).find('img');
+					img.eq(0).hide();
+					img.eq(1).show();
+				},
+				function()
+				{
+					var img = $(this).find('img');
+					img.eq(1).hide();
+					img.eq(0).show();
+				});
+			}
+			
+			if (typeof action.dataTableIconTooltip != 'undefined')
+			{
+				actionEl.hover((function(action)
+				{
+					return function() {
+						Piwik_Tooltip.showWithTitle(
+								action.dataTableIconTooltip[0],
+								action.dataTableIconTooltip[1],
+								'rowActionTooltip');
+					};
+				})(action), function()
+				{	
+					Piwik_Tooltip.hide();
+				});
+			}
 		}
 		
 		return container;
