@@ -3,6 +3,9 @@
 $root = dirname(dirname(__DIR__));
 $piwik_root = dirname(dirname(dirname($root)));
 
+require_once '../../../../../core/Url.php';
+$webPath = dirname(Piwik_Url::getCurrentScriptPath());
+
 $config = array(
     /* Required */
 
@@ -72,7 +75,7 @@ $config = array(
     'show_hidden_files' => false,
     
     // XHProf root url
-    'xhprof_root' => '/tests/lib/xhprof-0.9.2',
+    'xhprof_root' => "$webPath/xhprof-0.9.2",
     
     // namespace to use w/ xhprof
     'xhprof_namespace' => 'piwik',
