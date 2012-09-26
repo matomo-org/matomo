@@ -113,17 +113,9 @@ class ActionsTests extends PHPUnit_Framework_TestCase
      */
     public function testGetActionExplodedNames($params, $expected)
     {
-        $action = new Test_Piwik_Actions_getActionExplodedNames();
-
-        $processed = $action->public_getActionExplodedNames($params['name'], $params['type'], (isset($params['urlPrefix'])?$params['urlPrefix']:null));
+	    Piwik_Actions_ArchivingHelper::reloadConfig();
+        $processed = Piwik_Actions_ArchivingHelper::getActionExplodedNames($params['name'], $params['type'], (isset($params['urlPrefix'])?$params['urlPrefix']:null));
         $this->assertEquals($expected, $processed);
     }
 }
 
-class Test_Piwik_Actions_getActionExplodedNames extends Piwik_Actions
-{
-    public function public_getActionExplodedNames($name, $type, $urlPrefix)
-    {
-        return self::getActionExplodedNames($name, $type, $urlPrefix);
-    }
-}

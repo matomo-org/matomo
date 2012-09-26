@@ -246,7 +246,8 @@ class Piwik_Actions_API
 					$searchedString = $search;
 				}
     		}
-			$searchTree = Piwik_Actions::getActionExplodedNames($searchedString, $actionType);
+			Piwik_Actions_ArchivingHelper::reloadConfig();
+			$searchTree = Piwik_Actions_ArchivingHelper::getActionExplodedNames($searchedString, $actionType);
 		}
 
 		if ($table === false)

@@ -73,7 +73,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 		$generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 4;
 		$generalConfig['datatable_archiving_maximum_rows_standard'] = 4;
 		Piwik_Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
-		Piwik_PluginsManager::getInstance()->getLoadedPlugin('Actions')->reloadConfig();
+		Piwik_Actions_ArchivingHelper::reloadConfig();
 		
 		foreach ($this->getApiForTesting() as $pair)
 		{

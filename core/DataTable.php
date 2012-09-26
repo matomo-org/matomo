@@ -140,13 +140,12 @@ class Piwik_DataTable
 {
 	/** Name for metadata that describes when a report was archived. */
 	const ARCHIVED_DATE_METADATA_NAME = 'archived_date';
-	
+	const MAX_DEPTH_DEFAULT = 15;
+
 	/**
-	 * Maximum nesting level
-	 * 
-	 * @var int
+	 * Maximum nesting level.
 	 */
-	static private $maximumDepthLevelAllowed = 15;
+	static private $maximumDepthLevelAllowed = self::MAX_DEPTH_DEFAULT;
 	
 	/**
 	 * Array of Piwik_DataTable_Row
@@ -1006,7 +1005,7 @@ class Piwik_DataTable
 		if($depth > self::$maximumDepthLevelAllowed)
 		{
 			$depth = 0;
-			throw new Exception("Maximum recursion level of ".self::$maximumDepthLevelAllowed. " reached. You have probably set a DataTable_Row with an associated DataTable which belongs already to its parent hierarchy.");
+			throw new Exception("Maximum recursion level of ".self::$maximumDepthLevelAllowed. " reached. Maybe you have set a DataTable_Row with an associated DataTable belonging already to one of its parent tables?");
 		}
 		if( !is_null($maximumRowsInDataTable) )
 		{
@@ -1303,17 +1302,6 @@ class Piwik_DataTable
 	}
 	
 	/**
-	 * Gets the maximum nesting level for datatables.
-	 * 
-	 * @return int
-	 */
-	static public function getMaximumDepthLevelAllowed()
-	{
-		return self::$maximumDepthLevelAllowed;
-	}
-
-	
-	/**
 	 * Sets the maximum nesting level to at least a certain value. If the current value is
 	 * greater than the supplied level, the maximum nesting level is not changed.
 	 * 
@@ -1322,6 +1310,9 @@ class Piwik_DataTable
 	static public function setMaximumDepthLevelAllowedAtLeast( $atLeastLevel )
 	{
 		self::$maximumDepthLevelAllowed = max($atLeastLevel, self::$maximumDepthLevelAllowed);
+		if(self::$maximumDepthLevelAllowed < 1) {
+			self::$maximumDepthLevelAllowed = 1;
+		}
 	}
 	
 	/**

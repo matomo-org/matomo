@@ -79,7 +79,8 @@ class Piwik_Transitions_API
 	 */
 	private function addMainPageMetricsToReport(&$report, $pageUrl, $idSite, $period, $date, $segment)
 	{
-		$label = Piwik_Actions::getActionExplodedNames($pageUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
+		Piwik_Actions_ArchivingHelper::reloadConfig();
+		$label = Piwik_Actions_ArchivingHelper::getActionExplodedNames($pageUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
 		if (count($label) == 1)
 		{
 			$label = $label[0];
