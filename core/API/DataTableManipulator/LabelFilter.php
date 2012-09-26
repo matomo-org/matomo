@@ -32,15 +32,15 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 	const SEPARATOR_RECURSIVE_LABEL = '>';
 	
 	private $labelParts;
-	
+
 	/**
 	 * Filter a data table by label.
 	 * The filtered table is returned, which might be a new instance.
-	 * 
+	 *
 	 * $apiModule, $apiMethod and $request are needed load sub-datatables
-     * for the recursive search. If the label is not recursive, these parameters
-     * are not needed.
-	 * 
+	 * for the recursive search. If the label is not recursive, these parameters
+	 * are not needed.
+	 *
 	 * @param string           $label      the label to search for
 	 * @param Piwik_DataTable  $dataTable  the data table to be filtered
 	 * @return Piwik_DataTable
@@ -53,29 +53,27 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 		{
 			return $dataTable;
 		}
-		
-		// check whether the label is recursive
-		$label = explode(self::SEPARATOR_RECURSIVE_LABEL, $label);
-		$label = array_map('urldecode', $label);
-		
-		if (count($label) > 1)
-		{
-			// do a recursive search
-			$this->labelParts = $label;
-			return $this->manipulate($dataTable);
-		}
-		$label = $label[0];
-		
-		// do a non-recursive search
+
 		foreach ($this->getLabelVariations($label) as $label)
 		{
+			$label = explode(self::SEPARATOR_RECURSIVE_LABEL, $label);
+			$label = array_map('urldecode', $label);
+
+			if (count($label) > 1)
+			{
+				// do a recursive search
+				$this->labelParts = $label;
+				return $this->manipulate($dataTable);
+			}
+			$label = $label[0];
+
+			// do a non-recursive search
 			$result = $dataTable->getFilteredTableFromLabel($label);
 			if ($result->getFirstRow() !== false)
 			{
 				return $result;
 			}
 		}
-		
 		return $result;
 	}
 
@@ -156,23 +154,29 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 	/**
 	 * Use variations of the label to make it easier to specify the desired label
 	 *
+	 * Note: The HTML Encoded version must be tried first, since in Piwik_API_ResponseBuilder the $label is unsanitized
+	 * via Piwik_Common::unsanitizeInputValue.
+	 *
 	 * @param string $label
 	 * @return array
 	 */
-	private function getLabelVariations($label) {
-		$variations = array(
-			$label,
-			htmlspecialchars($label, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8')
-		);
+	private function getLabelVariations($label)
+	{
+		$variations = array();
+		$label = trim($label);
+
+		$sanitizedLabel = Piwik_Common::sanitizeInputValue($label);
+		$variations[]  = $sanitizedLabel;
 		
 		if ($this->apiModule == 'Actions' 
 			&& $this->apiMethod == 'getPageTitles')
 		{
 			// special case: the Actions.getPageTitles report prefixes some labels with a blank.
 			// the blank might be passed by the user but is removed in Piwik_API_Request::getRequestArrayFromString.
+			$variations[] = ' '.$sanitizedLabel;
 			$variations[] = ' '.$label;
-			$variations[] = ' '.htmlspecialchars($label, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 		}
+		$variations[] = $label;
 		
 		return $variations;
 	}

@@ -34,7 +34,7 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 	 * @param string  $value
 	 * @return mixed|string
 	 */
-	static public function filterValue($value)
+	static public function safeDecodeLabel($value)
 	{
 		$value = htmlspecialchars_decode( urldecode($value), ENT_QUOTES);
 		if(self::$outputHtml)
@@ -56,7 +56,7 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
 			$value = $row->getColumn($this->columnToDecode);
 			if($value !== false)
 			{
-				$value = self::filterValue($value);
+				$value = self::safeDecodeLabel($value);
 				$row->setColumn($this->columnToDecode,$value);
 				
 				$this->filterSubTable($row);

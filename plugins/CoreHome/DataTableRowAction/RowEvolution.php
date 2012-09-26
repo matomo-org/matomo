@@ -224,46 +224,39 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 			$max = isset($metricData['max']) ? $metricData['max'] : 0;
 			$min = isset($metricData['min']) ? $metricData['min'] : 0;
 			$change = isset($metricData['change']) ? $metricData['change'] : false;
-			
-			if ($min == $max)
+
+			$unit = Piwik_API_API::getUnit($metric, $this->idSite);
+			$min .= $unit;
+			$max .= $unit;
+
+			$details = Piwik_Translate('RowEvolution_MetricBetweenText', array($min, $max));
+
+			if ($change !== false)
 			{
-				$details = false;
-			}
-			else
-			{
-				$unit = Piwik_API_API::getUnit($metric, $this->idSite);
-				$min .= $unit;
-				$max .= $unit;
-				
-				$details = Piwik_Translate('RowEvolution_MetricBetweenText', array($min, $max));
-				
-				if ($change !== false)
+				$lowerIsBetter = Piwik_API_API::isLowerValueBetter($metric);
+				if (substr($change, 0, 1) == '+')
 				{
-					$lowerIsBetter = Piwik_API_API::isLowerValueBetter($metric);
-					if (substr($change, 0, 1) == '+')
-					{
-						$changeClass = $lowerIsBetter ? 'bad' : 'good';
-						$changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';
-					}
-					else if (substr($change, 0, 1) == '-')
-					{
-						$changeClass = $lowerIsBetter ? 'good' : 'bad';
-						$changeImage = $lowerIsBetter ? 'arrow_down_green' : 'arrow_down';
-					}
-					else
-					{
-						$changeClass = 'neutral';
-						$changeImage = false;
-					}
-					
-					$change = '<span class="'.$changeClass.'">'
-						.($changeImage ? '<img src="plugins/MultiSites/images/'.$changeImage.'.png" /> ' : '')
-						.$change.'</span>';
-					
-					$details .= ', '.Piwik_Translate('RowEvolution_MetricChangeText', $change);
+					$changeClass = $lowerIsBetter ? 'bad' : 'good';
+					$changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';
 				}
+				else if (substr($change, 0, 1) == '-')
+				{
+					$changeClass = $lowerIsBetter ? 'good' : 'bad';
+					$changeImage = $lowerIsBetter ? 'arrow_down_green' : 'arrow_down';
+				}
+				else
+				{
+					$changeClass = 'neutral';
+					$changeImage = false;
+				}
+
+				$change = '<span class="'.$changeClass.'">'
+					.($changeImage ? '<img src="plugins/MultiSites/images/'.$changeImage.'.png" /> ' : '')
+					.$change.'</span>';
+
+				$details .= ', '.Piwik_Translate('RowEvolution_MetricChangeText', $change);
 			}
-			
+
 			$color = $colors[ $i % count($colors) ];
 			$newMetric = array(
 				'label' => $metricData['name'],

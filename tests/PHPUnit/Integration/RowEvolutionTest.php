@@ -15,7 +15,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
     protected static $today = '2010-03-06 11:22:33';
     protected static $idSite = 1;
     protected static $keywords = array(
-        'free > proprietary', // BUG! testing a keyword containing >
+        'free > proprietary', // testing a keyword containing >
         'peace "," not war', // testing a keyword containing ,
         'justice )(&^#%$ NOT corruption!',
     );
@@ -65,20 +65,20 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         // Websites, hierarchical
         $config['testSuffix']                      = '_referrer2';
         $referrerLabel                             = urlencode('www.referrer0.com') . '>' . urlencode('theReferrerPage1.html');
-        $config['otherRequestParameters']['label'] = $referrerLabel;
+        $config['otherRequestParameters']['label'] = urlencode($referrerLabel);
         $return[]                                  = array('API.getRowEvolution', $config);
 
         // Websites, multiple labels including one hierarchical
         $config['testSuffix']                      = '_referrerMulti1';
         $referrerLabel                             = urlencode($referrerLabel) . ',' . urlencode('www.referrer2.com');
-        $config['otherRequestParameters']['label'] = $referrerLabel;
+        $config['otherRequestParameters']['label'] = urlencode($referrerLabel);
         $return[]                                  = array('API.getRowEvolution', $config);
 
         // Keywords, label containing > and ,
         $config['otherRequestParameters']['apiAction'] = 'getKeywords';
         $config['testSuffix']                          = '_LabelReservedCharacters';
         $keywords                                      = urlencode(self::$keywords[0]) . ',' . urlencode(self::$keywords[1]);
-        $config['otherRequestParameters']['label']     = $keywords;
+        $config['otherRequestParameters']['label']     = urlencode($keywords);
         $return[]                                      = array('API.getRowEvolution', $config);
 
         // Keywords, hierarchical
@@ -88,7 +88,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
             . ',Google>' . urlencode(strtolower(self::$keywords[1]))
             . ',Google>' . urlencode(strtolower(self::$keywords[2]));
         // Test multiple labels search engines, Google should also have a 'logo' entry
-        $config['otherRequestParameters']['label'] = $keywords . ",Google";
+        $config['otherRequestParameters']['label'] = urlencode($keywords . ",Google");
         $return[]                                  = array('API.getRowEvolution', $config);
 
         // Actions > Pages titles, standard label
@@ -96,13 +96,13 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $config['periods']                             = array('day', 'week');
         $config['otherRequestParameters']['apiModule'] = 'Actions';
         $config['otherRequestParameters']['apiAction'] = 'getPageTitles';
-        $config['otherRequestParameters']['label']     = 'incredible title 0';
+        $config['otherRequestParameters']['label']     = urlencode('incredible title 0');
         $return[]                                      = array('API.getRowEvolution', $config);
 
         // Actions > Page titles, multiple labels
         $config['testSuffix']                      = '_pageTitlesMulti';
         $label                                     = urlencode('incredible title 0') . ',' . urlencode('incredible title 2');
-        $config['otherRequestParameters']['label'] = $label;
+        $config['otherRequestParameters']['label'] = urlencode($label);
         $return[]                                  = array('API.getRowEvolution', $config);
 
         // Actions > Page URLS, hierarchical label
@@ -111,7 +111,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $config['otherRequestParameters']['date']      = '2010-03-01,2010-03-06';
         $config['otherRequestParameters']['apiModule'] = 'Actions';
         $config['otherRequestParameters']['apiAction'] = 'getPageUrls';
-        $config['otherRequestParameters']['label']     = 'my>dir>' . urlencode('/page3?foo=bar&baz=bar');
+        $config['otherRequestParameters']['label']     = urlencode('my>dir>' . urlencode('/page3?foo=bar&baz=bar'));
         $return[]                                      = array('API.getRowEvolution', $config);
 
         // Goals > Visits Until Conversion, idGoal != 0
@@ -121,7 +121,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $config['otherRequestParameters']['period']    = 'day';
         $config['otherRequestParameters']['apiModule'] = 'Goals';
         $config['otherRequestParameters']['apiAction'] = 'getVisitsUntilConversion';
-        $config['otherRequestParameters']['label']     = '1 visit, 2 visits';
+        $config['otherRequestParameters']['label']     = urlencode('1 visit, 2 visits');
         $config['otherRequestParameters']['idGoal']    = '2';
         $return[]                                      = array('API.getRowEvolution', $config);
 

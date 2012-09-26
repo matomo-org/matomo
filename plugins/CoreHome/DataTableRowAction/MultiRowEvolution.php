@@ -21,7 +21,7 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
 	
 	/** The requested metric */
 	protected $metric;
-	
+
 	/** Show all metrics in the evolution graph when the popover opens */
 	protected $initiallyShowAllMetrics = true;
 	

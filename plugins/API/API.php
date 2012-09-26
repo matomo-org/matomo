@@ -1139,7 +1139,6 @@ class Piwik_API_API
 		if($label)
 		{
 			$labels = explode(',', $label);
-			$labels = array_map('urldecode', $labels);
 			$labels = array_unique($labels);
 		}
 		else
@@ -1238,7 +1237,7 @@ class Piwik_API_API
 		}
 		
 		$return = array(
-			'label' => $actualLabel,
+			'label' => Piwik_DataTable_Filter_SafeDecodeLabel::safeDecodeLabel($actualLabel),
 			'reportData' => $dataTable,
 			'metadata' => $metadata
 		);
@@ -1534,7 +1533,7 @@ class Piwik_API_API
 		foreach ($actualLabels as $labelIndex => $label) {
 			$label .= ' ('.$metadata['columns'][$column].')';
 			$metricName = $column.'_'.$labelIndex;
-			$metadata['metrics'][$metricName] = $label;
+			$metadata['metrics'][$metricName] = Piwik_DataTable_Filter_SafeDecodeLabel::safeDecodeLabel($label);
 			
 			if(!empty($logos[$labelIndex])) {
 				$metadata['logos'][$metricName] = $logos[$labelIndex]; 

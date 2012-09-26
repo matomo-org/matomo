@@ -55,7 +55,8 @@ abstract class Piwik_API_DataTableManipulator
 	 * @throws Exception
 	 * @return Piwik_DataTable_Array|Piwik_DataTable
 	 */
-	protected function manipulate($dataTable) {
+	protected function manipulate($dataTable)
+	{
 		if ($dataTable instanceof Piwik_DataTable_Array)
 		{
 			$newTableArray = new Piwik_DataTable_Array;
