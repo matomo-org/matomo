@@ -33,7 +33,17 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
             throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
         }
     }
-
+	
+	public function setUp()
+	{
+		Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(false);
+	}
+	
+	public function tearDown()
+	{
+		Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(true);
+	}
+	
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
