@@ -32,6 +32,7 @@ dataTable.prototype =
 		
 		this.workingDivId = workingDivId;
 		this.loadedSubDataTable = {};
+		this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
 		this.bindEventsAndApplyStyle(domElem);
 		this.initialized = true;
 	},
@@ -250,6 +251,15 @@ dataTable.prototype =
 	
 	handleLimit: function(domElem)
 	{
+		var tableRowLimits = [5, 10, 25, 50, 100, 250, 500],
+			evolutionLimits =
+			{
+				day: [30, 60, 90, 180, 365, 500],
+				week: [4, 12, 26, 52, 104, 500],
+				month: [3, 6, 12, 24, 36, 120],
+				year: [3, 5, 10]
+			};
+		
 		var self = this;
 		if( typeof self.parentId != "undefined" && self.parentId != '')
 		{
@@ -258,21 +268,60 @@ dataTable.prototype =
 			return;
 		}
 		
-		$('.limitSelection', domElem).append('<div><span>'+self.param.filter_limit+'</span></div><ul></ul>');
+		// configure limit control
+		var setLimitValue, numbers, limitParamName;
+		if (self.param.viewDataTable == 'graphEvolution')
+		{
+			limitParamName = 'evolution_' + self.param.period + '_last_n';
+			numbers = evolutionLimits[self.param.period] || tableRowLimits;
+			
+			setLimitValue = function (params, limit)
+			{
+				params[limitParamName] = limit;
+			};
+		}
+		else
+		{
+			numbers = tableRowLimits;
+			limitParamName = 'filter_limit';
+			
+			setLimitValue = function (params, value)
+			{
+				params.filter_limit = value;
+				params.filter_offset = 0;
+				
+				// Hack for Visitor Log to not pass the maxIdVisit parameter when limit is changed
+				delete params.maxIdVisit;
+			};
+		}
 		
-		if(self.param.viewDataTable == 'table' || self.param.viewDataTable == 'tableAllColumns' || self.param.viewDataTable == 'tableGoals' || self.param.viewDataTable == 'ecommerceOrder' || self.param.viewDataTable == 'ecommerceAbandonedCart') {
+		// setup limit control
+		$('.limitSelection', domElem).append('<div><span>'+self.param[limitParamName]+'</span></div><ul></ul>');
+		
+		if (self.param.viewDataTable == 'table'
+			|| self.param.viewDataTable == 'tableAllColumns'
+			|| self.param.viewDataTable == 'tableGoals'
+			|| self.param.viewDataTable == 'ecommerceOrder'
+			|| self.param.viewDataTable == 'ecommerceAbandonedCart'
+			|| self.param.viewDataTable == 'graphEvolution')
+		{
 			$('.limitSelection ul', domElem).hide();
-			var numbers = [5, 10, 25, 50, 100, 250, 500];
-			for(var i=0; i<numbers.length; i++) {
+			for(var i=0; i<numbers.length; i++)
+			{
 				$('.limitSelection ul', domElem).append('<li value="'+numbers[i]+'"><span>'+numbers[i]+'</span></li>');
 			}
 			$('.limitSelection ul li:last', domElem).addClass('last');
-			if(self.param.totalRows > 0) {
+			
+			if (!self.isEmpty)
+			{
 				var show = function() {
 					$('.limitSelection ul', domElem).show();
 					$('.limitSelection', domElem).addClass('visible');
-					$(document).on('mouseup.limitSelection',function(e){
-						if((!$(e.target).parents('.limitSelection').length || $(e.target).parents('.limitSelection') != $('.limitSelection', domElem)) && !$(e.target).is('.limitSelection')) {
+					$(document).on('mouseup.limitSelection',function(e) {
+						if ((!$(e.target).parents('.limitSelection').length
+							|| $(e.target).parents('.limitSelection') != $('.limitSelection', domElem))
+							&& !$(e.target).is('.limitSelection'))
+						{
 							hide();
 						}
 					});
@@ -287,21 +336,27 @@ dataTable.prototype =
 				});
 				$('.limitSelection ul li', domElem).on('click', function(event){
 					var limit = parseInt($(event.target).text());
+					
 					hide();
-					if(limit != self.param.filter_limit) {
-						self.param.filter_limit = limit;
-						self.param.filter_offset = 0;
-						// Hack for Visitor Log to not pass the maxIdVisit parameter when limit is changed
-						delete self.param.maxIdVisit;
-						$('.limitSelection>div>span', domElem).text(self.param.filter_limit);
+					if (limit != self.param[limitParamName])
+					{
+						setLimitValue(self.param, limit);
+						$('.limitSelection>div>span', domElem).text(limit);
 						self.reloadAjaxDataTable();
-						self.notifyWidgetParametersChange(domElem, {'filter_limit': self.param.filter_limit});
+						
+						var data = {};
+						data[limitParamName] = self.param[limitParamName];
+						self.notifyWidgetParametersChange(domElem, data);
 					}
 				});
-			} else {
+			}
+			else
+			{
 				$('.limitSelection', domElem).toggleClass('disabled');
 			}
-		} else {
+		}
+		else
+		{
 			$('.limitSelection', domElem).hide();
 		}
 	},

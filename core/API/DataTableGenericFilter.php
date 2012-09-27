@@ -54,8 +54,6 @@ class Piwik_API_DataTableGenericFilter
 	{
 		if (is_null(self::$genericFiltersInfo))
 		{
-			$goalsOverviewConst = Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW;
-	
 			self::$genericFiltersInfo = array(
 				'Pattern' => array(
 									'filter_column' 			=> array('string', 'label'), 
@@ -74,7 +72,7 @@ class Piwik_API_DataTableGenericFilter
 							),
 				'AddColumnsProcessedMetricsGoal'	=> array(
 									'filter_update_columns_when_show_all_goals'	=> array('integer'),
-									'idGoal' => array('string', $goalsOverviewConst),
+									'idGoal' => array('string'),
 							),
 				'Sort' => array(
 									'filter_sort_column' 		=> array('string'),

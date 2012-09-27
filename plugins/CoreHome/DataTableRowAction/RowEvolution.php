@@ -70,7 +70,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 	 * @param Piwik_Date $date ($this->date from controller)
 	 * @throws Exception
 	 */
-	public function __construct($idSite, $date)
+	public function __construct($idSite, $date, $graphType = null)
 	{
 		$this->apiMethod = Piwik_Common::getRequestVar('apiMethod', '', 'string');
 		if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
@@ -83,16 +83,14 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 		if (empty($this->period)) throw new Exception("Parameter period not set.");
 		
 		$this->idSite = $idSite;
+		$this->graphType = $graphType;
 		
 		if ($this->period != 'range')
 		{
 			// handle day, week, month and year: display last X periods
 			$end = $date->toString();
-			if ($this->period == 'year') $start = $date->subYear(10)->toString();
-			else if ($this->period == 'month') $start = $date->subMonth(30)->toString();
-			else if ($this->period == 'week') $start = $date->subWeek(30)->toString();
-			else $start = $date->subDay(30)->toString();
-			$this->date = $start.','.$end;
+			list($this->date, $lastN) =
+				Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution::getDateRangeAndLastN($this->period, $end);
 		}
 		$this->segment = Piwik_Common::getRequestVar('segment', '', 'string');
 		
@@ -180,13 +178,6 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 	 */
 	public function getRowEvolutionGraph()
 	{
-		// Not ideal to overwrite _GET FIXME
-		// Useful for "Export" buttons under graphs to export the data displayed in graph
-		if(!empty($this->date))
-		{
-			$_GET['date'] = $this->date;
-		}
-		
 		// set up the view data table
 		$view = Piwik_ViewDataTable::factory($this->graphType);
 		$view->setDataTable($this->dataTable);

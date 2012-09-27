@@ -200,20 +200,9 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$countGraphElements = $this->dataTable->getRowsCount();
 		$firstDatatable = reset($this->dataTable->metadata);
 		$period = $firstDatatable['period'];
-		switch($period->getLabel()) {
-			case 'day': $steps = 7; break;
-			case 'week': $steps = 10; break;
-			case 'month': $steps = 6; break;
-			case 'year': $steps = 2; break;
-			default: $steps = 10; break;
-		}
-		// For Custom Date Range, when the number of elements plotted can be small, make sure the X legend is useful
-		if($countGraphElements <= 20 ) 
-		{
-			$steps = 2;
-		}
 		
-		$this->view->setXSteps($steps);
+		$stepSize = $this->getXAxisStepSize($period->getLabel(), $countGraphElements);
+		$this->view->setXSteps($stepSize);
 		
 		if($this->isLinkEnabled())
 		{
@@ -320,5 +309,64 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 							&& Piwik_Common::getRequestVar('period', 'day') != 'range';
 		}
 		return $linkEnabled;
+	}
+
+	private function getXAxisStepSize( $periodLabel, $countGraphElements )
+	{
+		// For Custom Date Range, when the number of elements plotted can be small, make sure the X legend is useful
+		if ($countGraphElements <= 3)
+		{
+			return 1;
+		}
+		
+		switch ($periodLabel)
+		{
+			case 'day':
+				if ($countGraphElements <= 9)
+				{
+					$steps = 4;
+				}
+				else
+				{
+					$steps = 5;
+				}
+				break;
+			case 'week':
+				if ($countGraphElements <= 4)
+				{
+					return 2;
+				}
+				else
+				{
+					$steps = 4;
+				}
+				break;
+			case 'month':
+				if ($countGraphElements <= 6)
+				{
+					return 2;
+				}
+				else
+				{
+					$steps = 5;
+				}
+				break;
+			case 'year':
+				if ($countGraphElements <= 10)
+				{
+					return 2;
+				}
+				else
+				{
+					$steps = 5;
+				}
+				break;
+			default:
+				$steps = 5;
+				break;
+		}
+		
+		$paddedCount = $countGraphElements + 2; // pad count so last label won't be cut off
+		return ceil($paddedCount / $steps);
 	}
 }

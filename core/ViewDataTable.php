@@ -300,6 +300,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_exclude_low_population'] = Piwik_Common::getRequestVar('show_exclude_low_population', true);
 		$this->viewProperties['show_offset_information'] = Piwik_Common::getRequestVar('show_offset_information', true);
 		$this->viewProperties['show_pagination_control'] = Piwik_Common::getRequestVar('show_pagination_control', true);
+		$this->viewProperties['show_limit_control'] = false;
 		$this->viewProperties['show_footer'] = Piwik_Common::getRequestVar('show_footer', true);
 		$this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
 		$this->viewProperties['show_related_reports'] = Piwik_Common::getRequestVar('show_related_reports', true);
@@ -870,6 +871,14 @@ abstract class Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Ensures the limit dropdown will always be shown, even if pagination is disabled.
+	 */
+	public function alwaysShowLimitDropdown()
+	{
+		$this->viewProperties['show_limit_control'] = true;
+	}
+	
+	/**
 	 * The "X-Y of Z" won't be displayed under this table
 	 */
 	public function disableOffsetInformation()
@@ -1228,7 +1237,7 @@ abstract class Piwik_ViewDataTable
 				$columnsNames = array($columnsNames);
 			}
 		}
-		$this->columnsToDisplay = $columnsNames;
+		$this->columnsToDisplay = array_filter($columnsNames);
 	}
 
 	/**

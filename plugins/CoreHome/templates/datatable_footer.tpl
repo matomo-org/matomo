@@ -82,7 +82,7 @@
 			</div>
 			
 		</div>
-        <div class="limitSelection {if !$properties.show_pagination_control} hidden{/if}" title="{'General_RowsToDisplay'|translate:escape:'html'}"></div>
+		<div class="limitSelection {if !$properties.show_pagination_control && !$properties.show_limit_control} hidden{/if}" title="{'General_RowsToDisplay'|translate:escape:'html'}"></div>
 		<div class="tableConfiguration">
 			<a class="tableConfigurationIcon" href="#"></a>
 			<ul>

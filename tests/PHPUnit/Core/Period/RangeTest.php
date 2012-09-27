@@ -174,6 +174,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     public function testRangeWeekcomma1()
     {
         $range = new Piwik_Period_Range( 'week', '2007-12-22,2008-01-03' );
+        $range2 = new Piwik_Period_Range( 'week', '2007-12-19,2008-01-03' );
         
         $correct = array(
              array(
@@ -206,7 +207,9 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         );
         
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
+        $this->assertEquals(count($correct), $range2->getNumberOfSubperiods());
         $this->assertEquals($correct, $range->toString());
+        $this->assertEquals($correct, $range2->toString());
     }
     
     // test range date1,date2
@@ -1076,4 +1079,27 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         $shouldBe = 'From 2007-02-09 to 2007-03-15';
         $this->assertEquals($shouldBe, $month->getPrettyString());
     }
+	
+	/**
+	 * Data provider for testLastNLimits.
+	 */
+	public function getDataForLastNLimitsTest()
+	{
+		return array(array('day', 5*365 + 1, 5*365),
+					  array('week', 10*52 + 1, 10*52),
+					  array('month', 121, 120),
+					  array('year', 11, 10));
+	}
+	
+	/**
+	 * @group Core
+	 * @group Period
+	 * @group Period_Range
+     * @dataProvider getDataForLastNLimitsTest
+	 */
+	public function testLastNLimits($period, $lastN, $expectedLastN)
+	{
+		$range = new Piwik_Period_Range($period, 'last'.$lastN);
+		$this->assertEquals($expectedLastN, $range->getNumberOfSubperiods());
+	}
 }

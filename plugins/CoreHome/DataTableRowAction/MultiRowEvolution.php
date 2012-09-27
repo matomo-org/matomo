@@ -18,6 +18,7 @@
 class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
 		extends Piwik_CoreHome_DataTableRowAction_RowEvolution
 {
+	const IS_MULTI_EVOLUTION_PARAM = 'is_multi_evolution';
 	
 	/** The requested metric */
 	protected $metric;
@@ -71,4 +72,15 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
 		return parent::renderPopover($controller, $view);
 	}
 	
+	/**
+	 * Generic method to get an evolution graph or a sparkline for the row evolution popover.
+	 * Do as much as possible from outside the controller.
+	 * @return Piwik_ViewDataTable
+	 */
+	public function getRowEvolutionGraph()
+	{
+		$view = parent::getRowEvolutionGraph();
+		$view->setCustomParameter(self::IS_MULTI_EVOLUTION_PARAM, true);
+		return $view;
+	}
 }

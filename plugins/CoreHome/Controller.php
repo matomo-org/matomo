@@ -135,7 +135,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	/** Render the entire row evolution popover for a single row */
 	public function getRowEvolutionPopover()
 	{
-		$rowEvolution = new Piwik_CoreHome_DataTableRowAction_RowEvolution($this->idSite, $this->date);
+		$rowEvolution = $this->makeRowEvolution($isMulti = false);
 		self::$rowEvolutionCache = $rowEvolution;
 		$view = Piwik_View::factory('popover_rowevolution');
 		echo $rowEvolution->renderPopover($this, $view);
@@ -144,7 +144,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	/** Render the entire row evolution popover for multiple rows */
 	public function getMultiRowEvolutionPopover()
 	{
-		$rowEvolution = new Piwik_CoreHome_DataTableRowAction_MultiRowEvolution($this->idSite, $this->date);
+		$rowEvolution = $this->makeRowEvolution($isMulti = true);
 		self::$rowEvolutionCache = $rowEvolution;
 		$view = Piwik_View::factory('popover_multirowevolution');
 		echo $rowEvolution->renderPopover($this, $view);
@@ -154,8 +154,29 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	public function getRowEvolutionGraph($fetch = false)
 	{
 		$rowEvolution = self::$rowEvolutionCache;
+		if ($rowEvolution === null)
+		{
+			$paramName = Piwik_CoreHome_DataTableRowAction_MultiRowEvolution::IS_MULTI_EVOLUTION_PARAM;
+			$isMultiRowEvolution = Piwik_Common::getRequestVar($paramName, false, 'int');
+			
+			$rowEvolution = $this->makeRowEvolution($isMultiRowEvolution, $graphType = 'graphEvolution');
+			self::$rowEvolutionCache = $rowEvolution;
+		}
+		
 		$view = $rowEvolution->getRowEvolutionGraph();
 		return $this->renderView($view, $fetch);
 	}
 	
+	/** Utility function. Creates a RowEvolution instance. */
+	private function makeRowEvolution( $isMultiRowEvolution, $graphType = null )
+	{
+		if ($isMultiRowEvolution)
+		{
+			return new Piwik_CoreHome_DataTableRowAction_MultiRowEvolution($this->idSite, $this->date, $graphType);
+		}
+		else
+		{
+			return new Piwik_CoreHome_DataTableRowAction_RowEvolution($this->idSite, $this->date, $graphType);
+		}
+	}
 }

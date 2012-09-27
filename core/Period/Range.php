@@ -130,11 +130,11 @@ class Piwik_Period_Range extends Piwik_Period
 			break;
 			
 			case 'week':
-				$lastN = min( $lastN, 5*52 );
+				$lastN = min( $lastN, 10*52 );
 			break;
 			
 			case 'month':
-				$lastN = min( $lastN, 5*12 );
+				$lastN = min( $lastN, 10*12 );
 			break;
 			
 			case 'year':
@@ -195,11 +195,11 @@ class Piwik_Period_Range extends Piwik_Period
 				$endDate = self::removePeriod($period, $defaultEndDate, 1);
 			}		
 			
+			$lastN = $this->getMaxN($lastN);
+			
 			// last1 means only one result ; last2 means 2 results so we remove only 1 to the days/weeks/etc
 			$lastN--;
 			$lastN = abs($lastN);
-			
-			$lastN = $this->getMaxN($lastN);
 			
 			$startDate = self::removePeriod($period, $endDate, $lastN);
 		}
@@ -357,6 +357,9 @@ class Piwik_Period_Range extends Piwik_Period
 		$arrayPeriods= array();
 		$endSubperiod = Piwik_Period::factory($period, $endDate);
 		$arrayPeriods[] = $endSubperiod;
+		
+		// set end date to start of end period since we're comparing against start date.
+		$endDate = $endSubperiod->getDateStart();
 		while($endDate->isLater($startDate) )
 		{
 			$endDate = self::removePeriod($period, $endDate, 1);
