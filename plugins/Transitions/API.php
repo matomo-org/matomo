@@ -42,7 +42,6 @@ class Piwik_Transitions_API
 			'generalText' => '',
 		);
 		
-		$this->addMainPageMetricsToReport($report, $pageUrl, $idSite, $period, $date, $segment);
 		$this->addLiveTransitionsDataToReport($report, $pageUrl, $idSite, $period, $date, $segment, $limitBeforeGrouping);
 		
 		// replace column names in the data tables
@@ -71,60 +70,6 @@ class Piwik_Transitions_API
 				. '<br /><i>' . htmlentities(Piwik_Translate('General_DateRange').' '.$prettyDate) . '</i>';
 		
 		return $report;
-	}
-
-	/**
-	 * Add the main metrics (pageviews, exits, bounces) to the full report.
-	 * Data is loaded from Actions.getPageUrls using the label filter.
-	 */
-	private function addMainPageMetricsToReport(&$report, $pageUrl, $idSite, $period, $date, $segment)
-	{
-		Piwik_Actions_ArchivingHelper::reloadConfig();
-		$label = Piwik_Actions_ArchivingHelper::getActionExplodedNames($pageUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
-		if (count($label) == 1)
-		{
-			$label = $label[0];
-		}
-		else
-		{
-			$label = array_map('urlencode', $label);
-			$label = implode('>', $label);
-		}
-		
-		$parameters = array(
-			'method' => 'Actions.getPageUrls',
-			'idSite' => $idSite,
-			'period' => $period,
-			'date' => $date,
-			'label' => $label,
-			'format' => 'original',
-			'serialize' => '0',
-			'expanded' => '0'
-		);
-		if (!empty($segment))
-		{
-			$parameters['segment'] = $segment;
-		}
-		
-		$url = Piwik_Url::getQueryStringFromParameters($parameters);
-		$request = new Piwik_API_Request($url);
-		try
-		{
-			/** @var $dataTable Piwik_DataTable */
-			$dataTable = $request->process();
-		}
-		catch(Exception $e)
-		{
-			throw new Exception("Actions.getPageUrls returned an error: ".$e->getMessage()."\n");
-		}
-		
-		if ($dataTable->getRowsCount() > 0 && ($row = $dataTable->getFirstRow()) !== false)
-		{
-			$report['pageMetrics'] = array(
-				'exits'     => intval($row->getColumn('exit_nb_visits')),
-				'bounces'   => intval($row->getColumn('entry_bounce_count'))
-			);
-		}
 	}
 
 	/**
@@ -196,6 +141,11 @@ class Piwik_Transitions_API
 			}
 		}
 		
+		// derive the number of exits from the other metrics
+		$report['pageMetrics']['exits'] = $report['pageMetrics']['pageviews']
+				- $transitionsArchiving->getTotalTransitionsToFollowingActions()
+				- $report['pageMetrics']['loops'];
+		
 		// if there's no data for referrers, Piwik_API_ResponseBuilder::handleMultiDimensionalArray
 		// does not detect the multi dimensional array and the data is rendered differently, which 
 		// causes an exception.
@@ -206,20 +156,6 @@ class Piwik_Transitions_API
 				'shortName' => Piwik_getRefererTypeLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY),
 				'visits' => 0
 			);
-		}
-		
-		// sanitize values taken from the actions report in addMainPageMetricsToReport().
-		// in some cases (e.g. URLs in DB with hash, actions report without hash), multiple
-		// idactions get mapped to one row in the actions report. in this case, the numbers
-		// are higher. we compensate for that here.
-		if (isset($report['pageMetrics']['exits'])) {
-			$followingActions = $transitionsArchiving->getTotalTransitionsToFollowingActions();
-			$report['pageMetrics']['exits'] = min($report['pageMetrics']['exits'],
-					$report['pageMetrics']['pageviews'] - $followingActions);
-			$report['pageMetrics']['bounces'] = min($report['pageMetrics']['bounces'],
-					$report['pageMetrics']['exits']);
-			$report['pageMetrics']['bounces'] = min($report['pageMetrics']['bounces'],
-					$report['pageMetrics']['entries']);
 		}
 	}
 	

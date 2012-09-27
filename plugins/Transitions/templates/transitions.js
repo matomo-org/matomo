@@ -201,26 +201,16 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 		var el = box.find('.Transitions_' + cssClass);
 		Piwik_Transitions_Util.replacePlaceholderInHtml(el, self.model[modelProperty]);
 		
-		if (self.model[modelProperty] === null) {
-			// bounces and exits are null if the url was not found in the actions report.
-			// this happens when the report has been truncated.
-			if (modelProperty == 'exits') {
-				el.parent().hide();
-			} else {
-				el.hide();
-			}
-		} else if (self.model[modelProperty] == 0) {
+		if (self.model[modelProperty] == 0) {
 			el.addClass('Transitions_Value0');
 		} else {
 			self.addTooltipShowingPercentageOfAllPageviews(el, modelProperty);
 			var groupName = cssClass.charAt(0).toLowerCase() + cssClass.substr(1);
-			if (highlightCurveOnSide !== false) {
-				el.hover(function() {
-					self.highlightGroup(groupName, highlightCurveOnSide);
-				}, function() {
-					self.unHighlightGroup(groupName, highlightCurveOnSide);
-				});
-			}
+			el.hover(function() {
+				self.highlightGroup(groupName, highlightCurveOnSide);
+			}, function() {
+				self.unHighlightGroup(groupName, highlightCurveOnSide);
+			});
 			if (groupCanBeExpanded) {
 				el.click(function() {
 					self.openGroup(highlightCurveOnSide, groupName);
@@ -239,7 +229,6 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 	showMetric('Outlinks', 'outlinksNbTransitions', 'right', true);
 	showMetric('Downloads', 'downloadsNbTransitions', 'right', true);
 	showMetric('Exits', 'exits', 'right', false);
-	showMetric('Bounces', 'bounces', false, false);
 
 	box.find('.Transitions_CenterBoxMetrics').show();
 };
@@ -1007,7 +996,6 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 	
 	this.pageviews = 0;
 	this.exits = 0;
-	this.bounces = 0;
 	this.loops = 0;
 
 	this.directEntries = 0;
@@ -1062,14 +1050,7 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 			// load page metrics
 			self.pageviews = report.pageMetrics.pageviews;
 			self.loops = report.pageMetrics.loops;
-			
-			if (typeof report.pageMetrics.exits == 'undefined') {
-				self.exits = null;
-				self.bounces = null;
-			} else {
-				self.exits = report.pageMetrics.exits;
-				self.bounces = report.pageMetrics.bounces;
-			}
+			self.exits = report.pageMetrics.exits;
 			
 			// load referrers: split direct entries and others
 			for (var i = 0; i < report.referrers.length; i++) {

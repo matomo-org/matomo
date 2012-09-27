@@ -17,6 +17,7 @@ class Piwik_Transitions extends Piwik_Plugin
 {
 	
 	private $limitBeforeGrouping = 5;
+	private $totalTransitionsToFollowingActions = 0;
 	
 	public function getInformation()
 	{

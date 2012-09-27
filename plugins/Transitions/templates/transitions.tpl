@@ -19,11 +19,7 @@
 				<p class="Transitions_FollowingPages">{$translations.toFollowingPagesInline|translate}</p>
 				<p class="Transitions_Downloads">{$translations.downloadsInline|translate}</p>
 				<p class="Transitions_Outlinks">{$translations.outlinksInline|translate}</p>
-				<p>
-					<span class="Transitions_Exits">{$translations.exitsInline|translate}</span>, 
-					{'Transitions_Including'|translate}<br />
-					<span class="Transitions_Bounces">{$translations.bouncesInline|translate}</span>
-				</p>
+				<p class="Transitions_Exits">{$translations.exitsInline|translate}</p>
 			</div>
 		</div>
 	</div>
