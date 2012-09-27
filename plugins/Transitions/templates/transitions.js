@@ -1022,15 +1022,15 @@ Piwik_Transitions_Canvas.prototype.clearSide = function(side, onlyBg) {
 
 function Piwik_Transitions_Model(ajax) {
 	this.ajax = ajax;
+	
+	this.groupTitles = {};
 }
 
 Piwik_Transitions_Model.prototype.htmlLoaded = function() {
-	this.groupTitles = {
-		previousPages: Piwik_Transitions_Translations.fromPreviousPages,
-		followingPages: Piwik_Transitions_Translations.toFollowingPages,
-		outlinks: Piwik_Transitions_Translations.outlinks,
-		downloads: Piwik_Transitions_Translations.downloads
-	};
+	this.groupTitles.previousPages = Piwik_Transitions_Translations.fromPreviousPages;
+	this.groupTitles.followingPages = Piwik_Transitions_Translations.toFollowingPages;
+	this.groupTitles.outlinks = Piwik_Transitions_Translations.outlinks;
+	this.groupTitles.downloads = Piwik_Transitions_Translations.downloads;
 	
 	this.shareInGroupTexts = {
 		previousPages: Piwik_Transitions_Translations.fromPreviousPagesInline,
@@ -1226,6 +1226,11 @@ Piwik_Transitions_Ajax.prototype.callApi = function(method, params, callback) {
 	params.format = 'JSON';
 	if (params.period == 'range') {
 		params.date = piwik.startDateString + ',' + params.date;
+	}
+	
+	var segment = broadcast.getValueFromHash('segment', window.location.href);
+	if (segment) {
+		params.segment = segment;
 	}
 
 	piwikHelper.queueAjaxRequest($.post('index.php', params, function(result) {

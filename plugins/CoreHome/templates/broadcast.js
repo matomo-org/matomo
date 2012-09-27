@@ -462,7 +462,11 @@ var broadcast = {
     getValueFromHash: function(param, url)
     {
         var hashStr = broadcast.getHashFromUrl(url);
-        return broadcast.getParamValue(param,hashStr);
+		if (hashStr.substr(0, 1) == '#') {
+			hashStr = hashStr.substr(1);
+		}
+		hashStr = hashStr.split('#')[0];
+		return broadcast.getParamValue(param,hashStr);
     },
 
 
