@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<generalText>This page had 12 pageviews (54.5% of all pageviews)&lt;br /&gt;&lt;i&gt;Date range: Sat 6 Mar&lt;/i&gt;</generalText>
-	<pageMetrics>
-		<exits>3</exits>
-		<bounces>2</bounces>
-		<loops>1</loops>
-		<pageviews>12</pageviews>
-		<entries>4</entries>
-
-	</pageMetrics>
+	<date>Sat 6 Mar</date>
 	<previousPages>
 		<row>
 			<url>https://example.org/the/third_page.html?foo=bar</url>
@@ -23,6 +15,13 @@
 			<referrals>2</referrals>
 		</row>
 	</previousPages>
+	<pageMetrics>
+		<loops>1</loops>
+		<pageviews>12</pageviews>
+		<entries>4</entries>
+		<exits>3</exits>
+
+	</pageMetrics>
 	<followingPages>
 		<row>
 			<url>http://www.example.org/sub/dir/page2.html</url>

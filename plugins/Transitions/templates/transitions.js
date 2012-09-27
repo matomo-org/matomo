@@ -91,41 +91,74 @@ Piwik_Transitions.prototype.reset = function(link) {
 /** Open the popover */
 Piwik_Transitions.prototype.showPopover = function() {
 	var self = this;
-
+	
 	this.popover = Piwik_Popover.showLoading('Transitions', self.link, 550);
 	
-	// load the popover HTML
-	this.ajax.callTransitionsController('renderPopover', function(html) {
-		Piwik_Popover.prepareContent(html);
-
-		var canvasDom = self.popover.find('#Transitions_Canvas')[0];
-		var canvasBgDom = self.popover.find('#Transitions_Canvas_Background')[0];
-		self.canvas = new Piwik_Transitions_Canvas(canvasDom, canvasBgDom, 900, 550);
-
-		self.centerBox = self.popover.find('#Transitions_CenterBox');
-
-		var link = Piwik_Transitions_Util.shortenUrl(self.link, true);
-		var title = self.centerBox.find('h2').html(Piwik_Transitions_Util.addBreakpoints(link));
+	var bothLoaded = function() {
+		self.preparePopover();
+		self.model.htmlLoaded();
 		
-		title.click(function() {
-			self.openExternalUrl(self.link);
-		}).css('cursor', 'pointer');
+		if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0
+				+ self.model.campaignsNbTransitions > 0) {
+			self.canvas.narrowMode();
+		}
 		
-		title.add(self.popover.find('p.Transitions_Pageviews')).hover(function() {
-			Piwik_Tooltip.show(self.model.generalText, 'Transitions_Tooltip_Small');
-		}, function() {
-			Piwik_Tooltip.hide();
-		});
-
-		self.model.loadData(self.link, function() {
-			if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0
-					+ self.model.campaignsNbTransitions > 0) {
-				self.canvas.narrowMode();
+		self.render();
+		Piwik_Popover.showPreparedContent();
+	};
+	
+	// load the popover HTML (only done once)
+	var callbackForHtml = false;
+	if (typeof Piwik_Transitions.popoverHtml == 'undefined') {
+		this.ajax.callTransitionsController('renderPopover', function(html) {
+			Piwik_Transitions.popoverHtml = html;
+			if (callbackForHtml !== false) {
+				callbackForHtml();
 			}
-			
-			self.render();
-			Piwik_Popover.showPreparedContent();
 		});
+	}
+	
+	// load the data
+	self.model.loadData(self.link, function() {
+		if (typeof Piwik_Transitions.popoverHtml == 'undefined') {
+			// html not there yet
+			callbackForHtml = bothLoaded;
+		} else {
+			// html already loaded
+			bothLoaded();
+		}
+	});
+};
+
+/** Prepare the popover with the basic DOM to add data later. */
+Piwik_Transitions.prototype.preparePopover = function() {
+	Piwik_Popover.prepareContent(Piwik_Transitions.popoverHtml);
+	
+	var self = this;
+	var canvasDom = self.popover.find('#Transitions_Canvas')[0];
+	var canvasBgDom = self.popover.find('#Transitions_Canvas_Background')[0];
+	self.canvas = new Piwik_Transitions_Canvas(canvasDom, canvasBgDom, 900, 550);
+
+	self.centerBox = self.popover.find('#Transitions_CenterBox');
+
+	var link = Piwik_Transitions_Util.shortenUrl(self.link, true);
+	var title = self.centerBox.find('h2').html(Piwik_Transitions_Util.addBreakpoints(link));
+	
+	title.click(function() {
+		self.openExternalUrl(self.link);
+	}).css('cursor', 'pointer');
+	
+	title.add(self.popover.find('p.Transitions_Pageviews')).hover(function() {
+		var totalNbPageviews = self.model.getTotalNbPageviews();
+		if (totalNbPageviews > 0) {
+			var share = Math.round(self.model.pageviews / totalNbPageviews * 1000) / 10;
+			var text = Piwik_Transitions_Translations.ShareOfAllPageviews;
+			text = text.replace(/%s/, self.model.pageviews).replace(/%s/, share + '%');
+			text += '<br /><i>' + Piwik_Transitions_Translations.DateRange + ' ' + self.model.date + '</i>';
+			Piwik_Tooltip.show(text, 'Transitions_Tooltip_Small');
+		}
+	}, function() {
+		Piwik_Tooltip.hide();
 	});
 };
 
@@ -991,6 +1024,25 @@ function Piwik_Transitions_Model(ajax) {
 	this.ajax = ajax;
 }
 
+Piwik_Transitions_Model.prototype.htmlLoaded = function() {
+	this.groupTitles = {
+		previousPages: Piwik_Transitions_Translations.fromPreviousPages,
+		followingPages: Piwik_Transitions_Translations.toFollowingPages,
+		outlinks: Piwik_Transitions_Translations.outlinks,
+		downloads: Piwik_Transitions_Translations.downloads
+	};
+	
+	this.shareInGroupTexts = {
+		previousPages: Piwik_Transitions_Translations.fromPreviousPagesInline,
+		followingPages: Piwik_Transitions_Translations.toFollowingPagesInline,
+		searchEngines: Piwik_Transitions_Translations.fromSearchEnginesInline,
+		websites: Piwik_Transitions_Translations.fromWebsitesInline,
+		campaigns: Piwik_Transitions_Translations.fromCampaignsInline,
+		outlinks: Piwik_Transitions_Translations.outlinksInline,
+		downloads: Piwik_Transitions_Translations.downloadsInline
+	};
+};
+
 Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 	var self = this;
 	
@@ -1021,31 +1073,14 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 	this.outlinksNbTransitions = 0;
 	this.outlinks = [];
 	
-	this.generalText = '';
-	
-	this.groupTitles = {
-		previousPages: Piwik_Transitions_Translations.fromPreviousPages,
-		followingPages: Piwik_Transitions_Translations.toFollowingPages,
-		outlinks: Piwik_Transitions_Translations.outlinks,
-		downloads: Piwik_Transitions_Translations.downloads
-	};
-	
-	this.shareInGroupTexts = {
-		previousPages: Piwik_Transitions_Translations.fromPreviousPagesInline,
-		followingPages: Piwik_Transitions_Translations.toFollowingPagesInline,
-		searchEngines: Piwik_Transitions_Translations.fromSearchEnginesInline,
-		websites: Piwik_Transitions_Translations.fromWebsitesInline,
-		campaigns: Piwik_Transitions_Translations.fromCampaignsInline,
-		outlinks: Piwik_Transitions_Translations.outlinksInline,
-		downloads: Piwik_Transitions_Translations.downloadsInline
-	};
+	this.date = '';
 
 	this.ajax.callApi('Transitions.getFullReport', {
 			pageUrl: link,
 			expanded: 1
 		},
 		function(report) {
-			self.generalText = report.generalText;
+			self.date = report.date;
 			
 			// load page metrics
 			self.pageviews = report.pageMetrics.pageviews;
@@ -1077,6 +1112,13 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 			self.loadAndSumReport(report, 'downloads');
 			self.loadAndSumReport(report, 'outlinks');
 			
+			if (typeof Piwik_Transitions_Model.totalNbPageviews == 'undefined') {
+				Piwik_Transitions_Model.totalNbPageviews = false;
+				self.ajax.loadTotalNbPageviews(function(nbPageviews) {
+					Piwik_Transitions_Model.totalNbPageviews = nbPageviews;
+				});
+			}
+			
 			callback();
 		});
 };
@@ -1089,6 +1131,13 @@ Piwik_Transitions_Model.prototype.loadAndSumReport = function(apiData, reportNam
 	for (var i = 0; i < data.length; i++) {
 		this[sumVarName] += data[i].referrals;
 	}
+};
+
+Piwik_Transitions_Model.prototype.getTotalNbPageviews = function() {
+	if (typeof Piwik_Transitions_Model.totalNbPageviews == 'undefined') {
+		return false;
+	}
+	return Piwik_Transitions_Model.totalNbPageviews;
 };
 
 Piwik_Transitions_Model.prototype.getGroupTitle = function(groupName) {
@@ -1147,6 +1196,15 @@ Piwik_Transitions_Model.prototype.roundPercentage = function(value) {
 
 function Piwik_Transitions_Ajax() {
 }
+
+Piwik_Transitions_Ajax.prototype.loadTotalNbPageviews = function(callback) {
+	this.callApi('Actions.get', {
+		columns: 'nb_pageviews'
+	}, function(response) {
+		var value = typeof response.value != 'undefined' ? response.value : false;
+		callback(value);
+	});
+};
 
 Piwik_Transitions_Ajax.prototype.callTransitionsController = function(action, callback) {
 	piwikHelper.queueAjaxRequest($.post('index.php', {

@@ -55,9 +55,11 @@ class Piwik_Transitions_Controller extends Piwik_Controller
 		'XOfAllPageviews' => 'Transitions_XOfAllPageviews',
 		'NoDataForUrl' => 'Transitions_NoDataForUrl',
 		'NoDataForUrlDetails' => 'Transitions_NoDataForUrlDetails',
-		'NoDataForUrlBack' => 'Transitions_ErrorBack'
+		'NoDataForUrlBack' => 'Transitions_ErrorBack',
+		'ShareOfAllPageviews' => 'Transitions_ShareOfAllPageviews',
+		'DateRange' => 'General_DateRange'
 	);
-
+	
 	public static function getTranslation($key)
 	{
 		return Piwik_Translate(self::$metricTranslations[$key]);
