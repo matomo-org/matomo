@@ -178,7 +178,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 			case 'week':
 				return 26;
 			case 'month':
-				return 12;
+				return 24;
 			case 'year':
 				return 5;
 			case 'day':

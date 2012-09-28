@@ -182,7 +182,11 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 		$view = Piwik_ViewDataTable::factory($this->graphType);
 		$view->setDataTable($this->dataTable);
 		$view->init('CoreHome', 'getRowEvolutionGraph', $this->apiMethod);
-		$view->setColumnsToDisplay(array_keys($this->graphMetrics));
+
+		if(!empty($this->graphMetrics)) // In row Evolution popover, this is empty
+		{
+			$view->setColumnsToDisplay(array_keys($this->graphMetrics));
+		}
 		$view->hideAllViewsIcons();
 		
 		foreach ($this->availableMetrics as $metric => $metadata)

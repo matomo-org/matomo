@@ -313,8 +313,8 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 
 	private function getXAxisStepSize( $periodLabel, $countGraphElements )
 	{
-		// For Custom Date Range, when the number of elements plotted can be small, make sure the X legend is useful
-		if ($countGraphElements <= 3)
+		// when the number of elements plotted can be small, make sure the X legend is useful
+		if ($countGraphElements <= 7)
 		{
 			return 1;
 		}
@@ -322,44 +322,16 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		switch ($periodLabel)
 		{
 			case 'day':
-				if ($countGraphElements <= 9)
-				{
-					$steps = 4;
-				}
-				else
-				{
 					$steps = 5;
-				}
 				break;
 			case 'week':
-				if ($countGraphElements <= 4)
-				{
-					return 2;
-				}
-				else
-				{
 					$steps = 4;
-				}
 				break;
 			case 'month':
-				if ($countGraphElements <= 6)
-				{
-					return 2;
-				}
-				else
-				{
 					$steps = 5;
-				}
 				break;
 			case 'year':
-				if ($countGraphElements <= 10)
-				{
-					return 2;
-				}
-				else
-				{
 					$steps = 5;
-				}
 				break;
 			default:
 				$steps = 5;
