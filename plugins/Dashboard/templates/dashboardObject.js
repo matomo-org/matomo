@@ -349,9 +349,9 @@
         var widgetContent = '<div class="sortable" widgetId="'+uniqueId+'"></div>';
 
         if (addWidgetOnTop) {
-            $('.col::nth-child('+columnNumber+')', dashboardElement).prepend(widgetContent);
+            $('.col:nth-child('+columnNumber+')', dashboardElement).prepend(widgetContent);
         } else {
-            $('.col::nth-child('+columnNumber+')', dashboardElement).append(widgetContent);
+            $('.col:nth-child('+columnNumber+')', dashboardElement).append(widgetContent);
         }
 
         $('[widgetId='+uniqueId+']', dashboardElement).dashboardWidget({
