@@ -21,6 +21,8 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	const VALUE_COLOR_KEY = 'VALUE_COLOR';
 	const GRID_COLOR_KEY = 'GRID_COLOR';
 
+	const TRUNCATION_TEXT = '...';
+
 	const DEFAULT_TICK_ALPHA = 20;
 	const DEFAULT_SERIE_WEIGHT = 0.5;
 	const LEFT_GRID_MARGIN = 4;
@@ -223,7 +225,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 			{
 				$currentPosition = $verticalLegend ? $legendTopMargin : $legendTopLeftXValue;
 				$colorIndex = 1;
-				foreach($this->ordinateLabels as $metricCode => $label)
+				foreach($this->ordinateLabels as $metricCode => &$label)
 				{
 					$color = $this->colors[self::GRAPHIC_COLOR_KEY . $colorIndex++];
 
@@ -233,6 +235,13 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 						$paddedBulletWidth = $maxLogoWidth;
 					}
 					$paddedBulletWidth += self::LEGEND_BULLET_RIGHT_PADDING;
+
+					// truncate labels if required
+					if($verticalLegend)
+					{
+						$label = $this->truncateLabel($label, $this->width - $legendTopLeftXValue - $paddedBulletWidth);
+						$this->pData->setSerieDescription($metricCode, $label);
+					}
 
 					$rectangleTopLeftXValue = ($verticalLegend ? $legendTopLeftXValue : $currentPosition) + $paddedBulletWidth - self::LEGEND_HORIZONTAL_SHADOW_PADDING;
 					$rectangleTopLeftYValue = $verticalLegend ? $currentPosition : $legendTopMargin;
@@ -403,6 +412,20 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	protected function getGraphBottom($horizontalGraph)
 	{
 		return $this->height - $this->getGridBottomMargin($horizontalGraph);
+	}
+
+	protected function truncateLabel($label, $labelWidthLimit)
+	{
+		list($truncationTextWidth, $truncationTextHeight) = $this->getTextWidthHeight(self::TRUNCATION_TEXT);
+		list($labelWidth, $labelHeight) = $this->getTextWidthHeight($label);
+
+		if($labelWidth > $labelWidthLimit)
+		{
+			$averageCharWidth = $labelWidth / strlen($label);
+			$charsToKeep = floor(($labelWidthLimit - $truncationTextWidth) / $averageCharWidth);
+			$label = substr($label, 0, $charsToKeep) . self::TRUNCATION_TEXT;
+		}
+		return $label;
 	}
 
 	// display min & max values

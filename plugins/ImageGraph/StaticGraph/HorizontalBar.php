@@ -18,7 +18,6 @@
 class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_StaticGraph_GridGraph
 {
 	const INTERLEAVE = 0.30;
-	const TRUNCATION_TEXT = '...';
 	const PADDING_CHARS = ' ';
 	const LEGEND_SQUARE_WIDTH = 11;
 	const MIN_SPACE_BETWEEN_HORIZONTAL_VALUES = 5;
@@ -136,18 +135,9 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
 				- $minGraphSize;
 
 		// truncate labels if needed
-		list($textWidth, $textHeight) = $this->getTextWidthHeight(self::TRUNCATION_TEXT);
-		$truncationTextWidth = $textWidth;
 		foreach($this->abscissaSeries as &$label)
 		{
-			list($textWidth, $textHeight) = $this->getTextWidthHeight($label);
-			$labelWidth = $textWidth;
-			if($labelWidth > $labelWidthLimit)
-			{
-				$averageCharWidth = $labelWidth / strlen($label);
-				$charsToKeep = floor(($labelWidthLimit - $truncationTextWidth) / $averageCharWidth);
-				$label = substr($label, 0, $charsToKeep) . self::TRUNCATION_TEXT;
-			}
+			$label = $this->truncateLabel($label, $labelWidthLimit);
 		}
 
 		$gridLeftMarginBeforePadding = $this->getGridLeftMargin($horizontalGraph = true, $withLabel = true);
