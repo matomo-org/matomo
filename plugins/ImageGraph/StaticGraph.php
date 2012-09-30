@@ -51,6 +51,7 @@ abstract class Piwik_ImageGraph_StaticGraph
 	protected $colors;
 	protected $font;
 	protected $fontSize;
+	protected $legendFontSize;
 	protected $width;
 	protected $height;
 	protected $forceSkippedLabels = false;
@@ -133,6 +134,11 @@ abstract class Piwik_ImageGraph_StaticGraph
 	public function setFontSize($fontSize)
 	{
 		$this->fontSize = $fontSize;
+	}
+
+	public function setLegendFontSize($legendFontSize)
+	{
+		$this->legendFontSize = $legendFontSize;
 	}
 
 	public function setFont($font)

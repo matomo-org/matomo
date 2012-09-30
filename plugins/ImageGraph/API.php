@@ -85,6 +85,7 @@ class Piwik_ImageGraph_API
 	const DEFAULT_FONT = 'tahoma.ttf';
 	const UNICODE_FONT = 'unifont.ttf';
 	const DEFAULT_FONT_SIZE = 9;
+	const DEFAULT_LEGEND_FONT_SIZE_OFFSET = 4;
 
 	// number of row evolutions to plot when no labels are specified, can be overridden using &filter_limit
 	const DEFAULT_NB_ROW_EVOLUTIONS = 5;
@@ -107,8 +108,8 @@ class Piwik_ImageGraph_API
 
 	public function get($idSite, $period, $date, $apiModule, $apiAction, $graphType = false,
 						$outputType = Piwik_ImageGraph_API::GRAPH_OUTPUT_INLINE, $columns = false, $labels = false, $showLegend = true,
-						$width = false, $height = false, $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE, $aliasedGraph = true,
-						$idGoal = false, $colors = false, $idSubtable = false)
+						$width = false, $height = false, $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE, $legendFontSize = false,
+						$aliasedGraph = true, $idGoal = false, $colors = false, $idSubtable = false)
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 
@@ -155,6 +156,11 @@ class Piwik_ImageGraph_API
 			if(!$reportHasDimension && !$isMultiplePeriod)
 			{
 				throw new Exception('The graph cannot be drawn for this combination of \'date\' and \'period\' parameters.');
+			}
+
+			if(empty($legendFontSize))
+			{
+				$legendFontSize = $fontSize + self::DEFAULT_LEGEND_FONT_SIZE_OFFSET;
 			}
 
 			if(empty($graphType))
@@ -483,6 +489,7 @@ class Piwik_ImageGraph_API
 			$graph->setHeight($height);
 			$graph->setFont($font);
 			$graph->setFontSize($fontSize);
+			$graph->setLegendFontSize($legendFontSize);
 			$graph->setOrdinateLabels($ordinateLabels);
 			$graph->setShowLegend($showLegend);
 			$graph->setAliasedGraph($aliasedGraph);
