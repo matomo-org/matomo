@@ -31,7 +31,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	const RIGHT_GRID_MARGIN_HORIZONTAL_GRAPH = 4;
 	const OUTER_TICK_WIDTH = 5;
 	const INNER_TICK_WIDTH = 0;
-	const LABEL_SPACE_VERTICAL_GRAPH = 10;
+	const LABEL_SPACE_VERTICAL_GRAPH = 7;
 
 	const HORIZONTAL_LEGEND_TOP_MARGIN = 5;
 	const VERTICAL_LEGEND_TOP_MARGIN = 8;
