@@ -188,14 +188,14 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 					$bulletWidth = self::LEGEND_LINE_BULLET_WIDTH;
 
 					// measured using a picture editing software
-					$iconPositionAboveTextSymmetricalAxe = -2;
+					$iconOffsetAboveLabelSymmetryAxis = -2;
 					break;
 
 				case LEGEND_FAMILY_BOX:
 					$bulletWidth = self::LEGEND_BOX_BULLET_WIDTH;
 
 					// measured using a picture editing software
-					$iconPositionAboveTextSymmetricalAxe = 3;
+					$iconOffsetAboveLabelSymmetryAxis = 3;
 					break;
 			}
 
@@ -223,9 +223,9 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 				if($maxLogoHeight)
 				{
 					// measured using a picture editing software
-					$iconPositionAboveTextSymmetricalAxe = 5;
+					$iconOffsetAboveLabelSymmetryAxis = 5;
 				}
-				$heightOfTextAboveBulletTop = $this->legendFontSize / 2 - $iconPositionAboveTextSymmetricalAxe;
+				$heightOfTextAboveBulletTop = $this->legendFontSize / 2 - $iconOffsetAboveLabelSymmetryAxis;
 				$effectiveShadowPadding = self::LEGEND_VERTICAL_SHADOW_PADDING;
 			}
 
@@ -240,7 +240,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 			{
 				if($maxLogoHeight)
 				{
-					// see line 1691 of pDraw.class.php ($Y+$IconAreaHeight/2)
+					// see line 1691 of pDraw.class.php
 					if($maxLogoHeight < $effectiveLegendItemVerticalInterstice)
 					{
 						$paddingAddedByPChart = ($effectiveLegendItemVerticalInterstice / 2) - ($maxLogoHeight / 2);
