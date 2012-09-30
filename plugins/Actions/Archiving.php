@@ -17,13 +17,14 @@
  */
 class Piwik_Actions_Archiving
 {
-	protected $actionsTablesByType = array(
-						Piwik_Tracker_Action::TYPE_ACTION_URL => array(),
-						Piwik_Tracker_Action::TYPE_DOWNLOAD => array(),
-						Piwik_Tracker_Action::TYPE_OUTLINK => array(),
-						Piwik_Tracker_Action::TYPE_ACTION_NAME => array(),
-	);
+	protected $actionsTablesByType = null;
 
+	public static $actionTypes = array(
+		Piwik_Tracker_Action::TYPE_ACTION_URL,
+		Piwik_Tracker_Action::TYPE_OUTLINK,
+		Piwik_Tracker_Action::TYPE_DOWNLOAD,
+		Piwik_Tracker_Action::TYPE_ACTION_NAME,
+	);
 
 	static protected $invalidSummedColumnNameToRenamedNameFromPeriodArchive = array(
 		Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
@@ -80,6 +81,7 @@ class Piwik_Actions_Archiving
 		$rankingQueryLimit = self::getRankingQueryLimit();
 		Piwik_Actions_ArchivingHelper::reloadConfig();
 
+		$this->initActionsTables();
 		$this->archiveDayActions($archiveProcessing, $rankingQueryLimit);
 		$this->archiveDayEntryActions($archiveProcessing, $rankingQueryLimit);
 		$this->archiveDayExitActions($archiveProcessing, $rankingQueryLimit);
@@ -297,7 +299,7 @@ class Piwik_Actions_Archiving
 	{
 		Piwik_Actions_ArchivingHelper::clearActionsCache();
 
-		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_URL]);
+		$dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_URL];
 		self::deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized( Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_actions_url', $s);
@@ -305,7 +307,7 @@ class Piwik_Actions_Archiving
 		$archiveProcessing->insertNumericRecord('Actions_nb_uniq_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
 		destroy($dataTable);
 
-		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD]);
+		$dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD];
 		self::deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_downloads', $s);
@@ -313,7 +315,7 @@ class Piwik_Actions_Archiving
 		$archiveProcessing->insertNumericRecord('Actions_nb_uniq_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
 		destroy($dataTable);
 
-		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK]);
+		$dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK];
 		self::deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized( Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_outlink', $s);
@@ -321,7 +323,7 @@ class Piwik_Actions_Archiving
 		$archiveProcessing->insertNumericRecord('Actions_nb_uniq_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
 		destroy($dataTable);
 
-		$dataTable = Piwik_ArchiveProcessing_Day::generateDataTable($this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_NAME]);
+		$dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_NAME];
 		self::deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized( Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_actions', $s);
@@ -408,18 +410,37 @@ class Piwik_Actions_Archiving
 			if(($idSubtable = $row->getIdSubDataTable()) !== null
 				|| $id === Piwik_DataTable::ID_SUMMARY_ROW)
 			{
-				foreach(self::$invalidSummedColumnNameToDeleteFromDayArchive as $name)
-				{
-					$row->deleteColumn($name);
-				}
-
 				if ($idSubtable !== null)
 				{
 					$subtable = Piwik_DataTable_Manager::getInstance()->getTable($idSubtable);
 					self::deleteInvalidSummedColumnsFromDataTable($subtable);
 				}
+				
+				if ($row instanceof Piwik_DataTable_Row_DataTableSummary)
+				{
+					$row->recalculate();
+				}
+				
+				foreach(self::$invalidSummedColumnNameToDeleteFromDayArchive as $name)
+				{
+					$row->deleteColumn($name);
+				}
 			}
 		}
 	}
 
+	/**
+	 * Initializes the DataTables created by the archiveDay function.
+	 */
+	private function initActionsTables()
+	{
+		$this->actionsTablesByType = array();
+		foreach (self::$actionTypes as $type)
+		{
+			$dataTable = new Piwik_DataTable();
+			$dataTable->setMaximumAllowedRows(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero);
+			
+			$this->actionsTablesByType[$type] = $dataTable;
+		}
+	}
 }

@@ -244,11 +244,19 @@ class Piwik_DataTable
 	 * @var array
 	 */
 	protected $metadata = array();
-
+	
+	/**
+	 * Maximum number of rows allowed in this datatable (including the summary row).
+	 * If adding more rows is attempted, the extra rows get summed to the summary row.
+	 * 
+	 * @var int
+	 */
+	protected $maximumAllowedRows = 0;
+	
 	const ID_SUMMARY_ROW = -1;
 	const LABEL_SUMMARY_ROW = -1;
 	const ID_PARENTS = -2;
-
+	
 	/**
 	 * Builds the DataTable, registers itself to the manager
 	 *
@@ -595,6 +603,25 @@ class Piwik_DataTable
 	 */
 	public function addRow( Piwik_DataTable_Row $row )
 	{
+		// if there is a upper limit on the number of allowed rows and the table is full,
+		// add the new row to the summary row
+		if ($this->maximumAllowedRows > 0
+			&& $this->getRowsCount() >= $this->maximumAllowedRows - 1)
+		{
+			if ($this->summaryRow === null) // create the summary row if necessary
+			{
+				$this->addSummaryRow(new Piwik_DataTable_Row(array(
+					Piwik_DataTable_Row::COLUMNS => $row->getColumns()
+				)));
+				$this->summaryRow->setColumn('label', self::LABEL_SUMMARY_ROW);
+			}
+			else
+			{
+				$this->summaryRow->sumRow($row);
+			}
+			return $this->summaryRow;
+		}
+		
 		$this->rows[] = $row;
 		if(!$this->indexNotUpToDate
 			&& $this->rebuildIndexContinuously)
@@ -606,16 +633,19 @@ class Piwik_DataTable
 			}
 			$this->indexNotUpToDate = false;
 		}
+		return $row;
 	}
 
 	/**
 	 * Sets the summary row (a dataTable can have only one summary row)
 	 *
 	 * @param Piwik_DataTable_Row  $row
+	 * @return Piwik_DataTable_Row Returns $row.
 	 */
 	public function addSummaryRow( Piwik_DataTable_Row $row )
 	{
 		$this->summaryRow = $row;
+		return $row;
 	}
 
 	/**
@@ -1349,5 +1379,90 @@ class Piwik_DataTable
 	public function setMetadata( $name, $value )
 	{
 		$this->metadata[$name] = $value;
+	}
+	
+	/**
+	 * Sets the maximum number of rows allowed in this datatable (including the summary
+	 * row). If adding more then the allowed number of rows is attempted, the extra
+	 * rows are added to the summary row.
+	 * 
+	 * @param int|null $maximumAllowedRows
+	 */
+	public function setMaximumAllowedRows( $maximumAllowedRows )
+	{
+		$this->maximumAllowedRows = $maximumAllowedRows;
+	}
+	
+	/**
+	 * Traverses a DataTable tree using an array of labels and returns the row
+	 * it finds or false if it cannot find one, and the number of segments of
+	 * the path successfully walked.
+	 * 
+	 * If $missingRowColumns is supplied, the specified path is created. When
+	 * a subtable is encountered w/o the queried label, a new row is created
+	 * with the label, and a subtable is added to the row.
+	 * 
+	 * @param array $path The path to walk. An array of label values.
+	 * @param array|false $missingRowColumns
+	 *						The default columns to use when creating new arrays.
+	 * 						If this parameter is supplied, new rows will be
+	 * 						created if labels cannot be found.
+	 * @param int $maxSubtableRows The maximum number of allowed rows in new
+	 *                             subtables.
+	 * @return array First element is the found row or false. Second element is
+	 *               the number of path segments walked. If a row is found, this
+	 *               will be == to count($path). Otherwise, it will be the index
+	 *               of the path segment that we could not find.
+	 */
+	public function walkPath( $path, $missingRowColumns = false, $maxSubtableRows = 0 )
+	{
+		$pathLength = count($path);
+		
+		$table = $this;
+		$next = false;
+		for ($i = 0; $i < $pathLength; ++$i)
+		{
+			$segment = $path[$i];
+			
+			$next = $table->getRowFromLabel($segment);
+			if ($next === false)
+			{
+				// if there is no table to advance to, and we're not adding missing rows, return false
+				if ($missingRowColumns === false)
+				{
+					return array(false, $i);
+				}
+				else // if we're adding missing rows, add a new row
+				{
+					$row = new Piwik_DataTable_Row_DataTableSummary();
+					$row->setColumns(array('label' => $segment) + $missingRowColumns);
+					
+					$next = $table->addRow($row);
+					if ($next !== $row) // if the row wasn't added, the table is full
+					{
+						return array($next, $i);
+					}
+				}
+			}
+			
+			$table = $next->getSubtable();
+			if ($table === false)
+			{
+				// if the row has no table (and thus no child rows), and we're not adding
+				// missing rows, return false
+				if ($missingRowColumns === false)
+				{
+					return array(false, $i);
+				}
+				else if ($i != $pathLength - 1) // create subtable if missing, but only if not on the last segment
+				{
+					$table = new Piwik_DataTable();
+					$table->setMaximumAllowedRows($maxSubtableRows);
+					$next->setSubtable($table);
+				}
+			}
+		}
+		
+		return array($next, $i);
 	}
 }

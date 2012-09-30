@@ -430,7 +430,7 @@ class Piwik_Actions extends Piwik_Plugin
 		$actionsArchiving = new Piwik_Actions_Archiving;
 		return $actionsArchiving->archivePeriod($archiveProcessing);
 	}
-	
+		
 	/**
 	 * Compute all the actions along with their hierarchies.
 	 *

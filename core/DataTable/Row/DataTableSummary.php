@@ -26,10 +26,37 @@ class Piwik_DataTable_Row_DataTableSummary extends Piwik_DataTable_Row
 	/**
 	 * @param Piwik_DataTable  $subTable
 	 */
-	function __construct($subTable)
+	function __construct($subTable = null)
 	{
 		parent::__construct();
-		foreach($subTable->getRows() as $row)
+		
+		if ($subTable !== null)
+		{
+			$this->sumTable($subTable);
+		}
+	}
+	
+	/**
+	 * Reset this row to an empty one and sum the associated subtable again.
+	 */
+	public function recalculate()
+	{
+		$id = $this->getIdSubDataTable();
+		if ($id !== null)
+		{
+			$subtable = Piwik_DataTable_Manager::getInstance()->getTable($id);
+			$this->sumTable($subtable);
+		}
+	}
+	
+	/**
+	 * Sums a tables row with this one.
+	 * 
+	 * @param Piwik_DataTable $table
+	 */
+	private function sumTable( $table )
+	{
+		foreach($table->getRows() as $row)
 		{
 			$this->sumRow($row);
 		}

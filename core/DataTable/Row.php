@@ -251,6 +251,20 @@ class Piwik_DataTable_Row
 	}
 	
 	/**
+	 * Returns the associated subtable, if one exists.
+	 * 
+	 * @return Piwik_DataTable|false
+	 */
+	public function getSubtable()
+	{
+		if ($this->isSubtableLoaded())
+		{
+			return Piwik_DataTable_Manager::getInstance()->getTable($this->getIdSubDataTable());
+		}
+		return false;
+	}
+	
+	/**
 	 * Sums a DataTable to this row subDataTable.
 	 * If this row doesn't have a SubDataTable yet, we create a new one.
 	 * Then we add the values of the given DataTable to this row's DataTable.
@@ -262,7 +276,7 @@ class Piwik_DataTable_Row
 	{
 		if($this->isSubtableLoaded())
 		{
-			$thisSubTable = Piwik_DataTable_Manager::getInstance()->getTable( $this->getIdSubDataTable() );
+			$thisSubTable = $this->getSubtable();
 		}
 		else
 		{
@@ -278,8 +292,8 @@ class Piwik_DataTable_Row
 	 * If the row already has a DataTable associated to it, throws an Exception.
 	 * 
 	 * @param Piwik_DataTable  $subTable  DataTable to associate to this row
+	 * @return Piwik_DataTable Returns $subTable.
 	 * @throws Exception 
-	 * 
 	 */
 	public function addSubtable(Piwik_DataTable $subTable)
 	{
@@ -287,7 +301,7 @@ class Piwik_DataTable_Row
 		{
 			throw new Exception("Adding a subtable to the row, but it already has a subtable associated.");
 		}
-		$this->setSubtable($subTable);
+		return $this->setSubtable($subTable);
 	}
 	
 	/**
@@ -295,12 +309,14 @@ class Piwik_DataTable_Row
 	 * a DataTable associated, it is simply overwritten.
 	 * 
 	 * @param Piwik_DataTable  $subTable  DataTable to associate to this row
+	 * @return Piwik_DataTable Returns $subTable.
 	 */
 	public function setSubtable(Piwik_DataTable $subTable)
 	{
 		// Hacking -1 to ensure value is negative, so we know the table was loaded
 		// @see isSubtableLoaded()
 		$this->c[self::DATATABLE_ASSOCIATED] = -1 * $subTable->getId();
+		return $subTable;
 	}
 	
 	/**
@@ -592,8 +608,8 @@ class Piwik_DataTable_Row
 			)
 		)
 		{
-			$subtable1 = Piwik_DataTable_Manager::getInstance()->getTable($row1->getIdSubDataTable());
-			$subtable2 = Piwik_DataTable_Manager::getInstance()->getTable($row2->getIdSubDataTable());
+			$subtable1 = $row1->getSubtable();
+			$subtable2 = $row2->getSubtable();
 			if(!Piwik_DataTable::isEqual($subtable1, $subtable2))
 			{
 				return false;

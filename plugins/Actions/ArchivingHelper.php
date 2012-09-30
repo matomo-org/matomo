@@ -21,7 +21,7 @@
 class Piwik_Actions_ArchivingHelper
 {
 	const OTHERS_ROW_KEY = '';
-
+	
 	/**
 	 * @param Zend_Db_Statement|PDOStatement $query
 	 * @param string|bool $fieldQueried
@@ -189,7 +189,8 @@ class Piwik_Actions_ArchivingHelper
 	 * @param array $actionsTablesByType
 	 * @return Piwik_DataTable
 	 */
-	protected function parseActionNameCategoriesInDataTable($actionName, $actionType, $urlPrefix=null, &$actionsTablesByType)
+	protected static function parseActionNameCategoriesInDataTable( 
+		$actionName, $actionType, $urlPrefix=null, &$actionsTablesByType )
 	{
 		// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
 		$currentTable =& $actionsTablesByType[$actionType];
@@ -197,45 +198,33 @@ class Piwik_Actions_ArchivingHelper
 		// check for ranking query cut-off
 		if ($actionName == Piwik_DataTable::LABEL_SUMMARY_ROW)
 		{
-			return self::createOthersRow($currentTable, $actionType);
+			$summaryRow = $currentTable->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
+			if ($summaryRow === false)
+			{
+				$summaryRow = $currentTable->addSummaryRow(self::createSummaryRow());
+			}
+			return $summaryRow;
 		}
 
 		// go to the level of the subcategory
 		$actionExplodedNames = self::getActionExplodedNames($actionName, $actionType, $urlPrefix);
-		$end = count($actionExplodedNames)-1;
-		$maxRows = self::$maximumRowsInDataTableLevelZero;
-		for($level = 0 ; $level < $end; $level++)
+		list($row, $level) = $currentTable->walkPath(
+			$actionExplodedNames, self::getDefaultRowColumns(), self::$maximumRowsInSubDataTable);
+		
+		// if we didn't traverse the entire path, the table the action belongs to is full, so we
+		// found a summary row. we don't set metadata on that row.
+		if ($level != count($actionExplodedNames))
 		{
-			$actionCategory = $actionExplodedNames[$level];
-
-			$othersRow = self::getOthersRowIfTableFull($currentTable, $actionCategory, $actionType, $maxRows);
-			if ($othersRow)
-			{
-				return $othersRow;
-			}
-
-			$currentTable =& $currentTable[$actionCategory];
-			$maxRows = self::$maximumRowsInSubDataTable;
+			return $row;
 		}
-		$actionShortName = $actionExplodedNames[$end];
-
-		$othersRow = self::getOthersRowIfTableFull($currentTable, $actionShortName, $actionType, $maxRows);
-		if ($othersRow)
+		
+		// if the action type is a URL type, set the url as metadata
+		if ($actionType != Piwik_Tracker_Action::TYPE_ACTION_NAME)
 		{
-			return $othersRow;
+			$row->setMetadata('url', Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix));
 		}
-
-		// currentTable is now the array element corresponding the the action
-		// at this point we may be for example at the 4th level of depth in the hierarchy
-		$currentTable =& $currentTable[$actionShortName];
-
-		// add the row to the matching sub category subtable
-		if(!($currentTable instanceof Piwik_DataTable_Row))
-		{
-			$currentTable = self::createActionsTableRow(
-				(string)$actionShortName, $actionType, $actionName, $urlPrefix);
-		}
-		return $currentTable;
+		
+		return $row;
 	}
 
 	/**
@@ -530,4 +519,29 @@ class Piwik_Actions_ArchivingHelper
 		self::$cacheParsedAction[$cacheLabel] = $actionRow;
 	}
 
+	/**
+	 * Returns the default columns for a row in an Actions DataTable.
+	 * 
+	 * @return array
+	 */
+	private static function getDefaultRowColumns()
+	{
+		return array(Piwik_Archive::INDEX_NB_VISITS => 0,
+					  Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0,
+					  Piwik_Archive::INDEX_PAGE_NB_HITS => 0,
+					  Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT => 0);
+	}
+	
+	/**
+	 * Creates a summary row for an Actions DataTable.
+	 * 
+	 * @return array
+	 */
+	private static function createSummaryRow()
+	{
+		return new Piwik_DataTable_Row(array(
+			Piwik_DataTable_Row::COLUMNS => 
+				array('label' => Piwik_DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
+		));
+	}
 }
