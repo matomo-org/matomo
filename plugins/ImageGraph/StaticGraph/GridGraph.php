@@ -146,8 +146,14 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 			}
 		}
 
-		$gridColor = $this->colors[self::GRID_COLOR_KEY];
+		// rounding top scale value to the next multiple of 10
+		if($maxOrdinateValue > 10)
+		{
+			$modTen = $maxOrdinateValue % 10;
+			if($modTen) $maxOrdinateValue += 10 - $modTen;
+		}
 
+		$gridColor = $this->colors[self::GRID_COLOR_KEY];
 		$this->pImage->drawScale(
 			array(
 				 'Mode' => SCALE_MODE_MANUAL,
