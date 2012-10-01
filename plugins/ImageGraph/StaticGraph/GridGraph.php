@@ -34,10 +34,11 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 	const LABEL_SPACE_VERTICAL_GRAPH = 7;
 
 	const HORIZONTAL_LEGEND_TOP_MARGIN = 5;
-	const VERTICAL_LEGEND_TOP_MARGIN = 8;
 	const HORIZONTAL_LEGEND_LEFT_MARGIN = 10;
-	const VERTICAL_LEGEND_LEFT_MARGIN = 6;
 	const HORIZONTAL_LEGEND_BOTTOM_MARGIN = 10;
+	const VERTICAL_LEGEND_TOP_MARGIN = 8;
+	const VERTICAL_LEGEND_LEFT_MARGIN = 6;
+	const VERTICAL_LEGEND_MAX_WIDTH_PCT = 0.70;
 	const LEGEND_LINE_BULLET_WIDTH = 14;
 	const LEGEND_BOX_BULLET_WIDTH = 5;
 	const LEGEND_BULLET_RIGHT_PADDING = 5;
@@ -274,7 +275,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 					// truncate labels if required
 					if($verticalLegend)
 					{
-						$label = $this->truncateLabel($label, $this->width - $legendTopLeftXValue - $paddedBulletWidth, $this->legendFontSize);
+						$label = $this->truncateLabel($label, ($this->width * self::VERTICAL_LEGEND_MAX_WIDTH_PCT) - $legendTopLeftXValue - $paddedBulletWidth, $this->legendFontSize);
 						$this->pData->setSerieDescription($metricCode, $label);
 					}
 

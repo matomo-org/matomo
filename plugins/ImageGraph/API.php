@@ -85,7 +85,7 @@ class Piwik_ImageGraph_API
 	const DEFAULT_FONT = 'tahoma.ttf';
 	const UNICODE_FONT = 'unifont.ttf';
 	const DEFAULT_FONT_SIZE = 9;
-	const DEFAULT_LEGEND_FONT_SIZE_OFFSET = 4;
+	const DEFAULT_LEGEND_FONT_SIZE_OFFSET = 2;
 
 	// number of row evolutions to plot when no labels are specified, can be overridden using &filter_limit
 	const DEFAULT_NB_ROW_EVOLUTIONS = 5;
