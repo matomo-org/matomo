@@ -61,7 +61,7 @@ class Piwik_Actions_ArchivingHelper
 					continue;
 				}
 
-				$currentTable = self::parseActionNameCategoriesInDataTable($actionName, $actionType, $urlPrefix, $actionsTablesByType);
+				$currentTable = self::getActionRow($actionName, $actionType, $urlPrefix, $actionsTablesByType);
 
 				self::setCachedActionRow($idaction, $actionType, $currentTable);
 			}
@@ -189,8 +189,7 @@ class Piwik_Actions_ArchivingHelper
 	 * @param array $actionsTablesByType
 	 * @return Piwik_DataTable
 	 */
-	protected static function parseActionNameCategoriesInDataTable( 
-		$actionName, $actionType, $urlPrefix=null, &$actionsTablesByType )
+	protected static function getActionRow( $actionName, $actionType, $urlPrefix=null, &$actionsTablesByType )
 	{
 		// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
 		$currentTable =& $actionsTablesByType[$actionType];
@@ -384,94 +383,6 @@ class Piwik_Actions_ArchivingHelper
 		}
 		return self::$defaultActionUrlWhenNotDefined;
 	}
-
-
-
-	/**
-	 * Checks if the given table is full (has the maximum number of rows allowed in config)
-	 * and if so, returns an 'Others' summary row. Returns false if the table is not full.
-	 *
-	 * @param array $currentTable Array of Piwik_DataTable_Rows.
-	 * @param string $actionCategory The current table key.
-	 * @param int $actionType The action type.
-	 * @param int $maxRows The maximum number of rows allowed in $currentTable.
-	 * @return Piwik_DataTable_Row|false
-	 */
-	static private function getOthersRowIfTableFull( &$currentTable, $actionCategory, $actionType, $maxRows )
-	{
-		if (!isset($currentTable[$actionCategory]))
-		{
-			if (count($currentTable) == $maxRows - 1)
-			{
-				return self::createOthersRow($currentTable, $actionType);
-			}
-			else if (count($currentTable) >= $maxRows)
-			{
-				return $currentTable[self::OTHERS_ROW_KEY]; // return existing 'others' row
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Create an 'Others' action row. The row created by this function is used
-	 * as the summary row in a truncated DataTable.
-	 *
-	 * @param array $currentTable The array of rows to add the 'Others' row to.
-	 * @param int $actionType The type of actions the row will hold stats for.
-	 * @return Piwik_DataTable_Row
-	 */
-	static private function createOthersRow( &$currentTable, $actionType )
-	{
-		// create other row and return it
-		$othersRow = self::createActionsTableRow(Piwik_DataTable::LABEL_SUMMARY_ROW, $actionType);
-		$othersRow->setMetadata('issummaryrow', true);
-
-		$currentTable[self::OTHERS_ROW_KEY] = $othersRow;
-		return $othersRow;
-	}
-
-	/**
-	 * Creates a new empty datatable row for storing Actions .
-	 *
-	 * @param string $label The row label.
-	 * @param int $actionType The action type of the action the row will describe.
-	 * @param string $actionName
-	 * @param string $urlPrefix
-	 * @return Piwik_DataTable_Row
-	 */
-	static private function createActionsTableRow( $label, $actionType, $actionName = null, $urlPrefix = null )
-	{
-		$defaultColumnsNewRow = array(
-			'label' => $label,
-			Piwik_Archive::INDEX_NB_VISITS => 0,
-			Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0,
-			Piwik_Archive::INDEX_PAGE_NB_HITS => 0,
-			Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT => 0,
-		);
-		if( $actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME )
-		{
-			return new Piwik_DataTable_Row(array(
-				Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
-			));
-		}
-		else
-		{
-			$metadata = array();
-			if (!is_null($actionName))
-			{
-				$url = Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix);
-				$metadata['url'] = $url;
-			}
-
-			return new Piwik_DataTable_Row(array(
-				Piwik_DataTable_Row::COLUMNS => $defaultColumnsNewRow,
-				Piwik_DataTable_Row::METADATA => $metadata,
-			));
-		}
-	}
-
 
 	/**
 	 * Static cache to store Rows during processing
