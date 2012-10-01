@@ -109,7 +109,7 @@ class Piwik_ImageGraph_API
 	public function get($idSite, $period, $date, $apiModule, $apiAction, $graphType = false,
 						$outputType = Piwik_ImageGraph_API::GRAPH_OUTPUT_INLINE, $columns = false, $labels = false, $showLegend = true,
 						$width = false, $height = false, $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE, $legendFontSize = false,
-						$aliasedGraph = true, $idGoal = false, $colors = false, $idSubtable = false)
+						$aliasedGraph = true, $idGoal = false, $colors = false, $idSubtable = false, $legendAppendMetric = true)
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 
@@ -311,7 +311,8 @@ class Piwik_ImageGraph_API
 					$plottedMetric,
 					$languageLoaded,
 					$idGoal,
-					$plottedMetric
+					$legendAppendMetric,
+					$labelUseAbsoluteUrl = false
 				);
 
 				//@review this test will need to be updated after evaluating the @review comment in API/API.php

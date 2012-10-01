@@ -1117,7 +1117,7 @@ class Piwik_API_API
 	 * 
 	 * @return array
 	 */
-	public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false)
+	public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
     {
 		// validation of requested $period & $date
 		if ($period == 'range')
@@ -1166,11 +1166,35 @@ class Piwik_API_API
 
 		if (count($labels) > 1)
 		{
-			$data = $this->getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $column, $language, $idGoal);
+			$data = $this->getMultiRowEvolution(
+				$idSite,
+				$period,
+				$date,
+				$apiModule,
+				$apiAction,
+				$labels,
+				$segment,
+				$column,
+				$language,
+				$idGoal,
+				$legendAppendMetric,
+				$labelUseAbsoluteUrl
+			);
 		}
 		else
 		{
-			$data = $this->getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels[0], $segment, $language, $idGoal);
+			$data = $this->getSingleRowEvolution(
+				$idSite,
+				$period,
+				$date,
+				$apiModule,
+				$apiAction,
+				$labels[0],
+				$segment,
+				$language,
+				$idGoal,
+				$labelUseAbsoluteUrl
+			);
 		}
 		return $data;
 	}
@@ -1179,7 +1203,7 @@ class Piwik_API_API
 	 * Get row evolution for a single label 
 	 * @return array containing  report data, metadata, label, logo
 	 */
-	private function getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $language=false, $idGoal = false)
+	private function getSingleRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $language=false, $idGoal = false, $labelUseAbsoluteUrl = true)
 	{
 		$metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal);
 		$metricNames = array_keys($metadata['metrics']);
@@ -1206,6 +1230,7 @@ class Piwik_API_API
 						&& ($apiModule == 'Actions' 
 							|| ($apiModule == 'Referers'
 								&& $apiAction == 'getWebsites'))
+						&& $labelUseAbsoluteUrl
 					)
 					{ 
 						$actualLabel = preg_replace(';^http(s)?://(www.)?;i', '', $url);
@@ -1424,7 +1449,7 @@ class Piwik_API_API
 	}
 	
 	/** Get row evolution for a multiple labels */
-	private function getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $column, $language=false, $idGoal=false)
+	private function getMultiRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $column, $language=false, $idGoal=false, $legendAppendMetric=true, $labelUseAbsoluteUrl=true)
 	{
 		$actualLabels = $logos = array();
 		
@@ -1471,6 +1496,7 @@ class Piwik_API_API
 						&& ($apiModule == 'Actions' 
 							|| ($apiModule == 'Referers'
 								&& $apiAction == 'getWebsites'))
+						&& $labelUseAbsoluteUrl
 					)
 					{
 						$actualLabels[$labelIndex] = preg_replace(';^http(s)?://(www.)?;i', '', $url);;
@@ -1531,7 +1557,11 @@ class Piwik_API_API
 		// this way, UI code can be reused
 		$metadata['metrics'] = array();
 		foreach ($actualLabels as $labelIndex => $label) {
-			$label .= ' ('.$metadata['columns'][$column].')';
+
+			if($legendAppendMetric)
+			{
+				$label .= ' ('.$metadata['columns'][$column].')';
+			}
 			$metricName = $column.'_'.$labelIndex;
 			$metadata['metrics'][$metricName] = Piwik_DataTable_Filter_SafeDecodeLabel::safeDecodeLabel($label);
 			
