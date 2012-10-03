@@ -373,20 +373,50 @@ $(document).ready(function() {
 		}
 	});
 	
+	// Hack to get around firefox bug. When double clicking a label in firefox, the 'click'
+	// event of its associated input will not be fired twice. We want to change the period
+	// if clicking the select period's label OR input, so we catch the click event on the
+	// label & the input.
+	var reloading = false;
+	var changePeriodOnClick = function(periodInput)
+	{
+		if (reloading) // if a click event resulted in reloading, don't reload again
+		{
+			return;
+		}
+		
+		var url = periodInput.val(),
+			period = broadcast.getValueFromUrl('period', url);
+		
+	    // if clicking on the selected period, change the period but not the date
+	    if (selectedPeriod == period && selectedPeriod != 'range')
+	    {
+	    	// only reload if current period is different from selected
+	    	if (piwik.period != selectedPeriod && !reloading)
+	    	{
+	    		reloading = true;
+	    		selectedPeriod = period;
+	    		updateDate(piwik.currentDateString);
+	    	}
+	    	return true;
+	    }
+	    
+	    return false;
+	};
+	
+	$("#otherPeriods label").on('click', function(e) {
+		var id = $(e.target).attr('for');
+		changePeriodOnClick($('#' + id));
+	});
+	
 	// when non-range period is clicked, change the period & refresh the date picker
 	$("#otherPeriods input").on('click', function(e) {
 	    var request_URL = $(e.target).val(),
 	    	period = broadcast.getValueFromUrl('period', request_URL),
 	    	lastPeriod = selectedPeriod;
 	    
-	    // if clicking on the selected period, change the period but not the date
-	    if (selectedPeriod == period)
+	    if (changePeriodOnClick($(e.target)))
 	    {
-	    	if (piwik.period != selectedPeriod) // only reload if current period is different from selected
-	    	{
-	    		selectedPeriod = period;
-	    		updateDate(piwik.currentDateString);
-	    	}
 	    	return true;
 	    }
 	    

@@ -157,6 +157,9 @@ a {
 	display:inline-block; 
 	padding: 2px 0 3px 0;
 	vertical-align:top; 
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 #periodString label.selected-period-label {
 	text-decoration: underline;
