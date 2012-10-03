@@ -918,11 +918,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.yam.com'			=> array('Yam', 'k', 'Search/Web/?SearchType=web&k={k}'),
 
 		// Yandex
-		'yandex.com'				=> array('Yandex', 'text', 'yandsearch?text={k}'),
+		'yandex.ru'				=> array('Yandex', 'text', 'yandsearch?text={k}'),
+		'yandex.com'				=> array('Yandex'),
 		'yandex.{}'					=> array('Yandex'),
 
 		// Yandex Images
-		'images.yandex.com'			=> array('Yandex Images', 'text', 'yandsearch?text={k}'),
+		'images.yandex.ru'			=> array('Yandex Images', 'text', 'yandsearch?text={k}'),
+		'images.yandex.com'			=> array('Yandex Images'),
 		'images.yandex.{}'			=> array('Yandex Images'),
 
 		// Yasni
