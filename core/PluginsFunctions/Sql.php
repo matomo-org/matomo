@@ -159,7 +159,23 @@ class Piwik_Sql
 			$tables = array($tables);
 		}
 		
-		return self::query("OPTIMIZE TABLE ".implode(',', $tables));
+		// filter out all InnoDB tables
+		$nonInnoDbTables = array();
+		foreach (Piwik_FetchAll("SHOW TABLE STATUS") as $row)
+		{
+			if (strtolower($row['Engine']) != 'innodb' && in_array($row['Name'], $tables))
+			{
+				$nonInnoDbTables[] = $row['Name'];
+			}
+		}
+		
+		if (empty($nonInnoDbTables))
+		{
+			return false;
+		}
+		
+		// optimize the tables
+		return self::query("OPTIMIZE TABLE ".implode(',', $nonInnoDbTables));
 	}
 
 	/**
