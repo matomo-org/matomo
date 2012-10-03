@@ -32,6 +32,16 @@
 class Piwik_DataTable_Row
 {
 	/**
+	 * List of columns that cannot be summed. An associative array for speed.
+	 * 
+	 * @var array
+	 */
+	private static $unsummableColumns = array(
+		'label' => true,
+		'full_url' => true // column used w/ old Piwik versions
+	);
+	
+	/**
 	 * This array contains the row information:
 	 * - array indexed by self::COLUMNS contains the columns, pairs of (column names, value) 
 	 * - (optional) array indexed by self::METADATA contains the metadata,  pairs of (metadata name, value)
@@ -466,7 +476,7 @@ class Piwik_DataTable_Row
 	{
 		foreach($rowToSum->getColumns() as $columnToSumName => $columnToSumValue)
 		{
-			if($columnToSumName != 'label')
+			if (!isset(self::$unsummableColumns[$columnToSumName])) // make sure we can add this column
 			{
 				$thisColumnValue = $this->getColumn($columnToSumName);
 				
