@@ -27,18 +27,40 @@ class Piwik_Transitions_API
 		return self::$instance;
 	}
 	
+	public function getTransitionsForPageTitle($pageTitle, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = false)
+	{
+		return $this->getTransitionsForAction($pageTitle, 'title', $idSite, $period, $date, $segment = false, $limitBeforeGrouping = false);
+	}
+	
+	public function getTransitionsForPageUrl($pageUrl, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = false)
+	{
+		return $this->getTransitionsForAction($pageUrl, 'url', $idSite, $period, $date, $segment = false, $limitBeforeGrouping = false);
+	}
+
 	/**
-	 * This method returns a complete report.
-	 * It is used in the Transitions API to load all data at once.
+	 * General method to get transitions for an action
+	 * 
+	 * @param $actionName
+	 * @param $actionType "url"|"title"
+	 * @param $idSite
+	 * @param $period
+	 * @param $date
+	 * @param bool $segment
+	 * @param bool $limitBeforeGrouping
+	 * @return array
+	 * @throws Exception
 	 */
-	public function getFullReport($pageUrl, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = false)
+	public function getTransitionsForAction($actionName, $actionType,
+			$idSite, $period, $date, $segment = false, $limitBeforeGrouping = false)
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		
-		// get idaction of page url
-		$actionsPlugin = new Piwik_Actions;
-		$pageUrl = Piwik_Common::unsanitizeInputValue($pageUrl);
-		$idaction = $actionsPlugin->getIdActionFromSegment($pageUrl, 'idaction');
+		// get idaction of the requested action
+		$idaction = $this->deriveIdAction($actionName, $actionType);
+		if ($idaction < 0)
+		{
+			throw new Exception('NoDataForAction');
+		}
 		
 		// prepare archive processing that can be used by the archiving code
 		$archiveProcessing = new Piwik_ArchiveProcessing_Day();
@@ -54,9 +76,9 @@ class Piwik_Transitions_API
 		
 		// add data to the report
 		$transitionsArchiving = new Piwik_Transitions;
-		$this->addInternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction, $limitBeforeGrouping);
-		$this->addFollowingActions($transitionsArchiving, $archiveProcessing, $report, $idaction, $limitBeforeGrouping);
-		$this->addExternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction, $limitBeforeGrouping);
+		$this->addInternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction, $actionType, $limitBeforeGrouping);
+		$this->addFollowingActions($transitionsArchiving, $archiveProcessing, $report, $idaction, $actionType, $limitBeforeGrouping);
+		$this->addExternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction, $actionType, $limitBeforeGrouping);
 		
 		// derive the number of exits from the other metrics
 		$report['pageMetrics']['exits'] = $report['pageMetrics']['pageviews']
@@ -81,25 +103,60 @@ class Piwik_Transitions_API
 	}
 
 	/**
+	 * Derive the action ID from the request action name and type.
+	 */
+	private function deriveIdAction($actionName, $actionType)
+	{
+		$actionsPlugin = new Piwik_Actions;
+		
+		switch ($actionType)
+		{
+			case 'url':
+				$actionName = Piwik_Common::unsanitizeInputValue($actionName);
+				return $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url');
+			
+			case 'title':
+				$id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name');
+				
+				if ($id < 0)
+				{
+					$unkown = Piwik_Actions_ArchivingHelper::getUnknownActionName(
+								Piwik_Tracker_Action::TYPE_ACTION_NAME);
+					
+					if (trim($actionName) == trim($unkown))
+					{
+						$id = $actionsPlugin->getIdActionFromSegment('', 'idaction_name');
+					}
+				}
+				
+				return $id;
+			
+			default:
+				throw new Exception('Unknown action type');
+		}
+	}
+
+	/**
 	 * Add the internal referrers to the report:
 	 * previous pages
 	 * 
-	 * @param $transitionsArchiving Piwik_Transitions
+	 * @param Piwik_Transitions $transitionsArchiving
 	 * @param $archiveProcessing
 	 * @param $report
 	 * @param $idaction
+	 * @param string $actionType
 	 * @param $limitBeforeGrouping
 	 * @throws Exception
 	 */
 	private function addInternalReferrers($transitionsArchiving, $archiveProcessing, &$report,
-				$idaction, $limitBeforeGrouping) {
+				$idaction, $actionType, $limitBeforeGrouping) {
 		
 		$data = $transitionsArchiving->queryInternalReferrers(
-					$idaction, $archiveProcessing, $limitBeforeGrouping);
+					$idaction, $actionType, $archiveProcessing, $limitBeforeGrouping);
 				
 		if ($data['pageviews'] == 0)
 		{
-			throw new Exception('NoDataForUrl');
+			throw new Exception('NoDataForAction');
 		}
 		
 		$report['previousPages'] = &$data['previousPages'];
@@ -111,17 +168,18 @@ class Piwik_Transitions_API
 	 * Add the following actions to the report:
 	 * following pages, downloads, outlinks
 	 * 
-	 * @param $transitionsArchiving Piwik_Transitions
+	 * @param Piwik_Transitions $transitionsArchiving
 	 * @param $archiveProcessing
 	 * @param $report
 	 * @param $idaction
+	 * @param string $actionType
 	 * @param $limitBeforeGrouping
 	 */
 	private function addFollowingActions($transitionsArchiving, $archiveProcessing, &$report,
-				$idaction, $limitBeforeGrouping) {
+				$idaction, $actionType, $limitBeforeGrouping) {
 		
 		$data = $transitionsArchiving->queryFollowingActions(
-					$idaction, $archiveProcessing, $limitBeforeGrouping);
+					$idaction, $actionType, $archiveProcessing, $limitBeforeGrouping);
 		
 		foreach ($data as $tableName => $table)
 		{
@@ -133,18 +191,18 @@ class Piwik_Transitions_API
 	 * Add the external referrers to the report:
 	 * direct entries, websites, campaigns, search engines
 	 * 
-	 * @param $transitionsArchiving
+	 * @param Piwik_Transitions $transitionsArchiving 
 	 * @param $archiveProcessing
 	 * @param $report
 	 * @param $idaction
+	 * @param string $actionType
 	 * @param $limitBeforeGrouping
 	 */
 	private function addExternalReferrers($transitionsArchiving, $archiveProcessing, &$report,
-					$idaction, $limitBeforeGrouping) {
+					$idaction, $actionType, $limitBeforeGrouping) {
 		
-		/** @var $transitionsArchiving Piwik_Transitions */
 		$data = $transitionsArchiving->queryExternalReferrers(
-					$idaction, $archiveProcessing, $limitBeforeGrouping);
+					$idaction, $actionType, $archiveProcessing, $limitBeforeGrouping);
 		
 		$report['pageMetrics']['entries'] = 0;
 		$report['referrers'] = array();
@@ -204,6 +262,11 @@ class Piwik_Transitions_API
 			default:
 				return Piwik_Translate('General_Others');
 		}
+	}
+	
+	public function getTranslations() {
+		$controller = new Piwik_Transitions_Controller();
+		return $controller->getTranslations();
 	}
 	
 }

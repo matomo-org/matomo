@@ -370,7 +370,7 @@ class Piwik_Actions_ArchivingHelper
 	 * @param $type
 	 * @return string
 	 */
-	static protected function getUnknownActionName($type)
+	static public function getUnknownActionName($type)
 	{
 		if(empty(self::$defaultActionNameWhenNotDefined))
 		{

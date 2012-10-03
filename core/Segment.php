@@ -264,8 +264,9 @@ class Piwik_Segment
     		if (is_array($table))
     		{
     			// join condition provided
+				$alias = isset($table['tableAlias']) ? $table['tableAlias'] : $table['table'];
     			$sql .= "
-				LEFT JOIN ".Piwik_Common::prefixTable($table['table'])." AS ".$table['table']
+				LEFT JOIN ".Piwik_Common::prefixTable($table['table'])." AS ".$alias
     			." ON ".$table['joinOn'];
     			continue;
     		}

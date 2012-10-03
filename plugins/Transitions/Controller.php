@@ -53,9 +53,9 @@ class Piwik_Transitions_Controller extends Piwik_Controller
 	private static $jsTranslations = array(
 		'XOfY' => 'Transitions_XOutOfYVisits',
 		'XOfAllPageviews' => 'Transitions_XOfAllPageviews',
-		'NoDataForUrl' => 'Transitions_NoDataForUrl',
-		'NoDataForUrlDetails' => 'Transitions_NoDataForUrlDetails',
-		'NoDataForUrlBack' => 'Transitions_ErrorBack',
+		'NoDataForAction' => 'Transitions_NoDataForAction',
+		'NoDataForActionDetails' => 'Transitions_NoDataForActionDetails',
+		'NoDataForActionBack' => 'Transitions_ErrorBack',
 		'ShareOfAllPageviews' => 'Transitions_ShareOfAllPageviews',
 		'DateRange' => 'General_DateRange'
 	);
@@ -72,8 +72,17 @@ class Piwik_Transitions_Controller extends Piwik_Controller
 	public function renderPopover()
 	{
 		$view = Piwik_View::factory('transitions');
-		$view->translations = self::$metricTranslations + self::$jsTranslations;
+		$view->translations = $this->getTranslations();
 		echo $view->render();
+	}
+	
+	public function getTranslations()
+	{
+		$translations = self::$metricTranslations + self::$jsTranslations;
+		foreach ($translations as &$message) {
+			$message = Piwik_Translate($message);
+		}
+		return $translations;
 	}
 	
 }

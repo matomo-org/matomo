@@ -320,7 +320,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param bool|string   $orderBy    order by clause
 	 * @param Piwik_RankingQuery  $rankingQuery     pre-configured ranking query instance
 	 * @param bool|string   $joinLogActionOnColumn  column from log_link_visit_action that
-	 *                                              log_action should be joined on
+	 *                                              log_action should be joined on.
+	 * 												can be an array to join multiple times.
 	 * @param bool|string   $addSelect  additional select clause
 	 * @return mixed
 	 */
@@ -366,13 +367,23 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 		
 		if ($joinLogActionOnColumn !== false)
 		{
-			$from = array(
-				$from,
-				array(
+			$multiJoin = is_array($joinLogActionOnColumn);
+			if (!$multiJoin)
+			{
+				$joinLogActionOnColumn = array($joinLogActionOnColumn);
+			}
+			
+			$from = array($from);
+			
+			foreach ($joinLogActionOnColumn as $i => $joinColumn)
+			{
+				$tableAlias = 'log_action'.($multiJoin ? $i + 1 : '');
+				$from[] = array(
 					'table' => 'log_action', 
-					'joinOn' => 'log_action.idaction = log_link_visit_action.'.$joinLogActionOnColumn,
-				)
-			);
+					'tableAlias' => $tableAlias,
+					'joinOn' => $tableAlias.'.idaction = log_link_visit_action.'.$joinColumn
+				);
+			}
 		}
 		
 		if ($addSelect !== false)

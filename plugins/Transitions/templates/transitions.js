@@ -17,18 +17,48 @@ function DataTable_RowActions_Transitions(dataTable) {
 
 DataTable_RowActions_Transitions.prototype = new DataTable_RowAction;
 
-// override trigger method directly because we don't need the label
+DataTable_RowActions_Transitions.isPageUrlReport = function(module, action) {
+	return module == 'Actions' &&
+			(action == 'getPageUrls' || action == 'getEntryPageUrls' || action == 'getExitPageUrls');
+};
+
+DataTable_RowActions_Transitions.isPageTitleReport = function(module, action) {
+	return module == 'Actions' && action == 'getPageTitles';
+}
+
 DataTable_RowActions_Transitions.prototype.trigger = function(tr, e, subTableLabel) {
 	var link = tr.find('> td:first > a').attr('href');
 	link = $('<textarea>').html(link).val(); // remove html entities
-	this.openPopover(link);
+	
+	var module = this.dataTable.param.module;
+	var action = this.dataTable.param.action;
+	if (DataTable_RowActions_Transitions.isPageUrlReport(module, action)) {
+		this.openPopover('url:' + link);
+	} else if (DataTable_RowActions_Transitions.isPageTitleReport(module, action)) {
+		DataTable_RowAction.prototype.trigger.apply(this, [tr, e, subTableLabel]);
+	} else {
+		alert('Transitions can\'t be used on this report.');
+	}
+};
+
+DataTable_RowAction.prototype.performAction = function(label, tr, e) {
+	this.openPopover('title:' + label);
 };
 
 DataTable_RowActions_Transitions.prototype.doOpenPopover = function(link) {
+	var parts = link.split(':');
+	if (parts.length < 2) {
+		return;
+	}
+	
+	var actionType = parts[0];
+	parts.shift();
+	var actionName = parts.join(':');
+	
 	if (this.transitions === null) {
-		this.transitions = new Piwik_Transitions(link, this);
+		this.transitions = new Piwik_Transitions(actionType, actionName, this);
 	} else {
-		this.transitions.reset(link);
+		this.transitions.reset(actionType, actionName);
 	}
 	this.transitions.showPopover();
 };
@@ -50,10 +80,12 @@ DataTable_RowActions_Registry.register({
 	},
 	
 	isAvailable: function(dataTableParams, tr) {
-		return dataTableParams.module == 'Actions'
-			&& (dataTableParams.action == 'getPageUrls' || dataTableParams.action == 'getEntryPageUrls'
-					|| dataTableParams.action == 'getExitPageUrls')
-			&& tr.find('> td:first > a').size() > 0;
+		return (
+			DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action)
+			&& tr.find('> td:first > a').size() > 0 // only available on pages, not folders
+		) || (
+			DataTable_RowActions_Transitions.isPageTitleReport(dataTableParams.module, dataTableParams.action)
+		);
 	}
 
 });
@@ -63,8 +95,8 @@ DataTable_RowActions_Registry.register({
 // TRANSITIONS IMPLEMENTATION
 //
 
-function Piwik_Transitions(link, rowAction) {
-	this.reset(link);
+function Piwik_Transitions(actionType, actionName, rowAction) {
+	this.reset(actionType, actionName);
 	this.rowAction = rowAction;
 	
 	this.ajax = new Piwik_Transitions_Ajax();
@@ -74,8 +106,10 @@ function Piwik_Transitions(link, rowAction) {
 	this.rightGroups = ['followingPages', 'downloads', 'outlinks'];
 }
 
-Piwik_Transitions.prototype.reset = function(link) {
-	this.link = link;
+Piwik_Transitions.prototype.reset = function(actionType, actionName) {
+	this.actionType = actionType;
+	this.actionName = actionName;
+	
 	this.popover = null;
 	this.canvas = null;
 	this.centerBox = null;
@@ -92,7 +126,7 @@ Piwik_Transitions.prototype.reset = function(link) {
 Piwik_Transitions.prototype.showPopover = function() {
 	var self = this;
 	
-	this.popover = Piwik_Popover.showLoading('Transitions', self.link, 550);
+	this.popover = Piwik_Popover.showLoading('Transitions', self.actionName, 550);
 	
 	var bothLoaded = function() {
 		self.preparePopover();
@@ -119,7 +153,7 @@ Piwik_Transitions.prototype.showPopover = function() {
 	}
 	
 	// load the data
-	self.model.loadData(self.link, function() {
+	self.model.loadData(self.actionType, self.actionName, function() {
 		if (typeof Piwik_Transitions.popoverHtml == 'undefined') {
 			// html not there yet
 			callbackForHtml = bothLoaded;
@@ -141,12 +175,17 @@ Piwik_Transitions.prototype.preparePopover = function() {
 
 	self.centerBox = self.popover.find('#Transitions_CenterBox');
 
-	var link = Piwik_Transitions_Util.shortenUrl(self.link, true);
-	var title = self.centerBox.find('h2').html(Piwik_Transitions_Util.addBreakpoints(link));
+	var title = self.actionName;
+	if (self.actionType == 'url') {
+		title = Piwik_Transitions_Util.shortenUrl(title, true);
+	}
+	title = self.centerBox.find('h2').html(Piwik_Transitions_Util.addBreakpoints(title));
 	
-	title.click(function() {
-		self.openExternalUrl(self.link);
-	}).css('cursor', 'pointer');
+	if (self.actionType == 'url') {
+		title.click(function() {
+			self.openExternalUrl(self.actionName);
+		}).css('cursor', 'pointer');
+	}
 	
 	title.add(self.popover.find('p.Transitions_Pageviews')).hover(function() {
 		var totalNbPageviews = self.model.getTotalNbPageviews();
@@ -510,7 +549,7 @@ Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side, onlyBg
 
 /** Reload the entire popover for a different URL */
 Piwik_Transitions.prototype.reloadPopover = function(url) {
-	this.rowAction.openPopover(url);
+	this.rowAction.openPopover(this.actionType + ':' + url);
 };
 
 /** Redraw the left or right sides with a different group opened */
@@ -1043,7 +1082,7 @@ Piwik_Transitions_Model.prototype.htmlLoaded = function() {
 	};
 };
 
-Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
+Piwik_Transitions_Model.prototype.loadData = function(actionType, actionName, callback) {
 	var self = this;
 	
 	this.pageviews = 0;
@@ -1074,9 +1113,10 @@ Piwik_Transitions_Model.prototype.loadData = function(link, callback) {
 	this.outlinks = [];
 	
 	this.date = '';
-
-	this.ajax.callApi('Transitions.getFullReport', {
-			pageUrl: link,
+	
+	this.ajax.callApi('Transitions.getTransitionsForAction', {
+			actionType: actionType,
+			actionName: actionName,
 			expanded: 1
 		},
 		function(report) {
@@ -1233,29 +1273,48 @@ Piwik_Transitions_Ajax.prototype.callApi = function(method, params, callback) {
 		params.segment = segment;
 	}
 
+	var self = this;
 	piwikHelper.queueAjaxRequest($.post('index.php', params, function(result) {
 		if (typeof result.result != 'undefined' && result.result == 'error') {
 			var errorName = result.message;
-			var errorTitle = Piwik_Transitions_Translations[errorName];
-			var errorMessage = Piwik_Transitions_Translations[errorName + 'Details'];
-			var errorBack = Piwik_Transitions_Translations[errorName + 'Back'];
 			
-			if (typeof errorTitle == 'undefined') {
-				alert(result.message);
-				return;
+			var showError = function() {
+				var errorTitle, errorMessage, errorBack;
+				if (typeof Piwik_Transitions_Translations[errorName] == 'undefined') {
+					errorTitle = 'Exception';
+					errorMessage = errorName;
+					errorBack = '<<<';
+				} else {
+					errorTitle = Piwik_Transitions_Translations[errorName];
+					errorMessage = Piwik_Transitions_Translations[errorName + 'Details'];
+					errorBack = Piwik_Transitions_Translations[errorName + 'Back'];
+				}
+				
+				if (typeof params.actionName != 'undefined') {
+					var url = params.actionName;
+					url = Piwik_Transitions_Util.addBreakpoints(url, '|||');
+					url = $(document.createElement('p')).text(url).html();
+					url = url.replace(/\|\|\|/g, '<wbr />');
+					errorTitle = errorTitle.replace(/%s/, '<span>' + url + '</span>');
+				}
+				
+				errorMessage = errorMessage.replace(/%s/g, '<br />');
+				Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+			};
+			
+			if (typeof Piwik_Transitions_Translations == 'undefined') {
+				self.callApi('Transitions.getTranslations', {}, function(response) {
+					if (typeof response[0] == 'object') {
+						Piwik_Transitions_Translations = response[0];
+					} else {
+						Piwik_Transitions_Translations = {};
+					}
+					showError();
+				});
+			} else {
+				showError();
 			}
 			
-			if (typeof params.pageUrl != 'undefined') {
-				var url = params.pageUrl;
-				url = Piwik_Transitions_Util.addBreakpoints(url, '|||');
-				url = $(document.createElement('p')).text(url).html();
-				url = url.replace(/\|\|\|/g, '<wbr />');
-				errorTitle = errorTitle.replace(/%s/, '<span>' + url + '</span>');
-			}
-			
-			errorMessage = errorMessage.replace(/%s/g, '<br />');
-			
-			Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
 		} else {
 			callback(result);
 		}
@@ -1278,15 +1337,23 @@ Piwik_Transitions_Util = {
 		if (url == 'Others') {
 			return url;
 		}
+		
+		var urlBackup = url;
 		url = url.replace(/http(s)?:\/\/(www\.)?/, '');
+		
+		if (urlBackup == url) {
+			return url;
+		}
+		
 		if (removeDomain) {
-			var urlBackup = url;
 			url = url.replace(/[^\/]*/, '');
 			if (url == '/') {
 				url = urlBackup;
 			}
 		}
+		
 		url = url.replace(/\/$/, '');
+		
 		return url;
 	},
 

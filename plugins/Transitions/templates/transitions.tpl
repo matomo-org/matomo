@@ -32,8 +32,8 @@
 
 <script type="text/javascript">
 	var Piwik_Transitions_Translations = {literal}{{/literal}
-		{foreach from=$translations key=internalKey item=translationKey}
-			"{$internalKey}": "{$translationKey|translate}",
+		{foreach from=$translations key=internalKey item=translation}
+			"{$internalKey}": "{$translation|escape:'html'}",
 		{/foreach}
 		"": ""
 	{literal}}{/literal};
