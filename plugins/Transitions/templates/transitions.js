@@ -139,6 +139,7 @@ Piwik_Transitions.prototype.showPopover = function() {
 		
 		self.render();
 		Piwik_Popover.showPreparedContent();
+		self.canvas.truncateVisibleBoxTexts();
 	};
 	
 	// load the popover HTML (only done once)
@@ -179,7 +180,10 @@ Piwik_Transitions.prototype.preparePopover = function() {
 	if (self.actionType == 'url') {
 		title = Piwik_Transitions_Util.shortenUrl(title, true);
 	}
-	title = self.centerBox.find('h2').html(Piwik_Transitions_Util.addBreakpoints(title));
+	title = self.centerBox.find('h2')
+		.addClass('Transitions_ApplyTextAndTruncate')
+		.data('text', title)
+		.data('maxLines', 4);
 	
 	if (self.actionType == 'url') {
 		title.click(function() {
@@ -191,10 +195,14 @@ Piwik_Transitions.prototype.preparePopover = function() {
 		var totalNbPageviews = self.model.getTotalNbPageviews();
 		if (totalNbPageviews > 0) {
 			var share = Math.round(self.model.pageviews / totalNbPageviews * 1000) / 10;
+			
 			var text = Piwik_Transitions_Translations.ShareOfAllPageviews;
 			text = text.replace(/%s/, self.model.pageviews).replace(/%s/, share + '%');
 			text += '<br /><i>' + Piwik_Transitions_Translations.DateRange + ' ' + self.model.date + '</i>';
-			Piwik_Tooltip.show(text, 'Transitions_Tooltip_Small');
+			
+			var title = '<span class="tip-title">' + Piwik_Transitions_Util.addBreakpoints(self.actionName) + '</span><br />';
+			
+			Piwik_Tooltip.show(title + text, 'Transitions_Tooltip_Small', 300);
 		}
 	}, function() {
 		Piwik_Tooltip.hide();
@@ -441,6 +449,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side, onlyBg) 
 	for (var i = 0; i < details.length; i++) {
 		var data = details[i];
 		var label = (typeof data.url != 'undefined' ? data.url : data.label);
+		label = (typeof label != 'undefined' && label !== null ? label : '');
 		var isOthers = (label == 'Others');
 		var onClick = false;
 		if (!isOthers && (groupName == 'previousPages' || groupName == 'followingPages')) {
@@ -459,12 +468,13 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side, onlyBg) 
 		
 		var fullLabel = label;
 		var shortened = false;
-		if ((groupName == 'previousPages' || groupName == 'followingPages' || groupName == 'downloads')) {
+		if ((this.actionType == 'url' && (groupName == 'previousPages' || groupName == 'followingPages')) 
+				|| groupName == 'downloads') {
 			// remove http + www + domain for internal URLs
 			label = Piwik_Transitions_Util.shortenUrl(label, true);
 			shortened = true;
 		} else if (groupName == 'outlinks' || groupName == 'websites') {
-			// remove http + www + domain external URLs
+			// remove http + www for external URLs
 			label = Piwik_Transitions_Util.shortenUrl(label);
 			shortened = true;
 		}
@@ -476,7 +486,6 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side, onlyBg) 
 			gradient: isOthers ? gradientOthers : gradientItems,
 			boxText: label,
 			boxTextTooltip: isOthers || !shortened ? false : fullLabel,
-			truncateBoxText: true,
 			boxTextNumLines: 3,
 			curveText: data.percentage + '%',
 			curveTextTooltip: tooltip,
@@ -566,6 +575,8 @@ Piwik_Transitions.prototype.openGroup = function(side, groupName) {
 	}
 	
 	this.renderLoops();
+	
+	this.canvas.truncateVisibleBoxTexts();
 };
 
 /** Highlight a group: change curve color and highlight metric in the center box */
@@ -723,7 +734,6 @@ Piwik_Transitions_Canvas.prototype.createHorizontalGradient = function(lightColo
 /** Render text using a div inside the container */
 Piwik_Transitions_Canvas.prototype.renderText = function(text, x, y, cssClass, onClick, icon, maxLines) {
 	var div = this.addDomElement('div', 'Text');
-	div.html('<span>' + Piwik_Transitions_Util.addBreakpoints(text) + '</span>');
 	div.css({
 		left: x + 'px',
 		top: y + 'px'
@@ -749,11 +759,41 @@ Piwik_Transitions_Canvas.prototype.renderText = function(text, x, y, cssClass, o
 		}).click(onClick);
 	}
 	if (maxLines) {
-		// truncate until span fits inside div: substitute middle part with ...
-		var span = div.find('span');
-		var divHeight = div.innerHeight();
+		div.addClass('Transitions_ApplyTextAndTruncate').data('text', text);
+	} else {
+		div.html(text);
+	}
+	return div;
+};
+
+/** Add a DOM element inside the container (as a sibling of the canvas) */
+Piwik_Transitions_Canvas.prototype.addDomElement = function(tagName, cssClass) {
+	var el = $(document.createElement('div')).addClass('Transitions_' + cssClass);
+	this.container.append(el);
+	return el;
+};
+
+/**
+ * Truncate box texts by replacing the middle part with ...
+ * This method looks for the class Transitions_ApplyTextAndTruncate.
+ * It then looks up data-text and truncates it until it fits.
+ */
+Piwik_Transitions_Canvas.prototype.truncateVisibleBoxTexts = function() {
+	this.container.find('.Transitions_ApplyTextAndTruncate:visible').each(function() {
+		var container = $(this).html('<span>');
+		var span = container.find('span');
+		
+		var text = container.data('text');
+		span.html(Piwik_Transitions_Util.addBreakpoints(text));
+		
+		var divHeight = container.innerHeight();
+		if (container.data('maxLines')) {
+			divHeight = container.data('maxLines') * (parseInt(container.css('lineHeight'), 10) + .2);
+		}
+		
 		var leftPart = false;
 		var rightPart = false;
+		
 		while (divHeight < span.outerHeight()) {
 			if (leftPart === false) {
 				var middle = Math.round(text.length / 2);
@@ -765,15 +805,9 @@ Piwik_Transitions_Canvas.prototype.renderText = function(text, x, y, cssClass, o
 			text = leftPart + '...' + rightPart;
 			span.html(Piwik_Transitions_Util.addBreakpoints(text));
 		}
-	}
-	return div;
-};
-
-/** Add a DOM element inside the container (as a sibling of the canvas) */
-Piwik_Transitions_Canvas.prototype.addDomElement = function(tagName, cssClass) {
-	var el = $(document.createElement('div')).addClass('Transitions_' + cssClass);
-	this.container.append(el);
-	return el;
+		
+		span.removeClass('Transitions_Truncate');
+	});
 };
 
 /**
