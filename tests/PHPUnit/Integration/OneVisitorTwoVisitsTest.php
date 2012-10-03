@@ -142,6 +142,37 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 												 ))),
         );
     }
+	
+	/**
+	 * Test that Archive_Single::preFetchBlob won't fetch extra unnecessary blobs.
+	 * 
+	 * @group        Integration
+	 * @group        OneVisitorTwoVisits
+	 */
+	public function testArchiveSinglePreFetchBlob()
+	{
+		$archive = Piwik_Archive::build(self::$idSite, 'day', self::$dateTime);
+		$archive->preFetchBlob('Actions_actions');
+		$cache = $archive->getBlobCache();
+		
+		$foundSubtable = false;
+		
+		$this->assertTrue(count($cache) > 0, "empty blob cache");
+		foreach ($cache as $name => $value)
+		{
+			$this->assertTrue(
+				preg_match("/^Actions_actions(?:_[0-9]+)?$/", $name) === 1,
+				"Got blob name '$name' when pre-fetching Actions_actions."
+			);
+			
+			if (preg_match("/^Actions_actions_[0-9]+$/", $name) === 1)
+			{
+				$foundSubtable = true;
+			}
+		}
+		
+		$this->assertTrue($foundSubtable);
+	}
 
     protected static function setUpWebsitesAndGoals()
     {

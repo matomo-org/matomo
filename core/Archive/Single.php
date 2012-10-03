@@ -98,6 +98,16 @@ class Piwik_Archive_Single extends Piwik_Archive
 	}
 	
 	/**
+	 * Returns the blob cache. For testing.
+	 * 
+	 * @return array
+	 */
+	public function getBlobCache()
+	{
+		return $this->blobCached;
+	}
+	
+	/**
 	 * Returns the pretty date of this Archive, eg. 'Thursday 20th March 2008'
 	 *
 	 * @return string
@@ -409,11 +419,16 @@ class Piwik_Archive_Single extends Piwik_Archive
 
 		$db = Zend_Registry::get('db');
 		$hasBlobs = $db->hasBlobDataType();
+		
+		// select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
+		$nameEnd = strlen($name) + 2;
 		$query = $db->query("SELECT value, name
 								FROM $tableBlob
 								WHERE idarchive = ?
-									AND name LIKE '$name%'",	
-								array( $this->idArchive ) 
+									AND (name = ? OR
+											(name LIKE ? AND SUBSTRING(name, $nameEnd, 1) >= '0'
+														 AND SUBSTRING(name, $nameEnd, 1) <= '9') )",
+								array( $this->idArchive, $name, $name.'%' ) 
 							);
 
 		while($row = $query->fetch())
