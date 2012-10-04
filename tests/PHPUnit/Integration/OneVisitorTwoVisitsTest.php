@@ -160,18 +160,15 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 		$this->assertTrue(count($cache) > 0, "empty blob cache");
 		foreach ($cache as $name => $value)
 		{
-			$this->assertTrue(
-				preg_match("/^Actions_actions(?:_[0-9]+)?$/", $name) === 1,
-				"Got blob name '$name' when pre-fetching Actions_actions."
-			);
+			$this->assertTrue(strpos($name, "Actions_actions_url") === false, "found blob w/ name '$name'");
 			
-			if (preg_match("/^Actions_actions_[0-9]+$/", $name) === 1)
+			if (strpos($name, "Actions_actions_") !== false)
 			{
 				$foundSubtable = true;
 			}
 		}
 		
-		$this->assertTrue($foundSubtable);
+		$this->assertTrue($foundSubtable, "Actions_actions subtable was not loaded");
 	}
 
     protected static function setUpWebsitesAndGoals()
