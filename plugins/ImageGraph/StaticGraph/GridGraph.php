@@ -126,7 +126,11 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 				}
 			}
 
-			if($this->forceSkippedLabels && $skippedLabels && $skippedLabels < $this->forceSkippedLabels)
+			if($this->forceSkippedLabels
+				&& $skippedLabels
+				&& $skippedLabels < $this->forceSkippedLabels
+				&& $abscissaSeriesCount > $this->forceSkippedLabels + 1
+			)
 			{
 				$skippedLabels = $this->forceSkippedLabels;
 			}
