@@ -194,7 +194,7 @@ class Piwik_Live_API
 					log_link_visit_action.time_spent_ref_action as timeSpentRef
 					$sqlCustomVariables
 				FROM " .Piwik_Common::prefixTable('log_link_visit_action')." AS log_link_visit_action
-					INNER JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action
+					LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
 					LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction

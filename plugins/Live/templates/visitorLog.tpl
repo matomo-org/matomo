@@ -148,7 +148,7 @@
 				{else}
 					{'Live_Actions'|translate}
 				{/if}
-				- {$visitor.columns.visitDurationPretty}
+				{if $visitor.columns.visitDuration > 0}- {$visitor.columns.visitDurationPretty}{/if}
 			</strong>
 			<br />
 			<ol class='visitorLog'>

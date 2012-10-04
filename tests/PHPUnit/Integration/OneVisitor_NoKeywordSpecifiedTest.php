@@ -84,7 +84,8 @@ class Test_Piwik_Integration_OneVisitor_NoKeywordSpecified extends IntegrationTe
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
         $t->setUrlReferrer('http://www.google.com.vn/url?sa=t&rct=j&q=%3C%3E%26%5C%22the%20pdo%20extension%20is%20required%20for%20this%20adapter%20but%20the%20extension%20is%20not%20loaded&source=web&cd=4&ved=0FjAD&url=http%3A%2F%2Fforum.piwik.org%2Fread.php%3F2%2C1011&ei=y-HHAQ&usg=AFQjCN2-nt5_GgDeg&cad=rja');
 
-        self::checkResponse($t->doTrackPageView('incredible title!'));
+	    // Test with empty title, that the output of Live is valid
+        self::checkResponse($t->doTrackPageView(''));
 
     }
 }

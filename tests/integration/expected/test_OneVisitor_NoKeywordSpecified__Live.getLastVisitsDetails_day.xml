@@ -16,7 +16,7 @@
 			<row>
 				<type>action</type>
 				<url>http://example.org/this%20is%20cool!</url>
-				<pageTitle>incredible title!</pageTitle>
+				<pageTitle />
 				<pageIdAction>2</pageIdAction>
 				<pageId>2</pageId>
 				

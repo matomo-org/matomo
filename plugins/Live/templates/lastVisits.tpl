@@ -5,9 +5,9 @@
 {foreach from=$visitors item=visitor}
 	<li id="{$visitor.idVisit}" class="visit">
 		<div style="display:none" class="idvisit">{$visitor.idVisit}</div>
-			<div class="datetime">
+			<div title="{$visitor.actionDetails|@count} {'Live_Actions'|translate}" class="datetime">
 				<span style='display:none' class='serverTimestamp'>{$visitor.serverTimestamp}</span>
-				{$visitor.serverDatePretty} - {$visitor.serverTimePretty} ({$visitor.visitDurationPretty})
+				{$visitor.serverDatePretty} - {$visitor.serverTimePretty} {if $visitor.visitDuration > 0}<i>({$visitor.visitDurationPretty})</i>{/if}
 				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.country}, {'Provider_ColumnProvider'|translate} {$visitor.provider}" />
 				&nbsp;<img src="{$visitor.browserIcon}" title="{$visitor.browserName}, {'UserSettings_Plugins'|translate}: {$visitor.plugins}" />
 				&nbsp;<img src="{$visitor.operatingSystemIcon}" title="{$visitor.operatingSystem}, {$visitor.resolution}" />
@@ -34,7 +34,7 @@
 				{else}{'Referers_DirectEntry'|translate}{/if}
 			</div>
 		<div id="{$visitor.idVisit}_actions" class="settings">
-			<span class="pagesTitle">{'Actions_SubmenuPages'|translate}:</span>&nbsp;
+			<span class="pagesTitle" title="{$visitor.actionDetails|@count} {'Live_Actions'|translate}" >{'Actions_SubmenuPages'|translate}:</span>&nbsp;
 			{php} $col = 0;	{/php}
 			{foreach from=$visitor.actionDetails item=action name=visitorPages}
 				{if $smarty.foreach.visitorPages.iteration <= $maxPagesDisplayedByVisitor}
