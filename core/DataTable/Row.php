@@ -492,6 +492,7 @@ class Piwik_DataTable_Row
 				$this->setColumn( $columnToSumName, $newValue);
 			}
 		}
+		$this->c[self::METADATA] = $rowToSum->c[self::METADATA];
 	}
 
 	/**

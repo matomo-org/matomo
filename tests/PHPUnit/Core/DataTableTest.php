@@ -278,7 +278,9 @@ class DataTableTest extends PHPUnit_Framework_TestCase
                         'integerArrayToSum' => array( 1 => 6, 2 => 15.5, 3 => array(1 => 2, 2 => 7)),
                         0925824 => 'toto',
                 );
-        $rowWanted = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columnsWanted));
+
+	    // Also testing that metadata is copied over
+        $rowWanted = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columnsWanted,Piwik_DataTable_Row::METADATA => $metadata));
         $this->assertTrue( Piwik_DataTable_Row::isEqual($rowWanted, $finalRow));
     }
 		
