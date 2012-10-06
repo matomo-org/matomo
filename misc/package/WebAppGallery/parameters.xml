@@ -40,15 +40,15 @@
   <parameter
     name="Automatic Database Server PHP File"
     defaultValue="host = &quot;{DbServer}&quot;"
-    tags="Hidden, MySQL">
+    tags="Hidden,MySQL">
     <parameterEntry
       type="TextFile"
       scope="config\\config.ini.php"
-      match="host\s*=\s*[^\r\n]*" 
+      match="host\s*=\s*&quot;([^&quot;]*)&quot;" 
     />
   </parameter>
-
-  <!-- Database name -->
+  
+   <!-- Database name -->
   <parameter
     name="DbName"
     description="Database Name may be a combination of lower case letters, numerals and/or underscore (_), but must start with a letter."
@@ -67,11 +67,11 @@
   <parameter
     name="Automatic Database Name PHP File"
     defaultValue="dbname = &quot;{DbName}&quot;"
-    tags="Hidden, MySQL">
+    tags="Hidden,MySQL">
     <parameterEntry
       type="TextFile"
       scope="config\\config.ini.php"
-      match="dbname\s*=\s*[^\r\n]*" 
+      match="dbname\s*=\s*&quot;([^&quot;]*)&quot;" 
     />
   </parameter>
 
@@ -98,7 +98,7 @@
     <parameterEntry
       type="TextFile"
       scope="config\\config.ini.php"
-      match="username\s*=\s*[^\r\n]*" 
+      match="username\s*=\s*&quot;([^&quot;]*)&quot;" 
     />
   </parameter>
 
@@ -120,11 +120,11 @@
   <parameter
     name="Automatic Database Password PHP File"
     defaultValue="password = &quot;{DbPassword}&quot;"
-    tags="Hidden, MySQL">
+    tags="Hidden,MySQL">
     <parameterEntry
       type="TextFile"
       scope="config\\config.ini.php"
-      match="password\s*=(.{6,20})&quot;"
+      match="password\s*=\s*&quot;([^&quot;]{6,20})&quot;"
     />
   </parameter>
   
@@ -160,7 +160,7 @@
   <parameter
     name="Automatic Database adapter"
     defaultValue="adapter = &quot;PDO_MYSQL&quot;"
-    tags="Hidden, MySQL">
+    tags="Hidden,MySQL,NoStore">
     <parameterEntry
       type="TextFile"
       scope="config\\config.ini.php"
