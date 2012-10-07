@@ -210,7 +210,8 @@ class Piwik_Transitions extends Piwik_Plugin
 		);
 	}
 	
-	private function getPageLabel(&$pageRecord, $isTitle) {
+	private function getPageLabel(&$pageRecord, $isTitle)
+	{
 		if ($isTitle)
 		{
 			$label = $pageRecord['name'];
@@ -330,11 +331,13 @@ class Piwik_Transitions extends Piwik_Plugin
 	 * Get the sum of all transitions to following actions (pages, outlinks, downloads).
 	 * Only works if queryFollowingActions() has been used directly before. 
 	 */
-	public function getTotalTransitionsToFollowingActions() {
+	public function getTotalTransitionsToFollowingActions()
+	{
 		return $this->totalTransitionsToFollowingActions;
 	}
 	
-	private function getColumnTypeSuffix($actionType) {
+	private function getColumnTypeSuffix($actionType)
+	{
 		if ($actionType == 'title') {
 			return 'name';
 		}

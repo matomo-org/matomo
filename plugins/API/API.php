@@ -1223,19 +1223,14 @@ class Piwik_API_API
 				
 				if (!$actualLabel)
 				{
-					$actualLabel = $row->getColumn('label');
 					$logo = $row->getMetadata('logo');
-			
-					if ( ($url = $row->getMetadata('url'))
-						&& ($apiModule == 'Actions' 
-							|| ($apiModule == 'Referers'
-								&& $apiAction == 'getWebsites'))
-						&& $labelUseAbsoluteUrl
-					)
-					{ 
-						$actualLabel = preg_replace(';^http(s)?://(www.)?;i', '', $url);
-						$urlFound = true;
+
+					list($actualLabel, $urlFound) = $this->cleanUrlForLabel($row, $apiModule, $apiAction, $labelUseAbsoluteUrl);
+					if(empty($actualLabel))
+					{
+						$actualLabel = $row->getColumn('label');
 					}
+
 				}
 				
 				// remove all columns that are not in the available metrics.
@@ -1270,6 +1265,21 @@ class Piwik_API_API
 			$return['logo'] = $logo; 
 		} 
 		return $return;
+	}
+
+	private function cleanUrlForLabel($row, $apiModule, $apiAction, $labelUseAbsoluteUrl)
+	{
+		$urlFound = $actualLabel = false;
+		if (($url = $row->getMetadata('url'))
+			&& ($apiModule == 'Actions'
+				|| ($apiModule == 'Referers'
+					&& $apiAction == 'getWebsites'))
+			&& $labelUseAbsoluteUrl
+		) {
+			$actualLabel = preg_replace(';^http(s)?://(www.)?;i', '', $url);
+			$urlFound = true;
+		}
+		return array($actualLabel, $urlFound);
 	}
 
 	/**
@@ -1491,25 +1501,18 @@ class Piwik_API_API
 						$actualLabels[$labelIndex] = $columnLabel;
 					}
 					
-					// if url is available as metadata, use it (only for actions reports)
-					if ( ($url = $firstRow->getMetadata('url'))
-						&& ($apiModule == 'Actions' 
-							|| ($apiModule == 'Referers'
-								&& $apiAction == 'getWebsites'))
-						&& $labelUseAbsoluteUrl
-					)
+					list($actualLabel, $urlFound) = $this->cleanUrlForLabel($firstRow, $apiModule, $apiAction, $labelUseAbsoluteUrl);
+					if($actualLabel)
 					{
-						$actualLabels[$labelIndex] = preg_replace(';^http(s)?://(www.)?;i', '', $url);;
-						$urlFound = true;
+						$actualLabels[$labelIndex] = $actualLabel;
 					}
-					
+
 					// Forward the logo path to display logos in multi rows comparison
 					$logos[$labelIndex] = $firstRow->getMetadata('logo');
 					break;
 				}
 			}
 			
-			// if we have a recursive label and no url, use the path
 			if (!$urlFound)
 			{
 				$actualLabels[$labelIndex] = str_replace(Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);

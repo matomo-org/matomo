@@ -1438,8 +1438,11 @@ class Piwik_DataTable
 					$row->setColumns(array('label' => $segment) + $missingRowColumns);
 					
 					$next = $table->addRow($row);
+
 					if ($next !== $row) // if the row wasn't added, the table is full
 					{
+						// Summary row, has no metadata
+						$next->deleteMetadata();
 						return array($next, $i);
 					}
 				}
@@ -1459,6 +1462,8 @@ class Piwik_DataTable
 					$table = new Piwik_DataTable();
 					$table->setMaximumAllowedRows($maxSubtableRows);
 					$next->setSubtable($table);
+					// Summary row, has no metadata
+					$next->deleteMetadata();
 				}
 			}
 		}

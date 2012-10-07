@@ -133,10 +133,12 @@ DataTable_RowAction.prototype.initTr = function(tr) {
 DataTable_RowAction.prototype.trigger = function(tr, e, subTableLabel) {
 	var label = this.getLabelFromTr(tr);
 
-	// if we have received the event from the sub table, add the label
+    label = label.trim();
+    // if we have received the event from the sub table, add the label
 	if (subTableLabel) {
-		label += '>' + subTableLabel;
-	}
+        var separator = ' > '; // Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL
+        label += separator + subTableLabel.trim();
+    }
 
 	// handle sub tables in nested reports: forward to parent
 	var subtable = tr.closest('table');

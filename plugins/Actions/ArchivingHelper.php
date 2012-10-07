@@ -61,16 +61,16 @@ class Piwik_Actions_ArchivingHelper
 					continue;
 				}
 
-				$currentTable = self::getActionRow($actionName, $actionType, $urlPrefix, $actionsTablesByType);
+				$actionRow = self::getActionRow($actionName, $actionType, $urlPrefix, $actionsTablesByType);
 
-				self::setCachedActionRow($idaction, $actionType, $currentTable);
+				self::setCachedActionRow($idaction, $actionType, $actionRow);
 			}
 			else
 			{
-				$currentTable = self::getCachedActionRow($row['idaction'], $row['type']);
+				$actionRow = self::getCachedActionRow($row['idaction'], $row['type']);
 
 				// Action processed as "to skip" for some reasons
-				if($currentTable === false)
+				if($actionRow === false)
 				{
 					continue;
 				}
@@ -81,7 +81,7 @@ class Piwik_Actions_ArchivingHelper
 			unset($row['idaction']);
 			unset($row['url_prefix']);
 
-			if (is_null($currentTable))
+			if (is_null($actionRow))
 			{
 				continue;
 			}
@@ -92,33 +92,33 @@ class Piwik_Actions_ArchivingHelper
 				// this happens when 2 visitors visit the same new page at the same time, there is a SELECT and an INSERT for each new page,
 				// and in between the two the other visitor comes.
 				// here we handle the case where there is already a row for this action name, if this is the case we add the value
-				if(($alreadyValue = $currentTable->getColumn($name)) !== false)
+				if(($alreadyValue = $actionRow->getColumn($name)) !== false)
 				{
-					$currentTable->setColumn($name, $alreadyValue+$value);
+					$actionRow->setColumn($name, $alreadyValue+$value);
 				}
 				else
 				{
-					$currentTable->addColumn($name, $value);
+					$actionRow->addColumn($name, $value);
 				}
 			}
 
 			// if the exit_action was not recorded properly in the log_link_visit_action
 			// there would be an error message when getting the nb_hits column
 			// we must fake the record and add the columns
-			if($currentTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS) === false)
+			if($actionRow->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS) === false)
 			{
 				// to test this code: delete the entries in log_link_action_visit for
 				//  a given exit_idaction_url
 				foreach(self::getDefaultRow()->getColumns() as $name => $value)
 				{
-					$currentTable->addColumn($name, $value);
+					$actionRow->addColumn($name, $value);
 				}
 			}
 			$rowsProcessed++;
 		}
 
-		// just to make sure php copies the last $currentTable in the $parentTable array
-		$currentTable =& $actionsTablesByType;
+		// just to make sure php copies the last $actionRow in the $parentTable array
+		$actionRow =& $actionsTablesByType;
 		return $rowsProcessed;
 	}
 
@@ -192,6 +192,7 @@ class Piwik_Actions_ArchivingHelper
 	protected static function getActionRow( $actionName, $actionType, $urlPrefix=null, &$actionsTablesByType )
 	{
 		// we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
+		/* @var Piwik_DataTable $currentTable */
 		$currentTable =& $actionsTablesByType[$actionType];
 
 		// check for ranking query cut-off
@@ -209,20 +210,16 @@ class Piwik_Actions_ArchivingHelper
 		$actionExplodedNames = self::getActionExplodedNames($actionName, $actionType, $urlPrefix);
 		list($row, $level) = $currentTable->walkPath(
 			$actionExplodedNames, self::getDefaultRowColumns(), self::$maximumRowsInSubDataTable);
-		
+
 		// if we didn't traverse the entire path, the table the action belongs to is full, so we
 		// found a summary row. we don't set metadata on that row.
-		if ($level != count($actionExplodedNames))
+		if ($level != count($actionExplodedNames)
+			|| $actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME)
 		{
 			return $row;
 		}
-		
-		// if the action type is a URL type, set the url as metadata
-		if ($actionType != Piwik_Tracker_Action::TYPE_ACTION_NAME)
-		{
-			$row->setMetadata('url', Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix));
-		}
-		
+		$row->setMetadata('url', Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix));
+
 		return $row;
 	}
 
@@ -273,7 +270,7 @@ class Piwik_Actions_ArchivingHelper
 			$isUrl = true;
 			$urlHost = $matches[1];
 			$urlPath = $matches[2];
-			$urlAnchor = $matches[3];
+			$urlFragment = $matches[3];
 		}
 
 		if($type == Piwik_Tracker_Action::TYPE_DOWNLOAD
@@ -302,6 +299,15 @@ class Piwik_Actions_ArchivingHelper
 		else
 		{
 			$categoryDelimiter = self::$actionUrlCategoryDelimiter;
+		}
+
+
+		if( $isUrl )
+		{
+			$urlFragment = Piwik_Tracker_Action::processUrlFragment($urlFragment);
+			if(!empty($urlFragment)) {
+				$name .= '#' . $urlFragment;
+			}
 		}
 
 		if(empty($categoryDelimiter))
@@ -446,7 +452,7 @@ class Piwik_Actions_ArchivingHelper
 	/**
 	 * Creates a summary row for an Actions DataTable.
 	 * 
-	 * @return array
+	 * @return Piwik_DataTable_Row
 	 */
 	private static function createSummaryRow()
 	{

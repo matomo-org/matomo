@@ -53,7 +53,6 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 		{
 			return $dataTable;
 		}
-
 		foreach ($this->getLabelVariations($label) as $label)
 		{
 			$label = explode(self::SEPARATOR_RECURSIVE_LABEL, $label);

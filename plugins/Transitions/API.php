@@ -108,14 +108,17 @@ class Piwik_Transitions_API
 	private function deriveIdAction($actionName, $actionType)
 	{
 		$actionsPlugin = new Piwik_Actions;
-		
+		$actionName = Piwik_Common::unsanitizeInputValue($actionName);
 		switch ($actionType)
 		{
 			case 'url':
-				$actionName = Piwik_Common::unsanitizeInputValue($actionName);
 				return $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url');
 			
 			case 'title':
+				// Transitions is called with Page titles separated by > so we transform back
+				$actionName = explode(Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL, $actionName);
+				$actionName = array_map('trim', $actionName );
+				$actionName = implode("/", $actionName);
 				$id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name');
 				
 				if ($id < 0)

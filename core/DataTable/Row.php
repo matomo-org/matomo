@@ -492,7 +492,21 @@ class Piwik_DataTable_Row
 				$this->setColumn( $columnToSumName, $newValue);
 			}
 		}
-		$this->c[self::METADATA] = $rowToSum->c[self::METADATA];
+
+
+		if( !empty($rowToSum->c[self::METADATA]) )
+		{
+			// We shall update metadata, and keep the metadata with the _most visits or pageviews_, rather than first or last seen
+			$visits = max($rowToSum->getColumn(Piwik_Archive::INDEX_NB_VISITS),$rowToSum->getColumn(Piwik_Archive::INDEX_NB_ACTIONS));
+
+			if(!($this instanceof Piwik_DataTable_Row_DataTableSummary)
+				&& ( ( $visits && $visits > max($this->getColumn(Piwik_Archive::INDEX_NB_VISITS),$this->getColumn(Piwik_Archive::INDEX_NB_ACTIONS)) )
+					|| empty($this->c[self::METADATA]) ) )
+			{
+				$this->c[self::METADATA] = $rowToSum->c[self::METADATA];
+			}
+		}
+
 	}
 
 	/**

@@ -25,6 +25,7 @@ interface Piwik_Tracker_Action_Interface {
 	const TYPE_ECOMMERCE_ITEM_SKU = 5;
 	const TYPE_ECOMMERCE_ITEM_NAME = 6;
 	const TYPE_ECOMMERCE_ITEM_CATEGORY = 7;
+	const TYPE_SITE_SEARCH = 8;
 	
 	public function setRequest($requestArray);
 	public function setIdSite( $idSite );
@@ -64,7 +65,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 * Map URL prefixes to integers.
 	 * @see self::normalizeUrl(), self::reconstructNormalizedUrl()
 	 */
-	static private $urlPrefixMap = array(
+	static public $urlPrefixMap = array(
 		'http://www.' => 1,
 		'http://' => 0,
 		'https://www.' => 3,
@@ -105,9 +106,23 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$map = array_flip(self::$urlPrefixMap);
 		if ($prefixId !== null && isset($map[$prefixId]))
 		{
-			return $map[$prefixId].$url;
+			$fullUrl = $map[$prefixId].$url;
 		}
-		return $url;
+		else
+		{
+			$fullUrl = $url;
+		}
+
+		// Clean up host & hash tags, for URLs
+		$parsedUrl = @parse_url($fullUrl);
+		$parsedUrl = self::cleanupHostAndHashTag($parsedUrl);
+		$url  = Piwik_Common::getParseUrlReverse($parsedUrl);
+		if(!empty($url))
+		{
+			return $url;
+		}
+
+		return $fullUrl;
 	}
 	
 
@@ -226,6 +241,40 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		return $url;
 	}
 
+	/**
+	 * Will cleanup the hostname (some browser do not strolower the hostname),
+	 * and deal ith the hash tag on incoming URLs based on website setting.
+	 *
+	 * @param $parsedUrl
+	 * @return array
+	 */
+	static public function cleanupHostAndHashTag($parsedUrl)
+	{
+		if(empty($parsedUrl))
+		{
+			return $parsedUrl;
+		}
+		if(!empty($parsedUrl['host']))
+		{
+			$parsedUrl['host'] = mb_strtolower($parsedUrl['host'], 'UTF-8');
+		}
+
+		if(!empty($parsedUrl['fragment']))
+		{
+			$parsedUrl['fragment'] = self::processUrlFragment($parsedUrl['fragment']);
+		}
+
+		return $parsedUrl;
+	}
+
+	public static function processUrlFragment($urlFragment)
+	{
+		//TOOD implement, read setting for this site
+//		return '';
+		return $urlFragment;
+	}
+
+
 	static public function excludeQueryParametersFromUrl($originalUrl, $idSite)
 	{
 		$website = Piwik_Common::getCacheWebsiteAttributes( $idSite );
@@ -233,7 +282,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$parsedUrl = @parse_url($originalUrl);
 		if(empty($parsedUrl['query']))
 		{
-			return $originalUrl;
+			$parsedUrl = self::cleanupHostAndHashTag($parsedUrl);
+			$url = Piwik_Common::getParseUrlReverse($parsedUrl);
+			return $url;
 		}
 		$campaignTrackingParameters = Piwik_Common::getCampaignParameters();
 		
@@ -287,7 +338,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			}
 		}
 		$parsedUrl['query'] = substr($validQuery,0,-strlen($separator));
+		$parsedUrl = self::cleanupHostAndHashTag($parsedUrl);
 		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
+
 		printDebug('Excluding parameters "'.implode(',',$excludedParameters).'" from URL');
 		if($originalUrl != $url)
 		{
