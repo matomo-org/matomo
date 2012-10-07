@@ -114,7 +114,6 @@ class Piwik_Provider extends Piwik_Plugin
 	
 	function postLoad()
 	{
-		Piwik_AddAction('template_headerUserCountry', array('Piwik_Provider','headerUserCountry'));
 		Piwik_AddAction('template_footerUserCountry', array('Piwik_Provider','footerUserCountry'));
 	}
 
@@ -250,20 +249,10 @@ class Piwik_Provider extends Piwik_Plugin
 	/**
 	 * @param Piwik_Event_Notification $notification  notification object
 	 */
-	static public function headerUserCountry($notification)
-	{
-		$out =& $notification->getNotificationObject();
-		$out = '<div id="leftcolumn">';
-	}
-
-	/**
-	 * @param Piwik_Event_Notification $notification  notification object
-	 */
 	static public function footerUserCountry($notification)
 	{
 		$out =& $notification->getNotificationObject();
-		$out = '</div>
-			<div id="rightcolumn">
+		$out = '<div>
 			<h2>'.Piwik_Translate('Provider_WidgetProviders').'</h2>';
 		$out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider','getProvider');
 		$out .= '</div>';

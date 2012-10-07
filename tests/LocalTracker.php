@@ -64,11 +64,11 @@ class Piwik_LocalTracker extends PiwikTracker
 		Piwik_Tracker::setTestEnvironment($testEnvironmentArgs, $method);
 		
 		// set language
-		$oldLang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+		$oldLang = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $this->acceptLanguage;
 		
 		// set user agent
-		$oldUserAgent = $_SERVER['HTTP_USER_AGENT'];
+		$oldUserAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		$_SERVER['HTTP_USER_AGENT'] = $this->userAgent;
 		
 		// set cookie
@@ -79,11 +79,7 @@ class Piwik_LocalTracker extends PiwikTracker
 		ob_start();
 		
 		$localTracker = new Piwik_Tracker();
-		try {
-			$localTracker->main($requests);
-		} catch(Exception $e) {
-			echo "Error:" . $e->getMessage();
-		}
+		$localTracker->main($requests);
 		
 		$output = ob_get_contents();
 		

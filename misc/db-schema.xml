@@ -1099,14 +1099,6 @@
 							<OPTIONSELECT Value="0" />
 						</OPTIONSELECTED>
 					</COLUMN>
-					<COLUMN ID="2900" ColName="location_continent"
-						PrevColName="" Pos="34" idDatatype="19" DatatypeParams="(3)"
-						Width="0" Prec="0" PrimaryKey="0" NotNull="1" AutoInc="0"
-						IsForeignKey="0" DefaultValue="" Comments="">
-						<OPTIONSELECTED>
-							<OPTIONSELECT Value="0" />
-						</OPTIONSELECTED>
-					</COLUMN>
 					<COLUMN ID="2901" ColName="location_provider"
 						PrevColName="" Pos="35" idDatatype="20" DatatypeParams="(100)"
 						Width="0" Prec="0" PrimaryKey="0" NotNull="1" AutoInc="0"

@@ -214,7 +214,7 @@ class Piwik_Live_Visitor
 
 	function getContinent()
 	{
-		return Piwik_ContinentTranslate($this->details['location_continent']);
+		return Piwik_ContinentTranslate(Piwik_Common::getContinent($this->details['location_country']));
 	}
 
 	function getCustomVariables()

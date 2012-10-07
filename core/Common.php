@@ -219,7 +219,7 @@ class Piwik_Common
 	{
 		$cache = self::getTrackerCache();
 		$cacheId = 'general';
-		$expectedRows = 2;
+		$expectedRows = 3;
 		if(($cacheContent = $cache->get($cacheId)) !== false
 			&& count($cacheContent) == $expectedRows)
 		{
@@ -228,7 +228,8 @@ class Piwik_Common
 		self::initCorePiwikInTrackerMode();
 		$cacheContent = array (
 			'isBrowserTriggerArchivingEnabled' => Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled(),
-			'lastTrackerCronRun' => Piwik_GetOption('lastTrackerCronRun')
+			'lastTrackerCronRun' => Piwik_GetOption('lastTrackerCronRun'),
+			'currentLocationProviderId' => Piwik_UserCountry_LocationProvider::getCurrentProviderId(),
 		);
 		return $cacheContent;
 	}
@@ -245,6 +246,15 @@ class Piwik_Common
 		$cacheId = 'general';
 		$cache->set($cacheId, $value);
 		return true;
+	}
+	
+	/**
+	 * Delete and regenerate the 'general' tracker cache.
+	 */
+	static public function regenerateCacheGeneral()
+	{
+		self::clearCacheGeneral();
+		self::getCacheGeneral();
 	}
 
 	/**
@@ -1904,6 +1914,18 @@ class Piwik_Common
 		{
 			header($header, $replace);
 		}
+	}
+	
+	/**
+	 * Returns the ID of the current LocationProvider (see UserCountry plugin code) from
+	 * the Tracker cache.
+	 */
+	public static function getCurrentLocationProviderId()
+	{
+		$cache = self::getCacheGeneral();
+		return empty($cache['currentLocationProviderId'])
+			  ? Piwik_UserCountry_LocationProvider_Default::ID
+			  : $cache['currentLocationProviderId'];
 	}
 }
 

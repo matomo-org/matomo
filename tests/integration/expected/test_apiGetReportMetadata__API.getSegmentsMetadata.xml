@@ -38,6 +38,34 @@
 	</row>
 	<row>
 		<type>dimension</type>
+		<category>visit</category>
+		<name>City</name>
+		<segment>city</segment>
+		<acceptedValues>Sydney, Sao Paolo, Rome, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>visit</category>
+		<name>Latitude</name>
+		<segment>lat</segment>
+		<acceptedValues>-33.578, 40.830, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>visit</category>
+		<name>Longitude</name>
+		<segment>long</segment>
+		<acceptedValues>-70.664, 14.326, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>visit</category>
+		<name>Region</name>
+		<segment>region</segment>
+		<acceptedValues>01 02, OR, P8, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
 		<category>Visit</category>
 		<name>Browser</name>
 		<segment>browserName</segment>

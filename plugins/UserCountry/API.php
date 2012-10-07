@@ -33,21 +33,103 @@ class Piwik_UserCountry_API
 	
 	public function getCountry( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserCountry_country', $idSite, $period, $date, $segment);
-		// apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
-		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
+		$recordName = Piwik_UserCountry::VISITS_BY_COUNTRY_RECORD_NAME;
+		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
+		
+		// apply filter on the whole datatable in order the inline search to work (searches
+		// are done on "beautiful" label)
+		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code'));
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getFlagFromCode'));
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_CountryTranslate'));
 		$dataTable->queueFilter('AddConstantMetadata', array('logoWidth', 16));
 		$dataTable->queueFilter('AddConstantMetadata', array('logoHeight', 11));
+		
 		return $dataTable;
 	}
 	
 	public function getContinent( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getDataTable('UserCountry_continent', $idSite, $period, $date, $segment);
+		$recordName = Piwik_UserCountry::VISITS_BY_COUNTRY_RECORD_NAME;
+		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
+		
+		$getContinent = array('Piwik_Common', 'getContinent');
+		$dataTable->filter('GroupBy', array('label', $getContinent));
+		
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));
-		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'code', create_function('$label', 'return $label;')));
+		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'code'));
+		
+		return $dataTable;
+	}
+	
+	/**
+	 * Returns visit information for every region with at least one visit.
+	 * 
+	 * @param int|string $idSite
+	 * @param string $period
+	 * @param string $date
+	 * @param string|bool $segment
+	 * @return Piwik_DataTable
+	 */
+	public function getVisitsByRegion( $idSite, $period, $date, $segment = false )
+	{
+		$recordName = Piwik_UserCountry::VISITS_BY_REGION_RECORD_NAME;
+		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
+		
+		$separator = Piwik_UserCountry::LOCATION_SEPARATOR;
+		
+		// split the label and put the elements into the 'region' and 'country' metadata fields
+		$dataTable->filter('ColumnCallbackAddMetadata',
+			array('label', 'region', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 0)));
+		$dataTable->filter('ColumnCallbackAddMetadata',
+			array('label', 'country', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 1)));
+		
+		// get the region name of each row and put it into the 'region_name' metadata
+		$dataTable->filter('ColumnCallbackAddMetadata',
+			array('label', 'region_name', 'Piwik_UserCountry_getRegionName'));
+		
+		// add the country flag as a url to the 'logo' metadata field
+		$dataTable->filter('MetadataCallbackAddMetadata', array('country', 'logo', 'Piwik_getFlagFromCode'));
+		
+		// prettify the region label
+		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_UserCountry_getPrettyRegionName'));
+		
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
+		
+		return $dataTable;
+	}
+	
+	/**
+	 * Returns visit information for every city with at least one visit.
+	 * 
+	 * @param int|string $idSite
+	 * @param string $period
+	 * @param string $date
+	 * @param string|bool $segment
+	 * @return Piwik_DataTable
+	 */
+	public function getVisitsByCity( $idSite, $period, $date, $segment = false )
+	{
+		$recordName = Piwik_UserCountry::VISITS_BY_CITY_RECORD_NAME;
+		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
+		
+		$separator = Piwik_UserCountry::LOCATION_SEPARATOR;
+		
+		// split the label and put the elements into the 'region' and 'country' metadata fields
+		$dataTable->filter('ColumnCallbackAddMetadata',
+			array('label', 'city_name', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 0)));
+		$dataTable->filter('ColumnCallbackAddMetadata',
+			array('label', 'region', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 1)));
+		$dataTable->filter('ColumnCallbackAddMetadata',
+			array('label', 'country', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 2)));
+		
+		// add the country flag as a url to the 'logo' metadata field
+		$dataTable->filter('MetadataCallbackAddMetadata', array('country', 'logo', 'Piwik_getFlagFromCode'));
+		
+		// prettify the label
+		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_UserCountry_getPrettyCityName'));
+		
+		$dataTable->queueFilter('ReplaceSummaryRowLabel');
+		
 		return $dataTable;
 	}
 	

@@ -224,9 +224,17 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      *
      * @return PiwikTracker
      */
-    public static function getTracker($idSite, $dateTime, $defaultInit = true )
+    public static function getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = false )
     {
-        $t = new PiwikTracker( $idSite, self::getTrackerUrl());
+    	if ($useLocal)
+    	{
+			require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
+    		$t = new Piwik_LocalTracker($idSite, self::getTrackerUrl());
+    	}
+    	else
+    	{
+	        $t = new PiwikTracker( $idSite, self::getTrackerUrl());
+        }
         $t->setForceVisitDateTime($dateTime);
 
         if($defaultInit)

@@ -7,6 +7,8 @@
  * @version $Id$
  */
 
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
+
 /**
  * Test Piwik's report limiting code. Make sure the datatable_archiving_maximum_rows_...
  * config options limit the size of certain reports when archiving.
@@ -23,11 +25,18 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 		parent::setUpBeforeClass($dbName = false, $createEmptyDatabase = true, $createConfig = false);
 		try {
 			self::setUpWebsitesAndGoals();
+			self::setMockLocationProvider();
 			self::trackVisits();
 		} catch(Exception $e) {
 			// Skip whole test suite if an error occurs while setup
 			throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
 		}
+	}
+	
+	public static function tearDownAfterClass()
+	{
+		self::unsetMockLocationProvider();
+		parent::tearDownAfterClass();
 	}
 
 	public function getApiForTesting()
@@ -39,7 +48,8 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 			'Referers.getRefererType', 'Referers.getKeywords', 'Referers.getSearchEngines',
 			'Referers.getWebsites', /* TODO 'Referers.getCampaigns', */
 			'UserSettings.getResolution', 'UserSettings.getConfiguration', 'UserSettings.getOS',
-			'UserSettings.getBrowserVersion'
+			'UserSettings.getBrowserVersion',
+			'UserCountry.getVisitsByRegion', 'UserCountry.getVisitsByCity',
 		);
 		
 		return array(
@@ -170,9 +180,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 		);
 		
 		$visitorCounter = 0;
-		$t = self::getTracker(self::$idSite, self::$dateTime);
-		$t->setTokenAuth(self::getTokenAuth());
-		$t->enableBulkTracking();
+		$t = self::getTracker(self::$idSite, self::$dateTime, $defaultInit = true, $useLocal = true);
 		
 		// track regular actions
 		self::trackActions($t, $visitorCounter, 'pageview', $userAgents, $resolutions, $referrers, $customVars);
@@ -182,8 +190,6 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 		
 		// track outlinks
 		self::trackActions($t, $visitorCounter, 'outlink', $userAgents, $resolutions);
-		
-		self::checkResponse($t->doBulkTrack());
 	}
 	
 	private static function trackActions($t, &$visitorCounter, $actionType, $userAgents, $resolutions,
@@ -248,20 +254,46 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 	{
 		if ($actionType == 'pageview')
 		{
-			$t->doTrackPageView(
-				is_null($actionNum) ? "title_$visitorCounter" : "title_$visitorCounter / title_$actionNum");
+			self::checkResponse($t->doTrackPageView(
+				is_null($actionNum) ? "title_$visitorCounter" : "title_$visitorCounter / title_$actionNum"));
 		}
 		else if ($actionType == 'download')
 		{
 			$root = is_null($actionNum) ? "http://cloudsite$visitorCounter.com"
 				: "http://cloudsite$visitorCounter.com/$actionNum";
 			
-			$t->doTrackAction("$root/download", 'download');
+			self::checkResponse($t->doTrackAction("$root/download", 'download'));
 		}
 		else if ($actionType == 'outlink')
 		{
-			$t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
-				: "http://othersite$visitorCounter.com/$actionNum/", 'link');
+			self::checkResponse($t->doTrackAction(is_null($actionNum) ? "http://othersite$visitorCounter.com/"
+				: "http://othersite$visitorCounter.com/$actionNum/", 'link'));
 		}
+	}
+	
+	public static function setMockLocationProvider()
+	{
+		Piwik_UserCountry_LocationProvider::setCurrentProvider('mock_provider');
+		Piwik_UserCountry_LocationProvider::getCurrentProvider()->setLocations(array(
+			self::makeLocation('Toronto', 'ON', 'CA'),
+			
+			self::makeLocation('Nice', 'B8', 'FR'),
+
+			self::makeLocation('Melbourne', '07', 'AU'),
+
+			self::makeLocation('Yokohama', '19', 'JP'),
+		));
+	}
+	
+	public static function unsetMockLocationProvider()
+	{
+		Piwik_UserCountry_LocationProvider::setCurrentProvider('default');
+	}
+	
+	public static function makeLocation( $city, $region, $country )
+	{
+		return array(Piwik_UserCountry_LocationProvider::CITY_NAME_KEY => $city,
+					  Piwik_UserCountry_LocationProvider::REGION_CODE_KEY => $region,
+					  Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY => $country);
 	}
 }

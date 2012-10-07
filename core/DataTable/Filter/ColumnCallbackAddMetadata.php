@@ -66,7 +66,10 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 			{
 				$newValue = $oldValue;
 			}
-			$row->addMetadata($this->metadataToAdd, $newValue);
+			if ($newValue !== false)
+			{
+				$row->addMetadata($this->metadataToAdd, $newValue);
+			}
 		}
 	}
 }

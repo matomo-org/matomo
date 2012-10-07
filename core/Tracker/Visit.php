@@ -507,10 +507,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		// User settings
 		$userInfo = $this->getUserSettingsInformation();
-		$country = Piwik_Common::getCountry($userInfo['location_browser_lang'],
-											$enableLanguageToCountryGuess = Piwik_Config::getInstance()->Tracker['enable_language_to_country_guess'],
-											$this->getVisitorIp());
-
+		
 		// Referrer data
 		$referrer = new Piwik_Tracker_Visit_Referer();
 		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string', $this->request);
@@ -564,8 +561,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'config_cookie' 			=> $userInfo['config_cookie'],
 			'location_ip' 				=> $this->getVisitorIp(),
 			'location_browser_lang'		=> $userInfo['location_browser_lang'],
-			'location_country' 			=> $country,
 		);
+		
+		// add optional location components
+		$location = $this->getVisitorLocation($userInfo['location_browser_lang']);
+		$this->updateVisitInfoWithLocation($location);
 
 		// Add Custom variable key,value to the visitor array
 		$this->visitorInfo = array_merge($this->visitorInfo, $this->visitorCustomVariables);
@@ -579,6 +579,90 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$this->saveVisitorInformation();
 	}
+	
+	/**
+	 * Returns the location of the visitor, based on the visitor's IP and browser language.
+	 * 
+	 * @param string $browserLang
+	 * @return array See Piwik_UserCountry_LocationProvider::getLocation for more info.
+	 */
+	private function getVisitorLocation( $browserLang )
+	{
+		$location = array();
+		$userInfo = array('lang' => $browserLang, 'ip' => Piwik_IP::N2P($this->getVisitorIp()));
+		Piwik_PostEvent('Tracker.getVisitorLocation', $location, $userInfo);
+		
+		if (empty($location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY]))
+		{
+			$location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY] =
+				Piwik_UserCountry_LocationProvider::UNKNOWN_CODE;
+		}
+		
+		if (empty($location[Piwik_UserCountry_LocationProvider::CONTINENT_CODE_KEY]))
+		{
+			$location[Piwik_UserCountry_LocationProvider::CONTINENT_CODE_KEY] =
+				Piwik_UserCountry_LocationProvider::UNKNOWN_CODE;
+		}
+		
+		return $location;
+	}
+	
+	/**
+	 * Sets visitor info array with location info.
+	 * 
+	 * @param array $location See Piwik_UserCountry_LocationProvider::getLocation for more info.
+	 */
+	private function updateVisitInfoWithLocation( $location )
+	{
+		static $logVisitToLowerLocationMapping = array(
+			'location_country' => Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY,
+		);
+		
+		static $logVisitToLocationMapping = array(
+			'location_region' => Piwik_UserCountry_LocationProvider::REGION_CODE_KEY,
+			'location_city' => Piwik_UserCountry_LocationProvider::CITY_NAME_KEY,
+			'location_latitude' => Piwik_UserCountry_LocationProvider::LATITUDE_KEY,
+			'location_longitude' => Piwik_UserCountry_LocationProvider::LONGITUDE_KEY,
+		);
+		
+		foreach ($logVisitToLowerLocationMapping as $column => $locationKey)
+		{
+			if (!empty($location[$locationKey]))
+			{
+				$this->visitorInfo[$column] = strtolower($location[$locationKey]);
+			}
+		}
+		
+		foreach ($logVisitToLocationMapping as $column => $locationKey)
+		{
+			if (!empty($location[$locationKey]))
+			{
+				$this->visitorInfo[$column] = $location[$locationKey];
+			}
+		}
+		
+		// if the location has provider/organization info, set it
+		if (!empty($location[Piwik_UserCountry_LocationProvider::ISP_KEY]))
+		{
+			$providerValue = $location[Piwik_UserCountry_LocationProvider::ISP_KEY];
+			
+			// if the org is set and not the same as the isp, add it to the provider value
+			if (!empty($location[Piwik_UserCountry_LocationProvider::ORG_KEY])
+				&& $location[Piwik_UserCountry_LocationProvider::ORG_KEY] != $providerValue)
+			{
+				$providerValue .= ' - ' . $location[Piwik_UserCountry_LocationProvider::ORG_KEY];
+			}
+		}
+		else if (!empty($location[Piwik_UserCountry_LocationProvider::ORG_KEY]))
+		{
+			$providerValue = $location[Piwik_UserCountry_LocationProvider::ORG_KEY];
+		}
+		
+		if (isset($providerValue))
+		{
+			$this->visitorInfo['location_provider'] = $providerValue;
+		}
+	}
 
 	/**
 	 * Save new visitor information to log_visit table.
@@ -588,11 +672,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		Piwik_PostEvent('Tracker.saveVisitorInformation', $this->visitorInfo);
 
-		if(empty($this->visitorInfo['location_country']))
-		{
-			$this->visitorInfo['location_country'] = 'xx';
-		}
-		$this->visitorInfo['location_continent'] = Piwik_Common::getContinent( $this->visitorInfo['location_country'] );
 		$this->visitorInfo['location_browser_lang'] = substr($this->visitorInfo['location_browser_lang'], 0, 20);
 		$this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
 		$this->visitorInfo['referer_keyword'] = substr($this->visitorInfo['referer_keyword'], 0, 255);
@@ -977,7 +1056,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							visitor_days_since_first,
 							visitor_days_since_order,
 							location_country,
-							location_continent,
 							referer_name,
 							referer_keyword,
 							referer_type,
@@ -1094,7 +1172,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$this->visitorInfo['visitor_count_visits'] = $visitRow['visitor_count_visits'];
 			$this->visitorInfo['visit_goal_buyer'] = $visitRow['visit_goal_buyer'];
 			$this->visitorInfo['location_country'] = $visitRow['location_country'];
-			$this->visitorInfo['location_continent'] = $visitRow['location_continent'];
 			
 			// Referer information will be potentially used for Goal Conversion attribution
 			$this->visitorInfo['referer_name'] = $visitRow['referer_name'];

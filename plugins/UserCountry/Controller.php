@@ -25,8 +25,79 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		
 		$view->dataTableCountry = $this->getCountry(true);
 		$view->dataTableContinent = $this->getContinent(true);
+		$view->dataTableRegion = $this->getVisitsByRegion(true);
+		$view->dataTableCity = $this->getVisitsByCity(true);
 		
 		echo $view->render();
+	}
+	
+	function adminIndex()
+	{
+		Piwik::checkUserIsSuperUser();
+		$view = Piwik_View::factory('adminIndex');
+		
+		$view->locationProviders = Piwik_UserCountry_LocationProvider::getAllProviderInfo(
+			$newline = '<br/>', $includeExtra = true);
+		$view->currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
+		
+		$this->setBasicVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
+		
+		echo $view->render();
+	}
+	
+	/**
+	 * Sets the current LocationProvider type.
+	 * 
+	 * Input:
+	 *   Requires the 'id' query parameter to be set to the desired LocationProvider's ID.
+	 * 
+	 * Output:
+	 *   Nothing.
+	 */
+	public function setCurrentLocationProvider()
+	{
+		Piwik::checkUserIsSuperUser();
+		if ($_SERVER["REQUEST_METHOD"] == "POST")
+		{
+			$this->checkTokenInUrl();
+			
+			$providerId = Piwik_Common::getRequestVar('id');
+			$provider = Piwik_UserCountry_LocationProvider::setCurrentProvider($providerId);
+			if ($provider === false)
+			{
+				throw new Exception("Invalid provider ID: '$providerId'.");
+			}
+			
+			// make sure the tracker will use the new location provider
+			Piwik_Common::regenerateCacheGeneral();
+		}
+	}
+	
+	/**
+	 * Echo's a pretty formatted location using a specific LocationProvider.
+	 * 
+	 * Input:
+	 *   The 'id' query parameter must be set to the ID of the LocationProvider to use.
+	 * 
+	 * Output:
+	 *   The pretty formatted location that was obtained. Will be HTML.
+	 */
+	public function getLocationUsingProvider()
+	{
+		$providerId = Piwik_Common::getRequestVar('id');
+		$provider = $provider = Piwik_UserCountry_LocationProvider::getProviderById($providerId);
+		if ($provider === false)
+		{
+			throw new Exception("Invalid provider ID: '$providerId'.");
+		}
+		
+		$location = $provider->getLocation(
+			array('ip' => $_SERVER['REMOTE_ADDR'], 'lang' => Piwik_Common::getBrowserLanguage()));
+		$location = Piwik_UserCountry_LocationProvider::prettyFormatLocation(
+			$location, $newline = '<br/>', $includeExtra = true);
+		
+		echo $location;
 	}
 	
 	function getCountry( $fetch = false)
@@ -43,6 +114,34 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableOffsetInformationAndPaginationControls();
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_Continent'));
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Echo's or returns an HTML view of the visits by region report.
+	 * 
+	 * @param bool $fetch If true, returns the HTML as a string, otherwise it is echo'd.
+	 * @return string
+	 */
+	public function getVisitsByRegion( $fetch = false )
+	{
+		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getVisitsByRegion");
+		$view->setLimit(5);
+		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_Region'));
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Echo's or returns an HTML view of the visits by city report.
+	 * 
+	 * @param bool $fetch If true, returns the HTML as a string, otherwise it is echo'd.
+	 * @return string
+	 */
+	public function getVisitsByCity( $fetch = false )
+	{
+		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getVisitsByCity");
+		$view->setLimit(5);
+		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_City'));
 		return $this->renderView($view, $fetch);
 	}
 	

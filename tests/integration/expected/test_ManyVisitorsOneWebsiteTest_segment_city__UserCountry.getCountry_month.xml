@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>United Kingdom</label>
+		<nb_visits>4</nb_visits>
+		<nb_actions>4</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>4</bounce_count>
+		<nb_visits_converted>0</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<code>gb</code>
+		<logo>plugins/UserCountry/flags/gb.png</logo>
+		<logoWidth>16</logoWidth>
+		<logoHeight>11</logoHeight>
+	</row>
+</result>
