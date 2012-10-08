@@ -952,7 +952,7 @@ Piwik_Transitions_Canvas.prototype.renderLeftBoxBg = function(context, boxHeight
 	context.bezierCurveTo(cp1Lower.x, cp1Lower.y, cp2Lower.x, cp2Lower.y, leftLower.x, leftLower.y);
 
 	// the box
-	context.lineTo(leftLower.x - this.boxWidth + 4, leftLower.y);
+	context.lineTo(leftLower.x - this.boxWidth + 2, leftLower.y);
 	context.lineTo(leftLower.x - this.boxWidth, leftUpper.y);
 	context.lineTo(leftUpper.x, leftUpper.y);
 	context.fill();
@@ -978,7 +978,7 @@ Piwik_Transitions_Canvas.prototype.renderRightBoxBg = function(context, boxHeigh
 
 	// the box
 	context.lineTo(rightUpper.x + this.boxWidth, rightUpper.y);
-	context.lineTo(rightLower.x + this.boxWidth - 4, rightLower.y);
+	context.lineTo(rightLower.x + this.boxWidth - 2, rightLower.y);
 	context.lineTo(rightLower.x, rightLower.y);
 
 	// the flow part 2
