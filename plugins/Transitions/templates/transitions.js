@@ -342,9 +342,9 @@ Piwik_Transitions.prototype.renderLoops = function() {
 Piwik_Transitions.prototype.renderEntries = function(onlyBg) {
 	if (this.model.directEntries > 0) {
 		var self = this;
-		var gradient = this.canvas.createHorizontalGradient('#CFEDCA', '#91DE83', 'left');
+		var gradient = this.canvas.createHorizontalGradient('#FFFFFF', '#BACFE8', 'left');
 		if (this.highlightedGroup == 'directEntries') {
-			gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', 'left');
+			gradient = this.canvas.createHorizontalGradient('#FFFFFF', '#FAD293', 'left');
 		}
 		this.canvas.renderBox({
 			side: 'left',
@@ -369,9 +369,9 @@ Piwik_Transitions.prototype.renderEntries = function(onlyBg) {
 Piwik_Transitions.prototype.renderExits = function(onlyBg) {
 	if (this.model.exits > 0) {
 		var self = this;
-		var gradient = this.canvas.createHorizontalGradient('#CFEDCA', '#91DE83', 'right');
+		var gradient = this.canvas.createHorizontalGradient('#FFFFFF', '#BACFE8', 'right');
 		if (this.highlightedGroup == 'exits') {
-			gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', 'right');
+			gradient = this.canvas.createHorizontalGradient('#FFFFFF', '#FAD293', 'right');
 		}
 		this.canvas.renderBox({
 			side: 'right',
@@ -410,7 +410,7 @@ Piwik_Transitions.prototype.renderOpenGroup = function(groupName, side, onlyBg) 
 	// prepare gradients
 	var gradientItems = this.canvas.createHorizontalGradient('#E3DFD1', '#E8E4D5', side);
 	var gradientOthers = this.canvas.createHorizontalGradient('#F5F3EB', '#E8E4D5', side);
-	var gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#B0CAE8', side);
+	var gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#BACFE8', side);
 	if (groupName == this.highlightedGroup) {
 		gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#FAD293', side);
 	}

@@ -7,11 +7,11 @@
 			
 			<div class="Transitions_IncomingTraffic">
 				<h3>{'Transitions_IncomingTraffic'|translate}</h3>
-				<p class="Transitions_DirectEntries">{$translations.directEntriesInline|translate} </p>
 				<p class="Transitions_PreviousPages">{$translations.fromPreviousPagesInline|translate}</p>
 				<p class="Transitions_SearchEngines">{$translations.fromSearchEnginesInline|translate}</p>
 				<p class="Transitions_Websites">{$translations.fromWebsitesInline|translate}</p>
 				<p class="Transitions_Campaigns">{$translations.fromCampaignsInline|translate}</p>
+				<p class="Transitions_DirectEntries">{$translations.directEntriesInline|translate}</p>
 			</div>
 			
 			<div class="Transitions_OutgoingTraffic">
