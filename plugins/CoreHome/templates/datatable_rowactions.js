@@ -26,7 +26,7 @@ var DataTable_RowActions_Registry = {
 		this.registry.push(action);
 	},
 	
-	getAvailableActions: function(dataTableParams, tr) {
+	getAvailableActionsForReport: function(dataTableParams, tr) {
 		if (dataTableParams.disable_row_actions == '1')
 		{
 			return [];
@@ -34,7 +34,7 @@ var DataTable_RowActions_Registry = {
 		
 		var available = [];
 		for (var i = 0; i < this.registry.length; i++) {
-			if (this.registry[i].isAvailable(dataTableParams, tr)) {
+			if (this.registry[i].isAvailableOnReport(dataTableParams, tr)) {
 				available.push(this.registry[i]);
 			}
 		}
@@ -69,7 +69,7 @@ DataTable_RowActions_Registry.register({
 		return new DataTable_RowActions_RowEvolution(dataTable);
 	},
 	
-	isAvailable: function(dataTableParams, tr) {
+	isAvailableOnReport: function(dataTableParams) {
 		return (
 			typeof dataTableParams.disable_row_evolution == 'undefined'
 			|| dataTableParams.disable_row_evolution == "0"
@@ -77,6 +77,10 @@ DataTable_RowActions_Registry.register({
 			typeof dataTableParams.flat == 'undefined'
 			|| dataTableParams.flat == "0"
 		);
+	},
+	
+	isAvailableOnRow: function(dataTableParams, tr) {
+		return true;
 	}
 
 });

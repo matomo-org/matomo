@@ -1294,40 +1294,42 @@ dataTable.prototype =
 	doHandleRowActions: function(trs)
 	{
 		var self = this;
+		
+		var availableActionsForReport = DataTable_RowActions_Registry
+				.getAvailableActionsForReport(self.param);
+		
+		if (availableActionsForReport.length == 0)
+		{
+			return;
+		}
+		
 		var actionInstances = {};
+		for (var i = 0; i < availableActionsForReport.length; i++)
+		{
+			var action = availableActionsForReport[i];
+			actionInstances[action.name] = action.createInstance(self);
+		}
 		
 		trs.each(function()
 		{
 			var tr = $(this);
 			var td = tr.find('td:first');
 			
-			// load available actions for this row
-			var availableActions = DataTable_RowActions_Registry.getAvailableActions(self.param, tr);
-			if (availableActions.length == 0)
+			// call initTr on all actions that are available for the report
+			for (var i = 0; i < availableActionsForReport.length; i++)
 			{
-				return;
+				var action = availableActionsForReport[i];
+				actionInstances[action.name].initTr(tr);
 			}
 			
-			// call initTr on all available actions
-			for (var i = 0; i < availableActions.length; i++)
-			{
-				var action = availableActions[i];
-				if (typeof actionInstances[action.name] == "undefined")
-				{
-					actionInstances[action.name] = action.createInstance(self);
-				}
-				var actionInstance = actionInstances[action.name];
-				actionInstance.initTr(tr);
-			}
-			
-			// show actions on hover
+			// show actions that are available for the row on hover
 			var actionsDom = null;
 			tr.hover(function()
 			{
 				if (actionsDom === null)
 				{
 					// create dom nodes on the fly
-					actionsDom = self.createRowActions(availableActions, tr, actionInstances);
+					actionsDom = self.createRowActions(availableActionsForReport, tr, actionInstances);
 					td.prepend(actionsDom);
 				}
 				// reposition and show the actions
@@ -1344,19 +1346,23 @@ dataTable.prototype =
 		});
 	},
 	
-	createRowActions: function(availableActions, tr, actionInstances)
+	createRowActions: function(availableActionsForReport, tr, actionInstances)
 	{
 		var container = $(document.createElement('div')).addClass('dataTableRowActions');
 		
-		for (var i = availableActions.length - 1; i >= 0; i--)
+		for (var i = availableActionsForReport.length - 1; i >= 0; i--)
 		{
-			var action = availableActions[i];
+			var action = availableActionsForReport[i];
+			
+			if (!action.isAvailableOnRow(this.param, tr)) {
+				continue;
+			}
 			
 			var actionEl = $(document.createElement('a')).attr({href: '#'}).addClass('action' + action.name);
 			actionEl.append($(document.createElement('img')).attr({src: action.dataTableIcon}));
 			container.append(actionEl);
 			
-			if (i == availableActions.length - 1) {
+			if (i == availableActionsForReport.length - 1) {
 				actionEl.addClass('leftmost');
 			}
 			if (i == 0) {

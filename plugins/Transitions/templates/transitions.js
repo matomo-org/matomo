@@ -79,13 +79,16 @@ DataTable_RowActions_Registry.register({
 		return new DataTable_RowActions_Transitions(dataTable);
 	},
 	
-	isAvailable: function(dataTableParams, tr) {
+	isAvailableOnReport: function(dataTableParams) {
 		return (
-			DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action)
-			&& tr.find('> td:first > a').size() > 0 // only available on pages, not folders
-		) || (
+			DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action) ||
 			DataTable_RowActions_Transitions.isPageTitleReport(dataTableParams.module, dataTableParams.action)
 		);
+	},
+	
+	isAvailableOnRow: function(dataTableParams, tr) {
+		// not available on groups (i.e. folders)
+		return !tr.attr('id'); 
 	}
 
 });
