@@ -26,8 +26,11 @@
 	<div id="Transitions_Loops" class="Transitions_Text">
 		{$translations.loopsInline|translate} 
 	</div>
-	<canvas id="Transitions_Canvas_Background"></canvas>
-	<canvas id="Transitions_Canvas"></canvas>
+	<div id="Transitions_Canvas_Background_Left" class="Transitions_Canvas_Container"></div>
+	<div id="Transitions_Canvas_Background_Right" class="Transitions_Canvas_Container"></div>
+	<div id="Transitions_Canvas_Left" class="Transitions_Canvas_Container"></div>
+	<div id="Transitions_Canvas_Right" class="Transitions_Canvas_Container"></div>
+	<div id="Transitions_Canvas_Loops" class="Transitions_Canvas_Container"></div>
 </div>
 
 <script type="text/javascript">

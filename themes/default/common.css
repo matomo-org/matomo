@@ -730,7 +730,7 @@ table.entityTable tr td a {
 	-moz-box-shadow: 1px 1px 2px #666;
 	-webkit-box-shadow: 1px 1px 2px #666;
 	box-shadow: 1px 1px 2px #666;
-	white-space: nowrap;
+	overflow: hidden;
 }
 
 .piwik-tooltip .tip-title {

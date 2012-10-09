@@ -7,11 +7,18 @@
 
 var Piwik_Popover = (function() {
 
-	var container = $(document.createElement('div')).attr('id', 'Piwik_Popover');
+	var container = false;
 	var isOpen = false;
-	var preparedContent = false;
 
+	var createContainer = function() {
+		if (container === false) {
+			container = $(document.createElement('div')).attr('id', 'Piwik_Popover');
+		}
+	};
+	
 	var openPopover = function(title) {
+		createContainer();
+		
 		container.dialog({
 			title: title,
 			modal: true,
@@ -25,7 +32,8 @@ var Piwik_Popover = (function() {
 				});
 			},
 			close: function(event, ui) {
-				container.dialog('destroy').remove();
+				container[0].innerHTML = ''; // IE8 fix
+				container.dialog('destroy');
 				piwikHelper.abortQueueAjax();
 				$('.ui-widget-overlay').off('click.popover');
 				isOpen = false;
@@ -37,7 +45,9 @@ var Piwik_Popover = (function() {
 	};
 	
 	var centerPopover = function() {
-		container.dialog({position: ['center', 'center']});
+		if (container !== false) {
+			container.dialog({position: ['center', 'center']});
+		}
 	};
 
 	return {
@@ -90,32 +100,9 @@ var Piwik_Popover = (function() {
 			return container;
 		},
 
-		/**
-		 * Prepare the popover
-		 * 
-		 * Adds the html to the DOM but hides it. Plugins can then do further processing while the
-		 * loading message is still shown and use showPreparedContent() when ready.
-		 * 
-		 * @param html
-		 */
-		prepareContent: function(html) {
-			preparedContent = $(document.createElement('div'));
-			preparedContent.html(html).css('display', 'none');
-			container.append(preparedContent);
-		},
-		
-		/**
-		 * Show the content that was previously passed to prepareContent().
-		 * Hides the loading message.
-		 */
-		showPreparedContent: function() {
-			container.find('.Piwik_Popover_Loading').remove();
-			preparedContent.show();
-			centerPopover();
-		},
-
 		/** Set inner HTML of the popover */
 		setContent: function(html) {
+			container[0].innerHTML = ''; // IE8 fix
 			container.html(html);
 			centerPopover();
 		},

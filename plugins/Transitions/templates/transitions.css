@@ -7,14 +7,28 @@
 	margin-left: 7px;
 }
 
-#Transitions_Canvas_Background {
+.Transitions_Canvas_Container {
 	position: absolute;
+}
+
+#Transitions_Canvas_Background_Left {
 	z-index: 1501;
 }
 
-#Transitions_Canvas {
-	position: absolute;
+#Transitions_Canvas_Background_Right {
 	z-index: 1502;
+}
+
+#Transitions_Canvas_Left {
+	z-index: 1503;
+}
+
+#Transitions_Canvas_Right {
+	z-index: 1504;
+}
+
+#Transitions_Canvas_Loops {
+	z-index: 1505;
 }
 
 .Transitions_Text {
@@ -22,7 +36,8 @@
 	font-size: 11px;
 	line-height: 14px;
 	position: absolute;
-	z-index: 1502;
+	background: rgba(0,0,0,0); /* without this, IE9 triggers hover only on the text, not the box */
+	z-index: 1506;
 	font-family: Arial, Helvetica, sans-serif;
 	word-wrap: break-word;
 	text-align: left;
@@ -41,7 +56,7 @@
 	-webkit-box-shadow: 0px 0px 9px 0px #999;
 	-moz-box-shadow: 0px 0px 9px 0px #999;
 	box-shadow: 0px 0px 9px 0px #999;
-	z-index: 1503;
+	z-index: 1507;
 }
 
 #Transitions_CenterBox h2 {
@@ -92,7 +107,7 @@
 	line-height: 25px;
 	font-size: 12px;
 	display: none;
-	z-index: 1503;
+	z-index: 1506;
 	cursor: default;
 }
 
