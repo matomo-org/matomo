@@ -68,8 +68,8 @@ var Piwik_Tooltip = (function() {
 				domElement.removeClass(addedClass);
 			} else {
 				visible = true;
-				domElement.show();
 				position();
+				domElement.show();
 			}
 
 			if (addClass && addedClass != addClass) {

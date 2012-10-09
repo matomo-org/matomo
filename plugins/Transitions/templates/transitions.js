@@ -42,7 +42,8 @@ DataTable_RowActions_Transitions.prototype.trigger = function(tr, e, subTableLab
 };
 
 DataTable_RowAction.prototype.performAction = function(label, tr, e) {
-	this.openPopover('title:' + label);
+	// the title is encoded in DataTable_RowAction.prototype.getLabelFromTr 
+	this.openPopover('title:' + decodeURIComponent(label));
 };
 
 DataTable_RowActions_Transitions.prototype.doOpenPopover = function(link) {

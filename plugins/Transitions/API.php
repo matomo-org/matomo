@@ -116,9 +116,15 @@ class Piwik_Transitions_API
 			
 			case 'title':
 				// Transitions is called with Page titles separated by > so we transform back
-				$actionName = explode(Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL, $actionName);
+				$separator = Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL;
+				$actionName = explode($separator, $actionName);
+				if (count($actionName) == 1) {
+					$separator = Piwik_Common::sanitizeInputValue($separator);
+					$actionName = explode($separator, $actionName[0]);
+				}
 				$actionName = array_map('trim', $actionName);
 				$actionName = implode(Piwik_Config::getInstance()->General['action_url_category_delimiter'], $actionName);
+				
 				$id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name');
 				
 				if ($id < 0)

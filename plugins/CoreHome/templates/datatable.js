@@ -1322,6 +1322,9 @@ dataTable.prototype =
 				actionInstances[action.name].initTr(tr);
 			}
 			
+			// if there are row actions, make sure the first column is not too narrow
+			td.css('minWidth', '130px');
+			
 			// show actions that are available for the row on hover
 			var actionsDom = null;
 			tr.hover(function()

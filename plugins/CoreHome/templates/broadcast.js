@@ -28,14 +28,19 @@ var broadcast = {
     _isInit: false,
 
 	/**
-	 * Last known hash parts
+	 * Last known hash url without popover parameter
 	 */
-	currentHashParts: [null],
+	currentHashUrl: false,
 
 	/**
-	 * Callbacks for second hash change
+	 * Last known popover parameter
 	 */
-	secondHashHandlers: [],
+	currentPopoverParameter: false,
+	
+	/**
+	 * Callbacks for popover parameter change
+	 */
+	popoverHandlers: [],
 
 	/**
 	 * Force reload once
@@ -71,30 +76,43 @@ var broadcast = {
      */
     pageload: function( hash )
     {
-        broadcast.init();
+		broadcast.init();
 
         // Unbind any previously attached resize handlers
         $(window).off('resize');
 			
 		// hash doesn't contain the first # character.
 		if( hash ) {
-			var hashParts = hash.split('#');
 			
-			var firstHashUpdated = (hashParts.length == 1 ||
-					(broadcast.currentHashParts[0] !== null && broadcast.currentHashParts[0] != hashParts[0]));
-			var secondHashUpdated = (hashParts.length > 1 && hashParts[0] == broadcast.currentHashParts[0]);
-			if (broadcast.currentHashParts[0] === null) {
-				// new page load
-				firstHashUpdated = true;
-				secondHashUpdated = (hashParts.length > 1);
+			var hashParts = hash.split('&popover=');
+			var hashUrl = hashParts[0];
+			var popoverParam = '';
+			if (hashParts.length > 1) {
+				popoverParam = hashParts[1];
+				// in case the $ was encoded (e.g. when using copy&paste on urls in some browsers) 
+				popoverParam = decodeURIComponent(popoverParam);
+				// revert special encoding from broadcast.propagateNewPopoverParameter()
+				popoverParam = popoverParam.replace(/\$/g, '%');
+				popoverParam = decodeURIComponent(popoverParam);
 			}
 			
-			if (firstHashUpdated || broadcast.forceReload) {
+			var pageUrlUpdated = (popoverParam == '' ||
+				(broadcast.currentHashUrl !== false && broadcast.currentHashUrl != hashUrl));
+			
+			var popoverParamUpdated = (popoverParam != '' && hashUrl == broadcast.currentHashUrl);
+			
+			if (broadcast.currentHashUrl === false) {
+				// new page load
+				pageUrlUpdated = true;
+				popoverParamUpdated = (popoverParam != '');
+			}
+			
+			if (pageUrlUpdated || broadcast.forceReload) {
 				Piwik_Popover.close();
 				
-				if (hashParts[0] != broadcast.currentHashParts[0] || broadcast.forceReload) {
+				if (hashUrl != broadcast.currentHashUrl || broadcast.forceReload) {
 					// restore ajax loaded state
-					broadcast.loadAjaxContent(hashParts[0]);
+					broadcast.loadAjaxContent(hashUrl);
 		
 					// make sure the "Widgets & Dashboard" is deleted on reload
 					$('#dashboardSettings').remove();
@@ -103,25 +121,20 @@ var broadcast = {
 			}
 			
 			broadcast.forceReload = false;
-			broadcast.currentHashParts = hashParts;
+			broadcast.currentHashUrl = hashUrl;
+			broadcast.currentPopoverParameter = popoverParam;
 			
-			if (secondHashUpdated && hashParts[1] == '') {
+			if (popoverParamUpdated && popoverParam == '') {
 				Piwik_Popover.close();
-			} else if (secondHashUpdated) {
-				var secondHash = hashParts[1];
-				for (var i = 2; i < hashParts.length; i++) {
-					secondHash += '#' + hashParts[i];
-				}
-				var secondHashParts = secondHash.split(':');
-				var handlerName = secondHashParts[0];
-				secondHashParts.shift();
-				var param = secondHashParts.join(':');
-				if (typeof broadcast.secondHashHandlers[handlerName] != 'undefined') {
-					broadcast.secondHashHandlers[handlerName](param);
+			} else if (popoverParamUpdated) {
+				var popoverParamParts = popoverParam.split(':');
+				var handlerName = popoverParamParts[0];
+				popoverParamParts.shift();
+				var param = popoverParamParts.join(':');
+				if (typeof broadcast.popoverHandlers[handlerName] != 'undefined') {
+					broadcast.popoverHandlers[handlerName](param);
 				}
 			}
-			
-			
 			
 		} else {
 			// start page
@@ -289,19 +302,31 @@ var broadcast = {
 	/**
 	 * Update the part after the second hash
 	 */
-	propagateNewSecondHash: function(handlerName, value)
+	propagateNewPopoverParameter: function(handlerName, value)
 	{
-		var url = window.location.href;
-		var urlParts = url.split('#');
-		urlParts[2] = handlerName === false ? '' : handlerName + ':' + value;
-		window.location.href = urlParts.join('#');
+		var hash = broadcast.getHashFromUrl(window.location.href);
+		var hashParts = hash.split('&popover=');
+		
+		var newHash = hashParts[0];
+		if (handlerName) {
+			var popover = handlerName + ':' + value;
+			
+			// between jquery.history and different browser bugs, it's impossible to ensure
+			// that the parameter is en- and decoded the same number of times. in order to
+			// make sure it doesn't change, we have to manipulate the url encoding a bit.
+			popover = encodeURIComponent(popover);
+			popover = popover.replace(/%/g, '\$');
+			newHash = hashParts[0] + '&popover=' + popover;
+		}
+		
+		window.location.href = 'index.php' + window.location.search + newHash;
 	},
 
 	/**
-	 * Add a handler for the secon hash
+	 * Add a handler for the popover parameter
 	 */
-	addSecondHashHandler: function(handlerName, callback) {
-		this.secondHashHandlers[handlerName] = callback;
+	addPopoverHandler: function(handlerName, callback) {
+		this.popoverHandlers[handlerName] = callback;
 	},
 
     /**

@@ -37,7 +37,7 @@ var Piwik_Popover = (function() {
 				piwikHelper.abortQueueAjax();
 				$('.ui-widget-overlay').off('click.popover');
 				isOpen = false;
-				broadcast.propagateNewSecondHash(false);
+				broadcast.propagateNewPopoverParameter(false);
 			}
 		});
 		
