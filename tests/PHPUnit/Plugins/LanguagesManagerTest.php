@@ -17,6 +17,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
     }
     
     static $errors;
+	static $englishStringsIndexed  = array();
     /**
      * test all languages
      * 
@@ -25,30 +26,36 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      */
     function testGetTranslationsForLanguages()
     {
-        self::$errors = array();
         $allLanguages = Piwik_Common::getLanguagesList();
-        $allCountries = Piwik_Common::getCountriesList();
-        $englishStrings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage('en');
-        $englishStringsWithParameters = array();
-        $expectedLanguageKeys = array();
-        foreach($englishStrings as $englishString)
-        {
-            $stringLabel = $englishString['label'];
-            $stringValue = $englishString['value'];
-            $count = $this->getCountParametersToReplace($stringValue);
-            if($count > 0)
-            {
-                $englishStringsWithParameters[$stringLabel] = $count;
-            }
-            $englishStringsIndexed[$stringLabel] = $stringValue;
-            $expectedLanguageKeys[] = $stringLabel;
-        }
-        
-        // we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
-        $languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages();
-        foreach($languages as $language)
-        {
-            ob_start();
+	    $allCountries = Piwik_Common::getCountriesList();
+	    $englishStrings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage('en');
+	    $englishStringsWithParameters = array();
+	    $expectedLanguageKeys = array();
+	    foreach($englishStrings as $englishString)
+	    {
+		    $stringLabel = $englishString['label'];
+		    $stringValue = $englishString['value'];
+		    $count = $this->getCountParametersToReplace($stringValue);
+		    if($count > 0)
+		    {
+			    $englishStringsWithParameters[$stringLabel] = $count;
+		    }
+		    $englishStringsIndexed[$stringLabel] = $stringValue;
+		    $expectedLanguageKeys[] = $stringLabel;
+	    }
+	    self::$englishStringsIndexed = $englishStringsIndexed;
+
+	    // we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
+	    $languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages();
+	    $output = array();
+
+	    foreach($languages as $language)
+	    {
+		    self::$errors = array();
+		    if($language == 'en') {
+			    continue;
+		    }
+		    ob_start();
             $writeCleanedFile = false; 
             $strings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage($language);
             $content = ob_get_flush();
@@ -111,13 +118,19 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
                         $cleanedStrings[$stringLabel] = $stringValue;
                     }
                 }
-                
+
                 // If the translation is the same as in English, we remove it from the translation file (as it might have been copied by
                 // the translator but this would skew translation stats
                 if(isset($englishStringsIndexed[$stringLabel])
                     && $englishStringsIndexed[$stringLabel] == $stringValue
+	                // Do not however remove the General_ since there are definiely legit translations that are same as in english (eg. short days)
+	                && strpos($stringLabel, 'General_') === false
+	                && strpos($stringLabel, 'CoreHome_') === false
+	                && strpos($stringLabel, 'UserCountry_') === false
+	                && $language != 'de'
                     //Currently hackjed for Persian since only the Farsi translation seems affected by "english copy paste"
-                    && $language == 'fa')
+//                    && $language == 'fa'
+                )
                 {
                     $writeCleanedFile = true;
                     self::$errors[] = "$language: The string $stringLabel is the same as in English, removing...";
@@ -168,29 +181,57 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
                 }
             }
             $this->assertTrue( !empty($cleanedStrings['General_TranslatorName'] ), "$language: translator info not specified");
-            $this->assertTrue( !empty($cleanedStrings['General_TranslatorEmail'] ), "$language: translator info not specified");
+            $this->assertTrue( !empty($cleanedStrings['General_TranslatorEmail'] ), "$language: translator email not specified");
             if(!empty($cleanedStrings['General_LayoutDirection'])
                 && !in_array($cleanedStrings['General_LayoutDirection'], array('rtl','ltr')))
             {
                 $writeCleanedFile = true;
                 $cleanedStrings['General_LayoutDirection'] = false;
-                $errors[] = "$language: General_LayoutDirection must be rtl or ltr";
+	            self::$errors[] = "$language: General_LayoutDirection must be rtl or ltr";
             }
             if($writeCleanedFile)
             {
-                $this->writeCleanedTranslationFile($cleanedStrings, $language);
-            }
-        }
-    }
-    
-    private function writeCleanedTranslationFile($translations, $language)
-    {
-        $path = Piwik_TranslationWriter::getTranslationPath($language, 'tmp');
-        Piwik_TranslationWriter::saveTranslation($translations, $path);
-        $this->fail(implode("\n", self::$errors)."\n".'Translation file errors detected in '.$language.'... 
+	            $path = Piwik_TranslationWriter::getTranslationPath($language, 'tmp');
+
+	            // Reorder cleaned up translations as the same order as en.php
+	            uksort($cleanedStrings, array($this,'sortTranslationsKeys'));
+
+	            Piwik_TranslationWriter::saveTranslation($cleanedStrings, $path);
+	            $output[] = (implode("<br>\n", self::$errors)."\n".'Translation file errors detected in '.$language.'...
                     Wrote cleaned translation file in: '.$path .".
                     You can copy the cleaned files to /lang/\n");
+            }
+        }
+	    if(!empty($output)) {
+		    $this->fail( implode(",", $output) );
+	    }
     }
+
+	/**
+	 * Keep strings in the order of the english file
+	 * @param $k1
+	 * @param $k2
+	 * @return int
+	 */
+	protected function sortTranslationsKeys($k1, $k2)
+	{
+		static $order = array();
+		if(empty($order)) {
+			$i=0;
+			foreach(self::$englishStringsIndexed as $key => $value) {
+				$order[$key] = $i;
+				$i++;
+			}
+		}
+		if(empty($order[$k1])) {
+			$order[$k1] = 5000;
+		}
+		if(empty($order[$k2])) {
+			$order[$k2] = 5000;
+		}
+
+		return $order[$k1] < $order[$k2] ? -1 : ($order[$k1] == $order[$k2] ? strcmp($k1, $k2) : 1);
+	}
     
     private function getCountParametersToReplace($string)
     {
@@ -230,7 +271,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
 
             if($language != 'en')
             {
-                $this->assertFalse($name == 'English');
+                $this->assertFalse($name == 'English', "for $language");
             }
 
             $languageCode = substr($language, 0, 2);
