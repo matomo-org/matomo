@@ -42,8 +42,13 @@ DataTable_RowActions_Transitions.prototype.trigger = function(tr, e, subTableLab
 };
 
 DataTable_RowAction.prototype.performAction = function(label, tr, e) {
-	// the title is encoded in DataTable_RowAction.prototype.getLabelFromTr 
-	this.openPopover('title:' + decodeURIComponent(label));
+	var separator = ' > '; // Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL
+	var labelParts = label.split(separator);
+	for (var i = 0; i < labelParts.length; i++) {
+		labelParts[i] = $.trim(decodeURIComponent(labelParts[i]));
+	}
+	label = labelParts.join(piwik.config.action_url_category_delimiter);
+	this.openPopover('title:' + label);
 };
 
 DataTable_RowActions_Transitions.prototype.doOpenPopover = function(link) {
@@ -88,8 +93,16 @@ DataTable_RowActions_Registry.register({
 	},
 
 	isAvailableOnRow: function(dataTableParams, tr) {
-		// not available on groups (i.e. folders)
-		return !tr.attr('id');
+		if (tr.attr('id')) {
+			// not available on groups (i.e. folders)
+			return false;
+		}
+		if (DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action)
+			&& !tr.find('> td:first span.label').parent().is('a')) {
+			// not on page url without link (i.e. "Page URL not defined")
+			return false;
+		}
+		return true;
 	}
 
 });

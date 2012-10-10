@@ -452,6 +452,8 @@ abstract class Piwik_Controller
 			$language = Piwik_LanguagesManager::getLanguageForSession();
 			$view->language = !empty($language) ? $language : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 			
+			$view->config_action_url_category_delimiter = Piwik_Config::getInstance()->General['action_url_category_delimiter'];
+			
 			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage());
