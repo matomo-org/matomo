@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Unknown, Unknown, Unknown</label>
+		<label>Unknown</label>
 		<nb_visits>22</nb_visits>
 		<nb_actions>25</nb_actions>
 		<max_actions>3</max_actions>

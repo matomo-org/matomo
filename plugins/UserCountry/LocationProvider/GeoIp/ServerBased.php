@@ -58,7 +58,9 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	{
 		// geoip modules that are built into servers can't use a forced IP. in this case we try
 		// to fallback to another version.
-		if ($info['ip'] != $_SERVER['REMOTE_ADDR'])
+		if ($info['ip'] != Piwik_IP::getIpFromHeader()
+			&& (!isset($info['disable_fallbacks'])
+				|| !$info['disable_fallbacks']))
 		{
 			$fallbacks = array(
 				Piwik_UserCountry_LocationProvider_GeoIp_Pecl::ID,
@@ -92,25 +94,41 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	 * Checks if an HTTP server module has been installed. It checks by looking for
 	 * the GEOIP_COUNTRY_CODE server variable.
 	 * 
+	 * There's a special check for the Apache module, but we can't check specifically
+	 * for anything else.
+	 * 
 	 * @return bool
 	 */
 	public function isAvailable()
 	{
-		if (!empty($_SERVER['GEOIP_COUNTRY_CODE']))
+		// check if apache module is installed
+		if (function_exists('apache_get_modules'))
 		{
-			return true;
+			foreach (apache_get_modules() as $name)
+			{
+				if (strpos($name, 'geoip') !== false)
+				{
+					return true;
+				}
+			}
 		}
-		return false;
+		
+		return !empty($_SERVER['GEOIP_COUNTRY_CODE']);
 	}
 	
 	/**
-	 * Returns true. There is no way to tell if this provider is broken.
+	 * Returns true if the GEOIP_COUNTRY_CODE server variable is defined.
 	 * 
 	 * @return true
 	 */
 	public function isWorking()
 	{
-		return true;
+		if (!empty($_SERVER['GEOIP_COUNTRY_CODE']))
+		{
+			return true;
+		}
+		
+		return Piwik_Translate("Piwik_UserCountry_CannotFindGeoIPServerVar", 'GEOIP_COUNTRY_CODE');
 	}
 	
 	/**
@@ -126,7 +144,16 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	 */
 	public function getInfo()
 	{
-		$title = sprintf(self::TITLE, Piwik_Translate('Piwik_UserCountry_HttpServerModule'));
+		if (function_exists('apache_note'))
+		{
+			$serverDesc = 'Apache mod_geoip';
+		}
+		else
+		{
+			$serverDesc = Piwik_Translate('Piwik_UserCountry_HttpServerModule');
+		}
+		
+		$title = sprintf(self::TITLE, $serverDesc);
 		$desc = Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBased1', array('<strong>', '</strong>'))
 			  . '<br/><br/>'
 			  . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',

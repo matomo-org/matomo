@@ -1227,7 +1227,7 @@
 		<category>Visitors</category>
 		<name>Region</name>
 		<module>UserCountry</module>
-		<action>getVisitsByRegion</action>
+		<action>getRegion</action>
 		<dimension>Region</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -1263,16 +1263,16 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getVisitsByRegion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getVisitsByRegion&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>UserCountry_getVisitsByRegion</uniqueId>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>UserCountry_getRegion</uniqueId>
 
 	</row>
 	<row>
 		<category>Visitors</category>
 		<name>City</name>
 		<module>UserCountry</module>
-		<action>getVisitsByCity</action>
+		<action>getCity</action>
 		<dimension>City</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -1308,9 +1308,9 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getVisitsByCity&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getVisitsByCity&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>UserCountry_getVisitsByCity</uniqueId>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>UserCountry_getCity</uniqueId>
 
 	</row>
 	<row>

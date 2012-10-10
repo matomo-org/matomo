@@ -112,8 +112,13 @@ function Piwik_UserCountry_getPrettyRegionName( $label )
 	}
 	
 	list($regionCode, $countryCode) = explode(Piwik_UserCountry::LOCATION_SEPARATOR, $label);
-	return Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode).', '
-		  . Piwik_CountryTranslate($countryCode);
+	
+	$result = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+	if ($countryCode != Piwik_UserCountry::UNKNOWN_CODE && $countryCode != '')
+	{
+		$result .= ', '.Piwik_CountryTranslate($countryCode);
+	}
+	return $result;
 }
 
 /**
@@ -138,7 +143,15 @@ function Piwik_UserCountry_getPrettyCityName( $label )
 		$cityName = Piwik_Translate('General_Unknown');
 	}
 	
-	return $cityName.', '
-		  . Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode).', '
-		  . Piwik_CountryTranslate($countryCode);
+	$result = $cityName;
+	if ($countryCode != Piwik_UserCountry::UNKNOWN_CODE && $countryCode != '')
+	{
+		if ($regionCode != '' && $regionCode != Piwik_UserCountry::UNKNOWN_CODE)
+		{
+			$regionName = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
+			$result .= ', '.$regionName;
+		}
+		$result .= ', '.Piwik_CountryTranslate($countryCode);
+	}
+	return $result;
 }

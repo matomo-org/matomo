@@ -100,8 +100,8 @@ class Piwik_UserCountry extends Piwik_Plugin
 		
 		Piwik_AddWidget( 'General_Visitors', $widgetContinentLabel, 'UserCountry', 'getContinent');
 		Piwik_AddWidget( 'General_Visitors', $widgetCountryLabel, 'UserCountry', 'getCountry');
-		Piwik_AddWidget('General_Visitors', $widgetRegionLabel, 'UserCountry', 'getVisitsByRegion');
-		Piwik_AddWidget('General_Visitors', $widgetCityLabel, 'UserCountry', 'getVisitsByCity');
+		Piwik_AddWidget('General_Visitors', $widgetRegionLabel, 'UserCountry', 'getRegion');
+		Piwik_AddWidget('General_Visitors', $widgetCityLabel, 'UserCountry', 'getCity');
 	}
 
 	function addMenu()
@@ -152,7 +152,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'name' => Piwik_Translate('UserCountry_Region'),
 			'segment' => 'region',
 			'sqlSegment' => 'log_visit.location_region',
-			'acceptedValues' => '01 02, OR, P8, etc.',
+			'acceptedValues' => '01 02, OR, P8, etc.<br/>eg. region=A1;country=fr',
 		);
 		$segments[] = array(
 			'type' => 'dimension',
@@ -168,7 +168,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'name' => Piwik_Translate('UserCountry_Latitude'),
 			'segment' => 'lat',
 			'sqlSegment' => 'log_visit.location_latitude',
-			'acceptedValues' => '-33.578, 40.830, etc.',
+			'acceptedValues' => '-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat>X;lat<Y;long>M;long<N.',
 		);
 		$segments[] = array(
 			'type' => 'dimension',
@@ -217,7 +217,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('UserCountry_Region'),
 			'module' => 'UserCountry',
-			'action' => 'getVisitsByRegion',
+			'action' => 'getRegion',
 			'dimension' => Piwik_Translate('UserCountry_Region'),
 			'metrics' => $metrics,
 			'order' => 7,
@@ -227,7 +227,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'category' => Piwik_Translate('General_Visitors'),
 			'name' => Piwik_Translate('UserCountry_City'),
 			'module' => 'UserCountry',
-			'action' => 'getVisitsByCity',
+			'action' => 'getCity',
 			'dimension' => Piwik_Translate('UserCountry_City'),
 			'metrics' => $metrics,
 			'order' => 8,
@@ -254,11 +254,11 @@ class Piwik_UserCountry extends Piwik_Plugin
 			array('category' => Piwik_Translate('General_Visit'),
 				  'name' => Piwik_Translate('UserCountry_Region'),
 				  'module' => 'UserCountry',
-				  'action' => 'getVisitsByRegion'),
+				  'action' => 'getRegion'),
 			array('category' => Piwik_Translate('General_Visit'),
 				  'name' => Piwik_Translate('UserCountry_City'),
 				  'module' => 'UserCountry',
-				  'action' => 'getVisitsByCity'),
+				  'action' => 'getCity'),
 		));
 	}
 
@@ -444,6 +444,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 				$result[] = $countryCode;
 			}
 		}
-		return $result;
+		return array('SQL' => "'".implode("', '", $result)."', ?",
+					  'bind' => '-'); // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
 	}
 }

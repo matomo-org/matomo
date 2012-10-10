@@ -8,7 +8,7 @@
 			<div title="{$visitor.actionDetails|@count} {'Live_Actions'|translate}" class="datetime">
 				<span style='display:none' class='serverTimestamp'>{$visitor.serverTimestamp}</span>
 				{$visitor.serverDatePretty} - {$visitor.serverTimePretty} {if $visitor.visitDuration > 0}<i>({$visitor.visitDurationPretty})</i>{/if}
-				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.country}, {'Provider_ColumnProvider'|translate} {$visitor.provider}" />
+				&nbsp;<img src="{$visitor.countryFlag}" title="{$visitor.location}, {'Provider_ColumnProvider'|translate} {$visitor.provider}" />
 				&nbsp;<img src="{$visitor.browserIcon}" title="{$visitor.browserName}, {'UserSettings_Plugins'|translate}: {$visitor.plugins}" />
 				&nbsp;<img src="{$visitor.operatingSystemIcon}" title="{$visitor.operatingSystem}, {$visitor.resolution}" />
 				&nbsp;

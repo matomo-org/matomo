@@ -50,6 +50,7 @@
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
+		<location>Unknown, France</location>
 		<provider>Unknown</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
@@ -146,6 +147,7 @@
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
+		<location>Unknown, France</location>
 		<provider>Unknown</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
@@ -293,6 +295,7 @@
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
+		<location>Unknown, France</location>
 		<provider>Unknown</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>

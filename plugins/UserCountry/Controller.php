@@ -25,8 +25,8 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		
 		$view->dataTableCountry = $this->getCountry(true);
 		$view->dataTableContinent = $this->getContinent(true);
-		$view->dataTableRegion = $this->getVisitsByRegion(true);
-		$view->dataTableCity = $this->getVisitsByCity(true);
+		$view->dataTableRegion = $this->getRegion(true);
+		$view->dataTableCity = $this->getCity(true);
 		
 		echo $view->render();
 	}
@@ -92,8 +92,9 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 			throw new Exception("Invalid provider ID: '$providerId'.");
 		}
 		
-		$location = $provider->getLocation(
-			array('ip' => $_SERVER['REMOTE_ADDR'], 'lang' => Piwik_Common::getBrowserLanguage()));
+		$location = $provider->getLocation(array('ip' => Piwik_IP::getIpFromHeader(),
+												 'lang' => Piwik_Common::getBrowserLanguage(),
+									 			 'disable_fallbacks' => true));
 		$location = Piwik_UserCountry_LocationProvider::prettyFormatLocation(
 			$location, $newline = '<br/>', $includeExtra = true);
 		
@@ -123,9 +124,9 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 	 * @param bool $fetch If true, returns the HTML as a string, otherwise it is echo'd.
 	 * @return string
 	 */
-	public function getVisitsByRegion( $fetch = false )
+	public function getRegion( $fetch = false )
 	{
-		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getVisitsByRegion");
+		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getRegion");
 		$view->setLimit(5);
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_Region'));
 		return $this->renderView($view, $fetch);
@@ -137,9 +138,9 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 	 * @param bool $fetch If true, returns the HTML as a string, otherwise it is echo'd.
 	 * @return string
 	 */
-	public function getVisitsByCity( $fetch = false )
+	public function getCity( $fetch = false )
 	{
-		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getVisitsByCity");
+		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getCity");
 		$view->setLimit(5);
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_City'));
 		return $this->renderView($view, $fetch);

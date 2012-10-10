@@ -74,6 +74,7 @@ class Piwik_Live_Visitor
 			'country' => $this->getCountryName(),
 			'countryFlag' => $this->getCountryFlag(),
 			'continent' => $this->getContinent(),
+			'location' => $this->getPrettyLocation(),
 			'provider' => $this->getProvider(),
 			'providerUrl' => $this->getProviderUrl(),
 			'referrerType' => $this->getRefererType(),
@@ -215,6 +216,14 @@ class Piwik_Live_Visitor
 	function getContinent()
 	{
 		return Piwik_ContinentTranslate(Piwik_Common::getContinent($this->details['location_country']));
+	}
+	
+	function getPrettyLocation()
+	{
+		$label = $this->details['location_city'].Piwik_UserCountry::LOCATION_SEPARATOR
+			   . $this->details['location_region'].Piwik_UserCountry::LOCATION_SEPARATOR
+			   . $this->details['location_country'];
+		return Piwik_UserCountry_getPrettyCityName($label);
 	}
 
 	function getCustomVariables()

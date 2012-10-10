@@ -142,7 +142,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 	{
 		try
 		{
-			$this->getLocation(array('ip' => $_SERVER['REMOTE_ADDR']));
+			$this->getLocation(array('ip' => Piwik_IP::getIpFromHeader()));
 			return true;
 		}
 		catch (Exception $ex)

@@ -70,7 +70,7 @@ class Piwik_UserCountry_API
 	 * @param string|bool $segment
 	 * @return Piwik_DataTable
 	 */
-	public function getVisitsByRegion( $idSite, $period, $date, $segment = false )
+	public function getRegion( $idSite, $period, $date, $segment = false )
 	{
 		$recordName = Piwik_UserCountry::VISITS_BY_REGION_RECORD_NAME;
 		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
@@ -107,7 +107,7 @@ class Piwik_UserCountry_API
 	 * @param string|bool $segment
 	 * @return Piwik_DataTable
 	 */
-	public function getVisitsByCity( $idSite, $period, $date, $segment = false )
+	public function getCity( $idSite, $period, $date, $segment = false )
 	{
 		$recordName = Piwik_UserCountry::VISITS_BY_CITY_RECORD_NAME;
 		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);

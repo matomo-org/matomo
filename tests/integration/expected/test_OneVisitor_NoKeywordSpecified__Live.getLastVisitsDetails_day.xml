@@ -42,6 +42,7 @@
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
+		<location>Inconnu, France</location>
 		<provider>Inconnu</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
@@ -130,6 +131,7 @@
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<continent>Europe</continent>
+		<location>Inconnu, France</location>
 		<provider>Inconnu</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>

@@ -48,7 +48,7 @@
 		<category>visit</category>
 		<name>Latitude</name>
 		<segment>lat</segment>
-		<acceptedValues>-33.578, 40.830, etc.</acceptedValues>
+		<acceptedValues>-33.578, 40.830, etc.&lt;br/&gt;You can select visitors within a lat/long range using &amp;segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -62,7 +62,7 @@
 		<category>visit</category>
 		<name>Region</name>
 		<segment>region</segment>
-		<acceptedValues>01 02, OR, P8, etc.</acceptedValues>
+		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=A1;country=fr</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

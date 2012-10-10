@@ -49,7 +49,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 			'Referers.getWebsites', /* TODO 'Referers.getCampaigns', */
 			'UserSettings.getResolution', 'UserSettings.getConfiguration', 'UserSettings.getOS',
 			'UserSettings.getBrowserVersion',
-			'UserCountry.getVisitsByRegion', 'UserCountry.getVisitsByCity',
+			'UserCountry.getRegion', 'UserCountry.getCity',
 		);
 		
 		return array(

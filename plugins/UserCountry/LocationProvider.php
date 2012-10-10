@@ -170,7 +170,7 @@ abstract class Piwik_UserCountry_LocationProvider
 	 *   'status' - Either self::NOT_INSTALLED, self::INSTALLED or self::BROKEN.
 	 *   'statusMessage' - If the status is self::BROKEN, then the message describes why.
 	 *   'location' - A pretty formatted location of the current IP address
-	 *                ($_SERVER['REMOTE_ADDR']).
+	 *                (Piwik_IP::getIpFromHeader()).
 	 * 
 	 * An example result:
 	 * array(
@@ -207,7 +207,9 @@ abstract class Piwik_UserCountry_LocationProvider
 				$workingOrError = $provider->isWorking();
 				if ($workingOrError === true) // if the implementation is configured correctly, get the location
 				{
-					$locInfo = array('ip' => $_SERVER['REMOTE_ADDR'], 'lang' => Piwik_Common::getBrowserLanguage());
+					$locInfo = array('ip' => Piwik_IP::getIpFromHeader(),
+									 'lang' => Piwik_Common::getBrowserLanguage(),
+									 'disable_fallbacks' => true);
 					
 					$location = $provider->getLocation($locInfo);
 					$location = self::prettyFormatLocation($location, $newline, $includeExtra);

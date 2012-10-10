@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Unknown, Unknown, France</label>
+		<label>Unknown, France</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>8</nb_actions>

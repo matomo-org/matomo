@@ -10,7 +10,7 @@
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 /**
- * Tests w/ 11 visitors w/ 2 visits each. Uses geoip location provider to test city/region reports.
+ * Tests w/ 14 visitors w/ 2 visits each. Uses geoip location provider to test city/region reports.
  * 
  * TODO Test ServerBased GeoIP implementation somehow.
  * TODO When added, test PECL implementation.
@@ -24,6 +24,9 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		'194.167.30.240', // in Orleans, FR (unicode city name)
 		
 		'137.82.130.49', // in British Columbia
+		
+		'137.82.130.0', // anonymization tests
+		'137.82.0.0',
 		
 		'151.100.101.92', // in Rome, Italy (using country DB, so only Italy will show)
 		
@@ -41,10 +44,10 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			self::downloadGeoIpDbs();
 			
 			self::setMockLocationProvider();
-			self::trackVisits(7, false);
+			self::trackVisits(8, false);
 			
 			self::setLocationProvider('GeoLiteCity.dat');
-			self::trackVisits(2, true);
+			self::trackVisits(4, true);
 			
 			self::setLocationProvider('GeoIP.dat');
 			self::trackVisits(2, true);
@@ -94,6 +97,12 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 									   'periods'	=> array('month'),
 									   'testSuffix' => '_segment_lat_long',
 									   'segment'    => 'lat>45;lat<49.3;long>-125;long<-122')),
+			
+			array('UserCountry.getCountry', array('idSite'		=> self::$idSite,
+												  'date'		=> self::$dateTime,
+												  'periods'		=> array('month'),
+												  'testSuffix'	=> '_segment_continent',
+												  'segment'   	=> 'continent==eur'))
 		);
 	}
 	
@@ -167,6 +176,9 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			
 			// different country, diff region (same as last), different city
 			self::makeLocation('Hluboká nad Vltavou', '66', 'ru'),
+			
+			// different country, diff region (same as last), same city
+			self::makeLocation('Stratford-upon-Avon', '66', 'mk'),
 		));
 	}
 	
