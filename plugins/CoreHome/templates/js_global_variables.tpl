@@ -21,6 +21,8 @@
 	{if isset($maxDateMonth)}piwik.maxDateMonth = parseInt("{$maxDateMonth}", 10);{/if}
 	{if isset($maxDateDay)}piwik.maxDateDay = parseInt("{$maxDateDay}", 10);{/if}
 	{if isset($language)}piwik.language = "{$language}";{/if}
+	{if !empty($config_action_url_category_delimiter)}
 	piwik.config = {literal}{}{/literal};
 	piwik.config.action_url_category_delimiter = "{$config_action_url_category_delimiter}";
+	{/if}
 </script>
