@@ -29,8 +29,8 @@ class Piwik_ImageGraph_API
 	const TRUNCATE_KEY = 'truncate';
 	const WIDTH_KEY = 'width';
 	const HEIGHT_KEY = 'height';
-	const MAX_WIDTH = 1900;
-	const MAX_HEIGHT = 1024;
+	const MAX_WIDTH = 2048;
+	const MAX_HEIGHT = 2048;
 
 	static private $DEFAULT_PARAMETERS = array(
 		Piwik_ImageGraph_StaticGraph::GRAPH_TYPE_BASIC_LINE => array(
