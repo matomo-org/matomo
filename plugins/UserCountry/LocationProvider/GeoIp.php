@@ -17,7 +17,7 @@
  */
 abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountry_LocationProvider
 {
-	const GEOIP_DATABASE_DIR = 'files-geolocation';
+	const GEOIP_DATABASE_DIR = 'misc';
 	
 	/**
 	 * Stores possible database file names categorized by the type of information
