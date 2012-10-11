@@ -11,6 +11,7 @@
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<region>BC</region>
 		<country>ca</country>
+		<country_name>Canada</country_name>
 		<region_name>British Columbia</region_name>
 		<logo>plugins/UserCountry/flags/ca.png</logo>
 	</row>

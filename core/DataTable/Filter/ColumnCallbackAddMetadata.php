@@ -26,6 +26,7 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 	private $functionToApply;
 	private $functionParameters;
 	private $metadataToAdd;
+	private $applyToSummaryRow;
 
 	/**
 	 * @param Piwik_DataTable $table
@@ -34,13 +35,15 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 	 * @param null $functionToApply
 	 * @param null $functionParameters
 	 */
-	public function __construct( $table, $columnToRead, $metadataToAdd, $functionToApply = null, $functionParameters = null )
+	public function __construct( $table, $columnToRead, $metadataToAdd, $functionToApply = null,
+								   $functionParameters = null, $applyToSummaryRow = true )
 	{
 		parent::__construct($table);
 		$this->functionToApply = $functionToApply;
 		$this->functionParameters = $functionParameters;
 		$this->columnToRead = $columnToRead;
 		$this->metadataToAdd = $metadataToAdd;
+		$this->applyToSummaryRow = $applyToSummaryRow;
 	}
 
 	/**
@@ -52,6 +55,11 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 	{
 		foreach($table->getRows() as $key => $row)
 		{
+			if (!$this->applyToSummaryRow && $key == Piwik_DataTable::ID_SUMMARY_ROW)
+			{
+				continue;
+			}
+			
 			$oldValue = $row->getColumn($this->columnToRead);
 			$parameters = array($oldValue);
 			if(!is_null($this->functionParameters))

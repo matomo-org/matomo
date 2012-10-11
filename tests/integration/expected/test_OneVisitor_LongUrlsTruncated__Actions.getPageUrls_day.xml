@@ -67,6 +67,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<url>http://example.org/category/Page3</url>
 			</row>
 		</subtable>
 	</row>
@@ -79,5 +80,6 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<url>http://example.org/category.htm</url>
 	</row>
 </result>

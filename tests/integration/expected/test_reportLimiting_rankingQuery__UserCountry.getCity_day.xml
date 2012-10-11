@@ -12,6 +12,8 @@
 		<city_name>Melbourne</city_name>
 		<region>07</region>
 		<country>au</country>
+		<country_name>Australia</country_name>
+		<region_name>Victoria</region_name>
 		<logo>plugins/UserCountry/flags/au.png</logo>
 	</row>
 	<row>
@@ -26,6 +28,8 @@
 		<city_name>Nice</city_name>
 		<region>B8</region>
 		<country>fr</country>
+		<country_name>France</country_name>
+		<region_name>Provence-Alpes-Cote d'Azur</region_name>
 		<logo>plugins/UserCountry/flags/fr.png</logo>
 	</row>
 	<row>

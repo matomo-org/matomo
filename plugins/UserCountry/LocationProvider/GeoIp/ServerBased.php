@@ -128,7 +128,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 			return true;
 		}
 		
-		return Piwik_Translate("Piwik_UserCountry_CannotFindGeoIPServerVar", 'GEOIP_COUNTRY_CODE');
+		return Piwik_Translate("UserCountry_CannotFindGeoIPServerVar", 'GEOIP_COUNTRY_CODE');
 	}
 	
 	/**
@@ -150,7 +150,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 		}
 		else
 		{
-			$serverDesc = Piwik_Translate('Piwik_UserCountry_HttpServerModule');
+			$serverDesc = Piwik_Translate('UserCountry_HttpServerModule');
 		}
 		
 		$title = sprintf(self::TITLE, $serverDesc);

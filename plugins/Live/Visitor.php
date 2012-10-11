@@ -222,7 +222,9 @@ class Piwik_Live_Visitor
 	{
 		$label = $this->details['location_city'].Piwik_UserCountry::LOCATION_SEPARATOR
 			   . $this->details['location_region'].Piwik_UserCountry::LOCATION_SEPARATOR
-			   . $this->details['location_country'];
+			   . $this->details['location_country'].Piwik_UserCountry::LOCATION_SEPARATOR
+			   . ''.Piwik_UserCountry::LOCATION_SEPARATOR // lat + long are not important
+			   . '';
 		return Piwik_UserCountry_getPrettyCityName($label);
 	}
 

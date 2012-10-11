@@ -33,9 +33,11 @@
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>3121.11</revenue>
-		<city_name>xx</city_name>
+		<city_name>Unknown</city_name>
 		<region>xx</region>
 		<country>fr</country>
+		<country_name>France</country_name>
+		<region_name>Unknown</region_name>
 		<logo>plugins/UserCountry/flags/fr.png</logo>
 	</row>
 </result>

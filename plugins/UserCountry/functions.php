@@ -64,10 +64,12 @@ function Piwik_CountryTranslate($label)
  * @param string $label
  * @param string $separator eg. ',' or '|'
  * @param int $index The element index to extract.
+ * @param mixed $emptyValue The value to remove if the element is absent. Defaults to false,
+ *                          so no new metadata/column is added.
  * @return string|false Returns false if $label == DataTable::LABEL_SUMMARY_ROW, otherwise
  *                      explode($separator, $label)[$index].
  */
-function Piwik_UserCountry_getElementFromStringArray( $label, $separator, $index )
+function Piwik_UserCountry_getElementFromStringArray( $label, $separator, $index, $emptyValue = false )
 {
 	if ($label == Piwik_DataTable::LABEL_SUMMARY_ROW)
 	{
@@ -75,7 +77,7 @@ function Piwik_UserCountry_getElementFromStringArray( $label, $separator, $index
 	}
 	
 	$segments = explode($separator, $label);
-	return empty($segments[$index]) ? Piwik_UserCountry::UNKNOWN_CODE : $segments[$index];
+	return empty($segments[$index]) ? $emptyValue : $segments[$index];
 }
 
 /**
@@ -137,7 +139,7 @@ function Piwik_UserCountry_getPrettyCityName( $label )
 		return $label;
 	}
 	
-	list($cityName, $regionCode, $countryCode) = explode(Piwik_UserCountry::LOCATION_SEPARATOR, $label);
+	list($cityName, $regionCode, $countryCode, $lat, $long) = explode(Piwik_UserCountry::LOCATION_SEPARATOR, $label);
 	if ($cityName == Piwik_UserCountry::UNKNOWN_CODE || $cityName == '')
 	{
 		$cityName = Piwik_Translate('General_Unknown');

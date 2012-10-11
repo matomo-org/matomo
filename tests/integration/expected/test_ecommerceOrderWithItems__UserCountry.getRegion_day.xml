@@ -35,6 +35,7 @@
 		<revenue>3121.11</revenue>
 		<region>xx</region>
 		<country>fr</country>
+		<country_name>France</country_name>
 		<region_name>Unknown</region_name>
 		<logo>plugins/UserCountry/flags/fr.png</logo>
 	</row>

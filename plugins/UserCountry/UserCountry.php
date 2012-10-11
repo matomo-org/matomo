@@ -318,7 +318,14 @@ class Piwik_UserCountry extends Piwik_Plugin
 	protected function archiveDayAggregateVisits($archiveProcessing)
 	{
 		$dimensions = array_keys($this->interestTables);
-		$query = $archiveProcessing->queryVisitsByDimension($dimensions);
+		$query = $archiveProcessing->queryVisitsByDimension(
+			$dimensions,
+			$where = '',
+			$metrics = false, 
+			$orderBy = false,
+			$rankingQuery = null,
+			$addSelect = 'log_visit.location_latitude, log_visit.location_longitude'
+		);
 		
 		if ($query === false)
 		{
@@ -422,8 +429,25 @@ class Piwik_UserCountry extends Piwik_Plugin
 			$row[$column] = str_replace(self::LOCATION_SEPARATOR, '', $row[$column]);
 		}
 		
+		$lat = $long = '';
+		if (!empty($row['location_city']))
+		{
+			if (!empty($row['location_latitude']))
+			{
+				$lat = $row['location_latitude'];
+			}
+			if (!empty($row['location_longitude']))
+			{
+				$long = $row['location_longitude'];
+			}
+		}
+		
 		$row['location_region'] = $row['location_region'].self::LOCATION_SEPARATOR.$row['location_country'];
-		$row['location_city'] = $row['location_city'].self::LOCATION_SEPARATOR.$row['location_region'];
+		$row['location_city'] = $row['location_city'].self::LOCATION_SEPARATOR
+							  . $row['location_region'].self::LOCATION_SEPARATOR
+							  . $lat.self::LOCATION_SEPARATOR
+							  . $long
+							  ;
 	}
 	
 	/**

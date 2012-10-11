@@ -11,6 +11,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<region>07</region>
 		<country>au</country>
+		<country_name>Australia</country_name>
 		<region_name>Victoria</region_name>
 		<logo>plugins/UserCountry/flags/au.png</logo>
 	</row>
@@ -25,6 +26,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<region>B8</region>
 		<country>fr</country>
+		<country_name>France</country_name>
 		<region_name>Provence-Alpes-Cote d'Azur</region_name>
 		<logo>plugins/UserCountry/flags/fr.png</logo>
 	</row>

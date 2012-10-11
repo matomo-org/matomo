@@ -76,16 +76,22 @@ class Piwik_UserCountry_API
 		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
 		
 		$separator = Piwik_UserCountry::LOCATION_SEPARATOR;
+		$unk = Piwik_UserCountry::UNKNOWN_CODE;
 		
 		// split the label and put the elements into the 'region' and 'country' metadata fields
 		$dataTable->filter('ColumnCallbackAddMetadata',
-			array('label', 'region', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 0)));
+			array('label', 'region', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 0, $unk)));
 		$dataTable->filter('ColumnCallbackAddMetadata',
-			array('label', 'country', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 1)));
+			array('label', 'country', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 1, $unk)));
+		
+		// add country name metadata
+		$dataTable->filter('MetadataCallbackAddMetadata',
+			array('country', 'country_name', 'Piwik_CountryTranslate', $applyToSummaryRow = false));
 		
 		// get the region name of each row and put it into the 'region_name' metadata
 		$dataTable->filter('ColumnCallbackAddMetadata',
-			array('label', 'region_name', 'Piwik_UserCountry_getRegionName'));
+			array('label', 'region_name', 'Piwik_UserCountry_getRegionName', $params = null,
+				  $applyToSummaryRow = false));
 		
 		// add the country flag as a url to the 'logo' metadata field
 		$dataTable->filter('MetadataCallbackAddMetadata', array('country', 'logo', 'Piwik_getFlagFromCode'));
@@ -113,14 +119,29 @@ class Piwik_UserCountry_API
 		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
 		
 		$separator = Piwik_UserCountry::LOCATION_SEPARATOR;
+		$unk = Piwik_UserCountry::UNKNOWN_CODE;
 		
-		// split the label and put the elements into the 'region' and 'country' metadata fields
+		// split the label and put the elements into the 'city_name', 'region', 'country',
+		// 'lat' & 'long' metadata fields
 		$dataTable->filter('ColumnCallbackAddMetadata',
-			array('label', 'city_name', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 0)));
+			array('label', 'city_name', 'Piwik_UserCountry_getElementFromStringArray',
+				  array($separator, 0, Piwik_Translate('General_Unknown')) ));
 		$dataTable->filter('ColumnCallbackAddMetadata',
-			array('label', 'region', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 1)));
+			array('label', 'region', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 1, $unk)));
 		$dataTable->filter('ColumnCallbackAddMetadata',
-			array('label', 'country', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 2)));
+			array('label', 'country', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 2, $unk)));
+		$dataTable->filter('ColumnCallbackAddMetadata',
+			array('label', 'lat', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 3)));
+		$dataTable->filter('ColumnCallbackAddMetadata',
+			array('label', 'long', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 4)));
+		
+		// add country name & region name metadata
+		$dataTable->filter('MetadataCallbackAddMetadata',
+			array('country', 'country_name', 'Piwik_CountryTranslate', $applyToSummaryRow = false));
+		
+		$getRegionName = array('Piwik_UserCountry_LocationProvider_GeoIp', 'getRegionNameFromCodes');
+		$dataTable->filter('MetadataCallbackAddMetadata', array(
+			array('country', 'region'), 'region_name', $getRegionName, $applyToSummaryRow = false));
 		
 		// add the country flag as a url to the 'logo' metadata field
 		$dataTable->filter('MetadataCallbackAddMetadata', array('country', 'logo', 'Piwik_getFlagFromCode'));

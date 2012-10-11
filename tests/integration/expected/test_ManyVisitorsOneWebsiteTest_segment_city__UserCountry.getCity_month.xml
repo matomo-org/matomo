@@ -12,6 +12,8 @@
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>P3</region>
 		<country>gb</country>
+		<country_name>United Kingdom</country_name>
+		<region_name>Warwickshire</region_name>
 		<logo>plugins/UserCountry/flags/gb.png</logo>
 	</row>
 </result>

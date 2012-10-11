@@ -17,9 +17,11 @@
 		<nb_conversions>21</nb_conversions>
 		<revenue>105</revenue>
 		<sum_daily_nb_uniq_visitors>22</sum_daily_nb_uniq_visitors>
-		<city_name>xx</city_name>
+		<city_name>Unknown</city_name>
 		<region>xx</region>
 		<country>xx</country>
+		<country_name>Unknown</country_name>
+		<region_name>Unknown</region_name>
 		<logo>plugins/UserCountry/flags/xx.png</logo>
 	</row>
 </result>

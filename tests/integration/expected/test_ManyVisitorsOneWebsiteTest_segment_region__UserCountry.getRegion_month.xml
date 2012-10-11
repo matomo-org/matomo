@@ -11,6 +11,7 @@
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<region>P3</region>
 		<country>gb</country>
+		<country_name>United Kingdom</country_name>
 		<region_name>Warwickshire</region_name>
 		<logo>plugins/UserCountry/flags/gb.png</logo>
 	</row>
