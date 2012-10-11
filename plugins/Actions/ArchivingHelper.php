@@ -107,7 +107,7 @@ class Piwik_Actions_ArchivingHelper
 				else
 				{
 					$actionRow->setMetadata('url', $url);
-					$actionRow->maxVisitsSummed = $row[Piwik_Archive::INDEX_PAGE_NB_HITS];
+					$actionRow->maxVisitsSummed = !empty($row[Piwik_Archive::INDEX_PAGE_NB_HITS]) ? $row[Piwik_Archive::INDEX_PAGE_NB_HITS] : 0;
 				}
 			}
 
