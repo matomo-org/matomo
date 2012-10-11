@@ -115,7 +115,6 @@ class Piwik_UserSettings_API
 	public function getBrowserVersion( $idSite, $period, $date, $segment = false )
 	{
 		$dataTable = $this->getDataTable('UserSettings_browser', $idSite, $period, $date, $segment);
-		// these filters are applied directly so getBrowser can use GroupBy on the result of this method
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'shortLabel', 'Piwik_getBrowserShortLabel'));
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
@@ -128,7 +127,9 @@ class Piwik_UserSettings_API
 	 */
 	public function getBrowser( $idSite, $period, $date, $segment = false )
 	{
-		$dataTable = $this->getBrowserVersion($idSite, $period, $date, $segment);
+		$dataTable = $this->getDataTable('UserSettings_browser', $idSite, $period, $date, $segment);
+		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getBrowsersLogo'));
+		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getBrowserLabel'));
 		
 		$getBrowserFromBrowserVersion = 'Piwik_UserSettings_getBrowserFromBrowserVersion';
 		$dataTable->filter('GroupBy', array('label', $getBrowserFromBrowserVersion));

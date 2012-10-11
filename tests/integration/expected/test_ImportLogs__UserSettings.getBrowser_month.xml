@@ -10,7 +10,6 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/EP.gif</logo>
-		<shortLabel>Epiphany 2.30</shortLabel>
 	</row>
 	<row>
 		<label>Chrome</label>
@@ -22,7 +21,6 @@
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>8</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
-		<shortLabel>Chrome 11.0</shortLabel>
 	</row>
 	<row>
 		<label>Internet Explorer</label>
@@ -34,7 +32,6 @@
 		<nb_visits_converted>5</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
-		<shortLabel>IE 10.6</shortLabel>
 	</row>
 	<row>
 		<label>Firefox</label>
@@ -46,7 +43,6 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/FF.gif</logo>
-		<shortLabel>Firefox 6.0</shortLabel>
 	</row>
 	<row>
 		<label>Safari</label>
@@ -58,6 +54,5 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/SF.gif</logo>
-		<shortLabel>Safari 4.0</shortLabel>
 	</row>
 </result>
