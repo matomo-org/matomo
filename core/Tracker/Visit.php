@@ -595,13 +595,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if (empty($location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY]))
 		{
 			$location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY] =
-				Piwik_UserCountry_LocationProvider::UNKNOWN_CODE;
+			Piwik_UserCountry::UNKNOWN_CODE;
 		}
 		
 		if (empty($location[Piwik_UserCountry_LocationProvider::CONTINENT_CODE_KEY]))
 		{
 			$location[Piwik_UserCountry_LocationProvider::CONTINENT_CODE_KEY] =
-				Piwik_UserCountry_LocationProvider::UNKNOWN_CODE;
+			Piwik_UserCountry::UNKNOWN_CODE;
 		}
 		
 		return $location;
