@@ -48,6 +48,7 @@ abstract class Piwik_UserCountry_LocationProvider
 	const POSTAL_CODE_KEY = 'postal_code';
 	const ISP_KEY = 'isp';
 	const ORG_KEY = 'org';
+    const UNKNOWN_CODE = "unknown_location_code";
 	
 	/**
 	 * An array of all provider instances. Access it through static methods.
