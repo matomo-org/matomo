@@ -18,7 +18,7 @@
 class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_LocationProvider_GeoIp
 {
 	const ID = 'geoip_php';
-	const TITLE = 'GeoIp (Php)';
+	const TITLE = 'GeoIP (Php)';
 	
 	/**
 	 * The GeoIP database instances used. This array will contain at most three
@@ -133,25 +133,6 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 	}
 	
 	/**
-	 * Returns true if this provider has been setup correctly, the error message if
-	 * otherwise.
-	 * 
-	 * @return bool|string
-	 */
-	public function isWorking()
-	{
-		try
-		{
-			$this->getLocation(array('ip' => Piwik_IP::getIpFromHeader()));
-			return true;
-		}
-		catch (Exception $ex)
-		{
-			return $ex->getMessage();
-		}
-	}
-	
-	/**
 	 * Returns true if this location provider is available. Piwik ships w/ the MaxMind
 	 * PHP library, so this provider is available if a location GeoIP database can be found.
 	 * 
@@ -161,6 +142,79 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 	{
 		$path = self::getPathToGeoIpDatabase(parent::$dbNames['loc']);
 		return $path !== false;
+	}
+	
+	/**
+	 * Returns an array describing the types of location information this provider will
+	 * return.
+	 * 
+	 * The location info this provider supports depends on what GeoIP databases it can
+	 * find.
+	 * 
+	 * This provider will always support country & continent information.
+	 * 
+	 * If a region database is found, then region code & name information will be
+	 * supported.
+	 * 
+	 * If a city database is found, then region code, region name, city name,
+	 * area code, latitude, longitude & postal code are all supported.
+	 * 
+	 * If an organization database is found, organization information is
+	 * supported.
+	 * 
+	 * If an ISP database is found, ISP information is supported.
+	 * 
+	 * @return array
+	 */
+	public function getSupportedLocationInfo()
+	{
+		$result = array();
+		
+		// country & continent info always available
+		$result[self::CONTINENT_CODE_KEY] = true;
+		$result[self::CONTINENT_NAME_KEY] = true;
+		$result[self::COUNTRY_CODE_KEY] = true;
+		$result[self::COUNTRY_NAME_KEY] = true;
+		
+		$locationGeoIp = $this->getGeoIpInstance($key = 'loc');
+		if ($locationGeoIp)
+		{		
+			switch ($locationGeoIp->databaseType)
+			{
+				case GEOIP_CITY_EDITION_REV0: // city database type
+				case GEOIP_CITY_EDITION_REV1:
+				case GEOIP_CITYCOMBINED_EDITION:
+					$result[self::REGION_CODE_KEY] = true;
+					$result[self::REGION_NAME_KEY] = true;
+					$result[self::CITY_NAME_KEY] = true;
+					$result[self::AREA_CODE_KEY] = true;
+					$result[self::LATITUDE_KEY] = true;
+					$result[self::LONGITUDE_KEY] = true;
+					$result[self::POSTAL_CODE_KEY] = true;
+					break;
+				case GEOIP_REGION_EDITION_REV0: // region database type
+				case GEOIP_REGION_EDITION_REV1:
+					$result[self::REGION_CODE_KEY] = true;
+					$result[self::REGION_NAME_KEY] = true;
+					break;
+				default: // country or unknown database type
+					break;
+			}
+		}
+		
+		// check if isp info is available
+		if ($this->getGeoIpInstance($key = 'isp'))
+		{
+			$result[self::ISP_KEY] = true;
+		}
+		
+		// check of org info is available
+		if ($this->getGeoIpInstance($key = 'org'))
+		{
+			$result[self::ORG_KEY] = true;
+		}
+		
+		return $result;
 	}
 	
 	/**

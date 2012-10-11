@@ -37,13 +37,13 @@
 		<td>
 			{$provider.description|translate}
 		</td>
-		<td>
+		<td width="164">
 		{if $provider.status eq 1}
 			{capture assign=currentLocation}
 			{'UserCountry_CurrentLocationIntro'|translate}:
 			<div style="text-align:left;">
 				<br/>
-				<span class='loadingPiwik' style='display:none'><img src='./themes/default/images/loading-blue.gif' /> {'General_Loading_js'|translate}</span>
+				<span class='loadingPiwik' style='display:none;position:absolute'><img src='./themes/default/images/loading-blue.gif' /> {'General_Loading_js'|translate}</span>
 				<span class='location'><strong><em>{$provider.location}</em></strong></span>
 			</div>
 			<div style="text-align:right;">

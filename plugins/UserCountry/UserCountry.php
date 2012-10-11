@@ -287,6 +287,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 	}
 
 	private $interestTables = null;
+	private $latLongForCities = null;
 	
 	/**
 	 * @param Piwik_Event_Notification $notification  notification object
@@ -304,12 +305,14 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$this->interestTables = array('location_country' => array(),
 									  'location_region' => array(),
 									  'location_city' => array());
+		$this->latLongForCities = array();
 		
 		$this->archiveDayAggregateVisits($archiveProcessing);
 		$this->archiveDayAggregateGoals($archiveProcessing);
 		$this->archiveDayRecordInDatabase($archiveProcessing);
 		
 		unset($this->interestTables);
+		unset($this->latLongForCities);
 	}
 	
 	/**
@@ -324,7 +327,8 @@ class Piwik_UserCountry extends Piwik_Plugin
 			$metrics = false, 
 			$orderBy = false,
 			$rankingQuery = null,
-			$addSelect = 'log_visit.location_latitude, log_visit.location_longitude'
+			$addSelect = 'MAX(log_visit.location_latitude) as location_latitude,
+						  MAX(log_visit.location_longitude) as location_longitude'
 		);
 		
 		if ($query === false)
@@ -335,8 +339,28 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$emptyInterestColumns = $archiveProcessing->getNewInterestRow();
 		while ($row = $query->fetch())
 		{
+			// get latitude/longitude if there's a city
+			$lat = $long = false;
+			if (!empty($row['location_city']))
+			{
+				if (!empty($row['location_latitude']))
+				{
+					$lat = $row['location_latitude'];
+				}
+				if (!empty($row['location_longitude']))
+				{
+					$long = $row['location_longitude'];
+				}
+			}
+			
 			// make sure regions & cities w/ the same name don't get merged
 			$this->setLongCityRegionId($row);
+			
+			// store latitude/longitude, if we should
+			if ($lat !== false && $long !== false)
+			{
+				$this->latLongForCities[$row['location_city']] = array($lat, $long);
+			}
 			
 			// add the stats to each dimension's table
 			foreach ($this->interestTables as $dimension => &$table)
@@ -408,6 +432,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		destroy($tableRegion);
 		
 		$tableCity = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->interestTables['location_city']);
+		$this->setLatitudeLongitude($tableCity);
 		$serialized = $tableCity->getSerialized($maximumRows, $maximumRows, Piwik_Archive::INDEX_NB_VISITS);
 		$archiveProcessing->insertBlobRecord(self::VISITS_BY_CITY_RECORD_NAME, $serialized);
 		destroy($tableCity);
@@ -429,25 +454,8 @@ class Piwik_UserCountry extends Piwik_Plugin
 			$row[$column] = str_replace(self::LOCATION_SEPARATOR, '', $row[$column]);
 		}
 		
-		$lat = $long = '';
-		if (!empty($row['location_city']))
-		{
-			if (!empty($row['location_latitude']))
-			{
-				$lat = $row['location_latitude'];
-			}
-			if (!empty($row['location_longitude']))
-			{
-				$long = $row['location_longitude'];
-			}
-		}
-		
 		$row['location_region'] = $row['location_region'].self::LOCATION_SEPARATOR.$row['location_country'];
-		$row['location_city'] = $row['location_city'].self::LOCATION_SEPARATOR
-							  . $row['location_region'].self::LOCATION_SEPARATOR
-							  . $lat.self::LOCATION_SEPARATOR
-							  . $long
-							  ;
+		$row['location_city'] = $row['location_city'].self::LOCATION_SEPARATOR.$row['location_region'];
 	}
 	
 	/**
@@ -470,5 +478,26 @@ class Piwik_UserCountry extends Piwik_Plugin
 		}
 		return array('SQL' => "'".implode("', '", $result)."', ?",
 					  'bind' => '-'); // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
+	}
+	
+	/**
+	 * Utility method, appends latitude/longitude pairs to city table labels, if that data
+	 * exists for the city.
+	 */
+	private function setLatitudeLongitude( $tableCity )
+	{
+		foreach ($tableCity->getRows() as $row)
+		{
+			$label = $row->getColumn('label');
+			if (isset($this->latLongForCities[$label]))
+			{
+				// get lat/long for city
+				list($lat, $long) = $this->latLongForCities[$label];
+				
+				// append latitude + longitude to label
+				$newLabel = $label.self::LOCATION_SEPARATOR.$lat.self::LOCATION_SEPARATOR.$long;
+				$row->setColumn('label', $newLabel);
+			}
+		}
 	}
 }

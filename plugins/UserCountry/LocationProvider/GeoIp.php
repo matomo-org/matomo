@@ -62,6 +62,67 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
 		}
 	}
 	
+	
+	/**
+	 * Returns true if this provider has been setup correctly, the error message if
+	 * otherwise.
+	 * 
+	 * @return bool|string
+	 */
+	public function isWorking()
+	{
+		// test with an example IP to make sure the provider is working
+		// NOTE: At the moment only country, region & city info is tested.
+		try
+		{
+			$supportedInfo = $this->getSupportedLocationInfo();
+			
+			list($testIp, $expectedResult) = self::getTestIpAndResult();
+			
+			// get location using test IP
+			$location = $this->getLocation(array('ip' => $testIp));
+			
+			// check that result is the same as expected
+			$isResultCorrect = true;
+			foreach ($expectedResult as $key => $value)
+			{
+				// if this provider is not configured to support this information type, skip it
+				if (empty($supportedInfo[$key]))
+				{
+					continue;
+				}
+				
+				if (empty($location[$key])
+					|| $location[$key] != $value)
+				{
+					$isResultCorrect = false;
+				}
+			}
+			
+			if (!$isResultCorrect)
+			{
+				$unknown = Piwik_Translate('General_Unknown');
+				
+				$bind = array($testIp,
+				
+							  empty($location[self::CITY_NAME_KEY]) ? $unknown : $location[self::CITY_NAME_KEY],
+							  empty($location[self::REGION_CODE_KEY]) ? $unknown : $location[self::REGION_CODE_KEY],
+							  empty($location[self::COUNTRY_CODE_KEY]) ? $unknown : $location[self::COUNTRY_CODE_KEY],
+							  
+							  $expectedResult[self::CITY_NAME_KEY],
+							  $expectedResult[self::REGION_CODE_KEY],
+							  $expectedResult[self::COUNTRY_CODE_KEY]);
+				return Piwik_Translate('UserCountry_TestIPLocatorFailed', $bind);
+			}
+			
+			return true;
+		}
+		catch (Exception $ex)
+		{
+			return $ex->getMessage();
+		}
+	}
+	
 	/**
 	 * Returns a region name for a country code + region code.
 	 * 
@@ -119,6 +180,25 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns test IP used by isWorking and expected result.
+	 * 
+	 * @return array eg. array('1.2.3.4', array(self::COUNTRY_CODE_KEY => ...))
+	 */
+	private static function getTestIpAndResult()
+	{
+		static $result = null;
+		if (is_null($result))
+		{
+			// TODO: what happens when IP changes? should we get this information from piwik.org?
+			$expected = array(self::COUNTRY_CODE_KEY => 'FR',
+							  self::REGION_CODE_KEY => 'A6',
+							  self::CITY_NAME_KEY => 'Besançon');
+			$result = array('194.57.91.215', $expected);
+		}
+		return $result;
 	}
 }
 

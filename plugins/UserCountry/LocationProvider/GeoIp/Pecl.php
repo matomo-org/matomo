@@ -21,7 +21,7 @@
 class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_LocationProvider_GeoIp
 {
 	const ID = 'geoip_pecl';
-	const TITLE = 'GeoIp (PECL)';
+	const TITLE = 'GeoIP (PECL)';
 	
 	/**
 	 * Uses the GeoIP PECL module to get a visitor's location based on their IP address.
@@ -130,20 +130,87 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 		// if no no location database is available, this implementation is not setup correctly
 		if (!self::isLocationDatabaseAvailable())
 		{
-			return Piwik_Translate('UserCountry_CannotFindPeclGeoIPDb');
+			$dbDir = dirname(geoip_db_filename(GEOIP_COUNTRY_EDITION)).'/';
+			
+			// check if the directory the PECL module is looking for exists
+			if (!is_dir($dbDir))
+			{
+				return Piwik_Translate('UserCountry_PeclGeoIPNoDBDir', $dbDir);
+			}
+			
+			// check if the user named the city database GeoLiteCity.dat
+			if (file_exists($dbDir.'GeoLiteCity.dat'))
+			{
+				return Piwik_Translate('UserCountry_PeclGeoLiteError', $dbDir);
+			}
+			
+			return Piwik_Translate('UserCountry_CannotFindPeclGeoIPDb', $dbDir);
 		}
 		
-		// try getting a location as last check
-		try
+		return parent::isWorking();
+	}
+	
+	/**
+	 * Returns an array describing the types of location information this provider will
+	 * return.
+	 * 
+	 * The location info this provider supports depends on what GeoIP databases it can
+	 * find.
+	 * 
+	 * This provider will always support country & continent information.
+	 * 
+	 * If a region database is found, then region code & name information will be
+	 * supported.
+	 * 
+	 * If a city database is found, then region code, region name, city name,
+	 * area code, latitude, longitude & postal code are all supported.
+	 * 
+	 * If an organization database is found, organization information is
+	 * supported.
+	 * 
+	 * If an ISP database is found, ISP information is supported.
+	 * 
+	 * @return array
+	 */
+	public function getSupportedLocationInfo()
+	{
+		$result = array();
+		
+		// country & continent info always available
+		$result[self::CONTINENT_CODE_KEY] = true;
+		$result[self::CONTINENT_NAME_KEY] = true;
+		$result[self::COUNTRY_CODE_KEY] = true;
+		$result[self::COUNTRY_NAME_KEY] = true;
+		
+		if (self::isCityDatabaseAvailable())
 		{
-			$this->getLocation(array('ip' => Piwik_IP::getIpFromHeader()));
+			$result[self::REGION_CODE_KEY] = true;
+			$result[self::REGION_NAME_KEY] = true;
+			$result[self::CITY_NAME_KEY] = true;
+			$result[self::AREA_CODE_KEY] = true;
+			$result[self::LATITUDE_KEY] = true;
+			$result[self::LONGITUDE_KEY] = true;
+			$result[self::POSTAL_CODE_KEY] = true;
 		}
-		catch (Exception $ex)
+		else if (self::isRegionDatabaseAvailable())
 		{
-			return $ex->getMessage();
+			$result[self::REGION_CODE_KEY] = true;
+			$result[self::REGION_NAME_KEY] = true;
 		}
 		
-		return true;
+		// check if organization info is available
+		if (self::isOrgDatabaseAvailable())
+		{
+			$result[self::ORG_KEY] = true;
+		}
+		
+		// check if ISP info is available
+		if (self::isISPDatabaseAvailable())
+		{
+			$result[self::ISP_KEY] = true;
+		}
+		
+		return $result;
 	}
 	
 	/**

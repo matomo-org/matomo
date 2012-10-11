@@ -47,7 +47,7 @@ abstract class Piwik_UserCountry_LocationProvider
 	const LONGITUDE_KEY = 'long';
 	const POSTAL_CODE_KEY = 'postal_code';
 	const ISP_KEY = 'isp';
-    const ORG_KEY = 'org';
+	const ORG_KEY = 'org';
 	
 	/**
 	 * An array of all provider instances. Access it through static methods.
@@ -111,6 +111,19 @@ abstract class Piwik_UserCountry_LocationProvider
 	 * @return bool
 	 */
 	abstract public function isWorking();
+	
+	/**
+	 * Returns an array mapping location result keys w/ bool values indicating whether
+	 * that information is supported by this provider. If it is not supported, that means
+	 * this provider either cannot get this information, or is not configured to get it.
+	 * 
+	 * @return array eg. array(self::CONTINENT_CODE_KEY => true,
+	 *                         self::CONTINENT_NAME_KEY => true,
+	 *                         self::ORG_KEY => false)
+	 *               The result is not guaranteed to have keys for every type of location
+	 *               info.
+	 */
+	abstract public function getSupportedLocationInfo();
 	
 	/**
 	 * Returns every available provider instance.

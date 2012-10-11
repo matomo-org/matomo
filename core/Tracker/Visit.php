@@ -1056,6 +1056,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							visitor_days_since_first,
 							visitor_days_since_order,
 							location_country,
+							location_region,
+							location_city,
+							location_latitude,
+							location_longitude,
 							referer_name,
 							referer_keyword,
 							referer_type,
@@ -1172,6 +1176,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$this->visitorInfo['visitor_count_visits'] = $visitRow['visitor_count_visits'];
 			$this->visitorInfo['visit_goal_buyer'] = $visitRow['visit_goal_buyer'];
 			$this->visitorInfo['location_country'] = $visitRow['location_country'];
+			$this->visitorInfo['location_region'] = $visitRow['location_region'];
+			$this->visitorInfo['location_city'] = $visitRow['location_city'];
+			$this->visitorInfo['location_latitude'] = $visitRow['location_latitude'];
+			$this->visitorInfo['location_longitude'] = $visitRow['location_longitude'];
 			
 			// Referer information will be potentially used for Goal Conversion attribution
 			$this->visitorInfo['referer_name'] = $visitRow['referer_name'];

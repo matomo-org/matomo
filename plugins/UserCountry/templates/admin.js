@@ -34,7 +34,7 @@ $(document).ready(function() {
 	$('.refresh-loc').click(function(e) {
 		e.preventDefault();
 		
-		var cell = $(this).parent(),
+		var cell = $(this).parent().parent(),
 			loading = $('.loadingPiwik', cell),
 			location = $('.location', cell);
 		

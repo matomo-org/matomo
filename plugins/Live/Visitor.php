@@ -220,12 +220,25 @@ class Piwik_Live_Visitor
 	
 	function getPrettyLocation()
 	{
-		$label = $this->details['location_city'].Piwik_UserCountry::LOCATION_SEPARATOR
-			   . $this->details['location_region'].Piwik_UserCountry::LOCATION_SEPARATOR
-			   . $this->details['location_country'].Piwik_UserCountry::LOCATION_SEPARATOR
-			   . ''.Piwik_UserCountry::LOCATION_SEPARATOR // lat + long are not important
-			   . '';
-		return Piwik_UserCountry_getPrettyCityName($label);
+		$parts = array();
+		
+		// add city if it's known
+		if ($this->details['location_city'] != '')
+		{
+			$parts[] = $this->details['location_city'];
+		}
+		
+		// add region if it's known
+		$region = $this->details['location_region'];
+		if ($region != '' && $region != Piwik_UserCountry::UNKNOWN_CODE)
+		{
+			$parts[] = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes(
+				$this->details['location_country'], $region);
+		}
+		
+		// add country & return concatenated result
+		$parts[] = $this->getCountryName();
+		return implode(', ', $parts);
 	}
 
 	function getCustomVariables()

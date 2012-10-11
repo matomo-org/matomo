@@ -21,7 +21,7 @@
 class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCountry_LocationProvider_GeoIp
 {
 	const ID = 'geoip_serverbased';
-	const TITLE = 'GeoIp (%s)';
+	const TITLE = 'GeoIP (%s)';
 	
 	private static $geoIpServerVars = array(
 		parent::COUNTRY_CODE_KEY => 'GEOIP_COUNTRY_CODE',
@@ -91,6 +91,44 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	}
 	
 	/**
+	 * Returns an array describing the types of location information this provider will
+	 * return.
+	 * 
+	 * What this provider supports is dependent on how it is configured. We can't tell
+	 * what databases a server module has access to, so we rely on which $_SERVER
+	 * variables are available. If GEOIP_ISP is available, then we assume we can return
+	 * this information.
+	 * 
+	 * Since it's an error if GEOIP_COUNTRY_CODE is not available, we assume country
+	 * info is always supported.
+	 * 
+	 * Getting continent info is not dependent on GeoIP, so it is always supported.
+	 * 
+	 * @return array
+	 */
+	public function getSupportedLocationInfo()
+	{
+		$result = array();
+		
+		// set supported info based on what $_SERVER variables are available
+		foreach (self::$geoIpServerVars as $locKey => $serverVarName)
+		{
+			if (isset($_SERVER[$serverVarName]))
+			{
+				$result[$locKey] = true;
+			}
+		}
+		
+		// assume country info is always available. it's an error if it's not.
+		$result[self::COUNTRY_CODE_KEY] = true;
+		$result[self::COUNTRY_NAME_KEY] = true;
+		$result[self::CONTINENT_CODE_KEY] = true;
+		$result[self::CONTINENT_NAME_KEY] = true;
+		
+		return $result;
+	}
+	
+	/**
 	 * Checks if an HTTP server module has been installed. It checks by looking for
 	 * the GEOIP_COUNTRY_CODE server variable.
 	 * 
@@ -123,12 +161,12 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	 */
 	public function isWorking()
 	{
-		if (!empty($_SERVER['GEOIP_COUNTRY_CODE']))
+		if (empty($_SERVER['GEOIP_COUNTRY_CODE']))
 		{
-			return true;
+			return Piwik_Translate("UserCountry_CannotFindGeoIPServerVar", 'GEOIP_COUNTRY_CODE');
 		}
 		
-		return Piwik_Translate("UserCountry_CannotFindGeoIPServerVar", 'GEOIP_COUNTRY_CODE');
+		return parent::isWorking();
 	}
 	
 	/**
@@ -146,7 +184,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	{
 		if (function_exists('apache_note'))
 		{
-			$serverDesc = 'Apache mod_geoip';
+			$serverDesc = 'Apache';
 		}
 		else
 		{

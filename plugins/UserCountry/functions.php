@@ -139,7 +139,12 @@ function Piwik_UserCountry_getPrettyCityName( $label )
 		return $label;
 	}
 	
-	list($cityName, $regionCode, $countryCode, $lat, $long) = explode(Piwik_UserCountry::LOCATION_SEPARATOR, $label);
+	// get city name, region code & country code
+	$parts = explode(Piwik_UserCountry::LOCATION_SEPARATOR, $label);
+	$cityName = $parts[0];
+	$regionCode = $parts[1];
+	$countryCode = $parts[2];
+	
 	if ($cityName == Piwik_UserCountry::UNKNOWN_CODE || $cityName == '')
 	{
 		$cityName = Piwik_Translate('General_Unknown');

@@ -44,7 +44,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			self::downloadGeoIpDbs();
 			
 			self::setMockLocationProvider();
-			self::trackVisits(8, false);
+			self::trackVisits(9, false);
 			
 			self::setLocationProvider('GeoLiteCity.dat');
 			self::trackVisits(4, true);
@@ -109,6 +109,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 	public static function setUpWebsitesAndGoals()
 	{
 		self::createWebsite(self::$dateTime, 0, "Site 1");
+        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'all', 'url', 'http', 'contains', false, 5);
 	}
 	
 	protected static function trackVisits( $visitorCount, $setIp = false )
@@ -179,6 +180,9 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			
 			// different country, diff region (same as last), same city
 			self::makeLocation('Stratford-upon-Avon', '66', 'mk'),
+			
+			// unknown location
+			self::makeLocation(null, null, null),
 		));
 	}
 	

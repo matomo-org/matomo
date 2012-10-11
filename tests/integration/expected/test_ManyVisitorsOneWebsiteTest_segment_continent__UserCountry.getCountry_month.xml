@@ -7,7 +7,15 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>10</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>10</nb_conversions>
+				<nb_visits_converted>10</nb_visits_converted>
+				<revenue>50</revenue>
+			</row>
+		</goals>
+		<nb_conversions>10</nb_conversions>
+		<revenue>50</revenue>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<code>gb</code>
 		<logo>plugins/UserCountry/flags/gb.png</logo>
@@ -21,7 +29,15 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>4</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>4</nb_conversions>
+				<nb_visits_converted>4</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>4</nb_conversions>
+		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<code>ru</code>
 		<logo>plugins/UserCountry/flags/ru.png</logo>
@@ -35,7 +51,15 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<code>fr</code>
 		<logo>plugins/UserCountry/flags/fr.png</logo>
@@ -49,7 +73,15 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<code>it</code>
 		<logo>plugins/UserCountry/flags/it.png</logo>
@@ -63,7 +95,15 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<code>mk</code>
 		<logo>plugins/UserCountry/flags/mk.png</logo>

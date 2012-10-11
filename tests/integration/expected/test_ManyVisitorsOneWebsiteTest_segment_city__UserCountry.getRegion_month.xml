@@ -7,7 +7,15 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>4</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>4</nb_conversions>
+				<nb_visits_converted>4</nb_visits_converted>
+				<revenue>20</revenue>
+			</row>
+		</goals>
+		<nb_conversions>4</nb_conversions>
+		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<region>P3</region>
 		<country>gb</country>

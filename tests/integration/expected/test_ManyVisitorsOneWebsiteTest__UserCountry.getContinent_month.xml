@@ -7,7 +7,15 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>20</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>20</nb_conversions>
+				<nb_visits_converted>20</nb_visits_converted>
+				<revenue>100</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>100</revenue>
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<code>Europe</code>
 	</row>
@@ -18,7 +26,15 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>6</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>6</nb_conversions>
+				<nb_visits_converted>6</nb_visits_converted>
+				<revenue>30</revenue>
+			</row>
+		</goals>
+		<nb_conversions>6</nb_conversions>
+		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<code>North America</code>
 	</row>
@@ -29,8 +45,35 @@
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
 		<bounce_count>2</bounce_count>
-		<nb_visits_converted>0</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<code>Asia</code>
+	</row>
+	<row>
+		<label>Unknown</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>10</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<code>Unknown</code>
 	</row>
 </result>

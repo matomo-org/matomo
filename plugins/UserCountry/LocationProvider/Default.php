@@ -64,6 +64,26 @@ class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_Locat
 	}
 	
 	/**
+	 * Returns an array describing the types of location information this provider will
+	 * return.
+	 * 
+	 * This provider supports the following types of location info:
+	 * - continent code
+	 * - continent name
+	 * - country code
+	 * - country name
+	 * 
+	 * @return array
+	 */
+	public function getSupportedLocationInfo()
+	{
+		return array(self::CONTINENT_CODE_KEY => true,
+					  self::CONTINENT_NAME_KEY => true,
+					  self::COUNTRY_CODE_KEY => true,
+					  self::COUNTRY_NAME_KEY => true);
+	}
+	
+	/**
 	 * Returns information about this location provider. Contains an id, title & description:
 	 * 
 	 * array(

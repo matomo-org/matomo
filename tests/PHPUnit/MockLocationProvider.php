@@ -51,4 +51,9 @@ class MockLocationProvider extends Piwik_UserCountry_LocationProvider
 	{
 		return true;
 	}
+	
+	public function getSupportedLocationInfo()
+	{
+		return array(); // unimplemented
+	}
 }

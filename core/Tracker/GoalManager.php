@@ -255,7 +255,16 @@ class Piwik_Tracker_GoalManager
 			'visitor_days_since_order' => $visitorInformation['visitor_days_since_order'],
 			'visitor_count_visits' => $visitorInformation['visitor_count_visits'],
 		);
-
+		
+		$extraLocationCols = array('location_region', 'location_city', 'location_latitude', 'location_longitude');
+		foreach ($extraLocationCols as $col)
+		{
+			if (isset($visitorInformation[$col]))
+			{
+				$goal[$col] = $visitorInformation[$col];
+			}
+		}
+		
 		// Copy Custom Variables from Visit row to the Goal conversion
 		for($i=1; $i<=Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) 
 		{
