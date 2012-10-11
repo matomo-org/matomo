@@ -21,7 +21,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 	protected static $dateTime = '2010-01-03 11:22:33';
 	
 	public static $ips = array(
-		'194.167.30.240', // in Orleans, FR (unicode city name)
+		'194.57.91.215', // in Besançon, FR (unicode city name)
 		
 		'137.82.130.49', // in British Columbia
 		

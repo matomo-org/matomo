@@ -61,7 +61,7 @@
 		<logo>plugins/UserCountry/flags/mk.png</logo>
 	</row>
 	<row>
-		<label>Centre, France</label>
+		<label>Franche-Comte, France</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
 		<max_actions>1</max_actions>
@@ -69,10 +69,10 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<region>A3</region>
+		<region>A6</region>
 		<country>fr</country>
 		<country_name>France</country_name>
-		<region_name>Centre</region_name>
+		<region_name>Franche-Comte</region_name>
 		<logo>plugins/UserCountry/flags/fr.png</logo>
 	</row>
 	<row>
