@@ -53,6 +53,9 @@ class Piwik_DataTable_Row
 	 */
 	public $c = array();
 	private $subtableIdWasNegativeBeforeSerialize = false;
+
+	// @see sumRow - implementation detail
+	public $maxVisitsSummed = 0;
 	
 	const COLUMNS = 0;
 	const METADATA = 1;
@@ -101,6 +104,8 @@ class Piwik_DataTable_Row
 	/**
 	 * Because $this->c[self::DATATABLE_ASSOCIATED] is negative when the table is in memory,
 	 * we must prior to serialize() call, make sure the ID is saved as positive integer
+	 *
+	 * Only serialize the "c" member
 	 */
 	public function __sleep()
 	{
@@ -493,20 +498,25 @@ class Piwik_DataTable_Row
 			}
 		}
 
+		$this->sumRowMetadata($rowToSum);
+	}
 
-		if( !empty($rowToSum->c[self::METADATA]) )
-		{
+	public function sumRowMetadata($rowToSum)
+	{
+		if (!empty($rowToSum->c[self::METADATA])
+			&& !($this instanceof Piwik_DataTable_Row_DataTableSummary)
+		) {
 			// We shall update metadata, and keep the metadata with the _most visits or pageviews_, rather than first or last seen
-			$visits = max($rowToSum->getColumn(Piwik_Archive::INDEX_NB_VISITS),$rowToSum->getColumn(Piwik_Archive::INDEX_NB_ACTIONS));
-
-			if(!($this instanceof Piwik_DataTable_Row_DataTableSummary)
-				&& ( ( $visits && $visits > max($this->getColumn(Piwik_Archive::INDEX_NB_VISITS),$this->getColumn(Piwik_Archive::INDEX_NB_ACTIONS)) )
-					|| empty($this->c[self::METADATA]) ) )
-			{
+			$visits = max($rowToSum->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS) || $rowToSum->getColumn(Piwik_Archive::INDEX_NB_VISITS),
+				// Old format pre-1.2, @see also method updateInterestStats()
+				$rowToSum->getColumn('nb_actions') || $rowToSum->getColumn('nb_visits'));
+			if (($visits && $visits > $this->maxVisitsSummed)
+				|| empty($this->c[self::METADATA])
+			) {
+				$this->maxVisitsSummed = $visits;
 				$this->c[self::METADATA] = $rowToSum->c[self::METADATA];
 			}
 		}
-
 	}
 
 	/**

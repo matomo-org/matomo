@@ -42,8 +42,9 @@ class Piwik_Actions_ArchivingHelper
 				$row['idaction'] = -$row['type'];
 			}
 			// Only the first query will contain the name and type of actions, for performance reasons
+			$url = false;
 			if(isset($row['name'])
-				&& isset($row['type']))
+			&& isset($row['type']))
 			{
 				$actionName = $row['name'];
 				$actionType = $row['type'];
@@ -63,6 +64,7 @@ class Piwik_Actions_ArchivingHelper
 
 				$actionRow = self::getActionRow($actionName, $actionType, $urlPrefix, $actionsTablesByType);
 
+				$url = Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix);
 				self::setCachedActionRow($idaction, $actionType, $actionRow);
 			}
 			else
@@ -86,12 +88,34 @@ class Piwik_Actions_ArchivingHelper
 				continue;
 			}
 
+			// Here we do ensure that, the Metadata URL set for a given row, is the one from the Pageview with the most hits.
+			// This is to ensure that when, different URLs are loaded with the same page name.
+			// For example http://piwik.org and http://id.piwik.org are reported in Piwik > Actions > Pages with /index
+			// But, we must make sure http://piwik.org is used to link & for transitions
+			if( !empty($url)
+				&& $actionType != Piwik_Tracker_Action::TYPE_ACTION_NAME)
+			{
+				if(($existingUrl = $actionRow->getMetadata('url')) !== false)
+				{
+					if( !empty($row[Piwik_Archive::INDEX_PAGE_NB_HITS])
+						&& $row[Piwik_Archive::INDEX_PAGE_NB_HITS] > $actionRow->maxVisitsSummed)
+					{
+						$actionRow->setMetadata('url', $url);
+						$actionRow->maxVisitsSummed = $row[Piwik_Archive::INDEX_PAGE_NB_HITS];
+					}
+				}
+				else
+				{
+					$actionRow->setMetadata('url', $url);
+					$actionRow->maxVisitsSummed = $row[Piwik_Archive::INDEX_PAGE_NB_HITS];
+				}
+			}
+
 			foreach($row as $name => $value)
 			{
 				// in some edge cases, we have twice the same action name with 2 different idaction
-				// this happens when 2 visitors visit the same new page at the same time, there is a SELECT and an INSERT for each new page,
-				// and in between the two the other visitor comes.
-				// here we handle the case where there is already a row for this action name, if this is the case we add the value
+				// - this happens when 2 visitors visit the same new page at the same time, and 2 actions get recorded for the same name
+				// - this could also happen when 2 URLs end up having the same label (eg. 2 subdomains get aggregated to the "/index" page name)
 				if(($alreadyValue = $actionRow->getColumn($name)) !== false)
 				{
 					$actionRow->setColumn($name, $alreadyValue+$value);
@@ -218,7 +242,6 @@ class Piwik_Actions_ArchivingHelper
 		{
 			return $row;
 		}
-		$row->setMetadata('url', Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix));
 
 		return $row;
 	}
