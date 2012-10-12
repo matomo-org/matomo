@@ -617,7 +617,7 @@ class Piwik_DataTable
 			}
 			else
 			{
-				$this->summaryRow->sumRow($row);
+				$this->summaryRow->sumRow($row, $enableCopyMetadata = false);
 			}
 			return $this->summaryRow;
 		}

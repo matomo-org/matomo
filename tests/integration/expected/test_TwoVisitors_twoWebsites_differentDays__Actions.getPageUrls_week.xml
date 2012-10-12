@@ -42,7 +42,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<url />
 			</row>
 			<row>
 				<label>/index.htm</label>
@@ -108,7 +107,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<url />
 			</row>
 		</result>
 		<result date="From 2010-01-11 to 2010-01-17" />

@@ -477,7 +477,7 @@ class Piwik_DataTable_Row
 	 *
 	 * @param Piwik_DataTable_Row  $rowToSum
 	 */
-	public function sumRow( Piwik_DataTable_Row $rowToSum )
+	public function sumRow( Piwik_DataTable_Row $rowToSum, $enableCopyMetadata = true )
 	{
 		foreach($rowToSum->getColumns() as $columnToSumName => $columnToSumValue)
 		{
@@ -498,14 +498,17 @@ class Piwik_DataTable_Row
 			}
 		}
 
-		$this->sumRowMetadata($rowToSum);
+		if($enableCopyMetadata)
+		{
+			$this->sumRowMetadata($rowToSum);
+		}
 	}
 
 	public function sumRowMetadata($rowToSum)
 	{
 		if (!empty($rowToSum->c[self::METADATA])
-			&& !($this instanceof Piwik_DataTable_Row_DataTableSummary)
-		) {
+			&& !$this->isSummaryRow())
+		{
 			// We shall update metadata, and keep the metadata with the _most visits or pageviews_, rather than first or last seen
 			$visits = max($rowToSum->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS) || $rowToSum->getColumn(Piwik_Archive::INDEX_NB_VISITS),
 				// Old format pre-1.2, @see also method updateInterestStats()
@@ -517,6 +520,11 @@ class Piwik_DataTable_Row
 				$this->c[self::METADATA] = $rowToSum->c[self::METADATA];
 			}
 		}
+	}
+
+	public function isSummaryRow()
+	{
+		return $this->getColumn('label') === Piwik_DataTable::LABEL_SUMMARY_ROW;
 	}
 
 	/**

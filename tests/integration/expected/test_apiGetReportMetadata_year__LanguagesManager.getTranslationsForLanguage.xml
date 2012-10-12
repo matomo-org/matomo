@@ -1333,14 +1333,6 @@
 		<value>Effectue des rapports sur les affichages de pages, les liens sortants et les téléchargements. Le suivi des liens sortants et des téléchargements est automatique!</value>
 	</row>
 	<row>
-		<label>Actions_Actions</label>
-		<value>Actions</value>
-	</row>
-	<row>
-		<label>Actions_SubmenuPages</label>
-		<value>Pages</value>
-	</row>
-	<row>
 		<label>Actions_SubmenuPagesEntry</label>
 		<value>Pages d'entrée</value>
 	</row>
@@ -1515,10 +1507,6 @@
 	<row>
 		<label>CoreAdminHome_MenuGeneralSettings</label>
 		<value>Paramètres généraux</value>
-	</row>
-	<row>
-		<label>CoreAdminHome_Administration</label>
-		<value>Administration</value>
 	</row>
 	<row>
 		<label>CoreAdminHome_EmailServerSettings</label>
@@ -2129,10 +2117,6 @@
 		<value>Interface d'administration des plugins.</value>
 	</row>
 	<row>
-		<label>CorePluginsAdmin_Plugins</label>
-		<value>Plugins</value>
-	</row>
-	<row>
 		<label>CorePluginsAdmin_PluginsManagement</label>
 		<value>Gestionnaire de plugins</value>
 	</row>
@@ -2141,20 +2125,8 @@
 		<value>Les plugins étendent et ajoutent des fonctionnalités à Piwik. Une fois un plugin installé, vous pouvez l'activer ou le désactiver ici.</value>
 	</row>
 	<row>
-		<label>CorePluginsAdmin_Plugin</label>
-		<value>Plugin</value>
-	</row>
-	<row>
-		<label>CorePluginsAdmin_Version</label>
-		<value>Version</value>
-	</row>
-	<row>
 		<label>CorePluginsAdmin_Status</label>
 		<value>État</value>
-	</row>
-	<row>
-		<label>CorePluginsAdmin_Action</label>
-		<value>Action</value>
 	</row>
 	<row>
 		<label>CorePluginsAdmin_AuthorHomepage</label>
@@ -2187,10 +2159,6 @@
 	<row>
 		<label>CorePluginsAdmin_Activate</label>
 		<value>Activer</value>
-	</row>
-	<row>
-		<label>CorePluginsAdmin_MenuPlugins</label>
-		<value>Plugins</value>
 	</row>
 	<row>
 		<label>CoreUpdater_PluginDescription</label>
@@ -2561,10 +2529,6 @@
 		<value>Pour en apprendre plus à propos de la manière dont Piwik traite les données et sur comment faire fonctionner Piwik correctement pour les sites à moyen et fort trafic, consultez la documentation %s.</value>
 	</row>
 	<row>
-		<label>DBStats_Table</label>
-		<value>Table</value>
-	</row>
-	<row>
 		<label>DBStats_RowCount</label>
 		<value>Nombre de lignes</value>
 	</row>
@@ -2813,10 +2777,6 @@
 		<value>Ce rapport apporte des informations détaillés les à propos de la performance de l'objectif (conversions, taux de conversion et recettes par visite) pour chacune des catégories disponibles sur le panneau de gauche. %s Veuillez cliquer sur une des catégories pour afficher le rapport. %s Pour plus d'informations sur les objectifs, lisez la %s documentation sur le suivit des objectifs sur Piwik.org%s</value>
 	</row>
 	<row>
-		<label>Goals_ColumnConversions</label>
-		<value>Conversions</value>
-	</row>
-	<row>
 		<label>Goals_ColumnConversionsDocumentation</label>
 		<value>Nombre de conversions pour %s.</value>
 	</row>
@@ -2897,10 +2857,6 @@
 		<value>%s taux de conversion global (visites avec un objectif rempli)</value>
 	</row>
 	<row>
-		<label>Goals_Conversions</label>
-		<value>%s conversions</value>
-	</row>
-	<row>
 		<label>Goals_ConversionRate</label>
 		<value>%s taux de conversion</value>
 	</row>
@@ -2967,10 +2923,6 @@
 	<row>
 		<label>Goals_VisitUrl</label>
 		<value>Visitent une URL donnée (page ou groupe de pages)</value>
-	</row>
-	<row>
-		<label>Goals_URL</label>
-		<value>URL</value>
 	</row>
 	<row>
 		<label>Goals_PageTitle</label>
@@ -3107,10 +3059,6 @@
 	<row>
 		<label>Installation_PluginDescription</label>
 		<value>Procédé d'installation de Piwik. L'installation est effectuée une unique fois. Si le fichier de configuration config/config.inc.php est supprimé, l'installation recommencera.</value>
-	</row>
-	<row>
-		<label>Installation_Installation</label>
-		<value>Installation</value>
 	</row>
 	<row>
 		<label>Installation_InstallationStatus</label>
@@ -3281,10 +3229,6 @@
 		<value>Légendes</value>
 	</row>
 	<row>
-		<label>Installation_Extension</label>
-		<value>extension</value>
-	</row>
-	<row>
 		<label>Installation_SystemCheck</label>
 		<value>Vérification du système</value>
 	</row>
@@ -3429,10 +3373,6 @@
 		<value>La fonction pack() est requise pour suivre les visiteurs dans Piwik.</value>
 	</row>
 	<row>
-		<label>Installation_SystemCheckMbstring</label>
-		<value>mbstring</value>
-	</row>
-	<row>
 		<label>Installation_SystemCheckMbstringExtensionHelp</label>
 		<value>L'extension mbstring est requise pour les caractères multi-bytes lors des réponses de l'API utilisant des valeurs séparées par des virgules (CSV) ou par des tabulations (TSV).</value>
 	</row>
@@ -3557,14 +3497,6 @@
 		<value>Voir les logs visiteurs détaillés</value>
 	</row>
 	<row>
-		<label>Live_Actions</label>
-		<value>Actions</value>
-	</row>
-	<row>
-		<label>Live_Action</label>
-		<value>Action</value>
-	</row>
-	<row>
 		<label>Live_VisitorsInRealTime</label>
 		<value>Visiteurs en temps réel</value>
 	</row>
@@ -3595,10 +3527,6 @@
 	<row>
 		<label>Live_MorePagesNotDisplayed</label>
 		<value>plus de pages de ce visiteur ne sont pas affichées</value>
-	</row>
-	<row>
-		<label>Live_GoalType</label>
-		<value>Type</value>
 	</row>
 	<row>
 		<label>Live_PageRefreshed</label>
@@ -3693,8 +3621,80 @@
 		<value>Le Super Utilisateur ne peut pas être authentifié en utilisant le mécanisme '%s'.</value>
 	</row>
 	<row>
+		<label>Mobile_Accounts</label>
+		<value>Comptes</value>
+	</row>
+	<row>
+		<label>Mobile_AddAccount</label>
+		<value>Ajouter le compte</value>
+	</row>
+	<row>
+		<label>Mobile_AddPiwikDemo</label>
+		<value>Ajouter une démo Piwik</value>
+	</row>
+	<row>
+		<label>Mobile_AnonymousTracking</label>
+		<value>Traçage anonyme</value>
+	</row>
+	<row>
+		<label>Mobile_AskForAnonymousTrackingPermission</label>
+		<value>Quand activé, Piwik Mobile enverra les données d'utilisation anonyme vers piwik.org. Le but est d'utiliser ces données pour aider les développeurs de Piwik Mobile à mieux comprendre comment l'application est utilisée. Les informations envoyées sont : clics sur les menus et paramètres, nom et version de l'OS, toute erreur affichée dans Piwik Mobile. Nous ne traquerons PAS vos données. Ces données anonymes ne seront jamais publiées. Vous pouvez désactiver/activer le traçage anonyme dans les Paramètres à tout moment.</value>
+	</row>
+	<row>
+		<label>Mobile_Advanced</label>
+		<value>Avancé</value>
+	</row>
+	<row>
+		<label>Mobile_ChooseHttpTimeout</label>
+		<value>Choisir la valeur du timeout HTTP</value>
+	</row>
+	<row>
+		<label>Mobile_ChooseMetric</label>
+		<value>Choisissez un métrique</value>
+	</row>
+	<row>
+		<label>Mobile_HelpUsToImprovePiwikMobile</label>
+		<value>Voulez-vous activer le traçage d'utilisation anonyme dans Piwik Mobile ?</value>
+	</row>
+	<row>
+		<label>Mobile_HttpIsNotSecureWarning</label>
+		<value>Votre token d'authentification Piwik (token_auth) est envoyée en texte clair si vous utilisez &quot;HTTP&quot;. Pour cette raison, nous recommandons d'utiliser HTTPS pour sécuriser le transport des données sur Internet. Voulez-vous le faire ?</value>
+	</row>
+	<row>
+		<label>Mobile_HowtoDeleteAnAccountOniOS</label>
+		<value>Faites glisser de gauche à droite pour supprimer un compte</value>
+	</row>
+	<row>
 		<label>Mobile_LastUpdated</label>
 		<value>Dernière mise à jour : %s</value>
+	</row>
+	<row>
+		<label>Mobile_LoginCredentials</label>
+		<value>Identifiants</value>
+	</row>
+	<row>
+		<label>Mobile_LoginUseHttps</label>
+		<value>Utiliser HTTPS</value>
+	</row>
+	<row>
+		<label>Mobile_PullDownToRefresh</label>
+		<value>Faites glisser vers le bas pour actualiser</value>
+	</row>
+	<row>
+		<label>Mobile_RatingNotNow</label>
+		<value>Pas maintenant</value>
+	</row>
+	<row>
+		<label>Mobile_RatingNow</label>
+		<value>OK, je vais le noter maintenant</value>
+	</row>
+	<row>
+		<label>Mobile_RatingDontRemindMe</label>
+		<value>Ne pas me rappeler</value>
+	</row>
+	<row>
+		<label>Mobile_RatingPleaseRateUs</label>
+		<value>L'application Piwik Mobile est un logiciel gratuit, nous vous serions très reconnaissant si vous preniez 1 minute pour noter l'application sur le %s. Si vous avez des suggestions de nouvelles fonctionnalités ou si vous souhaitez signaler un bug, veuillez contacter %s</value>
 	</row>
 	<row>
 		<label>Mobile_Refresh</label>
@@ -3705,16 +3705,76 @@
 		<value>Recharchement...</value>
 	</row>
 	<row>
+		<label>Mobile_ReleaseToRefresh</label>
+		<value>Relâchez pour actualiser...</value>
+	</row>
+	<row>
 		<label>Mobile_ShowAll</label>
 		<value>Afficher tout</value>
+	</row>
+	<row>
+		<label>Mobile_ShowLess</label>
+		<value>Afficher moins</value>
+	</row>
+	<row>
+		<label>Mobile_HttpTimeout</label>
+		<value>Timeout HTTP</value>
+	</row>
+	<row>
+		<label>Mobile_VerifyAccount</label>
+		<value>Vérification du compte</value>
 	</row>
 	<row>
 		<label>Mobile_AnonymousAccess</label>
 		<value>Accès anonyme</value>
 	</row>
 	<row>
+		<label>Mobile_AccessUrlLabel</label>
+		<value>URL d'accès à Piwik</value>
+	</row>
+	<row>
+		<label>Mobile_EnableGraphsLabel</label>
+		<value>Afficher les graphs</value>
+	</row>
+	<row>
+		<label>Mobile_DefaultReportDate</label>
+		<value>Date du rapport</value>
+	</row>
+	<row>
+		<label>Mobile_MultiChartLabel</label>
+		<value>Afficher les sparklines</value>
+	</row>
+	<row>
+		<label>Mobile_NetworkNotReachable</label>
+		<value>Réseau inaccessible</value>
+	</row>
+	<row>
 		<label>Mobile_NavigationBack</label>
 		<value>Retour</value>
+	</row>
+	<row>
+		<label>Mobile_NoPiwikAccount</label>
+		<value>Pas de compte Piwik ?</value>
+	</row>
+	<row>
+		<label>Mobile_NoVisitorFound</label>
+		<value>Aucun visiteur trouvé</value>
+	</row>
+	<row>
+		<label>Mobile_NoWebsiteFound</label>
+		<value>Aucun site trouvé</value>
+	</row>
+	<row>
+		<label>Mobile_SaveSuccessError</label>
+		<value>Veuillez vérifier les paramètres</value>
+	</row>
+	<row>
+		<label>Mobile_SearchWebsite</label>
+		<value>Rechercher les sites Internet</value>
+	</row>
+	<row>
+		<label>Mobile_UseSearchBarHint</label>
+		<value>Seuls les %s premiers sites Internet sont affichés ici. Veuillez utiliser la barre de recherche pour accéder aux autres sites Internet.</value>
 	</row>
 	<row>
 		<label>Mobile_YouAreOffline</label>
@@ -3949,10 +4009,6 @@
 		<value>Information de sécurité de PHP</value>
 	</row>
 	<row>
-		<label>SecurityInfo_Test</label>
-		<value>Test</value>
-	</row>
-	<row>
 		<label>SecurityInfo_Result</label>
 		<value>Résultat</value>
 	</row>
@@ -3975,10 +4031,6 @@
 	<row>
 		<label>SEO_Backlinks</label>
 		<value>Liens de retour</value>
-	</row>
-	<row>
-		<label>SEO_Pages</label>
-		<value>Pages</value>
 	</row>
 	<row>
 		<label>SEO_SEORankingsFor</label>
@@ -4039,10 +4091,6 @@
 	<row>
 		<label>SitesManager_AliasUrlHelp</label>
 		<value>Il est recommandé, mais pas requis, de spécifier les URL différentes que vos utilisateurs utilisent pour accéder au site web. Les URL d'alias pour un site n’apparaîtront pas dans Référents &gt; Sites Internet. Il n'est pas nécessaire d'entrer les URL avec et sans les www, Piwik les traite automatiquement.</value>
-	</row>
-	<row>
-		<label>SitesManager_Urls</label>
-		<value>URLs</value>
 	</row>
 	<row>
 		<label>SitesManager_MenuSites</label>
@@ -4207,10 +4255,6 @@
 	<row>
 		<label>TranslationsAdmin_LanguageCode</label>
 		<value>Code langue</value>
-	</row>
-	<row>
-		<label>TranslationsAdmin_Plugin</label>
-		<value>Plugin</value>
 	</row>
 	<row>
 		<label>TranslationsAdmin_Definition</label>
@@ -5449,14 +5493,6 @@
 		<value>Navigateurs</value>
 	</row>
 	<row>
-		<label>UserSettings_Plugins</label>
-		<value>Plugins</value>
-	</row>
-	<row>
-		<label>UserSettings_Configurations</label>
-		<value>Configurations</value>
-	</row>
-	<row>
 		<label>UserSettings_WidgetGlobalVisitorsDocumentation</label>
 		<value>Ce rapport montre les configurations globales les plus communes de vos visiteurs. Une configuration est la combinaison d'un système d'exploitation, d'un type de navigateur et d'une résolution d'écran.</value>
 	</row>
@@ -5491,14 +5527,6 @@
 	<row>
 		<label>UserSettings_ColumnBrowserVersion</label>
 		<value>Version du navigateur</value>
-	</row>
-	<row>
-		<label>UserSettings_ColumnPlugin</label>
-		<value>Plugin</value>
-	</row>
-	<row>
-		<label>UserSettings_ColumnConfiguration</label>
-		<value>Configuration</value>
 	</row>
 	<row>
 		<label>UserSettings_ColumnOperatingSystem</label>
@@ -5631,10 +5659,6 @@
 	<row>
 		<label>UsersManager_Email</label>
 		<value>Courriel</value>
-	</row>
-	<row>
-		<label>UsersManager_Alias</label>
-		<value>Alias</value>
 	</row>
 	<row>
 		<label>UsersManager_TheSuperUserAliasCannotBeChanged</label>
@@ -5949,34 +5973,6 @@
 		<value>Dans ce rapport, vous pouvez voir le nombre de visites qui était la nième visite, par exemple: visiteurs qui ont visité votre site web au moins n fois.</value>
 	</row>
 	<row>
-		<label>VisitorInterest_Engagement</label>
-		<value>Engagement</value>
-	</row>
-	<row>
-		<label>VisitorInterest_OneMinute</label>
-		<value>1 min</value>
-	</row>
-	<row>
-		<label>VisitorInterest_PlusXMin</label>
-		<value>%s min</value>
-	</row>
-	<row>
-		<label>VisitorInterest_BetweenXYMinutes</label>
-		<value>%1$s-%2$s min</value>
-	</row>
-	<row>
-		<label>VisitorInterest_OnePage</label>
-		<value>1 page</value>
-	</row>
-	<row>
-		<label>VisitorInterest_NPages</label>
-		<value>%s pages</value>
-	</row>
-	<row>
-		<label>VisitorInterest_BetweenXYSeconds</label>
-		<value>%1$s-%2$ss</value>
-	</row>
-	<row>
 		<label>VisitorInterest_VisitsByDaysSinceLast</label>
 		<value>Visites par jours depuis la dernière visite</value>
 	</row>
@@ -6117,10 +6113,6 @@
 		<value>Horaires</value>
 	</row>
 	<row>
-		<label>VisitTime_NHour</label>
-		<value>%sh</value>
-	</row>
-	<row>
 		<label>VisitTime_VisitsByDayOfWeek</label>
 		<value>Visites par Jour de la Semaine</value>
 	</row>
@@ -6147,10 +6139,6 @@
 	<row>
 		<label>PDFReports_EmailReports</label>
 		<value>Rapports e-mail</value>
-	</row>
-	<row>
-		<label>PDFReports_PDF</label>
-		<value>PDF</value>
 	</row>
 	<row>
 		<label>PDFReports_SendReportNow</label>
@@ -6291,5 +6279,845 @@
 	<row>
 		<label>ImageGraph_PluginDescription</label>
 		<value>Génère de magnifiques graphiques en image PNG statique pour tous vos rapports Piwik.</value>
+	</row>
+	<row>
+		<label>RowEvolution_MetricsFor</label>
+		<value>Métriques pour %s</value>
+	</row>
+	<row>
+		<label>RowEvolution_AvailableMetrics</label>
+		<value>Métriques disponibles</value>
+	</row>
+	<row>
+		<label>RowEvolution_MetricBetweenText</label>
+		<value>entre %s et %s</value>
+	</row>
+	<row>
+		<label>RowEvolution_MetricChangeText</label>
+		<value>%s au cours de la période</value>
+	</row>
+	<row>
+		<label>RowEvolution_Documentation</label>
+		<value>Cliquez sur les métriques pour les afficher dans un graphique d'évolution large. Utilisez shift-clic pour afficher plusieurs métriques en même temps.</value>
+	</row>
+	<row>
+		<label>RowEvolution_CompareRows</label>
+		<value>Comparer les enregistrements</value>
+	</row>
+	<row>
+		<label>RowEvolution_ComparingRecords</label>
+		<value>Comparaison de %s lignes</value>
+	</row>
+	<row>
+		<label>RowEvolution_CompareDocumentation</label>
+		<value>Cliquez sur le lien ci-dessous et ouvrez ce popup depuis une autre ligne du même tableau pour comparer plusieurs enregistrements.&lt;br /&gt;Utilisez shift-clic pour marquer une ligne pour la comparaison sans ouvrir ce popup.</value>
+	</row>
+	<row>
+		<label>RowEvolution_PickARow</label>
+		<value>Sélectionnez une ligne à comparer</value>
+	</row>
+	<row>
+		<label>RowEvolution_PickAnotherRow</label>
+		<value>Sélectionnez une autre ligne à comparer</value>
+	</row>
+	<row>
+		<label>RowEvolution_MultiRowEvolutionTitle</label>
+		<value>Evolution de plusieurs lignes</value>
+	</row>
+	<row>
+		<label>EntryPage_Referrers</label>
+		<value>Référents</value>
+	</row>
+	<row>
+		<label>Forecast_Actions</label>
+		<value>Pages visitées</value>
+	</row>
+	<row>
+		<label>Forecast_Column</label>
+		<value>Prévision</value>
+	</row>
+	<row>
+		<label>Forecast_ReturnVisits</label>
+		<value>Visites de retour</value>
+	</row>
+	<row>
+		<label>Forecast_Visitors</label>
+		<value>Visiteurs</value>
+	</row>
+	<row>
+		<label>Forecast_Widget</label>
+		<value>Prévisions pour aujourd'hui</value>
+	</row>
+	<row>
+		<label>GeoIP_ColumnCity</label>
+		<value>Ville</value>
+	</row>
+	<row>
+		<label>GeoIP_Continent</label>
+		<value>Continent</value>
+	</row>
+	<row>
+		<label>GeoIP_Country</label>
+		<value>Pays</value>
+	</row>
+	<row>
+		<label>GeoIP_DistinctCountries</label>
+		<value>%s pays différents</value>
+	</row>
+	<row>
+		<label>GeoIP_SubmenuLocations</label>
+		<value>Emplacements</value>
+	</row>
+	<row>
+		<label>GeoIP_WidgetContinents</label>
+		<value>Continents du visiteur</value>
+	</row>
+	<row>
+		<label>GeoIP_WidgetCountries</label>
+		<value>Pays du visiteur</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language</label>
+		<value>Langues</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_aa</label>
+		<value>Afar</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ab</label>
+		<value>Abkhaze</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ae</label>
+		<value>Avestique</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_af</label>
+		<value>Africain</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ak</label>
+		<value>Akan</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_am</label>
+		<value>Amharique</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_an</label>
+		<value>Aragonais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ar</label>
+		<value>Arabe</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_as</label>
+		<value>Assamais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_av</label>
+		<value>Avar</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ay</label>
+		<value>Aymara</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_az</label>
+		<value>Azéri</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ba</label>
+		<value>Bachkir</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_be</label>
+		<value>Biélorusse</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_bg</label>
+		<value>Bulgare</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_bh</label>
+		<value>Bihari</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_bi</label>
+		<value>Bichelamar</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_bm</label>
+		<value>Bambara</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_bn</label>
+		<value>Bengali</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_bo</label>
+		<value>Tibétain</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_br</label>
+		<value>Breton</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_bs</label>
+		<value>Bosniaque</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ca</label>
+		<value>Catalan</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ce</label>
+		<value>Tchétchène</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ch</label>
+		<value>Chamorro</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_co</label>
+		<value>Corse</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_cr</label>
+		<value>Cri</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_cs</label>
+		<value>Tchèque</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_cv</label>
+		<value>Tchouvache</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_cy</label>
+		<value>Gallois</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_da</label>
+		<value>Danois</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_de</label>
+		<value>Allemand</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_dv</label>
+		<value>Divehi</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_dz</label>
+		<value>Dzongkha</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ee</label>
+		<value>Ewe</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_el</label>
+		<value>Grecque</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_en</label>
+		<value>Anglais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_eo</label>
+		<value>Espéranto</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_es</label>
+		<value>Espagnol</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_et</label>
+		<value>Estonien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_eu</label>
+		<value>Basque</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_fa</label>
+		<value>Persan</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ff</label>
+		<value>Peul</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_fi</label>
+		<value>Finlandais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_fj</label>
+		<value>Fidjien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_fo</label>
+		<value>Féroïen</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_fr</label>
+		<value>Français</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_fy</label>
+		<value>Frison occidental</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ga</label>
+		<value>Irlandais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_gd</label>
+		<value>Gaélique écossais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_gl</label>
+		<value>Galicien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_gn</label>
+		<value>Guarani</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_gu</label>
+		<value>Gujarati</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_gv</label>
+		<value>Mannois</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ha</label>
+		<value>Haoussa</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_he</label>
+		<value>Hébreu</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_hi</label>
+		<value>Hindi</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ho</label>
+		<value>Hiri Motu</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_hr</label>
+		<value>Croate</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ht</label>
+		<value>Créole Haïtien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_hu</label>
+		<value>Hongrois</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_hy</label>
+		<value>Arménien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_hz</label>
+		<value>Héréro</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ia</label>
+		<value>Interlingue</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_id</label>
+		<value>Indonésien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ie</label>
+		<value>Interlingue</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ig</label>
+		<value>Igbo</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ii</label>
+		<value>Sichuan Yi</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ik</label>
+		<value>Inupiak</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_io</label>
+		<value>Ido</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_is</label>
+		<value>Islandais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_it</label>
+		<value>Italien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_iu</label>
+		<value>Inuktitut</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ja</label>
+		<value>Japonais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_jv</label>
+		<value>Javanais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ka</label>
+		<value>Géorgien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_kg</label>
+		<value>Kikongo</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ki</label>
+		<value>Kikuyu</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_kj</label>
+		<value>Kuanyama</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_kk</label>
+		<value>Kazakh</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_kl</label>
+		<value>Groenlandais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_km</label>
+		<value>Khmer</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_kn</label>
+		<value>Kannada</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ko</label>
+		<value>Coréen</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_kr</label>
+		<value>Kanuri</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ks</label>
+		<value>Cachemiri</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ku</label>
+		<value>Kurde</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_kv</label>
+		<value>Komi</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_kw</label>
+		<value>Cornique</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ky</label>
+		<value>Kirghize</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_la</label>
+		<value>Latin</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_lb</label>
+		<value>Luxembourgeois</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_lg</label>
+		<value>Luganda</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_li</label>
+		<value>Limbourgeois</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ln</label>
+		<value>Lingala</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_lo</label>
+		<value>Lao</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_lt</label>
+		<value>Lituanien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_lu</label>
+		<value>Luba-Katanga</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_lv</label>
+		<value>Letton</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_mg</label>
+		<value>Malgache</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_mh</label>
+		<value>Marshallais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_mi</label>
+		<value>Maori</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_mk</label>
+		<value>Macédonien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ml</label>
+		<value>Malayalam</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_mn</label>
+		<value>Mongolien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_mr</label>
+		<value>Marathi</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ms</label>
+		<value>Malais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_mt</label>
+		<value>Maltais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_my</label>
+		<value>Birman</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_na</label>
+		<value>Nauruan</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_nb</label>
+		<value>Bokmål</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_nd</label>
+		<value>Sindebele</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ne</label>
+		<value>Népalais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ng</label>
+		<value>Ndonga</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_nl</label>
+		<value>Néerlandais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_nn</label>
+		<value>Nynorsk</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_no</label>
+		<value>Norvégien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_nr</label>
+		<value>Nrebele</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_nv</label>
+		<value>Navajo</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ny</label>
+		<value>Chichewa</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_oc</label>
+		<value>Occitan</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_oj</label>
+		<value>Ojibwé</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_om</label>
+		<value>Oromo</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_or</label>
+		<value>Oriya</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_os</label>
+		<value>Ossète</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_pa</label>
+		<value>Panjābī</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_pi</label>
+		<value>Pali</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_pl</label>
+		<value>Polonais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ps</label>
+		<value>Pachto</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_pt</label>
+		<value>Portuguais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_qu</label>
+		<value>Quechua</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_rm</label>
+		<value>Rhéto-roman</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_rn</label>
+		<value>Kirundi</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ro</label>
+		<value>Roumain</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ru</label>
+		<value>Russe</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_rw</label>
+		<value>Kinyarwanda</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sa</label>
+		<value>Sanskrit</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sc</label>
+		<value>Sarde</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sd</label>
+		<value>Sindhi</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_se</label>
+		<value>Same</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sg</label>
+		<value>Sango</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_si</label>
+		<value>Cingalais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sk</label>
+		<value>Slovaque</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sl</label>
+		<value>Slovène</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sm</label>
+		<value>Samoan</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sn</label>
+		<value>Shona</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_so</label>
+		<value>Somali</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sq</label>
+		<value>Albanais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sr</label>
+		<value>Serbe</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ss</label>
+		<value>Swati</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_st</label>
+		<value>Sotho</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_su</label>
+		<value>Soundanais</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sv</label>
+		<value>Suédois</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_sw</label>
+		<value>Swahili</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ta</label>
+		<value>Tamoul</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_te</label>
+		<value>Télougou</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_tg</label>
+		<value>Tadjik</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_th</label>
+		<value>Thaï</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ti</label>
+		<value>Tigrigna</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_tk</label>
+		<value>Turkmène</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_tl</label>
+		<value>Tagalog</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_tn</label>
+		<value>Tswana</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_to</label>
+		<value>Tonguien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_tr</label>
+		<value>Turc</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ts</label>
+		<value>Tsonga</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_tt</label>
+		<value>Tatar</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_tw</label>
+		<value>Akan</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ty</label>
+		<value>Tahitien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ug</label>
+		<value>Ouïghour</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_uk</label>
+		<value>Ukrainien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ur</label>
+		<value>Ourdou</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_uz</label>
+		<value>Ouzbek</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_ve</label>
+		<value>Venda</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_vi</label>
+		<value>Vietnamien</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_vo</label>
+		<value>Volapük</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_wa</label>
+		<value>Wallon</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_wo</label>
+		<value>Wolof</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_xh</label>
+		<value>Xhosa</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_yi</label>
+		<value>Yiddish</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_yo</label>
+		<value>Yoruba</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_za</label>
+		<value>Chuang</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_zh</label>
+		<value>Chinois</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_zu</label>
+		<value>Zoulou</value>
+	</row>
+	<row>
+		<label>UserLanguage_SubmenuLanguage</label>
+		<value>Langues</value>
+	</row>
+	<row>
+		<label>UserLanguage_WidgetLanguage</label>
+		<value>Langues du visiteur</value>
 	</row>
 </result>

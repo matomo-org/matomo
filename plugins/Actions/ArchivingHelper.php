@@ -41,10 +41,17 @@ class Piwik_Actions_ArchivingHelper
 				// Yes, this is kind of a hack, so we don't mix 'page url not defined' with 'page title not defined' etc.
 				$row['idaction'] = -$row['type'];
 			}
-			// Only the first query will contain the name and type of actions, for performance reasons
+
 			$url = false;
+			if(!empty($row['name'])
+				&& $row['name'] != Piwik_DataTable::LABEL_SUMMARY_ROW
+				&& $row['type'] != Piwik_Tracker_Action::TYPE_ACTION_NAME)
+			{
+				$url = Piwik_Tracker_Action::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
+			}
+
 			if(isset($row['name'])
-			&& isset($row['type']))
+				&& isset($row['type']))
 			{
 				$actionName = $row['name'];
 				$actionType = $row['type'];
@@ -58,13 +65,11 @@ class Piwik_Actions_ArchivingHelper
 					{
 						self::setCachedActionRow($idaction, $actionType, false);
 					}
-
 					continue;
 				}
 
 				$actionRow = self::getActionRow($actionName, $actionType, $urlPrefix, $actionsTablesByType);
 
-				$url = Piwik_Tracker_Action::reconstructNormalizedUrl((string)$actionName, $urlPrefix);
 				self::setCachedActionRow($idaction, $actionType, $actionRow);
 			}
 			else
@@ -92,8 +97,10 @@ class Piwik_Actions_ArchivingHelper
 			// This is to ensure that when, different URLs are loaded with the same page name.
 			// For example http://piwik.org and http://id.piwik.org are reported in Piwik > Actions > Pages with /index
 			// But, we must make sure http://piwik.org is used to link & for transitions
+			// Note: this code is partly duplicated from Piwik_DataTable_Row->sumRowMetadata()
 			if( !empty($url)
-				&& $actionType != Piwik_Tracker_Action::TYPE_ACTION_NAME)
+				&& $actionType != Piwik_Tracker_Action::TYPE_ACTION_NAME
+				&& !$actionRow->isSummaryRow())
 			{
 				if(($existingUrl = $actionRow->getMetadata('url')) !== false)
 				{
@@ -158,7 +165,7 @@ class Piwik_Actions_ArchivingHelper
 
 	static public function reloadConfig()
 	{
-		// for BC, we read the old style delimiter first (see #1067)
+		// for BC, we read the old style delimiter first (see #1067)Row
 		$actionDelimiter = @Piwik_Config::getInstance()->General['action_category_delimiter'];
 		if(empty($actionDelimiter))
 		{
@@ -234,14 +241,6 @@ class Piwik_Actions_ArchivingHelper
 		$actionExplodedNames = self::getActionExplodedNames($actionName, $actionType, $urlPrefix);
 		list($row, $level) = $currentTable->walkPath(
 			$actionExplodedNames, self::getDefaultRowColumns(), self::$maximumRowsInSubDataTable);
-
-		// if we didn't traverse the entire path, the table the action belongs to is full, so we
-		// found a summary row. we don't set metadata on that row.
-		if ($level != count($actionExplodedNames)
-			|| $actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME)
-		{
-			return $row;
-		}
 
 		return $row;
 	}

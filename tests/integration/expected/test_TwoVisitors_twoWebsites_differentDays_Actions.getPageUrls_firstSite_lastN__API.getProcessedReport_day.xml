@@ -109,20 +109,13 @@
 				<url>http://example.org/products</url>
 			</row>
 		</result>
-		<result prettyDate="Monday 4 January 2010">
-			<row>
-				<url />
-			</row>
-		</result>
+		<result prettyDate="Monday 4 January 2010" />
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
 				<url>http://example.org/index.htm</url>
 			</row>
 			<row>
 				<url>http://example.org/thankyou</url>
-			</row>
-			<row>
-				<url />
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />

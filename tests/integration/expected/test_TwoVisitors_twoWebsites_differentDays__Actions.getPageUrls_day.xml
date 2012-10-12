@@ -42,7 +42,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<url />
 			</row>
 		</result>
 		<result date="2010-01-05">
@@ -84,7 +83,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<url />
 			</row>
 		</result>
 		<result date="2010-01-06" />
@@ -120,7 +118,6 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<url />
 			</row>
 		</result>
 		<result date="2010-01-05" />

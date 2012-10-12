@@ -282,8 +282,19 @@ class DataTableTest extends PHPUnit_Framework_TestCase
 	    // Also testing that metadata is copied over
         $rowWanted = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columnsWanted,Piwik_DataTable_Row::METADATA => $metadata));
         $this->assertTrue( Piwik_DataTable_Row::isEqual($rowWanted, $finalRow));
+
+
+	    // testing that, 'sumRow' does not result in extra unwanted attributes being serialized
+	    $expectedRow = 'O:19:"Piwik_DataTable_Row":1:{s:1:"c";a:3:{i:0;a:8:{s:8:"test_int";i:150;s:10:"test_float";d:150;s:11:"test_float2";d:14.5;s:14:"test_stringint";i:150;i:0;s:4:"toto";s:17:"integerArrayToSum";a:3:{i:1;i:6;i:2;d:15.5;i:3;a:2:{i:2;i:7;i:1;i:2;}}s:11:"test_float3";d:1.5;s:4:"test";s:11:"string fake";}i:1;a:2:{s:4:"logo";s:9:"piwik.png";s:5:"super";a:1:{i:0;s:39:"this column has an array value, amazing";}}i:3;N;}}';
+	    $this->assertEquals( serialize($finalRow), $expectedRow);
+
+	    // Testing sumRow with disabled metadata sum
+	    $rowWanted = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columnsWanted)); // no metadata
+	    $finalRow = new Piwik_DataTable_Row( array(Piwik_DataTable_Row::COLUMNS => $columns2));
+	    $finalRow->sumRow($row1, $enableCopyMetadata = false);
+	    $this->assertTrue( Piwik_DataTable_Row::isEqual($rowWanted, $finalRow));
     }
-		
+
 	/**
 	 * Test that adding two string column values results in an exception.
 	 * 
