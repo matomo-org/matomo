@@ -42,7 +42,7 @@ class Piwik_Actions_ArchivingHelper
 				$row['idaction'] = -$row['type'];
 			}
 
-			$url = false;
+			$url = '';
 			if(!empty($row['name'])
 				&& $row['name'] != Piwik_DataTable::LABEL_SUMMARY_ROW
 				&& $row['type'] != Piwik_Tracker_Action::TYPE_ACTION_NAME)
@@ -83,10 +83,6 @@ class Piwik_Actions_ArchivingHelper
 				}
 			}
 
-			unset($row['name']);
-			unset($row['type']);
-			unset($row['idaction']);
-			unset($row['url_prefix']);
 
 			if (is_null($actionRow))
 			{
@@ -98,8 +94,7 @@ class Piwik_Actions_ArchivingHelper
 			// For example http://piwik.org and http://id.piwik.org are reported in Piwik > Actions > Pages with /index
 			// But, we must make sure http://piwik.org is used to link & for transitions
 			// Note: this code is partly duplicated from Piwik_DataTable_Row->sumRowMetadata()
-			if( !empty($url)
-				&& $actionType != Piwik_Tracker_Action::TYPE_ACTION_NAME
+			if( $row['type'] != Piwik_Tracker_Action::TYPE_ACTION_NAME
 				&& !$actionRow->isSummaryRow())
 			{
 				if(($existingUrl = $actionRow->getMetadata('url')) !== false)
@@ -117,6 +112,11 @@ class Piwik_Actions_ArchivingHelper
 					$actionRow->maxVisitsSummed = !empty($row[Piwik_Archive::INDEX_PAGE_NB_HITS]) ? $row[Piwik_Archive::INDEX_PAGE_NB_HITS] : 0;
 				}
 			}
+
+			unset($row['name']);
+			unset($row['type']);
+			unset($row['idaction']);
+			unset($row['url_prefix']);
 
 			foreach($row as $name => $value)
 			{
