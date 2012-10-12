@@ -99,6 +99,22 @@ var Piwik_Popover = (function() {
 
 			return container;
 		},
+		
+		/** Add a help button to the current popover */
+		addHelpButton: function(helpUrl) {
+			if (!isOpen) {
+				return false;
+			}
+			
+			var titlebar = container.parent().find('.ui-dialog-titlebar');
+			
+			var button = $(document.createElement('a')).addClass('ui-dialog-titlebar-help');
+			button.attr({href: helpUrl, target: '_blank'});
+			
+			titlebar.append(button);
+			
+			//alert(titlebar.find('.ui-dialog-titlebar-close').outerWidth());
+		},
 
 		/** Set inner HTML of the popover */
 		setContent: function(html) {

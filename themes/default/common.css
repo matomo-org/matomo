@@ -742,4 +742,22 @@ table.entityTable tr td a {
 
 /* Popover */
 
-.ui-dialog .ui-widget-header{ background:none; border:0; font:bold 18px Arial, Helvetica, sans-serif; color: #7e7363;	clear:both;}
+.ui-dialog .ui-widget-header {
+	background: none; 
+	border: 0; 
+	font: bold 18px Arial, Helvetica, sans-serif; 
+	color: #7e7363;	
+	clear: both;
+}
+
+.ui-dialog-titlebar-help {
+	position: absolute;
+	right: 33px;
+	top: 50%;
+	width: 16px;
+	margin: -8px 0 0 0;
+	padding: 0;
+	height: 16px;
+	background: url(images/help.png);
+	overflow: hidden;
+}
