@@ -170,7 +170,7 @@ function displayRows(allSites, params)
 		str = str.replace(/%name%/g, allSites[i].name);
 		str = str.replace(/%revenue%/g, allSites[i].revenue);
 		str = str.replace(/%main_url%/g, allSites[i].url);
-		str = str.replace(/%date%/g, params['date']);
+		str = str.replace(/%date%/g, params['date'] || params['dateSparkline']); // For period=range, dateSparkline only is set
 		str = str.replace(/%period%/g, params['period']);
 		
 		$('#tb').append('<tr class="tables_row" id="row_'+ allSites[i].idsite+'">' + str + '</tr>');
