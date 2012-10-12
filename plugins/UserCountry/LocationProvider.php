@@ -202,7 +202,7 @@ abstract class Piwik_UserCountry_LocationProvider
 	 */
 	public static function getAllProviderInfo( $newline = "\n", $includeExtra = false )
 	{
-		$result = array();
+		$allInfo = array();
 		foreach (self::getAllProviders() as $provider)
 		{
 			$info = $provider->getInfo();
@@ -238,6 +238,14 @@ abstract class Piwik_UserCountry_LocationProvider
 			$info['statusMessage'] = $statusMessage;
 			$info['location'] = $location;
 			
+			$allInfo[$info['order']] = $info;
+		}
+		
+		ksort($allInfo);
+		
+		$result = array();
+		foreach ($allInfo as $info)
+		{
 			$result[$info['id']] = $info;
 		}
 		return $result;

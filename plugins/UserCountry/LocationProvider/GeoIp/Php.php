@@ -234,7 +234,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 			  . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_Php2',
 			  		array('<strong>', '</strong>', '<strong><em>', '</em></strong>',
 			  			  '<strong><em>', '</em></strong>'));
-		return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc);
+		return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc, 'order' => 4);
 	}
 	
 	/**

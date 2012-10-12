@@ -12,7 +12,7 @@
 	<tr>
 		<th>{'UserCountry_LocationProvider'|translate}</th>
 		<th>{'General_Description'|translate}</th>
-		<th>{'General_Info'|translate}</th>
+		<th>{'General_InfoFor'|translate:$thisIP}</th>
 	</tr>
 	{foreach from=$locationProviders key=id item=provider}
 	<tr>
@@ -40,6 +40,7 @@
 		<td width="164">
 		{if $provider.status eq 1}
 			{capture assign=currentLocation}
+			{if $thisIP neq '127.0.0.1'}
 			{'UserCountry_CurrentLocationIntro'|translate}:
 			<div style="text-align:left;">
 				<br/>
@@ -49,6 +50,9 @@
 			<div style="text-align:right;">
 				<a href="#" class="refresh-loc" data-impl-id="{$id}"><em>{'Dashboard_Refresh_js'|translate}</em></a>
 			</div>
+			{else}
+			{'UserCountry_CannotLocalizeLocalIP'|translate:$thisIP}
+			{/if}
 			{/capture}
 			{$currentLocation|inlineHelp}
 		{elseif $provider.status eq 2}

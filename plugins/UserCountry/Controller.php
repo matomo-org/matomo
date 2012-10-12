@@ -39,6 +39,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->locationProviders = Piwik_UserCountry_LocationProvider::getAllProviderInfo(
 			$newline = '<br/>', $includeExtra = true);
 		$view->currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
+		$view->thisIP = Piwik_IP::getIpFromHeader();
 		
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();

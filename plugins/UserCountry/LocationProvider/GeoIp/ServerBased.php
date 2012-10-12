@@ -197,6 +197,6 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 			  . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
 			  		array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
 		
-		return array('id' => self::ID, 'title' => $title, 'description' => $desc);
+		return array('id' => self::ID, 'title' => $title, 'description' => $desc, 'order' => 3);
 	}
 }

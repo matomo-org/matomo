@@ -99,7 +99,7 @@ class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_Locat
 		$desc = Piwik_Translate('UserCountry_DefaultLocationProviderDesc1') . ' '
 			  . Piwik_Translate('UserCountry_DefaultLocationProviderDesc2',
 			  		array('<strong>', '<em>', '</em>', '</strong>'));
-		return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc);
+		return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc, 'order' => 1);
 	}
 }
 

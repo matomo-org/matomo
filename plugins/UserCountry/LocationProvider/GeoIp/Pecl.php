@@ -131,20 +131,23 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 		if (!self::isLocationDatabaseAvailable())
 		{
 			$dbDir = dirname(geoip_db_filename(GEOIP_COUNTRY_EDITION)).'/';
+			$quotedDir = "'$dbDir'";
 			
 			// check if the directory the PECL module is looking for exists
 			if (!is_dir($dbDir))
 			{
-				return Piwik_Translate('UserCountry_PeclGeoIPNoDBDir', $dbDir);
+				return Piwik_Translate('UserCountry_PeclGeoIPNoDBDir', array($quotedDir, "'geoip.custom_directory'"));
 			}
 			
 			// check if the user named the city database GeoLiteCity.dat
 			if (file_exists($dbDir.'GeoLiteCity.dat'))
 			{
-				return Piwik_Translate('UserCountry_PeclGeoLiteError', $dbDir);
+				return Piwik_Translate('UserCountry_PeclGeoLiteError',
+					array($quotedDir, "'GeoLiteCity.dat'", "'GeoIPCity.dat'"));
 			}
 			
-			return Piwik_Translate('UserCountry_CannotFindPeclGeoIPDb', $dbDir);
+			return Piwik_Translate('UserCountry_CannotFindPeclGeoIPDb',
+				array($quotedDir, "'GeoIP.dat'", "'GeoIPCity.dat'"));
 		}
 		
 		return parent::isWorking();
@@ -228,7 +231,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 	{
 		$desc = Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_Pecl1') . '<br/><br/>'
 			  . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_Pecl2');
-		return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc);
+		return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc, 'order' => 2);
 	}
 	
 	/**

@@ -103,15 +103,20 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
 			{
 				$unknown = Piwik_Translate('General_Unknown');
 				
-				$bind = array($testIp,
+				$location = "'"
+						  . (empty($location[self::CITY_NAME_KEY]) ? $unknown : $location[self::CITY_NAME_KEY])
+						  . ", "
+						  . (empty($location[self::REGION_CODE_KEY]) ? $unknown : $location[self::REGION_CODE_KEY])
+						  . ", "
+						  . (empty($location[self::COUNTRY_CODE_KEY]) ? $unknown : $location[self::COUNTRY_CODE_KEY])
+						  . "'"
+						  ;
 				
-							  empty($location[self::CITY_NAME_KEY]) ? $unknown : $location[self::CITY_NAME_KEY],
-							  empty($location[self::REGION_CODE_KEY]) ? $unknown : $location[self::REGION_CODE_KEY],
-							  empty($location[self::COUNTRY_CODE_KEY]) ? $unknown : $location[self::COUNTRY_CODE_KEY],
-							  
-							  $expectedResult[self::CITY_NAME_KEY],
-							  $expectedResult[self::REGION_CODE_KEY],
-							  $expectedResult[self::COUNTRY_CODE_KEY]);
+				$expectedLocation = "'".$expectedResult[self::CITY_NAME_KEY].", "
+								  . $expectedResult[self::REGION_CODE_KEY].", "
+								  . $expectedResult[self::COUNTRY_CODE_KEY]."'";
+				
+				$bind = array($testIp, $location, $expectedLocation);
 				return Piwik_Translate('UserCountry_TestIPLocatorFailed', $bind);
 			}
 			
