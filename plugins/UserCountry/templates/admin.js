@@ -10,7 +10,9 @@ $(document).ready(function() {
 	$('.current-location-provider').change(function() {
 		if (!$(this).is(':checked')) return; // only handle radio buttons that get checked
 		
-		var loading = $('.loadingPiwik', $(this).parent());
+		var parent = $(this).parent(),
+			loading = $('.loadingPiwik', parent),
+			ajaxSuccess = $('.ajaxSuccess', parent);
 		loading.show();
 		
 		$.ajax({
@@ -26,6 +28,11 @@ $(document).ready(function() {
 			error: piwikHelper.ajaxHandleError,		// Callback when the request fails
 			success: function() {
 				loading.hide();
+				ajaxSuccess.fadeIn(1000, function() {
+					setTimeout(function() {
+						ajaxSuccess.fadeOut(1000);
+					}, 500);
+				});
 			}
 		});
 	});

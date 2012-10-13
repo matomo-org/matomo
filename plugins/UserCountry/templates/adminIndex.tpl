@@ -21,6 +21,7 @@
 				<input class="current-location-provider" name="current-location-provider" value="{$id}" type="radio" {if $currentProviderId eq $id}checked="checked"{/if} id="provider_input_{$id}" style="cursor:pointer" {if $provider.status neq 1}disabled="disabled"{/if}/>
 				<label for="provider_input_{$id}" style="font-size:1.2em">{$provider.title|translate}</label><br/>
 				<span class='loadingPiwik' style='display:none'><img src='./themes/default/images/loading-blue.gif' /></span>
+				<span class="ajaxSuccess" style='display:none'>{'General_Done'|translate}</span>
 			</p>
 			<p style="margin-left:.5em">
 				<strong><em>
