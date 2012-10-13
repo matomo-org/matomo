@@ -75,8 +75,13 @@ class Piwik_DataTable_Filter_Pattern extends Piwik_DataTable_Filter
 			//instead search must handle
 			// - negative search with -piwik
 			// - exact match with ""
-			// see (?!pattern) 	A subexpression that performs a negative lookahead search, which matches the search string at any point where a string not matching pattern begins. 
-			if( !self::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $this->invertedMatch))
+			// see (?!pattern) 	A subexpression that performs a negative lookahead search, which matches the search string at any point where a string not matching pattern begins.
+			$value = $row->getColumn($this->columnToFilter);
+			if($value === false)
+			{
+				$value = $row->getMetadata($this->columnToFilter);
+			}
+			if( !self::match($this->patternToSearch, $this->patternToSearchQuoted, $value, $this->invertedMatch))
 			{
 				$table->deleteRow($key);
 			}

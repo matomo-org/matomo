@@ -43,7 +43,7 @@ class DataTable_Filter_PatternTest extends PHPUnit_Framework_TestCase
             array( $idcol => array('label'=>'ask')),
             array( $idcol => array('label'=>'piwik')),
             array( $idcol => array('label'=>'yahoo')),
-            array( $idcol => array('label'=>'amazon')),
+            array( Piwik_DataTable_Row::METADATA => array('label'=>'amazon')),
             array( $idcol => array('label'=>'2389752/47578949')),
             array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))
         );
