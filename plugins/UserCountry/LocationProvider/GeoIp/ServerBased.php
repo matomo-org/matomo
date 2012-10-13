@@ -58,10 +58,12 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	{
 		// geoip modules that are built into servers can't use a forced IP. in this case we try
 		// to fallback to another version.
-		if ($info['ip'] != Piwik_IP::getIpFromHeader()
+		$myIP = Piwik_IP::getIpFromHeader();
+		if ($info['ip'] != $myIP
 			&& (!isset($info['disable_fallbacks'])
 				|| !$info['disable_fallbacks']))
 		{
+			printDebug("The request is for IP address: ".$info['ip'] . " but your IP is: $myIP. GeoIP Server Module (apache/nginx) does not support this use case... ");
 			$fallbacks = array(
 				Piwik_UserCountry_LocationProvider_GeoIp_Pecl::ID,
 				Piwik_UserCountry_LocationProvider_GeoIp_Php::ID
@@ -71,9 +73,11 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 				$otherProvider = Piwik_UserCountry_LocationProvider::getProviderById($fallbackProviderId);
 				if ($otherProvider)
 				{
+					printDebug("Used $fallbackProviderId to detect this visitor IP");
 					return $otherProvider->getLocation($info);
 				}
 			}
+			printDebug("FAILED to lookup the geo location of this IP address, as no fallback location providers is configured. We recommend to configure Geolocation PECL module to fix this error.");
 			
 			return false;
 		}
@@ -163,7 +167,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	{
 		if (empty($_SERVER['GEOIP_COUNTRY_CODE']))
 		{
-			return Piwik_Translate("UserCountry_CannotFindGeoIPServerVar", 'GEOIP_COUNTRY_CODE');
+			return Piwik_Translate("UserCountry_CannotFindGeoIPServerVar", '$_SERVER GEOIP_COUNTRY_CODE');
 		}
 		
 		return parent::isWorking();

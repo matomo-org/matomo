@@ -90,7 +90,7 @@ class Piwik_CacheFile
 		$cache_literal .= "$"."cache_complete   = true;\n\n";
 		$cache_literal .= "?".">";
 
-		// Write cache to a temp file, then rename it, overwritng the old cache
+		// Write cache to a temp file, then rename it, overwriting the old cache
 		// On *nix systems this should guarantee atomicity
 		$tmp_filename = tempnam($this->cachePath, 'tmp_');
 		@chmod($tmp_filename, 0640);
@@ -116,7 +116,7 @@ class Piwik_CacheFile
 	 * A function to delete a single cache entry
 	 *
 	 * @param string  $id  The cache entry ID
-	 * @return bool  True if the entres were succesfully deleted
+	 * @return bool  True if the entry was succesfully deleted
 	 */
 	function delete($id)
 	{

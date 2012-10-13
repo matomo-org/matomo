@@ -254,7 +254,8 @@ class Piwik_Common
 	static public function regenerateCacheGeneral()
 	{
 		self::clearCacheGeneral();
-		self::getCacheGeneral();
+		$cache = self::getCacheGeneral();
+		Piwik_Common::setCacheGeneral( $cache );
 	}
 
 	/**

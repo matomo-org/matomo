@@ -190,28 +190,32 @@ class Piwik_Translate
 	}
 }
 
-/**
- * Returns translated string or given message if translation is not found.
- *
- * @param string $string Translation string index
- * @param array $args sprintf arguments
- * @return string
- */
-function Piwik_Translate($string, $args = array())
+// In piwik.php, debug mode, Piwik_Translate is already defined
+if(!function_exists('Piwik_Translate'))
 {
-	if(!is_array($args))
+	/**
+	 * Returns translated string or given message if translation is not found.
+	 *
+	 * @param string $string Translation string index
+	 * @param array $args sprintf arguments
+	 * @return string
+	 */
+	function Piwik_Translate($string, $args = array())
 	{
-		$args = array($args);
+		if(!is_array($args))
+		{
+			$args = array($args);
+		}
+		if(isset($GLOBALS['Piwik_translations'][$string]))
+		{
+			$string = $GLOBALS['Piwik_translations'][$string];
+		}
+		if(count($args) == 0)
+		{
+			return $string;
+		}
+		return vsprintf($string, $args);
 	}
-	if(isset($GLOBALS['Piwik_translations'][$string]))
-	{
-		$string = $GLOBALS['Piwik_translations'][$string];
-	}
-	if(count($args) == 0) 
-	{
-		return $string;
-	}
-	return vsprintf($string, $args);
 }
 
 /**

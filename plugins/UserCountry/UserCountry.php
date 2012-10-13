@@ -71,6 +71,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 	 */
 	public function getVisitorLocation( $notification )
 	{
+		require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 		$location = &$notification->getNotificationObject();
 		$visitorInfo = $notification->getNotificationInfo();
 		
@@ -81,10 +82,12 @@ class Piwik_UserCountry extends Piwik_Plugin
 		// if we can't find a location, use default provider
 		if ($location === false)
 		{
-			$provider = Piwik_UserCountry_LocationProvider::getProviderById(
-				Piwik_UserCountry_LocationProvider_Default::ID);
+			$id = Piwik_UserCountry_LocationProvider_Default::ID;
+			$provider = Piwik_UserCountry_LocationProvider::getProviderById($id);
 			$location = $provider->getLocation($visitorInfo);
+			printDebug("GEO: couldn't find a location with Geo Module '$id', using Default '$id' provider as fallback...");
 		}
+		printDebug("GEO: Found IP location (provider '$id'): ". var_export($location, true));
 	}
 	
 	function addWidgets()
