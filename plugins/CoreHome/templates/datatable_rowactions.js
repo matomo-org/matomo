@@ -269,8 +269,7 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function(label, tr, 
 	}
 
 	var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;
-	var urlParam = apiMethod + ':' + isMultiRowEvolution + ':' + label;
-	this.openPopover(urlParam);
+	this.openPopover(apiMethod, isMultiRowEvolution, label);
 };
 
 DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function(label) {
@@ -279,22 +278,27 @@ DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function(labe
 	}
 };
 
+DataTable_RowActions_RowEvolution.prototype.openPopover = function(apiMethod, multiRowEvolutionParam, label) {
+	var urlParam = apiMethod + ':' + multiRowEvolutionParam + ':' + label;
+	DataTable_RowAction.prototype.openPopover.apply(this, [urlParam]);
+};
+
 DataTable_RowActions_RowEvolution.prototype.doOpenPopover = function(urlParam) {
 	var urlParamParts = urlParam.split(':');
 
 	var apiMethod = urlParamParts[0];
 	urlParamParts.shift();
 
-	var isMultiRowEvolution = (urlParamParts[0] == '1');
+	var multiRowEvolutionParam = urlParamParts[0];
 	urlParamParts.shift();
 
 	var label = urlParamParts.join(':');
 
-	this.showRowEvolution(apiMethod, label, isMultiRowEvolution);
+	this.showRowEvolution(apiMethod, label, multiRowEvolutionParam);
 };
 
 /** Open the row evolution popover */
-DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(apiMethod, label, isMultiRowEvolution, metric) {
+DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(apiMethod, label, multiRowEvolutionParam) {
 
 	var self = this;
 
@@ -302,22 +306,28 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(apiMetho
 	var box = Piwik_Popover.showLoading('Row Evolution');
 	box.addClass('rowEvolutionPopover');
 
-	// load the popover contents
+	// prepare loading the popover contents
 	var requestParams = {
 		apiMethod: apiMethod,
 		label: label,
 		disableLink: 1
 	};
-
-	if (metric) {
-		requestParams.column = metric;
+	
+	// derive api action and requested column from multiRowEvolutionParam
+	var action;
+	if (multiRowEvolutionParam == '0') {
+		action = 'getRowEvolutionPopover';
+	} else if (multiRowEvolutionParam == '1') {
+		action = 'getMultiRowEvolutionPopover';
+	} else {
+		action = 'getMultiRowEvolutionPopover';
+		requestParams.column = multiRowEvolutionParam;
 	}
-
-	var action = (isMultiRowEvolution ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover');
 
 	piwikHelper.ajaxCall('CoreHome', action, requestParams, function(html) {
 		Piwik_Popover.setContent(html);
-
+		
+		// use the popover title returned from the server
 		var title = box.find('div.popover-title');
 		if (title.size() > 0) {
 			Piwik_Popover.setTitle(title.html());
@@ -346,7 +356,8 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(apiMetho
 		// switch metric in multi row evolution
 		box.find('select.multirowevoltion-metric').change(function() {
 			var metric = $(this).val();
-			self.showRowEvolution(apiMethod, label, isMultiRowEvolution, metric);
+			Piwik_Popover.onClose(false); // unbind listener that resets multiEvolutionRows
+			self.openPopover(apiMethod, metric, label);
 			return true;
 		});
 	}, alert, 'html');
