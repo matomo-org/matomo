@@ -13,7 +13,7 @@
 /**
  * A LocationProvider that uses an GeoIP module installed in an HTTP Server.
  * 
- * To make this provider available, make sure the GEOIP_COUNTRY_CODE server
+ * To make this provider available, make sure the GEOIP_ADDR server
  * variable is set.
  * 
  * @package Piwik_UserCountry
@@ -22,6 +22,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 {
 	const ID = 'geoip_serverbased';
 	const TITLE = 'GeoIP (%s)';
+	const TEST_SERVER_VAR = 'GEOIP_ADDR';
 	
 	private static $geoIpServerVars = array(
 		parent::COUNTRY_CODE_KEY => 'GEOIP_COUNTRY_CODE',
@@ -98,30 +99,15 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	 * Returns an array describing the types of location information this provider will
 	 * return.
 	 * 
-	 * What this provider supports is dependent on how it is configured. We can't tell
-	 * what databases a server module has access to, so we rely on which $_SERVER
-	 * variables are available. If GEOIP_ISP is available, then we assume we can return
-	 * this information.
-	 * 
-	 * Since it's an error if GEOIP_COUNTRY_CODE is not available, we assume country
-	 * info is always supported.
-	 * 
-	 * Getting continent info is not dependent on GeoIP, so it is always supported.
+	 * There's no way to tell exactly what database the HTTP server is using, so we just
+	 * assume country and continent information is available. This can make diagnostics
+	 * a bit more difficult, unfortunately.
 	 * 
 	 * @return array
 	 */
 	public function getSupportedLocationInfo()
 	{
 		$result = array();
-		
-		// set supported info based on what $_SERVER variables are available
-		foreach (self::$geoIpServerVars as $locKey => $serverVarName)
-		{
-			if (isset($_SERVER[$serverVarName]))
-			{
-				$result[$locKey] = true;
-			}
-		}
 		
 		// assume country info is always available. it's an error if it's not.
 		$result[self::COUNTRY_CODE_KEY] = true;
@@ -134,7 +120,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	
 	/**
 	 * Checks if an HTTP server module has been installed. It checks by looking for
-	 * the GEOIP_COUNTRY_CODE server variable.
+	 * the GEOIP_ADDR server variable.
 	 * 
 	 * There's a special check for the Apache module, but we can't check specifically
 	 * for anything else.
@@ -155,22 +141,22 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 			}
 		}
 		
-		return !empty($_SERVER['GEOIP_COUNTRY_CODE']);
+		return !empty($_SERVER[self::TEST_SERVER_VAR]);
 	}
 	
 	/**
-	 * Returns true if the GEOIP_COUNTRY_CODE server variable is defined.
+	 * Returns true if the GEOIP_ADDR server variable is defined.
 	 * 
-	 * @return true
+	 * @return bool
 	 */
 	public function isWorking()
 	{
-		if (empty($_SERVER['GEOIP_COUNTRY_CODE']))
+		if (empty($_SERVER[self::TEST_SERVER_VAR]))
 		{
-			return Piwik_Translate("UserCountry_CannotFindGeoIPServerVar", '$_SERVER GEOIP_COUNTRY_CODE');
+			return Piwik_Translate("UserCountry_CannotFindGeoIPServerVar", self::TEST_SERVER_VAR.' $_SERVER');
 		}
 		
-		return parent::isWorking();
+		return true; // can't check for another IP
 	}
 	
 	/**

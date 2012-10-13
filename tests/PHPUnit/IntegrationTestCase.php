@@ -1189,4 +1189,58 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 		
 		Piwik_TablePartitioning::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload = true);
 	}
+	
+	public static $geoIpDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoIP.dat.gz';
+	public static $geoLiteCityDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoLiteCity.dat.gz';
+	
+	public static function downloadGeoIpDbs()
+	{
+		$geoIpOutputDir = PIWIK_INCLUDE_PATH.'/tests/lib/geoip-files';
+		self::downloadAndUnzip(self::$geoIpDbUrl, $geoIpOutputDir, 'GeoIP.dat');
+		self::downloadAndUnzip(self::$geoLiteCityDbUrl, $geoIpOutputDir, 'GeoIPCity.dat');
+	}
+	
+	public static function downloadAndUnzip( $url, $outputDir, $filename )
+	{
+		$bufferSize = 1024 * 1024;
+		
+		try
+		{
+			if (!is_dir($outputDir)) 
+			{
+				mkdir($outputDir);
+			}
+			
+			$deflatedOut = $outputDir.'/'.$filename;
+			$outfileName = $deflatedOut.'.gz';
+			
+			if (file_exists($deflatedOut))
+			{
+				return;
+			}
+			
+			$dump = fopen($url, 'rb');
+			$outfile = fopen($outfileName, 'wb');
+			$bytesRead = 0;
+			while (!feof($dump))
+			{
+				fwrite($outfile, fread($dump, $bufferSize), $bufferSize);
+				$bytesRead += $bufferSize;
+			}
+			fclose($dump);
+			fclose($outfile);
+			
+			// unzip the dump
+			exec("gunzip -c \"".$outfileName."\" > \"$deflatedOut\"", $output, $return);
+			if ($return !== 0)
+			{
+				throw new Exception("gunzip failed($return): ".implode("\n", $output));
+			}
+		}
+		catch (Exception $ex)
+		{
+			self::markTestSkipped(
+				"Cannot download GeoIp DBs, skipping: ".$ex->getMessage()."\n".$ex->getTraceAsString());
+		}
+	}
 }

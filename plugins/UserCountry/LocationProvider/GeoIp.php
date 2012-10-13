@@ -17,7 +17,7 @@
  */
 abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountry_LocationProvider
 {
-	const GEOIP_DATABASE_DIR = 'misc';
+	public static $geoIPDatabaseDir = 'misc';
 	
 	/**
 	 * Stores possible database file names categorized by the type of information
@@ -176,9 +176,10 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
 	 */
 	public static function getPathToGeoIpDatabase( $possibleFileNames )
 	{
+		$dir = PIWIK_INCLUDE_PATH.'/'.self::$geoIPDatabaseDir;
 		foreach ($possibleFileNames as $filename)
 		{
-			$path = PIWIK_INCLUDE_PATH.'/'.self::GEOIP_DATABASE_DIR.'/'.$filename;
+			$path = $dir.'/'.$filename;
 			if (file_exists($path))
 			{
 				return $path;

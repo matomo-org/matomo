@@ -24,11 +24,24 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 		    self::$tokenAuth = self::getTokenAuth();
             
             self::setUpWebsitesAndGoals();
+			self::downloadGeoIpDbs();
+			
+			Piwik_UserCountry_LocationProvider::$providers = null;
+			Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+			Piwik_UserCountry_LocationProvider::setCurrentProvider('geoip_php');
+			
             self::trackVisits();
         } catch(Exception $e) {
             // Skip whole test suite if an error occurs while setup
             throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
         }
+    }
+    
+    public static function tearDownAfterClass()
+    {
+		Piwik_UserCountry_LocationProvider::$providers = null;
+		Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+		Piwik_UserCountry_LocationProvider::setCurrentProvider('default');
     }
 
     /**

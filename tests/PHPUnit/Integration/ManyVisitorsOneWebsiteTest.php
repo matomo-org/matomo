@@ -12,11 +12,13 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 /**
  * Tests w/ 14 visitors w/ 2 visits each. Uses geoip location provider to test city/region reports.
  * 
- * TODO Test ServerBased GeoIP implementation somehow.
- * TODO When added, test PECL implementation.
+ * TODO Test ServerBased GeoIP implementation somehow. (Use X-FORWARDED-FOR?)
+ * TODO Test PECL implementation somehow. (The PECL module must point to the test dir, not the real one.)
  */
 class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestCase
 {
+	const GEOIP_IMPL_TO_TEST = 'geoip_php';
+	
 	protected static $idSite = 1;
 	protected static $dateTime = '2010-01-03 11:22:33';
 	
@@ -32,9 +34,6 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		
 		'103.29.196.229', // in Indonesia (Bali), (only Indonesia will show up)
 	);
-	
-	public static $geoIpDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoIP.dat.gz';
-	public static $geoLiteCityDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoLiteCity.dat.gz';
 
 	public static function setUpBeforeClass()
 	{
@@ -46,8 +45,9 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			self::setMockLocationProvider();
 			self::trackVisits(9, false);
 			
-			self::setLocationProvider('GeoLiteCity.dat');
-			self::trackVisits(4, true);
+			self::setLocationProvider('GeoIPCity.dat');
+			self::trackVisits(2, true, $useLocal = false);
+			self::trackVisits(2, true, $useLocal = false, $doBulk = true);
 			
 			self::setLocationProvider('GeoIP.dat');
 			self::trackVisits(2, true);
@@ -112,13 +112,18 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
         Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'all', 'url', 'http', 'contains', false, 5);
 	}
 	
-	protected static function trackVisits( $visitorCount, $setIp = false )
+	protected static function trackVisits( $visitorCount, $setIp = false, $useLocal = true, $doBulk = false )
 	{
 		$dateTime = self::$dateTime;
 		$idSite   = self::$idSite;
 		
 		// use local tracker so mock location provider can be used
-		$t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal = true);
+		$t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useLocal);
+		if ($doBulk)
+		{
+			$t->enableBulkTracking();
+			$t->setTokenAuth(self::getTokenAuth());
+		}
 		for ($i = 0; $i != $visitorCount; ++$i)
 		{
 			$t->setNewVisitorId();
@@ -136,21 +141,34 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			$date = Piwik_Date::factory($dateTime)->addDay($i);
 			$t->setForceVisitDateTime($date->getDatetime());
 			$t->setUrl("http://piwik.net/grue/lair");
-			self::checkResponse($t->doTrackPageView('It\'s pitch black...'));
+			$r = $t->doTrackPageView('It\'s pitch black...');
+			if (!$doBulk)
+			{
+				self::checkResponse($r);
+			}
 			
 			// second visit
 			$date = $date->addHour(1);
 			$t->setForceVisitDateTime($date->getDatetime());
 			$t->setUrl("http://piwik.net/space/quest/iv");
-			self::checkResponse($t->doTrackPageView("Space Quest XII"));
+			$r = $t->doTrackPageView("Space Quest XII");
+			if (!$doBulk)
+			{
+				self::checkResponse($r);
+			}
+		}
+		if ($doBulk)
+		{
+			self::checkResponse($t->doBulkTrack());
 		}
 	}
 	
 	public static function setLocationProvider( $file )
 	{
 		Piwik_UserCountry_LocationProvider_GeoIp::$dbNames['loc'] = array($file);
+		Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 		Piwik_UserCountry_LocationProvider::$providers = null;
-		Piwik_UserCountry_LocationProvider::setCurrentProvider('geoip_php');
+		Piwik_UserCountry_LocationProvider::setCurrentProvider(self::GEOIP_IMPL_TO_TEST);
 	}
 	
 	public static function setMockLocationProvider()
@@ -189,57 +207,6 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 	public static function unsetLocationProvider()
 	{
 		Piwik_UserCountry_LocationProvider::setCurrentProvider('default');
-	}
-	
-	public static function downloadGeoIpDbs()
-	{
-		$geoIpOutputDir = PIWIK_INCLUDE_PATH.'/tests/lib/geoip-files';
-		self::downloadAndUnzip(self::$geoIpDbUrl, $geoIpOutputDir, 'GeoIP.dat');
-		self::downloadAndUnzip(self::$geoLiteCityDbUrl, $geoIpOutputDir, 'GeoLiteCity.dat');
-	}
-	
-	public static function downloadAndUnzip( $url, $outputDir, $filename )
-	{
-		$bufferSize = 1024 * 1024;
-		
-		try
-		{
-			if (!is_dir($outputDir)) 
-			{
-				mkdir($outputDir);
-			}
-			
-			$deflatedOut = $outputDir.'/'.$filename;
-			$outfileName = $deflatedOut.'.gz';
-			
-			if (file_exists($deflatedOut))
-			{
-				return;
-			}
-			
-			$dump = fopen($url, 'rb');
-			$outfile = fopen($outfileName, 'wb');
-			$bytesRead = 0;
-			while (!feof($dump))
-			{
-				fwrite($outfile, fread($dump, $bufferSize), $bufferSize);
-				$bytesRead += $bufferSize;
-			}
-			fclose($dump);
-			fclose($outfile);
-			
-			// unzip the dump
-			exec("gunzip -c \"".$outfileName."\" > \"$deflatedOut\"", $output, $return);
-			if ($return !== 0)
-			{
-				throw new Exception("gunzip failed($return): ".implode("\n", $output));
-			}
-		}
-		catch (Exception $ex)
-		{
-			self::markTestSkipped(
-				"Cannot download GeoIp DBs, skipping: ".$ex->getMessage()."\n".$ex->getTraceAsString());
-		}
 	}
 	
 	public static function makeLocation( $city, $region, $country )

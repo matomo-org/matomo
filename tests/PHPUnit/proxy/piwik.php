@@ -25,6 +25,7 @@ require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 Piwik::createConfigObject();
 Piwik_Config::getInstance()->setTestEnvironment();
 Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'] = array();
+Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
 Piwik_Tracker::setTestEnvironment();
 Piwik_DataTable_Manager::getInstance()->deleteAll();

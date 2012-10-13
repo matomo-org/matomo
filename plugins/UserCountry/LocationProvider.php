@@ -290,7 +290,8 @@ abstract class Piwik_UserCountry_LocationProvider
 		$provider = self::getProviderById($providerId);
 		if ($provider === false)
 		{
-			throw new Exception("Invalid provider ID '$providerId'.");
+			throw new Exception(
+				"Invalid provider ID '$providerId'. The provider either does not exist or is not available");
 		}
 		Piwik_SetOption(self::CURRENT_PROVIDER_OPTION_NAME, $providerId);
 		return $provider;
