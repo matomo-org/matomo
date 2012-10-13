@@ -27,11 +27,15 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
 	{
 		parent::setBasicVariablesView($view);
 
+		self::setBasicVariablesAdminView($view);
+	}
+
+	static public function setBasicVariablesAdminView($view)
+	{
 		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
 
 		$view->enableFrames = Piwik_Config::getInstance()->General['enable_framed_settings'];
-		if(!$view->enableFrames)
-		{
+		if (!$view->enableFrames) {
 			$view->setXFrameOptions('sameorigin');
 		}
 	}

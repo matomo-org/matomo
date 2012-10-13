@@ -40,8 +40,9 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 			$newline = '<br/>', $includeExtra = true);
 		$view->currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
 		$view->thisIP = Piwik_IP::getIpFromHeader();
-		
+
 		$this->setBasicVariablesView($view);
+		Piwik_Controller_Admin::setBasicVariablesAdminView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		
 		echo $view->render();
