@@ -242,7 +242,7 @@ Piwik_Transitions.prototype.prepareCanvas = function(canvasId, width, height) {
 	var canvas;
 
 	if (typeof Piwik_Transitions.canvasCache == 'undefined'
-			|| typeof window.G_vmlCanvasManager != "undefined") {
+		|| typeof window.G_vmlCanvasManager != "undefined") {
 		// no recycling for excanvas because they are disposed properly anyway and
 		// recycling doesn't work this way in IE8
 		Piwik_Transitions.canvasCache = {};
@@ -1373,66 +1373,46 @@ Piwik_Transitions_Ajax.prototype.callTransitionsController = function(action, ca
 };
 
 Piwik_Transitions_Ajax.prototype.callApi = function(method, params, callback) {
-	params.module = 'API';
-	params.method = method;
-	params.date = piwik.currentDateString;
-	params.idSite = piwik.idSite;
-	params.period = piwik.period;
-	params.token_auth = piwik.token_auth;
-	params.format = 'JSON';
-	if (params.period == 'range') {
-		params.date = piwik.startDateString + ',' + params.date;
-	}
-
-	var segment = broadcast.getValueFromHash('segment', window.location.href);
-	if (segment) {
-		params.segment = segment;
-	}
-
 	var self = this;
-	piwikHelper.queueAjaxRequest($.post('index.php', params, function(result) {
-		if (typeof result.result != 'undefined' && result.result == 'error') {
-			var errorName = result.message;
 
-			var showError = function() {
-				var errorTitle, errorMessage, errorBack;
-				if (typeof Piwik_Transitions_Translations[errorName] == 'undefined') {
-					errorTitle = 'Exception';
-					errorMessage = errorName;
-					errorBack = '<<<';
-				} else {
-					errorTitle = Piwik_Transitions_Translations[errorName];
-					errorMessage = Piwik_Transitions_Translations[errorName + 'Details'];
-					errorBack = Piwik_Transitions_Translations[errorName + 'Back'];
-				}
-
-				if (typeof params.actionName != 'undefined') {
-					var url = params.actionName;
-					url = Piwik_Transitions_Util.addBreakpointsToUrl(url);
-					errorTitle = errorTitle.replace(/%s/, '<span>' + url + '</span>');
-				}
-
-				errorMessage = errorMessage.replace(/%s/g, '<br />');
-				Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
-			};
-
-			if (typeof Piwik_Transitions_Translations == 'undefined') {
-				self.callApi('Transitions.getTranslations', {}, function(response) {
-					if (typeof response[0] == 'object') {
-						Piwik_Transitions_Translations = response[0];
-					} else {
-						Piwik_Transitions_Translations = {};
-					}
-					showError();
-				});
+	params.format = 'JSON';
+	
+	piwikHelper.ajaxCallApi(method, params, callback, function(errorName) {
+		var showError = function() {
+			var errorTitle, errorMessage, errorBack;
+			if (typeof Piwik_Transitions_Translations[errorName] == 'undefined') {
+				errorTitle = 'Exception';
+				errorMessage = errorName;
+				errorBack = '<<<';
 			} else {
-				showError();
+				errorTitle = Piwik_Transitions_Translations[errorName];
+				errorMessage = Piwik_Transitions_Translations[errorName + 'Details'];
+				errorBack = Piwik_Transitions_Translations[errorName + 'Back'];
 			}
 
+			if (typeof params.actionName != 'undefined') {
+				var url = params.actionName;
+				url = Piwik_Transitions_Util.addBreakpointsToUrl(url);
+				errorTitle = errorTitle.replace(/%s/, '<span>' + url + '</span>');
+			}
+
+			errorMessage = errorMessage.replace(/%s/g, '<br />');
+			Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+		};
+
+		if (typeof Piwik_Transitions_Translations == 'undefined') {
+			self.callApi('Transitions.getTranslations', {}, function(response) {
+				if (typeof response[0] == 'object') {
+					Piwik_Transitions_Translations = response[0];
+				} else {
+					Piwik_Transitions_Translations = {};
+				}
+				showError();
+			});
 		} else {
-			callback(result);
+			showError();
 		}
-	}, 'json'));
+	});
 };
 
 

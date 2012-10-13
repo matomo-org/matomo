@@ -79,6 +79,75 @@ var piwikHelper = {
         }
     },
 
+	/**
+	 * Call an API method
+	 * 
+	 * @param 	method 		API method name, i.e. Plugin.Method
+	 * @param	params		parameters for the request
+	 * @param	callback			regular callback
+	 * @param	exceptionCallback	callback for when the API returns an error, i.e. PHP Exception
+	 * 
+	 * @return {void}
+	 */
+	ajaxCallApi: function(method, params, callback, exceptionCallback)
+	{
+		params.method = method;
+		piwikHelper.ajaxCall('API', false, params, callback, exceptionCallback);
+	},
+	
+	/**
+	 * Do an AJAX request
+	 * 
+	 * @param 	module 		plugin name
+	 * @param	action		method name
+	 * @param	params		parameters for the request
+	 * @param	callback			regular callback
+	 * @param	exceptionCallback	callback for when the API returns an error, i.e. PHP Exception
+	 * @param	format		response format, default json
+	 * 
+	 * @return {void}
+	 */
+	ajaxCall: function(module, action, params, callback, exceptionCallback, format) {
+		params.module = module;
+		if (action) {
+			params.action = action;
+		}
+		
+		params.date = piwik.currentDateString;
+		params.idSite = piwik.idSite;
+		params.period = piwik.period;
+		params.token_auth = piwik.token_auth;
+		if (params.period == 'range')
+		{
+			params.date = piwik.startDateString + ',' + params.date;
+		}
+	
+		var segment = broadcast.getValueFromHash('segment', window.location.href);
+		if (segment)
+		{
+			params.segment = segment;
+		}
+	
+		piwikHelper.queueAjaxRequest($.get('index.php', params, function(result)
+		{
+			if (typeof result.result != 'undefined' && result.result == 'error')
+			{
+				if (typeof exceptionCallback == 'function')
+				{
+					exceptionCallback(result.message);
+				}
+				else
+				{
+					alert(result.message);
+				}
+			}
+			else
+			{
+				callback(result);
+			}
+		}, format || 'json'));
+	},
+
     /**
      * Aborts all registered running ajax requests
      * @return {Boolean}

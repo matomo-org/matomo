@@ -9,6 +9,7 @@ var Piwik_Popover = (function() {
 
 	var container = false;
 	var isOpen = false;
+	var closeCallback = false;
 
 	var createContainer = function() {
 		if (container === false) {
@@ -32,12 +33,17 @@ var Piwik_Popover = (function() {
 				});
 			},
 			close: function(event, ui) {
+				container.find('div.jqplot-target').trigger('piwikDestroyPlot');
 				container[0].innerHTML = ''; // IE8 fix
-				container.dialog('destroy');
+				container.dialog('destroy').remove();
 				piwikHelper.abortQueueAjax();
 				$('.ui-widget-overlay').off('click.popover');
 				isOpen = false;
 				broadcast.propagateNewPopoverParameter(false);
+				if (typeof closeCallback == 'function') {
+					closeCallback();
+					closeCallback = false;
+				}
 			}
 		});
 		
@@ -86,6 +92,7 @@ var Piwik_Popover = (function() {
 			}
 				
 			this.setContent(loading);
+			this.setTitle('');
 
 			if (height) {
 				var offset = loading.height() - p1.outerHeight();
@@ -103,7 +110,7 @@ var Piwik_Popover = (function() {
 		/** Add a help button to the current popover */
 		addHelpButton: function(helpUrl) {
 			if (!isOpen) {
-				return false;
+				return;
 			}
 			
 			var titlebar = container.parent().find('.ui-dialog-titlebar');
@@ -112,12 +119,20 @@ var Piwik_Popover = (function() {
 			button.attr({href: helpUrl, target: '_blank'});
 			
 			titlebar.append(button);
-			
-			//alert(titlebar.find('.ui-dialog-titlebar-close').outerWidth());
 		},
 
+		/** Set the title of the popover */
+		setTitle: function(titleHtml) {
+			container.dialog({title: titleHtml});
+		},
+		
 		/** Set inner HTML of the popover */
 		setContent: function(html) {
+			if (typeof closeCallback == 'function') {
+				closeCallback();
+				closeCallback = false;
+			}
+			
 			container[0].innerHTML = ''; // IE8 fix
 			container.html(html);
 			centerPopover();
@@ -149,6 +164,11 @@ var Piwik_Popover = (function() {
 			}
 				
 			this.setContent(error);
+		},
+		
+		/** Add a callback for the next time the popover is closed or the content changes */
+		onClose: function(callback) {
+			closeCallback = callback;
 		},
 
 		/** Close the popover */

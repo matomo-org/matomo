@@ -1,6 +1,6 @@
 /**
  * Registry for row actions
- * 
+ *
  * Plugins can call DataTable_RowActions_Registry.register() from their JS
  * files in order to add new actions to arbitrary data tables. The register()
  * method takes an object containing:
@@ -12,26 +12,25 @@
  *                given row of a data table
  */
 var DataTable_RowActions_Registry = {
-	
+
 	registry: [],
-	
+
 	register: function(action) {
 		var createInstance = action.createInstance;
-		action.createInstance = function(dataTable) {
-			var instance = createInstance(dataTable);
+		action.createInstance = function(dataTable, param) {
+			var instance = createInstance(dataTable, param);
 			instance.actionName = action.name;
 			return instance;
 		};
-		
+
 		this.registry.push(action);
 	},
-	
+
 	getAvailableActionsForReport: function(dataTableParams, tr) {
-		if (dataTableParams.disable_row_actions == '1')
-		{
+		if (dataTableParams.disable_row_actions == '1') {
 			return [];
 		}
-		
+
 		var available = [];
 		for (var i = 0; i < this.registry.length; i++) {
 			if (this.registry[i].isAvailableOnReport(dataTableParams, tr)) {
@@ -40,7 +39,7 @@ var DataTable_RowActions_Registry = {
 		}
 		return available;
 	},
-	
+
 	getActionByName: function(name) {
 		for (var i = 0; i < this.registry.length; i++) {
 			if (this.registry[i].name == name) {
@@ -49,42 +48,62 @@ var DataTable_RowActions_Registry = {
 		}
 		return false;
 	}
-	
+
 };
 
 // Register Row Evolution (also servers as example)
 DataTable_RowActions_Registry.register({
-	
+
 	name: 'RowEvolution',
-	
+
 	dataTableIcon: 'themes/default/images/row_evolution.png',
 	dataTableIconHover: 'themes/default/images/row_evolution_hover.png',
-	
+
 	dataTableIconTooltip: [
 		_pk_translate('CoreHome_RowEvolutionRowActionTooltipTitle_js'),
 		_pk_translate('CoreHome_RowEvolutionRowActionTooltip_js')
 	],
-	
-	createInstance: function(dataTable) {
-		return new DataTable_RowActions_RowEvolution(dataTable);
+
+	createInstance: function(dataTable, param) {
+		if (dataTable !== null && typeof dataTable.rowEvolutionActionInstance != 'undefined') {
+			return dataTable.rowEvolutionActionInstance;
+		}
+
+		if (dataTable === null && param) {
+			// when row evolution is triggered from the url (not a click on the data table)
+			// we look for the data table instance in the dom
+			var divId = param.split(':')[0].replace(/\./, '');
+			var div = $('#' + divId + '.dataTable');
+			if (div.size() > 0 && div.data('piwikDataTable')) {
+				dataTable = div.data('piwikDataTable');
+				if (typeof dataTable.rowEvolutionActionInstance != 'undefined') {
+					return dataTable.rowEvolutionActionInstance;
+				}
+			}
+		}
+
+		var instance = new DataTable_RowActions_RowEvolution(dataTable);
+		if (dataTable !== null) {
+			dataTable.rowEvolutionActionInstance = instance;
+		}
+		return instance;
 	},
-	
+
 	isAvailableOnReport: function(dataTableParams) {
 		return (
 			typeof dataTableParams.disable_row_evolution == 'undefined'
-			|| dataTableParams.disable_row_evolution == "0"
-		) && (
+				|| dataTableParams.disable_row_evolution == "0"
+			) && (
 			typeof dataTableParams.flat == 'undefined'
-			|| dataTableParams.flat == "0"
-		);
+				|| dataTableParams.flat == "0"
+			);
 	},
-	
+
 	isAvailableOnRow: function(dataTableParams, tr) {
 		return true;
 	}
 
 });
-
 
 
 /**
@@ -108,10 +127,10 @@ DataTable_RowActions_Registry.register({
 
 function DataTable_RowAction(dataTable) {
 	this.dataTable = dataTable;
-	
+
 	// has to be overridden in subclasses
 	this.trEventName = 'piwikTriggerRowAction';
-	
+
 	// set in registry
 	this.actionName = 'RowAction';
 }
@@ -137,12 +156,12 @@ DataTable_RowAction.prototype.initTr = function(tr) {
 DataTable_RowAction.prototype.trigger = function(tr, e, subTableLabel) {
 	var label = this.getLabelFromTr(tr);
 
-    label = label.trim();
-    // if we have received the event from the sub table, add the label
+	label = label.trim();
+	// if we have received the event from the sub table, add the label
 	if (subTableLabel) {
-        var separator = ' > '; // Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL
-        label += separator + subTableLabel.trim();
-    }
+		var separator = ' > '; // Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL
+		label += separator + subTableLabel.trim();
+	}
 
 	// handle sub tables in nested reports: forward to parent
 	var subtable = tr.closest('table');
@@ -206,10 +225,10 @@ broadcast.addPopoverHandler('RowAction', function(param) {
 	var rowActionName = paramParts[0];
 	paramParts.shift();
 	param = paramParts.join(':');
-	
+
 	var rowAction = DataTable_RowActions_Registry.getActionByName(rowActionName);
 	if (rowAction) {
-		rowAction.createInstance().doOpenPopover(param);
+		rowAction.createInstance(null, param).doOpenPopover(param);
 	}
 });
 
@@ -223,14 +242,11 @@ DataTable_RowAction.prototype.doOpenPopover = function(parameter) {
 //
 // ROW EVOLUTION
 //
-// TODO: use openPopover of base class. when opening a row evolution popover from
-// the url, omit "compare records" because we don't know which data table to use.
-//
 
 function DataTable_RowActions_RowEvolution(dataTable) {
 	this.dataTable = dataTable;
 	this.trEventName = 'piwikTriggerRowEvolution';
-	
+
 	/** The rows to be compared in multi row evolution */
 	this.multiEvolutionRows = [];
 }
@@ -238,108 +254,100 @@ function DataTable_RowActions_RowEvolution(dataTable) {
 DataTable_RowActions_RowEvolution.prototype = new DataTable_RowAction;
 
 DataTable_RowActions_RowEvolution.prototype.performAction = function(label, tr, e) {
-	this.showRowEvolution(tr, label, null, e.shiftKey);
-};
-
-/** Open the row evolution popover */
-DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(tr, label, metric, onlyMarkForMulti) {
-	var self = this;
-
-	// this happens when shift-clicking a row
-	if (onlyMarkForMulti) {
-		self.multiEvolutionRows.push(label);
+	if (e.shiftKey) {
+		// only mark for multi row evolution if shift key is pressed
+		this.addMultiEvolutionRow(label);
 		return;
 	}
 
-	// open the popover
-	var loading = $('div.loadingPiwik:first').clone();
-	var box = $(document.createElement('div')).addClass('rowEvolutionPopover').html(loading);
-	box.dialog({
-		title: '',
-		modal: true,
-		width: '900px',
-		position: ['center', 'center'],
-		resizable: false,
-		autoOpen: true,
-		open: function(event, ui) {
-			$('.ui-widget-overlay').on('click.rowEvolution',function(){
-				$('.rowEvolutionPopover').dialog('close');
-			})
-		},
-		close: function(event, ui) {
-			// reset multi evolution if regular close button has been used
-			if (typeof event.originalEvent != 'undefined') {
-				self.multiEvolutionRows = [];
-			}
-			piwikHelper.abortQueueAjax();
-			$('.ui-widget-overlay').off('click.rowEvolution');
-			box.find('div.jqplot-target').trigger('piwikDestroyPlot');
-			box.dialog('destroy').remove();
-		}
-	});
-
-	// load the popover contents
-	var request = this.dataTable.buildAjaxRequest(function(html) {
-		box.html(html);
-		box.dialog({position: ['center', 'center']});
-
-		var title = box.find('div.popover-title');
-		if (title.size() > 0) {
-			box.dialog({title: title.html()});
-			title.remove();
-		}
-
-		// remember label for multi row evolution
-		box.find('a.rowevolution-startmulti').click(function() {
-			box.dialog('close');
-			if ($.inArray(label, self.multiEvolutionRows) == -1) {
-				self.multiEvolutionRows.push(label);
-			}
-			return false;
-		});
-
-		// switch metric in multi row evolution
-		box.find('select.multirowevoltion-metric').change(function() {
-			var metric = $(this).val();
-			box.dialog('close');
-			self.showRowEvolution(tr, label, metric);
-			return true;
-		});
-	});
-
-	var requestLabel = label;
-	var action = 'getRowEvolutionPopover';
-
-	if (self.multiEvolutionRows.length > 0) {
-		if ($.inArray(label, self.multiEvolutionRows) == -1) {
-			self.multiEvolutionRows.push(label);
-		}
-		if (self.multiEvolutionRows.length > 1) {
-			box.dialog({title: ''});
-			action = 'getMultiRowEvolutionPopover';
-			requestLabel = self.multiEvolutionRows.join(',');
-		}
+	// check whether we have rows marked for multi row evolution
+	var isMultiRowEvolution = '0';
+	this.addMultiEvolutionRow(label);
+	if (this.multiEvolutionRows.length > 1) {
+		isMultiRowEvolution = '1';
+		label = this.multiEvolutionRows.join(',');
 	}
 
-	request.data = {
-		apiMethod: request.data.module + '.' + request.data.action,
-		module: 'CoreHome',
-		action: action,
-		date: request.data.date,
-		idSite: request.data.idSite,
-		period: request.data.period,
-		label: requestLabel,
-		segment: request.data.segment,
+	var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;
+	var urlParam = apiMethod + ':' + isMultiRowEvolution + ':' + label;
+	this.openPopover(urlParam);
+};
+
+DataTable_RowActions_RowEvolution.prototype.addMultiEvolutionRow = function(label) {
+	if ($.inArray(label, this.multiEvolutionRows) == -1) {
+		this.multiEvolutionRows.push(label);
+	}
+};
+
+DataTable_RowActions_RowEvolution.prototype.doOpenPopover = function(urlParam) {
+	var urlParamParts = urlParam.split(':');
+
+	var apiMethod = urlParamParts[0];
+	urlParamParts.shift();
+
+	var isMultiRowEvolution = (urlParamParts[0] == '1');
+	urlParamParts.shift();
+
+	var label = urlParamParts.join(':');
+
+	this.showRowEvolution(apiMethod, label, isMultiRowEvolution);
+};
+
+/** Open the row evolution popover */
+DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(apiMethod, label, isMultiRowEvolution, metric) {
+
+	var self = this;
+
+	// open the popover
+	var box = Piwik_Popover.showLoading('Row Evolution');
+	box.addClass('rowEvolutionPopover');
+
+	// load the popover contents
+	var requestParams = {
+		apiMethod: apiMethod,
+		label: label,
 		disableLink: 1
 	};
 
 	if (metric) {
-		request.data.column = metric;
-	}
-	var token_auth = broadcast.getValueFromUrl('token_auth');
-	if (token_auth.length && token_auth != 'anonymous') {
-		request.data.token_auth = token_auth;
+		requestParams.column = metric;
 	}
 
-	piwikHelper.queueAjaxRequest($.ajax(request));
+	var action = (isMultiRowEvolution ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover');
+
+	piwikHelper.ajaxCall('CoreHome', action, requestParams, function(html) {
+		Piwik_Popover.setContent(html);
+
+		var title = box.find('div.popover-title');
+		if (title.size() > 0) {
+			Piwik_Popover.setTitle(title.html());
+			title.remove();
+		}
+
+		Piwik_Popover.onClose(function() {
+			// reset rows marked for multi row evolution on close
+			self.multiEvolutionRows = [];
+		});
+
+		if (self.dataTable !== null) {
+			// remember label for multi row evolution
+			box.find('a.rowevolution-startmulti').click(function() {
+				Piwik_Popover.onClose(false); // unbind listener that resets multiEvolutionRows
+				Piwik_Popover.close();
+				return false;
+			});
+		} else {
+			// when the popover is launched by copy&pasting a url, we don't have the data table.
+			// in this case, we can't remember the row marked for multi row evolution so
+			// we disable the picker.
+			box.find('.compare-container, .rowevolution-startmulti').remove();
+		}
+
+		// switch metric in multi row evolution
+		box.find('select.multirowevoltion-metric').change(function() {
+			var metric = $(this).val();
+			self.showRowEvolution(apiMethod, label, isMultiRowEvolution, metric);
+			return true;
+		});
+	}, alert, 'html');
 };

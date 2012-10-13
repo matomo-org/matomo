@@ -35,6 +35,8 @@ dataTable.prototype =
 		this.isEmpty = $('.pk-emptyDataTable', domElem).length > 0;
 		this.bindEventsAndApplyStyle(domElem);
 		this.initialized = true;
+		
+		domElem.data('piwikDataTable', this);
 	},
 	
 	//function triggered when user click on column sort
@@ -1509,6 +1511,8 @@ actionDataTable.prototype =
 		this.workingDivId = workingDivId;
 		this.bindEventsAndApplyStyle(domElem);
 		this.initialized = true;
+		
+		domElem.data('piwikDataTable', this);
 	},
 
 	//see dataTable::bindEventsAndApplyStyle
