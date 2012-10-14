@@ -1235,6 +1235,9 @@ class Parser(object):
             if not os.path.exists(filename):
                 print >> sys.stderr, 'File %s does not exist' % filename
                 return
+            elif os.path.getsize(filename) == 0:
+                print 'File %s is empty' % filename
+                return
             else:
                 if filename.endswith('.bz2'):
                     open_func = bz2.BZ2File
