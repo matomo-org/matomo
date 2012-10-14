@@ -77,6 +77,13 @@ class Piwik_UserCountry extends Piwik_Plugin
 		
 		$id = Piwik_Common::getCurrentLocationProviderId();
 		$provider = Piwik_UserCountry_LocationProvider::getProviderById($id);
+		if ($provider === false)
+		{
+			$id = Piwik_UserCountry_LocationProvider_Default::ID;
+			$provider = Piwik_UserCountry_LocationProvider::getProviderById($id);
+			printDebug("GEO: no current location provider sent, falling back to default '$id' one.");
+		}
+		
 		$location = $provider->getLocation($visitorInfo);
 		
 		// if we can't find a location, use default provider
@@ -457,8 +464,15 @@ class Piwik_UserCountry extends Piwik_Plugin
 			$row[$column] = str_replace(self::LOCATION_SEPARATOR, '', $row[$column]);
 		}
 		
-		$row['location_region'] = $row['location_region'].self::LOCATION_SEPARATOR.$row['location_country'];
-		$row['location_city'] = $row['location_city'].self::LOCATION_SEPARATOR.$row['location_region'];
+		if (!empty($row['location_region'])) // do not differentiate between unknown regions
+		{
+			$row['location_region'] = $row['location_region'].self::LOCATION_SEPARATOR.$row['location_country'];
+		}
+		
+		if (!empty($row['location_city'])) // do not differentiate between unknown cities
+		{
+			$row['location_city'] = $row['location_city'].self::LOCATION_SEPARATOR.$row['location_region'];
+		}
 	}
 	
 	/**
@@ -496,6 +510,8 @@ class Piwik_UserCountry extends Piwik_Plugin
 			{
 				// get lat/long for city
 				list($lat, $long) = $this->latLongForCities[$label];
+				$lat = round($lat, Piwik_UserCountry_LocationProvider::GEOGRAPHIC_COORD_PRECISION);
+				$long = round($long, Piwik_UserCountry_LocationProvider::GEOGRAPHIC_COORD_PRECISION);
 				
 				// append latitude + longitude to label
 				$newLabel = $label.self::LOCATION_SEPARATOR.$lat.self::LOCATION_SEPARATOR.$long;

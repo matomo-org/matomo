@@ -58,6 +58,6 @@
 {* old GeoIP plugin warning *}
 {if $isSuperUser && $usingOldGeoIPPlugin}
 <div class="ajaxSuccess">
-	<strong>{'General_Warning'|translate}:&nbsp;</strong>{'UserCountry_OldGeoIPWarning'|translate:'<a href="index.php?module=CorePluginsAdmin&action=index&idSite=1&period=day&date=yesterday">':'</a>':'<a href="index.php?module=UserCountry&action=adminIndex&idSite=1&period=day&date=yesterday#location-providers">':'</a>':'<a href="http://piwik.org/faq/how-to/#toc-how-do-i-geolocate-my-old-data">':'</a>':'<a href="http://piwik.org/faq/how-to/#faq_59">':'</a>'}
+	<strong>{'General_Warning'|translate}:&nbsp;</strong>{'UserCountry_OldGeoIPWarning'|translate:'<a href="index.php?module=CorePluginsAdmin&action=index&idSite=1&period=day&date=yesterday">':'</a>':'<a href="index.php?module=UserCountry&action=adminIndex&idSite=1&period=day&date=yesterday#location-providers">':'</a>':'<a href="http://piwik.org/faq/how-to/#faq_167">':'</a>':'<a href="http://piwik.org/faq/how-to/#faq_59">':'</a>'}
 </div>
 {/if}

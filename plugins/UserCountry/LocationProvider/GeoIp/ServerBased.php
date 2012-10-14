@@ -29,11 +29,14 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 		parent::COUNTRY_NAME_KEY => 'GEOIP_COUNTRY_NAME',
 		parent::REGION_CODE_KEY => 'GEOIP_REGION',
 		parent::REGION_NAME_KEY => 'GEOIP_REGION_NAME',
-		parent::CITY_NAME_KEY => 'GEOIP_CITY',
 		parent::AREA_CODE_KEY => 'GEOIP_AREA_CODE',
 		parent::LATITUDE_KEY => 'GEOIP_LATITUDE',
 		parent::LONGITUDE_KEY => 'GEOIP_LONGITUDE',
 		parent::POSTAL_CODE_KEY => 'GEOIP_POSTAL_CODE',
+	);
+	
+	private static $geoIpUtfServerVars = array(
+		parent::CITY_NAME_KEY => 'GEOIP_CITY',
 		parent::ISP_KEY => 'GEOIP_ISP',
 		parent::ORG_KEY => 'GEOIP_ORGANIZATION',
 	);
@@ -91,6 +94,13 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 				$result[$resultKey] = $_SERVER[$geoipVarName];
 			}
 		}
+		foreach (self::$geoIpUtfServerVars as $resultKey => $geoipVarName)
+		{
+			if (!empty($_SERVER[$geoipVarName]))
+			{
+				$result[$resultKey] = utf8_encode($_SERVER[$geoipVarName]);
+			}
+		} 
 		$this->completeLocationResult($result);
 		return $result;
 	}

@@ -20,8 +20,8 @@
 		<city_name>Vancouver</city_name>
 		<region>BC</region>
 		<country>ca</country>
-		<lat>49.250000</lat>
-		<long>-123.133003</long>
+		<lat>49.25</lat>
+		<long>-123.133</long>
 		<country_name>Canada</country_name>
 		<region_name>British Columbia</region_name>
 		<logo>plugins/UserCountry/flags/ca.png</logo>

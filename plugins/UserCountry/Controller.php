@@ -147,6 +147,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_Region'));
 		$view->setReportDocumentation(Piwik_Translate('UserCountry_getRegionDocumentation').'<br/>'
 			. $this->getGeoIPReportDocSuffix());
+		$this->checkIfNoDataForGeoIpReport($view);
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -163,6 +164,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_City'));
 		$view->setReportDocumentation(Piwik_Translate('UserCountry_getCityDocumentation').'<br/>'
 			. $this->getGeoIPReportDocSuffix());
+		$this->checkIfNoDataForGeoIpReport($view);
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -202,5 +204,40 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view = $this->getLastUnitGraph('UserCountry',__FUNCTION__, "UserCountry.getNumberOfDistinctCountries");
 		$view->setColumnsToDisplay('UserCountry_distinctCountries');
 		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Checks if a datatable for a view is empty and if so, displays a message in the footer
+	 * telling users to configure GeoIP.
+	 */
+	private function checkIfNoDataForGeoIpReport( $view )
+	{
+		// only display on HTML tables since the datatable for HTML graphs aren't accessible
+		if (!($view instanceof Piwik_ViewDataTable_HtmlTable))
+		{
+			return;
+		}
+		
+		// if there's only one row whose label is 'Unknown', display a message saying there's no data
+		$view->main();
+		$dataTable = $view->getDataTable();
+		if ($dataTable->getRowsCount() == 1
+			&& $dataTable->getFirstRow()->getColumn('label') == Piwik_Translate('General_Unknown'))
+		{
+			$params = array('module' => 'UserCountry', 'action' => 'adminIndex');
+			$footerMessage = Piwik_Translate('UserCountry_NoDataForGeoIPReport', array(
+				'<a href="'.Piwik_Url::getCurrentQueryStringWithParametersModified($params).'">',
+				'</a>',
+				'<a href="http://piwik.org/faq/how-to/#faq_167">',
+				'</a>'
+			));
+			
+			// HACK! Can't use setFooterMessage because the view gets built in the main function,
+			// so instead we set the property by hand.
+			$realView = $view->getView();
+			$properties = $realView->properties;
+			$properties['show_footer_message'] = $footerMessage;
+			$realView->properties = $properties;
+		}
 	}
 }

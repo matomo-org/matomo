@@ -1,45 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Unknown, Japan</label>
-		<nb_visits>10</nb_visits>
-		<nb_actions>13</nb_actions>
+		<label>Unknown</label>
+		<nb_visits>18</nb_visits>
+		<nb_actions>21</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>8</bounce_count>
+		<bounce_count>16</bounce_count>
 		<goals>
 			<row idgoal='1'>
-				<nb_conversions>9</nb_conversions>
-				<nb_visits_converted>9</nb_visits_converted>
-				<revenue>45</revenue>
+				<nb_conversions>17</nb_conversions>
+				<nb_visits_converted>17</nb_visits_converted>
+				<revenue>85</revenue>
 			</row>
 		</goals>
-		<nb_conversions>9</nb_conversions>
-		<revenue>45</revenue>
-		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
-		<region>xx</region>
-		<country>jp</country>
-		<country_name>Japan</country_name>
-		<region_name>Unknown</region_name>
-		<logo>plugins/UserCountry/flags/jp.png</logo>
-	</row>
-	<row>
-		<label>Unknown</label>
-		<nb_visits>5</nb_visits>
-		<nb_actions>5</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>5</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>5</nb_conversions>
-				<nb_visits_converted>5</nb_visits_converted>
-				<revenue>25</revenue>
-			</row>
-		</goals>
-		<nb_conversions>5</nb_conversions>
-		<revenue>25</revenue>
-		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<nb_conversions>17</nb_conversions>
+		<revenue>85</revenue>
+		<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>
@@ -68,28 +45,5 @@
 		<country_name>United States</country_name>
 		<region_name>Virginia</region_name>
 		<logo>plugins/UserCountry/flags/us.png</logo>
-	</row>
-	<row>
-		<label>Unknown, Brazil</label>
-		<nb_visits>3</nb_visits>
-		<nb_actions>3</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>3</bounce_count>
-		<goals>
-			<row idgoal='1'>
-				<nb_conversions>3</nb_conversions>
-				<nb_visits_converted>3</nb_visits_converted>
-				<revenue>15</revenue>
-			</row>
-		</goals>
-		<nb_conversions>3</nb_conversions>
-		<revenue>15</revenue>
-		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
-		<region>xx</region>
-		<country>br</country>
-		<country_name>Brazil</country_name>
-		<region_name>Unknown</region_name>
-		<logo>plugins/UserCountry/flags/br.png</logo>
 	</row>
 </result>
