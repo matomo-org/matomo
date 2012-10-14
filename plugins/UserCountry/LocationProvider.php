@@ -35,6 +35,8 @@ abstract class Piwik_UserCountry_LocationProvider
 	
 	const CURRENT_PROVIDER_OPTION_NAME = 'usercountry.location_provider';
 	
+	const GEOGRAPHIC_COORD_PRECISION = 3;
+	
 	const CONTINENT_CODE_KEY = 'continent_code';
 	const CONTINENT_NAME_KEY = 'continent_name';
 	const COUNTRY_CODE_KEY = 'country_code';
@@ -322,6 +324,8 @@ abstract class Piwik_UserCountry_LocationProvider
 	 * This method will try to set the continent code, continent name and country code
 	 * using other information.
 	 * 
+	 * Note: This function must always be called by location providers in getLocation.
+	 * 
 	 * @param array $location The location information to modify.
 	 */
 	public function completeLocationResult( &$location )
@@ -348,6 +352,32 @@ abstract class Piwik_UserCountry_LocationProvider
 		{
 			$countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
 			$location[self::COUNTRY_NAME_KEY] = Piwik_Translate('UserCountry_country_'.$countryCode);
+		}
+		
+		// deal w/ improper latitude/longitude & round proper values
+		if (!empty($location[self::LATITUDE_KEY]))
+		{
+			if (is_numeric($location[self::LATITUDE_KEY]))
+			{
+				$location[self::LATITUDE_KEY] = round($location[self::LATITUDE_KEY], self::GEOGRAPHIC_COORD_PRECISION);
+			}
+			else
+			{
+				unset($location[self::LATITUDE_KEY]);
+			}
+		}
+		
+		if (!empty($location[self::LONGITUDE_KEY]))
+		{
+			if (is_numeric($location[self::LONGITUDE_KEY]))
+			{
+				$location[self::LONGITUDE_KEY] = round(
+					$location[self::LONGITUDE_KEY], self::GEOGRAPHIC_COORD_PRECISION);
+			}
+			else
+			{
+				unset($location[self::LONGITUDE_KEY]);
+			}
 		}
 	}
 	
@@ -418,7 +448,7 @@ abstract class Piwik_UserCountry_LocationProvider
 			
 			if (!empty($locationInfo[self::ORG_KEY]))
 			{
-				$lines[] = "Org: ".$locationInfo[self::ORG_KEY]; // TODO (translate)
+				$lines[] = "Org: ".$locationInfo[self::ORG_KEY];
 			}
 			
 			if (!empty($locationInfo[self::ISP_KEY]))

@@ -21,7 +21,7 @@
 		<region>BC</region>
 		<country>ca</country>
 		<lat>49.250000</lat>
-		<long>-123.133301</long>
+		<long>-123.133003</long>
 		<country_name>Canada</country_name>
 		<region_name>British Columbia</region_name>
 		<logo>plugins/UserCountry/flags/ca.png</logo>
@@ -70,8 +70,8 @@
 		<city_name>Besançon</city_name>
 		<region>A6</region>
 		<country>fr</country>
-		<lat>47.248798</lat>
-		<long>6.018200</long>
+		<lat>47.249001</lat>
+		<long>6.018000</long>
 		<country_name>France</country_name>
 		<region_name>Franche-Comte</region_name>
 		<logo>plugins/UserCountry/flags/fr.png</logo>

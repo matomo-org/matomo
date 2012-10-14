@@ -232,9 +232,15 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 	{
 		$desc = Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_Php1') . '<br/><br/>'
 			  . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_Php2',
-			  		array('<strong>', '</strong>', '<strong><em>', '</em></strong>',
-			  			  '<strong><em>', '</em></strong>'));
-		return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc, 'order' => 4);
+			  		array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
+		$installDocs = '<em><a href="http://piwik.org/faq/how-to/#faq_163">'
+	  		  . Piwik_Translate('UserCountry_HowToInstallGeoIPDatabases')
+	  		  . '</em></a>';
+		return array('id' => self::ID,
+					  'title' => self::TITLE,
+					  'description' => $desc,
+					  'install_docs' => $installDocs,
+					  'order' => 4);
 	}
 	
 	/**

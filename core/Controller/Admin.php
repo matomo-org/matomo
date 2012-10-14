@@ -38,5 +38,8 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
 		if (!$view->enableFrames) {
 			$view->setXFrameOptions('sameorigin');
 		}
+		
+		$view->isSuperUser = Piwik::isUserIsSuperUser();
+		$view->usingOldGeoIPPlugin = Piwik_PluginsManager::getInstance()->isPluginActivated('GeoIP');
 	}
 }

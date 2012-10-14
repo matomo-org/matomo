@@ -31,7 +31,7 @@ $(document).ready(function() {
 				ajaxSuccess.fadeIn(1000, function() {
 					setTimeout(function() {
 						ajaxSuccess.fadeOut(1000);
-					}, 500);
+					}, 2000);
 				});
 			}
 		});

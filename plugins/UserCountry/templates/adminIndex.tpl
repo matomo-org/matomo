@@ -2,11 +2,25 @@
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 
-<h2>{'UserCountry_Geolocation'|translate}</h2>
+<h2 id="location-providers">{'UserCountry_Geolocation'|translate}</h2>
 
 <div style="width:900px">
 
 <p>{'UserCountry_GeolocationPageDesc'|translate}</p>
+
+{if !$isThereWorkingProvider}
+<h3 style="margin-top:0">{'UserCountry_HowToSetupGeoIP'|translate}</h3>
+<p>{'UserCountry_HowToSetupGeoIPIntro'|translate}</p>
+
+<ul style="list-style:disc;margin-left:2em">
+	<li>{'UserCountry_HowToSetupGeoIP_Step1'|translate:'<a href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz">':'</a>':'<a href="http://www.maxmind.com/?rId=piwik">':'</a>'}</li>
+	<li>{'UserCountry_HowToSetupGeoIP_Step2'|translate:"'GeoLiteCity.dat'":'<strong>':'</strong>'}</li>
+	<li>{'UserCountry_HowToSetupGeoIP_Step3'|translate:'<strong>':'</strong>':'<span style="color:green"><strong>':'</strong></span>'}</li>
+	<li>{'UserCountry_HowToSetupGeoIP_Step4'|translate}</li>
+</ul>
+
+<p>&nbsp;</p>
+{/if}
 
 <table class="adminTable">
 	<tr>
@@ -36,7 +50,10 @@
 			</p>
 		</td>
 		<td>
-			{$provider.description|translate}
+			<p>{$provider.description|translate}</p>
+			{if $provider.status neq 1 && isset($provider.install_docs)}
+			<p>{$provider.install_docs}</p>
+			{/if}
 		</td>
 		<td width="164">
 		{if $provider.status eq 1}

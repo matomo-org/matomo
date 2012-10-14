@@ -68,8 +68,8 @@
 		<city_name>Ashburn</city_name>
 		<region>VA</region>
 		<country>us</country>
-		<lat>39.043701</lat>
-		<long>-77.487503</long>
+		<lat>39.043999</lat>
+		<long>-77.487999</long>
 		<country_name>United States</country_name>
 		<region_name>Virginia</region_name>
 		<logo>plugins/UserCountry/flags/us.png</logo>

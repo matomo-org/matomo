@@ -231,7 +231,16 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 	{
 		$desc = Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_Pecl1') . '<br/><br/>'
 			  . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_Pecl2');
-		return array('id' => self::ID, 'title' => self::TITLE, 'description' => $desc, 'order' => 2);
+		$installDocs = '<em>'
+					 . '<a href="http://piwik.org/faq/how-to/#faq_164">'
+					 . Piwik_Translate('UserCountry_HowToInstallGeoIpPecl')
+					 . '</a>'
+					 . '</em>';
+		return array('id' => self::ID,
+					  'title' => self::TITLE,
+					  'description' => $desc,
+					  'install_docs' => $installDocs,
+					  'order' => 2);
 	}
 	
 	/**

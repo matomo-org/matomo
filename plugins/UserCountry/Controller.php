@@ -40,6 +40,18 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 			$newline = '<br/>', $includeExtra = true);
 		$view->currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
 		$view->thisIP = Piwik_IP::getIpFromHeader();
+		
+		// check if there is a working provider (that isn't the default one)
+		$view->isThereWorkingProvider = false;
+		foreach ($view->locationProviders as $id => $provider)
+		{
+			if ($id != Piwik_UserCountry_LocationProvider_Default::ID
+				&& $provider['status'] == Piwik_UserCountry_LocationProvider::INSTALLED)
+			{
+				$view->isThereWorkingProvider = true;
+				break;
+			}
+		}
 
 		$this->setBasicVariablesView($view);
 		Piwik_Controller_Admin::setBasicVariablesAdminView($view);
@@ -108,6 +120,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getCountry");
 		$view->setLimit( 5 );
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_Country'));
+		$view->setReportDocumentation(Piwik_Translate('UserCountry_getCountryDocumentation'));
 		return $this->renderView($view, $fetch);
 	}
 
@@ -117,6 +130,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->disableSearchBox();
 		$view->disableOffsetInformationAndPaginationControls();
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_Continent'));
+		$view->setReportDocumentation(Piwik_Translate('UserCountry_getContinentDocumentation'));
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -131,6 +145,8 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getRegion");
 		$view->setLimit(5);
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_Region'));
+		$view->setReportDocumentation(Piwik_Translate('UserCountry_getRegionDocumentation').'<br/>'
+			. $this->getGeoIPReportDocSuffix());
 		return $this->renderView($view, $fetch);
 	}
 	
@@ -145,7 +161,19 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getCity");
 		$view->setLimit(5);
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_City'));
+		$view->setReportDocumentation(Piwik_Translate('UserCountry_getCityDocumentation').'<br/>'
+			. $this->getGeoIPReportDocSuffix());
 		return $this->renderView($view, $fetch);
+	}
+	
+	private function getGeoIPReportDocSuffix()
+	{
+		return Piwik_Translate('UserCountry_GeoIPDocumentationSuffix', array(
+			'<a href="http://www.maxmind.com/?rId=piwik">',
+			'</a>',
+			'<a href="http://www.maxmind.com/en/city_accuracy?rId=piwik">',
+			'</a>'
+		));
 	}
 	
 	protected function getStandardDataTableUserCountry( $currentControllerAction, 
