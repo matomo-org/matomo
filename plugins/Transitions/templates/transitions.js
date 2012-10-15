@@ -119,8 +119,8 @@ function Piwik_Transitions(actionType, actionName, rowAction) {
 	this.ajax = new Piwik_Transitions_Ajax();
 	this.model = new Piwik_Transitions_Model(this.ajax);
 
-	this.leftGroups = ['previousPages', 'searchEngines', 'websites', 'campaigns'];
-	this.rightGroups = ['followingPages', 'downloads', 'outlinks'];
+	this.leftGroups = ['previousPages', 'previousSiteSearches', 'searchEngines', 'websites', 'campaigns'];
+	this.rightGroups = ['followingPages', 'followingSiteSearches', 'downloads', 'outlinks'];
 }
 
 Piwik_Transitions.prototype.reset = function(actionType, actionName) {
@@ -353,12 +353,14 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 	};
 
 	showMetric('DirectEntries', 'directEntries', 'left', false);
+	showMetric('PreviousSiteSearches', 'previousSiteSearchesNbTransitions', 'left', false);
 	showMetric('PreviousPages', 'previousPagesNbTransitions', 'left', true);
 	showMetric('SearchEngines', 'searchEnginesNbTransitions', 'left', true);
 	showMetric('Websites', 'websitesNbTransitions', 'left', true);
 	showMetric('Campaigns', 'campaignsNbTransitions', 'left', true);
 
 	showMetric('FollowingPages', 'followingPagesNbTransitions', 'right', true);
+	showMetric('FollowingSiteSearches', 'followingSiteSearchesNbTransitions', 'left', false);
 	showMetric('Outlinks', 'outlinksNbTransitions', 'right', true);
 	showMetric('Downloads', 'downloadsNbTransitions', 'right', true);
 	showMetric('Exits', 'exits', 'right', false);
@@ -764,8 +766,8 @@ function Piwik_Transitions_Canvas(canvasBgLeft, canvasBgRight, canvasLeft, canva
  * for more than 3 referrer groups.
  */
 Piwik_Transitions_Canvas.prototype.narrowMode = function() {
-	this.smallBoxHeight = 30;
-	this.boxSpacing = 5;
+	this.smallBoxHeight = 26;
+	this.boxSpacing = 4;
 	this.narrowMode = true;
 };
 
@@ -910,7 +912,7 @@ Piwik_Transitions_Canvas.prototype.renderBox = function(params) {
 	var curveHeight = params.curveHeight ? params.curveHeight :
 		Math.round(this.totalHeightOfConnections * params.share);
 	curveHeight = Math.max(curveHeight, 1);
-
+	
 	var boxHeight = this.boxHeight;
 	if (params.smallBox) {
 		boxHeight = this.smallBoxHeight;
@@ -1015,7 +1017,7 @@ Piwik_Transitions_Canvas.prototype.renderLeftBoxBg = function(context, boxHeight
 	var leftLower = {x: this.leftCurveBeginX, y: this.leftBoxPositionY + boxHeight};
 	var rightUpper = {x: this.leftCurveEndX, y: this.leftCurvePositionY};
 	var rightLower = {x: this.leftCurveEndX, y: this.leftCurvePositionY + curveHeight};
-
+	
 	// derive control points for bezier curve
 	var center = (this.leftCurveBeginX + this.leftCurveEndX) / 2;
 	var cp1Upper = {x: center, y: leftUpper.y};
@@ -1183,13 +1185,17 @@ function Piwik_Transitions_Model(ajax) {
 
 Piwik_Transitions_Model.prototype.htmlLoaded = function() {
 	this.groupTitles.previousPages = Piwik_Transitions_Translations.fromPreviousPages;
+	this.groupTitles.previousSiteSearches = Piwik_Transitions_Translations.fromPreviousSiteSearches;
 	this.groupTitles.followingPages = Piwik_Transitions_Translations.toFollowingPages;
+	this.groupTitles.followingSiteSearches = Piwik_Transitions_Translations.toFollowingSiteSearches;
 	this.groupTitles.outlinks = Piwik_Transitions_Translations.outlinks;
 	this.groupTitles.downloads = Piwik_Transitions_Translations.downloads;
 
 	this.shareInGroupTexts = {
 		previousPages: Piwik_Transitions_Translations.fromPreviousPagesInline,
+		previousSiteSearches: Piwik_Transitions_Translations.fromPreviousSiteSearchesInline,
 		followingPages: Piwik_Transitions_Translations.toFollowingPagesInline,
+		followingSiteSearches: Piwik_Transitions_Translations.toFollowingSiteSearchesInline,
 		searchEngines: Piwik_Transitions_Translations.fromSearchEnginesInline,
 		websites: Piwik_Transitions_Translations.fromWebsitesInline,
 		campaigns: Piwik_Transitions_Translations.fromCampaignsInline,
@@ -1227,6 +1233,12 @@ Piwik_Transitions_Model.prototype.loadData = function(actionType, actionName, ca
 
 	this.outlinksNbTransitions = 0;
 	this.outlinks = [];
+	
+	this.previousSiteSearchesNbTransitions = 0;
+	this.previousSiteSearches = [];
+	
+	this.followingSiteSearchesNbTransitions = 0;
+	this.followingSiteSearches = [];
 
 	this.date = '';
 
@@ -1264,10 +1276,12 @@ Piwik_Transitions_Model.prototype.loadData = function(actionType, actionName, ca
 			}
 
 			self.loadAndSumReport(report, 'previousPages');
+			self.loadAndSumReport(report, 'previousSiteSearches');
 			self.loadAndSumReport(report, 'followingPages');
+			self.loadAndSumReport(report, 'followingSiteSearches');
 			self.loadAndSumReport(report, 'downloads');
 			self.loadAndSumReport(report, 'outlinks');
-
+			
 			if (typeof Piwik_Transitions_Model.totalNbPageviews == 'undefined') {
 				Piwik_Transitions_Model.totalNbPageviews = false;
 				self.ajax.loadTotalNbPageviews(function(nbPageviews) {

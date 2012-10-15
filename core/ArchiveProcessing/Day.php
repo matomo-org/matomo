@@ -378,10 +378,16 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			foreach ($joinLogActionOnColumn as $i => $joinColumn)
 			{
 				$tableAlias = 'log_action'.($multiJoin ? $i + 1 : '');
+				if (strpos($joinColumn, ' ') === false) {
+					$joinOn = $tableAlias.'.idaction = log_link_visit_action.'.$joinColumn;
+				} else {
+					// more complex join column like IF(...)
+					$joinOn = $tableAlias.'.idaction = '.$joinColumn;
+				}
 				$from[] = array(
 					'table' => 'log_action', 
 					'tableAlias' => $tableAlias,
-					'joinOn' => $tableAlias.'.idaction = log_link_visit_action.'.$joinColumn
+					'joinOn' => $joinOn
 				);
 			}
 		}

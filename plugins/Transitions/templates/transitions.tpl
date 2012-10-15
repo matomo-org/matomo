@@ -8,6 +8,7 @@
 			<div class="Transitions_IncomingTraffic">
 				<h3>{'Transitions_IncomingTraffic'|translate}</h3>
 				<p class="Transitions_PreviousPages">{$translations.fromPreviousPagesInline|translate}</p>
+				<p class="Transitions_PreviousSiteSearches">{$translations.fromPreviousSiteSearchesInline|translate}</p>
 				<p class="Transitions_SearchEngines">{$translations.fromSearchEnginesInline|translate}</p>
 				<p class="Transitions_Websites">{$translations.fromWebsitesInline|translate}</p>
 				<p class="Transitions_Campaigns">{$translations.fromCampaignsInline|translate}</p>
@@ -17,6 +18,7 @@
 			<div class="Transitions_OutgoingTraffic">
 				<h3>{'Transitions_OutgoingTraffic'|translate}</h3>
 				<p class="Transitions_FollowingPages">{$translations.toFollowingPagesInline|translate}</p>
+				<p class="Transitions_FollowingSiteSearches">{$translations.toFollowingSiteSearchesInline|translate}</p>
 				<p class="Transitions_Downloads">{$translations.downloadsInline|translate}</p>
 				<p class="Transitions_Outlinks">{$translations.outlinksInline|translate}</p>
 				<p class="Transitions_Exits">{$translations.exitsInline|translate}</p>

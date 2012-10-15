@@ -86,15 +86,23 @@ class Piwik_Transitions_API
 				- $report['pageMetrics']['loops'];
 		
 		// replace column names in the data tables
-		$columnNames = array(
-			'label' => 'url',
-			Piwik_Archive::INDEX_NB_ACTIONS => 'referrals'
+		$reportNames = array(
+			'previousPages' => true,
+			'previousSiteSearches' => false,
+			'followingPages' => true,
+			'followingSiteSearches' => false,
+			'outlinks' => true,
+			'downloads' => true
 		);
-		$reportNames = array('previousPages', 'followingPages', 'outlinks', 'downloads');
-		foreach ($reportNames as $reportName)
+		foreach ($reportNames as $reportName => $replaceLabel)
 		{
 			if (isset($report[$reportName]))
 			{
+				$columnNames = array(Piwik_Archive::INDEX_NB_ACTIONS => 'referrals');
+				if ($replaceLabel)
+				{
+					$columnNames[Piwik_Archive::INDEX_NB_ACTIONS] = 'referrals';
+				}
 				$report[$reportName]->filter('ReplaceColumnNames', array($columnNames));
 			}
 		}
@@ -137,7 +145,7 @@ class Piwik_Transitions_API
 
 	/**
 	 * Add the internal referrers to the report:
-	 * previous pages
+	 * previous pages and previous site searches
 	 * 
 	 * @param Piwik_Transitions $transitionsArchiving
 	 * @param $archiveProcessing
@@ -159,6 +167,7 @@ class Piwik_Transitions_API
 		}
 		
 		$report['previousPages'] = &$data['previousPages'];
+		$report['previousSiteSearches'] = &$data['previousSiteSearches'];
 		$report['pageMetrics']['loops'] = $data['loops'];
 		$report['pageMetrics']['pageviews'] = $data['pageviews'];
 	}
