@@ -135,16 +135,17 @@ class Piwik_Actions_Archiving
 		$orderBy = "`" . Piwik_Archive::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
 
 		$rankingQuery = false;
-		if ($rankingQueryLimit > 0) {
+		if ($rankingQueryLimit > 0)
+		{
 			$rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
 			$rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
 			$rankingQuery->addLabelColumn(array('idaction', 'name'));
+			$rankingQuery->addColumn(array('url_prefix', Piwik_Archive::INDEX_NB_UNIQ_VISITORS));
 			$rankingQuery->addColumn(array(Piwik_Archive::INDEX_PAGE_NB_HITS, Piwik_Archive::INDEX_NB_VISITS), 'sum');
-			if($this->isSiteSearchEnabled()) {
-				$rankingQuery->addColumn(array('url_prefix', Piwik_Archive::INDEX_NB_UNIQ_VISITORS, Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT));
+			if ($this->isSiteSearchEnabled())
+			{
+				$rankingQuery->addColumn(Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT, 'min');
 				$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS, 'sum');
-			} else {
-				$rankingQuery->addColumn(array('url_prefix', Piwik_Archive::INDEX_NB_UNIQ_VISITORS));
 			}
 			$rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
 		}
@@ -155,7 +156,7 @@ class Piwik_Actions_Archiving
 		if($this->isSiteSearchEnabled())
 		{
 			$selectFlagNoResultKeywords = ",
-				CASE WHEN (log_link_visit_action.custom_var_v". Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT." = 0 AND log_link_visit_action.custom_var_k". Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT." = '". Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT. "') THEN 1 ELSE 0 END AS `" . Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
+				CASE WHEN (MAX(log_link_visit_action.custom_var_v". Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT.") = 0 AND log_link_visit_action.custom_var_k". Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT." = '". Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT. "') THEN 1 ELSE 0 END AS `" . Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
 
 			//we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
 			$from[] = array(
