@@ -657,7 +657,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param array $array
 	 * @return Piwik_DataTable
 	 */
-	public function getDataTableFromArray( $array )
+	static public function getDataTableFromArray( $array )
 	{
 		$table = new Piwik_DataTable();
 		$table->addRowsFromArrayWithIndexLabel($array);
