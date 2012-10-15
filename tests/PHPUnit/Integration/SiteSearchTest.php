@@ -148,6 +148,8 @@ class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
 		$visitor->setUrl('http://example.org/index.htm#q=Search 1&search_count=10');
 		self::checkResponse($visitor->doTrackPageView('Site Search results - URL Fragment'));
 
+		// &search_count=0 so it's a "No Result" keyword, but it will not appear in the report, because it also has other seraches with results
+		// and the archiving does a MAX()
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.27)->getDatetime());
 		$visitor->setUrl('http://example.org/index.htm?hello=world#q=Search 1&search_count=0');
 		self::checkResponse($visitor->doTrackPageView('Site Search results - URL Fragment'));

@@ -31,7 +31,13 @@
 
 	</columns>
 	<reportData>
-		<result prettyDate="2010, January" />
+		<result prettyDate="2010, January">
+			<row>
+				<label>No Result Keyword!</label>
+				<nb_visits>2</nb_visits>
+				<exit_rate>0%</exit_rate>
+			</row>
+		</result>
 		<result prettyDate="2010, February" />
 		<result prettyDate="2010, March" />
 		<result prettyDate="2010, April" />

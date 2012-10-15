@@ -277,7 +277,7 @@ class Piwik_Actions_API
 		$dataTable->filter('ColumnCallbackDeleteRow',
 			array(
 				Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT,
-				create_function ( '$value', 'return $value == 1;')
+				create_function ( '$value', 'return $value >= 1;')
 			));
 		$dataTable->deleteColumn(Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT);
 		$this->filterPageDatatable($dataTable);

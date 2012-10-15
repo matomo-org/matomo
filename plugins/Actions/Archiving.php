@@ -376,6 +376,7 @@ class Piwik_Actions_Archiving
 
 		$dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_SITE_SEARCH];
 		self::deleteInvalidSummedColumnsFromDataTable($dataTable);
+		$this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
 		$s = $dataTable->getSerialized( Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation );
 		$archiveProcessing->insertBlobRecord('Actions_sitesearch', $s);
 		$archiveProcessing->insertNumericRecord('Actions_nb_searches', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
@@ -383,6 +384,21 @@ class Piwik_Actions_Archiving
 		destroy($dataTable);
 
 		destroy($this->actionsTablesByType);
+	}
+
+	protected function deleteUnusedColumnsFromKeywordsDataTable($dataTable)
+	{
+		$columnsToDelete = array(
+			Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
+			Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS,
+			Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
+			Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS,
+			Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH,
+			Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS,
+			Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT,
+			Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
+		);
+		$dataTable->deleteColumns($columnsToDelete);
 	}
 
 	static protected function removeEmptyColumns($dataTable)
