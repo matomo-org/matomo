@@ -19,11 +19,11 @@ DataTable_RowActions_Transitions.prototype = new DataTable_RowAction;
 
 DataTable_RowActions_Transitions.isPageUrlReport = function(module, action) {
 	return module == 'Actions' &&
-		(action == 'getPageUrls' || action == 'getEntryPageUrls' || action == 'getExitPageUrls');
+		(action == 'getPageUrls' || action == 'getEntryPageUrls' || action == 'getExitPageUrls' || action == 'getPageUrlsFollowingSiteSearch');
 };
 
 DataTable_RowActions_Transitions.isPageTitleReport = function(module, action) {
-	return module == 'Actions' && action == 'getPageTitles';
+	return module == 'Actions' && (action == 'getPageTitles' || action == 'getPageTitlesFollowingSiteSearch');
 }
 
 DataTable_RowActions_Transitions.prototype.trigger = function(tr, e, subTableLabel) {
