@@ -175,6 +175,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnTranslation('nb_pages_per_search', Piwik_Translate('Actions_ColumnPagesPerSearch'));
 		$view->disableShowAllColumns();
 		$view->disableShowBarChart();
+		$view->disableRowEvolution();
 		return $this->renderView($view, $fetch);
 	}
 
