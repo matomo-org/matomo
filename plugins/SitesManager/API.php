@@ -29,7 +29,7 @@
 class Piwik_SitesManager_API 
 {
 	static private $instance = null;
-	const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,search,k,keyword';
+	const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,s,search,searchword,k,keyword';
 
 	/**
 	 * @return Piwik_SitesManager_API
