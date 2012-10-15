@@ -353,14 +353,14 @@ Piwik_Transitions.prototype.renderCenterBox = function() {
 	};
 
 	showMetric('DirectEntries', 'directEntries', 'left', false);
-	showMetric('PreviousSiteSearches', 'previousSiteSearchesNbTransitions', 'left', false);
+	showMetric('PreviousSiteSearches', 'previousSiteSearchesNbTransitions', 'left', true);
 	showMetric('PreviousPages', 'previousPagesNbTransitions', 'left', true);
 	showMetric('SearchEngines', 'searchEnginesNbTransitions', 'left', true);
 	showMetric('Websites', 'websitesNbTransitions', 'left', true);
 	showMetric('Campaigns', 'campaignsNbTransitions', 'left', true);
 
 	showMetric('FollowingPages', 'followingPagesNbTransitions', 'right', true);
-	showMetric('FollowingSiteSearches', 'followingSiteSearchesNbTransitions', 'left', false);
+	showMetric('FollowingSiteSearches', 'followingSiteSearchesNbTransitions', 'right', true);
 	showMetric('Outlinks', 'outlinksNbTransitions', 'right', true);
 	showMetric('Downloads', 'downloadsNbTransitions', 'right', true);
 	showMetric('Exits', 'exits', 'right', false);
