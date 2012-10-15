@@ -14,6 +14,8 @@
 			<nb_uniq_downloads>Unique Downloads</nb_uniq_downloads>
 			<nb_outlinks>Outlinks</nb_outlinks>
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
+			<nb_searches>Searches</nb_searches>
+			<nb_keywords>Unique Keywords</nb_keywords>
 
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
@@ -28,6 +30,8 @@
 		<nb_uniq_downloads>Unique Downloads</nb_uniq_downloads>
 		<nb_outlinks>Outlinks</nb_outlinks>
 		<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
+		<nb_searches>Searches</nb_searches>
+		<nb_keywords>Unique Keywords</nb_keywords>
 
 	</columns>
 	<reportData>
@@ -37,6 +41,8 @@
 		<nb_uniq_downloads>0</nb_uniq_downloads>
 		<nb_outlinks>0</nb_outlinks>
 		<nb_uniq_outlinks>0</nb_uniq_outlinks>
+		<nb_searches>0</nb_searches>
+		<nb_keywords>0</nb_keywords>
 	</reportData>
 	<reportMetadata/>
 

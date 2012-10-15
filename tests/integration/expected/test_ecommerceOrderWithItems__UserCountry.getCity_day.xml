@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>Unknown, France</label>
+		<label>Unknown</label>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_visits>3</nb_visits>
 		<nb_actions>13</nb_actions>
@@ -35,9 +35,9 @@
 		<revenue>3121.11</revenue>
 		<city_name>Unknown</city_name>
 		<region>xx</region>
-		<country>fr</country>
-		<country_name>France</country_name>
+		<country>xx</country>
+		<country_name>Unknown</country_name>
 		<region_name>Unknown</region_name>
-		<logo>plugins/UserCountry/flags/fr.png</logo>
+		<logo>plugins/UserCountry/flags/xx.png</logo>
 	</row>
 </result>
