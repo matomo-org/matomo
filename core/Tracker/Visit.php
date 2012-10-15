@@ -191,7 +191,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$visitIsConverted = $someGoalsConverted;
 			
 			$action->loadIdActionNameAndUrl();
-			$idActionUrl = (int)$action->getIdActionUrl();
+			$idActionUrl = $action->getIdActionUrl();
+			if ($idActionUrl !== null) {
+				$idActionUrl = (int)$idActionUrl;
+			}
 			$idActionName = (int)$action->getIdActionName();
 			$actionType = $action->getActionType();
 		}

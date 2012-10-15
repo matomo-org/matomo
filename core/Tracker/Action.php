@@ -669,7 +669,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$insertWithoutNulls = array();
 		foreach($insert as $column => $value)
 		{
-			if(!is_null($value))
+			if(!is_null($value) || $column == 'idaction_url_ref')
 			{
 				$insertWithoutNulls[$column] = $value;
 			}
