@@ -58,7 +58,7 @@ var sitesManager = new SitesManager ( {$timezones}, {$currencies}, '{$defaultTim
 {assign var=searchCategoryLabel value='SitesManager_SearchCategoryLabel'|translate}
 var searchKeywordLabel = '{$searchKeywordLabel|escape:javascript}';
 var searchCategoryLabel = '{$searchCategoryLabel|escape:javascript}';
-{assign var=sitesearchIntro value='Actions_SubmenuSitesearch'|translate}
+{assign var=sitesearchIntro value='SitesManager_SiteSearchUse'|translate}
 var sitesearchIntro = '{$sitesearchIntro|inlineHelp|escape:javascript}';
 var sitesearchUseDefault = '{if $isSuperUser}{'SitesManager_SearchUseDefault'|translate:'<a href="#globalSiteSearch">':'</a>'|escape:'javascript'}{else}{'SitesManager_SearchUseDefault'|translate:'':''|escape:'javascript'}{/if}';
 var strDefault = '{'General_Default'|translate:escape:'javascript'}';
