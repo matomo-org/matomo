@@ -52,7 +52,6 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 				break;
 			}
 		}
-$view->isThereWorkingProvider=FALSE;
 		$this->setBasicVariablesView($view);
 		Piwik_Controller_Admin::setBasicVariablesAdminView($view);
 		$view->menu = Piwik_GetAdminMenu();
