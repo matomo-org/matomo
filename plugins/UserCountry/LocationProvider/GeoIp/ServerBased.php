@@ -197,10 +197,10 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 			  . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
 			  		array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
 		$installDocs =
-			  '<em><a href="http://piwik.org/faq/how-to/#faq_165">'
+			  '<em><a target="_blank" href="http://piwik.org/faq/how-to/#faq_165">'
 			. Piwik_Translate('UserCountry_HowToInstallApacheModule')
 			. '</a></em><br/><em>'
-			. '<a href="http://piwik.org/faq/how-to/#faq_166">'
+			. '<a target="_blank" href="http://piwik.org/faq/how-to/#faq_166">'
 			. Piwik_Translate('UserCountry_HowToInstallNginxModule')
 			. '</a></em>';
 		

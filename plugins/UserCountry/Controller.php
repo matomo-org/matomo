@@ -171,9 +171,9 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 	private function getGeoIPReportDocSuffix()
 	{
 		return Piwik_Translate('UserCountry_GeoIPDocumentationSuffix', array(
-			'<a href="http://www.maxmind.com/?rId=piwik">',
+			'<a target="_blank" href="http://www.maxmind.com/?rId=piwik">',
 			'</a>',
-			'<a href="http://www.maxmind.com/en/city_accuracy?rId=piwik">',
+			'<a target="_blank" href="http://www.maxmind.com/en/city_accuracy?rId=piwik">',
 			'</a>'
 		));
 	}
@@ -226,9 +226,9 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		{
 			$params = array('module' => 'UserCountry', 'action' => 'adminIndex');
 			$footerMessage = Piwik_Translate('UserCountry_NoDataForGeoIPReport', array(
-				'<a href="'.Piwik_Url::getCurrentQueryStringWithParametersModified($params).'">',
+				'<a target="_blank" href="'.Piwik_Url::getCurrentQueryStringWithParametersModified($params).'">',
 				'</a>',
-				'<a href="http://piwik.org/faq/how-to/#faq_167">',
+				'<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">',
 				'</a>'
 			));
 			

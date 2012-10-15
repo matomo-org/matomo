@@ -232,7 +232,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 		$desc = Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_Pecl1') . '<br/><br/>'
 			  . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_Pecl2');
 		$installDocs = '<em>'
-					 . '<a href="http://piwik.org/faq/how-to/#faq_164">'
+					 . '<a target="_blank" href="http://piwik.org/faq/how-to/#faq_164">'
 					 . Piwik_Translate('UserCountry_HowToInstallGeoIpPecl')
 					 . '</a>'
 					 . '</em>';

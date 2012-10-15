@@ -13,7 +13,7 @@
 <p>{'UserCountry_HowToSetupGeoIPIntro'|translate}</p>
 
 <ul style="list-style:disc;margin-left:2em">
-	<li>{'UserCountry_HowToSetupGeoIP_Step1'|translate:'<a href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz">':'</a>':'<a href="http://www.maxmind.com/?rId=piwik">':'</a>'}</li>
+	<li>{'UserCountry_HowToSetupGeoIP_Step1'|translate:'<a href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz">':'</a>':'<a target="_blank" href="http://www.maxmind.com/?rId=piwik">':'</a>'}</li>
 	<li>{'UserCountry_HowToSetupGeoIP_Step2'|translate:"'GeoLiteCity.dat'":'<strong>':'</strong>'}</li>
 	<li>{'UserCountry_HowToSetupGeoIP_Step3'|translate:'<strong>':'</strong>':'<span style="color:green"><strong>':'</strong></span>'}</li>
 	<li>{'UserCountry_HowToSetupGeoIP_Step4'|translate}</li>
