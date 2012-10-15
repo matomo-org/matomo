@@ -32,7 +32,7 @@ dbname			= piwik_tests
 tables_prefix	= piwiktests_
 port			= 3306
 adapter 		= PDO_MYSQL
- 
+
 [superuser]
 login			= 
 password		=
@@ -476,6 +476,7 @@ Plugins[] 		= CoreHome
 Plugins[] 		= Proxy
 Plugins[] 		= API
 Plugins[] 		= Widgetize
+Plugins[] 		= Transitions
 Plugins[] 		= LanguagesManager
 Plugins[] 		= Actions
 Plugins[] 		= Dashboard

@@ -30,6 +30,12 @@ class Piwik_Updates_1_9_b19 extends Piwik_Updates
 	static function update()
 	{
 		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+
+
+		try {
+			Piwik_PluginsManager::getInstance()->activatePlugin('Transitions');
+		} catch(Exception $e) {
+		}
 	}
 }
 
