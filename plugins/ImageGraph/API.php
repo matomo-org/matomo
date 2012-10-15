@@ -444,6 +444,10 @@ class Piwik_ImageGraph_API
 				{
 					// $periodsData[$i] instanceof Piwik_DataTable_Simple
 					// $rows instanceof Piwik_DataTable_Row[]
+					if(empty($periodsData[$i]))
+					{
+						continue;
+					}
 					$rows = $periodsData[$i]->getRows();
 
 					if(array_key_exists(0, $rows))
