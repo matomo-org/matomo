@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<website>Site 1 - Site search</website>
+	<prettyDate>1 Jan 10 - 31 Jul 10</prettyDate>
+	<metadata>
+		<category>Site Search</category>
+		<name>Page Titles Following a Site Search</name>
+		<module>Actions</module>
+		<action>getPageTitlesFollowingSiteSearch</action>
+		<dimension>Destination Page</dimension>
+		<metrics>
+			<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
+			<nb_hits>Total Pageviews</nb_hits>
+
+		</metrics>
+		<metricsDocumentation>
+			<nb_hits_following_search>The number of times this Page was visited after a visitor did a search on your website, and clicked on this page in the search results.</nb_hits_following_search>
+			<nb_hits>The number of times this page was visited.</nb_hits>
+
+		</metricsDocumentation>
+		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitlesFollowingSiteSearch&amp;period=range&amp;date=2010-01-03,2010-07-03</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitlesFollowingSiteSearch&amp;period=month&amp;date=2010-01-03,2010-07-03</imageGraphEvolutionUrl>
+		<uniqueId>Actions_getPageTitlesFollowingSiteSearch</uniqueId>
+
+	</metadata>
+	<columns>
+		<label>Destination Page</label>
+		<nb_hits_following_search>Clicked in search results</nb_hits_following_search>
+		<nb_hits>Total Pageviews</nb_hits>
+
+	</columns>
+	<reportData>
+		<result prettyDate="2010, January">
+			<row>
+				<label> Im just a page</label>
+				<nb_hits>1</nb_hits>
+				<nb_hits_following_search>1</nb_hits_following_search>
+			</row>
+			<row>
+				<label> This is a pageview, not a Search - IS_FOLLOWING_SEARCH ONCE</label>
+				<nb_hits>2</nb_hits>
+				<nb_hits_following_search>1</nb_hits_following_search>
+			</row>
+		</result>
+		<result prettyDate="2010, February" />
+		<result prettyDate="2010, March" />
+		<result prettyDate="2010, April" />
+		<result prettyDate="2010, May" />
+		<result prettyDate="2010, June" />
+		<result prettyDate="2010, July" />
+	</reportData>
+	<reportMetadata>
+		<result prettyDate="2010, January" />
+		<result prettyDate="2010, February" />
+		<result prettyDate="2010, March" />
+		<result prettyDate="2010, April" />
+		<result prettyDate="2010, May" />
+		<result prettyDate="2010, June" />
+		<result prettyDate="2010, July" />
+	</reportMetadata>
+
+</result>

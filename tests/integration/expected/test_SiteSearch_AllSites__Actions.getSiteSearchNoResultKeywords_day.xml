@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result idSite="1">
+		<result date="2010-01-03">
+			<row>
+				<label>No Result Keyword!</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>36</sum_time_spent>
+				<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+				<entry_nb_visits>1</entry_nb_visits>
+				<entry_nb_actions>2</entry_nb_actions>
+				<entry_sum_visit_length>145</entry_sum_visit_length>
+				<entry_bounce_count>0</entry_bounce_count>
+				<nb_pages_per_search>1</nb_pages_per_search>
+				<avg_time_on_page>36</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+			</row>
+		</result>
+		<result date="2010-01-04">
+			<row>
+				<label>No Result Keyword!</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>252</sum_time_spent>
+				<nb_hits_following_search>1</nb_hits_following_search>
+				<nb_pages_per_search>1</nb_pages_per_search>
+				<avg_time_on_page>252</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+			</row>
+		</result>
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+	<result idSite="2">
+		<result date="2010-01-03">
+			<row>
+				<label>SHOULD be a Search with no result!</label>
+				<nb_visits>1</nb_visits>
+				<nb_uniq_visitors>1</nb_uniq_visitors>
+				<nb_hits>1</nb_hits>
+				<sum_time_spent>180</sum_time_spent>
+				<nb_pages_per_search>1</nb_pages_per_search>
+				<avg_time_on_page>180</avg_time_on_page>
+				<bounce_rate>0%</bounce_rate>
+				<exit_rate>0%</exit_rate>
+			</row>
+		</result>
+		<result date="2010-01-04" />
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+	<result idSite="3">
+		<result date="2010-01-03" />
+		<result date="2010-01-04" />
+		<result date="2010-01-05" />
+		<result date="2010-01-06" />
+		<result date="2010-01-07" />
+		<result date="2010-01-08" />
+		<result date="2010-01-09" />
+	</result>
+</results>

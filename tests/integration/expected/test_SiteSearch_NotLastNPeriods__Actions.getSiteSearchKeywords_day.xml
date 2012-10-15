@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Search 1</label>
+		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_hits>6</nb_hits>
+		<sum_time_spent>468</sum_time_spent>
+		<nb_hits_following_search>4</nb_hits_following_search>
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>9</entry_nb_actions>
+		<entry_sum_visit_length>721</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<nb_pages_per_search>3</nb_pages_per_search>
+		<avg_time_on_page>234</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+	</row>
+	<row>
+		<label>Search 2</label>
+		<nb_visits>2</nb_visits>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_hits>2</nb_hits>
+		<sum_time_spent>72</sum_time_spent>
+		<nb_hits_following_search>2</nb_hits_following_search>
+		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
+		<exit_nb_visits>1</exit_nb_visits>
+		<nb_pages_per_search>1</nb_pages_per_search>
+		<avg_time_on_page>36</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>50%</exit_rate>
+	</row>
+	<row>
+		<label>No Result Keyword!</label>
+		<nb_visits>1</nb_visits>
+		<nb_uniq_visitors>1</nb_uniq_visitors>
+		<nb_hits>1</nb_hits>
+		<sum_time_spent>36</sum_time_spent>
+		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
+		<entry_nb_visits>1</entry_nb_visits>
+		<entry_nb_actions>2</entry_nb_actions>
+		<entry_sum_visit_length>145</entry_sum_visit_length>
+		<entry_bounce_count>0</entry_bounce_count>
+		<nb_pages_per_search>1</nb_pages_per_search>
+		<avg_time_on_page>36</avg_time_on_page>
+		<bounce_rate>0%</bounce_rate>
+		<exit_rate>0%</exit_rate>
+	</row>
+</result>

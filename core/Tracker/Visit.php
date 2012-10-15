@@ -1273,7 +1273,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 	static public function truncateCustomVariable($input)
 	{
-		return substr($input, 0, Piwik_Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
+		return substr(trim($input), 0, Piwik_Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
 	}
 
 	/**

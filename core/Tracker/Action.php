@@ -800,7 +800,6 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			printDebug("WARNING: URL looks invalid and is discarded");
 			$url = '';
 		}
-		$actionName = self::cleanupString($actionName);
 
 		// Site search?
 		if($actionType == self::TYPE_ACTION_URL)
@@ -813,6 +812,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 				list($actionName, $url) = $siteSearch;
 			}
 		}
+		$actionName = self::cleanupString($actionName);
 
 		return array(
 			'name' => empty($actionName) ? '' : $actionName,
@@ -902,7 +902,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	protected function setActionSearchMetadata($category, $count)
 	{
 		if(!empty($category)) {
-			$this->searchCategory = $category;
+			$this->searchCategory = trim($category);
 		}
 		if($count !== false) {
 			$this->searchCount = $count;
@@ -960,6 +960,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$parsedUrl['fragment'] = self::getQueryStringWithExcludedParameters(Piwik_Common::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
 		}
 		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
+		$actionName = trim(urldecode($actionName));
+		$categoryName = trim(urldecode($categoryName));
 		return array($url, $actionName, $categoryName, $count);
 	}
 
