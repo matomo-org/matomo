@@ -240,7 +240,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 					  'title' => self::TITLE,
 					  'description' => $desc,
 					  'install_docs' => $installDocs,
-					  'order' => 4);
+					  'order' => 2);
 	}
 	
 	/**
