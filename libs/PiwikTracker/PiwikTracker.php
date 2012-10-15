@@ -270,8 +270,24 @@ class PiwikTracker
     {
     	$url = $this->getUrlTrackPageView($documentTitle);
     	return $this->sendRequest($url);
-    } 
-    
+    }
+
+	/**
+	 * Tracks an internal Site Search query, and optionally tracks the Search Category, and Search results Count.
+	 * These are used to populate reports in Actions > Site Search.
+	 *
+	 * @param string $keyword Searched query on the site
+	 * @param string $category Optional, Search engine category if applicable
+	 * @param int $countResults results displayed on the search result page. Used to track "zero result" keywords.
+	 *
+	 * @return string|true Response or true if using bulk requests.
+	 */
+	public function doTrackSiteSearch( $keyword, $category = false, $countResults = false )
+	{
+		$url = $this->getUrlTrackSiteSearch($keyword, $category, $countResults);
+		return $this->sendRequest($url);
+	}
+
     /**
      * Records a Goal conversion
      * 
@@ -528,6 +544,22 @@ class PiwikTracker
     	}
     	return $url;
     }
+
+	/**
+	 * @see doTrackSiteSearch()
+	 */
+	public function getUrlTrackSiteSearch($keyword, $category, $countResults)
+	{
+		$url = $this->getRequest( $this->idSite );
+		$url .= '&search=' . urlencode($keyword);
+		if($category !== false) {
+			$url .= '&search_cat=' . urlencode($category);
+		}
+		if($countResults !== false) {
+			$url .= '&search_count=' . (int)$countResults;
+		}
+		return $url;
+	}
     
     /**
      * @see doTrackGoal()

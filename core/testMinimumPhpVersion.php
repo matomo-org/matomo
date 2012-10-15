@@ -103,11 +103,3 @@ if(!empty($piwik_errorMessage))
 {
 	Piwik_ExitWithMessage($piwik_errorMessage, false, true);
 }
-
-/**
- * Usually used in Tracker code, but sometimes triggered from Core
- */
-if(!function_exists('printDebug')) 
-{ 
-	function printDebug($i) {} 
-}

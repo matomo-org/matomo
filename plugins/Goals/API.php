@@ -224,6 +224,7 @@ class Piwik_Goals_API
 			$ordersColumn = 'abandoned_carts';
 			$dataTable->renameColumn(Piwik_Archive::INDEX_ECOMMERCE_ORDERS, $ordersColumn);
 		}
+
 		// Average price = sum product revenue / quantity
 		$dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_price', 'price', $ordersColumn, Piwik_Tracker_GoalManager::REVENUE_PRECISION));
 
@@ -244,7 +245,8 @@ class Piwik_Goals_API
 			'Goals_ItemsCategory'  => Piwik_Translate('General_NotDefined', Piwik_Translate('Goals_ProductCategory'))
 		);
 		$notDefinedStringPretty = $reportToNotDefinedString[$recordName];
-		
+		$customVarNameToLookFor = $mapping[$recordName];
+
 		// Handle case where date=last30&period=day
 		if($customVariables instanceof Piwik_DataTable_Array)
 		{
@@ -253,13 +255,13 @@ class Piwik_Goals_API
 			foreach($customVariableDatatables as $key => $customVariableTableForDate)
 			{
 				$dataTableForDate = isset($dataTables[$key]) ? $dataTables[$key] : new Piwik_DataTable();
-				
-				// we do not enter the IF 
-				// if case idSite=1,3 AND period=day&date=datefrom,dateto, 
+
+				// we do not enter the IF
+				// if case idSite=1,3 AND period=day&date=datefrom,dateto,
 				if(isset($dataTable->metadata[$key]['period']))
 				{
 					$dateRewrite = $dataTable->metadata[$key]['period']->getDateStart()->toString();
-					$row = $customVariableTableForDate->getRowFromLabel($mapping[$recordName]);
+					$row = $customVariableTableForDate->getRowFromLabel($customVarNameToLookFor);
 					if($row)
 					{
 						$idSubtable = $row->getIdSubDataTable();
@@ -272,15 +274,15 @@ class Piwik_Goals_API
 		}
 		elseif($customVariables instanceof Piwik_DataTable)
 		{
-			$row = $customVariables->getRowFromLabel($mapping[$recordName]);
+			$row = $customVariables->getRowFromLabel($customVarNameToLookFor);
 			if($row)
 			{
 				$idSubtable = $row->getIdSubDataTable();
 				$this->enrichItemsDataTableWithItemsViewMetrics($dataTable, $idSite, $period, $date, $idSubtable);
 			}
 			$this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
-			
 		}
+
 		// Product conversion rate = orders / visits 
 		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('conversion_rate', $ordersColumn, 'nb_visits', Piwik_Tracker_GoalManager::REVENUE_PRECISION));
 		

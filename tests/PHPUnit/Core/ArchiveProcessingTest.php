@@ -30,6 +30,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
                                                 "site1",
                                                 array("http://piwik.net"), 
                                                 $ecommerce=0,
+										        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
                                                 $excludedIps = "",
                                                 $excludedQueryParameters = "",
                                                 $timezone);

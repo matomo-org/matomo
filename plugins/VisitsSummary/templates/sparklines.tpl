@@ -42,6 +42,13 @@
 		{'VisitsSummary_NbUniqueOutlinksDescription'|translate:"<strong>$nbUniqueOutlinks</strong>"}
 	</div>
 	{/if}
+	{if $displaySiteSearch}
+	<div class="sparkline">
+		{sparkline src=$urlSparklineNbSearches}
+		{'VisitsSummary_NbSearchesDescription'|translate:"<strong>$nbSearches</strong>"|trim},
+		{'VisitsSummary_NbKeywordsDescription'|translate:"<strong>$nbKeywords</strong>"}
+	</div>
+	{/if}
 	<div class="sparkline">
 		{sparkline src=$urlSparklineMaxActions} 
 		{'VisitsSummary_MaxNbActions'|translate:"<strong>$maxActions</strong>"}

@@ -289,12 +289,20 @@ class Piwik_API_API
 		        'sqlFilter' => array('Piwik_Common', 'convertVisitorIdToBin'),
 	    );
 		$segments[] = array(
-		        'type' => 'metric',
-		        'category' => 'Visit',
-		        'name' => 'General_NbActions',
-		        'segment' => 'actions',
-		        'sqlSegment' => 'log_visit.visit_total_actions',
-	    );
+			'type' => 'metric',
+			'category' => 'Visit',
+			'name' => 'General_NbActions',
+			'segment' => 'actions',
+			'sqlSegment' => 'log_visit.visit_total_actions',
+		);
+		$segments[] = array(
+			'type' => 'metric',
+			'category' => 'Visit',
+			'name' => 'General_NbSearches',
+			'segment' => 'searches',
+			'sqlSegment' => 'log_visit.visit_total_searches',
+			'acceptedValues' => 'To select all visits who used internal Site Search, use: &segment=searches>0',
+		);
 		$segments[] = array(
 		        'type' => 'metric',
 		        'category' => 'Visit',
@@ -987,6 +995,7 @@ class Piwik_API_API
 				Piwik_Translate('VisitsSummary_VisitsSummary'),
 				Piwik_Translate('Goals_Ecommerce'),
 				Piwik_Translate('Actions_Actions'),
+				Piwik_Translate('Actions_SubmenuSitesearch'),
 				Piwik_Translate('Referers_Referers'),
 				Piwik_Translate('Goals_Goals'),
 				Piwik_Translate('General_Visitors'),

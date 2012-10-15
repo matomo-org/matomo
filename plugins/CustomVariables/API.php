@@ -52,7 +52,7 @@ class Piwik_CustomVariables_API
 		if($dataTable instanceof Piwik_DataTable
 			&& !$_leavePiwikCoreVariables)
 		{
-			$mapping = array('_pks', '_pkn', '_pkc', '_pkp');
+			$mapping = array('_pks', '_pkn', '_pkc', '_pkp', Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT, Piwik_Tracker_Action::CVAR_KEY_SEARCH_CATEGORY );
 			foreach($mapping as $name)
 			{
 				$row = $dataTable->getRowFromLabel($name);

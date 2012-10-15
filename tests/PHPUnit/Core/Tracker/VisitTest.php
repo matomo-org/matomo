@@ -71,7 +71,8 @@ class Tracker_VisitTest extends DatabaseTestCase
     public function testIsVisitorIpExcluded($excludedIp, $tests)
     {
         $visit = new Test_Piwik_TrackerVisit_public();
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/",$ecommerce=0, $excludedIp);
+        $idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/",$ecommerce=0,
+	        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp);
         $visit->setRequest(array('idsite' => $idsite));
 
         // test that IPs within the range, or the given IP, are excluded

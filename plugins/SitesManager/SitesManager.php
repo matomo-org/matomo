@@ -82,19 +82,40 @@ class Piwik_SitesManager extends Piwik_Plugin
 		// add the 'hosts' entry in the website array
 		$array =& $notification->getNotificationObject();
 		$array['hosts'] = $this->getTrackerHosts($idSite);
-		$array['excluded_ips'] = $this->getTrackerExcludedIps($idSite);
-		$array['excluded_parameters'] = $this->getTrackerExcludedQueryParameters($idSite);
+
+		$website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
+		$array['excluded_ips'] = $this->getTrackerExcludedIps($website);
+		$array['excluded_parameters'] = $this->getTrackerExcludedQueryParameters($website);
+		$array['sitesearch'] = $website['sitesearch'];
+		$array['sitesearch_keyword_parameters'] = $this->getTrackerSearchKeywordParameters($website);
+		$array['sitesearch_category_parameters'] = $this->getTrackerSearchCategoryParameters($website);
+	}
+
+	private function getTrackerSearchKeywordParameters($website)
+	{
+		$searchParameters = $website['sitesearch_keyword_parameters'];
+		if(empty($searchParameters)) {
+			$searchParameters = Piwik_SitesManager_API::getInstance()->getSearchKeywordParametersGlobal();
+		}
+		return explode(",", $searchParameters);
+	}
+
+	private function getTrackerSearchCategoryParameters($website)
+	{
+		$searchParameters = $website['sitesearch_category_parameters'];
+		if(empty($searchParameters)) {
+			$searchParameters = Piwik_SitesManager_API::getInstance()->getSearchCategoryParametersGlobal();
+		}
+		return explode(",", $searchParameters);
 	}
 
 	/**
 	 * Returns the array of excluded IPs to save in the config file
 	 *
-	 * @param int $idSite
 	 * @return array
 	 */
-	private function getTrackerExcludedIps($idSite)
+	private function getTrackerExcludedIps($website)
 	{
-		$website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
 		$excludedIps = $website['excluded_ips'];
 		$globalExcludedIps = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
 
@@ -115,12 +136,10 @@ class Piwik_SitesManager extends Piwik_Plugin
 	/**
 	 * Returns the array of URL query parameters to exclude from URLs
 	 *
-	 * @param int $idSite
 	 * @return array
 	 */
-	private function getTrackerExcludedQueryParameters($idSite)
+	private function getTrackerExcludedQueryParameters($website)
 	{
-		$website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
 		$excludedQueryParameters = $website['excluded_parameters'];
 		$globalExcludedQueryParameters = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
 

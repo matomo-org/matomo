@@ -3,7 +3,7 @@
 	<result idSite="1">
 		<nb_conversions>3</nb_conversions>
 		<nb_visits_converted>3</nb_visits_converted>
-		<conversion_rate>100</conversion_rate>
+		<conversion_rate>75</conversion_rate>
 		<revenue>15</revenue>
 	</result>
 	<result idSite="2">
@@ -11,4 +11,6 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<conversion_rate>100</conversion_rate>
 	</result>
+	<result idSite="3" />
+	<result idSite="4" />
 </results>

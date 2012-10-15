@@ -405,7 +405,8 @@ if (!this.JSON2) {
     doNotTrack, setDoNotTrack, msDoNotTrack,
     addListener, enableLinkTracking, setLinkTrackingTimer,
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
-    trackGoal, trackLink, trackPageView, setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
+    trackGoal, trackLink, trackPageView, trackSiteSearch,
+    setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
     addPlugin, getTracker, getAsyncTracker
 */
 var
@@ -1705,6 +1706,17 @@ var
             }
 
             /*
+             * Log the site search request
+             */
+            function logSiteSearch(keyword, category, resultsCount, customData) {
+                var request = getRequest('search=' + encodeWrapper(keyword)
+                                + (category ? '&search_cat=' + encodeWrapper(category) : '')
+                                + (isDefined(resultsCount) ? '&search_count=' + resultsCount : ''), customData, 'sitesearch');
+
+                sendRequest(request, configTrackerPause);
+            }
+
+            /*
              * Log the goal with the server
              */
             function logGoal(idGoal, customRevenue, customData) {
@@ -2564,6 +2576,18 @@ var
                 trackPageView: function (customTitle, customData) {
                     trackCallback(function () {
                         logPageView(customTitle, customData);
+                    });
+                },
+
+                /**
+                 * Log special pageview: Internal search
+                 *
+                 * @param string customTitle
+                 * @param mixed customData
+                 */
+                trackSiteSearch: function (keyword, category, resultsCount) {
+                    trackCallback(function () {
+                        logSiteSearch(keyword, category, resultsCount);
                     });
                 },
 

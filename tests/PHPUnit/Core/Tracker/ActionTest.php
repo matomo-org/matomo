@@ -34,8 +34,8 @@ class Tracker_ActionTest extends DatabaseTestCase
         $urls = array(
             // a wrongly formatted url (parse_url returns false)
             array('http:////wrongurl',
-                array('http:////wrongurl',
-                      'http:////wrongurl')),
+                array(false,
+                      false)),
             
             // a URL with all components
             array('http://username:password@hostname:80/path?phpSESSID=value#anchor',
@@ -106,9 +106,37 @@ class Tracker_ActionTest extends DatabaseTestCase
     public function testExcludeQueryParametersNone($url, $filteredUrl)
     {
         $this->setUpRootAccess();
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, $excludedIps = '', $excludedQueryParameters='');
+        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0,
+					        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+					        $excludedIps = '', $excludedQueryParameters='');
         $this->assertEquals($filteredUrl[0], Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite));
     }
+
+	public function getTestUrlsHashtag()
+	{
+        $urls = array(
+	        // URL, Expected URL
+	        array('wrongurl/#', 'http://wrongurl/'),
+	        array('wrongurl/#t', 'http://wrongurl/#t'),
+	        array('wrongurl/#test', 'http://wrongurl/#test'),
+	        array('wrongurl/#test=1', 'http://wrongurl/#test=1'),
+	        array('wrongurl/#test=1#', 'http://wrongurl/#test=1'),
+        );
+		return $urls;
+	}
+
+	/**
+	 * Test removing hash tag
+	 * @group Core
+	 * @group Tracker
+	 * @group Tracker_Action
+	 * @dataProvider getTestUrlsHashtag
+	 */
+	public function testRemoveTrailingHashtag($url, $expectedUrl)
+	{
+		$this->assertEquals( Piwik_Tracker_Action::reconstructNormalizedUrl($url, Piwik_Tracker_Action::$urlPrefixMap['http://']), $expectedUrl);
+	}
+
 
     /**
      * Testing with some website specific parameters excluded
@@ -121,7 +149,9 @@ class Tracker_ActionTest extends DatabaseTestCase
     {
         $excludedQueryParameters = 'p4, p2, var[value][date]';
         $this->setUpRootAccess();
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, $excludedIps = '', $excludedQueryParameters);
+        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0,
+					        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+					        $excludedIps = '', $excludedQueryParameters);
         $this->assertEquals($filteredUrl[1], Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite));
     }
     
@@ -138,7 +168,9 @@ class Tracker_ActionTest extends DatabaseTestCase
         $excludedQueryParameters = 'P2,var[value][date]';
         $excludedGlobalParameters = 'blabla, P4';
         $this->setUpRootAccess();
-        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, $excludedIps = '', $excludedQueryParameters);
+        $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0,
+							        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+							        $excludedIps = '', $excludedQueryParameters);
         Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
         $this->assertEquals($filteredUrl[1], Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite));
     }
@@ -322,8 +354,11 @@ class Tracker_ActionTest extends DatabaseTestCase
      */
     public function testExtractUrlAndActionNameFromRequest($request, $expected)
     {
-        $action = new Test_Piwik_TrackerAction_extractUrlAndActionNameFromRequest();
-        $action->setRequest($request);
+	    $this->setUpRootAccess();
+	    $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'));
+	    $action = new Test_Piwik_TrackerAction_extractUrlAndActionNameFromRequest();
+	    $action->setRequest($request);
+	    $action->setIdSite($idSite);
         $this->assertEquals($action->public_extractUrlAndActionNameFromRequest(), $expected);
     }
 }

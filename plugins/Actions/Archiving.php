@@ -24,6 +24,7 @@ class Piwik_Actions_Archiving
 		Piwik_Tracker_Action::TYPE_OUTLINK,
 		Piwik_Tracker_Action::TYPE_DOWNLOAD,
 		Piwik_Tracker_Action::TYPE_ACTION_NAME,
+		Piwik_Tracker_Action::TYPE_SITE_SEARCH,
 	);
 
 	static protected $invalidSummedColumnNameToRenamedNameFromPeriodArchive = array(
@@ -38,6 +39,13 @@ class Piwik_Actions_Archiving
 		Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
 	);
 
+	protected $isSiteSearchEnabled = false;
+
+	function __construct($idSite)
+	{
+		$this->isSiteSearchEnabled = Piwik_Site::isSiteSearchEnabledFor($idSite);
+	}
+
 	/**
 	 * Archives Actions reports for a Period
 	 * @param Piwik_ArchiveProcessing $archiveProcessing
@@ -51,8 +59,9 @@ class Piwik_Actions_Archiving
 			'Actions_downloads',
 			'Actions_outlink',
 			'Actions_actions_url',
+			'Actions_sitesearch',
 		);
-		$archiveProcessing->archiveDataTable($dataTableToSum,
+		$nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum,
 					self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive,
 					Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero,
 					Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable,
@@ -64,9 +73,12 @@ class Piwik_Actions_Archiving
 			'Actions_nb_downloads',
 			'Actions_nb_uniq_downloads',
 			'Actions_nb_outlinks',
-			'Actions_nb_uniq_outlinks'
+			'Actions_nb_uniq_outlinks',
+			'Actions_nb_searches',
 		));
 
+		// Unique Keywords can't be summed, instead we take the RowsCount() of the keyword table
+		$archiveProcessing->insertNumericRecord('Actions_nb_keywords', $nameToCount['Actions_sitesearch']['level0']);
 		return true;
 	}
 
@@ -127,18 +139,49 @@ class Piwik_Actions_Archiving
 			$rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
 			$rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
 			$rankingQuery->addLabelColumn(array('idaction', 'name'));
-			$rankingQuery->addColumn(array('url_prefix', Piwik_Archive::INDEX_NB_UNIQ_VISITORS));
 			$rankingQuery->addColumn(array(Piwik_Archive::INDEX_PAGE_NB_HITS, Piwik_Archive::INDEX_NB_VISITS), 'sum');
+			if($this->isSiteSearchEnabled()) {
+				$rankingQuery->addColumn(array('url_prefix', Piwik_Archive::INDEX_NB_UNIQ_VISITORS, Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT));
+				$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS, 'sum');
+			} else {
+				$rankingQuery->addColumn(array('url_prefix', Piwik_Archive::INDEX_NB_UNIQ_VISITORS));
+			}
 			$rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
 		}
 
-		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
-			"idaction_url", $archiveProcessing, $rankingQuery);
+		// Special Magic to get
+		// 1) No result Keywords
+		// 2) For each page view, count number of times the referrer page was a Site Search
+		if($this->isSiteSearchEnabled())
+		{
+			$selectFlagNoResultKeywords = ",
+				CASE WHEN (log_link_visit_action.custom_var_v". Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT." = 0 AND log_link_visit_action.custom_var_k". Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT." = '". Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT. "') THEN 1 ELSE 0 END AS `" . Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
+
+			//we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
+			$from[] = array(
+				"table" => "log_action",
+				"tableAlias" => "log_action_name_ref",
+				"joinOn" => "log_link_visit_action.idaction_name_ref = log_action_name_ref.idaction"
+			);
+
+			$selectSiteSearchFollowingPages = ",
+				SUM(CASE WHEN log_action_name_ref.type = " . Piwik_Tracker_Action::TYPE_SITE_SEARCH . " THEN 1 ELSE 0 END) AS `". Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS."`";
+
+			$select .=  $selectFlagNoResultKeywords
+				. $selectSiteSearchFollowingPages;
+			// Not working yet
+//			$selectRefPageIsStartingSiteSearch = ",
+//				SUM(CASE WHEN log_action_name_ref.type = " . Piwik_Tracker_Action::TYPE_ACTION_NAME . " THEN 1 ELSE 0 END) AS `". Piwik_Archive::INDEX_PAGE_STARTING_SITE_SEARCH_NB_HITS."`";
+//				. $selectRefPageIsStartingSiteSearch
+//				. ", idaction_url_ref, idaction_name_ref"
+		}
 
 		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
 			"idaction_name", $archiveProcessing, $rankingQuery);
-	}
 
+		$this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,
+			"idaction_url", $archiveProcessing, $rankingQuery);
+	}
 
 	/**
 	 * Entry actions for Page URLs and Page names
@@ -299,6 +342,7 @@ class Piwik_Actions_Archiving
 	{
 		Piwik_Actions_ArchivingHelper::clearActionsCache();
 
+		/** @var Piwik_DataTable $dataTable */
 		$dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_URL];
 		self::deleteInvalidSummedColumnsFromDataTable($dataTable);
 		$s = $dataTable->getSerialized( Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation );
@@ -329,8 +373,27 @@ class Piwik_Actions_Archiving
 		$archiveProcessing->insertBlobRecord('Actions_actions', $s);
 		destroy($dataTable);
 
+		$dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_SITE_SEARCH];
+		self::deleteInvalidSummedColumnsFromDataTable($dataTable);
+		$s = $dataTable->getSerialized( Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation );
+		$archiveProcessing->insertBlobRecord('Actions_sitesearch', $s);
+		$archiveProcessing->insertNumericRecord('Actions_nb_searches', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+		$archiveProcessing->insertNumericRecord('Actions_nb_keywords', $dataTable->getRowsCount());
+		destroy($dataTable);
+
 		destroy($this->actionsTablesByType);
 	}
+
+	static protected function removeEmptyColumns($dataTable)
+	{
+		// Delete all columns that have a value of zero
+		$dataTable->filter('ColumnDelete',	array(
+			$columnsToRemove = array(Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS),
+			$columnsToKeep  = array(),
+			$deleteIfZeroOnly = true
+		));
+	}
+
 
 	/**
 	 * Returns the limit to use with RankingQuery for this plugin.
@@ -368,8 +431,15 @@ class Piwik_Actions_Archiving
 		// to the outer select. therefore, $segment needs to know about it.
 		$select = sprintf($select, $sprintfField);
 
+		// extend bindings
+		$bind = array_merge(array(  $archiveProcessing->getStartDatetimeUTC(),
+				$archiveProcessing->getEndDatetimeUTC(),
+				$archiveProcessing->idsite
+			),
+			$query['bind']
+		);
+
 		// get query with segmentation
-		$bind = array();
 		$query = $archiveProcessing->getSegment()->getSelectQuery(
 			$select, $from, $where, $bind, $orderBy, $groupBy);
 
@@ -381,14 +451,8 @@ class Piwik_Actions_Archiving
 		{
 			$querySql = $rankingQuery->generateQuery($querySql);
 		}
-
-		// extend bindings
-		$bind = array_merge(array(  $archiveProcessing->getStartDatetimeUTC(),
-									$archiveProcessing->getEndDatetimeUTC(),
-									$archiveProcessing->idsite
-							),
-							$query['bind']
-		);
+//      echo '<pre>';var_dump($querySql);
+//      var_dump($bind);
 
 		// get result
 		$resultSet = $archiveProcessing->db->query($querySql, $bind);
@@ -427,6 +491,9 @@ class Piwik_Actions_Archiving
 				}
 			}
 		}
+
+		// And this as well
+		self::removeEmptyColumns($dataTable);
 	}
 
 	/**
@@ -442,5 +509,10 @@ class Piwik_Actions_Archiving
 			
 			$this->actionsTablesByType[$type] = $dataTable;
 		}
+	}
+
+	protected function isSiteSearchEnabled()
+	{
+		return $this->isSiteSearchEnabled;
 	}
 }

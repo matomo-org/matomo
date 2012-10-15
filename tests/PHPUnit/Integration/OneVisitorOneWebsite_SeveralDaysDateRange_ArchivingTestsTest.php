@@ -124,7 +124,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
             'archive_blob_2010_12'    => (4 + 7 + 2) * 3,
             // (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range)
             // + 1 flag archive UserSettings
-            // + (Actions 1 flag + 2 metrics - pageviews, unique pageviews)
+            // + (Actions 1 flag + 2 metrics - pageviews, unique pageviews + X??? metrics Site Search)
             // + (Frequency 5 metrics + 1 flag)
             // + 1 flag VisitTime
             // * 3 segments

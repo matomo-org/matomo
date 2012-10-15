@@ -34,4 +34,4 @@ Piwik_Site::clearCache();
 Piwik_Common::deleteTrackerCache();
 
 include PIWIK_INCLUDE_PATH . '/piwik.php';
-ob_flush();
+ob_end_flush();

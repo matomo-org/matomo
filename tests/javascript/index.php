@@ -24,7 +24,7 @@ if (file_exists("enable_sqlite")) {
 }
 
 if(!$sqlite) {
-	echo 'alert("WARNING: Javascript integration tests require sqlite, \n1) ensure this PHP extension is enabled to make sure you run all tests \n2) Then please create an empty file enable_sqlite in tests/javascript/enable_sqlite \n3) Re-execute this page and make sure this popup does not display ");';
+	echo 'alert("WARNING: Javascript integration tests require sqlite, \n1) ensure this PHP extension is enabled to make sure you run all tests \napt-get install php5-sqlite \n2) Then please create an empty file enable_sqlite in tests/javascript/enable_sqlite \n3) Re-execute this page and make sure this popup does not display ");';
 }
 if ($sqlite) {
   echo '
@@ -746,7 +746,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(76);
+		expect(79);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -909,7 +909,12 @@ if ($sqlite) {
 		deepEqual( tracker.getCustomVariable(2, 3), ["cookiename2PAGE", "cookievalue2PAGE"], "GA compability - setCustomVariable(cvarExists), getCustomVariable()" );
 
 		tracker.trackPageView("SaveCustomVariableCookie");
-		
+
+		// test Site Search
+		tracker.trackSiteSearch("No result keyword éà", "Search cat", 0);
+		tracker.trackSiteSearch("Keyword with 10 results", false, 10);
+		tracker.trackSiteSearch("search Keyword");
+
 		//Ecommerce views
 		tracker.setEcommerceView( "", false, ["CATEGORY1","CATEGORY2"] );
 		deepEqual( tracker.getCustomVariable(3, "page"), false, "Ecommerce view SKU");
@@ -975,7 +980,7 @@ if ($sqlite) {
 			xhr.open("GET", "piwik.php?requests=" + getToken(), false);
 			xhr.send(null);
 			results = xhr.responseText;
-			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "21", "count tracking events" );
+			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "24", "count tracking events" );
 
 			// tracking requests
 			ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );
@@ -1010,7 +1015,12 @@ if ($sqlite) {
 			// Test campaign parameters set
 			ok( /&_rcn=YEAH&_rck=RIGHT!/.test( results), "Test campaign parameters found"); 
 			ok( /&_ref=http%3A%2F%2Freferrer.example.com%2Fpage%2Fsub%3Fquery%3Dtest%26test2%3Dtest3/.test( results), "Test cookie Ref URL found "); 
-			
+
+			// Test site search
+			ok( /search=No%20result%20keyword%20%C3%A9%C3%A0&search_cat=Search%20cat&search_count=0&idsite=1/.test(results), "site search, cat, 0 result ");
+			ok( /search=Keyword%20with%2010%20results&search_count=10&idsite=1/.test(results), "site search, no cat, 10 results ");
+			ok( /search=search%20Keyword&idsite=1/.test(results), "site search, no cat, no results count ");
+
 			// ecommerce view
 			ok( /(EcommerceView).*(&cvar=%7B%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%2C%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%7D)/.test(results)
 			|| /(EcommerceView).*(&cvar=%7B%223%22%3A%5B%22_pks%22%2C%22SKU%22%5D%2C%224%22%3A%5B%22_pkn%22%2C%22NAME%20HERE%22%5D%2C%225%22%3A%5B%22_pkc%22%2C%22CATEGORY%20HERE%22%5D%7D)/.test(results), "ecommerce view");

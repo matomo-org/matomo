@@ -5,7 +5,7 @@
 
 <ul>
 	<li><a href='lib/visualphpunit/'>Run unit & integration tests in the browser.</a> <br/><i>(If you're using apache, make sure the mod_rewrite module is enabled.)</i></li>
-	<li><a href=\"javascript/\">Run piwik.js Javascript unit & integration tests</a>. <br/><i>Note: the Javascript tests are not executed in Jenkins so must be run manually on major browsers after any change to piwik.js</i></li>
+	<li><a href="javascript/">Run piwik.js Javascript unit & integration tests</a>. <br/><i>Note: the Javascript tests are not executed in Jenkins so must be run manually on major browsers after any change to piwik.js</i></li>
 </ul>
 
 <h4>Configuring VisualPHPUnit:</h4>

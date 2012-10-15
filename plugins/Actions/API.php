@@ -80,7 +80,9 @@ class Piwik_Actions_API
 			'Actions_nb_downloads' => 'nb_downloads',
 			'Actions_nb_uniq_downloads' => 'nb_uniq_downloads',
 			'Actions_nb_outlinks' => 'nb_outlinks',
-			'Actions_nb_uniq_outlinks' => 'nb_uniq_outlinks'
+			'Actions_nb_uniq_outlinks' => 'nb_uniq_outlinks',
+			'Actions_nb_searches' => 'nb_searches',
+			'Actions_nb_keywords' => 'nb_keywords',
 		);
 		
 		// get requested columns
@@ -120,7 +122,30 @@ class Piwik_Actions_API
 		$this->filterActionsDataTable($dataTable, $expanded);
 		return $dataTable;
 	}
-	
+
+	public function getPageUrlsFollowingSiteSearch( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
+	{
+		$dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable);
+		$this->keepPagesFollowingSearch($dataTable);
+		return $dataTable;
+	}
+
+	public function getPageTitlesFollowingSiteSearch( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
+	{
+		$dataTable = $this->getPageTitles($idSite, $period, $date, $segment, $expanded, $idSubtable);
+		$this->keepPagesFollowingSearch($dataTable);
+		return $dataTable;
+	}
+
+	protected function keepPagesFollowingSearch($dataTable)
+	{
+		// Keep only pages which are following site search
+		$dataTable->filter('ColumnCallbackDeleteRow', array(
+			'nb_hits_following_search',
+			create_function('$value', 'return $value > 0;')
+		));
+	}
+
 	/**
 	 * Returns a DataTable with analytics information for every unique entry page URL, for
 	 * the specified site, period & segment.
@@ -222,7 +247,93 @@ class Piwik_Actions_API
 		$this->filterActionsDataTable($dataTable);
 		return $dataTable;
 	}
-	
+
+	public function getSiteSearchKeywords( $idSite, $period, $date, $segment = false )
+	{
+		$dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
+		$dataTable->deleteColumn(Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT);
+		$this->filterPageDatatable($dataTable);
+		$this->filterActionsDataTable($dataTable);
+		$this->addPagesPerSearchColumn($dataTable);
+		return $dataTable;
+	}
+
+	//Visitors can search, and then click "next" to view more results. This is the average number of search results pages viewed for this keyword.
+	public function addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_hits')
+	{
+		$dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_pages_per_search', $columnToRead, 'nb_visits', $precision = 1));
+	}
+
+	protected function getSiteSearchKeywordsRaw($idSite, $period, $date, $segment)
+	{
+		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_sitesearch', $idSite, $period, $date, $segment, $expanded = false);
+		return $dataTable;
+	}
+
+	public function getSiteSearchNoResultKeywords( $idSite, $period, $date, $segment = false )
+	{
+		$dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
+		// Delete all rows that have some results
+		$dataTable->filter('ColumnCallbackDeleteRow',
+			array(
+				Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT,
+				create_function ( '$value', 'return $value == 1;')
+			));
+		$dataTable->deleteColumn(Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT);
+		$this->filterPageDatatable($dataTable);
+		$this->filterActionsDataTable($dataTable);
+		$this->addPagesPerSearchColumn($dataTable);
+		return $dataTable;
+	}
+
+	public function getSiteSearchCategories( $idSite, $period, $date, $segment = false )
+	{
+		Piwik_Actions::checkCustomVariablesPluginEnabled();
+		$customVariables = Piwik_CustomVariables_API::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
+
+		$customVarNameToLookFor = Piwik_Tracker_Action::CVAR_KEY_SEARCH_CATEGORY;
+
+		$dataTable = new Piwik_DataTable();
+		// Handle case where date=last30&period=day
+		// TODO: this logic should really be refactored somewhere, this is ugly!
+		if($customVariables instanceof Piwik_DataTable_Array)
+		{
+			$dataTable = new Piwik_DataTable_Array();
+			$dataTable->metadata = $customVariables->metadata;
+			$dataTable->setKeyName($customVariables->getKeyName());
+
+			$customVariableDatatables = $customVariables->getArray();
+			$dataTables = $dataTable->getArray();
+			foreach($customVariableDatatables as $key => $customVariableTableForDate)
+			{
+				// we do not enter the IF, in the case idSite=1,3 AND period=day&date=datefrom,dateto,
+				if(isset($dataTable->metadata[$key]['period']))
+				{
+					$row = $customVariableTableForDate->getRowFromLabel($customVarNameToLookFor);
+					if($row)
+					{
+						$dateRewrite = $dataTable->metadata[$key]['period']->getDateStart()->toString();
+						$idSubtable = $row->getIdSubDataTable();
+						$categories = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $dateRewrite, $idSubtable, $segment);
+						$dataTable->addTable($categories, $key);
+					}
+				}
+			}
+		}
+		elseif($customVariables instanceof Piwik_DataTable)
+		{
+			$row = $customVariables->getRowFromLabel($customVarNameToLookFor);
+			if($row)
+			{
+				$idSubtable = $row->getIdSubDataTable();
+				$dataTable = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment);
+			}
+		}
+		$this->filterActionsDataTable($dataTable);
+		$this->addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_actions');
+		return $dataTable;
+	}
+
 	/**
 	 * Will search in the DataTable for a Label matching the searched string
 	 * and return only the matching row, or an empty datatable

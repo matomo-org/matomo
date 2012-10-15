@@ -29,7 +29,8 @@ class Piwik_Actions extends Piwik_Plugin
 		);
 		return $info;
 	}
-	
+
+
 	public function getListHooksRegistered()
 	{
 		$hooks = array(
@@ -38,7 +39,7 @@ class Piwik_Actions extends Piwik_Plugin
 			'WidgetsList.add' => 'addWidgets',
 			'Menu.add' => 'addMenus',
 			'API.getReportMetadata' => 'getReportMetadata',
-		    'API.getSegmentsMetadata' => 'getSegmentsMetadata',
+			'API.getSegmentsMetadata' => 'getSegmentsMetadata',
 		);
 		return $hooks;
 	}
@@ -95,14 +96,15 @@ class Piwik_Actions extends Piwik_Plugin
         	'sqlFilter' => $sqlFilter,
         	'acceptedValues' => "All these segments must be URL encoded, for example: ".urlencode('http://example.com/path/page?query'),
         );
-        $segments[] = array(
-	        'type' => 'dimension',
-	        'category' => 'Actions_Actions',
-	        'name' => 'Actions_ColumnPageName',
-	        'segment' => 'pageTitle',
-	        'sqlSegment' => 'log_link_visit_action.idaction_name',
-        	'sqlFilter' => $sqlFilter,
-        );
+		$segments[] = array(
+			'type' => 'dimension',
+			'category' => 'Actions_Actions',
+			'name' => 'Actions_ColumnPageName',
+			'segment' => 'pageTitle',
+			'sqlSegment' => 'log_link_visit_action.idaction_name',
+			'sqlFilter' => $sqlFilter,
+		);
+		// TODO here could add keyword segment and hack $sqlFilter to make it select the right idaction
 	}
 
 	/**
@@ -192,7 +194,9 @@ class Piwik_Actions extends Piwik_Plugin
 				'nb_downloads' => Piwik_Translate('Actions_ColumnDownloads'),
 				'nb_uniq_downloads' => Piwik_Translate('Actions_ColumnUniqueDownloads'),
 				'nb_outlinks' => Piwik_Translate('Actions_ColumnOutlinks'),
-				'nb_uniq_outlinks' => Piwik_Translate('Actions_ColumnUniqueOutlinks')
+				'nb_uniq_outlinks' => Piwik_Translate('Actions_ColumnUniqueOutlinks'),
+				'nb_searches' => Piwik_Translate('Actions_ColumnSearches'),
+				'nb_keywords' => Piwik_Translate('Actions_ColumnSiteSearchKeywords'),
 			),
 			'metricsDocumentation' => array(
 				'nb_pageviews' => Piwik_Translate('General_ColumnPageviewsDocumentation'),
@@ -200,7 +204,9 @@ class Piwik_Actions extends Piwik_Plugin
 				'nb_downloads' => Piwik_Translate('Actions_ColumnClicksDocumentation'),
 				'nb_uniq_downloads' => Piwik_Translate('Actions_ColumnUniqueClicksDocumentation'),
 				'nb_outlinks' => Piwik_Translate('Actions_ColumnClicksDocumentation'),
-				'nb_uniq_outlinks' => Piwik_Translate('Actions_ColumnUniqueClicksDocumentation')
+				'nb_uniq_outlinks' => Piwik_Translate('Actions_ColumnUniqueClicksDocumentation'),
+				'nb_searches' => Piwik_Translate('Actions_ColumnSearchesDocumentation'),
+//				'nb_keywords' => Piwik_Translate('Actions_ColumnSiteSearchKeywords'),
 			),
 			'processedMetrics' => false,
 			'order' => 1
@@ -392,6 +398,115 @@ class Piwik_Actions extends Piwik_Plugin
 			'actionToLoadSubTables' => 'getDownloads',
 			'order' => 9,
 		);
+
+		if($this->isSiteSearchEnabled())
+		{
+			// Search Keywords
+			$reports[] = array(
+				'category' => Piwik_Translate('Actions_SubmenuSitesearch'),
+				'name' => Piwik_Translate('Actions_WidgetSearchKeywords'),
+				'module' => 'Actions',
+				'action' => 'getSiteSearchKeywords',
+				'dimension' => Piwik_Translate('Actions_ColumnSearchKeyword'),
+				'metrics' => array(
+					'nb_visits' => Piwik_Translate('Actions_ColumnSearches'),
+					'nb_pages_per_search' => Piwik_Translate('Actions_ColumnPagesPerSearch'),
+					'exit_rate' => Piwik_Translate('Actions_ColumnSearchExits'),
+				),
+				'metricsDocumentation' => array(
+					'nb_visits' => Piwik_Translate('Actions_ColumnSearchesDocumentation'),
+					'nb_pages_per_search' => Piwik_Translate('Actions_ColumnPagesPerSearchDocumentation'),
+					'exit_rate' => Piwik_Translate('Actions_ColumnSearchExitsDocumentation'),
+				),
+				'documentation' => Piwik_Translate('Actions_SiteSearchKeywordsDocumentation') . '<br/><br/>' . Piwik_Translate('Actions_SiteSearchIntro') . '<br/><br/>'
+					. '<a href="http://piwik.org/docs/site-search/" target="_blank">'. Piwik_Translate('Actions_LearnMoreAboutSiteSearchLink') . '</a>',
+				'processedMetrics' => false,
+				'order' => 15
+			);
+			// No Result Search Keywords
+			$reports[] = array(
+				'category' => Piwik_Translate('Actions_SubmenuSitesearch'),
+				'name' => Piwik_Translate('Actions_WidgetSearchNoResultKeywords'),
+				'module' => 'Actions',
+				'action' => 'getSiteSearchNoResultKeywords',
+				'dimension' => Piwik_Translate('Actions_ColumnNoResultKeyword'),
+				'metrics' => array(
+					'nb_visits' => Piwik_Translate('Actions_ColumnSearches'),
+					'exit_rate' => Piwik_Translate('Actions_ColumnSearchExits'),
+				),
+				'metricsDocumentation' => array(
+					'nb_visits' => Piwik_Translate('Actions_ColumnSearchesDocumentation'),
+					'exit_rate' => Piwik_Translate('Actions_ColumnSearchExitsDocumentation'),
+				),
+				'documentation' => Piwik_Translate('Actions_SiteSearchIntro'). '<br /><br />' . Piwik_Translate('Actions_SiteSearchKeywordsNoResultDocumentation'),
+				'processedMetrics' => false,
+				'order' => 16
+			);
+
+			if(self::isCustomVariablesPluginsEnabled()) {
+				// Search Categories
+				$reports[] = array(
+					'category' => Piwik_Translate('Actions_SubmenuSitesearch'),
+					'name' => Piwik_Translate('Actions_WidgetSearchCategories'),
+					'module' => 'Actions',
+					'action' => 'getSiteSearchCategories',
+					'dimension' => Piwik_Translate('Actions_ColumnSearchCategory'),
+					'metrics' => array(
+						'nb_visits' => Piwik_Translate('Actions_ColumnSearches'),
+						'nb_pages_per_search' => Piwik_Translate('Actions_ColumnPagesPerSearch'),
+						'exit_rate' => Piwik_Translate('Actions_ColumnSearchExits'),
+					),
+					'metricsDocumentation' => array(
+						'nb_visits' => Piwik_Translate('Actions_ColumnSearchesDocumentation'),
+						'nb_pages_per_search' => Piwik_Translate('Actions_ColumnPagesPerSearchDocumentation'),
+						'exit_rate' => Piwik_Translate('Actions_ColumnSearchExitsDocumentation'),
+					),
+					'documentation' => Piwik_Translate('Actions_SiteSearchCategories1') . '<br/>' . Piwik_Translate('Actions_SiteSearchCategories2'),
+					'processedMetrics' => false,
+					'order' => 17
+				);
+			}
+
+			$documentation = Piwik_Translate('Actions_SiteSearchFollowingPagesDoc') .'<br/>'.Piwik_Translate('General_UsePlusMinusIconsDocumentation');
+			// Pages URLs following Search
+			$reports[] = array(
+				'category' => Piwik_Translate('Actions_SubmenuSitesearch'),
+				'name' => Piwik_Translate('Actions_WidgetPageUrlsFollowingSearch'),
+				'module' => 'Actions',
+				'action' => 'getPageUrlsFollowingSiteSearch',
+				'dimension' => Piwik_Translate('General_ColumnDestinationPage'),
+				'metrics' => array(
+					'nb_hits_following_search' => Piwik_Translate('General_ColumnViewedAfterSearch'),
+					'nb_hits' => Piwik_Translate('General_ColumnTotalPageviews'),
+				),
+				'metricsDocumentation' => array(
+					'nb_hits_following_search' => Piwik_Translate('General_ColumnViewedAfterSearchDocumentation'),
+					'nb_hits' => Piwik_Translate('General_ColumnPageviewsDocumentation'),
+				),
+				'documentation' => $documentation,
+				'processedMetrics' => false,
+				'order' => 18
+			);
+			// Pages Titles following Search
+			$reports[] = array(
+				'category' => Piwik_Translate('Actions_SubmenuSitesearch'),
+				'name' => Piwik_Translate('Actions_WidgetPageTitlesFollowingSearch'),
+				'module' => 'Actions',
+				'action' => 'getPageTitlesFollowingSiteSearch',
+				'dimension' => Piwik_Translate('General_ColumnDestinationPage'),
+				'metrics' => array(
+					'nb_hits_following_search' => Piwik_Translate('General_ColumnViewedAfterSearch'),
+					'nb_hits' => Piwik_Translate('General_ColumnTotalPageviews'),
+				),
+				'metricsDocumentation' => array(
+					'nb_hits_following_search' => Piwik_Translate('General_ColumnViewedAfterSearchDocumentation'),
+					'nb_hits' => Piwik_Translate('General_ColumnPageviewsDocumentation'),
+				),
+				'documentation' => $documentation,
+				'processedMetrics' => false,
+				'order' => 19
+			);
+		}
 	}
 	
 	function addWidgets()
@@ -404,6 +519,18 @@ class Piwik_Actions extends Piwik_Plugin
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_WidgetPagesExit', 'Actions', 'getExitPageUrls');
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_WidgetEntryPageTitles', 'Actions', 'getEntryPageTitles' );
 		Piwik_AddWidget( 'Actions_Actions', 'Actions_WidgetExitPageTitles', 'Actions', 'getExitPageTitles' );
+
+		if($this->isSiteSearchEnabled())
+		{
+			Piwik_AddWidget( 'Actions_SubmenuSitesearch', 'Actions_WidgetSearchKeywords', 'Actions', 'getSiteSearchKeywords');
+
+			if(self::isCustomVariablesPluginsEnabled()) {
+				Piwik_AddWidget( 'Actions_SubmenuSitesearch', 'Actions_WidgetSearchCategories', 'Actions', 'getSiteSearchCategories');
+			}
+			Piwik_AddWidget( 'Actions_SubmenuSitesearch', 'Actions_WidgetSearchNoResultKeywords', 'Actions', 'getSiteSearchNoResultKeywords');
+			Piwik_AddWidget( 'Actions_SubmenuSitesearch', 'Actions_WidgetPageUrlsFollowingSearch', 'Actions', 'getPageUrlsFollowingSiteSearch');
+			Piwik_AddWidget( 'Actions_SubmenuSitesearch', 'Actions_WidgetPageTitlesFollowingSearch', 'Actions', 'getPageTitlesFollowingSiteSearch');
+		}
 	}
 	
 	function addMenus()
@@ -413,9 +540,24 @@ class Piwik_Actions extends Piwik_Plugin
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesEntry', array('module' => 'Actions', 'action' => 'indexEntryPageUrls'), true, 2);
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPagesExit', array('module' => 'Actions', 'action' => 'indexExitPageUrls'), true, 3);
 		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuPageTitles', array('module' => 'Actions', 'action' => 'indexPageTitles'), true, 4);
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'indexOutlinks'), true, 5);
-		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'indexDownloads'), true, 6);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuOutlinks', array('module' => 'Actions', 'action' => 'indexOutlinks'), true, 6);
+		Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuDownloads', array('module' => 'Actions', 'action' => 'indexDownloads'), true, 7);
+
+		if($this->isSiteSearchEnabled())
+		{
+			Piwik_AddMenu('Actions_Actions', 'Actions_SubmenuSitesearch', array('module' => 'Actions', 'action' => 'indexSiteSearch'), true, 5);
+		}
 	}
+
+	protected function isSiteSearchEnabled()
+	{
+		$idSite = Piwik_Common::getRequestVar('idSite', 0, 'int');
+		if($idSite == 0 )  {
+			return false;
+		}
+		return Piwik_Site::isSiteSearchEnabledFor($idSite);
+	}
+
 
 	/**
 	 * @param Piwik_Event_Notification $notification  notification object
@@ -427,7 +569,7 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-		$actionsArchiving = new Piwik_Actions_Archiving;
+		$actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);
 		return $actionsArchiving->archivePeriod($archiveProcessing);
 	}
 		
@@ -446,8 +588,21 @@ class Piwik_Actions extends Piwik_Plugin
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-		$actionsArchiving = new Piwik_Actions_Archiving;
+		$actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);
 		return $actionsArchiving->archiveDay($archiveProcessing);
+	}
+
+	static public function checkCustomVariablesPluginEnabled()
+	{
+		if(!self::isCustomVariablesPluginsEnabled())
+		{
+			throw new Exception("To Track Site Search Categories, please ask the Piwik Administrator to enable the 'Custom Variables' plugin in Settings > Plugins.");
+		}
+	}
+
+	static protected function isCustomVariablesPluginsEnabled()
+	{
+		return Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables');
 	}
 }
 

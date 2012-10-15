@@ -77,7 +77,7 @@ class ActionsTests extends PHPUnit_Framework_TestCase
             ),
             array(
                 'params'    => array('name' => 'http://example.org/path/Default.aspx#anchor', 'type' => Piwik_Tracker_Action::TYPE_ACTION_NAME),
-                'expected'  => array('path', ' Default.aspx'),
+                'expected'  => array('path', ' Default.aspx#anchor'),
             ),
             array(
                 'params'    => array('name' => '', 'type' => Piwik_Tracker_Action::TYPE_ACTION_NAME),

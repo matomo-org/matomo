@@ -57,6 +57,11 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 		$view->globalExcludedIps = str_replace(',',"\n", $excludedIpsGlobal);
 		$excludedQueryParametersGlobal = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
 		$view->globalExcludedQueryParameters = str_replace(',',"\n", $excludedQueryParametersGlobal);
+
+		$view->globalSearchKeywordParameters = Piwik_SitesManager_API::getInstance()->getSearchKeywordParametersGlobal();
+		$view->globalSearchCategoryParameters = Piwik_SitesManager_API::getInstance()->getSearchCategoryParametersGlobal();
+		$view->isSearchCategoryTrackingEnabled = Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+
 		$view->currentIpAddress = Piwik_IP::getIpFromHeader();
 
 		$view->showAddSite = (boolean) Piwik_Common::getRequestVar('showaddsite', false);
@@ -79,10 +84,13 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 			$excludedIps = Piwik_Common::getRequestVar('excludedIps', false);
 			$excludedQueryParameters = Piwik_Common::getRequestVar('excludedQueryParameters', false);
 			$currency = Piwik_Common::getRequestVar('currency', false);
+			$searchKeywordParameters = Piwik_Common::getRequestVar('searchKeywordParameters', $default = "");
+			$searchCategoryParameters = Piwik_Common::getRequestVar('searchCategoryParameters', $default = "");
 			Piwik_SitesManager_API::getInstance()->setDefaultTimezone($timezone);
 			Piwik_SitesManager_API::getInstance()->setDefaultCurrency($currency);
 			Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedQueryParameters);
 			Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIps);
+			Piwik_SitesManager_API::getInstance()->setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters);
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {
 			$toReturn = $response->getResponseException( $e );

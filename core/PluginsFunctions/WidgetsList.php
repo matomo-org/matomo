@@ -70,6 +70,7 @@ class Piwik_WidgetsList
 			'General_Visitors',
 			'UserSettings_VisitorSettings',
 			'Actions_Actions',
+			'Actions_SubmenuSitesearch',
 			'Referers_Referers',
 			'Goals_Goals',
 			'Goals_Ecommerce',

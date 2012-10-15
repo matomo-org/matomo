@@ -2453,6 +2453,7 @@ class Piwik
 
 				return true;
 			} catch(Exception $e) {
+//				echo $sql . ' ---- ' .  $e->getMessage();
 				if(!Zend_Registry::get('db')->isErrNo($e, '1148'))
 				{
 					Piwik::log("LOAD DATA INFILE failed... Error was:" . $e->getMessage());
@@ -2498,16 +2499,23 @@ class Piwik
 
 				self::createCSVFile($filePath, $fileSpec, $values);
 
+				if(!file_exists($filePath))
+				{
+					throw new Exception("File $filePath could not be created.");
+				}
 				$rc = self::createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec);
 				if($rc)
 				{
 					unlink($filePath);
 					return true;
 				}
-
-				throw new Exception('unknown cause');
+				else
+				{
+					throw new Exception('unknown cause');
+				}
 
 			} catch(Exception $e) {
+//				echo "LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage();
 				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
 			}
 		}

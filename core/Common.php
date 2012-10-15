@@ -416,7 +416,6 @@ class Piwik_Common
 		{
 			$urlQuery = substr($urlQuery, 1);
 		}
-
 		$separator = '&';
 
 		$urlQuery = $separator . $urlQuery;
@@ -891,7 +890,7 @@ class Piwik_Common
 		{
 			if( is_null($varDefault))
 			{
-				throw new Exception("The parameter '$varName' isn't set in the Request, and a default value wasn't provided.");
+				throw new Exception("The parameter '$varName' isn't set in the Request, and a default value wasn't provided." );
 			}
 			else
 			{
@@ -1941,4 +1940,24 @@ function destroy(&$var)
 	if (is_object($var)) $var->__destruct();
 	unset($var);
 	$var = null;
+}
+
+if(!function_exists('printDebug'))
+{
+	function printDebug( $info = '' )
+	{
+		if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
+		{
+			if(is_array($info))
+			{
+				print("<pre>");
+				print(htmlspecialchars(var_export($info,true), ENT_QUOTES));
+				print("</pre>");
+			}
+			else
+			{
+				print(htmlspecialchars($info, ENT_QUOTES) . "<br />\n");
+			}
+		}
+	}
 }

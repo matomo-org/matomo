@@ -56,6 +56,8 @@
 						<img src="plugins/Live/templates/images/file{php} echo $col; {/php}.png" title="{if !empty($action.pageTitle)}{$action.pageTitle}{/if} - {$action.serverTimePretty|escape:'html'}{if isset($action.timeSpentPretty)} - {'General_TimeOnPage'|translate}: {$action.timeSpentPretty}{/if}" />
 					{elseif $action.type == 'outlink' || $action.type == 'download'}
 						<img class='iconPadding' src="{$action.icon}" title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
+					{elseif $action.type == 'search'}
+						<img class='iconPadding' src="{$action.icon}" title="{'Actions_SubmenuSitesearch'|translate|escape:'html'}: {$action.pageTitle|escape:'html'} - {$action.serverTimePretty|escape:'html'}" />
 					{else}
 						<img class='iconPadding' src="{$action.icon}" title="{$action.goalName|escape:'html'} - {if $action.revenue > 0}{'Live_GoalRevenue'|translate}: {$action.revenue|money:$idSite} - {/if} {$action.serverTimePretty|escape:'html'}" />
 					{/if}

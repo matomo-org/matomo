@@ -8,12 +8,12 @@
  */
 
 require_once 'Goals/Goals.php';
-
+require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Integration/TwoVisitors_TwoWebsites_DifferentDaysTest.php';
 /**
  * Same as TwoVisitors_twoWebsites_differentDays but with goals that convert
  * on every url.
  */
-class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions extends IntegrationTestCase
+class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions extends Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays
 {
     protected static $idSite1 = 1;
     protected static $idSite2 = 2;
@@ -44,14 +44,14 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         $this->runApiTests($api, $params);
     }
 
-    protected function getApiToCall()
-    {
-        return array('Goals.getDaysToConversion', 'MultiSites.getAll');
-    }
+	protected function getApiToCall()
+	{
+		return array('Goals.getDaysToConversion', 'MultiSites.getAll');
+	}
 
-    public function getApiForTesting()
-    {
-        $result = parent::getApiForTesting();
+	public function getApiForTesting()
+	{
+		$result = parent::getApiForTesting();
 
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
@@ -124,8 +124,8 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         self::assertTrue($visitorB->doTrackPageView('first page view'));
 
         // -
-        // Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
-        $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->getDatetime());
+	    // Second visitor again on Idsite 1: 2 page views 2 days later, 2010-01-05
+	    $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->getDatetime());
         // visitor_returning is set to 1 only when visit count more than 1
         // Temporary, until we implement 1st party cookies in PiwikTracker
         $visitorB->DEBUG_APPEND_URL .= '&_idvc=2&_viewts=' . Piwik_Date::factory($dateTime)->getTimestamp();
@@ -142,9 +142,9 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.2)->getDatetime());
         self::assertTrue($visitorB->doTrackAction('mailto:test@example.org', 'link'));
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
-        self::assertTrue($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
+	    self::assertTrue($visitorB->doTrackAction('mailto:test@example.org/strangelink', 'link'));
 
-        // Actions.getPageTitle tested with this title
+	    // Actions.getPageTitle tested with this title
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
         self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
         self::checkResponse($visitorB->doBulkTrack());

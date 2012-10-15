@@ -1263,7 +1263,6 @@ $translations = array(
 	'UsersManager_ChangeAllConfirm' => 'Вы сапраўды жадаеце змяніць правы \'%s\' на ўсе вэбсайты?',
 	'UsersManager_ChangePasswordConfirm' => 'Зменяючы парол, вы таксама зменяеце token_auth карыстальніка. Вы сапраўды жадаеце працягнуць?',
 	'UsersManager_Password' => 'Пароль',
-	'UsersManager_Email' => 'Email',
 	'UsersManager_Alias' => 'Аліас',
 	'UsersManager_TheSuperUserAliasCannotBeChanged' => 'Псеўданім Супер Карыстальніка не можа быць зменены.',
 	'UsersManager_ReportToLoadByDefault' => 'Справаздача, якая загружаецца па змаўчанні',
@@ -1372,7 +1371,6 @@ $translations = array(
 	'PDFReports_PluginDescriptionReports' => 'Стварэнне і запампоука карыстацкіх справаздач, і адпраўка іх па электроннай пошце штодзень, штотыдзень або штомесяц.',
 	'PDFReports_ManageEmailReports' => 'Упраўленне справаздачамі па электроннай пошце',
 	'PDFReports_EmailReports' => 'Справаздачы па Email',
-	'PDFReports_PDF' => 'PDF',
 	'PDFReports_SendReportNow' => 'Адправіць справаздачу зараз',
 	'PDFReports_EmailSchedule' => 'Расклад электроннай пошты',
 	'PDFReports_SendReportTo' => 'Адправіць справаздачу да',
@@ -1399,5 +1397,4 @@ $translations = array(
 	'PDFReports_TableOfContent' => 'Спіс справаздач',
 	'PDFReports_TopOfReport' => 'Вярнуцца наверх',
 	'PDFReports_Pagination' => 'Старонка %s з %s',
-
 );

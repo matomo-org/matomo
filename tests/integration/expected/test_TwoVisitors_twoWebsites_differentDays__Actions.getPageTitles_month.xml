@@ -23,12 +23,12 @@
 				<label>second visitor</label>
 				<nb_visits>2</nb_visits>
 				<nb_hits>2</nb_hits>
-				<sum_time_spent>720</sum_time_spent>
+				<sum_time_spent>900</sum_time_spent>
 				<entry_nb_visits>1</entry_nb_visits>
 				<entry_nb_actions>5</entry_nb_actions>
 				<entry_sum_visit_length>901</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>450</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<subtable>
@@ -36,12 +36,12 @@
 						<label>two days later</label>
 						<nb_visits>2</nb_visits>
 						<nb_hits>2</nb_hits>
-						<sum_time_spent>720</sum_time_spent>
+						<sum_time_spent>900</sum_time_spent>
 						<entry_nb_visits>1</entry_nb_visits>
 						<entry_nb_actions>5</entry_nb_actions>
 						<entry_sum_visit_length>901</entry_sum_visit_length>
 						<entry_bounce_count>0</entry_bounce_count>
-						<avg_time_on_page>360</avg_time_on_page>
+						<avg_time_on_page>450</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
 						<exit_rate>0%</exit_rate>
 						<subtable>
@@ -64,9 +64,9 @@
 								<label> second page view</label>
 								<nb_visits>1</nb_visits>
 								<nb_hits>1</nb_hits>
-								<sum_time_spent>360</sum_time_spent>
+								<sum_time_spent>540</sum_time_spent>
 								<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-								<avg_time_on_page>360</avg_time_on_page>
+								<avg_time_on_page>540</avg_time_on_page>
 								<bounce_rate>0%</bounce_rate>
 								<exit_rate>0%</exit_rate>
 							</row>
@@ -137,11 +137,13 @@
 				<entry_nb_actions>2</entry_nb_actions>
 				<entry_sum_visit_length>1</entry_sum_visit_length>
 				<entry_bounce_count>0</entry_bounce_count>
+				<exit_nb_visits>1</exit_nb_visits>
 				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<sum_daily_entry_nb_uniq_visitors>1</sum_daily_entry_nb_uniq_visitors>
+				<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>0%</exit_rate>
+				<exit_rate>100%</exit_rate>
 			</row>
 		</result>
 		<result date="2010-02" />

@@ -707,26 +707,6 @@ class Piwik_Tracker
 	}
 }
 
-if(!function_exists('printDebug'))
-{
-	function printDebug( $info = '' )
-	{
-		if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
-		{
-			if(is_array($info))
-			{
-				print("<pre>");
-				print(htmlspecialchars(var_export($info,true), ENT_QUOTES));
-				print("</pre>");
-			}
-			else
-			{
-				print(htmlspecialchars($info, ENT_QUOTES) . "<br />\n");
-			}
-		}
-	}
-}
-
 if(!function_exists('Piwik_Translate'))
 {
 	function Piwik_Translate($string, $args = array())

@@ -8,6 +8,7 @@
 		<module>Goals</module>
 		<action>getDaysToConversion</action>
 		<dimension>Days to Conversion</dimension>
+		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 
@@ -21,7 +22,7 @@
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
 
 		</processedMetricsGoal>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=range&amp;date=2010-01-03%2C2010-01-09</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>
 
 	</metadata>
@@ -35,7 +36,7 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				<label>0 days</label>
-				<nb_conversions>2</nb_conversions>
+				<nb_conversions>1</nb_conversions>
 				<revenue>$ 0</revenue>
 			</row>
 			<row>
@@ -45,7 +46,7 @@
 			</row>
 			<row>
 				<label>2 days</label>
-				<nb_conversions>0</nb_conversions>
+				<nb_conversions>1</nb_conversions>
 				<revenue>$ 0</revenue>
 			</row>
 			<row>

@@ -27,6 +27,13 @@
 	<row>
 		<type>metric</type>
 		<category>Visit</category>
+		<name>Number of Internal Searches</name>
+		<segment>searches</segment>
+		<acceptedValues>To select all visits who used internal Site Search, use: &amp;segment=searches&gt;0</acceptedValues>
+	</row>
+	<row>
+		<type>metric</type>
+		<category>Visit</category>
 		<name>Number of visits</name>
 		<segment>visitCount</segment>
 	</row>

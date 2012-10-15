@@ -184,7 +184,7 @@ class Piwik_Live_API
 			// eg. Downloads, Outlinks. For these, idaction_name is set to 0
 			$sql = "
 				SELECT
-					log_action.type AS type,
+					COALESCE(log_action.type,log_action_title.type) AS type,
 					log_action.name AS url,
 					log_action.url_prefix,
 					log_action_title.name AS pageTitle,
@@ -210,8 +210,10 @@ class Piwik_Live_API
 					if(!empty($actionDetail['custom_var_k'.$i])
 						&& !empty($actionDetail['custom_var_v'.$i]))
 					{
+						$cvarKey = $actionDetail['custom_var_k'.$i];
+						$cvarKey = $this->getCustomVariablePrettyKey($cvarKey);
 						$customVariablesPage[$i] = array(
-							'customVariableName'.$i => $actionDetail['custom_var_k'.$i],
+							'customVariableName'.$i => $cvarKey,
 							'customVariableValue'.$i => $actionDetail['custom_var_v'.$i],
 						);
 					}
@@ -357,6 +359,10 @@ class Piwik_Live_API
 						$details['type'] = 'outlink';
 						$details['icon'] = 'themes/default/images/link.gif';
 					break;
+					case Piwik_Tracker_Action::TYPE_SITE_SEARCH:
+						$details['type'] = 'search';
+						$details['icon'] = 'themes/default/images/search_ico.png';
+					break;
 					default:
 						$details['type'] = 'action';
 						$details['icon'] = null;
@@ -370,6 +376,18 @@ class Piwik_Live_API
 			$table->addRowFromArray( array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
 		}
 		return $table;
+	}
+
+	private function getCustomVariablePrettyKey($key)
+	{
+		$rename = array(
+			Piwik_Tracker_Action::CVAR_KEY_SEARCH_CATEGORY => Piwik_Translate('Actions_ColumnSearchCategory'),
+			Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT => Piwik_Translate('Actions_ColumnSearchResultsCount'),
+		);
+		if(isset($rename[$key])) {
+			return $rename[$key];
+		}
+		return $key;
 	}
 
 	private function sortByServerTime($a, $b)

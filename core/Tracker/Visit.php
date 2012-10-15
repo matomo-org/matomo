@@ -41,6 +41,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $cookie = null;
 	protected $visitorInfo = array();
 	protected $userSettingsInformation = null;
+	protected $visitorCustomVariables = array();
 	protected $idsite;
 	protected $visitorKnown;
 	protected $request;
@@ -143,6 +144,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$this->visitorCustomVariables = self::getCustomVariables($scope = 'visit', $this->request);
 		if(!empty($this->visitorCustomVariables))
 		{
+			printDebug("Visit level Custom Variables: ");
+			printDebug($this->visitorCustomVariables);
 			$this->customVariablesSetFromRequest = true;
 		}
 	
@@ -309,7 +312,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			$type = Piwik_Tracker_Action::getActionTypeName($action->getActionType());
 			printDebug("Action is a $type,
-						Action name =  ". $action->getActionName() . ",
+						Action name =  ". $action->getActionName() .",
 						Action URL = ". $action->getActionUrl() );
 		}
 	}
@@ -342,8 +345,15 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		if($idActionUrl !== false)
 		{
 			$valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
-			$sqlActionUpdate = "visit_total_actions = visit_total_actions + 1, ";
+			$sqlActionUpdate .= "visit_total_actions = visit_total_actions + 1, ";
+		}
+		if(!empty($idActionName))
+		{
 			$valuesToUpdate['visit_exit_idaction_name'] = (int)$idActionName;
+		}
+		if($actionType == Piwik_Tracker_Action::TYPE_SITE_SEARCH)
+		{
+			$sqlActionUpdate .= "visit_total_searches = visit_total_searches + 1, ";
 		}
 
 		$datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($this->getCurrentTimestamp());
@@ -534,9 +544,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'visit_exit_idaction_name' 	=> (int)$idActionName,
 			'visit_total_actions' 		=> in_array($actionType,
 												array(Piwik_Tracker_Action::TYPE_ACTION_URL,
-													 Piwik_Tracker_Action::TYPE_DOWNLOAD,
-													 Piwik_Tracker_Action::TYPE_OUTLINK))
+													Piwik_Tracker_Action::TYPE_DOWNLOAD,
+													Piwik_Tracker_Action::TYPE_OUTLINK))
 											? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
+			'visit_total_searches'      => $actionType == Piwik_Tracker_Action::TYPE_SITE_SEARCH ? 1 : 0,
 			'visit_total_time' 			=> $defaultTimeOnePageVisit,
 			'visit_goal_converted'  	=> $visitIsConverted ? 1: 0,
 			'visit_goal_buyer'			=> $this->goalManager->getBuyerType(),
@@ -1220,15 +1231,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 	static public function getCustomVariables($scope, $request)
 	{
-		if($scope == 'visit')
-		{
+		if($scope == 'visit') {
 			$parameter = '_cvar';
-			$debug = 'Visit level';
-		}
-		else
-		{
+		} else {
 			$parameter = 'cvar';
-			$debug = 'Page level';
 		}
 		
 		$customVar = Piwik_Common::unsanitizeInputValues(Piwik_Common::getRequestVar($parameter, '', 'json', $request));
@@ -1261,11 +1267,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			$customVariables['custom_var_k'.$id] = $key;
 			$customVariables['custom_var_v'.$id] = $value;
 		}
-		if(!empty($customVariables))
-		{
-			printDebug("$debug Custom Variables: ");
-			printDebug($customVariables);
-		}
+
 		return $customVariables;
 	}
 

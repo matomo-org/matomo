@@ -29,7 +29,8 @@
 class Piwik_SitesManager_API 
 {
 	static private $instance = null;
-	
+	const DEFAULT_SEARCH_KEYWORD_PARAMETERS = 'q,query,search,k,keyword';
+
 	/**
 	 * @return Piwik_SitesManager_API
 	 */
@@ -46,7 +47,9 @@ class Piwik_SitesManager_API
 	const OPTION_DEFAULT_TIMEZONE = 'SitesManager_DefaultTimezone';
 	const OPTION_DEFAULT_CURRENCY = 'SitesManager_DefaultCurrency';
 	const OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL = 'SitesManager_ExcludedQueryParameters';
-	
+	const OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchKeywordParameters';
+	const OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchCategoryParameters';
+
 	/**
 	 * Returns the javascript tag for the given idSite.
 	 * This tag must be included on every page to be tracked by Piwik
@@ -435,7 +438,10 @@ class Piwik_SitesManager_API
 	 * @param array|string The URLs array must contain at least one URL called the 'main_url' ; 
 	 * 						if several URLs are provided in the array, they will be recorded 
 	 * 						as Alias URLs for this website.
-	 * @param int Is Ecommerce Reporting enabled for this website? 
+	 * @param int Is Ecommerce Reporting enabled for this website?
+	 * @param int $sitesearch Whether site search is enabled, 0 or 1
+	 * @param string $searchKeywordParameters Comma separated list of search keyword parameter names
+	 * @param string $searchCategoryParameters Comma separated list of search category parameter names
 	 * @param string Comma separated list of IPs to exclude from the reports (allows wildcards)
 	 * @param string Timezone string, eg. 'Europe/London'
 	 * @param string Currency, eg. 'EUR'
@@ -445,7 +451,7 @@ class Piwik_SitesManager_API
 	 * 
 	 * @return int the website ID created
 	 */
-	public function addSite( $siteName, $urls, $ecommerce = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null )
+	public function addSite( $siteName, $urls, $ecommerce = null, $siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -453,8 +459,10 @@ class Piwik_SitesManager_API
 		$urls = $this->cleanParameterUrls($urls);
 		$this->checkUrls($urls);
 		$this->checkAtLeastOneUrl($urls);
+		$siteSearch = $this->checkSiteSearch($siteSearch);
+		list($searchKeywordParameters, $searchCategoryParameters ) = $this->checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters);
+
 		$timezone = trim($timezone);
-		
 		if(empty($timezone))
 		{
 			$timezone = $this->getDefaultTimezone();
@@ -482,6 +490,9 @@ class Piwik_SitesManager_API
 		$bind['timezone'] = $timezone;
 		$bind['currency'] = $currency;
 		$bind['ecommerce'] = (int)$ecommerce;
+		$bind['sitesearch'] = $siteSearch;
+		$bind['sitesearch_keyword_parameters'] = $searchKeywordParameters;
+		$bind['sitesearch_category_parameters'] = $searchCategoryParameters;
 		$bind['ts_created'] = !is_null($startDate) 
 									? Piwik_Date::factory($startDate)->getDatetime()
 									: Piwik_Date::now()->getDatetime();
@@ -678,7 +689,50 @@ class Piwik_SitesManager_API
 		Piwik_Common::deleteTrackerCache();
 		return true;
 	}
-	
+
+
+	/**
+	 * Sets Site Search keyword/category parameter names, to be used on websites which have not specified these values
+	 * Expects Comma separated list of query params names
+	 *
+	 * @param string
+	 * @param string
+	 * @return bool
+	 */
+	public function setGlobalSearchParameters($searchKeywordParameters, $searchCategoryParameters)
+	{
+		Piwik::checkUserIsSuperUser();
+		Piwik_SetOption(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL, $searchKeywordParameters);
+		Piwik_SetOption(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL, $searchCategoryParameters);
+		Piwik_Common::deleteTrackerCache();
+		return true;
+	}
+
+	/**
+	 * @return string Comma separated list of URL parameters
+	 */
+	public function getSearchKeywordParametersGlobal()
+	{
+		Piwik::checkUserHasSomeAdminAccess();
+		$names = Piwik_GetOption(self::OPTION_SEARCH_KEYWORD_QUERY_PARAMETERS_GLOBAL);
+		if($names === false) {
+			$names = self::DEFAULT_SEARCH_KEYWORD_PARAMETERS;
+		}
+		if(empty($names)) {
+			$names = '';
+		}
+		return $names;
+	}
+
+	/**
+	 * @return string Comma separated list of URL parameters
+	 */
+	public function getSearchCategoryParametersGlobal()
+	{
+		Piwik::checkUserHasSomeAdminAccess();
+		return Piwik_GetOption(self::OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL);
+	}
+
 	/**
 	 * Returns the list of URL query parameters that are excluded from all websites 
 	 * 
@@ -785,7 +839,10 @@ class Piwik_SitesManager_API
 	 * @param int $idSite website ID defining the website to edit
 	 * @param string $siteName website name
 	 * @param string|array $urls the website URLs
-	 * @param null $ecommerce
+	 * @param int $ecommerce Whether Ecommerce is enabled, 0 or 1
+	 * @param int $sitesearch Whether site search is enabled, 0 or 1
+	 * @param string $searchKeywordParameters Comma separated list of search keyword parameter names
+	 * @param string $searchCategoryParameters Comma separated list of search category parameter names
 	 * @param string $excludedIps Comma separated list of IPs to exclude from being tracked (allows wildcards)
 	 * @param null $excludedQueryParameters
 	 * @param string $timezone Timezone
@@ -796,7 +853,19 @@ class Piwik_SitesManager_API
 	 * @throws Exception
 	 * @return bool true on success
 	 */
-	public function updateSite( $idSite, $siteName, $urls = null, $ecommerce = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null)
+	public function updateSite( $idSite,
+	                            $siteName,
+	                            $urls = null,
+	                            $ecommerce = null,
+	                            $siteSearch = null,
+	                            $searchKeywordParameters = null,
+	                            $searchCategoryParameters = null,
+	                            $excludedIps = null,
+	                            $excludedQueryParameters = null,
+	                            $timezone = null,
+	                            $currency = null,
+	                            $group = null,
+	                            $startDate = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -807,7 +876,7 @@ class Piwik_SitesManager_API
 		}
 
 		$this->checkName($siteName);
-		
+
 		// Build the SQL UPDATE based on specified updates to perform
 		$bind = array();
 		if(!is_null($urls))
@@ -846,6 +915,12 @@ class Piwik_SitesManager_API
 		}
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
 		$bind['excluded_parameters'] = $this->checkAndReturnExcludedQueryParameters($excludedQueryParameters);
+
+		$bind['sitesearch'] = $this->checkSiteSearch($siteSearch);
+		list($searchKeywordParameters, $searchCategoryParameters ) = $this->checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters);
+		$bind['sitesearch_keyword_parameters'] = $searchKeywordParameters;
+		$bind['sitesearch_category_parameters'] = $searchCategoryParameters;
+
 		$bind['name'] = $siteName;
 		$db = Zend_Registry::get('db');
 		$db->update(Piwik_Common::prefixTable("site"), 
@@ -1080,6 +1155,29 @@ class Piwik_SitesManager_API
 		{
 			throw new Exception(Piwik_TranslateException("SitesManager_ExceptionEmptyName"));
 		}
+	}
+
+
+	private function checkSiteSearch($siteSearch)
+	{
+		if($siteSearch === null) {
+			return "1";
+		}
+		return $siteSearch == 1 ? "1" : "0";
+	}
+
+	private function checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters)
+	{
+		$searchKeywordParameters = trim($searchKeywordParameters);
+		$searchCategoryParameters = trim($searchCategoryParameters);
+		if(empty($searchKeywordParameters)) {
+			$searchKeywordParameters = '';
+		}
+		if(empty($searchCategoryParameters)) {
+			$searchCategoryParameters = '';
+		}
+
+		return array($searchKeywordParameters, $searchCategoryParameters);
 	}
 
 	/**

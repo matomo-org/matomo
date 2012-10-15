@@ -46,6 +46,9 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
 		var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
+        var sitesearch = encodeURIComponent($(row).find('#sitesearch option:selected').val());
+        var searchKeywordParameters = $('input#searchKeywordParameters').val();
+        var searchCategoryParameters = $('input#searchCategoryParameters').val();
 		
 		var request = '';
 		request += '&module=API';
@@ -58,6 +61,9 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&ecommerce='+ecommerce;
 		request += '&excludedIps='+excludedIps;
 		request += '&excludedQueryParameters='+excludedQueryParameters;
+        request += '&siteSearch='+sitesearch;
+        request += '&searchKeywordParameters='+searchKeywordParameters;
+        request += '&searchCategoryParameters='+searchCategoryParameters;
 		$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
 	 	request += '&token_auth=' + piwik.token_auth;
 	 	
@@ -90,7 +96,10 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
 		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
-		var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
+        var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
+        var sitesearch = encodeURIComponent($(row).find('#sitesearch option:selected').val());
+        var searchKeywordParameters = $('input#searchKeywordParameters').val();
+        var searchCategoryParameters = $('input#searchCategoryParameters').val();
 		var request = '';
 		request += '&module=API';
 		request += '&format=json';
@@ -103,6 +112,9 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&ecommerce='+ecommerce;
 		request += '&excludedIps='+excludedIps;
 		request += '&excludedQueryParameters='+excludedQueryParameters;
+        request += '&siteSearch='+sitesearch;
+        request += '&searchKeywordParameters='+searchKeywordParameters;
+        request += '&searchCategoryParameters='+searchCategoryParameters;
 		$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
 	 	request += '&token_auth=' + piwik.token_auth;
 	 	
@@ -120,6 +132,8 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
 		var excludedQueryParameters = $('textarea#globalExcludedQueryParameters').val();
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
+        var searchKeywordParameters = $('input#globalSearchKeywordParameters').val();
+        var searchCategoryParameters = $('input#globalSearchCategoryParameters').val();
 		var request = '';
 		request += 'module=SitesManager';
 		request += '&action=setGlobalSettings';
@@ -127,7 +141,9 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&timezone='+timezone;
 		request += '&currency='+currency;
 		request += '&excludedIps='+excludedIps;
-		request += '&excludedQueryParameters='+excludedQueryParameters;
+        request += '&excludedQueryParameters='+excludedQueryParameters;
+        request += '&searchKeywordParameters='+searchKeywordParameters;
+        request += '&searchCategoryParameters='+searchCategoryParameters;
 	 	request += '&token_auth=' + piwik.token_auth;
 		ajaxRequest.data = request;
 		return ajaxRequest;
@@ -147,6 +163,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
+				<td>'+getSitesearchSelector(false)+'</td>\
 				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
 				<td>'+getCurrencySelector(defaultCurrency)+'<br />' + currencyHelp + '</td>\
 				<td>'+getEcommerceSelector(0) + '<br />' + ecommerceHelp+ '</td>\
@@ -185,7 +202,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 	);
 	
 	var alreadyEdited = new Array;
-	$('.editSite')
+    $('.editSite')
 		.click( function() {
 			piwikHelper.hideAjaxError();
 			var idRow = $(this).attr('id');
@@ -251,12 +268,17 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 						contentAfter += '<br />' + currencyHelp;
 						$(n).html(contentAfter);
 					}
-					else if(idName == 'ecommerce')
-					{
-						ecommerceActive = contentBefore.indexOf("ecommerceActive") > 0 ? 1 : 0;
-						contentAfter = getEcommerceSelector(ecommerceActive) + '<br />' + ecommerceHelp; 
-						$(n).html(contentAfter);
-					}
+                    else if(idName == 'ecommerce')
+                    {
+                        ecommerceActive = contentBefore.indexOf("ecommerceActive") > 0 ? 1 : 0;
+                        contentAfter = getEcommerceSelector(ecommerceActive) + '<br />' + ecommerceHelp;
+                        $(n).html(contentAfter);
+                    }
+                    else if(idName == 'sitesearch') {
+                        contentAfter = getSitesearchSelector(contentBefore);
+                        $(n).html(contentAfter);
+                        onClickSiteSearchUseDefault();
+                    }
 				}
 			);
 			$(this)
@@ -276,9 +298,60 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		
 		$('td.editableSite').click( function(){ $(this).parent().find('.editSite').click(); } );
 	}
-	
-	function getEcommerceSelector(enabled)
-	{
+
+    function getSitesearchSelector(contentBefore)
+    {
+        var globalKeywordParameters = $('input#globalSearchKeywordParameters').val().trim();
+        var globalCategoryParameters = $('input#globalSearchCategoryParameters').val().trim();
+        if(contentBefore) {
+            enabled = contentBefore.indexOf("sitesearchActive") > 0 ? 1 : 0;
+            spanSearch = $(contentBefore).filter('.sskp');
+            var searchKeywordParameters = spanSearch.attr('sitesearch_keyword_parameters').trim();
+            var searchCategoryParameters = spanSearch.attr('sitesearch_category_parameters').trim();
+            checked = globalKeywordParameters.length && !searchKeywordParameters.trim().length;
+        } else {
+            var searchKeywordParameters = globalKeywordParameters;
+            var searchCategoryParameters = globalCategoryParameters;
+            enabled = searchKeywordParameters.length || searchCategoryParameters.length; // default is enabled
+            checked = enabled;
+        }
+
+        searchGlobalHasValues = globalKeywordParameters.trim().length;
+        var html = '<select id="sitesearch" onchange="return onClickSiteSearchUseDefault();">';
+        var selected = ' selected="selected" ';
+        html += '<option ' + (enabled ? selected : '') + ' value="1">' + sitesearchEnabled + '</option>';
+        html += '<option ' + (enabled ? '' : selected) + ' value="0">' + sitesearchDisabled + '</option>';
+        html += '</select>';
+        html += '<span style="font-size: 11px;"><br/>';
+
+        if(searchGlobalHasValues)
+        {
+            checkedStr = checked ? ' checked ' : '';
+            html += '<label><span id="sitesearchUseDefault"'+ (!enabled ? ' style="display:none" ' : '') +'><input type="checkbox" '+checkedStr+' id="sitesearchUseDefaultCheck" onclick="return onClickSiteSearchUseDefault();"> '+sitesearchUseDefault+' </span>';
+            html += '</label>';
+
+            html += '<div ' + ((checked && enabled) ? '' : 'style="display-none"') + ' class="searchDisplayParams form-description">'
+                + searchKeywordLabel + ' (' + strDefault + ') ' + ': '
+                + globalKeywordParameters
+                + (globalCategoryParameters.length ? ', '+ searchCategoryLabel + ': ' + globalCategoryParameters: '')
+                + '</div>';
+        }
+        html += '<div id="sitesearchIntro">'+sitesearchIntro+'</div>';
+
+        html += '<div id="searchSiteParameters">';
+        html += '<br/><label><div style="margin-bottom:3px">'+searchKeywordLabel+'</div><input type="text" size="22" id="searchKeywordParameters" value="'+searchKeywordParameters+'" style="margin-bottom: -10px;font-size:9pt;font-family:monospace"></input>'+searchKeywordHelp+'</label>';
+
+        // if custom var plugin is disabled, category tracking not supported
+        if(globalCategoryParameters!='globalSearchCategoryParametersIsDisabled') {
+            html += '<br/><label><div style="margin-bottom:3px">'+searchCategoryLabel+'</div><input type="text" size="22" id="searchCategoryParameters" value="'+searchCategoryParameters+'" style="margin-bottom: -10px;font-size:9pt;font-family:monospace"></input>'+searchCategoryHelp+'</label>';
+        }
+        html += '</div></span>';
+
+        return html;
+    }
+
+    function getEcommerceSelector(enabled)
+    {
 		var html = '<select id="ecommerce">';
 		selected = ' selected="selected" ';
 		html += '<option ' + (enabled ? '' : selected) + ' value="0">' + ecommerceDisabled + '</option>';
@@ -333,4 +406,31 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 	{
 		$(self).parent().find('.updateSite').click();
 	}
+}
+
+function onClickSiteSearchUseDefault()
+{
+    // Site Search enabled
+    if($('select#sitesearch').val() == "1") {
+        $('#sitesearchUseDefault').show();
+
+        // Use default is checked
+        if($('#sitesearchUseDefaultCheck').is(':checked')) {
+            $('#searchSiteParameters').hide();
+            $('#sitesearchIntro').show();
+            $('#searchKeywordParameters,#searchCategoryParameters').val('');
+            $('.searchDisplayParams').show();
+        // Use default is unchecked
+
+        } else {
+            $('#sitesearchIntro').hide();
+            $('.searchDisplayParams').hide();
+            $('#searchSiteParameters').show();
+        }
+    } else {
+        $('.searchDisplayParams').hide();
+        $('#sitesearchUseDefault').hide();
+        $('#searchSiteParameters').hide();
+        $('#sitesearchIntro').show();
+    }
 }

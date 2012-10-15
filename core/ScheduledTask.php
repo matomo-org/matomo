@@ -23,7 +23,7 @@ class Piwik_ScheduledTask
 	const NORMAL_PRIORITY 	= 6;
 	const HIGH_PRIORITY 	= 3;
 	const HIGHEST_PRIORITY 	= 0;
-	
+
 	/**
 	 * Class name where the specified method is located
 	 * @var string 

@@ -99,7 +99,7 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
             // test with excluded IP
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent
             $excludedIp = '154.1.12.34';
-            Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $excludedIp . ',1.2.3.4');
+            Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = '', $excludedIp . ',1.2.3.4');
             $t->setIp($excludedIp);
             self::checkResponse($t->doTrackPageView('visit from IP excluded'));
 

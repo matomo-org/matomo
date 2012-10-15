@@ -158,7 +158,8 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $dateTime = self::$today;
         $idSite   = self::$idSite;
 
-        for ($daysIntoPast = 30; $daysIntoPast >= 0; $daysIntoPast--) {
+        for ($daysIntoPast = 30; $daysIntoPast >= 0; $daysIntoPast--)
+        {
             // Visit 1: referrer website + test page views
             $visitDateTime = Piwik_Date::factory($dateTime)->subDay($daysIntoPast)->getDatetime();
             $t             = self::getTracker($idSite, $visitDateTime, $defaultInit = true);

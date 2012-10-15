@@ -77,12 +77,12 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
 				//FIXME: I'm not sure why it could return false, but it was reported in: http://forum.piwik.org/read.php?2,89324,page=1#msg-89442
 				if($summaryRow)
 				{
-					$newRow->sumRow($summaryRow);
+					$newRow->sumRow($summaryRow, $enableCopyMetadata = false);
 				}
 			}
 			else
 			{
-				$newRow->sumRow($rows[$i]);
+				$newRow->sumRow($rows[$i], $enableCopyMetadata = false);
 			}
 		}
 		

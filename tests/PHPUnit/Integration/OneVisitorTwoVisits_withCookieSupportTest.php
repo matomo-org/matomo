@@ -75,7 +75,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Integ
 
         // testing URL excluded parameters
         $parameterToExclude = 'excluded_parameter';
-        Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new name', $url = array('http://site.com'), $ecommerce = 0, $excludedIps = null, $parameterToExclude . ',anotherParameter');
+        Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = 'notparam', $excludedIps = null, $parameterToExclude . ',anotherParameter');
 
         // Record 1st page view
         $urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY&parameter=Should display';
@@ -117,11 +117,17 @@ class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends Integ
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
 
-        $t->setBrowserLanguage('fr');
-        // Final page view (after 27 min)
+
+	    $t->setBrowserLanguage('fr');
+	    // Site Search request
+	    $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.42)->getDatetime());
+	    $t->setUrl('http://example.org/index.htm?q=Banks Own The World');
+	    self::checkResponse($t->doTrackPageView('Site Search request'));
+
+	    // Final page view (after 27 min)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
         $t->setUrl('http://example.org/index.htm');
-        self::checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
+        self::checkResponse($t->doTrackPageView('Looking at homepage after site search...'));
 
         // -
         // End of first visit: 24min

@@ -75,6 +75,10 @@ abstract class Piwik_Archive
 	const INDEX_ECOMMERCE_ORDERS = 26;
 	const INDEX_ECOMMERCE_ITEM_PRICE_VIEWED = 27;
 
+	// Site Search
+	const INDEX_SITE_SEARCH_HAS_NO_RESULT = 28;
+	const INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS = 29;
+
 	// Goal reports
 	const INDEX_GOAL_NB_CONVERSIONS = 1;
 	const INDEX_GOAL_REVENUE = 2;
@@ -113,7 +117,8 @@ abstract class Piwik_Archive
 				Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS => 'entry_nb_actions',
 				Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH => 'entry_sum_visit_length',
 				Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT => 'entry_bounce_count',
-				
+				Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS => 'nb_hits_following_search',
+
 				// Items reports metrics
 				Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE => 'revenue',
 				Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY => 'quantity',

@@ -67,7 +67,6 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         {
         	$url = urlencode($url);
         }
-        
         return array(
             array('all', array('idSite' => self::$idSite, 'date' => self::$dateTime)),
 
@@ -190,7 +189,9 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 
         // testing URL excluded parameters
         $parameterToExclude = 'excluded_parameter';
-        Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new name', $url = array('http://site.com'), $ecommerce = 0, $excludedIps = null, $parameterToExclude . ',anotherParameter');
+        Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new name', $url = array('http://site.com'), $ecommerce = 0, $siteSearch = null,
+	        $searchKeywordParameters = null,
+	        $searchCategoryParameters = null, $excludedIps = null, $parameterToExclude . ',anotherParameter');
 
         // Record 1st page view
         $urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY&parameter=Should display';

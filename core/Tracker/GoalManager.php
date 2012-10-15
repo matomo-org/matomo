@@ -779,7 +779,7 @@ class Piwik_Tracker_GoalManager
 	 * Records a standard non-Ecommerce goal in the DB (URL/Title matching),
 	 * linking the conversion to the action that triggered it
 	 * @param $goal
-	 * @param $action
+	 * @param Piwik_Tracker_Action $action
 	 * @param $visitorInformation
 	 */
 	protected function recordStandardGoals($goal, $action, $visitorInformation)
@@ -794,7 +794,7 @@ class Piwik_Tracker_GoalManager
 			
 			if(!is_null($action))
 			{
-				$newGoal['idaction_url'] = (int)$action->getIdActionUrl();
+				$newGoal['idaction_url'] = $action->getIdActionUrl();
 				$newGoal['idlink_va'] = $action->getIdLinkVisitAction();
 			}
 

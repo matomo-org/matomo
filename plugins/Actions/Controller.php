@@ -42,15 +42,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	public function getPageUrls($fetch = false)
 	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable', 'Actions.getPageUrls');
-		$this->configureViewPages($view);
-		$this->configureViewActions($view);
-		return $this->renderView($view, $fetch);
-	}
-	
-	public function getPageUrlsSubDataTable($fetch = false)
-	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrlsSubDataTable', 'Actions.getPageUrls');
+		$view = $this->getPageUrlsView(__FUNCTION__, 'getPageUrls', 'Actions.getPageUrls');
 		$this->configureViewPages($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
@@ -61,13 +53,11 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate') );
 	}
 
-
 	/**
 	 * ENTRY PAGES
 	 * @param bool $fetch
 	 * @return string|void
 	 */
-	
 	public function indexEntryPageUrls($fetch = false)
 	{
 		return Piwik_View::singleReport(
@@ -75,16 +65,9 @@ class Piwik_Actions_Controller extends Piwik_Controller
 				$this->getEntryPageUrls(true), $fetch);
 	}
 	
-	public function getEntryPageUrls($fetch = false) {
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getEntryPageUrlsSubDataTable', 'Actions.getEntryPageUrls');
-		$this->configureViewEntryPageUrls($view);
-		$this->configureViewActions($view);
-		return $this->renderView($view, $fetch);
-	}
-	
-	public function getEntryPageUrlsSubDataTable($fetch = false)
+	public function getEntryPageUrls($fetch = false)
 	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getEntryPageUrlsSubDataTable', 'Actions.getEntryPageUrls');
+		$view = $this->getPageUrlsView(__FUNCTION__, 'getEntryPageUrls', 'Actions.getEntryPageUrls');
 		$this->configureViewEntryPageUrls($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
@@ -115,20 +98,12 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	
 	public function getExitPageUrls($fetch = false)
 	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getExitPageUrlsSubDataTable', 'Actions.getExitPageUrls');
+		$view = $this->getPageUrlsView(__FUNCTION__, 'getExitPageUrls', 'Actions.getExitPageUrls');
 		$this->configureViewExitPageUrls($view);
 		$this->configureViewActions($view);
 		return $this->renderView($view, $fetch);
 	}
-	
-	public function getExitPageUrlsSubDataTable($fetch = false)
-	{
-		$view = $this->getPageUrlsView(__FUNCTION__, 'getExitPageUrlsSubDataTable', 'Actions.getExitPageUrls');
-		$this->configureViewExitPageUrls($view);
-		$this->configureViewActions($view);
-		return $this->renderView($view, $fetch);
-	}
-	
+
 	protected function configureViewExitPageUrls($view)
 	{
 		$view->setSortedColumn('exit_nb_visits');
@@ -140,11 +115,107 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		));
 		$view->setReportUrl('Actions', $this->getExitPageUrlActionForLink());
 	}
-	
+
+	/*
+	 * SITE SEARCH
+	 */
+	public function indexSiteSearch()
+	{
+		$view = Piwik_View::factory('indexSiteSearch');
+
+		$view->keywords = $this->getSiteSearchKeywords( true );
+		$view->noResultKeywords = $this->getSiteSearchNoResultKeywords( true );
+		$view->pagesUrlsFollowingSiteSearch = $this->getPageUrlsFollowingSiteSearch( true );
+
+		$categoryTrackingEnabled = Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+		if($categoryTrackingEnabled)
+		{
+			$view->categories = $this->getSiteSearchCategories( true );
+		}
+
+		echo $view->render();
+	}
+
+	public function getSiteSearchKeywords($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( $this->pluginName,  __FUNCTION__, 'Actions.getSiteSearchKeywords' );
+		$this->configureViewSiteSearchKeywords($view);
+		return $this->renderView($view, $fetch);
+	}
+
+	public function getSiteSearchNoResultKeywords($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( $this->pluginName,  __FUNCTION__, 'Actions.getSiteSearchNoResultKeywords' );
+		$this->configureViewSiteSearchKeywords($view);
+		$view->setColumnsToDisplay(array('label', 'nb_visits', 'exit_rate'));
+		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnNoResultKeyword'));
+		return $this->renderView($view, $fetch);
+	}
+
+	public function configureViewSiteSearchKeywords(Piwik_ViewDataTable $view)
+	{
+		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnSearchKeyword'));
+		$view->setColumnsToDisplay(array('label', 'nb_visits', 'nb_pages_per_search', 'exit_rate'));
+		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnSearches'));
+		$view->setColumnTranslation('exit_rate', str_replace("% ", "%&nbsp;", Piwik_Translate('Actions_ColumnSearchExits')));
+		$view->setColumnTranslation('nb_pages_per_search', Piwik_Translate('Actions_ColumnPagesPerSearch'));
+		$view->disableShowBarChart();
+		$view->disableShowAllColumns();
+	}
+
+	public function getSiteSearchCategories($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( $this->pluginName,  __FUNCTION__, 'Actions.getSiteSearchCategories' );
+		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnSearchCategory'));
+		$view->setColumnTranslation('nb_visits', Piwik_Translate('Actions_ColumnSearches'));
+		$view->setColumnsToDisplay( array('label','nb_visits', 'nb_pages_per_search') );
+		$view->setColumnTranslation('nb_pages_per_search', Piwik_Translate('Actions_ColumnPagesPerSearch'));
+		$view->disableShowAllColumns();
+		$view->disableShowBarChart();
+		return $this->renderView($view, $fetch);
+	}
+
+
+	public function getPageUrlsFollowingSiteSearch($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( $this->pluginName,  __FUNCTION__, 'Actions.getPageUrlsFollowingSiteSearch', 'getPageUrlsFollowingSiteSearch' );
+		$view->addRelatedReports(Piwik_Translate('Actions_WidgetPageUrlsFollowingSearch'), array(
+			'Actions.getPageTitlesFollowingSiteSearch' => Piwik_Translate('Actions_WidgetPageTitlesFollowingSearch'),
+		));
+		$view = $this->configureViewPagesFollowingSiteSearch($view);
+		return $this->renderView($view, $fetch);
+	}
+
+	public function getPageTitlesFollowingSiteSearch($fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init( $this->pluginName,  __FUNCTION__, 'Actions.getPageTitlesFollowingSiteSearch', 'getPageTitlesFollowingSiteSearch' );
+		$view->addRelatedReports(Piwik_Translate('Actions_WidgetPageTitlesFollowingSearch'), array(
+			'Actions.getPageUrlsFollowingSiteSearch' => Piwik_Translate('Actions_WidgetPageUrlsFollowingSearch'),
+		));
+		$view = $this->configureViewPagesFollowingSiteSearch($view);
+		return $this->renderView($view, $fetch);
+	}
+
+	public function configureViewPagesFollowingSiteSearch($view)
+	{
+		$view->setColumnsToDisplay(array('label', 'nb_hits_following_search', 'nb_hits'));
+		$view->setColumnTranslation('nb_hits_following_search', Piwik_Translate('General_ColumnViewedAfterSearch'));
+		$view->setColumnTranslation('label', Piwik_Translate('General_ColumnDestinationPage'));
+		$view->setSortedColumn('nb_hits_following_search');
+		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnTotalPageviews'));
+		$view->disableExcludeLowPopulation();
+		$view = $this->configureViewActions($view, $doSetTranslations = false);
+		return $view;
+	}
+
 	/*
 	 * PAGE TITLES
 	 */
-	
 	public function indexPageTitles($fetch = false)
 	{
 		return Piwik_View::singleReport(
@@ -306,15 +377,18 @@ class Piwik_Actions_Controller extends Piwik_Controller
 	/*
 	 * Page titles & Page URLs reports
 	 */
-	protected function configureViewActions($view)
+	protected function configureViewActions($view, $doSetTranslations = true)
 	{
-		$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
-		$view->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnUniquePageviews'));
-		$view->setColumnTranslation('avg_time_on_page', Piwik_Translate('General_ColumnAverageTimeOnPage'));
-		$view->setColumnTranslation('bounce_rate', Piwik_Translate('General_ColumnBounceRate'));
-		$view->setColumnTranslation('exit_rate', Piwik_Translate('General_ColumnExitRate'));
-		$view->queueFilter('ColumnCallbackReplace', array('avg_time_on_page', array('Piwik', 'getPrettyTimeFromSeconds')));
-		
+		if($doSetTranslations)
+		{
+			$view->setColumnTranslation('nb_hits', Piwik_Translate('General_ColumnPageviews'));
+			$view->setColumnTranslation('nb_visits', Piwik_Translate('General_ColumnUniquePageviews'));
+			$view->setColumnTranslation('avg_time_on_page', Piwik_Translate('General_ColumnAverageTimeOnPage'));
+			$view->setColumnTranslation('bounce_rate', Piwik_Translate('General_ColumnBounceRate'));
+			$view->setColumnTranslation('exit_rate', Piwik_Translate('General_ColumnExitRate'));
+			$view->queueFilter('ColumnCallbackReplace', array('avg_time_on_page', array('Piwik', 'getPrettyTimeFromSeconds')));
+		}
+
 		if(Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string' ) != '0')
 		{
 			// computing minimum value to exclude

@@ -33,6 +33,7 @@ class Piwik_Actions_ArchivingHelper
 		$rowsProcessed = 0;
 		while( $row = $query->fetch() )
 		{
+//			var_dump($row);
 			if(empty($row['idaction']))
 			{
 				$row['type'] = ($fieldQueried == 'idaction_url' ? Piwik_Tracker_Action::TYPE_ACTION_URL : Piwik_Tracker_Action::TYPE_ACTION_NAME);
@@ -42,10 +43,21 @@ class Piwik_Actions_ArchivingHelper
 				$row['idaction'] = -$row['type'];
 			}
 
+			if($row['type'] != Piwik_Tracker_Action::TYPE_SITE_SEARCH)
+			{
+				unset($row[Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT]);
+			}
+
+			// This will appear as <url /> in the API, which is actually very important to keep
+			// eg. When there's at least one row in a report that does not have a URL, not having this <url/> would break HTML/PDF reports.
 			$url = '';
-			if(!empty($row['name'])
-				&& $row['name'] != Piwik_DataTable::LABEL_SUMMARY_ROW
-				&& $row['type'] != Piwik_Tracker_Action::TYPE_ACTION_NAME)
+			if($row['type'] == Piwik_Tracker_Action::TYPE_SITE_SEARCH
+				|| $row['type'] == Piwik_Tracker_Action::TYPE_ACTION_NAME)
+			{
+				$url = null;
+			}
+			elseif(!empty($row['name'])
+				&& $row['name'] != Piwik_DataTable::LABEL_SUMMARY_ROW)
 			{
 				$url = Piwik_Tracker_Action::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
 			}
@@ -94,7 +106,7 @@ class Piwik_Actions_ArchivingHelper
 			// For example http://piwik.org and http://id.piwik.org are reported in Piwik > Actions > Pages with /index
 			// But, we must make sure http://piwik.org is used to link & for transitions
 			// Note: this code is partly duplicated from Piwik_DataTable_Row->sumRowMetadata()
-			if( $row['type'] != Piwik_Tracker_Action::TYPE_ACTION_NAME
+			if( !is_null($url)
 				&& !$actionRow->isSummaryRow())
 			{
 				if(($existingUrl = $actionRow->getMetadata('url')) !== false)
@@ -269,6 +281,12 @@ class Piwik_Actions_ArchivingHelper
 	 */
 	static public function getActionExplodedNames($name, $type, $urlPrefix=null)
 	{
+		// Site Search does not split Search keywords
+		if($type == Piwik_Tracker_Action::TYPE_SITE_SEARCH)
+		{
+			return array($name);
+		}
+
 		$matches = array();
 		$isUrl = false;
 		$name = str_replace("\n", "", $name);

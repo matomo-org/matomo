@@ -147,11 +147,6 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 		$this->xSteps = $steps;
 	}
 	
-	public function setSelectabelColumns($selectableColumns)
-	{
-		$this->seriesPicker['selectableColumns'] = $selectableColumns;
-	}
-	
 	/**
 	 * Show every x-axis tick instead of just every other one.
 	 */

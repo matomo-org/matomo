@@ -262,12 +262,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      *
      * @return int    idSite of website created
      */
-    public static function createWebsite( $dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false )
+    public static function createWebsite( $dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false, $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null )
     {
         $idSite = Piwik_SitesManager_API::getInstance()->addSite(
             $siteName,
             $siteUrl === false ? "http://piwik.net/" : $siteUrl,
             $ecommerce,
+	        $siteSearch , $searchKeywordParameters, $searchCategoryParameters,
             $ips = null,
             $excludedQueryParameters = null,
             $timezone = null,
@@ -466,7 +467,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
-        self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n" . $response ."<br/>\n");
+        self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n" . $response . "\n"
+//            .base64_encode($response) // uncomment to further debug when the GIF hides the error
+        );
     }
 
 	/**

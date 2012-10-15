@@ -78,12 +78,19 @@ class SitesManagerTest extends DatabaseTestCase
         $currency = 'EUR';
         $excludedQueryParameters = 'p1,P2, P33333';
         $expectedExcludedQueryParameters = 'p1,P2,P33333';
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ecommerce = 1, $ips, $excludedQueryParameters,$timezone, $currency);
+        $idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ecommerce = 1,
+	        $siteSearch = 1, $searchKeywordParameters = 'search,param', $searchCategoryParameters = 'cat,category',
+	        $ips, $excludedQueryParameters,$timezone, $currency);
         $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($ips, $siteInfo['excluded_ips']);
         $this->assertEquals($timezone, $siteInfo['timezone']);
         $this->assertEquals($currency, $siteInfo['currency']);
-        $this->assertEquals($ecommerce, $siteInfo['ecommerce']);
+	    $this->assertEquals($ecommerce, $siteInfo['ecommerce']);
+	    $this->assertTrue(Piwik_Site::isEcommerceEnabledFor($idsite));
+	    $this->assertEquals($siteSearch, $siteInfo['sitesearch']);
+	    $this->assertTrue(Piwik_Site::isSiteSearchEnabledFor($idsite));
+	    $this->assertEquals($searchKeywordParameters, $siteInfo['sitesearch_keyword_parameters']);
+	    $this->assertEquals($searchCategoryParameters, $siteInfo['sitesearch_category_parameters']);
         $this->assertEquals($expectedExcludedQueryParameters, $siteInfo['excluded_parameters']);
     }
     
@@ -113,7 +120,8 @@ class SitesManagerTest extends DatabaseTestCase
     public function testAddSiteExcludedIpsNotValid($ip)
     {
         try {
-            Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ecommerce = 0,$ip);
+            Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ecommerce = 0,
+	            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $ip);
         } catch (Exception $e) {
             return;
         }
@@ -503,8 +511,8 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
         
         $resultWanted = array(
-            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
-            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0,"excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0,"excluded_ips" => "",  'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
         );
             
         FakeAccess::setIdSitesAdmin (array(1,3));
@@ -545,8 +553,8 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
         
         $resultWanted = array(
-            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 0,"excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
-            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0,"excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '',"excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '',"excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
         );
             
         FakeAccess::setIdSitesView (array(1,3));
@@ -587,8 +595,8 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
         
         $resultWanted = array(
-            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 1,"excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
-            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0,"excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 1,"excluded_ips" => "",  'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0,"excluded_ips" => "",  'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
         );
             
         FakeAccess::setIdSitesView (array(1,3));
@@ -686,14 +694,14 @@ class SitesManagerTest extends DatabaseTestCase
 
         // Updating the group to something
         $group = 'something';
-        Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group );
+        Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = true, $ss_kwd = null, $ss_cat = '', $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group );
         $websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
         $this->assertEquals(1, count($websites));
         $this->assertEquals(date('Y-m-d'), date('Y-m-d', strtotime($websites[0]['ts_created'])));
 
         // Updating the group to nothing
         $group = '';
-        Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group, $startDate = '2010-01-01' );
+        Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}", $newMainUrl, $ecommerce = 0, $ss = false, $ss_kwd = '', $ss_cat = null, $ips=null, $parametersExclude=null, $timezone=null, $currency=null, $group, $startDate = '2010-01-01' );
         $websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
         $this->assertEquals(1, count($websites));
         $this->assertEquals('2010-01-01', date('Y-m-d', strtotime($websites[0]['ts_created'])));
@@ -739,7 +747,9 @@ class SitesManagerTest extends DatabaseTestCase
                         "http://piwiknew.fr");
         
         $group = 'GROUP Before';
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls, $ecommerce =1,$excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group, $startDate = '2011-01-01');
+        $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",$urls, $ecommerce =1,
+	        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+	        $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group, $startDate = '2011-01-01');
         
         $websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
         $this->assertEquals(1, count($websites));
@@ -750,7 +760,9 @@ class SitesManagerTest extends DatabaseTestCase
                         "http://piwiknew2.fr");
 
         $groupAfter = '   GROUP After';
-        Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}",$newurls, $ecommerce = 0, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $groupAfter);
+        Piwik_SitesManager_API::getInstance()->updateSite($idsite, "test toto@{}",$newurls, $ecommerce = 0,
+	        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+	        $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $groupAfter);
 
         // no result for the group before update 
         $websites = Piwik_SitesManager_API::getInstance()->getSitesFromGroup($group);
@@ -783,7 +795,7 @@ class SitesManagerTest extends DatabaseTestCase
         $expectedGroups = array('group1','','group2');
         foreach($groups as $group)
         {
-            Piwik_SitesManager_API::getInstance()->addSite("test toto@{}", 'http://example.org',$ecommerce=1,$excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group);
+            Piwik_SitesManager_API::getInstance()->addSite("test toto@{}", 'http://example.org',$ecommerce=1,$siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null, $excludedQueryParameters = null, $timezone = null, $currency = null, $group);
         }
         
         $this->assertEquals($expectedGroups, Piwik_SitesManager_API::getInstance()->getSitesGroups());
@@ -807,7 +819,8 @@ class SitesManagerTest extends DatabaseTestCase
     public function testAddSitesInvalidTimezone($timezone)
     {
         try {
-            $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, '', '', $timezone);
+            $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0,
+	            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,$ip= '', $params='', $timezone);
         } catch (Exception $e) {
             return;
         }
@@ -823,7 +836,8 @@ class SitesManagerTest extends DatabaseTestCase
     {
         try {
             $invalidCurrency = '€';
-            $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0, '', 'UTC', $invalidCurrency);
+            $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0,
+	            $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,'', 'UTC', $invalidCurrency);
         } catch (Exception $e) {
             return;
         }
@@ -884,14 +898,21 @@ class SitesManagerTest extends DatabaseTestCase
 
         // create a website and check that default currency and default timezone are set
         // however, excluded IPs and excluded query Params are not returned
-        $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=1, '', '', $newDefaultTimezone);
+        $idsite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0,
+	        $siteSearch = 0, $searchKeywordParameters = 'test1,test2', $searchCategoryParameters = 'test2,test1',
+	        '', '', $newDefaultTimezone);
         $site = new Piwik_Site($idsite);
         $this->assertEquals($newDefaultTimezone, $site->getTimezone());
         $this->assertEquals(date('Y-m-d'), $site->getCreationDate()->toString());
         $this->assertEquals($newDefaultCurrency, $site->getCurrency());
-        $this->assertEquals('', $site->getExcludedIps());
-        $this->assertEquals('', $site->getExcludedQueryParameters());
-        $this->assertTrue($site->isEcommerceEnabled());
+	    $this->assertEquals('', $site->getExcludedIps());
+	    $this->assertEquals('', $site->getExcludedQueryParameters());
+	    $this->assertEquals('test1,test2', $site->getSearchKeywordParameters());
+	    $this->assertEquals('test2,test1', $site->getSearchCategoryParameters());
+	    $this->assertFalse($site->isSiteSearchEnabled());
+	    $this->assertFalse(Piwik_Site::isSiteSearchEnabledFor($idsite));
+	    $this->assertFalse($site->isEcommerceEnabled());
+	    $this->assertFalse(Piwik_Site::isEcommerceEnabledFor($idsite));
     }
     
     /**
@@ -985,10 +1006,10 @@ class SitesManagerTest extends DatabaseTestCase
      */
     public function testGetSitesFromTimezones()
     {
-        $idsite1 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'UTC');
-        $idsite2 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'Pacific/Auckland');
-        $idsite3 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'Pacific/Auckland');
-        $idsite4 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,null,null,'UTC+10');
+        $idsite1 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,$siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,null,null,'UTC');
+        $idsite2 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,$siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,null,null,'Pacific/Auckland');
+        $idsite3 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,$siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,null,null,'Pacific/Auckland');
+        $idsite4 = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"),null,$siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,null,null,'UTC+10');
         $result = Piwik_SitesManager_API::getInstance()->getSitesIdFromTimezones(array('UTC+10', 'Pacific/Auckland'));
         $this->assertEquals(array($idsite2,$idsite3,$idsite4), $result);
     }

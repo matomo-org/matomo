@@ -73,7 +73,14 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 			'nb_outlinks',
 			'nb_uniq_outlinks'
 		);
-		
+
+		$idSite = Piwik_Common::getRequestVar('idSite');
+		$displaySiteSearch = Piwik_Site::isSiteSearchEnabledFor($idSite);
+
+		if($displaySiteSearch) {
+			$selectableColumns[] = 'nb_searches';
+			$selectableColumns[] = 'nb_keywords';
+		}
 		$view = $this->getLastUnitGraphAcrossPlugins($this->pluginName, __FUNCTION__, $columns, 
 							$selectableColumns, $documentation);
 		
@@ -110,11 +117,19 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->urlSparklineMaxActions 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('max_actions')));
 		$view->urlSparklineActionsPerVisit 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_actions_per_visit')));
 		$view->urlSparklineBounceRate 		= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('bounce_rate')));
-		
+
+		$idSite = Piwik_Common::getRequestVar('idSite');
+		$displaySiteSearch = Piwik_Site::isSiteSearchEnabledFor($idSite);
+		if($displaySiteSearch)
+		{
+			$view->urlSparklineNbSearches 	= $this->getUrlSparkline( 'getEvolutionGraph', array('columns' => array('nb_searches', 'nb_keywords')));
+		}
+		$view->displaySiteSearch = $displaySiteSearch;
+
 		$dataTableVisit = self::getVisitsSummary();
 		$dataRow = $dataTableVisit->getFirstRow();
 		
-		$dataTableActions = Piwik_Actions_API::getInstance()->get(Piwik_Common::getRequestVar('idSite'), Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), Piwik_Common::getRequestVar('segment',false));
+		$dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), Piwik_Common::getRequestVar('segment',false));
 		$dataActionsRow = $dataTableActions->getFirstRow();
 		
 		$view->nbUniqVisitors = (int)$dataRow->getColumn('nb_uniq_visitors');
@@ -131,7 +146,13 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
 		$view->maxActions = (int)$dataRow->getColumn('max_actions');
 		$view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
-		
+
+		if($displaySiteSearch)
+		{
+			$view->nbSearches = (int)$dataActionsRow->getColumn('nb_searches');
+			$view->nbKeywords = (int)$dataActionsRow->getColumn('nb_keywords');
+		}
+
 		// backward compatibility:
 		// show actions if the finer metrics are not archived
 		$view->showOnlyActions = false;

@@ -13,6 +13,8 @@
 			<visits_evolution>Visits Evolution</visits_evolution>
 			<nb_actions>Actions</nb_actions>
 			<actions_evolution>Actions Evolution</actions_evolution>
+			<nb_pageviews>Pageviews</nb_pageviews>
+			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 			<revenue>Revenue</revenue>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions>Conversions</nb_conversions>
@@ -36,7 +38,8 @@
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=range&amp;date=2010-01-03%2C2010-01-09</imageGraphUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>
 
 	</metadata>
@@ -46,6 +49,8 @@
 		<visits_evolution>Visits Evolution</visits_evolution>
 		<nb_actions>Actions</nb_actions>
 		<actions_evolution>Actions Evolution</actions_evolution>
+		<nb_pageviews>Pageviews</nb_pageviews>
+		<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 		<revenue>Revenue</revenue>
 		<revenue_evolution>Revenue Evolution</revenue_evolution>
 		<nb_conversions>Conversions</nb_conversions>
@@ -60,11 +65,13 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				<label>Site 1</label>
+				<nb_pageviews>4</nb_pageviews>
 				<revenue>$ 10</revenue>
-				<nb_actions>1</nb_actions>
-				<nb_visits>1</nb_visits>
+				<nb_actions>7</nb_actions>
+				<nb_visits>2</nb_visits>
 				<visits_evolution>100%</visits_evolution>
 				<actions_evolution>100%</actions_evolution>
+				<pageviews_evolution>100%</pageviews_evolution>
 				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<nb_conversions_evolution>0</nb_conversions_evolution>
@@ -77,12 +84,14 @@
 		<result prettyDate="Monday 4 January 2010">
 			<row>
 				<label>Site 1</label>
-				<nb_actions>2</nb_actions>
+				<nb_pageviews>2</nb_pageviews>
+				<nb_actions>4</nb_actions>
 				<nb_visits>1</nb_visits>
-				<visits_evolution>0%</visits_evolution>
-				<actions_evolution>100%</actions_evolution>
-				<revenue_evolution>-100%</revenue_evolution>
+				<visits_evolution>-50%</visits_evolution>
+				<actions_evolution>-42.86%</actions_evolution>
+				<pageviews_evolution>-50%</pageviews_evolution>
 				<revenue>$ 0</revenue>
+				<revenue_evolution>0</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<nb_conversions_evolution>0</nb_conversions_evolution>
 				<orders>0</orders>
@@ -92,10 +101,12 @@
 			</row>
 			<row>
 				<label>Site 2</label>
-				<nb_actions>2</nb_actions>
+				<nb_pageviews>4</nb_pageviews>
+				<nb_actions>4</nb_actions>
 				<nb_visits>1</nb_visits>
 				<visits_evolution>100%</visits_evolution>
 				<actions_evolution>100%</actions_evolution>
+				<pageviews_evolution>100%</pageviews_evolution>
 				<revenue>$ 0</revenue>
 				<revenue_evolution>0</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
@@ -109,11 +120,13 @@
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
 				<label>Site 1</label>
+				<nb_pageviews>10</nb_pageviews>
 				<revenue>$ 5</revenue>
 				<nb_actions>5</nb_actions>
 				<nb_visits>1</nb_visits>
 				<visits_evolution>0%</visits_evolution>
-				<actions_evolution>150%</actions_evolution>
+				<actions_evolution>25%</actions_evolution>
+				<pageviews_evolution>400%</pageviews_evolution>
 				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<nb_conversions_evolution>0</nb_conversions_evolution>

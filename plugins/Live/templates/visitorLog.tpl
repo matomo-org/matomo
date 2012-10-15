@@ -154,20 +154,16 @@
 			<ol class='visitorLog'>
 			{capture assign='visitorHasSomeEcommerceActivity'}0{/capture}
 			{foreach from=$visitor.columns.actionDetails item=action}
-				{capture assign='customVariablesTooltip'}
-				{if !empty($action.customVariables)}
-					{'CustomVariables_CustomVariables'|translate} 
-					{foreach from=$action.customVariables item=customVariable key=id}
-						{capture assign=name}customVariableName{$id}{/capture}
-						{capture assign=value}customVariableValue{$id}{/capture}
-						 - {$customVariable.$name|escape:'html'} = {$customVariable.$value|escape:'html'}
-					{/foreach}
-				{/if}
+				{capture assign='customVariablesTooltip'}{if !empty($action.customVariables)}{'CustomVariables_CustomVariables'|translate}
+				{foreach from=$action.customVariables item=customVariable key=id}{capture assign=name}customVariableName{$id}{/capture}{capture assign=value}customVariableValue{$id}{/capture}
+					- {$customVariable.$name|escape:'html'} = {$customVariable.$value|escape:'html'}
+				{/foreach}{/if}
 				{/capture}
 				{if !$javascriptVariablesToSet.filterEcommerce
 					|| $action.type == 'ecommerceOrder' 	
 					|| $action.type == 'ecommerceAbandonedCart'}
-				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))} - {$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))} - {$customVariablesTooltip}{/if}{if isset($action.timeSpentPretty)} - {'General_TimeOnPage'|translate}: {$action.timeSpentPretty}{/if}">
+				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))} - {$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))}{$customVariablesTooltip|trim}
+				{/if}{if isset($action.timeSpentPretty)} - {'General_TimeOnPage'|translate}: {$action.timeSpentPretty}{/if}">
 				{if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
  					{* Ecommerce Abandoned Cart / Ecommerce Order *}
  					
@@ -211,18 +207,20 @@
 					
 				{elseif empty($action.goalName)}
 				{* Page view / Download / Outlink *}
-					{if !empty($action.pageTitle)>0}
+					{if !empty($action.pageTitle)}
+						{if $action.type == 'search'}<img src='{$action.icon}' title='{'Actions_SubmenuSitesearch'|translate|escape:'html'}'>{/if}
 						{$action.pageTitle|unescape|urldecode|escape:'html'|truncate:80:"...":true}
-						<br/>
-					{/if}
-					{if $action.type == 'download'
-						|| $action.type == 'outlink'}
-						<img src='{$action.icon}'>
 					{/if}
 					{if !empty($action.url)}
-					 	<a href="{$action.url|escape:'html'}" target="_blank" style="{if $action.type=='action' && !empty($action.pageTitle)}margin-left: 25px;{/if}text-decoration:underline;">{$action.url|escape:'html'|truncate:80:"...":true}</a>
-					{else}
-						{$javascriptVariablesToSet.pageUrlNotDefined}
+						{if $action.type == 'action' && !empty($action.pageTitle)}<br/>{/if}
+						{if $action.type == 'download'
+						|| $action.type == 'outlink'}
+							<img src='{$action.icon}'>
+						{/if}
+						<a href="{$action.url|escape:'html'}" target="_blank" style="{if $action.type=='action' && !empty($action.pageTitle)}margin-left: 25px;{/if}text-decoration:underline;">{$action.url|escape:'html'|truncate:80:"...":true}</a>
+					{elseif $action.type!='search'}
+						<br/>
+						<span style="margin-left: 25px;">{$javascriptVariablesToSet.pageUrlNotDefined}</span>
 					{/if}
 				{else}
 				{* Goal conversion *}
