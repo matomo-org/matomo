@@ -31,22 +31,22 @@
 		{'VisitsSummary_NbPageviewsDescription'|translate:"<strong>$nbPageviews</strong>"|trim}, 
 		{'VisitsSummary_NbUniquePageviewsDescription'|translate:"<strong>$nbUniquePageviews</strong>"}
 	</div>
+	{if $displaySiteSearch}
+		<div class="sparkline">
+			{sparkline src=$urlSparklineNbSearches}
+			{'VisitsSummary_NbSearchesDescription'|translate:"<strong>$nbSearches</strong>"|trim},
+			{'VisitsSummary_NbKeywordsDescription'|translate:"<strong>$nbKeywords</strong>"}
+		</div>
+	{/if}
 	<div class="sparkline">
-		{sparkline src=$urlSparklineNbDownloads} 
+		{sparkline src=$urlSparklineNbDownloads}
 		{'VisitsSummary_NbDownloadsDescription'|translate:"<strong>$nbDownloads</strong>"|trim},
 		{'VisitsSummary_NbUniqueDownloadsDescription'|translate:"<strong>$nbUniqueDownloads</strong>"}
 	</div>
-	<div class="sparkline">
-		{sparkline src=$urlSparklineNbOutlinks} 
-		{'VisitsSummary_NbOutlinksDescription'|translate:"<strong>$nbOutlinks</strong>"|trim}, 
+		<div class="sparkline">
+		{sparkline src=$urlSparklineNbOutlinks}
+		{'VisitsSummary_NbOutlinksDescription'|translate:"<strong>$nbOutlinks</strong>"|trim},
 		{'VisitsSummary_NbUniqueOutlinksDescription'|translate:"<strong>$nbUniqueOutlinks</strong>"}
-	</div>
-	{/if}
-	{if $displaySiteSearch}
-	<div class="sparkline">
-		{sparkline src=$urlSparklineNbSearches}
-		{'VisitsSummary_NbSearchesDescription'|translate:"<strong>$nbSearches</strong>"|trim},
-		{'VisitsSummary_NbKeywordsDescription'|translate:"<strong>$nbKeywords</strong>"}
 	</div>
 	{/if}
 	<div class="sparkline">
