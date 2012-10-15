@@ -78,9 +78,10 @@ var Piwik_Popover = (function() {
 
 			var p2;
 			if (popoverSubject) {
+				popoverSubject = piwikHelper.addBreakpointsToUrl(popoverSubject);
 				p1.addClass('Piwik_Popover_Loading_NameWithSubject');
 				p2 = $(document.createElement('p')).addClass('Piwik_Popover_Loading_Subject');
-				loading.append(p2.text(popoverSubject));
+				loading.append(p2.html(popoverSubject));
 			}
 
 			if (height) {

@@ -20,6 +20,28 @@ var piwikHelper = {
         }
         return value;
     },
+	
+	/**
+	 * Add break points to a string so that it can be displayed more compactly
+	 */
+	addBreakpoints: function(text, breakpointMarkup)
+	{
+		return text.replace(/([\/&=?\.%#:])/g, '$1' +
+			(typeof breakpointMarkup == 'undefined' ? '<wbr>' : breakpointMarkup));
+	},
+
+	/**
+	 * Add breakpoints to a URL
+	 * urldecodes and encodes htmlentities to display utf8 urls without XSS vulnerabilities
+	 */
+	addBreakpointsToUrl: function(url)
+	{
+		url = decodeURIComponent(url);
+		url = piwikHelper.addBreakpoints(url, '|||');
+		url = $(document.createElement('p')).text(url).html();
+		url = url.replace(/\|\|\|/g, '<wbr />');
+		return url;
+	},
 
     /**
      * Displays a Modal dialog. Text will be taken from the DOM node domSelector.
