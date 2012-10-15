@@ -431,6 +431,12 @@ class Piwik_Actions_Archiving
 		// to the outer select. therefore, $segment needs to know about it.
 		$select = sprintf($select, $sprintfField);
 
+		$bind = array();
+
+		// get query with segmentation
+		$query = $archiveProcessing->getSegment()->getSelectQuery(
+			$select, $from, $where, $bind, $orderBy, $groupBy);
+
 		// extend bindings
 		$bind = array_merge(array(  $archiveProcessing->getStartDatetimeUTC(),
 				$archiveProcessing->getEndDatetimeUTC(),
@@ -438,10 +444,6 @@ class Piwik_Actions_Archiving
 			),
 			$query['bind']
 		);
-
-		// get query with segmentation
-		$query = $archiveProcessing->getSegment()->getSelectQuery(
-			$select, $from, $where, $bind, $orderBy, $groupBy);
 
 		// replace the rest of the %s
 		$querySql = str_replace("%s", $sprintfField, $query['sql']);
