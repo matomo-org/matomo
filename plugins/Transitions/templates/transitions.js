@@ -209,7 +209,7 @@ Piwik_Transitions.prototype.preparePopover = function() {
 	title = self.centerBox.find('h2')
 		.addClass('Transitions_ApplyTextAndTruncate')
 		.data('text', title)
-		.data('maxLines', 4);
+		.data('maxLines', 3);
 
 	if (self.actionType == 'url') {
 		title.click(function() {

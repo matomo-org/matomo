@@ -36,7 +36,11 @@ var piwikHelper = {
 	 */
 	addBreakpointsToUrl: function(url)
 	{
-		url = decodeURIComponent(url);
+		try {
+			url = decodeURIComponent(url);
+		} catch (e) {
+			// might throw "URI malformed"
+		}
 		url = piwikHelper.addBreakpoints(url, '|||');
 		url = $(document.createElement('p')).text(url).html();
 		url = url.replace(/\|\|\|/g, '<wbr />');
