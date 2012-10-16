@@ -27,32 +27,68 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_ENABLE_DISPATCH', false);
 
+Piwik_Config::getInstance()->log['logger_message'][] = 'screen';
 Piwik_FrontController::getInstance()->init();
 
-$provider = Piwik_UserCountry_LocationProvider::getCurrentProvider();
-$providerId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
-if ($provider instanceof Piwik_UserCountry_LocationProvider_GeoIp_Pecl
-	&& $provider instanceof Piwik_UserCountry_LocationProvider_GeoIp_Php)
+// try getting the pecl location provider
+$provider = new Piwik_UserCountry_LocationProvider_GeoIp_Pecl();
+if (!$provider->isAvailable())
 {
-	echo "The current location provider ($providerId) cannot be used with this script. Only the GeoIP PECL module or the GeoIP PHP API can be used at present. Please install and/or enable one of these first.\n";
+	Piwik::log("[note] The GeoIP PECL extension is not installed.");
+	$provider = null;
+}
+else
+{
+	$workingOrError = $provider->isWorking();
+	if ($workingOrError !== true)
+	{
+		Piwik::log("[note] The GeoIP PECL extension is broken: $workingOrError");
+		if (Piwik_Common::isPhpCliMode())
+		{
+			Piwik::log("[note] Make sure your command line PHP is configured to use the PECL extension.");
+		}
+		$provider = null;
+	}
+}
+
+// use php api if pecl extension cannot be used
+if (is_null($provider))
+{
+	Piwik::log("[note] Falling back to PHP API. This may become too slow for you. If so, you can read this link on how to install the PECL extension: http://piwik.org/faq/how-to/#faq_164");
+	
+	$provider = new Piwik_UserCountry_LocationProvider_GeoIp_Php();
+	if (!$provider->isAvailable())
+	{
+		Piwik::log("[note] The GeoIP PHP API is not available. This means you do not have a GeoIP location database in your ./misc directory. The database must be named either GeoIP.dat or GeoIPCity.dat based on the type of database it is.");
+		$provider = null;
+	}
+	else
+	{
+		$workingOrError = $provider->isWorking();
+		if ($workingOrError !== true)
+		{
+			Piwik::log("[note] The GeoIP PHP API is broken: $workingOrError");
+			$provider = null;
+		}
+	}
+}
+
+if (is_null($provider))
+{
+	Piwik::log("\n[error] There is no location provider that can be used with this script. Only the GeoIP PECL module or the GeoIP PHP API can be used at present. Please install and configure one of these first.");
 	exit;
 }
 
-// make sure provider works
-$workingOrError = $provider->isWorking();
-if ($workingOrError !== true)
-{
-	echo "The current location provider ($providerId) is not working correctly: $workingOrError\nPlease fix this problem first.";
-	exit;
-}
+$info = $provider->getInfo();
+Piwik::log("[note] Found working provider: {$info['id']}");
 
 // when script run via browser, check for Super User
-if(!Piwik_Common::isPhpCliMode()) 
+if (!Piwik_Common::isPhpCliMode()) 
 {
     try {
     	Piwik::checkUserIsSuperUser();
     } catch(Exception $e) {
-    	echo 'ERROR: You must be logged in as Super User to run this script. Please login in Piwik and refresh this page.';
+    	Piwik::log('[error] You must be logged in as Super User to run this script. Please login in to Piwik and refresh this page.');
     	exit;
     }
 }
@@ -64,13 +100,13 @@ $logVisitFieldsToUpdate = array('location_country'   => Piwik_UserCountry_Locati
 								'location_latitude'  => Piwik_UserCountry_LocationProvider::LATITUDE_KEY,
 								'location_longitude' => Piwik_UserCountry_LocationProvider::LONGITUDE_KEY);
 
-$query = "SELECT count(*) as cnt FROM ".Piwik_Common::prefixTable('log_visit');
+$query = "SELECT count(*) FROM ".Piwik_Common::prefixTable('log_visit');
 $count = Piwik_FetchOne($query);
 $start = 0;
 $limit = 1000;
 
-echo "$count rows to process in ".Piwik_Common::prefixTable('log_visit')
-	. " and ".Piwik_Common::prefixTable('log_conversion')."...\n";
+Piwik::log("\n$count rows to process in ".Piwik_Common::prefixTable('log_visit')
+	. " and ".Piwik_Common::prefixTable('log_conversion')."...");
 flush();
 for (; $start < $count; $start += $limit)
 {
@@ -140,8 +176,8 @@ for (; $start < $count; $start += $limit)
 				 WHERE idvisit = ?";
 		Piwik_Query($sql, $bind);
 	}
-	echo round($start * 100 / $count) . "% done...\n";
+	Piwik::log(round($start * 100 / $count) . "% done...");
 	flush();
 }
-echo "done!\n";
+Piwik::log("100% done!");
 
