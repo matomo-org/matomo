@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Live.php 3565 2011-01-03 05:49:45Z matt $
+ * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_Insight
