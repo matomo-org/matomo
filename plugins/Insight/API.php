@@ -28,25 +28,12 @@ class Piwik_Insight_API
 		return self::$instance;
 	}
 	
-	/** Proxy API call to get screen resolutions */
-	public function getResolutions($idSite, $period, $date)
-	{
-		$this->authenticate($idSite);
-		return Piwik_UserSettings_API::getInstance()->getResolution($idSite, $period, $date);
-	}
-	
 	/** Get translation strings */
 	public function getTranslations($idSite)
 	{
 		$this->authenticate($idSite);
 		
-		$translations = array(
-			// messages for screen resolution overlay
-			/*'ScreenHeight' => 'Insight_ScreenHeight',
-			'ExactHeight' => 'Insight_ExactHeight',
-			'AtLeastHeight' => 'Insight_AtLeastHeight',
-			'ResolutionOverlay' => 'Insight_ResolutionOverlay'*/
-		);
+		$translations = array();
 		
 		return array_map('Piwik_Translate', $translations);
 	}

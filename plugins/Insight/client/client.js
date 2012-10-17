@@ -108,12 +108,6 @@ var Piwik_Insight_Client = (function() {
 					Piwik_Insight_Translations.initialize(function() {
 						finishLoadingInsight();
 						
-						// resolutions
-						/*var finishResolutions = loading('Loading resolutions');
-						load('plugins/Insight/client/resolutions.js', function() {
-							Piwik_Insight_Resolutions.initialize(finishResolutions);
-						});*/
-						
 						// following pages
 						var finishPages = loading('Loading following pages');
 						load('plugins/Insight/client/followingpages.js', function() {
