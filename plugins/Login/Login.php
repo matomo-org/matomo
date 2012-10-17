@@ -76,10 +76,13 @@ class Piwik_Login extends Piwik_Plugin
 	{
 		$auth = new Piwik_Login_Auth();
 		Zend_Registry::set('auth', $auth);
-
+		
+		$allowCookieAuthentication = $notification->getNotificationInfo();
+		
 		$action = Piwik::getAction();
-		if(Piwik::getModule() === 'API'
-			&& (empty($action) || $action == 'index'))
+		if (Piwik::getModule() === 'API'
+			&& (empty($action) || $action == 'index')
+			&& $allowCookieAuthentication !== true)
 		{
 			return;
 		}

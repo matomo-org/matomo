@@ -1,0 +1,178 @@
+
+/**
+ * Reset styles
+ */
+
+#PIS_MetricsOverlay,
+#PIS_StatusBar,
+#PIS_Resolutions,
+#PIS_ResolutionsOverlay,
+#PIS_ResolutionsOverlayText,
+.PIS_LinkTag {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 11px;
+	font-family: Arial, Helvetica, sans-serif;
+	vertical-align: baseline;
+	line-height: 1.4em;
+	text-indent: 0;
+	text-decoration: none;
+	text-transform: none;
+	cursor: default;
+	text-align: left;
+	float: none;
+	color: #333;
+}
+
+
+
+/**
+ * Resolution Overlay
+ */
+
+#PIS_Resolutions {
+	position: absolute;
+	z-index: 10012;
+	right: 1px;
+	width: 22px;
+}
+
+#PIS_Resolutions .PIS_Resolution {
+	position: absolute;
+	z-index: 10012;
+	width: 20px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px; 
+	overflow: hidden;
+	
+	background: #f7f7f7; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffffff 0%, #f0f0f0 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f0f0f0)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); /* Opera11.10+ */
+	background: -ms-linear-gradient(top, #ffffff 0%,#f0f0f0 100%); /* IE10+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f0f0f0',GradientType=0 ); /* IE6-9 */
+	background: linear-gradient(top, #ffffff 0%,#f0f0f0 100%); /* W3C */
+}
+
+#PIS_Resolutions .PIS_Label {
+	position: absolute;
+	z-index: 10012;
+	width: 20px;
+	font-size: 10px;
+	line-height: 12px;
+	font-weight: bold;
+	text-align: center;	
+}
+
+#PIS_ResolutionsOverlay {
+	position: absolute;
+	z-index: 10011;
+	background: #fbfbfb;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	left: 0;
+	width: 100%;
+}
+
+#PIS_ResolutionsOverlayText {
+	position: absolute;
+	z-index: 10012;
+	right: 40px;
+	text-align: right;
+}
+
+
+
+/**
+ * Link Tags
+ */
+
+.PIS_LinkTag {
+	position: absolute;
+	z-index: 9999;
+	width: 36px;
+	height: 21px;
+	text-align: left;
+	background: url(./linktags_lessshadow.png) no-repeat 0 -21px;
+	overflow: hidden;
+}
+
+.PIS_LinkTag span {
+	position: absolute;
+	width: 31px;
+	height: 14px;
+	font-size: 10px;
+	text-align: center;
+	font-weight: bold;
+	line-height: 14px;
+	margin-left: 1px;
+}
+
+.PIS_LinkTag.PIS_Right {
+	background-position: -36px -21px;
+}
+
+.PIS_LinkTag.PIS_Right span,
+.PIS_LinkTag.PIS_BottomRight span {
+	margin-left: 5px;	
+}
+
+.PIS_LinkTag.PIS_Bottom {
+	background-position: 0 0;
+}
+
+.PIS_LinkTag.PIS_Bottom span,
+.PIS_LinkTag.PIS_BottomRight span {
+	margin-top: 4px;
+}
+
+.PIS_LinkTag.PIS_BottomRight {
+	background-position: -36px 0;
+}
+
+
+
+/**
+ * Status bar
+ */
+
+#PIS_StatusBar {
+	padding: 10px 0;
+	position: absolute;
+	position: fixed;
+	z-index: 10020;
+	bottom: 0;
+	right: 0;
+	background: #ccc;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	background: #fbfbfb;
+	
+	-webkit-border-top-left-radius: 6px;
+	-webkit-border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px; 
+}
+
+#PIS_StatusBar .PIS_Item {
+	text-align: right;
+	padding: 3px 30px 0 0;
+	margin: 0 15px 0 20px;
+	background: url(./loading.gif) no-repeat right center;
+	font-weight: bold;
+}

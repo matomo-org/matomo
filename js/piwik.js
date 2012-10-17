@@ -897,6 +897,90 @@ var
             }
             return title;
         }
+		
+		
+		/************************************************************
+		 * Page Insight
+		 ************************************************************/
+		
+		/*
+		 * check whether this is an insight session
+		 */
+		function isInsightSession(configTrackerUrl, configTrackerSiteId) {
+			var windowName = 'Piwik_Insight';
+			var referrer = documentAlias.referrer;
+			var testReferrer = configTrackerUrl;
+			// remove piwik.php from referrer
+			testReferrer = testReferrer.substring(0, testReferrer.length - 9);
+			// remove protocol
+			if (testReferrer.substring(0, 7) == 'http://') {
+				testReferrer = testReferrer.substring(7, testReferrer.length);
+			} else {
+				testReferrer = testReferrer.substring(8, testReferrer.length);
+			}
+			// build referrer regex
+			var referrerRegExp = new RegExp('^(http|https)://' + testReferrer
+					+ 'index\\.php\\?module=Insight&action=startInsightSession'
+					+ '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)&urls=([^&]+)$');
+			
+			var match;
+			if (match = referrer.match(referrerRegExp)) {
+				// check idsite
+				var idsite = match[2];
+				if (parseInt(idsite, 10) !== configTrackerSiteId) {
+					return false;
+				}
+				// store insight session info in window name
+				var period = match[3];
+				var date = match[4];
+				var urls = unescape(match[5]);
+				window.name = windowName + '###' + period + '###' + date + '###' + urls;
+			}
+			
+			// retrieve and check data from window name
+			var windowNameParts = windowAlias.name.split('###');
+			return windowNameParts.length == 4 && windowNameParts[0] == windowName;
+		}
+		
+		/*
+		 * inject the script needed for insight
+		 */
+		function injectInsightScripts(configTrackerUrl, configTrackerSiteId) {
+			var windowNameParts = window.name.split('###');
+			var root = configTrackerUrl.substring(0, configTrackerUrl.length - 9); // remove piwik.php
+			var period = windowNameParts[1];
+			var date = windowNameParts[2];
+			var urls = windowNameParts[3].split('##');
+			
+			var loaded = false;
+			var onLoad = function() {
+				if (!loaded) {
+					loaded = true;
+					Piwik_Insight_Client.initialize(root, configTrackerSiteId,
+							period, date, urls);
+				}
+			};
+			
+			var script = document.createElement('script');
+			script.type = 'text/javascript';
+			
+			script.onreadystatechange = function () {
+				if (this.readyState == 'loaded' || this.readyState == 'complete') {
+					onLoad();
+				}
+			};
+			script.onload = onLoad;
+			
+			script.src = root + 'plugins/Insight/client/client.js';
+			
+			var head = document.getElementsByTagName('head')[0];
+			head.appendChild(script);
+		}
+		
+		/************************************************************
+		 * End Piwik Insight
+		 ************************************************************/
+		
 
         /*
          * Piwik Tracker class
@@ -2574,9 +2658,16 @@ var
                  * @param mixed customData
                  */
                 trackPageView: function (customTitle, customData) {
-                    trackCallback(function () {
-                        logPageView(customTitle, customData);
-                    });
+					if (isInsightSession(configTrackerUrl, configTrackerSiteId)) {
+						trackCallback(function () {
+							injectInsightScripts(configTrackerUrl, configTrackerSiteId);
+						});
+					}
+					else {
+						trackCallback(function () {
+							logPageView(customTitle, customData);
+						});
+					}
                 },
 
                 /**
