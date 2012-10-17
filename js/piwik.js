@@ -921,7 +921,7 @@ var
 			// build referrer regex
 			var referrerRegExp = new RegExp('^(http|https)://' + testReferrer
 					+ 'index\\.php\\?module=Insight&action=startInsightSession'
-					+ '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)&urls=([^&]+)$');
+					+ '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
 			
 			var match;
 			if (match = referrer.match(referrerRegExp)) {
@@ -933,13 +933,12 @@ var
 				// store insight session info in window name
 				var period = match[3];
 				var date = match[4];
-				var urls = unescape(match[5]);
-				window.name = windowName + '###' + period + '###' + date + '###' + urls;
+				window.name = windowName + '###' + period + '###' + date;
 			}
 			
 			// retrieve and check data from window name
 			var windowNameParts = windowAlias.name.split('###');
-			return windowNameParts.length == 4 && windowNameParts[0] == windowName;
+			return windowNameParts.length == 3 && windowNameParts[0] == windowName;
 		}
 		
 		/*
@@ -950,14 +949,12 @@ var
 			var root = configTrackerUrl.substring(0, configTrackerUrl.length - 9); // remove piwik.php
 			var period = windowNameParts[1];
 			var date = windowNameParts[2];
-			var urls = windowNameParts[3].split('##');
 			
 			var loaded = false;
 			var onLoad = function() {
 				if (!loaded) {
 					loaded = true;
-					Piwik_Insight_Client.initialize(root, configTrackerSiteId,
-							period, date, urls);
+					Piwik_Insight_Client.initialize(root, configTrackerSiteId, period, date);
 				}
 			};
 			

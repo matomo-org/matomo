@@ -82,7 +82,7 @@ var Piwik_Insight_FollowingPages = (function() {
 		
 		callback();
 		
-		// repsition linktags on window resize
+		// reposition link tags on window resize
 		var timeout = false;
 		$(window).resize(function() {
 			if (timeout) {
@@ -141,11 +141,10 @@ var Piwik_Insight_FollowingPages = (function() {
 	
 	return {
 		
-		initialize: function(urls, finishCallback) {
+		initialize: function(finishCallback) {
 			c = Piwik_Insight_Client.createElement;
-			
 			Piwik_Insight_Client.loadScript('plugins/Insight/client/urlnormalizer.js', function() {
-				Piwik_Insight_UrlNormalizer.initialize(urls);
+				Piwik_Insight_UrlNormalizer.initialize();
 				load(function() {
 					build(function() {
 						finishCallback();

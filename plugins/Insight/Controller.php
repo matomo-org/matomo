@@ -28,11 +28,6 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		// use them in the normalization algorithm for link urls
 		$excludedParamteres = $site['excluded_parameters'];
 		
-		// site urls
-		// TODO: remove alias domain support
-		$urls = $sitesManager->getSiteUrlsFromId($this->idSite);
-		$view->urls = urlencode(implode('##', $urls));
-		
 		// date
 		$view->date = Piwik_Common::getRequestVar('date', 'today');
 		$view->period = Piwik_Common::getRequestVar('period', 'day');

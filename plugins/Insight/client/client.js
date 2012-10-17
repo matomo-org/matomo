@@ -13,9 +13,6 @@ var Piwik_Insight_Client = (function() {
 	/** The current period and date */
 	var period, date;
 	
-	/** URLs of the site (first is main URL) */
-	var urls;
-	
 	/** Reference to the status bar DOM element */
 	var statusBar;
 	
@@ -87,12 +84,11 @@ var Piwik_Insight_Client = (function() {
 	return {
 		
 		/** Initialize in-site analytics */
-		initialize: function(pPiwikRoot, pIdSite, pPeriod, pDate, pUrls) {
+		initialize: function(pPiwikRoot, pIdSite, pPeriod, pDate) {
 			piwikRoot = pPiwikRoot;
 			idSite = pIdSite;
 			period = pPeriod;
 			date = pDate;
-			urls = pUrls;
 			
 			var load = this.loadScript;
 			var loading = this.loadingNotification;
@@ -111,7 +107,7 @@ var Piwik_Insight_Client = (function() {
 						// following pages
 						var finishPages = loading('Loading following pages');
 						load('plugins/Insight/client/followingpages.js', function() {
-							Piwik_Insight_FollowingPages.initialize(urls, finishPages);
+							Piwik_Insight_FollowingPages.initialize(finishPages);
 						});
 						
 					});

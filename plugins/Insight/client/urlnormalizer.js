@@ -12,20 +12,20 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	/** Url of current folder */
 	var currentFolder;
 	
-	/** The main domain of the website */
-	var mainDomain;
-	
-	/** Array of alias domains */
-	var aliases = [];
+	/** The current domain */
+	var currentDomain;
 	
 	/**
-	 * Basic normalizations for domains
+	 * Basic normalizations for domain names
+	 * - remove protocol and www from absolute urls
+	 * - add a trailing slash to urls without a path
+	 * 
 	 * Returns array
 	 * 0: normalized url
 	 * 1: true, if url was absolute (if not, no normalization was performed)
 	 */
 	function normalizeDomain(url) {
-		absolute = false;
+		var absolute = false;
 		
 		// remove protocol
 		if (url.substring(0, 7) == 'http://') {
@@ -38,9 +38,7 @@ var Piwik_Insight_UrlNormalizer = (function() {
 		
 		if (absolute) {
 			// remove www.
-			if (url.substring(0, 4) == 'www.') {
-				url = url.substring(4, url.length);
-			}
+			url = removeWww(url);
 			
 			// add slash to domain names
 			if (url.indexOf('/') == -1) {
@@ -51,34 +49,18 @@ var Piwik_Insight_UrlNormalizer = (function() {
 		return [url, absolute];
 	}
 	
-	/** Replace domain aliases in normalized domains */
-	function replaceDomainAliases(url) {
-		var alias;
-		for (var i = 0; i < aliases.length; i++) {
-			alias = aliases[i];
-			if (url.substring(0, alias.length) == alias) {
-				url = mainDomain + url.substring(alias.length, url.length);
-				break;
-			}
+	/** Remove www. from a domain */
+	function removeWww(domain) {
+		if (domain.substring(0, 4) == 'www.') {
+			return domain.substring(4, domain.length);
 		}
-		return url;
+		return domain;
 	}
 	
 	return {
 		
-		/**
-		 * Provide information about the main domain and its alias.
-		 * First domain is main domain, others are aliases.
-		 * Aliases will later be replaced with the main domain.
-		 */
-		initialize: function(urls) {
-			mainDomain = normalizeDomain(urls[0])[0];
-			
-			for (var i = 1; i < urls.length; i++) {
-				var alias = normalizeDomain(urls[i])[0];
-				aliases.push(alias);
-			}
-			
+		initialize: function() {
+			this.setCurrentDomain(document.location.hostname);
 			this.setCurrentUrl(window.location.href);
 			
 			var head = document.getElementsByTagName('head');
@@ -90,10 +72,9 @@ var Piwik_Insight_UrlNormalizer = (function() {
 			}
 		},
 		
-		/** Explicitly set base href (for testing) */
-		setBaseHref: function(pBaseHref) {
-			baseHref = normalizeDomain(pBaseHref)[0];
-			baseHref = replaceDomainAliases(baseHref);
+		/** Explicitly set domain (for testing) */
+		setCurrentDomain: function(pCurrentDomain) {
+			currentDomain = removeWww(pCurrentDomain);
 		},
 		
 		/** Explicitly set current url (for testing) */
@@ -105,14 +86,22 @@ var Piwik_Insight_UrlNormalizer = (function() {
 				currentFolder = url;
 			}
 			currentFolder = normalizeDomain(currentFolder)[0];
-			currentFolder = replaceDomainAliases(currentFolder);
+		},
+		
+		/** Explicitly set base href (for testing) */
+		setBaseHref: function(pBaseHref) {
+			if (!pBaseHref) {
+				baseHref = false;
+			} else {
+				baseHref = normalizeDomain(pBaseHref)[0];
+			}
 		},
 		
 		/**
 		 * Normalize URL
 		 * Can be an absolute or a reltive URL
 		 */
-		normalize: function(url, withoutMainDomain) {
+		normalize: function(url) {
 			if (!url) {
 				return '';
 			}
@@ -128,14 +117,11 @@ var Piwik_Insight_UrlNormalizer = (function() {
 			
 			var absolute = normalized[1];
 			
-			if (absolute) {
-				/** absolute url */
-				url = replaceDomainAliases(url);
-			} else {
+			if (!absolute) {
 				/** relative url */
 				if (url.substring(0, 1) == '/') {
 					// relative to domain root
-					url = mainDomain + url;
+					url = currentDomain + url;
 				} else if (baseHref) {
 					// relative to base href
 					url = baseHref + url;
@@ -173,11 +159,6 @@ var Piwik_Insight_UrlNormalizer = (function() {
 			// TODO: remove ignored paramters
 			// TODO: handle order of parameters (?)
 			
-			// remove main domain ?
-			if (withoutMainDomain && url.substring(0, mainDomain.length) == mainDomain) {
-				url = url.substring(mainDomain.length, url.length);
-			}
-			
 			return url;
 		}
 		
@@ -205,26 +186,30 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	}
 	
 	
-	Piwik_Insight_UrlNormalizer.initialize([
-		'http://www.example.com/',
-		'http://example2.com/',
-		'https://www.example3.com'
+	Piwik_Insight_UrlNormalizer.initialize();
+	
+	Piwik_Insight_UrlNormalizer.setBaseHref(false);
+	
+	Piwik_Insight_UrlNormalizer.setCurrentDomain('example.com');
+	Piwik_Insight_UrlNormalizer.setCurrentUrl('https://www.example.com/current/test.html?asdfasdf');
+	
+	test([
+		[
+			'relative/path/',
+			'example.com/current/relative/path/'
+		], [
+			'http://www.example2.com/path/foo.html',
+			'example2.com/path/foo.html'
+		]
 	]);
 	
 	
-	Piwik_Insight_UrlNormalizer.setCurrentUrl('https://www.example2.com/current/test.html?asdfasdf');
-	
-	test([[
-		'relative/path/',
-		'example.com/current/relative/path/'
-	]]);
-	
-	
+	Piwik_Insight_UrlNormalizer.setCurrentDomain('www.example3.com');
 	Piwik_Insight_UrlNormalizer.setCurrentUrl('http://example3.com/current/folder/');
 	
 	test([[
 		'relative.html',
-		'example.com/current/folder/relative.html'
+		'example3.com/current/folder/relative.html'
 	]]);
 	
 	
@@ -233,16 +218,16 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	test([
 		[
 			'http://www.example2.com/my/test/path.html?id=2#MyAnchor',
-			'example.com/my/test/path.html?id=2'
+			'example2.com/my/test/path.html?id=2'
 		], [
 			'/my/test/foo/../path.html',
-			'example.com/my/test/path.html'
+			'example3.com/my/test/path.html'
 		], [
 			'path/./test//test///foo.bar',
 			'example.com/base/path/test/test/foo.bar'
 		], [
 			'https://example2.com//test.html#asdf',
-			'example.com/test.html'
+			'example2.com/test.html'
 		], [
 			'#',
 			''
@@ -251,7 +236,7 @@ var Piwik_Insight_UrlNormalizer = (function() {
 			''
 		], [
 			'/',
-			'example.com/'
+			'example3.com/'
 		]
 	]);
 	
