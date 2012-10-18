@@ -180,4 +180,6 @@ for (; $start < $count; $start += $limit)
 	flush();
 }
 Piwik::log("100% done!");
+Piwik::log("");
+Piwik::log("[note] Now that you've geolocated your old visits, you need to force your reports to be re-processed. See this FAQ entry: http://piwik.org/faq/how-to/#faq_59");
 
