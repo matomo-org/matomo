@@ -19,6 +19,8 @@ class Piwik_Transitions extends Piwik_Plugin
 	private $limitBeforeGrouping = 5;
 	private $totalTransitionsToFollowingActions = 0;
 	
+	private $returnNormalizedUrls = false;
+	
 	public function getInformation()
 	{
 		return array(
@@ -47,6 +49,15 @@ class Piwik_Transitions extends Piwik_Plugin
 	{
 		$jsFiles = &$notification->getNotificationObject();
 		$jsFiles[] = 'plugins/Transitions/templates/transitions.js';
+	}
+
+	/**
+	 * After calling this method, the query*()-Methods will return urls in their
+	 * normalized form (without the prefix reconstructed)
+	 */
+	public function returnNormalizedUrls()
+	{
+		$this->returnNormalizedUrls = true;
 	}
 
 	/**
@@ -254,13 +265,17 @@ class Piwik_Transitions extends Piwik_Plugin
 				$label = Piwik_Actions_ArchivingHelper::getUnknownActionName(
 							Piwik_Tracker_Action::TYPE_ACTION_NAME);
 			}
+			return $label;
+		}
+		else if ($this->returnNormalizedUrls)
+		{
+			return $pageRecord['name'];
 		}
 		else
 		{
-			$label = Piwik_Tracker_Action::reconstructNormalizedUrl(
+			return Piwik_Tracker_Action::reconstructNormalizedUrl(
 						$pageRecord['name'], $pageRecord['url_prefix']);
 		}
-		return $label;
 	}
 	
 	/**

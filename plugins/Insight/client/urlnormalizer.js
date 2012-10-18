@@ -25,6 +25,10 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	 * 1: true, if url was absolute (if not, no normalization was performed)
 	 */
 	function normalizeDomain(url) {
+		if (url === null) {
+			return '';
+		}
+		
 		var absolute = false;
 		
 		// remove protocol
@@ -95,6 +99,13 @@ var Piwik_Insight_UrlNormalizer = (function() {
 			} else {
 				baseHref = normalizeDomain(pBaseHref)[0];
 			}
+		},
+
+		/**
+		 * Remove the protocol and the prefix of a URL
+		 */
+		removeUrlPrefix: function(url) {
+			return normalizeDomain(url)[0];
 		},
 		
 		/**

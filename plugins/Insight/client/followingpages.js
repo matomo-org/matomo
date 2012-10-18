@@ -20,34 +20,26 @@ var Piwik_Insight_FollowingPages = (function() {
 		// load following pages
 		Piwik_Insight_Client.api('getFollowingPages', function(data) {
 			followingPages = data;
-			followingPages = normalize(followingPages);
+			processFollowingPages();
 			callback();
 		}, 'url=' + escape(location));
 	}
 	
-	/** Normalize the URLs of following pages */
-	function normalize(original) {
-		var normalized = [];
-		var urlIndexMap = {};
-		for (var i = 0; i < original.length; i++) {
-			var url = Piwik_Insight_UrlNormalizer.normalize(original[i].url);
-			if (typeof urlIndexMap[url] == 'undefined') {
-				var index = normalized.length;
-				urlIndexMap[url] = index;
-				original[i].url = url;
-				normalized.push(original[i]);
-			}
-			else {
-				var index = urlIndexMap[url];
-				var record = normalized[index];
-				record.clicks += original[i].clicks;
-				record.clickRate += original[i].clickRate;
-			}
+	/** Normalize the URLs of following pages and aggregate some stats */
+	function processFollowingPages() {
+		var totalClicks = 0; 
+		for (var i = 0; i < followingPages.length; i++) {
+			var page = followingPages[i];
+			// downloads and outlinks still have the prefix
+			// TODO investigate whether it would be better to use Piwik_Insight_UrlNormalizer.normalize
+			page.label = Piwik_Insight_UrlNormalizer.removeUrlPrefix(page.label);
+			totalClicks += followingPages[i].referrals;
 		}
-		return normalized;
+		for (i = 0; i < followingPages.length; i++) {
+			followingPages[i].clickRate = followingPages[i].referrals / totalClicks * 100;
+		}
 	}
 	
-	/** Add click rates to links */
 	function build(callback) {
 		var body = $('body');
 		
@@ -70,7 +62,7 @@ var Piwik_Insight_FollowingPages = (function() {
 		// add tags to known following pages
 		var linkTags = [];
 		for (var i = 0; i < followingPages.length; i++) {
-			var url = followingPages[i].url;
+			var url = followingPages[i].label;
 			if (typeof links[url] != 'undefined') {
 				for (var j = 0; j < links[url].length; j++) {
 					linkTags.push(createLinkTag(links[url][j], followingPages[i], body));

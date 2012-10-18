@@ -13,9 +13,6 @@
 class Piwik_Insight_API
 {
 	
-	private $mainDomain = array();
-	private $aliasDomains = array();
-	
 	private static $instance = null;
 	
 	/** @return Piwik_Insight_API */
@@ -42,89 +39,40 @@ class Piwik_Insight_API
 	 * Get following pages of a url.
 	 * This is done on the logs - not the archives!
 	 */
-	public function getFollowingPages($idSite, $period, $date)
+	public function getFollowingPages($url, $idSite, $period, $date, $segment = false)
 	{
 		$this->authenticate($idSite);
 		
-		// prepare url of current page
-		$url = Piwik_Common::getRequestVar('url', false);
-		if (!$url)
+		try
 		{
-			return array();
+			// TODO find a good value for $limitBeforeGrouping - add config option?
+			$transitionsReport = Piwik_Transitions_API::getInstance()->getTransitionsForAction(
+					$url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping = 100, 
+					$part = 'followingActions', $returnNormalizedUrls = true);
 		}
-		$url = $this->normalizeUrl($idSite, $url, true, true);
-		
-		// put together all possible url aliases
-		$this->loadDomains($idSite);
-		$normalizedDomains = $this->aliasDomains[$idSite];
-		$normalizedDomains[] = $this->mainDomain[$idSite];
-		
-		// get all possible idactions
-		$type = Piwik_Tracker_Action_Interface::TYPE_ACTION_URL;
-		$where = array();
-		$bind = array();
-		foreach ($normalizedDomains as $domain)
+		catch(Exception $e)
 		{
-			$where[] = '( hash = CRC32(?) AND name = ? AND type = ? )';
-			$bind[] = $domain.$url;
-			$bind[] = $domain.$url;
-			$bind[] = $type;
+			// TODO error handling
+			throw new Exception('Transitions Error: ' . $e->getMessage());
 		}
 		
-		$sql = '
-			SELECT idaction
-			FROM '.Piwik_Common::prefixTable('log_action').'
-			WHERE '.implode(' OR ', $where).'
-		';
+		$resultDataTable = new Piwik_DataTable;
 		
-		$result = Piwik_FetchAll($sql, $bind);
-		if (count($result) == 0)
+		$reports = array('followingPages', 'outlinks', 'downloads');
+		foreach ($reports as $reportName)
 		{
-			return array();
+			if (!isset($transitionsReport[$reportName]))
+			{
+				continue;
+			}
+			foreach ($transitionsReport[$reportName]->getRows() as $row)
+			{
+				// don't touch the row at all for performance reasons
+				$resultDataTable->addRow($row);
+			}
 		}
 		
-		$idaction = array();
-		foreach ($result as $row)
-		{
-			$idaction[] = intval($row['idaction']);
-		}
-		
-		// prepare the date range
-		$site = new Piwik_Site($idSite);
-		$period = Piwik_Period::advancedFactory($period, $date);
-		$dateStartLocalTimezone = $period->getDateStart();
-		$dateEndLocalTimezone = $period->getDateEnd();
-		$dateStartUTC = $dateStartLocalTimezone->setTimezone($site->getTimezone());
-		$dateEndUTC = $dateEndLocalTimezone->setTimezone($site->getTimezone());
-		$dateBegin = $dateStartUTC->getDateStartUTC();
-		$dateEnd = $dateEndUTC->getDateEndUTC();
-		
-		// now, use the idactions to query the logs
-		$sql = '
-			SELECT CONCAT( "http://", action.name ) AS url, COUNT(link.idlink_va) AS clicks
-			FROM '.Piwik_Common::prefixTable('log_link_visit_action').' AS link
-			LEFT JOIN '.Piwik_Common::prefixTable('log_action').' AS action
-				ON link.idaction_url = action.idaction
-			WHERE link.idaction_url_ref IN ('.implode(', ', $idaction).')
-				AND server_time BETWEEN "'.$dateBegin.'" AND "'.$dateEnd.'"
-			GROUP BY link.idaction_url
-		';
-		
-		$pages = Piwik_FetchAll($sql);
-		
-		// add click rates (percentages)
-		$clicks = 0;
-		foreach ($pages as &$page)
-		{
-			$clicks += $page['clicks'];
-		}
-		
-		foreach ($pages as &$page)
-		{
-			$page['clickRate'] = round($page['clicks'] / $clicks * 100, 5);
-		}
-		
-		return $pages;
+		return $resultDataTable;
 	}
 	
 	/** Do cookie authentication. This way, the token can remain secret. */
@@ -141,70 +89,6 @@ class Piwik_Insight_API
 		}
 		
 		Piwik::checkUserHasViewAccess($idSite);
-	}
-	
-	/** Load normalized domain names */
-	private function loadDomains($idSite)
-	{
-		if (!isset($this->mainDomain[$idSite]))
-		{
-			$urls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($idSite);
-			
-			$this->mainDomain[$idSite] = $this->normalizeUrl($idSite, $urls[0], false);
-			if (substr($this->mainDomain[$idSite], -1) != '/')
-			{
-				$this->mainDomain[$idSite] .= '/';
-			}
-			
-			$this->aliasDomains[$idSite] = array();
-			for ($i = 1; $i < count($urls); $i++)
-			{
-				$url = $this->normalizeUrl($idSite, $urls[$i], false);
-				if (substr($url, -1) != '/')
-				{
-					$url .= '/';
-				}
-				$this->aliasDomains[$idSite][] = $url;
-			}
-		}
-	}
-	
-	/** Normalize URL for comparison */
-	private function normalizeUrl($idSite, $url, $replaceAliases=true, $removeDomain=false)
-	{
-		// remove protocol and www
-		$url = preg_replace(';^http(?:s)?://(?:www\.)?;i', '', $url);
-		
-		// replace domain aliases with main domain
-		if ($replaceAliases)
-		{
-			$this->loadDomains($idSite);
-			
-			foreach ($this->aliasDomains[$idSite] as $alias)
-			{
-				if (substr($url, 0, strlen($alias)) == $alias)
-				{
-					$url = substr($url, strlen($alias));
-					if ($removeDomain)
-					{
-						return $url;
-					}
-					$url = $this->mainDomain[$idSite] . $url;
-					break;
-				}
-			}
-			
-			if ($removeDomain)
-			{
-				$mainDomain = $this->mainDomain[$idSite];
-				if (substr($url, 0, strlen($mainDomain)) == $mainDomain)
-				{
-					$url = substr($url, strlen($mainDomain));
-				}
-			}
-		}
-		
-		return $url;
 	}
 
 }

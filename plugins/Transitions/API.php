@@ -47,11 +47,13 @@ class Piwik_Transitions_API
 	 * @param $date
 	 * @param bool $segment
 	 * @param bool $limitBeforeGrouping
+	 * @param string $parts
+	 * @param bool $returnNormalizedUrls
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getTransitionsForAction($actionName, $actionType,
-			$idSite, $period, $date, $segment = false, $limitBeforeGrouping = false)
+	public function getTransitionsForAction($actionName, $actionType, $idSite, $period, $date,
+			$segment = false, $limitBeforeGrouping = false, $parts = 'all', $returnNormalizedUrls = false)
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		
@@ -76,14 +78,35 @@ class Piwik_Transitions_API
 		
 		// add data to the report
 		$transitionsArchiving = new Piwik_Transitions;
-		$this->addInternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction, $actionType, $limitBeforeGrouping);
-		$this->addFollowingActions($transitionsArchiving, $archiveProcessing, $report, $idaction, $actionType, $limitBeforeGrouping);
-		$this->addExternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction, $actionType, $limitBeforeGrouping);
+		if ($returnNormalizedUrls)
+		{
+			$transitionsArchiving->returnNormalizedUrls();
+		}
+		
+		$partsArray = explode(',', $parts);
+		
+		if ($parts == 'all' || in_array('internalReferrers', $partsArray))
+		{
+			$this->addInternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction, 
+				$actionType, $limitBeforeGrouping);
+		}
+		if ($parts == 'all' || in_array('followingActions', $partsArray))
+		{
+			$this->addFollowingActions($transitionsArchiving, $archiveProcessing, $report, $idaction, 
+				$actionType, $limitBeforeGrouping);
+		}
+		if ($parts == 'all' || in_array('externalReferrers', $partsArray))
+		{
+			$this->addExternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction, 
+				$actionType, $limitBeforeGrouping);
+		}
 		
 		// derive the number of exits from the other metrics
-		$report['pageMetrics']['exits'] = $report['pageMetrics']['pageviews']
-				- $transitionsArchiving->getTotalTransitionsToFollowingActions()
-				- $report['pageMetrics']['loops'];
+		if ($parts == 'all') {
+			$report['pageMetrics']['exits'] = $report['pageMetrics']['pageviews']
+					- $transitionsArchiving->getTotalTransitionsToFollowingActions()
+					- $report['pageMetrics']['loops'];
+		}
 		
 		// replace column names in the data tables
 		$reportNames = array(
