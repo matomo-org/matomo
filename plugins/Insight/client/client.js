@@ -163,26 +163,39 @@ var Piwik_Insight_Client = (function() {
 				}
 			});
 		},
+
+		/**
+		 * Initialize a notification
+		 * To hide the notification use the returned callback
+		 */
+		notification: function(message, addClass) {
+			if (!statusBar) {
+				statusBar = c('div', '#StatusBar').css('opacity', .8);
+				$('body').prepend(statusBar);
+			}
+			
+			var item = c('div', 'Item').html(message);
+			
+			if (addClass) {
+				item.addClass('PIS_' + addClass);
+			}
+			
+			statusBar.show().append(item);
+			
+			return function() {
+				item.remove();
+				if (statusBar.children().size() == 0) {
+					statusBar.hide();
+				}
+			};
+		},
 		
 		/**
 		 * Initialize a loading notification
 		 * To hide the notification use the returned callback
 		 */
 		loadingNotification: function(message) {
-			if (!statusBar) {
-				statusBar = c('div', '#StatusBar').css('opacity', .8);
-				$('body').prepend(statusBar);
-			}
-			
-			var loading = c('div', 'Item').html(message);
-			statusBar.show().append(loading);
-			
-			return function() {
-				loading.remove();
-				if (statusBar.children().size() == 0) {
-					statusBar.hide();
-				}
-			};
+			return Piwik_Insight_Client.notification(message, 'Loading');
 		}
 		
 	};

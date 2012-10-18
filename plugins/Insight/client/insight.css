@@ -4,7 +4,13 @@
  */
 
 #PIS_StatusBar,
-.PIS_LinkTag {
+#PIS_StatusBar .PIS_Item,
+#PIS_StatusBar .PIS_Loading,
+.PIS_LinkTag,
+.PIS_LinkHighlightBoxTop,
+.PIS_LinkHighlightBoxRight,
+.PIS_LinkHighlightBoxLeft,
+.PIS_LinkHighlightBoxText {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -51,6 +57,14 @@
 	margin-left: 1px;
 }
 
+.PIS_LinkTag.PIS_Highlighted {
+	z-index: 10002;
+}
+
+.PIS_LinkTag.PIS_Highlighted span {
+	color: #E87500;
+}
+
 .PIS_LinkTag.PIS_Right {
 	background-position: -36px -21px;
 }
@@ -71,6 +85,32 @@
 
 .PIS_LinkTag.PIS_BottomRight {
 	background-position: -36px 0;
+}
+
+
+
+/**
+ * Link Highlights
+ */
+
+.PIS_LinkHighlightBoxTop,
+.PIS_LinkHighlightBoxRight,
+.PIS_LinkHighlightBoxText,
+.PIS_LinkHighlightBoxLeft {
+	position: absolute;
+	z-index: 10001;
+	overflow: hidden;
+	width: 2px;
+	height: 2px;
+	background: #E87500; 
+}
+
+.PIS_LinkHighlightBoxText {
+	line-height: 20px;
+	height: 20px;
+	font-size: 11px;
+	color: white;
+	width: auto;
 }
 
 
@@ -107,8 +147,13 @@
 
 #PIS_StatusBar .PIS_Item {
 	text-align: right;
-	padding: 3px 30px 0 0;
+	padding: 3px 5px 0 0;
 	margin: 0 15px 0 20px;
-	background: url(./loading.gif) no-repeat right center;
+	
 	font-weight: bold;
+}
+
+#PIS_StatusBar .PIS_Loading {
+	background: url(./loading.gif) no-repeat right center;
+	padding-right: 30px;
 }
