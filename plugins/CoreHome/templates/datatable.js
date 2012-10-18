@@ -371,10 +371,10 @@ dataTable.prototype =
 		var self = this;
 		if( self.param.enable_sort )
 		{
-			$('.sortable', domElem).click( 
+			$('.sortable', domElem).off('click.dataTableSort').on('click.dataTableSort',
 				function()
 				{
-					$(this).off('click');
+					$(this).off('click.dataTableSort');
 					self.onClickSort(this);
 				}
 			);
