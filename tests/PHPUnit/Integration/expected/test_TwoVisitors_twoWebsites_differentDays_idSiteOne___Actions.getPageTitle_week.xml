@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="From 2009-12-28 to 2010-01-03" />
+	<result date="From 2010-01-04 to 2010-01-10">
+		<row>
+			<label> Purchasing...</label>
+			<nb_visits>1</nb_visits>
+			<nb_hits>1</nb_hits>
+			<sum_time_spent>0</sum_time_spent>
+			<exit_nb_visits>1</exit_nb_visits>
+			<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+			<sum_daily_exit_nb_uniq_visitors>1</sum_daily_exit_nb_uniq_visitors>
+			<avg_time_on_page>0</avg_time_on_page>
+			<bounce_rate>0%</bounce_rate>
+			<exit_rate>100%</exit_rate>
+		</row>
+	</result>
+	<result date="From 2010-01-11 to 2010-01-17" />
+	<result date="From 2010-01-18 to 2010-01-24" />
+	<result date="From 2010-01-25 to 2010-01-31" />
+	<result date="From 2010-02-01 to 2010-02-07" />
+	<result date="From 2010-02-08 to 2010-02-14" />
+</results>
