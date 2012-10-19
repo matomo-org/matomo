@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<label>incredible title 0</label>
+	<reportData>
+		<result date="From 2010-02-01 to 2010-02-07">
+			<row>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+			</row>
+		</result>
+		<result date="From 2010-02-08 to 2010-02-14">
+			<row>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+			</row>
+		</result>
+		<result date="From 2010-02-15 to 2010-02-21">
+			<row>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+			</row>
+		</result>
+		<result date="From 2010-02-22 to 2010-02-28">
+			<row>
+				<nb_visits>3</nb_visits>
+				<nb_hits>3</nb_hits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+			</row>
+		</result>
+		<result date="From 2010-03-01 to 2010-03-07">
+			<row>
+				<nb_visits>2</nb_visits>
+				<nb_hits>2</nb_hits>
+				<avg_time_on_page>0</avg_time_on_page>
+				<bounce_rate>100%</bounce_rate>
+				<exit_rate>100%</exit_rate>
+			</row>
+		</result>
+	</reportData>
+	<metadata>
+		<metrics>
+			<nb_hits>
+				<name>Pageviews</name>
+				<min>2</min>
+				<max>3</max>
+				<change>0%</change>
+
+			</nb_hits>
+			<nb_visits>
+				<name>Unique Pageviews</name>
+				<min>2</min>
+				<max>3</max>
+				<change>0%</change>
+
+			</nb_visits>
+			<bounce_rate>
+				<name>Bounce Rate</name>
+				<min>100</min>
+				<max>100</max>
+				<change>0%</change>
+
+			</bounce_rate>
+			<avg_time_on_page>
+				<name>Avg. time on page</name>
+
+			</avg_time_on_page>
+			<exit_rate>
+				<name>Exit rate</name>
+				<min>100</min>
+				<max>100</max>
+				<change>0%</change>
+
+			</exit_rate>
+
+		</metrics>
+		<dimension>Page Name</dimension>
+
+	</metadata>
+
+</result>
