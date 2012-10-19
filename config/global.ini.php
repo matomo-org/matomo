@@ -522,6 +522,7 @@ PluginsInstalled[] = Installation
 Plugins_Tracker[] = Provider
 Plugins_Tracker[] = Goals
 Plugins_Tracker[] = DoNotTrack
+Plugins_Tracker[] = UserCountry
 
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call

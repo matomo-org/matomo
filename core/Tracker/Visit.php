@@ -35,6 +35,8 @@ interface Piwik_Tracker_Visit_Interface {
  */
 class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 {
+	const UNKNOWN_CODE = 'xx';
+	
 	/**
 	 * @var Piwik_Cookie
 	 */
@@ -606,16 +608,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$userInfo = array('lang' => $browserLang, 'ip' => Piwik_IP::N2P($this->getVisitorIp()));
 		Piwik_PostEvent('Tracker.getVisitorLocation', $location, $userInfo);
 		
-		if (empty($location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY]))
+		if (empty($location['country_code'])) // sanity check
 		{
-			$location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY] =
-			Piwik_UserCountry::UNKNOWN_CODE;
-		}
-		
-		if (empty($location[Piwik_UserCountry_LocationProvider::CONTINENT_CODE_KEY]))
-		{
-			$location[Piwik_UserCountry_LocationProvider::CONTINENT_CODE_KEY] =
-			Piwik_UserCountry::UNKNOWN_CODE;
+			$location['country_code'] = self::UNKNOWN_CODE;
 		}
 		
 		return $location;

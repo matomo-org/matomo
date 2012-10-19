@@ -76,7 +76,7 @@ class Piwik_UserCountry_API
 		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
 		
 		$separator = Piwik_UserCountry::LOCATION_SEPARATOR;
-		$unk = Piwik_UserCountry::UNKNOWN_CODE;
+		$unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
 		
 		// split the label and put the elements into the 'region' and 'country' metadata fields
 		$dataTable->filter('ColumnCallbackAddMetadata',
@@ -119,7 +119,7 @@ class Piwik_UserCountry_API
 		$dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
 		
 		$separator = Piwik_UserCountry::LOCATION_SEPARATOR;
-		$unk = Piwik_UserCountry::UNKNOWN_CODE;
+		$unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
 		
 		// split the label and put the elements into the 'city_name', 'region', 'country',
 		// 'lat' & 'long' metadata fields

@@ -230,7 +230,7 @@ class Piwik_Live_Visitor
 		
 		// add region if it's known
 		$region = $this->details['location_region'];
-		if ($region != '' && $region != Piwik_UserCountry::UNKNOWN_CODE)
+		if ($region != '' && $region != Piwik_Tracker_Visit::UNKNOWN_CODE)
 		{
 			$parts[] = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes(
 				$this->details['location_country'], $region);

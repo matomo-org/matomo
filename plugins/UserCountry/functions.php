@@ -25,7 +25,7 @@ function Piwik_getFlagFromCode($code)
 	{
 		return $pathWithCode;
 	}
-	return sprintf($pathInPiwik, Piwik_UserCountry::UNKNOWN_CODE);			
+	return sprintf($pathInPiwik, Piwik_Tracker_Visit::UNKNOWN_CODE);			
 }
 
 /**
@@ -51,7 +51,7 @@ function Piwik_ContinentTranslate($label)
  */
 function Piwik_CountryTranslate($label)
 {
-	if($label == Piwik_UserCountry::UNKNOWN_CODE || $label == '')
+	if($label == Piwik_Tracker_Visit::UNKNOWN_CODE || $label == '')
 	{
 		return Piwik_Translate('General_Unknown');
 	}
@@ -126,7 +126,7 @@ function Piwik_UserCountry_getPrettyRegionName( $label )
 	list($regionCode, $countryCode) = explode(Piwik_UserCountry::LOCATION_SEPARATOR, $label);
 	
 	$result = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
-	if ($countryCode != Piwik_UserCountry::UNKNOWN_CODE && $countryCode != '')
+	if ($countryCode != Piwik_Tracker_Visit::UNKNOWN_CODE && $countryCode != '')
 	{
 		$result .= ', '.Piwik_CountryTranslate($countryCode);
 	}
@@ -160,15 +160,15 @@ function Piwik_UserCountry_getPrettyCityName( $label )
 	$regionCode = $parts[1];
 	$countryCode = $parts[2];
 	
-	if ($cityName == Piwik_UserCountry::UNKNOWN_CODE || $cityName == '')
+	if ($cityName == Piwik_Tracker_Visit::UNKNOWN_CODE || $cityName == '')
 	{
 		$cityName = Piwik_Translate('General_Unknown');
 	}
 	
 	$result = $cityName;
-	if ($countryCode != Piwik_UserCountry::UNKNOWN_CODE && $countryCode != '')
+	if ($countryCode != Piwik_Tracker_Visit::UNKNOWN_CODE && $countryCode != '')
 	{
-		if ($regionCode != '' && $regionCode != Piwik_UserCountry::UNKNOWN_CODE)
+		if ($regionCode != '' && $regionCode != Piwik_Tracker_Visit::UNKNOWN_CODE)
 		{
 			$regionName = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
 			$result .= ', '.$regionName;

@@ -22,8 +22,6 @@ class Piwik_UserCountry extends Piwik_Plugin
 	
 	const DISTINCT_COUNTRIES_METRIC = 'UserCountry_distinctCountries';
 	
-	const UNKNOWN_CODE = 'xx';
-	
 	// separate region, city & country info in stored report labels
 	const LOCATION_SEPARATOR = '|';
 	
