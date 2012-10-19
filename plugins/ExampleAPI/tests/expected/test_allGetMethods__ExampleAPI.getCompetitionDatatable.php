@@ -1,1 +1,0 @@
-a:2:{i:0;a:3:{s:4:"name";s:5:"piwik";s:7:"license";s:3:"GPL";s:4:"logo";s:8:"logo.png";}i:1;a:2:{s:4:"name";s:16:"google analytics";s:7:"license";s:10:"commercial";}}
