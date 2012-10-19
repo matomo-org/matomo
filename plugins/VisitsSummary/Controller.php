@@ -127,10 +127,11 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->displaySiteSearch = $displaySiteSearch;
 
 		$dataTableVisit = self::getVisitsSummary();
-		$dataRow = $dataTableVisit->getFirstRow();
+		$dataRow = $dataTableVisit->getRowsCount() == 0 ? new Piwik_DataTable_Row() : $dataTableVisit->getFirstRow();
 		
 		$dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), Piwik_Common::getRequestVar('segment',false));
-		$dataActionsRow = $dataTableActions->getFirstRow();
+		$dataActionsRow =
+			$dataTableActions->getRowsCount() == 0 ? new Piwik_DataTable_Row() : $dataTableActions->getFirstRow();
 		
 		$view->nbUniqVisitors = (int)$dataRow->getColumn('nb_uniq_visitors');
 		$nbVisits = (int)$dataRow->getColumn('nb_visits');
