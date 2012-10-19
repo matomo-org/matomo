@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
+		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
+		<bounce_rate>Bounce Rate</bounce_rate>
+		<conversion_rate>Conversion Rate</conversion_rate>
+	</row>
+</result>

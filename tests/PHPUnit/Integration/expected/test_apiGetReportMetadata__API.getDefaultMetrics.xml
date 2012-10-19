@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<nb_visits>Visits</nb_visits>
+		<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
+		<nb_actions>Actions</nb_actions>
+	</row>
+</result>
