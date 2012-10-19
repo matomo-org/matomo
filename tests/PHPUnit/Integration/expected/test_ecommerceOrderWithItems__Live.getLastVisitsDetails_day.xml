@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>3</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>0</visitConverted>
+		<visitConvertedIcon />
+		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>themes/default/images/ecommerceAbandonedCart.gif</visitEcommerceStatusIcon>
+		<actions>3</actions>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>11</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>999</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>12</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>333</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>13</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU IN ABANDONED CART TWO</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT TWO LEFT in cart</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Category TWO LEFT in cart</customVariableValue5>
+					</row>
+				</customVariables>
+				<icon />
+			</row>
+			<row>
+				<type>ecommerceAbandonedCart</type>
+				<revenue>2510.11</revenue>
+				<items>4</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
+						<itemName>PRODUCT ONE LEFT in cart</itemName>
+						<itemCategory />
+						<price>500.11</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
+						<itemName>PRODUCT TWO LEFT in cart</itemName>
+						<itemCategory>Category TWO LEFT in cart</itemCategory>
+						<price>1000</price>
+						<quantity>2</quantity>
+					</row>
+				</itemDetails>
+				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>721</visitDuration>
+		<visitDurationPretty>12 min 1s</visitDurationPretty>
+		<visitCount>2</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<country>France</country>
+		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<continent>Europe</continent>
+		<location>France</location>
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>2</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<visitorType>returning</visitorType>
+		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<actions>6</actions>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at Electronics &amp; Cameras page with a page level custom variable</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>5</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at Electronics &amp; Cameras page again</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>6</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Looking at product page</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>7</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>666</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+				<timeSpent>720</timeSpent>
+				<timeSpentPretty>12 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>937nsjusu 3894</orderId>
+				<revenue>1111.11</revenue>
+				<revenueSubTotal>1000</revenueSubTotal>
+				<revenueTax>111</revenueTax>
+				<revenueShipping>0.11</revenueShipping>
+				<revenueDiscount>666</revenueDiscount>
+				<items>8</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT name</itemName>
+						<itemCategory>Multiple Category 1</itemCategory>
+						<price>500</price>
+						<quantity>2</quantity>
+					</row>
+					<row>
+						<itemSKU>ANOTHER SKU HERE</itemSKU>
+						<itemName>PRODUCT name BIS</itemName>
+						<itemCategory />
+						<price>100</price>
+						<quantity>6</quantity>
+					</row>
+				</itemDetails>
+				<icon>themes/default/images/ecommerceOrder.gif</icon>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>1037nsjusu4s3894</orderId>
+				<revenue>2000</revenue>
+				<revenueSubTotal>1500</revenueSubTotal>
+				<revenueTax>400</revenueTax>
+				<revenueShipping>100</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>2</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT name</itemName>
+						<itemCategory />
+						<price>11.22</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU2</itemSKU>
+						<itemName>Canon SLR</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>1500</price>
+						<quantity>1</quantity>
+					</row>
+				</itemDetails>
+				<icon>themes/default/images/ecommerceOrder.gif</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>8</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>999</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>9</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>333</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>10</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU IN ABANDONED CART TWO</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT TWO LEFT in cart</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Category TWO LEFT in cart</customVariableValue5>
+					</row>
+				</customVariables>
+				<icon />
+			</row>
+			<row>
+				<type>ecommerceAbandonedCart</type>
+				<revenue>2510.11</revenue>
+				<items>4</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
+						<itemName>PRODUCT ONE LEFT in cart</itemName>
+						<itemCategory />
+						<price>500.11</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
+						<itemName>PRODUCT TWO LEFT in cart</itemName>
+						<itemCategory>Category TWO LEFT in cart</itemCategory>
+						<price>1000</price>
+						<quantity>2</quantity>
+					</row>
+				</itemDetails>
+				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>3961</visitDuration>
+		<visitDurationPretty>1 hours 6 min</visitDurationPretty>
+		<visitCount>2</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<country>France</country>
+		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<continent>Europe</continent>
+		<location>France</location>
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>1</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>4</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>title match, triggered ONCE</goalName>
+				<revenue>10</revenue>
+				<goalPageId>1</goalPageId>
+				
+				<url>http://example.org/index.htm</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>incredible title!</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>1</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>1111.11111</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU2</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Another Product page</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>2</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>666</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Electronics &amp; Cameras</customVariableValue5>
+					</row>
+				</customVariables>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Another Product page with no category</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>3</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
+					</row>
+				</customVariables>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>Another Product page with multiple categories</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>4</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT name</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>[&quot;Multiple Category 1&quot;,&quot;&quot;,0,&quot;Multiple Category 2&quot;,&quot;Electronics &amp; Cameras&quot;,&quot;Multiple Category 4&quot;,&quot;Multiple Category 5&quot;,&quot;SHOULD NOT BE REPORTEDSSSSSSSSSSSSSSssssssssssssssssssssssssssstttttttttttttttttt</customVariableValue5>
+					</row>
+				</customVariables>
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>721</visitDuration>
+		<visitDurationPretty>12 min 1s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<country>France</country>
+		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<continent>Europe</continent>
+		<location>France</location>
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+</result>

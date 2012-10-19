@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>5</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>ordered</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<actions>0</actions>
+		<actionDetails>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>666</orderId>
+				<revenue>240</revenue>
+				<revenueSubTotal>200</revenueSubTotal>
+				<revenueTax>20</revenueTax>
+				<revenueShipping>20</revenueShipping>
+				<revenueDiscount>20</revenueDiscount>
+				<items>2</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>TRIPOD SKU</itemSKU>
+						<itemName>TRIPOD - bought day after</itemName>
+						<itemCategory>Tools</itemCategory>
+						<price>100</price>
+						<quantity>2</quantity>
+					</row>
+				</itemDetails>
+				<icon>themes/default/images/ecommerceOrder.gif</icon>
+			</row>
+			<row>
+				<type>ecommerceOrder</type>
+				<orderId>777</orderId>
+				<revenue>10000</revenue>
+				<revenueSubTotal>0</revenueSubTotal>
+				<revenueTax>0</revenueTax>
+				<revenueShipping>0</revenueShipping>
+				<revenueDiscount>0</revenueDiscount>
+				<items>0</items>
+				
+				<itemDetails>
+				</itemDetails>
+				<icon>themes/default/images/ecommerceOrder.gif</icon>
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>363</visitDuration>
+		<visitDurationPretty>6 min 3s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<country>France</country>
+		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<continent>Europe</continent>
+		<location>France</location>
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>4</idVisit>
+		<visitIp>156.5.3.2</visitIp>
+		
+		<visitorType>returningCustomer</visitorType>
+		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
+		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<actions>3</actions>
+		<actionDetails>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>14</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>999</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>15</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName2>_pkp</customVariableName2>
+						<customVariableValue2>333</customVariableValue2>
+					</row>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU VERY nice indeed</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+				</customVariables>
+				<timeSpent>180</timeSpent>
+				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<icon />
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://example.org/index.htm</url>
+				<pageTitle>View product left in cart</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>16</pageId>
+				
+				<customVariables>
+					<row>
+						<customVariableName3>_pks</customVariableName3>
+						<customVariableValue3>SKU IN ABANDONED CART TWO</customVariableValue3>
+					</row>
+					<row>
+						<customVariableName4>_pkn</customVariableName4>
+						<customVariableValue4>PRODUCT TWO LEFT in cart</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5>Category TWO LEFT in cart</customVariableValue5>
+					</row>
+				</customVariables>
+				<icon />
+			</row>
+			<row>
+				<type>ecommerceAbandonedCart</type>
+				<revenue>2510.11</revenue>
+				<items>4</items>
+				
+				<itemDetails>
+					<row>
+						<itemSKU>SKU VERY nice indeed</itemSKU>
+						<itemName>PRODUCT THREE LEFT in cart</itemName>
+						<itemCategory>Electronics &amp; Cameras</itemCategory>
+						<price>10</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART ONE</itemSKU>
+						<itemName>PRODUCT ONE LEFT in cart</itemName>
+						<itemCategory />
+						<price>500.11</price>
+						<quantity>1</quantity>
+					</row>
+					<row>
+						<itemSKU>SKU IN ABANDONED CART TWO</itemSKU>
+						<itemName>PRODUCT TWO LEFT in cart</itemName>
+						<itemCategory>Category TWO LEFT in cart</itemCategory>
+						<price>1000</price>
+						<quantity>2</quantity>
+					</row>
+				</itemDetails>
+				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
+			</row>
+		</actionDetails>
+		<customVariables>
+			<row>
+				<customVariableName3>VisitorName</customVariableName3>
+				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName5>VisitorType</customVariableName5>
+				<customVariableValue5>NewLoggedOut</customVariableValue5>
+			</row>
+		</customVariables>
+		<goalConversions>0</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>1081</visitDuration>
+		<visitDurationPretty>18 min 1s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>1</daysSinceLastEcommerceOrder>
+		<country>France</country>
+		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<continent>Europe</continent>
+		<location>France</location>
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+</result>
