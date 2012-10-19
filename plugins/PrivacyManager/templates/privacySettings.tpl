@@ -33,10 +33,10 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 		</table>
 	</div>
 	<div id="anonymizeIPenabled">
-		<table class="adminTable">
+		<table class="adminTable" style='width:800px;'>
 			<tr>
 				<td width="250">{'PrivacyManager_AnonymizeIpMaskLengtDescription'|translate}</td>
-				<td>
+				<td width="500">
 					<label><input type="radio" name="maskLength" value="1" {if $anonymizeIP.maskLength eq '1'}
 								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"1":"192.168.100.xxx"}
 					</label><br/>
@@ -44,6 +44,9 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"2":"192.168.xxx.xxx"} <span class="form-description">{'General_Recommended'|translate}</span></label><br/>
 					<label><input type="radio" name="maskLength" value="3" {if $anonymizeIP.maskLength eq '3'}
 								  checked {/if}/> {'PrivacyManager_AnonymizeIpMaskLength'|translate:"3":"192.xxx.xxx.xxx"}</label>
+				</td>
+				<td width="200">
+					{'PrivacyManager_GeolocationAnonymizeIpNote'|translate|inlineHelp}
 				</td>
 			</tr>
 		</table>

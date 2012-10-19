@@ -499,6 +499,7 @@ $translations = array(
 	'PrivacyManager_GetPurgeEstimate' => 'Get purge estimate',
 	'PrivacyManager_CannotLockSoDeleteLogActions' => 'The log_action table will not be purged: please grant the LOCK TABLES privilege to the \'%s\' MYSQL user.',
 	'PrivacyManager_DBPurged' => 'DB purged.',
+	'PrivacyManager_GeolocationAnonymizeIpNote' => 'Note: Geolocation will have approximately the same results with 1 byte anonymized. With 2 bytes or more, Geolocation will be inacurrate.',
 	'CoreHome_PluginDescription' => 'Web Analytics Reports Structure.',
 	'CoreHome_WebAnalyticsReports' => 'Web Analytics Reports',
 	'CoreHome_NoPrivilegesAskPiwikAdmin' => 'You are logged in as \'%s\' but it seems you don\'t have any permission set in Piwik. %s Ask your Piwik administrator (click to email)%s to give you \'view\' access to a website.',
