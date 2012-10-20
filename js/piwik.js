@@ -910,30 +910,35 @@ var
 			var windowName = 'Piwik_Insight';
 			var referrer = documentAlias.referrer;
 			var testReferrer = configTrackerUrl;
+			
 			// remove piwik.php from referrer
 			testReferrer = testReferrer.substring(0, testReferrer.length - 9);
-			// remove protocol
-			if (testReferrer.substring(0, 7) == 'http://') {
-				testReferrer = testReferrer.substring(7, testReferrer.length);
-			} else {
-				testReferrer = testReferrer.substring(8, testReferrer.length);
-			}
-			// build referrer regex
-			var referrerRegExp = new RegExp('^(http|https)://' + testReferrer
-					+ 'index\\.php\\?module=Insight&action=startInsightSession'
-					+ '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
 			
-			var match;
-			if (match = referrer.match(referrerRegExp)) {
-				// check idsite
-				var idsite = match[2];
-				if (parseInt(idsite, 10) !== configTrackerSiteId) {
-					return false;
+			// remove protocol
+			testReferrer.substring(testReferrer.substring(0, 7) == 'http://' ? 7 : 8, testReferrer.length);
+			referrer.substring(referrer.substring(0, 7) == 'http://' ? 7 : 8, referrer.length);
+			
+			// do a basic match before checking with a regex because the regex is more expensive
+			// and would be used at every pageview otherwise
+			if (referrer.substring(0, testReferrer.length) == testReferrer) {
+				
+				// build referrer regex to extract parameters
+				var referrerRegExp = new RegExp('^' + testReferrer
+						+ 'index\\.php\\?module=Insight&action=startInsightSession'
+						+ '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
+				
+				var match;
+				if (match = referrer.match(referrerRegExp)) {
+					// check idsite
+					var idsite = match[1];
+					if (parseInt(idsite, 10) !== configTrackerSiteId) {
+						return false;
+					}
+					// store insight session info in window name
+					var period = match[2];
+					var date = match[3];
+					window.name = windowName + '###' + period + '###' + date;
 				}
-				// store insight session info in window name
-				var period = match[3];
-				var date = match[4];
-				window.name = windowName + '###' + period + '###' + date;
 			}
 			
 			// retrieve and check data from window name
