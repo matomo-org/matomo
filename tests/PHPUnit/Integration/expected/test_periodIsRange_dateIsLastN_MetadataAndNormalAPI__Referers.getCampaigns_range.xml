@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>CAMPAIGN NAME - YEAH!</label>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				
+				<revenue>1000</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>1000</revenue>
+		<subtable>
+			<row>
+				<label>CAMPAIGN KEYWORD - RIGHT...</label>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						
+						<revenue>1000</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>1000</revenue>
+			</row>
+		</subtable>
+	</row>
+</result>
