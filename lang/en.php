@@ -1787,8 +1787,6 @@ And thank you for using Piwik!',
 	'Insight_Page' => 'Page',
 	'Insight_MainMetrics' => 'Main metrics',
 	'Insight_NoData' => 'There is no data for this page during the selected period.',
-	'Insight_ScreenHeight' => 'Screen height',
-	'Insight_ExactHeight' => '%s visits (%s) had exactly this height',
-	'Insight_AtLeastHeight' => '%s visits (%s) had at least this height',
-	'Insight_ResolutionOverlay' => 'In full screen, their viewport ended somewhere inside this bar, most likely near its top',
+	'Insight_OpenFullScreen' => 'Go full screen',
+	'Insight_CloseFullScreen' => 'Close full screen'
 );

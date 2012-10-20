@@ -3,9 +3,8 @@
 
 	<div id="Insight_Location">&nbsp;</div>
 	
-	<div id="Insight_Sidebar">
-		
-	</div>
+	<div id="Insight_Sidebar"></div>
+	
 	<div id="Insight_Main">
 		<iframe 
 				id="Insight_Iframe" 

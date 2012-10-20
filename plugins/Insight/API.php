@@ -43,6 +43,8 @@ class Piwik_Insight_API
 	{
 		$this->authenticate($idSite);
 		
+		$resultDataTable = new Piwik_DataTable;
+		
 		try
 		{
 			// TODO find a good value for $limitBeforeGrouping - add config option?
@@ -52,11 +54,8 @@ class Piwik_Insight_API
 		}
 		catch(Exception $e)
 		{
-			// TODO error handling
-			throw new Exception('Transitions Error: ' . $e->getMessage());
+			return $resultDataTable;
 		}
-		
-		$resultDataTable = new Piwik_DataTable;
 		
 		$reports = array('followingPages', 'outlinks', 'downloads');
 		foreach ($reports as $reportName)

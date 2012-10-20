@@ -2,24 +2,56 @@ var Piwik_Insight = (function() {
 	
 	var $container, $sidebar, $main, $location; 
 	
+	var isFullScreen = false;
+	
 	/** Load the sidebar for a url */
 	function loadSidebar(currentUrl) {
 		piwikHelper.ajaxCall('Insight', 'renderSidebar', {
 			currentUrl: currentUrl
 		}, function(response) {
 			var $response = $(response);
+			
 			var $responseLocation = $response.find('.Insight_Location');
+			var $url = $responseLocation.find('span');
+			$url.html(piwikHelper.addBreakpointsToUrl($url.text()));
 			$location.html($responseLocation.html());
 			$responseLocation.remove();
+			
 			$sidebar.empty().append($response);
+			
+			var $fullScreen = $sidebar.find('a.Insight_FullScreen');
+			$fullScreen.click(function() {
+				handleFullScreen();
+				return false;
+			});
 		}, false, 'html');
 	}
 	
 	/** Adjust the height of the iframe */
 	function adjustHeight() {
-		var height = $(window).height() - $main.offset().top - 45;
+		var height;
+		if (isFullScreen) {
+			height = $(window).height();
+		} else {
+			height = $(window).height() - $main.offset().top - 25;
+		}
 		height = Math.max(300, height);
 		$container.height(height);
+	}
+	
+	/** Handle full screen */ 
+	function handleFullScreen() {
+		if (!isFullScreen) {
+			// open full screen
+			isFullScreen = true;
+			$container.addClass('Insight_FullScreen');
+			adjustHeight();
+		} else {
+			// close full screen
+			isFullScreen = false;
+			$container.removeClass('Insight_FullScreen');
+			adjustHeight();
+		}
 	}
 	
 	return {
@@ -32,6 +64,11 @@ var Piwik_Insight = (function() {
 			$main = $('#Insight_Main');
 			
 			adjustHeight();
+			
+			window.setTimeout(function() {
+				// sometimes the frame is too high at first
+				adjustHeight();
+			}, 50);
 			
 			// this callback is unbound in broadcast.pageload
 			$(window).resize(function() {

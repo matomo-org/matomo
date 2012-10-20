@@ -48,14 +48,14 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		$path = Piwik_Actions_ArchivingHelper::getActionExplodedNames($currentUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
 		$path = array_map('urlencode', $path);
 		$label = implode('>', $path);
-		$request = new Piwik_API_Request('
-			method=Actions.getPageUrls
-			&idSite='.urlencode($idSite).'
-			&date='.urlencode($date).'
-			&period='.urlencode($period).'
-			&label='.urlencode($label).'
-			&format=original
-		');
+		$request = new Piwik_API_Request(
+			'method=Actions.getPageUrls'
+			.'&idSite='.urlencode($idSite)
+			.'&date='.urlencode($date)
+			.'&period='.urlencode($period)
+			.'&label='.urlencode($label)
+			.'&format=original'
+		);
  		$dataTable = $request->process();
 		
 		$data = array();

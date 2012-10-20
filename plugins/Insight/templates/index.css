@@ -5,6 +5,18 @@
 	position: relative;
 }
 
+#Insight_Container.Insight_FullScreen {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: white;
+	z-index: 100000;
+	margin: 0;
+	padding: 0;
+}
+
 #Insight_Location {
 	color: #7E7363;
 	padding-left: 220px;
@@ -12,11 +24,25 @@
 	font-size: 12px;
 }
 
+#Insight_Container.Insight_FullScreen #Insight_Location {
+	float: left;
+	width: 180px;
+	position: relative;
+	margin: 15px 0 30px 20px;
+	font-size: 11px;
+	padding: 0;
+}
+
 #Insight_Sidebar {
 	float: left;
 	width: 200px;
-	height: 100%;
 	position: relative;
+	clear: left;
+}
+
+#Insight_Container.Insight_FullScreen #Insight_Sidebar {
+	width: 180px;
+	margin-left: 20px;
 }
 
 #Insight_Sidebar h2 {
@@ -24,6 +50,33 @@
 	margin: 0;
 	padding: 0 0 8px 23px;
 	color: #255792;
+}
+
+#Insight_Sidebar a.Insight_FullScreen {
+	display: block;
+	color: #255792;
+	font-size: 13px;
+	line-height: 15px;
+	margin-top: 20px;
+	padding: 8px 0 8px 23px;
+	background: url(../../../themes/default/images/fullscreen.png) no-repeat 0 5px;
+	text-decoration: none;
+}
+
+#Insight_Sidebar a.Insight_FullScreen:hover {
+	color: #E87500;
+}
+
+#Insight_Sidebar span.Insight_CloseFullScreen {
+	display: none;
+}
+
+#Insight_Container.Insight_FullScreen #Insight_Sidebar span.Insight_OpenFullScreen {
+	display: none;
+}
+
+#Insight_Container.Insight_FullScreen #Insight_Sidebar span.Insight_CloseFullScreen {
+	display: inline;
 }
 
 #Insight_Main {
@@ -35,6 +88,12 @@
 	width: 100%;
 	height: 100%;
 	border: 2px solid #ddd;
+}
+
+#Insight_Container.Insight_FullScreen #Insight_Iframe {
+	border-top: 0;
+	border-right: 0;
+	border-bottom: 0;
 }
 
 .Insight_Metric {

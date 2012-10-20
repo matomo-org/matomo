@@ -75,10 +75,16 @@ var Piwik_Insight_FollowingPages = (function() {
 
 		callback();
 
-		// check on a regular basis whether new links have appeared
-		window.setInterval(function() {
-			positionLinkTags();
-		}, 2500);
+		// check on a regular basis whether new links have appeared.
+		// we use a timeout instead of an interval to make sure one call is done before 
+		// the next one is triggered
+		var repositionAfterTimeout;
+		repositionAfterTimeout = function() {
+			window.setTimeout(function() {
+				positionLinkTags(repositionAfterTimeout);
+			}, 1800);
+		};
+		repositionAfterTimeout();
 		
 		// reposition link tags on window resize
 		var timeout = false;
@@ -105,7 +111,7 @@ var Piwik_Insight_FollowingPages = (function() {
 		var tagElement = c('div', 'LinkTag').append(span).hide();
 		body.prepend(tagElement);
 
-		linkTag.hover(function() {
+		linkTag.add(tagElement).hover(function() {
 			highlightLink(linkTag, linkUrl, data, tagElement);
 		}, function() {
 			unHighlightLink(linkTag, linkUrl, tagElement);
@@ -115,7 +121,7 @@ var Piwik_Insight_FollowingPages = (function() {
 	}
 
 	/** Position the link tags next to the links */
-	function positionLinkTags() {
+	function positionLinkTags(callback) {
 		var url, linkTag, tagElement, offset, top, left, isRight;
 		var tagWidth = 36, tagHeight = 21;
 
@@ -159,6 +165,10 @@ var Piwik_Insight_FollowingPages = (function() {
 					
 				}
 			}
+		}
+		
+		if (typeof callback == 'function') {
+			callback();
 		}
 	}
 
