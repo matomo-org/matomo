@@ -204,6 +204,7 @@ class Piwik_Live_API
 			
 			foreach($actionDetails as $actionIdx => &$actionDetail)
 			{
+				$actionDetail =& $actionDetails[$actionIdx];
 				$customVariablesPage = array();
 				for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
 				{
