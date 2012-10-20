@@ -23,6 +23,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	const ID = 'geoip_serverbased';
 	const TITLE = 'GeoIP (%s)';
 	const TEST_SERVER_VAR = 'GEOIP_ADDR';
+	const TEST_SERVER_VAR_ALT = 'GEOIP_COUNTRY_CODE';
 	
 	private static $geoIpServerVars = array(
 		parent::COUNTRY_CODE_KEY => 'GEOIP_COUNTRY_CODE',
@@ -151,7 +152,8 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 			}
 		}
 		
-		return !empty($_SERVER[self::TEST_SERVER_VAR]);
+		return !empty($_SERVER[self::TEST_SERVER_VAR])
+			 || !empty($_SERVER[self::TEST_SERVER_VAR_ALT]);
 	}
 	
 	/**
