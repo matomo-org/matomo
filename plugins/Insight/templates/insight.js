@@ -4,12 +4,7 @@ var Piwik_Insight = (function() {
 	
 	/** Load the sidebar for a url */
 	function loadSidebar(currentUrl) {
-		$.get('index.php', {
-			module: 'Insight',
-			action: 'renderSidebar',
-			idSite: piwik.idSite,
-			period: piwik.period,
-			date: piwik.currentDateString,
+		piwikHelper.ajaxCall('Insight', 'renderSidebar', {
 			currentUrl: currentUrl
 		}, function(response) {
 			var $response = $(response);
@@ -17,7 +12,7 @@ var Piwik_Insight = (function() {
 			$location.html($responseLocation.html());
 			$responseLocation.remove();
 			$sidebar.empty().append($response);
-		});
+		}, false, 'html');
 	}
 	
 	/** Adjust the height of the iframe */
@@ -36,14 +31,9 @@ var Piwik_Insight = (function() {
 			$location = $('#Insight_Location');
 			$main = $('#Insight_Main');
 			
-			$main.hide();
-			window.setTimeout(function() {
-				$main.show();
-				adjustHeight();
-			}, 2000);
+			adjustHeight();
 			
-			// TODO: unbind the callback
-			// use events of piwik navigation
+			// this callback is unbound in broadcast.pageload
 			$(window).resize(function() {
 				adjustHeight();
 			});
