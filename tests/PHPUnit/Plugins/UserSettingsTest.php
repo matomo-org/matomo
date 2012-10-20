@@ -662,6 +662,9 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             array('Midori/0.1.9 (X11; Linux i686; U; fr-fr) WebKit/532+', array(
                 array('MI', 'Midori', 'Midori', '0.1', '0', '1', 'webkit'),
                 array('LIN', 'Linux', 'Linux'))),
+            array('Mozilla/5.0 (X11; U; Linux; pt-br) AppleWebKit/531+ (KHTML, like Gecko) Safari/531.2+ Midori/0.3', array(
+                array('MI', 'Midori', 'Midori', '0.3', '0', '3', 'webkit'),
+                array('LIN', 'Linux', 'Linux'))),
 
             // Mozilla Suite
             array('Mozilla/5.0 (X11; U; SunOS sun4u; en-US; rv:1.7) Gecko/20070606', array(

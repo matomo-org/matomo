@@ -7,21 +7,6 @@ To run tests, you must use the SVN trunk. Tests files are not in the Piwik zip a
 You can get the latest SVN at: http://dev.piwik.org/svn/
 To execute the tests:
 * Go to tests/index.php to see the various tests available
-* Run all unit tests and integration tests by calling the file tests/all_tests.php in your browser.
-* Run only integration tests by calling tests/integration_tests.php 
-
-You can also run one test file at a time by executing the test file directly eg. 
-http://path/to/piwik/trunk/tests/core/DataTable.test.php
-
-You can also run tests from the command line:
-  $ cd path/to/piwik
-  $ find . -name '*.test.php' -exec php {} \;
-
- UNIT TESTs
-===========
-Unit tests use the Simpletest Unit Testing framework.
-Plugins can also integrate their own unit tests,  in a tests/ directory inside the plugin folder.
-Check for example the plugins plugins/SitesManager/tests/ or plugins/UserCountry/tests/
 
  INTEGRATION TESTS
 ==================

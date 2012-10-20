@@ -41,7 +41,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
             Piwik::createLogObject();
 
         Piwik_PluginsManager::getInstance()->loadPlugins(array());
-            
+
         } catch(Exception $e) {
             $this->fail("TEST INITIALIZATION FAILED: " .$e->getMessage());
         }
@@ -69,6 +69,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         Piwik::dropDatabase();
         Piwik_DataTable_Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
+        Piwik_PDFReports_API::$cache = array();
         Piwik_Site::clearCache();
         Piwik_Common::deleteTrackerCache();
         Piwik_Config::getInstance()->clear();
