@@ -1095,12 +1095,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     public function getPathToTestDirectory()
     {
-        /**
-         * Use old path as long as files were not moved
-         * @todo move files
-         */
-        //return dirname(__FILE__).DIRECTORY_SEPARATOR.'Integration';
-        return dirname(dirname(__FILE__)).DIRECTORY_SEPARATOR.'integration';
+        return dirname(__FILE__).DIRECTORY_SEPARATOR.'Integration';
     }
     
     /**
