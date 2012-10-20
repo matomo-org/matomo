@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<results>
+	<result date="2010-03-06">
+		<row>
+			<label>dir</label>
+			<nb_visits>2</nb_visits>
+			<nb_hits>2</nb_hits>
+			<sum_time_spent>720</sum_time_spent>
+			<avg_time_on_page>360</avg_time_on_page>
+			<bounce_rate>0%</bounce_rate>
+			<exit_rate>0%</exit_rate>
+		</row>
+	</result>
+	<result date="2010-03-07" />
+	<result date="2010-03-08" />
+</results>
