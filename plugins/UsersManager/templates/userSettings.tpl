@@ -58,6 +58,7 @@
 	</td>
 </tr>
 
+{if isset($isValidHost) && $isValidHost}
 <tr>
 	<td><label for="email">{'UsersManager_ChangePassword'|translate} </label></td>
 	<td><input size="25" value="" autocomplete="off" id="password" type="password" />
@@ -66,7 +67,14 @@
 	 <span class='form-description'> {'UsersManager_TypeYourPasswordAgain'|translate}</span>
 	 </td>
 </tr>
+{/if}
 </table>
+{if !isset($isValidHost) || !$isValidHost}
+<div class="ajaxSuccess">
+	{'UsersManager_InjectedHostCannotChangePwd'|translate:$invalidHost}&nbsp;{if !$isSuperUser}{'UsersManager_EmailYourAdministrator'|translate:$invalidHostMailLinkStart:'</a>'}{/if}
+</div>
+<br/>
+{/if}
 
 {ajaxErrorDiv id=ajaxErrorUserSettings}
 {ajaxLoadingDiv id=ajaxLoadingUserSettings}

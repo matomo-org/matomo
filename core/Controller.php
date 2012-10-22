@@ -480,6 +480,79 @@ abstract class Piwik_Controller
 		{
 			$view->setXFrameOptions('sameorigin');
 		}
+		
+		self::setHostValidationVariablesView($view);
+	}
+	
+	/**
+	 * Checks if the current host is valid and sets variables on the given view, including:
+	 * 
+	 * isValidHost - true if host is valid, false if otherwise
+	 * invalidHostMessage - message to display if host is invalid (only set if host is invalid)
+	 * invalidHost - the invalid hostname (only set if host is invalid)
+	 * mailLinkStart - the open tag of a link to email the super user of this problem (only set
+	 *                 if host is invalid)
+	 */
+	public static function setHostValidationVariablesView( $view )
+	{
+		// check if host is valid
+		$view->isValidHost = Piwik_Url::isValidHost();
+		if (!$view->isValidHost)
+		{
+			// invalid host, so display warning to user
+			$validHost = Piwik_Config::getInstance()->General['trusted_hosts'][0];
+			$invalidHost = $_SERVER['HTTP_HOST'];
+			
+			$emailSubject = rawurlencode(Piwik_Translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
+			$emailBody = rawurlencode(Piwik_Translate('CoreHome_InjectedHostEmailBody'));
+			$superUserEmail = Piwik::getSuperUserEmail();
+			
+			$mailToUrl = "mailto:$superUserEmail?subject=$emailSubject&body=$emailBody";
+			$mailLinkStart = "<a href=\"$mailToUrl\">";
+			
+			$invalidUrl = Piwik_Url::getCurrentUrlWithoutQueryString($checkIfTrusted = false);
+			$validUrl = Piwik_Url::getCurrentScheme() . '://' . $validHost
+					  . Piwik_Url::getCurrentScriptName();
+
+			$validLink = "<a href=\"$validUrl\">$validUrl</a>";
+			$changeTrustedHostsUrl = "index.php"
+				. Piwik_Url::getCurrentQueryStringWithParametersModified(array(
+					'module' => 'CoreAdminHome',
+					'action' => 'generalSettings'
+				))
+				. "#trustedHostsSection";
+			
+			$warningStart = Piwik_Translate('CoreHome_InjectedHostWarningIntro', array(
+				'<strong>'.$invalidUrl.'</strong>',
+				'<strong>'.$validUrl.'</strong>'
+			));
+			
+			if (Piwik::isUserIsSuperUser())
+			{
+				$view->invalidHostMessage = $warningStart . ' '
+					. Piwik_Translate('CoreHome_InjectedHostSuperUserWarning', array(
+						"<a href=\"$changeTrustedHostsUrl\">",
+						$invalidHost,
+						'</a>',
+						"<a href=\"$validUrl\">",
+						$validHost,
+						'</a>'
+					));
+			}
+			else
+			{
+				$view->invalidHostMessage = $warningStart . ' '
+					. Piwik_Translate('CoreHome_InjectedHostNonSuperUserWarning', array(
+						"<a href=\"$validUrl\">",
+						'</a>',
+						$mailLinkStart,
+						'</a>'
+					));
+			}
+			
+			$view->invalidHost = $invalidHost; // for UserSettings warning
+			$view->invalidHostMailLinkStart = $mailLinkStart;
+		}
 	}
 
 	/**

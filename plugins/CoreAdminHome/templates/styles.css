@@ -143,3 +143,22 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 .admin .sites_autocomplete a {
 	color: #255792;
 }
+
+/* trusted host styles */
+#trustedHostSettings .adminTable {
+	width:300px;
+}
+#trustedHostSettings .adminTable td {
+	vertical-align: middle;
+	padding-bottom: 0;
+}
+#trustedHostSettings .adminTable tr td:last-child {
+	padding: 0 0 0 0;
+}
+#trustedHostSettings input {
+	width:95%;
+}
+#trustedHostSettings .add-trusted-host-container {
+	padding: 12px 24px;
+}
+

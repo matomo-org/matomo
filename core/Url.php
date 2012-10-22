@@ -19,6 +19,11 @@
 class Piwik_Url 
 {
 	/**
+	 * List of hosts that are never checked for validity.
+	 */
+	private static $alwaysTrustedHosts = array('localhost' => true, '127.0.0.1' => true);
+	
+	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 *
@@ -36,12 +41,14 @@ class Piwik_Url
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "http://example.org/dir1/dir2/index.php"
 	 *
+	 * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
+	 *                               except in Piwik_Controller.
 	 * @return string
 	 */
-	static public function getCurrentUrlWithoutQueryString()
+	static public function getCurrentUrlWithoutQueryString( $checkTrustedHost = true )
 	{
 		return self::getCurrentScheme() . '://'
-			. self::getCurrentHost()
+			. self::getCurrentHost($checkTrustedHost)
 			. self::getCurrentScriptName();
 	}
 
@@ -162,13 +169,32 @@ class Piwik_Url
 	/**
 	 * Validate "Host" (untrusted user input)
 	 *
-	 * @param string $host         Contents of Host: header from Request
-	 * @param array  $trustedHosts An array of trusted hosts
+	 * @param string|false $host Contents of Host: header from Request. If false, gets the
+	 *                           value from the request.
 	 *
 	 * @return boolean True if valid; false otherwise
 	 */
-	static public function isValidHost($host, $trustedHosts)
+	static public function isValidHost($host = false)
 	{
+		if ($host === false)
+		{
+			$host = $_SERVER['HTTP_HOST'];
+			
+			if (empty($host)) // if no current host, assume valid
+			{
+				return true;
+			}
+		}
+		
+		$trustedHosts = @Piwik_Config::getInstance()->General['trusted_hosts'];
+		
+		// if no trusted hosts or host is in hardcoded whitelist, just assume it's valid
+		if (empty($trustedHosts)
+			|| isset(self::$alwaysTrustedHosts[$host]))
+		{
+			return true;
+		}
+		
 		// Only punctuation we allow is '[', ']', ':', '.' and '-'
 		$hostLength = Piwik_Common::strlen($host);
 		if ($hostLength !== strcspn($host, '`~!@#$%^&*()_+={}\\|;"\'<>,?/ '))
@@ -185,15 +211,17 @@ class Piwik_Url
 	/**
 	 * Get host
 	 *
+	 * @param bool $checkIfTrusted Whether to do trusted host check. Should ALWAYS be true,
+	 *                             except in Piwik_Controller.
 	 * @return string|false
 	 */
-	static public function getHost()
+	static public function getHost( $checkIfTrusted = true )
 	{
 		// HTTP/1.1 request
 		if (isset($_SERVER['HTTP_HOST'])
 			&& strlen($host = $_SERVER['HTTP_HOST'])
-			&& (!($trustedHosts = @Piwik_Config::getInstance()->General['trusted_hosts'])
-			|| self::isValidHost($host, $trustedHosts)))
+			&& (!$checkIfTrusted
+				|| self::isValidHost($host)))
 		{
 			return $host;
 		}
@@ -211,10 +239,12 @@ class Piwik_Url
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
 	 * will return "example.org"
 	 *	
+	 * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
+	 *                               except in Piwik_Controller.
 	 * @param string $default Default value to return if host unknown
 	 * @return string
 	 */
-	static public function getCurrentHost($default = 'unknown')
+	static public function getCurrentHost($checkTrustedHost = true, $default = 'unknown')
 	{
 		$hostHeaders = @Piwik_Config::getInstance()->General['proxy_host_headers'];
 		if(!is_array($hostHeaders))
@@ -222,7 +252,7 @@ class Piwik_Url
 			$hostHeaders = array();
 		}
 
-		$host = self::getHost();
+		$host = self::getHost($checkTrustedHost);
 		$default = Piwik_Common::sanitizeInputValue($host ? $host : $default);
 
 		return Piwik_IP::getNonProxyIpFromHeader($default, $hostHeaders);

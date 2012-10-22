@@ -55,6 +55,13 @@
     <input role="no" type="button" value="{'General_Ok'|translate}" />
 </div>
 
+{* untrusted host warning *}
+{if isset($isValidHost) && isset($invalidHostMessage) && !$isValidHost}
+<div class="ajaxSuccess">
+	<strong>{'General_Warning'|translate}:&nbsp;</strong>{$invalidHostMessage}
+</div>
+{/if}
+
 {* old GeoIP plugin warning *}
 {if $isSuperUser && $usingOldGeoIPPlugin}
 <div class="ajaxSuccess">

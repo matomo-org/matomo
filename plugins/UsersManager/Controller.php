@@ -292,6 +292,13 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 				$newPassword = $password;
 			}
 			
+			// UI disables password change on invalid host, but check here anyway
+			if (!Piwik_Url::isValidHost()
+				&& $newPassword !== false)
+			{
+				throw new Exception("Cannot change password with untrusted hostname!");
+			}
+			
 			$userLogin = Piwik::getCurrentUserLogin();
 			if(Piwik::isUserIsSuperUser())
 			{

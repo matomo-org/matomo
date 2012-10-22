@@ -2,6 +2,13 @@
 
 <div id="login">
 
+{* untrusted host warning *}
+{if isset($isValidHost) && isset($invalidHostMessage) && !$isValidHost}
+<div id="login_error">
+	<strong>{'General_Warning'|translate}:&nbsp;</strong>{$invalidHostMessage}
+</div>
+{/if}
+
 <div id="message_container">
 	{if $form_data.errors}
 	<div id="login_error">	
@@ -40,6 +47,7 @@
 	</p>
 </form>
 
+{if isset($isValidHost) && $isValidHost}
 <form id="reset_form" style="display:none;">
 	<p>
 		<label>{'Login_LoginOrEmail'|translate}:<br />
@@ -65,11 +73,14 @@
 	<input type="hidden" name="module" value="Login"/>
 	<input type="hidden" name="action" value="resetPassword"/>
 </form>
+{/if}
 
 <p id="nav">
+{if isset($isValidHost) && $isValidHost}
 <a id="login_form_nav" href="#" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
-<a id="reset_form_nav" href="#" style="display:none;" title="{'Mobile_NavigationBack'|translate}">{'General_Cancel'|translate}</a>
 <a id="alternate_reset_nav" href="#" style="display:none;" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
+{/if}
+<a id="reset_form_nav" href="#" style="display:none;" title="{'Mobile_NavigationBack'|translate}">{'General_Cancel'|translate}</a>
 </p>
 {if isset($smarty.capture.poweredByPiwik)}
 	<p id="piwik">

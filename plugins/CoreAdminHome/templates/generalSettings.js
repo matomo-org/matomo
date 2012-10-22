@@ -25,6 +25,12 @@ function getGeneralSettingsAJAX()
  	request += '&mailPassword=' + encodeURIComponent($('#mailPassword').val());
 	request += '&mailEncryption=' + $('#mailEncryption').val();
 	request += '&useCustomLogo=' + isCustomLogoEnabled();
+	
+	var trustedHosts = [];
+	$('input[name=trusted_host]').each(function () {
+		trustedHosts.push($(this).val());
+	});
+	request += '&trustedHosts=' + encodeURIComponent(JSON.stringify(trustedHosts));
 	ajaxRequest.data = request;
 	return ajaxRequest;
 }
@@ -54,10 +60,38 @@ function refreshCustomLogo() {
 }
 
 $(document).ready( function() {
+	var originalTrustedHostCount = $('input[name=trusted_host]').length;
+	
 	showSmtpSettings(isSmtpEnabled());
 	showCustomLogoSettings(isCustomLogoEnabled());
 	$('#generalSettingsSubmit').click( function() {
-		$.ajax( getGeneralSettingsAJAX() );
+		var doSubmit = function()
+		{
+			$.ajax( getGeneralSettingsAJAX() );
+		};
+		
+		var hasTrustedHostsChanged = false,
+			hosts = $('input[name=trusted_host]');
+		if (hosts.length != originalTrustedHostCount)
+		{
+			hasTrustedHostsChanged = true;
+		}
+		else
+		{
+			hosts.each(function() {
+				hasTrustedHostsChanged |= this.defaultValue != this.value;
+			});
+		}
+		
+		// if trusted hosts have changed, make sure to ask for confirmation
+		if (hasTrustedHostsChanged)
+		{
+			piwikHelper.modalConfirm('#confirmTrustedHostChange', {yes: doSubmit});
+		}
+		else
+		{
+			doSubmit();
+		}
 	});
 
 	$('input[name=mailUseSmtp]').click(function(){
@@ -90,4 +124,21 @@ $(document).ready( function() {
 	});
 	
 	$('#customLogo').change(function(){$("#logoUploadForm").submit()});
+	
+	// trusted hosts event handling
+	$('#trustedHostSettings .adminTable').on('click', '.remove-trusted-host', function(e) {
+		e.preventDefault();
+		$(this).parent().parent().remove();
+		return false;
+	});
+	$('#trustedHostSettings .add-trusted-host').click(function(e) {
+		e.preventDefault();
+		
+		// append new row to the table
+		$('#trustedHostSettings tbody').append('<tr>'
+		  + '<td><input name="trusted_host" type="text" value=""/></td>'
+		  + '<td><a href="#" class="remove-trusted-host">x</a></td>'
+		  + '</tr>');
+		return false;
+	});
 });

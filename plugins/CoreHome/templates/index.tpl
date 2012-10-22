@@ -13,6 +13,13 @@
 	    {ajaxRequestErrorDiv}
     </div>
     
+	{* untrusted host warning *}
+	{if isset($isValidHost) && isset($invalidHostMessage) && !$isValidHost}
+	<div class="ajaxSuccess">
+		<strong>{'General_Warning'|translate}:&nbsp;</strong>{$invalidHostMessage}
+	</div>
+	{/if}
+
     {ajaxLoadingDiv}
     
     <div id="content" class="home">

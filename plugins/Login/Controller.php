@@ -84,6 +84,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 		$view->infoMessage = $infoMessage;
 		$view->addForm( $form );
 		$this->configureView($view);
+		self::setHostValidationVariablesView($view);
 		echo $view->render();
 	}
 

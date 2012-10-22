@@ -54,6 +54,13 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			$directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT.'/themes/');
 			$logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo.png') && is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo-header.png');
 			$view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
+			
+			$trustedHosts = array();
+			if (isset(Piwik_Config::getInstance()->General['trusted_hosts']))
+			{
+				$trustedHosts = Piwik_Config::getInstance()->General['trusted_hosts'];
+			}
+			$view->trustedHosts = $trustedHosts;
 		}
 		
 		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
@@ -90,7 +97,15 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			$branding = Piwik_Config::getInstance()->branding;
 			$branding['use_custom_logo'] = Piwik_Common::getRequestVar('useCustomLogo', '0');
 			Piwik_Config::getInstance()->branding = $branding;
-
+			
+			// update trusted host settings
+			$trustedHosts = Piwik_Common::getRequestVar('trustedHosts', false, 'json');
+			if ($trustedHosts !== false)
+			{
+				$trustedHosts = array_filter($trustedHosts);
+				Piwik_Config::getInstance()->General['trusted_hosts'] = $trustedHosts;
+			}
+			
 			Piwik_Config::getInstance()->forceSave();
 			
 			$toReturn = $response->getResponse();
