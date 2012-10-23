@@ -145,10 +145,12 @@
 
 <h2 id="trustedHostsSection">{'CoreAdminHome_TrustedHostSettings'|translate}</h2>
 <div id='trustedHostSettings'>
-<p>{'CoreAdminHome_TrustedHostSettingsDesc'|translate}</p>
+{if count($trustedHosts) eq 1 && (!isset($isValidHost) || $isValidHost)}
+{'CoreAdminHome_PiwikIsInstalledAt'|translate}:&nbsp;&nbsp;<input name="trusted_host" type="text" value="{$trustedHosts[0]}"/>
+{else}
 <table class="adminTable">
 	<tr>
-		<th style="width:250px">{'General_Hostname'|translate}</th>
+		<th style="width:250px">{'CoreAdminHome_ValidPiwikHostname'|translate}</th>
 		<th style="width:10px">&nbsp;</th>
 	</tr>
 	{foreach from=$trustedHosts item=host key=hostIdx}
@@ -163,6 +165,7 @@
 <div class="adminTable add-trusted-host-container">
 	<a href="#" class="add-trusted-host"><em>{'General_Add'|translate}</em></a>
 </div>
+{/if}
 </div>
 <div id='logoSettings'>
 	{capture assign=giveUsFeedbackText}"{'General_GiveUsYourFeedback'|translate}"{/capture}

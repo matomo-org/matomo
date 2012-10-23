@@ -286,6 +286,10 @@ assume_secure_protocol = 0
 ;proxy_ips[] = 199.27.128.0/21
 ;proxy_ips[] = 173.245.48.0/20
 
+; Whether to enable trusted host checking. This can be disabled if you're running Piwik
+; on several URLs and do not wish to constantly edit the trusted host list.
+enable_trusted_host_check = 1
+
 ; List of trusted hosts (eg domain or subdomain names) when generating absolute URLs.
 ;
 ; Examples:

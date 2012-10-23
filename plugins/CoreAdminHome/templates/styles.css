@@ -156,7 +156,7 @@ table.admin  tbody td:hover, table.admin  tbody th:hover {
 	padding: 0 0 0 0;
 }
 #trustedHostSettings input {
-	width:95%;
+	width:238px;
 }
 #trustedHostSettings .add-trusted-host-container {
 	padding: 12px 24px;
