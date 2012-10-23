@@ -352,6 +352,13 @@ var broadcast = {
         broadcast.lastUrlRequested = urlAjax;
         function sectionLoaded(content)
         {
+			// if content is whole HTML document, do not show it, otherwise recursive page load could occur
+			var htmlDocType = '<!DOCTYPE';
+			if (content.substring(0, htmlDocType.length) == htmlDocType)
+			{
+				return;
+			}
+			
             if(urlAjax == broadcast.lastUrlRequested) {
                 $('#content').html( content ).show();
                 piwikHelper.hideAjaxLoading();
