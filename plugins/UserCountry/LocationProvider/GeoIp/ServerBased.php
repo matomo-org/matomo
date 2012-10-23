@@ -64,7 +64,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 		// geoip modules that are built into servers can't use a forced IP. in this case we try
 		// to fallback to another version.
 		$myIP = Piwik_IP::getIpFromHeader();
-		if ($info['ip'] != $myIP
+		if (!self::isSameOrAnonymizedIp($info['ip'], $myIP)
 			&& (!isset($info['disable_fallbacks'])
 				|| !$info['disable_fallbacks']))
 		{
@@ -197,6 +197,8 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 		$title = sprintf(self::TITLE, $serverDesc);
 		$desc = Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBased1', array('<strong>', '</strong>'))
 			  . '<br/><br/>'
+			  . '<em>'.Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn').'</em>'
+			  . '<br/><br/>'
 			  . Piwik_Translate('UserCountry_GeoIpLocationProviderDesc_ServerBased2',
 			  		array('<strong><em>', '</em></strong>', '<strong><em>', '</em></strong>'));
 		$installDocs =
@@ -212,5 +214,45 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 					  'description' => $desc,
 					  'order' => 4,
 					  'install_docs' => $installDocs);
+	}
+	
+	/**
+	 * Checks if two IP addresses are the same or if the first is the anonymized
+	 * version of the other.
+	 * 
+	 * @param string $ip
+	 * @param string $currentIp This IP should not be anonymized.
+	 * @return bool
+	 */
+	public static function isSameOrAnonymizedIp( $ip, $currentIp )
+	{
+		$ip = array_reverse(explode('.', $ip));
+		$currentIp = array_reverse(explode('.', $currentIp));
+		
+		if (count($ip) != count($currentIp))
+		{
+			return false;
+		}
+		
+		foreach ($ip as $i => $byte)
+		{
+			if ($byte == 0)
+			{
+				$currentIp[$i] = 0;
+			}
+			else
+			{
+				break;
+			}
+		}
+		
+		foreach ($ip as $i => $byte)
+		{
+			if ($byte != $currentIp[$i])
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }
