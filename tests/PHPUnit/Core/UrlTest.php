@@ -65,6 +65,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_X_FORWARDED_HOST'] = $test[1];
         Piwik_Config::getInstance()->General['proxy_host_headers'] = array( $test[2] );
         Piwik_Config::getInstance()->General['proxy_ips'] = array( $test[3] );
+        Piwik_Config::getInstance()->General['enable_trusted_host_check'] = 0;
         $this->assertEquals( $test[4], Piwik_Url::getCurrentHost(), $description );
     }
 
@@ -134,6 +135,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_HOST'] = $httphost;
         $_SERVER['SCRIPT_URI'] = $scripturi;
         $_SERVER['REQUEST_URI'] = $requesturi;
+        Piwik_Config::getInstance()->General['trusted_hosts'] = array($httphost);
         $urlToTest = $testurl;
         $this->assertEquals( $result, Piwik_Url::isLocalUrl($urlToTest) );
     }
@@ -173,6 +175,8 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['REQUEST_URI'] = $path;
         $_SERVER['HTTP_HOST'] = $host;
 
+        Piwik_Config::getInstance()->General['trusted_hosts'] = array($host);
+        
         $url = Piwik_Url::getCurrentUrlWithoutFilename();
         $this->assertEquals($expected, $url);
     }
@@ -231,6 +235,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
             array(true, 'example.com.', array('example.com'), 'Trailing . on host is actually valid'),
             array(true, 'www-dev.example.com', array('example.com'), 'host with dashes is valid'),
             array(true, 'www.example.com:8080', array('example.com'), 'host:port is valid'),
+            array(false, 'www.whatever.com', array('*.whatever.com'), 'regex char is escaped'),
         );
     }
 
@@ -241,7 +246,9 @@ class UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testIsValidHost($expected, $host, $trustedHosts, $description)
     {
-        $this->assertEquals($expected, Piwik_Url::isValidHost($host, $trustedHosts), $description);
+    	Piwik_Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Piwik_Config::getInstance()->General['trusted_hosts'] = $trustedHosts;
+        $this->assertEquals($expected, Piwik_Url::isValidHost($host), $description);
     }
 
     /**

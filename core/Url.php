@@ -21,7 +21,7 @@ class Piwik_Url
 	/**
 	 * List of hosts that are never checked for validity.
 	 */
-	private static $alwaysTrustedHosts = array('localhost', '127.0.0.1');
+	private static $alwaysTrustedHosts = array('localhost', '127.0.0.1', '::1', '[::1]');
 	
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
@@ -218,15 +218,16 @@ class Piwik_Url
 		{
 			return false;
 		}
-
-		foreach ($trustedHosts as $trustedHost)
+		
+		foreach ($trustedHosts as &$trustedHost)
 		{
-			if ($trustedHost == $host)
-			{
-				return true;
-			}
+			$trustedHost = preg_quote($trustedHost);
 		}
-		return false;
+
+		$untrustedHost = Piwik_Common::mb_strtolower($host);
+		$hostRegex     = Piwik_Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '(:[0-9]+)?$/');
+
+		return 0 !== preg_match($hostRegex, rtrim($untrustedHost, '.'));
 	}
 
 	/**
