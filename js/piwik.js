@@ -1532,6 +1532,15 @@ var
                 if (!isDefined(currentEcommerceOrderTs)) {
                     currentEcommerceOrderTs = "";
                 }
+                
+                // send charset if document charset is not utf-8. sometimes encoding
+                // of urls will be the same as this and not utf-8, which will cause problems.
+                var charSet = document.characterSet || document.charset;
+                if (!charSet
+                	|| charSet.toLowerCase() == 'utf-8')
+                {
+                	charSet = null; // don't send if utf-8
+                }
 
                 campaignNameDetected = attributionCookie[0];
                 campaignKeywordDetected = attributionCookie[1];
@@ -1608,7 +1617,8 @@ var
                     '&_refts=' + referralTs +
                     '&_viewts=' + lastVisitTs +
                     (String(lastEcommerceOrderTs).length ? '&_ects=' + lastEcommerceOrderTs : '') +
-                    (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '');
+                    (String(referralUrl).length ? '&_ref=' + encodeWrapper(purify(referralUrl.slice(0, referralUrlMaxLength))) : '') +
+                    (charSet ? '&cs=' + encodeWrapper(charSet) : '');
 
                 // Custom Variables, scope "page"
                 var customVariablesPageStringified = JSON2.stringify(customVariablesPage);

@@ -62,6 +62,13 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	private $searchCategory = false;
 	private $searchCount = false;
 	
+	/**
+	 * Encoding of HTML page being viewed. See reencodeParameters for more info.
+	 * 
+	 * @var string
+	 */
+	private $pageEncoding = false;
+	
 	static private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid', 'fb_xd_fragment', 'fb_comment_id');
 
 	/* Custom Variable names & slots used for Site Search metadata (category, results count) */
@@ -415,6 +422,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
 	public function init()
 	{
+		$this->pageEncoding = Piwik_Common::getRequestVar('cs', false, null, $this->request);
+		
 		$info = $this->extractUrlAndActionNameFromRequest();
 
 		$originalUrl = $info['url'];
@@ -920,6 +929,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			: array();
 		$queryString = (!empty($parsedUrl['query']) ? $parsedUrl['query'] : '') . (!empty($parsedUrl['fragment']) ? $separator . $parsedUrl['fragment'] : '');
 		$parameters = Piwik_Common::getArrayFromQueryString($queryString);
+		
+		self::reencodeParameters($parameters, $this->pageEncoding);
 
 		// Detect Site Search
 		foreach ($keywordParameters as $keywordParameter) {
@@ -978,5 +989,37 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		
 		$limit = Piwik_Config::getInstance()->Tracker['page_maximum_length'];
 		return substr($string, 0, $limit);
+	}
+	
+	/**
+	 * Checks if query parameters are of a non-UTF-8 encoding and converts the values
+	 * from the specified encoding to UTF-8.
+	 * 
+	 * This method is used to workaround browser/webapp bugs (see #3450). When
+	 * browsers fail to encode query parameters in UTF-8, the tracker will send the
+	 * charset of the page viewed and we can sometimes work around invalid data
+	 * being stored.
+	 * 
+	 * @param array $queryParameters Name/value mapping of query parameters.
+	 * @param string|false $encoding of the HTML page the URL is for. Used to workaround
+	 *                    browser bugs & mis-coded webapps. See #3450.
+	 */
+	private static function reencodeParameters( &$queryParameters, $encoding = false )
+	{
+		// if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
+		// encode to UTF-8.
+		if ($encoding !== false
+			&& strtolower($encoding) !== 'utf-8'
+			&& function_exists('mb_check_encoding'))
+		{
+			foreach ($queryParameters as $key => &$value)
+			{
+				$decoded = urldecode($value);
+				if (@mb_check_encoding($decoded, $encoding))
+				{
+					$value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
+				}
+			}
+		}
 	}
 }
