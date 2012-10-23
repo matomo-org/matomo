@@ -163,7 +163,8 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	 */
 	public function isWorking()
 	{
-		if (empty($_SERVER[self::TEST_SERVER_VAR]))
+		if (empty($_SERVER[self::TEST_SERVER_VAR])
+			&& empty($_SERVER[self::TEST_SERVER_VAR_ALT]))
 		{
 			return Piwik_Translate("UserCountry_CannotFindGeoIPServerVar", self::TEST_SERVER_VAR.' $_SERVER');
 		}
