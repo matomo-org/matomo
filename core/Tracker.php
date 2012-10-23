@@ -707,14 +707,6 @@ class Piwik_Tracker
 	}
 }
 
-if(!function_exists('Piwik_Translate'))
-{
-	function Piwik_Translate($string, $args = array())
-	{
-		return $string;
-	}
-}
-
 /**
  * Gets the error message to output when a tracking request fails.
  * 

@@ -117,7 +117,6 @@ class Piwik_Common
 		{
 			self::$initTrackerMode = true;
 			require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
-			require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 			require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
 			try {
 				$access = Zend_Registry::get('access');
