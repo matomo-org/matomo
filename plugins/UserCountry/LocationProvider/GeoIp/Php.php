@@ -69,7 +69,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 				case GEOIP_CITY_EDITION_REV0: // city database type
 				case GEOIP_CITY_EDITION_REV1:
 				case GEOIP_CITYCOMBINED_EDITION:
-					$location = @geoip_record_by_addr($locationGeoIp, $ip);
+					$location = geoip_record_by_addr($locationGeoIp, $ip);
 					if (!empty($location))
 					{
 						$result[self::COUNTRY_CODE_KEY] = $location->country_code;
@@ -83,7 +83,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 					break;
 				case GEOIP_REGION_EDITION_REV0: // region database type
 				case GEOIP_REGION_EDITION_REV1:
-					$location = @geoip_region_by_addr($locationGeoIp, $ip);
+					$location = geoip_region_by_addr($locationGeoIp, $ip);
 					if (!empty($location))
 					{
 						$result[self::COUNTRY_CODE_KEY] = $location[0];
@@ -91,12 +91,12 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 					}
 					break;
 				case GEOIP_COUNTRY_EDITION: // country database type
-					$result[self::COUNTRY_CODE_KEY] = @geoip_country_code_by_addr($locationGeoIp, $ip);
+					$result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr($locationGeoIp, $ip);
 					break;
 				default: // unknown database type, log warning and fallback to country edition
 					Piwik::log("Found unrecognized database type: ".$locationGeoIp->databaseType);
 					
-					$result[self::COUNTRY_CODE_KEY] = @geoip_country_code_by_addr($locationGeoIp, $ip);
+					$result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr($locationGeoIp, $ip);
 					break;
 			}
 		}
@@ -106,7 +106,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 		$ispGeoIp = $this->getGeoIpInstance($key = 'isp');
 		if ($ispGeoIp)
 		{
-			$isp = @geoip_org_by_addr($ispGeoIp, $ip);
+			$isp = geoip_org_by_addr($ispGeoIp, $ip);
 			if (!empty($isp))
 			{
 				$result[self::ISP_KEY] = utf8_encode($isp);
@@ -116,7 +116,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 		$orgGeoIp = $this->getGeoIpInstance($key = 'org');
 		if ($orgGeoIp)
 		{
-			$org = @geoip_org_by_addr($orgGeoIp, $ip);
+			$org = geoip_org_by_addr($orgGeoIp, $ip);
 			if (!empty($org))
 			{
 				$result[self::ORG_KEY] = utf8_encode($org);
@@ -142,6 +142,23 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 	{
 		$path = self::getPathToGeoIpDatabase(parent::$dbNames['loc']);
 		return $path !== false;
+	}
+	
+	/**
+	 * Returns true if this provider has been setup correctly, the error message if
+	 * otherwise.
+	 * 
+	 * @return bool|string
+	 */
+	public function isWorking()
+	{
+		if (!function_exists('mb_internal_encoding'))
+		{
+			return Piwik_Translate('UserCountry_GeoIPCannotFindMbstringExtension',
+				array('mb_internal_encoding', 'mbstring'));
+		}
+		
+		return parent::isWorking();
 	}
 	
 	/**

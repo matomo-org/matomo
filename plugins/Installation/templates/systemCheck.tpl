@@ -207,7 +207,7 @@
 					<br/> {'Installation_SystemCheckMbstringFuncOverloadHelp'|translate}</span>
 				{/if}
 			{else}
-				{$warning} <span class="warn">{'Installation_SystemCheckMbstringExtensionHelp'|translate}</span>
+				{$warning} <span class="warn">{'Installation_SystemCheckMbstringExtensionHelp'|translate}&nbsp;{'Installation_SystemCheckMbstringExtensionGeoIpHelp'|translate}</span>
 			{/if}
 		</td>
 	</tr>
