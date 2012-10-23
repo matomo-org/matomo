@@ -148,6 +148,7 @@
 {if count($trustedHosts) eq 1 && (!isset($isValidHost) || $isValidHost)}
 {'CoreAdminHome_PiwikIsInstalledAt'|translate}:&nbsp;&nbsp;<input name="trusted_host" type="text" value="{$trustedHosts[0]}"/>
 {else}
+<p>{'CoreAdminHome_PiwikIsInstalledAt'|translate}:</p>
 <table class="adminTable">
 	<tr>
 		<th style="width:250px">{'CoreAdminHome_ValidPiwikHostname'|translate}</th>
