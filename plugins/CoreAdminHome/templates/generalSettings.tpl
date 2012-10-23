@@ -145,6 +145,13 @@
 
 <h2 id="trustedHostsSection">{'CoreAdminHome_TrustedHostSettings'|translate}</h2>
 <div id='trustedHostSettings'>
+{* untrusted host warning (display again) *}
+{if isset($isValidHost) && isset($invalidHostMessage) && !$isValidHost}
+<div class="ajaxSuccess">
+	<a style="float:right" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank"><img src="themes/default/images/help_grey.png" /></a>
+	<strong>{'General_Warning'|translate}:&nbsp;</strong>{$invalidHostMessage}
+</div>
+{/if}
 {if count($trustedHosts) eq 1 && (!isset($isValidHost) || $isValidHost)}
 {'CoreAdminHome_PiwikIsInstalledAt'|translate}:&nbsp;&nbsp;<input name="trusted_host" type="text" value="{$trustedHosts[0]}"/>
 {else}
