@@ -31,6 +31,23 @@ class Piwik_ImageGraph_StaticGraph_Exception extends Piwik_ImageGraph_StaticGrap
 		return array();
 	}
 
+
+	public function setWidth($width)
+	{
+		if(empty($width)) {
+			$width = 450;
+		}
+		parent::setWidth($width);
+	}
+
+	public function setHeight($height)
+	{
+		if(empty($height)) {
+			$height = 300;
+		}
+		parent::setHeight($height);
+	}
+
 	public function renderGraph()
 	{
 		$this->pData = new pData();
