@@ -351,8 +351,6 @@ class Piwik_RankingQuery
 			FROM ( $withCounter ) AS withCounter
 			GROUP BY $groupBy
 		";
-
-		var_dump($groupOthers);
 		return $groupOthers;
 	}
 	
