@@ -177,7 +177,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'name' => Piwik_Translate('UserCountry_Latitude'),
 			'segment' => 'lat',
 			'sqlSegment' => 'log_visit.location_latitude',
-			'acceptedValues' => '-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat>X;lat<Y;long>M;long<N.',
+			'acceptedValues' => '-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.',
 		);
 		$segments[] = array(
 			'type' => 'dimension',
