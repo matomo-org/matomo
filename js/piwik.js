@@ -373,7 +373,7 @@ if (!this.JSON2) {
 /*global ActiveXObject */
 /*global _paq:true */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
-    shift, unshift,
+    shift, unshift, createElement, appendChild, characterSet, charset,
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
     location, top, document, referrer, parent, links, href, protocol, GearsFactory,
@@ -382,8 +382,8 @@ if (!this.JSON2) {
     userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
     getTime, getTimeAlias, setTime, toGMTString, getHours, getMinutes, getSeconds,
-    toLowerCase, charAt, indexOf, lastIndexOf, split, slice, toUpperCase,
-    onload, src,
+    toLowerCase, charAt, indexOf, lastIndexOf, split, slice, toUpperCase, substring,
+    onload, src, match, name,
     round, random,
     exec,
     res, width, height,
@@ -897,12 +897,11 @@ var
             }
             return title;
         }
-		
-		
+
 		/************************************************************
 		 * Page Insight
 		 ************************************************************/
-		
+
 		/*
 		 * check whether this is an insight session
 		 */
@@ -910,25 +909,25 @@ var
 			var windowName = 'Piwik_Insight';
 			var referrer = documentAlias.referrer;
 			var testReferrer = configTrackerUrl;
-			
+
 			// remove piwik.php from referrer
 			testReferrer = testReferrer.substring(0, testReferrer.length - 9);
-			
+
 			// remove protocol
-			testReferrer.substring(testReferrer.substring(0, 7) == 'http://' ? 7 : 8, testReferrer.length);
-			referrer.substring(referrer.substring(0, 7) == 'http://' ? 7 : 8, referrer.length);
-			
+			testReferrer.substring(testReferrer.substring(0, 7) === 'http://' ? 7 : 8, testReferrer.length);
+			referrer.substring(referrer.substring(0, 7) === 'http://' ? 7 : 8, referrer.length);
+
 			// do a basic match before checking with a regex because the regex is more expensive
 			// and would be used at every pageview otherwise
-			if (referrer.substring(0, testReferrer.length) == testReferrer) {
-				
+			if (referrer.substring(0, testReferrer.length) === testReferrer) {
+
 				// build referrer regex to extract parameters
 				var referrerRegExp = new RegExp('^' + testReferrer
 						+ 'index\\.php\\?module=Insight&action=startInsightSession'
 						+ '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
-				
-				var match;
-				if (match = referrer.match(referrerRegExp)) {
+
+				var match = referrer.match(referrerRegExp);
+				if (match) {
 					// check idsite
 					var idsite = match[1];
 					if (parseInt(idsite, 10) !== configTrackerSiteId) {
@@ -940,12 +939,12 @@ var
 					window.name = windowName + '###' + period + '###' + date;
 				}
 			}
-			
+
 			// retrieve and check data from window name
 			var windowNameParts = windowAlias.name.split('###');
-			return windowNameParts.length == 3 && windowNameParts[0] == windowName;
+			return windowNameParts.length === 3 && windowNameParts[0] === windowName;
 		}
-		
+
 		/*
 		 * inject the script needed for insight
 		 */
@@ -954,35 +953,31 @@ var
 			var root = configTrackerUrl.substring(0, configTrackerUrl.length - 9); // remove piwik.php
 			var period = windowNameParts[1];
 			var date = windowNameParts[2];
-			
+
 			var loaded = false;
-			var onLoad = function() {
+			var onLoad = function () {
 				if (!loaded) {
 					loaded = true;
 					Piwik_Insight_Client.initialize(root, configTrackerSiteId, period, date);
 				}
 			};
-			
+
 			var script = document.createElement('script');
 			script.type = 'text/javascript';
-			
+
 			script.onreadystatechange = function () {
-				if (this.readyState == 'loaded' || this.readyState == 'complete') {
+				if (this.readyState === 'loaded' || this.readyState === 'complete') {
 					onLoad();
 				}
 			};
 			script.onload = onLoad;
-			
 			script.src = root + 'plugins/Insight/client/client.js';
-			
 			var head = document.getElementsByTagName('head')[0];
 			head.appendChild(script);
 		}
-		
 		/************************************************************
 		 * End Piwik Insight
 		 ************************************************************/
-		
 
         /*
          * Piwik Tracker class
@@ -1532,14 +1527,13 @@ var
                 if (!isDefined(currentEcommerceOrderTs)) {
                     currentEcommerceOrderTs = "";
                 }
-                
+
                 // send charset if document charset is not utf-8. sometimes encoding
-                // of urls will be the same as this and not utf-8, which will cause problems.
+                // of urls will be the same as this and not utf-8, which will cause problems
+                // do not send charset if it is utf8 since it's assumed by default in Piwik
                 var charSet = document.characterSet || document.charset;
-                if (!charSet
-                	|| charSet.toLowerCase() == 'utf-8')
-                {
-                	charSet = null; // don't send if utf-8
+                if (!charSet || charSet.toLowerCase() === 'utf-8') {
+                    charSet = null;
                 }
 
                 campaignNameDetected = attributionCookie[0];
@@ -2674,8 +2668,7 @@ var
 						trackCallback(function () {
 							injectInsightScripts(configTrackerUrl, configTrackerSiteId);
 						});
-					}
-					else {
+					} else {
 						trackCallback(function () {
 							logPageView(customTitle, customData);
 						});
