@@ -204,7 +204,8 @@ class Piwik_Url
 		if (empty($trustedHosts))
 		{
 			// if user is superuser, save the Host as the only trusted host
-			if (Piwik::isUserIsSuperUser())
+			if (Piwik::isUserIsSuperUser()
+				&& file_exists(Piwik_Config::getLocalConfigPath()))
 			{
 				Piwik_Config::getInstance()->General['trusted_hosts'] = array($host);
 				Piwik_Config::getInstance()->forceSave();
