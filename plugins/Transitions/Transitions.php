@@ -87,7 +87,7 @@ class Piwik_Transitions extends Piwik_Plugin
 				WHEN '.Piwik_Common::REFERER_TYPE_DIRECT_ENTRY.' THEN \'\'
 				WHEN '.Piwik_Common::REFERER_TYPE_SEARCH_ENGINE.' THEN referer_keyword
 				WHEN '.Piwik_Common::REFERER_TYPE_WEBSITE.' THEN referer_url
-				WHEN '.Piwik_Common::REFERER_TYPE_CAMPAIGN.' THEN CONCAT(referer_name, " ", referer_keyword)
+				WHEN '.Piwik_Common::REFERER_TYPE_CAMPAIGN.' THEN CONCAT(referer_name, \' \', referer_keyword)
 			END AS referrer_data,
 			referer_type';
 		
