@@ -288,7 +288,7 @@ class Piwik_RankingQuery
 		{
 			$labelColumnsOthersSwitch[] = "
 				CASE
-					WHEN counter = $limit THEN \"{$this->othersLabelValue}\" 
+					WHEN counter = $limit THEN '".$this->othersLabelValue."'
 					ELSE `$column`
 				END AS `$column`
 			";
@@ -351,7 +351,8 @@ class Piwik_RankingQuery
 			FROM ( $withCounter ) AS withCounter
 			GROUP BY $groupBy
 		";
-		
+
+		var_dump($groupOthers);
 		return $groupOthers;
 	}
 	

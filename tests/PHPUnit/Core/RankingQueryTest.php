@@ -27,7 +27,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 		$expected = "
 			SELECT
 				CASE
-					WHEN counter = 11 THEN \"Others\" 
+					WHEN counter = 11 THEN 'Others'
 					ELSE `label`
 				END AS `label`,
 				`column`,
@@ -66,7 +66,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 		$expected = "
 			SELECT
 				CASE
-					WHEN counter = 21 THEN \"Others\" 
+					WHEN counter = 21 THEN 'Others'
 					ELSE `label`
 				END AS `label`,
 				`exclude_marker`
@@ -104,7 +104,7 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 		$expected = "
 			SELECT
 				CASE
-					WHEN counter = 1001 THEN \"Others\" 
+					WHEN counter = 1001 THEN 'Others'
 					ELSE `label`
 				END AS `label`,
 				`partition`
