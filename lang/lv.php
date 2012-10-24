@@ -472,7 +472,6 @@ $translations = array(
 	'DBStats_DataSize' => 'Datu izmērs',
 	'DBStats_IndexSize' => 'Indeksa izmērs',
 	'DBStats_TotalSize' => 'Kopējais izmērs',
-	'ExampleFeedburner_Help' => 'Barotņu analīzes palīdzība',
 	'Feedback_PluginDescription' => 'Sūtiet savas atsauksmes Piwik komandai. Dalieties ar savām idejām un ieteikumiem ar mums!',
 	'Feedback_DoYouHaveBugReportOrFeatureRequest' => 'Vai Jums ir kļūdas ziņojums vai papildus funkcionalitātes pieprasījums?',
 	'Feedback_WhyAreMyVisitsNoTracked' => 'Kāpēc netiek uzskaitīts manas vietnes apmeklējums?',

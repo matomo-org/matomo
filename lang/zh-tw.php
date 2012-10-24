@@ -379,7 +379,6 @@ $translations = array(
 	'DBStats_IndexSize' => '索引大小',
 	'DBStats_TotalSize' => '總容量',
 	'ExampleAPI_PluginDescription' => '範例外掛：如何為你的外掛建立一個 API, 然後將多種格式的資料匯出且無須任何原始碼？',
-	'ExampleFeedburner_PluginDescription' => '範例外掛：如何在展示板裡以組件來顯示你的 Feedburner 訂閱者？',
 	'ExampleRssWidget_PluginDescription' => '範例外掛：如何建立一個新組件來讀取 RSS feed？',
 	'ExampleUI_PluginDescription' => '範例外掛：這個外掛讓你瞭解如何使 Piwik UI 運作：建立資料表、圖表等等。',
 	'Feedback_PluginDescription' => '傳送你的意見反應給 Piwik 小組。與我們分享你的點子及建議！',

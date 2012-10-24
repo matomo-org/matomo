@@ -397,7 +397,6 @@ $translations = array(
 	'DBStats_IndexSize' => 'Розмір індексів',
 	'DBStats_TotalSize' => 'Розмір таблиці',
 	'ExampleAPI_PluginDescription' => 'Зразок плагіну: Як створити API для вашого плагіну, щоб експортувати дані в кілька форматів без трудоємкого  написання коду.',
-	'ExampleFeedburner_PluginDescription' => 'Зразок плагіну: Як показати підписників Feedburner у віджеті на Панелі Керування.',
 	'ExampleRssWidget_PluginDescription' => 'Зразок плагіну: Як створити новий віджет який читає RSS канал.',
 	'ExampleUI_PluginDescription' => 'Зразок плагіну: Плагін який показує як працювати з Piwik UI: створювати таблиці, графіки, тощо...',
 	'Feedback_PluginDescription' => 'Надішліть свій відгук кодманді Piwik. Поділіться з нами своїми ідеями та пропозиціями!',

@@ -156,8 +156,19 @@ class Piwik_PluginsManager
 	public function readPluginsDirectory()
 	{
 		$pluginsName = _glob( PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
-		$pluginsName = $pluginsName == false ? array() : array_map('basename', $pluginsName);
-		return $pluginsName;
+		$result = array();
+		if ($pluginsName != false)
+		{
+			foreach ($pluginsName as $path)
+			{
+				$name = basename($path);
+				if (file_exists($path.'/'.$name.'.php')) // only add folder if a Plugin/Plugin.php file exists
+				{
+					$result[] = $name;
+				}
+			}
+			return $result;
+		}
 	}
 
 	/**
@@ -171,13 +182,16 @@ class Piwik_PluginsManager
 		$key = array_search($pluginName, $plugins);
 
 		$plugin = $this->loadPlugin($pluginName);
-		$plugin->deactivate();
+		if ($plugin !== null)
+		{
+			$plugin->deactivate();
+		}
 
 		if($key !== false)
 		{
 			unset($plugins[$key]);
-			$this->updatePluginsConfig($plugins);
 		}
+		$this->updatePluginsConfig($plugins);
 
 		$pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
 		if(!is_null($pluginsTracker))
@@ -227,10 +241,15 @@ class Piwik_PluginsManager
 		$existingPlugins = $this->readPluginsDirectory();
 		if( array_search($pluginName, $existingPlugins) === false)
 		{
-			throw new Exception("Unable to find the plugin '$pluginName'.");
+			Piwik::log("Unable to find the plugin '$pluginName' in activatePlugin.");
+			return;
 		}
 
 		$plugin = $this->loadPlugin($pluginName);
+		if ($plugin === null)
+		{
+			return;
+		}
 
 		$this->installPluginIfNecessary($plugin);
 
@@ -377,6 +396,11 @@ class Piwik_PluginsManager
 			if(!$this->isPluginLoaded($pluginName))
 			{
 				$newPlugin = $this->loadPlugin($pluginName);
+				if ($newPlugin === null)
+				{
+					continue;
+				}
+				
 				if($this->doLoadPlugins
 					&& $this->isPluginActivated($pluginName))
 				{
@@ -392,7 +416,7 @@ class Piwik_PluginsManager
 	 *
 	 * @param string  $pluginName
 	 * @throws Exception
-	 * @return Piwik_Plugin
+	 * @return Piwik_Plugin|null
 	 */
 	public function loadPlugin( $pluginName )
 	{
@@ -412,8 +436,8 @@ class Piwik_PluginsManager
 
 		if(!file_exists($path))
 		{
-			throw new Exception("Unable to load plugin '$pluginName' because '$path' couldn't be found.
-			You can manually uninstall the plugin by removing the line <code>Plugins[] = $pluginName</code> from the Piwik config file.");
+			Piwik::log("Unable to load plugin '$pluginName' because '$path' couldn't be found.");
+			return null;
 		}
 
 		// Don't remove this.
@@ -446,7 +470,14 @@ class Piwik_PluginsManager
 	{
 		if(!($plugin instanceof Piwik_Plugin ))
 		{
-			$plugin = $this->loadPlugin( $plugin );
+			$oPlugin = $this->loadPlugin( $plugin );
+			if ($oPlugin === null)
+			{
+				unset($this->loadedPlugins[$plugin]);
+				return;
+			}
+			
+			$plugin = $oPlugin;
 		}
 		$hooks = $plugin->getListHooksRegistered();
 

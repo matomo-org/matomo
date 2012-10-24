@@ -439,7 +439,6 @@ $translations = array(
 	'DBStats_IndexSize' => 'Indekso dydis',
 	'DBStats_TotalSize' => 'Bendras dydis',
 	'ExampleAPI_PluginDescription' => 'Pavyzdinis papildinys: Kaip sukurti API sąsają jūsų papildiniui, kad būtų galima eksportuoti duomenis daugeliu formatų be papildomo programavimo?',
-	'ExampleFeedburner_PluginDescription' => 'Pavyzdinis papildinys: Kaip pavaizduoti jūsų Feedburner prenumeratą skydelio valdiklyje?',
 	'ExampleRssWidget_PluginDescription' => 'Pavyzdinis papildinys: Kaip sukurti naują valdiklį, kuris skaito RSS santraukas?',
 	'ExampleUI_PluginDescription' => 'Pavyzdinis papildinys: Šis papildinys parodys kaip dirbti su Piwik UI: kurti lenteles, grafikus ir pan.',
 	'Feedback_PluginDescription' => 'Siųskite savo atsiliepimus Piwik komandai. Dalinkitės savo idėjomis ir pasiūlymais su mumis!',

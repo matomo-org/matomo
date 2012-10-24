@@ -498,7 +498,6 @@ Plugins[] 		= VisitorInterest
 Plugins[] 		= ExampleAPI
 Plugins[] 		= ExamplePlugin
 Plugins[]		= ExampleRssWidget
-Plugins[] 		= ExampleFeedburner
 Plugins[] 		= Provider
 Plugins[]		= Feedback
 

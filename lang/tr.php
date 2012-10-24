@@ -412,7 +412,6 @@ $translations = array(
 	'DBStats_IndexSize' => 'Dizin boyutu',
 	'DBStats_TotalSize' => 'Toplam boyut',
 	'ExampleAPI_PluginDescription' => 'Örnek Eklenti:Özel bir kodlama bilmeden, verilerinizi değişik formatlarda dışarı aktarabilmek için kendi oluşturacağınız eklentinize nasıl bir API oluşturacaksınız?',
-	'ExampleFeedburner_PluginDescription' => 'Örnek Eklenti: Sizin Feedburner aboneliğiniz Pano\'da nasil bir birleşen olarak gösterilecek?',
 	'ExampleRssWidget_PluginDescription' => 'Örnek Eklenti: RSS beslemesini okuyan bir eklentiyi nasıl oluştururuz?',
 	'ExampleUI_PluginDescription' => 'Örnek Eklenti: Bu eklenti Piwik arayüzü ile nasıl çalışacağınızı gösterir: tablo yaratmak, grafikler, vs.',
 	'Feedback_PluginDescription' => 'Piwik takımına geribildirimlerinizi gönderin. Düşüncelerinizi ve önerilerinizi paylaşın!',

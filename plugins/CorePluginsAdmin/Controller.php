@@ -22,7 +22,11 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 
 		$plugins = array();
 
-		$listPlugins = Piwik_PluginsManager::getInstance()->readPluginsDirectory();
+		$listPlugins = array_merge(
+			Piwik_PluginsManager::getInstance()->readPluginsDirectory(),
+			Piwik_Config::getInstance()->Plugins['Plugins']
+		);
+		$listPlugins = array_unique($listPlugins);
 		foreach($listPlugins as $pluginName)
 		{
 			$oPlugin = Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
@@ -38,6 +42,18 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 		{
 			$pluginName = $oPlugin->getPluginName();
 			$plugins[$pluginName]['info'] = $oPlugin->getInformation();
+		}
+		
+		foreach($plugins as $pluginName => &$plugin)
+		{
+			if (!isset($plugin['info']))
+			{
+				$plugin['info'] = array(
+					'description' => '<strong><em>'.Piwik_Translate('CorePluginsAdmin_PluginCannotBeFound')
+						.'</strong></em>',
+					'version' => Piwik_Translate('General_Unknown')
+				);
+			}
 		}
 
 		$view = Piwik_View::factory('manage');

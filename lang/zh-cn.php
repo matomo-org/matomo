@@ -375,7 +375,6 @@ $translations = array(
 	'DBStats_IndexSize' => '索引空间大小',
 	'DBStats_TotalSize' => '总容量',
 	'ExampleAPI_PluginDescription' => '范例插件：如何为您的插件建立一个 API, 然后將多种格式的资料导出且无须任何源码？',
-	'ExampleFeedburner_PluginDescription' => '范例插件：如何在控制台里以模组来显示您的 Feedburner 订阅者？',
 	'ExampleRssWidget_PluginDescription' => '范例插件：如何建立一個新模組來读取 RSS feed？',
 	'ExampleUI_PluginDescription' => '范例插件：这个插件让您了解如何使 Piwik UI 运作：建立数据表、图表等等。',
 	'Feedback_PluginDescription' => '传送您的意见反馈給 Piwik 小組。与我们分享您的点子及建议！',

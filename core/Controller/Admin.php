@@ -40,6 +40,33 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
 		}
 		
 		$view->isSuperUser = Piwik::isUserIsSuperUser();
+		
+		// for old geoip plugin warning
 		$view->usingOldGeoIPPlugin = Piwik_PluginsManager::getInstance()->isPluginActivated('GeoIP');
+		
+		// for cannot find installed plugin warning
+		$missingPlugins = false;
+		if (isset(Piwik_Config::getInstance()->Plugins['Plugins']))
+		{
+			foreach (Piwik_Config::getInstance()->Plugins['Plugins'] as $pluginName)
+			{
+				// if a plugin is listed in the config, but is not loaded, it does not exist in the folder
+				if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginName))
+				{
+					$missingPlugins[] = $pluginName;
+				}
+			}
+		}
+		if (!empty($missingPlugins))
+		{
+			$pluginsLink = Piwik_Url::getCurrentQueryStringWithParametersModified(array(
+				'module' => 'CorePluginsAdmin', 'action' => 'index'
+			));
+			$view->missingPluginsWarning = Piwik_Translate('CoreAdminHome_MissingPluginsWarning', array(
+				'<strong>'.implode('</strong>,&nbsp;<strong>', $missingPlugins).'</strong>',
+				'<a href="'.$pluginsLink.'"/>',
+				'</a>'
+			));
+		}
 	}
 }

@@ -432,7 +432,6 @@ $translations = array(
 	'DBStats_IndexSize' => 'Tamanho do índice',
 	'DBStats_TotalSize' => 'Tamanho total',
 	'ExampleAPI_PluginDescription' => 'Plugin Exemplo: Como criar uma API para seu plugin, para exportar seus dados em multiplos formatos sem nenhum código especial?',
-	'ExampleFeedburner_PluginDescription' => 'Plugin Exemplo: Como mostrar seu assinante Feedburner em um widget no painel de ferramentas?',
 	'ExampleRssWidget_PluginDescription' => 'Plugin Exemplo: Como criar um novo widget que lê um RSS feed?',
 	'ExampleUI_PluginDescription' => 'Plugin Exemplo: Esse plugin mostra como trabalhar com o Piwik UI: criar tabelas, gráficos, etc.',
 	'Feedback_PluginDescription' => 'Envie seu FeedBack para a Equipe Piwik. Compartilhe suas ideias e sugestões conosco!',

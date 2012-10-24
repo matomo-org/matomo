@@ -63,6 +63,13 @@
 </div>
 {/if}
 
+{* missing plugins warning *}
+{if $isSuperUser && !empty($missingPluginsWarning)}
+<div class="ajaxSuccess">
+	<strong>{'General_Warning'|translate}:&nbsp;</strong>{$missingPluginsWarning}
+</div>
+{/if}
+
 {* old GeoIP plugin warning *}
 {if $isSuperUser && $usingOldGeoIPPlugin}
 <div class="ajaxSuccess">
