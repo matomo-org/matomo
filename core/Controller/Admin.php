@@ -45,18 +45,7 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
 		$view->usingOldGeoIPPlugin = Piwik_PluginsManager::getInstance()->isPluginActivated('GeoIP');
 		
 		// for cannot find installed plugin warning
-		$missingPlugins = false;
-		if (isset(Piwik_Config::getInstance()->Plugins['Plugins']))
-		{
-			foreach (Piwik_Config::getInstance()->Plugins['Plugins'] as $pluginName)
-			{
-				// if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-				if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginName))
-				{
-					$missingPlugins[] = $pluginName;
-				}
-			}
-		}
+		$missingPlugins = Piwik_PluginsManager::getInstance()->getMissingPlugins();
 		if (!empty($missingPlugins))
 		{
 			$pluginsLink = Piwik_Url::getCurrentQueryStringWithParametersModified(array(

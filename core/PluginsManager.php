@@ -167,8 +167,8 @@ class Piwik_PluginsManager
 					$result[] = $name;
 				}
 			}
-			return $result;
 		}
+		return $result;
 	}
 
 	/**
@@ -618,6 +618,29 @@ class Piwik_PluginsManager
 	{
 		$pluginNames = Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'];
 		return $pluginNames;
+	}
+	
+	/**
+	 * Returns names of plugins that should be loaded, but cannot be since their
+	 * files cannot be found.
+	 * 
+	 * @return array
+	 */
+	public function getMissingPlugins()
+	{
+		$missingPlugins = array();
+		if (isset(Piwik_Config::getInstance()->Plugins['Plugins']))
+		{
+			foreach (Piwik_Config::getInstance()->Plugins['Plugins'] as $pluginName)
+			{
+				// if a plugin is listed in the config, but is not loaded, it does not exist in the folder
+				if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginName))
+				{
+					$missingPlugins[] = $pluginName;
+				}
+			}
+		}
+		return $missingPlugins;
 	}
 
 	/**
