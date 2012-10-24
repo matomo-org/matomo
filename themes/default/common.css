@@ -233,6 +233,7 @@ a {
 	position:absolute; 
 	top:65px; 
 	right:0;
+	z-index:20;
 }
 .top_bar_sites_selector>label{
 	display:inline-block; 
