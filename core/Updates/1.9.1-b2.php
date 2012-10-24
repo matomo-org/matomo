@@ -13,7 +13,7 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_1_9_1_b1 extends Piwik_Updates
+class Piwik_Updates_1_9_1_b2 extends Piwik_Updates
 {
 	static function getSql($schema = 'Myisam')
 	{
@@ -26,26 +26,30 @@ class Piwik_Updates_1_9_1_b1 extends Piwik_Updates
 	{
 		// manually remove ExampleFeedburner column
 		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-		
+
 		// remove ExampleFeedburner plugin
+		$pluginToDelete = 'ExampleFeedburner';
+		self::deletePluginFromConfigFile($pluginToDelete);
+	}
+
+	public static function deletePluginFromConfigFile($pluginToDelete)
+	{
 		$config = Piwik_Config::getInstance();
 		$config->init();
 		if (isset($config->Plugins['Plugins']))
 		{
 			$plugins = $config->Plugins['Plugins'];
-			if (($key = array_search('ExampleFeedburner', $plugins)) !== false)
-			{
+			if (($key = array_search($pluginToDelete, $plugins)) !== false) {
 				unset($plugins[$key]);
 			}
 			$config->Plugins['Plugins'] = $plugins;
-			
+
 			$pluginsInstalled = $config->PluginsInstalled['PluginsInstalled'];
-			if (($key = array_search('ExampleFeedburner', $pluginsInstalled)) !== false)
-			{
+			if (($key = array_search($pluginToDelete, $pluginsInstalled)) !== false) {
 				unset($pluginsInstalled[$key]);
 			}
 			$config->PluginsInstalled = $pluginsInstalled;
-			
+
 			$config->forceSave();
 		}
 	}

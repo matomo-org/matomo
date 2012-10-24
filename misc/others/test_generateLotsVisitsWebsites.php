@@ -9,6 +9,7 @@ require_once PIWIK_INCLUDE_PATH . "/libs/PiwikTracker/PiwikTracker.php";
 
 Piwik_FrontController::getInstance()->init();
 
+// SECURITY: DO NOT DELETE THIS LINE!
 if(!Piwik_Common::isPhpCliMode()) { die("ERROR: Must be executed in CLI"); }
 
 $process = new Piwik_StressTests_CopyLogs;

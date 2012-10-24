@@ -174,7 +174,14 @@ vertical-align:middle;
 	</div>
 {/if}
 
-{if $isSuperUser}	
+
+{* Admin users use these values for Site Search column, when editing websites *}
+{if !$isSuperUser}
+<input type="hidden" size="15" id="globalSearchKeywordParameters" value="{$globalSearchKeywordParameters|escape:'html'}"></input>
+<input type="hidden" size="15"  id="globalSearchCategoryParameters" value="{$globalSearchCategoryParameters|escape:'html'}"></input>
+{/if}
+
+{if $isSuperUser}
 <br />
 	<a name='globalSettings'></a>
 	<h2>{'SitesManager_GlobalWebsitesSettings'|translate}</h2>

@@ -68,7 +68,7 @@ class Piwik_Provider extends Piwik_Plugin
 		$segments =& $notification->getNotificationObject();
 		$segments[] = array(
 		        'type' => 'dimension',
-		        'category' => 'Visit',
+		        'category' => 'Visit Location',
 		        'name' => Piwik_Translate('Provider_ColumnProvider'),
 		        'segment' => 'provider',
 				'acceptedValues' => 'comcast.net, proxad.net, etc.',

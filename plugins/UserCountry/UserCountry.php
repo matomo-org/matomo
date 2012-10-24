@@ -140,7 +140,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		$segments =& $notification->getNotificationObject();
 		$segments[] = array(
 			'type' => 'dimension',
-			'category' => 'Visit',
+			'category' => 'Visit Location',
 			'name' => Piwik_Translate('UserCountry_Country'),
 			'segment' => 'country',
 			'sqlSegment' => 'log_visit.location_country',
@@ -148,7 +148,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 		$segments[] = array(
 			'type' => 'dimension',
-			'category' => 'Visit',
+			'category' => 'Visit Location',
 			'name' => Piwik_Translate('UserCountry_Continent'),
 			'segment' => 'continent',
 			'sqlSegment' => 'log_visit.location_country',
@@ -157,7 +157,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 		$segments[] = array(
 			'type' => 'dimension',
-			'category' => 'visit',
+			'category' => 'Visit Location',
 			'name' => Piwik_Translate('UserCountry_Region'),
 			'segment' => 'region',
 			'sqlSegment' => 'log_visit.location_region',
@@ -165,7 +165,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 		$segments[] = array(
 			'type' => 'dimension',
-			'category' => 'visit',
+			'category' => 'Visit Location',
 			'name' => Piwik_Translate('UserCountry_City'),
 			'segment' => 'city',
 			'sqlSegment' => 'log_visit.location_city',
@@ -173,7 +173,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 		$segments[] = array(
 			'type' => 'dimension',
-			'category' => 'visit',
+			'category' => 'Visit Location',
 			'name' => Piwik_Translate('UserCountry_Latitude'),
 			'segment' => 'lat',
 			'sqlSegment' => 'log_visit.location_latitude',
@@ -181,7 +181,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 		);
 		$segments[] = array(
 			'type' => 'dimension',
-			'category' => 'visit',
+			'category' => 'Visit Location',
 			'name' => Piwik_Translate('UserCountry_Longitude'),
 			'segment' => 'long',
 			'sqlSegment' => 'log_visit.location_longitude',
