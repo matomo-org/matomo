@@ -4,11 +4,15 @@
 
 {* untrusted host warning *}
 {if isset($isValidHost) && isset($invalidHostMessage) && !$isValidHost}
-<div id="login_error">
+<div id="login_error" style='width:400px'>
 	<strong>{'General_Warning'|translate}:&nbsp;</strong>{$invalidHostMessage}
-</div>
-{/if}
 
+	<br><br>{$invalidHostMessageHowToFix}
+	<br/><br/><a style="float:right" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank">{'General_Help'|translate} <img style='vertical-align: bottom' src="themes/default/images/help_grey.png" /></a><br/>
+
+
+</div>
+{else}
 <div id="message_container">
 	{if $form_data.errors}
 	<div id="login_error">	
@@ -47,7 +51,6 @@
 	</p>
 </form>
 
-{if isset($isValidHost) && $isValidHost}
 <form id="reset_form" style="display:none;">
 	<p>
 		<label>{'Login_LoginOrEmail'|translate}:<br />
@@ -73,13 +76,10 @@
 	<input type="hidden" name="module" value="Login"/>
 	<input type="hidden" name="action" value="resetPassword"/>
 </form>
-{/if}
 
 <p id="nav">
-{if isset($isValidHost) && $isValidHost}
 <a id="login_form_nav" href="#" title="{'Login_LostYourPassword'|translate}">{'Login_LostYourPassword'|translate}</a>
 <a id="alternate_reset_nav" href="#" style="display:none;" title="{'Login_LogIn'|translate}">{'Login_LogIn'|translate}</a>
-{/if}
 <a id="reset_form_nav" href="#" style="display:none;" title="{'Mobile_NavigationBack'|translate}">{'General_Cancel'|translate}</a>
 </p>
 {if isset($smarty.capture.poweredByPiwik)}
@@ -91,7 +91,7 @@
 <div id="lost_password_instructions" style="display:none;">
 	<p class="message">{'Login_ResetPasswordInstructions'|translate}</p>
 </div>
-
+{/if}
 </div>
 </body>
 </html>

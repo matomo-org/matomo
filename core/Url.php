@@ -191,7 +191,6 @@ class Piwik_Url
 				return true;
 			}
 		}
-		
 		// if host is in hardcoded whitelist, assume it's valid
 		if (in_array($host, self::$alwaysTrustedHosts))
 		{
@@ -199,7 +198,6 @@ class Piwik_Url
 		}
 		
 		$trustedHosts = @Piwik_Config::getInstance()->General['trusted_hosts'];
-		
 		// if no trusted hosts, just assume it's valid
 		if (empty($trustedHosts))
 		{
@@ -219,16 +217,17 @@ class Piwik_Url
 		{
 			return false;
 		}
-		
+
 		foreach ($trustedHosts as &$trustedHost)
 		{
 			$trustedHost = preg_quote($trustedHost);
 		}
-
 		$untrustedHost = Piwik_Common::mb_strtolower($host);
-		$hostRegex     = Piwik_Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '(:[0-9]+)?$/');
-
-		return 0 !== preg_match($hostRegex, rtrim($untrustedHost, '.'));
+		$untrustedHost = rtrim($untrustedHost, '.');
+		$hostRegex     = Piwik_Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '$/');
+		$result = preg_match($hostRegex, $untrustedHost);
+//		var_dump($hostRegex);var_dump($untrustedHost);var_dump($result);
+		return 0 !== $result;
 	}
 
 	/**
@@ -248,7 +247,7 @@ class Piwik_Url
 		{
 			return $host;
 		}
-		
+
 		// HTTP/1.0 request doesn't include Host: header
 		if (isset($_SERVER['SERVER_ADDR']))
 		{
@@ -442,11 +441,12 @@ class Piwik_Url
 		// drop port numbers from hostnames and IP addresses
 		$hosts = array_map(array('Piwik_IP', 'sanitizeIp'), $hosts);
 
+		$disableHostCheck = Piwik_Config::getInstance()->General['enable_trusted_host_check'] == 0;
 		// compare scheme and host
 		$parsedUrl = @parse_url($url);
 		$host = Piwik_IP::sanitizeIp(@$parsedUrl['host']);
 		return     !empty($host)
-				&& in_array($host, $hosts)
+				&& ($disableHostCheck || in_array($host, $hosts))
 				&& !empty($parsedUrl['scheme'])
 				&& in_array($parsedUrl['scheme'], array('http', 'https'));
 	}

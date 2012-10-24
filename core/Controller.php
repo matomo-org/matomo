@@ -525,7 +525,7 @@ abstract class Piwik_Controller
 			$warningStart = Piwik_Translate('CoreHome_InjectedHostWarningIntro', array(
 				'<strong>'.$invalidUrl.'</strong>',
 				'<strong>'.$validUrl.'</strong>'
-			));
+			)) . ' <br/>';
 			
 			if (Piwik::isUserIsSuperUser())
 			{
@@ -534,7 +534,7 @@ abstract class Piwik_Controller
 						"<a href=\"$changeTrustedHostsUrl\">",
 						$invalidHost,
 						'</a>',
-						"<a href=\"$validUrl\">",
+						"<br/><a href=\"$validUrl\">",
 						$validHost,
 						'</a>'
 					));
@@ -543,13 +543,17 @@ abstract class Piwik_Controller
 			{
 				$view->invalidHostMessage = $warningStart . ' '
 					. Piwik_Translate('CoreHome_InjectedHostNonSuperUserWarning', array(
-						"<a href=\"$validUrl\">",
+						"<br/><a href=\"$validUrl\">",
 						'</a>',
 						$mailLinkStart,
 						'</a>'
 					));
 			}
-			
+			$view->invalidHostMessageHowToFix = '<b>How do I fix this problem and how do I login again?</b><br/> The Piwik Super User can manually edit the file piwik/config/config.ini.php
+						and add the following lines: <pre>[General]'."\n".'trusted_hosts[] = "'.$validHost.'"</pre><br/>After making the change, you will be able to login again.<br/><br/>
+						You may also <i>disable this security feature (not recommended)</i>. To do so edit config/config.ini.php and add:
+						<pre>[General]'."\n".'enable_trusted_host_check=0</pre>';
+
 			$view->invalidHost = $invalidHost; // for UserSettings warning
 			$view->invalidHostMailLinkStart = $mailLinkStart;
 		}
