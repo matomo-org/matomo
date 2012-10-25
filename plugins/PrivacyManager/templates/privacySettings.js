@@ -47,7 +47,7 @@ $(document).ready(function() {
 		}
 		
 		currentRequest = $.ajax({
-			type: 'GET',
+			type: 'POST',
 			url: 'index.php?module=PrivacyManager&action=getDatabaseSize',
 			dataType: 'html',
 			async: true,

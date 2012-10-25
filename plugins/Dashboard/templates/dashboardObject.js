@@ -157,12 +157,16 @@
             var ajaxRequest =
             {
                 type: 'POST',
-                url: 'index.php?module=Dashboard&action=resetLayout&token_auth='+piwik.token_auth,
+                url: 'index.php?module=Dashboard&action=resetLayout',
                 dataType: 'html',
                 async: false,
                 error: piwikHelper.ajaxHandleError,
                 success: function() { methods.loadDashboard.apply(this, [dashboardId])},
-                data: { "idDashboard": dashboardId, "idSite": piwik.idSite }
+                data: {
+                    token_auth: piwik.token_auth,
+                    idDashboard: dashboardId,
+                    idSite: piwik.idSite
+                }
             };
             piwikHelper.showAjaxLoading();
             $.ajax(ajaxRequest);
@@ -228,7 +232,7 @@
         piwikHelper.abortQueueAjax();
         var ajaxRequest =
         {
-            type: 'GET',
+            type: 'POST',
             url: 'index.php?module=Dashboard&action=getDashboardLayout',
             dataType: 'json',
             async: true,
@@ -409,7 +413,10 @@
         var ajaxRequest =
         {
             type: 'POST',
-            url: 'index.php?module=Dashboard&action=getAllDashboards&token_auth='+piwik.token_auth,
+            url: 'index.php?module=Dashboard&action=getAllDashboards',
+            data: {
+                token_auth: piwik.token_auth
+            },
             dataType: 'json',
             async: true,
             success: function(dashboards) {
@@ -481,7 +488,7 @@
             var ajaxRequest =
             {
                 type: 'POST',
-                url: 'index.php?module=Dashboard&action='+action+'&token_auth='+piwik.token_auth,
+                url: 'index.php?module=Dashboard&action='+action,
                 dataType: 'html',
                 async: true,
                 success: function() {
@@ -492,6 +499,7 @@
                 },
                 error: piwikHelper.ajaxHandleError,
                 data: {
+                    token_auth: piwik.token_auth,
                     layout: JSON.stringify(dashboardLayout),
                     name: dashboardName,
                     idDashboard: dashboardId
@@ -511,7 +519,7 @@
         var ajaxRequest =
         {
             type: 'POST',
-            url: 'index.php?module=Dashboard&action=removeDashboard&token_auth='+piwik.token_auth,
+            url: 'index.php?module=Dashboard&action=removeDashboard',
             dataType: 'html',
             async: false,
             success: function() {
@@ -519,7 +527,8 @@
             },
             error: piwikHelper.ajaxHandleError,
             data: {
-                idDashboard: dashboardId
+                idDashboard: dashboardId,
+                token_auth: piwik.token_auth
             }
         };
         piwikHelper.showAjaxLoading();

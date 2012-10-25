@@ -366,7 +366,7 @@ var broadcast = {
             }
         }
         var ajaxRequest = {
-            type: 'GET',
+            type: 'POST',
             url: urlAjax,
             dataType: 'html',
             async: true,

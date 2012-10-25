@@ -49,7 +49,7 @@ $(document).ready(function() {
 		loading.show();
 		
 		$.ajax({
-			type: 'GET',
+			type: 'POST',
 			url: 'index.php',
 			data: {
 				module: 'UserCountry',

@@ -11,7 +11,7 @@ $(document).ready(function() {
 		piwikHelper.showAjaxLoading('ajaxLoadingSEO');
 		var ajaxRequest = 
 		{
-			type: 'GET',
+			type: 'POST',
 			url: 'index.php',
 			dataType: 'html',
 			error: piwikHelper.ajaxHandleError,		

@@ -128,7 +128,7 @@ dataTable.prototype =
 		//prepare the ajax request
 		var ajaxRequest = 
 		{
-			type: 'GET',
+			type: 'POST',
 			url: 'index.php',
 			dataType: 'html',
 			async: true,

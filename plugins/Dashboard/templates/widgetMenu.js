@@ -19,8 +19,14 @@ widgetsHelper.getAvailableWidgets = function ()
     if(!widgetsHelper.availableWidgets) {
         var ajaxRequest =
         {
-            type: 'GET',
-            url: 'index.php?module=Dashboard&action=getAvailableWidgets&token_auth='+piwik.token_auth+'&idSite='+piwik.idSite,
+            type: 'POST',
+            url: 'index.php',
+            data: {
+                module: 'Dashboard',
+                action: 'getAvailableWidgets',
+                token_auth: piwik.token_auth,
+                idSite: piwik.idSite
+            },
             dataType: 'json',
             async: false,
             error: piwikHelper.ajaxHandleError,
@@ -88,7 +94,7 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
     
 	return {
 		widgetUniqueId:widgetUniqueId,
-		type: 'GET',
+		type: 'POST',
 		url: 'index.php',
 		dataType: 'html',
 		async: true,
