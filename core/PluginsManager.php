@@ -436,7 +436,7 @@ class Piwik_PluginsManager
 
 		if(!file_exists($path))
 		{
-			Piwik::log("Unable to load plugin '$pluginName' because '$path' couldn't be found.");
+//			Piwik::log("Unable to load plugin '$pluginName' because '$path' couldn't be found.");
 			return null;
 		}
 
