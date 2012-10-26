@@ -201,13 +201,7 @@ class Piwik_Url
 		// if no trusted hosts, just assume it's valid
 		if (empty($trustedHosts))
 		{
-			// if user is superuser, save the Host as the only trusted host
-			if (Piwik::isUserIsSuperUser()
-				&& file_exists(Piwik_Config::getLocalConfigPath()))
-			{
-				Piwik_Config::getInstance()->General['trusted_hosts'] = array($host);
-				Piwik_Config::getInstance()->forceSave();
-			}
+			self::saveTrustedHostnameInConfig($host);
 			return true;
 		}
 		
@@ -228,6 +222,33 @@ class Piwik_Url
 		$result = preg_match($hostRegex, $untrustedHost);
 //		var_dump($hostRegex);var_dump($untrustedHost);var_dump($result);
 		return 0 !== $result;
+	}
+
+	/**
+	 * Records one host, or an array of hosts in the config file,
+	 * if user is super user
+	 *
+	 * @static
+	 * @param $host string|array
+	 */
+	public static function saveTrustedHostnameInConfig($host)
+	{
+		if (Piwik::isUserIsSuperUser()
+			&& file_exists(Piwik_Config::getLocalConfigPath()))
+		{
+			$general = Piwik_Config::getInstance()->General;
+			if(!is_array($host))
+			{
+				$host = array($host);
+			}
+			$host = array_filter($host);
+			if(empty($host)) {
+				return false;
+			}
+			$general['trusted_hosts'] = $host;
+			Piwik_Config::getInstance()->General = $general;
+			Piwik_Config::getInstance()->forceSave();
+		}
 	}
 
 	/**

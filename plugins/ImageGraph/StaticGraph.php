@@ -40,6 +40,9 @@ abstract class Piwik_ImageGraph_StaticGraph
 
 	private $aliasedGraph;
 
+	/**
+	 * @var pImage
+	 */
 	protected $pImage;
 	protected $pData;
 	protected $ordinateLabels;
@@ -133,6 +136,10 @@ abstract class Piwik_ImageGraph_StaticGraph
 
 	public function setFontSize($fontSize)
 	{
+		if(!is_numeric($fontSize))
+		{
+			$fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE;
+		}
 		$this->fontSize = $fontSize;
 	}
 

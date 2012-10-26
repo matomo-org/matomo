@@ -102,8 +102,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			$trustedHosts = Piwik_Common::getRequestVar('trustedHosts', false, 'json');
 			if ($trustedHosts !== false)
 			{
-				$trustedHosts = array_filter($trustedHosts);
-				Piwik_Config::getInstance()->General['trusted_hosts'] = $trustedHosts;
+				Piwik_Url::saveTrustedHostnameInConfig($trustedHosts);
 			}
 			
 			Piwik_Config::getInstance()->forceSave();
