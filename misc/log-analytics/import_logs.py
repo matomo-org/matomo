@@ -74,6 +74,7 @@ EXCLUDED_USER_AGENTS = (
     'googlebot',
     'ia_archiver',
     'java/',
+    'libwww',
     'mediapartners-google',
     'msnbot',
     'robot',
