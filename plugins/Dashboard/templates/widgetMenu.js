@@ -94,13 +94,13 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
     
 	return {
 		widgetUniqueId:widgetUniqueId,
-		type: 'POST',
+		type: 'GET',
 		url: 'index.php',
 		dataType: 'html',
 		async: true,
 		error: piwikHelper.ajaxHandleError,
 		success: onWidgetLoadedCallback,
-		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&widget=1&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date') + "&token_auth=" + piwik.token_auth  
+		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&widget=1&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date') + "&token_auth=" + piwik.token_auth
 	};
 };
 
