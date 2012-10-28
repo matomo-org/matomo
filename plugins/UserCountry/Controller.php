@@ -35,23 +35,25 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 	{
 		Piwik::checkUserIsSuperUser();
 		$view = Piwik_View::factory('adminIndex');
-		
-		$view->locationProviders = Piwik_UserCountry_LocationProvider::getAllProviderInfo(
+
+		$allProviderInfo = Piwik_UserCountry_LocationProvider::getAllProviderInfo(
 			$newline = '<br/>', $includeExtra = true);
+		$view->locationProviders = $allProviderInfo;
 		$view->currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
 		$view->thisIP = Piwik_IP::getIpFromHeader();
 		
 		// check if there is a working provider (that isn't the default one)
-		$view->isThereWorkingProvider = false;
-		foreach ($view->locationProviders as $id => $provider)
+		$isThereWorkingProvider = false;
+		foreach ($allProviderInfo as $id => $provider)
 		{
 			if ($id != Piwik_UserCountry_LocationProvider_Default::ID
 				&& $provider['status'] == Piwik_UserCountry_LocationProvider::INSTALLED)
 			{
-				$view->isThereWorkingProvider = true;
+				$isThereWorkingProvider = true;
 				break;
 			}
 		}
+		$view->isThereWorkingProvider = $isThereWorkingProvider;
 		$this->setBasicVariablesView($view);
 		Piwik_Controller_Admin::setBasicVariablesAdminView($view);
 		$view->menu = Piwik_GetAdminMenu();
