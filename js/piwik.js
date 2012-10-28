@@ -386,7 +386,7 @@ if (!this.JSON2) {
     onload, src, match, name,
     round, random,
     exec,
-    res, width, height,
+    res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
     hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, setSiteId,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
@@ -2052,7 +2052,8 @@ var
                         java: 'application/x-java-vm',
                         gears: 'application/x-googlegears',
                         ag: 'application/x-silverlight'
-                    };
+                    },
+                    devicePixelRatio = (new Regexp('Mac OS X.*Safari/')).test(navigatorAlias.userAgent) ? windowAlias.devicePixelRatio || 1 : 1;
 
                 if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
                     // general plugin detection
@@ -2083,7 +2084,9 @@ var
                 }
 
                 // screen resolution
-                browserFeatures.res = screenAlias.width + 'x' + screenAlias.height;
+                // - only Apple reports screen.* in device-independent-pixels (dips)
+                // - devicePixelRatio is always 2 on MacOSX+Retina regardless of resolution set in Display Preferences
+                browserFeatures.res = screenAlias.width * devicePixelRatio + 'x' + screenAlias.height * devicePixelRatio;
             }
 
 /*<DEBUG>*/
