@@ -154,22 +154,17 @@
          */
         resetLayout: function()
         {
-            var ajaxRequest =
-            {
-                type: 'POST',
-                url: 'index.php?module=Dashboard&action=resetLayout',
-                dataType: 'html',
-                async: false,
-                error: piwikHelper.ajaxHandleError,
-                success: function() { methods.loadDashboard.apply(this, [dashboardId])},
-                data: {
-                    token_auth: piwik.token_auth,
-                    idDashboard: dashboardId,
-                    idSite: piwik.idSite
-                }
-            };
             piwikHelper.showAjaxLoading();
-            $.ajax(ajaxRequest);
+            piwikHelper.ajaxCall(
+                'Dashboard',
+                'resetLayout',
+                {idDashboard: dashboardId},
+                function() {
+                    methods.loadDashboard.apply(this, [dashboardId])
+                },
+                'html',
+                false
+            );
         },
 
         /**
@@ -230,21 +225,13 @@
     function fetchLayout(callback)
     {
         piwikHelper.abortQueueAjax();
-        var ajaxRequest =
-        {
-            type: 'POST',
-            url: 'index.php?module=Dashboard&action=getDashboardLayout',
-            dataType: 'json',
-            async: true,
-            error: piwikHelper.ajaxHandleError,
-            success: callback,
-            data: {
-                idDashboard: dashboardId,
-                token_auth: piwik.token_auth,
-                idSite: piwik.idSite
-            }
-        };
-        piwikHelper.queueAjaxRequest($.ajax(ajaxRequest));
+        piwikHelper.ajaxCall(
+            'Dashboard',
+            'getDashboardLayout',
+            {idDashboard: dashboardId},
+            callback,
+            'json'
+        );
     }
 
     /**
@@ -410,48 +397,45 @@
      * Builds the menu for choosing between available dashboards
      */
     function buildMenu() {
-        var ajaxRequest =
-        {
-            type: 'POST',
-            url: 'index.php?module=Dashboard&action=getAllDashboards',
-            data: {
-                token_auth: piwik.token_auth
-            },
-            dataType: 'json',
-            async: true,
-            success: function(dashboards) {
-                var dashboardMenuList = $('#Dashboard > ul');
-                dashboardMenuList.empty();
-                if (dashboards.length > 1) {
-                    dashboardMenuList.show();
-                    for (var i=0; i<dashboards.length; i++) {
-                        dashboardMenuList.append('<li id="Dashboard_embeddedIndex_'+dashboards[i].iddashboard+'" class="dashboardMenuItem"><a dashboardId="'+dashboards[i].iddashboard+'">'+ piwikHelper.htmlEntities( dashboards[i].name ) +'</a></li>');
-                        if(dashboards[i].iddashboard == dashboardId) {
-                            dashboardName = dashboards[i].name;
-                        }
-                    }
-                    $('li a', dashboardMenuList).each(function(){$(this).css({width:$(this).width()+30, paddingLeft:0, paddingRight:0});});
-                    $('#Dashboard_embeddedIndex_'+dashboardId).addClass('sfHover');
-                } else {
-                    dashboardMenuList.hide();
-                }
 
-                $('.dashboardMenuItem').on('click', function() {
-                    if (typeof piwikMenu != 'undefined') {
-                        piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
+        var success = function(dashboards) {
+            var dashboardMenuList = $('#Dashboard > ul');
+            dashboardMenuList.empty();
+            if (dashboards.length > 1) {
+                dashboardMenuList.show();
+                for (var i=0; i<dashboards.length; i++) {
+                    dashboardMenuList.append('<li id="Dashboard_embeddedIndex_'+dashboards[i].iddashboard+'" class="dashboardMenuItem"><a dashboardId="'+dashboards[i].iddashboard+'">'+ piwikHelper.htmlEntities( dashboards[i].name ) +'</a></li>');
+                    if(dashboards[i].iddashboard == dashboardId) {
+                        dashboardName = dashboards[i].name;
                     }
-                    $('.dashboardMenuItem').removeClass('sfHover');
-                    if ($(dashboardElement).length) {
-                        $(dashboardElement).dashboard('loadDashboard', $('a', this).attr('dashboardId'));
-                    } else {
-                        broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard='+$('a', this).attr('dashboardId'));
-                    }
-                    $(this).addClass('sfHover');
-                });
-            },
-            error: piwikHelper.ajaxHandleError
+                }
+                $('li a', dashboardMenuList).each(function(){$(this).css({width:$(this).width()+30, paddingLeft:0, paddingRight:0});});
+                $('#Dashboard_embeddedIndex_'+dashboardId).addClass('sfHover');
+            } else {
+                dashboardMenuList.hide();
+            }
+
+            $('.dashboardMenuItem').on('click', function() {
+                if (typeof piwikMenu != 'undefined') {
+                    piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
+                }
+                $('.dashboardMenuItem').removeClass('sfHover');
+                if ($(dashboardElement).length) {
+                    $(dashboardElement).dashboard('loadDashboard', $('a', this).attr('dashboardId'));
+                } else {
+                    broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard='+$('a', this).attr('dashboardId'));
+                }
+                $(this).addClass('sfHover');
+            });
         };
-        piwikHelper.queueAjaxRequest( $.ajax(ajaxRequest) );
+
+        piwikHelper.ajaxCall(
+            'Dashboard',
+            'getAllDashboards',
+            {},
+            success,
+            'json'
+        );
     }
 
     /**
@@ -485,27 +469,22 @@
                 action = 'saveLayout';
             }
 
-            var ajaxRequest =
-            {
-                type: 'POST',
-                url: 'index.php?module=Dashboard&action='+action,
-                dataType: 'html',
-                async: true,
-                success: function() {
+            piwikHelper.ajaxCall(
+                'Dashboard',
+                action,
+                {
+                    layout: JSON.stringify(dashboardLayout),
+                    name: dashboardName,
+                    idDashboard: dashboardId
+                },
+                function() {
                     if(dashboardChanged) {
                         dashboardChanged = false;
                         buildMenu();
                     }
                 },
-                error: piwikHelper.ajaxHandleError,
-                data: {
-                    token_auth: piwik.token_auth,
-                    layout: JSON.stringify(dashboardLayout),
-                    name: dashboardName,
-                    idDashboard: dashboardId
-                }
-            };
-            $.ajax(ajaxRequest);
+                'html'
+            );
         }
     }
 
@@ -516,23 +495,20 @@
         if (dashboardId == 1) {
             return; // dashboard with id 1 should never be deleted, as it is the default
         }
-        var ajaxRequest =
-        {
-            type: 'POST',
-            url: 'index.php?module=Dashboard&action=removeDashboard',
-            dataType: 'html',
-            async: false,
-            success: function() {
+
+        piwikHelper.showAjaxLoading();
+        piwikHelper.ajaxCall(
+            'Dashboard',
+            'removeDashboard',
+            {
+                idDashboard: dashboardId
+            },
+            function() {
                 methods.loadDashboard.apply(this, [1]);
             },
-            error: piwikHelper.ajaxHandleError,
-            data: {
-                idDashboard: dashboardId,
-                token_auth: piwik.token_auth
-            }
-        };
-        piwikHelper.showAjaxLoading();
-        $.ajax(ajaxRequest);
+            'html',
+            false
+        );
     }
 
     /**

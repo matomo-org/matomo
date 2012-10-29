@@ -1391,41 +1391,49 @@ Piwik_Transitions_Ajax.prototype.callApi = function(method, params, callback) {
 
 	params.format = 'JSON';
 	
-	piwikHelper.ajaxCallApi(method, params, callback, function(errorName) {
-		var showError = function() {
-			var errorTitle, errorMessage, errorBack;
-			if (typeof Piwik_Transitions_Translations[errorName] == 'undefined') {
-				errorTitle = 'Exception';
-				errorMessage = errorName;
-				errorBack = '<<<';
-			} else {
-				errorTitle = Piwik_Transitions_Translations[errorName];
-				errorMessage = Piwik_Transitions_Translations[errorName + 'Details'];
-				errorBack = Piwik_Transitions_Translations[errorName + 'Back'];
-			}
+	piwikHelper.ajaxCallApi(method, params, function(result) {
+        if (typeof result.result != 'undefined' && result.result == 'error')
+        {
+            var errorName = result.message;
+            var showError = function() {
+                var errorTitle, errorMessage, errorBack;
+                if (typeof Piwik_Transitions_Translations[errorName] == 'undefined') {
+                    errorTitle = 'Exception';
+                    errorMessage = errorName;
+                    errorBack = '<<<';
+                } else {
+                    errorTitle = Piwik_Transitions_Translations[errorName];
+                    errorMessage = Piwik_Transitions_Translations[errorName + 'Details'];
+                    errorBack = Piwik_Transitions_Translations[errorName + 'Back'];
+                }
 
-			if (typeof params.actionName != 'undefined') {
-				var url = params.actionName;
-				url = piwikHelper.addBreakpointsToUrl(url);
-				errorTitle = errorTitle.replace(/%s/, '<span>' + url + '</span>');
-			}
+                if (typeof params.actionName != 'undefined') {
+                    var url = params.actionName;
+                    url = piwikHelper.addBreakpointsToUrl(url);
+                    errorTitle = errorTitle.replace(/%s/, '<span>' + url + '</span>');
+                }
 
-			errorMessage = errorMessage.replace(/%s/g, '<br />');
-			Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
-		};
+                errorMessage = errorMessage.replace(/%s/g, '<br />');
+                Piwik_Popover.showError(errorTitle, errorMessage, errorBack);
+            };
 
-		if (typeof Piwik_Transitions_Translations == 'undefined') {
-			self.callApi('Transitions.getTranslations', {}, function(response) {
-				if (typeof response[0] == 'object') {
-					Piwik_Transitions_Translations = response[0];
-				} else {
-					Piwik_Transitions_Translations = {};
-				}
-				showError();
-			});
-		} else {
-			showError();
-		}
+            if (typeof Piwik_Transitions_Translations == 'undefined') {
+                self.callApi('Transitions.getTranslations', {}, function(response) {
+                    if (typeof response[0] == 'object') {
+                        Piwik_Transitions_Translations = response[0];
+                    } else {
+                        Piwik_Transitions_Translations = {};
+                    }
+                    showError();
+                });
+            } else {
+                showError();
+            }
+        }
+        else
+        {
+            callback(result);
+        }
 	});
 };
 

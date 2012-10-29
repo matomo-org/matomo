@@ -360,5 +360,5 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(apiMetho
 			self.openPopover(apiMethod, metric, label);
 			return true;
 		});
-	}, alert, 'html');
+	}, 'html');
 };

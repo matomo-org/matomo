@@ -26,7 +26,7 @@
 
 <div class="ui-confirm" id="alert">
     <h2></h2>
-    <input id="yes" type="button" value="{'General_Ok'|translate}" />
+    <input role="yes" type="button" value="{'General_Ok'|translate}" />
 </div>
 
 {* untrusted host warning *}

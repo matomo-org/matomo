@@ -110,15 +110,15 @@ var piwikHelper = {
 	 * 
 	 * @param 	method 		API method name, i.e. Plugin.Method
 	 * @param	params		parameters for the request
-	 * @param	callback			regular callback
-	 * @param	exceptionCallback	callback for when the API returns an error, i.e. PHP Exception
-	 * 
+	 * @param	callback	regular callback
+     * @param   async       defines if the request should be asnyc (default: true)
+	 *
 	 * @return {void}
 	 */
-	ajaxCallApi: function(method, params, callback, exceptionCallback)
+	ajaxCallApi: function(method, params, callback, async)
 	{
 		params.method = method;
-		piwikHelper.ajaxCall('API', false, params, callback, exceptionCallback);
+		piwikHelper.ajaxCall('API', false, params, callback, async);
 	},
 	
 	/**
@@ -128,50 +128,49 @@ var piwikHelper = {
 	 * @param	action		method name
 	 * @param	params		parameters for the request
 	 * @param	callback			regular callback
-	 * @param	exceptionCallback	callback for when the API returns an error, i.e. PHP Exception
 	 * @param	format		response format, default json
+     * @param   async       defines if the request should be asnyc (default: true)
 	 * 
 	 * @return {void}
 	 */
-	ajaxCall: function(module, action, params, callback, exceptionCallback, format) {
-		params.module = module;
-		if (action) {
-			params.action = action;
+	ajaxCall: function(module, action, params, callback, format, async) {
+
+        var urlParams = {};
+        urlParams.module = module;
+		if (action)
+        {
+            urlParams.action = action;
 		}
 		
-		params.date = piwik.currentDateString;
-		params.idSite = piwik.idSite;
-		params.period = piwik.period;
-		params.token_auth = piwik.token_auth;
-		if (params.period == 'range')
+        urlParams.date = params.date ? params.date : piwik.currentDateString;
+        urlParams.idSite = params.idSite ? params.idSite : piwik.idSite;
+        urlParams.period = params.period ? params.period : piwik.period;
+		if (urlParams.period == 'range')
 		{
-			params.date = piwik.startDateString + ',' + params.date;
+            urlParams.date = piwik.startDateString + ',' + urlParams.date;
 		}
-	
-		var segment = broadcast.getValueFromHash('segment', window.location.href);
+
+        // send token_auth always as post parameter
+        params.token_auth = piwik.token_auth;
+
+		var segment = params.segment ? params.segment : broadcast.getValueFromHash('segment', window.location.href);
 		if (segment)
 		{
-			params.segment = segment;
+            urlParams.segment = segment;
 		}
-	
-		piwikHelper.queueAjaxRequest($.get('index.php', params, function(result)
-		{
-			if (typeof result.result != 'undefined' && result.result == 'error')
-			{
-				if (typeof exceptionCallback == 'function')
-				{
-					exceptionCallback(result.message);
-				}
-				else
-				{
-					alert(result.message);
-				}
-			}
-			else
-			{
-				callback(result);
-			}
-		}, format || 'json'));
+
+        var ajaxRequest =
+        {
+            type: 'POST',
+            async: async !== false,
+            url: 'index.php?' + $.param(urlParams),
+            dataType: format || 'json',
+            error: piwikHelper.ajaxHandleError,
+            success: callback,
+            data: params
+        };
+
+		piwikHelper.queueAjaxRequest($.ajax(ajaxRequest));
 	},
 
     /**

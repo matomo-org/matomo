@@ -210,4 +210,9 @@ a.Piwik_Popover_Error_Back {
 	margin: 20px 0 0 0;
 	color: #1D3256;
 	font-size: 14px;
-} 
+}
+
+#alert.ui-confirm input {
+    display: block;
+    margin: 10px auto 5px!important;
+}

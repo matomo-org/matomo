@@ -24,7 +24,7 @@ var Piwik_Insight = (function() {
 				handleFullScreen();
 				return false;
 			});
-		}, false, 'html');
+		}, 'html');
 	}
 	
 	/** Adjust the height of the iframe */
