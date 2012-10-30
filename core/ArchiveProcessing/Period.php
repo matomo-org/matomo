@@ -398,9 +398,18 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 				|| $timestamp < time() - $purgeEveryNSeconds))
 		{
 			Piwik_SetOption($key, time());
-			
-			$purgeArchivesOlderThan = Piwik_Date::factory(time() - $purgeEveryNSeconds)->getDateTime();
-			
+
+			// If Browser Archiving is enabled, it is likely there are many more temporary archives
+			// We delete more often which is safe, since reports are re-processed on demand
+			if(self::isBrowserTriggerArchivingEnabled())
+			{
+				$purgeArchivesOlderThan = Piwik_Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
+			}
+			// If archive.php via Cron is building the reports, we should keep all temporary reports from today
+			else
+			{
+				$purgeArchivesOlderThan = Piwik_Date::factory('today')->getDateTime();
+			}
 			$result = Piwik_FetchAll("
 				SELECT idarchive
 				FROM $numericTable

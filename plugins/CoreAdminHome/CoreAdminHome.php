@@ -44,8 +44,8 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		$tasks = &$notification->getNotificationObject();
 		
 		// general data purge on older archive tables, executed daily
-		$priority = Piwik_ScheduledTask::NORMAL_PRIORITY;
-		$purgeArchiveTablesTask = new Piwik_ScheduledTask ( $this, 
+		$priority = Piwik_ScheduledTask::HIGH_PRIORITY;
+		$purgeArchiveTablesTask = new Piwik_ScheduledTask ( $this,
 															'purgeOutdatedArchives',
 															new Piwik_ScheduledTime_Daily(),
 															$priority );
