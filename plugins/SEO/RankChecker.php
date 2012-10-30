@@ -130,13 +130,16 @@ class Piwik_SEO_RankChecker
 		$url = preg_replace('/^www\./', '', $this->url);
 		$url = 'http://www.who.is/whois/'.urlencode($url);
 		$data = $this->getPage($url);
-		preg_match('#(?:Creation Date|Created On):\s*([a-z0-9/-]+)#si', $data, $p);
+		preg_match('#(?:Creation Date|Created On):\s*([ \ta-z0-9/-]+)#si', $data, $p);
 		if(!isset($p[1]))
 		{
 			return null;
 		}
-		$value = time() - strtotime($p[1]);
-		$value = Piwik::getPrettyTimeFromSeconds($value);
+		$value = strtotime($p[1]);
+		if ($value === false) {
+			return null;
+		}
+		$value = Piwik::getPrettyTimeFromSeconds(time() - $value);
 		return $value;
 	}
 
