@@ -2053,7 +2053,7 @@ var
                         gears: 'application/x-googlegears',
                         ag: 'application/x-silverlight'
                     },
-                    devicePixelRatio = (new Regexp('Mac OS X.*Safari/')).test(navigatorAlias.userAgent) ? windowAlias.devicePixelRatio || 1 : 1;
+                    devicePixelRatio = (new RegExp('Mac OS X.*Safari/')).test(navigatorAlias.userAgent) ? windowAlias.devicePixelRatio || 1 : 1;
 
                 if (!((new RegExp('MSIE')).test(navigatorAlias.userAgent))) {
                     // general plugin detection
