@@ -22,3 +22,4 @@ final class Piwik_Version
 	 * @var string
 	 */
 	const VERSION = '1.9.2-b2';
+}
