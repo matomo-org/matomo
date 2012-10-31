@@ -135,47 +135,45 @@ var piwikHelper = {
 	 */
 	ajaxCall: function(module, action, params, callback, format, async) {
 
-        var urlParams = {};
-        urlParams.module = module;
+        params.module = module;
 		if (action)
         {
-            urlParams.action = action;
+            params.action = action;
 		}
 		
-		urlParams.idSite = params.idSite ? params.idSite : piwik.idSite;
-		urlParams.period = params.period ? params.period : piwik.period;
+        params.idSite = params.idSite ? params.idSite : piwik.idSite;
+        params.period = params.period ? params.period : piwik.period;
 		
-		if (params.date)
+		if (!params.date)
 		{
-			urlParams.date = params.date;
-		}
-		else
-		{
-			urlParams.date = piwik.currentDateString;
-			if (urlParams.period == 'range')
+            params.date = piwik.currentDateString;
+			if (params.period == 'range')
 			{
-				urlParams.date = piwik.startDateString + ',' + urlParams.date;
+                params.date = piwik.startDateString + ',' + params.date;
 			}
 		}
-		
-        // send token_auth always as post parameter
-        params.token_auth = piwik.token_auth;
 
+        // never append token_auth to url
+        if(params.token_auth) {
+            params.token_auth = null;
+            delete params.token_auth;
+        }
+		
 		var segment = params.segment ? params.segment : broadcast.getValueFromHash('segment', window.location.href);
 		if (segment)
 		{
-            urlParams.segment = segment;
+            params.segment = segment;
 		}
 
         var ajaxRequest =
         {
             type: 'POST',
             async: async !== false,
-            url: 'index.php?' + $.param(urlParams),
+            url: 'index.php?' + $.param(params),
             dataType: format || 'json',
             error: piwikHelper.ajaxHandleError,
             success: callback,
-            data: params
+            data: {token_auth: piwik.token_auth}
         };
 
 		piwikHelper.queueAjaxRequest($.ajax(ajaxRequest));
