@@ -12,7 +12,7 @@
 		<exit_rate>100%</exit_rate>
 		<subtable>
 			<row>
-				<label />
+				<label>/index.htm?whatever=</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
