@@ -72,7 +72,7 @@ class Piwik_API_DataTableGenericFilter
 							),
 				'AddColumnsProcessedMetricsGoal'	=> array(
 									'filter_update_columns_when_show_all_goals'	=> array('integer'),
-									'idGoal' => array('string'),
+									'idGoal' => array('string', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW),
 							),
 				'Sort' => array(
 									'filter_sort_column' 		=> array('string'),
@@ -88,7 +88,7 @@ class Piwik_API_DataTableGenericFilter
 							),
 			);
 		}
-		
+
 		return self::$genericFiltersInfo;
 	}
 	

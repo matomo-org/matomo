@@ -24,7 +24,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	public function main()
 	{
 		$this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('idGoal', 0, 'string');
+		$this->processOnlyIdGoal = Piwik_Common::getRequestVar('idGoal', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
 		$this->isEcommerce = $this->processOnlyIdGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER;
 		$this->viewProperties['show_exclude_low_population'] = true;
 		$this->viewProperties['show_goals'] = true;
@@ -147,6 +147,10 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 				foreach($goals as $goal)
 				{
 					$idgoal = $goal['idgoal'];
+
+					// Columns names are escaped in smarty via | escape:'html'
+					$goal['name'] = Piwik_Common::unsanitizeInputValue($goal['name']);
+
 					if($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
 						&& $this->processOnlyIdGoal != $idgoal
 						&& !$this->isEcommerce)
@@ -234,7 +238,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	protected function getRequestString()
 	{
 		$requestString = parent::getRequestString();
-		if($this->processOnlyIdGoal >= Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
+		if($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
 			|| $this->isEcommerce
 			)
 		{
