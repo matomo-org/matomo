@@ -234,7 +234,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 	protected function getRequestString()
 	{
 		$requestString = parent::getRequestString();
-		if($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
+		if($this->processOnlyIdGoal >= Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
 			|| $this->isEcommerce
 			)
 		{
