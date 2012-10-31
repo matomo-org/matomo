@@ -842,34 +842,37 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$doTrackUrlForSiteSearch = !empty(Piwik_Config::getInstance()->Tracker['action_sitesearch_record_url']);
 
 		$originalUrl = self::cleanupUrl($originalUrl);
-		$parsedUrl = @parse_url($originalUrl);
 
-		// Detect Site Search from URL query parameters
-		if(!empty($parsedUrl['query']) || !empty($parsedUrl['fragment']))
+
+		// Detect Site search from Tracking API parameters rather than URL
+		$searchKwd = Piwik_Common::getRequestVar( self::PARAMETER_NAME_SEARCH_KEYWORD, '', 'string', $this->request);
+		if(!empty($searchKwd))
 		{
-			// array($url, $actionName, $categoryName, $count);
-			$searchInfo = $this->detectSiteSearchFromUrl($website, $parsedUrl);
-			if(!empty($searchInfo)) {
-				list ($url, $actionName, $categoryName, $count) = $searchInfo;
+			$actionName = $searchKwd;
+			if($doTrackUrlForSiteSearch) {
+				$url = $originalUrl;
+			}
+			$isCategoryName = Piwik_Common::getRequestVar( self::PARAMETER_NAME_SEARCH_CATEGORY, false, 'string', $this->request);
+			if(!empty($isCategoryName)) {
+				$categoryName = $isCategoryName;
+			}
+			$isCount = Piwik_Common::getRequestVar( self::PARAMETER_NAME_SEARCH_COUNT, -1, 'int', $this->request);
+			if($this->isValidSearchCount($isCount)) {
+				$count = $isCount;
 			}
 		}
 
-		// Detect Site search from Tracking API parameters rather than URL
-		if(empty($actionName)) {
-			$searchKwd = Piwik_Common::getRequestVar( self::PARAMETER_NAME_SEARCH_KEYWORD, '', 'string', $this->request);
-			if(!empty($searchKwd))
+		if(empty($actionName))
+		{
+			$parsedUrl = @parse_url($originalUrl);
+
+			// Detect Site Search from URL query parameters
+			if(!empty($parsedUrl['query']) || !empty($parsedUrl['fragment']))
 			{
-				$actionName = $searchKwd;
-				if($doTrackUrlForSiteSearch) {
-					$url = $originalUrl;
-				}
-				$isCategoryName = Piwik_Common::getRequestVar( self::PARAMETER_NAME_SEARCH_CATEGORY, false, 'string', $this->request);
-				if(!empty($isCategoryName)) {
-					$categoryName = $isCategoryName;
-				}
-				$isCount = Piwik_Common::getRequestVar( self::PARAMETER_NAME_SEARCH_COUNT, -1, 'int', $this->request);
-				if($this->isValidSearchCount($isCount)) {
-					$count = $isCount;
+				// array($url, $actionName, $categoryName, $count);
+				$searchInfo = $this->detectSiteSearchFromUrl($website, $parsedUrl);
+				if(!empty($searchInfo)) {
+					list ($url, $actionName, $categoryName, $count) = $searchInfo;
 				}
 			}
 		}
@@ -972,6 +975,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
 		$actionName = trim(urldecode($actionName));
+		if(empty($actionName)) {
+			return false;
+		}
 		$categoryName = trim(urldecode($categoryName));
 		return array($url, $actionName, $categoryName, $count);
 	}

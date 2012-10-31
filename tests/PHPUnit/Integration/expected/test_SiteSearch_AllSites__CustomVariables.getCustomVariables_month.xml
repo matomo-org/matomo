@@ -62,10 +62,22 @@
 		<result date="2010-01">
 			<row>
 				<label>_pk_scount</label>
-				<nb_actions>1</nb_actions>
+				<nb_actions>2</nb_actions>
 				<subtable>
 					<row>
 						<label>0</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>2</nb_actions>
+						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+					</row>
+				</subtable>
+			</row>
+			<row>
+				<label>_pk_scat</label>
+				<nb_actions>1</nb_actions>
+				<subtable>
+					<row>
+						<label>Bad No Result Category bis :(</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>

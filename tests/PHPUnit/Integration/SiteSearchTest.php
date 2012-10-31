@@ -251,7 +251,7 @@ class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
 		self::checkResponse($visitor->doTrackPageView('Site Search with 1 result'));
 
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.5)->getDatetime());
-		self::checkResponse($visitor->doTrackSiteSearch("No Result Keyword!", "Bad No Result Category :(", $count = 0));
+		self::checkResponse($visitor->doTrackSiteSearch("No Result Keyword!", "Bad No Result Category bis :(", $count = 0));
 		return array($defaultInit, $visitor);
 	}
 }
