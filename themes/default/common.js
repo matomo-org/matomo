@@ -142,14 +142,22 @@ var piwikHelper = {
             urlParams.action = action;
 		}
 		
-        urlParams.date = params.date ? params.date : piwik.currentDateString;
-        urlParams.idSite = params.idSite ? params.idSite : piwik.idSite;
-        urlParams.period = params.period ? params.period : piwik.period;
-		if (urlParams.period == 'range')
+		urlParams.idSite = params.idSite ? params.idSite : piwik.idSite;
+		urlParams.period = params.period ? params.period : piwik.period;
+		
+		if (params.date)
 		{
-            urlParams.date = piwik.startDateString + ',' + urlParams.date;
+			urlParams.date = params.date;
 		}
-
+		else
+		{
+			urlParams.date = piwik.currentDateString;
+			if (urlParams.period == 'range')
+			{
+				urlParams.date = piwik.startDateString + ',' + urlParams.date;
+			}
+		}
+		
         // send token_auth always as post parameter
         params.token_auth = piwik.token_auth;
 
