@@ -17,24 +17,16 @@ function widgetsHelper()
 widgetsHelper.getAvailableWidgets = function ()
 {
     if(!widgetsHelper.availableWidgets) {
-        var ajaxRequest =
-        {
-            type: 'POST',
-            url: 'index.php',
-            data: {
-                module: 'Dashboard',
-                action: 'getAvailableWidgets',
-                token_auth: piwik.token_auth,
-                idSite: piwik.idSite
-            },
-            dataType: 'json',
-            async: false,
-            error: piwikHelper.ajaxHandleError,
-            success: function(data){ 
+        piwikHelper.ajaxCall(
+            'Dashboard',
+            'getAvailableWidgets',
+            {},
+            function(data) {
                 widgetsHelper.availableWidgets = data;
-            }
-        };
-        $.ajax(ajaxRequest);
+            },
+            'json',
+            false
+        );
     }
     
     return widgetsHelper.availableWidgets;
@@ -91,7 +83,12 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
     {
     	widgetParameters['token_auth'] = token_auth;
     }
-    
+    var disableLink = broadcast.getValueFromUrl('disableLink');
+    if(disableLink.length)
+    {
+    	widgetParameters['disableLink'] = disableLink;
+    }
+
 	return {
 		widgetUniqueId:widgetUniqueId,
 		type: 'GET',
