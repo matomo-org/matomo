@@ -426,7 +426,7 @@ div.widgetpreview-preview {
 }
 
 #newDashboardNameInput, #createDashboardNameInput {
-     margin: 20px 0 0 100px;
+    margin: 20px 0 0 100px;
     text-align: left;
 }
 
@@ -437,4 +437,20 @@ div.widgetpreview-preview {
 .popoverSubMessage {
     text-align: center;
     padding: 10px 0 5px 0;
+}
+
+#copyDashboardToUserConfirm .inputs {
+    width: 375px;
+    margin: 10px auto 0;
+}
+
+#copyDashboardToUserConfirm .inputs select,
+#copyDashboardToUserConfirm .inputs input {
+    width: 150px;
+    float: left;
+}
+
+#copyDashboardToUserConfirm .inputs label {
+    width: 200px;
+    float: left;
 }
