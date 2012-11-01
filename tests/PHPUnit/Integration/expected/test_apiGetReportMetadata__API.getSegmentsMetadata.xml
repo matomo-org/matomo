@@ -45,28 +45,49 @@
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>visit</category>
+		<category>Visit Location</category>
 		<name>City</name>
 		<segment>city</segment>
 		<acceptedValues>Sydney, Sao Paolo, Rome, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>visit</category>
+		<category>Visit Location</category>
+		<name>Continent</name>
+		<segment>continent</segment>
+		<acceptedValues>eur, asi, amc, amn, ams, afr, ant, oce</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit Location</category>
+		<name>Country</name>
+		<segment>country</segment>
+		<acceptedValues>de, us, fr, in, es, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit Location</category>
 		<name>Latitude</name>
 		<segment>lat</segment>
 		<acceptedValues>-33.578, 40.830, etc.&lt;br/&gt;You can select visitors within a lat/long range using &amp;segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>visit</category>
+		<category>Visit Location</category>
 		<name>Longitude</name>
 		<segment>long</segment>
 		<acceptedValues>-70.664, 14.326, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
-		<category>visit</category>
+		<category>Visit Location</category>
+		<name>Provider</name>
+		<segment>provider</segment>
+		<acceptedValues>comcast.net, proxad.net, etc.</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit Location</category>
 		<name>Region</name>
 		<segment>region</segment>
 		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=A1;country=fr</acceptedValues>
@@ -88,20 +109,6 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Continent</name>
-		<segment>continent</segment>
-		<acceptedValues>eur, asi, amc, amn, ams, afr, ant, oce</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Country</name>
-		<segment>country</segment>
-		<acceptedValues>de, us, fr, in, es, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
 		<name>Local time</name>
 		<segment>visitLocalHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
@@ -112,13 +119,6 @@
 		<name>Operating system</name>
 		<segment>operatingSystem</segment>
 		<acceptedValues>WXP, WI7, MAC, LIN, AND, IPD, etc.</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visit</category>
-		<name>Provider</name>
-		<segment>provider</segment>
-		<acceptedValues>comcast.net, proxad.net, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

@@ -2581,14 +2581,6 @@
 		<value>Plugin d'exemple: Comment créer une API pour votre plugin, exporter vos données dans de multiples formats sans aucun développement spécial?</value>
 	</row>
 	<row>
-		<label>ExampleFeedburner_PluginDescription</label>
-		<value>Plugin d'exemple: Comment afficher votre abonnement Feedburner dans un Widget dans le tableau de bord?</value>
-	</row>
-	<row>
-		<label>ExampleFeedburner_Help</label>
-		<value>Aide à propos des analyses RSS</value>
-	</row>
-	<row>
 		<label>ExampleRssWidget_PluginDescription</label>
 		<value>Plugin d'exemple: Comment créer un nouveau widget qui lit un flux RSS?</value>
 	</row>
