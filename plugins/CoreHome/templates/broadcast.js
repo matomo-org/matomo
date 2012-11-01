@@ -523,7 +523,7 @@ var broadcast = {
             }
             var value = url.substring(startStr + param.length +1,endStr);
             // sanitize values
-            value = value.replace(/[^_%\-\<\>!@=,0-9a-zA-Z]/gi, '');
+            value = value.replace(/[^_%\-\<\>!@=,;0-9a-zA-Z]/gi, '');
 
             return value;
         } else {
