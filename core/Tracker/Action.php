@@ -1015,7 +1015,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		// if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
 		// encode to UTF-8.
 		if ($encoding !== false
-			&& strtolower($encoding) !== 'utf-8'
+			&& !in_array( strtolower($encoding), array('utf-8', 'iso-8859-1', 'iso-8859-15'))
 			&& function_exists('mb_check_encoding'))
 		{
 			foreach ($queryParameters as $key => &$value)

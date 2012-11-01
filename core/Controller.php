@@ -501,7 +501,7 @@ abstract class Piwik_Controller
 		{
 			// invalid host, so display warning to user
 			$validHost = Piwik_Config::getInstance()->General['trusted_hosts'][0];
-			$invalidHost = $_SERVER['HTTP_HOST'];
+			$invalidHost = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 			
 			$emailSubject = rawurlencode(Piwik_Translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
 			$emailBody = rawurlencode(Piwik_Translate('CoreHome_InjectedHostEmailBody'));

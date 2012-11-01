@@ -1532,7 +1532,7 @@ var
                 // of urls will be the same as this and not utf-8, which will cause problems
                 // do not send charset if it is utf8 since it's assumed by default in Piwik
                 var charSet = document.characterSet || document.charset;
-                if (!charSet || charSet.toLowerCase() === 'utf-8') {
+                if (!charSet || charSet.toLowerCase() === 'utf-8' || charSet.toLowerCase() === 'iso-8859-1' || charSet.toLowerCase() === 'iso-8859-15') {
                     charSet = null;
                 }
 
