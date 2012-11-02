@@ -124,6 +124,15 @@
         },
 
         /**
+         * Return the current dashboard id
+         *
+         * @return {int}
+         */
+        getDashboardId: function() {
+            return dashboardId;
+        },
+
+        /**
          * Sets a new name for the current dashboard
          *
          * @param {String} newName
