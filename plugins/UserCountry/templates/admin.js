@@ -14,27 +14,20 @@ $(document).ready(function() {
 			loading = $('.loadingPiwik', parent),
 			ajaxSuccess = $('.ajaxSuccess', parent);
 		loading.show();
-		
-		$.ajax({
-			type: 'POST',
-			url: 'index.php',
-			data: {
-				module: 'UserCountry',
-				action: 'setCurrentLocationProvider',
-				token_auth: piwik.token_auth,
-				id: $(this).val()
-			},
-			async: true,
-			error: piwikHelper.ajaxHandleError,		// Callback when the request fails
-			success: function() {
-				loading.hide();
-				ajaxSuccess.fadeIn(1000, function() {
-					setTimeout(function() {
-						ajaxSuccess.fadeOut(1000);
-					}, 2000);
-				});
-			}
-		});
+
+        piwikHelper.ajaxCall(
+            'UserCountry',
+            'setCurrentLocationProvider',
+            {id: $(this).val()},
+            function() {
+                loading.hide();
+                ajaxSuccess.fadeIn(1000, function() {
+                    setTimeout(function() {
+                        ajaxSuccess.fadeOut(1000);
+                    }, 2000);
+                });
+            }
+        );
 	});
 	
 	// handle 'refresh location' link click
@@ -47,23 +40,18 @@ $(document).ready(function() {
 		
 		location.css('visibility', 'hidden');
 		loading.show();
-		
-		$.ajax({
-			type: 'POST',
-			url: 'index.php',
-			data: {
-				module: 'UserCountry',
-				action: 'getLocationUsingProvider',
-				id: $(this).attr('data-impl-id')
-			},
-			async: true,
-			error: piwikHelper.ajaxHandleError,		// Callback when the request fails
-			success: function(response) {
-				loading.hide();
-				location.html('<strong><em>' + response + '</em></strong>').css('visibility', 'visible');
-			}
-		});
-		
+
+        piwikHelper.ajaxCall(
+            'UserCountry',
+            'getLocationUsingProvider',
+            {id: $(this).attr('data-impl-id')},
+            function(response) {
+                loading.hide();
+                location.html('<strong><em>' + response + '</em></strong>').css('visibility', 'visible');
+            },
+            'html'
+        );
+
 		return false;
 	});
 });

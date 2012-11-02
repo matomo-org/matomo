@@ -141,12 +141,12 @@ var piwikHelper = {
             params.action = action;
 		}
 		
-        params.idSite = params.idSite ? params.idSite : piwik.idSite;
-        params.period = params.period ? params.period : piwik.period;
+        params.idSite = params.idSite ? params.idSite : piwik.idSite || '';
+        params.period = params.period ? params.period : piwik.period || '';
 		
 		if (!params.date)
 		{
-            params.date = piwik.currentDateString;
+            params.date = piwik.currentDateString || '';
 			if (params.period == 'range')
 			{
                 params.date = piwik.startDateString + ',' + params.date;
