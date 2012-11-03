@@ -77,7 +77,7 @@
 			</td>
 			<td>
 				<h2>{'General_Reports'|translate}</h2>
-				<div class="ajaxLoad" href="index.php?module=DBStats&action=getIndividualReportsSummary&viewDataTable=table">
+				<div class="ajaxLoad" action="getIndividualReportsSummary">
 					<span class="loadingPiwik"><img src="themes/default/images/loading-blue.gif" />{'General_LoadingData'|translate}</span>
  				</div>
 			</td>
@@ -95,7 +95,7 @@
 			</td>
 			<td>
 				<h2>{'General_Metrics'|translate}</h2>
-				<div class="ajaxLoad" href="index.php?module=DBStats&action=getIndividualMetricsSummary&viewDataTable=table">
+				<div class="ajaxLoad" action="getIndividualMetricsSummary">
 					<span class="loadingPiwik"><img src="themes/default/images/loading-blue.gif" />{'General_LoadingData'|translate}</span>
 				</div>
 			</td>
@@ -121,29 +121,21 @@
 (function( $ ){
 	$(document).ready(function() {
 		$('.ajaxLoad').each(function() {
-			var self = this,
-				reportUrl = $(this).attr('href');
+			var self = this;
+			var action = $(this).attr('action');
 			
 			// build & execute AJAX request
-			var request =
-			{
-				type: 'GET',
-				url: reportUrl,
-				dataType: 'html',
-				async: true,
-				error: piwikHelper.ajaxHandleError,		// Callback when the request fails
-				data: {
-					idSite: broadcast.getValueFromUrl('idSite'),
-					period: broadcast.getValueFromUrl('period'),
-					date: broadcast.getValueFromUrl('date')
-				},
-				success: function(data) {
-					$('.loadingPiwik', self).hide();
-					$(self).html(data);
-				}
-			};
-			
-			piwikHelper.queueAjaxRequest($.ajax(request));
+            piwikHelper.ajaxCall(
+                    'DBStats',
+                    action,
+                    {viewDataTable: 'table'},
+                    function(data) {
+                        $('.loadingPiwik', self).remove();
+                        $(self).html(data);
+                    },
+                    'html',
+                    true
+            );
 		});
 	});
 })( jQuery );
