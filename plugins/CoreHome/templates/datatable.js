@@ -119,34 +119,7 @@ dataTable.prototype =
 			if(self.param[key] == 'false') self.param[key]=false;
 		}
 	},
-		
-	// Returns the standard Ajax request object used by the Jquery .ajax method
-	buildAjaxRequest: function(callbackSuccess)
-	{
-		var self = this;
-		
-		//prepare the ajax request
-		var ajaxRequest = 
-		{
-			type: 'GET',
-			url: 'index.php',
-			dataType: 'html',
-			async: true,
-			error: piwikHelper.ajaxHandleError,		// Callback when the request fails
-			success: callbackSuccess,	// Callback when the request succeeds
-			data: new Object
-		};
-		
-		//Extract the configuration from the datatable and pass it to the API
-		for(var key in self.param)
-		{
-			if(typeof self.param[key] != "undefined")
-				ajaxRequest.data[key] = self.param[key];
-		}
-		
-		return ajaxRequest;
-	},
-	
+
 	// Function called to trigger the AJAX request 
 	// The ajax request contains the function callback to trigger if the request is successful or failed
 	// displayLoading = false When we don't want to display the Loading... DIV .loadingPiwik
@@ -177,14 +150,28 @@ dataTable.prototype =
 		}
 		
 		var container = $('#'+self.workingDivId+' .piwik-graph');
-		piwikHelper.queueAjaxRequest($.ajax(self.buildAjaxRequest(function(response) {
-			container.trigger('piwikDestroyPlot');
-			container.off('piwikDestroyPlot');
-			callbackSuccess(response);
-		})));
+
+        var params = {};
+        for(var key in self.param)
+        {
+            if(typeof self.param[key] != "undefined")
+                params[key] = self.param[key];
+        }
+
+        piwikHelper.ajaxCall(
+            self.param.module,
+            self.param.action,
+            params,
+            function (response) {
+                container.trigger('piwikDestroyPlot');
+                container.off('piwikDestroyPlot');
+                callbackSuccess(response);
+            },
+            'html',
+            true
+        );
 	},
-			
-	
+
 	// Function called when the AJAX request is successful
 	// it looks for the ID of the response and replace the very same ID 
 	// in the current page with the AJAX response
@@ -1478,7 +1465,6 @@ actionDataTable.prototype =
 	//method inheritance
 	cleanParams: dataTable.prototype.cleanParams,
 	reloadAjaxDataTable: dataTable.prototype.reloadAjaxDataTable,
-	buildAjaxRequest: dataTable.prototype.buildAjaxRequest,
 	handleConfigurationBox: dataTable.prototype.handleConfigurationBox,
 	handleSearchBox: dataTable.prototype.handleSearchBox,
 	handleExportBox: dataTable.prototype.handleExportBox,
