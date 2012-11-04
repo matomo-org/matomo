@@ -92,7 +92,7 @@ var piwikHelper = {
     /**
      * Registers the given requests to the list of running requests
      * @param {XMLHttpRequest} request  Request to be registered
-     * @return {void}
+     * @return {XMLHttpRequest}
      */
     queueAjaxRequest: function( request )
     {
@@ -103,6 +103,7 @@ var piwikHelper = {
                 this.globalAjaxQueue.splice(i, 1);
             }
         }
+        return request;
     },
 
 	/**
@@ -111,14 +112,15 @@ var piwikHelper = {
 	 * @param 	method 		API method name, i.e. Plugin.Method
 	 * @param	params		parameters for the request
 	 * @param	callback	regular callback
+     * @param	format		response format, default json
      * @param   async       defines if the request should be asnyc (default: true)
 	 *
-	 * @return {void}
+	 * @return {XMLHttpRequest}
 	 */
-	ajaxCallApi: function(method, params, callback, async)
+	ajaxCallApi: function(method, params, callback, format, async)
 	{
 		params.method = method;
-		piwikHelper.ajaxCall('API', false, params, callback, async);
+		return piwikHelper.ajaxCall('API', false, params, callback, format, async);
 	},
 	
 	/**
@@ -131,7 +133,7 @@ var piwikHelper = {
 	 * @param	format		response format, default json
      * @param   async       defines if the request should be asnyc (default: true)
 	 * 
-	 * @return {void}
+	 * @return {XMLHttpRequest}
 	 */
 	ajaxCall: function(module, action, params, callback, format, async) {
 
@@ -176,7 +178,7 @@ var piwikHelper = {
             data: {token_auth: piwik.token_auth}
         };
 
-		piwikHelper.queueAjaxRequest($.ajax(ajaxRequest));
+		return piwikHelper.queueAjaxRequest($.ajax(ajaxRequest));
 	},
 
     /**
