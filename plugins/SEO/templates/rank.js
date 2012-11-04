@@ -9,24 +9,17 @@ $(document).ready(function() {
 	function getRank()
 	{
 		piwikHelper.showAjaxLoading('ajaxLoadingSEO');
-		var ajaxRequest = 
-		{
-			type: 'POST',
-			url: 'index.php',
-			dataType: 'html',
-			error: piwikHelper.ajaxHandleError,		
-			success: function (response) {
-				piwikHelper.hideAjaxLoading('ajaxLoadingSEO');
-				$('#SeoRanks').html(response);
-			},
-			data: { 
-				module: 'SEO',
-				action :'getRank',
-				url: encodeURIComponent( $('#seoUrl').val() ), 
-				idSite: piwik.idSite
-			}
-		};
-		piwikHelper.queueAjaxRequest( $.ajax( ajaxRequest ) );
+        piwikHelper.ajaxCall(
+            'SEO',
+            'getRank',
+            {url:encodeURIComponent($('#seoUrl').val())},
+            function (response) {
+                piwikHelper.hideAjaxLoading('ajaxLoadingSEO');
+                $('#SeoRanks').html(response);
+            },
+            'html',
+            true
+        );
 	}  
 	
 	// click on Rank button
