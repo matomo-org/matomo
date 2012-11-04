@@ -154,7 +154,7 @@ dataTable.prototype =
         var params = {};
         for(var key in self.param)
         {
-            if(typeof self.param[key] != "undefined")
+            if(typeof self.param[key] != "undefined" && self.param[key] != '')
                 params[key] = self.param[key];
         }
 
