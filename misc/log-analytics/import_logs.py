@@ -1353,7 +1353,7 @@ class Parser(object):
                 hit.host = config.options.log_hostname
             else:
                 try:
-                    hit.host = match.group('host')
+                    hit.host = match.group('host').lower().strip('.')
                 except IndexError:
                     # Some formats have no host.
                     pass
