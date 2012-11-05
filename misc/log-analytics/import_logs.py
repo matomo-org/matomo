@@ -363,6 +363,11 @@ class Configuration(object):
             '--debug-force-one-hit-every-Ns', dest='force_one_action_interval', default=False, type='float',
             help="Debug option that will force each recorder to record one hit every N secs."
         )
+        option_parser.add_option(
+            '--invalidate-dates', dest='invalidate_dates', default=None,
+            help="Invalidate reports for the specified dates (format: YYYY-MM-DD,YYYY-MM-DD,...). "
+                 "By default, all dates found in the logs will be invalidated.",
+        )
         return option_parser
 
 
@@ -1123,13 +1128,20 @@ class Recorder(object):
         if config.options.dry_run or not stats.dates_recorded:
             return
 
-        dates = [date.strftime('%Y-%m-%d') for date in stats.dates_recorded]
-        print 'Purging Piwik archives for dates: ' + ' '.join(dates)
-        result = piwik.call_api(
-            'CoreAdminHome.invalidateArchivedReports',
-            dates=','.join(dates),
-            idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
-        )
+        if config.options.invalidate_dates is not None:
+            dates = [date for date in config.options.invalidate_dates.split(',') if date]
+        else:
+            dates = [date.strftime('%Y-%m-%d') for date in stats.dates_recorded]
+        if dates:
+            print 'Purging Piwik archives for dates: ' + ' '.join(dates)
+            result = piwik.call_api(
+                'CoreAdminHome.invalidateArchivedReports',
+                dates=','.join(dates),
+                idSites=','.join(str(site_id) for site_id in stats.piwik_sites),
+            )
+            print('To re-process these reports with your new update data, execute the '
+                  'piwik/misc/cron/archive.php script, or see: http://piwik.org/setup-auto-archiving/ '
+                  'for more info.')
 
 
 
