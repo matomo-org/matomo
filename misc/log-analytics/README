@@ -165,3 +165,11 @@ Apache configuration source code:
 		# * triggering only when the env variable is set, so requests to other URIs on this domain don't call this logging rule
 		Use piwiklog domain.com/%{vhostLogName}e vhost_domain_com_subsites domain_com_subsites env=vhostLogName
 	</VirtualHost>
+
+
+Nginx Virtual Host Log Format
+-----------------------------
+This log format can be specified for nginx access logs to capture multiple virtual hosts:
+ * log_format vhosts '$host $remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"';
+ * access_log /PATH/TO/access.log vhosts;
+When executing import_logs.py specify the "common_complete" format.
