@@ -1162,6 +1162,12 @@ class Parser(object):
     a Queue.
     """
 
+    def __init__(self):
+        self.check_methods = [method for name, method
+                              in inspect.getmembers(self, predicate=inspect.ismethod)
+                              if name.startswith('check_')]
+
+
     ## All check_* methods are called for each hit and must return True if the
     ## hit can be imported, False otherwise.
 
@@ -1180,21 +1186,21 @@ class Parser(object):
         return result
 
     def check_static(self, hit):
-        for extension in STATIC_EXTENSIONS:
-            if hit.path.lower().endswith(extension):
-                if config.options.enable_static:
-                    hit.is_download = True
-                    return True
-                else:
-                    stats.count_lines_static.increment()
-                    return False
+        extension = hit.path.rsplit('.')[-1].lower()
+        if extension in STATIC_EXTENSIONS:
+            if config.options.enable_static:
+                hit.is_download = True
+                return True
+            else:
+                stats.count_lines_static.increment()
+                return False
         return True
 
     def check_download(self, hit):
-        for extension in DOWNLOAD_EXTENSIONS:
-            if hit.path.lower().endswith(extension):
-                stats.count_lines_downloads.increment()
-                hit.is_download = True
+        extension = hit.path.rsplit('.')[-1].lower()
+        if extension in DOWNLOAD_EXTENSIONS:
+            stats.count_lines_downloads.increment()
+            hit.is_download = True
         return True
 
     def check_user_agent(self, hit):
@@ -1210,7 +1216,7 @@ class Parser(object):
         return True
 
     def check_http_error(self, hit):
-        if hit.status.startswith('4') or hit.status.startswith('5'):
+        if hit.status[0] in ('4', '5'):
             if config.options.enable_http_errors:
                 hit.is_error = True
                 return True
@@ -1220,7 +1226,7 @@ class Parser(object):
         return True
 
     def check_http_redirect(self, hit):
-        if hit.status.startswith('3') and hit.status != '304':
+        if hit.status[0] == '3' and hit.status != '304':
             if config.options.enable_http_redirects:
                 hit.is_redirect = True
                 return True
@@ -1373,8 +1379,7 @@ class Parser(object):
                     pass
 
             # Check if the hit must be excluded.
-            check_methods = inspect.getmembers(self, predicate=inspect.ismethod)
-            if all((method(hit) for name, method in check_methods if name.startswith('check_'))):
+            if all((method(hit) for method in self.check_methods)):
                 hits.append(hit)
             
                 if len(hits) >= config.options.recorder_max_payload_size * len(Recorder.recorders):
