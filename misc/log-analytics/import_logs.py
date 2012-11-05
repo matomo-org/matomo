@@ -187,7 +187,10 @@ class Configuration(object):
     class Error(Exception):
         pass
 
-    def __init__(self):
+    def _create_parser(self):
+        """
+        Initialize and return the OptionParser instance.
+        """
         option_parser = optparse.OptionParser(
             usage='Usage: %prog [options] log_file [ log_file [...] ]',
             description="Import HTTP access logs to Piwik. "
@@ -317,8 +320,8 @@ class Configuration(object):
             '--log-format-name', dest='log_format_name', default=None,
             help=("Access log format to detect (supported are: %s). "
                   "When not specified, the log format will be autodetected by trying all supported log formats."
-                  % ', '.join(sorted(FORMATS.iterkeys()))
-        ))
+                  % ', '.join(sorted(FORMATS.iterkeys())))
+        )
         option_parser.add_option(
             '--log-format-regex', dest='log_format_regex', default=None,
             help="Access log regular expression. For an example of a supported Regex, see the source code of this file. "
@@ -360,7 +363,13 @@ class Configuration(object):
             '--debug-force-one-hit-every-Ns', dest='force_one_action_interval', default=False, type='float',
             help="Debug option that will force each recorder to record one hit every N secs."
         )
+        return option_parser
 
+
+    def _parse_args(self, option_parser):
+        """
+        Parse the command line args and create self.options and self.filenames.
+        """
         self.options, self.filenames = option_parser.parse_args(sys.argv[1:])
 
         if self.options.output:
@@ -415,6 +424,10 @@ class Configuration(object):
 
         if self.options.recorders < 1:
             self.options.recorders = 1
+
+
+    def __init__(self):
+        self._parse_args(self._create_parser())
 
 
     def _get_token_auth(self):
@@ -752,7 +765,8 @@ class Piwik(object):
             raise urllib2.URLError('Piwik returned an invalid response: ' + res[:300])
 
 
-    def _call_wrapper(self, func, expected_response, on_failure, *args, **kwargs):
+    @staticmethod
+    def _call_wrapper(func, expected_response, on_failure, *args, **kwargs):
         """
         Try to make requests to Piwik at most PIWIK_FAILURE_MAX_RETRY times.
         """
@@ -785,12 +799,15 @@ class Piwik(object):
                 else:
                     time.sleep(PIWIK_DELAY_AFTER_FAILURE)
 
-    def call(self, path, args, expected_content=None, headers=None, data=None, on_failure=None):
-        return self._call_wrapper(self._call, expected_content, on_failure, path, args, headers,
+    @classmethod
+    def call(cls, path, args, expected_content=None, headers=None, data=None, on_failure=None):
+        return cls._call_wrapper(cls._call, expected_content, on_failure, path, args, headers,
                                     data=data)
-                                    
-    def call_api(self, method, **kwargs):
-        return self._call_wrapper(self._call_api, None, None, method, **kwargs)
+
+    @classmethod
+    def call_api(cls, method, **kwargs):
+        return cls._call_wrapper(cls._call_api, None, None, method, **kwargs)
+
 
 ##
 ## Resolvers.
