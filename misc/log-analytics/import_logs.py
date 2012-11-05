@@ -1292,6 +1292,12 @@ class Parser(object):
             # The format was explicitely specified.
             format = config.format
         else:
+            # If the file is empty, don't bother.
+            data = file.read(100)
+            if len(data.strip()) == 0:
+                return
+            file.seek(0)
+
             format = self.detect_format(file)
             if format is None:
                 return fatal_error(
