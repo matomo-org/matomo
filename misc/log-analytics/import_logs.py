@@ -1330,26 +1330,6 @@ class Parser(object):
             except IndexError:
                 hit.path, _, hit.query_string = hit.full_path.partition(config.options.query_string_delimiter)
 
-            # Parse date
-            date_string = match.group('date')
-            try:
-                hit.date = datetime.datetime.strptime(date_string, format.date_format)
-            except ValueError:
-                invalid_line(line, 'invalid date')
-                continue
-
-            # Parse timezone and substract its value from the date
-            try:
-                timezone = float(match.group('timezone'))
-            except IndexError:
-                timezone = 0
-            except ValueError:
-                invalid_line(line, 'invalid timezone')
-                continue
-
-            if timezone:
-                hit.date -= datetime.timedelta(hours=timezone/100)
-
             try:
                 hit.referrer = match.group('referrer')
             except IndexError:
@@ -1377,6 +1357,32 @@ class Parser(object):
                 except IndexError:
                     # Some formats have no host.
                     pass
+
+            # Check if the hit must be excluded.
+            if not all((method(hit) for method in self.check_methods)):
+                continue
+
+            # Parse date.
+            # We parse it after calling check_methods as it's quite CPU hungry, and
+            # we want to avoid that cost for excluded hits.
+            date_string = match.group('date')
+            try:
+                hit.date = datetime.datetime.strptime(date_string, format.date_format)
+            except ValueError:
+                invalid_line(line, 'invalid date')
+                continue
+
+            # Parse timezone and substract its value from the date
+            try:
+                timezone = float(match.group('timezone'))
+            except IndexError:
+                timezone = 0
+            except ValueError:
+                invalid_line(line, 'invalid timezone')
+                continue
+
+            if timezone:
+                hit.date -= datetime.timedelta(hours=timezone/100)
 
             # Check if the hit must be excluded.
             if all((method(hit) for method in self.check_methods)):
