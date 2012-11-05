@@ -216,7 +216,12 @@ class Configuration(object):
         option_parser.add_option(
             '--show-progress', dest='show_progress',
             action='store_true', default=os.isatty(sys.stdout.fileno()),
-            help="Print a progress report every second"
+            help="Print a progress report X seconds (default: 1, use --show-progress-delay to override)"
+        )
+        option_parser.add_option(
+            '--show-progress-delay', dest='show_progress_delay',
+            type='int', default=1,
+            help="Change the default progress delay"
         )
         option_parser.add_option(
             '--add-sites-new-hosts', dest='add_sites_new_hosts',
@@ -683,10 +688,10 @@ Performance summary
                 stats.count_lines_parsed.value,
                 current_total,
                 current_total / time_elapsed if time_elapsed != 0 else 0,
-                current_total - latest_total_recorded
+                (current_total - latest_total_recorded) / config.options.show_progress_delay,
             )
             latest_total_recorded = current_total
-            time.sleep(1)
+            time.sleep(config.options.show_progress_delay)
 
     def start_monitor(self):
         t = threading.Thread(target=self._monitor)
