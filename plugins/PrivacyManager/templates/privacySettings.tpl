@@ -180,7 +180,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 		<tr id="deleteSchedulingSettings">
 			<td width="250">{'PrivacyManager_DeleteSchedulingSettings'|translate}<br/></td>
 			<td width="500">
-				{'PrivacyManager_DeleteDataInterval'|translate}
+				<label>{'PrivacyManager_DeleteDataInterval'|translate}
 				<select id="deleteLowestInterval" name="deleteLowestInterval">
 					<option {if $deleteData.config.delete_logs_schedule_lowest_interval eq '1'} selected="selected" {/if}
 																								value="1"> {'CoreHome_PeriodDay'|translate}</option>
@@ -188,7 +188,7 @@ See also our official guide <b><a href='http://piwik.org/privacy/' target='_blan
 																								value="7">{'CoreHome_PeriodWeek'|translate}</option>
 					<option {if $deleteData.config.delete_logs_schedule_lowest_interval eq '30'} selected="selected" {/if}
 																								 value="30">{'CoreHome_PeriodMonth'|translate}</option>
-				</select><br/><br/>
+				</select></label><br/><br/>
 			</td>
 			<td width="200">
 				{capture assign=purgeStats}
