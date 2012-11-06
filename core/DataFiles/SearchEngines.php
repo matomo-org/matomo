@@ -70,6 +70,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// 1und1
 		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?su={k}'),
 
+		// 360search
+		'ix'					=> array('360search', 'q', 's?q={k}', array('UTF-8', 'gb2312')),
+		'www.so.com'				=> array('360search', 'q', 's?q={k}', array('UTF-8', 'gb2312')),,
+
 		// Abacho
 		'www.abacho.de'				=> array('Abacho', 'q', 'suche?q={k}'),
 		'www.abacho.com'			=> array('Abacho'),
