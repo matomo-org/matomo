@@ -50,10 +50,8 @@ var Piwik_Insight_Client = (function() {
 	 */
 	function notifyPiwikOfLocation() {
 		var iframe = c('iframe', false, {
-			src: 'http://piwik-git.stage/index.php?module=Insight&action=notifyParentIframe#'
-					+ window.location.href
-		})
-			.css({width: 0, height: 0, border: 0});
+			src: piwikRoot + 'index.php?module=Insight&action=notifyParentIframe#' + window.location.href
+		}).css({width: 0, height: 0, border: 0});
 		
 		$('body').append(iframe);
 	}
