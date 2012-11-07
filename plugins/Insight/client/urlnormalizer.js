@@ -15,6 +15,9 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	/** The current domain */
 	var currentDomain;
 	
+	/** Regular expressions for parameters to be excluded when matching links on the page */
+	var excludedParamsRegEx = [];
+	
 	/**
 	 * Basic normalizations for domain names
 	 * - remove protocol and www from absolute urls
@@ -76,12 +79,16 @@ var Piwik_Insight_UrlNormalizer = (function() {
 			}
 		},
 		
-		/** Explicitly set domain (for testing) */
+		/**
+		 * Explicitly set domain (for testing)
+		 */
 		setCurrentDomain: function(pCurrentDomain) {
 			currentDomain = removeWww(pCurrentDomain);
 		},
 		
-		/** Explicitly set current url (for testing) */
+		/**
+		 * Explicitly set current url (for testing)
+		 */
 		setCurrentUrl: function(url) {
 			var index = url.lastIndexOf('/');
 			if (index != url.length - 1) {
@@ -92,12 +99,25 @@ var Piwik_Insight_UrlNormalizer = (function() {
 			currentFolder = normalizeDomain(currentFolder)[0];
 		},
 		
-		/** Explicitly set base href (for testing) */
+		/**
+		 * Explicitly set base href (for testing)
+		 */
 		setBaseHref: function(pBaseHref) {
 			if (!pBaseHref) {
 				baseHref = false;
 			} else {
 				baseHref = normalizeDomain(pBaseHref)[0];
+			}
+		},
+
+		/**
+		 * Set the parameters to be excluded when matching links on the page
+		 */
+		setExcludedParameters: function(pExcludedParams) {
+			excludedParamsRegEx = [];
+			for (var i = 0; i < pExcludedParams.length; i++) {
+				var paramString = pExcludedParams[i];
+				excludedParamsRegEx.push(new RegExp('&' + paramString + '=([^&#]*)', 'ig'));
 			}
 		},
 
@@ -110,7 +130,7 @@ var Piwik_Insight_UrlNormalizer = (function() {
 		
 		/**
 		 * Normalize URL
-		 * Can be an absolute or a reltive URL
+		 * Can be an absolute or a relative URL
 		 */
 		normalize: function(url) {
 			if (!url) {
@@ -153,22 +173,28 @@ var Piwik_Insight_UrlNormalizer = (function() {
 			
 			// handle ./ and ../
 			var parts = url.split('/');
-			var url = [];
+			var urlArr = [];
 			for (var i = 0; i < parts.length; i++) {
 				if (parts[i] == '.') {
-					continue;
+					// ignore
 				}
 				else if (parts[i] == '..') {
-					url.pop();
+					urlArr.pop();
 				}
 				else {
-					url.push(parts[i]);
+					urlArr.push(parts[i]);
 				}
 			}
-			url = url.join('/');
+			url = urlArr.join('/');
 			
-			// TODO: remove ignored paramters
-			// TODO: handle order of parameters (?)
+			// remove ignored parameters
+			url = url.replace(/\?/, '?&');
+			for (i = 0; i < excludedParamsRegEx.length; i++) {
+				var regEx = excludedParamsRegEx[i];
+				url = url.replace(regEx, '');
+			}
+			url = url.replace(/\?&/, '?');
+			url = url.replace(/\?$/, '');
 			
 			return url;
 		}
@@ -178,7 +204,7 @@ var Piwik_Insight_UrlNormalizer = (function() {
 })();
 
 
-/* TESTS FOR DOMAIN NORMALIZER *
+/* TESTS FOR URL NORMALIZER *
 
 (function() {
 	
@@ -198,6 +224,7 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	
 	
 	Piwik_Insight_UrlNormalizer.initialize();
+	Piwik_Insight_UrlNormalizer.setExcludedParameters(['excluded1', 'excluded2', 'excluded3']);
 	
 	Piwik_Insight_UrlNormalizer.setBaseHref(false);
 	
@@ -228,17 +255,17 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	
 	test([
 		[
-			'http://www.example2.com/my/test/path.html?id=2#MyAnchor',
+			'http://www.example2.com/my/test/path.html?id=2&excluded2=foo#MyAnchor',
 			'example2.com/my/test/path.html?id=2'
 		], [
-			'/my/test/foo/../path.html',
+			'/my/test/foo/../path.html?excluded1=foo&excluded2=foo&excluded3=foo',
 			'example3.com/my/test/path.html'
 		], [
-			'path/./test//test///foo.bar',
-			'example.com/base/path/test/test/foo.bar'
+			'path/./test//test///foo.bar?excluded2=foo&id=3',
+			'example.com/base/path/test/test/foo.bar?id=3'
 		], [
-			'https://example2.com//test.html#asdf',
-			'example2.com/test.html'
+			'https://example2.com//test.html?id=3&excluded1=foo&bar=baz#asdf',
+			'example2.com/test.html?id=3&bar=baz'
 		], [
 			'#',
 			''

@@ -15,7 +15,10 @@ class Piwik_Insight_API
 	
 	private static $instance = null;
 	
-	/** @return Piwik_Insight_API */
+	/**
+	 * Get Singleton instance
+	 * @return Piwik_Insight_API
+	 */
 	public static function getInstance()
 	{
 		if (self::$instance == null)
@@ -25,7 +28,9 @@ class Piwik_Insight_API
 		return self::$instance;
 	}
 	
-	/** Get translation strings */
+	/**
+	 * Get translation strings
+	 */
 	public function getTranslations($idSite)
 	{
 		$this->authenticate($idSite);
@@ -34,7 +39,21 @@ class Piwik_Insight_API
 		
 		return array_map('Piwik_Translate', $translations);
 	}
-	
+
+	/**
+	 * Get excluded query parameters for a site.
+	 * This information is used for client side url normalization.
+	 */
+	public function getExcludedQueryParameters($idSite)
+	{
+		$this->authenticate($idSite);
+		
+		$sitesManager = Piwik_SitesManager_API::getInstance();
+		$site = $sitesManager->getSiteFromId($idSite);
+		
+		return Piwik_SitesManager::getTrackerExcludedQueryParameters($site);
+	}
+
 	/**
 	 * Get following pages of a url.
 	 * This is done on the logs - not the archives!

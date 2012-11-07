@@ -1,6 +1,6 @@
 var Piwik_Insight = (function() {
 	
-	var $container, $sidebar, $main, $location; 
+	var $container, $iframe, $sidebar, $main, $location; 
 	
 	var isFullScreen = false;
 	
@@ -29,14 +29,16 @@ var Piwik_Insight = (function() {
 	
 	/** Adjust the height of the iframe */
 	function adjustHeight() {
-		var height;
+		var height, iframeHeight;
 		if (isFullScreen) {
-			height = $(window).height();
+			iframeHeight = height = $(window).height();
 		} else {
 			height = $(window).height() - $main.offset().top - 25;
+			iframeHeight = height - 4;
 		}
 		height = Math.max(300, height);
 		$container.height(height);
+		$iframe.height(iframeHeight);
 	}
 	
 	/** Handle full screen */ 
@@ -59,6 +61,7 @@ var Piwik_Insight = (function() {
 		/** This method is called when insight loads (from index.tpl) */
 		init: function() {
 			$container = $('#Insight_Container');
+			$iframe = $container.find('iframe');
 			$sidebar = $('#Insight_Sidebar');
 			$location = $('#Insight_Location');
 			$main = $('#Insight_Main');

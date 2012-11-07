@@ -20,15 +20,6 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		
 		$view = Piwik_View::factory('index');
 		$view->idSite = $this->idSite;
-		
-		$sitesManager = Piwik_SitesManager_API::getInstance();
-		$site = $sitesManager->getSiteFromId($this->idSite);
-		
-		// TODO: pass the excluded parameters to the client
-		// use them in the normalization algorithm for link urls
-		$excludedParamteres = $site['excluded_parameters'];
-		
-		// date
 		$view->date = Piwik_Common::getRequestVar('date', 'today');
 		$view->period = Piwik_Common::getRequestVar('period', 'day');
 		

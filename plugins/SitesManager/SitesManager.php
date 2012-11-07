@@ -85,7 +85,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 
 		$website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
 		$array['excluded_ips'] = $this->getTrackerExcludedIps($website);
-		$array['excluded_parameters'] = $this->getTrackerExcludedQueryParameters($website);
+		$array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
 		$array['sitesearch'] = $website['sitesearch'];
 		$array['sitesearch_keyword_parameters'] = $this->getTrackerSearchKeywordParameters($website);
 		$array['sitesearch_category_parameters'] = $this->getTrackerSearchCategoryParameters($website);
@@ -138,7 +138,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	 *
 	 * @return array
 	 */
-	private function getTrackerExcludedQueryParameters($website)
+	public static function getTrackerExcludedQueryParameters($website)
 	{
 		$excludedQueryParameters = $website['excluded_parameters'];
 		$globalExcludedQueryParameters = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();

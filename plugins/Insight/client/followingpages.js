@@ -5,6 +5,9 @@ var Piwik_Insight_FollowingPages = (function() {
 
 	/** Info about the following pages */
 	var followingPages = [];
+	
+	/** List of excluded get parameters */
+	var excludedParams = [];
 
 	/** Index of the links on the page */
 	var linksOnPage = {};
@@ -19,12 +22,34 @@ var Piwik_Insight_FollowingPages = (function() {
 		location = Piwik_Insight_UrlNormalizer.normalize(location);
 		location = (("https:" == document.location.protocol) ? 'https' : 'http') + '://' + location;
 
+		var excludedParamsLoaded = false;
+		var followingPagesLoaded = false;
+		
+		// load excluded params
+		Piwik_Insight_Client.api('getExcludedQueryParameters', function(data) {
+			for (var i = 0; i < data.length; i++) {
+				if (typeof data[i] == 'object') {
+					data[i] = data[i][0];
+				}
+			}
+			excludedParams = data;
+			
+			excludedParamsLoaded = true;
+			if (followingPagesLoaded) {
+				callback();
+			}
+		});
+		
 		// load following pages
 		Piwik_Insight_Client.api('getFollowingPages', function(data) {
 			followingPages = data;
 			processFollowingPages();
-			callback();
-		}, 'url=' + escape(location));
+			
+			followingPagesLoaded = true;
+			if (excludedParamsLoaded) {
+				callback();
+			}
+		}, 'url=' + encodeURIComponent(location));
 	}
 
 	/** Normalize the URLs of following pages and aggregate some stats */
@@ -247,6 +272,7 @@ var Piwik_Insight_FollowingPages = (function() {
 			Piwik_Insight_Client.loadScript('plugins/Insight/client/urlnormalizer.js', function() {
 				Piwik_Insight_UrlNormalizer.initialize();
 				load(function() {
+					Piwik_Insight_UrlNormalizer.setExcludedParameters(excludedParams);
 					build(function() {
 						finishCallback();
 					})
