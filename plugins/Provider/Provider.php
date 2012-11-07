@@ -162,6 +162,12 @@ class Piwik_Provider extends Piwik_Plugin
 	{
 		$visitorInfo =& $notification->getNotificationObject();
 		
+		// if provider info has already been set, abort
+		if (!empty($visitorInfo['location_provider']))
+		{
+			return;
+		}
+		
 		$ip = Piwik_IP::N2P($visitorInfo['location_ip']);
 		
 		// In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
