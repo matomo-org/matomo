@@ -35,7 +35,12 @@ class Piwik_Insight_API
 	{
 		$this->authenticate($idSite);
 		
-		$translations = array();
+		$translations = array(
+			'oneClick' => 'Insight_OneClick',
+			'clicks' => 'Insight_Clicks',
+			'clicksFromXLinks' => 'Insight_ClicksFromXLinks',
+			'link' => 'Insight_Link'
+		);
 		
 		return array_map('Piwik_Translate', $translations);
 	}
@@ -66,9 +71,9 @@ class Piwik_Insight_API
 		
 		try
 		{
-			// TODO find a good value for $limitBeforeGrouping - add config option?
+			$limitBeforeGrouping = Piwik_Config::getInstance()->General['insight_limit'];
 			$transitionsReport = Piwik_Transitions_API::getInstance()->getTransitionsForAction(
-					$url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping = 100, 
+					$url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping, 
 					$part = 'followingActions', $returnNormalizedUrls = true);
 		}
 		catch(Exception $e)

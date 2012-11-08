@@ -1809,5 +1809,9 @@ And thank you for using Piwik!',
 	'Insight_MainMetrics' => 'Main metrics',
 	'Insight_NoData' => 'There is no data for this page during the selected period.',
 	'Insight_OpenFullScreen' => 'Go full screen',
-	'Insight_CloseFullScreen' => 'Close full screen'
+	'Insight_CloseFullScreen' => 'Close full screen',
+	'Insight_OneClick' => '1 click',
+	'Insight_Clicks' => '%s clicks',
+	'Insight_ClicksFromXLinks' => '%1$s clicks from one of %2$s links',
+	'Insight_Link' => 'Link'
 );

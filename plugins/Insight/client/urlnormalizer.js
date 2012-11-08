@@ -162,12 +162,6 @@ var Piwik_Insight_UrlNormalizer = (function() {
 				}
 			}
 			
-			// remove #...
-			var pos;
-			if ((pos = url.indexOf('#')) != -1) {
-				url = url.substring(0, pos);
-			}
-			
 			// replace multiple / with a single /
 			url = url.replace(/\/\/+/g, '/');
 			
@@ -194,6 +188,7 @@ var Piwik_Insight_UrlNormalizer = (function() {
 				url = url.replace(regEx, '');
 			}
 			url = url.replace(/\?&/, '?');
+			url = url.replace(/\?#/, '#');
 			url = url.replace(/\?$/, '');
 			
 			return url;

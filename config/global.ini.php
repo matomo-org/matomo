@@ -311,6 +311,10 @@ api_service_url = http://api.piwik.org
 ; eg. $period=range&date=previous10 becomes $period=day&date=previous10. Use this setting to override the $period value.
 graphs_default_period_to_plot_when_period_range = day
 
+; The Insight plugin shows the Top X following pages, Top X downloads and Top X outlinks which followed
+; a view of the current page. The value X can be set here.
+insight_limit = 300
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well

@@ -57,8 +57,8 @@ var Piwik_Insight_FollowingPages = (function() {
 		var totalClicks = 0;
 		for (var i = 0; i < followingPages.length; i++) {
 			var page = followingPages[i];
-			// downloads and outlinks still have the prefix
-			// TODO investigate whether it would be better to use Piwik_Insight_UrlNormalizer.normalize
+			// though the following pages are returned without the prefix, downloads
+			// and outlinks still have it.
 			page.label = Piwik_Insight_UrlNormalizer.removeUrlPrefix(page.label);
 			totalClicks += followingPages[i].referrals;
 		}
@@ -223,14 +223,20 @@ var Piwik_Insight_FollowingPages = (function() {
 		highlightElements[1].height(height + 4).css({top: offset.top - 2, left: offset.left + width}).show();
 		highlightElements[2].height(height + 4).css({top: offset.top - 2, left: offset.left - 2}).show();
 		
-		var padding = '&nbsp;&nbsp;';
-		// TODO translate
-		var text = data.referrals + ' clicks';
 		var numLinks = linksOnPage[linkUrl].length;
+		var text;
 		if (numLinks > 1) {
-			text += ' from ' + numLinks + ' links';
+			text = Piwik_Insight_Translations.get('clicksFromXLinks')
+				.replace(/%1\$s/, data.referrals)
+				.replace(/%2\$s/, numLinks);
+		} else if (data.referrals == 1) {
+			text = Piwik_Insight_Translations.get('oneClick');
+		} else { 
+			text = Piwik_Insight_Translations.get('clicks')
+				.replace(/%s/, data.referrals);
 		}
-		
+	
+		var padding = '&nbsp;&nbsp;';
 		highlightElements[3].html(padding + text + padding).css({
 			minWidth: (width + 4) + 'px',
 			top: offset.top + height,
@@ -243,8 +249,8 @@ var Piwik_Insight_FollowingPages = (function() {
 			tag.data('piwik-highlighted', true);
 		}
 		
-		// TODO translate
-		linkTag.data('piwik-hideNotification', Piwik_Insight_Client.notification('Link: ' + linkUrl));				
+		linkTag.data('piwik-hideNotification', Piwik_Insight_Client.notification(
+			Piwik_Insight_Translations.get('link') + ': ' + linkUrl));				
 	}
 	
 	/** Remove highlight from link */

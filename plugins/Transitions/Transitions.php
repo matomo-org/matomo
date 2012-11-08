@@ -285,10 +285,11 @@ class Piwik_Transitions extends Piwik_Plugin
 	 * @param $actionType
 	 * @param Piwik_ArchiveProcessing_Day $archiveProcessing
 	 * @param $limitBeforeGrouping
+	 * @param $includeLoops
 	 * @return array(followingPages:Piwik_DataTable, outlinks:Piwik_DataTable, downloads:Piwik_DataTable)
 	 */
 	public function queryFollowingActions($idaction, $actionType, Piwik_ArchiveProcessing_Day $archiveProcessing,
-				$limitBeforeGrouping = false)
+				$limitBeforeGrouping = false, $includeLoops = false)
 	{	
 		$types = array();
 		
@@ -348,9 +349,11 @@ class Piwik_Transitions extends Piwik_Plugin
 		$rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($types));
 		
 		$type = $this->getColumnTypeSuffix($actionType);
-		$where = 'log_link_visit_action.idaction_'.$type.'_ref = '.intval($idaction).' AND '
-				. '(log_link_visit_action.idaction_'.$type.' IS NULL OR '
-				. 'log_link_visit_action.idaction_'.$type.' != '.intval($idaction).')';
+		$where = 'log_link_visit_action.idaction_'.$type.'_ref = '.intval($idaction);
+		if (!$includeLoops) {
+			$where .=  ' AND (log_link_visit_action.idaction_'.$type.' IS NULL OR '
+					. 'log_link_visit_action.idaction_'.$type.' != '.intval($idaction).')';
+		}
 		
 		$orderBy = '`'.Piwik_Archive::INDEX_NB_ACTIONS.'` DESC';
 		

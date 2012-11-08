@@ -92,8 +92,9 @@ class Piwik_Transitions_API
 		}
 		if ($parts == 'all' || in_array('followingActions', $partsArray))
 		{
+			$includeLoops = $parts != 'all' && !in_array('internalReferrers', $partsArray);
 			$this->addFollowingActions($transitionsArchiving, $archiveProcessing, $report, $idaction, 
-				$actionType, $limitBeforeGrouping);
+				$actionType, $limitBeforeGrouping, $includeLoops);
 		}
 		if ($parts == 'all' || in_array('externalReferrers', $partsArray))
 		{
@@ -205,12 +206,13 @@ class Piwik_Transitions_API
 	 * @param $idaction
 	 * @param string $actionType
 	 * @param $limitBeforeGrouping
+	 * @param boolean $includeLoops
 	 */
 	private function addFollowingActions($transitionsArchiving, $archiveProcessing, &$report,
-				$idaction, $actionType, $limitBeforeGrouping) {
+				$idaction, $actionType, $limitBeforeGrouping, $includeLoops=false) {
 		
 		$data = $transitionsArchiving->queryFollowingActions(
-					$idaction, $actionType, $archiveProcessing, $limitBeforeGrouping);
+					$idaction, $actionType, $archiveProcessing, $limitBeforeGrouping, $includeLoops);
 		
 		foreach ($data as $tableName => $table)
 		{
