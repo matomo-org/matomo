@@ -727,7 +727,7 @@ class Piwik(object):
             data = urllib.urlencode(args)
         elif not isinstance(data, basestring) and headers['Content-type'] == 'application/json':
             data = json.dumps(data)
-        
+
         request = urllib2.Request(url + path, data, headers)
         response = urllib2.urlopen(request)
         result = response.read()
@@ -966,14 +966,14 @@ class Recorder(object):
         if not config.options.use_bulk_tracking:
             self.unrecorded_hits = []
 
-    @staticmethod
-    def launch(recorder_count):
+    @classmethod
+    def launch(cls, recorder_count):
         """
         Launch a bunch of Recorder objects in a separate thread.
         """
         for i in xrange(recorder_count):
             recorder = Recorder()
-            Recorder.recorders.append(recorder)
+            cls.recorders.append(recorder)
             
             run = recorder._run_bulk if config.options.use_bulk_tracking else recorder._run_single
             t = threading.Thread(target=run)
@@ -982,26 +982,26 @@ class Recorder(object):
             t.start()
             logging.debug('Launched recorder')
 
-    @staticmethod
-    def add_hits(all_hits):
+    @classmethod
+    def add_hits(cls, all_hits):
         """
         Add a set of hits to the recorders queue.
         """
         # Organize hits so that one client IP will always use the same queue.
         # We have to do this so visits from the same IP will be added in the right order.
-        hits_by_client = [[] for r in Recorder.recorders]
+        hits_by_client = [[] for r in cls.recorders]
         for hit in all_hits:
-            hits_by_client[abs(hash(hit.ip)) % len(Recorder.recorders)].append(hit)
+            hits_by_client[abs(hash(hit.ip)) % len(cls.recorders)].append(hit)
         
-        for i, recorder in enumerate(Recorder.recorders):
+        for i, recorder in enumerate(cls.recorders):
             recorder.queue.put(hits_by_client[i])
 
-    @staticmethod
-    def wait_empty():
+    @classmethod
+    def wait_empty(cls):
         """
         Wait until all recorders have an empty queue.
         """
-        for recorder in Recorder.recorders:
+        for recorder in cls.recorders:
             recorder._wait_empty()
 
     def _run_bulk(self):
