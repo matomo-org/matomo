@@ -234,6 +234,10 @@ class Piwik_Tracker
 						$visit->handle();
 						unset($visit);
 					}
+					else
+					{
+						printDebug("The request is invalid: empty request, or maybe tracking is disabled in the config.ini.php via record_statistics=0");
+					}
 				} catch (Piwik_Tracker_Db_Exception $e) {
 					printDebug("<b>".$e->getMessage()."</b>");
 					$this->exitWithException($e, $this->authenticated);
