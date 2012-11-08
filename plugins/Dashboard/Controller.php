@@ -27,18 +27,18 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $view->dashboardId     = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
         $view->dashboardLayout = $this->getLayout($view->dashboardId);
 
+	    $userList = array();
 	    // Copy Dashboard to User available to Super User only
 	    if (Piwik::isUserIsSuperUser()) {
 		    $users    = Piwik_UsersManager_API::getInstance()->getUsers();
-	        $userList = array();
 	        foreach ($users AS $user) {
 	            if ($user['login'] != Piwik::getCurrentUserLogin() && $user['login'] != 'anonymous') {
 	                $userList[] = $user;
 	            }
 	        }
-	        $view->availableUsers = $userList;
 	    }
-        return $view;
+	    $view->availableUsers = $userList;
+	    return $view;
     }
 
     public function embeddedIndex()
