@@ -27,18 +27,17 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $view->dashboardId     = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
         $view->dashboardLayout = $this->getLayout($view->dashboardId);
 
-        $users    = Piwik_UsersManager_API::getInstance()->getUsers();
-        $userList = array();
-
-        foreach ($users AS $user) {
-
-            if ($user['login'] != Piwik::getCurrentUserLogin() && $user['login'] != 'anonymous') {
-
-                $userList[] = $user;
-            }
-        }
-
-        $view->availableUsers = $userList;
+	    // Copy Dashboard to User available to Super User only
+	    if (Piwik::isUserIsSuperUser()) {
+		    $users    = Piwik_UsersManager_API::getInstance()->getUsers();
+	        $userList = array();
+	        foreach ($users AS $user) {
+	            if ($user['login'] != Piwik::getCurrentUserLogin() && $user['login'] != 'anonymous') {
+	                $userList[] = $user;
+	            }
+	        }
+	        $view->availableUsers = $userList;
+	    }
         return $view;
     }
 
@@ -196,14 +195,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $this->checkTokenInUrl();
 
         if (!Piwik::isUserIsAnonymous()) {
-            $login  = Piwik::getCurrentUserLogin();
-            $query  = sprintf('SELECT MAX(iddashboard)+1 FROM %s WHERE login = ?',
-                              Piwik_Common::prefixTable('user_dashboard'));
-            $nextId = Piwik_FetchOne($query, array($login));
-
-            if (empty($nextId)) {
-                $nextId = 1;
-            }
+            $user  = Piwik::getCurrentUserLogin();
+	        $nextId = $this->getNextIdDashboard($user);
 
             $name   = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
             $type   = urldecode(Piwik_Common::getRequestVar('type', 'default', 'string'));
@@ -215,39 +208,49 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
             $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
                              Piwik_Common::prefixTable('user_dashboard'));
-            Piwik_Query($query, array($login, $nextId, $name, $layout));
+            Piwik_Query($query, array($user, $nextId, $name, $layout));
             echo Piwik_Common::json_encode($nextId);
         } else {
             echo '0';
         }
     }
 
-    public function copyDashboardToUser()
+	private function getNextIdDashboard($login)
+	{
+		$nextIdQuery = sprintf('SELECT MAX(iddashboard)+1 FROM %s WHERE login = ?',
+			Piwik_Common::prefixTable('user_dashboard'));
+		$nextId = Piwik_FetchOne($nextIdQuery, array($login));
+
+		if (empty($nextId)) {
+			$nextId = 1;
+			return $nextId;
+		}
+		return $nextId;
+	}
+
+	public function copyDashboardToUser()
     {
         $this->checkTokenInUrl();
 
         if (Piwik::isUserIsSuperUser()) {
-            $login       = Piwik::getCurrentUserLogin();
+	        $login       = Piwik::getCurrentUserLogin();
             $name        = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
             $user        = urldecode(Piwik_Common::getRequestVar('user', '', 'string'));
             $idDashboard = Piwik_Common::getRequestVar('dashboardId', 0, 'int');
             $layout      = $this->_getLayoutForUser($login, $idDashboard);
 
-            $query       = sprintf('SELECT MAX(iddashboard)+1 FROM %s WHERE login = ?',
-                                   Piwik_Common::prefixTable('user_dashboard'));
-            $nextId      = Piwik_FetchOne($query, array($user));
+	        if($layout !== false) {
+		        $nextId = $this->getNextIdDashboard($user);
 
-            if (empty($nextId)) {
-                $nextId = 1;
-            }
-
-            $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
-                             Piwik_Common::prefixTable('user_dashboard'));
-            Piwik_Query($query, array($user, $nextId, $name, $layout));
-            echo Piwik_Common::json_encode($nextId);
-        } else {
-            echo '0';
+		        $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
+			        Piwik_Common::prefixTable('user_dashboard'));
+		        Piwik_Query($query, array($user, $nextId, $name, $layout));
+		        echo Piwik_Common::json_encode($nextId);
+		        return;
+	        }
         }
+        echo '0';
+	    return;
     }
 
     /**
@@ -312,7 +315,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
             $layout = $this->removeDisabledPluginFromLayout($layout);
         }
 
-        if ($layout === false) {
+        if (empty($layout)) {
             $layout = $this->getDefaultLayout();
         }
         return $layout;

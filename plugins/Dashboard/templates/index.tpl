@@ -64,7 +64,7 @@ $(document).ready(function() {
         <label for="copyDashboardUser">{'General_Username'|translate} </label>
         <select name="copyDashboardUser" id="copyDashboardUser">
         {foreach from=$availableUsers item=user}
-            <option value="{$user.login}">{$user.alias}</option>
+            <option value="{$user.login}">{$user.login} {if !empty($user.alias)}({$user.alias}){/if}</option>
         {/foreach}
         </select></div>
         <input role="yes" type="button" value="{'General_Ok'|translate}" />
