@@ -54,7 +54,8 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 		// get location data
 		if (self::isCityDatabaseAvailable())
 		{
-			$location = geoip_record_by_name($ip);
+			// Must hide errors because missing IPV6:
+			$location = @geoip_record_by_name($ip);
 			if (!empty($location))
 			{
 				$result[self::COUNTRY_CODE_KEY] = $location['country_code'];
@@ -68,7 +69,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 		}
 		else if (self::isRegionDatabaseAvailable())
 		{
-			$location = geoip_region_by_name($ip);
+			$location = @geoip_region_by_name($ip);
 			if (!empty($location))
 			{
 				$result[self::REGION_CODE_KEY] = $location['region'];
@@ -77,13 +78,13 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 		}
 		else
 		{
-			$result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_name($ip);
+			$result[self::COUNTRY_CODE_KEY] = @geoip_country_code_by_name($ip);
 		}
 		
 		// get organization data if the org database is available
 		if (self::isOrgDatabaseAvailable())
 		{
-			$org = geoip_org_by_name($ip);
+			$org = @geoip_org_by_name($ip);
 			if ($org !== false)
 			{
 				$result[self::ORG_KEY] = utf8_encode($org);
@@ -93,7 +94,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 		// get isp data if the isp database is available
 		if (self::isISPDatabaseAvailable())
 		{
-			$isp = geoip_isp_by_name($ip);
+			$isp = @geoip_isp_by_name($ip);
 			if ($ip !== false)
 			{
 				$result[self::ISP_KEY] = utf8_encode($isp);
