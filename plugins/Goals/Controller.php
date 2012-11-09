@@ -195,7 +195,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 				$name = 'cart_'.$name;
 				$view->$name = $value;
 			}
-		}		
+		}
 		$view->idGoal = $idGoal;
 		$view->goalName = $goalDefinition['name'];
 		$view->goalAllowMultipleConversionsPerVisit = $goalDefinition['allow_multiple'];
