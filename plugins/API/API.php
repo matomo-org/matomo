@@ -1360,7 +1360,7 @@ class Piwik_API_API
 	private function getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal = false)
 	{
 		$apiParameters = array();
-		if(!empty($idGoal)) {
+		if(!empty($idGoal) && $idGoal > 0 ) {
 			$apiParameters = array( 'idGoal' => $idGoal);
 		}
 		$reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc = false, $showSubtableReports = true);
