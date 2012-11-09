@@ -273,7 +273,67 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 			return $this->db->fetchAll($query['sql'], $query['bind']);
 		}
 	}
-	
+
+	/**
+	 * Performs a simple query on the log_visit table within the time range this archive
+	 * represents. Returns opened query
+	 *
+	 * @param string      $select        The SELECT clause.
+	 * @param string|bool $orderBy       The ORDER BY clause (without the 'ORDER BY' part). Set to
+	 *                                   false to specify no ORDER BY.
+	 * @param array|bool  $groupByCols   An array of column names to group by. Set to false to
+	 *                                   specify no GROUP BY.
+	 * @param bool        $oneResultRow  Whether only one row is expected or not. If set to true,
+	 *                                   this function returns one row, if false, an array of rows.
+	 * @return array
+	 */
+	public function getPlainVisitsCursor($additionFields, $orderBy = false, $groupByCols = false)
+	{
+		$select = array(
+			'`log_visit`.`visit_total_actions` as `'.Piwik_Archive::INDEX_NB_ACTIONS.'`',
+			'`log_visit`.`visit_total_time` as `'.Piwik_Archive::INDEX_SUM_VISIT_LENGTH.'`',
+			'`log_visit`.`visit_total_actions` < 2 as `'.Piwik_Archive::INDEX_BOUNCE_COUNT.'`',
+			'`log_visit`.`visit_goal_converted` as `'.Piwik_Archive::INDEX_NB_VISITS_CONVERTED.'`'
+		);
+
+		if(is_array($additionFields) && $additionFields)
+		{
+			foreach($additionFields as &$field)
+			{
+				$field = '`log_visit`.`'.$field.'` as `'.$field.'`';
+			}
+			$select = array_merge($select, $additionFields);
+		}
+
+		$select = implode(",", $select);
+
+		if ($orderBy && is_array($orderBy))
+		{
+			$orderByConcat = array();
+			foreach ($orderBy as $field => $direction) {
+				$orderByConcat[] = '`log_visit`.`'.$field.'` '.$direction;
+			}
+			$orderBy = implode(',', $orderByConcat);
+		}
+
+		$from = "log_visit";
+		$where = "`log_visit`.`visit_last_action_time` >= ?
+			and `log_visit`.`visit_last_action_time` <= ?
+			and `log_visit`.`idsite` = ?";
+
+		$groupBy = false;
+		if ($groupByCols and !empty($groupByCols))
+		{
+			$groupBy = implode(',', $groupByCols);
+		}
+
+		$bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
+
+		$query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
+
+		return $this->db->query($query['sql'], $query['bind']);
+	}
+
 	/**
 	 * Helper function that returns a DataTable containing the $select fields / value pairs.
 	 * IMPORTANT: The $select must return only one row!!
@@ -869,6 +929,65 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	}
 
 	/**
+	 * Adds the given row $newRowToAdd to the existing  $oldRowToUpdate. Both passed by reference for better performance
+	 *
+	 * The rows are php arrays Name => value
+	 *
+	 * @param array &$newRowToAdd
+	 * @param array &$oldRowToUpdate
+	 * @param bool   $onlyMetricsAvailableInActionsTable
+	 * @param bool   $doNotSumVisits
+	 * @return void
+	 */
+	public function updateInterestStatsByRef(&$newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
+	{
+		// Pre 1.2 format: string indexed rows are returned from the DB
+		// Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
+		if(!isset($newRowToAdd[Piwik_Archive::INDEX_NB_VISITS]))
+		{
+			if(!$doNotSumVisits)
+			{
+				$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd['nb_uniq_visitors'];
+				$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd['nb_visits'];
+			}
+			$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd['nb_actions'];
+			if($onlyMetricsAvailableInActionsTable)
+			{
+				return;
+			}
+			$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 	= (float)max($newRowToAdd['max_actions'], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
+			$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]		+= $newRowToAdd['sum_visit_length'];
+			$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 			+= $newRowToAdd['bounce_count'];
+			$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd['nb_visits_converted'];
+			return;
+		}
+
+		if(!$doNotSumVisits)
+		{
+			$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
+			$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
+		}
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_ACTIONS];
+
+		// Hack for Price tracking on Ecommerce product/category pages
+		// The price is not summed, but AVG is taken in the SQL query 
+		$index = Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
+		if(!empty($newRowToAdd[$index]))
+		{
+			$oldRowToUpdate[$index] = (float)$newRowToAdd[$index];
+		}
+
+		if($onlyMetricsAvailableInActionsTable)
+		{
+			return;
+		}
+		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 	= (float)max($newRowToAdd[Piwik_Archive::INDEX_MAX_ACTIONS], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
+		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]		+= $newRowToAdd[Piwik_Archive::INDEX_SUM_VISIT_LENGTH];
+		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 			+= $newRowToAdd[Piwik_Archive::INDEX_BOUNCE_COUNT];
+		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS_CONVERTED];
+	}
+
+	/**
 	 * Adds the given row $newRowToAdd to the existing  $oldRowToUpdate passed by reference
 	 *
 	 * The rows are php arrays Name => value
@@ -877,56 +996,13 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 	 * @param array  $oldRowToUpdate
 	 * @param bool   $onlyMetricsAvailableInActionsTable
 	 * @param bool   $doNotSumVisits
-	 * @return
+	 * @return void
 	 */
 	public function updateInterestStats( $newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
 	{
-		// Pre 1.2 format: string indexed rows are returned from the DB
-		// Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
-		if(!isset($newRowToAdd[Piwik_Archive::INDEX_NB_VISITS]))
-		{
-			if(!$doNotSumVisits)
-			{
-	    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd['nb_uniq_visitors'];
-	    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd['nb_visits'];
-			}
-			$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd['nb_actions'];
-    		if($onlyMetricsAvailableInActionsTable)
-    		{
-    			return;
-    		}
-    		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 	= (float)max($newRowToAdd['max_actions'], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
-    		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]		+= $newRowToAdd['sum_visit_length'];
-    		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 			+= $newRowToAdd['bounce_count'];
-    		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd['nb_visits_converted'];
-    		return;
-		}
-		if(!$doNotSumVisits)
-		{
-			$oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]		+= $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
-			$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
-		}
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] 			+= $newRowToAdd[Piwik_Archive::INDEX_NB_ACTIONS];
-		
-		// Hack for Price tracking on Ecommerce product/category pages
-		// The price is not summed, but AVG is taken in the SQL query 
-		$index = Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
-		if(!empty($newRowToAdd[$index]))
-		{
-			$oldRowToUpdate[$index] = (float)$newRowToAdd[$index];
-		}
-		
-    	if($onlyMetricsAvailableInActionsTable)
-    	{
-    		return;
-    	}
-		$oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] 		 	= (float)max($newRowToAdd[Piwik_Archive::INDEX_MAX_ACTIONS], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
-		$oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH]		+= $newRowToAdd[Piwik_Archive::INDEX_SUM_VISIT_LENGTH];
-		$oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] 			+= $newRowToAdd[Piwik_Archive::INDEX_BOUNCE_COUNT];
-		$oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] 	+= $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS_CONVERTED];
-		
+		$this->updateInterestStatsByRef($newRowToAdd, $oldRowToUpdate, $onlyMetricsAvailableInActionsTable, $doNotSumVisits);
 	}
-	
+
 	/**
 	 * Given an array of stats, it will process the sum of goal conversions
 	 * and sum of revenue and add it in the stats array in two new fields.
