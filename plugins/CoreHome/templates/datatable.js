@@ -1335,6 +1335,21 @@ dataTable.prototype =
 					actionsDom.hide();
 				}
 			});
+			
+			if (typeof self.param.open_links_in_insight != 'undefined' && self.param.open_links_in_insight)
+			{
+				var link = td.find('a');
+				link.click(function()
+				{
+					var rowUrl = $(this).attr('href');
+					var newUrl = 'module=Insight&action=index&insightUrl=' + encodeURIComponent(rowUrl).replace(/%/g, '$');
+					
+					$('ul.nav').trigger('piwikSwitchPage');
+					broadcast.propagateAjax(newUrl);
+					
+					return false;
+				});
+			}
 		});
 	},
 	

@@ -319,6 +319,9 @@ insight_limit = 300
 ; will be started in a new tab instead of the iframe.
 insight_disable_framed_mode = 0
 
+; If this option is set, the links in the pages reports will not be opened in a new tab but will launch Insight instead.
+insight_launch_from_pages_report = 0
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well

@@ -10,7 +10,7 @@
 	<div id="Insight_Main">
 		<iframe 
 				id="Insight_Iframe" 
-				src="index.php?module=Insight&action=startInsightSession&idsite={$idSite}&period={$period}&date={$date}">
+				src="index.php?module=Insight&action=startInsightSession&idsite={$idSite}&period={$period}&date={$date}{if $targetUrl}#{$targetUrl|urlencode}{/if}">
 		</iframe>
 	</div>
 	

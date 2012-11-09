@@ -168,12 +168,9 @@ var Piwik_Insight_FollowingPages = (function() {
 						tagElement.addClass('PIS_Highlighted');
 					}
 					
-					if (linkTag.find('img').size() > 0) {
+					if (linkTag.children().size() == 1 && linkTag.find('img').size() == 1) {
 						// see comment in highlightLink()
-						var cssDisplay = linkTag.css('display');
-						linkTag.css('display', 'block');
-						offset = linkTag.offset();
-						linkTag.css('display', cssDisplay);
+						offset = linkTag.find('img').offset();
 					} else {
 						offset = linkTag.offset();
 					}
@@ -226,15 +223,13 @@ var Piwik_Insight_FollowingPages = (function() {
 		var width = linkTag.outerWidth();
 		
 		var offset, height;
-		if (linkTag.find('img').size() > 0) {
-			// if the a tag contains an img, the offset and height methods don't work properly.
-			// as a result, the box around the image link would be wrong. we display the link
-			// as block for a moment to get correct values.
-			var cssDisplay = linkTag.css('display');
-			linkTag.css('display', 'block');
-			offset = linkTag.offset();
-			height = linkTag.outerHeight();
-			linkTag.css('display', cssDisplay);
+		if (linkTag.children().size() == 1 && linkTag.find('img').size() == 1) {
+			// if the <a> tag contains only an <img>, the offset and height methods don't work properly.
+			// as a result, the box around the image link would be wrong. we use the image to derive
+			// the offset and height instead of the link to get correct values.
+			var img = linkTag.find('img');
+			offset = img.offset();
+			height = img.outerHeight();
 		} else {
 			offset = linkTag.offset();
 			height = linkTag.outerHeight();

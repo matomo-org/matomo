@@ -186,6 +186,11 @@ var broadcast = {
         {
             currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
         }
+		// unset insightUrl if use doesn't display a page overlay
+		if( module != 'Insight')
+		{
+			currentHashStr = broadcast.updateParamValue('insightUrl=', currentHashStr);
+		}
         // Let history know about this new Hash and load it.
 		broadcast.forceReload = true;
         $.history.load(currentHashStr);
@@ -286,6 +291,8 @@ var broadcast = {
         }
         if( valFromUrl != '') {
             // replacing current param=value to newParamValue;
+			valFromUrl = valFromUrl.replace(/\$/g, '\\$');
+			valFromUrl = valFromUrl.replace(/\./g, '\\.');
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
             if(newParamValue == '') {
                 // if new value is empty remove leading &, aswell
@@ -523,7 +530,7 @@ var broadcast = {
             }
             var value = url.substring(startStr + param.length +1,endStr);
             // sanitize values
-            value = value.replace(/[^_%\-\<\>!@=,;0-9a-zA-Z]/gi, '');
+            value = value.replace(/[^_%\-\<\>!@\$\.=,;0-9a-zA-Z]/gi, '');
 
             return value;
         } else {

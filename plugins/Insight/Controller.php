@@ -28,6 +28,10 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		$view->date = Piwik_Common::getRequestVar('date', 'today');
 		$view->period = Piwik_Common::getRequestVar('period', 'day');
 		
+		$url = Piwik_Common::getRequestVar('insightUrl', '');
+		$url = urldecode(str_replace('$', '%', $url));
+		$view->targetUrl = $url;
+		
 		echo $view->render();
 	}
 	

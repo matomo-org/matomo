@@ -24,6 +24,9 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view = Piwik_ViewDataTable::factory();
 		$view->init($this->pluginName, $currentAction, $apiAction, $controllerActionSubtable);
 		$view->setColumnTranslation('label', Piwik_Translate('Actions_ColumnPageURL'));
+		if (Piwik_Config::getInstance()->General['insight_launch_from_pages_report']) {
+			$view->openLinksInInsight();
+		}
 		return $view;
 	}
 

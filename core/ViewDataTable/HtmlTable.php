@@ -233,4 +233,13 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	{
 		$this->variablesDefault['disable_row_actions'] = true;
 	}
+	
+	/**
+	 * Use this method to open links in Insight instead of a new tab
+	 */
+	public function openLinksInInsight()
+	{
+		$this->variablesDefault['open_links_in_insight'] = true;
+	}
+	
 }
