@@ -740,10 +740,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 *
 	 * @return string
 	 */
-	protected function getUserAgent()
+	static public function getUserAgent($request)
 	{
 		$default = @$_SERVER['HTTP_USER_AGENT'];
-		return Piwik_Common::getRequestVar('ua', is_null($default) ? false : $default, 'string', $this->request);
+		return Piwik_Common::getRequestVar('ua', is_null($default) ? false : $default, 'string', $request);
 	}
 	
 	/**
@@ -791,7 +791,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$excluded = false;
 
 		$ip = $this->getVisitorIp();
-		$ua = $this->getUserAgent();
+		$ua = $this->getUserAgent($this->request);
 
 		/*
 		 * Live/Bing/MSN bot and Googlebot are evolving to detect cloaked websites.
@@ -1299,7 +1299,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$plugin_Silverlight		= Piwik_Common::getRequestVar( 'ag', 0, 'int', $this->request);
 		$plugin_Cookie 			= Piwik_Common::getRequestVar( 'cookie', 0, 'int', $this->request);
 
-		$userAgent		= $this->getUserAgent();
+		$userAgent		= $this->getUserAgent($this->request);
 		$aBrowserInfo	= UserAgentParser::getBrowser($userAgent);
 
 		$browserName	= ($aBrowserInfo !== false && $aBrowserInfo['id'] !== false) ? $aBrowserInfo['id'] : 'UNK';
