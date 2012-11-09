@@ -18,7 +18,12 @@ class Piwik_Insight_Controller extends Piwik_Controller
 	{
 		Piwik::checkUserHasViewAccess($this->idSite);
 		
-		$view = Piwik_View::factory('index');
+		$template = 'index';
+		if (Piwik_Config::getInstance()->General['insight_disable_framed_mode']) {
+			$template = 'index_noframe';
+		}
+		
+		$view = Piwik_View::factory($template);
 		$view->idSite = $this->idSite;
 		$view->date = Piwik_Common::getRequestVar('date', 'today');
 		$view->period = Piwik_Common::getRequestVar('period', 'day');

@@ -1,6 +1,6 @@
 var Piwik_Insight = (function() {
 	
-	var $container, $iframe, $sidebar, $main, $location; 
+	var $container, $iframe, $sidebar, $main, $location, $loading; 
 	
 	var isFullScreen = false;
 	
@@ -10,8 +10,7 @@ var Piwik_Insight = (function() {
 	function loadSidebar(currentUrl) {
 		$sidebar.hide();
 		$location.html('&nbsp;');
-		
-		// TODO show loading message
+		$loading.show();
 		
 		iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
 		
@@ -27,16 +26,17 @@ var Piwik_Insight = (function() {
 			$responseLocation.remove();
 			
 			$location.find('span').hover(function() {
-				// TODO translate
 				if (iframeDomain) {
 					// use addBreakpointsToUrl because it also encoded html entities
-					Piwik_Tooltip.show('<b>Domain:</b> ' + piwikHelper.addBreakpointsToUrl(iframeDomain), 'Insight_Tooltip');
+					Piwik_Tooltip.show('<b>' + Piwik_Insight_Translations.domain + ':</b> ' + 
+						piwikHelper.addBreakpointsToUrl(iframeDomain), 'Insight_Tooltip');
 				}
 			}, function() {
 				Piwik_Tooltip.hide();
 			});
 			
 			$sidebar.empty().append($response).show();
+			$loading.hide();
 			
 			var $fullScreen = $sidebar.find('a.Insight_FullScreen');
 			$fullScreen.click(function() {
@@ -84,6 +84,7 @@ var Piwik_Insight = (function() {
 			$sidebar = $('#Insight_Sidebar');
 			$location = $('#Insight_Location');
 			$main = $('#Insight_Main');
+			$loading = $('#Insight_Loading');
 			
 			adjustHeight();
 			

@@ -56,7 +56,13 @@ class Piwik_Insight_API
 		$sitesManager = Piwik_SitesManager_API::getInstance();
 		$site = $sitesManager->getSiteFromId($idSite);
 		
-		return Piwik_SitesManager::getTrackerExcludedQueryParameters($site);
+		try {
+			return Piwik_SitesManager::getTrackerExcludedQueryParameters($site);
+		} catch(Exception $e) {
+			// an exception is thrown when the user has no admin access.
+			// in this case, we don't handle excluded parameters.
+			return array();
+		}
 	}
 
 	/**

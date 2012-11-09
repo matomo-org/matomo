@@ -34,6 +34,17 @@
 	padding: 0;
 }
 
+#Insight_Loading {
+	background: url(../../../themes/default/images/loading-blue.gif) no-repeat center 10px;
+	float: left;
+	width: 190px;
+	position: relative;
+	clear: left;
+	padding-top: 35px;
+	text-align: center;
+	display: none;
+}
+
 #Insight_Sidebar {
 	float: left;
 	width: 200px;
@@ -126,4 +137,8 @@ h2.Insight_MainMetrics {
 body .piwik-tooltip.Insight_Tooltip {
 	font-size: 11px;
 	padding: 3px 5px 3px 6px;
+}
+
+#Insight_NoFrame {
+	padding: 20px 0 40px 2px
 }

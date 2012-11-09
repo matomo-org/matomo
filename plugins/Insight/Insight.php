@@ -45,7 +45,7 @@ class Piwik_Insight extends Piwik_Plugin
 
 	public function addMenu()
 	{
-		Piwik_AddMenu('General_Visitors', 'Insight_Insight',
+		Piwik_AddMenu('Actions_Actions', 'Insight_Insight',
 				array('module' => 'Insight', 'action' => 'index'),
 				$display = true, $order = 60);
 	}

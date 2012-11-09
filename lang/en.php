@@ -1804,7 +1804,7 @@ And thank you for using Piwik!',
 	'Transitions_NoDataForAction' => 'There\'s no data for %s',
 	'Transitions_NoDataForActionDetails' => 'Either the action had no pageviews during the period %s or it is invalid.',
 	'Transitions_ErrorBack' => 'Go back to the previous action',
-	'Insight_Insight' => 'Insight',
+	'Insight_Insight' => 'Page Overlay',
 	'Insight_Page' => 'Page',
 	'Insight_MainMetrics' => 'Main metrics',
 	'Insight_NoData' => 'There is no data for this page during the selected period.',
@@ -1815,5 +1815,7 @@ And thank you for using Piwik!',
 	'Insight_ClicksFromXLinks' => '%1$s clicks from one of %2$s links',
 	'Insight_Link' => 'Link',
 	'Insight_OpenNewTab' => 'Open in new tab',
-	'Insight_RedirectUrlError' => 'You are attempting to open Insight for the URL "%s". %s None of the URLs from the Piwik settings matches the link. Please add the domain there.'
+	'Insight_RedirectUrlError' => 'You are attempting to open Insight for the URL "%s". %s None of the URLs from the Piwik settings matches the link. Please add the domain there.',
+	'Insight_Domain' => 'Domain',
+	'Insight_NoFrameModeText' => 'The page overlay session will be launched in a new tab. %s If opening the tab doesn\'t work automatically, please %sclick here%s.'
 );

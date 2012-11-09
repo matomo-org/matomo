@@ -315,6 +315,10 @@ graphs_default_period_to_plot_when_period_range = day
 ; a view of the current page. The value X can be set here.
 insight_limit = 300
 
+; With this option, you can disable the framed mode of the Insight plugin. If set to 1, the Insight session
+; will be started in a new tab instead of the iframe.
+insight_disable_framed_mode = 0
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
