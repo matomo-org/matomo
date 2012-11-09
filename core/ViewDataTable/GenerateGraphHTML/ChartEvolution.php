@@ -63,6 +63,11 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 	protected function getJavascriptVariablesToSet()
 	{
 		$result = parent::getJavascriptVariablesToSet();
+
+		// Graphs use a Range instead of the input date - we will use this same range for "Export" icons
+		$result['dateUsedInGraph'] = $result['date'];
+
+		// Other datatable features may require the original input date (eg. the limit dropdown below evolution graph)
 		$result['date'] = $this->originalDate;
 		return $result;
 	}

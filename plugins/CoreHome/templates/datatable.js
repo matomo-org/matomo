@@ -690,6 +690,9 @@ dataTable.prototype =
 				if(typeof date != 'undefined') {
 					param_date = date; 
 				}
+                if( typeof self.param.dateUsedInGraph != 'undefined') {
+                    param_date = self.param.dateUsedInGraph;
+                }
 				var period = self.param.period;
 				
 				// RSS does not work for period=range
@@ -702,7 +705,7 @@ dataTable.prototype =
 						+'&format='+format
 						+'&idSite='+self.param.idSite
 						+'&period='+period
-						+'&date='+param_date
+						+'&date='+ param_date
 						+ ( typeof self.param.filter_pattern != "undefined" ? '&filter_pattern=' + self.param.filter_pattern : '')
 						+ ( typeof self.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + self.param.filter_pattern_recursive : '');
 				
