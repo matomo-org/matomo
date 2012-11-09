@@ -974,9 +974,15 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$parsedUrl['fragment'] = self::getQueryStringWithExcludedParameters(Piwik_Common::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
 		}
 		$url = Piwik_Common::getParseUrlReverse($parsedUrl);
+		if(is_array($actionName)) {
+			$actionName = reset($actionName);
+		}
 		$actionName = trim(urldecode($actionName));
 		if(empty($actionName)) {
 			return false;
+		}
+		if(is_array($categoryName)) {
+			$categoryName = reset($categoryName);
 		}
 		$categoryName = trim(urldecode($categoryName));
 		return array($url, $actionName, $categoryName, $count);
