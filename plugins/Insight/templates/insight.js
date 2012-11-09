@@ -4,8 +4,17 @@ var Piwik_Insight = (function() {
 	
 	var isFullScreen = false;
 	
+	var iframeDomain = '';
+	
 	/** Load the sidebar for a url */
 	function loadSidebar(currentUrl) {
+		$sidebar.hide();
+		$location.html('&nbsp;');
+		
+		// TODO show loading message
+		
+		iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
+		
 		piwikHelper.ajaxCall('Insight', 'renderSidebar', {
 			currentUrl: currentUrl
 		}, function(response) {
@@ -14,10 +23,20 @@ var Piwik_Insight = (function() {
 			var $responseLocation = $response.find('.Insight_Location');
 			var $url = $responseLocation.find('span');
 			$url.html(piwikHelper.addBreakpointsToUrl($url.text()));
-			$location.html($responseLocation.html());
+			$location.html($responseLocation.html()).show();
 			$responseLocation.remove();
 			
-			$sidebar.empty().append($response);
+			$location.find('span').hover(function() {
+				// TODO translate
+				if (iframeDomain) {
+					// use addBreakpointsToUrl because it also encoded html entities
+					Piwik_Tooltip.show('<b>Domain:</b> ' + piwikHelper.addBreakpointsToUrl(iframeDomain), 'Insight_Tooltip');
+				}
+			}, function() {
+				Piwik_Tooltip.hide();
+			});
+			
+			$sidebar.empty().append($response).show();
 			
 			var $fullScreen = $sidebar.find('a.Insight_FullScreen');
 			$fullScreen.click(function() {

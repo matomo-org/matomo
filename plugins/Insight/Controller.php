@@ -33,10 +33,14 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		$period = Piwik_Common::getRequestVar('period');
 		$date = Piwik_Common::getRequestVar('date');
 		$currentUrl = Piwik_Common::getRequestVar('currentUrl');
+		$currentUrl = Piwik_Common::unsanitizeInputValue($currentUrl);
+		
+		$normalizedCurrentUrl = Piwik_Tracker_Action::excludeQueryParametersFromUrl($currentUrl, $idSite);
+		$normalizedCurrentUrl = Piwik_Common::unsanitizeInputValue($normalizedCurrentUrl);
 		
 		// load the appropriate row of the page urls report using the label filter
 		Piwik_Actions_ArchivingHelper::reloadConfig();
-		$path = Piwik_Actions_ArchivingHelper::getActionExplodedNames($currentUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
+		$path = Piwik_Actions_ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
 		$path = array_map('urlencode', $path);
 		$label = implode('>', $path);
 		$request = new Piwik_API_Request(
@@ -94,6 +98,10 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('sidebar');
 		$view->data = $data;
 		$view->location = $page;
+		$view->idSite = $idSite;
+		$view->period = $period;
+		$view->date = $date;
+		$view->currentUrl = $currentUrl;
 		echo $view->render();
 	}
 	
@@ -106,11 +114,46 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		$idSite = Piwik_Common::getRequestVar('idsite', 0, 'int');
 		Piwik::checkUserHasViewAccess($idSite);
 		
-		$site = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
+		$sitesManager = Piwik_SitesManager_API::getInstance();
+		$site = $sitesManager->getSiteFromId($idSite);
+		$urls = $sitesManager->getSiteUrlsFromId($idSite);
 		
 		echo '
 			<script type="text/javascript">
-				window.location.href = "'.$site['main_url'].'";
+				function removeUrlPrefix(url) {
+					return url.replace(/http(s)?:\/\/(www\.)?/i, "");
+				}
+				
+				function htmlEntities(str) {
+				    return String(str).replace(/&/g, \'&amp;\').replace(/</g, \'&lt;\').replace(/>/g, \'&gt;\').replace(/"/g, \'&quot;\');
+				}
+				
+				if (window.location.hash) {
+					var match = false;
+					
+					var urlToRedirect = window.location.hash.substr(1);
+					var urlToRedirectWithoutPrefix = removeUrlPrefix(urlToRedirect);
+					
+					var knownUrls = '.json_encode($urls).';
+					for (var i = 0; i < knownUrls.length; i++) {
+						var testUrl = removeUrlPrefix(knownUrls[i]);
+						if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {
+							match = true;
+							window.location.href = urlToRedirect;
+							break;
+						}
+					}
+					
+					if (!match) {
+						var error = "'.htmlentities(Piwik_Translate('Insight_RedirectUrlError')).'";
+						error = error.replace(/%s/, htmlEntities(urlToRedirect));
+						error = error.replace(/%s/, "<br />");
+						document.write(error);
+					}
+				}
+				else {
+					window.location.replace("'.$site['main_url'].'");
+				};
 			</script>
 		';
 	}

@@ -22,6 +22,7 @@
 	padding-left: 220px;
 	padding-bottom: 7px;
 	font-size: 12px;
+	cursor: default;
 }
 
 #Insight_Container.Insight_FullScreen #Insight_Location {
@@ -52,18 +53,25 @@
 	color: #255792;
 }
 
-#Insight_Sidebar a.Insight_FullScreen {
+#Insight_Sidebar a.Insight_FullScreen,
+#Insight_Sidebar a.Insight_NewTab {
 	display: block;
 	color: #255792;
 	font-size: 13px;
 	line-height: 15px;
 	margin-top: 20px;
-	padding: 8px 0 8px 23px;
-	background: url(../../../themes/default/images/fullscreen.png) no-repeat 0 5px;
+	padding: 8px 0 3px 22px;
+	background: url(../../../themes/default/images/fullscreen.png) no-repeat 0 8px;
 	text-decoration: none;
 }
 
-#Insight_Sidebar a.Insight_FullScreen:hover {
+#Insight_Sidebar a.Insight_NewTab {
+	margin-top: 0;
+	background: url(../../../themes/default/images/newtab.png) no-repeat 0 7px;
+}
+
+#Insight_Sidebar a.Insight_FullScreen:hover,
+#Insight_Sidebar a.Insight_NewTab:hover {
 	color: #E87500;
 }
 
@@ -113,4 +121,9 @@
 
 h2.Insight_MainMetrics {
 	background: url(./info.png) 0 1px no-repeat
+}
+
+body .piwik-tooltip.Insight_Tooltip {
+	font-size: 11px;
+	padding: 3px 5px 3px 6px;
 }

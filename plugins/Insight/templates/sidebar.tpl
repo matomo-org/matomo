@@ -21,5 +21,8 @@
 		<span class="Insight_OpenFullScreen">{'Insight_OpenFullScreen'|translate|escape:'html'}</span>
 		<span class="Insight_CloseFullScreen">{'Insight_CloseFullScreen'|translate|escape:'html'}</span>
 	</a>
+	<a class="Insight_NewTab" href="index.php?module=Insight&action=startInsightSession&idsite={$idSite}&period={$period}&date={$date}#{$currentUrl|escape:'html'}" target="_blank">
+		{'Insight_OpenNewTab'|translate|escape:'html'}
+	</a>
 	
 </div>

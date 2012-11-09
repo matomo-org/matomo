@@ -137,9 +137,9 @@ var Piwik_Insight_FollowingPages = (function() {
 		body.prepend(tagElement);
 
 		linkTag.add(tagElement).hover(function() {
-			highlightLink(linkTag, linkUrl, data, tagElement);
+			highlightLink(linkTag, linkUrl, data);
 		}, function() {
-			unHighlightLink(linkTag, linkUrl, tagElement);
+			unHighlightLink(linkTag, linkUrl);
 		});
 		
 		linkTag.data('piwik-tag', tagElement);
@@ -168,7 +168,15 @@ var Piwik_Insight_FollowingPages = (function() {
 						tagElement.addClass('PIS_Highlighted');
 					}
 					
-					offset = linkTag.offset();
+					if (linkTag.find('img').size() > 0) {
+						// see comment in highlightLink()
+						var cssDisplay = linkTag.css('display');
+						linkTag.css('display', 'block');
+						offset = linkTag.offset();
+						linkTag.css('display', cssDisplay);
+					} else {
+						offset = linkTag.offset();
+					}
 		
 					top = offset.top - tagHeight + 6;
 					left = offset.left - tagWidth + 10;
@@ -201,7 +209,7 @@ var Piwik_Insight_FollowingPages = (function() {
 	var highlightElements = [];
 
 	/** Highlight a link on hover */
-	function highlightLink(linkTag, linkUrl, data, tagElement) {
+	function highlightLink(linkTag, linkUrl, data) {
 		if (highlightElements.length == 0) {
 			highlightElements.push(c('div', 'LinkHighlightBoxTop'));
 			highlightElements.push(c('div', 'LinkHighlightBoxRight'));
@@ -215,10 +223,23 @@ var Piwik_Insight_FollowingPages = (function() {
 			}
 		}
 
-		var offset = linkTag.offset();
 		var width = linkTag.outerWidth();
-		var height = linkTag.outerHeight();
-
+		
+		var offset, height;
+		if (linkTag.find('img').size() > 0) {
+			// if the a tag contains an img, the offset and height methods don't work properly.
+			// as a result, the box around the image link would be wrong. we display the link
+			// as block for a moment to get correct values.
+			var cssDisplay = linkTag.css('display');
+			linkTag.css('display', 'block');
+			offset = linkTag.offset();
+			height = linkTag.outerHeight();
+			linkTag.css('display', cssDisplay);
+		} else {
+			offset = linkTag.offset();
+			height = linkTag.outerHeight();
+		}
+		
 		highlightElements[0].width(width).css({top: offset.top - 2, left: offset.left}).show();
 		highlightElements[1].height(height + 4).css({top: offset.top - 2, left: offset.left + width}).show();
 		highlightElements[2].height(height + 4).css({top: offset.top - 2, left: offset.left - 2}).show();
@@ -254,7 +275,7 @@ var Piwik_Insight_FollowingPages = (function() {
 	}
 	
 	/** Remove highlight from link */
-	function unHighlightLink(linkTag, linkUrl, tagElement) {
+	function unHighlightLink(linkTag, linkUrl) {
 		for (var i = 0; i < highlightElements.length; i++) {
 			highlightElements[i].hide();
 		}

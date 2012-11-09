@@ -49,11 +49,14 @@ var Piwik_Insight_Client = (function() {
 	 * This way, we can display additional metrics on the side of the iframe.
 	 */
 	function notifyPiwikOfLocation() {
-		var iframe = c('iframe', false, {
-			src: piwikRoot + 'index.php?module=Insight&action=notifyParentIframe#' + window.location.href
-		}).css({width: 0, height: 0, border: 0});
-		
-		$('body').append(iframe);
+		// check whether the session has been opened in a new tab (instead of an iframe)
+		if (window != window.top) {
+			var iframe = c('iframe', false, {
+				src: piwikRoot + 'index.php?module=Insight&action=notifyParentIframe#' + window.location.href
+			}).css({width: 0, height: 0, border: 0});
+			
+			$('body').append(iframe);
+		}
 	}
 	
 	/** Create a jqueryfied DOM element */
