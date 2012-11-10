@@ -101,6 +101,14 @@ var Piwik_Insight = (function() {
 
 		/** This callback is used from within the iframe */
 		setCurrentUrl: function(currentUrl) {
+			var urlValue = encodeURIComponent(currentUrl).replace(/%/g, '$');
+			var urlKeyValue = 'insightUrl=' + urlValue;
+			
+			var urlOldValue = broadcast.getValueFromHash('insightUrl', window.location.href);
+			if (urlOldValue != urlValue) {
+				broadcast.propagateAjax(urlKeyValue, true);
+			}
+			
 			loadSidebar(currentUrl);
 		}
 

@@ -161,7 +161,7 @@ class Piwik_Insight_Controller extends Piwik_Controller
 					}
 				}
 				else {
-					window.location.replace("'.$site['main_url'].'");
+					window.location.href = "'.$site['main_url'].'";
 				};
 			</script>
 		';

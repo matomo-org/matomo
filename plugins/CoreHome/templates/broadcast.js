@@ -45,7 +45,12 @@ var broadcast = {
 	/**
 	 * Force reload once
 	 */
-	foceReload: false,
+	forceReload: false,
+
+	/**
+	 * Ignore the hash location change once
+	 */
+	ignoreHashChange: false,
 
     /**
      * Initializes broadcast object
@@ -76,6 +81,14 @@ var broadcast = {
      */
     pageload: function( hash )
     {
+		if (broadcast.ignoreHashChange == hash) {
+			broadcast.ignoreHashChange = false;
+			broadcast.currentHashUrl = false;
+			broadcast.currentPopoverParameter = false;
+			return;
+		}
+		broadcast.ignoreHashChange = false;
+		
 		broadcast.init();
 
         // Unbind any previously attached resize handlers
@@ -153,9 +166,10 @@ var broadcast = {
      * NOTE: this method will only make ajax call and replacing main content.
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
+	 * @param {boolean} disableHistory  the hash change won't be available in the browser history
      * @return {void}
      */
-    propagateAjax: function (ajaxUrl)
+    propagateAjax: function (ajaxUrl, disableHistory)
     {
         broadcast.init();
 
@@ -191,9 +205,19 @@ var broadcast = {
 		{
 			currentHashStr = broadcast.updateParamValue('insightUrl=', currentHashStr);
 		}
-        // Let history know about this new Hash and load it.
-		broadcast.forceReload = true;
-        $.history.load(currentHashStr);
+		
+		if (disableHistory)
+		{
+			broadcast.ignoreHashChange = currentHashStr;
+			var newLocation = window.location.href.split('#')[0] + '#' + currentHashStr;
+			window.location.replace(newLocation);
+		}
+		else
+		{
+			// Let history know about this new Hash and load it.
+			broadcast.forceReload = true;
+			$.history.load(currentHashStr);
+		}
     },
 
     /**
