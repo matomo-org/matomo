@@ -740,7 +740,7 @@ class Piwik_SitesManager_API
 	 */
 	public function getExcludedQueryParametersGlobal()
 	{
-		Piwik::checkUserHasSomeAdminAccess();
+		Piwik::checkUserHasSomeViewAccess();
 		return Piwik_GetOption(self::OPTION_EXCLUDED_QUERY_PARAMETERS_GLOBAL);
 	}
 	
