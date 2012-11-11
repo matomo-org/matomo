@@ -82,6 +82,10 @@ var broadcast = {
     pageload: function( hash )
     {
 		if (broadcast.ignoreHashChange == hash) {
+			// ignoreHashChange is set in propagateAjax() when the parameter disableHistory
+			// is used. we don't trigger the callbacks for the hash change in this case but
+			// we need to reset the current urls to make sure that when the back button is
+			// used, the callbacks are triggered.
 			broadcast.ignoreHashChange = false;
 			broadcast.currentHashUrl = false;
 			broadcast.currentPopoverParameter = false;
@@ -208,8 +212,11 @@ var broadcast = {
 		
 		if (disableHistory)
 		{
+			// make sure the change doesn't trigger the location change callbacks
 			broadcast.ignoreHashChange = currentHashStr;
 			var newLocation = window.location.href.split('#')[0] + '#' + currentHashStr;
+			// window.location.replace changes the current url without pushing it on the
+			// browser history stack.
 			window.location.replace(newLocation);
 		}
 		else

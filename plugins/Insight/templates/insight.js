@@ -101,14 +101,22 @@ var Piwik_Insight = (function() {
 
 		/** This callback is used from within the iframe */
 		setCurrentUrl: function(currentUrl) {
+			// put the current iframe url in the main url to enable refresh and deep linking.
+			// to prevent browsers from braking the encoding, we replace the % with a $.
 			var urlValue = encodeURIComponent(currentUrl).replace(/%/g, '$');
+			
+			// the insightUrl parameter is removed when the location changes in broadcast.propagateAjax()
 			var urlKeyValue = 'insightUrl=' + urlValue;
 			
 			var urlOldValue = broadcast.getValueFromHash('insightUrl', window.location.href);
 			if (urlOldValue != urlValue) {
+				// we don't want the location in the browser history because the back and
+				// forward buttons should trigger a change in the iframe.
+				// so we use disableHistory = true
 				broadcast.propagateAjax(urlKeyValue, true);
 			}
 			
+			// load the sidebar for the current url
 			loadSidebar(currentUrl);
 		}
 

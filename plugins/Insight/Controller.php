@@ -28,6 +28,9 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		$view->date = Piwik_Common::getRequestVar('date', 'today');
 		$view->period = Piwik_Common::getRequestVar('period', 'day');
 		
+		// the % signs in the encoded url have been replaced with $ to make sure that
+		// browsers can't break the exact encoding. we need to reverse this here.
+		// see javascript Piwik_Insight.setCurrentUrl()
 		$url = Piwik_Common::getRequestVar('insightUrl', '');
 		$url = urldecode(str_replace('$', '%', $url));
 		$view->targetUrl = $url;
