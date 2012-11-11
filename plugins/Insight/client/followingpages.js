@@ -206,7 +206,7 @@ var Piwik_Insight_FollowingPages = (function() {
 						continue;
 					}
 					
-					if (!linkTag.is(':visible')) {
+					if (!linkTag.is(':visible') || linkTag.css('visibility') == 'hidden') {
 						// link is not visible
 						tagElement.hide();
 						continue;
