@@ -165,6 +165,9 @@ class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Pi
 	public function isConnectionUTF8()
 	{
 		$charsetInfo = $this->fetchAll('SHOW VARIABLES LIKE ?', array('character_set_connection'));
+		if(empty($charsetInfo)) {
+			return false;
+		}
 		$charset = $charsetInfo[0]['Value'];
 		return $charset === 'utf8';
 	}
