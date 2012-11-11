@@ -22,7 +22,6 @@
 class Piwik_SEO_RankChecker
 {
 	private $url;
-	private $results = array();
 
 	public function __construct($url)
 	{
@@ -62,7 +61,12 @@ class Piwik_SEO_RankChecker
 		}
 	}
 
-	public function getPageRank()
+    /**
+     * Returns the google page rank for the current url
+     *
+     * @return int
+     */
+    public function getPageRank()
 	{
 		$chwrite = $this->CheckHash($this->HashURL($this->url));
 
@@ -74,79 +78,161 @@ class Piwik_SEO_RankChecker
 		return $value;
 	}
 
-	public function getAlexaRank()
+    /**
+     * Returns the alexa traffic rank for the current url
+     *
+     * @return int
+     */
+    public function getAlexaRank()
 	{
-		$url = $this->url;
-		$xml = @simplexml_load_string($this->getPage('http://data.alexa.com/data?cli=10&url=' . $url));
+        $xml = @simplexml_load_string($this->getPage('http://data.alexa.com/data?cli=10&url=' . urlencode($this->url)));
 		return $xml ? $xml->SD->POPULARITY['TEXT'] : '';
 	}
 
+    /**
+     * Returns the number of Dmoz.org entries for the current url
+     *
+     * @return int
+     */
 	public function getDmoz()
 	{
-		$url = preg_replace('/^www\./', '', $this->url);
-		$url = "http://search.dmoz.org/cgi-bin/search?search=$url";
+        $url = 'http://www.dmoz.org/search?q=' . urlencode($this->url);
 		$data = $this->getPage($url);
-		if(preg_match('<center>No <b><a href="http://dmoz\.org/">Open Directory Project</a></b> results found</center>', $data))
-		{
-			$value = false;
-		}
-		else
-		{
-			$value = true;
-		}
-		return $value;
+        preg_match('#Open Directory Sites[^\(]+\([0-9]-[0-9]+ of ([0-9]+)\)#', $data, $p);
+        if (!empty($p[1])) {
+            return (int) $p[1];
+        }
+        return 0;
 	}
 
-	public function getYahooDirectory()
+    /**
+     * Returns the number of pages google holds in it's index for the current url
+     *
+     * @return int
+     */
+    public function getIndexedPagesGoogle()
 	{
-		$url = preg_replace('/^www\./', '', $this->url);
-		$url = "http://search.yahoo.com/search/dir?p=$url";
+        $url = 'http://www.google.com/search?hl=en&q=site%3A' . urlencode($this->url);
 		$data = $this->getPage($url);
-		if(preg_match('No Directory Search results were found\.', $data)) {
-			$value = false;
-		} else {
-			$value = true;
+        if (preg_match('#about ([0-9\,]+) results#i', $data, $p)) {
+            return (int) str_replace(',', '', $p[1]);
 		}
-		return $value;
+        return 0;
 	}
 
-	public function getBacklinksGoogle()
+    /**
+     * Returns the number of pages bing holds in it's index for the current url
+     *
+     * @return int
+     */
+    public function getIndexedPagesBing()
 	{
-		$url = $this->url;
-		$url = 'http://www.google.com/search?q=link%3A'.urlencode($url);
+        $url = 'http://www.bing.com/search?mkt=en-US&q=site%3A' . urlencode($this->url);
 		$data = $this->getPage($url);
-		$value = 0;
-		if (preg_match('/\>About ([0-9\,]+) results\</', $data, $p)) {
-			$value = $this->toInt($p[1]);
+        if (preg_match('#([0-9\,]+) results#i', $data, $p)) {
+            return (int) str_replace(',', '', $p[1]);
 		}
-		elseif (preg_match('/of about \<b\>([0-9\,]+)\<\/b\>/si', $data, $p)) {
-			$value = $this->toInt($p[1]);
-		}
-		return $value;
+        return 0;
 	}
 
-	public function getAge()
-	{
-		$url = preg_replace('/^www\./', '', $this->url);
-		$url = 'http://www.who.is/whois/'.urlencode($url);
-		$data = $this->getPage($url);
-		preg_match('#(?:Creation Date|Created On):\s*([ \ta-z0-9/-:.]+)#si', $data, $p);
-		if(!isset($p[1]))
-		{
-			return null;
-		}
-		$value = strtotime($p[1]);
-		if ($value === false) {
-			return null;
-		}
-		$value = Piwik::getPrettyTimeFromSeconds(time() - $value);
-		return $value;
-	}
+    /**
+     * Returns the domain age for the current url
+     *
+     * @return int
+     */
+    public function getAge()
+    {
+        $ageArchiveOrg = $this->_getAgeArchiveOrg();
+        $ageWhoIs = $this->_getAgeWhoIs();
+        $ageWhoisCom = $this->_getAgeWhoisCom();
 
-	private function toInt($string)
-	{
-		return preg_replace('#[^0-9]#si', '', $string);
-	}
+        $ages = array();
+
+        if($ageArchiveOrg > 0) {
+            $ages[] = $ageArchiveOrg;
+        }
+
+        if($ageWhoIs > 0) {
+            $ages[] = $ageWhoIs;
+        }
+
+        if($ageWhoisCom > 0) {
+            $ages[] = $ageWhoisCom;
+        }
+
+        if(count($ages) > 1) {
+            $maxAge = min($ages);
+        } else {
+            $maxAge = array_shift($ages);
+        }
+
+        if ($maxAge) {
+            return Piwik::getPrettyTimeFromSeconds(time() - $maxAge);
+        }
+        return false;
+    }
+
+    /**
+     * Returns the domain age archive.org lists for the current url
+     *
+     * @return int
+     */
+    protected function _getAgeArchiveOrg()
+    {
+        $url  = str_replace('www.', '', $this->url);
+        $data = $this->getPage('http://wayback.archive.org/web/*/' . urlencode($url));
+        preg_match('#<a href=\"([^>]*)' . preg_quote($url) . '/\">([^<]*)<\/a>#', $data, $p);
+        if (!empty($p[2])) {
+            $value = strtotime($p[2]);
+            if ($value === false) {
+                return 0;
+            }
+            return $value;
+        }
+        return 0;
+    }
+
+    /**
+     * Returns the domain age who.is lists for the current url
+     *
+     * @return int
+     */
+    protected function _getAgeWhoIs()
+    {
+        $url  = preg_replace('/^www\./', '', $this->url);
+        $url  = 'http://www.who.is/whois/' . urlencode($url);
+        $data = $this->getPage($url);
+        preg_match('#(?:Creation Date|Created On)\.*:\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
+        if (!empty($p[1])) {
+            $value = strtotime(trim($p[1]));
+            if ($value === false) {
+                return 0;
+            }
+            return $value;
+        }
+        return 0;
+    }
+
+    /**
+     * Returns the domain age whois.com lists for the current url
+     *
+     * @return int
+     */
+    protected function _getAgeWhoisCom()
+    {
+        $url  = preg_replace('/^www\./', '', $this->url);
+        $url  = 'http://www.whois.com/whois/' . urlencode($url);
+        $data = $this->getPage($url);
+        preg_match('#(?:Creation Date|Created On):\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
+        if (!empty($p[1])) {
+            $value = strtotime(trim($p[1]));
+            if ($value === false) {
+                return 0;
+            }
+            return $value;
+        }
+        return 0;
+    }
 
 	/**
 	 * Convert numeric string to int

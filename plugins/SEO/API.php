@@ -16,8 +16,8 @@
 require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 
 /**
- * The SEO API lets you access a list of SEO metrics for the specified URL: Google Pagerank, Yahoo back links, Yahoo Indexed pages,
- * Alexa Rank, and the age of the Domain name.
+ * The SEO API lets you access a list of SEO metrics for the specified URL: Google Pagerank, Goolge/Bing indexed pages
+ * Alexa Rank, age of the Domain name and count of DMOZ entries.
  * 
  * @package Piwik_SEO
  */
@@ -53,6 +53,16 @@ class Piwik_SEO_API
 				'logo' => Piwik_getSearchEngineLogoFromUrl('http://google.com'),
 				'id' => 'pagerank'
 			),
+            Piwik_Translate('SEO_Google_IndexedPages') => array(
+                'rank' => $rank->getIndexedPagesGoogle(),
+                'logo' => Piwik_getSearchEngineLogoFromUrl('http://google.com'),
+                'id' => 'google-index',
+            ),
+            Piwik_Translate('SEO_Bing_IndexedPages') => array(
+                'rank' => $rank->getIndexedPagesBing(),
+                'logo' => Piwik_getSearchEngineLogoFromUrl('http://bing.com'),
+                'id' => 'bing-index',
+			),
 			Piwik_Translate('SEO_AlexaRank') => array(
 				'rank' => $rank->getAlexaRank(),
 				'logo' => Piwik_getSearchEngineLogoFromUrl('http://alexa.com'),
@@ -61,7 +71,12 @@ class Piwik_SEO_API
 			Piwik_Translate('SEO_DomainAge') => array(
 				'rank' => $rank->getAge(),
 				'logo' => 'plugins/SEO/images/whois.png',
-				'id'   => 'domain-age'
+				'id'   => 'domain-age',
+			),
+            Piwik_Translate('SEO_Dmoz') => array(
+                'rank' => $rank->getDmoz(),
+                'logo' => Piwik_getSearchEngineLogoFromUrl('http://dmoz.org'),
+                'id'   => 'dmoz',
 			),
 		);
 		$dataTable = new Piwik_DataTable();

@@ -39,7 +39,7 @@ class SEOTest extends PHPUnit_Framework_TestCase
      */
     public function test_API()
     {
-        $dataTable = Piwik_SEO_API::getInstance()->getRank('http://forum.piwik.org/');
+        $dataTable = Piwik_SEO_API::getInstance()->getRank('http://www.microsoft.com/');
         $renderer = Piwik_DataTable_Renderer::factory('php');
         $renderer->setSerialize(false);
         $ranks = $renderer->render($dataTable);

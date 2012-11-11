@@ -28,8 +28,7 @@
 	   					<div style='margin-left:15px'>
 		   					{if isset($rank.rank)}{$rank.rank}{else}-{/if}
 		   					{if $rank.id=='pagerank'} /10 
-		   					{elseif $rank.id=='yahoo-bls'} {'SEO_Backlinks'|translate} 
-		   					{elseif $rank.id=='yahoo-pages'} {'SEO_Pages'|translate}
+		   					{elseif $rank.id=='google-index' || $rank.id=='bing-index'} {'SEO_Pages'|translate}
 		   					{/if}
 	   					</div>	
    					</td>
