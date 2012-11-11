@@ -289,6 +289,17 @@ class Piwik_API_ResponseBuilder
 	 */
 	protected function handleDataTable($datatable)
 	{
+		// if requested, flatten nested tables
+		if (Piwik_Common::getRequestVar('flat', '0', 'string', $this->request) == '1')
+		{
+			$flattener = new Piwik_API_DataTableManipulator_Flattener($this->apiModule, $this->apiMethod, $this->request);
+			if (Piwik_Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1')
+			{
+				$flattener->includeAggregateRows();
+			}
+			$datatable = $flattener->flatten($datatable);
+		}
+
 		// if the flag disable_generic_filters is defined we skip the generic filters
 		if(0 == Piwik_Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request))
 		{
@@ -313,18 +324,7 @@ class Piwik_API_ResponseBuilder
 		{
 			$datatable->filter('ColumnDelete', array($hideColumns, $showColumns));
 		}
-		
-		// if requested, flatten nested tables
-		if (Piwik_Common::getRequestVar('flat', '0', 'string', $this->request) == '1')
-		{
-			$flattener = new Piwik_API_DataTableManipulator_Flattener($this->apiModule, $this->apiMethod, $this->request);
-			if (Piwik_Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1')
-			{
-				$flattener->includeAggregateRows();
-			}
-            $datatable = $flattener->flatten($datatable);
-		}
-	
+
         // apply label filter: only return a single row matching the label parameter
         $label = Piwik_Common::getRequestVar('label', '', 'string', $this->request);
         if ($label !== '')
