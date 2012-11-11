@@ -1,7 +1,7 @@
 <?php
 // Example file to demonstrate PiwikTracker.php
 // See http://piwik.org/docs/tracking-api/
-require_once '../libs/PiwikTracker/PiwikTracker.php';
+require_once '../../libs/PiwikTracker/PiwikTracker.php';
 PiwikTracker::$URL = 'http://localhost/trunk/';
 
 $piwikTracker = new PiwikTracker( $idSite = 1 );

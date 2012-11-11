@@ -3,7 +3,7 @@
 // Used initially to test how to handle cookies for this use case (see http://dev.piwik.org/trac/ticket/409)
 exit;
 
-define('PIWIK_INCLUDE_PATH', '..');
+define('PIWIK_INCLUDE_PATH', '../..');
 define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);

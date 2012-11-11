@@ -17,7 +17,7 @@ src="<?php echo $url; ?>" scrolling="no" frameborder="0" marginheight="0" margin
 
 <?php
 $_GET['idSite'] = $idSite;
-define('PIWIK_INCLUDE_PATH', '..');
+define('PIWIK_INCLUDE_PATH', '../..');
 define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
