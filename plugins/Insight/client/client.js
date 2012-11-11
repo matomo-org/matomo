@@ -139,7 +139,7 @@ var Piwik_Insight_Client = (function() {
 				if (this.readyState == 'loaded' || this.readyState == 'complete') {
 					onLoad();
 				}
-			}
+			};
 			script.onload = onLoad;
 			
 			script.src = piwikRoot+relativePath;
@@ -149,7 +149,7 @@ var Piwik_Insight_Client = (function() {
 		/** Piwik Insight API Request */
 		api: function(method, callback, additionalParams) {
 			var url = piwikRoot+'index.php?module=API&method=Insight.'+method
-					+'&idSite='+idSite+'&period='+period+'&date='+date+'&format=JSON';
+					+'&idSite='+idSite+'&period='+period+'&date='+date+'&format=JSON&filter_limit=-1';
 					
 			if (additionalParams) {
 				url += '&' + additionalParams;
