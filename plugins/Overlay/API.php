@@ -7,17 +7,17 @@
  * @version $Id$
  *
  * @category Piwik_Plugins
- * @package Piwik_Insight
+ * @package Piwik_Overlay
  */
 
-class Piwik_Insight_API
+class Piwik_Overlay_API
 {
 	
 	private static $instance = null;
 	
 	/**
 	 * Get Singleton instance
-	 * @return Piwik_Insight_API
+	 * @return Piwik_Overlay_API
 	 */
 	public static function getInstance()
 	{
@@ -36,10 +36,10 @@ class Piwik_Insight_API
 		$this->authenticate($idSite);
 		
 		$translations = array(
-			'oneClick' => 'Insight_OneClick',
-			'clicks' => 'Insight_Clicks',
-			'clicksFromXLinks' => 'Insight_ClicksFromXLinks',
-			'link' => 'Insight_Link'
+			'oneClick' => 'Overlay_OneClick',
+			'clicks' => 'Overlay_Clicks',
+			'clicksFromXLinks' => 'Overlay_ClicksFromXLinks',
+			'link' => 'Overlay_Link'
 		);
 		
 		return array_map('Piwik_Translate', $translations);
@@ -83,7 +83,7 @@ class Piwik_Insight_API
 		
 		try
 		{
-			$limitBeforeGrouping = Piwik_Config::getInstance()->General['insight_limit'];
+			$limitBeforeGrouping = Piwik_Config::getInstance()->General['overlay_following_pages_limit'];
 			$transitionsReport = Piwik_Transitions_API::getInstance()->getTransitionsForAction(
 					$url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping, 
 					$part = 'followingActions', $returnNormalizedUrls = true);

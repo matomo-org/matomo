@@ -1,4 +1,4 @@
-var Piwik_Insight_FollowingPages = (function() {
+var Piwik_Overlay_FollowingPages = (function() {
 
 	/** jQuery */
 	var $ = jQuery;
@@ -19,14 +19,14 @@ var Piwik_Insight_FollowingPages = (function() {
 	function load(callback) {
 		// normalize current location
 		var location = window.location.href;
-		location = Piwik_Insight_UrlNormalizer.normalize(location);
+		location = Piwik_Overlay_UrlNormalizer.normalize(location);
 		location = (("https:" == document.location.protocol) ? 'https' : 'http') + '://' + location;
 
 		var excludedParamsLoaded = false;
 		var followingPagesLoaded = false;
 
 		// load excluded params
-		Piwik_Insight_Client.api('getExcludedQueryParameters', function(data) {
+		Piwik_Overlay_Client.api('getExcludedQueryParameters', function(data) {
 			for (var i = 0; i < data.length; i++) {
 				if (typeof data[i] == 'object') {
 					data[i] = data[i][0];
@@ -41,7 +41,7 @@ var Piwik_Insight_FollowingPages = (function() {
 		});
 
 		// load following pages
-		Piwik_Insight_Client.api('getFollowingPages', function(data) {
+		Piwik_Overlay_Client.api('getFollowingPages', function(data) {
 			followingPages = data;
 			processFollowingPages();
 
@@ -59,7 +59,7 @@ var Piwik_Insight_FollowingPages = (function() {
 			var page = followingPages[i];
 			// though the following pages are returned without the prefix, downloads
 			// and outlinks still have it.
-			page.label = Piwik_Insight_UrlNormalizer.removeUrlPrefix(page.label);
+			page.label = Piwik_Overlay_UrlNormalizer.removeUrlPrefix(page.label);
 			totalClicks += followingPages[i].referrals;
 		}
 		for (i = 0; i < followingPages.length; i++) {
@@ -78,7 +78,7 @@ var Piwik_Insight_FollowingPages = (function() {
 		a.addClass('piwik-discovered');
 
 		var href = a.attr('href');
-		href = Piwik_Insight_UrlNormalizer.normalize(href);
+		href = Piwik_Overlay_UrlNormalizer.normalize(href);
 
 		if (href) {
 			if (typeof linksOnPage[href] == 'undefined') {
@@ -328,13 +328,13 @@ var Piwik_Insight_FollowingPages = (function() {
 		var numLinks = linksOnPage[linkUrl].length;
 		var text;
 		if (numLinks > 1) {
-			text = Piwik_Insight_Translations.get('clicksFromXLinks')
+			text = Piwik_Overlay_Translations.get('clicksFromXLinks')
 				.replace(/%1\$s/, data.referrals)
 				.replace(/%2\$s/, numLinks);
 		} else if (data.referrals == 1) {
-			text = Piwik_Insight_Translations.get('oneClick');
+			text = Piwik_Overlay_Translations.get('oneClick');
 		} else {
-			text = Piwik_Insight_Translations.get('clicks')
+			text = Piwik_Overlay_Translations.get('clicks')
 				.replace(/%s/, data.referrals);
 		}
 
@@ -352,8 +352,8 @@ var Piwik_Insight_FollowingPages = (function() {
 		}
 
 		// we don't use .data() because jquery would remove the callback when the link tag is removed
-		linkTag[0].piwikHideNotification = Piwik_Insight_Client.notification(
-			Piwik_Insight_Translations.get('link') + ': ' + linkUrl);
+		linkTag[0].piwikHideNotification = Piwik_Overlay_Client.notification(
+			Piwik_Overlay_Translations.get('link') + ': ' + linkUrl);
 	}
 
 	/** Remove highlight from link */
@@ -383,11 +383,11 @@ var Piwik_Insight_FollowingPages = (function() {
 		 * The main method
 		 */
 		initialize: function(finishCallback) {
-			c = Piwik_Insight_Client.createElement;
-			Piwik_Insight_Client.loadScript('plugins/Insight/client/urlnormalizer.js', function() {
-				Piwik_Insight_UrlNormalizer.initialize();
+			c = Piwik_Overlay_Client.createElement;
+			Piwik_Overlay_Client.loadScript('plugins/Overlay/client/urlnormalizer.js', function() {
+				Piwik_Overlay_UrlNormalizer.initialize();
 				load(function() {
-					Piwik_Insight_UrlNormalizer.setExcludedParameters(excludedParams);
+					Piwik_Overlay_UrlNormalizer.setExcludedParameters(excludedParams);
 					build(function() {
 						finishCallback();
 					})

@@ -7,15 +7,15 @@
  * @version $Id$
  *
  * @category Piwik_Plugins
- * @package Piwik_Insight
+ * @package Piwik_Overlay
  */
 
-class Piwik_Insight extends Piwik_Plugin
+class Piwik_Overlay extends Piwik_Plugin
 {
 	public function getInformation()
 	{
 		return array(
-			'description' => Piwik_Translate('Insight_PluginDescription'),
+			'description' => Piwik_Translate('Overlay_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
@@ -34,19 +34,19 @@ class Piwik_Insight extends Piwik_Plugin
 	public function getCssFiles($notification)
 	{
 		$cssFiles = &$notification->getNotificationObject();
-		$cssFiles[] = "plugins/Insight/templates/index.css";
+		$cssFiles[] = "plugins/Overlay/templates/index.css";
 	}
 	
 	public function getJsFiles($notification)
 	{
 		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/Insight/templates/index.js";
+		$jsFiles[] = "plugins/Overlay/templates/index.js";
 	}
 
 	public function addMenu()
 	{
-		Piwik_AddMenu('Actions_Actions', 'Insight_Insight',
-				array('module' => 'Insight', 'action' => 'index'),
+		Piwik_AddMenu('Actions_Actions', 'Overlay_Overlay',
+				array('module' => 'Overlay', 'action' => 'index'),
 				$display = true, $order = 99);
 	}
 

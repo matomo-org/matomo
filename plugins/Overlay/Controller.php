@@ -7,10 +7,10 @@
  * @version $Id$
  *
  * @category Piwik_Plugins
- * @package Piwik_Insight
+ * @package Piwik_Overlay
  */
 
-class Piwik_Insight_Controller extends Piwik_Controller
+class Piwik_Overlay_Controller extends Piwik_Controller
 {
 	
 	/** The index of the plugin */
@@ -19,7 +19,7 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		Piwik::checkUserHasViewAccess($this->idSite);
 		
 		$template = 'index';
-		if (Piwik_Config::getInstance()->General['insight_disable_framed_mode']) {
+		if (Piwik_Config::getInstance()->General['overlay_disable_framed_mode']) {
 			$template = 'index_noframe';
 		}
 		
@@ -30,8 +30,8 @@ class Piwik_Insight_Controller extends Piwik_Controller
 		
 		// the % signs in the encoded url have been replaced with $ to make sure that
 		// browsers can't break the exact encoding. we need to reverse this here.
-		// see javascript Piwik_Insight.setCurrentUrl()
-		$url = Piwik_Common::getRequestVar('insightUrl', '');
+		// see javascript Piwik_Overlay.setCurrentUrl()
+		$url = Piwik_Common::getRequestVar('overlayUrl', '');
 		$url = urldecode(str_replace('$', '%', $url));
 		$view->targetUrl = $url;
 		
@@ -118,10 +118,10 @@ class Piwik_Insight_Controller extends Piwik_Controller
 	}
 	
 	/**
-	 * Start an Insight session: Redirect to the tracked website. The Piwik
+	 * Start an Overlay session: Redirect to the tracked website. The Piwik
 	 * tracker will recognize this referrer and start the session. 
 	 */
-	public function startInsightSession()
+	public function startOverlaySession()
 	{
 		$idSite = Piwik_Common::getRequestVar('idsite', 0, 'int');
 		Piwik::checkUserHasViewAccess($idSite);
@@ -157,7 +157,7 @@ class Piwik_Insight_Controller extends Piwik_Controller
 					}
 					
 					if (!match) {
-						var error = "'.htmlentities(Piwik_Translate('Insight_RedirectUrlError')).'";
+						var error = "'.htmlentities(Piwik_Translate('Overlay_RedirectUrlError')).'";
 						error = error.replace(/%s/, htmlEntities(urlToRedirect));
 						error = error.replace(/%s/, "<br />");
 						document.write(error);
@@ -173,7 +173,7 @@ class Piwik_Insight_Controller extends Piwik_Controller
 	/**
 	 * This method is used to pass information from the iframe back to Piwik.
 	 * Due to the same origin policy, we can't do that directly, so we inject
-	 * an additional iframe in the Insight session that calls this controller
+	 * an additional iframe in the Overlay session that calls this controller
 	 * method.
 	 * The rendered iframe is from the same origin as the Piwik window so we
 	 * can bypass the same origin policy and call the parent.

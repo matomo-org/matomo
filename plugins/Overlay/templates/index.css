@@ -1,11 +1,11 @@
 
-#Insight_Container {
+#Overlay_Container {
 	margin-top: 9px;
 	height: 300px;
 	position: relative;
 }
 
-#Insight_Container.Insight_FullScreen {
+#Overlay_Container.Overlay_FullScreen {
 	position: fixed;
 	width: 100%;
 	height: 100%;
@@ -17,7 +17,7 @@
 	padding: 0;
 }
 
-#Insight_Location {
+#Overlay_Location {
 	color: #7E7363;
 	padding-left: 220px;
 	padding-bottom: 7px;
@@ -25,7 +25,7 @@
 	cursor: default;
 }
 
-#Insight_Container.Insight_FullScreen #Insight_Location {
+#Overlay_Container.Overlay_FullScreen #Overlay_Location {
 	float: left;
 	width: 180px;
 	position: relative;
@@ -34,7 +34,7 @@
 	padding: 0;
 }
 
-#Insight_Loading {
+#Overlay_Loading {
 	background: url(../../../themes/default/images/loading-blue.gif) no-repeat center 10px;
 	float: left;
 	width: 190px;
@@ -45,27 +45,27 @@
 	display: none;
 }
 
-#Insight_Sidebar {
+#Overlay_Sidebar {
 	float: left;
 	width: 200px;
 	position: relative;
 	clear: left;
 }
 
-#Insight_Container.Insight_FullScreen #Insight_Sidebar {
+#Overlay_Container.Overlay_FullScreen #Overlay_Sidebar {
 	width: 180px;
 	margin-left: 20px;
 }
 
-#Insight_Sidebar h2 {
+#Overlay_Sidebar h2 {
 	font-size: 15px;
 	margin: 0;
 	padding: 0 0 8px 23px;
 	color: #255792;
 }
 
-#Insight_Sidebar a.Insight_FullScreen,
-#Insight_Sidebar a.Insight_NewTab {
+#Overlay_Sidebar a.Overlay_FullScreen,
+#Overlay_Sidebar a.Overlay_NewTab {
 	display: block;
 	color: #255792;
 	font-size: 13px;
@@ -76,69 +76,69 @@
 	text-decoration: none;
 }
 
-#Insight_Sidebar a.Insight_NewTab {
+#Overlay_Sidebar a.Overlay_NewTab {
 	margin-top: 0;
 	background: url(../../../themes/default/images/newtab.png) no-repeat 0 7px;
 }
 
-#Insight_Sidebar a.Insight_FullScreen:hover,
-#Insight_Sidebar a.Insight_NewTab:hover {
+#Overlay_Sidebar a.Overlay_FullScreen:hover,
+#Overlay_Sidebar a.Overlay_NewTab:hover {
 	color: #E87500;
 }
 
-#Insight_Sidebar span.Insight_CloseFullScreen {
+#Overlay_Sidebar span.Overlay_CloseFullScreen {
 	display: none;
 }
 
-#Insight_Container.Insight_FullScreen #Insight_Sidebar span.Insight_OpenFullScreen {
+#Overlay_Container.Overlay_FullScreen #Overlay_Sidebar span.Overlay_OpenFullScreen {
 	display: none;
 }
 
-#Insight_Container.Insight_FullScreen #Insight_Sidebar span.Insight_CloseFullScreen {
+#Overlay_Container.Overlay_FullScreen #Overlay_Sidebar span.Overlay_CloseFullScreen {
 	display: inline;
 }
 
-#Insight_Main {
+#Overlay_Main {
 	margin-left: 220px;
 	position: relative;
 }
 
-#Insight_Iframe {
+#Overlay_Iframe {
 	width: 100%;
 	height: 100%;
 	border: 2px solid #ddd;
 }
 
-#Insight_Container.Insight_FullScreen #Insight_Iframe {
+#Overlay_Container.Overlay_FullScreen #Overlay_Iframe {
 	border-top: 0;
 	border-right: 0;
 	border-bottom: 0;
 }
 
-.Insight_Metric {
+.Overlay_Metric {
 	font-size: 12px;
 	padding-bottom: 4px;
 }
 
-.Insight_MetricValue {
+.Overlay_MetricValue {
 	font-size: 14px;
 	font-weight: bold;
 }
 
-.Insight_NoData {
+.Overlay_NoData {
 	font-size: 12px;
 	color: #7E7363;
 }
 
-h2.Insight_MainMetrics {
+h2.Overlay_MainMetrics {
 	background: url(./info.png) 0 1px no-repeat
 }
 
-body .piwik-tooltip.Insight_Tooltip {
+body .piwik-tooltip.Overlay_Tooltip {
 	font-size: 11px;
 	padding: 3px 5px 3px 6px;
 }
 
-#Insight_NoFrame {
+#Overlay_NoFrame {
 	padding: 20px 0 40px 2px
 }

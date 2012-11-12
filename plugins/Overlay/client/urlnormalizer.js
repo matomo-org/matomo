@@ -4,7 +4,7 @@
  * This utility preprocesses both the URLs in the document and
  * from the Piwik logs in order to make matching possible.
  */
-var Piwik_Insight_UrlNormalizer = (function() {
+var Piwik_Overlay_UrlNormalizer = (function() {
 	
 	/** Base href of the current document */
 	var baseHref = false;
@@ -207,7 +207,7 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	
 	function test(testCases) {
 		for (var i = 0; i < testCases.length; i++) {
-			var observed = Piwik_Insight_UrlNormalizer.normalize(testCases[i][0]);
+			var observed = Piwik_Overlay_UrlNormalizer.normalize(testCases[i][0]);
 			var expected = testCases[i][1];
 			if (observed != expected) {
 				alert("TEST FAIL!\nOriginal: " + testCases[i][0] +
@@ -218,13 +218,13 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	}
 	
 	
-	Piwik_Insight_UrlNormalizer.initialize();
-	Piwik_Insight_UrlNormalizer.setExcludedParameters(['excluded1', 'excluded2', 'excluded3']);
+	Piwik_Overlay_UrlNormalizer.initialize();
+	Piwik_Overlay_UrlNormalizer.setExcludedParameters(['excluded1', 'excluded2', 'excluded3']);
 	
-	Piwik_Insight_UrlNormalizer.setBaseHref(false);
+	Piwik_Overlay_UrlNormalizer.setBaseHref(false);
 	
-	Piwik_Insight_UrlNormalizer.setCurrentDomain('example.com');
-	Piwik_Insight_UrlNormalizer.setCurrentUrl('https://www.example.com/current/test.html?asdfasdf');
+	Piwik_Overlay_UrlNormalizer.setCurrentDomain('example.com');
+	Piwik_Overlay_UrlNormalizer.setCurrentUrl('https://www.example.com/current/test.html?asdfasdf');
 	
 	test([
 		[
@@ -237,8 +237,8 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	]);
 	
 	
-	Piwik_Insight_UrlNormalizer.setCurrentDomain('www.example3.com');
-	Piwik_Insight_UrlNormalizer.setCurrentUrl('http://example3.com/current/folder/');
+	Piwik_Overlay_UrlNormalizer.setCurrentDomain('www.example3.com');
+	Piwik_Overlay_UrlNormalizer.setCurrentUrl('http://example3.com/current/folder/');
 	
 	test([[
 		'relative.html',
@@ -246,7 +246,7 @@ var Piwik_Insight_UrlNormalizer = (function() {
 	]]);
 	
 	
-	Piwik_Insight_UrlNormalizer.setBaseHref('http://example.com/base/');
+	Piwik_Overlay_UrlNormalizer.setBaseHref('http://example.com/base/');
 	
 	test([
 		[

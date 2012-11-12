@@ -1,4 +1,4 @@
-var Piwik_Insight = (function() {
+var Piwik_Overlay = (function() {
 	
 	var $container, $iframe, $sidebar, $main, $location, $loading; 
 	
@@ -14,12 +14,12 @@ var Piwik_Insight = (function() {
 		
 		iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
 		
-		piwikHelper.ajaxCall('Insight', 'renderSidebar', {
+		piwikHelper.ajaxCall('Overlay', 'renderSidebar', {
 			currentUrl: currentUrl
 		}, function(response) {
 			var $response = $(response);
 			
-			var $responseLocation = $response.find('.Insight_Location');
+			var $responseLocation = $response.find('.Overlay_Location');
 			var $url = $responseLocation.find('span');
 			$url.html(piwikHelper.addBreakpointsToUrl($url.text()));
 			$location.html($responseLocation.html()).show();
@@ -28,8 +28,8 @@ var Piwik_Insight = (function() {
 			$location.find('span').hover(function() {
 				if (iframeDomain) {
 					// use addBreakpointsToUrl because it also encoded html entities
-					Piwik_Tooltip.show('<b>' + Piwik_Insight_Translations.domain + ':</b> ' + 
-						piwikHelper.addBreakpointsToUrl(iframeDomain), 'Insight_Tooltip');
+					Piwik_Tooltip.show('<b>' + Piwik_Overlay_Translations.domain + ':</b> ' + 
+						piwikHelper.addBreakpointsToUrl(iframeDomain), 'Overlay_Tooltip');
 				}
 			}, function() {
 				Piwik_Tooltip.hide();
@@ -38,7 +38,7 @@ var Piwik_Insight = (function() {
 			$sidebar.empty().append($response).show();
 			$loading.hide();
 			
-			var $fullScreen = $sidebar.find('a.Insight_FullScreen');
+			var $fullScreen = $sidebar.find('a.Overlay_FullScreen');
 			$fullScreen.click(function() {
 				handleFullScreen();
 				return false;
@@ -65,26 +65,26 @@ var Piwik_Insight = (function() {
 		if (!isFullScreen) {
 			// open full screen
 			isFullScreen = true;
-			$container.addClass('Insight_FullScreen');
+			$container.addClass('Overlay_FullScreen');
 			adjustHeight();
 		} else {
 			// close full screen
 			isFullScreen = false;
-			$container.removeClass('Insight_FullScreen');
+			$container.removeClass('Overlay_FullScreen');
 			adjustHeight();
 		}
 	}
 	
 	return {
 		
-		/** This method is called when insight loads (from index.tpl) */
+		/** This method is called when Overlay loads (from index.tpl) */
 		init: function() {
-			$container = $('#Insight_Container');
+			$container = $('#Overlay_Container');
 			$iframe = $container.find('iframe');
-			$sidebar = $('#Insight_Sidebar');
-			$location = $('#Insight_Location');
-			$main = $('#Insight_Main');
-			$loading = $('#Insight_Loading');
+			$sidebar = $('#Overlay_Sidebar');
+			$location = $('#Overlay_Location');
+			$main = $('#Overlay_Main');
+			$loading = $('#Overlay_Loading');
 			
 			adjustHeight();
 			
@@ -105,10 +105,10 @@ var Piwik_Insight = (function() {
 			// to prevent browsers from braking the encoding, we replace the % with a $.
 			var urlValue = encodeURIComponent(currentUrl).replace(/%/g, '$');
 			
-			// the insightUrl parameter is removed when the location changes in broadcast.propagateAjax()
-			var urlKeyValue = 'insightUrl=' + urlValue;
+			// the overlayUrl parameter is removed when the location changes in broadcast.propagateAjax()
+			var urlKeyValue = 'overlayUrl=' + urlValue;
 			
-			var urlOldValue = broadcast.getValueFromHash('insightUrl', window.location.href);
+			var urlOldValue = broadcast.getValueFromHash('overlayUrl', window.location.href);
 			if (urlOldValue != urlValue) {
 				// we don't want the location in the browser history because the back and
 				// forward buttons should trigger a change in the iframe.
