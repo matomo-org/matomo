@@ -73,12 +73,19 @@ class Piwik_SEO_API
 				'logo' => 'plugins/SEO/images/whois.png',
 				'id'   => 'domain-age',
 			),
-            Piwik_Translate('SEO_Dmoz') => array(
-                'rank' => $rank->getDmoz(),
-                'logo' => Piwik_getSearchEngineLogoFromUrl('http://dmoz.org'),
-                'id'   => 'dmoz',
-			),
 		);
+
+		// Add DMOZ only if > 0 entries found
+		$dmozRank = array(
+			'rank' => $rank->getDmoz(),
+			'logo' => Piwik_getSearchEngineLogoFromUrl('http://dmoz.org'),
+			'id'   => 'dmoz',
+		);
+		if($dmozRank['rank'] > 0)
+		{
+			$data[Piwik_Translate('SEO_Dmoz')] = $dmozRank;
+		}
+
 		$dataTable = new Piwik_DataTable();
 		$dataTable->addRowsFromArrayWithIndexLabel($data);
 		return $dataTable;
