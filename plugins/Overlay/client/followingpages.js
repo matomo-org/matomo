@@ -214,7 +214,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 
 					if (linkTag.css('visibility') == 'hidden' || (
 						// in case of hasOneChild: jquery always returns linkTag.is(':visible')=false
-						!linkTag.is(':visible') && !(hasOneChild && inlineChild.is(':visible'))
+						!linkTag.is(':visible') && !(hasOneChild && inlineChild && inlineChild.is(':visible'))
 						)) {
 						// link is not visible
 						tagElement.hide();
