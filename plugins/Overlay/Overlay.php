@@ -40,7 +40,7 @@ class Piwik_Insight extends Piwik_Plugin
 	public function getJsFiles($notification)
 	{
 		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/Insight/templates/insight.js";
+		$jsFiles[] = "plugins/Insight/templates/index.js";
 	}
 
 	public function addMenu()

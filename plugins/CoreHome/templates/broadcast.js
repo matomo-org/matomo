@@ -204,10 +204,10 @@ var broadcast = {
         {
             currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
         }
-		// unset insightUrl if use doesn't display a page overlay
-		if( module != 'Insight')
+		// unset overlayUrl if use doesn't display a page overlay
+		if( module != 'Overlay')
 		{
-			currentHashStr = broadcast.updateParamValue('insightUrl=', currentHashStr);
+			currentHashStr = broadcast.updateParamValue('overlayUrl=', currentHashStr);
 		}
 		
 		if (disableHistory)

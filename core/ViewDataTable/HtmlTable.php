@@ -235,11 +235,11 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	}
 	
 	/**
-	 * Use this method to open links in Insight instead of a new tab
+	 * Use this method to open links in Overlay instead of a new tab
 	 */
-	public function openLinksInInsight()
+	public function openLinksInOverlay()
 	{
-		$this->variablesDefault['open_links_in_insight'] = true;
+		$this->variablesDefault['open_links_in_overlay'] = true;
 	}
 	
 }

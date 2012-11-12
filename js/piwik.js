@@ -899,14 +899,14 @@ var
         }
 
 		/************************************************************
-		 * Page Insight
+		 * Page Overlay
 		 ************************************************************/
 
 		/*
-		 * check whether this is an insight session
+		 * check whether this is a page overlay session
 		 */
-		function isInsightSession(configTrackerUrl, configTrackerSiteId) {
-			var windowName = 'Piwik_Insight';
+		function isOverlaySession(configTrackerUrl, configTrackerSiteId) {
+			var windowName = 'Piwik_Overlay';
 			var referrer = documentAlias.referrer;
 			var testReferrer = configTrackerUrl;
 
@@ -923,7 +923,7 @@ var
 
 				// build referrer regex to extract parameters
 				var referrerRegExp = new RegExp('^' + testReferrer
-						+ 'index\\.php\\?module=Insight&action=startInsightSession'
+						+ 'index\\.php\\?module=Overlay&action=startOverlaySession'
 						+ '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
 
 				var match = referrer.match(referrerRegExp);
@@ -933,7 +933,7 @@ var
 					if (parseInt(idsite, 10) !== configTrackerSiteId) {
 						return false;
 					}
-					// store insight session info in window name
+					// store overlay session info in window name
 					var period = match[2];
 					var date = match[3];
 					window.name = windowName + '###' + period + '###' + date;
@@ -946,9 +946,9 @@ var
 		}
 
 		/*
-		 * inject the script needed for insight
+		 * inject the script needed for page overlay
 		 */
-		function injectInsightScripts(configTrackerUrl, configTrackerSiteId) {
+		function injectOverlayScripts(configTrackerUrl, configTrackerSiteId) {
 			var windowNameParts = window.name.split('###');
 			var root = configTrackerUrl.substring(0, configTrackerUrl.length - 9); // remove piwik.php
 			var period = windowNameParts[1];
@@ -958,7 +958,7 @@ var
 			var onLoad = function () {
 				if (!loaded) {
 					loaded = true;
-					Piwik_Insight_Client.initialize(root, configTrackerSiteId, period, date);
+					Piwik_Overlay_Client.initialize(root, configTrackerSiteId, period, date);
 				}
 			};
 
@@ -971,12 +971,12 @@ var
 				}
 			};
 			script.onload = onLoad;
-			script.src = root + 'plugins/Insight/client/client.js';
+			script.src = root + 'plugins/Overlay/client/client.js';
 			var head = document.getElementsByTagName('head')[0];
 			head.appendChild(script);
 		}
 		/************************************************************
-		 * End Piwik Insight
+		 * End Page Overlay
 		 ************************************************************/
 
         /*
@@ -2667,9 +2667,9 @@ var
                  * @param mixed customData
                  */
                 trackPageView: function (customTitle, customData) {
-					if (isInsightSession(configTrackerUrl, configTrackerSiteId)) {
+					if (isOverlaySession(configTrackerUrl, configTrackerSiteId)) {
 						trackCallback(function () {
-							injectInsightScripts(configTrackerUrl, configTrackerSiteId);
+							injectOverlayScripts(configTrackerUrl, configTrackerSiteId);
 						});
 					} else {
 						trackCallback(function () {
