@@ -37,6 +37,7 @@ _paq.push(["trackPageView", "Asynchronous tracker"]);';
 ?>
  </script>
  <script src="../../js/piwik.js" type="text/javascript"></script>
+ <script src="../../plugins/Overlay/client/urlnormalizer.js" type="text/javascript"></script>
  <script src="piwiktest.js" type="text/javascript"></script>
  <link rel="stylesheet" href="assets/qunit.css" type="text/css" media="screen" />
  <link rel="stylesheet" href="jash/Jash.css" type="text/css" media="screen" />
@@ -727,6 +728,75 @@ function PiwikTest() {
 		tracker.hook.test._beforeUnloadHandler();
 		stopTime = new Date();
 		ok( (stopTime.getTime() - startTime.getTime()) >= 2000, 'setLinkTrackingTimer()' );
+	});
+	
+	test("Overlay URL Normalizer", function() {
+		expect(11);
+
+		var test = function(testCases) {
+			for (var i = 0; i < testCases.length; i++) {
+				var observed = Piwik_Overlay_UrlNormalizer.normalize(testCases[i][0]);
+				var expected = testCases[i][1];
+				equal(observed, expected, testCases[i][0]);
+			}
+		};
+		
+		Piwik_Overlay_UrlNormalizer.initialize();
+		Piwik_Overlay_UrlNormalizer.setExcludedParameters(['excluded1', 'excluded2', 'excluded3']);
+		
+		Piwik_Overlay_UrlNormalizer.setBaseHref(false);
+		
+		Piwik_Overlay_UrlNormalizer.setCurrentDomain('example.com');
+		Piwik_Overlay_UrlNormalizer.setCurrentUrl('https://www.example.com/current/test.html?asdfasdf');
+		
+		test([
+			[
+				'relative/path/',
+				'example.com/current/relative/path/'
+			], [
+				'http://www.example2.com/path/foo.html',
+				'example2.com/path/foo.html'
+			]
+		]);
+		
+		Piwik_Overlay_UrlNormalizer.setCurrentDomain('www.example3.com');
+		Piwik_Overlay_UrlNormalizer.setCurrentUrl('http://example3.com/current/folder/');
+		
+		test([[
+			'relative.html',
+			'example3.com/current/folder/relative.html'
+		]]);
+		
+		
+		Piwik_Overlay_UrlNormalizer.setBaseHref('http://example.com/base/');
+		
+		test([
+			[
+				'http://www.example2.com/my/test/path.html?id=2&excluded2=foo#MyAnchor',
+				'example2.com/my/test/path.html?id=2#MyAnchor'
+			], [
+				'/my/test/foo/../path.html?excluded1=foo&excluded2=foo&excluded3=foo',
+				'example3.com/my/test/path.html'
+			], [
+				'path/./test//test///foo.bar?excluded2=foo&id=3',
+				'example.com/base/path/test/test/foo.bar?id=3'
+			], [
+				'path/./test//test///foo.bar?excluded2=foo#Anchor',
+				'example.com/base/path/test/test/foo.bar#Anchor'
+			], [
+				'https://example2.com//test.html?id=3&excluded1=foo&bar=baz#asdf',
+				'example2.com/test.html?id=3&bar=baz#asdf'
+			], [
+				'#',
+				''
+			], [
+				'#Anchor',
+				''
+			], [
+				'/',
+				'example3.com/'
+			]
+		]);
 	});
 
 <?php
