@@ -59,8 +59,8 @@ class Piwik_Insight_API
 		try {
 			return Piwik_SitesManager::getTrackerExcludedQueryParameters($site);
 		} catch(Exception $e) {
-			// an exception is thrown when the user has no admin access.
-			// in this case, we don't handle excluded parameters.
+			// an exception is thrown when the user has no view access.
+			// do not throw the exception to the outside.
 			return array();
 		}
 	}

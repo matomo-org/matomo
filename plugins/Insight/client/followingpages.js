@@ -98,7 +98,10 @@ var Piwik_Insight_FollowingPages = (function() {
 			}
 		}
 	}
-
+	
+	var repositionTimeout = false;
+	var resizeTimeout = false;
+	
 	function build(callback) {
 		// build an index of all links on the page
 		$('a').each(processLink);
@@ -115,7 +118,6 @@ var Piwik_Insight_FollowingPages = (function() {
 		// we use a timeout instead of an interval to make sure one call is done before 
 		// the next one is triggered
 		var repositionAfterTimeout;
-		var repositionTimeout = false;
 		repositionAfterTimeout = function() {
 			repositionTimeout = window.setTimeout(function() {
 				findNewLinks();
@@ -125,15 +127,14 @@ var Piwik_Insight_FollowingPages = (function() {
 		repositionAfterTimeout();
 
 		// reposition link tags on window resize
-		var timeout = false;
 		$(window).resize(function() {
 			if (repositionTimeout) {
 				window.clearTimeout(repositionTimeout);
 			}
-			if (timeout) {
-				window.clearTimeout(timeout);
+			if (resizeTimeout) {
+				window.clearTimeout(resizeTimeout);
 			}
-			timeout = window.setTimeout(function() {
+			resizeTimeout = window.setTimeout(function() {
 				positionLinkTags();
 				repositionAfterTimeout();
 			}, 70);
@@ -378,7 +379,9 @@ var Piwik_Insight_FollowingPages = (function() {
 
 	return {
 
-		/** The main method */
+		/**
+		 * The main method
+		 */
 		initialize: function(finishCallback) {
 			c = Piwik_Insight_Client.createElement;
 			Piwik_Insight_Client.loadScript('plugins/Insight/client/urlnormalizer.js', function() {
@@ -390,6 +393,35 @@ var Piwik_Insight_FollowingPages = (function() {
 					})
 				});
 			});
+		},
+
+		/**
+		 * Remove everything from the dom and terminate timeouts.
+		 * This can be used from the console in order to load a new implementation for debugging afterwards.
+		 */
+		remove: function() {
+			for (var i = 0; i < followingPages.length; i++) {
+				var url = followingPages[i].label;
+				if (typeof linksOnPage[url] != 'undefined') {
+					for (var j = 0; j < linksOnPage[url].length; j++) {
+						var linkTag = linksOnPage[url][j];
+						var tagElement = linkTag[0].piwikTag;
+						if (tagElement) {
+							tagElement.remove();
+						}
+					}
+				}
+			}
+			for (i = 0; i < highlightElements.length; i++) {
+				highlightElements[i].remove();
+			}
+			$('a.piwik-discovered').removeClass('piwik-discovered').unbind('mouseenter').unbind('mouseleave');
+			if (repositionTimeout) {
+				window.clearTimeout(repositionTimeout);
+			}
+			if (resizeTimeout) {
+				window.clearTimeout(resizeTimeout);
+			}
 		}
 
 	};
