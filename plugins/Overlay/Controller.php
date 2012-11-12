@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
+ * @version $Id: Controller.php 7446 2012-11-12 09:16:00Z EZdesign $
  *
  * @category Piwik_Plugins
  * @package Piwik_Overlay
@@ -34,6 +34,8 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 		$url = Piwik_Common::getRequestVar('overlayUrl', '');
 		$url = urldecode(str_replace('$', '%', $url));
 		$view->targetUrl = $url;
+		
+		$view->ssl = $this->usingSsl();
 		
 		echo $view->render();
 	}
@@ -132,6 +134,14 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 		
 		echo '
 			<script type="text/javascript">
+				function handleProtocol(url) {
+					if (' . ($this->usingSsl() ? 'true' : 'false') . ') {
+						return url.replace(/http:\/\//i, "https://");
+					} else {
+						return url.replace(/https:\/\//i, "http://");
+					}
+				}
+			
 				function removeUrlPrefix(url) {
 					return url.replace(/http(s)?:\/\/(www\.)?/i, "");
 				}
@@ -151,7 +161,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 						var testUrl = removeUrlPrefix(knownUrls[i]);
 						if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {
 							match = true;
-							window.location.href = urlToRedirect;
+							window.location.href = handleProtocol(urlToRedirect);
 							break;
 						}
 					}
@@ -164,7 +174,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 					}
 				}
 				else {
-					window.location.href = "'.$site['main_url'].'";
+					window.location.href = handleProtocol("'.$site['main_url'].'");
 				};
 			</script>
 		';
@@ -182,6 +192,14 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('notify_parent_iframe');
 		echo $view->render();
+	}
+	
+	/**
+	 * Detect whether Piwik is used over SSL
+	 */
+	private function usingSsl()
+	{
+		return isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && $_SERVER['HTTPS'] !== 'off';
 	}
 	
 }

@@ -1,10 +1,12 @@
 var Piwik_Overlay = (function() {
 	
-	var $container, $iframe, $sidebar, $main, $location, $loading; 
+	var $container, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading; 
 	
 	var isFullScreen = false;
 	
 	var iframeDomain = '';
+	
+	var errorTimeout;
 	
 	/** Load the sidebar for a url */
 	function loadSidebar(currentUrl) {
@@ -85,8 +87,11 @@ var Piwik_Overlay = (function() {
 			$location = $('#Overlay_Location');
 			$main = $('#Overlay_Main');
 			$loading = $('#Overlay_Loading');
+			$errorNotLoading = $('#Overlay_Error_NotLoading');
 			
 			adjustHeight();
+			
+			$loading.show();
 			
 			window.setTimeout(function() {
 				// sometimes the frame is too high at first
@@ -97,10 +102,19 @@ var Piwik_Overlay = (function() {
 			$(window).resize(function() {
 				adjustHeight();
 			});
+			
+			errorTimeout = window.setTimeout(function() {
+				$loading.hide();
+				$errorNotLoading.show();
+			}, 8000);
 		},
 
 		/** This callback is used from within the iframe */
 		setCurrentUrl: function(currentUrl) {
+			window.clearTimeout(errorTimeout);
+			$loading.show();
+			$errorNotLoading.hide();
+			
 			// put the current iframe url in the main url to enable refresh and deep linking.
 			// to prevent browsers from braking the encoding, we replace the % with a $.
 			var urlValue = encodeURIComponent(currentUrl).replace(/%/g, '$');

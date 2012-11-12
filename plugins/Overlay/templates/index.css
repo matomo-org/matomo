@@ -142,3 +142,16 @@ body .piwik-tooltip.Overlay_Tooltip {
 #Overlay_NoFrame {
 	padding: 20px 0 40px 2px
 }
+
+#Overlay_Error_NotLoading {
+	float: left;
+	width: 190px;
+	position: relative;
+	clear: left;
+	display: none;
+}
+
+#Overlay_Error_NotLoading span {
+	color: #E87500;
+	font-weight: bold;
+}

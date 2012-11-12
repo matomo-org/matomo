@@ -1820,5 +1820,9 @@ And thank you for using Piwik!',
 	'Overlay_OpenNewTab' => 'Open Overlay in new tab',
 	'Overlay_RedirectUrlError' => 'You are attempting to open Page Overlay for the URL "%s". %s None of the URLs from the Piwik settings matches the link. Please add the domain there.',
 	'Overlay_Domain' => 'Domain',
-	'Overlay_NoFrameModeText' => 'The page overlay session will be launched in a new tab. %s If opening the tab doesn\'t work automatically, please %sclick here%s.'
+	'Overlay_NoFrameModeText' => 'The page overlay session will be launched in a new tab. %s If opening the tab doesn\'t work automatically, please %sclick here%s.',
+	'Overlay_ErrorNotLoading' => 'The Page Overlay session couldn\'t be launched yet.',
+	'Overlay_ErrorNotLoadingDetails' => 'Maybe the page loaded on the right doesn\'t have the Piwik tracker code. In this case, try launching Overlay for a different page from the pages report.',
+	'Overlay_ErrorNotLoadingDetailsSSL' => 'Since you\'re using Piwik over https, the most likely cause is that your website doesn\'t support SSL. Try using Piwik over http.',
+	'Overlay_ErrorNotLoadingLink' => 'Click here to get more tips for troubleshooting',
 );

@@ -183,6 +183,9 @@ var broadcast = {
         // available in global scope
         var currentHashStr = broadcast.getHash();
 
+		// remove overlayUrl: the parameter should never be there unless it is set in the ajaxUrl parameter
+		currentHashStr = broadcast.updateParamValue('overlayUrl=', currentHashStr);
+		
         ajaxUrl = ajaxUrl.replace(/^\?|&#/,'');
 		
         var params_vals = ajaxUrl.split("&");
@@ -204,11 +207,6 @@ var broadcast = {
         {
             currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
         }
-		// unset overlayUrl if use doesn't display a page overlay
-		if( module != 'Overlay')
-		{
-			currentHashStr = broadcast.updateParamValue('overlayUrl=', currentHashStr);
-		}
 		
 		if (disableHistory)
 		{

@@ -5,6 +5,22 @@
 	
 	<div id="Overlay_Sidebar"></div>
 	
+	<div id="Overlay_Error_NotLoading">
+		<p>
+			<span>{'Overlay_ErrorNotLoading'|translate|escape:'html'}</span>
+		</p>
+		<p>
+			{if $ssl}
+				{'Overlay_ErrorNotLoadingDetailsSSL'|translate|escape:'html'}
+			{else}
+				{'Overlay_ErrorNotLoadingDetails'|translate|escape:'html'}
+			{/if}
+		</p>
+		<p>
+			<a href="#">{'Overlay_ErrorNotLoadingLink'|translate|escape:'html'}</a>
+		</p>
+	</div>
+	
 	<div id="Overlay_Loading">{'General_Loading_js'|translate|escape:'html'}</div>
 	
 	<div id="Overlay_Main">
