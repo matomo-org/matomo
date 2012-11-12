@@ -33,7 +33,7 @@
 		<sum_daily_nb_uniq_visitors>Unique visitors (daily sum)</sum_daily_nb_uniq_visitors>
 		<sum_daily_entry_nb_uniq_visitors>Unique entrances (daily sum)</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>Unique exits (daily sum)</sum_daily_exit_nb_uniq_visitors>
-		<entry_nb_actions>Actions after entereing here</entry_nb_actions>
-		<entry_sum_visit_length>Total time spent by visitors (in seconds) after entereing here</entry_sum_visit_length>
+		<entry_nb_actions>Actions after entering here</entry_nb_actions>
+		<entry_sum_visit_length>Total time spent by visitors (in seconds) after entering here</entry_sum_visit_length>
 	</row>
 </result>
