@@ -75,7 +75,6 @@ var Piwik_Overlay_FollowingPages = (function() {
 
 	function processLink() {
 		var a = $(this);
-		a.addClass('piwik-discovered');
 
 		var href = a.attr('href');
 		href = Piwik_Overlay_UrlNormalizer.normalize(href);
@@ -98,10 +97,10 @@ var Piwik_Overlay_FollowingPages = (function() {
 			}
 		}
 	}
-	
+
 	var repositionTimeout = false;
 	var resizeTimeout = false;
-	
+
 	function build(callback) {
 		// build an index of all links on the page
 		$('a').each(processLink);
@@ -176,21 +175,21 @@ var Piwik_Overlay_FollowingPages = (function() {
 		// attach the tag element to the link element. we can't use .data() because jquery
 		// would remove it when removing the link from the dom. but we still need to find
 		// the tag element to remove it as well.
-		linkTag[0].piwikTag = tagElement;
+		linkTag[0].piwikTagElement = tagElement;
 	}
 
 	/** Position the link tags next to the links */
 	function positionLinkTags(callback) {
-		var url, linkTag, tagElement, offset, top, left, isRight;
+		var url, linkTag, tagElement, offset, top, left, isRight, hasOneChild, inlineChild;
 		var tagWidth = 36, tagHeight = 21;
 		var tagsToRemove = [];
-		
+
 		for (var i = 0; i < followingPages.length; i++) {
 			url = followingPages[i].label;
 			if (typeof linksOnPage[url] != 'undefined') {
 				for (var j = 0; j < linksOnPage[url].length; j++) {
 					linkTag = linksOnPage[url][j];
-					tagElement = linkTag[0].piwikTag;
+					tagElement = linkTag[0].piwikTagElement;
 
 					if (linkTag.closest('html').length == 0 || !tagElement) {
 						// the link has been removed from the dom
@@ -206,8 +205,17 @@ var Piwik_Overlay_FollowingPages = (function() {
 						});
 						continue;
 					}
-					
-					if (!linkTag.is(':visible') || linkTag.css('visibility') == 'hidden') {
+
+					hasOneChild = checkHasOneChild(linkTag);
+					inlineChild = false;
+					if (hasOneChild && linkTag.css('display') != 'block') {
+						inlineChild = linkTag.children().eq(0);
+					}
+
+					if (linkTag.css('visibility') == 'hidden' || (
+						// in case of hasOneChild: jquery always returns linkTag.is(':visible')=false
+						!linkTag.is(':visible') && !(hasOneChild && inlineChild.is(':visible'))
+						)) {
 						// link is not visible
 						tagElement.hide();
 						continue;
@@ -218,9 +226,11 @@ var Piwik_Overlay_FollowingPages = (function() {
 						tagElement.addClass('PIS_Highlighted');
 					}
 
-					if (linkTag.children().size() == 1 && linkTag.find('img').size() == 1) {
-						// see comment in highlightLink()
-						offset = linkTag.find('img').offset();
+					// see comment in highlightLink()
+					if (hasOneChild && linkTag.find('> img').size() == 1) {
+						offset = linkTag.find('> img').offset();
+					} else if (inlineChild !== false) {
+						offset = inlineChild.offset();
 					} else {
 						offset = linkTag.offset();
 					}
@@ -250,17 +260,17 @@ var Piwik_Overlay_FollowingPages = (function() {
 		// walk tagsToRemove from back to front because it contains the indexes in ascending
 		// order. removing something from the front will impact the indexes that come after-
 		// wards. this can be avoided by starting in the back.
-		for (var k = tagsToRemove.length - 1; k >= 0 ; k--) {
+		for (var k = tagsToRemove.length - 1; k >= 0; k--) {
 			var tagToRemove = tagsToRemove[k];
 			linkTag = linksOnPage[tagToRemove.index1][tagToRemove.index2];
 			// remove the tag element from the dom
-			if (linkTag && linkTag[0] && linkTag[0].piwikTag) {
-				tagElement = linkTag[0].piwikTag;
+			if (linkTag && linkTag[0] && linkTag[0].piwikTagElement) {
+				tagElement = linkTag[0].piwikTagElement;
 				if (tagElement.data('piwik-highlighted')) {
 					unHighlightLink(linkTag, tagToRemove.index1);
 				}
 				tagElement.remove();
-				delete linkTag[0].piwikTag;
+				delete linkTag[0].piwikTagElement;
 			}
 			// remove the link from the index
 			linksOnPage[tagToRemove.index1].splice(tagToRemove.index2, 1);
@@ -274,9 +284,34 @@ var Piwik_Overlay_FollowingPages = (function() {
 		}
 	}
 
+	/**
+	 * Find out whether a link has only one child. Using .children().size() == 1 doesn't work
+	 * because it doesn't take additional text nodes into account.
+	 */
+	function checkHasOneChild(linkTag) {
+		var hasOneChild = (linkTag.children().size() == 1);
+		if (hasOneChild) {
+			// if the element contains one tag and some text, hasOneChild is set incorrectly
+			var contents = linkTag.contents();
+			if (contents.size() > 1) {
+				// find non-empty text nodes
+				contents = contents.filter(function() {
+					return this.nodeType == 3 && // text node
+						$.trim(this.data).length > 0; // contains more than whitespaces
+				});
+				if (contents.size() > 0) {
+					hasOneChild = false;
+				}
+			}
+		}
+		return hasOneChild;
+	}
+
 	/** Check whether new links have been added to the dom */
 	function findNewLinks() {
-		var newLinks = $('a:not(.piwik-discovered)');
+		var newLinks = $('a').filter(function() {
+			return typeof this.piwikTagElement == 'undefined';
+		});
 
 		if (newLinks.size() == 0) {
 			return;
@@ -309,13 +344,22 @@ var Piwik_Overlay_FollowingPages = (function() {
 		var width = linkTag.outerWidth();
 
 		var offset, height;
-		if (linkTag.children().size() == 1 && linkTag.find('img').size() == 1) {
+		var hasOneChild = checkHasOneChild(linkTag);
+		if (hasOneChild && linkTag.find('img').size() == 1) {
 			// if the <a> tag contains only an <img>, the offset and height methods don't work properly.
 			// as a result, the box around the image link would be wrong. we use the image to derive
 			// the offset and height instead of the link to get correct values.
 			var img = linkTag.find('img');
 			offset = img.offset();
 			height = img.outerHeight();
+		}
+		if (hasOneChild && linkTag.css('display') != 'block') {
+			// if the <a> tag is not displayed as block and has only one child, using the child to
+			// derive the offset and dimensions is more robust.
+			var child = linkTag.children().eq(0);
+			offset = child.offset();
+			height = child.outerHeight();
+			width = child.outerWidth();
 		} else {
 			offset = linkTag.offset();
 			height = linkTag.outerHeight();
@@ -346,7 +390,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 		}).show();
 
 		for (var j = 0; j < numLinks; j++) {
-			var tag = linksOnPage[linkUrl][j][0].piwikTag;
+			var tag = linksOnPage[linkUrl][j][0].piwikTagElement;
 			tag.addClass('PIS_Highlighted');
 			tag.data('piwik-highlighted', true);
 		}
@@ -364,7 +408,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 
 		var numLinks = linksOnPage[linkUrl].length;
 		for (var j = 0; j < numLinks; j++) {
-			var tag = linksOnPage[linkUrl][j][0].piwikTag;
+			var tag = linksOnPage[linkUrl][j][0].piwikTagElement;
 			if (tag) {
 				tag.removeClass('PIS_Highlighted');
 				tag.data('piwik-highlighted', false);
@@ -398,6 +442,9 @@ var Piwik_Overlay_FollowingPages = (function() {
 		/**
 		 * Remove everything from the dom and terminate timeouts.
 		 * This can be used from the console in order to load a new implementation for debugging afterwards.
+		 * If you add `Piwik_Overlay_FollowingPages.remove();` to the beginning and
+		 * `Piwik_Overlay_FollowingPages.initialize(function(){});` to the end of this file, you can just
+		 * paste it into the console to inject the new implementation.
 		 */
 		remove: function() {
 			for (var i = 0; i < followingPages.length; i++) {
@@ -405,17 +452,18 @@ var Piwik_Overlay_FollowingPages = (function() {
 				if (typeof linksOnPage[url] != 'undefined') {
 					for (var j = 0; j < linksOnPage[url].length; j++) {
 						var linkTag = linksOnPage[url][j];
-						var tagElement = linkTag[0].piwikTag;
+						var tagElement = linkTag[0].piwikTagElement;
+						delete linkTag[0].piwikTagElement;
 						if (tagElement) {
 							tagElement.remove();
 						}
+						$(linkTag).unbind('mouseenter').unbind('mouseleave');
 					}
 				}
 			}
 			for (i = 0; i < highlightElements.length; i++) {
 				highlightElements[i].remove();
 			}
-			$('a.piwik-discovered').removeClass('piwik-discovered').unbind('mouseenter').unbind('mouseleave');
 			if (repositionTimeout) {
 				window.clearTimeout(repositionTimeout);
 			}
