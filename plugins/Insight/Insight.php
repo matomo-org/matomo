@@ -47,7 +47,7 @@ class Piwik_Insight extends Piwik_Plugin
 	{
 		Piwik_AddMenu('Actions_Actions', 'Insight_Insight',
 				array('module' => 'Insight', 'action' => 'index'),
-				$display = true, $order = 60);
+				$display = true, $order = 99);
 	}
 
 }
