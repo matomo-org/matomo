@@ -49,6 +49,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass( $dbName = false, $createEmptyDatabase = true, $createConfig = true )
     {
         try {
+        	Piwik::$piwikUrlCache = '';
+        	
         	if ($createConfig)
         	{
 	        	self::createTestConfig();
@@ -117,6 +119,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass( $dropDatabase = true )
     {
+    	Piwik::$piwikUrlCache = null;
+    	
         try {
             $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
             foreach($plugins AS $plugin) {
