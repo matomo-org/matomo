@@ -23,6 +23,14 @@
 		</chmod>
 	</target>
 
+	<target name="phpunit">
+		<copy file="${basedir}/PHPUnit/phpunit.xml.dist" tofile="${basedir}/PHPUnit/phpunit.xml" overwrite="true">
+			<filterset>
+				<filtersfile file="${basedir}/build.properties"/>
+			</filterset>
+		</copy>
+	</target>
+
 	<target name="process-build-resources-pdo-mysql" depends="prepare-build-filesystem">
 		<copy file="${basedir}/config/pdo_mysql.template.php" tofile="${basedir}/../config/config.ini.php" overwrite="true">
 			<filterset>
@@ -34,19 +42,10 @@
 	<target name="test-pdo-mysql" depends="process-build-resources-pdo-mysql">
 		<echo>PDO_MYSQL unit tests started</echo>
 
-		<mkdir dir="${basedir}/integration/processed"/>
-		<exec executable="${php.executable}" dir="${basedir}" failonerror="false" resultproperty="result-pdo-mysql" failifexecutionfails="true">		
-			<arg value="all_tests.php" />
+		<exec executable="phpunit" dir="${basedir}/PHPUnit" failonerror="true" failifexecutionfails="true">		
 		</exec>
-		<move file="${basedir}/integration/processed" tofile="${basedir}/integration/processed-pdo-mysql" />
 
 		<echo>PDO_MYSQL unit tests finished</echo>
-
-		<fail>
-			<condition>
-				<isfailure code="${result-pdo-mysql}"/>
-			</condition>
-		</fail>
 	</target>
 
 	<target name="process-build-resources-mysqli" depends="prepare-build-filesystem">
@@ -60,61 +59,13 @@
 	<target name="test-mysqli" depends="process-build-resources-mysqli">
 		<echo>MYSQLI unit tests started</echo>
 
-		<mkdir dir="${basedir}/integration/processed"/>
-		<exec executable="${php.executable}" dir="${basedir}" failonerror="false" resultproperty="result-mysqli" failifexecutionfails="true">		
-			<arg value="all_tests.php" />
+		<exec executable="phpunit" dir="${basedir}/PHPUnit" failonerror="true" failifexecutionfails="true">		
 		</exec>
-		<move file="${basedir}/integration/processed" tofile="${basedir}/integration/processed-mysqli" />
 
 		<echo>MYSQLI unit tests finished</echo>
-
-		<fail>
-			<condition>
-				<isfailure code="${result-mysqli}"/>
-			</condition>
-		</fail>
 	</target>
 
-	<target name="webtest" depends="prepare-build-filesystem">
-		<mkdir dir="${basedir}/integration/processed"/>
-		<delete file="${basedir}/../config/config.ini.php"/>
-		<ant antfile="${basedir}/build-webtest.xml">
-		</ant>
-	</target>
-
-	<target name="schemaspy">
-		<echo>SchemaSpy started</echo>
-
-		<delete dir="${basedir}/../schemaspy-report"/>
-		<mkdir dir="${basedir}/../schemaspy-report"/>
-
-		<java jar="${basedir}/lib/java/schemaSpy_5.0.0.jar" fork="true" failonerror="false" resultproperty="result-schemaspy" maxmemory="256m" dir="${basedir}">
-			<arg value="-t"/>
-			<arg value="mysql"/>
-			<arg value="-host"/>
-			<arg value="${database.main.host}:${database.main.port}"/>
-			<arg value="-db"/>
-			<arg value="${database.main.name}"/>
-			<arg value="-dp"/>
-			<arg path="${basedir}/lib/java/mysql-connector-java-5.1.7.jar"/>
-			<arg value="-u"/>
-			<arg value="${database.main.username}"/>
-			<arg value="-o"/>
-			<arg path="${basedir}/../schemaspy-report"/>
-			<arg value="-p"/>
-			<arg value="${database.main.password}"/>
-		</java>
-
-		<echo>SchemaSpy finished</echo>
-
-		<fail>
-			<condition>
-				<isfailure code="${result-schemaspy}"/>
-			</condition>
-		</fail>
-	</target>
-
-	<target name="all" depends="test-pdo-mysql,test-mysqli,webtest,schemaspy">
+	<target name="all" depends="phpunit,test-pdo-mysql,test-mysqli">
 	</target>
 
 </project>

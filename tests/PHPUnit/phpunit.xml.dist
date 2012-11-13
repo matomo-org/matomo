@@ -20,7 +20,7 @@
 
 <php>
     <server name="HTTP_HOST" value="localhost"/>
-    <server name="REQUEST_URI" value="/trunk/tests/all_tests.php"/>
+    <server name="REQUEST_URI" value="@REQUEST_URI@"/>
     <server name="REMOTE_ADDR" value="127.0.0.1"/>
 </php>
 

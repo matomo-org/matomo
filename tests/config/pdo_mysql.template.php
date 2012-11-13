@@ -5,7 +5,7 @@
 ; the config.ini.php file contains information about the super user and the database access
 
 [superuser]
-login=		@superuser.loging@
+login=		@superuser.login@
 password=	@superuser.password@
 email=		@superuser.email@
 salt=f0cf9c5b0d542272ff20ddfb4a646686
