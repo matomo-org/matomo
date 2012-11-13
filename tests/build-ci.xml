@@ -43,7 +43,6 @@
 		<echo>PDO_MYSQL unit tests started</echo>
 
 		<exec executable="phpunit" dir="${basedir}/PHPUnit" failonerror="true" failifexecutionfails="true">
-			<arg line="--log-junit ${basedir}/results/logs/junit.xml" />
 		</exec>
 
 		<echo>PDO_MYSQL unit tests finished</echo>
