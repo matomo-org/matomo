@@ -75,6 +75,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 
 	function processLink() {
 		var a = $(this);
+		a[0].piwikDiscovered = true;
 
 		var href = a.attr('href');
 		href = Piwik_Overlay_UrlNormalizer.normalize(href);
@@ -155,6 +156,13 @@ var Piwik_Overlay_FollowingPages = (function() {
 
 	/** Create the link tag element */
 	function createLinkTag(linkTag, linkUrl, data, body) {
+		if (typeof linkTag[0].piwikTagElement != 'undefined') {
+			// this link tag already has a tag element. happens in rare cases.
+			return;
+		}
+		
+		linkTag[0].piwikTagElement = true;
+		
 		var rate = data.clickRate;
 		if (rate < 10) {
 			rate = Math.round(rate * 10) / 10;
@@ -229,6 +237,9 @@ var Piwik_Overlay_FollowingPages = (function() {
 					// see comment in highlightLink()
 					if (hasOneChild && linkTag.find('> img').size() == 1) {
 						offset = linkTag.find('> img').offset();
+						if (offset.left == 0 && offset.top == 0) {
+							offset = linkTag.offset();
+						}
 					} else if (inlineChild !== false) {
 						offset = inlineChild.offset();
 					} else {
@@ -310,7 +321,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 	/** Check whether new links have been added to the dom */
 	function findNewLinks() {
 		var newLinks = $('a').filter(function() {
-			return typeof this.piwikTagElement == 'undefined';
+			return typeof this.piwikDiscovered == 'undefined';
 		});
 
 		if (newLinks.size() == 0) {
@@ -470,6 +481,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 			if (resizeTimeout) {
 				window.clearTimeout(resizeTimeout);
 			}
+			$(window).unbind('resize');
 		}
 
 	};
