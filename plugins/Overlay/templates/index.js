@@ -7,7 +7,8 @@
 
 var Piwik_Overlay = (function() {
 
-	var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading, $fullScreenLink;
+	var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading;
+	var $rowEvolutionLink, $transitionsLink, $fullScreenLink;
 
 	var idSite, period, date;
 
@@ -16,6 +17,8 @@ var Piwik_Overlay = (function() {
 	var iframeSrcBase;
 	var iframeDomain = '';
 	var iframeCurrentPage = '';
+	var iframeCurrentPageNormalized = '';
+	var iframeCurrentActionLabel = '';
 	var updateComesFromInsideFrame = false;
 
 
@@ -38,6 +41,8 @@ var Piwik_Overlay = (function() {
 
 			var $responseLocation = $response.find('.Overlay_Location');
 			var $url = $responseLocation.find('span');
+			iframeCurrentPageNormalized = $url.data('normalizedUrl');
+			iframeCurrentActionLabel = $url.data('label');
 			$url.html(piwikHelper.addBreakpointsToUrl($url.text()));
 			$location.html($responseLocation.html()).show();
 			$responseLocation.remove();
@@ -53,13 +58,18 @@ var Piwik_Overlay = (function() {
 			});
 
 			$sidebar.empty().append($response).show();
+			
+			if ($sidebar.find('.Overlay_NoData').size() == 0) {
+				$rowEvolutionLink.show();
+				$transitionsLink.show()
+			}
 		}, 'html');
 	}
 
 	/** Adjust the dimensions of the iframe */
 	function adjustDimensions() {
 		$iframe.height($(window).height());
-		$iframe.width($body.width() - $iframe.offset().left - 2);
+		$iframe.width($body.width() - $iframe.offset().left - 2); // -2 because of 2px border
 	}
 
 	/** Display the loading message and hide other containers */
@@ -68,7 +78,11 @@ var Piwik_Overlay = (function() {
 
 		$sidebar.hide();
 		$location.hide();
+
 		$fullScreenLink.hide();
+		$rowEvolutionLink.hide();
+		$transitionsLink.hide();
+
 		$errorNotLoading.hide();
 
 		// Start a timeout that shows an error when nothing is loaded
@@ -123,6 +137,9 @@ var Piwik_Overlay = (function() {
 			$main = $('#Overlay_Main');
 			$loading = $('#Overlay_Loading');
 			$errorNotLoading = $('#Overlay_Error_NotLoading');
+
+			$rowEvolutionLink = $('#Overlay_RowEvolution');
+			$transitionsLink = $('#Overlay_Transitions');
 			$fullScreenLink = $('#Overlay_FullScreen');
 
 			adjustDimensions();
@@ -163,6 +180,20 @@ var Piwik_Overlay = (function() {
 			if (!optionMatchFound) {
 				$select.prepend('<option selected="selected">');
 			}
+
+			// handle transitions link
+			$transitionsLink.click(function() {
+				var transitions = new Piwik_Transitions('url', iframeCurrentPageNormalized, null);
+				transitions.showPopover();
+				return false;
+			});
+
+			// handle row evolution link
+			$rowEvolutionLink.click(function() {
+				var rowEvolution = new DataTable_RowActions_RowEvolution(null);
+				rowEvolution.showRowEvolution('Actions.getPageUrls', iframeCurrentActionLabel, '0');
+				return false;
+			});
 
 			// handle full screen link
 			$fullScreenLink.click(function() {

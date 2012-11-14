@@ -33,6 +33,9 @@
 
 <div id="Overlay_Sidebar"></div>
 
+<a id="Overlay_RowEvolution">{'CoreHome_RowEvolutionRowActionTooltipTitle_js'|translate|escape:'html'}</a>
+<a id="Overlay_Transitions">{'CoreHome_TransitionsRowActionTooltipTitle_js'|translate|escape:'html'}</a>
+
 <a id="Overlay_FullScreen" href="#">
 	{'Overlay_OpenFullScreen'|translate|escape:'html'}
 </a>

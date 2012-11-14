@@ -620,7 +620,12 @@ Piwik_Transitions.prototype.renderClosedGroup = function(groupName, side, onlyBg
 
 /** Reload the entire popover for a different URL */
 Piwik_Transitions.prototype.reloadPopover = function(url) {
-	this.rowAction.openPopover(this.actionType + ':' + url);
+	if (this.rowAction) {
+		this.rowAction.openPopover(this.actionType + ':' + url);
+	} else {
+		this.reset(this.actionType, url);
+		this.showPopover();
+	}
 };
 
 /** Redraw the left or right sides with a different group opened */

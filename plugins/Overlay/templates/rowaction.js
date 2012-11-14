@@ -24,8 +24,7 @@ DataTable_RowActions_Overlay.prototype.onClick = function(actionA, tr, e) {
 		
 		actionA.attr({
 			target: '_blank',
-			href: Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, this.dataTable.param.period,
-				this.dataTable.param.date, link)
+			href: Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, 'month', 'today', link)
 		});
 	}
 	

@@ -3,7 +3,9 @@
 	<!-- This div is removed by JS and the content is put in the location div -->
 	<div class="Overlay_Location">
 		<b>{'Overlay_Location'|translate|escape:'html'}:</b> 
-		<span>{$location|escape:'html'}</span>
+		<span data-normalized-url="{$normalizedUrl|escape:'html'}" data-label="{$label|escape:'html'}">
+			{$location|escape:'html'}
+		</span>
 	</div>
 	
 	{if count($data)}
@@ -14,6 +16,7 @@
 			</div>
 		{/foreach}
 	{else}
+		<!-- note: the class Overlay_NoData is used in index.js -->
 		<div class="Overlay_NoData">{'Overlay_NoData'|translate|escape:'html'}</div>
 	{/if}
 	

@@ -1,4 +1,15 @@
 
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
 body #header {
 	margin-left: -12px;
 }
@@ -48,18 +59,35 @@ body h1 {
 	color: #255792;
 }
 
-a#Overlay_FullScreen {
+a#Overlay_FullScreen,
+a#Overlay_RowEvolution,
+a#Overlay_Transitions {
 	display: block;
 	color: #255792;
 	font-size: 13px;
 	line-height: 15px;
-	margin: 20px 0 0 5px;
-	padding: 8px 0 3px 22px;
-	background: url(../../../themes/default/images/fullscreen.png) no-repeat 0 8px;
+	margin: 0 0 0 5px;
+	padding: 8px 0 3px 25px;
 	text-decoration: none;
 }
 
-a#Overlay_FullScreen:hover {
+a#Overlay_RowEvolution {
+	margin-top: 20px;
+	background: url(../../../themes/default/images/row_evolution_hover.png) no-repeat 0 7px;
+}
+
+a#Overlay_Transitions {
+	background: url(../../Transitions/templates/transitions_icon_hover.png) no-repeat 0 6px;
+}
+
+a#Overlay_FullScreen {
+	margin-top: 20px;
+	background: url(../../../themes/default/images/fullscreen.png) no-repeat 3px 8px;
+}
+
+a#Overlay_FullScreen:hover,
+a#Overlay_RowEvolution:hover,
+a#Overlay_Transitions:hover {
 	color: #E87500;
 }
 

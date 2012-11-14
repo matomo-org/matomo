@@ -112,6 +112,8 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 		$view = Piwik_View::factory('sidebar');
 		$view->data = $data;
 		$view->location = $page;
+		$view->normalizedUrl = $normalizedCurrentUrl;
+		$view->label = $label;
 		$view->idSite = $idSite;
 		$view->period = $period;
 		$view->date = $date;
