@@ -108,7 +108,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
 			$columns['quantity'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_Quantity'));
 			$columns['avg_quantity'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_AverageQuantity'));
 			unset($columns['orders']);
-			unset($columns['nb_visits']);
 			unset($columns['conversion_rate']);
 			$_GET['abandonedCarts'] = 1;
 		}

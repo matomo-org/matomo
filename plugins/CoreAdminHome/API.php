@@ -69,11 +69,12 @@ class Piwik_CoreAdminHome_API
 	 */
 	public function invalidateArchivedReports($idSites, $dates)
 	{
-		Piwik::checkUserIsSuperUser();
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		if(empty($idSites)) {
 			throw new Exception("Specify a value for &idSites=");
 		}
+		Piwik::checkUserHasAdminAccess($idSites);
+
 		// Ensure the specified dates are valid
 		$toInvalidate = $invalidDates = array();
 		$dates = explode(',', $dates);

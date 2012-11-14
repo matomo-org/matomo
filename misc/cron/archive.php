@@ -239,10 +239,11 @@ class Archiving
 		    {
 		    	$shouldArchivePeriods = true;
 		    }
-		    
+
 		    // Test if we should process this website at all
 		    $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
-		    if( $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive)
+		    if( !$websiteIsOldDataInvalidate // Invalidate old website forces the archiving for this site
+			        && $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive)
 		    {
 		    	$this->log("Skipped website id $idsite, already processed today's report in recent run, "
 					.Piwik::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
@@ -259,10 +260,10 @@ class Archiving
 		    $url = $this->getVisitsRequestUrl($idsite, "day",
 			    				// when some data was purged from this website
 			    				// we make sure we query all previous days/weeks/months
-		    				$websiteIsOldDataInvalidate
+		    				($websiteIsOldDataInvalidate
 								// when --force-all-websites option, 
 								// also forces to archive last52 days to be safe
-							|| $this->shouldArchiveAllWebsites 
+							|| $this->shouldArchiveAllWebsites)
 								? false 
 								: $lastTimestampWebsiteProcessedDay
 			);
@@ -321,10 +322,9 @@ class Archiving
 					
 					// Remove this website from the list of websites to be invalidated
 					// since it's now just been re-processing the reports, job is done!
-					if( in_array($idsite, $this->idSitesInvalidatedOldReports ) )
+					if( $websiteIsOldDataInvalidate )
 					{
 						$websiteIdsInvalidated = Piwik_CoreAdminHome_API::getWebsiteIdsToInvalidate();
-						
 						if(count($websiteIdsInvalidated))
 						{
 							$found = array_search($idsite, $websiteIdsInvalidated);
