@@ -70,7 +70,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
             'VisitorInterest.getNumberOfVisitsByDaysSinceLast');
     }
 
-    public function getApiForTesting()
+    public function getApiForTesting( $testScheduledReports = true )
     {
         $apiToCall       = $this->getApiToCall();
         $singlePeriodApi = array('VisitsSummary.get', 'Goals.get');
@@ -114,8 +114,13 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
                                                 'testSuffix'   => '_' . $api . '_firstSite_lastN')
             );
         }
+        
+        if ($testScheduledReports)
+        {
+        	$result = array_merge($result, self::getApiForTestingScheduledReports(self::$dateTime, 'month'));
+        }
 
-        return array_merge($result, self::getApiForTestingScheduledReports(self::$dateTime, 'month'));
+        return $result;
     }
 
     public function getOutputPrefix()

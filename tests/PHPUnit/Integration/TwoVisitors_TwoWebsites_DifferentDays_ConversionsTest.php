@@ -51,7 +51,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
 
 	public function getApiForTesting()
 	{
-		$result = parent::getApiForTesting();
+		$result = parent::getApiForTesting($testScheduledReports = false);
 
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
