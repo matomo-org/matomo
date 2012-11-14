@@ -234,12 +234,4 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 		$this->variablesDefault['disable_row_actions'] = true;
 	}
 	
-	/**
-	 * Use this method to open links in Overlay instead of a new tab
-	 */
-	public function openLinksInOverlay()
-	{
-		$this->variablesDefault['open_links_in_overlay'] = true;
-	}
-	
 }

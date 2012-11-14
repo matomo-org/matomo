@@ -21,33 +21,19 @@ class Piwik_Overlay extends Piwik_Plugin
 			'version' => Piwik_Version::VERSION,
 		);
 	}
-
-	public function getListHooksRegistered()
+	
+	function getListHooksRegistered()
 	{
 		return array(
-			'AssetManager.getCssFiles' => 'getCssFiles',
-			'AssetManager.getJsFiles' => 'getJsFiles',
-			'Menu.add' => 'addMenu',
+			'AssetManager.getJsFiles' => 'getJsFiles'
 		);
 	}
-	
-	public function getCssFiles($notification)
-	{
-		$cssFiles = &$notification->getNotificationObject();
-		$cssFiles[] = "plugins/Overlay/templates/index.css";
-	}
-	
+		
 	public function getJsFiles($notification)
 	{
 		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = "plugins/Overlay/templates/index.js";
-	}
-
-	public function addMenu()
-	{
-		Piwik_AddMenu('Actions_Actions', 'Overlay_Overlay',
-				array('module' => 'Overlay', 'action' => 'index'),
-				$display = true, $order = 99);
+		$jsFiles[] = 'plugins/Overlay/templates/rowaction.js';
+		$jsFiles[] = 'plugins/Overlay/templates/helper.js';
 	}
 
 }

@@ -37,6 +37,9 @@ var DataTable_RowActions_Registry = {
 				available.push(this.registry[i]);
 			}
 		}
+		available.sort(function(a, b) {
+			return b.order - a.order;
+		});
 		return available;
 	},
 
@@ -58,6 +61,8 @@ DataTable_RowActions_Registry.register({
 
 	dataTableIcon: 'themes/default/images/row_evolution.png',
 	dataTableIconHover: 'themes/default/images/row_evolution_hover.png',
+	
+	order: 50,
 
 	dataTableIconTooltip: [
 		_pk_translate('CoreHome_RowEvolutionRowActionTooltipTitle_js'),

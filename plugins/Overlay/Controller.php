@@ -24,16 +24,16 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 		}
 		
 		$view = Piwik_View::factory($template);
+		
+		$this->setGeneralVariablesView($view);
+		$view->showTopMenu = false;
+		$view->showSitesSelection = false;
+		$view->addToHead = '<script type="text/javascript" src="plugins/Overlay/templates/index.js"></script>'
+				. '<link rel="stylesheet" type="text/css" href="plugins/Overlay/templates/index.css" />';
+		
 		$view->idSite = $this->idSite;
 		$view->date = Piwik_Common::getRequestVar('date', 'today');
 		$view->period = Piwik_Common::getRequestVar('period', 'day');
-		
-		// the % signs in the encoded url have been replaced with $ to make sure that
-		// browsers can't break the exact encoding. we need to reverse this here.
-		// see javascript Piwik_Overlay.setCurrentUrl()
-		$url = Piwik_Common::getRequestVar('overlayUrl', '');
-		$url = urldecode(str_replace('$', '%', $url));
-		$view->targetUrl = $url;
 		
 		$view->ssl = $this->usingSsl();
 		
@@ -115,7 +115,6 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 		$view->idSite = $idSite;
 		$view->period = $period;
 		$view->date = $date;
-		$view->currentUrl = $currentUrl;
 		echo $view->render();
 	}
 	
@@ -146,10 +145,6 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 					return url.replace(/http(s)?:\/\/(www\.)?/i, "");
 				}
 				
-				function htmlEntities(str) {
-				    return String(str).replace(/&/g, \'&amp;\').replace(/</g, \'&lt;\').replace(/>/g, \'&gt;\').replace(/"/g, \'&quot;\');
-				}
-				
 				if (window.location.hash) {
 					var match = false;
 					
@@ -167,10 +162,10 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 					}
 					
 					if (!match) {
-						var error = "'.htmlentities(Piwik_Translate('Overlay_RedirectUrlError')).'";
-						error = error.replace(/%s/, htmlEntities(urlToRedirect));
-						error = error.replace(/%s/, "<br />");
-						document.write(error);
+						var idSite = window.location.href.match(/idSite=([0-9]+)/i)[1];
+						window.location.href = "index.php?module=Overlay&action=showErrorWrongDomain"
+							+ "&idSite=" + idSite
+							+ "&url=" + encodeURIComponent(urlToRedirect); 
 					}
 				}
 				else {
@@ -178,6 +173,38 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 				};
 			</script>
 		';
+	}
+	
+	/** 
+	 * This method is called when the JS from startOverlaySession() detects that the target domain
+	 * is not configured for the current site.
+	 */
+	public function showErrorWrongDomain()
+	{
+		$idSite  = Piwik_Common::getRequestVar('idSite', 0, 'int');
+		Piwik::checkUserHasViewAccess($idSite);
+		
+		$url = Piwik_Common::getRequestVar('url', '');
+		$url = Piwik_Common::unsanitizeInputValue($url);
+		
+		$message = Piwik_Translate('Overlay_RedirectUrlError', array($url, "\n"));
+		$message = nl2br(htmlentities($message));
+		
+		$view = Piwik_View::factory('error_wrong_domain');
+		$view->message = $message;
+		
+		if (Piwik::isUserHasAdminAccess($idSite)) {
+			// TODO use $idSite to link to the correct row. This is tricky because the #rowX ids don't match
+			// the site ids when sites have been deleted.
+			$url = 'index.php?module=SitesManager&action=index';
+			$troubleshoot = htmlentities(Piwik_Translate('Overlay_RedirectUrlErrorAdmin'));
+			$troubleshoot = sprintf($troubleshoot, '<a href="' . $url . '" target="_top">', '</a>');
+			$view->troubleshoot = $troubleshoot;
+		} else {
+			$view->troubleshoot = htmlentities(Piwik_Translate('Overlay_RedirectUrlErrorUser'));
+		}
+		
+		echo $view->render();
 	}
 	
 	/**

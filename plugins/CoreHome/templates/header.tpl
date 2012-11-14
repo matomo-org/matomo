@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
 <![endif]-->
 {include file="CoreHome/templates/iframe_buster_header.tpl"}
+{if isset($addToHead)}{$addToHead}{/if}
 </head>
 <body>
 {include file="CoreHome/templates/iframe_buster_body.tpl"}

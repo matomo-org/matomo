@@ -1,135 +1,166 @@
+/*!
+ * Piwik - Web Analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 var Piwik_Overlay = (function() {
+
+	var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading, $fullScreenLink;
 	
-	var $container, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading; 
+	var errorTimeout = false;
 	
-	var isFullScreen = false;
-	
+	var iframeSrcBase;
 	var iframeDomain = '';
+	var iframeCurrentPage = '';
+	var updateComesFromInsideFrame = false;
 	
-	var errorTimeout;
-	
+
 	/** Load the sidebar for a url */
 	function loadSidebar(currentUrl) {
-		$sidebar.hide();
-		$location.html('&nbsp;');
-		$loading.show();
+		showLoading();
 		
+		$location.html('&nbsp;').unbind('mouseenter').unbind('mouseleave');
+
+		iframeCurrentPage = currentUrl;
 		iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
-		
+
+		piwikHelper.abortQueueAjax();
 		piwikHelper.ajaxCall('Overlay', 'renderSidebar', {
 			currentUrl: currentUrl
 		}, function(response) {
-			var $response = $(response);
+			hideLoading();
 			
+			var $response = $(response);
+
 			var $responseLocation = $response.find('.Overlay_Location');
 			var $url = $responseLocation.find('span');
 			$url.html(piwikHelper.addBreakpointsToUrl($url.text()));
 			$location.html($responseLocation.html()).show();
 			$responseLocation.remove();
-			
+
 			$location.find('span').hover(function() {
 				if (iframeDomain) {
 					// use addBreakpointsToUrl because it also encoded html entities
-					Piwik_Tooltip.show('<b>' + Piwik_Overlay_Translations.domain + ':</b> ' + 
+					Piwik_Tooltip.show('<b>' + Piwik_Overlay_Translations.domain + ':</b> ' +
 						piwikHelper.addBreakpointsToUrl(iframeDomain), 'Overlay_Tooltip');
 				}
 			}, function() {
 				Piwik_Tooltip.hide();
 			});
-			
+
 			$sidebar.empty().append($response).show();
-			$loading.hide();
-			
-			var $fullScreen = $sidebar.find('a.Overlay_FullScreen');
-			$fullScreen.click(function() {
-				handleFullScreen();
-				return false;
-			});
 		}, 'html');
 	}
-	
-	/** Adjust the height of the iframe */
-	function adjustHeight() {
-		var height, iframeHeight;
-		if (isFullScreen) {
-			iframeHeight = height = $(window).height();
-		} else {
-			height = $(window).height() - $main.offset().top - 25;
-			iframeHeight = height - 4;
-		}
-		height = Math.max(300, height);
-		$container.height(height);
-		$iframe.height(iframeHeight);
+
+	/** Adjust the dimensions of the iframe */
+	function adjustDimensions() {
+		$iframe.height($(window).height());
+		$iframe.width($body.width());
 	}
 	
-	/** Handle full screen */ 
-	function handleFullScreen() {
-		if (!isFullScreen) {
-			// open full screen
-			isFullScreen = true;
-			$container.addClass('Overlay_FullScreen');
-			adjustHeight();
-		} else {
-			// close full screen
-			isFullScreen = false;
-			$container.removeClass('Overlay_FullScreen');
-			adjustHeight();
-		}
-	}
-	
-	return {
+	/** Display the loading message and hide other containers */
+	function showLoading() {
+		$loading.show();
 		
+		$sidebar.hide();
+		$location.hide();
+		$fullScreenLink.hide();
+		$errorNotLoading.hide();
+		
+		// Start a timeout that shows an error when nothing is loaded
+		if (errorTimeout) {
+			window.clearTimeout(errorTimeout);
+		}
+		errorTimeout = window.setTimeout(function() {
+			hideLoading();
+			$errorNotLoading.show();
+		}, 9000);
+	}
+	
+	/** Hide the loading message */
+	function hideLoading() {
+		if (errorTimeout) {
+			window.clearTimeout(errorTimeout);
+			errorTimeout = false;
+		}
+		$loading.hide();
+		$fullScreenLink.show();
+	}
+	
+	/** $.history callback for hash change */
+	function hashChangeCallback(currentUrl) {
+		if (!updateComesFromInsideFrame) {
+			var iframeUrl = iframeSrcBase;
+			if (currentUrl) {
+				iframeUrl += '#' + Overlay_Helper.decodeFrameUrl(currentUrl);
+			}
+			$iframe.attr('src', iframeUrl);
+			showLoading();
+		} else {
+			loadSidebar(currentUrl);
+		}
+		
+		updateComesFromInsideFrame = false;
+	}
+
+	return {
+
 		/** This method is called when Overlay loads (from index.tpl) */
-		init: function() {
-			$container = $('#Overlay_Container');
-			$iframe = $container.find('iframe');
+		init: function(iframeSrc) {
+			iframeSrcBase = iframeSrc;
+			
+			$body = $('body');
+			$iframe = $('#Overlay_Iframe');
 			$sidebar = $('#Overlay_Sidebar');
 			$location = $('#Overlay_Location');
 			$main = $('#Overlay_Main');
 			$loading = $('#Overlay_Loading');
 			$errorNotLoading = $('#Overlay_Error_NotLoading');
-			
-			adjustHeight();
-			
-			$loading.show();
-			
+			$fullScreenLink = $('#Overlay_FullScreen');
+
+			adjustDimensions();
+
+			showLoading();
+
 			window.setTimeout(function() {
 				// sometimes the frame is too high at first
-				adjustHeight();
+				adjustDimensions();
 			}, 50);
-			
-			// this callback is unbound in broadcast.pageload
+
 			$(window).resize(function() {
-				adjustHeight();
+				adjustDimensions();
 			});
 			
-			errorTimeout = window.setTimeout(function() {
-				$loading.hide();
-				$errorNotLoading.show();
-			}, 8000);
+			$.history.init(hashChangeCallback, {unescape: true});
+			
+			$fullScreenLink.click(function() {
+				var href = iframeSrcBase;
+				if (iframeCurrentPage) {
+					href += '#' + iframeCurrentPage.replace(/#/g, '%23');
+				}
+				window.location.href = href;
+				return false;
+			});
 		},
 
 		/** This callback is used from within the iframe */
 		setCurrentUrl: function(currentUrl) {
-			window.clearTimeout(errorTimeout);
-			$loading.show();
-			$errorNotLoading.hide();
-			
+			showLoading();
+
 			// put the current iframe url in the main url to enable refresh and deep linking.
-			// to prevent browsers from braking the encoding, we replace the % with a $.
-			var urlValue = encodeURIComponent(currentUrl).replace(/%/g, '$');
+			var location = window.location.href;
+			var newLocation = location.split('#')[0] + '#' + Overlay_Helper.encodeFrameUrl(currentUrl);
 			
-			// the overlayUrl parameter is removed when the location changes in broadcast.propagateAjax()
-			var urlKeyValue = 'overlayUrl=' + urlValue;
-			
-			var urlOldValue = broadcast.getValueFromHash('overlayUrl', window.location.href);
-			if (urlOldValue != urlValue) {
-				// we don't want the location in the browser history because the back and
-				// forward buttons should trigger a change in the iframe.
-				// so we use disableHistory = true
-				broadcast.propagateAjax(urlKeyValue, true);
+			// location.replace() changes the current url without pushing on the browsers history
+			// stack. this way, the back and forward buttons can be used on the iframe, which in
+			// turn notifies the parent about the location change.
+			if (newLocation != location) {
+				updateComesFromInsideFrame = true;
+				window.location.replace(newLocation);
 			}
-			
+
 			// load the sidebar for the current url
 			loadSidebar(currentUrl);
 		}

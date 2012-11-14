@@ -1315,7 +1315,7 @@ dataTable.prototype =
 			}
 			
 			// if there are row actions, make sure the first column is not too narrow
-			td.css('minWidth', '130px');
+			td.css('minWidth', '145px');
 			
 			// show actions that are available for the row on hover
 			var actionsDom = null;
@@ -1338,21 +1338,6 @@ dataTable.prototype =
 					actionsDom.hide();
 				}
 			});
-			
-			if (typeof self.param.open_links_in_overlay != 'undefined' && self.param.open_links_in_overlay)
-			{
-				var link = td.find('a');
-				link.click(function()
-				{
-					var rowUrl = $(this).attr('href');
-					var newUrl = 'module=Overlay&action=index&overlayUrl=' + encodeURIComponent(rowUrl).replace(/%/g, '$');
-					
-					$('ul.nav').trigger('piwikSwitchPage');
-					broadcast.propagateAjax(newUrl);
-					
-					return false;
-				});
-			}
 		});
 	},
 	
@@ -1379,17 +1364,20 @@ dataTable.prototype =
 				actionEl.addClass('rightmost');
 			}
 			
-			actionEl.click((function(action)
+			actionEl.click((function(action, el)
 			{
 				return function(e)
 				{
 					$(this).blur();
 					container.hide();
 					Piwik_Tooltip.hide();
+					if (typeof actionInstances[action.name].onClick == 'function') {
+						return actionInstances[action.name].onClick(el, tr, e);
+					}
 					actionInstances[action.name].trigger(tr, e);
 					return false;
 				}
-			})(action));
+			})(action, actionEl));
 			
 			if (typeof action.dataTableIconHover != 'undefined')
 			{

@@ -75,6 +75,8 @@ DataTable_RowActions_Registry.register({
 
 	dataTableIcon: 'plugins/Transitions/templates/transitions_icon.png',
 	dataTableIconHover: 'plugins/Transitions/templates/transitions_icon_hover.png',
+	
+	order: 20,
 
 	dataTableIconTooltip: [
 		_pk_translate('CoreHome_TransitionsRowActionTooltipTitle_js'),
