@@ -59,7 +59,7 @@ var Piwik_Overlay = (function() {
 	/** Adjust the dimensions of the iframe */
 	function adjustDimensions() {
 		$iframe.height($(window).height());
-		$iframe.width($body.width());
+		$iframe.width($body.width() - $iframe.offset().left - 2);
 	}
 
 	/** Display the loading message and hide other containers */
