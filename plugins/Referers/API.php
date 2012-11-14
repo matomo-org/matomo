@@ -190,6 +190,89 @@ class Piwik_Referers_API
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getPathFromUrl'));
 		return $dataTable;
 	}
+	
+	/**
+	 * Returns report comparing the number of visits (and other info) for social network referrers.
+	 * This is a view of the getWebsites report.
+	 * 
+	 * @param string $idSite
+	 * @param string $period
+	 * @param string $date
+	 * @param string|bool $segment
+	 * @param bool $expanded
+ 	 * @return Piwik_DataTable
+	 */
+	public function getSocials($idSite, $period, $date, $segment = false, $expanded = false)
+	{
+		require PIWIK_INCLUDE_PATH.'/core/DataFiles/Socials.php';
+
+		$dataTable = $this->getDataTable('Referers_urlByWebsite', $idSite, $period, $date, $segment, $expanded);
+
+		$dataTable->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_Referrers_isSocialUrl'));
+		
+		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_Referrers_cleanSocialUrl'));
+		$dataTable->filter('GroupBy', array('label', 'Piwik_Referrers_getSocialNetworkFromDomain'));
+		
+		$this->setSocialIdSubtables($dataTable);
+		$this->removeSubtableMetadata($dataTable);
+		
+		$dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', 'Piwik_getSocialsLogoFromUrl'));
+		
+		return $dataTable;
+	}
+	
+	/**
+	 * Returns report containing individual referrer URLs for a specific social networking
+	 * site.
+	 * 
+	 * @param string $idSite
+	 * @param string $period
+	 * @param string $date
+	 * @param string|false $segment
+	 * @param int|false $idSubtable This ID does not reference a real DataTable record. Instead, it
+	 *                              is the array index of an item in the /core/DataFiles/Socials.php file.
+	 *                              The urls are filtered by the social network at this index.
+	 *                              If false, no filtering is done and every social URL is returned.
+ 	 * @return Piwik_DataTable
+	 */
+	public function getUrlsForSocial( $idSite, $period, $date, $segment = false, $idSubtable = false )
+	{
+		require PIWIK_INCLUDE_PATH.'/core/DataFiles/Socials.php';
+
+		$dataTable = $this->getDataTable(
+			'Referers_urlByWebsite', $idSite, $period, $date, $segment, $expanded = true);
+		
+		// get the social network domain referred to by $idSubtable
+		$social = false;
+		if ($idSubtable !== false)
+		{
+			--$idSubtable;
+			
+			reset($GLOBALS['Piwik_socialUrl']);
+			for ($i = 0; $i != (int)$idSubtable; ++$i)
+			{
+				next($GLOBALS['Piwik_socialUrl']);
+			}
+			
+			$social = current($GLOBALS['Piwik_socialUrl']);
+		}
+		
+		// filter out everything but social network indicated by $idSubtable
+		$dataTable->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_Referrers_isSocialUrl', array($social)));
+		
+		// merge the datatable's subtables which contain the individual URLs
+		$dataTable = $dataTable->mergeSubtables();
+		
+		// make url labels clickable
+		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'url'));
+		
+		// prettify the DataTable
+		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_Referrers_removeUrlProtocol'));
+	    $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
+		$dataTable->queueFilter('ReplaceColumnNames');
+		
+		return $dataTable;
+	}
 
 	public function getNumberOfDistinctSearchEngines($idSite, $period, $date, $segment = false)
 	{
@@ -221,5 +304,66 @@ class Piwik_Referers_API
 		Piwik::checkUserHasViewAccess( $idSite );
 		$archive = Piwik_Archive::build($idSite, $period, $date, $segment );
 		return $archive->getDataTableFromNumeric($name);
+	}
+	
+	/**
+	 * Removes idsubdatatable_in_db metadata from a DataTable. Used by Social tables since
+	 * they use fake subtable IDs.
+	 * 
+	 * @param Piwik_DataTable $dataTable
+	 */
+	private function removeSubtableMetadata( $dataTable )
+	{
+		if ($dataTable instanceof Piwik_DataTable_Array)
+		{
+			foreach ($dataTable->getArray() as $childTable)
+			{
+				$this->removeSubtableMetadata($childTable);
+			}
+		}
+		else
+		{
+			foreach ($dataTable->getRows() as $row)
+			{
+				$row->deleteMetadata('idsubdatatable_in_db');
+			}
+		}
+	}
+	
+	/**
+	 * Sets the subtable IDs for the DataTable returned by getSocial.
+	 * 
+	 * The IDs are int indexes into the array in /core/DataFiles/Socials.php.
+	 * 
+	 * @param Piwik_DataTable $dataTable
+	 */
+	private function setSocialIdSubtables( $dataTable )
+	{
+		if ($dataTable instanceof Piwik_DataTable_Array)
+		{
+			foreach ($dataTable->getArray() as $childTable)
+			{
+				$this->setSocialIdSubtables($childTable);
+			}
+		}
+		else
+		{
+			foreach ($dataTable->getRows() as $row)
+			{
+				$socialName = $row->getColumn('label');
+				
+				$i = 1; // start at one because idSubtable=0 is equivalent to idSubtable=false
+				foreach ($GLOBALS['Piwik_socialUrl'] as $domain => $name)
+				{
+					if ($name == $socialName)
+					{
+						$row->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $i;
+						break;
+					}
+					
+					++$i;
+				}
+			}
+		}
 	}
 }

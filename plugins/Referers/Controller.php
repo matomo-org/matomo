@@ -144,9 +144,17 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	
 	function indexWebsites($fetch = false)
 	{
-		return Piwik_View::singleReport(
-				Piwik_Translate('Referers_Websites'),
-				$this->getWebsites(true), $fetch);
+		$view = Piwik_View::factory('Websites_SocialNetworks');
+		$view->websites = $this->getWebsites(true) ;
+		$view->socials = $this->getSocials(true);
+		if ($fetch)
+		{
+			return $view->render();
+		}
+		else
+		{
+			echo $view->render();
+		}
 	}
 	
 	function getWebsites( $fetch = false)
@@ -161,6 +169,36 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->setLimit(25);
 		$view->disableSubTableWhenShowGoals();
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnWebsite'));
+		
+		$this->setMetricsVariablesView($view);
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getSocials( $fetch = false)
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init($this->pluginName, __FUNCTION__, 'Referers.getSocials', 'getUrlsForSocial');
+		$view->disableExcludeLowPopulation();
+		$view->setLimit(10);
+		$view->enableShowGoals();
+		$view->disableSubTableWhenShowGoals();
+		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnSocial'));
+		$view->setFooterMessage(Piwik_Translate('Referers_SocialFooterMessage'));
+		
+		$this->setMetricsVariablesView($view);
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	function getUrlsForSocial( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init($this->pluginName, __FUNCTION__, 'Referers.getUrlsForSocial');
+		$view->disableExcludeLowPopulation();
+		$view->setLimit(10);
+		$view->enableShowGoals();
+		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnWebsitePage'));
 		
 		$this->setMetricsVariablesView($view);
 		

@@ -1470,4 +1470,24 @@ class Piwik_DataTable
 		
 		return array($next, $i);
 	}
+
+	/**
+	 * Returns a new DataTable that contains the rows of each of this table's
+	 * subtables.
+	 * 
+	 * @return Piwik_DataTable
+	 */
+	public function mergeSubtables()
+	{
+		$result = new Piwik_DataTable();
+		foreach ($this->getRows() as $row)
+		{
+			$subtable = $row->getSubtable();
+			if ($subtable !== false)
+			{
+				$result->addRowsFromArray($subtable->getRows());
+			}
+		}
+		return $result;
+	}
 }

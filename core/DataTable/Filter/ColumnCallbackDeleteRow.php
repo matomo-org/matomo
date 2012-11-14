@@ -20,17 +20,26 @@ class Piwik_DataTable_Filter_ColumnCallbackDeleteRow extends Piwik_DataTable_Fil
 {
 	private $columnToFilter;
 	private $function;
+	private $functionParams;
 
 	/**
 	 * @param Piwik_DataTable  $table
 	 * @param string           $columnToFilter
 	 * @param callback         $function
+	 * @param array            $functionParams
 	 */
-	public function __construct( $table, $columnToFilter, $function )
+	public function __construct( $table, $columnToFilter, $function, $functionParams = array() )
 	{
 		parent::__construct($table);
+		
+		if (!is_array($functionParams))
+		{
+			$functionParams = array($functionParams);
+		}
+		
 		$this->function = $function;
 		$this->columnToFilter = $columnToFilter;
+		$this->functionParams = $functionParams;
 	}
 
 	/**
@@ -43,7 +52,7 @@ class Piwik_DataTable_Filter_ColumnCallbackDeleteRow extends Piwik_DataTable_Fil
 		foreach($table->getRows() as $key => $row)
 		{
 			$columnValue = $row->getColumn($this->columnToFilter);
-			if( !call_user_func( $this->function, $columnValue))
+			if( !call_user_func_array( $this->function, array_merge(array($columnValue), $this->functionParams)))
 			{
 				$table->deleteRow($key);
 			}

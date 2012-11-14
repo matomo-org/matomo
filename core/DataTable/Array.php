@@ -382,4 +382,22 @@ class Piwik_DataTable_Array
 			}
 		}
 	}
+	
+	/**
+	 * Returns a new DataTable_Array w/ child tables that have had their
+	 * subtables merged.
+	 * 
+	 * @see Piwik_DataTable::mergeSubtables
+	 * 
+	 * @return Piwik_DataTable_Array
+	 */
+	public function mergeSubtables()
+	{
+		$result = new Piwik_DataTable_Array();
+		foreach ($this->array as $label => $childTable)
+		{
+			$result->addTable($childTable->mergeSubtables(), $label);
+		}
+		return $result;
+	}
 }

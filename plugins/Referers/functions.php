@@ -27,6 +27,92 @@ function Piwik_getPathFromUrl($url)
 }
 
 /**
+ * Returns the last parts of the domain of a URL.
+ * 
+ * @param string $url e.g. http://www.facebook.com/?sdlfk=lksdfj
+ * @return string|false e.g. facebook.com
+ */
+function Piwik_Referrers_cleanSocialUrl( $url )
+{
+	$segment = '[^.:\/]+';
+	preg_match('/(?:https?:\/\/)?(?:'.$segment.'\.)?('.$segment.'(?:\.'.$segment.')+)/', $url, $matches);
+	return isset($matches[1]) ? $matches[1] : false;
+}
+
+/**
+ * Get's social network name from URL.
+ * 
+ * @param string $url
+ * @return string
+ */
+function Piwik_Referrers_getSocialNetworkFromDomain( $url )
+{
+	$domain = Piwik_Referrers_cleanSocialUrl($url);
+	
+	if (isset($GLOBALS['Piwik_socialUrl'][$domain]))
+	{
+		return $GLOBALS['Piwik_socialUrl'][$domain];
+	}
+	else
+	{
+		return Piwik_Translate('General_Unknown');
+	}
+}
+
+/**
+ * Returns true if a URL belongs to a social network, false if otherwise.
+ * 
+ * @param string $url The URL to check.
+ * @param string|false $socialName The social network's name to check for, or false to check
+ *                                 for any.
+ * @return bool
+ */
+function Piwik_Referrers_isSocialUrl( $url, $socialName = false )
+{
+	$domain = Piwik_Referrers_cleanSocialUrl($url);
+	
+	if (isset($GLOBALS['Piwik_socialUrl'][$domain])
+		&& ($socialName === false
+			|| $GLOBALS['Piwik_socialUrl'][$domain] == $socialName))
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+/* Return social network logo path by URL
+ *
+ * @param string $url
+ * @return string path
+ * @see plugins/Referers/images/socials/
+ */
+function Piwik_getSocialsLogoFromUrl($domain)
+{
+	if (isset($GLOBALS['Piwik_socialUrl'][$domain]))
+	{
+		// image names are by first domain in list, so make sure we use the first if $domain isn't it
+		$firstDomain = $domain;
+		foreach ($GLOBALS['Piwik_socialUrl'] as $domainKey => $name)
+		{
+			if ($name == $GLOBALS['Piwik_socialUrl'][$domain])
+			{
+				$firstDomain = $domainKey;
+				break;
+			}
+		}
+		
+		$pathWithCode = 'plugins/Referers/images/socials/'.$firstDomain.'.png';
+		$absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
+		return $pathWithCode;
+	}
+	else
+	{
+		return 'plugins/Referers/images/socials/xx.png';
+	}
+}
+
+/**
  * Return search engine URL by name
  *
  * @see core/DataFiles/SearchEnginges.php
@@ -190,4 +276,19 @@ function Piwik_getRefererTypeFromShortName($name)
 	    return $found;
 	}
 	throw new Exception("Referrer type '$name' is not valid.");
+}
+
+/**
+ * Returns a URL w/o the protocol type.
+ * 
+ * @param string $url
+ * @return string
+ */
+function Piwik_Referrers_removeUrlProtocol( $url )
+{
+	if (preg_match('/^[a-zA-Z_-]+:\/\//', $url, $matches))
+	{
+		return substr($url, strlen($matches[0]));
+	}
+	return $url;
 }

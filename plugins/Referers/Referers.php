@@ -162,6 +162,16 @@ class Piwik_Referers extends Piwik_Plugin
 					'isSubtableReport' => true,
 					'order' => 10,
 				),
+				array(
+					'category'  => Piwik_Translate('Referers_Referers'),
+					'name'   => Piwik_Translate('Referers_Socials'),
+					'module' => 'Referers',
+					'action' => 'getSocials',
+					'actionToLoadSubTables' => 'getUrlsForSocial',
+					'dimension' => Piwik_Translate('Referers_ColumnSocial'),
+					'documentation' => Piwik_Translate('Referers_WebsitesReportDocumentation', '<br />'),
+					'order' => 11,
+				),
     	));
 	}
 
@@ -213,6 +223,7 @@ class Piwik_Referers extends Piwik_Plugin
 	{
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetKeywords', 'Referers', 'getKeywords');
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetExternalWebsites', 'Referers', 'getWebsites');
+		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetSocials', 'Referers', 'getSocials');
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetSearchEngines', 'Referers', 'getSearchEngines');
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetCampaigns', 'Referers', 'getCampaigns');
 		Piwik_AddWidget( 'Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');

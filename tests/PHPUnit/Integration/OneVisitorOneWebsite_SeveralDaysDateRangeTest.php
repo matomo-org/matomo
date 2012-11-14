@@ -20,6 +20,20 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
         '2011-01-16 01:00:00',
     );
     protected static $idSite = 1;
+    
+    // one per visit
+    protected static $referrerUrls = array(
+    	'http://facebook.com/whatever',
+    	'http://www.facebook.com/another/path',
+    	'http://fb.me/?q=sdlfjs&n=slfjsd',
+    	'http://twitter.com/whatever2',
+    	'http://www.twitter.com/index?a=2334',
+    	'http://t.co/id/?y=dsfs',
+    	'http://www.flickr.com',
+    	'http://xanga.com',
+    	'http://skyrock.com',
+    	'http://mixi.jp',
+    );
 
     public static function setUpBeforeClass()
     {
@@ -56,7 +70,28 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
                                              'date'         => '2010-12-10',
                                              'periods'      => array('day'),
                                              'setDateLastN' => true,
-                                             'testSuffix'   => '_IndexedByDate'))
+                                             'testSuffix'   => '_IndexedByDate')),
+			
+			// test socials
+			array('Referers.getSocials', array('idSite'  => 'all',
+											   'date'    => '2010-12-13,2011-01-18',
+											   'periods' => array('range'))),
+			
+			array('Referers.getSocials', array('idSite'		  => 'all',
+											   'date'		  => '2010-12-10',
+											   'periods'	  => array('day'),
+											   'setDateLastN' => true,
+											   'testSuffix'   => '_IndexedByDate')),
+			
+			array('Referers.getUrlsForSocial', array('idSite'		=> 'all', // test w/o idSubtable
+													 'date'			=> '2010-12-13,2011-01-18',
+													 'periods'		=> 'range',
+													 'testSuffix'	=> '_noIdSubtable')),
+			
+			array('Referers.getUrlsForSocial', array('idSite'   	 => self::$idSite, // test w/ idSubtable
+													 'date'			 => '2010-12-13,2011-01-18',
+													 'periods'		 => 'range',
+													 'supertableApi' => 'Referers.getSocials')),
         );
     }
 
@@ -76,6 +111,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
         $idSite    = self::$idSite;
 
         $i = 0;
+        $ridx = 0;
         foreach ($dateTimes as $dateTime) {
             $i++;
             $visitor = self::getTracker($idSite, $dateTime, $defaultInit = true);
@@ -84,6 +120,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
 
             $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
             $visitor->setUrl('http://example.org/homepage');
+            $visitor->setUrlReferrer(self::$referrerUrls[$ridx++]);
             self::checkResponse($visitor->doTrackPageView('ou pas'));
 
             // Test change the IP, the visit should not be split but recorded to the same idvisitor
@@ -95,6 +132,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
 
             $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
             $visitor->setUrl('http://example.org/news');
+            $visitor->setUrlReferrer(self::$referrerUrls[$ridx++]);
             self::checkResponse($visitor->doTrackPageView('ou pas'));
         }
     }
