@@ -223,7 +223,7 @@ class Piwik_CoreAdminHome_API
 	 */
 	static public function getWebsiteIdsToInvalidate()
 	{
-		Piwik::checkUserIsSuperUser();
+		Piwik::checkUserHasSomeAdminAccess();
 		$invalidatedIdSites = Piwik_GetOption(self::OPTION_INVALIDATED_IDSITES);
 		if($invalidatedIdSites 
 			&& ($invalidatedIdSites = unserialize($invalidatedIdSites))
