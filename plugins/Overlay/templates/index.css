@@ -14,9 +14,15 @@ body h1 {
 	padding: 0 0 0 5px;
 }
 
+#Overlay_DateRangeSelection {
+	padding: 30px 0 20px 23px;
+	background: url(../../../themes/default/images/icon-calendar.gif) 2px 33px no-repeat;
+	margin-left: 5px;
+}
+
 #Overlay_Location {
 	width: 200px;
-	padding: 30px 0;
+	padding: 0 0 30px 0;
 	margin-left: 5px;
 	font-size: 12px;
 }

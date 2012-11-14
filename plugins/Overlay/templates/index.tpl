@@ -1,6 +1,16 @@
 {include file="CoreHome/templates/header.tpl"}
 <h1>{'Overlay_Overlay'|translate|escape:'html'}</h1>
 
+<div id="Overlay_DateRangeSelection">
+	<select id="Overlay_DateRangeSelect" name="Overlay_DateRangeSelect">
+		<option value="day;today">{'General_Today'|translate|escape:'html'}</option>
+		<option value="day;yesterday">{'General_Yesterday'|translate|escape:'html'}</option>
+		<option value="week;today">{'General_CurrentWeek'|translate|escape:'html'}</option>
+		<option value="month;today">{'General_CurrentMonth'|translate|escape:'html'}</option>
+		<option value="year;today">{'General_CurrentYear'|translate|escape:'html'}</option>
+	</select>
+</div>
+
 <div id="Overlay_Error_NotLoading">
 	<p>
 		<span>{'Overlay_ErrorNotLoading'|translate|escape:'html'}</span>
@@ -35,7 +45,7 @@
 
 <script type="text/javascript">
 	var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idsite={$idSite}&period={$period}&date={$date}';
-	Piwik_Overlay.init(iframeSrc);
+	Piwik_Overlay.init(iframeSrc, '{$idSite}', '{$period}', '{$date}');
 	
 	Piwik_Overlay_Translations = {literal}{{/literal}
 		domain: "{'Overlay_Domain'|translate|escape:'html'}"

@@ -8,19 +8,21 @@
 var Piwik_Overlay = (function() {
 
 	var $body, $iframe, $sidebar, $main, $location, $loading, $errorNotLoading, $fullScreenLink;
-	
+
+	var idSite, period, date;
+
 	var errorTimeout = false;
-	
+
 	var iframeSrcBase;
 	var iframeDomain = '';
 	var iframeCurrentPage = '';
 	var updateComesFromInsideFrame = false;
-	
+
 
 	/** Load the sidebar for a url */
 	function loadSidebar(currentUrl) {
 		showLoading();
-		
+
 		$location.html('&nbsp;').unbind('mouseenter').unbind('mouseleave');
 
 		iframeCurrentPage = currentUrl;
@@ -31,7 +33,7 @@ var Piwik_Overlay = (function() {
 			currentUrl: currentUrl
 		}, function(response) {
 			hideLoading();
-			
+
 			var $response = $(response);
 
 			var $responseLocation = $response.find('.Overlay_Location');
@@ -59,16 +61,16 @@ var Piwik_Overlay = (function() {
 		$iframe.height($(window).height());
 		$iframe.width($body.width());
 	}
-	
+
 	/** Display the loading message and hide other containers */
 	function showLoading() {
 		$loading.show();
-		
+
 		$sidebar.hide();
 		$location.hide();
 		$fullScreenLink.hide();
 		$errorNotLoading.hide();
-		
+
 		// Start a timeout that shows an error when nothing is loaded
 		if (errorTimeout) {
 			window.clearTimeout(errorTimeout);
@@ -78,7 +80,7 @@ var Piwik_Overlay = (function() {
 			$errorNotLoading.show();
 		}, 9000);
 	}
-	
+
 	/** Hide the loading message */
 	function hideLoading() {
 		if (errorTimeout) {
@@ -88,7 +90,7 @@ var Piwik_Overlay = (function() {
 		$loading.hide();
 		$fullScreenLink.show();
 	}
-	
+
 	/** $.history callback for hash change */
 	function hashChangeCallback(currentUrl) {
 		if (!updateComesFromInsideFrame) {
@@ -101,16 +103,19 @@ var Piwik_Overlay = (function() {
 		} else {
 			loadSidebar(currentUrl);
 		}
-		
+
 		updateComesFromInsideFrame = false;
 	}
 
 	return {
 
 		/** This method is called when Overlay loads (from index.tpl) */
-		init: function(iframeSrc) {
+		init: function(iframeSrc, pIdSite, pPeriod, pDate) {
 			iframeSrcBase = iframeSrc;
-			
+			idSite = pIdSite;
+			period = pPeriod;
+			date = pDate;
+
 			$body = $('body');
 			$iframe = $('#Overlay_Iframe');
 			$sidebar = $('#Overlay_Sidebar');
@@ -129,12 +134,37 @@ var Piwik_Overlay = (function() {
 				adjustDimensions();
 			}, 50);
 
+			// handle window resize
 			$(window).resize(function() {
 				adjustDimensions();
 			});
-			
+
+			// handle hash change
 			$.history.init(hashChangeCallback, {unescape: true});
-			
+
+			// handle date selection
+			var $select = $('select#Overlay_DateRangeSelect').change(function() {
+				var parts = $(this).val().split(';');
+				if (parts.length == 2) {
+					period = parts[0];
+					date = parts[1];
+					window.location.href = Overlay_Helper.getOverlayLink(idSite, period, date, iframeCurrentPage);
+				}
+			});
+
+			var optionMatchFound = false;
+			$select.find('option').each(function() {
+				if ($(this).val() == period + ';' + date) {
+					$(this).attr('selected', 'selected');
+					optionMatchFound = true;
+				}
+			});
+
+			if (!optionMatchFound) {
+				$select.prepend('<option selected="selected">');
+			}
+
+			// handle full screen link
 			$fullScreenLink.click(function() {
 				var href = iframeSrcBase;
 				if (iframeCurrentPage) {
@@ -152,7 +182,7 @@ var Piwik_Overlay = (function() {
 			// put the current iframe url in the main url to enable refresh and deep linking.
 			var location = window.location.href;
 			var newLocation = location.split('#')[0] + '#' + Overlay_Helper.encodeFrameUrl(currentUrl);
-			
+
 			// location.replace() changes the current url without pushing on the browsers history
 			// stack. this way, the back and forward buttons can be used on the iframe, which in
 			// turn notifies the parent about the location change.
