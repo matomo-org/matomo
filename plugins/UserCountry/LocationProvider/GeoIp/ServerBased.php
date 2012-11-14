@@ -61,10 +61,12 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	 */
 	public function getLocation( $info )
 	{
+		$ip = $this->getIpFromInfo($info);
+		
 		// geoip modules that are built into servers can't use a forced IP. in this case we try
 		// to fallback to another version.
 		$myIP = Piwik_IP::getIpFromHeader();
-		if (!self::isSameOrAnonymizedIp($info['ip'], $myIP)
+		if (!self::isSameOrAnonymizedIp($ip, $myIP)
 			&& (!isset($info['disable_fallbacks'])
 				|| !$info['disable_fallbacks']))
 		{
@@ -136,7 +138,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 	 * There's a special check for the Apache module, but we can't check specifically
 	 * for anything else.
 	 * 
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function isAvailable()
 	{
@@ -152,8 +154,30 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 			}
 		}
 		
-		return !empty($_SERVER[self::TEST_SERVER_VAR])
-			 || !empty($_SERVER[self::TEST_SERVER_VAR_ALT]);
+		$available = !empty($_SERVER[self::TEST_SERVER_VAR])
+				  || !empty($_SERVER[self::TEST_SERVER_VAR_ALT]);
+		
+		if ($available)
+		{
+			return true;
+		}
+		else // if not available return message w/ extra info
+		{
+			if (!function_exists('apache_get_modules'))
+			{
+				return Piwik_Translate('General_Note').':&nbsp;'.Piwik_Translate('UserCountry_AssumingNonApache');
+			}
+			
+			$message = "<strong><em>".Piwik_Translate('General_Note').':&nbsp;'
+				. Piwik_Translate('UserCountry_FoundApacheModules')
+				. "</em></strong>:<br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
+			foreach (apache_get_modules() as $name)
+			{
+				$message .= "<li>$name</li>\n";
+			}
+			$message .= "</ul>";
+			return $message;
+		}
 	}
 	
 	/**
@@ -209,11 +233,36 @@ class Piwik_UserCountry_LocationProvider_GeoIp_ServerBased extends Piwik_UserCou
 			. Piwik_Translate('UserCountry_HowToInstallNginxModule')
 			. '</a></em>';
 		
+		$geoipServerVars = array();
+		foreach ($_SERVER as $key => $value)
+		{
+			if (strpos($key, 'GEOIP') === 0)
+			{
+				$geoipServerVars[] = $key;
+			}
+		}
+		
+		if (empty($geoipServerVars))
+		{
+			$extraMessage = '<strong><em>'.Piwik_Translate('UserCountry_GeoIPNoServerVars', '$_SERVER').'</em></strong>';
+		}
+		else
+		{
+			$extraMessage = '<strong><em>'.Piwik_Translate('UserCountry_GeoIPServerVarsFound', '$_SERVER')
+				.":</em></strong><br/><br/>\n<ul style=\"list-style:disc;margin-left:24px\">\n";
+			foreach ($geoipServerVars as $key)
+			{
+				$extraMessage .= '<li>'.$key."</li>\n";
+			}
+			$extraMessage .= '</ul>';
+		}
+		
 		return array('id' => self::ID,
 					  'title' => $title,
 					  'description' => $desc,
 					  'order' => 4,
-					  'install_docs' => $installDocs);
+					  'install_docs' => $installDocs,
+					  'extra_message' => $extraMessage);
 	}
 	
 	/**

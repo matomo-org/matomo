@@ -47,7 +47,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 	 */
 	public function getLocation( $info )
 	{
-		$ip = $info['ip'];
+		$ip = $this->getIpFromInfo($info);
 		
 		$result = array();
 		
@@ -237,10 +237,53 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
 					 . Piwik_Translate('UserCountry_HowToInstallGeoIpPecl')
 					 . '</a>'
 					 . '</em>';
+		
+		$extraMessage = false;
+		if ($this->isAvailable())
+		{
+			$peclDir = ini_get('geoip.custom_directory');
+			if ($peclDir === false)
+			{
+				$extraMessage = Piwik_Translate('UserCountry_GeoIPPeclCustomDirNotSet', "'geoip.custom_directory'");
+			}
+			else
+			{
+				$extraMessage = 'The \'geoip.custom_directory\' PHP ini option is set to \''.$peclDir.'\'.';
+			}
+			
+			$availableDatabaseTypes = array();
+			if (self::isCityDatabaseAvailable())
+			{
+				$availableDatabaseTypes[] = Piwik_Translate('UserCountry_City');
+			}
+			if (self::isRegionDatabaseAvailable())
+			{
+				$availableDatabaseTypes[] = Piwik_Translate('UserCountry_Region');
+			}
+			if (self::isCountryDatabaseAvailable())
+			{
+				$availableDatabaseTypes[] = Piwik_Translate('UserCountry_Country');
+			}
+			if (self::isISPDatabaseAvailable())
+			{
+				$availableDatabaseTypes[] = 'ISP';
+			}
+			if (self::isOrgDatabaseAvailable())
+			{
+				$availableDatabaseTypes[] = Piwik_Translate('UserCountry_Organization');
+			}
+			
+			$extraMessage .= '<br/><br/>'.Piwik_Translate('UserCountry_GeoIPImplHasAccessTo').':&nbsp;<strong><em>'
+				. implode(', ', $availableDatabaseTypes).'</em></strong>.';
+			
+			$extraMessage = '<strong><em>'.Piwik_Translate('General_Note').':&nbsp;</em></strong>'.$extraMessage;
+		}
+		
 		return array('id' => self::ID,
 					  'title' => self::TITLE,
 					  'description' => $desc,
 					  'install_docs' => $installDocs,
+					  'extra_message' => $extraMessage,
 					  'order' => 3);
 	}
 	

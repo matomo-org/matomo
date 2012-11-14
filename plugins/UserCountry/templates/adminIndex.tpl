@@ -73,11 +73,19 @@
 			{/if}
 			{/capture}
 			{$currentLocation|inlineHelp}
-		{elseif $provider.status eq 2}
+		{/if}
+		{if isset($provider.statusMessage) && $provider.statusMessage}
 			{capture assign=brokenReason}
-				<strong><em>{'General_Error'|translate}:</strong></em> {$provider.statusMessage}
+				{if $provider.status eq 2}<strong><em>{'General_Error'|translate}:</strong></em> {/if}{$provider.statusMessage}
 			{/capture}
 			{$brokenReason|inlineHelp}
+		{/if}
+		{if isset($provider.extra_message) && $provider.extra_message}
+			{capture assign=extraMessage}
+			{$provider.extra_message}
+			{/capture}
+			<br/>
+			{$extraMessage|inlineHelp}
 		{/if}
 		</td>
 	{/foreach}

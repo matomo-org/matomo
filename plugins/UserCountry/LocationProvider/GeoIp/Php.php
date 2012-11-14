@@ -57,7 +57,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 	 */
 	public function getLocation( $info )
 	{
-		$ip = $info['ip'];
+		$ip = $this->getIpFromInfo($info);
 		
 		$result = array();
 		
@@ -253,10 +253,38 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 		$installDocs = '<em><a target="_blank" href="http://piwik.org/faq/how-to/#faq_163">'
 	  		  . Piwik_Translate('UserCountry_HowToInstallGeoIPDatabases')
 	  		  . '</em></a>';
+	  	
+		$availableDatabaseTypes = array();
+		if (self::getPathToGeoIpDatabase(array('GeoIPCity.dat', 'GeoLiteCity.dat')) !== false)
+		{
+			$availableDatabaseTypes[] = Piwik_Translate('UserCountry_City');
+		}
+		if (self::getPathToGeoIpDatabase(array('GeoIPRegion.dat')) !== false)
+		{
+			$availableDatabaseTypes[] = Piwik_Translate('UserCountry_Region');
+		}
+		if (self::getPathToGeoIpDatabase(array('GeoIPCountry.dat')) !== false)
+		{
+			$availableDatabaseTypes[] = Piwik_Translate('UserCountry_Country');
+		}
+		if (self::getPathToGeoIpDatabase(array('GeoIPISP.dat')) !== false)
+		{
+			$availableDatabaseTypes[] = 'ISP';
+		}
+		if (self::getPathToGeoIpDatabase(array('GeoIPOrg.dat')) !== false)
+		{
+			$availableDatabaseTypes[] = Piwik_Translate('UserCountry_Organization');
+		}
+		
+		$extraMessage = '<strong><em>'.Piwik_Translate('General_Note').'</em></strong>:&nbsp;'
+			. Piwik_Translate('UserCountry_GeoIPImplHasAccessTo').':&nbsp;<strong><em>'
+			. implode(', ', $availableDatabaseTypes).'</em></strong>.';
+	  	
 		return array('id' => self::ID,
 					  'title' => self::TITLE,
 					  'description' => $desc,
 					  'install_docs' => $installDocs,
+					  'extra_message' => $extraMessage,
 					  'order' => 2);
 	}
 	

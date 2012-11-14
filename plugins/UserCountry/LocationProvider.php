@@ -213,9 +213,14 @@ abstract class Piwik_UserCountry_LocationProvider
 			$location = false;
 			$statusMessage = false;
 			
-			if (!$provider->isAvailable())
+			$availableOrMessage = $provider->isAvailable();
+			if ($availableOrMessage !== true)
 			{
 				$status = self::NOT_INSTALLED;
+				if (is_string($availableOrMessage))
+				{
+					$statusMessage = $availableOrMessage;
+				}
 			}
 			else
 			{
@@ -446,18 +451,41 @@ abstract class Piwik_UserCountry_LocationProvider
 		{
 			$lines[] = '';
 			
-			if (!empty($locationInfo[self::ORG_KEY]))
-			{
-				$lines[] = "Org: ".$locationInfo[self::ORG_KEY];
-			}
+			$unknown = Piwik_Translate('General_Unknown');
 			
-			if (!empty($locationInfo[self::ISP_KEY]))
-			{
-				$lines[] = "ISP: ".$locationInfo[self::ISP_KEY];
-			}
+			$org = !empty($locationInfo[self::ORG_KEY]) ? $locationInfo[self::ORG_KEY] : $unknown;
+			$lines[] = "Org: $org";
+			
+			$isp = !empty($locationInfo[self::ISP_KEY]) ? $locationInfo[self::ISP_KEY] : $unknown;
+			$lines[] = "ISP: $isp";
 		}
 		
 		return implode($newline, $lines);
+	}
+	
+	/**
+	 * Returns an IP address from an array that was passed into getLocation. This
+	 * will return an IPv4 address or false if the address is IPv6 (IPv6 is not
+	 * supported yet).
+	 * 
+	 * @param array $ip Must have 'ip' key.
+	 * @return string|bool
+	 */
+	protected function getIpFromInfo( $info )
+	{
+		$ip = $info['ip'];
+		if (Piwik_IP::isMappedIPv4($ip))
+		{
+			return Piwik_IP::getIPv4FromMappedIPv6($ip);
+		}
+		else if (Piwik_IP::isIPv6($ip)) // IPv6 is not supported (yet)
+		{
+			return false;
+		}
+		else
+		{
+			return $ip;
+		}
 	}
 }
 

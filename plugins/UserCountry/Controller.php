@@ -229,6 +229,8 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 			$footerMessage = Piwik_Translate('UserCountry_NoDataForGeoIPReport', array(
 				'<a target="_blank" href="'.Piwik_Url::getCurrentQueryStringWithParametersModified($params).'">',
 				'</a>',
+				'<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
+				'</a>',
 				'<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">',
 				'</a>'
 			));

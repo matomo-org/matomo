@@ -25,10 +25,12 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 	public static $ips = array(
 		'194.57.91.215', // in Besançon, FR (unicode city name)
 		
-		'137.82.130.49', // in British Columbia
+		'::ffff:137.82.130.49', // in British Columbia (mapped ipv4)
 		
 		'137.82.130.0', // anonymization tests
 		'137.82.0.0',
+		
+		'2001:db8:85a3:0:0:8a2e:370:7334', // ipv6 (not supported)
 		
 		'151.100.101.92', // in Rome, Italy (using country DB, so only Italy will show)
 		
@@ -47,7 +49,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			
 			self::setLocationProvider('GeoIPCity.dat');
 			self::trackVisits(2, true, $useLocal = false);
-			self::trackVisits(2, true, $useLocal = false, $doBulk = true);
+			self::trackVisits(3, true, $useLocal = false, $doBulk = true);
 			
 			self::setLocationProvider('GeoIP.dat');
 			self::trackVisits(2, true);
