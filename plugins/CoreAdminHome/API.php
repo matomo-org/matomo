@@ -71,7 +71,7 @@ class Piwik_CoreAdminHome_API
 	{
 		$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		if(empty($idSites)) {
-			throw new Exception("Specify a value for &idSites=");
+			throw new Exception("Specify a value for &idSites= as a comma separated list of website IDs, for which your token_auth has 'admin' permission");
 		}
 		Piwik::checkUserHasAdminAccess($idSites);
 
