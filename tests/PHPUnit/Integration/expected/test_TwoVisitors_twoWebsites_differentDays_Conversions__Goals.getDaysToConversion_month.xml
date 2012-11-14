@@ -4,7 +4,7 @@
 		<result date="2010-01">
 			<row>
 				<label>0 days</label>
-				<nb_conversions>1</nb_conversions>
+				<nb_conversions>2</nb_conversions>
 			</row>
 			<row>
 				<label>1 day</label>
@@ -12,7 +12,7 @@
 			</row>
 			<row>
 				<label>2 days</label>
-				<nb_conversions>2</nb_conversions>
+				<nb_conversions>1</nb_conversions>
 			</row>
 			<row>
 				<label>3 days</label>
@@ -125,24 +125,6 @@
 				<nb_conversions>0</nb_conversions>
 			</row>
 		</result>
-		<result date="2010-02" />
-		<result date="2010-03" />
-		<result date="2010-04" />
-		<result date="2010-05" />
-		<result date="2010-06" />
-		<result date="2010-07" />
-	</result>
-	<result idSite="3">
-		<result date="2010-01" />
-		<result date="2010-02" />
-		<result date="2010-03" />
-		<result date="2010-04" />
-		<result date="2010-05" />
-		<result date="2010-06" />
-		<result date="2010-07" />
-	</result>
-	<result idSite="4">
-		<result date="2010-01" />
 		<result date="2010-02" />
 		<result date="2010-03" />
 		<result date="2010-04" />

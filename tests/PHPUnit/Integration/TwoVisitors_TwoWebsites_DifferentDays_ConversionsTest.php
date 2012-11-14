@@ -8,12 +8,12 @@
  */
 
 require_once 'Goals/Goals.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Integration/TwoVisitors_TwoWebsites_DifferentDaysTest.php';
+
 /**
  * Same as TwoVisitors_twoWebsites_differentDays but with goals that convert
  * on every url.
  */
-class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions extends Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays
+class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions extends IntegrationTestCase
 {
     protected static $idSite1 = 1;
     protected static $idSite2 = 2;
@@ -44,14 +44,58 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         $this->runApiTests($api, $params);
     }
 
-	protected function getApiToCall()
+	public function getApiToCall()
 	{
 		return array('Goals.getDaysToConversion', 'MultiSites.getAll');
 	}
 
 	public function getApiForTesting()
 	{
-		$result = parent::getApiForTesting($testScheduledReports = false);
+		// NOTE: copied from TwoVisitors_TwoWebsites_DifferentDays (including the test or inheriting means
+		// the test will get run by phpunit, even when we only want to run this one. should be put into
+		// non-test class later.)
+        $apiToCall       = $this->getApiToCall();
+        $singlePeriodApi = array('VisitsSummary.get', 'Goals.get');
+
+        $periods = array('day', 'week', 'month', 'year');
+
+        $result = array(
+            // Request data for the last 6 periods and idSite=all
+            array($apiToCall, array('idSite'       => 'all',
+                                    'date'         => self::$dateTime,
+                                    'periods'      => $periods,
+                                    'setDateLastN' => true)),
+
+            // Request data for the last 6 periods and idSite=1
+            array($apiToCall, array('idSite'       => self::$idSite1,
+                                    'date'         => self::$dateTime,
+                                    'periods'      => $periods,
+                                    'setDateLastN' => true,
+                                    'testSuffix'   => '_idSiteOne_')),
+
+            // We also test a single period to check that this use case (Reports per idSite in the response) works
+            array($singlePeriodApi, array('idSite'       => 'all',
+                                          'date'         => self::$dateTime,
+                                          'periods'      => array('day', 'month'),
+                                          'setDateLastN' => false,
+                                          'testSuffix'   => '_NotLastNPeriods')),
+        );
+
+        // testing metadata API for multiple periods
+        $apiToCall = array_diff($apiToCall, array('Actions.getPageTitle', 'Actions.getPageUrl'));
+        foreach ($apiToCall as $api) {
+            list($apiModule, $apiAction) = explode(".", $api);
+
+            $result[] = array(
+                'API.getProcessedReport', array('idSite'       => self::$idSite1,
+                                                'date'         => self::$dateTime,
+                                                'periods'      => array('day'),
+                                                'setDateLastN' => true,
+                                                'apiModule'    => $apiModule,
+                                                'apiAction'    => $apiAction,
+                                                'testSuffix'   => '_' . $api . '_firstSite_lastN')
+            );
+        }
 
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.

@@ -36,7 +36,7 @@
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
 				<label>0 days</label>
-				<nb_conversions>1</nb_conversions>
+				<nb_conversions>2</nb_conversions>
 				<revenue>$ 0</revenue>
 			</row>
 			<row>
@@ -46,7 +46,7 @@
 			</row>
 			<row>
 				<label>2 days</label>
-				<nb_conversions>1</nb_conversions>
+				<nb_conversions>0</nb_conversions>
 				<revenue>$ 0</revenue>
 			</row>
 			<row>
