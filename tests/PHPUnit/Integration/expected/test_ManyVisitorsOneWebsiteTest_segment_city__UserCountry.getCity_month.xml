@@ -17,6 +17,8 @@
 		<nb_conversions>4</nb_conversions>
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<lat>124.456</lat>
+		<long>22.231</long>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>P3</region>
 		<country>gb</country>

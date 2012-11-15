@@ -512,9 +512,9 @@ class Piwik_UserCountry extends Piwik_Plugin
 				$lat = round($lat, Piwik_UserCountry_LocationProvider::GEOGRAPHIC_COORD_PRECISION);
 				$long = round($long, Piwik_UserCountry_LocationProvider::GEOGRAPHIC_COORD_PRECISION);
 				
-				// append latitude + longitude to label
-				$newLabel = $label.self::LOCATION_SEPARATOR.$lat.self::LOCATION_SEPARATOR.$long;
-				$row->setColumn('label', $newLabel);
+				// set latitude + longitude metadata
+				$row->setMetadata('lat', $lat);
+				$row->setMetadata('long', $long);
 			}
 		}
 	}

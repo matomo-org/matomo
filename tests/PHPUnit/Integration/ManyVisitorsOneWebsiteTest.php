@@ -178,13 +178,13 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		Piwik_UserCountry_LocationProvider::$providers = null;
 		Piwik_UserCountry_LocationProvider::setCurrentProvider('mock_provider');
 		Piwik_UserCountry_LocationProvider::getCurrentProvider()->setLocations(array(
-			self::makeLocation('Stratford-upon-Avon', 'P3', 'gb'), // template location
+			self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location
 			
 			// same region, different city, same country
 			self::makeLocation('Nuneaton and Bedworth', 'P3', 'gb'),
 			
-			// same region, city & country
-			self::makeLocation('Stratford-upon-Avon', 'P3', 'gb'),
+			// same region, city & country (different lat/long)
+			self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 124.456, 22.231),
 			
 			// same country, different region & city
 			self::makeLocation('London', 'H9', 'gb'),
@@ -211,10 +211,12 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		Piwik_UserCountry_LocationProvider::setCurrentProvider('default');
 	}
 	
-	public static function makeLocation( $city, $region, $country )
+	public static function makeLocation( $city, $region, $country, $lat = null, $long = null )
 	{
 		return array(Piwik_UserCountry_LocationProvider::CITY_NAME_KEY => $city,
 					  Piwik_UserCountry_LocationProvider::REGION_CODE_KEY => $region,
-					  Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY => $country);
+					  Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY => $country,
+					  Piwik_UserCountry_LocationProvider::LATITUDE_KEY => $lat,
+					  Piwik_UserCountry_LocationProvider::LONGITUDE_KEY => $long);
 	}
 }

@@ -41,11 +41,11 @@
 		<nb_conversions>6</nb_conversions>
 		<revenue>30</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
+		<lat>49.25</lat>
+		<long>-123.133</long>
 		<city_name>Vancouver</city_name>
 		<region>BC</region>
 		<country>ca</country>
-		<lat>49.25</lat>
-		<long>-123.133</long>
 		<country_name>Canada</country_name>
 		<region_name>British Columbia</region_name>
 		<logo>plugins/UserCountry/flags/ca.png</logo>
@@ -67,6 +67,8 @@
 		<nb_conversions>4</nb_conversions>
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
+		<lat>124.456</lat>
+		<long>22.231</long>
 		<city_name>Stratford-upon-Avon</city_name>
 		<region>P3</region>
 		<country>gb</country>
@@ -91,11 +93,11 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>10</revenue>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<lat>47.249</lat>
+		<long>6.018</long>
 		<city_name>Besançon</city_name>
 		<region>A6</region>
 		<country>fr</country>
-		<lat>47.249</lat>
-		<long>6.018</long>
 		<country_name>France</country_name>
 		<region_name>Franche-Comte</region_name>
 		<logo>plugins/UserCountry/flags/fr.png</logo>

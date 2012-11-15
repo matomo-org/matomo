@@ -130,10 +130,12 @@ class Piwik_UserCountry_API
 			array('label', 'region', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 1, $unk)));
 		$dataTable->filter('ColumnCallbackAddMetadata',
 			array('label', 'country', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 2, $unk)));
+		
+		// backwards compatibility: for reports that have lat|long in label
 		$dataTable->filter('ColumnCallbackAddMetadata',
-			array('label', 'lat', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 3)));
+			array('label', 'lat', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 3, false)));
 		$dataTable->filter('ColumnCallbackAddMetadata',
-			array('label', 'long', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 4)));
+			array('label', 'long', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 4, false)));
 		
 		// add country name & region name metadata
 		$dataTable->filter('MetadataCallbackAddMetadata',
