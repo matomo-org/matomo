@@ -43,7 +43,7 @@
 
 
 <div id="Overlay_Main">
-	<iframe id="Overlay_Iframe" src=""></iframe>
+	<iframe id="Overlay_Iframe" src="" frameborder="0"></iframe>
 </div>
 
 

@@ -121,16 +121,13 @@
 
 #PIS_StatusBar {
 	padding: 10px 0;
-	position: absolute;
 	position: fixed;
 	z-index: 10020;
 	bottom: 0;
 	right: 0;
-	background: #ccc;
 	border-top: 1px solid #ccc;
 	border-left: 1px solid #ccc;
 	background: #fbfbfb;
-	
 	-webkit-border-top-left-radius: 6px;
 	-webkit-border-top-right-radius: 0px;
 	-webkit-border-bottom-right-radius: 0px;
@@ -142,7 +139,7 @@
 	border-top-left-radius: 6px;
 	border-top-right-radius: 0px;
 	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 0px; 
+	border-bottom-left-radius: 0px;
 }
 
 #PIS_StatusBar .PIS_Item {

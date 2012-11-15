@@ -156,7 +156,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 
 	/** Create the link tag element */
 	function createLinkTag(linkTag, linkUrl, data, body) {
-		if (typeof linkTag[0].piwikTagElement != 'undefined') {
+		if (typeof linkTag[0].piwikTagElement != 'undefined' && linkTag[0].piwikTagElement !== null) {
 			// this link tag already has a tag element. happens in rare cases.
 			return;
 		}
@@ -220,7 +220,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 						inlineChild = linkTag.children().eq(0);
 					}
 
-					if (linkTag.css('visibility') == 'hidden' || (
+					if (getVisibility(linkTag) == 'hidden' || (
 						// in case of hasOneChild: jquery always returns linkTag.is(':visible')=false
 						!linkTag.is(':visible') && !(hasOneChild && inlineChild && inlineChild.is(':visible'))
 						)) {
@@ -230,7 +230,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 					}
 
 					tagElement.attr('class', 'PIS_LinkTag'); // reset class
-					if (tagElement.data('piwik-highlighted')) {
+					if (tagElement[0].piwikHighlighted) {
 						tagElement.addClass('PIS_Highlighted');
 					}
 
@@ -277,11 +277,11 @@ var Piwik_Overlay_FollowingPages = (function() {
 			// remove the tag element from the dom
 			if (linkTag && linkTag[0] && linkTag[0].piwikTagElement) {
 				tagElement = linkTag[0].piwikTagElement;
-				if (tagElement.data('piwik-highlighted')) {
+				if (tagElement[0].piwikHighlighted) {
 					unHighlightLink(linkTag, tagToRemove.index1);
 				}
 				tagElement.remove();
-				delete linkTag[0].piwikTagElement;
+				linkTag[0].piwikTagElement = null;
 			}
 			// remove the link from the index
 			linksOnPage[tagToRemove.index1].splice(tagToRemove.index2, 1);
@@ -293,6 +293,18 @@ var Piwik_Overlay_FollowingPages = (function() {
 		if (typeof callback == 'function') {
 			callback();
 		}
+	}
+	
+	/** Get the visibility of an element */
+	function getVisibility(el) {
+		var visibility = el.css('visibility');
+		if (visibility == 'inherit') {
+			el = el.parent();
+			if (el.size() > 0) {
+				return getVisibility(el);
+			}
+		}
+		return visibility;
 	}
 
 	/**
@@ -321,7 +333,7 @@ var Piwik_Overlay_FollowingPages = (function() {
 	/** Check whether new links have been added to the dom */
 	function findNewLinks() {
 		var newLinks = $('a').filter(function() {
-			return typeof this.piwikDiscovered == 'undefined';
+			return typeof this.piwikDiscovered == 'undefined' || this.piwikDiscovered === null;
 		});
 
 		if (newLinks.size() == 0) {
@@ -395,20 +407,28 @@ var Piwik_Overlay_FollowingPages = (function() {
 
 		var padding = '&nbsp;&nbsp;';
 		highlightElements[3].html(padding + text + padding).css({
-			minWidth: (width + 4) + 'px',
+			width: 'auto',
 			top: offset.top + height,
 			left: offset.left - 2
 		}).show();
+		if (highlightElements[3].width() < width + 4) {
+			// we cannot use minWidth because of IE7
+			highlightElements[3].width(width + 4);
+		}
 
 		for (var j = 0; j < numLinks; j++) {
 			var tag = linksOnPage[linkUrl][j][0].piwikTagElement;
 			tag.addClass('PIS_Highlighted');
-			tag.data('piwik-highlighted', true);
+			tag[0].piwikHighlighted = true;
 		}
 
+		// Sometimes it fails to remove the notification when the hovered element is removed.
+		// To make sure we don't display more than one location at a time, we hide all before showing the new one.
+		Piwik_Overlay_Client.hideNotifications('LinkLocation');
+		
 		// we don't use .data() because jquery would remove the callback when the link tag is removed
 		linkTag[0].piwikHideNotification = Piwik_Overlay_Client.notification(
-			Piwik_Overlay_Translations.get('link') + ': ' + linkUrl);
+			Piwik_Overlay_Translations.get('link') + ': ' + linkUrl, 'LinkLocation');
 	}
 
 	/** Remove highlight from link */
@@ -422,12 +442,13 @@ var Piwik_Overlay_FollowingPages = (function() {
 			var tag = linksOnPage[linkUrl][j][0].piwikTagElement;
 			if (tag) {
 				tag.removeClass('PIS_Highlighted');
-				tag.data('piwik-highlighted', false);
+				tag[0].piwikHighlighted = false;
 			}
 		}
 
-		if (typeof linkTag[0].piwikHideNotification == 'function') {
-			linkTag[0].piwikHideNotification.apply();
+		if ((typeof linkTag[0].piwikHideNotification) == 'function') {
+			linkTag[0].piwikHideNotification();
+			linkTag[0].piwikHideNotification = null;
 		}
 	}
 
@@ -464,10 +485,11 @@ var Piwik_Overlay_FollowingPages = (function() {
 					for (var j = 0; j < linksOnPage[url].length; j++) {
 						var linkTag = linksOnPage[url][j];
 						var tagElement = linkTag[0].piwikTagElement;
-						delete linkTag[0].piwikTagElement;
 						if (tagElement) {
 							tagElement.remove();
 						}
+						linkTag[0].piwikTagElement = null;
+						
 						$(linkTag).unbind('mouseenter').unbind('mouseleave');
 					}
 				}

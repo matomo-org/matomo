@@ -82,6 +82,49 @@ var Piwik_Overlay_Client = (function() {
 		return el;
 	}
 	
+	/** Special treatment for some internet explorers */
+	var ieStatusBarEventsBound = false;
+	function handleIEStatusBar() {
+		if (navigator.appVersion.indexOf("MSIE 7.") == -1
+			&& navigator.appVersion.indexOf("MSIE 8.") == -1) {
+			// this is not IE8 or lower
+			return;
+		}
+		
+		// IE7/8 can't handle position:fixed so we need to do it by hand
+		statusBar.css({
+			position: 'absolute',
+			right: 'auto',
+			bottom: 'auto',
+			left: 0,
+			top: 0
+		});
+		
+		var position = function() {
+			var scrollY = document.body.scrollTop;
+			var scrollX = document.body.scrollLeft;
+			statusBar.css({
+				top: (scrollY + $(window).height() - statusBar.outerHeight()) + 'px',
+				left: (scrollX + $(window).width() - statusBar.outerWidth()) + 'px'
+			});
+		};
+		
+		position();
+		
+		statusBar.css({width: 'auto'});
+		if (statusBar.width() < 350) {
+			statusBar.width(350);
+		} else {
+			statusBar.width(statusBar.width());
+		}
+		
+		if (!ieStatusBarEventsBound) {
+			ieStatusBarEventsBound = true;
+			$(window).resize(position);
+			$(window).scroll(position);
+		}
+	}
+	
 	return {
 		
 		/** Initialize in-site analytics */
@@ -142,7 +185,7 @@ var Piwik_Overlay_Client = (function() {
 			};
 			script.onload = onLoad;
 			
-			script.src = piwikRoot+relativePath;
+			script.src = piwikRoot+relativePath+'?v=1';
 			head.appendChild(script);
 		},
 		
@@ -183,12 +226,26 @@ var Piwik_Overlay_Client = (function() {
 			
 			statusBar.show().append(item);
 			
+			handleIEStatusBar();
+			
 			return function() {
 				item.remove();
 				if (statusBar.children().size() == 0) {
 					statusBar.hide();
+				} else {
+					handleIEStatusBar();
 				}
 			};
+		},
+
+		/** Hide all notifications with a certain class */
+		hideNotifications: function(className) {
+			statusBar.find('.PIS_' + className).remove();
+			if (statusBar.children().size() == 0) {
+				statusBar.hide();
+			} else {
+				handleIEStatusBar();
+			}
 		},
 		
 		/**

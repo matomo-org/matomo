@@ -971,7 +971,7 @@ var
 				}
 			};
 			script.onload = onLoad;
-			script.src = root + 'plugins/Overlay/client/client.js';
+			script.src = root + 'plugins/Overlay/client/client.js?v=1';
 			var head = document.getElementsByTagName('head')[0];
 			head.appendChild(script);
 		}

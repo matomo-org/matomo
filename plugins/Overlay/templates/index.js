@@ -58,7 +58,7 @@ var Piwik_Overlay = (function() {
 			});
 
 			$sidebar.empty().append($response).show();
-			
+
 			if ($sidebar.find('.Overlay_NoData').size() == 0) {
 				$rowEvolutionLink.show();
 				$transitionsLink.show()
@@ -109,7 +109,7 @@ var Piwik_Overlay = (function() {
 	function hashChangeCallback(urlHash) {
 		var location = broadcast.getParamValue('l', urlHash);
 		location = Overlay_Helper.decodeFrameUrl(location);
-		
+
 		if (!updateComesFromInsideFrame) {
 			var iframeUrl = iframeSrcBase;
 			if (location) {
@@ -122,12 +122,6 @@ var Piwik_Overlay = (function() {
 		}
 
 		updateComesFromInsideFrame = false;
-		
-		// handle window resize
-		// this needs to be bound here because broadcast unbinds it after every hash change
-		$(window).resize(function() {
-			adjustDimensions();
-		});
 	}
 
 	return {
@@ -160,15 +154,27 @@ var Piwik_Overlay = (function() {
 				adjustDimensions();
 			}, 50);
 
+			// handle window resize
+			// we manipulate broadcast.pageload because it unbinds all resize events on window
+			var originalPageload = broadcast.pageload;
+			broadcast.pageload = function(hash) {
+				originalPageload(hash);
+				$(window).resize(function() {
+					adjustDimensions();
+				});
+			};
+			$(window).resize(function() {
+				adjustDimensions();
+			});
+
 			// handle hash change
 			broadcast.loadAjaxContent = hashChangeCallback;
 			broadcast.init();
-			
+
 			if (window.location.href.split('#').length == 1) {
 				// if there's no hash, broadcast won't trigger the callback - we have to do it here
 				hashChangeCallback('');
 			}
-			
 
 			// handle date selection
 			var $select = $('select#Overlay_DateRangeSelect').change(function() {
@@ -224,7 +230,7 @@ var Piwik_Overlay = (function() {
 			if (locationParts.length > 1) {
 				currentLocation = broadcast.getParamValue('l', locationParts[1]);
 			}
-			
+
 			var newLocation = Overlay_Helper.encodeFrameUrl(currentUrl);
 
 			if (newLocation != currentLocation) {

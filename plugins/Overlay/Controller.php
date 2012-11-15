@@ -134,6 +134,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 		$urls = $sitesManager->getSiteUrlsFromId($idSite);
 		
 		echo '
+			<html><head><title></title></head><body>
 			<script type="text/javascript">
 				function handleProtocol(url) {
 					if (' . ($this->usingSsl() ? 'true' : 'false') . ') {
@@ -158,7 +159,15 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 						var testUrl = removeUrlPrefix(knownUrls[i]);
 						if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {
 							match = true;
-							window.location.href = handleProtocol(urlToRedirect);
+							if (navigator.appName == "Microsoft Internet Explorer") {
+								// internet explorer loses the referrer if we use window.location.href=X
+								var referLink = document.createElement("a");
+								referLink.href = handleProtocol(urlToRedirect);
+								document.body.appendChild(referLink);
+								referLink.click();
+							} else {
+								window.location.href = handleProtocol(urlToRedirect);
+							}
 							break;
 						}
 					}
@@ -174,6 +183,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 					window.location.href = handleProtocol("'.$site['main_url'].'");
 				};
 			</script>
+			</body></html>
 		';
 	}
 	

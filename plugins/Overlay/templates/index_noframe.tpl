@@ -8,9 +8,11 @@
 		
 		{literal}
 		
-		var loactionParts = window.location.href.split('#');
-		if (loactionParts.length > 1) {
-			newLocation += '#' + loactionParts[1];
+		var locationParts = window.location.href.split('#');
+		if (locationParts.length > 1) {
+			var url = broadcast.getParamValue('l', locationParts[1]);
+			url = Overlay_Helper.decodeFrameUrl(url);
+			newLocation += '#' + url;
         }
 		
 		window.location.href = newLocation;

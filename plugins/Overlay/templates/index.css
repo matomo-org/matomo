@@ -2,6 +2,8 @@
 html {
 	width: 100%;
 	height: 100%;
+	/** hide scroll bar in ie7 */
+	*overflow: auto;
 }
 
 body {

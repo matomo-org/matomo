@@ -70,6 +70,8 @@ var broadcast = {
      * 1. after calling $.history.init();
      * 2. after calling $.history.load();  //look at broadcast.changeParameter();
      * 3. after pushing "Go Back" button of a browser
+	 * 
+	 * * Note: the method is manipulated in Overlay/templates/index.js - keep this in mind when making changes.
      *
      * @param {string}  hash to load page with
      * @return {void}
