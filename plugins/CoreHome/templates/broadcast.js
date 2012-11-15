@@ -153,9 +153,10 @@ var broadcast = {
      * NOTE: this method will only make ajax call and replacing main content.
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
+	 * @param {boolean} disableHistory  the hash change won't be available in the browser history
      * @return {void}
      */
-    propagateAjax: function (ajaxUrl)
+    propagateAjax: function (ajaxUrl, disableHistory)
     {
         broadcast.init();
 
@@ -187,9 +188,18 @@ var broadcast = {
             currentHashStr = broadcast.updateParamValue('idDashboard=', currentHashStr);
         }
 		
-		// Let history know about this new Hash and load it.
-		broadcast.forceReload = true;
-		$.history.load(currentHashStr);
+		if (disableHistory)
+		{
+			var newLocation = window.location.href.split('#')[0] + '#' + currentHashStr;
+			// window.location.replace changes the current url without pushing it on the browser's history stack
+			window.location.replace(newLocation);
+		}
+		else
+		{
+			// Let history know about this new Hash and load it.
+			broadcast.forceReload = true;
+			$.history.load(currentHashStr);
+		}
     },
 
     /**
@@ -334,6 +344,8 @@ var broadcast = {
 
     /**
      * Loads the given url with ajax and replaces the content
+	 * 
+	 * Note: the method is replaced in Overlay/templates/index.js - keep this in mind when making changes. 
      *
      * @param {string} urlAjax  url to load
      * @return {Boolean}

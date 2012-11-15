@@ -36,9 +36,10 @@
 <a id="Overlay_RowEvolution">{'CoreHome_RowEvolutionRowActionTooltipTitle_js'|translate|escape:'html'}</a>
 <a id="Overlay_Transitions">{'CoreHome_TransitionsRowActionTooltipTitle_js'|translate|escape:'html'}</a>
 
-<a id="Overlay_FullScreen" href="#">
+<!-- TODO: rethink the way the sidebar works -->
+<!-- <a id="Overlay_FullScreen" href="#">
 	{'Overlay_OpenFullScreen'|translate|escape:'html'}
-</a>
+</a> -->
 
 
 <div id="Overlay_Main">

@@ -106,19 +106,28 @@ var Piwik_Overlay = (function() {
 	}
 
 	/** $.history callback for hash change */
-	function hashChangeCallback(currentUrl) {
+	function hashChangeCallback(urlHash) {
+		var location = broadcast.getParamValue('l', urlHash);
+		location = Overlay_Helper.decodeFrameUrl(location);
+		
 		if (!updateComesFromInsideFrame) {
 			var iframeUrl = iframeSrcBase;
-			if (currentUrl) {
-				iframeUrl += '#' + Overlay_Helper.decodeFrameUrl(currentUrl);
+			if (location) {
+				iframeUrl += '#' + location;
 			}
 			$iframe.attr('src', iframeUrl);
 			showLoading();
 		} else {
-			loadSidebar(currentUrl);
+			loadSidebar(location);
 		}
 
 		updateComesFromInsideFrame = false;
+		
+		// handle window resize
+		// this needs to be bound here because broadcast unbinds it after every hash change
+		$(window).resize(function() {
+			adjustDimensions();
+		});
 	}
 
 	return {
@@ -146,18 +155,20 @@ var Piwik_Overlay = (function() {
 
 			showLoading();
 
+			// apply initial dimensions
 			window.setTimeout(function() {
-				// sometimes the frame is too high at first
 				adjustDimensions();
 			}, 50);
 
-			// handle window resize
-			$(window).resize(function() {
-				adjustDimensions();
-			});
-
 			// handle hash change
-			$.history.init(hashChangeCallback, {unescape: true});
+			broadcast.loadAjaxContent = hashChangeCallback;
+			broadcast.init();
+			
+			if (window.location.href.split('#').length == 1) {
+				// if there's no hash, broadcast won't trigger the callback - we have to do it here
+				hashChangeCallback('');
+			}
+			
 
 			// handle date selection
 			var $select = $('select#Overlay_DateRangeSelect').change(function() {
@@ -183,15 +194,13 @@ var Piwik_Overlay = (function() {
 
 			// handle transitions link
 			$transitionsLink.click(function() {
-				var transitions = new Piwik_Transitions('url', iframeCurrentPageNormalized, null);
-				transitions.showPopover();
+				DataTable_RowActions_Transitions.launchForUrl(iframeCurrentPageNormalized);
 				return false;
 			});
 
 			// handle row evolution link
 			$rowEvolutionLink.click(function() {
-				var rowEvolution = new DataTable_RowActions_RowEvolution(null);
-				rowEvolution.showRowEvolution('Actions.getPageUrls', iframeCurrentActionLabel, '0');
+				DataTable_RowActions_RowEvolution.launch('Actions.getPageUrls', iframeCurrentActionLabel);
 				return false;
 			});
 
@@ -210,20 +219,24 @@ var Piwik_Overlay = (function() {
 		setCurrentUrl: function(currentUrl) {
 			showLoading();
 
-			// put the current iframe url in the main url to enable refresh and deep linking.
-			var location = window.location.href;
-			var newLocation = location.split('#')[0] + '#' + Overlay_Helper.encodeFrameUrl(currentUrl);
-
-			// location.replace() changes the current url without pushing on the browsers history
-			// stack. this way, the back and forward buttons can be used on the iframe, which in
-			// turn notifies the parent about the location change.
-			if (newLocation != location) {
-				updateComesFromInsideFrame = true;
-				window.location.replace(newLocation);
+			var locationParts = location.href.split('#');
+			var currentLocation = '';
+			if (locationParts.length > 1) {
+				currentLocation = broadcast.getParamValue('l', locationParts[1]);
 			}
+			
+			var newLocation = Overlay_Helper.encodeFrameUrl(currentUrl);
 
-			// load the sidebar for the current url
-			loadSidebar(currentUrl);
+			if (newLocation != currentLocation) {
+				updateComesFromInsideFrame = true;
+				// put the current iframe url in the main url to enable refresh and deep linking.
+				// use disableHistory=true to make sure that the back and forward buttons can be 
+				// used on the iframe (which in turn notifies the parent about the location change)
+				broadcast.propagateAjax('l=' + newLocation, true);
+			} else {
+				// happens when the url is changed by hand or when the l parameter is there on page load
+				loadSidebar(currentUrl);
+			}
 		}
 
 	};

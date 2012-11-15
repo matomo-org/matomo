@@ -77,7 +77,7 @@ class Piwik_Overlay_API
 		$this->authenticate($idSite);
 		
 		$url = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite);
-		$url = Piwik_Common::unsanitizeInputValue($url);
+		// we don't unsanitize $url here. it will be done in the Transitions plugin.
 		
 		$resultDataTable = new Piwik_DataTable;
 		

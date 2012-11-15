@@ -256,6 +256,12 @@ function DataTable_RowActions_RowEvolution(dataTable) {
 	this.multiEvolutionRows = [];
 }
 
+/** Static helper method to launch row evolution from anywhere */
+DataTable_RowActions_RowEvolution.launch = function(apiMethod, label) {
+	var param = 'RowEvolution:' + apiMethod + ':0:' + label;
+	broadcast.propagateNewPopoverParameter('RowAction', param);
+};
+
 DataTable_RowActions_RowEvolution.prototype = new DataTable_RowAction;
 
 DataTable_RowActions_RowEvolution.prototype.performAction = function(label, tr, e) {

@@ -9,20 +9,21 @@ var Overlay_Helper = {
 	
 	/** Encode the iframe url to put it behind the hash in sidebar mode */
 	encodeFrameUrl: function(url) {
-		// make sure there's only one hash in the resulting url
-		return url.replace(/#/g, '%23')
+		// url encode + replace % with $ to make sure that browsers don't break the encoding 
+		return encodeURIComponent(url).replace(/%/g, '$')
 	},
 	
 	/** Decode the url after reading it from the hash */
 	decodeFrameUrl: function(url) {
-		return url.replace(/%23/g, '#');
+		// reverse encodeFrameUrl()
+		return decodeURIComponent(url.replace(/\$/g, '%'));
 	},
 	
 	/** Get the url to launch overlay */
 	getOverlayLink: function(idSite, period, date, link) {
 		var url = 'index.php?module=Overlay&period=' + period + '&date=' + date + '&idSite=' + idSite;
 		if (link) {
-			url += '#' + Overlay_Helper.encodeFrameUrl(link);
+			url += '#l=' + Overlay_Helper.encodeFrameUrl(link);
 		}
 		return url;
 	}

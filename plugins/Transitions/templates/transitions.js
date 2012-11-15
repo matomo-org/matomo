@@ -17,6 +17,11 @@ function DataTable_RowActions_Transitions(dataTable) {
 
 DataTable_RowActions_Transitions.prototype = new DataTable_RowAction;
 
+/** Static helper method to launch transitions from anywhere */
+DataTable_RowActions_Transitions.launchForUrl = function(url) {
+	broadcast.propagateNewPopoverParameter('RowAction', 'Transitions:url:' + url);
+};
+
 DataTable_RowActions_Transitions.isPageUrlReport = function(module, action) {
 	return module == 'Actions' &&
 		(action == 'getPageUrls' || action == 'getEntryPageUrls' || action == 'getExitPageUrls' || action == 'getPageUrlsFollowingSiteSearch');

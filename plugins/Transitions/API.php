@@ -143,8 +143,18 @@ class Piwik_Transitions_API
 		switch ($actionType)
 		{
 			case 'url':
+				$originalActionName = $actionName;
 				$actionName = Piwik_Common::unsanitizeInputValue($actionName);
-				return $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url');
+				$id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url');
+				
+				if ($id < 0)
+				{
+					// an example where this is needed is urls containing < or >
+					$actionName = $originalActionName;
+					$id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url');
+				}
+				
+				return $id;
 				
 			case 'title':
 				$id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name');
