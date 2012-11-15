@@ -30,7 +30,7 @@ UserCountryMap.run = function(config) {
     // Since some metrics are transmitted in an non-numeric format like
     // "61.45%", we need to parse the numbers to make sure they can be
     // used for color scales etc. The parsed metrics will be stored as
-    // METRIC_parsed
+    // METRIC_raw
     //
     function parseMetrics(data) {
         $.each(UserCountryMap.config.metrics, function(metric) {
@@ -50,16 +50,16 @@ UserCountryMap.run = function(config) {
             metricStats[metric].sum += val;
             metricStats[metric].min = Math.min(val, metricStats[metric].min);
             metricStats[metric].max = Math.max(val, metricStats[metric].max);
-            data[metric+'_parsed'] = val;
+            data[metric+'_raw'] = val;
         });
     }
 
     function formatValueForTooltips(data, metric) {
         var v;
         if (metric.substr(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
-            v = data[metric] + ' ('+formatPercentage(data[metric+'_parsed'] / UserCountryMap.lastReportMetricStats[metric].sum)+')';
+            v = data[metric] + ' ('+formatPercentage(data[metric+'_raw'] / UserCountryMap.lastReportMetricStats[metric].sum)+')';
         } else if (metric == 'avg_time_on_site') {
-            var diff = data[metric+'_parsed'] - UserCountryMap.config.visitsSummary[metric],
+            var diff = data[metric+'_raw'] - UserCountryMap.config.visitsSummary[metric],
                 neg = diff < 0,
                 t;
             diff = Math.abs(diff);
@@ -79,7 +79,7 @@ UserCountryMap.run = function(config) {
             // use diverging color scale for avg time on site
             return new chroma.ColorScale({
                 colors: ['#9F454B', '#ffffff', '#8BABDF'],
-                limits: chroma.limits(rows, 'c', 5, metric+'_parsed', filter),
+                limits: chroma.limits(rows, 'c', 5, metric+'_raw', filter),
                 positions: [0, (avg - 0) / (stats.max - 0), 1],
                 mode: 'hcl'
             });
@@ -89,7 +89,7 @@ UserCountryMap.run = function(config) {
             // use diverging color scale for avg time on site
             return new chroma.ColorScale({
                 colors: ['#8BABDF', '#ffffff', '#9F595F'],
-                limits: chroma.limits(rows, 'c', 5, metric+'_parsed', filter),
+                limits: chroma.limits(rows, 'c', 5, metric+'_raw', filter),
                 positions: [0, (avg - stats.min) / (stats.max - stats.min), 1],
                 mode: 'hcl'
             });
@@ -98,7 +98,7 @@ UserCountryMap.run = function(config) {
             // default blue color scale
             return new chroma.ColorScale({
                 colors: ['#CDDAEF', '#385993'],
-                limits: chroma.limits(rows, 'e', 5, metric+'_parsed', filter),
+                limits: chroma.limits(rows, 'e', 5, metric+'_raw', filter),
                 mode: 'hcl'
             });
         }
@@ -288,28 +288,20 @@ UserCountryMap.run = function(config) {
             });
 
             // Apply the color scale to the map.
-            map.choropleth({
-                layer: 'countries',
-                data: UserCountryMap.countryData,
-                key: 'iso',
-                colors: function(d, e) {
-                    if (d === null) {
-                        return UserCountryMap.config.noDataColor;
-                    } else {
-                        return colscale.getColor(d[metric+'_parsed']);
-                    }
-               }
+            map.getLayer('countries').style('fill', function(data, path) {
+                var d = UserCountryMap.countriesByIso[data.iso];
+                if (d === null) {
+                    return UserCountryMap.config.noDataColor;
+                } else {
+                    return colscale.getColor(d[metric+'_raw']);
+                }
             });
 
             // Update the map tooltips.
-            map.tooltips({
-                layer: 'countries',
-                content: function(data) {
-                    var metric = $('#userCountryMapSelectMetrics').val(),
-                        country = UserCountryMap.countriesByIso[data.iso];
-                    return '<h3>'+country.name + '</h3>'+
-                        formatValueForTooltips(country, metric);
-                }
+            map.getLayer('countries').tooltips(function(data) {
+                var metric = $('#userCountryMapSelectMetrics').val(),
+                    country = UserCountryMap.countriesByIso[data.iso];
+                return '<h3>'+country.name + '</h3>'+formatValueForTooltips(country, metric);
             });
         }
 
@@ -325,29 +317,31 @@ UserCountryMap.run = function(config) {
 
             // add a layer for non-selectable countries = for which no data is
             // defined in the current report
-            map.addLayer({ id: 'countries', className: 'context', filter: function(pd) {
+            map.addLayer('countries', { name: 'context', filter: function(pd) {
                 return UserCountryMap.countriesByIso[pd.iso] === undefined;
             }});
 
             // add a layer for selectable countries = for which we have data
             // available in the current report
-            map.addLayer({ id: 'countries', className: 'countryBG', filter: function(pd) {
+            map.addLayer('countries', { name: 'countryBG', filter: function(pd) {
                 return UserCountryMap.countriesByIso[pd.iso] !== undefined;
             }});
 
-            map.addLayer({ id: 'countries', key: 'iso', filter: function(pd) {
-                return UserCountryMap.countriesByIso[pd.iso] !== undefined;
-            }});
-
-            map.onLayerEvent('click', function(path) {
-                var tgt;
-                if (UserCountryMap.lastSelected != 'world' || UserCountryMap.countriesByIso[path.iso] === undefined) {
-                    tgt = path.iso;
-                } else {
-                    tgt = UserCountryMap.ISO3toCONT[path.iso];
+            map.addLayer('countries', {
+                key: 'iso',
+                filter: function(pd) {
+                    return UserCountryMap.countriesByIso[pd.iso] !== undefined;
+                },
+                click: function(path) {
+                    var tgt;
+                    if (UserCountryMap.lastSelected != 'world' || UserCountryMap.countriesByIso[path.iso] === undefined) {
+                        tgt = path.iso;
+                    } else {
+                        tgt = UserCountryMap.ISO3toCONT[path.iso];
+                    }
+                    updateState(tgt);
                 }
-                updateState(tgt);
-            }, 'countries');
+            });
 
             updateColorsAndTooltips(metric);
         });
@@ -378,21 +372,23 @@ UserCountryMap.run = function(config) {
         function updateRegionColors() {
             // load some fake data with real region ids from GeoIP
             $.ajax({
-                url: '/plugins/UserCountryMap/geoip-api/'+UserCountryMap.countriesByIso[iso].iso2+'/regions?idSite='+piwik.idSite+'&startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
+                url: config.regionDataUrl + UserCountryMap.countriesByIso[iso].iso2,
                 dataType: 'json',
                 success : function(data) {
+
+                    console.log(data);
 
                     var regionDict = {};
                     // UserCountryMap.lastReportMetricStats = {};
 
-                    $.each(data, function(i, row) {
+                    $.each(data.reportData, function(i, row) {
                         parseMetrics(row);
-                        regionDict[row.code] = row;
+                        regionDict[data.reportMetadata[i].region] = row;
                     });
 
                     var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
                     // create color scale
-                    colscale = getColorScale(data, metric);
+                    colscale = getColorScale(data.reportData, metric);
 
                     function regionCode(region) {
                         var iso = UserCountryMap.lastSelected,
@@ -407,33 +403,26 @@ UserCountryMap.run = function(config) {
                     }
 
                     // apply colors to map
-                    map.choropleth({
-                        layer: 'regions',
-                        key: 'fips',
-                        colors: function(d, pd) {
-                            var code = regionCode(pd);
-                            if (regionDict[code] === undefined) {
-                                // not found :(
-                                return UserCountryMap.config.noDataColor;
-                            } else {
-                                // match
-                                return colscale.getColor(regionDict[code][metric]);
-                            }
-                       }
+                    map.getLayer('regions').style('fill', function(data) {
+                        var code = regionCode(data);
+                        if (regionDict[code] === undefined) {
+                            // not found :(
+                            return UserCountryMap.config.noDataColor;
+                        } else {
+                            // match
+                            return colscale.getColor(regionDict[code][metric]);
+                        }
                     });
 
                     // add tooltips for regions
-                    map.tooltips({
-                        layer: 'regions',
-                        content: function(data) {
-                            var metric = $('#userCountryMapSelectMetrics').val(),
-                            region = regionDict[regionCode(data)];
-                            if (region === undefined) {
-                                return '<h3>'+data.name+'</h3><p>'+_pk_translate('General_NoVisits_js')+'</p>';
-                            }
-                            return '<h3>'+data.name+'</h3>'+
-                                formatValueForTooltips(region, metric);
-                            }
+                    map.getLayer('regions').tooltips(function(data) {
+                        var metric = $('#userCountryMapSelectMetrics').val(),
+                        region = regionDict[regionCode(data)];
+                        if (region === undefined) {
+                            return '<h3>'+data.name+'</h3><p>'+_pk_translate('General_NoVisits_js')+'</p>';
+                        }
+                        return '<h3>'+data.name+'</h3>'+
+                            formatValueForTooltips(region, metric);
                     });
                 }
             });
@@ -449,33 +438,41 @@ UserCountryMap.run = function(config) {
             });
 
             $.ajax({
-                url: '/plugins/UserCountryMap/geoip-api/'+UserCountryMap.countriesByIso[iso].iso2+'/cities?idSite='+piwik.idSite+'&startDate='+piwik.startDateString+'&endDate='+piwik.endDateString,
+                url: config.cityDataUrl + UserCountryMap.countriesByIso[iso].iso2,
                 dataType: 'json',
                 success : function(data) {
 
-                    var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
-                    var scale = $K.scale.linear(data, metric, function(r) {
+                    var metric = $('#userCountryMapSelectMetrics').val();
+
+                    var cities = [];
+
+                    $.each(data.reportData, function(i, row) {
+                        parseMetrics(row);
+                        cities.push($.extend(row, data.reportMetadata[i]));
+                    });
+
+                    var scale = $K.scale.linear(cities, metric, function(r) {
                         return r.city != 'Unknown';
                     });
-                    data.sort(function(a, b) { return b[metric] - a[metric]; });
+                    cities.sort(function(a, b) { return b[metric] - a[metric]; });
 
                     var s = 0;
-                    $.each(data, function(i, city) {
+                    $.each(cities, function(i, city) {
                         s += scale(city[metric]);
                     });
-                    s /= data.length;
+                    s /= cities.length;
                     var maxRad = 20;
 
                     map.addSymbols({
                         type: $K.Bubble,
-                        data: data,
+                        data: cities,
                         filter: function(r) {
                             return r.city != 'Unknown';
                         },
-                        location: function(city) { return [city.longitude, city.latitude]; },
+                        location: function(city) { return [city.long, city.lat]; },
                         radius: function(city) { return scale(city[metric]) * maxRad + 3; },
                         tooltip: function(city) {
-                            return '<h3>'+city.city+'</h3>'+UserCountryMap.config.metrics[metric]+': '+city[metric];
+                            return '<h3>'+city.city_name+'</h3>'+UserCountryMap.config.metrics[metric]+': '+city[metric];
                         }
                     });
                 }
@@ -484,36 +481,22 @@ UserCountryMap.run = function(config) {
 
         _updateMap(iso + '.svg', function() {
             // add background
-            map.addLayer({ id: 'context', key: 'iso', filter: function(pd) {
-                return UserCountryMap.countriesByIso[pd.iso] === undefined;
-            } });
-            map.addLayer({ id: 'context', key: 'iso', className: 'context-clickable', filter: function(pd) {
-                return UserCountryMap.countriesByIso[pd.iso] !== undefined;
-            } });
-            map.addLayer({ id: "regions", className: "regionBG" });
-            if (UserCountryMap.mode != "region") {
-                //map.addLayer({ id: "regions", className: "regionBG-2" });
-            }
-            map.addLayer({ id: 'regions', key: 'fips', className: UserCountryMap.mode != "region" ? "regions2" : "regions" });
-
-            // add click events for surrounding countries
-            map.onLayerEvent('click', function(path) {
-                updateState(path.iso);
-            }, 'context-clickable');
-
-            map.addSymbols({
-                data: map.getLayer('context-clickable').getPathsData(),
-                type: $K.Label,
-                filter: function(data) { return data.iso != iso; },
-                location: function(data) { return 'context-clickable.'+data.iso; },
-                text: function(data) { return data.iso; },
-                'class': 'countryLabel'
+            map.addLayer('context', {
+                key: 'iso',
+                filter: function(pd) {
+                    return UserCountryMap.countriesByIso[pd.iso] === undefined;
+                }
             });
-
-            // and also for neighboring countries
-            map.tooltips({
-                layer: 'context-clickable',
-                content: function(data) {
+            map.addLayer('context', {
+                key: 'iso',
+                name: 'context-clickable',
+                filter: function(pd) {
+                    return UserCountryMap.countriesByIso[pd.iso] !== undefined;
+                },
+                click: function(path) {   // add click events for surrounding countries
+                    updateState(path.iso);
+                },
+                tooltips: function(data) {
                     if (UserCountryMap.countriesByIso[data.iso] === undefined) {
                         return 'no data';
                     }
@@ -522,6 +505,23 @@ UserCountryMap.run = function(config) {
                     return '<h3>'+country.name+'</h3>'+
                         formatValueForTooltips(country, metric);
                 }
+            });
+            map.addLayer("regions", { name: "regionBG" });
+            if (UserCountryMap.mode != "region") {
+                //map.addLayer("regions", { name: "regionBG-2" });
+            }
+            map.addLayer('regions', {
+                key: 'fips',
+                name: UserCountryMap.mode != "region" ? "regions2" : "regions"
+            });
+
+            map.addSymbols({
+                data: map.getLayer('context-clickable').getPathsData(),
+                type: $K.Label,
+                filter: function(data) { return data.iso != iso; },
+                location: function(data) { return 'context-clickable.'+data.iso; },
+                text: function(data) { return data.iso; },
+                'class': 'countryLabel'
             });
 
             if (UserCountryMap.mode == "region") {
@@ -564,7 +564,7 @@ UserCountryMap.run = function(config) {
         UserCountryMap.countryData = countryData;
         UserCountryMap.countriesByIso = countriesByIso;
 
-        map.loadStyles(config.mapCssPath, function() {
+        map.loadCSS(config.mapCssPath, function() {
             // map stylesheets are loaded
 
             // hide loading indicator

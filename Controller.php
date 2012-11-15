@@ -46,7 +46,6 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             . "&method=API.getProcessedReport&format=JSON"
             . "&apiModule=UserCountry&apiAction=getCountry"
             . "&idSite=" . $idSite
-            . "&continent=EU"
             . "&period=" . $period
             . "&date=" . $date
             . "&token_auth=" . $token_auth
@@ -54,30 +53,34 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             . "&enable_filter_excludelowpop=1"
             . "&filter_limit=-1";
 
-        // definition of the color scale
-        $view->hueMin = 218;
-        $view->hueMax = 216;
-        $view->satMin = "0.285";
-        $view->satMax = "0.9";
-        $view->lgtMin = ".97";
-        $view->lgtMax = ".44";
+        $view->regionDataUrl = "?module=API"
+            . "&method=API.getProcessedReport&format=JSON"
+            . "&apiModule=UserCountry&apiAction=getRegion"
+            . "&idSite=" . $idSite
+            . "&period=" . $period
+            . "&date=" . $date
+            . "&token_auth=" . $token_auth
+            . "&segment=" . Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', ''))
+            . "&enable_filter_excludelowpop=1"
+            . "&filter_limit=-1"
+            . "&filter_column=country"
+            . "&filter_pattern=";
+
+        $view->cityDataUrl = "?module=API"
+            . "&method=API.getProcessedReport&format=JSON"
+            . "&apiModule=UserCountry&apiAction=getCity"
+            . "&idSite=" . $idSite
+            . "&period=" . $period
+            . "&date=" . $date
+            . "&token_auth=" . $token_auth
+            . "&segment=" . Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', ''))
+            . "&enable_filter_excludelowpop=1"
+            . "&filter_limit=-1"
+            . "&filter_column=country"
+            . "&filter_pattern=";
 
         $view->metrics = $this->getMetrics($idSite, $period, $date, $token_auth);
         $view->defaultMetric = 'nb_visits';
-
-
-        /*$request = new Piwik_API_Request(
-            'method=API.getMetadata&format=PHP'
-            . '&apiModule=UserCountry&apiAction=getCountry'
-            . '&idSite=' . $idSite
-            . '&period=' . $period
-            . '&date=' . $date
-            . '&token_auth=' . $token_auth
-            . '&filter_limit=-1'
-        );
-        $metaData = $request->process();
-*/
-        //$view->countries = 
 
         echo $view->render();
     }

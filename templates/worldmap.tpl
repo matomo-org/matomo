@@ -99,6 +99,8 @@
     config.mapCssPath = "{$piwikUrl}plugins/UserCountryMap/css/map.css";
     config.svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
     config.countryDataUrl = "{$countryDataUrl}";
+    config.regionDataUrl = "{$regionDataUrl}";
+    config.cityDataUrl = "{$cityDataUrl}";
     config.visitsSummary = JSON.parse('{$visitsSummary}');
     {foreach from=$metrics item=metric}
     config.metrics['{$metric[0]}'] = "{$metric[1]}";
