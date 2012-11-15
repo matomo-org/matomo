@@ -176,4 +176,26 @@
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
+	<row>
+		<label>United States</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>5</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<code>us</code>
+		<logo>plugins/UserCountry/flags/us.png</logo>
+		<logoWidth>16</logoWidth>
+		<logoHeight>11</logoHeight>
+	</row>
 </result>

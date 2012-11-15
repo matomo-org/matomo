@@ -251,6 +251,61 @@ class PiwikTracker
     	$this->userAgent = $userAgent;
     }
     
+    /**
+     * Sets the country of the visitor. If not used, Piwik will try to find the country
+     * using either the visitor's IP address or language.
+     * 
+     * @param string $country
+     */
+    public function setCountry($country)
+    {
+    	$this->country = $country;
+    }
+    
+    /**
+     * Sets the region of the visitor. If not used, Piwik may try to find the region
+     * using the visitor's IP address (if configured to do so).
+     * 
+     * @param string $region
+     */
+    public function setRegion($region)
+    {
+    	$this->region = $region;
+    }
+    
+    /**
+     * Sets the city of the visitor. If not used, Piwik may try to find the city
+     * using the visitor's IP address (if configured to do so).
+     * 
+     * @param string $city
+     */
+    public function setCity($city)
+    {
+    	$this->city = $city;
+    }
+    
+    /**
+     * Sets the latitude of the visitor. If not used, Piwik may try to find the visitor's
+     * latitude using the visitor's IP address (if configured to do so).
+     * 
+     * @param float $lat
+     */
+    public function setLatitude($lat)
+    {
+    	$this->lat = $lat;
+    }
+    
+    /**
+     * Sets the longitude of the visitor. If not used, Piwik may try to find the visitor's
+     * longitude using the visitor's IP address (if configured to do so).
+     * 
+     * @param float $long
+     */
+    public function setLongitude($long)
+    {
+    	$this->long = $long;
+    }
+    
 	/**
 	 * Enables the bulk request feature. When used, each tracking action is stored until the
 	 * doBulkTrack method is called. This method will send all tracking data at once.
@@ -993,6 +1048,13 @@ class PiwikTracker
     		(!empty($this->attributionInfo[2]) ? '&_refts=' . $this->attributionInfo[2] : '') .
     		// Referrer URL
     		(!empty($this->attributionInfo[3]) ? '&_ref=' . urlencode($this->attributionInfo[3]) : '') .
+    		
+    		// custom location info
+    		(!empty($this->country) ? '&country='.urlencode($this->country) : '') .
+    		(!empty($this->region) ? '&region='.urlencode($this->region) : '') .
+    		(!empty($this->city) ? '&city='.urlencode($this->city) : '') .
+    		(!empty($this->lat) ? '&lat='.urlencode($this->lat) : '') .
+    		(!empty($this->long) ? '&long='.urlencode($this->long) : '') .
 
     		// DEBUG 
 	        $this->DEBUG_APPEND_URL

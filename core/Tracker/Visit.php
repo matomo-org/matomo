@@ -608,6 +608,25 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$userInfo = array('lang' => $browserLang, 'ip' => Piwik_IP::N2P($this->getVisitorIp()));
 		Piwik_PostEvent('Tracker.getVisitorLocation', $location, $userInfo);
 		
+		// check for location override query parameters (ie, lat, long, country, region, city)
+		$locationOverrideParams = array(
+			'country' => array('string', Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY),
+			'region' => array('string', Piwik_UserCountry_LocationProvider::REGION_CODE_KEY),
+			'city' => array('string', Piwik_UserCountry_LocationProvider::CITY_NAME_KEY),
+			'lat' => array('float', Piwik_UserCountry_LocationProvider::LATITUDE_KEY),
+			'long' => array('float', Piwik_UserCountry_LocationProvider::LONGITUDE_KEY),
+		);
+		foreach ($locationOverrideParams as $queryParamName => $info)
+		{
+			list($type, $locationResultKey) = $info;
+			
+			$value = Piwik_Common::getRequestVar($queryParamName, false, $type, $this->request);
+			if (!empty($value))
+			{
+				$location[$locationResultKey] = $value;
+			}
+		}
+		
 		if (empty($location['country_code'])) // sanity check
 		{
 			$location['country_code'] = self::UNKNOWN_CODE;

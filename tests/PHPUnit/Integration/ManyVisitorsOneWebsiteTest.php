@@ -53,6 +53,8 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			
 			self::setLocationProvider('GeoIP.dat');
 			self::trackVisits(2, true);
+			
+			self::trackOtherVisits();
 		} catch(Exception $e) {
 			// Skip whole test suite if an error occurs while setup
 			throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
@@ -163,6 +165,23 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		{
 			self::checkResponse($t->doBulkTrack());
 		}
+	}
+	
+	protected static function trackOtherVisits()
+	{
+		$dateTime = self::$dateTime;
+		$idSite   = self::$idSite;
+		
+		$t = self::getTracker($idSite, $dateTime, $defaultInit = true);
+		$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addDay(20)->getDatetime());
+		$t->setIp('194.57.91.215');
+		$t->setCountry('us');
+		$t->setRegion('CA');
+		$t->setCity('not a city');
+		$t->setLatitude(1);
+		$t->setLongitude(2);
+		$t->setUrl("http://piwik.net/grue/lair");
+		self::checkResponse($t->doTrackPageView('It\'s pitch black...'));
 	}
 	
 	public static function setLocationProvider( $file )

@@ -246,4 +246,30 @@
 		<region_name>Kent</region_name>
 		<logo>plugins/UserCountry/flags/gb.png</logo>
 	</row>
+	<row>
+		<label>not a city, California, United States</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>1</nb_conversions>
+				<nb_visits_converted>1</nb_visits_converted>
+				<revenue>5</revenue>
+			</row>
+		</goals>
+		<nb_conversions>1</nb_conversions>
+		<revenue>5</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<lat>1</lat>
+		<long>2</long>
+		<city_name>not a city</city_name>
+		<region>CA</region>
+		<country>us</country>
+		<country_name>United States</country_name>
+		<region_name>California</region_name>
+		<logo>plugins/UserCountry/flags/us.png</logo>
+	</row>
 </result>
