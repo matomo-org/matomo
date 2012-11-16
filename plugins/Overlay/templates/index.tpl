@@ -23,7 +23,9 @@
 		{/if}
 	</p>
 	<p>
-		<a href="#">{'Overlay_ErrorNotLoadingLink'|translate|escape:'html'}</a>
+		<a href="http://piwik.org/docs/page-overlay/#toc-page-overlay-troubleshooting" target="_blank">
+			{'Overlay_ErrorNotLoadingLink'|translate|escape:'html'}
+		</a>
 	</p>
 </div>
 
