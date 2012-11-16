@@ -51,6 +51,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/jquery.qtip.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/kartograph.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/chroma.min.js";
+        $jsFiles[] = "plugins/UserCountryMap/js/vendor/kmeans.js";
         $jsFiles[] = "plugins/UserCountryMap/js/piwik-map.js";
     }
 

@@ -441,35 +441,61 @@ UserCountryMap.run = function(config) {
 
                     var metric = $('#userCountryMapSelectMetrics').val();
 
-                    var cities = [];
+                    var cities = [],
+                        unknown = 0,
+                        cluster = kmeans().iterations(16).size(100);
 
                     $.each(data.reportData, function(i, row) {
                         parseMetrics(row);
+                        if (data.reportMetadata[i].city_name == 'Unknown') {
+                            // not safe to sum at this point (e.g. avg time on page)
+                            unknown += row[metric+'_raw'];
+                            return;
+                        }
                         cities.push($.extend(row, data.reportMetadata[i]));
                     });
 
-                    var scale = $K.scale.linear(cities, metric, function(r) {
-                        return r.city != 'Unknown';
+                    // construct scale
+                    var scale = $K.scale.linear(cities, metric+'_raw');
+
+                    $.each(cities, function(i, city) {
+                        city.x = Number(city.long);
+                        city.y = Number(city.lat);
+                        city.size = scale(city[metric+'_raw']) * 100;
+                        cluster.add(city);
                     });
+
+                    var means = cluster.means();
+                    // sort by size
+                    means.sort(function(a, b) { return b[metric] - a[metric]; });
+
+                    $.each(means, function(i, city) {
+                        city.points.sort(function(a, b) { return b.size - a.size; });
+                    });
+
+                    console.log(means);
+
+                    cities = means;
+
                     cities.sort(function(a, b) { return b[metric] - a[metric]; });
 
                     var s = 0;
                     $.each(cities, function(i, city) {
-                        s += scale(city[metric]);
+                        s += city.size;
                     });
                     s /= cities.length;
-                    var maxRad = 20;
+                    var maxRad = 1;
 
                     map.addSymbols({
                         type: $K.Bubble,
                         data: cities,
-                        filter: function(r) {
-                            return r.city != 'Unknown';
-                        },
-                        location: function(city) { return [city.long, city.lat]; },
-                        radius: function(city) { return scale(city[metric]) * maxRad + 3; },
+                        location: function(city) { return [city.x, city.y]; },
+                        radius: function(city) { return city.size / s * maxRad + 3; },
                         tooltip: function(city) {
-                            return '<h3>'+city.city_name+'</h3>'+UserCountryMap.config.metrics[metric]+': '+city[metric];
+                            if (city.points.length === 0) return '<h3>???</h3>';
+                            return '<h3>'+city.points[0].city_name+'</h3>'+
+                                (city.points.length > 1 ? '<br/>() and ' + (city.points.length-1)+ ' other cities)': '')+
+                                UserCountryMap.config.metrics[metric]+': '+city.points[0][metric+'_raw'];
                         }
                     });
                 }
