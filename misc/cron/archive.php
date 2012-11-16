@@ -227,7 +227,8 @@ class Archiving
 
 		    // (*) If the website is archived because it is a new day in its timezone
 		    // We make sure all periods are archived, even if there is 0 visit today
-		    if(in_array($idsite, $this->websiteDayHasFinishedSinceLastRun))
+			$dayHasEndedMustReprocess = in_array($idsite, $this->websiteDayHasFinishedSinceLastRun);
+		    if($dayHasEndedMustReprocess)
 		    {
 		    	$shouldArchivePeriods = true;
 		    }
@@ -242,8 +243,9 @@ class Archiving
 
 		    // Test if we should process this website at all
 		    $elapsedSinceLastArchiving = time() - $lastTimestampWebsiteProcessedDay;
-		    if( !$websiteIsOldDataInvalidate // Invalidate old website forces the archiving for this site
-			        && $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive)
+		    if(    !$websiteIsOldDataInvalidate // Invalidate old website forces the archiving for this site
+			    && !$dayHasEndedMustReprocess   // Also reprocess when day has ended since last run
+			    && $elapsedSinceLastArchiving < $this->todayArchiveTimeToLive)
 		    {
 		    	$this->log("Skipped website id $idsite, already processed today's report in recent run, "
 					.Piwik::getPrettyTimeFromSeconds($elapsedSinceLastArchiving, true, $isHtml = false)
@@ -337,21 +339,18 @@ class Archiving
 						}
 					}
 				}
-				$archivedPeriodsArchivesWebsite++;
 			}
-			else
-			{
-				$skippedPeriodsArchivesWebsite++;
-			}
+			$archivedPeriodsArchivesWebsite++;
+
 			$requestsWebsite = $this->requests - $requestsBefore;
-			
 			$debug = $this->shouldArchiveAllWebsites ? ", last days = $visitsAllDays visits" : "";
 			Piwik::log("Archived website id = $idsite, today = $visitsToday visits"
-							.$debug.", $requestsWebsite API requests, "
-							. $timerWebsite->__toString() 
-							." [" . ($websitesWithVisitsSinceLastRun+$skipped) . "/" 
-							. count($this->websites) 
-							. " done]" );
+				.$debug.", $requestsWebsite API requests, "
+				. $timerWebsite->__toString()
+				." [" . ($websitesWithVisitsSinceLastRun+$skipped) . "/"
+				. count($this->websites)
+				. " done]" );
+
 		}
 		
 		$this->log("Done archiving!");
