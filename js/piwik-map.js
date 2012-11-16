@@ -432,10 +432,7 @@ UserCountryMap.run = function(config) {
             // load some fake data with real cities ids from GeoIP
 
             // color regions in light blue
-            map.choropleth({
-                layer: 'regions',
-                colors: function() { return '#fff'; }
-            });
+            if (map.getLayer('regions')) map.getLayer('regions').style('fill', '#fff');
 
             $.ajax({
                 url: config.cityDataUrl + UserCountryMap.countriesByIso[iso].iso2,
