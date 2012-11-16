@@ -456,7 +456,7 @@ UserCountryMap.run = function(config) {
                     });
 
                     cities.sort(function(a, b) { return b[metric+'_raw'] - a[metric+'_raw']; });
-                    cities = cities.slice(0, 100);
+                    cities = cities.slice(0, 200);
 
                     // construct scale
                     var scale = $K.scale.linear(cities, metric+'_raw');
