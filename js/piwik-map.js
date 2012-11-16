@@ -455,9 +455,13 @@ UserCountryMap.run = function(config) {
                         cities.push($.extend(row, data.reportMetadata[i]));
                     });
 
+                    cities.sort(function(a, b) { return b[metric+'_raw'] - a[metric+'_raw']; });
+                    cities = cities.slice(0, 100);
+
                     // construct scale
                     var scale = $K.scale.linear(cities, metric+'_raw');
 
+                    /*
                     $.each(cities, function(i, city) {
                         city.x = Number(city.long);
                         city.y = Number(city.lat);
@@ -478,24 +482,23 @@ UserCountryMap.run = function(config) {
                     cities = means;
 
                     cities.sort(function(a, b) { return b[metric] - a[metric]; });
+                    */
 
                     var s = 0;
                     $.each(cities, function(i, city) {
                         s += city.size;
                     });
                     s /= cities.length;
-                    var maxRad = 1;
+                    var maxRad = 20;
 
                     map.addSymbols({
                         type: $K.Bubble,
                         data: cities,
-                        location: function(city) { return [city.x, city.y]; },
-                        radius: function(city) { return city.size / s * maxRad + 3; },
+                        location: function(city) { return [city.long, city.lat]; },
+                        radius: function(city) { return scale(city[metric+'_raw']) * maxRad + 3; },
                         tooltip: function(city) {
-                            if (city.points.length === 0) return '<h3>???</h3>';
-                            return '<h3>'+city.points[0].city_name+'</h3>'+
-                                (city.points.length > 1 ? '<br/>() and ' + (city.points.length-1)+ ' other cities)': '')+
-                                UserCountryMap.config.metrics[metric]+': '+city.points[0][metric+'_raw'];
+                            return '<h3>'+city.city_name+'</h3>'+
+                                UserCountryMap.config.metrics[metric]+': '+city[metric+'_raw'];
                         }
                     });
                 }
