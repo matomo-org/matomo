@@ -143,15 +143,18 @@ UserCountryMap.run = function(config) {
             updateState($('#userCountryMapSelectCountry').val());
         });
 
-        // enable zoom-out
-        $('#UserCountryMap-btn-zoom').click(function() {
+        function zoomOut() {
             var t = UserCountryMap.lastSelected,
                 tgt = 'world';  // zoom out to world per default..
             if (t.length == 3 && UserCountryMap.ISO3toCONT[t] !== undefined) {
                 tgt = UserCountryMap.ISO3toCONT[t];  // ..but zoom to continent if we know it
             }
             updateState(tgt);
-        });
+        }
+
+        // enable zoom-out
+        $('#UserCountryMap-btn-zoom').click(zoomOut);
+        $('#UserCountryMap_map').click(zoomOut);
 
         // handle window resizes
         $(window).resize(onResizeLazy);
@@ -332,12 +335,13 @@ UserCountryMap.run = function(config) {
                 filter: function(pd) {
                     return UserCountryMap.countriesByIso[pd.iso] !== undefined;
                 },
-                click: function(path) {
+                click: function(data, path, evt) {
+                    evt.stopPropagation();
                     var tgt;
-                    if (UserCountryMap.lastSelected != 'world' || UserCountryMap.countriesByIso[path.iso] === undefined) {
-                        tgt = path.iso;
+                    if (UserCountryMap.lastSelected != 'world' || UserCountryMap.countriesByIso[data.iso] === undefined) {
+                        tgt = data.iso;
                     } else {
-                        tgt = UserCountryMap.ISO3toCONT[path.iso];
+                        tgt = UserCountryMap.ISO3toCONT[data.iso];
                     }
                     updateState(tgt);
                 }
@@ -375,8 +379,6 @@ UserCountryMap.run = function(config) {
                 url: config.regionDataUrl + UserCountryMap.countriesByIso[iso].iso2,
                 dataType: 'json',
                 success : function(data) {
-
-                    console.log(data);
 
                     var regionDict = {};
                     // UserCountryMap.lastReportMetricStats = {};
@@ -461,29 +463,6 @@ UserCountryMap.run = function(config) {
                     // construct scale
                     var scale = $K.scale.linear(cities, metric+'_raw');
 
-                    /*
-                    $.each(cities, function(i, city) {
-                        city.x = Number(city.long);
-                        city.y = Number(city.lat);
-                        city.size = scale(city[metric+'_raw']) * 100;
-                        cluster.add(city);
-                    });
-
-                    var means = cluster.means();
-                    // sort by size
-                    means.sort(function(a, b) { return b[metric] - a[metric]; });
-
-                    $.each(means, function(i, city) {
-                        city.points.sort(function(a, b) { return b.size - a.size; });
-                    });
-
-                    console.log(means);
-
-                    cities = means;
-
-                    cities.sort(function(a, b) { return b[metric] - a[metric]; });
-                    */
-
                     var s = 0;
                     $.each(cities, function(i, city) {
                         s += city.size;
@@ -519,7 +498,8 @@ UserCountryMap.run = function(config) {
                 filter: function(pd) {
                     return UserCountryMap.countriesByIso[pd.iso] !== undefined;
                 },
-                click: function(path) {   // add click events for surrounding countries
+                click: function(path, p, evt) {   // add click events for surrounding countries
+                    evt.stopPropagation();
                     updateState(path.iso);
                 },
                 tooltips: function(data) {
