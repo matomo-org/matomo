@@ -266,7 +266,7 @@ UserCountryMap.run = function(config) {
         } else {
             totalVisits = UserCountryMap.config.visitsSummary['nb_visits'];
         }
-        $('.map-stats').html('<b>'+formatNumber(totalVisits) + '</b> total visits.');
+        $('.map-stats').html('<b>'+formatNumber(totalVisits) + '</b> '+UserCountryMap.config.metrics['nb_visits']);
 
     }
 
@@ -452,7 +452,8 @@ UserCountryMap.run = function(config) {
                         if (data.reportMetadata[i].city_name == 'Unknown') {
                             // not safe to sum at this point (e.g. avg time on page)
                             unknown += row[metric+'_raw'];
-                            return;
+                            console.info('unknown city', metric, row[metric+'_raw']);
+                            //return;
                         }
                         cities.push($.extend(row, data.reportMetadata[i]));
                     });
