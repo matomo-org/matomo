@@ -539,7 +539,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa Sırası',
 	'SEO_DomainAge' => 'Alan Ad Yaşı',
 	'SEO_Rank' => 'Sıralama',
-	'SEO_Backlinks' => 'Dönünen Linkler',
 	'SEO_Pages' => 'Sayfalar',
 	'SEO_SEORankingsFor' => '\'%s\'için SEO Sıralama',
 	'SitesManager_Sites' => 'Websiteler',

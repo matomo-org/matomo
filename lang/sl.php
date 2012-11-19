@@ -696,7 +696,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa položaj',
 	'SEO_DomainAge' => 'Starost domene',
 	'SEO_Rank' => 'Položaj',
-	'SEO_Backlinks' => 'Povratne povezave',
 	'SEO_Pages' => 'Strani',
 	'SitesManager_Sites' => 'Spletne strani',
 	'SitesManager_TrackingTags' => 'Sledilna koda za %s',

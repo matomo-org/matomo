@@ -806,7 +806,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa Ranking',
 	'SEO_DomainAge' => 'Wiek domeny',
 	'SEO_Rank' => 'Pozycja',
-	'SEO_Backlinks' => 'Zwrotne linki',
 	'SEO_Pages' => 'Strony',
 	'SEO_SEORankingsFor' => 'SEO pozycje dla %s',
 	'SitesManager_PluginDescription' => 'Zarządzanie stronami w Piwik: dodanie nowej strony, edycja istniejącej, wyświetlanie kodu JavaScript który należy dodać do stron. Wszystkie te działania są dostępne przez interfejs API.',

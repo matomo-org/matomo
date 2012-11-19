@@ -550,7 +550,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Poziţie în Alexa',
 	'SEO_DomainAge' => 'Vechime domeniu',
 	'SEO_Rank' => 'Poziţie',
-	'SEO_Backlinks' => 'Backlink-uri',
 	'SEO_Pages' => 'Pagini',
 	'SEO_SEORankingsFor' => 'Poziţionări SEO pentru %s',
 	'SitesManager_Sites' => 'Situri',

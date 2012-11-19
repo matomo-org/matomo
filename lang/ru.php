@@ -1106,7 +1106,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Рейтинг Alexa',
 	'SEO_DomainAge' => 'Возраст домена',
 	'SEO_Rank' => 'Рейтинг',
-	'SEO_Backlinks' => 'Ссылающиеся ссылки',
 	'SEO_Pages' => 'Страницы',
 	'SEO_SEORankingsFor' => 'SEO Рейтинги для %s',
 	'SitesManager_PluginDescription' => 'Управление сайтами в Веб-аналитике: Добавьте новый сайт, редактируйте уже существующий, просмотрите Javascript код, который необходимо вставить для индексации страниц. Конечно, все это доступно и через API.',

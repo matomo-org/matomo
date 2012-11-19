@@ -1055,7 +1055,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Βαθμολόγηση Alexa',
 	'SEO_DomainAge' => 'Ηλικία Domain',
 	'SEO_Rank' => 'Βαθμολόγηση',
-	'SEO_Backlinks' => 'Επιστρεφόμενοι Σύνδεσμοι',
 	'SEO_Pages' => 'Σελίδες',
 	'SEO_SEORankingsFor' => 'Βαθμολόγηση BMA για %s',
 	'SitesManager_PluginDescription' => 'Διαχείριση Ιστοσελίδων στο Piwik: Προσθήκη μιας νέας ιστοσελίδας, Επεξεργαστείτε μια υπάρχουσα, Προβάλετε τον κώδικα Javascript που πρέπει να περιληφθεί στις σελίδες σας. Όλες οι δραστηριότητες είναι επίσης διαθέσιμες μέσω του API.',

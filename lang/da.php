@@ -959,7 +959,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa rang',
 	'SEO_DomainAge' => 'Domæne alder',
 	'SEO_Rank' => 'Rang',
-	'SEO_Backlinks' => 'Indgående links',
 	'SEO_Pages' => 'Sider',
 	'SEO_SEORankingsFor' => 'SEO for %s',
 	'SitesManager_PluginDescription' => 'Hjemmeside styring i Piwik: Tilføj en ny hjemmeside, rediger en eksisterende, vis JavaScript-koden til at inkludere på siderne. Alle handlinger er også tilgængelige via API.',

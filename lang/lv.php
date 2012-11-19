@@ -703,7 +703,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa ranks',
 	'SEO_DomainAge' => 'Domēna vecums',
 	'SEO_Rank' => 'ranks',
-	'SEO_Backlinks' => 'atpakaļsaites',
 	'SEO_Pages' => 'lapas',
 	'SEO_SEORankingsFor' => '%s SEO ranks',
 	'SitesManager_PluginDescription' => 'Piwik vietņu pārvaldība: pievienojiet jaunu vietni, labojiet esošās, apskatiet ievietošanai lapās paredzēto kodu. Visas darbības ir pieejamas arī izmantojot API.',

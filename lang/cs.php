@@ -796,7 +796,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Hodnocení Alexa',
 	'SEO_DomainAge' => 'Staří domény',
 	'SEO_Rank' => 'Hodnocení',
-	'SEO_Backlinks' => 'Zpětné odkazy',
 	'SEO_Pages' => 'Stránky',
 	'SEO_SEORankingsFor' => 'SEO hodnocení pro %s',
 	'SitesManager_PluginDescription' => 'Správa sídel v Piwiku: Přidat nové sídlo, Upravit existující, Zobrazit JavaScriptový kód při umístění na stránky. Všechny akce jsou k dispozici také přes API.',

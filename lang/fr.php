@@ -1005,7 +1005,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Notation Alexa',
 	'SEO_DomainAge' => 'Âge du domaine',
 	'SEO_Rank' => 'Notation',
-	'SEO_Backlinks' => 'Liens de retour',
 	'SEO_SEORankingsFor' => 'Notations SEO pour %s',
 	'SitesManager_PluginDescription' => 'Gestion des sites web dans Piwik: Ajoute un nouveau site web, modifie un existant, affiche le code JavaScript à inclure dans vos pages. Toutes les actions sont disponibles au travers de l\'API.',
 	'SitesManager_Sites' => 'Sites',

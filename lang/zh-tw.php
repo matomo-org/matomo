@@ -623,7 +623,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa 排名',
 	'SEO_DomainAge' => '網域名稱年齡',
 	'SEO_Rank' => '評比',
-	'SEO_Backlinks' => '反向連結',
 	'SEO_Pages' => '頁面',
 	'SEO_SEORankingsFor' => '%s 的 SEO 評比',
 	'SitesManager_PluginDescription' => 'Piwik 網站管理：新增一個新網站、編輯一個已存在的網站、顯示插入你網頁的 JavaScript 原始碼。所有動作都可以透過 API 使用。',

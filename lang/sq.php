@@ -876,7 +876,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Renditje Alexa',
 	'SEO_DomainAge' => 'Moshë Përkatësie',
 	'SEO_Rank' => 'Renditje',
-	'SEO_Backlinks' => 'Lidhje',
 	'SEO_Pages' => 'Faqe',
 	'SEO_SEORankingsFor' => 'Renditje SEO për %s',
 	'SitesManager_PluginDescription' => 'Administrim site-esh web në Piwik: Shtoni një site web të ri, Përpunoni një ekzistues, Shfaqni kod JavaScript për t\'u përfshirë te faqet tuaja. Krejt veprimet mund të kryhen edhe përmes API-t.',

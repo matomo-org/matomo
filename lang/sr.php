@@ -1000,7 +1000,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa rangiranje',
 	'SEO_DomainAge' => 'Starost domena',
 	'SEO_Rank' => 'Rang',
-	'SEO_Backlinks' => 'Povratni linkovi',
 	'SEO_Pages' => 'Stranice',
 	'SEO_SEORankingsFor' => 'SEO rangiranje za %s',
 	'SitesManager_PluginDescription' => 'Upravljanje sajtovima: dodajte novi sajt, izmenite postojeći, pogledajte JavaScript kod koji treba ubaciti na stranice sajta. Sve akcije su dostupne i preko API-ja.',

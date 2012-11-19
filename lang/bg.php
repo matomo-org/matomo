@@ -973,7 +973,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa ранг',
 	'SEO_DomainAge' => 'Възраст на домейна',
 	'SEO_Rank' => 'Провери',
-	'SEO_Backlinks' => 'Препратки',
 	'SEO_Pages' => 'Страници',
 	'SEO_SEORankingsFor' => 'SEO ранг за %s',
 	'SitesManager_PluginDescription' => 'Уеб сайтове за управление в Piwik: Добавяне на нов сайт, редактиране на вече съществуващ такъв, показване на JavaScript код за добавяне на страниците си. Всички действия са достъпни чрез API.',

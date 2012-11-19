@@ -833,7 +833,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'رتبه الکسا',
 	'SEO_DomainAge' => 'سن دامنه',
 	'SEO_Rank' => 'رنک',
-	'SEO_Backlinks' => 'بک لینک',
 	'SEO_Pages' => 'صفحات',
 	'SEO_SEORankingsFor' => 'رتبه سئو برای %s',
 	'SitesManager_PluginDescription' => 'مدیریت سایت در Piwik: اضافه کردن یک وب سایت جدید، یک موجود را ویرایش، نمایش کد های جاوا اسکریپت در صفحات خود شامل. همه اقدامات نیز در دسترس هستند از طریق API.',

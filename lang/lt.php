@@ -684,7 +684,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa reitingas',
 	'SEO_DomainAge' => 'Adresų srities amžius',
 	'SEO_Rank' => 'Reitingas',
-	'SEO_Backlinks' => 'Nuorodos į svetainę',
 	'SEO_Pages' => 'Puslapiai',
 	'SEO_SEORankingsFor' => 'SEO reitingai skirti %s',
 	'SitesManager_PluginDescription' => 'Svetainių administravimas: Pridėkite naujas svetaines, redaguokite esamas, gaukite Javascript kodą įkėlimui į savo svetainę. Visi šie veiksmai taip pat pasiekiami per API sąsają.',

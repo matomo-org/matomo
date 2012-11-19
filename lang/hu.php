@@ -730,7 +730,6 @@ $translations = array(
 	'SEO_SeoRankings' => 'Keresőoptimalizálási adatok',
 	'SEO_DomainAge' => 'Domain életkora',
 	'SEO_Rank' => 'Lekérdezés',
-	'SEO_Backlinks' => 'külső link',
 	'SEO_Pages' => 'weblap',
 	'SEO_SEORankingsFor' => 'Keresőoptimalizálási adatok a %s oldalhoz',
 	'SitesManager_PluginDescription' => 'Weboldalak kezelése a Piwik rendszerében: Új weboldal hozzáadása, meglévő weboldal szerkesztése, a weblapokba beillesztendő JavaScript követőkódok megjelenítése. Az összes funkció elérhető az API-n keresztül is.',

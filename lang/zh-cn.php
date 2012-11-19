@@ -622,7 +622,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa 排名',
 	'SEO_DomainAge' => '网域名称年龄',
 	'SEO_Rank' => '评比',
-	'SEO_Backlinks' => '反向链接',
 	'SEO_Pages' => '页面',
 	'SEO_SEORankingsFor' => '%s 的 SEO 评比',
 	'SitesManager_PluginDescription' => 'Piwik 网站管理：新知一个新网站、编辑一个已存在的网站、显示插入您网页的 JavaScript 源代码。所有动作都可以通过 API 使用。',

@@ -971,7 +971,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Peringkat Alexa',
 	'SEO_DomainAge' => 'Umut Ranah',
 	'SEO_Rank' => 'Peringkat',
-	'SEO_Backlinks' => 'Tautan Balik',
 	'SEO_Pages' => 'Halaman',
 	'SEO_SEORankingsFor' => 'Peringkat SEO untuk %s',
 	'SitesManager_PluginDescription' => 'Pengatur Situs di Piwik: Menambah Situs baru, Menyunting yang telah ada, Menampilakn kodeJavaScript untuk dimasukkan ke halaman Anda. Seluruh tindakan tersebut juga tersedia melalui API.',

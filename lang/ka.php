@@ -651,7 +651,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa რანგი',
 	'SEO_DomainAge' => 'დომენის ასაკი',
 	'SEO_Rank' => 'რანგი',
-	'SEO_Backlinks' => 'უკუბმულები',
 	'SEO_Pages' => 'გვერდები',
 	'SEO_SEORankingsFor' => 'SEO რანგები %s–სთვის',
 	'SitesManager_PluginDescription' => 'ვებ საიტების მენეჯმენტი Piwik პროგრამაში: ახალი ვებ საიტის დამატება, არსებულის რედაქტირება, JavaScript კოდის ჩვენება, რომელიც უნდა ჩასვათ თქვენს გვერდებზე. ყველა ამ ქმედების განხორციელება ასევე შესაძლებელია API ფუნქციების გამოყენებით.',

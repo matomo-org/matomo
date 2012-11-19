@@ -807,7 +807,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'อันดับใน Alexa',
 	'SEO_DomainAge' => 'อายุโดเมน',
 	'SEO_Rank' => 'อันดับ',
-	'SEO_Backlinks' => 'แบคลิงค์',
 	'SEO_Pages' => 'หน้า',
 	'SEO_SEORankingsFor' => 'SEO จัดอันดับไว้ที่ %s',
 	'SitesManager_PluginDescription' => 'การจัดการเว็บไซต์ใน Piwik: เพิ่มเว็บไซต์ใหม่ แก้ไขแบบหนึ่งที่มีอยู่ แสดงโค๊ด JavaScript เพื่อรวมไว้บนหน้าเว็บของคุณ ยังสามารถใช้งานผ่าน API ดำเนินการทั้งหมดได้',

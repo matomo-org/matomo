@@ -852,7 +852,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa ранг',
 	'SEO_DomainAge' => 'Узрост дамена',
 	'SEO_Rank' => 'Ранг',
-	'SEO_Backlinks' => 'Зваротныя спасылкі',
 	'SEO_Pages' => 'Старонкі',
 	'SEO_SEORankingsFor' => 'SEO рэйтынгі для %s',
 	'SitesManager_PluginDescription' => 'Кіраванне Сайтамі ў Piwik: Дадаць новы сайт, Рэдагаваць існуючы, паказаць код JavaScript, каб дадаць яго на старонкі свайго сайта. Усе дзеянні, таксама даступныя праз API.',

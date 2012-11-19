@@ -607,7 +607,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa hodnotenie',
 	'SEO_DomainAge' => 'Vek domény',
 	'SEO_Rank' => 'Hodnotenie',
-	'SEO_Backlinks' => 'Spätné linky',
 	'SEO_Pages' => 'Stránky',
 	'SEO_SEORankingsFor' => 'SEO hodnotenie pre %s',
 	'SitesManager_Sites' => 'Stránky',

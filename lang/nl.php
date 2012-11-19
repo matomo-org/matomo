@@ -969,7 +969,6 @@ $translations = array(
 	'SEO_SeoRankings' => 'SEO rankings',
 	'SEO_DomainAge' => 'Domein leeftijd',
 	'SEO_Rank' => 'Ranking',
-	'SEO_Backlinks' => 'Links naar uw website',
 	'SEO_Pages' => 'Pagina\'s',
 	'SEO_SEORankingsFor' => 'SEO rankings voor %s',
 	'SitesManager_PluginDescription' => 'Websitebeheer in Piwik: Voeg een nieuwe website toe, pas een bestaande aan, toon de javascript code om te integreren in uw pagina\'s. Alle acties zijn ook beschikbaar via de API.',

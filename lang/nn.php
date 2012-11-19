@@ -787,7 +787,6 @@ $translations = array(
 	'Referers_WidgetOverview' => 'Oversikt',
 	'SecurityInfo_Security' => 'Tryggleik',
 	'SecurityInfo_Result' => 'Resultat',
-	'SEO_Backlinks' => 'Attendelenkjar',
 	'SEO_Pages' => 'Sider',
 	'SitesManager_Sites' => 'Nettstadar',
 	'SitesManager_WebsitesManagement' => 'Nettstadsbehandling',

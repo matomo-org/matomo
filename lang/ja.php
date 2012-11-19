@@ -974,7 +974,6 @@ $translations = array(
 	'SEO_AlexaRank' => 'Alexa ランク',
 	'SEO_DomainAge' => 'ドメインエイジ',
 	'SEO_Rank' => 'ランク',
-	'SEO_Backlinks' => 'バックリンク',
 	'SEO_Pages' => 'ページ',
 	'SEO_SEORankingsFor' => '%s の SEO ランキング',
 	'SitesManager_PluginDescription' => 'Piwik でのウェブサイト管理は、新規ウェブサイトの追加、既存ウェブサイトの編集、ページに挿入する JavaScript コードの表示を行うことができます。 また、すべての動作は API を通じて利用することができます。',
