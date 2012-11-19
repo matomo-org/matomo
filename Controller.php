@@ -26,8 +26,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         . "&date=" . $date
         . "&token_auth=" . $token_auth
         . "&segment=" . Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', ''))
-        . "&enable_filter_excludelowpop=1"
-        . "&filter_limit=-1";
+        . "&enable_filter_excludelowpop=1";
         // use direct API
         // $url = "?module=API"
         // . "&method=" . $module . "." . $action . "&format=JSON"
@@ -40,7 +39,11 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         // . "&filter_limit=-1";
         if ($filter_by_country) {
             $url .= "&filter_column=country"
+            . "&filter_sort_column=nb_visits"
+            . "&filter_limit=200"
             . "&filter_pattern=";
+        } else {
+            $url .= "&filter_limit=-1";
         }
         return $url;
     }
