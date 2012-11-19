@@ -137,7 +137,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 			<html><head><title></title></head><body>
 			<script type="text/javascript">
 				function handleProtocol(url) {
-					if (' . ($this->usingSsl() ? 'true' : 'false') . ') {
+					if (' . (Piwik::isHttps() ? 'true' : 'false') . ') {
 						return url.replace(/http:\/\//i, "https://");
 					} else {
 						return url.replace(/https:\/\//i, "http://");
@@ -231,14 +231,6 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 	{
 		$view = Piwik_View::factory('notify_parent_iframe');
 		echo $view->render();
-	}
-	
-	/**
-	 * Detect whether Piwik is used over SSL
-	 */
-	private function usingSsl()
-	{
-		return isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && $_SERVER['HTTPS'] !== 'off';
 	}
 	
 }
