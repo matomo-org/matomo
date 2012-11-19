@@ -13,14 +13,16 @@ $(document).ready(function() {
 		var parent = $(this).parent(),
 			loading = $('.loadingPiwik', parent),
 			ajaxSuccess = $('.ajaxSuccess', parent);
-		loading.show();
 
-        piwikHelper.ajaxCall(
-            'UserCountry',
-            'setCurrentLocationProvider',
-            {id: $(this).val()},
-            function() {
-                loading.hide();
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.setLoadingElement(loading);
+        ajaxRequest.addParams({
+            module: 'UserCountry',
+            action: 'setCurrentLocationProvider',
+            id:     $(this).val()
+        }, 'get');
+        ajaxRequest.setCallback(
+            function () {
                 ajaxSuccess.fadeIn(1000, function() {
                     setTimeout(function() {
                         ajaxSuccess.fadeOut(1000);
@@ -28,6 +30,7 @@ $(document).ready(function() {
                 });
             }
         );
+        ajaxRequest.send(false);
 	});
 	
 	// handle 'refresh location' link click
@@ -39,18 +42,21 @@ $(document).ready(function() {
 			location = $('.location', cell);
 		
 		location.css('visibility', 'hidden');
-		loading.show();
 
-        piwikHelper.ajaxCall(
-            'UserCountry',
-            'getLocationUsingProvider',
-            {id: $(this).attr('data-impl-id')},
-            function(response) {
-                loading.hide();
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.setLoadingElement(loading);
+        ajaxRequest.addParams({
+            module: 'UserCountry',
+            action: 'getLocationUsingProvider',
+            id:     $(this).attr('data-impl-id')
+        }, 'get');
+        ajaxRequest.setCallback(
+            function (response) {
                 location.html('<strong><em>' + response + '</em></strong>').css('visibility', 'visible');
-            },
-            'html'
+            }
         );
+        ajaxRequest.setFormat('html');
+        ajaxRequest.send(false);
 
 		return false;
 	});

@@ -103,27 +103,27 @@ function bindGoalForm()
 function ajaxDeleteGoal(idGoal)
 {
     piwikHelper.lazyScrollTo(".entityContainer", 400);
-    piwikHelper.showAjaxLoading('goalAjaxLoading');
 
     var parameters = {};
     parameters.format = 'json';
     parameters.idGoal = idGoal;
+    parameters.module = 'API';
+    parameters.method = 'Goals.deleteGoal';
 
-    piwikHelper.ajaxCallApi(
-        'Goals.deleteGoal',
-        parameters,
+    var ajaxRequest = new ajaxHelper();
+    ajaxRequest.addParams(parameters, 'get');
+    ajaxRequest.setLoadingElement('#goalAjaxLoading');
+    ajaxRequest.setCallback(
         function (response) {
             piwikHelper.ajaxHandleResponse(response, 'goalAjaxLoading', parameters);
-        },
-        'json',
-        false
+        }
     );
+    ajaxRequest.send(true);
 }
 
 function ajaxAddGoal()
 {
     piwikHelper.lazyScrollTo(".entityContainer", 400);
-    piwikHelper.showAjaxLoading('goalAjaxLoading');
 
     var parameters = {};
     parameters.name = encodeURIComponent( $('#goal_name').val() );
@@ -144,16 +144,18 @@ function ajaxAddGoal()
 
     parameters.idGoal =  $('input[name=goalIdUpdate]').val();
     parameters.format = 'json';
+    parameters.module = 'API';
+    parameters.method = $('input[name=methodGoalAPI]').val();
 
-    piwikHelper.ajaxCallApi(
-        $('input[name=methodGoalAPI]').val(),
-        parameters,
+    var ajaxRequest = new ajaxHelper();
+    ajaxRequest.addParams(parameters, 'get');
+    ajaxRequest.setLoadingElement('#goalAjaxLoading');
+    ajaxRequest.setCallback(
         function (response) {
             piwikHelper.ajaxHandleResponse(response, 'goalAjaxLoading', parameters);
-        },
-        'json',
-        false
+        }
     );
+    ajaxRequest.send(true);
 }
 
 function bindListGoalEdit()

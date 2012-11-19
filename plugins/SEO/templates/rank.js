@@ -5,27 +5,27 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-$(document).ready(function() {
-	function getRank()
-	{
-		piwikHelper.showAjaxLoading('ajaxLoadingSEO');
-        piwikHelper.ajaxCall(
-            'SEO',
-            'getRank',
-            {url:encodeURIComponent($('#seoUrl').val())},
+$(document).ready(function () {
+    function getRank() {
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.setLoadingElement('#ajaxLoadingSEO');
+        ajaxRequest.addParams({
+            module: 'SEO',
+            action: 'getRank',
+            url:    encodeURIComponent($('#seoUrl').val())
+        }, 'get');
+        ajaxRequest.setCallback(
             function (response) {
-                piwikHelper.hideAjaxLoading('ajaxLoadingSEO');
                 $('#SeoRanks').html(response);
-            },
-            'html',
-            true
+            }
         );
-	}  
-	
-	// click on Rank button
-	$('#rankbutton').on('click', function() {
-		getRank();
-		return false ;
-	});
+        ajaxRequest.setFormat('html');
+        ajaxRequest.send(false);
+    }
 
+    // click on Rank button
+    $('#rankbutton').on('click', function () {
+        getRank();
+        return false;
+    });
 });

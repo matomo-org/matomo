@@ -36,7 +36,7 @@ var Piwik_Popover = (function() {
 				container.find('div.jqplot-target').trigger('piwikDestroyPlot');
 				container[0].innerHTML = ''; // IE8 fix
 				container.dialog('destroy').remove();
-				piwikHelper.abortQueueAjax();
+				globalAjaxQueue.abort();
 				$('.ui-widget-overlay').off('click.popover');
 				isOpen = false;
 				broadcast.propagateNewPopoverParameter(false);

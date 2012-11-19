@@ -17,16 +17,17 @@ function widgetsHelper()
 widgetsHelper.getAvailableWidgets = function ()
 {
     if(!widgetsHelper.availableWidgets) {
-        piwikHelper.ajaxCall(
-            'Dashboard',
-            'getAvailableWidgets',
-            {},
-            function(data) {
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams({
+            module: 'Dashboard',
+            action: 'getAvailableWidgets'
+        }, 'get');
+        ajaxRequest.setCallback(
+            function (data) {
                 widgetsHelper.availableWidgets = data;
-            },
-            'json',
-            false
+            }
         );
+        ajaxRequest.send(true);
     }
     
     return widgetsHelper.availableWidgets;
@@ -74,10 +75,10 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId)
  * @param {object} widgetParameters           parameters to be used for loading the widget
  * @param {function} onWidgetLoadedCallback   callback to be executed after widget is loaded
  * @return {object}
+ * @deprecated  since 1.9.3 - will be removed in next major release. use widgetsHelper.loadWidgetAjax
  */
 widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback)
 {
-
     var token_auth = broadcast.getValueFromUrl('token_auth');
     if(token_auth.length && token_auth != 'anonymous')
     {
@@ -99,6 +100,38 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
 		success: onWidgetLoadedCallback,
 		data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&widget=1&idSite="+piwik.idSite+"&period="+piwik.period+"&date="+broadcast.getValueFromUrl('date') + "&token_auth=" + piwik.token_auth
 	};
+};
+
+/**
+ * Sends and ajax request to query for the widgets html
+ *
+ * @param {string} widgetUniqueId             unique id of the widget
+ * @param {object} widgetParameters           parameters to be used for loading the widget
+ * @param {function} onWidgetLoadedCallback   callback to be executed after widget is loaded
+ * @return {object}
+ */
+widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback)
+{
+
+    var token_auth = broadcast.getValueFromUrl('token_auth');
+    if(token_auth.length && token_auth != 'anonymous')
+    {
+    	widgetParameters['token_auth'] = token_auth;
+    }
+    var disableLink = broadcast.getValueFromUrl('disableLink');
+    if(disableLink.length)
+    {
+    	widgetParameters['disableLink'] = disableLink;
+    }
+
+    widgetParameters['widget'] = 1;
+
+    var ajaxRequest = new ajaxHelper();
+    ajaxRequest.addParams(widgetParameters, 'get');
+    ajaxRequest.setCallback(onWidgetLoadedCallback);
+    ajaxRequest.setFormat('html');
+    ajaxRequest.send(false);
+    return ajaxRequest;
 };
 
 /**
@@ -338,8 +371,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                     widgetAjaxRequest.abort();
                 }
                 
-                var ajaxRequest = widgetsHelper.getLoadWidgetAjaxRequest(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
-                widgetAjaxRequest = $.ajax(ajaxRequest);
+                widgetAjaxRequest = widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
             };
             
             /**

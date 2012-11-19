@@ -163,7 +163,7 @@ var broadcast = {
         broadcast.init();
 
         // abort all existing ajax requests
-        piwikHelper.abortQueueAjax();
+        globalAjaxQueue.abort();
 
         // available in global scope
         var currentHashStr = broadcast.getHash();
@@ -230,7 +230,7 @@ var broadcast = {
     propagateNewPage: function (str, showAjaxLoading)
     {
         // abort all existing ajax requests
-        piwikHelper.abortQueueAjax();
+        globalAjaxQueue.abort();
 		
 		if (typeof showAjaxLoading === 'undefined' || showAjaxLoading)
 		{
@@ -391,7 +391,7 @@ var broadcast = {
             success: sectionLoaded, // Callback when the request succeeds
             data: new Object
         };
-        piwikHelper.queueAjaxRequest( $.ajax(ajaxRequest) );
+        globalAjaxQueue.push( $.ajax(ajaxRequest) );
         return false;
     },
 

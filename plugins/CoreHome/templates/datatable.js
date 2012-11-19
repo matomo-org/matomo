@@ -158,18 +158,17 @@ dataTable.prototype =
                 params[key] = self.param[key];
         }
 
-        piwikHelper.ajaxCall(
-            self.param.module,
-            self.param.action,
-            params,
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams(params, 'get');
+        ajaxRequest.setCallback(
             function (response) {
                 container.trigger('piwikDestroyPlot');
                 container.off('piwikDestroyPlot');
                 callbackSuccess(response);
-            },
-            'html',
-            true
+            }
         );
+        ajaxRequest.setFormat('html');
+        ajaxRequest.send(false);
 	},
 
 	// Function called when the AJAX request is successful

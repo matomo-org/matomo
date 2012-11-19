@@ -39,8 +39,7 @@ $(document).ready(function() {
 		}
 		
 		$('#deleteDataEstimate').hide();
-		$('#deleteDataEstimateSect .loadingPiwik').show();
-		
+
 		var data = $('#formDeleteSettings').serializeArray();
         var formData = {};
         for(var i=0; i<data.length; i++) {
@@ -50,21 +49,24 @@ $(document).ready(function() {
             formData['forceEstimate'] = 1;
 		}
 
-        currentRequest = piwikHelper.ajaxCall(
-            'PrivacyManager',
-            'getDatabaseSize',
-            formData,
+        currentRequest = new ajaxHelper();
+        currentRequest.setLoadingElement('#deleteDataEstimateSect .loadingPiwik');
+        currentRequest.addParams({
+            module: 'PrivacyManager',
+            action: 'getDatabaseSize'
+        }, 'get');
+        currentRequest.addParams(formData, 'post');
+        currentRequest.setCallback(
             function (data) {
                 currentRequest = undefined;
-                $('#deleteDataEstimateSect .loadingPiwik').hide();
                 $('#deleteDataEstimate').html(data).show();
 
                 // lock size of db size estimate
                 $('#deleteDataEstimateSect').height($('#deleteDataEstimateSect').height());
-            },
-            'html',
-            true
+            }
         );
+        currentRequest.setFormat('html');
+        currentRequest.send(false);
 	}
 	
 	// make sure certain sections only display if their corresponding features are enabled
@@ -164,16 +166,16 @@ $(document).ready(function() {
 		piwikHelper.modalConfirm('#confirmPurgeNow', {
 			yes: function() {
 				$(link).hide();
-				$('#deleteSchedulingSettings .loadingPiwik').show();
-		
-				// execute a data purge
-                piwikHelper.ajaxCall(
-                    'PrivacyManager',
-                    'executeDataPurge',
-                    {},
-                    function () {
-                        $('#deleteSchedulingSettings .loadingPiwik').hide();
 
+				// execute a data purge
+                var ajaxRequest = new ajaxHelper();
+                ajaxRequest.setLoadingElement('#deleteSchedulingSettings .loadingPiwik');
+                ajaxRequest.addParams({
+                    module: 'PrivacyManager',
+                    action: 'executeDataPurge'
+                }, 'get');
+                ajaxRequest.setCallback(
+                    function () {
                         // force reload
                         $('#deleteDataEstimate').html('');
                         reloadDbStats();
@@ -186,10 +188,10 @@ $(document).ready(function() {
                                 $(link).show();
                             });
                         }, 2000);
-                    },
-                    'html',
-                    true
+                    }
                 );
+                ajaxRequest.setFormat('html');
+                ajaxRequest.send(false);
 			}
 		});
 	});

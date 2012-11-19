@@ -125,17 +125,20 @@
 			var action = $(this).attr('action');
 			
 			// build & execute AJAX request
-            piwikHelper.ajaxCall(
-                    'DBStats',
-                    action,
-                    {viewDataTable: 'table'},
-                    function(data) {
-                        $('.loadingPiwik', self).remove();
-                        $(self).html(data);
-                    },
-                    'html',
-                    true
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.addParams({
+                module: 'DBStats',
+                action: action,
+                viewDataTable: 'table'
+            }, 'get');
+            ajaxRequest.setCallback(
+                function (data) {
+                    $('.loadingPiwik', self).remove();
+                    $(self).html(data);
+                }
             );
+            ajaxRequest.setFormat('html');
+            ajaxRequest.send(false);
 		});
 	});
 })( jQuery );

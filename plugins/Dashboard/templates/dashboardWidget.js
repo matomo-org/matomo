@@ -150,7 +150,7 @@
                 $('.widgetContent', currentWidget).addClass('loading');
             }
 
-            piwikHelper.queueAjaxRequest( $.ajax(widgetsHelper.getLoadWidgetAjaxRequest(this.uniqueId, this.widgetParameters, onWidgetLoadedReplaceElementWithContent)) );
+            widgetsHelper.loadWidgetAjax(this.uniqueId, this.widgetParameters, onWidgetLoadedReplaceElementWithContent);
 
             return this;
         },

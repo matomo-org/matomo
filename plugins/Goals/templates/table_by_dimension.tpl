@@ -100,8 +100,7 @@ $(document).ready( function() {
 		$('#tableGoalsByDimension').hide();
 		$('#tableGoalsLoading').show();
 
-		ajaxRequest = widgetsHelper.getLoadWidgetAjaxRequest(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
-		$.ajax(ajaxRequest);
+		widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
 	});
 	$('.goalDimension').first().click();
 });

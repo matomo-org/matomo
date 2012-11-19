@@ -335,7 +335,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(apiMetho
 		requestParams.column = multiRowEvolutionParam;
 	}
 
-	piwikHelper.ajaxCall('CoreHome', action, requestParams, function(html) {
+	var callback = function(html) {
 		Piwik_Popover.setContent(html);
 		
 		// use the popover title returned from the server
@@ -371,5 +371,14 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function(apiMetho
 			self.openPopover(apiMethod, metric, label);
 			return true;
 		});
-	}, 'html');
+	};
+
+    requestParams.module = 'CoreHome';
+    requestParams.action = action;
+
+    var ajaxRequest = new ajaxHelper();
+    ajaxRequest.addParams(requestParams, 'get');
+    ajaxRequest.setCallback(callback);
+    ajaxRequest.setFormat('html');
+    ajaxRequest.send(false);
 };

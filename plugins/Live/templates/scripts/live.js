@@ -43,7 +43,7 @@
                 updated = false;
                 
                 // fetch data
-                piwikHelper.queueAjaxRequest( $.get(settings.dataUrl, {}, function(r) {
+                globalAjaxQueue.push( $.get(settings.dataUrl, {}, function(r) {
                     parseResponse(r);
                     
                     // add default interval to last interval if not updated or reset to default if so

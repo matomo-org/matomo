@@ -86,25 +86,23 @@ function createDashboard() {
     piwikHelper.modalConfirm('#createDashboardConfirm', {yes: function(){
         var dashboardName = $('#createDashboardName').attr('value');
         var type = ($('#dashboard_type_empty:checked').length > 0) ? 'empty' : 'default';
-        piwikHelper.showAjaxLoading();
-        var ajaxRequest =
-        {
-            type: 'POST',
-            url: 'index.php?module=Dashboard&action=createNewDashboard',
-            dataType: 'json',
-            async: true,
-            error: piwikHelper.ajaxHandleError,
-            success: function(id) {
+
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.setLoadingElement();
+        ajaxRequest.addParams({
+            module: 'Dashboard',
+            action: 'createNewDashboard'
+        }, 'get');
+        ajaxRequest.addParams({
+            name: encodeURIComponent(dashboardName),
+            type: type
+        }, 'post');
+        ajaxRequest.setCallback(
+            function (id) {
                 $('#dashboardWidgetsArea').dashboard('loadDashboard', id);
-            },
-            data: {
-                token_auth: piwik.token_auth,
-                idSite: piwik.idSite,
-                name: encodeURIComponent(dashboardName),
-                type: type
             }
-        };
-        $.ajax(ajaxRequest);
+        );
+        ajaxRequest.send(true);
     }});
 }
 
@@ -146,29 +144,27 @@ function setAsDefaultWidgets() {
 function copyDashboardToUser() {
     $('#copyDashboardName').attr('value', $('#dashboardWidgetsArea').dashboard('getDashboardName'));
     piwikHelper.modalConfirm('#copyDashboardToUserConfirm', {
-        yes: function(){
-                var copyDashboardName = $('#copyDashboardName').attr('value');
-                var copyDashboardUser = $('#copyDashboardUser').attr('value');
-                var ajaxRequest =
-                {
-                    type: 'POST',
-                    url: 'index.php?module=Dashboard&action=copyDashboardToUser',
-                    dataType: 'json',
-                    async: true,
-                    error: piwikHelper.ajaxHandleError,
-                    success: function(id) {
-                        $('#alert h2').text(_pk_translate('Dashboard_DashboardCopied_js'));
-                        piwikHelper.modalConfirm('#alert', {});
-                    },
-                    data: {
-                        token_auth: piwik.token_auth,
-                        idSite: piwik.idSite,
-                        name: encodeURIComponent(copyDashboardName),
-                        dashboardId: $('#dashboardWidgetsArea').dashboard('getDashboardId'),
-                        user: encodeURIComponent(copyDashboardUser)
-                    }
-                };
-                $.ajax(ajaxRequest);
-            }
+        yes: function() {
+            var copyDashboardName = $('#copyDashboardName').attr('value');
+            var copyDashboardUser = $('#copyDashboardUser').attr('value');
+
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.addParams({
+                module: 'Dashboard',
+                action: 'copyDashboardToUser'
+            }, 'get');
+            ajaxRequest.addParams({
+                name: encodeURIComponent(copyDashboardName),
+                dashboardId: $('#dashboardWidgetsArea').dashboard('getDashboardId'),
+                user: encodeURIComponent(copyDashboardUser)
+            }, 'post');
+            ajaxRequest.setCallback(
+                function (id) {
+                    $('#alert h2').text(_pk_translate('Dashboard_DashboardCopied_js'));
+                    piwikHelper.modalConfirm('#alert', {});
+                }
+            );
+            ajaxRequest.send(true);
+        }
     });
 }

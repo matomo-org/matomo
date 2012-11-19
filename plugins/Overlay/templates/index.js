@@ -31,39 +31,47 @@ var Piwik_Overlay = (function() {
 		iframeCurrentPage = currentUrl;
 		iframeDomain = currentUrl.match(/http(s)?:\/\/(www\.)?([^\/]*)/i)[3];
 
-		piwikHelper.abortQueueAjax();
-		piwikHelper.ajaxCall('Overlay', 'renderSidebar', {
-			currentUrl: currentUrl
-		}, function(response) {
-			hideLoading();
+        globalAjaxQueue.abort();
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams({
+            module:     'Overlay',
+            action:     'renderSidebar',
+            currentUrl: currentUrl
+        }, 'get');
+        ajaxRequest.setCallback(
+            function (response) {
+                hideLoading();
 
-			var $response = $(response);
+                var $response = $(response);
 
-			var $responseLocation = $response.find('.Overlay_Location');
-			var $url = $responseLocation.find('span');
-			iframeCurrentPageNormalized = $url.data('normalizedUrl');
-			iframeCurrentActionLabel = $url.data('label');
-			$url.html(piwikHelper.addBreakpointsToUrl($url.text()));
-			$location.html($responseLocation.html()).show();
-			$responseLocation.remove();
+                var $responseLocation = $response.find('.Overlay_Location');
+                var $url = $responseLocation.find('span');
+                iframeCurrentPageNormalized = $url.data('normalizedUrl');
+                iframeCurrentActionLabel = $url.data('label');
+                $url.html(piwikHelper.addBreakpointsToUrl($url.text()));
+                $location.html($responseLocation.html()).show();
+                $responseLocation.remove();
 
-			$location.find('span').hover(function() {
-				if (iframeDomain) {
-					// use addBreakpointsToUrl because it also encoded html entities
-					Piwik_Tooltip.show('<b>' + Piwik_Overlay_Translations.domain + ':</b> ' +
-						piwikHelper.addBreakpointsToUrl(iframeDomain), 'Overlay_Tooltip');
-				}
-			}, function() {
-				Piwik_Tooltip.hide();
-			});
+                $location.find('span').hover(function () {
+                    if (iframeDomain) {
+                        // use addBreakpointsToUrl because it also encoded html entities
+                        Piwik_Tooltip.show('<b>' + Piwik_Overlay_Translations.domain + ':</b> ' +
+                            piwikHelper.addBreakpointsToUrl(iframeDomain), 'Overlay_Tooltip');
+                    }
+                }, function () {
+                    Piwik_Tooltip.hide();
+                });
 
-			$sidebar.empty().append($response).show();
+                $sidebar.empty().append($response).show();
 
-			if ($sidebar.find('.Overlay_NoData').size() == 0) {
-				$rowEvolutionLink.show();
-				$transitionsLink.show()
-			}
-		}, 'html');
+                if ($sidebar.find('.Overlay_NoData').size() == 0) {
+                    $rowEvolutionLink.show();
+                    $transitionsLink.show()
+                }
+            }
+        );
+        ajaxRequest.setFormat('html');
+        ajaxRequest.send(false);
 	}
 
 	/** Adjust the dimensions of the iframe */
