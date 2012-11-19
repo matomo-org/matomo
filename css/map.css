@@ -67,10 +67,27 @@
 
 #UserCountryMap_map svg .bubble {
     fill-opacity: 0.7;
-    fill: #5170AE; stroke: #112299; stroke-width: 0.6px;
+    /fill: #5170AE;
+    /stroke: #112299;
+    stroke-width: 0.6px;
 }
 
 #UserCountryMap_map svg .bubble:hover {
     stroke: #000!important;
     stroke-width: 2px!important;
+}
+
+#UserCountryMap-black {
+    background: #E4E2D7;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 1000px;
+    height: 1000px;
+    z-index: 9999999;
+}
+
+#UserCountryMap-black .loadingPiwik {
+    position: absolute;
+    top: 40%;
 }

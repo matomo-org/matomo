@@ -2,10 +2,26 @@
 // define a global scope
 window.UserCountryMap = {};
 
+piwikHelper.getProcessedMetrics = function(row) {
+    var avgTime = Math.round(row.sum_visit_length / row.nb_visits),
+        avgH = Math.floor(avgTime / 3600),
+        avgM = Math.floor((avgTime - avgH * 60) / 60),
+        avgS = avgTime - avgH * 3600 - avgM * 60;
+
+    row.processed = {
+        nb_visits: row.nb_visits,
+        nb_actions: row.nb_actions,
+        nb_actions_per_visit: (row.nb_actions / row.nb_visits).toFixed(2),
+        avg_time_on_site: ("0" + avgH).slice(-2) + ":" + ("0" + avgM).slice(-2) + ":" + ("0" + avgS).slice(-2),
+        bounce_rate: (row.bounce_count / row.nb_visits).toFixed(2)+"%"
+    };
+};
+
 UserCountryMap.run = function(config) {
 
     var map = $K.map('#UserCountryMap_map'),
         main = $('#UserCountryMap_container'),
+        worldTotalVisits = 0,
         width = main.width();
 
     UserCountryMap.config = config;
@@ -54,10 +70,14 @@ UserCountryMap.run = function(config) {
         });
     }
 
-    function formatValueForTooltips(data, metric) {
-        var v;
+    function formatValueForTooltips(data, metric, id) {
+        var v = '<b>'+data[metric] + '</b>';
+
         if (metric.substr(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
-            v = data[metric] + ' ('+formatPercentage(data[metric+'_raw'] / UserCountryMap.lastReportMetricStats[metric].sum)+')';
+            var total;
+            if (id.length == 3) total = UserCountryMap.countriesByIso[id][metric+'_raw'];
+            else total = UserCountryMap.lastReportMetricStats[metric].sum;
+            v += ' ('+formatPercentage(data[metric+'_raw'] / total)+')';
         } else if (metric == 'avg_time_on_site') {
             var diff = data[metric+'_raw'] - UserCountryMap.config.visitsSummary[metric],
                 neg = diff < 0,
@@ -65,9 +85,7 @@ UserCountryMap.run = function(config) {
             diff = Math.abs(diff);
             t = [Math.floor(diff/3600), Math.floor(diff/60) % 60, diff % 60];
             // t.map(function(s) { return s < 10 ? "0"+s : ""+s; }).join(':')
-            v = data[metric] + ' (<b>'+(neg ? '-' : '+')+'' + (t[0] > 0 ? t[0]+'hrs ' : '') + (t[1] > 0 ? t[1]+'min ' : '')+t[2]+'s</b>)';
-        } else {
-            v = data[metric];
+            v += ' ('+(neg ? '-' : '+')+'' + (t[0] > 0 ? t[0]+'h ' : '') + (t[1] > 0 ? t[1]+'m ' : '')+t[2]+'s)';
         }
         return UserCountryMap.config.metrics[metric]+': '+v;
     }
@@ -75,9 +93,11 @@ UserCountryMap.run = function(config) {
     function getColorScale(rows, metric, filter) {
         var stats = UserCountryMap.lastReportMetricStats[metric],
             avg = UserCountryMap.config.visitsSummary[metric];
+
         if (metric == 'avg_time_on_site') {
             // use diverging color scale for avg time on site
-            return new chroma.ColorScale({
+            console.info(rows[0][metric+'_raw'], stats.max, avg);
+            return window.colscl = new chroma.ColorScale({
                 colors: ['#9F454B', '#ffffff', '#8BABDF'],
                 limits: chroma.limits(rows, 'c', 5, metric+'_raw', filter),
                 positions: [0, (avg - 0) / (stats.max - 0), 1],
@@ -186,6 +206,11 @@ UserCountryMap.run = function(config) {
                 }
             });
         })($('#UserCountryMap-btn-region'));
+
+        // add loading indicator overlay
+        var bl = $('<div id="UserCountryMap-black"></div>');
+        bl.hide();
+        $('#UserCountryMap_map').append(bl);
     }
 
 
@@ -212,7 +237,7 @@ UserCountryMap.run = function(config) {
             renderWorldMap(id, metric);
         }
 
-        _updateUI(id);
+        _updateUI(id, metric);
 
         UserCountryMap.lastSelected = id;
     }
@@ -220,7 +245,7 @@ UserCountryMap.run = function(config) {
     /*
      * update the widgets ui according to the currently selected view
      */
-    function _updateUI(id) {
+    function _updateUI(id, metric) {
         // update UI
         if (UserCountryMap.mode == "city") {
             activateButton($('#UserCountryMap-btn-city'));
@@ -250,7 +275,7 @@ UserCountryMap.run = function(config) {
             $('#UserCountryMap-btn-city').addClass('inactiveIcon');
         }
 
-        var mapTitle = $('#userCountryMapSelectCountry option[value='+id+']').html(),
+        var mapTitle = id.length == 3 ? UserCountryMap.countriesByIso[id].name : $('#userCountryMapSelectCountry option[value='+id+']').html(),
             totalVisits = 0;
         // update map title
         $('.map-title').html(mapTitle);
@@ -266,8 +291,14 @@ UserCountryMap.run = function(config) {
         } else {
             totalVisits = UserCountryMap.config.visitsSummary['nb_visits'];
         }
-        $('.map-stats').html('<b>'+formatNumber(totalVisits) + '</b> '+UserCountryMap.config.metrics['nb_visits']);
 
+        if (id.length == 3) {
+            $('.map-stats').html(formatValueForTooltips(UserCountryMap.countriesByIso[id], metric, 'world'));
+        } else {
+            $('.map-stats').html(UserCountryMap.config.metrics['nb_visits']+
+            ': <b>'+formatNumber(totalVisits) + '</b>' +(id != 'world' ? ' ('+
+            formatPercentage(totalVisits / worldTotalVisits)+')' : ''));
+        }
     }
 
     /*
@@ -304,7 +335,7 @@ UserCountryMap.run = function(config) {
             map.getLayer('countries').tooltips(function(data) {
                 var metric = $('#userCountryMapSelectMetrics').val(),
                     country = UserCountryMap.countriesByIso[data.iso];
-                return '<h3>'+country.name + '</h3>'+formatValueForTooltips(country, metric);
+                return '<h3>'+country.name + '</h3>'+formatValueForTooltips(country, metric, target);
             });
         }
 
@@ -367,18 +398,29 @@ UserCountryMap.run = function(config) {
         }, { padding: -3});
     }
 
-    function renderRegionMap(iso) {
+    function indicateLoading() {
+        $('#UserCountryMap-black').show();
+        $('#UserCountryMap-black').css('opacity', 0);
+        $('#UserCountryMap-black').animate({ opacity: 0.3 }, 400);
+        $('#UserCountryMap .loadingPiwik').show();
+    }
 
+    function loadingComplete() {
+        $('#UserCountryMap-black').hide();
+        $('#UserCountryMap .loadingPiwik').hide();
     }
 
     function renderCountryMap(iso) {
 
         function updateRegionColors() {
-            // load some fake data with real region ids from GeoIP
+            indicateLoading();
+            // load data from Piwik API
             $.ajax({
                 url: config.regionDataUrl + UserCountryMap.countriesByIso[iso].iso2,
                 dataType: 'json',
                 success : function(data) {
+
+                    loadingComplete();
 
                     var regionDict = {};
                     // UserCountryMap.lastReportMetricStats = {};
@@ -388,7 +430,7 @@ UserCountryMap.run = function(config) {
                         regionDict[data.reportMetadata[i].region] = row;
                     });
 
-                    var metric = 'nb_visits'; // $('#userCountryMapSelectMetrics').val();
+                    var metric = $('#userCountryMapSelectMetrics').val();
                     // create color scale
                     colscale = getColorScale(data.reportData, metric);
 
@@ -412,7 +454,7 @@ UserCountryMap.run = function(config) {
                             return UserCountryMap.config.noDataColor;
                         } else {
                             // match
-                            return colscale.getColor(regionDict[code][metric]);
+                            return colscale.getColor(regionDict[code][metric+'_raw']);
                         }
                     });
 
@@ -424,7 +466,7 @@ UserCountryMap.run = function(config) {
                             return '<h3>'+data.name+'</h3><p>'+_pk_translate('General_NoVisits_js')+'</p>';
                         }
                         return '<h3>'+data.name+'</h3>'+
-                            formatValueForTooltips(region, metric);
+                            formatValueForTooltips(region, metric, iso);
                     });
                 }
             });
@@ -436,23 +478,27 @@ UserCountryMap.run = function(config) {
             // color regions in light blue
             if (map.getLayer('regions')) map.getLayer('regions').style('fill', '#fff');
 
+            indicateLoading();
+
+            // get visits per city from API
             $.ajax({
                 url: config.cityDataUrl + UserCountryMap.countriesByIso[iso].iso2,
                 dataType: 'json',
                 success : function(data) {
 
-                    var metric = $('#userCountryMapSelectMetrics').val();
+                    loadingComplete();
 
-                    var cities = [],
+                    var metric = $('#userCountryMapSelectMetrics').val(),
+                        colscale,
+                        cities = [],
                         unknown = 0,
                         cluster = kmeans().iterations(16).size(100);
 
                     $.each(data.reportData, function(i, row) {
                         parseMetrics(row);
-                        if (data.reportMetadata[i].city_name == 'Unknown') {
+                        if (data.reportMetadata[i].region == 'xx') {
                             // not safe to sum at this point (e.g. avg time on page)
                             unknown += row[metric+'_raw'];
-                            console.info('unknown city', metric, row[metric+'_raw']);
                             //return;
                         }
                         cities.push($.extend(row, data.reportMetadata[i]));
@@ -460,6 +506,8 @@ UserCountryMap.run = function(config) {
 
                     cities.sort(function(a, b) { return b[metric+'_raw'] - a[metric+'_raw']; });
                     cities = cities.slice(0, 200);
+
+                    colscale = getColorScale(cities, metric);
 
                     // construct scale
                     var scale = $K.scale.linear(cities, metric+'_raw');
@@ -476,9 +524,12 @@ UserCountryMap.run = function(config) {
                         data: cities,
                         location: function(city) { return [city.long, city.lat]; },
                         radius: function(city) { return scale(city[metric+'_raw']) * maxRad + 3; },
+                        style: function(city) {
+                            return 'fill:'+colscale.getColor(city[metric+'_raw']);
+                        },
                         tooltip: function(city) {
                             return '<h3>'+city.city_name+'</h3>'+
-                                UserCountryMap.config.metrics[metric]+': '+city[metric+'_raw'];
+                                formatValueForTooltips(city, metric, iso);
                         }
                     });
                 }
@@ -510,7 +561,7 @@ UserCountryMap.run = function(config) {
                     var metric = $('#userCountryMapSelectMetrics').val(),
                         country = UserCountryMap.countriesByIso[data.iso];
                     return '<h3>'+country.name+'</h3>'+
-                        formatValueForTooltips(country, metric);
+                        formatValueForTooltips(country, metric, 'world');
                 }
             });
             map.addLayer("regions", { name: "regionBG" });
@@ -519,7 +570,10 @@ UserCountryMap.run = function(config) {
             }
             map.addLayer('regions', {
                 key: 'fips',
-                name: UserCountryMap.mode != "region" ? "regions2" : "regions"
+                name: UserCountryMap.mode != "region" ? "regions2" : "regions",
+                click: function(d, p, evt) {
+                    evt.stopPropagation();
+                }
             });
 
             map.addSymbols({
@@ -563,6 +617,7 @@ UserCountryMap.run = function(config) {
             parseMetrics(country);
             countryData.push(country);
             countriesByIso[country.iso] = country;
+            worldTotalVisits += country['nb_visits_raw'];
         });
         // sort countries by name
         countryData.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
@@ -595,9 +650,9 @@ UserCountryMap.run = function(config) {
 
 
     $('#UserCountryMap_overlay').hover(function() {
-        $('#UserCountryMap_overlay .content').css({ opacity: 0.2 });
+        $('#UserCountryMap_overlay .content').animate({ opacity: 0.01 }, 200);
     }, function() {
-        $('#UserCountryMap_overlay .content').css({ opacity: 1 });
+        $('#UserCountryMap_overlay .content').animate({ opacity: 1 }, 200);
     });
 
 };
