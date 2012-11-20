@@ -189,7 +189,8 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 	protected function getRequestString()
 	{
 		$requestString = parent::getRequestString();
-		if($this->recursiveDataTableLoad)
+		if ($this->recursiveDataTableLoad
+			&& !Piwik_Common::getRequestVar('flat', false))
 		{
 			$requestString .= '&expanded=1';
 		}

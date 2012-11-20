@@ -89,6 +89,29 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
             )
         ));
 
+		// test expanded=1 w/ idSubtable=X
+		$return[] = array('Actions.getPageUrls', array('idSite'		   => self::$idSite,
+				    								   'date'		   => self::$dateTime,
+				    								   'periods'	   => array('week'),
+				    								   'apiModule'	   => 'Actions',
+				    								   'apiAction'	   => 'getPageUrls',
+				    								   'supertableApi' => 'Actions.getPageUrls',
+				    								   'testSuffix'	   => '_expandedSubtable',
+				    								   'otherRequestParameters' => array('expanded' => '1')));
+		
+		// test flat=1 w/ filter_pattern_recursive
+		$return[] = array('Actions.getPageUrls', array('idSite'		   => self::$idSite,
+				    								   'date'		   => self::$dateTime,
+				    								   'periods'	   => array('week'),
+				    								   'apiModule'	   => 'Actions',
+				    								   'apiAction'	   => 'getPageUrls',
+				    								   'testSuffix'	   => '_flatFilterPatternRecursive',
+				    								   'otherRequestParameters' => array(
+				    								       'flat' => '1',
+				    								       'expanded' => '0',
+				    								   	   'filter_pattern_recursive' => 'dir2/'
+			    								   	   )));
+		
         return $return;
     }
 
