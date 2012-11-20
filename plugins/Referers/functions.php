@@ -103,7 +103,6 @@ function Piwik_getSocialsLogoFromUrl($domain)
 		}
 		
 		$pathWithCode = 'plugins/Referers/images/socials/'.$firstDomain.'.png';
-		$absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
 		return $pathWithCode;
 	}
 	else

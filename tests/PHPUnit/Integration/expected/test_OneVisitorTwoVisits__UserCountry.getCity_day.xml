@@ -23,6 +23,7 @@
 		<nb_conversions>2</nb_conversions>
 		<revenue>43</revenue>
 		<city_name>Unknown</city_name>
+		<city>xx</city>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>

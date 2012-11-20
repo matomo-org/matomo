@@ -34,6 +34,7 @@
 		<nb_conversions>3</nb_conversions>
 		<revenue>3121.11</revenue>
 		<city_name>Unknown</city_name>
+		<city>xx</city>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>

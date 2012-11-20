@@ -156,6 +156,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             if(strpos($file, '/.svn/') !== false ||
                 strpos($file, '/documentation/') !== false ||
                 strpos($file, '/tests/') !== false ||
+                strpos($file, 'yuicompressor') !== false ||
                 strpos($file, '/tmp/') !== false)
             {
                 continue;

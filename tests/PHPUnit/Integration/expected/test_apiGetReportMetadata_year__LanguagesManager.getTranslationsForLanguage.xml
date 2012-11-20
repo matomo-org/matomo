@@ -4021,10 +4021,6 @@
 		<value>Notation</value>
 	</row>
 	<row>
-		<label>SEO_Backlinks</label>
-		<value>Liens de retour</value>
-	</row>
-	<row>
 		<label>SEO_SEORankingsFor</label>
 		<value>Notations SEO pour %s</value>
 	</row>

@@ -18,6 +18,7 @@
 		<revenue>85</revenue>
 		<sum_daily_nb_uniq_visitors>18</sum_daily_nb_uniq_visitors>
 		<city_name>Unknown</city_name>
+		<city>xx</city>
 		<region>xx</region>
 		<country>xx</country>
 		<country_name>Unknown</country_name>
@@ -41,11 +42,11 @@
 		<nb_conversions>4</nb_conversions>
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
+		<lat>39.044</lat>
+		<long>-77.488</long>
 		<city_name>Ashburn</city_name>
 		<region>VA</region>
 		<country>us</country>
-		<lat>39.044</lat>
-		<long>-77.488</long>
 		<country_name>United States</country_name>
 		<region_name>Virginia</region_name>
 		<logo>plugins/UserCountry/flags/us.png</logo>

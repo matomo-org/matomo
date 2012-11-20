@@ -123,9 +123,12 @@ class Piwik_UserCountry_API
 		
 		// split the label and put the elements into the 'city_name', 'region', 'country',
 		// 'lat' & 'long' metadata fields
+		$strUnknown = Piwik_Translate('General_Unknown');
 		$dataTable->filter('ColumnCallbackAddMetadata',
 			array('label', 'city_name', 'Piwik_UserCountry_getElementFromStringArray',
-				  array($separator, 0, Piwik_Translate('General_Unknown')) ));
+				  array($separator, 0, $strUnknown)));
+		$dataTable->filter('MetadataCallbackAddMetadata',
+			array('city_name', 'city', create_function('$city',' if ($city == "'.$strUnknown.'") { return "xx"; } else { return false; } ')));
 		$dataTable->filter('ColumnCallbackAddMetadata',
 			array('label', 'region', 'Piwik_UserCountry_getElementFromStringArray', array($separator, 1, $unk)));
 		$dataTable->filter('ColumnCallbackAddMetadata',
@@ -147,7 +150,7 @@ class Piwik_UserCountry_API
 		
 		// add the country flag as a url to the 'logo' metadata field
 		$dataTable->filter('MetadataCallbackAddMetadata', array('country', 'logo', 'Piwik_getFlagFromCode'));
-		
+
 		// prettify the label
 		$dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_UserCountry_getPrettyCityName'));
 		
