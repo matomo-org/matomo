@@ -151,7 +151,7 @@ vertical-align:middle;
 		</thead>
 		<tbody>
 			{foreach from=$adminSites key=i item=site}
-			<tr id="row{$i}">
+			<tr id="row{$site.idsite}">
 				<td id="idSite">{$site.idsite}</td>
 				<td id="siteName" class="editableSite">{$site.name}</td>
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url|replace:"http://":""}<br />{/foreach}</td>       

@@ -155,7 +155,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		$('.addRowSite').toggle();
 		
 		var numberOfRows = $('table#editSites')[0].rows.length;
-		var newRowId = 'row' + numberOfRows;
+		var newRowId = 'rowNew' + numberOfRows;
 		var submitButtonHtml = '<input type="submit" class="addsite submit" value="' + _pk_translate('General_Save_js') +'" />';
 		$(' <tr id="'+newRowId+'">\
 				<td>&nbsp;</td>\
