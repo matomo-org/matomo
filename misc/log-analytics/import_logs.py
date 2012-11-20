@@ -64,7 +64,6 @@ DOWNLOAD_EXTENSIONS = (
 EXCLUDED_USER_AGENTS = (
     'adsbot-google',
     'ask jeeves',
-    'baiduspider+(',
     'bot-',
     'bot/',
     'ccooter/',
@@ -78,7 +77,7 @@ EXCLUDED_USER_AGENTS = (
     'mediapartners-google',
     'msnbot',
     'robot',
-    'sosospider+',
+    'spider',
     'surveybot',
     'twiceler',
     'voilabot',
