@@ -156,6 +156,40 @@ class Piwik_UserCountry_API
 		return $dataTable;
 	}
 	
+	/**
+	 * Uses a location provider to find/guess the location of an IP address.
+	 * 
+	 * See Piwik_UserCountry_LocationProvider::getLocation to see the details
+	 * of the result of this function.
+	 * 
+	 * @param string $ip The IP address.
+	 * @param string|false $provider The ID of the provider to use or false to use the
+	 *                               currently configured one.
+	 */
+	public function getLocationFromIP( $ip, $provider = false )
+	{
+		Piwik::checkUserHasSomeViewAccess();
+		
+		if ($provider === false)
+		{
+			$provider = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
+		}
+		
+		$oProvider = Piwik_UserCountry_LocationProvider::getProviderById($provider);
+		if ($oProvider === false)
+		{
+			throw new Exception("Cannot find the '$provider' provider. It is either an invalid provider "
+				. "ID or the ID of a provider that is not working.");
+		}
+		
+		$location = $oProvider->getLocation(array('ip' => $ip));
+		if (empty($location))
+		{
+			throw new Exception("Could not geolocate '$ip'!");
+		}
+		return $location;
+	}
+	
 	protected function getDataTable($name, $idSite, $period, $date, $segment)
 	{
 		Piwik::checkUserHasViewAccess( $idSite );

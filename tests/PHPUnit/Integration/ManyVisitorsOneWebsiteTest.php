@@ -55,6 +55,8 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			self::trackVisits(2, true);
 			
 			self::trackOtherVisits();
+			
+			self::setLocationProvider('GeoIPCity.dat');
 		} catch(Exception $e) {
 			// Skip whole test suite if an error occurs while setup
 			throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
@@ -79,34 +81,43 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 
 	public function getApiForTesting()
 	{
+		$apiToCall = array(
+			'UserCountry.getCountry', 'UserCountry.getContinent', 'UserCountry.getRegion', 'UserCountry.getCity');
+		
 		return array(
-			array('UserCountry', array('idSite'		=> self::$idSite,
-									   'date'		=> self::$dateTime,
-									   'periods'	=> array('month'))),
+			array($apiToCall, array('idSite'		=> self::$idSite,
+									'date'		=> self::$dateTime,
+									'periods'	=> array('month'))),
 			
-			array('UserCountry', array('idSite'		=> self::$idSite,
-									   'date'		=> self::$dateTime,
-									   'periods'	=> array('month'),
-									   'testSuffix' => '_segment_region',
-									   'segment'    => 'region==P3;country==gb')),
+			array($apiToCall, array('idSite'		=> self::$idSite,
+									'date'		=> self::$dateTime,
+									'periods'	=> array('month'),
+									'testSuffix' => '_segment_region',
+									'segment'    => 'region==P3;country==gb')),
 			
-			array('UserCountry', array('idSite'		=> self::$idSite,
-									   'date'		=> self::$dateTime,
-									   'periods'	=> array('month'),
-									   'testSuffix' => '_segment_city',
-									   'segment'    => 'city==Stratford-upon-Avon;region==P3;country==gb')),
+			array($apiToCall, array('idSite'		=> self::$idSite,
+									'date'		=> self::$dateTime,
+									'periods'	=> array('month'),
+									'testSuffix' => '_segment_city',
+									'segment'    => 'city==Stratford-upon-Avon;region==P3;country==gb')),
 			
-			array('UserCountry', array('idSite'		=> self::$idSite,
-									   'date'		=> self::$dateTime,
-									   'periods'	=> array('month'),
-									   'testSuffix' => '_segment_lat_long',
-									   'segment'    => 'lat>45;lat<49.3;long>-125;long<-122')),
+			array($apiToCall, array('idSite'		=> self::$idSite,
+									'date'		=> self::$dateTime,
+									'periods'	=> array('month'),
+									'testSuffix' => '_segment_lat_long',
+									'segment'    => 'lat>45;lat<49.3;long>-125;long<-122')),
 			
 			array('UserCountry.getCountry', array('idSite'		=> self::$idSite,
 												  'date'		=> self::$dateTime,
 												  'periods'		=> array('month'),
 												  'testSuffix'	=> '_segment_continent',
-												  'segment'   	=> 'continent==eur'))
+												  'segment'   	=> 'continent==eur')),
+			
+			array('UserCountry.getLocationFromIP', array('idSite'		=> self::$idSite,
+														 'date'		=> self::$dateTime,
+														 'periods'		=> array('month'),
+														 'otherRequestParameters' => array('ip' => '194.57.91.215')
+													 	)),
 		);
 	}
 	
