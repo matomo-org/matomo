@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Controller.php 7446 2012-11-12 09:16:00Z EZdesign $
+ * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_Overlay
@@ -35,7 +35,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 		$view->date = Piwik_Common::getRequestVar('date', 'today');
 		$view->period = Piwik_Common::getRequestVar('period', 'day');
 		
-		$view->ssl = $this->usingSsl();
+		$view->ssl = Piwik::isHttps();
 		
 		echo $view->render();
 	}
