@@ -642,7 +642,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             $t->doTrackEcommerceOrder($orderId = '937nsjusu '.$dateTime, $grandTotal = 1111.11, $subTotal = 1000,
                                       $tax = 111, $shipping = 0.11, $discount = 666);
         }
-        $t->doBulkTrack();
+	    self::checkResponse($t->doBulkTrack());
     }
     
     protected static function _addReportData()
