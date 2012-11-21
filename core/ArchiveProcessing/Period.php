@@ -380,8 +380,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	static public function doPurgeOutdatedArchives($numericTable)
 	{
 		$blobTable = str_replace("numeric", "blob", $numericTable);
-		$trace = debug_backtrace();
-		$key = self::FLAG_TABLE_PURGED . $blobTable . var_export($trace, true);
+		$trace = debug_print_backtrace();
+		$key = self::FLAG_TABLE_PURGED . $blobTable . $trace;
 		$timestamp = Piwik_GetOption($key);
 		
 		// we shall purge temporary archives after their timeout is finished, plus an extra 6 hours 
