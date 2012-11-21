@@ -385,7 +385,6 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 		if(!self::$enablePurgeOutdated) {
 			return;
 		}
-		debug_print_backtrace();
 		$blobTable = str_replace("numeric", "blob", $numericTable);
 		$key = self::FLAG_TABLE_PURGED . $blobTable;
 		$timestamp = Piwik_GetOption($key);

@@ -615,12 +615,12 @@ class PrivacyManagerTest extends IntegrationTestCase
         //   - http://whatever.com/42/{$daysSinceLastVisit}
         
         $start = Piwik_Date::factory(self::$dateTime);
-        self::createWebsite('2012-01-01', $ecommerce=1);
+	    self::$idSite = self::createWebsite('2012-01-01', $ecommerce=1);
         $idGoal = Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
         
         $t = IntegrationTestCase::getTracker(self::$idSite, $start, $defaultInit = true);
         $t->enableBulkTracking();
-        $t->setTokenAuth(IntegrationTestCase::getTokenAuth());
+        $t->setTokenAuth(self::getTokenAuth());
         for ($daysAgo = self::$daysAgoStart; $daysAgo >= 0; $daysAgo -= 5) // one visit every 5 days
         {
             $dateTime = $start->subDay($daysAgo)->toString();
