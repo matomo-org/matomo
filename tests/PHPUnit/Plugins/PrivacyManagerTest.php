@@ -47,6 +47,8 @@ class PrivacyManagerTest extends IntegrationTestCase
         self::_addReportData();
         
         self::$dbData = self::getDbTablesWithData();
+	    var_dump(self::$dbData);
+	    echo Piwik_FetchOne("SELECT count(*) from ".Piwik_Common::prefixTable('log_visit'));
     }
     
     public function setUp()
@@ -114,8 +116,9 @@ class PrivacyManagerTest extends IntegrationTestCase
      * @group PrivacyManager
      */
     public function testDeleteLogDataInitialRun()
-    {
+    {echo Piwik_FetchOne("SELECT count(*) from ".Piwik_Common::prefixTable('log_visit'));
         $this->instance->deleteLogData();
+	    echo Piwik_FetchOne("SELECT count(*) from ".Piwik_Common::prefixTable('log_visit'));
         
         // check that initial option is set
         $this->assertEquals(
