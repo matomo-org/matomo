@@ -161,7 +161,10 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
         // Second new visitor on Idsite 1: one page view
         $visitorB = self::getTracker($idSite, $dateTime, $defaultInit = true);
         $visitorB->enableBulkTracking();
-	    $visitorB->setTokenAuth(self::getTokenAuth());
+        // calc token auth by hand in test environment
+        $tokenAuth = md5(
+            Piwik_Config::getInstance()->superuser['login'] . Piwik_Config::getInstance()->superuser['password']);
+        $visitorB->setTokenAuth($tokenAuth);
         $visitorB->setIp('100.52.156.83');
         $visitorB->setResolution(800, 300);
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
