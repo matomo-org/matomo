@@ -42,13 +42,17 @@ class PrivacyManagerTest extends IntegrationTestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        
-        self::_addLogData();
-        self::_addReportData();
-        
+
+	    // Temporarily disable the purge of old archives so that getNumeric('nb_visits')
+	    // in _addReportData does not trigger the data purge of data we've just imported
+	    Piwik_ArchiveProcessing_Period::$enablePurgeOutdated = false;
+
+	    self::_addLogData();
+	    self::_addReportData();
+
+	    Piwik_ArchiveProcessing_Period::$enablePurgeOutdated = true;
+
         self::$dbData = self::getDbTablesWithData();
-	    var_dump(self::$dbData);
-	    echo Piwik_FetchOne("SELECT count(*) from ".Piwik_Common::prefixTable('log_visit'));
     }
     
     public function setUp()
@@ -116,10 +120,9 @@ class PrivacyManagerTest extends IntegrationTestCase
      * @group PrivacyManager
      */
     public function testDeleteLogDataInitialRun()
-    {echo Piwik_FetchOne("SELECT count(*) from ".Piwik_Common::prefixTable('log_visit'));
+    {
         $this->instance->deleteLogData();
-	    echo Piwik_FetchOne("SELECT count(*) from ".Piwik_Common::prefixTable('log_visit'));
-        
+
         // check that initial option is set
         $this->assertEquals(
             1, Piwik_GetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL));

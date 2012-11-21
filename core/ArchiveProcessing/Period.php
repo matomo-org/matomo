@@ -372,16 +372,21 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 	}
 	
 	const FLAG_TABLE_PURGED = 'lastPurge_';
-	
+
+	// Used to disable Purge Outdated reports during test data setup
+	static public $enablePurgeOutdated = true;
+
 	/**
 	 * Given a monthly archive table, will delete all reports that are now outdated, 
 	 * or reports that ended with an error
 	 */
 	static public function doPurgeOutdatedArchives($numericTable)
 	{
+		if(!self::$enablePurgeOutdated) {
+			return;
+		}
 		$blobTable = str_replace("numeric", "blob", $numericTable);
-		$trace = debug_print_backtrace();
-		$key = self::FLAG_TABLE_PURGED . $blobTable . $trace;
+		$key = self::FLAG_TABLE_PURGED . $blobTable;
 		$timestamp = Piwik_GetOption($key);
 		
 		// we shall purge temporary archives after their timeout is finished, plus an extra 6 hours 
