@@ -95,7 +95,8 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 							// by a method that already calls the API with some generic filters applied
 							"&disable_generic_filters=1";
 		$request = new Piwik_API_Request($requestString);
-		return $request->process();
+		$result = $request->process();
+		return empty($result) ? new Piwik_DataTable() : $result;
 	}
 
 	static public function getVisits()

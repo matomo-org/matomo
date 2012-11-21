@@ -593,7 +593,13 @@ class Piwik_Archive_Single extends Piwik_Archive
 		{
 			return 'Goals_Metrics';
 		}
-   		return $metric;
+		// Actions metrics are processed by the Actions plugin (HACK) (3RD HACK IN FACT) (YES, THIS IS TOO MUCH HACKING)
+		// (FIXME PLEASE).
+		if (in_array($metric, Piwik_Archive::$actionsMetrics))
+		{
+			return 'Actions_Metrics';
+		}
+		return $metric;
 	}
 	
 	/**
