@@ -1,0 +1,64 @@
+<project name="piwik-full-ci" default="all" basedir=".">
+
+    <property file="build.properties"/>
+    <property file="defaults.properties"/>
+
+    <target name="clean">
+        <delete dir="${basedir}/results"/>
+    </target>
+
+    <target name="prepare" depends="clean">
+        <mkdir dir="${basedir}/../tmp/templates_c"/>
+        <mkdir dir="${basedir}/../tmp/cache"/>
+        <mkdir dir="${basedir}/../tmp/latest"/>
+        <mkdir dir="${basedir}/../tmp/sessions"/>
+        <mkdir dir="${basedir}/../tmp/assets"/>
+
+        <mkdir dir="${basedir}/results/api"/>
+        <mkdir dir="${basedir}/results/code-browser"/>
+        <mkdir dir="${basedir}/results/coverage"/>
+        <mkdir dir="${basedir}/results/logs"/>
+        <mkdir dir="${basedir}/results/artifacts"/>
+
+        <chmod perm="a+rw">
+            <dirset dir="${basedir}/..">
+                <include name="config"/>
+                <include name="tmp"/>
+                <include name="tmp/**"/>
+            </dirset>
+        </chmod>
+    </target>
+
+    <!-- phpcpd: Copy and Paste Detection -->
+    <target name="phpcpd">
+        <exec dir="${basedir}" executable="phpcpd">
+            <arg line="--log-pmd ${basedir}/results/logs/pmd-cpd.xml ${basedir}/../core ${basedir}/../plugins"/>
+        </exec>
+    </target>
+
+    <!-- phpmd: PHP Mess Detector -->
+    <target name="phpmd">
+        <exec executable="phpmd">
+            <arg line="${basedir}/../core/,${basedir}/../plugins/ xml codesize,unusedcode --reportfile ${basedir}/results/logs/pmd.xml"/>
+        </exec>
+    </target>
+
+    <!-- pDepend: Static Code Analysis -->
+    <target name="pdepend">
+        <exec dir="${basedir}" executable="pdepend">
+            <arg line="--jdepend-xml=results/logs/jdepend.xml ${basedir}/../core,${basedir}/../plugins/"/>
+        </exec>
+    </target>
+
+    <target name="tools-parallel" description="Run tools in parallel">
+     <parallel>
+      <antcall target="phpmd"/>
+      <antcall target="pdepend"/>
+      <antcall target="phpcpd"/>
+     </parallel>
+    </target>
+
+    <target name="all" depends="prepare,tools-parallel">
+    </target>
+
+</project>
