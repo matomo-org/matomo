@@ -139,6 +139,10 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		{
 			Piwik::checkUserHasSomeViewAccess();
 		}
+		if(!Piwik_Common::isLookLikeUrl($url))
+		{
+			die('Please check the &url= parameter: it should to be a valid URL');
+		}
 		
 		echo '<html><head><meta http-equiv="refresh" content="0;url=' . $url . '" /></head></html>';
 		
