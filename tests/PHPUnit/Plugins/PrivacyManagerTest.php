@@ -617,10 +617,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         
         $t = IntegrationTestCase::getTracker(self::$idSite, $start, $defaultInit = true);
         $t->enableBulkTracking();
-	    // calc token auth by hand in test environment
-	    $tokenAuth = md5(
-		    Piwik_Config::getInstance()->superuser['login'] . Piwik_Config::getInstance()->superuser['password']);
-	    $t->setTokenAuth($tokenAuth);
+	    $t->setTokenAuth(self::getTokenAuth());
 
         for ($daysAgo = self::$daysAgoStart; $daysAgo >= 0; $daysAgo -= 5) // one visit every 5 days
         {

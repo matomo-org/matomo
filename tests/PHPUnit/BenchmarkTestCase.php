@@ -93,7 +93,7 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
 	    $t->setResolution(1024, 768);
 	    $t->setBrowserHasCookies(true);
 	    $t->setPlugins($flash = true, $java = true, $director = false);
-	    $t->setTokenAuth(IntegrationTestCase::getTokenAuth());
+	    $t->setTokenAuth(self::getTokenAuth());
 	    return $t;
 	}
 }

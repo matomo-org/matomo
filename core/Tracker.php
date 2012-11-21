@@ -195,6 +195,7 @@ class Piwik_Tracker
 				}
 			}
 
+			// a Bulk Tracking request that is not authenticated should fail
 			if(!$this->authenticateSuperUserOrAdmin(array('idsite' => $idSiteForAuthentication)))
 			{
 				throw new Exception(" token_auth specified is not valid for site ". intval($idSiteForAuthentication));

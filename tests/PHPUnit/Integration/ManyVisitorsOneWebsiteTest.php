@@ -137,10 +137,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		if ($doBulk)
 		{
 			$t->enableBulkTracking();
-			// calc token auth by hand in test environment
-			$tokenAuth = md5(
-				Piwik_Config::getInstance()->superuser['login'] . Piwik_Config::getInstance()->superuser['password']);
-			$t->setTokenAuth($tokenAuth);
+			$t->setTokenAuth(self::getTokenAuth());
 		}
 		for ($i = 0; $i != $visitorCount; ++$i)
 		{

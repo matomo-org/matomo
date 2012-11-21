@@ -518,7 +518,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	{
         // get token auth
 	    $pwd = Zend_Registry::get('config')->superuser->password;
-	    if(strlen($pwd) != 32) $pwd = md5($pwd);
 
 	    return Piwik_UsersManager_API::getInstance()->getTokenAuth(
 	        Zend_Registry::get('config')->superuser->login, $pwd);
