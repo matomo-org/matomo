@@ -424,7 +424,7 @@ class PiwikTracker
     	
     	if (empty($this->storedTrackingActions))
     	{
-    		return '';
+    		throw new Exception("Error:  you must call the function doTrackPageView or doTrackGoal from this class, before calling this method doBulkTrack()");
     	}
     	
     	$data = array('requests' => $this->storedTrackingActions, 'token_auth' => $this->token_auth);
