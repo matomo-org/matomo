@@ -4,10 +4,10 @@
 		<label>anothersite.com</label>
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
-		<nb_actions>1</nb_actions>
-		<max_actions>1</max_actions>
-		<sum_visit_length>1</sum_visit_length>
-		<bounce_count>2</bounce_count>
+		<nb_actions>3</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>721</sum_visit_length>
+		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<subtable>
 			<row>
@@ -24,10 +24,10 @@
 				<label>http://anothersite.com/whatever.html?whatever=Ato</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<max_actions>1</max_actions>
-				<sum_visit_length>1</sum_visit_length>
-				<bounce_count>1</bounce_count>
+				<nb_actions>3</nb_actions>
+				<max_actions>3</max_actions>
+				<sum_visit_length>721</sum_visit_length>
+				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 			</row>
 		</subtable>

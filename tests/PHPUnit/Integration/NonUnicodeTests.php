@@ -78,27 +78,38 @@ class Test_Piwik_Integration_NonUnicodeTests extends IntegrationTestCase
 		// Test w/ iso-8859-15
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.3)->getDatetime());
 		$visitor->setUrlReferrer('http://anothersite.com/whatever.html?whatever=Ato%FC');
-		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd=Search 2%FC&test&cats= Search Category &search_count=INCORRECT!');
-		$visitor->setDebugStringAppend('&cs=iso-8859-15');
+		// Also testing that the value is encoded when passed as an array
+		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd[]=Search 2%FC&test&cats= Search Category &search_count=INCORRECT!');
+		$visitor->setPageCharset('iso-8859-15');
 		self::checkResponse($visitor->doTrackPageView('Site Search results'));
-		$visitor->setDebugStringAppend('');
+		$visitor->setPageCharset('');
 		
 		// Test w/ windows-1251
 		$visitor = self::getTracker(self::$idSite1, self::$dateTime, $defaultInit = true);
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.3)->getDatetime());
 		$visitor->setUrlReferrer('http://anothersite.com/whatever.html?txt=%EC%E5%F8%EA%EE%E2%FB%E5');
 		$visitor->setUrl('http://example.org/page/index.htm?whatever=%EC%E5%F8%EA%EE%E2%FB%E5');
-		$visitor->setDebugStringAppend('&cs=windows-1251');
+		$visitor->setPageCharset('windows-1251');
 		self::checkResponse($visitor->doTrackPageView('Page title is always UTF-8'));
-		$visitor->setDebugStringAppend('');
+
+		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.4)->getDatetime());
+		$visitor->setUrl('http://example.org/page/index.htm?q=%EC%E5%F8%EA%EE%E2%FB%E5');
+		$visitor->setPageCharset('windows-1251');
+		self::checkResponse($visitor->doTrackPageView('Site Search'));
+
+		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.5)->getDatetime());
+		$visitor->setUrl('http://example.org/page/index.htm?q=non unicode keyword %EC%E5%F8%EA%EE%E2%FB%E5 was there');
+		$visitor->setPageCharset('utf-8');
+		self::checkResponse($visitor->doTrackPageView('Site Search'));
+		$visitor->setPageCharset('');
 		
 		// Test invalid char set
 		$visitor = self::getTracker(self::$idSite1, self::$dateTime, $defaultInit = true);
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(1)->getDatetime());
 		$visitor->setUrlReferrer('http://anothersite.com/whatever.html');
 		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd=a+keyword&test&cats= Search Category &search_count=INCORRECT!');
-		$visitor->setDebugStringAppend('&cs=GTF-42'); // galactic transformation format
+		$visitor->setPageCharset('GTF-42'); // galactic transformation format
 		self::checkResponse($visitor->doTrackPageView('Site Search results'));
-		$visitor->setDebugStringAppend('');
+		$visitor->setPageCharset('');
 	}
 }

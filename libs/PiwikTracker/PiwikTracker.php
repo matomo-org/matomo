@@ -51,6 +51,13 @@ class PiwikTracker
 	 * @ignore
 	 */
 	const LENGTH_VISITOR_ID = 16;
+
+	/**
+	 * By default, Piwik expects utf-8 encoded values, for example for the page URL parameter values, Page Title, etc.
+	 *
+	 * @ignore
+	 */
+	const DEFAULT_CHARSET_PARAMETER_VALUES = 'utf-8';
 	
 	/**
 	 * Builds a PiwikTracker object, used to track visits, pages and Goal conversions 
@@ -81,6 +88,7 @@ class PiwikTracker
     	$this->requestCookie = '';
     	$this->idSite = $idSite;
     	$this->urlReferrer = @$_SERVER['HTTP_REFERER'];
+    	$this->pageCharset = self::DEFAULT_CHARSET_PARAMETER_VALUES;
     	$this->pageUrl = self::getCurrentUrl();
     	$this->ip = @$_SERVER['REMOTE_ADDR'];
     	$this->acceptLanguage = @$_SERVER['HTTP_ACCEPT_LANGUAGE'];
@@ -96,7 +104,12 @@ class PiwikTracker
     	$this->doBulkRequests = false;
     	$this->storedTrackingActions = array();
     }
-    
+
+	public function setPageCharset( $charset = false )
+	{
+		$this->pageCharset = $charset;
+	}
+
     /**
      * Sets the current URL being tracked
      * 
@@ -1038,6 +1051,7 @@ class PiwikTracker
 	        // URL parameters
 	        '&url=' . urlencode($this->pageUrl) .
 			'&urlref=' . urlencode($this->urlReferrer) .
+		    ((!empty($this->pageCharset) && $this->pageCharset != self::DEFAULT_CHARSET_PARAMETER_VALUES) ? '&cs=' . $this->pageCharset : '') .
 	        
 	        // Attribution information, so that Goal conversions are attributed to the right referrer or campaign
 	        // Campaign name

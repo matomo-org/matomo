@@ -156,12 +156,14 @@ class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
 
 		// Testing with non urlencoded values
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.3)->getDatetime());
-		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd=Search 2&test&cats= Search Category &search_count=INCORRECT!');
+		// ALso testing that array[] notation is detected
+		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd[]=Search 2&test&cats= Search Category &search_count=INCORRECT!');
 		self::checkResponse($visitor->doTrackPageView('Site Search results'));
 
 		// Testing with urlencoded values
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.32)->getDatetime());
-		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd=Search 1&test&cats='.urlencode(' Search Category '). ' &search_count=0');
+		// Also testing with random case 'myKwd'
+		$visitor->setUrl('http://example.org/index.htm?random=param&myKwd=Search 1&test&cats='.urlencode(' Search Category '). ' &search_count=0');
 		self::checkResponse($visitor->doTrackPageView('Site Search results'));
 
 		// IS_FOLLOWING_SEARCH: Yes
@@ -184,8 +186,11 @@ class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(24.43)->getDatetime());
 		self::checkResponse($visitor->doTrackSiteSearch("No Result Keyword!", "Bad No Result Category :(", $count = 0));
 
+		// Keyword in iso-8859-15 charset with funny character
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(24.5)->getDatetime());
-		self::checkResponse($visitor->doTrackSiteSearch("Final Keyword Searched for now.", false, $count = 10));
+		$visitor->setPageCharset('iso-8859-15');
+		$visitor->setUrl('http://example.org/index.htm?q=Final%20t%FCte%20Keyword%20Searched%20for%20now&search_count=10');
+		self::checkResponse($visitor->doTrackPageView(false));
 
 		// -
 		// Visitor BIS

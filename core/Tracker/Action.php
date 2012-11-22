@@ -931,12 +931,19 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			? $website['sitesearch_keyword_parameters']
 			: array();
 		$queryString = (!empty($parsedUrl['query']) ? $parsedUrl['query'] : '') . (!empty($parsedUrl['fragment']) ? $separator . $parsedUrl['fragment'] : '');
-		$parameters = Piwik_Common::getArrayFromQueryString($queryString);
-		
+		$parametersRaw = Piwik_Common::getArrayFromQueryString($queryString);
+
+		// strtolower the parameter names for smooth site search detection
+		$parameters = array();
+		foreach($parametersRaw as $k => $v) {
+			$parameters[Piwik_Common::mb_strtolower($k)] = $v;
+		}
+		// decode values if they were sent from a client using another charset
 		self::reencodeParameters($parameters, $this->pageEncoding);
 
-		// Detect Site Search
-		foreach ($keywordParameters as $keywordParameter) {
+		// Detect Site Search keyword
+		foreach ($keywordParameters as $keywordParameterRaw) {
+			$keywordParameter = Piwik_Common::mb_strtolower($keywordParameterRaw);
 			if (!empty($parameters[$keywordParameter])) {
 				$actionName = $parameters[$keywordParameter];
 				break;
@@ -952,7 +959,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			? $website['sitesearch_category_parameters']
 			: array();
 
-		foreach ($categoryParameters as $categoryParameter) {
+		foreach ($categoryParameters as $categoryParameterRaw) {
+			$categoryParameter = Piwik_Common::mb_strtolower($categoryParameterRaw);
 			if (!empty($parameters[$categoryParameter])) {
 				$categoryName = $parameters[$categoryParameter];
 				break;
@@ -969,7 +977,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		{
 			// @see excludeQueryParametersFromUrl()
 			// Excluded the detected parameters from the URL
-			$parametersToExclude = array($categoryParameter, $keywordParameter);
+			$parametersToExclude = array($categoryParameterRaw, $keywordParameterRaw);
 			$parsedUrl['query'] = self::getQueryStringWithExcludedParameters(Piwik_Common::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
 			$parsedUrl['fragment'] = self::getQueryStringWithExcludedParameters(Piwik_Common::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
 		}
@@ -1021,17 +1029,36 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		// if query params are encoded w/ non-utf8 characters (due to browser bug or whatever),
 		// encode to UTF-8.
 		if ($encoding !== false
-			&& !in_array( strtolower($encoding), array('utf-8', 'iso-8859-1', 'iso-8859-15'))
+			&& strtolower($encoding) != 'utf-8'
 			&& function_exists('mb_check_encoding'))
 		{
-			foreach ($queryParameters as $key => &$value)
-			{
-				$decoded = urldecode($value);
-				if (@mb_check_encoding($decoded, $encoding))
-				{
-					$value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
-				}
+			$queryParameters = self::reencodeParametersArray($queryParameters, $encoding);
+		}
+		return $queryParameters;
+	}
+
+	private static function reencodeParametersArray($queryParameters, $encoding)
+	{
+		foreach($queryParameters as $key => &$value)
+		{
+			if(is_array($value)) {
+				$value = self::reencodeParametersArray($value, $encoding);
+			} else {
+				$value = self::reencodeParameterValue($value, $encoding);
 			}
 		}
+		return $queryParameters;
+	}
+
+	private static function reencodeParameterValue($value, $encoding)
+	{
+		if(is_string($value))
+		{
+			$decoded = urldecode($value);
+			if (@mb_check_encoding($decoded, $encoding)) {
+				$value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
+			}
+		}
+		return $value;
 	}
 }
