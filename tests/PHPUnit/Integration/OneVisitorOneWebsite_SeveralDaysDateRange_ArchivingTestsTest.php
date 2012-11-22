@@ -120,8 +120,8 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
         // Check that requesting period "Range" means
         // only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
         $tests = array(
-            // 4 blobs for the Actions plugin, 7 blobs for UserSettings, 2 blobs VisitTime
-            'archive_blob_2010_12'    => (4 + 7 + 2) * 3,
+            // 5 blobs for the Actions plugin, 7 blobs for UserSettings, 2 blobs VisitTime
+            'archive_blob_2010_12'    => (5 + 7 + 2) * 3,
             // (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range)
             // + 1 flag archive UserSettings
             // + (Actions 1 flag + 2 metrics - pageviews, unique pageviews + X??? metrics Site Search)
@@ -137,7 +137,13 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
         foreach ($tests as $table => $expectedRows) {
             $sql        = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
             $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
-            $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
+
+	        // Uncomment to display a more verbose content of the table, when this test fails
+//	        if( $expectedRows!= $countBlobs) {
+//		        $var = Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range']);
+//		        Piwik::log($var); die('t');
+//	        }
+	        $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
         }
     }
 
