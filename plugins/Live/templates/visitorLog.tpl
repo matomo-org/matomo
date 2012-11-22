@@ -43,7 +43,7 @@
 {/if}
 
 	{capture assign='visitorColumnContent'}
-		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.location}, Provider {$visitor.columns.provider}" />
+		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.location|escape:'html'}, Provider {$visitor.columns.provider|escape:'html'}" />
 		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
 		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
 		{if $visitor.columns.visitorTypeIcon}
@@ -79,7 +79,9 @@
 				<strong title="{if $visitor.columns.visitorType=='new'}{'General_NewVisitor'|translate}{else}{'Live_VisitorsLastVisit'|translate:$visitor.columns.daysSinceLastVisit}{/if}">
 				{$visitor.columns.serverDatePrettyFirstAction} 
 				{if $isWidget}<br/>{else}-{/if} {$visitor.columns.serverTimePrettyFirstAction}</strong>
-				{if !empty($visitor.columns.visitIp)} <br/><span title="{if !empty($visitor.columns.visitorId)}{'General_VisitorID'|translate}: {$visitor.columns.visitorId}{/if}">IP: {$visitor.columns.visitIp}</span>{/if}
+				{if !empty($visitor.columns.visitIp)} <br/><span title="{if !empty($visitor.columns.visitorId)}{'General_VisitorID'|translate}: {$visitor.columns.visitorId}{/if}{if $visitor.columns.latitude || $visitor.columns.longitude}
+
+			GPS (lat/long): {$visitor.columns.latitude},{$visitor.columns.longitude}{/if}">IP: {$visitor.columns.visitIp}</span>{/if}
 				
 				{if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')} 
 					<br />

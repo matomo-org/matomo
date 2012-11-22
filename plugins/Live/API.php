@@ -542,6 +542,8 @@ class Piwik_Live_API
 		{
 			$toUnset[] = 'idvisitor';
 			$toUnset[] = 'location_ip';
+			$toUnset[] = 'location_latitude';
+			$toUnset[] = 'location_longitude';
 		}
 		foreach($toUnset as $keyName)
 		{

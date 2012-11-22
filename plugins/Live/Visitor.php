@@ -71,12 +71,17 @@ class Piwik_Live_Visitor
 			'daysSinceLastVisit' => $this->getDaysSinceLastVisit(),
 			'daysSinceFirstVisit' => $this->getDaysSinceFirstVisit(),
 			'daysSinceLastEcommerceOrder' => $this->getDaysSinceLastEcommerceOrder(),
+			'continent' => $this->getContinent(),
 			'country' => $this->getCountryName(),
 			'countryFlag' => $this->getCountryFlag(),
-			'continent' => $this->getContinent(),
+			'region' => $this->getRegionName(),
+			'city' => $this->getCityName(),
 			'location' => $this->getPrettyLocation(),
+			'latitude' => $this->getLatitude(),
+			'longitude' => $this->getLongitude(),
 			'provider' => $this->getProvider(),
 			'providerUrl' => $this->getProviderUrl(),
+
 			'referrerType' => $this->getRefererType(),
 			'referrerTypeName' => $this->getRefererTypeName(),
 			'referrerName' => $this->getRefererName(),
@@ -217,28 +222,59 @@ class Piwik_Live_Visitor
 	{
 		return Piwik_ContinentTranslate(Piwik_Common::getContinent($this->details['location_country']));
 	}
-	
-	function getPrettyLocation()
+
+	function getCityName()
 	{
-		$parts = array();
-		
-		// add city if it's known
-		if ($this->details['location_city'] != '')
+		if (!empty($this->details['location_city']))
 		{
-			$parts[] = $this->details['location_city'];
+			return $this->details['location_city'];
 		}
-		
-		// add region if it's known
+		return null;
+	}
+
+	public function getRegionName()
+	{
 		$region = $this->details['location_region'];
 		if ($region != '' && $region != Piwik_Tracker_Visit::UNKNOWN_CODE)
 		{
-			$parts[] = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes(
+			return Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes(
 				$this->details['location_country'], $region);
 		}
-		
+		return null;
+	}
+
+	function getPrettyLocation()
+	{
+		$parts = array();
+
+		$city = $this->getCityName();
+		if(!empty($city)) {
+			$parts[] = $city;
+		}
+		$region = $this->getRegionName();
+		if(!empty($region)) {
+			$parts[] = $region;
+		}
+
 		// add country & return concatenated result
 		$parts[] = $this->getCountryName();
 		return implode(', ', $parts);
+	}
+
+	function getLatitude()
+	{
+		if(!empty($this->details['location_latitude'])) {
+			return $this->details['location_latitude'];
+		}
+		return null;
+	}
+
+	function getLongitude()
+	{
+		if(!empty($this->details['location_longitude'])) {
+			return $this->details['location_longitude'];
+		}
+		return null;
 	}
 
 	function getCustomVariables()
