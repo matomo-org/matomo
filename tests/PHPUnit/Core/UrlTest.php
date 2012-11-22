@@ -135,6 +135,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_HOST'] = $httphost;
         $_SERVER['SCRIPT_URI'] = $scripturi;
         $_SERVER['REQUEST_URI'] = $requesturi;
+        Piwik_Config::getInstance()->General['enable_trusted_host_check'] = 1;
         Piwik_Config::getInstance()->General['trusted_hosts'] = array($httphost);
         $urlToTest = $testurl;
         $this->assertEquals( $result, Piwik_Url::isLocalUrl($urlToTest) );
