@@ -47,10 +47,14 @@
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
-		<continent>Europe</continent>
+		<region />
+		<city />
 		<location>France</location>
+		<latitude />
+		<longitude />
 		<provider>Unknown</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
@@ -144,10 +148,14 @@
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
-		<continent>Europe</continent>
+		<region />
+		<city />
 		<location>France</location>
+		<latitude />
+		<longitude />
 		<provider>Unknown</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
@@ -292,10 +300,14 @@
 		<daysSinceLastVisit>0</daysSinceLastVisit>
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
 		<country>France</country>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
-		<continent>Europe</continent>
+		<region />
+		<city />
 		<location>France</location>
+		<latitude />
+		<longitude />
 		<provider>Unknown</provider>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
