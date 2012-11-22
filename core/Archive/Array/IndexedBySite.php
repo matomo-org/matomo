@@ -216,7 +216,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 	 * Gets the archive id of every Single archive this archive holds. This method
 	 * will not launch the archiving process.
 	 * 
-	 * @param string  $metrics  The requested archive metrics.
+	 * @param array  $metrics  The requested archive metrics.
 	 * @return array
 	 */
 	private function getArchiveIdsWithoutLaunching( $metrics )

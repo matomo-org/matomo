@@ -43,9 +43,7 @@ class Piwik_Dashboard extends Piwik_Plugin
 		$pos = 0;
 		$nameless = 1;
 		foreach ($dashboards AS &$dashboard) {
-			if (!empty($dashboard['name'])) {
-				$dashboard['name'] = $dashboard['name'];
-			} else {
+			if (empty($dashboard['name'])) {
 				$dashboard['name'] = Piwik_Translate('Dashboard_DashboardOf', $login);
 				if($nameless > 1) {
 					$dashboard['name'] .= " ($nameless)";

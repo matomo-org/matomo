@@ -34,7 +34,6 @@ class Piwik_View implements Piwik_View_Interface
 
 	private $template = '';
 	private $smarty = false;
-	private $variables = array();
 	private $contentType = 'text/html; charset=utf-8';
 	private $xFrameOptions = null;
 	

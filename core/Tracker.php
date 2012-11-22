@@ -142,7 +142,6 @@ class Piwik_Tracker
 
 	protected function initRequests($args)
 	{
-		$usingBulkTracking = false;
 		$rawData = file_get_contents("php://input");
 		if (!empty($rawData))
 		{

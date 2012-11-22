@@ -109,8 +109,6 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 
 		if (Piwik::isUserIsSuperUser())
 		{
-			$deleteLogs = array();
-
 			$view->deleteData = $this->getDeleteDataInfo();
 			$view->anonymizeIP = $this->getAnonymizeIPInfo();
 			$view->dntSupport = $this->isDntSupport();

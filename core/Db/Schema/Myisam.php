@@ -28,7 +28,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 	{
 		$db = Zend_Registry::get('db');
 		$allEngines = $db->fetchAssoc('SHOW ENGINES');
-		if(key_exists($engineName, $allEngines))
+		if(array_key_exists($engineName, $allEngines))
 		{
 			$support = $allEngines[$engineName]['Support'];
 			return $support == 'DEFAULT' || $support == 'YES';

@@ -84,7 +84,6 @@ class Piwik_Referers extends Piwik_Plugin
 					'actionToLoadSubTables' => 'getSearchEnginesFromKeywordId',
         			'dimension' => Piwik_Translate('Referers_ColumnKeyword'),
         			'documentation' => Piwik_Translate('Referers_KeywordsReportDocumentation', '<br />'),
-        			'actionToLoadSubTables' => 'getSearchEnginesFromKeywordId',
         			'order' => 3,
         		),
 				array( // subtable report

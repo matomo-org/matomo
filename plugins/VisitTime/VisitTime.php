@@ -192,7 +192,6 @@ class Piwik_VisitTime extends Piwik_Plugin
 		
 		if($query === false) return;
 		
-		$goalByServerTime = array();
 		while($row = $query->fetch())
 		{
 			if(!isset($this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
