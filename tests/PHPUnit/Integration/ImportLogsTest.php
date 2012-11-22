@@ -93,7 +93,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     public static function setUpWebsitesAndGoals()
     {
 		// for conversion testing
-        self::createWebsite(self::$dateTime);
+	    self::$idSite = self::createWebsite(self::$dateTime);
 		self::$idGoal = Piwik_Goals_API::getInstance()->addGoal(
 			self::$idSite, 'all', 'url', 'http', 'contains', false, 5);
     }
