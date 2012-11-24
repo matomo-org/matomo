@@ -887,6 +887,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			}
 		}
 		
+		// Check if user agent should be excluded
+		if (!$excluded)
+		{
+			$excluded = $this->isUserAgentExcluded($ua);
+			if ($excluded)
+			{
+				printDebug("User agent excluded.");
+			}
+		}
+		
 		if(!$excluded)
 		{
 			if( (isset($_SERVER["HTTP_X_PURPOSE"]) 
@@ -937,6 +947,32 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			{
 				printDebug('Visitor IP '.Piwik_IP::N2P($ip).' is excluded from being tracked');
 				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Returns true if the specified user agent should be excluded for the current site or not.
+	 * 
+	 * Visits whose user agent string contains one of the excluded_user_agents strings for the
+	 * site being tracked (or one of the global strings) will be excluded.
+	 * 
+	 * @param string $ua The user agent string.
+	 * @return bool
+	 */
+	protected function isUserAgentExcluded( $ua )
+	{
+		$websiteAttributes = Piwik_Common::getCacheWebsiteAttributes($this->idsite);
+		if (!empty($websiteAttributes['excluded_user_agents']))
+		{
+			foreach ($websiteAttributes['excluded_user_agents'] as $excludedUserAgent)
+			{
+				// if the excluded user agent string part is in this visit's user agent, this visit should be excluded
+				if (stripos($ua, $excludedUserAgent) !== false)
+				{
+					return true;
+				}
 			}
 		}
 		return false;

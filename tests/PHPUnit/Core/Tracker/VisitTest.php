@@ -82,11 +82,65 @@ class Tracker_VisitTest extends DatabaseTestCase
             $this->assertSame($expected, $visit->public_isVisitorIpExcluded($testIpIsExcluded));
         }
     }
+    
+    /**
+     * Dataprovider for testIsVisitorUserAgentExcluded.
+     */
+    public function getExcludedUserAgentTestData()
+    {
+    	return array(
+    		array('', array(
+    			'whatever' => false,
+    			'' => false,
+    			'nlksdjfsldkjfsa' => false,
+    		)),
+    		array('mozilla', array(
+    			'this has mozilla in it' => true,
+    			'this doesn\'t' => false,
+    			'partial presence: mozi' => false,
+    		)),
+    		array('cHrOmE,notinthere,&^%', array(
+    			'chrome is here' => true,
+    			'CHROME is here' => true,
+    			'12&^%345' => true,
+    			'sfasdf' => false,
+    		)),
+    	);
+    }
+	
+	/**
+	 * @group Core
+	 * @group Tracker
+	 * @group Tracker_Visit
+	 * @dataProvider getExcludedUserAgentTestData
+	 */
+	public function testIsVisitorUserAgentExcluded($excludedUserAgent, $tests)
+	{
+		Piwik_SitesManager_API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
+		
+		$visit = new Test_Piwik_TrackerVisit_public();
+		$idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/",$ecommerce=0,
+			$siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIp=null,
+			$excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null,
+			$excludedUserAgent);
+		$visit->setRequest(array('idsite' => $idsite));
+		
+		// test that user agents that contain excluded user agent strings are excluded
+		foreach ($tests as $ua => $expected)
+		{
+			$this->assertSame($expected, $visit->public_isUserAgentExcluded($ua), "Result if isUserAgentExcluded('$ua') was not ".($expected?'true':'false').".");
+		}
+	}
 }
 
 class Test_Piwik_TrackerVisit_public extends Piwik_Tracker_Visit {
-    public function public_isVisitorIpExcluded( $ip )
-    {
-        return $this->isVisitorIpExcluded($ip);
-    }
+	public function public_isVisitorIpExcluded( $ip )
+	{
+		return $this->isVisitorIpExcluded($ip);
+	}
+	
+	public function public_isUserAgentExcluded( $ua )
+	{
+		return $this->isUserAgentExcluded($ua);
+	}
 }

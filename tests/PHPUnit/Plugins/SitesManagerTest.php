@@ -78,9 +78,11 @@ class SitesManagerTest extends DatabaseTestCase
         $currency = 'EUR';
         $excludedQueryParameters = 'p1,P2, P33333';
         $expectedExcludedQueryParameters = 'p1,P2,P33333';
+        $excludedUserAgents = " p1,P2, \nP3333 ";
+        $expectedExcludedUserAgents = "p1,P2,P3333";
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("name","http://piwik.net/", $ecommerce = 1,
 	        $siteSearch = 1, $searchKeywordParameters = 'search,param', $searchCategoryParameters = 'cat,category',
-	        $ips, $excludedQueryParameters,$timezone, $currency);
+	        $ips, $excludedQueryParameters,$timezone, $currency, $group = null, $startDate = null, $excludedUserAgents);
         $siteInfo = Piwik_SitesManager_API::getInstance()->getSiteFromId($idsite);
         $this->assertEquals($ips, $siteInfo['excluded_ips']);
         $this->assertEquals($timezone, $siteInfo['timezone']);
@@ -92,6 +94,7 @@ class SitesManagerTest extends DatabaseTestCase
 	    $this->assertEquals($searchKeywordParameters, $siteInfo['sitesearch_keyword_parameters']);
 	    $this->assertEquals($searchCategoryParameters, $siteInfo['sitesearch_category_parameters']);
         $this->assertEquals($expectedExcludedQueryParameters, $siteInfo['excluded_parameters']);
+        $this->assertEquals($expectedExcludedUserAgents, $siteInfo['excluded_user_agents']);
     }
     
     /**
@@ -511,8 +514,8 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
         
         $resultWanted = array(
-            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
-            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0,"excluded_ips" => "",  'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 0, "excluded_ips" => "", 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0,"excluded_ips" => "",  'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
         );
             
         FakeAccess::setIdSitesAdmin (array(1,3));
@@ -553,8 +556,8 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
         
         $resultWanted = array(
-            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '',"excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
-            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '',"excluded_ips" => "", 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '',"excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0, 'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '',"excluded_ips" => "", 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
         );
             
         FakeAccess::setIdSitesView (array(1,3));
@@ -595,8 +598,8 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3",array("http://piwik.org"));
         
         $resultWanted = array(
-            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 1,"excluded_ips" => "",  'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
-            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0,"excluded_ips" => "",  'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            0 => array("idsite" => 1, "name" => "site1", "main_url" =>"http://piwik.net", "ecommerce" => 1,"excluded_ips" => "",  'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
+            1 => array("idsite" => 3, "name" => "site3", "main_url" =>"http://piwik.org", "ecommerce" => 0,"excluded_ips" => "",  'sitesearch' => 1, 'sitesearch_keyword_parameters' => '', 'sitesearch_category_parameters' => '', 'excluded_parameters' => '', 'excluded_user_agents' => '', 'timezone' => 'UTC', 'currency' => 'USD', 'group' => ''),
         );
             
         FakeAccess::setIdSitesView (array(1,3));

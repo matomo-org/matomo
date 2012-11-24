@@ -37,7 +37,15 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 	{'SitesManager_PiwikWillAutomaticallyExcludeCommonSessionParameters'|translate:"phpsessid, sessionid, ..."}
 {/capture}
 {assign var=excludedQueryParametersHelp value=$excludedQueryParametersHelp|inlineHelp}
+
+{capture assign=excludedUserAgentsHelp}
+	{'SitesManager_GlobalExcludedUserAgentHelp1'|translate}
+	<br/><br/>
+	{'SitesManager_GlobalListExcludedUserAgents_Desc'|translate} {'SitesManager_GlobalExcludedUserAgentHelp2'|translate}
+{/capture}
+{assign var=excludedUserAgentsHelp value=$excludedUserAgentsHelp|inlineHelp}
 var excludedQueryParametersHelp = '{$excludedQueryParametersHelp|escape:javascript}';
+var excludedUserAgentsHelp = '{$excludedUserAgentsHelp|escape:javascript}';
 var timezoneHelp = '{$timezoneHelpPlain|inlineHelp|escape:javascript}';
 var currencyHelp = '{$currencyHelpPlain|escape:javascript}';
 var ecommerceHelp = '{$ecommerceHelpPlain|inlineHelp|escape:javascript}';
@@ -140,6 +148,7 @@ vertical-align:middle;
 			<th>{'SitesManager_Urls'|translate}</th>
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
 			<th>{'SitesManager_ExcludedParameters'|translate|replace:" ":"<br />"}</th>
+			<th id='exclude-user-agent-header' {if !$allowSiteSpecificUserAgentExclude}style="display:none"{/if}>{'SitesManager_ExcludedUserAgents'|translate}</th>
 			<th>{'Actions_SubmenuSitesearch'|translate}</th>
 			<th>{'SitesManager_Timezone'|translate}</th>
 			<th>{'SitesManager_Currency'|translate}</th>
@@ -156,13 +165,14 @@ vertical-align:middle;
 				<td id="siteName" class="editableSite">{$site.name}</td>
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url|replace:"http://":""}<br />{/foreach}</td>       
 				<td id="excludedIps" class="editableSite">{foreach from=$site.excluded_ips item=ip}{$ip}<br />{/foreach}</td>       
-				<td id="excludedQueryParameters" class="editableSite">{foreach from=$site.excluded_parameters item=parameter}{$parameter}<br />{/foreach}</td>       
+				<td id="excludedQueryParameters" class="editableSite">{foreach from=$site.excluded_parameters item=parameter}{$parameter}<br />{/foreach}</td>
+				<td id="excludedUserAgents" class="editableSite" {if !$allowSiteSpecificUserAgentExclude}style="display:none"{/if}>{foreach from=$site.excluded_user_agents item=ua}{$ua}<br />{/foreach}</td>
 				<td id="sitesearch" class="editableSite">{if $site.sitesearch}<span class='sitesearchActive'>{'General_Yes'|translate}</span>{else}<span class='sitesearchInactive'>-</span>{/if}<span class='sskp' sitesearch_keyword_parameters="{$site.sitesearch_keyword_parameters|escape:'html'}" sitesearch_category_parameters="{$site.sitesearch_category_parameters|escape:'html'}" id="sitesearch_parameters"></span></td>
 				<td id="timezone" class="editableSite">{$site.timezone}</td>
 				<td id="currency" class="editableSite">{$site.currency}</td>
 				<td id="ecommerce" class="editableSite">{if $site.ecommerce}<span class='ecommerceActive'>{'General_Yes'|translate}</span>{else}<span class='ecommerceInactive'>-</span>{/if}</td>
-				<td><span id="row{$i}" class='editSite link_but'><img src='themes/default/images/ico_edit.png' title="{'General_Edit'|translate}" border="0"/> {'General_Edit'|translate}</span></td>
-				<td><span id="row{$i}" class="deleteSite link_but"><img src='themes/default/images/ico_delete.png' title="{'General_Delete'|translate}" border="0" /> {'General_Delete'|translate}</span></td>
+				<td><span id="row{$site.idsite}" class='editSite link_but'><img src='themes/default/images/ico_edit.png' title="{'General_Edit'|translate}" border="0"/> {'General_Edit'|translate}</span></td>
+				<td><span id="row{$site.idsite}" class="deleteSite link_but"><img src='themes/default/images/ico_delete.png' title="{'General_Delete'|translate}" border="0" /> {'General_Delete'|translate}</span></td>
 				<td><a href='{url action=displayJavascriptCode idSite=$site.idsite updated=false}'>{'SitesManager_ShowTrackingTag'|translate}</a></td>
 			</tr>
 			{/foreach}
@@ -208,6 +218,23 @@ vertical-align:middle;
 			<textarea cols="30" rows="3" id="globalExcludedQueryParameters">{$globalExcludedQueryParameters}
 </textarea>
 		</td><td><label for="globalExcludedQueryParameters">{$excludedQueryParametersHelp}</label>
+		</td></tr>
+		
+		{* global excluded user agents *}
+		<tr><td colspan="2">
+			<b>{'SitesManager_GlobalListExcludedUserAgents'|translate}</b>
+			<p>{'SitesManager_GlobalListExcludedUserAgents_Desc'|translate}</p>
+		</td></tr>
+		
+		<tr><td>
+			<textarea cols="30" rows="3" id="globalExcludedUserAgents">{$globalExcludedUserAgents}</textarea>
+		</td><td><label for="globalExcludedUserAgents">{$excludedUserAgentsHelp}</label>
+		</td></tr>
+		
+		<tr><td>
+			<input type="checkbox" id="enableSiteUserAgentExclude" name="enableSiteUserAgentExclude" {if $allowSiteSpecificUserAgentExclude}checked="checked"{/if}/><label for="enableSiteUserAgentExclude">{'SitesManager_EnableSiteSpecificUserAgentExclude'|translate}</label>
+			<span id='enableSiteUserAgentExclude-loading' class='loadingPiwik' style='display:none'><img src='./themes/default/images/loading-blue.gif' /></span>
+		</td><td>{'SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate:'<a href="#editSites">':'</a>'|inlineHelp}
 		</td></tr>
 
 		<tr><td colspan="2">

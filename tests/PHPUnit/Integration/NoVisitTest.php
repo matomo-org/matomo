@@ -67,6 +67,9 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
     {
         $dateTime = self::$dateTime;
         $idSite   = self::$idSite;
+        
+        Piwik_SitesManager_API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
+        Piwik_SitesManager_API::getInstance()->setGlobalExcludedUserAgents('globalexcludeduseragent');
 
         /*
            // Trigger invalid website
@@ -93,16 +96,27 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
 
         // Test IP Exclusion works with or without IP exclusion
         foreach (array(false, true) as $enable) {
+            $excludedIp = '154.1.12.34';
+        	Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = '', $excludedIp . ',1.2.3.4', $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = 'excludeduseragentstring');
+        	
             // Enable IP Anonymization
             $t->DEBUG_APPEND_URL = '&forceIpAnonymization=' . (int)$enable;
 
+            // test with excluded User Agent
+            $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729) (excludeduseragentstring)');
+            $t->setIp('211.1.2.3');
+            self::checkResponse($t->doTrackPageView('visit from excluded User Agent'));
+            
+            // test w/ global excluded User Agent
+            $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729) (globalexcludeduseragent)');
+            $t->setIp('211.1.2.3');
+            self::checkResponse($t->doTrackPageView('visit from global excluded User Agent'));
+
             // test with excluded IP
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent
-            $excludedIp = '154.1.12.34';
-            Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = '', $excludedIp . ',1.2.3.4');
             $t->setIp($excludedIp);
             self::checkResponse($t->doTrackPageView('visit from IP excluded'));
-
+            
             // test with global list of excluded IPs
             $excludedIpBis = '145.5.3.4';
             Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);

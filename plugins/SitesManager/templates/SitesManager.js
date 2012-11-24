@@ -44,8 +44,10 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
 		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
 		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
-		var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
+		var excludedUserAgents = $(row).find('textarea#excludedUserAgents').val();
+		excludedUserAgents = piwikHelper.getApiFormatTextarea(excludedUserAgents);
+		var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
         var sitesearch = encodeURIComponent($(row).find('#sitesearch option:selected').val());
         var searchKeywordParameters = $('input#searchKeywordParameters').val();
         var searchCategoryParameters = $('input#searchCategoryParameters').val();
@@ -61,6 +63,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&ecommerce='+ecommerce;
 		request += '&excludedIps='+excludedIps;
 		request += '&excludedQueryParameters='+excludedQueryParameters;
+		request += '&excludedUserAgents='+excludedUserAgents;
         request += '&siteSearch='+sitesearch;
         request += '&searchKeywordParameters='+searchKeywordParameters;
         request += '&searchCategoryParameters='+searchCategoryParameters;
@@ -94,6 +97,8 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
 		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
+		var excludedUserAgents = $(row).find('textarea#excludedUserAgents').val();
+		excludedUserAgents = piwikHelper.getApiFormatTextarea(excludedUserAgents);
 		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
 		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
         var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
@@ -112,6 +117,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&ecommerce='+ecommerce;
 		request += '&excludedIps='+excludedIps;
 		request += '&excludedQueryParameters='+excludedQueryParameters;
+		request += '&excludedUserAgents='+excludedUserAgents;
         request += '&siteSearch='+sitesearch;
         request += '&searchKeywordParameters='+searchKeywordParameters;
         request += '&searchCategoryParameters='+searchCategoryParameters;
@@ -132,8 +138,11 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
 		var excludedQueryParameters = $('textarea#globalExcludedQueryParameters').val();
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
+		var globalExcludedUserAgents = $('textarea#globalExcludedUserAgents').val();
+		globalExcludedUserAgents = piwikHelper.getApiFormatTextarea(globalExcludedUserAgents);
         var searchKeywordParameters = $('input#globalSearchKeywordParameters').val();
         var searchCategoryParameters = $('input#globalSearchCategoryParameters').val();
+        var enableSiteUserAgentExclude = $('input#enableSiteUserAgentExclude').is(':checked') ? 1 : 0;
 		var request = '';
 		request += 'module=SitesManager';
 		request += '&action=setGlobalSettings';
@@ -142,6 +151,8 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		request += '&currency='+currency;
 		request += '&excludedIps='+excludedIps;
         request += '&excludedQueryParameters='+excludedQueryParameters;
+        request += '&excludedUserAgents='+globalExcludedUserAgents;
+        request += '&enableSiteUserAgentExclude='+enableSiteUserAgentExclude;
         request += '&searchKeywordParameters='+searchKeywordParameters;
         request += '&searchCategoryParameters='+searchCategoryParameters;
 	 	request += '&token_auth=' + piwik.token_auth;
@@ -163,6 +174,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
+				<td><textarea cols="20" rows="4" id="excludedUserAgents"></textarea><br />'+excludedUserAgentsHelp+'</td>\
 				<td>'+getSitesearchSelector(false)+'</td>\
 				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
 				<td>'+getCurrencySelector(defaultCurrency)+'<br />' + currencyHelp + '</td>\
@@ -254,6 +266,12 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 					{
 						var contentAfter = '<textarea cols="20" rows="4" id="excludedQueryParameters">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
 						contentAfter += '<br />'+excludedQueryParametersHelp;
+						$(n).html(contentAfter);
+					}
+					else if (idName == 'excludedUserAgents')
+					{
+						var contentAfter = '<textarea cols="20" rows="4" id="excludedUserAgents">' +
+							contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea><br />'+excludedUserAgentsHelp;
 						$(n).html(contentAfter);
 					}
 					else if(idName == 'timezone')
@@ -434,3 +452,4 @@ function onClickSiteSearchUseDefault()
         $('#sitesearchIntro').show();
     }
 }
+

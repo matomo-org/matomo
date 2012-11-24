@@ -89,6 +89,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
   						  currency CHAR( 3 ) NOT NULL,
   						  excluded_ips TEXT NOT NULL,
   						  excluded_parameters TEXT NOT NULL,
+  						  excluded_user_agents TEXT NOT NULL,
   						  `group` VARCHAR(250) NOT NULL, 
 						  PRIMARY KEY(idsite)
 						)  DEFAULT CHARSET=utf8

@@ -86,6 +86,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 		$website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);
 		$array['excluded_ips'] = $this->getTrackerExcludedIps($website);
 		$array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
+		$array['excluded_user_agents'] = self::getExcludedUserAgents($website);
 		$array['sitesearch'] = $website['sitesearch'];
 		$array['sitesearch_keyword_parameters'] = $this->getTrackerSearchKeywordParameters($website);
 		$array['sitesearch_category_parameters'] = $this->getTrackerSearchCategoryParameters($website);
@@ -132,6 +133,23 @@ class Piwik_SitesManager extends Piwik_Plugin
 		}
 		return $ipRanges;
 	}
+	
+	/**
+	 * Returns the array of excluded user agent substrings for a site. Filters out
+	 * any garbage data & trims each entry.
+	 * 
+	 * @param array $website The full set of information for a site.
+	 * @return array
+	 */
+	private static function getExcludedUserAgents( $website )
+	{
+		$excludedUserAgents = Piwik_SitesManager_API::getInstance()->getExcludedUserAgentsGlobal();
+		if (Piwik_SitesManager_API::getInstance()->isSiteSpecificUserAgentExcludeEnabled())
+		{
+			$excludedUserAgents .= ','.$website['excluded_user_agents'];
+		}
+		return self::filterBlankFromCommaSepList($excludedUserAgents);
+	}
 
 	/**
 	 * Returns the array of URL query parameters to exclude from URLs
@@ -144,7 +162,19 @@ class Piwik_SitesManager extends Piwik_Plugin
 		$globalExcludedQueryParameters = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
 
 		$excludedQueryParameters .= ',' . $globalExcludedQueryParameters;
-		$parameters = explode(',', $excludedQueryParameters);
+		return self::filterBlankFromCommaSepList($excludedQueryParameters);
+	}
+	
+	/**
+	 * Trims each element of a comma-separated list of strings, removes empty elements and
+	 * returns the result (as an array).
+	 * 
+	 * @param string $parameters The unfiltered list.
+	 * @return array The filtered list of strings as an array.
+	 */
+	private function filterBlankFromCommaSepList( $parameters )
+	{
+		$parameters = explode(',', $parameters);
 		$parameters = array_filter($parameters, 'strlen');
 		$parameters = array_unique($parameters);
 		return $parameters;

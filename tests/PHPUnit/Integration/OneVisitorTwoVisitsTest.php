@@ -181,6 +181,8 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         $dateTime = self::$dateTime;
         $idSite   = self::$idSite;
 
+        Piwik_SitesManager_API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
+        
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         $t->disableCookieSupport();
@@ -191,7 +193,11 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         $parameterToExclude = 'excluded_parameter';
         Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new name', $url = array('http://site.com'), $ecommerce = 0, $siteSearch = null,
 	        $searchKeywordParameters = null,
-	        $searchCategoryParameters = null, $excludedIps = null, $parameterToExclude . ',anotherParameter');
+	        $searchCategoryParameters = null, $excludedIps = null, $parameterToExclude . ',anotherParameter',
+	        $timezone = null, $currency = null, $group = null, $startDate = null,
+	        // test that visit won't be excluded since site-specific exclude is not enabled
+	        $excludedUserAgents = 'mozilla'
+        );
 
         // Record 1st page view
         $urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY&parameter=Should display';
