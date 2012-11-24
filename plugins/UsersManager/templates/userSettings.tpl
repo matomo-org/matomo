@@ -41,8 +41,9 @@
 	<fieldset>
 		<label><input type="radio" value="MultiSites" name="defaultReport"{if $defaultReport=='MultiSites'} checked="checked"{/if} /> {'General_AllWebsitesDashboard'|translate}</label><br />
 		<label style="padding-right:12px;"><input type="radio" value="1" name="defaultReport"{if $defaultReport!='MultiSites'} checked="checked"{/if} /> {'General_DashboardForASpecificWebsite'|translate}</label>
+		{if $defaultReport=='MultiSites'}{assign var=defaultReportIdSite value=1}{else}{assign var=defaultReportIdSite value=$defaultReport}{/if}
 		{include file="CoreHome/templates/sites_selection.tpl"
-			siteName=$defaultReportSiteName idSite=$defaultReport switchSiteOnSelect=false showAllSitesItem=false
+			siteName=$defaultReportSiteName idSite=$defaultReportIdSite switchSiteOnSelect=false showAllSitesItem=false
 			showSelectedSite=false}
 	</fieldset>
 	</td>
