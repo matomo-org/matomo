@@ -116,7 +116,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 	 */
 	protected function addSeriesPickerToView($multiSelect=true)
 	{
-		if (count($this->selectableColumns))
+		if (count($this->selectableColumns)
+			&& Piwik_Common::getRequestVar('showSeriesPicker', 1) == 1)
 		{
 			// build the final configuration for the series picker
 			$columnsToDisplay = $this->getColumnsToDisplay();
