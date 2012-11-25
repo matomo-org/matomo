@@ -50,7 +50,7 @@
         </exec>
     </target>
 
-    <target name="process-build-resources-mysqli" depends="prepare-build-filesystem">
+    <target name="process-build-resources-mysqli" depends="prepare">
         <copy file="${basedir}/config/mysqli.template.php" tofile="${basedir}/../config/config.ini.php"
               overwrite="true">
             <filterset>
