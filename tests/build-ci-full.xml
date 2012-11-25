@@ -50,15 +50,36 @@
         </exec>
     </target>
 
-    <target name="tools-parallel" description="Run tools in parallel">
-     <parallel>
-      <antcall target="phpmd"/>
-      <antcall target="pdepend"/>
-      <antcall target="phpcpd"/>
-     </parallel>
+    <target name="process-build-resources-mysqli" depends="prepare-build-filesystem">
+        <copy file="${basedir}/config/mysqli.template.php" tofile="${basedir}/../config/config.ini.php"
+              overwrite="true">
+            <filterset>
+                <filtersfile file="${basedir}/build.properties"/>
+            </filterset>
+        </copy>
     </target>
 
-    <target name="all" depends="prepare,tools-parallel">
+    <target name="test-mysqli" depends="process-build-resources-mysqli">
+
+        <exec executable="php" dir="${basedir}/PHPUnit" failonerror="true" failifexecutionfails="true">
+            <arg line="-d zend_extension=/usr/lib/php5/20090626+lfs/xdebug.so
+                       /usr/bin/phpunit
+                       --group Core,Plugins
+                       --log-junit ${basedir}/results/logs/junit.xml
+                       --coverage-html ${basedir}/build/coverage"/>
+        </exec>
+
+    </target>
+
+    <target name="tools-parallel" description="Run tools in parallel">
+        <parallel>
+            <antcall target="phpmd"/>
+            <antcall target="pdepend"/>
+            <antcall target="phpcpd"/>
+        </parallel>
+    </target>
+
+    <target name="all" depends="prepare,tools-parallel,test-mysqli">
     </target>
 
 </project>
