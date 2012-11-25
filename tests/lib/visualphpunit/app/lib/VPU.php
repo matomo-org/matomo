@@ -201,6 +201,17 @@ class VPU {
             ? trim($test_results['output'])
             : '';
         $trace = $this->_get_trace($test_results['trace'], $source);
+        
+        $expected = $processed = $expected_file = null;
+        if (isset($test_results['trace'][0]['function'])
+        	&& $test_results['trace'][0]['function'] == 'assertXmlStringEqualsXmlString') {
+        	
+        	list($expected, $processed, $msg) = $test_results['trace'][0]['args'];
+        	
+        	// piwik specific hack!
+        	$processed_file = substr($msg, strlen('Differences with expected in: '));
+        	$trace = '';
+    	}
 
         return compact(
             'status',
@@ -208,7 +219,10 @@ class VPU {
             'time',
             'message',
             'output',
-            'trace'
+            'trace',
+            'expected',
+            'processed',
+            'processed_file'
         );
     }
 

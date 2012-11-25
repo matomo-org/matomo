@@ -672,7 +672,7 @@ cite {
 }
 
 code,
-pre {
+pre,.test-diff{
   padding: 0 3px 2px;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   font-size: 12px;
@@ -689,7 +689,7 @@ code {
   border: 1px solid #e1e1e8;
 }
 
-pre {
+pre,.test-diff {
   display: block;
   padding: 8.5px;
   margin: 0 0 9px;
@@ -5046,3 +5046,5 @@ label.checkbox {
   margin-right: 5px;
 }
 
+.test-diff {
+}

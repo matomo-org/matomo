@@ -30,6 +30,11 @@ class Routes {
                 $controller = new \app\controller\Home();
                 return $controller->call('help', $request);
             }),
+            
+            array('post', '/copy-processed', function($request) {
+            	$controller = new \app\controller\Home();
+            	return $controller->call('copy_processed', $request);
+            }),
 
             // 404
             array('get', '*', function($request) {

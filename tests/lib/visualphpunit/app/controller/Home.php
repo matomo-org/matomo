@@ -125,6 +125,27 @@ class Home extends \app\core\Controller {
 
         return $to_view + compact('notifications');
     }
+    
+    // POST
+    public function copy_processed($request) {
+    	// piwik-specific HACK!
+    	$processed_file_location = $request->data['processed_file'];
+    	$expected_file_location =
+    		dirname(dirname($processed_file_location)).'/expected/'.basename($processed_file_location);
+    	
+    	if (!file_exists($expected_file_location))
+    	{
+    		return array('error' => "Cannot find expected file at '$expected_file_location'.");
+    	}
+    	
+    	$processed = fopen($processed_file_location, 'r');
+    	$expected = fopen($expected_file_location, 'w');
+    	fwrite($expected, fread($processed, filesize($processed_file_location)));
+    	fclose($processed);
+    	fclose($expected);
+    	
+    	return array();
+    }
 
     protected function _store_statistics($stats) {
         $db_options = \app\lib\Library::retrieve('db');

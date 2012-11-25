@@ -38,6 +38,8 @@
               <li><a href="./graphs">Graphs</a></li>
               <li><a href="./help">Help</a></li>
               <li><button type="submit" id='run-tests' class="btn btn-primary">Run Tests</button></li>
+              <li><a href="#" style="display:none" id='next-diff-link'>Next Difference</a></li>
+              <li><a href="#" style="display:none" id='prev-diff-link'>Prev Difference</a></li>
             </ul>
           </div>
         </div>
@@ -198,6 +200,7 @@
     <script src='./js/jqueryFileSelector.js'></script>
     <script src='./js/jquery.sortElements.js'></script>
     <script src='./js/bootstrap-alert.js'></script>
+    <script src='./js/jsdiff.js'></script>
 
     <script type='text/html' id='test-results'>
       <div class='row statistics'>
@@ -349,7 +352,16 @@
                   <pre><%= test.output %></pre>
                 </li>
                 <% } %>
-                <% if ( test.trace ) { %>
+                <% if ( test.processed_file ) { %>
+                <li class='test-details'>
+                  <em style="display:inline-block">Diff:</em>
+                  <a href="#" class="use-processed-file-link" style="display:inline-block;margin-left:256px;" data-file="<%= test.processed_file %>">Use Processed</a>
+                  <div class='test-diff'
+                       data-expected="<%= escapeQuotes(test.expected) %>"
+                       data-processed="<%= escapeQuotes(test.processed) %>">
+                  </div>
+                </li>
+                <% } else if ( test.trace ) { %>
                 <li class='test-details'>
                   <em>Stack Trace:</em>
                   <pre><%= test.trace %></pre>
@@ -366,6 +378,31 @@
 
     <script>
       $(document).ready(function() {
+        
+        // primitive diff navigation logic
+        var currentDiff = 0,
+        	gotoDiff = function() {
+        	    var diffElem = $('ins,del')[currentDiff];
+        	    if (diffElem) {
+        	      $(window).scrollTop($(diffElem).offset().top - $('.navbar').height());
+        	    }
+        	};
+        $('#prev-diff-link').click(function(e) {
+          e.preventDefault();
+          
+          currentDiff = Math.max(0, currentDiff - 1);
+          gotoDiff();
+          
+          return false;
+        });
+        $('#next-diff-link').click(function(e) {
+          e.preventDefault();
+
+          currentDiff = Math.min($('ins,del').length, currentDiff + 1);
+          gotoDiff();
+          
+          return false;
+        });
 
         var $file_selector = $('.file-selector');
         var expandFileSet = function(fileset, callback, result) { // not very efficient...
@@ -607,18 +644,33 @@
                     display_incomplete: $('#display-incomplete').is(':checked'),
                     display_skipped: $('#display-skipped').is(':checked'),
                     display_succeeded: $('#display-succeeded').is(':checked'),
-                    totalElapsedTime: elapsed + 's'
+                    totalElapsedTime: elapsed + 's',
+                    escapeQuotes: function(s) {
+                      return s.replace(/"/g, "&quot;");
+                    }
                   }));
 
                   $('#sort').triggerHandler('change');
+                  
+                  // setup diffs $('#prev-diff-link,#next-diff-link').show():
+                  var diffs = $('.test-diff');
+                  $('#prev-diff-link,#next-diff-link').toggle(diffs.length > 0);
+                  diffs.each(function() {
+                    var expected = $(this).attr('data-expected'),
+                        processed = $(this).attr('data-processed');
+                    $(this).attr('data-expected', '').attr('data-processed', '');
+                    $(this).html(diffString(expected, processed));
+                  });
 
-                  $output.fadeIn(300);
+                  $output.fadeIn(300, function() {
+                    currentDiff = 0;
+                  });
                 });
               });
             });
           });
         };
-          
+        
         $('#run-tests').click(function(event) {
           event.preventDefault();
           
@@ -701,6 +753,32 @@
           $($inputs[1]).val('');
           
           $table.append(templateRow);
+          
+          e.preventDefault();
+          return false;
+        });
+        
+        $('#test-output').on('click', '.use-processed-file-link', function(e) {
+          var processedFile = $(this).attr('data-file');
+          
+          $.ajax({
+            type: 'POST',
+            url: "./copy-processed",
+            dataType: 'json',
+            data: {
+              processed_file: processedFile
+            },
+            success: function (r) {
+            	if (r.error) {
+            		alert('ERROR: '+r.error);
+            	} else {
+	                alert('Success!');
+                }
+            },
+            error: function() {
+            	alert("HTTP Error! Couldn't copy processed file!");
+            }
+          });
           
           e.preventDefault();
           return false;
