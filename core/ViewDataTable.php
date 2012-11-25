@@ -434,10 +434,7 @@ abstract class Piwik_ViewDataTable
 	 */
 	protected function checkStandardDataTable()
 	{
-		if(!($this->dataTable instanceof Piwik_DataTable))
-		{
-			throw new Exception("Unexpected data type to render.");
-		}
+		Piwik::checkObjectTypeIs($this->dataTable, array('Piwik_DataTable'));
 	}
 	
 	/**

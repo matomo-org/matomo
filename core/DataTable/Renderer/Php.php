@@ -203,6 +203,8 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	 */
 	public function originalRender()
 	{
+		Piwik::checkObjectTypeIs($this->table, array('Piwik_DataTable_Simple', 'Piwik_DataTable'));
+		
 		if($this->table instanceof Piwik_DataTable_Simple)
 		{
 			$array = $this->renderSimpleTable($this->table);
@@ -210,10 +212,6 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 		elseif($this->table instanceof Piwik_DataTable)
 		{
 			$array = $this->renderTable($this->table);
-		}
-		else
-		{
-			throw new Exception("Unexpected data type to render.");
 		}
 				
 		if($this->serialize)

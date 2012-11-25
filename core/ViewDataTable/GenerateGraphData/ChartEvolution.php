@@ -28,11 +28,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 	protected function checkStandardDataTable()
 	{
 		// DataTable_Array and DataTable allowed for the evolution chart
-		if(!($this->dataTable instanceof Piwik_DataTable_Array)
-			&& !($this->dataTable instanceof Piwik_DataTable))
-		{
-			throw new Exception("Unexpected data type to render.");
-		}
+		Piwik::checkObjectTypeIs($this->dataTable, array('Piwik_DataTable_Array', 'Piwik_DataTable'));
 	}
 	
 	protected function getViewDataTableId()

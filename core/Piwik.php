@@ -2646,4 +2646,25 @@ class Piwik
 		
 		return self::$lockPrivilegeGranted;
 	}
+	
+	/**
+	 * Utility function that checks if an object type is in a set of types.
+	 * 
+	 * @param mixed $o
+	 * @param array $types List of class names that $o is expected to be one of.
+	 * @throws Exception if $o is not an instance of the types contained in $types.
+	 */
+	static public function checkObjectTypeIs( $o, $types )
+	{
+		foreach ($types as $type)
+		{
+			if ($o instanceof $type)
+			{
+				return;
+			}
+		}
+		
+		$oType = is_object($o) ? get_class($o) : gettype($o);
+		throw new Exception("Invalid variable type '$oType', expected one of following: ".implode(', ', $types));
+	}
 }
