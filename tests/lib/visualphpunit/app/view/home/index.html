@@ -333,7 +333,11 @@
           </div>
 
           <% _.each(suite.tests, function(test) { %>
-            <div class="alert alert-block alert-<%= test.status %>">
+            <% var displayTest  = (test.status == 'failed' && display_failed)
+                               || (test.status == 'incomplete' && display_incomplete)
+                               || (test.status == 'skipped' && display_skipped)
+                               || (test.status == 'succeeded' && display_succeeded); %>
+            <div class="alert alert-block alert-<%= test.status %>" <% if (!displayTest) { %>style='display:none;'><% } %>
               <h4 class="alert-heading"><%= test.name %></h4>
               <% if ( test.message) { %>
               <p class='test-message'>
