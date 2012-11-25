@@ -273,7 +273,7 @@ function ajaxHelper() {
         if (!params.date) {
             params.date = piwik.currentDateString || broadcast.getValueFromUrl('date');
             if (params.period == 'range' && piwik.currentDateString) {
-                defaultParams.date = piwik.startDateString + ',' + params.date;
+                params.date = piwik.startDateString + ',' + params.date;
             }
         }
 
