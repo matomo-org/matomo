@@ -68,7 +68,7 @@
                        --exclude-group ReleaseCheckList
                        --log-junit ${basedir}/results/logs/junit.xml
                        --coverage-clover ${basedir}/results/logs/clover.xml
-                       --coverage-html ${basedir}/build/coverage"/>
+                       --coverage-html ${basedir}/results/coverage"/>
         </exec>
 
     </target>
