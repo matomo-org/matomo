@@ -65,6 +65,7 @@
             <arg line="-d zend_extension=/usr/lib/php5/20090626+lfs/xdebug.so
                        /usr/bin/phpunit
                        --group Core,Plugins
+                       --exclude-group ReleaseCheckList
                        --log-junit ${basedir}/results/logs/junit.xml
                        --coverage-html ${basedir}/build/coverage"/>
         </exec>
