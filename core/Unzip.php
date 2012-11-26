@@ -31,10 +31,20 @@ class Piwik_Unzip
 			case 'ZipArchive':
 				if(class_exists('ZipArchive', false))
 					return new Piwik_Unzip_ZipArchive($filename);
-
+				break;
+			case 'tar.gz':
+				return new Piwik_Unzip_Tar($filename, 'gz');
+			case 'tar.bz2':
+				return new Piwik_Unzip_Tar($filename, 'bz2');
+			case 'gz':
+				if (function_exists('gzopen'))
+					return new Piwik_Unzip_Gzip($filename);
+				break;
 			case 'PclZip':
 			default:
 				return new Piwik_Unzip_PclZip($filename);
 		}
+		
+		return new Piwik_Unzip_PclZip($filename);
 	}
 }

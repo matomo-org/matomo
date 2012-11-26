@@ -11,6 +11,11 @@
  */
 
 /**
+ * @see plugins/UserCountry/GeoIPAutoUpdater.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
+
+/**
  *
  * @package Piwik_UserCountry
  */
@@ -48,12 +53,35 @@ class Piwik_UserCountry extends Piwik_Plugin
 			'Goals.getReportsWithGoalMetrics' => 'getReportsWithGoalMetrics',
 			'API.getReportMetadata' => 'getReportMetadata',
 			'API.getSegmentsMetadata' => 'getSegmentsMetadata',
+			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AssetManager.getJsFiles' => 'getJsFiles',
 			'Tracker.getVisitorLocation' => 'getVisitorLocation',
+            'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
 		);
 		return $hooks;
 	}
 
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
+	function getScheduledTasks($notification)
+	{
+		$tasks = &$notification->getNotificationObject();
+		
+		// add the auto updater task
+		$tasks[] = Piwik_UserCountry_GeoIPAutoUpdater::makeScheduledTask();
+	}
+	
+	/**
+	 * @param Piwik_Event_Notification $notification  notification object
+	 */
+	function getCssFiles( $notification )
+	{
+		$cssFiles = &$notification->getNotificationObject();
+		
+		$cssFiles[] = "plugins/UserCountry/templates/styles.css";
+	}
+	
 	/**
 	 * @param Piwik_Event_Notification $notification  notification object
 	 */
@@ -123,13 +151,10 @@ class Piwik_UserCountry extends Piwik_Plugin
 	 */
 	function addAdminMenu()
 	{
-		if (Piwik::isUserIsSuperUser())
-		{
-			Piwik_AddAdminMenu('UserCountry_Geolocation',
-							   array('module' => 'UserCountry', 'action' => 'adminIndex'),
-		                       Piwik::isUserHasSomeAdminAccess(),
-		                       $order = 8);
-		}
+		Piwik_AddAdminMenu('UserCountry_Geolocation',
+						   array('module' => 'UserCountry', 'action' => 'adminIndex'),
+	                       Piwik::isUserIsSuperUser(),
+	                       $order = 8);
 	}
 
 	/**

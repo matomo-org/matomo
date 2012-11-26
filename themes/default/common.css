@@ -609,6 +609,7 @@ select {
 	background:#847b6d url(images/dashboard_h_bg_hover.png) repeat-x 0 0;
 	float:right; 
 	margin:12px 0 10px 0;
+	cursor:pointer;
 }
 /* on admin screen, Save button aligned on the left */
 .admin .submit {

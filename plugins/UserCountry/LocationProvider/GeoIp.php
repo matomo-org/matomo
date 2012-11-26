@@ -17,6 +17,9 @@
  */
 abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountry_LocationProvider
 {
+	/* For testing, use: 'http://piwik-team.s3.amazonaws.com/GeoLiteCity.dat.gz' */
+	const GEO_LITE_URL = 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz';
+	
 	public static $geoIPDatabaseDir = 'misc';
 	
 	/**
@@ -176,16 +179,26 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
 	 */
 	public static function getPathToGeoIpDatabase( $possibleFileNames )
 	{
-		$dir = PIWIK_INCLUDE_PATH.'/'.self::$geoIPDatabaseDir;
 		foreach ($possibleFileNames as $filename)
 		{
-			$path = $dir.'/'.$filename;
+			$path = self::getPathForGeoIpDatabase($filename);
 			if (file_exists($path))
 			{
 				return $path;
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns full path for a GeoIP database managed by Piwik.
+	 * 
+	 * @param string $filename Name of the .dat file.
+	 * @return string
+	 */
+	public static function getPathForGeoIpDatabase( $filename )
+	{
+		return PIWIK_INCLUDE_PATH.'/'.self::$geoIPDatabaseDir.'/'.$filename;
 	}
 	
 	/**
@@ -205,6 +218,18 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
 			$result = array('194.57.91.215', $expected);
 		}
 		return $result;
+	}
+	
+	/**
+	 * Returns true if there is a GeoIP database in the 'misc' directory.
+	 * 
+	 * @return bool
+	 */
+	public static function isDatabaseInstalled()
+	{
+		return self::getPathToGeoIpDatabase(self::$dbNames['loc'])
+			|| self::getPathToGeoIpDatabase(self::$dbNames['isp'])
+			|| self::getPathToGeoIpDatabase(self::$dbNames['org']);
 	}
 }
 

@@ -14,7 +14,7 @@
  *
  * @package Piwik_UserCountry
  */
-class Piwik_UserCountry_Controller extends Piwik_Controller 
+class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 {
 	function index()
 	{
@@ -41,6 +41,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 		$view->locationProviders = $allProviderInfo;
 		$view->currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
 		$view->thisIP = Piwik_IP::getIpFromHeader();
+		$view->geoIPDatabasesInstalled = Piwik_UserCountry_LocationProvider_GeoIp::isDatabaseInstalled();
 		
 		// check if there is a working provider (that isn't the default one)
 		$isThereWorkingProvider = false;
@@ -54,11 +55,216 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 			}
 		}
 		$view->isThereWorkingProvider = $isThereWorkingProvider;
+		
+		// if using either the Apache or PECL module, they are working and there are no databases
+		// in misc, then the databases are located outside of Piwik, so we cannot update them
+		$view->showGeoIPUpdateSection = true;
+		$currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
+		if (!$view->geoIPDatabasesInstalled
+			&& ($currentProviderId == Piwik_UserCountry_LocationProvider_GeoIp_ServerBased::ID
+				|| $currentProviderId == Piwik_UserCountry_LocationProvider_GeoIp_Pecl::ID)
+			&& $allProviderInfo[$currentProviderId]['status'] == Piwik_UserCountry_LocationProvider::INSTALLED)
+		{
+			$view->showGeoIPUpdateSection = false;
+		}
+		
+		$this->setUpdaterManageVars($view);
 		$this->setBasicVariablesView($view);
 		Piwik_Controller_Admin::setBasicVariablesAdminView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		
 		echo $view->render();
+	}
+	
+	/**
+	 * Starts or continues download of GeoLiteCity.dat.
+	 * 
+	 * To avoid a server/PHP timeout & to show progress of the download to the user, we
+	 * use the HTTP Range header to download one chunk of the file at a time. After each
+	 * chunk, it is the browser's responsibility to call the method again to continue the download.
+	 * 
+	 * Input:
+	 *   'continue' query param - if set to 1, will assume we are currently downloading & use
+	 *                            Range: HTTP header to get another chunk of the file.
+	 * 
+	 * Output (in JSON):
+	 *   'current_size' - Current size of the partially downloaded file on disk.
+	 *   'expected_file_size' - The expected finished file size as returned by the HTTP server.
+	 *   'next_screen' - When the download finishes, this is the next screen that should be shown.
+	 *   'error' - When an error occurs, the message is returned in this property.
+	 */
+	public function downloadFreeGeoIPDB()
+	{
+		Piwik::checkUserIsSuperUser();
+		if ($_SERVER["REQUEST_METHOD"] == "POST")
+		{
+			$this->checkTokenInUrl();
+			
+			$outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase('GeoIPCity.dat').'.gz';
+			try
+			{
+				$result = Piwik_Http::downloadChunk(
+					$url = Piwik_UserCountry_LocationProvider_GeoIp::GEO_LITE_URL,
+					$outputPath,
+					$continue = Piwik_Common::getRequestVar('continue', true, 'int')
+				);
+				
+				// if the file is done
+				if ($result['current_size'] >= $result['expected_file_size'])
+				{
+					Piwik_UserCountry_GeoIPAutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
+					
+					// setup the auto updater
+					Piwik_UserCountry_GeoIPAutoUpdater::setUpdaterOptions(array(
+						'loc_db' => Piwik_UserCountry_LocationProvider_GeoIp::GEO_LITE_URL,
+						'period' => Piwik_UserCountry_GeoIPAutoUpdater::SCHEDULE_PERIOD_MONTHLY,
+					));
+					
+					// make sure to echo out the geoip updater management screen
+					$result['next_screen'] = $this->getGeoIpUpdaterManageScreen();
+				}
+				
+				echo json_encode($result);
+			}
+			catch (Exception $ex)
+			{
+				echo json_encode(array('error' => $ex->getMessage()));
+			}
+		}
+	}
+	
+	/**
+	 * Renders and returns the HTML that manages the GeoIP auto-updater.
+	 * 
+	 * @return string
+	 */
+	private function getGeoIpUpdaterManageScreen()
+	{
+		$view = Piwik_View::factory('updaterSetup');
+		$view->geoIPDatabasesInstalled = true;
+		$this->setUpdaterManageVars($view);
+		return $view->render();
+	}
+	
+	/**
+	 * Sets some variables needed by the updaterSetup.tpl template.
+	 * 
+	 * @param Piwik_View $view
+	 */
+	private function setUpdaterManageVars( $view )
+	{
+		$urls = Piwik_UserCountry_GeoIPAutoUpdater::getConfiguredUrls();
+		
+		$view->geoIPLocUrl = $urls['loc'];
+		$view->geoIPIspUrl = $urls['isp'];
+		$view->geoIPOrgUrl = $urls['org'];
+		$view->geoIPUpdatePeriod = Piwik_UserCountry_GeoIPAutoUpdater::getSchedulePeriod();
+	}
+	
+	/**
+	 * Sets the URLs used to download new versions of the installed GeoIP databases.
+	 * 
+	 * Input (query params):
+	 *   'loc_db' - URL for a GeoIP location database.
+	 *   'isp_db' - URL for a GeoIP ISP database (optional).
+	 *   'org_db' - URL for a GeoIP Org database (optional).
+	 *   'period' - 'weekly' or 'monthly'. Determines how often update is run.
+	 * 
+	 * Output (json):
+	 *   'error' - if an error occurs its message is set as the resulting JSON object's
+	 *             'error' property.
+	 */
+	public function updateGeoIPLinks()
+	{
+		Piwik::checkUserIsSuperUser();
+		if ($_SERVER["REQUEST_METHOD"] == "POST")
+		{
+			try
+			{
+				$this->checkTokenInUrl();
+				
+				Piwik_UserCountry_GeoIPAutoUpdater::setUpdaterOptionsFromUrl();
+				
+				// if there is a updater URL for a database, but its missing from the misc dir, tell
+				// the browser so it can download it next
+				$info = $this->getNextMissingDbUrlInfo();
+				if ($info !== false)
+				{
+					echo json_encode($info);
+					return;
+				}
+			}
+			catch (Exception $ex)
+			{
+				echo json_encode(array('error' => $ex->getMessage()));
+			}
+		}
+	}
+	
+	/**
+	 * Starts or continues a download for a missing GeoIP database. A database is missing if
+	 * it has an update URL configured, but the actual database is not available in the misc
+	 * directory.
+	 * 
+	 * Input:
+	 *   'url' - The URL to download the database from.
+	 *   'continue' - 1 if we're continuing a download, 0 if we're starting one.
+	 * 
+	 * Output:
+	 *   'error' - If an error occurs this describes the error.
+	 *   'to_download' - The URL of a missing database that should be downloaded next (if any).
+	 *   'to_download_label' - The label to use w/ the progress bar that describes what we're
+	 *                         downloading.
+	 *   'current_size' - Size of the current file on disk.
+	 *   'expected_file_size' - Size of the completely downloaded file.
+	 */
+	public function downloadMissingGeoIpDb()
+	{
+		Piwik::checkUserIsSuperUser();
+		if ($_SERVER["REQUEST_METHOD"] == "POST")
+		{
+			try
+			{
+				$this->checkTokenInUrl();
+				
+				// based on the database type (provided by the 'key' query param) determine the
+				// url & output file name
+				$key = Piwik_Common::getRequestVar('key', null, 'string');
+				$url = Piwik_UserCountry_GeoIPAutoUpdater::getConfiguredUrl($key);
+				
+				$ext = Piwik_UserCountry_GeoIPAutoUpdater::getGeoIPUrlExtension($url);
+				$filename = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$key][0].'.'.$ext;
+				
+				if (substr($filename, 0, 15) == 'GeoLiteCity.dat')
+				{
+					$filename = 'GeoIPCity.dat'.substr($filename, 15);
+				}
+				$outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($filename);
+				
+				// download part of the file
+				$result = Piwik_Http::downloadChunk(
+					$url, $outputPath, Piwik_Common::getRequestVar('continue', true, 'int'));
+				
+				// if the file is done
+				if ($result['current_size'] >= $result['expected_file_size'])
+				{
+					Piwik_UserCountry_GeoIPAutoUpdater::unzipDownloadedFile($outputPath, $unlink = true);
+					
+					$info = $this->getNextMissingDbUrlInfo();
+					if ($info !== false)
+					{
+						echo json_encode($info);
+						return;
+					}
+				}
+				
+				echo json_encode($result);
+			}
+			catch (Exception $ex)
+			{
+				echo json_encode(array('error' => $ex->getMessage()));
+			}
+		}
 	}
 	
 	/**
@@ -242,5 +448,26 @@ class Piwik_UserCountry_Controller extends Piwik_Controller
 			$properties['show_footer_message'] = $footerMessage;
 			$realView->properties = $properties;
 		}
+	}
+	
+	/**
+	 * Gets information for the first missing GeoIP database (if any).
+	 * 
+	 * @return bool
+	 */
+	private function getNextMissingDbUrlInfo()
+	{
+		$missingDbs = Piwik_UserCountry_GeoIPAutoUpdater::getMissingDatabases();
+		if (!empty($missingDbs))
+		{
+			$missingDbKey = $missingDbs[0];
+			$missingDbName = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$missingDbKey][0];
+			
+			return array(
+				'to_download' => $missingDbKey,
+				'to_download_label' => Piwik_Translate('UserCountry_DownloadingDb', $missingDbName).'...',
+			);
+		}
+		return false;
 	}
 }

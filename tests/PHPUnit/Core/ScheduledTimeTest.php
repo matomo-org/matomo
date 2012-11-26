@@ -22,6 +22,8 @@ class ScheduledTimeTest extends PHPUnit_Framework_TestCase
     private $_JANUARY_15_1971_09_00_00;
     private $_FEBRUARY_01_1971_00_00_00;
     private $_FEBRUARY_02_1971_00_00_00;
+    private $_FEBRUARY_03_1971_09_00_00;
+    private $_FEBRUARY_21_1971_09_00_00;
     private $_FEBRUARY_28_1971_00_00_00;
 
     public function setUp()
@@ -41,6 +43,8 @@ class ScheduledTimeTest extends PHPUnit_Framework_TestCase
         $this->_JANUARY_15_1971_09_00_00 = mktime(9,00,00,1,15,1971);
         $this->_FEBRUARY_01_1971_00_00_00 = mktime(0,00,00,2,1,1971);
         $this->_FEBRUARY_02_1971_00_00_00 = mktime(0,00,00,2,2,1971);
+        $this->_FEBRUARY_03_1971_09_00_00 = mktime(0,00,00,2,3,1971);
+        $this->_FEBRUARY_21_1971_09_00_00 = mktime(0,00,00,2,21,1971);
         $this->_FEBRUARY_28_1971_00_00_00 = mktime(0,00,00,2,28,1971);
     }
     
@@ -611,4 +615,21 @@ class ScheduledTimeTest extends PHPUnit_Framework_TestCase
         $mock->setDay(31);
         $this->assertEquals($this->_FEBRUARY_28_1971_00_00_00, $mock->getRescheduledTime());
     }
+	
+	/**
+	 * @group Core
+	 * @group ScheduledTime
+	 */
+	public function testMonthlyDayOfWeek()
+	{
+		$mock = $this->getMock('Piwik_ScheduledTime_Monthly', array('getTime'));
+		$mock->expects($this->any())
+			 ->method('getTime')
+			 ->will($this->returnValue($this->_JANUARY_15_1971_09_00_00));
+		$mock->setDayOfWeek(3, 0); // first wednesday
+		$this->assertEquals($this->_FEBRUARY_03_1971_09_00_00, $mock->getRescheduledTime());
+		
+		$mock->setDayOfWeek(0, 2); // third sunday
+		$this->assertEquals($this->_FEBRUARY_21_1971_09_00_00, $mock->getRescheduledTime());
+	}
 }

@@ -178,5 +178,48 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $this->assertContains('PCLZIP_ERR_MISSING_FILE', $unzip->errorInfo());
     }
 
-
+	/**
+	 * @group Core
+	 * @group Unzip
+	 */
+	public function testGzipFile()
+	{
+		$extractDir = PIWIK_USER_PATH . '/tmp/latest/';
+		$extractFile = $extractDir.'testgz.txt';
+		$filename = dirname(__FILE__).'/Unzip/test.gz';
+		
+		$unzip = new Piwik_Unzip_Gzip($filename);
+		$res = $unzip->extract($extractFile);
+		$this->assertTrue($res);
+		
+		$this->assertFileContentsEquals('TESTSTRING', $extractFile);
+	}
+	
+	/**
+	 * @group Core
+	 * @group Unzip
+	 */
+	public function testTarGzFile()
+	{
+		$extractDir = PIWIK_USER_PATH.'/tmp/latest/';
+		$filename = dirname(__FILE__).'/Unzip/test.tar.gz';
+		
+		$unzip = new Piwik_Unzip_Tar($filename, 'gz');
+		$res = $unzip->extract($extractDir);
+		$this->assertTrue($res);
+		
+		$this->assertFileContentsEquals('TESTDATA', $extractDir.'tarout1.txt');
+		$this->assertFileContentsEquals('MORETESTDATA', $extractDir.'tardir/tarout2.txt');
+	}
+	
+	private function assertFileContentsEquals( $expectedContent, $path )
+	{
+		$this->assertTrue(file_exists($path));
+		
+		$fd = fopen($path, 'rb');
+		$actualContent = fread($fd, filesize($path));
+		fclose($fd);
+		
+		$this->assertEquals($expectedContent, $actualContent);
+	}
 }

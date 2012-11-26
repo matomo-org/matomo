@@ -55,4 +55,69 @@ class HttpTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan( 0, filesize($destinationPath) );
     }
+    
+    /**
+     * @group Core
+     * @group Http
+     * @dataProvider getMethodsToTest
+     */
+    public function testCustomByteRange( $method )
+    {
+        $result = Piwik_Http::sendHttpRequestBy(
+        	$method,
+        	'http://piwik.org/',
+        	5,
+			$userAgent = null,
+			$destinationPath = null,
+			$file = null,
+			$followDepth = 0,
+			$acceptLanguage = false,
+			$acceptInvalidSslCertificate = false,
+			$byteRange = array(10, 20),
+			$getExtendedInfo = true
+    	);
+        
+        if ($method != 'fopen')
+        {
+        	$this->assertEquals(206, $result['status']);
+	        $this->assertEquals("html>\n<!--[", $result['data']);
+        	$this->assertTrue(isset($result['headers']['Content-Range']));
+        	$this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
+        	$this->assertEquals('text/html; charset=UTF-8', $result['headers']['Content-Type']);
+        }
+    }
+    
+    /**
+     * @group Core
+     * @group Http
+     * @dataProvider getMethodsToTest
+     */
+    public function testHEADOperation( $method )
+    {
+    	if ($method == 'fopen')
+    	{
+    		return; // not supported w/ this method
+    	}
+    	
+        $result = Piwik_Http::sendHttpRequestBy(
+        	$method,
+        	'http://piwik.org/',
+        	5,
+			$userAgent = null,
+			$destinationPath = null,
+			$file = null,
+			$followDepth = 0,
+			$acceptLanguage = false,
+			$acceptInvalidSslCertificate = false,
+			$byteRange = false,
+			$getExtendedInfo = true,
+			$httpMethod = 'HEAD'
+    	);
+    	
+    	$this->assertEquals('', $result['data']);
+    	$this->assertEquals(200, $result['status']);
+    	$this->assertTrue(isset($result['headers']['Content-Length']), "Content-Length header not set!");
+    	$this->assertTrue(is_numeric($result['headers']['Content-Length']), "Content-Length header not numeric!");
+    	$this->assertEquals('text/html; charset=UTF-8', $result['headers']['Content-Type']);
+    }
 }
