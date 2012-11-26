@@ -61,7 +61,7 @@
 
     <target name="test-mysqli" depends="process-build-resources-mysqli">
 
-        <exec executable="php" dir="${basedir}/PHPUnit" failonerror="true" failifexecutionfails="true">
+        <exec executable="php" dir="${basedir}/PHPUnit" failonerror="false" failifexecutionfails="true">
             <arg line="-d zend_extension=/usr/lib/php5/20090626+lfs/xdebug.so
                        /usr/bin/phpunit
                        --group Core,Plugins
