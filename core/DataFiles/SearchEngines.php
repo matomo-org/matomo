@@ -425,6 +425,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.fastweb.it'			=> array('Google'),
 		'search.juno.com'			=> array('Google', 'query'),
 		'find.tdc.dk'				=> array('Google'),
+		'it.luna.tv'				=> array('Google'),
 		'searchresults.verizon.com'	=> array('Google'),
 		'search.walla.co.il'		=> array('Google'),
 		'search.alot.com'			=> array('Google'),
