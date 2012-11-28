@@ -107,7 +107,7 @@ class Piwik_LocalTracker extends PiwikTracker
 		$query = parse_url($url, PHP_URL_QUERY);
 		if ($query === false)
 		{
-			continue;
+			return;
 		}
 
 		parse_str($query, $args);
