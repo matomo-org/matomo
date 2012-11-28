@@ -511,6 +511,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// InfoSpace (and related web properties)
 		'infospace.com'				=> array('InfoSpace', 'q', '/search/web?q={k}'),
 		'dogpile.com'				=> array('InfoSpace'),
+		'tattoodle.com'				=> array('InfoSpace'),
 		'metacrawler.com'			=> array('InfoSpace'),
 		'webfetch.com'				=> array('InfoSpace'),
 		'webcrawler.com'			=> array('InfoSpace'),
