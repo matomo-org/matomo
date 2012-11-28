@@ -10,7 +10,7 @@ To execute the tests:
 
  INTEGRATION TESTS
 ==================
-Integration tests files are in tests/integration/*.test.php
+Integration tests files are in tests/PHPUnit/Integration/*Test.php
 
 Integration tests allow to test how major Piwik components interact together.
 A test will typically generate hits to the Tracker (record visits and page views)
@@ -20,9 +20,6 @@ text compare tool, such as WinMerge on Win, to easily view changes between files
 If changes are expected due to the code changes you make, simply copy the file from processed/ to 
 expected/, and test will then pass. Otherwise, if you didn't expect to modify the API outputs, 
 it might be that your changes are breaking some features unexpectedly.
-
-To run all integration tests at once, execute tests/integration_tests.php
-See also http://dev.piwik.org/trac/ticket/1465   
 
  PHPUNIT TESTS
 ==============
