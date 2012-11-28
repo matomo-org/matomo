@@ -856,7 +856,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.walhello.nl'			=> array('Walhello'),
 
 		// Web.de
-		'suche.web.de'				=> array('Web.de', 'su', 'search/web/?su={k}'),
+		'suche.web.de'				=> array('Web.de', array('su', 'q'), 'search/web/?su={k}'),
 
 		// Web.nl
 		'www.web.nl'				=> array('Web.nl', 'zoekwoord'),
