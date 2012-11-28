@@ -11,7 +11,7 @@ class Tracker_ActionTest extends DatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        $userFile = dirname(__FILE__) . '/Action.config.ini.php';
+        $userFile = dirname(__FILE__) . '/../../../resources/Tracker/Action.config.ini.php';
         $config = Piwik_Config::getInstance();
         $config->clear();
         $config->setTestEnvironment($userFile, false);
