@@ -363,23 +363,23 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped(
 				'Do take note that scheduled reports are not being tested with images. ' .
 					'If images contained in scheduled reports have been altered, tests will fail on the Piwik QA Server. ' .
-					'To include images in the test suite, please use a machine with the following specifications :' // TODO update with new Piwik QA Server
+					'To include images in the test suite, please use a machine with the following specifications : OS = Linux precise32, PHP Version = 5.3.10 and GD Version = 2.0'
 			);
 		}
 	}
 
 	/**
 	 * Return true if system under test has the following characteristics :
-	 *  - // TODO update doc with new Piwik QA Server technical characteristics
-	 *
+	 *  - php_uname() contains 'Linux precise32'
+	 *  - phpversion() contains '5.3.10'
+	 *  - 'GD Version' equals '2.0'
 	 */
 	private static function canImagesBeIncludedInScheduledReports()
 	{
-		// TODO update to match new Piwik QA Server
 		$gdInfo = gd_info();
 		return
 			stristr(php_uname(),'Linux precise32') &&
-			phpversion() == '5.3.10-1ubuntu3.2' &&
+			stristr(phpversion(), '5.3.10') &&
 			$gdInfo['GD Version'] == '2.0';
 	}
 
