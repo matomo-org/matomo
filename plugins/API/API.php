@@ -677,7 +677,7 @@ class Piwik_API_API
 
 	public function getProcessedReport( $idSite, $period, $date, $apiModule, $apiAction, $segment = false,
 										$apiParameters = false, $idGoal = false, $language = false,
-										$showTimer = true, $hideMetricsDoc = false, $idSubtable = false)
+										$showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false)
     {
     	$timer = new Piwik_Timer();
     	if($apiParameters === false)
@@ -720,7 +720,7 @@ class Piwik_API_API
         	throw new Exception("API returned an error: ".$e->getMessage()."\n");
         }
 
-    	list($newReport, $columns, $rowsMetadata) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, isset($reportMetadata['dimension']));
+    	list($newReport, $columns, $rowsMetadata) = $this->handleTableReport($idSite, $dataTable, $reportMetadata,  isset($reportMetadata['dimension']), $showRawMetrics);
     	foreach($columns as $columnId => &$name)
     	{
     		$name = ucfirst($name);
@@ -762,7 +762,7 @@ class Piwik_API_API
 	 * @param boolean $hasDimension
 	 * @return array Piwik_DataTable_Simple|Piwik_DataTable_Array $newReport with human readable format & array $columns list of translated column names & Piwik_DataTable_Simple|Piwik_DataTable_Array $rowsMetadata
 	**/
-    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $hasDimension)
+    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $hasDimension, $showRawMetrics = false)
     {
     	$columns = $reportMetadata['metrics'];
     	$columns = $this->hideShowMetrics($columns);
@@ -824,7 +824,7 @@ class Piwik_API_API
 			// Process each Piwik_DataTable_Simple entry
 			foreach($dataTable->getArray() as $label => $simpleDataTable)
 			{
-				list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension);
+				list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
 
 				$period = $dataTableMetadata[$label]['period']->getLocalizedLongString();
 				$newReport->addTable($enhancedSimpleDataTable, $period);
@@ -833,7 +833,7 @@ class Piwik_API_API
 		}
 		else
 		{
-			list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension);
+			list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics);
 		}
 
     	return array(
@@ -899,9 +899,11 @@ class Piwik_API_API
 	 * @param Piwik_DataTable_Simple $simpleDataTable
 	 * @param array $metadataColumns
 	 * @param boolean $hasDimension
+	 * @param bool $returnRawMetrics If set to true, the original metrics will be returned
+	 *
 	 * @return array Piwik_DataTable $enhancedDataTable filtered metrics with human readable format & Piwik_DataTable_Simple $rowsMetadata
 	 */
-	private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension)
+	private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false)
 	{
 		// new DataTable to store metadata
 		$rowsMetadata = new Piwik_DataTable();
@@ -933,7 +935,6 @@ class Piwik_API_API
 		{
 			$enhancedRow = new Piwik_DataTable_Row();
 			$enhancedDataTable->addRow($enhancedRow);
-
 			$rowMetrics = $row->getColumns();
 			foreach($rowMetrics as $columnName => $columnValue)
 			{
@@ -941,8 +942,13 @@ class Piwik_API_API
 				if(isset($metadataColumns[$columnName]))
 				{
 					// generate 'human readable' metric values
-					$prettyValue = Piwik::getPrettyValue($idSite, $columnName, $columnValue, false, false);
+					$prettyValue = Piwik::getPrettyValue($idSite, $columnName, $columnValue, $htmlAllowed = false, $timeAsSentence = false);
 					$enhancedRow->addColumn($columnName, $prettyValue);
+				}
+				// For example the Maps Widget requires the raw metrics to do advanced datavis
+				elseif($returnRawMetrics)
+				{
+					$enhancedRow->addColumn($columnName, $columnValue);
 				}
 			}
 

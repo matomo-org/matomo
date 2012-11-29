@@ -78,6 +78,12 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
 												  'apiModule' => 'Actions', 'apiAction' => 'get',
 												  'testSuffix' => '_hideMetricsDoc',
 												  'otherRequestParameters' => array('hideMetricsDoc' => 1)) ),
+
+	        // Test w/ showRawMetrics=true
+	        array('API.getProcessedReport', array('idSite' => self::$idSite, 'date' => self::$dateTime,
+		        'apiModule' => 'UserCountry', 'apiAction' => 'getCountry',
+		        'testSuffix' => '_showRawMetrics',
+		        'otherRequestParameters' => array('showRawMetrics' => 1)) ),
         );
     }
 

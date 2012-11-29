@@ -381,7 +381,8 @@ class Piwik_ImageGraph_API
 					$languageLoaded,
 					$showTimer = true,
 					$hideMetricsDoc = false,
-					$idSubtable
+					$idSubtable,
+					$showRawMetrics = false
 				);
 			}
 			// prepare abscissa and ordinate series
