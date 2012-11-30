@@ -63,6 +63,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     public function getAvailableWidgets()
     {
         $this->checkTokenInUrl();
+
+	    Piwik_DataTable_Renderer_Json::sendHeaderJSON();
         echo Piwik_Common::json_encode(Piwik_GetWidgetsList());
     }
 
@@ -174,16 +176,16 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     public function getAllDashboards()
     {
         $this->checkTokenInUrl();
-
-        if (!Piwik::isUserIsAnonymous()) {
-            $login = Piwik::getCurrentUserLogin();
-
-            $dashboards = Piwik_Dashboard::getAllDashboards($login);
-
-            echo Piwik_Common::json_encode($dashboards);
-        } else {
-            echo '[]';
+        if (Piwik::isUserIsAnonymous()) {
+	        echo '[]';
+	        return;
         }
+        $login = Piwik::getCurrentUserLogin();
+
+        $dashboards = Piwik_Dashboard::getAllDashboards($login);
+
+        Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+        echo Piwik_Common::json_encode($dashboards);
     }
 
     /**
@@ -194,25 +196,27 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     {
         $this->checkTokenInUrl();
 
-        if (!Piwik::isUserIsAnonymous()) {
-            $user  = Piwik::getCurrentUserLogin();
-	        $nextId = $this->getNextIdDashboard($user);
-
-            $name   = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
-            $type   = urldecode(Piwik_Common::getRequestVar('type', 'default', 'string'));
-            $layout = '{}';
-
-            if ($type == 'default') {
-                $layout = $this->getDefaultLayout();
-            }
-
-            $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
-                             Piwik_Common::prefixTable('user_dashboard'));
-            Piwik_Query($query, array($user, $nextId, $name, $layout));
-            echo Piwik_Common::json_encode($nextId);
-        } else {
-            echo '0';
+        if (Piwik::isUserIsAnonymous()) {
+	        echo '0';
+	        return;
         }
+        $user  = Piwik::getCurrentUserLogin();
+        $nextId = $this->getNextIdDashboard($user);
+
+        $name   = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
+        $type   = urldecode(Piwik_Common::getRequestVar('type', 'default', 'string'));
+        $layout = '{}';
+
+        if ($type == 'default') {
+            $layout = $this->getDefaultLayout();
+        }
+
+        $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
+                         Piwik_Common::prefixTable('user_dashboard'));
+        Piwik_Query($query, array($user, $nextId, $name, $layout));
+
+        Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+        echo Piwik_Common::json_encode($nextId);
     }
 
 	private function getNextIdDashboard($login)
@@ -232,25 +236,27 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     {
         $this->checkTokenInUrl();
 
-        if (Piwik::isUserIsSuperUser()) {
-	        $login       = Piwik::getCurrentUserLogin();
-            $name        = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
-            $user        = urldecode(Piwik_Common::getRequestVar('user', '', 'string'));
-            $idDashboard = Piwik_Common::getRequestVar('dashboardId', 0, 'int');
-            $layout      = $this->_getLayoutForUser($login, $idDashboard);
-
-	        if($layout !== false) {
-		        $nextId = $this->getNextIdDashboard($user);
-
-		        $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
-			        Piwik_Common::prefixTable('user_dashboard'));
-		        Piwik_Query($query, array($user, $nextId, $name, $layout));
-		        echo Piwik_Common::json_encode($nextId);
-		        return;
-	        }
+        if (!Piwik::isUserIsSuperUser()) {
+	        echo '0';
+	        return;
         }
-        echo '0';
-	    return;
+        $login       = Piwik::getCurrentUserLogin();
+        $name        = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
+        $user        = urldecode(Piwik_Common::getRequestVar('user', '', 'string'));
+        $idDashboard = Piwik_Common::getRequestVar('dashboardId', 0, 'int');
+        $layout      = $this->_getLayoutForUser($login, $idDashboard);
+
+        if($layout !== false) {
+	        $nextId = $this->getNextIdDashboard($user);
+
+	        $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
+		        Piwik_Common::prefixTable('user_dashboard'));
+	        Piwik_Query($query, array($user, $nextId, $name, $layout));
+
+	        Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+	        echo Piwik_Common::json_encode($nextId);
+	        return;
+        }
     }
 
     /**

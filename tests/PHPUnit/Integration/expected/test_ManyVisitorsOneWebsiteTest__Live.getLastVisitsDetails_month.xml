@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>33</idVisit>
+		<visitIp>194.57.91.215</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>33</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/grue/lair</url>
+				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>33</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>North America</continent>
+		<country>United States</country>
+		<countryFlag>plugins/UserCountry/flags/us.png</countryFlag>
+		<region>California</region>
+		<city>not a city</city>
+		<location>not a city, California, United States</location>
+		<latitude>1.000000</latitude>
+		<longitude>2.000000</longitude>
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>18</idVisit>
+		<visitIp>1.2.4.8</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>18</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				<pageId>18</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Unknown</continent>
+		<country>Unknown</country>
+		<countryFlag>plugins/UserCountry/flags/xx.png</countryFlag>
+		<region />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>17</idVisit>
+		<visitIp>1.2.4.8</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>17</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/grue/lair</url>
+				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>17</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Unknown</continent>
+		<country>Unknown</country>
+		<countryFlag>plugins/UserCountry/flags/xx.png</countryFlag>
+		<region />
+		<city />
+		<location>Unknown</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>16</idVisit>
+		<visitIp>1.2.4.7</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>16</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				<pageId>16</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryFlag>plugins/UserCountry/flags/mk.png</countryFlag>
+		<region>Miravci</region>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>15</idVisit>
+		<visitIp>1.2.4.7</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>15</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/grue/lair</url>
+				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>15</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryFlag>plugins/UserCountry/flags/mk.png</countryFlag>
+		<region>Miravci</region>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>14</idVisit>
+		<visitIp>1.2.4.6</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>14</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				<pageId>14</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<country>Russian Federation</country>
+		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<city>Hluboká nad Vltavou</city>
+		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>13</idVisit>
+		<visitIp>1.2.4.6</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>13</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/grue/lair</url>
+				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>13</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<country>Russian Federation</country>
+		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<city>Hluboká nad Vltavou</city>
+		<location>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>12</idVisit>
+		<visitIp>1.2.4.5</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>12</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				<pageId>12</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<country>Russian Federation</country>
+		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>11</idVisit>
+		<visitIp>1.2.4.5</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>11</goalPageId>
+				
+				<url>http://piwik.net/grue/lair</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/grue/lair</url>
+				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
+				<pageIdAction>2</pageIdAction>
+				<pageId>11</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<country>Russian Federation</country>
+		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
+		<region>Saint Petersburg City</region>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Saint Petersburg City, Russian Federation</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+	<row>
+		<idSite>1</idSite>
+		<idVisit>10</idVisit>
+		<visitIp>1.2.4.4</visitIp>
+		
+		<visitorType>new</visitorType>
+		<visitorTypeIcon />
+		<visitConverted>1</visitConverted>
+		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitEcommerceStatus>none</visitEcommerceStatus>
+		<visitEcommerceStatusIcon />
+		<actions>1</actions>
+		<actionDetails>
+			<row>
+				<type>goal</type>
+				<goalName>all</goalName>
+				<revenue>5</revenue>
+				<goalPageId>10</goalPageId>
+				
+				<url>http://piwik.net/space/quest/iv</url>
+				<icon>themes/default/images/goal.png</icon>
+			</row>
+			<row>
+				<type>action</type>
+				<url>http://piwik.net/space/quest/iv</url>
+				<pageTitle>Space Quest XII</pageTitle>
+				<pageIdAction>4</pageIdAction>
+				<pageId>10</pageId>
+				
+				<icon />
+			</row>
+		</actionDetails>
+		<customVariables>
+		</customVariables>
+		<goalConversions>1</goalConversions>
+		<siteCurrency>USD</siteCurrency>
+		<siteCurrencySymbol>$</siteCurrencySymbol>
+		
+		<visitLocalTime>12:34:06</visitLocalTime>
+		
+		
+		
+		<visitDuration>0</visitDuration>
+		<visitDurationPretty>0s</visitDurationPretty>
+		<visitCount>1</visitCount>
+		<daysSinceLastVisit>0</daysSinceLastVisit>
+		<daysSinceFirstVisit>0</daysSinceFirstVisit>
+		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
+		<continent>Europe</continent>
+		<country>United Kingdom</country>
+		<countryFlag>plugins/UserCountry/flags/gb.png</countryFlag>
+		<region>Kent</region>
+		<city>Stratford-upon-Avon</city>
+		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
+		<latitude />
+		<longitude />
+		<provider>Unknown</provider>
+		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<referrerType>direct</referrerType>
+		<referrerTypeName>Direct Entry</referrerTypeName>
+		<referrerName />
+		<referrerKeyword />
+		<referrerKeywordPosition />
+		<referrerUrl />
+		<referrerSearchEngineUrl />
+		<referrerSearchEngineIcon />
+		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemShortName>Win XP</operatingSystemShortName>
+		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
+		<browserFamily>gecko</browserFamily>
+		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
+		<browserName>Firefox 3.6</browserName>
+		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<screenType>normal</screenType>
+		<resolution>1024x768</resolution>
+		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
+		<plugins>flash, java</plugins>
+		<pluginsIcons>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/flash.gif</pluginIcon>
+				<pluginName>flash</pluginName>
+			</row>
+			<row>
+				<pluginIcon>plugins/UserSettings/images/plugins/java.gif</pluginIcon>
+				<pluginName>java</pluginName>
+			</row>
+		</pluginsIcons>
+		
+		
+		
+		
+		
+	</row>
+</result>

@@ -113,7 +113,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 												  'testSuffix'	=> '_segment_continent',
 												  'segment'   	=> 'continent==eur')),
 			
-			array('UserCountry.getLocationFromIP', array('idSite'		=> self::$idSite,
+			array(array('UserCountry.getLocationFromIP', 'Live.getLastVisitsDetails'), array('idSite'		=> self::$idSite,
 														 'date'		=> self::$dateTime,
 														 'periods'		=> array('month'),
 														 'otherRequestParameters' => array('ip' => '194.57.91.215')

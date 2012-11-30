@@ -192,6 +192,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 			}
 		}
 
+		Piwik_DataTable_Renderer_Json::sendHeaderJSON();
 		print Piwik_Common::json_encode($results);
 	}
 }
