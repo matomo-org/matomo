@@ -530,6 +530,9 @@ UserCountryMap.run = function(config) {
                         tooltip: function(city) {
                             return '<h3>'+city.city_name+'</h3>'+
                                 formatValueForTooltips(city, metric, iso);
+                        },
+                        click: function(e) {
+                            evt.stopPropagation();
                         }
                     });
                 }
