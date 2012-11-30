@@ -91,3 +91,7 @@
     position: absolute;
     top: 40%;
 }
+
+.tableIcon.inactiveIcon {
+    color: #99a;
+}
