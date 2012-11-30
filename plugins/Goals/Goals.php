@@ -810,7 +810,11 @@ class Piwik_Goals extends Piwik_Plugin
 						continue;
 					}
 					// Product Name/Category not defined"
-					$label = Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED;
+					if(class_exists('Piwik_CustomVariables')) {
+						$label = Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED;
+					} else {
+						$label = "Value not defined";
+					}
 				}
 				// For carts, idorder = 0. To count abandoned carts, we must count visits with an abandoned cart
 				if($ecommerceType == Piwik_Tracker_GoalManager::IDGOAL_CART)
