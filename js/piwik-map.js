@@ -260,7 +260,8 @@ UserCountryMap.run = function(config) {
         else zoom.removeClass('inactiveIcon');
 
         // show flag icon in select box
-        var flag = $('#userCountryMapFlag');
+        var flag = $('#userCountryMapFlag'),
+            regionBtn = $('#UserCountryMap-btn-region');
         if (id.length == 3) {
             flag.css({
                 'background-image': 'url('+UserCountryMap.countriesByIso[id].flag+')',
@@ -268,11 +269,13 @@ UserCountryMap.run = function(config) {
                 'background-position': '5px 5px'
             });
             $('#UserCountryMap-btn-city').removeClass('inactiveIcon');
+            $('span', regionBtn).html(regionBtn.data('region'));
         } else {
             flag.css({
                 'background': 'none'
             });
             $('#UserCountryMap-btn-city').addClass('inactiveIcon');
+            $('span', regionBtn).html(regionBtn.data('country'));
         }
 
         var mapTitle = id.length == 3 ? UserCountryMap.countriesByIso[id].name : $('#userCountryMapSelectCountry option[value='+id+']').html(),

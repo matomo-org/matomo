@@ -57,7 +57,7 @@
 
                 <div class="tableIconsGroup" id="UserCountryMap-view-mode-buttons">
                     <span class="tableAllColumnsSwitch">
-                        <a var="tableAllColumns" id="UserCountryMap-btn-region" format="tableAllColumns" class="tableIcon activeIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country"> {'UserCountry_Region'|translate}&nbsp;</a>
+                        <a var="tableAllColumns" id="UserCountryMap-btn-region" format="tableAllColumns" class="tableIcon activeIcon" data-region="{'UserCountry_Region'|translate}" data-country="{'UserCountry_Country'|translate}"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country"> <span style="margin:0">{'UserCountry_Country'|translate}</span>&nbsp;</a>
                         <a var="tableGoals" id="UserCountryMap-btn-city" format="tableGoals" class="tableIcon inactiveIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Show visitors per city"> {'UserCountry_City'|translate}&nbsp;</a>
                     </span>
                 </div>
