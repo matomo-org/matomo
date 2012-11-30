@@ -414,7 +414,7 @@ class Piwik_Http
 			}
 			else
 			{
-				$response = @file_get_contents($aUrl, 0, $ctx);
+				$response = file_get_contents($aUrl, 0, $ctx);
 				$fileLength = Piwik_Common::strlen($response);
 			}
 
