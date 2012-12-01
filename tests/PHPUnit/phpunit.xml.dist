@@ -44,7 +44,7 @@
 </logging>
 
 <filter>
-  <whitelist addUncoveredFilesFromWhitelist="false">
+  <whitelist addUncoveredFilesFromWhitelist="true">
     <directory suffix=".php">../../core</directory>
     <directory suffix=".php">../../plugins</directory>
   </whitelist>
