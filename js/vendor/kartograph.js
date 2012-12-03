@@ -4396,12 +4396,10 @@
       me.layoutSymbols();
       if (me.sortBy) {
         if (__type(me.sortBy) === "string") {
-          sortBy = me.sortBy;
-          sortDir = 'asc';
-        } else {
-          sortBy = me.sortBy[0];
-          sortDir = (_ref8 = me.sortBy[1]) != null ? _ref8 : 'asc';
+          me.sortBy = me.sortBy.split(' ');
         }
+        sortBy = me.sortBy[0];
+        sortDir = (_ref8 = me.sortBy[1]) != null ? _ref8 : 'asc';
         me.symbols = me.symbols.sort(function(a, b) {
           var m;
           if (a[sortBy] === b[sortBy]) {
