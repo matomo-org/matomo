@@ -137,7 +137,8 @@ class Piwik
 	}
 	
 	/**
-	 * Cache for result of getPiwikUrl. Can be overwritten for testing purposes.
+	 * Cache for result of getPiwikUrl.
+	 * Can be overwritten for testing purposes only.
 	 * 
 	 * @var string
 	 */
@@ -153,39 +154,37 @@ class Piwik
 	 */
 	static public function getPiwikUrl()
 	{
-		if (self::$piwikUrlCache === null)
+		// Only set in tests
+		if (self::$piwikUrlCache !== null)
 		{
-			$key = 'piwikUrl';
-			$url = Piwik_GetOption($key);
-			if(Piwik_Common::isPhpCliMode()
-				// in case archive.php is triggered with domain localhost
-				|| Piwik_Common::isArchivePhpTriggered()
-				|| defined('PIWIK_MODE_ARCHIVE'))
-			{
-				$piwikUrlCache = $url;
-			}
-			else
-			{
-				$currentUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
-		
-				if(empty($url)
-					// if URL changes, always update the cache
-					|| $currentUrl != $url)
-				{
-					if(strlen($currentUrl) >= strlen('http://a/'))
-					{
-						Piwik_SetOption($key, $currentUrl, $autoload = true);
-					}
-					$url = $currentUrl;
-				}
-			}
+			return self::$piwikUrlCache;
 		}
-		return self::$piwikUrlCache;
+
+		$key = 'piwikUrl';
+		$url = Piwik_GetOption($key);
+		if(Piwik_Common::isPhpCliMode()
+			// in case archive.php is triggered with domain localhost
+			|| Piwik_Common::isArchivePhpTriggered()
+			|| defined('PIWIK_MODE_ARCHIVE'))
+		{
+			return $url;
+		}
+
+		$currentUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+
+		if(empty($url)
+			// if URL changes, always update the cache
+			|| $currentUrl != $url)
+		{
+			if(strlen($currentUrl) >= strlen('http://a/'))
+			{
+				Piwik_SetOption($key, $currentUrl, $autoload = true);
+			}
+			$url = $currentUrl;
+		}
+		return $url;
 	}
 	
-/*
- * HTTP headers
- */
 	/**
 	 * Returns true if this appears to be a secure HTTPS connection
 	 *
