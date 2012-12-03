@@ -4543,7 +4543,7 @@
         me.osymbols = me.symbols;
       }
       SymbolType = me.type;
-      cluster = kmeans().iterations(16).size(100);
+      cluster = kmeans().iterations(16).size(60);
       _ref7 = me.osymbols;
       for (_i = 0, _len = _ref7.length; _i < _len; _i++) {
         s = _ref7[_i];
