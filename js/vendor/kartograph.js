@@ -40,7 +40,7 @@
 
 
 (function() {
-  var Aitoff, Azimuthal, BBox, Balthasart, Behrmann, BlurFilter, Bubble, CEA, CantersModifiedSinusoidalI, Circle, CohenSutherland, Conic, Cylindrical, EckertIV, EquidistantAzimuthal, Equirectangular, Filter, GallPeters, GlowFilter, GoodeHomolosine, Hatano, HoboDyer, HtmlLabel, Icon, Kartograph, LAEA, LCC, LabeledBubble, LatLon, Line, LinearScale, LogScale, LonLat, Loximuthal, MapLayer, MapLayerPath, Mercator, Mollweide, NaturalEarth, Nicolosi, Orthographic, PanAndZoomControl, Path, PieChart, Proj, PseudoConic, PseudoCylindrical, QuantileScale, REbraces, REcomment_string, REfull, REmunged, Robinson, Satellite, Scale, Sinusoidal, StackedBarChart, Stereographic, SvgLabel, Symbol, SymbolGroup, View, WagnerIV, WagnerV, Winkel3, drawPieChart, filter, kartograph, log, map_layer_path_uid, munge, munged, parsedeclarations, resolve, restore, root, uid, warn, __point_in_polygon, __proj, __type, __verbose__, _base, _base1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5,
+  var Aitoff, Azimuthal, BBox, Balthasart, Behrmann, BlurFilter, Bubble, CEA, CantersModifiedSinusoidalI, Circle, CohenSutherland, Conic, Cylindrical, EckertIV, EquidistantAzimuthal, Equirectangular, Filter, GallPeters, GlowFilter, GoodeHomolosine, Hatano, HoboDyer, HtmlLabel, Icon, Kartograph, LAEA, LCC, LabeledBubble, LatLon, Line, LinearScale, LogScale, LonLat, Loximuthal, MapLayer, MapLayerPath, Mercator, Mollweide, NaturalEarth, Nicolosi, Orthographic, PanAndZoomControl, Path, PieChart, Proj, PseudoConic, PseudoCylindrical, QuantileScale, REbraces, REcomment_string, REfull, REmunged, Robinson, Satellite, Scale, Sinusoidal, SqrtScale, StackedBarChart, Stereographic, SvgLabel, Symbol, SymbolGroup, View, WagnerIV, WagnerV, Winkel3, drawPieChart, filter, kartograph, log, map_layer_path_uid, munge, munged, parsedeclarations, resolve, restore, root, uid, warn, __point_in_polygon, __proj, __type, __verbose__, _base, _base1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
@@ -4022,7 +4022,8 @@
     */
 
     function Scale(domain, prop, filter) {
-      var i, me, val, values;
+      var i, me, val, values,
+        _this = this;
       if (domain == null) {
         domain = [0, 1];
       }
@@ -4032,6 +4033,8 @@
       if (filter == null) {
         filter = null;
       }
+      this.rangedScale = __bind(this.rangedScale, this);
+
       this.scale = __bind(this.scale, this);
 
       me = this;
@@ -4059,10 +4062,23 @@
         return a - b;
       });
       me.values = values;
+      me._range = [0, 1];
+      me.rangedScale.range = function(_r) {
+        me._range = _r;
+        return me.rangedScale;
+      };
     }
 
     Scale.prototype.scale = function(x) {
       return x;
+    };
+
+    Scale.prototype.rangedScale = function(x) {
+      var me, r;
+      me = this;
+      x = me.scale(x);
+      r = me._range;
+      return x * (r[1] - r[0]) + r[0];
     };
 
     return Scale;
@@ -4118,6 +4134,30 @@
 
   })(Scale);
 
+  SqrtScale = (function(_super) {
+
+    __extends(SqrtScale, _super);
+
+    function SqrtScale() {
+      this.scale = __bind(this.scale, this);
+      return SqrtScale.__super__.constructor.apply(this, arguments);
+    }
+
+    /* square root scale
+    */
+
+
+    SqrtScale.prototype.scale = function(x) {
+      var me, vals;
+      me = this;
+      vals = me.values;
+      return Math.sqrt((x - vals[0]) / (vals[vals.length - 1] - vals[0]));
+    };
+
+    return SqrtScale;
+
+  })(Scale);
+
   QuantileScale = (function(_super) {
 
     __extends(QuantileScale, _super);
@@ -4155,19 +4195,23 @@
   kartograph.scale = {};
 
   kartograph.scale.identity = function(s) {
-    return new Scale(domain, prop, filter).scale;
+    return new Scale(domain, prop, filter).rangedScale;
   };
 
   kartograph.scale.linear = function(domain, prop, filter) {
-    return new LinearScale(domain, prop, filter).scale;
+    return new LinearScale(domain, prop, filter).rangedScale;
   };
 
   kartograph.scale.log = function(domain, prop, filter) {
-    return new LogScale(domain, prop, filter).scale;
+    return new LogScale(domain, prop, filter).rangedScale;
+  };
+
+  kartograph.scale.sqrt = function(domain, prop, filter) {
+    return new SqrtScale(domain, prop, filter).rangedScale;
   };
 
   kartograph.scale.quantile = function(domain, prop, filter) {
-    return new QuantileScale(domain, prop, filter).scale;
+    return new QuantileScale(domain, prop, filter).rangedScale;
   };
 
   /*

@@ -30,6 +30,15 @@ UserCountryMap.run = function(config) {
 
     window.__userCountryMap = map;
 
+    function minmax(values) {
+        var l = Number.MAX_VALUE, h = Number.MAX_VALUE * -1;
+        $.each(values, function(i,v) {
+            h = Math.max(h, v);
+            l = Math.min(l, v);
+        });
+        return { min: l, max: h };
+    }
+
     /*
      * resizes the map
      */
@@ -40,6 +49,9 @@ UserCountryMap.run = function(config) {
         h = w / ratio;
         map.container.height(h-2);
         map.resize(w, h);
+
+        if (w < 355) $('.tableIcon span').hide();
+        else $('.tableIcon span').show();
     }
 
     //
@@ -48,68 +60,50 @@ UserCountryMap.run = function(config) {
     // used for color scales etc. The parsed metrics will be stored as
     // METRIC_raw
     //
-    function parseMetrics(data) {
-        $.each(UserCountryMap.config.metrics, function(metric) {
-            if (!data[metric]) return;
-            var val, t, metricStats = UserCountryMap.lastReportMetricStats;
-            if (metric == 'avg_time_on_site') {
-                t = data[metric].split(":").map(Number);
-                val = t[2] + t[1] * 60 + t[0] * 3600;
-            } else if (metric == 'bounce_rate') {
-                val = Number(data[metric].substr(0, data[metric].length-1));
-            } else {
-                val = data[metric];
-            }
-            if (metricStats[metric] === undefined) {
-                metricStats[metric] = { sum: 0, min: Number.MAX_VALUE, max: Number.MIN_VALUE };
-            }
-            metricStats[metric].sum += val;
-            metricStats[metric].min = Math.min(val, metricStats[metric].min);
-            metricStats[metric].max = Math.max(val, metricStats[metric].max);
-            data[metric+'_raw'] = val;
-        });
-    }
+
 
     function formatValueForTooltips(data, metric, id) {
         var v = '<b>'+data[metric] + '</b>';
 
+        function avgTime(d) { return d['sum_visit_length'] / d['nb_visits']; }
+
         if (metric.substr(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
-            var total;
-            if (id.length == 3) total = UserCountryMap.countriesByIso[id][metric+'_raw'];
-            else total = UserCountryMap.lastReportMetricStats[metric].sum;
-            v += ' ('+formatPercentage(data[metric+'_raw'] / total)+')';
+            //var total;
+            //console.debug(metric, UserCountryMap.lastReportMetricStats);
+            //if (id.length == 3) total = UserCountryMap.countriesByIso[id][metric];
+            //else total = UserCountryMap.lastReportMetricStats[metric].sum;
+            //v += ' ('+formatPercentage(data[metric] / total)+')';
         } else if (metric == 'avg_time_on_site') {
-            var diff = data[metric+'_raw'] - UserCountryMap.config.visitsSummary[metric],
-                neg = diff < 0,
-                t;
-            diff = Math.abs(diff);
-            t = [Math.floor(diff/3600), Math.floor(diff/60) % 60, diff % 60];
+
+            //var diff = avgTime(data) - avgTime(UserCountryMap.config.visitsSummary),
+            //    neg = diff < 0,
+            //    t;
+            //diff = Math.abs(diff);
+            //t = [Math.floor(diff/3600), Math.floor(diff/60) % 60, diff % 60];
             // t.map(function(s) { return s < 10 ? "0"+s : ""+s; }).join(':')
-            v += ' ('+(neg ? '-' : '+')+'' + (t[0] > 0 ? t[0]+'h ' : '') + (t[1] > 0 ? t[1]+'m ' : '')+t[2]+'s)';
+            //v += ' ('+(neg ? '-' : '+')+'' + (t[0] > 0 ? t[0]+'h ' : '') + (t[1] > 0 ? t[1]+'m ' : '')+t[2]+'s)';
         }
         return UserCountryMap.config.metrics[metric]+': '+v;
     }
 
     function getColorScale(rows, metric, filter) {
-        var stats = UserCountryMap.lastReportMetricStats[metric],
-            avg = UserCountryMap.config.visitsSummary[metric];
+        var stats = minmax(rows.map(function(r) { return quantify(r, metric); })),
+            avg = quantify(UserCountryMap.config.visitsSummary, metric);
 
         if (metric == 'avg_time_on_site') {
             // use diverging color scale for avg time on site
-            console.info(rows[0][metric+'_raw'], stats.max, avg);
             return window.colscl = new chroma.ColorScale({
-                colors: ['#9F454B', '#ffffff', '#8BABDF'],
-                limits: chroma.limits(rows, 'c', 5, metric+'_raw', filter),
-                positions: [0, (avg - 0) / (stats.max - 0), 1],
+                colors: ['#C9979C', '#ffffff', '#8BABDF'],
+                limits: chroma.limits(rows, 'c', 5, 'curMetric', filter),
+                positions: [0, (avg - stats.min) / (stats.max - stats.min), 1],
                 mode: 'hcl'
             });
 
         } else if (metric == 'bounce_rate') {
-            avg = Number(avg.substr(0, avg.length-1));
             // use diverging color scale for avg time on site
             return new chroma.ColorScale({
                 colors: ['#8BABDF', '#ffffff', '#9F595F'],
-                limits: chroma.limits(rows, 'c', 5, metric+'_raw', filter),
+                limits: chroma.limits(rows, 'c', 5, 'curMetric', filter),
                 positions: [0, (avg - stats.min) / (stats.max - stats.min), 1],
                 mode: 'hcl'
             });
@@ -118,7 +112,7 @@ UserCountryMap.run = function(config) {
             // default blue color scale
             return new chroma.ColorScale({
                 colors: ['#CDDAEF', '#385993'],
-                limits: chroma.limits(rows, 'e', 5, metric+'_raw', filter),
+                limits: chroma.limits(rows, 'e', 5, metric, filter),
                 mode: 'hcl'
             });
         }
@@ -215,7 +209,7 @@ UserCountryMap.run = function(config) {
 
 
     /*
-     * updateState
+     * updateState, called whenever the view changes
      */
     function updateState(id) {
         // double check view mode
@@ -226,18 +220,30 @@ UserCountryMap.run = function(config) {
 
         var metric = $('#userCountryMapSelectMetrics').val();
 
-        // store map state
+        // store current map state
         UserCountryMap.widget.dashboardWidget('setParameters', {
             lastMap: id, viewMode: UserCountryMap.mode, lastMetric: metric
         });
 
+        try {
+
+
+        // check which map to render
         if (id.length == 3) {
+            // country map
             renderCountryMap(id, metric);
         } else {
+            // world or continent map
             renderWorldMap(id, metric);
         }
 
+    } catch (e) {
+        console.error(e);
+    }
+
         _updateUI(id, metric);
+
+
 
         UserCountryMap.lastSelected = id;
     }
@@ -330,7 +336,7 @@ UserCountryMap.run = function(config) {
                 if (d === null) {
                     return UserCountryMap.config.noDataColor;
                 } else {
-                    return colscale.getColor(d[metric+'_raw']);
+                    return colscale.getColor(d[metric]);
                 }
             });
 
@@ -413,8 +419,74 @@ UserCountryMap.run = function(config) {
         $('#UserCountryMap .loadingPiwik').hide();
     }
 
+    /*
+     * returns a quantifiable value for a given metric
+     */
+    function quantify(d, metric) {
+        if (!metric) metric = $('#userCountryMapSelectMetrics').val();
+        switch (metric) {
+            case 'avg_time_on_site':
+                return d.sum_visit_length / d.nb_visits;
+            case 'bounce_rate':
+                return d.bounce_count / d.nb_visits;
+            default:
+                return d[metric];
+        }
+    }
+
+    /*
+     * Aggregates a list of report rows by a given grouping function
+     *
+     * the groupBy function gets a row as argument add should return a
+     * group-id or false, if the row should be ignored.
+     *
+     * all rows for which groupBy returns the same group-id are
+     * aggregated according to the given metric.
+     */
+    function aggregate(rows, metric, groupBy) {
+
+        function raw(d, metric) {
+            switch (metric) {
+                case 'nb_actions_per_visit':
+                    return d.nb_actions;
+                case 'avg_time_on_site':
+                    return d.sum_visit_length;
+                case 'bounce_rate':
+                    return d.bounce_count;
+                default:
+                    return d[metric];
+            }
+        }
+
+        var groups = {};
+        $.each(rows, function(i, row) {
+            var g_id = groupBy(row);
+            if (g_id) {
+                if (!groups[g_id]) groups[g_id] = { _visits: 0, value: 0 };
+                groups[g_id]._visits += row.nb_visits;
+                groups[g_id].value += raw(row, metric);
+            }
+        });
+
+        if (metric == 'nb_actions_per_visit' || metric == 'avg_time_on_site' || metric == 'bounce_rate') {
+            $.each(groups, function(g_id, group) {
+                groups[g_id] = group.value /= group._visits;
+            });
+        }
+
+        return groups;
+    }
+
+    /*
+     * renders a country map (either region or city view)
+     */
     function renderCountryMap(iso) {
 
+        /*
+         * updates the colors in the current region map
+         * this happens once a new country is loaded and
+         * whenever the metric changes
+         */
         function updateRegionColors() {
             indicateLoading();
             // load data from Piwik API
@@ -429,7 +501,6 @@ UserCountryMap.run = function(config) {
                     // UserCountryMap.lastReportMetricStats = {};
 
                     $.each(data.reportData, function(i, row) {
-                        parseMetrics(row);
                         regionDict[data.reportMetadata[i].region] = row;
                     });
 
@@ -457,7 +528,7 @@ UserCountryMap.run = function(config) {
                             return UserCountryMap.config.noDataColor;
                         } else {
                             // match
-                            return colscale.getColor(regionDict[code][metric+'_raw']);
+                            return colscale.getColor(regionDict[code][metric]);
                         }
                     });
 
@@ -475,10 +546,13 @@ UserCountryMap.run = function(config) {
             });
         }
 
+        /*
+         * updates the city symbols in the current map
+         * this happens once a new country is loaded and
+         * whenever the metric changes
+         */
         function updateCitySymbols() {
-            // load some fake data with real cities ids from GeoIP
-
-            // color regions in light blue
+            // color regions in white as background for symbols
             if (map.getLayer('regions')) map.getLayer('regions').style('fill', '#fff');
 
             indicateLoading();
@@ -493,46 +567,54 @@ UserCountryMap.run = function(config) {
 
                     var metric = $('#userCountryMapSelectMetrics').val(),
                         colscale,
-                        cities = [],
-                        unknown = 0,
-                        cluster = kmeans().iterations(16).size(100);
+                        unknown,
+                        cities = [];
 
+                    // merge reportData and reportMetadata to cities array
                     $.each(data.reportData, function(i, row) {
-                        parseMetrics(row);
-                        if (data.reportMetadata[i].region == 'xx') {
-                            // not safe to sum at this point (e.g. avg time on page)
-                            unknown += row[metric+'_raw'];
-                            //return;
-                        }
-                        cities.push($.extend(row, data.reportMetadata[i]));
+                        cities.push($.extend(row, data.reportMetadata[i], {
+                            curMetric: quantify(row, metric)
+                        }));
                     });
 
-                    cities.sort(function(a, b) { return b[metric+'_raw'] - a[metric+'_raw']; });
-                    cities = cities.slice(0, 200);
+                    // get metric for visits with unknown city
+                    unknown = aggregate(cities, metric, function(row) {
+                        return row.city == "xx" ? 'unknown' : false;
+                    }).unknown;
+
+                    // sort by current metric
+                    cities.sort(function(a, b) { return b.curMetric - a.curMetric; });
 
                     colscale = getColorScale(cities, metric);
 
                     // construct scale
-                    var scale = $K.scale.linear(cities, metric+'_raw');
+                    var radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric');
 
                     var s = 0;
-                    $.each(cities, function(i, city) {
-                        s += city.size;
-                    });
-                    s /= cities.length;
-                    var maxRad = 20;
+
+                    var area = map.container.width() * map.container.height(),
+                        maxRad = (area / 120000) * Math.sqrt(200 / cities.length) / radscale(cities[Math.floor(cities.length * 0.5)].curMetric);
+
+                    radscale = $K.scale.sqrt(cities, 'curMetric').range([4, maxRad+3]);
 
                     map.addSymbols({
                         type: $K.Bubble,
                         data: cities,
                         location: function(city) { return [city.long, city.lat]; },
-                        radius: function(city) { return scale(city[metric+'_raw']) * maxRad + 3; },
-                        style: function(city) {
-                            return 'fill:'+colscale.getColor(city[metric+'_raw']);
-                        },
+                        radius: function(city) { return radscale(city.curMetric); },
+                        style: 'fill:#385993; fill-opacity: 0.7; stroke: #fff;',
+                        /*style: function(city) {
+                            var avg = quantify(UserCountryMap.config.visitsSummary, metric);
+                            console.info(avg, UserCountryMap.config.visitsSummary);
+                            if (metric != 'avg_time_on_site' && metric != 'bounce_rate' && metric != 'nb_actions_per_visit')
+                                avg /= cities.length;
+                            console.info(avg, city.curMetric, metric);
+                            return 'fill:' + colscale.getColor(city.curMetric) + ';'+
+                                'fill-opacity:' + (city.curMetric > avg * 0.8 ? 1 : 0.4 + 0.6 * city.curMetric / avg) + ';' +
+                                'stroke-opacity:' + (city.curMetric > avg * 0.8 ? 1 : city.curMetric / avg);
+                        },*/
                         tooltip: function(city) {
-                            return '<h3>'+city.city_name+'</h3>'+
-                                formatValueForTooltips(city, metric, iso);
+                            return '<h3>'+city.city_name+'</h3>'+formatValueForTooltips(city, metric, iso);
                         },
                         click: function(e) {
                             evt.stopPropagation();
@@ -620,10 +702,9 @@ UserCountryMap.run = function(config) {
                 metric = $(metric).attr('value');
                 country[metric] = data[metric];
             });
-            parseMetrics(country);
             countryData.push(country);
             countriesByIso[country.iso] = country;
-            worldTotalVisits += country['nb_visits_raw'];
+            worldTotalVisits += country['nb_visits'];
         });
         // sort countries by name
         countryData.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
