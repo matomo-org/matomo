@@ -104,7 +104,7 @@ UserCountryMap.run = function(config) {
             // default blue color scale
             return new chroma.ColorScale({
                 colors: ['#CDDAEF', '#385993'],
-                limits: chroma.limits(rows, 'e', 5, 'curMetric', filter),
+                limits: chroma.limits(values, 'e', 5, null, filter),
                 mode: 'hcl'
             });
         }
@@ -511,11 +511,9 @@ UserCountryMap.run = function(config) {
                     }
 
                     if (UserCountryMap.aggregate[iso]) {
-                        console.info('aggregate '+iso);
                         var aggregated = aggregate(regionDict, function(row) {
                             var id = row.region, res = false;
                             $.each(UserCountryMap.aggregate[iso].groups, function(group, codes) {
-                                console.info(id, codes);
                                 if ($.inArray(id, codes) > -1) {
                                     res = group;
                                 }
@@ -523,7 +521,6 @@ UserCountryMap.run = function(config) {
                             return res;
                         });
                         $.each(aggregated, function(id, group) {
-                            console.info('new region '+id);
                             group.curMetric = quantify(group, metric);
                             regionDict[id] = group;
                         });
@@ -535,7 +532,6 @@ UserCountryMap.run = function(config) {
                     // apply colors to map
                     map.getLayer('regions').style('fill', function(data) {
                         var code = regionCode(data);
-                        console.info('fill', data, code, regionDict[code], regionDict);
                         if (regionDict[code] === undefined) {
                             // not found :(
                             return UserCountryMap.config.noDataColor;
@@ -552,7 +548,6 @@ UserCountryMap.run = function(config) {
                         if (region === undefined) {
                             return '<h3>'+data.name+'</h3><p>'+UserCountryMap._.NbVisits.replace('%s', '<b>0</b>')+'</p>';
                         }
-                        console.info(region, data);
                         return '<h3>'+data.name+'</h3>'+
                             formatValueForTooltips(region, metric, iso);
                     });
@@ -592,7 +587,7 @@ UserCountryMap.run = function(config) {
                     });
 
                     // get metric for visits with unknown city
-                    unknown = aggregate(cities, metric, function(row) {
+                    unknown = aggregate(cities, function(row) {
                         return row.city == "xx" ? 'unknown' : false;
                     }).unknown;
 
@@ -611,22 +606,14 @@ UserCountryMap.run = function(config) {
 
                     radscale = $K.scale.sqrt(cities, 'curMetric').range([4, maxRad+3]);
 
+                    console.info('cities', cities);
+
                     map.addSymbols({
                         type: $K.Bubble,
                         data: cities,
                         location: function(city) { return [city.long, city.lat]; },
                         radius: function(city) { return radscale(city.curMetric); },
                         style: 'fill:#385993; fill-opacity: 0.7; stroke: #fff;',
-                        /*style: function(city) {
-                            var avg = quantify(UserCountryMap.config.visitsSummary, metric);
-                            console.info(avg, UserCountryMap.config.visitsSummary);
-                            if (metric != 'avg_time_on_site' && metric != 'bounce_rate' && metric != 'nb_actions_per_visit')
-                                avg /= cities.length;
-                            console.info(avg, city.curMetric, metric);
-                            return 'fill:' + colscale.getColor(city.curMetric) + ';'+
-                                'fill-opacity:' + (city.curMetric > avg * 0.8 ? 1 : 0.4 + 0.6 * city.curMetric / avg) + ';' +
-                                'stroke-opacity:' + (city.curMetric > avg * 0.8 ? 1 : city.curMetric / avg);
-                        },*/
                         tooltip: function(city) {
                             return '<h3>'+city.city_name+'</h3>'+formatValueForTooltips(city, metric, iso);
                         },
@@ -694,7 +681,7 @@ UserCountryMap.run = function(config) {
                 type: $K.Label,
                 filter: filtCountryLabels,
                 location: function(data) { return 'context-clickable.'+data.iso; },
-                text: function(data) { console.info(data); return UserCountryMap.countriesByIso[data.iso].iso2; },
+                text: function(data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
                 'class': 'countryLabel'
             });
 

@@ -85,8 +85,10 @@
 }
 
 #UserCountryMap_map svg .bubble:hover {
-    stroke: #000!important;
-    stroke-width: 2px!important;
+    stroke: #5170AE!important;
+    fill-opacity: 1!important;
+    stroke-width: 4px!important;
+    stroke-opacity: 0.2;
 }
 
 #UserCountryMap-black {
