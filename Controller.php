@@ -32,7 +32,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         if ($filter_by_country) {
             $url .= "&filter_column=country"
             . "&filter_sort_column=nb_visits"
-            . "&filter_limit=200"
+            . "&filter_limit=500"
             . "&filter_pattern=";
         } else {
             $url .= "&filter_limit=-1";
