@@ -606,13 +606,18 @@ UserCountryMap.run = function(config) {
 
                     radscale = $K.scale.sqrt(cities, 'curMetric').range([4, maxRad+3]);
 
-                    console.info('cities', cities);
-
                     map.addSymbols({
                         type: $K.Bubble,
                         data: cities,
+                        layout: 'cluster',
+                        aggregate: function(rows) {
+                            var row = aggregate(rows, function() { return 'row'; }).row;
+                            row.city_name = rows[0].city_name + (rows.length > 1 ? ' and '+(rows.length-1)+' others' : '');
+                            row.curMetric = quantify(row, metric);
+                            return row;
+                        },
                         location: function(city) { return [city.long, city.lat]; },
-                        radius: function(city) { return radscale(city.curMetric); },
+                        radius: function(city) { console.info(city); return radscale(city.curMetric); },
                         style: 'fill:#385993; fill-opacity: 0.7; stroke: #fff;',
                         tooltip: function(city) {
                             return '<h3>'+city.city_name+'</h3>'+formatValueForTooltips(city, metric, iso);

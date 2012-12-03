@@ -40,7 +40,7 @@
 
 
 (function() {
-  var Aitoff, Azimuthal, BBox, Balthasart, Behrmann, BlurFilter, Bubble, CEA, CantersModifiedSinusoidalI, Circle, CohenSutherland, Conic, Cylindrical, EckertIV, EquidistantAzimuthal, Equirectangular, Filter, GallPeters, GlowFilter, GoodeHomolosine, Hatano, HoboDyer, HtmlLabel, Icon, Kartograph, LAEA, LCC, LabeledBubble, LatLon, Line, LinearScale, LogScale, LonLat, Loximuthal, MapLayer, MapLayerPath, Mercator, Mollweide, NaturalEarth, Nicolosi, Orthographic, PanAndZoomControl, Path, PieChart, Proj, PseudoConic, PseudoCylindrical, QuantileScale, REbraces, REcomment_string, REfull, REmunged, Robinson, Satellite, Scale, Sinusoidal, SqrtScale, StackedBarChart, Stereographic, SvgLabel, Symbol, SymbolGroup, View, WagnerIV, WagnerV, Winkel3, drawPieChart, filter, kartograph, log, map_layer_path_uid, munge, munged, parsedeclarations, resolve, restore, root, uid, warn, __point_in_polygon, __proj, __type, __verbose__, _base, _base1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5,
+  var Aitoff, Azimuthal, BBox, Balthasart, Behrmann, BlurFilter, Bubble, CEA, CantersModifiedSinusoidalI, Circle, CohenSutherland, Conic, Cylindrical, EckertIV, EquidistantAzimuthal, Equirectangular, Filter, GallPeters, GlowFilter, GoodeHomolosine, Hatano, HoboDyer, HtmlLabel, Icon, Kartograph, LAEA, LCC, LabeledBubble, LatLon, Line, LinearScale, LogScale, LonLat, Loximuthal, MapLayer, MapLayerPath, Mercator, Mollweide, NaturalEarth, Nicolosi, Orthographic, PanAndZoomControl, Path, PieChart, Proj, PseudoConic, PseudoCylindrical, QuantileScale, REbraces, REcomment_string, REfull, REmunged, Robinson, Satellite, Scale, Sinusoidal, SqrtScale, StackedBarChart, Stereographic, SvgLabel, Symbol, SymbolGroup, View, WagnerIV, WagnerV, Winkel3, drawPieChart, filter, foo, kartograph, log, map_layer_path_uid, munge, munged, parsedeclarations, resolve, restore, root, uid, warn, __point_in_polygon, __proj, __type, __verbose__, _base, _base1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
@@ -4334,13 +4334,13 @@
     function SymbolGroup(opts) {
       this.initTooltips = __bind(this.initTooltips, this);
 
-      this.groupLayout = __bind(this.groupLayout, this);
+      this.clusterLayout = __bind(this.clusterLayout, this);
 
       var SymbolType, d, dly, i, id, l, layer, maxdly, nid, node, optional, p, required, s, sortBy, sortDir, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _len5, _len6, _m, _n, _o, _ref10, _ref11, _ref6, _ref7, _ref8, _ref9,
         _this = this;
       me = this;
       required = ['data', 'location', 'type', 'map'];
-      optional = ['filter', 'tooltip', 'layout', 'group', 'click', 'delay', 'sortBy'];
+      optional = ['filter', 'tooltip', 'layout', 'group', 'click', 'delay', 'sortBy', 'aggregate'];
       for (_i = 0, _len = required.length; _i < _len; _i++) {
         p = required[_i];
         if (opts[p] != null) {
@@ -4522,29 +4522,71 @@
         s.x = xy[0];
         s.y = xy[1];
       }
-      if (me.layout === 'group') {
-        return me.groupLayout();
+      if (me.layout === 'cluster') {
+        return me.clusterLayout();
       }
     };
 
-    SymbolGroup.prototype.groupLayout = function() {
+    SymbolGroup.prototype.clusterLayout = function() {
       /*
               layouts symbols in this group, eventually adds new 'grouped' symbols
               map.addSymbols({
-                  layout: "group",
-                  group: function(data) {
+                  layout: "cluster",
+                  aggregate: function(data) {
                       // compresses a list of data objects into a single one
                       // typically you want to calculate the mean position, sum value or something here
                   }
               })
       */
 
-      var overlap, _ref6;
+      var SymbolType, cluster, d, i, mean, means, out, p, s, sprops, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref6, _ref7, _ref8, _ref9;
       me = this;
-      if ((_ref6 = me.gsymbols) == null) {
-        me.gsymbols = [];
+      if ((_ref6 = me.osymbols) == null) {
+        me.osymbols = me.symbols;
       }
-      return overlap = true;
+      SymbolType = me.type;
+      cluster = kmeans().iterations(16).size(100);
+      _ref7 = me.osymbols;
+      for (_i = 0, _len = _ref7.length; _i < _len; _i++) {
+        s = _ref7[_i];
+        cluster.add({
+          x: s.x,
+          y: s.y
+        });
+      }
+      means = cluster.means();
+      out = [];
+      for (_j = 0, _len1 = means.length; _j < _len1; _j++) {
+        mean = means[_j];
+        if (mean.size === 0) {
+          continue;
+        }
+        d = [];
+        _ref8 = mean.indices;
+        for (_k = 0, _len2 = _ref8.length; _k < _len2; _k++) {
+          i = _ref8[_k];
+          d.push(me.osymbols[i].data);
+        }
+        d = me.aggregate(d);
+        sprops = {
+          layers: me.layers,
+          location: false,
+          data: d,
+          map: me.map
+        };
+        _ref9 = SymbolType.props;
+        for (_l = 0, _len3 = _ref9.length; _l < _len3; _l++) {
+          p = _ref9[_l];
+          if (me[p] != null) {
+            sprops[p] = me._evaluate(me[p], d);
+          }
+        }
+        s = new SymbolType(sprops);
+        s.x = mean.x;
+        s.y = mean.y;
+        out.push(s);
+      }
+      return me.symbols = out;
     };
 
     SymbolGroup.prototype.initTooltips = function() {
@@ -4631,6 +4673,159 @@
     opts.map = this;
     return new SymbolGroup(opts);
   };
+
+  
+// k-means clustering
+function kmeans() {
+  var kmeans = {},
+      points = [],
+      iterations = 1,
+      size = 1;
+
+  kmeans.size = function(x) {
+    if (!arguments.length) return size;
+    size = x;
+    return kmeans;
+  };
+
+  kmeans.iterations = function(x) {
+    if (!arguments.length) return iterations;
+    iterations = x;
+    return kmeans;
+  };
+
+  kmeans.add = function(x) {
+    points.push(x);
+    return kmeans;
+  };
+
+  kmeans.means = function() {
+    var means = [],
+        seen = {},
+        n = Math.min(size, points.length);
+
+    // Initialize k random (unique!) means.
+    for (var i = 0, m = 2 * n; i < m; i++) {
+      var p = points[~~(Math.random() * points.length)], id = p.x + "/" + p.y;
+      if (!(id in seen)) {
+        seen[id] = 1;
+        if (means.push({x: p.x, y: p.y}) >= n) break;
+      }
+    }
+    n = means.length;
+
+    // For each iteration, create a kd-tree of the current means.
+    for (var j = 0; j < iterations; j++) {
+      var kd = kdtree().points(means);
+
+      // Clear the state.
+      for (var i = 0; i < n; i++) {
+        var mean = means[i];
+        mean.sumX = 0;
+        mean.sumY = 0;
+        mean.size = 0;
+        mean.points = [];
+        mean.indices = [];
+      }
+
+      // Find the mean closest to each point.
+      for (var i = 0; i < points.length; i++) {
+        var point = points[i], mean = kd.find(point);
+        mean.sumX += point.x;
+        mean.sumY += point.y;
+        mean.size++;
+        mean.points.push(point);
+        mean.indices.push(i);
+      }
+
+      // Compute the new means.
+      for (var i = 0; i < n; i++) {
+        var mean = means[i];
+        if (!mean.size) continue; // overlapping mean
+        mean.x = mean.sumX / mean.size;
+        mean.y = mean.sumY / mean.size;
+      }
+    }
+
+    return means;
+  };
+
+  return kmeans;
+}
+
+// kd-tree
+function kdtree() {
+  var kdtree = {},
+      axes = ["x", "y"],
+      root,
+      points = [];
+
+  kdtree.axes = function(x) {
+    if (!arguments.length) return axes;
+    axes = x;
+    return kdtree;
+  };
+
+  kdtree.points = function(x) {
+    if (!arguments.length) return points;
+    points = x;
+    root = null;
+    return kdtree;
+  };
+
+  kdtree.find = function(x) {
+    return find(kdtree.root(), x, root).point;
+  };
+
+  kdtree.root = function(x) {
+    return root || (root = node(points, 0));
+  };
+
+  function node(points, depth) {
+    if (!points.length) return;
+    var axis = axes[depth % axes.length], median = points.length >> 1;
+    points.sort(order(axis)); // could use random sample to speed up here
+    return {
+      axis: axis,
+      point: points[median],
+      left: node(points.slice(0, median), depth + 1),
+      right: node(points.slice(median + 1), depth + 1)
+    };
+  }
+
+  function distance(a, b) {
+    var sum = 0;
+    for (var i = 0; i < axes.length; i++) {
+      var axis = axes[i], d = a[axis] - b[axis];
+      sum += d * d;
+    }
+    return sum;
+  }
+
+  function order(axis) {
+    return function(a, b) {
+      a = a[axis];
+      b = b[axis];
+      return a < b ? -1 : a > b ? 1 : 0;
+    };
+  }
+
+  function find(node, point, best) {
+    if (distance(node.point, point) < distance(best.point, point)) best = node;
+    if (node.left) best = find(node.left, point, best);
+    if (node.right) {
+      var d = node.point[node.axis] - point[node.axis];
+      if (d * d < distance(best.point, point)) best = find(node.right, point, best);
+    }
+    return best;
+  }
+
+  return kdtree;
+}
+;
+
+
+  foo = "bar";
 
   /*
       kartograph - a svg mapping library
