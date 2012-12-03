@@ -59,17 +59,29 @@
     fill: #fff;
 }
 
+#UserCountryMap_map svg .countryLabelBg {
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+    fill: #F6F5F3;
+    stroke: #F6F5F3;
+    stroke-width: 3px;
+    stroke-linejoin; round;
+    stroke-linecap; round;
+    font-weight: bold;
+    font-size: 10px;
+}
+
 #UserCountryMap_map svg .countryLabel {
     font-family: Arial,Verdana,Helvetica,sans-serif;
-    fill: #666;
+    fill: #808888;
+    font-weight: bold;
     font-size: 10px;
 }
 
 #UserCountryMap_map svg .bubble {
     fill-opacity: 0.7;
     /fill: #5170AE;
-    /stroke: #112299;
-    stroke-width: 0.6px;
+    /stroke: #fff;
+    stroke-width: 1px;
 }
 
 #UserCountryMap_map svg .bubble:hover {

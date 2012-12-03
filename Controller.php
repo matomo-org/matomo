@@ -78,6 +78,15 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $view->metrics = $this->getMetrics($idSite, $period, $date, $token_auth);
         $view->defaultMetric = 'nb_visits';
 
+        // some translations
+        $view->localeJSON = json_encode(array(
+            'nb_visits' => Piwik_Translate('VisitsSummary_NbVisits'),
+            'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),
+            'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
+            'bounce_rate' => Piwik_Translate('VisitsSummary_NbVisitsBounced'),
+            'avg_time_on_site' => Piwik_Translate('VisitsSummary_AverageVisitDuration')
+        ));
+
         echo $view->render();
     }
 

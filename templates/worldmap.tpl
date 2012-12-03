@@ -106,6 +106,8 @@
     config.metrics['{$metric[0]}'] = "{$metric[1]}";
     {/foreach}
 
+    UserCountryMap._ = JSON.parse('{$localeJSON}');
+
 {literal}
     $(function() {
         UserCountryMap.run(config)

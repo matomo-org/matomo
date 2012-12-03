@@ -1527,7 +1527,7 @@
     };
 
     Path.prototype.centroid = function() {
-      var a, area, cnt, cx, cy, dx, dy, i, j, k, l, len, me, p0, p1, total_len, w, x, y, _i, _j, _k, _lengths, _ref5, _ref6, _ref7;
+      var S, a, area, cnt, cnt_orig, cx, cy, diff, dx, dy, i, j, k, l, len, me, p0, p1, s, sp, total_len, w, x, x_, y, y_, _i, _j, _k, _l, _lengths, _m, _ref5, _ref6, _ref7, _ref8, _ref9;
       me = this;
       if (me._centroid != null) {
         return me._centroid;
@@ -1535,13 +1535,34 @@
       area = me.area();
       cx = cy = 0;
       for (i = _i = 0, _ref5 = me.contours.length - 1; 0 <= _ref5 ? _i <= _ref5 : _i >= _ref5; i = 0 <= _ref5 ? ++_i : --_i) {
-        cnt = me.contours[i];
+        cnt_orig = me.contours[i];
+        cnt = [];
+        l = cnt_orig.length;
+        for (j = _j = 0, _ref6 = l - 1; 0 <= _ref6 ? _j <= _ref6 : _j >= _ref6; j = 0 <= _ref6 ? ++_j : --_j) {
+          p0 = cnt_orig[j];
+          p1 = cnt_orig[(j + 1) % l];
+          diff = 0;
+          cnt.push(p0);
+          if (p0[0] === p1[0]) {
+            diff = Math.abs(p0[1] - p1[1]);
+          }
+          if (p0[1] === p1[1]) {
+            diff = Math.abs(p0[0] - p1[0]);
+          }
+          if (diff > 10) {
+            S = Math.floor(diff * 2);
+            for (s = _k = 1, _ref7 = S - 1; 1 <= _ref7 ? _k <= _ref7 : _k >= _ref7; s = 1 <= _ref7 ? ++_k : --_k) {
+              sp = [p0[0] + s / S * (p1[0] - p0[0]), p0[1] + s / S * (p1[1] - p0[1])];
+              cnt.push(sp);
+            }
+          }
+        }
         a = me.areas[i];
-        x = y = 0;
+        x = y = x_ = y_ = 0;
         l = cnt.length;
         _lengths = [];
         total_len = 0;
-        for (j = _j = 0, _ref6 = l - 1; 0 <= _ref6 ? _j <= _ref6 : _j >= _ref6; j = 0 <= _ref6 ? ++_j : --_j) {
+        for (j = _l = 0, _ref8 = l - 1; 0 <= _ref8 ? _l <= _ref8 : _l >= _ref8; j = 0 <= _ref8 ? ++_l : --_l) {
           p0 = cnt[j];
           p1 = cnt[(j + 1) % l];
           dx = p1[0] - p0[0];
@@ -1550,9 +1571,8 @@
           _lengths.push(len);
           total_len += len;
         }
-        for (j = _k = 0, _ref7 = l - 1; 0 <= _ref7 ? _k <= _ref7 : _k >= _ref7; j = 0 <= _ref7 ? ++_k : --_k) {
+        for (j = _m = 0, _ref9 = l - 1; 0 <= _ref9 ? _m <= _ref9 : _m >= _ref9; j = 0 <= _ref9 ? ++_m : --_m) {
           p0 = cnt[j];
-          p1 = cnt[(j + 1) % l];
           w = _lengths[j] / total_len;
           x += w * p0[0];
           y += w * p0[1];
