@@ -610,7 +610,11 @@ UserCountryMap.run = function(config) {
                         layout: 'noverlap',
                         aggregate: function(rows) {
                             var row = aggregate(rows);
-                            row.city_name = rows[0].city_name + (rows.length > 1 ? ' and '+(rows.length-1)+' others' : '');
+                            row.city_names = [];
+                            $.each(rows, function(i, r) {
+                                row.city_names = row.city_names.concat(r.city_names ? r.city_names : [r.city_name]);
+                            });
+                            row.city_name = row.city_names[0] + (row.city_names.length > 1 ? ' '+UserCountryMap._.and_n_others.replace('%s', (row.city_names.length-1)) : '');
                             row.curMetric = quantify(row, metric);
                             return row;
                         },

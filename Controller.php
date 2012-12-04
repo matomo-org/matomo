@@ -32,7 +32,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         if ($filter_by_country) {
             $url .= "&filter_column=country"
             . "&filter_sort_column=nb_visits"
-            . "&filter_limit=300"
+            . "&filter_limit=200"
             . "&filter_pattern=";
         } else {
             $url .= "&filter_limit=-1";
@@ -84,7 +84,8 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),
             'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
             'bounce_rate' => Piwik_Translate('VisitsSummary_NbVisitsBounced'),
-            'avg_time_on_site' => Piwik_Translate('VisitsSummary_AverageVisitDuration')
+            'avg_time_on_site' => Piwik_Translate('VisitsSummary_AverageVisitDuration'),
+            'and_n_others' => Piwik_Translate('UserCountryMap_AndNOthers')
         ));
 
         echo $view->render();

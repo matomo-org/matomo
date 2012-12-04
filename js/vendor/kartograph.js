@@ -4616,10 +4616,10 @@
           if (!s0) {
             continue;
           }
-          l0 = s0.x - s0.radius * 0.9;
-          r0 = s0.x + s0.radius * 0.9;
-          t0 = s0.y - s0.radius * 0.9;
-          b0 = s0.y + s0.radius * 0.9;
+          l0 = s0.x - s0.radius * 0.7;
+          r0 = s0.x + s0.radius * 0.7;
+          t0 = s0.y - s0.radius * 0.7;
+          b0 = s0.y + s0.radius * 0.7;
           intersects = [];
           for (q = _k = _ref9 = p + 1, _ref10 = l - 2; _ref9 <= _ref10 ? _k <= _ref10 : _k >= _ref10; q = _ref9 <= _ref10 ? ++_k : --_k) {
             s1 = symbols[q];
