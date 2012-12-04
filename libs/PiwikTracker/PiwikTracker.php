@@ -53,8 +53,8 @@ class PiwikTracker
 	const LENGTH_VISITOR_ID = 16;
 
 	/**
-	 * By default, Piwik expects utf-8 encoded values, for example for the page URL parameter values, Page Title, etc.
-	 *
+	 * Charset
+	 * @see setPageCharset
 	 * @ignore
 	 */
 	const DEFAULT_CHARSET_PARAMETER_VALUES = 'utf-8';
@@ -105,6 +105,14 @@ class PiwikTracker
     	$this->storedTrackingActions = array();
     }
 
+	/**
+	 * By default, Piwik expects utf-8 encoded values, for example
+	 * for the page URL parameter values, Page Title, etc.
+	 * It is recommended to only send UTF-8 data to Piwik.
+	 * If required though, you can also specify another charset using this function.
+	 *
+	 * @param string $charset
+	 */
 	public function setPageCharset( $charset = false )
 	{
 		$this->pageCharset = $charset;
@@ -267,7 +275,8 @@ class PiwikTracker
     /**
      * Sets the country of the visitor. If not used, Piwik will try to find the country
      * using either the visitor's IP address or language.
-     * 
+     *
+     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
      * @param string $country
      */
     public function setCountry($country)
@@ -278,7 +287,8 @@ class PiwikTracker
     /**
      * Sets the region of the visitor. If not used, Piwik may try to find the region
      * using the visitor's IP address (if configured to do so).
-     * 
+     *
+     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
      * @param string $region
      */
     public function setRegion($region)
@@ -289,7 +299,8 @@ class PiwikTracker
     /**
      * Sets the city of the visitor. If not used, Piwik may try to find the city
      * using the visitor's IP address (if configured to do so).
-     * 
+     *
+     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
      * @param string $city
      */
     public function setCity($city)
@@ -300,7 +311,8 @@ class PiwikTracker
     /**
      * Sets the latitude of the visitor. If not used, Piwik may try to find the visitor's
      * latitude using the visitor's IP address (if configured to do so).
-     * 
+     *
+     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
      * @param float $lat
      */
     public function setLatitude($lat)
@@ -311,7 +323,8 @@ class PiwikTracker
     /**
      * Sets the longitude of the visitor. If not used, Piwik may try to find the visitor's
      * longitude using the visitor's IP address (if configured to do so).
-     * 
+     *
+     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
      * @param float $long
      */
     public function setLongitude($long)
@@ -690,7 +703,7 @@ class PiwikTracker
      * 
      * This is typically used with the Javascript getVisitorId() function.
      * 
-     * Allowed only for Super User, must be used along with setTokenAuth().
+     * Allowed only for Admin/Super User, must be used along with setTokenAuth().
      * @see setTokenAuth()
      * @param string $visitorId 16 hexadecimal characters visitor ID, eg. "33c31e01394bdc63"
      */
