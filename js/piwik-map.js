@@ -235,8 +235,6 @@ UserCountryMap.run = function(config) {
 
         _updateUI(id, metric);
 
-
-
         UserCountryMap.lastSelected = id;
     }
 
@@ -438,7 +436,7 @@ UserCountryMap.run = function(config) {
 
         var groups = {};
         $.each(rows, function(i, row) {
-            var g_id = groupBy(row);
+            var g_id = groupBy ? groupBy(row) : 'X';
             g_id = g_id === true ? $.isNumeric(i) && i === Number(i) ? false : i : g_id;
             if (g_id) {
                 if (!groups[g_id]) {
@@ -464,7 +462,7 @@ UserCountryMap.run = function(config) {
             group['bounce_rate'] = (br % 1 !== 0 ? br.toFixed(1) : br)+"%";
         });
 
-        return groups;
+        return groupBy ? groups : groups.X;
     }
 
     /*
@@ -609,19 +607,20 @@ UserCountryMap.run = function(config) {
                     map.addSymbols({
                         type: $K.Bubble,
                         data: cities,
-                        layout: 'cluster',
+                        layout: 'noverlap',
                         aggregate: function(rows) {
-                            var row = aggregate(rows, function() { return 'row'; }).row;
+                            var row = aggregate(rows);
                             row.city_name = rows[0].city_name + (rows.length > 1 ? ' and '+(rows.length-1)+' others' : '');
                             row.curMetric = quantify(row, metric);
                             return row;
                         },
                         sortBy: 'radius desc',
                         location: function(city) { return [city.long, city.lat]; },
-                        radius: function(city) { console.info(city); return radscale(city.curMetric); },
+                        radius: function(city) { return radscale(city.curMetric); },
                         style: 'fill:#385993; fill-opacity: 0.7; stroke: #fff;',
                         tooltip: function(city) {
-                            return '<h3>'+city.city_name+'</h3>'+formatValueForTooltips(city, metric, iso);
+                            return '<h3>'+city.city_name+'</h3>'+
+                                formatValueForTooltips(city, metric, iso);
                         },
                         click: function(e) {
                             evt.stopPropagation();
