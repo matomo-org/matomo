@@ -235,7 +235,8 @@ class UrlTest extends PHPUnit_Framework_TestCase
             array(false, 'example.com.attacker.com', array('example.com'), 'Spoofed subdomain'),
             array(true, 'example.com.', array('example.com'), 'Trailing . on host is actually valid'),
             array(true, 'www-dev.example.com', array('example.com'), 'host with dashes is valid'),
-            array(true, 'www.example.com:8080', array('example.com'), 'host:port is valid'),
+            array(false, 'www.example.com:8080', array('example.com'), 'host:port is valid'),
+            array(true, 'www.example.com:8080', array('example.com:8080'), 'host:port is valid'),
             array(false, 'www.whatever.com', array('*.whatever.com'), 'regex char is escaped'),
         );
     }
