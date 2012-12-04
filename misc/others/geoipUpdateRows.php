@@ -36,17 +36,16 @@ $count = Piwik_FetchOne($query);
 // when script run via browser, check for Super User & output html page to do conversion via AJAX
 if (!Piwik_Common::isPhpCliMode())
 {
+	try {
+		Piwik::checkUserIsSuperUser();
+	} catch(Exception $e) {
+		Piwik::log('[error] You must be logged in as Super User to run this script. Please login in to Piwik and refresh this page.');
+		exit;
+	}
 	// the 'start' query param will be supplied by the AJAX requests, so if it's not there, the
 	// user is viewing the page in the browser.
 	if (Piwik_Common::getRequestVar('start', false) === false)
 	{
-		try {
-			Piwik::checkUserIsSuperUser();
-		} catch(Exception $e) {
-			Piwik::log('[error] You must be logged in as Super User to run this script. Please login in to Piwik and refresh this page.');
-			exit;
-		}
-		
 		// output HTML page that runs update via AJAX
 	?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
