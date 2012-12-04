@@ -51,6 +51,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	// can be overwritten in constructor
 	protected $timestamp;
 	protected $ip;
+	protected $authenticated = false;
 	
 	// Set to true when we set some custom variables from the cookie
 	protected $customVariablesSetFromRequest = false;
@@ -60,7 +61,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected $goalManager;
 
-	public function __construct($forcedIpString = null, $forcedDateTime = null)
+	public function __construct($forcedIpString = null, $forcedDateTime = null, $authenticated = false)
 	{
 		$this->timestamp = time();
 		if(!empty($forcedDateTime))
@@ -79,6 +80,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$ip = Piwik_IP::P2N($ipString);
 		$this->ip = $ip;
+
+		$this->authenticated = $authenticated;
 	}
 
 	function setForcedVisitorId($visitorId)
@@ -607,26 +610,29 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$location = array();
 		$userInfo = array('lang' => $browserLang, 'ip' => Piwik_IP::N2P($this->getVisitorIp()));
 		Piwik_PostEvent('Tracker.getVisitorLocation', $location, $userInfo);
-		
-		// check for location override query parameters (ie, lat, long, country, region, city)
-		$locationOverrideParams = array(
-			'country' => array('string', Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY),
-			'region' => array('string', Piwik_UserCountry_LocationProvider::REGION_CODE_KEY),
-			'city' => array('string', Piwik_UserCountry_LocationProvider::CITY_NAME_KEY),
-			'lat' => array('float', Piwik_UserCountry_LocationProvider::LATITUDE_KEY),
-			'long' => array('float', Piwik_UserCountry_LocationProvider::LONGITUDE_KEY),
-		);
-		foreach ($locationOverrideParams as $queryParamName => $info)
+
+		if($this->authenticated)
 		{
-			list($type, $locationResultKey) = $info;
-			
-			$value = Piwik_Common::getRequestVar($queryParamName, false, $type, $this->request);
-			if (!empty($value))
+			// check for location override query parameters (ie, lat, long, country, region, city)
+			$locationOverrideParams = array(
+				'country' => array('string', Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY),
+				'region' => array('string', Piwik_UserCountry_LocationProvider::REGION_CODE_KEY),
+				'city' => array('string', Piwik_UserCountry_LocationProvider::CITY_NAME_KEY),
+				'lat' => array('float', Piwik_UserCountry_LocationProvider::LATITUDE_KEY),
+				'long' => array('float', Piwik_UserCountry_LocationProvider::LONGITUDE_KEY),
+			);
+			foreach ($locationOverrideParams as $queryParamName => $info)
 			{
-				$location[$locationResultKey] = $value;
+				list($type, $locationResultKey) = $info;
+
+				$value = Piwik_Common::getRequestVar($queryParamName, false, $type, $this->request);
+				if (!empty($value))
+				{
+					$location[$locationResultKey] = $value;
+				}
 			}
 		}
-		
+
 		if (empty($location['country_code'])) // sanity check
 		{
 			$location['country_code'] = self::UNKNOWN_CODE;

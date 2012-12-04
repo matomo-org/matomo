@@ -464,7 +464,7 @@ class Piwik_Tracker
 
 		if(is_null($visit))
 		{
-			$visit = new Piwik_Tracker_Visit( self::$forcedIpString, self::$forcedDateTime );
+			$visit = new Piwik_Tracker_Visit( self::$forcedIpString, self::$forcedDateTime, $this->authenticated );
 			$visit->setForcedVisitorId(self::$forcedVisitorId);
 		}
 		elseif(!($visit instanceof Piwik_Tracker_Visit_Interface ))
