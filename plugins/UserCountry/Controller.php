@@ -41,8 +41,9 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 		$view->locationProviders = $allProviderInfo;
 		$view->currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
 		$view->thisIP = Piwik_IP::getIpFromHeader();
-		$view->geoIPDatabasesInstalled = Piwik_UserCountry_LocationProvider_GeoIp::isDatabaseInstalled();
-		
+		$geoIPDatabasesInstalled = Piwik_UserCountry_LocationProvider_GeoIp::isDatabaseInstalled();
+		$view->geoIPDatabasesInstalled = $geoIPDatabasesInstalled;
+
 		// check if there is a working provider (that isn't the default one)
 		$isThereWorkingProvider = false;
 		foreach ($allProviderInfo as $id => $provider)
@@ -60,7 +61,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 		// in misc, then the databases are located outside of Piwik, so we cannot update them
 		$view->showGeoIPUpdateSection = true;
 		$currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
-		if (!$view->geoIPDatabasesInstalled
+		if (!$geoIPDatabasesInstalled
 			&& ($currentProviderId == Piwik_UserCountry_LocationProvider_GeoIp_ServerBased::ID
 				|| $currentProviderId == Piwik_UserCountry_LocationProvider_GeoIp_Pecl::ID)
 			&& $allProviderInfo[$currentProviderId]['status'] == Piwik_UserCountry_LocationProvider::INSTALLED)
@@ -99,7 +100,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 		if ($_SERVER["REQUEST_METHOD"] == "POST")
 		{
 			$this->checkTokenInUrl();
-			
+			Piwik_DataTable_Renderer_Json::sendHeaderJSON();
 			$outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase('GeoIPCity.dat').'.gz';
 			try
 			{
@@ -124,11 +125,11 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 					$result['next_screen'] = $this->getGeoIpUpdaterManageScreen();
 				}
 				
-				echo json_encode($result);
+				echo Piwik_Common::json_encode($result);
 			}
 			catch (Exception $ex)
 			{
-				echo json_encode(array('error' => $ex->getMessage()));
+				echo Piwik_Common::json_encode(array('error' => $ex->getMessage()));
 			}
 		}
 	}
@@ -179,6 +180,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 		Piwik::checkUserIsSuperUser();
 		if ($_SERVER["REQUEST_METHOD"] == "POST")
 		{
+			Piwik_DataTable_Renderer_Json::sendHeaderJSON();
 			try
 			{
 				$this->checkTokenInUrl();
@@ -190,13 +192,13 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 				$info = $this->getNextMissingDbUrlInfo();
 				if ($info !== false)
 				{
-					echo json_encode($info);
+					echo Piwik_Common::json_encode($info);
 					return;
 				}
 			}
 			catch (Exception $ex)
 			{
-				echo json_encode(array('error' => $ex->getMessage()));
+				echo Piwik_Common::json_encode(array('error' => $ex->getMessage()));
 			}
 		}
 	}
@@ -226,6 +228,8 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 			try
 			{
 				$this->checkTokenInUrl();
+
+				Piwik_DataTable_Renderer_Json::sendHeaderJSON();
 				
 				// based on the database type (provided by the 'key' query param) determine the
 				// url & output file name
@@ -253,16 +257,16 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 					$info = $this->getNextMissingDbUrlInfo();
 					if ($info !== false)
 					{
-						echo json_encode($info);
+						echo Piwik_Common::json_encode($info);
 						return;
 					}
 				}
 				
-				echo json_encode($result);
+				echo Piwik_Common::json_encode($result);
 			}
 			catch (Exception $ex)
 			{
-				echo json_encode(array('error' => $ex->getMessage()));
+				echo Piwik_Common::json_encode(array('error' => $ex->getMessage()));
 			}
 		}
 	}

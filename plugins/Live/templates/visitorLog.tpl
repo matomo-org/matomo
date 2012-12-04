@@ -81,7 +81,7 @@
 				{if $isWidget}<br/>{else}-{/if} {$visitor.columns.serverTimePrettyFirstAction}</strong>
 				{if !empty($visitor.columns.visitIp)} <br/><span title="{if !empty($visitor.columns.visitorId)}{'General_VisitorID'|translate}: {$visitor.columns.visitorId}{/if}{if $visitor.columns.latitude || $visitor.columns.longitude}
 
-			GPS (lat/long): {$visitor.columns.latitude},{$visitor.columns.longitude}{/if}">IP: {$visitor.columns.visitIp}</span>{/if}
+			GPS (lat/long): {$visitor.columns.latitude|escape:'html'},{$visitor.columns.longitude|escape:'html'}{/if}">IP: {$visitor.columns.visitIp}</span>{/if}
 				
 				{if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')} 
 					<br />

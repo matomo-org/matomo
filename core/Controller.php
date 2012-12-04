@@ -333,7 +333,10 @@ abstract class Piwik_Controller
 	{
 		$requestString = 'method='.$methodToCall.'&format=original';
 		$request = new Piwik_API_Request($requestString);
-		return $request->process();
+		$return = $request->process();
+		$columns = $return->getFirstRow()->getColumns();
+		$values = array_values($columns);
+		return $values[0];
 	}
 
 	/**

@@ -317,7 +317,11 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 	 */
 	public static function getConfiguredUrl( $key )
 	{
-		return Piwik_GetOption(self::$urlOptions[$key]);
+		if(!empty(self::$urlOptions[$key])) {
+			throw new Exception("Invalid key $key");
+		}
+		$url = Piwik_GetOption(self::$urlOptions[$key]);
+		return $url;
 	}
 	
 	/**

@@ -154,7 +154,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 					var urlToRedirect = window.location.hash.substr(1);
 					var urlToRedirectWithoutPrefix = removeUrlPrefix(urlToRedirect);
 					
-					var knownUrls = '.json_encode($urls).';
+					var knownUrls = '.Piwik_Common::json_encode($urls).';
 					for (var i = 0; i < knownUrls.length; i++) {
 						var testUrl = removeUrlPrefix(knownUrls[i]);
 						if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {
