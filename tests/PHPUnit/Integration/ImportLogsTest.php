@@ -163,7 +163,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 		// create the command
 		$cmd = $python
 			 . ' "'.PIWIK_INCLUDE_PATH.'/misc/log-analytics/import_logs.py" ' # script loc
-		  // . '-ddd ' // debug
+		     . '-ddd ' // debug
 			 . '--url="'.self::getRootUrl().'tests/PHPUnit/proxy/" ' # proxy so that piwik uses test config files
 			 ;
 		
