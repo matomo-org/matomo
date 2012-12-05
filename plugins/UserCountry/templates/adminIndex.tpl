@@ -1,3 +1,4 @@
+{loadJavascriptTranslations plugins='UserCountry'}
 {assign var=showSitesSelection value=false}
 {assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}

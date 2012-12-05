@@ -29,6 +29,14 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 		'isp' => self::ISP_URL_OPTION_NAME,
 		'org' => self::ORG_URL_OPTION_NAME,
 	);
+	
+	/**
+	 * PHP Error caught through a custom error handler while trying to use a downloaded
+	 * GeoIP database. See catchGeoIPError for more info.
+	 * 
+	 * @var array
+	 */
+	private static $unzipPhpError = null;
 
 	/**
 	 * Attempts to download new location, ISP & organization GeoIP databases and
@@ -122,7 +130,11 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 	public static function unzipDownloadedFile( $path, $unlink = false )
 	{
 		$parts = explode('.', basename($path));
-		$outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($parts[0].'.dat');
+		$filenameStart = $parts[0];
+		
+		$dbFilename = $filenameStart.'.dat';
+		$tempFilename = $filenameStart.'.dat.new';
+		$outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($tempFilename);
 		
 		// extract file
 		if (substr($path, -7, 7) == '.tar.gz')
@@ -141,7 +153,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 			foreach ($content as $info)
 			{
 				$archivedPath = $info['filename'];
-				if (basename($archivedPath) === basename($outputPath))
+				if (basename($archivedPath) === $dbFilename)
 				{
 					$datFile = $archivedPath;
 				}
@@ -150,7 +162,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 			if ($datFile === null)
 			{
 				throw new Exception(Piwik_Translate('UserCountry_CannotFindGeoIPDatabaseInArchive',
-					array(basename($outputPath), "'$path'")));
+					array($dbFilename, "'$path'")));
 			}
 			
 			// extract JUST the .dat file
@@ -183,6 +195,59 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 			$ext = end(explode(basename($path), '.', 2));
 			throw new Exception(Piwik_Translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
 		}
+		
+		// test that the new archive is a valid GeoIP database
+		$dbType = Piwik_UserCountry_LocationProvider_GeoIp::getGeoIPDatabaseTypeFromFilename($dbFilename);
+		if ($dbType === false) // sanity check
+		{
+			throw new Exception("Unexpected GeoIP archive file name '$path'.");
+		}
+		
+		$customDbNames = array(
+			'loc' => array(),
+			'isp' => array(),
+			'org' => array()
+		);
+		$customDbNames[$dbType] = array($tempFilename);
+		
+		$phpProvider = new Piwik_UserCountry_LocationProvider_GeoIp_Php($customDbNames);
+		
+		// note: in most cases where this will fail, the error will usually be a PHP fatal error/notice.
+		// in order to delete the files in such a case (which can be caused by a man-in-the-middle attack)
+		// we need to catch them, so we set a new error handler.
+		self::$unzipPhpError = null;
+		set_error_handler(array('Piwik_UserCountry_GeoIPAutoUpdater', 'catchGeoIPError'));
+		
+		$location = $phpProvider->getLocation(array('ip' => Piwik_UserCountry_LocationProvider_GeoIp::TEST_IP));
+		
+		restore_error_handler();
+		
+		if (empty($location)
+			|| self::$unzipPhpError !== null)
+		{
+			if (self::$unzipPhpError !== null)
+			{
+				list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
+				Piwik::log("Piwik_UserCountry_GeoIPAutoUpdater: Encountered PHP error when testing newly downloaded".
+					" GeoIP database: $errno: $errstr on line $errline of $errfile.");
+			}
+			
+			// remove downloaded files in this case
+			unlink($outputPath);
+			unlink($path);
+			
+			throw new Exception(Piwik_Translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
+		}
+		
+		// delete the existing GeoIP database (if any) and rename the downloaded file
+		$oldDbFile = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($dbFilename);
+		if (file_exists($oldDbFile))
+		{
+			unlink($oldDbFile);
+		}
+		
+		$tempFile = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($tempFilename);
+		rename($existing = $tempFile, $newName = $oldDbFile);
 		
 		// delete original archive
 		if ($unlink)
@@ -251,7 +316,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 		// set url options
 		foreach (self::$urlOptions as $optionKey => $optionName)
 		{
-			if (empty($options[$optionKey]))
+			if (!isset($options[$optionKey]))
 			{
 				continue;
 			}
@@ -317,7 +382,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 	 */
 	public static function getConfiguredUrl( $key )
 	{
-		if(!empty(self::$urlOptions[$key])) {
+		if(empty(self::$urlOptions[$key])) {
 			throw new Exception("Invalid key $key");
 		}
 		$url = Piwik_GetOption(self::$urlOptions[$key]);
@@ -361,7 +426,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 		$result = array();
 		foreach (self::getConfiguredUrls() as $key => $url)
 		{
-			if ($url !== false)
+			if (!empty($url))
 			{
 				// if a database of the type does not exist, but there's a url to update, then
 				// a database is missing
@@ -397,5 +462,26 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 		{
 			return reset($filenameParts);
 		}
+	}
+	
+	/**
+	 * Custom PHP error handler used to catch any PHP errors that occur when
+	 * testing a downloaded GeoIP file.
+	 * 
+	 * If we download a file that is supposed to be a GeoIP database, we need to make
+	 * sure it is one. This is done simply by attempting to use it. If this fails, it
+	 * will most of the time fail as a PHP error, which we catch w/ this function
+	 * after it is passed to set_error_handler.
+	 * 
+	 * The PHP error is stored in self::$unzipPhpError.
+	 * 
+	 * @param int $errno
+	 * @param string $errstr
+	 * @param string $errfile
+	 * @param int $errline
+	 */
+	public static function catchGeoIPError( $errno, $errstr, $errfile, $errline )
+	{
+		self::$unzipPhpError = array($errno, $errstr, $errfile, $errline);
 	}
 }

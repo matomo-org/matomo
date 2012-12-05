@@ -102,6 +102,9 @@ $(document).ready(function() {
 				}
 			}
 		});
+		ajaxRequest.setErrorCallback(function() {
+			callback({error: _pk_translate('UserCountry_FatalErrorDuringDownload_js')});
+		});
         ajaxRequest.send(false);
 	};
 	

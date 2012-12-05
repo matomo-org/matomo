@@ -19,6 +19,7 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
 {
 	/* For testing, use: 'http://piwik-team.s3.amazonaws.com/GeoLiteCity.dat.gz' */
 	const GEO_LITE_URL = 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz';
+	const TEST_IP = '194.57.91.215';
 	
 	public static $geoIPDatabaseDir = 'misc';
 	
@@ -215,7 +216,7 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
 			$expected = array(self::COUNTRY_CODE_KEY => 'FR',
 							  self::REGION_CODE_KEY => 'A6',
 							  self::CITY_NAME_KEY => 'Besançon');
-			$result = array('194.57.91.215', $expected);
+			$result = array(self::TEST_IP, $expected);
 		}
 		return $result;
 	}
@@ -230,6 +231,29 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
 		return self::getPathToGeoIpDatabase(self::$dbNames['loc'])
 			|| self::getPathToGeoIpDatabase(self::$dbNames['isp'])
 			|| self::getPathToGeoIpDatabase(self::$dbNames['org']);
+	}
+	
+	/**
+	 * Returns the type of GeoIP database ('loc', 'isp' or 'org') based on the
+	 * filename (eg, 'GeoLiteCity.dat', 'GeoIPISP.dat', etc).
+	 * 
+	 * @param string $filename
+	 * @return string|false 'loc', 'isp', 'org', or false if cannot find a database
+	 *                      type.
+	 */
+	public static function getGeoIPDatabaseTypeFromFilename( $filename )
+	{
+		foreach (self::$dbNames as $key => $names)
+		{
+			foreach ($names as $name)
+			{
+				if ($name === $filename)
+				{
+					return $key;
+				}
+			}
+		}
+		return false;
 	}
 }
 

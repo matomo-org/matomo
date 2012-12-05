@@ -32,6 +32,46 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 	private $geoIpCache = array();
 	
 	/**
+	 * Possible filenames for each type of GeoIP database. When looking for a database
+	 * file in the 'misc' subdirectory, files with these names will be looked for.
+	 * 
+	 * This variable is an array mapping either the 'loc', 'isp' or 'org' strings with
+	 * an array of filenames.
+	 * 
+	 * By default, this will be set to Piwik_UserCountry_LocationProvider_GeoIp_Php::$dbNames.
+	 * 
+	 * @var array
+	 */
+	private $customDbNames;
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param array|false $customDbNames The possible filenames for each type of GeoIP database.
+	 *                                   eg array(
+	 *                                       'loc' => array('GeoLiteCity.dat'),
+	 *                                       'isp' => array('GeoIP.dat', 'GeoIPISP.dat')
+	 *                                       'org' => array('GeoIPOrg.dat')
+	 *                                   )
+	 *                                   If a key is missing (or the parameter not supplied), then the
+	 *                                   default database names are used.
+	 */
+	public function __construct( $customDbNames = false )
+	{
+		$this->customDbNames = parent::$dbNames;
+		if ($customDbNames !== false)
+		{
+			foreach ($this->customDbNames as $key => $names)
+			{
+				if (isset($customDbNames[$key]))
+				{
+					$this->customDbNames[$key] = $customDbNames[$key];
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Closes all open geoip instances.
 	 */
 	public function __destruct()
@@ -140,7 +180,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 	 */
 	public function isAvailable()
 	{
-		$path = self::getPathToGeoIpDatabase(parent::$dbNames['loc']);
+		$path = self::getPathToGeoIpDatabase($this->customDbNames['loc']);
 		return $path !== false;
 	}
 	
@@ -303,7 +343,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 			parent::getRegionNames();
 			require_once PIWIK_INCLUDE_PATH . '/libs/MaxMindGeoIP/geoipcity.inc';
 			
-			$pathToDb = self::getPathToGeoIpDatabase(parent::$dbNames[$key]);
+			$pathToDb = self::getPathToGeoIpDatabase($this->customDbNames[$key]);
 			if ($pathToDb !== false)
 			{
 				$this->geoIpCache[$key] = geoip_open($pathToDb, GEOIP_STANDARD); // TODO support shared memory
