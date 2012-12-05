@@ -602,12 +602,12 @@ UserCountryMap.run = function(config) {
                     var area = map.container.width() * map.container.height(),
                         maxRad = (area / 120000) * Math.sqrt(200 / cities.length) / radscale(cities[Math.floor(cities.length * 0.5)].curMetric);
 
-                    radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([1, maxRad+3]);
+                    radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([1.5, maxRad+2]);
 
                     map.addSymbols({
                         type: $K.Bubble,
                         data: cities,
-                        layout: 'noverlap',
+                        clustering: 'noverlap',
                         aggregate: function(rows) {
                             var row = aggregate(rows);
                             row.city_names = [];
@@ -621,7 +621,7 @@ UserCountryMap.run = function(config) {
                         sortBy: 'radius desc',
                         location: function(city) { return [city.long, city.lat]; },
                         radius: function(city) { return radscale(city.curMetric); },
-                        style: 'fill:#385993; fill-opacity: 0.7; stroke: #fff;',
+                        style: 'fill:#385993; fill-opacity: 0.6; stroke: #fff;',
                         tooltip: function(city) {
                             return '<h3>'+city.city_name+'</h3>'+
                                 formatValueForTooltips(city, metric, iso);
