@@ -35,7 +35,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 	{
 		Piwik::checkUserIsSuperUser();
 		$view = Piwik_View::factory('adminIndex');
-
+		
 		$allProviderInfo = Piwik_UserCountry_LocationProvider::getAllProviderInfo(
 			$newline = '<br/>', $includeExtra = true);
 		$view->locationProviders = $allProviderInfo;
@@ -160,6 +160,8 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 		$view->geoIPIspUrl = $urls['isp'];
 		$view->geoIPOrgUrl = $urls['org'];
 		$view->geoIPUpdatePeriod = Piwik_UserCountry_GeoIPAutoUpdater::getSchedulePeriod();
+		
+		$view->geoLiteUrl = Piwik_UserCountry_LocationProvider_GeoIp::GEO_LITE_URL;
 	}
 	
 	/**
@@ -466,10 +468,13 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 		{
 			$missingDbKey = $missingDbs[0];
 			$missingDbName = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$missingDbKey][0];
+			$url = Piwik_UserCountry_GeoIPAutoUpdater::getConfiguredUrl($missingDbKey);
+			
+			$link = '<a href="'.$url.'">'.$missingDbName.'</a>';
 			
 			return array(
 				'to_download' => $missingDbKey,
-				'to_download_label' => Piwik_Translate('UserCountry_DownloadingDb', $missingDbName).'...',
+				'to_download_label' => Piwik_Translate('UserCountry_DownloadingDb', $link).'...',
 			);
 		}
 		return false;

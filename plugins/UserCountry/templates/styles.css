@@ -19,8 +19,11 @@ span.is-broken {
 }
 
 #manage-geoip-dbs {
-	width:900px;
 	height: 20em;
+}
+
+#geoipdb-screen1, #geoipdb-screen2-download,#geoipdb-update-info {
+	width:900px;
 }
 
 #geoipdb-update-info tr input[type="text"],#geoipdb-screen2-update tr input[type="text"] {

@@ -94,10 +94,14 @@
 
 </div>
 
-<h2>{'UserCountry_GeoIPDatabases'|translate}</h2>
+{if !$geoIPDatabasesInstalled}
+<h2 id="geoip-db-mangement">{'UserCountry_GeoIPDatabases'|translate}</h2>
+{else}
+<h2 id="geoip-db-mangement">{'UserCountry_SetupAutomaticUpdatesOfGeoIP_js'|translate}</h2>
+{/if}
 
 {if $showGeoIPUpdateSection}
-<div id="manage-geoip-dbs" style="width:900px">
+<div id="manage-geoip-dbs" style="width:900px" class="adminTable">
 
 {if !$geoIPDatabasesInstalled}
 <div id="geoipdb-screen1">
@@ -107,12 +111,12 @@
 		<input type="button" class="submit" value="{'General_GetStarted'|translate}..." id="start-download-free-geoip"/>
 	</div>
 	<div class="geoipdb-column-2">
-		<p>{'UserCountry_IPurchasedGeoIPDBs'|translate}</p>
+		<p>{'UserCountry_IPurchasedGeoIPDBs'|translate:'<a href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">':'</a>'}</p>
 		<input type="button" class="submit" value="{'General_GetStarted'|translate}..." id="start-automatic-update-geoip"/>
 	</div>
 </div>
 <div id="geoipdb-screen2-download" style="display:none">
-	<p class='loadingPiwik'><img src='./themes/default/images/loading-blue.gif' />{'UserCountry_DownloadingDb'|translate:'GeoLiteCity.dat'}...</p>
+	<p class='loadingPiwik'><img src='./themes/default/images/loading-blue.gif' />{'UserCountry_DownloadingDb'|translate:"<a href=\"$geoLiteUrl\">GeoLiteCity.dat</a>"}...</p>
 	<div id="geoip-download-progress"></div>
 </div>
 {/if}

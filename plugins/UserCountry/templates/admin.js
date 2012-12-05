@@ -140,6 +140,7 @@ $(document).ready(function() {
 	
 	$('body').on('click', '#start-automatic-update-geoip', function() {
 		$('#geoipdb-screen1').hide("slide", {direction: "left"}, 800, function () {
+			$('#geoip-db-mangement').text(_pk_translate('UserCountry_SetupAutomaticUpdatesOfGeoIP_js'));
 			$('#geoipdb-update-info').fadeIn(1000);
 		});
 	});
