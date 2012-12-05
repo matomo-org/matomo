@@ -602,7 +602,7 @@ UserCountryMap.run = function(config) {
                     var area = map.container.width() * map.container.height(),
                         maxRad = (area / 120000) * Math.sqrt(200 / cities.length) / radscale(cities[Math.floor(cities.length * 0.5)].curMetric);
 
-                    radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([1.5, maxRad+2]);
+                    radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([2, maxRad+2]);
 
                     map.addSymbols({
                         type: $K.Bubble,
