@@ -23,7 +23,8 @@ class Piwik_UserCountryMap extends Piwik_Plugin
             'description' => 'This plugin shows a world map of your visitors location.',
             'author' => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
-            'version' => '2.0'
+            'version' => '2.0',
+            'translationAvailable' => true
         );
     }
 

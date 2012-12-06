@@ -57,20 +57,20 @@
 
                 <div class="tableIconsGroup" id="UserCountryMap-view-mode-buttons">
                     <span class="tableAllColumnsSwitch">
-                        <a var="tableAllColumns" id="UserCountryMap-btn-region" format="tableAllColumns" class="tableIcon activeIcon" data-region="{'UserCountry_Region'|translate}" data-country="{'UserCountry_Country'|translate}"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country"> <span style="margin:0">{'UserCountry_Country'|translate}</span>&nbsp;</a>
-                        <a var="tableGoals" id="UserCountryMap-btn-city" format="tableGoals" class="tableIcon inactiveIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Show visitors per city"> <span style="margin:0">{'UserCountry_City'|translate}</span>&nbsp;</a>
+                        <a var="tableAllColumns" id="UserCountryMap-btn-region" format="tableAllColumns" class="tableIcon activeIcon" data-region="{'UserCountryMap_Regions'|translate}" data-country="{'UserCountryMap_Countries'|translate}"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country"> <span style="margin:0">{'UserCountryMap_Countries'|translate}</span>&nbsp;</a>
+                        <a var="tableGoals" id="UserCountryMap-btn-city" format="tableGoals" class="tableIcon inactiveIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Show visitors per city"> <span style="margin:0">{'UserCountryMap_Cities'|translate}</span>&nbsp;</a>
                     </span>
                 </div>
 
             </div>
 
-           <select id="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 10em;font-size:10px">
+           <select id="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 9em;font-size:10px">
                 {foreach from=$metrics item=metric}
                     <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
                 {/foreach}
             </select>
 
-            <select id="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 12em;font-size:10px">
+            <select id="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 9em;font-size:10px">
                 <option value="world">{'UserCountryMap_WorldWide'|translate}</option>
                 <option disabled="disabled">––––––</option>
                 <option value="AF">{'UserCountry_continent_afr'|translate}</option>

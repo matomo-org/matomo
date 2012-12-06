@@ -264,13 +264,13 @@ UserCountryMap.run = function(config) {
                 'background-repeat': 'no-repeat',
                 'background-position': '5px 5px'
             });
-            $('#UserCountryMap-btn-city').removeClass('inactiveIcon');
+            $('#UserCountryMap-btn-city').removeClass('inactiveIcon').show();
             $('span', regionBtn).html(regionBtn.data('region'));
         } else {
             flag.css({
                 'background': 'none'
             });
-            $('#UserCountryMap-btn-city').addClass('inactiveIcon');
+            $('#UserCountryMap-btn-city').addClass('inactiveIcon').hide();
             $('span', regionBtn).html(regionBtn.data('country'));
         }
 
@@ -621,7 +621,7 @@ UserCountryMap.run = function(config) {
                         sortBy: 'radius desc',
                         location: function(city) { return [city.long, city.lat]; },
                         radius: function(city) { return radscale(city.curMetric); },
-                        style: 'fill:#385993; fill-opacity: 0.6; stroke: #fff;',
+                        style: 'fill:#385993; fill-opacity: 0.7; stroke: #fff;',
                         tooltip: function(city) {
                             return '<h3>'+city.city_name+'</h3>'+
                                 formatValueForTooltips(city, metric, iso);
