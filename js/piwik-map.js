@@ -544,7 +544,7 @@ UserCountryMap.run = function(config) {
                         var metric = $('#userCountryMapSelectMetrics').val(),
                         region = regionDict[regionCode(data)];
                         if (region === undefined) {
-                            return '<h3>'+data.name+'</h3><p>'+UserCountryMap._.NbVisits.replace('%s', '<b>0</b>')+'</p>';
+                            return '<h3>'+data.name+'</h3><p>'+UserCountryMap._.nb_visits.replace('%s', '<b>0</b>')+'</p>';
                         }
                         return '<h3>'+data.name+'</h3>'+
                             formatValueForTooltips(region, metric, iso);
@@ -600,7 +600,7 @@ UserCountryMap.run = function(config) {
                     var s = 0;
 
                     var area = map.container.width() * map.container.height(),
-                        maxRad = Math.min(40, (area / 120000) * Math.sqrt(300 / cities.length) / radscale(cities[Math.floor(cities.length * 0.5)].curMetric));
+                        maxRad = Math.min(35, (area / 120000) * Math.sqrt(300 / cities.length) / radscale(cities[Math.floor(cities.length * 0.5)].curMetric));
 
                     radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([2, maxRad+2]);
 
