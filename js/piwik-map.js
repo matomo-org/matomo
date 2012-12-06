@@ -399,7 +399,7 @@ UserCountryMap.run = function(config) {
     function indicateLoading() {
         $('#UserCountryMap-black').show();
         $('#UserCountryMap-black').css('opacity', 0);
-        $('#UserCountryMap-black').animate({ opacity: 0.3 }, 400);
+        $('#UserCountryMap-black').animate({ opacity: 0.4 }, 400);
         $('#UserCountryMap .loadingPiwik').show();
     }
 
@@ -738,7 +738,7 @@ UserCountryMap.run = function(config) {
             // map stylesheets are loaded
 
             // hide loading indicator
-            $('#UserCountryMap .loadingPiwik').hide();
+            $('#widgetUserCountryMapworldMap .loadingPiwik').hide();
 
             // start with default view (or saved state??)
             var params = UserCountryMap.widget.dashboardWidget('getWidgetObject').parameters;

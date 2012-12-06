@@ -41,10 +41,13 @@
             </div>
         </div>
     </div>
-    <div class="dataTableFeatures" style="padding-top:0px">
+    <div>
         <span class="loadingPiwik">
             <img src="{$piwikUrl}themes/default/images/loading-blue.gif"> {'General_LoadingData'|translate}...
         </span>
+    </div>
+    <div class="dataTableFeatures" style="padding-top:0px">
+        
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
                 <img id="UserCountryMap-activeItem" class="dataTableFooterActiveItem" src="{$piwikUrl}themes/default/images/data_table_footer_active_item.png" style="left: 25px;">

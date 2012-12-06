@@ -92,18 +92,27 @@
 }
 
 #UserCountryMap-black {
-    background: #000;
+    background: #444;
     position: absolute;
     left: 0;
     right: 0;
     width: 1000px;
     height: 1000px;
-    z-index: 9999999;
+    z-index: 999990;
 }
 
-#UserCountryMap-black .loadingPiwik {
-    position: absolute;
-    top: 40%;
+
+#UserCountryMap .loadingPiwik {
+    position: absolute!important;
+    top: 45%!important;
+    left: 10px!important;
+    right: 10px!important;
+    z-index: 999999!important;
+    vertical-align: middle!important;
+    display: block;
+    color: #000;
+    text-shadow: 0 0 5px #fff;
+    text-align: center;
 }
 
 .tableIcon.inactiveIcon {
