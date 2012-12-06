@@ -196,63 +196,73 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 			throw new Exception(Piwik_Translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
 		}
 		
-		// test that the new archive is a valid GeoIP database
-		$dbType = Piwik_UserCountry_LocationProvider_GeoIp::getGeoIPDatabaseTypeFromFilename($dbFilename);
-		if ($dbType === false) // sanity check
+		try
 		{
-			throw new Exception("Unexpected GeoIP archive file name '$path'.");
-		}
-		
-		$customDbNames = array(
-			'loc' => array(),
-			'isp' => array(),
-			'org' => array()
-		);
-		$customDbNames[$dbType] = array($tempFilename);
-		
-		$phpProvider = new Piwik_UserCountry_LocationProvider_GeoIp_Php($customDbNames);
-		
-		// note: in most cases where this will fail, the error will usually be a PHP fatal error/notice.
-		// in order to delete the files in such a case (which can be caused by a man-in-the-middle attack)
-		// we need to catch them, so we set a new error handler.
-		self::$unzipPhpError = null;
-		set_error_handler(array('Piwik_UserCountry_GeoIPAutoUpdater', 'catchGeoIPError'));
-		
-		$location = $phpProvider->getLocation(array('ip' => Piwik_UserCountry_LocationProvider_GeoIp::TEST_IP));
-		
-		restore_error_handler();
-		
-		if (empty($location)
-			|| self::$unzipPhpError !== null)
-		{
-			if (self::$unzipPhpError !== null)
+			// test that the new archive is a valid GeoIP database
+			$dbType = Piwik_UserCountry_LocationProvider_GeoIp::getGeoIPDatabaseTypeFromFilename($dbFilename);
+			if ($dbType === false) // sanity check
 			{
-				list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
-				Piwik::log("Piwik_UserCountry_GeoIPAutoUpdater: Encountered PHP error when testing newly downloaded".
-					" GeoIP database: $errno: $errstr on line $errline of $errfile.");
+				throw new Exception("Unexpected GeoIP archive file name '$path'.");
 			}
+		
+			$customDbNames = array(
+				'loc' => array(),
+				'isp' => array(),
+				'org' => array()
+			);
+			$customDbNames[$dbType] = array($tempFilename);
+		
+			$phpProvider = new Piwik_UserCountry_LocationProvider_GeoIp_Php($customDbNames);
+		
+			// note: in most cases where this will fail, the error will usually be a PHP fatal error/notice.
+			// in order to delete the files in such a case (which can be caused by a man-in-the-middle attack)
+			// we need to catch them, so we set a new error handler.
+			self::$unzipPhpError = null;
+			set_error_handler(array('Piwik_UserCountry_GeoIPAutoUpdater', 'catchGeoIPError'));
+		
+			$location = $phpProvider->getLocation(array('ip' => Piwik_UserCountry_LocationProvider_GeoIp::TEST_IP));
+		
+			restore_error_handler();
+		
+			if (empty($location)
+				|| self::$unzipPhpError !== null)
+			{
+				if (self::$unzipPhpError !== null)
+				{
+					list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
+					Piwik::log("Piwik_UserCountry_GeoIPAutoUpdater: Encountered PHP error when testing newly downloaded".
+						" GeoIP database: $errno: $errstr on line $errline of $errfile.");
+				}
 			
-			// remove downloaded files in this case
-			unlink($outputPath);
+				throw new Exception(Piwik_Translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
+			}
+		
+			// delete the existing GeoIP database (if any) and rename the downloaded file
+			$oldDbFile = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($dbFilename);
+			if (file_exists($oldDbFile))
+			{
+				unlink($oldDbFile);
+			}
+		
+			$tempFile = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($tempFilename);
+			rename($existing = $tempFile, $newName = $oldDbFile);
+		
+			// delete original archive
+			if ($unlink)
+			{
+				unlink($path);
+			}
+		}
+		catch (Exception $ex)
+		{
+			// remove downloaded files
+			if (file_exists($outputPath))
+			{
+				unlink($outputPath);
+			}
 			unlink($path);
 			
-			throw new Exception(Piwik_Translate('UserCountry_ThisUrlIsNotAValidGeoIPDB'));
-		}
-		
-		// delete the existing GeoIP database (if any) and rename the downloaded file
-		$oldDbFile = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($dbFilename);
-		if (file_exists($oldDbFile))
-		{
-			unlink($oldDbFile);
-		}
-		
-		$tempFile = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($tempFilename);
-		rename($existing = $tempFile, $newName = $oldDbFile);
-		
-		// delete original archive
-		if ($unlink)
-		{
-			unlink($path);
+			throw $ex;
 		}
 	}
 	
