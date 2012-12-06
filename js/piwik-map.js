@@ -600,7 +600,7 @@ UserCountryMap.run = function(config) {
                     var s = 0;
 
                     var area = map.container.width() * map.container.height(),
-                        maxRad = Math.min(50, (area / 120000) * Math.sqrt(300 / cities.length) / radscale(cities[Math.floor(cities.length * 0.5)].curMetric));
+                        maxRad = Math.min(40, (area / 120000) * Math.sqrt(300 / cities.length) / radscale(cities[Math.floor(cities.length * 0.5)].curMetric));
 
                     radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([2, maxRad+2]);
 
