@@ -399,7 +399,7 @@ UserCountryMap.run = function(config) {
     function indicateLoading() {
         $('#UserCountryMap-black').show();
         $('#UserCountryMap-black').css('opacity', 0);
-        $('#UserCountryMap-black').animate({ opacity: 0.4 }, 400);
+        $('#UserCountryMap-black').animate({ opacity: 0.8 }, 400);
         $('#UserCountryMap .loadingPiwik').show();
     }
 
