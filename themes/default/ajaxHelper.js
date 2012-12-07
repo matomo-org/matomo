@@ -286,6 +286,7 @@ function ajaxHelper() {
                 if (response && response.result == 'error') {
                     if ($(that.errorElement).length && response.message) {
                         $(that.errorElement).html(response.message).fadeIn();
+                        piwikHelper.lazyScrollTo(that.errorElement, 250);
                     }
                     return;
                 }
