@@ -69,7 +69,7 @@ function ajaxHelper() {
     /**
      * Callback function to be executed on error
      */
-    this.errorCallback =  piwikHelper.ajaxHandleError;
+    this.errorCallback =  this.defaultErrorCallback;
 
     /**
      * Params to be passed as GET params
@@ -90,6 +90,12 @@ function ajaxHelper() {
      * @type {String}
      */
     this.loadingElement = null;
+
+    /**
+     * Element to be displayed on error
+     * @type {String}
+     */
+    this.errorElement = '#ajaxError';
 
     /**
      * Handle for current request
@@ -133,6 +139,37 @@ function ajaxHelper() {
     };
 
     /**
+     * Set callback to redirect on success handler
+     * &update=1(+x) will be appended to the current url
+     *
+     * @param {object} params to modify in redirect url
+     * @return {void}
+     */
+    this.redirectOnSuccess = function (params) {
+        this.setCallback(function(response) {
+            // add updated=1 to the URL so that a "Your changes have been saved" message is displayed
+            var urlToRedirect = piwikHelper.getCurrentQueryStringWithParametersModified(params);
+            var updatedUrl = new RegExp('&updated=([0-9]+)');
+            var updatedCounter = updatedUrl.exec(urlToRedirect);
+            if(!updatedCounter)
+            {
+                urlToRedirect += '&updated=1';
+            }
+            else
+            {
+                updatedCounter = 1 + parseInt(updatedCounter[1]);
+                urlToRedirect = urlToRedirect.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
+            }
+            var currentHashStr = window.location.hash;
+            if(currentHashStr.length > 0) {
+                urlToRedirect += currentHashStr;
+            }
+            piwikHelper.redirectToUrl(urlToRedirect);
+        });
+    };
+
+
+    /**
      * Sets the callback called in case of an error within the request
      *
      * @param {function} callback  Callback function
@@ -140,6 +177,24 @@ function ajaxHelper() {
      */
     this.setErrorCallback = function (callback) {
         this.errorCallback = callback;
+    };
+
+    /**
+     * error callback to use by default
+     *
+     * @param deferred
+     * @param status
+     */
+    this.defaultErrorCallback = function(deferred, status)
+    {
+        // do not display error message if request was aborted
+        if(status == 'abort') {
+            return;
+        }
+        $('#loadingError').show();
+        setTimeout( function(){
+            $('#loadingError').fadeOut('slow');
+        }, 2000);
     };
 
     /**
@@ -165,6 +220,18 @@ function ajaxHelper() {
     };
 
     /**
+     * Set the div element to show on error
+     *
+     * @param {String} element  selector for the error element
+     */
+    this.setErrorElement = function (element) {
+        if (!element) {
+            return;
+        }
+        this.errorElement = element;
+    };
+
+    /**
      * Send the request
      * @param {Boolean} sync  indicates if the request should be synchronous (defaults to false)
      * @return {void}
@@ -174,9 +241,14 @@ function ajaxHelper() {
             this.async = false;
         }
 
+        if ($(this.errorElement).length) {
+            $(this.errorElement).hide();
+        }
+
         if (this.loadingElement) {
             $(this.loadingElement).fadeIn();
         }
+
         this.requestHandle = this._buildAjaxCall();
         globalAjaxQueue.push(this.requestHandle);
     };
@@ -210,6 +282,14 @@ function ajaxHelper() {
                 if (that.loadingElement) {
                     $(that.loadingElement).hide();
                 }
+
+                if (response && response.result == 'error') {
+                    if ($(that.errorElement).length && response.message) {
+                        $(that.errorElement).html(response.message).fadeIn();
+                    }
+                    return;
+                }
+
                 that.callback(response);
             },
             data:     this._mixinDefaultPostParams(this.postParams)

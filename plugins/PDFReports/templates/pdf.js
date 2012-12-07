@@ -53,7 +53,6 @@ function getReportAjaxRequest(idReport, defaultApiMethod)
 {
 	var parameters = {};
 	piwikHelper.lazyScrollTo(".entityContainer", 400);
-	parameters.idSite = piwik.idSite;
 	parameters.module = 'API';
 	parameters.method = defaultApiMethod;
 	if(idReport == 0)
@@ -61,7 +60,6 @@ function getReportAjaxRequest(idReport, defaultApiMethod)
 		parameters.method =  'PDFReports.addReport';
 	}
 	parameters.format = 'json';
-	parameters.token_auth = piwik.token_auth;
 	return parameters;
 }
 
@@ -82,7 +80,6 @@ function initManagePdf()
 		var apiParameters = getReportAjaxRequest(idReport, 'PDFReports.updateReport');
 		apiParameters.idReport = idReport;
 		apiParameters.description = $('#report_description').val();
-		apiParameters.period = $('#report_period option:selected').val();
 		apiParameters.reportType = $('#report_type option:selected').val();
 		apiParameters.reportFormat = $('[name=report_format].'+apiParameters.reportType+' option:selected').val();
 
@@ -97,38 +94,41 @@ function initManagePdf()
 
 		apiParameters.parameters = getReportParametersFunctions[apiParameters.reportType]();
 
-		var ajaxRequest = piwikHelper.getStandardAjaxConf();
-		ajaxRequest.type = 'POST';
-		ajaxRequest.data = apiParameters;
-		$.ajax( ajaxRequest );
-		return false;
+        var ajaxHandler = new ajaxHelper();
+        ajaxHandler.addParams(apiParameters, 'POST');
+        ajaxHandler.addParams({period: $('#report_period option:selected').val()}, 'GET');
+        ajaxHandler.redirectOnSuccess();
+        ajaxHandler.setLoadingElement();
+        ajaxHandler.send(true);
+        return false;
 	});
 	
 	// Email now
 	$('a[name=linkSendNow]').click(function(){
 		var idReport = $(this).attr('idreport');
-		var ajaxRequest = piwikHelper.getStandardAjaxConf();
-		ajaxRequest.type = 'POST';
-		parameters = getReportAjaxRequest(idReport, 'PDFReports.sendReport');
+		var parameters = getReportAjaxRequest(idReport, 'PDFReports.sendReport');
 		parameters.idReport = idReport;
-		parameters.period = broadcast.getValueFromUrl('period');
-		parameters.date = broadcast.getValueFromUrl('date');
-		ajaxRequest.data = parameters;
-		$.ajax( ajaxRequest );
-	});
+
+        var ajaxHandler = new ajaxHelper();
+        ajaxHandler.addParams(parameters, 'POST');
+        ajaxHandler.setLoadingElement();
+        ajaxHandler.send(true);
+    });
 	
 	// Delete Report
 	$('a[name=linkDeleteReport]').click(function(){
 		var idReport = $(this).attr('id');
 		function onDelete()
 		{
-			var ajaxRequest = piwikHelper.getStandardAjaxConf();
-			ajaxRequest.type = 'POST';
-			parameters = getReportAjaxRequest(idReport, 'PDFReports.deleteReport');
+			var parameters = getReportAjaxRequest(idReport, 'PDFReports.deleteReport');
 			parameters.idReport = idReport;
-			ajaxRequest.data = parameters;
-			$.ajax( ajaxRequest );
-		}
+
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.addParams(parameters, 'POST');
+            ajaxHandler.redirectOnSuccess();
+            ajaxHandler.setLoadingElement();
+            ajaxHandler.send(true);
+        }
 		piwikHelper.modalConfirm( '#confirm', {yes: onDelete});
 	});
 

@@ -247,7 +247,7 @@ var piwikHelper = {
 
     /**
      * Method to handle ajax response
-     * @param {} response
+     * @param {object} response
      * @param {string} loadingDivID
      * @param {string} errorDivID
      * @param {object} params
