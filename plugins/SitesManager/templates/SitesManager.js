@@ -14,126 +14,110 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 	var siteBeingEdited = false;
 	var siteBeingEditedName = '';
 
-	function getDeleteSiteAJAX( idSite )
+	function sendDeleteSiteAJAX( idSite )
 	{
-		var ajaxRequest = piwikHelper.getStandardAjaxConf();
-	
-		var parameters = {};
-		parameters.module = 'API';
-		parameters.format = 'json';
-	 	parameters.method =  'SitesManager.deleteSite';
-	 	parameters.idSite = idSite;
-	 	parameters.token_auth = piwik.token_auth;
-		
-		ajaxRequest.data = parameters;
-		
-		return ajaxRequest;
+        var ajaxHandler = new ajaxHelper();
+        ajaxHandler.addParams({
+            idSite: idSite,
+            module: 'API',
+            format: 'json',
+            method: 'SitesManager.deleteSite'
+        }, 'GET');
+        ajaxHandler.redirectOnSuccess();
+        ajaxHandler.setLoadingElement();
+        ajaxHandler.send(true);
 	}
 	
 	function getAddSiteAJAX( row )
 	{
-		var ajaxRequest = piwikHelper.getStandardAjaxConf();
-		ajaxRequest.type = 'POST';
-		
-		var parameters = {};
 	 	var siteName = $(row).find('input#name').val();
 	 	var urls =  $(row).find('textarea#urls').val();
-		urls = getApiFormatUrls(urls);
+		urls = urls.trim().split("\n");
 		var excludedIps = $(row).find('textarea#excludedIps').val();
 		excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
-		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
-		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
+		var timezone = $(row).find('#timezones option:selected').val();
+		var currency = $(row).find('#currencies option:selected').val();
 		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		var excludedUserAgents = $(row).find('textarea#excludedUserAgents').val();
 		excludedUserAgents = piwikHelper.getApiFormatTextarea(excludedUserAgents);
-		var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
-        var sitesearch = encodeURIComponent($(row).find('#sitesearch option:selected').val());
+		var ecommerce = $(row).find('#ecommerce option:selected').val();
+        var sitesearch = $(row).find('#sitesearch option:selected').val();
         var searchKeywordParameters = $('input#searchKeywordParameters').val();
         var searchCategoryParameters = $('input#searchCategoryParameters').val();
 		
-		var request = '';
-		request += '&module=API';
-		request += '&format=json';
-		request += '&method=SitesManager.addSite';
-		siteName = encodeURIComponent(siteName);
-		request += '&siteName='+siteName;
-		request += '&timezone='+timezone;
-		request += '&currency='+currency;
-		request += '&ecommerce='+ecommerce;
-		request += '&excludedIps='+excludedIps;
-		request += '&excludedQueryParameters='+excludedQueryParameters;
-		request += '&excludedUserAgents='+excludedUserAgents;
-        request += '&siteSearch='+sitesearch;
-        request += '&searchKeywordParameters='+searchKeywordParameters;
-        request += '&searchCategoryParameters='+searchCategoryParameters;
-		$.each(urls, function (key,value){ request+= '&urls[]='+escape(value);} );
-	 	request += '&token_auth=' + piwik.token_auth;
-	 	
-		ajaxRequest.data = request;
-	 	
-		return ajaxRequest;
-	}
+        var ajaxHandler = new ajaxHelper();
+        ajaxHandler.addParams({
+            module: 'API',
+            format: 'json',
+            method: 'SitesManager.addSite'
+        }, 'GET');
+        ajaxHandler.addParams({
+            siteName: siteName,
+            timezone: timezone,
+            currency: currency,
+            ecommerce: ecommerce,
+            excludedIps: excludedIps,
+            excludedQueryParameters: excludedQueryParameters,
+            excludedUserAgents: excludedUserAgents,
+            siteSearch: sitesearch,
+            searchKeywordParameters: searchKeywordParameters,
+            searchCategoryParameters: searchCategoryParameters,
+            urls: urls
+        }, 'POST');
+        ajaxHandler.redirectOnSuccess();
+        ajaxHandler.setLoadingElement();
+        ajaxHandler.send(true);
+    }
 	
-	function getApiFormatUrls(urls)
+	function sendUpdateSiteAJAX( row )
 	{
-		var aUrls = urls.trim().split("\n");
-		for(var i=0; i < aUrls.length; i++) {
-			aUrls[i] = encodeURIComponent(aUrls[i]);
-		}
-		return aUrls;
-	}
-	
-	function getUpdateSiteAJAX( row )
-	{
-		var ajaxRequest = piwikHelper.getStandardAjaxConf();
-		ajaxRequest.type = 'POST';
-		
 		var siteName = $(row).find('input#siteName').val();
 		var idSite = $(row).children('#idSite').html();
 		var urls = $(row).find('textarea#urls').val();
-		urls = getApiFormatUrls(urls);
+		urls =  urls.trim().split("\n");
 		var excludedIps = $(row).find('textarea#excludedIps').val();
 		excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
 		var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		var excludedUserAgents = $(row).find('textarea#excludedUserAgents').val();
 		excludedUserAgents = piwikHelper.getApiFormatTextarea(excludedUserAgents);
-		var timezone = encodeURIComponent($(row).find('#timezones option:selected').val());
-		var currency = encodeURIComponent($(row).find('#currencies option:selected').val());
-        var ecommerce = encodeURIComponent($(row).find('#ecommerce option:selected').val());
-        var sitesearch = encodeURIComponent($(row).find('#sitesearch option:selected').val());
+		var timezone = $(row).find('#timezones option:selected').val();
+		var currency = $(row).find('#currencies option:selected').val();
+        var ecommerce = $(row).find('#ecommerce option:selected').val();
+        var sitesearch = $(row).find('#sitesearch option:selected').val();
         var searchKeywordParameters = $('input#searchKeywordParameters').val();
         var searchCategoryParameters = $('input#searchCategoryParameters').val();
-		var request = '';
-		request += '&module=API';
-		request += '&format=json';
-		request += '&method=SitesManager.updateSite';
-		siteName = encodeURIComponent(siteName);
-		request += '&siteName='+siteName;
-		request += '&idSite='+idSite;
-		request += '&timezone='+timezone;
-		request += '&currency='+currency;
-		request += '&ecommerce='+ecommerce;
-		request += '&excludedIps='+excludedIps;
-		request += '&excludedQueryParameters='+excludedQueryParameters;
-		request += '&excludedUserAgents='+excludedUserAgents;
-        request += '&siteSearch='+sitesearch;
-        request += '&searchKeywordParameters='+searchKeywordParameters;
-        request += '&searchCategoryParameters='+searchCategoryParameters;
-		$.each(urls, function (key,value){ if(value.length>1) request+= '&urls[]='+value;} );
-	 	request += '&token_auth=' + piwik.token_auth;
-	 	
-		ajaxRequest.data = request;
-		
-		return ajaxRequest;
+
+        var ajaxHandler = new ajaxHelper();
+        ajaxHandler.addParams({
+            module: 'API',
+            format: 'json',
+            method: 'SitesManager.updateSite',
+            idSite: idSite
+        }, 'GET');
+        ajaxHandler.addParams({
+            siteName: siteName,
+            timezone: timezone,
+            currency: currency,
+            ecommerce: ecommerce,
+            excludedIps: excludedIps,
+            excludedQueryParameters: excludedQueryParameters,
+            excludedUserAgents: excludedUserAgents,
+            siteSearch: sitesearch,
+            searchKeywordParameters: searchKeywordParameters,
+            searchCategoryParameters: searchCategoryParameters,
+            urls: urls
+        }, 'POST');
+        ajaxHandler.redirectOnSuccess();
+        ajaxHandler.setLoadingElement();
+        ajaxHandler.send(true);
 	}
 	
-	function getGlobalSettingsAJAX()
+	function sendGlobalSettingsAJAX()
 	{
-		var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingGlobalSettings', 'ajaxErrorGlobalSettings');
-		var timezone = encodeURIComponent($('#defaultTimezone option:selected').val());
-		var currency = encodeURIComponent($('#defaultCurrency option:selected').val());
+		var timezone = $('#defaultTimezone option:selected').val();
+		var currency = $('#defaultCurrency option:selected').val();
 		var excludedIps = $('textarea#globalExcludedIps').val();
 		excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
 		var excludedQueryParameters = $('textarea#globalExcludedQueryParameters').val();
@@ -143,21 +127,27 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
         var searchKeywordParameters = $('input#globalSearchKeywordParameters').val();
         var searchCategoryParameters = $('input#globalSearchCategoryParameters').val();
         var enableSiteUserAgentExclude = $('input#enableSiteUserAgentExclude').is(':checked') ? 1 : 0;
-		var request = '';
-		request += 'module=SitesManager';
-		request += '&action=setGlobalSettings';
-		request += '&format=json';
-		request += '&timezone='+timezone;
-		request += '&currency='+currency;
-		request += '&excludedIps='+excludedIps;
-        request += '&excludedQueryParameters='+excludedQueryParameters;
-        request += '&excludedUserAgents='+globalExcludedUserAgents;
-        request += '&enableSiteUserAgentExclude='+enableSiteUserAgentExclude;
-        request += '&searchKeywordParameters='+searchKeywordParameters;
-        request += '&searchCategoryParameters='+searchCategoryParameters;
-	 	request += '&token_auth=' + piwik.token_auth;
-		ajaxRequest.data = request;
-		return ajaxRequest;
+
+        var ajaxHandler = new ajaxHelper();
+        ajaxHandler.addParams({
+            module: 'SitesManager',
+            format: 'json',
+            action: 'setGlobalSettings'
+        }, 'GET');
+        ajaxHandler.addParams({
+            timezone: timezone,
+            currency: currency,
+            excludedIps: excludedIps,
+            excludedQueryParameters: excludedQueryParameters,
+            excludedUserAgents: globalExcludedUserAgents,
+            enableSiteUserAgentExclude: enableSiteUserAgentExclude,
+            searchKeywordParameters: searchKeywordParameters,
+            searchCategoryParameters: searchCategoryParameters
+        }, 'POST');
+        ajaxHandler.redirectOnSuccess();
+        ajaxHandler.setLoadingElement('#ajaxLoadingGlobalSettings');
+        ajaxHandler.setErrorElement('#ajaxErrorGlobalSettings');
+        ajaxHandler.send(true);
 	}
 
 	this.init = function () {
@@ -208,7 +198,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 			
 			$('#confirm h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'),'"'+nameToDelete+'" (idSite = '+idsiteToDelete+')'));
 			piwikHelper.modalConfirm('#confirm', {yes: function(){
-			    $.ajax( getDeleteSiteAJAX( idsiteToDelete ) );
+			    sendDeleteSiteAJAX( idsiteToDelete );
 			}});
 		}
 	);
@@ -303,12 +293,12 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 				.toggle()
 				.parent()
 				.prepend( $('<input type="submit" class="updateSite submit" value="' + _pk_translate('General_Save_js') + '" />')
-							.click( function(){ $.ajax( getUpdateSiteAJAX( $('tr#'+idRow) ) ); } ) 
+							.click( function(){ sendUpdateSiteAJAX( $('tr#'+idRow) ); } )
 					);
 		});
 	
 		$('#globalSettingsSubmit').click( function() {
-			$.ajax( getGlobalSettingsAJAX() );
+			sendGlobalSettingsAJAX();
 		});
 	
 		$('#defaultTimezone').html( getTimezoneSelector(defaultTimezone));
