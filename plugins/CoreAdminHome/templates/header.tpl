@@ -21,6 +21,8 @@
 {include file="CoreHome/templates/iframe_buster_body.tpl"}
 <div id="root">
 {if !isset($showTopMenu) || $showTopMenu}
+{assign var=showSitesSelection value=false}
+{assign var=showPeriodSelection value=false}
 {include file="CoreHome/templates/top_bar.tpl"}
 {/if}
 
