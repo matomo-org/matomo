@@ -5,11 +5,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-function getUserSettingsAJAX()
+function sendUserSettingsAJAX()
 {
 	var params;
 	var defaultDate = $('input[name=defaultDate]:checked').val();
-	if(defaultDate == 'today' || defaultDate == 'yesterday') {
+	if (defaultDate == 'today' || defaultDate == 'yesterday') {
 		params = 'period=day&date='+defaultDate;
 	} else if(defaultDate.indexOf('last') >= 0 
 				|| defaultDate.indexOf('previous') >= 0) {
@@ -18,64 +18,70 @@ function getUserSettingsAJAX()
 		params = 'date=today&period='+defaultDate;
 	}
 
-	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingUserSettings', 'ajaxErrorUserSettings', params);
-	var alias = encodeURIComponent( $('#alias').val() );
-	var email = encodeURIComponent( $('#email').val() );
+	var alias = $('#alias').val();
+	var email = $('#email').val();
 	var password = $('#password').val();
 	var passwordBis = $('#passwordBis').val();
 	var defaultReport = $('input[name=defaultReport]:checked').val();
-	if(defaultReport == 1) {
+	if (defaultReport == 1) {
 		defaultReport = $('#sitesSelectionSearch .custom_select_main_link').attr('siteid');
 	}
-	var request = '';
-	request += 'module=UsersManager';
-	request += '&action=recordUserSettings';
-	request += '&format=json';
-	request += '&alias='+alias;
-	request += '&email='+email;
+	var postParams = {};
+    postParams.alias = alias;
+    postParams.email = email;
 	if (password)
 	{
-		request += '&password='+encodeURIComponent(password);
+        postParams.password = password;
 	}
 	if (passwordBis)
 	{
-		request += '&passwordBis='+encodeURIComponent(passwordBis);
+        postParams.passwordBis = passwordBis;
 	}
-	request += '&defaultReport='+defaultReport;
-	request += '&defaultDate='+defaultDate;
- 	request += '&token_auth=' + piwik.token_auth;
+    postParams.defaultReport = defaultReport;
+    postParams.defaultDate = defaultDate;
 
-	ajaxRequest.data = request;
-	return ajaxRequest;
+    var ajaxHandler = new ajaxHelper();
+    ajaxHandler.addParams({
+        module: 'UsersManager',
+        format: 'json',
+        action: 'recordUserSettings'
+    }, 'GET');
+    ajaxHandler.addParams(postParams, 'POST');
+    ajaxHandler.redirectOnSuccess(params);
+    ajaxHandler.setLoadingElement('#ajaxLoadingUserSettings');
+    ajaxHandler.setErrorElement('#ajaxErrorUserSettings');
+    ajaxHandler.send(true);
 }
-function getAnonymousUserSettingsAJAX()
+function sendAnonymousUserSettingsAJAX()
 {
-	var ajaxRequest = piwikHelper.getStandardAjaxConf('ajaxLoadingAnonymousUserSettings', 'ajaxErrorAnonymousUserSettings');
 	var anonymousDefaultReport = $('input[name=anonymousDefaultReport]:checked').val();
-	if(anonymousDefaultReport == 1) {
+	if (anonymousDefaultReport == 1) {
 		anonymousDefaultReport = $('#anonymousDefaultReportWebsite option:selected').val();
 	}
 	var anonymousDefaultDate = $('input[name=anonymousDefaultDate]:checked').val();
-	var request = '';
-	request += 'module=UsersManager';
-	request += '&action=recordAnonymousUserSettings';
-	request += '&format=json';
-	request += '&anonymousDefaultReport='+anonymousDefaultReport;
-	request += '&anonymousDefaultDate='+anonymousDefaultDate;
- 	request += '&token_auth=' + piwik.token_auth;
-	ajaxRequest.data = request;
-	return ajaxRequest;
+
+    var ajaxHandler = new ajaxHelper();
+    ajaxHandler.addParams({
+        module: 'UsersManager',
+        format: 'json',
+        action: 'recordAnonymousUserSettings'
+    }, 'GET');
+    ajaxHandler.addParams({
+        anonymousDefaultReport: anonymousDefaultReport,
+        anonymousDefaultDate: anonymousDefaultDate
+    }, 'POST');
+    ajaxHandler.redirectOnSuccess();
+    ajaxHandler.setLoadingElement('#ajaxLoadingAnonymousUserSettings');
+    ajaxHandler.setErrorElement('#ajaxErrorAnonymousUserSettings');
+    ajaxHandler.send(true);
 }
 
 $(document).ready( function() {
 	$('#userSettingsSubmit').click( function() {
-		var onValidate = function() {
-			$.ajax( getUserSettingsAJAX() );
-		}
 		if($('#password').length > 0 && $('#password').val() != '') {
-			piwikHelper.modalConfirm( '#confirmPasswordChange', {yes: onValidate});
+			piwikHelper.modalConfirm( '#confirmPasswordChange', {yes: sendUserSettingsAJAX});
 		} else {
-			onValidate();
+            sendUserSettingsAJAX();
 		}
 		
 	});
@@ -86,7 +92,6 @@ $(document).ready( function() {
 	}});
 	
 	$('#anonymousUserSettingsSubmit').click( function() {
-		$.ajax( getAnonymousUserSettingsAJAX() );
+		sendAnonymousUserSettingsAJAX();
 	});
 });
-
