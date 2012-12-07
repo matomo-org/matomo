@@ -121,6 +121,45 @@
 	</table>
 </div>
 
+<div class="ui-confirm" id="confirmTrustedHostChange">
+    <h2>{'CoreAdminHome_TrustedHostConfirm'|translate}</h2>
+    <input role="yes" type="button" value="{'General_Yes'|translate}" />
+    <input role="no" type="button" value="{'General_No'|translate}" />
+</div>
+
+<h2 id="trustedHostsSection">{'CoreAdminHome_TrustedHostSettings'|translate}</h2>
+<div id='trustedHostSettings'>
+{* untrusted host warning (display again) *}
+    {if isset($isValidHost) && isset($invalidHostMessage) && !$isValidHost}
+        <div class="ajaxSuccess">
+            <a style="float:right" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank"><img src="themes/default/images/help_grey.png" /></a>
+            <strong>{'General_Warning'|translate}:&nbsp;</strong>{$invalidHostMessage}
+        </div>
+    {/if}
+    {if count($trustedHosts) eq 1 && (!isset($isValidHost) || $isValidHost)}
+        {'CoreAdminHome_PiwikIsInstalledAt'|translate}:&nbsp;&nbsp;<input name="trusted_host" type="text" value="{$trustedHosts[0]}"/>
+        {else}
+        <p>{'CoreAdminHome_PiwikIsInstalledAt'|translate}:</p>
+        <table class="adminTable">
+            <tr>
+                <th style="width:250px">{'CoreAdminHome_ValidPiwikHostname'|translate}</th>
+                <th style="width:10px">&nbsp;</th>
+            </tr>
+            {foreach from=$trustedHosts item=host key=hostIdx}
+                <tr>
+                    <td><input name="trusted_host" type="text" value="{$host}"/></td>
+                    <td>
+                        <a href="#" class="remove-trusted-host">x</a>
+                    </td>
+                </tr>
+            {/foreach}
+        </table>
+        <div class="adminTable add-trusted-host-container">
+            <a href="#" class="add-trusted-host"><em>{'General_Add'|translate}</em></a>
+        </div>
+    {/if}
+</div>
+
 <h2>{'CoreAdminHome_BrandingSettings'|translate}</h2>
 <div id='brandSettings'>
 {'CoreAdminHome_CustomLogoHelpText'|translate}
@@ -135,44 +174,6 @@
 </table>
 </div>
 
-<div class="ui-confirm" id="confirmTrustedHostChange">
-	<h2>{'CoreAdminHome_TrustedHostConfirm'|translate}</h2>
-	<input role="yes" type="button" value="{'General_Yes'|translate}" />
-	<input role="no" type="button" value="{'General_No'|translate}" />
-</div>
-
-<h2 id="trustedHostsSection">{'CoreAdminHome_TrustedHostSettings'|translate}</h2>
-<div id='trustedHostSettings'>
-{* untrusted host warning (display again) *}
-{if isset($isValidHost) && isset($invalidHostMessage) && !$isValidHost}
-<div class="ajaxSuccess">
-	<a style="float:right" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank"><img src="themes/default/images/help_grey.png" /></a>
-	<strong>{'General_Warning'|translate}:&nbsp;</strong>{$invalidHostMessage}
-</div>
-{/if}
-{if count($trustedHosts) eq 1 && (!isset($isValidHost) || $isValidHost)}
-{'CoreAdminHome_PiwikIsInstalledAt'|translate}:&nbsp;&nbsp;<input name="trusted_host" type="text" value="{$trustedHosts[0]}"/>
-{else}
-<p>{'CoreAdminHome_PiwikIsInstalledAt'|translate}:</p>
-<table class="adminTable">
-	<tr>
-		<th style="width:250px">{'CoreAdminHome_ValidPiwikHostname'|translate}</th>
-		<th style="width:10px">&nbsp;</th>
-	</tr>
-	{foreach from=$trustedHosts item=host key=hostIdx}
-	<tr>
-		<td><input name="trusted_host" type="text" value="{$host}"/></td>
-		<td>
-			<a href="#" class="remove-trusted-host">x</a>
-		</td>
-	</tr>
-	{/foreach}
-</table>
-<div class="adminTable add-trusted-host-container">
-	<a href="#" class="add-trusted-host"><em>{'General_Add'|translate}</em></a>
-</div>
-{/if}
-</div>
 <div id='logoSettings'>
 	{capture assign=giveUsFeedbackText}"{'General_GiveUsYourFeedback'|translate}"{/capture}
     {capture assign=customLogoHelp}
