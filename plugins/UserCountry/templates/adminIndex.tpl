@@ -1,6 +1,4 @@
 {loadJavascriptTranslations plugins='UserCountry'}
-{assign var=showSitesSelection value=false}
-{assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 
 <h2 id="location-providers">{'UserCountry_Geolocation'|translate}</h2>

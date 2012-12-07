@@ -1,5 +1,3 @@
-{assign var=showSitesSelection value=false}
-{assign var=showPeriodSelection value=false}
 {include file="CoreAdminHome/templates/header.tpl"}
 
 <h2>{'VisitorGenerator_VisitorGenerator'|translate}</h2>
