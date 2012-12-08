@@ -33,9 +33,9 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 		displayAccountFormSelector = '#displayAccountForm',
 		phoneNumberActivatedSelector = '#phoneNumberActivated',
 		invalidActivationCodeMsgSelector = '#invalidActivationCode',
-		ajaxErrorsSelector = 'ajaxErrorMobileMessagingSettings',
-		invalidVerificationCodeAjaxErrorSelector = 'invalidVerificationCodeAjaxError',
-		ajaxLoadingSelector = 'ajaxLoadingMobileMessagingSettings';
+		ajaxErrorsSelector = '#ajaxErrorMobileMessagingSettings',
+		invalidVerificationCodeAjaxErrorSelector = '#invalidVerificationCodeAjaxError',
+		ajaxLoadingSelector = '#ajaxLoadingMobileMessagingSettings';
 
 	/************************************************************
 	 * Private methods
@@ -89,20 +89,16 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 
 		if(verificationCode != null && verificationCode != '')
 		{
-			var ajaxRequest = piwikHelper.getStandardAjaxConf(ajaxLoadingSelector, invalidVerificationCodeAjaxErrorSelector);
-
-			ajaxRequest.success =
+			var success =
 				function(response)
 				{
-					piwikHelper.hideAjaxLoading(ajaxLoadingSelector);
 					$(phoneNumberActivatedSelector).hide();
 					if(!response.value)
 					{
-						piwikHelper.showAjaxError($(invalidActivationCodeMsgSelector).html(), invalidVerificationCodeAjaxErrorSelector);
+						$(invalidVerificationCodeAjaxErrorSelector).html($(invalidActivationCodeMsgSelector).html()).fadeIn();
 					}
 					else
 					{
-						piwikHelper.hideAjaxError(invalidVerificationCodeAjaxErrorSelector);
 						$(phoneNumberActivatedSelector).show();
 						$(verificationCodeContainer).remove();
 						$(phoneNumberContainer).find(validatePhoneNumberSubmitSelector).remove();
@@ -110,17 +106,17 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 					}
 				};
 
-			var parameters = {};
-			ajaxRequest.data = parameters;
-
-			parameters.module = 'API';
-			parameters.format = 'json';
-			parameters.method =  'MobileMessaging.validatePhoneNumber';
-			parameters.phoneNumber =  phoneNumber;
-			parameters.verificationCode =  verificationCode;
-			parameters.token_auth = piwik.token_auth;
-
-			$.ajax(ajaxRequest);
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.addParams({
+                module: 'API',
+                format: 'json',
+                method: 'MobileMessaging.validatePhoneNumber'
+            }, 'GET');
+            ajaxHandler.addParams({phoneNumber: phoneNumber, verificationCode: verificationCode}, 'POST');
+            ajaxHandler.setCallback(success);
+            ajaxHandler.setLoadingElement(ajaxLoadingSelector);
+            ajaxHandler.setErrorElement(invalidVerificationCodeAjaxErrorSelector);
+            ajaxHandler.send(true);
 		}
 	}
 
@@ -129,18 +125,17 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 		var phoneNumberContainer = $(event.target).parent();
 		var phoneNumber = phoneNumberContainer.find(phoneNumberSelector).html();
 
-		var ajaxRequest = piwikHelper.getStandardAjaxConf(ajaxLoadingSelector, ajaxErrorsSelector);
-
-		var parameters = {};
-		ajaxRequest.data = parameters;
-
-		parameters.module = 'API';
-		parameters.format = 'json';
-		parameters.method =  'MobileMessaging.removePhoneNumber';
-		parameters.phoneNumber =  phoneNumber;
-		parameters.token_auth = piwik.token_auth;
-
-		$.ajax(ajaxRequest);
+        var ajaxHandler = new ajaxHelper();
+        ajaxHandler.addParams({
+            module: 'API',
+            format: 'json',
+            method: 'MobileMessaging.removePhoneNumber'
+        }, 'GET');
+        ajaxHandler.addParams({phoneNumber: phoneNumber}, 'POST');
+        ajaxHandler.redirectOnSuccess();
+        ajaxHandler.setLoadingElement(ajaxLoadingSelector);
+        ajaxHandler.setErrorElement(ajaxErrorsSelector);
+        ajaxHandler.send(true);
 	}
 
 	function updateSuspiciousPhoneNumberMessage()
@@ -167,18 +162,17 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 
 		if(newPhoneNumber != null && newPhoneNumber != '')
 		{
-			var ajaxRequest = piwikHelper.getStandardAjaxConf(ajaxLoadingSelector, ajaxErrorsSelector);
-
-			var parameters = {};
-			ajaxRequest.data = parameters;
-
-			parameters.module = 'API';
-			parameters.format = 'json';
-			parameters.method =  'MobileMessaging.addPhoneNumber';
-			parameters.phoneNumber =  phoneNumber;
-			parameters.token_auth = piwik.token_auth;
-
-			$.ajax(ajaxRequest);
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.addParams({
+                module: 'API',
+                format: 'json',
+                method: 'MobileMessaging.addPhoneNumber'
+            }, 'GET');
+            ajaxHandler.addParams({phoneNumber: phoneNumber}, 'POST');
+            ajaxHandler.redirectOnSuccess();
+            ajaxHandler.setLoadingElement(ajaxLoadingSelector);
+            ajaxHandler.setErrorElement(ajaxErrorsSelector);
+            ajaxHandler.send(true);
 		}
 	}
 
@@ -203,18 +197,16 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 	}
 	
 	function deleteApiAccount() {
-
-		var ajaxRequest = piwikHelper.getStandardAjaxConf(ajaxLoadingSelector, ajaxErrorsSelector);
-
-		var parameters = {};
-		ajaxRequest.data = parameters;
-
-		parameters.module = 'API';
-		parameters.format = 'json';
-		parameters.method =  'MobileMessaging.deleteSMSAPICredential';
-		parameters.token_auth = piwik.token_auth;
-
-		$.ajax(ajaxRequest);
+        var ajaxHandler = new ajaxHelper();
+        ajaxHandler.addParams({
+            module: 'API',
+            format: 'json',
+            method: 'MobileMessaging.deleteSMSAPICredential'
+        }, 'GET');
+        ajaxHandler.redirectOnSuccess();
+        ajaxHandler.setLoadingElement(ajaxLoadingSelector);
+        ajaxHandler.setErrorElement(ajaxErrorsSelector);
+        ajaxHandler.send(true);
 	}
 
 	function updateApiAccount() {
@@ -223,37 +215,32 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 		var apiKey = $(apiKeySelector).val();
 
 		if(apiKey != '') {
-
-			var ajaxRequest = piwikHelper.getStandardAjaxConf(ajaxLoadingSelector, ajaxErrorsSelector);
-
-			var parameters = {};
-			ajaxRequest.data = parameters;
-
-			parameters.module = 'API';
-			parameters.format = 'json';
-			parameters.method = 'MobileMessaging.setSMSAPICredential';
-			parameters.provider = provider;
-			parameters.apiKey = apiKey;
-			parameters.token_auth = piwik.token_auth;
-
-			$.ajax(ajaxRequest);
+            var ajaxHandler = new ajaxHelper();
+            ajaxHandler.addParams({
+                module: 'API',
+                format: 'json',
+                method: 'MobileMessaging.setSMSAPICredential'
+            }, 'GET');
+            ajaxHandler.addParams({provider: provider, apiKey: apiKey}, 'POST');
+            ajaxHandler.redirectOnSuccess();
+            ajaxHandler.setLoadingElement(ajaxLoadingSelector);
+            ajaxHandler.setErrorElement(ajaxErrorsSelector);
+            ajaxHandler.send(true);
 		}
 	}
 
 	function setDelegatedManagement(delegatedManagement) {
-
-		var ajaxRequest = piwikHelper.getStandardAjaxConf(ajaxLoadingSelector, ajaxErrorsSelector);
-
-		var parameters = {};
-		ajaxRequest.data = parameters;
-
-		parameters.module = 'API';
-		parameters.format = 'json';
-		parameters.method =  'MobileMessaging.setDelegatedManagement';
-		parameters.token_auth = piwik.token_auth;
-		parameters.delegatedManagement = delegatedManagement;
-
-		$.ajax(ajaxRequest);
+        var ajaxHandler = new ajaxHelper();
+        ajaxHandler.addParams({
+            module: 'API',
+            format: 'json',
+            method: 'MobileMessaging.setDelegatedManagement'
+        }, 'GET');
+        ajaxHandler.addParams({delegatedManagement: delegatedManagement}, 'POST');
+        ajaxHandler.redirectOnSuccess();
+        ajaxHandler.setLoadingElement(ajaxLoadingSelector);
+        ajaxHandler.setErrorElement(ajaxErrorsSelector);
+        ajaxHandler.send(true);
 	}
 
 	function getDelegatedManagement() {
