@@ -81,7 +81,6 @@ function sendUpdateUserAccess(login, access, successCallback)
         method: 'UsersManager.setUserAccess'
     }, 'GET');
     ajaxHandler.addParams(parameters, 'POST');
-    ajaxHandler.redirectOnSuccess();
     ajaxHandler.setCallback(successCallback);
     ajaxHandler.setLoadingElement('#ajaxLoadingUsersManagement');
     ajaxHandler.setErrorElement('#ajaxErrorUsersManagement');
@@ -119,29 +118,17 @@ function bindUpdateAccess()
 	// callback called when the ajax request Update the user permissions is successful
 	function successCallback (response)
 	{
-		piwikHelper.hideAjaxLoading();
-		// if the permission couldn't be granted
-		if(response.result == "error") 
-		{
-			piwikHelper.showAjaxError(response.message);
-		}
-		// if the permission change was successful
-		else
-		{
-			piwikHelper.hideAjaxError();
-			
-			$(self).parent().parent().find('.accessGranted')
-				.attr("src","plugins/UsersManager/images/no-access.png" )
-				.attr("class","updateAccess" )
-				.click(bindUpdateAccess)
-				;
-			$(self)
-				.attr('src',"plugins/UsersManager/images/ok.png" )
-				.attr('class',"accessGranted" )
-				;
-			$('#accessUpdated').css('display', 'inline-block');
-			hideAccessUpdated();
-		}
+        $(self).parent().parent().find('.accessGranted')
+            .attr("src","plugins/UsersManager/images/no-access.png" )
+            .attr("class","updateAccess" )
+            .click(bindUpdateAccess)
+            ;
+        $(self)
+            .attr('src',"plugins/UsersManager/images/ok.png" )
+            .attr('class',"accessGranted" )
+            ;
+        $('#accessUpdated').css('display', 'inline-block');
+        hideAccessUpdated();
 	}
 	
 	var idSite = getIdSites();

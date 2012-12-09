@@ -147,7 +147,10 @@ function ajaxHelper() {
      */
     this.redirectOnSuccess = function (params) {
         this.setCallback(function(response) {
-            // add updated=1 to the URL so that a "Your changes have been saved" message is displayed
+            // add updated=X to the URL so that a "Your changes have been saved" message is displayed
+            if (typeof params == 'object') {
+                params = piwikHelper.getQueryStringFromParameters(params);
+            }
             var urlToRedirect = piwikHelper.getCurrentQueryStringWithParametersModified(params);
             var updatedUrl = new RegExp('&updated=([0-9]+)');
             var updatedCounter = updatedUrl.exec(urlToRedirect);

@@ -190,6 +190,8 @@ var piwikHelper = {
      * @param {string} errorDivID     id of domNode used for error messages
      * @param {object} params         params used for handling response
      * @return {object}
+     * @deprecated sine 1.9.3 - will be removed in 2.0
+     * @see use ajaxHelper for ajax requests
      */
     getStandardAjaxConf: function(loadingDivID, errorDivID, params)
     {
@@ -232,6 +234,8 @@ var piwikHelper = {
      * @param {XMLHttpRequest} deferred
      * @param {string} status
      * @return {void}
+     * @deprecated sine 1.9.3 - will be removed in 2.0
+     * @see use ajaxHelper for ajax requests
      */
     ajaxHandleError: function(deferred, status)
     {
@@ -252,6 +256,8 @@ var piwikHelper = {
      * @param {string} errorDivID
      * @param {object} params
      * @return {void}
+     * @deprecated since 1.9.3 - will be removed in 2.0
+     * @see use ajaxHelper for ajax requests
      */
     ajaxHandleResponse: function(response, loadingDivID, errorDivID, params)
     {

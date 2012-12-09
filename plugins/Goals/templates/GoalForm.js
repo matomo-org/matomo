@@ -113,11 +113,7 @@ function ajaxDeleteGoal(idGoal)
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(parameters, 'get');
     ajaxRequest.setLoadingElement('#goalAjaxLoading');
-    ajaxRequest.setCallback(
-        function (response) {
-            piwikHelper.ajaxHandleResponse(response, 'goalAjaxLoading', parameters);
-        }
-    );
+    ajaxRequest.setCallback(function(){ location.reload(); });
     ajaxRequest.send(true);
 }
 
@@ -150,11 +146,7 @@ function ajaxAddGoal()
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(parameters, 'get');
     ajaxRequest.setLoadingElement('#goalAjaxLoading');
-    ajaxRequest.setCallback(
-        function (response) {
-            piwikHelper.ajaxHandleResponse(response, 'goalAjaxLoading', parameters);
-        }
-    );
+    ajaxRequest.setCallback(function(){ location.reload(); });
     ajaxRequest.send(true);
 }
 
