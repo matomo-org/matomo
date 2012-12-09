@@ -28,7 +28,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
         ajaxHandler.send(true);
 	}
 	
-	function getAddSiteAJAX( row )
+	function sendAddSiteAJAX( row )
 	{
 	 	var siteName = $(row).find('input#name').val();
 	 	var urls =  $(row).find('textarea#urls').val();
@@ -178,7 +178,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 	  	piwikHelper.lazyScrollTo('#'+newRowId);
 	  	
 		$('.addsite').click( function(){ 
-			$.ajax( getAddSiteAJAX($('tr#'+newRowId)) ); 
+			sendAddSiteAJAX($('tr#'+newRowId));
 		});
 		
 		$('.cancel').click(function() { 
