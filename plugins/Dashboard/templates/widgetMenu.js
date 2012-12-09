@@ -112,12 +112,6 @@ widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParamet
  */
 widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback)
 {
-
-    var token_auth = broadcast.getValueFromUrl('token_auth');
-    if(token_auth.length && token_auth != 'anonymous')
-    {
-    	widgetParameters['token_auth'] = token_auth;
-    }
     var disableLink = broadcast.getValueFromUrl('disableLink');
     if(disableLink.length)
     {
