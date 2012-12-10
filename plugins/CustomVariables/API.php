@@ -31,9 +31,16 @@ class Piwik_CustomVariables_API
 		return self::$instance;
 	}
 
-	/**
-	 * @return Piwik_DataTable
-	 */
+    /**
+     * @param int        $idSite
+     * @param string     $period
+     * @param Piwik_Date $date
+     * @param string     $segment
+     * @param bool       $expanded
+     * @param int        $idSubtable
+     *
+     * @return Piwik_DataTable|Piwik_DataTable_Array
+     */
 	protected function getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable)
 	{
 		$dataTable = Piwik_Archive::getDataTableFromArchive('CustomVariables_valueByName', $idSite, $period, $date, $segment, $expanded, $idSubtable);
@@ -42,9 +49,16 @@ class Piwik_CustomVariables_API
 		return $dataTable;
 	}
 
-	/**
-	 * @return Piwik_DataTable
-	 */
+    /**
+     * @param int               $idSite
+     * @param string            $period
+     * @param Piwik_Date        $date
+     * @param string|bool       $segment
+     * @param bool              $expanded
+     * @param bool              $_leavePiwikCoreVariables
+     *
+     * @return Piwik_DataTable|Piwik_DataTable_Array
+     */
 	public function getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = false)
 	{
 		$dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable = null);
@@ -65,9 +79,16 @@ class Piwik_CustomVariables_API
 		return $dataTable;
 	}
 
-	/**
-	 * @return Piwik_DataTable
-	 */
+    /**
+     * @param int            $idSite
+     * @param string         $period
+     * @param Piwik_Date     $date
+     * @param int            $idSubtable
+     * @param string|bool    $segment
+     * @param bool           $_leavePriceViewedColumn
+     *
+     * @return Piwik_DataTable|Piwik_DataTable_Array
+     */
 	public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false, $_leavePriceViewedColumn = false)
 	{
 		$dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded = false, $idSubtable);

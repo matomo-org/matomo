@@ -361,7 +361,7 @@ abstract class Piwik_Archive
 	 * @param string      $segment
 	 * @param bool        $expanded
 	 * @param null        $idSubtable
-	 * @return Piwik_DataTable
+	 * @return Piwik_DataTable|Piwik_DataTable_Array
 	 */
 	static public function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null )
 	{

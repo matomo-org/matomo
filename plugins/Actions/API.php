@@ -52,7 +52,7 @@ class Piwik_Actions_API
 	 * @param bool $segment
 	 * @param bool $expanded
 	 * @param bool|int $idSubtable
-	 * @return Piwik_DataTable
+	 * @return Piwik_DataTable|Piwik_DataTable_Array
 	 */
 	public function getActions( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
@@ -114,8 +114,18 @@ class Piwik_Actions_API
 		
 		return $table;
 	}
-	
-	public function getPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
+
+    /**
+     * @param int            $idSite
+     * @param string         $period
+     * @param Piwik_Date     $date
+     * @param bool           $segment
+     * @param bool           $expanded
+     * @param bool           $idSubtable
+     *
+     * @return Piwik_DataTable|Piwik_DataTable_Array
+     */
+    public function getPageUrls( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable );
 		$this->filterPageDatatable($dataTable);
@@ -123,21 +133,44 @@ class Piwik_Actions_API
 		return $dataTable;
 	}
 
-	public function getPageUrlsFollowingSiteSearch( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
+    /**
+     * @param int            $idSite
+     * @param string         $period
+     * @param Piwik_Date     $date
+     * @param bool           $segment
+     * @param bool           $expanded
+     * @param bool           $idSubtable
+     *
+     * @return Piwik_DataTable|Piwik_DataTable_Array
+     */
+    public function getPageUrlsFollowingSiteSearch( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = $this->getPageUrls($idSite, $period, $date, $segment, $expanded, $idSubtable);
 		$this->keepPagesFollowingSearch($dataTable);
 		return $dataTable;
 	}
 
-	public function getPageTitlesFollowingSiteSearch( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
+    /**
+     * @param int            $idSite
+     * @param string         $period
+     * @param Piwik_Date     $date
+     * @param bool           $segment
+     * @param bool           $expanded
+     * @param bool           $idSubtable
+     *
+     * @return Piwik_DataTable|Piwik_DataTable_Array
+     */
+    public function getPageTitlesFollowingSiteSearch( $idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false )
 	{
 		$dataTable = $this->getPageTitles($idSite, $period, $date, $segment, $expanded, $idSubtable);
 		$this->keepPagesFollowingSearch($dataTable);
 		return $dataTable;
 	}
 
-	protected function keepPagesFollowingSearch($dataTable)
+    /**
+     * @param Piwik_DataTable $dataTable
+     */
+    protected function keepPagesFollowingSearch($dataTable)
 	{
 		// Keep only pages which are following site search
 		$dataTable->filter('ColumnCallbackDeleteRow', array(
@@ -286,7 +319,15 @@ class Piwik_Actions_API
 		return $dataTable;
 	}
 
-	public function getSiteSearchCategories( $idSite, $period, $date, $segment = false )
+    /**
+     * @param int            $idSite
+     * @param string         $period
+     * @param Piwik_Date     $date
+     * @param bool           $segment
+     *
+     * @return Piwik_DataTable|Piwik_DataTable_Array
+     */
+    public function getSiteSearchCategories( $idSite, $period, $date, $segment = false )
 	{
 		Piwik_Actions::checkCustomVariablesPluginEnabled();
 		$customVariables = Piwik_CustomVariables_API::getInstance()->getCustomVariables($idSite, $period, $date, $segment, $expanded = false, $_leavePiwikCoreVariables = true);
