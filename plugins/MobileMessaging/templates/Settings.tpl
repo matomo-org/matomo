@@ -85,7 +85,8 @@
 	
 		<br/>
 		
-		<span style=' font-size: 11px;'><span class="form-description">{'MobileMessaging_Settings_CountryCode'|translate}</span><span class="form-description">{'MobileMessaging_Settings_PhoneNumber'|translate}</span></span>
+		<span style=' font-size: 11px;'><span class="form-description">{'MobileMessaging_Settings_CountryCode'|translate}</span>
+			<span class="form-description" style="margin-left:50px">{'MobileMessaging_Settings_PhoneNumber'|translate}</span></span>
 		<br/><br/>
 	
 		{'MobileMessaging_Settings_PhoneNumbers_CountryCode_Help'|translate}

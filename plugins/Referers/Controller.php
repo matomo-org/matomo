@@ -453,6 +453,7 @@ function DisplayTopKeywords($url = "")
 	}
 
 	// Display the list in HTML
+	$url = htmlspecialchars($url, ENT_QUOTES);
 	$output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
 	foreach($keywords as $keyword) {
 		$output .= "<li>". $keyword[0]. "</li>";
@@ -489,6 +490,7 @@ function DisplayTopKeywords($url = "")
 			}
 		
 			// Display the list in HTML
+			$url = htmlspecialchars($url, ENT_QUOTES);
 			$output = "<h2>Top Keywords for <a href=\'$url\'>$url</a></h2><ul>";
 			foreach($keywords as $keyword) {
 				$output .= "<li>". $keyword[0]. "</li>";

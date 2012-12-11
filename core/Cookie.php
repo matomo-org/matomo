@@ -190,9 +190,6 @@ class Piwik_Cookie
 		if(strlen($cookieString) > self::MAX_COOKIE_SIZE)
 		{
 			// If the cookie was going to be too large, instead, delete existing cookie and start afresh
-			// This will result in slightly less accuracy in the case
-			// where someone visits more than dozen websites tracked by the same Piwik
-			// This will usually be the Piwik super user itself checking all his websites regularly
 			$this->delete();
 			return;
 		}

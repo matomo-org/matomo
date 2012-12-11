@@ -46,6 +46,9 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	{
 		$controllerName = Piwik_Common::getRequestVar('moduleToLoad');
 		$actionName = Piwik_Common::getRequestVar('actionToLoad', 'index');
+		if($actionName == 'showInContext') {
+			throw new Exception("Preventing infinite recursion...");
+		}
 		$view = $this->getDefaultIndexView();
 		$view->content = Piwik_FrontController::getInstance()->fetchDispatch( $controllerName, $actionName );
 		echo $view->render();	

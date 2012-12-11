@@ -90,7 +90,9 @@ class Archiving
 	 * It will be overwritten by the number of days since last archiving ran until completion.
 	 */
 	const DEFAULT_DATE_LAST = 52;
-	
+	// Since weeks are not used in yearly archives, we make sure that all possible weeks are processed
+	const DEFAULT_DATE_LAST_WEEKS = 520;
+
 	protected $timeLastCompleted = false;
 	protected $requestPrepend = '&trigger=archivephp';
 	protected $errors = array();
@@ -155,6 +157,10 @@ class Archiving
 		if(empty($lastTimestampWebsiteProcessed))
 		{
 			$dateLast = self::DEFAULT_DATE_LAST;
+			if($period == 'week')
+			{
+				$dateLast = self::DEFAULT_DATE_LAST_WEEKS;
+			}
 		}
 		else
 		{
