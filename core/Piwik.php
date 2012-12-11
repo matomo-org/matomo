@@ -2456,7 +2456,7 @@ class Piwik
 		{
 			try {
 				$sql = 'LOAD DATA '.$keyword.' INFILE '.$query;
-				$result = @Piwik_Exec($sql);
+				$result = Piwik_Exec($sql);
 				if(empty($result) || $result < 0)
 				{
 					continue;
@@ -2464,7 +2464,7 @@ class Piwik
 
 				return true;
 			} catch(Exception $e) {
-				echo $sql . ' ---- ' .  $e->getMessage();
+//				echo $sql . ' ---- ' .  $e->getMessage();
 				if(!Zend_Registry::get('db')->isErrNo($e, '1148'))
 				{
 					Piwik::log("LOAD DATA INFILE failed... Error was:" . $e->getMessage());
@@ -2510,9 +2510,9 @@ class Piwik
 
 				self::createCSVFile($filePath, $fileSpec, $values);
 
-				if(!file_exists($filePath))
+				if(!is_readable($filePath))
 				{
-					throw new Exception("File $filePath could not be created.");
+					throw new Exception("File $filePath could not be read.");
 				}
 				$rc = self::createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec);
 				if($rc)
@@ -2522,12 +2522,12 @@ class Piwik
 				}
 				else
 				{
-					throw new Exception('Could not createTableFromCSVFile');
+					throw new Exception('Error during LOAD DATA INFILE in function createTableFromCSVFile');
 				}
 
 			} catch(Exception $e) {
-				throw new Exception("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
 				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
+				throw new Exception("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
 			}
 		}
 
