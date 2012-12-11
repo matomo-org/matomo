@@ -184,6 +184,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		$idSite   = self::$idSite;
 		
 		$t = self::getTracker($idSite, $dateTime, $defaultInit = true);
+		$t->setTokenAuth(self::getTokenAuth());
 		$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addDay(20)->getDatetime());
 		$t->setIp('194.57.91.215');
 		$t->setCountry('us');
