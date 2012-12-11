@@ -2456,7 +2456,7 @@ class Piwik
 		{
 			try {
 				$sql = 'LOAD DATA '.$keyword.' INFILE '.$query;
-				$result = Piwik_Exec($sql);
+				$result = @Piwik_Exec($sql);
 				if(empty($result) || $result < 0)
 				{
 					continue;
@@ -2527,7 +2527,7 @@ class Piwik
 
 			} catch(Exception $e) {
 				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
-				throw new Exception("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
+//				throw new Exception("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
 			}
 		}
 
