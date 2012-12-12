@@ -361,9 +361,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 		if(!self::canImagesBeIncludedInScheduledReports())
 		{
 			$this->markTestSkipped(
-				'Do take note that scheduled reports are not being tested with images. ' .
-					'If images contained in scheduled reports have been altered, tests will fail on the Piwik QA Server. ' .
-					'To include images in the test suite, please use a machine with the following specifications : OS = Linux precise32, PHP Version = 5.3.10 and GD Version = 2.0'
+			'Do take note that scheduled reports are not being tested with images. ' .
+			'If images contained in scheduled reports have been altered, tests will fail on the Piwik QA Server. ' .
+			'To include images in the test suite, please use a machine with the following specifications : OS = Linux precise32, PHP Version = 5.3.10 and GD Version = 2.0'.
+			'Ignore this message if you\'re running on your dev machine, but pay attention when it comes from Jenkins.'
 			);
 		}
 	}
@@ -394,6 +395,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected static function getApiForTestingScheduledReports($dateTime, $period)
 	{
+		//TODO re-enable scheduled reports & static images tests
+		// see http://dev.piwik.org/trac/ticket/3323
+		return array();
+
 		$reportContentPostfix = self::canImagesBeIncludedInScheduledReports() ? '_tables_and_graph' : '_tables_only';
 
 		return array(
