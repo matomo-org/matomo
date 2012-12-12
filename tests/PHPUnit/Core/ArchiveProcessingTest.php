@@ -277,8 +277,9 @@ class ArchiveProcessingTest extends DatabaseTestCase
     /**
      * Is bulk insert testable?
      *
-     * @return boolean True if MYSQLI, PDO_MYSQL with mysqlnd,
-     *                 or PDO_MYSQL with libmysqlclient prior to php 5.2.9 or 5.3.9
+     * @return boolean True if MYSQLI,
+     *                 PDO_MYSQL with mysqlnd and php 5.3.9+,
+     *                 or PDO_MYSQL with libmysqlclient prior to php 5.2.9
      *
      * @see https://bugs.php.net/bug.php?id=46964
      * @see https://bugs.php.net/bug.php?id=62889
