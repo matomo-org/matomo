@@ -835,11 +835,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             // Do not test for TRUNCATE(SUM()) returning .00 on mysqli since this is not working
             // http://bugs.php.net/bug.php?id=54508
             $expected = str_replace('.000000</l', '</l', $expected); //lat/long
+	        $response = str_replace('.000000</l', '</l', $response); //lat/long
+	        $expected = str_replace('.00</revenue>', '</revenue>', $expected);
             $response = str_replace('.00</revenue>', '</revenue>', $response);
-            $expected = str_replace('.1</revenue>', '</revenue>', $expected);
-            $expected = str_replace('.11</revenue>', '</revenue>', $expected);
-            $response = str_replace('.11</revenue>', '</revenue>', $response);
-            $response = str_replace('.1</revenue>', '</revenue>', $response);
+	        $response = str_replace('.1</revenue>', '</revenue>', $response);
+	        $expected = str_replace('.1</revenue>', '</revenue>', $expected);
+	        $expected = str_replace('.11</revenue>', '</revenue>', $expected);
+	        $response = str_replace('.11</revenue>', '</revenue>', $response);
         }
 
 		try
