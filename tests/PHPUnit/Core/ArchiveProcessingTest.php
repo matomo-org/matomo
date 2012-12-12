@@ -30,7 +30,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
                                                 "site1",
                                                 array("http://piwik.net"), 
                                                 $ecommerce=0,
-										        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
+                                                $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
                                                 $excludedIps = "",
                                                 $excludedQueryParameters = "",
                                                 $timezone);
@@ -275,6 +275,46 @@ class ArchiveProcessingTest extends DatabaseTestCase
     }
 
     /**
+     * Is bulk insert testable?
+     *
+     * @return boolean True if MYSQLI, PDO_MYSQL with mysqlnd,
+     *                 or PDO_MYSQL with libmysqlclient prior to php 5.2.9 or 5.3.9
+     *
+     * @see https://bugs.php.net/bug.php?id=46964
+     * @see https://bugs.php.net/bug.php?id=62889
+     */
+    private function isBulkInsertTestable()
+    {
+        switch (Piwik_Config::getInstance()->database['adapter'])
+        {
+            case 'MYSQLI':
+                return true;
+
+            case 'PDO_MYSQL':
+                ob_start();
+                phpinfo();
+                $phpinfo = ob_get_contents();
+                ob_end_clean();
+
+                $isMysqlnd = false !== strpos($phpinfo, <<<NEEDLE
+pdo_mysql
+
+PDO Driver for MySQL => enabled
+Client API version => mysqlnd
+NEEDLE
+                );
+
+                if (($isMysqlnd && version_compare(PHP_VERSION, '5.3.9') >= 0) ||
+                    (!$isMysqlnd && version_compare(PHP_VERSION, '5.2.9') < 0))
+                {
+                    return true;
+                }
+        }
+
+        return false;
+    }
+
+    /**
      * Testing batch insert
      * @group Core
      * @group ArchiveProcessing
@@ -284,9 +324,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $table = Piwik_Common::prefixTable('site_url');
         $data = $this->_getDataInsert();
         $didWeUseBulk = Piwik::tableInsertBatch($table, array('idsite', 'url'), $data);
-        if(version_compare(PHP_VERSION, '5.2.9') < 0 ||
-            version_compare(PHP_VERSION, '5.3.7') >= 0 ||
-            Piwik_Config::getInstance()->database['adapter'] != 'PDO_MYSQL')
+        if($this->isBulkInsertTestable())
         {
             $this->assertTrue($didWeUseBulk, "The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
         }
@@ -336,9 +374,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 
         $data = $this->_getBlobDataInsert();
         $didWeUseBulk = Piwik::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
-        if(version_compare(PHP_VERSION, '5.2.9') < 0 ||
-            version_compare(PHP_VERSION, '5.3.7') >= 0 ||
-            Piwik_Config::getInstance()->database['adapter'] != 'PDO_MYSQL')
+        if($this->isBulkInsertTestable())
         {
             $this->assertTrue($didWeUseBulk, "The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
         }
