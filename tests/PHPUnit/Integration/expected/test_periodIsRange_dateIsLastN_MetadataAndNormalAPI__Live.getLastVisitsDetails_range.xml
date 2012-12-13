@@ -248,6 +248,10 @@
 						<customVariableValue1>FR</customVariableValue1>
 					</row>
 					<row>
+						<customVariableName2>SET WITH EMPTY VALUE PAGE SCOPE</customVariableName2>
+						<customVariableValue2 />
+					</row>
+					<row>
 						<customVariableName4>Status user</customVariableName4>
 						<customVariableValue4>looking at &quot;profile page&quot;</customVariableValue4>
 					</row>
@@ -280,6 +284,10 @@
 			<row>
 				<customVariableName1>VisitorType</customVariableName1>
 				<customVariableValue1>LoggedIn</customVariableValue1>
+			</row>
+			<row>
+				<customVariableName2>SET WITH EMPTY VALUE</customVariableName2>
+				<customVariableValue2 />
 			</row>
 			<row>
 				<customVariableName3>Value will be VERY long and truncated</customVariableName3>

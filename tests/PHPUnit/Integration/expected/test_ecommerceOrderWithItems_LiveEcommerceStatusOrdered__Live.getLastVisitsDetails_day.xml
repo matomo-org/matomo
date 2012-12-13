@@ -55,6 +55,10 @@
 				<customVariableValue3>Great name!</customVariableValue3>
 			</row>
 			<row>
+				<customVariableName4>ValueIsZero</customVariableName4>
+				<customVariableValue4>0</customVariableValue4>
+			</row>
+			<row>
 				<customVariableName5>VisitorType</customVariableName5>
 				<customVariableValue5>NewLoggedOut</customVariableValue5>
 			</row>
@@ -151,6 +155,10 @@
 						<customVariableName4>_pkn</customVariableName4>
 						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
 					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5 />
+					</row>
 				</customVariables>
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
@@ -175,6 +183,10 @@
 					<row>
 						<customVariableName4>_pkn</customVariableName4>
 						<customVariableValue4>PRODUCT THREE LEFT in cart</customVariableValue4>
+					</row>
+					<row>
+						<customVariableName5>_pkc</customVariableName5>
+						<customVariableValue5 />
 					</row>
 				</customVariables>
 				<timeSpent>180</timeSpent>
@@ -239,6 +251,10 @@
 			<row>
 				<customVariableName3>VisitorName</customVariableName3>
 				<customVariableValue3>Great name!</customVariableValue3>
+			</row>
+			<row>
+				<customVariableName4>ValueIsZero</customVariableName4>
+				<customVariableValue4>0</customVariableValue4>
 			</row>
 			<row>
 				<customVariableName5>VisitorType</customVariableName5>
