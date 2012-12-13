@@ -118,7 +118,7 @@ UserCountryMap.run = function(config) {
                 v;
             d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
             l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
-            r.css({ clear: 'both', height: 18 });
+            r.css({ clear: 'both', height: 19 });
             r.append(d).append(l);
             $('.UserCountryMap-legend .content').append(r);
         }
