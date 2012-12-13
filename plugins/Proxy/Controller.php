@@ -143,7 +143,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		{
 			die('Please check the &url= parameter: it should to be a valid URL');
 		}
-		
+		@header('Content-Type: text/html; charset=utf-8');
 		echo '<html><head><meta http-equiv="refresh" content="0;url=' . $url . '" /></head></html>';
 		
 		exit;

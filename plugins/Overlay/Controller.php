@@ -132,7 +132,8 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 		$sitesManager = Piwik_SitesManager_API::getInstance();
 		$site = $sitesManager->getSiteFromId($idSite);
 		$urls = $sitesManager->getSiteUrlsFromId($idSite);
-		
+
+		@header('Content-Type: text/html; charset=UTF-8');
 		echo '
 			<html><head><title></title></head><body>
 			<script type="text/javascript">
