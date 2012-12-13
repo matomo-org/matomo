@@ -18,26 +18,69 @@
     <div id="UserCountryMap_container">
         <style type="text/css">
 {literal}
-#UserCountryMap_overlay {
+
+#UserCountryMap-black {
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 999990;
+    width: 1000px;
+    height: 1000px;
+    background: #D5D3C8;
+}
+
+
+#UserCountryMap .loadingPiwik {
+    position: absolute!important;
+    top: 42%!important;
+    right: 10px!important;
+    left: 10px!important;
+    z-index: 999999!important;
+    display: block;
+    color: #000;
+    vertical-align: middle!important;
+    text-align: center;
+    text-shadow: 0 0 5px #fff;
+}
+
+.tableIcon.inactiveIcon {
+    color: #99a;
+}
+
+.UserCountryMap-overlay {
     display:block;
     position: absolute;
-    top: 5px;
-    left:5px;
     z-index:1000;
 }
 
-#UserCountryMap_overlay .content {
+.UserCountryMap-overlay .content {
     padding:5px;
     border-radius:3px;
     background:rgba(255,255,255,0.9);
 }
+
+.UserCountryMap-title {
+    top: 5px;
+    left:5px;
+}
+
+.UserCountryMap-legend {
+    right: 5px;
+    font-size: 9px;
+    bottom: 40px;
+}
 {/literal}
         </style>
         <div id="UserCountryMap_map" style="overflow:hidden"></div>
-        <div id="UserCountryMap_overlay">
+        <div class="UserCountryMap-overlay UserCountryMap-title">
             <div class="content">
                 <div class="map-title" style="font-weight:bold; color:#9A9386;"></div>
                 <div class="map-stats" style="color:#565656;"><b></b> </div>
+            </div>
+        </div>
+        <div class="UserCountryMap-overlay UserCountryMap-legend">
+            <div class="content">
+                
             </div>
         </div>
     </div>
@@ -47,7 +90,6 @@
         </span>
     </div>
     <div class="dataTableFeatures" style="padding-top:0px">
-        
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
                 <img id="UserCountryMap-activeItem" class="dataTableFooterActiveItem" src="{$piwikUrl}themes/default/images/data_table_footer_active_item.png" style="left: 25px;">

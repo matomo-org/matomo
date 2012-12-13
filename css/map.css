@@ -1,5 +1,5 @@
 /*
- * Stylesheets for UserCountryMap
+ * Stylesheets for Kartograph map
  */
 
 #UserCountryMap_map svg path {
@@ -7,8 +7,8 @@
 }
 
 #UserCountryMap_map svg .countries {
-    stroke-width: 0.5px;
     cursor: pointer;
+    stroke-width: 0.5px;
     stroke: #545C6D;
 }
 
@@ -19,10 +19,10 @@
 }
 
 #UserCountryMap_map svg .context-clickable {
+    cursor: pointer;
     stroke: #BBBBBB;
     fill: #F2F1ED;
     stroke-width: 0.5px;
-    cursor: pointer;
 }
 
 #UserCountryMap_map svg .context-clickable:hover {
@@ -65,27 +65,25 @@
 }
 
 #UserCountryMap_map svg .countryLabelBg {
+    font-weight: bold;
+    font-size: 10px;
     font-family: Arial,Verdana,Helvetica,sans-serif;
     fill: #F6F5F3;
     stroke: #F6F5F3;
     stroke-width: 3px;
-    stroke-linejoin; round;
-    stroke-linecap; round;
-    font-weight: bold;
-    font-size: 10px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
 }
 
 #UserCountryMap_map svg .countryLabel {
-    font-family: Arial,Verdana,Helvetica,sans-serif;
-    fill: #808888;
     font-weight: bold;
     font-size: 10px;
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+    fill: #808888;
 }
 
 #UserCountryMap_map svg .bubble {
     fill-opacity: 0.7;
-    /fill: #5170AE;
-    /stroke: #fff;
     stroke-width: 1px;
 }
 
@@ -94,32 +92,4 @@
     fill-opacity: 1!important;
     stroke-width: 4px!important;
     stroke-opacity: 0.2;
-}
-
-#UserCountryMap-black {
-    background: #D5D3C8;
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 1000px;
-    height: 1000px;
-    z-index: 999990;
-}
-
-
-#UserCountryMap .loadingPiwik {
-    position: absolute!important;
-    top: 42%!important;
-    left: 10px!important;
-    right: 10px!important;
-    z-index: 999999!important;
-    vertical-align: middle!important;
-    display: block;
-    color: #000;
-    text-shadow: 0 0 5px #fff;
-    text-align: center;
-}
-
-.tableIcon.inactiveIcon {
-    color: #99a;
 }

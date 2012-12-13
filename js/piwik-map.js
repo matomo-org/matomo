@@ -22,6 +22,8 @@ UserCountryMap.run = function(config) {
             min: values[0],
             max: values[values.length-1],
             median: values[Math.floor(values.length*0.5)],
+            p33: values[Math.floor(values.length*0.33)],
+            p66: values[Math.floor(values.length*0.66)],
             p90: values[Math.floor(values.length*0.9)]
         };
     }
@@ -91,7 +93,7 @@ UserCountryMap.run = function(config) {
 
         var colscale = new chroma.ColorScale({
             colors: [choropleth ? '#CDDAEF' : '#385993', '#385993'],
-            limits: chroma.limits(values, 'c', 7),
+            limits: chroma.limits(values, 'c', 4),
             mode: 'hcl'
         });
 
@@ -106,6 +108,28 @@ UserCountryMap.run = function(config) {
                 });
             }
         }
+
+        // a good place to update the legend, isn't it?
+        $('.UserCountryMap-legend .content').html('');
+        function b(val) {
+            var d = $('<div>'), r = $('<div>'), l = $('<div>'), v = val;
+            v = v > 1000000 ? (v/1000000).toFixed(1) + 'm' :
+                v > 1000 ? (v/1000).toFixed(1) + 'k' :
+                v;
+            d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
+            l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
+            r.css({ clear: 'both', height: 17 });
+            r.append(d).append(l);
+            $('.UserCountryMap-legend .content').append(r);
+        }
+        $.each(chroma.limits(values, 'k', 3), function(i, v) {
+            b(v);
+        });
+        // b(stats.min);
+        // b(stats.p33);
+        // //b(stats.median);
+        // b(stats.p66);
+        // b(stats.max);
         return colscale;
     }
 
@@ -789,10 +813,11 @@ UserCountryMap.run = function(config) {
     });
 
 
-    $('#UserCountryMap_overlay').hover(function() {
-        $('#UserCountryMap_overlay .content').animate({ opacity: 0.01 }, 200);
-    }, function() {
-        $('#UserCountryMap_overlay .content').animate({ opacity: 1 }, 200);
+    $('.UserCountryMap-overlay').on('mouseenter', function(e) {
+        $('.content', $(e.target).parents('.UserCountryMap-overlay')).fadeOut(200);
+        setTimeout(function() {
+           $('.UserCountryMap-overlay .content').fadeIn(1000);
+        }, 3000);
     });
 
 };
