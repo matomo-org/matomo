@@ -58,6 +58,7 @@ UserCountryMap.run = function(config) {
         if (metric.substr(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
             var total;
             if (id.length == 3) total = UserCountryMap.countriesByIso[id][metric];
+            else if (id == 'world') total = UserCountryMap._worldTotal;
             //else total = UserCountryMap.lastReportMetricStats[metric].sum;
             if (total) {
                 v += ' ('+formatPercentage(data[metric] / total)+')';
@@ -112,6 +113,7 @@ UserCountryMap.run = function(config) {
     }
 
     function formatPercentage(val) {
+        if (val < 0.001) return '< 0.1%';
         return Math.round(1000 * val)/10 + '%';
     }
 
@@ -270,7 +272,9 @@ UserCountryMap.run = function(config) {
             $('span', regionBtn).html(regionBtn.data('country'));
         }
 
-        var mapTitle = id.length == 3 ? UserCountryMap.countriesByIso[id].name : $('#userCountryMapSelectCountry option[value='+id+']').html(),
+        var mapTitle = id.length == 3 ?
+                UserCountryMap.countriesByIso[id].name :
+                $('#userCountryMapSelectCountry option[value='+id+']').html(),
             totalVisits = 0;
         // update map title
         $('.map-title').html(mapTitle);
@@ -699,7 +703,7 @@ UserCountryMap.run = function(config) {
                     evt.stopPropagation();
                 }
             });
-            function filtCountryLabels(data) {
+             function filtCountryLabels(data) {
                 return data.iso != iso && Math.abs(map.getLayer('context-clickable').getPath(data.iso).path.area()) > 700;
             }
             map.addSymbols({
@@ -752,6 +756,7 @@ UserCountryMap.run = function(config) {
             countriesByIso[country.iso] = country;
             worldTotalVisits += country['nb_visits'];
         });
+        UserCountryMap._worldTotal = worldTotalVisits;
         // sort countries by name
         countryData.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
 
