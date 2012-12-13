@@ -1,4 +1,5 @@
 <div id="{$properties.uniqueId}" class="visitorLog">
+
 {if !$isWidget}
 	<h2>{if $javascriptVariablesToSet.filterEcommerce}{'Goals_EcommerceLog'|translate}{else}{'Live_VisitorLog'|translate}{/if}</h2>
 		
@@ -95,7 +96,7 @@
 					{foreach from=$visitor.columns.customVariables item=customVariable key=id}
 						{capture assign=name}customVariableName{$id}{/capture}
 						{capture assign=value}customVariableValue{$id}{/capture}
-						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.$name|truncate:30:"...":true|escape:'html'}</acronym>: {$customVariable.$value|truncate:50:"...":true|escape:'html'}
+						<br/><acronym title="{'CustomVariables_CustomVariables'|translate} (index {$id})">{$customVariable.$name|truncate:30:"...":true|escape:'html'}</acronym>{if strlen($customVariable.$value)>0}: {$customVariable.$value|truncate:50:"...":true|escape:'html'}{/if}
 					{/foreach}
 				{/if}
 				{if !$displayVisitorsInOwnColumn}
@@ -158,14 +159,18 @@
 			{foreach from=$visitor.columns.actionDetails item=action}
 				{capture assign='customVariablesTooltip'}{if !empty($action.customVariables)}{'CustomVariables_CustomVariables'|translate}
 				{foreach from=$action.customVariables item=customVariable key=id}{capture assign=name}customVariableName{$id}{/capture}{capture assign=value}customVariableValue{$id}{/capture}
-					- {$customVariable.$name|escape:'html'} = {$customVariable.$value|escape:'html'}
+
+- {$customVariable.$name|escape:'html'} {if strlen($customVariable.$value) > 0} = {$customVariable.$value|escape:'html'}{/if}
 				{/foreach}{/if}
 				{/capture}
 				{if !$javascriptVariablesToSet.filterEcommerce
 					|| $action.type == 'ecommerceOrder' 	
 					|| $action.type == 'ecommerceAbandonedCart'}
-				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))} - {$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))}{$customVariablesTooltip|trim}
-				{/if}{if isset($action.timeSpentPretty)} - {'General_TimeOnPage'|translate}: {$action.timeSpentPretty}{/if}">
+				<li class="{if !empty($action.goalName)}goal{else}action{/if}" title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))} - {$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))}
+
+{$customVariablesTooltip|trim}{/if}{if isset($action.timeSpentPretty)}
+
+{'General_TimeOnPage'|translate}: {$action.timeSpentPretty}{/if}">
 				{if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
  					{* Ecommerce Abandoned Cart / Ecommerce Order *}
  					
@@ -244,56 +249,59 @@
 	{/if}
 {/foreach}
 
-	</tbody>
-	</table>
-	{/if}
-	{if count($arrayDataTable) == $javascriptVariablesToSet.filter_limit}
-	{* We set a fake large rows count so that 'Next' paginate link is forced to display
-	   This is hard coded because the Visitor Log datatable is not fully loaded in memory, 
-	   but needs to fetch only the N rows in the logs
-	   *}
-	{php}$this->_tpl_vars['javascriptVariablesToSet']['totalRows'] = 100000; {/php}
-	{/if}
-	{if $properties.show_footer}
-		{include file="CoreHome/templates/datatable_footer.tpl"}
-	{/if}
-	{include file="CoreHome/templates/datatable_js.tpl"}
-	<script type="text/javascript" defer="defer">
-	$(document).ready(function(){ldelim} 
-		var dataTableVisitorLog = dataTables['{$properties.uniqueId}'];
-		dataTableVisitorLog.param.maxIdVisit = {$maxIdVisit};
-		{literal}
-		if(dataTableVisitorLog.param.previous == 1) {
-			$('.dataTablePrevious').hide();
-			dataTableVisitorLog.param.previous = 0;
-		}
+</tbody>
+</table>
+{/if}
+
+{if count($arrayDataTable) == $javascriptVariablesToSet.filter_limit}
+{* We set a fake large rows count so that 'Next' paginate link is forced to display
+   This is hard coded because the Visitor Log datatable is not fully loaded in memory,
+   but needs to fetch only the N rows in the logs
+   *}
+{php}$this->_tpl_vars['javascriptVariablesToSet']['totalRows'] = 100000; {/php}
+{/if}
+{if $properties.show_footer}
+	{include file="CoreHome/templates/datatable_footer.tpl"}
+{/if}
+
+{include file="CoreHome/templates/datatable_js.tpl"}
+
+<script type="text/javascript" defer="defer">
+$(document).ready(function(){ldelim}
+	var dataTableVisitorLog = dataTables['{$properties.uniqueId}'];
+	dataTableVisitorLog.param.maxIdVisit = {$maxIdVisit};
+	{literal}
+	if(dataTableVisitorLog.param.previous == 1) {
+		$('.dataTablePrevious').hide();
+		dataTableVisitorLog.param.previous = 0;
+	}
 		
-		// Replace duplicated page views by a NX count instead of using too much vertical space
-        $("ol.visitorLog").each(function () {
-                var prevelement;
-                var prevhtml;
-                var counter = 0;
-                $(this).find("li").each(function () {
-                        counter++;
-                        $(this).val(counter);
-                        var current = $(this).html();
-                        if (current == prevhtml) {
-                                var repeat = prevelement.find(".repeat")
-                                if (repeat.length) {
-                                        repeat.html( (parseInt(repeat.html()) + 1) + "x" );
-                                } else {
-                                        prevelement.append($("<em title='{/literal}{'Live_PageRefreshed'|translate|escape:'js'}{literal}' class='repeat'>2x</em>"));
-                                }
-                                $(this).hide();
-                        } else {
-                                prevhtml = current;
-                                prevelement = $(this);
-                        }
-                });
+	// Replace duplicated page views by a NX count instead of using too much vertical space
+    $("ol.visitorLog").each(function () {
+        var prevelement;
+        var prevhtml;
+        var counter = 0;
+        $(this).find("li").each(function () {
+            counter++;
+            $(this).val(counter);
+            var current = $(this).html();
+            if (current == prevhtml) {
+	            var repeat = prevelement.find(".repeat")
+	            if (repeat.length) {
+	                repeat.html( (parseInt(repeat.html()) + 1) + "x" );
+	                } else {
+	                prevelement.append($("<em title='{/literal}{'Live_PageRefreshed'|translate|escape:'js'}{literal}' class='repeat'>2x</em>"));
+	            }
+	            $(this).hide();
+	        } else {
+	            prevhtml = current;
+	            prevelement = $(this);
+	        }
         });
 	});
-	{/literal}
-	</script>
+});
+{/literal}
+</script>
 {/if}
 
 {literal}

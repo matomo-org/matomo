@@ -208,8 +208,7 @@ class Piwik_Live_API
 				$customVariablesPage = array();
 				for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
 				{
-					if(!empty($actionDetail['custom_var_k'.$i])
-						&& !empty($actionDetail['custom_var_v'.$i]))
+					if(!empty($actionDetail['custom_var_k'.$i]))
 					{
 						$cvarKey = $actionDetail['custom_var_k'.$i];
 						$cvarKey = $this->getCustomVariablePrettyKey($cvarKey);

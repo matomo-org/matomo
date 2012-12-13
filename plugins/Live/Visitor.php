@@ -282,8 +282,7 @@ class Piwik_Live_Visitor
 		$customVariables = array();
 		for($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++)
 		{
-			if(!empty($this->details['custom_var_k'.$i])
-				&& !empty($this->details['custom_var_v'.$i]))
+			if(!empty($this->details['custom_var_k'.$i]))
 			{
 				$customVariables[$i] = array(
 					'customVariableName'.$i => $this->details['custom_var_k'.$i],
