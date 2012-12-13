@@ -52,6 +52,22 @@ it might be that your changes are breaking some features unexpectedly.
 	See "Writing Unit tests with PHPUnit" 
 	http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html
 
+ JAVASCRIPT TESTS
+=================
+piwik.js is unit tested and you can run tests via piwik/tests/javascript/
+
+ WEBTESTS
+=========
+We would like to add webtests testing installation, auto update, and initial user login.
+Task is tracked in: http://dev.piwik.org/trac/ticket/2935
+
+ CONTINOUS INTEGRATION
+======================
+We run a Jenkins server for continuous integration. It automatically downloads the latest version of the Piwik code
+from our SVN server and runs a battery of thousands of tests. More information at the links:
+ * Official Piwik Jenkins Server: http://qa.piwik.org:8080/
+ * QA in Piwik: http://piwik.org/qa/
+
  VISUALPHPUNIT
 =================
 Piwik comes with a modified copy of VisualPHPUnit (see https://github.com/NSinopoli/VisualPHPUnit)
@@ -170,23 +186,9 @@ NOTE:
     * XHProf will not delete old profiles, you must do that yourself, though individual
       profiles do not take much space.
 
- JAVASCRIPT TESTS
-=================
-piwik.js is unit tested and you can run tests via piwik/tests/javascript/
-
- WEBTESTS
-=========
-The Installation process and few other important tasks are also "webtested". 
-These webtests are ran by the continuous integration server Jenkins.
-http://dev.piwik.org/svn/trunk/tests/webtest/testcases/
-
- CONTINOUS INTEGRATION
-======================
-We currently use Jenkins as continuous integration build server. More information:
-http://piwik.org/qa/
-
  PARTICIPATE
 ============
 You can help by improving existing tests, or identify some missing tests and implement them.
 See http://piwik.org/participate/development-process
 Please contact us at hello@piwik.org
+
