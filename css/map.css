@@ -30,15 +30,21 @@
 }
 
 #UserCountryMap_map svg .regionBG {
-    stroke: #fff;
-    fill: #fff;
     stroke-width: 6px;
+    stroke: #fff;
+    fill: none;
+}
+#UserCountryMap_map svg .regionBG-fill {
+    stroke: #555;
+    stroke-width: 0.2px;
+    fill: #F6F5F3;
 }
 
-#UserCountryMap_map svg .regionBG-2 {
-    stroke: #555;
-    fill: #555;
-    stroke-width: 5px;
+
+#UserCountryMap_map svg .regionBG-3 {
+    stroke: #ccc;
+    fill: #F2F1ED;
+    stroke-width: 1px;
 }
 
 
@@ -49,7 +55,6 @@
 }
 
 #UserCountryMap_map svg .regions {
-    stroke: #3C6FB6;
     stroke-width: 1px;
 }
 
