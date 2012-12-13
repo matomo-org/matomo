@@ -562,7 +562,7 @@ UserCountryMap.run = function(config) {
                     // apply colors to map
                     map.getLayer('regions').style('fill', function(data) {
                         var code = regionCode(data);
-                        return regionDict[code] === undefined ? false : colscale.getColor(regionDict[code].curMetric);
+                        return regionDict[code] === undefined ? '#fff' : colscale.getColor(regionDict[code].curMetric);
                     }).style('stroke', function(data) {
                         return regionDict[regionCode(data)] === undefined ? false : '#3C6FB6';
                     });
