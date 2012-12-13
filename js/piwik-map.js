@@ -17,7 +17,7 @@ UserCountryMap.run = function(config) {
     window.__userCountryMap = map;
 
     function minmax(values) {
-        values = values.sort();
+        values = values.sort(function(a,b) { return Number(a) - Number(b); });
         return {
             min: values[0],
             max: values[values.length-1],
@@ -81,15 +81,17 @@ UserCountryMap.run = function(config) {
         var stats, values = [], id = UserCountryMap.lastSelected, c;
 
         $.each(rows, function(i, r) {
-            var v = quantify(r, metric);
-            if (!isNaN(v)) values.push(v);
+            if (!$.isFunction(filter) || filter(r)) {
+                var v = quantify(r, metric);
+                if (!isNaN(v)) values.push(v);
+            }
         });
 
         stats = minmax(values);
 
         var colscale = new chroma.ColorScale({
             colors: [choropleth ? '#CDDAEF' : '#385993', '#385993'],
-            limits: chroma.limits(rows, 'e', 7, 'curMetric', filter),
+            limits: chroma.limits(values, 'c', 7),
             mode: 'hcl'
         });
 
