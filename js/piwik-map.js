@@ -564,7 +564,7 @@ UserCountryMap.run = function(config) {
                         var code = regionCode(data);
                         return regionDict[code] === undefined ? '#fff' : colscale.getColor(regionDict[code].curMetric);
                     }).style('stroke', function(data) {
-                        return regionDict[regionCode(data)] === undefined ? false : '#3C6FB6';
+                        return regionDict[regionCode(data)] === undefined ? '#bbb' : '#3C6FB6';
                     });
                     // add tooltips for regions
                     map.getLayer('regions').tooltips(function(data) {
