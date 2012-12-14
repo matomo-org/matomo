@@ -41,7 +41,7 @@ it might be that your changes are breaking some features unexpectedly.
 	$ phpunit
 	This will run all unit + integration tests. It might take 30 minutes to run.
 
-	You can also run tests of speciified "parts" of Piwik.
+	You can also run tests of specified "parts" of Piwik.
 	There are three main groups of tests: Core, Plugins and Integration
 	For example run
 	$ phpunit --group Core
@@ -60,6 +60,34 @@ piwik.js is unit tested and you can run tests via piwik/tests/javascript/
 =========
 We would like to add webtests testing installation, auto update, and initial user login.
 Task is tracked in: http://dev.piwik.org/trac/ticket/2935
+
+ SCHEDULED REPORTS TESTS
+========================
+Piwik scheduled reports (HTML, PDF & SMS) are part of the integration test suite.
+They follow the same principles described in the INTEGRATION TESTS section of this document.
+
+Piwik scheduled reports can contain PNG graphs when the user specifies it.
+Depending on the system under test, generated images differ slightly.
+
+Including all variations in the expected files would not be convenient. Developers would need to run the tests under
+several environments before being able to commit their work.
+Excluding images altogether is not an option as they are an important feature.
+
+Therefore, PNG graphs are only tested if the system under test has the same characteristics as the integration server.
+The characteristics of the integration server are described in IntegrationTestCase::canImagesBeIncludedInScheduledReports()
+
+If your system does not comply to those characteristics, images will not be tested and PHPUnit will display the
+warning message contained in IntegrationTestCase::alertWhenImagesExcludedFromTests().
+
+In this case, the integration test suite might pass on your box but fail on the integration server. This means your
+work altered the expected images. The standard procedure described in the INTEGRATION TESTS section needs to be applied :
+ 1 - find out if the change is expected (*)
+ 2 - a. if the change is expected, the expected files need to be updated (*)
+     b. if the change is not expected, there is a bug needing to be fixed
+
+(*) to analyse and/or generate the expected files, you can either
+	- set up the vagrant piwik vm (which is used by the integration server) or
+	- retrieve the files from the integration server.
 
  CONTINOUS INTEGRATION
 ======================

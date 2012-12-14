@@ -306,8 +306,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected static function setUpScheduledReports($idSite)
 	{
-		$includeImages = self::canImagesBeIncludedInScheduledReports();
-
 		// fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'PDFReports.addReport'
 		$pseudoMockAccess = new FakeAccess;
 		FakeAccess::$superUser = true;
@@ -331,7 +329,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			Piwik_PDFReports::EMAIL_TYPE,
 			Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
 			$availableReportIds,
-			array("displayFormat" => $includeImages ? Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS : Piwik_PDFReports::DISPLAY_FORMAT_TABLES_ONLY)
+			array("displayFormat" => Piwik_PDFReports::DISPLAY_FORMAT_TABLES_ONLY)
 		);
 
 		// set-up sms report for one website
@@ -355,6 +353,20 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			array("MultiSites_getAll"),
 			array("phoneNumbers"=>array())
 		);
+
+		if(self::canImagesBeIncludedInScheduledReports())
+		{
+			// set-up mail report with images
+			Piwik_PDFReports_API::getInstance()->addReport(
+				$idSite,
+				'Mail Test report',
+				'day', // overridden in getApiForTestingScheduledReports()
+				Piwik_PDFReports::EMAIL_TYPE,
+				Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
+				$availableReportIds,
+				array("displayFormat" => Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
+			);
+		}
 	}
 
 	protected function alertWhenImagesExcludedFromTests()
@@ -396,18 +408,15 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	 */
 	protected static function getApiForTestingScheduledReports($dateTime, $period)
 	{
-		//TODO re-enable scheduled reports & static images tests
-		// see http://dev.piwik.org/trac/ticket/3323
-		return array();
+		$apiCalls = array();
 
-		$reportContentPostfix = self::canImagesBeIncludedInScheduledReports() ? '_tables_and_graph' : '_tables_only';
-
-		return array(
-			// HTML Scheduled Report
+		// HTML Scheduled Report
+		array_push(
+			$apiCalls,
 			array(
 				'PDFReports.generateReport',
 				array(
-					'testSuffix' => '_scheduled_report_in_html' . $reportContentPostfix,
+					'testSuffix' => '_scheduled_report_in_html_tables_only',
 					'date' => $dateTime,
 					'periods' => array($period),
 					'format' => 'original',
@@ -418,12 +427,16 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 						'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
 					)
 				)
-			),
-			// PDF Scheduled Report
+			)
+		);
+
+		// PDF Scheduled Report
+		array_push(
+			$apiCalls,
 			array(
 				'PDFReports.generateReport',
 				array(
-					'testSuffix' => '_scheduled_report_in_pdf' . $reportContentPostfix,
+					'testSuffix' => '_scheduled_report_in_pdf_tables_only',
 					'date' => $dateTime,
 					'periods' => array($period),
 					'format' => 'original',
@@ -434,8 +447,12 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 						'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
 					)
 				)
-			),
-			// SMS Scheduled Report, one site
+			)
+		);
+
+		// SMS Scheduled Report, one site
+		array_push(
+			$apiCalls,
 			array(
 				'PDFReports.generateReport',
 				array(
@@ -449,8 +466,12 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 						'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
 					)
 				)
-			),
-			// SMS Scheduled Report, all sites
+			)
+		);
+
+		// SMS Scheduled Report, all sites
+		array_push(
+			$apiCalls,
 			array(
 				'PDFReports.generateReport',
 				array(
@@ -466,6 +487,31 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 				)
 			)
 		);
+
+		if(self::canImagesBeIncludedInScheduledReports())
+		{
+			// HTML Scheduled Report with images
+			array_push(
+				$apiCalls,
+				array(
+					'PDFReports.generateReport',
+					array(
+						'testSuffix' => '_scheduled_report_in_html_tables_and_graph',
+						'date' => $dateTime,
+						'periods' => array($period),
+						'format' => 'original',
+						'fileExtension' => 'html',
+						'otherRequestParameters' => array(
+							'idReport' => 4,
+							'reportFormat' => Piwik_ReportRenderer::HTML_FORMAT,
+							'outputType' => Piwik_PDFReports_API::OUTPUT_RETURN
+						)
+					)
+				)
+			);
+		}
+
+		return $apiCalls;
 	}
 
 	/**
