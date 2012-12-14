@@ -110,7 +110,7 @@ class Archiving
 		
 		$this->logSection("INIT");
 		$this->log("Querying Piwik API at: {$this->piwikUrl}");		
-		$this->log("Running as Super User: " . $this->login);
+		$this->log("Running Piwik ". Piwik_Version::VERSION ." as Super User: " . $this->login);
 		
 		$this->acceptInvalidSSLCertificate = $this->isParameterSet("accept-invalid-ssl-certificate");
 		

@@ -169,6 +169,11 @@ table.dataTable th.label {
 	border-left: 0;
 }
 
+table.dataTableActions th.label {
+    /* Ensures tables have enough space to display subtable on click, and prevent the jumping effect */
+    min-width: 250px;
+}
+
 table.dataTable span.label.highlighted {
 	font-style: italic;
 }
