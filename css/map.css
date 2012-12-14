@@ -82,14 +82,4 @@
     fill: #808888;
 }
 
-#UserCountryMap_map svg .bubble {
-    fill-opacity: 0.7;
-    stroke-width: 1px;
-}
 
-#UserCountryMap_map svg .bubble:hover {
-    stroke: #5170AE!important;
-    fill-opacity: 1!important;
-    stroke-width: 4px!important;
-    stroke-opacity: 0.2;
-}

@@ -43,6 +43,13 @@ UserCountryMap.run = function(config) {
         else $('.tableIcon span').show();
     }
 
+    function formatNumber(v) {
+        v = Number(v);
+        return v > 1000000 ? (v/1000000).toFixed(1) + 'm' :
+            v > 1000 ? (v/1000).toFixed(1) + 'k' :
+            v;
+    }
+
     //
     // Since some metrics are transmitted in an non-numeric format like
     // "61.45%", we need to parse the numbers to make sure they can be
@@ -66,14 +73,6 @@ UserCountryMap.run = function(config) {
                 v += ' ('+formatPercentage(data[metric] / total)+')';
             }
         } else if (metric == 'avg_time_on_site') {
-
-            //var diff = avgTime(data) - avgTime(UserCountryMap.config.visitsSummary),
-            //    neg = diff < 0,
-            //    t;
-            //diff = Math.abs(diff);
-            //t = [Math.floor(diff/3600), Math.floor(diff/60) % 60, diff % 60];
-            // t.map(function(s) { return s < 10 ? "0"+s : ""+s; }).join(':')
-            //v += ' ('+(neg ? '-' : '+')+'' + (t[0] > 0 ? t[0]+'h ' : '') + (t[1] > 0 ? t[1]+'m ' : '')+t[2]+'s)';
             v += '<br/> (over '+data.nb_visits+' visits)';
         }
         return v;
@@ -110,21 +109,24 @@ UserCountryMap.run = function(config) {
         }
 
         // a good place to update the legend, isn't it?
-        $('.UserCountryMap-legend .content').html('');
-        function b(val) {
-            var d = $('<div>'), r = $('<div>'), l = $('<div>'), v = val;
-            v = v > 1000000 ? (v/1000000).toFixed(1) + 'm' :
-                v > 1000 ? (v/1000).toFixed(1) + 'k' :
-                v;
-            d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
-            l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
-            r.css({ clear: 'both', height: 19 });
-            r.append(d).append(l);
-            $('.UserCountryMap-legend .content').append(r);
+        $('.UserCountryMap-legend .content').html('').hide();
+        if (choropleth) {
+            var b = function(val) {
+                var d = $('<div>'), r = $('<div>'), l = $('<div>'), v = formatNumber(val);
+                d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
+                l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
+                r.css({ clear: 'both', height: 19 });
+                r.append(d).append(l);
+                $('.UserCountryMap-legend .content').append(r);
+            };
+            $.each(chroma.limits(values, 'k', 3), function(i, v) {
+                b(v);
+            });
+            $('.UserCountryMap-legend .content').show();
+
+        } else {
+
         }
-        $.each(chroma.limits(values, 'k', 3), function(i, v) {
-            b(v);
-        });
         // b(stats.min);
         // b(stats.p33);
         // //b(stats.median);
@@ -141,14 +143,6 @@ UserCountryMap.run = function(config) {
     function formatPercentage(val) {
         if (val < 0.001) return '< 0.1%';
         return Math.round(1000 * val)/10 + '%';
-    }
-
-    function formatNumber(val) {
-        if (val > 5000) {
-            return (Math.round(val / 100) / 10) +'k';
-        } else {
-            return val;
-        }
     }
 
     /*
@@ -560,7 +554,7 @@ UserCountryMap.run = function(config) {
                     colscale = getColorScale(regionDict, 'curMetric', null, true);
 
                     // apply colors to map
-                    map.getLayer('regions').style('fill', function(data) {
+                    map.getLayer('regions').style('fill', function(data, path) {
                         var code = regionCode(data);
                         return regionDict[code] === undefined ? '#fff' : colscale.getColor(regionDict[code].curMetric);
                     }).style('stroke', function(data) {
@@ -645,12 +639,20 @@ UserCountryMap.run = function(config) {
                     var is_rate = metric.substr(0,3) != 'nb_' || metric == 'nb_actions_per_visit';
 
                     map.addSymbols({
-                        type: $K.Bubble,
+                        type: $K.LabeledBubble,
                         data: cities,
                         clustering: 'noverlap',
                         clusteringOpts: {
                             size: 128,
                             tolerance: 0
+                        },
+                        title: function(d) {
+                            return radscale(d.curMetric) > 10 ? formatNumber(d.curMetric) : '';
+                        },
+                        labelattrs: {
+                            fill: '#fff',
+                            'font-size': 11,
+                            stroke: false
                         },
                         filter: function(d) {
                             return is_rate ? d.nb_visits > 5 && d.curMetric : d.curMetric;
@@ -668,17 +670,34 @@ UserCountryMap.run = function(config) {
                         sortBy: 'radius desc',
                         location: function(city) { return [city.long, city.lat]; },
                         radius: function(city) { return radscale(city.curMetric); },
-                        style: function(city) {
-                            var col = colscale.getColor(city.curMetric);
-                            return 'fill:'+col+'; fill-opacity: 0.7; stroke: #fff;';
-                        },
                         tooltip: function(city) {
                             return '<h3>'+city.city_name+'</h3>'+
                                 formatValueForTooltips(city, metric, iso);
                         },
-                        click: function(d, e) {
-
-                        }
+                        attrs: function(city) {
+                            return {
+                                fill: colscale.getColor(city.curMetric),
+                                'fill-opacity': 0.7,
+                                stroke: '#fff'
+                            };
+                        },
+                        mouseenter: function(city, symbol) {
+                            symbol.path.attr({
+                                'fill-opacity': 1,
+                                'stroke': '#000000',
+                                'stroke-opacity': 1,
+                                'stroke-width': 2
+                            });
+                        },
+                        mouseleave: function(city, symbol) {
+                            symbol.path.attr({
+                                'fill-opacity': 0.7,
+                                'stroke-opacity': 1,
+                                'stroke-width': 1,
+                                'stroke': '#ffffff'
+                            });
+                        },
+                        click: function() {}
                     });
                 }
             });
