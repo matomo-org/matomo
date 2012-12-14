@@ -71,7 +71,7 @@ UserCountryMap.run = function(config) {
             else {
                 total = 0;
                 $.each(UserCountryMap.countriesByIso, function(iso, country) {
-                    if (UserCountryMap.ISO3toCONT[iso] == target) {
+                    if (UserCountryMap.ISO3toCONT[iso] == id) {
                         total += country[metric];
                     }
                 });
