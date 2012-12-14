@@ -372,9 +372,15 @@ UserCountryMap.run = function(config) {
 
             // add a layer for non-selectable countries = for which no data is
             // defined in the current report
-            map.addLayer('countries', { name: 'context', filter: function(pd) {
-                return UserCountryMap.countriesByIso[pd.iso] === undefined;
-            }});
+            map.addLayer('countries', {
+                name: 'context',
+                filter: function(pd) {
+                    return UserCountryMap.countriesByIso[pd.iso] === undefined;
+                },
+                tooltips: function(pd) {
+                    return '<h3>'+pd.name+'</h3>No Visits';
+                }
+            });
 
             // add a layer for selectable countries = for which we have data
             // available in the current report
