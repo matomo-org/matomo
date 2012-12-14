@@ -109,7 +109,6 @@ UserCountryMap.run = function(config) {
         }
 
         // a good place to update the legend, isn't it?
-        $('.UserCountryMap-legend .content').html('').hide();
         if (choropleth) {
             var b = function(val) {
                 var d = $('<div>'), r = $('<div>'), l = $('<div>'), v = formatNumber(val);
@@ -125,13 +124,9 @@ UserCountryMap.run = function(config) {
             $('.UserCountryMap-legend .content').show();
 
         } else {
-
+            $('.UserCountryMap-legend .content').html('').hide();
         }
-        // b(stats.min);
-        // b(stats.p33);
-        // //b(stats.median);
-        // b(stats.p66);
-        // b(stats.max);
+
         return colscale;
     }
 
