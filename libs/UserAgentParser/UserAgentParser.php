@@ -325,7 +325,7 @@ class UserAgentParser
 	// made here should also be made in that file.
 	static protected $osType = array(
 			'Windows' => array('WI8', 'WI7', 'WVI', 'WS3', 'WXP', 'W2K', 'WNT', 'WME', 'W98', 'W95'),
-			'Linux' => array('LIN', 'COS'),
+			'Linux' => array('LIN'),
 			'Mac' => array('MAC'),
 			'iOS' => array('IPD', 'IPA', 'IPH'),
 			'Android' => array('AND'),
