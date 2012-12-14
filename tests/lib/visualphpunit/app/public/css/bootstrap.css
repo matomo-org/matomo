@@ -5046,5 +5046,12 @@ label.checkbox {
   margin-right: 5px;
 }
 
-.test-diff {
+.test-diff ins {
+  background-color:chartreuse;
+  color:black;
+}
+
+.test-diff del {
+  background-color:firebrick;
+  color:white;
 }
