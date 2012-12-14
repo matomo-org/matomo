@@ -115,7 +115,7 @@ class Archiving
 		$this->acceptInvalidSSLCertificate = $this->isParameterSet("accept-invalid-ssl-certificate");
 		
 		// Test the specified piwik URL is valid
-		$response = $this->request("?module=API&method=API.getDefaultMetricTranslations&format=php");
+		$response = $this->request("?module=API&method=API.getDefaultMetricTranslations&format=original&serialize=1");
 		$responseUnserialized = @unserialize($response);
 		if($response === false
 			|| !is_array($responseUnserialized))
