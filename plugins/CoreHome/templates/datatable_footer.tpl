@@ -59,8 +59,7 @@
 				</span>
            </div>
            
-           {/if}			
-           
+           {/if}
 			<div class="tableIconsGroup">
 				<span class="exportToFormatIcons"><a class="tableIcon" var="export"><img width="16" height="16" src="themes/default/images/export.png" title="{'General_ExportThisReport'|translate}" /></a></span>
 				<span class="exportToFormatItems" style="display:none"> 
@@ -95,6 +94,12 @@
 				{/if}
 			</ul>
 		</div>
+		{if !$properties.hide_annotations_view}
+		<div class="annotationView">
+			<a class="tableIcon"><img width="16" height="16" src="themes/default/images/grey_marker.png" title="{'CoreHome_Annotations_IconDesc_js'|translate}"/></a>
+			<span>{'Annotations_Annotations'|translate}</span>
+		</div>
+		{/if}
 	</div>
 {/if}
 
@@ -115,5 +120,7 @@
 {/if}
 
 </div>
+
+<span class="loadingPiwikBelow" style='display:none'><img src="themes/default/images/loading-blue.gif" /> {'General_LoadingData'|translate}</span>
 
 <div class="dataTableSpacer"></div>

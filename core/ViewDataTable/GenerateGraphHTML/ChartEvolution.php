@@ -55,6 +55,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 		$this->disableShowAllViewsIcons();
 		$this->disableShowTable();
 		$this->disableShowAllColumns();
+		$this->showAnnotationsView();
 	}
 	
 	/**

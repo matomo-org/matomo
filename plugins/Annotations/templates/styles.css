@@ -1,0 +1,194 @@
+.evolution-annotations {
+	position: relative;
+	height: 16px;
+	width: 100%;
+	margin-top: 12px;
+	margin-bottom: -28px;
+	cursor: pointer;
+}
+
+.evolution-annotations > span {
+	position: absolute;
+}
+
+.annotation-manager {
+	text-align: left;
+	margin-top: -18px;
+}
+
+.annotations-header {
+	display: inline-block;
+	width: 128px;
+	text-align: right;
+	font-size: 12px;
+	font-style: italic;
+	margin-bottom: 8px;
+	vertical-align: top;
+	color: #666;
+}
+
+.annotation-controls {
+	display:inline-block;
+	margin-left: 132px;
+}
+
+.annotation-controls>a {
+	font-size: 11px;
+	font-style: italic;
+	color: #666;
+	cursor:pointer;
+	padding:3px 0 6px 0;
+	display:inline-block;
+}
+
+.annotation-controls>a:hover {
+	text-decoration:none;
+}
+
+.annotation-list {
+	margin-left: 8px;
+}
+
+.annotation-list table {
+	width: 100%;
+}
+
+.annotation-list-range {
+	display: inline-block;
+	font-size: 12px;
+	font-style: italic;
+	color: #666;
+	vertical-align: top;
+	margin: 0 0 8px 8px;
+}
+
+.empty-annotation-list,.annotation-list .loadingPiwik {
+	display: block;
+	
+	font-style: italic;
+	color: #666;
+	margin: 0 0 12px 140px;
+}
+
+.annotation-meta {
+	width: 128px;
+	text-align: right;
+	vertical-align: top;
+	font-size:14px;
+}
+
+.annotation-user {
+	font-style: italic;
+	font-size: 11px;
+	color:#444;
+}
+
+.annotation-user-cell {
+	vertical-align: top;
+	width: 92px;
+}
+
+.annotation-period {
+	display:inline-block;
+	font-style: italic;
+	margin: 0 8px 8px 8px;
+	vertical-align: top;
+}
+
+.annotation-value {
+	margin: 0 12px 12px 8px;
+	vertical-align: top;
+	position: relative;
+	font-size:14px;
+}
+
+.annotation-enter-edit-mode {
+	cursor: pointer;
+}
+
+.annotation-edit,.new-annotation-edit {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width:98%;
+}
+
+.annotation-star {
+	display: inline-block;
+	margin: 0 8px 8px 0;
+	width: 16px;
+}
+
+.annotation-star-changeable {
+	cursor: pointer;
+}
+
+.delete-annotation {
+	font-size:12px;
+	font-style: italic;
+	color: red;
+	text-decoration: none;
+	display: inline-block;
+}
+
+.delete-annotation:hover {
+	text-decoration: underline;
+}
+
+.annotation-manager .submit {
+	float:none;
+}
+
+.edit-annotation {
+	font-size:10px;
+	color:#666;
+	font-style:italic;
+}
+.edit-annotation:hover {
+	text-decoration:none;
+}
+
+.annotationView {
+	float: right;
+    margin-left: 5px;
+    position: relative;
+    cursor:pointer;
+}
+
+.annotationView > span {
+	font-style: italic;
+	display: inline-block;
+	margin: 4px 4px 0 4px;
+}
+
+.annotation-period-edit {
+	display:inline-block;
+	background:white;
+	color:#444;
+	font-size:12px; 
+	border: 1px solid #e4e5e4;
+	padding:5px 5px 6px 3px;
+	border-radius:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+}
+.annotation-period-edit:hover {
+	background:#f1f0eb;
+	border-color:#a9a399;
+}
+.annotation-period-edit>a {
+	text-decoration:none;
+	cursor:pointer;
+	display:block;
+}
+.annotation-period-edit>.datepicker {
+	position:absolute;
+	margin-top:6px;
+	margin-left:-5px;
+	z-index:15;
+	background:white;
+	border: 1px solid #e4e5e4;
+	border-radius:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+}

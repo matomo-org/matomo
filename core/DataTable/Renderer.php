@@ -130,10 +130,11 @@ abstract class Piwik_DataTable_Renderer
 	 */
 	public function setTable($table)
 	{
-		if(!($table instanceof Piwik_DataTable)
+		if (!is_array($table)
+			&& !($table instanceof Piwik_DataTable)
 			&& !($table instanceof Piwik_DataTable_Array))
 		{
-			throw new Exception("The renderer accepts only a Piwik_DataTable or an array of DataTable (Piwik_DataTable_Array) object.");
+			throw new Exception("DataTable renderers renderer accepts only Piwik_DataTable and Piwik_DataTable_Array instances, and array instances.");
 		}
 		$this->table = $table;
 	}
@@ -355,4 +356,69 @@ abstract class Piwik_DataTable_Renderer
 		$this->idSite = $idSite;
 	}
 	
+	/**
+	 * Returns true if an array should be wrapped before rendering. This is used to
+	 * mimic quirks in the old rendering logic (for backwards compatibility). The
+	 * specific meaning of 'wrap' is left up to the Renderer. For XML, this means a
+	 * new <row> node. For JSON, this means wrapping in an array.
+	 * 
+	 * In the old code, arrays were added to new DataTable instances, and then rendered.
+	 * This transformation wrapped associative arrays except under certain circumstances,
+	 * including:
+	 *  - single element (ie, array('nb_visits' => 0))
+	 *  - empty array (ie, array())
+	 *  - array w/ arrays/DataTable instances as values (ie,
+	 *			array('name' => 'myreport',
+	 *				  'reportData' => new Piwik_DataTable())
+	 * 		OR  array('name' => 'myreport',
+	 *				  'reportData' => array(...)) )
+	 * 
+	 * @param array $array
+	 * @param bool|null $isAssociativeArray Whether the array is associative or not.
+	 *                                      If null, it is determined.
+	 * @return bool
+	 */
+	protected static function shouldWrapArrayBeforeRendering( $array, $isAssociativeArray = null )
+	{
+		if (empty($array))
+		{
+			return false;
+		}
+		
+		if ($isAssociativeArray === null)
+		{
+			$isAssociativeArray = Piwik::isAssociativeArray($array);
+		}
+		
+		$wrap = true;
+		if ($isAssociativeArray)
+		{
+			// we don't wrap if the array has one element that is a value
+			$firstValue = reset($array);
+			if (count($array) === 1
+				&& (!is_array($firstValue)
+					&& !is_object($firstValue)))
+			{
+				$wrap = false;
+			}
+			else
+			{
+				foreach ($array as $value)
+				{
+					if (is_array($value)
+						|| is_object($value))
+					{
+						$wrap = false;
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			$wrap = false;
+		}
+		
+		return $wrap;
+	}
 }

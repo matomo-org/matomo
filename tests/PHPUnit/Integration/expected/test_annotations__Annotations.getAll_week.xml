@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row key="1">
+		<row>
+			<date>2011-12-01</date>
+			<note>0: Site 1 annotation for 2011-12-01</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>0</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-02</date>
+			<note>1: Site 1 annotation for 2011-12-02</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>1</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+	</row>
+</result>

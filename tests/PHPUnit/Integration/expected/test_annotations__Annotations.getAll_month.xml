@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row key="1">
+		<row>
+			<date>2011-12-01</date>
+			<note>0: Site 1 annotation for 2011-12-01</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>0</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-02</date>
+			<note>1: Site 1 annotation for 2011-12-02</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>1</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-08</date>
+			<note>2: Site 1 annotation for 2011-12-08</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>2</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-09</date>
+			<note>3: Site 1 annotation for 2011-12-09</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>3</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-15</date>
+			<note>4: Site 1 annotation for 2011-12-15</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>4</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-16</date>
+			<note>5: Site 1 annotation for 2011-12-16</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>5</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-22</date>
+			<note>6: Site 1 annotation for 2011-12-22</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>6</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-23</date>
+			<note>7: Site 1 annotation for 2011-12-23</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>7</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-29</date>
+			<note>8: Site 1 annotation for 2011-12-29</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>8</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2011-12-30</date>
+			<note>9: Site 1 annotation for 2011-12-30</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>9</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+	</row>
+</result>

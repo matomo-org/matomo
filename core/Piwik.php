@@ -2667,4 +2667,44 @@ class Piwik
 		$oType = is_object($o) ? get_class($o) : gettype($o);
 		throw new Exception("Invalid variable type '$oType', expected one of following: ".implode(', ', $types));
 	}
+	
+	/**
+	 * Returns true if an array is an associative array, false if otherwise.
+	 * 
+	 * This method determines if an array is associative by checking that the
+	 * first element's key is 0, and that each successive element's key is
+	 * one greater than the last.
+	 * 
+	 * @param array $array
+	 * @return bool
+	 */
+	static public function isAssociativeArray( $array )
+	{
+		reset($array);
+		if (!is_numeric(key($array))
+			|| key($array) != 0) // first key must be 0
+		{
+			return true;
+		}
+		
+		// check that each key is == next key - 1 w/o actually indexing the array
+		while (true)
+		{
+			$current = key($array);
+			
+			next($array);
+			$next = key($array);
+			
+			if ($next === null)
+			{
+				break;
+			}
+			else if ($current + 1 != $next)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

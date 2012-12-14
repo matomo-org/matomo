@@ -126,7 +126,7 @@ class Piwik_FrontController
 //		Piwik::log("Dispatching $module / $action, parameters: ".var_export($parameters, $return = true));
 		if( !is_callable(array($controller, $action)))
 		{
-			throw new Exception("Action $action not found in the controller $controllerClassName.");				
+			throw new Exception("Action '$action' not found in the controller '$controllerClassName'.");				
 		}
 		
 		// Generic hook that plugins can use to modify any input to the function, 

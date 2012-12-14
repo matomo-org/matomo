@@ -121,11 +121,9 @@ function isDateInCurrentPeriod( date )
 	return [true, ''];
 }
 
-var updateDate;
-function getDatePickerOptions()
+piwik.getBaseDatePickerOptions = function(defaultDate)
 {
 	return {
-		onSelect: function () { updateDate.apply(this, arguments); },
 		showOtherMonths: false,
 		dateFormat: 'yy-mm-dd',
 		firstDay: 1,
@@ -134,11 +132,10 @@ function getDatePickerOptions()
 		prevText: "",
 		nextText: "",
 		currentText: "",
-		beforeShowDay: isDateInCurrentPeriod,
-		defaultDate: currentDate,
+		defaultDate: defaultDate,
 		changeMonth: true,
 		changeYear: true,
-		stepMonths: selectedPeriod == 'year' ? 12 : 1,
+		stepMonths: 1,
 		// jquery-ui-i18n 1.7.2 lacks some translations, so we use our own
 		dayNamesMin: [
 			_pk_translate('CoreHome_DaySu_js'),
@@ -190,7 +187,17 @@ function getDatePickerOptions()
 			_pk_translate('CoreHome_MonthOctober_js'),
 			_pk_translate('CoreHome_MonthNovember_js'),
 			_pk_translate('CoreHome_MonthDecember_js')]
-	}
+	};
+};
+
+var updateDate;
+function getDatePickerOptions()
+{
+	var result = piwik.getBaseDatePickerOptions(currentDate);
+	result.beforeShowDay = isDateInCurrentPeriod;
+	result.stepMonths = selectedPeriod == 'year' ? 12 : 1;
+	result.onSelect = function () { updateDate.apply(this, arguments); };
+	return result;
 };
 
 $(document).ready(function() {

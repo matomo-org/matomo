@@ -227,6 +227,8 @@ dataTable.prototype =
 		self.handleLimit(domElem);
 		self.handleSearchBox(domElem);
 		self.handleOffsetInformation(domElem);
+		self.handleAnnotationsButton(domElem);
+		self.handleEvolutionAnnotations(domElem);
 		self.handleExportBox(domElem);
 		self.applyCosmetics(domElem);
 		self.handleSubDataTable(domElem);
@@ -535,7 +537,156 @@ dataTable.prototype =
 				}
 			);
 	},
-
+	
+	handleEvolutionAnnotations: function(domElem)
+	{
+		var self = this;
+		if (self.param.viewDataTable == 'graphEvolution'
+			&& $('.annotationView', domElem).length > 0)
+		{
+			// get dates w/ annotations across evolution period (have to do it through AJAX since we
+			// determine placement using the elements created by jqplot)
+			piwik.annotations.api.getEvolutionIcons(
+				self.param.idSite,
+				self.param.date,
+				self.param.period,
+				self.param['evolution_' + self.param.period + '_last_n'],
+				function (response)
+				{
+					var canvases = $('.piwik-graph .jqplot-xaxis canvas', domElem),
+						datatableFeatures = $('.dataTableFeatures', domElem),
+						noteSize = 16,
+						annotationAxisHeight = 30 // css height + padding + margin
+						;
+				
+					// set position of evolution annotation icons
+					var annotations = $(response).css({
+						top: -datatableFeatures.height() - annotationAxisHeight + noteSize / 2,
+						left: 6 // padding-left of .jqplot-evolution element (in graph.tpl)
+					});
+				
+					// set position of each individual icon
+					$('span', annotations).each(function(i) {
+						var canvas = $(canvases[i]),
+							canvasCenterX = canvas.position().left + (canvas.width() / 2);
+						$(this).css({
+							left: canvasCenterX - noteSize / 2,
+							// show if there are annotations for this x-axis tick
+							opacity: +$(this).attr('data-count') > 0 ? 1 : 0
+						});
+					});
+				
+					// add new section under axis
+					datatableFeatures.append(annotations);
+				
+					// on hover of x-axis, show note icon over correct part of x-axis
+					$('span', annotations).hover(
+						function() { $(this).css('opacity', 1); },
+						function() {
+							if ($(this).attr('data-count') == 0) // only hide if there are no annotations for this note
+							{
+								$(this).css('opacity', 0);
+							}
+						}
+					);
+				
+					// when clicking an annotation, show the annotation viewer for that day
+					$('span', annotations).click(function() {
+						var spanSelf = $(this),
+							date = spanSelf.attr('data-date'),
+							oldDate = $('.annotation-manager', domElem).attr('data-date');
+						if (date)
+						{
+							piwik.annotations.showAnnotationViewer(
+								domElem,
+								self.param.idSite,
+								date,
+								self.param.period,
+								undefined, // lastN
+								function (manager) {
+									manager.attr('data-is-range', 0);
+									$('.annotationView img', domElem)
+										.attr('title', _pk_translate('CoreHome_Annotations_IconDesc_js'));
+									
+									var viewAndAdd = _pk_translate('CoreHome_Annotations_ViewAndAddAnnotations_js'),
+										hideNotes = _pk_translate('CoreHome_Annotations_HideAnnotationsFor_js');
+									
+									// change the tooltip of the previously clicked evolution icon (if any)
+									if (oldDate)
+									{
+										$('span', annotations).each(function() {
+											if ($(this).attr('data-date') == oldDate)
+											{
+												$(this).attr('title', viewAndAdd.replace("%s", oldDate));
+												return false;
+											}
+										});
+									}
+									
+									// change the tooltip of the clicked evolution icon
+									if (manager.is(':hidden'))
+									{
+										spanSelf.attr('title', viewAndAdd.replace("%s", date));
+									}
+									else
+									{
+										spanSelf.attr('title', hideNotes.replace("%s", date));
+									}
+								}
+							);
+						}
+					});
+				}
+			);
+		}
+	},
+	
+	handleAnnotationsButton: function(domElem)
+	{
+		var self = this;
+		if (self.param.idSubtable) // no annotations for subtables, just whole reports
+		{
+			return;
+		}
+		
+		// show the annotations view on click
+		$('.annotationView', domElem).click(function() {
+			var annotationManager = $('.annotation-manager', domElem);
+			
+			if (annotationManager.length > 0
+				&& annotationManager.attr('data-is-range') == 1)
+			{
+				if (annotationManager.is(':hidden'))
+				{
+					annotationManager.slideDown('slow'); // showing
+					$('img', this).attr('title', _pk_translate('CoreHome_Annotations_IconDescHideNotes_js'));
+				}
+				else
+				{
+					annotationManager.slideUp('slow'); // hiding
+					$('img', this).attr('title', _pk_translate('CoreHome_Annotations_IconDesc_js'));
+				}
+			}
+			else
+			{
+				// show the annotation viewer for the whole date range
+				var lastN = self.param['evolution_' + self.param.period + '_last_n'];
+				piwik.annotations.showAnnotationViewer(
+					domElem,
+					self.param.idSite,
+					self.param.date,
+					self.param.period,
+					lastN,
+					function(manager) {
+						manager.attr('data-is-range', 1);
+					}
+				);
+				
+				// change the tooltip of the view annotation icon
+				$('img', this).attr('title', _pk_translate('CoreHome_Annotations_IconDescHideNotes_js'));
+			}
+		});
+	},
 	
 	// DataTable view box (simple table, all columns table, Goals table, pie graph, tag cloud, graph, ...)
 	handleExportBox: function(domElem)
@@ -1472,6 +1623,7 @@ actionDataTable.prototype =
 	reloadAjaxDataTable: dataTable.prototype.reloadAjaxDataTable,
 	handleConfigurationBox: dataTable.prototype.handleConfigurationBox,
 	handleSearchBox: dataTable.prototype.handleSearchBox,
+	handleAnnotationsButton: dataTable.prototype.handleAnnotationsButton,
 	handleExportBox: dataTable.prototype.handleExportBox,
 	handleSort: dataTable.prototype.handleSort,
 	handleColumnDocumentation: dataTable.prototype.handleColumnDocumentation,
@@ -1526,6 +1678,7 @@ actionDataTable.prototype =
 		self.applyCosmetics(domElem);
 		self.handleRowActions(domElem);
 		self.handleLimit(domElem);
+		self.handleAnnotationsButton(domElem);
 		self.handleExportBox(domElem);
 		self.handleSort(domElem);
 		self.handleOffsetInformation(domElem);

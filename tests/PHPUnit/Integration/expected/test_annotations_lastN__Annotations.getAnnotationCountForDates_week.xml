@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row key="1">
+		<row>
+			<row>2012-01-23</row>
+			<row>
+				<count>2</count>
+				<starred>0</starred>
+			</row>
+		</row>
+		<row>
+			<row>2012-01-30</row>
+			<row>
+				<count>2</count>
+				<starred>1</starred>
+			</row>
+		</row>
+		<row>
+			<row>2012-02-06</row>
+			<row>
+				<count>2</count>
+				<starred>1</starred>
+			</row>
+		</row>
+		<row>
+			<row>2012-02-13</row>
+			<row>
+				<count>2</count>
+				<starred>0</starred>
+			</row>
+		</row>
+		<row>
+			<row>2012-02-20</row>
+			<row>
+				<count>2</count>
+				<starred>1</starred>
+			</row>
+		</row>
+		<row>
+			<row>2012-02-27</row>
+			<row>
+				<count>0</count>
+				<starred>0</starred>
+			</row>
+		</row>
+	</row>
+</result>

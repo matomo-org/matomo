@@ -292,6 +292,7 @@ abstract class Piwik_ViewDataTable
 		$this->viewProperties['show_table_all_columns'] = Piwik_Common::getRequestVar('show_table_all_columns', true);
 		$this->viewProperties['show_all_views_icons'] = Piwik_Common::getRequestVar('show_all_views_icons', true);
 		$this->viewProperties['hide_all_views_icons'] = Piwik_Common::getRequestVar('hide_all_views_icons', false);
+		$this->viewProperties['hide_annotations_view'] = Piwik_Common::getRequestVar('hide_annotations_view', true);
 		$this->viewProperties['show_bar_chart'] = Piwik_Common::getRequestVar('show_barchart', true);
 		$this->viewProperties['show_pie_chart'] = Piwik_Common::getRequestVar('show_piechart', true);
 		$this->viewProperties['show_tag_cloud'] = Piwik_Common::getRequestVar('show_tag_cloud', true);
@@ -956,6 +957,20 @@ abstract class Piwik_ViewDataTable
 	{
 		$this->viewProperties['show_all_views_icons'] = false;
 		$this->viewProperties['hide_all_views_icons'] = true;
+	}
+	
+	/**
+	 * Whether or not to show the annotations view. This method has no effect if
+	 * the Annotations plugin is not loaded.
+	 */
+	public function showAnnotationsView()
+	{
+		if (!Piwik_PluginsManager::getInstance()->isPluginLoaded('Annotations'))
+		{
+			return;
+		}
+		
+		$this->viewProperties['hide_annotations_view'] = false;
 	}
 	
 	/**

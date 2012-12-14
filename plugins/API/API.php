@@ -634,7 +634,7 @@ class Piwik_API_API
 			}
 		}
 		
-		return $availableReports;
+		return array_values($availableReports); // make sure array has contiguous key values
 	}
 	
 	

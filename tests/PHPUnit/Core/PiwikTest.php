@@ -204,4 +204,29 @@ class PiwikTest extends DatabaseTestCase
 			Piwik::getPrettyValue($idsite, $columnName, $value, false, false)
 		);
     }
+	
+	/**
+	 * Data provider for testIsAssociativeArray.
+	 */
+	public function getIsAssociativeArrayTestCases()
+	{
+		return array(
+			array(array(0 => 'a', 1 => 'b', 2 => 'c', 3 => 'd', 4 => 'e', 5 => 'f'), false),
+			array(array(-1 => 'a', 0 => 'a', 1 => 'a', 2 => 'a', 3 => 'a'), true),
+			array(array(4 => 'a', 5 => 'a', 6 => 'a', 7 => 'a', 8 => 'a'), true),
+			array(array(0 => 'a', 2 => 'a', 3 => 'a', 4 => 'a', 5 => 'a'), true),
+			array(array('abc' => 'a', 0 => 'b', 'sdfds' => 'd'), true),
+			array(array('abc' => 'def'), true)
+		);
+	}
+	
+	/**
+     * @group Core
+     * @group Piwik
+     * @dataProvider getIsAssociativeArrayTestCases
+	 */
+	public function testIsAssociativeArray( $array, $expected )
+	{
+		$this->assertEquals($expected, Piwik::isAssociativeArray($array));
+	}
 }

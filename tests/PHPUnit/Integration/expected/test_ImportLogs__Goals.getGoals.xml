@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<row>
+	<row key="1">
 		<idsite>1</idsite>
 		<idgoal>1</idgoal>
 		<name>all</name>

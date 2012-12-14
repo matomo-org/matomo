@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<row>
+	<row key="1">
 		<idsite>1</idsite>
 		<idgoal>1</idgoal>
 		<name>triggered js</name>
@@ -9,7 +9,7 @@
 		<revenue>0</revenue>
 		<deleted>0</deleted>
 	</row>
-	<row>
+	<row key="2">
 		<idsite>1</idsite>
 		<idgoal>2</idgoal>
 		<name>matching purchase.htm</name>

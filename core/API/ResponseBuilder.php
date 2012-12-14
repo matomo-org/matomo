@@ -159,7 +159,7 @@ class Piwik_API_ResponseBuilder
 	/**
 	 * Apply the specified renderer to the DataTable
 	 * 
-	 * @param Piwik_DataTable  $dataTable
+	 * @param Piwik_DataTable|array  $dataTable
 	 * @return string
 	 */
 	protected function getRenderedDataTable($dataTable)
@@ -350,9 +350,7 @@ class Piwik_API_ResponseBuilder
 			return $multiDimensional;
 		}
 		
-		$dataTable = new Piwik_DataTable();
-		$dataTable->addRowsFromSimpleArray($array);
-		return $this->getRenderedDataTable($dataTable);
+		return $this->getRenderedDataTable($array);
 	}
 
 	/**
@@ -402,13 +400,7 @@ class Piwik_API_ResponseBuilder
 								return $array;
 								
 							case 'xml':
-								@header("Content-Type: text/xml;charset=utf-8");
-								$xml = 
-									"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" .
-									"<result>\n".
-											self::convertMultiDimensionalArrayToXml($array).
-									"\n</result>";
-								return $xml;
+								return $this->getRenderedDataTable($array);
 							default:
 							break;
 						}
@@ -417,82 +409,6 @@ class Piwik_API_ResponseBuilder
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Render a multidimensional array to XML
-	 *
-	 * @param array  $array  can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
-	 * @param int    $level
-	 * @return string
-	 */
-	public static function convertMultiDimensionalArrayToXml($array, $level = 0)
-	{ 
-		$xml=""; 
-		foreach ($array as $key=>$value)
-		{
-			if(is_numeric($key))
-			{
-				$key = "row";
-			}
-
-			$key = str_replace(' ', '_', $key);
-			$marginLeft = str_repeat("\t", $level + 1);
-
-			switch(true)
-			{
-				// Case dimension is a PHP array
-				case (is_array($value)):
-
-					if(empty($value))
-					{
-						$xml .= $marginLeft . "<$key/>\n";
-					}
-					else
-					{
-						$xml.=	$marginLeft .
-							"<$key>\n".
-								self::convertMultiDimensionalArrayToXml($value, $level + 1).
-								"\n". $marginLeft .
-							"</$key>\n";
-					}
-					break;
-
-				// Case dimension is a Piwik_DataTable_Array or a Piwik_DataTable
-				case ($value instanceof Piwik_DataTable_Array || $value instanceof Piwik_DataTable):
-
-					if($value->getRowsCount() == 0)
-					{
-						$xml .= $marginLeft . "<$key/>\n";
-					}
-					else
-					{
-						$XMLRenderer = new Piwik_DataTable_Renderer_Xml();
-						$XMLRenderer->setTable($value);
-						$renderedReport = $XMLRenderer->render();
-
-						$renderedReport = preg_replace("/<\?xml.*\?>\n/", "", $renderedReport);
-						$markupToRemove = $value instanceof Piwik_DataTable_Array ? "results" : "result";
-						$renderedReport = preg_replace("/\n?<\/?". $markupToRemove .">\n?/", "", $renderedReport);
-
-						// Add one level of margin to each line
-						$renderedReport = $marginLeft . preg_replace("/\n/", "\n" . $marginLeft, $renderedReport);
-
-						$xml.=	$marginLeft . "<$key>\n";
-						$xml.=	$renderedReport;
-						$xml.=	"\n" . $marginLeft . "</$key>\n";
-					}
-
-					break;
-
-				// Case scalar
-				default:
-
-					$xml.= $marginLeft . "<$key>".Piwik_DataTable_Renderer::formatValueXml($value)."</$key>\n";
-					break;
-			}
-		} 
-		return $xml; 
 	}
 
 	/**
@@ -513,9 +429,7 @@ class Piwik_API_ResponseBuilder
 	 */
 	public static function convertMultiDimensionalArrayToJson($array)
 	{
-		// Naive but works for our current use cases
-		$arrayKeys = array_keys($array);
-		$isAssociative = !is_numeric($arrayKeys[0]);
+		$isAssociative = Piwik::isAssociativeArray($array);
 
 		if($isAssociative)
 		{

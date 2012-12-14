@@ -60,6 +60,11 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	 */
 	protected function getArrayFromDataTable($table)
 	{
+		if (is_array($table))
+		{
+			return $table;
+		}
+		
 		$renderer = new Piwik_DataTable_Renderer_Php();
 		$renderer->setRenderSubTables($this->isRenderSubtables());
 		$renderer->setSerialize(false);
@@ -137,7 +142,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			return $out;
 		}
 		
-		if($table instanceof Piwik_DataTable)
+		if ($table instanceof Piwik_DataTable)
 		{
 			$out = $this->renderDataTable($array);
 			if($returnOnlyDataTableXml)
@@ -147,6 +152,118 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 			$out = "<result>\n$out</result>";
 			return $out;
 		}
+		
+		if (is_array($array))
+		{
+			$out = $this->renderArray($array, $prefixLines."\t");
+			if ($returnOnlyDataTableXml)
+			{
+				return $out;
+			}
+			return "<result>\n$out</result>";
+		}
+	}
+	
+	/**
+	 * Renders an array as XML.
+	 * 
+	 * @param array $array The array to render.
+	 * @param string $prefixLines The string to prefix each line in the output.
+	 * @return string
+	 */
+	private function renderArray( $array, $prefixLines )
+	{
+		$isAssociativeArray = Piwik::isAssociativeArray($array);
+		
+		// check if array contains arrays, and if not wrap the result in an extra <row> element
+		// (only check if this is the root renderArray call)
+		// NOTE: this is for backwards compatibility. before, array's were added to a new DataTable.
+		// if the array had arrays, they were added as multiple rows, otherwise it was treated as
+		// one row. removing will change API output.
+		$wrapInRow = $prefixLines === "\t" && self::shouldWrapArrayBeforeRendering($array, $isAssociativeArray);
+		
+		// render the array
+		$result = "";
+		if ($wrapInRow)
+		{
+			$result .= "$prefixLines<row>\n";
+			$prefixLines .= "\t";
+		}
+		foreach ($array as $key => $value)
+		{
+			// based on the type of array & the key, determine how this node will look
+			if ($isAssociativeArray)
+			{
+				if (is_numeric($key))
+				{
+					$prefix = "<row key=\"$key\">";
+					$suffix = "</row>";
+					$emptyNode = "<row key=\"$key\"/>";
+				}
+				else
+				{
+					$prefix = "<$key>";
+					$suffix = "</$key>";
+					$emptyNode = "<$key />";
+				}
+			}
+			else
+			{
+				$prefix = "<row>";
+				$suffix = "</row>";
+				$emptyNode = "<row/>";
+			}
+			
+			// render the array item
+			if (is_array($value))
+			{
+				$result .= $prefixLines.$prefix."\n";
+				$result .= $this->renderArray($value, $prefixLines."\t");
+				$result .= $prefixLines.$suffix."\n";
+			}
+			else if ($value instanceof Piwik_DataTable
+					|| $value instanceof Piwik_DataTable_Array)
+			{
+				if ($value->getRowsCount() == 0)
+				{
+					$result .= $prefixLines.$emptyNode."\n";
+				}
+				else
+				{
+					$result .= $prefixLines.$prefix."\n";
+					if ($value instanceof Piwik_DataTable_Array)
+					{
+						$result .= $this->renderDataTableArray($value, $this->getArrayFromDataTable($value), $prefixLines);
+					}
+					else if ($value instanceof Piwik_DataTable_Simple)
+					{
+						$result .= $this->renderDataTableSimple($this->getArrayFromDataTable($value), $prefixLines);
+					}
+					else
+					{
+						$result .= $this->renderDataTable($this->getArrayFromDataTable($value), $prefixLines);
+					}
+					$result .= $prefixLines.$suffix."\n";
+				}
+			}
+			else
+			{
+				$xmlValue = self::formatValueXml($value);
+				if (strlen($xmlValue) != 0)
+				{
+					$result .= $prefixLines.$prefix.$xmlValue.$suffix."\n";
+				}
+				else
+				{
+					$result .= $prefixLines.$emptyNode."\n";
+				}
+			}
+		}
+		if ($wrapInRow)
+		{
+			$result .= substr($prefixLines, 0, strlen($prefixLines) - 1)."</row>\n";
+		}
+		return $result;
 	}
 
 	/**

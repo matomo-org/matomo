@@ -170,4 +170,26 @@ class Piwik_API_Request
 		}
 		return $a;
 	}
+	
+	/**
+	 * Helper method to process an API request using the variables in $_GET and $_POST.
+	 * 
+	 * @param string $method The API method to call, ie, Actions.getPageTitles
+	 * @param array $paramOverride The parameter name-value pairs to use instead of what's
+	 *                             in $_GET & $_POST.
+	 * @param mixed The result of the API request.
+	 */
+	public static function processRequest( $method, $paramOverride = array() )
+	{
+		// set up request params
+		$params = $_GET + $_POST;
+		$params['format'] = 'original';
+		$params['module'] = 'API';
+		$params['method'] = $method;
+		$params = $paramOverride + $params;
+		
+		// process request
+		$request = new Piwik_API_Request($params);
+		return $request->process();
+	}
 }

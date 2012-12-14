@@ -343,6 +343,11 @@ table thead div {
 	height: 0;
 }
 
+.dataTable .loadingPiwikBelow {
+	padding-bottom:5px;
+	display:block;
+	text-align:center;
+}
 
 .dataTableFooterIcons {
 	display:block; 
@@ -623,6 +628,7 @@ body .piwik-tooltip.rowActionTooltip {
     position: relative;
     margin-left: 5px;
     min-height: 20px;
+    z-index:1;
 }
 
 .limitSelection.hidden {

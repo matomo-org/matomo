@@ -54,12 +54,23 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 	 */
 	protected function renderTable($table)
 	{
-		$renderer = new Piwik_DataTable_Renderer_Php();
-		$renderer->setTable($table);
-		$renderer->setRenderSubTables($this->isRenderSubtables());
-		$renderer->setSerialize(false);
-		$renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
-		$array = $renderer->flatRender();
+		if (is_array($table))
+		{
+			$array = $table;
+			if (self::shouldWrapArrayBeforeRendering($array))
+			{
+				$array = array($array);
+			}
+		}
+		else
+		{
+			$renderer = new Piwik_DataTable_Renderer_Php();
+			$renderer->setTable($table);
+			$renderer->setRenderSubTables($this->isRenderSubtables());
+			$renderer->setSerialize(false);
+			$renderer->setHideIdSubDatableFromResponse($this->hideIdSubDatatable);
+			$array = $renderer->flatRender();
+		}
 		
 		if(!is_array($array))
 		{

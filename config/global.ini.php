@@ -520,6 +520,7 @@ Plugins[]		= CustomVariables
 Plugins[]		= PrivacyManager
 Plugins[]		= ImageGraph
 Plugins[]		= DoNotTrack
+Plugins[]		= Annotations
 
 [PluginsInstalled]
 PluginsInstalled[] = Login

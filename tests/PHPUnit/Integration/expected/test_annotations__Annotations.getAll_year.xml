@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row key="1">
+		<row>
+			<date>2012-01-05</date>
+			<note>10: Site 1 annotation for 2012-01-05</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>10</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-01-06</date>
+			<note>11: Site 1 annotation for 2012-01-06</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>11</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-01-12</date>
+			<note>12: Site 1 annotation for 2012-01-12</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>12</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-01-13</date>
+			<note>13: Site 1 annotation for 2012-01-13</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>13</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-01-19</date>
+			<note>14: Site 1 annotation for 2012-01-19</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>14</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-01-20</date>
+			<note>15: Site 1 annotation for 2012-01-20</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>15</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-01-26</date>
+			<note>16: Site 1 annotation for 2012-01-26</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>16</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-01-27</date>
+			<note>17: Site 1 annotation for 2012-01-27</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>17</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-02-02</date>
+			<note>18: Site 1 annotation for 2012-02-02</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>18</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-02-03</date>
+			<note>19: Site 1 annotation for 2012-02-03</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>19</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-02-09</date>
+			<note>20: Site 1 annotation for 2012-02-09</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>20</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-02-10</date>
+			<note>21: Site 1 annotation for 2012-02-10</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>21</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-02-16</date>
+			<note>22: Site 1 annotation for 2012-02-16</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>22</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-02-17</date>
+			<note>23: Site 1 annotation for 2012-02-17</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>23</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-02-23</date>
+			<note>24: Site 1 annotation for 2012-02-23</note>
+			<starred>1</starred>
+			<user>superUserLogin</user>
+			<idNote>24</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+		<row>
+			<date>2012-02-24</date>
+			<note>25: Site 1 annotation for 2012-02-24</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<idNote>25</idNote>
+			<canEditOrDelete>1</canEditOrDelete>
+		</row>
+	</row>
+</result>

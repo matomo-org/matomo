@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row key="1">
+		<row>
+			<row>2012-01-01</row>
+			<row>
+				<count>16</count>
+				<starred>5</starred>
+			</row>
+		</row>
+	</row>
+</result>

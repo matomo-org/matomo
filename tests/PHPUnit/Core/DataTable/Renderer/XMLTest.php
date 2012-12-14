@@ -547,4 +547,99 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
         $rendered = $render->render();
         $this->assertEquals($expected, $rendered);
     }
+    
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray1()
+	{
+		$data = array();
+		
+        $render = new Piwik_DataTable_Renderer_Xml();
+        $render->setTable($data);
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result />';
+        
+        $this->assertEquals($expected, $render->render());
+	}
+    
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray2()
+	{
+		$data = array('a', 'b', 'c');
+		
+        $render = new Piwik_DataTable_Renderer_Xml();
+        $render->setTable($data);
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>a</row>
+	<row>b</row>
+	<row>c</row>
+</result>';
+        
+        $this->assertEquals($expected, $render->render());
+	}
+    
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray3()
+	{
+		$data = array('a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g');
+		
+        $render = new Piwik_DataTable_Renderer_Xml();
+        $render->setTable($data);
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<a>b</a>
+		<c>d</c>
+		<e>f</e>
+		<row key="5">g</row>
+	</row>
+</result>';
+        
+        $this->assertEquals($expected, $render->render());
+	}
+	
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray4()
+	{
+		$data = array('c' => array(1,2,3,4), 'e' => array('f' => 'g', 'h' => 'i', 'j' => 'k'));
+		
+        $render = new Piwik_DataTable_Renderer_Xml();
+        $render->setTable($data);
+        $expected = '<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<c>
+		<row>1</row>
+		<row>2</row>
+		<row>3</row>
+		<row>4</row>
+	</c>
+	<e>
+		<f>g</f>
+		<h>i</h>
+		<j>k</j>
+	</e>
+</result>';
+        
+        $this->assertEquals($expected, $render->render());
+	}
 }
