@@ -215,6 +215,7 @@ class UserAgentParser
 	static protected $operatingSystems = array(
 			'Android'				=> 'AND',
 			'Maemo'					=> 'MAE',
+			'CrOS'                  => 'LIN',
 			'Linux'					=> 'LIN',
 
 			// workaround for vendors who changed the WinPhone 7 user agent
@@ -316,6 +317,7 @@ class UserAgentParser
 			'BEOS'					=> 'BEO',
 			'Amiga'					=> 'AMI',
 			'AmigaOS'				=> 'AMI',
+
 		);
 	
 	// os family
@@ -323,7 +325,7 @@ class UserAgentParser
 	// made here should also be made in that file.
 	static protected $osType = array(
 			'Windows' => array('WI8', 'WI7', 'WVI', 'WS3', 'WXP', 'W2K', 'WNT', 'WME', 'W98', 'W95'),
-			'Linux' => array('LIN'),
+			'Linux' => array('LIN', 'COS'),
 			'Mac' => array('MAC'),
 			'iOS' => array('IPD', 'IPA', 'IPH'),
 			'Android' => array('AND'),
