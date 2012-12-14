@@ -171,16 +171,6 @@ abstract class Piwik_Archive
 		'nb_searches',
 		'nb_keywords',
 		'nb_hits',
-		'sum_time_spent',
-		'exit_nb_uniq_visitors',
-		'exit_nb_visits',
-		'sum_daily_exit_nb_uniq_visitors',
-		'entry_nb_uniq_visitors',
-		'sum_daily_entry_nb_uniq_visitors',
-		'entry_nb_visits',
-		'entry_nb_actions',
-		'entry_sum_visit_length',
-		'entry_bounce_count',
 		'nb_hits_following_search',
 	);
 	
