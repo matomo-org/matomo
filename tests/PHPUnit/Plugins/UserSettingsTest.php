@@ -917,9 +917,13 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
                 array('AND', 'Android', 'Android'))),
 
-            array('Dalvik/1.4.0 (Linux; U; Android 2.3.3; GT-I9100 Build/GINGERBREAD) Titanium/1.8.0', array(
-                array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
-                array('AND', 'Android', 'Android'))),
+	        array('Dalvik/1.4.0 (Linux; U; Android 2.3.3; GT-I9100 Build/GINGERBREAD) Titanium/1.8.0', array(
+		        array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
+		        array('AND', 'Android', 'Android'))),
+
+	        array('Mozilla/5.0 (X11; U; CrOS i686 9.10.0; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.253.0 Safari/532.5', array(
+		        array('CH', 'Chrome', 'Chrome', '4.0', '4', '0', 'webkit'),
+		        array('LIN', 'Linux', 'Linux'))),
         );
     }
 

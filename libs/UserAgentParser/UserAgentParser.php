@@ -215,7 +215,7 @@ class UserAgentParser
 	static protected $operatingSystems = array(
 			'Android'				=> 'AND',
 			'Maemo'					=> 'MAE',
-			'CrOS'                  => 'LIN',
+			'CrOS '                 => 'LIN',
 			'Linux'					=> 'LIN',
 
 			// workaround for vendors who changed the WinPhone 7 user agent

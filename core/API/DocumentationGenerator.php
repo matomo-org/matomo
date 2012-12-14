@@ -66,7 +66,7 @@ class Piwik_API_DocumentationGenerator
 				continue;
 			}
 			$toc .= "<a href='#$moduleName'>$moduleName</a><br/>";
-			$str .= "\n<h2 name='$moduleName' id='$moduleName'>Module ".$moduleName."</h2>";
+			$str .= "\n<a  name='$moduleName' id='$moduleName'></a><h2>Module ".$moduleName."</h2>";
 			$str .= "<div class='apiDescription'> ".$info['__documentation'] . " </div>";
 			foreach($info as $methodName => $infoMethod)
 			{
