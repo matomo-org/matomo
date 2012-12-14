@@ -68,7 +68,14 @@ UserCountryMap.run = function(config) {
             var total;
             if (id.length == 3) total = UserCountryMap.countriesByIso[id][metric];
             else if (id == 'world') total = UserCountryMap._worldTotal;
-            //else total = UserCountryMap.lastReportMetricStats[metric].sum;
+            else {
+                total = 0;
+                $.each(UserCountryMap.countriesByIso, function(iso, country) {
+                    if (UserCountryMap.ISO3toCONT[iso] == target) {
+                        total += country[metric];
+                    }
+                });
+            }
             if (total) {
                 v += ' ('+formatPercentage(data[metric] / total)+')';
             }
@@ -348,7 +355,8 @@ UserCountryMap.run = function(config) {
             map.getLayer('countries').tooltips(function(data) {
                 var metric = $('#userCountryMapSelectMetrics').val(),
                     country = UserCountryMap.countriesByIso[data.iso];
-                return '<h3>'+country.name + '</h3>'+formatValueForTooltips(country, metric, target);
+                return '<h3>'+country.name + '</h3>'+
+                    formatValueForTooltips(country, metric, target);
             });
         }
 
