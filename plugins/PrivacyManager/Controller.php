@@ -208,7 +208,9 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 					}
 					else // if just deleting rows
 					{
-						$totalAfterPurge -= ($tableTotalBytes / $status['Rows']) * $deletedDataSummary[$tableName];
+						if($status['Rows'] > 0) {
+							$totalAfterPurge -= ($tableTotalBytes / $status['Rows']) * $deletedDataSummary[$tableName];
+						}
 					}
 				}
 			}
