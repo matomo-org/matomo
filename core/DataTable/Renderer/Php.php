@@ -131,7 +131,15 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 			$dataTable = $this->table;
 		}
 		
-		if($dataTable instanceof Piwik_DataTable_Array)
+		if (is_array($dataTable))
+		{
+			$flatArray = $dataTable;
+			if (self::shouldWrapArrayBeforeRendering($flatArray))
+			{
+				$flatArray = array($flatArray);
+			}
+		}
+		else if ($dataTable instanceof Piwik_DataTable_Array)
 		{
 			$flatArray = array();
 			foreach($dataTable->getArray() as $keyName => $table)
@@ -142,7 +150,6 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 				$this->serialize = $serializeSave;
 			}
 		}
-		
 		else if($dataTable instanceof Piwik_DataTable_Simple)
 		{
 			$flatArray = $this->renderSimpleTable($dataTable);
