@@ -48,7 +48,9 @@
 		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
 		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
 		{if $visitor.columns.visitorTypeIcon}
-			&nbsp;- <img src="{$visitor.columns.visitorTypeIcon}" title="{'General_ReturningVisitor'|translate}" />
+		<a class="rightLink" href="javascript:broadcast.propagateAjax('module=Live&action=getVisitorLog&period=month&segment=visitorId=={$visitor.columns.visitorId}')">
+			&nbsp;- <img src="{$visitor.columns.visitorTypeIcon}" title="{'General_ReturningVisitor'|translate} - {'General_ReturningVisitorAllVisits'|translate}" />
+		</a>
 		{/if}
 		
 		{if !$displayVisitorsInOwnColumn} <br/> <br/> {/if}

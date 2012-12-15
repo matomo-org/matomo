@@ -49,6 +49,9 @@
     float:right;
     padding-right:20px;
 }
+#visitsLive .datetime a{
+    text-decoration: none;
+}
 table.dataTable td.highlightField {
 	background-color:#FFFFCB !important;
 }

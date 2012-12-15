@@ -90,6 +90,7 @@ $translations = array(
 	'General_NewVisitor' => 'Neuer Besucher',
 	'General_NewVisits' => 'Neue Besuche',
 	'General_ReturningVisitor' => 'Wiederkehrender Besucher',
+	'General_ReturningVisitorAllVisits' => 'Alle Besuche anzeigen',
 	'General_Visitor' => 'Besucher',
 	'General_Date' => 'Datum',
 	'General_Period' => 'Zeitraum',
