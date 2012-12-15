@@ -531,7 +531,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$refererUrl	= Piwik_Common::getRequestVar( 'urlref', '', 'string', $this->request);
 		$currentUrl	= Piwik_Common::getRequestVar( 'url', '', 'string', $this->request);
 		$refererInfo = $referrer->getRefererInformation($refererUrl, $currentUrl, $this->idsite);
-		
+
+		$visitorReturning = $isReturningCustomer
+								? 2 /* Returning customer */
+								: ($visitCount > 1 || $this->isVisitorKnown() || $daysSinceLastVisit > 0
+									? 1 /* Returning */
+									: 0 /* New */ );
 		/**
 		 * Save the visitor
 		 */
@@ -539,11 +544,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'idsite' 					=> $this->idsite,
 			'visitor_localtime' 		=> $localTime,
 			'idvisitor' 				=> $idcookie,
-			'visitor_returning' 		=> $isReturningCustomer
-											? 2 /* Returning customer */
-											: ($visitCount > 1 || $this->isVisitorKnown() || $daysSinceLastVisit > 0
-												? 1 /* Returning */
-												: 0 /* New */ ),
+			'visitor_returning' 		=> $visitorReturning,
 			'visitor_count_visits'		=> $visitCount,
 			'visitor_days_since_last'	=> $daysSinceLastVisit,
 			'visitor_days_since_order'	=> $daysSinceLastOrder,
