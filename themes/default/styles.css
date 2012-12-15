@@ -7,6 +7,10 @@
     border: 1px solid #1F447F!important;
 }
 
+#languageSelection input, #languageSelection select {
+    display: none;
+}
+
 #languageSelection .ui-autocomplete-input {
     background:#FFF url('images/sortdesc.png') no-repeat right center!important;
     padding: 2px 18px 2px 4px;
