@@ -51,5 +51,14 @@ function Piwik_getHostnameUrl($in)
 		// link to "what does 'IP' mean?"
 		return "http://piwik.org/faq/general/#faq_52";
 	}
-	return "http://www.".$in."/";
+	
+	// if the name looks like it can be used in a URL, use it in one, otherwise link to startpage
+	if (preg_match("/^[a-zA-Z0-9_.]+$/", $in))
+	{
+		return "http://www.".$in."/";
+	}
+	else
+	{
+		return "https://startpage.com/do/search?q=".urlencode($in);
+	}
 }
