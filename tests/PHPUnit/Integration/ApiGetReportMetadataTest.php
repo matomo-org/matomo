@@ -84,6 +84,10 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
 		        'apiModule' => 'UserCountry', 'apiAction' => 'getCountry',
 		        'testSuffix' => '_showRawMetrics',
 		        'otherRequestParameters' => array('showRawMetrics' => 1)) ),
+			
+			// test php renderer w/ array data
+			array('API.getDefaultMetricTranslations', array('idSite' => self::$idSite, 'date' => self::$dateTime,
+															'format' => 'php', 'testSuffix' => '_phpRenderer')),
         );
     }
 
