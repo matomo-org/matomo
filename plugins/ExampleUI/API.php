@@ -47,8 +47,8 @@ class Piwik_ExampleUI_API
 		// to keep things simple, we generate the data
 		foreach($period->getSubperiods() as $subPeriod)
 		{
-			$server1 = rand(50,90);
-			$server2 = rand(40, 110);
+			$server1 = mt_rand(50,90);
+			$server2 = mt_rand(40, 110);
 			$value = array('server1' => $server1, 'server2' => $server2);
 			$temperatures[$subPeriod->getLocalizedShortString()] = $value;
 		}

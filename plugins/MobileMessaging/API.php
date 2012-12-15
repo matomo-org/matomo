@@ -120,7 +120,7 @@ class Piwik_MobileMessaging_API
 		$verificationCode = "";
 		for($i = 0; $i < self::VERIFICATION_CODE_LENGTH; $i++)
 		{
-			$verificationCode .= rand(0,9);
+			$verificationCode .= mt_rand(0,9);
 		}
 
 		$smsText = Piwik_Translate(
