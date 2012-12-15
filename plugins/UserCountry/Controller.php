@@ -437,15 +437,26 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 		if ($dataTable->getRowsCount() == 1
 			&& $dataTable->getFirstRow()->getColumn('label') == Piwik_Translate('General_Unknown'))
 		{
-			$params = array('module' => 'UserCountry', 'action' => 'adminIndex');
-			$footerMessage = Piwik_Translate('UserCountry_NoDataForGeoIPReport', array(
-				'<a target="_blank" href="'.Piwik_Url::getCurrentQueryStringWithParametersModified($params).'">',
-				'</a>',
-				'<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
-				'</a>',
-				'<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">',
-				'</a>'
-			));
+			$footerMessage = Piwik_Translate('UserCountry_NoDataForGeoIPReport1');
+			
+			// if GeoIP is working, don't display this part of the message
+			if (!$this->isGeoIPWorking())
+			{
+				$params = array('module' => 'UserCountry', 'action' => 'adminIndex');
+				$footerMessage .= ' '.Piwik_Translate('UserCountry_NoDataForGeoIPReport2', array(
+					'<a target="_blank" href="'.Piwik_Url::getCurrentQueryStringWithParametersModified($params).'">',
+					'</a>',
+					'<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
+					'</a>'
+				));
+			}
+			else
+			{
+				$footerMessage .= ' '.Piwik_Translate('UserCountry_ToGeolocateOldVisits', array(
+					'<a target="_blank" href="http://piwik.org/faq/how-to/#faq_167">',
+					'</a>'
+				));
+			}
 			
 			// HACK! Can't use setFooterMessage because the view gets built in the main function,
 			// so instead we set the property by hand.
@@ -478,5 +489,18 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 			);
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns true if a GeoIP provider is installed & working, false if otherwise.
+	 * 
+	 * @return bool
+	 */
+	private function isGeoIPWorking()
+	{
+		$provider = Piwik_UserCountry_LocationProvider::getCurrentProvider();
+		return $provider instanceof Piwik_UserCountry_LocationProvider_GeoIp
+			 && $provider->isAvailable() === true
+			 && $provider->isWorking() === true;
 	}
 }
