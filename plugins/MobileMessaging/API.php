@@ -117,6 +117,8 @@ class Piwik_MobileMessaging_API
 	{
 		Piwik::checkUserIsNotAnonymous();
 
+		$phoneNumber = self::sanitizePhoneNumber($phoneNumber);
+
 		$verificationCode = "";
 		for($i = 0; $i < self::VERIFICATION_CODE_LENGTH; $i++)
 		{
@@ -141,6 +143,18 @@ class Piwik_MobileMessaging_API
 		$this->increaseCount(Piwik_MobileMessaging::PHONE_NUMBER_VALIDATION_REQUEST_COUNT_OPTION, $phoneNumber);
 
 		return true;
+	}
+
+	/**
+	 * sanitize phone number
+	 *
+	 * @param string $phoneNumber
+	 *
+	 * @return string sanitized phone number
+	 */
+	public static function sanitizePhoneNumber($phoneNumber)
+	{
+		 return str_replace(' ', '', $phoneNumber);
 	}
 
 	/**

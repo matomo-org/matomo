@@ -190,4 +190,25 @@ class MobileMessagingTest extends DatabaseTestCase
 			Piwik_MobileMessaging_SMSProvider::containsUCS2Characters($stringToTest)
 		);
 	}
+
+	/**
+	 * @group Plugins
+	 * @group MobileMessaging
+	 */
+	public function testSanitizePhoneNumber()
+	{
+		$this->assertEquals('676932647', Piwik_MobileMessaging_API::sanitizePhoneNumber('  6  76 93 26 47'));
+	}
+
+	/**
+	 * @group Plugins
+	 * @group MobileMessaging
+	 */
+	public function testPhoneNumberIsSanitized()
+	{
+		$mobileMessagingAPI = new Piwik_MobileMessaging_API();
+		$mobileMessagingAPI->setSMSAPICredential('StubbedProvider', '');
+		$mobileMessagingAPI->addPhoneNumber('  6  76 93 26 47');
+		$this->assertEquals('676932647', key($mobileMessagingAPI->getPhoneNumbers()));
+	}
 }

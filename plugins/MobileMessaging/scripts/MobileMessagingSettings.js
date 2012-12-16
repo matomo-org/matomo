@@ -143,7 +143,7 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 		var newPhoneNumber = $(newPhoneNumberSelector).val();
 
 		// check if number starts with 0
-		if(newPhoneNumber.lastIndexOf('0', 0) === 0)
+		if($.trim(newPhoneNumber).lastIndexOf('0', 0) === 0)
 		{
 			$(suspiciousPhoneNumberSelector).show();
 		}
