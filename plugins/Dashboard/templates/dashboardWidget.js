@@ -10,17 +10,17 @@
 
         /**
          * Boolean indicating wether the widget is currently maximised
-         * @type {boolean}
+         * @type {Boolean}
          */
         isMaximised:        false,
         /**
          * Unique Id of the widget
-         * @type {string}
+         * @type {String}
          */
         uniqueId:           null,
         /**
          * Object holding the widget parameters
-         * @type {object}
+         * @type {Object}
          */
         widgetParameters:   {},
 
@@ -60,7 +60,7 @@
 
         /**
          * Cleanup some events and dialog
-         * Called automaticly upon removing the widgets domNode
+         * Called automatically upon removing the widgets domNode
          */
         destroy: function() {
             if(this.isMaximised) {
@@ -88,27 +88,24 @@
         maximise: function() {
             this.isMaximised = true;
 
-            var minWidth = this.element.width() < 500 ? 500 : this.element.width();
-            var maxWidth = minWidth > 1000 ? minWidth+100 : 1000;
-
-            this.element.css({'minWidth': minWidth+'px', 'maxWidth': maxWidth+'px'});
             $('.button#close, .button#maximise', this.element).hide();
             this.element.before('<div id="'+this.uniqueId+'-placeholder" class="widgetPlaceholder widget"> </div>');
             $('#'+this.uniqueId+'-placeholder').height(this.element.height());
             $('#'+this.uniqueId+'-placeholder').width(this.element.width()-16);
 
-            var self = this;
+            var width = Math.floor($('body').width() * 0.7);
 
+            var self = this;
             this.element.dialog({
                 title: '',
                 modal: true,
-                width: 'auto',
+                width: width,
                 position: ['center', 'center'],
                 resizable: true,
                 autoOpen: true,
                 close: function(event, ui) {
                     self.isMaximised = false;
-                    $('.button#minimise', $(this)).hide()
+                    $('.button#minimise, .button#refresh', $(this)).hide();
                     $('body').off('.dashboardWidget');
                     $(this).dialog("destroy");
                     $('#'+self.uniqueId+'-placeholder').replaceWith(this);
@@ -215,7 +212,6 @@
                 $('.widgetContent', widgetElement).toggleClass('hidden');
             }
 
-            var self = this;
             $('.button#close', widgetElement)
                 .on( 'click.dashboardWidget', function(ev){
                     piwikHelper.modalConfirm('#confirm',{yes: function(){
