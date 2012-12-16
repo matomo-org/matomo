@@ -16,6 +16,9 @@
  */
 class Piwik_PDFReports extends Piwik_Plugin
 {
+	const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
+	const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'PDFReports_EmailReports';
+
 	const DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS = 1; // Display Tables Only (Graphs only for key metrics)
 	const DISPLAY_FORMAT_GRAPHS_ONLY = 2; // Display Graphs Only for all reports
 	const DISPLAY_FORMAT_TABLES_AND_GRAPHS = 3; // Display Tables and Graphs for all reports
@@ -558,17 +561,50 @@ class Piwik_PDFReports extends Piwik_Plugin
 		
     function addTopMenu()
     {
-    	$isMobileMessagingActivated = Piwik_PluginsManager::getInstance()->isPluginActivated('MobileMessaging');
-    	$tooltip = $isMobileMessagingActivated ? 'MobileMessaging_TopLinkTooltip' : 'PDFReports_TopLinkTooltip';
-    	Piwik_AddTopMenu(
-			$isMobileMessagingActivated ? 'MobileMessaging_TopMenu' : 'PDFReports_EmailReports',
+		Piwik_AddTopMenu(
+			$this->getTopMenuTranslationKey(),
 			array('module' => 'PDFReports', 'action' => 'index'),
 			true,
 			13,
 			$isHTML = false,
-			$tooltip = Piwik_Translate($tooltip)
+			$tooltip = Piwik_Translate(
+				Piwik_PluginsManager::getInstance()->isPluginActivated('MobileMessaging')
+					? 'MobileMessaging_TopLinkTooltip' : 'PDFReports_TopLinkTooltip'
+			)
 		);
     }
+
+	function getTopMenuTranslationKey()
+	{
+		// if MobileMessaging is not activated, display 'Email reports'
+		if(!Piwik_PluginsManager::getInstance()->isPluginActivated('MobileMessaging'))
+			return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+
+		$reports = Piwik_PDFReports_API::getInstance()->getReports();
+		$reportCount = count($reports);
+
+		// if there are no reports and the mobile account is
+		//  not configured, display 'Email reports'
+		//  configured, display 'Email & SMS reports'
+		if($reportCount == 0)
+		 return Piwik_MobileMessaging_API::getInstance()->areSMSAPICredentialProvided() ?
+			 self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+
+		$anyMobileReport = false;
+		foreach($reports as $report)
+		{
+			if($report['type'] == Piwik_MobileMessaging::MOBILE_TYPE)
+			{
+				$anyMobileReport = true;
+				break;
+			}
+		}
+
+		// if there is at least one sms report, display 'Email & SMS reports'
+		if($anyMobileReport) return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
+
+		return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+	}
 
 	/**
 	 * @param Piwik_Event_Notification $notification notification object
