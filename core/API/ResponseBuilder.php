@@ -400,6 +400,7 @@ class Piwik_API_ResponseBuilder
 								return $array;
 								
 							case 'xml':
+								@header("Content-Type: text/xml;charset=utf-8");
 								return $this->getRenderedDataTable($array);
 							default:
 							break;
