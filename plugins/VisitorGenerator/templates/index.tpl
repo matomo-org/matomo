@@ -27,7 +27,10 @@
 <input type="hidden" value="{$token_auth}" name="token_auth" />
 <input type="hidden" value="{$nonce}" name="form_nonce" />
 <br/>
-NOTE: It might take a few minutes to generate visits and actions, please be patient...<br/><br/>
+
+	NOTE: It might take a few minutes to generate visits and actions, please be patient...<br/>
+	There is also a faster tool that will import large test data in Piwik, see the <a href='http://dev.piwik.org/trac/browser/trunk/tests/README.txt#L64'>README</a>.</p>
+	<br/>
 <input type="submit" value="{'VisitorGenerator_Submit'|translate}" name="submit" class="submit" />
 </form>
 
