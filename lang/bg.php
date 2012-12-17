@@ -1,7 +1,7 @@
 <?php
 $translations = array(
 	'General_Locale' => 'bg_BG.UTF-8',
-	'General_TranslatorName' => '<a href="http://kristalinchavdarov.net/">Kristalin Chavdarov</a>, <a href="http://coffebreak.info/">Andon Ivanov</a>, Tom Atanasov, Dimitar Stamenov, Панайотис Кондоянис',
+	'General_TranslatorName' => '<a href="http://kristalinchavdarov.net/">Kristalin Chavdarov</a>, <a href="http://coffebreak.info/">Andon Ivanov</a>, Tom Atanasov, Dimitar Stamenov',
 	'General_TranslatorEmail' => 'kristalin[at]kividesign[dot]com, Virosss[at]abv[dot]bg, tomivr[at]abv[dot]bg, pak69[at]abv[dot]bg, pamir[at]abv[dot]bg',
 	'General_EnglishLanguageName' => 'Bulgarian',
 	'General_OriginalLanguageName' => 'Български',
@@ -728,6 +728,7 @@ $translations = array(
 	'Goals_Manually' => 'ръчно',
 	'Goals_ManuallyTriggeredUsingJavascriptFunction' => 'Целта е ръчно задействана с помощта на JavaScript API trackGoal()',
 	'Goals_VisitUrl' => 'посетят определен URL (страница или група от страници)',
+	'Goals_URL' => 'URL',
 	'Goals_PageTitle' => 'Заглавие на страница',
 	'Goals_Filename' => 'име на файла',
 	'Goals_ExternalWebsiteUrl' => 'външен URL',
@@ -840,6 +841,7 @@ $translations = array(
 	'Installation_SystemCheckGzcompressHelp' => 'Вие трябва да активирате zlib и gzcompress разширенията.',
 	'Installation_SystemCheckGzuncompressHelp' => 'Вие трябва да активирате zlib и gzcompress разширенията.',
 	'Installation_SystemCheckPackHelp' => 'Функцията "pack()" е нужна, за да следите посетителите в Piwik.',
+	'Installation_SystemCheckMbstring' => 'mbstring',
 	'Installation_SystemCheckMbstringExtensionHelp' => 'В mbstring удължаване е необходимо за многобайтови символи в отговорите API използват разделени със запетая стойности (CSV) или разделени с табулатор стойности (TSV).',
 	'Installation_SystemCheckMbstringFuncOverloadHelp' => 'Трябва да зададете mbstring.func_overload на "0".',
 	'Installation_SystemCheckFileIntegrity' => 'Файл целостта',
@@ -1510,6 +1512,7 @@ $translations = array(
 	'PDFReports_PluginDescriptionReports' => 'Създайте и изтеглете Вашите персонализирани отчети,и ги изпращайте по имейл ежедневно, ежеседмично или ежемесечно.',
 	'PDFReports_ManageEmailReports' => 'Управление на Email докладите',
 	'PDFReports_EmailReports' => 'Email доклади',
+	'PDFReports_PDF' => 'PDF',
 	'PDFReports_SendReportNow' => 'Изпрати доклад сега',
 	'PDFReports_EmailSchedule' => 'Списък с е-пощи',
 	'PDFReports_SendReportTo' => 'Изпрати доклад до',

@@ -488,6 +488,7 @@ $translations = array(
 	'VisitsSummary_SubmenuOverview' => 'מבט כללי',
 	'VisitTime_SubmenuTimes' => 'זמנים',
 	'Widgetize_PluginDescription' => 'התוסף מקל מאוד על ייצוא יישומונים של Piwik מבלוג, אתר או בIgoogle וNetvibes!',
+	'PDFReports_PDF' => 'PDF',
 	'PDFReports_SendReportTo' => 'שלח דוח אל',
 	'PDFReports_SentToMe' => 'שלח אלי',
 );
