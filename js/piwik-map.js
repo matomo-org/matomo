@@ -896,12 +896,17 @@ UserCountryMap.aggregate = {
         groups: {
             "A5": ["A5", "B5"]
         }
+    },
+    BEL: {
+        partial: true,
+        groups: {
+            "12": ["12", "02"]
+        }
     }
 };
 UserCountryMap.keys = {
     "SVN": "region",
     "GBR": "region",
     "ESP": "fips-",
-    "BEL": "fips-",
     "USA": "p", "CAN": "p"
-}
+};
