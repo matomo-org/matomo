@@ -1,1274 +1,0 @@
-10
-
-dir
-0
-http://dev.piwik.org/svn/trunk/plugins/UserCountryMap/svg
-http://dev.piwik.org/svn
-add
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-59fd770c-687e-43c8-a1e3-f5a4ff64c105
-
-CIV.svg
-file
-
-
-
-add
-
-KAZ.svg
-file
-
-
-
-add
-
-MEX.svg
-file
-
-
-
-add
-
-AUT.svg
-file
-
-
-
-add
-
-TGO.svg
-file
-
-
-
-add
-
-JOR.svg
-file
-
-
-
-add
-
-MMR.svg
-file
-
-
-
-add
-
-CYP.svg
-file
-
-
-
-add
-
-AFG.svg
-file
-
-
-
-add
-
-NOR.svg
-file
-
-
-
-add
-
-NA.svg
-file
-
-
-
-add
-
-GUY.svg
-file
-
-
-
-add
-
-GNB.svg
-file
-
-
-
-add
-
-MYS.svg
-file
-
-
-
-add
-
-GRC.svg
-file
-
-
-
-add
-
-NLD.svg
-file
-
-
-
-add
-
-CRI.svg
-file
-
-
-
-add
-
-SYR.svg
-file
-
-
-
-add
-
-MNE.svg
-file
-
-
-
-add
-
-BLR.svg
-file
-
-
-
-add
-
-MNG.svg
-file
-
-
-
-add
-
-CZE.svg
-file
-
-
-
-add
-
-BTN.svg
-file
-
-
-
-add
-
-PHL.svg
-file
-
-
-
-add
-
-HTI.svg
-file
-
-
-
-add
-
-IRL.svg
-file
-
-
-
-add
-
-BLZ.svg
-file
-
-
-
-add
-
-IRN.svg
-file
-
-
-
-add
-
-UZB.svg
-file
-
-
-
-add
-
-MRT.svg
-file
-
-
-
-add
-
-BIH.svg
-file
-
-
-
-add
-
-TLS.svg
-file
-
-
-
-add
-
-SA.svg
-file
-
-
-
-add
-
-LTU.svg
-file
-
-
-
-add
-
-SVN.svg
-file
-
-
-
-add
-
-TTO.svg
-file
-
-
-
-add
-
-COG.svg
-file
-
-
-
-add
-
-PAK.svg
-file
-
-
-
-add
-
-LAO.svg
-file
-
-
-
-add
-
-ECU.svg
-file
-
-
-
-add
-
-FIN.svg
-file
-
-
-
-add
-
-ZAF.svg
-file
-
-
-
-add
-
-PER.svg
-file
-
-
-
-add
-
-USA.svg
-file
-
-
-
-add
-
-HUN.svg
-file
-
-
-
-add
-
-ALB.svg
-file
-
-
-
-add
-
-SOM.svg
-file
-
-
-
-add
-
-SWE.svg
-file
-
-
-
-add
-
-BRA.svg
-file
-
-
-
-add
-
-MOZ.svg
-file
-
-
-
-add
-
-CHL.svg
-file
-
-
-
-add
-
-TUN.svg
-file
-
-
-
-add
-
-LUX.svg
-file
-
-
-
-add
-
-CHN.svg
-file
-
-
-
-add
-
-FJI.svg
-file
-
-
-
-add
-
-FRA.svg
-file
-
-
-
-add
-
-RUS.svg
-file
-
-
-
-add
-
-IDN.svg
-file
-
-
-
-add
-
-TUR.svg
-file
-
-
-
-add
-
-LBN.svg
-file
-
-
-
-add
-
-DNK.svg
-file
-
-
-
-add
-
-LBR.svg
-file
-
-
-
-add
-
-ETH.svg
-file
-
-
-
-add
-
-LVA.svg
-file
-
-
-
-add
-
-SLE.svg
-file
-
-
-
-add
-
-PNG.svg
-file
-
-
-
-add
-
-AF.svg
-file
-
-
-
-add
-
-FRO.svg
-file
-
-
-
-add
-
-GTM.svg
-file
-
-
-
-add
-
-SDS.svg
-file
-
-
-
-add
-
-HRV.svg
-file
-
-
-
-add
-
-NGA.svg
-file
-
-
-
-add
-
-GMB.svg
-file
-
-
-
-add
-
-PRT.svg
-file
-
-
-
-add
-
-LKA.svg
-file
-
-
-
-add
-
-BWA.svg
-file
-
-
-
-add
-
-CUB.svg
-file
-
-
-
-add
-
-EU.svg
-file
-
-
-
-add
-
-NCL.svg
-file
-
-
-
-add
-
-KEN.svg
-file
-
-
-
-add
-
-MAR.svg
-file
-
-
-
-add
-
-CMR.svg
-file
-
-
-
-add
-
-QAT.svg
-file
-
-
-
-add
-
-SEN.svg
-file
-
-
-
-add
-
-world.svg
-file
-
-
-
-add
-
-AUS.svg
-file
-
-
-
-add
-
-SAU.svg
-file
-
-
-
-add
-
-OMN.svg
-file
-
-
-
-add
-
-RWA.svg
-file
-
-
-
-add
-
-POL.svg
-file
-
-
-
-add
-
-YEM.svg
-file
-
-
-
-add
-
-TKM.svg
-file
-
-
-
-add
-
-LSO.svg
-file
-
-
-
-add
-
-BDI.svg
-file
-
-
-
-add
-
-ROU.svg
-file
-
-
-
-add
-
-ZWE.svg
-file
-
-
-
-add
-
-ARE.svg
-file
-
-
-
-add
-
-TWN.svg
-file
-
-
-
-add
-
-ARG.svg
-file
-
-
-
-add
-
-SUR.svg
-file
-
-
-
-add
-
-IND.svg
-file
-
-
-
-add
-
-GBR.svg
-file
-
-
-
-add
-
-THA.svg
-file
-
-
-
-add
-
-ARM.svg
-file
-
-
-
-add
-
-AZE.svg
-file
-
-
-
-add
-
-ERI.svg
-file
-
-
-
-add
-
-GRL.svg
-file
-
-
-
-add
-
-GNQ.svg
-file
-
-
-
-add
-
-SRB.svg
-file
-
-
-
-add
-
-JPN.svg
-file
-
-
-
-add
-
-NPL.svg
-file
-
-
-
-add
-
-IRQ.svg
-file
-
-
-
-add
-
-OC.svg
-file
-
-
-
-add
-
-DMA.svg
-file
-
-
-
-add
-
-BEL.svg
-file
-
-
-
-add
-
-SVK.svg
-file
-
-
-
-add
-
-BEN.svg
-file
-
-
-
-add
-
-COD.svg
-file
-
-
-
-add
-
-AGO.svg
-file
-
-
-
-add
-
-JAM.svg
-file
-
-
-
-add
-
-NIC.svg
-file
-
-
-
-add
-
-NAM.svg
-file
-
-
-
-add
-
-MKD.svg
-file
-
-
-
-add
-
-UGA.svg
-file
-
-
-
-add
-
-COL.svg
-file
-
-
-
-add
-
-DEU.svg
-file
-
-
-
-add
-
-PAN.svg
-file
-
-
-
-add
-
-URY.svg
-file
-
-
-
-add
-
-NER.svg
-file
-
-
-
-add
-
-EGY.svg
-file
-
-
-
-add
-
-ISL.svg
-file
-
-
-
-add
-
-ESP.svg
-file
-
-
-
-add
-
-BFA.svg
-file
-
-
-
-add
-
-VEN.svg
-file
-
-
-
-add
-
-ZMB.svg
-file
-
-
-
-add
-
-KOR.svg
-file
-
-
-
-add
-
-KGZ.svg
-file
-
-
-
-add
-
-EST.svg
-file
-
-
-
-add
-
-MWI.svg
-file
-
-
-
-add
-
-ISR.svg
-file
-
-
-
-add
-
-CHE.svg
-file
-
-
-
-add
-
-GHA.svg
-file
-
-
-
-add
-
-MDA.svg
-file
-
-
-
-add
-
-UKR.svg
-file
-
-
-
-add
-
-KWT.svg
-file
-
-
-
-add
-
-BRB.svg
-file
-
-
-
-add
-
-DJI.svg
-file
-
-
-
-add
-
-MDG.svg
-file
-
-
-
-add
-
-HND.svg
-file
-
-
-
-add
-
-ITA.svg
-file
-
-
-
-add
-
-NFK.svg
-file
-
-
-
-add
-
-DZA.svg
-file
-
-
-
-add
-
-VUT.svg
-file
-
-
-
-add
-
-KHM.svg
-file
-
-
-
-add
-
-SLB.svg
-file
-
-
-
-add
-
-MLI.svg
-file
-
-
-
-add
-
-BRN.svg
-file
-
-
-
-add
-
-SWZ.svg
-file
-
-
-
-add
-
-SDN.svg
-file
-
-
-
-add
-
-LBY.svg
-file
-
-
-
-add
-
-TJK.svg
-file
-
-
-
-add
-
-CAF.svg
-file
-
-
-
-add
-
-GAB.svg
-file
-
-
-
-add
-
-BGD.svg
-file
-
-
-
-add
-
-PRK.svg
-file
-
-
-
-add
-
-TZA.svg
-file
-
-
-
-add
-
-VNM.svg
-file
-
-
-
-add
-
-CAN.svg
-file
-
-
-
-add
-
-NZL.svg
-file
-
-
-
-add
-
-AS.svg
-file
-
-
-
-add
-
-SLV.svg
-file
-
-
-
-add
-
-BGR.svg
-file
-
-
-
-add
-
-GEO.svg
-file
-
-
-
-add
-
-PRY.svg
-file
-
-
-
-add
-
-TCD.svg
-file
-
-
-
-add
-
-BOL.svg
-file
-
-
-
-add
-
-GIN.svg
-file
-
-
-
-add
-
-DOM.svg
-file
-
-
-
-add
-
