@@ -1342,7 +1342,7 @@ class Piwik_Common
 			return strtolower($country);
 		}
 
-		if(empty($lang) || strlen($lang) < 2)
+		if(empty($lang) || strlen($lang) < 2 || $lang == 'xx')
 		{
 			return 'xx';
 		}

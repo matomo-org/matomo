@@ -30,7 +30,10 @@ class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_Locat
 	public function getLocation( $info )
 	{
 		$enableLanguageToCountryGuess = Piwik_Config::getInstance()->Tracker['enable_language_to_country_guess'];
-		
+
+		if(empty($info['lang'])) {
+			$info['lang'] = Piwik_Common::getBrowserLanguage();
+		}
 		$country = Piwik_Common::getCountry($info['lang'], $enableLanguageToCountryGuess, $info['ip']);
 		
 		$location = array(parent::COUNTRY_CODE_KEY => $country);
