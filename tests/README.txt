@@ -5,8 +5,13 @@ This document briefly describes how to use and modify Piwik tests.
 =======================
 To run tests, you must use the SVN trunk. Tests files are not in the Piwik zip archive.
 You can get the latest SVN at: http://dev.piwik.org/svn/
+ $ svn co http://dev.piwik.org/svn/trunk/
+
 To execute the tests:
-* Go to tests/index.php to see the various tests available
+ * In your php.ini make sure you have the setting to show all errors:
+ error_reporting = E_ALL | E_STRICT
+
+ * Go to tests/index.php to see the tests homepage and run the Integration tests via a visual UI, or run JS Tests
 
  INTEGRATION TESTS
 ==================
