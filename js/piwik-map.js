@@ -532,15 +532,8 @@ UserCountryMap.run = function(config) {
                     var metric = $('#userCountryMapSelectMetrics').val();
 
                     function regionCode(region) {
-                        var iso = UserCountryMap.lastSelected,
-                            useFips2 = iso == "ESP" || iso == "BEL" || iso == "GBR",
-                            usePostal = iso == "USA" || iso == "CAN";
-                        if (useFips2) {
-                            return region['fips-'].substr(2);
-                        } else if (usePostal) {
-                            return region.p;
-                        }
-                        return region.fips.substr(2);  // cut first two letters from fips code (=country code)
+                        var key = UserCountryMap.keys[iso] || 'fips';
+                        return key.substr(0,4) == "fips" ? region[key].substr(2) : region[key];  // cut first two letters from fips code (=country code)
                     }
 
                     if (UserCountryMap.aggregate[iso]) {
@@ -604,7 +597,7 @@ UserCountryMap.run = function(config) {
 
                     var metric = $('#userCountryMapSelectMetrics').val(),
                         colscale,
-                        unknown,
+                        total,
                         cities = [];
 
                     // merge reportData and reportMetadata to cities array
@@ -615,9 +608,9 @@ UserCountryMap.run = function(config) {
                     });
 
                     // get metric for visits with unknown city
-                    unknown = aggregate(cities, function(row) {
-                        return row.city == "xx" ? 'unknown' : false;
-                    }).unknown;
+                    total = aggregate(cities);
+
+                    console.log('unknown', UserCountryMap.countriesByIso[iso].nb_visits - total.nb_visits);
 
                     // sort by current metric
                     cities.sort(function(a, b) { return b.curMetric - a.curMetric; });
@@ -869,5 +862,28 @@ UserCountryMap.aggregate = {
             "YH": ["G6", "J2", "J3", "Q5", "E1", "J7"],
             "E": ["A5", "F8", "C3", "E4", "N5", "I9", "O3", "I1", "K3"]
         }
+    },
+    "SVN": {
+        "key": "region",
+        "groups": {
+            "PS": ["08", "54", "B6"],
+            "NO": ["I7", "00", "13", "38", "91", "94"],
+            "KO": ["E6", "93", "A4", "00", "A5", "16", "25", "74", "76", "81", "A2", "C2"],
+            "SP": ["14", "36", "D2", "01", "06", "07", "44", "46", "J5", "E1", "84", "00"],
+            "LJ": ["D4", "E3", "E5", "G4", "G7", "H6", "00", "00", "00", "00", "05", "09", "22", "32", "37", "39", "I5", "61", "64", "68", "71", "72", "77", "C1"],
+            "JP": ["19", "35", "40", "49", "50", "J9", "B7"],
+            "JS": ["00", "J7", "L1", "00", "00", "00", "00", "00", "00", "17", "66", "73", "B1", "B4", "B8", "D4"],
+            "PD": ["42", "28", "42", "87", "E9", "00", "00", "00", "18", "I3", "J1", "K7", "L3", "L8", "N2", "00", "00", "00", "00", "00", "00", "00", "00", "00", "70", "00", "00", "26", "45", "55", "89", "98", "B3", "C8"],
+            "GO": ["03", "04", "32", "52", "53", "62", "A3", "B9", "D5", "F1", "F2", "K5", "00", "H4", "00", "12", "B2"],
+            "SA": ["D7", "E2", "F3", "I9", "92", "L7", "N3", "N5", "00", "00", "00", "00", "00", "00", "00", "00", "00", "", "11", "30", "08", "57", "62", "79", "83", "99", "A7", "A8", "C4", "C5", "C6", "C7", "C9"],
+            "ZS": ["E7", "34", "C9", "C9"],
+            "PM": ["02", "47", "78", "80", "86", "D1", "D6", "33", "I2", "00", "00", "15", "59", "I6", "00", "00", "00", "00", "00", "10", "29", "97", "97", "A1", "A6"]}
     }
 };
+UserCountryMap.keys = {
+    "SVN": "region",
+    "GBR": "region",
+    "ESP": "fips-",
+    "BEL": "fips-",
+    "USA": "p", "CAN": "p"
+}

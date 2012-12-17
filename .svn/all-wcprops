@@ -1,0 +1,27 @@
+K 26
+svn:wc:ra_dav:activity-url
+V 14
+/svn/!svn/act/
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/7625/trunk/plugins/UserCountryMap
+END
+UserCountryMap.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/7625/trunk/plugins/UserCountryMap/UserCountryMap.php
+END
+Controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/7625/trunk/plugins/UserCountryMap/Controller.php
+END
+readme.md
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/7625/trunk/plugins/UserCountryMap/readme.md
+END
