@@ -143,6 +143,29 @@ function setAsDefaultWidgets() {
 
 function copyDashboardToUser() {
     $('#copyDashboardName').attr('value', $('#dashboardWidgetsArea').dashboard('getDashboardName'));
+    var ajaxRequest = new ajaxHelper();
+    ajaxRequest.addParams({
+        module:      'API',
+        method:      'UsersManager.getUsers',
+        format:      'json'
+    }, 'get');
+    ajaxRequest.setCallback(
+        function (availableUsers) {
+            $('#copyDashboardUser').empty();
+            $('#copyDashboardUser').append(
+                $('<option></option>').val(piwik.userLogin).html(piwik.userLogin)
+            );
+            $.each(availableUsers, function(index, user) {
+                if (user.login != 'anonymous' && user.login != piwik.userLogin) {
+                    $('#copyDashboardUser').append(
+                        $('<option></option>').val(user.login).html(user.login + ' ('+user.alias+')')
+                    );
+                }
+            });
+        }
+    );
+    ajaxRequest.send(true);
+
     piwikHelper.modalConfirm('#copyDashboardToUserConfirm', {
         yes: function() {
             var copyDashboardName = $('#copyDashboardName').attr('value');

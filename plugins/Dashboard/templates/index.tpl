@@ -57,15 +57,12 @@ $(document).ready(function() {
         <input role="cancel" type="button" value="{'General_Cancel'|translate}" />
     </div>
 
-    {if count($availableUsers) > 0 && $isSuperUser}
+    {if $isSuperUser}
     <div class="ui-confirm" id="copyDashboardToUserConfirm">
         <h2>{'Dashboard_CopyDashboardToUser'|translate}</h2>
         <div class="inputs"><label for="copyDashboardName">{'Dashboard_DashboardName'|translate} </label><input type="input" name="copyDashboardName" id="copyDashboardName" value=""/>
         <label for="copyDashboardUser">{'General_Username'|translate} </label>
         <select name="copyDashboardUser" id="copyDashboardUser">
-        {foreach from=$availableUsers item=user}
-            <option value="{$user.login}">{$user.login} {if !empty($user.alias)}({$user.alias}){/if}</option>
-        {/foreach}
         </select></div>
         <input role="yes" type="button" value="{'General_Ok'|translate}" />
         <input role="cancel" type="button" value="{'General_Cancel'|translate}" />
@@ -107,9 +104,7 @@ $(document).ready(function() {
                     <li onclick="removeDashboard();" id="removeDashboardLink">{'Dashboard_RemoveDashboard'|translate}</li>
                     {if ($isSuperUser)}
                     <li onclick="setAsDefaultWidgets();">{'Dashboard_SetAsDefaultWidgets'|translate}</li>
-                    {if count($availableUsers) > 0}
                     <li onclick="copyDashboardToUser();">{'Dashboard_CopyDashboardToUser'|translate}</li>
-                    {/if}
                     {/if}
                     {/if}
                 </ul>
