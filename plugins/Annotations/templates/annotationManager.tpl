@@ -18,7 +18,7 @@
 
 <div class="annotation-controls">
 	{if $canUserAddNotes}
-	<a href="#" class="add-annotation">{'Annotations_CreateNewAnnotation'|translate}</a>
+	<a href="#" class="add-annotation" title="{'Annotations_CreateNewAnnotation'|translate}">{'Annotations_CreateNewAnnotation'|translate}</a>
 	{elseif $userLogin eq 'anonymous'}
 	<a href="index.php?module=Login">{'Annotations_LoginToAnnotate'|translate}</a>
 	{/if}

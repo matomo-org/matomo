@@ -3,8 +3,8 @@
 	{assign var=date value=$dateCountPair[0]}
 	{assign var=counts value=$dateCountPair[1]}
 	<span data-date="{$date}" data-count="{$counts.count}" data-starred="{$counts.starred}"
-		{if $counts.count eq 0}title="{'CoreHome_Annotations_AddAnnotationsFor_js'|translate:$date}"
-		{else}title="{'CoreHome_Annotations_ViewAndAddAnnotations_js'|translate:$date}"
+		{if $counts.count eq 0}title="{'Annotations_AddAnnotationsFor_js'|translate:$date}"
+		{else}title="{'Annotations_ViewAndAddAnnotations_js'|translate:$date}"
 		{/if}>
 		<img src="themes/default/images/{if $counts.starred > 0}yellow_marker.png{else}grey_marker.png{/if}" width="16" height="16"/>
 	</span>

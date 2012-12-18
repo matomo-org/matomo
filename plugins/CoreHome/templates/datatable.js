@@ -553,32 +553,28 @@ dataTable.prototype =
 				self.param['evolution_' + self.param.period + '_last_n'],
 				function (response)
 				{
-					var canvases = $('.piwik-graph .jqplot-xaxis canvas', domElem),
-						datatableFeatures = $('.dataTableFeatures', domElem),
+					var annotations = $(response),
+					    datatableFeatures = $('.dataTableFeatures', domElem),
 						noteSize = 16,
 						annotationAxisHeight = 30 // css height + padding + margin
 						;
-				
+	
 					// set position of evolution annotation icons
-					var annotations = $(response).css({
+					annotations.css({
 						top: -datatableFeatures.height() - annotationAxisHeight + noteSize / 2,
 						left: 6 // padding-left of .jqplot-evolution element (in graph.tpl)
 					});
-				
-					// set position of each individual icon
-					$('span', annotations).each(function(i) {
-						var canvas = $(canvases[i]),
-							canvasCenterX = canvas.position().left + (canvas.width() / 2);
-						$(this).css({
-							left: canvasCenterX - noteSize / 2,
-							// show if there are annotations for this x-axis tick
-							opacity: +$(this).attr('data-count') > 0 ? 1 : 0
-						});
-					});
-				
+
+					piwik.annotations.placeEvolutionIcons(annotations, domElem);
+					
 					// add new section under axis
 					datatableFeatures.append(annotations);
-				
+					
+					// reposition annotation icons every time the graph is resized
+					$('.piwik-graph', domElem).on('resizeGraph', function() {
+						piwik.annotations.placeEvolutionIcons(annotations, domElem);
+					});
+					
 					// on hover of x-axis, show note icon over correct part of x-axis
 					$('span', annotations).hover(
 						function() { $(this).css('opacity', 1); },
@@ -612,10 +608,10 @@ dataTable.prototype =
 								function (manager) {
 									manager.attr('data-is-range', 0);
 									$('.annotationView img', domElem)
-										.attr('title', _pk_translate('CoreHome_Annotations_IconDesc_js'));
+										.attr('title', _pk_translate('Annotations_IconDesc_js'));
 									
-									var viewAndAdd = _pk_translate('CoreHome_Annotations_ViewAndAddAnnotations_js'),
-										hideNotes = _pk_translate('CoreHome_Annotations_HideAnnotationsFor_js');
+									var viewAndAdd = _pk_translate('Annotations_ViewAndAddAnnotations_js'),
+										hideNotes = _pk_translate('Annotations_HideAnnotationsFor_js');
 									
 									// change the tooltip of the previously clicked evolution icon (if any)
 									if (oldDate)
@@ -665,12 +661,12 @@ dataTable.prototype =
 				if (annotationManager.is(':hidden'))
 				{
 					annotationManager.slideDown('slow'); // showing
-					$('img', this).attr('title', _pk_translate('CoreHome_Annotations_IconDescHideNotes_js'));
+					$('img', this).attr('title', _pk_translate('Annotations_IconDescHideNotes_js'));
 				}
 				else
 				{
 					annotationManager.slideUp('slow'); // hiding
-					$('img', this).attr('title', _pk_translate('CoreHome_Annotations_IconDesc_js'));
+					$('img', this).attr('title', _pk_translate('Annotations_IconDesc_js'));
 				}
 			}
 			else
@@ -689,7 +685,7 @@ dataTable.prototype =
 				);
 				
 				// change the tooltip of the view annotation icon
-				$('img', this).attr('title', _pk_translate('CoreHome_Annotations_IconDescHideNotes_js'));
+				$('img', this).attr('title', _pk_translate('Annotations_IconDescHideNotes_js'));
 			}
 		});
 	},

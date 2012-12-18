@@ -589,9 +589,33 @@ var showAnnotationViewer = function(domElem, idSite, date, period, lastN, callba
 	}
 };
 
-// make showAnnotationViewer & annotationsApi globally accessible
+/**
+ * Determines the x-coordinates of a set of evolution annotation icons.
+ * 
+ * @param {Element} annotations The '.evolution-annotations' element.
+ * @param {Element} graphElem The evolution graph's datatable element.
+ */
+var placeEvolutionIcons = function (annotations, graphElem)
+{
+	var canvases = $('.piwik-graph .jqplot-xaxis canvas', graphElem),
+		noteSize = 16;
+	
+	// set position of each individual icon
+	$('span', annotations).each(function(i) {
+		var canvas = $(canvases[i]),
+			canvasCenterX = canvas.position().left + (canvas.width() / 2);
+		$(this).css({
+			left: canvasCenterX - noteSize / 2,
+			// show if there are annotations for this x-axis tick
+			opacity: +$(this).attr('data-count') > 0 ? 1 : 0
+		});
+	});
+};
+
+// make showAnnotationViewer, placeEvolutionIcons & annotationsApi globally accessible
 piwik.annotations = {
 	showAnnotationViewer: showAnnotationViewer,
+	placeEvolutionIcons: placeEvolutionIcons,
 	api: annotationsApi
 };
 

@@ -95,8 +95,8 @@
 			</ul>
 		</div>
 		{if !$properties.hide_annotations_view}
-		<div class="annotationView">
-			<a class="tableIcon"><img width="16" height="16" src="themes/default/images/grey_marker.png" title="{'CoreHome_Annotations_IconDesc_js'|translate}"/></a>
+		<div class="annotationView" title="{'Annotations_IconDesc_js'|translate}">
+			<a class="tableIcon"><img width="16" height="16" src="themes/default/images/grey_marker.png"/></a>
 			<span>{'Annotations_Annotations'|translate}</span>
 		</div>
 		{/if}
