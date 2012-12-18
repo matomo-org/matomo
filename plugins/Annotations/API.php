@@ -52,16 +52,8 @@ class Piwik_Annotations_API
 	 */
 	public function add( $idSite, $date, $note, $starred = 0 )
 	{
-		// can only add a note to one site
-		if (!is_numeric($idSite))
-		{
-			throw new Exception("Invalid idSite: '$idSite'. Note: Cannot add one note to multiple sites.");
-		}
-		
-		// make sure date is a valid date
-		Piwik_Date::factory($date);
-		
-		// check permissions
+		$this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot add one note to multiple sites.");
+		$this->checkDateIsValid($date);
 		$this->checkUserCanAddNotesFor($idSite);
 		
 		// add, save & return a new annotation
@@ -97,17 +89,8 @@ class Piwik_Annotations_API
 	 */
 	public function save( $idSite, $idNote, $date = null, $note = null, $starred = null )
 	{
-		// cannot update notes for multiple sites
-		if (!is_numeric($idSite))
-		{
-			throw new Exception("Invalid idSite: '$idSite'. Note: Cannot modify more than one note at a time.");
-		}
-		
-		// make sure date is a valid date
-		if ($date !== null)
-		{
-			Piwik_Date::factory($date);
-		}
+		$this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot modify more than one note at a time.");
+		$this->checkDateIsValid($date, $canBeNull = true);
 		
 		// get the annotations for the site
 		$annotations = new Piwik_Annotations_AnnotationList($idSite);
@@ -136,11 +119,7 @@ class Piwik_Annotations_API
 	 */
 	public function delete( $idSite, $idNote )
 	{
-		// check that $idSite is single
-		if (!is_numeric($idSite))
-		{
-			throw new Exception("Invalid idSite: '$idSite'. Note: Cannot delete multiple notes.");
-		}
+		$this->checkSingleIdSite($idSite, $extraMessage = "Note: Cannot delete multiple notes.");
 		
 		$annotations = new Piwik_Annotations_AnnotationList($idSite);
 		
@@ -167,12 +146,7 @@ class Piwik_Annotations_API
 	 */
 	public function get( $idSite, $idNote )
 	{
-		// getting a single note means only ONE idSite
-		if (!is_numeric($idSite))
-		{
-			throw new Exception("Invalid idSite: '$idSite'. Note: Specify only one site ID when getting ONE note.");
-		}
-		
+		$this->checkSingleIdSite($idSite, $extraMessage = "Note: Specify only one site ID when getting ONE note.");
 		Piwik::checkUserHasViewAccess($idSite);
 		
 		// get single annotation
@@ -360,5 +334,33 @@ class Piwik_Annotations_API
 			$endDate = Piwik_Date::factory($endDate);
 		}
 		return array($startDate, $endDate);
+	}
+	
+	/**
+	 * Utility function, makes sure idSite string has only one site ID and throws if
+	 * otherwise.
+	 */
+	private function checkSingleIdSite( $idSite, $extraMessage )
+	{
+		// can only add a note to one site
+		if (!is_numeric($idSite))
+		{
+			throw new Exception("Invalid idSite: '$idSite'. $extraMessage");
+		}
+	}
+	
+	/**
+	 * Utility function, makes sure date string is valid date, and throws if
+	 * otherwise.
+	 */
+	private function checkDateIsValid( $date, $canBeNull = false )
+	{
+		if ($date === null
+			&& $canBeNull)
+		{
+			return;
+		}
+		
+		Piwik_Date::factory($date);
 	}
 }

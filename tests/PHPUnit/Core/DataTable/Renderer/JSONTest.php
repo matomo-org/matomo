@@ -412,7 +412,7 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 	 * @group Core
 	 * @group DataTable
 	 * @group DataTable_Renderer
-	 * @group DataTable_Renderer_XML
+	 * @group DataTable_Renderer_JSON
 	 */
 	public function testRenderArray2()
 	{
@@ -429,7 +429,7 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 	 * @group Core
 	 * @group DataTable
 	 * @group DataTable_Renderer
-	 * @group DataTable_Renderer_XML
+	 * @group DataTable_Renderer_JSON
 	 */
 	public function testRenderArray3()
 	{
@@ -446,7 +446,7 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
 	 * @group Core
 	 * @group DataTable
 	 * @group DataTable_Renderer
-	 * @group DataTable_Renderer_XML
+	 * @group DataTable_Renderer_JSON
 	 */
 	public function testRenderArray4()
 	{
@@ -455,6 +455,23 @@ class DataTable_Renderer_JSONTest extends PHPUnit_Framework_TestCase
         $render = new Piwik_DataTable_Renderer_Json();
         $render->setTable($data);
         $expected = '{"a":"b","c":[1,2,3,4],"e":{"f":"g","h":"i","j":"k"}}';
+        
+        $this->assertEquals($expected, $render->render());
+	}
+	
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_JSON
+	 */
+	public function testRenderArray5()
+	{
+		$data = array('a' => 'b');
+		
+        $render = new Piwik_DataTable_Renderer_Json();
+		$render->setTable($data);
+		$expected = '[{"a":"b"}]';
         
         $this->assertEquals($expected, $render->render());
 	}

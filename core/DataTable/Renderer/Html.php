@@ -77,6 +77,11 @@ class Piwik_DataTable_Renderer_Html extends Piwik_DataTable_Renderer
 	 */
 	protected function renderTable($table)
 	{
+		if (is_array($table)) // convert array to DataTable
+		{
+			$table = Piwik_DataTable::makeFromSimpleArray($table);
+		}
+		
 		if($table instanceof Piwik_DataTable_Array)
 		{
 			foreach($table->getArray() as $date => $subtable )

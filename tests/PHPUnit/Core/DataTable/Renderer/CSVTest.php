@@ -412,4 +412,79 @@ class DataTable_Renderer_CSVTest extends PHPUnit_Framework_TestCase
         $rendered = $render->render();
         $this->assertEquals($expected, $rendered);
     }
+    
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray1()
+	{
+		$data = array();
+		
+        $render = new Piwik_DataTable_Renderer_Csv();
+        $render->setTable($data);
+        $render->convertToUnicode = false;
+        $expected = 'No data available';
+        
+        $this->assertEquals($expected, $render->render());
+	}
+    
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray2()
+	{
+		$data = array('a', 'b', 'c');
+		
+        $render = new Piwik_DataTable_Renderer_Csv();
+        $render->setTable($data);
+        $render->convertToUnicode = false;
+        $expected = 'a
+b
+c';
+        
+        $this->assertEquals($expected, $render->render());
+	}
+    
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray3()
+	{
+		$data = array('a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g');
+		
+        $render = new Piwik_DataTable_Renderer_Csv();
+        $render->setTable($data);
+        $render->convertToUnicode = false;
+        $expected = 'a,c,e,5
+b,d,f,g';
+        
+        $this->assertEquals($expected, $render->render());
+	}
+	
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray4()
+	{
+		$data = array('a' => 'b');
+		
+        $render = new Piwik_DataTable_Renderer_Csv();
+        $render->setTable($data);
+        $render->convertToUnicode = false;
+        $expected = 'b';
+        
+        $this->assertEquals($expected, $render->render());
+	}
 }

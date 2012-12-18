@@ -88,4 +88,78 @@ class DataTable_Renderer_ConsoleTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $rendered);
     }
+
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray1()
+	{
+		$data = array();
+		
+        $render = new Piwik_DataTable_Renderer_Console();
+        $render->setTable($data);
+        $expected = 'Empty table<br />
+';
+        
+        $this->assertEquals($expected, $render->render());
+	}
+    
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray2()
+	{
+		$data = array('a', 'b', 'c');
+		
+        $render = new Piwik_DataTable_Renderer_Console();
+        $render->setTable($data);
+        $expected = "- 1 ['0' => 'a'] [] [idsubtable = ]<br />
+- 2 ['0' => 'b'] [] [idsubtable = ]<br />
+- 3 ['0' => 'c'] [] [idsubtable = ]<br />
+";
+        
+        $this->assertEquals($expected, $render->render());
+	}
+    
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray3()
+	{
+		$data = array('a' => 'b', 'c' => 'd', 'e' => 'f', 5 => 'g');
+		
+        $render = new Piwik_DataTable_Renderer_Console();
+        $render->setTable($data);
+        $expected = "- 1 ['a' => 'b', 'c' => 'd', 'e' => 'f', '5' => 'g'] [] [idsubtable = ]<br />
+";
+        
+        $this->assertEquals($expected, $render->render());
+	}
+	
+	/**
+	 * @group Core
+	 * @group DataTable
+	 * @group DataTable_Renderer
+	 * @group DataTable_Renderer_XML
+	 */
+	public function testRenderArray4()
+	{
+		$data = array('a' => 'b');
+		
+        $render = new Piwik_DataTable_Renderer_Console();
+        $render->setTable($data);
+        $expected = "- 1 ['0' => 'b'] [] [idsubtable = ]<br />
+";
+        
+        $this->assertEquals($expected, $render->render());
+	}
 }

@@ -180,7 +180,8 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 		// NOTE: this is for backwards compatibility. before, array's were added to a new DataTable.
 		// if the array had arrays, they were added as multiple rows, otherwise it was treated as
 		// one row. removing will change API output.
-		$wrapInRow = $prefixLines === "\t" && self::shouldWrapArrayBeforeRendering($array, $isAssociativeArray);
+		$wrapInRow = $prefixLines === "\t"
+				  && self::shouldWrapArrayBeforeRendering($array, $wrapSingleValues = false, $isAssociativeArray);
 		
 		// render the array
 		$result = "";

@@ -57,7 +57,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
 		if (is_array($table))
 		{
 			$array = $table;
-			if (self::shouldWrapArrayBeforeRendering($array))
+			if (self::shouldWrapArrayBeforeRendering($array, $wrapSingleValues = true))
 			{
 				$array = array($array);
 			}

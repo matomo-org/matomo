@@ -1490,4 +1490,17 @@ class Piwik_DataTable
 		}
 		return $result;
 	}
+	
+	/**
+	 * Returns a new DataTable created with data from a 'simple' array.
+	 * 
+	 * @param array $array
+	 * @return Piwik_DataTable
+	 */
+	public static function makeFromSimpleArray( $array )
+	{
+		$dataTable = new Piwik_DataTable();
+		$dataTable->addRowsFromSimpleArray($array);
+		return $dataTable;
+	}
 }

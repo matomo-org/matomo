@@ -574,15 +574,21 @@ class DataTable_Renderer_XMLTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRenderArray2()
 	{
-		$data = array('a', 'b', 'c');
+		$data = array("firstElement", 
+					  array("firstElement", 
+							"secondElement"), 
+					  "thirdElement");
 		
         $render = new Piwik_DataTable_Renderer_Xml();
         $render->setTable($data);
         $expected = '<?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<row>a</row>
-	<row>b</row>
-	<row>c</row>
+	<row>firstElement</row>
+	<row>
+		<row>firstElement</row>
+		<row>secondElement</row>
+	</row>
+	<row>thirdElement</row>
 </result>';
         
         $this->assertEquals($expected, $render->render());

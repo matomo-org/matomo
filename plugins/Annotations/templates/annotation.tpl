@@ -35,7 +35,7 @@
 	<td class="annotation-user-cell">
 		<span class="annotation-user">{$annotation.user|unescape|escape:'html'}</span><br/>
 		{if $annotation.canEditOrDelete}
-		<a href="#" class="delete-annotation" style="display:none" title="{'Annotations_ClickToDelete'|translate}">Delete</a>
+		<a href="#" class="delete-annotation" style="display:none" title="{'Annotations_ClickToDelete'|translate}">{'General_Delete'|translate}</a>
 		{/if}
 	</td>
 	{/if}

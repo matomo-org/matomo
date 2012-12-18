@@ -267,18 +267,16 @@ class Piwik_Annotations_AnnotationList
 	{
 		$this->checkIdSiteIsLoaded($idSite);
 		
+		// search includes end date, and count should not, so subtract one from the timestamp
+		$annotations = $this->search($startDate, Piwik_Date::factory($endDate->getTimestamp() - 1));
+		
 		// count the annotations
 		$count = $starred = 0;
-		foreach ($this->annotations[$idSite] as $annotation)
+		if (!empty($annotations[$idSite]))
 		{
-			$annotationDate = Piwik_Date::factory($annotation['date']);
-			
-			// if annotation start date is between start date & end date, increment count
-			if ($annotationDate->getTimestamp() >= $startDate->getTimestamp()
-				&& $annotationDate->getTimestamp() < $endDate->getTimestamp())
+			$count = count($annotations[$idSite]);
+			foreach ($annotations[$idSite] as $annotation)
 			{
-				++$count;
-				
 				if ($annotation['starred'])
 				{
 					++$starred;

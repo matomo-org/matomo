@@ -98,6 +98,11 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 	 */
 	protected function renderTable($table, $prefix = "")
 	{
+		if (is_array($table)) // convert array to DataTable
+		{
+			$table = Piwik_DataTable::makeFromSimpleArray($table);
+		}
+		
 		if($table instanceof Piwik_DataTable_Array)
 		{
 			return $this->renderDataTableArray($table, $prefix);

@@ -365,7 +365,7 @@ abstract class Piwik_DataTable_Renderer
 	 * In the old code, arrays were added to new DataTable instances, and then rendered.
 	 * This transformation wrapped associative arrays except under certain circumstances,
 	 * including:
-	 *  - single element (ie, array('nb_visits' => 0))
+	 *  - single element (ie, array('nb_visits' => 0))   (not wrapped for some renderers)
 	 *  - empty array (ie, array())
 	 *  - array w/ arrays/DataTable instances as values (ie,
 	 *			array('name' => 'myreport',
@@ -374,11 +374,14 @@ abstract class Piwik_DataTable_Renderer
 	 *				  'reportData' => array(...)) )
 	 * 
 	 * @param array $array
+	 * @param bool $wrapSingleValues Whether to wrap array('key' => 'value') arrays. Some
+	 *                               renderers wrap them and some don't.
 	 * @param bool|null $isAssociativeArray Whether the array is associative or not.
 	 *                                      If null, it is determined.
 	 * @return bool
 	 */
-	protected static function shouldWrapArrayBeforeRendering( $array, $isAssociativeArray = null )
+	protected static function shouldWrapArrayBeforeRendering(
+		$array, $wrapSingleValues = true, $isAssociativeArray = null )
 	{
 		if (empty($array))
 		{
@@ -395,7 +398,8 @@ abstract class Piwik_DataTable_Renderer
 		{
 			// we don't wrap if the array has one element that is a value
 			$firstValue = reset($array);
-			if (count($array) === 1
+			if (!$wrapSingleValues
+				&& count($array) === 1
 				&& (!is_array($firstValue)
 					&& !is_object($firstValue)))
 			{

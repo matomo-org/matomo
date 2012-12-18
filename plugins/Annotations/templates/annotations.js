@@ -159,6 +159,7 @@ var getDatePickerOptions = function(annotation)
 	result.onSelect = function (dateText)
 	{
 		$('.annotation-period-edit>a', annotation).text(dateText);
+		$('.datepicker', annotation).hide();
 	};
 	
 	return result;
@@ -293,6 +294,7 @@ var bindAnnotationManagerEvents = function(manager, idSite, onAnnotationCountCha
 		
 		// disable input & link
 		addNoteInput.attr('disabled', 'disabled');
+		$(this).attr('disabled', 'disabled');
 		
 		// add a new annotation for the site, date & period
 		annotationsApi.addAnnotation(
@@ -349,6 +351,7 @@ var bindAnnotationManagerEvents = function(manager, idSite, onAnnotationCountCha
 		
 		// disable input while ajax is happening
 		input.attr('disabled', 'disabled');
+		$(this).attr('disabled', 'disabled');
 	
 		// save the note w/ the new note text & date
 		annotationsApi.saveAnnotation(
@@ -402,8 +405,8 @@ var bindAnnotationManagerEvents = function(manager, idSite, onAnnotationCountCha
 			manager.attr('data-date'),
 			manager.attr('data-period'),
 			function (response) {
-				manager.html($(response).html());
-			
+				replaceAnnotationManager(manager, response);
+				
 				// update evolution icons
 				var isStarred = isAnnotationStarred(annotation);
 				onAnnotationCountChange(annotation.attr('data-date'), -1, isStarred ? -1 : 0);
@@ -454,6 +457,9 @@ var bindAnnotationManagerEvents = function(manager, idSite, onAnnotationCountCha
 		}
 	});
 };
+
+// used in below function
+var loadingAnnotationManager = false;
 
 /**
  * Shows an annotation manager under a report for a specific site & date range.
@@ -543,6 +549,14 @@ var showAnnotationViewer = function(domElem, idSite, date, period, lastN, callba
 	}
 	else
 	{
+		// if we are already loading the annotation manager, don't load it again
+		if (loadingAnnotationManager)
+		{
+			return;
+		}
+		
+		loadingAnnotationManager = true;
+		
 		var loading = $('.loadingPiwikBelow', domElem).css({display: 'block'});
 		
 		// the annotations for this report have not been retrieved yet, so do an ajax request
@@ -567,6 +581,7 @@ var showAnnotationViewer = function(domElem, idSite, date, period, lastN, callba
 			$('.dataTableFeatures', domElem).append(manager);
 			manager.slideDown('slow', function() {
 				loading.hide().css('visibility', 'visible');
+				loadingAnnotationManager = false;
 			
 				if (callback) callback(manager)
 			});

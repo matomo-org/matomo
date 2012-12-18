@@ -590,18 +590,24 @@ dataTable.prototype =
 						}
 					);
 				
-					// when clicking an annotation, show the annotation viewer for that day
+					// when clicking an annotation, show the annotation viewer for that period
 					$('span', annotations).click(function() {
 						var spanSelf = $(this),
 							date = spanSelf.attr('data-date'),
 							oldDate = $('.annotation-manager', domElem).attr('data-date');
 						if (date)
 						{
+							var period = self.param.period;
+							if (period == 'range')
+							{
+								period = 'day';
+							}
+							
 							piwik.annotations.showAnnotationViewer(
 								domElem,
 								self.param.idSite,
 								date,
-								self.param.period,
+								period,
 								undefined, // lastN
 								function (manager) {
 									manager.attr('data-is-range', 0);
