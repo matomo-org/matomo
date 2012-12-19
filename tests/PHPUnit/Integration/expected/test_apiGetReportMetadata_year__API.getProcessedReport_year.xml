@@ -11,13 +11,11 @@
 		<metrics>
 			<nb_visits>Visites</nb_visits>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>
 			<avg_time_on_site>Temps moyen sur le site</avg_time_on_site>
 			<bounce_rate>Taux de rebond</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>Si un visiteur se rend sur votre site web pour la première fois ou s'il visite une page plus de 30 minutes après sa dernière page, il sera enregistré en tant que nouvelle visite.</nb_visits>
@@ -30,21 +28,17 @@
 			<avg_time_on_page>Temps moyen que les visiteurs ont passé sur cette page (seulement la page, pas le site entier).</avg_time_on_page>
 			<nb_hits>Le nombre de fois que cette page a été visitée.</nb_hits>
 			<exit_rate>Pourcentage de visites qui ont quitté le site web après avoir visualisé cette page (affichages uniques divisés par sorties)</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenu</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Valeur par Visite</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=year&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=year&amp;date=2000-01-01,2009-12-31</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
-
 	</metadata>
 	<columns>
 		<label>Pays</label>
@@ -54,9 +48,7 @@
 		<avg_time_on_site>Temps moyen sur le site</avg_time_on_site>
 		<bounce_rate>Taux de rebond</bounce_rate>
 		<revenue>Revenu</revenue>
-
 	</columns>
-	<reportData/>
-	<reportMetadata/>
-
+	<reportData />
+	<reportMetadata />
 </result>

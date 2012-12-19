@@ -81,38 +81,39 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 
 	public function getApiForTesting()
 	{
-		$apiToCall = array(
-			'UserCountry.getCountry', 'UserCountry.getContinent', 'UserCountry.getRegion', 'UserCountry.getCity');
-		
+		// Note: we must set  'UserCountry.getLocationFromIP' since it's "excluded" by default in setApiNotToCall
+		$apiToCall = array('UserCountry');
+
 		return array(
-			array($apiToCall, array('idSite'		=> self::$idSite,
+			array( $apiToCall,
+							array(  'idSite'		=> self::$idSite,
 									'date'		=> self::$dateTime,
 									'periods'	=> array('month'))),
-			
+
 			array($apiToCall, array('idSite'		=> self::$idSite,
 									'date'		=> self::$dateTime,
 									'periods'	=> array('month'),
 									'testSuffix' => '_segment_region',
 									'segment'    => 'region==P3;country==gb')),
-			
+
 			array($apiToCall, array('idSite'		=> self::$idSite,
 									'date'		=> self::$dateTime,
 									'periods'	=> array('month'),
 									'testSuffix' => '_segment_city',
 									'segment'    => 'city==Stratford-upon-Avon;region==P3;country==gb')),
-			
+
 			array($apiToCall, array('idSite'		=> self::$idSite,
 									'date'		=> self::$dateTime,
 									'periods'	=> array('month'),
 									'testSuffix' => '_segment_lat_long',
 									'segment'    => 'lat>45;lat<49.3;long>-125;long<-122')),
-			
+
 			array('UserCountry.getCountry', array('idSite'		=> self::$idSite,
 												  'date'		=> self::$dateTime,
 												  'periods'		=> array('month'),
 												  'testSuffix'	=> '_segment_continent',
 												  'segment'   	=> 'continent==eur')),
-			
+
 			array(array('UserCountry.getLocationFromIP', 'Live.getLastVisitsDetails'), array('idSite'		=> self::$idSite,
 														 'date'		=> self::$dateTime,
 														 'periods'		=> array('month'),

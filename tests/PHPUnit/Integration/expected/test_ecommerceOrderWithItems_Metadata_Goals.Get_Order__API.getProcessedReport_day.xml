@@ -9,7 +9,6 @@
 		<action>get</action>
 		<parameters>
 			<idGoal>ecommerceOrder</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Ecommerce Orders</nb_conversions>
@@ -22,12 +21,10 @@
 			<revenue_discount>Discount</revenue_discount>
 			<items>Purchased Products</items>
 			<avg_order_revenue>Average Order Value</avg_order_revenue>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>
-
 	</metadata>
 	<columns>
 		<nb_conversions>Ecommerce Orders</nb_conversions>
@@ -40,7 +37,6 @@
 		<revenue_discount>Discount</revenue_discount>
 		<items>Purchased Products</items>
 		<avg_order_revenue>Average Order Value</avg_order_revenue>
-
 	</columns>
 	<reportData>
 		<nb_conversions>2</nb_conversions>
@@ -54,6 +50,5 @@
 		<items>10</items>
 		<avg_order_revenue>$ 1555.56</avg_order_revenue>
 	</reportData>
-	<reportMetadata/>
-
+	<reportMetadata />
 </result>

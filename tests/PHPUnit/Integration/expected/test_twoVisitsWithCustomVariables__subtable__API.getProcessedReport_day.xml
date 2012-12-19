@@ -14,14 +14,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -34,12 +32,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2010-01-03&amp;idSubtable=</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2009-12-05,2010-01-03&amp;idSubtable=</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2010-01-03&amp;idSubtable=9</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2009-12-05,2010-01-03&amp;idSubtable=9</imageGraphEvolutionUrl>
 		<uniqueId>CustomVariables_getCustomVariablesValuesFromNameId</uniqueId>
-
 	</metadata>
 	<columns>
 		<label>Custom Variable value</label>
@@ -50,7 +46,6 @@
 		<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<conversion_rate>Conversion Rate</conversion_rate>
-
 	</columns>
 	<reportData>
 		<row>
@@ -74,6 +69,5 @@
 			<conversion_rate>0%</conversion_rate>
 		</row>
 	</reportData>
-	<reportMetadata/>
-
+	<reportMetadata />
 </result>

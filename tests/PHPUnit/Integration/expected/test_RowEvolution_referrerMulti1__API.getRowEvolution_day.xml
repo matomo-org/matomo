@@ -183,15 +183,12 @@
 				<name>referrer0.com/theReferrerPage1.html (Visits)</name>
 				<min>0</min>
 				<max>1</max>
-
 			</nb_visits_0>
 			<nb_visits_1>
 				<name>www.referrer2.com (Visits)</name>
 				<min>0</min>
 				<max>1</max>
-
 			</nb_visits_1>
-
 		</metrics>
 		<dimension>Website</dimension>
 		<columns>
@@ -201,9 +198,6 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</columns>
-
 	</metadata>
-
 </result>

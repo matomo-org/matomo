@@ -65,42 +65,33 @@
 				<name>Visits</name>
 				<min>0</min>
 				<max>1</max>
-
 			</nb_visits>
 			<nb_uniq_visitors>
 				<name>Unique visitors</name>
 				<min>0</min>
 				<max>1</max>
-
 			</nb_uniq_visitors>
 			<nb_actions>
 				<name>Actions</name>
 				<min>0</min>
 				<max>1</max>
-
 			</nb_actions>
 			<nb_actions_per_visit>
 				<name>Actions per Visit</name>
 				<min>0</min>
 				<max>1</max>
-
 			</nb_actions_per_visit>
 			<avg_time_on_site>
 				<name>Avg. Time on Website</name>
 				<min>0</min>
 				<max>365</max>
-
 			</avg_time_on_site>
 			<bounce_rate>
 				<name>Bounce Rate</name>
 				<min>0</min>
 				<max>100</max>
-
 			</bounce_rate>
-
 		</metrics>
 		<dimension>Website</dimension>
-
 	</metadata>
-
 </result>

@@ -183,16 +183,13 @@
 				<name>free &gt; proprietary (Visits)</name>
 				<min>0</min>
 				<max>1</max>
-
 			</nb_visits_0>
 			<nb_visits_1>
 				<name>peace &quot;,&quot; not war (Visits)</name>
 				<min>0</min>
 				<max>1</max>
 				<change>-100%</change>
-
 			</nb_visits_1>
-
 		</metrics>
 		<dimension>Keyword</dimension>
 		<columns>
@@ -202,9 +199,6 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</columns>
-
 	</metadata>
-
 </result>

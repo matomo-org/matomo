@@ -40,16 +40,13 @@
 				<min>2</min>
 				<max>3</max>
 				<change>0%</change>
-
 			</nb_hits_0>
 			<nb_hits_1>
 				<name>incredible title 2 (Pageviews)</name>
 				<min>1</min>
 				<max>3</max>
 				<change>+100%</change>
-
 			</nb_hits_1>
-
 		</metrics>
 		<dimension>Page Name</dimension>
 		<columns>
@@ -58,9 +55,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_on_page>Avg. time on page</avg_time_on_page>
 			<exit_rate>Exit rate</exit_rate>
-
 		</columns>
-
 	</metadata>
-
 </result>

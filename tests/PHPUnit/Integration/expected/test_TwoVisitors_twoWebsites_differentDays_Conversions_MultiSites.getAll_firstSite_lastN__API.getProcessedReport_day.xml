@@ -23,7 +23,6 @@
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
 			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -36,12 +35,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2010-01-03,2010-01-09</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>
-
 	</metadata>
 	<columns>
 		<label>Website</label>
@@ -59,7 +56,6 @@
 		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 		<ecommerce_revenue>Product Revenue</ecommerce_revenue>
 		<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
-
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">
@@ -165,5 +161,4 @@
 		<result prettyDate="Friday 8 January 2010" />
 		<result prettyDate="Saturday 9 January 2010" />
 	</reportMetadata>
-
 </result>

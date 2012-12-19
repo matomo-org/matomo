@@ -184,20 +184,14 @@
 				<min>2</min>
 				<max>2</max>
 				<change>0%</change>
-
 			</nb_conversions_0>
 			<nb_conversions_1>
 				<name> 2 visits (Conversions)</name>
-
 			</nb_conversions_1>
-
 		</metrics>
 		<dimension>Visits to Conversion</dimension>
 		<columns>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</columns>
-
 	</metadata>
-
 </result>

@@ -114,6 +114,8 @@ class Piwik_Config
 		if(is_null($pathGlobal))
 		{
 			$this->configCache['Debug'] = $this->configGlobal['Debug'];
+			$this->configCache['branding'] = $this->configGlobal['branding'];
+			$this->configCache['mail'] = $this->configGlobal['mail'];
 			$this->configCache['General'] = $this->configGlobal['General'];
 			$this->configCache['Segments'] = $this->configGlobal['Segments'];
 			$this->configCache['Tracker'] = $this->configGlobal['Tracker'];

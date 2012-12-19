@@ -21,7 +21,6 @@
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
 			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -34,12 +33,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getOne&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getOne</uniqueId>
-
 	</row>
 	<row>
 		<category>All Websites</category>
@@ -62,7 +59,6 @@
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
 			<ecommerce_revenue>Product Revenue</ecommerce_revenue>
 			<ecommerce_revenue_evolution>Product Revenue Evolution</ecommerce_revenue_evolution>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -75,12 +71,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=MultiSites&amp;apiAction=getAll&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>MultiSites_getAll</uniqueId>
-
 	</row>
 	<row>
 		<category>Visits Summary</category>
@@ -95,7 +89,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_on_site>Avg. Visit Duration (in seconds)</avg_time_on_site>
 			<max_actions>Maximum actions in one visit</max_actions>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -108,12 +101,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitsSummary&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>VisitsSummary_get</uniqueId>
-
 	</row>
 	<row>
 		<category>Visits Summary</category>
@@ -127,13 +118,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -146,20 +135,16 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerServerTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerServerTime</uniqueId>
-
 	</row>
 	<row>
 		<category>Visits Summary</category>
@@ -173,14 +158,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -193,11 +176,9 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getVisitInformationPerLocalTime&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getVisitInformationPerLocalTime</uniqueId>
-
 	</row>
 	<row>
 		<category>Visits Summary</category>
@@ -211,14 +192,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -231,11 +210,9 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitTime&amp;apiAction=getByDayOfWeek&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitTime_getByDayOfWeek</uniqueId>
-
 	</row>
 	<row>
 		<category>Ecommerce</category>
@@ -244,7 +221,6 @@
 		<action>get</action>
 		<parameters>
 			<idGoal>ecommerceOrder</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Ecommerce Orders</nb_conversions>
@@ -257,12 +233,10 @@
 			<revenue_discount>Discount</revenue_discount>
 			<items>Purchased Products</items>
 			<avg_order_revenue>Average Order Value</avg_order_revenue>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceOrder</uniqueId>
-
 	</row>
 	<row>
 		<category>Ecommerce</category>
@@ -273,15 +247,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<parameters>
 			<idGoal>ecommerceOrder</idGoal>
-
 		</parameters>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--ecommerceOrder</uniqueId>
-
 	</row>
 	<row>
 		<category>Ecommerce</category>
@@ -292,15 +263,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<parameters>
 			<idGoal>ecommerceOrder</idGoal>
-
 		</parameters>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=ecommerceOrder&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--ecommerceOrder</uniqueId>
-
 	</row>
 	<row>
 		<category>Ecommerce</category>
@@ -309,19 +277,16 @@
 		<action>get</action>
 		<parameters>
 			<idGoal>ecommerceAbandonedCart</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Abandoned Carts</nb_conversions>
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue left in cart</revenue>
 			<items>Products left in cart</items>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--ecommerceAbandonedCart</uniqueId>
-
 	</row>
 	<row>
 		<category>Ecommerce</category>
@@ -332,15 +297,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<parameters>
 			<idGoal>ecommerceAbandonedCart</idGoal>
-
 		</parameters>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--ecommerceAbandonedCart</uniqueId>
-
 	</row>
 	<row>
 		<category>Ecommerce</category>
@@ -351,15 +313,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<parameters>
 			<idGoal>ecommerceAbandonedCart</idGoal>
-
 		</parameters>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=ecommerceAbandonedCart&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--ecommerceAbandonedCart</uniqueId>
-
 	</row>
 	<row>
 		<category>Ecommerce</category>
@@ -375,12 +334,10 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<nb_visits>Visits</nb_visits>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsSku&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsSku</uniqueId>
-
 	</row>
 	<row>
 		<category>Ecommerce</category>
@@ -396,12 +353,10 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<nb_visits>Visits</nb_visits>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsName&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsName</uniqueId>
-
 	</row>
 	<row>
 		<category>Ecommerce</category>
@@ -417,12 +372,10 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<nb_visits>Visits</nb_visits>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsCategory</uniqueId>
-
 	</row>
 	<row>
 		<category>Actions</category>
@@ -438,7 +391,6 @@
 			<nb_uniq_outlinks>Unique Outlinks</nb_uniq_outlinks>
 			<nb_searches>Searches</nb_searches>
 			<nb_keywords>Unique Keywords</nb_keywords>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_pageviews>The number of times this page was visited.</nb_pageviews>
@@ -448,12 +400,10 @@
 			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
 			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
 			<nb_searches>The number of visits that searched for this keyword on your website's search engine.</nb_searches>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_get</uniqueId>
-
 	</row>
 	<row>
 		<category>Actions</category>
@@ -467,7 +417,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_on_page>Avg. time on page</avg_time_on_page>
 			<exit_rate>Exit rate</exit_rate>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_hits>The number of times this page was visited.</nb_hits>
@@ -475,14 +424,12 @@
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageUrls</uniqueId>
-
 	</row>
 	<row>
 		<category>Actions</category>
@@ -494,20 +441,17 @@
 			<entry_nb_visits>Entrances</entry_nb_visits>
 			<entry_bounce_count>Bounces</entry_bounce_count>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</metrics>
 		<metricsDocumentation>
 			<entry_nb_visits>Number of visits that started on this page.</entry_nb_visits>
 			<entry_bounce_count>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</entry_bounce_count>
 			<bounce_rate>Percentage of visits that started and ended on this page.</bounce_rate>
-
 		</metricsDocumentation>
 		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during his visit. &lt;br /&gt; The entry URLs are displayed as a folder structure. Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getEntryPageUrls</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageUrls&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getEntryPageUrls</uniqueId>
-
 	</row>
 	<row>
 		<category>Actions</category>
@@ -519,20 +463,17 @@
 			<exit_nb_visits>Exits</exit_nb_visits>
 			<nb_visits>Unique Pageviews</nb_visits>
 			<exit_rate>Exit rate</exit_rate>
-
 		</metrics>
 		<metricsDocumentation>
 			<exit_nb_visits>Number of visits that ended on this page.</exit_nb_visits>
 			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during his visit. &lt;br /&gt; The exit URLs are displayed as a folder structure. Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getExitPageUrls</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageUrls&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageUrls&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getExitPageUrls</uniqueId>
-
 	</row>
 	<row>
 		<category>Actions</category>
@@ -546,7 +487,6 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_on_page>Avg. time on page</avg_time_on_page>
 			<exit_rate>Exit rate</exit_rate>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_hits>The number of times this page was visited.</nb_hits>
@@ -554,14 +494,12 @@
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageTitles</uniqueId>
-
 	</row>
 	<row>
 		<category>Actions</category>
@@ -573,20 +511,17 @@
 			<entry_nb_visits>Entrances</entry_nb_visits>
 			<entry_bounce_count>Bounces</entry_bounce_count>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</metrics>
 		<metricsDocumentation>
 			<entry_nb_visits>Number of visits that started on this page.</entry_nb_visits>
 			<entry_bounce_count>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</entry_bounce_count>
 			<bounce_rate>Percentage of visits that started and ended on this page.</bounce_rate>
-
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of exit pages that occurred during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getEntryPageTitles</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getEntryPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getEntryPageTitles</uniqueId>
-
 	</row>
 	<row>
 		<category>Actions</category>
@@ -598,20 +533,17 @@
 			<exit_nb_visits>Exits</exit_nb_visits>
 			<nb_visits>Unique Pageviews</nb_visits>
 			<exit_rate>Exit rate</exit_rate>
-
 		</metrics>
 		<metricsDocumentation>
 			<exit_nb_visits>Number of visits that ended on this page.</exit_nb_visits>
 			<nb_visits>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</nb_visits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getExitPageTitles</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageTitles&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getExitPageTitles&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getExitPageTitles</uniqueId>
-
 	</row>
 	<row>
 		<category>Actions</category>
@@ -622,19 +554,16 @@
 		<metrics>
 			<nb_visits>Unique Clicks</nb_visits>
 			<nb_hits>Clicks</nb_hits>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_visits>
 			<nb_hits>The number of times this link was clicked.</nb_hits>
-
 		</metricsDocumentation>
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getOutlinks</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getOutlinks&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getOutlinks</uniqueId>
-
 	</row>
 	<row>
 		<category>Actions</category>
@@ -645,19 +574,16 @@
 		<metrics>
 			<nb_visits>Unique Downloads</nb_visits>
 			<nb_hits>Downloads</nb_hits>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_visits>
 			<nb_hits>The number of times this link was clicked.</nb_hits>
-
 		</metricsDocumentation>
 		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Piwik counts as a download is the click on a download link. Whether the download was completed or not isn't known to Piwik.</documentation>
 		<actionToLoadSubTables>getDownloads</actionToLoadSubTables>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getDownloads&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getDownloads&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getDownloads</uniqueId>
-
 	</row>
 	<row>
 		<category>Referrers</category>
@@ -671,13 +597,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -690,21 +614,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getRefererType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getRefererType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referers_getRefererType</uniqueId>
-
 	</row>
 	<row>
 		<category>Referrers</category>
@@ -718,13 +638,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -737,21 +655,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getKeywords&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getKeywords&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referers_getKeywords</uniqueId>
-
 	</row>
 	<row>
 		<category>Referrers</category>
@@ -765,13 +679,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -784,21 +696,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getWebsites&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getWebsites&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referers_getWebsites</uniqueId>
-
 	</row>
 	<row>
 		<category>Referrers</category>
@@ -812,13 +720,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -831,21 +737,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getSearchEngines&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referers_getSearchEngines</uniqueId>
-
 	</row>
 	<row>
 		<category>Referrers</category>
@@ -859,13 +761,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -878,21 +778,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getCampaigns&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referers_getCampaigns</uniqueId>
-
 	</row>
 	<row>
 		<category>Referrers</category>
@@ -906,14 +802,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -926,12 +820,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getSocials&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Referers&amp;apiAction=getSocials&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Referers_getSocials</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -943,12 +835,10 @@
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -959,20 +849,16 @@
 		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -983,20 +869,16 @@
 		<constantRowsCount>1</constantRowsCount>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -1005,19 +887,16 @@
 		<action>get</action>
 		<parameters>
 			<idGoal>1</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=1&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--1</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -1028,15 +907,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>1</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=1&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--1</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -1047,15 +923,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>1</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=1&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--1</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -1064,19 +937,16 @@
 		<action>get</action>
 		<parameters>
 			<idGoal>2</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=2&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=2&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--2</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -1087,15 +957,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>2</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=2&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--2</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -1106,15 +973,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>2</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=2&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--2</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -1123,19 +987,16 @@
 		<action>get</action>
 		<parameters>
 			<idGoal>3</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
 			<nb_visits_converted>Visits with Conversions</nb_visits_converted>
 			<conversion_rate>Conversion Rate</conversion_rate>
 			<revenue>Revenue</revenue>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=3&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=get&amp;idGoal=3&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Goals_get_idGoal--3</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -1146,15 +1007,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>3</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getVisitsUntilConversion&amp;idGoal=3&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getVisitsUntilConversion_idGoal--3</uniqueId>
-
 	</row>
 	<row>
 		<category>Goals</category>
@@ -1165,15 +1023,12 @@
 		<constantRowsCount>1</constantRowsCount>
 		<parameters>
 			<idGoal>3</idGoal>
-
 		</parameters>
 		<metrics>
 			<nb_conversions>Conversions</nb_conversions>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getDaysToConversion&amp;idGoal=3&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>Goals_getDaysToConversion_idGoal--3</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1185,13 +1040,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1204,21 +1057,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCountry&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCountry</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1230,13 +1079,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1249,21 +1096,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getContinent&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getContinent</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1275,13 +1118,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1294,21 +1135,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getRegion&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getRegion</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1320,13 +1157,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1339,21 +1174,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserCountry&amp;apiAction=getCity&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserCountry_getCity</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1367,13 +1198,11 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1386,21 +1215,17 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
-
 		</metricsGoal>
 		<processedMetricsGoal>
 			<revenue_per_visit>Revenue per Visit</revenue_per_visit>
-
 		</processedMetricsGoal>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariables&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>CustomVariables_getCustomVariables</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1410,7 +1235,6 @@
 		<dimension>Visit duration</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
 		<documentation>In this report, you can see how many visits had a certain total duration. Initially, the report is shown as a tag cloud, more common durations are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
@@ -1425,11 +1249,9 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerVisitDuration&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1439,7 +1261,6 @@
 		<dimension>Pages per visit</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
 		<documentation>In this report, you can see how many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, more common numbers of pages are displayed in a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
@@ -1454,11 +1275,9 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsPerPage&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1469,7 +1288,6 @@
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
-
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
 		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
@@ -1484,11 +1302,9 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByVisitCount&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsByVisitCount</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1498,7 +1314,6 @@
 		<dimension>Visits by days since last visit</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
@@ -1513,11 +1328,9 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByDaysSinceLast&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1531,7 +1344,6 @@
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1544,12 +1356,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitFrequency&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>VisitFrequency_get</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitors</category>
@@ -1562,14 +1372,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1582,12 +1390,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Provider&amp;apiAction=getProvider&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Provider&amp;apiAction=getProvider&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>Provider_getProvider</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1599,14 +1405,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1619,12 +1423,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getResolution&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getResolution&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserSettings_getResolution</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1637,14 +1439,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1657,12 +1457,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowser&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowser&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserSettings_getBrowser</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1674,14 +1472,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1694,12 +1490,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowserVersion&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowserVersion&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserSettings_getBrowserVersion</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1712,14 +1506,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1732,12 +1524,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowserType&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getBrowserType&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserSettings_getBrowserType</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1749,7 +1539,6 @@
 		<metrics>
 			<nb_visits>Visits</nb_visits>
 			<nb_visits_percentage>% Visits</nb_visits_percentage>
-
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsDocumentation>
@@ -1763,11 +1552,9 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getPlugin&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<uniqueId>UserSettings_getPlugin</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1779,14 +1566,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1799,12 +1584,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getWideScreen&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getWideScreen&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserSettings_getWideScreen</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1816,14 +1599,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1836,12 +1617,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getOS&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getOS&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserSettings_getOS</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1854,14 +1633,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1874,12 +1651,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getConfiguration&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getConfiguration&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserSettings_getConfiguration</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1891,14 +1666,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1911,12 +1684,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getOSFamily&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getOSFamily&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserSettings_getOSFamily</uniqueId>
-
 	</row>
 	<row>
 		<category>Visitor Settings</category>
@@ -1928,14 +1699,12 @@
 			<nb_visits>Visits</nb_visits>
 			<nb_uniq_visitors>Unique visitors</nb_uniq_visitors>
 			<nb_actions>Actions</nb_actions>
-
 		</metrics>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<conversion_rate>Conversion Rate</conversion_rate>
-
 		</processedMetrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -1948,12 +1717,10 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getMobileVsDesktop&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=UserSettings&amp;apiAction=getMobileVsDesktop&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>UserSettings_getMobileVsDesktop</uniqueId>
-
 	</row>
 	<row>
 		<category>API</category>
@@ -1992,7 +1759,6 @@
 			<bounce_rate_returning>Bounce Rate for Returning Visits</bounce_rate_returning>
 			<nb_actions_per_visit_returning>Avg. Actions per Returning Visit</nb_actions_per_visit_returning>
 			<nb_uniq_visitors_returning>Unique returning visitors</nb_uniq_visitors_returning>
-
 		</metrics>
 		<metricsDocumentation>
 			<nb_visits>If a visitor comes to your website for the first time or if he visits a page more than 30 minutes after his last page view, this will be recorded as a new visit.</nb_visits>
@@ -2012,10 +1778,7 @@
 			<nb_outlinks>The number of times this link was clicked.</nb_outlinks>
 			<nb_uniq_outlinks>The number of visits that involved a click on this link. If a link was clicked multiple times during one visit, it is only counted once.</nb_uniq_outlinks>
 			<nb_searches>The number of visits that searched for this keyword on your website's search engine.</nb_searches>
-
 		</metricsDocumentation>
 		<uniqueId>API_get</uniqueId>
-
 	</row>
-
 </result>

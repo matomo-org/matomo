@@ -23,34 +23,26 @@
 				<name>Pageviews</name>
 				<min>0</min>
 				<max>2</max>
-
 			</nb_hits>
 			<nb_visits>
 				<name>Unique Pageviews</name>
 				<min>0</min>
 				<max>2</max>
-
 			</nb_visits>
 			<bounce_rate>
 				<name>Bounce Rate</name>
 				<min>0</min>
 				<max>100</max>
-
 			</bounce_rate>
 			<avg_time_on_page>
 				<name>Avg. time on page</name>
-
 			</avg_time_on_page>
 			<exit_rate>
 				<name>Exit rate</name>
 				<min>0</min>
 				<max>100</max>
-
 			</exit_rate>
-
 		</metrics>
 		<dimension>Page URL</dimension>
-
 	</metadata>
-
 </result>

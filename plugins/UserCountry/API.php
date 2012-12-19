@@ -190,6 +190,7 @@ class Piwik_UserCountry_API
 		{
 			throw new Exception("Could not geolocate '$ip'!");
 		}
+		$location['ip'] = $ip;
 		return $location;
 	}
 	

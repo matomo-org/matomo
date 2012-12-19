@@ -10,7 +10,6 @@
 		<dimension>Visits by days since last visit</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
 		<documentation>In this report, you can see how many visits were from visitors whose last visit was a certain number of days ago.</documentation>
@@ -25,16 +24,13 @@
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-
 		</metricsDocumentation>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=VisitorInterest&amp;apiAction=getNumberOfVisitsByDaysSinceLast&amp;period=range&amp;date=2010-01-03,2010-01-09</imageGraphUrl>
 		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
-
 	</metadata>
 	<columns>
 		<label>Visits by days since last visit</label>
 		<nb_visits>Visits</nb_visits>
-
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">
@@ -237,5 +233,4 @@
 		<result prettyDate="Friday 8 January 2010" />
 		<result prettyDate="Saturday 9 January 2010" />
 	</reportMetadata>
-
 </result>

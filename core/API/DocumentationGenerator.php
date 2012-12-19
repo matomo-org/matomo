@@ -143,7 +143,7 @@ class Piwik_API_DocumentationGenerator
 			'apiAction' => 'getCountry',
 			'lastMinutes' => '30',
 			'abandonedCarts' => '0',
-			'ip' => '154.1.12.34',
+			'ip' => '194.57.91.215',
 		);
 		
 		foreach($parametersToSet as $name => $value)

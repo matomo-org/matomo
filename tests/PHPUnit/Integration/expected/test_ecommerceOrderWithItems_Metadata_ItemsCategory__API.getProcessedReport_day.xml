@@ -16,12 +16,10 @@
 			<avg_quantity>Average Quantity</avg_quantity>
 			<nb_visits>Visits</nb_visits>
 			<conversion_rate>Product Conversion Rate</conversion_rate>
-
 		</metrics>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2011-04-05</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Goals&amp;apiAction=getItemsCategory&amp;period=day&amp;date=2011-03-07,2011-04-05</imageGraphEvolutionUrl>
 		<uniqueId>Goals_getItemsCategory</uniqueId>
-
 	</metadata>
 	<columns>
 		<label>Product Category</label>
@@ -32,7 +30,6 @@
 		<avg_quantity>Average Quantity</avg_quantity>
 		<nb_visits>Visits</nb_visits>
 		<conversion_rate>Product Conversion Rate</conversion_rate>
-
 	</columns>
 	<reportData>
 		<row>
@@ -106,6 +103,5 @@
 			<orders>0</orders>
 		</row>
 	</reportData>
-	<reportMetadata/>
-
+	<reportMetadata />
 </result>

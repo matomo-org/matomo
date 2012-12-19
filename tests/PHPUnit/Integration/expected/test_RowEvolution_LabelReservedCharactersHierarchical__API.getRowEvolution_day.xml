@@ -239,20 +239,17 @@
 		<metrics>
 			<nb_visits_0>
 				<name>Google - free &gt; proprietary (Visits)</name>
-
 			</nb_visits_0>
 			<nb_visits_1>
 				<name>Google - peace &quot;,&quot; not war (Visits)</name>
 				<min>0</min>
 				<max>1</max>
 				<change>-100%</change>
-
 			</nb_visits_1>
 			<nb_visits_2>
 				<name>Google - justice )(&amp;^#%$ not corruption! (Visits)</name>
 				<min>0</min>
 				<max>1</max>
-
 			</nb_visits_2>
 			<nb_visits_3>
 				<name>Google (Visits)</name>
@@ -260,9 +257,7 @@
 				<min>1</min>
 				<max>1</max>
 				<change>0%</change>
-
 			</nb_visits_3>
-
 		</metrics>
 		<dimension>Search Engine</dimension>
 		<columns>
@@ -272,9 +267,6 @@
 			<nb_actions_per_visit>Actions per Visit</nb_actions_per_visit>
 			<avg_time_on_site>Avg. Time on Website</avg_time_on_site>
 			<bounce_rate>Bounce Rate</bounce_rate>
-
 		</columns>
-
 	</metadata>
-
 </result>

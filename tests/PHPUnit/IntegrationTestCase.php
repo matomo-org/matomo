@@ -153,6 +153,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+	    // Make sure the browser running the test does not influence the Country detection code
+	    $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
+
         $this->changeLanguage('en');
     }
 
@@ -605,10 +608,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     && in_array($moduleName, self::$apiToCall) === false
                     && in_array($apiId, self::$apiToCall) === false)
                 {
+//	                echo "Skipped $apiId... \n";
                     $skipped[] = $apiId;
-                    continue;
+	                continue;
                 }
-                // Excluded modules from test
+	            // Excluded modules from test
                 elseif(
                     ((strpos($methodName, 'get') !== 0 && $methodName != 'generateReport')
                         || in_array($moduleName, self::$apiNotToCall) === true
@@ -618,6 +622,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                     )
                 )
                 {
+//	                echo "Skipped $apiId... \n";
                     $skipped[] = $apiId;
                     continue;
                 }
@@ -1052,7 +1057,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             }
 
             self::setApiToCall($api);
-            self::setApiNotToCall(array('API.getPiwikVersion'));
+
+	        if(!in_array('UserCountry.getLocationFromIP', $api)) {
+		        self::setApiNotToCall( array(
+		                'API.getPiwikVersion',
+		                'UserCountry.getLocationFromIP'
+	            ));
+	        }
         }
     }
 
