@@ -11,7 +11,7 @@
  * Tests that visits track & reports display correctly when non-unicode text is
  * used in URL query params of visits.
  */
-class Test_Piwik_Integration_NonUnicodeTests extends IntegrationTestCase
+class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 {
 	protected static $idSite1 = 1;
 	protected static $dateTime = '2010-01-03 11:22:33';

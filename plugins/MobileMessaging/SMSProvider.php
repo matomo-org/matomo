@@ -47,8 +47,7 @@ abstract class Piwik_MobileMessaging_SMSProvider
 	 */
 	static public function factory($providerName)
 	{
-		$name = ucfirst(strtolower($providerName));
-		$className = 'Piwik_MobileMessaging_SMSProvider_' . $name;
+		$className = 'Piwik_MobileMessaging_SMSProvider_' . $providerName;
 
 		try {
 			Piwik_Loader::loadClass($className);
@@ -57,7 +56,7 @@ abstract class Piwik_MobileMessaging_SMSProvider
 			throw new Exception(
 				Piwik_TranslateException(
 					'MobileMessaging_Exception_UnknownProvider',
-					array($name, implode(', ', array_keys(self::$availableSMSProviders)))
+					array($providerName, implode(', ', array_keys(self::$availableSMSProviders)))
 				)
 			);
 		}
