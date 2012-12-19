@@ -31,6 +31,11 @@
 		<english_name>Czech</english_name>
 	</row>
 	<row>
+		<code>cy</code>
+		<name>Cymraeg</name>
+		<english_name>Welsh</english_name>
+	</row>
+	<row>
 		<code>da</code>
 		<name>Dansk</name>
 		<english_name>Danish</english_name>
@@ -89,6 +94,11 @@
 		<code>he</code>
 		<name>עברית</name>
 		<english_name>Hebrew</english_name>
+	</row>
+	<row>
+		<code>hr</code>
+		<name>Hrvatski</name>
+		<english_name>Croatian</english_name>
 	</row>
 	<row>
 		<code>hu</code>

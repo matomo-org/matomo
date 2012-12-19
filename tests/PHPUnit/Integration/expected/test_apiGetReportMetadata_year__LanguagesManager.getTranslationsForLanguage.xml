@@ -50,7 +50,7 @@
 	</row>
 	<row>
 		<label>General_SingleWebsitesDashboard</label>
-		<value>Tableau de bord d'un seul site</value>
+		<value>Tableau de board d'un seul site</value>
 	</row>
 	<row>
 		<label>General_API</label>
@@ -215,6 +215,10 @@
 	<row>
 		<label>General_Total</label>
 		<value>Total</value>
+	</row>
+	<row>
+		<label>General_TotalVisitsPageviewsRevenue</label>
+		<value>(Total : %s visites, %s pages vues, %s revenu)</value>
 	</row>
 	<row>
 		<label>General_AverageOrderValue</label>
@@ -1329,11 +1333,27 @@
 		<value>Ce rapport a été généré en utilisant des données de %s.</value>
 	</row>
 	<row>
+		<label>General_ClickToChangePeriod</label>
+		<value>Cliquez à nouveau pour modifier la période.</value>
+	</row>
+	<row>
 		<label>Actions_PluginDescription</label>
 		<value>Effectue des rapports sur les affichages de pages, les liens sortants et les téléchargements. Le suivi des liens sortants et des téléchargements est automatique!</value>
 	</row>
 	<row>
+		<label>Actions_Actions</label>
+		<value>Actions</value>
+	</row>
+	<row>
+		<label>Actions_SubmenuPages</label>
+		<value>Pages</value>
+	</row>
+	<row>
 		<label>Actions_SubmenuPagesEntry</label>
+		<value>Pages d'entrée</value>
+	</row>
+	<row>
+		<label>Actions_WidgetPagesEntry</label>
 		<value>Pages d'entrée</value>
 	</row>
 	<row>
@@ -1341,16 +1361,32 @@
 		<value>Pages de sortie</value>
 	</row>
 	<row>
+		<label>Actions_WidgetPagesExit</label>
+		<value>Pages de sortie</value>
+	</row>
+	<row>
 		<label>Actions_EntryPageTitles</label>
 		<value>Titres de la page d'entrée</value>
+	</row>
+	<row>
+		<label>Actions_WidgetEntryPageTitles</label>
+		<value>Titres de pages d'entrée</value>
 	</row>
 	<row>
 		<label>Actions_ExitPageTitles</label>
 		<value>Titres de la page de sortie</value>
 	</row>
 	<row>
+		<label>Actions_WidgetExitPageTitles</label>
+		<value>Titres de pages de sortie</value>
+	</row>
+	<row>
 		<label>Actions_SubmenuPageTitles</label>
 		<value>Titres des pages</value>
+	</row>
+	<row>
+		<label>Actions_WidgetPageTitles</label>
+		<value>Titres de page</value>
 	</row>
 	<row>
 		<label>Actions_PageUrls</label>
@@ -1501,12 +1537,20 @@
 		<value>%s API chargées avec succès</value>
 	</row>
 	<row>
+		<label>API_TopLinkTooltip</label>
+		<value>Accédez à vos données de statistiques web depuis votre code via une API simple en JSON, XML, Etc.</value>
+	</row>
+	<row>
 		<label>CoreAdminHome_PluginDescription</label>
 		<value>Zone d'administration de Piwik.</value>
 	</row>
 	<row>
 		<label>CoreAdminHome_MenuGeneralSettings</label>
 		<value>Paramètres généraux</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_Administration</label>
+		<value>Administration</value>
 	</row>
 	<row>
 		<label>CoreAdminHome_EmailServerSettings</label>
@@ -2117,6 +2161,10 @@
 		<value>Interface d'administration des plugins.</value>
 	</row>
 	<row>
+		<label>CorePluginsAdmin_Plugins</label>
+		<value>Plugins</value>
+	</row>
+	<row>
 		<label>CorePluginsAdmin_PluginsManagement</label>
 		<value>Gestionnaire de plugins</value>
 	</row>
@@ -2125,8 +2173,20 @@
 		<value>Les plugins étendent et ajoutent des fonctionnalités à Piwik. Une fois un plugin installé, vous pouvez l'activer ou le désactiver ici.</value>
 	</row>
 	<row>
+		<label>CorePluginsAdmin_Plugin</label>
+		<value>Plugin</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Version</label>
+		<value>Version</value>
+	</row>
+	<row>
 		<label>CorePluginsAdmin_Status</label>
 		<value>État</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_Action</label>
+		<value>Action</value>
 	</row>
 	<row>
 		<label>CorePluginsAdmin_AuthorHomepage</label>
@@ -2159,6 +2219,10 @@
 	<row>
 		<label>CorePluginsAdmin_Activate</label>
 		<value>Activer</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_MenuPlugins</label>
+		<value>Plugins</value>
 	</row>
 	<row>
 		<label>CoreUpdater_PluginDescription</label>
@@ -2349,6 +2413,14 @@
 		<value>L'archive est incomplète: des fichiers sont manquants (ex. %s).</value>
 	</row>
 	<row>
+		<label>CoreUpdater_MajorUpdateWarning1</label>
+		<value>C'est une mise à jour importante! Elle va prendre plus de temps que d'habitude.</value>
+	</row>
+	<row>
+		<label>CoreUpdater_MajorUpdateWarning2</label>
+		<value>Le conseil suivant est particulièrement important pour des installations conséquentes.</value>
+	</row>
+	<row>
 		<label>CustomVariables_PluginDescription</label>
 		<value>Les variables personnalisées sont des paires de nom/valeur que vous pouvez définir pour une visite en utilisant la fonction de l'API Javascript setVisitCustomVariables(). Piwik vous rapportera alors combien de visites, pages, conversions il y a pour chacun de ces noms et valeurs personnalisés</value>
 	</row>
@@ -2513,6 +2585,10 @@
 		<value>Votre tableau de bord ne contient aucun gadget. COmmencez par ajouter quelques gadgets ou réinitialisez le tableau de bord à la selection de gadgets par défaut.</value>
 	</row>
 	<row>
+		<label>Dashboard_TopLinkTooltip</label>
+		<value>Afficher les rapport de statistiques web pour %s.</value>
+	</row>
+	<row>
 		<label>DBStats_PluginDescription</label>
 		<value>Ce plugin effectue des rapports sur l'utilisation de la base de données MySQL par les tables de Piwik.</value>
 	</row>
@@ -2527,6 +2603,10 @@
 	<row>
 		<label>DBStats_LearnMore</label>
 		<value>Pour en apprendre plus à propos de la manière dont Piwik traite les données et sur comment faire fonctionner Piwik correctement pour les sites à moyen et fort trafic, consultez la documentation %s.</value>
+	</row>
+	<row>
+		<label>DBStats_Table</label>
+		<value>Table</value>
 	</row>
 	<row>
 		<label>DBStats_RowCount</label>
@@ -2693,6 +2773,10 @@
 		<value>Le message ne peut contenir d'URL pour éviter les problèmes de spam.</value>
 	</row>
 	<row>
+		<label>Feedback_TopLinkTooltip</label>
+		<value>Dites nous ce que vous en pensez, ou demandez un Support Professionnel.</value>
+	</row>
+	<row>
 		<label>Goals_Goals</label>
 		<value>Objectifs</value>
 	</row>
@@ -2767,6 +2851,10 @@
 	<row>
 		<label>Goals_ConversionByTypeReportDocumentation</label>
 		<value>Ce rapport apporte des informations détaillés les à propos de la performance de l'objectif (conversions, taux de conversion et recettes par visite) pour chacune des catégories disponibles sur le panneau de gauche. %s Veuillez cliquer sur une des catégories pour afficher le rapport. %s Pour plus d'informations sur les objectifs, lisez la %s documentation sur le suivit des objectifs sur Piwik.org%s</value>
+	</row>
+	<row>
+		<label>Goals_ColumnConversions</label>
+		<value>Conversions</value>
 	</row>
 	<row>
 		<label>Goals_ColumnConversionsDocumentation</label>
@@ -2849,6 +2937,10 @@
 		<value>%s taux de conversion global (visites avec un objectif rempli)</value>
 	</row>
 	<row>
+		<label>Goals_Conversions</label>
+		<value>%s conversions</value>
+	</row>
+	<row>
 		<label>Goals_ConversionRate</label>
 		<value>%s taux de conversion</value>
 	</row>
@@ -2915,6 +3007,10 @@
 	<row>
 		<label>Goals_VisitUrl</label>
 		<value>Visitent une URL donnée (page ou groupe de pages)</value>
+	</row>
+	<row>
+		<label>Goals_URL</label>
+		<value>URL</value>
 	</row>
 	<row>
 		<label>Goals_PageTitle</label>
@@ -3051,6 +3147,10 @@
 	<row>
 		<label>Installation_PluginDescription</label>
 		<value>Procédé d'installation de Piwik. L'installation est effectuée une unique fois. Si le fichier de configuration config/config.inc.php est supprimé, l'installation recommencera.</value>
+	</row>
+	<row>
+		<label>Installation_Installation</label>
+		<value>Installation</value>
 	</row>
 	<row>
 		<label>Installation_InstallationStatus</label>
@@ -3221,6 +3321,10 @@
 		<value>Légendes</value>
 	</row>
 	<row>
+		<label>Installation_Extension</label>
+		<value>extension</value>
+	</row>
+	<row>
 		<label>Installation_SystemCheck</label>
 		<value>Vérification du système</value>
 	</row>
@@ -3365,6 +3469,10 @@
 		<value>La fonction pack() est requise pour suivre les visiteurs dans Piwik.</value>
 	</row>
 	<row>
+		<label>Installation_SystemCheckMbstring</label>
+		<value>mbstring</value>
+	</row>
+	<row>
 		<label>Installation_SystemCheckMbstringExtensionHelp</label>
 		<value>L'extension mbstring est requise pour les caractères multi-bytes lors des réponses de l'API utilisant des valeurs séparées par des virgules (CSV) ou par des tabulations (TSV).</value>
 	</row>
@@ -3489,6 +3597,14 @@
 		<value>Voir les logs visiteurs détaillés</value>
 	</row>
 	<row>
+		<label>Live_Actions</label>
+		<value>Actions</value>
+	</row>
+	<row>
+		<label>Live_Action</label>
+		<value>Action</value>
+	</row>
+	<row>
 		<label>Live_VisitorsInRealTime</label>
 		<value>Visiteurs en temps réel</value>
 	</row>
@@ -3519,6 +3635,10 @@
 	<row>
 		<label>Live_MorePagesNotDisplayed</label>
 		<value>plus de pages de ce visiteur ne sont pas affichées</value>
+	</row>
+	<row>
+		<label>Live_GoalType</label>
+		<value>Type</value>
 	</row>
 	<row>
 		<label>Live_PageRefreshed</label>
@@ -3601,6 +3721,30 @@
 		<value>La clef est invalide ou a expiré</value>
 	</row>
 	<row>
+		<label>Login_MailTopicPasswordChange</label>
+		<value>Confirmer le changement de mot de passe</value>
+	</row>
+	<row>
+		<label>Login_MailPasswordChangeBody</label>
+		<value>Bonjour %s,
+
+Une demande de réinitialisation de mot de passe a été reçue depuis %2$s. Pour confirmer le changement de mot de passe afin de pouvoir vous authentifier avec vos nouveaux identifiants, cliquez sur le lien suivant :
+
+%3$s
+
+Note : ce jeton expirera dans 24 heures.
+
+Merci d'utiliser Piwik!</value>
+	</row>
+	<row>
+		<label>Login_ConfirmationLinkSent</label>
+		<value>Un lien de confirmation a été envoyé à votre courriel. Vérifiez votre courriel et cliquez sur le lien pour autoriser votre demande de changement de mot de passe.</value>
+	</row>
+	<row>
+		<label>Login_PasswordChanged</label>
+		<value>Votre mot de passe a été modifié</value>
+	</row>
+	<row>
 		<label>Login_ContactAdmin</label>
 		<value>Raison possible : Votre hébergeur peut avoir désactivé la fonction mail(). &lt;br /&gt; Veuillez contacter votre administrateur Piwik.</value>
 	</row>
@@ -3611,6 +3755,10 @@
 	<row>
 		<label>Login_ExceptionInvalidSuperUserAuthenticationMethod</label>
 		<value>Le Super Utilisateur ne peut pas être authentifié en utilisant le mécanisme '%s'.</value>
+	</row>
+	<row>
+		<label>Login_ResetPasswordInstructions</label>
+		<value>Entrez un nouveau mot de passe pour votre compte.</value>
 	</row>
 	<row>
 		<label>Mobile_Accounts</label>
@@ -3779,6 +3927,14 @@
 	<row>
 		<label>MultiSites_Evolution</label>
 		<value>Évolution</value>
+	</row>
+	<row>
+		<label>MultiSites_TopLinkTooltip</label>
+		<value>Comparez les statistiques pour tous vos sites web.</value>
+	</row>
+	<row>
+		<label>MultiSites_TotalsEvolutionSummary</label>
+		<value>%s visites en %s en comparaison de %s visites (%s) en %s</value>
 	</row>
 	<row>
 		<label>Provider_PluginDescription</label>
@@ -4001,6 +4157,10 @@
 		<value>Information de sécurité de PHP</value>
 	</row>
 	<row>
+		<label>SecurityInfo_Test</label>
+		<value>Test</value>
+	</row>
+	<row>
 		<label>SecurityInfo_Result</label>
 		<value>Résultat</value>
 	</row>
@@ -4019,6 +4179,10 @@
 	<row>
 		<label>SEO_Rank</label>
 		<value>Notation</value>
+	</row>
+	<row>
+		<label>SEO_Pages</label>
+		<value>Pages</value>
 	</row>
 	<row>
 		<label>SEO_SEORankingsFor</label>
@@ -4079,6 +4243,10 @@
 	<row>
 		<label>SitesManager_AliasUrlHelp</label>
 		<value>Il est recommandé, mais pas requis, de spécifier les URL différentes que vos utilisateurs utilisent pour accéder au site web. Les URL d'alias pour un site n’apparaîtront pas dans Référents &gt; Sites Internet. Il n'est pas nécessaire d'entrer les URL avec et sans les www, Piwik les traite automatiquement.</value>
+	</row>
+	<row>
+		<label>SitesManager_Urls</label>
+		<value>URLs</value>
 	</row>
 	<row>
 		<label>SitesManager_MenuSites</label>
@@ -4245,6 +4413,10 @@
 		<value>Code langue</value>
 	</row>
 	<row>
+		<label>TranslationsAdmin_Plugin</label>
+		<value>Plugin</value>
+	</row>
+	<row>
 		<label>TranslationsAdmin_Definition</label>
 		<value>Définition</value>
 	</row>
@@ -4327,6 +4499,10 @@
 	<row>
 		<label>UserCountry_SubmenuLocations</label>
 		<value>Provenances géographiques</value>
+	</row>
+	<row>
+		<label>UserCountry_WidgetLocation</label>
+		<value>Emplacement du visiteur</value>
 	</row>
 	<row>
 		<label>UserCountry_country_ac</label>
@@ -5481,6 +5657,14 @@
 		<value>Navigateurs</value>
 	</row>
 	<row>
+		<label>UserSettings_Plugins</label>
+		<value>Plugins</value>
+	</row>
+	<row>
+		<label>UserSettings_Configurations</label>
+		<value>Configurations</value>
+	</row>
+	<row>
 		<label>UserSettings_WidgetGlobalVisitorsDocumentation</label>
 		<value>Ce rapport montre les configurations globales les plus communes de vos visiteurs. Une configuration est la combinaison d'un système d'exploitation, d'un type de navigateur et d'une résolution d'écran.</value>
 	</row>
@@ -5495,6 +5679,10 @@
 	<row>
 		<label>UserSettings_OperatingSystemFamily</label>
 		<value>Famille de systèmes d'exploitation</value>
+	</row>
+	<row>
+		<label>UserSettings_WidgetOperatingSystemFamily</label>
+		<value>Famille du système d'exploitation</value>
 	</row>
 	<row>
 		<label>UserSettings_Resolutions</label>
@@ -5517,6 +5705,14 @@
 		<value>Version du navigateur</value>
 	</row>
 	<row>
+		<label>UserSettings_ColumnPlugin</label>
+		<value>Plugin</value>
+	</row>
+	<row>
+		<label>UserSettings_ColumnConfiguration</label>
+		<value>Configuration</value>
+	</row>
+	<row>
 		<label>UserSettings_ColumnOperatingSystem</label>
 		<value>Système d'exploitation</value>
 	</row>
@@ -5535,6 +5731,10 @@
 	<row>
 		<label>UserSettings_WidgetBrowsers</label>
 		<value>Navigateurs du visiteur</value>
+	</row>
+	<row>
+		<label>UserSettings_WidgetBrowserVersion</label>
+		<value>Version du navigateur</value>
 	</row>
 	<row>
 		<label>UserSettings_WidgetBrowsersDocumentation</label>
@@ -5647,6 +5847,10 @@
 	<row>
 		<label>UsersManager_Email</label>
 		<value>Courriel</value>
+	</row>
+	<row>
+		<label>UsersManager_Alias</label>
+		<value>Alias</value>
 	</row>
 	<row>
 		<label>UsersManager_TheSuperUserAliasCannotBeChanged</label>
@@ -5961,8 +6165,40 @@
 		<value>Dans ce rapport, vous pouvez voir le nombre de visites qui était la nième visite, par exemple: visiteurs qui ont visité votre site web au moins n fois.</value>
 	</row>
 	<row>
+		<label>VisitorInterest_Engagement</label>
+		<value>Engagement</value>
+	</row>
+	<row>
+		<label>VisitorInterest_OneMinute</label>
+		<value>1 min</value>
+	</row>
+	<row>
+		<label>VisitorInterest_PlusXMin</label>
+		<value>%s min</value>
+	</row>
+	<row>
+		<label>VisitorInterest_BetweenXYMinutes</label>
+		<value>%1$s-%2$s min</value>
+	</row>
+	<row>
+		<label>VisitorInterest_OnePage</label>
+		<value>1 page</value>
+	</row>
+	<row>
+		<label>VisitorInterest_NPages</label>
+		<value>%s pages</value>
+	</row>
+	<row>
+		<label>VisitorInterest_BetweenXYSeconds</label>
+		<value>%1$s-%2$ss</value>
+	</row>
+	<row>
 		<label>VisitorInterest_VisitsByDaysSinceLast</label>
 		<value>Visites par jours depuis la dernière visite</value>
+	</row>
+	<row>
+		<label>VisitorInterest_WidgetVisitsByDaysSinceLast</label>
+		<value>Visites par jour depuis la dernière visite</value>
 	</row>
 	<row>
 		<label>VisitorInterest_WidgetVisitsByDaysSinceLastDocumentation</label>
@@ -6101,6 +6337,10 @@
 		<value>Horaires</value>
 	</row>
 	<row>
+		<label>VisitTime_NHour</label>
+		<value>%sh</value>
+	</row>
+	<row>
 		<label>VisitTime_VisitsByDayOfWeek</label>
 		<value>Visites par Jour de la Semaine</value>
 	</row>
@@ -6117,6 +6357,10 @@
 		<value>Le plugin rend simple l'export de n'importe quel Widget Piwik dans votre blog, site web ou sur Igoogle et Netvibes!</value>
 	</row>
 	<row>
+		<label>Widgetize_TopLinkTooltip</label>
+		<value>Exporter les rapports Piwik en tant que gadget et incorporer le tableau de bord dans votre application en tant qu'iframe.</value>
+	</row>
+	<row>
 		<label>PDFReports_PluginDescriptionReports</label>
 		<value>Créez et téléchargez vos rapports personnalisés, et recevez les par e-mail quotidiennement, chaque semaine ou mensuellement.</value>
 	</row>
@@ -6127,6 +6371,10 @@
 	<row>
 		<label>PDFReports_EmailReports</label>
 		<value>Rapports e-mail</value>
+	</row>
+	<row>
+		<label>PDFReports_PDF</label>
+		<value>PDF</value>
 	</row>
 	<row>
 		<label>PDFReports_SendReportNow</label>
@@ -6175,6 +6423,10 @@
 	<row>
 		<label>PDFReports_SentToMe</label>
 		<value>Envoyez-le moi</value>
+	</row>
+	<row>
+		<label>PDFReports_EvolutionGraph</label>
+		<value>Afficher les graphiques historiques pour les plus hautes %s valeurs</value>
 	</row>
 	<row>
 		<label>PDFReports_CreateAndScheduleReport</label>
@@ -6265,6 +6517,10 @@
 		<value>Le rapport incluera les métriques principales pour tous les sites web qui ont au moisn une visite (depuis les %s sites web actuellement disponibles)</value>
 	</row>
 	<row>
+		<label>PDFReports_TopLinkTooltip</label>
+		<value>Créer un rapport par courriel afin que les statistiques Piwik soient envoyées automatiquement à votre adresse courriel ou celles de vos clients automatiquement!</value>
+	</row>
+	<row>
 		<label>ImageGraph_PluginDescription</label>
 		<value>Génère de magnifiques graphiques en image PNG statique pour tous vos rapports Piwik.</value>
 	</row>
@@ -6313,12 +6569,100 @@
 		<value>Evolution de plusieurs lignes</value>
 	</row>
 	<row>
+		<label>Transitions_IncomingTraffic</label>
+		<value>Trafic entrant</value>
+	</row>
+	<row>
+		<label>Transitions_OutgoingTraffic</label>
+		<value>Trafic sortant</value>
+	</row>
+	<row>
+		<label>Transitions_XOfAllPageviews</label>
+		<value>%s de toutes les pages vues</value>
+	</row>
+	<row>
+		<label>Transitions_ToInternalPages</label>
+		<value>vers des pages internes</value>
+	</row>
+	<row>
+		<label>Transitions_Including</label>
+		<value>en incluant</value>
+	</row>
+	<row>
+		<label>Transitions_LoopsInline</label>
+		<value>%s rechargements de pages</value>
+	</row>
+	<row>
+		<label>Transitions_FromPreviousPages</label>
+		<value>Depuis des pages internes</value>
+	</row>
+	<row>
+		<label>Transitions_FromPreviousPagesInline</label>
+		<value>%s depuis des pages internes</value>
+	</row>
+	<row>
+		<label>Transitions_ToFollowingPages</label>
+		<value>Vers des pages internes</value>
+	</row>
+	<row>
+		<label>Transitions_ToFollowingPagesInline</label>
+		<value>%s vers des pages internes</value>
+	</row>
+	<row>
+		<label>Transitions_DirectEntries</label>
+		<value>Entrées directes</value>
+	</row>
+	<row>
+		<label>Transitions_PageviewsInline</label>
+		<value>%s pages vues</value>
+	</row>
+	<row>
+		<label>Transitions_FromSearchEngines</label>
+		<value>Depuis des moteurs de recherche</value>
+	</row>
+	<row>
+		<label>Transitions_FromSearchEnginesInline</label>
+		<value>%s depuis des moteurs de recherche</value>
+	</row>
+	<row>
+		<label>Transitions_FromWebsites</label>
+		<value>Depuis des sites web</value>
+	</row>
+	<row>
+		<label>Transitions_FromWebsitesInline</label>
+		<value>%s depuis des sites web</value>
+	</row>
+	<row>
+		<label>Transitions_FromCampaigns</label>
+		<value>Depuis les campagnes</value>
+	</row>
+	<row>
+		<label>Transitions_FromCampaignsInline</label>
+		<value>%s depuis les campagnes</value>
+	</row>
+	<row>
+		<label>Transitions_ExitsInline</label>
+		<value>%s sorties</value>
+	</row>
+	<row>
+		<label>Transitions_BouncesInline</label>
+		<value>%s rebonds</value>
+	</row>
+	<row>
+		<label>EntryPage_Bounces</label>
+		<value>Rebonds</value>
+	</row>
+	<row>
 		<label>EntryPage_Referrers</label>
 		<value>Référents</value>
 	</row>
 	<row>
 		<label>Forecast_Actions</label>
 		<value>Pages visitées</value>
+	</row>
+	<row>
+		<label>Forecast_Bounce</label>
+		<value>Visiteurs ayant rebondit</value>
 	</row>
 	<row>
 		<label>Forecast_Column</label>
@@ -6479,6 +6823,10 @@
 	<row>
 		<label>UserLanguage_Language_cs</label>
 		<value>Tchèque</value>
+	</row>
+	<row>
+		<label>UserLanguage_Language_cu</label>
+		<value>Vieux-slave liturgique</value>
 	</row>
 	<row>
 		<label>UserLanguage_Language_cv</label>
