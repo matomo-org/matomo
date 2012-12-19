@@ -31,7 +31,7 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 	/**
 	 * @dataProvider getApiForTesting
 	 * @group		Integration
-	 * @group		TwoVisitors_TwoWebsites_DifferentDays
+	 * @group		NonUnicodeTest
 	 */
 	public function testApi($api, $params)
 	{
