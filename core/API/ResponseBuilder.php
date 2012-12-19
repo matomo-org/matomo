@@ -121,12 +121,9 @@ class Piwik_API_ResponseBuilder
 			throw $e;
 		}
 		
-		try
-		{
+		try {
 			$renderer = Piwik_DataTable_Renderer::factory($format);
-		
 		} catch (Exception $e) {
-			
 			return "Error: " . $e->getMessage();
 		}
 		

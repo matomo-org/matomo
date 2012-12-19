@@ -213,8 +213,7 @@ class Piwik_PDFReports_API
 	 */
 	public function getReports($idSite = false, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = false)
 	{
-		Piwik::checkUserIsNotAnonymous();
-
+		Piwik::checkUserHasSomeViewAccess();
 		$cacheKey = (int)$idSite .'.'. (string)$period .'.'. (int)$idReport .'.'. (int)$ifSuperUserReturnOnlySuperUserReports;
 		if(isset(self::$cache[$cacheKey]))
 		{

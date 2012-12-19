@@ -46,11 +46,12 @@ class Piwik_Login extends Piwik_Plugin
 	 */
 	function noAccess( $notification )
 	{
+		/* @var Exception  $exception */
 		$exception  = $notification->getNotificationObject();
 		$exceptionMessage = $exception->getMessage();
 
 		$controller = new Piwik_Login_Controller();
-		$controller->login($exceptionMessage);
+		$controller->login($exceptionMessage, Piwik::shouldLoggerLog() ? $exception->getTraceAsString() : '' );
 	}
 
 	/**

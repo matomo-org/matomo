@@ -459,7 +459,7 @@ abstract class Piwik_Controller
 			
 			$this->setBasicVariablesView($view);
 		} catch(Exception $e) {
-			Piwik_ExitWithMessage($e->getMessage());
+			Piwik_ExitWithMessage($e->getMessage(), Piwik::shouldLoggerLog() ? $e->getTraceAsString() : '');
 		}
 	}
 	

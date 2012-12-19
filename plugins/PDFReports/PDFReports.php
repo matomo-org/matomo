@@ -580,15 +580,28 @@ class Piwik_PDFReports extends Piwik_Plugin
 		if(!Piwik_PluginsManager::getInstance()->isPluginActivated('MobileMessaging'))
 			return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
 
-		$reports = Piwik_PDFReports_API::getInstance()->getReports();
+		try {
+			// This would fail for anonymous user
+			$reports = Piwik_PDFReports_API::getInstance()->getReports();
+		} catch(Exception $e) {
+			$reports = array();
+		}
 		$reportCount = count($reports);
 
 		// if there are no reports and the mobile account is
 		//  not configured, display 'Email reports'
 		//  configured, display 'Email & SMS reports'
 		if($reportCount == 0)
-		 return Piwik_MobileMessaging_API::getInstance()->areSMSAPICredentialProvided() ?
-			 self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+		{
+			try {
+				return Piwik_MobileMessaging_API::getInstance()->areSMSAPICredentialProvided() ?
+					 self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY :
+					 self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
+			} catch(Exception $e) {
+				// anonymous user
+				return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
+			}
+		}
 
 		$anyMobileReport = false;
 		foreach($reports as $report)
@@ -601,7 +614,9 @@ class Piwik_PDFReports extends Piwik_Plugin
 		}
 
 		// if there is at least one sms report, display 'Email & SMS reports'
-		if($anyMobileReport) return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
+		if($anyMobileReport) {
+			return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
+		}
 
 		return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
 	}

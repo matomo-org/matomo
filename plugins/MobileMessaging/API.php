@@ -52,7 +52,7 @@ class Piwik_MobileMessaging_API
 	 */
 	public function areSMSAPICredentialProvided()
 	{
-		Piwik::checkUserIsNotAnonymous();
+		Piwik::checkUserHasSomeViewAccess();
 
 		$credential = $this->getSMSAPICredential();
 		return isset($credential[Piwik_MobileMessaging::API_KEY_OPTION]);
@@ -472,7 +472,7 @@ class Piwik_MobileMessaging_API
 	 */
 	public function getDelegatedManagement()
 	{
-		Piwik::checkUserIsNotAnonymous();
+		Piwik::checkUserHasSomeViewAccess();
 		return Piwik_GetOption(Piwik_MobileMessaging::DELEGATED_MANAGEMENT_OPTION) == 'true';
 	}
 }
