@@ -178,6 +178,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         'API',
         'ImageGraph',
         'Annotations',
+        'UserCountry.getLocationFromIP',
     );
 
     const DEFAULT_USER_PASSWORD = 'nopass';
