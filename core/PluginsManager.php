@@ -631,7 +631,8 @@ class Piwik_PluginsManager
 		$missingPlugins = array();
 		if (isset(Piwik_Config::getInstance()->Plugins['Plugins']))
 		{
-			foreach (Piwik_Config::getInstance()->Plugins['Plugins'] as $pluginName)
+			$plugins = Piwik_Config::getInstance()->Plugins['Plugins'];
+			foreach ($plugins as $pluginName)
 			{
 				// if a plugin is listed in the config, but is not loaded, it does not exist in the folder
 				if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginName))
