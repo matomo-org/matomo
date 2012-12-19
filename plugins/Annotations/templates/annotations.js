@@ -18,7 +18,7 @@ var annotationsApi = {
 			action: 'getAnnotationManager',
 			idSite: idSite,
 			date: date,
-			period: period,
+			period: period
 		};
 		if (lastN)
 		{
@@ -109,7 +109,7 @@ var annotationsApi = {
 			action: 'getEvolutionIcons',
 			idSite: idSite,
 			date: date,
-			period: period,
+			period: period
 		};
 		if (lastN)
 		{
@@ -121,7 +121,7 @@ var annotationsApi = {
 		ajaxRequest.setFormat('html');
 		ajaxRequest.setCallback(callback);
 		ajaxRequest.send(false);
-	},
+	}
 };
 
 var today = new Date();
