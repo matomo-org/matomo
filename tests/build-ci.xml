@@ -60,6 +60,7 @@
 		<echo>MYSQLI unit tests started</echo>
 
 		<exec executable="phpunit" dir="${basedir}/PHPUnit" failonerror="false" failifexecutionfails="true">
+            <arg line=" --testdox"/>
 		</exec>
 
 		<echo>MYSQLI unit tests finished</echo>
