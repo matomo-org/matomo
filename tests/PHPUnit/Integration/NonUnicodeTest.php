@@ -67,11 +67,14 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 	protected static function setUpWebsites()
 	{
 		Piwik_SitesManager_API::getInstance()->setGlobalSearchParameters($searchKeywordParameters='gkwd', $searchCategoryParameters='gcat');
-		self::createWebsite(Piwik_Date::factory(self::$dateTime)->getDatetime(), 0, "Site 1 - Site search", $siteurl=false, $search=1, $searchKwd='q,mykwd,p', $searchCat='cats' );
+		self::$idSite1 = self::createWebsite(Piwik_Date::factory(self::$dateTime)->getDatetime(), 0, "Site 1 - Site search", $siteurl=false, $search=1, $searchKwd='q,mykwd,p', $searchCat='cats' );
 	}
 
 	protected static function trackVisits()
 	{
+		self::assertTrue(function_exists('mb_check_encoding'), ' check mb_check_encoding ');
+		self::assertTrue(function_exists('mb_convert_encoding'), ' check mb_convert_encoding ');
+
 		// Visitor site1
 		$visitor = self::getTracker(self::$idSite1, self::$dateTime, $defaultInit = true);
 		
