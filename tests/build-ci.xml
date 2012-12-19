@@ -43,7 +43,8 @@
 		<echo>PDO_MYSQL unit tests started</echo>
 
 		<exec executable="phpunit" dir="${basedir}/PHPUnit" failonerror="false" failifexecutionfails="true">
-            <arg line=" --testdox"/>
+            <!-- DEBUG: when test crash in the middle, enable this to see which test crashes -->
+            <!--<arg line=" --testdox"/>-->
 		</exec>
 
 		<echo>PDO_MYSQL unit tests finished</echo>
@@ -61,7 +62,8 @@
 		<echo>MYSQLI unit tests started</echo>
 
 		<exec executable="phpunit" dir="${basedir}/PHPUnit" failonerror="false" failifexecutionfails="true">
-            <arg line=" --testdox"/>
+            <!-- DEBUG: when test crash in the middle, enable this to see which test crashes -->
+            <!--<arg line=" --testdox"/>-->
 		</exec>
 
 		<echo>MYSQLI unit tests finished</echo>
