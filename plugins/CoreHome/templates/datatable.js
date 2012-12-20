@@ -237,6 +237,7 @@ dataTable.prototype =
 		self.handleReportDocumentation(domElem);
 		self.handleRowActions(domElem);
 		self.handleRelatedReports(domElem);
+		self.handleTriggeredEvents(domElem);
 	},
 	
 	handleLimit: function(domElem)
@@ -1434,6 +1435,35 @@ dataTable.prototype =
 		});
 	},
 	
+	/**
+	 * Handle events that other code triggers on this table.
+	 * 
+	 * You can trigger one of these events to get the datatable to do things,
+	 * such as reload its data.
+	 * 
+	 * Events handled:
+	 *  - reload: Triggering 'reload' on a datatable DOM element will
+	 *            reload the datatable's data. You can pass in an object mapping
+	 *            parameters to set before reloading data.
+	 *
+	 *    $(datatableDomElem).trigger('reload', {columns: 'nb_visits,nb_actions', idSite: 2});
+	 */
+	handleTriggeredEvents: function(domElem)
+	{
+		var self = this;
+		
+		// reload datatable w/ new params if desired (NOTE: must use 'bind', not 'on')
+		$(domElem).bind('reload', function(e, paramOverride) {
+			paramOverride = paramOverride || {};
+			for (var name in paramOverride)
+			{
+				self.param[name] = paramOverride[name];
+			};
+			
+			self.reloadAjaxDataTable(true);
+		});
+	},
+	
 	// also used in action data table
 	doHandleRowActions: function(trs)
 	{
@@ -1643,6 +1673,7 @@ actionDataTable.prototype =
 	handleLimit: dataTable.prototype.handleLimit,
 	notifyWidgetParametersChange: dataTable.prototype.notifyWidgetParametersChange,
 	handleRelatedReports: dataTable.prototype.handleRelatedReports,
+	handleTriggeredEvents: dataTable.prototype.handleTriggeredEvents,
 	_findReportHeader: dataTable.prototype._findReportHeader,
 	
 	//initialisation of the actionDataTable
@@ -1693,6 +1724,7 @@ actionDataTable.prototype =
 		self.handleColumnDocumentation(domElem);
 		self.handleReportDocumentation(domElem);
 		self.handleRelatedReports(domElem);
+		self.handleTriggeredEvents(domElem);
 	},
 	
 	//see dataTable::applyCosmetics
