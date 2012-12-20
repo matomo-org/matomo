@@ -101,11 +101,13 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 		self::checkResponse($visitor->doTrackPageView('Site Search'));
 
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.5)->getDatetime());
-		$visitor->setUrl('http://example.org/page/index.htm?q=non unicode keyword %EC%E5%F8%EA%EE%E2%FB%E5 was there');
+		$visitor->setUrl('http://example.org/page/index.htm?q=non unicode keyword %EC%E5%F8%EAe%EE%E2%FBf%E5 <-was here');
 		$visitor->setPageCharset('utf-8');
+//		var_dump("hello \n");
+//		var_dump($visitor->getUrlTrackPageView('Site Search'));
 		self::checkResponse($visitor->doTrackPageView('Site Search'));
 		$visitor->setPageCharset('');
-		
+
 		// Test invalid char set
 		$visitor = self::getTracker(self::$idSite1, self::$dateTime, $defaultInit = true);
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(1)->getDatetime());
@@ -116,3 +118,4 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 		$visitor->setPageCharset('');
 	}
 }
+
