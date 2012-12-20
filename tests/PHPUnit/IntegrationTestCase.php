@@ -388,7 +388,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Return true if system under test has the following characteristics :
-	 *  - php_uname() contains 'Linux precise32'
+	 *  - php_uname() contains 'precise32' or 'ubuntu'
 	 *  - phpversion() contains '5.3.10'
 	 *  - 'GD Version' equals '2.0'
 	 */
@@ -396,7 +396,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	{
 		$gdInfo = gd_info();
 		return
-			stristr(php_uname(),'Linux precise32') &&
+			(stristr(php_uname(), 'precise32') || stristr(php_uname(), 'ubuntu')) &&
 			stristr(phpversion(), '5.3.10') &&
 			$gdInfo['GD Version'] == '2.0';
 	}
