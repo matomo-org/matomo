@@ -989,7 +989,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 		}
 		catch (Exception $ex)
 		{
-			$result['load_data_infile_error'] = $ex->getMessage();
+			$result['load_data_infile_error'] = str_replace("\n","<br/>", $ex->getMessage());
 		}
 		
 		// delete the temporary rows that were created

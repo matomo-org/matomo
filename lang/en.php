@@ -973,6 +973,7 @@ $translations = array(
 	'Installation_SeeBelowForMoreInfo' => 'See below for more information.',
 	'Installation_DatabaseAbilities' => 'Database abilities',
 	'Installation_LoadDataInfileUnavailableHelp' => 'Using %1$s will greatly speed Piwik\'s archiving process up. To make it available to Piwik, try updating your PHP & MySQL software and make sure your database user has the %2$s privilege.',
+	'Installation_LoadDataInfileRecommended' => 'If your Piwik server tracks high traffic websites (eg. > 100,000 pages per month), we recommend to try fix this problem.',
 	'LanguagesManager_PluginDescription' => 'This plugin will display a list of the available languages for the Piwik interface. The language selected will be saved in the preferences for each user.',
 	'LanguagesManager_AboutPiwikTranslations' => 'About Piwik translations',
 	'Live_PluginDescription' => 'Watch your visitors live in real-time!',

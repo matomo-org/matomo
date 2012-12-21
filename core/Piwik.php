@@ -2451,13 +2451,14 @@ class Piwik
 		if(empty($openBaseDir) && empty($safeMode))
 		{
 			// php 5.x - LOAD DATA LOCAL INFILE is disabled if open_basedir restrictions or safe_mode enabled
-			$keywords[] = 'LOCAL';
+			$keywords[] = 'LOCAL ';
 		}
 
+		$exceptions = array();
 		foreach($keywords as $keyword)
 		{
 			try {
-				$queryStart = 'LOAD DATA '.$keyword.' INFILE ';
+				$queryStart = 'LOAD DATA '.$keyword.'INFILE ';
 				$sql = $queryStart.$query;
 				$result = @Piwik_Exec($sql);
 				if(empty($result) || $result < 0)
@@ -2474,7 +2475,7 @@ class Piwik
 				{
 					Piwik::log("LOAD DATA INFILE failed... Error was:" . $message);
 				}
-				$exceptions[] = "\n  " . $queryStart .": ". $message;
+				$exceptions[] = "\n  Try #" . (count($exceptions)+1) . ': ' . $queryStart .": ". $message;
 			}
 		}
 		if($throwException && count($exceptions))

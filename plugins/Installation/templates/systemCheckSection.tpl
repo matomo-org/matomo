@@ -249,10 +249,10 @@ assume_secure_protocol = 1</code><br />
 			{$ok} LOAD DATA INFILE<br/>
 		{else}
 			{$warning} <span class="warn">LOAD DATA INFILE</span><br/><br/>
-			{'Installation_LoadDataInfileUnavailableHelp'|translate:"LOAD DATA INFILE":"FILE"}<br/>
+			<p>{'Installation_LoadDataInfileUnavailableHelp'|translate:"LOAD DATA INFILE":"FILE"}</p>
+			<p>{'Installation_LoadDataInfileRecommended'|translate}</p>
 			{if isset($infos.extra.load_data_infile_error)}
-			<br/>
-			<em><strong>{'General_Error'|translate}:</strong></em> {$infos.extra.load_data_infile_error}
+				<em><strong>{'General_Error'|translate}:</strong></em> {$infos.extra.load_data_infile_error}
 			{/if}
 		{/if}
 		</td>

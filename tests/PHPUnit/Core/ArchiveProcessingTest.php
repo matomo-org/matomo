@@ -314,12 +314,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 				. ". \n"
 				. ' The error Messages from MySQL were: '
 				. $didWeUseBulk
-				. "\n\n"
-				. ' If your Piwik server is high traffic (eg. > 100,000 pages per month), we recommend to fix this warning.'
-				. "\n - Check that the mysql user has the FILE privilege. "
-				. "\n - Check you are using PDO_MYSQL with mysqlnd and php 5.3.9+,"
-				. "\n   or PDO_MYSQL with libmysqlclient (and latest PHP), or use MYSQLI (in config/config.ini.php). "
-				. "\n - Learn how to enable LOAD LOCAL DATA INFILE see the Mysql doc (http://dev.mysql.com/doc/refman/5.0/en/load-data-local.html) "
+				. "\n\n Learn more how to enable LOAD LOCAL DATA INFILE see the Mysql doc (http://dev.mysql.com/doc/refman/5.0/en/load-data-local.html) "
 				. "\n   or ask in this Piwik ticket (http://dev.piwik.org/trac/ticket/3605)"
 			);
 		}
