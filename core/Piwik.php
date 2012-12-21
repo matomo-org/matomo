@@ -2395,9 +2395,10 @@ class Piwik
 	 * @param array   $fields     Field names
 	 * @param string  $filePath   Path name of a file.
 	 * @param array   $fileSpec   File specifications (delimiter, line terminator, etc)
+	 * @param book    $throwException Should re-throw any exception, used in system check
 	 * @return bool  True if successful; false otherwise
 	 */
-	static public function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)
+	static public function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec, $throwException)
 	{
 		// On Windows, MySQL expects forward slashes as directory separators
 		if (Piwik_Common::isWindows()) {
@@ -2456,7 +2457,8 @@ class Piwik
 		foreach($keywords as $keyword)
 		{
 			try {
-				$sql = 'LOAD DATA '.$keyword.' INFILE '.$query;
+				$queryStart = 'LOAD DATA '.$keyword.' INFILE ';
+				$sql = $queryStart.$query;
 				$result = @Piwik_Exec($sql);
 				if(empty($result) || $result < 0)
 				{
@@ -2466,11 +2468,18 @@ class Piwik
 				return true;
 			} catch(Exception $e) {
 //				echo $sql . ' ---- ' .  $e->getMessage();
+				$code = $e->getCode();
+				$message =  $e->getMessage() . ($code ? "[$code]" : '');
 				if(!Zend_Registry::get('db')->isErrNo($e, '1148'))
 				{
-					Piwik::log("LOAD DATA INFILE failed... Error was:" . $e->getMessage());
+					Piwik::log("LOAD DATA INFILE failed... Error was:" . $message);
 				}
+				$exceptions[] = "\n  " . $queryStart .": ". $message;
 			}
+		}
+		if($throwException && count($exceptions))
+		{
+			throw new Exception( implode( ",", $exceptions ) );
 		}
 		return false;
 	}
@@ -2517,17 +2526,14 @@ class Piwik
 				{
 					throw new Exception("File $filePath could not be read.");
 				}
-				$rc = self::createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec);
-				if($rc)
-				{
+
+				$rc = self::createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec, $throwException);
+				if($rc) {
 					unlink($filePath);
 					return true;
+				} else {
+					return false;
 				}
-				else
-				{
-					throw new Exception('Error during LOAD DATA INFILE in function createTableFromCSVFile');
-				}
-
 			} catch(Exception $e) {
 				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
 				

@@ -275,47 +275,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
     }
 
     /**
-     * Is bulk insert testable?
-     *
-     * @return boolean True if MYSQLI,
-     *                 PDO_MYSQL with mysqlnd and php 5.3.9+,
-     *                 or PDO_MYSQL with libmysqlclient prior to php 5.2.9
-     *
-     * @see https://bugs.php.net/bug.php?id=46964
-     * @see https://bugs.php.net/bug.php?id=62889
-     */
-    private function isBulkInsertTestable()
-    {
-        switch (Piwik_Config::getInstance()->database['adapter'])
-        {
-            case 'MYSQLI':
-                return true;
-
-            case 'PDO_MYSQL':
-                ob_start();
-                phpinfo();
-                $phpinfo = ob_get_contents();
-                ob_end_clean();
-
-                $isMysqlnd = false !== strpos($phpinfo, <<<NEEDLE
-pdo_mysql
-
-PDO Driver for MySQL => enabled
-Client API version => mysqlnd
-NEEDLE
-                );
-
-                if (($isMysqlnd && version_compare(PHP_VERSION, '5.3.9') >= 0) ||
-                    (!$isMysqlnd && version_compare(PHP_VERSION, '5.2.9') < 0))
-                {
-                    return true;
-                }
-        }
-
-        return false;
-    }
-
-    /**
      * Testing batch insert
      * @group Core
      * @group ArchiveProcessing
@@ -324,11 +283,17 @@ NEEDLE
     {
         $table = Piwik_Common::prefixTable('site_url');
         $data = $this->_getDataInsert();
-        $didWeUseBulk = Piwik::tableInsertBatch($table, array('idsite', 'url'), $data);
-        if($this->isBulkInsertTestable())
-        {
-            $this->assertTrue($didWeUseBulk, "The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
-        }
+        try {
+           $didWeUseBulk = Piwik::tableInsertBatch($table,
+		        array('idsite', 'url'),
+		        $data,
+		        $throwException = true);
+
+	    } catch(Exception $e) {
+			$didWeUseBulk = $e->getMessage();
+		}
+	    $this->_checkLoadDataInFileWasUsed($didWeUseBulk);
+
         $this->_checkTableIsExpected($table, $data);
         
         // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc) 
@@ -336,7 +301,31 @@ NEEDLE
         $this->_checkTableIsExpected($table, $data);
     }
 
-    /**
+	protected function _checkLoadDataInFileWasUsed($didWeUseBulk)
+	{
+		static $skippedOnce = false;
+		if($didWeUseBulk !== true
+			&& $skippedOnce === false)
+		{
+			$skippedOnce = true;
+			$this->markTestSkipped(
+				'Performance notice: LOAD DATA [LOCAL] INFILE query is not working, so Piwik will fallback to using plain INSERTs '
+				. ' which will result in a slightly slower Archiving process.'
+				. ". \n"
+				. ' The error Messages from MySQL were: '
+				. $didWeUseBulk
+				. "\n\n"
+				. ' If your Piwik server is high traffic (eg. > 100,000 pages per month), we recommend to fix this warning.'
+				. "\n - Check that the mysql user has the FILE privilege. "
+				. "\n - Check you are using PDO_MYSQL with mysqlnd and php 5.3.9+,"
+				. "\n   or PDO_MYSQL with libmysqlclient (and latest PHP), or use MYSQLI (in config/config.ini.php). "
+				. "\n - Learn how to enable LOAD LOCAL DATA INFILE see the Mysql doc (http://dev.mysql.com/doc/refman/5.0/en/load-data-local.html) "
+				. "\n   or ask in this Piwik ticket (http://dev.piwik.org/trac/ticket/3605)"
+			);
+		}
+	}
+
+	/**
      * Testing plain inserts
      * @group Core
      * @group ArchiveProcessing
@@ -374,16 +363,27 @@ NEEDLE
         $table = $archiveProcessing->getTableArchiveBlobName();
 
         $data = $this->_getBlobDataInsert();
-        $didWeUseBulk = Piwik::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
-        if($this->isBulkInsertTestable())
-        {
-            $this->assertTrue($didWeUseBulk, "The test didn't LOAD DATA INFILE but fallbacked to plain INSERT, but we must unit test this function!");
-        }
-        $this->_checkTableIsExpectedBlob($table, $data);
-        
+	    try {
+	        $didWeUseBulk = Piwik::tableInsertBatch($table,
+	                array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'),
+	                $data,
+                    $throwException = true);
+	    } catch(Exception $e) {
+		    $didWeUseBulk = $e->getMessage();
+	    }
+	    $this->_checkLoadDataInFileWasUsed($didWeUseBulk);
+
+	    // If bulk wasn't used the exception was caught and the INSERT didn't work
+	    if($didWeUseBulk === true)
+	    {
+	        $this->_checkTableIsExpectedBlob($table, $data);
+	    }
         // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc) 
-        Piwik::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
-        $this->_checkTableIsExpectedBlob($table, $data);
+	    $didWeUseBulk = Piwik::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
+	    if($didWeUseBulk === true)
+	    {
+		    $this->_checkTableIsExpectedBlob($table, $data);
+	    }
     }
 
     /**
