@@ -35,6 +35,8 @@ class Piwik_Installation extends Piwik_Plugin
 		$hooks = array(
 			'FrontController.NoConfigurationFile' => 'dispatch',
 			'FrontController.badConfigurationFile' => 'dispatch',
+            'AdminMenu.add' => 'addMenu',
+            'AssetManager.getCssFiles' => 'getCss',
 		);
 		return $hooks;
 	}
@@ -81,4 +83,25 @@ class Piwik_Installation extends Piwik_Plugin
 
 		exit;
 	}	
+
+	/**
+	 * Adds the 'System Check' admin page if the user is the super user.
+	 */
+	public function addMenu()
+	{
+		Piwik_AddAdminMenu('Installation_SystemCheck',
+						   array('module' => 'Installation', 'action' => 'systemCheckPage'),
+						   $addIf = Piwik::isUserIsSuperUser(),
+						   $order = 15);
+    }
+    
+    /**
+     * Adds CSS files to list of CSS files for asset manager.
+     */
+    public function getCss( $notification )
+    {
+        $cssFiles = &$notification->getNotificationObject();
+
+        $cssFiles[] = "plugins/Installation/templates/systemCheckPage.css";
+    }
 }

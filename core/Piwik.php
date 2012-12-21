@@ -2482,10 +2482,12 @@ class Piwik
 	 * @param string  $tableName  PREFIXED table name! you must call Piwik_Common::prefixTable() before passing the table name
 	 * @param array   $fields     array of unquoted field names
 	 * @param array   $values     array of data to be inserted
+	 * @param bool    $throwException Whether to throw an exception that was caught while trying
+	 *                                LOAD DATA INFILE, or not.
 	 * @throws Exception
 	 * @return bool  True if the bulk LOAD was used, false if we fallback to plain INSERTs
 	 */
-	static public function tableInsertBatch($tableName, $fields, $values)
+	static public function tableInsertBatch($tableName, $fields, $values, $throwException = false)
 	{
 		$filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-'.Piwik_Common::generateUniqId().'.csv';
 
@@ -2528,7 +2530,11 @@ class Piwik
 
 			} catch(Exception $e) {
 				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
-//				throw new Exception("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
+				
+				if ($throwException)
+				{
+					throw $e;
+				}
 			}
 		}
 

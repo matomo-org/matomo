@@ -15,7 +15,7 @@
  *
  * @package Piwik_Installation
  */
-class Piwik_Installation_Controller extends Piwik_Controller
+class Piwik_Installation_Controller extends Piwik_Controller_Admin
 {
 	// public so plugins can add/delete installation steps
 	public $steps = array(
@@ -101,32 +101,9 @@ class Piwik_Installation_Controller extends Piwik_Controller
 						__FUNCTION__
 					);
 		$this->skipThisStep( __FUNCTION__ );
-
-		$view->infos = self::getSystemInformation();
-		$this->session->general_infos = $view->infos['general_infos'];
 		
-		$view->helpMessages = array(
-			'zlib'            => 'Installation_SystemCheckZlibHelp',
-			'SPL'             => 'Installation_SystemCheckSplHelp',
-			'iconv'           => 'Installation_SystemCheckIconvHelp',
-			'Reflection'	  => 'Required extension that is built in PHP, see http://www.php.net/manual/en/book.reflection.php',
-			'json'            => 'Installation_SystemCheckWarnJsonHelp',
-			'libxml'          => 'Installation_SystemCheckWarnLibXmlHelp',
-			'dom'             => 'Installation_SystemCheckWarnDomHelp',
-			'SimpleXML'       => 'Installation_SystemCheckWarnSimpleXMLHelp',
-			'set_time_limit'  => 'Installation_SystemCheckTimeLimitHelp',
-			'mail'            => 'Installation_SystemCheckMailHelp',
-			'parse_ini_file'  => 'Installation_SystemCheckParseIniFileHelp',
-			'glob'            => 'Installation_SystemCheckGlobHelp',
-			'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
-			'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
-			'eval'            => 'Installation_SystemCheckEvalHelp',
-			'gzcompress'      => 'Installation_SystemCheckGzcompressHelp',
-			'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
-			'pack'            => 'Installation_SystemCheckPackHelp',
-		);
-
-		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
+		$this->setupSystemCheckView($view);
+		$this->session->general_infos = $view->infos['general_infos'];
 
 		$view->showNextStep = !$view->problemWithSomeDirectories
 							&& $view->infos['phpVersion_ok']
@@ -167,7 +144,7 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		$form = new Piwik_Installation_FormDatabaseSetup();
 
-		if($form->validate())
+		if ($form->validate())
 		{
 			try
 			{
@@ -498,6 +475,30 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		$this->session->unsetAll();
 	}
 
+	/**
+	 * This controller action renders an admin tab that runs the installation
+	 * system check, so people can see if there are any issues w/ their running
+	 * Piwik installation.
+	 * 
+	 * This admin tab is only viewable by the super user.
+	 */
+	public function systemCheckPage()
+	{
+		Piwik::checkUserIsSuperUser();
+		
+		$view = Piwik_View::factory('systemCheckPage');
+		$this->setBasicVariablesView($view);
+		$view->menu = Piwik_GetAdminMenu();
+		
+		$this->setupSystemCheckView($view);
+		
+		$infos = $view->infos;
+		$infos['extra'] = self::performAdminPageOnlySystemCheck();
+		$view->infos = $infos;
+		
+		echo $view->render();
+	}
+	
 	/**
 	 * Instantiate access and log objects
 	 */
@@ -859,6 +860,31 @@ class Piwik_Installation_Controller extends Piwik_Controller
 		{
 			$infos['general_infos']['proxy_host_headers'] = $headers;
 		}
+		
+		// determine whether there are any errors/warnings from the checks done above
+		$infos['has_errors'] = false;
+		$infos['has_warnings'] = false;
+		if (in_array(0, $infos['directories']) // if a directory is not writable
+			|| !$infos['phpVersion_ok']
+			|| !empty($infos['missing_extensions'])
+			|| !$infos['pdo_ok']
+			|| !empty($infos['missing_functions']))
+		{
+			$infos['has_errors'] = true;
+		}
+		
+		if (!$infos['can_auto_update']
+			|| !empty($infos['missing_desired_extensions'])
+			|| !$infos['gd_ok']
+			|| !$infos['multibyte_ok']
+			|| !$infos['registerGlobals_ok']
+			|| !$infos['memory_ok']
+			|| !empty($infos['integrityErrorMessages'])
+			|| !$infos['timezone'] // if timezone support isn't available
+			|| $infos['tracker_status'] != 0)
+		{
+			$infos['has_warnings'] = true;
+		}
 
 		return $infos;
 	}
@@ -894,5 +920,81 @@ class Piwik_Installation_Controller extends Piwik_Controller
 
 		}
 		return $exists;
+	}
+	
+	/**
+	 * Utility function, sets up a view that will display system check info.
+	 * 
+	 * @param Piwik_View $view
+	 */
+	private function setupSystemCheckView( $view )
+	{
+		$view->infos = self::getSystemInformation();
+		
+		$view->helpMessages = array(
+			'zlib'            => 'Installation_SystemCheckZlibHelp',
+			'SPL'             => 'Installation_SystemCheckSplHelp',
+			'iconv'           => 'Installation_SystemCheckIconvHelp',
+			'Reflection'	  => 'Required extension that is built in PHP, see http://www.php.net/manual/en/book.reflection.php',
+			'json'            => 'Installation_SystemCheckWarnJsonHelp',
+			'libxml'          => 'Installation_SystemCheckWarnLibXmlHelp',
+			'dom'             => 'Installation_SystemCheckWarnDomHelp',
+			'SimpleXML'       => 'Installation_SystemCheckWarnSimpleXMLHelp',
+			'set_time_limit'  => 'Installation_SystemCheckTimeLimitHelp',
+			'mail'            => 'Installation_SystemCheckMailHelp',
+			'parse_ini_file'  => 'Installation_SystemCheckParseIniFileHelp',
+			'glob'            => 'Installation_SystemCheckGlobHelp',
+			'debug_backtrace' => 'Installation_SystemCheckDebugBacktraceHelp',
+			'create_function' => 'Installation_SystemCheckCreateFunctionHelp',
+			'eval'            => 'Installation_SystemCheckEvalHelp',
+			'gzcompress'      => 'Installation_SystemCheckGzcompressHelp',
+			'gzuncompress'    => 'Installation_SystemCheckGzuncompressHelp',
+			'pack'            => 'Installation_SystemCheckPackHelp',
+		);
+
+		$view->problemWithSomeDirectories = (false !== array_search(false, $view->infos['directories']));
+	}
+	
+	/**
+	 * Performs extra system checks for the 'System Check' admin page. These
+	 * checks are not performed during Installation.
+	 * 
+	 * The following checks are performed:
+	 *  - Check for whether LOAD DATA INFILE can be used. The result of the check
+	 *    is stored in $result['load_data_infile_available']. The error message is
+	 *    stored in $result['load_data_infile_error'].
+	 * 
+	 * @return array
+	 */
+	public static function performAdminPageOnlySystemCheck()
+	{
+		$result = array();
+		
+		// check if LOAD DATA INFILE works
+		$optionTable = Piwik_Common::prefixTable('option');
+		$testOptionNames = array('test_system_check1', 'test_system_check2');
+		
+		$result['load_data_infile_available'] = false;
+		try
+		{
+			$result['load_data_infile_available'] = Piwik::tableInsertBatch(
+				$optionTable,
+				array('option_name', 'option_value'),
+				array(
+					array($testOptionNames[0], '1'),
+					array($testOptionNames[1], '2'),
+				),
+				$throwException = true
+			);
+		}
+		catch (Exception $ex)
+		{
+			$result['load_data_infile_error'] = $ex->getMessage();
+		}
+		
+		// delete the temporary rows that were created
+		Piwik_Exec("DELETE FROM $optionTable WHERE option_name IN ('".implode("','", $testOptionNames)."')");
+		
+		return $result;
 	}
 }
