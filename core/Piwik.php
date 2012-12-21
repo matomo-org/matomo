@@ -2398,7 +2398,7 @@ class Piwik
 	 * @param book    $throwException Should re-throw any exception, used in system check
 	 * @return bool  True if successful; false otherwise
 	 */
-	static public function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec, $throwException)
+	static public function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)
 	{
 		// On Windows, MySQL expects forward slashes as directory separators
 		if (Piwik_Common::isWindows()) {
@@ -2478,7 +2478,7 @@ class Piwik
 				$exceptions[] = "\n  Try #" . (count($exceptions)+1) . ': ' . $queryStart .": ". $message;
 			}
 		}
-		if($throwException && count($exceptions))
+		if(count($exceptions))
 		{
 			throw new Exception( implode( ",", $exceptions ) );
 		}
@@ -2528,12 +2528,10 @@ class Piwik
 					throw new Exception("File $filePath could not be read.");
 				}
 
-				$rc = self::createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec, $throwException);
+				$rc = self::createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec);
 				if($rc) {
 					unlink($filePath);
 					return true;
-				} else {
-					return false;
 				}
 			} catch(Exception $e) {
 				Piwik::log("LOAD DATA INFILE failed or not supported, falling back to normal INSERTs... Error was:" . $e->getMessage());
