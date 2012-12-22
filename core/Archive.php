@@ -261,7 +261,8 @@ abstract class Piwik_Archive
 		}
 		else
 		{
-			if(is_string($strDate))
+			$oDate = $strDate;
+			if(!($strDate instanceof Piwik_Date))
 			{
 				if($strDate == 'now' || $strDate == 'today')
 				{
@@ -272,10 +273,6 @@ abstract class Piwik_Archive
 					$strDate = date('Y-m-d', Piwik_Date::factory('now', $tz)->subDay(1)->getTimestamp());
 				}
 				$oDate = Piwik_Date::factory($strDate);
-			}
-			else
-			{
-				$oDate = $strDate;
 			}
 			$date = $oDate->toString();
 			$oPeriod = Piwik_Period::factory($strPeriod, $oDate);

@@ -160,7 +160,7 @@ class Piwik_ImageGraph_API
 
 			if(empty($legendFontSize))
 			{
-				$legendFontSize = $fontSize + self::DEFAULT_LEGEND_FONT_SIZE_OFFSET;
+				$legendFontSize = (int)$fontSize + self::DEFAULT_LEGEND_FONT_SIZE_OFFSET;
 			}
 
 			if(empty($graphType))
