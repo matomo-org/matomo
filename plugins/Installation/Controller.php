@@ -881,6 +881,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 			|| !$infos['phpVersion_ok']
 			|| !empty($infos['missing_extensions'])
 			|| !$infos['pdo_ok']
+			|| empty($infos['adapters'])
 			|| !empty($infos['missing_functions']))
 		{
 			$infos['has_errors'] = true;
