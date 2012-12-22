@@ -155,7 +155,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'عرض جدول مبسط',
 	'General_DisplayTableWithMoreMetrics' => 'عرض جدول مع المزيد من المتغيرات',
 	'General_DisplayTableWithGoalMetrics' => 'عرض الجدول مع متغيرات الأهداف',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s هي مشروع مشترك. %3$s إذا كنت معجباً به، فيمكنك المساعدة! انظر %4$s كيف يمكنك المشاركة في Piwik؟%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'أنت تشاهد حالياً نسخة عرض من Piwik',
 	'General_DownloadFullVersion' => '%1$s قم بتحميل %2$s الإصدار الكامل! انظر %3$s',
 	'General_NewUpdatePiwikX' => 'تحديث جديد: Piwik %s',

@@ -198,7 +198,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Vis enkel tabel',
 	'General_DisplayTableWithMoreMetrics' => 'Vis tabel med flere målinger',
 	'General_DisplayTableWithGoalMetrics' => 'Vis tabel med mål data',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s er et samarbejdsprojekt. %3$s Hvis du vil hjælpe, så se: %4$s Hvordan bidrager man til Piwik? %5$s.',
 	'General_YouAreViewingDemoShortMessage' => 'Du bruger en demo version af Piwik',
 	'General_YouAreCurrentlyUsing' => 'Du bruger i øjeblikket Piwik %s.',
 	'General_DownloadFullVersion' => '%1$sHent%2$s fuld version! Tjek %3$s',

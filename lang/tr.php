@@ -160,7 +160,6 @@ $translations = array(
 	'General_NoDataForGraph' => 'Bu grafikte veri yok.',
 	'General_NoDataForTagCloud' => 'Bu etiket bulutunda veri yok.',
 	'General_DisplaySimpleTable' => 'Basit tablo göster',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s işbirlikçi bir projedir. %3$s Eğer Piwik\'den hoşlandıysanız, yardım edebilirsiniz! %4$s Piwik\'e nasıl katılacağınızı%5$s kontrol edin?',
 	'General_NewUpdatePiwikX' => 'Yeni Güncelleme: Piwik %s',
 	'General_AboutPiwikX' => 'Piwik %s Hakkında',
 	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Piwik %1$s kullanılabilir durumda.. %2$s Lütfen şimdi güncelleyin!%3$s (%4$s değişiklikleri%5$s görün).',

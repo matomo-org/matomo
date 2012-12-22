@@ -110,7 +110,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => '顯示簡易表格',
 	'General_DisplayTableWithMoreMetrics' => '顯示更多數據表',
 	'General_DisplayTableWithGoalMetrics' => '顯示目標數據表',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s 是一個協同專案。 %3$s 如果你喜歡 Piwik，你可以提供協助！ 請查看 %4$s 如何參與 Piwik？%5$s',
 	'General_YouAreViewingDemoShortMessage' => '你正在瀏覽 Piwik 範例',
 	'General_DownloadFullVersion' => '%1$s下載%2$s完整版本！來吧 %3$s',
 	'General_NewUpdatePiwikX' => '新的更新：Piwik %s',

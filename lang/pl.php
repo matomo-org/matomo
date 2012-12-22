@@ -187,7 +187,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Uproszczony widok tabeli',
 	'General_DisplayTableWithMoreMetrics' => 'Widok tabeli z większą ilością danych',
 	'General_DisplayTableWithGoalMetrics' => 'Widok tabeli z danymi o celach',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s jest współtworzoną realizacją projektu. %3$s Jeżeli jesteś zwolennikiem projektu Piwik, możesz pomóc! Sprawdź %4$s jak możesz uczestniczyć przy rozwijaniu projektu Piwik?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Aktualnie oglądasz wersję demonstracyjną statystyk Piwik',
 	'General_YouAreCurrentlyUsing' => 'Aktualnie używasz Piwik %s.',
 	'General_DownloadFullVersion' => '%1$sPobierz%2$s wersję pełną! Zobacz %3$s',

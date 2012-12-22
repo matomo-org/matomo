@@ -111,7 +111,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Sýna einfalda töflu.',
 	'General_DisplayTableWithMoreMetrics' => 'Sýna töflu með mörgum mæligildum.',
 	'General_DisplayTableWithGoalMetrics' => 'Sýna töflu með mælingum á markmið.',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s er samvinnuverkefni. %3$s Ef þú ert aðdáandi Piwik, þá geturðu hjálpað til! Kannaðu %4$s hvernig hægt er að taka þátt í Piwik?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Núna ertu að skoða tilraunaútgáfu af Piwik',
 	'General_DownloadFullVersion' => '%1$sDownload%2$s heildarútgáfuna! Kannaðu  %3$s',
 	'General_NewUpdatePiwikX' => 'Ný uppfærsla: Piwik %s',

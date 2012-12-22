@@ -25,7 +25,7 @@
 			{'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>$latest_version_available</a>"}
 		{/if}
 	{else}
-		{'General_PiwikIsACollaborativeProjectYouCanContribute'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org' target='_blank'>":"$piwik_version</a>":"<br />":"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/contribute/'>":"</a>":'<br/>':"<a href='http://piwik.org/donate/'><strong><em>":"</em></strong></a>"}
+		{'General_PiwikIsACollaborativeProjectYouCanContributeAndDonate'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org' target='_blank'>":"$piwik_version</a>":"<br />":"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/contribute/'>":"</a>":'<br/>':"<a href='http://piwik.org/donate/'><strong><em>":"</em></strong></a>"}
 	{/if}
 	{if !empty($hasSomeAdminAccess)}
 	<br/>

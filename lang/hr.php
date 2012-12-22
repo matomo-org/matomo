@@ -182,7 +182,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Prikaži jednostavnu tablicu',
 	'General_DisplayTableWithMoreMetrics' => 'Prikaži tablicu sa detaljnim podacima',
 	'General_DisplayTableWithGoalMetrics' => 'Prikaži tablicu sa podacima o ciljevima',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s je grupni projekt. %3$s Ako vam se Piwik sviđa, možete nam pomoći! Pogledajte %4$s Kako sudjelovati u Piwik projektu?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Trenutno gledate demonstraciju Piwika',
 	'General_DownloadFullVersion' => '%1$sPreuzmite%2$s punu verziju! Pogledajte %3$s',
 	'General_NewUpdatePiwikX' => 'Nova verzija: Piwik %s',

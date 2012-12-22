@@ -196,7 +196,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'シンプルなテーブル表示',
 	'General_DisplayTableWithMoreMetrics' => 'より多くのメトリックを含むテーブル表示',
 	'General_DisplayTableWithGoalMetrics' => '目標メトリックを含むテーブル表示',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s は共同プロジェクトです。%3$sあなたが Piwik のファンであれば支援することができます！ 詳細は %4$s How to participate in Piwik?%5$s を確認してください。',
 	'General_YouAreViewingDemoShortMessage' => '現在、Piwik のデモを表示しています',
 	'General_YouAreCurrentlyUsing' => '現在Piwik %s を利用しています',
 	'General_DownloadFullVersion' => 'フルバージョンを%1$sダウンロード%2$s！ %3$s を確認してください',

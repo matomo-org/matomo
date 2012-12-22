@@ -204,7 +204,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Visa enkel tabell',
 	'General_DisplayTableWithMoreMetrics' => 'Visa en tabell med mer statistik',
 	'General_DisplayTableWithGoalMetrics' => 'Visa en tabell med mer statistik för mål',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s är ett samarbetsprojekt. %3$s Om du är ett fan av Piwik så kan även du hjälpa till! Kolla in %4$s Hur deltar man i Piwik?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Du ser just nu en demo av Piwik',
 	'General_YouAreCurrentlyUsing' => 'Du använder för närvarande Piwik %s.',
 	'General_DownloadFullVersion' => '%1$sLadda ner%2$s den fulla versionen! Kolla in %3$s',

@@ -199,7 +199,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Afisarea unui tabel simplu',
 	'General_DisplayTableWithMoreMetrics' => 'Afisarea unui tabel cu mai multi metrici',
 	'General_DisplayTableWithGoalMetrics' => 'Afisarea unui tabel cu scopurile',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s este un proiect colaborativ. %3$s Daca sunteti fan Piwik, puteti ajuta! Vedeti %4$s Cum sa participati la Piwik?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Vizualizati o versiune demo a Piwik',
 	'General_YouAreCurrentlyUsing' => 'Foloseşti Piwik %s.',
 	'General_DownloadFullVersion' => '%1$sDescarcati%2$s versiunea full! Accesati %3$s',

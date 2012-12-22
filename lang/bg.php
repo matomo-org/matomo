@@ -198,7 +198,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Покажи проста таблица',
 	'General_DisplayTableWithMoreMetrics' => 'Покажи таблица с повече показатели',
 	'General_DisplayTableWithGoalMetrics' => 'Покажи таблица с повече целеви показатели',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s е отворен проект. %3$s Ако Piwik, Ви допада можете да ни помогнете! Научете %4$s как можете да ни помогнете?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'В момента Вие разглеждате демо версия на Piwik',
 	'General_YouAreCurrentlyUsing' => 'Вие използвате Piwik %s.',
 	'General_DownloadFullVersion' => '%1$sИзтегли%2$s пълната версия! Провери %3$s',

@@ -203,7 +203,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Afficher un tableau simple',
 	'General_DisplayTableWithMoreMetrics' => 'Afficher un tableau avec plus d\'unités',
 	'General_DisplayTableWithGoalMetrics' => 'Afficher un tableau avec des Objectifs en tant qu\'unités',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s est un projet collaboratif. %3$s Si vous aimez Piwik, vous pouvez nous aider! Allez voir %4$s Comment contribuer à Piwik ?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Vous êtes en train de visionner la démonstration de Piwik',
 	'General_YouAreCurrentlyUsing' => 'Vous utilisez actuellement Piwik %s',
 	'General_DownloadFullVersion' => '%1$sTéléchargez%2$s la version complète! Rendez vous sur %3$s',

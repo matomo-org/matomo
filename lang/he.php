@@ -134,7 +134,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'להציג טבלה פשוטה',
 	'General_DisplayTableWithMoreMetrics' => 'להציג טבלה עם יותר נתונים',
 	'General_DisplayTableWithGoalMetrics' => 'להציג טבלה עם נתוני יעדים',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s הוא פרוייקט שיתופי. %3$s כל מעריץ של Piwik יכול לתרום! כנסו ל %4$s כיצד לתרום לPiwik? %5$s',
 	'General_YouAreViewingDemoShortMessage' => 'הנך צופה בגרסת ההדגמה של Piwik',
 	'General_DownloadFullVersion' => '%1$sהורדת%2$s הגרסה המלאה! כנסו ל%3$s',
 	'General_NewUpdatePiwikX' => 'עדכון חדש: Piwik %s',

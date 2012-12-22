@@ -112,7 +112,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'სანიმუშო ცხრილის ჩვენება',
 	'General_DisplayTableWithMoreMetrics' => 'ცხრილის ჩვენება უფრო მეტი პარამეტრებით',
 	'General_DisplayTableWithGoalMetrics' => 'ცხრილის ჩვენება მიზნების პარამეტრებით',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s არის კოლექტიური პროექტი. %3$s თუ თქვენ მოგწონთ Piwik, შეგიძლიათ დაგვეხმაროთ! გაეცანით %4$s როგორ მივიღოთ მონაწილეობა Piwik პროექტში?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'ახლა თქვენ ათვალიერებთ Piwik–ის დემო ვერსიას',
 	'General_DownloadFullVersion' => '%1$sჩამოტვირთეთ%2$s სრული ვერსია! გაეცანით %3$s',
 	'General_NewUpdatePiwikX' => 'ახალი განახლება: Piwik %s',

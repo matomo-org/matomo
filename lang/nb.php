@@ -128,7 +128,6 @@ $translations = array(
 	'General_NoDataForTagCloud' => 'Ingen data for denne merkelappskyen.',
 	'General_DisplaySimpleTable' => 'Vis enkel tabell',
 	'General_DisplayTableWithMoreMetrics' => 'Vis en tabell mer flere måltall',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s er et samarbeidsprosjekt. %3$s Hvis du liker Piwik, så kan du hjelpe til! Les om %4$s hvordan du kan bidra %5$s.',
 	'General_YouAreViewingDemoShortMessage' => 'Du ser for øyeblikket på Piwik-demoen',
 	'General_DownloadFullVersion' => '%1$sLast ned%2$s den fullstendige utgaven! Prøv %3$s',
 	'General_NewUpdatePiwikX' => 'Ny utgave: Piwik %s',

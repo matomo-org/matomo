@@ -104,7 +104,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Bistaratu taula sinplea',
 	'General_DisplayTableWithMoreMetrics' => 'Bistaratu taula estatistika gehiagorekin',
 	'General_DisplayTableWithGoalMetrics' => 'Bistaratu taula helburuen estatistikekin',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s auzolaneko proiektua da. %3$s Piwik gustoko baduzu, laguntza eman dezakezu! Emaiozu begirada: %4$s Nola lagundu Piwik-en?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Piwiken demoa ikusten ari zara',
 	'General_NewUpdatePiwikX' => 'Eguneraketa berria: Piwik %s',
 	'General_AboutPiwikX' => 'Piwik %s(r)i buruz',

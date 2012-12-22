@@ -157,7 +157,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Rodyti paprastą lentelę',
 	'General_DisplayTableWithMoreMetrics' => 'Rodyti lentelę su daugiau duomenų',
 	'General_DisplayTableWithGoalMetrics' => 'Rodyti lentelę su uždavinių duomenimis',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s yra bendras projektas. %3$s Jei Jums patinka Piwik, Jūs taip pat galite prisijungti! %4$s Kaip prisidėti prie Piwik? %5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Šiuo metu Jūs stebite Piwik demonstraciją',
 	'General_DownloadFullVersion' => '%1$sAtsisiųskite%2$s pilną versiją! Išsamiau %3$s',
 	'General_NewUpdatePiwikX' => 'Atnaujinimai: Piwik %s',

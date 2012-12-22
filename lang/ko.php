@@ -55,7 +55,6 @@ $translations = array(
 	'General_Website' => '웹사이트',
 	'General_NoDataForGraph' => '이 그래프를 위한 데이터가 없습니다.',
 	'General_NoDataForTagCloud' => '이 태그 클라우드를 위한 데이터가 없습니다.',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s 은 협력 프로젝트입니다. %3$s 만약 Piwik이 마음에 드신다면, 도와주실 수 있습니다! %4$s 어떻게 Piwik에 도움을 줄 수 있는지 보시겠습니까?%5$s',
 	'General_PiwikXIsAvailablePleaseUpdateNow' => 'Piwik %1$s 이 사용 가능합니다. %2$s 지금 업데이트하세요!%3$s (보기: %4$s 변경%5$s).',
 	'General_BackToPiwik' => 'Piwik으로 돌아가기',
 	'General_ShortMonth_1' => '1월',

@@ -191,7 +191,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Rādīt vienkāršu tabulu',
 	'General_DisplayTableWithMoreMetrics' => 'Rādīt tabulu ar vairāk datiem',
 	'General_DisplayTableWithGoalMetrics' => 'Rādīt tabulu ar mērķu datiem',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s ir sadarbības projekts. %3$s Ja Jūs esat Piwik fans, Jūs varat palīdzēt! Apskatiet %4$s Kā piedalīties Piwik projektā?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Jūs pašlaik skatāties Piwik demonstrāciju',
 	'General_DownloadFullVersion' => '%1$sLejupielādējiet%2$s pilno versiju! Paskaties %3$s',
 	'General_NewUpdatePiwikX' => 'Jauns atjauninājums: Piwik %s',

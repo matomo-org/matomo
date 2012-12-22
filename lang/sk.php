@@ -190,7 +190,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Zobrazenie jednoduchej tabuľky',
 	'General_DisplayTableWithMoreMetrics' => 'Zobraziť tabuľku s viacerými metrikami',
 	'General_DisplayTableWithGoalMetrics' => 'Zobraziť tabuľku s cieľmi metrík',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s je kolaboratívny projekt. %3$s Ak sa Vám Piwik páči, tak môžete pomôcť! Pozrite sa na %4$sAko prispieť do projektu Piwik?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Momentálne vidíte demo Piwiku',
 	'General_DownloadFullVersion' => '%1$sStiahnuť%2$s plnú verziu! Pozri %3$s',
 	'General_NewUpdatePiwikX' => 'Nová aktualizácia: Piwik %s',

@@ -113,7 +113,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Показати просту таблицю',
 	'General_DisplayTableWithMoreMetrics' => 'Показати таблицю з більшою кількістю показників',
 	'General_DisplayTableWithGoalMetrics' => 'Показати таблицю з показниками Цілей',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s це спільний проект. %3$s Якщо тобі подобається Piwik, можеш долучитися! Глянь %4$s Як зробити свій вклад в розробку Piwik? %5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Зараз переглядається демонстраційний варіант Piwik',
 	'General_DownloadFullVersion' => '%1$sЗавантажити%2$s повну версію! Переглянути %3$s',
 	'General_NewUpdatePiwikX' => 'останнє поновлення: Piwik %s',

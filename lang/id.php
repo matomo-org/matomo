@@ -187,7 +187,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Tampilan tabel sederhana',
 	'General_DisplayTableWithMoreMetrics' => 'Menampilkan tabel dengan pengukuran lebih banyak',
 	'General_DisplayTableWithGoalMetrics' => 'Menampilkan tabel dengan pengukuran Tujuan',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s adalah proyek kolaboratif. %3$s Jika kamu adalah penggemar Piwik, kamu bisa bantu! Lihat %4$s Bagaimana berpartisipasi ikut serta di Piwik?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Anda sedanng melihat demostrasi Piwik',
 	'General_NewUpdatePiwikX' => 'Ada pembaruan: Piwik %s',
 	'General_AboutPiwikX' => 'Tentang Piwik %s',

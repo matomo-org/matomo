@@ -55,7 +55,6 @@ $translations = array(
 	'General_Website' => 'ድር ጣቢያ',
 	'General_NoDataForGraph' => 'ለዚህ ግራፍ ምንም ውሂብ የለም',
 	'General_NoDataForTagCloud' => 'ለዚህ መለያ ክላውድ ምንም ውሂብ የለም.',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s ፒዊክ %2$s በትብብር የተዘረጋ ፕሮጀክት ነው። %3$s ፒዊክ ከተስማማችሁ ድጋፍ መሰጠት ትችላላችሁ! ለፒዊክ ፕሮጀክት %4$s እንዴት አስተዋፃኦ ማድረግ እንደሚችሉ ይመልከቱ?%5$s',
 	'General_PiwikXIsAvailablePleaseUpdateNow' => 'ፒዊክን %1$s ማግኘት ይቻላል። %2$s እባክዎን ያልቁት!%3$s (ለውጦቹን%4$s ይመልከቱ%5$s).',
 	'General_BackToPiwik' => 'ወደፒዊክ ተመለስ',
 	'General_ShortMonth_1' => 'ጥር',

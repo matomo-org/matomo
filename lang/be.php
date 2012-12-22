@@ -190,7 +190,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Паказаць простую табліцу',
 	'General_DisplayTableWithMoreMetrics' => 'Паказаць табліцу з больш метрыкамі',
 	'General_DisplayTableWithGoalMetrics' => 'Паказаць табліцу з Мэтамі метрыкі',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s - гэта калектыўны праект. %3$s Калі Вам падабаецца Piwik, Вы можаце дапамагчы! Праверце, калі ласка %4$s як Вы можаце гэта зрабіць?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Вы праглядаеце дэма версію Piwik',
 	'General_DownloadFullVersion' => '%1$sСпампуйце%2$s поўную версію! праверце %3$s',
 	'General_NewUpdatePiwikX' => 'Новае абнаўленне: Piwik %s',

@@ -199,7 +199,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Toon simpele tabel',
 	'General_DisplayTableWithMoreMetrics' => 'Toon een tabel met meer gegevens.',
 	'General_DisplayTableWithGoalMetrics' => 'Toon een tabel met gegevens over doelen.',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s is een samenwerkingsproject. %3$s Als u Piwik handig vindt, dan kunt u helpen! Zoek uit %4$s Bekijk hoe u kan meehelpen aan Piwik.%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'U bekijkt momenteel de demo versie van Piwik.',
 	'General_YouAreCurrentlyUsing' => 'U gebruikt momenteel Piwik %s.',
 	'General_DownloadFullVersion' => '%1$sDownload%2$s de volledige versie! Bezoek %3$s',

@@ -182,7 +182,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Egyszerű táblázat megjelenítése',
 	'General_DisplayTableWithMoreMetrics' => 'Több adatot mutató táblázat megjelenítése',
 	'General_DisplayTableWithGoalMetrics' => 'A Célokat mutató táblázat megjelenítése',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s egy közösségi projekt. %3$s Ha Piwik rajongó vagy, Te is tudsz segíteni! Nézd meg, %4$s hogyan tudsz Te is részt venni a Piwik fejlesztésében! %5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Jelenleg a Piwik demóváltozatát láthatod.',
 	'General_DownloadFullVersion' => '%1$sTöltsd le%2$s a teljes verziót! Nézd meg ezt: %3$s',
 	'General_NewUpdatePiwikX' => 'Új verzió: Piwik %s',

@@ -192,7 +192,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Shfaq një tabelë të thjeshtë',
 	'General_DisplayTableWithMoreMetrics' => 'Shfaq një tabelë me më tepër matje',
 	'General_DisplayTableWithGoalMetrics' => 'Shfaq një tabelë me matje Objektivash',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s është projekt bashkëpunimi. %3$s Po qe se e pëlqeni Piwik-un, mund të ndihmoni! Shihni se %4$s Si mund të ndihmoni te Piwik-u?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Hëpërhë jeni duke parë një demonstrim të Piwik-ut',
 	'General_YouAreCurrentlyUsing' => 'Jeni duke përdorur Piwik %s.',
 	'General_DownloadFullVersion' => '%1$sShkarkoni%2$s versionin e plotë! Shihni %3$s',

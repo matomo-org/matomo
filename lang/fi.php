@@ -204,7 +204,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Näytä yksinkertainen taulukko',
 	'General_DisplayTableWithMoreMetrics' => 'Näytä taulukko lisätiedoilla',
 	'General_DisplayTableWithGoalMetrics' => 'Näytä taulukko tavoitetietojen kanssa',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s on yhteistyöprojekti. %3$s Jos pidät Piwikistä, voit auttaa! Katso %4$s miten voit auttaa Piwikiä%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Katselet demoversiota Piwikistä',
 	'General_YouAreCurrentlyUsing' => 'Käytät Piwik %s:ää',
 	'General_DownloadFullVersion' => '%1$sLataa%2$s täysi versio! Katso %3$s',

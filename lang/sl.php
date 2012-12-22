@@ -203,7 +203,6 @@ $translations = array(
 	'General_DisplaySimpleTable' => 'Prikaži preprosto tabelo',
 	'General_DisplayTableWithMoreMetrics' => 'Prikaži podrobnejšo tabelo',
 	'General_DisplayTableWithGoalMetrics' => 'Prikaži tabelo z metričnimi cilji',
-	'General_PiwikIsACollaborativeProjectYouCanContribute' => '%1$s Piwik %2$s je skupinski projekt. %3$s Če ti je Piwik všeč lahko pomagaš! Oglej si %4$s Kako lahko sodelujem?%5$s',
 	'General_YouAreViewingDemoShortMessage' => 'Trenutno si ogledujete Piwik v demo načinu',
 	'General_YouAreCurrentlyUsing' => 'Trenutno uporabljate Piwik %s.',
 	'General_DownloadFullVersion' => '%1$sPrenesite%2$s celotno verzijo! Oglejte si %3$s',
