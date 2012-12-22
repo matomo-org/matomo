@@ -78,6 +78,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$jsFiles[] = "plugins/CoreHome/templates/date.js";
 		$jsFiles[] = "plugins/CoreHome/templates/autocomplete.js";
 		$jsFiles[] = "plugins/CoreHome/templates/sparkline.js";
+		$jsFiles[] = "plugins/CoreHome/templates/misc.js";
 		
 		$jsFiles[] = "plugins/CoreHome/templates/jqplot.js";
 		$jsFiles[] = "libs/jqplot/jqplot-custom.min.js";

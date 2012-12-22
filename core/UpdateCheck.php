@@ -18,6 +18,7 @@
 class Piwik_UpdateCheck 
 {
 	const CHECK_INTERVAL = 28800; // every 8 hours
+	const UI_CLICK_CHECK_INTERVAL = 10; // every 10s when user clicks UI link
 	const LAST_TIME_CHECKED = 'UpdateCheck_LastTimeChecked';
 	const LATEST_VERSION = 'UpdateCheck_LatestVersion';
 	const SOCKET_TIMEOUT = 2;
@@ -27,12 +28,17 @@ class Piwik_UpdateCheck
 	 *
 	 * @param bool  $force  Force check
 	 */
-	public static function check($force = false)
+	public static function check($force = false, $interval = null)
 	{
+		if ($interval === null)
+		{
+			$interval = self::CHECK_INTERVAL;
+		}
+		
 		$lastTimeChecked = Piwik_GetOption(self::LAST_TIME_CHECKED);
 		if($force
 			|| $lastTimeChecked === false
-			|| time() - self::CHECK_INTERVAL > $lastTimeChecked )
+			|| time() - $interval > $lastTimeChecked )
 		{
 			// set the time checked first, so that parallel Piwik requests don't all trigger the http requests
 			Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoload = 1);

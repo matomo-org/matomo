@@ -182,4 +182,22 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 			return new Piwik_CoreHome_DataTableRowAction_RowEvolution($this->idSite, $this->date, $graphType);
 		}
 	}
+	
+	/**
+	 * Forces a check for updates and re-renders the header message.
+	 * 
+	 * This will check piwik.org at most once per 10s.
+	 */
+	public function checkForUpdates()
+	{
+		Piwik::checkUserHasSomeAdminAccess();
+		$this->checkTokenInUrl();
+		
+		// perform check (but only once every 10s)
+		Piwik_UpdateCheck::check($force = false, Piwik_UpdateCheck::UI_CLICK_CHECK_INTERVAL);
+		
+		$view = Piwik_View::factory('header_message');
+		$this->setGeneralVariablesView($view);
+		echo $view->render();
+	}
 }

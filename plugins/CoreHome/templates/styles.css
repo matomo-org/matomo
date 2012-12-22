@@ -216,3 +216,21 @@ a.Piwik_Popover_Error_Back {
     display: block;
     margin: 10px auto 5px!important;
 }
+
+#updateCheckLinkContainer {
+	float:right;
+	cursor:pointer;
+}
+
+#updateCheckLinkContainer>* {
+	vertical-align:bottom;
+}
+
+#header_message #checkForUpdates {
+	font-size:.8em;
+	line-height:16px;
+	display:inline-block;
+}
+#header_message #checkForUpdates:hover {
+	text-decoration:none;
+}
