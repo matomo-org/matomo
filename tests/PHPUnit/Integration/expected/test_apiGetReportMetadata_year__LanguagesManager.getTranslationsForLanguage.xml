@@ -813,10 +813,6 @@
 		<value>Afficher un tableau avec des Objectifs en tant qu'unités</value>
 	</row>
 	<row>
-		<label>General_PiwikIsACollaborativeProjectYouCanContribute</label>
-		<value>%1$s Piwik %2$s est un projet collaboratif. %3$s Si vous aimez Piwik, vous pouvez nous aider! Allez voir %4$s Comment contribuer à Piwik ?%5$s</value>
-	</row>
-	<row>
 		<label>General_YouAreViewingDemoShortMessage</label>
 		<value>Vous êtes en train de visionner la démonstration de Piwik</value>
 	</row>
