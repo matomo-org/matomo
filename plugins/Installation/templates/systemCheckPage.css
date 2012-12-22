@@ -3,6 +3,10 @@
 	width:900px;
 }
 
+#systemCheckOptional {
+	margin-bottom:2em;
+}
+
 #systemCheckOptional td,#systemCheckRequired td {
 	/*border: 1px solid #222;*/
 	padding: 1em .5em 1em 2em;

@@ -258,6 +258,21 @@ assume_secure_protocol = 1</code><br />
 		</td>
 	</tr>
 	{/if}
+	<tr>
+		<td class="label">{'Installation_Filesystem'|translate}</td>
+		<td>
+		{if !$infos.is_nfs}
+			{$ok} {'General_Ok'|translate}<br/>
+		{else}
+			{$warning} <span class="warn">{'Installation_NfsFilesystemWarning'|translate}</span>
+			{if !empty($duringInstall)}
+				<p>{'Installation_NfsFilesystemWarningSuffixInstall'|translate}</p>
+			{else}
+				<p>{'Installation_NfsFilesystemWarningSuffixAdmin'|translate}</p>
+			{/if}
+		{/if}
+		</td>
+	</tr>
 </table>
 
 {include file="Installation/templates/integrityDetails.tpl"}

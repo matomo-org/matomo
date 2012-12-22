@@ -102,8 +102,16 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 					);
 		$this->skipThisStep( __FUNCTION__ );
 		
+		$view->duringInstall = true;
+		
 		$this->setupSystemCheckView($view);
 		$this->session->general_infos = $view->infos['general_infos'];
+		
+		// make sure DB sessions are used if the filesystem is NFS
+		if ($view->infos['is_nfs'])
+		{
+			$this->session->general_infos['session_save_handler'] = 'dbtable';
+		}
 
 		$view->showNextStep = !$view->problemWithSomeDirectories
 							&& $view->infos['phpVersion_ok']
@@ -490,6 +498,8 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
 		
+		$view->duringInstall = false;
+		
 		$this->setupSystemCheckView($view);
 		
 		$infos = $view->infos;
@@ -861,6 +871,9 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 			$infos['general_infos']['proxy_host_headers'] = $headers;
 		}
 		
+		// check if filesystem is NFS, if it is file based sessions won't work properly
+		$infos['is_nfs'] = self::checkIfFileSystemIsNFS();
+		
 		// determine whether there are any errors/warnings from the checks done above
 		$infos['has_errors'] = false;
 		$infos['has_warnings'] = false;
@@ -881,7 +894,8 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 			|| !$infos['memory_ok']
 			|| !empty($infos['integrityErrorMessages'])
 			|| !$infos['timezone'] // if timezone support isn't available
-			|| $infos['tracker_status'] != 0)
+			|| $infos['tracker_status'] != 0
+			|| $infos['is_nfs'])
 		{
 			$infos['has_warnings'] = true;
 		}
@@ -996,5 +1010,54 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 		Piwik_Exec("DELETE FROM $optionTable WHERE option_name IN ('".implode("','", $testOptionNames)."')");
 		
 		return $result;
+	}
+	
+	/**
+	 * Checks if the filesystem Piwik stores sessions in is NFS or not. This
+	 * check is done in order to avoid using file based sessions on NFS system,
+	 * since on such a filesystem file locking can make file based sessions
+	 * incredibly slow.
+	 * 
+	 * Note: In order to figure this out, we try to run the 'df' program. If
+	 * the 'exec' or 'shell_exec' functions are not available, we can't do
+	 * the check.
+	 * 
+	 * @return bool True if on an NFS filesystem, false if otherwise or if we
+	 *              can't use shell_exec or exec.
+	 */
+	public static function checkIfFileSystemIsNFS()
+	{
+		$sessionsPath = Piwik_Session::getSessionsDirectory();
+		
+		// this command will display details for the filesystem that holds the $sessionsPath
+		// path, but only if its type is NFS. if not NFS, df will return one or less lines
+		// and the return code 1. if NFS, it will return 0 and at least 2 lines of text.
+		$command = "df -T -t nfs \"$sessionsPath\"";
+		
+		if (function_exists('exec')) // use exec
+		{
+			exec($command, $output, $returnCode);
+			
+			// check if filesystem is NFS
+			if ($returnCode == 0
+				&& count($output) > 1)
+			{
+				return true;
+			}
+		}
+		else if (function_exists('shell_exec')) // use shell_exec
+		{
+			$output = shell_exec($command);
+			if ($output)
+			{
+				$output = explode("\n", $output);
+				if (count($output) > 1) // check if filesystem is NFS
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false; // not NFS, or we can't run a program to find out
 	}
 }

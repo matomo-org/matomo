@@ -79,7 +79,7 @@ class Piwik_Session extends Zend_Session
 			// Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files
 
 			// for "files", use our own folder to prevent local session file hijacking 
-			$sessionPath = PIWIK_USER_PATH . '/tmp/sessions';
+			$sessionPath = self::getSessionsDirectory();
 			// We always call mkdir since it also chmods the directory which might help when permissions were reverted for some reasons 
 			Piwik_Common::mkdir($sessionPath); 
 
@@ -136,5 +136,15 @@ class Piwik_Session extends Zend_Session
 			            . "\n<pre>Debug: the original error was \n". $e->getMessage()."</pre>";
 			Piwik_ExitWithMessage($message);
 		}
+	}
+	
+	/**
+	 * Returns the directory session files are stored in.
+	 * 
+	 * @return string
+	 */
+	public static function getSessionsDirectory()
+	{
+		return PIWIK_USER_PATH . '/tmp/sessions';
 	}
 }
