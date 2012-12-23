@@ -229,4 +229,13 @@ class PiwikTest extends DatabaseTestCase
 	{
 		$this->assertEquals($expected, Piwik::isAssociativeArray($array));
 	}
+	
+	/**
+	 * @group Core
+	 * @group Piwik
+	 */
+	public function testCheckIfFileSystemIsNFSOnNonNFS()
+	{
+		$this->assertFalse(Piwik::checkIfFileSystemIsNFS());
+	}
 }
