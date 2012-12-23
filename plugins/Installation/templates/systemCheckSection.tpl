@@ -14,7 +14,7 @@
 	<tr>
 		<td class="label">PDO {'Installation_Extension'|translate}</td>
 		<td>{if $infos.pdo_ok}{$ok}
-			{else}{$error} <span class="err">{'General_Error'|translate}: {'General_Required'|translate:"PDO"}</span>{/if}
+			{else}-{/if}
 		</td>
 	</tr>
 	{foreach from=$infos.adapters key=adapter item=port}

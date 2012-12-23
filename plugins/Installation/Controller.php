@@ -880,7 +880,6 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 		if (in_array(0, $infos['directories']) // if a directory is not writable
 			|| !$infos['phpVersion_ok']
 			|| !empty($infos['missing_extensions'])
-			|| !$infos['pdo_ok']
 			|| empty($infos['adapters'])
 			|| !empty($infos['missing_functions']))
 		{
