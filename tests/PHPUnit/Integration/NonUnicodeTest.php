@@ -104,7 +104,7 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 
 		//TESTS: on jenkins somehow the "<-was here" was cut off so removing this test case and simply append the wrong keyword
 //		$visitor->setUrl('http://example.org/page/index.htm?q=non unicode keyword %EC%E5%F8%EAe%EE%E2%FBf%E5 <-was here');
-		$visitor->setUrl('http://example.org/page/index.htm?q=non unicode keyword %EC%E5%F8%EAe%EE%E2%FBf%E5');
+		$visitor->setUrl('http://example.org/page/index.htm?q=non unicode keyword %EC%E5%F8%EA%EE%E2%FB%E5');
 		$visitor->setPageCharset('utf-8');
 //		var_dump("hello \n");
 //		var_dump($visitor->getUrlTrackPageView('Site Search'));
