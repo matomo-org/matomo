@@ -56,6 +56,8 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 	function dispatch()
 	{
 		$module = Piwik_Common::getRequestVar('module', '', 'string');
+		$action = Piwik_Common::getRequestVar('action', '', 'string');
+		
 		$updater = new Piwik_Updater();
 		$updater->addComponentToCheck('core', Piwik_Version::VERSION);
 		$updates = $updater->getComponentsWithNewVersion();
@@ -66,7 +68,9 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 		if(self::getComponentUpdates($updater) !== null 
 			&& $module != 'CoreUpdater'
 			// Proxy module is used to redirect users to piwik.org, should still work when Piwik must be updated
-			&& $module != 'Proxy')
+			&& $module != 'Proxy'
+			&& !($module == 'LanguagesManager'
+				&& $action == 'saveLanguage'))
 		{
 			if(Piwik_FrontController::shouldRethrowException())
 			{
