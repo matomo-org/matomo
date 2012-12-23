@@ -9,8 +9,10 @@
 
 $(document).ready(function() {
 	
+	var headerMessageParent = $('#header_message').parent();
+	
 	// when 'check for updates...' link is clicked, force a check & display the result
-	$('#header_message').parent().on('click', '#updateCheckLinkContainer', function(e) {
+	headerMessageParent.on('click', '#updateCheckLinkContainer', function(e) {
 		e.preventDefault();
 		
 		var headerMessage = $(this).closest('#header_message');
@@ -36,6 +38,14 @@ $(document).ready(function() {
 		ajaxRequest.send(false);
 		
 		return false;
+	});
+	
+	// when clicking the header message, show the long message w/o needing to hover
+	headerMessageParent.on('click', '#header_message', function(e) {
+		if (e.target.tagName.toLowerCase() != 'a')
+		{
+			$(this).toggleClass('active');
+		}
 	});
 	
 });
