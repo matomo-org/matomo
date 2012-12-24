@@ -558,6 +558,10 @@ class Piwik_API_API
 				// set metric documentation to default if it's not set 
 				$availableReport['metricsDocumentation'] = $this->getDefaultMetricsDocumentation();
 			}
+			
+			// if hide/show columns specified, hide/show metrics & docs
+			$availableReport['metrics'] = $this->hideShowMetrics($availableReport['metrics']);
+			$availableReport['metricsDocumentation'] = $this->hideShowMetrics($availableReport['metricsDocumentation']);
 		}
 		
 		// Some plugins need to add custom metrics after all plugins hooked in
