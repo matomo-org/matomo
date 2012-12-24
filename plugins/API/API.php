@@ -561,6 +561,7 @@ class Piwik_API_API
 			
 			// if hide/show columns specified, hide/show metrics & docs
 			$availableReport['metrics'] = $this->hideShowMetrics($availableReport['metrics']);
+			$availableReport['processedMetrics'] = $this->hideShowMetrics($availableReport['processedMetrics']);
 			$availableReport['metricsDocumentation'] = $this->hideShowMetrics($availableReport['metricsDocumentation']);
 		}
 		
@@ -858,6 +859,11 @@ class Piwik_API_API
      */
     private function hideShowMetrics( $columns )
     {
+    	if (!is_array($columns))
+    	{
+    		return $columns;
+    	}
+    	
     	// remove columns if hideColumns query parameters exist
     	$columnsToRemove = Piwik_Common::getRequestVar('hideColumns', '');
     	if ($columnsToRemove != '')
