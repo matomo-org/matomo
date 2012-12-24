@@ -2739,7 +2739,7 @@ class Piwik
 		// this command will display details for the filesystem that holds the $sessionsPath
 		// path, but only if its type is NFS. if not NFS, df will return one or less lines
 		// and the return code 1. if NFS, it will return 0 and at least 2 lines of text.
-		$command = "df -T -t nfs \"$sessionsPath\"";
+		$command = "df -T -t nfs \"$sessionsPath\" 2>&1";
 		
 		if (function_exists('exec')) // use exec
 		{
