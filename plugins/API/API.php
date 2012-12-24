@@ -562,7 +562,11 @@ class Piwik_API_API
 			// if hide/show columns specified, hide/show metrics & docs
 			$availableReport['metrics'] = $this->hideShowMetrics($availableReport['metrics']);
 			$availableReport['processedMetrics'] = $this->hideShowMetrics($availableReport['processedMetrics']);
-			$availableReport['metricsDocumentation'] = $this->hideShowMetrics($availableReport['metricsDocumentation']);
+			if (isset($availableReport['metricsDocumentation']))
+			{
+				$availableReport['metricsDocumentation'] =
+					$this->hideShowMetrics($availableReport['metricsDocumentation']);
+			}
 		}
 		
 		// Some plugins need to add custom metrics after all plugins hooked in
