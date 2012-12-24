@@ -52,15 +52,7 @@ class Piwik_Annotations_AnnotationList
 	 */
 	public function __construct( $idSites )
 	{
-		if ($idSites === 'all')
-		{
-			$this->idSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
-		}
-		else
-		{
-			$this->idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
-		}
-		
+		$this->idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
 		$this->annotations = $this->getAnnotationsForSite();
 	}
 	
@@ -204,8 +196,10 @@ class Piwik_Annotations_AnnotationList
 	 * 
 	 * @see self::get for info on what attributes stored within annotations.
 	 * 
-	 * @param Piwik_Date $startDate The start of the date range.
-	 * @param Piwik_Date $endDate THe end of the date range.
+	 * @param Piwik_Date|false $startDate The start of the date range.
+	 * @param Piwik_Date|false $endDate The end of the date range.
+	 * @param string|int|array|false $idSite IDs of the sites whose annotations to
+	 *                                       search through.
 	 * @return array Array mapping site IDs with arrays of annotations, eg:
 	 *               array(
 	 *                 '5' => array(
@@ -220,14 +214,28 @@ class Piwik_Annotations_AnnotationList
 	 *                        ),
 	 *               )
 	 */
-	public function search( $startDate, $endDate )
+	public function search( $startDate, $endDate, $idSite = false )
 	{
-		// collect annotations that are within the right date range & belong to the right
-		// report
-		$result = array();
-		foreach ($this->annotations as $idSite => $annotationForSite)
+		if ($idSite)
 		{
-			foreach ($annotationForSite as $idNote => $annotation)
+			$idSites = Piwik_Site::getIdSitesFromIdSitesString($idSite);
+		}
+		else
+		{
+			$idSites = array_keys($this->annotations);
+		}
+		
+		// collect annotations that are within the right date range & belong to the right
+		// site
+		$result = array();
+		foreach ($idSites as $idSite)
+		{
+			if (!isset($this->annotations[$idSite]))
+			{
+				continue;
+			}
+			
+			foreach ($this->annotations[$idSite] as $idNote => $annotation)
 			{
 				if ($startDate !== false)
 				{

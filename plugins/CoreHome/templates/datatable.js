@@ -639,6 +639,42 @@ dataTable.prototype =
 							);
 						}
 					});
+					
+					// when hover over annotation in annotation manager, highlight the annotation
+					// icon
+					var runningAnimation = null;
+					domElem.on('mouseenter', '.annotation', function(e) {
+						var date = $(this).attr('data-date');
+						
+						// find the icon for this annotation
+						var icon = $();
+						$('span', annotations).each(function() {
+							if ($(this).attr('data-date') == date)
+							{
+								icon = $('img', this);
+								return false;
+							}
+						});
+						
+						if (icon[0] == runningAnimation) // if the animation is already running, do nothing
+						{
+							return;
+						}
+						
+						// stop ongoing animations
+						$('span', annotations).each(function() {
+							$('img', this).removeAttr('style');
+						});
+						
+						// start a bounce animation
+						icon.effect("bounce", {times: 1, distance: 10}, 1000);
+						runningAnimation = icon[0];
+					});
+					
+					// reset running animation item when leaving annotations list 
+					domElem.on('mouseleave', '.annotations', function(e) {
+						runningAnimation = null;
+					});
 				}
 			);
 		}

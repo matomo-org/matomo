@@ -210,7 +210,7 @@ class Piwik_Annotations_API
 	 *                 ...
 	 *               )
 	 */
-	public function getAnnotationCountForDates( $idSite, $date, $period, $lastN = false )
+	public function getAnnotationCountForDates( $idSite, $date, $period, $lastN = false, $getAnnotationText = false )
 	{
 		Piwik::checkUserHasViewAccess($idSite);
 		
@@ -244,6 +244,17 @@ class Piwik_Annotations_API
 			foreach ($annotations->getIdSites() as $idSite)
 			{
 				$result[$idSite][$strDate] = $annotations->count($idSite, $date, $nextDate);
+				
+				// if only one annotation, return the one annotation's text w/ the counts
+				if ($getAnnotationText
+					&& $result[$idSite][$strDate]['count'] == 1)
+				{
+					$annotationsForSite = $annotations->search(
+						$date, Piwik_Date::factory($nextDate->getTimestamp() - 1), $idSite);
+					$annotation = reset($annotationsForSite[$idSite]);
+					
+					$result[$idSite][$strDate]['note'] = $annotation['note'];
+				}
 			}
 		}
 		

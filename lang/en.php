@@ -1908,4 +1908,6 @@ And thank you for using Piwik!',
 	'Annotations_YouCannotModifyThisNote' => 'You cannot modify this annotation, because you did not create it, nor do you have admin access for this site.',
 	'Annotations_CreateNewAnnotation' => 'Create a new annotation...',
 	'Annotations_LoginToAnnotate' => 'Login to create an annotation.',
+	'Annotations_AnnotationOnDate' => 'Annotation on %1$s: %2$s',
+	'Annotations_ClickToEditOrAdd' => 'Click to edit or add a new annotation.'
 );

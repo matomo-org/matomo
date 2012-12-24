@@ -212,6 +212,11 @@ class Piwik_Site
 	 */
 	static public function getIdSitesFromIdSitesString( $ids )
 	{
+		if ($ids === 'all')
+		{
+			return Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+		}
+		
 		if(!is_array($ids))
 		{
 			$ids = explode(',', $ids);

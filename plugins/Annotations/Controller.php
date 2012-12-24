@@ -215,7 +215,8 @@ class Piwik_Annotations_Controller extends Piwik_Controller
 	public function getEvolutionIcons()
 	{
 		// get annotation the count
-		$annotationCounts = Piwik_API_Request::processRequest("Annotations.getAnnotationCountForDates");
+		$annotationCounts = Piwik_API_Request::processRequest(
+			"Annotations.getAnnotationCountForDates", array('getAnnotationText' => 1));
 		
 		// create & render the view
 		$view = Piwik_View::factory('evolutionAnnotations');
