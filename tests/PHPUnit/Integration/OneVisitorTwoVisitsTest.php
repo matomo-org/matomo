@@ -128,6 +128,13 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 												  	'showColumns' => 'nb_visits_converted,xuena,entry_nb_visits,'.
 												  		'bounce_rate,nb_hits'
 												  ))),
+			array('API.getProcessedReport', array('idSite' => self::$idSite, 'date' => self::$dateTime,
+												  'periods' => 'day', 'apiModule' => 'VisitTime',
+												  'apiAction' => 'getVisitInformationPerServerTime',
+												  'testSuffix' => '_showColumnsWithProcessedMetrics_',
+												  'otherRequestParameters' => array(
+												  	'showColumns' => 'nb_visits,revenue'
+												  ))),
 			
 			// test hideColumns w/ expanded=1
 			array('Actions.getPageTitles', array('idSite' => self::$idSite, 'date' => self::$dateTime,

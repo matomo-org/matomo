@@ -765,7 +765,6 @@ class Piwik_API_API
     private function handleTableReport($idSite, $dataTable, &$reportMetadata, $hasDimension, $showRawMetrics = false)
     {
     	$columns = $reportMetadata['metrics'];
-    	$columns = $this->hideShowMetrics($columns);
     	
 		if($hasDimension)
 		{
@@ -808,6 +807,8 @@ class Piwik_API_API
 			}
 		}
 
+		$columns = $this->hideShowMetrics($columns);
+    	
 		// $dataTable is an instance of Piwik_DataTable_Array when multiple periods requested
 		if ($dataTable instanceof Piwik_DataTable_Array)
 		{
@@ -873,6 +874,8 @@ class Piwik_API_API
     	if ($columnsToKeep != '')
     	{
     		$columnsToKeep = explode(',', $columnsToKeep);
+			$columnsToKeep[] = 'label';
+			
     		foreach ($columns as $name => $ignore)
     		{
     			// if the current column should not be kept, remove it
