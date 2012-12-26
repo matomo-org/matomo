@@ -63,11 +63,21 @@ class Zend_Mime_Part {
         }
     }
 
-    /**
-     * @todo setters/getters
-     * @todo error checking for setting $type
-     * @todo error checking for setting $encoding
-     */
+    public function setType ($value) {
+    	$this->type = $value;
+    }
+
+    public function getType () {
+		return $this->type;    	
+    }
+
+    public function setEncoding ($value) {
+    	$this->encoding = $value;
+    }
+
+    public function getEncoding () {
+    	return $this->encoding;
+    }
 
     /**
      * check if this part can be read as a stream.

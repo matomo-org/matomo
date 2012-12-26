@@ -318,6 +318,8 @@ overlay_following_pages_limit = 300
 ; With this option, you can disable the framed mode of the Overlay plugin. Use it if your website contains a framebuster.
 overlay_disable_framed_mode = 0
 
+;logout_redirect_URL = http://www.piwik.org
+
 [Tracker]
 ; Piwik uses first party cookies by default. If set to 1,
 ; the visit ID cookie will be set on the Piwik server domain as well
