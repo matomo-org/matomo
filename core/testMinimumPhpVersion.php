@@ -79,11 +79,11 @@ function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks 
 	if($optionalLinks)
 	{
 		$optionalLinks = '<ul>
-						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org">Piwik.org homepage</a></li>
-						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
-						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/docs/">Piwik Documentation</a></li>
-						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://forum.piwik.org/">Piwik Forums</a></li>
-						<li><a target="_blank" href="?module=Proxy&action=redirect&url=http://demo.piwik.org">Piwik Online Demo</a></li>
+						<li><a target="_blank" href="http://piwik.org">Piwik.org homepage</a></li>
+						<li><a target="_blank" href="http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
+						<li><a target="_blank" href="http://piwik.org/docs/">Piwik Documentation</a></li>
+						<li><a target="_blank" href="http://forum.piwik.org/">Piwik Forums</a></li>
+						<li><a target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
 						</ul>';
 	}
 	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
