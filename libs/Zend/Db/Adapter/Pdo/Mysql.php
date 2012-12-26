@@ -157,16 +157,19 @@ class Zend_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Abstract
      */
     public function describeTable($tableName, $schemaName = null)
     {
-        // @todo  use INFORMATION_SCHEMA someday when MySQL's
-        // implementation has reasonably good performance and
-        // the version with this improvement is in wide use.
-
-        if ($schemaName) {
-            $sql = 'DESCRIBE ' . $this->quoteIdentifier("$schemaName.$tableName", true);
+       if ($schemaName) {
+        	$sql = 'SELECT `COLUMN_NAME` AS `Field`, `COLUMN_TYPE` AS `Type`, IF (`IS_NULLABLE` == "YES", "NULL", "") AS `Null`, 
+        				   `COLUMN_KEY` AS `Key`, `COLUMN_DEFAULT` AS `Default`, `EXTRA` AS `Extra`
+        			  FROM `COLUMNS`
+        			 WHERE `TABLE_SCHEMA` = ' . $this->quoteIdentifier($schemaName, true) . '
+        			   AND `TABLE_NAME` = ' . $this->quoteIdentifier($tableName, true);
         } else {
-            $sql = 'DESCRIBE ' . $this->quoteIdentifier($tableName, true);
+        	$sql = 'SELECT `COLUMN_NAME` AS `Field`, `COLUMN_TYPE` AS `Type`, IF (`IS_NULLABLE` == "YES", "NULL", "") AS `Null`, 
+        				   `COLUMN_KEY` AS `Key`, `COLUMN_DEFAULT` AS `Default`, `EXTRA` AS `Extra`
+        			  FROM `COLUMNS`
+        			 WHERE `TABLE_NAME` = ' . $this->quoteIdentifier($tableName, true);
         }
-        $stmt = $this->query($sql);
+    	$stmt = $this->query($sql);
 
         // Use FETCH_NUM so we are not dependent on the CASE attribute of the PDO connection
         $result = $stmt->fetchAll(Zend_Db::FETCH_NUM);
