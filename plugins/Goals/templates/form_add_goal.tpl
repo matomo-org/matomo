@@ -12,7 +12,7 @@
 			<td><input type="text" name="name" value="" size="28" id="goal_name" class="inp" /></td>
 		</tr>
 		<tr>
-			<td style='width:240px;' class="first">{'Goals_GoalIsTriggered'|translate}
+			<td style='width:260px;' class="first">{'Goals_GoalIsTriggered'|translate}
 				<select name="trigger_type" class="inp">
 					<option value="visitors">{'Goals_WhenVisitors'|translate}</option>
 					<option value="manually">{'Goals_Manually'|translate}</option>
