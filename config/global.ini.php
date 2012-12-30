@@ -521,6 +521,7 @@ Plugins[]		= PrivacyManager
 Plugins[]		= ImageGraph
 Plugins[]		= DoNotTrack
 Plugins[]		= Annotations
+Plugins[]		= MobileMessaging
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
