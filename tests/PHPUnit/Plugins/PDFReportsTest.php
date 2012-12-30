@@ -196,6 +196,23 @@ class PDFReportsTest extends DatabaseTestCase
 	}
 
 	/**
+	 * @group Plugins
+	 * @group PDFReports
+	 */
+	public function testGetTopMenuTranslationKeyUserIsAnonymous()
+	{
+		$anonymousAccess = new FakeAccess;
+		FakeAccess::$identity = 'anonymous';
+		Zend_Registry::set('access', $anonymousAccess);
+
+		$pdfReportPlugin = new Piwik_PDFReports();
+		$this->assertEquals(
+			Piwik_PDFReports::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
+			$pdfReportPlugin->getTopMenuTranslationKey()
+		);
+	}
+
+	/**
 	 * top menu should display 'Email & SMS reports' when the user has set-up a valid mobile provider account
 	 * even though there is no sms reports configured
 	 *
