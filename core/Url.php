@@ -186,7 +186,7 @@ class Piwik_Url
 		
 		if ($host === false)
 		{
-			$host = $_SERVER['HTTP_HOST'];
+			$host = @$_SERVER['HTTP_HOST'];
 			if (empty($host)) // if no current host, assume valid
 			{
 				return true;
