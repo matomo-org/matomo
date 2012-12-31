@@ -1052,18 +1052,11 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
 	private static function reencodeParameterValue($value, $encoding)
 	{
-//		echo "hello";
-//		return $value;
 		if(is_string($value))
 		{
 			$decoded = urldecode($value);
 			if (@mb_check_encoding($decoded, $encoding)) {
-//				header("Content-type: text/plain");
-//
-//				var_dump("BEFORE=".$value);
 				$value = urlencode(mb_convert_encoding($decoded, 'UTF-8', $encoding));
-//				var_dump("AFTER=".$value);
-
 			}
 		}
 		return $value;
