@@ -683,6 +683,7 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'Custom Variable value',
 	'CustomVariables_ScopeVisit' => 'scope visit',
 	'CustomVariables_ScopePage' => 'scope page',
+	'CustomVariables_TrackingHelp' => 'Help: %1$sTracking Custom Variables in Piwik%2$s',
 	'CustomVariables_CustomVariablesReportDocumentation' => 'This report contains information about your Custom Variables. Click on a variable name to see the distribution of the values. %s For more information about Custom Variables in general, read the %sCustom Variables documentation on piwik.org%s',
 	'Dashboard_PluginDescription' => 'Your Web Analytics Dashboard. You can customize Your Dashboard: add new widgets, change the order of your widgets. Each user can access his own custom Dashboard.',
 	'Dashboard_Dashboard' => 'Dashboard',
