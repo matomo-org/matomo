@@ -199,6 +199,10 @@ login_password_recovery_email_address = "password-recovery@{DOMAIN}"
 ; name that appears as a Sender in the password recovery email
 login_password_recovery_email_name = Piwik
 
+; By default when user logs out he is redirected to Piwik "homepage" usually the Login form.
+; Uncomment the next line to set a URL to redirect the user to after he logs out of Piwik.
+; login_logout_url = http://...
+
 ; Set to 1 to disable the framebuster on standard Non-widgets pages (a click-jacking countermeasure).
 ; Default is 0 (i.e., bust frames on all non Widget pages such as Login, API, Widgets, Email reports, etc.).
 enable_framed_pages = 0
