@@ -102,7 +102,8 @@ class Piwik_Common
 		{
 			return $table;
 		}
-		return str_replace($prefixTable, '', $table, $count = 1);
+		$count = 1;
+		return str_replace($prefixTable, '', $table, $count);
 	}
 
 /*
