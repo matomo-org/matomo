@@ -113,8 +113,8 @@ class Piwik_Overlay_API
 	/** Do cookie authentication. This way, the token can remain secret. */
 	private function authenticate($idSite)
 	{
-		Piwik_PostEvent('FrontController.initAuthenticationObject', null,
-				$allowCookieAuthentication = true);
+		$notification = null;
+		Piwik_PostEvent('FrontController.initAuthenticationObject', $notification, $allowCookieAuthentication = true);
 				
 		$auth = Zend_Registry::get('auth');
 		$success = Zend_Registry::get('access')->reloadAccess($auth);
