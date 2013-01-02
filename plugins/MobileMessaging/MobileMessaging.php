@@ -71,7 +71,6 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 			'license' => 'GPL v3 or later',
 			'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
             'version' => Piwik_Version::VERSION,
-			'translationAvailable' => true,
 		);
 	}
 
