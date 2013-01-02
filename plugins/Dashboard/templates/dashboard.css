@@ -66,7 +66,7 @@
 
 .widgetContent.hidden {
     position: absolute;
-    top: -3000px;
+    top: -5000px;
 }
 
 .widgetContent.loading {
