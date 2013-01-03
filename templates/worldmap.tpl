@@ -69,6 +69,12 @@
     font-size: 9px;
     bottom: 40px;
 }
+.UserCountryMap-others {
+    left: 5px;
+    font-size: 11px;
+    bottom: 40px;
+    max-width: 50%;
+}
 {/literal}
         </style>
         <div id="UserCountryMap_map" style="overflow:hidden"></div>
@@ -79,6 +85,11 @@
             </div>
         </div>
         <div class="UserCountryMap-overlay UserCountryMap-legend">
+            <div class="content">
+                
+            </div>
+        </div>
+        <div data-tpl="{'UserCountryMap_Unlocated'|translate}" class="UserCountryMap-overlay UserCountryMap-others">
             <div class="content">
                 
             </div>

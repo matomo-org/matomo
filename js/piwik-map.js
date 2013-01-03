@@ -237,21 +237,23 @@ UserCountryMap.run = function(config) {
             lastMap: id, viewMode: UserCountryMap.mode, lastMetric: metric
         });
 
+        $('.UserCountryMap-others').hide();
+
         try {
+            // check which map to render
+            if (id.length == 3) {
+                // country map
+                renderCountryMap(id, metric);
+            } else {
+                // world or continent map
+                renderWorldMap(id, metric);
+            }
 
-
-        // check which map to render
-        if (id.length == 3) {
-            // country map
-            renderCountryMap(id, metric);
-        } else {
-            // world or continent map
-            renderWorldMap(id, metric);
+        } catch (e) {
+            // console.error(e);
+            $('.UserCountryMap-others .content').html(e);
+            $('.UserCountryMap-others').show();
         }
-
-    } catch (e) {
-        console.error(e);
-    }
 
         _updateUI(id, metric);
 
@@ -316,8 +318,10 @@ UserCountryMap.run = function(config) {
         if (id.length == 3) {
             $('.map-stats').html(formatValueForTooltips(UserCountryMap.countriesByIso[id], metric, 'world'));
         } else {
-            $('.map-stats').html(UserCountryMap._.nb_visits.replace('%s', '<b>'+formatNumber(totalVisits) + '</b>') +(id != 'world' ? ' ('+
-            formatPercentage(totalVisits / worldTotalVisits)+')' : ''));
+            $('.map-stats').html(
+                UserCountryMap._.nb_visits.replace('%s', '<b>'+formatNumber(totalVisits) + '</b>') +(id != 'world' ? ' ('+
+            formatPercentage(totalVisits / worldTotalVisits)+')' : '')
+            );
         }
     }
 
@@ -494,6 +498,15 @@ UserCountryMap.run = function(config) {
         return groupBy ? groups : groups.X;
     }
 
+    function displayUnlocatableCount(unlocated, total) {
+        $('.UserCountryMap-others .content').html(
+            $('.UserCountryMap-others').data('tpl')
+                .replace('%s', unlocated)
+                .replace('%p', formatPercentage(unlocated/total))
+        );
+        $('.UserCountryMap-others').show();
+    }
+
     /*
      * renders a country map (either region or city view)
      */
@@ -520,14 +533,19 @@ UserCountryMap.run = function(config) {
 
                     loadingComplete();
 
-                    var regionDict = {};
+                    var regionDict = {},
+                        totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
+                        unlocated = totalCountryVisits;
                     // UserCountryMap.lastReportMetricStats = {};
 
                     $.each(data.reportData, function(i, row) {
+                        unlocated -= row.nb_visits;
                         regionDict[data.reportMetadata[i].region] = $.extend(row, data.reportMetadata[i], {
                             curMetric: quantify(row, metric)
                         });
                     });
+
+                    displayUnlocatableCount(unlocated, totalCountryVisits);
 
                     var metric = $('#userCountryMapSelectMetrics').val();
 
@@ -607,20 +625,19 @@ UserCountryMap.run = function(config) {
 
                     var metric = $('#userCountryMapSelectMetrics').val(),
                         colscale,
-                        total,
+                        totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
+                        unlocated = totalCountryVisits,
                         cities = [];
 
                     // merge reportData and reportMetadata to cities array
                     $.each(data.reportData, function(i, row) {
+                        unlocated -= row.nb_visits;
                         cities.push($.extend(row, data.reportMetadata[i], {
                             curMetric: quantify(row, metric)
                         }));
                     });
 
-                    // get metric for visits with unknown city
-                    total = aggregate(cities);
-
-                    console.log('unknown', UserCountryMap.countriesByIso[iso].nb_visits - total.nb_visits);
+                    displayUnlocatableCount(unlocated, totalCountryVisits);
 
                     // sort by current metric
                     cities.sort(function(a, b) { return b.curMetric - a.curMetric; });

@@ -8,4 +8,5 @@ $translations = array(
 	'UserCountryMap_WorldWide' => 'Weltweit',
 	'UserCountryMap_toggleFullscreen' => 'Vollbild',
 	'UserCountryMap_AndNOthers' => 'und %s andere',
+    'UserCountryMap_Unlocated' => 'Nicht lokalisierbar: <b>%s</b>&nbsp;(%p)',
 );

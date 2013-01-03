@@ -6,5 +6,6 @@ $translations = array(
 	'UserCountryMap_Cities' => 'Cities',
 	'UserCountryMap_WorldWide' => 'World-Wide',
 	'UserCountryMap_toggleFullscreen' => 'Toggle fullscreen',
-	'UserCountryMap_AndNOthers' => 'and %s others',
+    'UserCountryMap_AndNOthers' => 'and %s others',
+	'UserCountryMap_Unlocated' => 'Not locatable: <b>%s</b> (%p)',
 );

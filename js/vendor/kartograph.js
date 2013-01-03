@@ -40,7 +40,7 @@
 
 
 (function() {
-  var Aitoff, Azimuthal, BBox, Balthasart, Behrmann, BlurFilter, Bubble, CEA, CantersModifiedSinusoidalI, Circle, CohenSutherland, Conic, Cylindrical, EckertIV, EquidistantAzimuthal, Equirectangular, Filter, GallPeters, GlowFilter, GoodeHomolosine, Hatano, HoboDyer, HtmlLabel, Icon, Kartograph, LAEA, LCC, LabeledBubble, LatLon, Line, LinearScale, LogScale, LonLat, Loximuthal, MapLayer, MapLayerPath, Mercator, Mollweide, NaturalEarth, Nicolosi, Orthographic, PanAndZoomControl, Path, PieChart, Proj, PseudoConic, PseudoCylindrical, QuantileScale, REbraces, REcomment_string, REfull, REmunged, Robinson, Satellite, Scale, Sinusoidal, SqrtScale, StackedBarChart, Stereographic, SvgLabel, Symbol, SymbolGroup, View, WagnerIV, WagnerV, Winkel3, drawPieChart, filter, kartograph, log, map_layer_path_uid, munge, munged, parsedeclarations, resolve, restore, root, uid, warn, __point_in_polygon, __proj, __type, __verbose__, _base, _base1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5,
+  var $, Aitoff, Azimuthal, BBox, Balthasart, Behrmann, BlurFilter, Bubble, CEA, CantersModifiedSinusoidalI, Circle, CohenSutherland, Conic, Cylindrical, EckertIV, EquidistantAzimuthal, Equirectangular, Filter, GallPeters, GlowFilter, GoodeHomolosine, Hatano, HoboDyer, HtmlLabel, Icon, Kartograph, LAEA, LCC, LabeledBubble, LatLon, Line, LinearScale, LogScale, LonLat, Loximuthal, MapLayer, MapLayerPath, Mercator, Mollweide, NaturalEarth, Nicolosi, Orthographic, PanAndZoomControl, Path, PieChart, Proj, PseudoConic, PseudoCylindrical, QuantileScale, REbraces, REcomment_string, REfull, REmunged, Robinson, Satellite, Scale, Sinusoidal, SqrtScale, StackedBarChart, Stereographic, SvgLabel, Symbol, SymbolGroup, View, WagnerIV, WagnerV, Winkel3, drawPieChart, filter, kartograph, log, map_layer_path_uid, munge, munged, parsedeclarations, resolve, restore, root, uid, warn, __point_in_polygon, __proj, __type, __verbose__, _base, _base1, _ref, _ref1, _ref2, _ref3, _ref4, _ref5,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -50,7 +50,9 @@
 
   kartograph = root.$K = window.Kartograph = (_ref = root.Kartograph) != null ? _ref : root.Kartograph = {};
 
-  kartograph.version = "0.4.0";
+  kartograph.version = "0.4.1";
+
+  $ = root.jQuery;
 
   __verbose__ = false && (typeof console !== "undefined" && console !== null);
 
@@ -442,14 +444,16 @@
     };
 
     Kartograph.prototype.loadMap = function(mapurl, callback, opts) {
-      var me, _base2, _ref4;
+      var def, me, _base2, _ref4;
       me = this;
+      def = $.Deferred();
       me.clear();
       me.opts = opts != null ? opts : {};
       if ((_ref4 = (_base2 = me.opts).zoom) == null) {
         _base2.zoom = 1;
       }
       me.mapLoadCallback = callback;
+      me._loadMapDeferred = def;
       me._lastMapUrl = mapurl;
       if (me.cacheMaps && (kartograph.__mapCache[mapurl] != null)) {
         me._mapLoaded(kartograph.__mapCache[mapurl]);
@@ -464,6 +468,18 @@
           }
         });
       }
+      return def.promise();
+    };
+
+    Kartograph.prototype.setMap = function(svg, opts) {
+      var me, _base2, _ref4;
+      me = this;
+      me.opts = opts != null ? opts : {};
+      if ((_ref4 = (_base2 = me.opts).zoom) == null) {
+        _base2.zoom = 1;
+      }
+      me._lastMapUrl = 'string';
+      me._mapLoaded(svg);
     };
 
     Kartograph.prototype._mapLoaded = function(xml) {
@@ -479,6 +495,7 @@
         xml = $(xml);
       } catch (err) {
         warn('something went horribly wrong while parsing svg');
+        me._loadMapDeferred.reject('could not parse svg');
         return;
       }
       me.svgSrc = xml;
@@ -500,7 +517,12 @@
       zoom = (_ref8 = me.opts.zoom) != null ? _ref8 : 1;
       me.viewBC = new kartograph.View(me.viewAB.asBBox(), vp.width * zoom, vp.height * zoom, padding, halign, valign);
       me.proj = kartograph.Proj.fromXML($('proj', $view)[0]);
-      return me.mapLoadCallback(me);
+      if (me.mapLoadCallback != null) {
+        me.mapLoadCallback(me);
+      }
+      if (me._loadMapDeferred != null) {
+        me._loadMapDeferred.resolve(me);
+      }
     };
 
     Kartograph.prototype.addLayer = function(id, opts) {
