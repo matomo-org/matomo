@@ -4,10 +4,10 @@
 		<label> Page title is always UTF-8</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_hits>1</nb_hits>
-		<sum_time_spent>360</sum_time_spent>
-		<nb_hits_following_search>1</nb_hits_following_search>
-		<avg_time_on_page>360</avg_time_on_page>
+		<nb_hits>2</nb_hits>
+		<sum_time_spent>1980</sum_time_spent>
+		<nb_hits_following_search>2</nb_hits_following_search>
+		<avg_time_on_page>1980</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 	</row>
