@@ -65,7 +65,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     {
         $result = Piwik_Http::sendHttpRequestBy(
         	$method,
-        	'http://piwik.org/',
+	        'http://builds.piwik.org/latest.zip',
         	5,
 			$userAgent = null,
 			$destinationPath = null,
@@ -80,10 +80,9 @@ class HttpTest extends PHPUnit_Framework_TestCase
         if ($method != 'fopen')
         {
         	$this->assertEquals(206, $result['status']);
-	        $this->assertEquals("html>\n<!--[", $result['data']);
-        	$this->assertTrue(isset($result['headers']['Content-Range']));
+	        $this->assertTrue(isset($result['headers']['Content-Range']));
         	$this->assertEquals('bytes 10-20/', substr($result['headers']['Content-Range'], 0, 12));
-        	$this->assertEquals('text/html; charset=UTF-8', $result['headers']['Content-Type']);
+        	$this->assertEquals('application/zip', $result['headers']['Content-Type']);
         }
     }
     
@@ -101,7 +100,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     	
         $result = Piwik_Http::sendHttpRequestBy(
         	$method,
-        	'http://piwik.org/',
+        	'http://builds.piwik.org/latest.zip',
         	5,
 			$userAgent = null,
 			$destinationPath = null,
@@ -116,8 +115,9 @@ class HttpTest extends PHPUnit_Framework_TestCase
     	
     	$this->assertEquals('', $result['data']);
     	$this->assertEquals(200, $result['status']);
+
     	$this->assertTrue(isset($result['headers']['Content-Length']), "Content-Length header not set!");
     	$this->assertTrue(is_numeric($result['headers']['Content-Length']), "Content-Length header not numeric!");
-    	$this->assertEquals('text/html; charset=UTF-8', $result['headers']['Content-Type']);
+    	$this->assertEquals('application/zip', $result['headers']['Content-Type']);
     }
 }
