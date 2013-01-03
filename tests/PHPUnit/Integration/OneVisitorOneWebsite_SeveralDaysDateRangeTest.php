@@ -81,7 +81,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
                                              'otherRequestParameters' => array('pattern' => 'aAa')
             )),
 
-	        // todo: test getOne call used in MobileMessaging SMS reports
+	        // test getOne call used in MobileMessaging SMS reports
 	        array('MultiSites.getOne', array( 'date'    => '2010-12-15,2011-01-15',
 										        'periods' => array('range'),
 		                                        'idSite' => self::$idSite,
