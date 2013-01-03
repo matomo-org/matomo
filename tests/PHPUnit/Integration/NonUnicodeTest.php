@@ -45,7 +45,7 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 			'Actions.getPageTitles',
 			'Actions.getPageUrls',
 			'Referers.getWebsites',
-			'Live.getLastVisitsDetails',
+//			'Live.getLastVisitsDetails',
 			'Actions.getLastVisitsDetails',
 		);
 		
