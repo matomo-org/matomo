@@ -348,20 +348,26 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	{
 		// gather information that needs to be updated
 		$valuesToUpdate = array();
-
+		$incrementActions = false;
 		$sqlActionUpdate = '';
-		if($idActionUrl !== false)
-		{
-			$valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
-			$sqlActionUpdate .= "visit_total_actions = visit_total_actions + 1, ";
-		}
+
 		if(!empty($idActionName))
 		{
 			$valuesToUpdate['visit_exit_idaction_name'] = (int)$idActionName;
 		}
+		if($idActionUrl !== false)
+		{
+			$valuesToUpdate['visit_exit_idaction_url'] = $idActionUrl;
+			$incrementActions = true;
+		}
 		if($actionType == Piwik_Tracker_Action::TYPE_SITE_SEARCH)
 		{
 			$sqlActionUpdate .= "visit_total_searches = visit_total_searches + 1, ";
+			$incrementActions = true;
+		}
+		if($incrementActions)
+		{
+			$sqlActionUpdate .= "visit_total_actions = visit_total_actions + 1, ";
 		}
 
 		$datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($this->getCurrentTimestamp());
@@ -558,7 +564,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			'visit_total_actions' 		=> in_array($actionType,
 												array(Piwik_Tracker_Action::TYPE_ACTION_URL,
 													Piwik_Tracker_Action::TYPE_DOWNLOAD,
-													Piwik_Tracker_Action::TYPE_OUTLINK))
+													Piwik_Tracker_Action::TYPE_OUTLINK,
+													Piwik_Tracker_Action::TYPE_SITE_SEARCH))
 											? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
 			'visit_total_searches'      => $actionType == Piwik_Tracker_Action::TYPE_SITE_SEARCH ? 1 : 0,
 			'visit_total_time' 			=> $defaultTimeOnePageVisit,

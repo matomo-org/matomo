@@ -11,6 +11,7 @@
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<searches>0</searches>
 		<actions>0</actions>
 		<actionDetails>
 			<row>
@@ -133,6 +134,7 @@
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
 		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<searches>0</searches>
 		<actions>3</actions>
 		<actionDetails>
 			<row>

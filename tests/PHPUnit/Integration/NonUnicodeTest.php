@@ -45,6 +45,7 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 			'Actions.getPageTitles',
 			'Actions.getPageUrls',
 			'Referers.getWebsites',
+			'Live.getLastVisitsDetails',
 		);
 		
 		return array(
@@ -82,7 +83,7 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.3)->getDatetime());
 		$visitor->setUrlReferrer('http://anothersite.com/whatever.html?whatever=Ato%FC');
 		// Also testing that the value is encoded when passed as an array
-		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd[]=Search 2%FC&test&cats= Search Category &search_count=INCORRECT!');
+		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd[]=Search 2%FC&test&cats= Search Kategory &search_count=INCORRECT!');
 		$visitor->setPageCharset('iso-8859-15');
 		self::checkResponse($visitor->doTrackPageView('Site Search results'));
 		$visitor->setPageCharset('');
@@ -115,7 +116,7 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 		$visitor = self::getTracker(self::$idSite1, self::$dateTime, $defaultInit = true);
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(1)->getDatetime());
 		$visitor->setUrlReferrer('http://anothersite.com/whatever.html');
-		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd=a+keyword&test&cats= Search Category &search_count=INCORRECT!');
+		$visitor->setUrl('http://example.org/index.htm?random=param&mykwd=a+keyword&test&cats= Search Kategory &search_count=INCORRECT!');
 		$visitor->setPageCharset('GTF-42'); // galactic transformation format
 		self::checkResponse($visitor->doTrackPageView('Site Search results'));
 		$visitor->setPageCharset('');

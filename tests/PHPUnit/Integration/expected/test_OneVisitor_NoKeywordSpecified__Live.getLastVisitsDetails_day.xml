@@ -11,6 +11,7 @@
 		<visitConvertedIcon />
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
+		<searches>0</searches>
 		<actions>1</actions>
 		<actionDetails>
 			<row>
@@ -95,6 +96,7 @@
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
+		<searches>0</searches>
 		<actions>1</actions>
 		<actionDetails>
 			<row>

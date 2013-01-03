@@ -48,7 +48,8 @@ class Piwik_Live_Visitor
 			'visitConvertedIcon' => $this->getVisitorGoalConvertedIcon(),
 			'visitEcommerceStatus' => $this->getVisitEcommerceStatus(),
 			'visitEcommerceStatusIcon' => $this->getVisitEcommerceStatusIcon(),
-		
+
+			'searches' => $this->getNumberOfSearches(),
 			'actions' => $this->getNumberOfActions(),
 			// => false are placeholders to be filled in API later
 			'actionDetails' => false,
@@ -165,6 +166,11 @@ class Piwik_Live_Visitor
 	function getNumberOfActions()
 	{
 		return $this->details['visit_total_actions'];
+	}
+
+	function getNumberOfSearches()
+	{
+		return $this->details['visit_total_searches'];
 	}
 
 	function getVisitLength()
