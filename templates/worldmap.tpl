@@ -15,8 +15,7 @@
     }
 {/literal}
     </style>
-    <div id="UserCountryMap_container">
-        <style type="text/css">
+    <style type="text/css">
 {literal}
 
 #UserCountryMap-black {
@@ -77,6 +76,8 @@
 }
 {/literal}
         </style>
+    <div id="UserCountryMap_container">
+
         <div id="UserCountryMap_map" style="overflow:hidden"></div>
         <div class="UserCountryMap-overlay UserCountryMap-title">
             <div class="content">

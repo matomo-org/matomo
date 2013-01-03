@@ -862,13 +862,45 @@ UserCountryMap.run = function(config) {
         });
     });
 
+    function hideOverlay(e) {
+        var overlay = $('.content', $(e.target).parents('.UserCountryMap-overlay'));
+        if (overlay.data('locked')) return;
+        overlay.fadeOut(200);
+        overlay.data('locked', true);
 
-    $('.UserCountryMap-overlay').on('mouseenter', function(e) {
-        $('.content', $(e.target).parents('.UserCountryMap-overlay')).fadeOut(200);
-        setTimeout(function() {
-           $('.UserCountryMap-overlay .content').fadeIn(1000);
-        }, 3000);
-    });
+        $('#UserCountryMap').mouseleave(function() {
+            overlay.fadeIn(1000);
+            $('#UserCountryMap').parent().off('mouseleave');
+            setTimeout(function() {
+                overlay.data('locked', false);
+            }, 1000);
+        });
+        var offset = $('#UserCountryMap').offset(),
+            dim = {
+            x: overlay.offset().left - offset.left,
+            y: overlay.offset().top - offset.top,
+            w: overlay.width(),
+            h: overlay.height()
+        };
+        $('#UserCountryMap').mousemove(function(e) {
+            var mx = e.pageX - offset.left, my = e.pageY - offset.top, pad = 20,
+            outside = mx < dim.x - pad || mx > dim.x + dim.w + pad || my < dim.y - pad || my > dim.y + dim.h + pad;
+            if (outside) {
+                $('#UserCountryMap').parent().off('mouseleave');
+                setTimeout(function() {
+                    overlay.fadeIn(1000);
+                    setTimeout(function() {
+                        overlay.data('locked', false);
+                    }, 1000);
+                }, 100);
+            }
+        });
+        /*setTimeout(function() {
+           overlay.fadeIn(1000);
+        }, 3000);*/
+    }
+
+    $('.UserCountryMap-overlay').on('mouseenter', hideOverlay);
 
 };
 
