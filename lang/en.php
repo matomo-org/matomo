@@ -7,5 +7,6 @@ $translations = array(
 	'UserCountryMap_WorldWide' => 'World-Wide',
 	'UserCountryMap_toggleFullscreen' => 'Toggle fullscreen',
     'UserCountryMap_AndNOthers' => 'and %s others',
-	'UserCountryMap_Unlocated' => '<b>%s</b> (%p) of the visits from %c couldn\'t be geo located.',
+    'UserCountryMap_None' => 'None',
+	'UserCountryMap_Unlocated' => '<b>%s</b> %p of the visits from %c couldn\'t be geo located.',
 );

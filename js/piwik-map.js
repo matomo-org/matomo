@@ -289,13 +289,22 @@ UserCountryMap.run = function(config) {
         var flag = $('#userCountryMapFlag'),
             regionBtn = $('#UserCountryMap-btn-region');
         if (id.length == 3) {
-            flag.css({
-                'background-image': 'url('+UserCountryMap.countriesByIso[id].flag+')',
-                'background-repeat': 'no-repeat',
-                'background-position': '5px 5px'
-            });
-            $('#UserCountryMap-btn-city').removeClass('inactiveIcon').show();
-            $('span', regionBtn).html(regionBtn.data('region'));
+            if (UserCountryMap.countriesByIso[id]) {  // we have visits in this country
+                flag.css({
+                    'background-image': 'url('+UserCountryMap.countriesByIso[id].flag+')',
+                    'background-repeat': 'no-repeat',
+                    'background-position': '5px 5px'
+                });
+                $('#UserCountryMap-btn-city').removeClass('inactiveIcon').show();
+                $('span', regionBtn).html(regionBtn.data('region'));
+            } else {
+                // not a single visit in this country
+                $('#UserCountryMap-btn-city').addClass('inactiveIcon');
+                $('.map-stats').html(UserCountryMap._.no_data);
+                $('.map-title').html('');
+                return;
+            }
+            
         } else {
             flag.css({
                 'background': 'none'
@@ -510,7 +519,7 @@ UserCountryMap.run = function(config) {
         $('.unlocated-stats').html(
             $('.unlocated-stats').data('tpl')
                 .replace('%s', unlocated)
-                .replace('%p', formatPercentage(unlocated/total))
+                .replace('%p', '('+formatPercentage(unlocated/total)+')')
                 .replace('%c', UserCountryMap.countriesByIso[UserCountryMap.lastSelected].name)
         );
         $('.UserCountryMap-info-btn').show();
@@ -547,21 +556,27 @@ UserCountryMap.run = function(config) {
                         unlocated = totalCountryVisits;
                     // UserCountryMap.lastReportMetricStats = {};
 
+                    function regionCode(region) {
+                        var key = UserCountryMap.keys[iso] || 'fips';
+                        return key.substr(0,4) == "fips" ? region[key].substr(2) : region[key];  // cut first two letters from fips code (=country code)
+                    }
+
+                    function regionExistsInMap(code) {
+                        var key = UserCountryMap.keys[iso] || 'fips', q = {};
+                        q[key] = key.substr(0,4) == 'fips' ? UserCountryMap.countriesByIso[iso].fips + code : code;
+                        if (map.getLayer('regions').getPaths(q).length === 0) {
+                            return false;
+                        }
+                        return true;
+                    }
+
                     $.each(data.reportData, function(i, row) {
-                        unlocated -= row.nb_visits;
                         regionDict[data.reportMetadata[i].region] = $.extend(row, data.reportMetadata[i], {
                             curMetric: quantify(row, metric)
                         });
                     });
 
-                    displayUnlocatableCount(unlocated, totalCountryVisits);
-
                     var metric = $('#userCountryMapSelectMetrics').val();
-
-                    function regionCode(region) {
-                        var key = UserCountryMap.keys[iso] || 'fips';
-                        return key.substr(0,4) == "fips" ? region[key].substr(2) : region[key];  // cut first two letters from fips code (=country code)
-                    }
 
                     if (UserCountryMap.aggregate[iso]) {
                         var aggregated = aggregate(regionDict, function(row) {
@@ -579,6 +594,11 @@ UserCountryMap.run = function(config) {
                             regionDict[id] = group;
                         });
                     }
+
+                    $.each(regionDict, function(key, region) {
+                        if (regionExistsInMap(key)) unlocated -= region.nb_visits;
+                    });
+                    displayUnlocatableCount(unlocated, totalCountryVisits);
 
                     // create color scale
                     colscale = getColorScale(regionDict, 'curMetric', null, true);
@@ -603,9 +623,7 @@ UserCountryMap.run = function(config) {
 
                     // check for regions missing in the map
                     $.each(regionDict, function(code, region) {
-                        var key = UserCountryMap.keys[iso] || 'fips', q = {};
-                        q[key] = key.substr(0,4) == 'fips' ? UserCountryMap.countriesByIso[iso].fips + code : code;
-                        if (map.getLayer('regions').getPaths(q).length < 1) {
+                        if (!regionExistsInMap(code)) {
                             console.warn('possible region mismatch!', code, region.nb_visits);
                         }
                     });
@@ -782,6 +800,9 @@ UserCountryMap.run = function(config) {
             map.addLayer('regions', {
                 key: 'fips',
                 name: UserCountryMap.mode != "region" ? "regions2" : "regions",
+                styles: {
+                    stroke: '#aaa'
+                },
                 click: function(d, p, evt) {
                     evt.stopPropagation();
                 }
@@ -805,6 +826,8 @@ UserCountryMap.run = function(config) {
                 text: function(data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
                 'class': 'countryLabel'
             });
+
+            if (!UserCountryMap.countriesByIso[iso]) return;
 
             if (UserCountryMap.mode == "region") {
                 updateRegionColors();
@@ -953,6 +976,13 @@ UserCountryMap.aggregate = {
         partial: true,
         groups: {
             "A5": ["A5", "B5"]
+        }
+    },
+    POL: {
+        partial: true,
+        groups: {
+            "82": ["82", "60"],
+            "85": ["85", "47", "H9"]
         }
     },
     BEL: {

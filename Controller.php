@@ -85,7 +85,8 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
             'bounce_rate' => Piwik_Translate('VisitsSummary_NbVisitsBounced'),
             'avg_time_on_site' => Piwik_Translate('VisitsSummary_AverageVisitDuration'),
-            'and_n_others' => Piwik_Translate('UserCountryMap_AndNOthers')
+            'and_n_others' => Piwik_Translate('UserCountryMap_AndNOthers'),
+            'no_data' => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
         ));
 
         echo $view->render();

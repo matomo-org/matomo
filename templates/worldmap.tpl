@@ -28,7 +28,6 @@
     background: #D5D3C8;
 }
 
-
 #UserCountryMap .loadingPiwik {
     position: absolute!important;
     top: 42%!important;
@@ -41,6 +40,7 @@
     text-align: center;
     text-shadow: 0 0 5px #fff;
 }
+
 
 .tableIcon.inactiveIcon {
     color: #99a;
@@ -112,6 +112,9 @@
     <div>
         <span class="loadingPiwik">
             <img src="{$piwikUrl}themes/default/images/loading-blue.gif"> {'General_LoadingData'|translate}...
+        </span>
+        <span class="noDataForReport" style="display:none">
+            {'CoreHome_ThereIsNoDataForThisReport'|translate}...
         </span>
     </div>
     <div class="dataTableFeatures" style="padding-top:0px">
