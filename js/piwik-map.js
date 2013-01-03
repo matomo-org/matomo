@@ -217,6 +217,14 @@ UserCountryMap.run = function(config) {
         var bl = $('<div id="UserCountryMap-black"></div>');
         bl.hide();
         $('#UserCountryMap_map').append(bl);
+
+        var infobtn = $('.UserCountryMap-info-btn');
+        infobtn.on('mouseenter', function(e) {
+            $(infobtn.data('tooltip-target')).show();
+        }).on('mouseleave', function(e) {
+            $(infobtn.data('tooltip-target')).hide();
+        });
+        $('.UserCountryMap-tooltip').hide();
     }
 
 
@@ -237,7 +245,7 @@ UserCountryMap.run = function(config) {
             lastMap: id, viewMode: UserCountryMap.mode, lastMetric: metric
         });
 
-        $('.UserCountryMap-others').hide();
+        $('.UserCountryMap-info-btn').hide();
 
         try {
             // check which map to render
@@ -251,8 +259,8 @@ UserCountryMap.run = function(config) {
 
         } catch (e) {
             // console.error(e);
-            $('.UserCountryMap-others .content').html(e);
-            $('.UserCountryMap-others').show();
+            $('.UserCountryMap-info .content').html(e);
+            $('.UserCountryMap-info').show();
         }
 
         _updateUI(id, metric);
@@ -499,12 +507,13 @@ UserCountryMap.run = function(config) {
     }
 
     function displayUnlocatableCount(unlocated, total) {
-        $('.UserCountryMap-others .content').html(
-            $('.UserCountryMap-others').data('tpl')
+        $('.unlocated-stats').html(
+            $('.unlocated-stats').data('tpl')
                 .replace('%s', unlocated)
                 .replace('%p', formatPercentage(unlocated/total))
+                .replace('%c', UserCountryMap.countriesByIso[UserCountryMap.lastSelected].name)
         );
-        $('.UserCountryMap-others').show();
+        $('.UserCountryMap-info-btn').show();
     }
 
     /*
@@ -865,11 +874,11 @@ UserCountryMap.run = function(config) {
     function hideOverlay(e) {
         var overlay = $('.content', $(e.target).parents('.UserCountryMap-overlay'));
         if (overlay.data('locked')) return;
-        overlay.fadeOut(200);
         overlay.data('locked', true);
+        overlay.fadeOut(200);
 
         $('#UserCountryMap').mouseleave(function() {
-            overlay.fadeIn(1000);
+            overlay.fadeIn(200);
             $('#UserCountryMap').parent().off('mouseleave');
             setTimeout(function() {
                 overlay.data('locked', false);
@@ -888,7 +897,7 @@ UserCountryMap.run = function(config) {
             if (outside) {
                 $('#UserCountryMap').parent().off('mouseleave');
                 setTimeout(function() {
-                    overlay.fadeIn(1000);
+                    overlay.fadeIn(200);
                     setTimeout(function() {
                         overlay.data('locked', false);
                     }, 1000);

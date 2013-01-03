@@ -46,13 +46,15 @@
     color: #99a;
 }
 
-.UserCountryMap-overlay {
+.UserCountryMap-overlay,
+.UserCountryMap-tooltip {
     display:block;
     position: absolute;
     z-index:1000;
 }
 
-.UserCountryMap-overlay .content {
+.UserCountryMap-overlay .content,
+.UserCountryMap-tooltip .content {
     padding:5px;
     border-radius:3px;
     background:rgba(255,255,255,0.9);
@@ -68,11 +70,23 @@
     font-size: 9px;
     bottom: 40px;
 }
-.UserCountryMap-others {
+.UserCountryMap-info {
     left: 5px;
     font-size: 11px;
+    bottom: 60px;
+    max-width: 42%;
+}
+.UserCountryMap-info-btn {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAAOVBMVEX///8AAAAAAABXV1dSUlKsrKzExMTd3d3V1dXp6end3d3p6enz8/P7+/v39/f///+vqZ6oopWUjH2LPulWAAAAE3RSTlMAESIzM2Z3mZmqqrvd7u7/////UUgTXgAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAYdEVYdENyZWF0aW9uIFRpbWUAMDMuMDEuMjAxM8rVeD8AAABnSURBVBiVhY/LFoAgCEQZ0p4W6f9/bIJ4slV3oTIeBoaICGADIAO8ibEwWn2IcwVovev7znqmCYRon9kEWUFvg3IysXyIXSil3fOvELupC9XUx7pQx/piDV1sVFLwMNF80sw97hj/AXRPCjtYdmhtAAAAAElFTkSuQmCC);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    left: 5px;
     bottom: 40px;
-    max-width: 50%;
+    position: absolute;
+    z-index:1000;
+    opacity: 0.9;
+
 }
 {/literal}
         </style>
@@ -87,14 +101,13 @@
         </div>
         <div class="UserCountryMap-overlay UserCountryMap-legend">
             <div class="content">
-                
             </div>
         </div>
-        <div data-tpl="{'UserCountryMap_Unlocated'|translate}" class="UserCountryMap-overlay UserCountryMap-others">
-            <div class="content">
-                
+        <div class="UserCountryMap-tooltip UserCountryMap-info">
+            <div class="content unlocated-stats" data-tpl="{'UserCountryMap_Unlocated'|translate}" >
             </div>
         </div>
+        <div class="UserCountryMap-info-btn" data-tooltip-target=".UserCountryMap-tooltip"></div>
     </div>
     <div>
         <span class="loadingPiwik">
