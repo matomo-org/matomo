@@ -711,6 +711,7 @@ UserCountryMap.run = function(config) {
                             stroke: false
                         },
                         filter: function(d) {
+                            if (isNaN(d.lat) || isNaN(d.long)) return false;
                             return is_rate ? d.nb_visits > 5 && d.curMetric : d.curMetric;
                         },
                         aggregate: function(rows) {
