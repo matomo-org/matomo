@@ -847,7 +847,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         $expected = $this->loadExpectedFile($expectedFilePath);
         if (empty($expected)) {
-            return;
+	        print("The expected file is not found. The Processed response was:");
+	        print("\n----------------------------\n\n");
+	        var_dump($response);
+	        print("\n----------------------------\n");
+	        return;
         }
 
         // @todo This should not vary between systems AFAIK... "idsubdatatable can differ"
