@@ -218,7 +218,8 @@ abstract class Piwik_Archive
 		
 		// idSite=1,3 or idSite=all
 		if( $idSite === 'all'
-			|| is_array($idSite) )
+			|| is_array($idSite)
+			|| count($sites) > 1 )
 		{
 			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment, $_restrictSitesToLogin);
 		}
