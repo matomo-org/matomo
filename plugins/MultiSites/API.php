@@ -96,20 +96,49 @@ class Piwik_MultiSites_API
 	 * @param bool|string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
 	 * 										Only used when a scheduled task is running
 	 * @param bool|string $enhanced When true, return additional goal & ecommerce metrics
+	 * @param bool|string $pattern If specified, only the website which names (or site ID) match the pattern will be returned using SitesManager.getPatternMatchSites
 	 * @return Piwik_DataTable
 	 */
-	public function getAll($period, $date, $segment = false, $_restrictSitesToLogin = false, $enhanced = false)
+	public function getAll($period, $date, $segment = false, $_restrictSitesToLogin = false, $enhanced = false, $pattern = false)
 	{
 		Piwik::checkUserHasSomeViewAccess();
 
+		$idSites = $this->getSitesIdFromPattern($pattern);
+
 		return $this->buildDataTable(
-			'all',
+			$idSites,
 			$period,
 			$date,
 			$segment,
 			$_restrictSitesToLogin,
-			$enhanced
+			$enhanced,
+			$multipleWebsitesRequested = true
 		);
+	}
+
+	/**
+	 * Fetches the list of sites which names match the string pattern
+	 *
+	 * @param $pattern
+	 * @return array|string
+	 */
+	private function getSitesIdFromPattern($pattern)
+	{
+		$idSites = 'all';
+		if (!empty($pattern)) {
+			$sites = Piwik_API_Request::processRequest('SitesManager.getPatternMatchSites',
+				array('pattern' => $pattern,
+					// added because caller could overwrite these
+					'serialize' => 0,
+					'format' => 'original'));
+			if (!empty($sites)) {
+				$idSites = array();
+				foreach ($sites as $site) {
+					$idSites[] = $site['idsite'];
+				}
+			}
+		}
+		return $idSites;
 	}
 
 	/**
@@ -127,21 +156,21 @@ class Piwik_MultiSites_API
 	 */
 	public function getOne($idSite, $period, $date, $segment = false, $_restrictSitesToLogin = false, $enhanced = false)
 	{
-		Piwik::checkUserHasSomeViewAccess();
-
+		Piwik::checkUserHasViewAccess($idSite);
 		return $this->buildDataTable(
 			$idSite,
 			$period,
 			$date,
 			$segment,
 			$_restrictSitesToLogin,
-			$enhanced
+			$enhanced,
+			$multipleWebsitesRequested = false
 		);
 	}
 
-	private function buildDataTable($sites, $period, $date, $segment, $_restrictSitesToLogin, $enhanced)
+	private function buildDataTable($sites, $period, $date, $segment, $_restrictSitesToLogin, $enhanced, $multipleWebsitesRequested)
 	{
-		$allWebsitesRequested = $sites == 'all';
+		$allWebsitesRequested = ($sites == 'all');
 		if($allWebsitesRequested)
 		{
 			if (Piwik::isUserIsSuperUser()
@@ -192,7 +221,8 @@ class Piwik_MultiSites_API
 		$dataTable = $archive->getDataTableFromNumeric($fieldsToGet);
 
 		// get rid of the DataTable_Array that is created by the IndexedBySite archive type
-		if($dataTable instanceof Piwik_DataTable_Array && $allWebsitesRequested)
+		if($dataTable instanceof Piwik_DataTable_Array
+				&& $multipleWebsitesRequested)
 		{
 			$dataTable = $dataTable->mergeChildren();
 		}
@@ -204,7 +234,7 @@ class Piwik_MultiSites_API
 				$firstDataTableRow->setColumn('label', $sites);
 			}
 		}
-		
+
 		// calculate total visits/actions/revenue
 		$this->setMetricsTotalsMetadata($dataTable, $apiMetrics);
 
@@ -231,7 +261,6 @@ class Piwik_MultiSites_API
 				//       put there is put directly in Piwik_DataTable::metadata.
 				$dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
 			}
-
 			$pastArchive = Piwik_Archive::build('all', $period, $strLastDate, $segment, $_restrictSitesToLogin);
 			$pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
 
@@ -268,7 +297,7 @@ class Piwik_MultiSites_API
 		$dataTable->filter('ColumnCallbackAddMetadata', array('label', 'idsite'));
 
 		// set the label of each row to the site name
-		if($allWebsitesRequested)
+		if($multipleWebsitesRequested)
 		{
 			$getNameFor = array('Piwik_Site', 'getNameFor');
 			$dataTable->filter('ColumnCallbackReplace', array('label', $getNameFor));
@@ -286,7 +315,7 @@ class Piwik_MultiSites_API
 
 		// filter rows without visits
 		// note: if only one website is queried and there are no visits, we can not remove the row otherwise Piwik_API_ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
-		if($allWebsitesRequested)
+		if($multipleWebsitesRequested)
 		{
 			$dataTable->filter(
 				'ColumnCallbackDeleteRow',

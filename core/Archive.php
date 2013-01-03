@@ -217,8 +217,8 @@ abstract class Piwik_Archive
 		}
 		
 		// idSite=1,3 or idSite=all
-		if( count($sites) > 1 
-			|| $idSite === 'all' )
+		if( $idSite === 'all'
+			|| is_array($idSite) )
 		{
 			$archive = new Piwik_Archive_Array_IndexedBySite($sites, $period, $strDate, $segment, $_restrictSitesToLogin);
 		}
@@ -455,10 +455,10 @@ abstract class Piwik_Archive
 	static public function isMultiplePeriod($dateString, $period)
 	{
 		return 	(preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
-				|| Piwik_Period_Range::parseDateRange($dateString))
-				&& $period != 'range';
+			|| Piwik_Period_Range::parseDateRange($dateString))
+			&& $period != 'range';
 	}
-	
+
 	/**
 	 * Indicate if $idSiteString corresponds to multiple sites.
 	 * 

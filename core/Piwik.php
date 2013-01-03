@@ -1639,10 +1639,12 @@ class Piwik
 			'Real Time Web Analytics',
 			'Analytics',
 			'Real Time Analytics',
+			'Analytics in Real time',
 			'Open Source Analytics',
 			'Open Source Web Analytics',
 			'Free Website Analytics',
 			'Free Web Analytics',
+			'Analytics Platform',
 		);
 		$id = abs(intval(md5(Piwik_Url::getCurrentHost())));
 		$title = $titles[ $id % count($titles)];

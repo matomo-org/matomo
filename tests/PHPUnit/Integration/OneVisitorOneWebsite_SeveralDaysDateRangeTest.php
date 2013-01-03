@@ -8,7 +8,11 @@
  */
 
 /**
- * testing period=range use case. Recording data before and after, checking that the requested range is processed correctly
+ * Use case testing various important features:
+ * - Test Multisites API use cases
+ * - testing period=range use case.
+ * - Recording data before and after, checking that the requested range is processed correctly
+ * - and more
  */
 class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends IntegrationTestCase
 {
@@ -19,7 +23,8 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
         '2011-01-15 01:00:00',
         '2011-01-16 01:00:00',
     );
-    protected static $idSite = 1;
+	protected static $idSite = 1;
+	protected static $idSite2 = 2;
     
     // one per visit
     protected static $referrerUrls = array(
@@ -60,19 +65,37 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
     public function getApiForTesting()
     {
         return array(
+	        // FIRST some MultiSites API goodness!
+
             // range test
-            array('MultiSites.getAll', array('idSite'  => self::$idSite,
-                                             'date'    => '2010-12-15,2011-01-15',
-                                             'periods' => array('range'))),
+            array('MultiSites.getAll', array( 'date'    => '2010-12-15,2011-01-15',
+	                                          'periods' => array('range')
+                                            // Testing without &pattern= so should return all sites
+                            )),
 
             // test several dates (tests use of IndexedByDate w/ 'date1,date2,etc.')
-            array('MultiSites.getAll', array('idSite'       => self::$idSite,
-                                             'date'         => '2010-12-10',
+            array('MultiSites.getAll', array('date'         => '2010-12-15',
                                              'periods'      => array('day'),
-                                             'setDateLastN' => true,
-                                             'testSuffix'   => '_IndexedByDate')),
-			
-			// test socials
+                                             'testSuffix'   => '_IndexedByDate',
+	                                         // Testing the pattern to getAll restrict websites using name matching
+                                             'otherRequestParameters' => array('pattern' => 'aAa')
+            )),
+
+	        // todo: test getOne call used in MobileMessaging SMS reports
+	        array('MultiSites.getOne', array( 'date'    => '2010-12-15,2011-01-15',
+										        'periods' => array('range'),
+		                                        'idSite' => self::$idSite,
+										        // Testing without &pattern= so should return all sites
+	        )),
+
+	        // test that multiple periods are not supported
+	        array('MultiSites.getAll', array( 'date'    => '2010-12-15,2011-01-15',
+		                                      'periods' => array('day'),
+                                             'testSuffix'   => '_MultipleDatesNotSupported',
+	        )),
+
+	        //---------------------------------------
+	        // THEN some Socials tests. Share these...
 			array('Referers.getSocials', array('idSite'  => 'all',
 											   'date'    => '2010-12-13,2011-01-18',
 											   'periods' => array('range'))),
@@ -88,7 +111,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
 													 'periods'		=> 'range',
 													 'testSuffix'	=> '_noIdSubtable')),
 			
-			array('Referers.getUrlsForSocial', array('idSite'   	 => self::$idSite, // test w/ idSubtable
+			array('Referers.getUrlsForSocial', array('idSite'   	 => 1, // test w/ idSubtable
 													 'date'			 => '2010-12-13,2011-01-18',
 													 'periods'		 => 'range',
 													 'supertableApi' => 'Referers.getSocials')),
@@ -102,7 +125,8 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
 
     protected static function setUpWebsitesAndGoals()
     {
-        self::createWebsite(self::$dateTimes[0]);
+	    self::$idSite = self::createWebsite(self::$dateTimes[0], $ecommerce = 0, $siteName = 'Site AAAAAA');
+	    self::$idSite2 =self::createWebsite(self::$dateTimes[0], $ecommerce = 0, $siteName = 'SITE BBbbBB');
     }
 
     protected static function trackVisits()
@@ -134,6 +158,16 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
             $visitor->setUrl('http://example.org/news');
             $visitor->setUrlReferrer(self::$referrerUrls[$ridx++]);
             self::checkResponse($visitor->doTrackPageView('ou pas'));
+
+
+	        if($i <= 3 ) {
+
+		        $visitor = self::getTracker(self::$idSite2, $dateTime, $defaultInit = true);
+		        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
+		        $visitor->setUrl('http://example.org/homepage');
+		        $visitor->setUrlReferrer(self::$referrerUrls[$ridx-1]);
+		        self::checkResponse($visitor->doTrackPageView('Second website'));
+	        }
         }
     }
 }
