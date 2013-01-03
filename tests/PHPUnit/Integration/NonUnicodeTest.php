@@ -112,7 +112,7 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 		self::checkResponse($visitor->doTrackPageView('Site Search'));
 		$visitor->setPageCharset('');
 
-		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.55)->getDatetime());
+		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.5)->getDatetime());
 		$visitor->setUrl('http://example.org/exit-page');
 		self::checkResponse($visitor->doTrackPageView('Page title is always UTF-8'));
 

@@ -914,11 +914,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 		        $this->assertEquals(strlen($expected), strlen($response), "Differences with expected in: $processedFilePath");
 		        $this->assertEquals($expected, $response, "Differences with expected in: $processedFilePath");
 		    }
-		    
-		    if (trim($response) == trim($expected)) {
-		        file_put_contents($processedFilePath, $response);
-		    }
-	    }
+
+			if (trim($response) == trim($expected)) {
+				file_put_contents($processedFilePath, $response);
+			}
+		}
 	    catch (Exception $ex)
 	    {
 	    	$this->comparisonFailures[] = $ex;
@@ -1135,10 +1135,19 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             	. "'. For new tests, to pass the test, you can copy files from the processed/ directory into"
             	. " $expectedDir  after checking that the output is valid. %s ");
         }
-        
+
+	    // Display as one error all sub-failures
         if (!empty($this->comparisonFailures))
         {
-        	throw reset($this->comparisonFailures);
+	        $messages = '';
+	        $i = 1;
+	        foreach($this->comparisonFailures as $failure) {
+		        $msg = $failure->getMessage();
+		        $msg = strtok($msg, "\n");
+		        $messages .= "\n#" . $i++ . ": " . $msg;
+	        }
+	        $messages .= " \n ";
+        	throw new Exception($messages);
         }
     }
 
