@@ -294,7 +294,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 		}
 	    $this->_checkLoadDataInFileWasUsed($didWeUseBulk);
 
-	    if($didWeUseBulk) {
+	    if($didWeUseBulk === true) {
 	        $this->_checkTableIsExpected($table, $data);
 
 		    // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc)
