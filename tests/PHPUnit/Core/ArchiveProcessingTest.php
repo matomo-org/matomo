@@ -294,11 +294,13 @@ class ArchiveProcessingTest extends DatabaseTestCase
 		}
 	    $this->_checkLoadDataInFileWasUsed($didWeUseBulk);
 
-        $this->_checkTableIsExpected($table, $data);
-        
-        // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc) 
-        Piwik::tableInsertBatch($table, array('idsite', 'url'), $data);
-        $this->_checkTableIsExpected($table, $data);
+	    if($didWeUseBulk) {
+	        $this->_checkTableIsExpected($table, $data);
+
+		    // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc)
+		    Piwik::tableInsertBatch($table, array('idsite', 'url'), $data);
+		    $this->_checkTableIsExpected($table, $data);
+	    }
     }
 
 	protected function _checkLoadDataInFileWasUsed($didWeUseBulk)
@@ -308,10 +310,11 @@ class ArchiveProcessingTest extends DatabaseTestCase
 			&& $skippedOnce === false
 			// HACK: Only alert for MysqlI since PDO is often failing and Jenkins should always run MYSQLI + PDO
 			// This helps "hiding" the warning on PDO Mysql but we have to make sure mysqli tests are always executed!
-			&& Piwik_Config::getInstance()->database['adapter'] == 'MYSQLI')
+			&& Piwik_Config::getInstance()->database['adapter'] == 'MYSQLI'
+		)
 		{
 			$skippedOnce = true;
-			$this->markTestSkipped(
+			$this->fail(
 				'Performance notice: LOAD DATA [LOCAL] INFILE query is not working, so Piwik will fallback to using plain INSERTs '
 				. ' which will result in a slightly slower Archiving process.'
 				. ". \n"
@@ -321,6 +324,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 				. "\n   or ask in this Piwik ticket (http://dev.piwik.org/trac/ticket/3605)"
 			);
 		}
+		return $didWeUseBulk;
 	}
 
 	/**
@@ -376,7 +380,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 	    {
 	        $this->_checkTableIsExpectedBlob($table, $data);
 	    }
-        // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc) 
+        // INSERT again the bulk. Because we use keyword LOCAL the data will be REPLACED automatically (see mysql doc)
 	    $didWeUseBulk = Piwik::tableInsertBatch($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);
 	    if($didWeUseBulk === true)
 	    {
