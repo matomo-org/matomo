@@ -838,6 +838,8 @@ class StaticResolver(object):
         try:
             site = sites[0]
         except (IndexError, KeyError):
+            logging.debug('response for SitesManager.getSiteFromId: %s', str(sites))
+            
             fatal_error(
                 "cannot get the main URL of this site: invalid site ID: %s" % site_id
             )
