@@ -600,6 +600,12 @@ var placeEvolutionIcons = function (annotations, graphElem)
 	var canvases = $('.piwik-graph .jqplot-xaxis canvas', graphElem),
 		noteSize = 16;
 	
+	// if no graph available, hide all icons
+	if (!canvases || canvases.length == 0) {
+		$('span', annotations).hide();
+		return true;
+	}
+
 	// set position of each individual icon
 	$('span', annotations).each(function(i) {
 		var canvas = $(canvases[i]),
