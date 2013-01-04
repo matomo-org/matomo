@@ -62,6 +62,8 @@ UserCountryMap.run = function(config) {
         var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric]  ? data[metric] : data[metric].toFixed(1),
             v = UserCountryMap._[metric].replace('%s', '<b>'+val+'</b>');
 
+        if (val == 1 && metric == 'nb_visits') v = UserCountryMap._.one_visit.replace('%s', '<b>'+val+'</b>');
+
         function avgTime(d) { return d['sum_visit_length'] / d['nb_visits']; }
 
         if (metric.substr(0, 3) == 'nb_' && metric != 'nb_actions_per_visit') {
@@ -329,7 +331,9 @@ UserCountryMap.run = function(config) {
                 }
             });
         } else {
+
             totalVisits = UserCountryMap.config.visitsSummary['nb_visits'];
+            console.log(totalVisits, UserCountryMap._worldTotal);
         }
 
         if (id.length == 3) {
@@ -581,6 +585,7 @@ UserCountryMap.run = function(config) {
                     if (UserCountryMap.aggregate[iso]) {
                         var aggregated = aggregate(regionDict, function(row) {
                             var id = row.region, res = false;
+                            console.log(UserCountryMap.aggregate[iso].groups);
                             $.each(UserCountryMap.aggregate[iso].groups, function(group, codes) {
                                 if ($.inArray(id, codes) > -1) {
                                     res = group;
@@ -808,14 +813,21 @@ UserCountryMap.run = function(config) {
                     evt.stopPropagation();
                 }
             });
-             function filtCountryLabels(data) {
+            function filtCountryLabels(data) {
                 return data.iso != iso && Math.abs(map.getLayer('context-clickable').getPath(data.iso).path.area()) > 700;
+            }
+            // returns either the reference to the country polygon or a custom label
+            // position if defined in UserCountryMap.customLabelPositions
+            function countryLabelPos(data) {
+                var CLP = UserCountryMap.customLabelPositions;
+                if (CLP[iso] && CLP[iso][data.iso]) return CLP[iso][data.iso];
+                return 'context-clickable.'+data.iso;
             }
             map.addSymbols({
                 data: map.getLayer('context-clickable').getPathsData(),
                 type: $K.Label,
                 filter: filtCountryLabels,
-                location: function(data) { return 'context-clickable.'+data.iso; },
+                location: countryLabelPos,
                 text: function(data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
                 'class': 'countryLabelBg'
             });
@@ -823,7 +835,7 @@ UserCountryMap.run = function(config) {
                 data: map.getLayer('context-clickable').getPathsData(),
                 type: $K.Label,
                 filter: filtCountryLabels,
-                location: function(data) { return 'context-clickable.'+data.iso; },
+                location: countryLabelPos,
                 text: function(data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
                 'class': 'countryLabel'
             });
@@ -857,6 +869,7 @@ UserCountryMap.run = function(config) {
                     flag: meta.logo
                 };
             if (country.iso2 == 'DE') country.fips = 'GM';
+            if (country.iso2 == 'SE') country.fips = 'SW';
             $.each(metrics, function(i, metric) {
                 metric = $(metric).attr('value');
                 country[metric] = data[metric];
@@ -937,65 +950,102 @@ UserCountryMap.run = function(config) {
 
 };
 
+$.extend(UserCountryMap, {
 
-UserCountryMap.ISO2toISO3 = {"BD": "BGD", "BE": "BEL", "BF": "BFA", "BG": "BGR", "BA": "BIH", "BB": "BRB", "WF": "WLF", "BL": "BLM", "BM": "BMU", "BN": "BRN", "BO": "BOL", "BH": "BHR", "BI": "BDI", "BJ": "BEN", "BT": "BTN", "JM": "JAM", "BV": "BVT", "BW": "BWA", "WS": "WSM", "BQ": "BES", "BR": "BRA", "BS": "BHS", "JE": "JEY", "BY": "BLR", "BZ": "BLZ", "RU": "RUS", "RW": "RWA", "RS": "SRB", "TL": "TLS", "RE": "REU", "TM": "TKM", "TJ": "TJK", "RO": "ROU", "TK": "TKL", "GW": "GNB", "GU": "GUM", "GT": "GTM", "GS": "SGS", "GR": "GRC", "GQ": "GNQ", "GP": "GLP", "JP": "JPN", "GY": "GUY", "GG": "GGY", "GF": "GUF", "GE": "GEO", "GD": "GRD", "GB": "GBR", "GA": "GAB", "SV": "SLV", "GN": "GIN", "GM": "GMB", "GL": "GRL", "GI": "GIB", "GH": "GHA", "OM": "OMN", "TN": "TUN", "JO": "JOR", "HR": "HRV", "HT": "HTI", "HU": "HUN", "HK": "HKG", "HN": "HND", "HM": "HMD", "VE": "VEN", "PR": "PRI", "PS": "PSE", "PW": "PLW", "PT": "PRT", "SJ": "SJM", "PY": "PRY", "IQ": "IRQ", "PA": "PAN", "PF": "PYF", "PG": "PNG", "PE": "PER", "PK": "PAK", "PH": "PHL", "PN": "PCN", "PL": "POL", "PM": "SPM", "ZM": "ZMB", "EH": "ESH", "EE": "EST", "EG": "EGY", "ZA": "ZAF", "EC": "ECU", "IT": "ITA", "VN": "VNM", "SB": "SLB", "ET": "ETH", "SO": "SOM", "ZW": "ZWE", "SA": "SAU", "ES": "ESP", "ER": "ERI", "ME": "MNE", "MD": "MDA", "MG": "MDG", "MF": "MAF", "MA": "MAR", "MC": "MCO", "UZ": "UZB", "MM": "MMR", "ML": "MLI", "MO": "MAC", "MN": "MNG", "MH": "MHL", "MK": "MKD", "MU": "MUS", "MT": "MLT", "MW": "MWI", "MV": "MDV", "MQ": "MTQ", "MP": "MNP", "MS": "MSR", "MR": "MRT", "IM": "IMN", "UG": "UGA", "TZ": "TZA", "MY": "MYS", "MX": "MEX", "IL": "ISR", "FR": "FRA", "IO": "IOT", "SH": "SHN", "FI": "FIN", "FJ": "FJI", "FK": "FLK", "FM": "FSM", "FO": "FRO", "NI": "NIC", "NL": "NLD", "NO": "NOR", "NA": "NAM", "VU": "VUT", "NC": "NCL", "NE": "NER", "NF": "NFK", "NG": "NGA", "NZ": "NZL", "NP": "NPL", "NR": "NRU", "NU": "NIU", "CK": "COK", "XK": "XKX", "CI": "CIV", "CH": "CHE", "CO": "COL", "CN": "CHN", "CM": "CMR", "CL": "CHL", "CC": "CCK", "CA": "CAN", "CG": "COG", "CF": "CAF", "CD": "COD", "CZ": "CZE", "CY": "CYP", "CX": "CXR", "CS": "SCG", "CR": "CRI", "CW": "CUW", "CV": "CPV", "CU": "CUB", "SZ": "SWZ", "SY": "SYR", "SX": "SXM", "KG": "KGZ", "KE": "KEN", "SS": "SSD", "SR": "SUR", "KI": "KIR", "KH": "KHM", "KN": "KNA", "KM": "COM", "ST": "STP", "SK": "SVK", "KR": "KOR", "SI": "SVN", "KP": "PRK", "KW": "KWT", "SN": "SEN", "SM": "SMR", "SL": "SLE", "SC": "SYC", "KZ": "KAZ", "KY": "CYM", "SG": "SGP", "SE": "SWE", "SD": "SDN", "DO": "DOM", "DM": "DMA", "DJ": "DJI", "DK": "DNK", "VG": "VGB", "DE": "DEU", "YE": "YEM", "DZ": "DZA", "US": "USA", "UY": "URY", "YT": "MYT", "UM": "UMI", "LB": "LBN", "LC": "LCA", "LA": "LAO", "TV": "TUV", "TW": "TWN", "TT": "TTO", "TR": "TUR", "LK": "LKA", "LI": "LIE", "LV": "LVA", "TO": "TON", "LT": "LTU", "LU": "LUX", "LR": "LBR", "LS": "LSO", "TH": "THA", "TF": "ATF", "TG": "TGO", "TD": "TCD", "TC": "TCA", "LY": "LBY", "VA": "VAT", "VC": "VCT", "AE": "ARE", "AD": "AND", "AG": "ATG", "AF": "AFG", "AI": "AIA", "VI": "VIR", "IS": "ISL", "IR": "IRN", "AM": "ARM", "AL": "ALB", "AO": "AGO", "AN": "ANT", "AQ": "ATA", "AS": "ASM", "AR": "ARG", "AU": "AUS", "AT": "AUT", "AW": "ABW", "IN": "IND", "AX": "ALA", "AZ": "AZE", "IE": "IRL", "ID": "IDN", "UA": "R", "QA": "QAT", "MZ": "MOZ"};
-UserCountryMap.ISO3toCONT = {"AGO": "AF", "DZA": "AF", "EGY": "AF", "BGD": "AS", "NER": "AF", "LIE": "EU", "NAM": "AF", "BGR": "EU", "BOL": "SA", "GHA": "AF", "CCK": "AS", "PAK": "AS", "CPV": "AF", "JOR": "AS", "LBR": "AF", "LBY": "AF", "MYS": "AS", "DOM": "NA", "PRI": "NA", "SXM": "NA", "PRK": "AS", "PSE": "AS", "TZA": "AF", "BWA": "AF", "KHM": "AS", "UMI": "OC", "NIC": "NA", "TTO": "NA", "ETH": "AF", "PRY": "SA", "HKG": "AS", "SAU": "AS", "LBN": "AS", "SVN": "EU", "BFA": "AF", "CHE": "EU", "MRT": "AF", "HRV": "EU", "CHL": "SA", "CHN": "AS", "KNA": "NA", "SLE": "AF", "JAM": "NA", "SMR": "EU", "GIB": "EU", "DJI": "AF", "GIN": "AF", "FIN": "EU", "URY": "SA", "THA": "AS", "STP": "AF", "SYC": "AF", "NPL": "AS", "CXR": "AS", "LAO": "AS", "YEM": "AS", "BVT": "AN", "ZAF": "AF", "KIR": "OC", "PHL": "AS", "ROU": "EU", "VIR": "NA", "SYR": "AS", "MAC": "AS", "MAF": "NA", "MLT": "EU", "KAZ": "AS", "TCA": "NA", "PYF": "OC", "NIU": "OC", "DMA": "NA", "BEN": "AF", "GUF": "SA", "BEL": "EU", "MSR": "NA", "TGO": "AF", "DEU": "EU", "GUM": "OC", "LKA": "AS", "SSD": "AF", "FLK": "SA", "GBR": "EU", "BES": "NA", "GUY": "SA", "CRI": "NA", "CMR": "AF", "MAR": "AF", "MNP": "OC", "LSO": "AF", "HUN": "EU", "TKM": "AS", "SUR": "SA", "NLD": "EU", "BMU": "NA", "HMD": "AN", "TCD": "AF", "GEO": "AS", "MNE": "EU", "MNG": "AS", "MHL": "OC", "MTQ": "NA", "BLZ": "NA", "NFK": "OC", "MMR": "AS", "AFG": "AS", "BDI": "AF", "VGB": "NA", "BLR": "EU", "BLM": "NA", "GRD": "NA", "TKL": "OC", "GRC": "EU", "RUS": "EU", "GRL": "NA", "SHN": "AF", "AND": "EU", "MOZ": "AF", "TJK": "AS", "XKX": "EU", "HTI": "NA", "MEX": "NA", "ANT": "NA", "ZWE": "AF", "LCA": "NA", "IND": "AS", "LVA": "EU", "BTN": "AS", "VCT": "NA", "VNM": "AS", "NOR": "EU", "CZE": "EU", "ATF": "AN", "ATG": "NA", "FJI": "OC", "IOT": "AS", "HND": "NA", "MUS": "AF", "ATA": "AN", "LUX": "EU", "ISR": "AS", "FSM": "OC", "PER": "SA", "REU": "AF", "IDN": "AS", "VUT": "OC", "MKD": "EU", "COD": "AF", "COG": "AF", "ISL": "EU", "GLP": "NA", "COK": "OC", "COM": "AF", "COL": "SA", "NGA": "AF", "TLS": "OC", "TWN": "AS", "PRT": "EU", "MDA": "EU", "GGY": "EU", "MDG": "AF", "ECU": "SA", "SEN": "AF", "NZL": "OC", "MDV": "AS", "ASM": "OC", "SPM": "NA", "CUW": "NA", "FRA": "EU", "LTU": "EU", "RWA": "AF", "ZMB": "AF", "GMB": "AF", "WLF": "OC", "JEY": "EU", "FRO": "EU", "GTM": "NA", "DNK": "EU", "IMN": "EU", "AUS": "OC", "AUT": "EU", "SJM": "EU", "VEN": "SA", "PLW": "OC", "KEN": "AF", "MYT": "AF", "WSM": "OC", "TUR": "AS", "ALB": "EU", "OMN": "AS", "TUV": "OC", "ALA": "EU", "BRN": "AS", "TUN": "AF", "PCN": "OC", "BRB": "NA", "BRA": "SA", "CIV": "AF", "SRB": "EU", "GNQ": "AF", "USA": "NA", "QAT": "AS", "SWE": "EU", "AZE": "AS", "GNB": "AF", "SWZ": "AF", "TON": "OC", "CAN": "NA", "R": "EU", "KOR": "AS", "AIA": "NA", "CAF": "AF", "SVK": "EU", "CYP": "EU", "BIH": "EU", "SGP": "AS", "SGS": "AN", "SOM": "AF", "UZB": "AS", "ERI": "AF", "POL": "EU", "KWT": "AS", "SCG": "EU", "GAB": "AF", "CYM": "NA", "VAT": "EU", "EST": "EU", "MWI": "AF", "ESP": "EU", "IRQ": "AS", "SLV": "NA", "MLI": "AF", "IRL": "EU", "IRN": "AS", "ABW": "NA", "PNG": "OC", "PAN": "NA", "SDN": "AF", "SLB": "OC", "ESH": "AF", "MCO": "EU", "ITA": "EU", "JPN": "AS", "KGZ": "AS", "UGA": "AF", "NCL": "OC", "ARE": "AS", "ARG": "SA", "BHS": "NA", "BHR": "AS", "ARM": "AS", "NRU": "OC", "CUB": "NA"};
-UserCountryMap.aggregate = {
-    GBR: {
-        groups: {
-            "East Midlands": ["H5", "D2", "D3", "H7", "J1", "H4", "L4", "J8", "J9"],
-            "West Midlands": ["", "O2", "P3", "F7", "Q4", "N1", "N4", "L6"],
-            "South West": ["E6", "A4", "B7", "J4", "M6", "M3", "D4", "B2", "D6", "K5", "C6", "K4", "O4", "N9", "P8"],
-            "North East": ["", "D1", "D8", "F5", "I5", "K9", "N3", "J6"],
-            "Scotland": ["U4", "U5", "U7", "V2", "V4", "U5", "V8", "W2", "W4", "W5", "W7", "T5", "T6", "U9", "V9", "W6", "U1", "W1", "T7", "U3", "V1", "U6", "U8", "V5", "W9", "T9", "U2", "U9", "V3", "T8", "W8"],
-            "South East": ["F2", "M4", "I6", "B9", "", "B6", "E2", "I3", "P6", "K2", "N7", "G2", "K6", "G5"],
-            "North West": ["", "E9", "C5", "A8", "H2", "C9", "P2", "I2"],
-            "Yorkshire and the Humber": ["G6", "J2", "J3", "Q5", "E1", "J7", "", ""],
-            "Northern Ireland": ["R3", "S6", "T3", "Q8", "S9", "R2", "R8", "S1", "S5", "R7", "Q6", "S7", "Q9", "S3", "R4", "T1", "T2", "R9", "R6", "R1", "S4", "R5", "T4", "S2", "Q7", "S8"],
-            "London": ["H9", "A1", "A6", "B5", "B8", "C4", "C8", "D9", "E3", "E7", "F1", "G1", "G3", "G4", "I4", "K8", "L1", "N8", "O5", "O9", "P1", "P5", "F6", "F9", "G7", "E8", "F3", "F4", "H1", "H6", "I8", "M8"],
-            "East": ["M5", "A5", "F8", "C3", "E4", "N5", "I9", "O3", "I1", "K3"],
-            "Wales": ["X7", "X6", "Y7", "Y8", "X3", "X4", "Y3", "Y9", "X5", "Z3", "Y5", "Z1", "X9", "Y1", "Z4", "X1", "X8", "Y2", "X2", "Y4", "Y6", "Z2"]
+    // iso alpha-2 --> iso alpha-3
+    ISO2toISO3: {"BD": "BGD", "BE": "BEL", "BF": "BFA", "BG": "BGR", "BA": "BIH", "BB": "BRB", "WF": "WLF", "BL": "BLM", "BM": "BMU", "BN": "BRN", "BO": "BOL", "BH": "BHR", "BI": "BDI", "BJ": "BEN", "BT": "BTN", "JM": "JAM", "BV": "BVT", "BW": "BWA", "WS": "WSM", "BQ": "BES", "BR": "BRA", "BS": "BHS", "JE": "JEY", "BY": "BLR", "BZ": "BLZ", "RU": "RUS", "RW": "RWA", "RS": "SRB", "TL": "TLS", "RE": "REU", "TM": "TKM", "TJ": "TJK", "RO": "ROU", "TK": "TKL", "GW": "GNB", "GU": "GUM", "GT": "GTM", "GS": "SGS", "GR": "GRC", "GQ": "GNQ", "GP": "GLP", "JP": "JPN", "GY": "GUY", "GG": "GGY", "GF": "GUF", "GE": "GEO", "GD": "GRD", "GB": "GBR", "GA": "GAB", "SV": "SLV", "GN": "GIN", "GM": "GMB", "GL": "GRL", "GI": "GIB", "GH": "GHA", "OM": "OMN", "TN": "TUN", "JO": "JOR", "HR": "HRV", "HT": "HTI", "HU": "HUN", "HK": "HKG", "HN": "HND", "HM": "HMD", "VE": "VEN", "PR": "PRI", "PS": "PSE", "PW": "PLW", "PT": "PRT", "SJ": "SJM", "PY": "PRY", "IQ": "IRQ", "PA": "PAN", "PF": "PYF", "PG": "PNG", "PE": "PER", "PK": "PAK", "PH": "PHL", "PN": "PCN", "PL": "POL", "PM": "SPM", "ZM": "ZMB", "EH": "ESH", "EE": "EST", "EG": "EGY", "ZA": "ZAF", "EC": "ECU", "IT": "ITA", "VN": "VNM", "SB": "SLB", "ET": "ETH", "SO": "SOM", "ZW": "ZWE", "SA": "SAU", "ES": "ESP", "ER": "ERI", "ME": "MNE", "MD": "MDA", "MG": "MDG", "MF": "MAF", "MA": "MAR", "MC": "MCO", "UZ": "UZB", "MM": "MMR", "ML": "MLI", "MO": "MAC", "MN": "MNG", "MH": "MHL", "MK": "MKD", "MU": "MUS", "MT": "MLT", "MW": "MWI", "MV": "MDV", "MQ": "MTQ", "MP": "MNP", "MS": "MSR", "MR": "MRT", "IM": "IMN", "UG": "UGA", "TZ": "TZA", "MY": "MYS", "MX": "MEX", "IL": "ISR", "FR": "FRA", "IO": "IOT", "SH": "SHN", "FI": "FIN", "FJ": "FJI", "FK": "FLK", "FM": "FSM", "FO": "FRO", "NI": "NIC", "NL": "NLD", "NO": "NOR", "NA": "NAM", "VU": "VUT", "NC": "NCL", "NE": "NER", "NF": "NFK", "NG": "NGA", "NZ": "NZL", "NP": "NPL", "NR": "NRU", "NU": "NIU", "CK": "COK", "XK": "XKX", "CI": "CIV", "CH": "CHE", "CO": "COL", "CN": "CHN", "CM": "CMR", "CL": "CHL", "CC": "CCK", "CA": "CAN", "CG": "COG", "CF": "CAF", "CD": "COD", "CZ": "CZE", "CY": "CYP", "CX": "CXR", "CS": "SCG", "CR": "CRI", "CW": "CUW", "CV": "CPV", "CU": "CUB", "SZ": "SWZ", "SY": "SYR", "SX": "SXM", "KG": "KGZ", "KE": "KEN", "SS": "SSD", "SR": "SUR", "KI": "KIR", "KH": "KHM", "KN": "KNA", "KM": "COM", "ST": "STP", "SK": "SVK", "KR": "KOR", "SI": "SVN", "KP": "PRK", "KW": "KWT", "SN": "SEN", "SM": "SMR", "SL": "SLE", "SC": "SYC", "KZ": "KAZ", "KY": "CYM", "SG": "SGP", "SE": "SWE", "SD": "SDN", "DO": "DOM", "DM": "DMA", "DJ": "DJI", "DK": "DNK", "VG": "VGB", "DE": "DEU", "YE": "YEM", "DZ": "DZA", "US": "USA", "UY": "URY", "YT": "MYT", "UM": "UMI", "LB": "LBN", "LC": "LCA", "LA": "LAO", "TV": "TUV", "TW": "TWN", "TT": "TTO", "TR": "TUR", "LK": "LKA", "LI": "LIE", "LV": "LVA", "TO": "TON", "LT": "LTU", "LU": "LUX", "LR": "LBR", "LS": "LSO", "TH": "THA", "TF": "ATF", "TG": "TGO", "TD": "TCD", "TC": "TCA", "LY": "LBY", "VA": "VAT", "VC": "VCT", "AE": "ARE", "AD": "AND", "AG": "ATG", "AF": "AFG", "AI": "AIA", "VI": "VIR", "IS": "ISL", "IR": "IRN", "AM": "ARM", "AL": "ALB", "AO": "AGO", "AN": "ANT", "AQ": "ATA", "AS": "ASM", "AR": "ARG", "AU": "AUS", "AT": "AUT", "AW": "ABW", "IN": "IND", "AX": "ALA", "AZ": "AZE", "IE": "IRL", "ID": "IDN", "UA": "R", "QA": "QAT", "MZ": "MOZ"},
+
+    // iso alpha-3 --> continent code
+    ISO3toCONT: {"AGO": "AF", "DZA": "AF", "EGY": "AF", "BGD": "AS", "NER": "AF", "LIE": "EU", "NAM": "AF", "BGR": "EU", "BOL": "SA", "GHA": "AF", "CCK": "AS", "PAK": "AS", "CPV": "AF", "JOR": "AS", "LBR": "AF", "LBY": "AF", "MYS": "AS", "DOM": "NA", "PRI": "NA", "SXM": "NA", "PRK": "AS", "PSE": "AS", "TZA": "AF", "BWA": "AF", "KHM": "AS", "UMI": "OC", "NIC": "NA", "TTO": "NA", "ETH": "AF", "PRY": "SA", "HKG": "AS", "SAU": "AS", "LBN": "AS", "SVN": "EU", "BFA": "AF", "CHE": "EU", "MRT": "AF", "HRV": "EU", "CHL": "SA", "CHN": "AS", "KNA": "NA", "SLE": "AF", "JAM": "NA", "SMR": "EU", "GIB": "EU", "DJI": "AF", "GIN": "AF", "FIN": "EU", "URY": "SA", "THA": "AS", "STP": "AF", "SYC": "AF", "NPL": "AS", "CXR": "AS", "LAO": "AS", "YEM": "AS", "BVT": "AN", "ZAF": "AF", "KIR": "OC", "PHL": "AS", "ROU": "EU", "VIR": "NA", "SYR": "AS", "MAC": "AS", "MAF": "NA", "MLT": "EU", "KAZ": "AS", "TCA": "NA", "PYF": "OC", "NIU": "OC", "DMA": "NA", "BEN": "AF", "GUF": "SA", "BEL": "EU", "MSR": "NA", "TGO": "AF", "DEU": "EU", "GUM": "OC", "LKA": "AS", "SSD": "AF", "FLK": "SA", "GBR": "EU", "BES": "NA", "GUY": "SA", "CRI": "NA", "CMR": "AF", "MAR": "AF", "MNP": "OC", "LSO": "AF", "HUN": "EU", "TKM": "AS", "SUR": "SA", "NLD": "EU", "BMU": "NA", "HMD": "AN", "TCD": "AF", "GEO": "AS", "MNE": "EU", "MNG": "AS", "MHL": "OC", "MTQ": "NA", "BLZ": "NA", "NFK": "OC", "MMR": "AS", "AFG": "AS", "BDI": "AF", "VGB": "NA", "BLR": "EU", "BLM": "NA", "GRD": "NA", "TKL": "OC", "GRC": "EU", "RUS": "EU", "GRL": "NA", "SHN": "AF", "AND": "EU", "MOZ": "AF", "TJK": "AS", "XKX": "EU", "HTI": "NA", "MEX": "NA", "ANT": "NA", "ZWE": "AF", "LCA": "NA", "IND": "AS", "LVA": "EU", "BTN": "AS", "VCT": "NA", "VNM": "AS", "NOR": "EU", "CZE": "EU", "ATF": "AN", "ATG": "NA", "FJI": "OC", "IOT": "AS", "HND": "NA", "MUS": "AF", "ATA": "AN", "LUX": "EU", "ISR": "AS", "FSM": "OC", "PER": "SA", "REU": "AF", "IDN": "AS", "VUT": "OC", "MKD": "EU", "COD": "AF", "COG": "AF", "ISL": "EU", "GLP": "NA", "COK": "OC", "COM": "AF", "COL": "SA", "NGA": "AF", "TLS": "OC", "TWN": "AS", "PRT": "EU", "MDA": "EU", "GGY": "EU", "MDG": "AF", "ECU": "SA", "SEN": "AF", "NZL": "OC", "MDV": "AS", "ASM": "OC", "SPM": "NA", "CUW": "NA", "FRA": "EU", "LTU": "EU", "RWA": "AF", "ZMB": "AF", "GMB": "AF", "WLF": "OC", "JEY": "EU", "FRO": "EU", "GTM": "NA", "DNK": "EU", "IMN": "EU", "AUS": "OC", "AUT": "EU", "SJM": "EU", "VEN": "SA", "PLW": "OC", "KEN": "AF", "MYT": "AF", "WSM": "OC", "TUR": "AS", "ALB": "EU", "OMN": "AS", "TUV": "OC", "ALA": "EU", "BRN": "AS", "TUN": "AF", "PCN": "OC", "BRB": "NA", "BRA": "SA", "CIV": "AF", "SRB": "EU", "GNQ": "AF", "USA": "NA", "QAT": "AS", "SWE": "EU", "AZE": "AS", "GNB": "AF", "SWZ": "AF", "TON": "OC", "CAN": "NA", "R": "EU", "KOR": "AS", "AIA": "NA", "CAF": "AF", "SVK": "EU", "CYP": "EU", "BIH": "EU", "SGP": "AS", "SGS": "AN", "SOM": "AF", "UZB": "AS", "ERI": "AF", "POL": "EU", "KWT": "AS", "SCG": "EU", "GAB": "AF", "CYM": "NA", "VAT": "EU", "EST": "EU", "MWI": "AF", "ESP": "EU", "IRQ": "AS", "SLV": "NA", "MLI": "AF", "IRL": "EU", "IRN": "AS", "ABW": "NA", "PNG": "OC", "PAN": "NA", "SDN": "AF", "SLB": "OC", "ESH": "AF", "MCO": "EU", "ITA": "EU", "JPN": "AS", "KGZ": "AS", "UGA": "AF", "NCL": "OC", "ARE": "AS", "ARG": "SA", "BHS": "NA", "BHR": "AS", "ARM": "AS", "NRU": "OC", "CUB": "NA"},
+
+    // special region aggregation for some countries
+    aggregate: {
+        GBR: {
+            groups: {
+                "East Midlands": ["H5", "D2", "D3", "H7", "J1", "H4", "L4", "J8", "J9"],
+                "West Midlands": ["", "O2", "P3", "F7", "Q4", "N1", "N4", "L6"],
+                "South West": ["E6", "A4", "B7", "J4", "M6", "M3", "D4", "B2", "D6", "K5", "C6", "K4", "O4", "N9", "P8"],
+                "North East": ["", "D1", "D8", "F5", "I5", "K9", "N3", "J6"],
+                "Scotland": ["U4", "U5", "U7", "V2", "V4", "U5", "V8", "W2", "W4", "W5", "W7", "T5", "T6", "U9", "V9", "W6", "U1", "W1", "T7", "U3", "V1", "U6", "U8", "V5", "W9", "T9", "U2", "U9", "V3", "T8", "W8"],
+                "South East": ["F2", "M4", "I6", "B9", "", "B6", "E2", "I3", "P6", "K2", "N7", "G2", "K6", "G5"],
+                "North West": ["", "E9", "C5", "A8", "H2", "C9", "P2", "I2"],
+                "Yorkshire and the Humber": ["G6", "J2", "J3", "Q5", "E1", "J7", "", ""],
+                "Northern Ireland": ["R3", "S6", "T3", "Q8", "S9", "R2", "R8", "S1", "S5", "R7", "Q6", "S7", "Q9", "S3", "R4", "T1", "T2", "R9", "R6", "R1", "S4", "R5", "T4", "S2", "Q7", "S8"],
+                "London": ["H9", "A1", "A6", "B5", "B8", "C4", "C8", "D9", "E3", "E7", "F1", "G1", "G3", "G4", "I4", "K8", "L1", "N8", "O5", "O9", "P1", "P5", "F6", "F9", "G7", "E8", "F3", "F4", "H1", "H6", "I8", "M8"],
+                "East": ["M5", "A5", "F8", "C3", "E4", "N5", "I9", "O3", "I1", "K3"],
+                "Wales": ["X7", "X6", "Y7", "Y8", "X3", "X4", "Y3", "Y9", "X5", "Z3", "Y5", "Z1", "X9", "Y1", "Z4", "X1", "X8", "Y2", "X2", "Y4", "Y6", "Z2"]
+            }
+        },
+        SVN: {
+            groups: {
+                "PS": ["08", "54", "B6"],
+                "NO": ["I7", "00", "13", "38", "91", "94"],
+                "KO": ["E6", "93", "A4", "00", "A5", "16", "25", "74", "76", "81", "A2", "C2"],
+                "SP": ["14", "36", "D2", "01", "06", "07", "44", "46", "J5", "E1", "84", "00"],
+                "LJ": ["D4", "E3", "E5", "G4", "G7", "H6", "00", "00", "00", "00", "05", "09", "22", "32", "37", "39", "I5", "61", "64", "68", "71", "72", "77", "C1"],
+                "JP": ["19", "35", "40", "49", "50", "J9", "B7"],
+                "JS": ["00", "J7", "L1", "00", "00", "00", "00", "00", "00", "17", "66", "73", "B1", "B4", "B8", "D4"],
+                "PD": ["42", "28", "42", "87", "E9", "00", "00", "00", "18", "I3", "J1", "K7", "L3", "L8", "N2", "00", "00", "00", "00", "00", "00", "00", "00", "00", "70", "00", "00", "26", "45", "55", "89", "98", "B3", "C8"],
+                "GO": ["03", "04", "32", "52", "53", "62", "A3", "B9", "D5", "F1", "F2", "K5", "00", "H4", "00", "12", "B2"],
+                "SA": ["D7", "E2", "F3", "I9", "92", "L7", "N3", "N5", "00", "00", "00", "00", "00", "00", "00", "00", "00", "", "11", "30", "08", "57", "62", "79", "83", "99", "A7", "A8", "C4", "C5", "C6", "C7", "C9"],
+                "ZS": ["E7", "34", "C9", "C9"],
+                "PM": ["02", "47", "78", "80", "86", "D1", "D6", "33", "I2", "00", "00", "15", "59", "I6", "00", "00", "00", "00", "00", "10", "29", "97", "97", "A1", "A6"]
+            }
+        },
+        FRA: {
+            partial: true,
+            groups: {
+                "A5": ["A5", "B5"]
+            }
+        },
+        POL: {
+            partial: true,
+            groups: {
+                "82": ["82", "60"],
+                "85": ["85", "47", "H9"]
+            }
+        },
+        CZE: {
+            partial: true,
+            groups: {
+                "82": ["82","70","23","20"],
+                "88": ["88","41"]
+            }
+        },
+        BEL: {
+            partial: true,
+            groups: {
+                "12": ["12", "02"]
+            }
+        },
+        DNK: {
+            partial: true,
+            groups: {
+                "19": ["19", "07"],
+                "18": ["18", "15"],
+                "20": ["20", "12"],
+                "21": ["21", "11",  "04"]
+            }
         }
     },
-    SVN: {
-        groups: {
-            "PS": ["08", "54", "B6"],
-            "NO": ["I7", "00", "13", "38", "91", "94"],
-            "KO": ["E6", "93", "A4", "00", "A5", "16", "25", "74", "76", "81", "A2", "C2"],
-            "SP": ["14", "36", "D2", "01", "06", "07", "44", "46", "J5", "E1", "84", "00"],
-            "LJ": ["D4", "E3", "E5", "G4", "G7", "H6", "00", "00", "00", "00", "05", "09", "22", "32", "37", "39", "I5", "61", "64", "68", "71", "72", "77", "C1"],
-            "JP": ["19", "35", "40", "49", "50", "J9", "B7"],
-            "JS": ["00", "J7", "L1", "00", "00", "00", "00", "00", "00", "17", "66", "73", "B1", "B4", "B8", "D4"],
-            "PD": ["42", "28", "42", "87", "E9", "00", "00", "00", "18", "I3", "J1", "K7", "L3", "L8", "N2", "00", "00", "00", "00", "00", "00", "00", "00", "00", "70", "00", "00", "26", "45", "55", "89", "98", "B3", "C8"],
-            "GO": ["03", "04", "32", "52", "53", "62", "A3", "B9", "D5", "F1", "F2", "K5", "00", "H4", "00", "12", "B2"],
-            "SA": ["D7", "E2", "F3", "I9", "92", "L7", "N3", "N5", "00", "00", "00", "00", "00", "00", "00", "00", "00", "", "11", "30", "08", "57", "62", "79", "83", "99", "A7", "A8", "C4", "C5", "C6", "C7", "C9"],
-            "ZS": ["E7", "34", "C9", "C9"],
-            "PM": ["02", "47", "78", "80", "86", "D1", "D6", "33", "I2", "00", "00", "15", "59", "I6", "00", "00", "00", "00", "00", "10", "29", "97", "97", "A1", "A6"]
-        }
+
+    // which key should be used, defaults to fips
+    keys: {
+        "SVN": "region",
+        "GBR": "region",
+        "ESP": "fips-",
+        "USA": "p", "CAN": "p"
     },
-    FRA: {
-        partial: true,
-        groups: {
-            "A5": ["A5", "B5"]
-        }
-    },
-    POL: {
-        partial: true,
-        groups: {
-            "82": ["82", "60"],
-            "85": ["85", "47", "H9"]
-        }
-    },
-    BEL: {
-        partial: true,
-        groups: {
-            "12": ["12", "02"]
-        }
+
+    // custom country label positions [lon, lat]
+    customLabelPositions: {
+        CZE: { DEU: [12.3, 49] },
+        DEU: { AUT: [13.9, 48.1] },
+        ESP: { PRT: [-8.5, 39.6] },
+        NLD: { BEL: [4.6, 51,1], DEU: [6.9, 51.5] }
     }
-};
-UserCountryMap.keys = {
-    "SVN": "region",
-    "GBR": "region",
-    "ESP": "fips-",
-    "USA": "p", "CAN": "p"
-};
+
+});
+
+
+    
