@@ -83,6 +83,11 @@ class Piwik_Login_Auth implements Piwik_Auth
 				return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $userToken );
 			}
 		}
+		
+		if ($this->token_auth !== null)
+		{
+			echo "\nROOT LOGIN: '$rootLogin'\nROOT TOKEN: '$rootToken'\nAUTH SUPPLIED: '{$this->token_auth}\n'";
+		}
 
 		return new Piwik_Auth_Result( Piwik_Auth_Result::FAILURE, $this->login, $this->token_auth );
 	}

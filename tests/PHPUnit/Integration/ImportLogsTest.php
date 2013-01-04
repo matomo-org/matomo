@@ -183,7 +183,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 		exec($cmd, $output, $result);
 		if ($result !== 0)
 		{
-			throw new Exception("log importer failed: ".implode("\n", $output));
+			throw new Exception("log importer failed: ".implode("\n", $output)."\n\ncommand used: $cmd");
 		}
 		
 		return $output;
