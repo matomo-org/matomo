@@ -573,8 +573,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	public static function getTokenAuth()
 	{
 	    return Piwik_UsersManager_API::getInstance()->getTokenAuth(
-	    	Zend_Registry::get('config')->superuser->login,
-	    	Zend_Registry::get('config')->superuser->password
+	    	Zend_Registry::get('config')->superuser['login'],
+	    	Zend_Registry::get('config')->superuser['password']
     	);
     }
 
