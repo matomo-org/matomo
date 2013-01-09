@@ -147,6 +147,11 @@ enable_browser_archiving_triggering = 1
 ; At the moment, this is not needed in core but it can be handy for plugins
 enable_archive_parents_of_datatable = 0
 
+; By default Piwik runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
+; If your Piwik tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
+; so you can disable these special queries here:
+enable_sql_optimize_queries = 1
+
 ; MySQL minimum required version
 ; note: timezone support added in 4.1.3
 minimum_mysql_version = 4.1

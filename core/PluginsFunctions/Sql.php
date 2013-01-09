@@ -150,6 +150,11 @@ class Piwik_Sql
 	 */
 	static public function optimizeTables( $tables )
 	{
+		$optimize = Piwik_Config::getInstance()->General->enable_sql_optimize_queries;
+		if(empty($optimize)) {
+			return;
+		}
+
 		if(empty($tables))
 		{
 			return false;
@@ -163,7 +168,8 @@ class Piwik_Sql
 		$nonInnoDbTables = array();
 		foreach (Piwik_FetchAll("SHOW TABLE STATUS") as $row)
 		{
-			if (strtolower($row['Engine']) != 'innodb' && in_array($row['Name'], $tables))
+			if (strtolower($row['Engine']) != 'innodb'
+				&& in_array($row['Name'], $tables))
 			{
 				$nonInnoDbTables[] = $row['Name'];
 			}
