@@ -69,7 +69,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 */
 	private $pageEncoding = false;
 	
-	static private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid', 'fb_xd_fragment', 'fb_comment_id');
+	static private $queryParametersToExclude = array('phpsessid', 'jsessionid', 'sessionid', 'aspsessionid', 'fb_xd_fragment', 'fb_comment_id', 'doing_wp_cron');
 
 	/* Custom Variable names & slots used for Site Search metadata (category, results count) */
 	const CVAR_KEY_SEARCH_CATEGORY = '_pk_scat';
