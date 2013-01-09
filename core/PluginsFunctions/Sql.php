@@ -150,7 +150,7 @@ class Piwik_Sql
 	 */
 	static public function optimizeTables( $tables )
 	{
-		$optimize = Piwik_Config::getInstance()->General->enable_sql_optimize_queries;
+		$optimize = Piwik_Config::getInstance()->General['enable_sql_optimize_queries'];
 		if(empty($optimize)) {
 			return;
 		}
