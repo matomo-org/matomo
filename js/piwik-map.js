@@ -88,6 +88,18 @@ UserCountryMap.run = function(config) {
     }
 
     function getColorScale(rows, metric, filter, choropleth) {
+
+        var colscale;
+
+        function addLegendItem(val) {
+            var d = $('<div>'), r = $('<div>'), l = $('<div>'), v = formatNumber(val);
+            d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
+            l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
+            r.css({ clear: 'both', height: 19 });
+            r.append(d).append(l);
+            $('.UserCountryMap-legend .content').append(r);
+        }
+
         var stats, values = [], id = UserCountryMap.lastSelected, c;
 
         $.each(rows, function(i, r) {
@@ -99,7 +111,16 @@ UserCountryMap.run = function(config) {
 
         stats = minmax(values);
 
-        var colscale = new chroma.ColorScale({
+        if (stats.min == stats.max) {
+            colscale = { getColor: function() { return '#CDDAEF'; } };
+            if (choropleth) {
+                $('.UserCountryMap-legend .content').html('').show();
+                addLegendItem(stats.min);
+            }
+            return colscale;
+        }
+
+        colscale = new chroma.ColorScale({
             colors: [choropleth ? '#CDDAEF' : '#385993', '#385993'],
             limits: chroma.limits(values, 'c', 4),
             mode: 'hcl'
@@ -120,16 +141,11 @@ UserCountryMap.run = function(config) {
         // a good place to update the legend, isn't it?
         if (choropleth) {
             $('.UserCountryMap-legend .content').html('').show();
-            var b = function(val) {
-                var d = $('<div>'), r = $('<div>'), l = $('<div>'), v = formatNumber(val);
-                d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
-                l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
-                r.css({ clear: 'both', height: 19 });
-                r.append(d).append(l);
-                $('.UserCountryMap-legend .content').append(r);
-            };
+            var itemExists = {};
             $.each(chroma.limits(values, 'k', 3), function(i, v) {
-                b(v);
+                if (itemExists[v]) return;
+                addLegendItem(v);
+                itemExists[v] = true;
             });
 
         } else {
@@ -139,10 +155,6 @@ UserCountryMap.run = function(config) {
         return colscale;
     }
 
-    function showLegend(colscale, metric) {
-        var lgd = $('#UserCountryMap-legend');
-
-    }
 
     function formatPercentage(val) {
         if (val < 0.001) return '< 0.1%';
@@ -331,9 +343,7 @@ UserCountryMap.run = function(config) {
                 }
             });
         } else {
-
             totalVisits = UserCountryMap.config.visitsSummary['nb_visits'];
-            console.log(totalVisits, UserCountryMap._worldTotal);
         }
 
         if (id.length == 3) {
@@ -585,7 +595,6 @@ UserCountryMap.run = function(config) {
                     if (UserCountryMap.aggregate[iso]) {
                         var aggregated = aggregate(regionDict, function(row) {
                             var id = row.region, res = false;
-                            console.log(UserCountryMap.aggregate[iso].groups);
                             $.each(UserCountryMap.aggregate[iso].groups, function(group, codes) {
                                 if ($.inArray(id, codes) > -1) {
                                     res = group;
@@ -614,9 +623,10 @@ UserCountryMap.run = function(config) {
                         return regionDict[code] === undefined ? '#fff' : colscale.getColor(regionDict[code].curMetric);
                     }).style('stroke', function(data) {
                         return regionDict[regionCode(data)] === undefined ? '#bbb' : '#3C6FB6';
-                    });
-                    // add tooltips for regions
-                    map.getLayer('regions').tooltips(function(data) {
+                    }).sort(function(data) {
+                        var code = regionCode(data);
+                        return regionDict[code] === undefined ? -1 : regionDict[code].curMetric;
+                    }).tooltips(function(data) {
                         var metric = $('#userCountryMapSelectMetrics').val(),
                         region = regionDict[regionCode(data)];
                         if (region === undefined) {
@@ -868,8 +878,9 @@ UserCountryMap.run = function(config) {
                     iso: UserCountryMap.ISO2toISO3[meta.code.toUpperCase()],
                     flag: meta.logo
                 };
-            if (country.iso2 == 'DE') country.fips = 'GM';
-            if (country.iso2 == 'SE') country.fips = 'SW';
+            if (UserCountryMap.differentFIPS[country.iso2]) {
+                country.fips = UserCountryMap.differentFIPS[country.iso2];
+            }
             $.each(metrics, function(i, metric) {
                 metric = $(metric).attr('value');
                 country[metric] = data[metric];
@@ -1042,10 +1053,18 @@ $.extend(UserCountryMap, {
         CZE: { DEU: [12.3, 49] },
         DEU: { AUT: [13.9, 48.1] },
         ESP: { PRT: [-8.5, 39.6] },
-        NLD: { BEL: [4.6, 51,1], DEU: [6.9, 51.5] }
+        NLD: { BEL: [4.6, 51,1], DEU: [6.9, 51.5] },
+        CHE: { FRA: [6.2, 47.2], AUT: [9.95, 47.2], ITA: [9.7, 46.0], DEU: [8.14, 47.83] }
+    },
+
+    differentFIPS: {
+        DE: 'GM',
+        AT: 'AU',
+        SE: 'SW',
+        CH: 'SZ',
+        ES: 'SP'
     }
 
 });
 
 
-    

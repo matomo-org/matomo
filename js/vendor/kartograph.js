@@ -50,7 +50,7 @@
 
   kartograph = root.$K = window.Kartograph = (_ref = root.Kartograph) != null ? _ref : root.Kartograph = {};
 
-  kartograph.version = "0.4.1";
+  kartograph.version = "0.4.2";
 
   $ = root.jQuery;
 
@@ -1072,15 +1072,14 @@
               # after resizing of the map, each layer gets a new view
       */
 
-      var me, path, _i, _len, _ref4, _results;
+      var me, path, _i, _len, _ref4;
       me = this;
       _ref4 = me.paths;
-      _results = [];
       for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
         path = _ref4[_i];
-        _results.push(path.setView(view));
+        path.setView(view);
       }
-      return _results;
+      return me;
     };
 
     MapLayer.prototype.remove = function() {
@@ -1134,7 +1133,7 @@
     };
 
     MapLayer.prototype.on = function(event, callback) {
-      var EventContext, ctx, me, path, _i, _len, _ref4, _results;
+      var EventContext, ctx, me, path, _i, _len, _ref4;
       me = this;
       EventContext = (function() {
 
@@ -1158,16 +1157,15 @@
       })();
       ctx = new EventContext(event, callback, me);
       _ref4 = me.paths;
-      _results = [];
       for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
         path = _ref4[_i];
-        _results.push($(path.svgPath.node).bind(event, ctx.handle));
+        $(path.svgPath.node).bind(event, ctx.handle);
       }
-      return _results;
+      return me;
     };
 
     MapLayer.prototype.tooltips = function(content, delay) {
-      var me, path, setTooltip, tt, _i, _len, _ref4, _results;
+      var me, path, setTooltip, tt, _i, _len, _ref4;
       me = this;
       setTooltip = function(path, tt) {
         var cfg;
@@ -1198,13 +1196,38 @@
         return $(path.svgPath.node).qtip(cfg);
       };
       _ref4 = me.paths;
-      _results = [];
       for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
         path = _ref4[_i];
         tt = resolve(content, path.data);
-        _results.push(setTooltip(path, tt));
+        setTooltip(path, tt);
       }
-      return _results;
+      return me;
+    };
+
+    MapLayer.prototype.sort = function(sortBy) {
+      var lp, me, path, _i, _len, _ref4;
+      me = this;
+      me.paths.sort(function(a, b) {
+        var av, bv, _ref4;
+        av = sortBy(a.data);
+        bv = sortBy(b.data);
+        if (av === bv) {
+          return 0;
+        }
+        return (_ref4 = av > bv) != null ? _ref4 : {
+          1: -1
+        };
+      });
+      lp = false;
+      _ref4 = me.paths;
+      for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
+        path = _ref4[_i];
+        if (lp) {
+          path.svgPath.insertAfter(lp.svgPath);
+        }
+        lp = path;
+      }
+      return me;
     };
 
     return MapLayer;
