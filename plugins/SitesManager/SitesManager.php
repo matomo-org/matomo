@@ -172,7 +172,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	 * @param string $parameters The unfiltered list.
 	 * @return array The filtered list of strings as an array.
 	 */
-	private function filterBlankFromCommaSepList( $parameters )
+	static private function filterBlankFromCommaSepList( $parameters )
 	{
 		$parameters = explode(',', $parameters);
 		$parameters = array_filter($parameters, 'strlen');
