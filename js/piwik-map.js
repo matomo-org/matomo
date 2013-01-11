@@ -620,11 +620,15 @@ UserCountryMap.run = function(config) {
                     // create color scale
                     colscale = getColorScale(regionDict, 'curMetric', null, true);
 
-                    // apply colors to map
-                    map.getLayer('regions').style('fill', function(data, path) {
+                    function regionFill(data) {
                         var code = regionCode(data);
                         return regionDict[code] === undefined ? '#fff' : colscale.getColor(regionDict[code].curMetric);
-                    }).style('stroke', function(data) {
+                    }
+
+                    // apply colors to map
+                    map.getLayer('regions')
+                    .style('fill', regionFill)
+                    .style('stroke', function(data) {
                         return regionDict[regionCode(data)] === undefined ? '#bbb' : '#3C6FB6';
                     }).sort(function(data) {
                         var code = regionCode(data);
@@ -637,9 +641,17 @@ UserCountryMap.run = function(config) {
                         }
                         return '<h3>'+data.name+'</h3>'+
                             formatValueForTooltips(region, metric, iso);
-                    }).on('click', function(d) {
+                    }).on('click', function(d, path, evt) {
                         var region = regionDict[regionCode(d)];
-                        if (region) showRowEvolution('getRegion', region.label);
+                        if (region) {
+                            if (evt.shiftKey) {
+                                path.attr('fill', '#ee3');
+                                addMultipleRowEvolution('getRegion', region.label);
+                            } else {
+                                map.getLayer('regions').style('fill', regionFill);
+                                showRowEvolution('getRegion', region.label);
+                            }
+                        }
                     });
 
                     // check for regions missing in the map
@@ -867,18 +879,34 @@ UserCountryMap.run = function(config) {
         });
     }
 
+    var _rowEvolution = {};
+
+    function addMultipleRowEvolution(method, label) {
+        if (method != _rowEvolution.method) {
+            _rowEvolution = { method: method, labels: [] };
+        }
+        _rowEvolution.labels.push(label.replace(', ', '%2C%20'));
+    }
+
     /*
-     *
+     * opens row evolution popover
      */
     function showRowEvolution(method, label) {
-        var box = Piwik_Popover.showLoading('Row Evolution');
+        var box = Piwik_Popover.showLoading('Row Evolution'),
+            multiple;
+
+        multiple = method == _rowEvolution.method && _rowEvolution.labels.length > 0;
+
+        if (multiple) {
+            _rowEvolution.labels.push(label.replace(', ', '%2C%20'));
+        }
 
         var requestParams = $.extend(UserCountryMap.reqParams, {
             apiMethod: 'UserCountry.' + method,
-            label: label.replace(', ', '%2C%20'),
+            label: multiple ? _rowEvolution.labels.join(',') : label.replace(', ', '%2C%20'),
             disableLink: 1,
             module: 'CoreHome',
-            action: 'getRowEvolutionPopover'
+            action: multiple ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover'
         });
 
         $.get('index.php?' + $.param(requestParams)).done(function(html) {
@@ -892,7 +920,10 @@ UserCountryMap.run = function(config) {
             }
 
             box.find('.compare-container').hide();
+            box.find('.rowevolution-startmulti').hide();
         });
+
+        _rowEvolution.labels = [];
     }
 
     // now load the metrics for all countries
