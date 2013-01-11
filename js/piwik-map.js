@@ -883,6 +883,15 @@ UserCountryMap.run = function(config) {
 
         $.get('index.php?' + $.param(requestParams)).done(function(html) {
             Piwik_Popover.setContent(html);
+
+            // use the popover title returned from the server
+            var title = box.find('div.popover-title');
+            if (title.size() > 0) {
+                Piwik_Popover.setTitle(title.html());
+                title.remove();
+            }
+
+            box.find('.compare-container').hide();
         });
     }
 
