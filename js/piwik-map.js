@@ -430,7 +430,13 @@ UserCountryMap.run = function(config) {
                 click: function(data, path, evt) {
                     evt.stopPropagation();
                     if (evt.shiftKey) {
-                        showRowEvolution('getCountry', UserCountryMap.countriesByIso[data.iso].name);
+                        if (evt.altKey) {
+                            path.attr('fill', '#ee3');
+                            addMultipleRowEvolution('getCountry', UserCountryMap.countriesByIso[data.iso].name);
+                        } else {
+                            showRowEvolution('getCountry', UserCountryMap.countriesByIso[data.iso].name);
+                            updateColorsAndTooltips(metric);
+                        }
                         return;
                     }
                     var tgt;
