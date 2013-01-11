@@ -56,7 +56,6 @@ UserCountryMap.run = function(config) {
     // used for color scales etc. The parsed metrics will be stored as
     // METRIC_raw
     //
-
     function formatValueForTooltips(data, metric, id) {
 
         var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric]  ? data[metric] : data[metric].toFixed(1),
@@ -430,6 +429,10 @@ UserCountryMap.run = function(config) {
                 },
                 click: function(data, path, evt) {
                     evt.stopPropagation();
+                    if (evt.shiftKey) {
+                        showRowEvolution('getCountry', UserCountryMap.countriesByIso[data.iso].name);
+                        return;
+                    }
                     var tgt;
                     if (UserCountryMap.lastSelected != 'world' || UserCountryMap.countriesByIso[data.iso] === undefined) {
                         tgt = data.iso;
@@ -634,6 +637,9 @@ UserCountryMap.run = function(config) {
                         }
                         return '<h3>'+data.name+'</h3>'+
                             formatValueForTooltips(region, metric, iso);
+                    }).on('click', function(d) {
+                        var region = regionDict[regionCode(d)];
+                        if (region) showRowEvolution('getRegion', region.label);
                     });
 
                     // check for regions missing in the map
@@ -858,6 +864,25 @@ UserCountryMap.run = function(config) {
                 updateCitySymbols();
             }
 
+        });
+    }
+
+    /*
+     *
+     */
+    function showRowEvolution(method, label) {
+        var box = Piwik_Popover.showLoading('Row Evolution');
+
+        var requestParams = $.extend(UserCountryMap.reqParams, {
+            apiMethod: 'UserCountry.' + method,
+            label: label.replace(', ', '%2C%20'),
+            disableLink: 1,
+            module: 'CoreHome',
+            action: 'getRowEvolutionPopover'
+        });
+
+        $.get('index.php?' + $.param(requestParams)).done(function(html) {
+            Piwik_Popover.setContent(html);
         });
     }
 

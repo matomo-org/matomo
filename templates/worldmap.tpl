@@ -180,6 +180,7 @@
     {/foreach}
 
     UserCountryMap._ = JSON.parse('{$localeJSON}');
+    UserCountryMap.reqParams = JSON.parse('{$reqParamsJSON}');
 
 {literal}
     $(function() {

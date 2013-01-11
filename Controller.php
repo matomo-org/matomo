@@ -90,6 +90,13 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             'no_data' => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
         ));
 
+        $view->reqParamsJSON = json_encode(array(
+            'period' => $period,
+            'idSite' => $idSite,
+            'date' => $date,
+            'token_auth' => $token_auth
+        ));
+
         echo $view->render();
     }
 
