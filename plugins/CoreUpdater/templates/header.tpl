@@ -9,6 +9,8 @@
 	<link rel="stylesheet" type="text/css" href="themes/default/simple_structure.css" />
 	<link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css" />
 	<link rel="stylesheet" type="text/css" href="themes/default/styles.css" />
+	<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/donate.css"></link>
+	<link rel="stylesheet" type="text/css" href="plugins/CoreHome/templates/jquery.ui.autocomplete.css"></link>
 {literal}
 <style type="text/css">
 * {
@@ -20,14 +22,20 @@
         font-size:13px;
         line-height:1.33;
 }
+
+#donate-form-container {
+	margin: 0 0 2em 2em;
+}
 </style>
 {/literal}
 
 	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
 	<script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
+	<script type="text/javascript" src="plugins/CoreHome/templates/donate.js"></script>
 {if 'General_LayoutDirection'|translate =='rtl'}
 <link rel="stylesheet" type="text/css" href="themes/default/rtl.css" />
 {/if}
+{loadJavascriptTranslations plugins='CoreHome'}
 </head>
 <body id="simple">
 <div id="contentsimple">

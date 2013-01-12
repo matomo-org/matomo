@@ -51,6 +51,10 @@
 		</p>
 	{else}
 		<p class="success">{'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate}</p>
+		
+		<div id="donate-form-container">
+			{include file="CoreHome/templates/donate.tpl"}
+		</div>
 	{/if}
 
 	<form action="index.php">

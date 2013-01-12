@@ -364,6 +364,13 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $defaultLayout = $this->_getLayoutForUser('', 1);
 
         if (empty($defaultLayout)) {
+        	$donateWidget = '';
+        	if (Piwik::isUserIsSuperUser())
+        	{
+        		$donateWidget = '{"uniqueId":"widgetCoreHomegetDonateForm",'
+        					  .  '"parameters":{"module":"CoreHome","action":"getDonateForm"}},';
+        	}
+        	
             $defaultLayout = '[
                 [
                     {"uniqueId":"widgetVisitsSummarygetEvolutionGraphcolumnsArray","parameters":{"module":"VisitsSummary","action":"getEvolutionGraph","columns":"nb_visits"}},
@@ -371,6 +378,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
                     {"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}}
                 ],
                 [
+                	'.$donateWidget.'
                     {"uniqueId":"widgetReferersgetKeywords","parameters":{"module":"Referers","action":"getKeywords"}},
                     {"uniqueId":"widgetReferersgetWebsites","parameters":{"module":"Referers","action":"getWebsites"}}
                 ],

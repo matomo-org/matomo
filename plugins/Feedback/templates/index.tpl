@@ -39,6 +39,10 @@ $(function() {
     <br />
     <p><strong>{'Feedback_SpecialRequest'|translate}</strong></p>
     <p> &bull;  <a target='_blank' href="#" id="feedback-contact">{'Feedback_ContactThePiwikTeam'|translate}</a></p>
+    <br/>
+    <p><strong>{'Feedback_WantToThankConsiderDonating'|translate}</strong></p>
+    <br/>
+    {include file="CoreHome/templates/donate.tpl" msg=""}
   </div>
   <div id="feedback-form" style="display:none;">
     <form method="post" action="index.php?module=Feedback&action=sendFeedback">

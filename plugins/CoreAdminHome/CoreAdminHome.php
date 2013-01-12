@@ -32,6 +32,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AssetManager.getJsFiles' => 'getJsFiles',
 			'AdminMenu.add' => 'addMenu',
+			'TopMenu.add' => 'addTopMenu',
 			'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
 		);
 	}
@@ -71,6 +72,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		$cssFiles[] = "plugins/CoreAdminHome/templates/menu.css";	
 		$cssFiles[] = "themes/default/common.css";
 		$cssFiles[] = "plugins/CoreAdminHome/templates/styles.css";
+		$cssFiles[] = "plugins/CoreHome/templates/donate.css";
 	}
 
 	/**
@@ -88,6 +90,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		$jsFiles[] = "libs/jquery/jquery.history.js";
 		$jsFiles[] = "plugins/CoreHome/templates/broadcast.js";
 		$jsFiles[] = "plugins/CoreAdminHome/templates/generalSettings.js";
+		$jsFiles[] = "plugins/CoreHome/templates/donate.js";
 	}
 	
 	function addMenu()
@@ -96,6 +99,17 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 							array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
 							Piwik::isUserHasSomeAdminAccess(),
 							$order = 6);
+	}
+	
+	function addTopMenu()
+	{
+		$donateLinkTitle = Piwik_Translate('CoreHome_OnlyForAdmin');
+		Piwik_AddTopMenu('General_Donate',
+							'<a href="http://piwik.org/donate/" target="_blank" title="'.$donateLinkTitle.'">'
+								.Piwik_Translate('General_Donate').'</a> |',
+							Piwik::isUserHasSomeAdminAccess(),
+							$order = 21,
+							$isHTML = true);
 	}
 	
 	function purgeOutdatedArchives()

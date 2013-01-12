@@ -200,4 +200,17 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		$this->setGeneralVariablesView($view);
 		echo $view->render();
 	}
+	
+	/**
+	 * Renders and echo's the in-app donate form w/ slider.
+	 */
+	public function getDonateForm()
+	{
+		$view = Piwik_View::factory('donate');
+		if (Piwik_Common::getRequestVar('widget', false))
+		{
+			$view->footerMessage = Piwik_Translate('CoreHome_OnlyForAdmin');
+		}
+		echo $view->render();
+	}
 }
