@@ -582,6 +582,7 @@ UserCountryMap.run = function(config) {
             // load data from Piwik API
             $.ajax({
                 url: config.regionDataUrl + UserCountryMap.countriesByIso[iso].iso2,
+                method: 'POST',
                 dataType: 'json',
                 success : function(data) {
 
@@ -715,6 +716,7 @@ UserCountryMap.run = function(config) {
             $.ajax({
                 url: config.cityDataUrl + UserCountryMap.countriesByIso[iso].iso2,
                 dataType: 'json',
+                method: 'POST',
                 success : function(data) {
 
                     loadingComplete();
@@ -939,7 +941,7 @@ UserCountryMap.run = function(config) {
         });
     }
 
-    var _rowEvolution = {};
+    var _rowEvolution = { labels: [], method: false };
 
     function addMultipleRowEvolution(method, label) {
         if (method != _rowEvolution.method) {
