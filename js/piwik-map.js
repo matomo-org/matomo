@@ -375,15 +375,28 @@ UserCountryMap.run = function(config) {
                 }
             }, true);
 
-            // Apply the color scale to the map.
-            map.getLayer('countries').style('fill', function(data, path) {
+            function countryFill(data) {
                 var d = UserCountryMap.countriesByIso[data.iso];
                 if (d === null) {
                     return UserCountryMap.config.noDataColor;
                 } else {
                     return colscale.getColor(d[metric]);
                 }
-            });
+            }
+
+            // Apply the color scale to the map.
+            map.getLayer('countries')
+            .style('fill', countryFill)
+            .on('mouseenter', function(d, path, evt) {
+                    if (evt.shiftKey) { // highlight on mouseover with shift pressed
+                        path.attr('fill', '#f4f45b');
+                    }
+                })
+            .on('mouseleave', function(d, path, evt) {
+                    if ($.inArray(UserCountryMap.countriesByIso[d.iso].name, _rowEvolution.labels) == -1) {
+                        path.attr('fill', countryFill(d)); // reset color
+                    }
+                });
 
             // Update the map tooltips.
             map.getLayer('countries').tooltips(function(data) {
@@ -429,9 +442,9 @@ UserCountryMap.run = function(config) {
                 },
                 click: function(data, path, evt) {
                     evt.stopPropagation();
-                    if (evt.shiftKey) {
+                    if (evt.shiftKey || _rowEvolution.labels.length) {
                         if (evt.altKey) {
-                            path.attr('fill', '#ee3');
+                            path.attr('fill', '#f4f45b');
                             addMultipleRowEvolution('getCountry', UserCountryMap.countriesByIso[data.iso].name);
                         } else {
                             showRowEvolution('getCountry', UserCountryMap.countriesByIso[data.iso].name);
@@ -649,15 +662,32 @@ UserCountryMap.run = function(config) {
                             formatValueForTooltips(region, metric, iso);
                     }).on('click', function(d, path, evt) {
                         var region = regionDict[regionCode(d)];
-                        if (region) {
+                        if (region.label) {
                             if (evt.shiftKey) {
-                                path.attr('fill', '#ee3');
+                                path.attr('fill', '#f4f45b');
                                 addMultipleRowEvolution('getRegion', region.label);
                             } else {
                                 map.getLayer('regions').style('fill', regionFill);
                                 showRowEvolution('getRegion', region.label);
                             }
                         }
+                    }).on('mouseenter', function(d, path, evt) {
+                        var region = regionDict[regionCode(d)];
+                        if (region.label) {
+                            if (evt.shiftKey) {
+                                path.attr('fill', '#f4f45b');
+                            }
+                        }
+                    }).on('mouseleave', function(d, path, evt) {
+                        var region = regionDict[regionCode(d)];
+                        if (region.label) {
+                            if ($.inArray(region.label, _rowEvolution.labels) == -1) {
+                                // reset color
+                                path.attr('fill', regionFill(d));
+                            }
+                        }
+                    }).style('cursor', function(d) {
+                        return regionDict[regionCode(d)].label ? 'pointer' : 'default';
                     });
 
                     // check for regions missing in the map
@@ -733,7 +763,7 @@ UserCountryMap.run = function(config) {
 
                     var is_rate = metric.substr(0,3) != 'nb_' || metric == 'nb_actions_per_visit';
 
-                    map.addSymbols({
+                    var citySymbols = map.addSymbols({
                         type: $K.LabeledBubble,
                         data: cities,
                         clustering: 'noverlap',
@@ -747,7 +777,8 @@ UserCountryMap.run = function(config) {
                         labelattrs: {
                             fill: '#fff',
                             'font-size': 11,
-                            stroke: false
+                            stroke: false,
+                            cursor: 'pointer'
                         },
                         filter: function(d) {
                             if (isNaN(d.lat) || isNaN(d.long)) return false;
@@ -756,6 +787,7 @@ UserCountryMap.run = function(config) {
                         aggregate: function(rows) {
                             var row = aggregate(rows);
                             row.city_names = [];
+                            row.label = rows[0].label; // keep label of biggest city for row evolution
                             $.each(rows, function(i, r) {
                                 row.city_names = row.city_names.concat(r.city_names ? r.city_names : [r.city_name]);
                             });
@@ -774,16 +806,21 @@ UserCountryMap.run = function(config) {
                             return {
                                 fill: colscale.getColor(city.curMetric),
                                 'fill-opacity': 0.7,
-                                stroke: '#fff'
+                                stroke: '#fff',
+                                cursor: 'pointer'
                             };
                         },
-                        mouseenter: function(city, symbol) {
+                        mouseenter: function(city, symbol, evt) {
                             symbol.path.attr({
                                 'fill-opacity': 1,
                                 'stroke': '#000000',
                                 'stroke-opacity': 1,
                                 'stroke-width': 2
                             });
+                            if (evt.shiftKey) {
+                                symbol.path.attr({ fill: '#f4f45b' });
+                                if (symbol.label) symbol.label.attr({ fill: '#000' });
+                            }
                         },
                         mouseleave: function(city, symbol) {
                             symbol.path.attr({
@@ -792,8 +829,25 @@ UserCountryMap.run = function(config) {
                                 'stroke-width': 1,
                                 'stroke': '#ffffff'
                             });
+                            if ($.inArray(city.label, _rowEvolution.labels) == -1) {
+                                symbol.path.attr({ fill: colscale.getColor(city.curMetric) });
+                                if (symbol.label) symbol.label.attr({ fill: '#fff' });
+                            }
                         },
-                        click: function() {}
+                        click: function(city, symbol, evt) {
+                            if (evt.shiftKey) {
+                                addMultipleRowEvolution('getCity', city.label);
+                                symbol.path.attr('fill', '#f4f45b');
+                                if (symbol.label) symbol.label.attr('fill', '#000');
+                            } else {
+                                showRowEvolution('getCity', city.label);
+                                citySymbols.evaluate({
+                                    attrs: function(city) {
+                                        return { fill: colscale.getColor(city.curMetric) };
+                                    }
+                                });
+                            }
+                        }
                     });
                 }
             });
@@ -891,7 +945,7 @@ UserCountryMap.run = function(config) {
         if (method != _rowEvolution.method) {
             _rowEvolution = { method: method, labels: [] };
         }
-        _rowEvolution.labels.push(label.replace(', ', '%2C%20'));
+        _rowEvolution.labels.push(label);
     }
 
     /*
@@ -904,16 +958,21 @@ UserCountryMap.run = function(config) {
         multiple = method == _rowEvolution.method && _rowEvolution.labels.length > 0;
 
         if (multiple) {
-            _rowEvolution.labels.push(label.replace(', ', '%2C%20'));
+            _rowEvolution.labels.push(label);
+            $.each(_rowEvolution.labels, function(i,l) {
+                _rowEvolution.labels[i] = l.replace(/, /g, '%2C%20');
+            });
         }
 
         var requestParams = $.extend(UserCountryMap.reqParams, {
             apiMethod: 'UserCountry.' + method,
-            label: multiple ? _rowEvolution.labels.join(',') : label.replace(', ', '%2C%20'),
+            label: multiple ? _rowEvolution.labels.join(',') : label.replace(/, /g, '%2C%20'),
             disableLink: 1,
             module: 'CoreHome',
             action: multiple ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover'
         });
+
+        console.log(requestParams.label, label);
 
         $.get('index.php?' + $.param(requestParams)).done(function(html) {
             Piwik_Popover.setContent(html);
