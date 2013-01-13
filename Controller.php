@@ -94,7 +94,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             'period' => $period,
             'idSite' => $idSite,
             'date' => $date,
-            'token_auth' => $token_auth
+            'token_auth' => $token_auth,
+            'format' => 'json',
+            'segment' => Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', '')),
+            'showRawMetrics' => 1
         ));
 
         echo $view->render();

@@ -50,7 +50,7 @@
 
   kartograph = root.$K = window.Kartograph = (_ref = root.Kartograph) != null ? _ref : root.Kartograph = {};
 
-  kartograph.version = "0.4.2";
+  kartograph.version = "0.4.3";
 
   $ = root.jQuery;
 
@@ -2279,7 +2279,7 @@
       var lplam, lpphi, phi2, phi4, s, x, y, _ref5;
       s = this;
       _ref5 = s.ll(lon, lat), lon = _ref5[0], lat = _ref5[1];
-      lplam = s.rad(s.clon(lon));
+      lplam = s.rad(lon);
       lpphi = s.rad(lat * -1);
       phi2 = lpphi * lpphi;
       phi4 = phi2 * phi2;

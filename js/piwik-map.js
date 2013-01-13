@@ -4,7 +4,6 @@ window.UserCountryMap = {};
 
 
 UserCountryMap.run = function(config) {
-
     var map = $K.map('#UserCountryMap_map'),
         main = $('#UserCountryMap_container'),
         worldTotalVisits = 0,
@@ -15,6 +14,24 @@ UserCountryMap.run = function(config) {
     UserCountryMap.widget = $('#widgetUserCountryMapworldMap').parent();
 
     window.__userCountryMap = map;
+
+    function _reportParams(module, action, countryFilter) {
+        var params = $.extend(UserCountryMap.reqParams, {
+            module: 'API',
+            method: 'API.getProcessedReport',
+            apiModule: module,
+            apiAction: action,
+            filter_limit: -1
+        });
+        if (countryFilter) {
+            $.extend(params, {
+                filter_column: 'country',
+                filter_sort_column: 'nb_visits',
+                filter_pattern: countryFilter
+            });
+        }
+        return params;
+    }
 
     function minmax(values) {
         values = values.sort(function(a,b) { return Number(a) - Number(b); });
@@ -581,8 +598,9 @@ UserCountryMap.run = function(config) {
             indicateLoading();
             // load data from Piwik API
             $.ajax({
-                url: config.regionDataUrl + UserCountryMap.countriesByIso[iso].iso2,
-                method: 'POST',
+                url: 'index.php',
+                type: 'POST',
+                data: _reportParams('UserCountry', 'getRegion', UserCountryMap.countriesByIso[iso].iso2),
                 dataType: 'json',
                 success : function(data) {
 
@@ -663,7 +681,7 @@ UserCountryMap.run = function(config) {
                             formatValueForTooltips(region, metric, iso);
                     }).on('click', function(d, path, evt) {
                         var region = regionDict[regionCode(d)];
-                        if (region.label) {
+                        if (region && region.label) {
                             if (evt.shiftKey) {
                                 path.attr('fill', '#f4f45b');
                                 addMultipleRowEvolution('getRegion', region.label);
@@ -674,21 +692,21 @@ UserCountryMap.run = function(config) {
                         }
                     }).on('mouseenter', function(d, path, evt) {
                         var region = regionDict[regionCode(d)];
-                        if (region.label) {
+                        if (region && region.label) {
                             if (evt.shiftKey) {
                                 path.attr('fill', '#f4f45b');
                             }
                         }
                     }).on('mouseleave', function(d, path, evt) {
                         var region = regionDict[regionCode(d)];
-                        if (region.label) {
+                        if (region && region.label) {
                             if ($.inArray(region.label, _rowEvolution.labels) == -1) {
                                 // reset color
                                 path.attr('fill', regionFill(d));
                             }
                         }
                     }).style('cursor', function(d) {
-                        return regionDict[regionCode(d)].label ? 'pointer' : 'default';
+                        return regionDict[regionCode(d)] && regionDict[regionCode(d)].label ? 'pointer' : 'default';
                     });
 
                     // check for regions missing in the map
@@ -714,9 +732,10 @@ UserCountryMap.run = function(config) {
 
             // get visits per city from API
             $.ajax({
-                url: config.cityDataUrl + UserCountryMap.countriesByIso[iso].iso2,
+                url: 'index.php',
+                data: _reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2),
                 dataType: 'json',
-                method: 'POST',
+                type: 'POST',
                 success : function(data) {
 
                     loadingComplete();
@@ -974,9 +993,12 @@ UserCountryMap.run = function(config) {
             action: multiple ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover'
         });
 
-        console.log(requestParams.label, label);
-
-        $.get('index.php?' + $.param(requestParams)).done(function(html) {
+        $.ajax({
+            url: 'index.php',
+            type: 'POST',
+            dataType: 'html',
+            data: requestParams
+        }).done(function(html) {
             Piwik_Popover.setContent(html);
 
             // use the popover title returned from the server
@@ -994,8 +1016,12 @@ UserCountryMap.run = function(config) {
     }
 
     // now load the metrics for all countries
-    $.getJSON(config.countryDataUrl, function(report) {
-
+    $.ajax({
+        url: 'index.php',
+        type: 'POST',
+        dataType: 'json',
+        data: _reportParams('UserCountry', 'getCountry')
+    }).done(function(report) {
         var metrics = $('#userCountryMapSelectMetrics option');
         var countryData = [], countrySelect = $('#userCountryMapSelectCountry'),
             countriesByIso = {};
