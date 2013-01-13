@@ -1,6 +1,6 @@
 <?php
-
 $translations = array(
+    // translations for Vistor Map widget
 	'UserCountryMap_VisitorMap' => 'Besucherkarte',
 	'UserCountryMap_Countries' => 'Länder',
 	'UserCountryMap_Regions' => 'Regionen',
@@ -10,5 +10,8 @@ $translations = array(
 	'UserCountryMap_AndNOthers' => 'und %s andere',
     'UserCountryMap_Unlocated' => '<b>%s</b> der Besuche %p aus %c konnten nicht lokalisiert werden.',
     'UserCountryMap_NoneLocated' => '<b>Keiner</b> der Besuche aus %c konnte lokalisiert werden.',
-    'UserCountryMap_OneVisit' => '%s Besuch'
+    'UserCountryMap_OneVisit' => '%s Besuch',
+
+    // translations for Real-time Map widget
+    'UserCountryMap_RealTimeMap' => 'Besucherkarte in Echtzeit',
 );

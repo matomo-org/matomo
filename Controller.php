@@ -17,7 +17,7 @@
 class Piwik_UserCountryMap_Controller extends Piwik_Controller
 {
 
-    function _reqUrl($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false) {
+    private function _reqUrl($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false) {
         // use processed reports
         $url = "?module=" . $module
         . "&method=".$module.".".$action."&format=JSON"
@@ -40,11 +40,11 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         return $url;
     }
 
-    function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false) {
+    private function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false) {
         return $this->_reqUrl('API', 'getProcessedReport&apiModule='.$module.'&apiAction='.$action, $idSite, $period, $date, $token_auth, $filter_by_country);
     }
 
-    function worldMap()
+    function visitorMap()
     {
         if(!Piwik_PluginsManager::getInstance()->isPluginActivated('UserCountry'))
         {
@@ -57,7 +57,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $date = Piwik_Common::getRequestVar('date');
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
-        $view = Piwik_View::factory('worldmap');
+        $view = Piwik_View::factory('visitor-map');
 
         // request visits summary
         $request = new Piwik_API_Request(
@@ -102,6 +102,50 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
         echo $view->render();
     }
+
+    function realtimeMap()
+    {
+        if(!Piwik_PluginsManager::getInstance()->isPluginActivated('UserCountry'))
+        {
+            return '';
+        }
+        $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $period = Piwik_Common::getRequestVar('period');
+        $date = Piwik_Common::getRequestVar('date');
+        $token_auth = Piwik::getCurrentUserTokenAuth();
+
+        $view = Piwik_View::factory('realtime-map');
+
+        $view->metrics = $this->getMetrics($idSite, $period, $date, $token_auth);
+        $view->defaultMetric = 'nb_visits';
+
+        // some translations
+        $view->localeJSON = json_encode(array(
+            'nb_visits' => Piwik_Translate('VisitsSummary_NbVisits'),
+            'one_visit' => Piwik_Translate('RealTimeMap_OneVisit'),
+            'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),
+            'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
+            'bounce_rate' => Piwik_Translate('VisitsSummary_NbVisitsBounced'),
+            'avg_time_on_site' => Piwik_Translate('VisitsSummary_AverageVisitDuration'),
+            'and_n_others' => Piwik_Translate('RealTimeMap_AndNOthers'),
+            'no_data' => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
+        ));
+
+        $view->reqParamsJSON = json_encode(array(
+            'period' => $period,
+            'idSite' => $idSite,
+            'date' => $date,
+            'token_auth' => $token_auth,
+            'format' => 'json',
+            'segment' => Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', '')),
+            'showRawMetrics' => 1
+        ));
+
+        echo $view->render();
+    }
+
 
     private function getMetrics($idSite, $period, $date, $token_auth) {
         $request = new Piwik_API_Request(

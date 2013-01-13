@@ -11,7 +11,7 @@ UserCountryMap.run = function(config) {
 
     UserCountryMap.config = config;
     UserCountryMap.config.noDataColor = '#E4E2D7';
-    UserCountryMap.widget = $('#widgetUserCountryMapworldMap').parent();
+    UserCountryMap.widget = $('#widgetUserCountryMapvisitorMap').parent();
 
     window.__userCountryMap = map;
 
@@ -1059,7 +1059,7 @@ UserCountryMap.run = function(config) {
             // map stylesheets are loaded
 
             // hide loading indicator
-            $('#widgetUserCountryMapworldMap .loadingPiwik').hide();
+            $('#UserCountryMap .loadingPiwik').hide();
 
             // start with default view (or saved state??)
             var params = UserCountryMap.widget.dashboardWidget('getWidgetObject').parameters;

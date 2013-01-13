@@ -20,7 +20,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     {
         return array(
             'name' => 'User Country Map',
-            'description' => 'This plugin shows a world map of your visitors location.',
+            'description' => 'This plugin provides the widgets Visitor Map and Real-time Map.',
             'author' => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
             'version' => '2.0',
@@ -30,7 +30,9 @@ class Piwik_UserCountryMap extends Piwik_Plugin
 
     public function postLoad()
     {
-        Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'worldMap');
+        Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
+
+        Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
     }
 
     public function getListHooksRegistered()
@@ -52,8 +54,8 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/jquery.qtip.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/kartograph.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/chroma.min.js";
-        $jsFiles[] = "plugins/UserCountryMap/js/vendor/kmeans.js";
-        $jsFiles[] = "plugins/UserCountryMap/js/piwik-map.js";
+        $jsFiles[] = "plugins/UserCountryMap/js/visitor-map.js";
+        $jsFiles[] = "plugins/UserCountryMap/js/realtime-map.js";
     }
 
     public function getCssFiles($notification)
