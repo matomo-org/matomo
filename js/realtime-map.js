@@ -17,7 +17,7 @@ RealTimeMap.run = function(config) {
         var params = $.extend(RealTimeMap.reqParams, {
             module: 'API',
             method: 'Live.getLastVisitsDetails',
-            limit: 10,
+            filter_limit: 20,
             showColumns: 'latitude,longitude,actions,lastActionTimestamp'
         });
         return params;
