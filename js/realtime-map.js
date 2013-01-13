@@ -22,7 +22,8 @@ RealTimeMap.run = function(config) {
             module: 'API',
             method: 'Live.getLastVisitsDetails',
             filter_limit: maxVisits,
-            showColumns: 'latitude,longitude,actions,lastActionTimestamp,city,country,referrerType,referrerName,referrerTypeName',
+            showColumns: ['latitude','longitude','actions','lastActionTimestamp','visitLocalTime',
+                'city','country','referrerType','referrerName','referrerTypeName'].join(','),
             minTimestamp: lastTimestamp,
             date: 'today'
         });
@@ -97,8 +98,11 @@ RealTimeMap.run = function(config) {
                 },
                 tooltip: function(r) {
                     return '<h3>'+r.city+' / '+r.country+'</h3>'+
+                        // either from or direct
                         (r.referrerType == "direct" ? r.referrerTypeName :
-                        'from: '+r.referrerName);
+                        RealTimeMap._.from + ': '+r.referrerName) + '<br />' +
+                        // local time
+                        RealTimeMap._.local_time+': '+r.visitLocalTime;
                 },
                 click: function(r, s) {
                     var c = map.paper.circle().attr(s.path.attrs);

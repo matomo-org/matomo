@@ -123,14 +123,9 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
         // some translations
         $view->localeJSON = json_encode(array(
-            'nb_visits' => Piwik_Translate('VisitsSummary_NbVisits'),
-            'one_visit' => Piwik_Translate('RealTimeMap_OneVisit'),
             'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),
-            'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
-            'bounce_rate' => Piwik_Translate('VisitsSummary_NbVisitsBounced'),
-            'avg_time_on_site' => Piwik_Translate('VisitsSummary_AverageVisitDuration'),
-            'and_n_others' => Piwik_Translate('RealTimeMap_AndNOthers'),
-            'no_data' => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
+            'locale_time' => Piwik_Translate('VisitTime_ColumnLocalTime'),
+            'from' => Piwik_Translate('General_FromReferrer'),
         ));
 
         $view->reqParamsJSON = json_encode(array(
