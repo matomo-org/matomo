@@ -124,8 +124,11 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         // some translations
         $view->localeJSON = json_encode(array(
             'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),
-            'locale_time' => Piwik_Translate('VisitTime_ColumnLocalTime'),
+            'local_time' => Piwik_Translate('VisitTime_ColumnLocalTime'),
             'from' => Piwik_Translate('General_FromReferrer'),
+            'seconds_ago' => Piwik_Translate('UserCountryMap_SecondsAgo'),
+            'minutes_ago' => Piwik_Translate('UserCountryMap_MinutesAgo'),
+            'hours_ago' => Piwik_Translate('UserCountryMap_HoursAgo'),
         ));
 
         $view->reqParamsJSON = json_encode(array(

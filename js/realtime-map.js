@@ -67,13 +67,13 @@ RealTimeMap.run = function(config) {
 
             lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
 
-            var newest = new Date().getTime() / 1000,
+            var now = new Date().getTime() / 1000,
                 oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
 
-            lastTimestamp = newest.lastActionTimestamp;
+            lastTimestamp = lastVisits[0].lastActionTimestamp;
 
             function age(r) {
-                var o = (r.lastActionTimestamp - oldest) / (newest - oldest);
+                var o = (r.lastActionTimestamp - oldest) / (now - oldest);
                 return o;
             }
 
@@ -97,7 +97,12 @@ RealTimeMap.run = function(config) {
                     };
                 },
                 tooltip: function(r) {
+                    var ds = now - r.lastActionTimestamp;
                     return '<h3>'+r.city+' / '+r.country+'</h3>'+
+                        // time of visit
+                        (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+ds+'</b>')
+                        : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+Math.round(ds/60)+'</b>')
+                        : RealTimeMap._.hours_ago.replace('%s', '<b>'+Math.round(ds/60)+'</b>'))+'<br/>'+
                         // either from or direct
                         (r.referrerType == "direct" ? r.referrerTypeName :
                         RealTimeMap._.from + ': '+r.referrerName) + '<br />' +
