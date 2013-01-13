@@ -22,7 +22,8 @@ RealTimeMap.run = function(config) {
             method: 'Live.getLastVisitsDetails',
             filter_limit: maxVisits,
             showColumns: 'latitude,longitude,actions,lastActionTimestamp',
-            minTimestamp: lastTimestamp
+            minTimestamp: lastTimestamp,
+            date: 'today'
         });
         return params;
     }
@@ -71,7 +72,6 @@ RealTimeMap.run = function(config) {
 
             function age(r) {
                 var o = (r.lastActionTimestamp - oldest) / (newest - oldest);
-                console.log(r.lastActionTimestamp, o);
                 return o;
             }
 
