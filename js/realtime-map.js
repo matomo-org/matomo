@@ -12,7 +12,10 @@ RealTimeMap.run = function(config) {
         width = main.width(),
         scale = width / 300,
         lastTimestamp = -1,
-        lastVisits = [];
+        lastVisits = [],
+        visitSymbols,
+        oldest,
+        now;
 
     window._liveMap = map;
     RealTimeMap.config = config;
@@ -58,74 +61,93 @@ RealTimeMap.run = function(config) {
         else $('.tableIcon span').show();
     }
 
+    function age(r) {
+        var o = (r.lastActionTimestamp - oldest) / (now - oldest);
+        return o;
+    }
 
-    function refreshVisits() {
+    function visitTooltip(r) {
+        var ds = now - r.lastActionTimestamp;
+        var ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; },
+            val = function(val) { return '<b>'+Math.round(val)+'</b>'; };
+        return '<h3>'+r.city+' / '+r.country+'</h3>'+
+            // icons
+            ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
+            // time of visit
+            (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
+            : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
+            : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+val(ds/3600)+'</b>')
+            : RealTimeMap._.days_ago.replace('%s', '<b>'+val(ds/86400)+'</b>'))+'<br/>'+
+            // either from or direct
+            (r.referrerType == "direct" ? r.referrerTypeName :
+            RealTimeMap._.from + ': '+r.referrerName) + '<br />' +
+            // local time
+            RealTimeMap._.local_time+': '+r.visitLocalTime;
+    }
+
+    function visitSymbolAttrs(r) {
+        return {
+            fill: chroma.hsl(30.25, age(r), 0.45 - (1-age(r))*0.3),
+            'fill-opacity': Math.pow(age(r),2),
+            'stroke-opacity': Math.pow(age(r),1.7),
+            stroke: '#fff',
+            'stroke-width': age(r)
+        };
+    }
+
+    function refreshVisits(firstRun) {
         $.ajax({
             url: 'index.php',
             type: 'POST',
             data: _reportParams()
         }).done(function(report) {
 
-            lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
+            now = new Date().getTime() / 1000;
 
-            var now = new Date().getTime() / 1000,
-                oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
-
-            lastTimestamp = lastVisits[0].lastActionTimestamp;
-
-            function age(r) {
-                var o = (r.lastActionTimestamp - oldest) / (now - oldest);
-                return o;
+            if (firstRun) {
+                // init symbol group
+                visitSymbols = map.addSymbols({
+                    data: [],
+                    type: Kartograph.Bubble,
+                    sortBy: function(r) { return r.lastActionTimestamp; },
+                    radius: function(r) { return 3 * scale * Math.pow(age(r),4) + 2; },
+                    location: function(r) { return [r.longitude, r.latitude]; },
+                    attrs: visitSymbolAttrs,
+                    tooltip: visitTooltip,
+                    click: function(r, s) {
+                        var c = map.paper.circle().attr(s.path.attrs);
+                        c.insertBefore(s.path);
+                        c.attr({ fill: false });
+                        c.animate({ r: c.attrs.r*3, 'stroke-width': 5, opacity: 0 }, 1500,
+                            'linear', function() { c.remove(); });
+                        var col = s.path.attrs.fill, rad = s.path.attrs.r;
+                        s.path.attr({ fill: '#fdb', r: 0.1 });
+                        s.path.animate({ fill: col, r: rad }, 700, 'bounce');
+                    }
+                });
             }
 
-            try {
-                map.removeSymbols();
-            } catch (e) {}
+            if (report.length) {
 
-            map.addSymbols({
-                data: lastVisits,
-                type: Kartograph.Bubble,
-                sortBy: function(r) { return r.lastActionTimestamp; },
-                radius: function(r) { return 3 * scale * Math.pow(age(r),4) + 2; },
-                location: function(r) { return [r.longitude, r.latitude]; },
-                attrs: function(r) {
-                    return {
-                        fill: chroma.hsl(30.25, age(r), 0.45 - (1-age(r))*0.3),
-                        'fill-opacity': Math.pow(age(r),2),
-                        'stroke-opacity': Math.pow(age(r),1.7),
-                        stroke: '#fff',
-                        'stroke-width': age(r)
-                    };
-                },
-                tooltip: function(r) {
-                    var ds = now - r.lastActionTimestamp;
-                    var ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; },
-                        val = function(val) { return '<b>'+Math.round(val)+'</b>'; };
-                    return '<h3>'+r.city+' / '+r.country+'</h3>'+
-                        // icons
-                        ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
-                        // time of visit
-                        (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
-                        : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
-                        : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+val(ds/3600)+'</b>')
-                        : RealTimeMap._.days_ago.replace('%s', '<b>'+val(ds/86400)+'</b>'))+'<br/>'+
-                        // either from or direct
-                        (r.referrerType == "direct" ? r.referrerTypeName :
-                        RealTimeMap._.from + ': '+r.referrerName) + '<br />' +
-                        // local time
-                        RealTimeMap._.local_time+': '+r.visitLocalTime;
-                },
-                click: function(r, s) {
-                    var c = map.paper.circle().attr(s.path.attrs);
-                    c.insertBefore(s.path);
-                    c.attr({ fill: false });
-                    c.animate({ r: c.attrs.r*3, 'stroke-width': 5, opacity: 0 }, 1500,
-                        'linear', function() { c.remove(); });
-                    var col = s.path.attrs.fill, rad = s.path.attrs.r;
-                    s.path.attr({ fill: '#fdb', r: 0.1 });
-                    s.path.animate({ fill: col, r: rad }, 700, 'bounce');
-                }
-            });
+                lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
+                oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
+                //now = lastVisits[0].lastActionTimestamp;
+
+                $.each(report, function(i, r) {
+                    // add new symbols
+                    visitSymbols.add(r);
+                });
+
+                lastTimestamp = report[0].lastActionTimestamp;
+
+                // remove symbols that are too old
+                visitSymbols.remove(function(r) {
+                    return r.lastActionTimestamp < oldest;
+                });
+
+                visitSymbols.layout().render();
+            }
+
         });
     }
 
@@ -144,7 +166,7 @@ RealTimeMap.run = function(config) {
         var lastVisitId = -1,
             lastReport = [];
 
-        refreshVisits();
+        refreshVisits(true);
         setInterval(refreshVisits, config.liveRefreshAfterMs);
     });
 };

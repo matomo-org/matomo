@@ -4378,13 +4378,13 @@
     me = null;
 
     function SymbolGroup(opts) {
-      this.initTooltips = __bind(this.initTooltips, this);
+      this._initTooltips = __bind(this._initTooltips, this);
 
-      this.noverlap = __bind(this.noverlap, this);
+      this._noverlap = __bind(this._noverlap, this);
 
-      this.kMeans = __bind(this.kMeans, this);
+      this._kMeans = __bind(this._kMeans, this);
 
-      var SymbolType, d, dly, i, id, l, layer, maxdly, nid, node, optional, p, required, s, sortBy, sortDir, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _len5, _len6, _m, _n, _o, _ref10, _ref11, _ref6, _ref7, _ref8, _ref9;
+      var SymbolType, d, i, id, l, layer, nid, optional, p, required, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref6, _ref7;
       me = this;
       required = ['data', 'location', 'type', 'map'];
       optional = ['filter', 'tooltip', 'click', 'delay', 'sortBy', 'clustering', 'aggregate', 'clusteringOpts', 'mouseenter', 'mouseleave'];
@@ -4434,109 +4434,18 @@
         d = me.data[i];
         if (__type(me.filter) === "function") {
           if (me.filter(d, i)) {
-            me.addSymbol(d, i);
+            me.add(d, i);
           }
         } else {
-          me.addSymbol(d, i);
+          me.add(d, i);
         }
       }
-      me.layoutSymbols();
-      if (me.sortBy) {
-        sortDir = 'asc';
-        if (__type(me.sortBy) === "string") {
-          me.sortBy = me.sortBy.split(' ', 2);
-          sortBy = me.sortBy[0];
-          sortDir = (_ref8 = me.sortBy[1]) != null ? _ref8 : 'asc';
-        }
-        me.symbols = me.symbols.sort(function(a, b) {
-          var m, va, vb;
-          if (__type(me.sortBy) === "function") {
-            va = me.sortBy(a.data, a);
-            vb = me.sortBy(b.data, b);
-          } else {
-            va = a[sortBy];
-            vb = b[sortBy];
-          }
-          if (va === vb) {
-            return 0;
-          }
-          m = sortDir === 'asc' ? 1 : -1;
-          if (va > vb) {
-            return 1 * m;
-          } else {
-            return -1 * m;
-          }
-        });
-      }
-      maxdly = 0;
-      _ref9 = me.symbols;
-      for (_m = 0, _len4 = _ref9.length; _m < _len4; _m++) {
-        s = _ref9[_m];
-        dly = 0;
-        if (__type(me.delay) === "function") {
-          dly = me.delay(s.data);
-        } else if (me.delay != null) {
-          dly = me.delay;
-        }
-        if (dly > 0) {
-          if (dly > maxdly) {
-            maxdly = dly;
-          }
-          setTimeout(s.render, dly * 1000);
-        } else {
-          s.render();
-        }
-      }
-      if (__type(me.tooltip) === "function") {
-        if (maxdly > 0) {
-          setTimeout(me.initTooltips, maxdly * 1000 + 60);
-        } else {
-          me.initTooltips();
-        }
-      }
-      _ref10 = me.symbols;
-      for (_n = 0, _len5 = _ref10.length; _n < _len5; _n++) {
-        s = _ref10[_n];
-        _ref11 = s.nodes();
-        for (_o = 0, _len6 = _ref11.length; _o < _len6; _o++) {
-          node = _ref11[_o];
-          node.symbol = s;
-        }
-      }
-      $.each(['click', 'mouseenter', 'mouseleave'], function(i, evt) {
-        var _len7, _p, _ref12, _results;
-        if (__type(me[evt]) === "function") {
-          _ref12 = me.symbols;
-          _results = [];
-          for (_p = 0, _len7 = _ref12.length; _p < _len7; _p++) {
-            s = _ref12[_p];
-            _results.push((function() {
-              var _len8, _q, _ref13, _results1,
-                _this = this;
-              _ref13 = s.nodes();
-              _results1 = [];
-              for (_q = 0, _len8 = _ref13.length; _q < _len8; _q++) {
-                node = _ref13[_q];
-                _results1.push($(node)[evt](function(e) {
-                  var tgt;
-                  tgt = e.target;
-                  while (!tgt.symbol) {
-                    tgt = $(tgt).parent().get(0);
-                  }
-                  e.stopPropagation();
-                  return me[evt](tgt.symbol.data, tgt.symbol, e);
-                }));
-              }
-              return _results1;
-            }).call(this));
-          }
-          return _results;
-        }
-      });
+      me.layout();
+      me.render();
       me.map.addSymbolGroup(me);
     }
 
-    SymbolGroup.prototype.addSymbol = function(data, key) {
+    SymbolGroup.prototype.add = function(data, key) {
       /* adds a new symbol to this group
       */
 
@@ -4551,7 +4460,7 @@
         layers: me.layers,
         location: ll,
         data: data,
-        key: key,
+        key: key != null ? key : me.symbols.length,
         map: me.map
       };
       _ref6 = SymbolType.props;
@@ -4566,19 +4475,7 @@
       return symbol;
     };
 
-    SymbolGroup.prototype._evaluate = function(prop, data, key) {
-      /* evaluates a property function or returns a static value
-      */
-
-      var val;
-      if (__type(prop) === 'function') {
-        return val = prop(data, key);
-      } else {
-        return val = prop;
-      }
-    };
-
-    SymbolGroup.prototype.layoutSymbols = function() {
+    SymbolGroup.prototype.layout = function() {
       var layer_id, ll, path, path_id, s, xy, _i, _len, _ref6, _ref7;
       _ref6 = me.symbols;
       for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
@@ -4600,13 +4497,141 @@
         s.y = xy[1];
       }
       if (me.clustering === 'k-means') {
-        return me.kMeans();
+        me._kMeans();
       } else if (me.clustering === 'noverlap') {
-        return me.noverlap();
+        me._noverlap();
+      }
+      return me;
+    };
+
+    SymbolGroup.prototype.render = function() {
+      var node, s, sortBy, sortDir, _i, _j, _len, _len1, _ref6, _ref7, _ref8;
+      me = this;
+      if (me.sortBy) {
+        sortDir = 'asc';
+        if (__type(me.sortBy) === "string") {
+          me.sortBy = me.sortBy.split(' ', 2);
+          sortBy = me.sortBy[0];
+          sortDir = (_ref6 = me.sortBy[1]) != null ? _ref6 : 'asc';
+        }
+        me.symbols = me.symbols.sort(function(a, b) {
+          var m, va, vb;
+          if (__type(me.sortBy) === "function") {
+            va = me.sortBy(a.data, a);
+            vb = me.sortBy(b.data, b);
+          } else {
+            va = a[sortBy];
+            vb = b[sortBy];
+          }
+          if (va === vb) {
+            return 0;
+          }
+          m = sortDir === 'asc' ? 1 : -1;
+          if (va > vb) {
+            return 1 * m;
+          } else {
+            return -1 * m;
+          }
+        });
+      }
+      _ref7 = me.symbols;
+      for (_i = 0, _len = _ref7.length; _i < _len; _i++) {
+        s = _ref7[_i];
+        s.render();
+        _ref8 = s.nodes();
+        for (_j = 0, _len1 = _ref8.length; _j < _len1; _j++) {
+          node = _ref8[_j];
+          node.symbol = s;
+        }
+      }
+      if (__type(me.tooltip) === "function") {
+        me._initTooltips();
+      }
+      $.each(['click', 'mouseenter', 'mouseleave'], function(i, evt) {
+        var _k, _len2, _ref9, _results;
+        if (__type(me[evt]) === "function") {
+          _ref9 = me.symbols;
+          _results = [];
+          for (_k = 0, _len2 = _ref9.length; _k < _len2; _k++) {
+            s = _ref9[_k];
+            _results.push((function() {
+              var _l, _len3, _ref10, _results1,
+                _this = this;
+              _ref10 = s.nodes();
+              _results1 = [];
+              for (_l = 0, _len3 = _ref10.length; _l < _len3; _l++) {
+                node = _ref10[_l];
+                _results1.push($(node)[evt](function(e) {
+                  var tgt;
+                  tgt = e.target;
+                  while (!tgt.symbol) {
+                    tgt = $(tgt).parent().get(0);
+                  }
+                  e.stopPropagation();
+                  return me[evt](tgt.symbol.data, tgt.symbol, e);
+                }));
+              }
+              return _results1;
+            }).call(this));
+          }
+          return _results;
+        }
+      });
+      return me;
+    };
+
+    SymbolGroup.prototype.tooltips = function(cb) {
+      me = this;
+      me.tooltips = cb;
+      me._initTooltips();
+      return me;
+    };
+
+    SymbolGroup.prototype.remove = function(filter) {
+      var id, layer, s, _i, _len, _ref6, _ref7, _results;
+      me = this;
+      _ref6 = me.symbols;
+      for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
+        s = _ref6[_i];
+        if (filter != null) {
+          if (filter(s.data)) {
+            continue;
+          }
+        }
+        try {
+          s.clear();
+        } catch (error) {
+          warn('error: symbolgroup.remove');
+        }
+      }
+      if (!(filter != null)) {
+        _ref7 = me.layers;
+        _results = [];
+        for (id in _ref7) {
+          layer = _ref7[id];
+          if (id !== "mapcanvas") {
+            _results.push(layer.remove());
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
       }
     };
 
-    SymbolGroup.prototype.kMeans = function() {
+    SymbolGroup.prototype._evaluate = function(prop, data, key) {
+      /* evaluates a property function or returns a static value
+      */
+
+      var val;
+      if (__type(prop) === 'function') {
+        return val = prop(data, key);
+      } else {
+        return val = prop;
+      }
+    };
+
+    SymbolGroup.prototype._kMeans = function() {
       /*
               layouts symbols in this group, eventually adds new 'grouped' symbols
               map.addSymbols({
@@ -4674,7 +4699,7 @@
       return me.symbols = out;
     };
 
-    SymbolGroup.prototype.noverlap = function() {
+    SymbolGroup.prototype._noverlap = function() {
       var SymbolType, b0, b1, d, dx, dy, i, intersects, iterations, l, l0, l1, maxRatio, out, p, q, r, r0, r1, rad0, rad1, s, s0, s1, sprops, symbols, t0, t1, tolerance, w, x, y, _i, _j, _k, _l, _len, _len1, _len2, _m, _n, _ref10, _ref11, _ref6, _ref7, _ref8, _ref9;
       me = this;
       if ((_ref6 = me.osymbols) == null) {
@@ -4781,7 +4806,7 @@
       return me.symbols = symbols;
     };
 
-    SymbolGroup.prototype.initTooltips = function() {
+    SymbolGroup.prototype._initTooltips = function() {
       var cfg, node, s, tooltips, tt, _i, _j, _len, _len1, _ref6, _ref7;
       me = this;
       tooltips = me.tooltip;
@@ -4817,35 +4842,10 @@
       }
     };
 
-    SymbolGroup.prototype.remove = function() {
-      var id, layer, s, _i, _len, _ref6, _ref7, _results;
-      me = this;
-      _ref6 = me.symbols;
-      for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
-        s = _ref6[_i];
-        try {
-          s.clear();
-        } catch (error) {
-          warn('error: symbolgroup.remove');
-        }
-      }
-      _ref7 = me.layers;
-      _results = [];
-      for (id in _ref7) {
-        layer = _ref7[id];
-        if (id !== "mapcanvas") {
-          _results.push(layer.remove());
-        } else {
-          _results.push(void 0);
-        }
-      }
-      return _results;
-    };
-
     SymbolGroup.prototype.onResize = function() {
       var s, _i, _len, _ref6;
       me = this;
-      me.layoutSymbols();
+      me.layout();
       _ref6 = me.symbols;
       for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
         s = _ref6[_i];
@@ -4854,10 +4854,9 @@
     };
 
     SymbolGroup.prototype.evaluate = function(opts) {
-      var p, s, _i, _j, _len, _len1, _ref6, _ref7, _results;
+      var p, s, _i, _j, _len, _len1, _ref6, _ref7;
       me = this;
       _ref6 = me.symbols;
-      _results = [];
       for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
         s = _ref6[_i];
         _ref7 = me.type.props;
@@ -4867,9 +4866,9 @@
             s[p] = me._evaluate(opts[p], s.data);
           }
         }
-        _results.push(s.update());
+        s.update();
       }
-      return _results;
+      return me;
     };
 
     return SymbolGroup;
