@@ -11,7 +11,7 @@ VisitorBubble = (function(_super) {
     __extends(VisitorBubble, _super);
 
     function init() {
-        return VisitorBubble.__super__.constructor.apply(this, arguments);
+        return init.__super__.constructor.apply(this, arguments);
     }
 
     return init;
