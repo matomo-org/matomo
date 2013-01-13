@@ -127,7 +127,7 @@ RealTimeMap.run = function(config) {
 
                 $.each(report, function(i, r) {
                     // add new symbols
-                    newSymbols.push(visitSymbols.add(r));
+                    if (r.latitude !== null) newSymbols.push(visitSymbols.add(r));
                 });
 
                 lastTimestamp = report[0].lastActionTimestamp;
