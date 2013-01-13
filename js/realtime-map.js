@@ -102,7 +102,7 @@ RealTimeMap.run = function(config) {
                         // time of visit
                         (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+ds+'</b>')
                         : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+Math.round(ds/60)+'</b>')
-                        : ds < 21600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+Math.round(ds/3600)+'</b>')
+                        : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+Math.round(ds/3600)+'</b>')
                         : RealTimeMap._.days_ago.replace('%s', '<b>'+Math.round(ds/86400)+'</b>'))+'<br/>'+
                         // either from or direct
                         (r.referrerType == "direct" ? r.referrerTypeName :
