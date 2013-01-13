@@ -113,17 +113,7 @@ RealTimeMap.run = function(config) {
                     radius: function(r) { return 3 * scale * Math.pow(age(r),4) + 2; },
                     location: function(r) { return [r.longitude, r.latitude]; },
                     attrs: visitSymbolAttrs,
-                    tooltip: visitTooltip,
-                    click: function(r, s) {
-                        var c = map.paper.circle().attr(s.path.attrs);
-                        c.insertBefore(s.path);
-                        c.attr({ fill: false });
-                        c.animate({ r: c.attrs.r*3, 'stroke-width': 5, opacity: 0 }, 1500,
-                            'linear', function() { c.remove(); });
-                        var col = s.path.attrs.fill, rad = s.path.attrs.r;
-                        s.path.attr({ fill: '#fdb', r: 0.1 });
-                        s.path.animate({ fill: col, r: rad }, 700, 'bounce');
-                    }
+                    tooltip: visitTooltip
                 });
             }
 
@@ -133,9 +123,11 @@ RealTimeMap.run = function(config) {
                 oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
                 //now = lastVisits[0].lastActionTimestamp;
 
+                var newSymbols = [];
+
                 $.each(report, function(i, r) {
                     // add new symbols
-                    visitSymbols.add(r);
+                    newSymbols.push(visitSymbols.add(r));
                 });
 
                 lastTimestamp = report[0].lastActionTimestamp;
@@ -146,6 +138,29 @@ RealTimeMap.run = function(config) {
                 });
 
                 visitSymbols.layout().render();
+
+                if (newSymbols.length < 10) {
+                    $.each(newSymbols, function(i, s) {
+
+                        s.path.hide(); // hide new symbol at first
+
+                        setTimeout(function() {
+
+                            var c = map.paper.circle().attr(s.path.attrs);
+                            c.insertBefore(s.path);
+                            c.attr({ fill: false });
+                            c.animate({ r: c.attrs.r*3, 'stroke-width': 5, opacity: 0 }, 1500,
+                                'linear', function() { c.remove(); });
+                            var col = s.path.attrs.fill,
+                                rad = s.path.attrs.r;
+                            s.path.show();
+                            s.path.attr({ fill: '#fdb', r: 0.1, opacity: 1 });
+                            s.path.animate({ fill: col, r: rad }, 700, 'bounce');
+                        }, s.data.lastActionTimestamp + config.liveRefreshAfterMs - now);
+
+
+                    });
+                }
             }
 
         });
