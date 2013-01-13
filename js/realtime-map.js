@@ -2,6 +2,9 @@
 
 window.RealTimeMap = {};
 
+var VisitorBubble = function() {};
+$.extend(VisitorBubble.prototype, Kartograph.Bubble);
+
 RealTimeMap.run = function(config) {
 
     var map = $K.map('#RealTimeMap_map'),
@@ -81,7 +84,7 @@ RealTimeMap.run = function(config) {
 
             map.addSymbols({
                 data: lastVisits,
-                type: $K.Bubble,
+                type: VisitorBubble,
                 sortBy: function(r) { return r.lastActionTimestamp; },
                 radius: function(r) { return 3 * scale * Math.pow(age(r),2) + 2; },
                 location: function(r) { return [r.longitude, r.latitude]; },
@@ -93,6 +96,10 @@ RealTimeMap.run = function(config) {
                         stroke: '#fff',
                         'stroke-width': age(r)
                     };
+                },
+                tooltip: function(r) {
+                    return '<h3>'+city.city_name+'</h3>'+
+                        formatValueForTooltips(city, metric, iso);
                 },
                 click: function(r, s) {
                     var c = map.paper.circle().attr(s.path.attrs);
@@ -124,6 +131,6 @@ RealTimeMap.run = function(config) {
             lastReport = [];
 
         refreshVisits();
-        setInterval(refreshVisits, 5000);
+        setInterval(refreshVisits, config.liveRefreshAfterMs);
     });
 };

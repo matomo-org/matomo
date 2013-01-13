@@ -114,6 +114,7 @@
 {/literal}
 
     config.svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
+    config.liveRefreshAfterMs = {$liveRefreshAfterMs};
 
     RealTimeMap._ = JSON.parse('{$localeJSON}');
     RealTimeMap.reqParams = JSON.parse('{$reqParamsJSON}');

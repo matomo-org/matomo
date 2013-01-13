@@ -115,11 +115,11 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $period = Piwik_Common::getRequestVar('period');
         $date = Piwik_Common::getRequestVar('date');
         $token_auth = Piwik::getCurrentUserTokenAuth();
-
         $view = Piwik_View::factory('realtime-map');
 
         $view->metrics = $this->getMetrics($idSite, $period, $date, $token_auth);
         $view->defaultMetric = 'nb_visits';
+        $view->liveRefreshAfterMs = (int)Piwik_Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
         // some translations
         $view->localeJSON = json_encode(array(
