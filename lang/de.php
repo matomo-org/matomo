@@ -17,4 +17,5 @@ $translations = array(
     'UserCountryMap_SecondsAgo' => 'vor %s Sekunden',
     'UserCountryMap_MinutesAgo' => 'vor %s Minuten',
     'UserCountryMap_HoursAgo' => 'vor %s Stunden',
+    'UserCountryMap_DaysAgo' => 'vor %s Tagen',
 );
