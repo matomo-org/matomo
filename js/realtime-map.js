@@ -3,7 +3,7 @@
 window.RealTimeMap = {};
 
 var VisitorBubble = function() {};
-$.extend(VisitorBubble.prototype, Kartograph.Bubble);
+$.extend(VisitorBubble.prototype, Kartograph.Bubble.prototype);
 
 RealTimeMap.run = function(config) {
 
