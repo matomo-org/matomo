@@ -454,7 +454,7 @@ class Piwik
 		
 		// The error message mentions chmod 777 in case users can't chown
 		$directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> 
-							<p>Try to Execute the following commands on your server:</p>"
+							<p>Try to Execute the following commands on your server, to allow Write access on these directories:</p>"
 		                  . "<blockquote>$directoryList</blockquote>"
 		                  . "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 0755 (or 0777 if 0755 is not enough). To do so with your FTP software, right click on the directories then click permissions.</p>"
 		                  . "<p>After applying the modifications, you can <a href='index.php'>refresh the page</a>.</p>"
