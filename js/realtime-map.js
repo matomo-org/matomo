@@ -8,7 +8,9 @@ RealTimeMap.run = function(config) {
         main = $('#RealTimeMap_container'),
         worldTotalVisits = 0,
         width = main.width(),
-        scale = width / 300;
+        scale = width / 300,
+        lastTimestamp = -1,
+        lastVisits = [];
 
     window._liveMap = map;
     RealTimeMap.config = config;
@@ -18,7 +20,8 @@ RealTimeMap.run = function(config) {
             module: 'API',
             method: 'Live.getLastVisitsDetails',
             filter_limit: 20,
-            showColumns: 'latitude,longitude,actions,lastActionTimestamp'
+            showColumns: 'latitude,longitude,actions,lastActionTimestamp',
+            minTimestamp: lastTimestamp
         });
         return params;
     }
@@ -51,36 +54,33 @@ RealTimeMap.run = function(config) {
     }
 
 
-    _updateMap('world.svg', function() {
-        $('#widgetRealTimeMapliveMap .loadingPiwik, #RealTimeMap .loadingPiwik').hide();
-
-        map.addLayer('countries', {
-            styles: {
-                fill: '#aa9',
-                stroke: '#ffffff',
-                'stroke-width': 0.2
-            }
-        });
-
+    function refreshVisits() {
         $.ajax({
             url: 'index.php',
             type: 'POST',
             data: _reportParams()
         }).done(function(report) {
 
-            var newest = report[0],
-                oldest = report[report.length-1];
+            lastVisits = [].concat(report, lastVisits);
+
+            var newest = lastVisits[0],
+                oldest = lastVisits[report.length-1];
+
+            lastTimestamp = newest.lastActionTimestamp;
+
+            console.log(lastVisits.length, lastTimestamp);
 
             function age(r) {
                 var o = (r.lastActionTimestamp - oldest.lastActionTimestamp) / (newest.lastActionTimestamp - oldest.lastActionTimestamp);
                 return o;
             }
 
-            report = report.reverse();
+            map.removeSymbols();
 
             map.addSymbols({
-                data: report,
+                data: lastVisits,
                 type: $K.Bubble,
+                sortBy: function(r) { return r.lastActionTimestamp; },
                 radius: function(r) { return 3 * scale * Math.pow(age(r),2) + 2; },
                 location: function(r) { return [r.longitude, r.latitude]; },
                 attrs: function(r) {
@@ -104,5 +104,24 @@ RealTimeMap.run = function(config) {
                 }
             });
         });
+    }
+
+    _updateMap('world.svg', function() {
+
+        $('#widgetRealTimeMapliveMap .loadingPiwik, #RealTimeMap .loadingPiwik').hide();
+
+        map.addLayer('countries', {
+            styles: {
+                fill: '#aa9',
+                stroke: '#ffffff',
+                'stroke-width': 0.2
+            }
+        });
+
+        var lastVisitId = -1,
+            lastReport = [];
+
+        refreshVisits();
+        setInterval(refreshVisits, 5000);
     });
 };

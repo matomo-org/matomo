@@ -2279,7 +2279,7 @@
       var lplam, lpphi, phi2, phi4, s, x, y, _ref5;
       s = this;
       _ref5 = s.ll(lon, lat), lon = _ref5[0], lat = _ref5[1];
-      lplam = s.rad(lon);
+      lplam = s.rad(s.clon(lon));
       lpphi = s.rad(lat * -1);
       phi2 = lpphi * lpphi;
       phi4 = phi2 * phi2;
@@ -4442,18 +4442,26 @@
       }
       me.layoutSymbols();
       if (me.sortBy) {
+        sortDir = 'asc';
         if (__type(me.sortBy) === "string") {
-          me.sortBy = me.sortBy.split(' ');
+          me.sortBy = me.sortBy.split(' ', 2);
+          sortBy = me.sortBy[0];
+          sortDir = (_ref8 = me.sortBy[1]) != null ? _ref8 : 'asc';
         }
-        sortBy = me.sortBy[0];
-        sortDir = (_ref8 = me.sortBy[1]) != null ? _ref8 : 'asc';
         me.symbols = me.symbols.sort(function(a, b) {
-          var m;
-          if (a[sortBy] === b[sortBy]) {
+          var m, va, vb;
+          if (__type(me.sortBy) === "function") {
+            va = me.sortBy(a.data, a);
+            vb = me.sortBy(b.data, b);
+          } else {
+            va = a[sortBy];
+            vb = b[sortBy];
+          }
+          if (va === vb) {
             return 0;
           }
           m = sortDir === 'asc' ? 1 : -1;
-          if (a[sortBy] > b[sortBy]) {
+          if (va > vb) {
             return 1 * m;
           } else {
             return -1 * m;
