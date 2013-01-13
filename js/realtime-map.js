@@ -96,10 +96,11 @@ RealTimeMap.run = function(config) {
                     var c = map.paper.circle().attr(s.path.attrs);
                     c.insertBefore(s.path);
                     c.attr({ fill: false });
-                    c.animate({ r: c.attrs.r*3, 'stroke-width': 5, opacity: 0 }, 1000);
-                    var col = s.path.attrs.fill;
-                    s.path.attr('fill', '#fff');
-                    s.path.animate({ fill: col }, 400);
+                    c.animate({ r: c.attrs.r*3, 'stroke-width': 5, opacity: 0 }, 1500,
+                        'linear', function() { c.remove(); });
+                    var col = s.path.attrs.fill, rad = s.path.attrs.r;
+                    s.path.attr({ fill: '#fdb', r: 0.1 });
+                    s.path.animate({ fill: col, r: rad }, 700, 'bounce');
                 }
             });
         });
