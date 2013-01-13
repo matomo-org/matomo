@@ -207,7 +207,8 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 	public function getDonateForm()
 	{
 		$view = Piwik_View::factory('donate');
-		if (Piwik_Common::getRequestVar('widget', false))
+		if (Piwik_Common::getRequestVar('widget', false)
+			&& Piwik::isUserIsSuperUser())
 		{
 			$view->footerMessage = Piwik_Translate('CoreHome_OnlyForAdmin');
 		}

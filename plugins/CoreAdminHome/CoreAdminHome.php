@@ -107,11 +107,11 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 		Piwik_AddTopMenu('General_Donate',
 							'<a href="http://piwik.org/donate/" target="_blank" title="'.$donateLinkTitle.'">'
 								.Piwik_Translate('General_Donate').'</a> |',
-							Piwik::isUserHasSomeAdminAccess(),
+							Piwik::isUserIsSuperUser(),
 							$order = 21,
 							$isHTML = true);
 	}
-	
+
 	function purgeOutdatedArchives()
 	{
 		$archiveTables = Piwik::getTablesArchivesInstalled();

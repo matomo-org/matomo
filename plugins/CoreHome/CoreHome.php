@@ -42,10 +42,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 	 */
 	public function addWidgets()
 	{
-		if (Piwik::isUserIsSuperUser())
-		{
-			Piwik_AddWidget('Example Widgets', 'CoreHome_SupportPiwik', 'CoreHome', 'getDonateForm');
-		}
+		Piwik_AddWidget('Example Widgets', 'CoreHome_SupportPiwik', 'CoreHome', 'getDonateForm');
 	}
 
 	/**
