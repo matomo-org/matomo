@@ -7,6 +7,7 @@ RealTimeMap.run = function(config) {
     var map = $K.map('#RealTimeMap_map'),
         main = $('#RealTimeMap_container'),
         worldTotalVisits = 0,
+        maxVisits = 100,
         width = main.width(),
         scale = width / 300,
         lastTimestamp = -1,
@@ -19,7 +20,7 @@ RealTimeMap.run = function(config) {
         var params = $.extend(RealTimeMap.reqParams, {
             module: 'API',
             method: 'Live.getLastVisitsDetails',
-            filter_limit: 20,
+            filter_limit: maxVisits,
             showColumns: 'latitude,longitude,actions,lastActionTimestamp',
             minTimestamp: lastTimestamp
         });
@@ -61,21 +62,22 @@ RealTimeMap.run = function(config) {
             data: _reportParams()
         }).done(function(report) {
 
-            lastVisits = [].concat(report, lastVisits);
+            lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
 
-            var newest = lastVisits[0],
-                oldest = lastVisits[report.length-1];
+            var newest = new Date().getTime() / 1000,
+                oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
 
             lastTimestamp = newest.lastActionTimestamp;
 
-            console.log(lastVisits.length, lastTimestamp);
-
             function age(r) {
-                var o = (r.lastActionTimestamp - oldest.lastActionTimestamp) / (newest.lastActionTimestamp - oldest.lastActionTimestamp);
+                var o = (r.lastActionTimestamp - oldest) / (newest - oldest);
+                console.log(r.lastActionTimestamp, o);
                 return o;
             }
 
-            map.removeSymbols();
+            try {
+                map.removeSymbols();
+            } catch (e) {}
 
             map.addSymbols({
                 data: lastVisits,
