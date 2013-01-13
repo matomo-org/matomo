@@ -86,7 +86,7 @@ RealTimeMap.run = function(config) {
                 data: lastVisits,
                 type: Kartograph.Bubble,
                 sortBy: function(r) { return r.lastActionTimestamp; },
-                radius: function(r) { return 3 * scale * Math.pow(age(r),2) + 2; },
+                radius: function(r) { return 3 * scale * Math.pow(age(r),4) + 2; },
                 location: function(r) { return [r.longitude, r.latitude]; },
                 attrs: function(r) {
                     return {
@@ -99,15 +99,16 @@ RealTimeMap.run = function(config) {
                 },
                 tooltip: function(r) {
                     var ds = now - r.lastActionTimestamp;
-                    var ico = function(src) { return '<img src="'+src+'" alt="" />&nbsp;'; };
+                    var ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; },
+                        val = function(val) { return '<b>'+Math.round(val)+'</b>'; };
                     return '<h3>'+r.city+' / '+r.country+'</h3>'+
                         // icons
                         ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
                         // time of visit
-                        (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+ds+'</b>')
-                        : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+Math.round(ds/60)+'</b>')
-                        : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+Math.round(ds/3600)+'</b>')
-                        : RealTimeMap._.days_ago.replace('%s', '<b>'+Math.round(ds/86400)+'</b>'))+'<br/>'+
+                        (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
+                        : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
+                        : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+val(ds/3600)+'</b>')
+                        : RealTimeMap._.days_ago.replace('%s', '<b>'+val(ds/86400)+'</b>'))+'<br/>'+
                         // either from or direct
                         (r.referrerType == "direct" ? r.referrerTypeName :
                         RealTimeMap._.from + ': '+r.referrerName) + '<br />' +
