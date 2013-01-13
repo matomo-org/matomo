@@ -2,10 +2,6 @@
 
 window.RealTimeMap = {};
 
-function VisitorBubble(opts) {  }
-$.extend(VisitorBubble.prototype, Kartograph.Bubble.prototype);
-
-
 
 RealTimeMap.run = function(config) {
 
@@ -86,7 +82,7 @@ RealTimeMap.run = function(config) {
 
             map.addSymbols({
                 data: lastVisits,
-                type: VisitorBubble,
+                type: Kartograph.Bubble,
                 sortBy: function(r) { return r.lastActionTimestamp; },
                 radius: function(r) { return 3 * scale * Math.pow(age(r),2) + 2; },
                 location: function(r) { return [r.longitude, r.latitude]; },
