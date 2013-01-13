@@ -24,7 +24,7 @@ RealTimeMap.run = function(config) {
             filter_limit: maxVisits,
             showColumns: ['latitude','longitude','actions','lastActionTimestamp','visitLocalTime',
                 'city','country','referrerType','referrerName','referrerTypeName','browserIcon',
-                'operatingSystemIcon'].join(','),
+                'operatingSystemIcon', 'countryFlag'].join(','),
             minTimestamp: lastTimestamp,
             date: 'today'
         });
@@ -99,10 +99,10 @@ RealTimeMap.run = function(config) {
                 },
                 tooltip: function(r) {
                     var ds = now - r.lastActionTimestamp;
-                    var ico = function(src) { return '<img src="" />&nbsp;'; };
+                    var ico = function(src) { return '<img src="'+src+'" alt="" />&nbsp;'; };
                     return '<h3>'+r.city+' / '+r.country+'</h3>'+
                         // icons
-                        ico(r.operatingSystemIcon)+ico(r.browserIcon)+'<br/>'+
+                        ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
                         // time of visit
                         (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+ds+'</b>')
                         : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+Math.round(ds/60)+'</b>')
