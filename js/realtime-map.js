@@ -139,7 +139,7 @@ RealTimeMap.run = function(config) {
 
                 visitSymbols.layout().render();
 
-                if (newSymbols.length < 10) {
+                if (newSymbols.length < 50) {
                     $.each(newSymbols, function(i, s) {
 
                         s.path.hide(); // hide new symbol at first
