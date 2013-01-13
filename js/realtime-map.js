@@ -2,8 +2,21 @@
 
 window.RealTimeMap = {};
 
-var VisitorBubble = function() {};
-$.extend(VisitorBubble.prototype, Kartograph.Bubble.prototype);
+var VisitorBubble,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+
+VisitorBubble = (function(_super) {
+    __extends(VisitorBubble, _super);
+
+    function init() {
+        return VisitorBubble.__super__.constructor.apply(this, arguments);
+    }
+
+    return init;
+})(Kartograph.Bubble);
+
 
 RealTimeMap.run = function(config) {
 
