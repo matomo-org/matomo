@@ -22,7 +22,7 @@ RealTimeMap.run = function(config) {
             module: 'API',
             method: 'Live.getLastVisitsDetails',
             filter_limit: maxVisits,
-            showColumns: 'latitude,longitude,actions,lastActionTimestamp',
+            showColumns: 'latitude,longitude,actions,lastActionTimestamp,city,country,referrerType,referrerName,referrerTypeName',
             minTimestamp: lastTimestamp,
             date: 'today'
         });
@@ -96,8 +96,9 @@ RealTimeMap.run = function(config) {
                     };
                 },
                 tooltip: function(r) {
-                    return '<h3>'+city.city_name+'</h3>'+
-                        formatValueForTooltips(city, metric, iso);
+                    return '<h3>'+r.city+' / '+r.country+'</h3>'+
+                        (r.referrerType == "direct" ? r.referrerTypeName :
+                        'from: '+r.referrerName);
                 },
                 click: function(r, s) {
                     var c = map.paper.circle().attr(s.path.attrs);
