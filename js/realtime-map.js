@@ -139,30 +139,27 @@ RealTimeMap.run = function(config) {
                     return r.lastActionTimestamp < oldest;
                 });
 
+                visitSymbols.evaluate({
+                    attrs: visitSymbolAttrs
+                });
+
                 visitSymbols.layout().render();
 
-                if (newSymbols.length < 50) {
-                    $.each(newSymbols, function(i, s) {
-
-                        s.path.hide(); // hide new symbol at first
-
-                        setTimeout(function() {
-
-                            var c = map.paper.circle().attr(s.path.attrs);
-                            c.insertBefore(s.path);
-                            c.attr({ fill: false });
-                            c.animate({ r: c.attrs.r*3, 'stroke-width': 5, opacity: 0 }, 1500,
-                                'linear', function() { c.remove(); });
-                            var col = s.path.attrs.fill,
-                                rad = s.path.attrs.r;
-                            s.path.show();
-                            s.path.attr({ fill: '#fdb', r: 0.1, opacity: 1 });
-                            s.path.animate({ fill: col, r: rad }, 700, 'bounce');
-                        }, s.data.lastActionTimestamp + config.liveRefreshAfterMs - now);
-
-
-                    });
-                }
+                $.each(newSymbols.slice(0,20), function(i, s) {
+                    s.path.hide(); // hide new symbol at first
+                    setTimeout(function() {
+                        var c = map.paper.circle().attr(s.path.attrs);
+                        c.insertBefore(s.path);
+                        c.attr({ fill: false });
+                        c.animate({ r: c.attrs.r*3, 'stroke-width': 5, opacity: 0 }, 1500,
+                            'linear', function() { c.remove(); });
+                        var col = s.path.attrs.fill,
+                            rad = s.path.attrs.r;
+                        s.path.show();
+                        s.path.attr({ fill: '#fdb', r: 0.1, opacity: 1 });
+                        s.path.animate({ fill: col, r: rad }, 700, 'bounce');
+                    }, s.data.lastActionTimestamp + config.liveRefreshAfterMs - now);
+                });
             }
 
         });
