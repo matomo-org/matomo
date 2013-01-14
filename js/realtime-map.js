@@ -111,6 +111,12 @@ RealTimeMap.run = function(config) {
         };
     }
 
+    function highlightVisit(r) {
+        $('#visitsLive li#'+r.idVisit + ' .datetime')
+            .css('background', 'yellow')
+            .animate({ background: '#E4E2D7' }, 1000);
+    }
+
     function refreshVisits(firstRun) {
         $.ajax({
             url: 'index.php',
