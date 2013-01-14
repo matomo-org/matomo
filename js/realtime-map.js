@@ -77,7 +77,7 @@ RealTimeMap.run = function(config) {
 
     function age(r) {
         var o = (r.lastActionTimestamp - oldest) / (now - oldest);
-        return o;
+        return Math.min(1, Math.max(0, o));
     }
 
     function visitTooltip(r) {
@@ -100,7 +100,7 @@ RealTimeMap.run = function(config) {
     }
 
     function visitRadius(r) {
-        return Math.min(20, 3 * scale * Math.pow(age(r),4) + 2.5);
+        return 3 * scale * Math.pow(age(r),4) + 2.5;
     }
 
     function visitSymbolAttrs(r) {
