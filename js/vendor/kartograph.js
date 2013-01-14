@@ -4588,15 +4588,15 @@
     };
 
     SymbolGroup.prototype.remove = function(filter) {
-      var id, layer, s, _i, _len, _ref6, _ref7, _results;
+      var id, kept, layer, s, _i, _len, _ref6, _ref7, _results;
       me = this;
+      kept = [];
       _ref6 = me.symbols;
       for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
         s = _ref6[_i];
-        if (filter != null) {
-          if (filter(s.data)) {
-            continue;
-          }
+        if ((filter != null) && !filter(s.data)) {
+          kept.push(s);
+          continue;
         }
         try {
           s.clear();
@@ -4616,6 +4616,8 @@
           }
         }
         return _results;
+      } else {
+        return me.symbols = kept;
       }
     };
 
