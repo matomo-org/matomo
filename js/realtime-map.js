@@ -15,7 +15,8 @@ RealTimeMap.run = function(config) {
         lastVisits = [],
         visitSymbols,
         oldest,
-        now;
+        now,
+        currentMap = 'world';
 
     window._liveMap = map;
     RealTimeMap.config = config;
@@ -128,6 +129,9 @@ RealTimeMap.run = function(config) {
             data: _reportParams()
         }).done(function(report) {
 
+            // successful request, so set timeout for next API call
+            setTimeout(refreshVisits, config.liveRefreshAfterMs);
+
             now = new Date().getTime() / 1000;
 
             if (firstRun) {
@@ -202,13 +206,12 @@ RealTimeMap.run = function(config) {
                     }, 1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
                 });
 
-                //console.log('animated', visitSymbols.symbols.length, $('circle').length);
             }
 
         });
     }
 
-    _updateMap('world.svg', function() {
+    function initMap() {
         $('#widgetRealTimeMapliveMap .loadingPiwik, #RealTimeMap .loadingPiwik').hide();
 
         map.addLayer('countries', {
@@ -216,6 +219,13 @@ RealTimeMap.run = function(config) {
                 fill: '#aa9',
                 stroke: '#ffffff',
                 'stroke-width': 0.2
+            },
+            click: function(d) {
+                if (currentMap != 'world') {
+                    updateMap('world');
+                } else {
+                    updateMap(UserCountryMap.ISO3toCONT[d.iso]);
+                }
             }
         });
 
@@ -223,8 +233,14 @@ RealTimeMap.run = function(config) {
             lastReport = [];
 
         refreshVisits(true);
-        setInterval(refreshVisits, config.liveRefreshAfterMs);
-    });
+    }
+
+    function updateMap(map) {
+        currentMap = map;
+        _updateMap(currentMap + '.svg', initMap);
+    }
+
+    updateMap('world'); // TODO: restore last state
 
     $(window).resize(onResizeLazy);
 };
