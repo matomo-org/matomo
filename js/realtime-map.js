@@ -93,6 +93,10 @@ RealTimeMap.run = function(config) {
         return Math.min(1, Math.max(0, o));
     }
 
+    /*
+     * returns the content of the tooltip displayed for each
+     * visitor on the map
+     */
     function visitTooltip(r) {
         var ds = now - r.lastActionTimestamp;
         var ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; },
@@ -100,6 +104,8 @@ RealTimeMap.run = function(config) {
         return '<h3>'+r.city+' / '+r.country+'</h3>'+
             // icons
             ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
+            // last action
+            r.actions[r.actions.length-1].pageTitle+'<br/>'+
             // time of visit
             (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
             : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
