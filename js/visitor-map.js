@@ -735,10 +735,10 @@ UserCountryMap.run = function(config) {
 
             // get visits per city from API
             $.ajax({
-                url: 'index.php',
-                data: _reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2),
+                url: 'index.php?' + $.params(_reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2)),
+                //data: _reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2),
                 dataType: 'json',
-                type: 'POST',
+                type: 'GET',
                 success : function(data) {
 
                     loadingComplete();
