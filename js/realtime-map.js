@@ -161,6 +161,7 @@ RealTimeMap.run = function(config) {
                 $.each(newSymbols, function(i, s) {
                     if (i>10) return false;
                     s.path.hide(); // hide new symbol at first
+                    console.log(s.data.lastActionTimestamp + config.liveRefreshAfterMs - now);
                     setTimeout(function() {
                         var c = map.paper.circle().attr(s.path.attrs);
                         c.insertBefore(s.path);
@@ -172,7 +173,7 @@ RealTimeMap.run = function(config) {
                         s.path.show();
                         s.path.attr({ fill: '#fdb', r: 0.1, opacity: 1 });
                         s.path.animate({ fill: col, r: rad }, 700, 'bounce');
-                    }, 1000 * (s.data.lastActionTimestamp + config.liveRefreshAfterMs - now));
+                    }, 1 * (s.data.lastActionTimestamp + config.liveRefreshAfterMs - now));
                 });
 
                 //console.log('animated', visitSymbols.symbols.length, $('circle').length);
