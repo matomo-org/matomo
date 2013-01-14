@@ -104,8 +104,6 @@ RealTimeMap.run = function(config) {
 
             now = new Date().getTime() / 1000;
 
-            console.log('report received', report.length);
-
             if (firstRun) {
                 // init symbol group
                 visitSymbols = map.addSymbols({
@@ -130,16 +128,14 @@ RealTimeMap.run = function(config) {
                 $.each(report, function(i, r) {
                     // add new symbols
                     if (r.latitude !== null) newSymbols.push(visitSymbols.add(r));
-                    else console.log(r.latitude, r.longitude);
                 });
 
-                console.log(newSymbols.length,'new symbols');
+                console.log(visitSymbols.symbols.length);
 
                 lastTimestamp = report[0].lastActionTimestamp;
 
                 // remove symbols that are too old
                 visitSymbols.remove(function(r) {
-                    if (r.lastActionTimestamp < oldest) console.log('removed',r.lastActionTimestamp,oldest);
                     return r.lastActionTimestamp < oldest;
                 });
 
