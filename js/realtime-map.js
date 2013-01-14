@@ -92,7 +92,7 @@ RealTimeMap.run = function(config) {
             'stroke-opacity': Math.pow(age(r),1.7),
             stroke: '#fff',
             'stroke-width': age(r),
-            r: function(r) { return 3 * scale * Math.pow(age(r),4) + 2; }
+            r: 3 * scale * Math.pow(age(r),4) + 2
         };
     }
 
