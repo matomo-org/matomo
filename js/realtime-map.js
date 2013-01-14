@@ -132,10 +132,13 @@ RealTimeMap.run = function(config) {
                     if (r.latitude !== null) newSymbols.push(visitSymbols.add(r));
                 });
 
+                console.log(newSymbols.length,'new symbols');
+
                 lastTimestamp = report[0].lastActionTimestamp;
 
                 // remove symbols that are too old
                 visitSymbols.remove(function(r) {
+                    if (r.lastActionTimestamp < oldest) console.log('removed',r.lastActionTimestamp,oldest);
                     return r.lastActionTimestamp < oldest;
                 });
 
