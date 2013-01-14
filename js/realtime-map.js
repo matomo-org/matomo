@@ -100,7 +100,7 @@ RealTimeMap.run = function(config) {
     }
 
     function visitRadius(r) {
-        return 3 * scale * Math.pow(age(r),4) + 2.5;
+        return Math.min(20, 3 * scale * Math.pow(age(r),4) + 2.5);
     }
 
     function visitSymbolAttrs(r) {
