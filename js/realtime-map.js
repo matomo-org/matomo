@@ -242,6 +242,9 @@ RealTimeMap.run = function(config) {
 
     function updateMap(_map) {
         clearTimeout(nextReqTimer);
+        try {
+            map.removeSymbols();
+        } catch (e) {}
         currentMap = _map;
         _updateMap(currentMap + '.svg', initMap);
     }
