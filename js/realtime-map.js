@@ -123,10 +123,19 @@ RealTimeMap.run = function(config) {
                 oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
                 //now = lastVisits[0].lastActionTimestamp;
 
-                var newSymbols = [];
+                // remove symbols that are too old
+                visitSymbols.remove(function(r) {
+                    return r.lastActionTimestamp < oldest;
+                });
 
+                // update symbols that remain
+                visitSymbols.update({
+                    attrs: visitSymbolAttrs
+                });
+
+                // add new symbols
+                var newSymbols = [];
                 $.each(report, function(i, r) {
-                    // add new symbols
                     if (r.latitude !== null) newSymbols.push(visitSymbols.add(r));
                 });
 
@@ -134,18 +143,10 @@ RealTimeMap.run = function(config) {
 
                 lastTimestamp = report[0].lastActionTimestamp;
 
-                // remove symbols that are too old
-                visitSymbols.remove(function(r) {
-                    return r.lastActionTimestamp < oldest;
-                });
-
-                visitSymbols.evaluate({
-                    attrs: visitSymbolAttrs
-                });
-
                 visitSymbols.layout().render();
 
-                $.each(newSymbols.slice(0,20), function(i, s) {
+                $.each(newSymbols, function(i, s) {
+                    if (i>10) return false;
                     s.path.hide(); // hide new symbol at first
                     setTimeout(function() {
                         var c = map.paper.circle().attr(s.path.attrs);
