@@ -21,7 +21,7 @@ RealTimeMap.run = function(config) {
     window._liveMap = map;
     RealTimeMap.config = config;
 
-    function _reportParams() {
+    function _reportParams(firstRun) {
         var params = $.extend(RealTimeMap.reqParams, {
             module: 'API',
             method: 'Live.getLastVisitsDetails',
@@ -30,7 +30,7 @@ RealTimeMap.run = function(config) {
                 'visitLocalTime','city','country','referrerType','referrerName',
                 'referrerTypeName','browserIcon','operatingSystemIcon',
                 'countryFlag','idVisit'].join(','),
-            minTimestamp: lastTimestamp,
+            minTimestamp: firstRun ? -1 : lastTimestamp,
             date: 'today'
         });
         return params;
@@ -126,7 +126,7 @@ RealTimeMap.run = function(config) {
         $.ajax({
             url: 'index.php',
             type: 'POST',
-            data: _reportParams()
+            data: _reportParams(firstRun)
         }).done(function(report) {
 
             // successful request, so set timeout for next API call
@@ -145,7 +145,10 @@ RealTimeMap.run = function(config) {
                     attrs: visitSymbolAttrs,
                     tooltip: visitTooltip,
                     mouseenter: highlightVisit,
-                    mouseleave: unhighlightVisit
+                    mouseleave: unhighlightVisit,
+                    click: function(r, s, evt) {
+                        evt.stopPropagation();
+                    }
                 });
             }
 
@@ -220,7 +223,8 @@ RealTimeMap.run = function(config) {
                 stroke: '#ffffff',
                 'stroke-width': 0.2
             },
-            click: function(d) {
+            click: function(d, p, evt) {
+                evt.stopPropagation();
                 if (currentMap != 'world') {
                     updateMap('world');
                 } else {
@@ -241,6 +245,10 @@ RealTimeMap.run = function(config) {
     }
 
     updateMap('world'); // TODO: restore last state
+
+    main.click(function() {
+        if (currentMap != 'world') updateMap(world);
+    });
 
     $(window).resize(onResizeLazy);
 };
