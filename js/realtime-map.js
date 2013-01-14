@@ -18,6 +18,7 @@ RealTimeMap.run = function(config) {
         lastVisits = [],
         visitSymbols,
         oldest,
+        isFullscreenWidget = $('.widget').parent().get(0) == document.body,
         now,
         nextReqTimer,
         symbolFadeInTimer = [],
@@ -349,6 +350,31 @@ RealTimeMap.run = function(config) {
             colorMode = ({
                 'default': 'referrerType',
                 referrerType: 'default'})[colorMode];
+
+        // shift+alt+B: switch to black background
+        if (evt.shiftKey && evt.altKey && evt.keyCode == 66) {
+            $('#RealTimeMap').css({ background: '#000' });
+            if (isFullscreenWidget) {
+                $('body').css({ background: '#000 '});
+                $('.widget').css({ 'border-width': 1 });
+            }
+            map.getLayer('countries')
+                .style('fill', '#444440')
+                .style('stroke', '#000');
+        }
+
+        // shift+alt+W: return to white background
+        if (evt.shiftKey && evt.altKey && evt.keyCode == 87) {
+            $('#RealTimeMap').css({ background: '#fff' });
+            if (isFullscreenWidget) {
+                $('body').css({ background: '#fff '});
+                $('.widget').css({ 'border-width': 1 });
+            }
+            map.getLayer('countries')
+                .style('fill', '#aa9')
+                .style('stroke', '#fff');
+        }
+
     });
 
     // make sure the map adapts to the widget size
