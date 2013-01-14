@@ -3,6 +3,9 @@
 window.RealTimeMap = {};
 
 
+/*
+ * main function, called from realtime-map.tpl
+ */
 RealTimeMap.run = function(config) {
 
     var map = $K.map('#RealTimeMap_map'),
@@ -24,6 +27,10 @@ RealTimeMap.run = function(config) {
     window._liveMap = map;
     RealTimeMap.config = config;
 
+    /*
+     * returns the parameters for API calls, extended from
+     * RealTimeMap.reqParams which is set in template
+     */
     function _reportParams(firstRun) {
         var params = $.extend(RealTimeMap.reqParams, {
             module: 'API',
@@ -76,6 +83,11 @@ RealTimeMap.run = function(config) {
         RealTimeMap._resizeTimer = setTimeout(onResize, 300);
     }
 
+    /*
+     * returns value between 0..1, where 1 means that the
+     * visit is fresh, and 0 means the visit is almost gone
+     * from the map
+     */
     function age(r) {
         var o = (r.lastActionTimestamp - oldest) / (now - oldest);
         return Math.min(1, Math.max(0, o));
@@ -100,10 +112,18 @@ RealTimeMap.run = function(config) {
             RealTimeMap._.local_time+': '+r.visitLocalTime;
     }
 
+    /*
+     * the radius of the symbol depends on the lastActionTimestamp
+     */
     function visitRadius(r) {
         return 3 * scale * Math.pow(age(r),4) + 2.5;
     }
 
+    /*
+     * defines the color of the map symbols.
+     * depends on colorMode, which is set to 'default'
+     * unless you type Shift+Alt+C
+     */
     function visitColor(r) {
         var col;
         if (colorMode == 'referrerType') {
@@ -129,14 +149,42 @@ RealTimeMap.run = function(config) {
         };
     }
 
+    /*
+     * eventually highlights the row in LiveVisitors widget
+     * that corresponds to a visit on the map
+     */
     function highlightVisit(r) {
         $('#visitsLive li#'+r.idVisit + ' .datetime')
             .css('background', '#E4CD74');
     }
 
+    /*
+     * removes the highlight after the mouse left
+     * the visit marker on the map
+     */
     function unhighlightVisit(r) {
         $('#visitsLive li#'+r.idVisit + ' .datetime')
             .css({ background: '#E4E2D7' });
+    }
+
+    /*
+     * create a nice popping animation for appearing
+     * visit symbols.
+     */
+    function animateSymbol(s) {
+        // create a white outline and explode it
+        var c = map.paper.circle().attr(s.path.attrs);
+        c.insertBefore(s.path);
+        c.attr({ fill: false });
+        c.animate({ r: c.attrs.r*3, 'stroke-width': 5 * scale, opacity: 0 }, 2500,
+            'linear', function() { c.remove(); });
+        // ..and pop the bubble itself
+        var col = s.path.attrs.fill,
+            rad = s.path.attrs.r;
+        s.path.show();
+        s.path.attr({ fill: '#fdb', r: 0.1, opacity: 1 });
+        s.path.animate({ fill: col, r: rad }, 700, 'bounce');
+
     }
 
     function refreshVisits(firstRun) {
@@ -212,18 +260,8 @@ RealTimeMap.run = function(config) {
                 $.each(newSymbols, function(i, s) {
                     if (i>10) return false;
                     s.path.hide(); // hide new symbol at first
-                    var t = setTimeout(function() {
-                        var c = map.paper.circle().attr(s.path.attrs);
-                        c.insertBefore(s.path);
-                        c.attr({ fill: false });
-                        c.animate({ r: c.attrs.r*3, 'stroke-width': 5 * scale, opacity: 0 }, 2500,
-                            'linear', function() { c.remove(); });
-                        var col = s.path.attrs.fill,
-                            rad = s.path.attrs.r;
-                        s.path.show();
-                        s.path.attr({ fill: '#fdb', r: 0.1, opacity: 1 });
-                        s.path.animate({ fill: col, r: rad }, 700, 'bounce');
-                    }, 1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
+                    var t = setTimeout(function() { animateSymbol(s); },
+                        1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
                     symbolFadeInTimer.push(t);
                 });
 

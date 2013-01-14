@@ -32,7 +32,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     {
         Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
 
-        Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
+        Piwik_AddWidget('Live!', Piwik_Translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
     }
 
     public function getListHooksRegistered()
