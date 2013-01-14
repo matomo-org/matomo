@@ -998,7 +998,7 @@ UserCountryMap.run = function(config) {
 
         $.ajax({
             url: 'index.php',
-            type: 'POST',
+            type: 'GET',
             dataType: 'html',
             data: requestParams
         }).done(function(html) {
@@ -1020,10 +1020,9 @@ UserCountryMap.run = function(config) {
 
     // now load the metrics for all countries
     $.ajax({
-        url: 'index.php',
-        type: 'POST',
-        dataType: 'json',
-        data: _reportParams('UserCountry', 'getCountry')
+        url: 'index.php?'+$.param(_reportParams('UserCountry', 'getCountry')),
+        type: 'GET',
+        dataType: 'json'
     }).done(function(report) {
         var metrics = $('#userCountryMapSelectMetrics option');
         var countryData = [], countrySelect = $('#userCountryMapSelectCountry'),
