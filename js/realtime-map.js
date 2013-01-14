@@ -108,9 +108,9 @@ RealTimeMap.run = function(config) {
         var col;
         if (colorMode == 'referrerType') {
             col = ({
-                website: 'green',
-                direct: 'blue',
-                search: 'red'
+                website: '#F29007',
+                direct: '#5170AE',
+                search: '#CC3399'
             })[r.referrerType];
         }
         // defu
