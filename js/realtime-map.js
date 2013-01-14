@@ -91,7 +91,8 @@ RealTimeMap.run = function(config) {
             'fill-opacity': Math.pow(age(r),2),
             'stroke-opacity': Math.pow(age(r),1.7),
             stroke: '#fff',
-            'stroke-width': age(r)
+            'stroke-width': age(r),
+            r: function(r) { return 3 * scale * Math.pow(age(r),4) + 2; }
         };
     }
 
