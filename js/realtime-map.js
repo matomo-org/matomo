@@ -39,7 +39,7 @@ RealTimeMap.run = function(config) {
             showColumns: ['latitude','longitude','actions','lastActionTimestamp',
                 'visitLocalTime','city','country','referrerType','referrerName',
                 'referrerTypeName','browserIcon','operatingSystemIcon',
-                'countryFlag','idVisit'].join(','),
+                'countryFlag','idVisit','actionDetails'].join(','),
             minTimestamp: firstRun ? -1 : lastTimestamp,
             date: 'today'
         });
@@ -105,7 +105,7 @@ RealTimeMap.run = function(config) {
             // icons
             ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
             // last action
-            r.actions[r.actions.length-1].pageTitle+'<br/>'+
+            r.actionDetails[r.actions-1].pageTitle+'<br/>'+
             // time of visit
             (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
             : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
@@ -144,6 +144,9 @@ RealTimeMap.run = function(config) {
         return col;
     }
 
+    /*
+     * attributes of the map symbols
+     */
     function visitSymbolAttrs(r) {
         return {
             fill: visitColor(r),
@@ -193,6 +196,13 @@ RealTimeMap.run = function(config) {
 
     }
 
+    /*
+     * this function requests new data from Live.getLastVisitsDetails
+     * and updates the symbols on the map. Then, it sets a timeout
+     * to call itself after the refresh time set by Piwik
+     *
+     * If firstRun is true, the SymbolGroup is initialized
+     */
     function refreshVisits(firstRun) {
         $.ajax({
             url: 'index.php',
@@ -276,9 +286,13 @@ RealTimeMap.run = function(config) {
         });
     }
 
+    /*
+     * Set up the base map after loading of the SVG. Adds a single layer
+     * that shows countries in gray with white outlines. Also this is where
+     * the zoom behaviour is initialized.
+     */
     function initMap() {
         $('#widgetRealTimeMapliveMap .loadingPiwik, #RealTimeMap .loadingPiwik').hide();
-
         map.addLayer('countries', {
             styles: {
                 fill: '#aa9',
@@ -287,20 +301,27 @@ RealTimeMap.run = function(config) {
             },
             click: function(d, p, evt) {
                 evt.stopPropagation();
-                if (currentMap != 'world') {
+                if (currentMap != 'world') {  // zoom out if zoomed in
                     updateMap('world');
-                } else {
+                } else {  // or zoom to continent view otherwise
                     updateMap(UserCountryMap.ISO3toCONT[d.iso]);
                 }
+            },
+            title: function(d) {
+                // return the country name for educational purpose
+                return d.name;
             }
         });
 
         var lastVisitId = -1,
             lastReport = [];
-
         refreshVisits(true);
     }
 
+    /*
+     * updates the map view (after changing the zoom)
+     * clears all existing timeouts
+     */
     function updateMap(_map) {
         clearTimeout(nextReqTimer);
         $.each(symbolFadeInTimer, function(i, t) {
@@ -316,16 +337,20 @@ RealTimeMap.run = function(config) {
 
     updateMap('world'); // TODO: restore last state
 
+    // clicking on map background zooms out
     $('#RealTimeMap_map').click(function() {
         if (currentMap != 'world') updateMap(world);
     });
 
+    // secret gimmick shortcuts
     $(window).keydown(function(evt) {
-        if (evt.shiftKey && evt.altKey && evt.keyCode == 67) // shift+alt+C
+        // shift+alt+C changes color mode
+        if (evt.shiftKey && evt.altKey && evt.keyCode == 67)
             colorMode = ({
                 'default': 'referrerType',
                 referrerType: 'default'})[colorMode];
     });
 
+    // make sure the map adapts to the widget size
     $(window).resize(onResizeLazy);
 };
