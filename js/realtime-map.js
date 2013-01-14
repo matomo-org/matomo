@@ -17,6 +17,7 @@ RealTimeMap.run = function(config) {
         oldest,
         now,
         nextReqTimer,
+        symbolFadeInTimer = [],
         currentMap = 'world';
 
     window._liveMap = map;
@@ -196,7 +197,7 @@ RealTimeMap.run = function(config) {
                 $.each(newSymbols, function(i, s) {
                     if (i>10) return false;
                     s.path.hide(); // hide new symbol at first
-                    setTimeout(function() {
+                    var t = setTimeout(function() {
                         var c = map.paper.circle().attr(s.path.attrs);
                         c.insertBefore(s.path);
                         c.attr({ fill: false });
@@ -208,6 +209,7 @@ RealTimeMap.run = function(config) {
                         s.path.attr({ fill: '#fdb', r: 0.1, opacity: 1 });
                         s.path.animate({ fill: col, r: rad }, 700, 'bounce');
                     }, 1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
+                    symbolFadeInTimer.push(t);
                 });
 
             }
@@ -242,6 +244,10 @@ RealTimeMap.run = function(config) {
 
     function updateMap(_map) {
         clearTimeout(nextReqTimer);
+        $.each(symbolFadeInTimer, function(i, t) {
+            clearTimeout(t);
+        });
+        symbolFadeInTimer = [];
         try {
             map.removeSymbols();
         } catch (e) {}
