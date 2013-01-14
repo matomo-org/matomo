@@ -181,7 +181,7 @@ RealTimeMap.run = function(config) {
         });
     }
 
-    _updateMap('world.svg', function() {
+    _updateMap('EU.svg', function() {
 
         $('#widgetRealTimeMapliveMap .loadingPiwik, #RealTimeMap .loadingPiwik').hide();
 
