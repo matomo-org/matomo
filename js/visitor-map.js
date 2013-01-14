@@ -21,7 +21,8 @@ UserCountryMap.run = function(config) {
             method: 'API.getProcessedReport',
             apiModule: module,
             apiAction: action,
-            filter_limit: -1
+            filter_limit: -1,
+            enable_filter_excludelowpop: 1
         });
         if (countryFilter) {
             $.extend(params, {

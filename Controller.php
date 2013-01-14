@@ -97,7 +97,9 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             'token_auth' => $token_auth,
             'format' => 'json',
             'segment' => Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', '')),
-            'showRawMetrics' => 1
+            'showRawMetrics' => 1,
+            'enable_filter_excludelowpop' => 1,
+            'filter_excludelowpop_value' => -1
         ));
 
         echo $view->render();
