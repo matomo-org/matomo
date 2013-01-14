@@ -29,7 +29,8 @@ UserCountryMap.run = function(config) {
             $.extend(params, {
                 filter_column: 'country',
                 filter_sort_column: 'nb_visits',
-                filter_pattern: countryFilter
+                filter_pattern: countryFilter,
+                filter_truncate: 1000
             });
         }
         return params;
