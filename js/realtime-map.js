@@ -16,6 +16,7 @@ RealTimeMap.run = function(config) {
         visitSymbols,
         oldest,
         now,
+        nextReqTimer,
         currentMap = 'world';
 
     window._liveMap = map;
@@ -130,7 +131,7 @@ RealTimeMap.run = function(config) {
         }).done(function(report) {
 
             // successful request, so set timeout for next API call
-            setTimeout(refreshVisits, config.liveRefreshAfterMs);
+            nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
             now = new Date().getTime() / 1000;
 
@@ -239,8 +240,9 @@ RealTimeMap.run = function(config) {
         refreshVisits(true);
     }
 
-    function updateMap(map) {
-        currentMap = map;
+    function updateMap(_map) {
+        clearTimeout(nextReqTimer);
+        currentMap = _map;
         _updateMap(currentMap + '.svg', initMap);
     }
 
