@@ -87,7 +87,7 @@ RealTimeMap.run = function(config) {
 
     function visitSymbolAttrs(r) {
         return {
-            fill: chroma.hsl(48 * age(r), Math.sqrt(age(r)), 0.50 - (1-age(r))*0.45),
+            fill: chroma.hsl(42 * age(r), Math.sqrt(age(r)), 0.50 - (1-age(r))*0.45),
             'fill-opacity': Math.pow(age(r),2),
             'stroke-opacity': Math.pow(age(r),1.7),
             stroke: '#fff',
