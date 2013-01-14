@@ -104,6 +104,8 @@ RealTimeMap.run = function(config) {
 
             now = new Date().getTime() / 1000;
 
+            console.log('report received', report.length);
+
             if (firstRun) {
                 // init symbol group
                 visitSymbols = map.addSymbols({
