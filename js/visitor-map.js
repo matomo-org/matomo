@@ -22,6 +22,7 @@ UserCountryMap.run = function(config) {
             apiModule: module,
             apiAction: action,
             filter_limit: -1,
+            limit: -1,
             enable_filter_excludelowpop: 1
         });
         if (countryFilter) {
