@@ -18,6 +18,7 @@ RealTimeMap.run = function(config) {
         now,
         nextReqTimer,
         symbolFadeInTimer = [],
+        colorMode = 'default',
         currentMap = 'world';
 
     window._liveMap = map;
@@ -103,9 +104,23 @@ RealTimeMap.run = function(config) {
         return 3 * scale * Math.pow(age(r),4) + 2.5;
     }
 
+    function visitColor(r) {
+        var col;
+        if (colorMode == 'referrerType') {
+            col = ({
+                website: 'green',
+                direct: 'blue',
+                search: 'red'
+            })[r.referrerType];
+        }
+        // defu
+        else col = chroma.hsl(42 * age(r), Math.sqrt(age(r)), 0.50 - (1-age(r))*0.45);
+        return col;
+    }
+
     function visitSymbolAttrs(r) {
         return {
-            fill: chroma.hsl(42 * age(r), Math.sqrt(age(r)), 0.50 - (1-age(r))*0.45),
+            fill: visitColor(r),
             'fill-opacity': Math.pow(age(r),2),
             'stroke-opacity': Math.pow(age(r),1.7),
             stroke: '#fff',
@@ -257,8 +272,12 @@ RealTimeMap.run = function(config) {
 
     updateMap('world'); // TODO: restore last state
 
-    main.click(function() {
+    $('#RealTimeMap_map').click(function() {
         if (currentMap != 'world') updateMap(world);
+    });
+
+    $('#RealTimeMap_map').keydown(function(evt) {
+        console.log(evt.shiftKey, evt.altKey, evt);
     });
 
     $(window).resize(onResizeLazy);
