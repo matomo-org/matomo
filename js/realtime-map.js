@@ -130,6 +130,7 @@ RealTimeMap.run = function(config) {
                 $.each(report, function(i, r) {
                     // add new symbols
                     if (r.latitude !== null) newSymbols.push(visitSymbols.add(r));
+                    else console.log(r.latitude, r.longitude);
                 });
 
                 console.log(newSymbols.length,'new symbols');
