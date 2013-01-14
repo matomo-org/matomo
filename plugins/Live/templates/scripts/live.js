@@ -23,8 +23,8 @@
                     interval: 3000,
                     // maximum time to wait between requests
                     maxInterval: 300000,
-                    // ajax url to get required data
-                    dataUrl: null,
+                    // url params to use for data request
+                    dataUrlParams: null,
                     // callback triggered on a successfull update (content of widget changed)
                     onUpdate: null,
                     // speed for fade animation
@@ -41,9 +41,11 @@
                 
                 // is content updated (eg new visits/views)
                 updated = false;
-                
-                // fetch data
-                globalAjaxQueue.push( $.get(settings.dataUrl, {}, function(r) {
+
+                var ajaxRequest = new ajaxHelper();
+                ajaxRequest.addParams(settings.dataUrlParams, 'GET');
+                ajaxRequest.setFormat('html');
+                ajaxRequest.setCallback( function(r) {
                     parseResponse(r);
                     
                     // add default interval to last interval if not updated or reset to default if so
@@ -65,7 +67,8 @@
                             updateInterval = window.setTimeout(update, currentInterval);
                         }
                     }
-                }));
+                });
+                ajaxRequest.send(false);
             };
             
             /**
@@ -115,8 +118,8 @@
             this.construct = function(userSettings) {
                 settings = jQuery.extend(settings, userSettings);
                 
-                if(!settings.dataUrl) {
-                    console && console.error('liveWidget error: dataUrl needs to be defined in settings.');
+                if(!settings.dataUrlParams) {
+                    console && console.error('liveWidget error: dataUrlParams needs to be defined in settings.');
                     return;
                 }
                 
