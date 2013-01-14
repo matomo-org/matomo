@@ -61,6 +61,16 @@ RealTimeMap.run = function(config) {
         else $('.tableIcon span').show();
     }
 
+    /*
+     * to ensure that onResize is not called a hundred times
+     * while resizing the browser window, this functions
+     * makes sure to only call onResize at the end
+     */
+    function onResizeLazy() {
+        clearTimeout(RealTimeMap._resizeTimer);
+        RealTimeMap._resizeTimer = setTimeout(onResize, 300);
+    }
+
     function age(r) {
         var o = (r.lastActionTimestamp - oldest) / (now - oldest);
         return o;
@@ -199,4 +209,6 @@ RealTimeMap.run = function(config) {
         refreshVisits(true);
         setInterval(refreshVisits, config.liveRefreshAfterMs);
     });
+
+    $(window).resize(onResizeLazy);
 };
