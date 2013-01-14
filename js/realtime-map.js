@@ -25,9 +25,10 @@ RealTimeMap.run = function(config) {
             module: 'API',
             method: 'Live.getLastVisitsDetails',
             filter_limit: maxVisits,
-            showColumns: ['latitude','longitude','actions','lastActionTimestamp','visitLocalTime',
-                'city','country','referrerType','referrerName','referrerTypeName','browserIcon',
-                'operatingSystemIcon', 'countryFlag'].join(','),
+            showColumns: ['latitude','longitude','actions','lastActionTimestamp',
+                'visitLocalTime','city','country','referrerType','referrerName',
+                'referrerTypeName','browserIcon','operatingSystemIcon',
+                'countryFlag','idVisit'].join(','),
             minTimestamp: lastTimestamp,
             date: 'today'
         });
@@ -128,7 +129,8 @@ RealTimeMap.run = function(config) {
                     radius: visitRadius,
                     location: function(r) { return [r.longitude, r.latitude]; },
                     attrs: visitSymbolAttrs,
-                    tooltip: visitTooltip
+                    tooltip: visitTooltip,
+                    mouseenter: highlightVisit
                 });
             }
 
@@ -195,8 +197,7 @@ RealTimeMap.run = function(config) {
         });
     }
 
-    _updateMap('EU.svg', function() {
-
+    _updateMap('world.svg', function() {
         $('#widgetRealTimeMapliveMap .loadingPiwik, #RealTimeMap .loadingPiwik').hide();
 
         map.addLayer('countries', {
