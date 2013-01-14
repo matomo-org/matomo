@@ -115,7 +115,7 @@ RealTimeMap.run = function(config) {
             (r.referrerType == "direct" ? r.referrerTypeName :
             RealTimeMap._.from + ': '+r.referrerName) + '<br />' +
             // local time
-            RealTimeMap._.local_time+': '+r.visitLocalTime;
+            '<small>'+RealTimeMap._.local_time+': '+r.visitLocalTime+'</small>';
     }
 
     /*
