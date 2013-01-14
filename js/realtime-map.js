@@ -95,6 +95,10 @@ RealTimeMap.run = function(config) {
             RealTimeMap._.local_time+': '+r.visitLocalTime;
     }
 
+    function visitRadius(r) {
+        return 3 * scale * Math.pow(age(r),4) + 2.5;
+    }
+
     function visitSymbolAttrs(r) {
         return {
             fill: chroma.hsl(42 * age(r), Math.sqrt(age(r)), 0.50 - (1-age(r))*0.45),
@@ -102,7 +106,7 @@ RealTimeMap.run = function(config) {
             'stroke-opacity': Math.pow(age(r),1.7),
             stroke: '#fff',
             'stroke-width': age(r),
-            r: 3 * scale * Math.pow(age(r),4) + 2
+            r: visitRadius(r)
         };
     }
 
@@ -121,7 +125,7 @@ RealTimeMap.run = function(config) {
                     data: [],
                     type: Kartograph.Bubble,
                     sortBy: function(r) { return r.lastActionTimestamp; },
-                    radius: function(r) { return 3 * scale * Math.pow(age(r),4) + 2; },
+                    radius: visitRadius,
                     location: function(r) { return [r.longitude, r.latitude]; },
                     attrs: visitSymbolAttrs,
                     tooltip: visitTooltip
