@@ -5127,7 +5127,9 @@ function kdtree() {
     Bubble.prototype.render = function(layers) {
       var me;
       me = this;
-      me.path = me.layers.mapcanvas.circle(me.x, me.y, me.radius);
+      if (!(me.path != null)) {
+        me.path = me.layers.mapcanvas.circle(me.x, me.y, me.radius);
+      }
       me.update();
       me.map.applyCSS(me.path);
       return me;
