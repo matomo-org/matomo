@@ -276,8 +276,11 @@ RealTimeMap.run = function(config) {
         if (currentMap != 'world') updateMap(world);
     });
 
-    $('#RealTimeMap_map').keydown(function(evt) {
-        console.log(evt.shiftKey, evt.altKey, evt);
+    $(window).keydown(function(evt) {
+        if (evt.shiftKey && evt.altKey && evt.keyCode == 67) // shift+alt+C
+            colorMode = ({
+                'default': 'referrerType',
+                referrerType: 'default'})[colorMode];
     });
 
     $(window).resize(onResizeLazy);
