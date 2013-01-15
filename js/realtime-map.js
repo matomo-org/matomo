@@ -224,7 +224,7 @@ RealTimeMap.run = function(config) {
         var c = map.paper.circle().attr(s.path.attrs);
         c.insertBefore(s.path);
         c.attr({ fill: false });
-        c.animate({ r: c.attrs.r*3, 'stroke-width': 5 * scale, opacity: 0 }, 2500,
+        c.animate({ r: c.attrs.r*3, 'stroke-width': 7, opacity: 0 }, 2500,
             'linear', function() { c.remove(); });
         // ..and pop the bubble itself
         var col = s.path.attrs.fill,
