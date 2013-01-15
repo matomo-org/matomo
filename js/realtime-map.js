@@ -13,7 +13,7 @@ RealTimeMap.run = function(config) {
         worldTotalVisits = 0,
         maxVisits = 100,
         width = main.width(),
-        scale = width * main.height() / 100000,
+        scale = width * (width*0.7) / 100000,
         lastTimestamp = -1,
         lastVisits = [],
         visitSymbols,
