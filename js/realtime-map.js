@@ -114,14 +114,15 @@ RealTimeMap.run = function(config) {
      * visitor on the map
      */
     function visitTooltip(r) {
-        var ds = now - r.lastActionTimestamp;
-        var ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; },
+        var ds = now - r.lastActionTimestamp,
+            ad = r.actionDetails,
+            ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; },
             val = function(val) { return '<b>'+Math.round(val)+'</b>'; };
         return '<h3>'+r.city+' / '+r.country+'</h3>'+
             // icons
             ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
             // last action
-            (r.actionDetails && r.actionDetails.length ? r.actionDetails[actionDetails.length-1].pageTitle+'<br/>' : '')+
+            (ad && ad.length ? ad[ad.length-1].pageTitle+'<br/>' : '')+
             // time of visit
             (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
             : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
