@@ -12,6 +12,7 @@
  
 if (!isset($GLOBALS['Piwik_socialUrl']))
 {
+	// Note: the key of the array should have max 3 elements eg. sub.domain.ext
 	$GLOBALS['Piwik_socialUrl'] = array (
  
 		// Facebook
@@ -47,14 +48,11 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 		// Tagged
 		'login.tagged.com'    => 'Tagged',
 		
-		// Ourkut
+		// Orkut
 		'orkut.com'		   => 'Orkut',
 		
-		// Ourkut
-		'en.blog.orkut.com'   => 'Orkut blog',
-		
 		// Myspace
-		'ru.myspace.com'      => 'Myspace',
+		'myspace.com'      => 'Myspace',
 		
 		// Frinedster
 		'friendster.com'      => 'Friendster',
@@ -66,7 +64,7 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 		'hi5.com'		     => 'hi5',
 		
 		// Netlog
-		'ru.netlog.com'       => 'Netlog',
+		'netlog.com'       => 'Netlog',
 		
 		// Flixster
 		'flixster.com'		=> 'Flixster',
@@ -78,7 +76,7 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 		'classmates.com'      => 'Classmates.com',
 		
 		// Google+
-		'plus.google.com'     => 'Google+',
+		'url.google.com'     => 'Google+',
 		
 		// douban
 		'douban.com'		  => 'douban',
