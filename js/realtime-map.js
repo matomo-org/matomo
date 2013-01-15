@@ -53,7 +53,7 @@ RealTimeMap.run = function(config) {
      */
     function ajax(params) {
         var token_auth = params.token_auth;
-        params.token_auth = undefined;
+        delete params['token_auth'];
         return $.ajax({
             url: 'index.php?' + $.param(params),
             dataType: 'json',
