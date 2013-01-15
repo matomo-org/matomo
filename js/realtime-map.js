@@ -43,7 +43,7 @@ RealTimeMap.run = function(config) {
     RealTimeMap.config = config;
 
     var preset = RealTimeMap.widget.dashboardWidget('getWidgetObject').parameters;
-    if (preset.currentTheme) {
+    if (preset) {
         currentTheme = preset.colorTheme;
         colorMode = preset.colorMode;
         currentMap = preset.lastMap;
