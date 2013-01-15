@@ -122,7 +122,7 @@ RealTimeMap.run = function(config) {
             // icons
             ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
             // last action
-            (ad && ad.length ? ad[ad.length-1].pageTitle+'<br/>' : '')+
+            (ad && ad.length && ad[ad.length-1].pageTitle ? ad[ad.length-1].pageTitle+'<br/>' : '')+
             // time of visit
             (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
             : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
@@ -221,9 +221,7 @@ RealTimeMap.run = function(config) {
      * If firstRun is true, the SymbolGroup is initialized
      */
     function refreshVisits(firstRun) {
-        ajax(_reportParams(firstRun))
-        .done(function(report) {
-
+        function gotNewReport(report) {
             // successful request, so set timeout for next API call
             nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
@@ -245,6 +243,9 @@ RealTimeMap.run = function(config) {
                         evt.stopPropagation();
                     }
                 });
+
+                // clear existing report
+                lastVisits = [];
             }
 
             if (report.length) {
@@ -297,7 +298,15 @@ RealTimeMap.run = function(config) {
 
             }
 
-        });
+        }
+
+        if (firstRun && lastVisits.length) {
+            // zoom changed, use cached report data
+            gotNewReport(lastVisits.slice());
+        } else {
+            // request API for new data
+            ajax(_reportParams(firstRun)).done(gotNewReport);
+        }
     }
 
     /*
