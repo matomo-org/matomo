@@ -58,7 +58,8 @@ abstract class Piwik_Menu_Abstract
 			// make sure the idSite value used is numeric (hack-y fix for #3426)
 			if (!is_numeric(Piwik_Common::getRequestVar('idSite', false)))
 			{
-				$url['idSite'] = reset(Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess());
+				$idSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+				$url['idSite'] = reset($idSites);
 			}
 			
 			$this->menuEntries[] = array(
