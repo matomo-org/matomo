@@ -160,7 +160,7 @@ RealTimeMap.run = function(config) {
      * the radius of the symbol depends on the lastActionTimestamp
      */
     function visitRadius(r) {
-        return 3 * scale * Math.pow(age(r),4) + 2.5;
+        return 3 * scale * Math.pow(age(r),4) + 2.5 * scale;
     }
 
     /*
