@@ -531,6 +531,7 @@ Plugins[]		= ImageGraph
 Plugins[]		= DoNotTrack
 Plugins[]		= Annotations
 Plugins[]		= MobileMessaging
+Plugins[]		= Overlay
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
