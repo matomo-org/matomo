@@ -37,8 +37,17 @@ RealTimeMap.run = function(config) {
             }
         };
 
+    RealTimeMap.widget = $('#widgetRealTimeMaprealtimeMap').parent();
+
     window._liveMap = map;
     RealTimeMap.config = config;
+
+    var preset = RealTimeMap.widget.dashboardWidget('getWidgetObject').parameters;
+    if (preset.currentTheme) {
+        currentTheme = preset.colorTheme;
+        colorMode = preset.colorMode;
+        currentMap = preset.lastMap;
+    }
 
     /*
      * returns the parameters for API calls, extended from
@@ -353,6 +362,12 @@ RealTimeMap.run = function(config) {
         refreshVisits(true);
     }
 
+    function storeSettings() {
+        RealTimeMap.widget.dashboardWidget('setParameters', {
+            lastMap: currentMap, theme: colorTheme, colorMode: colorMode
+        });
+    }
+
     /*
      * updates the map view (after changing the zoom)
      * clears all existing timeouts
@@ -368,6 +383,7 @@ RealTimeMap.run = function(config) {
         } catch (e) {}
         currentMap = _map;
         _updateMap(currentMap + '.svg', initMap);
+        storeSettings();
     }
 
     updateMap('world'); // TODO: restore last state
@@ -380,10 +396,13 @@ RealTimeMap.run = function(config) {
     // secret gimmick shortcuts
     $(window).keydown(function(evt) {
         // shift+alt+C changes color mode
-        if (evt.shiftKey && evt.altKey && evt.keyCode == 67)
+        if (evt.shiftKey && evt.altKey && evt.keyCode == 67) {
             colorMode = ({
                 'default': 'referrerType',
-                referrerType: 'default'})[colorMode];
+                referrerType: 'default'
+            })[colorMode];
+            storeSettings();
+        }
 
         function switchTheme() {
             $('#RealTimeMap').css({ background: colorTheme[currentTheme].bg });
@@ -394,6 +413,8 @@ RealTimeMap.run = function(config) {
             map.getLayer('countries')
                 .style('fill', colorTheme[currentTheme].fill )
                 .style('stroke', colorTheme[currentTheme].bg );
+
+            storeSettings();
         }
 
         // shift+alt+B: switch to black background
