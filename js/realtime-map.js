@@ -13,7 +13,8 @@ RealTimeMap.run = function(config) {
         worldTotalVisits = 0,
         maxVisits = 100,
         width = main.width(),
-        scale = width * (width*0.7) / 180000,
+        minRad = 3,
+        maxRad = 10,
         lastTimestamp = -1,
         lastVisits = [],
         visitSymbols,
@@ -160,7 +161,7 @@ RealTimeMap.run = function(config) {
      * the radius of the symbol depends on the lastActionTimestamp
      */
     function visitRadius(r) {
-        return 3 * scale * Math.pow(age(r),4) + 2.5 * scale;
+        return Math.pow(age(r),4) * (maxRad - minRad) + minRad;
     }
 
     /*
