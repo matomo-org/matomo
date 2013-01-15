@@ -67,7 +67,7 @@
 
 		<replace file="${env.WORKSPACE}/build/config/global.ini.php">
 			<replacefilter 
-				token="latest_version_url = http://piwik.org/latest.zip" 
+				token="latest_version_url = http://builds.piwik.org/latest.zip"
 						value="latest_version_url = http://${env.HTTP_HOST}/jenkins.private/jobs/Piwik/workspace/latest.zip" />
 			<replacefilter 
 				token="api_service_url = http://api.piwik.org" 

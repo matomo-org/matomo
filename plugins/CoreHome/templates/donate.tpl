@@ -5,7 +5,7 @@
 		{else}
 		<p>{'CoreHome_DonateCall1'|translate}</p>
 		<p><strong><em>{'CoreHome_DonateCall2'|translate}</em></strong></p>
-		<p>{'CoreHome_DonateCall3'|translate:'<em><strong>':'</strong></em>'}:</p>
+		<p>{'CoreHome_DonateCall3'|translate:'<em><strong>':'</strong></em>'}</p>
 		{/if}
 	</div>
 	

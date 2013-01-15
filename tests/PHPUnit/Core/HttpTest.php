@@ -51,7 +51,7 @@ class HttpTest extends PHPUnit_Framework_TestCase
     public function testFetchLatestZip()
     {
         $destinationPath = PIWIK_USER_PATH . '/tmp/latest/latest.zip';
-        Piwik_Http::fetchRemoteFile('http://piwik.org/latest.zip', $destinationPath, 3);
+        Piwik_Http::fetchRemoteFile('http://builds.piwik.org/latest.zip', $destinationPath, 3);
         $this->assertFileExists($destinationPath);
         $this->assertGreaterThan( 0, filesize($destinationPath) );
     }
