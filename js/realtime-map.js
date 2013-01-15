@@ -23,7 +23,19 @@ RealTimeMap.run = function(config) {
         nextReqTimer,
         symbolFadeInTimer = [],
         colorMode = 'default',
-        currentMap = 'world';
+        currentMap = 'world',
+
+        currentTheme = 'white',
+        colorTheme = {
+            white: {
+                bg: '#fff',
+                fill: '#aa9'
+            },
+            black: {
+                bg: '#000',
+                fill: '#444440'
+            }
+        };
 
     window._liveMap = map;
     RealTimeMap.config = config;
@@ -318,8 +330,8 @@ RealTimeMap.run = function(config) {
         $('#widgetRealTimeMapliveMap .loadingPiwik, #RealTimeMap .loadingPiwik').hide();
         map.addLayer('countries', {
             styles: {
-                fill: '#aa9',
-                stroke: '#ffffff',
+                fill: colorTheme[currentTheme].fill,
+                stroke: colorTheme[currentTheme].bg,
                 'stroke-width': 0.2
             },
             click: function(d, p, evt) {
@@ -373,28 +385,27 @@ RealTimeMap.run = function(config) {
                 'default': 'referrerType',
                 referrerType: 'default'})[colorMode];
 
-        // shift+alt+B: switch to black background
-        if (evt.shiftKey && evt.altKey && evt.keyCode == 66) {
-            $('#RealTimeMap').css({ background: '#000' });
+        function switchTheme() {
+            $('#RealTimeMap').css({ background: colorTheme[currentTheme].bg });
             if (isFullscreenWidget) {
-                $('body').css({ background: '#000 '});
+                $('body').css({ background: colorTheme[currentTheme].bg });
                 $('.widget').css({ 'border-width': 1 });
             }
             map.getLayer('countries')
-                .style('fill', '#444440')
-                .style('stroke', '#000');
+                .style('fill', colorTheme[currentTheme].fill )
+                .style('stroke', colorTheme[currentTheme].bg );
+        }
+
+        // shift+alt+B: switch to black background
+        if (evt.shiftKey && evt.altKey && evt.keyCode == 66) {
+            currentTheme = 'black';
+            switchTheme();
         }
 
         // shift+alt+W: return to white background
         if (evt.shiftKey && evt.altKey && evt.keyCode == 87) {
-            $('#RealTimeMap').css({ background: '#fff' });
-            if (isFullscreenWidget) {
-                $('body').css({ background: '#fff '});
-                $('.widget').css({ 'border-width': 1 });
-            }
-            map.getLayer('countries')
-                .style('fill', '#aa9')
-                .style('stroke', '#fff');
+            currentTheme = 'white';
+            switchTheme();
         }
 
     });

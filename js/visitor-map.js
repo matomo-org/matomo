@@ -22,18 +22,32 @@ UserCountryMap.run = function(config) {
             apiModule: module,
             apiAction: action,
             filter_limit: -1,
-            limit: -1,
-            enable_filter_excludelowpop: 1
+            limit: -1
         });
         if (countryFilter) {
             $.extend(params, {
                 filter_column: 'country',
                 filter_sort_column: 'nb_visits',
-                filter_pattern: countryFilter,
-                filter_truncate: 1000
+                filter_pattern: countryFilter
             });
         }
         return params;
+    }
+
+    /*
+     * wrapper around jQuery.ajax, moves token_auth parameter
+     * to POST data while keeping other parameters as GET
+     */
+    function ajax(params, dataType) {
+        dataType = dataType || 'json';
+        var token_auth = params.token_auth;
+        delete params['token_auth'];
+        return $.ajax({
+            url: 'index.php?' + $.param(params),
+            dataType: dataType,
+            data: { token_auth: token_auth },
+            type: 'POST'
+        });
     }
 
     function minmax(values) {
@@ -600,125 +614,120 @@ UserCountryMap.run = function(config) {
         function updateRegionColors() {
             indicateLoading();
             // load data from Piwik API
-            $.ajax({
-                url: 'index.php',
-                type: 'POST',
-                data: _reportParams('UserCountry', 'getRegion', UserCountryMap.countriesByIso[iso].iso2),
-                dataType: 'json',
-                success : function(data) {
+            ajax(_reportParams('UserCountry', 'getRegion', UserCountryMap.countriesByIso[iso].iso2))
+            .done(function(data) {
 
-                    loadingComplete();
+                loadingComplete();
 
-                    var regionDict = {},
-                        totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
-                        unlocated = totalCountryVisits;
-                    // UserCountryMap.lastReportMetricStats = {};
+                var regionDict = {},
+                    totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
+                    unlocated = totalCountryVisits;
+                // UserCountryMap.lastReportMetricStats = {};
 
-                    function regionCode(region) {
-                        var key = UserCountryMap.keys[iso] || 'fips';
-                        return key.substr(0,4) == "fips" ? region[key].substr(2) : region[key];  // cut first two letters from fips code (=country code)
+                function regionCode(region) {
+                    var key = UserCountryMap.keys[iso] || 'fips';
+                    return key.substr(0,4) == "fips" ? region[key].substr(2) : region[key];  // cut first two letters from fips code (=country code)
+                }
+
+                function regionExistsInMap(code) {
+                    var key = UserCountryMap.keys[iso] || 'fips', q = {};
+                    q[key] = key.substr(0,4) == 'fips' ? UserCountryMap.countriesByIso[iso].fips + code : code;
+                    if (map.getLayer('regions').getPaths(q).length === 0) {
+                        return false;
                     }
+                    return true;
+                }
 
-                    function regionExistsInMap(code) {
-                        var key = UserCountryMap.keys[iso] || 'fips', q = {};
-                        q[key] = key.substr(0,4) == 'fips' ? UserCountryMap.countriesByIso[iso].fips + code : code;
-                        if (map.getLayer('regions').getPaths(q).length === 0) {
-                            return false;
-                        }
-                        return true;
-                    }
-
-                    $.each(data.reportData, function(i, row) {
-                        regionDict[data.reportMetadata[i].region] = $.extend(row, data.reportMetadata[i], {
-                            curMetric: quantify(row, metric)
-                        });
+                $.each(data.reportData, function(i, row) {
+                    regionDict[data.reportMetadata[i].region] = $.extend(row, data.reportMetadata[i], {
+                        curMetric: quantify(row, metric)
                     });
+                });
 
-                    var metric = $('#userCountryMapSelectMetrics').val();
+                var metric = $('#userCountryMapSelectMetrics').val();
 
-                    if (UserCountryMap.aggregate[iso]) {
-                        var aggregated = aggregate(regionDict, function(row) {
-                            var id = row.region, res = false;
-                            $.each(UserCountryMap.aggregate[iso].groups, function(group, codes) {
-                                if ($.inArray(id, codes) > -1) {
-                                    res = group;
-                                }
-                            });
-                            return res;
+                if (UserCountryMap.aggregate[iso]) {
+                    var aggregated = aggregate(regionDict, function(row) {
+                        var id = row.region, res = false;
+                        $.each(UserCountryMap.aggregate[iso].groups, function(group, codes) {
+                            if ($.inArray(id, codes) > -1) {
+                                res = group;
+                            }
                         });
-                        //if (!UserCountryMap.aggregate.partial) regionDict = {};
-                        $.each(aggregated, function(id, group) {
-                            group.curMetric = quantify(group, metric);
-                            regionDict[id] = group;
-                        });
-                    }
-
-                    $.each(regionDict, function(key, region) {
-                        if (regionExistsInMap(key)) unlocated -= region.nb_visits;
+                        return res;
                     });
-                    displayUnlocatableCount(unlocated, totalCountryVisits);
-
-                    // create color scale
-                    colscale = getColorScale(regionDict, 'curMetric', null, true);
-
-                    function regionFill(data) {
-                        var code = regionCode(data);
-                        return regionDict[code] === undefined ? '#fff' : colscale.getColor(regionDict[code].curMetric);
-                    }
-
-                    // apply colors to map
-                    map.getLayer('regions')
-                    .style('fill', regionFill)
-                    .style('stroke', function(data) {
-                        return regionDict[regionCode(data)] === undefined ? '#bbb' : '#3C6FB6';
-                    }).sort(function(data) {
-                        var code = regionCode(data);
-                        return regionDict[code] === undefined ? -1 : regionDict[code].curMetric;
-                    }).tooltips(function(data) {
-                        var metric = $('#userCountryMapSelectMetrics').val(),
-                        region = regionDict[regionCode(data)];
-                        if (region === undefined) {
-                            return '<h3>'+data.name+'</h3><p>'+UserCountryMap._.nb_visits.replace('%s', '<b>0</b>')+'</p>';
-                        }
-                        return '<h3>'+data.name+'</h3>'+
-                            formatValueForTooltips(region, metric, iso);
-                    }).on('click', function(d, path, evt) {
-                        var region = regionDict[regionCode(d)];
-                        if (region && region.label) {
-                            if (evt.shiftKey) {
-                                path.attr('fill', '#f4f45b');
-                                addMultipleRowEvolution('getRegion', region.label);
-                            } else {
-                                map.getLayer('regions').style('fill', regionFill);
-                                showRowEvolution('getRegion', region.label);
-                            }
-                        }
-                    }).on('mouseenter', function(d, path, evt) {
-                        var region = regionDict[regionCode(d)];
-                        if (region && region.label) {
-                            if (evt.shiftKey) {
-                                path.attr('fill', '#f4f45b');
-                            }
-                        }
-                    }).on('mouseleave', function(d, path, evt) {
-                        var region = regionDict[regionCode(d)];
-                        if (region && region.label) {
-                            if ($.inArray(region.label, _rowEvolution.labels) == -1) {
-                                // reset color
-                                path.attr('fill', regionFill(d));
-                            }
-                        }
-                    }).style('cursor', function(d) {
-                        return regionDict[regionCode(d)] && regionDict[regionCode(d)].label ? 'pointer' : 'default';
-                    });
-
-                    // check for regions missing in the map
-                    $.each(regionDict, function(code, region) {
-                        if (!regionExistsInMap(code)) {
-                            console.warn('possible region mismatch!', code, region.nb_visits);
-                        }
+                    //if (!UserCountryMap.aggregate.partial) regionDict = {};
+                    $.each(aggregated, function(id, group) {
+                        group.curMetric = quantify(group, metric);
+                        regionDict[id] = group;
                     });
                 }
+
+                $.each(regionDict, function(key, region) {
+                    if (regionExistsInMap(key)) unlocated -= region.nb_visits;
+                });
+                displayUnlocatableCount(unlocated, totalCountryVisits);
+
+                // create color scale
+                colscale = getColorScale(regionDict, 'curMetric', null, true);
+
+                function regionFill(data) {
+                    var code = regionCode(data);
+                    return regionDict[code] === undefined ? '#fff' : colscale.getColor(regionDict[code].curMetric);
+                }
+
+                // apply colors to map
+                map.getLayer('regions')
+                .style('fill', regionFill)
+                .style('stroke', function(data) {
+                    return regionDict[regionCode(data)] === undefined ? '#bbb' : '#3C6FB6';
+                }).sort(function(data) {
+                    var code = regionCode(data);
+                    return regionDict[code] === undefined ? -1 : regionDict[code].curMetric;
+                }).tooltips(function(data) {
+                    var metric = $('#userCountryMapSelectMetrics').val(),
+                    region = regionDict[regionCode(data)];
+                    if (region === undefined) {
+                        return '<h3>'+data.name+'</h3><p>'+UserCountryMap._.nb_visits.replace('%s', '<b>0</b>')+'</p>';
+                    }
+                    return '<h3>'+data.name+'</h3>'+
+                        formatValueForTooltips(region, metric, iso);
+                }).on('click', function(d, path, evt) {
+                    var region = regionDict[regionCode(d)];
+                    if (region && region.label) {
+                        if (evt.shiftKey) {
+                            path.attr('fill', '#f4f45b');
+                            addMultipleRowEvolution('getRegion', region.label);
+                        } else {
+                            map.getLayer('regions').style('fill', regionFill);
+                            showRowEvolution('getRegion', region.label);
+                        }
+                    }
+                }).on('mouseenter', function(d, path, evt) {
+                    var region = regionDict[regionCode(d)];
+                    if (region && region.label) {
+                        if (evt.shiftKey) {
+                            path.attr('fill', '#f4f45b');
+                        }
+                    }
+                }).on('mouseleave', function(d, path, evt) {
+                    var region = regionDict[regionCode(d)];
+                    if (region && region.label) {
+                        if ($.inArray(region.label, _rowEvolution.labels) == -1) {
+                            // reset color
+                            path.attr('fill', regionFill(d));
+                        }
+                    }
+                }).style('cursor', function(d) {
+                    return regionDict[regionCode(d)] && regionDict[regionCode(d)].label ? 'pointer' : 'default';
+                });
+
+                // check for regions missing in the map
+                $.each(regionDict, function(code, region) {
+                    if (!regionExistsInMap(code)) {
+                        console.warn('possible region mismatch!', code, region.nb_visits);
+                    }
+                });
             });
         }
 
@@ -734,146 +743,141 @@ UserCountryMap.run = function(config) {
             indicateLoading();
 
             // get visits per city from API
-            $.ajax({
-                url: 'index.php?' + $.param(_reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2)),
-                //data: _reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2),
-                dataType: 'json',
-                type: 'GET',
-                success : function(data) {
+            ajax(_reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2))
+            .done(function(data) {
 
-                    loadingComplete();
+                loadingComplete();
 
-                    var metric = $('#userCountryMapSelectMetrics').val(),
-                        colscale,
-                        totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
-                        unlocated = totalCountryVisits,
-                        cities = [];
+                var metric = $('#userCountryMapSelectMetrics').val(),
+                    colscale,
+                    totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
+                    unlocated = totalCountryVisits,
+                    cities = [];
 
-                    // merge reportData and reportMetadata to cities array
-                    $.each(data.reportData, function(i, row) {
-                        unlocated -= row.nb_visits;
-                        cities.push($.extend(row, data.reportMetadata[i], {
-                            curMetric: quantify(row, metric)
-                        }));
-                    });
+                // merge reportData and reportMetadata to cities array
+                $.each(data.reportData, function(i, row) {
+                    unlocated -= row.nb_visits;
+                    cities.push($.extend(row, data.reportMetadata[i], {
+                        curMetric: quantify(row, metric)
+                    }));
+                });
 
-                    displayUnlocatableCount(unlocated, totalCountryVisits);
+                displayUnlocatableCount(unlocated, totalCountryVisits);
 
-                    // sort by current metric
-                    cities.sort(function(a, b) { return b.curMetric - a.curMetric; });
+                // sort by current metric
+                cities.sort(function(a, b) { return b.curMetric - a.curMetric; });
 
-                    colscale = getColorScale(cities, metric);
+                colscale = getColorScale(cities, metric);
 
-                    // construct scale
-                    var radscale = $K.scale.linear(cities.concat({ curMetric: 0 }), 'curMetric');
+                // construct scale
+                var radscale = $K.scale.linear(cities.concat({ curMetric: 0 }), 'curMetric');
 
-                    var area = map.container.width() * map.container.height(),
-                        sumArea = 0,
-                        f = {
-                            nb_visits: 0.002,
-                            nb_actions: 0.002,
-                            avg_time_on_site: 0.02,
-                            nb_actions_per_visit: 0.02,
-                            bounce_rate: 0.02
-                        },
-                        maxRad;
+                var area = map.container.width() * map.container.height(),
+                    sumArea = 0,
+                    f = {
+                        nb_visits: 0.002,
+                        nb_actions: 0.002,
+                        avg_time_on_site: 0.02,
+                        nb_actions_per_visit: 0.02,
+                        bounce_rate: 0.02
+                    },
+                    maxRad;
 
-                    $.each(cities, function(i, city) {
-                        sumArea += isNaN(city.curMetric) ? 0 : Math.pow(radscale(city.curMetric), 2);
-                    });
-                    maxRad = Math.sqrt(area * f[metric] / sumArea);
+                $.each(cities, function(i, city) {
+                    sumArea += isNaN(city.curMetric) ? 0 : Math.pow(radscale(city.curMetric), 2);
+                });
+                maxRad = Math.sqrt(area * f[metric] / sumArea);
 
-                    radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([2, maxRad+2]);
+                radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([2, maxRad+2]);
 
-                    var is_rate = metric.substr(0,3) != 'nb_' || metric == 'nb_actions_per_visit';
+                var is_rate = metric.substr(0,3) != 'nb_' || metric == 'nb_actions_per_visit';
 
-                    var citySymbols = map.addSymbols({
-                        type: $K.LabeledBubble,
-                        data: cities,
-                        clustering: 'noverlap',
-                        clusteringOpts: {
-                            size: 128,
-                            tolerance: 0
-                        },
-                        title: function(d) {
-                            return radscale(d.curMetric) > 10 ? formatNumber(d.curMetric) : '';
-                        },
-                        labelattrs: {
-                            fill: '#fff',
-                            'font-size': 11,
-                            stroke: false,
+                var citySymbols = map.addSymbols({
+                    type: $K.LabeledBubble,
+                    data: cities,
+                    clustering: 'noverlap',
+                    clusteringOpts: {
+                        size: 128,
+                        tolerance: 0
+                    },
+                    title: function(d) {
+                        return radscale(d.curMetric) > 10 ? formatNumber(d.curMetric) : '';
+                    },
+                    labelattrs: {
+                        fill: '#fff',
+                        'font-size': 11,
+                        stroke: false,
+                        cursor: 'pointer'
+                    },
+                    filter: function(d) {
+                        if (isNaN(d.lat) || isNaN(d.long)) return false;
+                        return is_rate ? d.nb_visits > 5 && d.curMetric : d.curMetric;
+                    },
+                    aggregate: function(rows) {
+                        var row = aggregate(rows);
+                        row.city_names = [];
+                        row.label = rows[0].label; // keep label of biggest city for row evolution
+                        $.each(rows, function(i, r) {
+                            row.city_names = row.city_names.concat(r.city_names ? r.city_names : [r.city_name]);
+                        });
+                        row.city_name = row.city_names[0] + (row.city_names.length > 1 ? ' '+UserCountryMap._.and_n_others.replace('%s', (row.city_names.length-1)) : '');
+                        row.curMetric = quantify(row, metric);
+                        return row;
+                    },
+                    sortBy: 'radius desc',
+                    location: function(city) { return [city.long, city.lat]; },
+                    radius: function(city) { return radscale(city.curMetric); },
+                    tooltip: function(city) {
+                        return '<h3>'+city.city_name+'</h3>'+
+                            formatValueForTooltips(city, metric, iso);
+                    },
+                    attrs: function(city) {
+                        return {
+                            fill: colscale.getColor(city.curMetric),
+                            'fill-opacity': 0.7,
+                            stroke: '#fff',
                             cursor: 'pointer'
-                        },
-                        filter: function(d) {
-                            if (isNaN(d.lat) || isNaN(d.long)) return false;
-                            return is_rate ? d.nb_visits > 5 && d.curMetric : d.curMetric;
-                        },
-                        aggregate: function(rows) {
-                            var row = aggregate(rows);
-                            row.city_names = [];
-                            row.label = rows[0].label; // keep label of biggest city for row evolution
-                            $.each(rows, function(i, r) {
-                                row.city_names = row.city_names.concat(r.city_names ? r.city_names : [r.city_name]);
-                            });
-                            row.city_name = row.city_names[0] + (row.city_names.length > 1 ? ' '+UserCountryMap._.and_n_others.replace('%s', (row.city_names.length-1)) : '');
-                            row.curMetric = quantify(row, metric);
-                            return row;
-                        },
-                        sortBy: 'radius desc',
-                        location: function(city) { return [city.long, city.lat]; },
-                        radius: function(city) { return radscale(city.curMetric); },
-                        tooltip: function(city) {
-                            return '<h3>'+city.city_name+'</h3>'+
-                                formatValueForTooltips(city, metric, iso);
-                        },
-                        attrs: function(city) {
-                            return {
-                                fill: colscale.getColor(city.curMetric),
-                                'fill-opacity': 0.7,
-                                stroke: '#fff',
-                                cursor: 'pointer'
-                            };
-                        },
-                        mouseenter: function(city, symbol, evt) {
-                            symbol.path.attr({
-                                'fill-opacity': 1,
-                                'stroke': '#000000',
-                                'stroke-opacity': 1,
-                                'stroke-width': 2
-                            });
-                            if (evt.shiftKey) {
-                                symbol.path.attr({ fill: '#f4f45b' });
-                                if (symbol.label) symbol.label.attr({ fill: '#000' });
-                            }
-                        },
-                        mouseleave: function(city, symbol) {
-                            symbol.path.attr({
-                                'fill-opacity': 0.7,
-                                'stroke-opacity': 1,
-                                'stroke-width': 1,
-                                'stroke': '#ffffff'
-                            });
-                            if ($.inArray(city.label, _rowEvolution.labels) == -1) {
-                                symbol.path.attr({ fill: colscale.getColor(city.curMetric) });
-                                if (symbol.label) symbol.label.attr({ fill: '#fff' });
-                            }
-                        },
-                        click: function(city, symbol, evt) {
-                            if (evt.shiftKey) {
-                                addMultipleRowEvolution('getCity', city.label);
-                                symbol.path.attr('fill', '#f4f45b');
-                                if (symbol.label) symbol.label.attr('fill', '#000');
-                            } else {
-                                showRowEvolution('getCity', city.label);
-                                citySymbols.evaluate({
-                                    attrs: function(city) {
-                                        return { fill: colscale.getColor(city.curMetric) };
-                                    }
-                                });
-                            }
+                        };
+                    },
+                    mouseenter: function(city, symbol, evt) {
+                        symbol.path.attr({
+                            'fill-opacity': 1,
+                            'stroke': '#000000',
+                            'stroke-opacity': 1,
+                            'stroke-width': 2
+                        });
+                        if (evt.shiftKey) {
+                            symbol.path.attr({ fill: '#f4f45b' });
+                            if (symbol.label) symbol.label.attr({ fill: '#000' });
                         }
-                    });
-                }
+                    },
+                    mouseleave: function(city, symbol) {
+                        symbol.path.attr({
+                            'fill-opacity': 0.7,
+                            'stroke-opacity': 1,
+                            'stroke-width': 1,
+                            'stroke': '#ffffff'
+                        });
+                        if ($.inArray(city.label, _rowEvolution.labels) == -1) {
+                            symbol.path.attr({ fill: colscale.getColor(city.curMetric) });
+                            if (symbol.label) symbol.label.attr({ fill: '#fff' });
+                        }
+                    },
+                    click: function(city, symbol, evt) {
+                        if (evt.shiftKey) {
+                            addMultipleRowEvolution('getCity', city.label);
+                            symbol.path.attr('fill', '#f4f45b');
+                            if (symbol.label) symbol.label.attr('fill', '#000');
+                        } else {
+                            showRowEvolution('getCity', city.label);
+                            citySymbols.evaluate({
+                                attrs: function(city) {
+                                    return { fill: colscale.getColor(city.curMetric) };
+                                }
+                            });
+                        }
+                    }
+                });
             });
         }
 
@@ -996,11 +1000,8 @@ UserCountryMap.run = function(config) {
             action: multiple ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover'
         });
 
-        $.ajax({
-            url: 'index.php?' + $.param(requestParams),
-            type: 'GET',
-            dataType: 'html'
-        }).done(function(html) {
+        ajax(requestParams, 'html')
+        .done(function(html) {
             Piwik_Popover.setContent(html);
 
             // use the popover title returned from the server
@@ -1018,11 +1019,8 @@ UserCountryMap.run = function(config) {
     }
 
     // now load the metrics for all countries
-    $.ajax({
-        url: 'index.php?'+$.param(_reportParams('UserCountry', 'getCountry')),
-        type: 'GET',
-        dataType: 'json'
-    }).done(function(report) {
+    ajax(_reportParams('UserCountry', 'getCountry'))
+    .done(function(report) {
         var metrics = $('#userCountryMapSelectMetrics option');
         var countryData = [], countrySelect = $('#userCountryMapSelectCountry'),
             countriesByIso = {};
