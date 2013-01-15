@@ -362,7 +362,7 @@ RealTimeMap.run = function(config) {
 
     // clicking on map background zooms out
     $('#RealTimeMap_map').click(function() {
-        if (currentMap != 'world') updateMap(world);
+        if (currentMap != 'world') updateMap('world');
     });
 
     // secret gimmick shortcuts
