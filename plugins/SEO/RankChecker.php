@@ -180,7 +180,7 @@ class Piwik_SEO_RankChecker
     protected function _getAgeArchiveOrg()
     {
         $url  = str_replace('www.', '', $this->url);
-        $data = $this->getPage('http://wayback.archive.org/web/*/' . urlencode($url));
+        $data = @$this->getPage('http://wayback.archive.org/web/*/' . urlencode($url));
         preg_match('#<a href=\"([^>]*)' . preg_quote($url) . '/\">([^<]*)<\/a>#', $data, $p);
         if (!empty($p[2])) {
             $value = strtotime($p[2]);
