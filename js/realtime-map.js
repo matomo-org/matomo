@@ -48,6 +48,21 @@ RealTimeMap.run = function(config) {
     }
 
     /*
+     * wrapper around jQuery.ajax, moves token_auth parameter
+     * to POST data while keeping other parameters as GET
+     */
+    function ajax(params) {
+        var token_auth = params.token_auth;
+        params.token_auth = undefined;
+        return $.ajax({
+            url: 'index.php?' + $.param(params),
+            dataType: 'json',
+            data: { token_auth: token_auth },
+            type: 'POST'
+        });
+    }
+
+    /*
      * updateMap is called by renderCountryMap() and renderWorldMap()
      */
     function _updateMap(svgUrl, callback) {
@@ -205,11 +220,8 @@ RealTimeMap.run = function(config) {
      * If firstRun is true, the SymbolGroup is initialized
      */
     function refreshVisits(firstRun) {
-        $.ajax({
-            url: 'index.php',
-            type: 'POST',
-            data: _reportParams(firstRun)
-        }).done(function(report) {
+        ajax(_reportParams(firstRun))
+        .done(function(report) {
 
             // successful request, so set timeout for next API call
             nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);

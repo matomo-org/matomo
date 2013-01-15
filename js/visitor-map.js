@@ -997,10 +997,9 @@ UserCountryMap.run = function(config) {
         });
 
         $.ajax({
-            url: 'index.php',
+            url: 'index.php?' + $.param(requestParams),
             type: 'GET',
-            dataType: 'html',
-            data: requestParams
+            dataType: 'html'
         }).done(function(html) {
             Piwik_Popover.setContent(html);
 
