@@ -91,6 +91,8 @@
             dashboardLayout = null;
             dashboardId     = dashboardIdToLoad;
             piwikHelper.showAjaxLoading();
+            broadcast.updateHashOnly = true;
+            broadcast.propagateAjax('?idDashboard='+dashboardIdToLoad);
             fetchLayout(generateLayout);
             buildMenu();
             return this;

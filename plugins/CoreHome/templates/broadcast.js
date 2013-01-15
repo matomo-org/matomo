@@ -48,6 +48,11 @@ var broadcast = {
 	forceReload: false,
 
     /**
+     * Suppress content update on hash changing
+     */
+    updateHashOnly: false,
+
+    /**
      * Initializes broadcast object
      * @return {void}
      */
@@ -82,6 +87,12 @@ var broadcast = {
 
         // Unbind any previously attached resize handlers
         $(window).off('resize');
+
+        // do not update content if it should be suppressed
+        if (broadcast.updateHashOnly) {
+            broadcast.updateHashOnly = false;
+            return;
+        }
 			
 		// hash doesn't contain the first # character.
 		if( hash ) {
