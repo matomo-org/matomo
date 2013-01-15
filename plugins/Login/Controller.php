@@ -496,7 +496,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 	{
 		self::clearSession();
 
-		$logoutUrl = Piwik_Config::getInstance()->General['login_logout_url'];
+		$logoutUrl = @Piwik_Config::getInstance()->General['login_logout_url'];
 		if(empty($logoutUrl)) {
 			Piwik::redirectToModule('CoreHome');
 		} else {
