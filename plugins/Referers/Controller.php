@@ -184,7 +184,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->enableShowGoals();
 		$view->disableSubTableWhenShowGoals();
 		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnSocial'));
-		$view->setFooterMessage(Piwik_Translate('Referers_SocialFooterMessage'));
+
+		if(empty($_REQUEST['widget'])) {
+			$view->setFooterMessage(Piwik_Translate('Referers_SocialFooterMessage'));
+		}
 		
 		$this->setMetricsVariablesView($view);
 		
