@@ -177,7 +177,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	
 	function getSocials( $fetch = false)
 	{
-		$view = Piwik_ViewDataTable::factory();
+		$view = Piwik_ViewDataTable::factory('graphPie');
 		$view->init($this->pluginName, __FUNCTION__, 'Referers.getSocials', 'getUrlsForSocial');
 		$view->disableExcludeLowPopulation();
 		$view->setLimit(10);
