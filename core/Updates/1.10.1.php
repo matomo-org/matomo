@@ -13,7 +13,7 @@
 /**
  * @package Updates
  */
-class Piwik_Updates_1_10_b4 extends Piwik_Updates
+class Piwik_Updates_1_10_1 extends Piwik_Updates
 {
 	static function isMajorUpdate()
 	{
@@ -24,7 +24,7 @@ class Piwik_Updates_1_10_b4 extends Piwik_Updates
 	{
 		try
 		{
-			Piwik_PluginsManager::getInstance()->activatePlugin('MobileMessaging');
+			Piwik_PluginsManager::getInstance()->activatePlugin('Overlay');
 		}
 		catch(Exception $e)
 		{
