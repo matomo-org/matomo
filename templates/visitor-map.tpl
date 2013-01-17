@@ -90,7 +90,7 @@
 }
 {/literal}
         </style>
-    <div id="UserCountryMap_container" class="dataTable">
+    <div id="UserCountryMap_container">
 
         <div id="UserCountryMap_map" style="overflow:hidden"></div>
         <div class="UserCountryMap-overlay UserCountryMap-title">
@@ -187,6 +187,8 @@
         UserCountryMap.run(config)
     });
 {/literal}
+
+    $('#UserCountryMap').addClass('dataTable');
 
 </script>
 
