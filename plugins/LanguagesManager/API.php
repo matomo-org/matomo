@@ -167,6 +167,7 @@ class Piwik_LanguagesManager_API
 	public function getLanguageForUser( $login )
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
+		Piwik::checkUserIsNotAnonymous();
 		return Piwik_FetchOne('SELECT language FROM '.Piwik_Common::prefixTable('user_language') .
 					' WHERE login = ? ', array($login ));
 	}
@@ -181,6 +182,7 @@ class Piwik_LanguagesManager_API
 	public function setLanguageForUser($login, $languageCode)
 	{
 		Piwik::checkUserIsSuperUserOrTheUser($login);
+		Piwik::checkUserIsNotAnonymous();
 		if(!$this->isLanguageAvailable($languageCode))
 		{
 			return false;
