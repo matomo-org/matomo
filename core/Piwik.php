@@ -2745,7 +2745,7 @@ class Piwik
 		
 		if (function_exists('exec')) // use exec
 		{
-			exec($command, $output, $returnCode);
+			@exec($command, $output, $returnCode);
 			
 			// check if filesystem is NFS
 			if ($returnCode == 0
@@ -2756,7 +2756,7 @@ class Piwik
 		}
 		else if (function_exists('shell_exec')) // use shell_exec
 		{
-			$output = shell_exec($command);
+			$output = @shell_exec($command);
 			if ($output)
 			{
 				$output = explode("\n", $output);
