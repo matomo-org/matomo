@@ -277,6 +277,21 @@
                 if(dashboardLayout.columns.length >= i) {
                     dashboardLayout.columns.pop();
                 }
+                // move widgets to other columns depending on columns height
+                $('[widgetId]', $('.col:last')).each(function(id, elem){
+                    var cols = $('.col').slice(0, columnCount);
+                    var smallestColumn = $(cols[0]);
+                    var smallestColumnHeight = null;
+                    cols.each(function(colId, col){
+                        if (smallestColumnHeight == null || smallestColumnHeight > $(col).height()) {
+                            smallestColumnHeight = $(col).height();
+                            smallestColumn = $(col);
+                        }
+                    });
+
+                    $(elem).appendTo(smallestColumn);
+                });
+
                 $('.col:last').remove();
             }
         }
