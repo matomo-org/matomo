@@ -189,3 +189,5 @@
 {/literal}
 
 </script>
+
+<link rel="stylesheet" type="text/css" href="{$piwikUrl}plugins/UserCountryMap/css/minimal.css">
