@@ -22,7 +22,7 @@
     position: absolute;
     right: 0;
     left: 0;
-    z-index: 999990;
+    z-index: 8;
     width: 1000px;
     height: 1000px;
     background: #D5D3C8;
@@ -33,7 +33,7 @@
     top: 42%!important;
     right: 10px!important;
     left: 10px!important;
-    z-index: 999999!important;
+    z-index: 9!important;
     display: block;
     color: #000;
     vertical-align: middle!important;
@@ -50,7 +50,7 @@
 .UserCountryMap-tooltip {
     display:block;
     position: absolute;
-    z-index:1000;
+    z-index:6;
 }
 
 .UserCountryMap-overlay .content,
@@ -84,7 +84,7 @@
     left: 5px;
     bottom: 40px;
     position: absolute;
-    z-index:1000;
+    z-index: 7;
     opacity: 0.9;
 
 }
