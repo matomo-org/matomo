@@ -1007,7 +1007,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 		}
 		
 		// delete the temporary rows that were created
-		Piwik_Exec("DELETE FROM $optionTable WHERE option_name IN ('".implode("','", $testOptionNames)."')");
+		Piwik_Exec("DELETE FROM `$optionTable` WHERE option_name IN ('".implode("','", $testOptionNames)."')");
 		
 		return $result;
 	}
