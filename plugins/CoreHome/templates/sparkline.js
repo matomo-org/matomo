@@ -6,17 +6,24 @@
  */
 
 function initializeSparklines () {
+	var sparklineUrlParamsToIgnore = ['module', 'action', 'idSite', 'period', 'date', 'viewDataTable'];
+	
 	$("a[name='evolutionGraph']").each(function() {
 		var graph = $(this);
 		
 		// try to find sparklines and add them clickable behaviour
 		graph.parent().find('div.sparkline').each(function() {
 			// find the sparkline and get it's src attribute
-			var sparklineUrl = $('img.sparkline', this).attr('src'),
-				columns = broadcast.getParamValue('columns', sparklineUrl);
+			var sparklineUrl = $('img.sparkline', this).attr('src');
 			
 			if (sparklineUrl != "")
 			{
+				var params = broadcast.getValuesFromUrl(sparklineUrl);
+				for (var i = 0; i != sparklineUrlParamsToIgnore.length; ++i)
+				{
+					delete params[sparklineUrlParamsToIgnore[i]];
+				}
+				
 				// on click, reload the graph with the new url
 				$(this).click(function() {
 					var idDataTable = graph.attr('graphId'),
@@ -32,7 +39,7 @@ function initializeSparklines () {
 					}
 					
 					// reload the datatable w/ a new column & scroll to the graph
-					dataTable.trigger('reload', {columns: columns});
+					dataTable.trigger('reload', params);
 				});
 				$(this).hover( 	
 					function() { 
