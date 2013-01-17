@@ -239,9 +239,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->nameGraphEvolution = 'GoalsgetEvolutionGraph';
 
 		// sparkline for the historical data of the above values
-		$view->urlSparklineConversions		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions')));
-		$view->urlSparklineConversionRate 	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate')));
-		$view->urlSparklineRevenue 			= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue')));
+		$view->urlSparklineConversions		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_conversions'), 'idGoal' => ''));
+		$view->urlSparklineConversionRate 	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate'), 'idGoal' => ''));
+		$view->urlSparklineRevenue 			= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue'), 'idGoal' => ''));
 
 		// Pass empty idGoal will return Goal overview
 		$request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=");
