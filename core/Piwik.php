@@ -2411,7 +2411,7 @@ class Piwik
 				'$filePath'
 			REPLACE
 			INTO TABLE
-				".$tableName;
+				`".$tableName."`";
 
 		if(isset($fileSpec['charset']))
 		{
