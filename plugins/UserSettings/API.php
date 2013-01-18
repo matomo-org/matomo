@@ -92,16 +92,37 @@ class Piwik_UserSettings_API
 		$dataTable->filter('GroupBy', array('label', 'Piwik_UserSettings_getDeviceTypeFromOS'));
 		
 		// make sure the datatable has a row for mobile & desktop (if it has rows)
-		$empty = new Piwik_DataTable();
-		$empty->addRowsFromSimpleArray(array(
-			array('label' => 'General_Desktop', Piwik_Archive::INDEX_NB_VISITS => 0),
-			array('label' => 'General_Mobile', Piwik_Archive::INDEX_NB_VISITS => 0)
-		));
-		if($dataTable->getRowsCount() > 0)
-		{
-			$dataTable->addDataTable($empty);
-		}
-		
+        $dataTables = array($dataTable);
+        if ($dataTable instanceof Piwik_DataTable_Array) {
+            $dataTables = $dataTable->getArray();
+        }
+
+        $requiredRows = array(
+            'General_Desktop' => Piwik_Archive::INDEX_NB_VISITS,
+            'General_Mobile' => Piwik_Archive::INDEX_NB_VISITS
+        );
+
+        foreach ($dataTables AS $table) {
+            if ($table->getRowsCount() == 0) {
+                continue;
+            }
+            $rows = $table->getRows();
+            foreach ($requiredRows AS $requiredRow => $key) {
+                $rowFound = false;
+                foreach ($rows AS $row) {
+                    if ($row->getColumn('label') == $requiredRow) {
+                        $rowFound = true;
+                        break;
+                    }
+                }
+                if (!$rowFound) {
+                    $table->addRowsFromSimpleArray(array(
+                        array('label' => $requiredRow, $key => 0)
+                    ));
+                }
+            }
+        }
+
 		// set the logo metadata
 		$dataTable->queueFilter('MetadataCallbackReplace',
 			array('logo', 'Piwik_UserSettings_getDeviceTypeImg', null, array('label')));
