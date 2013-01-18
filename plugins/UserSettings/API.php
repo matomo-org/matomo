@@ -106,16 +106,9 @@ class Piwik_UserSettings_API
             if ($table->getRowsCount() == 0) {
                 continue;
             }
-            $rows = $table->getRows();
             foreach ($requiredRows AS $requiredRow => $key) {
-                $rowFound = false;
-                foreach ($rows AS $row) {
-                    if ($row->getColumn('label') == $requiredRow) {
-                        $rowFound = true;
-                        break;
-                    }
-                }
-                if (!$rowFound) {
+                $row = $table->getRowFromLabel($requiredRow);
+                if (empty($row)) {
                     $table->addRowsFromSimpleArray(array(
                         array('label' => $requiredRow, $key => 0)
                     ));
