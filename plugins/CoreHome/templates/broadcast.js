@@ -490,7 +490,7 @@ var broadcast = {
     	var result = {};
     	for (var i = 0; i != pairs.length; ++i)
     	{
-    		var pair = pairs[i].split('=');
+    		var pair = pairs[i].split(/=(.+)?/); // split only on first '='
     		result[pair[0]] = pair[1];
     	}
     	return result;
