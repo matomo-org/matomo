@@ -76,6 +76,7 @@ EXCLUDED_USER_AGENTS = (
     'libwww',
     'mediapartners-google',
     'msnbot',
+    'netcraftsurvey',
     'robot',
     'spider',
     'surveybot',
