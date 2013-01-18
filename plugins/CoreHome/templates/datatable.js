@@ -1454,7 +1454,7 @@ dataTable.prototype =
 				var newParams = broadcast.getValuesFromUrl(url);
 				for (var key in newParams)
 				{
-					self.param[key] = newParams[key];
+					self.param[key] = decodeURIComponent(newParams[key]);
 				}
 				
 				// do ajax request

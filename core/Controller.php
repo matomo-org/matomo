@@ -150,6 +150,7 @@ abstract class Piwik_Controller
 				);
 
 		$view->main();
+		
 		$rendered = $view->getView()->render();
 		if($fetch)
 		{
