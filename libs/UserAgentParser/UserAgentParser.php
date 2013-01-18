@@ -355,6 +355,7 @@ class UserAgentParser
 	 */
 	static public function getOperatingSystem($userAgent)
 	{
+		$userAgent = self::cleanupUserAgent($userAgent);
 		self::init();
 		$info = array(
 			'id' => '',
@@ -374,6 +375,12 @@ class UserAgentParser
 		$info['short_name'] = self::getOperatingSystemShortNameFromId($info['id']);
 		return $info;
 	}
+
+	static protected function cleanupUserAgent($userAgent)
+	{
+		// in case value is URL encoded
+		return urldecode($userAgent);
+	}
 	
 	/**
 	 * Returns the browser information array, given a user agent string.
@@ -391,6 +398,8 @@ class UserAgentParser
 	 */
 	static public function getBrowser($userAgent)
 	{
+		$userAgent = self::cleanupUserAgent($userAgent);
+
 		self::init();
 
 		$info = array(
