@@ -50,6 +50,8 @@ class Piwik_CacheFile
 		if(empty($id)) {
 			return false;
 		}
+		$id = $this->cleanupId($id);
+
 		$cache_complete = false;
 		$content = '';
 
@@ -61,6 +63,14 @@ class Piwik_CacheFile
 		}
 
 		return false;
+	}
+
+	protected function cleanupId($id)
+	{
+		if(!Piwik_Common::isValidFilename($id)) {
+			throw new Exception("Invalid cache ID request $id");
+		}
+		return $id;
 	}
 
 	/**
@@ -82,6 +92,7 @@ class Piwik_CacheFile
 		if (!is_writable($this->cachePath)) {
 			return false;
 		}
+		$id = $this->cleanupId($id);
 	
 		$id = $this->cachePath . $id . '.php';
 
@@ -123,6 +134,8 @@ class Piwik_CacheFile
 		if(empty($id)) {
 			return false;
 		}
+		$id = $this->cleanupId($id);
+
 		$filename = $this->cachePath . $id . '.php';
 		if (file_exists($filename)) {
 			@unlink ($filename);
