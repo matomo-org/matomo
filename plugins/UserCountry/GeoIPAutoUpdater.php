@@ -47,19 +47,19 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 		try
 		{
 			$locUrl = Piwik_GetOption(self::LOC_URL_OPTION_NAME);
-			if ($locUrl !== false)
+			if (!empty($locUrl))
 			{
 				$this->downloadFile('loc', $locUrl);
 			}
 		
 			$ispUrl = Piwik_GetOption(self::ISP_URL_OPTION_NAME);
-			if ($ispUrl !== false)
+			if (!empty($ispUrl))
 			{
 				$this->downloadFile('isp', $ispUrl);
 			}
 		
 			$orgUrl = Piwik_GetOption(self::ORG_URL_OPTION_NAME);
-			if ($orgUrl !== false)
+			if (!empty($orgUrl))
 			{
 				$this->downloadFile('org', $orgUrl);
 			}
