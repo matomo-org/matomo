@@ -26,17 +26,29 @@
  */
 abstract class Piwik_Period
 {
-	protected $subperiods = array();
+    /**
+     * Array of subperiods
+     * @var Piwik_Period[]
+     */
+    protected $subperiods = array();
 	protected $subperiodsProcessed = false;
-	protected $label = null;
+
+    /**
+     * @var string
+     */
+    protected $label = null;
 
 	/**
 	 * @var Piwik_Date
 	 */
 	protected $date = null;
 	static protected $errorAvailablePeriods = 'day, week, month, year, range';
-	
-	public function __construct( $date )
+
+    /**
+     * Constructor
+     * @param Piwik_Date $date
+     */
+    public function __construct( $date )
 	{	
 		$this->checkInputDate( $date );
 		$this->date = clone $date;
@@ -148,7 +160,11 @@ abstract class Piwik_Period
 		return Piwik::$idPeriods[$this->getLabel()];
 	}
 
-	public function getLabel()
+    /**
+     * Returns the label for the current period
+     * @return string
+     */
+    public function getLabel()
 	{
 		return $this->label;
 	}
@@ -159,9 +175,16 @@ abstract class Piwik_Period
 	protected function getDate()
 	{
 		return $this->date;
-	}	
-	
-	protected function checkInputDate($date)
+	}
+
+    /**
+     * Checks if the given date is an instance of Piwik_Date
+     *
+     * @param Piwik_Date $date
+     *
+     * @throws Exception
+     */
+    protected function checkInputDate($date)
 	{
 		if( !($date instanceof Piwik_Date))
 		{
@@ -173,8 +196,12 @@ abstract class Piwik_Period
 	{
 		$this->subperiodsProcessed = true;
 	}
-	
-	public function getNumberOfSubperiods()
+
+    /**
+     * Returns the number of available subperiods
+     * @return int
+     */
+    public function getNumberOfSubperiods()
 	{
 		if(!$this->subperiodsProcessed)
 		{
@@ -203,14 +230,22 @@ abstract class Piwik_Period
 	 * 
 	 * Protected because it not yet supported to add periods after the initialization
 	 * 
-	 * @param Piwik_Date Valid Piwik_Date object
+	 * @param Piwik_Period $period Valid Piwik_Period object
 	 */
-	protected function addSubperiod( $date )
+	protected function addSubperiod( $period )
 	{
-		$this->subperiods[] = $date;
+		$this->subperiods[] = $period;
 	}
-	
-	public function toString($format = "Y-m-d")
+
+    /**
+     * Returns a string representing the current period
+     * Given param will be used to format the returned value
+     *
+     * @param string $format
+     *
+     * @return array
+     */
+    public function toString($format = "Y-m-d")
 	{
 		if(!$this->subperiodsProcessed)
 		{

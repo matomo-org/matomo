@@ -83,7 +83,7 @@ class Piwik_Period_Day extends Piwik_Period
 	 * Returns the day of the period in the given format
 	 *
 	 * @param string $format
-	 * @return array
+	 * @return string
 	 */
 	public function toString($format = "Y-m-d")
 	{
@@ -93,7 +93,7 @@ class Piwik_Period_Day extends Piwik_Period
 	/**
 	 * Returns the current period as a string
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function __toString()
 	{
