@@ -42,6 +42,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 		Piwik_UserCountry_LocationProvider::$providers = null;
 		Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 		Piwik_UserCountry_LocationProvider::setCurrentProvider('default');
+	    parent::tearDownAfterClass();
     }
 
     /**
