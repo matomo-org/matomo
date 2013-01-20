@@ -35,7 +35,10 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 	
 	public function getListHooksRegistered()
 	{
-		return array( 'AssetManager.getCssFiles' => 'getCssFiles');
+		return array(
+            'AssetManager.getCssFiles' => 'getCssFiles',
+            'WidgetsList.add' => 'addWidgets'
+        );
 	}
 
 	/**
@@ -46,11 +49,15 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 		$cssFiles = &$notification->getNotificationObject();
 		
 		$cssFiles[] = "plugins/ExampleRssWidget/templates/styles.css";
-	}	
+	}
+
+    public function addWidgets()
+    {
+        Piwik_AddWidget('Example Widgets', 'Piwik.org Blog', 'ExampleRssWidget', 'rssPiwik');
+        Piwik_AddWidget('Example Widgets', 'Piwik Changelog', 'ExampleRssWidget', 'rssChangelog');
+    }
 }
 
-Piwik_AddWidget('Example Widgets', 'Piwik.org Blog', 'ExampleRssWidget', 'rssPiwik');
-Piwik_AddWidget('Example Widgets', 'Piwik Changelog', 'ExampleRssWidget', 'rssChangelog');
 
 /**
  *

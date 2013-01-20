@@ -41,6 +41,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 	{
 		return array(
 //			'Controller.renderView' => 'addUniqueVisitorsColumnToGivenReport',
+            'WidgetsList.add' => 'addWidgets',
 		);
 	}
 
@@ -68,7 +69,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
 		}
 	}
 	
-	function postLoad()
+	function addWidgets()
 	{
 		// we register the widgets so they appear in the "Add a new widget" window in the dashboard
 		// Note that the first two parameters can be either a normal string, or an index to a translation string
