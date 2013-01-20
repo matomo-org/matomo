@@ -54,6 +54,10 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
      */
     public function testApi($api, $params)
     {
+	    if (self::$shouldSkipTestThisTime)
+	    {
+		    return;
+	    }
 	    $this->runApiTests($api, $params);
     }
 
