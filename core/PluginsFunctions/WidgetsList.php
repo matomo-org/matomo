@@ -143,6 +143,15 @@ class Piwik_WidgetsList
 		}
 		return false;
 	}
+
+    /**
+     * Method to reset the widget list
+     * For testing only
+     */
+    public static function _reset() {
+        self::$widgets = null;
+        self::$hookCalled = false;
+    }
 }
 
 /**
