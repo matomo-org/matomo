@@ -27,7 +27,13 @@ class Piwik_UserCountryMap extends Piwik_Plugin
 		);
 	}
 
-	function postLoad()
+    function getListHooksRegistered()
+    {
+        $hooks = array('WidgetsList.add' => 'addWidgets');
+        return $hooks;
+    }
+
+	function addWidgets()
 	{
 		Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountry_WidgetLocation').' ('.Piwik_Translate('UserCountryMap_worldMap').')', 'UserCountryMap', 'worldMap');
 	}
