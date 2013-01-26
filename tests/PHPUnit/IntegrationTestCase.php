@@ -330,6 +330,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			$idSite,
 			'Mail Test report',
 			'day', // overridden in getApiForTestingScheduledReports()
+			0,
 			Piwik_PDFReports::EMAIL_TYPE,
 			Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
 			$availableReportIds,
@@ -341,6 +342,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			$idSite,
 			'SMS Test report, one website',
 			'day', // overridden in getApiForTestingScheduledReports()
+			0,
 			Piwik_MobileMessaging::MOBILE_TYPE,
 			Piwik_MobileMessaging::SMS_FORMAT,
 			array("MultiSites_getOne"),
@@ -352,6 +354,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			$idSite,
 			'SMS Test report, all websites',
 			'day', // overridden in getApiForTestingScheduledReports()
+			0,
 			Piwik_MobileMessaging::MOBILE_TYPE,
 			Piwik_MobileMessaging::SMS_FORMAT,
 			array("MultiSites_getAll"),
@@ -365,6 +368,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 				$idSite,
 				'Mail Test report',
 				'day', // overridden in getApiForTestingScheduledReports()
+				0,
 				Piwik_PDFReports::EMAIL_TYPE,
 				Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
 				$availableReportIds,

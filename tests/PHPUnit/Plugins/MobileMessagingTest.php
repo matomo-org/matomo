@@ -45,6 +45,7 @@ class MobileMessagingTest extends DatabaseTestCase
 			$this->idSiteAccess,
 			'description',
 			'month',
+			0,
 			'mobile',
 			'sms',
 			array(),
