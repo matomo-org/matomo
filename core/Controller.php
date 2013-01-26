@@ -457,38 +457,39 @@ abstract class Piwik_Controller
 			$view->language = !empty($language) ? $language : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 			
 			$view->config_action_url_category_delimiter = Piwik_Config::getInstance()->General['action_url_category_delimiter'];
-			
+
 			$this->setBasicVariablesView($view);
+
+			$view->topMenu = Piwik_GetTopMenu();
 		} catch(Exception $e) {
 			Piwik_ExitWithMessage($e->getMessage(), Piwik::shouldLoggerLog() ? $e->getTraceAsString() : '');
 		}
 	}
-	
+
 	/**
 	 * Set the minimal variables in the view object
-	 * 
+	 *
 	 * @param Piwik_View  $view
 	 */
 	protected function setBasicVariablesView($view)
 	{
-		$view->topMenu = Piwik_GetTopMenu();
 		$view->debugTrackVisitsInsidePiwikUI = Piwik_Config::getInstance()->Debug['track_visits_inside_piwik_ui'];
 		$view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
 		$view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
 		$view->isCustomLogo = Piwik_Config::getInstance()->branding['use_custom_logo'];
 		$view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
 		$view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
-		
+
 		$view->enableFrames = Piwik_Config::getInstance()->General['enable_framed_pages']
 			|| @Piwik_Config::getInstance()->General['enable_framed_logins'];
 		if(!$view->enableFrames)
 		{
 			$view->setXFrameOptions('sameorigin');
 		}
-		
+
 		self::setHostValidationVariablesView($view);
 	}
-	
+
 	/**
 	 * Checks if the current host is valid and sets variables on the given view, including:
 	 * 
