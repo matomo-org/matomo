@@ -35,6 +35,18 @@ abstract class Piwik_ScheduledTime
 	 */
 	public $day = 1;
 
+	static public function getScheduledTimeForPeriod($period)
+	{
+		switch($period)
+		{
+			case 'month': return new Piwik_ScheduledTime_Monthly();
+			case 'week': return new Piwik_ScheduledTime_Weekly();
+			case 'day': return new Piwik_ScheduledTime_Daily();
+
+			default: throw new Exception('period ' . $period . 'is undefined.');
+		}
+	}
+
 	/**
 	 * Returns the system time used by subclasses to compute schedulings.
 	 * This method has been introduced so unit tests can override the current system time.

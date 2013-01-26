@@ -25,8 +25,14 @@ class Piwik_ScheduledTask
 	const HIGHEST_PRIORITY 	= 0;
 
 	/**
-	 * Class name where the specified method is located
+	 * Object instance on which the method will be executed by the task scheduler
 	 * @var string 
+	 */
+	var $objectInstance;
+
+	/**
+	 * Class name where the specified method is located
+	 * @var string
 	 */
 	var $className;
 
@@ -36,6 +42,12 @@ class Piwik_ScheduledTask
 	 */
 	var $methodName;
 	
+	/**
+	 * Parameter to pass to the executed method
+	 * @var string
+	 */
+	var $methodParameter;
+
 	/**
 	 * The scheduled time policy
 	 * @var Piwik_ScheduledTime
@@ -48,21 +60,33 @@ class Piwik_ScheduledTask
 	 */
 	var $priority;
 
-	function __construct( $_className, $_methodName, $_scheduledTime, $_priority = self::NORMAL_PRIORITY )
+	function __construct( $_objectInstance, $_methodName, $_methodParameter, $_scheduledTime, $_priority = self::NORMAL_PRIORITY )
 	{
+		$this->className = get_class($_objectInstance);
+
 		if ($_priority < self::HIGHEST_PRIORITY || $_priority > self::LOWEST_PRIORITY)
 		{
-			throw new Exception("Invalid priority for ScheduledTask '$_className.$_methodName': $_priority");
+			throw new Exception("Invalid priority for ScheduledTask '$this->className.$_methodName': $_priority");
 		}
-		
-		$this->className = $_className;
+
+		$this->objectInstance = $_objectInstance;
 		$this->methodName = $_methodName;
 		$this->scheduledTime = $_scheduledTime;
+		$this->methodParameter = $_methodParameter;
 		$this->priority = $_priority;
+	}
+
+	/**
+	 * Return the object instance on which the method should be executed
+	 * @return string
+	 */
+	public function getObjectInstance()
+	{
+		return $this->objectInstance;
 	}
 	
 	/**
-	 * Returns class name
+	 * Return class name
 	 * @return string
 	 */
 	public function getClassName()
@@ -71,7 +95,7 @@ class Piwik_ScheduledTask
 	}
 
 	/**
-	 * Returns method name
+	 * Return method name
 	 * @return string
 	 */
 	public function getMethodName()
@@ -80,7 +104,17 @@ class Piwik_ScheduledTask
 	}
 
 	/**
-	 * Returns scheduled time
+	 * Return method parameter
+	 * @return string
+	 */
+	public function getMethodParameter()
+	{
+		return $this->methodParameter;
+	}
+
+
+	/**
+	 * Return scheduled time
 	 * @return Piwik_ScheduledTime
 	 */
 	public function getScheduledTime()
@@ -89,7 +123,16 @@ class Piwik_ScheduledTask
 	}
 	
 	/**
-	 * Returns the task priority. The priority will be an integer whose value is
+	 * Return the rescheduled time in miliseconds
+	 * @return int
+	 */
+	public function getRescheduledTime()
+	{
+		return $this->getScheduledTime()->getRescheduledTime();
+	}
+
+	/**
+	 * Return the task priority. The priority will be an integer whose value is
 	 * between Piwik_ScheduledTask::HIGH_PRIORITY and Piwik_ScheduledTask::LOW_PRIORITY.
 	 * 
 	 * @return int
@@ -97,5 +140,15 @@ class Piwik_ScheduledTask
 	public function getPriority()
 	{
 		return $this->priority;
+	}
+
+	public function getName()
+	{
+		return self::getTaskName($this->getClassName(), $this->getMethodName(), $this->getMethodParameter());
+	}
+
+	static public function getTaskName($className, $methodName, $methodParameter = null)
+	{
+		return $className . '.' . $methodName . ($methodParameter == null ? '' : '_' . $methodParameter);
 	}
 }

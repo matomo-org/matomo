@@ -246,7 +246,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		$deleteDataInfos["deleteTables"] =
 			"<br/>".implode(", ", Piwik_PrivacyManager_LogDataPurger::getDeleteTableLogTables());
 
-		$scheduleTimetable = $taskScheduler->getScheduledTimeForTask("Piwik_PrivacyManager", "deleteLogTables");
+		$scheduleTimetable = $taskScheduler->getScheduledTimeForMethod("Piwik_PrivacyManager", "deleteLogTables");
 
 		$optionTable = Piwik_GetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS);
 

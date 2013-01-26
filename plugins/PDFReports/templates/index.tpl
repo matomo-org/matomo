@@ -27,6 +27,7 @@
 <script type="text/javascript">
 var ReportPlugin = new Object();
 ReportPlugin.defaultPeriod = '{$defaultPeriod}';
+ReportPlugin.defaultHour = '{$defaultHour}';
 ReportPlugin.defaultReportType = '{$defaultReportType}';
 ReportPlugin.defaultReportFormat = '{$defaultReportFormat}';
 ReportPlugin.reportList = {$reportsJSON};

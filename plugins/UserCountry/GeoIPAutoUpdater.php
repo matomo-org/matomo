@@ -292,7 +292,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 				break;
 		}
 		
-		return new Piwik_ScheduledTask($instance, 'update', $schedulePeriod, Piwik_ScheduledTask::LOWEST_PRIORITY);
+		return new Piwik_ScheduledTask($instance, 'update', null, $schedulePeriod, Piwik_ScheduledTask::LOWEST_PRIORITY);
 	}
 	
 	/**

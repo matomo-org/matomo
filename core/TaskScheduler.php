@@ -37,31 +37,34 @@ class Piwik_TaskScheduler
 	 */
 	static public function runTasks()
 	{
-		// Gets the array where rescheduled timetables are stored
-		$option = Piwik_GetOption(self::TIMETABLE_OPTION_STRING);
+		// get the array where rescheduled timetables are stored
+		$timetable = self::getTimetableFromOptionTable();
 
-        $timetable = self::getTimetableFromOption($option);
-        if($timetable === false) {
-            return;
-        }
-        $forceScheduledTasks = false;
-		if((isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
-			|| DEBUG_FORCE_SCHEDULED_TASKS)
-		{
-			$forceScheduledTasks = true;
-			$timetable = array();
-		}
-		// Collects tasks
+		// collect tasks
+		$tasks = array();
 		Piwik_PostEvent(self::GET_TASKS_EVENT, $tasks);
 
-		$return = array();
-		
+		// remove from timetable tasks that are not active anymore
+		$activeTaskNames = array();
+		foreach($tasks as $task)
+		{
+			$activeTaskNames[] = $task->getName();
+		}
+		foreach(array_keys($timetable) as $taskName)
+		{
+			if(!in_array($taskName, $activeTaskNames))
+			{
+				unset($timetable[$taskName]);
+			}
+		}
+
 		// for every priority level, starting with the highest and concluding with the lowest
+		$executionResults = array();
 		for ($priority = Piwik_ScheduledTask::HIGHEST_PRIORITY;
 			 $priority <= Piwik_ScheduledTask::LOWEST_PRIORITY;
 			 ++$priority)
 		{
-			// Loop through each task
+			// loop through each task
 			foreach ($tasks as $task)
 			{
 				// if the task does not have the current priority level, don't execute it yet
@@ -69,44 +72,27 @@ class Piwik_TaskScheduler
 				{
 					continue;
 				}
-		
-				$scheduledTime = $task->getScheduledTime();
-				$className = $task->getClassName();
-				$methodName = $task->getMethodName();
 
-				$fullyQualifiedMethodName = get_class($className) . '.' . $methodName;
-				
-				/*
-				 * Task has to be executed if :
-				 * 	- it is the first time, ie. rescheduledTime is not set
-				 *  - that task has already been executed and the current system time is greater than the
-				 *    rescheduled time.
-				 */
-				if ( !isset($timetable[$fullyQualifiedMethodName])
-					|| (isset($timetable[$fullyQualifiedMethodName])
-					&& time() >= $timetable[$fullyQualifiedMethodName]) 
-					|| $forceScheduledTasks)
+				$taskName = $task->getName();
+				if (self::taskShouldBeExecuted($taskName, $timetable))
 				{
-					// Updates the rescheduled time
-					$timetable[$fullyQualifiedMethodName] = $scheduledTime->getRescheduledTime();
-					Piwik_SetOption(self::TIMETABLE_OPTION_STRING, serialize($timetable));
-
 					self::$running = true;
-					// Run the task
-					try {
-						$timer = new Piwik_Timer;
-						call_user_func ( array($className,$methodName) );
-						$message = $timer->__toString();
-					} catch(Exception $e) {
-						$message = 'ERROR: '.$e->getMessage();
-					}
+					$message = self::executeTask($task);
 					self::$running = false;
-					$return[] = array('task' => $fullyQualifiedMethodName, 'output' => $message);
+
+					$executionResults[] = array('task' => $taskName, 'output' => $message);
+				}
+
+				if(self::taskShouldBeRescheduled($taskName, $timetable))
+				{
+					// update the scheduled time
+					$timetable[$taskName] = $task->getRescheduledTime();
+					Piwik_SetOption(self::TIMETABLE_OPTION_STRING, serialize($timetable));
 				}
 			}
 		}
-		return $return;
 
+		return $executionResults;
 	}
 
 	static public function isTaskBeingExecuted()
@@ -115,41 +101,75 @@ class Piwik_TaskScheduler
 	}
 	
     /**
-     * return the timetable for a given task
+     * return the next task schedule for a given class and method name
+	 *
      * @param string $className
      * @param string $methodName
-     * @return mixed
+     * @param string $methodParameter
+     * @return mixed int|bool the next schedule in miliseconds, false if task has never been run
      */
-    static public function getScheduledTimeForTask($className, $methodName) {
-		// Gets the array where rescheduled timetables are stored
-		$option = Piwik_GetOption(self::TIMETABLE_OPTION_STRING);
+    static public function getScheduledTimeForMethod($className, $methodName, $methodParameter = null) {
 
-		$timetable = self::getTimetableFromOption($option);
-        if($timetable === false) {
-            return;
-        }
+		// get the array where rescheduled timetables are stored
+		$timetable = self::getTimetableFromOptionTable();
 
-		$taskName = $className . '.' . $methodName;
+		$taskName = Piwik_ScheduledTask::getTaskName($className, $methodName, $methodParameter);
 
-		if(isset($timetable[$taskName])) {
-			return $timetable[$taskName];
-		} else {
-			return false;
-		}
+		return self::taskHasBeenScheduledOnce($taskName, $timetable) ? $timetable[$taskName] : false;
 	}
 
-    static private function getTimetableFromOption($option = false) {
-        if($option === false)
-		{
-			return array();
-		}
-		elseif(!is_string($option))
-		{
-			return false;
-		}
-		else
-		{
-			return unserialize($option);
-		}
+	/*
+	 * Task has to be executed if :
+	 *  - the task has already been scheduled once and the current system time is greater than the scheduled time.
+	 * 	- execution is forced, see $forceTaskExecution
+	 */
+	static private function taskShouldBeExecuted($taskName, $timetable)
+	{
+		$forceTaskExecution =
+			(isset($GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS']) && $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'])
+			|| DEBUG_FORCE_SCHEDULED_TASKS;
+
+		return $forceTaskExecution || (self::taskHasBeenScheduledOnce($taskName, $timetable) && time() >= $timetable[$taskName]);
+	}
+
+	/*
+	 * Task has to be rescheduled if :
+	 *  - the task has to be executed
+	 * 	- the task has never been scheduled before
+	 */
+	static private function taskShouldBeRescheduled($taskName, $timetable)
+	{
+		return !self::taskHasBeenScheduledOnce($taskName, $timetable) || self::taskShouldBeExecuted($taskName, $timetable);
+	}
+
+	static private function taskHasBeenScheduledOnce($taskName, $timetable)
+	{
+		return isset($timetable[$taskName]);
+	}
+
+    static private function getTimetableFromOptionValue($option) {
+		$unserializedTimetable = @unserialize($option);
+		return $unserializedTimetable === false ? array() : $unserializedTimetable;
     }
+
+	static private function getTimetableFromOptionTable()
+	{
+		return self::getTimetableFromOptionValue(Piwik_GetOption(self::TIMETABLE_OPTION_STRING));
+	}
+
+	static private function executeTask($task)
+	{
+		try
+		{
+			$timer = new Piwik_Timer();
+			call_user_func(array($task->getObjectInstance(), $task->getMethodName()), $task->getMethodParameter());
+			$message = $timer->__toString();
+		}
+		catch(Exception $e)
+		{
+			$message = 'ERROR: ' . $e->getMessage();
+		}
+
+		return $message;
+	}
 }

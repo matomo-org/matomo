@@ -41,6 +41,10 @@
 					{'PDFReports_WeeklyScheduleHelp'|translate}
 					<br/>
 					{'PDFReports_MonthlyScheduleHelp'|translate}
+					<br/>
+					{'PDFReports_ReportHour'|translate}
+					<input type="text" id="report_hour" class="inp" size="1">
+					{'PDFReports_OClock'|translate}
 				</div>
 			</td>
 		</tr>

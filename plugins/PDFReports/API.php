@@ -72,6 +72,7 @@ class Piwik_PDFReports_API
 	 * @param int $idSite 
 	 * @param string $description Report description
 	 * @param string $period Schedule frequency: day, week or month
+	 * @param int $hour Hour (0-23) when the report should be sent
 	 * @param string $reportType 'email' or any other format provided via the PDFReports.getReportTypes hook
 	 * @param string $reportFormat 'pdf', 'html' or any other format provided via the PDFReports.getReportFormats hook
 	 * @param array $reports array of reports
@@ -79,7 +80,7 @@ class Piwik_PDFReports_API
 	 *
 	 * @return int idReport generated
 	 */
-	public function addReport($idSite, $description, $period, $reportType, $reportFormat, $reports, $parameters)
+	public function addReport($idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters)
 	{
 		Piwik::checkUserIsNotAnonymous();
 		Piwik::checkUserHasViewAccess($idSite);
@@ -87,11 +88,7 @@ class Piwik_PDFReports_API
 		$currentUser = Piwik::getCurrentUserLogin();
 		self::ensureLanguageSetForUser($currentUser);
 
-		// common validations
-		self::validateReportPeriod($period);
-		$description = self::validateDescription($description);
-		self::validateReportType($reportType);
-		self::validateReportFormat($reportType, $reportFormat);
+		self::validateCommonReportAttributes($period, $hour, $description, $reportType, $reportFormat);
 
 		// report parameters validations
 		$parameters = self::validateReportParameters($reportType, $parameters);
@@ -115,6 +112,7 @@ class Piwik_PDFReports_API
 						'login' => $currentUser,
 						'description' => $description,
 						'period' => $period,
+						'hour' => $hour,
 						'type' => $reportType,
 						'format' => $reportFormat,
 						'parameters' => $parameters,
@@ -140,7 +138,7 @@ class Piwik_PDFReports_API
 	 * 
 	 * @see addReport()
 	 */
-	public function updateReport( $idReport, $idSite, $description, $period, $reportType, $reportFormat, $reports, $parameters)
+	public function updateReport( $idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters)
 	{
 		Piwik::checkUserIsNotAnonymous();
 		Piwik::checkUserHasViewAccess($idSite);
@@ -152,11 +150,7 @@ class Piwik_PDFReports_API
 		$currentUser = Piwik::getCurrentUserLogin();
 		self::ensureLanguageSetForUser($currentUser);
 
-		// common validations
-		self::validateReportPeriod($period);
-		$description = self::validateDescription($description);
-		self::validateReportType($reportType);
-		self::validateReportFormat($reportType, $reportFormat);
+		self::validateCommonReportAttributes($period, $hour, $description, $reportType, $reportFormat);
 
 		// report parameters validations
 		$parameters = self::validateReportParameters($reportType, $parameters);
@@ -168,6 +162,7 @@ class Piwik_PDFReports_API
 					array(
 						'description' => $description,
 						'period' => $period,
+						'hour' => $hour,
 						'type' => $reportType,
 						'format' => $reportFormat,
 						'parameters' => $parameters,
@@ -602,9 +597,9 @@ class Piwik_PDFReports_API
 		return Piwik_Common::json_encode($parameters);
 	}
 
-	private static function validateDescription($description)
+	private static function validateAndTruncateDescription(&$description)
 	{
-		return substr($description, 0, 250);
+		$description = substr($description, 0, 250);
 	}
 
 	private static function validateRequestedReports($idSite, $reportType, $requestedReports)
@@ -635,12 +630,29 @@ class Piwik_PDFReports_API
 		return Piwik_Common::json_encode($requestedReports);
 	}
 
+	private static function validateCommonReportAttributes($period, $hour, &$description, $reportType, $reportFormat)
+	{
+		self::validateReportPeriod($period);
+		self::validateReportHour($hour);
+		self::validateAndTruncateDescription($description);
+		self::validateReportType($reportType);
+		self::validateReportFormat($reportType, $reportFormat);
+	}
+
 	private static function validateReportPeriod($period)
 	{
 		$availablePeriods = array('day', 'week', 'month', 'never');
 		if(!in_array($period, $availablePeriods))
 		{
-			throw new Exception(Piwik_Translate("Period schedule must be one of the following: " . implode(', ', $availablePeriods)));
+			throw new Exception('Period schedule must be one of the following: ' . implode(', ', $availablePeriods));
+		}
+	}
+
+	private static function validateReportHour($hour)
+	{
+		if(!is_numeric($hour) || $hour < 0 || $hour > 23)
+		{
+			throw new Exception('Invalid hour schedule. Should be anything from 0 to 23 inclusive.');
 		}
 	}
 

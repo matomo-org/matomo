@@ -27,6 +27,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 
 	const DEFAULT_REPORT_FORMAT = Piwik_ReportRenderer::HTML_FORMAT;
 	const DEFAULT_PERIOD = 'week';
+	const DEFAULT_HOUR = '0';
 
 	const EMAIL_ME_PARAMETER = 'emailMe';
 	const EVOLUTION_GRAPH_PARAMETER = 'evolutionGraph';
@@ -496,69 +497,34 @@ class Piwik_PDFReports extends Piwik_Plugin
 	 */
 	function getScheduledTasks ( $notification )
 	{
-		// Reports have to be sent when the period ends for all websites
-		$maxHourOffset = 0;
-		$uniqueTimezones = Piwik_SitesManager_API::getInstance()->getUniqueSiteTimezones();
-		$baseDate = Piwik_Date::factory("2011-01-01");
-		foreach($uniqueTimezones as &$timezone)
+		$arbitraryDateInUTC = Piwik_Date::factory('2011-01-01');
+		$tasks = &$notification->getNotificationObject();
+		foreach(Piwik_PDFReports_API::getInstance()->getReports() as $report)
 		{
-			$offsetDate = Piwik_Date::factory($baseDate->toString(), $timezone);
-
-			// Earlier means a negative timezone
-			if ( $offsetDate->isEarlier($baseDate) )
+			if (!$report['deleted'])
 			{
-				// Gets the timezone offset
-				$hourOffset = (24 - date ('H', $offsetDate->getTimestamp()));
+				$midnightInSiteTimezone =
+					date (
+						'H',
+						Piwik_Date::factory(
+							$arbitraryDateInUTC,
+							Piwik_Site::getTimezoneFor($report['idsite'])
+						)->getTimestamp()
+					);
 
-				if ( $hourOffset > $maxHourOffset )
-				{
-					$maxHourOffset = $hourOffset;
-				}
+				$hourInUTC = (24 - $midnightInSiteTimezone + $report['hour']) % 24;
+
+				$schedule = Piwik_ScheduledTime::getScheduledTimeForPeriod($report['period']);
+				$schedule->setHour($hourInUTC);
+				$tasks[] = new Piwik_ScheduledTask (
+					Piwik_PDFReports_API::getInstance(),
+					'sendReport',
+					$report['idreport'], $schedule
+				);
 			}
 		}
+	}
 
-		$tasks = &$notification->getNotificationObject();
-
-		$dailySchedule = new Piwik_ScheduledTime_Daily();
-		$dailySchedule->setHour($maxHourOffset);
-		$tasks[] = new Piwik_ScheduledTask ( $this, 'dailySchedule', $dailySchedule );
-
-		$weeklySchedule = new Piwik_ScheduledTime_Weekly();
-		$weeklySchedule->setHour($maxHourOffset);
-		$tasks[] = new Piwik_ScheduledTask ( $this, 'weeklySchedule', $weeklySchedule );
-
-		$monthlySchedule = new Piwik_ScheduledTime_Monthly();
-		$monthlySchedule->setHour($maxHourOffset);
-		$tasks[] = new Piwik_ScheduledTask ( $this, 'monthlySchedule', $monthlySchedule );
-	}
-	
-	function dailySchedule()
-	{
-		$this->generateAndSendScheduledReports('day');
-	}
-	
-	function weeklySchedule()
-	{
-		$this->generateAndSendScheduledReports('week');
-	}
-	
-	function monthlySchedule()
-	{
-		$this->generateAndSendScheduledReports('month');
-	}
-	
-	function generateAndSendScheduledReports($period)
-	{
-		// Select all reports to generate
-		$reportsToGenerate = Piwik_PDFReports_API::getInstance()->getReports($idSite = false, $period);
-		
-		// For each, generate the file and send the message with the attached report
-		foreach($reportsToGenerate as $report)
-		{
-			Piwik_PDFReports_API::getInstance()->sendReport($report['idreport']);
-		}
-	}
-		
     function addTopMenu()
     {
 		Piwik_AddTopMenu(
@@ -632,6 +598,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 					`login` VARCHAR(100) NOT NULL,
 					`description` VARCHAR(255) NOT NULL,
 					`period` VARCHAR(10) NOT NULL,
+					`hour` tinyint NOT NULL default 0,
 					`type` VARCHAR(10) NOT NULL,
 					`format` VARCHAR(10) NOT NULL,
 					`reports` TEXT NOT NULL,

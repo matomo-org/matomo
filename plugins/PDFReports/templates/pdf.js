@@ -16,6 +16,7 @@ function formSetEditReport(idReport)
 		'format' : ReportPlugin.defaultReportFormat,
 		'description' : '',
 		'period' : ReportPlugin.defaultPeriod,
+		'hour' : ReportPlugin.defaultHour,
 		'reports' : []
 	};
 
@@ -34,6 +35,7 @@ function formSetEditReport(idReport)
 	$('#report_description').html(report.description);
 	$('#report_type option[value='+report.type+']').prop('selected', 'selected');
 	$('#report_period option[value='+report.period+']').prop('selected', 'selected');
+	$('#report_hour').val(report.hour);
 	$('[name=report_format].'+report.type+' option[value='+report.format+']').prop('selected', 'selected');
 
 	$('[name=reportsList] input').prop('checked', false);
@@ -97,6 +99,7 @@ function initManagePdf()
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams(apiParameters, 'POST');
         ajaxHandler.addParams({period: $('#report_period option:selected').val()}, 'GET');
+        ajaxHandler.addParams({hour: $('#report_hour').val()}, 'GET');
         ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement();
         ajaxHandler.send(true);

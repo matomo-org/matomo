@@ -52,10 +52,14 @@ class Piwik_DBStats extends Piwik_Plugin
 	public function getScheduledTasks($notification)
 	{
 		$tasks = &$notification->getNotificationObject();
-		
-		$priority = Piwik_ScheduledTask::LOWEST_PRIORITY;
+
 		$cacheDataByArchiveNameReportsTask = new Piwik_ScheduledTask(
-			$this, 'cacheDataByArchiveNameReports', new Piwik_ScheduledTime_Weekly(), $priority);
+			$this,
+			'cacheDataByArchiveNameReports',
+			null,
+			new Piwik_ScheduledTime_Weekly(),
+			Piwik_ScheduledTask::LOWEST_PRIORITY
+		);
 		$tasks[] = $cacheDataByArchiveNameReportsTask;
 	}
 	

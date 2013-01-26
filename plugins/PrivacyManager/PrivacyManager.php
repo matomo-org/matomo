@@ -78,11 +78,13 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 		// they will execute before the optimize tables task
 		
 		$purgeReportDataTask = new Piwik_ScheduledTask(
-			$this, 'deleteReportData', new Piwik_ScheduledTime_Daily(), Piwik_ScheduledTask::LOW_PRIORITY);
+			$this, 'deleteReportData', null, new Piwik_ScheduledTime_Daily(), Piwik_ScheduledTask::LOW_PRIORITY
+		);
 		$tasks[] = $purgeReportDataTask;
 		
 		$purgeLogDataTask = new Piwik_ScheduledTask(
-			$this, 'deleteLogData', new Piwik_ScheduledTime_Daily(), Piwik_ScheduledTask::LOW_PRIORITY);
+			$this, 'deleteLogData', null, new Piwik_ScheduledTime_Daily(), Piwik_ScheduledTask::LOW_PRIORITY
+		);
 		$tasks[] = $purgeLogDataTask;
 	}
 

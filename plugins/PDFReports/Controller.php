@@ -77,6 +77,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 		unset($periods['range']);
 		$view->periods = $periods;
 		$view->defaultPeriod = Piwik_PDFReports::DEFAULT_PERIOD;
+		$view->defaultHour = Piwik_PDFReports::DEFAULT_HOUR;
 
 		$view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 
