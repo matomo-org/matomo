@@ -183,18 +183,25 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRunTasksTestCases()
 	{
-		$scheduledTaskOne = new Piwik_ScheduledTask ($this, 'scheduledTaskOne', null, new Piwik_ScheduledTime_Daily());
-		$scheduledTaskTwo = new Piwik_ScheduledTask ($this, 'scheduledTaskTwo', 1, new Piwik_ScheduledTime_Weekly());
-		$scheduledTaskThree = new Piwik_ScheduledTask ($this, 'scheduledTaskThree', null, new Piwik_ScheduledTime_Weekly());
+		$systemTime = time();
+
+		$dailySchedule = $this->getMock('Piwik_ScheduledTime_Daily', array('getTime'));
+		$dailySchedule->expects($this->any())
+			->method('getTime')
+			->will($this->returnValue($systemTime));
+
+		$scheduledTaskOne = new Piwik_ScheduledTask ($this, 'scheduledTaskOne', null, $dailySchedule);
+		$scheduledTaskTwo = new Piwik_ScheduledTask ($this, 'scheduledTaskTwo', 1, $dailySchedule);
+		$scheduledTaskThree = new Piwik_ScheduledTask ($this, 'scheduledTaskThree', null, $dailySchedule);
 
 		$caseOneExpectedTable = array(
 			'TaskSchedulerTest.scheduledTaskOne' => $scheduledTaskOne->getRescheduledTime(),
-			'TaskSchedulerTest.scheduledTaskTwo_1' => time() + 1000,
+			'TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 1000,
 			'TaskSchedulerTest.scheduledTaskThree' => $scheduledTaskThree->getRescheduledTime(),
 		);
 
 		$caseTwoTimetableBeforeExecution = $caseOneExpectedTable;
-		$caseTwoTimetableBeforeExecution['TaskSchedulerTest.scheduledTaskThree'] = time(); // simulate elapsed time between case 1 and 2
+		$caseTwoTimetableBeforeExecution['TaskSchedulerTest.scheduledTaskThree'] = $systemTime; // simulate elapsed time between case 1 and 2
 
 		return array(
 
@@ -212,8 +219,8 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
 				// timetable before task execution
 				array(
-					'TaskSchedulerTest.scheduledTaskOne' => time(),
-					'TaskSchedulerTest.scheduledTaskTwo_1' => time() + 1000,
+					'TaskSchedulerTest.scheduledTaskOne' => $systemTime,
+					'TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 1000,
 				),
 				// configured tasks
 				array(
