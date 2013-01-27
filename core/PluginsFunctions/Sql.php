@@ -45,9 +45,6 @@ class Piwik_Sql
 	static public function exec($sql)
 	{
 		$db = Zend_Registry::get('db');
-		if (!is_a($db, 'Zend_Db_Adapter_Abstract')) {
-			debug_print_backtrace();
-		}
 		$profiler = $db->getProfiler();
 		$q = $profiler->queryStart($sql, Zend_Db_Profiler::INSERT);
 		$return = self::getDb()->exec($sql);
