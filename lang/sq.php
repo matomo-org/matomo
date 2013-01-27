@@ -343,6 +343,7 @@ $translations = array(
 	'Actions_ColumnEntryPageTitle' => 'Titull Faqeje Hyrëse',
 	'Actions_ColumnExitPageURL' => 'URL Faqeje Dalëse',
 	'Actions_ColumnExitPageTitle' => 'Titull Faqeje Dalëse',
+	'Actions_ColumnNoResultKeyword' => 'Fjalëkyça me Pa Përfundime Kërkimi',
 	'Actions_EntryPagesReportDocumentation' => 'Ky raport përmban të dhëna rreth faqesh hyrjesh që janë përdorur gjatë një periudhe të caktuar. Faqe hyrjeje është faqja e parë që sheh një vizitor gjatë vizitës së tij. %s URL-të e hyrjeve shfaqen sipas një strukture dosjeje.',
 	'Actions_ExitPagesReportDocumentation' => 'Ky raport përmban të dhëna rreth faqesh daljesh që janë kryer gjatë një periudhe të caktuar. Faqe daljeje është faqja e fundit që sheh një vizitor gjatë vizitës së tij. %s URL-të e daljeve shfaqen sipas një strukture dosjeje.',
 	'AnonymizeIP_PluginDescription' => 'Anonimizoje bajtin e fundit të adresave IP të vizitorëve, në pajtim me ligjet/udhëzimet vendore për vetësinë.',
