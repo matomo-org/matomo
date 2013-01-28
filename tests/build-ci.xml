@@ -66,6 +66,7 @@
 		<exec executable="phpunit" dir="${basedir}/PHPUnit" failonerror="false" failifexecutionfails="true">
             <!-- DEBUG: when test crash in the middle, enable this to see which test crashes. Note: Remove \ from -\- below -->
             <!--<arg line="-\-testdox"/>-->
+            <arg line=" --testdox"/>
 		</exec>
 
 		<echo>MYSQLI unit tests finished</echo>
