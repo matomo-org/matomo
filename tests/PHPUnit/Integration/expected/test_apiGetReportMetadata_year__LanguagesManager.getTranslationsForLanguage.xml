@@ -6,11 +6,11 @@
 	</row>
 	<row>
 		<label>General_TranslatorName</label>
-		<value>&lt;a href=&quot;http://microsofttouch.fr/default/b/vincent/default.aspx&quot;&gt;Vincent BIRET&lt;/a&gt;, &lt;a href=&quot;http://www.ludovicevrard.com&quot;&gt;Ludovic Evrard&lt;/a&gt;</value>
+		<value>&lt;a href=&quot;http://microsofttouch.fr/default/b/vincent/default.aspx&quot;&gt;Vincent BIRET&lt;/a&gt;, &lt;a href=&quot;http://www.ludovicevrard.com&quot;&gt;Ludovic Evrard&lt;/a&gt;, Daniel Castronovo</value>
 	</row>
 	<row>
 		<label>General_TranslatorEmail</label>
-		<value>admin@get-surf.com, piwik@ludovicevrard.be</value>
+		<value>admin@get-surf.com, piwik@ludovicevrard.be, daniel@castronovo.fr</value>
 	</row>
 	<row>
 		<label>General_EnglishLanguageName</label>
@@ -361,6 +361,10 @@
 		<value>Visiteur de retour</value>
 	</row>
 	<row>
+		<label>General_ReturningVisitorAllVisits</label>
+		<value>Voir tous les visiteurs</value>
+	</row>
+	<row>
 		<label>General_Visitor</label>
 		<value>Visiteur</value>
 	</row>
@@ -427,6 +431,10 @@
 	<row>
 		<label>General_LastDaysShort</label>
 		<value>Derniers %s jours</value>
+	</row>
+	<row>
+		<label>General_PreviousDaysShort</label>
+		<value>%s jours précédent</value>
 	</row>
 	<row>
 		<label>General_PreviousDays</label>
@@ -561,6 +569,10 @@
 		<value>Nombre d'actions</value>
 	</row>
 	<row>
+		<label>General_NbSearches</label>
+		<value>Nombre de recherche interne</value>
+	</row>
+	<row>
 		<label>General_ColumnMaxActions</label>
 		<value>Nombre maximum d'actions en une visite</value>
 	</row>
@@ -627,6 +639,22 @@
 	<row>
 		<label>General_ColumnExitRateDocumentation</label>
 		<value>Pourcentage de visites qui ont quitté le site web après avoir visualisé cette page (affichages uniques divisés par sorties)</value>
+	</row>
+	<row>
+		<label>General_ColumnTotalPageviews</label>
+		<value>Total des pages vues</value>
+	</row>
+	<row>
+		<label>General_ColumnViewedAfterSearch</label>
+		<value>Cliqué dans les résultats de recherche</value>
+	</row>
+	<row>
+		<label>General_ColumnViewedAfterSearchDocumentation</label>
+		<value>Le nombre de fois où cette page a été visitée après qu'un visiteur ayant fait une recherche sur votre site, et cliqué sur cette page dans les résultats de recherche.</value>
+	</row>
+	<row>
+		<label>General_ColumnDestinationPage</label>
+		<value>Page de destination</value>
 	</row>
 	<row>
 		<label>General_ColumnPageviews</label>
@@ -811,6 +839,10 @@
 	<row>
 		<label>General_DisplayTableWithGoalMetrics</label>
 		<value>Afficher un tableau avec des Objectifs en tant qu'unités</value>
+	</row>
+	<row>
+		<label>General_PiwikIsACollaborativeProjectYouCanContributeAndDonate</label>
+		<value>%1$s Piwik %2$s est un projet collaboratif. %3$s Si vous êtes fan, vous pouvez nous aider: Les démarches%4$s Comment participer à Piwik%5$s, ou%6$s %7$sfaire un don maintenant%8$s pour contribuer à Piwik 2.0!</value>
 	</row>
 	<row>
 		<label>General_YouAreViewingDemoShortMessage</label>
@@ -1089,6 +1121,14 @@
 		<value>Format de rapport '%s' invalide. Essayez n'importe lequel des formats suivants à la place: %s.</value>
 	</row>
 	<row>
+		<label>General_ExceptionInvalidStaticGraphType</label>
+		<value>Le type de graph suivant '%s' n'est pas valide. Essayer un des types suivants : %s.</value>
+	</row>
+	<row>
+		<label>General_ExceptionInvalidAggregateReportsFormat</label>
+		<value>Le type de rapport suivant '%s' n'est pas valide. Essayer un des types suivants : %s.</value>
+	</row>
+	<row>
 		<label>General_ExceptionInvalidPeriod</label>
 		<value>La période '%s' n'est pas supportée. Veuillez essayer parmi celles-ci à la place: %s.</value>
 	</row>
@@ -1143,6 +1183,10 @@
 	<row>
 		<label>General_ExceptionUnableToStartSession</label>
 		<value>Impossible de démarrer une session.</value>
+	</row>
+	<row>
+		<label>General_ExceptionCheckUserIsSuperUserOrTheUser</label>
+		<value>L'utilisateur doit être le super utilisateur ou l'utilisateur '%s' lui-même.</value>
 	</row>
 	<row>
 		<label>General_WarningFileIntegritySkipped</label>
@@ -1333,6 +1377,58 @@
 		<value>Cliquez à nouveau pour modifier la période.</value>
 	</row>
 	<row>
+		<label>General_NotInstalled</label>
+		<value>Non installé</value>
+	</row>
+	<row>
+		<label>General_Installed</label>
+		<value>Installé</value>
+	</row>
+	<row>
+		<label>General_Broken</label>
+		<value>Brisé</value>
+	</row>
+	<row>
+		<label>General_InfoFor</label>
+		<value>Informations pour %s</value>
+	</row>
+	<row>
+		<label>General_Add</label>
+		<value>Ajouter</value>
+	</row>
+	<row>
+		<label>General_CannotUnzipFile</label>
+		<value>Impossible de décompresser le ficher %1$s: %2$s</value>
+	</row>
+	<row>
+		<label>General_GetStarted</label>
+		<value>Pour bien commencer</value>
+	</row>
+	<row>
+		<label>General_Continue</label>
+		<value>Continuer</value>
+	</row>
+	<row>
+		<label>General_Note</label>
+		<value>Note</value>
+	</row>
+	<row>
+		<label>General_DownloadFail_FileExists</label>
+		<value>Le fichier %s existe déjà!</value>
+	</row>
+	<row>
+		<label>General_DownloadPleaseRemoveExisting</label>
+		<value>Si vous voulez le remplacer, commencer par supprimer le fichier existant.</value>
+	</row>
+	<row>
+		<label>General_DownloadFail_HttpRequestFail</label>
+		<value>Impossible de télécharger le fichier! Le fichier n'est peut être plus disponible, ou le site web à un petit problème. Veuillez réessayer plus tard, ou télécharger le fichier manuellement.</value>
+	</row>
+	<row>
+		<label>General_DownloadFail_FileExistsContinue</label>
+		<value>Téléchargement partiel en cours pour %s, mais un téléchargement terminé existe déjà!</value>
+	</row>
+	<row>
 		<label>Actions_PluginDescription</label>
 		<value>Effectue des rapports sur les affichages de pages, les liens sortants et les téléchargements. Le suivi des liens sortants et des téléchargements est automatique!</value>
 	</row>
@@ -1385,6 +1481,18 @@
 		<value>Titres de page</value>
 	</row>
 	<row>
+		<label>Actions_WidgetSearchKeywords</label>
+		<value>Mot clés de recherche sur le site</value>
+	</row>
+	<row>
+		<label>Actions_WidgetSearchCategories</label>
+		<value>Catégories de recherche</value>
+	</row>
+	<row>
+		<label>Actions_WidgetSearchNoResultKeywords</label>
+		<value>Mots-clés sans résultat</value>
+	</row>
+	<row>
 		<label>Actions_PageUrls</label>
 		<value>URL de la page</value>
 	</row>
@@ -1395,6 +1503,10 @@
 	<row>
 		<label>Actions_SubmenuDownloads</label>
 		<value>Téléchargements</value>
+	</row>
+	<row>
+		<label>Actions_SubmenuSitesearch</label>
+		<value>Recherche sur le site</value>
 	</row>
 	<row>
 		<label>Actions_PagesReportDocumentation</label>
@@ -1457,6 +1569,18 @@
 		<value>URL de la page</value>
 	</row>
 	<row>
+		<label>Actions_ColumnSearchCategory</label>
+		<value>Recherche d'une catégorie</value>
+	</row>
+	<row>
+		<label>Actions_ColumnSearchResultsCount</label>
+		<value>Résultats de la recherche</value>
+	</row>
+	<row>
+		<label>Actions_ColumnSearchKeyword</label>
+		<value>Mot clés</value>
+	</row>
+	<row>
 		<label>Actions_ColumnClickedURL</label>
 		<value>URL cliquées</value>
 	</row>
@@ -1479,6 +1603,30 @@
 	<row>
 		<label>Actions_ColumnExitPageTitle</label>
 		<value>Titre de la page de sortie</value>
+	</row>
+	<row>
+		<label>Actions_ColumnNoResultKeyword</label>
+		<value>Mot clés sans résultats</value>
+	</row>
+	<row>
+		<label>Actions_ColumnSearches</label>
+		<value>Recherches</value>
+	</row>
+	<row>
+		<label>Actions_ColumnSiteSearchKeywords</label>
+		<value>Mot clés unique</value>
+	</row>
+	<row>
+		<label>Actions_ColumnSearchesDocumentation</label>
+		<value>Le nombre de visites pour ce mot-clé sur le moteur de recherche votre site web</value>
+	</row>
+	<row>
+		<label>Actions_ColumnSearchExits</label>
+		<value>% Taux de rebond</value>
+	</row>
+	<row>
+		<label>Actions_ColumnPagesPerSearch</label>
+		<value>Résultats de la recherche</value>
 	</row>
 	<row>
 		<label>Actions_EntryPagesReportDocumentation</label>
@@ -1619,6 +1767,38 @@
 	<row>
 		<label>CoreAdminHome_LogoNotWriteable</label>
 		<value>Pour utiliser un logo personnalisé Piwik a besoin d'un accès en écriture aux fichiers de logo dans les répertoires des thèmes: %s</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_TrustedHostSettings</label>
+		<value>Nom d'hôte</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_TrustedHostConfirm</label>
+		<value>Etes vous sür de vouloir changer le nom d'hote autorisé</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_PiwikIsInstalledAt</label>
+		<value>Piwik est installé à l'adresse</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_ValidPiwikHostname</label>
+		<value>Nom d'höte Piwik valide</value>
+	</row>
+	<row>
+		<label>CoreAdminHome_MissingPluginsWarning</label>
+		<value>Le module ne peux pas être charger car il est introuvable dans le dossier 'plugins': %1$s. VOus pouvez le désactiver à la page %2$sGestion des plugins%3$s.</value>
+	</row>
+	<row>
+		<label>CoreHome_InjectedHostNonSuperUserWarning</label>
+		<value>%1$sCliquez ici pour accéder à Piwik de manière sécurisé%2$s et supprimer cette alerte. Vous pouvez aussi contacter votre administrateur Piwik and l'avertir de ce problème (%3$sCliquez ici pour envoyer un message%4$s).</value>
+	</row>
+	<row>
+		<label>CoreHome_CheckForUpdates</label>
+		<value>Vérifier les mises à jour</value>
+	</row>
+	<row>
+		<label>CoreHome_YouAreUsingTheLatestVersion_js</label>
+		<value>Vous utilisez la dernière version de Piwik!</value>
 	</row>
 	<row>
 		<label>PrivacyManager_TeaserHeadline</label>
@@ -2153,6 +2333,14 @@
 		<value>Rapport généré il y a %s</value>
 	</row>
 	<row>
+		<label>CoreHome_LoadingPopover_js</label>
+		<value>Chargement %s ...</value>
+	</row>
+	<row>
+		<label>CoreHome_LoadingPopoverFor_js</label>
+		<value>Chargement %s de</value>
+	</row>
+	<row>
 		<label>CorePluginsAdmin_PluginDescription</label>
 		<value>Interface d'administration des plugins.</value>
 	</row>
@@ -2219,6 +2407,10 @@
 	<row>
 		<label>CorePluginsAdmin_MenuPlugins</label>
 		<value>Plugins</value>
+	</row>
+	<row>
+		<label>CorePluginsAdmin_PluginCannotBeFound</label>
+		<value>Ce plugin est introuvable !</value>
 	</row>
 	<row>
 		<label>CoreUpdater_PluginDescription</label>
@@ -3577,6 +3769,18 @@
 		<value>Vous pouvez donner ces droits en utilisant un outils tel que phpMyAdmin ou en exécutant les requêtes SQL appropriées. Si vous ne savez pas comment effectuer cela veuillez demander à votre administrateur système de donner ces droits pour vous.</value>
 	</row>
 	<row>
+		<label>Installation_SeeBelowForMoreInfo</label>
+		<value>Voir ci-dessous pour plus d'informations.</value>
+	</row>
+	<row>
+		<label>Installation_Filesystem</label>
+		<value>Système de fichiers</value>
+	</row>
+	<row>
+		<label>Installation_NfsFilesystemWarning</label>
+		<value>Votre serveur utilise un système de fichier NFS.</value>
+	</row>
+	<row>
 		<label>LanguagesManager_PluginDescription</label>
 		<value>Ce plugin affichera la liste des langues disponibles pour l'interface de Piwik. Le langage sélectionné sera sauvegardé dans les préférences de chaque utilisateur.</value>
 	</row>
@@ -3789,6 +3993,10 @@ Merci d'utiliser Piwik!</value>
 		<value>Choisissez un métrique</value>
 	</row>
 	<row>
+		<label>Mobile_ChooseReport</label>
+		<value>Choisir un rapport</value>
+	</row>
+	<row>
 		<label>Mobile_HelpUsToImprovePiwikMobile</label>
 		<value>Voulez-vous activer le traçage d'utilisation anonyme dans Piwik Mobile ?</value>
 	</row>
@@ -3861,6 +4069,10 @@ Merci d'utiliser Piwik!</value>
 		<value>Vérification du compte</value>
 	</row>
 	<row>
+		<label>Mobile_VerifyLoginData</label>
+		<value>Verifier votre nom d'utilisateur et votre mot de passe.</value>
+	</row>
+	<row>
 		<label>Mobile_AnonymousAccess</label>
 		<value>Accès anonyme</value>
 	</row>
@@ -3871,6 +4083,10 @@ Merci d'utiliser Piwik!</value>
 	<row>
 		<label>Mobile_EnableGraphsLabel</label>
 		<value>Afficher les graphs</value>
+	</row>
+	<row>
+		<label>Mobile_EvolutionGraph</label>
+		<value>Graphique d'historique</value>
 	</row>
 	<row>
 		<label>Mobile_DefaultReportDate</label>
@@ -3915,6 +4131,62 @@ Merci d'utiliser Piwik!</value>
 	<row>
 		<label>Mobile_YouAreOffline</label>
 		<value>Désolé, vous êtes actuellement déconnecté(e)</value>
+	</row>
+	<row>
+		<label>MobileMessaging_TopMenu</label>
+		<value>Rapports Email &amp; SMS</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_SuperAdmin</label>
+		<value>Paramètres Super Utilisateur</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_SMSProvider</label>
+		<value>Fournisseur SMS</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_PhoneNumbers</label>
+		<value>Numéros de téléphone</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_PhoneNumbers_Add</label>
+		<value>Ajouter un nouveau numéro de téléphone</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_CountryCode</label>
+		<value>Code pays</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_PhoneNumber</label>
+		<value>Numéro de téléphone</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_ManagePhoneNumbers</label>
+		<value>Gérer les numéros de téléphone</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_APIKey</label>
+		<value>Clé API</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_AddPhoneNumber</label>
+		<value>Ajouter</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_ValidatePhoneNumber</label>
+		<value>Valider</value>
+	</row>
+	<row>
+		<label>MobileMessaging_Settings_RemovePhoneNumber</label>
+		<value>Supprimer</value>
+	</row>
+	<row>
+		<label>MobileMessaging_MobileReport_PhoneNumbers</label>
+		<value>Numéros de téléphone</value>
+	</row>
+	<row>
+		<label>MobileMessaging_SMS_Content_Too_Long</label>
+		<value>[trop long]</value>
 	</row>
 	<row>
 		<label>MultiSites_PluginDescription</label>
@@ -3993,6 +4265,10 @@ Merci d'utiliser Piwik!</value>
 		<value>Sites Internet</value>
 	</row>
 	<row>
+		<label>Referers_Socials</label>
+		<value>Réseau sociaux</value>
+	</row>
+	<row>
 		<label>Referers_WebsitesReportDocumentation</label>
 		<value>Dans ce tableau vous pouvez voir quels sites web ont conduit des visiteurs sur votre site.. %s En cliquant sur une ligne du tableau, vous pouvez voir les URL des sites sur lesquels sont les liens.</value>
 	</row>
@@ -4047,6 +4323,10 @@ Merci d'utiliser Piwik!</value>
 	<row>
 		<label>Referers_ColumnWebsitePage</label>
 		<value>Page du site</value>
+	</row>
+	<row>
+		<label>Referers_ColumnSocial</label>
+		<value>Réseau sociaux</value>
 	</row>
 	<row>
 		<label>Referers_ColumnKeyword</label>
@@ -4133,6 +4413,10 @@ Merci d'utiliser Piwik!</value>
 		<value>Liste des sites Internet externes</value>
 	</row>
 	<row>
+		<label>Referers_WidgetSocials</label>
+		<value>Liste des réseaux sociaux</value>
+	</row>
+	<row>
 		<label>Referers_WidgetSearchEngines</label>
 		<value>Meilleurs moteurs de recherche</value>
 	</row>
@@ -4179,6 +4463,18 @@ Merci d'utiliser Piwik!</value>
 	<row>
 		<label>SEO_Pages</label>
 		<value>Pages</value>
+	</row>
+	<row>
+		<label>SEO_Google_IndexedPages</label>
+		<value>Page indexées sur Google</value>
+	</row>
+	<row>
+		<label>SEO_Bing_IndexedPages</label>
+		<value>Pages indexées sur Bing</value>
+	</row>
+	<row>
+		<label>SEO_Dmoz</label>
+		<value>Entrées DMOZ</value>
 	</row>
 	<row>
 		<label>SEO_SEORankingsFor</label>
@@ -4293,6 +4589,10 @@ Merci d'utiliser Piwik!</value>
 		<value>Liste globale des IPs Exclues</value>
 	</row>
 	<row>
+		<label>SitesManager_ExcludedUserAgents</label>
+		<value>User Agents exclus</value>
+	</row>
+	<row>
 		<label>SitesManager_ListOfIpsToBeExcludedOnAllWebsites</label>
 		<value>Les adresses IP ci-dessous seront exclues des statistiques sur tous les sites web.</value>
 	</row>
@@ -4393,6 +4693,14 @@ Merci d'utiliser Piwik!</value>
 		<value>Piwik permet un suivi et un rapport avancé des statistiques E-commerce. Apprenez-en plus à propos %s des statistiques E-commerce%s.</value>
 	</row>
 	<row>
+		<label>SitesManager_SearchKeywordLabel</label>
+		<value>Paramètres de requêtes</value>
+	</row>
+	<row>
+		<label>SitesManager_SearchCategoryLabel</label>
+		<value>Paramètres de categoriees</value>
+	</row>
+	<row>
 		<label>TranslationsAdmin_PluginDescription</label>
 		<value>Aidez à traduire Piwik dans votre langue.</value>
 	</row>
@@ -4485,12 +4793,36 @@ Merci d'utiliser Piwik!</value>
 		<value>Continent</value>
 	</row>
 	<row>
+		<label>UserCountry_Region</label>
+		<value>Region</value>
+	</row>
+	<row>
+		<label>UserCountry_City</label>
+		<value>Ville</value>
+	</row>
+	<row>
+		<label>UserCountry_Latitude</label>
+		<value>Latitude</value>
+	</row>
+	<row>
+		<label>UserCountry_Longitude</label>
+		<value>Longitude</value>
+	</row>
+	<row>
+		<label>UserCountry_Organization</label>
+		<value>Organisation</value>
+	</row>
+	<row>
 		<label>UserCountry_DistinctCountries</label>
 		<value>%s pays différents</value>
 	</row>
 	<row>
 		<label>UserCountry_Location</label>
 		<value>Localisation</value>
+	</row>
+	<row>
+		<label>UserCountry_Geolocation</label>
+		<value>Géolocalisation</value>
 	</row>
 	<row>
 		<label>UserCountry_SubmenuLocations</label>
@@ -5637,8 +5969,76 @@ Merci d'utiliser Piwik!</value>
 		<value>Plein écran</value>
 	</row>
 	<row>
+		<label>UserCountry_GeoIPDatabases</label>
+		<value>Base de donnéees GeoIP</value>
+	</row>
+	<row>
+		<label>UserCountry_PiwikNotManagingGeoIPDBs</label>
+		<value>Piwik ne gère actuellement aucune base de données GeoIP.</value>
+	</row>
+	<row>
+		<label>UserCountry_IWantToDownloadFreeGeoIP</label>
+		<value>Je souhaite télécharger la version gratuite de la base de données GeoIP</value>
+	</row>
+	<row>
+		<label>UserCountry_HowToInstallGeoIPDatabases</label>
+		<value>Comment puis-je récupérer les bases de données GeoIP ?</value>
+	</row>
+	<row>
 		<label>UserSettings_PluginDescription</label>
 		<value>Effectue des rapports variés sur les paramètres utilisateurs: navigateur, famille du navigateur, système d'exploitation, plugins, résolution, paramètres généraux.</value>
+	</row>
+	<row>
+		<label>UserCountry_GeolocationPageDesc</label>
+		<value>Sur cette page vous pouvez changer la manière dont Piwik détermine la localisation des visiteurs.</value>
+	</row>
+	<row>
+		<label>UserCountry_getCountryDocumentation</label>
+		<value>Ce rapport montre dans quel pays vos visiteurs étaient quand ils ont accédé à votre site web.</value>
+	</row>
+	<row>
+		<label>UserCountry_getContinentDocumentation</label>
+		<value>Ce rapport montre dans quel continent vos visiteurs étaient quand ils ont accédé à votre site web.</value>
+	</row>
+	<row>
+		<label>UserCountry_getRegionDocumentation</label>
+		<value>Ce rapport montre dans quelle région vos visiteurs étaient quand ils ont accédé à votre site web.</value>
+	</row>
+	<row>
+		<label>UserCountry_getCityDocumentation</label>
+		<value>Ce rapport montre dans quelle ville vos visiteurs étaient quand ils ont accédé à votre site web.</value>
+	</row>
+	<row>
+		<label>UserCountry_GeoIPPeclCustomDirNotSet</label>
+		<value>L'option %s du PHP ini n'est pas définie.</value>
+	</row>
+	<row>
+		<label>UserCountry_GeoIPUpdaterIntro</label>
+		<value>Piwik gère actuellement les mises à jour pour les bases de données GeoIP suivantes</value>
+	</row>
+	<row>
+		<label>UserCountry_ISPDatabase</label>
+		<value>Base de données ISP</value>
+	</row>
+	<row>
+		<label>UserCountry_OrgDatabase</label>
+		<value>Base de données des Organisation</value>
+	</row>
+	<row>
+		<label>UserCountry_DownloadingDb</label>
+		<value>Téléchargement de %s</value>
+	</row>
+	<row>
+		<label>UserCountry_CannotListContent</label>
+		<value>Impossible d'afficher le contenu de %1$s: %2$s</value>
+	</row>
+	<row>
+		<label>UserCountry_CannotUnzipDatFile</label>
+		<value>Impossible de dézipper le fichier dat dans %1$s: %2$s</value>
+	</row>
+	<row>
+		<label>UserCountry_GeoLiteCityLink</label>
+		<value>Si vous utilisez GeoLite City Database, utilisez ce lien : %1$s%2$s%3$s.</value>
 	</row>
 	<row>
 		<label>UserSettings_VisitorSettings</label>
@@ -5775,6 +6175,18 @@ Merci d'utiliser Piwik!</value>
 	<row>
 		<label>UserSettings_MobileVsDesktop</label>
 		<value>Mobile vs Fixe</value>
+	</row>
+	<row>
+		<label>UserCountry_HowToInstallApacheModule</label>
+		<value>Comment puis-je récupérer le module GeoIP pour Apache ?</value>
+	</row>
+	<row>
+		<label>UserCountry_HowToInstallNginxModule</label>
+		<value>Comment puis-je installer le module GeoIP pour Nginx?</value>
+	</row>
+	<row>
+		<label>UserCountry_HowToInstallGeoIpPecl</label>
+		<value>Comment puis-je installer l'extension Geoip via PECL ?</value>
 	</row>
 	<row>
 		<label>UsersManager_PluginDescription</label>
@@ -6245,6 +6657,14 @@ Merci d'utiliser Piwik!</value>
 		<value>%s liens sortant</value>
 	</row>
 	<row>
+		<label>VisitsSummary_NbSearchesDescription</label>
+		<value>%s au total recherches sur votre site web</value>
+	</row>
+	<row>
+		<label>VisitsSummary_NbKeywordsDescription</label>
+		<value>%s mots clés unique</value>
+	</row>
+	<row>
 		<label>VisitsSummary_NbUniqueOutlinksDescription</label>
 		<value>%s liens sortant unique</value>
 	</row>
@@ -6597,6 +7017,22 @@ Merci d'utiliser Piwik!</value>
 		<value>%s depuis des pages internes</value>
 	</row>
 	<row>
+		<label>Transitions_FromPreviousSiteSearches</label>
+		<value>Depuis des recherches internes</value>
+	</row>
+	<row>
+		<label>Transitions_FromPreviousSiteSearchesInline</label>
+		<value>%s depuis des recherches internes</value>
+	</row>
+	<row>
+		<label>Transitions_ToFollowingSiteSearches</label>
+		<value>Recherches internes</value>
+	</row>
+	<row>
+		<label>Transitions_ToFollowingSiteSearchesInline</label>
+		<value>%s recherches internes</value>
+	</row>
+	<row>
 		<label>Transitions_ToFollowingPages</label>
 		<value>Vers des pages internes</value>
 	</row>
@@ -6645,6 +7081,102 @@ Merci d'utiliser Piwik!</value>
 		<value>%s rebonds</value>
 	</row>
 	<row>
+		<label>Transitions_NoDataForAction</label>
+		<value>Il n'y a aucune données pour %s</value>
+	</row>
+	<row>
+		<label>Transitions_ErrorBack</label>
+		<value>Retour à l'action précédente</value>
+	</row>
+	<row>
+		<label>Overlay_Overlay</label>
+		<value>FOnd de page</value>
+	</row>
+	<row>
+		<label>Overlay_Location</label>
+		<value>Localisation</value>
+	</row>
+	<row>
+		<label>Overlay_NoData</label>
+		<value>Il n'y a aucune données durant cette période</value>
+	</row>
+	<row>
+		<label>Overlay_OpenFullScreen</label>
+		<value>Ouvrir en plein écran</value>
+	</row>
+	<row>
+		<label>Overlay_OneClick</label>
+		<value>1 clic</value>
+	</row>
+	<row>
+		<label>Overlay_Clicks</label>
+		<value>%s clics</value>
+	</row>
+	<row>
+		<label>Overlay_Link</label>
+		<value>Lien</value>
+	</row>
+	<row>
+		<label>Overlay_Domain</label>
+		<value>Domaine</value>
+	</row>
+	<row>
+		<label>Annotations_Annotations</label>
+		<value>Annotations</value>
+	</row>
+	<row>
+		<label>Annotations_EnterAnnotationText</label>
+		<value>Description...</value>
+	</row>
+	<row>
+		<label>Annotations_IconDesc_js</label>
+		<value>Voir les notes pour cette plage de temps</value>
+	</row>
+	<row>
+		<label>Annotations_IconDescHideNotes_js</label>
+		<value>Cacher les notes pour cet plage de temps</value>
+	</row>
+	<row>
+		<label>Annotations_NoAnnotations</label>
+		<value>Il n'y a aucune note pour cette période</value>
+	</row>
+	<row>
+		<label>Annotations_ViewAndAddAnnotations_js</label>
+		<value>Voir et ajouter une annotation pour %s ...</value>
+	</row>
+	<row>
+		<label>Annotations_HideAnnotationsFor_js</label>
+		<value>Masquer les notes pour %s...</value>
+	</row>
+	<row>
+		<label>Annotations_AddAnnotationsFor_js</label>
+		<value>Ajouter une note pour %s...</value>
+	</row>
+	<row>
+		<label>Annotations_ClickToEdit</label>
+		<value>Cliquez ici pour supprimer une annotation</value>
+	</row>
+	<row>
+		<label>Annotations_ClickToDelete</label>
+		<value>Cliquez ici pour supprimer une annotation</value>
+	</row>
+	<row>
+		<label>Annotations_CreateNewAnnotation</label>
+		<value>Cliquez-ici pour créer une annotation</value>
+	</row>
+	<row>
+		<label>Annotations_LoginToAnnotate</label>
+		<value>Identifiez vous pour créer une annotation</value>
+	</row>
+	<row>
+		<label>Annotations_AnnotationOnDate</label>
+		<value>Note sur %1$s : %2$s</value>
+	</row>
+	<row>
+		<label>Annotations_ClickToEditOrAdd</label>
+		<value>Cliquer pour éditer ou ajouter une nouvelle note.</value>
+	</row>
+	<row>
 		<label>EntryPage_Bounces</label>
 		<value>Rebonds</value>
 	</row>
@@ -6675,34 +7207,6 @@ Merci d'utiliser Piwik!</value>
 	<row>
 		<label>Forecast_Widget</label>
 		<value>Prévisions pour aujourd'hui</value>
-	</row>
-	<row>
-		<label>GeoIP_ColumnCity</label>
-		<value>Ville</value>
-	</row>
-	<row>
-		<label>GeoIP_Continent</label>
-		<value>Continent</value>
-	</row>
-	<row>
-		<label>GeoIP_Country</label>
-		<value>Pays</value>
-	</row>
-	<row>
-		<label>GeoIP_DistinctCountries</label>
-		<value>%s pays différents</value>
-	</row>
-	<row>
-		<label>GeoIP_SubmenuLocations</label>
-		<value>Emplacements</value>
-	</row>
-	<row>
-		<label>GeoIP_WidgetContinents</label>
-		<value>Continents du visiteur</value>
-	</row>
-	<row>
-		<label>GeoIP_WidgetCountries</label>
-		<value>Pays du visiteur</value>
 	</row>
 	<row>
 		<label>UserLanguage_Language</label>
