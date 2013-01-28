@@ -1,8 +1,8 @@
 <?php
 $translations = array(
 	'General_Locale' => 'zh_CN.UTF-8',
-	'General_TranslatorName' => '翻译者姓名',
-	'General_TranslatorEmail' => '翻译者Email',
+	'General_TranslatorName' => 'Marine.Ming',
+	'General_TranslatorEmail' => 'albert.einstain@gmail.com',
 	'General_EnglishLanguageName' => 'Simplified Chinese',
 	'General_OriginalLanguageName' => '简体中文',
 	'General_HelloUser' => '您好， %s！',

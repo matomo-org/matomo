@@ -1,8 +1,8 @@
 <?php
 $translations = array(
 	'General_Locale' => 'fr_FR.UTF-8',
-	'General_TranslatorName' => '<a href="http://microsofttouch.fr/default/b/vincent/default.aspx">Vincent BIRET</a>, <a href="http://www.ludovicevrard.com">Ludovic Evrard</a>, <a href="http://www.ikux.fr">Daniel Castronovo</a>',
-	'General_TranslatorEmail' => 'admin@get-surf.com, piwik@ludovicevrard.be, daniel@castronovo.fr,',
+	'General_TranslatorName' => '<a href="http://microsofttouch.fr/default/b/vincent/default.aspx">Vincent BIRET</a>, <a href="http://www.ludovicevrard.com">Ludovic Evrard</a>, Daniel Castronovo',
+	'General_TranslatorEmail' => 'admin@get-surf.com, piwik@ludovicevrard.be, daniel@castronovo.fr',
 	'General_EnglishLanguageName' => 'French',
 	'General_OriginalLanguageName' => 'Français',
 	'General_LayoutDirection' => 'ltr',

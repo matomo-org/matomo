@@ -1,8 +1,8 @@
 <?php
 $translations = array(
 	'General_Locale' => 'th_TH.UTF-8',
-	'General_TranslatorName' => 'coyoty, <a href="http://thzaa.com/">Jaideejung007</a>',
-	'General_TranslatorEmail' => 'jaideejung007@gmail.com',
+	'General_TranslatorName' => 'designbyarm, coyoty, jaideejung007',
+	'General_TranslatorEmail' => 'admin@tuntikorn.com, jaideejung007@gmail.com',
 	'General_EnglishLanguageName' => 'Thai',
 	'General_OriginalLanguageName' => 'ภาษาไทย',
 	'General_LayoutDirection' => 'ltr',

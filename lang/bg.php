@@ -1,7 +1,7 @@
 <?php
 $translations = array(
 	'General_Locale' => 'bg_BG.UTF-8',
-	'General_TranslatorName' => '<a href="http://kristalinchavdarov.net/">Kristalin Chavdarov</a>, <a href="http://coffebreak.info/">Andon Ivanov</a>, Tom Atanasov, Dimitar Stamenov, <a href="http://www.blog7.org/">Панайотис Кондоянис</a>',
+	'General_TranslatorName' => 'Kristalin Chavdarov, Andon Ivanov, Tom Atanasov, Dimitar Stamenov',
 	'General_TranslatorEmail' => 'kristalin[at]kividesign[dot]com, Virosss[at]abv[dot]bg, tomivr[at]abv[dot]bg, pak69[at]abv[dot]bg, pamir[at]abv[dot]bg',
 	'General_EnglishLanguageName' => 'Bulgarian',
 	'General_OriginalLanguageName' => 'Български',

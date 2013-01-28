@@ -1,7 +1,7 @@
 <?php
 $translations = array(
 	'General_Locale' => 'da_DK.UTF-8',
-	'General_TranslatorName' => '<a href="http://danieljuhl.dk/">Daniel Juhl</a>, jan madsen',
+	'General_TranslatorName' => 'Daniel Juhl, jan madsen',
 	'General_TranslatorEmail' => 'danieljuhl@gmail.com, jsm@janz.dk',
 	'General_EnglishLanguageName' => 'Danish',
 	'General_OriginalLanguageName' => 'Dansk',
