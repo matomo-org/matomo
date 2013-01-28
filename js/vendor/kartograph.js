@@ -50,7 +50,7 @@
 
   kartograph = root.$K = window.Kartograph = (_ref = root.Kartograph) != null ? _ref : root.Kartograph = {};
 
-  kartograph.version = "0.4.3";
+  kartograph.version = "0.5.1";
 
   $ = root.jQuery;
 
@@ -3674,10 +3674,13 @@
     });
   };
 
-  MapLayer.prototype.applyTexture = function(url, w, h, color) {
+  MapLayer.prototype.applyTexture = function(url, filt, defCol) {
     var lp, me, _i, _len, _ref6, _results;
-    if (color == null) {
-      color = '#fff';
+    if (filt == null) {
+      filt = false;
+    }
+    if (defCol == null) {
+      defCol = '#000';
     }
     me = this;
     filter.__patternFills += 1;
@@ -3685,9 +3688,13 @@
     _results = [];
     for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
       lp = _ref6[_i];
-      _results.push(lp.svgPath.attr({
-        fill: 'url(' + url + ')'
-      }));
+      if (!filt || filt(lp.data)) {
+        _results.push(lp.svgPath.attr({
+          fill: 'url(' + url + ')'
+        }));
+      } else {
+        _results.push(lp.svgPath.attr('fill', defCol));
+      }
     }
     return _results;
   };
@@ -5063,6 +5070,65 @@ function kdtree() {
 }
 ;
 
+
+  kartograph.dorlingLayout = function(symbolgroup, iterations) {
+    var A, B, apply, d, ds, dx, dy, f, i, j, nodes, r, rd, rs, _i;
+    if (iterations == null) {
+      iterations = 40;
+    }
+    nodes = [];
+    $.each(symbolgroup.symbols, function(i, s) {
+      return nodes.push({
+        i: i,
+        x: s.path.attrs.cx,
+        y: s.path.attrs.cy,
+        r: s.path.attrs.r
+      });
+    });
+    nodes.sort(function(a, b) {
+      return b.r - a.r;
+    });
+    apply = function() {
+      var n, _i, _len;
+      for (_i = 0, _len = nodes.length; _i < _len; _i++) {
+        n = nodes[_i];
+        symbolgroup.symbols[n.i].path.attr({
+          cx: n.x,
+          cy: n.y
+        });
+      }
+    };
+    for (r = _i = 1; 1 <= iterations ? _i <= iterations : _i >= iterations; r = 1 <= iterations ? ++_i : --_i) {
+      for (i in nodes) {
+        for (j in nodes) {
+          if (j > i) {
+            A = nodes[i];
+            B = nodes[j];
+            if (A.x + A.r < B.x - B.r || A.x - A.r > B.x + B.r) {
+              continue;
+            }
+            if (A.y + A.r < B.y - B.r || A.y - A.r > B.y + B.r) {
+              continue;
+            }
+            dx = A.x - B.x;
+            dy = A.y - B.y;
+            ds = dx * dx + dy * dy;
+            rd = A.r + B.r;
+            rs = rd * rd;
+            if (ds < rs) {
+              d = Math.sqrt(ds);
+              f = 10 / d;
+              A.x += dx * f * (1 - (A.r / rd));
+              A.y += dy * f * (1 - (A.r / rd));
+              B.x -= dx * f * (1 - (B.r / rd));
+              B.y -= dy * f * (1 - (B.r / rd));
+            }
+          }
+        }
+      }
+    }
+    return apply();
+  };
 
   /*
       kartograph - a svg mapping library
