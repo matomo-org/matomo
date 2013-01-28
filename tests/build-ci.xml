@@ -46,6 +46,7 @@
             <!-- DEBUG: when test crash in the middle, enable this to see which test crashes.
                 Note: remove \ from -\- below -->
             <!-- <arg line=" -\-testdox"/> -->
+            <arg line=" --testdox"/>
 		</exec>
 
 		<echo>PDO_MYSQL unit tests finished</echo>
