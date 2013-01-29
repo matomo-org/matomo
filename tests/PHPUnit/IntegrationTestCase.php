@@ -532,7 +532,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
-        self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n" . $response . "\n"
+        self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n"
+	        . var_export($response, true)
+	        . "\n If you are stuck, you can enable \$GLOBALS['PIWIK_TRACKER_DEBUG']=true; in piwik.php to get more debug info."
 //            .base64_encode($response) // uncomment to further debug when the GIF hides the error
         );
     }

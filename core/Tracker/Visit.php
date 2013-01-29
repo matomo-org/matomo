@@ -1591,6 +1591,10 @@ class Piwik_Tracker_Visit_Referer
 	protected $currentUrlParse;
 	protected $idsite;
 
+	// Used to prefix when a adsense referer is detected
+	const LABEL_PREFIX_ADSENSE_KEYWORD = '(adsense) ';
+
+
 	/**
 	 * Returns an array containing the following information:
 	 * - referer_type
@@ -1732,13 +1736,35 @@ class Piwik_Tracker_Visit_Referer
 			// if the campaign keyword is empty, try to get a keyword from the referrer URL
 			if (empty($this->keywordRefererAnalyzed))
 			{
+				// Set the Campaign keyword to the keyword found in the Referer URL if any
 				$referrerUrlInfo = Piwik_Common::extractSearchEngineInformationFromUrl($this->refererUrl);
-			
 				if (!empty($referrerUrlInfo['keywords']))
 				{
 					$this->keywordRefererAnalyzed = $referrerUrlInfo['keywords'];
 				}
-				else // if the referrer URL has no detectable keyword, we set the keyword to the referrer URL hostname
+
+				// Set the keyword, to the hostname found, in a Adsense Referer URL '&url=' parameter
+				if(empty($this->keywordRefererAnalyzed)
+					&& !empty($this->refererUrlParse['query'])
+					&& !empty($this->refererHost)
+					&& (strpos($this->refererHost, 'google') !== false || strpos($this->refererHost,'doubleclick') !== false)
+					)
+				{
+					// This parameter sometimes is found & contains the page with the adsense ad bringing visitor to our site
+					$adsenseReferrerParameter = 'url';
+					$value = trim(urldecode(Piwik_Common::getParameterFromQueryString($this->refererUrlParse['query'], $adsenseReferrerParameter)));
+					if(!empty($value))
+					{
+						$parsedAdsenseReferrerUrl = parse_url($value);
+						if(!empty($parsedAdsenseReferrerUrl['host']))
+						{
+							$this->keywordRefererAnalyzed = self::LABEL_PREFIX_ADSENSE_KEYWORD . $parsedAdsenseReferrerUrl['host'];
+						}
+					}
+				}
+
+				// or we default to the referrer hostname otherwise
+				if(empty($this->keywordRefererAnalyzed))
 				{
 					$this->keywordRefererAnalyzed = $this->refererHost;
 				}
