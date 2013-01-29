@@ -1728,6 +1728,22 @@ class Piwik_Tracker_Visit_Referer
 					break;
 				}
 			}
+			
+			// if the campaign keyword is empty, try to get a keyword from the referrer URL
+			if (empty($this->keywordRefererAnalyzed))
+			{
+				$referrerUrlInfo = Piwik_Common::extractSearchEngineInformationFromUrl($this->refererUrl);
+			
+				if (!empty($referrerUrlInfo['keywords']))
+				{
+					$this->keywordRefererAnalyzed = $referrerUrlInfo['keywords'];
+				}
+				else // if the referrer URL has no detectable keyword, we set the keyword to the referrer URL hostname
+				{
+					$this->keywordRefererAnalyzed = $this->refererHost;
+				}
+			}
+			
 			return true;
 		}
 		return false;

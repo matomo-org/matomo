@@ -854,7 +854,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         $expected = $this->loadExpectedFile($expectedFilePath);
         if (empty($expected)) {
-	        print("The expected file is not found. The Processed response was:");
+	        print("The expected file is not found at '$expectedFilePath'. The Processed response was:");
 	        print("\n----------------------------\n\n");
 	        var_dump($response);
 	        print("\n----------------------------\n");

@@ -114,5 +114,17 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
         $t3->DEBUG_APPEND_URL = '&_ref=http%3A%2F%2Freferrer.example.com%2Fpage%2Fsub%3Fquery%3Dtest%26test2%3Dtest3';
         $t3->setUrl('http://example.org/index.htm#pk_campaign=CREDITED TO GOAL PLEASE');
         self::checkResponse($t3->doTrackGoal($idGoal, 42));
+        
+        // visitor #4, test for blank referrer campaign keyword
+        $t4 = self::getTracker($idSite, $dateTime);
+        $t4->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(3)->getDatetime());
+        $t4->setUrlReferrer('http://bing.com/search?q=whatever');
+        $t4->setUrl('http://example.org/index.html?utm_campaign=GA+Campaign');
+        self::checkResponse($t4->doTrackPageView('first page'));
+        
+        $t4->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(4)->getDatetime());
+        $t4->setUrlReferrer('http://thing1.com/a/b/c.html?a=b&d=c');
+        $t4->setUrl('http://example.org/index.html?utm_campaign=GA+Campaign');
+        self::checkResponse($t4->doTrackPageView('second page'));
     }
 }
