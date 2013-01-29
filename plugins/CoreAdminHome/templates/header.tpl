@@ -32,11 +32,11 @@
 {include file="CoreHome/templates/js_disabled_notice.tpl"}
 </div>
 
+{ajaxRequestErrorDiv}
+<div id="container">
 {if !isset($showMenu) || $showMenu}
 	{include file="CoreAdminHome/templates/menu.tpl"}
 {/if}
-
-{ajaxRequestErrorDiv}
 
 <div id="content" class="admin">
 

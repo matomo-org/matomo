@@ -39,10 +39,10 @@ class Piwik_SitesManager extends Piwik_Plugin
 
 	function addMenu()
 	{
-		Piwik_AddAdminMenu('SitesManager_MenuSites',
+		Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', 'SitesManager_MenuSites',
 							array('module' => 'SitesManager', 'action' => 'index'),
 							Piwik::isUserHasSomeAdminAccess(),
-							$order = 5);
+							$order = 1);
 	}
 
 	/**

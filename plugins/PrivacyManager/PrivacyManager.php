@@ -103,7 +103,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         Piwik_AddAdminMenu('PrivacyManager_MenuPrivacySettings',
                            array('module' => 'PrivacyManager', 'action' => 'privacySettings'),
                            Piwik::isUserHasSomeAdminAccess(),
-                           $order = 8);
+                           $order = 7);
     }
 	
 	/**

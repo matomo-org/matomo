@@ -151,7 +151,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 	 */
 	function addAdminMenu()
 	{
-		Piwik_AddAdminMenu('UserCountry_Geolocation',
+		Piwik_AddAdminSubMenu('General_Settings', 'UserCountry_Geolocation',
 						   array('module' => 'UserCountry', 'action' => 'adminIndex'),
 	                       Piwik::isUserIsSuperUser(),
 	                       $order = 8);

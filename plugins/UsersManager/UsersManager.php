@@ -112,14 +112,14 @@ class Piwik_UsersManager extends Piwik_Plugin
 	 */
 	function addMenu()
 	{
-		Piwik_AddAdminMenu('UsersManager_MenuUsers', 
+		Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', 'UsersManager_MenuUsers', 
 							array('module' => 'UsersManager', 'action' => 'index'),
 							Piwik::isUserHasSomeAdminAccess(),
-							$order = 3);
-		Piwik_AddAdminMenu('UsersManager_MenuUserSettings', 
+							$order = 2);
+		Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', 'UsersManager_MenuUserSettings', 
 							array('module' => 'UsersManager', 'action' => 'userSettings'),
 							Piwik::isUserHasSomeViewAccess(),
-							$order = 1);
+							$order = 3);
 	}
 
 	/**

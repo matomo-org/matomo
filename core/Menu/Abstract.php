@@ -86,7 +86,9 @@ abstract class Piwik_Menu_Abstract
 		if (!isset($this->menu[$menuName]) || empty($subMenuName))
 		{
 			$this->menu[$menuName]['_url'] = $url;
-			$this->menu[$menuName]['_order'] = $order;
+			if(empty($subMenuName)) {
+				$this->menu[$menuName]['_order'] = $order;
+			}
 			$this->menu[$menuName]['_name'] = $menuName;
 			$this->menu[$menuName]['_hasSubmenu'] = false;
 			$this->menu[$menuName]['_tooltip'] = $tooltip;

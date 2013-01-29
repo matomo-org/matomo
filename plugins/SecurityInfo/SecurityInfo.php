@@ -36,7 +36,7 @@ class Piwik_SecurityInfo extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddAdminMenu('SecurityInfo_Security', 
+		Piwik_AddAdminSubMenu('CoreAdminHome_MenuDiagnostic', 'SecurityInfo_Security', 
 							array('module' => 'SecurityInfo', 'action' => 'index'),
 							Piwik::isUserIsSuperUser(),
 							$order = 10);		

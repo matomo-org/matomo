@@ -32,11 +32,11 @@ class Piwik_VisitorGenerator extends Piwik_Plugin {
 	}
 
 	public function addMenu() {
-		Piwik_AddAdminMenu(
-				'VisitorGenerator_VisitorGenerator',
+		Piwik_AddAdminSubMenu(
+				'CoreAdminHome_MenuDiagnostic', 'VisitorGenerator_VisitorGenerator',
 				array('module' => 'VisitorGenerator', 'action' => 'index'),
 				Piwik::isUserIsSuperUser(),
-				$order = 10
+				$order = 20
 		);
 	}
 }

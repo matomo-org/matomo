@@ -33,9 +33,10 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 	
 	function addMenu()
 	{
-		Piwik_AddAdminMenu('CorePluginsAdmin_MenuPlugins', 
+		Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlugins', null, "", Piwik::isUserIsSuperUser(), $order = 15);
+		Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlugins', 'CorePluginsAdmin_MenuPluginsInstalled',
 							array('module' => 'CorePluginsAdmin', 'action' => 'index'),
 							Piwik::isUserIsSuperUser(),
-							$order = 7);		
+							$order = 1);
 	}
 }
