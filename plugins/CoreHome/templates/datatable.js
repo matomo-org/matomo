@@ -1888,7 +1888,7 @@ actionDataTable.prototype =
 			var plusDetected = $('td img.plusMinus', domElem).attr('src').indexOf('plus') >= 0;
 			
 			$(domElem).siblings().each( function(){
-				var parents = $(this).prop('parent');
+				var parents = $(this).prop('parent').split(' ');
 				if(parents)
 				{
 					if(parents.indexOf(idSubTable) >= 0 
