@@ -104,7 +104,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 	 * @group TaskScheduler
 	 * @dataProvider getScheduledTimeForMethodTestCases
 	 */
-	public function disabled_FIXME_testGetScheduledTimeForMethod($expectedTime, $className, $methodName, $methodParameter, $timetable)
+	public function testGetScheduledTimeForMethod($expectedTime, $className, $methodName, $methodParameter, $timetable)
 	{
 		self::stubPiwikOption($timetable);
 
@@ -119,7 +119,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 		$timetable = self::getTestTimetable();
 
 		// set a date in the future (should not run)
-		$timetable['Piwik_CoreAdminHome.purgeOutdatedArchives'] = time() + 1000;
+		$timetable['Piwik_CoreAdminHome.purgeOutdatedArchives'] = time() + 60000;
 
 		// set now (should run)
 		$timetable['Piwik_PrivacyManager.deleteReportData_1'] = time();
@@ -196,7 +196,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
 		$caseOneExpectedTable = array(
 			'TaskSchedulerTest.scheduledTaskOne' => $scheduledTaskOne->getRescheduledTime(),
-			'TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 1000,
+			'TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 60000,
 			'TaskSchedulerTest.scheduledTaskThree' => $scheduledTaskThree->getRescheduledTime(),
 		);
 
@@ -220,7 +220,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 				// timetable before task execution
 				array(
 					'TaskSchedulerTest.scheduledTaskOne' => $systemTime,
-					'TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 1000,
+					'TaskSchedulerTest.scheduledTaskTwo_1' => $systemTime + 60000,
 				),
 				// configured tasks
 				array(
@@ -268,7 +268,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 	 * @group TaskScheduler
 	 * @dataProvider testRunTasksTestCases
 	 */
-	public function disabled_FIXME_testRunTasks($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
+	public function testRunTasks($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
 	{
 		// stub the event dispatcher so we can control the returned event notification
 		Piwik_PluginsManager::getInstance()->dispatcher = new MockEventDispatcher($configuredTasks);
