@@ -56,7 +56,7 @@ track_visits_inside_piwik_ui = 0
 
 ; if set to 1, javascript and css files will be included individually
 ; this option must be set to 1 when adding, removing or modifying javascript and css files
-disable_merged_assets = 1
+disable_merged_assets = 0
 
 ; If set to 1, all requests to piwik.php will be forced to be 'new visitors'
 tracker_always_new_visitor = 0
