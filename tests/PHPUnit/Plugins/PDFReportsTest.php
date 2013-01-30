@@ -380,6 +380,9 @@ class PDFReportsTest extends DatabaseTestCase
 		$tasks = array();
 		$pdfReportPlugin->getScheduledTasks(new Piwik_Event_Notification($tasks, 'fakeEvent'));
 		$this->assertEquals($expectedTasks, $tasks);
+
+		// restore Piwik_PDFReports_API
+		$stubbedPDFReportsAPIClass->setValue(null);
 	}
 
 	private function assertReportsEqual($report, $data)
