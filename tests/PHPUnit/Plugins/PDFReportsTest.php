@@ -313,8 +313,6 @@ class PDFReportsTest extends DatabaseTestCase
 	 */
 	public function testGetScheduledTasks()
 	{
-		// todo ajouter une heure et tester si ça marche
-
 		// stub Piwik_PDFReports_API to control getReports() return values
 		$report1 = self::getDailyPDFReportData($this->idSite);
 		$report1['idreport'] = 1;
