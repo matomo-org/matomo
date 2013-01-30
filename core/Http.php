@@ -26,19 +26,29 @@ class Piwik_Http
 	static public function getTransportMethod()
 	{
 		$method = 'curl';
-		if(!function_exists('curl_init'))
+		if(!self::isCurlEnabled())
 		{
 			$method = 'fopen';
 			if(@ini_get('allow_url_fopen') != '1')
 			{
 				$method = 'socket';
-				if(!function_exists('fsockopen'))
+				if(!self::isSocketEnabled())
 				{
 					return null;
 				}
 			}
 		}
 		return $method;
+	}
+
+	protected static function isSocketEnabled()
+	{
+		return function_exists('fsockopen');
+	}
+
+	protected static function isCurlEnabled()
+	{
+		return function_exists('curl_init');
 	}
 
 	/**
@@ -155,6 +165,10 @@ class Piwik_Http
 
 		if($method == 'socket')
 		{
+			if(!self::isSocketEnabled()) {
+				// can be triggered in tests
+				throw new Exception("HTTP socket support is not enabled (php function fsockopen is not available) ");
+			}
 			// initialization
 			$url = @parse_url($aUrl);
 			if($url === false || !isset($url['scheme']))
@@ -426,6 +440,10 @@ class Piwik_Http
 		}
 		else if($method == 'curl')
 		{
+			if(!self::isCurlEnabled()) {
+				// can be triggered in tests
+				throw new Exception("CURL is not enabled in php.ini, but is being used.");
+			}
 			$ch = @curl_init();
 
 			if(!empty($proxyHost) && !empty($proxyPort))
