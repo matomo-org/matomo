@@ -364,11 +364,16 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $defaultLayout = $this->_getLayoutForUser('', 1);
 
         if (empty($defaultLayout)) {
-        	$donateWidget = '';
+        	$topWidget = '';
         	if (Piwik::isUserIsSuperUser())
         	{
-        		$donateWidget = '{"uniqueId":"widgetCoreHomegetDonateForm",'
-        					  .  '"parameters":{"module":"CoreHome","action":"getDonateForm"}},';
+        		$topWidget = '{"uniqueId":"widgetCoreHomegetDonateForm",'
+        				   .  '"parameters":{"module":"CoreHome","action":"getDonateForm"}},';
+        	}
+        	else
+        	{
+        		$topWidget = '{"uniqueId":"widgetCoreHomegetPromoVideo",'
+        				   .  '"parameters":{"module":"CoreHome","action":"getPromoVideo"}},';
         	}
         	
             $defaultLayout = '[
@@ -378,7 +383,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
                     {"uniqueId":"widgetVisitorInterestgetNumberOfVisitsPerVisitDuration","parameters":{"module":"VisitorInterest","action":"getNumberOfVisitsPerVisitDuration"}}
                 ],
                 [
-                	'.$donateWidget.'
+                	'.$topWidget.'
                     {"uniqueId":"widgetReferersgetKeywords","parameters":{"module":"Referers","action":"getKeywords"}},
                     {"uniqueId":"widgetReferersgetWebsites","parameters":{"module":"Referers","action":"getWebsites"}}
                 ],

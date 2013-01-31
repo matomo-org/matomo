@@ -214,4 +214,16 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 		}
 		echo $view->render();
 	}
+	
+	/**
+	 * Renders and echo's HTML that displays the Piwik promo video.
+	 */
+	public function getPromoVideo()
+	{
+		$view = Piwik_View::factory('promo_video');
+		$view->shareText = Piwik_Translate('CoreHome_SharePiwikShort');
+		$view->shareTextLong = Piwik_Translate('CoreHome_SharePiwikLong');
+		$view->promoVideoUrl = 'http://www.youtube.com/watch?v=OslfF_EH81g';
+		echo $view->render();
+	}
 }

@@ -479,6 +479,14 @@ $translations = array(
 	'CoreHome_OnlyForAdmin' => 'This is only displayed to you, the superuser.',
 	'CoreHome_DonateFormInstructions' => 'Click on the slider to select an amount, then click subscribe to donate.',
 	'CoreHome_SubscribeAndBecomePiwikSupporter' => 'Proceed to a secure credit card payment page (Paypal) to become a Piwik Supporter!',
+	'CoreHome_CheckPiwikOut' => 'Check Piwik out!',
+	'CoreHome_CloseWidgetDirections' => 'You can close this widget by clicking on the \'X\' icon at the top of the widget.',
+	'CoreHome_ShareThis' => 'Share this',
+	'CoreHome_ViewAllPiwikVideoTutorials' => 'View all Piwik Video Tutorials',
+	'CoreHome_SharePiwikShort' => "Piwik! Free and open source web analytics. Own your data.",
+	'CoreHome_SharePiwikLong' => 'Hi! I just found a great piece of open source software: Piwik!
+
+Piwik will let you track visitors to your website for free. You should definitely check it out!',
 	'PrivacyManager_TeaserHeadline' => 'Privacy Settings',
 	'PrivacyManager_Teaser' => 'On this page, you can customize Piwik to make it privacy compliant with existing legislations, by: %s anonymizing the visitor IP%s, %s automatically remove old visitor logs from the database%s, and %s providing an Opt-out mechanism for your website%s.',
 	'PrivacyManager_MenuPrivacySettings' => 'Privacy',
