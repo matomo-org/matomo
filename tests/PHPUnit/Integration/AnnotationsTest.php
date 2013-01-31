@@ -354,7 +354,7 @@ class AnnotationsTest extends IntegrationTestCase
 		{
 			try
 			{
-				$request = new Piwik_Api_Request($request);
+				$request = new Piwik_API_Request($request);
 				$request->process();
 				$this->fail($failMessage);
 			}
@@ -365,7 +365,7 @@ class AnnotationsTest extends IntegrationTestCase
 		}
 		else
 		{
-			$request = new Piwik_Api_Request($request);
+			$request = new Piwik_API_Request($request);
 			$request->process();
 		}
 	}
