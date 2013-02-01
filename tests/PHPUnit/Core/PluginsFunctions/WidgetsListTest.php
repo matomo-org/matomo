@@ -51,7 +51,6 @@ class WidgetsListTest extends DatabaseTestCase
             'ExamplePlugin_exampleWidgets' => 3
         );
 
-	    var_dump($widgets);
         foreach ($numberOfWidgets AS $category => $widgetCount) {
             $this->assertEquals($widgetCount, count($widgets[$category]));
         }
