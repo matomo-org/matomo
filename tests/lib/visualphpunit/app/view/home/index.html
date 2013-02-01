@@ -361,8 +361,8 @@
                   <em style="display:inline-block">Diff:</em>
                   <a href="#" class="use-processed-file-link" style="display:inline-block;margin-left:256px;" data-file="<%= test.processed_file %>">Use Processed</a>
                   <div class='test-diff'
-                       data-expected="<%= escapeQuotes(test.expected) %>"
-                       data-processed="<%= escapeQuotes(test.processed) %>">
+                       data-expected="<%= escapeQuotes(test.expected || '') %>"
+                       data-processed="<%= escapeQuotes(test.processed || '') %>">
                   </div>
                 </li>
                 <% } else if ( test.trace ) { %>
@@ -650,6 +650,7 @@
                     display_succeeded: $('#display-succeeded').is(':checked'),
                     totalElapsedTime: elapsed + 's',
                     escapeQuotes: function(s) {
+                      s = s || '';
                       return s.replace(/"/g, "&quot;");
                     }
                   }));

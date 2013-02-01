@@ -65,17 +65,104 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view = Piwik_ViewDataTable::factory('tableAllColumns');
 		$view->init( $this->pluginName,
 									__FUNCTION__,
-									'Referers.getRefererType'
+									'Referers.getRefererType',
+									'getRefererType'
 								);
 		$view->disableSearchBox();
 		$view->disableOffsetInformationAndPaginationControls();
 		$view->disableExcludeLowPopulation();
+		$view->disableSubTableWhenShowGoals();
 		$view->enableShowGoals();
 		$view->setLimit(10);
 		$view->setColumnsToDisplay( array('label', 'nb_visits') );
-		$view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnRefererType'));
+		
+		$idSubtable = Piwik_Common::getRequestVar('idSubtable', false);
+		$labelColumnTitle = Piwik_Translate('Referers_ColumnRefererType');
+		if ($idSubtable !== false)
+		{
+			switch ($idSubtable)
+			{
+				case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+					$labelColumnTitle = Piwik_Translate('Referers_ColumnSearchEngine');
+					break;
+				case Piwik_Common::REFERER_TYPE_WEBSITE:
+					$labelColumnTitle = Piwik_Translate('Referers_ColumnWebsite');
+					break;
+				case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+					$labelColumnTitle = Piwik_Translate('Referers_ColumnCampaign');
+					break;
+				default:
+					break;
+			}
+		}
+		$view->setColumnTranslation('label', $labelColumnTitle);
+		
 		$this->setMetricsVariablesView($view);
 		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Returns or echo's a report that shows all search keyword, website and campaign
+	 * referrer information in one report.
+	 * 
+	 * @param bool $fetch True if the report HTML should be returned. If false, the
+	 *                    report is echo'd and nothing is returned.
+	 * @return string The report HTML or nothing if $fetch is set to false.
+	 */
+	public function getAll( $fetch = false )
+	{
+		$view = Piwik_ViewDataTable::factory();
+		$view->init($this->pluginName, __FUNCTION__, 'Referers.getAll');
+		$view->disableExcludeLowPopulation();
+		$view->setColumnTranslation('label', Piwik_Translate('Referers_Referrer'));
+		$view->setColumnsToDisplay(array('label', 'nb_visits'));
+		$view->enableShowGoals();
+		$view->setLimit(20);
+		
+		$setGetAllHtmlPrefix = array($this, 'setGetAllHtmlPrefix');
+		$view->queueFilter(
+			'MetadataCallbackAddMetadata', array('referrer_type', 'html_label_prefix', $setGetAllHtmlPrefix));
+		
+		$view->setMetricsVariablesView($view);
+		
+		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * DataTable filter callback that returns the HTML prefix for a label in the
+	 * 'getAll' report based on the row's referrer type.
+	 * 
+	 * @param int $referrerType The referrer type.
+	 * @return string
+	 */
+	public function setGetAllHtmlPrefix( $referrerType )
+	{
+		// get singular label for referrer type
+		$indexTranslation = '';
+		switch($referrerType)
+		{
+			case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+				$indexTranslation = 'Referers_DirectEntry';
+				break;
+			case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+				$indexTranslation = 'Referers_ColumnKeyword';
+				break;
+			case Piwik_Common::REFERER_TYPE_WEBSITE:
+				$indexTranslation = 'Referers_ColumnWebsite';
+				break;
+			case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+				$indexTranslation = 'Referers_ColumnCampaign';
+				break;
+			default:
+				// case of newsletter, partners, before Piwik 0.2.25
+				$indexTranslation = 'General_Others';
+				break;
+		}
+		
+		$label = strtolower(Piwik_Translate($indexTranslation));
+		
+		// return html that displays it as grey & italic
+		return '<span style="color:#666"><em>('.$label.')</em></span>';
 	}
 
 	function getKeywords( $fetch = false)

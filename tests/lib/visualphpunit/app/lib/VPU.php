@@ -203,6 +203,7 @@ class VPU {
         $trace = $this->_get_trace($test_results['trace'], $source);
         
         $expected = $processed = $expected_file = null;
+        
         if (isset($test_results['trace'][0]['function'])
         	&& $test_results['trace'][0]['function'] == 'assertXmlStringEqualsXmlString') {
         	
@@ -211,6 +212,17 @@ class VPU {
         	// piwik specific hack!
         	$processed_file = substr($msg, strlen('Differences with expected in: '));
         	$trace = '';
+    	}
+    	
+    	// piwik specific hack!
+    	if (isset($test_results['output'])
+    		&& strpos($test_results['output'], 'The expected file is not found at') === 0)
+    	{
+    		$rest = substr($test_results['output'], strlen('The expected file is not found at') + 2);
+    		$expected_file = substr($rest, 0, strpos($rest, "'"));
+    		$processed_file = str_replace("/expected/", "/processed/", $expected_file);
+    		
+    		$trace = '';
     	}
 
         return compact(

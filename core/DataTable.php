@@ -1475,9 +1475,15 @@ class Piwik_DataTable
 	 * Returns a new DataTable that contains the rows of each of this table's
 	 * subtables.
 	 * 
+	 * @param string|false $labelColumn If supplied the label of the parent row will be
+	 *                                  added to a new column in each subtable row. If set to,
+	 *                                  'label' each subtable row's label will be prepended w/
+	 *                                  the parent row's label.
+	 * @param bool $useMetadataColumn If true and if $labelColumn is supplied, the parent row's
+	 *                                label will be added as metadata.
 	 * @return Piwik_DataTable
 	 */
-	public function mergeSubtables()
+	public function mergeSubtables( $labelColumn = false, $useMetadataColumn = false )
 	{
 		$result = new Piwik_DataTable();
 		foreach ($this->getRows() as $row)
@@ -1485,7 +1491,53 @@ class Piwik_DataTable
 			$subtable = $row->getSubtable();
 			if ($subtable !== false)
 			{
-				$result->addRowsFromArray($subtable->getRows());
+				$parentLabel = $row->getColumn('label');
+				
+				// add a copy of each subtable row to the new datatable
+				foreach ($subtable->getRows() as $id => $subRow)
+				{
+					$copy = clone $subRow;
+					
+					// if the summary row, add it to the existing summary row (or add a new one)
+					if ($id == self::ID_SUMMARY_ROW)
+					{
+						$existing = $result->getRowFromId(self::ID_SUMMARY_ROW);
+						if ($existing === false)
+						{
+							$result->addSummaryRow($copy);
+						}
+						else
+						{
+							$existing->sumRow($copy);
+						}
+					}
+					else
+					{
+						if ($labelColumn !== false)
+						{
+							// if we're modifying the subtable's rows' label column, then we make
+							// sure to prepend the existing label w/ the parent row's label. otherwise
+							// we're just adding the parent row's label as a new column/metadata.
+							$newLabel = $parentLabel;
+							if ($labelColumn == 'label')
+							{
+								$newLabel .= ' - '.$copy->getColumn('label');
+							}
+					
+							// modify the child row's label or add new column/metadata
+							if ($useMetadataColumn)
+							{
+								$copy->setMetadata($labelColumn, $newLabel);
+							}
+							else
+							{
+								$copy->setColumn($labelColumn, $newLabel);
+							}
+						}
+					
+						$result->addRow($copy);
+					}
+				}
 			}
 		}
 		return $result;

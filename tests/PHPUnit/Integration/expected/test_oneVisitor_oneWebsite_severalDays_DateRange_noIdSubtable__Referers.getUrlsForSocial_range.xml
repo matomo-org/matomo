@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <results>
-	<result defaultKeyName="1">
+	<result idSite="1">
 		<row>
 			<label>facebook.com/whatever</label>
 			<nb_visits>1</nb_visits>
@@ -112,7 +112,7 @@
 			<url>http://xanga.com</url>
 		</row>
 	</result>
-	<result defaultKeyName="2">
+	<result idSite="2">
 		<row>
 			<label>t.co/id/?y=dsfs</label>
 			<nb_visits>1</nb_visits>

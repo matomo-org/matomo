@@ -15,6 +15,12 @@
  * The main() method will create an object implementing Piwik_View_Interface
  * You can customize the dataTable using the disable* methods.
  *
+ * You can also customize the dataTable rendering using row metadata:
+ * - 'html_label_prefix': If this metadata is present on a row, it's contents will be prepended
+ *                        the label in the HTML output.
+ * - 'html_label_suffix': If this metadata is present on a row, it's contents will be appended
+ *                        after the label in the HTML output.
+ * 
  * Example:
  * In the Controller of the plugin VisitorInterest
  * <pre>

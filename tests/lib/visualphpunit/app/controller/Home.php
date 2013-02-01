@@ -133,9 +133,9 @@ class Home extends \app\core\Controller {
     	$expected_file_location =
     		dirname(dirname($processed_file_location)).'/expected/'.basename($processed_file_location);
     	
-    	if (!file_exists($expected_file_location))
+    	if (!file_exists($processed_file_location))
     	{
-    		return array('error' => "Cannot find expected file at '$expected_file_location'.");
+    		return array('error' => "Cannot find processed file at '$processed_file_location'.");
     	}
     	
     	$processed = fopen($processed_file_location, 'r');

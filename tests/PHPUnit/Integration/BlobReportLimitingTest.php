@@ -46,7 +46,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 			'Actions.getPageUrls', 'Actions.getPageTitles', 'Actions.getDownloads', 'Actions.getOutlinks',
 			'CustomVariables.getCustomVariables',
 			'Referers.getRefererType', 'Referers.getKeywords', 'Referers.getSearchEngines',
-			'Referers.getWebsites', /* TODO 'Referers.getCampaigns', */
+			'Referers.getWebsites', 'Referers.getAll', /* TODO 'Referers.getCampaigns', */
 			'UserSettings.getResolution', 'UserSettings.getConfiguration', 'UserSettings.getOS',
 			'UserSettings.getBrowserVersion',
 			'UserCountry.getRegion', 'UserCountry.getCity',

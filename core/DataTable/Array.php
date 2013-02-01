@@ -394,6 +394,7 @@ class Piwik_DataTable_Array
 	public function mergeSubtables()
 	{
 		$result = new Piwik_DataTable_Array();
+		$result->keyName = $this->keyName;
 		foreach ($this->array as $label => $childTable)
 		{
 			$result->addTable($childTable->mergeSubtables(), $label);
