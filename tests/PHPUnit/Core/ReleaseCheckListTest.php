@@ -191,64 +191,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group ReleaseCheckList
      */
-    public function testSvnKeywords()
-    {
-        /*
-         * Piwik's .php files have $ Id $
-         */
-        $contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/index.php');
-        $this->assertTrue(strpos($contents, '$I'.'d: '.basename($file).' ') !== false, $file);
-
-        $contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.php');
-        $this->assertTrue(strpos($contents, '$I'.'d: '.basename($file).' ') !== false, $file);
-
-        foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/core', '*.php') as $file)
-        {
-            $contents = file_get_contents($file);
-            $this->assertTrue(strpos($contents, '$I'.'d: '.basename($file).' ') !== false, $file);
-        }
-
-        foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/plugins', '*.php') as $file)
-        {
-            if(strpos($file, '/tests/') !== false
-                || strpos($file, '/PhpSecInfo/') !== false
-                || strpos($file, '/config/') !== false
-                || strpos($file, 'tcpdf_config.php') !== false)
-            {
-                continue;
-            }
-
-            $contents = file_get_contents($file);
-            $this->assertTrue(strpos($contents, '$I'.'d: ') !== false, $file ." Please add '@version \$I"."d: \$' in the file header comments");
-        }
-
-        /*
-         * Piwik's .js files don't have $ Id $ (information disclosure)
-         */
-        $contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/piwik.js');
-        $this->assertTrue(strpos($contents, '$I'.'d') === false, $file);
-
-        $contents = file_get_contents($file = PIWIK_DOCUMENT_ROOT . '/js/piwik.js');
-        $this->assertTrue(strpos($contents, '$I'.'d') === false, $file);
-
-        foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/plugins', '*.js') as $file)
-        {
-            $contents = file_get_contents($file);
-            $found = strpos($contents, '$I'.'d') !== false;
-            $this->assertTrue(!$found, $file, "Please Remove the string \$I"."d from the JS files");
-        }
-
-        foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT . '/themes', '*.js') as $file)
-        {
-            $contents = file_get_contents($file);
-            $this->assertTrue(strpos($contents, '$I'.'d') === false, $file);
-        }
-    }
-
-    /**
-     * @group Core
-     * @group ReleaseCheckList
-     */
     public function testPiwikJavaScript()
     {
         // check source against Snort rule 8443
