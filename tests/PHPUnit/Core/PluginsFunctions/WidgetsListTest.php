@@ -40,7 +40,7 @@ class WidgetsListTest extends DatabaseTestCase
         $numberOfWidgets = array(
             'VisitsSummary_VisitsSummary'  => 6,
             'Live!'                        => 2,
-            'General_Visitors'             => 13,
+            'General_Visitors'             => 12,
             'UserSettings_VisitorSettings' => 10,
             'Actions_Actions'              => 8,
             'Actions_SubmenuSitesearch'    => 5,
@@ -84,23 +84,14 @@ class WidgetsListTest extends DatabaseTestCase
         // there should be 11 main categories
         $this->assertEquals(11, count($widgets));
 
-        // check if each category has the right number of widgets
+        // check that the goal widget was added
         $numberOfWidgets = array(
-            'VisitsSummary_VisitsSummary'  => 6,
-            'Live!'                        => 2,
-            'General_Visitors'             => 13,
-            'UserSettings_VisitorSettings' => 10,
-            'Actions_Actions'              => 8,
-            'Actions_SubmenuSitesearch'    => 5,
-            'Referers_Referers'            => 6,
             'Goals_Goals'                  => 2,
-            'SEO'                          => 2,
-            'Example Widgets'              => 3,
-            'ExamplePlugin_exampleWidgets' => 3
         );
 
         foreach ($numberOfWidgets AS $category => $widgetCount) {
-            $this->assertEquals($widgetCount, count($widgets[$category]));
+	        $expected = count($widgets[$category]);
+	        $this->assertEquals($widgetCount, count($widgets[$category]));
         }
     }
 
@@ -134,18 +125,8 @@ class WidgetsListTest extends DatabaseTestCase
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
-            'VisitsSummary_VisitsSummary'  => 6,
-            'Live!'                        => 2,
-            'General_Visitors'             => 13,
-            'UserSettings_VisitorSettings' => 10,
-            'Actions_Actions'              => 8,
-            'Actions_SubmenuSitesearch'    => 5,
-            'Referers_Referers'            => 6,
             'Goals_Goals'                  => 2,
             'Goals_Ecommerce'              => 5,
-            'SEO'                          => 2,
-            'Example Widgets'              => 3,
-            'ExamplePlugin_exampleWidgets' => 3
         );
 
         foreach ($numberOfWidgets AS $category => $widgetCount) {
