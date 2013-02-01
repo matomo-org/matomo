@@ -137,8 +137,8 @@ class Piwik_UserCountry extends Piwik_Plugin
 		
 		Piwik_AddWidget( 'General_Visitors', $widgetContinentLabel, 'UserCountry', 'getContinent');
 		Piwik_AddWidget( 'General_Visitors', $widgetCountryLabel, 'UserCountry', 'getCountry');
-		Piwik_AddWidget('General_Visitors', $widgetRegionLabel, 'UserCountry', 'getRegion');
-		Piwik_AddWidget('General_Visitors', $widgetCityLabel, 'UserCountry', 'getCity');
+		Piwik_AddWidget( 'General_Visitors', $widgetRegionLabel, 'UserCountry', 'getRegion');
+		Piwik_AddWidget( 'General_Visitors', $widgetCityLabel, 'UserCountry', 'getCity');
 	}
 
 	function addMenu()
