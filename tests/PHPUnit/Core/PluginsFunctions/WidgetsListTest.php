@@ -47,7 +47,7 @@ class WidgetsListTest extends DatabaseTestCase
             'Referers_Referers'            => 6,
             'Goals_Goals'                  => 1,
             'SEO'                          => 2,
-            'Example Widgets'              => 3,
+            'Example Widgets'              => 4,
             'ExamplePlugin_exampleWidgets' => 3
         );
 

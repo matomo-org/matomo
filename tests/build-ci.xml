@@ -12,14 +12,15 @@
 		<mkdir dir="${basedir}/../tmp/cache" />
 		<mkdir dir="${basedir}/../tmp/latest" />
 		<mkdir dir="${basedir}/../tmp/sessions" />
-		<mkdir dir="${basedir}/../tmp/assets" />
-
+        <mkdir dir="${basedir}/../tmp/assets" />
+        <mkdir dir="${basedir}/../tests/PHPUnit/Integration/processed" />
 		<chmod perm="a+rw">
 			<dirset dir="${basedir}/..">
 				<include name="config" />
 				<include name="tmp" />
-				<include name="tmp/**" />
-			</dirset>
+                <include name="tmp/**" />
+                <include name="tests/PHPUnit/Integration/processed" />
+            </dirset>
 		</chmod>
 	</target>
 
