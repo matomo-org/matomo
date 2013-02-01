@@ -39,18 +39,17 @@ class WidgetsListTest extends DatabaseTestCase
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
             'VisitsSummary_VisitsSummary'  => 6,
-            'Live!'                        => 2,
-            'General_Visitors'             => 13,
-            'UserSettings_VisitorSettings' => 10,
-            'Actions_Actions'              => 8,
-            'Actions_SubmenuSitesearch'    => 5,
-            'Referers_Referers'            => 6,
-            'Goals_Goals'                  => 1,
+	        'Live!'                        => 2,
+	        'General_Visitors'             => 13,
+	        'UserSettings_VisitorSettings' => 10,
+	        'Actions_Actions'              => 8,
+	        'Actions_SubmenuSitesearch'    => 5,
+	        'Referers_Referers'            => 7,
+	        'Goals_Goals'                  => 1,
             'SEO'                          => 2,
             'Example Widgets'              => 4,
             'ExamplePlugin_exampleWidgets' => 3
         );
-
         foreach ($numberOfWidgets AS $category => $widgetCount) {
             $this->assertEquals($widgetCount, count($widgets[$category]));
         }
