@@ -8,6 +8,10 @@
  */
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
+
+// THIS IS TOTALLY BROKEN. DO NOT MERGE!!!!
+$divideByZero = 1/0;
+
 /**
  * Base class for Integration tests.
  *
