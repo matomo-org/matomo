@@ -1,0 +1,9 @@
+language: php
+
+# We want to test against 
+php:
+  - 5.5
+  - 5.4
+  - 5.3
+
+script: phpunit --configuration tests/PHPUnit/phpunit.xml.dist --coverage-text
