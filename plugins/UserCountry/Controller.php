@@ -162,6 +162,12 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 		$view->geoIPUpdatePeriod = Piwik_UserCountry_GeoIPAutoUpdater::getSchedulePeriod();
 		
 		$view->geoLiteUrl = Piwik_UserCountry_LocationProvider_GeoIp::GEO_LITE_URL;
+		
+		$lastRunTime = Piwik_UserCountry_GeoIPAutoUpdater::getLastRunTime();
+		if ($lastRunTime !== false)
+		{
+			$view->lastTimeUpdaterRun = '<strong><em>'.$lastRunTime->toString().'</em></strong>';
+		}
 	}
 	
 	/**

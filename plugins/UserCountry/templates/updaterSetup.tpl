@@ -38,7 +38,14 @@
 				<input type="radio" name="geoip-update-period" value="week" id="geoip-update-period-week" {if $geoIPUpdatePeriod eq 'week'}checked="checked"{/if}/>
 				<label for="geoip-update-period-week">{'CoreHome_PeriodWeek'|translate}</label>
 			</td>
-			<td width="164">&nbsp;</td>
+			<td width="164">
+			{if !empty($lastTimeUpdaterRun)}
+				{capture assign=lastTimeRunNote}
+				{'UserCountry_UpdaterWasLastRun'|translate:$lastTimeUpdaterRun}
+				{/capture}
+				{$lastTimeRunNote|inlineHelp}
+			{/if}
+			</td>
 		</tr>
 	</table>
 	<p style="display:inline-block;vertical-align:top">

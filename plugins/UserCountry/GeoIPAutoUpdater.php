@@ -24,6 +24,8 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 	const ISP_URL_OPTION_NAME = 'geoip.isp_db_url';
 	const ORG_URL_OPTION_NAME = 'geoip.org_db_url';
 	
+	const LAST_RUN_TIME_OPTION_NAME = 'geoip.updater_last_run_time';
+	
 	private static $urlOptions = array(
 		'loc' => self::LOC_URL_OPTION_NAME,
 		'isp' => self::ISP_URL_OPTION_NAME,
@@ -46,6 +48,8 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 	{
 		try
 		{
+			Piwik_SetOption(self::LAST_RUN_TIME_OPTION_NAME, Piwik_Date::factory('today')->getTimestamp());
+			
 			$locUrl = Piwik_GetOption(self::LOC_URL_OPTION_NAME);
 			if (!empty($locUrl))
 			{
@@ -493,5 +497,16 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 	public static function catchGeoIPError( $errno, $errstr, $errfile, $errline )
 	{
 		self::$unzipPhpError = array($errno, $errstr, $errfile, $errline);
+	}
+	
+	/**
+	 * Returns the time the auto updater was last run.
+	 * 
+	 * @return Piwik_Date|false
+	 */
+	public static function getLastRunTime()
+	{
+		$timestamp = Piwik_GetOption(self::LAST_RUN_TIME_OPTION_NAME);
+		return $timestamp === false ? false : Piwik_Date::factory((int)$timestamp);
 	}
 }
