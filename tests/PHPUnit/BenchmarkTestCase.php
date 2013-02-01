@@ -64,7 +64,7 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
 		}
 		
 		$createEmptyDatabase = $fixtureName != $installedFixture;
-		parent::setUpBeforeClass($dbName, $createEmptyDatabase, $createConfig = false);
+		parent::_setUpBeforeClass($dbName, $createEmptyDatabase, $createConfig = false);
 		
 		// if we created an empty database, setup the fixture
 		if ($createEmptyDatabase)

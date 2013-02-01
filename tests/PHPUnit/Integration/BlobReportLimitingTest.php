@@ -22,7 +22,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 	public static function setUpBeforeClass()
 	{
 		self::setUpConfigOptions();
-		parent::setUpBeforeClass($dbName = false, $createEmptyDatabase = true, $createConfig = false);
+		parent::_setUpBeforeClass($dbName = false, $createEmptyDatabase = true, $createConfig = false);
 		try {
 			self::setUpWebsitesAndGoals();
 			self::setMockLocationProvider();

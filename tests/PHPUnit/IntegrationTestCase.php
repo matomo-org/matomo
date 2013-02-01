@@ -46,7 +46,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $dbConfig['dbname'] = $oldDbName;
 	}
 
-    public static function setUpBeforeClass( $dbName = false, $createEmptyDatabase = true, $createConfig = true )
+	public static function setUpBeforeClass()
+	{
+		self::_setUpBeforeClass();
+	}
+
+	// this function
+    public static function _setUpBeforeClass( $dbName = false, $createEmptyDatabase = true, $createConfig = true )
     {
         try {
         	Piwik::$piwikUrlCache = '';
