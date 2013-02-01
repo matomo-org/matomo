@@ -159,6 +159,11 @@ _COMMON_LOG_FORMAT = (
 _NCSA_EXTENDED_LOG_FORMAT = (_COMMON_LOG_FORMAT +
     ' "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
 )
+_EXPRESSJS_LOG_FORMAT = (
+    '(?P<ip>\S+) \S+ \S+ \[(?P<date>.*) (?P<timezone>.*?)\] '
+    '"\S+ (?P<path>.*?) \S+" (?P<status>\S+) (?P<length>\S+)'
+)
+
 
 FORMATS = {
     'common': RegexFormat('common', _COMMON_LOG_FORMAT),
@@ -166,6 +171,7 @@ FORMATS = {
     'ncsa_extended': RegexFormat('ncsa_extended', _NCSA_EXTENDED_LOG_FORMAT),
     'common_complete': RegexFormat('common_complete', _HOST_PREFIX + _NCSA_EXTENDED_LOG_FORMAT),
     'iis': IisFormat(),
+    'expressjs': RegexFormat('expressjs', _EXPRESSJS_LOG_FORMAT, date_format='%a, %d %b %Y %H:%M:%S'),
 }
 
 
@@ -1391,11 +1397,8 @@ class Parser(object):
             # Parse timezone and substract its value from the date
             try:
                 timezone = float(match.group('timezone'))
-            except IndexError:
+            except (IndexError, ValueError):
                 timezone = 0
-            except ValueError:
-                invalid_line(line, 'invalid timezone')
-                continue
 
             if timezone:
                 hit.date -= datetime.timedelta(hours=timezone/100)
