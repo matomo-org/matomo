@@ -199,6 +199,13 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 									);
 		}
 		$this->isDataAvailable = $this->dataTable->getRowsCount() != 0;
+		
+		// if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
+		// different metrics
+		if (Piwik_Common::getRequestVar('add_total_row', 0) == 1)
+		{
+			$this->dataTable->queueFilter('AddSummaryRow', array(0, Piwik_Translate('General_Total'), null, false));
+		}
 
 		if($this->isDataAvailable)
 		{

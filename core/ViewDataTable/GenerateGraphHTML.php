@@ -94,6 +94,15 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 	}
 	
 	/**
+	 * Adds a row to the report containing totals for contained metrics. Mainly useful
+	 * for evolution graphs where displaying the totals w/ the metrics is useful.
+	 */
+	public function addTotalRow()
+	{
+		$this->generateGraphDataParams['add_total_row'] = 1;
+	}
+	
+	/**
 	 * We persist the parametersToModify values in the javascript footer.
 	 * This is used by the "export links" that use the "date" attribute
 	 * from the json properties array in the datatable footer.

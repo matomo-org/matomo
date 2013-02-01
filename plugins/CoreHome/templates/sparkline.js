@@ -23,6 +23,10 @@ function initializeSparklines () {
 				{
 					delete params[sparklineUrlParamsToIgnore[i]];
 				}
+				for (var key in params)
+				{
+					params[key] = decodeURIComponent(params[key]);
+				}
 				
 				// on click, reload the graph with the new url
 				$(this).click(function() {

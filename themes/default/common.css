@@ -763,3 +763,12 @@ table.entityTable tr td a {
 	background: url(images/help.png);
 	overflow: hidden;
 }
+
+.section-toggler-link {
+	font-size:.8em;
+	font-style:italic;
+	text-decoration:none;
+}
+.section-toggler-link:hover {
+	text-decoration:underline;
+}

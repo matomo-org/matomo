@@ -150,7 +150,7 @@ abstract class Piwik_Controller
 				);
 
 		$view->main();
-		
+
 		$rendered = $view->getView()->render();
 		if($fetch)
 		{
@@ -328,16 +328,17 @@ abstract class Piwik_Controller
 	 * Works only for API methods that originally returns numeric values (there is no cast here)
 	 *
 	 * @param string  $methodToCall  Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
+	 * @param string|false $date A custom date to use when getting the value. If false, the 'date' query
+	 *                           parameter is used.
 	 * @return int|float
 	 */
-	protected function getNumericValue( $methodToCall )
+	protected function getNumericValue( $methodToCall, $date = false )
 	{
-		$requestString = 'method='.$methodToCall.'&format=original';
-		$request = new Piwik_API_Request($requestString);
-		$return = $request->process();
+		$params = $date === false ? array() : array('date' => $date);
+		
+		$return = Piwik_API_Request::processRequest($methodToCall, $params);
 		$columns = $return->getFirstRow()->getColumns();
-		$values = array_values($columns);
-		return $values[0];
+		return reset($columns);
 	}
 
 	/**
@@ -363,7 +364,7 @@ abstract class Piwik_Controller
 		{
 			if(is_array($value))
 			{
-				$value = implode(',', $value);
+				$value = rawurlencode(implode(',', $value));
 			}
 		}
 		$url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
@@ -841,5 +842,64 @@ abstract class Piwik_Controller
 		{
 			return $period->getPrettyString();
 		}
+	}
+
+	/**
+	 * Calculates the evolution from one value to another and returns HTML displaying
+	 * the evolution percent. The HTML includes an up/down arrow and is colored red, black or
+	 * green depending on whether the evolution is negative, 0 or positive.
+	 * 
+	 * No HTML is returned if the current value and evolution percent are both 0.
+	 * 
+	 * @param string $date The date of the current value.
+	 * @param int $currentValue The value to calculate evolution to.
+	 * @param string $pastDate The date of past value.
+	 * @param int $pastValue The value in the past to calculate evolution from.
+	 * @param bool $isVisits If the value is for visits or some other unit.
+	 * @return string|false The HTML or false if the evolution is 0 and the current value is 0.
+	 */
+	protected function getEvolutionHtml( $date, $currentValue, $pastDate, $pastValue, $isVisits = true )
+	{
+		$evolutionPercent = Piwik_DataTable_Filter_CalculateEvolutionFilter::calculate(
+			$currentValue, $pastValue, $precision = 2);
+		
+		// do not display evolution if evolution percent is 0 and current value is 0
+		if ($evolutionPercent == 0
+			&& $currentValue == 0)
+		{
+			return false;
+		}
+		
+		$titleEvolutionPercent = $evolutionPercent;
+		if ($evolutionPercent < 0)
+		{
+			$color = "red";
+			$img = "arrow_down.png";
+		}
+		else if ($evolutionPercent == 0)
+		{
+			$img = "stop.png";
+		}
+		else
+		{
+			$color = "green";
+			$img = "arrow_up.png";
+			$titleEvolutionPercent = '+'.$titleEvolutionPercent;
+		}
+		
+		$token = $isVisits ? 'MultiSites_TotalsEvolutionSummary' : 'Referers_EvolutionSummaryGeneric';
+		$title = Piwik_Translate($token,
+			array($currentValue, $date, $pastValue, $titleEvolutionPercent, $pastDate));
+		
+		$result = '<span style="display:inline-block" title="'.$title
+				. '"><img style="padding-right:4px" src="plugins/MultiSites/images/'.$img.'"/><strong';
+		
+		if (isset($color))
+		{
+			$result .= ' style="color:'.$color.'"';
+		}
+		$result .= '>'.$evolutionPercent.'</strong></span>';
+		
+		return $result;
 	}
 }

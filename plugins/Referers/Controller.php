@@ -23,25 +23,53 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->graphEvolutionReferers = $this->getEvolutionGraph(true, Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
 		$view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph';
 		
-		$view->numberDistinctSearchEngines 	= $this->getNumberOfDistinctSearchEngines(true);
-		$view->numberDistinctKeywords 		= $this->getNumberOfDistinctKeywords(true);
-		$view->numberDistinctWebsites 		= $this->getNumberOfDistinctWebsites(true);
-		$view->numberDistinctWebsitesUrls 	= $this->getNumberOfDistinctWebsitesUrls(true);
-		$view->numberDistinctCampaigns 		= $this->getNumberOfDistinctCampaigns(true);
-		
 		// building the referers summary report
 		$view->dataTableRefererType = $this->getRefererType(true);
-				
+		
 		$nameValues = $this->getReferersVisitorsByType();
+		
+		$totalVisits = array_sum($nameValues);
 		foreach($nameValues as $name => $value)
 		{
 			$view->$name = $value;
+			
+			// calculate percent of total, if there were any visits
+			if ($value != 0
+				&& $totalVisits != 0)
+			{
+				$percentName = $name.'Percent';
+				$view->$percentName = round(($value / $totalVisits) * 100, 0);
+			}
 		}
+		
+		// set distinct metrics
+		$distinctMetrics = $this->getDistinctReferrersMetrics();
+		foreach ($distinctMetrics as $name => $value)
+		{
+			$view->$name = $value;
+		}
+		
+		// calculate evolution for visit metrics & distinct metrics
+		list($lastPeriodDate, $ignore) = Piwik_Period_Range::getLastDate();
+		if ($lastPeriodDate !== false)
+		{
+			$date = Piwik_Common::getRequestVar('date');
+			
+			// visit metrics
+			$previousValues = $this->getReferersVisitorsByType($lastPeriodDate);
+			$this->addEvolutionPropertiesToView($view, $date, $nameValues, $lastPeriodDate, $previousValues);
+			
+			// distinct metrics
+			$previousValues = $this->getDistinctReferrersMetrics($lastPeriodDate);
+			$this->addEvolutionPropertiesToView(
+				$view, $date, $distinctMetrics, $lastPeriodDate, $previousValues, $isVisits = false);
+		}
+		
 		// sparkline for the historical data of the above values
-		$view->urlSparklineSearchEngines	= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_SEARCH_ENGINE));
-		$view->urlSparklineDirectEntry 		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_DIRECT_ENTRY));
-		$view->urlSparklineWebsites 		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_WEBSITE));
-		$view->urlSparklineCampaigns 		= $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_visits'), 'typeReferer' => Piwik_Common::REFERER_TYPE_CAMPAIGN));
+		$view->urlSparklineSearchEngines = $this->getReferrerUrlSparkline(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE);
+		$view->urlSparklineDirectEntry = $this->getReferrerUrlSparkline(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY);
+		$view->urlSparklineWebsites = $this->getReferrerUrlSparkline(Piwik_Common::REFERER_TYPE_WEBSITE);
+		$view->urlSparklineCampaigns = $this->getReferrerUrlSparkline(Piwik_Common::REFERER_TYPE_CAMPAIGN);
 		
 		// sparklines for the evolution of the distinct keywords count/websites count/ etc
 		$view->urlSparklineDistinctSearchEngines 	= $this->getUrlSparkline('getLastDistinctSearchEnginesGraph');
@@ -348,16 +376,18 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		return $this->renderView($view, $fetch);
 	}
 	
-	protected function getReferersVisitorsByType()
+	protected function getReferersVisitorsByType( $date = false )
 	{
+		if ($date === false)
+		{
+			$date = Piwik_Common::getRequestVar('date', false);
+		}
+		
 		// we disable the queued filters because here we want to get the visits coming from search engines
 		// if the filters were applied we would have to look up for a label looking like "Search Engines"
 		// which is not good when we have translations
-		$requestString = "method=Referers.getRefererType
-						&format=original
-						&disable_queued_filters=1";
-		$request = new Piwik_API_Request($requestString);
-		$dataTableReferersType =  $request->process();
+		$dataTableReferersType = Piwik_API_Request::processRequest(
+			"Referers.getRefererType", array('disable_queued_filters' => '1', 'date' => $date));
 		
 		$nameToColumnId = array(
 			'visitorsFromSearchEngines' => Piwik_Common::REFERER_TYPE_SEARCH_ENGINE,
@@ -390,6 +420,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
 	{
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getRefererType');
 		
+		$view->addTotalRow();
+		
 		// configure displayed columns
 		if(empty($columns))
 		{
@@ -413,6 +445,9 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		{
 			// this happens when the row picker has been used
 			$visibleRows = Piwik::getArrayFromApiParameter($visibleRows);
+			
+			// typeReferer is redundant if rows are defined, so make sure it's not used
+			$view->setCustomParameter('typeReferer', false);
 		}
 		else
 		{
@@ -421,10 +456,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
 			{
 				$typeReferer = Piwik_Common::getRequestVar('typeReferer', false);
 			}
-			$label = Piwik_getRefererTypeLabel($typeReferer);
-			$label = Piwik_Translate($label);
-			$visibleRows = array($label);
-			$view->setParametersToModify(array('rows' => $label));
+			$label = self::getTranslatedReferrerTypeLabel($typeReferer);
+			$total = Piwik_Translate('General_Total');
+			$visibleRows = array($label, $total);
+			$view->setParametersToModify(array('rows' => $label.','.$total));
 		}
 		$view->addRowPicker($visibleRows);
 		
@@ -462,27 +497,6 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->setColumnTranslation('Referers_distinctCampaigns', ucfirst(Piwik_Translate('Referers_DistinctCampaigns')));
 		$view->setColumnsToDisplay(array('Referers_distinctCampaigns'));
 		return $this->renderView($view, $fetch);
-	}
-
-	function getNumberOfDistinctSearchEngines( $fetch = false)
-	{
-		return $this->getNumericValue('Referers.' . __FUNCTION__);
-	}
-	function getNumberOfDistinctKeywords( $fetch = false)
-	{
-		return $this->getNumericValue('Referers.' . __FUNCTION__);
-	}
-	function getNumberOfDistinctCampaigns( $fetch = false)
-	{
-		return $this->getNumericValue('Referers.' . __FUNCTION__);
-	}
-	function getNumberOfDistinctWebsites( $fetch = false)
-	{
-		return $this->getNumericValue('Referers.' . __FUNCTION__);
-	}
-	function getNumberOfDistinctWebsitesUrls( $fetch = false)
-	{
-		return $this->getNumericValue('Referers.' . __FUNCTION__);
 	}
 
 	function getKeywordsForPage()
@@ -604,4 +618,83 @@ function DisplayTopKeywords($url = "")
 				
 	}
 	
+	/**
+	 * Returns the i18n-ized label for a referrer type.
+	 * 
+	 * @param int $typeReferrer The referrer type. Referrer types are defined in Piwik_Common class.
+	 * @return string The i18n-ized label.
+	 */
+	public static function getTranslatedReferrerTypeLabel( $typeReferrer )
+	{
+		$label = Piwik_getRefererTypeLabel($typeReferrer);
+		return Piwik_Translate($label);
+	}
+	
+	/**
+	 * Returns the URL for the sparkline of visits with a specific referrer type.
+	 * 
+	 * @param int $typeReferrer The referrer type. Referrer types are defined in Piwik_Common class.
+	 * @return string The URL that can be used to get a sparkline image.
+	 */
+	private function getReferrerUrlSparkline( $referrerType )
+	{
+		$totalRow = Piwik_Translate('General_Total');
+		return $this->getUrlSparkline(
+			'getEvolutionGraph',
+			array('columns' => array('nb_visits'),
+				  'rows' => array(self::getTranslatedReferrerTypeLabel($referrerType), $totalRow),
+				  'typeReferer' => $referrerType)
+		);
+	}
+	
+	/**
+	 * Returns an array containing the number of distinct referrers for each
+	 * referrer type.
+	 * 
+	 * @param string|false $date The date to use when getting metrics. If false, the
+	 *                           date query param is used.
+	 * @return array The metrics.
+	 */
+	private function getDistinctReferrersMetrics( $date = false )
+	{
+		$propertyToAccessorMapping = array(
+			'numberDistinctSearchEngines' => 'getNumberOfDistinctSearchEngines',
+			'numberDistinctKeywords' => 'getNumberOfDistinctKeywords',
+			'numberDistinctWebsites' => 'getNumberOfDistinctWebsites',
+			'numberDistinctWebsitesUrls' => 'getNumberOfDistinctWebsitesUrls',
+			'numberDistinctCampaigns' => 'getNumberOfDistinctCampaigns',
+		);
+		
+		$result = array();
+		foreach ($propertyToAccessorMapping as $property => $method)
+		{
+			$result[$property] = $this->getNumericValue('Referers.'.$method, $date);
+		}
+		return $result;
+	}
+	
+	/**
+	 * Utility method that calculates evolution values for a set of current & past values
+	 * and sets properties on a Piwik_View w/ HTML that displays the evolution percents.
+	 * 
+	 * @param Piwik_View $view The view to set properties on.
+	 * @param string $date The date of the current values.
+	 * @param array $currentValues Array mapping view property names w/ present values.
+	 * @param string $lastPeriodDate The date of the period in the past.
+	 * @param array $previousValues Array mapping view property names w/ past values. Keys
+	 *                              in this array should be the same as keys in $currentValues.
+	 * @param bool $isVisits Whether the values are counting visits or something else.
+	 */
+	private function addEvolutionPropertiesToView( $view, $date, $currentValues, $lastPeriodDate,
+													 $previousValues, $isVisits = false )
+	{
+		foreach ($previousValues as $name => $pastValue)
+		{
+			$currentValue = $currentValues[$name];
+			$evolutionName = $name.'Evolution';
+			
+			$view->$evolutionName = $this->getEvolutionHtml(
+				$date, $currentValue, $lastPeriodDate, $pastValue, $isVisits);
+		}
+	}
 }

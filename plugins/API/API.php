@@ -1469,21 +1469,14 @@ class Piwik_API_API
 			$first = $firstDataTableRow ? floatval($firstDataTableRow->getColumn($metric)) : 0;
 			$last = $lastDataTableRow ? floatval($lastDataTableRow->getColumn($metric)) : 0;
 			
+			// do not calculate evolution if the first value is 0 (to avoid divide-by-zero)
 			if ($first == 0)
 			{
 				continue;
 			}
-			else
-			{
-				$change = round((($last / $first) * 100) - 100);
-			}
 			
-			if ($change > 0)
-			{
-				$change = '+'.$change;
-			}
-			$change = $change.'%';
-			
+			$change = Piwik_DataTable_Filter_CalculateEvolutionFilter::calculate(
+				$last, $first, $quotientPrecision = 0, $addPlusSign = true);
 			$metricsResult[$metric]['change'] = $change;
 		}
 		

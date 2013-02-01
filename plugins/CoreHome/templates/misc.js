@@ -9,6 +9,10 @@
 
 $(document).ready(function() {
 	
+	// 
+	// 'check for updates' behavior
+	// 
+	
 	var headerMessageParent = $('#header_message').parent();
 	
 	// when 'check for updates...' link is clicked, force a check & display the result
@@ -48,6 +52,30 @@ $(document).ready(function() {
 		}
 	});
 	
+	// 
+	// section toggler behavior
+	// 
+	
+	// when click section toggler link, toggle the visibility of the associated section
+	$('body').on('click', '.section-toggler-link', function (e) {
+		e.preventDefault();
+		
+		var self = this,
+			sectionId = $(self).attr('data-section-id'),
+			section = $('#' + sectionId);
+		
+		if (section.is(':visible'))
+		{
+			section.slideUp(function() { $(self).text(_pk_translate('General_Show_js')); });
+		}
+		else
+		{
+			$(self).text(_pk_translate('General_Hide_js'));
+			section.slideDown();
+		}
+		
+		return false;
+	});
 });
 
 }(jQuery));
