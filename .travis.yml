@@ -6,8 +6,9 @@ php:
   - 5.4
   - 5.3
 
-script: phpunit --configuration tests/PHPUnit/phpunit.xml.dist --coverage-text
+script: phpunit --configuration PHPUnit/phpunit.xml.dist --coverage-text
 
 before_script:
   - mysql -e 'create database piwik_test;'
   - ./tests/PHPUnit/travis.sh
+  - cd tests

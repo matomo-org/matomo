@@ -3,8 +3,8 @@
 ; tests on Travis-CI. Do not use this in production.
 
 [superuser]
-login			= yourSuperUserLogin
-password		= yourSuperUserPasswordHash
+login			= admin
+password		= 098f6bcd4621d373cade4e832627b4f6
 email			= hello@example.org
 
 [database]
