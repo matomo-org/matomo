@@ -74,8 +74,14 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 		$this->checkStandardDataTable();
 		$this->view = $this->buildView();
 	}
-	
-	function getColumnToDisplay()
+
+    /**
+     * Returns the name of the first numeric column to be displayed
+     * (second column to be displayed will be returned, as first is always label)
+     *
+     * @return string
+     */
+    public function getColumnToDisplay()
 	{
 		$columns = parent::getColumnsToDisplay();
 		// not label, but the first numeric column
