@@ -21,4 +21,7 @@
 	
 	<h2>{'UserSettings_MobileVsDesktop'|translate}</h2>
 	{$dataTableMobileVsDesktop}
+
+	<h2>{'UserSettings_BrowserLanguage'|translate}</h2>
+	{$dataTableBrowserLanguage}
 </div>

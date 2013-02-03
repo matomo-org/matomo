@@ -229,5 +229,12 @@ class Piwik_UserSettings_API
 
 		return $dataTable;
 	}
-	
+
+    public function getLanguage( $idSite, $period, $date, $segment = false )
+    {
+        $dataTable = $this->getDataTable('UserSettings_language', $idSite, $period, $date, $segment);
+        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_LanguageTranslate'));
+        $dataTable->filter('ReplaceColumnNames');
+        return $dataTable;
+    }
 }

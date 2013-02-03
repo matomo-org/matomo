@@ -260,3 +260,27 @@ function Piwik_UserSettings_getBrowserFromBrowserVersion( $browserWithVersion )
 	return $matches[1];
 }
 
+/**
+ * Returns the given language code to translated language name
+ *
+ * @param $label
+ *
+ * @return string
+ */
+function Piwik_LanguageTranslate($label)
+{
+    if ($label == '' || $label == 'xx') {
+        return Piwik_Translate('General_Unknown');
+    }
+
+    $key = 'UserLanguage_Language_' . $label;
+
+    $translation = Piwik_Translate($key);
+
+    // Show language code if unknown code
+    if ($translation == $key) {
+        $translation = Piwik_Translate('TranslationsAdmin_LanguageCode') . ' ' . $label;
+    }
+
+    return $translation;
+}

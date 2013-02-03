@@ -147,6 +147,17 @@ class Piwik_UserSettings extends Piwik_Plugin
 				null,
 				null,
 				null),
+
+		// Browser language
+		array(	'UserSettings_VisitorSettings',
+				'UserSettings_BrowserLanguage',
+				'UserSettings',
+				'getLanguage',
+				'General_Language',
+				null,
+				null,
+				null,
+				null),
 	);
 	
 	/*
@@ -321,8 +332,61 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$tablePlugin = $this->getDataTablePlugin();
 		$archiveProcessing->insertBlobRecord($recordName, $tablePlugin->getSerialized());
 		destroy($tablePlugin);
-	}
-	
+
+        $recordName = 'UserSettings_language';
+        $labelSQL = "log_visit.location_browser_lang";
+        $interestByLanguage = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        foreach ($interestByLanguage as $lang => $count) {
+            // get clean language code
+            $code = $this->_getLanguageCodeFromBrowserSetting($lang);
+            if ($code != $lang) {
+                if (!array_key_exists($code, $interestByLanguage)) {
+                    $interestByLanguage[$code] = array();
+                }
+                // Add the values to the primary language
+                foreach ($count as $key => $value) {
+                    if (array_key_exists($key, $interestByLanguage[$code])) {
+                        $interestByLanguage[$code][$key] += $value;
+                    } else {
+                        $interestByLanguage[$code][$key] = $value;
+                    }
+                }
+                unset($interestByLanguage[$lang]);
+            }
+        }
+        $tableLanguage = $archiveProcessing->getDataTableFromArray($interestByLanguage);
+        $archiveProcessing->insertBlobRecord($recordName, $tableLanguage->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
+    }
+
+    /**
+     * Returns the language code for the given browser language setting
+     *
+     * @param string $setting  browser language (en-us | de-de;en | ...)
+     *
+     * @return string
+     */
+    protected function _getLanguageCodeFromBrowserSetting($setting)
+    {
+        // small clean up
+        $setting = strtolower(trim($setting, ', '));
+        // only use first 2 letters for language code
+        $setting = substr($setting, 0, 2);
+
+        if ($setting == 'us') {
+            $setting = 'en';
+        }
+
+        $languageCodes = array_keys(Piwik_Common::getLanguagesList());
+
+        // check if language code is valid
+        if (!in_array($setting, $languageCodes)) {
+            $setting = 'xx';
+        }
+
+        return $setting;
+    }
+
+
 	/**
 	 * Period archiving: simply sums up daily archives
 	 *
@@ -345,6 +409,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'UserSettings_resolution',
 				'UserSettings_wideScreen',
 				'UserSettings_plugin',
+				'UserSettings_language',
 		);
 		
 		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
@@ -406,7 +471,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	/**
 	 * Returns SQL that processes stats for Plugins
 	 *
-	 * @return unknown_type
+	 * @return Piwik_DataTable_Simple
 	 */
 	protected function getDataTablePlugin()
 	{
