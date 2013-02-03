@@ -18,3 +18,4 @@ tmp/*
 *.db
 *.buildpath
 phpunit.xml
+config.ini.php
