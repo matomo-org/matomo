@@ -7,18 +7,18 @@
 	<h2>{'Referers_Type'|translate}</h2>
 	<div id='leftcolumn'>
 			<div class="sparkline">{sparkline src=$urlSparklineDirectEntry}
-				{'Referers_TypeDirectEntries'|translate:"<strong>$visitorsFromDirectEntry</strong>"}{if !empty($visitorsFromDirectEntryPercent)}, <strong>{$visitorsFromDirectEntryPercent}%</strong> of visits{/if}{if !empty($visitorsFromDirectEntryEvolution)}, {$visitorsFromDirectEntryEvolution}{/if}
+				{'Referers_TypeDirectEntries'|translate:"<strong>$visitorsFromDirectEntry</strong>"}{if !empty($visitorsFromDirectEntryPercent)}, <strong>{$visitorsFromDirectEntryPercent}%</strong> of visits{/if}{if !empty($visitorsFromDirectEntryEvolution)} {$visitorsFromDirectEntryEvolution}{/if}
 			</div>
 			<div class="sparkline">{sparkline src=$urlSparklineSearchEngines}
-				{'Referers_TypeSearchEngines'|translate:"<strong>$visitorsFromSearchEngines</strong>"}{if !empty($visitorsFromSearchEnginesPercent)}, <strong>{$visitorsFromSearchEnginesPercent}%</strong> of visits{/if}{if !empty($visitorsFromSearchEnginesEvolution)}, {$visitorsFromSearchEnginesEvolution}{/if}
+				{'Referers_TypeSearchEngines'|translate:"<strong>$visitorsFromSearchEngines</strong>"}{if !empty($visitorsFromSearchEnginesPercent)}, <strong>{$visitorsFromSearchEnginesPercent}%</strong> of visits{/if}{if !empty($visitorsFromSearchEnginesEvolution)} {$visitorsFromSearchEnginesEvolution}{/if}
 			</div>
 	</div>
 	<div id='rightcolumn'>
 			<div class="sparkline">{sparkline src=$urlSparklineWebsites}
-				{'Referers_TypeWebsites'|translate:"<strong>$visitorsFromWebsites</strong>"}{if !empty($visitorsFromWebsitesPercent)}, <strong>{$visitorsFromWebsitesPercent}%</strong> of visits{/if}{if !empty($visitorsFromWebsitesEvolution)}, {$visitorsFromWebsitesEvolution}{/if}
+				{'Referers_TypeWebsites'|translate:"<strong>$visitorsFromWebsites</strong>"}{if !empty($visitorsFromWebsitesPercent)}, <strong>{$visitorsFromWebsitesPercent}%</strong> of visits{/if}{if !empty($visitorsFromWebsitesEvolution)} {$visitorsFromWebsitesEvolution}{/if}
 			</div>
 			<div class="sparkline">{sparkline src=$urlSparklineCampaigns}
-				{'Referers_TypeCampaigns'|translate:"<strong>$visitorsFromCampaigns</strong>"}{if !empty($visitorsFromCampaignsPercent)}, <strong>{$visitorsFromCampaignsPercent}%</strong> of visits{/if}{if !empty($visitorsFromCampaignsEvolution)}, {$visitorsFromCampaignsEvolution}{/if}
+				{'Referers_TypeCampaigns'|translate:"<strong>$visitorsFromCampaigns</strong>"}{if !empty($visitorsFromCampaignsPercent)}, <strong>{$visitorsFromCampaignsPercent}%</strong> of visits{/if}{if !empty($visitorsFromCampaignsEvolution)} {$visitorsFromCampaignsEvolution}{/if}
 			</div>
 	</div>
 	
@@ -26,25 +26,25 @@
 	
 	<p style="float:left">
 		<br/><br/>
-		<strong>{'General_MoreSparklines'|translate}</strong>&nbsp;<a href="#" class="section-toggler-link" data-section-id="distinctReferrersByType">({'General_Show_js'|translate})</a>
+		<h2>{'General_MoreDetails'|translate}&nbsp;<a href="#" class="section-toggler-link" data-section-id="distinctReferrersByType">({'General_Show_js'|translate})</a></h2>
 	</p>
 
 	<div id="distinctReferrersByType" style="display:none;float:left">
 	<table cellpadding="15">
 	<tr><td width="50%">
 		<div class="sparkline">{sparkline src=$urlSparklineDistinctSearchEngines}
-			<strong>{$numberDistinctSearchEngines}</strong> {'Referers_DistinctSearchEngines'|translate}{if !empty($numberDistinctSearchEnginesEvolution)}, {$numberDistinctSearchEnginesEvolution}{/if}
+			<strong>{$numberDistinctSearchEngines}</strong> {'Referers_DistinctSearchEngines'|translate}{if !empty($numberDistinctSearchEnginesEvolution)} {$numberDistinctSearchEnginesEvolution}{/if}
 		</div>
 		<div class="sparkline">{sparkline src=$urlSparklineDistinctKeywords}
-			<strong>{$numberDistinctKeywords}</strong> {'Referers_DistinctKeywords'|translate}{if !empty($numberDistinctKeywordsEvolution)}, {$numberDistinctKeywordsEvolution}{/if}
+			<strong>{$numberDistinctKeywords}</strong> {'Referers_DistinctKeywords'|translate}{if !empty($numberDistinctKeywordsEvolution)} {$numberDistinctKeywordsEvolution}{/if}
 		</div>
 	</td>
 	<td width="50%">
 		<div class="sparkline">{sparkline src=$urlSparklineDistinctWebsites}
-			<strong>{$numberDistinctWebsites}</strong> {'Referers_DistinctWebsites'|translate} {'Referers_UsingNDistinctUrls'|translate:"<strong>$numberDistinctWebsitesUrls</strong>"}{if !empty($numberDistinctWebsitesEvolution)}, {$numberDistinctWebsitesEvolution}{/if}
+			<strong>{$numberDistinctWebsites}</strong> {'Referers_DistinctWebsites'|translate} {'Referers_UsingNDistinctUrls'|translate:"<strong>$numberDistinctWebsitesUrls</strong>"}{if !empty($numberDistinctWebsitesEvolution)} {$numberDistinctWebsitesEvolution}{/if}
 		</div>
 		<div class="sparkline">{sparkline src=$urlSparklineDistinctCampaigns} 
-			<strong>{$numberDistinctCampaigns}</strong> {'Referers_DistinctCampaigns'|translate}{if !empty($numberDistinctCampaignsEvolution)}, {$numberDistinctCampaignsEvolution}{/if}
+			<strong>{$numberDistinctCampaigns}</strong> {'Referers_DistinctCampaigns'|translate}{if !empty($numberDistinctCampaignsEvolution)} {$numberDistinctCampaignsEvolution}{/if}
 		</div>
 	</td></tr>
 	</table>

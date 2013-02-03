@@ -54,15 +54,18 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		if ($lastPeriodDate !== false)
 		{
 			$date = Piwik_Common::getRequestVar('date');
-			
+			$period = Piwik_Common::getRequestVar('period');
+
+			$prettyDate = self::getPrettyDate($date, $period);
+			$prettyLastPeriodDate = self::getPrettyDate($lastPeriodDate, $period);
+
 			// visit metrics
 			$previousValues = $this->getReferersVisitorsByType($lastPeriodDate);
-			$this->addEvolutionPropertiesToView($view, $date, $nameValues, $lastPeriodDate, $previousValues);
+			$this->addEvolutionPropertiesToView($view, $prettyDate, $nameValues, $prettyLastPeriodDate, $previousValues);
 			
 			// distinct metrics
 			$previousValues = $this->getDistinctReferrersMetrics($lastPeriodDate);
-			$this->addEvolutionPropertiesToView(
-				$view, $date, $distinctMetrics, $lastPeriodDate, $previousValues, $isVisits = false);
+			$this->addEvolutionPropertiesToView($view, $prettyDate, $distinctMetrics, $prettyLastPeriodDate, $previousValues);
 		}
 		
 		// sparkline for the historical data of the above values
@@ -685,16 +688,14 @@ function DisplayTopKeywords($url = "")
 	 *                              in this array should be the same as keys in $currentValues.
 	 * @param bool $isVisits Whether the values are counting visits or something else.
 	 */
-	private function addEvolutionPropertiesToView( $view, $date, $currentValues, $lastPeriodDate,
-													 $previousValues, $isVisits = false )
+	private function addEvolutionPropertiesToView( $view, $date, $currentValues, $lastPeriodDate, $previousValues)
 	{
 		foreach ($previousValues as $name => $pastValue)
 		{
 			$currentValue = $currentValues[$name];
 			$evolutionName = $name.'Evolution';
-			
-			$view->$evolutionName = $this->getEvolutionHtml(
-				$date, $currentValue, $lastPeriodDate, $pastValue, $isVisits);
+
+			$view->$evolutionName = $this->getEvolutionHtml($date, $currentValue, $lastPeriodDate, $pastValue);
 		}
 	}
 }
