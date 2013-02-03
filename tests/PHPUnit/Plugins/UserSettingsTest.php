@@ -972,4 +972,52 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected[1][1], $res['name']);
         $this->assertEquals($expected[1][2], $res['short_name']);
     }
+
+    /**
+     * Dataprovider for testGetLanguageCodeFromBrowserLanguage
+     * @return array
+     */
+    public function getBrowserLanguage()
+    {
+        return array(
+            array('de-DE', 'de'),
+            array('en_US', 'en'),
+            array(' US', 'en'),
+            array('fr,de-ch', 'fr'),
+            array('de-DE', 'de'),
+            array('es-419,es', 'es'),
+            array('sl-si,sl,en-gb,en', 'sl'),
+            array('de; q=1.0, fr; q=0.7, en; q=0.5', 'de'),
+            // invalid languages
+            array('', 'xx'),
+            array('234', 'xx'),
+            array('yk', 'xx'),
+            array('§%&', 'xx'),
+        );
+    }
+
+    /**
+     * @dataProvider getBrowserLanguage
+     * @group Plugins
+     * @group UserSettings
+     * @group BrowserLanguage
+     *
+     * @param string  $browserLanguage  browser language string
+     * @param string  $expected         expected language code
+     */
+    public function testGetLanguageCodeFromBrowserLanguage($browserLanguage, $expected)
+    {
+        $settings = new Piwik_UserSettings_Mock();
+        $languageCode = $settings->getLanguageCodeFromBrowserSetting($browserLanguage);
+        $this->assertEquals($expected, $languageCode);
+    }
+
+}
+
+// small mock to make _getLanguageCodeFromBrowserSetting public
+class Piwik_UserSettings_Mock extends Piwik_UserSettings
+{
+    public function getLanguageCodeFromBrowserSetting($string) {
+        return $this->_getLanguageCodeFromBrowserSetting($string);
+    }
 }
