@@ -910,8 +910,10 @@ var
 			var referrer = documentAlias.referrer;
 			var testReferrer = configTrackerUrl;
 
-			// remove piwik.php from referrer
-			testReferrer = testReferrer.substring(0, testReferrer.length - 9);
+			// remove piwik.php from referrer if present
+			if(testReferrer.substr(-9) == "piwik.php") {
+				testReferrer = testReferrer.substring(0, testReferrer.length - 9);
+			}
 
 			// remove protocol
 			testReferrer.substring(testReferrer.substring(0, 7) === 'http://' ? 7 : 8, testReferrer.length);
@@ -950,7 +952,10 @@ var
 		 */
 		function injectOverlayScripts(configTrackerUrl, configTrackerSiteId) {
 			var windowNameParts = window.name.split('###');
-			var root = configTrackerUrl.substring(0, configTrackerUrl.length - 9); // remove piwik.php
+			var root = configTrackerUrl;
+			if(root.substr(-9) == "piwik.php") {
+				root =  root.substring(0,  root.length - 9);  // remove piwik.php if present
+			}
 			var period = windowNameParts[1];
 			var date = windowNameParts[2];
 
