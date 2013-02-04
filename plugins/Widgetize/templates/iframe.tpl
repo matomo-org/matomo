@@ -12,7 +12,6 @@
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" href="themes/default/ieonly.css" />
 <![endif]-->
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8" />
 </head>
 <body>
 

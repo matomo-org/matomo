@@ -26,3 +26,4 @@
 	piwik.config.action_url_category_delimiter = "{$config_action_url_category_delimiter}";
 	{/if}
 </script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=IE8" />
