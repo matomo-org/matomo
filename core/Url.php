@@ -299,8 +299,27 @@ class Piwik_Url
 		$host = self::getHost($checkTrustedHost);
 		$default = Piwik_Common::sanitizeInputValue($host ? $host : $default);
 
-		return Piwik_IP::getNonProxyIpFromHeader($default, $hostHeaders);
-	}
+                return self::getOriginalHostFromHeader($default, $hostHeaders);
+        }
+        
+        /**
+         * Returns a non-proxy Host from header
+         * @param string  $default       Default value to return if no matching proxy header
+         * @param array   $proxyHeaders  List of proxy headers
+         * @return string
+        */
+        static public function getOriginalHostFromHeader($default, $proxyHeaders)
+        {
+                // examine proxy headers
+                foreach($proxyHeaders as $proxyHeader)
+                {
+                        if(!empty($_SERVER[$proxyHeader]))
+                        {
+                                return $_SERVER[$proxyHeader];
+                        }
+                }
+                return $default;
+        }
 
 	/**
 	 * If current URL is "http://example.org/dir1/dir2/index.php?param1=value1&param2=value2"
