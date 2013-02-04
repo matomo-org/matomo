@@ -33,6 +33,10 @@ class Piwik_PDFReports extends Piwik_Plugin
 	const EVOLUTION_GRAPH_PARAMETER = 'evolutionGraph';
 	const ADDITIONAL_EMAILS_PARAMETER = 'additionalEmails';
 	const DISPLAY_FORMAT_PARAMETER = 'displayFormat';
+	const CUSTOM_EMAIL_TEXT_PARAMETER = 'customEmailText';
+	const EMAIL_SUBJECT_PARAMETER = 'emailSubject';
+	const EMAIL_CONTENT_PARAMETER = 'emailContent';
+	const CUSTOM_EMAIL_TEXT_PARAMETER_DEFAULT_VALUE = false;
 	const EMAIL_ME_PARAMETER_DEFAULT_VALUE = true;
 	const EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE = false;
 
@@ -42,6 +46,9 @@ class Piwik_PDFReports extends Piwik_Plugin
 		self::EMAIL_ME_PARAMETER => false,
 		self::EVOLUTION_GRAPH_PARAMETER => false,
 		self::ADDITIONAL_EMAILS_PARAMETER => false,
+		self::CUSTOM_EMAIL_TEXT_PARAMETER => false,
+		self::EMAIL_SUBJECT_PARAMETER => false,
+		self::EMAIL_CONTENT_PARAMETER => false,
 		self::DISPLAY_FORMAT_PARAMETER => true,
 	);
 
@@ -143,6 +150,16 @@ class Piwik_PDFReports extends Piwik_Plugin
 			else
 			{
 				$parameters[self::EMAIL_ME_PARAMETER] = self::valueIsTrue($parameters[self::EMAIL_ME_PARAMETER]);
+			}
+
+			// customText is an optional parameter
+			if(!isset($parameters[self::CUSTOM_EMAIL_TEXT_PARAMETER]))
+			{
+				$parameters[self::CUSTOM_EMAIL_TEXT_PARAMETER] = self::CUSTOM_EMAIL_TEXT_PARAMETER_DEFAULT_VALUE;
+			}
+			else
+			{
+				$parameters[self::CUSTOM_EMAIL_TEXT_PARAMETER] = self::valueIsTrue($parameters[self::CUSTOM_EMAIL_TEXT_PARAMETER]);
 			}
 
 			// evolutionGraph is an optional parameter
@@ -331,10 +348,18 @@ class Piwik_PDFReports extends Piwik_Plugin
 			$contents = $notificationInfo[Piwik_PDFReports_API::REPORT_CONTENT_KEY];
 			$filename = $notificationInfo[Piwik_PDFReports_API::FILENAME_KEY];
 			$additionalFiles = $notificationInfo[Piwik_PDFReports_API::ADDITIONAL_FILES_KEY];
+			$reportParameters = $report['parameters'];
 
 			$periods = self::getPeriodToFrequency();
 			$message  = Piwik_Translate('PDFReports_EmailHello');
 			$subject = Piwik_Translate('General_Report') . ' '. $websiteName . " - ".$prettyDate;
+
+			//Review if customText is specified for report
+			if($reportParameters[self::CUSTOM_EMAIL_TEXT_PARAMETER])
+			{
+                $message  = $reportParameters[self::EMAIL_CONTENT_PARAMETER];
+			    $subject = $reportParameters[self::EMAIL_SUBJECT_PARAMETER];
+			}
 
 			$mail = new Piwik_Mail();
 			$mail->setSubject($subject);
@@ -385,7 +410,6 @@ class Piwik_PDFReports extends Piwik_Plugin
 			}
 
 			// Get user emails and languages
-			$reportParameters = $report['parameters'];
 			$emails = array();
 
 			if(isset($reportParameters[self::ADDITIONAL_EMAILS_PARAMETER]))
