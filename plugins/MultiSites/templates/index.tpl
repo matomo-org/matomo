@@ -36,8 +36,10 @@
 
 <div class="centerLargeDiv">
 
-<h2>{'General_AllWebsitesDashboard'|translate} 
-	<span class='smallTitle' {if $totalVisitsEvolution}title="{'MultiSites_TotalsEvolutionSummary'|translate:$totalVisits:$prettyDate:$pastTotalVisits:$totalVisitsEvolution:$pastPeriodPretty}"{/if}>
+<h2>{'General_AllWebsitesDashboard'|translate}
+	{capture assign=nVisits}{'General_NVisits'|translate:$totalVisits}{/capture}
+	{capture assign=nVisitsLast}{'General_NVisits'|translate:$pastTotalVisits}{/capture}
+	<span class='smallTitle' {if $totalVisitsEvolution}title="{'General_EvolutionSummaryGeneric'|translate:$nVisits:$prettyDate:$nVisitsLast:$pastPeriodPretty:$totalVisitsEvolution}"{/if}>
 		{'General_TotalVisitsPageviewsRevenue'|translate:"<strong>$totalVisits</strong>":"<strong>$totalPageviews</strong>":"<strong>$totalRevenue</strong>"}
 	</span>
 </h2>

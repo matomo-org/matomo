@@ -1111,7 +1111,6 @@ $translations = array(
 	'MultiSites_PluginDescription' => 'Zeigt eine Zusammenfassung über die Statistiken aller Webseiten. Wird derzeit als ein Piwik Core Plugin verwaltet',
 	'MultiSites_Evolution' => 'Entwicklung',
 	'MultiSites_TopLinkTooltip' => 'Vergleiche Webanalytikstatistiken für alle deine Webseiten.',
-	'MultiSites_TotalsEvolutionSummary' => '%s Besuche am %s im Vergleich zu %s Besuche (%s) am %s',
 	'Provider_PluginDescription' => 'Stellt Informationen über den Provider des Besuchers dar.',
 	'Provider_WidgetProviders' => 'Provider',
 	'Provider_ColumnProvider' => 'Provider',

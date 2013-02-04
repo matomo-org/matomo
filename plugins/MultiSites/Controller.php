@@ -174,7 +174,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 
 		echo $view->render();
 	}
-	
+
 	/**
 	 * The Multisites reports displays the first calendar date as the earliest day available for all websites.
 	 * Also, today is the later "today" available across all timezones.

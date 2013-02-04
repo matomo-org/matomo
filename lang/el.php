@@ -1050,7 +1050,6 @@ $translations = array(
 	'MultiSites_PluginDescription' => 'Προβάλει ενεργή περίληψη/στατιστικά πολλών ιστοσελίδων. Προς το παρόν διατηρείτε ως πρόσθετο του πυρήνα του Piwik.',
 	'MultiSites_Evolution' => 'Πρόοδος',
 	'MultiSites_TopLinkTooltip' => 'Σύγκριση στατιστικών Ιστού για όλες τις ιστοσελίδες σας.',
-	'MultiSites_TotalsEvolutionSummary' => '%s επισκέψεις στη %s συγκρινόμενες με %s επισκέψεις (%s) στη %s',
 	'Provider_PluginDescription' => 'Αναφέρει τον Παροχέα των επισκεπτών.',
 	'Provider_WidgetProviders' => 'Πάροχοι',
 	'Provider_ColumnProvider' => 'Πάροχος',

@@ -4,7 +4,7 @@
 	<form method="post" style="padding: 8px;" >
 	  <div align="left" class="mediumtext">
 		  {'Installation_SetupWebSiteURL'|translate|ucfirst} 
-		  <input type="text" id="seoUrl" size="30" value="{$urlToRank|escape:'html'}" class="textbox" />
+		  <input type="text" id="seoUrl" size="15" value="{$urlToRank|escape:'html'}" class="textbox" />
 		  <span style="padding-left:2px;"> 
 		  <input type="submit" id="rankbutton" value="{'SEO_Rank'|translate}" />
 		  </span>

@@ -844,6 +844,21 @@ abstract class Piwik_Controller
 		}
 	}
 
+
+
+	/**
+	 * Returns the pretty date representation
+	 *
+	 * @param $date string
+	 * @param $period string
+	 * @return string Pretty date
+	 */
+	public static function getPrettyDate($date, $period)
+	{
+		return self::getCalendarPrettyDate( Piwik_Period::factory($period, Piwik_Date::factory($date)) );
+	}
+
+
 	/**
 	 * Calculates the evolution from one value to another and returns HTML displaying
 	 * the evolution percent. The HTML includes an up/down arrow and is colored red, black or
@@ -855,10 +870,9 @@ abstract class Piwik_Controller
 	 * @param int $currentValue The value to calculate evolution to.
 	 * @param string $pastDate The date of past value.
 	 * @param int $pastValue The value in the past to calculate evolution from.
-	 * @param bool $isVisits If the value is for visits or some other unit.
 	 * @return string|false The HTML or false if the evolution is 0 and the current value is 0.
 	 */
-	protected function getEvolutionHtml( $date, $currentValue, $pastDate, $pastValue, $isVisits = true )
+	protected function getEvolutionHtml( $date, $currentValue, $pastDate, $pastValue)
 	{
 		$evolutionPercent = Piwik_DataTable_Filter_CalculateEvolutionFilter::calculate(
 			$currentValue, $pastValue, $precision = 2);
@@ -873,7 +887,7 @@ abstract class Piwik_Controller
 		$titleEvolutionPercent = $evolutionPercent;
 		if ($evolutionPercent < 0)
 		{
-			$color = "red";
+			$color = "#e02a3b"; //red
 			$img = "arrow_down.png";
 		}
 		else if ($evolutionPercent == 0)
@@ -887,11 +901,15 @@ abstract class Piwik_Controller
 			$titleEvolutionPercent = '+'.$titleEvolutionPercent;
 		}
 		
-		$token = $isVisits ? 'MultiSites_TotalsEvolutionSummary' : 'Referers_EvolutionSummaryGeneric';
-		$title = Piwik_Translate($token,
-			array($currentValue, $date, $pastValue, $titleEvolutionPercent, $pastDate));
+		$title = Piwik_Translate('General_EvolutionSummaryGeneric', array(
+				Piwik_Translate('General_NVisits', $currentValue),
+				$date,
+				Piwik_Translate('General_NVisits', $pastValue),
+				$pastDate,
+				$titleEvolutionPercent
+		));
 		
-		$result = '<span style="display:inline-block" title="'.$title
+		$result = '<span class="metricEvolution" title="'.$title
 				. '"><img style="padding-right:4px" src="plugins/MultiSites/images/'.$img.'"/><strong';
 		
 		if (isset($color))

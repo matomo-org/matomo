@@ -202,7 +202,7 @@ class Piwik_SEO_RankChecker
         $url  = preg_replace('/^www\./', '', $this->url);
         $url  = 'http://www.who.is/whois/' . urlencode($url);
         $data = $this->getPage($url);
-        preg_match('#(?:Creation Date|Created On)\.*:\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
+        preg_match('#(?:Creation Date|Created On|Registered on)\.*:\s*([ \ta-z0-9\/\-:\.]+)#si', $data, $p);
         if (!empty($p[1])) {
             $value = strtotime(trim($p[1]));
             if ($value === false) {
