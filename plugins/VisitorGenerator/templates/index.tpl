@@ -29,7 +29,7 @@
 <br/>
 
 	NOTE: It might take a few minutes to generate visits and actions, please be patient...<br/>
-	There is also a faster tool that will import large test data in Piwik, see the <a href='http://dev.piwik.org/trac/browser/trunk/tests/README.txt#L64'>README</a>.</p>
+	There is also a faster tool that will import large test data in Piwik, see the <a href='https://github.com/piwik/piwik/tree/master/tests#testing-data'>README</a>.</p>
 	<br/>
 <input type="submit" value="{'VisitorGenerator_Submit'|translate}" name="submit" class="submit" />
 </form>
