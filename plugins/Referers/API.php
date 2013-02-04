@@ -486,10 +486,7 @@ class Piwik_Referers_API
 	{
 		if ($dataTable instanceof Piwik_DataTable_Array) // recurse for array datatables
 		{
-			foreach ($dataTable->getArray() as $childTable)
-			{
-				$this->setGetReferrerTypeSubtables($childTable, $idSite, $period, $date, $segment, $expanded);
-			}
+			throw new Exception("Referrers.getAll with multiple sites or dates is not supported (yet).");
 		}
 		else
 		{
