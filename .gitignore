@@ -18,3 +18,4 @@ tmp/*
 *.db
 *.buildpath
 config/config.ini.php
+.DS_Store
