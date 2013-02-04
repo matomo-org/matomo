@@ -142,13 +142,7 @@ li.pastStep {
 }
 
 p.nextStep a {
-	font-weight: bold;
-	padding: 0.5em;
-	color: #ae0000;
-	text-decoration: underline;
-	float:right;
-	font-size:35px;
-	line-height:1em;
+	text-decoration: none;
 }
 
 td {
@@ -162,7 +156,7 @@ td {
 	text-align:center;
 	cursor: pointer;
 }
-.submit input{
+.submit input {
 	margin-top:15px;
 	background:transparent url(./themes/default/images/background-submit.png) repeat scroll 0;
 	font-size:1.4em;
@@ -173,7 +167,7 @@ td {
 	padding:0.15em;
 }
 
-input {
+input  {
 	font-size:18px;
 	border-color:#CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
 	border-width:1px;

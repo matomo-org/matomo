@@ -1,6 +1,7 @@
 #systemCheckOptional,#systemCheckRequired {
 	border: 1px solid #dadada;
-	width:900px;
+	width:100%;
+	max-width: 900px;
 }
 
 #systemCheckOptional {

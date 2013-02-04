@@ -149,6 +149,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay(array('label', 'nb_visits'));
 		$view->enableShowGoals();
 		$view->setLimit(20);
+		$view->setCustomParameter('disable_row_actions', '1');
 		
 		$setGetAllHtmlPrefix = array($this, 'setGetAllHtmlPrefix');
 		$view->queueFilter(
