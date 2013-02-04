@@ -74,13 +74,15 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 		}
 
 		$api = Piwik_CoreAdminHome_API::getInstance();
-var_dump($dates);
 		$api->invalidateArchivedReports($idSite, implode($dates, ","));
+
+		$browserArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
 
 		// Init view
 		$view = Piwik_View::factory('generate');
 		$this->setBasicVariablesView($view);
 		$view->menu = Piwik_GetAdminMenu();
+		$view->assign('browserArchivingEnabled', $browserArchiving);
 		$view->assign('timer', $timer);
 		$view->assign('days', $daysToCompute);
 		$view->assign('nbActionsTotal', $nbActionsTotal);
