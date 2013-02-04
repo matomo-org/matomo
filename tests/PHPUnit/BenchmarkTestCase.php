@@ -78,7 +78,7 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
 	{
 		// only drop the database if PIWIK_BENCHMARK_DATABASE isn't set
 		$dropDatabase = empty($GLOBALS['PIWIK_BENCHMARK_DATABASE']);
-		parent::tearDownAfterClass($dropDatabase);
+		parent::_tearDownAfterClass($dropDatabase);
 	}
 	
 	/**

@@ -123,7 +123,12 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         self::setApiToCall( array());
     }
 
-    public static function tearDownAfterClass( $dropDatabase = true )
+	public static function tearDownAfterClass()
+	{
+		self::_tearDownAfterClass();
+	}
+
+    public static function _tearDownAfterClass( $dropDatabase = true )
     {
     	Piwik::$piwikUrlCache = null;
     	
