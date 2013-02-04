@@ -4201,10 +4201,6 @@ Merci d'utiliser Piwik!</value>
 		<value>Comparez les statistiques pour tous vos sites web.</value>
 	</row>
 	<row>
-		<label>MultiSites_TotalsEvolutionSummary</label>
-		<value>%s visites en %s en comparaison de %s visites (%s) en %s</value>
-	</row>
-	<row>
 		<label>Provider_PluginDescription</label>
 		<value>Effectue des rapports sur les FAI des visiteurs.</value>
 	</row>
