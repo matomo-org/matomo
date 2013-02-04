@@ -1120,7 +1120,6 @@ $translations = array(
 	'MultiSites_PluginDescription' => '멀티 사이트 운영의 개요 및 통계를 표시합니다. 현재는 코어 Piwik 플러그인으로 관리되고 있습니다.',
 	'MultiSites_Evolution' => '변화 추이',
 	'MultiSites_TopLinkTooltip' => '웹사이트의 모든 웹분석 통계를 비교합니다.',
-	'MultiSites_TotalsEvolutionSummary' => '%s visits in %s compared to %s visits (%s) in %s',
 	'Provider_PluginDescription' => '방문자의 공급자를 보고합니다.',
 	'Provider_WidgetProviders' => '공급자',
 	'Provider_ColumnProvider' => '공급자',

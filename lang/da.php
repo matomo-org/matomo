@@ -1110,7 +1110,6 @@ $translations = array(
 	'MultiSites_PluginDescription' => 'Viser multi-websted resumé/statistik. Vedligeholdes som et Piwik-kerne udvidelsesmodul.',
 	'MultiSites_Evolution' => 'Udvikling',
 	'MultiSites_TopLinkTooltip' => 'Sammenlign analyse statistik for alle hjemmesider.',
-	'MultiSites_TotalsEvolutionSummary' => '%s besøg i %s i forhold til %s besøg (%s) i %s',
 	'Provider_PluginDescription' => 'Rapporter de besøgendes udbyder.',
 	'Provider_WidgetProviders' => 'Udbydere',
 	'Provider_ColumnProvider' => 'Udbyder',

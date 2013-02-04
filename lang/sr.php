@@ -1110,7 +1110,6 @@ $translations = array(
 	'MultiSites_PluginDescription' => 'Prikazuje statistiku za više sajtova. Ovaj dodatak je trenutno u samoj srži Piwik-a.',
 	'MultiSites_Evolution' => 'Razvoj',
 	'MultiSites_TopLinkTooltip' => 'Uporedi statistiku za sve vaše sajtove',
-	'MultiSites_TotalsEvolutionSummary' => '%s poseta za %s u odnosu na %s poseta (%s) za %s',
 	'Provider_PluginDescription' => 'Izveštaj o provajderima',
 	'Provider_WidgetProviders' => 'Provajderi',
 	'Provider_ColumnProvider' => 'Provajder',
