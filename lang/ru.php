@@ -1040,7 +1040,6 @@ $translations = array(
 	'MultiSites_PluginDescription' => 'Отображает сравнительную статистику по многим сайтам. В данный момент является ключевым плагином Piwik.',
 	'MultiSites_Evolution' => 'Эволюция',
 	'MultiSites_TopLinkTooltip' => 'Сравните веб-аналитику для всех ваших сайтов.',
-	'MultiSites_TotalsEvolutionSummary' => '%s посещений в %s по сравнению с %s посещениями (%s) в %s',
 	'Provider_PluginDescription' => 'Отображает провайдеры посетителей.',
 	'Provider_WidgetProviders' => 'Провайдеры',
 	'Provider_ColumnProvider' => 'Провайдер',

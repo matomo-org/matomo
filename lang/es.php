@@ -1117,7 +1117,6 @@ Nota: Este código vencerá en 24 hora.
 	'MultiSites_PluginDescription' => 'Muestra resumen y/o estadísticas ejecutivas multisitio. Actualmente mantenido como un plugin del núcleo de Piwik',
 	'MultiSites_Evolution' => 'Evolución',
 	'MultiSites_TopLinkTooltip' => 'Comparar la estadísticas de Análisis Web para todos tus Sitios Web.',
-	'MultiSites_TotalsEvolutionSummary' => '%s visitas en %s comparado con %s visitas (%s) en %s',
 	'Provider_PluginDescription' => 'Reporta el Proveedor de los Visitantes.',
 	'Provider_WidgetProviders' => 'Proveedores',
 	'Provider_ColumnProvider' => 'Proveedor',
