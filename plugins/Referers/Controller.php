@@ -193,7 +193,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$label = strtolower(Piwik_Translate($indexTranslation));
 		
 		// return html that displays it as grey & italic
-		return '<span style="color:#666"><em>('.$label.')</em></span>';
+		return '<span style="color:#999"><em>('.$label.')</em></span>';
 	}
 
 	function getKeywords( $fetch = false)
