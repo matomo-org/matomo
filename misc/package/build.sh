@@ -111,8 +111,11 @@ SUBSCRIBE_NEWSLETTER
 
 		echo "checkout repository for tag $VERSION"
 		rm -rf $DEST_PATH/piwik_last_version
-		git clone -b $VERSION -q -- $URL_REPO $DEST_PATH/piwik_last_version || die "Problem checking out the last version tag"
+		git clone -q -- $URL_REPO $DEST_PATH/piwik_last_version || die "Problem checking out the last version tag"
+		cd $DEST_PATH/piwik_last_version
+		git checkout tags/$VERSION -q
 
+		cd $DEST_PATH
 		echo "preparing release $VERSION"
 
 		mv piwik_last_version piwik
