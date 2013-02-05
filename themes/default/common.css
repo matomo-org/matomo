@@ -772,3 +772,10 @@ table.entityTable tr td a {
 .section-toggler-link:hover {
 	text-decoration:underline;
 }
+
+.metricEvolution {
+    display:inline-block;
+    font-size:9pt;
+    opacity:0.75;
+}
+

@@ -70,7 +70,7 @@ $(document).ready(function() {
 			module: 'UserCountry',
 			action: action,
 			token_auth: piwik.token_auth,
-			'continue': cont ? 1 : 0,
+			'continue': cont ? 1 : 0
 		};
 		for (var k in extraData)
 		{

@@ -75,7 +75,15 @@ class Piwik_Referers extends Piwik_Plugin
         							array('<br />', '&quot;'.Piwik_Translate('Referers_SubmenuCampaigns').'&quot;')),
         			'order' => 1,
         		),
-        		
+				array(
+					'category'  => Piwik_Translate('Referers_Referers'),
+					'name'   => Piwik_Translate('Referers_WidgetGetAll'),
+					'module' => 'Referers',
+					'action' => 'getAll',
+					'dimension' => Piwik_Translate('Referers_Referrer'),
+					'documentation' => Piwik_Translate('Referers_AllReferersReportDocumentation', '<br />'),
+					'order' => 2,
+				),
         		array(
         			'category' => Piwik_Translate('Referers_Referers'),
         			'name'   => Piwik_Translate('Referers_Keywords'),

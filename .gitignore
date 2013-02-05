@@ -17,5 +17,7 @@ tmp/*
 *.tmp
 *.db
 *.buildpath
-phpunit.xml
-config.ini.php
+config/config.ini.php
+tests/PHPUnit/Integration/processed/*
+tests/PHPUnit/phpunit.xml
+tests/lib/visualphpunit/app/resource/cache/*
