@@ -2,7 +2,7 @@
  * Copyright 2007, 2008, 2009, 2010  Matthieu Aubry
  * All rights reserved.
  *
- * @link http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate
+ * @link https://github.com/piwik/piwik/blob/master/libs/jquery/jquery.truncate.js
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
  *
  * Redistribution and use in source and binary forms, with or without
