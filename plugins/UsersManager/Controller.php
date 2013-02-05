@@ -4,7 +4,6 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  * 
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
@@ -30,12 +29,9 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 
 		$view = Piwik_View::factory('UsersManager');
 		
-		$IdSitesAdmin = Piwik_SitesManager_API::getInstance()->getSitesIdWithAdminAccess();
 		$idSiteSelected = 1;
 		
-		if(count($IdSitesAdmin) > 0)
 		{
-			$defaultWebsiteId = $IdSitesAdmin[0];
 			$idSiteSelected = Piwik_Common::getRequestVar('idSite', $defaultWebsiteId);
 		}
 		
