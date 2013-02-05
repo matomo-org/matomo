@@ -60,7 +60,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 
         foreach($flags as $filename)
         {
-            if($filename == '.' || $filename == '..' || $filename == '.svn')
+            if($filename == '.' || $filename == '..')
             {
                 continue;
             }
