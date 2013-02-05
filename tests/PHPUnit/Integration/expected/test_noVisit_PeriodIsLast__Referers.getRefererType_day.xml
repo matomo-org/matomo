@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<results>
-	<result date="2009-01-04" />
-	<result date="2009-01-05" />
-	<result date="2009-01-06" />
-	<result date="2009-01-07" />
-	<result date="2009-01-08" />
-	<result date="2009-01-09" />
-	<result date="2009-01-10" />
-</results>
+<result>
+	<error message="Referrers.getAll with multiple sites or dates is not supported (yet)." />
+</result>
