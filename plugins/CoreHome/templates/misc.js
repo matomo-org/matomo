@@ -76,6 +76,50 @@ $(document).ready(function() {
 		
 		return false;
 	});
+	
+	// 
+	// reports by dimension list behavior
+	// 
+	
+	// when a report dimension is clicked, load the appropriate report
+	var currentWidgetLoading = null;
+	$('body').on('click', '.reportDimension', function (e) {
+		var view = $(this).closest('.reportsByDimensionView'),
+			report = $('.dimensionReport', view),
+			loading = $('.loadingPiwik', view);
+		
+		// make this dimension the active one
+		$('.activeDimension', view).removeClass('activeDimension');
+		$(this).addClass('activeDimension');
+		
+		// hide the visible report & show the loading elem
+		report.hide();
+		loading.show();
+		
+		// load the report using the data-url attribute (which holds the URL to the report)
+		var widgetParams = broadcast.getValuesFromUrl($(this).attr('data-url'));
+		for (var key in widgetParams)
+		{
+			widgetParams[key] = decodeURIComponent(widgetParams[key]);
+		}
+		
+		var widgetUniqueId = widgetParams.module + widgetParams.action;
+		currentWidgetLoading = widgetUniqueId;
+		
+		widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParams, function(response) {
+			// if the widget that was loaded was not for the latest clicked link, do nothing w/ the response
+			if (widgetUniqueId != currentWidgetLoading)
+			{
+				return;
+			}
+			
+			loading.hide();
+			report.html($(response)).css('display', 'inline-block');
+			
+			// scroll to report
+			piwikHelper.lazyScrollTo(report, 400);
+		});
+	});
 });
 
 }(jQuery));

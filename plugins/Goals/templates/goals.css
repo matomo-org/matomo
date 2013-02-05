@@ -22,11 +22,3 @@ ul.ulGoalTopElements {
 	border-bottom:1px dotted #0033CC;
 	line-height:2em;
 }
-.goalDimensions{ 
-	float: left;
-	width: 220px; 
-	min-height:450px;
-}
-.dimensionCategory {
-	margin-top:10px;
-}

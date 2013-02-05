@@ -779,3 +779,11 @@ table.entityTable tr td a {
     opacity:0.75;
 }
 
+.reportsByDimensionView > .entityList {
+	float: left;
+	width: 220px; 
+	min-height:450px;
+}
+.dimensionCategory {
+	margin-top:10px;
+}

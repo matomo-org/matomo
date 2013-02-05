@@ -63,7 +63,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getGoalReportView($idGoal = Piwik_Common::getRequestVar('idGoal', null, 'string'));
 		$view->displayFullReport = true;
-		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		echo $view->render();
 	}
 	
@@ -76,7 +75,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		
 		$view = $this->getGoalReportView($idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER);
 		$view->displayFullReport = true;
-		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		echo $view->render();
 	}
 	protected function getItemsView($fetch, $type, $function, $api, $abandonedCart = false)
@@ -170,7 +168,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		{
 			$goalDefinition['name'] = Piwik_Translate('Goals_Ecommerce');
 			$goalDefinition['allow_multiple'] = true;
-			$view->ecommerce = true;
+			$ecommerce = $view->ecommerce = true;
 		}
 		else
 		{
@@ -209,6 +207,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$segment = 'visitorType==new';
 		$conversionRateNew = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $segment, $idGoal);
 		$view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
+		$view->goalReportsByDimension = $this->getGoalReportsByDimensionTable(
+			$view->nb_conversions, isset($ecommerce), !empty($view->cart_nb_conversions));
 		return $view;
 	}
 	
@@ -216,7 +216,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
 	{
 		$view = $this->getOverviewView();
 		$view->goalsJSON = Piwik_Common::json_encode($this->goals);
-		$view->goalDimensions = Piwik_Goals::getReportsWithGoalMetrics();
 		$view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
 		$view->ecommerceEnabled = $this->site->isEcommerceEnabled();
 		$view->displayFullReport = true;
@@ -262,6 +261,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		
 		$view->goalMetrics = $goalMetrics;
 		$view->goals = $this->goals;
+		$view->goalReportsByDimension = $this->getGoalReportsByDimensionTable(
+			$view->nb_conversions, $ecommerce = false, !empty($view->cart_nb_conversions));
 		return $view;
 	}
 
@@ -503,6 +504,69 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		$view->setLimit(count(Piwik_Goals::$daysToConvRanges));
 		$view->disableOffsetInformationAndPaginationControls();
 		return $this->renderView($view, $fetch);
+	}
+	
+	/**
+	 * Utility function that returns HTML that displays Goal information for reports. This
+	 * is the HTML that is at the bottom of every goals page.
+	 * 
+	 * @param int $conversions The number of conversions for this goal (or all goals
+	 *                         in case of the overview).
+	 * @param bool $ecommerce Whether to show ecommerce reports or not.
+	 * @param bool $cartNbConversions Whether there are cart conversions or not for this
+	 *                                goal.
+	 */
+	private function getGoalReportsByDimensionTable( $conversions, $ecommerce = false, $cartNbConversions = false )
+	{
+		$preloadAbandonedCart = $cartNbConversions !== false && $conversions == 0;
+		
+		$goalReportsByDimension = new Piwik_View_ReportsByDimension();
+		
+		// add ecommerce reports
+		$ecommerceCustomParams = array();
+		if ($ecommerce)
+		{
+			if ($preloadAbandonedCart)
+			{
+				$ecommerceCustomParams['viewDataTable'] = 'ecommerceAbandonedCart';
+				$ecommerceCustomParams['filterEcommerce'] = 2;
+			}
+			
+			$goalReportsByDimension->addReport(
+				'Goals_EcommerceReports', 'Goals_ProductSKU', 'Goals.getItemsSku', $ecommerceCustomParams);
+			$goalReportsByDimension->addReport(
+				'Goals_EcommerceReports', 'Goals_ProductName', 'Goals.getItemsName', $ecommerceCustomParams);
+			$goalReportsByDimension->addReport(
+				'Goals_EcommerceReports', 'Goals_ProductCategory', 'Goals.getItemsCategory', $ecommerceCustomParams);
+			$goalReportsByDimension->addReport(
+				'Goals_EcommerceReports', 'Goals_EcommerceLog', 'Goals.getEcommerceLog', $ecommerceCustomParams);
+		}
+		
+		if ($conversions > 0)
+		{
+			// for non-Goals reports, we show the goals table
+			$customParams = $ecommerceCustomParams // TODO: not sure if this is necessary. only here to
+												   // replicate logic of old code in table_by_dimension.tpl
+						  + array('viewDataTable' => 'tableGoals', 'documentationForGoalsPage' => '1');
+			
+			if (Piwik_Common::getRequestVar('idGoal', '') === '') // if no idGoal, use 0 for overview
+			{
+				$customParams['idGoal'] = '0'; // NOTE: Must be string! Otherwise Piwik_View_HtmlTable_Goals fails.
+			}
+			
+			$allReports = Piwik_Goals::getReportsWithGoalMetrics();
+			foreach ($allReports as $category => $reports)
+			{
+				$categoryText = Piwik_Translate('Goals_ViewGoalsBy', $category);
+				foreach ($reports as $report)
+				{
+					$goalReportsByDimension->addReport(
+						$categoryText, $report['name'], $report['module'].'.'.$report['action'], $customParams);
+				}
+			}
+		}
+		
+		return $goalReportsByDimension->render();
 	}
 }
 
