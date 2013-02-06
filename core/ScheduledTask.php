@@ -122,7 +122,7 @@ class Piwik_ScheduledTask
 	}
 	
 	/**
-	 * Return the rescheduled time in miliseconds
+	 * Return the rescheduled time in milliseconds
 	 * @return int
 	 */
 	public function getRescheduledTime()
