@@ -11,7 +11,6 @@
  *  - CURL or STREAM extensions (to issue the http request to Piwik)
  *
  * @license released under BSD License http://www.opensource.org/licenses/bsd-license.php
- * @version $Id$
  * @link http://piwik.org/docs/tracking-api/
  *
  * @category Piwik
