@@ -352,7 +352,7 @@ UserCountryMap.run = function(config) {
                 $('.map-title').html('');
                 return;
             }
-            
+
         } else {
             flag.css({
                 'background': 'none'
@@ -367,6 +367,7 @@ UserCountryMap.run = function(config) {
             totalVisits = 0;
         // update map title
         $('.map-title').html(mapTitle);
+        $('#widgetUserCountryMapvisitorMap .widgetName .map-title').html(' – '+mapTitle);
         // update total visits for that region
         if (id.length == 3) {
             totalVisits = UserCountryMap.countriesByIso[id]['nb_visits'];
@@ -884,6 +885,7 @@ UserCountryMap.run = function(config) {
 
 
         _updateMap(iso + '.svg', function() {
+
             // add background
             map.addLayer('context', {
                 key: 'iso',
@@ -1060,6 +1062,7 @@ UserCountryMap.run = function(config) {
 
             // hide loading indicator
             $('#UserCountryMap .loadingPiwik').hide();
+            $('.mapWidgetStatus').height(0);
 
             // start with default view (or saved state??)
             var params = UserCountryMap.widget.dashboardWidget('getWidgetObject').parameters;
@@ -1116,6 +1119,8 @@ UserCountryMap.run = function(config) {
     }
 
     $('.UserCountryMap-overlay').on('mouseenter', hideOverlay);
+    $('#widgetUserCountryMapvisitorMap .widgetName span').remove();
+    $('#widgetUserCountryMapvisitorMap .widgetName').append('<span class="map-title"></span>');
 
 };
 
@@ -1213,7 +1218,8 @@ $.extend(UserCountryMap, {
         ESP: { PRT: [-8.5, 39.6] },
         NLD: { BEL: [4.6, 51,1], DEU: [6.9, 51.5] },
         CHE: { FRA: [6.2, 47.2], AUT: [9.95, 47.2], ITA: [9.7, 46.0], DEU: [8.14, 47.83] },
-        USA: { MEX: [-102, 24], CAN: [-97, 52] }
+        USA: { MEX: [-102, 24], CAN: [-97, 52] },
+        BIH: { HRV: [15.3, 45] }
     },
 
     differentFIPS: {

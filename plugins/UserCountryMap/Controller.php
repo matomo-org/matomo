@@ -50,6 +50,8 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         {
             return '';
         }
+        $config = array();
+
         $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -61,23 +63,23 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
         // request visits summary
         $request = new Piwik_API_Request(
-            'method=VisitsSummary.get&format=JSON'
+            'method=VisitsSummary.get&format=PHP'
             . '&idSite=' . $idSite
             . '&period=' . $period
             . '&date=' . $date
             . '&token_auth=' . $token_auth
             . '&filter_limit=-1'
         );
-        $view->visitsSummary = $request->process();
-
-        $view->countryDataUrl = $this->_report('UserCountry', 'getCountry', $idSite, $period, $date, $token_auth);
-        $view->regionDataUrl = $this->_report('UserCountry', 'getRegion', $idSite, $period, $date, $token_auth, true);
-        $view->cityDataUrl = $this->_report('UserCountry', 'getCity', $idSite, $period, $date, $token_auth, true);
-        $view->countrySummaryUrl = $this->_reqUrl('VisitsSummary', 'get', $idSite, $period, $date, $token_auth, true);
-
-        $view->metrics = $this->getMetrics($idSite, $period, $date, $token_auth);
+        $config['visitsSummary'] = unserialize($request->process());
+        $config['countryDataUrl'] = $this->_report('UserCountry', 'getCountry',
+            $idSite, $period, $date, $token_auth);
+        $config['regionDataUrl'] = $this->_report('UserCountry', 'getRegion',
+            $idSite, $period, $date, $token_auth, true);
+        $config['cityDataUrl'] = $this->_report('UserCountry', 'getCity',
+            $idSite, $period, $date, $token_auth, true);
+        $config['countrySummaryUrl'] = $this->_reqUrl('VisitsSummary', 'get',
+            $idSite, $period, $date, $token_auth, true);
         $view->defaultMetric = 'nb_visits';
-
         // some translations
         $view->localeJSON = json_encode(array(
             'nb_visits' => Piwik_Translate('VisitsSummary_NbVisits'),
@@ -89,7 +91,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             'and_n_others' => Piwik_Translate('UserCountryMap_AndNOthers'),
             'no_data' => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
         ));
-
+        // template for ajax requests
         $view->reqParamsJSON = json_encode(array(
             'period' => $period,
             'idSite' => $idSite,
@@ -101,7 +103,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             'enable_filter_excludelowpop' => 1,
             'filter_excludelowpop_value' => -1
         ));
-
+        $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
+        $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
+        $config['mapCssPath'] = 'plugins/UserCountryMap/css/map.css';
+        $view->config = json_encode($config);
         echo $view->render();
     }
 
