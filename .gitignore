@@ -19,3 +19,6 @@ tmp/*
 *.buildpath
 config/config.ini.php
 .DS_Store
+tests/PHPUnit/Integration/processed/
+tests/lib/visualphpunit/app/resource/cache/
+tests/results/

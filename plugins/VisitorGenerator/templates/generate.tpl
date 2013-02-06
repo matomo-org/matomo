@@ -6,6 +6,12 @@ Generated visits for {$siteName} and for {'General_LastDays'|translate:$days}.<b
 Generated {'General_NbActions'|translate}: {$nbActionsTotal}<br />
 {'VisitorGenerator_NbRequestsPerSec'|translate}: {$nbRequestsPerSec}<br />
 {$timer}</p>
-<p><strong> To have Piwik re-process reports for dates that maybe are already processed, you can TRUNCATE the tables piwik_archive_numeric_* for the months you wish to re-generate data. <a href='http://piwik.org/faq/how-to/#faq_59' target="_blank">See FAQ</a></strong>
+<p><strong>
+{if $browserArchivingEnabled}
+The reports will be reprocessed the next time you visit the Piwik reports, it might take a few minutes.
+{else}
+Please re-run the archive.php Piwik script in the crontab to refresh the reports. <a href="http://piwik.org/docs/setup-auto-archiving/">See "How to Set up Auto-Archiving of Your Reports"</a>
+{/if}
+</strong>
 </p>
 {include file="CoreAdminHome/templates/footer.tpl"}

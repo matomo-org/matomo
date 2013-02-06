@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -149,6 +148,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->setColumnsToDisplay(array('label', 'nb_visits'));
 		$view->enableShowGoals();
 		$view->setLimit(20);
+		$view->setCustomParameter('disable_row_actions', '1');
 		
 		$setGetAllHtmlPrefix = array($this, 'setGetAllHtmlPrefix');
 		$view->queueFilter(

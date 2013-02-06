@@ -4,7 +4,6 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: RangeCheck.php 5791 2012-02-09 05:58:45Z matt $
  * 
  * @category Piwik
  * @package Piwik

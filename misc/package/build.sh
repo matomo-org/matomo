@@ -3,8 +3,7 @@
 
 VERSION="$1"
 DEST_PATH=/home/piwik/builds
-URL_REPO=http://piwik@dev.piwik.org/svn/trunk
-URL_TAGS=http://piwik@dev.piwik.org/svn/tags
+URL_REPO=https://github.com/piwik/piwik.git
 HTTP_PATH=/home/piwik/www/builds.piwik.org
 
 # report error and exit
@@ -64,7 +63,7 @@ case "$VERSION" in
 		rm -f latest.zip
 
 		cp -R trunk piwik
-		find piwik -name '.svn' -type d -prune -exec rm -rf {} \;
+		find piwik -name '.git' -type d -prune -exec rm -rf {} \;
 
 		organizePackage
 
@@ -80,7 +79,7 @@ case "$VERSION" in
 		rm -f latest.zip
 
 		cp -R build piwik
-		find piwik -name '.svn' -type d -prune -exec rm -rf {} \;
+		find piwik -name '.git' -type d -prune -exec rm -rf {} \;
 
 		organizePackage
 
@@ -112,8 +111,11 @@ SUBSCRIBE_NEWSLETTER
 
 		echo "checkout repository for tag $VERSION"
 		rm -rf $DEST_PATH/piwik_last_version
-		svn export $URL_TAGS/$VERSION $DEST_PATH/piwik_last_version > /dev/null || die "Problem checking out the last version tag"
+		git clone -q -- $URL_REPO $DEST_PATH/piwik_last_version || die "Problem checking out the last version tag"
+		cd $DEST_PATH/piwik_last_version
+		git checkout tags/$VERSION -q
 
+		cd $DEST_PATH
 		echo "preparing release $VERSION"
 
 		mv piwik_last_version piwik

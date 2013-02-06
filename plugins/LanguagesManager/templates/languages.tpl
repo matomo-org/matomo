@@ -7,6 +7,7 @@
 			<option value="{$language.code}" {if $language.code == $currentLanguageCode}selected="selected"{/if} title="{$language.name} ({$language.english_name})">{$language.name}</option>
 			{/foreach}
 		</select>
+		<input type="hidden" name="token_auth" value="{$token_auth}"/>
 		<input type="submit" value="go" />
 		</form>
 	</span>

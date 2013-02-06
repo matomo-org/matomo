@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -486,10 +485,7 @@ class Piwik_Referers_API
 	{
 		if ($dataTable instanceof Piwik_DataTable_Array) // recurse for array datatables
 		{
-			foreach ($dataTable->getArray() as $childTable)
-			{
-				$this->setGetReferrerTypeSubtables($childTable, $idSite, $period, $date, $segment, $expanded);
-			}
+			throw new Exception("Referrers.getAll with multiple sites or dates is not supported (yet).");
 		}
 		else
 		{

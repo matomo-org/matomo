@@ -4,7 +4,7 @@
  * JavaScript tracking client
  *
  * @link http://piwik.org
- * @source http://dev.piwik.org/trac/browser/trunk/js/piwik.js
+ * @source https://github.com/piwik/piwik/blob/master/js/piwik.js
  * @license http://www.opensource.org/licenses/bsd-license.php Simplified BSD
  */
 
