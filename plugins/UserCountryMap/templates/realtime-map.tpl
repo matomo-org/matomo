@@ -22,7 +22,7 @@
     position: absolute;
     right: 0;
     left: 0;
-    z-index: 999990;
+    z-index: 10001;
     width: 1000px;
     height: 1000px;
     background: #D5D3C8;
@@ -33,7 +33,7 @@
     top: 42%!important;
     right: 10px!important;
     left: 10px!important;
-    z-index: 999999!important;
+    z-index: 10002!important;
     display: block;
     color: #000;
     vertical-align: middle!important;
