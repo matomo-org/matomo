@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  */
 require_once PIWIK_INCLUDE_PATH.'/plugins/UserCountry/UserCountry.php';
 require_once 'UserCountry/functions.php';
@@ -60,7 +59,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 
         foreach($flags as $filename)
         {
-            if($filename == '.' || $filename == '..' || $filename == '.svn')
+            if($filename == '.' || $filename == '..')
             {
                 continue;
             }

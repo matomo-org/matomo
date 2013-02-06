@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  *
  * @category Piwik
  * @package Piwik
@@ -671,7 +670,7 @@ class Piwik
 		$messages[] = true;
 
 		// ignore dev environments
-		if(file_exists(PIWIK_INCLUDE_PATH . '/.svn'))
+		if(file_exists(PIWIK_INCLUDE_PATH . '/.git'))
 		{
 			$messages[] = Piwik_Translate('General_WarningFileIntegritySkipped');
 			return $messages;

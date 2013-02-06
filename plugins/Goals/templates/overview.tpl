@@ -32,8 +32,15 @@
 {/foreach}
 
 {if $displayFullReport}
-{assign var=nb_conversions value=$sum_nb_conversions}
-{include file="Goals/templates/table_by_dimension.tpl"}
+<h2 id='titleGoalsByDimension'>
+{if isset($idGoal)}
+	{'Goals_GoalConversionsBy'|translate:$goalName}
+{else}
+	{'Goals_ConversionsOverviewBy'|translate}
+{/if}
+</h2> 
+
+{$goalReportsByDimension}
 
 	{if $userCanEditGoals}
 	{include file="Goals/templates/add_edit_goal.tpl"}

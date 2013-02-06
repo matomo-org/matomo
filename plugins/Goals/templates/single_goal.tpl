@@ -31,6 +31,14 @@ $(document).ready( function() {
 
 {if $displayFullReport}
 	{if $nb_conversions > 0 || !empty($cart_nb_conversions)}
-		{include file="Goals/templates/table_by_dimension.tpl"}
+		<h2 id='titleGoalsByDimension'>
+		{if isset($idGoal)}
+			{'Goals_GoalConversionsBy'|translate:$goalName}
+		{else}
+			{'Goals_ConversionsOverviewBy'|translate}
+		{/if}
+		</h2>
+		
+		{$goalReportsByDimension}
 	{/if}
 {/if}

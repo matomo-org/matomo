@@ -270,6 +270,7 @@ $translations = array(
 	'General_YearlyReports' => 'Yearly reports',
 	'General_RangeReports' => 'Custom date ranges',
 	'General_ConfigFileIsNotWritable' => 'The Piwik configuration file %s is not writable, some of your changes might not be saved. %s Please change permissions of the config file to make it writable.',
+	'General_StatisticsAreNotRecorded' => 'Piwik Visitor Tracking is currently disabled! Re-enable tracking by setting record_statistics = 1 in your config/config.ini.php file.',
 	'General_ExceptionDatabaseVersion' => 'Your %1$s version is %2$s but Piwik requires at least %3$s.',
 	'General_ExceptionIncompatibleClientServerVersions' => 'Your %1$s client version is %2$s which is incompatible with server version %3$s.',
 	'General_ExceptionMissingFile' => 'Missing file: %s',

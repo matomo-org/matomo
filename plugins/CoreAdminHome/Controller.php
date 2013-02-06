@@ -4,7 +4,6 @@
  * 
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  * 
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
@@ -28,7 +27,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 	{
 		Piwik::checkUserHasSomeAdminAccess();
 		$view = Piwik_View::factory('generalSettings');
-		
+
 		if(Piwik::isUserIsSuperUser())
 		{
 			$enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
@@ -47,14 +46,19 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			{
 				$view->configFileNotWritable = true;
 			}
+
+			$statsEnabled = Piwik_Config::getInstance()->Tracker['record_statistics'];
+			if($statsEnabled == "0"){
+				$view->statisticsNotRecorded = true;
+			}
 			$view->mail = Piwik_Config::getInstance()->mail;
 
 			$view->branding = Piwik_Config::getInstance()->branding;
-			
+
 			$directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT.'/themes/');
 			$logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo.png') && is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo-header.png');
 			$view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
-			
+
 			$trustedHosts = array();
 			if (isset(Piwik_Config::getInstance()->General['trusted_hosts']))
 			{

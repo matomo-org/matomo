@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  */
 class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
 {
@@ -153,7 +152,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         foreach(Piwik::globr(PIWIK_DOCUMENT_ROOT, '*') as $file)
         {
             // skip files in these folders
-            if(strpos($file, '/.svn/') !== false ||
+            if(strpos($file, '/.git/') !== false ||
                 strpos($file, '/documentation/') !== false ||
                 strpos($file, '/tests/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
