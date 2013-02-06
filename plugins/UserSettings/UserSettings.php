@@ -361,29 +361,36 @@ class Piwik_UserSettings extends Piwik_Plugin
     /**
      * Returns the language code for the given browser language setting
      *
-     * @param string $setting  browser language (en-us | de-de;en | ...)
+     * @param string $acceptLanguageString  browser language (en-us | de-de,en | ...)
      *
      * @return string
+     *
+     * @see    http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
      */
-    protected function _getLanguageCodeFromBrowserSetting($setting)
+    protected function _getLanguageCodeFromBrowserSetting($acceptLanguageString)
     {
-        // small clean up
-        $setting = strtolower(trim($setting, ', '));
-        // only use first 2 letters for language code
-        $setting = substr($setting, 0, 2);
-
-        if ($setting == 'us') {
-            $setting = 'en';
-        }
+        $accepts = explode(',', $acceptLanguageString);
 
         $languageCodes = array_keys(Piwik_Common::getLanguagesList());
 
-        // check if language code is valid
-        if (!in_array($setting, $languageCodes)) {
-            $setting = 'xx';
+        foreach ($accepts AS $acceptString) {
+
+            $acceptStringParts = explode(';', $acceptString);
+
+            $language = trim(array_shift($acceptStringParts));
+            $language = strtolower(substr($language, 0, 2));
+
+            if ($language == 'us') {
+                $language = 'en';
+            }
+
+            // check if language code is valid
+            if (in_array($language, $languageCodes)) {
+                return $language;
+            }
         }
 
-        return $setting;
+        return 'xx';
     }
 
 

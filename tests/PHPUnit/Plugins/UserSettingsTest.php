@@ -988,7 +988,10 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             array('es-419,es', 'es'),
             array('sl-si,sl,en-gb,en', 'sl'),
             array('de; q=1.0, fr; q=0.7, en; q=0.5', 'de'),
-            // invalid languages
+            // first parts invalid
+            array('§3,fr', 'fr'),
+            array('h5; q=1.0,fr', 'fr'),
+            // complete invalid languages
             array('', 'xx'),
             array('234', 'xx'),
             array('yk', 'xx'),
