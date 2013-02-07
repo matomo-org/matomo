@@ -121,7 +121,7 @@
 
 {literal}
     $(function() {
-        //RealTimeMap.run(config)
+        RealTimeMap.run(config)
     });
 {/literal}
 
