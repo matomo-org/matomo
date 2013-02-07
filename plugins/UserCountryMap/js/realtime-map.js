@@ -395,7 +395,7 @@ RealTimeMap.run = function(config) {
 
     console.log('debug', debug++);
 
-    updateMap('world'); // TODO: restore last state
+    //updateMap('world'); // TODO: restore last state
 
     console.log('debug - updateMap', debug++);
 
@@ -443,5 +443,5 @@ RealTimeMap.run = function(config) {
     }); // */
     console.log(debug++);
     // make sure the map adapts to the widget size
-    $(window).resize(onResizeLazy);
+    //$(window).resize(onResizeLazy);
 };
