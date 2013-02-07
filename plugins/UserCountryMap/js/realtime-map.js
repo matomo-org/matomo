@@ -2,17 +2,12 @@
 
 window.RealTimeMap = {};
 
-function log(msg, msg2) {
-    $('#widgetUserCountryMaprealtimeMap .widgetName').html(msg+' '+msg2);
-}
-
 /*
  * main function, called from realtime-map.tpl
  */
 RealTimeMap.run = function(config) {
 
     var debug = 0;
-    log('debug', debug++);
 
     var map = $K.map('#RealTimeMap_map'),
         main = $('#RealTimeMap_container'),
@@ -46,8 +41,6 @@ RealTimeMap.run = function(config) {
 
     RealTimeMap.widget = $('#widgetRealTimeMaprealtimeMap').parent();
 
-    log('debug', debug++);
-
     window._liveMap = map;
     RealTimeMap.config = config;
 
@@ -58,7 +51,6 @@ RealTimeMap.run = function(config) {
         currentMap = preset.lastMap;
     }
 
-    log('debug', debug++);
     /*
      * returns the parameters for API calls, extended from
      * RealTimeMap.reqParams which is set in template
@@ -405,11 +397,7 @@ RealTimeMap.run = function(config) {
         storeSettings();
     }
 
-    log('debug', debug++);
-
     updateMap('world'); // TODO: restore last state
-
-    log('debug - updateMap', debug++);
 
     // clicking on map background zooms out
     $('#RealTimeMap_map').click(function() {
@@ -453,7 +441,6 @@ RealTimeMap.run = function(config) {
         }
 
     }); // */
-    log(debug++);
     // make sure the map adapts to the widget size
     $(window).resize(onResizeLazy);
 };
