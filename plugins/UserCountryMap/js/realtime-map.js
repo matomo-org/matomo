@@ -327,7 +327,14 @@ RealTimeMap.run = function(config) {
                     symbolFadeInTimer.push(t);
                 });
 
-                console.log(lastTimestamp - oldest);
+                // show
+                var dur = lastTimestamp - oldest, d;
+                if (dur < 60) d = dur+ ' ' + RealTimeMap._.seconds;
+                else if (dur < 3600) d = Math.ceil(dur / 60) + ' ' + RealTimeMap._.minutes;
+                else d = Math.ceil(dur / 3600) + ' ' + RealTimeMap._.hours;
+                $('.realTimeMap_timeSpan').html(d);
+
+                console.log();
 
             }
 

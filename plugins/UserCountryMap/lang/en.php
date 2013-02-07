@@ -14,8 +14,12 @@ $translations = array(
 
     // translations for Real-time Map widget
     'UserCountryMap_RealTimeMap' => 'Real-time Map',
+    'UserCountryMap_Seconds' => 'seconds',
     'UserCountryMap_SecondsAgo' => '%s seconds ago',
+    'UserCountryMap_Minutes' => 'minutes',
     'UserCountryMap_MinutesAgo' => '%s minutes ago',
+    'UserCountryMap_Hours' => 'hours',
     'UserCountryMap_HoursAgo' => '%s hours ago',
     'UserCountryMap_DaysAgo' => '%s days ago',
+    'UserCountryMap_ShowingVisits' => 'Showing visits of last '
 );

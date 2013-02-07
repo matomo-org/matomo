@@ -92,7 +92,9 @@
         </style>
     <div id="RealTimeMap_container">
         <div id="RealTimeMap_map" style="overflow:hidden"></div>
-
+        <div class="realTimeMap_overlay" style="position:absolute;left:20px;bottom:20px;"></div>
+            {'UserCountryMap_ShowingVisits'|translate} <span class="realTimeMap_timeSpan"></span>
+        </div>
     </div>
     <div>
         <span class="loadingPiwik">

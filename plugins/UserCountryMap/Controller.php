@@ -133,8 +133,11 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),
             'local_time' => Piwik_Translate('VisitTime_ColumnLocalTime'),
             'from' => Piwik_Translate('General_FromReferrer'),
+            'seconds' => Piwik_Translate('UserCountryMap_Seconds'),
             'seconds_ago' => Piwik_Translate('UserCountryMap_SecondsAgo'),
+            'minutes' => Piwik_Translate('UserCountryMap_Minutes'),
             'minutes_ago' => Piwik_Translate('UserCountryMap_MinutesAgo'),
+            'hours' => Piwik_Translate('UserCountryMap_Hours'),
             'hours_ago' => Piwik_Translate('UserCountryMap_HoursAgo'),
             'days_ago' => Piwik_Translate('UserCountryMap_DaysAgo'),
         ));
