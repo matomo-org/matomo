@@ -554,7 +554,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return string
 	 */
-	protected static function getRootUrl()
+	public static function getRootUrl()
 	{
 		$piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 
