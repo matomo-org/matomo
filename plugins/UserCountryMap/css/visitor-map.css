@@ -39,7 +39,7 @@
 .UserCountryMap-tooltip {
     display:block;
     position: absolute;
-    z-index:800;
+    z-index:50;
 }
 
 .UserCountryMap-overlay .content,
