@@ -92,8 +92,8 @@
         </style>
     <div id="RealTimeMap_container">
         <div id="RealTimeMap_map" style="overflow:hidden"></div>
-        <div class="realTimeMap_overlay" style="position:absolute;left:10px;bottom:10px;font-size: 12px;z-index:10;text-shadow:1px 1px 1px #FFFFFF, -1px 1px 1px #FFFFFF,1px -1px 1px #FFFFFF, -1px -1px 1px #FFFFFF,1px 1px 1px #FFFFFF, -1px 1px 1px #FFFFFF,1px -1px 1px #FFFFFF, -1px -1px 1px #FFFFFF">
-            {'UserCountryMap_ShowingVisits'|translate} <span class="realTimeMap_timeSpan"></span>
+        <div class="realTimeMap_overlay" style="position:absolute;left:10px;bottom:6px;font-size: 12px;z-index:10;text-shadow:1px 1px 1px #FFFFFF, -1px 1px 1px #FFFFFF,1px -1px 1px #FFFFFF, -1px -1px 1px #FFFFFF,1px 1px 1px #FFFFFF, -1px 1px 1px #FFFFFF,1px -1px 1px #FFFFFF, -1px -1px 1px #FFFFFF">
+            {'UserCountryMap_ShowingVisits'|translate} <span class="realTimeMap_timeSpan" style="font-weight:bold"></span>
         </div>
     </div>
     <div>
