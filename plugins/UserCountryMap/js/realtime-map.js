@@ -394,7 +394,7 @@ RealTimeMap.run = function(config) {
         if (currentMap != 'world') updateMap('world');
     });
 
-    // secret gimmick shortcuts
+    /*/ secret gimmick shortcuts
     $(window).keydown(function(evt) {
         // shift+alt+C changes color mode
         if (evt.shiftKey && evt.altKey && evt.keyCode == 67) {
@@ -430,7 +430,7 @@ RealTimeMap.run = function(config) {
             switchTheme();
         }
 
-    });
+    }); // */
 
     // make sure the map adapts to the widget size
     $(window).resize(onResizeLazy);
