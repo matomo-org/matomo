@@ -39,8 +39,22 @@ require_once PIWIK_INCLUDE_PATH .'/plugins/SecurityInfo/PhpSecInfo/PhpSecInfo.ph
 
 
 // General requirement checks & help: a webserver must be running for tests to work!
-$hasConfigBeenUpdated = $_SERVER['REQUEST_URI'] != '@REQUEST_URI@';
-if($hasConfigBeenUpdated) {
+checkPiwikSetupForTests();
+
+function checkPiwikSetupForTests()
+{
+	if($_SERVER['REQUEST_URI'] == '@REQUEST_URI@') {
+		echo "WARNING: for tests to pass, you must first:
+1) Install webserver on localhost, eg. apache
+2) Make these Piwik files available on the webserver, at eg. http://localhost/dev/piwik/ - Piwik does need to be installed to run tests, but this URL must work.
+3) Copy phpunit.xml.dist to phpunit.xml
+4) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
+
+Try again and now the tests should run!";
+		exit();
+	}
+
+	// Now testing if the webserver is running
 	$piwikServerUrl = IntegrationTestCase::getRootUrl();
 	try {
 		$fetched = Piwik_Http::sendHttpRequest($piwikServerUrl, $timeout = 3);
@@ -53,14 +67,4 @@ if($hasConfigBeenUpdated) {
 		echo "\nPiwik should be running at: " . $piwikServerUrl . "\nbut this URL returned an unexpected response: '". $fetched . "'\n\n";
 		exit;
 	}
-}
-if(!$hasConfigBeenUpdated) {
-	echo "WARNING: for tests to pass, you must first:
-1) Install webserver on localhost, eg. apache
-2) Make these Piwik files available on the webserver, at eg. http://localhost/dev/piwik/ - Piwik does need to be installed to run tests, but this URL must work.
-3) Copy phpunit.xml.dist to phpunit.xml
-4) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
-
-Try again and now the tests should run!";
-	exit();
 }
