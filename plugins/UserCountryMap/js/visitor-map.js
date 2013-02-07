@@ -984,12 +984,12 @@ UserCountryMap.run = function(config) {
      */
     function showRowEvolution(method, label, column) {
         var box = Piwik_Popover.showLoading('Row Evolution'),
-            multiple;
+            multiple, oldLabels = _rowEvolution.labels.slice();
 
         multiple = method == _rowEvolution.method && _rowEvolution.labels.length > 0;
 
         if (multiple) {
-            if (label) _rowEvolution.labels.push(label);
+            _rowEvolution.labels.push(label);
             $.each(_rowEvolution.labels, function(i,l) {
                 _rowEvolution.labels[i] = l.replace(/, /g, '%2C%20');
             });
@@ -1023,7 +1023,8 @@ UserCountryMap.run = function(config) {
             box.find('.compare-container').hide();
             box.find('.rowevolution-startmulti').hide();
             box.find('.multirowevoltion-metric').change(function(e) {
-                showRowEvolution(method, false, box.find('.multirowevoltion-metric').val());
+                _rowEvolution.labels = oldLabels;
+                showRowEvolution(method, label, box.find('.multirowevoltion-metric').val());
             });
         });
 
