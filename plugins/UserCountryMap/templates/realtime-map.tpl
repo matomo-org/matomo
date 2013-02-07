@@ -92,7 +92,7 @@
         </style>
     <div id="RealTimeMap_container">
         <div id="RealTimeMap_map" style="overflow:hidden"></div>
-        <div class="realTimeMap_overlay" style="position:absolute;left:20px;bottom:20px;">
+        <div class="realTimeMap_overlay" style="position:absolute;left:10px;bottom:10px;font-size: 12px;z-index:10;text-shadow:0 0 2px #fff">
             {'UserCountryMap_ShowingVisits'|translate} <span class="realTimeMap_timeSpan"></span>
         </div>
     </div>
