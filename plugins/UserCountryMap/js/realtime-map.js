@@ -11,9 +11,6 @@ function log(msg, msg2) {
  */
 RealTimeMap.run = function(config) {
 
-    alert("FOO!");
-    return;
-
     var debug = 0;
     log('debug', debug++);
 
@@ -401,7 +398,7 @@ RealTimeMap.run = function(config) {
 
     log('debug', debug++);
 
-    //updateMap('world'); // TODO: restore last state
+    updateMap('world'); // TODO: restore last state
 
     log('debug - updateMap', debug++);
 
@@ -410,7 +407,7 @@ RealTimeMap.run = function(config) {
         if (currentMap != 'world') updateMap('world');
     });
 
-    /*/ secret gimmick shortcuts
+    // secret gimmick shortcuts
     $(window).keydown(function(evt) {
         // shift+alt+C changes color mode
         if (evt.shiftKey && evt.altKey && evt.keyCode == 67) {
@@ -449,5 +446,5 @@ RealTimeMap.run = function(config) {
     }); // */
     log(debug++);
     // make sure the map adapts to the widget size
-    //$(window).resize(onResizeLazy);
+    $(window).resize(onResizeLazy);
 };
