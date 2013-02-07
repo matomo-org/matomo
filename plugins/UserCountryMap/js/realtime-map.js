@@ -11,6 +11,9 @@ function log(msg, msg2) {
  */
 RealTimeMap.run = function(config) {
 
+    alert("FOO!");
+    return;
+
     var debug = 0;
     log('debug', debug++);
 
