@@ -64,7 +64,9 @@ Try again and now the tests should run!";
 	$expectedString = 'plugins/CoreHome/templates/images/favicon.ico';
 
 	if(strpos($fetched, $expectedString) === false) {
-		echo "\nPiwik should be running at: " . $piwikServerUrl . "\nbut this URL returned an unexpected response: '". $fetched . "'\n\n";
+		echo "\nPiwik should be running at: " . $piwikServerUrl
+			. "\nbut this URL returned an unexpected response: '"
+			. substr($fetched,0,300) . "...'\n\n";
 		exit;
 	}
 }

@@ -565,7 +565,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			$pathBeforeRoot = 'plugins';
 		}
 
-		$piwikUrl = substr($piwikUrl, 0, strpos($piwikUrl, $pathBeforeRoot.'/'));
+		$testsInPath =  strpos($piwikUrl, $pathBeforeRoot.'/');
+		if($testsInPath  !== false) {
+			$piwikUrl = substr($piwikUrl, 0, $testsInPath);
+		}
 		return $piwikUrl;
 	}
 
