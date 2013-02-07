@@ -47,10 +47,6 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 				$view->configFileNotWritable = true;
 			}
 
-			$statsEnabled = Piwik_Config::getInstance()->Tracker['record_statistics'];
-			if($statsEnabled == "0"){
-				$view->statisticsNotRecorded = true;
-			}
 			$view->mail = Piwik_Config::getInstance()->mail;
 
 			$view->branding = Piwik_Config::getInstance()->branding;
