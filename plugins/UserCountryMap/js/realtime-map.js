@@ -15,7 +15,7 @@ RealTimeMap.run = function(config) {
         maxVisits = 100,
         width = main.width(),
         minRad = 4,
-        maxRad = 14,
+        maxRad = 10,
         lastTimestamp = -1,
         lastVisits = [],
         visitSymbols,
