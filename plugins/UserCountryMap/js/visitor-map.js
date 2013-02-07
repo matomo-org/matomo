@@ -995,12 +995,15 @@ UserCountryMap.run = function(config) {
             });
         }
 
-        var requestParams = $.extend(UserCountryMap.reqParams, {
+        var requestParams = $.extend({}, {
             apiMethod: 'UserCountry.' + method,
             label: multiple ? _rowEvolution.labels.join(',') : label.replace(/, /g, '%2C%20'),
             disableLink: 1,
             module: 'CoreHome',
-            action: multiple ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover'
+            idSite: UserCountryMap.reqParams.idSite,
+            period: UserCountryMap.reqParams.period,
+            action: multiple ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover',
+            token_auth: UserCountryMap.reqParams.token_auth
         });
 
         ajax(requestParams, 'html')
