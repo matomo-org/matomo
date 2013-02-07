@@ -6,9 +6,19 @@ php:
   - 5.4
   - 5.3
 
-script: phpunit --configuration PHPUnit/phpunit.xml.dist
+env:
+  matrix:
+    - TEST_SUITE=PluginTests
+    - TEST_SUITE=CoreTests
+    - TEST_SUITE=IntegrationTests
+
+script: phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --coverage-text
 
 before_script:
   - mysql -e 'create database piwik_test;'
   - ./tests/PHPUnit/travis.sh
-  - cd tests
+  - cd tests/PHPUnit
+
+matrix:
+  allow_failures:
+    - php: 5.5
