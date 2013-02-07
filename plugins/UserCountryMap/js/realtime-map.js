@@ -327,6 +327,8 @@ RealTimeMap.run = function(config) {
                     symbolFadeInTimer.push(t);
                 });
 
+                console.log(lastTimestamp - oldest);
+
             }
 
         }
