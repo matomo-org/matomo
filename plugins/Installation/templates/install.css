@@ -48,6 +48,9 @@ h3 {
 	line-height:1.33;
 }
 
+#topRightBar {
+    float:right;top:-60px; right:10px;position:relative;
+}
 .error {
 	color:red;
 	font-size:100%;

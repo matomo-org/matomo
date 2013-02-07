@@ -22,7 +22,11 @@ class Piwik_LanguagesManager_Controller extends Piwik_Controller
 	public function saveLanguage()
 	{
 		$language = Piwik_Common::getRequestVar('language');
-		$this->checkTokenInUrl();
+
+		// Prevent CSRF only when piwik is not installed yet (During install user can change language)
+		if(Piwik::isInstalled()) {
+			$this->checkTokenInUrl();
+		}
 		Piwik_LanguagesManager::setLanguageForSession($language);
 		if(Zend_Registry::isRegistered('access')) {
 			$currentUser = Piwik::getCurrentUserLogin();
