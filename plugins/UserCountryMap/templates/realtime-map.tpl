@@ -91,7 +91,7 @@
 {/literal}
         </style>
     <div id="RealTimeMap_container">
-
+        FOO!
         <div id="RealTimeMap_map" style="overflow:hidden"></div>
 
     </div>
