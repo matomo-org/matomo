@@ -1002,6 +1002,7 @@ UserCountryMap.run = function(config) {
             module: 'CoreHome',
             idSite: UserCountryMap.reqParams.idSite,
             period: UserCountryMap.reqParams.period,
+            date: UserCountryMap.reqParams.date,
             action: multiple ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover',
             token_auth: UserCountryMap.reqParams.token_auth
         });
