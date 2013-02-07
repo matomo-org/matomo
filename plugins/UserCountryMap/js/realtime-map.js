@@ -8,6 +8,9 @@ window.RealTimeMap = {};
  */
 RealTimeMap.run = function(config) {
 
+    var debug = 0;
+    console.log('debug', debug++);
+
     var map = $K.map('#RealTimeMap_map'),
         main = $('#RealTimeMap_container'),
         worldTotalVisits = 0,
@@ -40,6 +43,8 @@ RealTimeMap.run = function(config) {
 
     RealTimeMap.widget = $('#widgetRealTimeMaprealtimeMap').parent();
 
+    console.log('debug', debug++);
+
     window._liveMap = map;
     RealTimeMap.config = config;
 
@@ -50,6 +55,7 @@ RealTimeMap.run = function(config) {
         currentMap = preset.lastMap;
     }
 
+    console.log('debug', debug++);
     /*
      * returns the parameters for API calls, extended from
      * RealTimeMap.reqParams which is set in template
@@ -387,7 +393,11 @@ RealTimeMap.run = function(config) {
         storeSettings();
     }
 
+    console.log('debug', debug++);
+
     updateMap('world'); // TODO: restore last state
+
+    console.log('debug - updateMap', debug++);
 
     // clicking on map background zooms out
     $('#RealTimeMap_map').click(function() {
@@ -431,7 +441,7 @@ RealTimeMap.run = function(config) {
         }
 
     }); // */
-
+    console.log(debug++);
     // make sure the map adapts to the widget size
     $(window).resize(onResizeLazy);
 };
