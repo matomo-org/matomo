@@ -24,31 +24,38 @@
 	
 	<div style="clear:both" />
 	
-	<p style="float:left">
-		<br/><br/>
+	<div style="float:left">
+		<br/>
 		<h2>{'General_MoreDetails'|translate}&nbsp;<a href="#" class="section-toggler-link" data-section-id="distinctReferrersByType">({'General_Show_js'|translate})</a></h2>
-	</p>
+	</div>
 
 	<div id="distinctReferrersByType" style="display:none;float:left">
-	<table cellpadding="15">
-	<tr><td width="50%">
-		<div class="sparkline">{sparkline src=$urlSparklineDistinctSearchEngines}
-			<strong>{$numberDistinctSearchEngines}</strong> {'Referers_DistinctSearchEngines'|translate}{if !empty($numberDistinctSearchEnginesEvolution)} {$numberDistinctSearchEnginesEvolution}{/if}
-		</div>
-		<div class="sparkline">{sparkline src=$urlSparklineDistinctKeywords}
-			<strong>{$numberDistinctKeywords}</strong> {'Referers_DistinctKeywords'|translate}{if !empty($numberDistinctKeywordsEvolution)} {$numberDistinctKeywordsEvolution}{/if}
-		</div>
-	</td>
-	<td width="50%">
-		<div class="sparkline">{sparkline src=$urlSparklineDistinctWebsites}
-			<strong>{$numberDistinctWebsites}</strong> {'Referers_DistinctWebsites'|translate} {'Referers_UsingNDistinctUrls'|translate:"<strong>$numberDistinctWebsitesUrls</strong>"}{if !empty($numberDistinctWebsitesEvolution)} {$numberDistinctWebsitesEvolution}{/if}
-		</div>
-		<div class="sparkline">{sparkline src=$urlSparklineDistinctCampaigns} 
-			<strong>{$numberDistinctCampaigns}</strong> {'Referers_DistinctCampaigns'|translate}{if !empty($numberDistinctCampaignsEvolution)} {$numberDistinctCampaignsEvolution}{/if}
-		</div>
-	</td></tr>
-	</table>
-	<br/><br/>
+		<table cellpadding="15">
+		<tr><td width="50%">
+			<div class="sparkline">{sparkline src=$urlSparklineDistinctSearchEngines}
+				<strong>{$numberDistinctSearchEngines}</strong> {'Referers_DistinctSearchEngines'|translate}{if !empty($numberDistinctSearchEnginesEvolution)} {$numberDistinctSearchEnginesEvolution}{/if}
+			</div>
+			<div class="sparkline">{sparkline src=$urlSparklineDistinctKeywords}
+				<strong>{$numberDistinctKeywords}</strong> {'Referers_DistinctKeywords'|translate}{if !empty($numberDistinctKeywordsEvolution)} {$numberDistinctKeywordsEvolution}{/if}
+			</div>
+		</td>
+		<td width="50%">
+			<div class="sparkline">{sparkline src=$urlSparklineDistinctWebsites}
+				<strong>{$numberDistinctWebsites}</strong> {'Referers_DistinctWebsites'|translate} {'Referers_UsingNDistinctUrls'|translate:"<strong>$numberDistinctWebsitesUrls</strong>"}{if !empty($numberDistinctWebsitesEvolution)} {$numberDistinctWebsitesEvolution}{/if}
+			</div>
+			<div class="sparkline">{sparkline src=$urlSparklineDistinctCampaigns} 
+				<strong>{$numberDistinctCampaigns}</strong> {'Referers_DistinctCampaigns'|translate}{if !empty($numberDistinctCampaignsEvolution)} {$numberDistinctCampaignsEvolution}{/if}
+			</div>
+		</td></tr>
+		</table>
+		<br/>
+	</div>
+	
+	<p style="clear:both"/>
+	<div style="float:left">{'General_View'|translate} 
+		<a href="javascript:broadcast.propagateAjax('module=Referers&action=getSearchEnginesAndKeywords')">{'Referers_SubmenuSearchEngines'|translate}</a>,
+		<a href="javascript:broadcast.propagateAjax('module=Referers&action=indexWebsites')">{'Referers_SubmenuWebsites'|translate}</a>,
+		<a href="javascript:broadcast.propagateAjax('module=Referers&action=indexCampaigns')">{'Referers_SubmenuCampaigns'|translate}</a>.
 	</div>
 </div>
 
@@ -59,11 +66,8 @@
 
 <div style="clear:both;"></div>
 
-<p>{'General_View'|translate} 
-	<a href="javascript:broadcast.propagateAjax('module=Referers&action=getSearchEnginesAndKeywords')">{'Referers_SubmenuSearchEngines'|translate}</a>,
-	<a href="javascript:broadcast.propagateAjax('module=Referers&action=indexWebsites')">{'Referers_SubmenuWebsites'|translate}</a>,
-	<a href="javascript:broadcast.propagateAjax('module=Referers&action=indexCampaigns')">{'Referers_SubmenuCampaigns'|translate}</a>.
-</p>
+<h2>{'Referers_ReferrersOverview'|translate}</h2>
+{$referrersReportsByDimension}
 
 {include file="CoreHome/templates/sparkline_footer.tpl"}
 

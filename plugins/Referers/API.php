@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -100,7 +99,11 @@ class Piwik_Referers_API
 		}
 		
 		// set subtable IDs for each row to the label (which holds the int referrer type)
-		$this->setGetReferrerTypeSubtables($dataTable, $idSite, $period, $date, $segment, $expanded);
+		// NOTE: not yet possible to do this w/ DataTable_Array instances
+		if (!($dataTable instanceof Piwik_DataTable_Array))
+		{
+			$this->setGetReferrerTypeSubtables($dataTable, $idSite, $period, $date, $segment, $expanded);
+		}
 		
 		// set referrer type column to readable value
 		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
@@ -115,6 +118,12 @@ class Piwik_Referers_API
 	{
 		$dataTable = $this->getRefererType($idSite, $period, $date, $segment, $typeReferer = false,
 										   $idSubtable = false, $expanded = true);
+		
+		if ($dataTable instanceof Piwik_DataTable_Array)
+		{
+			throw new Exception("Referrers.getAll with multiple sites or dates is not supported (yet).");
+		}
+		
 		$dataTable = $dataTable->mergeSubtables($labelColumn = 'referrer_type', $useMetadataColumn = true);
 		
 		// presentation filters
@@ -484,33 +493,26 @@ class Piwik_Referers_API
 	 */
 	private function setGetReferrerTypeSubtables( $dataTable, $idSite, $period, $date, $segment, $expanded )
 	{
-		if ($dataTable instanceof Piwik_DataTable_Array) // recurse for array datatables
+		foreach ($dataTable->getRows() as $row)
 		{
-			throw new Exception("Referrers.getAll with multiple sites or dates is not supported (yet).");
-		}
-		else
-		{
-			foreach ($dataTable->getRows() as $row)
+			$typeReferrer = $row->getColumn('label');
+			if ($typeReferrer != Piwik_Common::REFERER_TYPE_DIRECT_ENTRY)
 			{
-				$typeReferrer = $row->getColumn('label');
-				if ($typeReferrer != Piwik_Common::REFERER_TYPE_DIRECT_ENTRY)
+				if (!$expanded) // if we don't want the expanded datatable, then don't do any extra queries
 				{
-					if (!$expanded) // if we don't want the expanded datatable, then don't do any extra queries
+					$row->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $typeReferrer;
+				}
+				else // otherwise, we have to get the othe datatables
+				{
+					$subtable = $this->getRefererType($idSite, $period, $date, $segment, $type = false,
+													  $idSubtable = $typeReferrer);
+					
+					if ($expanded)
 					{
-						$row->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $typeReferrer;
+						$subtable->applyQueuedFilters();
 					}
-					else // otherwise, we have to get the othe datatables
-					{
-						$subtable = $this->getRefererType($idSite, $period, $date, $segment, $type = false,
-														  $idSubtable = $typeReferrer);
-						
-						if ($expanded)
-						{
-							$subtable->applyQueuedFilters();
-						}
-						
-						$row->setSubtable($subtable);
-					}
+					
+					$row->setSubtable($subtable);
 				}
 			}
 		}

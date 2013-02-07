@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_Referers
@@ -80,7 +79,46 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->urlSparklineDistinctWebsites 		= $this->getUrlSparkline('getLastDistinctWebsitesGraph');
 		$view->urlSparklineDistinctCampaigns 		= $this->getUrlSparkline('getLastDistinctCampaignsGraph');
 		
+		$view->referrersReportsByDimension = $this->getReferrersReportsByDimensionView($totalVisits);
+		
 		echo $view->render();
+	}
+	
+	/**
+	 * Returns HTML for the Referrers Overview page that categorizes Referrer reports
+	 * & allows the user to switch between them.
+	 * 
+	 * @param int $visits The number of visits for this period & site. If <= 0, the
+	 *                    reports are not shown, since they will have no data.
+	 * @return string The report viewer HTML.
+	 */
+	private function getReferrersReportsByDimensionView( $visits )
+	{
+		$result = '';
+		
+		// only display the reports by dimension view if there are visits
+		if ($visits > 0)
+		{
+			$referrersReportsByDimension = new Piwik_View_ReportsByDimension();
+			
+			$referrersReportsByDimension->addReport(
+				'Referers_ViewAllReferrers', 'Referers_WidgetGetAll', 'Referers.getAll');
+			
+			$byTypeCategory = Piwik_Translate('Referers_ViewReferrersBy', Piwik_Translate('Live_GoalType'));
+			$referrersReportsByDimension->addReport(
+				$byTypeCategory, 'Referers_WidgetKeywords', 'Referers.getKeywords');
+			$referrersReportsByDimension->addReport($byTypeCategory, 'SitesManager_Sites', 'Referers.getWebsites');
+			$referrersReportsByDimension->addReport($byTypeCategory, 'Referers_Campaigns', 'Referers.getCampaigns');
+			
+			$bySourceCategory = Piwik_Translate('Referers_ViewReferrersBy', Piwik_Translate('General_Source'));
+			$referrersReportsByDimension->addReport($bySourceCategory, 'Referers_Socials', 'Referers.getSocials');
+			$referrersReportsByDimension->addReport(
+				$bySourceCategory, 'Referers_SearchEngines', 'Referers.getSearchEngines');
+			
+			$result = $referrersReportsByDimension->render();
+		}
+		
+		return $result;
 	}
 
 	function getSearchEnginesAndKeywords()

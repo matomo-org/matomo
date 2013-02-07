@@ -4,7 +4,6 @@
  *
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  */
 /**
  * Tests that filter_truncate works recursively in Page URLs report AND in the case there are 2 different data Keywords -> search engine

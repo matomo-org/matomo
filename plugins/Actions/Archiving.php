@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id: Actions.php 6986 2012-09-15 03:42:26Z capedfuzz $
  *
  * @category Piwik_Plugins
  * @package Piwik_Actions

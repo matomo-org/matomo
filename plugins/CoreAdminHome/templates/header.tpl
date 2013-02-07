@@ -17,7 +17,6 @@
 {include file="CoreHome/templates/iframe_buster_header.tpl"}
 </head>
 <body>
-
 {include file="CoreHome/templates/iframe_buster_body.tpl"}
 <div id="root">
 {if !isset($showTopMenu) || $showTopMenu}
@@ -49,6 +48,12 @@
 {elseif preg_match('/updated=[1-9]/', $url)}
 <div class="ajaxSuccess" style="display:inline-block">
 	{'General_YourChangesHaveBeenSaved'|translate}
+</div>
+{/if}
+
+{if !empty($statisticsNotRecorded)}
+<div class="ajaxSuccess" style="display:inline-block">
+	{'General_StatisticsAreNotRecorded'|translate}
 </div>
 {/if}
 

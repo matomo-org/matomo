@@ -4,7 +4,6 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * @version $Id$
  *
  * @category Piwik_Plugins
  * @package Piwik_Goals
@@ -545,8 +544,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 		if ($conversions > 0)
 		{
 			// for non-Goals reports, we show the goals table
-			$customParams = $ecommerceCustomParams // TODO: not sure if this is necessary. only here to
-												   // replicate logic of old code in table_by_dimension.tpl
+			$customParams = $ecommerceCustomParams
 						  + array('viewDataTable' => 'tableGoals', 'documentationForGoalsPage' => '1');
 			
 			if (Piwik_Common::getRequestVar('idGoal', '') === '') // if no idGoal, use 0 for overview
