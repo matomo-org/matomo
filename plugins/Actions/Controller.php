@@ -453,6 +453,14 @@ class Piwik_Actions_Controller extends Piwik_Controller
 		$view->disableShowAllColumns();
 		
 		$view->setLimit( self::ACTIONS_REPORT_ROWS_DISPLAY );
+		
+		// if the flat parameter is not provided, make sure it is set to 0 in the URL,
+		// so users can see that they can set it to 1 (see #3365)
+		if (Piwik_Common::getRequestVar('flat', false) === false)
+		{
+			$view->setCustomParameter('flat', 0);
+		}
+		
 		$view->main();
 		// we need to rewrite the phpArray so it contains all the recursive arrays
 		if($currentlySearching)
