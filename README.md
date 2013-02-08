@@ -1,5 +1,7 @@
 # Piwik - piwik.org   
 
+[![Build Status](https://travis-ci.org/piwik/piwik.png?branch=master)](https://travis-ci.org/piwik/piwik) | [![Build Status](http://qa.piwik.org:8080/job/Piwik.Full/badge/icon)](http://qa.piwik.org:8080/job/Piwik.Full/)
+
 ## Description 
 
 Piwik is the leading Free/Libre open source Web Analytics software.
