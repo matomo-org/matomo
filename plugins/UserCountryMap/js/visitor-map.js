@@ -71,7 +71,8 @@ UserCountryMap.run = function(config) {
         ratio = map.viewAB.width / map.viewAB.height;
         w = map.container.width();
         h = w / ratio;
-        map.container.height(Math.min($(window).height() - 30, h-2));
+        h = Math.min($(window).height() - 30, h);
+        map.container.height(h - 2);
         map.resize(w, h);
 
         if (w < 355) $('.tableIcon span').hide();
