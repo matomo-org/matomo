@@ -300,7 +300,7 @@ class Piwik_Common
 	 * This is useful for users who don't setup the cron,
 	 * but still want daily/weekly/monthly PDF reports emailed automatically.
 	 *
-	 * This is similar to calling the API CoreAdminHome.runScheduledTasks (see misc/cron/archive.sh)
+	 * This is similar to calling the API CoreAdminHome.runScheduledTasks (see misc/cron/archive.php)
 	 *
 	 * @param int  $now  Current timestamp
 	 */

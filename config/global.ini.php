@@ -365,7 +365,7 @@ default_time_one_page_visit = 0
 ; The mapping is defined in core/DataFiles/LanguageToCountry.php,
 enable_language_to_country_guess = 1
 
-; When the misc/cron/archive.sh cron hasn't been setup, we still need to regularly run some maintenance tasks.
+; When the misc/cron/archive.php cron hasn't been setup, we still need to regularly run some maintenance tasks.
 ; Visits to the Tracker will try to trigger Scheduled Tasks (eg. scheduled PDF/HTML reports by email).
 ; Scheduled tasks will only run if 'Enable Piwik Archiving from Browser' is enabled in the General Settings.
 ; Tasks run once every hour maximum, they might not run every hour if traffic is low.
@@ -458,7 +458,7 @@ password = 							; Proxy password: optional; if specified, username is mandator
 logger_error[]			= screen
 logger_exception[]		= screen
 
-; if set to 1, only requests done in CLI mode (eg. the archive.sh cron run) will be logged
+; if set to 1, only requests done in CLI mode (eg. the archive.php cron run) will be logged
 ; NOTE: log_only_when_debug_parameter will also be checked for
 log_only_when_cli = 0
 
