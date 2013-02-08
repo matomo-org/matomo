@@ -71,7 +71,7 @@ UserCountryMap.run = function(config) {
         ratio = map.viewAB.width / map.viewAB.height;
         w = map.container.width();
         h = w / ratio;
-        h = Math.min($(window).height() - 50, h);
+        h = Math.min($(window).height() - 55, h);
         map.container.height(h - 2);
         map.resize(w, h);
 
