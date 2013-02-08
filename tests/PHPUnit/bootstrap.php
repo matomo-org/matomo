@@ -51,7 +51,7 @@ function checkPiwikSetupForTests()
 4) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
 
 Try again and now the tests should run!";
-		exit();
+		exit(1);
 	}
 
 	// Now testing if the webserver is running
