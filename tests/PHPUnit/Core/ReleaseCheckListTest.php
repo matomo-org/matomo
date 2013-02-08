@@ -44,7 +44,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         {
             $value = $this->globalConfig[$section][$optionName];
         }
-        $this->assertEquals($valueExpected, $value, "$section -> $optionName was '$value', expected '$valueExpected'");
+        $this->assertEquals($valueExpected, $value, "$section -> $optionName was '".var_export($value, true) ."', expected '".var_export($valueExpected,true)."'");
     }
 
     /**
