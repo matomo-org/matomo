@@ -31,6 +31,10 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
 
 	static public function setBasicVariablesAdminView($view)
 	{
+		$statsEnabled = Piwik_Config::getInstance()->Tracker['record_statistics'];
+		if($statsEnabled == "0"){
+			$view->statisticsNotRecorded = true;
+		}
 
 		$view->topMenu = Piwik_GetTopMenu();
 		$view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();

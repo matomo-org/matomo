@@ -64,8 +64,7 @@
         <exec executable="php" dir="${basedir}/PHPUnit" failonerror="false" failifexecutionfails="true">
             <arg line="-d zend_extension=/usr/lib/php5/20090626+lfs/xdebug.so
                        /usr/bin/phpunit
-                       --group Core,Plugins
-                       --exclude-group ReleaseCheckList
+                       --testdox
                        --log-junit ${basedir}/results/logs/junit.xml
                        --coverage-clover ${basedir}/results/logs/clover.xml
                        --coverage-html ${basedir}/results/coverage"/>

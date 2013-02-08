@@ -129,7 +129,7 @@ work altered the expected images. The standard procedure described in the INTEGR
 ## Continous Integration
 
 We run a Jenkins server for continuous integration. It automatically downloads the latest version of the Piwik code
-from our SVN server and runs a battery of thousands of tests. More information at the links:
+from our GIT repo and runs a battery of thousands of tests. More information at the links:
 
  * Official Piwik Jenkins Server: http://qa.piwik.org:8080/
  * QA in Piwik: http://piwik.org/qa/
