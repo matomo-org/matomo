@@ -19,15 +19,15 @@ USER=$(whoami)
 
 # Adjust php-fpm.ini
 sed -i "s/@USER@/$USER/g" "$DIR/php-fpm.ini"
-sed -i "s/@PHP_FPM_SOCK@/$PHP_FPM_SOCK/g" "$DIR/php-fpm.ini"
+sed -i "s|@PHP_FPM_SOCK@|$PHP_FPM_SOCK|g" "$DIR/php-fpm.ini"
 
 # Setup nginx
 echo "Configuring nginx"
 PIWIK_ROOT=$(realpath "$DIR/../..")
 NGINX_CONF="/etc/nginx/sites-enabled/default"
 
-sed -i "s/@PIWIK_ROOT@/$PIWIK_ROOT/g" "$DIR/piwik_nginx.conf"
-sed -i "s/@PHP_FPM_SOCK@/$PHP_FPM_SOCK/g" "$DIR/piwik_nginx.conf"
+sed -i "s|@PIWIK_ROOT@|$PIWIK_ROOT|g" "$DIR/piwik_nginx.conf"
+sed -i "s|@PHP_FPM_SOCK@|$PHP_FPM_SOCK|g" "$DIR/piwik_nginx.conf"
 sudo cp "$DIR/piwik_nginx.conf" $NGINX_CONF
 
 # Start daemons
