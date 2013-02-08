@@ -44,17 +44,6 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
      */
     private function getStaticSrvUrl()
     {
-        $path = Piwik_Url::getCurrentScriptPath();
-        if (substr($path, -7) == '/tests/') {
-            $path = substr($path, 0, -7);
-        } else {
-            if (substr($path, -18) == '/tests/core/Piwik/') {
-                $path = substr($path, 0, -18);
-            } else {
-                throw new Exception('unsupported test path: ' . $path);
-            }
-        }
-
-        return "http://" . $_SERVER['HTTP_HOST'] . $path;
+	    return IntegrationTestCase::getRootUrl();
     }
 }

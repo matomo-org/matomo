@@ -12,7 +12,7 @@
  */
 
 // This is Piwik logo, the static file used in this test suit
-define("TEST_FILE_LOCATION", dirname(__FILE__) . "/../../resources/lipsum.txt");
+define("TEST_FILE_LOCATION", realpath(dirname(__FILE__) . "/../../resources/lipsum.txt"));
 define("TEST_FILE_CONTENT_TYPE", "text/plain");
 
 // Defines http request parameters
@@ -388,18 +388,10 @@ class Test_Piwik_ServeStaticFile extends PHPUnit_Framework_TestCase
      */
     private function getStaticSrvUrl()
     {
-        $path = Piwik_Url::getCurrentScriptPath();
-        if (substr($path, -7) == '/tests/') {
-            $path .= 'resources/';
-        } else {
-            if (substr($path, -18) != '/tests/core/Piwik/') {
-                throw new Exception('unsupported test path: ' . $path);
-            }
-        }
+	    $url = IntegrationTestCase::getRootUrl();
+	    $url .= '/tests/resources/';
 
-        return
-            "http://" . $_SERVER['HTTP_HOST'] .
-            $path . "staticFileServer.php?" . FILE_MODE_REQUEST_VAR . "=" . STATIC_SERVER_MODE .
+        return $url . "staticFileServer.php?" . FILE_MODE_REQUEST_VAR . "=" . STATIC_SERVER_MODE .
             "&" . SRV_MODE_REQUEST_VAR . "=";
     }
 
