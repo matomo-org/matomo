@@ -74,7 +74,9 @@
     $('#UserCountryMap').addClass('dataTable');
 
 {literal}
-    setTimeout(function() { UserCountryMap.run(config) }, 1000);
+    $(function() {
+        UserCountryMap.run(config);
+    });
 {/literal}
 
 </script>
