@@ -691,7 +691,7 @@ class IPTest extends PHPUnit_Framework_TestCase
 
         if (!Piwik_Common::isWindows() || PHP_VERSION >= '5.3')
         {
-            $hosts = array( 'ip6-localhost', strtolower(@php_uname('n')), '::1' );
+            $hosts = array( 'ip6-localhost', 'localhost', strtolower(@php_uname('n')), '::1' );
             $this->assertTrue( in_array(strtolower(Piwik_IP::getHostByAddr('::1')), $hosts), '::1 -> ip6-localhost' );
         }
     }
