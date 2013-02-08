@@ -161,10 +161,10 @@ class PDFReportsTest extends DatabaseTestCase
 
 		self::updateReport($idReport, $dataAfter);
 
-		$reports = reset(Piwik_PDFReports_API::getInstance()->getReports($idSite = false, $period = false, $idReport));
+		$reports = Piwik_PDFReports_API::getInstance()->getReports($idSite = false, $period = false, $idReport);
 
 		$this->assertReportsEqual(
-			$reports,
+			reset($reports),
 			$dataAfter
 		);
 	}
