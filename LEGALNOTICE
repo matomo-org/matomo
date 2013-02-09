@@ -146,6 +146,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://upgradephp.berlios.de/
 	License:  Public domain
 
+        Name:  Archive Tar
+        Link:  http://pear.php.net/package/Archive_Tar
+        License:  New BSD
+
 	Name:  Event Dispatcher (and Notification)
 	Link:  http://pear.php.net/package/Event_Dispatcher/
 	License:  New BSD
@@ -161,6 +165,10 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Name:  HTML QuickForm2_Renderer_Smarty
 	Link:  http://www.phcomp.co.uk/tmp/Smarty.phps
 	License:  New BSD
+
+        Name:  MaxMindGeoIP
+        Link:  http://dev.maxmind.com/geoip/downloadable#PHP-7
+        License:  LGPL
 
 	Name:  PclZip
 	Link:  http://www.phpconcept.net/pclzip/
