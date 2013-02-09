@@ -426,6 +426,8 @@ class Piwik_Tracker_GoalManager
 		{
 			$this->recordEcommerceItems($goal, $items);
 		}
+		
+		Piwik_PostEvent('Tracker.recordEcommerceGoal', $goal);
 	}
 	
 	/**
@@ -803,6 +805,8 @@ class Piwik_Tracker_GoalManager
 										: $visitorInformation['visit_last_action_time'];
 										
 			$this->recordGoal($newGoal);
+			
+			Piwik_PostEvent('Tracker.recordStandardGoals', $newGoal);
 		}
 	}
 	/**
