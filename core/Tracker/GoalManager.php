@@ -426,6 +426,8 @@ class Piwik_Tracker_GoalManager
 		{
 			$this->recordEcommerceItems($goal, $items);
 		}
+		
+		Piwik_PostEvent('Tracker.recordEcommerceGoal', $goal);
 	}
 	
 	/**
