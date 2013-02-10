@@ -655,6 +655,31 @@ var
         }
 
         /*
+         * Load JavaScript file (asynchronously)
+         */
+        function loadScript(src, onLoad) {
+            var script = documentAlias.createElement('script');
+
+            script.type = 'text/javascript';
+            script.src = src;
+
+            if (script.readyState) {
+                script.onreadystatechange = function () {
+                    var state = this.readyState;
+
+                    if (state === 'loaded' || state === 'complete') {
+                        script.onreadystatechange = null;
+                        onLoad();
+                    }
+                };
+            } else {
+                script.onload = onLoad;
+            }
+
+            documentAlias.getElementsByTagName('head')[0].appendChild(script);
+        }
+
+        /*
          * Get page referrer
          */
         function getReferrer() {
@@ -996,30 +1021,12 @@ var
                 root = root.slice(0, root.length - 9);  // remove piwik.php if present
             }
 
-            var onLoad = function () {
-                Piwik_Overlay_Client.initialize(root, configTrackerSiteId, period, date);
-            };
-
-            var script = documentAlias.createElement('script');
-
-            script.type = 'text/javascript';
-
-            if (script.readyState) {
-                script.onreadystatechange = function () {
-                    if (this.readyState === 'loaded' || this.readyState === 'complete') {
-                        script.onreadystatechange = null;
-                        onLoad();
-                    }
-                };
-            } else {
-                script.onload = onLoad;
-            }
-
-            script.src = root + 'plugins/Overlay/client/client.js?v=1';
-
-            var head = documentAlias.getElementsByTagName('head')[0];
-
-            head.appendChild(script);
+            loadScript(
+                root + 'plugins/Overlay/client/client.js?v=1',
+                function () {
+                    Piwik_Overlay_Client.initialize(root, configTrackerSiteId, period, date);
+                }
+            );
         }
 
         /************************************************************
