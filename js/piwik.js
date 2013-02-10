@@ -932,7 +932,7 @@ var
 				if (match) {
 					// check idsite
 					var idsite = match[1];
-					if (parseInt(idsite, 10) !== configTrackerSiteId) {
+					if (idsite !== '' + configTrackerSiteId) {
 						return false;
 					}
 					// store overlay session info in window name
