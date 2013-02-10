@@ -47,7 +47,6 @@ See http://piwik.org/changelog/
 ## Contact
 
 http://piwik.org
-
 hello@piwik.org
 
 ## More information
