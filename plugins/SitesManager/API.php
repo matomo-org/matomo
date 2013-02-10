@@ -50,6 +50,7 @@ class Piwik_SitesManager_API
 	const OPTION_SEARCH_CATEGORY_QUERY_PARAMETERS_GLOBAL = 'SitesManager_SearchCategoryParameters';
 	const OPTION_EXCLUDED_USER_AGENTS_GLOBAL = 'SitesManager_ExcludedUserAgentsGlobal';
 	const OPTION_SITE_SPECIFIC_USER_AGENT_EXCLUDE_ENABLE = 'SitesManager_EnableSiteSpecificUserAgentExclude';
+	const OPTION_KEEP_URL_FRAGMENTS_GLOBAL = 'SitesManager_KeepURLFragmentsGlobal';
 
 	/**
 	 * Returns the javascript tag for the given idSite.
@@ -448,7 +449,9 @@ class Piwik_SitesManager_API
 	 * @param string Currency, eg. 'EUR'
 	 * @param string Website group identifier
 	 * @param string Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
-	 * 
+	 * @param int $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
+	 *                              will be removed. If 0, the default global behavior will be used.
+	 *                              @see getKeepURLFragmentsGlobal.
 	 * 
 	 * @return int the website ID created
 	 */
@@ -464,7 +467,8 @@ class Piwik_SitesManager_API
 							   $currency = null,
 							   $group = null,
 							   $startDate = null,
-							   $excludedUserAgents = null )
+							   $excludedUserAgents = null,
+							   $keepURLFragments = 0 )
 	{
 		Piwik::checkUserIsSuperUser();
 		
@@ -474,6 +478,9 @@ class Piwik_SitesManager_API
 		$this->checkAtLeastOneUrl($urls);
 		$siteSearch = $this->checkSiteSearch($siteSearch);
 		list($searchKeywordParameters, $searchCategoryParameters ) = $this->checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters);
+	
+		$keepURLFragments = (int)$keepURLFragments;
+		self::checkKeepURLFragmentsValue($keepURLFragments);
 
 		$timezone = trim($timezone);
 		if(empty($timezone))
@@ -501,6 +508,7 @@ class Piwik_SitesManager_API
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
 		$bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
 		$bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
+		$bind['keep_url_fragment'] = $keepURLFragments;
 		$bind['timezone'] = $timezone;
 		$bind['currency'] = $currency;
 		$bind['ecommerce'] = (int)$ecommerce;
@@ -820,6 +828,37 @@ class Piwik_SitesManager_API
 	}
 	
 	/**
+	 * Returns true if the default behavior is to keep URL fragments when tracking,
+	 * false if otherwise.
+	 * 
+	 * @return bool
+	 */
+	public function getKeepURLFragmentsGlobal()
+	{
+		Piwik::checkUserHasSomeViewAccess();
+		return (bool)Piwik_GetOption(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL);
+	}
+	
+	/**
+	 * Sets whether the default behavior should be to keep URL fragments when
+	 * tracking or not.
+	 * 
+	 * @param $enabled bool If true, the default behavior will be to keep URL
+	 *                      fragments when tracking. If false, the default
+	 *                      behavior will be to remove them.
+	 */
+	public function setKeepURLFragmentsGlobal( $enabled )
+	{
+		Piwik::checkUserIsSuperUser();
+		
+		// update option
+		Piwik_SetOption(self::OPTION_KEEP_URL_FRAGMENTS_GLOBAL, $enabled);
+		
+		// make sure tracker cache will reflect change
+		Piwik_Common::deleteTrackerCache();
+	}
+	
+	/**
 	 * Sets list of URL query parameters to be excluded on all websites.
 	 * Will also apply to websites created in the future.
 	 * 
@@ -924,6 +963,10 @@ class Piwik_SitesManager_API
 	 * @param string $currency Currency code
 	 * @param string $group Group name where this website belongs
 	 * @param string $startDate Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
+	 * @param int|null $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
+	 *                                   will be removed. If 0, the default global behavior will be used.
+	 *                                   @see getKeepURLFragmentsGlobal. If null, the existing value will
+	 *                                   not be modified.
 	 *
 	 * @throws Exception
 	 * @return bool true on success
@@ -941,7 +984,8 @@ class Piwik_SitesManager_API
 	                            $currency = null,
 	                            $group = null,
 	                            $startDate = null,
-	                            $excludedUserAgents = null)
+	                            $excludedUserAgents = null,
+	                            $keepURLFragments = null)
 	{
 		Piwik::checkUserHasAdminAccess($idSite);
 
@@ -992,6 +1036,14 @@ class Piwik_SitesManager_API
 		$bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
 		$bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);
 		$bind['excluded_user_agents'] = $this->checkAndReturnCommaSeparatedStringList($excludedUserAgents);
+		
+		if (!is_null($keepURLFragments))
+		{
+			$keepURLFragments = (int)$keepURLFragments;
+			self::checkKeepURLFragmentsValue($keepURLFragments);
+			
+			$bind['keep_url_fragment'] = $keepURLFragments;
+		}
 
 		$bind['sitesearch'] = $this->checkSiteSearch($siteSearch);
 		list($searchKeywordParameters, $searchCategoryParameters ) = $this->checkSiteSearchParameters($searchKeywordParameters, $searchCategoryParameters);
@@ -1338,5 +1390,22 @@ class Piwik_SitesManager_API
 								LIMIT ".Piwik::getWebsitesCountToDisplay(), 
 							$bind) ;
 		return $sites;
+	}
+	
+	/**
+	 * Utility function that throws if a value is not valid for the 'keep_url_fragment'
+	 * column of the piwik_site table.
+	 * 
+	 * @param int $keepURLFragments
+	 * @throws Exception
+	 */
+	private static function checkKeepURLFragmentsValue( $keepURLFragments )
+	{
+		if ($keepURLFragments < 0
+			|| $keepURLFragments > 2) // make sure value is between 0 & 2
+		{
+			throw new Exception("Error in SitesManager.updateSite: keepURLFragments must be between 0 & 2" +
+								 " (actual value: $keepURLFragments).");
+		}
 	}
 }

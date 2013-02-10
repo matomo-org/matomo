@@ -15,6 +15,10 @@
  */
 class Piwik_SitesManager extends Piwik_Plugin
 {
+	const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
+	const KEEP_URL_FRAGMENT_YES = 1;
+	const KEEP_URL_FRAGMENT_NO = 2;
+	
 	public function getInformation()
 	{
 		$info = array(
@@ -86,9 +90,30 @@ class Piwik_SitesManager extends Piwik_Plugin
 		$array['excluded_ips'] = $this->getTrackerExcludedIps($website);
 		$array['excluded_parameters'] = self::getTrackerExcludedQueryParameters($website);
 		$array['excluded_user_agents'] = self::getExcludedUserAgents($website);
+		$array['keep_url_fragment'] = self::shouldKeepURLFragmentsFor($website);
 		$array['sitesearch'] = $website['sitesearch'];
 		$array['sitesearch_keyword_parameters'] = $this->getTrackerSearchKeywordParameters($website);
 		$array['sitesearch_category_parameters'] = $this->getTrackerSearchCategoryParameters($website);
+	}
+	
+	/**
+	 * Returns whether we should keep URL fragments for a specific site.
+	 * 
+	 * @param array $site DB data for the site.
+	 * @return bool
+	 */
+	private static function shouldKeepURLFragmentsFor( $site )
+	{
+		if ($site['keep_url_fragment'] == self::KEEP_URL_FRAGMENT_YES)
+		{
+			return true;
+		}
+		else if ($site['keep_url_fragment'] == self::KEEP_URL_FRAGMENT_NO)
+		{
+			return false;
+		}
+		
+		return Piwik_SitesManager_API::getInstance()->getKeepURLFragmentsGlobal();
 	}
 
 	private function getTrackerSearchKeywordParameters($website)

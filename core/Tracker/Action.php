@@ -280,9 +280,12 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 * and deal ith the hash tag on incoming URLs based on website setting.
 	 *
 	 * @param $parsedUrl
+	 * @param $idSite int|false The site ID of the current visit. This parameter is
+	 *                          only used by the tracker to see if we should remove
+	 *                          the URL fragment for this site.
 	 * @return array
 	 */
-	static public function cleanupHostAndHashTag($parsedUrl)
+	static public function cleanupHostAndHashTag($parsedUrl, $idSite = false)
 	{
 		if(empty($parsedUrl))
 		{
@@ -295,26 +298,55 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
 		if(!empty($parsedUrl['fragment']))
 		{
-			$parsedUrl['fragment'] = self::processUrlFragment($parsedUrl['fragment']);
+			$parsedUrl['fragment'] = self::processUrlFragment($parsedUrl['fragment'], $idSite);
 		}
 
 		return $parsedUrl;
 	}
 
-	public static function processUrlFragment($urlFragment)
+	/**
+	 * Cleans and/or removes the URL fragment of a URL.
+	 * 
+	 * @param $urlFragment string The URL fragment to process.
+	 * @param $idSite int|false If not false, this function will check if URL fragments
+	 *                          should be removed for the site w/ this ID and if so,
+	 *                          the returned processed fragment will be empty.
+	 * @return string The processed URL fragment.
+	 */
+	public static function processUrlFragment($urlFragment, $idSite = false)
 	{
-		//TOOD implement, read setting for this site
-//		return ''; http://dev.piwik.org/trac/ticket/3232
-
-
-		// Remove trailing Hash tag in ?query#hash#
-		if(substr($urlFragment, -1) == '#')
+		// if we should discard the url fragment for this site, return an empty string as
+		// the processed url fragment
+		if ($idSite !== false
+			&& self::shouldRemoveURLFragmentFor($idSite))
 		{
-			$urlFragment = substr($urlFragment, 0, strlen($urlFragment) - 1);
+			return '';
 		}
-		return $urlFragment;
+		else
+		{
+			// Remove trailing Hash tag in ?query#hash#
+			if (substr($urlFragment, -1) == '#')
+			{
+				$urlFragment = substr($urlFragment, 0, strlen($urlFragment) - 1);
+			}
+			return $urlFragment;
+		}
 	}
-
+	
+	/**
+	 * Returns true if URL fragments should be removed for a specific site,
+	 * false if otherwise.
+	 * 
+	 * This function uses the Tracker cache and not the MySQL database.
+	 * 
+	 * @param $idSite int The ID of the site to check for.
+	 * @return bool
+	 */
+	public static function shouldRemoveURLFragmentFor( $idSite )
+	{
+		$websiteAttributes = Piwik_Common::getCacheWebsiteAttributes($idSite);
+		return !$websiteAttributes['keep_url_fragment'];
+	}
 
 	/**
 	 * Given the Input URL, will exclude all query parameters set for this site
@@ -329,7 +361,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		$originalUrl = self::cleanupUrl($originalUrl);
 
 		$parsedUrl = @parse_url($originalUrl);
-		$parsedUrl = self::cleanupHostAndHashTag($parsedUrl);
+		$parsedUrl = self::cleanupHostAndHashTag($parsedUrl, $idSite);
 		$parametersToExclude = self::getQueryParametersToExclude($idSite);
 
 		if(empty($parsedUrl['query']))
