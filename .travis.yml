@@ -12,7 +12,7 @@ env:
     - TEST_SUITE=CoreTests
     - TEST_SUITE=IntegrationTests
 
-script: phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --coverage-text
+script: phpunit --bootstrap bootstrap.php --configuration phpunit.xml --testsuite $TEST_SUITE --coverage-text --testdox
 
 before_script:
   - mysql -e 'create database piwik_test;'
