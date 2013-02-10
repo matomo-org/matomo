@@ -107,7 +107,8 @@ class Tracker_ActionTest extends DatabaseTestCase
         $this->setUpRootAccess();
         $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0,
 					        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
-					        $excludedIps = '', $excludedQueryParameters='');
+					        $excludedIps = '', $excludedQueryParameters='', $timezone = null, $currency = null,
+							$group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
         $this->assertEquals($filteredUrl[0], Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite));
     }
 
@@ -150,7 +151,8 @@ class Tracker_ActionTest extends DatabaseTestCase
         $this->setUpRootAccess();
         $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0,
 					        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
-					        $excludedIps = '', $excludedQueryParameters);
+					        $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
+							$group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
         $this->assertEquals($filteredUrl[1], Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite));
     }
     
@@ -169,7 +171,8 @@ class Tracker_ActionTest extends DatabaseTestCase
         $this->setUpRootAccess();
         $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1",array('http://example.org'),$ecommerce=0,
 							        $siteSearch = 1, $searchKeywordParameters = null, $searchCategoryParameters = null,
-							        $excludedIps = '', $excludedQueryParameters);
+							        $excludedIps = '', $excludedQueryParameters, $timezone = null, $currency = null,
+							$group = null, $startDate = null, $excludedUserAgents = null, $keepURLFragments = 1);
         Piwik_SitesManager_API::getInstance()->setGlobalExcludedQueryParameters($excludedGlobalParameters);
         $this->assertEquals($filteredUrl[1], Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite));
     }

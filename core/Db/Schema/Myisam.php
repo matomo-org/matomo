@@ -90,6 +90,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
   						  excluded_parameters TEXT NOT NULL,
   						  excluded_user_agents TEXT NOT NULL,
   						  `group` VARCHAR(250) NOT NULL, 
+  						  keep_url_fragment TINYINT NOT NULL DEFAULT 0,
 						  PRIMARY KEY(idsite)
 						)  DEFAULT CHARSET=utf8
 			",

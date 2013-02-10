@@ -42,6 +42,14 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 	{'SitesManager_GlobalListExcludedUserAgents_Desc'|translate} {'SitesManager_GlobalExcludedUserAgentHelp2'|translate}
 {/capture}
 {assign var=excludedUserAgentsHelp value=$excludedUserAgentsHelp|inlineHelp}
+
+{capture assign=keepURLFragmentSelectHTML}
+	<select id="keepURLFragmentSelect">
+		<option value="0">{'General_Default'|translate}</option>
+		<option value="1">{'General_Yes'|translate}</option>
+		<option value="2">{'General_No'|translate}</option>
+	</select>
+{/capture}
 var excludedQueryParametersHelp = '{$excludedQueryParametersHelp|escape:javascript}';
 var excludedUserAgentsHelp = '{$excludedUserAgentsHelp|escape:javascript}';
 var timezoneHelp = '{$timezoneHelpPlain|inlineHelp|escape:javascript}';
@@ -58,6 +66,7 @@ var sitesearchDisabled = '{'SitesManager_DisableSiteSearch'|translate|escape:jav
 var searchKeywordHelp = '{$searchKeywordHelp|escape:javascript}';
 var searchCategoryHelp = '{$searchCategoryHelp|escape:javascript}';
 var sitesearchDesc = '{'SitesManager_TrackingSiteSearch'|translate|escape:javascript}';
+var keepURLFragmentSelectHTML = '{$keepURLFragmentSelectHTML|escape:javascript}';
 
 var sitesManager = new SitesManager ( {$timezones}, {$currencies}, '{$defaultTimezone}', '{$defaultCurrency}');
 {assign var=searchKeywordLabel value='SitesManager_SearchKeywordLabel'|translate}
@@ -147,6 +156,7 @@ vertical-align:middle;
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
 			<th>{'SitesManager_ExcludedParameters'|translate|replace:" ":"<br />"}</th>
 			<th id='exclude-user-agent-header' {if !$allowSiteSpecificUserAgentExclude}style="display:none"{/if}>{'SitesManager_ExcludedUserAgents'|translate}</th>
+			<th>{'SitesManager_KeepURLFragments'|translate}</th>
 			<th>{'Actions_SubmenuSitesearch'|translate}</th>
 			<th>{'SitesManager_Timezone'|translate}</th>
 			<th>{'SitesManager_Currency'|translate}</th>
@@ -165,6 +175,7 @@ vertical-align:middle;
 				<td id="excludedIps" class="editableSite">{foreach from=$site.excluded_ips item=ip}{$ip}<br />{/foreach}</td>       
 				<td id="excludedQueryParameters" class="editableSite">{foreach from=$site.excluded_parameters item=parameter}{$parameter}<br />{/foreach}</td>
 				<td id="excludedUserAgents" class="editableSite" {if !$allowSiteSpecificUserAgentExclude}style="display:none"{/if}>{foreach from=$site.excluded_user_agents item=ua}{$ua}<br />{/foreach}</td>
+				<td id="keepURLFragments" class="editableSite">{if $site.keep_url_fragment eq 0}-{elseif $site.keep_url_fragment eq 1}{'General_Yes'|translate}{else}{'General_No'|translate}{/if}</td>
 				<td id="sitesearch" class="editableSite">{if $site.sitesearch}<span class='sitesearchActive'>{'General_Yes'|translate}</span>{else}<span class='sitesearchInactive'>-</span>{/if}<span class='sskp' sitesearch_keyword_parameters="{$site.sitesearch_keyword_parameters|escape:'html'}" sitesearch_category_parameters="{$site.sitesearch_category_parameters|escape:'html'}" id="sitesearch_parameters"></span></td>
 				<td id="timezone" class="editableSite">{$site.timezone}</td>
 				<td id="currency" class="editableSite">{$site.currency}</td>
@@ -234,7 +245,17 @@ vertical-align:middle;
 			<span id='enableSiteUserAgentExclude-loading' class='loadingPiwik' style='display:none'><img src='./themes/default/images/loading-blue.gif' /></span>
 		</td><td>{'SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate:'<a href="#editSites">':'</a>'|inlineHelp}
 		</td></tr>
+		
+		{* global keep URL fragments *}
+		<tr><td colspan="2">
+			<strong>{'SitesManager_KeepURLFragments'|translate}</strong>
+			<p>{'SitesManager_KeepURLFragmentsHelp'|translate:"<em>#</em>":"<em>http://www.example.org/index.html#first_section</em>":"<em>http://www.example.org/index.html</em>":"<em>http://www.example.org/index.html#second_section</em>"}</p>
+			<p>{'SitesManager_KeepURLFragmentsHelp2'|translate}</p>
+			<input type="checkbox" id="globalKeepURLFragments" name="globalKeepURLFragments" {if $globalKeepURLFragments}checked="checked"{/if}/>
+			<label for="globalKeepURLFragments">{'SitesManager_KeepURLFragmentsLong'|translate}</label>
+		</td></tr>
 
+		{* global site search *}
 		<tr><td colspan="2">
 		<a name='globalSiteSearch'></a><b>{'SitesManager_TrackingSiteSearch'|translate}</b>
 		<p>{$sitesearchIntro}</p>
