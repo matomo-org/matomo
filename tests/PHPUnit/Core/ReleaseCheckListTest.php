@@ -155,6 +155,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             if(strpos($file, '/.git/') !== false ||
                 strpos($file, '/documentation/') !== false ||
                 strpos($file, '/tests/') !== false ||
+                strpos($file, '/lang/') !== false ||
                 strpos($file, 'yuicompressor') !== false ||
                 strpos($file, '/tmp/') !== false)
             {
@@ -175,12 +176,15 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
                 if(preg_match('/\.(bat|ps1)$/', $file))
                 {
                     $contents = str_replace("\r\n", '', $contents);
-                    $this->assertTrue(strpos($contents, "\n") === false, $file,  'Incorrect line endings in '.$file);
+                    $this->assertTrue(strpos($contents, "\n") === false, 'Incorrect line endings in '.$file);
                 }
                 else
                 {
                 // expect native
-                    $this->assertTrue(strpos($contents, "\r\n") === false, $file, 'Incorrect line endings in '.$file);
+	                $hasWindowsEOL = strpos($contents, "\r\n");
+
+	                // overwrite translations files with incorrect line endings
+                    $this->assertTrue($hasWindowsEOL === false, 'Incorrect line endings \r\n found in '.$file);
                 }
             }
         }
