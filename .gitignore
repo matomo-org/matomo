@@ -18,8 +18,12 @@ tmp/*
 *.db
 *.buildpath
 config/config.ini.php
-tests/PHPUnit/phpunit.xml
-tests/PHPUnit/Integration/processed/
-tests/lib/visualphpunit/app/resource/cache/
-tests/results/
+js/yui*
+misc/*.dat
+tests/javascript/enable_sqlite
+tests/javascript/unittest.dbf
 tests/lib/geoip-files/
+tests/lib/visualphpunit/app/resource/cache/
+tests/PHPUnit/Integration/processed/
+tests/PHPUnit/phpunit.xml
+tests/results/
