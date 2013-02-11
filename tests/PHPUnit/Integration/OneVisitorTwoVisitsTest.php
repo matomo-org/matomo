@@ -248,7 +248,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
         $t->setBrowserLanguage('fr');
         // Final page view (after 27 min)
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
-        $t->setUrl('http://example.org/index.htm#ignoredFragment');
+        $t->setUrl('http://example.org/index.htm#ignoredFragment#');
         self::checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
 
         // -
