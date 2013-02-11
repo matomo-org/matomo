@@ -44,6 +44,8 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 {assign var=excludedUserAgentsHelp value=$excludedUserAgentsHelp|inlineHelp}
 
 {capture assign=keepURLFragmentSelectHTML}
+	<h4 style="display:inline-block;">{'SitesManager_KeepURLFragments'|translate}</h4>
+	
 	<select id="keepURLFragmentSelect">
 		<option value="0">{'General_Default'|translate}</option>
 		<option value="1">{'General_Yes'|translate}</option>
@@ -117,6 +119,11 @@ vertical-align:middle;
 #searchSiteParameters {
 	display:none;
 }
+#editSites h4 {
+	font-size:.8em;
+	margin:1em 0 1em 0;
+	font-weight:bold;
+}
 </style>
 {/literal}
 
@@ -156,7 +163,6 @@ vertical-align:middle;
 			<th>{'SitesManager_ExcludedIps'|translate}</th>
 			<th>{'SitesManager_ExcludedParameters'|translate|replace:" ":"<br />"}</th>
 			<th id='exclude-user-agent-header' {if !$allowSiteSpecificUserAgentExclude}style="display:none"{/if}>{'SitesManager_ExcludedUserAgents'|translate}</th>
-			<th>{'SitesManager_KeepURLFragments'|translate}</th>
 			<th>{'Actions_SubmenuSitesearch'|translate}</th>
 			<th>{'SitesManager_Timezone'|translate}</th>
 			<th>{'SitesManager_Currency'|translate}</th>
@@ -168,14 +174,13 @@ vertical-align:middle;
 		</thead>
 		<tbody>
 			{foreach from=$adminSites key=i item=site}
-			<tr id="row{$site.idsite}">
+			<tr id="row{$site.idsite}" data-keep-url-fragments="{$site.keep_url_fragment}">
 				<td id="idSite">{$site.idsite}</td>
 				<td id="siteName" class="editableSite">{$site.name}</td>
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url|replace:"http://":""}<br />{/foreach}</td>       
 				<td id="excludedIps" class="editableSite">{foreach from=$site.excluded_ips item=ip}{$ip}<br />{/foreach}</td>       
 				<td id="excludedQueryParameters" class="editableSite">{foreach from=$site.excluded_parameters item=parameter}{$parameter}<br />{/foreach}</td>
 				<td id="excludedUserAgents" class="editableSite" {if !$allowSiteSpecificUserAgentExclude}style="display:none"{/if}>{foreach from=$site.excluded_user_agents item=ua}{$ua}<br />{/foreach}</td>
-				<td id="keepURLFragments" class="editableSite">{if $site.keep_url_fragment eq 0}-{elseif $site.keep_url_fragment eq 1}{'General_Yes'|translate}{else}{'General_No'|translate}{/if}</td>
 				<td id="sitesearch" class="editableSite">{if $site.sitesearch}<span class='sitesearchActive'>{'General_Yes'|translate}</span>{else}<span class='sitesearchInactive'>-</span>{/if}<span class='sskp' sitesearch_keyword_parameters="{$site.sitesearch_keyword_parameters|escape:'html'}" sitesearch_category_parameters="{$site.sitesearch_category_parameters|escape:'html'}" id="sitesearch_parameters"></span></td>
 				<td id="timezone" class="editableSite">{$site.timezone}</td>
 				<td id="currency" class="editableSite">{$site.currency}</td>

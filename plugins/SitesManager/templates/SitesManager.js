@@ -168,11 +168,10 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		$(' <tr id="'+newRowId+'">\
 				<td>&nbsp;</td>\
 				<td><input id="name" value="Name" size="15" /><br/><br/><br/>'+submitButtonHtml+'</td>\
-				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
+				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+keepURLFragmentSelectHTML+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedUserAgents"></textarea><br />'+excludedUserAgentsHelp+'</td>\
-				<td>'+keepURLFragmentSelectHTML+'</td>\
 				<td>'+getSitesearchSelector(false)+'</td>\
 				<td>'+getTimezoneSelector(defaultTimezone)+'<br />' + timezoneHelp + '</td>\
 				<td>'+getCurrencySelector(defaultCurrency)+'<br />' + currencyHelp + '</td>\
@@ -250,9 +249,11 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 					}
 					else if(idName == 'urls')
 					{
+						var keepURLFragmentsForSite = $(this).closest('tr').attr('data-keep-url-fragments');
+						
 						var contentAfter = '<textarea cols="25" rows="3" id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
-						contentAfter += '<br />'+aliasUrlsHelp;
-						$(n).html(contentAfter);
+						contentAfter += '<br />'+aliasUrlsHelp+keepURLFragmentSelectHTML;
+						$(n).html(contentAfter).find('select').val(keepURLFragmentsForSite);
 					}
 					else if(idName == 'excludedIps')
 					{
@@ -271,15 +272,6 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 						var contentAfter = '<textarea cols="20" rows="4" id="excludedUserAgents">' +
 							contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea><br />'+excludedUserAgentsHelp;
 						$(n).html(contentAfter);
-					}
-					else if (idName == 'keepURLFragments')
-					{
-						$(n).html(keepURLFragmentSelectHTML)
-							// find the option to select by the option text and select it
-							.find('option').each(function() {
-								this.selected = this.text == contentBefore
-											  || (this.value == 0 && contentBefore == '-');
-							});
 					}
 					else if(idName == 'timezone')
 					{
