@@ -249,10 +249,11 @@ vertical-align:middle;
 		{* global keep URL fragments *}
 		<tr><td colspan="2">
 			<strong>{'SitesManager_KeepURLFragments'|translate}</strong>
-			<p>{'SitesManager_KeepURLFragmentsHelp'|translate:"<em>#</em>":"<em>http://www.example.org/index.html#first_section</em>":"<em>http://www.example.org/index.html</em>":"<em>http://www.example.org/index.html#second_section</em>"}</p>
-			<p>{'SitesManager_KeepURLFragmentsHelp2'|translate}</p>
+			<p>{'SitesManager_KeepURLFragmentsHelp'|translate:"<em>#</em>":"<em>example.org/index.html#first_section</em>":"<em>example.org/index.html</em>"}
+			</p>
 			<input type="checkbox" id="globalKeepURLFragments" name="globalKeepURLFragments" {if $globalKeepURLFragments}checked="checked"{/if}/>
 			<label for="globalKeepURLFragments">{'SitesManager_KeepURLFragmentsLong'|translate}</label>
+			<p>{'SitesManager_KeepURLFragmentsHelp2'|translate}</p>
 		</td></tr>
 
 		{* global site search *}
