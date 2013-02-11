@@ -46,7 +46,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCa
             array('API.getProcessedReport', $params),
             // @todo  reenable me
             //array('API.getReportMetadata', $params),
-            array('LanguagesManager.getTranslationsForLanguage', $params),
+//            array('LanguagesManager.getTranslationsForLanguage', $params),
             array('LanguagesManager.getAvailableLanguageNames', $params),
             array('SitesManager.getJavascriptTag', $params)
         );
