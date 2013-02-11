@@ -333,27 +333,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		destroy($tablePlugin);
 
         $recordName = 'UserSettings_language';
-        $labelSQL = "log_visit.location_browser_lang";
-        $interestByLanguage = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        foreach ($interestByLanguage as $lang => $count) {
-            // get clean language code
-            $code = $this->_getLanguageCodeFromBrowserSetting($lang);
-            if ($code != $lang) {
-                if (!array_key_exists($code, $interestByLanguage)) {
-                    $interestByLanguage[$code] = array();
-                }
-                // Add the values to the primary language
-                foreach ($count as $key => $value) {
-                    if (array_key_exists($key, $interestByLanguage[$code])) {
-                        $interestByLanguage[$code][$key] += $value;
-                    } else {
-                        $interestByLanguage[$code][$key] = $value;
-                    }
-                }
-                unset($interestByLanguage[$lang]);
-            }
-        }
-        $tableLanguage = $archiveProcessing->getDataTableFromArray($interestByLanguage);
+		$tableLanguage = $this->getDataTableLanguages();
         $archiveProcessing->insertBlobRecord($recordName, $tableLanguage->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
     }
 
@@ -404,7 +384,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-		
+
 		$maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
 		
 		$dataTableToSum = array(
@@ -492,5 +472,34 @@ class Piwik_UserSettings extends Piwik_Plugin
 				sum(case log_visit.config_silverlight when 1 then 1 else 0 end) as silverlight,
 				sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie	";
 		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
+	}
+
+	protected function getDataTableLanguages()
+	{
+		$labelSQL = "log_visit.location_browser_lang";
+		$interestByLanguage = $this->archiveProcessing->getArrayInterestForLabel($labelSQL);
+		foreach ($interestByLanguage as $lang => $count)
+		{
+			// get clean language code
+			$code = $this->_getLanguageCodeFromBrowserSetting($lang);
+			if ($code != $lang)
+			{
+				if (!array_key_exists($code, $interestByLanguage)) {
+					$interestByLanguage[$code] = array();
+				}
+				// Add the values to the primary language
+				foreach ($count as $key => $value)
+				{
+					if (array_key_exists($key, $interestByLanguage[$code])) {
+						$interestByLanguage[$code][$key] += $value;
+					} else {
+						$interestByLanguage[$code][$key] = $value;
+					}
+				}
+				unset($interestByLanguage[$lang]);
+			}
+		}
+		$tableLanguage = $this->archiveProcessing->getDataTableFromArray($interestByLanguage);
+		return $tableLanguage;
 	}
 }
