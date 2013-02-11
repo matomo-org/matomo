@@ -139,12 +139,12 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
         	self::$idSite1, "Site 1", $urls = null, $ecommerce = null, $siteSearch = null,
         	$searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null,
         	$excludedQueryParameters = null, $timezone = null, $currency = null, $group = null,
-        	$startDate = null, $excludedUserAgents = null, $keepURLFragments = 2); // No for idSite 1
+        	$startDate = null, $excludedUserAgents = null, $keepURLFragments = 2); // KEEP_URL_FRAGMENT_NO No for idSite 1
         Piwik_SitesManager_API::getInstance()->updateSite(
         	self::$idSite2, "Site 2", $urls = null, $ecommerce = null, $siteSearch = null,
         	$searchKeywordParameters = null, $searchCategoryParameters = null, $excludedIps = null,
         	$excludedQueryParameters = null, $timezone = null, $currency = null, $group = null,
-        	$startDate = null, $excludedUserAgents = null, $keepURLFragments = 1); // Yes for idSite 2
+        	$startDate = null, $excludedUserAgents = null, $keepURLFragments = 1); // KEEP_URL_FRAGMENT_YES Yes for idSite 2
     }
 
     protected static function trackVisits()
@@ -212,7 +212,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
         $visitorAsite2 = self::getTracker($idSite2, Piwik_Date::factory($dateTime)->addHour(24)->getDatetime(), $defaultInit = true);
         $visitorAsite2->setUserAgent('Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0;)');
         $visitorAsite2->setUrlReferrer('http://only-homepage-referer.com/');
-        $visitorAsite2->setUrl('http://example2.com/home#notIgnoredFragment');
+        $visitorAsite2->setUrl('http://example2.com/home#notIgnoredFragment#');
         $visitorAsite2->DEBUG_APPEND_URL = '&_idts=' . Piwik_Date::factory($dateTime)->addHour(24)->getTimestamp();
         self::checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
         // test with invalid URL

@@ -33,8 +33,8 @@
 			<nb_hits>The number of times this page was visited.</nb_hits>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
 		</metricsDocumentation>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2010-01-03&amp;idSubtable=9</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2009-12-05,2010-01-03&amp;idSubtable=9</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2010-01-03&amp;idSubtable=</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=CustomVariables&amp;apiAction=getCustomVariablesValuesFromNameId&amp;period=day&amp;date=2009-12-05,2010-01-03&amp;idSubtable=</imageGraphEvolutionUrl>
 		<uniqueId>CustomVariables_getCustomVariablesValuesFromNameId</uniqueId>
 	</metadata>
 	<columns>
