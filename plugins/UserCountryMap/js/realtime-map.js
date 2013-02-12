@@ -145,7 +145,7 @@ RealTimeMap.run = function(config) {
      * visitor on the map
      */
     function visitTooltip(r) {
-        var ds = now - r.lastActionTimestamp,
+        var ds = new Date().getTime() / 1000 - r.lastActionTimestamp,
             ad = r.actionDetails,
             ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; };
         return '<h3>'+r.city+' / '+r.country+'</h3>'+
@@ -154,7 +154,7 @@ RealTimeMap.run = function(config) {
             // last action
             (ad && ad.length && ad[ad.length-1].pageTitle ? '<em>' + ad[ad.length-1].pageTitle+'</em><br/>' : '')+
             // time of visit
-            '<div class="rel-time" data-actiontime="'+r.lastTimestamp+'">'+relativeTime(ds)+'</div>'+
+            '<div class="rel-time" data-actiontime="'+r.lastActionTimestamp+'">'+relativeTime(ds)+'</div>'+
             // either from or direct
             (r.referrerType == "direct" ? r.referrerTypeName :
             RealTimeMap._.from + ': '+r.referrerName) + '<br />' +
