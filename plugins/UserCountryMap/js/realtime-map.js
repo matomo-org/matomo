@@ -89,6 +89,7 @@ RealTimeMap.run = function(config) {
      * updateMap is called by renderCountryMap() and renderWorldMap()
      */
     function _updateMap(svgUrl, callback) {
+        if (svgUrl === undefined) return;
         map.loadMap(config.svgBasePath + svgUrl, function() {
             map.clear();
             onResize();
