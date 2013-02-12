@@ -133,6 +133,7 @@ RealTimeMap.run = function(config) {
     }
 
     function relativeTime(ds) {
+        var val = function(val) { return '<b>'+Math.round(val)+'</b>'; };
         return (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
             : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
             : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+val(ds/3600)+'</b>')
@@ -146,8 +147,7 @@ RealTimeMap.run = function(config) {
     function visitTooltip(r) {
         var ds = now - r.lastActionTimestamp,
             ad = r.actionDetails,
-            ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; },
-            val = function(val) { return '<b>'+Math.round(val)+'</b>'; };
+            ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; };
         return '<h3>'+r.city+' / '+r.country+'</h3>'+
             // icons
             ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
