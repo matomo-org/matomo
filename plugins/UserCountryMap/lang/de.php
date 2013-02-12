@@ -18,4 +18,10 @@ $translations = array(
     'UserCountryMap_MinutesAgo' => 'vor %s Minuten',
     'UserCountryMap_HoursAgo' => 'vor %s Stunden',
     'UserCountryMap_DaysAgo' => 'vor %s Tagen',
+    'UserCountryMap_Seconds' => 'Sekunden',
+    'UserCountryMap_Minutes' => 'Minuten',
+    'UserCountryMap_Hours' => 'Stunden',
+    'UserCountryMap_Days' => 'Tage',
+    'UserCountryMap_ShowingVisits' => 'Lokalisierte Besuche der letzten '
+
 );

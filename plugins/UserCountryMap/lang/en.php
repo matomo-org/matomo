@@ -21,5 +21,5 @@ $translations = array(
     'UserCountryMap_Hours' => 'hours',
     'UserCountryMap_HoursAgo' => '%s hours ago',
     'UserCountryMap_DaysAgo' => '%s days ago',
-    'UserCountryMap_ShowingVisits' => 'Showing visits of last '
+    'UserCountryMap_ShowingVisits' => 'Geo-located visits of last '
 );
