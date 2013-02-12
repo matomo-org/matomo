@@ -214,7 +214,7 @@ UserCountryMap.run = function(config) {
 
     function initUserInterface() {
         // react to changes of country select
-        $('#userCountryMapSelectCountry').change(function() {
+        $('#userCountryMapSelectCountry').off('change').change(function() {
             updateState($('#userCountryMapSelectCountry').val());
         });
 
@@ -228,20 +228,20 @@ UserCountryMap.run = function(config) {
         }
 
         // enable zoom-out
-        $('#UserCountryMap-btn-zoom').click(zoomOut);
-        $('#UserCountryMap_map').click(zoomOut);
+        $('#UserCountryMap-btn-zoom').off('click').click(zoomOut);
+        $('#UserCountryMap_map').off('click').click(zoomOut);
 
         // handle window resizes
-        $(window).resize(onResizeLazy);
+        $(window).off('resize').resize(onResizeLazy);
 
         // enable mertic changes
-        $('#userCountryMapSelectMetrics').change(function() {
+        $('#userCountryMapSelectMetrics').off('change').change(function() {
             updateState(UserCountryMap.lastSelected);
         });
 
         // handle city button
         (function(btn) {
-            btn.click(function() {
+            btn.off('click').click(function() {
                 if (UserCountryMap.lastSelected.length == 3) {
                     if (UserCountryMap.mode != "city") {
                         UserCountryMap.mode = "city";
@@ -253,7 +253,7 @@ UserCountryMap.run = function(config) {
 
         // handle region button
         (function(btn) {
-            btn.click(function() {
+            btn.off('click').click(function() {
                 if (UserCountryMap.mode != "region") {
                     $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
                     UserCountryMap.mode = "region";
@@ -268,9 +268,9 @@ UserCountryMap.run = function(config) {
         $('#UserCountryMap_map').append(bl);
 
         var infobtn = $('.UserCountryMap-info-btn');
-        infobtn.on('mouseenter', function(e) {
+        infobtn.off('mouseenter').on('mouseenter', function(e) {
             $(infobtn.data('tooltip-target')).show();
-        }).on('mouseleave', function(e) {
+        }).off('mouseleave').on('mouseleave', function(e) {
             $(infobtn.data('tooltip-target')).hide();
         });
         $('.UserCountryMap-tooltip').hide();
@@ -1023,7 +1023,7 @@ UserCountryMap.run = function(config) {
 
             box.find('.compare-container').hide();
             box.find('.rowevolution-startmulti').hide();
-            box.find('.multirowevoltion-metric').change(function(e) {
+            box.find('.multirowevoltion-metric').off('change').change(function(e) {
                 _rowEvolution.labels = oldLabels;
                 showRowEvolution(method, label, box.find('.multirowevoltion-metric').val());
             });
