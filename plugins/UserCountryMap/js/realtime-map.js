@@ -132,6 +132,13 @@ RealTimeMap.run = function(config) {
         return Math.min(1, Math.max(0, o));
     }
 
+    function relativeTime(ds) {
+        return (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
+            : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
+            : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+val(ds/3600)+'</b>')
+            : RealTimeMap._.days_ago.replace('%s', '<b>'+val(ds/86400)+'</b>'));
+    }
+
     /*
      * returns the content of the tooltip displayed for each
      * visitor on the map
@@ -147,10 +154,7 @@ RealTimeMap.run = function(config) {
             // last action
             (ad && ad.length && ad[ad.length-1].pageTitle ? '<em>' + ad[ad.length-1].pageTitle+'</em><br/>' : '')+
             // time of visit
-            (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
-            : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
-            : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+val(ds/3600)+'</b>')
-            : RealTimeMap._.days_ago.replace('%s', '<b>'+val(ds/86400)+'</b>'))+'<br/>'+
+            '<div class="rel-time" data-actiontime="'+r.lastTimestamp+'">'+relativeTime(ds)+'</div>'+
             // either from or direct
             (r.referrerType == "direct" ? r.referrerTypeName :
             RealTimeMap._.from + ': '+r.referrerName) + '<br />' +
@@ -336,12 +340,6 @@ RealTimeMap.run = function(config) {
                 else d = Math.ceil(dur / 3600) + ' ' + RealTimeMap._.hours;
                 $('.realTimeMap_timeSpan').html(d);
 
-            } else {
-                // update symbols that remain
-                visitSymbols.update({
-                    attrs: visitSymbolAttrs,
-                    tooltip: visitTooltip
-                });
             }
 
         }
@@ -386,6 +384,16 @@ RealTimeMap.run = function(config) {
         var lastVisitId = -1,
             lastReport = [];
         refreshVisits(true);
+
+        // setup automatic tooltip updates
+        function updateTooltips() {
+            setTimeout(updateTooltips, 1000);
+
+            $('.qtip .rel-time').each(function(el) {
+                el = $(el);
+                console.log(el.data('actiontime'), el.html());
+            });
+        }
     }
 
     function storeSettings() {
