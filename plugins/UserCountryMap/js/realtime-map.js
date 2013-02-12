@@ -248,8 +248,6 @@ RealTimeMap.run = function(config) {
             // successful request, so set timeout for next API call
             nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
-            console.log('gotNewReport', report.length, report[0]);
-
             now = new Date().getTime() / 1000;
 
             if (firstRun) {
@@ -279,6 +277,13 @@ RealTimeMap.run = function(config) {
                 report = report.filter(function(r) {
                     return r.latitude !== null;
                 });
+
+                if (!report.length) {
+                    $('.noDataForReport').show();
+                    return;
+                } else {
+                    $('.noDataForReport').hide();
+                }
 
                 lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
                 oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
