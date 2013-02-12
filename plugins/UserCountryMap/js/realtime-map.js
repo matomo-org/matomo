@@ -336,6 +336,12 @@ RealTimeMap.run = function(config) {
                 else d = Math.ceil(dur / 3600) + ' ' + RealTimeMap._.hours;
                 $('.realTimeMap_timeSpan').html(d);
 
+            } else {
+                // update symbols that remain
+                visitSymbols.update({
+                    attrs: visitSymbolAttrs,
+                    tooltip: visitTooltip
+                });
             }
 
         }
