@@ -134,10 +134,10 @@ RealTimeMap.run = function(config) {
 
     function relativeTime(ds) {
         var val = function(val) { return '<b>'+Math.round(val)+'</b>'; };
-        return (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', '<b>'+val(ds)+'</b>')
-            : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', '<b>'+val(ds/60)+'</b>')
-            : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', '<b>'+val(ds/3600)+'</b>')
-            : RealTimeMap._.days_ago.replace('%s', '<b>'+val(ds/86400)+'</b>'));
+        return (ds < 90 ? RealTimeMap._.seconds_ago.replace('%s', val(ds))
+            : ds < 5400 ? RealTimeMap._.minutes_ago.replace('%s', val(ds/60))
+            : ds < 129600 ? RealTimeMap._.hours_ago.replace('%s', val(ds/3600))
+            : RealTimeMap._.days_ago.replace('%s', val(ds/86400)));
     }
 
     /*
@@ -386,14 +386,13 @@ RealTimeMap.run = function(config) {
         refreshVisits(true);
 
         // setup automatic tooltip updates
-        function updateTooltips() {
-            setTimeout(updateTooltips, 1000);
-
+        setInterval(function() {
             $('.qtip .rel-time').each(function(el) {
                 el = $(el);
-                console.log(el.data('actiontime'), el.html());
+                var ds = new Date().getTime() / 1000 - el.data('actiontime');
+                el.html(relativeTime(ds));
             });
-        }
+        }, 1000);
     }
 
     function storeSettings() {
