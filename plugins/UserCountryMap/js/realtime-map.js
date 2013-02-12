@@ -280,9 +280,11 @@ RealTimeMap.run = function(config) {
 
                 if (!report.length) {
                     $('#RealTimeMap_meta .noDataForReport').show();
+                    $('.realTimeMap_overlay').hide();
                     return;
                 } else {
                     $('#RealTimeMap_meta .noDataForReport').hide();
+                    $('.realTimeMap_overlay').show();
                 }
 
                 lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
