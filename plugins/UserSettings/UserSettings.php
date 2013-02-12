@@ -337,42 +337,6 @@ class Piwik_UserSettings extends Piwik_Plugin
         $archiveProcessing->insertBlobRecord($recordName, $tableLanguage->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
     }
 
-    /**
-     * Returns the language code for the given browser language setting
-     *
-     * @param string $acceptLanguageString  browser language (en-us | de-de,en | ...)
-     *
-     * @return string
-     *
-     * @see    http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-     */
-    protected function _getLanguageCodeFromBrowserSetting($acceptLanguageString)
-    {
-        $accepts = explode(',', $acceptLanguageString);
-
-        $languageCodes = array_keys(Piwik_Common::getLanguagesList());
-
-        foreach ($accepts AS $acceptString) {
-
-            $acceptStringParts = explode(';', $acceptString);
-
-            $language = trim(array_shift($acceptStringParts));
-            $language = strtolower(substr($language, 0, 2));
-
-            if ($language == 'us') {
-                $language = 'en';
-            }
-
-            // check if language code is valid
-            if (in_array($language, $languageCodes)) {
-                return $language;
-            }
-        }
-
-        return 'xx';
-    }
-
-
 	/**
 	 * Period archiving: simply sums up daily archives
 	 *
@@ -478,10 +442,13 @@ class Piwik_UserSettings extends Piwik_Plugin
 	{
 		$labelSQL = "log_visit.location_browser_lang";
 		$interestByLanguage = $this->archiveProcessing->getArrayInterestForLabel($labelSQL);
-		foreach ($interestByLanguage as $lang => $count)
+
+        $languageCodes = array_keys(Piwik_Common::getLanguagesList());
+
+        foreach ($interestByLanguage as $lang => $count)
 		{
 			// get clean language code
-			$code = $this->_getLanguageCodeFromBrowserSetting($lang);
+            $code = Piwik_Common::extractLanguageCodeFromBrowserLanguage($lang, $languageCodes);
 			if ($code != $lang)
 			{
 				if (!array_key_exists($code, $interestByLanguage)) {
