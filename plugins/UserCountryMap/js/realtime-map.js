@@ -9,7 +9,7 @@ RealTimeMap.run = function(config) {
 
     var debug = 0;
 
-    var map = $K.map('#RealTimeMap_map'),
+    var map = window.__realtimemap = $K.map('#RealTimeMap_map'),
         main = $('#RealTimeMap_container'),
         worldTotalVisits = 0,
         maxVisits = 100,
