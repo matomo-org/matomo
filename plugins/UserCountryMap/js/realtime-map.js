@@ -279,10 +279,10 @@ RealTimeMap.run = function(config) {
                 });
 
                 if (!report.length) {
-                    $('.noDataForReport').show();
+                    $('#RealTimeMap_meta .noDataForReport').show();
                     return;
                 } else {
-                    $('.noDataForReport').hide();
+                    $('#RealTimeMap_meta .noDataForReport').hide();
                 }
 
                 lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);

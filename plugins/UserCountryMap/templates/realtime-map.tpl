@@ -96,7 +96,7 @@
             {'UserCountryMap_ShowingVisits'|translate} <span class="realTimeMap_timeSpan" style="font-weight:bold"></span>
         </div>
     </div>
-    <div>
+    <div id="RealTimeMap_meta">
         <span class="loadingPiwik">
             <img src="{$piwikUrl}themes/default/images/loading-blue.gif"> {'General_LoadingData'|translate}...
         </span>
