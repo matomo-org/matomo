@@ -385,15 +385,6 @@ RealTimeMap.run = function(config) {
         var lastVisitId = -1,
             lastReport = [];
         refreshVisits(true);
-
-        // setup automatic tooltip updates
-        setInterval(function() {
-            $('.qtip .rel-time').each(function(el) {
-                el = $(el);
-                var ds = new Date().getTime() / 1000 - el.data('actiontime');
-                el.html(relativeTime(ds));
-            });
-        }, 1000);
     }
 
     function storeSettings() {
@@ -466,4 +457,13 @@ RealTimeMap.run = function(config) {
     }); // */
     // make sure the map adapts to the widget size
     $(window).resize(onResizeLazy);
+
+    // setup automatic tooltip updates
+    setInterval(function() {
+        $('.qtip .rel-time').each(function(i, el) {
+            el = $(el);
+            var ds = new Date().getTime() / 1000 - el.data('actiontime');
+            el.html(relativeTime(ds));
+        });
+    }, 1000);
 };
