@@ -246,6 +246,7 @@ RealTimeMap.run = function(config) {
     function refreshVisits(firstRun) {
         function gotNewReport(report) {
             // successful request, so set timeout for next API call
+            $('.realTimeMap_overlay img').hide();
             nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
             now = new Date().getTime() / 1000;
@@ -344,6 +345,7 @@ RealTimeMap.run = function(config) {
             gotNewReport(lastVisits.slice());
         } else {
             // request API for new data
+            $('.realTimeMap_overlay img').show();
             ajax(_reportParams(firstRun)).done(gotNewReport);
         }
     }
