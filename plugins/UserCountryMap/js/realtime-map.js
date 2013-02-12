@@ -248,6 +248,8 @@ RealTimeMap.run = function(config) {
             // successful request, so set timeout for next API call
             nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
+            console.log('gotNewReport', report.length, report[0]);
+
             now = new Date().getTime() / 1000;
 
             if (firstRun) {
@@ -326,8 +328,6 @@ RealTimeMap.run = function(config) {
                 else d = Math.ceil(dur / 3600) + ' ' + RealTimeMap._.hours;
                 $('.realTimeMap_timeSpan').html(d);
 
-                console.log();
-
             }
 
         }
@@ -400,7 +400,7 @@ RealTimeMap.run = function(config) {
     updateMap('world'); // TODO: restore last state
 
     // clicking on map background zooms out
-    $('#RealTimeMap_map').click(function() {
+    $('#RealTimeMap_map').off('click').click(function() {
         if (currentMap != 'world') updateMap('world');
     });
 
