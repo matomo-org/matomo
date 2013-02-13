@@ -304,7 +304,7 @@ RealTimeMap.run = function(config) {
 
                 // let's try a different strategy
                 // remove all symbols
-                map.removeSymbols();
+                if (!firstRun && map.symbolGroups.length) map.removeSymbols();
                 // remove symbols that are too old
                 //console.log('before', $('circle').length, visitSymbols.symbols.length);
                 var _removed = 0;
