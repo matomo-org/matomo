@@ -78,7 +78,6 @@ RealTimeMap.run = function(config) {
      */
     function ajax(params) {
         delete params['token_auth'];
-        console.info('ajax-req', tokenAuth);
         return $.ajax({
             url: 'index.php?' + $.param(params),
             dataType: 'json',
@@ -137,7 +136,6 @@ RealTimeMap.run = function(config) {
     function age(r) {
         var now = new Date().getTime() / 1000;
         var o = (r.lastActionTimestamp - oldest) / (now - oldest);
-        //console.log(o, Math.min(1, Math.max(0, o)));
         return Math.min(1, Math.max(0, o));
     }
 
@@ -261,7 +259,6 @@ RealTimeMap.run = function(config) {
          * this is called after new visit reports came in
          */
         function gotNewReport(report) {
-            console.info('gotNewReport', report.length);
             // successful request, so set timeout for next API call
             nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
@@ -309,8 +306,6 @@ RealTimeMap.run = function(config) {
                 }
 
                 lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
-                console.info(report.length+' new visits');
-                console.info(lastVisits.length+' total visits by now');
                 oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
 
                 // let's try a different strategy
@@ -321,7 +316,6 @@ RealTimeMap.run = function(config) {
                     if (r.lastActionTimestamp < oldest) _removed++;
                     return r.lastActionTimestamp < oldest;
                 });
-                console.info('removed',_removed, 'now', $('circle').length);
 
                 // update symbols that remain
                 visitSymbols.update({
@@ -365,7 +359,6 @@ RealTimeMap.run = function(config) {
 
         if (firstRun && lastVisits.length) {
             // zoom changed, use cached report data
-            console.info('resized');
             gotNewReport(lastVisits.slice());
         } else {
             // request API for new data
@@ -430,7 +423,7 @@ RealTimeMap.run = function(config) {
         storeSettings();
     }
 
-    updateMap('world'); // TODO: restore last state
+    updateMap(location.hash ? location.hash.substr(1) : 'world'); // TODO: restore last state
 
     // clicking on map background zooms out
     $('#RealTimeMap_map').off('click').click(function() {
