@@ -1406,7 +1406,7 @@ class Piwik_Common
 			{
 				if(count($parts) == 3)
 				{
-					// match locale (langauge and location)
+					// match locale (language and location)
 					if(in_array($parts[1].$parts[2], $validLanguages))
 					{
 						return $parts[1].$parts[2];
