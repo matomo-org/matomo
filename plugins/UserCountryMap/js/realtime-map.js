@@ -303,15 +303,13 @@ RealTimeMap.run = function(config) {
                 oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
 
                 // let's try a different strategy
-                // remove all symbols
-                if (!firstRun && map.symbolGroups.length) map.removeSymbols();
                 // remove symbols that are too old
                 //console.log('before', $('circle').length, visitSymbols.symbols.length);
-                var _removed = 0;
+                /*var _removed = 0;
                 visitSymbols.remove(function(r) {
                     if (r.lastActionTimestamp < oldest) _removed++;
                     return r.lastActionTimestamp < oldest;
-                });
+                });*/
                 //console.log('removed',_removed, 'now', $('circle').length);
 
                 // update symbols that remain
@@ -327,6 +325,9 @@ RealTimeMap.run = function(config) {
 
                 //console.log('added', newSymbols.length, visitSymbols.symbols.length, $('circle').length);
                 // visitSymbols.layout().render();
+
+                // remove all symbols
+                if (!firstRun && map.symbolGroups.length-1) map.removeSymbols();
 
                 visitSymbols = map.addSymbols({
                     data: lastVisits.reverse(),
