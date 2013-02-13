@@ -257,6 +257,7 @@ RealTimeMap.run = function(config) {
          * this is called after new visit reports came in
          */
         function gotNewReport(report) {
+            console.log('gotNewReport', report.length);
             // successful request, so set timeout for next API call
             nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
