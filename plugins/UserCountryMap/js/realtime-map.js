@@ -263,7 +263,7 @@ RealTimeMap.run = function(config) {
             now = new Date().getTime() / 1000;
 
             if (firstRun) {  // if we run this the first time, we initialiize the map symbols
-                visitSymbols = map.addSymbols({
+                /*visitSymbols = map.addSymbols({
                     data: [],
                     type: Kartograph.Bubble,
                     sortBy: function(r) { return r.lastActionTimestamp; },
@@ -276,7 +276,7 @@ RealTimeMap.run = function(config) {
                     click: function(r, s, evt) {
                         evt.stopPropagation();
                     }
-                });
+                });*/
 
                 // clear existing report
                 lastVisits = [];
@@ -291,8 +291,8 @@ RealTimeMap.run = function(config) {
 
                 // check wether we got any geolocated visits left
                 if (!report.length) {
-                    $('#RealTimeMap_meta .noDataForReport').show();
                     $('.realTimeMap_overlay').hide();
+                    $('#RealTimeMap_meta .noDataForReport').show();
                     return;
                 } else {
                     $('#RealTimeMap_meta .noDataForReport').hide();
@@ -302,6 +302,9 @@ RealTimeMap.run = function(config) {
                 lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
                 oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
 
+                // let's try a different strategy
+                // remove all symbols
+                map.removeSymbols();
                 // remove symbols that are too old
                 //console.log('before', $('circle').length, visitSymbols.symbols.length);
                 var _removed = 0;
@@ -312,33 +315,47 @@ RealTimeMap.run = function(config) {
                 //console.log('removed',_removed, 'now', $('circle').length);
 
                 // update symbols that remain
-                visitSymbols.update({
-                    attrs: visitSymbolAttrs
-                });
-
-                //console.log('updated', $('circle').length);
+                // visitSymbols.update({
+                //     attrs: visitSymbolAttrs
+                // });
 
                 // add new symbols
-                var newSymbols = [];
-                $.each(report, function(i, r) {
-                    if (r.latitude !== null) newSymbols.push(visitSymbols.add(r));
-                });
+                // var newSymbols = [];
+                // $.each(report, function(i, r) {
+                //     newSymbols.push(visitSymbols.add(r));
+                // });
 
                 //console.log('added', newSymbols.length, visitSymbols.symbols.length, $('circle').length);
+                // visitSymbols.layout().render();
 
-                lastTimestamp = report[0].lastActionTimestamp;
-
-                visitSymbols.layout().render();
+                visitSymbols = map.addSymbols({
+                    data: lastVisits.reverse(),
+                    type: Kartograph.Bubble,
+                    sortBy: function(r) { return r.lastActionTimestamp; },
+                    radius: visitRadius,
+                    location: function(r) { return [r.longitude, r.latitude]; },
+                    attrs: visitSymbolAttrs,
+                    tooltip: visitTooltip,
+                    mouseenter: highlightVisit,
+                    mouseleave: unhighlightVisit,
+                    click: function(r, s, evt) {
+                        evt.stopPropagation();
+                    }
+                });
 
                 //console.log('rendered', visitSymbols.symbols.length, $('circle').length);
 
-                $.each(newSymbols, function(i, s) {
-                    if (i>10) return false;
-                    s.path.hide(); // hide new symbol at first
-                    var t = setTimeout(function() { animateSymbol(s); },
-                        1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
-                    symbolFadeInTimer.push(t);
+                $.each(visitSymbols.symbols, function(i, s) {
+                    // if (i>10) return false;
+                    if (s.data.lastActionTimestamp > lastTimestamp) {
+                        s.path.hide(); // hide new symbol at first
+                        var t = setTimeout(function() { animateSymbol(s); },
+                            1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
+                        symbolFadeInTimer.push(t);
+                    }
                 });
+
+                lastTimestamp = report[0].lastActionTimestamp;
 
                 // show
                 var dur = lastTimestamp - oldest, d;
