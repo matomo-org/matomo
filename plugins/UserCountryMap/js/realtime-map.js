@@ -19,6 +19,7 @@ RealTimeMap.run = function(config) {
         lastTimestamp = -1,
         lastVisits = [],
         visitSymbols,
+        tokenAuth = ''+RealTimeMap.reqParams.token_auth,
         oldest,
         isFullscreenWidget = $('.widget').parent().get(0) == document.body,
         now,
@@ -75,13 +76,12 @@ RealTimeMap.run = function(config) {
      * to POST data while keeping other parameters as GET
      */
     function ajax(params) {
-        var token_auth = RealTimeMap.reqParams.token_auth;
         delete params['token_auth'];
-        console.info('ajax-req', token_auth);
+        console.info('ajax-req', tokenAuth);
         return $.ajax({
             url: 'index.php?' + $.param(params),
             dataType: 'json',
-            data: { token_auth: token_auth },
+            data: { token_auth: tokenAuth },
             type: 'POST'
         });
     }
