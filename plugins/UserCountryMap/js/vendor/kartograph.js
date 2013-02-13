@@ -5226,23 +5226,24 @@ function kdtree() {
     };
 
     Bubble.prototype.update = function(animate) {
-      var me, path;
+      var attrs, me, path;
       if (animate == null) {
         animate = false;
       }
       me = this;
       path = me.path;
-      path.attr({
+      attrs = {
         cx: me.x,
         cy: me.y,
         r: me.radius
-      });
+      };
       if (me.attrs != null) {
-        if (!animate) {
-          path.attr(me.attrs);
-        } else {
-          path.animate(me.attrs, 1000);
-        }
+        attrs = $.extend(attrs, me.attrs);
+      }
+      if (!animate) {
+        path.attr(attrs);
+      } else {
+        path.animate(attrs, 1000);
       }
       if (me.style != null) {
         path.node.setAttribute('style', me.style);
