@@ -249,15 +249,20 @@ RealTimeMap.run = function(config) {
      * If firstRun is true, the SymbolGroup is initialized
      */
     function refreshVisits(firstRun) {
+        /*
+         * this is called after new visit reports came in
+         */
         function gotNewReport(report) {
             // successful request, so set timeout for next API call
-            $('.realTimeMap_overlay img').hide();
             nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
+            // hide loading indicator
+            $('.realTimeMap_overlay img').hide();
+
+            // store current timestamp
             now = new Date().getTime() / 1000;
 
-            if (firstRun) {
-                // init symbol group
+            if (firstRun) {  // if we run this the first time, we initialiize the map symbols
                 visitSymbols = map.addSymbols({
                     data: [],
                     type: Kartograph.Bubble,
@@ -284,6 +289,7 @@ RealTimeMap.run = function(config) {
                     return r.latitude !== null;
                 });
 
+                // check wether we got any geolocated visits left
                 if (!report.length) {
                     $('#RealTimeMap_meta .noDataForReport').show();
                     $('.realTimeMap_overlay').hide();
@@ -342,7 +348,7 @@ RealTimeMap.run = function(config) {
                 $('.realTimeMap_timeSpan').html(d);
 
             }
-
+            firstRun = false;
         }
 
         if (firstRun && lastVisits.length) {
