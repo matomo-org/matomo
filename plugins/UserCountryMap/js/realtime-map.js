@@ -75,7 +75,7 @@ RealTimeMap.run = function(config) {
      * to POST data while keeping other parameters as GET
      */
     function ajax(params) {
-        var token_auth = params.token_auth;
+        var token_auth = RealTimeMap.reqParams.token_auth;
         delete params['token_auth'];
         console.info('ajax-req', token_auth);
         return $.ajax({
