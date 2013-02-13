@@ -15,7 +15,7 @@ RealTimeMap.run = function(config) {
         maxVisits = 100,
         width = main.width(),
         minRad = 4,
-        maxRad = 10 * $('#RealTimeMap_map').width() / 400,
+        maxRad = 10 * Math.sqrt($('#RealTimeMap_map').width() / 400),
         lastTimestamp = -1,
         lastVisits = [],
         visitSymbols,
