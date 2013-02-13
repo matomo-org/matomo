@@ -325,6 +325,7 @@ RealTimeMap.run = function(config) {
 
                 // update symbols that remain
                 visitSymbols.update({
+                    radius: function(d) { return visitSymbolAttrs(d).r; },
                     attrs: visitSymbolAttrs
                 }, true);
 
