@@ -77,6 +77,7 @@ RealTimeMap.run = function(config) {
     function ajax(params) {
         var token_auth = params.token_auth;
         delete params['token_auth'];
+        console.info('ajax-req', token_auth);
         return $.ajax({
             url: 'index.php?' + $.param(params),
             dataType: 'json',
@@ -257,7 +258,7 @@ RealTimeMap.run = function(config) {
          * this is called after new visit reports came in
          */
         function gotNewReport(report) {
-            console.log('gotNewReport', report.length);
+            console.info('gotNewReport', report.length);
             // successful request, so set timeout for next API call
             nextReqTimer = setTimeout(refreshVisits, config.liveRefreshAfterMs);
 
@@ -305,19 +306,19 @@ RealTimeMap.run = function(config) {
                 }
 
                 lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
-                console.log(report.length+' new visits');
-                console.log(lastVisits.length+' total visits by now');
+                console.info(report.length+' new visits');
+                console.info(lastVisits.length+' total visits by now');
                 oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
 
                 // let's try a different strategy
                 // remove symbols that are too old
-                //console.log('before', $('circle').length, visitSymbols.symbols.length);
+                //console.info('before', $('circle').length, visitSymbols.symbols.length);
                 /*var _removed = 0;
                 visitSymbols.remove(function(r) {
                     if (r.lastActionTimestamp < oldest) _removed++;
                     return r.lastActionTimestamp < oldest;
                 });*/
-                //console.log('removed',_removed, 'now', $('circle').length);
+                //console.info('removed',_removed, 'now', $('circle').length);
 
                 // update symbols that remain
                 // visitSymbols.update({
@@ -330,16 +331,16 @@ RealTimeMap.run = function(config) {
                 //     newSymbols.push(visitSymbols.add(r));
                 // });
 
-                //console.log('added', newSymbols.length, visitSymbols.symbols.length, $('circle').length);
+                //console.info('added', newSymbols.length, visitSymbols.symbols.length, $('circle').length);
                 // visitSymbols.layout().render();
 
                 // remove all symbols
                 if (!firstRun && map.symbolGroups.length-1) {
-                    console.log('remove all symbols');
+                    console.info('remove all symbols');
                     map.removeSymbols();
                 }
 
-                console.log('add new symbols');
+                console.info('add new symbols');
                 visitSymbols = map.addSymbols({
                     data: lastVisits.reverse(),
                     type: Kartograph.Bubble,
@@ -355,7 +356,7 @@ RealTimeMap.run = function(config) {
                     }
                 });
 
-                //console.log('rendered', visitSymbols.symbols.length, $('circle').length);
+                //console.info('rendered', visitSymbols.symbols.length, $('circle').length);
 
                 $.each(visitSymbols.symbols, function(i, s) {
                     // if (i>10) return false;
@@ -382,6 +383,7 @@ RealTimeMap.run = function(config) {
 
         if (firstRun && lastVisits.length) {
             // zoom changed, use cached report data
+            console.info('resized');
             gotNewReport(lastVisits.slice());
         } else {
             // request API for new data
