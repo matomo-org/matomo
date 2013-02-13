@@ -203,8 +203,8 @@ RealTimeMap.run = function(config) {
     function visitSymbolAttrs(r) {
         return {
             fill: visitColor(r),
-            'fill-opacity': Math.pow(age(r),2),
-            'stroke-opacity': Math.pow(age(r),1.7),
+            'fill-opacity': Math.pow(age(r),2) * 0.8 + 0.2,
+            'stroke-opacity': Math.pow(age(r),1.7) * 0.8 + 0.2,
             stroke: '#fff',
             'stroke-width': age(r),
             r: visitRadius(r)
@@ -337,28 +337,6 @@ RealTimeMap.run = function(config) {
 
                 //console.info('added', newSymbols.length, visitSymbols.symbols.length, $('circle').length);
                 visitSymbols.layout().render();
-
-                // remove all symbols
-                // if (!firstRun && map.symbolGroups.length-1) {
-                //     console.info('remove all symbols');
-                //     map.removeSymbols();
-                // }
-
-                // console.info('add new symbols');
-                // visitSymbols = map.addSymbols({
-                //     data: lastVisits.reverse(),
-                //     type: Kartograph.Bubble,
-                //     sortBy: function(r) { return r.lastActionTimestamp; },
-                //     radius: visitRadius,
-                //     location: function(r) { return [r.longitude, r.latitude]; },
-                //     attrs: visitSymbolAttrs,
-                //     tooltip: visitTooltip,
-                //     mouseenter: highlightVisit,
-                //     mouseleave: unhighlightVisit,
-                //     click: function(r, s, evt) {
-                //         evt.stopPropagation();
-                //     }
-                // });
 
                 //console.info('rendered', visitSymbols.symbols.length, $('circle').length);
 
