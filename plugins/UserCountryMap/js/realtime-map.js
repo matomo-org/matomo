@@ -269,7 +269,7 @@ RealTimeMap.run = function(config) {
             now = new Date().getTime() / 1000;
 
             if (firstRun) {  // if we run this the first time, we initialiize the map symbols
-                /*visitSymbols = map.addSymbols({
+                visitSymbols = map.addSymbols({
                     data: [],
                     type: Kartograph.Bubble,
                     sortBy: function(r) { return r.lastActionTimestamp; },
@@ -282,7 +282,7 @@ RealTimeMap.run = function(config) {
                     click: function(r, s, evt) {
                         evt.stopPropagation();
                     }
-                });*/
+                });
 
                 // clear existing report
                 lastVisits = [];
@@ -313,59 +313,59 @@ RealTimeMap.run = function(config) {
                 // let's try a different strategy
                 // remove symbols that are too old
                 //console.info('before', $('circle').length, visitSymbols.symbols.length);
-                /*var _removed = 0;
+                var _removed = 0;
                 visitSymbols.remove(function(r) {
                     if (r.lastActionTimestamp < oldest) _removed++;
                     return r.lastActionTimestamp < oldest;
-                });*/
-                //console.info('removed',_removed, 'now', $('circle').length);
+                });
+                console.info('removed',_removed, 'now', $('circle').length);
 
                 // update symbols that remain
-                // visitSymbols.update({
-                //     attrs: visitSymbolAttrs
-                // });
+                visitSymbols.update({
+                    attrs: visitSymbolAttrs
+                });
 
                 // add new symbols
-                // var newSymbols = [];
-                // $.each(report, function(i, r) {
-                //     newSymbols.push(visitSymbols.add(r));
-                // });
+                var newSymbols = [];
+                $.each(report, function(i, r) {
+                    newSymbols.push(visitSymbols.add(r));
+                });
 
                 //console.info('added', newSymbols.length, visitSymbols.symbols.length, $('circle').length);
-                // visitSymbols.layout().render();
+                visitSymbols.layout().render();
 
                 // remove all symbols
-                if (!firstRun && map.symbolGroups.length-1) {
-                    console.info('remove all symbols');
-                    map.removeSymbols();
-                }
+                // if (!firstRun && map.symbolGroups.length-1) {
+                //     console.info('remove all symbols');
+                //     map.removeSymbols();
+                // }
 
-                console.info('add new symbols');
-                visitSymbols = map.addSymbols({
-                    data: lastVisits.reverse(),
-                    type: Kartograph.Bubble,
-                    sortBy: function(r) { return r.lastActionTimestamp; },
-                    radius: visitRadius,
-                    location: function(r) { return [r.longitude, r.latitude]; },
-                    attrs: visitSymbolAttrs,
-                    tooltip: visitTooltip,
-                    mouseenter: highlightVisit,
-                    mouseleave: unhighlightVisit,
-                    click: function(r, s, evt) {
-                        evt.stopPropagation();
-                    }
-                });
+                // console.info('add new symbols');
+                // visitSymbols = map.addSymbols({
+                //     data: lastVisits.reverse(),
+                //     type: Kartograph.Bubble,
+                //     sortBy: function(r) { return r.lastActionTimestamp; },
+                //     radius: visitRadius,
+                //     location: function(r) { return [r.longitude, r.latitude]; },
+                //     attrs: visitSymbolAttrs,
+                //     tooltip: visitTooltip,
+                //     mouseenter: highlightVisit,
+                //     mouseleave: unhighlightVisit,
+                //     click: function(r, s, evt) {
+                //         evt.stopPropagation();
+                //     }
+                // });
 
                 //console.info('rendered', visitSymbols.symbols.length, $('circle').length);
 
-                $.each(visitSymbols.symbols, function(i, s) {
-                    // if (i>10) return false;
-                    if (s.data.lastActionTimestamp > lastTimestamp) {
-                        s.path.hide(); // hide new symbol at first
-                        var t = setTimeout(function() { animateSymbol(s); },
-                            1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
-                        symbolFadeInTimer.push(t);
-                    }
+                $.each(newSymbols, function(i, s) {
+                    if (i>10) return false;
+                    //if (s.data.lastActionTimestamp > lastTimestamp) {
+                    s.path.hide(); // hide new symbol at first
+                    var t = setTimeout(function() { animateSymbol(s); },
+                        1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
+                    symbolFadeInTimer.push(t);
+                    //}
                 });
 
                 lastTimestamp = report[0].lastActionTimestamp;
