@@ -14,8 +14,9 @@ RealTimeMap.run = function(config) {
         worldTotalVisits = 0,
         maxVisits = 100,
         width = main.width(),
-        minRad = 4,
-        maxRad = 10 * Math.sqrt($('#RealTimeMap_map').width() / 400),
+        radScale = Math.sqrt($('#RealTimeMap_map').width() / 400),
+        minRad = 4 * radScale,
+        maxRad = 10 * radScale,
         lastTimestamp = -1,
         lastVisits = [],
         visitSymbols,
@@ -106,7 +107,9 @@ RealTimeMap.run = function(config) {
         var ratio, w, h;
         ratio = map.viewAB.width / map.viewAB.height;
         w = map.container.width();
-        maxRad = 10 * Math.sqrt(w / 400),
+        radScale = Math.sqrt(w / 400);
+        maxRad = 10 * radScale;
+        minRad = 4 * radScale;
 
         h = Math.min(w / ratio, $(window).height()-30);
         map.container.height(h-2);
