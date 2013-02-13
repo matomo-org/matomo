@@ -2526,6 +2526,7 @@ var
 
                 /**
                  * Strip hash tag (or anchor) from URL
+                 * TODO: Remove as it is now part of core #3232
                  *
                  * @param bool enableFilter
                  */
