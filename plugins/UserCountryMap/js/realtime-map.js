@@ -15,7 +15,7 @@ RealTimeMap.run = function(config) {
         maxVisits = 100,
         width = main.width(),
         minRad = 4,
-        maxRad = 10,
+        maxRad = 10 * $('#RealTimeMap_map').width() / 400,
         lastTimestamp = -1,
         lastVisits = [],
         visitSymbols,
@@ -302,6 +302,8 @@ RealTimeMap.run = function(config) {
                 }
 
                 lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
+                console.log(report.length+' new visits');
+                console.log(lastVisits.length+' total visits by now');
                 oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
 
                 // let's try a different strategy
@@ -329,8 +331,12 @@ RealTimeMap.run = function(config) {
                 // visitSymbols.layout().render();
 
                 // remove all symbols
-                if (!firstRun && map.symbolGroups.length-1) map.removeSymbols();
+                if (!firstRun && map.symbolGroups.length-1) {
+                    console.log('remove all symbols');
+                    map.removeSymbols();
+                }
 
+                console.log('add new symbols');
                 visitSymbols = map.addSymbols({
                     data: lastVisits.reverse(),
                     type: Kartograph.Bubble,
