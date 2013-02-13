@@ -1938,17 +1938,6 @@ Nota: Este código vencerá en 24 hora.
 	'Annotations_LoginToAnnotate' => 'Inicia sesión para crear una anotación.',
 	'Annotations_AnnotationOnDate' => 'Anotaciones en %1$s: %2$s',
 	'Annotations_ClickToEditOrAdd' => 'Clickea para editar o añadir una nueva anotación.',
-
-	// FOR REVIEW
-	'EntryPage_Bounces' => 'Rebotes',
-	'EntryPage_Referrers' => 'Enlaces de origen',
-	'Forecast_Actions' => 'Visitas a Páginas',
-	'Forecast_Bounce' => 'Visitantes rebotados',
-	'Forecast_Column' => 'Pronóstico',
-	'Forecast_ReturnVisits' => 'Visitantes que regresan',
-	'Forecast_Visitors' => 'Visitantes',
-	'Forecast_Widget' => 'Pronóstico para hoy',
-	'UserLanguage_Language' => 'Idiomas',
 	'UserLanguage_Language_aa' => 'Lejos',
 	'UserLanguage_Language_ab' => 'Abjasia',
 	'UserLanguage_Language_ae' => 'Avéstico',
@@ -2133,6 +2122,17 @@ Nota: Este código vencerá en 24 hora.
 	'UserLanguage_Language_za' => 'Chuang',
 	'UserLanguage_Language_zh' => 'Chino',
 	'UserLanguage_Language_zu' => 'Zulú',
+
+	// FOR REVIEW
+	'EntryPage_Bounces' => 'Rebotes',
+	'EntryPage_Referrers' => 'Enlaces de origen',
+	'Forecast_Actions' => 'Visitas a Páginas',
+	'Forecast_Bounce' => 'Visitantes rebotados',
+	'Forecast_Column' => 'Pronóstico',
+	'Forecast_ReturnVisits' => 'Visitantes que regresan',
+	'Forecast_Visitors' => 'Visitantes',
+	'Forecast_Widget' => 'Pronóstico para hoy',
+	'UserLanguage_Language' => 'Idiomas',
 	'UserLanguage_SubmenuLanguage' => 'Idiomas',
 	'UserLanguage_WidgetLanguage' => 'Idiomas del visitante',
 );

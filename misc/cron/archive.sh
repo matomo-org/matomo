@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+# DO NOT USE: Use archive.php instead.
+# SEE DOCS: http://piwik.org/setup-auto-archiving/
+# =======================================================================
 # Description
 # This cron script will automatically run Piwik archiving every hour.
 # The script will also run scheduled tasks configured within piwik using

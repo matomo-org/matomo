@@ -16,9 +16,20 @@ script: phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --coverage-t
 
 before_script:
   - mysql -e 'create database piwik_test;'
-  - ./tests/PHPUnit/travis.sh
+  - ./tests/travis.sh
+  - ./tests/travis/setup_webserver.sh
   - cd tests/PHPUnit
 
 matrix:
   allow_failures:
     - php: 5.5
+
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#piwik"
+    template:
+      - "%{repository} (%{commit}) : %{message} %{foo} "
+      - "Build details: %{build_url}"
+  email:
+    - builds@piwik.org

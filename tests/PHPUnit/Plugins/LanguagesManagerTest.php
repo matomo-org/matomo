@@ -72,7 +72,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
         foreach ($invalids as $invalid) {
             $this->assertTrue(stripos($serializedStrings, $invalid) === false, "$language: language file containing javascript");
         }
-        $this->assertTrue(count($strings) > 100, "$language: expecting at least 100 translations in the language file");
+        $this->assertTrue(count($strings) > 250, "$language: expecting at least 250 translations in the language file");
         $this->assertTrue(strlen($content) == 0, "$language: buffer was " . strlen($content) . " long but should be zero. Translation file for '$language' must be buggy.");
 
         $cleanedStrings = array();

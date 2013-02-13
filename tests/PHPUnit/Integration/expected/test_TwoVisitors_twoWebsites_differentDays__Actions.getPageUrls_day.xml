@@ -96,7 +96,7 @@
 		<result date="2010-01-03" />
 		<result date="2010-01-04">
 			<row>
-				<label>/home</label>
+				<label>/home#notIgnoredFragment</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
@@ -109,7 +109,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<url>http://example2.com/home</url>
+				<url>http://example2.com/home#notIgnoredFragment</url>
 			</row>
 			<row>
 				<label>Page URL not defined</label>

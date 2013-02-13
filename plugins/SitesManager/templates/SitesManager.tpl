@@ -42,6 +42,16 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 	{'SitesManager_GlobalListExcludedUserAgents_Desc'|translate} {'SitesManager_GlobalExcludedUserAgentHelp2'|translate}
 {/capture}
 {assign var=excludedUserAgentsHelp value=$excludedUserAgentsHelp|inlineHelp}
+
+{capture assign=keepURLFragmentSelectHTML}
+	<h4 style="display:inline-block;">{'SitesManager_KeepURLFragments'|translate}</h4>
+	
+	<select id="keepURLFragmentSelect">
+		<option value="0">{'General_Default'|translate}</option>
+		<option value="1">{'General_Yes'|translate}</option>
+		<option value="2">{'General_No'|translate}</option>
+	</select>
+{/capture}
 var excludedQueryParametersHelp = '{$excludedQueryParametersHelp|escape:javascript}';
 var excludedUserAgentsHelp = '{$excludedUserAgentsHelp|escape:javascript}';
 var timezoneHelp = '{$timezoneHelpPlain|inlineHelp|escape:javascript}';
@@ -58,6 +68,7 @@ var sitesearchDisabled = '{'SitesManager_DisableSiteSearch'|translate|escape:jav
 var searchKeywordHelp = '{$searchKeywordHelp|escape:javascript}';
 var searchCategoryHelp = '{$searchCategoryHelp|escape:javascript}';
 var sitesearchDesc = '{'SitesManager_TrackingSiteSearch'|translate|escape:javascript}';
+var keepURLFragmentSelectHTML = '{$keepURLFragmentSelectHTML|escape:javascript}';
 
 var sitesManager = new SitesManager ( {$timezones}, {$currencies}, '{$defaultTimezone}', '{$defaultCurrency}');
 {assign var=searchKeywordLabel value='SitesManager_SearchKeywordLabel'|translate}
@@ -107,6 +118,11 @@ vertical-align:middle;
 }
 #searchSiteParameters {
 	display:none;
+}
+#editSites h4 {
+	font-size:.8em;
+	margin:1em 0 1em 0;
+	font-weight:bold;
 }
 </style>
 {/literal}
@@ -158,7 +174,7 @@ vertical-align:middle;
 		</thead>
 		<tbody>
 			{foreach from=$adminSites key=i item=site}
-			<tr id="row{$site.idsite}">
+			<tr id="row{$site.idsite}" data-keep-url-fragments="{$site.keep_url_fragment}">
 				<td id="idSite">{$site.idsite}</td>
 				<td id="siteName" class="editableSite">{$site.name}</td>
 				<td id="urls" class="editableSite">{foreach from=$site.alias_urls item=url}{$url|replace:"http://":""}<br />{/foreach}</td>       
@@ -234,7 +250,18 @@ vertical-align:middle;
 			<span id='enableSiteUserAgentExclude-loading' class='loadingPiwik' style='display:none'><img src='./themes/default/images/loading-blue.gif' /></span>
 		</td><td>{'SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate:'<a href="#editSites">':'</a>'|inlineHelp}
 		</td></tr>
+		
+		{* global keep URL fragments *}
+		<tr><td colspan="2">
+			<strong>{'SitesManager_KeepURLFragments'|translate}</strong>
+			<p>{'SitesManager_KeepURLFragmentsHelp'|translate:"<em>#</em>":"<em>example.org/index.html#first_section</em>":"<em>example.org/index.html</em>"}
+			</p>
+			<input type="checkbox" id="globalKeepURLFragments" name="globalKeepURLFragments" {if $globalKeepURLFragments}checked="checked"{/if}/>
+			<label for="globalKeepURLFragments">{'SitesManager_KeepURLFragmentsLong'|translate}</label>
+			<p>{'SitesManager_KeepURLFragmentsHelp2'|translate}</p>
+		</td></tr>
 
+		{* global site search *}
 		<tr><td colspan="2">
 		<a name='globalSiteSearch'></a><b>{'SitesManager_TrackingSiteSearch'|translate}</b>
 		<p>{$sitesearchIntro}</p>

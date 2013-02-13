@@ -34,7 +34,7 @@ Deployment
   http://yuilibrary.com/projects/yuicompressor/ticket/2343811,
   or run:
     $ cd /path/to/piwik/js/
-    $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' > piwik-min.js && cp piwik-min.js ../piwik.js
+    $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js
     
   This will generate the minify /path/to/piwik/js/piwik-min.js and copy it to
   /path/to/piwik/piwik.js
@@ -45,3 +45,8 @@ Deployment
   Note: if the file "js/tests/enable_sqlite" exists, additional unit tests
         (requires the sqlite extension) are enabled.
 
+* We use /*! to include Piwik's license header in the minified source. Read
+  Stallman's "The JavaScript Trap" for more information.
+
+* We do not include the version number as a security best practice
+  (information disclosure).

@@ -5,6 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+// NOTE: if you cannot find the definition of a variable here, look in SitesManager.tpl
 function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurrency ) {
 
 	var timezones = _timezones;
@@ -41,6 +42,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		var excludedUserAgents = $(row).find('textarea#excludedUserAgents').val();
 		excludedUserAgents = piwikHelper.getApiFormatTextarea(excludedUserAgents);
+		var keepURLFragments = $('#keepURLFragmentSelect', row).val();
 		var ecommerce = $(row).find('#ecommerce option:selected').val();
         var sitesearch = $(row).find('#sitesearch option:selected').val();
         var searchKeywordParameters = $('input#searchKeywordParameters').val();
@@ -60,6 +62,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
             excludedIps: excludedIps,
             excludedQueryParameters: excludedQueryParameters,
             excludedUserAgents: excludedUserAgents,
+            keepURLFragments: keepURLFragments,
             siteSearch: sitesearch,
             searchKeywordParameters: searchKeywordParameters,
             searchCategoryParameters: searchCategoryParameters,
@@ -82,6 +85,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		var excludedUserAgents = $(row).find('textarea#excludedUserAgents').val();
 		excludedUserAgents = piwikHelper.getApiFormatTextarea(excludedUserAgents);
+		var keepURLFragments = $('#keepURLFragmentSelect', row).val();
 		var timezone = $(row).find('#timezones option:selected').val();
 		var currency = $(row).find('#currencies option:selected').val();
         var ecommerce = $(row).find('#ecommerce option:selected').val();
@@ -104,6 +108,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
             excludedIps: excludedIps,
             excludedQueryParameters: excludedQueryParameters,
             excludedUserAgents: excludedUserAgents,
+            keepURLFragments: keepURLFragments,
             siteSearch: sitesearch,
             searchKeywordParameters: searchKeywordParameters,
             searchCategoryParameters: searchCategoryParameters,
@@ -124,6 +129,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
 		var globalExcludedUserAgents = $('textarea#globalExcludedUserAgents').val();
 		globalExcludedUserAgents = piwikHelper.getApiFormatTextarea(globalExcludedUserAgents);
+		var globalKeepURLFragments = $('#globalKeepURLFragments').is(':checked') ? 1 : 0;
         var searchKeywordParameters = $('input#globalSearchKeywordParameters').val();
         var searchCategoryParameters = $('input#globalSearchCategoryParameters').val();
         var enableSiteUserAgentExclude = $('input#enableSiteUserAgentExclude').is(':checked') ? 1 : 0;
@@ -140,6 +146,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
             excludedIps: excludedIps,
             excludedQueryParameters: excludedQueryParameters,
             excludedUserAgents: globalExcludedUserAgents,
+            keepURLFragments: globalKeepURLFragments,
             enableSiteUserAgentExclude: enableSiteUserAgentExclude,
             searchKeywordParameters: searchKeywordParameters,
             searchCategoryParameters: searchCategoryParameters
@@ -161,7 +168,7 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 		$(' <tr id="'+newRowId+'">\
 				<td>&nbsp;</td>\
 				<td><input id="name" value="Name" size="15" /><br/><br/><br/>'+submitButtonHtml+'</td>\
-				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+'</td>\
+				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />'+aliasUrlsHelp+keepURLFragmentSelectHTML+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedIps"></textarea><br />'+excludedIpHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />'+excludedQueryParametersHelp+'</td>\
 				<td><textarea cols="20" rows="4" id="excludedUserAgents"></textarea><br />'+excludedUserAgentsHelp+'</td>\
@@ -242,9 +249,11 @@ function SitesManager ( _timezones, _currencies, _defaultTimezone, _defaultCurre
 					}
 					else if(idName == 'urls')
 					{
+						var keepURLFragmentsForSite = $(this).closest('tr').attr('data-keep-url-fragments');
+						
 						var contentAfter = '<textarea cols="25" rows="3" id="urls">'+contentBefore.replace(/<br *\/? *>/gi,"\n")+'</textarea>';
-						contentAfter += '<br />'+aliasUrlsHelp;
-						$(n).html(contentAfter);
+						contentAfter += '<br />'+aliasUrlsHelp+keepURLFragmentSelectHTML;
+						$(n).html(contentAfter).find('select').val(keepURLFragmentsForSite);
 					}
 					else if(idName == 'excludedIps')
 					{

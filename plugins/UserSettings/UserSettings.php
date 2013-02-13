@@ -146,6 +146,17 @@ class Piwik_UserSettings extends Piwik_Plugin
 				null,
 				null,
 				null),
+
+		// Browser language
+		array(	'UserSettings_VisitorSettings',
+				'UserSettings_BrowserLanguage',
+				'UserSettings',
+				'getLanguage',
+				'General_Language',
+				null,
+				null,
+				null,
+				null),
 	);
 	
 	/*
@@ -320,8 +331,12 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$tablePlugin = $this->getDataTablePlugin();
 		$archiveProcessing->insertBlobRecord($recordName, $tablePlugin->getSerialized());
 		destroy($tablePlugin);
-	}
-	
+
+        $recordName = 'UserSettings_language';
+		$tableLanguage = $this->getDataTableLanguages();
+        $archiveProcessing->insertBlobRecord($recordName, $tableLanguage->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
+    }
+
 	/**
 	 * Period archiving: simply sums up daily archives
 	 *
@@ -333,7 +348,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 		$archiveProcessing = $notification->getNotificationObject();
 		
 		if(!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-		
+
 		$maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
 		
 		$dataTableToSum = array(
@@ -344,6 +359,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 				'UserSettings_resolution',
 				'UserSettings_wideScreen',
 				'UserSettings_plugin',
+				'UserSettings_language',
 		);
 		
 		$archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
@@ -405,7 +421,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 	/**
 	 * Returns SQL that processes stats for Plugins
 	 *
-	 * @return unknown_type
+	 * @return Piwik_DataTable_Simple
 	 */
 	protected function getDataTablePlugin()
 	{
@@ -420,5 +436,37 @@ class Piwik_UserSettings extends Piwik_Plugin
 				sum(case log_visit.config_silverlight when 1 then 1 else 0 end) as silverlight,
 				sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie	";
 		return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
+	}
+
+	protected function getDataTableLanguages()
+	{
+		$labelSQL = "log_visit.location_browser_lang";
+		$interestByLanguage = $this->archiveProcessing->getArrayInterestForLabel($labelSQL);
+
+        $languageCodes = array_keys(Piwik_Common::getLanguagesList());
+
+        foreach ($interestByLanguage as $lang => $count)
+		{
+			// get clean language code
+            $code = Piwik_Common::extractLanguageCodeFromBrowserLanguage($lang, $languageCodes);
+			if ($code != $lang)
+			{
+				if (!array_key_exists($code, $interestByLanguage)) {
+					$interestByLanguage[$code] = array();
+				}
+				// Add the values to the primary language
+				foreach ($count as $key => $value)
+				{
+					if (array_key_exists($key, $interestByLanguage[$code])) {
+						$interestByLanguage[$code][$key] += $value;
+					} else {
+						$interestByLanguage[$code][$key] = $value;
+					}
+				}
+				unset($interestByLanguage[$lang]);
+			}
+		}
+		$tableLanguage = $this->archiveProcessing->getDataTableFromArray($interestByLanguage);
+		return $tableLanguage;
 	}
 }

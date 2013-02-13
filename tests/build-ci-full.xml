@@ -51,8 +51,7 @@
     </target>
 
     <target name="process-build-resources-mysqli" depends="prepare">
-        <copy file="${basedir}/config/mysqli.template.php" tofile="${basedir}/../config/config.ini.php"
-              overwrite="true">
+        <copy file="${basedir}/config/mysqli.template.php" tofile="${basedir}/../config/config.ini.php" overwrite="true">
             <filterset>
                 <filtersfile file="${basedir}/build.properties"/>
             </filterset>
@@ -60,17 +59,28 @@
     </target>
 
     <target name="test-mysqli" depends="process-build-resources-mysqli">
+        <exec executable="php" dir="${basedir}/PHPUnit" failonerror="false" failifexecutionfails="true">
+            <arg line="-d zend_extension=/usr/lib/php5/20090626+lfs/xdebug.so
+                       /usr/bin/phpunit"/>
+        </exec>
+    </target>
 
+    <target name="process-build-resources-pdo-mysql" depends="prepare">
+        <copy file="${basedir}/config/pdo_mysql.template.php" tofile="${basedir}/../config/config.ini.php" overwrite="true">
+            <filterset>
+                <filtersfile file="${basedir}/build.properties"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="test-pdo-mysql" depends="process-build-resources-pdo-mysql">
         <exec executable="php" dir="${basedir}/PHPUnit" failonerror="false" failifexecutionfails="true">
             <arg line="-d zend_extension=/usr/lib/php5/20090626+lfs/xdebug.so
                        /usr/bin/phpunit
-                       --group Core,Plugins
-                       --exclude-group ReleaseCheckList
                        --log-junit ${basedir}/results/logs/junit.xml
                        --coverage-clover ${basedir}/results/logs/clover.xml
                        --coverage-html ${basedir}/results/coverage"/>
         </exec>
-
     </target>
 
     <target name="tools-parallel" description="Run tools in parallel">

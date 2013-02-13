@@ -36,3 +36,37 @@ require_once PIWIK_INCLUDE_PATH .'/tests/PHPUnit/MockEventDispatcher.php';
 
 // required to build code coverage for uncovered files
 require_once PIWIK_INCLUDE_PATH .'/plugins/SecurityInfo/PhpSecInfo/PhpSecInfo.php';
+
+
+// General requirement checks & help: a webserver must be running for tests to work!
+checkPiwikSetupForTests();
+
+function checkPiwikSetupForTests()
+{
+	if($_SERVER['REQUEST_URI'] == '@REQUEST_URI@') {
+		echo "WARNING: for tests to pass, you must first:
+1) Install webserver on localhost, eg. apache
+2) Make these Piwik files available on the webserver, at eg. http://localhost/dev/piwik/ - Piwik does need to be installed to run tests, but this URL must work.
+3) Copy phpunit.xml.dist to phpunit.xml
+4) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
+
+Try again and now the tests should run!";
+		exit(1);
+	}
+
+	// Now testing if the webserver is running
+	$piwikServerUrl = IntegrationTestCase::getRootUrl();
+	try {
+		$fetched = Piwik_Http::sendHttpRequest($piwikServerUrl, $timeout = 3);
+	} catch(Exception $e) {
+		$fetched = $e->getMessage();
+	}
+	$expectedString = 'plugins/CoreHome/templates/images/favicon.ico';
+
+	if(strpos($fetched, $expectedString) === false) {
+		echo "\nPiwik should be running at: " . $piwikServerUrl
+			. "\nbut this URL returned an unexpected response: '"
+			. substr($fetched,0,300) . "...'\n\n";
+		exit;
+	}
+}

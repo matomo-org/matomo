@@ -120,7 +120,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
         // only processing the requested Plugin blob (Actions in this case), not all Plugins blobs
         $tests = array(
             // 5 blobs for the Actions plugin, 7 blobs for UserSettings, 2 blobs VisitTime
-            'archive_blob_2010_12'    => (5 + 7 + 2) * 3,
+            'archive_blob_2010_12'    => (5 + 8 + 2) * 3,
             // (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range)
             // + 1 flag archive UserSettings
             // + (Actions 1 flag + 2 metrics - pageviews, unique pageviews + X??? metrics Site Search)

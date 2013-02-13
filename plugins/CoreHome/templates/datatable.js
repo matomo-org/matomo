@@ -898,8 +898,8 @@ dataTable.prototype =
 						+ ( typeof self.param.filter_pattern != "undefined" ? '&filter_pattern=' + self.param.filter_pattern : '')
 						+ ( typeof self.param.filter_pattern_recursive != "undefined" ? '&filter_pattern_recursive=' + self.param.filter_pattern_recursive : '');
 				
-				if (typeof self.param.flat != "undefined" && self.param.flat) {
-					str += '&flat=1';
+				if (typeof self.param.flat != "undefined") {
+					str += '&flat=' + (self.param.flat == 0 ? '0' : '1');
 					if (typeof self.param.include_aggregate_rows != "undefined" && self.param.include_aggregate_rows) {
 						str += '&include_aggregate_rows=1';
 					}
