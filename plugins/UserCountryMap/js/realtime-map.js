@@ -105,6 +105,8 @@ RealTimeMap.run = function(config) {
         var ratio, w, h;
         ratio = map.viewAB.width / map.viewAB.height;
         w = map.container.width();
+        maxRad = 10 * Math.sqrt(w / 400),
+
         h = Math.min(w / ratio, $(window).height()-30);
         map.container.height(h-2);
         map.resize(w, h);
