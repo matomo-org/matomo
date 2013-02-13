@@ -131,7 +131,7 @@ RealTimeMap.run = function(config) {
     function age(r) {
         var now = new Date().getTime() / 1000;
         var o = (r.lastActionTimestamp - oldest) / (now - oldest);
-        console.log(o, Math.min(1, Math.max(0, o)));
+        //console.log(o, Math.min(1, Math.max(0, o)));
         return Math.min(1, Math.max(0, o));
     }
 
