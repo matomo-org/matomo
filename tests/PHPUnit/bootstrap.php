@@ -43,7 +43,8 @@ checkPiwikSetupForTests();
 
 function checkPiwikSetupForTests()
 {
-	if($_SERVER['REQUEST_URI'] == '@REQUEST_URI@') {
+	if(empty($_SERVER['REQUEST_URI'])
+		|| $_SERVER['REQUEST_URI'] == '@REQUEST_URI@') {
 		echo "WARNING: for tests to pass, you must first:
 1) Install webserver on localhost, eg. apache
 2) Make these Piwik files available on the webserver, at eg. http://localhost/dev/piwik/ - Piwik does need to be installed to run tests, but this URL must work.
