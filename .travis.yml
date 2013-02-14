@@ -25,7 +25,11 @@ matrix:
     - php: 5.5
 
 notifications:
-  irc: 
-    -"irc.freenode.org#piwik"
+  irc:
+    channels:
+      - "irc.freenode.org#piwik"
+    template:
+      - "%{repository} (%{commit}) : %{message} %{foo} "
+      - "Build details: %{build_url}"
   email:
     - builds@piwik.org
