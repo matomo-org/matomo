@@ -1240,7 +1240,8 @@ $.extend(UserCountryMap, {
         AT: 'AU',
         SE: 'SW',
         CH: 'SZ',
-        ES: 'SP'
+        ES: 'SP',
+        AU: 'AS'
     }
 
 });
