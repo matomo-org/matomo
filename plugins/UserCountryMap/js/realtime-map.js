@@ -281,6 +281,7 @@ RealTimeMap.run = function(config) {
                     mouseleave: unhighlightVisit,
                     click: function(r, s, evt) {
                         evt.stopPropagation();
+                        console.log(s.data.continentCode);
                     }
                 });
 
