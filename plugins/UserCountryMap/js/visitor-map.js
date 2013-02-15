@@ -1235,13 +1235,28 @@ $.extend(UserCountryMap, {
         BIH: { HRV: [15.3, 45] }
     },
 
+    // countries where FIPS differs from 2-letter ISO code
     differentFIPS: {
-        DE: 'GM',
-        AT: 'AU',
-        SE: 'SW',
-        CH: 'SZ',
-        ES: 'SP',
-        AU: 'AS'
+        AD: 'AN', AG: 'AC', AI: 'AV', AQ: 'AY', AS: 'AQ', AT: 'AU', AU: 'AS', AW: 'AA',
+        AZ: 'AJ', BA: 'BK', BD: 'BG', BF: 'UV', BG: 'BU', BH: 'BA', BI: 'BY', BJ: 'BN',
+        BL: 'TB', BM: 'BD', BN: 'BX', BO: 'BL', BS: 'BF', BW: 'BC', BY: 'BO', BZ: 'BH',
+        CC: 'CK', CD: 'CG', CF: 'CT', CG: 'CF', CH: 'SZ', CI: 'IV', CK: 'CW', CL: 'CI',
+        CN: 'CH', CR: 'CS', CW: 'UC', CX: 'KT', CZ: 'EZ', DE: 'GM', DK: 'DA', DM: 'DO',
+        DO: 'DR', DZ: 'AG', EE: 'EN', EH: 'WI', ES: 'SP', GA: 'GB', GB: 'UK', GD: 'GJ',
+        GE: 'GG', GF: 'FG', GG: 'GK', GM: 'GA', GN: 'GV', GQ: 'EK', GS: 'SX', GU: 'GQ',
+        GW: 'PU', HN: 'HO', HT: 'HA', IE: 'EI', IL: 'IS', IQ: 'IZ', IS: 'IC', JP: 'JA',
+        KH: 'CB', KI: 'KR', KM: 'CN', KN: 'SC', KP: 'KN', KR: 'KS', XK: 'KV', KW: 'KU',
+        KY: 'CJ', LB: 'LE', LC: 'ST', LI: 'LS', LK: 'CE', LR: 'LI', LS: 'LT', LT: 'LH',
+        LV: 'LG', MA: 'MO', MC: 'MN', ME: 'MJ', MF: 'RN', MG: 'MA', MH: 'RM', MM: 'BM',
+        MN: 'MG', MO: 'MC', MP: 'CQ', MQ: 'MB', MS: 'MH', MU: 'MP', MW: 'MI', NA: 'WA',
+        NE: 'NG', NG: 'NI', NI: 'NU', NU: 'NE', OM: 'MU', PA: 'PM', PF: 'FP', PG: 'PP',
+        PH: 'RP', PM: 'SB', PN: 'PC', PR: 'RQ', PS: 'WE', PT: 'PO', PW: 'PS', PY: 'PA',
+        RS: 'RI', RU: 'RS', SB: 'BP', SC: 'SE', SD: 'SU', SS: 'OD', SE: 'SW', SG: 'SN',
+        SJ: 'SV', SK: 'LO', SN: 'SG', SR: 'NS', ST: 'TP', SV: 'ES', SX: 'NN', SZ: 'WZ',
+        TC: 'TK', TD: 'CD', TF: 'FS', TG: 'TO', TJ: 'TI', TK: 'TL', TL: 'TT', TM: 'TX',
+        TN: 'TS', TO: 'TN', TR: 'TU', TT: 'TD', UA: 'UP', VA: 'VT', VG: 'VI', VI: 'VQ',
+        VN: 'VM', VU: 'NH', YE: 'YM', YT: 'MF', ZA: 'SF', ZM: 'ZA', ZW: 'ZI', CS: 'YI',
+        AN: 'NT'
     }
 
 });
