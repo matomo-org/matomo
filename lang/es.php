@@ -1534,7 +1534,7 @@ Nota: Este código vencerá en 24 hora.
 	'UserCountry_country_tv' => 'Tuvalu',
 	'UserCountry_country_tw' => 'Taiwán',
 	'UserCountry_country_tz' => 'Tanzania, República Unida de Tanzania',
-	'UserCountry_country_ti' => 'Tíbet, Ocupado',
+	'UserCountry_country_ti' => 'Tíbet',
 	'UserCountry_country_ua' => 'Ucrania',
 	'UserCountry_country_ug' => 'Uganda',
 	'UserCountry_country_uk' => 'Gran Bretaña',
