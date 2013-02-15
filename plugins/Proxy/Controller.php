@@ -129,8 +129,11 @@ class Piwik_Proxy_Controller extends Piwik_Controller
 		$referrer = Piwik_Url::getReferer();
 		if(empty($referrer) || !Piwik_Url::isLocalUrl($referrer))
 		{
-			die('Invalid Referer detected - check that your browser sends the Referer header.
-				<br/>The link you would have been redirected to is: '. $url);
+			die('Invalid Referer detected - This means that your web browser is not sending the "Referer URL" which is
+				required to proceed with the redirect. Verify your browser settings and add-ons, to check why your browser
+				 is not sending this referer.
+
+				<br/><br/>You can access the page at: '. $url);
 		}
 
 		// mask visits to *.piwik.org
