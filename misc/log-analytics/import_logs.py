@@ -1423,7 +1423,12 @@ class Parser(object):
                 if hit.query_string and hit.path.lower().endswith('piwik.php'):
                     query_arguments = urlparse.parse_qs(hit.query_string)
                     if "idsite" in query_arguments:
-                        hit.args.update((k, v.pop().encode('raw_unicode_escape').decode(config.options.encoding)) for k, v in query_arguments.iteritems())
+                        try:
+                            hit.args.update((k, v.pop().encode('raw_unicode_escape').decode(config.options.encoding)) for k, v in query_arguments.iteritems())
+                        except UnicodeDecodeError:
+                            invalid_line(line, 'invalid encoding')
+                            continue
+
         # add last chunk of hits
         if len(hits) > 0:
             Recorder.add_hits(hits)
