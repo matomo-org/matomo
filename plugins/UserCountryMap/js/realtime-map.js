@@ -424,7 +424,7 @@ RealTimeMap.run = function(config) {
         storeSettings();
     }
 
-    updateMap(location.hash ? location.hash.substr(1) : 'world'); // TODO: restore last state
+    updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z][A-Z]$/)) ? location.hash.substr(1) : 'world'); // TODO: restore last state
 
     // clicking on map background zooms out
     $('#RealTimeMap_map').off('click').click(function() {
