@@ -921,25 +921,34 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
                 array('AND', 'Android', 'Android'))),
 
-	        array('Dalvik/1.4.0 (Linux; U; Android 2.3.3; GT-I9100 Build/GINGERBREAD) Titanium/1.8.0', array(
-		        array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
-		        array('AND', 'Android', 'Android'))),
+            array('Dalvik/1.4.0 (Linux; U; Android 2.3.3; GT-I9100 Build/GINGERBREAD) Titanium/1.8.0', array(
+                array('TI', 'Titanium', 'Titanium', '1.8', '1', '8', 'webkit'),
+                array('AND', 'Android', 'Android'))),
 
-	        array('Mozilla/5.0 (X11; U; CrOS i686 9.10.0; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.253.0 Safari/532.5', array(
-		        array('CH', 'Chrome', 'Chrome', '4.0', '4', '0', 'webkit'),
-		        array('LIN', 'Linux', 'Linux'))),
+            array('Mozilla/5.0 (X11; U; CrOS i686 9.10.0; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.253.0 Safari/532.5', array(
+                array('CH', 'Chrome', 'Chrome', '4.0', '4', '0', 'webkit'),
+                array('LIN', 'Linux', 'Linux'))),
 
 
-			// Email Clients
+            // Email Clients
 
-			// Thunderbird
-			array('Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20120713 Thunderbird/14.0 Lightning/1.6', array(
-				array('TB', 'Thunderbird', 'Thunderbird', '14.0', '14', '0', 'gecko'),
-				array('WXP', 'Windows XP', 'Win XP'))),
+            // Thunderbird
+            array('Mozilla/5.0 (Windows NT 5.1; rv:14.0) Gecko/20120713 Thunderbird/14.0 Lightning/1.6', array(
+                array('TB', 'Thunderbird', 'Thunderbird', '14.0', '14', '0', 'gecko'),
+                array('WXP', 'Windows XP', 'Win XP'))),
 
-			array('Mozilla/5.0 (X11; Linux i686; rv:16.0) Gecko/20121011 Thunderbird/16.0.1', array(
-				array('TB', 'Thunderbird', 'Thunderbird', '16.0', '16', '0', 'gecko'),
-				array('LIN', 'Linux', 'Linux'))),
+            array('Mozilla/5.0 (X11; Linux i686; rv:16.0) Gecko/20121011 Thunderbird/16.0.1', array(
+                array('TB', 'Thunderbird', 'Thunderbird', '16.0', '16', '0', 'gecko'),
+                array('LIN', 'Linux', 'Linux'))),
+
+            array('Mozilla/5.0 (Windows NT 6.1; WOW64; rv:17.0) Gecko/20130107 Thunderbird/17.0.2 Lightning/1.9', array(
+                array('TB', 'Thunderbird', 'Thunderbird', '17.0', '17', '0', 'gecko'),
+                array('WI7', 'Windows 7', 'Win 7'))),
+
+            array('Mozilla/5.0 (X11; Linux i686 on x86_64; rv:15.0) Gecko/20120907 Thunderbird/15.0.1', array(
+                array('TB', 'Thunderbird', 'Thunderbird', '15.0', '15', '0', 'gecko'),
+                array('LIN', 'Linux', 'Linux')))
+
         );
     }
 
