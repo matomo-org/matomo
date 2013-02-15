@@ -126,9 +126,10 @@ UserCountryMap.run = function(config) {
 
         var colscale;
 
-        function addLegendItem(val, metric) {
+        function addLegendItem(val, first) {
             var d = $('<div>'), r = $('<div>'), l = $('<div>'),
-                v = formatNumber(Math.round(val)) + (metric == 'avg_time_on_site' ? 'sec' : '');
+                metric = $('#userCountryMapSelectMetrics').val(),
+                v = formatNumber(Math.round(val)) + (metric == 'avg_time_on_site' && first ? 'sec' : '');
             d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
             l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
             r.css({ clear: 'both', height: 19 });
@@ -151,7 +152,7 @@ UserCountryMap.run = function(config) {
             colscale = { getColor: function() { return '#CDDAEF'; } };
             if (choropleth) {
                 $('.UserCountryMap-legend .content').html('').show();
-                addLegendItem(stats.min, metric);
+                addLegendItem(stats.min, true);
             }
             return colscale;
         }
@@ -180,7 +181,7 @@ UserCountryMap.run = function(config) {
             var itemExists = {};
             $.each(chroma.limits(values, 'k', 3), function(i, v) {
                 if (itemExists[v]) return;
-                addLegendItem(v, metric);
+                addLegendItem(v, i === 0);
                 itemExists[v] = true;
             });
 

@@ -65,7 +65,7 @@ RealTimeMap.run = function(config) {
             showColumns: ['latitude','longitude','actions','lastActionTimestamp',
                 'visitLocalTime','city','country','referrerType','referrerName',
                 'referrerTypeName','browserIcon','operatingSystemIcon',
-                'countryFlag','idVisit','actionDetails','continent'].join(','),
+                'countryFlag','idVisit','actionDetails','continentCode'].join(','),
             minTimestamp: firstRun ? -1 : lastTimestamp,
             date: 'today'
         });
