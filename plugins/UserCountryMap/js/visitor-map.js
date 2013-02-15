@@ -1257,6 +1257,10 @@ $.extend(UserCountryMap, {
         TN: 'TS', TO: 'TN', TR: 'TU', TT: 'TD', UA: 'UP', VA: 'VT', VG: 'VI', VI: 'VQ',
         VN: 'VM', VU: 'NH', YE: 'YM', YT: 'MF', ZA: 'SF', ZM: 'ZA', ZW: 'ZI', CS: 'YI',
         AN: 'NT'
+    },
+
+    cont2cont: {
+        afr: 'AF', eur: 'EU', amn: 'NA', ams: 'SA', 'asi': 'AS', oce: 'OC', amc: 'SA'
     }
 
 });

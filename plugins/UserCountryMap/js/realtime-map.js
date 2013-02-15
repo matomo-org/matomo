@@ -281,7 +281,10 @@ RealTimeMap.run = function(config) {
                     mouseleave: unhighlightVisit,
                     click: function(r, s, evt) {
                         evt.stopPropagation();
-                        console.log(s.data.continentCode);
+                        var cont = cont[s.data.continentCode];
+                        if (cont && cont != currentMap) {
+                            updateMap(cont);
+                        }
                     }
                 });
 
