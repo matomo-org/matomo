@@ -50,7 +50,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>North America</continent>
+		<continentCode>amn</continentCode>
 		<country>United States</country>
+		<countryCode>us</countryCode>
 		<countryFlag>plugins/UserCountry/flags/us.png</countryFlag>
 		<region>California</region>
 		<city>not a city</city>
@@ -144,7 +146,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
 		<country>Unknown</country>
+		<countryCode>xx</countryCode>
 		<countryFlag>plugins/UserCountry/flags/xx.png</countryFlag>
 		<region />
 		<city />
@@ -238,7 +242,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Unknown</continent>
+		<continentCode>unk</continentCode>
 		<country>Unknown</country>
+		<countryCode>xx</countryCode>
 		<countryFlag>plugins/UserCountry/flags/xx.png</countryFlag>
 		<region />
 		<city />
@@ -332,7 +338,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryCode>mk</countryCode>
 		<countryFlag>plugins/UserCountry/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<city>Stratford-upon-Avon</city>
@@ -426,7 +434,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>Macedonia, the Former Yugoslav Republic of</country>
+		<countryCode>mk</countryCode>
 		<countryFlag>plugins/UserCountry/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<city>Stratford-upon-Avon</city>
@@ -520,7 +530,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
 		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<city>Hluboká nad Vltavou</city>
@@ -614,7 +626,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
 		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<city>Hluboká nad Vltavou</city>
@@ -708,7 +722,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
 		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<city>Stratford-upon-Avon</city>
@@ -802,7 +818,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
+		<countryCode>ru</countryCode>
 		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<city>Stratford-upon-Avon</city>
@@ -896,7 +914,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
+		<countryCode>gb</countryCode>
 		<countryFlag>plugins/UserCountry/flags/gb.png</countryFlag>
 		<region>Kent</region>
 		<city>Stratford-upon-Avon</city>
