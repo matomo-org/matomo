@@ -127,7 +127,7 @@ UserCountryMap.run = function(config) {
         var colscale;
 
         function addLegendItem(val) {
-            var d = $('<div>'), r = $('<div>'), l = $('<div>'), v = formatNumber(val);
+            var d = $('<div>'), r = $('<div>'), l = $('<div>'), v = formatNumber(Math.round(val));
             d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
             l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
             r.css({ clear: 'both', height: 19 });

@@ -2360,8 +2360,8 @@
       }
       phi = s.deg(phi - s.RC1 * i);
       i *= 4;
-      x = s._poly(s.X, i, phi) * s.FXC * lplam;
-      y = s._poly(s.Y, i, phi) * s.FYC;
+      x = 1000 * s._poly(s.X, i, phi) * s.FXC * lplam;
+      y = 1000 * s._poly(s.Y, i, phi) * s.FYC;
       if (lpphi < 0.0) {
         y = -y;
       }
