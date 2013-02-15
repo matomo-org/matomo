@@ -71,8 +71,11 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 		{
 			// message will already be prefixed w/ 'Piwik_UserCountry_GeoIPAutoUpdater: '
 			Piwik::log($ex->getMessage());
+			$this->performRedundantDbChecks();
 			throw $ex;
 		}
+		
+		$this->performRedundantDbChecks();
 	}
 	
 	/**
@@ -207,7 +210,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 			{
 				throw new Exception("Unexpected GeoIP archive file name '$path'.");
 			}
-		
+			
 			$customDbNames = array(
 				'loc' => array(),
 				'isp' => array(),
@@ -216,16 +219,8 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 			$customDbNames[$dbType] = array($tempFilename);
 		
 			$phpProvider = new Piwik_UserCountry_LocationProvider_GeoIp_Php($customDbNames);
-		
-			// note: in most cases where this will fail, the error will usually be a PHP fatal error/notice.
-			// in order to delete the files in such a case (which can be caused by a man-in-the-middle attack)
-			// we need to catch them, so we set a new error handler.
-			self::$unzipPhpError = null;
-			set_error_handler(array('Piwik_UserCountry_GeoIPAutoUpdater', 'catchGeoIPError'));
-		
-			$location = $phpProvider->getLocation(array('ip' => Piwik_UserCountry_LocationProvider_GeoIp::TEST_IP));
-		
-			restore_error_handler();
+			
+			$location = self::getTestLocationCatchPhpErrors($phpProvider);
 		
 			if (empty($location)
 				|| self::$unzipPhpError !== null)
@@ -475,6 +470,102 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 		{
 			return reset($filenameParts);
 		}
+	}
+	
+	/**
+	 * Tests a location provider using a test IP address and catches PHP errors
+	 * (ie, notices) if they occur. PHP error information is held in self::$unzipPhpError.
+	 * 
+	 * @param Piwik_UserCountry_LocationProvider $provider The provider to test.
+	 * @return array|false $location The result of geolocation. False if no location
+	 *                               can be found.
+	 */
+	private static function getTestLocationCatchPhpErrors( $provider )
+	{
+		// note: in most cases where this will fail, the error will usually be a PHP fatal error/notice.
+		// in order to delete the files in such a case (which can be caused by a man-in-the-middle attack)
+		// we need to catch them, so we set a new error handler.
+		self::$unzipPhpError = null;
+		set_error_handler(array('Piwik_UserCountry_GeoIPAutoUpdater', 'catchGeoIPError'));
+		
+		$location = $provider->getLocation(array('ip' => Piwik_UserCountry_LocationProvider_GeoIp::TEST_IP));
+		
+		restore_error_handler();
+		
+		return $location;
+	}
+	
+	/**
+	 * Utility function that checks if geolocation works with each installed database,
+	 * and if one or more doesn't, they are renamed to make sure tracking will work.
+	 * This is a safety measure used to make sure tracking isn't affected if strange
+	 * update errors occur.
+	 * 
+	 * Databases are renamed to ${original}.broken .
+	 * 
+	 * Note: method is protected for testability.
+	 */
+	protected function performRedundantDbChecks()
+	{
+		$databaseTypes = array_keys(Piwik_UserCountry_LocationProvider_GeoIp::$dbNames);
+		
+		foreach ($databaseTypes as $type)
+		{
+			$customNames = array(
+				'loc' => array(),
+				'isp' => array(),
+				'org' => array()
+			);
+			$customNames[$type] = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$type];
+			
+			// create provider that only uses the DB type we're testing
+			$provider = new Piwik_UserCountry_LocationProvider_GeoIp_Php($customNames);
+			
+			// test the provider. on error, we rename the broken DB.
+			self::getTestLocationCatchPhpErrors($provider);
+			if (self::$unzipPhpError !== null)
+			{
+				list($errno, $errstr, $errfile, $errline) = self::$unzipPhpError;
+				Piwik::log("Piwik_UserCountry_GeoIPAutoUpdater: Encountered PHP error when performing redundant ".
+					"tests on GeoIP $type database: $errno: $errstr on line $errline of $errfile.");
+				
+				// get the current filename for the DB and an available new one to rename it to
+				list($oldPath, $newPath) = $this->getOldAndNewPathsForBrokenDb($customNames[$type]);
+				
+				// rename the DB so tracking will not fail
+				if ($oldPath !== false
+					&& $newPath !== false)
+				{
+					if (file_exists($newPath))
+					{
+						unlink($newPath);
+					}
+					
+					rename($oldPath, $newPath);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Returns the path to a GeoIP database and a path to rename it to if it's broken.
+	 * 
+	 * @param array $possibleDbNames The possible names of the database.
+	 * @return array Array with two elements, the path to the existing database, and
+	 *               the path to rename it to if it is broken. The second will end
+	 *               with something like .broken .
+	 */
+	private function getOldAndNewPathsForBrokenDb( $possibleDbNames )
+	{
+		$pathToDb = Piwik_UserCountry_LocationProvider_GeoIp::getPathToGeoIpDatabase($possibleDbNames);
+		$newPath = false;
+		
+		if ($pathToDb !== false)
+		{
+			$newPath = $pathToDb.".broken";
+		}
+		
+		return array($pathToDb, $newPath);
 	}
 	
 	/**

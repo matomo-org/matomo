@@ -96,7 +96,6 @@ class Piwik_PDFReports_API
 		$reports = self::validateRequestedReports($idSite, $reportType, $reports);
 		
 		$db = Zend_Registry::get('db');
-		// there must be something better than this to generate a new id..
 		$idReport = $db->fetchOne("SELECT max(idreport) + 1 FROM ".Piwik_Common::prefixTable('report'));
 
 		if($idReport == false)

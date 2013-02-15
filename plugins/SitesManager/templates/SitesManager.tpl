@@ -44,10 +44,10 @@ var aliasUrlsHelp = '{'SitesManager_AliasUrlHelp'|translate|inlineHelp|escape:ja
 {assign var=excludedUserAgentsHelp value=$excludedUserAgentsHelp|inlineHelp}
 
 {capture assign=keepURLFragmentSelectHTML}
-	<h4 style="display:inline-block;">{'SitesManager_KeepURLFragments'|translate}</h4>
-	
+	<h4 style="display:inline-block;">{'SitesManager_KeepURLFragmentsLong'|translate}</h4>
+
 	<select id="keepURLFragmentSelect">
-		<option value="0">{'General_Default'|translate}</option>
+		<option value="0">{if $globalKeepURLFragments}{'General_Yes'|translate}{else}{'General_No'|translate}{/if} ({'General_Default'|translate})</option>
 		<option value="1">{'General_Yes'|translate}</option>
 		<option value="2">{'General_No'|translate}</option>
 	</select>

@@ -7,6 +7,7 @@
  */
 require_once PIWIK_INCLUDE_PATH.'/plugins/UserCountry/UserCountry.php';
 require_once 'UserCountry/functions.php';
+require_once PIWIK_INCLUDE_PATH.'/core/DataFiles/Countries.php';
 
 class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 {
@@ -70,5 +71,74 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
             $this->assertArrayHasKey($country, $countries, $filename);
         }
     }
+    
+    // test that redundant checks work
+    public function testGeoIpUpdaterRedundantChecks()
+    {
+		Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
+		Piwik_UserCountry_LocationProvider::$providers = null;
+		
+		// create empty ISP & Org files
+		$this->createEmptyISPOrgFiles();
+		
+		// run redundant checks
+		$updater = new Piwik_UserCountry_GeoIPAutoUpdater_publictestRedundantChecks();
+		$updater->performRedundantDbChecks();
+		
+		// check that files are renamed correctly
+		$this->checkBrokenGeoIPState();
+		
+		// create empty files again & run checks again
+		$this->createEmptyISPOrgFiles();
+		$updater->performRedundantDbChecks();
+		
+		// check that w/ broken files already there, redundant checks still work correctly
+		$this->checkBrokenGeoIPState();
+    }
+    
+    public function tearDown()
+    {
+    	$geoIpDirPath = PIWIK_INCLUDE_PATH.'/tests/lib/geoip-files';
+    	if (file_exists($geoIpDirPath.'/GeoIPISP.dat.broken'))
+    	{
+    		unlink($geoIpDirPath.'/GeoIPISP.dat.broken');
+    	}
+    	
+    	if (file_exists($geoIpDirPath.'/GeoIPOrg.dat.broken'))
+    	{
+    		unlink($geoIpDirPath.'/GeoIPOrg.dat.broken');
+    	}
+    }
+    
+    private function createEmptyISPOrgFiles()
+    {
+    	$geoIpDir = PIWIK_INCLUDE_PATH.'/tests/lib/geoip-files';
+    	
+		$fd = fopen($geoIpDir.'/GeoIPISP.dat', 'w');
+		fclose($fd);
+		
+		$fd = fopen($geoIpDir.'/GeoIPOrg.dat', 'w');
+		fclose($fd);
+    }
+    
+    private function checkBrokenGeoIPState()
+    {
+    	$geoIpDir = PIWIK_INCLUDE_PATH.'/tests/lib/geoip-files';
+    	
+		$this->assertFalse(file_exists($geoIpDir.'/GeoIPCity.dat.broken'));
+		
+		$this->assertFalse(file_exists($geoIpDir.'/GeoIPISP.dat'));
+		$this->assertTrue(file_exists($geoIpDir.'/GeoIPISP.dat.broken'));
+		
+		$this->assertFalse(file_exists($geoIpDir.'/GeoIPOrg.dat'));
+		$this->assertTrue(file_exists($geoIpDir.'/GeoIPOrg.dat.broken'));
+    }
 }
 
+class Piwik_UserCountry_GeoIPAutoUpdater_publictestRedundantChecks extends Piwik_UserCountry_GeoIPAutoUpdater
+{
+	public function performRedundantDbChecks()
+	{
+		parent::performRedundantDbChecks();
+	}
+}

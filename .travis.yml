@@ -32,4 +32,4 @@ notifications:
       - "%{repository} (%{commit}) : %{message} %{foo} "
       - "Build details: %{build_url}"
   email:
-    - builds@piwik.org
+    - piwik-builds@piwik.org

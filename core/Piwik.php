@@ -2744,6 +2744,7 @@ class Piwik
 		
 		if (function_exists('exec')) // use exec
 		{
+			$output = $returnCode = null;
 			@exec($command, $output, $returnCode);
 			
 			// check if filesystem is NFS
