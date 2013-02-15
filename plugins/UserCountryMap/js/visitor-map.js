@@ -129,7 +129,7 @@ UserCountryMap.run = function(config) {
         function addLegendItem(val, first) {
             var d = $('<div>'), r = $('<div>'), l = $('<div>'),
                 metric = $('#userCountryMapSelectMetrics').val(),
-                v = formatNumber(Math.round(val)) + (metric == 'avg_time_on_site' && first ? 'sec' : '');
+                v = formatNumber(Math.round(val)) + (metric == 'avg_time_on_site' ? first ? ' sec' : 's' : '');
             d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
             l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
             r.css({ clear: 'both', height: 19 });
