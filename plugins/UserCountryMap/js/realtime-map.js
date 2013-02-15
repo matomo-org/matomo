@@ -281,7 +281,7 @@ RealTimeMap.run = function(config) {
                     mouseleave: unhighlightVisit,
                     click: function(r, s, evt) {
                         evt.stopPropagation();
-                        var cont = cont[s.data.continentCode];
+                        var cont = UserCountryMap.cont2cont[s.data.continentCode];
                         if (cont && cont != currentMap) {
                             updateMap(cont);
                         }
