@@ -155,7 +155,7 @@ RealTimeMap.run = function(config) {
         var ds = new Date().getTime() / 1000 - r.lastActionTimestamp,
             ad = r.actionDetails,
             ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; };
-        return '<h3>'+r.city+' / '+r.country+'</h3>'+
+        return '<h3>'+(r.city ? r.city+' / ' : '')+r.country+'</h3>'+
             // icons
             ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
             // last action
