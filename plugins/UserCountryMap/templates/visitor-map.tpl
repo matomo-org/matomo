@@ -73,9 +73,20 @@
 
     $('#UserCountryMap').addClass('dataTable');
 
+    var widget = $('#UserCountryMap').parents('.widgetContent');
+
 {literal}
-    $(function() {
+    widget.on('widget:loaded', function(evt, widget) {
+        UserCountryMap.theWidget = widget;
         UserCountryMap.run(config);
+    });
+
+    widget.on('widget:maximise', function(evt) {
+        UserCountryMap.resize();
+    });
+
+    widget.on('widget:minimise', function(evt) {
+        UserCountryMap.resize();
     });
 {/literal}
 

@@ -67,17 +67,20 @@ UserCountryMap.run = function(config) {
      * resizes the map
      */
     function onResize() {
-        var ratio, w, h;
+        var ratio, w, h,
+            maxHeight = $(window).height() - (UserCountryMap.theWidget.isMaximised ? 150 : 55);
         ratio = map.viewAB.width / map.viewAB.height;
         w = map.container.width();
         h = w / ratio;
-        h = Math.min($(window).height() - 55, h);
+        h = Math.min(maxHeight, h);
         map.container.height(h - 2);
         map.resize(w, h);
 
         if (w < 355) $('.tableIcon span').hide();
         else $('.tableIcon span').show();
     }
+
+    UserCountryMap.resize = onResize;
 
     function formatNumber(v) {
         v = Number(v);
@@ -1081,6 +1084,7 @@ UserCountryMap.run = function(config) {
             var params = UserCountryMap.widget.dashboardWidget('getWidgetObject').parameters;
             UserCountryMap.mode = params && params.viewMode ? params.viewMode : 'region';
             if (params && params.lastMetric) $('#userCountryMapSelectMetrics').val(params.lastMetric);
+            //alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
             updateState(params && params.lastMap ? params.lastMap : 'world');
 
             // populate country select
@@ -1131,7 +1135,7 @@ UserCountryMap.run = function(config) {
         }, 3000);*/
     }
 
-    $('.UserCountryMap-overlay').on('mouseenter', hideOverlay);
+    $('.UserCountryMap-overlay').off('mouseenter').on('mouseenter', hideOverlay);
     $('#widgetUserCountryMapvisitorMap .widgetName span').remove();
     $('#widgetUserCountryMapvisitorMap .widgetName').append('<span class="map-title"></span>');
 
@@ -1264,5 +1268,4 @@ $.extend(UserCountryMap, {
     }
 
 });
-
 
