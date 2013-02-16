@@ -686,12 +686,12 @@ class IPTest extends PHPUnit_Framework_TestCase
      */
     public function testGetHostByAddr()
     {
-        $hosts = array( 'localhost', strtolower(@php_uname('n')), '127.0.0.1' );
+        $hosts = array( 'localhost', 'localhost.localdomain', strtolower(@php_uname('n')), '127.0.0.1' );
         $this->assertTrue( in_array(strtolower(Piwik_IP::getHostByAddr('127.0.0.1')), $hosts), '127.0.0.1 -> localhost' );
 
         if (!Piwik_Common::isWindows() || PHP_VERSION >= '5.3')
         {
-            $hosts = array( 'ip6-localhost', 'localhost', strtolower(@php_uname('n')), '::1' );
+            $hosts = array( 'ip6-localhost', 'localhost', 'localhost.localdomain', strtolower(@php_uname('n')), '::1' );
             $this->assertTrue( in_array(strtolower(Piwik_IP::getHostByAddr('::1')), $hosts), '::1 -> ip6-localhost' );
         }
     }
