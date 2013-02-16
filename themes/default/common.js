@@ -22,7 +22,9 @@ var piwikHelper = {
             try {
                 opera.postError.apply(opera, arguments);  // Opera
             } catch (f) {
-                alert(Array.prototype.join.call(arguments, ' ')); // MSIE
+                // don't alert as log is not considered to be important enough
+                // (as opposed to piwikHelper.error)
+                //alert(Array.prototype.join.call(arguments, ' ')); // MSIE
             }
         }
     },
