@@ -1075,6 +1075,8 @@ class Piwik
  * Logging and error handling
  */
 
+	public static $shouldLog = null;
+	
 	/**
 	 * Log a message
 	 *
@@ -1082,20 +1084,19 @@ class Piwik
 	 */
 	static public function log($message = '')
 	{
-		static $shouldLog = null;
-		if(is_null($shouldLog))
+		if(is_null(self::$shouldLog))
 		{
-			$shouldLog = self::shouldLoggerLog();
+			self::$shouldLog = self::shouldLoggerLog();
 			// It is possible that the logger is not setup:
 			// - Tracker request, and debug disabled, 
 			// - and some scheduled tasks call code that tries and log something  
 			try {
 				Zend_Registry::get('logger_message');
 			} catch(Exception $e) {
-				$shouldLog = false;
+				self::$shouldLog = false;
 			}
 		}
-		if($shouldLog)
+		if(self::$shouldLog)
 		{
 			Zend_Registry::get('logger_message')->logEvent($message);
 		}
