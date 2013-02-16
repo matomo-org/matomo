@@ -26,6 +26,7 @@ matrix:
 
 notifications:
   irc:
+    skip_join: true
     channels:
       - "irc.freenode.org#piwik"
     template:
