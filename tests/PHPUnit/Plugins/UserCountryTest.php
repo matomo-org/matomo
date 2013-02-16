@@ -99,17 +99,18 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
     public function tearDown()
     {
     	$geoIpDirPath = PIWIK_INCLUDE_PATH.'/tests/lib/geoip-files';
-    	if (file_exists($geoIpDirPath.'/GeoIPISP.dat.broken'))
-    	{
-    		unlink($geoIpDirPath.'/GeoIPISP.dat.broken');
-    	}
+    	$filesToRemove = array('GeoIPISP.dat.broken', 'GeoIPOrg.dat.broken', 'GeoIPISP.dat', 'GeoIPOrg.dat');
     	
-    	if (file_exists($geoIpDirPath.'/GeoIPOrg.dat.broken'))
+    	foreach ($filesToRemove as $name)
     	{
-    		unlink($geoIpDirPath.'/GeoIPOrg.dat.broken');
+    		$path = $geoIpDirPath.'/'.$name;
+    		if (file_exists($path))
+    		{
+    			unlink($path);
+    		}
     	}
     }
-    
+	
     private function createEmptyISPOrgFiles()
     {
     	$geoIpDir = PIWIK_INCLUDE_PATH.'/tests/lib/geoip-files';
