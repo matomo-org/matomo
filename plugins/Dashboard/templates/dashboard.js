@@ -61,7 +61,7 @@ function initDashboard(dashboardId, dashboardLayout) {
     });
 
     $('#columnPreview>div').each(function(){
-        var width = new Array();
+        var width = [];
         $('div', this).each(function(){
             width.push(this.className.replace(/width-/, ''));
         });
