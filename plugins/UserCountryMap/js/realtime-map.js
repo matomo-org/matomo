@@ -2,6 +2,9 @@
 
 window.RealTimeMap = {};
 
+// Array.filter polyfill
+[].filter||(Array.prototype.filter=function(a,b,c,d,e,f,g){for(c=this,d=e=[],g=c.length;e<g;a.call(b,f=c[+e],e++,c)&&d.push(f));return d});
+
 /*
  * main function, called from realtime-map.tpl
  */
