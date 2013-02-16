@@ -939,7 +939,10 @@ UserCountryMap.run = function(config) {
                 }
             });
             function filtCountryLabels(data) {
-                return data.iso != iso && Math.abs(map.getLayer('context-clickable').getPath(data.iso).path.area()) > 700;
+                return data.iso != iso &&
+                    map.getLayer('context-clickable') &&
+                    map.getLayer('context-clickable').getPath(data.iso) &&
+                    Math.abs(map.getLayer('context-clickable').getPath(data.iso).path.area()) > 700;
             }
             // returns either the reference to the country polygon or a custom label
             // position if defined in UserCountryMap.customLabelPositions
