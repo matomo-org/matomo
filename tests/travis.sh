@@ -16,3 +16,4 @@ mkdir ./tmp/cache
 mkdir ./tmp/latest
 mkdir ./tmp/sessions
 mkdir ./tmp/templates_c
+chmod a+rw ./tests/lib/geoip-files
