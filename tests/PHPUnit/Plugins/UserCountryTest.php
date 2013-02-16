@@ -96,6 +96,11 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 		$this->checkBrokenGeoIPState();
     }
     
+    public function setUp()
+    {
+    	Piwik::$shouldLog = null;
+    }
+    
     public function tearDown()
     {
     	$geoIpDirPath = PIWIK_INCLUDE_PATH.'/tests/lib/geoip-files';
