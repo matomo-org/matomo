@@ -112,6 +112,7 @@
                     $(this).removeAttr('style');
                     self.options.onChange();
                     $(this).find('div.piwik-graph').trigger('resizeGraph');
+                    $('.widgetContent', self.element).trigger('widget:minimise');
                 }
             });
             this.element.find('div.piwik-graph').trigger('resizeGraph');
@@ -122,6 +123,7 @@
                     $(currentWidget).dialog("close");
                 }
             });
+            $('.widgetContent', currentWidget).trigger('widget:maximise');
             return this;
         },
 
@@ -130,14 +132,15 @@
          */
         reload: function(hideLoading) {
 
-            var currentWidget = this.element;
+            var self = this, currentWidget = this.element;
             function onWidgetLoadedReplaceElementWithContent(loadedContent)
             {
                 $('.widgetContent', currentWidget).html(loadedContent);
                 $('.widgetContent', currentWidget).removeClass('loading');
+                $('.widgetContent', currentWidget).trigger('widget:loaded', [self]);
             }
 
-            // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard) 
+            // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)
             var segment = broadcast.getValueFromHash('segment') || broadcast.getValueFromUrl('segment');
             if(segment.length) {
                 this.widgetParameters.segment = segment;
@@ -180,7 +183,7 @@
         _createDashboardWidget: function(uniqueId) {
 
             var widgetName = widgetsHelper.getWidgetNameFromUniqueId(uniqueId);
-            if(widgetName == false) {
+            if (!widgetName) {
                 widgetName = _pk_translate('Dashboard_WidgetNotFound_js');
             }
 
@@ -229,6 +232,7 @@
                         $('.button#minimise, .button#refresh', $(this).parents('.widget')).show();
                         $(this).parents('.widget').find('div.piwik-graph').trigger('resizeGraph');
                         self.options.onChange();
+                        $('.widgetContent', widgetElement).trigger('widget:minimise');
                     } else {
                         self.maximise();
                     }
