@@ -485,5 +485,7 @@ RealTimeMap.run = function(config) {
             var ds = new Date().getTime() / 1000 - el.data('actiontime');
             el.html(relativeTime(ds));
         });
+        var d = new Date(), datetime = d.toTimeString().substr(0,8);
+        $('.realTimeMap_datetime').html(datetime);
     }, 1000);
 };
