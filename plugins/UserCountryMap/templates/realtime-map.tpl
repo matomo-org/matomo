@@ -97,8 +97,8 @@
     text-shadow:1px 1px 1px #FFFFFF, -1px 1px 1px #FFFFFF,1px -1px 1px #FFFFFF, -1px -1px 1px #FFFFFF,1px 1px 1px #FFFFFF, -1px 1px 1px #FFFFFF,1px -1px 1px #FFFFFF, -1px -1px 1px #FFFFFF;
 }
 .realTimeMap_datetime {
-    bottom: 35px;
-    color: #aa9;
+    bottom: 28px;
+    color: #887;
     font-size: 16px;
 }
 {/literal}
