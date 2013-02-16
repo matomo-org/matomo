@@ -40,7 +40,7 @@
         _create: function() {
 
             if(!this.options.uniqueId) {
-                console.error('widgets can\'t be created without an uniqueId');
+                piwikHelper.error('widgets can\'t be created without an uniqueId');
                 return;
             } else {
                 this.uniqueId = this.options.uniqueId;
