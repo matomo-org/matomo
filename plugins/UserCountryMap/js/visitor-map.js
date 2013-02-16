@@ -841,7 +841,7 @@ UserCountryMap.run = function(config) {
                     },
                     attrs: function(city) {
                         return {
-                            fill: colscale.getColor(city.curMetric),
+                            fill: colscale.getColor(city.curMetric).hex(),
                             'fill-opacity': 0.7,
                             stroke: '#fff',
                             cursor: 'pointer'

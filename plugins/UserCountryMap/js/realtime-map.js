@@ -205,7 +205,7 @@ RealTimeMap.run = function(config) {
      */
     function visitSymbolAttrs(r) {
         return {
-            fill: visitColor(r),
+            fill: visitColor(r).hex(),
             'fill-opacity': Math.pow(age(r),2) * 0.8 + 0.2,
             'stroke-opacity': Math.pow(age(r),1.7) * 0.8 + 0.2,
             stroke: '#fff',
