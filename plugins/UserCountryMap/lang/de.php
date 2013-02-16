@@ -22,6 +22,8 @@ $translations = array(
     'UserCountryMap_Minutes' => 'Minuten',
     'UserCountryMap_Hours' => 'Stunden',
     'UserCountryMap_Days' => 'Tage',
-    'UserCountryMap_ShowingVisits' => 'Lokalisierte Besuche der letzten '
+    'UserCountryMap_ShowingVisits' => 'Lokalisierte Besuche der letzten ',
+    'UserCountryMap_Actions' => '%s Seiten',
+    'UserCountryMap_Searches' => '%s Suchen',
 
 );

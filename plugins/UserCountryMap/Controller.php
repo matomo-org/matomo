@@ -140,6 +140,8 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             'hours' => Piwik_Translate('UserCountryMap_Hours'),
             'hours_ago' => Piwik_Translate('UserCountryMap_HoursAgo'),
             'days_ago' => Piwik_Translate('UserCountryMap_DaysAgo'),
+            'actions' => Piwik_Translate('UserCountryMap_Actions'),
+            'searches' => Piwik_Translate('UserCountryMap_Searches')
         ));
 
         $view->reqParamsJSON = json_encode(array(

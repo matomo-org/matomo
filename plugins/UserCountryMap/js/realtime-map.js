@@ -65,7 +65,8 @@ RealTimeMap.run = function(config) {
             showColumns: ['latitude','longitude','actions','lastActionTimestamp',
                 'visitLocalTime','city','country','referrerType','referrerName',
                 'referrerTypeName','browserIcon','operatingSystemIcon',
-                'countryFlag','idVisit','actionDetails','continentCode'].join(','),
+                'countryFlag','idVisit','actionDetails','continentCode',
+                'actions', 'searches'].join(','),
             minTimestamp: firstRun ? -1 : lastTimestamp,
             date: 'today'
         });
@@ -166,7 +167,10 @@ RealTimeMap.run = function(config) {
             (r.referrerType == "direct" ? r.referrerTypeName :
             RealTimeMap._.from + ': '+r.referrerName) + '<br />' +
             // local time
-            '<small>'+RealTimeMap._.local_time+': '+r.visitLocalTime+'</small>';
+            '<small>'+RealTimeMap._.local_time+': '+r.visitLocalTime+'</small><br />' +
+            // actions and searches
+            '<small>'+RealTimeMap._.actions.replace('%s', r.actions) +
+            (r.searches > 0 ? ', ' + RealTimeMap._.searches.replace('%s', r.searches) : '') + '</small>';
     }
 
     /*
