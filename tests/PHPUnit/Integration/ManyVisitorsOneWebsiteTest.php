@@ -9,7 +9,8 @@
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 /**
- * Tests w/ 14 visitors w/ 2 visits each. Uses geoip location provider to test city/region reports.
+ * Tests w/ 14 visitors w/ 2 visits each.
+ * Uses geoip location provider to test city/region reports.
  * 
  * TODO Test ServerBased GeoIP implementation somehow. (Use X-FORWARDED-FOR?)
  * TODO Test PECL implementation somehow. (The PECL module must point to the test dir, not the real one.)
@@ -23,16 +24,12 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 	
 	public static $ips = array(
 		'194.57.91.215', // in Besançon, FR (unicode city name)
-		
 		'::ffff:137.82.130.49', // in British Columbia (mapped ipv4)
-		
 		'137.82.130.0', // anonymization tests
 		'137.82.0.0',
-		
-		'2001:db8:85a3:0:0:8a2e:370:7334', // ipv6 (not supported)
-		
+		'2001:db8:85a3:0:0:8a2e:370:7334', // ipv6 (geoip lookup not supported)
+		'113.62.1.1', // in Lhasa, Tibet
 		'151.100.101.92', // in Rome, Italy (using country DB, so only Italy will show)
-		
 		'103.29.196.229', // in Indonesia (Bali), (only Indonesia will show up)
 	);
 
@@ -48,7 +45,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			
 			self::setLocationProvider('GeoIPCity.dat');
 			self::trackVisits(2, true, $useLocal = false);
-			self::trackVisits(3, true, $useLocal = false, $doBulk = true);
+			self::trackVisits(4, true, $useLocal = false, $doBulk = true);
 			
 			self::setLocationProvider('GeoIP.dat');
 			self::trackVisits(2, true);

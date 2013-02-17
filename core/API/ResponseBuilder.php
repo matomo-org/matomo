@@ -114,7 +114,7 @@ class Piwik_API_ResponseBuilder
 	public function getResponseException(Exception $e)
 	{
 		$format = strtolower($this->outputFormat);
-		
+
 		if( $format == 'original' )
 		{
 			throw $e;
@@ -122,8 +122,8 @@ class Piwik_API_ResponseBuilder
 		
 		try {
 			$renderer = Piwik_DataTable_Renderer::factory($format);
-		} catch (Exception $e) {
-			return "Error: " . $e->getMessage();
+		} catch (Exception $exceptionRenderer) {
+			return "Error: " . $e->getMessage() . " and: " . $exceptionRenderer->getMessage();
 		}
 		
 		$renderer->setException($e);

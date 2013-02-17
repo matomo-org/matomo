@@ -110,7 +110,16 @@ abstract class Piwik_DataTable_Renderer
 	 * 
 	 * @return string
 	 */
-	abstract public function renderException();	
+	abstract public function renderException();
+
+	protected function getExceptionMessage()
+	{
+		$message = self::renderHtmlEntities($this->exception->getMessage());
+
+		// DEBUG
+//		$message .= $this->exception->getTraceAsString();
+		return $message;
+	}
 	
 	/**
 	 * @see render()
