@@ -70,7 +70,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         Piwik_Option::getInstance()->clearCache();
         Piwik_PDFReports_API::$cache = array();
         Piwik_Site::clearCache();
-        Piwik_Common::deleteTrackerCache();
+        Piwik_Tracker_Cache::deleteTrackerCache();
         Piwik_Config::getInstance()->clear();
         Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
         Zend_Registry::_unsetInstance();

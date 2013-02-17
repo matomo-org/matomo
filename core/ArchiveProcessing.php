@@ -296,8 +296,9 @@ abstract class Piwik_ArchiveProcessing
 			throw new Exception('Browser trigger archiving must be set to true or false.');
 		}
 		Piwik_SetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING, (int)$enabled, $autoload = true);
-		Piwik_Common::clearCacheGeneral();
+		Piwik_Tracker_Cache::clearCacheGeneral();
 	}
+
 	static public function isBrowserTriggerArchivingEnabled()
 	{
 		$browserArchivingEnabled = Piwik_GetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING);

@@ -41,6 +41,6 @@ class Piwik_Updates_0_6_2 extends Piwik_Updates
 		// force regeneration of cache files
 		Piwik::setUserIsSuperUser();
 		$allSiteIds = Piwik_SitesManager_API::getInstance()->getAllSitesId();
-		Piwik_Common::regenerateCacheWebsiteAttributes($allSiteIds);
+		Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($allSiteIds);
 	}
 }

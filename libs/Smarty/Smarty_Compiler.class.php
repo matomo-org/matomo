@@ -262,15 +262,10 @@ class Smarty_Compiler extends Smarty {
         reset($this->_folded_blocks);
 
         /* replace special blocks by "{php}"
-        Piwik Hack: commented out as this does not work on php 5.5 and we don't seem to use this "feature"
-        ---
-        $source_content = preg_replace($search.'e', "'"
-                                       . $this->_quote_replace($this->left_delimiter) . 'php'
-                                       . "' . str_repeat(\"\n\", substr_count('\\0', \"\n\")) .'"
+        PIWIK HACKED for 5.5 compat */
+        $source_content = preg_replace($search, $this->_quote_replace($this->left_delimiter) . 'php'
                                        . $this->_quote_replace($this->right_delimiter)
-                                       . "'"
                                        , $source_content);
-		*/
 
         /* Gather all template tags. */
         preg_match_all("~{$ldq}\s*(.*?)\s*{$rdq}~s", $source_content, $_match);

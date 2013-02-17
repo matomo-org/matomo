@@ -17,7 +17,7 @@ require_once PIWIK_INCLUDE_PATH .'/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Loader.php';
 
 Piwik_Tracker::setTestEnvironment();
-Piwik_Common::deleteTrackerCache();
+Piwik_Tracker_Cache::deleteTrackerCache();
 
 class Piwik_FrontController_Test extends Piwik_FrontController 
 {

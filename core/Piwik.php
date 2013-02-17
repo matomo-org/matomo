@@ -133,7 +133,7 @@ class Piwik
 	{
 		Piwik_AssetManager::removeMergedAssets();
 		Piwik_View::clearCompiledTemplates();
-		Piwik_Common::deleteTrackerCache();
+		Piwik_Tracker_Cache::deleteTrackerCache();
 	}
 	
 	/**

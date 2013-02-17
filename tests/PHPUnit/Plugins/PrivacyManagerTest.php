@@ -105,7 +105,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         Piwik_DataTable_Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
         Piwik_Site::clearCache();
-        Piwik_Common::deleteTrackerCache();
+        Piwik_Tracker_Cache::deleteTrackerCache();
         Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
         
         $tempTableName = Piwik_Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);

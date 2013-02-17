@@ -11,6 +11,10 @@
 
 /**
  * Backward compatibility layer
+ * DO NOT USE
+ *
+ * Use this notation to fetch a config file value:
+ * 	Piwik_Config::getInstance()->General['enable_browser_archiving_triggering']
  *
  * @todo remove this in 2.0
  * @since 1.7

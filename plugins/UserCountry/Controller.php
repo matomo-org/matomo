@@ -302,7 +302,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 			}
 			
 			// make sure the tracker will use the new location provider
-			Piwik_Common::clearCacheGeneral();
+			Piwik_Tracker_Cache::clearCacheGeneral();
 		}
 	}
 	
