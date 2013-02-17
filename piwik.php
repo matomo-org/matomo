@@ -43,6 +43,7 @@ require_once PIWIK_INCLUDE_PATH .'/core/IP.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Config.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Translate.php';
+require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Cache.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/Db/Exception.php';
 require_once PIWIK_INCLUDE_PATH .'/core/Tracker/IgnoreCookie.php';
