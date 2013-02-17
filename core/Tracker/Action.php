@@ -344,7 +344,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	 */
 	public static function shouldRemoveURLFragmentFor( $idSite )
 	{
-		$websiteAttributes = Piwik_Common::getCacheWebsiteAttributes($idSite);
+		$websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
 		return !$websiteAttributes['keep_url_fragment'];
 	}
 
@@ -397,7 +397,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			$campaignTrackingParameters[1] // campaign keyword parameters
 		);
 
-		$website = Piwik_Common::getCacheWebsiteAttributes($idSite);
+		$website = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
 		$excludedParameters = isset($website['excluded_parameters'])
 			? $website['excluded_parameters']
 			: array();
@@ -863,7 +863,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
 	protected function detectSiteSearch($originalUrl)
 	{
-		$website = Piwik_Common::getCacheWebsiteAttributes($this->idSite);
+		$website = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->idSite);
 		if(empty($website['sitesearch']))
 		{
 			printDebug("Internal 'Site Search' tracking is not enabled for this site. ");

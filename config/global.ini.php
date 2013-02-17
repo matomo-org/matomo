@@ -399,6 +399,10 @@ action_sitesearch_record_url = 0
 ; For IPv4 addresses, valid values are 0..4; for IPv6 addresses, valid values are 0..16
 ip_address_mask_length = 1
 
+; Tracker cache files are the simple caching layer for Tracking.
+; TTL: Time to live for cache files, in seconds. Default to 5 minutes.
+tracker_cache_file_ttl = 300
+
 ; DO NOT USE THIS SETTING ON PUBLICLY AVAILABLE PIWIK SERVER
 ; !!! Security risk: if set to 0, it would allow anyone to push data to Piwik with custom dates in the past/future and with fake IPs !!!
 ; When using the Tracking API, to override either the datetime and/or the visitor IP, 

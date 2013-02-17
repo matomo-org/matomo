@@ -31,7 +31,7 @@ Piwik_Tracker::setTestEnvironment();
 Piwik_DataTable_Manager::getInstance()->deleteAll();
 Piwik_Option::getInstance()->clearCache();
 Piwik_Site::clearCache();
-Piwik_Common::deleteTrackerCache();
+Piwik_Tracker_Cache::deleteTrackerCache();
 
 include PIWIK_INCLUDE_PATH . '/piwik.php';
 ob_end_flush();

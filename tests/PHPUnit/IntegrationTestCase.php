@@ -98,7 +98,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // We need to be SU to create websites for tests
         Piwik::setUserIsSuperUser();
-	    Piwik_Common::deleteTrackerCache();
+	    Piwik_Tracker_Cache::deleteTrackerCache();
 
         // Load and install plugins
         $pluginsManager = Piwik_PluginsManager::getInstance();
@@ -149,7 +149,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Piwik_DataTable_Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
         Piwik_Site::clearCache();
-        Piwik_Common::deleteTrackerCache();
+        Piwik_Tracker_Cache::deleteTrackerCache();
         Piwik_Config::getInstance()->clear();
         Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
         Piwik_PDFReports_API::$cache = array();
