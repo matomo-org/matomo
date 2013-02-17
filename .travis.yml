@@ -20,10 +20,6 @@ before_script:
   - ./tests/travis/setup_webserver.sh
   - cd tests/PHPUnit
 
-matrix:
-  allow_failures:
-    - php: 5.5
-
 notifications:
   irc:
     skip_join: true
