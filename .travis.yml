@@ -25,7 +25,7 @@ notifications:
     skip_join: true
     on_success: change
     channels:
-      - "irc.freenode.org#piwik"
+      - "irc.freenode.org#piwik-dev"
     template:
       - "%{repository} (%{commit}) : %{message} %{foo} "
       - "Build details: %{build_url}"
