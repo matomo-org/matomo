@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>33</idVisit>
+		<idVisit>35</idVisit>
 		<visitIp>194.57.91.215</visitIp>
 		
 		<visitorType>new</visitorType>
@@ -18,7 +18,7 @@
 				<type>goal</type>
 				<goalName>all</goalName>
 				<revenue>5</revenue>
-				<goalPageId>33</goalPageId>
+				<goalPageId>35</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
 				<icon>themes/default/images/goal.png</icon>
@@ -28,7 +28,7 @@
 				<url>http://piwik.net/grue/lair</url>
 				<pageTitle>It&amp;#039;s pitch black...</pageTitle>
 				<pageIdAction>2</pageIdAction>
-				<pageId>33</pageId>
+				<pageId>35</pageId>
 				
 				<icon />
 			</row>

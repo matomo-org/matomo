@@ -43,7 +43,7 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 	public function renderException()
 	{
 		$this->renderHeader();
-		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		$exceptionMessage = $this->getExceptionMessage();
 		return 'Error: '.$exceptionMessage;
 	}
 
