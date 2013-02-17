@@ -182,6 +182,7 @@ class UserAgentParser
 
 	// WebKit version numbers to Apple Safari version numbers (if Version/X.Y.Z not present)
 	static protected $safariVersions = array(
+			'536.25'	=> array('6', '0'),
 			'534.48'	=> array('5', '1'),
 			'533.16'	=> array('5', '0'),
 			'533.4'		=> array('4', '1'),
