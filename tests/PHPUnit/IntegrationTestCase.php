@@ -98,6 +98,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // We need to be SU to create websites for tests
         Piwik::setUserIsSuperUser();
+	    Piwik_Common::deleteTrackerCache();
 
         // Load and install plugins
         $pluginsManager = Piwik_PluginsManager::getInstance();

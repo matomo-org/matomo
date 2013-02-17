@@ -210,7 +210,8 @@ class Piwik_Common
 	}
 
 	/**
-	 * Returns contents of general (global) cache
+	 * Returns contents of general (global) cache.
+	 * If the cache file tmp/cache/tracker/general.php does not exist yet, create it
 	 *
 	 * @return array
 	 */
@@ -224,12 +225,14 @@ class Piwik_Common
 		{
 			return $cacheContent;
 		}
+
 		self::initCorePiwikInTrackerMode();
 		$cacheContent = array (
 			'isBrowserTriggerArchivingEnabled' => Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled(),
 			'lastTrackerCronRun' => Piwik_GetOption('lastTrackerCronRun'),
 			'currentLocationProviderId' => Piwik_UserCountry_LocationProvider::getCurrentProviderId(),
 		);
+		Piwik_Common::setCacheGeneral( $cacheContent );
 		return $cacheContent;
 	}
 
@@ -247,16 +250,6 @@ class Piwik_Common
 		return true;
 	}
 	
-	/**
-	 * Delete and regenerate the 'general' tracker cache.
-	 */
-	static public function regenerateCacheGeneral()
-	{
-		self::clearCacheGeneral();
-		$cache = self::getCacheGeneral();
-		Piwik_Common::setCacheGeneral( $cache );
-	}
-
 	/**
 	 * Regenerate Tracker cache files
 	 *
