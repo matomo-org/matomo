@@ -373,6 +373,9 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             array('Mozilla/5.0 (Nintendo DS v4; U; M3 Adapter CF + PassMe2; en-US; rv:1.8.0.6 ) Gecko/20060728 Firefox/1.5.0.6 (firefox.gba.ds)', array(
                 array('FF', 'Firefox', 'Firefox', '1.5', '1', '5', 'gecko'),
                 array('NDS', 'Nintendo DS', 'DS'))),
+            array('Mozilla/5.0 (Android; Mobile; rv:15.0) Gecko/15.0 Firefox/15.0a1', array(
+                array('FF', 'Firefox', 'Firefox', '15.0', '15', '0', 'gecko'),
+                array('AND', 'Android', 'Android'))),
 
             // Flock
             array('Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Flock/3.0.0.3737 Chrome/4.1.249.1071 Safari/532.5', array(
