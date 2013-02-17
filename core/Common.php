@@ -536,7 +536,6 @@ class Piwik_Common
 	static public function sanitizeInputValue($value)
 	{
 		// $_GET and $_REQUEST already urldecode()'d
-
 		// decode
 		// note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
 		$value = html_entity_decode($value, Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');

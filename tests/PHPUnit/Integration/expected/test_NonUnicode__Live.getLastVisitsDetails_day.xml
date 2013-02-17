@@ -47,7 +47,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>France</country>
+		<countryCode>fr</countryCode>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<region />
 		<city />
@@ -156,7 +158,7 @@
 			<row>
 				<type>search</type>
 				<url />
-				<pageTitle>non unicode keyword </pageTitle>
+				<pageTitle>non unicode keyword ????</pageTitle>
 				<pageIdAction />
 				<pageId>4</pageId>
 				
@@ -182,7 +184,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>France</country>
+		<countryCode>fr</countryCode>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<region />
 		<city />
