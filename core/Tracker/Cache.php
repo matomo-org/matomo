@@ -18,9 +18,11 @@
 class Piwik_Tracker_Cache
 {
 	/**
+	 * Public for tests only
 	 * @var Piwik_CacheFile
 	 */
-	static $trackerCache = null;
+	static public $trackerCache = null;
+
 	static protected function getInstance()
 	{
 		if(is_null(self::$trackerCache)) {
