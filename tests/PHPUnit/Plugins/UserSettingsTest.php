@@ -18,10 +18,10 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             //     array( browser_id, name, short_name, version, major_number, minor_number, family ),
             //     array( os_id, name, short_name ))),
 
-	        // Special: URL encoded IE8
-	        array('Mozilla/4.0+(compatible;+MSIE+8.0;+Windows+NT+6.1;+WOW64;+Trident/4.0;+GTB7.4;+SLCC2;+.NET+CLR+2.0.50727;+.NET+CLR+3.5.30729;+.NET+CLR+3.0.30729;+Media+Center+PC+6.0;+.NET4.0C;+.NET4.0E;+MS-RTC+LM+8;+InfoPath.2)', array(
-		        array('IE', 'Internet Explorer', 'IE', '8.0', '8', '0', 'ie'),
-		        array('WI7', 'Windows 7', 'Win 7'))),
+            // Special: URL encoded IE8
+            array('Mozilla/4.0+(compatible;+MSIE+8.0;+Windows+NT+6.1;+WOW64;+Trident/4.0;+GTB7.4;+SLCC2;+.NET+CLR+2.0.50727;+.NET+CLR+3.5.30729;+.NET+CLR+3.0.30729;+Media+Center+PC+6.0;+.NET4.0C;+.NET4.0E;+MS-RTC+LM+8;+InfoPath.2)', array(
+                array('IE', 'Internet Explorer', 'IE', '8.0', '8', '0', 'ie'),
+                array('WI7', 'Windows 7', 'Win 7'))),
 
             // ABrowse
             array('Mozilla/5.0 (compatible; U; ABrowse 0.6; Syllable) AppleWebKit/420+ (KHTML, like Gecko)', array(
@@ -373,6 +373,9 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             array('Mozilla/5.0 (Nintendo DS v4; U; M3 Adapter CF + PassMe2; en-US; rv:1.8.0.6 ) Gecko/20060728 Firefox/1.5.0.6 (firefox.gba.ds)', array(
                 array('FF', 'Firefox', 'Firefox', '1.5', '1', '5', 'gecko'),
                 array('NDS', 'Nintendo DS', 'DS'))),
+            array('Mozilla/5.0 (Android; Mobile; rv:15.0) Gecko/15.0 Firefox/15.0a1', array(
+                array('FF', 'Firefox', 'Firefox', '15.0', '15', '0', 'gecko'),
+                array('AND', 'Android', 'Android'))),
 
             // Flock
             array('Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Flock/3.0.0.3737 Chrome/4.1.249.1071 Safari/532.5', array(
@@ -840,7 +843,12 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             array('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50', array(
                 array('SF', 'Safari', 'Safari', '5.1', '5', '1', 'webkit'),
                 array('MAC', 'Mac OS', 'Mac OS'))),
-
+            array('Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B141', array(
+                array('SF', 'Safari', 'Safari', '6.0', '6', '0', 'webkit'),
+                array('IPH', 'iPhone', 'iPhone'))),
+            array('Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B141 Safari/8536.25', array(
+                array('SF', 'Safari', 'Safari', '6.0', '6', '0', 'webkit'),
+                array('IPH', 'iPhone', 'iPhone'))),
 
             // SeaMonkey (formerly Mozilla Suite and rebranded versions)
             array('Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8) Gecko/20071008 Iceape/1.1.5 (Ubuntu-1.1.5-1ubuntu0.7.10)', array(
@@ -953,7 +961,8 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * 
+     * Test getBrowser()
+     *
      * @dataProvider getUserAgents
      * @group Plugins
      * @group UserSettings
@@ -979,7 +988,8 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * 
+     * Test getOperatingSystem()
+     *
      * @dataProvider getUserAgents
      * @group Plugins
      * @group UserSettings
