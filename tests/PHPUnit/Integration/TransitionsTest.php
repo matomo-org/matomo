@@ -35,7 +35,7 @@ class Test_Piwik_Integration_Transitions extends IntegrationTestCase
 	public function getApiForTesting() 
 	{ 
 		$return = array();
-		$return[] = array('Transitions.getFullReport', array(
+		$return[] = array('Transitions.getTransitionsForPageUrl', array(
 			'idSite' => self::$idSite,
 			'date' => self::$dateTime,
 			'otherRequestParameters' => array(

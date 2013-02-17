@@ -395,8 +395,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped(
 			'Do take note that scheduled reports are not being tested with images. ' .
 			'If images contained in scheduled reports have been altered, tests will fail on the Piwik QA Server. ' .
-			'To include images in the test suite, please use a machine with the following specifications : OS = Linux precise32, PHP Version = 5.3.10 and GD Version = 2.0'.
-			'Ignore this message if you\'re running on your dev machine, but pay attention when it comes from Jenkins.'
+			'To include images in the test suite, please use a machine with the following specifications : ' .
+			'OS = Linux precise32, PHP Version = 5.3.10 and GD Version = 2.0' .
+			"\n Ignore this message if you're running on your dev machine, but pay attention when it comes from Jenkins."
+
 			);
 		}
 	}
@@ -844,10 +846,27 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
 
         $requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi, $setDateLastN, $language, $segment, $fileExtension);
-        return $requestUrls;
+
+	    $this->checkEnoughUrlsAreTested($requestUrls);
+
+	    return $requestUrls;
     }
 
-    protected function _testApiUrl($testName, $apiId, $requestUrl)
+	protected function checkEnoughUrlsAreTested($requestUrls)
+	{
+		$countUrls = count($requestUrls);
+		$approximateCountApiToCall = count(self::$apiToCall);
+		if (empty($requestUrls)
+			|| $approximateCountApiToCall > $countUrls
+		) {
+			throw new Exception("Only generated $countUrls API calls to test but was expecting more for this test.\n".
+					"Want to test APIs: " . implode(", ", self::$apiToCall) . ")\n".
+					"But only generated these URLs: \n" . implode("\n", $requestUrls) . ")\n"
+			);
+		}
+	}
+
+	protected function _testApiUrl($testName, $apiId, $requestUrl)
     {
         $isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false;
         $request               = new Piwik_API_Request($requestUrl);
@@ -1094,11 +1113,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             self::setApiToCall($api);
 
 	        if(!in_array('UserCountry.getLocationFromIP', $api)) {
-		        self::setApiNotToCall( array(
-		                'API.getPiwikVersion',
-		                'UserCountry.getLocationFromIP'
-	            ));
-	        }
+				self::setApiNotToCall( array(
+					'API.getPiwikVersion',
+					'UserCountry.getLocationFromIP'
+				));
+	        } else {
+				self::setApiNotToCall( array());
+			}
         }
     }
 

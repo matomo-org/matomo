@@ -3,48 +3,53 @@
 	<date>Sat 6 Mar</date>
 	<previousPages>
 		<row>
-			<url>https://example.org/the/third_page.html?foo=bar</url>
+			<label>https://example.org/the/third_page.html?foo=bar</label>
 			<referrals>3</referrals>
 		</row>
 		<row>
-			<url>http://www.example.org/sub/dir/page2.html</url>
+			<label>http://www.example.org/sub/dir/page2.html</label>
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<url>Others</url>
+			<label>https://example.org/the/third_page.html?foo=baz</label>
 			<referrals>2</referrals>
 		</row>
 	</previousPages>
+	<previousSiteSearches />
 	<pageMetrics>
 		<loops>1</loops>
 		<pageviews>12</pageviews>
 		<entries>4</entries>
 		<exits>3</exits>
-
 	</pageMetrics>
 	<followingPages>
 		<row>
-			<url>http://www.example.org/sub/dir/page2.html</url>
+			<label>https://example.org/the/third_page.html?foo=baz</label>
+			<referrals>3</referrals>
+		</row>
+		<row>
+			<label>http://www.example.org/sub/dir/page2.html</label>
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<url>https://example.org/the/third_page.html?foo=bar</url>
+			<label>https://example.org/the/third_page.html?foo=bar</label>
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<url>Others</url>
-			<referrals>4</referrals>
+			<label>http://example.org/page3.html</label>
+			<referrals>1</referrals>
 		</row>
 	</followingPages>
-	<outlinks/>
-	<downloads/>
+	<followingSiteSearches />
+	<outlinks />
+	<downloads />
 	<referrers>
 		<row>
 			<label>Direct Entries</label>
 			<shortName>direct</shortName>
 			<visits>1</visits>
-			<details/>
-
+			<details>
+			</details>
 		</row>
 		<row>
 			<label>From Search Engines</label>
@@ -54,11 +59,8 @@
 				<row>
 					<label>&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded</label>
 					<referrals>1</referrals>
-
 				</row>
-
 			</details>
-
 		</row>
 		<row>
 			<label>From Websites</label>
@@ -68,11 +70,8 @@
 				<row>
 					<label>http://www.external.com.vn/referrerPage-counted.html</label>
 					<referrals>1</referrals>
-
 				</row>
-
 			</details>
-
 		</row>
 		<row>
 			<label>From Campaigns</label>
@@ -82,13 +81,8 @@
 				<row>
 					<label>TestCampaign TestKeyword</label>
 					<referrals>1</referrals>
-
 				</row>
-
 			</details>
-
 		</row>
-
 	</referrers>
-
 </result>
