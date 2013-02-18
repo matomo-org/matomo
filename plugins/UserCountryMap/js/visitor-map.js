@@ -293,6 +293,7 @@
              * updateState, called whenever the view changes
              */
             function updateState(id) {
+                piwikHelper.log('updateState', id, self.mode, self);
                 // double check view mode
                 if (self.mode == "city" && id.length != 3) {
                     // city mode is reserved for country views
@@ -614,6 +615,8 @@
              * renders a country map (either region or city view)
              */
             function renderCountryMap(iso) {
+
+                piwikHelper.log('renderCountryMap', iso, self.mode);
 
                 var countryMap = {
                     zoomed: false,
@@ -937,7 +940,7 @@
                     });
                     map.addLayer('regions', {
                         key: 'fips',
-                        name: UserCountryMap.mode != "region" ? "regions2" : "regions",
+                        name: self.mode != "region" ? "regions2" : "regions",
                         styles: {
                             stroke: '#aaa'
                         },
@@ -977,7 +980,7 @@
 
                     if (!UserCountryMap.countriesByIso[iso]) return;
 
-                    if (UserCountryMap.mode == "region") {
+                    if (self.mode == "region") {
                         updateRegionColors();
                     } else {
                         updateCitySymbols();
@@ -1092,7 +1095,7 @@
 
                     // start with default view (or saved state??)
                     var params = self.widget.dashboardWidget('getWidgetObject').parameters;
-                    UserCountryMap.mode = params && params.viewMode ? params.viewMode : 'region';
+                    self.mode = params && params.viewMode ? params.viewMode : 'region';
                     if (params && params.lastMetric) $$('.userCountryMapSelectMetrics').val(params.lastMetric);
                     //alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
                     updateState(params && params.lastMap ? params.lastMap : 'world');
