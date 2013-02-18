@@ -57,7 +57,7 @@
             var self = this;
             this.element.on('setParameters.dashboardWidget', function(e, params) { self.setParameters(params); });
 
-            this.reload(true);
+            this.reload(true, true);
         },
 
         /**
@@ -132,10 +132,11 @@
         /**
          * Reloads the widgets content with the currently set parameters
          */
-        reload: function(hideLoading) {
-
-            piwikHelper.log(arguments.callee.caller, arguments.callee.caller == this._create);
-            if (arguments.callee.caller != this._create) return;
+        reload: function(hideLoading, notJQueryUI) {
+            if (!notJQueryUI) {
+                piwikHelper.log('widget.reload() was called by jquery.ui', arguments.callee.caller);
+                return;
+            }
             piwikHelper.log('widget.reload() '+this.uniqueId);
 
             var self = this, currentWidget = this.element;
@@ -258,7 +259,7 @@
 
             $('.button#refresh', widgetElement)
                 .on('click.dashboardWidget', function(ev){
-                    self.reload();
+                    self.reload(false, true);
                 });
 
             widgetElement.show();
