@@ -40,11 +40,13 @@
         _create: function() {
 
             if(!this.options.uniqueId) {
-                piwikHelper.error('widgets can\'t be created without an uniqueId');
+                piwikHelper.error('widgets can\'t be created without an uniqueId'); 
                 return;
             } else {
                 this.uniqueId = this.options.uniqueId;
             }
+
+            piwikHelper.log('created widget '+this.uniqueId);
 
             if(this.options.widgetParameters) {
                 this.widgetParameters = this.options.widgetParameters;
