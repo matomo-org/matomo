@@ -261,17 +261,18 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                 
                 return $('.'+settings.widgetlistClass, widgetPreview);
             };
-            
+
             /**
              * Display the given widgets in a widget list
-             * 
+             *
              * @param {object} widgets widgets to be displayed
              * @return {void}
              */
             function showWidgetList(widgets) {
-                
-                var widgetList   = createWidgetList();
-                
+
+                var widgetList   = createWidgetList(),
+                    widgetPreviewTimer;
+
                 for(var j in widgets) {
                     var widgetName       = widgets[j]["name"];
                     var widgetUniqueId   = widgets[j]["uniqueId"];
@@ -280,19 +281,27 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                     if(!settings.isWidgetAvailable(widgetUniqueId)) {
                         widgetClass += ' ' + settings.unavailableClass;
                     }
-                    
+
                     widgetList.append('<li class="'+ widgetClass +'" uniqueid="'+ widgetUniqueId +'">'+ widgetName +'</li>');
                 }
-                
-                $('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseover', function(){
+
+                // delay widget preview a few millisconds
+                $('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseenter', function(){
                     var widgetUniqueId = $(this).attr('uniqueid');
-                    
-                    $('li', widgetList).removeClass(settings.choosenClass);
-                    $(this).addClass(settings.choosenClass);
-                    
-                    showPreview(widgetUniqueId);
+                    clearTimeout(widgetPreview);
+                    widgetPreviewTimer = setTimeout(function() {
+                        $('li', widgetList).removeClass(settings.choosenClass);
+                        $(this).addClass(settings.choosenClass);
+
+                        showPreview(widgetUniqueId);
+                    }, 400);
                 });
-                
+
+                // clear timeout after mouse has left
+                $('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseleave', function(){
+                    clearTimeout(widgetPreview);
+                });
+
                 $('li:not(.'+settings.unavailableClass+')', widgetList).on('click', function(){
                     if(!$('.widgetLoading', widgetPreview).length) {
                         settings.onSelect($(this).attr('uniqueid'));
@@ -302,13 +311,13 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                     }
                     return false;
                 });
-            };
-            
+            }
+
             /**
              * Returns the div to show widget preview in
              * - if element doesn't exist it will be created and added
              * - if element already exist it's content will be removed
-             * 
+             *
              * @return {$} preview element
              */
             function createPreviewElement() {
