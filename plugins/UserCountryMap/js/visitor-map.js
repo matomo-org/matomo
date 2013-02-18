@@ -888,7 +888,7 @@
                                     if (symbol.label) symbol.label.attr('fill', '#000');
                                 } else {
                                     showRowEvolution('getCity', city.label);
-                                    citySymbols.evaluate({
+                                    citySymbols.update({
                                         attrs: function(city) {
                                             return { fill: colscale.getColor(city.curMetric) };
                                         }
@@ -1019,11 +1019,11 @@
                     label: multiple ? _rowEvolution.labels.join(',') : label.replace(/, /g, '%2C%20'),
                     disableLink: 1,
                     module: 'CoreHome',
-                    idSite: UserCountryMap.reqParams.idSite,
-                    period: UserCountryMap.reqParams.period,
-                    date: UserCountryMap.reqParams.date,
+                    idSite: config.reqParams.idSite,
+                    period: config.reqParams.period,
+                    date: config.reqParams.date,
                     action: multiple ? 'getMultiRowEvolutionPopover' : 'getRowEvolutionPopover',
-                    token_auth: UserCountryMap.reqParams.token_auth
+                    token_auth: config.reqParams.token_auth
                 });
 
                 if (column) { requestParams.column = column; }
