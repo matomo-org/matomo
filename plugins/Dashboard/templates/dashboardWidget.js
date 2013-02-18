@@ -46,7 +46,7 @@
                 this.uniqueId = this.options.uniqueId;
             }
 
-            piwikHelper.log('created widget '+this.uniqueId);
+            piwikHelper.log('widget._create() '+this.uniqueId);
 
             if(this.options.widgetParameters) {
                 this.widgetParameters = this.options.widgetParameters;
@@ -134,12 +134,16 @@
          */
         reload: function(hideLoading) {
 
+            piwikHelper.log('widget.reload() '+this.uniqueId);
+
             var self = this, currentWidget = this.element;
             function onWidgetLoadedReplaceElementWithContent(loadedContent)
             {
                 $('.widgetContent', currentWidget).html(loadedContent);
                 $('.widgetContent', currentWidget).removeClass('loading');
                 $('.widgetContent', currentWidget).trigger('widget:loaded', [self]);
+                piwikHelper.log('onWidgetLoadedReplaceElementWithContent() '+this.uniqueId);
+
             }
 
             // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)
