@@ -11,7 +11,7 @@ function widgetsHelper()
 
 /**
  * Returns the available widgets fetched via AJAX (if not already done)
- * 
+ *
  * @return {object} object containing available widgets
  */
 widgetsHelper.getAvailableWidgets = function ()
@@ -286,7 +286,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                 }
 
                 // delay widget preview a few millisconds
-                /*$('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseenter', function(){
+                $('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseenter', function(){
                     var widgetUniqueId = $(this).attr('uniqueid');
                     clearTimeout(widgetPreview);
                     widgetPreviewTimer = setTimeout(function() {
@@ -295,7 +295,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
 
                         showPreview(widgetUniqueId);
                     }, 400);
-                });*/
+                });
 
                 // clear timeout after mouse has left
                 $('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseleave', function(){
