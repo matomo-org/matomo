@@ -293,7 +293,6 @@
              * updateState, called whenever the view changes
              */
             function updateState(id) {
-                piwikHelper.log('updateState', id, self.mode, self);
                 // double check view mode
                 if (self.mode == "city" && id.length != 3) {
                     // city mode is reserved for country views
@@ -615,8 +614,6 @@
              * renders a country map (either region or city view)
              */
             function renderCountryMap(iso) {
-
-                piwikHelper.log('renderCountryMap', iso, self.mode);
 
                 var countryMap = {
                     zoomed: false,
@@ -1177,7 +1174,6 @@
          * removes the map
          */
         destroy: function() {
-            piwikHelper.log('UserCountryMap.destroy');
             this.map.clear();
             $(this.map.container).html('');
         }
