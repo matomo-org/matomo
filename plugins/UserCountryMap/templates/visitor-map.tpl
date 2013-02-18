@@ -1,6 +1,6 @@
-<div id="UserCountryMap" style="position:relative; overflow:hidden;">
-    <div id="UserCountryMap_container">
-        <div id="UserCountryMap_map" style="overflow:hidden"></div>
+<div class="UserCountryMap" style="position:relative; overflow:hidden;">
+    <div class="UserCountryMap_container">
+        <div class="UserCountryMap_map" style="overflow:hidden"></div>
         <div class="UserCountryMap-overlay UserCountryMap-title">
             <div class="content">
                 <!--<div class="map-title" style="font-weight:bold; color:#9A9386;"></div>-->
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="UserCountryMap-tooltip UserCountryMap-info">
-            <div class="content unlocated-stats" data-tpl="{'UserCountryMap_Unlocated'|translate}" >
+            <div foo="bar" class="content unlocated-stats" data-tpl="{'UserCountryMap_Unlocated'|translate}" >
             </div>
         </div>
         <div class="UserCountryMap-info-btn" data-tooltip-target=".UserCountryMap-tooltip"></div>
@@ -28,28 +28,28 @@
     <div class="dataTableFeatures" style="padding-top:0px;">
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="graphVerticalBar">
-                <img id="UserCountryMap-activeItem" class="dataTableFooterActiveItem" src="{$piwikUrl}themes/default/images/data_table_footer_active_item.png" style="left: 25px;">
+                <img class="UserCountryMap-activeItem dataTableFooterActiveItem" src="{$piwikUrl}themes/default/images/data_table_footer_active_item.png" style="left: 25px;">
 
                 <div class="tableIconsGroup">
                     <span class="tableAllColumnsSwitch">
-                        <a id="UserCountryMap-btn-zoom" format="table" class="tableIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
+                        <a class="UserCountryMap-btn-zoom tableIcon" format="table"><img src="{$piwikUrl}plugins/UserCountryMap/img/zoom-out.png" title="Zoom to world"></a>
                     </span>
                 </div>
-                <div class="tableIconsGroup" id="UserCountryMap-view-mode-buttons">
+                <div class="tableIconsGroup UserCountryMap-view-mode-buttons">
                     <span class="tableAllColumnsSwitch">
-                        <a var="tableAllColumns" id="UserCountryMap-btn-region" format="tableAllColumns" class="tableIcon activeIcon" data-region="{'UserCountryMap_Regions'|translate}" data-country="{'UserCountryMap_Countries'|translate}"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country"> <span style="margin:0">{'UserCountryMap_Countries'|translate}</span>&nbsp;</a>
-                        <a var="tableGoals" id="UserCountryMap-btn-city" format="tableGoals" class="tableIcon inactiveIcon"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Show visitors per city"> <span style="margin:0">{'UserCountryMap_Cities'|translate}</span>&nbsp;</a>
+                        <a var="tableAllColumns" class="UserCountryMap-btn-region tableIcon activeIcon" format="tableAllColumns" data-region="{'UserCountryMap_Regions'|translate}" data-country="{'UserCountryMap_Countries'|translate}"><img src="{$piwikUrl}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country"> <span style="margin:0">{'UserCountryMap_Countries'|translate}</span>&nbsp;</a>
+                        <a var="tableGoals" class="UserCountryMap-btn-city tableIcon inactiveIco" format="tableGoals"><img src="{$piwikUrl}plugins/UserCountryMap/img/cities.png" title="Show visitors per city"> <span style="margin:0">{'UserCountryMap_Cities'|translate}</span>&nbsp;</a>
                     </span>
                 </div>
 
             </div>
 
-           <select id="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 9em;font-size:10px">
+           <select class="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 9em;font-size:10px">
                 {foreach from=$metrics item=metric}
                     <option value="{$metric[0]}" {if $metric[0] == $defaultMetric}selected="selected"{/if}>{$metric[1]}</option>
                 {/foreach}
             </select>
-            <select id="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 9em;font-size:10px">
+            <select class="userCountryMapSelectCountry" style="float:right;margin-right:5px;margin-bottom:5px; max-width: 9em;font-size:10px">
                 <option value="world">{'UserCountryMap_WorldWide'|translate}</option>
                 <option disabled="disabled">––––––</option>
                 <option value="AF">{'UserCountry_continent_afr'|translate}</option>
@@ -71,9 +71,9 @@
     UserCountryMap._ = JSON.parse('{$localeJSON}');
     UserCountryMap.reqParams = JSON.parse('{$reqParamsJSON}');
 
-    $('#UserCountryMap').addClass('dataTable');
+    $('.UserCountryMap').addClass('dataTable');
 
-    var widget = $('#UserCountryMap').parents('.widgetContent');
+    var widget = $('.UserCountryMap').parents('.widgetContent');
 
 {literal}
     widget.on('widget:loaded', function(evt, widget) {

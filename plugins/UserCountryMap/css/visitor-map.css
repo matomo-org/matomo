@@ -1,4 +1,4 @@
-#UserCountryMap-black {
+.UserCountryMap-black {
     position: absolute;
     right: 0;
     left: 0;
@@ -8,7 +8,7 @@
     background: #D5D3C8;
 }
 
-#UserCountryMap .loadingPiwik {
+.UserCountryMap .loadingPiwik {
     position: absolute!important;
     top: 42%!important;
     right: 10px!important;
@@ -27,11 +27,11 @@
     color: #99a;
 }
 
-#UserCountryMap .UserCountryMap-legend {
+.UserCountryMap .UserCountryMap-legend {
     opacity: 0;
 }
 
-#UserCountryMap:hover .UserCountryMap-legend {
+.UserCountryMap:hover .UserCountryMap-legend {
     opacity: 1;
 }
 
@@ -94,17 +94,17 @@
     height: 100px;
 }
 
-#widgetUserCountryMapvisitorMap .widgetTop .button {
+.widgetUserCountryMapvisitorMap .widgetTop .button {
     z-index: 3;
     position: relative;
 }
 
-#widgetUserCountryMapvisitorMap .widgetName {
+.widgetUserCountryMapvisitorMap .widgetName {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-#widgetUserCountryMapvisitorMap.widgetHover .widgetName {
+.widgetUserCountryMapvisitorMap.widgetHover .widgetName {
     width: 75%;
     overflow: hidden;
 }

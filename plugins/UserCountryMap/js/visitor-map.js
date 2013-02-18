@@ -7,16 +7,21 @@ UserCountryMap.run = function(config) {
 
     // Kartograph.__verbose = true;
 
-    var map = $K.map('#UserCountryMap_map'),
-        main = $('#UserCountryMap_container'),
+    function $$(selector) {
+        return $(selector, UserCountryMap.theWidget.element);
+    }
+
+    var map = $K.map($$('.UserCountryMap_map').get(0)),
+        main = $$('.UserCountryMap_container'),
         worldTotalVisits = 0,
         width = main.width();
 
     UserCountryMap.config = config;
     UserCountryMap.config.noDataColor = '#E4E2D7';
-    UserCountryMap.widget = $('#widgetUserCountryMapvisitorMap').parent();
+    UserCountryMap.widget = $$('.widgetUserCountryMapvisitorMap').parent();
 
-    window.__userCountryMap = map;
+    window.__mapInstances = window.__mapInstances || [];
+    window.__mapInstances.push(map);
 
     function _reportParams(module, action, countryFilter) {
         var params = $.extend(UserCountryMap.reqParams, {
@@ -134,7 +139,7 @@ UserCountryMap.run = function(config) {
 
         function addLegendItem(val, first) {
             var d = $('<div>'), r = $('<div>'), l = $('<div>'),
-                metric = $('#userCountryMapSelectMetrics').val(),
+                metric = $$('.userCountryMapSelectMetrics').val(),
                 v = formatNumber(Math.round(val)) + (metric == 'avg_time_on_site' ? first ? ' sec' : 's' : '');
             d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
             l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
@@ -215,15 +220,16 @@ UserCountryMap.run = function(config) {
     }
 
     function activateButton(btn) {
-        $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
+        $$('.UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
         btn.addClass('activeIcon');
-        $('#UserCountryMap-activeItem').offset({ left: btn.offset().left });
+        piwikHelper.log(btn, $$('.UserCountryMap-activeItem'));
+        $$('.UserCountryMap-activeItem').offset({ left: btn.offset().left });
     }
 
     function initUserInterface() {
         // react to changes of country select
-        $('#userCountryMapSelectCountry').off('change').change(function() {
-            updateState($('#userCountryMapSelectCountry').val());
+        $$('.userCountryMapSelectCountry').off('change').change(function() {
+            updateState($$('.userCountryMapSelectCountry').val());
         });
 
         function zoomOut() {
@@ -236,14 +242,14 @@ UserCountryMap.run = function(config) {
         }
 
         // enable zoom-out
-        $('#UserCountryMap-btn-zoom').off('click').click(zoomOut);
-        $('#UserCountryMap_map').off('click').click(zoomOut);
+        $$('.UserCountryMap-btn-zoom').off('click').click(zoomOut);
+        $$('.UserCountryMap_map').off('click').click(zoomOut);
 
         // handle window resizes
         $(window).off('resize').resize(onResizeLazy);
 
         // enable mertic changes
-        $('#userCountryMapSelectMetrics').off('change').change(function() {
+        $$('.userCountryMapSelectMetrics').off('change').change(function() {
             updateState(UserCountryMap.lastSelected);
         });
 
@@ -257,23 +263,23 @@ UserCountryMap.run = function(config) {
                     }
                 }
             });
-        })($('#UserCountryMap-btn-city'));
+        })($$('.UserCountryMap-btn-city'));
 
         // handle region button
         (function(btn) {
             btn.off('click').click(function() {
                 if (UserCountryMap.mode != "region") {
-                    $('#UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
+                    $$('.UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
                     UserCountryMap.mode = "region";
                     updateState(UserCountryMap.lastSelected);
                 }
             });
-        })($('#UserCountryMap-btn-region'));
+        })($$('.UserCountryMap-btn-region'));
 
         // add loading indicator overlay
         var bl = $('<div id="UserCountryMap-black"></div>');
         bl.hide();
-        $('#UserCountryMap_map').append(bl);
+        $$('.UserCountryMap_map').append(bl);
 
         var infobtn = $('.UserCountryMap-info-btn');
         infobtn.off('mouseenter').on('mouseenter', function(e) {
@@ -295,7 +301,7 @@ UserCountryMap.run = function(config) {
             UserCountryMap.mode = "region";
         }
 
-        var metric = $('#userCountryMapSelectMetrics').val();
+        var metric = $$('.userCountryMapSelectMetrics').val();
 
         // store current map state
         UserCountryMap.widget.dashboardWidget('setParameters', {
@@ -331,20 +337,20 @@ UserCountryMap.run = function(config) {
     function _updateUI(id, metric) {
         // update UI
         if (UserCountryMap.mode == "city") {
-            activateButton($('#UserCountryMap-btn-city'));
+            activateButton($$('.UserCountryMap-btn-city'));
         } else {
-            activateButton($('#UserCountryMap-btn-region'));
+            activateButton($$('.UserCountryMap-btn-region'));
         }
-        var countrySelect = $('#userCountryMapSelectCountry');
+        var countrySelect = $$('.userCountryMapSelectCountry');
         countrySelect.val(id);
 
-        var zoom = $('#UserCountryMap-btn-zoom');
+        var zoom = $$('.UserCountryMap-btn-zoom');
         if (id == 'world') zoom.addClass('inactiveIcon');
         else zoom.removeClass('inactiveIcon');
 
         // show flag icon in select box
-        var flag = $('#userCountryMapFlag'),
-            regionBtn = $('#UserCountryMap-btn-region');
+        var flag = $$('.userCountryMapFlag'),
+            regionBtn = $$('.UserCountryMap-btn-region');
         if (id.length == 3) {
             if (UserCountryMap.countriesByIso[id]) {  // we have visits in this country
                 flag.css({
@@ -352,11 +358,11 @@ UserCountryMap.run = function(config) {
                     'background-repeat': 'no-repeat',
                     'background-position': '5px 5px'
                 });
-                $('#UserCountryMap-btn-city').removeClass('inactiveIcon').show();
+                $$('.UserCountryMap-btn-city').removeClass('inactiveIcon').show();
                 $('span', regionBtn).html(regionBtn.data('region'));
             } else {
                 // not a single visit in this country
-                $('#UserCountryMap-btn-city').addClass('inactiveIcon');
+                $$('.UserCountryMap-btn-city').addClass('inactiveIcon');
                 $('.map-stats').html(UserCountryMap._.no_data);
                 $('.map-title').html('');
                 return;
@@ -366,17 +372,17 @@ UserCountryMap.run = function(config) {
             flag.css({
                 'background': 'none'
             });
-            $('#UserCountryMap-btn-city').addClass('inactiveIcon').hide();
+            $$('.UserCountryMap-btn-city').addClass('inactiveIcon').hide();
             $('span', regionBtn).html(regionBtn.data('country'));
         }
 
         var mapTitle = id.length == 3 ?
                 UserCountryMap.countriesByIso[id].name :
-                $('#userCountryMapSelectCountry option[value='+id+']').html(),
+                $$('.userCountryMapSelectCountry option[value='+id+']').html(),
             totalVisits = 0;
         // update map title
         $('.map-title').html(mapTitle);
-        $('#widgetUserCountryMapvisitorMap .widgetName .map-title').html(' – '+mapTitle);
+        $$('.widgetUserCountryMapvisitorMap .widgetName .map-title').html(' – '+mapTitle);
         // update total visits for that region
         if (id.length == 3) {
             totalVisits = UserCountryMap.countriesByIso[id]['nb_visits'];
@@ -445,7 +451,7 @@ UserCountryMap.run = function(config) {
 
             // Update the map tooltips.
             map.getLayer('countries').tooltips(function(data) {
-                var metric = $('#userCountryMapSelectMetrics').val(),
+                var metric = $$('.userCountryMapSelectMetrics').val(),
                     country = UserCountryMap.countriesByIso[data.iso];
                 return '<h3>'+country.name + '</h3>'+
                     formatValueForTooltips(country, metric, target);
@@ -528,22 +534,22 @@ UserCountryMap.run = function(config) {
     }
 
     function indicateLoading() {
-        $('#UserCountryMap-black').show();
-        $('#UserCountryMap-black').css('opacity', 0);
-        $('#UserCountryMap-black').animate({ opacity: 0.5 }, 400);
-        $('#UserCountryMap .loadingPiwik').show();
+        $$('.UserCountryMap-black').show();
+        $$('.UserCountryMap-black').css('opacity', 0);
+        $$('.UserCountryMap-black').animate({ opacity: 0.5 }, 400);
+        $$('.UserCountryMap .loadingPiwik').show();
     }
 
     function loadingComplete() {
-        $('#UserCountryMap-black').hide();
-        $('#UserCountryMap .loadingPiwik').hide();
+        $$('.UserCountryMap-black').hide();
+        $$('.UserCountryMap .loadingPiwik').hide();
     }
 
     /*
      * returns a quantifiable value for a given metric
      */
     function quantify(d, metric) {
-        if (!metric) metric = $('#userCountryMapSelectMetrics').val();
+        if (!metric) metric = $$('.userCountryMapSelectMetrics').val();
         switch (metric) {
             case 'avg_time_on_site':
                 return d.sum_visit_length / d.nb_visits;
@@ -655,7 +661,7 @@ UserCountryMap.run = function(config) {
                     });
                 });
 
-                var metric = $('#userCountryMapSelectMetrics').val();
+                var metric = $$('.userCountryMapSelectMetrics').val();
 
                 if (UserCountryMap.aggregate[iso]) {
                     var aggregated = aggregate(regionDict, function(row) {
@@ -696,7 +702,7 @@ UserCountryMap.run = function(config) {
                     var code = regionCode(data);
                     return regionDict[code] === undefined ? -1 : regionDict[code].curMetric;
                 }).tooltips(function(data) {
-                    var metric = $('#userCountryMapSelectMetrics').val(),
+                    var metric = $$('.userCountryMapSelectMetrics').val(),
                     region = regionDict[regionCode(data)];
                     if (region === undefined) {
                         return '<h3>'+data.name+'</h3><p>'+UserCountryMap._.nb_visits.replace('%s', '<b>0</b>')+'</p>';
@@ -759,7 +765,7 @@ UserCountryMap.run = function(config) {
 
                 loadingComplete();
 
-                var metric = $('#userCountryMapSelectMetrics').val(),
+                var metric = $$('.userCountryMapSelectMetrics').val(),
                     colscale,
                     totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
                     unlocated = totalCountryVisits,
@@ -916,7 +922,7 @@ UserCountryMap.run = function(config) {
                     if (UserCountryMap.countriesByIso[data.iso] === undefined) {
                         return 'no data';
                     }
-                    var metric = $('#userCountryMapSelectMetrics').val(),
+                    var metric = $$('.userCountryMapSelectMetrics').val(),
                         country = UserCountryMap.countriesByIso[data.iso];
                     return '<h3>'+country.name+'</h3>'+
                         formatValueForTooltips(country, metric, 'world');
@@ -1046,8 +1052,8 @@ UserCountryMap.run = function(config) {
     // now load the metrics for all countries
     ajax(_reportParams('UserCountry', 'getCountry'))
     .done(function(report) {
-        var metrics = $('#userCountryMapSelectMetrics option');
-        var countryData = [], countrySelect = $('#userCountryMapSelectCountry'),
+        var metrics = $$('.userCountryMapSelectMetrics option');
+        var countryData = [], countrySelect = $$('.userCountryMapSelectCountry'),
             countriesByIso = {};
         UserCountryMap.lastReportMetricStats = {};
         // read api result to countryData and countriesByIso
@@ -1083,13 +1089,13 @@ UserCountryMap.run = function(config) {
             // map stylesheets are loaded
 
             // hide loading indicator
-            $('#UserCountryMap .loadingPiwik').hide();
+            $$('.UserCountryMap .loadingPiwik').hide();
             $('.mapWidgetStatus').height(0);
 
             // start with default view (or saved state??)
             var params = UserCountryMap.widget.dashboardWidget('getWidgetObject').parameters;
             UserCountryMap.mode = params && params.viewMode ? params.viewMode : 'region';
-            if (params && params.lastMetric) $('#userCountryMapSelectMetrics').val(params.lastMetric);
+            if (params && params.lastMetric) $$('.userCountryMapSelectMetrics').val(params.lastMetric);
             //alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
             updateState(params && params.lastMap ? params.lastMap : 'world');
 
@@ -1109,25 +1115,25 @@ UserCountryMap.run = function(config) {
         overlay.data('locked', true);
         overlay.fadeOut(200);
 
-        $('#UserCountryMap').mouseleave(function() {
+        $$('.UserCountryMap').mouseleave(function() {
             overlay.fadeIn(200);
-            $('#UserCountryMap').parent().off('mouseleave');
+            $$('.UserCountryMap').parent().off('mouseleave');
             setTimeout(function() {
                 overlay.data('locked', false);
             }, 1000);
         });
-        var offset = $('#UserCountryMap').offset(),
+        var offset = $$('.UserCountryMap').offset(),
             dim = {
             x: overlay.offset().left - offset.left,
             y: overlay.offset().top - offset.top,
             w: overlay.width(),
             h: overlay.height()
         };
-        $('#UserCountryMap').mousemove(function(e) {
+        $$('.UserCountryMap').mousemove(function(e) {
             var mx = e.pageX - offset.left, my = e.pageY - offset.top, pad = 20,
             outside = mx < dim.x - pad || mx > dim.x + dim.w + pad || my < dim.y - pad || my > dim.y + dim.h + pad;
             if (outside) {
-                $('#UserCountryMap').parent().off('mouseleave');
+                $$('.UserCountryMap').parent().off('mouseleave');
                 setTimeout(function() {
                     overlay.fadeIn(200);
                     setTimeout(function() {
@@ -1142,8 +1148,8 @@ UserCountryMap.run = function(config) {
     }
 
     $('.UserCountryMap-overlay').off('mouseenter').on('mouseenter', hideOverlay);
-    $('#widgetUserCountryMapvisitorMap .widgetName span').remove();
-    $('#widgetUserCountryMapvisitorMap .widgetName').append('<span class="map-title"></span>');
+    $$('.widgetUserCountryMapvisitorMap .widgetName span').remove();
+    $$('.widgetUserCountryMapvisitorMap .widgetName').append('<span class="map-title"></span>');
 
 };
 
