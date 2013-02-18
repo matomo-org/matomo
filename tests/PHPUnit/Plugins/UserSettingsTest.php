@@ -514,6 +514,12 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 array('MAC', 'Mac OS', 'Mac OS'))),
 
             // Internet Explorer
+            array('Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)', array(
+                array('IE', 'Internet Explorer', 'IE', '9.0', '9', '0', 'ie'),
+                array('XBX', 'Xbox', 'Xbox'))),
+            array('Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; Xbox)', array(
+                array('IE', 'Internet Explorer', 'IE', '9.0', '9', '0', 'ie'),
+                array('XBX', 'Xbox', 'Xbox'))),
             array('Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Win64; x64; Trident/6.0)', array(
                 array('IE', 'Internet Explorer', 'IE', '10.0', '10', '0', 'ie'),
                 array('WI8', 'Windows 8', 'Win 8'))),
@@ -748,6 +754,31 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 array('NS', 'Netscape', 'Netscape', '2.02', '2', '02', 'gecko'),
                 array('WNT', 'Windows NT', 'Win NT'))),
 
+            // NetFront NX
+            array('Mozilla/5.0 (Nintendo WiiU) AppleWebKit/534.52 (KHTML, like Gecko) NX/2.1.0.8.21 NintendoBrowser/1.0.0.7494.US', array(
+                array('NF', 'NetFront', 'NetFront', '2.1', '2', '1', 'webkit'),
+                array('WIU', 'Nintendo Wii U', 'Wii U'))),
+            array('Mozilla/5.0 (Nintendo 3DS; U; ; en) Version/1.7498.US', array(
+                array('NF', 'NetFront', 'NetFront', '1.7498', '1', '7498', 'webkit'),
+                array('3DS', 'Nintendo 3DS', '3DS'))),
+            array('Mozilla/5.0 (Playstation Vita 1.61) AppleWebKit/531.22.8 (KHTML, like Gecko) Silk/3.2', array(
+                array('NF', 'NetFront', 'NetFront', '3.2', '3', '2', 'webkit'),
+                array('PSV', 'PlayStation Vita', 'PS Vita'))),
+
+            // Kindle
+            array('Mozilla/4.0 (compatible; Linux 2.6.10) NetFront/3.3 Kindle/1.0 (screen 600x800)', array(
+                array('NF', 'NetFront', 'NetFront', '3.3', '3', '3', 'webkit'),
+                array('LIN', 'Linux', 'Linux'))),
+            array('Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; Kindle Fire Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1', array(
+                array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
+                array('AND', 'Android', 'Android'))),
+            array('Mozilla/5.0 (Linux; U; en-US) AppleWebKit/528.5+ (KHTML, like Gecko, Safari/528.5+) Version/4.0 Kindle/3.0 (screen 600×800; rotate)', array(
+                array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
+                array('LIN', 'Linux', 'Linux'))),
+            array('Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_3; en-us; Silk/1.1.0-80) AppleWebKit/533.16 (KHTML, like Gecko) Version/5.0 Safari/533.16 Silk-Accelerated=true', array(
+                array('SF', 'Safari', 'Safari', '5.0', '5', '0', 'webkit'),
+                array('MAC', 'Mac OS', 'Mac OS'))),
+
             // Omniweb
             array('Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US) AppleWebKit/525.18 (KHTML, like Gecko, Safari/525.20) OmniWeb/v622.3.0.105198', array(
                 array('OW', 'OmniWeb', 'OmniWeb', '5.8', '5', '8', 'webkit'),
@@ -936,7 +967,6 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             array('Mozilla/5.0 (X11; U; CrOS i686 9.10.0; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.253.0 Safari/532.5', array(
                 array('CH', 'Chrome', 'Chrome', '4.0', '4', '0', 'webkit'),
                 array('LIN', 'Linux', 'Linux'))),
-
 
             // Email Clients
 
