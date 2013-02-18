@@ -1,5 +1,3 @@
-// # UserCountryMap
-// define a global scope
 
 (function() {
 
@@ -7,6 +5,7 @@
     // this is used both by visitor map and realtime map
     window.UserCountryMap = window.UserCountryMap || {};
 
+    // the main class for this widget, provides the interface for the template
     var VisitorMap = window.UserCountryMap.VisitorMap = function(config, theWidget) {
         this.config = config;
         this.theWidget = theWidget;
@@ -15,8 +14,10 @@
 
     $.extend(VisitorMap.prototype, {
 
+        /*
+         * initializes the map after widget creation
+         */
         run: function() {
-
             var self = this,
                 config = self.config;
 
@@ -1184,8 +1185,9 @@
 }());
 
 
-
-
+/*
+ * Some static data used both by VisitorMap and RealtimeMap
+ */
 $.extend(UserCountryMap, {
 
     // iso alpha-2 --> iso alpha-3
@@ -1308,8 +1310,9 @@ $.extend(UserCountryMap, {
         AN: 'NT'
     },
 
+    // mapping from Piwik continents to continents used in this widget
     cont2cont: {
-        afr: 'AF', eur: 'EU', amn: 'NA', ams: 'SA', 'asi': 'AS', oce: 'OC', amc: 'SA'
+        afr: 'AF', eur: 'EU', amn: 'NA', ams: 'SA', asi: 'AS', oce: 'OC', amc: 'SA'
     }
 
 });
