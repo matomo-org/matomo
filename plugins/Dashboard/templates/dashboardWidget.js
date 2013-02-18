@@ -46,8 +46,6 @@
                 this.uniqueId = this.options.uniqueId;
             }
 
-            piwikHelper.log('widget._create() '+this.uniqueId);
-
             if(this.options.widgetParameters) {
                 this.widgetParameters = this.options.widgetParameters;
             }
@@ -69,6 +67,7 @@
                 $('[widgetId='+this.uniqueId+']').dialog('destroy');
             }
             $('*', this.element).off('.dashboardWidget'); // unbind all events
+            $('.widgetContent', this.element).trigger('widget:destroy');
             return this;
         },
 
@@ -134,10 +133,9 @@
          */
         reload: function(hideLoading, notJQueryUI) {
             if (!notJQueryUI) {
-                piwikHelper.log('widget.reload() was called by jquery.ui', arguments.callee.caller);
+                piwikHelper.log('widget.reload() was called by jquery.ui, ignoring', arguments.callee.caller);
                 return;
             }
-            piwikHelper.log('widget.reload() '+this.uniqueId);
 
             var self = this, currentWidget = this.element;
             function onWidgetLoadedReplaceElementWithContent(loadedContent)
@@ -265,9 +263,6 @@
             widgetElement.show();
         }
 
-        /*_destroy: function() {
-            piwikHelper.log('destroyed widget', this.uniqueId);
-        }*/
     });
 
 })( jQuery );

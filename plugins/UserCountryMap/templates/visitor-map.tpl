@@ -67,29 +67,29 @@
 <!-- configure some piwik vars -->
 <script type="text/javascript">
 
-    var config = JSON.parse('{$config}');
-    UserCountryMap._ = JSON.parse('{$localeJSON}');
-    UserCountryMap.reqParams = JSON.parse('{$reqParamsJSON}');
+    var visitorMap,
+        config = JSON.parse('{$config}');
+
+    config._ = JSON.parse('{$localeJSON}');
+    config.reqParams = JSON.parse('{$reqParamsJSON}');
 
     $('.UserCountryMap').addClass('dataTable');
 
     var widget = $('.UserCountryMap').parents('.widgetContent');
 
-    piwikHelper.log('loaded map widget to DOM');
-
 {literal}
-    widget.on('widget:loaded', function(evt, widget) {
-        UserCountryMap.theWidget = widget;
-        piwikHelper.log('catched widget:load event, running map', config);
-        UserCountryMap.run(config);
+    widget.on('widget:loaded', function(evt, _widget) {
+        //piwikHelper.log('catched widget:load event, running map', config, _widget);
+        visitorMap = new UserCountryMap.VisitorMap(config, _widget);
     });
-
     widget.on('widget:maximise', function(evt) {
-        UserCountryMap.resize();
+        visitorMap.resize();
     });
-
     widget.on('widget:minimise', function(evt) {
-        UserCountryMap.resize();
+        visitorMap.resize();
+    });
+    widget.on('widget:destroy', function(evt) {
+        visitorMap.destroy();
     });
 {/literal}
 
