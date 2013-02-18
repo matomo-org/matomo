@@ -54,7 +54,7 @@
 
   $ = root.jQuery;
 
-  __verbose__ = false;
+  __verbose__ = kartograph.__verbose = false;
 
   warn = function(s) {
     try {
@@ -514,6 +514,7 @@
       }
       me.svgSrc = xml;
       $view = $('view', xml);
+      log('got svg src', me.svgSrc);
       if (!(me.paper != null)) {
         w = me.size.w;
         h = me.size.h;
@@ -524,7 +525,9 @@
         me.viewport = new BBox(0, 0, w, h);
       }
       vp = me.viewport;
+      log('got viewport', me.viewport);
       me.viewAB = AB = kartograph.View.fromXML($view[0]);
+      log('got first view', me.viewAB);
       padding = (_ref5 = me.opts.padding) != null ? _ref5 : 0;
       halign = (_ref6 = me.opts.halign) != null ? _ref6 : 'center';
       valign = (_ref7 = me.opts.valign) != null ? _ref7 : 'center';

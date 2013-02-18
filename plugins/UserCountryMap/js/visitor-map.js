@@ -4,6 +4,9 @@ window.UserCountryMap = {};
 
 
 UserCountryMap.run = function(config) {
+
+    kartograph._verbose = true;
+
     var map = $K.map('#UserCountryMap_map'),
         main = $('#UserCountryMap_container'),
         worldTotalVisits = 0,
