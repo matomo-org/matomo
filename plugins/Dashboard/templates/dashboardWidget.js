@@ -40,7 +40,7 @@
         _create: function() {
 
             if(!this.options.uniqueId) {
-                piwikHelper.error('widgets can\'t be created without an uniqueId'); 
+                piwikHelper.error('widgets can\'t be created without an uniqueId');
                 return;
             } else {
                 this.uniqueId = this.options.uniqueId;
@@ -134,12 +134,13 @@
          */
         reload: function(hideLoading) {
 
+            piwikHelper.log(arguments.callee.caller, arguments.callee.caller == this._create);
+            if (arguments.callee.caller != this._create) return;
             piwikHelper.log('widget.reload() '+this.uniqueId);
 
             var self = this, currentWidget = this.element;
             function onWidgetLoadedReplaceElementWithContent(loadedContent)
             {
-                piwikHelper.log('onWidgetLoadedReplaceElementWithContent() '+self.uniqueId);
                 $('.widgetContent', currentWidget).html(loadedContent);
                 $('.widgetContent', currentWidget).removeClass('loading');
                 $('.widgetContent', currentWidget).trigger('widget:loaded', [self]);
@@ -262,6 +263,10 @@
 
             widgetElement.show();
         }
+
+        /*_destroy: function() {
+            piwikHelper.log('destroyed widget', this.uniqueId);
+        }*/
     });
 
 })( jQuery );
