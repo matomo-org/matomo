@@ -579,7 +579,9 @@ class Piwik_Tracker
 			$trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 			$this->sendHeader('Content-Type: image/gif');
 
-			if ($_SERVER['REQUEST_METHOD'] !== 'GET')
+			$requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
+
+			if ($requestMethod !== 'GET')
 			{
 				$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
 				$this->sendHeader('Access-Control-Allow-Origin: ' . $origin);
