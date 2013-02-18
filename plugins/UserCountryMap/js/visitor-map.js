@@ -214,14 +214,13 @@
              * makes sure to only call onResize at the end
              */
             function onResizeLazy() {
-                clearTimeout(_resizeTimer);
-                _resizeTimer = setTimeout(self.resize, 300);
+                clearTimeout(self._resizeTimer);
+                self._resizeTimer = setTimeout(self.resize, 300);
             }
 
             function activateButton(btn) {
                 $$('.UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
                 btn.addClass('activeIcon');
-                piwikHelper.log(btn, $$('.UserCountryMap-activeItem'));
                 $$('.UserCountryMap-activeItem').offset({ left: btn.offset().left });
             }
 

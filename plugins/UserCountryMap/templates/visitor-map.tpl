@@ -69,26 +69,24 @@
 
     var visitorMap,
         config = JSON.parse('{$config}');
-
     config._ = JSON.parse('{$localeJSON}');
     config.reqParams = JSON.parse('{$reqParamsJSON}');
 
     $('.UserCountryMap').addClass('dataTable');
 
-    var widget = $('.UserCountryMap').parents('.widgetContent');
+    var $widgetContent = $('.UserCountryMap').parents('.widgetContent');
 
 {literal}
-    widget.on('widget:loaded', function(evt, _widget) {
-        //piwikHelper.log('catched widget:load event, running map', config, _widget);
-        visitorMap = new UserCountryMap.VisitorMap(config, _widget);
+    $widgetContent.on('widget:create', function(evt, widget) {
+        visitorMap = new UserCountryMap.VisitorMap(config, widget);
     });
-    widget.on('widget:maximise', function(evt) {
+    $widgetContent.on('widget:maximise', function(evt) {
         visitorMap.resize();
     });
-    widget.on('widget:minimise', function(evt) {
+    $widgetContent.on('widget:minimise', function(evt) {
         visitorMap.resize();
     });
-    widget.on('widget:destroy', function(evt) {
+    $widgetContent.on('widget:destroy', function(evt) {
         visitorMap.destroy();
     });
 {/literal}

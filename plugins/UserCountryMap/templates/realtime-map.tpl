@@ -134,13 +134,26 @@
     config.svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
     config.liveRefreshAfterMs = {$liveRefreshAfterMs};
 
-    RealTimeMap._ = JSON.parse('{$localeJSON}');
-    RealTimeMap.reqParams = JSON.parse('{$reqParamsJSON}');
+    config._ = JSON.parse('{$localeJSON}');
+    config.reqParams = JSON.parse('{$reqParamsJSON}');
+
+    var widgetContent = $('#RealTimeMap').parents('.widgetContent');
 
 {literal}
-    $(function() {
-        RealTimeMap.run(config)
+
+    widgetContent.on('widget:create', function(evt, widget) {
+        visitorMap = new UserCountryMap.RealtimeMap(config, widget);
     });
+    widgetContent.on('widget:maximise', function(evt) {
+        visitorMap.resize();
+    });
+    widgetContent.on('widget:minimise', function(evt) {
+        visitorMap.resize();
+    });
+    widgetContent.on('widget:destroy', function(evt) {
+        visitorMap.destroy();
+    });
+
 {/literal}
 
 </script>
