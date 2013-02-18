@@ -71,7 +71,7 @@
   log = function(s) {
     if (__verbose__) {
       try {
-        return console.log.apply(console, arguments);
+        return console.debug.apply(console, arguments);
       } catch (e) {
         try {
           return opera.postError.apply(opera, arguments);
