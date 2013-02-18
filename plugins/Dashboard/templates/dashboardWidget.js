@@ -142,7 +142,7 @@
                 $('.widgetContent', currentWidget).html(loadedContent);
                 $('.widgetContent', currentWidget).removeClass('loading');
                 $('.widgetContent', currentWidget).trigger('widget:loaded', [self]);
-                piwikHelper.log('onWidgetLoadedReplaceElementWithContent() '+this.uniqueId);
+                piwikHelper.log('onWidgetLoadedReplaceElementWithContent() '+self.uniqueId);
 
             }
 
