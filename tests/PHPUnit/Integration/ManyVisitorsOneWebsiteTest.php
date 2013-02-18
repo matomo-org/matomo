@@ -41,7 +41,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			self::downloadGeoIpDbs();
 			
 			self::setMockLocationProvider();
-			self::trackVisits(8, false);
+			self::trackVisits(9, false);
 			
 			self::setLocationProvider('GeoIPCity.dat');
 			self::trackVisits(2, true, $useLocal = false);
