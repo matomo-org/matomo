@@ -381,7 +381,7 @@ class Piwik_UsersManager_API
 		
 		// we reload the access list which doesn't yet take in consideration this new user
 		Zend_Registry::get('access')->reloadAccess();
-		Piwik_Common::deleteTrackerCache();
+		Piwik_Tracker_Cache::deleteTrackerCache();
 
 		Piwik_PostEvent('UsersManager.addUser', $userLogin);
 	}
@@ -445,7 +445,7 @@ class Piwik_UsersManager_API
 						),
 					"login = '$userLogin'"
 			);		
-		Piwik_Common::deleteTrackerCache();
+		Piwik_Tracker_Cache::deleteTrackerCache();
 
 		Piwik_PostEvent('UsersManager.updateUser', $userLogin);
 	}
@@ -471,7 +471,7 @@ class Piwik_UsersManager_API
 		
 		$this->deleteUserOnly( $userLogin );
 		$this->deleteUserAccess( $userLogin );
-		Piwik_Common::deleteTrackerCache();
+		Piwik_Tracker_Cache::deleteTrackerCache();
 	}
 	
 	/**
@@ -572,7 +572,7 @@ class Piwik_UsersManager_API
 		
 		// we reload the access list which doesn't yet take in consideration this new user access
 		Zend_Registry::get('access')->reloadAccess();
-		Piwik_Common::deleteTrackerCache();
+		Piwik_Tracker_Cache::deleteTrackerCache();
 	}
 	
 	/**

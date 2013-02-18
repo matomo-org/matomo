@@ -38,7 +38,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 	function renderException()
 	{
 		header('Content-type: text/plain');
-		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		$exceptionMessage = $this->getExceptionMessage();
 		return 'Error: '.$exceptionMessage;
 	}
 

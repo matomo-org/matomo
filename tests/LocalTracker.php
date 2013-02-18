@@ -46,7 +46,7 @@ class Piwik_LocalTracker extends PiwikTracker
 		}
 		
 		// unset cached values
-		Piwik_Common::$trackerCache = null;
+		Piwik_Tracker_Cache::$trackerCache = null;
 		Piwik_Tracker::setForceIp(null);
 		Piwik_Tracker::setForceDateTime(null);
 		Piwik_Tracker::setForceVisitorId(null);
@@ -60,7 +60,7 @@ class Piwik_LocalTracker extends PiwikTracker
 		// modify config
 		$GLOBALS['PIWIK_TRACKER_MODE'] = true;
 		$GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'] = true;
-		Piwik_Common::$initTrackerMode = false;
+		Piwik_Tracker::$initTrackerMode = false;
 		Piwik_Tracker::setTestEnvironment($testEnvironmentArgs, $method);
 		
 		// set language

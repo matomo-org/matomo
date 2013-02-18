@@ -5,7 +5,6 @@
  *
  * @link http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
- * @version $Id$
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -114,6 +113,8 @@ class UserAgentParser
 			'icecat'						=> 'FF',
 			'firefox'						=> 'FF',
 
+			'thunderbird'					=> 'TB',
+
 			'flock'							=> 'FL',
 			'fluid'							=> 'FD',
 			'galeon'						=> 'GA',
@@ -152,6 +153,9 @@ class UserAgentParser
 			'netscape6'						=> 'NS',
 			'netscape'						=> 'NS',
 
+			'nx'							=> 'NF',
+			'netfront'						=> 'NF',
+
 			'omniweb'						=> 'OW',
 
 			// Opera
@@ -173,14 +177,15 @@ class UserAgentParser
 	// browser family (by layout engine)
 	static protected $browserType = array(
 			'ie'	 => array('IE'),
-			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ'),
+			'gecko'  => array('NS', 'PX', 'FF', 'FB', 'CA', 'GA', 'KM', 'MO', 'SM', 'CO', 'FE', 'KP', 'KZ', 'TB'),
 			'khtml'  => array('KO'),
-			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2'),
+			'webkit' => array('SF', 'CH', 'OW', 'AR', 'EP', 'FL', 'WO', 'AB', 'IR', 'CS', 'FD', 'HA', 'MI', 'GE', 'DF', 'BB', 'BP', 'TI', 'CF', 'RK', 'B2', 'NF'),
 			'opera'  => array('OP'),
 		);
 
 	// WebKit version numbers to Apple Safari version numbers (if Version/X.Y.Z not present)
 	static protected $safariVersions = array(
+			'536.25'	=> array('6', '0'),
 			'534.48'	=> array('5', '1'),
 			'533.16'	=> array('5', '0'),
 			'533.4'		=> array('4', '1'),
@@ -215,8 +220,10 @@ class UserAgentParser
 	static protected $operatingSystems = array(
 			'Android'				=> 'AND',
 			'Maemo'					=> 'MAE',
-			'CrOS '                 => 'LIN',
+			'CrOS '					=> 'LIN',
 			'Linux'					=> 'LIN',
+
+			'Xbox'					=> 'XBX',
 
 			// workaround for vendors who changed the WinPhone 7 user agent
 			'WP7'					=> 'WPH',
@@ -304,10 +311,14 @@ class UserAgentParser
 			'DragonFly'				=> 'DFB',
 			'Syllable'				=> 'SYL',
 
+			'Nintendo WiiU'			=> 'WIU',
 			'Nintendo Wii'			=> 'WII',
 			'Nitro'					=> 'NDS',
-			'Nintendo DS '			=> 'NDS',
 			'Nintendo DSi'			=> 'DSI',
+			'Nintendo DS' 			=> 'NDS',
+			'Nintendo 3DS'			=> '3DS',
+
+			'PlayStation Vita'		=> 'PSV',
 			'PlayStation Portable'	=> 'PSP',
 			'PlayStation 3'			=> 'PS3',
 
@@ -317,7 +328,6 @@ class UserAgentParser
 			'BEOS'					=> 'BEO',
 			'Amiga'					=> 'AMI',
 			'AmigaOS'				=> 'AMI',
-
 		);
 	
 	// os family
@@ -330,8 +340,8 @@ class UserAgentParser
 			'iOS' => array('IPD', 'IPA', 'IPH'),
 			'Android' => array('AND'),
 			'Windows Mobile' => array('WPH', 'WMO', 'WCE'),
-			'Gaming Console' => array('WII', 'PS3'),
-			'Mobile Gaming Console' => array('PSP', 'NDS', 'DSI'),
+			'Gaming Console' => array('WII', 'WIU', 'PS3', 'XBX'),
+			'Mobile Gaming Console' => array('PSP', 'PSV', 'NDS', 'DSI', '3DS'),
 			'Unix' => array('SOS', 'AIX', 'HP-UX', 'BSD', 'NBS', 'OBS', 'DFB', 'SYL', 'IRI', 'T64'),
 			'Other Mobile' => array('MAE', 'WOS', 'POS', 'BLB', 'QNX', 'SYM', 'SBA'),
 			'Other' => array('VMS', 'OS2', 'BEOS', 'AMI')
@@ -430,10 +440,11 @@ class UserAgentParser
 		$userAgent = preg_replace('~^BlackBerry\d+/~', 'BlackBerry/', $userAgent);
 
 		if (preg_match_all("/($browsersPattern)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
-			|| (strpos($userAgent, 'Shiira') === false && preg_match_all("/(firefox|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
+			|| (strpos($userAgent, 'Shiira') === false && preg_match_all("/(firefox|thunderbird|safari)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results))
 			|| preg_match_all("/(applewebkit)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/([0-9]+)([\.0-9a-z-]+)?(?: \[[a-z]{2}\])? (?:\([^)]*\))$/i", $userAgent, $results)
 			|| preg_match_all("/^(mozilla)\/[0-9]+(?:[\.0-9a-z-]+)?\s\(.* rv:([0-9]+)([.0-9a-z]+)\) gecko(\/[0-9]{8}|$)(?:.*)/i", $userAgent, $results)
+            || (strpos($userAgent, 'Nintendo 3DS') !== false && preg_match_all("/^(mozilla).*version\/([0-9]+)([.0-9a-z]+)?/i", $userAgent, $results))
 			)
 		 {
 			// browser code (usually the first match)
@@ -445,7 +456,7 @@ class UserAgentParser
 				$count = count($results[0]) - 1;
 				$info['id'] = 'CF';
 			}
-			else if(($info['id'] == 'IE' || $info['id'] == 'LX') && (count($results[0]) > 1)) {
+			elseif(($info['id'] == 'IE' || $info['id'] == 'LX') && (count($results[0]) > 1)) {
 				$count = count($results[0]) - 1;
 				$info['id'] = self::$browsers[strtolower($results[1][$count])];
 			}
@@ -455,19 +466,31 @@ class UserAgentParser
 				if(stripos($userAgent, 'PlayStation') !== false) {
 					return false;
 				}
-				if(count($results) == 4) {
+                if(strpos($userAgent, 'Nintendo 3DS') !== false) {
+                    $info['id'] = 'NF';
+                }
+				elseif(count($results) == 4) {
 				 	$info['id'] = 'NS';
 				}
 			}
 			// BlackBerry devices
-			else if(strpos($userAgent, 'BlackBerry') !== false) {
+			elseif(strpos($userAgent, 'BlackBerry') !== false) {
 				$info['id'] = 'BB';
 			}
-			else if(strpos($userAgent, 'RIM Tablet OS') !== false) {
+			elseif(strpos($userAgent, 'RIM Tablet OS') !== false) {
 				$info['id'] = 'BP';
 			}
-			else if(strpos($userAgent, 'BB10') !== false) {
+			elseif(strpos($userAgent, 'BB10') !== false) {
 				$info['id'] = 'B2';
+			}
+			elseif(strpos($userAgent, 'Playstation Vita') !== false) {
+				$info['id'] = 'NF';
+
+				if(preg_match_all("/(silk)[\/\sa-z(]*([0-9]+)([\.0-9a-z]+)?/i", $userAgent, $newResults))
+				{
+					$results = $newResults;
+					$count = count($results[0])-1;
+				}
 			}
 
 			// Version/X.Y.Z override
@@ -544,6 +567,7 @@ class UserAgentParser
 
 		 	return $info;
 		 }
+
 		 return false;
 	}
 	
@@ -571,6 +595,7 @@ class UserAgentParser
 		self::$browserIdToName['IC'] = 'iCab';
 		self::$browserIdToName['KM'] = 'K-Meleon';
 		self::$browserIdToName['MC'] = 'NCSA Mosaic';
+		self::$browserIdToName['NF'] = 'NetFront';
 		self::$browserIdToName['OW'] = 'OmniWeb';
 		self::$browserIdToName['SF'] = 'Safari';
 		self::$browserIdToName['SM'] = 'SeaMonkey';
@@ -593,6 +618,8 @@ class UserAgentParser
 			'BEO' => 'BeOS',
 			'T64' => 'Tru64',
 			'NDS' => 'Nintendo DS',
+			'WIU' => 'Nintendo Wii U',
+			'3DS' => 'Nintendo 3DS',
 		
 			// These are for BC purposes only
 			'W75' => 'WinPhone 7.5', 
@@ -605,8 +632,11 @@ class UserAgentParser
 			'PS3' => 'PS3',
 			'PSP' => 'PSP',
 			'WII' => 'Wii',
+			'WIU' => 'Wii U',
 			'NDS' => 'DS',
 			'DSI' => 'DSi',
+			'3DS' => '3DS',
+			'PSV' => 'PS Vita',
 			'WI8' => 'Win 8',
 			'WI7' => 'Win 7',
 			'WVI' => 'Win Vista',

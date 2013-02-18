@@ -20,14 +20,12 @@ before_script:
   - ./tests/travis/setup_webserver.sh
   - cd tests/PHPUnit
 
-matrix:
-  allow_failures:
-    - php: 5.5
-
 notifications:
   irc:
+    skip_join: true
+    on_success: change
     channels:
-      - "irc.freenode.org#piwik"
+      - "irc.freenode.org#piwik-dev"
     template:
       - "%{repository} (%{commit}) : %{message} %{foo} "
       - "Build details: %{build_url}"

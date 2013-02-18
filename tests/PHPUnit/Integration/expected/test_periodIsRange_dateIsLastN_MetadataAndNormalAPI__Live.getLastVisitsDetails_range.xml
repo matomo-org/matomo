@@ -49,7 +49,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>France</country>
+		<countryCode>fr</countryCode>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<region />
 		<city />
@@ -151,7 +153,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>France</country>
+		<countryCode>fr</countryCode>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<region />
 		<city />
@@ -312,7 +316,9 @@
 		<daysSinceFirstVisit>0</daysSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<continent>Europe</continent>
+		<continentCode>eur</continentCode>
 		<country>France</country>
+		<countryCode>fr</countryCode>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<region />
 		<city />

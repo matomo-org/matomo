@@ -19,7 +19,7 @@ Or in short:
 
 ## License
 
-Piwik is released under the GPL v3 (or later) license, see misc/gpl-3.0.txt 
+Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](misc/gpl-3.0.txt)
 
 ## Requirements
 

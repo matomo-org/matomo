@@ -961,7 +961,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function isVisitorIpExcluded($ip)
 	{
-		$websiteAttributes = Piwik_Common::getCacheWebsiteAttributes( $this->idsite );
+		$websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes( $this->idsite );
 		if(!empty($websiteAttributes['excluded_ips']))
 		{
 			if(Piwik_IP::isIpInRange($ip, $websiteAttributes['excluded_ips']))
@@ -984,7 +984,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 */
 	protected function isUserAgentExcluded( $ua )
 	{
-		$websiteAttributes = Piwik_Common::getCacheWebsiteAttributes($this->idsite);
+		$websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->idsite);
 		if (!empty($websiteAttributes['excluded_user_agents']))
 		{
 			foreach ($websiteAttributes['excluded_user_agents'] as $excludedUserAgent)
@@ -1557,7 +1557,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	// is the referer host any of the registered URLs for this website?
 	static public function isHostKnownAliasHost($urlHost, $idSite)
 	{
-		$websiteData = Piwik_Common::getCacheWebsiteAttributes($idSite);
+		$websiteData = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
 		if(isset($websiteData['hosts']))
 		{
 			$canonicalHosts = array();

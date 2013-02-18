@@ -246,7 +246,7 @@ class Smarty_Compiler extends Smarty {
                 if ($prefilter === false) continue;
                 if ($prefilter[3] || is_callable($prefilter[0])) {
                     $source_content = call_user_func_array($prefilter[0],
-                                                            array($source_content, &$this));
+	                                                            array($source_content, &$this));
                     $this->_plugins['prefilter'][$filter_name][3] = true;
                 } else {
                     $this->_trigger_fatal_error("[plugin] prefilter '$filter_name' is not implemented");
@@ -261,12 +261,10 @@ class Smarty_Compiler extends Smarty {
         $this->_folded_blocks = $match;
         reset($this->_folded_blocks);
 
-        /* replace special blocks by "{php}" */
-        $source_content = preg_replace($search.'e', "'"
-                                       . $this->_quote_replace($this->left_delimiter) . 'php'
-                                       . "' . str_repeat(\"\n\", substr_count('\\0', \"\n\")) .'"
+        /* replace special blocks by "{php}"
+        PIWIK HACKED for 5.5 compat */
+        $source_content = preg_replace($search, $this->_quote_replace($this->left_delimiter) . 'php'
                                        . $this->_quote_replace($this->right_delimiter)
-                                       . "'"
                                        , $source_content);
 
         /* Gather all template tags. */

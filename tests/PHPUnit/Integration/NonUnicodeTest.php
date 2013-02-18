@@ -44,8 +44,6 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 			'Actions.getPageTitles',
 			'Actions.getPageUrls',
 			'Referers.getWebsites',
-//			'Live.getLastVisitsDetails',
-			'Actions.getLastVisitsDetails',
 		);
 		
 		return array(
@@ -97,10 +95,13 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 		self::checkResponse($visitor->doTrackPageView('Page title is always UTF-8'));
 
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.4)->getDatetime());
-		$visitor->setUrl('http://example.org/page/index.htm?q=%EC%E5%F8%EA%EE%E2%FB%E5');
+		$nonUnicodeKeyword = '%EC%E5%F8%EA%EE%E2%FB%E5';
+		$visitor->setUrl('http://example.org/page/index.htm?q='.$nonUnicodeKeyword);
 		$visitor->setPageCharset('windows-1251');
 		self::checkResponse($visitor->doTrackPageView('Site Search'));
 
+
+		// Test URL with non unicode Site Search keyword
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.5)->getDatetime());
 		//TESTS: on jenkins somehow the "<-was here" was cut off so removing this test case and simply append the wrong keyword
 //		$visitor->setUrl('http://example.org/page/index.htm?q=non unicode keyword %EC%E5%F8%EAe%EE%E2%FBf%E5 <-was here');
@@ -109,13 +110,14 @@ class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 //		var_dump("hello \n");
 //		var_dump($visitor->getUrlTrackPageView('Site Search'));
 		self::checkResponse($visitor->doTrackPageView('Site Search'));
-		$visitor->setPageCharset('');
 
+
+		$visitor->setPageCharset('');
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(0.5)->getDatetime());
 		$visitor->setUrl('http://example.org/exit-page');
 		self::checkResponse($visitor->doTrackPageView('Page title is always UTF-8'));
 
-		// Test invalid char set
+		// Test set invalid page char set
 		$visitor = self::getTracker(self::$idSite1, self::$dateTime, $defaultInit = true);
 		$visitor->setForceVisitDateTime(Piwik_Date::factory(self::$dateTime)->addHour(1)->getDatetime());
 		$visitor->setUrlReferrer('http://anothersite.com/whatever.html');

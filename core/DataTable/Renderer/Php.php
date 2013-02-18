@@ -96,7 +96,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
 	{
 		$this->renderHeader();
 
-		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		$exceptionMessage = $this->getExceptionMessage();
 		
 		$return = array('result' => 'error', 'message' => $exceptionMessage);
 		

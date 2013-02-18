@@ -120,7 +120,7 @@ class Piwik_Goals_API
 						'revenue' => (float)$revenue,
 						'deleted' => 0,
 					));
-		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
+		Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
 		return $idGoal;
 	}
 
@@ -157,8 +157,8 @@ class Piwik_Goals_API
 						'revenue' => (float)$revenue,
 						),
 					"idsite = '$idSite' AND idgoal = '$idGoal'"
-			);	
-		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
+			);
+		Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
 	}
 
 	private function checkPatternIsValid($patternType, $pattern)
@@ -197,7 +197,7 @@ class Piwik_Goals_API
 											AND idgoal = ?",
 									array($idSite, $idGoal));
 		Piwik_DeleteAllRows(Piwik_Common::prefixTable("log_conversion"), "WHERE idgoal = ?", 100000, array($idGoal));
-		Piwik_Common::regenerateCacheWebsiteAttributes($idSite);
+		Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
 	}
 	
 	/**

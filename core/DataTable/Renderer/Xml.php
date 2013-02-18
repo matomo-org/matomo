@@ -41,7 +41,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	{
 		$this->renderHeader();
 
-		$exceptionMessage = self::renderHtmlEntities($this->exception->getMessage());
+		$exceptionMessage = $this->getExceptionMessage();
 		
 		$return = '<?xml version="1.0" encoding="utf-8" ?>' . "\n" .
 			"<result>\n".

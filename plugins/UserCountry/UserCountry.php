@@ -369,7 +369,6 @@ class Piwik_UserCountry extends Piwik_Plugin
 			return;
 		}
 		
-		$emptyInterestColumns = $archiveProcessing->getNewInterestRow();
 		while ($row = $query->fetch())
 		{
 			// get latitude/longitude if there's a city

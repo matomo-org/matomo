@@ -375,8 +375,7 @@ abstract class Piwik_UserCountry_LocationProvider
 		{
 			if (is_numeric($location[self::LONGITUDE_KEY]))
 			{
-				$location[self::LONGITUDE_KEY] = round(
-					$location[self::LONGITUDE_KEY], self::GEOGRAPHIC_COORD_PRECISION);
+				$location[self::LONGITUDE_KEY] = round($location[self::LONGITUDE_KEY], self::GEOGRAPHIC_COORD_PRECISION);
 			}
 			else
 			{

@@ -93,6 +93,29 @@
 		<logo>plugins/UserCountry/flags/ru.png</logo>
 	</row>
 	<row>
+		<label>Unknown, Tibet</label>
+		<nb_visits>2</nb_visits>
+		<nb_actions>2</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>2</bounce_count>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>2</nb_conversions>
+				<nb_visits_converted>2</nb_visits_converted>
+				<revenue>10</revenue>
+			</row>
+		</goals>
+		<nb_conversions>2</nb_conversions>
+		<revenue>10</revenue>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<region>1</region>
+		<country>ti</country>
+		<country_name>Tibet</country_name>
+		<region_name>Unknown</region_name>
+		<logo>plugins/UserCountry/flags/ti.png</logo>
+	</row>
+	<row>
 		<label>Miravci, Macedonia, the Former Yugoslav Republic of</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
