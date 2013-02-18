@@ -476,7 +476,7 @@ UserCountryMap.run = function(config) {
                     return UserCountryMap.countriesByIso[pd.iso] === undefined;
                 },
                 tooltips: function(pd) {
-                    return '<h3>'+pd.name+'</h3>No Visits';
+                    return '<h3>'+pd.name+'</h3>' + UserCountryMap._.no_visit;
                 }
             });
 

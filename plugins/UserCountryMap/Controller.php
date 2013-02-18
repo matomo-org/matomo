@@ -84,6 +84,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $view->localeJSON = json_encode(array(
             'nb_visits' => Piwik_Translate('VisitsSummary_NbVisits'),
             'one_visit' => Piwik_Translate('UserCountryMap_OneVisit'),
+            'no_visit' => Piwik_Translate('UserCountryMap_NoVisit'),
             'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),
             'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
             'bounce_rate' => Piwik_Translate('VisitsSummary_NbVisitsBounced'),

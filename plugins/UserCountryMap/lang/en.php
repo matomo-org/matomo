@@ -11,6 +11,7 @@ $translations = array(
     'UserCountryMap_None' => 'None',
 	'UserCountryMap_Unlocated' => '<b>%s</b> %p of the visits from %c couldn\'t be geo located.',
     'UserCountryMap_OneVisit' => '%s visit',
+    'UserCountryMap_NoVisit' => 'No visit',
 
     // translations for Real-time Map widget
     'UserCountryMap_RealTimeMap' => 'Real-time Map',
