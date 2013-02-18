@@ -5,7 +5,7 @@ window.UserCountryMap = {};
 
 UserCountryMap.run = function(config) {
 
-    Kartograph.__verbose = true;
+    // Kartograph.__verbose = true;
 
     var map = $K.map('#UserCountryMap_map'),
         main = $('#UserCountryMap_container'),
