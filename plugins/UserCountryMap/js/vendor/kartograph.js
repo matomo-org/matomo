@@ -4859,7 +4859,14 @@
           show: {
             delay: 20
           },
-          content: {}
+          content: {},
+          events: {
+            show: function(evt, api) {
+              return $('.qtip').filter(function() {
+                return this !== api.elements.tooltip.get(0);
+              }).hide();
+            }
+          }
         };
         tt = tooltips(s.data, s.key);
         if (__type(tt) === "string") {
