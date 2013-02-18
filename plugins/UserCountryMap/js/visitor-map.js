@@ -629,7 +629,7 @@
                 function updateRegionColors() {
                     indicateLoading();
                     // load data from Piwik API
-                    self.ajax(_reportParams('UserCountry', 'getRegion', UserCountryMap.countriesByIso[iso].iso2))
+                    ajax(_reportParams('UserCountry', 'getRegion', UserCountryMap.countriesByIso[iso].iso2))
                     .done(function(data) {
 
                         loadingComplete();
