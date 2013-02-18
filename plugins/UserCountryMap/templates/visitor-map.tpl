@@ -75,9 +75,12 @@
 
     var widget = $('.UserCountryMap').parents('.widgetContent');
 
+    piwikHelper.log('loaded map widget to DOM');
+
 {literal}
     widget.on('widget:loaded', function(evt, widget) {
         UserCountryMap.theWidget = widget;
+        piwikHelper.log('catched widget:load event, running map', config);
         UserCountryMap.run(config);
     });
 
