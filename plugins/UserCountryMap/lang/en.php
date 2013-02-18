@@ -12,6 +12,7 @@ $translations = array(
 	'UserCountryMap_Unlocated' => '<b>%s</b> %p of the visits from %c couldn\'t be geo located.',
     'UserCountryMap_OneVisit' => '%s visit',
     'UserCountryMap_NoVisit' => 'No visit',
+    'UserCountryMap_LoginToViewRealTime' => 'Login to view the Piwik Real Time Visitor Map!',
 
     // translations for Real-time Map widget
     'UserCountryMap_RealTimeMap' => 'Real-time Map',

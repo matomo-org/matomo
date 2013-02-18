@@ -71,8 +71,7 @@
                         'referrerTypeName','browserIcon','operatingSystemIcon',
                         'countryFlag','idVisit','actionDetails','continentCode',
                         'actions', 'searches'].join(','),
-                    minTimestamp: firstRun ? -1 : lastTimestamp,
-                    date: 'today'
+                    minTimestamp: firstRun ? -1 : lastTimestamp
                 });
                 return params;
             }
@@ -115,7 +114,7 @@
             }
 
             /*
-             * returns value between 0..1, where 1 means that the
+             * returns value betwddn 0..1, where 1 means that the
              * visit is fresh, and 0 means the visit is almost gone
              * from the map
              */
@@ -341,7 +340,7 @@
 
                         // show
                         var dur = lastTimestamp - oldest, d;
-                        if (dur < 60) d = dur+ ' ' + _.seconds;
+                        if (dur < 60) d = dur + ' ' + _.seconds;
                         else if (dur < 3600) d = Math.ceil(dur / 60) + ' ' + _.minutes;
                         else d = Math.ceil(dur / 3600) + ' ' + _.hours;
                         $('.realTimeMap_timeSpan').html(d);

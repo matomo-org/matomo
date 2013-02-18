@@ -12,6 +12,7 @@ $translations = array(
     'UserCountryMap_NoneLocated' => '<b>Keiner</b> der Besuche aus %c konnte lokalisiert werden.',
     'UserCountryMap_OneVisit' => '%s Besuch',
     'UserCountryMap_NoVisit' => 'Keine Besuche',
+    'UserCountryMap_LoginToViewRealTime' => 'Du musst eingeloggt sein, um die Besucherkarte in Echtzeit zu sehen!',
 
     // translations for Real-time Map widget
     'UserCountryMap_RealTimeMap' => 'Besucherkarte in Echtzeit',
