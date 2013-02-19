@@ -195,7 +195,7 @@
                     'fill-opacity': Math.pow(age(r),2) * 0.8 + 0.2,
                     'stroke-opacity': Math.pow(age(r),1.7) * 0.8 + 0.2,
                     stroke: '#fff',
-                    'stroke-width': (engaged ? 1.5 : 1) * age(r),
+                    'stroke-width': (engaged ? 1.7 : 1) * age(r),
                     r: visitRadius(r)
                 };
             }
