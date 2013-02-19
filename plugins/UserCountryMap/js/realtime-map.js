@@ -4,7 +4,7 @@
 
     var RealtimeMap = window.UserCountryMap.RealtimeMap = function(config, theWidget) {
         this.config = config;
-        this.theWidget = theWidget;
+        this.theWidget = theWidget || false;
         this.run();
     };
 
@@ -478,6 +478,7 @@
          * resizes the map to widget dimensions
          */
         resize: function() {
+            piwikHelper.log(this);
             var ratio, w, h, map = this.map;
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();

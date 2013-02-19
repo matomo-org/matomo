@@ -137,23 +137,26 @@
     config._ = JSON.parse('{$localeJSON}');
     config.reqParams = JSON.parse('{$reqParamsJSON}');
 
-    var widgetContent = $('#RealTimeMap').parents('.widgetContent');
+    var realtimeMap;
 
 {literal}
+    if ($('#dashboardWidgetsArea').length) {
+        // dashboard mode
+        var $widgetContent = $('#RealTimeMap').parents('.widgetContent');
 
-    widgetContent.on('widget:create', function(evt, widget) {
-        visitorMap = new UserCountryMap.RealtimeMap(config, widget);
-    });
-    widgetContent.on('widget:maximise', function(evt) {
-        visitorMap.resize();
-    });
-    widgetContent.on('widget:minimise', function(evt) {
-        visitorMap.resize();
-    });
-    widgetContent.on('widget:destroy', function(evt) {
-        visitorMap.destroy();
-    });
-
+        $widgetContent.on('widget:create', function(evt, widget) {
+            realtimeMap = new UserCountryMap.RealtimeMap(config, widget);
+        }).on('widget:maximise', function(evt) {
+            realtimeMap.resize();
+        }).on('widget:minimise', function(evt) {
+            realtimeMap.resize();
+        }).on('widget:destroy', function(evt) {
+            realtimeMap.destroy();
+        });
+    } else {
+        // stand-alone mode
+        realtimeMap = new UserCountryMap.RealtimeMap(config);
+    }
 {/literal}
 
 </script>
