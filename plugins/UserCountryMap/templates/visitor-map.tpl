@@ -77,18 +77,24 @@
     var $widgetContent = $('.UserCountryMap').parents('.widgetContent');
 
 {literal}
-    $widgetContent.on('widget:create', function(evt, widget) {
+    if ($widgetContent.length) {
+        // dashboard mode
+        $widgetContent.on('widget:create', function(evt, widget) {
+            visitorMap = new UserCountryMap.VisitorMap(config, widget);
+        });
+        $widgetContent.on('widget:maximise', function(evt) {
+            visitorMap.resize();
+        });
+        $widgetContent.on('widget:minimise', function(evt) {
+            visitorMap.resize();
+        });
+        $widgetContent.on('widget:destroy', function(evt) {
+            visitorMap.destroy();
+        });
+    } else {
+        // stand-alone mode
         visitorMap = new UserCountryMap.VisitorMap(config, widget);
-    });
-    $widgetContent.on('widget:maximise', function(evt) {
-        visitorMap.resize();
-    });
-    $widgetContent.on('widget:minimise', function(evt) {
-        visitorMap.resize();
-    });
-    $widgetContent.on('widget:destroy', function(evt) {
-        visitorMap.destroy();
-    });
+    }
 {/literal}
 
 </script>
