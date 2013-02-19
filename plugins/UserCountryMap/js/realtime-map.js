@@ -478,13 +478,12 @@
          * resizes the map to widget dimensions
          */
         resize: function() {
-            piwikHelper.log(this);
             var ratio, w, h, map = this.map;
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
             h = Math.min(w / ratio, $(window).height()-30);
 
-            radScale = (w * h) / 88000; //Math.sqrt(w / 400);
+            var radScale = Math.sqrt(w / 400);
             this.maxRad = 10 * radScale;
             this.minRad = 4 * radScale;
 
