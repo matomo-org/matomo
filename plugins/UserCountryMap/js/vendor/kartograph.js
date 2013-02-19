@@ -50,7 +50,7 @@
 
   kartograph = root.$K = window.Kartograph = (_ref = root.Kartograph) != null ? _ref : root.Kartograph = {};
 
-  kartograph.version = "0.5.1";
+  kartograph.version = "0.5.2";
 
   $ = root.jQuery;
 
@@ -1205,6 +1205,13 @@
           },
           show: {
             delay: delay != null ? delay : 20
+          },
+          events: {
+            show: function(evt, api) {
+              return $('.qtip').filter(function() {
+                return this !== api.elements.tooltip.get(0);
+              }).hide();
+            }
           },
           content: {}
         };
@@ -5587,10 +5594,16 @@ function kdtree() {
       return me;
     };
 
-    LabeledBubble.prototype.update = function() {
+    LabeledBubble.prototype.update = function(duration, easing) {
       var attrs, me, vp, x, y;
+      if (duration == null) {
+        duration = false;
+      }
+      if (easing == null) {
+        easing = 'expo-out';
+      }
       me = this;
-      LabeledBubble.__super__.update.apply(this, arguments);
+      LabeledBubble.__super__.update.call(this, duration, easing);
       if (me.label != null) {
         vp = me.map.viewport;
         attrs = $.extend({}, me.labelattrs);

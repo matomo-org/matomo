@@ -67,7 +67,7 @@
                         'visitLocalTime','city','country','referrerType','referrerName',
                         'referrerTypeName','browserIcon','operatingSystemIcon',
                         'countryFlag','idVisit','actionDetails','continentCode',
-                        'actions', 'searches'].join(','),
+                        'actions', 'searches', 'goalConversions'].join(','),
                     minTimestamp: firstRun ? -1 : lastTimestamp
                 });
                 return params;
