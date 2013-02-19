@@ -176,7 +176,7 @@
                     })[r.referrerType];
                 }
                 // defu
-                else col = chroma.hsl(42 * age(r), Math.sqrt(age(r)), 0.50 - (1-age(r))*0.45);
+                else col = chroma.hsl(r.actions > 3 ? 10 : 42 * age(r), Math.sqrt(age(r)), 0.50 - (1-age(r))*0.45);
                 return col;
             }
 
@@ -256,9 +256,9 @@
                     if (firstRun) {  // if we run this the first time, we initialiize the map symbols
                         visitSymbols = map.addSymbols({
                             data: [],
-                            type: Kartograph.LabeledBubble,
-                            title: function(d) {
-                                return visitRadius(d) > 15 ? d.actions : '';
+                            type: Kartograph.Bubble,
+                            /*title: function(d) {
+                                return visitRadius(d) > 15 && d.actions > 1 ? d.actions : '';
                             },
                             labelattrs: {
                                 fill: '#fff',
@@ -266,7 +266,7 @@
                                 'font-size': 11,
                                 stroke: false,
                                 cursor: 'pointer'
-                            },
+                            },*/
                             sortBy: function(r) { return r.lastActionTimestamp; },
                             radius: visitRadius,
                             location: function(r) { return [r.longitude, r.latitude]; },
