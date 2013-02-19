@@ -4,7 +4,7 @@
 
     var RealtimeMap = window.UserCountryMap.RealtimeMap = function(config, theWidget) {
         this.config = config;
-        this.theWidget = theWidget;
+        this.theWidget = theWidget || false;
         this.run();
     };
 

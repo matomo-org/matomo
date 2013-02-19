@@ -8,7 +8,7 @@
     // the main class for this widget, provides the interface for the template
     var VisitorMap = window.UserCountryMap.VisitorMap = function(config, theWidget) {
         this.config = config;
-        this.theWidget = theWidget;
+        this.theWidget = theWidget || false;
         this.run();
     };
 
@@ -25,7 +25,7 @@
              * our own custom selector to only select stuff of this widget
              */
             function $$(selector) {
-                return $(selector, self.theWidget.element);
+                return $(selector, self.theWidget ? self.theWidget.element : undefined);
             }
 
             var mapContainer = $$('.UserCountryMap_map').get(0),

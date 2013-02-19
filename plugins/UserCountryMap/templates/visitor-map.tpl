@@ -91,7 +91,7 @@
         });
     } else {
         // stand-alone mode
-        visitorMap = new UserCountryMap.VisitorMap(config, widget);
+        visitorMap = new UserCountryMap.VisitorMap(config);
     }
 {/literal}
 

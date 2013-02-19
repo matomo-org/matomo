@@ -155,7 +155,7 @@
         });
     } else {
         // stand-alone mode
-        realtimeMap = new UserCountryMap.RealtimeMap(config, widget);
+        realtimeMap = new UserCountryMap.RealtimeMap(config);
     }
 {/literal}
 
