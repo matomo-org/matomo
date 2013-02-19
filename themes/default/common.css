@@ -89,7 +89,7 @@ a {
 .top_controls{ 
 	position:relative; 
 	height:32px;
-	.z-index:11;
+	.z-index:9999;
 }
 
 .top_controls_inner{ 
@@ -110,7 +110,7 @@ a {
 	-webkit-border-radius:4px;
 	float:left; 
 	margin-right:12px;
-	z-index:11;
+	z-index:999;
 	position:absolute;
 }
 #periodString:hover {
