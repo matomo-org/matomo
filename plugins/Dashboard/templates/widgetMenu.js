@@ -359,6 +359,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                 var onWidgetLoadedCallback = function (response) {
                     var widgetElement = $('#'+widgetUniqueId);
                     $('.widgetContent', widgetElement).html($(response));
+                    $('.widgetContent', widgetElement).trigger('widget:create');
                     settings.onPreviewLoaded(widgetUniqueId, widgetElement);
                     $('.'+settings.widgetpreviewClass+' .widgetTop', widgetPreview).on('click', function(){
                         settings.onSelect(widgetUniqueId);
