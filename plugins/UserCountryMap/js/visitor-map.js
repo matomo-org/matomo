@@ -1158,7 +1158,7 @@
         resize: function() {
             var ratio, w, h,
                 map = this.map,
-                maxHeight = $(window).height() - (this.theWidget.isMaximised ? 150 : 55);
+                maxHeight = $(window).height() - (this.theWidget && this.theWidget.isMaximised ? 150 : 55);
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
             h = w / ratio;
