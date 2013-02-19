@@ -489,6 +489,7 @@
 
             map.container.height(h-2);
             map.resize(w, h);
+            map.symbolGroups[0].update();
 
             if (w < 355) $('.tableIcon span').hide();
             else $('.tableIcon span').show();
