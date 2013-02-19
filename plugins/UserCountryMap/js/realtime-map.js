@@ -180,7 +180,7 @@
                     42 * age(r), // hue
                     //engaged ? 42 : 20 * age(r) + 10,
                     Math.sqrt(age(r)), // saturation
-                    0.5 - (1-age(r))* 0.45  // lightness
+                    (r.actions > 3 ? 0.6 : 0.5) - (1-age(r))* 0.45  // lightness
                 );
                 return col;
             }
@@ -195,7 +195,7 @@
                     'fill-opacity': Math.pow(age(r),2) * 0.8 + 0.2,
                     'stroke-opacity': Math.pow(age(r),1.7) * 0.8 + 0.2,
                     stroke: '#fff',
-                    'stroke-width': (engaged ? 2 : 1) * age(r),
+                    'stroke-width': 1 * age(r),
                     r: visitRadius(r)
                 };
             }
