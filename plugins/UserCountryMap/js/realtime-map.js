@@ -21,9 +21,6 @@
                 worldTotalVisits = 0,
                 maxVisits = 100,
                 width = main.width(),
-                radScale = Math.sqrt($('#RealTimeMap_map').width() / 400),
-                minRad = self.minRad = 4 * radScale,
-                maxRad = self.maxRad = 10 * radScale,
                 lastTimestamp = -1,
                 lastVisits = [],
                 visitSymbols,
@@ -483,7 +480,7 @@
             w = map.container.width();
             h = Math.min(w / ratio, $(window).height()-30);
 
-            var radScale = Math.sqrt(w / 400);
+            var radScale = (w * h) / 88000; //Math.sqrt(w / 400);
             this.maxRad = 10 * radScale;
             this.minRad = 4 * radScale;
 
