@@ -4897,6 +4897,9 @@
     SymbolGroup.prototype.update = function(opts, duration, easing) {
       var p, s, _i, _j, _len, _len1, _ref6, _ref7;
       me = this;
+      if (!(opts != null)) {
+        opts = {};
+      }
       _ref6 = me.symbols;
       for (_i = 0, _len = _ref6.length; _i < _len; _i++) {
         s = _ref6[_i];
