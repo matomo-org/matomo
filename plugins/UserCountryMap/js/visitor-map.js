@@ -808,7 +808,7 @@
                         var is_rate = metric.substr(0,3) != 'nb_' || metric == 'nb_actions_per_visit';
 
                         var citySymbols = map.addSymbols({
-                            type: $K.LabeledBubble,
+                            type: Kartograph.LabeledBubble,
                             data: cities,
                             clustering: 'noverlap',
                             clusteringOpts: {
