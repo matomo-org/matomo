@@ -167,7 +167,8 @@
              * unless you type Shift+Alt+C
              */
             function visitColor(r) {
-                var col, engaged = r.actions > 3;
+                var col,
+                    engaged = r.actions > 3;
                 if (colorMode == 'referrerType') {
                     col = ({
                         website: '#F29007',
@@ -177,9 +178,10 @@
                 }
                 // defu
                 else col = chroma.hsl(
-                    engaged ? 20 : 42 * age(r), // hue
+                    //engaged ? 20 : 42 * age(r), // hue
+                    engaged ? 42 : 20 * age(r) + 10,
                     Math.sqrt(age(r)), // saturation
-                    (engaged ? 0.4 : 0.5) - (1-age(r))* (engaged ? 0.35 : 0.45)  // lightness
+                    (engaged ? 0.5 : 0.4) - (1-age(r))* (engaged ? 0.45 : 0.35)  // lightness
                 );
                 return col;
             }
