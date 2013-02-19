@@ -5261,11 +5261,13 @@ function kdtree() {
       } else {
         path.animate(attrs, duration, easing);
       }
-      if (me.style != null) {
-        path.node.setAttribute('style', me.style);
-      }
-      if (me["class"] != null) {
-        path.node.setAttribute('class', me["class"]);
+      if (path.node != null) {
+        if (me.style != null) {
+          path.node.setAttribute('style', me.style);
+        }
+        if (me["class"] != null) {
+          path.node.setAttribute('class', me["class"]);
+        }
       }
       if (me.title != null) {
         path.attr('title', me.title);
