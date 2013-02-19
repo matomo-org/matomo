@@ -71,8 +71,6 @@ class Piwik_CoreHome extends Piwik_Plugin
 		$jsFiles = &$notification->getNotificationObject();
 		
 		$jsFiles[] = "libs/jquery/jquery.js";
-		//$jsFiles[] = "libs/jquery/jquery-migrate-1.1.1.js";
-		//$jsFiles[] = "libs/jquery/jquery-ui-1.9.2.custom.js";
 		$jsFiles[] = "libs/jquery/jquery-ui.js";
 		$jsFiles[] = "libs/jquery/jquery.tooltip.js";
 		$jsFiles[] = "libs/jquery/jquery.truncate.js";
