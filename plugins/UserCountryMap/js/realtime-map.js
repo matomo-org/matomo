@@ -178,9 +178,8 @@
                 // defu
                 else col = chroma.hsl(
                     42 * age(r), // hue
-                    //engaged ? 42 : 20 * age(r) + 10,
                     Math.sqrt(age(r)), // saturation
-                    (r.actions > 3 ? 0.6 : 0.5) - (1-age(r))* 0.45  // lightness
+                    (r.actions > 3 ? 0.65 : 0.5) - (1-age(r))* 0.45  // lightness
                 );
                 return col;
             }
