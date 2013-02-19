@@ -26,4 +26,5 @@ $translations = array(
     'UserCountryMap_ShowingVisits' => 'Geo-located visits of last ',
     'UserCountryMap_Actions' => '%s page views',
     'UserCountryMap_Searches' => '%s searches',
+    'UserCountryMap_GoalConversions' => '%s goal conversions',
 );
