@@ -87,12 +87,12 @@ You can import data over several days in Piwik:
 
 You should now have some interesting data to test with in November 2012!
 
-## Webtests
+## Selenium Webdriver tests
 
-We would like to add webtests testing installation, auto update, and initial user login.
+We would like to add Webdriver selenium testing for the following: installation, auto update from 1.0, initial user login.
 Task is tracked in: http://dev.piwik.org/trac/ticket/2935
 
-## Schedules Reports Tests
+## Scheduled Reports Tests
 
 Piwik scheduled reports (HTML, PDF & SMS) are part of the integration test suite.
 They follow the same principles described in the INTEGRATION TESTS section of this document.
@@ -115,7 +115,9 @@ work altered the expected images. The standard procedure described in the INTEGR
 
  1. find out if the change is expected (*)
  2. a. if the change is expected, the expected files need to be updated (*)
+
     b. if the change is not expected, there is a bug needing to be fixed
+
 
 (*) to analyse and/or generate the expected files, you can either
 
