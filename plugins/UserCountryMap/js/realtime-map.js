@@ -167,7 +167,8 @@
              * unless you type Shift+Alt+C
              */
             function visitColor(r) {
-                var col;
+                var col,
+                    engaged = self.config.siteHasGoals ? r.goalConversions > 0 : r.actions > 4;
                 if (colorMode == 'referrerType') {
                     col = ({
                         website: '#F29007',
@@ -179,7 +180,7 @@
                 else col = chroma.hsl(
                     42 * age(r), // hue
                     Math.sqrt(age(r)), // saturation
-                    (r.actions > 3 ? 0.65 : 0.5) - (1-age(r))* 0.45  // lightness
+                    (engaged ? 0.65 : 0.5) - (1-age(r))* 0.45  // lightness
                 );
                 return col;
             }
@@ -188,7 +189,6 @@
              * attributes of the map symbols
              */
             function visitSymbolAttrs(r) {
-                var engaged = r.actions > 3;
                 return {
                     fill: visitColor(r).hex(),
                     'fill-opacity': Math.pow(age(r),2) * 0.8 + 0.2,
