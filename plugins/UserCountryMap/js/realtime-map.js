@@ -256,7 +256,16 @@
                     if (firstRun) {  // if we run this the first time, we initialiize the map symbols
                         visitSymbols = map.addSymbols({
                             data: [],
-                            type: Kartograph.Bubble,
+                            type: Kartograph.LabeledBubble,
+                            title: function(d) {
+                                return visitRadius(d) > 10 ? d.actions : '';
+                            },
+                            labelattrs: {
+                                fill: '#fff',
+                                'font-size': 11,
+                                stroke: false,
+                                cursor: 'pointer'
+                            },
                             sortBy: function(r) { return r.lastActionTimestamp; },
                             radius: visitRadius,
                             location: function(r) { return [r.longitude, r.latitude]; },
