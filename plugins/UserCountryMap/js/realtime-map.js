@@ -167,8 +167,7 @@
              * unless you type Shift+Alt+C
              */
             function visitColor(r) {
-                var col,
-                    engaged = r.actions > 3;
+                var col;
                 if (colorMode == 'referrerType') {
                     col = ({
                         website: '#F29007',
@@ -178,10 +177,10 @@
                 }
                 // defu
                 else col = chroma.hsl(
-                    //engaged ? 20 : 42 * age(r), // hue
-                    engaged ? 42 : 20 * age(r) + 10,
+                    42 * age(r), // hue
+                    //engaged ? 42 : 20 * age(r) + 10,
                     Math.sqrt(age(r)), // saturation
-                    (engaged ? 0.5 : 0.4) - (1-age(r))* (engaged ? 0.45 : 0.35)  // lightness
+                    0.5 - (1-age(r))* 0.45  // lightness
                 );
                 return col;
             }
@@ -190,12 +189,13 @@
              * attributes of the map symbols
              */
             function visitSymbolAttrs(r) {
+                var engaged = r.actions > 3;
                 return {
                     fill: visitColor(r).hex(),
                     'fill-opacity': Math.pow(age(r),2) * 0.8 + 0.2,
                     'stroke-opacity': Math.pow(age(r),1.7) * 0.8 + 0.2,
                     stroke: '#fff',
-                    'stroke-width': age(r),
+                    'stroke-width': (engaged ? 2 : 1) * age(r),
                     r: visitRadius(r)
                 };
             }
