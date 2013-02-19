@@ -74,21 +74,19 @@
 
     $('.UserCountryMap').addClass('dataTable');
 
-    var $widgetContent = $('.UserCountryMap').parents('.widgetContent');
 
 {literal}
-    if ($widgetContent.length) {
+    if ($('#dashboardWidgetsArea').length) {
         // dashboard mode
+        var $widgetContent = $('.UserCountryMap').parents('.widgetContent');
+
         $widgetContent.on('widget:create', function(evt, widget) {
             visitorMap = new UserCountryMap.VisitorMap(config, widget);
-        });
-        $widgetContent.on('widget:maximise', function(evt) {
+        }).on('widget:maximise', function(evt) {
             visitorMap.resize();
-        });
-        $widgetContent.on('widget:minimise', function(evt) {
+        }).on('widget:minimise', function(evt) {
             visitorMap.resize();
-        });
-        $widgetContent.on('widget:destroy', function(evt) {
+        }).on('widget:destroy', function(evt) {
             visitorMap.destroy();
         });
     } else {

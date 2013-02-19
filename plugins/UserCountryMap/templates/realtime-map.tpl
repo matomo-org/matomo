@@ -137,22 +137,20 @@
     config._ = JSON.parse('{$localeJSON}');
     config.reqParams = JSON.parse('{$reqParamsJSON}');
 
-    var realtimeMap,
-        $widgetContent = $('#RealTimeMap').parents('.widgetContent');
+    var realtimeMap;
 
 {literal}
-    if ($widgetContent.length) {
+    if ($('#dashboardWidgetsArea').length) {
         // dashboard mode
+        var $widgetContent = $('#RealTimeMap').parents('.widgetContent');
+
         $widgetContent.on('widget:create', function(evt, widget) {
             realtimeMap = new UserCountryMap.RealtimeMap(config, widget);
-        });
-        $widgetContent.on('widget:maximise', function(evt) {
+        }).on('widget:maximise', function(evt) {
             realtimeMap.resize();
-        });
-        $widgetContent.on('widget:minimise', function(evt) {
+        }).on('widget:minimise', function(evt) {
             realtimeMap.resize();
-        });
-        $widgetContent.on('widget:destroy', function(evt) {
+        }).on('widget:destroy', function(evt) {
             realtimeMap.destroy();
         });
     } else {
