@@ -287,11 +287,12 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
 
                 // delay widget preview a few millisconds
                 $('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseenter', function(){
-                    var widgetUniqueId = $(this).attr('uniqueid');
+                    var that = this,
+                        widgetUniqueId = $(this).attr('uniqueid');
                     clearTimeout(widgetPreview);
                     widgetPreviewTimer = setTimeout(function() {
                         $('li', widgetList).removeClass(settings.choosenClass);
-                        $(this).addClass(settings.choosenClass);
+                        $(that).addClass(settings.choosenClass);
 
                         showPreview(widgetUniqueId);
                     }, 400);
