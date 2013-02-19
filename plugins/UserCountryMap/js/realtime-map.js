@@ -258,10 +258,11 @@
                             data: [],
                             type: Kartograph.LabeledBubble,
                             title: function(d) {
-                                return visitRadius(d) > 10 ? d.actions : '';
+                                return visitRadius(d) > 15 ? d.actions : '';
                             },
                             labelattrs: {
                                 fill: '#fff',
+                                'font-weight': 'bold',
                                 'font-size': 11,
                                 stroke: false,
                                 cursor: 'pointer'
