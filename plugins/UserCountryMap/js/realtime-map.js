@@ -22,8 +22,8 @@
                 maxVisits = 100,
                 width = main.width(),
                 radScale = Math.sqrt($('#RealTimeMap_map').width() / 400),
-                minRad = 4 * radScale,
-                maxRad = 10 * radScale,
+                minRad = self.minRad = 4 * radScale,
+                maxRad = self.maxRad = 10 * radScale,
                 lastTimestamp = -1,
                 lastVisits = [],
                 visitSymbols,
@@ -161,7 +161,7 @@
              * the radius of the symbol depends on the lastActionTimestamp
              */
             function visitRadius(r) {
-                return Math.pow(age(r),4) * (maxRad - minRad) + minRad;
+                return Math.pow(age(r),4) * (self.maxRad - self.minRad) + self.minRad;
             }
 
             /*
@@ -478,17 +478,20 @@
          * resizes the map to widget dimensions
          */
         resize: function() {
-            piwikHelper.log(this);
             var ratio, w, h, map = this.map;
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
-            radScale = Math.sqrt(w / 400);
-            maxRad = 10 * radScale;
-            minRad = 4 * radScale;
-
             h = Math.min(w / ratio, $(window).height()-30);
+
+            var radScale = Math.sqrt(w / 400);
+            this.maxRad = 10 * radScale;
+            this.minRad = 4 * radScale;
+
             map.container.height(h-2);
             map.resize(w, h);
+            if (map.symbolGroups && map.symbolGroups.length > 0) {
+                map.symbolGroups[0].update();
+            }
 
             if (w < 355) $('.tableIcon span').hide();
             else $('.tableIcon span').show();

@@ -215,7 +215,7 @@
              */
             function onResizeLazy() {
                 clearTimeout(self._resizeTimer);
-                self._resizeTimer = setTimeout(self.resize, 300);
+                self._resizeTimer = setTimeout(self.resize.bind(self), 300);
             }
 
             function activateButton(btn) {

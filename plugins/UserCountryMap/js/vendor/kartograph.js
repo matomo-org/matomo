@@ -4905,6 +4905,8 @@
           p = _ref7[_j];
           if (opts[p] != null) {
             s[p] = me._evaluate(opts[p], s.data);
+          } else if (me[p] != null) {
+            s[p] = me._evaluate(me[p], s.data);
           }
         }
         s.update(duration, easing);
