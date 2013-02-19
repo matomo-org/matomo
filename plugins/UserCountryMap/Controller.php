@@ -130,7 +130,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
 		$goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
 		$site = new Piwik_Site($idSite);
-		$view->hasGoals = !empty($goals) || $site->isEcommerceEnabled();
+		$view->hasGoals = !empty($goals) || $site->isEcommerceEnabled() ? 'true' : 'false';
 
 		// some translations
 		$view->localeJSON = json_encode(array(
