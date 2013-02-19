@@ -132,6 +132,9 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		$site = new Piwik_Site($idSite);
 		$view->hasGoals = !empty($goals) || $site->isEcommerceEnabled() ? 'true' : 'false';
 
+		// maximum number of visits to be displayed in the map
+		$view->maxVisits = Piwik_Common::getRequestVar('format_limit', 100, 'int');
+
 		// some translations
 		$view->localeJSON = json_encode(array(
 			'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),
