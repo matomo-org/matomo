@@ -19,7 +19,7 @@
                 map = self.map = Kartograph.map('#RealTimeMap_map'),
                 main = $('#RealTimeMap_container'),
                 worldTotalVisits = 0,
-                maxVisits = 100,
+                maxVisits = config.maxVisits || 100,
                 width = main.width(),
                 lastTimestamp = -1,
                 lastVisits = [],
