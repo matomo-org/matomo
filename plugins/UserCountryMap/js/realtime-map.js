@@ -150,7 +150,7 @@
                     // local time
                     '<small>'+_.local_time+': '+r.visitLocalTime+'</small><br />' +
                     // goals, if available
-                    (self.config.siteHasGoals ? '<small>'+_.goal_conversions.replace('%s', '<b>'+r.goalConversions+'</b>') +
+                    (self.config.siteHasGoals && r.goalConversions ? '<small>'+_.goal_conversions.replace('%s', '<b>'+r.goalConversions+'</b>') +
                     (r.searches > 0 ? ', ' + _.searches.replace('%s', r.searches) : '') + '</small><br />' : '')+
                     // actions and searches
                     '<small>'+_.actions.replace('%s', '<b>'+r.actions+'</b>') +
