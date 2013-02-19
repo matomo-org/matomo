@@ -128,6 +128,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		$view->defaultMetric = 'nb_visits';
 		$view->liveRefreshAfterMs = (int)Piwik_Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
+		$goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
+		$site = new Piwik_Site($idSite);
+		$view->hasGoals = !empty($goals) || $site->isEcommerceEnabled();
+
 		// some translations
 		$view->localeJSON = json_encode(array(
 			'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),

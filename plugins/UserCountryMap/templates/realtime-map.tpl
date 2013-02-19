@@ -136,6 +136,7 @@
 
     config._ = JSON.parse('{$localeJSON}');
     config.reqParams = JSON.parse('{$reqParamsJSON}');
+    config.siteHasGoals = {$hasGoals};
 
     var realtimeMap;
 
