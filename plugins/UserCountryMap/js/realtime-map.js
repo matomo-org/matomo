@@ -480,7 +480,7 @@
             w = map.container.width();
             h = Math.min(w / ratio, $(window).height()-30);
 
-            var radScale = (w * h) / 88000; //Math.sqrt(w / 400);
+            var radScale = Math.sqrt((w * h) / 88000); //Math.sqrt(w / 400);
             this.maxRad = 10 * radScale;
             this.minRad = 4 * radScale;
 
