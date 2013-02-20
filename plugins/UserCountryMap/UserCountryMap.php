@@ -23,8 +23,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
             'description' => 'This plugin provides the widgets Visitor Map and Real-time Map.',
             'author' => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
-            'version' => '2.0',
-            'translationAvailable' => true
+            'version' => '2.0'
         );
     }
 
