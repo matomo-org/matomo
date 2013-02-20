@@ -26,10 +26,12 @@ matrix:
 
 notifications:
   irc:
+    skip_join: true
+    on_success: change
     channels:
       - "irc.freenode.org#piwik"
     template:
       - "%{repository} (%{commit}) : %{message} %{foo} "
       - "Build details: %{build_url}"
   email:
-    - builds@piwik.org
+    - piwik-builds@piwik.org

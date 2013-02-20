@@ -22,7 +22,7 @@ js/yui*
 misc/*.dat
 tests/javascript/enable_sqlite
 tests/javascript/unittest.dbf
-tests/lib/geoip-files/
+tests/lib/geoip-files/GeoIP*
 tests/lib/visualphpunit/app/resource/cache/
 tests/PHPUnit/Integration/processed/
 tests/PHPUnit/phpunit.xml

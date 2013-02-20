@@ -20,6 +20,7 @@
 				<include name="tmp" />
                 <include name="tmp/**" />
                 <include name="tests/PHPUnit/Integration/processed" />
+                <include name="tests/lib/geoip-files" />
             </dirset>
 		</chmod>
 	</target>

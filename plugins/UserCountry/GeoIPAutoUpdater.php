@@ -501,9 +501,11 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 	 * This is a safety measure used to make sure tracking isn't affected if strange
 	 * update errors occur.
 	 * 
-	 * Databases are renamed to ${original}.broken.N where 'N' is a number.
+	 * Databases are renamed to ${original}.broken .
+	 * 
+	 * Note: method is protected for testability.
 	 */
-	private function performRedundantDbChecks()
+	protected function performRedundantDbChecks()
 	{
 		$databaseTypes = array_keys(Piwik_UserCountry_LocationProvider_GeoIp::$dbNames);
 		
@@ -534,6 +536,11 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 				if ($oldPath !== false
 					&& $newPath !== false)
 				{
+					if (file_exists($newPath))
+					{
+						unlink($newPath);
+					}
+					
 					rename($oldPath, $newPath);
 				}
 			}
@@ -546,7 +553,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 	 * @param array $possibleDbNames The possible names of the database.
 	 * @return array Array with two elements, the path to the existing database, and
 	 *               the path to rename it to if it is broken. The second will end
-	 *               with something like .broken.N where N is a number.
+	 *               with something like .broken .
 	 */
 	private function getOldAndNewPathsForBrokenDb( $possibleDbNames )
 	{
@@ -555,18 +562,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 		
 		if ($pathToDb !== false)
 		{
-			// 250 used as upper limit just for sanity (updating should not fail that much)
-			$brokenPath = false;
-			for ($i = 0; $i != 250; ++$i)
-			{
-				$brokenPath = $pathToDb.".broken.$i";
-				if (!file_exists($brokenPath))
-				{
-					break;
-				}
-			}
-			
-			$newPath = $brokenPath;
+			$newPath = $pathToDb.".broken";
 		}
 		
 		return array($pathToDb, $newPath);

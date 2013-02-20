@@ -25,6 +25,7 @@
                 <include name="config"/>
                 <include name="tmp"/>
                 <include name="tmp/**"/>
+                <include name="tests/lib/geoip-files" />
             </dirset>
         </chmod>
     </target>
