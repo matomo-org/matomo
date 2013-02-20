@@ -30,6 +30,7 @@ import threading
 import time
 import urllib
 import urllib2
+import urlparse
 
 try:
     import json
@@ -350,6 +351,11 @@ class Configuration(object):
         option_parser.add_option(
             '--recorder-max-payload-size', dest='recorder_max_payload_size', default=200, type='int',
             help="Maximum number of log entries to record in one tracking request (default: %default). "
+        )
+        option_parser.add_option(
+            '--replay-tracking', dest='replay_tracking',
+            action='store_true', default=False,
+            help="Replay piwik.php requests found in custom logs (only piwik.php requests expected)"
         )
         option_parser.add_option(
             '--output', dest='output',
@@ -1408,6 +1414,16 @@ class Parser(object):
                     Recorder.add_hits(hits)
                     hits = []
 
+            if config.options.replay_tracking:
+                # we need a query string and we only consider requests with piwik.php
+                if hit.query_string and hit.path.lower().endswith('piwik.php'):
+                    query_arguments = urlparse.parse_qs(hit.query_string)
+                    if "idsite" in query_arguments:
+                        try:
+                            hit.args.update((k, v.pop().encode('raw_unicode_escape').decode(config.options.encoding)) for k, v in query_arguments.iteritems())
+                        except UnicodeDecodeError:
+                            invalid_line(line, 'invalid encoding')
+                            continue
         # add last chunk of hits
         if len(hits) > 0:
             Recorder.add_hits(hits)
