@@ -39,15 +39,18 @@ class Piwik_API extends Piwik_Plugin {
 		$tooltip = Piwik_Translate('API_TopLinkTooltip');
 		
 		Piwik_AddTopMenu('General_API', $apiUrlParams, true, 7, $isHTML = false, $tooltip);
-		
-		if(empty($_SERVER['HTTP_USER_AGENT']))
-		{
+
+		$this->addTopMenuMobileApp();
+	}
+
+	protected function addTopMenuMobileApp()
+	{
+		if (empty($_SERVER['HTTP_USER_AGENT'])) {
 			return;
 		}
 		require_once PIWIK_INCLUDE_PATH . '/libs/UserAgentParser/UserAgentParser.php';
 		$os = UserAgentParser::getOperatingSystem($_SERVER['HTTP_USER_AGENT']);
-		if($os && in_array($os['id'], array('AND', 'IPD', 'IPA', 'IPH')))
-		{
+		if ($os && in_array($os['id'], array('AND', 'IPD', 'IPA', 'IPH'))) {
 			Piwik_AddTopMenu('Piwik Mobile App', array('module' => 'Proxy', 'action' => 'redirect', 'url' => 'http://piwik.org/mobile/'), true, 4);
 		}
 	}

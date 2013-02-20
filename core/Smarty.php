@@ -34,20 +34,31 @@ class Piwik_Smarty extends Smarty
 	{
 		parent::__construct();
 
-		if(count($smConf) == 0)
-		{
+		$this->init($smConf, $filter);
+	}
+
+	public function init($smConf, $filter)
+	{
+		$this->initSettings($smConf);
+		if ($filter) {
+			$this->initFilters();
+		}
+	}
+
+	protected function initSettings($smConf)
+	{
+		if (count($smConf) == 0) {
 			$smConf = Piwik_Config::getInstance()->smarty;
 		}
-		foreach($smConf as $key => $value)
-		{
+		foreach ($smConf as $key => $value) {
 			$this->$key = $value;
 		}
 
 		$this->template_dir = $smConf['template_dir'];
-		array_walk($this->template_dir, array("Piwik_Smarty","addPiwikPath"), PIWIK_INCLUDE_PATH);
+		array_walk($this->template_dir, array("Piwik_Smarty", "addPiwikPath"), PIWIK_INCLUDE_PATH);
 
 		$this->plugins_dir = $smConf['plugins_dir'];
-		array_walk($this->plugins_dir, array("Piwik_Smarty","addPiwikPath"), PIWIK_INCLUDE_PATH);
+		array_walk($this->plugins_dir, array("Piwik_Smarty", "addPiwikPath"), PIWIK_INCLUDE_PATH);
 
 		$this->compile_dir = $smConf['compile_dir'];
 		Piwik_Smarty::addPiwikPath($this->compile_dir, null, PIWIK_USER_PATH);
@@ -56,24 +67,25 @@ class Piwik_Smarty extends Smarty
 		Piwik_Smarty::addPiwikPath($this->cache_dir, null, PIWIK_USER_PATH);
 
 		$error_reporting = $smConf['error_reporting'];
-		if($error_reporting != (string)(int)$error_reporting)
-		{
+		if ($error_reporting != (string)(int)$error_reporting) {
 			$error_reporting = self::bitwise_eval($error_reporting);
 		}
 		$this->error_reporting = $error_reporting;
 
-		if($filter)
-		{
-			$this->load_filter('output', 'cachebuster');
+		Piwik_PostEvent('Smarty.initSettings', $this);
 
-			$use_ajax_cdn = Piwik_Config::getInstance()->General['use_ajax_cdn'];
-			if($use_ajax_cdn)
-			{
-				$this->load_filter('output', 'ajaxcdn');
-			}
+	}
 
-			$this->load_filter('output', 'trimwhitespace');
+	public function initFilters()
+	{
+		$this->load_filter('output', 'cachebuster');
+
+		$use_ajax_cdn = Piwik_Config::getInstance()->General['use_ajax_cdn'];
+		if ($use_ajax_cdn) {
+			$this->load_filter('output', 'ajaxcdn');
 		}
+
+		$this->load_filter('output', 'trimwhitespace');
 	}
 
 	/**

@@ -1,3 +1,5 @@
+{* Disabled by default, tracks activity of this Piwik instance *}
+
 {if $piwikUrl == 'http://demo.piwik.org/' || $debugTrackVisitsInsidePiwikUI}
 
 <div class="clear"></div>

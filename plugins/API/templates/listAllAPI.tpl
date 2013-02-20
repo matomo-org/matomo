@@ -27,4 +27,4 @@
     <br />
 </div>
 
-{include file="CoreHome/templates/piwik_tag.tpl"}
+{include file="CoreHome/templates/footer.tpl"}

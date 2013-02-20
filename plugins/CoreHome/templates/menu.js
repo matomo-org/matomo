@@ -46,7 +46,7 @@ menu.prototype =
         
         this.menuNode.find("li:has(ul)").hover(this.overMainLI, this.outMainLI);
         
-        // add id to all li menu to suport menu identification.
+        // add id to all li menu to support menu identification.
         // for all sub menu we want to have a unique id based on their module and action
         // for main menu we want to add just the module as its id.
         this.menuNode.find('li').each(function(){
@@ -59,16 +59,14 @@ menu.prototype =
             {
                 $(this).attr({id: module});
             }
+            // if there's a idGoal or idDashboard, use this in the ID
+            else if(moduleId != '')
+            {
+                $(this).attr({id: module + '_' + action + '_' + moduleId});
+            }
             else
             {
-                // so Goals plugin and Dashboard is a little different than other
-                // we can't identify by it's modules_action so we uses its ids.
-                if(moduleId != '') {
-                    $(this).attr({id: module + '_' + action + '_' + moduleId});
-                }
-                else {
-                    $(this).attr({id: module + '_' + action});
-                }
+                $(this).attr({id: module + '_' + action});
             }
         });
     },
@@ -76,20 +74,7 @@ menu.prototype =
     activateMenu : function(module,action,id)
     {
         this.menuNode.find('li').removeClass('sfHover').removeClass('sfActive');
-        
-        // getting the right li is a little tricky since goals uses idGoal, and overview is index.
-        var $li = '';
-        // So, if module is Goals, id is present, and action is not Index, must be one of the goals
-        if(module == 'Goals' && id != '' && (action != 'index')) {
-            $li = $("#" + module + "_" + action + "_" + id);
-        // if module is Dashboard and id is present, must be one of the dashboards
-        } else if(module == 'Dashboard') {
-            if(!id) id = 1;
-            $li = $("#" + module + "_" + action + "_" + id);
-        } else {
-            $li = $("#" + module + "_" + action);
-        }
-        
+        var $li = this.getSubmenuID(module, id, action);
         var mainLi = $("#" + module);
         if(!mainLi.length) {
             mainLi = $li.parents('li');
@@ -100,6 +85,22 @@ menu.prototype =
         $li.addClass('sfHover');
     },
 
+    // getting the right li is a little tricky since goals uses idGoal, and overview is index.
+    getSubmenuID: function (module, id, action) {
+        var $li = '';
+        // So, if module is Goals, id is present, and action is not Index, must be one of the goals
+        if (module == 'Goals' && id != '' && (action != 'index')) {
+            $li = $("#" + module + "_" + action + "_" + id);
+            // if module is Dashboard and id is present, must be one of the dashboards
+        } else if (module == 'Dashboard') {
+            if (!id) id = 1;
+            $li = $("#" + module + "_" + action + "_" + id);
+        } else {
+            $li = $("#" + module + "_" + action);
+        }
+        return $li;
+    },
+
     loadFirstSection: function()
     {
         if(broadcast.isHashExists() == false) {
@@ -107,12 +108,3 @@ menu.prototype =
         }
     }
 };
-
-$(document).ready( function(){
-    if($('.nav').size()) {
-        piwikMenu = new menu();
-        piwikMenu.init();
-        piwikMenu.loadFirstSection();
-        broadcast.init();
-    }
-});

@@ -20,21 +20,7 @@
 </head>
 <body>
 {include file="CoreHome/templates/iframe_buster_body.tpl"}
-<div id="root">{if !isset($showTopMenu) || $showTopMenu}
-{include file="CoreHome/templates/top_bar.tpl"}
-{/if}
-{include file="CoreHome/templates/top_screen.tpl"}
 
-<div class="ui-confirm" id="alert">
-    <h2></h2>
-    <input role="yes" type="button" value="{'General_Ok'|translate}" />
-</div>
-
-{* untrusted host warning *}
-{if isset($isValidHost) && isset($invalidHostMessage) && !$isValidHost}
-	<div class="ajaxSuccess" style='clear:both;width:800px'>
-		<a style="float:right" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank"><img src="themes/default/images/help_grey.png" /></a>
-		<strong>{'General_Warning'|translate}:&nbsp;</strong>{$invalidHostMessage}
-	</div>
-{/if}
+<div id="root">
+{include file="CoreHome/templates/index_before_menu.tpl"}
 

@@ -18,6 +18,7 @@
 </head>
 <body>
 {include file="CoreHome/templates/iframe_buster_body.tpl"}
+
 <div id="root">
 {if !isset($showTopMenu) || $showTopMenu}
 {assign var=showSitesSelection value=false}
@@ -42,19 +43,19 @@
 {include file="CoreHome/templates/header_message.tpl"}
 
 {if !empty($configFileNotWritable)}
-<div class="ajaxSuccess" style="display:inline-block">
-	{'General_ConfigFileIsNotWritable'|translate:"(config/config.ini.php)":"<br/>"}
-</div>
+	<div class="ajaxSuccess" style="display:inline-block">
+		{'General_ConfigFileIsNotWritable'|translate:"(config/config.ini.php)":"<br/>"}
+	</div>
 {elseif preg_match('/updated=[1-9]/', $url)}
-<div class="ajaxSuccess" style="display:inline-block">
-	{'General_YourChangesHaveBeenSaved'|translate}
-</div>
+	<div class="ajaxSuccess" style="display:inline-block">
+		{'General_YourChangesHaveBeenSaved'|translate}
+	</div>
 {/if}
 
 {if !empty($statisticsNotRecorded)}
-<div class="ajaxSuccess" style="display:inline-block">
-	{'General_StatisticsAreNotRecorded'|translate}
-</div>
+	<div class="ajaxSuccess" style="display:inline-block">
+		{'General_StatisticsAreNotRecorded'|translate}
+	</div>
 {/if}
 
 <div class="ui-confirm" id="alert">
@@ -62,13 +63,7 @@
     <input role="no" type="button" value="{'General_Ok'|translate}" />
 </div>
 
-{* untrusted host warning *}
-{if isset($isValidHost) && isset($invalidHostMessage) && !$isValidHost}
-<div class="ajaxSuccess">
-	<a style="float:right" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank"><img src="themes/default/images/help_grey.png" /></a>
-	<strong>{'General_Warning'|translate}:&nbsp;</strong>{$invalidHostMessage}
-</div>
-{/if}
+{include file="CoreHome/templates/warning_invalid_host.tpl"}
 
 {* missing plugins warning *}
 {if $isSuperUser && !empty($missingPluginsWarning)}

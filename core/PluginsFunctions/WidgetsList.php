@@ -36,11 +36,9 @@ class Piwik_WidgetsList
 	 */
 	static public function get()
 	{
-		if(!self::$hookCalled)
-		{
-			self::$hookCalled = true;
-			Piwik_PostEvent('WidgetsList.add');
-		}
+		self::addWidgets();
+		Piwik_PostEvent('WidgetsList.get');
+
 		uksort(self::$widgets, array('Piwik_WidgetsList', '_sortWidgetCategories'));
 		
 		$widgets = array();
@@ -52,6 +50,14 @@ class Piwik_WidgetsList
 			$widgets[Piwik_Translate($key)] = $v;
 		}
 		return $widgets;
+	}
+
+	private static function addWidgets()
+	{
+		if (!self::$hookCalled) {
+			self::$hookCalled = true;
+			Piwik_PostEvent('WidgetsList.add');
+		}
 	}
 
 	/**
@@ -118,7 +124,22 @@ class Piwik_WidgetsList
 										) + $customParameters
 									);
 	}
-	
+
+
+	static public function remove($widgetCategory, $widgetName = false)
+	{
+		if(empty($widgetName)) {
+			unset(self::$widgets[$widgetCategory]);
+			return;
+		}
+		foreach(self::$widgets[$widgetCategory] as $id => $widget) {
+			if($widget['name'] == $widgetName) {
+				unset(self::$widgets[$widgetCategory][$id]);
+				return;
+			}
+		}
+	}
+
 	/**
 	 * Checks if the widget with the given parameters exists in der widget list
 	 *

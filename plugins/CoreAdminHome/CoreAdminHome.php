@@ -31,7 +31,6 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 			'AssetManager.getCssFiles' => 'getCssFiles',
 			'AssetManager.getJsFiles' => 'getJsFiles',
 			'AdminMenu.add' => 'addMenu',
-			'TopMenu.add' => 'addTopMenu',
 			'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
 		);
 	}
@@ -104,17 +103,6 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 							$order = 6);
 	}
 	
-	function addTopMenu()
-	{
-		$donateLinkTitle = Piwik_Translate('CoreHome_OnlyForAdmin');
-		Piwik_AddTopMenu('General_Donate',
-							'<a href="http://piwik.org/donate/" target="_blank" title="'.$donateLinkTitle.'">'
-								.Piwik_Translate('General_Donate').'</a> |',
-							Piwik::isUserIsSuperUser(),
-							$order = 21,
-							$isHTML = true);
-	}
-
 	function purgeOutdatedArchives()
 	{
 		$archiveTables = Piwik::getTablesArchivesInstalled();
