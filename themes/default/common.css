@@ -344,7 +344,7 @@ a {
 .custom_select_block_show{ height:auto; overflow:visible;padding-top:5px;  }
 
 
-#siteSelect a {
+.siteSelect a {
     white-space:normal;
     text-align:left;
 }
