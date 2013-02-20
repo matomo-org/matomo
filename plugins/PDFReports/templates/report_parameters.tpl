@@ -8,6 +8,13 @@
 			evolutionGraphParameterInput.hide() : evolutionGraphParameterInput.show();
 	{rdelim}
 	
+	function updateCustomTextsParameterVisibility ()
+	{ldelim}
+		var customTextsDivs = $('#report_especify_custom_texts');
+		$('#report_custom_texts').is(':checked') ?
+			customTextsDivs.show() : customTextsDivs.hide();
+	{rdelim}
+
 	$(function() {ldelim}
 		
 		resetReportParametersFunctions ['{$reportType}'] =
@@ -25,7 +32,6 @@
 
 		updateReportParametersFunctions['{$reportType}'] =
 				function (reportParameters) {ldelim}
-
 					if(reportParameters == null) return;
 
 					$('#display_format option[value='+reportParameters.displayFormat+']').prop('selected', 'selected');
@@ -35,6 +41,15 @@
 						$('#report_email_me').prop('checked', 'checked');
 					else
 						$('#report_email_me').removeProp('checked');
+
+					if(reportParameters.customEmailText === true) {ldelim}
+						$('#report_custom_texts').prop('checked', 'checked');
+						$('#report_custom_subject_text').text(reportParameters.emailSubject);
+						$('#report_custom_content_text').text(reportParameters.emailContent);
+					{rdelim} else
+						$('#report_custom_texts').removeProp('checked');
+
+					updateCustomTextsParameterVisibility();
 
 					if(reportParameters.evolutionGraph === true)
 						$('#report_evolution_graph').prop('checked', 'checked');
@@ -54,6 +69,9 @@
 
 					parameters.displayFormat = $('#display_format option:selected').val();
 					parameters.emailMe = $('#report_email_me').prop('checked');
+					parameters.customEmailText = $('#report_custom_texts').prop('checked');
+					parameters.emailSubject=$('#report_custom_subject_text').val();
+					parameters.emailContent=$('#report_custom_content_text').val();
 					parameters.evolutionGraph = $('#report_evolution_graph').prop('checked');
 
 					additionalEmails = $('#report_additional_emails').val();
@@ -64,6 +82,7 @@
 				{rdelim};
 
 		$('#display_format').change(updateEvolutionGraphParameterVisibility);
+		$('#report_custom_texts').change(updateCustomTextsParameterVisibility);
 
 	{rdelim});
 </script>
@@ -77,6 +96,24 @@
 		<br/><br/>
 		{'PDFReports_AlsoSendReportToTheseEmails'|translate}<br/>
 		<textarea cols="30" rows="3" id="report_additional_emails" class="inp"></textarea>
+	</td>
+</tr>
+
+<tr class='{$reportType}'>
+	<td style='width:240px;' class="first">{'PDFReports_CustomizeEmail'|translate}
+	</td>
+	<td>
+		<input type="checkbox" id="report_custom_texts"/>
+		<label for="report_custom_texts">{'PDFReports_Customize EmailTexts'|translate}  </label>
+		<div id="report_especify_custom_texts">
+		    <br/><br/>
+		    {'PDFReports_CustomSubjectText'|translate}<br/>
+		    <textarea cols="30" rows="3" id="report_custom_subject_text" class="inp"></textarea>
+		    <br/><br/>
+		    {'PDFReports_CustomContentText'|translate}<br/>
+		    <textarea cols="30" rows="3" id="report_custom_content_text" class="inp"></textarea>
+
+		</div>
 	</td>
 </tr>
 <tr class='{$reportType}'>
