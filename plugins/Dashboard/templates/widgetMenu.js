@@ -11,7 +11,7 @@ function widgetsHelper()
 
 /**
  * Returns the available widgets fetched via AJAX (if not already done)
- * 
+ *
  * @return {object} object containing available widgets
  */
 widgetsHelper.getAvailableWidgets = function ()
@@ -261,17 +261,18 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                 
                 return $('.'+settings.widgetlistClass, widgetPreview);
             };
-            
+
             /**
              * Display the given widgets in a widget list
-             * 
+             *
              * @param {object} widgets widgets to be displayed
              * @return {void}
              */
             function showWidgetList(widgets) {
-                
-                var widgetList   = createWidgetList();
-                
+
+                var widgetList   = createWidgetList(),
+                    widgetPreviewTimer;
+
                 for(var j in widgets) {
                     var widgetName       = widgets[j]["name"];
                     var widgetUniqueId   = widgets[j]["uniqueId"];
@@ -280,19 +281,28 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                     if(!settings.isWidgetAvailable(widgetUniqueId)) {
                         widgetClass += ' ' + settings.unavailableClass;
                     }
-                    
+
                     widgetList.append('<li class="'+ widgetClass +'" uniqueid="'+ widgetUniqueId +'">'+ widgetName +'</li>');
                 }
-                
-                $('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseover', function(){
-                    var widgetUniqueId = $(this).attr('uniqueid');
-                    
-                    $('li', widgetList).removeClass(settings.choosenClass);
-                    $(this).addClass(settings.choosenClass);
-                    
-                    showPreview(widgetUniqueId);
+
+                // delay widget preview a few millisconds
+                $('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseenter', function(){
+                    var that = this,
+                        widgetUniqueId = $(this).attr('uniqueid');
+                    clearTimeout(widgetPreview);
+                    widgetPreviewTimer = setTimeout(function() {
+                        $('li', widgetList).removeClass(settings.choosenClass);
+                        $(that).addClass(settings.choosenClass);
+
+                        showPreview(widgetUniqueId);
+                    }, 400);
                 });
-                
+
+                // clear timeout after mouse has left
+                $('li:not(.'+settings.unavailableClass+')', widgetList).on('mouseleave', function(){
+                    clearTimeout(widgetPreview);
+                });
+
                 $('li:not(.'+settings.unavailableClass+')', widgetList).on('click', function(){
                     if(!$('.widgetLoading', widgetPreview).length) {
                         settings.onSelect($(this).attr('uniqueid'));
@@ -302,13 +312,13 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                     }
                     return false;
                 });
-            };
-            
+            }
+
             /**
              * Returns the div to show widget preview in
              * - if element doesn't exist it will be created and added
              * - if element already exist it's content will be removed
-             * 
+             *
              * @return {$} preview element
              */
             function createPreviewElement() {
@@ -330,7 +340,6 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
              * @return {void}
              */
             function showPreview(widgetUniqueId) {
-                
                 // do not reload id widget already displayed
                 if($('#'+widgetUniqueId, widgetPreview).length) return; 
                 
@@ -350,6 +359,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                 var onWidgetLoadedCallback = function (response) {
                     var widgetElement = $('#'+widgetUniqueId);
                     $('.widgetContent', widgetElement).html($(response));
+                    $('.widgetContent', widgetElement).trigger('widget:create');
                     settings.onPreviewLoaded(widgetUniqueId, widgetElement);
                     $('.'+settings.widgetpreviewClass+' .widgetTop', widgetPreview).on('click', function(){
                         settings.onSelect(widgetUniqueId);

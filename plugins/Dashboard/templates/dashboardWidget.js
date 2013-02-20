@@ -40,7 +40,7 @@
         _create: function() {
 
             if(!this.options.uniqueId) {
-                console.error('widgets can\'t be created without an uniqueId');
+                piwikHelper.error('widgets can\'t be created without an uniqueId');
                 return;
             } else {
                 this.uniqueId = this.options.uniqueId;
@@ -55,7 +55,7 @@
             var self = this;
             this.element.on('setParameters.dashboardWidget', function(e, params) { self.setParameters(params); });
 
-            this.reload(true);
+            this.reload(true, true);
         },
 
         /**
@@ -67,6 +67,7 @@
                 $('[widgetId='+this.uniqueId+']').dialog('destroy');
             }
             $('*', this.element).off('.dashboardWidget'); // unbind all events
+            $('.widgetContent', this.element).trigger('widget:destroy');
             return this;
         },
 
@@ -112,6 +113,7 @@
                     $(this).removeAttr('style');
                     self.options.onChange();
                     $(this).find('div.piwik-graph').trigger('resizeGraph');
+                    $('.widgetContent', self.element).trigger('widget:minimise');
                 }
             });
             this.element.find('div.piwik-graph').trigger('resizeGraph');
@@ -122,22 +124,28 @@
                     $(currentWidget).dialog("close");
                 }
             });
+            $('.widgetContent', currentWidget).trigger('widget:maximise');
             return this;
         },
 
         /**
          * Reloads the widgets content with the currently set parameters
          */
-        reload: function(hideLoading) {
+        reload: function(hideLoading, notJQueryUI) {
+            if (!notJQueryUI) {
+                piwikHelper.log('widget.reload() was called by jquery.ui, ignoring', arguments.callee.caller);
+                return;
+            }
 
-            var currentWidget = this.element;
+            var self = this, currentWidget = this.element;
             function onWidgetLoadedReplaceElementWithContent(loadedContent)
             {
                 $('.widgetContent', currentWidget).html(loadedContent);
                 $('.widgetContent', currentWidget).removeClass('loading');
+                $('.widgetContent', currentWidget).trigger('widget:create', [self]);
             }
 
-            // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard) 
+            // Reading segment from hash tag (standard case) or from the URL (when embedding dashboard)
             var segment = broadcast.getValueFromHash('segment') || broadcast.getValueFromUrl('segment');
             if(segment.length) {
                 this.widgetParameters.segment = segment;
@@ -180,7 +188,7 @@
         _createDashboardWidget: function(uniqueId) {
 
             var widgetName = widgetsHelper.getWidgetNameFromUniqueId(uniqueId);
-            if(widgetName == false) {
+            if (!widgetName) {
                 widgetName = _pk_translate('Dashboard_WidgetNotFound_js');
             }
 
@@ -229,6 +237,7 @@
                         $('.button#minimise, .button#refresh', $(this).parents('.widget')).show();
                         $(this).parents('.widget').find('div.piwik-graph').trigger('resizeGraph');
                         self.options.onChange();
+                        $('.widgetContent', widgetElement).trigger('widget:minimise');
                     } else {
                         self.maximise();
                     }
@@ -248,11 +257,12 @@
 
             $('.button#refresh', widgetElement)
                 .on('click.dashboardWidget', function(ev){
-                    self.reload();
+                    self.reload(false, true);
                 });
 
             widgetElement.show();
         }
+
     });
 
 })( jQuery );

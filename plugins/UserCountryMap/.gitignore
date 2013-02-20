@@ -1,0 +1,4 @@
+.DS_Store
+.project
+.svn
+deploy.sh

@@ -18,6 +18,8 @@ tmp/*
 *.db
 *.buildpath
 config/config.ini.php
+.DS_Store
+tests/PHPUnit/Integration/processed/
 js/yui*
 misc/*.dat
 tests/javascript/enable_sqlite

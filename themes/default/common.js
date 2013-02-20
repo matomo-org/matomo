@@ -12,6 +12,35 @@ var piwikHelper = {
         return $('<div/>').html(value).text();
     },
 
+    /*
+     * a nice cross-browser logging function
+     */
+    log: function() {
+        try {
+            console.log.apply(console, arguments); // Firefox, Chrome
+        } catch (e) {
+            try {
+                opera.postError.apply(opera, arguments);  // Opera
+            } catch (f) {
+                // don't alert as log is not considered to be important enough
+                // (as opposed to piwikHelper.error)
+                //alert(Array.prototype.join.call(arguments, ' ')); // MSIE
+            }
+        }
+    },
+
+    error: function() {
+        try {
+            console.error.apply(console, arguments); // Firefox, Chrome
+        } catch (e) {
+            try {
+                opera.postError.apply(opera, arguments);  // Opera
+            } catch (f) {
+                alert(Array.prototype.join.call(arguments, ' ')); // MSIE
+            }
+        }
+    },
+
     htmlEntities: function(value)
     {
         var findReplace = [[/&/g, "&amp;"], [/</g, "&lt;"], [/>/g, "&gt;"], [/"/g, "&quot;"]];
