@@ -1176,13 +1176,17 @@ class Parser(object):
     The Parser parses the lines in a specified file and inserts them into
     a Queue.
     """
-    check_methods = []
+
+    def __init__(self):
+        self.check_methods = [method for name, method
+                              in inspect.getmembers(self, predicate=inspect.ismethod)
+                              if name.startswith('check_')]
+
 
     ## All check_* methods are called for each hit and must return True if the
     ## hit can be imported, False otherwise.
 
-    @staticmethod
-    def check_hostname(hit):
+    def check_hostname(self, hit):
         # Check against config.hostnames.
         if not hasattr(hit, 'host') or not config.options.hostnames:
             return True
@@ -1196,8 +1200,7 @@ class Parser(object):
             stats.count_lines_hostname_skipped.increment()
         return result
 
-    @staticmethod
-    def check_static(hit):
+    def check_static(self, hit):
         extension = hit.path.rsplit('.')[-1].lower()
         if extension in STATIC_EXTENSIONS:
             if config.options.enable_static:
@@ -1208,16 +1211,14 @@ class Parser(object):
                 return False
         return True
 
-    @staticmethod
-    def check_download(hit):
+    def check_download(self, hit):
         extension = hit.path.rsplit('.')[-1].lower()
         if extension in DOWNLOAD_EXTENSIONS:
             stats.count_lines_downloads.increment()
             hit.is_download = True
         return True
 
-    @staticmethod
-    def check_user_agent(hit):
+    def check_user_agent(self, hit):
         user_agent = hit.user_agent.lower()
         for s in itertools.chain(EXCLUDED_USER_AGENTS, config.options.excluded_useragents):
             if s in user_agent:
@@ -1229,8 +1230,7 @@ class Parser(object):
                     return False
         return True
 
-    @staticmethod
-    def check_http_error(hit):
+    def check_http_error(self, hit):
         if hit.status[0] in ('4', '5'):
             if config.options.enable_http_errors:
                 hit.is_error = True
@@ -1240,8 +1240,7 @@ class Parser(object):
                 return False
         return True
 
-    @staticmethod
-    def check_http_redirect(hit):
+    def check_http_redirect(self, hit):
         if hit.status[0] == '3' and hit.status != '304':
             if config.options.enable_http_redirects:
                 hit.is_redirect = True
@@ -1251,8 +1250,7 @@ class Parser(object):
                 return False
         return True
 
-    @staticmethod
-    def check_path(hit):
+    def check_path(self, hit):
         for excluded_path in config.options.excluded_paths:
             if fnmatch.fnmatch(hit.path, excluded_path):
                 return False
@@ -1272,8 +1270,7 @@ class Parser(object):
             else:
                 logging.debug('Format %s does not match', name)
 
-    @classmethod
-    def parse(cls, filename):
+    def parse(self, filename):
         """
         Parse the specified filename and insert hits in the queue.
         """
@@ -1311,13 +1308,12 @@ class Parser(object):
                 return
             file.seek(0)
 
-            format = cls.detect_format(file)
+            format = self.detect_format(file)
             if format is None:
                 return fatal_error(
                     'Cannot guess the logs format. Please give one using '
                     'either the --log-format-name or --log-format-regex option'
                 )
-
         # Make sure the format is compatible with the resolver.
         resolver.check_format(format)
 
@@ -1385,7 +1381,7 @@ class Parser(object):
                     pass
 
             # Check if the hit must be excluded.
-            if not all((getattr(cls, name)(hit) for name in cls.check_methods)):
+            if not all((method(hit) for method in self.check_methods)):
                 continue
 
             # Parse date.
@@ -1411,7 +1407,7 @@ class Parser(object):
                 hit.date -= datetime.timedelta(hours=timezone/100)
 
             # Check if the hit must be excluded.
-            if all((getattr(cls, name)(hit) for name in cls.check_methods)):
+            if all((method(hit) for method in self.check_methods)):
                 hits.append(hit)
 
                 if len(hits) >= config.options.recorder_max_payload_size * len(Recorder.recorders):
@@ -1428,14 +1424,12 @@ class Parser(object):
                         except UnicodeDecodeError:
                             invalid_line(line, 'invalid encoding')
                             continue
-
         # add last chunk of hits
         if len(hits) > 0:
             Recorder.add_hits(hits)
 
-for name, method in inspect.getmembers(Parser, predicate=callable):
-    if name.startswith('check_'):
-        Parser.check_methods.append(name)
+
+
 
 def main():
     """

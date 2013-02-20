@@ -13,6 +13,7 @@ def test_format_detection():
         f.description = 'Testing autodetection of format ' + format_name
         yield f
 
+
 class Options(object):
     """Mock config options necessary to run checkers from Parser class."""
     debug = False
@@ -30,15 +31,18 @@ class Options(object):
     excluded_useragents = []
     enable_bots = []
 
+
 class Config(object):
     """Mock configuration."""
     options = Options()
     format = import_logs.FORMATS['ncsa_extended']
 
+
 class Resolver(object):
     """Mock resolver which doesn't check connection to real piwik."""
     def check_format(self, format_):
         pass
+
 
 class Recorder(object):
     """Mock recorder which collects hits but doesn't put their in database."""
@@ -48,15 +52,17 @@ class Recorder(object):
     def add_hits(cls, hits):
         cls.recorders.extend(hits)
 
+
 def test_replay_tracking_arguments():
     """Test data parsing from sample log file."""
+    file_ = 'logs_to_tests.log'
     import_logs.stats = import_logs.Statistics()
     import_logs.config = Config()
     import_logs.resolver = Resolver()
     import_logs.Recorder = Recorder()
+    import_logs.parser = import_logs.Parser()
+    import_logs.parser.parse(file_)
 
-    file_ = 'logs_to_tests.log'
-    parser = import_logs.Parser.parse(file_)
     hits = [hit.args for hit in import_logs.Recorder.recorders]
 
     assert hits[0]['_idn'] == '0'
