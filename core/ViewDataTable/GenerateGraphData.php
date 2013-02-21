@@ -11,7 +11,7 @@
 
 /**
  * Reads data from the API and prepares data to give to the renderer Piwik_Visualization_Chart.
- * This class is used to generate the data for the FLASH charts. It is given as a parameter of the SWF file.
+ * This class is used to generate the data for the graphs.
  * You can set the number of elements to appear in the graph using: setGraphLimit();
  * Example:
  * <pre>

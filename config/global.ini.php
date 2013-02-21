@@ -263,7 +263,6 @@ use_ajax_cdn = 0
 ; required AJAX library versions
 jquery_version = 1.7.2
 jqueryui_version = 1.8.22
-swfobject_version = 2.2
 
 ; Set to 1 if you're using https on your Piwik server and Piwik can't detect it,
 ; e.g., a reverse proxy using https-to-http, or a web server that doesn't

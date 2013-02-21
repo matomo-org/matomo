@@ -48,37 +48,24 @@ SEPARATELY LICENSED COMPONENTS AND LIBRARIES
 	The following components/libraries are distributed in this package,
 	and subject to their respective licenses.
 
-	Name:  javascriptTag.tpl - tracking tag to embed in your web pages
-	Link:  http://dev.piwik.org/trac/browser/trunk/core/Tracker/javascriptTag.tpl
+	Name:  javascriptCode.tpl - tracking tag to embed in your web pages
+	Link:  https://github.com/piwik/piwik/blob/master/core/Tracker/javascriptTag.tpl
 	License:  Public Domain
 
 	Name:  jquery.truncate
-	Link:  http://dev.piwik.org/trac/browser/trunk/libs/jquery/truncate/
+	Link:  https://github.com/piwik/piwik/blob/master/libs/jquery/truncate/
 	License:  New BSD
 
 	Name:  piwik.js - JavaScript tracker
-	Link:  http://dev.piwik.org/trac/browser/trunk/js/piwik.js
+	Link:  https://github.com/piwik/piwik/blob/master/js/piwik.js
 	License:  New BSD
 
-	Name:  PiwikMap.swf - map renderer
-	Link:  http://dev.piwik.org/trac/browser/worldmap/trunk/mapRenderer
-	License:  LGPL
-	Notes:
-	- depends on as3corelib (http://code.google.com/p/as3corelib/); New BSD
-	- depends on Flex SDK; MPL 1.1 and Adobe Flex SDK license
-
-	Name:  PiwikMap - data builder/preprocessor
-	Link:  http://dev.piwik.org/trac/browser/worldmap/trunk/mapPreprocessor
-	License:  GPL
-	Notes:
-	- see also http://www.openflashmap.org/
-
-	Name:  PiwikTracker - server-side tracker (PHP and Java)
-	Link: http://dev.piwik.org/trac/browser/trunk/libs/PiwikTracker/
+	Name:  PiwikTracker - server-side tracker (PHP)
+	Link: https://github.com/piwik/piwik/blob/master/libs/PiwikTracker/
 	License:  New BSD
 
 	Name:  UserAgentParser
-	Link:  http://dev.piwik.org/trac/browser/trunk/libs/UserAgentParser/
+	Link:  https://github.com/piwik/piwik/blob/master/libs/UserAgentParser/
 	License:  New BSD
 
 
@@ -138,17 +125,13 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.diveintojavascript.com/projects/javascript-sprintf
 	License:  New BSD
 
-	Name:  swfObject
-	Link:  http://code.google.com/p/swfobject/
-	License:  MIT
-
 	Name:  upgrade.php
 	Link:  http://upgradephp.berlios.de/
 	License:  Public domain
 
-        Name:  Archive Tar
-        Link:  http://pear.php.net/package/Archive_Tar
-        License:  New BSD
+	Name:  Archive Tar
+	Link:  http://pear.php.net/package/Archive_Tar
+	License:  New BSD
 
 	Name:  Event Dispatcher (and Notification)
 	Link:  http://pear.php.net/package/Event_Dispatcher/

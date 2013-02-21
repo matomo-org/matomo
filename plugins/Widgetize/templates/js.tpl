@@ -5,7 +5,6 @@ document.write('<link rel="stylesheet" type="text/css" href="{$piwikUrl}plugins/
 document.write('<link rel="stylesheet" type="text/css" href="{$piwikUrl}plugins/CoreHome/templates/datatable.css" />');
 document.write('<link rel="stylesheet" type="text/css" href="{$piwikUrl}plugins/CoreHome/templates/cloud.css" />');
 
-document.write('<scr'+'ipt type="text/javascript" src="{$piwikUrl}libs/swfobject/swfobject.js"></scr'+'ipt>');
 document.write('<scr'+'ipt type="text/javascript" src="{$piwikUrl}libs/jquery/jquery.js"></scr'+'ipt>');
 document.write('<scr'+'ipt type="text/javascript" src="{$piwikUrl}libs/jquery/jquery-ui.js"></scr'+'ipt>');
 document.write('<scr'+'ipt type="text/javascript" src="{$piwikUrl}libs/jquery/jquery.tooltip.js"></scr'+'ipt>');

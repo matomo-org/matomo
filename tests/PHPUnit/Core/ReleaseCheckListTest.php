@@ -133,10 +133,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
         $this->assertTrue( (boolean)preg_match('/jQuery UI (?:- v)?([0-9.]+)/', $jqueryuiJs, $matches) );
         $this->assertEquals( Piwik_Config::getInstance()->General['jqueryui_version'], $matches[1] );
 
-
-        $swfobjectJs = file_get_contents( PIWIK_DOCUMENT_ROOT . '/libs/swfobject/swfobject.js', false, NULL, 0, 512 );
-        $this->assertTrue( (boolean)preg_match('/SWFObject v([0-9.]+)/', $swfobjectJs, $matches) );
-        $this->assertEquals( Piwik_Config::getInstance()->General['swfobject_version'], $matches[1] );
     }
 
     /**

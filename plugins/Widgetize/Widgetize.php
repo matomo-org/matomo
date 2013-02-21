@@ -51,7 +51,6 @@ class Piwik_Widgetize extends Piwik_Plugin
 	{
 		$jsFiles = &$notification->getNotificationObject();
 
-		$jsFiles[] = "libs/swfobject/swfobject.js";
 		$jsFiles[] = "libs/jquery/jquery.tooltip.js";
 		$jsFiles[] = "libs/jquery/jquery.truncate.js";
 		$jsFiles[] = "libs/jquery/jquery.scrollTo.js";
