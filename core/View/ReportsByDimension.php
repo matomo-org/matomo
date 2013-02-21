@@ -81,7 +81,8 @@ class Piwik_View_ReportsByDimension extends Piwik_View
 		$categories = $this->dimensionCategories;
 		if (!empty($categories))
 		{
-			$firstReportInfo = reset(reset($categories));
+			$firstCategory = reset($categories);
+			$firstReportInfo = reset($firstCategory);
 			
 			$oldGet = $_GET;
 			$oldPost = $_POST;
