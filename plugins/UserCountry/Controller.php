@@ -26,7 +26,8 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 		$view->dataTableContinent = $this->getContinent(true);
 		$view->dataTableRegion = $this->getRegion(true);
 		$view->dataTableCity = $this->getCity(true);
-		
+		$view->visitorMap = Piwik_FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap');
+
 		echo $view->render();
 	}
 	
@@ -344,7 +345,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 
 	function getContinent( $fetch = false)
 	{
-		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getContinent", 'graphVerticalBar');
+		$view = $this->getStandardDataTableUserCountry(__FUNCTION__, "UserCountry.getContinent", 'table');
 		$view->disableSearchBox();
 		$view->disableOffsetInformationAndPaginationControls();
 		$view->setColumnTranslation('label', Piwik_Translate('UserCountry_Continent'));

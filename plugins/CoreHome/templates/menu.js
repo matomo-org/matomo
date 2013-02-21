@@ -32,7 +32,7 @@ menu.prototype =
     
     onItemClick: function (item)
     {
-        $('ul.nav').trigger('piwikSwitchPage');
+        $('ul.nav').trigger('piwikSwitchPage', item);
         broadcast.propagateAjax($(item).attr('name'));
         return false;
     },

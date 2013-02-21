@@ -81,10 +81,22 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		$config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
 		$config['mapCssPath'] = 'plugins/UserCountryMap/css/map.css';
 		$view->config = json_encode($config);
+
 		echo $view->render();
 	}
 
-	public function realtimeMap()
+	/**
+	 * Used to build the report Visitor > Real time map
+	 */
+	public function realtimeWorldMap()
+	{
+		return $this->realtimeMap($standalone = true);
+	}
+
+	/**
+	 * @param bool $standalone When set to true, the Top controls will be hidden to provide better full screen view
+	 */
+	public function realtimeMap($standalone = false)
 	{
 		if(Piwik::isUserIsAnonymous()) {
 			return "<h2>" . Piwik_Translate("UserCountryMap_LoginToViewRealTime") . "</h2>";
@@ -96,6 +108,8 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
 		$token_auth = Piwik::getCurrentUserTokenAuth();
 		$view = Piwik_View::factory('realtime-map');
+
+		$view->mapIsStandaloneNotWidget = $standalone;
 
 		$view->metrics = $this->getMetrics($idSite, 'range', self::REAL_TIME_WINDOW, $token_auth);
 		$view->defaultMetric = 'nb_visits';

@@ -485,6 +485,9 @@
             // make sure the map adapts to the widget size
             $(window).resize(onResizeLazy);
 
+            function getTimeInSiteTimezone() {
+
+            }
             // setup automatic tooltip updates
             setInterval(function() {
                 $('.qtip .rel-time').each(function(i, el) {

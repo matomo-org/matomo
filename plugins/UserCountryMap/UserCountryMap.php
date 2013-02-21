@@ -30,18 +30,33 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     {
         Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
         Piwik_AddWidget('Live!', Piwik_Translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
+
+		Piwik_AddAction('template_leftColumnUserCountry', array('Piwik_UserCountryMap', 'insertMapInLocationReport'));
     }
 
-    public function getListHooksRegistered()
+	static public function insertMapInLocationReport($notification)
+	{
+		$out =& $notification->getNotificationObject();
+		$out = '<h2>'.Piwik_Translate('UserCountryMap_VisitorMap').'</h2>';
+		$out .= Piwik_FrontController::getInstance()->fetchDispatch('UserCountryMap','visitorMap');
+	}
+
+	public function getListHooksRegistered()
     {
         $hooks = array(
             'AssetManager.getJsFiles' => 'getJsFiles',
-            'AssetManager.getCssFiles' => 'getCssFiles'
+            'AssetManager.getCssFiles' => 'getCssFiles',
+			'Menu.add' => 'addMenu',
         );
         return $hooks;
     }
 
-    /**
+	function addMenu()
+	{
+		Piwik_AddMenu('General_Visitors', 'UserCountryMap_RealTimeMap', array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), true, $order = 70);
+	}
+
+	/**
      * @param Piwik_Event_Notification $notification  notification object
      */
     public function getJsFiles($notification)
@@ -61,4 +76,5 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         $cssFiles[] = "plugins/UserCountryMap/css/qtip.css";
         $cssFiles[] = "plugins/UserCountryMap/css/visitor-map.css";
     }
+
 }
