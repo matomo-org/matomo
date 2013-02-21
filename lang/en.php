@@ -474,6 +474,7 @@ $translations = array(
 	'CoreAdminHome_JSTrackingIntro2' => 'Once you have the JavaScript tracking code for your website, copy and paste it to all the pages you want to track with Piwik. In most websites, blogs, CMS, etc. you can use a pre-made plugin to do the technical work for you. (See our %1$slist of plugins used to integrate Piwik%2$s.) If no plugin exists you can edit your website templates and add this code in the "footer" file.',
 	'CoreAdminHome_JSTrackingIntro3' => 'If you don\'t want to use JavaScript to track visitors, %1$sgenerate an image tracking link below%2$s.',
 	'CoreAdminHome_JSTrackingIntro4' => 'If you want to do more than tracking a page view, please check out the %1$sPiwik Javascript Tracking documentation%2$s for the list of available functions (for example: Tracking Goals, Custom Variables, Ecommerce orders, products and abandoned carts, etc.).',
+	'CoreAdminHome_TrackingCode' => 'Tracking Code',
 	'CoreAdminHome_JSTracking_MergeSubdomains' => 'Track visitors across all subdomains of',
 	'CoreAdminHome_JSTracking_MergeSubdomainsDesc' => 'So visitors to %1$s will not be treated as new if they visit %2$s for the first time.',
 	'CoreAdminHome_JSTracking_MergeAliases' => 'Track visitors across all alias URLs of',
