@@ -115,6 +115,31 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 	}
 	
 	/**
+	 * Renders and echo's an admin page that lets users generate custom JavaScript
+	 * tracking code and custom image tracker links.
+	 */
+	public function trackingCodeGenerator()
+	{
+		$view = Piwik_View::factory('jsTrackingGenerator');
+		$this->setBasicVariablesView($view);
+		$view->topMenu = Piwik_GetTopMenu();
+		$view->menu = Piwik_GetAdminMenu();
+		
+		$viewableIdSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
+		
+		$defaultIdSite = reset($viewableIdSites);
+		$view->idSite = Piwik_Common::getRequestVar('idSite', $defaultIdSite, 'int');
+		
+		$view->defaultReportSiteName = Piwik_Site::getNameFor($view->idSite);
+		$view->defaultSiteRevenue = Piwik::getCurrency($view->idSite);
+		
+		// get currencies for each viewable site
+		$view->currencySymbols = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
+		
+		echo $view->render();
+	}
+	
+	/**
 	 * Shows the "Track Visits" checkbox.
 	 */
 	public function optOut()

@@ -56,25 +56,66 @@ $(document).ready(function() {
 	// section toggler behavior
 	// 
 	
-	// when click section toggler link, toggle the visibility of the associated section
-	$('body').on('click', '.section-toggler-link', function (e) {
-		e.preventDefault();
+	var handleSectionToggle = function (self, showType, doHide)
+	{
+		var sectionId = $(self).attr('data-section-id'),
+			section = $('#' + sectionId),
+			showText = _pk_translate('General_Show_js'),
+			hideText = _pk_translate('General_Hide_js');
 		
-		var self = this,
-			sectionId = $(self).attr('data-section-id'),
-			section = $('#' + sectionId);
-		
-		if (section.is(':visible'))
+		if (typeof(doHide) == 'undefined')
 		{
-			section.slideUp(function() { $(self).text(_pk_translate('General_Show_js')); });
+			doHide = section.is(':visible');
+		}
+		
+		if (doHide)
+		{
+			var newText = $(self).text().replace(hideText, showText),
+				afterHide = function() { $(self).text(newText); };
+			
+			if (showType == 'slide')
+			{
+				section.slideUp(afterHide);
+			}
+			else if (showType == 'inline')
+			{
+				section.hide();
+				afterHide();
+			}
+			else
+			{
+				section.hide(afterHide);
+			}
 		}
 		else
 		{
-			$(self).text(_pk_translate('General_Hide_js'));
-			section.slideDown();
+			var newText = $(self).text().replace(showText, hideText);
+			$(self).text(newText);
+			
+			if (showType == 'slide')
+			{
+				section.slideDown();
+			}
+			else if (showType == 'inline')
+			{
+				section.css('display', 'inline-block');
+			}
+			else
+			{
+				section.show();
+			}
 		}
-		
+	};
+	
+	// when click section toggler link, toggle the visibility of the associated section
+	$('body').on('click', 'a.section-toggler-link', function (e) {
+		e.preventDefault();
+		handleSectionToggle(this, 'slide');
 		return false;
+	});
+	
+	$('body').on('change', 'input.section-toggler-link', function (e) {
+		handleSectionToggle(this, 'inline', !$(this).is(':checked'));
 	});
 	
 	// 

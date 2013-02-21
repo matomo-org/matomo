@@ -126,6 +126,27 @@ function ajaxHelper() {
                 break;
         }
     };
+    
+    /**
+     * Gets this helper instance ready to send a bulk request. Each argument to this
+     * function is a single request to use.
+     * 
+     * @param {object} ... The requests to send simultaneously.
+     */
+    this.setBulkRequests = function () {
+    	var urls = [];
+    	for (var i = 0; i != arguments.length; ++i)
+    	{
+    		urls.push($.param(arguments[i]));
+    	}
+    	
+    	this.addParams({
+    		module: 'API',
+    		method: 'API.getBulkRequest',
+    		urls: urls,
+    		format: 'json'
+    	}, 'post');
+    };
 
     /**
      * Sets the callback called after the request finishes

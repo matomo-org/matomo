@@ -39,14 +39,8 @@
 		{/capture}
 		{include file="CoreHome/templates/sites_selection.tpl"
 			siteName=$defaultReportSiteName idSite=$idSiteSelected allSitesItemText=$applyAllSitesText
-			allWebsitesLinkLocation=top}
+			allWebsitesLinkLocation=top siteSelectorId="usersManagerSiteSelect" switchSiteOnSelect=false}
 	</section>
-	{literal}<script type="text/javascript">
-		window.autocompleteOnNewSiteSelect = function(siteId, siteName)
-		{
-			switchSite(siteId, siteName, false /* do not show main ajax loading animation */);
-		};
-	</script>{/literal}
 </div>
 
 {ajaxErrorDiv}

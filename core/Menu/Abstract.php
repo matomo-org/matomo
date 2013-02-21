@@ -19,6 +19,7 @@ abstract class Piwik_Menu_Abstract
 	protected $menuEntries = array();
 	protected $edits = array();
 	protected $renames = array();
+	protected $orderingApplied = false;
 
 	/*
 	 * Can't enforce static function in 5.2.
@@ -198,10 +199,12 @@ abstract class Piwik_Menu_Abstract
 	 */
 	private function applyOrdering()
 	{
-		if(empty($this->menu))
+		if (empty($this->menu)
+			|| $this->orderingApplied)
 		{
 			return;
 		}
+		
 		uasort($this->menu, array($this, 'menuCompare'));
 		foreach ($this->menu as $key => &$element)
 		{
@@ -214,6 +217,8 @@ abstract class Piwik_Menu_Abstract
 				uasort($element, array($this, 'menuCompare'));
 			}
 		}
+		
+		$this->orderingApplied = true;
 	}
 
 	/**

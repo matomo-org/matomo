@@ -101,6 +101,11 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 							array('module' => 'CoreAdminHome', 'action' => 'generalSettings'),
 							Piwik::isUserHasSomeAdminAccess(),
 							$order = 6);
+		Piwik_AddAdminSubMenu('General_Settings', 'Installation_JsTag',
+							array('module' => 'CoreAdminHome', 'action' => 'trackingCodeGenerator'), 
+							Piwik::isUserHasSomeAdminAccess(),
+							$order = 9);
+							
 	}
 	
 	function purgeOutdatedArchives()

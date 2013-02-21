@@ -20,8 +20,9 @@
 	</a>
 </div>
 {/capture}
-<div class="sites_autocomplete">
-    <div id="sitesSelectionSearch" class="custom_select">
+<div class="sites_autocomplete" {if isset($siteSelectorId)}id="{$siteSelectorId}"{/if}
+	{if !isset($switchSiteOnSelect) || $switchSiteOnSelect eq true}data-switch-site-on-select="1"{/if}>
+    <div class="custom_select">
     
         <a href="#" onclick="return false" class="custom_select_main_link" siteid="{if isset($idSite)}{$idSite}{else}{$sites[0].idsite}{/if}">{if isset($siteName)}{$siteName}{else}{$sites[0].name}{/if}</a>
         
@@ -29,7 +30,7 @@
             {if isset($allWebsitesLinkLocation) && $allWebsitesLinkLocation eq 'top'}
             {$sitesSelector_allWebsitesLink}
             {/if}
-            <div id="custom_select_container">
+            <div class="custom_select_container">
             <ul class="custom_select_ul_list" >
                 {foreach from=$sites item=info}
                     <li {if (!isset($showSelectedSite) || $showSelectedSite eq false) && $idSite==$info.idsite} style="display: none"{/if}><a href="#" siteid="{$info.idsite}">{$info.name}</a></li>
@@ -40,23 +41,15 @@
             {$sitesSelector_allWebsitesLink}
             {/if}
             <div class="custom_select_search" {if !$show_autocompleter}style="display:none;"{/if}>
-                <input type="text" length="15" id="websiteSearch" class="inp"/>
-                <input type="hidden" class="max_sitename_width" id="max_sitename_width" value="130" />
+                <input type="text" length="15" class="websiteSearch inp"/>
+                <input type="hidden" class="max_sitename_width" value="130" />
                 <input type="submit" value="Search" class="but"/>
-				<img title="Clear" id="reset" style="position: relative; top: 4px; left: -44px; cursor: pointer; display: none;" src="plugins/CoreHome/templates/images/reset_search.png"/>
+				<img title="Clear" class="reset" style="position: relative; top: 4px; left: -44px; cursor: pointer; display: none;" src="plugins/CoreHome/templates/images/reset_search.png"/>
             </div>
         </div>
 	</div>
 	{if isset($inputName)}<input type="hidden" name="{$inputName}" value="{if isset($idSite)}{$idSite}{else}{$sites[0].idsite}{/if}"/>{/if}
-	{if isset($switchSiteOnSelect) && $switchSiteOnSelect eq false}
-	<script type="text/javascript">
-	{literal}
-		// make sure site is not switched an item is selected
-		window.autocompleteOnNewSiteSelect = function(id) {
-			$('.sites_autocomplete input').val(id);
-		};
-	{/literal}
-	</script>
-	{/if}
 </div>
-
+<script type="text/javascript">
+	{literal}$(document).ready(function() { piwik.initSiteSelectors(); });{/literal}
+</script>
