@@ -836,7 +836,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'لطفا خطاهای زیر را تعمیر کنید',
 	'Installation_LargePiwikInstances' => 'راهنمایی برای نمونه های بزرگ پیویک',
 	'Installation_JsTag' => 'کد رهگیری جاوااسکریپت',
-	'Installation_JsTagArchivingHelp' => 'برای وب سایت های ترافیک متوسط ​​و بالا، از <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/"> چگونه به راه اندازی خودکار آرشیو صفحه </a> را به Piwik اجرا واقعا سریع!',
 	'Installation_Congratulations' => 'تبریک',
 	'Installation_CongratulationsHelp' => '<P> تبریک می گویم! نصب Piwik شما کامل است. </P> <P>اطمینان حاصل کنید که کد جاوا اسکریپت در صفحات خود را وارد و منتظر برای اولین بازدیدکنندگان خود را </P>',
 	'Installation_ContinueToPiwik' => 'با پیویک ادامه بده',

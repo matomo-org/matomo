@@ -895,7 +895,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Molimo vas da ispravite sledeće greške',
 	'Installation_LargePiwikInstances' => 'Pomoć u vezi velikih Piwik instalacija',
 	'Installation_JsTag' => 'JavaScript kod',
-	'Installation_JsTagArchivingHelp' => 'Za srednje i velike sajtove pogledajte <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">kako podesiti automatsko arhiviranje stranica</a> kako biste naterali Piwik da radi zaista brzo!',
 	'Installation_Congratulations' => 'Čestitamo',
 	'Installation_CongratulationsHelp' => '<p>Čestitamo! Piwik instalacija je završena.</p><p>Proverite da li je JavaScript kod ubačen na sve stranice sajta i sačekajte vaše prve posetioce!</p>',
 	'Installation_ContinueToPiwik' => 'Nastavite sa upotrebom Piwik-a',

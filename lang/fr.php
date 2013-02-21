@@ -907,7 +907,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Merci de corriger les erreurs suivantes',
 	'Installation_LargePiwikInstances' => 'Aide pour les instances de Piwik volumineuses',
 	'Installation_JsTag' => 'Tag JavaScript',
-	'Installation_JsTagArchivingHelp' => 'Pour les sites à moyen et fort trafic, lisez <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">la page d\'explication sur comment mettre en place une page d\'auto archivage</a> pour que Piwik devienne réellement rapide!',
 	'Installation_Congratulations' => 'Félicitations',
 	'Installation_CongratulationsHelp' => '<p>Félicitations! Votre installation de Piwik est terminée.</p><p>Assurez-vous que le code JavaScript est présent sur toutes vos pages et attendez vos premiers visiteurs!</p>',
 	'Installation_ContinueToPiwik' => 'Continuer vers Piwik',

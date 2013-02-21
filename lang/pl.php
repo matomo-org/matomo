@@ -636,7 +636,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Prosimy naprawić następujące błędy',
 	'Installation_LargePiwikInstances' => 'Pomoc w przypadku dużych instalacji z Piwik',
 	'Installation_JsTag' => 'Kod śledzący w JavaScript',
-	'Installation_JsTagArchivingHelp' => 'Dla średniego i wysokiego ruchu na stronach, sprawdź <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">jak skonfigurować auto-archiwizację stron</a> by uczynić Piwik naprawdę szybkie w działaniu!',
 	'Installation_Congratulations' => 'Gratulacje',
 	'Installation_CongratulationsHelp' => '<p>Gratulacje! Twoja instalacja Piwik zakończyła się powodzeniem.</p><p>Miej pewność, że już dodałeś swój kod JavaScript do kodu swoich stron które chcesz badać, no i możesz teraz już czekać na swoich pierwszych odwiedzających!</p>',
 	'Installation_ContinueToPiwik' => 'Zapraszamy do statystyk Piwik',

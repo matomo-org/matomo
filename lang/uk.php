@@ -494,7 +494,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Виправте наступні помилки',
 	'Installation_LargePiwikInstances' => 'Доомога для великих інсталяцій Piwik',
 	'Installation_JsTag' => 'Тег JavaScript',
-	'Installation_JsTagArchivingHelp' => 'Для сайтів з середнім та високим трафіком, перегляньте сторінку <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">Як встановити авто обробку архіву</a> щоб забезпечити як найшвидшу роботу Piwik!',
 	'Installation_Congratulations' => 'Вітання!',
 	'Installation_CongratulationsHelp' => '<p>Вітання! Встановлення Piwik завершено.</p><p>Переконайтеся що JavaScript код додано на кожну вашу сторінку, та очікуйте на перших відвідувачів!</p>',
 	'Installation_ContinueToPiwik' => 'Перейти далі до Piwik',

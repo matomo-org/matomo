@@ -631,7 +631,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'الرجاء إصلاح الأخطاء التالية',
 	'Installation_LargePiwikInstances' => 'المساعدة في مواقع Piwik العملاقة',
 	'Installation_JsTag' => 'كود جافا سكريبت للتتبع',
-	'Installation_JsTagArchivingHelp' => 'للمواقع المتوسط وكبيرة الزيارات، يرجى مراجعة <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">صفحة إعداد الأرشفة الآلية</a> لتجعل Piwik يعمل بسرعة فائقة!',
 	'Installation_Congratulations' => 'مبروك',
 	'Installation_CongratulationsHelp' => '<p>مبروك! تم تثبيت Piwik بنجاح.</p><p>تأكد من إضافة كود JavaScript لكافة الصفحات التي تود تتبعها، ثم انتظر أول زوارك!</p>',
 	'Installation_ContinueToPiwik' => 'المتابعة إلى Piwik',

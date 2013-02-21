@@ -780,7 +780,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => '次のエラーを修正してください',
 	'Installation_LargePiwikInstances' => '高トラフィック環境で Piwik を使用するためのヒント',
 	'Installation_JsTag' => 'Javascript タグ',
-	'Installation_JsTagArchivingHelp' => '比較的トラフィックの高いウェブサイトでは、Piwik を高速に実行させるために <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">How to setup auto archiving page</a> を参照してください。',
 	'Installation_Congratulations' => 'おめでとうございます',
 	'Installation_CongratulationsHelp' => '<p>おめでとうございます！ Piwik のインストールは完了しました。</p><p>javascript コードをウェブサイトのページに埋め込み、最初のビジターをお待ちください！</p>',
 	'Installation_ContinueToPiwik' => 'Piwik を継続',

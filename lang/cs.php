@@ -638,7 +638,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Prosím opravte následující chyby',
 	'Installation_LargePiwikInstances' => 'Nápověda pro velké instalace Piwiku',
 	'Installation_JsTag' => 'JavaScript tag',
-	'Installation_JsTagArchivingHelp' => 'Pro sídla se středním a velkým provozem se podívejte na <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">Jak nastavit stránku auto archivate</a>, aby Piwik běžel opravdu rychle',
 	'Installation_Congratulations' => 'Gratulujeme',
 	'Installation_CongratulationsHelp' => '<p>Gratulujeme! Vaše instalace Piwiku je komplentní.</p><p>Ujistěte se, že máte JavaScriptový kód vložen do vašich stránek a čekejte na první návštěvníky!</p>',
 	'Installation_ContinueToPiwik' => 'Pokračovat do Piwiku',

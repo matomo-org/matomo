@@ -839,7 +839,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Los de volgende problemen op',
 	'Installation_LargePiwikInstances' => 'Hulp voor grote Piwik installaties',
 	'Installation_JsTag' => 'Javascript trackingcode',
-	'Installation_JsTagArchivingHelp' => 'Voor middelgrote en grote websites, lees <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">How to setup auto archiving page</a> om Piwik echt snel te maken!',
 	'Installation_Congratulations' => 'Gefeliciteerd',
 	'Installation_CongratulationsHelp' => '<p>Gefeliciteerd! Uw Piwik installatie is voltooid.</p><p>Controleer of de javascript code geplaatst is op uw pagina\'s, en wacht op de eerste bezoekers!</p>',
 	'Installation_ContinueToPiwik' => 'Ga verder naar Piwik',

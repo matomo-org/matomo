@@ -909,7 +909,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Bitte beheben Sie die folgenden Fehler',
 	'Installation_LargePiwikInstances' => 'Hilfe für große Piwik-Installationen',
 	'Installation_JsTag' => 'Javascript-Tracking-Code',
-	'Installation_JsTagArchivingHelp' => 'Für mittelgroße und große Webseite beachten Sie die Hinweise unter: <a target="_blank" href="http://de.piwik.org/dokumentation/wie-wird-die-nachtliche-auto-archivierung-der-berichte-konfiguriert/">Wie wird die nächtliche Auto-Archivierung der Berichte konfiguriert?</a> um Piwik zu beschleunigen!',
 	'Installation_Congratulations' => 'Glückwunsch',
 	'Installation_CongratulationsHelp' => '<p>Glückwunsch! Piwik ist nun installiert.</p><p>Stellen Sie sicher, dass der Javascript-Code auf Ihrer Website eingefügt wurde und warten Sie auf die ersten Besucher.</p>',
 	'Installation_ContinueToPiwik' => 'Weiter zu Piwik',

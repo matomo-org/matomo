@@ -358,7 +358,6 @@ $translations = array(
 	'Installation_DatabaseCreation' => 'Datu-basea sortzea',
 	'Installation_LargePiwikInstances' => 'Laguntza Piwik-en instalazio handientzat',
 	'Installation_JsTag' => 'JavaScript etiketa',
-	'Installation_JsTagArchivingHelp' => 'Trafiko ertain eta handiko webguneetarako, eman begirada <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">Nola konfiguratu artxibatze automatikoko orria</a> dokumentuari Piwik azkar batean exekuta dadin!',
 	'Installation_Congratulations' => 'Zorionak',
 	'Installation_CongratulationsHelp' => '<p>Zorionak! Zure Piwik instalazioa osatu da.</p><p>Egiaztatu JavaScript kodea zure orrietan txertatuta dagoela eta ondoren itxaron lehenengo bisitei!</p>',
 	'Installation_ContinueToPiwik' => 'Jarraitu Piwik-era',

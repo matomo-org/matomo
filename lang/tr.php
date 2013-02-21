@@ -574,7 +574,6 @@ $translations = array(
 	'Installation_DatabaseCreation' => 'Veritabaı oluşturma',
 	'Installation_LargePiwikInstances' => 'Büyük Piwik örnekleri için yardım',
 	'Installation_JsTag' => 'JavaSript etiketi',
-	'Installation_JsTagArchivingHelp' => 'Çok trafiğe sahip siteler, Piwik\'in daha hızlı çalışabilmesi için <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">Otomatik Arşivleme nasıl kurulur?</a> sayfasını inceleyiniz.',
 	'Installation_Congratulations' => 'Tebrikler',
 	'Installation_CongratulationsHelp' => '<p>Tebrikler! Piwik Başarıyla kuruldu.</p><p>JavaScript kodunu sayfalarınıza yerleştirdiğinizden emin olun ve ilk ziyaretçilerinizi beklemeye başlayın!</p>',
 	'Installation_ContinueToPiwik' => 'Piwik\'e devam et',

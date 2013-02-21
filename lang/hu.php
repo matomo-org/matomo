@@ -600,7 +600,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Kérjük, javítsd a következő hibákat',
 	'Installation_LargePiwikInstances' => 'Súgó nagyobb weboldalakra telepítéshez',
 	'Installation_JsTag' => 'JavaScript Tag',
-	'Installation_JsTagArchivingHelp' => 'Közepes vagy nagy forgalmú weboldalak esetén kérjük tekintse meg a <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">How to setup auto archiving page</a> dokumentumot, hogy a Piwik valóban gyorsan fusson!',
 	'Installation_Congratulations' => 'Gratulálunk',
 	'Installation_CongratulationsHelp' => '<p>Gratulálunk! A Piwik telepítése kész!</p><p>Bizonyosodj meg róla, hogy a JavaScript követőkód beillesztésre került minden weblapba. Ebben az esetben nincs más hátra, mint várnod az első látogatókat!</p>',
 	'Installation_ContinueToPiwik' => 'Tovább a Piwik-hez',

@@ -493,7 +493,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'გთხოვთ, შეასწოროთ შემდეგი შეცდომები',
 	'Installation_LargePiwikInstances' => 'დახმარება Piwik–ის მსხვილი ობიექტებისთვის',
 	'Installation_JsTag' => 'JavaScript ტეგი',
-	'Installation_JsTagArchivingHelp' => 'საშუალო და მაღალი ტრაფიკის ვებ საიტებისთვის, გაეცანით <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">როგორ მოაწყოთ ავტომატური არქივირების გვერდი</a> რომ Piwik მართლაც სწრაფად მუშაობდეს!',
 	'Installation_Congratulations' => 'მილოცვა',
 	'Installation_CongratulationsHelp' => '<p>გილოცავთ! Piwik–ის ინსტალირება დასრულდა.</p><p>დარწმუნდით, რომ JavaScript კოდი ჩაწერილია თქვენს გვერდებზე და დაელოდეთ პირველ ვიზიტორებს!</p>',
 	'Installation_ContinueToPiwik' => 'Piwik–ზე დაბრუნება',

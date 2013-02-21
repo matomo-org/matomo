@@ -534,7 +534,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Prašome ištaisyti šias klaidas',
 	'Installation_LargePiwikInstances' => 'Pagalba dideliems Piwik pavyzdžiams',
 	'Installation_JsTag' => 'JavaScript gairė (tag)',
-	'Installation_JsTagArchivingHelp' => 'Vidutinio ir aukšto lankytojų srauto svetainėms, rekomenduojame pasidomėti <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">Kaip sukurti automatiškai archyvuojantį puslapį</a> ir priversti Piwik veikti dar greičiau!',
 	'Installation_Congratulations' => 'Sveikiname',
 	'Installation_CongratulationsHelp' => '<p>Sveikiname! Piwik diegimas baigtas.</p><p>Įsitikinkite, kad JavaScript žymė (tag) yra įrašyta visuose puslapiuose ir laukite pirmųjų lankytojų!</p>',
 	'Installation_ContinueToPiwik' => 'Grįžti į Piwik',

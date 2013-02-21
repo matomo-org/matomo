@@ -660,7 +660,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Rett på følgjande feil',
 	'Installation_LargePiwikInstances' => 'Hjelp for større Piwik-installasjonar',
 	'Installation_JsTag' => 'JavaScript-sporingskode',
-	'Installation_JsTagArchivingHelp' => 'For nettstader med middels og høg trafikk, sjå <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">Korleis setja opp autoarkivering</a> for å få Piwik til å køyra raskare!',
 	'Installation_Congratulations' => 'Gratulerer',
 	'Installation_CongratulationsHelp' => '<p>Gratulerer! Piwik-installasjon er ferdig.</p><p>Sjå til at JavaScript-koden er lagt til på sidene dine, og vent på dine fyrste vitjarar!</p>',
 	'Installation_ContinueToPiwik' => 'Hald fram til Piwik',

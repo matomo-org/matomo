@@ -757,7 +757,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Silakan perbaiki galat berikut ini',
 	'Installation_LargePiwikInstances' => 'Bantuan perihal Piwik besar',
 	'Installation_JsTag' => 'Kode Pelacakan JavaScript',
-	'Installation_JsTagArchivingHelp' => 'Untuk kunjungan menengah dan tinggi, periksa <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">Bagaimana mengarsipkan halaman</a> untuk membuat Piwik berjalan sangat cepat!',
 	'Installation_Congratulations' => 'Selesai',
 	'Installation_CongratulationsHelp' => '<p>Selamat! Instalasi Piwik selesai.</p><p>Pastikan kode JavaScript Anda telah dimasukkan pada halaman Anda, lalu tunggu pengunjung pertama Anda!</p>',
 	'Installation_ContinueToPiwik' => 'Lanjut ke Piwik',

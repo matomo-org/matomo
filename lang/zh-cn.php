@@ -683,7 +683,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => '请修复以下错误',
 	'Installation_LargePiwikInstances' => 'Piwik 给予大型网站的协助',
 	'Installation_JsTag' => 'Javascript 标签',
-	'Installation_JsTagArchivingHelp' => '在一个中或高流量的网站，请查阅<a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">如何设置自动整理页面</a>来使 Piwik 运作的更顺畅！',
 	'Installation_Congratulations' => '恭喜您',
 	'Installation_CongratulationsHelp' => '<p>恭喜您！ 您的 Piwik 安装已经完成！</p><p>请确认您的 Javascript 统计代码已插入至您的网页之中，并等候您的首位访客！</p>',
 	'Installation_ContinueToPiwik' => '继续',

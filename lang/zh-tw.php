@@ -501,7 +501,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => '請修復以下錯誤',
 	'Installation_LargePiwikInstances' => 'Piwik 給予大型網站的協助',
 	'Installation_JsTag' => 'JavaScript 原始碼',
-	'Installation_JsTagArchivingHelp' => '在一個中或高流量的網站，請查閱<a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">如何設定自動彙整頁面</a>來使 Piwik 運作的更順暢！',
 	'Installation_Congratulations' => '恭喜你',
 	'Installation_CongratulationsHelp' => '<p>恭喜！ 你的 Piwik 安裝已經完成。</p><p>請確認你的 JavaScript 追蹤碼已插入至你的網頁中，然後等候你的首位訪客吧！</p>',
 	'Installation_ContinueToPiwik' => '繼續 Piwik',

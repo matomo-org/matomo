@@ -906,7 +906,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Ret følgende fejl',
 	'Installation_LargePiwikInstances' => 'Hjælp til store Piwik installationer',
 	'Installation_JsTag' => 'JavaScript kode',
-	'Installation_JsTagArchivingHelp' => 'Hjemmesider med medium og høj trafik se: <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">How to setup auto archiving page</a> og få Piwik til at køre rigtig hurtigt!',
 	'Installation_Congratulations' => 'Tillykke',
 	'Installation_CongratulationsHelp' => '<p>Tillykke! Piwik installationen er færdig.</p><p>Sørg for at JavaScript-koden er tilføjet på dine sider, og vent på de første besøgende!</p>',
 	'Installation_ContinueToPiwik' => 'Fortsæt til Piwik',

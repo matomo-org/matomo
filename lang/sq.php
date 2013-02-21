@@ -736,7 +736,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Ju lutem, ndreqni gabimet vijuese',
 	'Installation_LargePiwikInstances' => 'Ndihmë për raste Piwik-u me ngarkesë',
 	'Installation_JsTag' => 'Kod JavaScript Gjurmimi',
-	'Installation_JsTagArchivingHelp' => 'Për "site"-e web me trafik mesatar ose të madh, shihni <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">Si të rregullohet vetëarkivimi i faqeve</a>, për ta bërë Piwik-un të xhirojë vërtet shpejt!',
 	'Installation_Congratulations' => 'Urime',
 	'Installation_CongratulationsHelp' => '<p>Urime! Instalimi juaj i Piwik-ut u plotësua.</p><p>Sigurohuni që keni futur kodin JavaScript te faqet tuaja, dhe prisni për vizitorët e parë!</p>',
 	'Installation_ContinueToPiwik' => 'Vazhdo te Piwik-u',

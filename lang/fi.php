@@ -848,7 +848,6 @@ $translations = array(
 	'Installation_PleaseFixTheFollowingErrors' => 'Korjaa seuraavat virheet',
 	'Installation_LargePiwikInstances' => 'Apua suuriin asennuksiin',
 	'Installation_JsTag' => 'Javascript-koodi',
-	'Installation_JsTagArchivingHelp' => 'Korkean liikenteen sivuille on suositeltavaa <a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">ottaa käyttöön arkistointi</a>, jotta Piwik toimisi nopeasti.',
 	'Installation_Congratulations' => 'Onnittelut',
 	'Installation_CongratulationsHelp' => '<p>Onnittelut! Piwikin asennus on valmis.</p><p>Varmista, että javascript-koodi on lisätty sivuille ja odota ensimmäisiä vierailijoita!</p>',
 	'Installation_ContinueToPiwik' => 'Jatka Piwikiin',
