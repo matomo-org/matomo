@@ -12,11 +12,11 @@
 <p>
 	{'CoreAdminHome_JSTrackingIntro1'|translate}
 	<br/><br/>
-	{'CoreAdminHome_JSTrackingIntro2'|translate:'<a href="http://piwik.org/integrate/">':'</a>'}
+	{'CoreAdminHome_JSTrackingIntro2'|translate} {'CoreAdminHome_JSTrackingIntro3'|translate:'<a href="http://piwik.org/integrate/" target="_blank">':'</a>'}
 	<br/><br/>
-	{'CoreAdminHome_JSTrackingIntro3'|translate:'<a href="#image-tracking-link">':'</a>'}
+	{'CoreAdminHome_JSTrackingIntro4'|translate:'<a href="#image-tracking-link">':'</a>'}
 	<br/><br/>
-	{'CoreAdminHome_JSTrackingIntro4'|translate:'<a target="_blank" href="http://piwik.org/docs/javascript-tracking/">':'</a>'}
+	{'CoreAdminHome_JSTrackingIntro5'|translate:'<a target="_blank" href="http://piwik.org/docs/javascript-tracking/">':'</a>'}
 </p>
 
 <div>
@@ -39,7 +39,7 @@
 	{* track across all subdomains *}
 	<div class="tracking-option-section">
 		<input type="checkbox" id="javascript-tracking-all-subdomains"/>
-		<label for="javascript-tracking-all-subdomains">{'CoreAdminHome_JSTracking_MergeSubdomains'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
+		<label for="javascript-tracking-all-subdomains">{'CoreAdminHome_JSTracking_MergeSubdomains'|translate} <span class='current-site-name'>{$defaultReportSiteName|escape:'html'}</span></label>
 		
 		<div class="small-form-description">
 			{'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate:'x.domain.com':'y.domain.com'}
@@ -49,7 +49,7 @@
 	{* track across all site aliases *}
 	<div class="tracking-option-section">
 		<input type="checkbox" id="javascript-tracking-all-aliases"/>
-		<label for="javascript-tracking-all-aliases">{'CoreAdminHome_JSTracking_MergeAliases'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
+		<label for="javascript-tracking-all-aliases">{'CoreAdminHome_JSTracking_MergeAliases'|translate} <span class='current-site-name'>{$defaultReportSiteName|escape:'html'}</span></label>
 		
 		<div class="small-form-description">
 			{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate}
@@ -130,6 +130,10 @@
 		<div class="tracking-option-section">
 			<input class="section-toggler-link" type="checkbox" id="custom-campaign-query-params-check" data-section-id="js-campaign-query-param-extra"/>
 			<label for="custom-campaign-query-params-check">{'CoreAdminHome_JSTracking_CustomCampaignQueryParam'|translate}</label>
+			
+			<div class="small-form-description">
+				{'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc'|translate:'<a href="http://piwik.org/faq/general/#faq_119" target="_blank">':'</a>'}
+			</div>
 		
 			<table style="display:none" id="js-campaign-query-param-extra">
 				<tr>
@@ -163,9 +167,9 @@
 <div id="image-tracking-code-options" class="adminTable">
 
 <p>
-	{'CoreAdminHome_ImageTrackingIntro1'|translate:"<em>&lt;noscript&gt;&lt;/noscript&gt;</em>"}
+	{'CoreAdminHome_ImageTrackingIntro1'|translate} {'CoreAdminHome_ImageTrackingIntro2'|translate:"<em>&lt;noscript&gt;&lt;/noscript&gt;</em>"}
 	<br/><br/>
-	{'CoreAdminHome_ImageTrackingIntro2'|translate:'<a href="http://piwik.org/docs/tracking-api/reference/">':'</a>'}
+	{'CoreAdminHome_ImageTrackingIntro3'|translate:'<a href="http://piwik.org/docs/tracking-api/reference/" target="_blank">':'</a>'}
 </p>
 
 <div>
@@ -203,7 +207,7 @@
 					<option value="">{'UserCountryMap_None'|translate}</option>
 				</select>
 				<span>{'CoreAdminHome_WithOptionalRevenue'|translate}</span>
-				<span class="currency">{$defaultSiteRevenue}</span>
+				<span class="currency">{$defaultSiteRevenue|escape:'html'}</span>
 				<input type="text" class="revenue" value=""/>
 			</div>
 		</div>

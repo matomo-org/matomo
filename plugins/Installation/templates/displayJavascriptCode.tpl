@@ -11,7 +11,7 @@
 {$trackingHelp}
 <br/><br/>
 <h2>{'Installation_LargePiwikInstances'|translate}</h2>
-{'Installation_JsTagArchivingHelp'|translate}
+{'Installation_JsTagArchivingHelp1'|translate:'<a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">':'</a>'} {'General_ReadThisToLearnMore'|translate:'<a target="_blank" href="http://piwik.org/docs/optimize/">':'</a>'}
 
 {literal}
 <style type="text/css">

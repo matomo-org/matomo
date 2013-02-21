@@ -1,13 +1,13 @@
 <h3>Image Tracker code</h3>
 
-The Simple Image Tracker code can be used when Javascript is disallowed. 
+The Image Tracker code can be used when Javascript is not allowed. 
 <br/><div class='toggleHelp' id='imageTracker' style='display:none'><a name='image'>› Display Image Tracker code </a></div>
 
 <div class='imageTracker'>
-<p>Some websites like MySpace or eBay will not allow users to add Javascript to their profile but accept HTML. In this case, you can still track visits with Piwik using the simple Image Tracker.
+<p>Some websites like MySpace or eBay will not allow users to add Javascript to their profile but accept HTML. In this case, you can still track visits with Piwik using the Image Tracker.
 <br/>
 <b>Note</b>: the code doesn't use Javascript so <b>Piwik will not be able to track some user information</b>
- such as search keywords, referrer websites, screen resolutions, plugin support and page titles.
+ such as search keywords, referrers, screen resolutions, browser plugins and page titles.
 </p>
 <code>
 &lt;!-- Piwik Image Tracker --&gt;<br/>

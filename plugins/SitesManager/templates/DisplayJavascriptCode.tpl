@@ -11,9 +11,6 @@
 .trackingHelp h2 {
 	margin-top:20px;
 }
-.trackingHelp .toggleHelp {
-	display:none;
-}
 p {
 	text-align:justify;
 }
@@ -23,44 +20,19 @@ p {
 <h2>{'SitesManager_TrackingTags'|translate:$displaySiteName}</h2>
 
 <div class='trackingHelp'>
-To record visitors, visits and page views in Piwik, you must add a Tracking code in all your pages. 
-We recommend to use the standard Javascript Tracking code.
+{'Installation_JSTracking_Intro'|translate}
+<br/><br/>
+{'CoreAdminHome_JSTrackingIntro3'|translate:'<a href="http://piwik.org/integrate/" target="_blank">':'</a>'}
 
-<h3>Standard JavaScript Tracking code</h3>
-Copy and paste the following code in all the pages you want to track with Piwik. 
-<br />In most websites, blogs, CMS, etc. you can edit your website templates and add this code in a "footer" file.
-
-<p>{'SitesManager_JsTrackingTagHelp'|translate}, just before the &lt;/body&gt; tag.</p>
+<h3>{'SitesManager_JsTrackingTag'|translate}</h3>
+<p>{'CoreAdminHome_JSTracking_CodeNote'|translate:"&lt;/body&gt;"}</p>
 
 <code>{$jsTag}</code>
 
 <br />
-If you want to do more than tracking a page view,  
-please check out the <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/">
-Piwik Javascript Tracking documentation</a> for the list of available functions (for example: Tracking Goals, Custom Variables, Ecommerce orders, products and abandoned carts, etc.).
-
-{include file='SitesManager/templates/DisplayAlternativeTags.tpl'}
+{'CoreAdminHome_JSTrackingIntro5'|translate:'<a target="_blank" href="http://piwik.org/docs/javascript-tracking/">':'</a>'}
+<br/><br/>
+{'Installation_JSTracking_EndNote'|translate:'<em>':'</em>'}
 
 </div>
 
-
-{literal}
-<script type='text/javascript'>
-$(document).ready( function() {
-	$('.toggleHelp').each(function() {
-		var id = $(this).attr('id');
-		// show 'display' link
-		$(this).show(); 
-		// hide help block
-		$('.'+id).hide();
-	});
-
-	// click on Display links will toggle help text
-	$('.toggleHelp').click( function() {
-		// on click, show help block, hide link
-		$('.'+ $(this).attr('id')).show();
-		$(this).hide();
-	});
-});
-</script>
-{/literal}
