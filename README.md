@@ -38,7 +38,7 @@ See http://piwik.org/docs/requirements/
 
 See http://piwik.org/docs/installation/
 
-You can generate fake data to play with by enabling the plugin VisitorGenerator in "Settings". 
+You can generate fake data to play with by enabling the plugin VisitorGenerator in "Settings".
 
 ## Changelog
 
