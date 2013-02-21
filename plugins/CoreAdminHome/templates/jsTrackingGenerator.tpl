@@ -123,6 +123,10 @@
 		
 			<div class="small-form-description">
 				{'CoreAdminHome_JSTracking_EnableDoNotTrackDesc'|translate}
+				{if $serverSideDoNotTrackEnabled}
+				<br/><br/>
+				{'CoreAdminHome_JSTracking_EnableDoNotTrack_AlreadyEnabled'|translate}
+				{/if}
 			</div>
 		</div>
 	
