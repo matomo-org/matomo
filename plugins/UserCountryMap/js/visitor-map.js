@@ -1,3 +1,12 @@
+/*!
+ * Piwik - Web Analytics
+ *
+ * Visitors Map with zoom in continents / countries. Cities + Region view.
+ * Using Kartograph.js http://kartograph.org/
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 
 (function() {
 

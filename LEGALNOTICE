@@ -166,9 +166,9 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.phcomp.co.uk/tmp/Smarty.phps
 	License:  New BSD
 
-        Name:  MaxMindGeoIP
-        Link:  http://dev.maxmind.com/geoip/downloadable#PHP-7
-        License:  LGPL
+	Name:  MaxMindGeoIP
+	Link:  http://dev.maxmind.com/geoip/downloadable#PHP-7
+	License:  LGPL
 
 	Name:  PclZip
 	Link:  http://www.phpconcept.net/pclzip/
@@ -203,6 +203,22 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Name: pChart 2.1.3
 	Link: http://www.pchart.net
 	License: GPL v3
+
+	Name: Chroma.js
+	Link: https://github.com/gka/chroma.js
+	License: GPL v3
+
+	Name: qTip2 - Pretty powerful tooltips
+	Link: http://craigsworks.com/projects/qtip2/
+	License: GPL
+
+	Name: Kartograph.js
+	Link: http://kartograph.org/
+	License: LGPL v3 or later
+
+	Name: Raphaël - JavaScript Vector Library
+	Link: http://raphaeljs.com/
+	License: MIT
 
 THIRD-PARTY CONTENT
 

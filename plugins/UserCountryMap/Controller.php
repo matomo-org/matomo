@@ -16,40 +16,12 @@
 class Piwik_UserCountryMap_Controller extends Piwik_Controller
 {
 
-	// By defaul plot up to the last 30 days of visitors on the map, for low traffic sites
+	// By default plot up to the last 30 days of visitors on the map, for low traffic sites
 	const REAL_TIME_WINDOW = 'last30';
 
-	private function _reqUrl($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false) {
-		// use processed reports
-		$url = "?module=" . $module
-		. "&method=".$module.".".$action."&format=JSON"
-		. "&idSite=" . $idSite
-		. "&period=" . $period
-		. "&date=" . $date
-		. "&token_auth=" . $token_auth
-		. "&segment=" . Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', ''))
-		. "&enable_filter_excludelowpop=1"
-		. "&showRawMetrics=1";
-
-		if ($filter_by_country) {
-			$url .= "&filter_column=country"
-			. "&filter_sort_column=nb_visits"
-			. "&filter_limit=-1"
-			. "&filter_pattern=";
-		} else {
-			$url .= "&filter_limit=-1";
-		}
-		return $url;
-	}
-
-	private function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false) {
-		return $this->_reqUrl('API', 'getProcessedReport&apiModule='.$module.'&apiAction='.$action, $idSite, $period, $date, $token_auth, $filter_by_country);
-	}
-
-	function visitorMap()
+	public function visitorMap()
 	{
 		$this->checkUserCountryPluginEnabled();
-		$config = array();
 
 		$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
 		Piwik::checkUserHasViewAccess($idSite);
@@ -63,12 +35,13 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		// request visits summary
 		$request = new Piwik_API_Request(
 			'method=VisitsSummary.get&format=PHP'
-			. '&idSite=' . $idSite
-			. '&period=' . $period
-			. '&date=' . $date
-			. '&token_auth=' . $token_auth
-			. '&filter_limit=-1'
+				. '&idSite=' . $idSite
+				. '&period=' . $period
+				. '&date=' . $date
+				. '&token_auth=' . $token_auth
+				. '&filter_limit=-1'
 		);
+		$config = array();
 		$config['visitsSummary'] = unserialize($request->process());
 		$config['countryDataUrl'] = $this->_report('UserCountry', 'getCountry',
 			$idSite, $period, $date, $token_auth);
@@ -76,9 +49,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 			$idSite, $period, $date, $token_auth, true);
 		$config['cityDataUrl'] = $this->_report('UserCountry', 'getCity',
 			$idSite, $period, $date, $token_auth, true);
-		$config['countrySummaryUrl'] = $this->_reqUrl('VisitsSummary', 'get',
+		$config['countrySummaryUrl'] = $this->getApiRequestUrl('VisitsSummary', 'get',
 			$idSite, $period, $date, $token_auth, true);
 		$view->defaultMetric = 'nb_visits';
+
 		// some translations
 		$view->localeJSON = json_encode(array(
 			'nb_visits' => Piwik_Translate('VisitsSummary_NbVisits'),
@@ -110,7 +84,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
-	function realtimeMap()
+	public function realtimeMap()
 	{
 		if(Piwik::isUserIsAnonymous()) {
 			return "<h2>" . Piwik_Translate("UserCountryMap_LoginToViewRealTime") . "</h2>";
@@ -164,13 +138,15 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 
-	private function checkUserCountryPluginEnabled() {
+	private function checkUserCountryPluginEnabled()
+	{
 		if (!Piwik_PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
 			throw new Exception(Piwik_Translate('General_Required', 'Plugin UserCountry'));
 		}
 	}
 
-	private function getMetrics($idSite, $period, $date, $token_auth) {
+	private function getMetrics($idSite, $period, $date, $token_auth)
+	{
 		$request = new Piwik_API_Request(
 			'method=API.getMetadata&format=PHP'
 			. '&apiModule=UserCountry&apiAction=getCountry'
@@ -194,6 +170,35 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 			$metrics[] = array($id, $val);
 		}
 		return $metrics;
+	}
+
+	private function getApiRequestUrl($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false)
+	{
+		// use processed reports
+		$url = "?module=" . $module
+			. "&method=".$module.".".$action."&format=JSON"
+			. "&idSite=" . $idSite
+			. "&period=" . $period
+			. "&date=" . $date
+			. "&token_auth=" . $token_auth
+			. "&segment=" . Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', ''))
+			. "&enable_filter_excludelowpop=1"
+			. "&showRawMetrics=1";
+
+		if ($filter_by_country) {
+			$url .= "&filter_column=country"
+				. "&filter_sort_column=nb_visits"
+				. "&filter_limit=-1"
+				. "&filter_pattern=";
+		} else {
+			$url .= "&filter_limit=-1";
+		}
+		return $url;
+	}
+
+	private function _report($module, $action, $idSite, $period, $date, $token_auth, $filter_by_country = false)
+	{
+		return $this->getApiRequestUrl('API', 'getProcessedReport&apiModule='.$module.'&apiAction='.$action, $idSite, $period, $date, $token_auth, $filter_by_country);
 	}
 
 }

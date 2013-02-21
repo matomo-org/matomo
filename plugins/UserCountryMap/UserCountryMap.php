@@ -29,7 +29,6 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     public function postLoad()
     {
         Piwik_AddWidget('General_Visitors', Piwik_Translate('UserCountryMap_VisitorMap'), 'UserCountryMap', 'visitorMap');
-
         Piwik_AddWidget('Live!', Piwik_Translate('UserCountryMap_RealTimeMap'), 'UserCountryMap', 'realtimeMap');
     }
 
@@ -50,7 +49,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         $jsFiles = &$notification->getNotificationObject();
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/raphael-min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/jquery.qtip.min.js";
-        $jsFiles[] = "plugins/UserCountryMap/js/vendor/kartograph.js";
+        $jsFiles[] = "plugins/UserCountryMap/js/vendor/kartograph.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/chroma.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/visitor-map.js";
         $jsFiles[] = "plugins/UserCountryMap/js/realtime-map.js";
