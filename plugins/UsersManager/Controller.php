@@ -71,7 +71,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		        continue;
 		    }
 		}
-		
+
 		ksort($usersAccessByWebsite);
 		
 		$users = array();
@@ -84,7 +84,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 			    $usersAliasByLogin[$user['login']] = $user['alias'];
 			}
 		}
-		
+		$view->anonymousHasViewAccess = $this->hasAnonymousUserViewAccess($usersAccessByWebsite);
 		$view->idSiteSelected = $idSiteSelected;
 		$view->defaultReportSiteName = $defaultReportSiteName;
 		$view->users = $users;
@@ -98,7 +98,20 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 		$view->menu = Piwik_GetAdminMenu();
 		echo $view->render();
 	}
-	
+
+	private function hasAnonymousUserViewAccess($usersAccessByWebsite)
+	{
+		$anonymousHasViewAccess = false;
+		foreach ($usersAccessByWebsite as $login => $access) {
+			if ($login == 'anonymous'
+				&& $access != 'noaccess'
+			) {
+				$anonymousHasViewAccess = true;
+			}
+		}
+		return $anonymousHasViewAccess;
+	}
+
 	/**
 	 * Returns default date for Piwik reports
 	 *

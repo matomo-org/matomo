@@ -47,6 +47,12 @@
 {ajaxLoadingDiv}
 
 <div class="entityContainer" style='width:600px'>
+	{if $anonymousHasViewAccess}
+		<div class="ajaxSuccess" style="display:inline-block">
+			{'UsersManager_AnonymousUserHasViewAccess'|translate:"'anonymous'":"'view'"}<br/>
+			{'UsersManager_AnonymousUserHasViewAccess2'|translate}
+		</div>
+	{/if}
 	<table class="entityTable dataTable" id="access" style="display:inline-table;width:500px;">
 		<thead>
 		<tr>
