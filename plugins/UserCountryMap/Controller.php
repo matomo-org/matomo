@@ -56,7 +56,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		// some translations
 		$view->localeJSON = json_encode(array(
 			'nb_visits' => Piwik_Translate('VisitsSummary_NbVisits'),
-			'one_visit' => Piwik_Translate('UserCountryMap_OneVisit'),
+			'one_visit' => Piwik_Translate('General_OneVisit'),
 			'no_visit' => Piwik_Translate('UserCountryMap_NoVisit'),
 			'nb_actions' => Piwik_Translate('VisitsSummary_NbActionsDescription'),
 			'nb_actions_per_visit' => Piwik_Translate('VisitsSummary_NbActionsPerVisit'),
@@ -65,6 +65,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 			'and_n_others' => Piwik_Translate('UserCountryMap_AndNOthers'),
 			'no_data' => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
 		));
+
 		// template for ajax requests
 		$view->reqParamsJSON = json_encode(array(
 			'period' => $period,
@@ -98,9 +99,6 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 	 */
 	public function realtimeMap($standalone = false)
 	{
-		if(Piwik::isUserIsAnonymous()) {
-			return "<h2>" . Piwik_Translate("UserCountryMap_LoginToViewRealTime") . "</h2>";
-		}
 		$this->checkUserCountryPluginEnabled();
 
 		$idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
@@ -134,7 +132,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 			'hours' => Piwik_Translate('UserCountryMap_Hours'),
 			'hours_ago' => Piwik_Translate('UserCountryMap_HoursAgo'),
 			'days_ago' => Piwik_Translate('UserCountryMap_DaysAgo'),
-			'actions' => Piwik_Translate('UserCountryMap_Actions'),
+			'actions' => Piwik_Translate('VisitsSummary_NbPageviewsDescription'),
 			'searches' => Piwik_Translate('UserCountryMap_Searches'),
 			'goal_conversions' => Piwik_Translate('UserCountryMap_GoalConversions'),
 		));

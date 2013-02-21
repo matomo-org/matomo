@@ -116,7 +116,7 @@
                 var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric]  ? data[metric] : data[metric].toFixed(1),
                     v = _[metric].replace('%s', '<b>'+val+'</b>');
 
-                if (val == 1 && metric == 'nb_visits') v = _.one_visit.replace('%s', '<b>'+val+'</b>');
+                if (val == 1 && metric == 'nb_visits') v = _.one_visit;
 
                 function avgTime(d) { return d['sum_visit_length'] / d['nb_visits']; }
 
