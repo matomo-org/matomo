@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
  */
@@ -18,7 +18,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 {
 	const PASSWORD_MIN_LENGTH = 6;
 	const PASSWORD_MAX_LENGTH = 26;
-	
+
 	/**
 	 * Plugin information
 	 *
@@ -48,19 +48,19 @@ class Piwik_UsersManager extends Piwik_Plugin
 	function getListHooksRegistered()
 	{
 		return array(
-				'AdminMenu.add' => 'addMenu',
-				'AssetManager.getJsFiles' => 'getJsFiles',
-				'SitesManager.deleteSite' => 'deleteSite',
-				'Common.fetchWebsiteAttributes' => 'recordAdminUsersInCache',
+			'AdminMenu.add' => 'addMenu',
+			'AssetManager.getJsFiles' => 'getJsFiles',
+			'SitesManager.deleteSite' => 'deleteSite',
+			'Common.fetchWebsiteAttributes' => 'recordAdminUsersInCache',
 		);
 	}
 
-	
+
 	/**
 	 * Hooks when a website tracker cache is flushed (website/user updated, cache deleted, or empty cache)
-	 * Will record in the tracker config file the list of Admin token_auth for this website. This 
-	 * will be used when the Tracking API is used with setIp(), setForceDateTime(), setVisitorId(), etc. 
-	 * 
+	 * Will record in the tracker config file the list of Admin token_auth for this website. This
+	 * will be used when the Tracking API is used with setIp(), setForceDateTime(), setVisitorId(), etc.
+	 *
 	 * @param Piwik_Event_Notification $notification  notification object
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 		$idSite = $notification->getNotificationInfo();
 		// add the 'hosts' entry in the website array
 		$users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($idSite, 'admin');
-		
+
 		$tokens = array();
 		foreach($users as $user)
 		{
@@ -78,17 +78,17 @@ class Piwik_UsersManager extends Piwik_Plugin
 		$array =& $notification->getNotificationObject();
 		$array['admin_token_auth'] = $tokens;
 	}
-	
+
 	/**
 	 * Delete user preferences associated with a particular site
 	 *
 	 * @param Piwik_Event_Notification $notification  notification object
 	 */
-	function deleteSite( $notification )
+	function deleteSite($notification)
 	{
 		$idSite = &$notification->getNotificationObject();
 
-		Piwik_Option::getInstance()->deleteLike('%\_'.Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, $idSite);
+		Piwik_Option::getInstance()->deleteLike('%\_' . Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, $idSite);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Piwik_UsersManager extends Piwik_Plugin
 	 *
 	 * @param Piwik_Event_Notification $notification  notification object
 	 */
-	function getJsFiles( $notification )
+	function getJsFiles($notification)
 	{
 		$jsFiles = &$notification->getNotificationObject();
 
@@ -111,41 +111,43 @@ class Piwik_UsersManager extends Piwik_Plugin
 	 */
 	function addMenu()
 	{
-		Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', 'UsersManager_MenuUsers', 
-							array('module' => 'UsersManager', 'action' => 'index'),
-							Piwik::isUserHasSomeAdminAccess(),
-							$order = 2);
-		Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', 'UsersManager_MenuUserSettings', 
-							array('module' => 'UsersManager', 'action' => 'userSettings'),
-							Piwik::isUserHasSomeViewAccess(),
-							$order = 3);
+		Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', 'UsersManager_MenuUsers',
+		                      array('module' => 'UsersManager', 'action' => 'index'),
+		                      Piwik::isUserHasSomeAdminAccess(),
+		                      $order = 2);
+		Piwik_AddAdminSubMenu('CoreAdminHome_MenuManage', 'UsersManager_MenuUserSettings',
+		                      array('module' => 'UsersManager', 'action' => 'userSettings'),
+		                      Piwik::isUserHasSomeViewAccess(),
+		                      $order = 3);
 	}
 
 	/**
 	 * Returns true if the password is complex enough (at least 6 characters and max 26 characters)
-	 * 
+	 *
 	 * @param string email
 	 * @return bool
 	 */
-	public static function isValidPasswordString( $input )
+	public static function isValidPasswordString($input)
 	{
 		if(!Piwik::isChecksEnabled()
-			&& !empty($input))
+			&& !empty($input)
+		)
 		{
 			return true;
 		}
 		$l = strlen($input);
 		return $l >= self::PASSWORD_MIN_LENGTH && $l <= self::PASSWORD_MAX_LENGTH;
 	}
-	
+
 	public static function checkPassword($password)
 	{
 		if(!self::isValidPasswordString($password))
 		{
-			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH, self::PASSWORD_MAX_LENGTH)));
+			throw new Exception(Piwik_TranslateException('UsersManager_ExceptionInvalidPassword', array(self::PASSWORD_MIN_LENGTH,
+			                                                                                            self::PASSWORD_MAX_LENGTH)));
 		}
 	}
-	
+
 	public static function getPasswordHash($password)
 	{
 		// if change here, should also edit the installation process 
