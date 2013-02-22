@@ -1143,9 +1143,6 @@ var
                 // Life of the referral cookie (in milliseconds)
                 configReferralCookieTimeout = 15768000000, // 6 months
 
-                // Should cookies have the secure flag set
-                cookieSecure = documentAlias.location.protocol === 'https:',
-
                 // Custom Variables read from cookie, scope "visit"
                 customVariables = false,
 
@@ -1436,7 +1433,7 @@ var
              * or when there is a new visit or a new page view
              */
             function setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs, lastEcommerceOrderTs) {
-                setCookie(getCookieName('id'), uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs + '.' + lastEcommerceOrderTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
+                setCookie(getCookieName('id'), uuid + '.' + createTs + '.' + visitCount + '.' + nowTs + '.' + lastVisitTs + '.' + lastEcommerceOrderTs, configVisitorCookieTimeout, configCookiePath, configCookieDomain);
             }
 
             /*
@@ -1661,7 +1658,7 @@ var
                             purify(referralUrl.slice(0, referralUrlMaxLength))
                         ];
 
-                        setCookie(refname, JSON2.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
+                        setCookie(refname, JSON2.stringify(attributionCookie), configReferralCookieTimeout, configCookiePath, configCookieDomain);
                     }
                 }
                 // build out the rest of the request
@@ -1720,12 +1717,12 @@ var
                         }
                     }
 
-                    setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
+                    setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
                 }
 
                 // update cookies
                 setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs, isDefined(currentEcommerceOrderTs) && String(currentEcommerceOrderTs).length ? currentEcommerceOrderTs : lastEcommerceOrderTs);
-                setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain, cookieSecure);
+                setCookie(sesname, '*', configSessionCookieTimeout, configCookiePath, configCookieDomain);
 
                 // tracker plugin hook
                 request += executePluginMethod(pluginMethod);
