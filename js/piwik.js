@@ -1144,7 +1144,7 @@ var
                 configReferralCookieTimeout = 15768000000, // 6 months
 
                 // Should cookies have the secure flag set
-                cookieSecure = documentAlias.location.protocol === 'https',
+                cookieSecure = documentAlias.location.protocol === 'https:',
 
                 // Custom Variables read from cookie, scope "visit"
                 customVariables = false,
