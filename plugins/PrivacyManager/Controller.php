@@ -96,11 +96,17 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		
 		echo $view->render();
 	}
-
-	private function isDntSupport()
+	
+	/**
+	 * Returns true if server side DoNotTrack support is enabled, false if otherwise.
+	 * 
+	 * @return bool
+	 */
+	public static function isDntSupported()
 	{
 		return Piwik_PluginsManager::getInstance()->isPluginActivated('DoNotTrack');
 	}
+	
 	public function privacySettings()
 	{
 		Piwik::checkUserHasSomeAdminAccess();
@@ -110,7 +116,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 		{
 			$view->deleteData = $this->getDeleteDataInfo();
 			$view->anonymizeIP = $this->getAnonymizeIPInfo();
-			$view->dntSupport = $this->isDntSupport();
+			$view->dntSupport = self::isDntSupported();
 			$view->canDeleteLogActions = Piwik::isLockPrivilegeGranted();
 			$view->dbUser = Piwik_Config::getInstance()->database['username'];
 		}
