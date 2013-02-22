@@ -79,6 +79,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->urlSparklineDistinctWebsites 		= $this->getUrlSparkline('getLastDistinctWebsitesGraph');
 		$view->urlSparklineDistinctCampaigns 		= $this->getUrlSparkline('getLastDistinctCampaignsGraph');
 		
+		$view->totalVisits = $totalVisits;
 		$view->referrersReportsByDimension = $this->getReferrersReportsByDimensionView($totalVisits);
 		
 		echo $view->render();

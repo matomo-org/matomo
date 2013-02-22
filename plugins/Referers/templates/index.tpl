@@ -66,8 +66,10 @@
 
 <div style="clear:both;"></div>
 
+{if $totalVisits > 0}
 <h2>{'Referers_ReferrersOverview'|translate}</h2>
 {$referrersReportsByDimension}
+{/if}
 
 {include file="CoreHome/templates/sparkline_footer.tpl"}
 
