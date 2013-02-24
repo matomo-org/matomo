@@ -128,9 +128,31 @@ a {
 }
 
 #logo {
-	margin-left: 40%;
-	margin-top: 100px;
-	width: 400px;
+	margin: 100px auto 0 auto;
+	width: 240px;
+	position: relative;
+}
+
+#logo .description {
+	cursor:default;
+	position: absolute;
+	font:16px/16px 'Patrick Hand';
+	color:#666666;
+	-webkit-transform:rotate(-6deg);
+	-moz-transform:rotate(-6deg);
+	-ms-transform:rotate(-6deg);
+	-o-transform:rotate(-6deg);
+	left: -60px !important;
+	top: -40px !important;
+	right: auto;
+}
+
+#logo .description .arrow {
+	background:url('/themes/default/images/affix-arrow.png');
+	width:50px;
+	height:68px;
+	position:absolute;
+	left:-20px;
 }
 
 #logo img {
@@ -144,15 +166,6 @@ a {
 	color: #136F8B;
 	font-size: 45pt;
 	text-transform: none;
-}
-
-#logo .description {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-weight: normal;
-	color: #6B320B;
-	font-size: 18pt;
-	margin-left:50px;
-	margin-bottom:30px;
 }
 
 .loadingPiwik {
