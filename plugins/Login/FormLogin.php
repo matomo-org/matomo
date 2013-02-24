@@ -15,7 +15,7 @@
  */
 class Piwik_Login_FormLogin extends Piwik_QuickForm2
 {
-	function __construct( $id = 'loginform', $method = 'post', $attributes = null, $trackSubmit = false)
+	function __construct( $id = 'login_form', $method = 'post', $attributes = null, $trackSubmit = false)
 	{
 		parent::__construct($id,  $method, $attributes, $trackSubmit);
 	}

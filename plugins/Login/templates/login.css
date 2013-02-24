@@ -22,7 +22,6 @@ form {
 	padding: 0 20px;
 	cursor: pointer;
 	font: bold 15px Arial, Helvetica;
-	color: #8f5a0a;
 }
 
 #login form div {
@@ -79,9 +78,9 @@ form {
 #login form { margin: 0; position: relative; }
 #login form input[type="text"],
 #login form input[type="password"] {
-	padding: 10px 15px 10px 30px;
+	padding: 10px 15px 10px 40px;
 	margin: 0 0 15px 0;
-	width: 273px; /* 273 + 2 + 45 = 320 */
+	width: 263px; /* 273 + 2 + 45 = 320 */
 	border: 1px solid #ccc;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -108,16 +107,25 @@ form {
 	text-align: center;
 }
 
+#login_form_password, #reset_form_password, 
+#reset_form_password_bis, #login_form_login, #reset_form_login {
+	background: #fff url(../../../themes/default/images/login-sprite.png) no-repeat;
+}
+
+#login_form_password, #reset_form_password, #reset_form_password_bis {
+	background-position: 10px -51px !important;
+}
+
+#login_form_login, #reset_form_login {
+	background-position: 10px 11px !important;
+}
+
 #login_form_password,#reset_form_password,#reset_form_password_bis,
 #login_form_login,#reset_form_login {
 	font-size: 20px;
 	width: 97%;
 	padding: 3px;
 	margin-right: 6px;
-}
-
-#login form input {
-	color: #555;
 }
 
 #login #login_error {
@@ -127,13 +135,10 @@ form {
 
 #login form input.submit {
 	background-color: #e5e5e5;
-	color: #246;
-	border-color: #80b5d0;
 }
 
 #login form input.submit:hover {
-	color: #d54e21;
-	border-color: #328ab2;
+	background-color: #eee;
 }
 
 .login #login_error {
@@ -175,8 +180,8 @@ a {
 
 #logo .description {
 	position: absolute;
-	left: -60px !important;
-	top: -40px !important;
+	left: -40px !important;
+	top: -30px !important;
 	-webkit-transform:rotate(-6deg);
 	-moz-transform:rotate(-6deg);
 	-ms-transform:rotate(-6deg);
@@ -184,16 +189,17 @@ a {
 }
 
 #logo .description .arrow {
-	background:url('/themes/default/images/affix-arrow.png');
+	background:url('../../../themes/default/images/affix-arrow.png');
 	width:50px;
 	height:68px;
 	position:absolute;
-	left:-25px;
+	left:-35px;
 }
 
 #logo img {
 	border:0;
-	vertical-align: bottom; 
+	vertical-align: bottom;
+	width: 260px;
 }
 
 #logo .h1 {
