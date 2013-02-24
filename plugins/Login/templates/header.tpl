@@ -6,6 +6,9 @@
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css" />
 	<meta name="description" content="{'General_OpenSourceWebAnalytics'|translate|escape}" />
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]>
 
 {if isset($forceSslLogin) && $forceSslLogin}
 {literal}
