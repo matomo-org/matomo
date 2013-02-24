@@ -45,11 +45,14 @@
 {include file="default/ie6.tpl"}
 	<div id="logo">
 	{if !$isCustomLogo}<a href="http://piwik.org" alt="Piwik" title="{$linkTitle}">{/if}
-		<img src='{$logoLarge}' title="{$linkTitle}" width='200' style='margin-right:20px' />
-		{if !$isCustomLogo}<div class="description"># {$linkTitle}</div>
-		{else}{capture name='poweredByPiwik'}
+		<img src='{$logoLarge}' title="{$linkTitle}" width="240" style='margin-right:20px' />
+		{if $isCustomLogo}{capture name='poweredByPiwik'}
 				<i><a href="http://piwik.org/" target="_blank">{$linkTitle}</a></i>
 				{/capture}
 		{/if}
-	{if !$isCustomLogo}</a>{/if}
+	{if !$isCustomLogo}</a>
+		<div class="description"># {$linkTitle}
+			<div class="arrow"> </div>
+		</div>
+	{/if}
 	</div>
