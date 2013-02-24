@@ -51,7 +51,7 @@
 				{/capture}
 		{/if}
 	{if !$isCustomLogo}</a>
-		<div class="description"># {$linkTitle}
+		<div class="description"><a href="http://piwik.org" alt="Piwik" title="{$linkTitle}">{$linkTitle}</a>
 			<div class="arrow"> </div>
 		</div>
 	{/if}

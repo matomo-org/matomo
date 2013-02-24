@@ -5,56 +5,93 @@
 }
 
 body {
-	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana,
-		sans-serif;
+	font: 12px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
 form {
-	margin-left: 8px;
-	padding: 16px 16px 40px 16px;
-	font-weight: bold;
+	padding: 16px 16px 16px 16px;
 	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-
-form .forgetmenot {
-	font-weight: normal;
-	float: left;
-	margin-bottom: 0;
 }
 
 #login form input.submit {
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana,
-		sans-serif;
-	padding: 3px 5px;
-	border: 1px solid;
-	font-size: 13px;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	cursor: default;
-	text-decoration: none;
-	margin-top: -6px;
-}
-
-form .submit {
 	float: right;
+	height: 35px;
+	padding: 0 20px;
+	cursor: pointer;
+	font: bold 15px Arial, Helvetica;
+	color: #8f5a0a;
 }
 
-form p {
+#login form div {
 	margin-bottom: 24px;
 }
 
 .updated,.login #login_error,.login .message {
 	background-color: #ffffe0;
 	border-color: #e6db55;
+	margin: 0 auto;
+	width: 330px;
 }
 
-#login {
-	width: 292px;
-	margin: 20px auto 7em;
+#login fieldset {
+	border: 0;
 }
+
+#login fieldset.actions {
+	line-height: 35px;
+	width: 320px;
+}
+
+#login h1
+{
+	text-align: center;
+	color: #666;
+	margin: 0 0 30px 0;
+	letter-spacing: 4px;
+	font: normal 26px/1 Verdana, Helvetica;
+	position: relative;
+}
+
+#login
+{
+	background-color: #fafafa;
+	width: 360px;
+	padding: 30px;
+	margin: 50px auto 0 auto;
+	z-index: 0;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;  
+	-webkit-box-shadow:
+		0 0 2px rgba(0, 0, 0, 0.2),
+		0 1px 1px rgba(0, 0, 0, .2);
+	-moz-box-shadow:
+		0 0 2px rgba(0, 0, 0, 0.2),  
+		1px 1px   0 rgba(0,   0,   0,   .1);
+	box-shadow:
+		0 0 2px rgba(0, 0, 0, 0.2),  
+		0 1px 1px rgba(0, 0, 0, .2);
+}
+
+#login form { margin: 0; position: relative; }
+#login form input[type="text"],
+#login form input[type="password"] {
+	padding: 10px 15px 10px 30px;
+	margin: 0 0 15px 0;
+	width: 273px; /* 273 + 2 + 45 = 320 */
+	border: 1px solid #ccc;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+	-webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+	box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+}
+
+
 
 #login_error,.message {
 	margin: 0 0 16px 8px;
@@ -67,6 +104,10 @@ form p {
 	padding: 16px;
 }
 
+#nav {
+	text-align: center;
+}
+
 #login_form_password,#reset_form_password,#reset_form_password_bis,
 #login_form_login,#reset_form_login {
 	font-size: 20px;
@@ -77,14 +118,6 @@ form p {
 
 #login form input {
 	color: #555;
-}
-
-.login form {
-	background-color: #eaf3fa;
-}
-
-#login form input.submit {
-	background-color: #cee1ef !important;
 }
 
 #login #login_error {
@@ -133,18 +166,21 @@ a {
 	position: relative;
 }
 
-#logo .description {
-	cursor:default;
-	position: absolute;
+#logo .description a {
 	font:16px/16px 'Patrick Hand';
 	color:#666666;
+	right: auto;
+	text-decoration: none;
+}
+
+#logo .description {
+	position: absolute;
+	left: -60px !important;
+	top: -40px !important;
 	-webkit-transform:rotate(-6deg);
 	-moz-transform:rotate(-6deg);
 	-ms-transform:rotate(-6deg);
 	-o-transform:rotate(-6deg);
-	left: -60px !important;
-	top: -40px !important;
-	right: auto;
 }
 
 #logo .description .arrow {
@@ -152,7 +188,7 @@ a {
 	width:50px;
 	height:68px;
 	position:absolute;
-	left:-20px;
+	left:-25px;
 }
 
 #logo img {
