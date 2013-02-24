@@ -32,7 +32,6 @@ $(document).ready( function(){
 {/if}
 </head>
 <body>
-{include file="default/ie6.tpl"}
 <div id="main">
 	<div id="content">
 		<div id="logo">
