@@ -72,29 +72,22 @@ $(function() {
 				source: '?module=SitesManager&action=getSitesForAutocompleter',
 				appendTo: $('.custom_select_container', selector),
 				select: function(event, ui) {
-					if (piwik.idSite == ui.item.id)
+					if (ui.item.id > 0)
 					{
+						// set attributes of selected site display (what shows in the box)
+						$('.custom_select_main_link', selector)
+							.attr('siteid', ui.item.id)
+							.text(ui.item.name);
+						
+						// hide the dropdown
 						$('.custom_select_block', selector).removeClass('custom_select_block_show');
+						
+						// fire the site selected event
+						selector.trigger('piwik:siteSelected', ui.item);
 					}
 					else
 					{
-						if (ui.item.id > 0)
-						{
-							// set attributes of selected site display (what shows in the box)
-							$('.custom_select_main_link', selector)
-								.attr('siteid', ui.item.id)
-								.text(ui.item.name);
-							
-							// hide the dropdown
-							$('.custom_select_block', selector).removeClass('custom_select_block_show');
-							
-							// fire the site selected event
-							selector.trigger('piwik:siteSelected', ui.item);
-						}
-						else
-						{
-							reset(selector);
-						}
+						reset(selector);
 					}
 					
 					return false;
@@ -242,7 +235,10 @@ $(function() {
 			if (selector.attr('data-switch-site-on-select') == 1)
 			{
 				selector.bind('piwik:siteSelected', function (e, site) {
-					switchSite(site.id, site.name);
+					if (piwik.idSite !== site.id)
+					{
+						switchSite(site.id, site.name);
+					}
 				});
 			}
 		});

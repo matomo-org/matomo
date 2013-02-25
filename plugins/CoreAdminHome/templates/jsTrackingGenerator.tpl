@@ -39,7 +39,7 @@
 	{* track across all subdomains *}
 	<div class="tracking-option-section">
 		<input type="checkbox" id="javascript-tracking-all-subdomains"/>
-		<label for="javascript-tracking-all-subdomains">{'CoreAdminHome_JSTracking_MergeSubdomains'|translate} <span class='current-site-name'>{$defaultReportSiteName|escape:'html'}</span></label>
+		<label for="javascript-tracking-all-subdomains">{'CoreAdminHome_JSTracking_MergeSubdomains'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
 		
 		<div class="small-form-description">
 			{'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate:'x.domain.com':'y.domain.com'}
@@ -49,7 +49,7 @@
 	{* track across all site aliases *}
 	<div class="tracking-option-section">
 		<input type="checkbox" id="javascript-tracking-all-aliases"/>
-		<label for="javascript-tracking-all-aliases">{'CoreAdminHome_JSTracking_MergeAliases'|translate} <span class='current-site-name'>{$defaultReportSiteName|escape:'html'}</span></label>
+		<label for="javascript-tracking-all-aliases">{'CoreAdminHome_JSTracking_MergeAliases'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
 		
 		<div class="small-form-description">
 			{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate}

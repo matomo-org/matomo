@@ -244,11 +244,14 @@ $(document).ready( function() {
 	
 	// when a site is selected, reload the page w/o showing the ajax loading element
 	$('#usersManagerSiteSelect').bind('piwik:siteSelected', function(e, site) {
-		switchSite(
-			site.id,
-			site.name,
-			false /* do not show main ajax loading animation */,
-			true /* do not go to all websites dash */
-		);
+		if (site.id != piwik.idSite)
+		{
+			switchSite(
+				site.id,
+				site.name,
+				false /* do not show main ajax loading animation */,
+				true /* do not go to all websites dash */
+			);
+		}
 	});
 });

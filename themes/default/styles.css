@@ -46,3 +46,7 @@ code {
 	line-height:1.3em;
 	font-family: "Courier New" Courier monospace;
 }
+
+pre.code-pre {
+	white-space:pre-wrap;
+}

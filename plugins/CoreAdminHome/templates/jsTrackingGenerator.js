@@ -27,7 +27,7 @@ $(document).ready(function() {
 			{
 				var key = customVariables[i][0],
 					value = customVariables[i][1];
-				result += '_paq.push(["setCustomVariable", ' + (i + 1) + ', ' + JSON.stringify(key) + ', '
+				result += '  _paq.push(["setCustomVariable", ' + (i + 1) + ', ' + JSON.stringify(key) + ', '
 						+ JSON.stringify(value) + ', ' + JSON.stringify(scope) + ']);\n';
 			}
 		}
@@ -136,17 +136,16 @@ $(document).ready(function() {
 	// resets the select options of a goal select using a site ID
 	var resetGoalSelectItems = function (idsite, id)
 	{
-		var newOptions = '<option value="">' + noneText + '</option>';
+		var selectElement = $('#' + id).html('');
+		
+		selectElement.append($('<option value=""></option>').text(noneText));
 		
 		var goals = allGoals[idsite] || [];
 		for (var key in goals)
 		{
 			var goal = goals[key];
-			newOptions += '<option value="' + goal.idgoal + '">' + goal.name + '</option>';
+			selectElement.append($('<option/>').attr('value', goal.idgoal).text(goal.name));
 		}
-		
-		// set goal select items
-		$('#' + id).html(newOptions);
 		
 		// set currency string
 		$('#' + id).parent().find('.currency').text(siteCurrencies[idsite]);
@@ -175,19 +174,18 @@ $(document).ready(function() {
 		// generate JS
 		var result = '<!-- Piwik -->\n\
 <script type="text/javascript">\n\
-var _paq = _paq || [];\n\
-(function(){ var u=(("https:" == document.location.protocol) ? "https://' + piwikHost + '/" : "http://' + piwikHost + '/");\n\
-_paq.push(["setSiteId", ' + JSON.stringify(idSite) + ']);\n';
+  var _paq = _paq || [];\n\
+  _paq.push(["setSiteId", ' + JSON.stringify(idSite) + ']);\n';
 		
 		if (groupPageTitlesByDomain)
 		{
-			result += '_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);\n';
+			result += '  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);\n';
 		}
 		
 		if (mergeSubdomains)
 		{
 			var mainHostAllSub = '*.' + getHostNameFromUrl(siteUrls[idSite][0]);
-			result += '_paq.push(["setCookieDomain", ' + JSON.stringify(mainHostAllSub) + ']);\n';
+			result += '  _paq.push(["setCookieDomain", ' + JSON.stringify(mainHostAllSub) + ']);\n';
 		}
 		
 		if (mergeAliasUrls)
@@ -197,45 +195,49 @@ _paq.push(["setSiteId", ' + JSON.stringify(idSite) + ']);\n';
 			{
 				siteHosts[i] = '*.' + getHostNameFromUrl(siteUrls[idSite][i]);
 			}
-			result += '_paq.push(["setDomains", ' + JSON.stringify(siteHosts) + ']);\n';
+			result += '  _paq.push(["setDomains", ' + JSON.stringify(siteHosts) + ']);\n';
 		}
 		
 		if (visitorCustomVariables.length)
 		{
-			result += '// you can set up to 5 custom variables for each visitor\n';
+			result += '  // you can set up to 5 custom variables for each visitor\n';
 			result += getCustomVariableJS(visitorCustomVariables, 'visit');
 		}
 		
 		if (pageCustomVariables.length)
 		{
-			result += '// you can set up to 5 custom variables for each action (page view, ' + 
+			result += '  // you can set up to 5 custom variables for each action (page view, ' + 
 					  'download, click, site search)\n';
 			result += getCustomVariableJS(pageCustomVariables, 'page');
 		}
 		
 		if (customCampaignNameQueryParam)
 		{
-			result += '_paq.push(["setCampaignNameKey", ' + JSON.stringify(customCampaignNameQueryParam) + ']);\n';
+			result += '  _paq.push(["setCampaignNameKey", ' + JSON.stringify(customCampaignNameQueryParam) + ']);\n';
 		}
 		
 		if (customCampaignKeywordParam)
 		{
-			result += '_paq.push(["setCampaignKeywordKey", ' + JSON.stringify(customCampaignKeywordParam) + ']);\n';
+			result += '  _paq.push(["setCampaignKeywordKey", ' + JSON.stringify(customCampaignKeywordParam) + ']);\n';
 		}
 		
 		if (doNotTrack)
 		{
-			result += '_paq.push(["setDoNotTrack", true]);\n';
+			result += '  _paq.push(["setDoNotTrack", true]);\n';
 		}
 		
-		result += 'var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];\n\
-g.type="text/javascript"; g.defer=true; g.async=true; g.src=u+"piwik.js";\n\
-s.parentNode.insertBefore(g,s); })();\n\
+		result += '  _paq.push(["trackPageView"]);\n\
+  _paq.push(["enableLinkTracking"]);\n\n\
+  (function() {\n\
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://' + piwikHost + '/";\n\
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);\n\
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";\n\
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);\n\
+  })();\n\
 </script>\n\
 <!-- End Piwik Code -->';
 		
-		var ta = $('#javascript-text textarea');
-		ta.val(result)
+		$('#javascript-text textarea').val(result)
 	};
 	
 	// function that generates image tracker link
@@ -281,8 +283,7 @@ s.parentNode.insertBefore(g,s); })();\n\
 <img src="' + piwikURL + '/?' + $.param(params) + '" style="border:0" alt="" />\n\
 <!-- End Piwik -->';
 		
-		var ta = $('#image-tracking-link textarea');
-		ta.val(result);
+		$('#image-tracking-link textarea').val(result);
 	};
 	
 	// on image link tracker site change, change available goals
@@ -295,13 +296,12 @@ s.parentNode.insertBefore(g,s); })();\n\
 	
 	// on js link tracker site change, change available goals
 	$('#js-tracker-website').bind('piwik:siteSelected', function(e, site) {
+		$('.current-site-name', '#optional-js-tracking-options').each(function() {
+			$(this).text(site.name);
+		});
+		
 		getSiteData(site.id, '#js-code-options', function() {
 			resetGoalSelectItems(site.id, 'js-tracker-goal');
-		
-			$('.current-site-name', '#javascript-tracking-options').each(function() {
-				$(this).text(site.name);
-			});
-		
 			generateJsCode();
 		});
 	});

@@ -2882,9 +2882,20 @@ var
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 
         asyncTracker = new Tracker();
-
+        
+        // find the call to setTrackerUrl (if any) and call it first
         for (i = 0; i < _paq.length; i++) {
-            apply(_paq[i]);
+            if (_paq[i][0] == 'setTrackerUrl') {
+                apply(_paq[i]);
+                delete _paq[i];
+            }
+        }
+
+        // apply the queue of actions
+        for (i = 0; i < _paq.length; i++) {
+            if (_paq[i]) {
+                apply(_paq[i]);
+            }
         }
 
         // replace initialization array with proxy object

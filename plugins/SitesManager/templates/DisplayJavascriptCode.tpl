@@ -27,7 +27,7 @@ p {
 <h3>{'SitesManager_JsTrackingTag'|translate}</h3>
 <p>{'CoreAdminHome_JSTracking_CodeNote'|translate:"&lt;/body&gt;"}</p>
 
-<code>{$jsTag}</code>
+<pre class="code-pre"><code>{$jsTag}</code></pre>
 
 <br />
 {'CoreAdminHome_JSTrackingIntro5'|translate:'<a target="_blank" href="http://piwik.org/docs/javascript-tracking/">':'</a>'}
@@ -35,4 +35,32 @@ p {
 {'Installation_JSTracking_EndNote'|translate:'<em>':'</em>'}
 
 </div>
-
+{literal}
+<script type="text/javascript">
+$(document).ready(function () {
+	// when code element is clicked, select the text
+	$('code').click(function () {
+		// credit where credit is due:
+		//   http://stackoverflow.com/questions/1173194/select-all-div-text-with-single-mouse-click
+		var range;
+		if (document.body.createTextRange) // MSIE
+		{
+			range = document.body.createTextRange();
+			range.moveToElementText(this);
+			range.select();
+		}
+		else if (window.getSelection) // others
+		{
+			range = document.createRange();
+			range.selectNodeContents(this);
+			
+			var selection = window.getSelection();
+			selection.removeAllRanges();
+			selection.addRange(range);
+		}
+	});
+	
+	$('code').click();
+});
+</script>
+{/literal}
