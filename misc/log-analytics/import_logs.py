@@ -1430,7 +1430,7 @@ class Parser(object):
                 hit.date -= datetime.timedelta(hours=timezone/100)
             if config.options.replay_tracking:
                 # we need a query string and we only consider requests with piwik.php
-                if not hit.query_string and not hit.path.lower().endswith('piwik.php'):
+                if not hit.query_string or not hit.path.lower().endswith('piwik.php'):
                     continue
                 else:
                     query_arguments = urlparse.parse_qs(hit.query_string)
