@@ -41,10 +41,16 @@
 {include file="CoreHome/templates/iframe_buster_body.tpl"}
 	<div id="logo">
 	{if !$isCustomLogo}<a href="http://piwik.org" title="{$linkTitle}">{/if}
+		{if $hasSVGLogo}
+		<img src='{$logoSVG}' title="{$linkTitle}" alt="Piwik" width="240" style='margin-right: 20px' class="ie-hide" />
+		<!--[if lt IE 9]>
+		{/if}
 		<img src='{$logoLarge}' title="{$linkTitle}" alt="Piwik" width="240" style='margin-right:20px' />
-		{if $isCustomLogo}{capture name='poweredByPiwik'}
-				<i><a href="http://piwik.org/" target="_blank">{$linkTitle}</a></i>
-				{/capture}
+		{if $hasSVGLogo}<![endif]-->{/if}
+		{if $isCustomLogo}
+			{capture name='poweredByPiwik'}
+			<i><a href="http://piwik.org/" target="_blank">{$linkTitle}</a></i>
+			{/capture}
 		{/if}
 	{if !$isCustomLogo}</a>
 		<div class="description"><a href="http://piwik.org" title="{$linkTitle}">{$linkTitle}</a>

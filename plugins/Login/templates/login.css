@@ -220,3 +220,8 @@ a {
 	float: left;
 	margin-left: 16px;
 }
+
+/* IE < 9 will use this */
+html.old-ie .ie-hide { 
+	display: none; 
+}

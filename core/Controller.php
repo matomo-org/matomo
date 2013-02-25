@@ -479,6 +479,8 @@ abstract class Piwik_Controller
 		$view->isCustomLogo = Piwik_Config::getInstance()->branding['use_custom_logo'];
 		$view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
 		$view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
+		$view->logoSVG = Piwik_API_API::getInstance()->getSVGLogoUrl();
+		$view->hasSVGLogo = Piwik_API_API::getInstance()->hasSVGLogo();
 
 		$view->enableFrames = Piwik_Config::getInstance()->General['enable_framed_pages']
 			|| @Piwik_Config::getInstance()->General['enable_framed_logins'];
