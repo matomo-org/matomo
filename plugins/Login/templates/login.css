@@ -41,7 +41,8 @@ form {
 
 #login fieldset.actions {
 	line-height: 35px;
-	width: 320px;
+	width: 315px;
+	margin-top: 10px;
 }
 
 #login h1
@@ -75,12 +76,12 @@ form {
 		0 1px 1px rgba(0, 0, 0, .2);
 }
 
-#login form { margin: 0; position: relative; }
+#login form { margin: 0 5px; position: relative; }
 #login form input[type="text"],
 #login form input[type="password"] {
-	padding: 10px 15px 10px 40px;
+	padding: 10px 15px 10px 45px;
 	margin: 0 0 15px 0;
-	width: 263px; /* 273 + 2 + 45 = 320 */
+	width: 253px; /* 258 + 2 + 55 = 315 */
 	border: 1px solid #ccc;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -90,7 +91,9 @@ form {
 	box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
 }
 
-
+#login_form_rememberme {
+	vertical-align: middle;
+}
 
 #login_error,.message {
 	margin: 0 0 16px 8px;
@@ -105,6 +108,10 @@ form {
 
 #nav {
 	text-align: center;
+}
+
+#nav a:hover {
+	text-decoration: underline;
 }
 
 #login_form_password, #reset_form_password, 

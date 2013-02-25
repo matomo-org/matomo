@@ -6,7 +6,11 @@
 	<link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css" />
 	<meta name="description" content="{'General_OpenSourceWebAnalytics'|translate|escape}" />
-
+	<!--[if lt IE 9]>
+	<script src="libs/html5shiv/html5shiv.js"></script>
+	<![endif]-->
+	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
+	<script type="text/javascript" src="libs/jquery/jquery.placeholder.js"></script>
 {if isset($forceSslLogin) && $forceSslLogin}
 {literal}
 	<script type="text/javascript">
@@ -20,17 +24,12 @@
 {/if}
 {literal}
 	<script type="text/javascript">
-		function focusit() {
-			var formLogin = document.getElementById('form_login');
-			if(formLogin)
-			{
-				formLogin.focus();
-			}
-		}
-		window.onload = focusit;
+		$(function() {
+			$('#form_login').focus();
+			$('input').placeholder();
+		});
 	</script>
 {/literal}
-	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
 	<script type="text/javascript" src="plugins/Login/templates/login.js"></script>
 {if 'General_LayoutDirection'|translate =='rtl'}
 <link rel="stylesheet" type="text/css" href="themes/default/rtl.css" />
