@@ -28,6 +28,12 @@ blockquote,q {
 label {
 	cursor:pointer;
 }
+
+/* IE < 9 will use this */
+html.old-ie .ie-hide { 
+	display: none; 
+}
+
 /* remember to define focus styles! */
 :focus {
 	outline: 0;
