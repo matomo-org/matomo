@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 9 ]><html class="old-ie"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html><!--<![endif]-->
 <head>
 	<title>{if !$isCustomLogo}Piwik &rsaquo; {/if}{'Login_LogIn'|translate}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
