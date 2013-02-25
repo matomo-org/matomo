@@ -651,6 +651,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                         || in_array($moduleName, self::$apiNotToCall) === true
                         || in_array($apiId, self::$apiNotToCall) === true
                         || $methodName == 'getLogoUrl'
+                        || $methodName == 'getSVGLogoUrl'
+                        || $methodName == 'hasSVGLogo'
                         || $methodName == 'getHeaderLogoUrl'
                     )
                 )
