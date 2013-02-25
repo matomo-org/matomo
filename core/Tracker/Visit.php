@@ -46,6 +46,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	protected $idsite;
 	protected $visitorKnown;
 	protected $request;
+	protected $forcedVisitorId;
 
 	// can be overwritten in constructor
 	protected $timestamp;
@@ -1163,7 +1164,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		// are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
 		$trustCookiesOnly = Piwik_Config::getInstance()->Tracker['trust_visitors_cookies'];
 		
-		$shouldMatchOneFieldOnly = ($matchVisitorId && $trustCookiesOnly) || !$matchVisitorId;
+		$shouldMatchOneFieldOnly = ($matchVisitorId && ($trustCookiesOnly || !empty($this->forcedVisitorId))) || !$matchVisitorId;
 		
 		// Two use cases:
 		// 1) there is no visitor ID so we try to match only on config_id (heuristics)
