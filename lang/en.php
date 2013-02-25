@@ -901,7 +901,7 @@ Piwik will let you track visitors to your website for free. You should definitel
 	'Goals_VisitPageTitle' => 'Visit a given Page Title',
 	'Goals_ClickOutlink' => 'Click on a Link to an external website',
 	'Goals_Optional' => '(optional)',
-	'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore' => 'where the visited page contains a call to the JavaScript piwikTracker.trackGoal() method (%slearn more%s)',
+	'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore' => 'where the visited page contains a call to the JavaScript trackGoal() method (%slearn more%s)',
 	'Goals_AllowMultipleConversionsPerVisit' => 'Allow multiple conversions per visit',
 	'Goals_DefaultGoalConvertedOncePerVisit' => '(default) Goal can only be converted once per visit',
 	'Goals_HelpOneConversionPerVisit' => 'If a Page matching this Goal is refreshed or viewed more than once in a Visit, the Goal will only be tracked the first time the page was loaded during this visit.',
