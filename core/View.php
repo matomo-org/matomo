@@ -204,21 +204,6 @@ class Piwik_View implements Piwik_View_Interface
 		$view->smarty->clear_compiled_tpl();
 	}
 
-/*
-	public function isCached($template)
-	{
-		if ($this->smarty->is_cached($template))
-		{
-			return true;
-		}
-		return false;
-	}
-	public function setCaching($caching)
-	{
-		$this->smarty->caching = $caching;
-	}
-*/
-	
 	/**
 	 * Render the single report template
 	 *
@@ -232,7 +217,7 @@ class Piwik_View implements Piwik_View_Interface
 		$view = new Piwik_View('CoreHome/templates/single_report.tpl');
 		$view->title = $title;
 		$view->report = $reportHtml;
-		
+
 		if ($fetch)
 		{
 			return $view->render();

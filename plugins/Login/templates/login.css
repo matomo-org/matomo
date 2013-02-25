@@ -50,7 +50,6 @@ form {
 	text-align: center;
 	color: #666;
 	margin: 0 0 30px 0;
-	letter-spacing: 4px;
 	font: normal 26px/1 Verdana, Helvetica;
 	position: relative;
 }
@@ -220,4 +219,9 @@ a {
 .loadingPiwik {
 	float: left;
 	margin-left: 16px;
+}
+
+/* IE < 9 will use this */
+html.old-ie .ie-hide { 
+	display: none; 
 }
