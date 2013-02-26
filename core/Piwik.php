@@ -1623,7 +1623,6 @@ class Piwik
 		$piwikUrl = @$matches[2];
 		$jsCode = str_replace('{$idSite}', $idSite, $jsCode);
 		$jsCode = str_replace('{$piwikUrl}', Piwik_Common::sanitizeInputValue($piwikUrl), $jsCode);
-		$jsCode = str_replace('{$hrefTitle}', Piwik::getRandomTitle(), $jsCode);
 		return $jsCode;
 	}
 
