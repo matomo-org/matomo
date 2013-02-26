@@ -129,15 +129,19 @@
 
 {* If the map is loaded from the menu, do a few tweaks to clean up the display *}
 {if $mapIsStandaloneNotWidget}
-	$('.top_controls').hide();
-	$('ul.nav').on('piwikSwitchPage', function(event, item) {ldelim}
-		var clickedMenuIsNotMap = ($(item).text() != "{'UserCountryMap_RealTimeMap'|translate|escape:'js'}");
-		if(clickedMenuIsNotMap) {ldelim}
-			$('.top_controls').show();
-		{rdelim}
-	{rdelim});
-	$('.realTimeMap_overlay').css('top', '0px');
-	$('.realTimeMap_datetime').css('top', '20px');
+	function initStandaloneMap() {ldelim}
+		$('.top_controls').hide();
+		$('ul.nav').on('piwikSwitchPage', function(event, item) {ldelim}
+			var clickedMenuIsNotMap = ($(item).text() != "{'UserCountryMap_RealTimeMap'|translate|escape:'js'}");
+			if(clickedMenuIsNotMap) {ldelim}
+				$('.top_controls').show();
+			{rdelim}
+		{rdelim});
+		$('.realTimeMap_overlay').css('top', '0px');
+		$('.realTimeMap_datetime').css('top', '20px');
+	{rdelim}
+
+	initStandaloneMap();
 {/if}
 
 	{literal}

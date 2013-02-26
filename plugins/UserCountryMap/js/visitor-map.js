@@ -255,7 +255,7 @@
                 // handle window resizes
                 $(window).off('resize').resize(onResizeLazy);
 
-                // enable mertic changes
+                // enable metric changes
                 $$('.userCountryMapSelectMetrics').off('change').change(function() {
                     updateState(self.lastSelected);
                 });
@@ -284,6 +284,7 @@
                 })($$('.UserCountryMap-btn-region'));
 
                 // add loading indicator overlay
+
                 var bl = $('<div id="UserCountryMap-black"></div>');
                 bl.hide();
                 $$('.UserCountryMap_map').append(bl);

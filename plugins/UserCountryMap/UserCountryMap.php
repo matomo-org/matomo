@@ -19,7 +19,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     {
         return array(
             'name' => 'User Country Map',
-            'description' => 'This plugin provides the widgets Visitor Map and Real-time Map.',
+            'description' => 'This plugin provides the widgets Visitor Map and Real-time Map. Note: Requires the UserCountry plugin enabled.',
             'author' => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
             'version' => Piwik_Version::VERSION

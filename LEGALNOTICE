@@ -40,7 +40,8 @@ CREDITS
 
 	For detailed contribution history, refer to the source, tickets,
 	patches, and Git revision history, available at
-	http://dev.piwik.org/trac/.
+	http://dev.piwik.org/trac/
+	https://github.com/piwik/piwik
 
 
 SEPARATELY LICENSED COMPONENTS AND LIBRARIES
@@ -99,8 +100,12 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://plugins.jquery.com/project/ScrollTo
 	License:  Dual licensed: MIT or GPL
 
-	Name:  Tooltip
+	Name:  jquery Tooltip
 	Link:  http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/
+	License:  Dual licensed: MIT or GPL
+
+	Name:  jquery placeholder
+	Link:  http://mths.be/placeholder
 	License:  Dual licensed: MIT or GPL
 
 	Name:  json2.js
