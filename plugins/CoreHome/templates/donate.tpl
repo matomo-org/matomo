@@ -23,7 +23,7 @@
 			 	<div class="slider-position"></div>
 			 </div>
 			 <div style="display:inline-block">
-				 <div class="slider-donate-amount">$30/{'CoreHome_YearShort_js'|translate}</div>
+				 <div class="slider-donate-amount">$30/{'General_YearShort_js'|translate}</div>
 			 
 				 <img class="slider-smiley-face" width="40" height="40" src="themes/default/images/smileyprog_1.png"/>
 			 </div>

@@ -31,9 +31,9 @@ if ($sqlite) {
 var _paq = _paq || [];
 
 function testCallingTrackPageViewBeforeSetTrackerUrlWorks() {
-	_paq.push(["setSiteId", 1]);
 	_paq.push(["setCustomData", { "token" : getToken() }]);
 	_paq.push(["trackPageView", "Asynchronous Tracker ONE"]);
+	_paq.push(["setSiteId", 1]);
 	_paq.push(["setTrackerUrl", "piwik.php"]);
 }
 
@@ -828,7 +828,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(79);
+		expect(80);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -1062,9 +1062,7 @@ if ($sqlite) {
 			xhr.open("GET", "piwik.php?requests=" + getToken(), false);
 			xhr.send(null);
 			results = xhr.responseText;
-			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "26", "count tracking events" );
-
-			alert(results);
+			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "25", "count tracking events" );
 
 			// tracking requests
 			ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );

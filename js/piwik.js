@@ -2523,8 +2523,9 @@ var
 
                 /**
                  * Strip hash tag (or anchor) from URL
-                 * TODO: Remove as it is now part of core #3232
+                 * Note: this can be done in the Piwik>Settings>Websites on a per-website basis
                  *
+                 * @deprecated
                  * @param bool enableFilter
                  */
                 discardHashTag: function (enableFilter) {
@@ -2882,10 +2883,11 @@ var
         Date.prototype.getTimeAlias = Date.prototype.getTime;
 
         asyncTracker = new Tracker();
-        
-        // find the call to setTrackerUrl (if any) and call it first
+
+        // find the call to setTrackerUrl or setSiteid (if any) and call them first
         for (i = 0; i < _paq.length; i++) {
-            if (_paq[i][0] == 'setTrackerUrl') {
+            if (_paq[i][0] === 'setTrackerUrl'
+                    || _paq[i][0] === 'setSiteId') {
                 apply(_paq[i]);
                 delete _paq[i];
             }

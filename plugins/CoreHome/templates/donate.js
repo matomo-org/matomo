@@ -27,7 +27,7 @@ $(document).ready(function() {
 	var setSmileyFaceAndAmount = function(slider, pos)
 	{
 		// set text yearly amount
-		$('.slider-donate-amount', slider).text('$' + donateAmounts[pos] + '/' + _pk_translate('CoreHome_YearShort_js'));
+		$('.slider-donate-amount', slider).text('$' + donateAmounts[pos] + '/' + _pk_translate('General_YearShort_js'));
 		
 		// set the right smiley face
 		$('.slider-smiley-face').attr('src', 'themes/default/images/smileyprog_' + pos + '.png');

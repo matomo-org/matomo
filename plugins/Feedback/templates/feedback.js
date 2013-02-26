@@ -23,7 +23,7 @@ $(function() {
 					title: feedback.html(),
 					modal: true,
 					width: 650,
-					position: ['center', 90],
+					position: ['center', 40],
 					resizable: false,
 					autoOpen: false
 				});

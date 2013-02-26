@@ -174,8 +174,7 @@ $(document).ready(function() {
 		// generate JS
 		var result = '<!-- Piwik -->\n\
 <script type="text/javascript">\n\
-  var _paq = _paq || [];\n\
-  _paq.push(["setSiteId", ' + JSON.stringify(idSite) + ']);\n';
+  var _paq = _paq || [];\n';
 		
 		if (groupPageTitlesByDomain)
 		{
@@ -231,6 +230,7 @@ $(document).ready(function() {
   (function() {\n\
     var u=(("https:" == document.location.protocol) ? "https" : "http") + "://' + piwikHost + '/";\n\
     _paq.push(["setTrackerUrl", u+"piwik.php"]);\n\
+    _paq.push(["setSiteId", ' + JSON.stringify(idSite) + ']);\n\
     var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";\n\
     g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);\n\
   })();\n\
@@ -245,7 +245,7 @@ $(document).ready(function() {
 	{
 		// get data ( (("https:" == document.location.protocol)?"https://' + piwikHost + '":"http://' + piwikHost + '") )
 		var idSite = $('#image-tracker-website .custom_select_main_link').attr('siteid'),
-			piwikURL = "https:" == document.location.protocol ? "https://" + piwikHost : "http://" + piwikHost,
+			piwikURL = ("https:" == document.location.protocol ? "https://" + piwikHost : "http://" + piwikHost) + document.location.pathname,
 			actionName = $('#image-tracker-action-name').val(),
 			idGoal = null,
 			revenue = null;
@@ -280,9 +280,10 @@ $(document).ready(function() {
 		}
 		
 		var result = '<!-- Piwik Image Tracker -->\n\
-<img src="' + piwikURL + '/?' + $.param(params) + '" style="border:0" alt="" />\n\
+<img src="' + piwikURL + '?' + $.param(params) + '" style="border:0" alt="" />\n\
 <!-- End Piwik -->';
-		
+
+        result = result.replace("&", "&amp;", "g");
 		$('#image-tracking-link textarea').val(result);
 	};
 	

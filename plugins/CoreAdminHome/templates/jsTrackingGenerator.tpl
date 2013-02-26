@@ -52,7 +52,7 @@
 		<label for="javascript-tracking-all-aliases">{'CoreAdminHome_JSTracking_MergeAliases'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
 		
 		<div class="small-form-description">
-			{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate}
+			{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate:'x.domain.com'}
 		</div>
 	</div>
 	
