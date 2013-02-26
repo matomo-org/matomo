@@ -162,6 +162,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 			$isMultiRowEvolution = Piwik_Common::getRequestVar($paramName, false, 'int');
 			
 			$rowEvolution = $this->makeRowEvolution($isMultiRowEvolution, $graphType = 'graphEvolution');
+			$rowEvolution->useAvailableMetrics();
 			self::$rowEvolutionCache = $rowEvolution;
 		}
 		

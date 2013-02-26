@@ -290,4 +290,9 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 		return '<img src="data:image/png;base64,'.$spark.'" />';
 	}
 	
+	/** Use the available metrics for the metrics of the last requested graph. */
+	public function useAvailableMetrics()
+	{
+		$this->graphMetrics = $this->availableMetrics;
+	}
 }
