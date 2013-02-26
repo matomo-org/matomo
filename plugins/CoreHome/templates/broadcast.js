@@ -526,6 +526,7 @@ var broadcast = {
 			hashStr = hashStr.substr(1);
 		}
 		hashStr = hashStr.split('#')[0];
+
 		return broadcast.getParamValue(param,hashStr);
     },
 
@@ -542,7 +543,8 @@ var broadcast = {
      */
     getParamValue: function (param, url)
     {
-        var startStr = url.indexOf(param);
+        var lookFor = param + '=';
+        var startStr = url.indexOf(lookFor);
 
         if( startStr  >= 0 ) {
             var endStr = url.indexOf("&", startStr);
