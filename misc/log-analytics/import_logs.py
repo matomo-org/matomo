@@ -160,6 +160,11 @@ _COMMON_LOG_FORMAT = (
 _NCSA_EXTENDED_LOG_FORMAT = (_COMMON_LOG_FORMAT +
     ' "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
 )
+_S3_LOG_FORMAT = (
+    '\S+ (?P<host>\S+) \[(?P<date>.*?) (?P<timezone>.*?)\] (?P<ip>\S+) '
+    '\S+ \S+ \S+ \S+ "\S+ (?P<path>.*?) \S+" (?P<status>\S+) \S+ (?P<length>\S+) '
+    '\S+ \S+ \S+ "(?P<referrer>.*?)" "(?P<user_agent>.*?)" \S+'
+)
 
 FORMATS = {
     'common': RegexFormat('common', _COMMON_LOG_FORMAT),
@@ -167,6 +172,7 @@ FORMATS = {
     'ncsa_extended': RegexFormat('ncsa_extended', _NCSA_EXTENDED_LOG_FORMAT),
     'common_complete': RegexFormat('common_complete', _HOST_PREFIX + _NCSA_EXTENDED_LOG_FORMAT),
     'iis': IisFormat(),
+    's3': RegexFormat('s3', _S3_LOG_FORMAT),
 }
 
 
