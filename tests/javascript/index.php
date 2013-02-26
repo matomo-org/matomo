@@ -29,10 +29,22 @@ if(!$sqlite) {
 if ($sqlite) {
   echo '
 var _paq = _paq || [];
-_paq.push(["setSiteId", 1]);
-_paq.push(["setTrackerUrl", "piwik.php"]);
-_paq.push(["setCustomData", { "token" : getToken() }]);
-_paq.push(["trackPageView", "Asynchronous tracker"]);';
+
+function testCallingTrackPageViewBeforeSetTrackerUrlWorks() {
+	_paq.push(["setSiteId", 1]);
+	_paq.push(["setCustomData", { "token" : getToken() }]);
+	_paq.push(["trackPageView", "Asynchronous Tracker ONE"]);
+	_paq.push(["setTrackerUrl", "piwik.php"]);
+}
+
+function testTrackPageViewAsync() {
+	_paq.push(["trackPageView", "Asynchronous tracking TWO"]);
+}
+
+testCallingTrackPageViewBeforeSetTrackerUrlWorks();
+testTrackPageViewAsync();
+
+';
 }
 ?>
  </script>
@@ -1050,11 +1062,14 @@ if ($sqlite) {
 			xhr.open("GET", "piwik.php?requests=" + getToken(), false);
 			xhr.send(null);
 			results = xhr.responseText;
-			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "24", "count tracking events" );
+			equal( (/<span\>([0-9]+)\<\/span\>/.exec(results))[1], "26", "count tracking events" );
+
+			alert(results);
 
 			// tracking requests
 			ok( /PiwikTest/.test( results ), "trackPageView(), setDocumentTitle()" );
-			ok( /Asynchronous/.test( results ), "async trackPageView()" );
+			ok( results.indexOf("tests/javascript/piwik.php?action_name=Asynchronous%20Tracker%20ONE&idsite=1&rec=1") >= 0 , "async trackPageView() called before setTrackerUrl() should work" );
+			ok( /Asynchronous%20tracking%20TWO/.test( results ), "async trackPageView() called after another trackPageView()" );
 			ok( /CustomTitleTest/.test( results ), "trackPageView(customTitle)" );
 			ok( ! /click.example.com/.test( results ), "click: ignore href=javascript" );
 			ok( /example.ca/.test( results ), "trackLink()" );
