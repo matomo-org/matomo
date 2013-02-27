@@ -881,8 +881,7 @@ class DynamicResolver(object):
         self._cache = {}
         if config.options.replay_tracking:
             # get existing sites
-            self._cache['sites'] = piwik.call_api(
-                'SitesManager.getAllSites')
+            self._cache['sites'] = piwik.call_api('SitesManager.getAllSites')
 
     def _get_site_id_from_hit_host(self, hit):
         main_url = 'http://' + hit.host
@@ -949,11 +948,26 @@ class DynamicResolver(object):
         otherwise return (None, None) tuple.
         """
         site_id = hit.args['idsite']
-        if site_id in self._cache['sites'].keys():
+        if site_id in self._cache['sites']:
             stats.piwik_sites.add(site_id)
             return (site_id, self._cache['sites'][site_id]['main_url'])
         else:
             return (None, None)
+    
+    def _resolve_by_host(self, hit):
+        """
+        Returns the site ID and site URL for a hit based on the hostname.
+        """
+        try:
+            site_id = self._cache[hit.host]
+        except KeyError:
+            logging.debug(
+                'Site ID for hostname %s not in cache', hit.host
+            )
+            site_id = self._resolve(hit)
+            logging.debug('Site ID for hostname %s: %s', hit.host, site_id)
+            self._cache[hit.host] = site_id
+        return (site_id, 'http://' + hit.host)
 
     def resolve(self, hit):
         """
@@ -964,16 +978,7 @@ class DynamicResolver(object):
             # We only consider requests with piwik.php which don't need host to be imported
             return self._resolve_when_replay_tracking(hit)
         else:
-            try:
-                site_id = self._cache[hit.host]
-            except KeyError:
-                logging.debug(
-                    'Site ID for hostname %s not in cache', hit.host
-                )
-                site_id = self._resolve(hit)
-                logging.debug('Site ID for hostname %s: %s', hit.host, site_id)
-                self._cache[hit.host] = site_id
-            return (site_id, 'http://' + hit.host)
+            return self._resolve_by_host(hit)
 
 
     def check_format(self, format):
@@ -1091,7 +1096,10 @@ class Recorder(object):
         site_id, main_url = resolver.resolve(hit)
         if site_id is None:
             # This hit doesn't match any known Piwik site.
-            stats.piwik_sites_ignored.add(getattr(hit, 'host', 'unrecognized host to site ID %s' % hit.args.get('idsite')))
+            if config.options.replay_tracking:
+                stats.piwik_sites_ignored.add('unrecognized site ID %s' % hit.args.get('idsite'))
+            else:
+                stats.piwik_sites_ignored.add(hit.host)
             stats.count_lines_no_site.increment()
             return
 
@@ -1438,17 +1446,17 @@ class Parser(object):
                 # we need a query string and we only consider requests with piwik.php
                 if not hit.query_string or not hit.path.lower().endswith('piwik.php'):
                     continue
-                else:
-                    query_arguments = urlparse.parse_qs(hit.query_string)
-                    if not "idsite" in query_arguments:
-                        invalid_line(line, 'missing idsite')
-                        continue
-                    else:
-                        try:
-                            hit.args.update((k, v.pop().encode('raw_unicode_escape').decode(config.options.encoding)) for k, v in query_arguments.iteritems())
-                        except UnicodeDecodeError:
-                            invalid_line(line, 'invalid encoding')
-                            continue
+
+                query_arguments = urlparse.parse_qs(hit.query_string)
+                if not "idsite" in query_arguments:
+                    invalid_line(line, 'missing idsite')
+                    continue
+
+                try:
+                    hit.args.update((k, v.pop().encode('raw_unicode_escape').decode(config.options.encoding)) for k, v in query_arguments.iteritems())
+                except UnicodeDecodeError:
+                    invalid_line(line, 'invalid encoding')
+                    continue
 
             # Check if the hit must be excluded.
             if all((method(hit) for method in self.check_methods)):
