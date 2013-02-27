@@ -42,7 +42,7 @@
 		<label for="javascript-tracking-all-subdomains">{'CoreAdminHome_JSTracking_MergeSubdomains'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
 		
 		<div class="small-form-description">
-			{'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate:'x.domain.com':'y.domain.com'}
+			{'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate:"x.<span class='current-site-host'>$defaultReportSiteDomain</span>":"y.<span class='current-site-host'>$defaultReportSiteDomain</span>"}
 		</div>
 	</div>
 	
@@ -52,7 +52,7 @@
 		<label for="javascript-tracking-all-aliases">{'CoreAdminHome_JSTracking_MergeAliases'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
 		
 		<div class="small-form-description">
-			{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate:'x.domain.com'}
+			{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate:"<span class='current-site-alias'>$defaultReportSiteAlias</span>"}
 		</div>
 	</div>
 	

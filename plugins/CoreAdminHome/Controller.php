@@ -133,6 +133,20 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 		$view->defaultReportSiteName = Piwik_Site::getNameFor($view->idSite);
 		$view->defaultSiteRevenue = Piwik::getCurrency($view->idSite);
 		
+		$allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($view->idSite);
+		if (isset($allUrls[1]))
+		{
+			$aliasUrl = $allUrls[1];
+		}
+		else
+		{
+			$aliasUrl = 'x.domain.com';
+		}
+		$view->defaultReportSiteAlias = $aliasUrl;
+		
+		$mainUrl = Piwik_Site::getMainUrlFor($view->idSite);
+		$view->defaultReportSiteDomain = @parse_url($mainUrl, PHP_URL_HOST);
+		
 		// get currencies for each viewable site
 		$view->currencySymbols = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
 		
