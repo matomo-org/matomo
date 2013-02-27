@@ -31,3 +31,13 @@ tests/lib/visualphpunit/app/resource/cache/
 tests/PHPUnit/Integration/processed/
 tests/PHPUnit/phpunit.xml
 tests/results/
+tests/lib/xhprof-0.9.2/extension/.libs
+tests/lib/xhprof-0.9.2/extension/Makefile
+tests/lib/xhprof-0.9.2/extension/Makefile.objects
+tests/lib/xhprof-0.9.2/extension/config.log
+tests/lib/xhprof-0.9.2/extension/config.nice
+tests/lib/xhprof-0.9.2/extension/config.status
+tests/lib/xhprof-0.9.2/extension/libtool
+tests/lib/xhprof-0.9.2/extension/modules
+tests/lib/xhprof-0.9.2/extension/xhprof.la
+tests/lib/xhprof-0.9.2/extension/xhprof.lo

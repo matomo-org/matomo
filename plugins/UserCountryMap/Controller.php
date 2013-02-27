@@ -82,6 +82,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		$config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
 		$config['mapCssPath'] = 'plugins/UserCountryMap/css/map.css';
 		$view->config = json_encode($config);
+		$view->noData = $config['visitsSummary']['nb_visits'] === 0;
 
 		echo $view->render();
 	}

@@ -18,12 +18,13 @@
         <div class="UserCountryMap-info-btn" data-tooltip-target=".UserCountryMap-tooltip"></div>
     </div>
     <div class="mapWidgetStatus">
+        {if $noData }
+        <div class="pk-emptyDataTable">{'CoreHome_ThereIsNoDataForThisReport'|translate}</div>
+        {else}
         <span class="loadingPiwik">
             <img src="{$piwikUrl}themes/default/images/loading-blue.gif"> {'General_LoadingData'|translate}...
         </span>
-        <span class="noDataForReport" style="display:none">
-            {'CoreHome_ThereIsNoDataForThisReport'|translate}...
-        </span>
+        {/if}
     </div>
     <div class="dataTableFeatures" style="padding-top:0px;">
         <div class="dataTableFooterIcons">
@@ -64,6 +65,8 @@
     </div>
 </div>
 
+{if !$noData }
+
 <!-- configure some piwik vars -->
 <script type="text/javascript">
 
@@ -96,4 +99,4 @@
 {/literal}
 
 </script>
-
+{/if}
