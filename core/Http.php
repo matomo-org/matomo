@@ -566,7 +566,7 @@ class Piwik_Http
 			@fclose($file);
 
 			$fileSize = filesize($destinationPath);
-			if((($contentLength > MINIMUM_CONTENT_LENGTH_TO_ENABLE_CHECK) && ($fileLength != $contentLength))
+			if((($contentLength > 0) && ($fileLength != $contentLength))
 				|| ($fileSize != $fileLength))
 			{
 				throw new Exception('File size error: '.$destinationPath.'; expected '.$contentLength.' bytes; received '.$fileLength.' bytes; saved '.$fileSize.' bytes to file');
