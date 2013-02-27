@@ -102,6 +102,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     {
     	self::logVisitsWithStaticResolver(self::$tokenAuth);
     	self::logVisitsWithAllEnabled(self::$tokenAuth);
+    	self::replayLogFile(self::$tokenAuth);
     }
 
 	/**
@@ -155,6 +156,23 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 		
 		self::executeLogImporter($logFile, $opts);
 	}
+	public static $output;
+	/**
+	 * Logs a couple visit using log entries that are tracking requests to a piwik.php file.
+	 * Adds two visits to idSite=1 and two to non-existant sites.
+	 */
+	protected static function replayLogFile( $token_auth )
+	{
+		$logFile = PIWIK_INCLUDE_PATH.'/tests/resources/fake_logs_replay.log';
+		
+		$opts = array('--token-auth' => $token_auth,
+					  '--recorders' => '4',
+					  '--recorder-max-payload-size' => '2',
+					  '--replay-tracking' => false);
+		
+		self::executeLogImporter($logFile, $opts);
+		echo print_r(self::$output, true);
+	}
 	
 	protected static function executeLogImporter( $logFile, $options )
 	{
@@ -181,6 +199,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 		
 		// run the command
 		exec($cmd, $output, $result);
+		self::$output = $output;
 		if ($result !== 0)
 		{
 			throw new Exception("log importer failed: ".implode("\n", $output)."\n\ncommand used: $cmd");

@@ -2,10 +2,10 @@
 <result>
 	<row>
 		<label>Piwik test</label>
-		<nb_visits>22</nb_visits>
-		<nb_actions>25</nb_actions>
-		<nb_pageviews>22</nb_pageviews>
-		<revenue>105</revenue>
+		<nb_visits>24</nb_visits>
+		<nb_actions>27</nb_actions>
+		<nb_pageviews>24</nb_pageviews>
+		<revenue>115</revenue>
 		<visits_evolution>100%</visits_evolution>
 		<actions_evolution>100%</actions_evolution>
 		<pageviews_evolution>100%</pageviews_evolution>

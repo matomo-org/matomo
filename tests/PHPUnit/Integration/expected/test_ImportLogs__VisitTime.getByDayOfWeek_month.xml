@@ -12,7 +12,11 @@
 	</row>
 	<row>
 		<label>Wednesday</label>
-		<nb_visits>0</nb_visits>
+		<nb_visits>2</nb_visits>
+		<bounce_count>2</bounce_count>
+		<nb_actions>2</nb_actions>
+		<nb_uniq_visitors>2</nb_uniq_visitors>
+		<nb_visits_converted>2</nb_visits_converted>
 		<day_of_week>3</day_of_week>
 	</row>
 	<row>

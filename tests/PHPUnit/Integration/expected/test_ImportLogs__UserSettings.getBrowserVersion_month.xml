@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<label>Chrome 11.0</label>
+		<nb_visits>5</nb_visits>
+		<nb_actions>8</nb_actions>
+		<max_actions>3</max_actions>
+		<sum_visit_length>305</sum_visit_length>
+		<bounce_count>3</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
+		<shortLabel>Chrome 11.0</shortLabel>
+	</row>
+	<row>
 		<label>Epiphany 2.30</label>
 		<nb_visits>5</nb_visits>
 		<nb_actions>5</nb_actions>
@@ -11,18 +23,6 @@
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/EP.gif</logo>
 		<shortLabel>Epiphany 2.30</shortLabel>
-	</row>
-	<row>
-		<label>Chrome 11.0</label>
-		<nb_visits>4</nb_visits>
-		<nb_actions>7</nb_actions>
-		<max_actions>3</max_actions>
-		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>2</bounce_count>
-		<nb_visits_converted>3</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
-		<logo>plugins/UserSettings/images/browsers/CH.gif</logo>
-		<shortLabel>Chrome 11.0</shortLabel>
 	</row>
 	<row>
 		<label>Internet Explorer 10.6</label>
@@ -95,5 +95,17 @@
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/SF.gif</logo>
 		<shortLabel>Safari 4.0</shortLabel>
+	</row>
+	<row>
+		<label>Safari 5.0</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<logo>plugins/UserSettings/images/browsers/SF.gif</logo>
+		<shortLabel>Safari 5.0</shortLabel>
 	</row>
 </result>
