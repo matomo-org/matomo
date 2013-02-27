@@ -105,7 +105,7 @@ class RegexFormat(object):
 
     def __init__(self, name, regex, date_format='%d/%b/%Y:%H:%M:%S'):
         self.name = name
-        self.regex = re.compile(regex)
+        self.regex = re.compile(regex + '\s*$') # make sure regex includes end of line
         self.date_format = date_format
 
     def check_format(self, file):
