@@ -17,23 +17,23 @@
  */
 class Piwik_Log_Message extends Piwik_Log
 {
-	const ID = 'logger_message.htm';
+	const ID = 'logger_message';
 
 	/**
 	 * Constructor
 	 */
 	function __construct()
 	{
-		$logToFileFilename = self::ID;
+		$logToFileFilename = self::ID.".htm";
 		$logToDatabaseTableName = self::ID;
 		$logToDatabaseColumnMapping = null;
 		$screenFormatter = new Piwik_Log_Message_Formatter_ScreenFormatter();
 		$fileFormatter = new Piwik_Log_Formatter_FileFormatter();
-		
-		parent::__construct($logToFileFilename, 
+
+		parent::__construct($logToFileFilename,
 							$fileFormatter,
 							$screenFormatter,
-							$logToDatabaseTableName, 
+							$logToDatabaseTableName,
 							$logToDatabaseColumnMapping );
 	}
 
