@@ -80,7 +80,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
 		$view = Piwik_View::factory('login');
 		$view->AccessErrorString = $messageNoAccess;
-		$view->infoMessage = $infoMessage;
+		$view->infoMessage = nl2br($infoMessage);
 		$view->addForm( $form );
 		$this->configureView($view);
 		self::setHostValidationVariablesView($view);

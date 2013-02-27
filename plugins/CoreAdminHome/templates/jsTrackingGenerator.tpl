@@ -45,26 +45,27 @@
 			{'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate:'x.domain.com':'y.domain.com'}
 		</div>
 	</div>
-	
+
+	{* group page titles by site domain *}
+		<div class="tracking-option-section">
+			<input type="checkbox" id="javascript-tracking-group-by-domain"/>
+			<label for="javascript-tracking-group-by-domain">{'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate}</label>
+
+			<div class="small-form-description">
+			{'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc'|translate}
+			</div>
+		</div>
+
 	{* track across all site aliases *}
-	<div class="tracking-option-section">
+		<div class="tracking-option-section">
 		<input type="checkbox" id="javascript-tracking-all-aliases"/>
 		<label for="javascript-tracking-all-aliases">{'CoreAdminHome_JSTracking_MergeAliases'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
-		
+
 		<div class="small-form-description">
-			{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate:'x.domain.com'}
+		{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate:'x.domain.com'}
 		</div>
 	</div>
-	
-	{* group page titles by site domain *}
-	<div class="tracking-option-section">
-		<input type="checkbox" id="javascript-tracking-group-by-domain"/>
-		<label for="javascript-tracking-group-by-domain">{'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate}</label>
-		
-		<div class="small-form-description">
-			{'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc'|translate}
-		</div>
-	</div>
+
 </td>
 <td>
 	<div id="javascript-advanced-options" style="display:none">

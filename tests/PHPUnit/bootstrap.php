@@ -60,7 +60,7 @@ Try again and now the tests should run!";
 	try {
 		$fetched = Piwik_Http::sendHttpRequest($piwikServerUrl, $timeout = 3);
 	} catch(Exception $e) {
-		$fetched = $e->getMessage();
+		$fetched = "ERROR fetching: " . $e->getMessage();
 	}
 	$expectedString = 'plugins/CoreHome/templates/images/favicon.ico';
 
