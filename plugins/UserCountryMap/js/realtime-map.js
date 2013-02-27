@@ -265,6 +265,7 @@
 
                     // hide loading indicator
                     $('.realTimeMap_overlay img').hide();
+                    $('.realTimeMap_overlay .loading_data').hide();
 
                     // store current timestamp
                     now = new Date().getTime() / 1000;
@@ -304,21 +305,20 @@
                     }
 
                     if (report.length) {
-
                         // filter results without location
                         report = $.grep(report, function(r) {
                             return r.latitude !== null;
                         });
+                    }
 
-                        // check wether we got any geolocated visits left
-                        if (!report.length) {
-                            $('.realTimeMap_overlay').hide();
-                            $('#RealTimeMap_meta .noDataForReport').show();
-                            return;
-                        } else {
-                            $('#RealTimeMap_meta .noDataForReport').hide();
-                            $('.realTimeMap_overlay').show();
-                        }
+                    // check wether we got any geolocated visits left
+                    if (!report.length) {
+                        $('.realTimeMap_overlay .showing_visits_of').hide();
+                        $('.realTimeMap_overlay .no_data').show();
+                        return;
+                    } else {
+                        $('.realTimeMap_overlay .showing_visits_of').show();
+                        $('.realTimeMap_overlay .no_data').hide();
 
                         lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
                         oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
