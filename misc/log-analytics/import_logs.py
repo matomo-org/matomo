@@ -1348,7 +1348,6 @@ class Parser(object):
 
         hits = []
         for lineno, line in enumerate(file):
-            print("LINE: " + line)
             try:
                 line = line.decode(config.options.encoding)
             except UnicodeDecodeError:
@@ -1450,7 +1449,7 @@ class Parser(object):
                         except UnicodeDecodeError:
                             invalid_line(line, 'invalid encoding')
                             continue
-            print("SUCCESSFUL PARSE")
+
             # Check if the hit must be excluded.
             if all((method(hit) for method in self.check_methods)):
                 hits.append(hit)

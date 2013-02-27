@@ -156,7 +156,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 		
 		self::executeLogImporter($logFile, $opts);
 	}
-	public static $output;
+	
 	/**
 	 * Logs a couple visit using log entries that are tracking requests to a piwik.php file.
 	 * Adds two visits to idSite=1 and two to non-existant sites.
@@ -171,7 +171,6 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 					  '--replay-tracking' => false);
 		
 		self::executeLogImporter($logFile, $opts);
-		echo print_r(self::$output, true);
 	}
 	
 	protected static function executeLogImporter( $logFile, $options )
@@ -199,7 +198,6 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 		
 		// run the command
 		exec($cmd, $output, $result);
-		self::$output = $output;
 		if ($result !== 0)
 		{
 			throw new Exception("log importer failed: ".implode("\n", $output)."\n\ncommand used: $cmd");
