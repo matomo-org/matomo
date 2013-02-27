@@ -157,29 +157,35 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $dateTime = self::$today;
         $idSite   = self::$idSite;
 
+		$t = self::getTracker($idSite, $dateTime, $defaultInit = true);
+		$t->setTokenAuth(self::getTokenAuth());
+		$t->enableBulkTracking();
         for ($daysIntoPast = 30; $daysIntoPast >= 0; $daysIntoPast--)
         {
             // Visit 1: referrer website + test page views
             $visitDateTime = Piwik_Date::factory($dateTime)->subDay($daysIntoPast)->getDatetime();
-            $t             = self::getTracker($idSite, $visitDateTime, $defaultInit = true);
+            
+            $t->setNewVisitorId();
+            
             $t->setUrlReferrer('http://www.referrer' . ($daysIntoPast % 5) . '.com/theReferrerPage' . ($daysIntoPast % 2) . '.html');
             $t->setUrl('http://example.org/my/dir/page' . ($daysIntoPast % 4) . '?foo=bar&baz=bar');
             $t->setForceVisitDateTime($visitDateTime);
-            self::checkResponse($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
+            self::assertTrue($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
 
 			// Trigger goal n°1 once
-			self::checkResponse($t->doTrackGoal(1));
+			self::assertTrue($t->doTrackGoal(1));
 
 			// Trigger goal n°2 twice
-			self::checkResponse($t->doTrackGoal(2));
+			self::assertTrue($t->doTrackGoal(2));
 			$t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(0.1)->getDatetime());
-			self::checkResponse($t->doTrackGoal(2));
+			self::assertTrue($t->doTrackGoal(2));
 
             // VISIT 2: search engine
             $t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(3)->getDatetime());
             $t->setUrlReferrer('http://google.com/search?q=' . urlencode(self::$keywords[$daysIntoPast % 3]));
-            self::checkResponse($t->doTrackPageView('not an incredible title '));
+            self::assertTrue($t->doTrackPageView('not an incredible title '));
         }
+        self::checkResponse($t->doBulkTrack());
     }
 }
 
