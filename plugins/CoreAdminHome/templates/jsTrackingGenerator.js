@@ -302,6 +302,13 @@ $(document).ready(function() {
 		});
 		
 		getSiteData(site.id, '#js-code-options', function() {
+			var siteHost = getHostNameFromUrl(siteUrls[site.id][0]);
+			$('.current-site-host', '#optional-js-tracking-options').each(function() {
+				$(this).text(siteHost);
+			});
+			
+			$('.current-site-alias').text(siteUrls[site.id][1] || 'x.domain.com');
+		
 			resetGoalSelectItems(site.id, 'js-tracker-goal');
 			generateJsCode();
 		});
