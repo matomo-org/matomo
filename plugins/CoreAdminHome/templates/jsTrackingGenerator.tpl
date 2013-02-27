@@ -45,17 +45,7 @@
 			{'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate:"x.<span class='current-site-host'>$defaultReportSiteDomain</span>":"y.<span class='current-site-host'>$defaultReportSiteDomain</span>"}
 		</div>
 	</div>
-	
-	{* track across all site aliases *}
-	<div class="tracking-option-section">
-		<input type="checkbox" id="javascript-tracking-all-aliases"/>
-		<label for="javascript-tracking-all-aliases">{'CoreAdminHome_JSTracking_MergeAliases'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
-		
-		<div class="small-form-description">
-			{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate:"<span class='current-site-alias'>$defaultReportSiteAlias</span>"}
-		</div>
-	</div>
-	
+
 	{* group page titles by site domain *}
 	<div class="tracking-option-section">
 		<input type="checkbox" id="javascript-tracking-group-by-domain"/>
@@ -65,6 +55,17 @@
 			{'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc'|translate}
 		</div>
 	</div>
+
+	{* track across all site aliases *}
+	<div class="tracking-option-section">
+		<input type="checkbox" id="javascript-tracking-all-aliases"/>
+		<label for="javascript-tracking-all-aliases">{'CoreAdminHome_JSTracking_MergeAliases'|translate} <span class='current-site-name'>{$defaultReportSiteName}</span></label>
+
+		<div class="small-form-description">
+		{'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate:"<span class='current-site-alias'>$defaultReportSiteAlias</span>"}
+		</div>
+	</div>
+
 </td>
 <td>
 	<div id="javascript-advanced-options" style="display:none">
