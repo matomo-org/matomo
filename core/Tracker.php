@@ -268,7 +268,7 @@ class Piwik_Tracker
 			// don't run scheduled tasks in CLI mode from Tracker, this is the case
 			// where we bulk load logs & don't want to lose time with tasks
 			if(!Piwik_Common::isPhpCliMode()
-				&& !$this->authenticated)
+				&& !$this->authenticated && $this->getState() != self::STATE_LOGGING_DISABLE)
 			{
 				self::runScheduledTasks($now = $this->getCurrentTimestamp());
 			}
