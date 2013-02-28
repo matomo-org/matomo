@@ -91,11 +91,7 @@ class Piwik_Log_Exception_Formatter_ScreenFormatter extends Piwik_Log_Formatter_
 	public function format($event)
 	{
     	$event = parent::formatEvent($event);
-		$errno = $event['errno'] ;
 		$errstr = $event['message'] ;
-		$errfile = $event['errfile'] ;
-		$errline = $event['errline'] ;
-		$backtrace = $event['backtrace'] ;
 
 		$outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'html', 'string'));
 		$response = new Piwik_API_ResponseBuilder($outputFormat);
