@@ -26,10 +26,16 @@ class Piwik_Log_Error extends Piwik_Log
 	{
 		$logToFileFilename = self::ID;
 		$logToDatabaseTableName = self::ID;
-		$logToDatabaseColumnMapping = null;
+		$logToDatabaseColumnMapping = array(
+			'timestamp' => 'timestamp',
+			'message' => 'message',
+			'errno' => 'errno',
+			'errline' => 'errline',
+			'errfile' => 'errfile',
+			'backtrace' => 'backtrace'
+		);
 		$screenFormatter = new Piwik_Log_Error_Formatter_ScreenFormatter();
 		$fileFormatter = new Piwik_Log_Formatter_FileFormatter();
-		
 		parent::__construct($logToFileFilename, 
 							$fileFormatter,
 							$screenFormatter,
@@ -65,7 +71,7 @@ class Piwik_Log_Error extends Piwik_Log
 		$event['errfile'] = $errfile;
 		$event['errline'] = $errline;
 		$event['backtrace'] = $backtrace;
-		
+
 		parent::log($event, Piwik_Log::ERR, null);
 	}
 }
@@ -87,7 +93,7 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
     public function format($event)
     {
     	$event = parent::formatEvent($event);
-    	
+  	
 		$errno = $event['errno'] ;
 		$errstr = $event['message'] ;
 		$errfile = $event['errfile'] ;
