@@ -27,7 +27,14 @@ class Piwik_Log_Exception extends Piwik_Log
 	{
 		$logToFileFilename = self::ID;
 		$logToDatabaseTableName = self::ID;
-		$logToDatabaseColumnMapping = null;
+		$logToDatabaseColumnMapping = array(
+			'timestamp' => 'timestamp',
+			'message' => 'message',
+			'errno' => 'errno',
+			'errline' => 'errline',
+			'errfile' => 'errfile',
+			'backtrace' => 'backtrace'
+		);
 		$screenFormatter = new Piwik_Log_Exception_Formatter_ScreenFormatter();
 		$fileFormatter = new Piwik_Log_Formatter_FileFormatter();
 
