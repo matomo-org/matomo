@@ -1,17 +1,17 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
 
 /**
  * Class used to log all the API Calls information (class / method / parameters / returned value / time spent)
- * 
+ *
  * @package Piwik
  * @subpackage Piwik_Log
  */
@@ -26,16 +26,25 @@ class Piwik_Log_APICall extends Piwik_Log
 	{
 		$logToFileFilename = self::ID;
 		$logToDatabaseTableName = self::ID;
-		$logToDatabaseColumnMapping = null;
+		$logToDatabaseColumnMapping = array(
+			'class_name' => 'class_name',
+			'method_name' => 'method_name',
+			'parameter_names_default_values' => 'parameter_names_default_values',
+			'parameter_values' => 'parameter_values',
+			'execution_time' => 'execution_time',
+			'caller_ip' => 'caller_ip',
+			'timestamp' => 'timestamp',
+			'returned_value' => 'returned_value'
+		);
 		$screenFormatter = new Piwik_Log_APICall_Formatter_ScreenFormatter();
 		$fileFormatter = new Piwik_Log_Formatter_FileFormatter();
-		
-		parent::__construct($logToFileFilename, 
+
+		parent::__construct($logToFileFilename,
 							$fileFormatter,
 							$screenFormatter,
-							$logToDatabaseTableName, 
+							$logToDatabaseTableName,
 							$logToDatabaseColumnMapping );
-		
+
 		$this->setEventItem('caller_ip', Piwik_IP::P2N(Piwik_IP::getIpFromHeader()) );
 	}
 
@@ -58,18 +67,17 @@ class Piwik_Log_APICall extends Piwik_Log
 		$event['parameter_values'] = serialize($parameterValues);
 		$event['execution_time'] = $executionTime;
 		$event['returned_value'] = is_array($returnedValue) ? serialize($returnedValue) : $returnedValue;
-		
 		parent::log($event, Piwik_Log::INFO, null);
 	}
 }
 
 /**
- * Class used to format the API Call log on the screen. 
- * 
+ * Class used to format the API Call log on the screen.
+ *
  * @package Piwik
  * @subpackage Piwik_Log
  */
-class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter 
+class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter
 {
 	/**
      * Formats data into a single line to be written by the writer.
@@ -84,8 +92,7 @@ class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     	$str .= "Parameters: ";
     	$parameterNamesAndDefault = unserialize($event['parameter_names_default_values']);
     	$parameterValues = unserialize($event['parameter_values']);
-    	
-    	$i = 0; 
+    	$i = 0;
     	foreach($parameterNamesAndDefault as $pName => $pDefault)
     	{
     		if(isset($parameterValues[$i]))
@@ -96,15 +103,12 @@ class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
     		{
     			$currentValue = $pDefault;
     		}
-    		
     		$currentValue = $this->formatValue($currentValue);
     		$str .= "$pName = $currentValue, ";
-    		
+
     		$i++;
     	}
     	$str .=  "\n<br /> ";
-    	
-//    	$str .= "Returned: ".$this->formatValue($event['returned_value']);
     	$str .=  "\n<br /> ";
     	return parent::format($str);
     }
@@ -117,19 +121,18 @@ class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
 	 */
     private function formatValue( $value )
     {
-    	if(is_string($value))
-		{
-			$value = "'$value'";
-		}
-		if(is_null($value))
-		{
-			$value= 'null';
-		}
-		if(is_array($value))
-		{
-			$value = "array( ".implode(", ", $value). ")";
-		}
-		return $value;
-		
+	if(is_string($value))
+	{
+		$value = "'$value'";
+	}
+	if(is_null($value))
+	{
+		$value= 'null';
+	}
+	if(is_array($value))
+	{
+		$value = "array( ".implode(", ", $value). ")";
+	}
+	return $value;
     }
 }
