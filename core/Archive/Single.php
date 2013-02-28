@@ -189,20 +189,20 @@ class Piwik_Archive_Single extends Piwik_Archive
 			$this->isThereSomeVisits = false;
 			$this->alreadyChecked[$cacheKey] = true;
 			$dayString = $this->period->getPrettyString();
-			$logMessage = "Preparing archive: " . $periodString . "(" . $dayString . "), plugin $plugin ";
+			$logMessage = sprintf("%s (%s), plugin %s", $periodString, $dayString, $plugin);
 			// if the END of the period is BEFORE the website creation date
 			// we already know there are no stats for this period
 			// we add one day to make sure we don't miss the day of the website creation
 			if( $this->period->getDateEnd()->addDay(2)->isEarlier( $this->site->getCreationDate() ) )
 			{
-				Piwik::log("$logMessage skipped, archive is before the website was created.");
+				Piwik::log(sprintf("Archive %s skipped, archive is before the website was created.", $logMessage));
 				return;
 			}
 			
 			// if the starting date is in the future we know there is no visit
 			if( $this->period->getDateStart()->subDay(2)->isLater( Piwik_Date::today() ) )
 			{
-				Piwik::log("$logMessage skipped, archive is after today.");
+				Piwik::log(sprintf("Archive %s skipped, archive is after today.", $logMessage));
 				return;
 			}
 			
@@ -224,25 +224,25 @@ class Piwik_Archive_Single extends Piwik_Archive
 				if($this->archiveProcessing->isArchivingDisabled())
 				{
 					$archivingDisabledArchiveNotProcessed = true;
-					$logMessage = "* ARCHIVING DISABLED, for $logMessage";
+					$logMessage = sprintf("Archiving disabled, for %s", $logMessage);
 				}
 				else
 				{
-					Piwik::log("* PROCESSING $logMessage, not archived yet...");
+					Piwik::log(sprintf("Processing %s, not archived yet...", $logMessage));
 					$archiveJustProcessed = true;
 
 					// Process the reports
 					$this->archiveProcessing->launchArchiving();
 
 					$idArchive = $this->archiveProcessing->getIdArchive();
-					$logMessage = "PROCESSED: idArchive = ".$idArchive.", for $logMessage";
+					$logMessage = sprintf("Processed %d, for %s", $idArchive, $logMessage);
 				}
 			}
 			else
 			{
-				$logMessage = "* ALREADY PROCESSED, Fetching idArchive = $idArchive (idSite=".$this->site->getId()."), for $logMessage";
+				$logMessage = sprintf("Already processed, fetching idArchive = %d (idSite=%d), for %s", $idArchive, $this->site->getId(), $logMessage);
 			}
-			Piwik::log("$logMessage, Visits = ". $this->archiveProcessing->getNumberOfVisits());
+			Piwik::log(sprintf("%s, Visits = %d", $logMessage, $this->archiveProcessing->getNumberOfVisits()));
 			$this->isThereSomeVisits = !$archivingDisabledArchiveNotProcessed
 										&& $this->archiveProcessing->isThereSomeVisits();
 			$this->idArchive = $idArchive;
@@ -521,7 +521,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 	{
 		if(!is_null($idSubTable))
 		{
-			$name .= "_$idSubTable";
+			$name .= sprintf("_%s", $idSubTable);
 		}
 		
 		$this->setRequestedReport($name);
