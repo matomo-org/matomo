@@ -26,7 +26,10 @@ class Piwik_Log_Message extends Piwik_Log
 	{
 		$logToFileFilename = self::ID.".htm";
 		$logToDatabaseTableName = self::ID;
-		$logToDatabaseColumnMapping = null;
+		$logToDatabaseColumnMapping = array(
+			'message' => 'message',
+			'timestamp' => 'timestamp'
+		);
 		$screenFormatter = new Piwik_Log_Message_Formatter_ScreenFormatter();
 		$fileFormatter = new Piwik_Log_Formatter_FileFormatter();
 
