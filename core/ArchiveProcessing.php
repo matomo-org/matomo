@@ -569,7 +569,7 @@ abstract class Piwik_ArchiveProcessing
 		}
         Piwik::log(sprintf("'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
             $this->period->getLabel(),
-            $this->idSite,
+            $this->idsite,
             $temporary,
             $this->getSegment()->getString(),
             $this->getRequestedReport(),
