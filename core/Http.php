@@ -636,7 +636,7 @@ class Piwik_Http
 			
 			if ($expectedFileSize == 0)
 			{
-				Piwik::log("HEAD request for '$url' failed, got following: ".print_r($expectedFileSizeResult, true));
+				Piwik::log(sprintf("HEAD request for '%s' failed, got following: %s", $url, print_r($expectedFileSizeResult, true)));
 				throw new Exception(Piwik_Translate('General_DownloadFail_HttpRequestFail'));
 			}
 			
@@ -647,8 +647,7 @@ class Piwik_Http
 			$expectedFileSize = (int)Piwik_GetOption($downloadOption);
 			if ($expectedFileSize === false) // sanity check
 			{
-				throw new Exception(
-					"Trying to continue a download that never started?! That's not supposed to happen...");
+				throw new Exception("Trying to continue a download that never started?! That's not supposed to happen...");
 			}
 		}
 		

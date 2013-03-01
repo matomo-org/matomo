@@ -240,7 +240,7 @@ class Piwik_PluginsManager
 		$existingPlugins = $this->readPluginsDirectory();
 		if( array_search($pluginName, $existingPlugins) === false)
 		{
-			Piwik::log("Unable to find the plugin '$pluginName' in activatePlugin.");
+			Piwik::log(sprintf("Unable to find the plugin '%s' in activatePlugin.", $pluginName));
 			return;
 		}
 
@@ -423,19 +423,19 @@ class Piwik_PluginsManager
 		{
 			return $this->loadedPlugins[$pluginName];
 		}
-		$pluginFileName = $pluginName . '/' . $pluginName . '.php';
-		$pluginClassName = 'Piwik_'.$pluginName;
+		$pluginFileName = sprintf("%s/%s.php", $pluginName, $pluginName);
+		$pluginClassName = sprintf('Piwik_%s', $pluginName);
 
 		if( !Piwik_Common::isValidFilename($pluginName))
 		{
-			throw new Exception("The plugin filename '$pluginFileName' is not a valid filename");
+			throw new Exception(sprintf("The plugin filename '%s' is not a valid filename", $pluginFileName));
 		}
 
 		$path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginFileName;
 
 		if(!file_exists($path))
 		{
-//			Piwik::log("Unable to load plugin '$pluginName' because '$path' couldn't be found.");
+			Piwik::log(sprintf("Unable to load plugin '%s' because '%s' couldn't be found.", $pluginName, $path));
 			return null;
 		}
 

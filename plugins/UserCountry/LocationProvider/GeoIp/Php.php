@@ -133,7 +133,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
 					$result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr($locationGeoIp, $ip);
 					break;
 				default: // unknown database type, log warning and fallback to country edition
-					Piwik::log("Found unrecognized database type: ".$locationGeoIp->databaseType);
+					Piwik::log(sprintf("Found unrecognized database type: %s", $locationGeoIp->databaseType));
 					
 					$result[self::COUNTRY_CODE_KEY] = geoip_country_code_by_addr($locationGeoIp, $ip);
 					break;
