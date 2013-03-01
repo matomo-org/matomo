@@ -1070,7 +1070,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
 	private static function reencodeParametersArray($queryParameters, $encoding)
 	{
-		foreach(array_values($queryParameters) as &$value)
+		foreach($queryParameters as &$value)
 		{
 			if(is_array($value)) {
 				$value = self::reencodeParametersArray($value, $encoding);
