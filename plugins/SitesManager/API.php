@@ -609,7 +609,7 @@ class Piwik_SitesManager_API
 	private function checkValidTimezone($timezone)
 	{
 		$timezones = $this->getTimezonesList();
-		foreach($timezones as $continent => $cities)
+		foreach(array_values($timezones) as $cities)
 		{
 			foreach($cities as $timezoneId => $city)
 			{
@@ -1061,7 +1061,7 @@ class Piwik_SitesManager_API
 		$this->deleteSiteAliasUrls($idSite);
 		if(count($urls) > 1)
 		{
-			$insertedUrls = $this->addSiteAliasUrls($idSite, array_slice($urls,1));
+			$this->addSiteAliasUrls($idSite, array_slice($urls,1));
 		}
 		$this->postUpdateWebsite($idSite);
 

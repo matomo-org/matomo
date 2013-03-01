@@ -660,14 +660,10 @@ class Piwik_Tracker_GoalManager
 		}
 		
 		$actionsLookedUp = Piwik_Tracker_Action::loadActionId($actionsToLookupAllItems);
-//		var_dump($actionsLookedUp);
-
 		
 		// Replace SKU, name & category by their ID action
 		foreach($cleanedItems as $index => &$item)
 		{
-			list($sku, $name, $category, $price, $quantity) = $item;
-			
 			// SKU
 			$item[0] = $actionsLookedUp[ $index * $columnsInEachRow + 0][2];
 			// Name

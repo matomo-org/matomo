@@ -81,7 +81,7 @@ class Piwik_SitesManager extends Piwik_Plugin
 	 */
 	function recordWebsiteDataInCache($notification)
 	{
-		$idSite = $notification->getNotificationInfo();
+		$idSite = (int)$notification->getNotificationInfo();
 		// add the 'hosts' entry in the website array
 		$array =& $notification->getNotificationObject();
 		$array['hosts'] = $this->getTrackerHosts($idSite);

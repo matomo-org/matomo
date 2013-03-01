@@ -30,9 +30,9 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 		echo $view->render();
 	}
 	
-	public function getEvolutionGraph( $fetch = false, $columns = false)
+	public function getEvolutionGraph( $fetch = false, array $columns = array())
 	{
-		if(empty($columns))
+		if(!count($columns))
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 			$columns = Piwik::getArrayFromApiParameter($columns);

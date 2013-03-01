@@ -2,11 +2,11 @@
 	width:100%;
 	display: block;
 	color: #111;
-	font-family: "courier";
+	font-family: "Courier New", Courier, monospace;
 
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 #javascript-output-section textarea {

@@ -402,8 +402,6 @@ class Piwik_Live_API
 	
 	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit = false, $maxIdVisit = false, $visitorId = false, $minTimestamp = false)
 	{
-//		var_dump($period); var_dump($date); var_dump($filter_limit); var_dump($maxIdVisit); var_dump($visitorId);
-//var_dump($minTimestamp);
 		if(empty($filter_limit))
 		{
 			$filter_limit = 100;

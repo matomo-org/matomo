@@ -464,14 +464,14 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		Piwik_Common::REFERER_TYPE_CAMPAIGN => 'Referers_Campaigns',
 	);
 	
-	public function getEvolutionGraph( $fetch = false, $typeReferer = false, $columns = false)
+	public function getEvolutionGraph( $fetch = false, $typeReferer = false, array $columns = array())
 	{
 		$view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getRefererType');
 		
 		$view->addTotalRow();
 		
 		// configure displayed columns
-		if(empty($columns))
+		if(!count($columns))
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 			$columns = Piwik::getArrayFromApiParameter($columns);
