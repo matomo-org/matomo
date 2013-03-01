@@ -471,7 +471,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 		$view->addTotalRow();
 		
 		// configure displayed columns
-		if(!count($columns))
+		if(empty($columns))
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 			$columns = Piwik::getArrayFromApiParameter($columns);
