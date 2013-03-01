@@ -1176,7 +1176,7 @@ class Piwik_DataTable
 		// if we detect such a "simple" data structure we convert it to a row with the correct columns' names
 		$thisIsNotThatSimple = false;
 		
-		foreach(array_values($array) as $columnValue )
+		foreach($array as $columnValue )
 		{
 			if(is_array($columnValue) || is_object($columnValue)) 
 			{

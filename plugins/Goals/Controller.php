@@ -294,7 +294,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
 	public function getEvolutionGraph( $fetch = false, array $columns = array(), $idGoal = false)
 	{
-		if(!count($columns))
+		if(empty($columns))
 		{
 			$columns = Piwik_Common::getRequestVar('columns');
 			$columns = Piwik::getArrayFromApiParameter($columns);
