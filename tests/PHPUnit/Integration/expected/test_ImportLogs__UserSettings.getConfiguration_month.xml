@@ -71,7 +71,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 	</row>
 	<row>
-		<label>Mac OS / Safari / 1024x768</label>
+		<label>Windows XP / Chrome / 1280x800</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
@@ -81,7 +81,7 @@
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 	</row>
 	<row>
-		<label>Windows XP / Chrome / 1280x800</label>
+		<label>Windows XP / Internet Explorer / 1024x768</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>

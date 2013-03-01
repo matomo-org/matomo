@@ -265,10 +265,7 @@ class Piwik_Tracker
 		// run scheduled task
 		try
 		{
-			// don't run scheduled tasks in CLI mode from Tracker, this is the case
-			// where we bulk load logs & don't want to lose time with tasks
-			if(!Piwik_Common::isPhpCliMode()
-				&& !$this->authenticated && $this->getState() != self::STATE_LOGGING_DISABLE)
+			if($this->shouldRunScheduledTasks())
 			{
 				self::runScheduledTasks($now = $this->getCurrentTimestamp());
 			}
@@ -279,6 +276,15 @@ class Piwik_Tracker
 		}
 
 		$this->end();
+	}
+
+	protected function shouldRunScheduledTasks()
+	{
+		// don't run scheduled tasks in CLI mode from Tracker, this is the case
+		// where we bulk load logs & don't want to lose time with tasks
+		return !Piwik_Common::isPhpCliMode()
+			&& !$this->authenticated
+			&& $this->getState() != self::STATE_LOGGING_DISABLE;
 	}
 
 	/**

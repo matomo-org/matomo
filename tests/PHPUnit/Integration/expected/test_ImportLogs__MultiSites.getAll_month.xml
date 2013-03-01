@@ -12,4 +12,15 @@
 		<revenue_evolution>100%</revenue_evolution>
 		<idsite>1</idsite>
 	</row>
+	<row>
+		<label>Piwik test two</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<nb_pageviews>1</nb_pageviews>
+		<revenue />
+		<visits_evolution>100%</visits_evolution>
+		<actions_evolution>100%</actions_evolution>
+		<pageviews_evolution>100%</pageviews_evolution>
+		<idsite>2</idsite>
+	</row>
 </result>
