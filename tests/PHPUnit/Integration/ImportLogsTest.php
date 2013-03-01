@@ -13,6 +13,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 {
 	protected static $dateTime = '2010-03-06 11:22:33';
 	protected static $idSite = 1;
+	protected static $idSite2 = 2;
 	protected static $idGoal = null;
 	protected static $tokenAuth = null;
 
@@ -58,8 +59,13 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
     {
 		return array(
 			array('all', array('idSite'  => self::$idSite,
-							   'date'    => '2012-08-09',
-							   'periods' => 'month')),
+			                   'date'    => '2012-08-09',
+			                   'periods' => 'month')),
+
+			array('VisitsSummary.get', array('idSite'  => self::$idSite2,
+			                   'date'    => '2012-08-09',
+			                   'periods' => 'month',
+								'testSuffix' => '_siteIdTwo_TrackedUsingLogReplay')),
 		);
     }
     
@@ -96,6 +102,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 	    self::$idSite = self::createWebsite(self::$dateTime);
 		self::$idGoal = Piwik_Goals_API::getInstance()->addGoal(
 			self::$idSite, 'all', 'url', 'http', 'contains', false, 5);
+	    self::$idSite2 = self::createWebsite(self::$dateTime,  $ecommerce = 0, $siteName = 'Piwik test two', $siteUrl = 'http://example-site-two.com');
     }
     
     protected static function trackVisits()

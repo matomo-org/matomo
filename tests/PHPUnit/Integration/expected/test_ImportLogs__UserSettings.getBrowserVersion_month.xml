@@ -97,7 +97,7 @@
 		<shortLabel>Safari 4.0</shortLabel>
 	</row>
 	<row>
-		<label>Safari 5.0</label>
+		<label>Internet Explorer 6.0</label>
 		<nb_visits>1</nb_visits>
 		<nb_actions>1</nb_actions>
 		<max_actions>1</max_actions>
@@ -105,7 +105,7 @@
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
-		<logo>plugins/UserSettings/images/browsers/SF.gif</logo>
-		<shortLabel>Safari 5.0</shortLabel>
+		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
+		<shortLabel>IE 6.0</shortLabel>
 	</row>
 </result>
