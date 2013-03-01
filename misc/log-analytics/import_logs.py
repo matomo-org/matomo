@@ -165,6 +165,11 @@ _S3_LOG_FORMAT = (
     '\S+ \S+ \S+ \S+ "\S+ (?P<path>.*?) \S+" (?P<status>\S+) \S+ (?P<length>\S+) '
     '\S+ \S+ \S+ "(?P<referrer>.*?)" "(?P<user_agent>.*?)" \S+'
 )
+_EXPRESSJS_LOG_FORMAT = (
+    '(?P<ip>\S+) \S+ \S+ \[(?P<date>.*) (?P<timezone>.*?)\] '
+    '"\S+ (?P<path>.*?) \S+" (?P<status>\S+) (?P<length>\S+) "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
+)
+
 
 FORMATS = {
     'common': RegexFormat('common', _COMMON_LOG_FORMAT),
@@ -173,6 +178,7 @@ FORMATS = {
     'common_complete': RegexFormat('common_complete', _HOST_PREFIX + _NCSA_EXTENDED_LOG_FORMAT),
     'iis': IisFormat(),
     's3': RegexFormat('s3', _S3_LOG_FORMAT),
+    'expressjs': RegexFormat('expressjs', _EXPRESSJS_LOG_FORMAT, date_format='%a, %d %b %Y %H:%M:%S'),
 }
 
 
@@ -1437,8 +1443,11 @@ class Parser(object):
             except IndexError:
                 timezone = 0
             except ValueError:
-                invalid_line(line, 'invalid timezone')
-                continue
+                if match.group('timezone') == u'GMT':
+                    timezone = 0
+                else:
+                    invalid_line(line, 'invalid timezone')
+                    continue
 
             if timezone:
                 hit.date -= datetime.timedelta(hours=timezone/100)
