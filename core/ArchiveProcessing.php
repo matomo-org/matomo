@@ -567,11 +567,15 @@ abstract class Piwik_ArchiveProcessing
 		{
 			$temporary = 'temporary archive';
 		}
-		Piwik::log("'" . $this->period->getLabel() . "'" 
-								.", idSite = ". $this->idsite." ($temporary)" 
-								.", segment = '". $this->getSegment()->getString()."'"
-								.", report = '". $this->getRequestedReport()."'" 
-								.", UTC datetime [".$this->startDatetimeUTC." -> ".$this->endDatetimeUTC." ]...");
+        Piwik::log(sprintf("'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
+            $this->period->getLabel(),
+            $this->idsite,
+            $temporary,
+            $this->getSegment()->getString(),
+            $this->getRequestedReport(),
+            $this->startDatetimeUTC,
+            $this->endTimestampUTC
+        ));
 	}
 	
 	/**

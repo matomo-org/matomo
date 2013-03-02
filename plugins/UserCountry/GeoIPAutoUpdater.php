@@ -112,7 +112,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 				. "'$zippedOutputPath'! (Unknown error)");
 		}
 		
-		Piwik::log("Piwik_UserCountry_GeoIPAutoUpdater: successfully downloaded '$url'");
+		Piwik::log(sprintf("Piwik_UserCountry_GeoIPAutoUpdater: successfully downloaded '%s'", $url));
 		
 		try
 		{
@@ -124,7 +124,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 				. "downloading " . "'$url': ".$ex->getMessage());
 		}
 
-		Piwik::log("Piwik_UserCountry_GeoIPAutoUpdater: successfully updated GeoIP database '$url'");
+		Piwik::log(sprintf("Piwik_UserCountry_GeoIPAutoUpdater: successfully updated GeoIP database '%s'", $url));
 	}
 	
 	/**
