@@ -462,7 +462,7 @@ abstract class Piwik_Controller
 
 			$view->topMenu = Piwik_GetTopMenu();
 		} catch(Exception $e) {
-			Piwik_ExitWithMessage($e->getMessage(), Piwik::shouldLoggerLog() ? $e->getTraceAsString() : '');
+			Piwik_ExitWithMessage($e->getMessage(), '' /* $e->getTraceAsString() */ );
 		}
 	}
 

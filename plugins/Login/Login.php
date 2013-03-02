@@ -50,7 +50,7 @@ class Piwik_Login extends Piwik_Plugin
 		$exceptionMessage = $exception->getMessage();
 
 		$controller = new Piwik_Login_Controller();
-		$controller->login($exceptionMessage, Piwik::shouldLoggerLog() ? $exception->getTraceAsString() : '' );
+		$controller->login($exceptionMessage, '' /* $exception->getTraceAsString() */ );
 	}
 
 	/**
