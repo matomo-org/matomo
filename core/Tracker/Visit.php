@@ -854,6 +854,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 						'131.253.26.0/20',
 						'131.253.24.0/20',
 						// Yahoo
+						'72.30.198.0/20',
+						'72.30.196.0/20',
 						'98.137.207.0/20',
 						// Chinese bot hammering websites
 						'1.202.218.8' 
