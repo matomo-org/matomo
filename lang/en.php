@@ -804,6 +804,7 @@ Piwik will let you track visitors to your website for free. You should definitel
 	'DBStats_ReportTables' => 'Report Tables',
 	'DBStats_MetricTables' => 'Metric Tables',
 	'DBStats_OtherTables' => 'Other Tables',
+	'DoNotTrack_PluginDescription' => 'Ignore visits with X-Do-Not-Track or DNT header.',
 	'ExampleAPI_PluginDescription' => 'Example Plugin: How to create an API for your plugin, to export your data in multiple formats without any special coding?',
 	'ExampleRssWidget_PluginDescription' => 'Example Plugin: How to create a new widget that reads a RSS feed?',
 	'ExampleUI_PluginDescription' => 'Example Plugin: This plugin shows how to work with the Piwik UI: create tables, graphs, etc.',

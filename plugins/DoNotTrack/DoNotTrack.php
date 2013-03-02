@@ -28,7 +28,7 @@ class Piwik_DoNotTrack extends Piwik_Plugin
 	public function getInformation()
 	{
 		return array(
-			'description' => 'Ignore visits with X-Do-Not-Track or DNT header',
+			'description' => Piwik_Translate('DoNotTrack_PluginDescription'),
 			'author' => 'Piwik',
 			'author_homepage' => 'http://piwik.org/',
 			'version' => Piwik_Version::VERSION,
