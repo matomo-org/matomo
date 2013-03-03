@@ -272,7 +272,7 @@ class Archiving
 								// when --force-all-websites option, 
 								// also forces to archive last52 days to be safe
 							|| $this->shouldArchiveAllWebsites)
-								? false 
+								? false
 								: $lastTimestampWebsiteProcessedDay
 			);
 		    $content = $this->request($url);
@@ -406,15 +406,14 @@ class Archiving
 	{
 		$timer = new Piwik_Timer;
 	    $aCurl = array();
-		$mh = curl_multi_init();
+		$mh = false;
 		$url = $this->piwikUrl . $this->getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed) . $this->requestPrepend;
 		
 	    // already processed above for "day"
 	    if($period != "day")
 	    {
 		    $ch = $this->getNewCurlHandle($url);
-			
-			curl_multi_add_handle($mh, $ch);
+            $this->addCurlHandleToMulti($mh, $ch);
 			$aCurl[$url] = $ch;
 			$this->requests++;
 	    }
@@ -422,47 +421,58 @@ class Archiving
 	    foreach ($this->segments as $segment) {
 	    	$segmentUrl = $url.'&segment='.urlencode($segment);
 		    $ch = $this->getNewCurlHandle($segmentUrl);
-
-			curl_multi_add_handle($mh, $ch);
+            $this->addCurlHandleToMulti($mh, $ch);
 			$aCurl[$segmentUrl] = $ch;
 			$this->requests++;
 	    }
-	    $running=null;
-	    do {
-			usleep(10000);
-			curl_multi_exec($mh,$running);
-	    } while ($running > 0);
-	
-	    $success = true;
-	    $visitsAllDaysInPeriod = false;
-        foreach($aCurl as $url => $ch){
-        	$content = curl_multi_getcontent($ch);
-        	$successResponse = $this->checkResponse($content, $url);
-            $success = $successResponse && $success;
-            if($url == $urlNoSegment
-            	&& $successResponse)
-            {
-            	$stats = unserialize($content);
-            	if(!is_array($stats))
-            	{
-            		$this->logError("Error unserializing the following response: " . $content);
-            	}
-            	$visitsAllDaysInPeriod = @array_sum($stats);
+
+        $success = true;
+        $visitsAllDaysInPeriod = false;
+
+        if(!empty($aCurl)) {
+            $running=null;
+            do {
+                usleep(10000);
+                curl_multi_exec($mh, $running);
+            } while ($running > 0);
+
+            foreach($aCurl as $url => $ch){
+                $content = curl_multi_getcontent($ch);
+                $successResponse = $this->checkResponse($content, $url);
+                $success = $successResponse && $success;
+                if($url == $urlNoSegment
+                    && $successResponse)
+                {
+                    $stats = unserialize($content);
+                    if(!is_array($stats))
+                    {
+                        $this->logError("Error unserializing the following response: " . $content);
+                    }
+                    $visitsAllDaysInPeriod = @array_sum($stats);
+                }
             }
+
+            foreach ($aCurl as $ch) {
+                curl_multi_remove_handle($mh, $ch);
+            }
+            curl_multi_close($mh);
         }
 
-	    foreach ($aCurl as $ch) {
-	    	curl_multi_remove_handle($mh, $ch);
-	    }
-	    curl_multi_close($mh);
-	    
 		$this->log("Archived website id = $idsite, period = $period, "
 					. ($period != "day" ? (int)$visitsAllDaysInPeriod. " visits, " : "" )
                     . (!empty($timerWebsite) ? $timerWebsite->__toString() : $timer->__toString()));
 	    return $success;
 	}
 
-	private function getNewCurlHandle($url)
+    private function addCurlHandleToMulti(&$mh, $ch)
+    {
+        if (!$mh) {
+            $mh = curl_multi_init();
+        }
+        curl_multi_add_handle($mh, $ch);
+    }
+
+    private function getNewCurlHandle($url)
 	{
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -735,7 +745,7 @@ class Archiving
 			$prettySeconds = Piwik::getPrettyTimeFromSeconds(	empty($this->timeLastCompleted)
 																	? $this->firstRunActiveWebsitesWithTraffic
 																	: (time() - $this->timeLastCompleted), 
-																true, false); 
+																true, false);
 			$this->log("Will process ". count($this->websites). " websites with new visits since " 
 							. $prettySeconds 
 							. " " 
