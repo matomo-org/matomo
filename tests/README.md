@@ -43,17 +43,19 @@ it might be that your changes are breaking some features unexpectedly.
 
 2. 	Configure PHPUnit: Copy the file `piwik/tests/PHPUnit/phpunit.xml.dist` to `phpunit.xml`.
 	In this file, you will find the following lines.
-	Please edit HTTP_HOST and REQUEST_URI to match the hostname and path of the Piwik files:
+	Please edit HTTP_HOST and REQUEST_URI to match the hostname and path of the Piwik files.
+    For example if your Piwik is available at http://localhost/path/to/piwik/ you would write:
 
 		<server name="HTTP_HOST" value="localhost"/>
-		<server name="REQUEST_URI" value="/path/to/piwik/tests/all_tests.php"/>
-	
+		<server name="REQUEST_URI" value="/path/to/piwik/"/>
+
+
 3. 	Run the tests (see the next section to run tests in the browser)
 
 		$ cd /path/to/piwik/tests/PHPUnit
 		$ phpunit
 
-	This will run all unit + integration tests. It might take 30 minutes to run.
+	This will run all unit + integration tests. It might take 10-20 minutes to run.
 
 	You can also run tests of specified "parts" of Piwik.
 	There are three main groups of tests: Core, Plugins and Integration
@@ -124,7 +126,7 @@ work altered the expected images. The standard procedure described in the INTEGR
  - set up the vagrant piwik vm (which is used by the integration server) or
  - retrieve the files from the integration server.
 
-## Continous Integration
+## Continuous Integration
 
 We run a Jenkins server for continuous integration. It automatically downloads the latest version of the Piwik code
 from our GIT repo and runs a battery of thousands of tests. More information at the links:

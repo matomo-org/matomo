@@ -2,12 +2,8 @@
 
 ## Requirements
 
-* This is currently in BETA TESTING. The parameters name and behavior might change
-  until the final stable release. Please use with care, expect bugs, and report your
-  suggestions and advice.
 * Python 2.6 or 2.7. Python 3.x is not supported.
-* Update to Piwik 1.7.2-RC1 or newer
-  Download Piwik RC from: http://builds.piwik.org/piwik-1.7.2-rc1.zip
+* Update to Piwik 1.11
 
 ## How to use this script?
 
@@ -24,8 +20,6 @@ and will not track bots, static files, or error requests.
 If you wish to track all requests the following command would be used:
 
     python /path/to/piwik/misc/log-analytics/import_logs.py --url=http://mysite/piwik/ access.log --idsite=1234 --recorders=4 --enable-http-errors --enable-http-redirects --enable-static --enable-bots
-
-(remember this is a BETA release)
 
 ## How to import your logs automatically every day?
 
