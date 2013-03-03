@@ -807,7 +807,7 @@ class Piwik_Tracker
 			self::setForceDateTime($customDatetime);
 		}
 
-		// Custom server date time to use
+		// Custom visitor id
 		$customVisitorId = Piwik_Common::getRequestVar('cid', false, null, $args);
 		if(!empty($customVisitorId))
 		{

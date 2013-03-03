@@ -708,9 +708,15 @@ class PiwikTracker
      */
     public function setVisitorId($visitorId)
     {
-    	if(strlen($visitorId) != self::LENGTH_VISITOR_ID)
+        $hexChars = '01234567890abcdefABCDEF';
+    	if(strlen($visitorId) != self::LENGTH_VISITOR_ID
+            || strspn($visitorId, $hexChars) !== strlen($visitorId))
     	{
-    		throw new Exception("setVisitorId() expects a ".self::LENGTH_VISITOR_ID." characters ID");
+    		throw new Exception("setVisitorId() expects a "
+                                .self::LENGTH_VISITOR_ID
+                                ." characters hexadecimal string (containing only the following: "
+                                .$hexChars
+                                .")");
     	}
     	$this->forcedVisitorId = $visitorId;
     }

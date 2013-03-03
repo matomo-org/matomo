@@ -40,18 +40,19 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 	 * @var Piwik_Cookie
 	 */
 	protected $cookie = null;
-	protected $visitorInfo = array();
-	protected $userSettingsInformation = null;
-	protected $visitorCustomVariables = array();
-	protected $idsite;
-	protected $visitorKnown;
-	protected $request;
+    protected $visitorInfo = array();
+    protected $userSettingsInformation = null;
+    protected $visitorCustomVariables = array();
+    protected $idsite;
+    protected $visitorKnown;
+    protected $request;
+    protected $forcedVisitorId = null;
 
-	// can be overwritten in constructor
-	protected $timestamp;
-	protected $ip;
-	protected $authenticated = false;
-	
+    // can be overwritten in constructor
+    protected $timestamp;
+    protected $ip;
+    protected $authenticated = false;
+
 	// Set to true when we set some custom variables from the cookie
 	protected $customVariablesSetFromRequest = false;
 	
@@ -755,13 +756,19 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		{
 			return $this->visitorInfo['idvisitor'];
 		}
+        return Piwik_Common::hex2bin($this->generateUniqueVisitorId());
+    }
 
-		// Return Random UUID
-		$uniqueId = substr($this->getVisitorUniqueId(), 0, Piwik_Tracker::LENGTH_HEX_ID_STRING);
-		return Piwik_Common::hex2bin($uniqueId);
-	}
+    /**
+     * @return string returns random 16 chars hex string
+     */
+    static public function generateUniqueVisitorId()
+    {
+        $uniqueId = substr(Piwik_Common::generateUniqId(), 0, Piwik_Tracker::LENGTH_HEX_ID_STRING);
+        return $uniqueId;
+    }
 
-	/**
+    /**
 	 * Returns the visitor's IP address
 	 *
 	 * @return long
@@ -1045,12 +1052,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$found = false;
 
 		// Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
-		$idVisitor = $this->forcedVisitorId;
+		$idVisitor = $this->getForcedVisitorId();
 		if(!empty($idVisitor))
 		{
 			if(strlen($idVisitor) != Piwik_Tracker::LENGTH_HEX_ID_STRING)
 			{
-				throw new Exception("Visitor ID (cid) must be ".Piwik_Tracker::LENGTH_HEX_ID_STRING." characters long");
+				throw new Exception("Visitor ID (cid) $idVisitor must be ".Piwik_Tracker::LENGTH_HEX_ID_STRING." characters long");
 			}
 			printDebug("Request will be recorded for this idvisitor = ".$idVisitor);
 			$found = true;
@@ -1090,7 +1097,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 	}
 
-	/**
+    protected function getForcedVisitorId()
+    {
+        return $this->forcedVisitorId;
+    }
+
+    /**
 	 * This methods tries to see if the visitor has visited the website before.
 	 *
 	 * We have to split the visitor into one of the category
@@ -1110,9 +1122,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$configId = $userInfo['config_id'];
 		
 		$this->assignVisitorIdFromRequest();
-		$matchVisitorId = !empty($this->visitorInfo['idvisitor']);
+		$isVisitorIdToLookup = !empty($this->visitorInfo['idvisitor']);
 		
-		if($matchVisitorId)
+		if($isVisitorIdToLookup)
 		{
 			printDebug("Matching visitors with: visitorId=".bin2hex($this->visitorInfo['idvisitor'])." OR configId=".bin2hex($configId));
 		}
@@ -1156,29 +1168,25 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		";
 		$from = "FROM ".Piwik_Common::prefixTable('log_visit');
 
-		
 		$bindSql = array();
 		
 		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - Piwik_Config::getInstance()->Tracker['visit_standard_length']);
 
-		// This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
-		// are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
-		$trustCookiesOnly = Piwik_Config::getInstance()->Tracker['trust_visitors_cookies'];
-		
-		$shouldMatchOneFieldOnly = ($matchVisitorId && $trustCookiesOnly) || !$matchVisitorId;
-		
-		// Two use cases:
+        $shouldMatchOneFieldOnly = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup);
+
+        // Two use cases:
 		// 1) there is no visitor ID so we try to match only on config_id (heuristics)
 		// 		Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed, etc.
 		// 		We can use config_id heuristics to try find the visitor in the past, there is a risk to assign 
 		// 		this page view to the wrong visitor, but this is better than creating artificial visits.
-		// 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies), so we force to look up this visitor id
+		// 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies, OR it was set using &cid= in tracking API),
+        //      and in these cases, we force to look up this visitor id
 		if($shouldMatchOneFieldOnly)
 		{
 			$where = "visit_last_action_time >= ? AND idsite = ?";
 			$bindSql[] = $timeLookBack;
 			$bindSql[] = $this->idsite;
-			if(!$matchVisitorId)
+			if(!$isVisitorIdToLookup)
 			{
 				$where .= ' AND config_id = ?';
 				$bindSql[] = $configId;
@@ -1305,7 +1313,22 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		}
 	}
 
-	static public function getCustomVariables($scope, $request)
+    protected function shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup)
+    {
+        // This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
+        // are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
+        $trustCookiesOnly = Piwik_Config::getInstance()->Tracker['trust_visitors_cookies'];
+
+        // If a &cid= was set, we force to select this visitor (or create a new one)
+        $isForcedVisitorIdMustMatch = ($this->getForcedVisitorId() != null);
+
+        $shouldMatchOneFieldOnly = (($isVisitorIdToLookup && $trustCookiesOnly)
+                                    || $isForcedVisitorIdMustMatch
+                                    || !$isVisitorIdToLookup);
+        return $shouldMatchOneFieldOnly;
+    }
+
+    static public function getCustomVariables($scope, $request)
 	{
 		if($scope == 'visit') {
 			$parameter = '_cvar';
