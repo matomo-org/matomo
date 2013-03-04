@@ -98,16 +98,19 @@ class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCas
     {
         try {
             $t->setVisitorId('test');
+            $this->fail('should throw');
         } catch(Exception $e) {
             //OK
         }
         try {
             $t->setVisitorId('61e8');
+            $this->fail('should throw');
         } catch(Exception $e) {
             //OK
         }
         try {
             $t->setVisitorId('61e8cc2d51fea26dabcabcabc');
+            $this->fail('should throw');
         } catch(Exception $e) {
             //OK
         }
