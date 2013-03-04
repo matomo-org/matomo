@@ -149,7 +149,7 @@
                     var d = $('<div>'), r = $('<div>'), l = $('<div>'),
                         metric = $$('.userCountryMapSelectMetrics').val(),
                         v = formatNumber(Math.round(val)) + (metric == 'avg_time_on_site' ? first ? ' sec' : 's' : '');
-                    d.css({ width: 17, height: 17, float: 'left', background: colscale.getColor(val) });
+                    d.css({ width: 17, height: 17, float: 'left', background: colscale(val) });
                     l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
                     r.css({ clear: 'both', height: 19 });
                     r.append(d).append(l);
@@ -168,7 +168,7 @@
                 stats = minmax(values);
 
                 if (stats.min == stats.max) {
-                    colscale = { getColor: function() { return '#CDDAEF'; } };
+                    colscale = function() { return '#CDDAEF'; };
                     if (choropleth) {
                         $('.UserCountryMap-legend .content').html('').show();
                         addLegendItem(stats.min, true);
@@ -176,21 +176,17 @@
                     return colscale;
                 }
 
-                colscale = new chroma.ColorScale({
-                    colors: [choropleth ? '#CDDAEF' : '#385993', '#385993'],
-                    limits: chroma.limits(values, 'c', 4),
-                    mode: 'hcl'
-                });
+                colscale = chroma.scale()
+                    .range([choropleth ? '#CDDAEF' : '#385993', '#385993'])
+                    .domain(values, 4, 'c')
+                    .mode('lch');
 
                 if (metric == 'avg_time_on_site' || metric == 'nb_actions_per_visit' || metric == 'bounce_rate') {
                     if (id.length == 3) {
                         c = (stats.p90 - stats.min) / (stats.max - stats.min);
-                        colscale = new chroma.ColorScale({
-                            colors: ['#385993', '#385993','#E87500', '#E87500'],
-                            limits: chroma.limits(rows, 'c', 5, 'curMetric', filter),
-                            positions: [0, c, c+0.001, 1],
-                            mode: 'hsl'
-                        });
+                        colscale = chroma.scale(['#385993', '#385993','#E87500', '#E87500'], [0, c, c+0.001, 1])
+                            .domain(chroma.limits(rows, 'c', 5, 'curMetric', filter))
+                            .mode('hsl');
                     }
                 }
 
@@ -439,7 +435,7 @@
                         if (d === null) {
                             return self.config.noDataColor;
                         } else {
-                            return colscale.getColor(d[metric]);
+                            return colscale(d[metric]);
                         }
                     }
 
@@ -698,7 +694,7 @@
 
                         function regionFill(data) {
                             var code = regionCode(data);
-                            return regionDict[code] === undefined ? '#fff' : colscale.getColor(regionDict[code].curMetric);
+                            return regionDict[code] === undefined ? '#fff' : colscale(regionDict[code].curMetric);
                         }
 
                         // apply colors to map
@@ -858,7 +854,7 @@
                             },
                             attrs: function(city) {
                                 return {
-                                    fill: colscale.getColor(city.curMetric).hex(),
+                                    fill: colscale(city.curMetric).hex(),
                                     'fill-opacity': 0.7,
                                     stroke: '#fff',
                                     cursor: 'pointer'
@@ -884,7 +880,7 @@
                                     'stroke': '#ffffff'
                                 });
                                 if ($.inArray(city.label, _rowEvolution.labels) == -1) {
-                                    symbol.path.attr({ fill: colscale.getColor(city.curMetric) });
+                                    symbol.path.attr({ fill: colscale(city.curMetric) });
                                     if (symbol.label) symbol.label.attr({ fill: '#fff' });
                                 }
                             },
@@ -897,7 +893,7 @@
                                     showRowEvolution('getCity', city.label);
                                     citySymbols.update({
                                         attrs: function(city) {
-                                            return { fill: colscale.getColor(city.curMetric) };
+                                            return { fill: colscale(city.curMetric) };
                                         }
                                     });
                                 }
