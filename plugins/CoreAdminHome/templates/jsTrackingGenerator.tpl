@@ -52,7 +52,7 @@
 		<label for="javascript-tracking-group-by-domain">{'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate}</label>
 		
 		<div class="small-form-description">
-			{'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc'|translate}
+			{'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1'|translate:"<span class='current-site-host'>$defaultReportSiteDomain</span>"}
 		</div>
 	</div>
 
