@@ -307,7 +307,8 @@ $(document).ready(function() {
 				$(this).text(siteHost);
 			});
 			
-			$('.current-site-alias').text(siteUrls[site.id][1] || 'x.domain.com');
+			var defaultAliasUrl = 'x.' + siteHost;
+			$('.current-site-alias').text(siteUrls[site.id][1] || defaultAliasUrl);
 		
 			resetGoalSelectItems(site.id, 'js-tracker-goal');
 			generateJsCode();
