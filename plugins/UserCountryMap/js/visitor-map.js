@@ -168,7 +168,7 @@
                 stats = minmax(values);
 
                 if (stats.min == stats.max) {
-                    colscale = function() { return '#CDDAEF'; };
+                    colscale = function() { return chroma.hex('#CDDAEF'); };
                     if (choropleth) {
                         $('.UserCountryMap-legend .content').html('').show();
                         addLegendItem(stats.min, true);
