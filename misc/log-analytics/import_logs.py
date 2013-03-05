@@ -1120,6 +1120,9 @@ class Recorder(object):
             'dp': '0' if config.options.reverse_dns else '1',
             'ua': hit.user_agent.encode('utf8'),
         }
+        if config.options.replay_tracking:
+            # prevent request to be force recorded when option replay-tracking
+            args['rec'] = '0'
         args.update(hit.args)
 
         if hit.is_download:
