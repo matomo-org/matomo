@@ -193,7 +193,7 @@
                     42 * age(r), // hue
                     Math.sqrt(age(r)), // saturation
                     (engaged ? 0.65 : 0.5) - (1-age(r))* 0.45  // lightness
-                ).hex();
+                );
                 return col;
             }
 
