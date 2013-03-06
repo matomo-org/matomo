@@ -48,9 +48,11 @@
 		&nbsp;<img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled" />
 		&nbsp;<img src="{$visitor.columns.operatingSystemIcon}" title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})" />
 		{if $visitor.columns.visitorTypeIcon}
-		<a class="rightLink" href="javascript:broadcast.propagateAjax('module=Live&action=getVisitorLog&period=month&segment=visitorId=={$visitor.columns.visitorId}')">
-			&nbsp;- <img src="{$visitor.columns.visitorTypeIcon}" title="{'General_ReturningVisitor'|translate} - {'General_ReturningVisitorAllVisits'|translate}" />
-		</a>
+            {if !empty($visitor.columns.visitorId)}
+            <a class="rightLink" href="javascript:Piwik_Live_LoadVisitorPopover('{$visitor.columns.visitorId}')">
+            {/if}
+                &nbsp;- <img src="{$visitor.columns.visitorTypeIcon}" title="{'General_ReturningVisitor'|translate}{if !empty($visitor.columns.visitorId)} - {'General_ReturningVisitorAllVisits'|translate}{/if}" />
+            {if !empty($visitor.columns.visitorId)}</a>{/if}
 		{/if}
 		
 		{if !$displayVisitorsInOwnColumn} <br/> <br/> {/if}
@@ -267,18 +269,31 @@
 {/if}
 
 {include file="CoreHome/templates/datatable_js.tpl"}
-
+{debug}
 <script type="text/javascript" defer="defer">
-$(document).ready(function(){ldelim}
-	var dataTableVisitorLog = dataTables['{$properties.uniqueId}'];
-	dataTableVisitorLog.param.maxIdVisit = {$maxIdVisit};
-	{literal}
-	if(dataTableVisitorLog.param.previous == 1) {
-		$('.dataTablePrevious').hide();
-		dataTableVisitorLog.param.previous = 0;
-	}
-		
-	// Replace duplicated page views by a NX count instead of using too much vertical space
+
+var visitorLogTitle = '{'Live_VisitorLog'|translate|escape:'javascript'}';
+function Piwik_Live_LoadVisitorPopover(visitorId)
+{ldelim}
+    var startingDate = piwik.minDateYear +'-01-01';
+    var url = 'module=Live&action=getVisitorLog&period=range&date='+ startingDate +',today&show_footer=0&segment=visitorId'+encodeURIComponent('==')+visitorId;
+    return Piwik_Popover.createPopupAndLoadUrl(url,visitorLogTitle);
+{rdelim}
+
+    $(document).ready(function(){ldelim}
+
+    var dataTableVisitorLog = dataTables['{$properties.uniqueId}'];
+    dataTableVisitorLog.param.maxIdVisit = {$maxIdVisit};
+    {literal}
+    function hidePreviousLink() {
+        if (dataTableVisitorLog.param.previous == 1) {
+            $('.dataTablePrevious').hide();
+            dataTableVisitorLog.param.previous = 0;
+        }
+    }
+    hidePreviousLink();
+
+    // Replace duplicated page views by a NX count instead of using too much vertical space
     $("ol.visitorLog").each(function () {
         var prevelement;
         var prevhtml;

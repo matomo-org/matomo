@@ -139,6 +139,26 @@ var piwikHelper = {
         return String(window.location.pathname) + parameters;
     },
 
+  /**
+   * Given param1=v1&param2=k2
+   * returns: { "param1": "v1", "param2": "v2" }
+   *
+   * @param query string
+   * @return {Object}
+   */
+    getArrayFromQueryString: function (query) {
+      var params = {};
+      var vars = query.split("&");
+      for (var i=0;i<vars.length;i++) {
+        var keyValue = vars[i].split("=");
+        // Jquery will urlencode these, but we wish to keep the current raw value
+        // use case: &segment=visitorId%3D%3Dabc...
+        var rawValue = decodeURIComponent(keyValue[1]);
+        params[keyValue[0]] = rawValue;
+      }
+      return params;
+    },
+
     /**
      *  Returns query string for an object of key,values
      *  Note: we don't use $.param from jquery as it doesn't return array values the PHP way (returns a=v1&a=v2 instead of a[]=v1&a[]=v2)

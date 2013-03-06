@@ -454,9 +454,13 @@ a {
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
 }
-/* extending the jquery UI css for inline help */
-.ui-widget { 
-	text-align:justify;
+/* extending the jquery UI css, for visitor Log popover */
+.ui-widget .dataTable {
+    font-size: 14px;
+}
+/* for inline help */
+.ui-widget {
+    text-align:justify;
 }
 
 .ui-inline-help {
