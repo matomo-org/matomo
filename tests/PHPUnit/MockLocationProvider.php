@@ -8,14 +8,9 @@
 
 class MockLocationProvider extends Piwik_UserCountry_LocationProvider
 {
-	private $locations = array();
+	public $locations = array();
 	private $currentLocation = 0;
 	private $ipToLocations = array();
-	
-	public function setLocations( $locations )
-	{
-		$this->locations = $locations;
-	}
 	
 	public function getLocation( $info )
 	{
