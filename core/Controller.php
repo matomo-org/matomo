@@ -876,7 +876,7 @@ abstract class Piwik_Controller
 	protected function getEvolutionHtml( $date, $currentValue, $pastDate, $pastValue)
 	{
 		$evolutionPercent = Piwik_DataTable_Filter_CalculateEvolutionFilter::calculate(
-			$currentValue, $pastValue, $precision = 2);
+			$currentValue, $pastValue, $precision = 1);
 		
 		// do not display evolution if evolution percent is 0 and current value is 0
 		if ($evolutionPercent == 0

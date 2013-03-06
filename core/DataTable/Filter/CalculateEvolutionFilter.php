@@ -112,7 +112,9 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
 	 */
 	protected function formatValue($value, $divisor)
 	{
-		return self::makePercent($value, $divisor, $this->quotientPrecision);
+		$value = self::getPercentageValue($value, $divisor, $this->quotientPrecision);
+        $value = self::appendPercentSign($value);
+        return $value;
 	}
 
 	/**
@@ -131,41 +133,49 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
 	 * @param numeric $currentValue The current metric value.
 	 * @param numeric $pastValue The value of the metric in the past. We measure the % change
 	 *                           from this value to $currentValue.
-	 * @param numeric $quotientPrecision The quotient precision to round to.
-	 * @param bool $addPlusSign Whether to add plus sign or not to positive values.
-	 * @return string The evolution percent. TODO: addPlusSign should be used elsewhere?
-	 */
-	public static function calculate($currentValue, $pastValue, $quotientPrecision = 0, $addPlusSign = false)
+     * @param numeric $quotientPrecision The quotient precision to round to.
+     * @return string The evolution percent 15%
+     */
+    public static function calculate($currentValue, $pastValue, $quotientPrecision = 0)
 	{
-		return self::makePercent($currentValue - $pastValue, $pastValue, $quotientPrecision, $addPlusSign);
-	}
-	
-	/**
-	 * Returns an evolution percent based on a value & divisor.
-	 */
-	private static function makePercent($value, $divisor, $quotientPrecision, $addPlusSign = false)
+        $number = self::getPercentageValue($currentValue - $pastValue, $pastValue, $quotientPrecision);
+        $number = self::appendPercentSign($number);
+        return $number;
+    }
+
+    public static function appendPercentSign($number)
+    {
+        $number = $number . '%';
+        return $number;
+    }
+
+    public static function prependPlusSignToNumber($number)
+    {
+        if ($number > 0) {
+            $number = '+'.$number;
+        }
+        return $number;
+    }
+
+    /**
+     * Returns an evolution percent based on a value & divisor.
+     */
+    private static function getPercentageValue($value, $divisor, $quotientPrecision)
 	{
-		if($value == 0)
-		{
-			$evolution = 0;
-		}
-		elseif($divisor == 0)
-		{
-			$evolution = 100;
-		}
-		else
-		{
-			$evolution = ($value / $divisor) * 100;
-		}
-		
-		$evolution = round($evolution, $quotientPrecision);
-		
-		$result = $evolution.'%';
-		if ($addPlusSign
-			&& $evolution > 0)
-		{
-			$result = '+'.$result;
-		}
-		return $result;
-	}
+        if($value == 0)
+        {
+            $evolution = 0;
+        }
+    elseif($divisor == 0)
+        {
+            $evolution = 100;
+        }
+    else
+        {
+            $evolution = ($value / $divisor) * 100;
+        }
+
+        $evolution = round($evolution, $quotientPrecision);
+        return $evolution;
+    }
 }

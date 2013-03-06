@@ -1513,8 +1513,8 @@ class Piwik_API_API
 				continue;
 			}
 
-			$change = Piwik_DataTable_Filter_CalculateEvolutionFilter::calculate(
-				$last, $first, $quotientPrecision = 0, $addPlusSign = true);
+			$change = Piwik_DataTable_Filter_CalculateEvolutionFilter::calculate($last, $first, $quotientPrecision = 0);
+            $change = Piwik_DataTable_Filter_CalculateEvolutionFilter::prependPlusSignToNumber($change);
 			$metricsResult[$metric]['change'] = $change;
 		}
 

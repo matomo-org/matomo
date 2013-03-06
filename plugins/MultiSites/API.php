@@ -343,7 +343,7 @@ class Piwik_MultiSites_API
 						$pastData,
 						$metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY],
 						$metricSettings[self::METRIC_RECORD_NAME_KEY],
-						$quotientPrecision = 2)
+						$quotientPrecision = 1)
 				);
 			}
 		}
