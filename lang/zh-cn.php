@@ -269,6 +269,7 @@ $translations = array(
 	'General_Continue' => '继续',
 	'General_Note' => '注意',
 	'General_DownloadFail_FileExists' => '文件 %s 已经存在!',
+	'General_Hide_js' => '隐藏',
 	'General_Donate' => '捐款',
 	'Actions_PluginDescription' => '关于页面浏览量、离开链接和下载。离开链接及下载的追踪是自动的！',
 	'Actions_Actions' => '进站活动',
