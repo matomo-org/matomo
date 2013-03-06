@@ -13,7 +13,7 @@ OTranceUser="downloaduser"
 #  Perform initial git actions
 #
 # update master branch
-git master > /dev/null 2>&1
+git checkout master > /dev/null 2>&1
 git pull > /dev/null 2>&1
 
 # check if branch exists local (assume its the correct one if so)
@@ -91,6 +91,10 @@ if [ $? -gt 0 ]; then
     echo "Error: Unable to extract download package. Aborting..."
     exit;
 fi
+
+# remove downloaded file
+rm -f $PIWIKPATH/tmp/language_pack.tar.gz
+
 #
 ################################
 
@@ -174,7 +178,7 @@ git commit -m "language update refs #3430"
 git push
 
 while true; do
-    read -p "Please provide your github username? " username
+    read -p "Please provide your github username (to create a pull request using Github API): " username
 
     returnCode=(`curl \
          -X POST \
@@ -194,7 +198,7 @@ while true; do
     fi
 
     if [ $returnCode -eq 422 ]; then
-        echo "Pull request failed. Unprocessable Entity. Maybe a pull request was already created before"
+        echo "Pull request failed. Unprocessable Entity. Maybe a pull request was already created before."
         break;
     fi
 
