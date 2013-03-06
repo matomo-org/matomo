@@ -273,7 +273,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 	public static function setMockLocationProvider()
 	{
 		Piwik_UserCountry_LocationProvider::setCurrentProvider('mock_provider');
-		Piwik_UserCountry_LocationProvider::getCurrentProvider()->setLocations(array(
+		Piwik_UserCountry_LocationProvider::getCurrentProvider()->locations = array(
 			self::makeLocation('Toronto', 'ON', 'CA'),
 			
 			self::makeLocation('Nice', 'B8', 'FR'),
@@ -281,7 +281,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 			self::makeLocation('Melbourne', '07', 'AU'),
 
 			self::makeLocation('Yokohama', '19', 'JP'),
-		));
+		);
 	}
 	
 	public static function unsetMockLocationProvider()
