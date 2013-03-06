@@ -206,7 +206,7 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 	{
 		Piwik_UserCountry_LocationProvider::$providers = null;
 		Piwik_UserCountry_LocationProvider::setCurrentProvider('mock_provider');
-		Piwik_UserCountry_LocationProvider::getCurrentProvider()->locations = array(
+		MockLocationProvider::$locations = array(
 			self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location
 			
 			// same region, different city, same country
