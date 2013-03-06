@@ -195,7 +195,7 @@ a {
 }
 
 #logo .description .arrow {
-	background:url('../../../themes/default/images/affix-arrow.png');
+	background:url(../../../themes/default/images/affix-arrow.png);
 	width:50px;
 	height:68px;
 	position:absolute;

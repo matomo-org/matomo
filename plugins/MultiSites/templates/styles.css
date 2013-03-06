@@ -11,7 +11,7 @@
 	font-size:15px;
 }
 .indicator {
-	background: url("../images/loading-blue.gif") no-repeat center;
+	background: url(../images/loading-blue.gif) no-repeat center;
 	height: 20px;
 	width: 60px;
 	margin: auto;

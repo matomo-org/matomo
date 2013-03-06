@@ -72,7 +72,7 @@
 .widgetContent.loading {
     opacity: 0.5;
     filter:Alpha(opacity:50);
-    background: url('../../../themes/default/images/loading-blue.gif') no-repeat top right;
+    background: url(../../../themes/default/images/loading-blue.gif) no-repeat top right;
 }
 
 .widget h2 {
@@ -145,7 +145,7 @@
 }
 
 .ui-dialog input[type=button], .ui-dialog button{
-	background: #B5B0A7 url("../../../themes/default/images/dashboard_h_bg_hover.png") repeat-x 0 0!important;
+	background: #B5B0A7 url(../../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0!important;
 	color:#fff!important;
 	border:0!important;
 	font-size: 12px!important;
