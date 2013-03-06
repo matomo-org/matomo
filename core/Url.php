@@ -154,7 +154,11 @@ class Piwik_Url
 	 */
 	static public function getCurrentScheme()
 	{
-		$assume_secure_protocol = @Piwik_Config::getInstance()->General['assume_secure_protocol'];
+		try { 
+			$assume_secure_protocol = @Piwik_Config::getInstance()->General['assume_secure_protocol'];
+		} catch(Exception $e) {
+			$assume_secure_protocol = false;
+		}
 		if($assume_secure_protocol
 			|| (isset($_SERVER['HTTPS'])
 				&& ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
