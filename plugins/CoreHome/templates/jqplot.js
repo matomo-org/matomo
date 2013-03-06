@@ -275,7 +275,7 @@ JQPlot.prototype = {
 	
 	
 	// ------------------------------------------------------------
-	//  EVOLTION CHART
+	//  EVOLUTION CHART
 	// ------------------------------------------------------------
 	
 	prepareEvolutionChart: function(targetDivId, lang) {

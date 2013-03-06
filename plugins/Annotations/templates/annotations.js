@@ -489,8 +489,12 @@ var showAnnotationViewer = function(domElem, idSite, date, period, lastN, callba
 					annotationCount = +$(this).attr('data-count');
 					
 				// modify the starred count & make sure the correct image is used
-				var newStarCount = starredCount + starAmt,
-					newImg = 'themes/default/images/' + (newStarCount > 0 ? 'yellow_marker.png' : 'grey_marker.png');
+				var newStarCount = starredCount + starAmt;
+        if(newStarCount > 0) {
+          var newImg = 'themes/default/images/yellow_marker.png';
+        } else {
+          var newImg = 'themes/default/images/grey_marker.png';
+        }
 				$(this).attr('data-starred', newStarCount).find('img').attr('src', newImg);
 				
 				// modify the annotation count & hide/show based on new count
