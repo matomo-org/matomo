@@ -269,7 +269,6 @@
 {/if}
 
 {include file="CoreHome/templates/datatable_js.tpl"}
-{debug}
 <script type="text/javascript" defer="defer">
 
 var visitorLogTitle = '{'Live_VisitorLog'|translate|escape:'javascript'}';
@@ -280,7 +279,7 @@ function Piwik_Live_LoadVisitorPopover(visitorId)
     return Piwik_Popover.createPopupAndLoadUrl(url,visitorLogTitle);
 {rdelim}
 
-    $(document).ready(function(){ldelim}
+$(document).ready(function(){ldelim}
 
     var dataTableVisitorLog = dataTables['{$properties.uniqueId}'];
     dataTableVisitorLog.param.maxIdVisit = {$maxIdVisit};
