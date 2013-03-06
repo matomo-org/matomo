@@ -78,7 +78,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 		}
 
 		// this is a magic template to trigger the Piwik_View_Update
-		$view = Piwik_View::factory('update_one_click_done');
+		$view = Piwik_View::factory(Piwik_View::COREUPDATER_ONE_CLICK_DONE);
 		$view->coreError = $errorMessage;
 		$view->feedbackMessages = $messages;
 		echo $view->render();
@@ -239,7 +239,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 	protected function runUpdaterAndExit()
 	{
 		$updater = new Piwik_Updater();
-		$componentsWithUpdateFile = Piwik_CoreUpdater::getComponentUpdates($updater);
+        $componentsWithUpdateFile = Piwik_CoreUpdater::getComponentUpdates($updater);
 		if(empty($componentsWithUpdateFile))
 		{
 			Piwik::redirectToModule('CoreHome');

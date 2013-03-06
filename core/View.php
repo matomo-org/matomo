@@ -24,12 +24,8 @@ if(!defined('PIWIK_USER_PATH'))
  */
 class Piwik_View implements Piwik_View_Interface
 {
-	// view types
-	const STANDARD = 0; // REGULAR, FULL, CLASSIC
-	const MOBILE = 1;
-	const CLI = 2;
-
 	const COREUPDATER_ONE_CLICK_DONE = 'update_one_click_done';
+
 
 	private $template = '';
 	private $smarty = false;
@@ -229,11 +225,10 @@ class Piwik_View implements Piwik_View_Interface
 	 * View factory method
 	 *
 	 * @param string $templateName Template name (e.g., 'index')
-	 * @param int $viewType     View type (e.g., Piwik_View::CLI)
 	 * @throws Exception
 	 * @return Piwik_View|Piwik_View_OneClickDone
 	 */
-	static public function factory( $templateName = null, $viewType = null)
+	static public function factory( $templateName = null )
 	{
 		if ($templateName == self::COREUPDATER_ONE_CLICK_DONE)
 		{
@@ -248,54 +243,17 @@ class Piwik_View implements Piwik_View_Interface
 		{
 			throw new Exception("View factory cannot be invoked");
 		}
-		$path = dirname($bt[0]['file']);
+		$path = basename(dirname($bt[0]['file']));
 
-		// determine best view type
-		if($viewType === null)
-		{
-			if(Piwik_Common::isPhpCliMode())
-			{
-				$viewType = self::CLI;
-			}
-			else
-			{
-				$viewType = self::STANDARD;
-			}
-		}
-
-		// get template filename
-		if($viewType == self::CLI)
-		{
-			$templateFile = $path.'/templates/cli_'.$templateName.'.tpl';
-			if(file_exists($templateFile))
+        if(Piwik_Common::isPhpCliMode())
+        {
+        	$templateFile = $path.'/templates/cli_'.$templateName.'.tpl';
+			if(file_exists( PIWIK_INCLUDE_PATH . '/plugins/' . $templateFile))
 			{
 				return new Piwik_View($templateFile, array(), false);
-			}
-
-			$viewType = self::STANDARD;
-		}
-
-		if($viewType == self::MOBILE)
-		{
-			$templateFile = $path.'/templates/mobile_'.$templateName.'.tpl';
-			if(!file_exists($templateFile))
-			{
-				$viewType = self::STANDARD;
-			}
-		}
-
-		if($viewType != self::MOBILE)
-		{
-			$templateFile = $path.'/templates/'.$templateName.'.tpl';
-		}
-		
-		// Specified template not found
-		// We allow for no specified template
-		if(!empty($templateName)
-			&& !file_exists($templateFile))
-		{
-			throw new Exception('Template not found: '.$templateFile);
-		}
-		return new Piwik_View($templateFile);
+            }
+        }
+        $templateFile = $path.'/templates/'.$templateName.'.tpl';
+        return new Piwik_View($templateFile);
 	}
 }
