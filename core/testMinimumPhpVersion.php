@@ -61,41 +61,43 @@ else
 	}
 }
 
-/**
- * Displays info/warning/error message in a friendly UI and exits.
- *
- * @param string $message Main message, must be html encoded before calling
- * @param bool|string $optionalTrace Backtrace; will be displayed in lighter color
- * @param bool $optionalLinks If true, will show links to the Piwik website for help
- */
-function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false)
-{
-	@header('Content-Type: text/html; charset=utf-8');
-	if($optionalTrace)
-	{
-		$optionalTrace = '<font color="#888888">Backtrace:<br /><pre>'.$optionalTrace.'</pre></font>';
-	}
-	if($optionalLinks)
-	{
-		$optionalLinks = '<ul>
-						<li><a target="_blank" href="http://piwik.org">Piwik.org homepage</a></li>
-						<li><a target="_blank" href="http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
-						<li><a target="_blank" href="http://piwik.org/docs/">Piwik Documentation</a></li>
-						<li><a target="_blank" href="http://forum.piwik.org/">Piwik Forums</a></li>
-						<li><a target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
-						</ul>';
-	}
-	$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
-	$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
+if(!function_exists('Piwik_ExitWithMessage')) {
+    /**
+     * Displays info/warning/error message in a friendly UI and exits.
+     *
+     * @param string $message Main message, must be html encoded before calling
+     * @param bool|string $optionalTrace Backtrace; will be displayed in lighter color
+     * @param bool $optionalLinks If true, will show links to the Piwik website for help
+     */
+    function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false)
+    {
+        @header('Content-Type: text/html; charset=utf-8');
+        if($optionalTrace)
+        {
+            $optionalTrace = '<font color="#888888">Backtrace:<br /><pre>'.$optionalTrace.'</pre></font>';
+        }
+        if($optionalLinks)
+        {
+            $optionalLinks = '<ul>
+                            <li><a target="_blank" href="http://piwik.org">Piwik.org homepage</a></li>
+                            <li><a target="_blank" href="http://piwik.org/faq/">Piwik Frequently Asked Questions</a></li>
+                            <li><a target="_blank" href="http://piwik.org/docs/">Piwik Documentation</a></li>
+                            <li><a target="_blank" href="http://forum.piwik.org/">Piwik Forums</a></li>
+                            <li><a target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
+                            </ul>';
+        }
+        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
+        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
 
-	$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
-	$content = '<p>'.$message.'</p>
-				<p><a href="index.php">Go to Piwik</a><br/>
-				<a href="index.php?module=Login">Login</a></p>
-				'.  $optionalTrace .' '. $optionalLinks;
-	
-	echo $headerPage . $content . $footerPage;
-	exit;
+        $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
+        $content = '<p>'.$message.'</p>
+                    <p><a href="index.php">Go to Piwik</a><br/>
+                    <a href="index.php?module=Login">Login</a></p>
+                    '.  $optionalTrace .' '. $optionalLinks;
+
+        echo $headerPage . $content . $footerPage;
+        exit;
+    }
 }
 
 if(!empty($piwik_errorMessage))
