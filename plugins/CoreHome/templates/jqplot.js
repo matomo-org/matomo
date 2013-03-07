@@ -23,41 +23,44 @@ JQPlot.prototype = {
 	init: function(data, dataTableId) {
 		this.dataTableId = dataTableId;
 		this.originalData = data;
-		this.params = data.params;
 		this.data = data.data;
-		this.tooltip = data.tooltip;
-		this.seriesPicker = data.seriesPicker;
-		
-		this.params.grid = {
-			drawGridLines: false,
-			background: '#ffffff',
-			borderColor: '#e7e7e7',
-			borderWidth: 0,
-			shadow: false
-		};
-		
-		this.params.title = {
-			show: false
-		};
-		
-		this.params.axesDefaults = {
-			pad: 1.0,
-			tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-			tickOptions: {
-				showMark: false,
-				fontSize: '11px',
-				fontFamily: 'Arial'
-			}
-		};
-		
-		if (typeof this.params.axes.yaxis == 'undefined') {
-			this.params.axes.yaxis = {};
-		}
-		if (typeof this.params.axes.yaxis.tickOptions == 'undefined') {
-			this.params.axes.yaxis.tickOptions = {
+
+    defaultParams = {};
+    defaultParams.grid = {
+      drawGridLines: false,
+      background: '#fff',
+      borderColor: '#f00',
+      borderWidth: 0,
+      shadow: false
+    };
+
+    defaultParams.title = {
+      show: false
+    };
+
+    defaultParams.axesDefaults = {
+      pad: 1.0,
+      tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+      tickOptions: {
+        showMark: false,
+        fontSize: '11px',
+        fontFamily: 'Arial'
+      }
+    };
+
+    this.params = $.extend(true, {}, defaultParams, data.params);
+
+    this.tooltip = data.tooltip;
+    this.seriesPicker = data.seriesPicker;
+
+    if (typeof this.params.axes.yaxis == 'undefined') {
+      this.params.axes.yaxis = {};
+    }
+    if (typeof this.params.axes.yaxis.tickOptions == 'undefined') {
+      this.params.yaxis.tickOptions = {
 				formatString: '%d'
 			};
-		}
+    }
 	},
 	
 	/** Generic render function */
@@ -282,13 +285,17 @@ JQPlot.prototype = {
 		this.setYTicks();
 		this.addSeriesPicker(targetDivId, lang);
 
-		this.params.axes.xaxis.pad = 1.0;
-		this.params.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
-		this.params.axes.xaxis.tickOptions = {
-			showGridline: false
-		};
-		
-		this.params.seriesDefaults = {
+    defaultParams.axes = {
+      xaxis: {
+        pad: 1.0,
+        renderer: $.jqplot.CategoryAxisRenderer,
+        tickOptions: {
+          showGridline: false
+        }
+      }
+    };
+
+    defaultParams.seriesDefaults = {
 			lineWidth: 1,
 			markerOptions: {
 				style: "filledCircle",
@@ -296,14 +303,16 @@ JQPlot.prototype = {
 				shadow: false
 			}
 		};
-		
-		this.params.piwikTicks = {
+
+    defaultParams.piwikTicks = {
 			showTicks: true,
 			showGrid: true,
 			showHighlight: true
 		};
-		
-		var self = this;
+
+    this.params = $.extend(true, {}, defaultParams, this.params);
+
+    var self = this;
 		var lastTick = false;
 		
 		$('#' + targetDivId)

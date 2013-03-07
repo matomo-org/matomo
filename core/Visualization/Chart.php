@@ -157,7 +157,8 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 	public function render()
 	{
 		Piwik::overrideCacheControlHeaders();
-		
+
+        // See http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
 		$data = array(
 			'params' => array(
 				'axes' => &$this->axes,
@@ -168,7 +169,8 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
 			'tooltip' => &$this->tooltip,
 			'seriesPicker' => &$this->seriesPicker
 		);
-		
+
+        Piwik_PostEvent('Visualization_Chart.render', $data);
 		return Piwik_Common::json_encode($data);
 	}
 	
