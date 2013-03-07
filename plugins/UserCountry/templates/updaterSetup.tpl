@@ -39,12 +39,14 @@
 				<label for="geoip-update-period-week">{'CoreHome_PeriodWeek'|translate}</label>
 			</td>
 			<td width="164">
-			{if !empty($lastTimeUpdaterRun)}
-				{capture assign=lastTimeRunNote}
-				{'UserCountry_UpdaterWasLastRun'|translate:$lastTimeUpdaterRun}
-				{/capture}
-				{$lastTimeRunNote|inlineHelp}
-			{/if}
+			{capture assign=lastTimeRunNote}
+				{if !empty($lastTimeUpdaterRun)}
+					{'UserCountry_UpdaterWasLastRun'|translate:$lastTimeUpdaterRun}
+				{else}
+					{'UserCountry_UpdaterHasNotBeenRun'|translate}
+				{/if}
+			{/capture}
+			{$lastTimeRunNote|inlineHelp}
 			</td>
 		</tr>
 	</table>
