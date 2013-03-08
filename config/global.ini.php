@@ -356,6 +356,12 @@ record_statistics			= 1
 ; after his last page view, it will be recorded as a new visit
 visit_standard_length       = 1800
 
+; The window to look back for a previous visit by this current visitor. Defaults to visit_standard_length.
+; If you are looking for higher accuracy of "returning visitors" metrics, you may set this value to 86400 or more.
+; This is especially useful when you use the Tracking API where tracking Returning Visitors often depends on this setting.
+; The value window_look_back_for_visitor is used only if it is set to greater than visit_standard_length
+window_look_back_for_visitor = 0
+
 ; visitors that stay on the website and view only one page will be considered as time on site of 0 second
 default_time_one_page_visit = 0
 

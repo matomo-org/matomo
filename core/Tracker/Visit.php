@@ -1169,8 +1169,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$from = "FROM ".Piwik_Common::prefixTable('log_visit');
 
 		$bindSql = array();
-		
-		$timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - Piwik_Config::getInstance()->Tracker['visit_standard_length']);
+
+
+        $timeLookBack = $this->getWindowLookupPreviousVisit();
 
         $shouldMatchOneFieldOnly = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup);
 
@@ -1312,6 +1313,26 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			printDebug("The visitor was not matched with an existing visitor...");
 		}
 	}
+
+    /**
+     * By default, we look back 30 minutes to find a previous visitor (for performance reasons).
+     * In some cases, it is useful to look back and count unique visitors more accurately. You can set custom lookback window in
+     * [Tracker] window_look_back_for_visitor
+     *
+     * @return string
+     *
+     */
+    protected function getWindowLookupPreviousVisit()
+    {
+        $lookbackNSeconds = Piwik_Config::getInstance()->Tracker['visit_standard_length'];
+
+        $lookbackNSecondsCustom = Piwik_Config::getInstance()->Tracker['window_look_back_for_visitor'];
+        if ($lookbackNSecondsCustom > $lookbackNSeconds) {
+            $lookbackNSeconds = $lookbackNSecondsCustom;
+        }
+        $timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - $lookbackNSeconds);
+        return $timeLookBack;
+    }
 
     protected function shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup)
     {
