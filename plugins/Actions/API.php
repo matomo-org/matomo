@@ -311,6 +311,7 @@ class Piwik_Actions_API
 				Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT,
 				create_function ( '$value', 'return $value >= 1;')
 			));
+		$dataTable->deleteRow(Piwik_DataTable::ID_SUMMARY_ROW);
 		$dataTable->deleteColumn(Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT);
 		$this->filterPageDatatable($dataTable);
 		$this->filterActionsDataTable($dataTable);
