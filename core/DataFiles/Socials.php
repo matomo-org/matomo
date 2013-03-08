@@ -133,6 +133,9 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 		
 		// Sonico.com
 		'sonico.com'		  => 'Sonico.com',
+
+		// Pinterest
+		'pinterest.com'		=> 'Pinterest',
 		
 		// Plaxo
 		'plaxo.com'		   => 'Plaxo',
