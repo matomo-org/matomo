@@ -45,8 +45,8 @@
     config.svgBasePath = "{$piwikUrl}plugins/UserCountryMap/svg/";
     config.liveRefreshAfterMs = {$liveRefreshAfterMs};
 
-    config._ = JSON.parse('{$localeJSON}');
-    config.reqParams = JSON.parse('{$reqParamsJSON}');
+    config._ = JSON.parse('{$localeJSON|escape:'javascript'}');
+    config.reqParams = JSON.parse('{$reqParamsJSON|escape:'javascript'}');
     config.siteHasGoals = {$hasGoals};
     config.maxVisits = {$maxVisits};
 

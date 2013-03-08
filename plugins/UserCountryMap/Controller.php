@@ -54,7 +54,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		$view->defaultMetric = 'nb_visits';
 
 		// some translations
-		$view->localeJSON = json_encode(array(
+		$view->localeJSON = Piwik_Common::json_encode(array(
 			'nb_visits' => Piwik_Translate('VisitsSummary_NbVisits'),
 			'one_visit' => Piwik_Translate('General_OneVisit'),
 			'no_visit' => Piwik_Translate('UserCountryMap_NoVisit'),
@@ -67,7 +67,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		));
 
 		// template for ajax requests
-		$view->reqParamsJSON = json_encode(array(
+		$view->reqParamsJSON = Piwik_Common::json_encode(array(
 			'period' => $period,
 			'idSite' => $idSite,
 			'date' => $date,
@@ -81,7 +81,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 		$view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
 		$config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
 		$config['mapCssPath'] = 'plugins/UserCountryMap/css/map.css';
-		$view->config = json_encode($config);
+		$view->config = Piwik_Common::json_encode($config);
 		$view->noData = $config['visitsSummary']['nb_visits'] === 0;
 
 		echo $view->render();

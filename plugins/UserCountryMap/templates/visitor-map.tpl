@@ -71,9 +71,9 @@
 <script type="text/javascript">
 
     var visitorMap,
-        config = JSON.parse('{$config}');
-    config._ = JSON.parse('{$localeJSON}');
-    config.reqParams = JSON.parse('{$reqParamsJSON}');
+        config = JSON.parse('{$config|escape:'javascript'}');
+    config._ = JSON.parse('{$localeJSON|escape:'javascript'}');
+    config.reqParams = JSON.parse('{$reqParamsJSON|escape:'javascript'}');
 
     $('.UserCountryMap').addClass('dataTable');
 
