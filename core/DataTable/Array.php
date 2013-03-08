@@ -219,6 +219,13 @@ class Piwik_DataTable_Array
 		}
 	}
 
+    public function deleteRow($id)
+    {
+        foreach($this->array as $table)
+        {
+            $table->deleteRow($id);
+        }
+    }
 	/**
 	 * Deletes the given column
 	 *
