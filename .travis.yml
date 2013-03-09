@@ -11,12 +11,13 @@ env:
     - TEST_SUITE=PluginTests
     - TEST_SUITE=CoreTests
     - TEST_SUITE=IntegrationTests
+	- TEST_SUITE=
 
-script: phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --coverage-text --colors
+script: ./travis.sh
 
 before_script:
   - mysql -e 'create database piwik_test;'
-  - ./tests/travis.sh
+  - ./tests/prepare.sh
   - ./tests/travis/setup_webserver.sh
   - cd tests/PHPUnit
 
