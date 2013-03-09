@@ -300,6 +300,7 @@ abstract class Piwik_UserCountry_LocationProvider
 				"Invalid provider ID '$providerId'. The provider either does not exist or is not available");
 		}
 		Piwik_SetOption(self::CURRENT_PROVIDER_OPTION_NAME, $providerId);
+		Piwik_Tracker_Cache::clearCacheGeneral();
 		return $provider;
 	}
 	

@@ -203,6 +203,11 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		Piwik_UserCountry_LocationProvider::$providers = null;
 		Piwik_UserCountry_LocationProvider::setCurrentProvider(self::GEOIP_IMPL_TO_TEST);
 		
+		if (Piwik_UserCountry_LocationProvider::getCurrentProviderId() !== self::GEOIP_IMPL_TO_TEST)
+		{
+			throw new Exception("Failed to set the current location provider to '".self::GEOIP_IMPL_TO_TEST."'.");
+		}
+		
 		$possibleFiles = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames['loc'];
 		if (Piwik_UserCountry_LocationProvider_GeoIp::getPathToGeoIpDatabase($possibleFiles) === false)
 		{
