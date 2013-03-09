@@ -73,6 +73,9 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 		
 		// Classmates.com
 		'classmates.com'      => 'Classmates.com',
+
+		// Github
+		'github.com'		=> 'Github',
 		
 		// Google+
 		'url.google.com'     => 'Google+',
@@ -157,6 +160,9 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 		
 		// StumbleUpon
 		'stumbleupon.com'     => 'StumbleUpon',
+
+		// Sourceforge
+		'sourceforge.net'	=> 'SourceForge',
 		
 		// Hyves
 		'hyves.nl'		    => 'Hyves',
