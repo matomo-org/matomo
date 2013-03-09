@@ -11,7 +11,7 @@ env:
     - TEST_SUITE=PluginTests
     - TEST_SUITE=CoreTests
     - TEST_SUITE=IntegrationTests
-	- TEST_SUITE=
+    - TEST_SUITE=
 
 script: ./travis.sh
 
