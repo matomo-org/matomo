@@ -200,6 +200,12 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 		Piwik_UserCountry_LocationProvider::$providers = null;
 		Piwik_UserCountry_LocationProvider::setCurrentProvider(self::GEOIP_IMPL_TO_TEST);
+		
+		$possibleFiles = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames['loc'];
+		if (Piwik_UserCountry_LocationProvider_GeoIp::getPathToGeoIpDatabase($possibleFiles) === false)
+		{
+			throw new Exception("The GeoIP location provider cannot find the '$file' file! Tests will fail.");
+		}
 	}
 	
 	public static function setMockLocationProvider()
