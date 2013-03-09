@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -n "$TEST_SUITE"]
+if [ -n "$TEST_SUITE" ]
 then
 	phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --coverage-text --colors
 else
