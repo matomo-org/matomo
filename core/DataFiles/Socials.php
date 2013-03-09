@@ -133,6 +133,9 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 		
 		// StudiVZ
 		'studivz.net'		 => 'StudiVZ',
+
+		// StackOverflow
+		'stackoverflow.com'	=> 'StackOverflow',
 		
 		// Sonico.com
 		'sonico.com'		  => 'Sonico.com',
