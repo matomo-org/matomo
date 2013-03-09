@@ -32,6 +32,8 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 		'151.100.101.92', // in Rome, Italy (using country DB, so only Italy will show)
 		'103.29.196.229', // in Indonesia (Bali), (only Indonesia will show up)
 	);
+	
+	private static $ipsIndex = 0;
 
 	public static function setUpBeforeClass()
 	{
@@ -142,8 +144,8 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
 			$t->setNewVisitorId();
 			if ($setIp)
 			{
-				$t->setIp(current(self::$ips));
-				next(self::$ips);
+				$t->setIp(self::$ips[self::$ipsIndex]);
+				++self::$ipsIndex;
 			}
 			else
 			{
