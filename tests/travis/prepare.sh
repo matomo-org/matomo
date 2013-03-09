@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Install XMLStarlet
+sudo apt-get install -qq xmlstarlet
+
 # Copy Piwik configuration
 echo "Install config.ini.php"
 cp ./tests/PHPUnit/config.ini.travis.php ./config/config.ini.php
@@ -9,6 +12,12 @@ cp ./tests/PHPUnit/config.ini.travis.php ./config/config.ini.php
 echo "Adjusting phpunit.xml"
 cp ./tests/PHPUnit/phpunit.xml.dist ./tests/PHPUnit/phpunit.xml
 sed -i 's/@REQUEST_URI@/\//g' ./tests/PHPUnit/phpunit.xml
+
+# If we have a test suite remove code coverage report
+if [ -n "$TEST_SUITE" ]
+then
+	xmlstarlet ed -L -d "//phpunit/logging/log[@type='coverage-html']" ./tests/PHPUnit/phpunit.xml
+fi
 
 # Create tmp/ sub-directories
 mkdir ./tmp/assets

@@ -1,17 +1,24 @@
 language: php
 
-# We want to test against 
+# We want to test against PHP 5.3/5.4/5.5
 php:
   - 5.5
   - 5.4
   - 5.3
 
+# Separate different test suites
 env:
   matrix:
     - TEST_SUITE=PluginTests
     - TEST_SUITE=CoreTests
     - TEST_SUITE=IntegrationTests
-    - TEST_SUITE=
+
+# Run PHP 5.4 for aa tests to generate
+# code coverage.
+matrix:
+  include:
+    - php: 5.4
+      env: TEST_SUITE=
 
 script: ./travis.sh
 
