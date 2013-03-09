@@ -17,7 +17,7 @@ script: ./travis.sh
 
 before_script:
   - mysql -e 'create database piwik_test;'
-  - ./tests/prepare.sh
+  - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
   - cd tests/PHPUnit
 
