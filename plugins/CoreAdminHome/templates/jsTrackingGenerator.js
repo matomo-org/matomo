@@ -245,7 +245,8 @@ $(document).ready(function() {
 	{
 		// get data ( (("https:" == document.location.protocol)?"https://' + piwikHost + '":"http://' + piwikHost + '") )
 		var idSite = $('#image-tracker-website .custom_select_main_link').attr('siteid'),
-			piwikURL = ("https:" == document.location.protocol ? "https://" + piwikHost : "http://" + piwikHost) + document.location.pathname,
+			path = document.location.pathname,
+			piwikURL = ("https:" == document.location.protocol ? "https://" + piwikHost : "http://" + piwikHost) + path.substring(0, path.lastIndexOf('/')) + '/piwik.php',
 			actionName = $('#image-tracker-action-name').val(),
 			idGoal = null,
 			revenue = null;
