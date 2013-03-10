@@ -583,7 +583,7 @@ class Piwik
 
 		// more selective allow/deny filters
 		$allowAny = "<Files \"*\">\n".$allow."Satisfy any\n</Files>\n";
-		$allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|js|css|swf)$\">\n".$allow."Satisfy any\n</Files>\n";
+		$allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|svg|js|css|swf)$\">\n".$allow."Satisfy any\n</Files>\n";
 		$denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in)$\">\n".$deny."</Files>\n";
 
 		$directoriesToProtect = array(
