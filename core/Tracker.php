@@ -712,7 +712,7 @@ class Piwik_Tracker
 	}
 
 	/**
-	 * This method allows to set custom IP + server time when using Tracking API.
+	 * This method allows to set custom IP + server time + visitor ID, when using Tracking API.
 	 * These two attributes can be only set by the Super User (passing token_auth).
 	 */
 	protected function handleTrackingApi( $request )

@@ -300,9 +300,6 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 			{
 				throw new Exception("Invalid provider ID: '$providerId'.");
 			}
-			
-			// make sure the tracker will use the new location provider
-			Piwik_Tracker_Cache::clearCacheGeneral();
 		}
 	}
 	
