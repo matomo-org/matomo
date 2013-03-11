@@ -257,9 +257,9 @@ class Piwik_Goals_API
 
 				// we do not enter the IF
 				// if case idSite=1,3 AND period=day&date=datefrom,dateto,
-				if(isset($dataTable->metadata[$key]['period']))
+				if(isset($customVariableTableForDate->metadata['period']))
 				{
-					$dateRewrite = $dataTable->metadata[$key]['period']->getDateStart()->toString();
+					$dateRewrite = $customVariableTableForDate->metadata['period']->getDateStart()->toString();
 					$row = $customVariableTableForDate->getRowFromLabel($customVarNameToLookFor);
 					if($row)
 					{

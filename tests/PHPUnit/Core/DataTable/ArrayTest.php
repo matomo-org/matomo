@@ -39,7 +39,6 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
         $dataTable = new Piwik_DataTable_Array();
 
         $subDataTableArray1                           = $this->createInstanceWithDataTables();
-        $subDataTableArray1->metadata['metadataKey1'] = 'metadataValue1';
         $dataTable->addTable($subDataTableArray1, 'subArray1');
 
         $subDataTableArray2 = $this->createInstanceWithDataTables();
@@ -94,10 +93,6 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
         // check that the result is a DataTable_Array w/ two DataTable children
         $this->assertInstanceOf('Piwik_DataTable_Array', $result);
         $this->assertEquals(2, $result->getRowsCount());
-
-        // check that the result has one metadata, 'metadataKey1' => 'metadataValue1'
-        $this->assertEquals(1, count($result->metadata));
-        $this->assertEquals('metadataValue1', $result->metadata['metadataKey1']);
 
         // check that the first sub-DataTable is a DataTable with 4 rows
         $subDataTable1 = $result->getTable('subDataTable1');

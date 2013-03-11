@@ -67,8 +67,8 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		$moreRecentFirst = array_reverse($table->getArray(), true);
 		foreach($moreRecentFirst as $date => $subtable )
 		{
-			$timestamp = $table->metadata[$date]['timestamp'];
-			$site = $table->metadata[$date]['site'];
+			$timestamp = $subtable->getMetadata('timestamp');
+			$site = $subtable->getMetadata('site');
 	
 			$pudDate = date('r', $timestamp);
 			 

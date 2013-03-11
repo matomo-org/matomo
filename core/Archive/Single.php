@@ -528,7 +528,7 @@ class Piwik_Archive_Single extends Piwik_Archive
 		
 		$data = $this->get($name, 'blob', $tsArchived);
 		
-		$table = new Piwik_DataTable();
+		$table = $this->makeDataTable();
 	
 		if($data !== false)
 		{
@@ -545,6 +545,34 @@ class Piwik_Archive_Single extends Piwik_Archive
 		}
 	
 		return $table;
+	}
+	
+	/**
+	 * Creates a new DataTable with some metadata set. Sets the following metadata:
+	 * - 'site' => Piwik_Site instance for this archive
+	 * - 'period' => Piwik_Period instance for this archive
+	 * - 'timestamp' => the timestamp of the first date in this archive
+	 * 
+	 * @param bool $isSimple Whether the DataTable should be a DataTable_Simple
+	 *                       instance or not.
+	 * @return Piwik_DataTable
+	 */
+	public function makeDataTable( $isSimple = false )
+	{
+		if ($isSimple)
+		{
+			$result = new Piwik_DataTable_Simple();
+		}
+		else
+		{
+			$result = new Piwik_DataTable();
+		}
+		
+		$result->setMetadata('site', $this->getSite());
+		$result->setMetadata('period', $this->getPeriod());
+		$result->setMetadata('timestamp', $this->getTimestampStartDate());
+		
+		return $result;
 	}
 	
 	public function setRequestedReport($requestedReport )

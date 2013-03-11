@@ -72,7 +72,7 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
 			$values = $this->getValues($fields);
 			foreach($this->archives as $idSite => $archive)
 			{
-				$table = new Piwik_DataTable_Simple();
+				$table = $archive->makeDataTable($isSimple = true);
 				if (array_key_exists($idSite, $values))
 				{
 					$table->addRowsFromArray($values[$idSite]);

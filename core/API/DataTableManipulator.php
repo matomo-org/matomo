@@ -59,7 +59,6 @@ abstract class Piwik_API_DataTableManipulator
 		if ($dataTable instanceof Piwik_DataTable_Array)
 		{
 			$newTableArray = new Piwik_DataTable_Array;
-			$newTableArray->metadata = $dataTable->metadata;
 			$newTableArray->setKeyName($dataTable->getKeyName());
 			
 			foreach ($dataTable->getArray() as $date => $subTable)

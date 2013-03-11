@@ -74,17 +74,6 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 			$output .= $prefix . $this->renderTable($table, $prefix . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
 			$output .= "<hr />";
 		}
-		$output .= "Metadata<br />";
-		foreach($tableArray->metadata as $id => $metadata)
-		{
-			$output .= "<br />";
-			$output .= $prefix . " <b>$id</b><br />";
-			foreach($metadata as $name => $value)
-			{
-				$output .= $prefix . $prefix . "$name => $value";
-			}
-		}
-		$output .= "<hr />";
 		return $output;
 	}
 
@@ -172,6 +161,16 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 			$i++;
 		}
 		
+		$output .= "<hr />Metadata<br />";
+		foreach($tableArray->metadata as $id => $metadata)
+		{
+			$output .= "<br />";
+			$output .= $prefix . " <b>$id</b><br />";
+			foreach($metadata as $name => $value)
+			{
+				$output .= $prefix . $prefix . "$name => $value";
+			}
+		}
 		return $output;
 	}
 }

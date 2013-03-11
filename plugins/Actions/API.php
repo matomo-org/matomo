@@ -340,7 +340,6 @@ class Piwik_Actions_API
 		if($customVariables instanceof Piwik_DataTable_Array)
 		{
 			$dataTable = new Piwik_DataTable_Array();
-			$dataTable->metadata = $customVariables->metadata;
 			$dataTable->setKeyName($customVariables->getKeyName());
 
 			$customVariableDatatables = $customVariables->getArray();
@@ -348,12 +347,12 @@ class Piwik_Actions_API
 			foreach($customVariableDatatables as $key => $customVariableTableForDate)
 			{
 				// we do not enter the IF, in the case idSite=1,3 AND period=day&date=datefrom,dateto,
-				if(isset($dataTable->metadata[$key]['period']))
+				if(isset($customVariableTableForDate->metadata['period']))
 				{
 					$row = $customVariableTableForDate->getRowFromLabel($customVarNameToLookFor);
 					if($row)
 					{
-						$dateRewrite = $dataTable->metadata[$key]['period']->getDateStart()->toString();
+						$dateRewrite = $customVariableTableForDate->metadata['period']->getDateStart()->toString();
 						$idSubtable = $row->getIdSubDataTable();
 						$categories = Piwik_CustomVariables_API::getInstance()->getCustomVariablesValuesFromNameId($idSite, $period, $dateRewrite, $idSubtable, $segment);
 						$dataTable->addTable($categories, $key);
@@ -413,13 +412,13 @@ class Piwik_Actions_API
 				// note that if the root is an array, we filter all children
 				// if an array occurs inside the nested table, we only look for the first match (see below)
 				$newTableArray = new Piwik_DataTable_Array;
-				$newTableArray->metadata = $table->metadata;
 				$newTableArray->setKeyName($table->getKeyName());
 				
 				foreach ($table->getArray() as $label => $subTable)
 				{
-					$subTable = $this->doFilterPageDatatableSearch($callBackParameters, $subTable, $searchTree);
-					$newTableArray->addTable($subTable, $label);
+					$newSubTable = $this->doFilterPageDatatableSearch($callBackParameters, $subTable, $searchTree);
+					
+					$newTableArray->addTable($newSubTable, $label);
 				}
 				
 				return $newTableArray;
@@ -462,15 +461,18 @@ class Piwik_Actions_API
 			if ($row === false)
 			{
 				// not found
-				return new Piwik_DataTable;
+				$result = new Piwik_DataTable;
+				$result->metadata = $table->metadata;
+				return $result;
 			}
 
 			// end of tree search reached
 			if (count($searchTree) == 0)
 			{
-				$table = new Piwik_DataTable();
-				$table->addRow($row);
-				return $table;
+				$result = new Piwik_DataTable();
+				$result->addRow($row);
+				$result->metadata = $table->metadata;
+				return $result;
 			}
 
 			// match found on this level and more levels remaining: go deeper

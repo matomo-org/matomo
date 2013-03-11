@@ -63,19 +63,6 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		return $table;
 	}
 	
-	
-	
-	/**
-	 * Adds metadata information to the Piwik_DataTable_Array 
-	 * using the information given by the Archive
-	 *
-	 * @param Piwik_DataTable_Array  $table
-	 * @param Piwik_Archive          $archive
-	 */
-	protected function loadMetadata(Piwik_DataTable_Array $table, $archive)
-	{
-	}
-	
 	/**
 	 * Returns a DataTable_Array containing numeric values 
 	 * of the element $name from the archives in this Archive_Array.
@@ -90,11 +77,9 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		foreach($this->archives as $archive)
 		{
 			$numeric = $archive->getNumeric( $name ) ;
-			$subTable = new Piwik_DataTable_Simple();
+			$subTable = $archive->makeDataTable($isSimple = true);
 			$subTable->addRowsFromArray( array( $numeric ) );
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
-			
-			$this->loadMetadata($table, $archive);
 		}
 		
 		return $table;
@@ -117,11 +102,9 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		foreach($this->archives as $archive)
 		{
 			$blob = $archive->getBlob( $name ) ;
-			$subTable = new Piwik_DataTable_Simple();
+			$subTable = $archive->makeNewDataTable($isSimple = true);
 			$subTable->addRowsFromArray( array('blob' => $blob));
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
-			
-			$this->loadMetadata($table, $archive);
 		}
 		return $table;
 	}
@@ -142,8 +125,6 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		{
 			$subTable =  $archive->getDataTable( $name, $idSubTable ) ;
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
-			
-			$this->loadMetadata($table, $archive);
 		}
 		return $table;
 	}
@@ -165,8 +146,6 @@ abstract class Piwik_Archive_Array extends Piwik_Archive
 		{
 			$subTable =  $archive->getDataTableExpanded( $name, $idSubTable ) ;
 			$table->addTable($subTable, $this->getDataTableLabelValue($archive));
-			
-			$this->loadMetadata($table, $archive);
 		}
 		return $table;
 	}

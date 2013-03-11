@@ -125,10 +125,10 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		
 		// the X label is extracted from the 'period' object in the table's metadata
 		$xLabels = $uniqueIdsDataTable = array();
-		foreach($this->dataTable->metadata as $idDataTable => $metadataDataTable)
+		foreach($this->dataTable->getArray() as $idDataTable => $metadataDataTable)
 		{
 			//eg. "Aug 2009"
-			$xLabels[] = $metadataDataTable['period']->getLocalizedShortString();
+			$xLabels[] = $metadataDataTable->getMetadata('period')->getLocalizedShortString();
 			// we keep track of all unique data table that we need to set a Y value for
 			$uniqueIdsDataTable[] = $idDataTable;
 		}
@@ -193,8 +193,8 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$this->view->setAxisYUnits($yAxisLabelToUnit);		
 		
 		$countGraphElements = $this->dataTable->getRowsCount();
-		$firstDatatable = reset($this->dataTable->metadata);
-		$period = $firstDatatable['period'];
+		$firstDatatable = reset($this->dataTable->getArray());
+		$period = $firstDatatable->getMetadata('period');
 		
 		$stepSize = $this->getXAxisStepSize($period->getLabel(), $countGraphElements);
 		$this->view->setXSteps($stepSize);
@@ -203,9 +203,9 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		{
 			$axisXOnClick = array();
 			$queryStringAsHash = $this->getQueryStringAsHash();
-			foreach($this->dataTable->metadata as $idDataTable => $metadataDataTable)
+			foreach($this->dataTable->getArray() as $idDataTable => $metadataDataTable)
 			{
-				$period = $metadataDataTable['period'];
+				$period = $metadataDataTable->getMetadata('period');
 				$dateInUrl = $period->getDateStart();
 				$parameters = array(
 							'idSite' => $idSite,

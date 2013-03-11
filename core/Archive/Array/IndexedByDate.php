@@ -43,22 +43,6 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 	{
 		return 'date';
 	}
-	
-	/**
-	 * Adds metadata information to the Piwik_DataTable_Array 
-	 * using the information given by the Archive
-	 *
-	 * @param Piwik_DataTable_Array  $table
-	 * @param Piwik_Archive          $archive
-	 */
-	protected function loadMetadata(Piwik_DataTable_Array $table, $archive)
-	{
-		$table->metadata[$archive->getPrettyDate()] = array( 
-				'timestamp' => $archive->getTimestampStartDate(),
-				'site' => $archive->getSite(),
-				'period' => $archive->getPeriod(),
-			);
-	}
 
 	/**
 	 * @param Piwik_Archive  $archive
@@ -134,7 +118,7 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		{
 			$timestamp = $archive->getTimestampStartDate();
 			$archiveByTimestamp[$timestamp] = $archive;
-			$contentArray[$timestamp]['table'] = new Piwik_DataTable_Simple();
+			$contentArray[$timestamp]['table'] = $archive->makeDataTable($simple = true);
 			$contentArray[$timestamp]['prettyDate'] = $archive->getPrettyDate();
 		}
 
@@ -151,7 +135,6 @@ class Piwik_Archive_Array_IndexedByDate extends Piwik_Archive_Array
 		foreach($contentArray as $timestamp => $aData)
 		{
 			$tableArray->addTable($aData['table'], $aData['prettyDate']);
-			$this->loadMetadata($tableArray, $archiveByTimestamp[$timestamp]);
 		}
 		return $tableArray;
 	}

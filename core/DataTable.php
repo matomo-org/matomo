@@ -242,7 +242,7 @@ class Piwik_DataTable
 	 * 
 	 * @var array
 	 */
-	protected $metadata = array();
+	public $metadata = array();
 	
 	/**
 	 * Maximum number of rows allowed in this datatable (including the summary row).
@@ -537,6 +537,7 @@ class Piwik_DataTable
 	{
 		$clone = new Piwik_DataTable;
 		$clone->queuedFilters = $this->queuedFilters;
+		$clone->metadata = $this->metadata;
 		return $clone;
 	}
 

@@ -862,8 +862,6 @@ class Piwik_API_API
 			// Need a new Piwik_DataTable_Array to store the 'human readable' values
 			$newReport = new Piwik_DataTable_Array();
 			$newReport->setKeyName("prettyDate");
-			$dataTableMetadata = $dataTable->metadata;
-			$newReport->metadata = $dataTableMetadata;
 
 			// Need a new Piwik_DataTable_Array to store report metadata
 			$rowsMetadata = new Piwik_DataTable_Array();
@@ -873,8 +871,9 @@ class Piwik_API_API
 			foreach($dataTable->getArray() as $label => $simpleDataTable)
 			{
 				list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
+				$enhancedSimpleDataTable->metadata = $simpleDataTable->metadata;
 
-				$period = $dataTableMetadata[$label]['period']->getLocalizedLongString();
+				$period = $simpleDataTable->metadata['period']->getLocalizedLongString();
 				$newReport->addTable($enhancedSimpleDataTable, $period);
 				$rowsMetadata->addTable($rowMetadata, $period);
 			}
@@ -1537,16 +1536,11 @@ class Piwik_API_API
 
 		// load the tables for each label
 		$dataTablesPerLabel = array();
-		$dataTableMetadata = false;
 		foreach ($labels as $labelIndex => $label)
 		{
 			$dataTable = $this->loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $idGoal);
 
 			$dataTablesPerLabel[$labelIndex] = $dataTable->getArray();
-			if (!$dataTableMetadata)
-			{
-				$dataTableMetadata = $dataTable->metadata;
-			}
 
 			$urlFound = false;
 			foreach ($dataTablesPerLabel[$labelIndex] as $table)
@@ -1585,9 +1579,8 @@ class Piwik_API_API
 		// combine the tables
 		$dataTableMulti = new Piwik_DataTable_Array;
 		$dataTableMulti->setKeyName($dataTable->getKeyName());
-		$dataTableMulti->metadata = $dataTableMetadata;
 
-		foreach (array_keys(reset($dataTablesPerLabel)) as $dateLabel)
+		foreach (reset($dataTablesPerLabel) as $dateLabel => $dataTable)
 		{
 			$newRow = new Piwik_DataTable_Row;
 			foreach ($dataTablesPerLabel as $labelIndex => $tableArray)
@@ -1610,9 +1603,11 @@ class Piwik_API_API
 				$label = $column.'_'.$labelIndex;
 				$newRow->addColumn($label, $value);
 			}
-
+			
 			$newTable = new Piwik_DataTable;
 			$newTable->addRow($newRow);
+			$newTable->metadata = $dataTable->metadata;
+			
 			$dataTableMulti->addTable($newTable, $dateLabel);
 		}
 
