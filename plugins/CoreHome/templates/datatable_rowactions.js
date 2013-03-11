@@ -77,8 +77,8 @@ DataTable_RowActions_Registry.register({
 		if (dataTable === null && param) {
 			// when row evolution is triggered from the url (not a click on the data table)
 			// we look for the data table instance in the dom
-			var divId = param.split(':')[0].replace(/\./, '');
-			var div = $('#' + divId + '.dataTable');
+			var report = param.split(':')[0];
+			var div = $(piwik.DataTableManager.getDataTableByReport(report));
 			if (div.size() > 0 && div.data('piwikDataTable')) {
 				dataTable = div.data('piwikDataTable');
 				if (typeof dataTable.rowEvolutionActionInstance != 'undefined') {

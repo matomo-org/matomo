@@ -1,4 +1,4 @@
-<div id="{$properties.uniqueId}" class="dataTable">
+<div class="dataTable" data-report="{$properties.uniqueId}" data-params="{$javascriptVariablesToSet|@json_encode|escape:'html'}">
 	<div class="reportDocumentation">
 		{if !empty($reportDocumentation)}<p>{$reportDocumentation}</p>{/if}
 		{if isset($properties.metadata.archived_date)}<span class='helpDate'>{$properties.metadata.archived_date}</span>{/if}

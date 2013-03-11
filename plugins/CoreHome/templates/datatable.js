@@ -134,7 +134,10 @@ dataTable.prototype =
 		}
 		if (typeof callbackSuccess == "undefined") 
 		{
-			callbackSuccess = self.dataTableLoaded;
+			callbackSuccess = function (response)
+			{
+				self.dataTableLoaded(response, self.workingDivId);
+			};
 		}
 		
 		if(displayLoading)
@@ -1767,8 +1770,12 @@ actionDataTable.prototype =
 		self.handleOffsetInformation(domElem);
 		if( self.workingDivId != undefined)
 		{
-			self.handleSearchBox(domElem, self.dataTableLoaded );
-			self.handleConfigurationBox(domElem, self.dataTableLoaded );
+			var dataTableLoadedProxy = function (response) {
+				self.dataTableLoaded(response, self.workingDivId);
+			};
+			
+			self.handleSearchBox(domElem, dataTableLoadedProxy);
+			self.handleConfigurationBox(domElem, dataTableLoadedProxy);
 		}
 		
 		self.handleColumnDocumentation(domElem);
