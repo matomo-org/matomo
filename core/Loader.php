@@ -28,7 +28,7 @@ class Piwik_Loader
 	 */
 	protected static function getClassFileName($class)
 	{
-		if(strspn($class, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_') !== strlen($class))
+		if(!preg_match("/^[A-Za-z0-9_]+$/", $class))
 		{
 			throw new Exception("Invalid class name \"$class\".");
 		}
