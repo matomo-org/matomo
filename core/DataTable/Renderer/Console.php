@@ -161,14 +161,17 @@ class Piwik_DataTable_Renderer_Console extends Piwik_DataTable_Renderer
 			$i++;
 		}
 		
-		$output .= "<hr />Metadata<br />";
-		foreach($tableArray->metadata as $id => $metadata)
+		if (!empty($table->metadata))
 		{
-			$output .= "<br />";
-			$output .= $prefix . " <b>$id</b><br />";
-			foreach($metadata as $name => $value)
+			$output .= "<hr />Metadata<br />";
+			foreach($table->metadata as $id => $metadata)
 			{
-				$output .= $prefix . $prefix . "$name => $value";
+				$output .= "<br />";
+				$output .= $prefix . " <b>$id</b><br />";
+				foreach($metadata as $name => $value)
+				{
+					$output .= $prefix . $prefix . "$name => $value";
+				}
 			}
 		}
 		return $output;
