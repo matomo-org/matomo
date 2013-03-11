@@ -190,5 +190,8 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 		
 		//MoiKrug.ru
 		'moikrug.ru'		  => 'my.mail.ru',
+
+		// Reddit
+		'reddit.com'	=>	'reddit',
     );
 }
