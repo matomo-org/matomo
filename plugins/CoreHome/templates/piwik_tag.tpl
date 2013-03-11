@@ -8,7 +8,7 @@
 <script type="text/javascript"> 
   var _paq = _paq || [];
   _paq.push(['setTrackerUrl', 'piwik.php']);
-  _paq.push(['setSiteId', {/literal}{$idSite}{literal}]);
+  _paq.push(['setSiteId', 1]);
 {/literal}{if $piwikUrl == 'http://demo.piwik.org/'}{literal}
   _paq.push(['setCookieDomain', '*.piwik.org']);
 {/literal}{/if}{literal}
