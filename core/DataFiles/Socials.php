@@ -196,5 +196,8 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 
 		// HackerNews
 		'news.ycombinator.com'	=>	'Hacker News',
+
+		// Identi.ca
+		'identi.ca'	=> 'identi.ca',
     );
 }
