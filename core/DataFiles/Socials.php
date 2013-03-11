@@ -193,5 +193,8 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 
 		// Reddit
 		'reddit.com'	=>	'reddit',
+
+		// HackerNews
+		'news.ycombinator.com'	=>	'Hacker News',
     );
 }
