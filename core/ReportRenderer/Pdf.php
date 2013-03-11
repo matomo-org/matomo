@@ -145,7 +145,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
 	public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)
 	{
-		$websiteTitle = $this->formatText(Piwik_Translate('General_Website') . " " . $websiteName);
+		$websiteTitle = $this->formatText($websiteName);
 		$dateRange = $this->formatText(Piwik_Translate('General_DateRange') . " " . $prettyDate);
 
 		//Setup Footer font and data

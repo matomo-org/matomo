@@ -323,9 +323,6 @@ class Piwik_PDFReports_API
 			true
 		);
 
-		// decode report list
-		$reportUniqueIds = $report['reports'];
-
 		// available reports
 		$availableReportMetadata = Piwik_API_API::getInstance()->getReportMetadata($idSite);
 
@@ -333,7 +330,7 @@ class Piwik_PDFReports_API
 		$reportMetadata = array();
 		foreach($availableReportMetadata as $metadata)
 		{
-			if(in_array($metadata['uniqueId'], $reportUniqueIds))
+			if(in_array($metadata['uniqueId'], $report['reports']))
 			{
 				$reportMetadata[] = $metadata;
 			}
@@ -426,13 +423,21 @@ class Piwik_PDFReports_API
 		$reportRenderer->setLocale($language);
 
 		// render report
-		$websiteName = Piwik_Site::getNameFor($idSite);
-		$description = str_replace(array("\r", "\n"), ' ', $report['description']);
+        $description = str_replace(array("\r", "\n"), ' ', $report['description']);
 
-		$reportRenderer->renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata);
-		array_walk($processedReports, array($reportRenderer, 'renderReport'));
+        // if the only report is "All websites", we don't display the site name
+        $websiteName = Piwik_Translate('General_Website') . " " . Piwik_Site::getNameFor($idSite);
+        if(count($report['reports']) == 1
+               && $report['reports'][0] == 'MultiSites_getAll')
+        {
+            $websiteName = Piwik_Translate('General_MultiSitesSummary');
+        }
+        $reportTitle = "$websiteName - $prettyDate - $description";
 
-		switch($outputType)
+        $reportRenderer->renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata);
+        array_walk($processedReports, array($reportRenderer, 'renderReport'));
+
+        switch($outputType)
 		{
 			case self::OUTPUT_SAVE_ON_DISK:
 				$outputFilename = strtoupper($reportFormat) . ' ' . ucfirst($reportType) .' Report - ' . $idReport . '.' . $date . '.' . $idSite . '.' . $language;
@@ -472,7 +477,7 @@ class Piwik_PDFReports_API
 
 			case self::OUTPUT_INLINE:
 
-				$reportRenderer->sendToBrowserInline("$websiteName - $prettyDate - $description");
+				$reportRenderer->sendToBrowserInline($reportTitle);
 				break;
 
 			case self::OUTPUT_RETURN:
@@ -482,7 +487,7 @@ class Piwik_PDFReports_API
 
 			default:
 			case self::OUTPUT_DOWNLOAD:
-				$reportRenderer->sendToBrowserDownload("$websiteName - $prettyDate - $description");
+				$reportRenderer->sendToBrowserDownload($reportTitle);
 				break;
 		}
 	}
