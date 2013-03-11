@@ -161,7 +161,6 @@ $translations = array(
 	'General_NSeconds' => '%s saniye',
 	'General_RequiresFlash' => 'Piwik\'in grafikleri gösterebilmesi için Flash gereklidir.',
 	'General_GraphHelp' => 'Piwik\'in grafikleri göstermesi hakkında daha fazla bilgi.',
-	'General_NoDataForGraph' => 'Bu grafikte veri yok.',
 	'General_NoDataForTagCloud' => 'Bu etiket bulutunda veri yok.',
 	'General_DisplaySimpleTable' => 'Basit tablo göster',
 	'General_NewUpdatePiwikX' => 'Yeni Güncelleme: Piwik %s',

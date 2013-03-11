@@ -107,7 +107,6 @@ $translations = array(
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'საშუალო და მაღალი ტრაფიკის მქონე ვებ საიტებისთვის ჩვენ გირჩევთ დღის რეპორტები დაამუშავოთ ყოველ ნახევარ საათში (%s წამი) ან ყოველ საათში (%s წამი).',
 	'General_RequiresFlash' => 'Piwik პროგრამაში გრაფიკების ჩვენებისთვის საჭიროა Flash',
 	'General_GraphHelp' => 'დამატებითი ინფორმაცია Piwik პროგრამაში გრაფიკების ჩვენების შესახებ.',
-	'General_NoDataForGraph' => 'ამ გრაფიკისთვის მონაცემები არ არის.',
 	'General_NoDataForTagCloud' => 'ამ ტეგებისთვის მონაცემები არ არის.',
 	'General_DisplaySimpleTable' => 'სანიმუშო ცხრილის ჩვენება',
 	'General_DisplayTableWithMoreMetrics' => 'ცხრილის ჩვენება უფრო მეტი პარამეტრებით',

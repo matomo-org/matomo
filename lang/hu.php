@@ -177,7 +177,6 @@ $translations = array(
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'Közepes vagy nagy forgalmú weboldalak esetén javasoljuk, hogy a jelentések legfeljebb félóránként (%s másodpercenként) vagy óránként (%s másodpercenként) kerüljenek feldolgozásra.',
 	'General_RequiresFlash' => 'A Piwik grafikonok megjelenítéséhez Flash kiegészítő szükséges.',
 	'General_GraphHelp' => 'További információ a Piwik grafikonok megjelenítéséről.',
-	'General_NoDataForGraph' => 'Nincs adat ehhez a grafikonhoz',
 	'General_NoDataForTagCloud' => 'Nincs adat ehhez a címkefelhőhöz.',
 	'General_DisplaySimpleTable' => 'Egyszerű táblázat megjelenítése',
 	'General_DisplayTableWithMoreMetrics' => 'Több adatot mutató táblázat megjelenítése',

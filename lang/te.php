@@ -90,7 +90,6 @@ $translations = array(
 	'General_Website' => 'వెబ్‌సైటు',
 	'General_GeneralSettings' => 'సాధారణ అమరికలు',
 	'General_NSeconds' => '%s క్షణాలు',
-	'General_NoDataForGraph' => 'ఈ గ్రాఫుకి భోగట్టా లేదు.',
 	'General_NewUpdatePiwikX' => 'నవీకరణ: పివిక్ %s',
 	'General_AboutPiwikX' => 'పివిక్ %s గురించి',
 	'General_BackToPiwik' => 'తిరిగి పివిక్‌కి',

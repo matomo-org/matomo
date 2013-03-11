@@ -99,7 +99,6 @@ $translations = array(
 	'General_NSeconds' => '%s segundo',
 	'General_RequiresFlash' => 'Piwik-en grafikoak bistaratzeko Flash behar da',
 	'General_GraphHelp' => 'Piwik-en grafikoak bistaratzeko informazio gehiago.',
-	'General_NoDataForGraph' => 'Daturik ez grafiko honentzat.',
 	'General_NoDataForTagCloud' => 'Daturik ez etiketa-hodei honentzat.',
 	'General_DisplaySimpleTable' => 'Bistaratu taula sinplea',
 	'General_DisplayTableWithMoreMetrics' => 'Bistaratu taula estatistika gehiagorekin',

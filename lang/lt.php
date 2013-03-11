@@ -152,7 +152,6 @@ $translations = array(
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'Vidutinio ir didelio srauto svetainėms rekomenduojame generuoti kasdienines ataskaitas kas pusę valandos (%s sekundės) arba kas valandą (%s sekundės).',
 	'General_RequiresFlash' => 'Grafikų atvaizdavimui reikalingas Flash',
 	'General_GraphHelp' => 'Daugiau informacijos apie grafikų atvaizdavimą',
-	'General_NoDataForGraph' => 'Šiam grafikui duomenų nėra',
 	'General_NoDataForTagCloud' => 'Šiam žymių debesiui duomenų nėra',
 	'General_DisplaySimpleTable' => 'Rodyti paprastą lentelę',
 	'General_DisplayTableWithMoreMetrics' => 'Rodyti lentelę su daugiau duomenų',

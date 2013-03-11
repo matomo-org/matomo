@@ -138,7 +138,6 @@ $translations = array(
 	'General_MediumToHighTrafficItIsRecommendedTo' => '对于中或高流量的网站，我们建议最多每隔半小时(%s 秒)或每小时(%s 秒)处理报告。',
 	'General_RequiresFlash' => '在 Piwik 显示图表必須有 Flash',
 	'General_GraphHelp' => '更多关于 Piwik 显示图标的资讯',
-	'General_NoDataForGraph' => '因无数据无法显示绘图',
 	'General_NoDataForTagCloud' => '因无数据无法显示标签云！',
 	'General_DisplaySimpleTable' => '显示简易表格',
 	'General_DisplayTableWithMoreMetrics' => '显示更多数据表',

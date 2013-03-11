@@ -53,7 +53,6 @@ $translations = array(
 	'General_ColumnVisitsWithConversions' => 'ጉብኝት ከልወጣዎች ጋር',
 	'General_Save' => 'አስቀምጥ',
 	'General_Website' => 'ድር ጣቢያ',
-	'General_NoDataForGraph' => 'ለዚህ ግራፍ ምንም ውሂብ የለም',
 	'General_NoDataForTagCloud' => 'ለዚህ መለያ ክላውድ ምንም ውሂብ የለም.',
 	'General_PiwikXIsAvailablePleaseUpdateNow' => 'ፒዊክን %1$s ማግኘት ይቻላል። %2$s እባክዎን ያልቁት!%3$s (ለውጦቹን%4$s ይመልከቱ%5$s).',
 	'General_BackToPiwik' => 'ወደፒዊክ ተመለስ',

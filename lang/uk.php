@@ -108,7 +108,6 @@ $translations = array(
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'Для веб-сайтів з середнім та високим трафіком рекомендується обробляти звіти за поточний день не частіше ніж кожні пів години (%s секунд) або що години (%s секунд).',
 	'General_RequiresFlash' => 'Для відображення графіків в Piwik необхідно Flash',
 	'General_GraphHelp' => 'Дізнатися більше інформації про відображення графіків в Piwik',
-	'General_NoDataForGraph' => 'Немає даних для цього графіку',
 	'General_NoDataForTagCloud' => 'Немає даних для цієї хмари тегів',
 	'General_DisplaySimpleTable' => 'Показати просту таблицю',
 	'General_DisplayTableWithMoreMetrics' => 'Показати таблицю з більшою кількістю показників',

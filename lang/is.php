@@ -106,7 +106,6 @@ $translations = array(
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'Á vefsvæðum með umferð yfir meðallagi, er mælt með að úrvinnsla skýrslna sé ekki framkvæmd tíðar en á hálftíma fresti (%s sekúndur) eða á klukkustundar fresti (%s seconds).',
 	'General_RequiresFlash' => 'Til að birta gröf í Piwik þarf Flash.',
 	'General_GraphHelp' => 'Nánari upplýsingar um birtingu grafa í Piwik.',
-	'General_NoDataForGraph' => 'Engin gögn fyrir þetta graf.',
 	'General_NoDataForTagCloud' => 'Engin gögn fyrir þetta klisjuský.',
 	'General_DisplaySimpleTable' => 'Sýna einfalda töflu.',
 	'General_DisplayTableWithMoreMetrics' => 'Sýna töflu með mörgum mæligildum.',

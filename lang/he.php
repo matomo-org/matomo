@@ -129,7 +129,6 @@ $translations = array(
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'לאתרים בעלי תעבודה בינונית עד גבוהה, אנו ממליצים לעבד דוחות להיום לכל היותר בכל חצי שעה (%s שניות) או בכל שעה (%s שניות)',
 	'General_RequiresFlash' => 'הצגת גרפים ב-Piwik מצריכה Flash',
 	'General_GraphHelp' => 'מידע נוסף עבור הצגת גרפים ב Piwik.',
-	'General_NoDataForGraph' => 'חסר מידע עבור גרף זה.',
 	'General_NoDataForTagCloud' => 'חסר מידע עבור ענן תגים זה.',
 	'General_DisplaySimpleTable' => 'להציג טבלה פשוטה',
 	'General_DisplayTableWithMoreMetrics' => 'להציג טבלה עם יותר נתונים',

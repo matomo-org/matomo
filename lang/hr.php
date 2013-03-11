@@ -177,7 +177,6 @@ $translations = array(
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'Za stranice sa srednjim i velikim prometom preporučamo da izvještaje za tekući dan najviše svakih pola sata (%s sekundi) ili svakih sat vremena (%s sekundi).',
 	'General_RequiresFlash' => 'Piwik zahtjeva Flash za prikaz grafova',
 	'General_GraphHelp' => 'Više informacija o prikazu grafova u Piwiku.',
-	'General_NoDataForGraph' => 'Nema podataka za ovaj graf.',
 	'General_NoDataForTagCloud' => 'Nema podataka za ovaj oblak oznaka.',
 	'General_DisplaySimpleTable' => 'Prikaži jednostavnu tablicu',
 	'General_DisplayTableWithMoreMetrics' => 'Prikaži tablicu sa detaljnim podacima',

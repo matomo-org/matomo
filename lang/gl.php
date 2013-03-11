@@ -111,7 +111,6 @@ $translations = array(
 	'General_Website' => 'Web',
 	'General_GeneralSettings' => 'Configuración Xeral',
 	'General_NSeconds' => '%s segs',
-	'General_NoDataForGraph' => 'Sin datos para este Gráfico',
 	'General_NoDataForTagCloud' => 'Sin datos para esta Nube',
 	'General_DisplaySimpleTable' => 'Amosar táboa sinxela',
 	'General_DisplayTableWithMoreMetrics' => 'Amosar táboa con máis medidas',

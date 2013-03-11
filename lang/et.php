@@ -40,7 +40,6 @@ $translations = array(
 	'General_ColumnLabel' => 'Tiitel',
 	'General_Save' => 'Salvesta',
 	'General_Website' => 'Veebileht',
-	'General_NoDataForGraph' => 'Graafik - infot pole veel',
 	'General_NoDataForTagCloud' => 'Sildipilv - Infot ei ole veel.',
 	'General_ShortMonth_1' => 'jaan',
 	'General_ShortMonth_2' => 'veebr',

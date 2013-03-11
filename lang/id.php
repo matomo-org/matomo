@@ -180,7 +180,6 @@ $translations = array(
 	'General_MediumToHighTrafficItIsRecommendedTo' => 'Untuk kunjungan menengah hingga tinggi, kami menyarankan untuk mengolah laporan untuk hari ini setiap setengah jam (%s detik) atau satu jam (%s detik).',
 	'General_RequiresFlash' => 'Menampilkan Grafik di Piwik memerlukan Flash',
 	'General_GraphHelp' => 'Informasi lebih lanjut tentang menampilkan grafik di Piwik.',
-	'General_NoDataForGraph' => 'Tidak ada data untuk grafik ini.',
 	'General_DataForThisGraphHasBeenPurged' => 'Data untuk grafik ini berumur lebih dari %s bulan dan telah dibersihkan.',
 	'General_NoDataForTagCloud' => 'Tidak ada data untuk awan etiket.',
 	'General_DataForThisTagCloudHasBeenPurged' => 'Data untuk awan etiket ini berumur lebih dari %s bulan dan telah dibersihkan.',

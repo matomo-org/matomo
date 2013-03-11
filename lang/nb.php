@@ -125,7 +125,6 @@ $translations = array(
 	'General_NSeconds' => '%s sekund',
 	'General_RequiresFlash' => 'Visning av grafikk i Piwik krever Flash',
 	'General_GraphHelp' => 'Mer informasjon om visning av grafikk i Piwik',
-	'General_NoDataForGraph' => 'Ingen data for denne grafen.',
 	'General_NoDataForTagCloud' => 'Ingen data for denne merkelappskyen.',
 	'General_DisplaySimpleTable' => 'Vis enkel tabell',
 	'General_DisplayTableWithMoreMetrics' => 'Vis en tabell mer flere måltall',
