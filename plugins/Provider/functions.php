@@ -52,7 +52,7 @@ function Piwik_getHostnameUrl($in)
 	}
 	
 	// if the name looks like it can be used in a URL, use it in one, otherwise link to startpage
-	if (preg_match("/^[a-zA-Z0-9_.]+$/", $in))
+	if (preg_match("/^[-a-zA-Z0-9_.]+$/", $in))
 	{
 		return "http://www.".$in."/";
 	}
