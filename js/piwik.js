@@ -954,6 +954,13 @@ var
          * Page Overlay
          ************************************************************/
 
+        function getTrackerUrlForOverlay(trackerUrl) {
+            if (trackerUrl.slice(-9) === 'piwik.php') {
+                trackerUrl = trackerUrl.slice(0, trackerUrl.length - 9);
+            }
+            return trackerUrl;
+        }
+
         /*
          * Check whether this is a page overlay session
          *
@@ -964,12 +971,7 @@ var
         function isOverlaySession(configTrackerUrl, configTrackerSiteId) {
             var windowName = 'Piwik_Overlay',
                 referrer = documentAlias.referrer,
-                testReferrer = configTrackerUrl;
-
-            // remove piwik.php from referrer if present
-            if (testReferrer.slice(-9) === 'piwik.php') {
-                testReferrer = testReferrer.slice(0, testReferrer.length - 9);
-            }
+                testReferrer = getTrackerUrlForOverlay(configTrackerUrl);
 
             // remove protocol
             testReferrer.slice(testReferrer.slice(0, 7) === 'http://' ? 7 : 8, testReferrer.length);
@@ -1015,16 +1017,12 @@ var
             var windowNameParts = windowAlias.name.split('###'),
                 period = windowNameParts[1],
                 date = windowNameParts[2],
-                root = configTrackerUrl;
-
-            if (root.slice(-9) === 'piwik.php') {
-                root = root.slice(0, root.length - 9);  // remove piwik.php if present
-            }
+                trackerUrl = getTrackerUrlForOverlay(configTrackerUrl);
 
             loadScript(
-                root + 'plugins/Overlay/client/client.js?v=1',
+                trackerUrl + 'plugins/Overlay/client/client.js?v=1',
                 function () {
-                    Piwik_Overlay_Client.initialize(root, configTrackerSiteId, period, date);
+                    Piwik_Overlay_Client.initialize(trackerUrl, configTrackerSiteId, period, date);
                 }
             );
         }
