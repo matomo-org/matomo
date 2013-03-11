@@ -11,25 +11,7 @@
  */
 class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
 {
-    protected static $today = '2010-03-06 11:22:33';
-    protected static $idSite = 1;
-    protected static $keywords = array(
-        'free > proprietary', // testing a keyword containing >
-        'peace "," not war', // testing a keyword containing ,
-        'justice )(&^#%$ NOT corruption!',
-    );
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        try {
-            self::setUpWebsitesAndGoals();
-            self::trackVisits();
-        } catch(Exception $e) {
-            // Skip whole test suite if an error occurs while setup
-            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
-        }
-    }
+	public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -43,12 +25,16 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
 
     public function getApiForTesting()
     {
+    	$idSite = self::$fixture->idSite;
+    	$today = self::$fixture->today;
+    	$keywords = self::$fixture->keywords;
+    	
         $return = array();
 
         $config = array(
             'testSuffix'             => '_referrer1',
-            'idSite'                 => self::$idSite,
-            'date'                   => self::$today,
+            'idSite'                 => $idSite,
+            'date'                   => $today,
             'otherRequestParameters' => array(
                 'date'      => '2010-02-06,2010-03-06',
                 'period'    => 'day',
@@ -76,18 +62,18 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         // Keywords, label containing > and ,
         $config['otherRequestParameters']['apiAction'] = 'getKeywords';
         $config['testSuffix']                          = '_LabelReservedCharacters';
-        $keywords                                      = urlencode(self::$keywords[0]) . ',' . urlencode(self::$keywords[1]);
-        $config['otherRequestParameters']['label']     = urlencode($keywords);
+        $keywordsStr                                   = urlencode($keywords[0]) . ',' . urlencode($keywords[1]);
+        $config['otherRequestParameters']['label']     = urlencode($keywordsStr);
         $return[]                                      = array('API.getRowEvolution', $config);
 
         // Keywords, hierarchical
         $config['otherRequestParameters']['apiAction'] = 'getSearchEngines';
         $config['testSuffix']                          = '_LabelReservedCharactersHierarchical';
-        $keywords                                      = "Google>" . urlencode(strtolower(self::$keywords[0]))
-            . ',Google>' . urlencode(strtolower(self::$keywords[1]))
-            . ',Google>' . urlencode(strtolower(self::$keywords[2]));
+        $keywordsStr                                   = "Google>" . urlencode(strtolower($keywords[0]))
+            . ',Google>' . urlencode(strtolower($keywords[1]))
+            . ',Google>' . urlencode(strtolower($keywords[2]));
         // Test multiple labels search engines, Google should also have a 'logo' entry
-        $config['otherRequestParameters']['label'] = urlencode($keywords . ",Google");
+        $config['otherRequestParameters']['label'] = urlencode($keywordsStr . ",Google");
         $return[]                                  = array('API.getRowEvolution', $config);
 
         // Actions > Pages titles, standard label
@@ -144,48 +130,8 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
     {
         return 'RowEvolution';
     }
-
-    protected static function setUpWebsitesAndGoals()
-    {
-        self::createWebsite('2010-02-01 11:22:33');
-		Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered php', 'manually', '', '');
-		Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'another triggered php', 'manually', '', '', false, false, true);
-	}
-
-    protected static function trackVisits()
-    {
-        $dateTime = self::$today;
-        $idSite   = self::$idSite;
-
-		$t = self::getTracker($idSite, $dateTime, $defaultInit = true);
-		$t->setTokenAuth(self::getTokenAuth());
-		$t->enableBulkTracking();
-        for ($daysIntoPast = 30; $daysIntoPast >= 0; $daysIntoPast--)
-        {
-            // Visit 1: referrer website + test page views
-            $visitDateTime = Piwik_Date::factory($dateTime)->subDay($daysIntoPast)->getDatetime();
-            
-            $t->setNewVisitorId();
-            
-            $t->setUrlReferrer('http://www.referrer' . ($daysIntoPast % 5) . '.com/theReferrerPage' . ($daysIntoPast % 2) . '.html');
-            $t->setUrl('http://example.org/my/dir/page' . ($daysIntoPast % 4) . '?foo=bar&baz=bar');
-            $t->setForceVisitDateTime($visitDateTime);
-            self::assertTrue($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
-
-			// Trigger goal n°1 once
-			self::assertTrue($t->doTrackGoal(1));
-
-			// Trigger goal n°2 twice
-			self::assertTrue($t->doTrackGoal(2));
-			$t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(0.1)->getDatetime());
-			self::assertTrue($t->doTrackGoal(2));
-
-            // VISIT 2: search engine
-            $t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(3)->getDatetime());
-            $t->setUrlReferrer('http://google.com/search?q=' . urlencode(self::$keywords[$daysIntoPast % 3]));
-            self::assertTrue($t->doTrackPageView('not an incredible title '));
-        }
-        self::checkResponse($t->doBulkTrack());
-    }
 }
+
+Test_Piwik_Integration_RowEvolution::$fixture
+	= new Test_Piwik_Fixture_ManyVisitsOverSeveralDaysWithSearchEngineReferrers();
 

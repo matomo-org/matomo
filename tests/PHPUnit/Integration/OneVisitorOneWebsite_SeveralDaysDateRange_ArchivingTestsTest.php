@@ -12,64 +12,11 @@
  */
 class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests extends IntegrationTestCase
 {
-    protected static $dateTimes = array(
-        '2010-12-14 01:00:00',
-        '2010-12-15 01:00:00',
-        '2010-12-25 01:00:00',
-        '2011-01-15 01:00:00',
-        '2011-01-16 01:00:00',
-    );
-    protected static $idSite = 1;
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        try {
-            self::setUpWebsitesAndGoals();
-            self::trackVisits();
-        } catch(Exception $e) {
-            // Skip whole test suite if an error occurs while setup
-            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
-        }
-    }
+	public static $fixture = null; // initialized below test definition
 
     public function getOutputPrefix()
     {
         return 'oneVisitor_oneWebsite_severalDays_DateRange';
-    }
-
-    protected static function setUpWebsitesAndGoals()
-    {
-        self::createWebsite(self::$dateTimes[0]);
-    }
-
-    protected static function trackVisits()
-    {
-        $dateTimes = self::$dateTimes;
-        $idSite    = self::$idSite;
-
-        $i = 0;
-        foreach ($dateTimes as $dateTime) {
-            $i++;
-            $visitor = self::getTracker($idSite, $dateTime, $defaultInit = true);
-            // Fake the visit count cookie
-            $visitor->setDebugStringAppend("&_idvc=$i");
-
-            $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
-            $visitor->setUrl('http://example.org/homepage');
-            self::checkResponse($visitor->doTrackPageView('ou pas'));
-
-            // Test change the IP, the visit should not be split but recorded to the same idvisitor
-            $visitor->setIp('200.1.15.22');
-
-            $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
-            $visitor->setUrl('http://example.org/news');
-            self::checkResponse($visitor->doTrackPageView('ou pas'));
-
-            $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
-            $visitor->setUrl('http://example.org/news');
-            self::checkResponse($visitor->doTrackPageView('ou pas'));
-        }
     }
 
     /**
@@ -84,6 +31,8 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
 
     public function getApiForTesting()
     {
+    	$idSite = self::$fixture->idSite;
+    	
         $apiToCall = array('Actions.getPageUrls',
             'VisitsSummary.get',
             'UserSettings.getResolution',
@@ -101,7 +50,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
         $result = array();
         for ($i = 0; $i <= 1; $i++) {
             foreach ($segments as $segment) {
-                $result[] = array($apiToCall, array('idSite'  => self::$idSite, 'date' => '2010-12-15,2011-01-15',
+                $result[] = array($apiToCall, array('idSite'  => $idSite, 'date' => '2010-12-15,2011-01-15',
                                                     'periods' => array('range'), 'segment' => $segment));
             }
         }
@@ -137,13 +86,12 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
             $sql        = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
             $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
 
-	        // Uncomment to display a more verbose content of the table, when this test fails
-//	        if( $expectedRows!= $countBlobs) {
-//		        $var = Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range']);
-//		        Piwik::log($var); die('t');
-//	        }
 	        $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
         }
     }
 
 }
+
+Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests::$fixture
+	= new Test_Piwik_Fixture_VisitsOverSeveralDays();
+

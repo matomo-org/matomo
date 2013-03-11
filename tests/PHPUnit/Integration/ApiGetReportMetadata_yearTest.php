@@ -12,41 +12,19 @@
  */
 class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCase
 {
-    protected static $idSite   = 1;
-    protected static $dateTime = '2009-01-04 00:11:42';
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        try {
-            self::setUpWebsitesAndGoals();
-            self::trackVisits();
-        } catch(Exception $e) {
-            // Skip whole test suite if an error occurs while setup
-            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
-        }
-    }
-
-    protected static function setUpWebsitesAndGoals()
-    {
-        self::createWebsite(self::$dateTime);
-    }
-
-    protected static function trackVisits()
-    {
-    }
+	public static $fixture = null; // initialized below class definition
 
     public function getApiForTesting()
     {
-        $params = array('idSite'   => self::$idSite,
-                        'date'     => self::$dateTime,
+        $params = array('idSite'   => self::$fixture->idSite,
+                        'date'     => self::$fixture->dateTime,
                         'periods'  => 'year',
                         'language' => 'fr');
         return array(
             array('API.getProcessedReport', $params),
             // @todo  reenable me
             //array('API.getReportMetadata', $params),
-//            array('LanguagesManager.getTranslationsForLanguage', $params),
+			//array('LanguagesManager.getTranslationsForLanguage', $params),
             array('LanguagesManager.getAvailableLanguageNames', $params),
             array('SitesManager.getJavascriptTag', $params)
         );
@@ -68,3 +46,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata_Year extends IntegrationTestCa
         $this->runApiTests($api, $params);
     }
 }
+
+Test_Piwik_Integration_ApiGetReportMetadata_Year::$fixture = new Test_Piwik_Fixture_InvalidVisits();
+Test_Piwik_Integration_ApiGetReportMetadata_Year::$fixture->trackInvalidRequests = false;
+

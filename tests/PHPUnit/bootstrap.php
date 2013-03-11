@@ -37,6 +37,12 @@ require_once PIWIK_INCLUDE_PATH .'/tests/PHPUnit/MockEventDispatcher.php';
 // required to build code coverage for uncovered files
 require_once PIWIK_INCLUDE_PATH .'/plugins/SecurityInfo/PhpSecInfo/PhpSecInfo.php';
 
+// require test fixtures
+require_once PIWIK_INCLUDE_PATH.'/tests/PHPUnit/BaseFixture.php';
+foreach (glob(PIWIK_INCLUDE_PATH.'/tests/PHPUnit/Fixtures/*.php') as $file)
+{
+	require_once $file;
+}
 
 // General requirement checks & help: a webserver must be running for tests to work!
 checkPiwikSetupForTests();
@@ -56,7 +62,7 @@ Try again and now the tests should run!";
 	}
 
 	// Now testing if the webserver is running
-	$piwikServerUrl = IntegrationTestCase::getRootUrl();
+	$piwikServerUrl = Test_Piwik_BaseFixture::getRootUrl();
 	try {
 		$fetched = Piwik_Http::sendHttpRequest($piwikServerUrl, $timeout = 3);
 	} catch(Exception $e) {

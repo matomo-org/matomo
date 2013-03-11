@@ -611,12 +611,12 @@ class PrivacyManagerTest extends IntegrationTestCase
         //   - http://whatever.com/42/{$daysSinceLastVisit}
         
         $start = Piwik_Date::factory(self::$dateTime);
-	    self::$idSite = self::createWebsite('2012-01-01', $ecommerce=1);
+	    self::$idSite = Test_Piwik_BaseFixture::createWebsite('2012-01-01', $ecommerce=1);
         $idGoal = Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
         
-        $t = IntegrationTestCase::getTracker(self::$idSite, $start, $defaultInit = true);
+        $t = Test_Piwik_BaseFixture::getTracker(self::$idSite, $start, $defaultInit = true);
         $t->enableBulkTracking();
-	    $t->setTokenAuth(self::getTokenAuth());
+	    $t->setTokenAuth(Test_Piwik_BaseFixture::getTokenAuth());
 
         for ($daysAgo = self::$daysAgoStart; $daysAgo >= 0; $daysAgo -= 5) // one visit every 5 days
         {
@@ -638,7 +638,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             $t->doTrackEcommerceOrder($orderId = '937nsjusu '.$dateTime, $grandTotal = 1111.11, $subTotal = 1000,
                                       $tax = 111, $shipping = 0.11, $discount = 666);
         }
-	    self::checkResponse($t->doBulkTrack());
+	    Test_Piwik_BaseFixture::checkResponse($t->doBulkTrack());
     }
     
     protected static function _addReportData()

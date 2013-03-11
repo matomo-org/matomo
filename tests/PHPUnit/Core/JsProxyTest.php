@@ -44,6 +44,6 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
      */
     private function getStaticSrvUrl()
     {
-	    return IntegrationTestCase::getRootUrl();
+	    return Test_Piwik_BaseFixture::getRootUrl();
     }
 }

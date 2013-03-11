@@ -12,20 +12,7 @@
  */
 class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCase
 {
-    protected static $idSite   = 1;
-    protected static $dateTime = '2010-03-06 11:22:33';
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        try {
-            self::setUpWebsitesAndGoals();
-            self::trackVisits();
-        } catch(Exception $e) {
-            // Skip whole test suite if an error occurs while setup
-            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
-        }
-    }
+	public static $fixture = null; // initialized below class definition
 
     public function setUp()
     {
@@ -51,68 +38,14 @@ class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCas
     {
         return array(
             // test hideColumns && showColumns parameters
-            array('VisitsSummary.get', array('idSite' => self::$idSite, 'date' => self::$dateTime,
+            array('VisitsSummary.get', array('idSite' => self::$fixture->idSite,
+            								 'date' => self::$fixture->dateTime,
                                              'periods' => 'day',
                                              'testSuffix' => '',
             ))
         );
     }
-
-    protected static function setUpWebsitesAndGoals()
-    {
-        // tests run in UTC, the Tracker in UTC
-        self::createWebsite(self::$dateTime);
-    }
-
-    protected static function trackVisits()
-    {
-        $dateTime = self::$dateTime;
-        $idSite   = self::$idSite;
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
-
-        // First, some basic tests
-        self::settingInvalidVisitorIdShouldThrow($t);
-
-        // We create VISITOR A
-        $t->setUrl('http://example.org/index.htm');
-        $t->setVisitorId(Piwik_Tracker_Visit::generateUniqueVisitorId());
-        self::checkResponse($t->doTrackPageView('incredible title!'));
-
-        // VISITOR B: few minutes later, we trigger the same tracker but with a custom visitor ID,
-        // => this will create a new visit B
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.05)->getDatetime());
-        $t->setUrl('http://example.org/index2.htm');
-        $t->setVisitorId(Piwik_Tracker_Visit::generateUniqueVisitorId());
-        self::checkResponse($t->doTrackPageView('incredible title!'));
-
-        // This new visit B will have 2 page views
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
-        $t->setUrl('http://example.org/index3.htm');
-        self::checkResponse($t->doTrackPageView('incredible title!'));
-
-        // total = 2 visitors, 3 page views
-
-    }
-
-    static protected function settingInvalidVisitorIdShouldThrow(PiwikTracker $t)
-    {
-        try {
-            $t->setVisitorId('test');
-            $this->fail('should throw');
-        } catch(Exception $e) {
-            //OK
-        }
-        try {
-            $t->setVisitorId('61e8');
-            $this->fail('should throw');
-        } catch(Exception $e) {
-            //OK
-        }
-        try {
-            $t->setVisitorId('61e8cc2d51fea26dabcabcabc');
-            $this->fail('should throw');
-        } catch(Exception $e) {
-            //OK
-        }
-    }
 }
+
+Test_Piwik_Integration_TrackingAPI_SetVisitorId::$fixture = new Test_Piwik_Fixture_FewVisitsWithSetVisitorId();
+
