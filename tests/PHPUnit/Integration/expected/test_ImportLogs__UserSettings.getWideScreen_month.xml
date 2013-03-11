@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Unknown</label>
-		<nb_visits>22</nb_visits>
-		<nb_actions>25</nb_actions>
+		<nb_visits>23</nb_visits>
+		<nb_actions>26</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>20</bounce_count>
+		<bounce_count>21</bounce_count>
 		<nb_visits_converted>21</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>22</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_uniq_visitors>23</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/screens/unknown.gif</logo>
 	</row>
 	<row>
