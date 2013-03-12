@@ -193,7 +193,8 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 		$this->view->setAxisYUnits($yAxisLabelToUnit);		
 		
 		$countGraphElements = $this->dataTable->getRowsCount();
-		$firstDatatable = reset($this->dataTable->getArray());
+		$dataTables = $this->dataTable->getArray();
+		$firstDatatable = reset($dataTables);
 		$period = $firstDatatable->getMetadata('period');
 		
 		$stepSize = $this->getXAxisStepSize($period->getLabel(), $countGraphElements);
