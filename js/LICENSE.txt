@@ -1,4 +1,4 @@
-Copyright (c) Piwik and contributors
+Copyright 2013  Matthieu Aubry
 
 All rights reserved. 
 
