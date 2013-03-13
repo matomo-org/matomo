@@ -217,6 +217,11 @@
         var dashboardContainsWidgets = false;
         for (var column=0; column < dashboardLayout.columns.length; column++) {
             for (var i in dashboardLayout.columns[column]) {
+				if (typeof dashboardLayout.columns[column][i] != 'object') {
+					// Fix IE8 bug: the "i in" loop contains i="indexOf", which would yield type function.
+					// If we would continue with i="indexOf", an invalid widget would be created.
+					continue;
+				}
                 var widget = dashboardLayout.columns[column][i];
                 dashboardContainsWidgets = true;
                 addWidgetTemplate(widget.uniqueId, column+1, widget.parameters, false, widget.isHidden)
