@@ -36,7 +36,9 @@ class PhpSecInfo_Test_Suhosin extends PhpSecInfo_Test
 	 * @return boolean
 	 */
 	function isTestable() {
-		
+		if (version_compare(PHP_VERSION, '5.3.9') >= 0) {
+			return false;
+		}
 		return true;
 	}
 
