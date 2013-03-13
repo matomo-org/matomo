@@ -373,9 +373,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		$datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($this->getCurrentTimestamp());
 		printDebug("Visit is known (IP = ".Piwik_IP::N2P($this->getVisitorIp()).")");
 
-		$visitTotalTime = $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
+        // Add 1 so it's always > 0
+		$visitTotalTime = 1 + $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
 		$valuesToUpdate['visit_last_action_time'] = $datetimeServer;
-		$valuesToUpdate['visit_total_time'] = $visitTotalTime + 1;
+		$valuesToUpdate['visit_total_time'] = self::cleanupVisitTotalTime($visitTotalTime);
 	
 		// Goal conversion
 		if($visitIsConverted)
@@ -384,9 +385,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 			// If a pageview and goal conversion in the same second, with previously a goal conversion recorded
 			// the request would not "update" the row since all values are the same as previous
 			// therefore the request below throws exception, instead we make sure the UPDATE will affect the row
-			$valuesToUpdate['visit_total_time'] += (int)$this->goalManager->idGoal
+			$valuesToUpdate['visit_total_time'] = self::cleanupVisitTotalTime(
+                                                        $valuesToUpdate['visit_total_time']
+                                                        + $this->goalManager->idGoal
 														// +2 to offset idgoal=-1 and idgoal=0 
-														+ 2 ;
+														+ 2 );
 		}
 		
 		// Might update the idvisitor when it was forced or overwritten for this visit
@@ -568,7 +571,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 													Piwik_Tracker_Action::TYPE_SITE_SEARCH))
 											? 1 : 0, // if visit starts with something else (e.g. ecommerce order), don't record as an action
 			'visit_total_searches'      => $actionType == Piwik_Tracker_Action::TYPE_SITE_SEARCH ? 1 : 0,
-			'visit_total_time' 			=> $defaultTimeOnePageVisit,
+			'visit_total_time' 			=> self::cleanupVisitTotalTime($defaultTimeOnePageVisit),
 			'visit_goal_converted'  	=> $visitIsConverted ? 1: 0,
 			'visit_goal_buyer'			=> $this->goalManager->getBuyerType(),
 			'referer_type' 				=> $refererInfo['referer_type'],
@@ -610,6 +613,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
 		$this->saveVisitorInformation();
 	}
+
+    static private function cleanupVisitTotalTime($t)
+    {
+        $t = (int)$t;
+        $smallintMysqlLimit = 65534;
+        if($t > $smallintMysqlLimit) {
+            $t = $smallintMysqlLimit;
+        }
+        return $t;
+    }
 	
 	/**
 	 * Returns the location of the visitor, based on the visitor's IP and browser language.
