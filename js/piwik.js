@@ -8,7 +8,7 @@
  * @license http://piwik.org/free-software/bsd/ Simplified BSD (also in js/LICENSE.txt)
  */
 
-// Refer to README for build instructions when minifying this file for distribution.
+// Refer to README.md for build instructions when minifying this file for distribution.
 
 /*
  * Browser [In]Compatibility
