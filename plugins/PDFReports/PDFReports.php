@@ -500,7 +500,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 		$tasks = &$notification->getNotificationObject();
 		foreach(Piwik_PDFReports_API::getInstance()->getReports() as $report)
 		{
-			if (!$report['deleted'])
+			if (!$report['deleted'] && $report['period'] != Piwik_ScheduledTime::PERIOD_NEVER)
 			{
 				$midnightInSiteTimezone =
 					date (
@@ -658,12 +658,11 @@ class Piwik_PDFReports extends Piwik_Plugin
 	 */
 	static public function getPeriodToFrequency()
 	{
-		$periods = array(
-			'day' => Piwik_Translate('General_Daily'),
-			'week' => Piwik_Translate('General_Weekly'),
-			'month' => Piwik_Translate('General_Monthly'),
-			'range' => Piwik_Translate('General_DateRangeInPeriodList'),
+		return array(
+			Piwik_ScheduledTime::PERIOD_NEVER => Piwik_Translate('General_Never'),
+			Piwik_ScheduledTime::PERIOD_DAY => Piwik_Translate('General_Daily'),
+			Piwik_ScheduledTime::PERIOD_WEEK => Piwik_Translate('General_Weekly'),
+			Piwik_ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_Monthly'),
 		);
-		return $periods;
 	}
 }
