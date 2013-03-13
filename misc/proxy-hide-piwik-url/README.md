@@ -31,6 +31,7 @@ To run this properly you will need
    (function() {
        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://trackedsite.com/";
        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+       _paq.push(["setSiteId", "trackedsite-id"]);
        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
        g.defer=true; g.async=true; g.src=u+"piwik.php"; s.parentNode.insertBefore(g,s);
    })();
@@ -44,6 +45,7 @@ To run this properly you will need
    * the "piwik.js" becomes "piwik.php" because this piwik.php proxy script will also display and proxy the Javascript file
    * the `<noscript>` part of the code at the end is removed,
      since it is not currently used by Piwik, and it contains the (secret) Piwik URL which you want to hide.
+   * make sure to replace trackedsite-id with your idsite again.
 
  8. Paste the modified Piwik Javascript code in your website "trackedsite.com" pages you wish to track.
     This modified Javascript Code will then track visits/pages/conversions by calling trackedsite.com/piwik.php
