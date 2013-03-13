@@ -1,11 +1,11 @@
 <?php
-/* 
+/*
  == Description ==
  This script allows to track statistics using Piwik, without revealing the
- Piwik Server URL. This is useful for users who track multiple websites 
- in the same Piwik server, but don't want to show in the source code of all tracked 
+ Piwik Server URL. This is useful for users who track multiple websites
+ in the same Piwik server, but don't want to show in the source code of all tracked
  websites the Piwik server URL.
- 
+
  == Requirements ==
  To run this properly you will need
  - Piwik server latest version
@@ -21,9 +21,9 @@
  4) Copy the "token_auth" for this user, and paste it below in this file, in $TOKEN_AUTH = "xyz"
  5) In this file, below this help test, edit $PIWIK_URL variable and change http://piwik-server.com/piwik/ with the URL to your Piwik server.
  6) Upload this modified piwik.php file in the website root directory, for example at: http://trackedsite.com/piwik.php
-    This file (http://trackedsite.com/piwik.php) will be called by the Piwik Javascript, 
+    This file (http://trackedsite.com/piwik.php) will be called by the Piwik Javascript,
     instead of calling directly the (secret) Piwik Server URL (http://piwik-server.com/piwik/).
- 7) You now need to add the modified Piwik Javascript Code to the footer of your pages at http://trackedsite.com/ 
+ 7) You now need to add the modified Piwik Javascript Code to the footer of your pages at http://trackedsite.com/
     Go to Piwik > Settings > Websites > Show Javascript Tracking Code.
     Copy the Javascript snippet. Then, edit this code and change the last lines to the following:
 		[...]
@@ -39,7 +39,7 @@
     What's changed in this code snippet compared to the normal Piwik code?
 	    A) the (secret) Piwik URL is now replaced by your website URL
 	    B) the "piwik.js" becomes "piwik.php" because this piwik.php proxy script will also display and proxy the Javascript file
-	    C) the <noscript> part of the code at the end is removed, 
+	    C) the <noscript> part of the code at the end is removed,
 	       since it is not currently used by Piwik, and it contains the (secret) Piwik URL which you want to hide.
  8) Paste the modified Piwik Javascript code in your website "trackedsite.com" pages you wish to track.
     This modified Javascript Code will then track visits/pages/conversions by calling trackedsite.com/piwik.php
@@ -49,7 +49,7 @@
     Repeat the steps 6), 7) and 8) for each website you wish to track in Piwik.
 */
 
-// Edit the line below, and replace http://piwik-server.com/piwik/ 
+// Edit the line below, and replace http://piwik-server.com/piwik/
 // with your Piwik URL ending with a slash.
 // This URL will never be revealed to visitors or search engines.
 $PIWIK_URL = 'http://piwik-server.com/piwik/';
@@ -62,19 +62,15 @@ $TOKEN_AUTH = 'xyz';
 $timeout = 5;
 
 
-
 // DO NOT MODIFY BELOW
 // ---------------------------
 // 1) PIWIK.JS PROXY: No _GET parameter, we serve the JS file
-if(empty($_GET)) 
-{
+if (empty($_GET)) {
 	$modifiedSince = false;
-	if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
-	{
+	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 		$modifiedSince = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
 		// strip any trailing data appended to header
-		if (false !== ($semicolon = strpos($modifiedSince, ';')))
-		{
+		if (false !== ($semicolon = strpos($modifiedSince, ';'))) {
 			$modifiedSince = strtotime(substr($modifiedSince, 0, $semicolon));
 		}
 	}
@@ -83,17 +79,14 @@ if(empty($_GET))
 
 	// set HTTP response headers
 	header('Vary: Accept-Encoding');
-	
+
 	// Returns 304 if not modified since
-	if (!empty($modifiedSince) && $modifiedSince < $lastModified)
-	{
-		header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
-	}
-	else
-	{
+	if (!empty($modifiedSince) && $modifiedSince < $lastModified) {
+		header(sprintf("%s 304 Not Modified", $_SERVER['SERVER_PROTOCOL']));
+	} else {
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		@header('Content-Type: application/javascript; charset=UTF-8');
-		if( $piwikJs = file_get_contents($PIWIK_URL.'piwik.js')) {
+		if ($piwikJs = file_get_contents($PIWIK_URL.'piwik.js')) {
 			echo $piwikJs;
 		} else {
 			header($_SERVER['SERVER_PROTOCOL'] . '505 Internal server error');
@@ -103,14 +96,14 @@ if(empty($_GET))
 }
 
 // 2) PIWIK.PHP PROXY: GET parameters found, this is a tracking request, we redirect it to Piwik
-$url = $PIWIK_URL."piwik.php?cip=".@$_SERVER['REMOTE_ADDR']."&token_auth=".$TOKEN_AUTH.'&';
-foreach($_GET as $key=>$value) { 
-	$url .= $key .'='.urlencode($value).'&'; 
+$url = sprintf("%spiwik.php?cip=%s&token_auth=%s&", $PIWIK_URL, @$_SERVER['REMOTE_ADDR'], $TOKEN_AUTH);
+foreach($_GET as $key=>$value) {
+	$url .= $key .'='.urlencode($value).'&';
 }
 header("Content-Type: image/gif");
 $stream_options = array('http' => array(
 	'user_agent' => @$_SERVER['HTTP_USER_AGENT'],
-	'header' => "Accept-Language: " . @str_replace(array("\n","\t","\r"), "", $_SERVER['HTTP_ACCEPT_LANGUAGE']) . "\r\n" ,
+	'header' => sprintf("Accept-Language: %s%s\r\n", @str_replace(array("\n","\t","\r"), $_SERVER['HTTP_ACCEPT_LANGUAGE'])),
 	'timeout' => $timeout
 ));
 $ctx = stream_context_create($stream_options);
