@@ -1,4 +1,4 @@
-Copyright 2013  Matthieu Aubry
+Copyright 2013  Anthon Pang
 
 All rights reserved. 
 
