@@ -954,7 +954,11 @@ var
          * Page Overlay
          ************************************************************/
 
-        function getTrackerUrlForOverlay(trackerUrl) {
+        function getPiwikUrlForOverlay(trackerUrl, apiUrl) {
+			if (apiUrl) {
+				return apiUrl;
+			}
+			
             if (trackerUrl.slice(-9) === 'piwik.php') {
                 trackerUrl = trackerUrl.slice(0, trackerUrl.length - 9);
             }
@@ -968,41 +972,29 @@ var
          *
          * {@internal side-effect: modifies window.name }}
          */
-        function isOverlaySession(configTrackerUrl, configTrackerSiteId) {
-            var windowName = 'Piwik_Overlay',
-                referrer = documentAlias.referrer,
-                testReferrer = getTrackerUrlForOverlay(configTrackerUrl);
+        function isOverlaySession(configTrackerSiteId) {
+            var windowName = 'Piwik_Overlay';
 
-            // remove protocol
-            testReferrer.slice(testReferrer.slice(0, 7) === 'http://' ? 7 : 8, testReferrer.length);
-            referrer.slice(referrer.slice(0, 7) === 'http://' ? 7 : 8, referrer.length);
+			// check whether we were redirected from the piwik overlay plugin
+            var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
+					+ '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
 
-            // do a basic match before checking with a regex because the regex is more expensive
-            // and would be used at every pageview otherwise
-            if (referrer.slice(0, testReferrer.length) === testReferrer) {
+			var match = referrerRegExp.exec(documentAlias.referrer);
+			
+			if (match) {
+				// check idsite
+				var idsite = match[1];
 
-                // build referrer regex to extract parameters
-                var referrerRegExp = new RegExp('^' + testReferrer
-                        + 'index\\.php\\?module=Overlay&action=startOverlaySession'
-                        + '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
+				if (idsite !== String(configTrackerSiteId)) {
+					return false;
+				}
 
-                var match = referrerRegExp.exec(referrer);
+				// store overlay session info in window name
+				var period = match[2],
+					date = match[3];
 
-                if (match) {
-                    // check idsite
-                    var idsite = match[1];
-
-                    if (idsite !== String(configTrackerSiteId)) {
-                        return false;
-                    }
-
-                    // store overlay session info in window name
-                    var period = match[2],
-                        date = match[3];
-
-                    windowAlias.name = windowName + '###' + period + '###' + date;
-                }
-            }
+				windowAlias.name = windowName + '###' + period + '###' + date;
+			}
 
             // retrieve and check data from window name
             var windowNameParts = windowAlias.name.split('###');
@@ -1013,16 +1005,16 @@ var
         /*
          * Inject the script needed for page overlay
          */
-        function injectOverlayScripts(configTrackerUrl, configTrackerSiteId) {
+        function injectOverlayScripts(configTrackerUrl, configApiUrl, configTrackerSiteId) {
             var windowNameParts = windowAlias.name.split('###'),
                 period = windowNameParts[1],
                 date = windowNameParts[2],
-                trackerUrl = getTrackerUrlForOverlay(configTrackerUrl);
+                piwikUrl = getPiwikUrlForOverlay(configTrackerUrl, configApiUrl);
 
             loadScript(
-                trackerUrl + 'plugins/Overlay/client/client.js?v=1',
+				piwikUrl + 'plugins/Overlay/client/client.js?v=1',
                 function () {
-                    Piwik_Overlay_Client.initialize(trackerUrl, configTrackerSiteId, period, date);
+                    Piwik_Overlay_Client.initialize(piwikUrl, configTrackerSiteId, period, date);
                 }
             );
         }
@@ -1063,6 +1055,9 @@ var
 
                 // Tracker URL
                 configTrackerUrl = trackerUrl || '',
+				
+				// API URL (only set if it differs from the Tracker URL)
+				configApiUrl = '',
 
                 // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existin setters/getters)
                 configAppendToTrackingUrl = '',
@@ -2496,6 +2491,16 @@ var
                     configTitle = title;
                 },
 
+				/**
+				 * Set the URL of the Piwik API. It is used for Page Overlay.
+				 * This method should only be called when the API URL differs from the tracker URL.
+				 * 
+				 * @param string apiUrl
+				 */
+				setAPIUrl: function (apiUrl) {
+					configApiUrl = apiUrl;
+				},
+
                 /**
                  * Set array of classes to be treated as downloads
                  *
@@ -2753,9 +2758,9 @@ var
                  * @param mixed customData
                  */
                 trackPageView: function (customTitle, customData) {
-                    if (isOverlaySession(configTrackerUrl, configTrackerSiteId)) {
+                    if (isOverlaySession(configTrackerSiteId)) {
                         trackCallback(function () {
-                            injectOverlayScripts(configTrackerUrl, configTrackerSiteId);
+                            injectOverlayScripts(configTrackerUrl, configApiUrl, configTrackerSiteId);
                         });
                     } else {
                         trackCallback(function () {
