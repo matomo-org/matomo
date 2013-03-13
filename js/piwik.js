@@ -5,7 +5,7 @@
  *
  * @link http://piwik.org
  * @source https://github.com/piwik/piwik/blob/master/js/piwik.js
- * @license http://www.opensource.org/licenses/bsd-license.php Simplified BSD
+ * @license http://piwik.org/free-software/bsd/ Simplified BSD (also in js/LICENSE.txt)
  */
 
 // Refer to README for build instructions when minifying this file for distribution.
