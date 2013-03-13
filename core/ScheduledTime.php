@@ -19,6 +19,11 @@
  */
 abstract class Piwik_ScheduledTime
 {
+	const PERIOD_NEVER = 'never';
+	const PERIOD_DAY = 'day';
+	const PERIOD_WEEK = 'week';
+	const PERIOD_MONTH = 'month';
+
 	/**
 	 * @link http://php.net/manual/en/function.date.php, format string : 'G'
 	 * Defaults to midnight
@@ -38,9 +43,9 @@ abstract class Piwik_ScheduledTime
 	{
 		switch($period)
 		{
-			case 'month': return new Piwik_ScheduledTime_Monthly();
-			case 'week': return new Piwik_ScheduledTime_Weekly();
-			case 'day': return new Piwik_ScheduledTime_Daily();
+			case self::PERIOD_MONTH: return new Piwik_ScheduledTime_Monthly();
+			case self::PERIOD_WEEK: return new Piwik_ScheduledTime_Weekly();
+			case self::PERIOD_DAY: return new Piwik_ScheduledTime_Daily();
 
 			default: throw new Exception('period ' . $period . 'is undefined.');
 		}

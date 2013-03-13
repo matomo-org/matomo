@@ -37,7 +37,7 @@ class PDFReportsTest extends DatabaseTestCase
 			'idsite' => $this->idSite,
 			'description' => 'test description"',
 			'type' => 'email',
-			'period' => 'day',
+			'period' => Piwik_ScheduledTime::PERIOD_DAY,
 			'hour' => '4',
 			'format' => 'pdf',
 			'reports' => array('UserCountry_getCountry'),
@@ -51,7 +51,7 @@ class PDFReportsTest extends DatabaseTestCase
 
 		$dataWebsiteTwo = $data;
 		$dataWebsiteTwo['idsite'] = 2;
-		$dataWebsiteTwo['period'] = 'month';
+		$dataWebsiteTwo['period'] = Piwik_ScheduledTime::PERIOD_MONTH;
 
 		self::addReport($dataWebsiteTwo);
 
@@ -269,7 +269,7 @@ class PDFReportsTest extends DatabaseTestCase
 		Piwik_PDFReports_API::getInstance()->addReport(
 			1,
 			'',
-			'day',
+			Piwik_ScheduledTime::PERIOD_DAY,
 			0,
 			Piwik_MobileMessaging::MOBILE_TYPE,
 			Piwik_MobileMessaging::SMS_FORMAT,
@@ -342,9 +342,15 @@ class PDFReportsTest extends DatabaseTestCase
 		$report5['hour'] = 8;
 		$report5['deleted'] = 0;
 
+		// test no exception is raised when a scheduled report is set to never send
+		$report6 = self::getMonthlyEmailReportData($this->idSite);
+		$report6['idreport'] = 6;
+		$report6['period'] = Piwik_ScheduledTime::PERIOD_NEVER;
+		$report6['deleted'] = 0;
+
 		$stubbedPDFReportsAPI = $this->getMock('Piwik_PDFReports_API');
 		$stubbedPDFReportsAPI->expects($this->any())->method('getReports')->will($this->returnValue(
-			array($report1, $report2, $report3, $report4, $report5))
+			array($report1, $report2, $report3, $report4, $report5, $report6))
 		);
 
 		$stubbedPDFReportsAPIClass = new ReflectionProperty('Piwik_PDFReports_API', 'instance');
@@ -415,7 +421,7 @@ class PDFReportsTest extends DatabaseTestCase
 		return array(
 			'idsite' => $idSite,
 			'description' => 'test description"',
-			'period' => 'day',
+			'period' => Piwik_ScheduledTime::PERIOD_DAY,
 			'hour' => '7',
 			'type' => 'email',
 			'format' => 'pdf',
@@ -434,7 +440,7 @@ class PDFReportsTest extends DatabaseTestCase
 		return array(
 			'idsite' => $idSite,
 			'description' => 'very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. very very long and possibly truncated description. ',
-			'period' => 'month',
+			'period' => Piwik_ScheduledTime::PERIOD_MONTH,
 			'hour' => '0',
 			'type' => 'email',
 			'format' => 'pdf',

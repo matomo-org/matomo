@@ -68,13 +68,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 
 		$view->downloadOutputType = Piwik_PDFReports_API::OUTPUT_INLINE;
 
-		$periods = array_merge(
-			array('never' => Piwik_Translate('General_Never')),
-			Piwik_PDFReports::getPeriodToFrequency()
-		);
-		// Do not display date range in selector
-		unset($periods['range']);
-		$view->periods = $periods;
+		$view->periods = Piwik_PDFReports::getPeriodToFrequency();
 		$view->defaultPeriod = Piwik_PDFReports::DEFAULT_PERIOD;
 		$view->defaultHour = Piwik_PDFReports::DEFAULT_HOUR;
 
