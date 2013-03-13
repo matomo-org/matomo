@@ -10,14 +10,14 @@ To run this properly you will need
  * Piwik server latest version
  * One or several website(s) to track with this Piwik server, for example http://trackedsite.com
  * The website to track must run on a server with PHP5 support
- * In your php.ini you must check that the following is set: "allow_url_fopen = On"
+ * In your php.ini you must check that the following is set: `allow_url_fopen = On`
 
 ### How to track trackedsite.com in your Piwik without revealing the Piwik server URL?
 
 1. In your Piwik server, login as Super user
 2. create a user, set the login for example: "UserTrackingAPI"
 3. Assign this user "admin" permission on all websites you wish to track without showing the Piwik URL
-4. Copy the "token_auth" for this user, and paste it below in this file, in $TOKEN_AUTH = "xyz"
+4. Copy the "token_auth" for this user, and paste it below in this file, in `$TOKEN_AUTH = "xyz"`
 5. In this file, below this help test, edit $PIWIK_URL variable and change http://piwik-server.com/piwik/ with the URL to your Piwik server.
 6. Upload this modified piwik.php file in the website root directory, for example at: http://trackedsite.com/piwik.php
    This file (http://trackedsite.com/piwik.php) will be called by the Piwik Javascript,
@@ -40,10 +40,10 @@ To run this properly you will need
 
    What's changed in this code snippet compared to the normal Piwik code?
 
-       * the (secret) Piwik URL is now replaced by your website URL
-       * the "piwik.js" becomes "piwik.php" because this piwik.php proxy script will also display and proxy the Javascript file
-       * the <noscript> part of the code at the end is removed,
-	 since it is not currently used by Piwik, and it contains the (secret) Piwik URL which you want to hide.
+   * the (secret) Piwik URL is now replaced by your website URL
+   * the "piwik.js" becomes "piwik.php" because this piwik.php proxy script will also display and proxy the Javascript file
+   * the `<noscript>` part of the code at the end is removed,
+     since it is not currently used by Piwik, and it contains the (secret) Piwik URL which you want to hide.
 
  8. Paste the modified Piwik Javascript code in your website "trackedsite.com" pages you wish to track.
     This modified Javascript Code will then track visits/pages/conversions by calling trackedsite.com/piwik.php
