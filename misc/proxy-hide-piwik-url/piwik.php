@@ -7,6 +7,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+// -----
+// Important: read the instructions in README.md or at:
+// https://github.com/piwik/piwik/tree/master/misc/proxy-hide-piwik-url#piwik-proxy-hide-url
+// -----
+
 // Edit the line below, and replace http://piwik-server.com/piwik/
 // with your Piwik URL ending with a slash.
 // This URL will never be revealed to visitors or search engines.
