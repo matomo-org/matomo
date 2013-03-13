@@ -828,7 +828,7 @@ if ($sqlite) {
 	});
 
 	test("tracking", function() {
-		expect(80);
+		expect(81);
 
 		/*
 		 * Prevent Opera and HtmlUnit from performing the default action (i.e., load the href URL)
@@ -1047,6 +1047,11 @@ if ($sqlite) {
 		
 		// do not track
 		tracker3.setDoNotTrack(false);
+
+		// Append tracking url parameter
+		tracker3.appendToTrackingUrl("appended=1&appended2=value");
+
+        // Track pageview
 		tracker3.trackPageView("DoTrack");
 
 		// Firefox 9: navigator.doNotTrack is read-only
@@ -1127,6 +1132,9 @@ if ($sqlite) {
 			ok( /testlog/.test( results ), "plugin hook log" );
 			ok( /testlink/.test( results ), "plugin hook link" );
 			ok( /testgoal/.test( results ), "plugin hook goal" );
+
+            // Testing the Tracking URL append
+            ok( /&appended=1&appended2=value/.test( results ), "appendToTrackingUrl(query) function");
 
 			start();
 		}, 4500);

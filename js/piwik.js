@@ -401,7 +401,7 @@ if (!this.JSON2) {
     exec,
     res, width, height, devicePixelRatio,
     pdf, qt, realp, wma, dir, fla, java, gears, ag,
-    hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, setSiteId,
+    hook, getHook, getVisitorId, getVisitorInfo, setTrackerUrl, appendToTrackingUrl, setSiteId,
     getAttributionInfo, getAttributionCampaignName, getAttributionCampaignKeyword,
     getAttributionReferrerTimestamp, getAttributionReferrerUrl,
     setCustomData, getCustomData,
@@ -1064,6 +1064,9 @@ var
                 // Tracker URL
                 configTrackerUrl = trackerUrl || '',
 
+                // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existin setters/getters)
+                configAppendToTrackingUrl = '',
+
                 // Site ID
                 configTrackerSiteId = siteId || '',
 
@@ -1725,6 +1728,9 @@ var
                 // tracker plugin hook
                 request += executePluginMethod(pluginMethod);
 
+                if (configAppendToTrackingUrl.length) {
+                    request += '&' + configAppendToTrackingUrl;
+                }
                 return request;
             }
 
@@ -2321,8 +2327,17 @@ var
                 },
 
                 /**
-                 * Get custom data
+                 * Appends the specified query string to the piwik.php?... Tracking API URL
                  *
+                 * @param queryString eg. 'lat=140&long=100'
+                 */
+                appendToTrackingUrl: function (queryString) {
+                    configAppendToTrackingUrl = queryString;
+                },
+
+                /**
+                 * Get custom data
+                 *skk
                  * @return mixed
                  */
                 getCustomData: function () {
