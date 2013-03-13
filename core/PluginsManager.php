@@ -240,7 +240,8 @@ class Piwik_PluginsManager
 		$existingPlugins = $this->readPluginsDirectory();
 		if( array_search($pluginName, $existingPlugins) === false)
 		{
-			Piwik::log(sprintf("Unable to find the plugin '%s' in activatePlugin.", $pluginName));
+			// ToDo: This fails in tracker-mode. We should log this however.
+			//Piwik::log(sprintf("Unable to find the plugin '%s' in activatePlugin.", $pluginName));
 			return;
 		}
 
