@@ -55,7 +55,10 @@ var Piwik_Overlay_Client = (function() {
 				src: piwikRoot + 'index.php?module=Overlay&action=notifyParentIframe#' + window.location.href
 			}).css({width: 0, height: 0, border: 0});
 			
-			$('body').append(iframe);
+			// in some cases, calling append right away doesn't work in IE8
+			$(document).ready(function() {
+				$('body').append(iframe);
+			});
 		}
 	}
 	
