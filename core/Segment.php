@@ -217,12 +217,10 @@ class Piwik_Segment
     		$sql = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
     	}
     	
-    	$return = array(
+    	return array(
     		'sql' => $sql,
     		'bind' => $bind
     	);
-    	//var_dump($return);
-    	return $return;
     }
 
 	/**
