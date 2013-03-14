@@ -202,5 +202,6 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 
 		// Weibo
 		'weibo.com'	=> 'Weibo',
+		't.cn'	=> 'Weibo',
     );
 }
