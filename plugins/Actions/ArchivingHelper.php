@@ -32,7 +32,6 @@ class Piwik_Actions_ArchivingHelper
 		$rowsProcessed = 0;
 		while( $row = $query->fetch() )
 		{
-//			var_dump($row);
 			if(empty($row['idaction']))
 			{
 				$row['type'] = ($fieldQueried == 'idaction_url' ? Piwik_Tracker_Action::TYPE_ACTION_URL : Piwik_Tracker_Action::TYPE_ACTION_NAME);

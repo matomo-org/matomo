@@ -511,7 +511,7 @@ class Piwik_Live_API
 			) AS sub
 			GROUP BY sub.idvisit
 			ORDER BY $orderByParent
-		"; 
+		";
 		
 		try {
 			$data = Piwik_FetchAll($sql, $subQuery['bind']);
@@ -519,11 +519,8 @@ class Piwik_Live_API
 			echo $e->getMessage();exit;
 		}
 		
-//var_dump($whereBind);	echo($sql);
-//var_dump($data);
 		return $data;
 	}
-	
 
 	/**
 	 * Removes fields that are not meant to be displayed (md5 config hash)

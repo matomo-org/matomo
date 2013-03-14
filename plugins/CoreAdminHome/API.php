@@ -178,7 +178,6 @@ class Piwik_CoreAdminHome_API
 					" WHERE ( $sql ) ". 
 					" AND idsite IN (". $sqlIdSites .")";
 			Piwik_Query($query, $bind);
-//			var_dump($query);var_dump($bind);
 		}
 
 		// Update piwik_site.ts_created 
@@ -189,7 +188,6 @@ class Piwik_CoreAdminHome_API
 		$minDateSql = $minDate->subDay(1)->getDatetime();
 		$bind = array($minDateSql,$minDateSql);
 		Piwik_Query($query, $bind);
-//		var_dump($query);var_dump($bind);
 
 		// Force to re-process data for these websites in the next archive.php cron run
 		$invalidatedIdSites = Piwik_CoreAdminHome_API::getWebsiteIdsToInvalidate();

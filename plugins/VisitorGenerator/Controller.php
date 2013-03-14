@@ -150,19 +150,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 			
 			if($output = Piwik_Http::sendHttpRequest($url, $timeout = 5, $ua, $path = null, $follow = 0, $acceptLanguage))
 			{
-//				var_dump($output);
 				$count++;
-			}
-			
-//			echo "IP=". $ip; echo "<br>";
-//			echo "Date=". $datetime; echo "<br>";
-//			echo "URL=". $url; echo "<br>";
-//			echo "Referrer=". $referrer; echo "<br>";
-//			echo "UserAgent=". $ua; echo "<br>";
-//			echo "<hr>";
-//			var_dump($url);
-			if($count==2) {
-//				return $count;
 			}
 		}
 		return $count;

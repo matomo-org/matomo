@@ -469,8 +469,6 @@ class Piwik_Actions_Archiving
 		{
 			$querySql = $rankingQuery->generateQuery($querySql);
 		}
-//      echo '<pre>';var_dump($querySql);
-//      var_dump($bind);
 
 		// get result
 		$resultSet = $archiveProcessing->db->query($querySql, $bind);

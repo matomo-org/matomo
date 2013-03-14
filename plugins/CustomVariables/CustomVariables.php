@@ -292,9 +292,6 @@ class Piwik_CustomVariables extends Piwik_Plugin
 		}
 		$archiveProcessing->enrichConversionsByLabelArray($this->interestByCustomVariables);
 		$archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->interestByCustomVariablesAndValue);
-		 
-		//    	var_dump($this->interestByCustomVariables);
-    	//var_dump($this->interestByCustomVariablesAndValue);
 	}
 
 	protected function cleanCustomVarValue($value)
