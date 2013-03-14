@@ -73,8 +73,7 @@ class Piwik_SegmentExpression
             {
                 throw new Exception('Segment parameter \''.$operand.'\' does not appear to have a valid format.');
             }
-//            var_dump($matches);
-            
+
             $leftMember = $matches[1];
             $operation = $matches[2];
             $valueRightMember = $matches[3];

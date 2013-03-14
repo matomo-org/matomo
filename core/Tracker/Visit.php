@@ -1261,11 +1261,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 					ORDER BY priority DESC 
 					LIMIT 1";
 		}
-		
-		
+
+
 		$visitRow = Piwik_Tracker::getDatabase()->fetch($sql, $bindSql);
-//		var_dump($sql);var_dump($bindSql);var_dump($visitRow);
-		
+
 		if( !Piwik_Config::getInstance()->Debug['tracker_always_new_visitor']
 			&& $visitRow
 			&& count($visitRow) > 0)

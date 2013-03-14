@@ -879,7 +879,6 @@ abstract class Piwik_ArchiveProcessing
 		$bindSql = $this->getBindArray();
 		$bindSql[] = $name;
 		$bindSql[] = $value;
-//		var_dump($bindSql);
 		Piwik_Query($query, $bindSql);
 	}
 	

@@ -198,7 +198,6 @@ class Piwik_Tracker_GoalManager
 				$this->convertedGoals[] = $goal;
 			}
 		}
-//		var_dump($this->convertedGoals);exit;
 		return count($this->convertedGoals) > 0;
 	}
 
@@ -469,7 +468,6 @@ class Piwik_Tracker_GoalManager
 		{
 			$itemInCartBySku[$item[0]] = $item;
 		}
-//		var_dump($items); echo "Items by SKU:";var_dump($itemInCartBySku);
 
 		// Select all items currently in the Cart if any
 		$sql = "SELECT idaction_sku, idaction_name, idaction_category, idaction_category2, idaction_category3, idaction_category4, idaction_category5, price, quantity, deleted, idorder as idorder_original_value 
@@ -532,7 +530,6 @@ class Piwik_Tracker_GoalManager
 		}
 		
 		// Items to UPDATE
-		//var_dump($itemsToUpdate);
 		$this->updateEcommerceItems($goal, $itemsToUpdate);
 		
 		// Items to INSERT

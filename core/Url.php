@@ -224,7 +224,6 @@ class Piwik_Url
 		$untrustedHost = rtrim($untrustedHost, '.');
 		$hostRegex     = Piwik_Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '$/');
 		$result = preg_match($hostRegex, $untrustedHost);
-//		var_dump($hostRegex);var_dump($untrustedHost);var_dump($result);
 		return 0 !== $result;
 	}
 

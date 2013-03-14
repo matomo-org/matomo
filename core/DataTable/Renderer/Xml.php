@@ -84,7 +84,6 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
 	protected function renderTable($table, $returnOnlyDataTableXml = false, $prefixLines = '')
 	{
 		$array = $this->getArrayFromDataTable($table);
-//		var_dump($array);exit;
 		if($table instanceof Piwik_DataTable_Array)
 		{
 			$out = $this->renderDataTableArray($table, $array, $prefixLines);

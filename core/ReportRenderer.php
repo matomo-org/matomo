@@ -193,7 +193,6 @@ abstract class Piwik_ReportRenderer
 		$finalReport = $report;
 		if(empty($reportMetadata['dimension']))
 		{
-//			var_dump($report);
 			$simpleReportMetrics = $report->getFirstRow();
 			if($simpleReportMetrics)
 			{
