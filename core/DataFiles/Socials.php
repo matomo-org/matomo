@@ -199,5 +199,8 @@ if (!isset($GLOBALS['Piwik_socialUrl']))
 
 		// Identi.ca
 		'identi.ca'	=> 'identi.ca',
+
+		// Weibo
+		'weibo.com'	=> 'Weibo',
     );
 }
