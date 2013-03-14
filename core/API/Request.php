@@ -111,7 +111,7 @@ class Piwik_API_Request
 		
 		try {
 			// read parameters
-			$moduleMethod = Piwik_Common::getRequestVar('method', null, null, $this->request);
+			$moduleMethod = Piwik_Common::getRequestVar('method', null, 'string', $this->request);
 			
 			list($module, $method) = $this->extractModuleAndMethod($moduleMethod); 
 			
