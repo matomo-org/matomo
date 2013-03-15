@@ -18,7 +18,9 @@ env:
 matrix:
   include:
     - php: 5.4
-      env: TEST_SUITE=
+      env: 
+        - TEST_SUITE=
+        - secure: "RaRLGQuYhkPWNdkvNNMm0M4kukzwaaLXgQ9kIq3XALXuS1z31SnD27slFopH\nqIBmIYqevce9VKaytJSXrbjsWp8Yx3mheh4fDs4UP/ULhyJ8FgikGbZyU9DP\nsXUJbVMRXSab98Ga25EoV/d8dJoPLvRxMvtpmiT2XLEpwT8Bc2w="
 
 script: ./travis.sh
 
@@ -27,6 +29,10 @@ before_script:
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
   - cd tests/PHPUnit
+
+after_success:
+  - cd $TRAVIS_BUILD_DIR
+  - ./tests/travis/generate_docs.sh
 
 notifications:
   irc:
