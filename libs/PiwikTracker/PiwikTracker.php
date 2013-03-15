@@ -18,6 +18,8 @@
  */
 
 /**
+ * PiwikTracker implements the Piwik Tracking API.
+ *
  * @package PiwikTracker
  */
 class PiwikTracker
@@ -66,7 +68,7 @@ class PiwikTracker
 	 * @param string $apiUrl "http://example.org/piwik/" or "http://piwik.example.org/"
 	 * 						 If set, will overwrite PiwikTracker::$URL
 	 */
-    function __construct( $idSite, $apiUrl = false )
+    function __construct( $idSite, $apiUrl = '' )
     {
     	$this->cookieSupport = true;
     	$this->userAgent = false;
@@ -112,7 +114,7 @@ class PiwikTracker
 	 *
 	 * @param string $charset
 	 */
-	public function setPageCharset( $charset = false )
+	public function setPageCharset( $charset = '' )
 	{
 		$this->pageCharset = $charset;
 	}
@@ -120,7 +122,7 @@ class PiwikTracker
     /**
      * Sets the current URL being tracked
      * 
-     * @param string Raw URL (not URL encoded)
+     * @param string $url Raw URL (not URL encoded)
      */
 	public function setUrl( $url )
     {
@@ -130,7 +132,7 @@ class PiwikTracker
     /**
      * Sets the URL referrer used to track Referrers details for new visits.
      * 
-     * @param string Raw URL (not URL encoded)
+     * @param string $url Raw URL (not URL encoded)
      */
     public function setUrlReferrer( $url )
     {
@@ -152,8 +154,9 @@ class PiwikTracker
      * 
      * This must be a JSON encoded string that would typically be fetched from the JS API: 
      * piwikTracker.getAttributionInfo() and that you have JSON encoded via JSON2.stringify() 
-     * 
+     *
      * @param string $jsonEncoded JSON encoded array containing Attribution info
+	 * @throws Exception
      * @see function getAttributionInfo() in https://github.com/piwik/piwik/blob/master/js/piwik.js
      */
     public function setAttributionInfo( $jsonEncoded )
@@ -169,11 +172,12 @@ class PiwikTracker
     /**
      * Sets Visit Custom Variable.
      * See http://piwik.org/docs/custom-variables/
-     * 
-     * @param int Custom variable slot ID from 1-5
-     * @param string Custom variable name
-     * @param string Custom variable value
-     * @param string Custom variable scope. Possible values: visit, page
+     *
+     * @param int $id Custom variable slot ID from 1-5
+     * @param string $name Custom variable name
+     * @param string $value Custom variable value
+     * @param string $scope Custom variable scope. Possible values: visit, page
+	 * @throws Exception
      */
     public function setCustomVariable($id, $name, $value, $scope = 'visit')
     {
@@ -201,10 +205,11 @@ class PiwikTracker
      * This function will only work if the user is initiating the current request, and his cookies
      * can be read by PHP from the $_COOKIE array.
      * 
-     * @param int Custom Variable integer index to fetch from cookie. Should be a value from 1 to 5
-     * @param string Custom variable scope. Possible values: visit, page
-     * 
-     * @return array|false An array with this format: array( 0 => CustomVariableName, 1 => CustomVariableValue )
+     * @param int $id Custom Variable integer index to fetch from cookie. Should be a value from 1 to 5
+     * @param string $scope Custom variable scope. Possible values: visit, page
+     *
+	 * @throws Exception
+     * @return mixed An array with this format: array( 0 => CustomVariableName, 1 => CustomVariableValue ) or false
      * @see Piwik.js getCustomVariable()
      */
     public function getCustomVariable($id, $scope = 'visit')
@@ -253,7 +258,7 @@ class PiwikTracker
     /**
      * Sets the Browser language. Used to guess visitor countries when GeoIP is not enabled
      * 
-     * @param string For example "fr-fr"
+     * @param string $acceptLanguage For example "fr-fr"
      */
     public function setBrowserLanguage( $acceptLanguage )
     {
@@ -344,7 +349,7 @@ class PiwikTracker
      * Tracks a page view
      * 
      * @param string $documentTitle Page title as it will appear in the Actions > Page titles report
-     * @return string|true Response or true if using bulk requests.
+     * @return mixed Response string or true if using bulk requests.
      */
     public function doTrackPageView( $documentTitle )
     {
@@ -360,9 +365,9 @@ class PiwikTracker
 	 * @param string $category Optional, Search engine category if applicable
 	 * @param int $countResults results displayed on the search result page. Used to track "zero result" keywords.
 	 *
-	 * @return string|true Response or true if using bulk requests.
+	 * @return mixed Response or true if using bulk requests.
 	 */
-	public function doTrackSiteSearch( $keyword, $category = false, $countResults = false )
+	public function doTrackSiteSearch( $keyword, $category = '', $countResults = 0 )
 	{
 		$url = $this->getUrlTrackSiteSearch($keyword, $category, $countResults);
 		return $this->sendRequest($url);
@@ -373,9 +378,9 @@ class PiwikTracker
      * 
      * @param int $idGoal Id Goal to record a conversion
      * @param float $revenue Revenue for this conversion
-     * @return string|true Response or true if using bulk request
+     * @return mixed Response or true if using bulk request
      */
-    public function doTrackGoal($idGoal, $revenue = false)
+    public function doTrackGoal($idGoal, $revenue = 0.0)
     {
     	$url = $this->getUrlTrackGoal($idGoal, $revenue);
     	return $this->sendRequest($url);
@@ -386,7 +391,7 @@ class PiwikTracker
      * 
      * @param string $actionUrl URL of the download or outlink
      * @param string $actionType Type of the action: 'download' or 'link'
-     * @return string|true Response or true if using bulk request
+     * @return mixed Response or true if using bulk request
      */
     public function doTrackAction($actionUrl, $actionType)
     {
@@ -407,9 +412,10 @@ class PiwikTracker
      * @param string $name (optional) Product name
      * @param string|array $category (optional) Product category, or array of product categories (up to 5 categories can be specified for a given product)
      * @param float|int $price (optional) Individual product price (supports integer and decimal prices)
-     * @param int $quantity (optional) Product quantity. If not specified, will default to 1 in the Reports 
+     * @param int $quantity (optional) Product quantity. If not specified, will default to 1 in the Reports
+	 * @throws Exception
      */
-    public function addEcommerceItem($sku, $name = false, $category = false, $price = false, $quantity = false)
+    public function addEcommerceItem($sku, $name = '', $category = '', $price = 0.0, $quantity = 1)
     {
     	if(empty($sku))
     	{
@@ -426,6 +432,7 @@ class PiwikTracker
 	 * Items which were in the previous cart and are not sent in later Cart updates will be deleted from the cart (in the database).
 	 * 
 	 * @param float $grandTotal Cart grandTotal (typically the sum of all items' prices)
+	 * @return mixed Response or true if using bulk request
 	 */ 
     public function doTrackEcommerceCartUpdate($grandTotal)
     {
@@ -437,7 +444,8 @@ class PiwikTracker
      * Sends all stored tracking actions at once. Only has an effect if bulk tracking is enabled.
      * 
      * To enable bulk tracking, call enableBulkTracking().
-     * 
+     *
+	 * @throws Exception
      * @return string Response
      */
     public function doBulkTrack()
@@ -477,9 +485,9 @@ class PiwikTracker
 	 * @param float $tax (optional) Tax amount for this order
 	 * @param float $shipping (optional) Shipping amount for this order
 	 * @param float $discount (optional) Discounted amount in this order
-	 * @return string|true Response or true if using bulk request
+	 * @return mixed Response or true if using bulk request
      */
-    public function doTrackEcommerceOrder($orderId, $grandTotal, $subTotal = false, $tax = false, $shipping = false, $discount = false)
+    public function doTrackEcommerceOrder($orderId, $grandTotal, $subTotal = 0.0, $tax = 0.0, $shipping = 0.0, $discount = 0.0)
     {
     	$url = $this->getUrlTrackEcommerceOrder($orderId, $grandTotal, $subTotal, $tax, $shipping, $discount);
     	return $this->sendRequest($url); 
@@ -503,7 +511,7 @@ class PiwikTracker
      * 								You can also specify an array of up to 5 categories for a given page view.
      * @param float $price Specify the price at which the item was displayed
      */
-    public function setEcommerceView($sku = false, $name = false, $category = false, $price = false)
+    public function setEcommerceView($sku = '', $name = '', $category = '', $price = 0.0)
     {
     	if(!empty($category)) {
     		if(is_array($category)) {
@@ -550,7 +558,7 @@ class PiwikTracker
      * so items will have to be added again via addEcommerceItem()  
      * @ignore
      */
-    public function getUrlTrackEcommerceOrder($orderId, $grandTotal, $subTotal = false, $tax = false, $shipping = false, $discount = false)
+    public function getUrlTrackEcommerceOrder($orderId, $grandTotal, $subTotal = 0.0, $tax = 0.0, $shipping = 0.0, $discount = 0.0)
     {
     	if(empty($orderId))
     	{
@@ -568,7 +576,7 @@ class PiwikTracker
      * so items will have to be added again via addEcommerceItem()  
      * @ignore
      */
-    protected function getUrlTrackEcommerce($grandTotal, $subTotal = false, $tax = false, $shipping = false, $discount = false)
+    protected function getUrlTrackEcommerce($grandTotal, $subTotal = 0.0, $tax = 0.0, $shipping = 0.0, $discount = 0.0)
     {
     	if(!is_numeric($grandTotal))
     	{
@@ -612,11 +620,13 @@ class PiwikTracker
     }
     
     /**
+	 * Builds URL to track a page view.
+	 *
      * @see doTrackPageView()
      * @param string $documentTitle Page view name as it will appear in Piwik reports
      * @return string URL to piwik.php with all parameters set to track the pageview
      */
-    public function getUrlTrackPageView( $documentTitle = false )
+    public function getUrlTrackPageView( $documentTitle = '' )
     {
     	$url = $this->getRequest( $this->idSite );
     	if(!empty($documentTitle)) {
@@ -626,28 +636,36 @@ class PiwikTracker
     }
 
 	/**
+	 * Builds URL to track a site search.
+	 *
 	 * @see doTrackSiteSearch()
+	 * @param string $keyword
+	 * @param string $category
+	 * @param int $countResults
+	 * @return string
 	 */
 	public function getUrlTrackSiteSearch($keyword, $category, $countResults)
 	{
 		$url = $this->getRequest( $this->idSite );
 		$url .= '&search=' . urlencode($keyword);
-		if($category !== false) {
+		if(!empty($category)) {
 			$url .= '&search_cat=' . urlencode($category);
 		}
-		if($countResults !== false) {
+		if(!empty($countResults)) {
 			$url .= '&search_count=' . (int)$countResults;
 		}
 		return $url;
 	}
     
     /**
+	 * Builds URL to track a goal with idGoal and revenue.
+	 *
      * @see doTrackGoal()
      * @param int $idGoal Id Goal to record a conversion
      * @param float $revenue Revenue for this conversion
      * @return string URL to piwik.php with all parameters set to track the goal conversion
      */
-    public function getUrlTrackGoal($idGoal, $revenue = false)
+    public function getUrlTrackGoal($idGoal, $revenue = 0.0)
     {
     	$url = $this->getRequest( $this->idSite );
 		$url .= '&idgoal=' . $idGoal;
@@ -658,6 +676,8 @@ class PiwikTracker
     }
         
     /**
+	 * Builds URL to track a new action.
+	 *
      * @see doTrackAction()
      * @param string $actionUrl URL of the download or outlink
      * @param string $actionType Type of the action: 'download' or 'link'
@@ -677,7 +697,7 @@ class PiwikTracker
      * 
      * Allowed only for Super User, must be used along with setTokenAuth()
      * @see setTokenAuth()
-     * @param string Date with the format 'Y-m-d H:i:s', or a UNIX timestamp
+     * @param string $dateTime Date with the format 'Y-m-d H:i:s', or a UNIX timestamp
      */
     public function setForceVisitDateTime($dateTime)
     {
@@ -689,7 +709,7 @@ class PiwikTracker
      * 
      * Allowed only for Super User, must be used along with setTokenAuth()
      * @see setTokenAuth()
-     * @param string IP string, eg. 130.54.2.1
+     * @param string $ip IP string, eg. 130.54.2.1
      */
     public function setIp($ip)
     {
@@ -705,6 +725,7 @@ class PiwikTracker
      * Allowed only for Admin/Super User, must be used along with setTokenAuth().
      * @see setTokenAuth()
      * @param string $visitorId 16 hexadecimal characters visitor ID, eg. "33c31e01394bdc63"
+	 * @throws Exception
      */
     public function setVisitorId($visitorId)
     {
@@ -778,7 +799,7 @@ class PiwikTracker
 	 * - force the date & time of the tracking requests rather than track for the current datetime
 	 * - force Piwik to track the requests to a specific VisitorId rather than use the standard visitor matching heuristic
 	 *
-	 * @param string token_auth 32 chars token_auth string
+	 * @param string $token_auth token_auth 32 chars token_auth string
 	 */
 	public function setTokenAuth($token_auth)
 	{
@@ -857,14 +878,12 @@ class PiwikTracker
     		'&ag='.(int)$silverlight
     	;
     }
-    
-    /**
-     * By default, PiwikTracker will read third party cookies 
-     * from the response and sets them in the next request.
-     * This can be disabled by calling this function.
-     * 
-     * @return void
-     */
+
+	/**
+	 * By default, PiwikTracker will read third party cookies
+	 * from the response and sets them in the next request.
+	 * This can be disabled by calling this function.
+	 */
     public function disableCookieSupport()
     {
     	$this->cookieSupport = false;
@@ -884,6 +903,7 @@ class PiwikTracker
 	 * from Piwik.
 	 * 
 	 * @param int $timeout
+	 * @throws Exception
 	 */
     public function setRequestTimeout( $timeout )
     {
@@ -1215,12 +1235,28 @@ class PiwikTracker
 	}
 }
 
-function Piwik_getUrlTrackPageView( $idSite, $documentTitle = false )
+/**
+ * Helper function to quickly generate the URL to track a page view.
+ *
+ * @param $idSite
+ * @param string $documentTitle
+ * @return string
+ */
+function Piwik_getUrlTrackPageView( $idSite, $documentTitle = '' )
 {
 	$tracker = new PiwikTracker($idSite);
 	return $tracker->getUrlTrackPageView($documentTitle);
 }
-function Piwik_getUrlTrackGoal($idSite, $idGoal, $revenue = false)
+
+/**
+ * Helper function to quickly generate the URL to track a goal.
+ *
+ * @param $idSite
+ * @param $idGoal
+ * @param float $revenue
+ * @return string
+ */
+function Piwik_getUrlTrackGoal($idSite, $idGoal, $revenue = 0.0)
 {
 	$tracker = new PiwikTracker($idSite);
 	return $tracker->getUrlTrackGoal($idGoal, $revenue);
