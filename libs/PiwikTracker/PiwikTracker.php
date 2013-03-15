@@ -651,7 +651,7 @@ class PiwikTracker
 		if(!empty($category)) {
 			$url .= '&search_cat=' . urlencode($category);
 		}
-		if(!empty($countResults)) {
+		if(!empty($countResults) || $countResults == 0) {
 			$url .= '&search_count=' . (int)$countResults;
 		}
 		return $url;
