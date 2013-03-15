@@ -367,7 +367,7 @@ class PiwikTracker
 	 *
 	 * @return mixed Response or true if using bulk requests.
 	 */
-	public function doTrackSiteSearch( $keyword, $category = '', $countResults = 0 )
+	public function doTrackSiteSearch( $keyword, $category = '', $countResults = false )
 	{
 		$url = $this->getUrlTrackSiteSearch($keyword, $category, $countResults);
 		return $this->sendRequest($url);
@@ -651,7 +651,7 @@ class PiwikTracker
 		if(!empty($category)) {
 			$url .= '&search_cat=' . urlencode($category);
 		}
-		if(!empty($countResults) || $countResults == 0) {
+		if(!empty($countResults) || $countResults === 0) {
 			$url .= '&search_count=' . (int)$countResults;
 		}
 		return $url;
