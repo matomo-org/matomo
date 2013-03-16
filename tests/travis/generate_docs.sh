@@ -21,7 +21,7 @@ phpenv rehash
 
 # Generate phpdoc for PiwikTracker
 echo "Generate documentation for PiwikTracker"
-phpdoc -f libs/PiwikTracker/PiwikTracker.php --title="PiwikTracker" -t docs/PiwikTracker/
+phpdoc -f libs/PiwikTracker/PiwikTracker.php --title="PiwikTracker" -t docs/PiwikTracker/ --template new-black
 
 # Install lftp
 echo "Installing lftp"
