@@ -12,7 +12,7 @@
 		</result>
 		<result date="2010-02-07">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -36,7 +36,7 @@
 		</result>
 		<result date="2010-02-10">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -60,7 +60,7 @@
 		</result>
 		<result date="2010-02-13">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -84,7 +84,7 @@
 		</result>
 		<result date="2010-02-16">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -108,7 +108,7 @@
 		</result>
 		<result date="2010-02-19">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -132,7 +132,7 @@
 		</result>
 		<result date="2010-02-22">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -156,7 +156,7 @@
 		</result>
 		<result date="2010-02-25">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -180,7 +180,7 @@
 		</result>
 		<result date="2010-02-28">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -204,7 +204,7 @@
 		</result>
 		<result date="2010-03-03">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -228,7 +228,7 @@
 		</result>
 		<result date="2010-03-06">
 			<row>
-				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_0>1</nb_visits_0>
 				<nb_visits_1>0</nb_visits_1>
 				<nb_visits_2>0</nb_visits_2>
 				<nb_visits_3>1</nb_visits_3>
@@ -239,6 +239,8 @@
 		<metrics>
 			<nb_visits_0>
 				<name>Google - free &gt; proprietary (Visits)</name>
+				<min>0</min>
+				<max>1</max>
 			</nb_visits_0>
 			<nb_visits_1>
 				<name>Google - peace &quot;,&quot; not war (Visits)</name>

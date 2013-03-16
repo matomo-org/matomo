@@ -58,15 +58,14 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 	 * Flatten each data table.
 	 *
 	 * @param Piwik_DataTable  $dataTable
-	 * @param bool             $date
 	 * @return Piwik_DataTable
 	 */
-	protected function doManipulate(Piwik_DataTable $dataTable, $date = false)
+	protected function manipulateDataTable($dataTable)
 	{
 		$newDataTable = $dataTable->getEmptyClone();
 		foreach ($dataTable->getRows() as $row)
 		{
-			$this->flattenRow($row, $newDataTable, $date);
+			$this->flattenRow($row, $newDataTable);
 		}
 		return $newDataTable;
 	}
@@ -74,11 +73,10 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 	/**
 	 * @param Piwik_DataTable_Row  $row
 	 * @param Piwik_DataTable      $dataTable
-	 * @param string               $date
 	 * @param string               $labelPrefix
 	 * @param bool                 $parentLogo
 	 */
-	private function flattenRow(Piwik_DataTable_Row $row, Piwik_DataTable $dataTable, $date,
+	private function flattenRow(Piwik_DataTable_Row $row, Piwik_DataTable $dataTable,
 			$labelPrefix = '', $parentLogo = false) {
 		
 		$label = $row->getColumn('label');
@@ -100,7 +98,7 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 			$row->setMetadata('logo', $logo);
 		}
 		
-		$subTable = $this->loadSubtable($row, $date);
+		$subTable = $this->loadSubtable($dataTable, $row);
 		$row->removeSubtable();
 		
 		if ($subTable === null)
@@ -121,7 +119,7 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
 			$prefix = $label . $this->recursiveLabelSeparator;
 			foreach ($subTable->getRows() as $row)
 			{
-				$this->flattenRow($row, $dataTable, $date, $prefix, $logo);
+				$this->flattenRow($row, $dataTable, $prefix, $logo);
 			}
 		}
 	}

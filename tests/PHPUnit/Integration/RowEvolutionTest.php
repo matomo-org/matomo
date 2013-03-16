@@ -26,6 +26,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
     public function getApiForTesting()
     {
     	$idSite = self::$fixture->idSite;
+    	$idSite2 = self::$fixture->idSite2;
     	$today = self::$fixture->today;
     	$keywords = self::$fixture->keywords;
     	
@@ -55,7 +56,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
 
         // Websites, multiple labels including one hierarchical
         $config['testSuffix']                      = '_referrerMulti1';
-        $referrerLabel                             = urlencode($referrerLabel) . ',' . urlencode('www.referrer2.com');
+        $referrerLabel                             = $referrerLabel . ',' . urlencode('www.referrer2.com');
         $config['otherRequestParameters']['label'] = urlencode($referrerLabel);
         $return[]                                  = array('API.getRowEvolution', $config);
 
@@ -122,6 +123,37 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $config['otherRequestParameters']['filter_sort_column'] = 'nb_conversions';
         $config['otherRequestParameters']['idGoal']             = '2';
         $return[]                                               = array('API.getRowEvolution', $config);
+        
+        // test date range where most recent date has no data (for #3465)
+        $return[] = array('API.getRowEvolution', array(
+        	'testSuffix' => '_multipleDates_lastNoData',
+        	'periods' => 'month',
+            'idSite' => $idSite,
+            'date' => $today,
+        	'otherRequestParameters' => array(
+		    	'date' => '2010-02-01,2010-04-08',
+		    	'period' => 'month',
+		    	'apiModule' => 'Referers',
+		    	'apiAction' => 'getKeywords',
+		    	// no label
+		    )
+        ));
+        
+        // test that reports that process row labels are treated correctly
+        $return[] = array('API.getRowEvolution', array(
+        	'testSuffix' => '_processedRowLabel',
+        	'periods' => 'day',
+        	'idSite' => $idSite2,
+        	'date' => $today,
+        	'otherRequestParameters' => array(
+        		'date' => '2010-03-01,2010-03-06',
+        		'period' => 'month',
+        		'apiModule' => 'UserSettings',
+        		'apiAction' => 'getBrowser',
+        		'label' => 'Firefox,Chrome,Opera'
+        	)
+        	
+        ));
 
         return $return;
     }
@@ -133,5 +165,5 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
 }
 
 Test_Piwik_Integration_RowEvolution::$fixture
-	= new Test_Piwik_Fixture_ManyVisitsOverSeveralDaysWithSearchEngineReferrers();
+	= new Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers();
 

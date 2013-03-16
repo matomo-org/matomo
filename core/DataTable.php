@@ -509,24 +509,6 @@ class Piwik_DataTable
 		}
 		return $this->rowsIndexByLabel[$label];
 	}
-
-	/**
-	 * Returns a Piwik_DataTable that has only the one column that matches $label.
-	 * If no matches are found, an empty data table is returned.
-	 *
-	 * @param string  $label  Value of the column 'label' to search for
-	 * @return Piwik_DataTable
-	 */
-	public function getFilteredTableFromLabel($label)
-	{
-		$newTable = $this->getEmptyClone();
-		$row = $this->getRowFromLabel($label);
-		if ($row !== false)
-		{
-			$newTable->addRow($row);
-		}
-		return $newTable;
-	}
 	
 	/**
 	 * Get an empty table with the same properties as this one

@@ -27,10 +27,10 @@
  */
 class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableManipulator
 {
-	
 	const SEPARATOR_RECURSIVE_LABEL = '>';
 	
-	private $labelParts;
+	private $labels;
+	private $addEmptyRows;
 
 	/**
 	 * Filter a data table by label.
@@ -40,58 +40,22 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 	 * for the recursive search. If the label is not recursive, these parameters
 	 * are not needed.
 	 *
-	 * @param string           $label      the label to search for
+	 * @param string           $labels      the labels to search for
 	 * @param Piwik_DataTable  $dataTable  the data table to be filtered
+	 * @param bool $addEmptyRows Whether to add empty rows when a row isn't found
+	 *                                      for a label, or not.
 	 * @return Piwik_DataTable
 	 */
-	public function filter($label, $dataTable)
+	public function filter($labels, $dataTable, $addEmptyRows = false)
 	{
-		// make sure we have the right classes
-		if (!($dataTable instanceof Piwik_DataTable)
-				&& !($dataTable instanceof Piwik_DataTable_Array))
+		if (!is_array($labels))
 		{
-			return $dataTable;
+			$labels = array($labels);
 		}
-		foreach ($this->getLabelVariations($label) as $label)
-		{
-			$label = explode(self::SEPARATOR_RECURSIVE_LABEL, $label);
-			$label = array_map('urldecode', $label);
-
-			if (count($label) > 1)
-			{
-				// do a recursive search
-				$this->labelParts = $label;
-				return $this->manipulate($dataTable);
-			}
-			$label = $label[0];
-
-			// do a non-recursive search
-			$result = $dataTable->getFilteredTableFromLabel($label);
-			if ($result->getFirstRow() !== false)
-			{
-				return $result;
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * This method is called from parent::manipulate for each Piwik_DataTable.
-	 * It starts the recursive descend and builds a table with one or zero rows.
-	 *
-	 * @param Piwik_DataTable  $dataTable
-	 * @param bool             $date
-	 * @return Piwik_DataTable
-	 */
-	protected function doManipulate(Piwik_DataTable $dataTable, $date=false)
-	{
-		$row = $this->doFilterRecursiveDescend($this->labelParts, $dataTable, $date);
-		$newDataTable = $dataTable->getEmptyClone();
-		if ($row !== false)
-		{
-			$newDataTable->addRow($row);
-		}
-		return $newDataTable;
+		
+		$this->labels = $labels;
+		$this->addEmptyRows = (bool)$addEmptyRows;
+		return $this->manipulate($dataTable);
 	}
 
 	/**
@@ -99,12 +63,10 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 	 *
 	 * @param array            $labelParts
 	 * @param Piwik_DataTable  $dataTable
-	 * @param bool             $date
 	 * @return Piwik_DataTable_Row|false
 	 */
-	private function doFilterRecursiveDescend($labelParts, $dataTable, $date=false)
+	private function doFilterRecursiveDescend($labelParts, $dataTable)
 	{
-		
 		// search for the first part of the tree search
         $labelPart = array_shift($labelParts);
 		
@@ -129,14 +91,14 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 			return $row;
 		}
 		
-		$subTable = $this->loadSubtable($row, $date);
+		$subTable = $this->loadSubtable($dataTable, $row);
 		if ($subTable === null)
 		{
 			// no more subtables but label parts left => no match found
 			return false;
 		}
 		
-		return $this->doFilterRecursiveDescend($labelParts, $subTable, $date);
+		return $this->doFilterRecursiveDescend($labelParts, $subTable);
 	}
 
 	/**
@@ -179,4 +141,36 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 		return $variations;
 	}
 	
+	/**
+	 * Filter a Piwik_DataTable instance. See @filter for more info.
+	 */
+	protected function manipulateDataTable( $dataTable )
+	{
+		$result = $dataTable->getEmptyClone();
+		foreach ($this->labels as $labelIdx => $label)
+		{
+			$row = null;
+			foreach ($this->getLabelVariations($label) as $labelVariation)
+			{
+				$labelVariation = explode(self::SEPARATOR_RECURSIVE_LABEL, $labelVariation);
+				$labelVariation = array_map('urldecode', $labelVariation);
+			
+				$row = $this->doFilterRecursiveDescend($labelVariation, $dataTable);
+				if ($row)
+				{
+					$result->addRow($row);
+					break;
+				}
+			}
+			
+			if (empty($row)
+				&& $this->addEmptyRows) // if no row has been found, add an empty one
+			{
+				$row = new Piwik_DataTable_Row();
+				$row->setColumn('label', $label);
+				$result->addRow($row);
+			}
+		}
+		return $result;
+	}
 }

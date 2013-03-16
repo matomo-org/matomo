@@ -232,27 +232,6 @@ class Piwik_DataTable_Array
 	}
 
 	/**
-	 * Returns a Piwik_DataTable_Array whose sub tables are filtered by $label
-	 * @see Piwik_DataTable::getFilteredTableFromLabel
-	 *
-	 * @param string  $label  Value of the column 'label' to search for
-	 * @return Piwik_DataTable_Array
-	 */
-	public function getFilteredTableFromLabel($label)
-	{
-		$newTableArray = new Piwik_DataTable_Array;
-		$newTableArray->setKeyName($this->getKeyName());
-
-		foreach ($this->array as $subTableLabel => $subTable)
-		{
-			$subTable = $subTable->getFilteredTableFromLabel($label);
-			$newTableArray->addTable($subTable, $subTableLabel);
-		}
-
-		return $newTableArray;
-	}
-
-	/**
 	 * Merges the rows of every child DataTable into a new DataTable and
 	 * returns it. This function will also set the label of the merged rows
 	 * to the label of the DataTable they were originally from.
@@ -307,8 +286,7 @@ class Piwik_DataTable_Array
 
 		if ($firstChild instanceof Piwik_DataTable_Array)
 		{
-			$result = new Piwik_DataTable_Array();
-			$result->setKeyName($firstChild->getKeyName());
+			$result = $firstChild->getEmptyClone();
 			
 			foreach ($this->array as $label => $subTableArray)
 			{
@@ -391,12 +369,24 @@ class Piwik_DataTable_Array
 	 */
 	public function mergeSubtables()
 	{
-		$result = new Piwik_DataTable_Array();
-		$result->keyName = $this->keyName;
+		$result = $this->getEmptyClone();
 		foreach ($this->array as $label => $childTable)
 		{
 			$result->addTable($childTable->mergeSubtables(), $label);
 		}
 		return $result;
+	}
+	
+	/**
+	 * Returns a new DataTable_Array w/o any child DataTables, but with
+	 * the same key name as this instance.
+	 * 
+	 * @return Piwik_DataTable_Array
+	 */
+	public function getEmptyClone()
+	{
+		$newTableArray = new Piwik_DataTable_Array;
+		$newTableArray->setKeyName($this->getKeyName());
+		return $newTableArray;
 	}
 }

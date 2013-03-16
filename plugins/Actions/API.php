@@ -339,8 +339,7 @@ class Piwik_Actions_API
 		// TODO: this logic should really be refactored somewhere, this is ugly!
 		if($customVariables instanceof Piwik_DataTable_Array)
 		{
-			$dataTable = new Piwik_DataTable_Array();
-			$dataTable->setKeyName($customVariables->getKeyName());
+			$dataTable = $customVariables->getEmptyClone();
 
 			$customVariableDatatables = $customVariables->getArray();
 			$dataTables = $dataTable->getArray();
@@ -411,8 +410,7 @@ class Piwik_Actions_API
 				// search an array of tables, e.g. when using date=last30
 				// note that if the root is an array, we filter all children
 				// if an array occurs inside the nested table, we only look for the first match (see below)
-				$newTableArray = new Piwik_DataTable_Array;
-				$newTableArray->setKeyName($table->getKeyName());
+				$newTableArray = $table->getEmptyClone();
 				
 				foreach ($table->getArray() as $label => $subTable)
 				{

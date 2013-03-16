@@ -58,54 +58,47 @@ abstract class Piwik_API_DataTableManipulator
 	{
 		if ($dataTable instanceof Piwik_DataTable_Array)
 		{
-			$newTableArray = new Piwik_DataTable_Array;
-			$newTableArray->setKeyName($dataTable->getKeyName());
-			
-			foreach ($dataTable->getArray() as $date => $subTable)
-			{
-				// for period=week, the label is "2011-08-15 to 2011-08-21", which is
-				// an invalid date parameter => only use the first date
-				// in other languages the whole string does not start with the date so
-				// we need to preg match it.
-				if (!preg_match('/[0-9]{4}(-[0-9]{2})?(-[0-9]{2})?/', $date, $match))
-				{
-					throw new Exception("Could not recognize date: $date");
-				}
-				$dateForApiRequest = $match[0];
-				$subTable = $this->doManipulate($subTable, $dateForApiRequest);
-				$newTableArray->addTable($subTable, $date);
-			}
-			
-			return $newTableArray;
+			return $this->manipulateDataTableArray($dataTable);
 		}
-		
-		if ($dataTable instanceof Piwik_DataTable)
+		else if ($dataTable instanceof Piwik_DataTable)
 		{
-			return $this->doManipulate($dataTable);
+			return $this->manipulateDataTable($dataTable);
 		}
-		
-		return $dataTable;
+		else
+		{
+			return $dataTable;
+		}
 	}
-
+	
 	/**
-	 * Template method called from self::manipulate
-	 *
-	 * @param Piwik_DataTable  $dataTable
-	 * @param bool|string      $date
-	 * @return
+	 * Manipulates child DataTables of a DataTable_Array. See @manipulate for more info.
 	 */
-	protected abstract function doManipulate(Piwik_DataTable $dataTable, $date=false);
+	protected function manipulateDataTableArray( $dataTable )
+	{
+		$result = $dataTable->getEmptyClone();
+		foreach ($dataTable->getArray() as $tableLabel => $childTable)
+		{
+			$newTable = $this->manipulate($childTable);
+			$result->addTable($newTable, $tableLabel);
+		}
+		return $result;
+	}
+	
+	/**
+	 * Manipulates a single Piwik_DataTable instance. Derived classes must define
+	 * this function.
+	 */
+	protected abstract function manipulateDataTable( $dataTable );
 
 	/**
 	 * Load the subtable for a row.
 	 * Returns null if none is found.
 	 *
 	 * @param Piwik_Datatable_Row  $row
-	 * @param bool|string          $date
 	 * @throws Exception
 	 * @return Piwik_DataTable
 	 */
-	protected function loadSubtable($row, $date=false) {
+	protected function loadSubtable($dataTable, $row) {
 		if (!($this->apiModule && $this->apiMethod && count($this->request))) {
 			return null;
 		}
@@ -119,9 +112,9 @@ abstract class Piwik_API_DataTableManipulator
 		}
         
 		$request['idSubtable'] = $idSubTable;
-		if ($date)
+		if ($dataTable)
 		{
-			$request['date'] = $date;
+			$request['date'] = $dataTable->metadata['period']->getDateStart()->toString();
 		}
 		
 		$class = 'Piwik_'.$this->apiModule.'_API';
