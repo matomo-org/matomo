@@ -8,10 +8,6 @@
 //-----------------------------------------------------------------------------
 //								DataTable
 //-----------------------------------------------------------------------------
-//A list of all our DataTables
-//Test if the object have already been initialized (multiple includes)
-if(typeof dataTables == "undefined")
-	var dataTables = {};
 
 //DataTable constructor
 function dataTable()

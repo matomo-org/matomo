@@ -1,4 +1,4 @@
-<div id="{$properties.uniqueId}" class="visitorLog">
+<div class="visitorLog dataTable" data-report="{$properties.uniqueId}" data-params="{$javascriptVariablesToSet|@json_encode|escape:'html'}">
 
 {if !$isWidget}
 	<h2>{if $javascriptVariablesToSet.filterEcommerce}{'Goals_EcommerceLog'|translate}{else}{'Live_VisitorLog'|translate}{/if}</h2>
@@ -281,7 +281,7 @@ function Piwik_Live_LoadVisitorPopover(visitorId)
 
 $(document).ready(function(){ldelim}
 
-    var dataTableVisitorLog = dataTables['{$properties.uniqueId}'];
+    var dataTableVisitorLog = piwik.DataTableManager.getDataTableInstanceByReport('{$properties.uniqueId}');
     dataTableVisitorLog.param.maxIdVisit = {$maxIdVisit};
     {literal}
     function hidePreviousLink() {

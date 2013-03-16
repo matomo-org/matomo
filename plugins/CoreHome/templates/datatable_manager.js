@@ -87,7 +87,7 @@
 			$(domElem).attr('id', newId);
 			
 			var table = new klass();
-			window.dataTables[newId] = table;
+			$(domElem).data('dataTableInstance', table);
 			
 			table.param = params;
 			table.init(newId);
@@ -161,6 +161,20 @@
 				}
 			});
 			return result;
+		},
+		
+		/**
+		 * Returns the datatable instance of the first datatable div displaying
+		 * a specific report.
+		 * 
+		 * @param {string} The report, eg, UserSettings.getWideScrren
+		 * @return {DataTable} The DataTable instance created for the element, if
+		 *                     the element can be found. undefined, if it can't be found.
+		 */
+		getDataTableInstanceByReport: function(report)
+		{
+			var dataTableElement = this.getDataTableByReport(report);
+			return dataTableElement ? $(dataTableElement).data('dataTableInstance') : undefined;
 		},
 	};
 	

@@ -125,7 +125,7 @@ JQPlot.prototype = {
 			else if (typeof rows == 'string') {
 				rows = rows.split(',');
 			}
-			var dataTable = dataTables[self.dataTableId];
+			var dataTable = $('#' + self.dataTableId).data('dataTableInstance');
 			dataTable.param.columns = columns.join(',');
 			dataTable.param.rows = rows.join(',');
 			delete dataTable.param.filter_limit;
@@ -1029,7 +1029,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function() {
 		this.multiSelect = true;
 		// css id of the target div dom element
 		this.targetDivId = "";
-		// the id of the current data table (index for global dataTables)
+		// the id of the current data table
 		this.dataTableId = "";
 		// language strings
 		this.lang = {};
