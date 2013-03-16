@@ -130,15 +130,18 @@
 				);
 			}
 			
-			// render the graph
-			plot.render(graphElement.attr('data-graph-type'), graphId, {
-				noData: _pk_translate('General_NoDataForGraph_js'),
-				exportTitle: _pk_translate('General_ExportAsImage_js'),
-				exportText: _pk_translate('General_SaveImageOnYourComputer_js'),
-				metricsToPlot: _pk_translate('General_MetricsToPlot_js'),
-				metricToPlot: _pk_translate('General_MetricToPlot_js'),
-				recordsToPlot: _pk_translate('General_RecordsToPlot_js'),
-			});
+			// render the graph (setTimeout is required, otherwise the graph will not
+			// render initially)
+			setTimeout(function () {
+				plot.render(graphElement.attr('data-graph-type'), graphId, {
+					noData: _pk_translate('General_NoDataForGraph_js'),
+					exportTitle: _pk_translate('General_ExportAsImage_js'),
+					exportText: _pk_translate('General_SaveImageOnYourComputer_js'),
+					metricsToPlot: _pk_translate('General_MetricsToPlot_js'),
+					metricToPlot: _pk_translate('General_MetricToPlot_js'),
+					recordsToPlot: _pk_translate('General_RecordsToPlot_js'),
+				});
+			}, 1); 
 		},
 		
 		/**
