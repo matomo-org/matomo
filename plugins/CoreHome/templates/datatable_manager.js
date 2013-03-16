@@ -124,7 +124,7 @@
 			if (externalSeriesToggle)
 			{
 				plot.addExternalSeriesToggle(
-					graphElement.attr(externalSeriesToggle),
+					window[externalSeriesToggle], // get the function w/ string name
 					graphId,
 					graphElement.attr('data-external-series-show-all') == 1
 				);
