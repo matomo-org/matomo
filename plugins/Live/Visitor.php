@@ -497,7 +497,7 @@ class Piwik_Live_Visitor
 
 	function getProvider()
 	{
-		return Piwik_getHostnameName( @$this->details['location_provider']);
+		return Piwik_Provider_getPrettyProviderName( @$this->details['location_provider']);
 	}
 
 	function getProviderUrl()

@@ -61,3 +61,37 @@ function Piwik_getHostnameUrl($in)
 		return "https://startpage.com/do/search?q=".urlencode($in);
 	}
 }
+
+/**
+ * Return a pretty provider name for a given domain name
+ *
+ * @param string $in hostname
+ * @return string Real ISP name, IP (if IP address didn't resolve), or Unknown
+ */
+function Piwik_Provider_getPrettyProviderName( $in )
+{
+	$providerName = Piwik_getHostnameName($in);
+
+	$prettyNames = array( //List to be completed
+		// France
+		"wanadoo" 		=> "Orange",
+		"proxad" 		=> "Free",
+		"bbox"	 		=> "Bouygues Telecom",
+		"bouyguestelecom"	=> "Bouygues Telecom",
+		"coucou-networks" 	=> "Free Mobile",
+		"sfr"			=> "SFR",		//Acronym, keep in uppercase
+		"univ-metz"		=> "Université de Lorraine",
+		"unilim"		=> "Université de Limoges",
+		"univ-paris5"		=> "Université Paris Descartes",
+
+		// US
+		"rr"			=> "Time Warner Cable Internet", // Not sure
+	);
+
+	if(array_key_exists(strtolower($providerName), $prettyNames))
+	{
+		$providerName = $prettyNames[strtolower($providerName)];
+	}
+
+	return $providerName;
+}
