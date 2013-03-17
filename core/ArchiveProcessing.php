@@ -994,24 +994,28 @@ abstract class Piwik_ArchiveProcessing
 	
 	public static function isArchivingDisabledFor($segment, $period)
 	{
-		$processOneReportOnly = !self::shouldProcessReportsAllPluginsFor($segment, $period);
-		if($processOneReportOnly)
-		{
-			// When there is a segment, archiving is not necessary allowed
-			// If browser archiving is allowed, then archiving is enabled
-			// if browser archiving is not allowed, then archiving is disabled
-			if(!$segment->isEmpty()
-				&& !self::isRequestAuthorizedToArchive()
-				&& Piwik_Config::getInstance()->General['browser_archiving_disabled_enforce']
-			)
-			{
-				Piwik::log("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
-				return true;
-			}
-			return false;
-		}
-		$isDisabled = !self::isRequestAuthorizedToArchive();
-		return $isDisabled;
+        if($period == 'range') {
+            return false;
+        }
+        $processOneReportOnly = !self::shouldProcessReportsAllPluginsFor($segment, $period);
+        $isArchivingDisabled = !self::isRequestAuthorizedToArchive();
+
+        if($processOneReportOnly)
+        {
+            // When there is a segment, archiving is not necessary allowed
+            // If browser archiving is allowed, then archiving is enabled
+            // if browser archiving is not allowed, then archiving is disabled
+            if(!$segment->isEmpty()
+                && $isArchivingDisabled
+                && Piwik_Config::getInstance()->General['browser_archiving_disabled_enforce']
+        )
+            {
+                Piwik::log("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
+                return true;
+            }
+            return false;
+        }
+		return $isArchivingDisabled;
 	}
 	
 	protected static function isRequestAuthorizedToArchive()
