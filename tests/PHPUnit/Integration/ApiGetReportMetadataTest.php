@@ -56,13 +56,17 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
 												  'testSuffix' => '_hideMetricsDoc',
 												  'otherRequestParameters' => array('hideMetricsDoc' => 1)) ),
 
-	        // Test w/ showRawMetrics=true
-	        array('API.getProcessedReport', array('idSite' => $idSite, 'date' => $dateTime,
-		        'apiModule' => 'UserCountry', 'apiAction' => 'getCountry',
-		        'testSuffix' => '_showRawMetrics',
-		        'otherRequestParameters' => array('showRawMetrics' => 1)) ),
-			
-			// test php renderer w/ array data
+            // Test w/ showRawMetrics=true
+            array('API.getProcessedReport', array('idSite' => $idSite, 'date' => $dateTime,
+                'apiModule' => 'UserCountry', 'apiAction' => 'getCountry',
+                'testSuffix' => '_showRawMetrics',
+                'otherRequestParameters' => array('showRawMetrics' => 1)) ),
+
+            // Test w/ showRawMetrics=true
+            array('Actions.getPageTitles', array('idSite' => $idSite, 'date' => $dateTime,
+                'testSuffix' => '_pageTitleZeroString') ),
+
+            // test php renderer w/ array data
 			array('API.getDefaultMetricTranslations', array('idSite' => $idSite, 'date' => $dateTime,
 															'format' => 'php', 'testSuffix' => '_phpRenderer')),
         );
