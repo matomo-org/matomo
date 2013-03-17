@@ -49,6 +49,9 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 				$view->configFileNotWritable = true;
 			}
 
+			$debug = $config->Debug;
+			$view->enableBetaReleaseCheck = $debug['allow_upgrades_to_beta'];
+
 			$view->mail = $config->mail;
 
 			$view->branding = $config->branding;
@@ -101,7 +104,11 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			$branding = $config->branding;
 			$branding['use_custom_logo'] = Piwik_Common::getRequestVar('useCustomLogo', '0');
 			$config->branding = $branding;
-			
+
+			// update beta channel setting
+			$debug = $config->Debug;
+			$debug['allow_upgrades_to_beta'] = Piwik_Common::getRequestVar('enableBetaReleaseCheck', '0', 'int');
+			$config->Debug = $debug;
 			// update trusted host settings
 			$trustedHosts = Piwik_Common::getRequestVar('trustedHosts', false, 'json');
 			if ($trustedHosts !== false)

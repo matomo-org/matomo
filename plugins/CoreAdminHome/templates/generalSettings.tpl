@@ -50,6 +50,28 @@
 	{$archiveTodayTTLHelp|inlineHelp}
 	</td>
 </tr>
+<tr>
+	<td style='width:400px'>{'CoreAdminHome_CheckReleaseGetVersion'|translate}</td>
+	<td style='width:220px'>
+	<fieldset>
+		<label><input type="radio" value="0" name="enableBetaReleaseCheck"{if $enableBetaReleaseCheck==0} checked="checked"{/if} />
+			{'CoreAdminHome_LatestStableRelease'|translate} <br />
+			<span class="form-description">{'General_Recommended'|translate}</span>
+		</label><br /><br />
+
+		<label><input type="radio" value="1" name="enableBetaReleaseCheck"{if $enableBetaReleaseCheck==1} checked="checked"{/if} />
+			{'CoreAdminHome_LatestBetaRelease'|translate} <br />
+			<span class="form-description">{'CoreAdminHome_ForBetaTestersOnly'|translate}</span>
+		</label>
+	</fieldset>
+	<td>
+	{capture assign=checkReleaseHelp}
+		{'CoreAdminHome_DevelopmentProcess'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>":"</a>"}<br />
+		{'CoreAdminHome_StableReleases'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/user-feedback/' target='_blank'>":"</a>"}
+	{/capture}
+	{$checkReleaseHelp|inlineHelp}
+	</td>
+</tr>
 </table>
 
 <h2>{'CoreAdminHome_EmailServerSettings'|translate}</h2>
