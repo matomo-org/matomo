@@ -1023,6 +1023,21 @@ class Piwik_Common
 		return $searchEngines;
 	}
 
+	/**
+	 * Returns list of provider names
+	 *
+	 * @see core/DataFiles/Providers.php
+	 *
+	 * @return array  Array of ( dnsName => providerName )
+	 */
+	static public function getProviderNames()
+	{
+		require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Providers.php';
+
+		$providers = $GLOBALS['Piwik_ProviderNames'];
+		return $providers;
+	}
+
 /*
  * Language, country, continent
  */
