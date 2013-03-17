@@ -54,6 +54,7 @@ $translations = array(
 	'General_Name' => 'Name',
 	'General_Value' => 'Value',
 	'General_Total' => 'Total',
+	'General_Recommended' => 'Recommended',
 	'General_TotalVisitsPageviewsRevenue' => '(Total: %s visits, %s pageviews, %s revenue)',
 	'General_AverageOrderValue' => 'Average Order Value',
 	'General_PurchasedProducts' => 'Purchased Products',
@@ -505,6 +506,14 @@ $translations = array(
 	'CoreAdminHome_ImportingServerLogs' => 'Importing Server Logs',
 	'CoreAdminHome_ImportingServerLogsDesc' => 'An alternative to tracking visitors through the browser (either via JavaScript or an image link) is to continuously import server logs. Learn more about %1$sServer Log File Analytics%2$s.',
 	'CoreAdminHome_JavaScriptTracking' => 'JavaScript Tracking',
+	'CoreAdminHome_LatestStableRelease' => 'The latest stable release',
+	'CoreAdminHome_LatestBetaRelease' => 'The latest beta release',
+	'CoreAdminHome_ForBetaTestersOnly' => 'For beta testers only',
+	'CoreAdminHome_CheckReleaseGetVersion' => 'When checking for new version of Piwik, always get',
+	'CoreAdminHome_DevelopmentProcess' => 'While our %sdevelopment process%s includes thousands of automated tests, Beta Testers play a key role in achieving the "No bug policy" in Piwik.',
+'CoreAdminHome_StableReleases' => 'If Piwik is a critical part of your business, we recommend you use the latest stable release.
+
+If you use the latest beta and you find a bug or have a suggestion, please %ssee here%s.',
 	'CoreHome_InjectedHostWarningIntro' => 'You are now accessing Piwik from %1$s, but Piwik has been configured to run at this address: %2$s.',
 	'CoreHome_InjectedHostSuperUserWarning' => 'Piwik may be misconfigured (for example, if Piwik was recently moved to a new server or URL). You can either %1$sclick here and add %2$s as the valid Piwik hostname (if you trust it)%3$s, or %4$sclick here and go to %5$s to access Piwik safely%6$s.',
 	'CoreHome_InjectedHostNonSuperUserWarning' => '%1$sClick here to access Piwik safely%2$s and remove this warning. You may also want to contact your Piwik administrator and notify them about this issue (%3$sclick here to email%4$s).',
