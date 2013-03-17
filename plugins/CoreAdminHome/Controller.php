@@ -42,23 +42,25 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			$view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
 			$view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-			if(!Piwik_Config::getInstance()->isFileWritable())
+			$config = Piwik_Config::getInstance();
+
+			if(!$config->isFileWritable())
 			{
 				$view->configFileNotWritable = true;
 			}
 
-			$view->mail = Piwik_Config::getInstance()->mail;
+			$view->mail = $config->mail;
 
-			$view->branding = Piwik_Config::getInstance()->branding;
+			$view->branding = $config->branding;
 
 			$directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT.'/themes/');
 			$logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo.png') && is_writeable(PIWIK_DOCUMENT_ROOT.'/themes/logo-header.png');
 			$view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 
 			$trustedHosts = array();
-			if (isset(Piwik_Config::getInstance()->General['trusted_hosts']))
+			if (isset($config->General['trusted_hosts']))
 			{
-				$trustedHosts = Piwik_Config::getInstance()->General['trusted_hosts'];
+				$trustedHosts = $config->General['trusted_hosts'];
 			}
 			$view->trustedHosts = $trustedHosts;
 		}
