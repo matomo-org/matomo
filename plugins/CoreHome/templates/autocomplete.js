@@ -115,7 +115,7 @@ $(function () {
 
                     $('.custom_select_block_show', selector).width(widthSitesSelection);
                 }
-            }).data("autocomplete")._renderItem = function (ul, item) {
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
                 $(ul).addClass('siteSelect');
 
                 var idSiteParam = 'idSite=' + item.id,
@@ -124,7 +124,7 @@ $(function () {
                     link = $("<a></a>").html(item.label).attr('href', linkUrl),
                     listItem = $('<li></li>');
 
-                listItem.data("item.autocomplete", item)
+                listItem.data("item.ui-autocomplete", item)
                     .append(link)
                     .appendTo(ul);
 

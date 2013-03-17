@@ -409,20 +409,23 @@
         }
 
         //launch 'sortable' property on every dashboard widgets
+        if ($( "div.col", dashboardElement ).is( ":data( 'ui-sortable' )" )) {
+            $( "div.col", dashboardElement ).sortable('destroy');
+        }
+
         $('div.col', dashboardElement)
-            .sortable('destroy')
-            .sortable({
-                items: 'div.sortable',
-                opacity: 0.6,
-                forceHelperSize: true,
-                forcePlaceholderSize: true,
-                placeholder: 'hover',
-                handle: '.widgetTop',
-                helper: 'clone',
-                start: onStart,
-                stop: onStop,
-                connectWith: 'div.col'
-            });
+                    .sortable({
+                        items: 'div.sortable',
+                        opacity: 0.6,
+                        forceHelperSize: true,
+                        forcePlaceholderSize: true,
+                        placeholder: 'hover',
+                        handle: '.widgetTop',
+                        helper: 'clone',
+                        start: onStart,
+                        stop: onStop,
+                        connectWith: 'div.col'
+                    });
     }
 
     /**

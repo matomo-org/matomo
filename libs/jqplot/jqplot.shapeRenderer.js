@@ -3,8 +3,9 @@
  * Pure JavaScript plotting plugin using jQuery
  *
  * Version: @VERSION
+ * Revision: @REVISION
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -36,6 +37,12 @@
     $.jqplot.ShapeRenderer = function(options){
         
         this.lineWidth = 1.5;
+        // prop: linePattern
+        // line pattern 'dashed', 'dotted', 'solid', some combination
+        // of '-' and '.' characters such as '.-.' or a numerical array like 
+        // [draw, skip, draw, skip, ...] such as [1, 10] to draw a dotted line, 
+        // [1, 10, 20, 10] to draw a dot-dash line, and so on.
+        this.linePattern = 'solid';
         // prop: lineJoin
         // How line segments of the shadow are joined.
         this.lineJoin = 'miter';
@@ -90,6 +97,8 @@
         var strokeRect = (opts.strokeRect != null) ? opts.strokeRect : this.strokeRect;
         var clearRect = (opts.clearRect != null) ? opts.clearRect : this.clearRect;
         var isarc = (opts.isarc != null) ? opts.isarc : this.isarc;
+        var linePattern = (opts.linePattern != null) ? opts.linePattern : this.linePattern;
+        var ctxPattern = $.jqplot.LinePattern(ctx, linePattern);
         ctx.lineWidth = opts.lineWidth || this.lineWidth;
         ctx.lineJoin = opts.lineJoin || this.lineJoin;
         ctx.lineCap = opts.lineCap || this.lineCap;
@@ -131,11 +140,11 @@
                 // skip to the first non-null point and move to it.
                 if (points[i][0] != null && points[i][1] != null) {
                     if (move) {
-                        ctx.moveTo(points[i][0], points[i][1]);
+                        ctxPattern.moveTo(points[i][0], points[i][1]);
                         move = false;
                     }
                     else {
-                        ctx.lineTo(points[i][0], points[i][1]);
+                        ctxPattern.lineTo(points[i][0], points[i][1]);
                     }
                 }
                 else {
@@ -143,7 +152,7 @@
                 }
             }
             if (closePath) {
-                ctx.closePath();
+                ctxPattern.closePath();
             }
             if (fill) {
                 ctx.fill();

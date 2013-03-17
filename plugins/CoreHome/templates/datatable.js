@@ -1106,7 +1106,7 @@ dataTable.prototype =
         }
 
         // use tooltip (tooltip text determined by the 'title' attribute)
-        tooltipElem.tooltip();
+        tooltipElem.tooltip({track: true});
     },
 
     //Apply some miscelleaneous style to the DataTable

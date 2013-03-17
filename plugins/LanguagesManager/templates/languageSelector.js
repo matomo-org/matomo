@@ -51,12 +51,12 @@ $(document).ready(function () {
             $(this).autocomplete("search", "");
         });
 
-    langSelect.data("autocomplete")._renderItem = function (ul, item) {
+    langSelect.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
         $(ul).attr('id', 'languageSelect');
-        return $("<li></li>")
-            .data("item.autocomplete", item)
-            .append("<a title=\"" + item.title + "\" href=\"" + $('#languageSelection form').attr('action') + "&language=" + item.value + "\">" + item.label + "</a>")
-            .appendTo(ul);
+        return $( "<li></li>" )
+            .data( "item.ui-autocomplete", item )
+            .append( "<a title=\"" + item.title + "\" href=\"" + $('#languageSelection form').attr('action') + "&language=" + item.value + "\">" + item.label + "</a>" )
+            .appendTo( ul );
     };
 
     $('body').on('mouseup', function (e) {
