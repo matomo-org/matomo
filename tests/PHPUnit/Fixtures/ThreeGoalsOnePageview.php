@@ -51,7 +51,7 @@ class Test_Piwik_Fixture_ThreeGoalsOnePageview extends Test_Piwik_BaseFixture
 
         // Record 1st page view
         $t->setUrl('http://example.org/index.htm');
-        self::checkResponse($t->doTrackPageView('incredible title!'));
+        self::checkResponse($t->doTrackPageView('0'));
 
         $t->setForceVisitDateTime(Piwik_Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
         self::checkResponse($t->doTrackGoal($this->idGoal3, $revenue = 42.256));
