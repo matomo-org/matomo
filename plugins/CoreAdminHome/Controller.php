@@ -93,12 +93,14 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 			$mail['username'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailUsername', ''));
 			$mail['password'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailPassword', ''));
 			$mail['encryption'] = Piwik_Common::getRequestVar('mailEncryption', '');
-			Piwik_Config::getInstance()->mail = $mail;
-			
+
+			$config = Piwik_Config::getInstance();
+			$config->mail = $mail;
+
 			// update branding settings
-			$branding = Piwik_Config::getInstance()->branding;
+			$branding = $config->branding;
 			$branding['use_custom_logo'] = Piwik_Common::getRequestVar('useCustomLogo', '0');
-			Piwik_Config::getInstance()->branding = $branding;
+			$config->branding = $branding;
 			
 			// update trusted host settings
 			$trustedHosts = Piwik_Common::getRequestVar('trustedHosts', false, 'json');
@@ -107,7 +109,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 				Piwik_Url::saveTrustedHostnameInConfig($trustedHosts);
 			}
 			
-			Piwik_Config::getInstance()->forceSave();
+			$config->forceSave();
 			
 			$toReturn = $response->getResponse();
 		} catch(Exception $e ) {
