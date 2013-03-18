@@ -994,7 +994,7 @@ abstract class Piwik_ArchiveProcessing
 	
 	public static function isArchivingDisabledFor($segment, $period)
 	{
-        if($period == 'range') {
+        if($period->getLabel() == 'range') {
             return false;
         }
         $processOneReportOnly = !self::shouldProcessReportsAllPluginsFor($segment, $period);
