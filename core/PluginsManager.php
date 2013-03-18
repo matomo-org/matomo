@@ -436,8 +436,9 @@ class Piwik_PluginsManager
 
 		if(!file_exists($path))
 		{
-			Piwik::log(sprintf("Unable to load plugin '%s' because '%s' couldn't be found.", $pluginName, $path));
-			return null;
+			// ToDo: We should log this - but this will crash in Tracker mode since core/Piwik is not loaded
+			//Piwik::log(sprintf("Unable to load plugin '%s' because '%s' couldn't be found.", $pluginName, $path));
+			throw new Exception(sprintf("Unable to load plugin '%s' because '%s' couldn't be found.", $pluginName, $path));
 		}
 
 		// Don't remove this.
