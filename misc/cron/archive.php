@@ -399,9 +399,15 @@ class Archiving
 		$this->log("done");
 	}
 
-	/**
-	 * @return bool True on success, false if some request failed
-	 */
+    /**
+     * Archive visits and segments.
+     *
+     * @param $idsite int
+     * @param $period
+     * @param $lastTimestampWebsiteProcessed
+     * @param Piwik_Timer $timerWebsite
+     * @return bool True on success, false if some request failed
+     */
 	private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, Piwik_Timer $timerWebsite = null)
 	{
 		$timer = new Piwik_Timer;
@@ -830,15 +836,17 @@ class Archiving
 		}
 		$this->piwikUrl = $piwikUrl . "index.php";
 	}
-	
-	
-	/**
-	 * Returns if the requested parameter is defined in the command line arguments.
-	 * If $valuePossible is true, then a value is possibly set for this parameter, 
-	 * ie. --force-timeout-for-periods=3600 would return 3600
-	 * 
-	 * @return true or the value (int,string) if set, false otherwise
-	 */
+
+
+    /**
+     * Returns if the requested parameter is defined in the command line arguments.
+     * If $valuePossible is true, then a value is possibly set for this parameter,
+     * ie. --force-timeout-for-periods=3600 would return 3600
+     *
+     * @param $parameter
+     * @param bool $valuePossible
+     * @return true or the value (int,string) if set, false otherwise
+     */
 	private function isParameterSet($parameter, $valuePossible = false)
 	{
 		if(!Piwik_Common::isPhpCliMode())
