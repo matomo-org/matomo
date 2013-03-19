@@ -104,8 +104,8 @@ var Piwik_Overlay_Client = (function() {
 		});
 		
 		var position = function() {
-			var scrollY = document.body.scrollTop;
-			var scrollX = document.body.scrollLeft;
+			var scrollY = document.body.parentElement.scrollTop;
+			var scrollX = document.body.parentElement.scrollLeft;
 			statusBar.css({
 				top: (scrollY + $(window).height() - statusBar.outerHeight()) + 'px',
 				left: (scrollX + $(window).width() - statusBar.outerWidth()) + 'px'
@@ -230,6 +230,7 @@ var Piwik_Overlay_Client = (function() {
 			statusBar.show().append(item);
 			
 			handleIEStatusBar();
+			window.setTimeout(handleIEStatusBar, 100);
 			
 			return function() {
 				item.remove();
