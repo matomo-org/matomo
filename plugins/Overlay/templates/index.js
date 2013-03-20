@@ -52,7 +52,9 @@ var Piwik_Overlay = (function() {
                 $location.html($responseLocation.html()).show();
                 $responseLocation.remove();
 
-                $location.find('span').hover(function () {
+				var $locationSpan = $location.find('span');
+				$locationSpan.html(piwikHelper.addBreakpointsToUrl($locationSpan.text()));
+				$locationSpan.hover(function () {
                     if (iframeDomain) {
                         // use addBreakpointsToUrl because it also encoded html entities
                         Piwik_Tooltip.show('<b>' + Piwik_Overlay_Translations.domain + ':</b> ' +
