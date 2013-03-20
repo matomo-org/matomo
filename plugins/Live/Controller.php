@@ -49,12 +49,6 @@ class Piwik_Live_Controller extends Piwik_Controller
 	
 	public function getVisitorLog($fetch = false)
 	{
-		// If previous=1 is set, user clicked previous
-		// we can't deal with previous so we force display of the first page
-		if(Piwik_Common::getRequestVar('previous', 0, 'int') == 1) {
-			$_GET['maxIdVisit'] = '';
-		}
-		
 		$view = Piwik_ViewDataTable::factory();
 		$view->init( $this->pluginName,
 							__FUNCTION__,
@@ -83,9 +77,13 @@ class Piwik_Live_Controller extends Piwik_Controller
 		}
 		
 		$view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')));
-		$view->setCustomParameter('dataTablePreviousIsFirst', 1);
+		
+		// set a very high row count so that the next link in the footer of the data table is always shown
+		$view->setCustomParameter('totalRows', 10000000);
+		
 		$view->setCustomParameter('filterEcommerce', Piwik_Common::getRequestVar('filterEcommerce', 0, 'int'));
 		$view->setCustomParameter('pageUrlNotDefined', Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL')));
+		
 		return $this->renderView($view, $fetch);
 	}
 

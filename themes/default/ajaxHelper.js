@@ -130,8 +130,6 @@ function ajaxHelper() {
     /**
      * Gets this helper instance ready to send a bulk request. Each argument to this
      * function is a single request to use.
-     * 
-     * @param {object} ... The requests to send simultaneously.
      */
     this.setBulkRequests = function () {
     	var urls = [];
@@ -154,7 +152,6 @@ function ajaxHelper() {
      * @param {function} callback  Callback function
      * @return {void}
      */
-
     this.setCallback = function (callback) {
         this.callback = callback;
     };
@@ -175,12 +172,9 @@ function ajaxHelper() {
             var urlToRedirect = piwikHelper.getCurrentQueryStringWithParametersModified(params);
             var updatedUrl = new RegExp('&updated=([0-9]+)');
             var updatedCounter = updatedUrl.exec(urlToRedirect);
-            if(!updatedCounter)
-            {
+            if (!updatedCounter) {
                 urlToRedirect += '&updated=1';
-            }
-            else
-            {
+            } else {
                 updatedCounter = 1 + parseInt(updatedCounter[1]);
                 urlToRedirect = urlToRedirect.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
             }

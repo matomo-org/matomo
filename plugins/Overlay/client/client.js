@@ -104,8 +104,8 @@ var Piwik_Overlay_Client = (function() {
 		});
 		
 		var position = function() {
-			var scrollY = document.body.scrollTop;
-			var scrollX = document.body.scrollLeft;
+			var scrollY = document.body.parentElement.scrollTop;
+			var scrollX = document.body.parentElement.scrollLeft;
 			statusBar.css({
 				top: (scrollY + $(window).height() - statusBar.outerHeight()) + 'px',
 				left: (scrollX + $(window).width() - statusBar.outerWidth()) + 'px'
@@ -144,13 +144,9 @@ var Piwik_Overlay_Client = (function() {
 				notifyPiwikOfLocation();
 				loadCss();
 				
-				var finishLoadingOverlay = loading('Loading Piwik Page Overlay scripts');
-				
 				// translations
 				load('plugins/Overlay/client/translations.js', function() {
 					Piwik_Overlay_Translations.initialize(function() {
-						finishLoadingOverlay();
-						
 						// following pages
 						var finishPages = loading('Loading following pages');
 						load('plugins/Overlay/client/followingpages.js', function() {
@@ -230,6 +226,7 @@ var Piwik_Overlay_Client = (function() {
 			statusBar.show().append(item);
 			
 			handleIEStatusBar();
+			window.setTimeout(handleIEStatusBar, 100);
 			
 			return function() {
 				item.remove();

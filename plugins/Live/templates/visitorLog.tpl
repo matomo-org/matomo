@@ -10,7 +10,7 @@
 {capture assign='displayVisitorsInOwnColumn'}{if $isWidget}0{else}1{/if}{/capture}
 
 <a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
-{assign var=maxIdVisit value=0}
+
 {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
 		{$arrayDataTable.message}
 	{else}
@@ -39,9 +39,6 @@
 	<tbody>
 
 {foreach from=$arrayDataTable item=visitor}
-{if $maxIdVisit == 0 || $visitor.columns.idVisit < $maxIdVisit}
-{assign var=maxIdVisit value=$visitor.columns.idVisit}
-{/if}
 
 	{capture assign='visitorColumnContent'}
 		&nbsp;<img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.location|escape:'html'}, Provider {$visitor.columns.provider|escape:'html'}" />
@@ -257,13 +254,6 @@
 </table>
 {/if}
 
-{if count($arrayDataTable) == $javascriptVariablesToSet.filter_limit}
-{* We set a fake large rows count so that 'Next' paginate link is forced to display
-   This is hard coded because the Visitor Log datatable is not fully loaded in memory,
-   but needs to fetch only the N rows in the logs
-   *}
-{php}$this->_tpl_vars['javascriptVariablesToSet']['totalRows'] = 100000; {/php}
-{/if}
 {if $properties.show_footer}
 	{include file="CoreHome/templates/datatable_footer.tpl"}
 {/if}
@@ -280,18 +270,7 @@ function Piwik_Live_LoadVisitorPopover(visitorId)
 {rdelim}
 
 $(document).ready(function(){ldelim}
-
-    var dataTableVisitorLog = piwik.DataTableManager.getDataTableInstanceByReport('{$properties.uniqueId}');
-    dataTableVisitorLog.param.maxIdVisit = {$maxIdVisit};
-    {literal}
-    function hidePreviousLink() {
-        if (dataTableVisitorLog.param.previous == 1) {
-            $('.dataTablePrevious').hide();
-            dataTableVisitorLog.param.previous = 0;
-        }
-    }
-    hidePreviousLink();
-
+	{literal}
     // Replace duplicated page views by a NX count instead of using too much vertical space
     $("ol.visitorLog").each(function () {
         var prevelement;
