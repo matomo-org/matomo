@@ -66,9 +66,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.123people.com'			=> array('123people', array('/s\/([^\/]+)/', 'search_term'), 's/{k}'),
 		'123people.{}'				=> array('123people'),
 
-		// 1und1
-		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?su={k}'),
-
 		// 360search
 		'so.360.cn'					=> array('360search', 'q', 's?q={k}', array('UTF-8', 'gb2312')),
 		'www.so.com'				=> array('360search', 'q', 's?q={k}', array('UTF-8', 'gb2312')),
@@ -153,6 +150,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.hp.my.aol.de'		=> array('AOL'),
 		'search.hp.my.aol.it'		=> array('AOL'),
 		'search-intl.netscape.com'	=> array('AOL'),
+    'de.aolsearch.com'  => array('AOL', 'q', 'search?q={k}'),
 
 		// Aport
 		'sm.aport.ru'				=> array('Aport', 'r', 'search?r={k}'),
@@ -431,7 +429,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'suche.gmx.net'			=> array('Google', 'q', 'web?q={k}'),
 		'search.incredibar.com'		=> array('Google', 'q', 'search.php?q={k}'),
 		'www.delta-search.com'		=> array('Google', 'q'),
-
+		'search.1und1.de'			=> array('Google', 'q', 'web?q={k}'),
+		'search.zonealarm.com'			=> array('Google'),
+		'start.lenovo.com'    => array('Google', 'q', 'search/index.php?q={k}'),
+    
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
 		'www.googleearth.de'		=> array('Google'),
@@ -514,6 +515,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Ilse
 		'www.ilse.nl'				=> array('Ilse NL', 'search_for', '?search_for={k}'),
+
+    // Inbox.com
+    'www2.inbox.com'    => array('Inbox', 'q', 'search/results1.aspx?q={k}'),
 
 		// InfoSpace (and related web properties)
 		'infospace.com'				=> array('InfoSpace', 'q', '/search/web?q={k}'),
