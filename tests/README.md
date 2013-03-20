@@ -141,7 +141,7 @@ which you can use to run PHPUnit tests in your browser.
 
 ### Starting VisualPHPUnit
 
-To load VisualPHPUnit point your browser to http://path/to/piwik/trunk/tests/lib/visualphpunit/.
+To load VisualPHPUnit point your browser to http://path/to/piwik/tests/lib/visualphpunit/.
 
 VisualPHPUnit will already be configured for use with Piwik. 
 
@@ -215,7 +215,7 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
 
  * 	Navigate to the XHProf extension directory.
 
-		$ cd /path/to/piwik/trunk/tests/lib/xhprof-0.9.2/extension
+		$ cd /path/to/piwik/tests/lib/xhprof-0.9.2/extension
     
  * 	Build XHProf.
 
@@ -228,7 +228,7 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
       
 	```
 	[xhprof]
-	extension=/path/to/piwik/trunk/tests/lib/xhprof-0.9.2/extension/modules/xhprof.so
+	extension=/path/to/piwik/tests/lib/xhprof-0.9.2/extension/modules/xhprof.so
 	xhprof.output_dir=/path/to/output/dir
 	```
       
@@ -242,7 +242,7 @@ is installed and act accordingly.
 
 To use XHProf, first load VisualPHPUnit by pointing your browser to:
 
-http://path/to/piwik/trunk/tests/lib/visualphpunit/
+http://path/to/piwik/tests/lib/visualphpunit/
 
 Select a test or get ready to run a benchmark. Make sure the 'Profile with XHProf' select
 box is set to 'Yes' and click 'Run Tests'.

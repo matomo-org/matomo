@@ -100,8 +100,7 @@ class Piwik_Live_API
 	 */
 	public function getLastVisitsForVisitor( $visitorId, $idSite, $filter_limit = 10 )
 	{
-		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit, $maxIdVisit = false, $visitorId);
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit, $filter_offset = false, $visitorId);
 		$table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
 		return $table;
 	}
@@ -114,21 +113,22 @@ class Piwik_Live_API
 	 * @param bool|string $period Period to restrict to when looking at the logs
 	 * @param bool|string $date Date to restrict to
 	 * @param bool|int $segment (optional) Number of visits rows to return
-	 * @param bool|int $filter_limit (optional)
-	 * @param bool|int $maxIdVisit (optional) Maximum idvisit to restrict the query to (useful when paginating)
+	 * @param bool|int $filter_limit (optional) Only return X visits
+	 * @param bool|int $filter_offset (optional) Skip the first X visits (useful when paginating)
 	 * @param bool|int $minTimestamp (optional) Minimum timestamp to restrict the query to (useful when paginating or refreshing visits)
 	 *
 	 * @return Piwik_DataTable
 	 */
-	public function getLastVisitsDetails( $idSite, $period, $date, $segment = false, $filter_limit = false, $maxIdVisit = false, $minTimestamp = false )
+	public function getLastVisitsDetails( $idSite, $period, $date, $segment = false, $filter_limit = false, $filter_offset = false, $minTimestamp = false )
 	{
 		if(empty($filter_limit)) 
 		{
 			$filter_limit = 10;
 		}
 		Piwik::checkUserHasViewAccess($idSite);
-		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $filter_limit, $maxIdVisit, $visitorId = false, $minTimestamp); 
+		$visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $filter_limit, $filter_offset, $visitorId = false, $minTimestamp); 
 		$dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
+		
 		return $dataTable;
 	}
 
@@ -138,7 +138,7 @@ class Piwik_Live_API
 	
 	public function getLastVisits( $idSite, $filter_limit = 10, $minTimestamp = false )
 	{
-		return $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $filter_limit, $maxIdVisit = false, $minTimestamp );
+		return $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $filter_limit, $filter_offset = false, $minTimestamp );
 	}
 
 	/**
@@ -150,6 +150,8 @@ class Piwik_Live_API
 	 */
 	private function getCleanedVisitorsFromDetails($visitorDetails, $idSite)
 	{
+		$actionsLimit = Piwik_Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
+		
 		$table = new Piwik_DataTable();
 
 		$site = new Piwik_Site($idSite);
@@ -198,6 +200,7 @@ class Piwik_Live_API
 					LEFT JOIN " .Piwik_Common::prefixTable('log_action')." AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
 				WHERE log_link_visit_action.idvisit = ?
+				LIMIT 0, $actionsLimit
 				 ";
 			$actionDetails = Piwik_FetchAll($sql, array($idvisit));
 			
@@ -253,6 +256,7 @@ class Piwik_Live_API
 					AND goal.deleted = 0
 				WHERE log_conversion.idvisit = ?
 					AND log_conversion.idgoal > 0
+				LIMIT 0, $actionsLimit
 			";
 			$goalDetails = Piwik_FetchAll($sql, array($idvisit));
 
@@ -269,7 +273,8 @@ class Piwik_Live_API
 						log_conversion.server_time as serverTimePretty
 					FROM ".Piwik_Common::prefixTable('log_conversion')." AS log_conversion
 					WHERE idvisit = ?
-						AND idgoal <= ".Piwik_Tracker_GoalManager::IDGOAL_ORDER;
+						AND idgoal <= ".Piwik_Tracker_GoalManager::IDGOAL_ORDER."
+					LIMIT 0, $actionsLimit";
 			$ecommerceDetails = Piwik_FetchAll($sql, array($idvisit));
 
 			foreach($ecommerceDetails as &$ecommerceDetail)
@@ -316,6 +321,7 @@ class Piwik_Live_API
 						WHERE idvisit = ? 
 							AND idorder = ?
 							AND deleted = 0
+						LIMIT 0, $actionsLimit
 				";
 				$bind = array($idvisit, isset($ecommerceConversion['orderId']) 
 											? $ecommerceConversion['orderId'] 
@@ -400,12 +406,17 @@ class Piwik_Live_API
 						: 1 ); 
 	}
 	
-	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit = false, $maxIdVisit = false, $visitorId = false, $minTimestamp = false)
+	private function loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit = false, $filter_offset = false, $visitorId = false, $minTimestamp = false)
 	{
 		if(empty($filter_limit))
 		{
 			$filter_limit = 100;
 		}
+		if(empty($filter_offset))
+		{
+			$filter_offset = 0;
+		}
+		
 		$where = $whereBind = array();
 		$where[] = "log_visit.idsite = ? ";
 		$whereBind[] = $idSite;
@@ -417,14 +428,6 @@ class Piwik_Live_API
 			$whereBind[] = @Piwik_Common::hex2bin($visitorId);
 		}
 
-		if(!empty($maxIdVisit))
-		{
-			$where[] = "log_visit.idvisit < ? ";
-			$whereBind[] = $maxIdVisit;
-			$orderBy = "idvisit DESC";
-			$orderByParent = "sub.idvisit DESC";
-		}
-		
 		if(!empty($minTimestamp))
 		{
 			$where[] = "log_visit.visit_last_action_time > ? ";
@@ -433,7 +436,7 @@ class Piwik_Live_API
 		
 		// If no other filter, only look at the last 24 hours of stats
 		if(empty($visitorId)
-			&& empty($maxIdVisit)
+			&& empty($filter_offset)
 			&& empty($period) 
 			&& empty($date))
 		{
@@ -500,7 +503,7 @@ class Piwik_Live_API
 		$from = "log_visit";
 		$subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy);
 		
-		$sqlLimit = $filter_limit >= 1 ? " LIMIT ".(int)$filter_limit : "";
+		$sqlLimit = $filter_limit >= 1 ? " LIMIT ".$filter_offset.", ".(int)$filter_limit : "";
 		
 		// Group by idvisit so that a visitor converting 2 goals only appears once
 		$sql = "
