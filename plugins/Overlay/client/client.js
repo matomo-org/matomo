@@ -144,13 +144,9 @@ var Piwik_Overlay_Client = (function() {
 				notifyPiwikOfLocation();
 				loadCss();
 				
-				var finishLoadingOverlay = loading('Loading Piwik Page Overlay scripts');
-				
 				// translations
 				load('plugins/Overlay/client/translations.js', function() {
 					Piwik_Overlay_Translations.initialize(function() {
-						finishLoadingOverlay();
-						
 						// following pages
 						var finishPages = loading('Loading following pages');
 						load('plugins/Overlay/client/followingpages.js', function() {
