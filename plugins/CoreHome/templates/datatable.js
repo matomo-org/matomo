@@ -279,9 +279,6 @@ dataTable.prototype =
 			{
 				params.filter_limit = value;
 				params.filter_offset = 0;
-				
-				// Hack for Visitor Log to not pass the maxIdVisit parameter when limit is changed
-				delete params.maxIdVisit;
 			};
 		}
 		

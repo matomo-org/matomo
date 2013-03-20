@@ -772,7 +772,9 @@ abstract class Piwik_ViewDataTable
 		
 		if($this->dataTable &&
 			// Piwik_DataTable_Array doesn't have the method
-			!($this->dataTable instanceof Piwik_DataTable_Array))
+			!($this->dataTable instanceof Piwik_DataTable_Array)
+			&& empty($javascriptVariablesToSet['totalRows'])
+		)
 		{
 			$javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
 		}

@@ -248,6 +248,9 @@ datatable_archiving_maximum_rows_standard = 500
 ; amount of actions, referrers or custom variable name/value pairs.
 archiving_ranking_query_row_limit = 50000
 
+; maximum number of actions that is shown in the visitor log for each visitor
+visitor_log_maximum_actions_per_visit = 500
+
 ; by default, the real time Live! widget will update every 5 seconds and refresh with new visits/actions/etc.
 ; you can change the timeout so the widget refreshes more often, or not as frequently
 live_widget_refresh_after_seconds = 5
