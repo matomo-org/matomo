@@ -379,9 +379,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.gigablast.com'			=> array('Gigablast', 'q', 'search?q={k}'),
 		'dir.gigablast.com'			=> array('Gigablast (Directory)', 'q'),
 
-		// GMX
-		'suche.gmx.net'				=> array('GMX', 'su', 'search/web/?su={k}'),
-
 		// Gnadenmeer
 		'www.gnadenmeer.de'			=> array('Gnadenmeer', 'keyword'),
 
@@ -433,7 +430,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.alot.com'			=> array('Google'),
 		'suche.gmx.net'			=> array('Google', 'q', 'web?q={k}'),
 		'search.incredibar.com'		=> array('Google', 'q', 'search.php?q={k}'),
-		'www.delta-search.com'		=> array('Google', 'q', '?q={k}')
+		'www.delta-search.com'		=> array('Google', 'q'),
 
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
