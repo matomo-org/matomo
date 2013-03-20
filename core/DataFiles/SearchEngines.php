@@ -66,9 +66,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.123people.com'			=> array('123people', array('/s\/([^\/]+)/', 'search_term'), 's/{k}'),
 		'123people.{}'				=> array('123people'),
 
-		// 1und1
-		'search.1und1.de'			=> array('1und1', 'su', 'search/web/?su={k}'),
-
 		// 360search
 		'so.360.cn'					=> array('360search', 'q', 's?q={k}', array('UTF-8', 'gb2312')),
 		'www.so.com'				=> array('360search', 'q', 's?q={k}', array('UTF-8', 'gb2312')),
@@ -143,6 +140,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'aolrecherche.aol.fr'		=> array('AOL'),
 		'sucheaol.aol.de'			=> array('AOL'),
 		'suche.aol.de'				=> array('AOL'),
+		'o2suche.aol.de'			=> array('AOL'),
 		'suche.aolsvc.de'			=> array('AOL'),
 		'aolbusqueda.aol.com.mx'	=> array('AOL'),
 		'alicesuche.aol.de'			=> array('AOL'),
@@ -152,6 +150,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.hp.my.aol.de'		=> array('AOL'),
 		'search.hp.my.aol.it'		=> array('AOL'),
 		'search-intl.netscape.com'	=> array('AOL'),
+    'de.aolsearch.com'  => array('AOL', 'q', 'search?q={k}'),
 
 		// Aport
 		'sm.aport.ru'				=> array('Aport', 'r', 'search?r={k}'),
@@ -183,6 +182,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.search-results.com'	=> array('Ask'),
 		'int.search-results.com'	=> array('Ask'),
 		'{}.search-results.com'		=> array('Ask'),
+		'{}.search.ask.com'		=> array('Ask'),
+		'avira-int.ask.com'		=> array('Ask'),
 
 		// Atlas
 		'searchatlas.centrum.cz'	=> array('Atlas', 'q', '?q={k}'),
@@ -376,9 +377,6 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.gigablast.com'			=> array('Gigablast', 'q', 'search?q={k}'),
 		'dir.gigablast.com'			=> array('Gigablast (Directory)', 'q'),
 
-		// GMX
-		'suche.gmx.net'				=> array('GMX', 'su', 'search/web/?su={k}'),
-
 		// Gnadenmeer
 		'www.gnadenmeer.de'			=> array('Gnadenmeer', 'keyword'),
 
@@ -428,7 +426,13 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'searchresults.verizon.com'	=> array('Google'),
 		'search.walla.co.il'		=> array('Google'),
 		'search.alot.com'			=> array('Google'),
-
+		'suche.gmx.net'			=> array('Google', 'q', 'web?q={k}'),
+		'search.incredibar.com'		=> array('Google', 'q', 'search.php?q={k}'),
+		'www.delta-search.com'		=> array('Google', 'q'),
+		'search.1und1.de'			=> array('Google', 'q', 'web?q={k}'),
+		'search.zonealarm.com'			=> array('Google'),
+		'start.lenovo.com'    => array('Google', 'q', 'search/index.php?q={k}'),
+    
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
 		'www.googleearth.de'		=> array('Google'),
@@ -456,6 +460,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Google Images
 		'images.google.com'			=> array('Google Images', 'q', 'images?q={k}'),
 		'images.google.{}'			=> array('Google Images'),
+		
+		// Google Maps
+		'maps.google.com'			=> array('Google Maps', 'q', 'maps?q={k}'),
+		'maps.google.{}'			=> array('Google Maps'),
 
 		// Google News
 		'news.google.com'			=> array('Google News', 'q'),
@@ -507,6 +515,9 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 
 		// Ilse
 		'www.ilse.nl'				=> array('Ilse NL', 'search_for', '?search_for={k}'),
+
+    // Inbox.com
+    'www2.inbox.com'    => array('Inbox', 'q', 'search/results1.aspx?q={k}'),
 
 		// InfoSpace (and related web properties)
 		'infospace.com'				=> array('InfoSpace', 'q', '/search/web?q={k}'),
