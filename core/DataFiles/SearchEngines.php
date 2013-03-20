@@ -432,6 +432,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'search.walla.co.il'		=> array('Google'),
 		'search.alot.com'			=> array('Google'),
 		'suche.gmx.net'			=> array('Google', 'q', 'web?q={k}'),
+		'search.incredibar.com'		=> array('Google', 'q', 'search.php?q={k}'),
+		'www.delta-search.com'		=> array('Google', 'q', '?q={k}')
 
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
@@ -460,6 +462,10 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		// Google Images
 		'images.google.com'			=> array('Google Images', 'q', 'images?q={k}'),
 		'images.google.{}'			=> array('Google Images'),
+		
+		// Google Maps
+		'maps.google.com'			=> array('Google Maps', 'q', 'maps?q={k}'),
+		'maps.google.{}'			=> array('Google Maps'),
 
 		// Google News
 		'news.google.com'			=> array('Google News', 'q'),
