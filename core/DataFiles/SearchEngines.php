@@ -143,6 +143,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'aolrecherche.aol.fr'		=> array('AOL'),
 		'sucheaol.aol.de'			=> array('AOL'),
 		'suche.aol.de'				=> array('AOL'),
+		'o2suche.aol.de'			=> array('AOL'),
 		'suche.aolsvc.de'			=> array('AOL'),
 		'aolbusqueda.aol.com.mx'	=> array('AOL'),
 		'alicesuche.aol.de'			=> array('AOL'),
@@ -183,6 +184,8 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'www.search-results.com'	=> array('Ask'),
 		'int.search-results.com'	=> array('Ask'),
 		'{}.search-results.com'		=> array('Ask'),
+		'{}.search.ask.com'		=> array('Ask'),
+		'avira-int.ask.com'		=> array('Ask'),
 
 		// Atlas
 		'searchatlas.centrum.cz'	=> array('Atlas', 'q', '?q={k}'),
@@ -428,6 +431,7 @@ if(!isset($GLOBALS['Piwik_SearchEngines'] ))
 		'searchresults.verizon.com'	=> array('Google'),
 		'search.walla.co.il'		=> array('Google'),
 		'search.alot.com'			=> array('Google'),
+		'suche.gmx.net'			=> array('Google', 'q', 'web?q={k}'),
 
 		// Google Earth
 		// - 2010-09-13: are these redirects now?
