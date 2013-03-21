@@ -273,7 +273,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName)
                 var widgetList   = createWidgetList(),
                     widgetPreviewTimer;
 
-                for(var j in widgets) {
+				for (var j = 0; j < widgets.length; j++) {
                     var widgetName       = widgets[j]["name"];
                     var widgetUniqueId   = widgets[j]["uniqueId"];
                     var widgetParameters = widgets[j]["parameters"];
