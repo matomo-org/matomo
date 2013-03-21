@@ -1408,6 +1408,7 @@ Piwik_Transitions_Ajax.prototype.callApi = function(method, params, callback) {
 
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(params, 'get');
+	ajaxRequest.useCallbackInCaseOfError();
     ajaxRequest.setCallback(
         function (result) {
             if (typeof result.result != 'undefined' && result.result == 'error') {
