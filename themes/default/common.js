@@ -124,7 +124,7 @@ var piwikHelper = {
         if(newparams) {
             if(parameters != '') {
                 var r, i, keyvalue, keysvalues = newparams.split('&');
-                for(i in keysvalues) {
+                for(i = 0; i < keysvalues.length; i++) {
                     keyvalue = keysvalues[i].split('=');
                     r = new RegExp('(^|[?&])'+keyvalue[0]+'=[^&]*');
                     parameters = parameters.replace(r, '');

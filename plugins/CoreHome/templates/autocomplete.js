@@ -140,6 +140,12 @@ $(function() {
 					.append(link)
 					.appendTo(ul);
 				
+				link.click(function(e) {
+					// in ie8, the event would bubble up and cause an error
+					e.stopPropagation();
+					return true;
+				});
+				
 				return listItem;
 			};
 			
