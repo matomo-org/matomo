@@ -34,7 +34,7 @@ class Piwik_Updates_0_5_4 extends Piwik_Updates
 				{
 					$superuser['salt'] = $salt;
                     $config->superuser = $superuser;
-					Piwik_Config::getInstance()->forceSave();
+					$config->forceSave();
 				}
 				else
 				{
@@ -53,7 +53,7 @@ class Piwik_Updates_0_5_4 extends Piwik_Updates
 				{
 					$plugins[] = 'MultiSites';
                     $config->Plugins = $plugins;
-					Piwik_Config::getInstance()->forceSave();
+					$config->forceSave();
 				}
 				else
 				{
