@@ -348,7 +348,7 @@
      * @param {String} uniqueId
      */
     function reloadWidget(uniqueId) {
-        $('[widgetId=' + uniqueId + ']', dashboardElement).dashboardWidget('reload');
+        $('[widgetId=' + uniqueId + ']', dashboardElement).dashboardWidget('reload', false, true);
     }
 
     /**
