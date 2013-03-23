@@ -221,13 +221,16 @@ $(function () {
 
             // if the data-switch-site-on-select attribute is set to 1 on the selector, set
             // a default handler for piwik:siteSelected that switches the current site
-            if (selector.attr('data-switch-site-on-select') == 1) {
-                selector.bind('piwik:siteSelected', function (e, site) {
+            // otherwise only update the input
+            selector.bind('piwik:siteSelected', function (e, site) {
+                if (1 == $(this).attr('data-switch-site-on-select')) {
                     if (piwik.idSite !== site.id) {
                         switchSite(site.id, site.name);
                     }
-                });
-            }
+                } else {
+                    $('input', this).val(site.id);
+                }
+            });
         });
     };
 });
