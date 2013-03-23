@@ -383,7 +383,6 @@ if (!this.JSON2) {
 /*global unescape */
 /*global ActiveXObject */
 /*global _paq:true */
-/*global Piwik_Overlay_Client */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift,
     createElement, appendChild, characterSet, charset,
@@ -420,9 +419,12 @@ if (!this.JSON2) {
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch,
     setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
-    addPlugin, getTracker, getAsyncTracker,
-    initialize
-*/
+    addPlugin, getTracker, getAsyncTracker
+ */
+/*global Piwik_Overlay_Client */
+/*members initialize */
+/*global define */
+/*members amd */
 var
     // asynchronous tracker (or proxy)
     _paq = _paq || [],
@@ -463,7 +465,10 @@ var
             asyncTracker,
 
             /* iterator */
-            i;
+            i,
+
+            /* local Piwik */
+            Piwik;
 
         /************************************************************
          * Private methods
@@ -2926,7 +2931,7 @@ var
          * Public data and methods
          ************************************************************/
 
-        return {
+        Piwik = {
             /**
              * Add plugin
              *
@@ -2957,6 +2962,13 @@ var
                 return asyncTracker;
             }
         };
+
+        // Expose Piwik as an AMD module
+        if (typeof define === 'function' && define.amd) {
+            define(['piwik'], [], function () { return Piwik; });
+        }
+
+        return Piwik;
     }()),
 
     /************************************************************
