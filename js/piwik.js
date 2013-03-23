@@ -408,7 +408,7 @@ if (!this.JSON2) {
     setCustomVariable, getCustomVariable, deleteCustomVariable,
     setDownloadExtensions, addDownloadExtensions,
     setDomains, setIgnoreClasses, setRequestMethod,
-    setReferrerUrl, setCustomUrl, setDocumentTitle,
+    setReferrerUrl, setCustomUrl, setAPIUrl, setDocumentTitle,
     setDownloadClasses, setLinkClasses,
     setCampaignNameKey, setCampaignKeywordKey,
     discardHashTag,
@@ -955,13 +955,14 @@ var
          ************************************************************/
 
         function getPiwikUrlForOverlay(trackerUrl, apiUrl) {
-			if (apiUrl) {
-				return apiUrl;
-			}
-			
+            if (apiUrl) {
+                return apiUrl;
+            }
+
             if (trackerUrl.slice(-9) === 'piwik.php') {
                 trackerUrl = trackerUrl.slice(0, trackerUrl.length - 9);
             }
+
             return trackerUrl;
         }
 
@@ -975,26 +976,26 @@ var
         function isOverlaySession(configTrackerSiteId) {
             var windowName = 'Piwik_Overlay';
 
-			// check whether we were redirected from the piwik overlay plugin
+            // check whether we were redirected from the piwik overlay plugin
             var referrerRegExp = new RegExp('index\\.php\\?module=Overlay&action=startOverlaySession'
-					+ '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
+                               + '&idsite=([0-9]+)&period=([^&]+)&date=([^&]+)$');
 
-			var match = referrerRegExp.exec(documentAlias.referrer);
-			
-			if (match) {
-				// check idsite
-				var idsite = match[1];
+            var match = referrerRegExp.exec(documentAlias.referrer);
 
-				if (idsite !== String(configTrackerSiteId)) {
-					return false;
-				}
+            if (match) {
+                // check idsite
+                var idsite = match[1];
 
-				// store overlay session info in window name
-				var period = match[2],
-					date = match[3];
+                if (idsite !== String(configTrackerSiteId)) {
+                    return false;
+                }
 
-				windowAlias.name = windowName + '###' + period + '###' + date;
-			}
+                // store overlay session info in window name
+                var period = match[2],
+                    date = match[3];
+
+                windowAlias.name = windowName + '###' + period + '###' + date;
+            }
 
             // retrieve and check data from window name
             var windowNameParts = windowAlias.name.split('###');
@@ -1012,7 +1013,7 @@ var
                 piwikUrl = getPiwikUrlForOverlay(configTrackerUrl, configApiUrl);
 
             loadScript(
-				piwikUrl + 'plugins/Overlay/client/client.js?v=1',
+                piwikUrl + 'plugins/Overlay/client/client.js?v=1',
                 function () {
                     Piwik_Overlay_Client.initialize(piwikUrl, configTrackerSiteId, period, date);
                 }
@@ -1055,9 +1056,9 @@ var
 
                 // Tracker URL
                 configTrackerUrl = trackerUrl || '',
-				
-				// API URL (only set if it differs from the Tracker URL)
-				configApiUrl = '',
+
+                // API URL (only set if it differs from the Tracker URL)
+                configApiUrl = '',
 
                 // This string is appended to the Tracker URL Request (eg. to send data that is not handled by the existin setters/getters)
                 configAppendToTrackingUrl = '',
@@ -2491,15 +2492,15 @@ var
                     configTitle = title;
                 },
 
-				/**
-				 * Set the URL of the Piwik API. It is used for Page Overlay.
-				 * This method should only be called when the API URL differs from the tracker URL.
-				 * 
-				 * @param string apiUrl
-				 */
-				setAPIUrl: function (apiUrl) {
-					configApiUrl = apiUrl;
-				},
+                /**
+                 * Set the URL of the Piwik API. It is used for Page Overlay.
+                 * This method should only be called when the API URL differs from the tracker URL.
+                 *
+                 * @param string apiUrl
+                 */
+                setAPIUrl: function (apiUrl) {
+                    configApiUrl = apiUrl;
+                },
 
                 /**
                  * Set array of classes to be treated as downloads
