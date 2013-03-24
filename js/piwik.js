@@ -955,9 +955,9 @@ if (typeof Piwik !== 'object') {
          * Title fixup
          */
         function titleFixup(title) {
-            if (!isString(title)) {
-                title = title.text || '';
+            title = title && title.text ? title.text : title;
 
+            if (!isString(title)) {
                 var tmp = documentAlias.getElementsByTagName('title');
 
                 if (tmp && isDefined(tmp[0])) {
