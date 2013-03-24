@@ -724,9 +724,9 @@ table.entityTable tr td a {
 }
 
 
-/* Piwik Tooltip (plugins/CoreHome/templates/tooltip.js) */
+/* Piwik Tooltips (plugins/CoreHome/templates/tooltip.js) */
 
-.piwik-tooltip {
+.ui-tooltip, .piwik-tooltip {
 	position: absolute;
 	z-index: 2000;
 	text-align: left;
@@ -743,13 +743,23 @@ table.entityTable tr td a {
 	-webkit-box-shadow: 1px 1px 2px #666;
 	box-shadow: 1px 1px 2px #666;
 	overflow: hidden;
+    max-width: 280px;
+   	min-width: 50px;
+    line-height: 14px;
+	left: -28000px;
+	top: -28000px;
+	display: none;
 }
 
-.piwik-tooltip .tip-title {
+.ui-tooltip h3, .piwik-tooltip .tip-title {
 	font-weight: bold;
 	color: #7E7363;
 }
 
+.ui-tooltip h3 {
+	font-size: 13px;
+	margin: 0 0 5px;
+}
 
 
 /* Popover */
