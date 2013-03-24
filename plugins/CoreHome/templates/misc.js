@@ -30,12 +30,22 @@ $(document).ready(function() {
 		}, 'get');
 		ajaxRequest.setCallback(function(response) {
 			headerMessage.fadeOut('slow', function() {
-				headerMessage.html(_pk_translate('CoreHome_YouAreUsingTheLatestVersion_js')).show();
-				setTimeout(function() {
-					headerMessage.fadeOut('slow', function() {
-						headerMessage.replaceWith(response);
-					});
-				}, 4000);
+				response = $(response);
+				
+				var newVersionAvailable = response.hasClass('header_alert');
+				if (newVersionAvailable)
+				{
+					headerMessage.replaceWith(response);
+				}
+				else
+				{
+					headerMessage.html(_pk_translate('CoreHome_YouAreUsingTheLatestVersion_js')).show();
+					setTimeout(function() {
+						headerMessage.fadeOut('slow', function() {
+							headerMessage.replaceWith(response);
+						});
+					}, 4000);
+				}
 			});
 		});
 		ajaxRequest.setFormat('html');
