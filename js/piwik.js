@@ -26,11 +26,12 @@
 
 /************************************************************
  * JSON - public domain reference implementation by Douglas Crockford
- * @link http://www.JSON.org/json2.js
+ * @version 2012-10-08
+ * @link http://www.JSON.org/js.html
  ************************************************************/
 /*jslint evil: true, regexp: false, bitwise: true */
-/*global JSON2 */
-/*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON2, "\\", apply,
+/*global JSON2:true */
+/*members "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join,
     lastIndex, length, parse, prototype, push, replace, slice, stringify,
@@ -41,12 +42,12 @@
 // Create a JSON object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
 
-if (!this.JSON2) {
-    this.JSON2 = {};
+if (typeof JSON2 !== 'object') {
+    JSON2 = {};
 }
 
 (function () {
-    "use strict";
+    'use strict';
 
     function f(n) {
         // Format integers to have at least two digits.
@@ -57,13 +58,14 @@ if (!this.JSON2) {
         var objectType = Object.prototype.toString.apply(value);
 
         if (objectType === '[object Date]') {
-            return isFinite(value.valueOf()) ?
-                    value.getUTCFullYear()     + '-' +
+            return isFinite(value.valueOf())
+                ?  value.getUTCFullYear()     + '-' +
                     f(value.getUTCMonth() + 1) + '-' +
                     f(value.getUTCDate())      + 'T' +
                     f(value.getUTCHours())     + ':' +
                     f(value.getUTCMinutes())   + ':' +
-                    f(value.getUTCSeconds())   + 'Z' : null;
+                    f(value.getUTCSeconds())   + 'Z'
+                : null;
         }
 
         if (objectType === '[object String]' ||
@@ -109,8 +111,9 @@ if (!this.JSON2) {
         return escapable.test(string) ? '"' + string.replace(escapable, function (a) {
             var c = meta[a];
 
-            return typeof c === 'string' ? c :
-                    '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+            return typeof c === 'string'
+                ? c
+                : '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
         }) + '"' : '"' + string + '"';
     }
 
@@ -192,9 +195,11 @@ if (!this.JSON2) {
 // Join all of the elements together, separated with commas, and wrap them in
 // brackets.
 
-                v = partial.length === 0 ? '[]' : gap ?
-                        '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']' :
-                        '[' + partial.join(',') + ']';
+                v = partial.length === 0
+                    ? '[]'
+                    : gap
+                    ?  '[\n' + gap + partial.join(',\n' + gap) + '\n' + mind + ']'
+                    : '[' + partial.join(',') + ']';
                 gap = mind;
 
                 return v;
@@ -232,9 +237,11 @@ if (!this.JSON2) {
 // Join all of the member texts together, separated with commas,
 // and wrap them in braces.
 
-            v = partial.length === 0 ? '{}' : gap ?
-                    '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}' :
-                    '{' + partial.join(',') + '}';
+            v = partial.length === 0
+                ? '{}'
+                : gap
+                ?  '{\n' + gap + partial.join(',\n' + gap) + '\n' + mind + '}'
+                : '{' + partial.join(',') + '}';
             gap = mind;
 
             return v;
@@ -278,7 +285,7 @@ if (!this.JSON2) {
             if (replacer && typeof replacer !== 'function' &&
                     (typeof replacer !== 'object' ||
                     typeof replacer.length !== 'number')) {
-                throw new Error('JSON.stringify');
+                throw new Error('JSON2.stringify');
             }
 
 // Make a fake root object containing our value under the key of ''.
@@ -364,13 +371,14 @@ if (!this.JSON2) {
 // In the optional fourth stage, we recursively walk the new structure, passing
 // each name/value pair to a reviver function for possible transformation.
 
-                return typeof reviver === 'function' ?
-                        walk({'': j}, '') : j;
+                return typeof reviver === 'function'
+                    ?  walk({'': j}, '')
+                    : j;
             }
 
 // If the text is not JSON parseable, then a SyntaxError is thrown.
 
-            throw new SyntaxError('JSON.parse');
+            throw new SyntaxError('JSON2.parse');
         };
     }
 }());
@@ -382,7 +390,6 @@ if (!this.JSON2) {
 /*global window */
 /*global unescape */
 /*global ActiveXObject */
-/*global _paq:true */
 /*members encodeURIComponent, decodeURIComponent, getElementsByTagName,
     shift, unshift,
     createElement, appendChild, characterSet, charset,
@@ -418,20 +425,26 @@ if (!this.JSON2) {
     addListener, enableLinkTracking, setLinkTrackingTimer,
     setHeartBeatTimer, killFrame, redirectFile, setCountPreRendered,
     trackGoal, trackLink, trackPageView, trackSiteSearch,
-    setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate,
-    addPlugin, getTracker, getAsyncTracker
+    setEcommerceView, addEcommerceItem, trackEcommerceOrder, trackEcommerceCartUpdate
  */
+/*global _paq:true */
+/*members push */
+/*global Piwik:true */
+/*members addPlugin, getTracker, getAsyncTracker */
 /*global Piwik_Overlay_Client */
 /*members initialize */
 /*global define */
 /*members amd */
-var
-    // asynchronous tracker (or proxy)
-    _paq = _paq || [],
 
-    // Piwik singleton and namespace
-    Piwik = Piwik || (function () {
-        "use strict";
+// asynchronous tracker (or proxy)
+if (typeof _paq !== 'object') {
+    _paq = [];
+}
+
+// Piwik singleton and namespace
+if (typeof Piwik !== 'object') {
+    Piwik = (function () {
+        'use strict';
 
         /************************************************************
          * Private data
@@ -1318,9 +1331,11 @@ var
                     // we use the progid Microsoft.XMLHTTP because
                     // IE5.5 included MSXML 2.5; the progid MSXML2.XMLHTTP
                     // is pinned to MSXML2.XMLHTTP.3.0
-                    var xhr = windowAlias.XMLHttpRequest ? new windowAlias.XMLHttpRequest() :
-                            windowAlias.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') :
-                                    null;
+                    var xhr = windowAlias.XMLHttpRequest
+                        ? new windowAlias.XMLHttpRequest()
+                        : windowAlias.ActiveXObject
+                        ? new ActiveXObject('Microsoft.XMLHTTP')
+                        : null;
 
                     xhr.open('POST', configTrackerUrl, true);
 
@@ -2969,31 +2984,33 @@ var
         }
 
         return Piwik;
-    }()),
+    }());
+}
 
-    /************************************************************
-     * Deprecated functionality below
-     * - for legacy piwik.js compatibility
-     ************************************************************/
+/************************************************************
+ * Deprecated functionality below
+ * - for legacy piwik.js compatibility
+ ************************************************************/
 
-    /*
-     * Piwik globals
-     *
-     *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
-     */
+/*
+ * Piwik globals
+ *
+ *   var piwik_install_tracker, piwik_tracker_pause, piwik_download_extensions, piwik_hosts_alias, piwik_ignore_classes;
+ */
+/*global piwik_log:true */
+/*global piwik_track:true */
 
-    piwik_track,
-
-    /**
-     * Track page visit
-     *
-     * @param string documentTitle
-     * @param int|string siteId
-     * @param string piwikUrl
-     * @param mixed customData
-     */
+/**
+ * Track page visit
+ *
+ * @param string documentTitle
+ * @param int|string siteId
+ * @param string piwikUrl
+ * @param mixed customData
+ */
+if (typeof piwik_log !== 'function') {
     piwik_log = function (documentTitle, siteId, piwikUrl, customData) {
-        "use strict";
+        'use strict';
 
         function getOption(optionName) {
             try {
@@ -3060,3 +3077,4 @@ var
             piwikTracker.enableLinkTracking();
         }
     };
+}
