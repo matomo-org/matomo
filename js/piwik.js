@@ -2345,7 +2345,7 @@ if (typeof Piwik !== 'object') {
                 /**
                  * Appends the specified query string to the piwik.php?... Tracking API URL
                  *
-                 * @param queryString eg. 'lat=140&long=100'
+                 * @param string queryString eg. 'lat=140&long=100'
                  */
                 appendToTrackingUrl: function (queryString) {
                     configAppendToTrackingUrl = queryString;
@@ -2353,7 +2353,7 @@ if (typeof Piwik !== 'object') {
 
                 /**
                  * Get custom data
-                 *skk
+                 *
                  * @return mixed
                  */
                 getCustomData: function () {
