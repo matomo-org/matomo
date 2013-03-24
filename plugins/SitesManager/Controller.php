@@ -170,7 +170,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 		$pattern = str_replace('%', '', $pattern);
 		if(!count($sites))
 		{
-			$results[] = array('label' => Piwik_Translate('SitesManager_NotFound')."&nbsp;<font class='autocompleteMatched'>$pattern</font>.", 'id' => '#');
+			$results[] = array('label' => Piwik_Translate('SitesManager_NotFound')."&nbsp;<span class='autocompleteMatched'>$pattern</span>.", 'id' => '#');
 		}
 		else
 		{
