@@ -636,7 +636,7 @@ table.dataTable .dataTableRowActions a img {
     height: 17px;
 }
 
-body .piwik-tooltip.rowActionTooltip {
+body .ui-tooltip.rowActionTooltip {
     font-size: 11px;
     padding: 3px 5px 3px 6px;
 }
