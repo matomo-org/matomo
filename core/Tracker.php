@@ -855,7 +855,7 @@ function Piwik_Tracker_ExitWithException($e, $authenticated = false)
 	
 	if(isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG'])
 	{
-		$trailer = '<font color="#888888">Backtrace:<br /><pre>'.$e->getTraceAsString().'</pre></font>';
+		$trailer = '<span style="color: #888888">Backtrace:<br /><pre>'.$e->getTraceAsString().'</pre></span>';
 		$headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
 		$footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
 		$headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
