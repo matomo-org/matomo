@@ -24,7 +24,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
  * JavaScript and CSS files.
  *
  * It performs the following actions:
- *    - Identifies required assets
+ *  - Identifies required assets
  *  - Includes assets in the rendered HTML page
  *  - Manages asset merging and minifying
  *  - Manages server-side cache
@@ -282,6 +282,7 @@ class Piwik_AssetManager
         $priorityJsOrdered = array(
             'libs/jquery/jquery.js',
             'libs/jquery/jquery-ui.js',
+            'libs/jquery/jquery.browser.js',
             'libs/',
             'themes/default/common.js',
             'themes/default/',

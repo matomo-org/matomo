@@ -72,6 +72,7 @@ class Piwik_CoreHome extends Piwik_Plugin
 
         $jsFiles[] = "libs/jquery/jquery.js";
         $jsFiles[] = "libs/jquery/jquery-ui.js";
+        $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
         $jsFiles[] = "libs/jquery/jquery.history.js";

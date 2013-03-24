@@ -168,7 +168,7 @@
 
     var self = $.extend({}, implementations.base);
 
-    if($.browser && $.browser.msie && ($.browser.version < 8 || document.documentMode < 8)) {
+    if($.browser.msie && ($.browser.version < 8 || document.documentMode < 8)) {
         self.type = 'iframeTimer';
     } else if("onhashchange" in window) {
         self.type = 'hashchangeEvent';
