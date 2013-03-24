@@ -188,9 +188,9 @@ class Piwik_AssetManager
     private static function sortCssFiles($cssFiles)
     {
         $priorityCssOrdered = array(
+            'libs/',
             'themes/default/common.css',
             'themes/default/',
-            'libs/',
             'plugins/',
         );
 
