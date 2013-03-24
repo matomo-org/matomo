@@ -133,7 +133,6 @@ JQPlot.prototype = {
 			if( dataTable.param.filter_sort_column != 'label' ) {
 				dataTable.param.filter_sort_column = columns[0];
 			}
-			dataTable.param.disable_generic_filters = '0';
 			dataTable.reloadAjaxDataTable(false);
 		});
 		
