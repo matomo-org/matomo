@@ -189,7 +189,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 					{
 						foreach ($matches[0] as $match)
 						{
-							$hl_name = str_replace($match, '<font class="autocompleteMatched">'.$match.'</font>', $s['name']);
+							$hl_name = str_replace($match, '<span class="autocompleteMatched">'.$match.'</span>', $s['name']);
 						}
 					}
 				}
