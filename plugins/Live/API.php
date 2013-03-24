@@ -65,7 +65,8 @@ class Piwik_Live_API
 		
 		$select = "count(*) as visits,
 				SUM(log_visit.visit_total_actions) as actions,
-				SUM(log_visit.visit_goal_converted) as visitsConverted";
+				SUM(log_visit.visit_goal_converted) as visitsConverted,
+				COUNT(DISTINCT log_visit.idvisitor) as visitors";
 		
 		$from = "log_visit";
 		

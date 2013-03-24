@@ -255,6 +255,11 @@ visitor_log_maximum_actions_per_visit = 500
 ; you can change the timeout so the widget refreshes more often, or not as frequently
 live_widget_refresh_after_seconds = 5
 
+; by default, the Live! real time visitor count widget will check to see how many visitors your
+; website received in the last 3 minutes. changing this value will change the number of minutes
+; the widget looks in.
+live_widget_visitor_count_last_minutes = 3
+
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
 ; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
 multisites_refresh_after_seconds = 300
