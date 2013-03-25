@@ -36,15 +36,17 @@ class Piwik_SEO_API
 	}
 	
 	/**
-	 * Get rank
+	 * Returns SEO statistics for a URL.
 	 *
-	 * @param string $url URL to request Ranks for
+	 * @param string $url URL to request SEO stats for
 	 * @return Piwik_DataTable
 	 */
 	public function getRank( $url )
 	{
 		Piwik::checkUserHasSomeViewAccess();
 		$rank = new Piwik_SEO_RankChecker($url);
+		
+		$linkToMajestic = Piwik_SEO_MajesticClient::getLinkForUrl($url);
 		
 		$data = array(
 			'Google PageRank' 	=> array(
@@ -71,6 +73,18 @@ class Piwik_SEO_API
 				'rank' => $rank->getAge(),
 				'logo' => 'plugins/SEO/images/whois.png',
 				'id'   => 'domain-age',
+			),
+			Piwik_Translate('SEO_ExternalBacklinks') => array(
+				'rank' => $rank->getExternalBacklinkCount(),
+				'logo' => 'plugins/SEO/images/majesticseo.png',
+				'logo_link' => $linkToMajestic,
+				'id'   => 'external-backlinks',
+			),
+			Piwik_Translate('SEO_ReferrerDomains') => array(
+				'rank' => $rank->getReferrerDomainCount(),
+				'logo' => 'plugins/SEO/images/majesticseo.png',
+				'logo_link' => $linkToMajestic,
+				'id'   => 'referrer-domains',
 			),
 		);
 

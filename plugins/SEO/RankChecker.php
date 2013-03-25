@@ -21,6 +21,7 @@
 class Piwik_SEO_RankChecker
 {
 	private $url;
+	private $majesticInfo = null;
 
 	public function __construct($url)
 	{
@@ -169,6 +170,28 @@ class Piwik_SEO_RankChecker
             return Piwik::getPrettyTimeFromSeconds(time() - $maxAge);
         }
         return false;
+    }
+    
+    /**
+     * Returns the number backlinks that link to the current site.
+     * 
+     * @return int
+     */
+    public function getExternalBacklinkCount()
+    {
+    	$majesticInfo = $this->getMajesticInfo();
+    	return $majesticInfo['backlink_count'];
+    }
+    
+    /**
+     * Returns the number of referrer domains that link to the current site.
+     * 
+     * @return int
+     */
+    public function getReferrerDomainCount()
+    {
+    	$majesticInfo = $this->getMajesticInfo();
+    	return $majesticInfo['referrer_domains_count'];
     }
 
     /**
@@ -331,5 +354,16 @@ class Piwik_SEO_RankChecker
 		}
 
 		return '7'.$CheckByte.$HashStr;
+	}
+	
+	private function getMajesticInfo()
+	{
+		if ($this->majesticInfo === null)
+		{
+			$client = new Piwik_SEO_MajesticClient();
+			$this->majesticInfo = $client->getBacklinkStats($this->url);
+		}
+		
+		return $this->majesticInfo;
 	}
 }
