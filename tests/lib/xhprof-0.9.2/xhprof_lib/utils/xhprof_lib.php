@@ -829,6 +829,10 @@ function xhprof_param_init($params) {
       exit();
     }
 
+    if ($k === 'run') {
+      $p = implode(',', array_filter(explode(',', $p), 'is_numeric'));
+    }
+
     // create a global variable using the parameter name.
     $GLOBALS[$k] = $p;
   }
