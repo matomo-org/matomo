@@ -78,12 +78,14 @@ class Piwik_SEO_API
 				'rank' => $rank->getExternalBacklinkCount(),
 				'logo' => 'plugins/SEO/images/majesticseo.png',
 				'logo_link' => $linkToMajestic,
+				'logo_tooltip' => Piwik_Translate('SEO_ViewBacklinksOnMajesticSEO'),
 				'id'   => 'external-backlinks',
 			),
 			Piwik_Translate('SEO_ReferrerDomains') => array(
 				'rank' => $rank->getReferrerDomainCount(),
 				'logo' => 'plugins/SEO/images/majesticseo.png',
 				'logo_link' => $linkToMajestic,
+				'logo_tooltip' => Piwik_Translate('SEO_ViewBacklinksOnMajesticSEO'),
 				'id'   => 'referrer-domains',
 			),
 		);

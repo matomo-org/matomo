@@ -23,7 +23,7 @@
 	   			<table cellspacing='2' style='margin:auto;line-height:1.5em;padding-top:10px'>
 	   			{foreach from=$ranks item=rank}
 	   			<tr>
-	   				<td>{if !empty($rank.logo_link)}<a href="{$rank.logo_link}" target="_blank">{/if}<img style='vertical-align:middle;margin-right:6px;' src='{$rank.logo}' border='0' alt="{$rank.label}">{if !empty($rank.logo_link)}</a>{/if} {$rank.label}
+	   				<td>{if !empty($rank.logo_link)}<a href="{$rank.logo_link}" target="_blank" {if !empty($rank.logo_tooltip)}title="{$rank.logo_tooltip}"{/if}>{/if}<img style='vertical-align:middle;margin-right:6px;' src='{$rank.logo}' border='0' alt="{$rank.label}">{if !empty($rank.logo_link)}</a>{/if} {$rank.label}
 	   				</td><td>
 	   					<div style='margin-left:15px'>
 		   					{if isset($rank.rank)}{$rank.rank}{else}-{/if}
