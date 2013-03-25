@@ -521,8 +521,9 @@ abstract class Piwik_Controller
 			$invalidUrl = Piwik_Url::getCurrentUrlWithoutQueryString($checkIfTrusted = false);
 			$validUrl = Piwik_Url::getCurrentScheme() . '://' . $validHost
 					  . Piwik_Url::getCurrentScriptName();
+            $invalidUrl = Piwik_Common::sanitizeInputValue($invalidUrl);
+            $validUrl = Piwik_Common::sanitizeInputValue($validUrl);
 
-			$validLink = "<a href=\"$validUrl\">$validUrl</a>";
 			$changeTrustedHostsUrl = "index.php"
 				. Piwik_Url::getCurrentQueryStringWithParametersModified(array(
 					'module' => 'CoreAdminHome',
