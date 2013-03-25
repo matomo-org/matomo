@@ -7,7 +7,7 @@
 <meta name="generator" content="Piwik - Open Source Web Analytics" />
 <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico" />
 
-{loadJavascriptTranslations plugins='CoreAdminHome'}
+{loadJavascriptTranslations plugins='CoreAdminHome CoreHome'}
 
 {include file="CoreHome/templates/js_global_variables.tpl"}
 {include file="CoreHome/templates/js_css_includes.tpl"}
