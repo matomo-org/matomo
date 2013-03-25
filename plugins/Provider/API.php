@@ -39,7 +39,7 @@ class Piwik_Provider_API
 		$dataTable = $archive->getDataTable('Provider_hostnameExt');
 		$dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
 		$dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));
-		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getHostnameName'));
+		$dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_Provider_getPrettyProviderName'));
 		$dataTable->queueFilter('ReplaceColumnNames');
 		$dataTable->queueFilter('ReplaceSummaryRowLabel');
 		return $dataTable;
