@@ -1,6 +1,6 @@
 # Piwik - piwik.org   
 
-## Description 
+## Description
 
 Piwik is the leading Free/Libre open source Web Analytics software.
 
