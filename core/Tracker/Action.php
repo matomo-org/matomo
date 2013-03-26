@@ -61,6 +61,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	private $searchCategory = false;
 	private $searchCount = false;
 	
+	private $timeGeneration = false;
+	
 	/**
 	 * Encoding of HTML page being viewed. See reencodeParameters for more info.
 	 * 
@@ -80,6 +82,10 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	const PARAMETER_NAME_SEARCH_COUNT = 'search_count';
 	const PARAMETER_NAME_SEARCH_CATEGORY = 'search_cat';
 	const PARAMETER_NAME_SEARCH_KEYWORD = 'search';
+	
+	/* Custom Variables names & slots plus Tracking API Parameters for performance analytics */
+	const DB_COLUMN_TIME_GENERATION = 'custom_float_1';
+	const PARAMETER_NAME_TIME_GENERATION = 'generation_time_ms';
 
 	/**
 	 * Map URL prefixes to integers.
@@ -408,7 +414,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
 		$parametersToExclude = array_merge($excludedParameters,
 			self::$queryParametersToExclude,
-			$campaignTrackingParameters);
+			$campaignTrackingParameters,
+			array(self::PARAMETER_NAME_TIME_GENERATION));
 
 		$parametersToExclude = array_map('strtolower', $parametersToExclude);
 		return $parametersToExclude;
@@ -701,6 +708,11 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 			'idaction_name_ref' => $idRefererActionName, 
 			'time_spent_ref_action' => $timeSpentRefererAction
 		);
+		 
+		if (!empty($this->timeGeneration)) {
+			$insert[self::DB_COLUMN_TIME_GENERATION] = (int)$this->timeGeneration;
+		}
+		 
 		$customVariables = $this->getCustomVariables();
 
 		$insert = array_merge($insert, $customVariables);
@@ -744,7 +756,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 	{
 		$customVariables = Piwik_Tracker_Visit::getCustomVariables($scope = 'page', $this->request);
 
-		// Enrich Site Search actions with Custom Variables, overwritting existing values
+		// Enrich Site Search actions with Custom Variables, overwriting existing values
 		if (!empty($this->searchCategory)) {
 			if (!empty($customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_CATEGORY])) {
 				printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_CATEGORY . " for this page view");
@@ -851,6 +863,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 				$actionType = self::TYPE_SITE_SEARCH;
 				list($actionName, $url) = $siteSearch;
 			}
+			// Look for performance analytics parameters
+			$this->detectPerformanceAnalyticsParameters();
 		}
 		$actionName = self::cleanupString($actionName);
 
@@ -1025,6 +1039,14 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 		}
 		$categoryName = trim(urldecode($categoryName));
 		return array($url, $actionName, $categoryName, $count);
+	}
+	
+	protected function detectPerformanceAnalyticsParameters()
+	{
+		$generationTime = Piwik_Common::getRequestVar(self::PARAMETER_NAME_TIME_GENERATION, -1, 'int', $this->request);
+		if ($generationTime > 0) {
+			$this->timeGeneration = $generationTime;
+		}
 	}
 
 	/**

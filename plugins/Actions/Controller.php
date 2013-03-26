@@ -49,7 +49,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
 
 	protected function configureViewPages($view)
 	{
-		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate') );
+		$view->setColumnsToDisplay( array('label','nb_hits','nb_visits', 'bounce_rate', 'avg_time_on_page', 'exit_rate', 'avg_time_generation') );
 	}
 
 	/**
@@ -386,7 +386,10 @@ class Piwik_Actions_Controller extends Piwik_Controller
 			$view->setColumnTranslation('avg_time_on_page', Piwik_Translate('General_ColumnAverageTimeOnPage'));
 			$view->setColumnTranslation('bounce_rate', Piwik_Translate('General_ColumnBounceRate'));
 			$view->setColumnTranslation('exit_rate', Piwik_Translate('General_ColumnExitRate'));
+			$view->setColumnTranslation('avg_time_generation', Piwik_Translate('General_ColumnAverageGenerationTime'));
 			$view->queueFilter('ColumnCallbackReplace', array('avg_time_on_page', array('Piwik', 'getPrettyTimeFromSeconds')));
+			$view->queueFilter('ColumnCallbackReplace', array('avg_time_generation', 
+				create_function('$averageTimeOnSite', 'return $averageTimeOnSite ? Piwik::getPrettyTimeFromSeconds($averageTimeOnSite, true, true, false) : "-";')));
 		}
 
 		if(Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string' ) != '0')

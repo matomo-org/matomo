@@ -245,8 +245,8 @@ class Piwik_Actions_API
 	{
 		$callBackParameters = array('Actions_actions', $idSite, $period, $date, $segment, $expanded = false, $idSubtable = false );
 		$dataTable = $this->getFilterPageDatatableSearch($callBackParameters, $pageName, Piwik_Tracker_Action::TYPE_ACTION_NAME);
-		$this->filterActionsDataTable($dataTable);
 		$this->filterPageDatatable($dataTable);
+		$this->filterActionsDataTable($dataTable);
 		return $dataTable;
 	}
 	
@@ -496,6 +496,26 @@ class Piwik_Actions_API
 		
 		// % Exit = Number of visits that finished on this page / visits on this page
 		$dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_visits', 0));
+		
+		// Handle performance analytics
+		$hasTimeGeneration = (array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)) > 0);
+		if ($hasTimeGeneration) {
+			// Average generation time = total generation time / number of pageviews
+			$dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_time_generation', 'sum_time_generation', 'nb_hits_with_time_generation', 3));
+		} else {
+			// No generation time: remove it from the API output and add it to empty_columns metadata, so that
+			// the columns can also be removed from the view
+			$dataTable->filter('ColumnDelete', array(array(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION, Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION)));			
+			if ($dataTable instanceof Piwik_DataTable) {			
+				$emptyColumns = $dataTable->getMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+				if (!is_array($emptyColumns)) {
+					$emptyColumns = array();
+				}
+				$emptyColumns[] = 'sum_time_generation';
+				$emptyColumns[] = 'avg_time_generation';
+				$dataTable->setMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME, $emptyColumns);
+			}
+		}
 	}
 	
 	/**

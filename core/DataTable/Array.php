@@ -230,6 +230,25 @@ class Piwik_DataTable_Array
 			$table->deleteColumn($column);
 		}
 	}
+	
+	/**
+	 * Returns the array containing all rows values in all data tables for the requested column
+	 *
+	 * @param string  $name
+	 * @return array
+	 */
+	public function getColumn( $name )
+	{
+		$values = array();
+		foreach($this->array as $table)
+		{
+			$moreValues = $table->getColumn($name);
+			foreach ($moreValues as &$value) {
+				$values[] = $value;
+			}
+		}
+		return $values;
+	}
 
 	/**
 	 * Merges the rows of every child DataTable into a new DataTable and

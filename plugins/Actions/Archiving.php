@@ -115,7 +115,19 @@ class Piwik_Actions_Archiving
 				log_action.url_prefix,
 				count(distinct log_link_visit_action.idvisit) as `" . Piwik_Archive::INDEX_NB_VISITS . "`,
 				count(distinct log_link_visit_action.idvisitor) as `" . Piwik_Archive::INDEX_NB_UNIQ_VISITORS . "`,
-				count(*) as `" . Piwik_Archive::INDEX_PAGE_NB_HITS . "`";
+				count(*) as `" . Piwik_Archive::INDEX_PAGE_NB_HITS . "`,
+				sum(
+					case when " . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION ." is null 
+						then 0 
+						else " . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION ."
+					end
+				) / 1000 as `" . Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION . "`,
+				sum(
+					case when " . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION ." is null 
+						then 0
+						else 1
+					end
+				) as `" . Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION . "`";
 
 		$from = array(
 			"log_link_visit_action",
@@ -146,6 +158,8 @@ class Piwik_Actions_Archiving
 				$rankingQuery->addColumn(Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT, 'min');
 				$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS, 'sum');
 			}
+			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION, 'sum');
+			$rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION, 'sum');
 			$rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
 		}
 

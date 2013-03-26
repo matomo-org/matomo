@@ -870,6 +870,8 @@ class Piwik_API_API
 			// Process each Piwik_DataTable_Simple entry
 			foreach($dataTable->getArray() as $label => $simpleDataTable)
 			{
+				$this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
+				
 				list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics);
 				$enhancedSimpleDataTable->metadata = $simpleDataTable->metadata;
 
@@ -880,6 +882,7 @@ class Piwik_API_API
 		}
 		else
 		{
+			$this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
 			list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics);
 		}
 
@@ -890,15 +893,42 @@ class Piwik_API_API
     	);
     }
 
-    /**
+	/**
+	 * Removes metrics from the list of columns and the report meta data if they are marked empty
+	 * in the data table meta data.
+	 */
+	private function removeEmptyColumns( &$columns, &$reportMetadata, $dataTable )
+	{
+		$emptyColumns = $dataTable->getMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+		
+		if (!is_array($emptyColumns))
+		{
+			return;
+		}
+						
+		$columns = $this->hideShowMetrics($columns, $emptyColumns);
+		
+		if (isset($reportMetadata['metrics']))
+		{
+			$reportMetadata['metrics'] = $this->hideShowMetrics($reportMetadata['metrics'], $emptyColumns);
+		}
+		
+		if (isset($reportMetadata['metricsDocumentation']))
+		{
+			$reportMetadata['metricsDocumentation'] = $this->hideShowMetrics($reportMetadata['metricsDocumentation'], $emptyColumns);
+		}
+	}
+
+	/**
      * Removes column names from an array based on the values in the hideColumns,
      * showColumns query parameters. This is a hack that provides the ColumnDelete
      * filter functionality in processed reports.
      *
      * @param array $columns List of metrics shown in a processed report.
+	 * @param array $emptyColumns Empty columns from the data table meta data.
      * @return array Filtered list of metrics.
      */
-    private function hideShowMetrics( $columns )
+    private function hideShowMetrics( $columns, $emptyColumns = array() )
     {
     	if (!is_array($columns))
     	{
@@ -937,6 +967,18 @@ class Piwik_API_API
     			}
     		}
     	}
+		
+		// remove empty columns
+		if (is_array($emptyColumns))
+		{
+			foreach ($emptyColumns as $column)
+			{
+				if (isset($columns[$column]))
+				{
+					unset($columns[$column]);
+				}
+			}
+		}
 
     	return $columns;
     }

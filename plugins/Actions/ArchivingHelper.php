@@ -122,7 +122,18 @@ class Piwik_Actions_ArchivingHelper
 					$actionRow->maxVisitsSummed = !empty($row[Piwik_Archive::INDEX_PAGE_NB_HITS]) ? $row[Piwik_Archive::INDEX_PAGE_NB_HITS] : 0;
 				}
 			}
-
+			
+			if ($row['type'] != Piwik_Tracker_Action::TYPE_ACTION_URL
+				&& $row['type'] != Piwik_Tracker_Action::TYPE_ACTION_NAME) {
+				// only keep performance metrics when they're used (i.e. for URLs and page titles)
+				if (array_key_exists(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION, $row)) {
+					unset($row[Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION]);
+				}
+				if (array_key_exists(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION, $row)) {
+					unset($row[Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION]);
+				}
+			}
+			
 			unset($row['name']);
 			unset($row['type']);
 			unset($row['idaction']);

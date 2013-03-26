@@ -1979,6 +1979,13 @@ actionDataTable.prototype =
 		self.parentId = idToReplace;
 		
 		$('tr#'+idToReplace).after( response ).remove();
+		
+		var missingColumns = (response.prev().find('td').size() - response.find('td').size());
+		for (var i = 0; i < missingColumns; i++) {
+			// if the subtable has fewer columns than the parent table, add some columns.
+			// this happens for example, when the parent table has performance metrics and the subtable doesn't.
+			response.append('<td>-</td>');
+		}
 			
 		var re = /subDataTable_(\d+)/;
 		ok = re.exec(self.parentId);

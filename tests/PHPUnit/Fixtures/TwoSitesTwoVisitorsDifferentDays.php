@@ -69,11 +69,13 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $visitorA->setUrlReferrer('http://referer.com/page.htm?param=valuewith some spaces');
         $visitorA->setUrl('http://example.org/index.htm#ignoredFragment');
         $visitorA->DEBUG_APPEND_URL = '&_idts=' . Piwik_Date::factory($datetimeSpanOverTwoDays)->getTimestamp();
+		$visitorA->setGenerationTime(123);
         self::checkResponse($visitorA->doTrackPageView('first page view'));
 
         $visitorA->setForceVisitDateTime(Piwik_Date::factory($datetimeSpanOverTwoDays)->addHour(0.1)->getDatetime());
         // testing with empty URL and empty page title
         $visitorA->setUrl('  ');
+		$visitorA->setGenerationTime(223);
         self::checkResponse($visitorA->doTrackPageView('  '));
 
         // -
@@ -88,6 +90,7 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $visitorB->setUserAgent('Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1');
         $visitorB->setUrl('http://example.org/products');
         $visitorB->DEBUG_APPEND_URL = '&_idts=' . Piwik_Date::factory($dateTime)->addHour(1)->getTimestamp();
+		$visitorB->setGenerationTime(153);
         self::assertTrue($visitorB->doTrackPageView('first page view'));
 
         // -
@@ -99,10 +102,12 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
 
         $visitorB->setUrlReferrer('http://referer.com/Other_Page.htm');
         $visitorB->setUrl('http://example.org/index.htm');
+		$visitorB->setGenerationTime(323);
         self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/a new visit'));
         // Second page view 6 minutes later
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.1)->getDatetime());
         $visitorB->setUrl('http://example.org/thankyou');
+		$visitorB->setGenerationTime(173);
         self::assertTrue($visitorB->doTrackPageView('second visitor/two days later/second page view'));
 
         // testing a strange combination causing an error in r3767
@@ -113,6 +118,7 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
 
         // Actions.getPageTitle tested with this title
         $visitorB->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(48)->addHour(0.25)->getDatetime());
+		$visitorB->setGenerationTime(452);
         self::assertTrue($visitorB->doTrackPageView('Checkout / Purchasing...'));
         self::checkResponse($visitorB->doBulkTrack());
 
@@ -123,10 +129,12 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         $visitorAsite2->setUrlReferrer('http://only-homepage-referer.com/');
         $visitorAsite2->setUrl('http://example2.com/home#notIgnoredFragment#');
         $visitorAsite2->DEBUG_APPEND_URL = '&_idts=' . Piwik_Date::factory($dateTime)->addHour(24)->getTimestamp();
+		$visitorAsite2->setGenerationTime(193);
         self::checkResponse($visitorAsite2->doTrackPageView('Website 2 page view'));
         // test with invalid URL
         $visitorAsite2->setUrl('this is invalid url');
         // and an empty title
+		$visitorAsite2->setGenerationTime(203);
         self::checkResponse($visitorAsite2->doTrackPageView(''));
     }
 }

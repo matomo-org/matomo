@@ -77,6 +77,10 @@ abstract class Piwik_Archive
 	// Site Search
 	const INDEX_SITE_SEARCH_HAS_NO_RESULT = 28;
 	const INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS = 29;
+	
+	// Performance Analytics
+	const INDEX_PAGE_SUM_TIME_GENERATION = 30;
+	const INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION = 31;
 
 	// Goal reports
 	const INDEX_GOAL_NB_CONVERSIONS = 1;
@@ -105,6 +109,8 @@ abstract class Piwik_Archive
 				// Actions metrics
 				Piwik_Archive::INDEX_PAGE_NB_HITS => 'nb_hits',
 				Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT => 'sum_time_spent',
+				Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION => 'sum_time_generation',
+				Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION => 'nb_hits_with_time_generation',
 				
 				Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS => 'exit_nb_uniq_visitors',
 				Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS => 'exit_nb_visits',

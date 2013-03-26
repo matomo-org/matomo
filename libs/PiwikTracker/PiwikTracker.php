@@ -85,6 +85,7 @@ class PiwikTracker
     	$this->attributionInfo = false;
     	$this->ecommerceLastOrderTimestamp = false;
     	$this->ecommerceItems = array();
+		$this->generationTime = false;
 
     	$this->requestCookie = '';
     	$this->idSite = $idSite;
@@ -138,8 +139,18 @@ class PiwikTracker
     {
     	$this->urlReferrer = $url;
     }
-    
-    /**
+
+	/**
+	 * Sets the time that generating the document on the server side took.
+	 *
+	 * @param int $timeMs Generation time in ms 
+	 */
+	public function setGenerationTime( $timeMs )
+	{
+		$this->generationTime = $timeMs;
+	}
+
+	/**
      * @deprecated 
      * @ignore
      */
@@ -1095,6 +1106,7 @@ class PiwikTracker
 	        (!empty($this->customData) ? '&data=' . $this->customData : '') . 
 	        (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '') .
 	        (!empty($this->pageCustomVar) ? '&cvar=' . urlencode(json_encode($this->pageCustomVar)) : '') .
+			(!empty($this->generationTime) ? '&generation_time_ms=' . ((int)$this->generationTime) : '') .
 	        
 	        // URL parameters
 	        '&url=' . urlencode($this->pageUrl) .

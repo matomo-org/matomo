@@ -1537,19 +1537,25 @@ class Piwik
 	 * @param int   $numberOfSeconds
 	 * @param bool  $displayTimeAsSentence  If set to true, will output "5min 17s", if false "00:05:17"
 	 * @param bool  $isHtml
+	 * @param bool  $round to the full seconds
 	 * @return string
 	 */
-	static public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $isHtml = true)
+	static public function getPrettyTimeFromSeconds($numberOfSeconds, $displayTimeAsSentence = true, $isHtml = true, $round = false)
 	{
-		$numberOfSeconds = (int)$numberOfSeconds;
+		$numberOfSeconds = $round ? (int)$numberOfSeconds : (float)$numberOfSeconds;
 
 		// Display 01:45:17 time format
 		if($displayTimeAsSentence === false)
 		{
 			$hours = floor( $numberOfSeconds / 3600);
 			$minutes = floor( ($reminder = ($numberOfSeconds - $hours * 3600)) / 60 );
-			$seconds = $reminder - $minutes * 60;
-			return sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) .':'. sprintf("%02s", $seconds);
+			$seconds = floor( $reminder - $minutes * 60 );
+			$time = sprintf("%02s", $hours) . ':' . sprintf("%02s", $minutes) .':'. sprintf("%02s", $seconds);
+			$milliSeconds = ($numberOfSeconds * 1000) % 1000;
+			if ($milliSeconds) {
+				$time .= '.' . $milliSeconds;
+			}
+			return $time;
 		}
 		$secondsInYear = 86400 * 365.25;
 		$years = floor($numberOfSeconds / $secondsInYear);

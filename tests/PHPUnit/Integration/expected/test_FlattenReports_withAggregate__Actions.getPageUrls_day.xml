@@ -5,6 +5,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>1.8</sum_time_generation>
+		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>2</entry_sum_visit_length>
@@ -13,6 +15,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
+		<avg_time_generation>0.3</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -20,6 +23,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>1.8</sum_time_generation>
+		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>2</entry_sum_visit_length>
@@ -28,6 +33,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
+		<avg_time_generation>0.3</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -35,6 +41,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>1.8</sum_time_generation>
+		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>2</entry_sum_visit_length>
@@ -43,6 +51,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
+		<avg_time_generation>0.3</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -51,6 +60,8 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>0.3</sum_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<entry_nb_uniq_visitors>2</entry_nb_uniq_visitors>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
@@ -59,6 +70,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0.15</avg_time_generation>
 		<url>http://example.org/dir1/sub/dir/page0.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>
@@ -68,9 +80,12 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>0.6</sum_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0.3</avg_time_generation>
 		<url>http://example.org/dir1/sub/dir/page1.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>
@@ -80,11 +95,14 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>0.9</sum_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0.45</avg_time_generation>
 		<url>http://example.org/dir1/sub/dir/page2.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>
@@ -93,6 +111,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>3.6</sum_time_generation>
+		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>2</entry_sum_visit_length>
@@ -101,6 +121,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
+		<avg_time_generation>0.6</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -108,6 +129,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>3.6</sum_time_generation>
+		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>2</entry_sum_visit_length>
@@ -116,6 +139,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
+		<avg_time_generation>0.6</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -123,6 +147,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>3.6</sum_time_generation>
+		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>2</entry_sum_visit_length>
@@ -131,6 +157,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
+		<avg_time_generation>0.6</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -139,6 +166,8 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>0.6</sum_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<entry_nb_uniq_visitors>2</entry_nb_uniq_visitors>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
@@ -147,6 +176,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0.3</avg_time_generation>
 		<url>http://example.org/dir2/sub/dir/page0.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>
@@ -156,9 +186,12 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>1.2</sum_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0.6</avg_time_generation>
 		<url>http://example.org/dir2/sub/dir/page1.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>
@@ -168,11 +201,14 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>1.8</sum_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>0.9</avg_time_generation>
 		<url>http://example.org/dir2/sub/dir/page2.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>
@@ -181,6 +217,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>5.4</sum_time_generation>
+		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>2</entry_sum_visit_length>
@@ -189,6 +227,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
+		<avg_time_generation>0.9</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -196,6 +235,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>5.4</sum_time_generation>
+		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>2</entry_sum_visit_length>
@@ -204,6 +245,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
+		<avg_time_generation>0.9</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -211,6 +253,8 @@
 		<nb_visits>6</nb_visits>
 		<nb_hits>6</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>5.4</sum_time_generation>
+		<nb_hits_with_time_generation>6</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
 		<entry_sum_visit_length>2</entry_sum_visit_length>
@@ -219,6 +263,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>33%</exit_rate>
+		<avg_time_generation>0.9</avg_time_generation>
 		<is_aggregate>1</is_aggregate>
 	</row>
 	<row>
@@ -227,6 +272,8 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>0.9</sum_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<entry_nb_uniq_visitors>2</entry_nb_uniq_visitors>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
@@ -235,6 +282,7 @@
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0.45</avg_time_generation>
 		<url>http://example.org/dir3/sub/dir/page0.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>
@@ -244,9 +292,12 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>1.8</sum_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
+		<avg_time_generation>0.9</avg_time_generation>
 		<url>http://example.org/dir3/sub/dir/page1.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>
@@ -256,11 +307,14 @@
 		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
+		<sum_time_generation>2.7</sum_time_generation>
+		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<exit_nb_uniq_visitors>2</exit_nb_uniq_visitors>
 		<exit_nb_visits>2</exit_nb_visits>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
+		<avg_time_generation>1.35</avg_time_generation>
 		<url>http://example.org/dir3/sub/dir/page2.html</url>
 		<is_aggregate>0</is_aggregate>
 	</row>

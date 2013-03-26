@@ -216,7 +216,8 @@ class Piwik_Actions extends Piwik_Plugin
 			'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
 			'bounce_rate' => Piwik_Translate('General_ColumnBounceRate'),
 			'avg_time_on_page' => Piwik_Translate('General_ColumnAverageTimeOnPage'),
-			'exit_rate' => Piwik_Translate('General_ColumnExitRate')
+			'exit_rate' => Piwik_Translate('General_ColumnExitRate'),
+			'avg_time_generation' => Piwik_Translate('General_ColumnAverageGenerationTime')
 		);
 		
 		$documentation = array(
@@ -224,7 +225,8 @@ class Piwik_Actions extends Piwik_Plugin
 			'nb_visits' => Piwik_Translate('General_ColumnUniquePageviewsDocumentation'),
 			'bounce_rate' => Piwik_Translate('General_ColumnPageBounceRateDocumentation'),
 			'avg_time_on_page' => Piwik_Translate('General_ColumnAverageTimeOnPageDocumentation'),
-			'exit_rate' => Piwik_Translate('General_ColumnExitRateDocumentation')
+			'exit_rate' => Piwik_Translate('General_ColumnExitRateDocumentation'),
+			'avg_time_generation' => Piwik_Translate('General_ColumnAverageGenerationTimeDocumentation'),
 		);
 		
 		// pages report

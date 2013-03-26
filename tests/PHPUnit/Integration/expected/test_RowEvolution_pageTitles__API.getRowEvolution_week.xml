@@ -9,6 +9,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>2.95</avg_time_generation>
 			</row>
 		</result>
 		<result date="From 2010-02-08 to 2010-02-14">
@@ -18,6 +19,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>2.35</avg_time_generation>
 			</row>
 		</result>
 		<result date="From 2010-02-15 to 2010-02-21">
@@ -27,6 +29,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>1.75</avg_time_generation>
 			</row>
 		</result>
 		<result date="From 2010-02-22 to 2010-02-28">
@@ -36,6 +39,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>1</avg_time_generation>
 			</row>
 		</result>
 		<result date="From 2010-03-01 to 2010-03-07">
@@ -45,6 +49,7 @@
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.25</avg_time_generation>
 			</row>
 		</result>
 	</reportData>
@@ -77,6 +82,12 @@
 				<max>100</max>
 				<change>0%</change>
 			</exit_rate>
+			<avg_time_generation>
+				<name>Avg. generation time</name>
+				<min>0.25</min>
+				<max>2.95</max>
+				<change>-92%</change>
+			</avg_time_generation>
 		</metrics>
 		<dimension>Page Name</dimension>
 	</metadata>

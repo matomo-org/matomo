@@ -4,7 +4,7 @@
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+ */#
 
 /**
  * Adds one site and tracks 13 visits all with custom variables and referrer URLs
@@ -45,6 +45,7 @@ class Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars extends Test
                 for ($page = 0; $page < 3; $page++) {
                     $t->setUrl('http://example.org/dir' . $referrerSite . '/sub/dir/page' . $page . '.html');
                     $t->setCustomVariable(1, 'CustomVarPage', 'CustomVarValue' . $page, 'page');
+					$t->setGenerationTime($referrerPage * $referrerSite * ($page + 1) * 100);
                     self::checkResponse($t->doTrackPageView('title'));
                 }
             }

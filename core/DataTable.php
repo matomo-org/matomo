@@ -140,6 +140,8 @@ class Piwik_DataTable
 	/** Name for metadata that describes when a report was archived. */
 	const ARCHIVED_DATE_METADATA_NAME = 'archived_date';
 	const MAX_DEPTH_DEFAULT = 15;
+	/** Name for metadata that describes which columns are empty and should not be shown. */
+	const EMPTY_COLUMNS_METADATA_NAME = 'empty_column';
 
 	/**
 	 * Maximum nesting level.

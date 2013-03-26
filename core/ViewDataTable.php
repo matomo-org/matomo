@@ -1262,6 +1262,7 @@ abstract class Piwik_ViewDataTable
 	/**
 	 * Returns columns names to display, in order.
 	 * If no columns were specified to be displayed, return all columns found in the first row.
+	 * If the data table has empty_columns meta data set, those columns will be removed.
 	 * @param array PHP array conversion of the data table
 	 * @return array
 	 */
@@ -1279,6 +1280,21 @@ abstract class Piwik_ViewDataTable
 		}
 
 		$this->columnsToDisplay = array_filter($this->columnsToDisplay);
+		
+		$emptyColumns = $this->dataTable->getMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+		if (is_array($emptyColumns))
+		{
+			foreach ($emptyColumns as $emptyColumn)
+			{
+				$key = array_search($emptyColumn, $this->columnsToDisplay);
+				if ($key !== false)
+				{
+					unset($this->columnsToDisplay[$key]);
+				}
+			}
+			$this->columnsToDisplay = array_values($this->columnsToDisplay);
+		}
+		
 		return $this->columnsToDisplay;
 	}
 	

@@ -107,7 +107,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 												  'apiAction' => 'getPageTitles', 'testSuffix' => '_hideColumns_',
 												  'otherRequestParameters' => array(
 												  	'hideColumns' => 'nb_visits_converted,xyzaug,entry_nb_visits,'.
-												  		'bounce_rate,nb_hits,nb_visits,avg_time_on_page'
+												  		'bounce_rate,nb_hits,nb_visits,avg_time_on_page,avg_time_generation'
 												  ))),
 			
 			array('API.getProcessedReport', array('idSite' => $idSite, 'date' => $dateTime,
@@ -132,7 +132,8 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 												  	'hideColumns' => 'nb_visits_converted,entry_nb_visits,'.
 												  		'bounce_rate,nb_hits,nb_visits,sum_time_spent,'.
 												  		'entry_sum_visit_length,entry_bounce_count,exit_nb_visits,'.
-												  		'entry_nb_uniq_visitors,exit_nb_uniq_visitors,entry_nb_actions',
+												  		'entry_nb_uniq_visitors,exit_nb_uniq_visitors,entry_nb_actions,'.
+												  		'avg_time_generation',
 												  	'expanded' => '1'
 												 ))),
         );

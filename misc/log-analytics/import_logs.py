@@ -1153,6 +1153,8 @@ class Recorder(object):
                 urllib.quote(args['url'], ''),
                 ("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] != ''  else '')
             )
+        if hit.generation_time_milli > 0:
+            args['generation_time_ms'] = hit.generation_time_milli
         return args
 
     def _record_hits(self, hits):
@@ -1435,6 +1437,11 @@ class Parser(object):
             except (ValueError, IndexError):
                 # Some lines or formats don't have a length (e.g. 304 redirects, IIS logs)
                 hit.length = 0
+                
+            try:
+			    hit.generation_time_milli = int(match.group('generation_time_micro')) / 1000
+            except IndexError:
+                hit.generation_time_milli = 0
 
             if config.options.log_hostname:
                 hit.host = config.options.log_hostname

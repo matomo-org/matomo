@@ -68,6 +68,7 @@ class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
             $t->setUrlReferrer('http://www.referrer' . ($daysIntoPast % 5) . '.com/theReferrerPage' . ($daysIntoPast % 2) . '.html');
             $t->setUrl('http://example.org/my/dir/page' . ($daysIntoPast % 4) . '?foo=bar&baz=bar');
             $t->setForceVisitDateTime($visitDateTime);
+			$t->setGenerationTime($daysIntoPast * 100 + 100);
             self::assertTrue($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
 
 			// Trigger goal n°1 once
@@ -81,6 +82,7 @@ class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
             // VISIT 2: search engine
             $t->setForceVisitDateTime(Piwik_Date::factory($visitDateTime)->addHour(3)->getDatetime());
             $t->setUrlReferrer('http://google.com/search?q=' . urlencode($this->keywords[$daysIntoPast % 3]));
+			$t->setGenerationTime($daysIntoPast * 100 + 200);
             self::assertTrue($t->doTrackPageView('not an incredible title '));
             
             // VISIT 1 for idSite = 2
@@ -90,6 +92,7 @@ class Test_Piwik_Fixture_TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferr
             
             $t->setForceVisitDateTime($visitDateTime);
             $t->setUrl('http://example.org/');
+			$t->setGenerationTime($daysIntoPast * 100 + 300);
             self::assertTrue($t->doTrackPageView('so-so page title'));
         }
         self::checkResponse($t->doBulkTrack());

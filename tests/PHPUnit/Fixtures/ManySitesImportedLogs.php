@@ -49,6 +49,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
     	$this->logVisitsWithStaticResolver();
     	$this->logVisitsWithAllEnabled();
     	$this->replayLogFile();
+		$this->logCustomFormat();
     }
 
 	/**
@@ -118,7 +119,22 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 		
 		self::executeLogImporter($logFile, $opts);
 	}
-	
+
+	/**
+	 * Imports a log file in custom format that contains generation time
+	 */
+	private function logCustomFormat()
+	{
+		$logFile = PIWIK_INCLUDE_PATH.'/tests/resources/fake_logs_custom.log';
+				
+		$opts = array('--idsite' => $this->idSite,
+		              '--token-auth' => self::getTokenAuth(),
+			          '--log-format-regex' => '(?P<ip>\S+) - - \[(?P<date>.*?) (?P<timezone>.*?)\] (?P<status>\S+) '
+		                  . '\"\S+ (?P<path>.*?) \S+\" (?P<generation_time_micro>\S+)'); 
+		
+		self::executeLogImporter($logFile, $opts);
+	}
+
 	private static function executeLogImporter( $logFile, $options )
 	{
 		$python = Piwik_Common::isWindows() ? "C:\Python27\python.exe" : 'python';

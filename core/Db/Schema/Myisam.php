@@ -330,6 +330,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 											  custom_var_v4 VARCHAR(200) DEFAULT NULL,
 											  custom_var_k5 VARCHAR(200) DEFAULT NULL,
 											  custom_var_v5 VARCHAR(200) DEFAULT NULL,
+											  custom_float_1 FLOAT NULL DEFAULT NULL,
 											  PRIMARY KEY(idlink_va),
 											  INDEX index_idvisit(idvisit),
 									          INDEX index_idsite_servertime ( idsite, server_time )

@@ -30,6 +30,11 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
 			                   'date'    => '2012-08-09',
 			                   'periods' => 'month')),
 
+			// report generated from custom log format including generation time
+			array('Actions.getPageUrls', array('idSite'  => self::$fixture->idSite,
+						                   'date'    => '2012-09-30',
+						                   'periods' => 'day')),
+			
 			array('VisitsSummary.get', array('idSite'  => self::$fixture->idSite2,
 			                   'date'    => '2012-08-09',
 			                   'periods' => 'month',

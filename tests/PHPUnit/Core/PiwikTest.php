@@ -88,6 +88,8 @@ class PiwikTest extends DatabaseTestCase
             array(86400 + 3600 * 10, array('1 days 10 hours', '34:00:00')),
             array(86400 * 365, array('365 days 0 hours', '8760:00:00')),
             array((86400 * (365.25 + 10)), array('1 years 10 days', '9006:00:00')),
+			array(1.342, array('1.342s', '00:00:01.342')),
+			array(.342, array('0.342s', '00:00:00.342')),
         );
     }
 
