@@ -15,7 +15,7 @@
  */
 class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
 {
-    function rssPiwik()
+    public function rssPiwik()
     {
         try {
             $rss = new Piwik_ExampleRssWidget_Rss('http://feeds.feedburner.com/Piwik');
@@ -25,9 +25,11 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
             $this->error($e);
         }
     }
-    function rssChangelog()
+
+    public function rssChangelog()
     {
-        try {
+        try
+        {
             $rss = new Piwik_ExampleRssWidget_Rss('http://feeds.feedburner.com/PiwikReleases');
             $rss->setCountPosts(1);
             $rss->showDescription(false);
@@ -37,6 +39,7 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
             $this->error($e);
         }
     }
+
     protected function error($e)
     {
         echo '<div class="pk-emptyDataTable">'

@@ -31,8 +31,13 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 			'version' => '0.1',
 		);
 	}
-	
-	public function getListHooksRegistered()
+
+    /**
+     * Returns a list of registered hooks.
+     *
+     * @return array
+     */
+    public function getListHooksRegistered()
 	{
 		return array(
             'AssetManager.getCssFiles' => 'getCssFiles',
@@ -43,7 +48,7 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 	/**
 	 * @param Piwik_Event_Notification $notification  notification object
 	 */
-	function getCssFiles( $notification )
+	public function getCssFiles( $notification )
 	{
 		$cssFiles = &$notification->getNotificationObject();
 		

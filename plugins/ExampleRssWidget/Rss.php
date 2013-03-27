@@ -19,25 +19,31 @@ class Piwik_ExampleRssWidget_Rss
     protected $count = 3;
     protected $showDescription = false;
     protected $showContent = false;
-    function __construct($url)
+
+    public function __construct($url)
     {
         $this->url = $url;
     }
-    function showDescription($bool)
+
+    public function showDescription($bool)
     {
         $this->showDescription = $bool;
     }
-    function showContent($bool)
+
+    public function showContent($bool)
     {
         $this->showContent = $bool;
     }
-    function setCountPosts($count)
+
+    public function setCountPosts($count)
     {
         $this->count = $count;
     }
-    function get()
+
+    public function get()
     {
-        try {
+        try
+        {
             $rss = Zend_Feed::import($this->url);
         } catch (Zend_Feed_Exception $e) {
             echo "Error while importing feed: {$e->getMessage()}\n";
@@ -46,6 +52,7 @@ class Piwik_ExampleRssWidget_Rss
 
         $output = '<div style="padding:10px 15px;"><ul class="rss">';
         $i = 0;
+
         foreach($rss as $post)
         {
             $title = $post->title();
@@ -58,14 +65,19 @@ class Piwik_ExampleRssWidget_Rss
             {
                 $output .= '<div class="rss-description">'.$post->description().'</div>';
             }
+
             if($this->showContent)
             {
                 $output .= '<div class="rss-content">'.$post->content().'</div>';
             }
             $output .= '</li>';
 
-            if(++$i == $this->count) break;
+            if(++$i == $this->count) 
+            {
+                break;
+            }
         }
+
         $output .= '</ul></div>';
         return $output;
     }
