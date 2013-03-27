@@ -396,7 +396,8 @@ if (typeof JSON2 !== 'object') {
     addEventListener, attachEvent, removeEventListener, detachEvent, disableCookies,
     cookie, domain, readyState, documentElement, doScroll, title, text,
     location, top, document, referrer, parent, links, href, protocol, name, GearsFactory,
-    event, which, button, srcElement, type, target,
+    performance, mozPerformance, msPerformance, webkitPerformance, timing, requestStart,  
+    responseEnd, event, which, button, srcElement, type, target,
     parentNode, tagName, hostname, className,
     userAgent, cookieEnabled, platform, mimeTypes, enabledPlugin, javaEnabled,
     XMLHttpRequest, ActiveXObject, open, setRequestHeader, onreadystatechange, send, readyState, status,
@@ -460,6 +461,9 @@ if (typeof Piwik !== 'object') {
             navigatorAlias = navigator,
             screenAlias = screen,
             windowAlias = window,
+			
+			/* performance timing */
+			performanceAlias = windowAlias.performance || windowAlias.mozPerformance || windowAlias.msPerformance || windowAlias.webkitPerformance,
 
             /* DOM Ready */
             hasLoaded = false,
@@ -1157,6 +1161,12 @@ if (typeof Piwik !== 'object') {
 
                 // Life of the referral cookie (in milliseconds)
                 configReferralCookieTimeout = 15768000000, // 6 months
+				
+				// Is performance tracking enabled
+				configPerformanceTrackingEnabled = true,
+				
+				// Generation time set from the server
+				configPerformanceGenerationTime = 0,
 
                 // Custom Variables read from cookie, scope "visit"
                 customVariables = false,
@@ -1736,6 +1746,14 @@ if (typeof Piwik !== 'object') {
 
                     setCookie(cvarname, JSON2.stringify(customVariables), configSessionCookieTimeout, configCookiePath, configCookieDomain);
                 }
+				
+				// performance tracking
+				if (configPerformanceTrackingEnabled && configPerformanceGenerationTime) {
+					request += '&generation_time_ms=' + configPerformanceGenerationTime;
+				} else if (configPerformanceTrackingEnabled && performanceAlias && performanceAlias.timing
+						&& performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
+					request += '&generation_time_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
+				}
 
                 // update cookies
                 setVisitorIdCookie(uuid, createTs, visitCount, nowTs, lastVisitTs, isDefined(currentEcommerceOrderTs) && String(currentEcommerceOrderTs).length ? currentEcommerceOrderTs : lastEcommerceOrderTs);
@@ -2703,6 +2721,23 @@ if (typeof Piwik !== 'object') {
                         });
                     }
                 },
+
+				/**
+				 * Disable automatic performance tracking
+				 */
+				disablePerformanceTracking: function () {
+					configPerformanceTrackingEnabled = false;
+				},
+
+				/**
+				 * Set the server generation time.
+				 * If set, the browser's performance.timing API in not used anymore to determine the time.
+				 * 
+				 * @param int generationTime
+				 */
+				setGenerationTimeMs: function(generationTime) {
+					configPerformanceGenerationTime = parseInt(generationTime, 10);
+				},
 
                 /**
                  * Set heartbeat (in seconds)
