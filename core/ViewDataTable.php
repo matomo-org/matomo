@@ -1281,7 +1281,11 @@ abstract class Piwik_ViewDataTable
 
 		$this->columnsToDisplay = array_filter($this->columnsToDisplay);
 		
-		$emptyColumns = $this->dataTable->getMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+		if ($this->dataTable instanceof Piwik_DataTable_Array) {
+			$emptyColumns = $this->dataTable->getMetadataIntersectArray(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+		} else {
+			$emptyColumns = $this->dataTable->getMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+		}
 		if (is_array($emptyColumns))
 		{
 			foreach ($emptyColumns as $emptyColumn)

@@ -116,8 +116,15 @@
 			var graphId = dataTableId + 'Chart';
 			graphElement.attr('id', graphId);
 			
-			var graphData = JSON.parse(graphElement.attr('data-data')),
-				plot = new JQPlot(graphData, dataTableId);
+			var graphData;
+			try {
+				graphData = JSON.parse(graphElement.attr('data-data'));
+			} catch(e) {
+				console.error('JSON.parse Error: "' + e + "\" in:\n" + graphElement.attr('data-data'));
+				return;
+			}
+			
+			var plot = new JQPlot(graphData, dataTableId);
 			
 			// add external series toggle if it should be added
 			var externalSeriesToggle = graphElement.attr('data-external-series-toggle');

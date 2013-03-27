@@ -408,4 +408,25 @@ class Piwik_DataTable_Array
 		$newTableArray->setKeyName($this->getKeyName());
 		return $newTableArray;
 	}
+	
+	/**
+	 * Returns the intersection of cildrends' meta data arrays
+	 * 
+	 * @param string $name The metadata name.
+	 * @return mixed
+	 */
+	public function getMetadataIntersectArray( $name )
+	{
+		$data = array();
+		foreach ($this->getArray() as $childTable)
+		{
+			$childData = $childTable->getMetadata($name);
+			if (is_array($childData))
+			{
+				$data = array_intersect($data, $childData);
+			}
+		}
+		return array_values($data);
+	}
+	
 }
