@@ -611,48 +611,50 @@ class UserAgentParser
 		self::$browserIdToShortName['WO'] = 'webOS';
 		
 		// init OS names and short names
-		self::$operatingSystemsIdToName = array_merge(array_flip(self::$operatingSystems), array(
-			'IPD' => 'iPod',
-			'IPA' => 'iPad',
-			'WME' => 'Windows Me',
-			'BEO' => 'BeOS',
-			'T64' => 'Tru64',
-			'NDS' => 'Nintendo DS',
-			'WIU' => 'Nintendo Wii U',
-			'3DS' => 'Nintendo 3DS',
-		
-			// These are for BC purposes only
-			'W75' => 'WinPhone 7.5', 
-			'WP7' => 'WinPhone 7', 
-			'W65' => 'WinMo 6.5', 
-			'W61' => 'WinMo 6.1', 
-	
-		));
-		self::$operatingSystemsIdToShortName = array_merge(self::$operatingSystemsIdToName, array(
-			'PS3' => 'PS3',
-			'PSP' => 'PSP',
-			'WII' => 'Wii',
-			'WIU' => 'Wii U',
-			'NDS' => 'DS',
-			'DSI' => 'DSi',
-			'3DS' => '3DS',
-			'PSV' => 'PS Vita',
-			'WI8' => 'Win 8',
-			'WI7' => 'Win 7',
-			'WVI' => 'Win Vista',
-			'WS3' => 'Win S2003',
-			'WXP' => 'Win XP',
-			'W98' => 'Win 98',
-			'W2K' => 'Win 2000', 
-			'WNT' => 'Win NT',
-			'WME' => 'Win Me',
-			'W95' => 'Win 95',
-			'WPH' => 'WinPhone',
-			'WMO' => 'WinMo',
-			'WCE' => 'Win CE',
-			'WOS' => 'webOS',
-			'UNK' => 'Unknown',
-		));
+        $operatingSystemsIdToName = array(
+            'IPD' => 'iPod',
+            'IPA' => 'iPad',
+            'WME' => 'Windows Me',
+            'BEO' => 'BeOS',
+            'T64' => 'Tru64',
+            'NDS' => 'Nintendo DS',
+            'WIU' => 'Nintendo Wii U',
+            '3DS' => 'Nintendo 3DS',
+
+            // These are for BC purposes only
+            'W75' => 'WinPhone 7.5',
+            'WP7' => 'WinPhone 7',
+            'W65' => 'WinMo 6.5',
+            'W61' => 'WinMo 6.1',
+
+        );
+        self::$operatingSystemsIdToName = array_merge(array_flip(self::$operatingSystems), $operatingSystemsIdToName);
+        $operatingSystemsIdToShortName = array(
+            'PS3' => 'PS3',
+            'PSP' => 'PSP',
+            'WII' => 'Wii',
+            'WIU' => 'Wii U',
+            'NDS' => 'DS',
+            'DSI' => 'DSi',
+            '3DS' => '3DS',
+            'PSV' => 'PS Vita',
+            'WI8' => 'Win 8',
+            'WI7' => 'Win 7',
+            'WVI' => 'Win Vista',
+            'WS3' => 'Win S2003',
+            'WXP' => 'Win XP',
+            'W98' => 'Win 98',
+            'W2K' => 'Win 2000',
+            'WNT' => 'Win NT',
+            'WME' => 'Win Me',
+            'W95' => 'Win 95',
+            'WPH' => 'WinPhone',
+            'WMO' => 'WinMo',
+            'WCE' => 'Win CE',
+            'WOS' => 'webOS',
+            'UNK' => 'Unknown',
+        );
+        self::$operatingSystemsIdToShortName = array_merge(self::$operatingSystemsIdToName, $operatingSystemsIdToShortName);
 	}
 
 	static public function getBrowserNameFromId($browserId)
