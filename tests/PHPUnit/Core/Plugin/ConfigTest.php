@@ -11,8 +11,7 @@ class Plugin_ConfigTest extends PHPUnit_Framework_TestCase
     function setUp()
     {
         $path = PIWIK_USER_PATH . '/plugins/ExamplePlugin/config/local.config.php';
-        if (file_exists($path))
-        {
+        if (file_exists($path)) {
             @unlink($path);
         }
 

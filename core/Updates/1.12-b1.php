@@ -14,22 +14,22 @@
  */
 class Piwik_Updates_1_12_b1 extends Piwik_Updates
 {
-	static function isMajorUpdate()
-	{
-		return true;
-	}
-	
-	static function getSql($schema = 'Myisam')
-	{
-		return array(
-			'ALTER TABLE `'. Piwik_Common::prefixTable('log_link_visit_action') .'`
+    static function isMajorUpdate()
+    {
+        return true;
+    }
+
+    static function getSql($schema = 'Myisam')
+    {
+        return array(
+            'ALTER TABLE `' . Piwik_Common::prefixTable('log_link_visit_action') . '`
 			 ADD `custom_float_1` FLOAT NULL DEFAULT NULL' => false
-		);
-	}
-	
-	static function update()
-	{
-		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-	}
-	
+        );
+    }
+
+    static function update()
+    {
+        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+    }
+
 }

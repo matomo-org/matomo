@@ -14,7 +14,7 @@ require_once 'Goals/Goals.php';
  */
 class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -26,20 +26,20 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         $this->runApiTests($api, $params);
     }
 
-	public function getApiToCall()
-	{
-		return array('Goals.getDaysToConversion', 'MultiSites.getAll');
-	}
+    public function getApiToCall()
+    {
+        return array('Goals.getDaysToConversion', 'MultiSites.getAll');
+    }
 
-	public function getApiForTesting()
-	{
-		$dateTime = self::$fixture->dateTime;
-		$idSite1 = self::$fixture->idSite1;
-		
-		// NOTE: copied from TwoVisitors_TwoWebsites_DifferentDays (including the test or inheriting means
-		// the test will get run by phpunit, even when we only want to run this one. should be put into
-		// non-test class later.)
-        $apiToCall       = $this->getApiToCall();
+    public function getApiForTesting()
+    {
+        $dateTime = self::$fixture->dateTime;
+        $idSite1 = self::$fixture->idSite1;
+
+        // NOTE: copied from TwoVisitors_TwoWebsites_DifferentDays (including the test or inheriting means
+        // the test will get run by phpunit, even when we only want to run this one. should be put into
+        // non-test class later.)
+        $apiToCall = $this->getApiToCall();
         $singlePeriodApi = array('VisitsSummary.get', 'Goals.get');
 
         $periods = array('day', 'week', 'month', 'year');
@@ -85,7 +85,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
         $dateTime = '2010-01-03,2010-01-06';
-        $columns  = 'nb_visits,' . Piwik_Goals::getRecordName('conversion_rate');
+        $columns = 'nb_visits,' . Piwik_Goals::getRecordName('conversion_rate');
 
         $result[] = array(
             'VisitsSummary.get', array('idSite'                 => 'all', 'date' => $dateTime, 'periods' => 'range',
@@ -103,6 +103,6 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
 }
 
 Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions::$fixture =
-	new Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
+    new Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
 Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions::$fixture->allowConversions = true;
 

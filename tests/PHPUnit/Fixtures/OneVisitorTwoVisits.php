@@ -11,44 +11,42 @@
  */
 class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
 {
-	public $idSite = 1;
-	public $dateTime = '2010-03-06 11:22:33';
-    
+    public $idSite = 1;
+    public $dateTime = '2010-03-06 11:22:33';
+
     public $useThirdPartyCookies = false;
     public $useSiteSearch = false;
     public $excludeMozilla = false;
-    
-	public function setUp()
-	{
-		$this->setUpWebsitesAndGoals();
-		$this->trackVisits();
-	}
-	
-	public function tearDown()
-	{
-		// empty
-	}
-	
-	private function setUpWebsitesAndGoals()
-	{
-		self::createWebsite($this->dateTime);
-	}
-	
-	private function trackVisits()
-	{
-        $dateTime = $this->dateTime;
-        $idSite   = $this->idSite;
 
-		if ($this->excludeMozilla)
-		{
-	        Piwik_SitesManager_API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
+    public function setUp()
+    {
+        $this->setUpWebsitesAndGoals();
+        $this->trackVisits();
+    }
+
+    public function tearDown()
+    {
+        // empty
+    }
+
+    private function setUpWebsitesAndGoals()
+    {
+        self::createWebsite($this->dateTime);
+    }
+
+    private function trackVisits()
+    {
+        $dateTime = $this->dateTime;
+        $idSite = $this->idSite;
+
+        if ($this->excludeMozilla) {
+            Piwik_SitesManager_API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(false);
         }
-        
+
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
-        
-        if ($this->useThirdPartyCookies)
-        {
-	        $t->DEBUG_APPEND_URL = '&forceUseThirdPartyCookie=1';
+
+        if ($this->useThirdPartyCookies) {
+            $t->DEBUG_APPEND_URL = '&forceUseThirdPartyCookie=1';
         }
 
         $t->disableCookieSupport();
@@ -58,21 +56,21 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         // testing URL excluded parameters
         $parameterToExclude = 'excluded_parameter';
         Piwik_SitesManager_API::getInstance()->updateSite(
-        	$idSite,
-        	'new name',
-        	$url = array('http://site.com'),
-        	$ecommerce = 0,
-        	$siteSearch = $this->useSiteSearch ? 1 : 0,
-	        $searchKeywordParameters = $this->useSiteSearch ? '' : null,
-	        $searchCategoryParameters = $this->useSiteSearch ? 'notparam' : null,
-	        $excludedIps = null,
-	        $parameterToExclude . ',anotherParameter',
-	        $timezone = null,
-	        $currency = null,
-	        $group = null,
-	        $startDate = null,
-	        // test that visit won't be excluded since site-specific exclude is not enabled
-	        $excludedUserAgents = $this->excludeMozilla ? 'mozilla' : null
+            $idSite,
+            'new name',
+            $url = array('http://site.com'),
+            $ecommerce = 0,
+            $siteSearch = $this->useSiteSearch ? 1 : 0,
+            $searchKeywordParameters = $this->useSiteSearch ? '' : null,
+            $searchCategoryParameters = $this->useSiteSearch ? 'notparam' : null,
+            $excludedIps = null,
+            $parameterToExclude . ',anotherParameter',
+            $timezone = null,
+            $currency = null,
+            $group = null,
+            $startDate = null,
+            // test that visit won't be excluded since site-specific exclude is not enabled
+            $excludedUserAgents = $this->excludeMozilla ? 'mozilla' : null
         );
 
         // Record 1st page view
@@ -113,26 +111,23 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         self::checkResponse($t->doTrackGoal($idGoal, $revenue = 42));
 
         $t->setBrowserLanguage('fr');
-        
-        if ($this->useSiteSearch)
-        {
-			// Site Search request
-			$t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.42)->getDatetime());
-			$t->setUrl('http://example.org/index.htm?q=Banks Own The World');
-			self::checkResponse($t->doTrackPageView('Site Search request'));
-			
-			// Final page view (after 27 min)
-		    $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
-		    $t->setUrl('http://example.org/index.htm');
-		    self::checkResponse($t->doTrackPageView('Looking at homepage after site search...'));
+
+        if ($this->useSiteSearch) {
+            // Site Search request
+            $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.42)->getDatetime());
+            $t->setUrl('http://example.org/index.htm?q=Banks Own The World');
+            self::checkResponse($t->doTrackPageView('Site Search request'));
+
+            // Final page view (after 27 min)
+            $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
+            $t->setUrl('http://example.org/index.htm');
+            self::checkResponse($t->doTrackPageView('Looking at homepage after site search...'));
+        } else {
+            // Final page view (after 27 min)
+            $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
+            $t->setUrl('http://example.org/index.htm#ignoredFragment#');
+            self::checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
         }
-        else
-        {
-		    // Final page view (after 27 min)
-		    $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
-		    $t->setUrl('http://example.org/index.htm#ignoredFragment#');
-		    self::checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
-	    }
 
         // -
         // End of first visit: 24min
@@ -152,5 +147,5 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         self::checkResponse($t->doTrackPageView('Checkout/Purchasing...'));
         // -
         // End of second visit
-	}
+    }
 }

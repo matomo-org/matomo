@@ -11,7 +11,7 @@
  */
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     public function getOutputPrefix()
     {
@@ -30,12 +30,12 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains extend
 
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	$dateTime = self::$fixture->dateTime;
-    	
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
+
         $return = array();
 
-        $api            = array('Actions.getPageUrls', 'Actions.getPageTitles', 'VisitsSummary.get');
+        $api = array('Actions.getPageUrls', 'Actions.getPageTitles', 'VisitsSummary.get');
         $segmentsToTest = array(
             // array( SegmentString , TestSuffix , Array of API to test)
             array("pageTitle=@*_)%", '_SegmentPageTitleContainsStrangeCharacters', array('Actions.getPageTitles', 'VisitsSummary.get')),
@@ -48,10 +48,10 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains extend
         foreach ($segmentsToTest as $segment) {
             // Also test "Page URL / Page title CONTAINS string" feature
             $return[] = array($segment[2],
-                array('idSite'       => $idSite, 'date' => $dateTime, 'periods' => array('day'),
-                      'setDateLastN' => false,
-                      'segment'      => $segment[0],
-                      'testSuffix'   => $segment[1])
+                              array('idSite'       => $idSite, 'date' => $dateTime, 'periods' => array('day'),
+                                    'setDateLastN' => false,
+                                    'segment'      => $segment[0],
+                                    'testSuffix'   => $segment[1])
             );
         }
         return $return;
@@ -59,6 +59,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains extend
 }
 
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains::$fixture
-	= new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+    = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentContains::$fixture->doExtraQuoteTests = false;
 

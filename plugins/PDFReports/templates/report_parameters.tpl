@@ -1,99 +1,104 @@
 <script>
 
-	function updateEvolutionGraphParameterVisibility ()
-	{ldelim}
-		var evolutionGraphParameterInput = $('.report_evolution_graph');
-		var nonApplicableDisplayFormats = ['1','4'];
-		$.inArray($('#display_format option:selected').val(), nonApplicableDisplayFormats) != -1 ?
-			evolutionGraphParameterInput.hide() : evolutionGraphParameterInput.show();
-	{rdelim}
-	
-	$(function() {ldelim}
-		
-		resetReportParametersFunctions ['{$reportType}'] =
-				function () {ldelim}
+    function updateEvolutionGraphParameterVisibility() {ldelim}
+        var evolutionGraphParameterInput = $('.report_evolution_graph');
+        var nonApplicableDisplayFormats = ['1', '4'];
+        $.inArray($('#display_format option:selected').val(), nonApplicableDisplayFormats) != -1 ?
+                evolutionGraphParameterInput.hide() : evolutionGraphParameterInput.show();
+        {rdelim
+    }
 
-					var reportParameters = {ldelim}
-						'displayFormat' : '{$defaultDisplayFormat}',
-						'emailMe' : {$defaultEmailMe},
-						'evolutionGraph' : {$defaultEvolutionGraph},
-						'additionalEmails' : null
-					{rdelim};
+    $(function () {ldelim}
 
-					updateReportParametersFunctions['{$reportType}'](reportParameters);
-				{rdelim};
+        resetReportParametersFunctions ['{$reportType}'] =
+                function () {ldelim}
 
-		updateReportParametersFunctions['{$reportType}'] =
-				function (reportParameters) {ldelim}
+                    var reportParameters = {ldelim}
+                        'displayFormat': '{$defaultDisplayFormat}',
+                        'emailMe': {$defaultEmailMe},
+                        'evolutionGraph': {$defaultEvolutionGraph},
+                        'additionalEmails': null
+                        {rdelim};
 
-					if(reportParameters == null) return;
+                    updateReportParametersFunctions['{$reportType}'](reportParameters);
+                    {rdelim
+                };
 
-					$('#display_format option[value='+reportParameters.displayFormat+']').prop('selected', 'selected');
-					updateEvolutionGraphParameterVisibility();
+        updateReportParametersFunctions['{$reportType}'] =
+                function (reportParameters) {ldelim}
 
-					if(reportParameters.emailMe === true)
-						$('#report_email_me').prop('checked', 'checked');
-					else
-						$('#report_email_me').removeProp('checked');
+                    if (reportParameters == null) return;
 
-					if(reportParameters.evolutionGraph === true)
-						$('#report_evolution_graph').prop('checked', 'checked');
-					else
-						$('#report_evolution_graph').removeProp('checked');
+                    $('#display_format option[value=' + reportParameters.displayFormat + ']').prop('selected', 'selected');
+                    updateEvolutionGraphParameterVisibility();
 
-					if(reportParameters.additionalEmails != null)
-						$('#report_additional_emails').text(reportParameters.additionalEmails.join('\n'));
-					else
-						$('#report_additional_emails').html('');
-				{rdelim};
+                    if (reportParameters.emailMe === true)
+                        $('#report_email_me').prop('checked', 'checked');
+                    else
+                        $('#report_email_me').removeProp('checked');
 
-		getReportParametersFunctions['{$reportType}'] =
-				function () {ldelim}
+                    if (reportParameters.evolutionGraph === true)
+                        $('#report_evolution_graph').prop('checked', 'checked');
+                    else
+                        $('#report_evolution_graph').removeProp('checked');
 
-					var parameters = Object();
+                    if (reportParameters.additionalEmails != null)
+                        $('#report_additional_emails').text(reportParameters.additionalEmails.join('\n'));
+                    else
+                        $('#report_additional_emails').html('');
+                    {rdelim
+                };
 
-					parameters.displayFormat = $('#display_format option:selected').val();
-					parameters.emailMe = $('#report_email_me').prop('checked');
-					parameters.evolutionGraph = $('#report_evolution_graph').prop('checked');
+        getReportParametersFunctions['{$reportType}'] =
+                function () {ldelim}
 
-					additionalEmails = $('#report_additional_emails').val();
-					parameters.additionalEmails =
-							additionalEmails != '' ? additionalEmails.split('\n') : [];
+                    var parameters = Object();
 
-					return parameters;
-				{rdelim};
+                    parameters.displayFormat = $('#display_format option:selected').val();
+                    parameters.emailMe = $('#report_email_me').prop('checked');
+                    parameters.evolutionGraph = $('#report_evolution_graph').prop('checked');
 
-		$('#display_format').change(updateEvolutionGraphParameterVisibility);
+                    additionalEmails = $('#report_additional_emails').val();
+                    parameters.additionalEmails =
+                            additionalEmails != '' ? additionalEmails.split('\n') : [];
 
-	{rdelim});
+                    return parameters;
+                    {rdelim
+                };
+
+        $('#display_format').change(updateEvolutionGraphParameterVisibility);
+
+        {rdelim
+    });
 </script>
 
 <tr class='{$reportType}'>
-	<td style='width:240px;' class="first">{'PDFReports_SendReportTo'|translate}
-	</td>
-	<td>
-		<input type="checkbox" id="report_email_me"/>
-		<label for="report_email_me">{'PDFReports_SentToMe'|translate} (<i>{$currentUserEmail}</i>) </label>
-		<br/><br/>
-		{'PDFReports_AlsoSendReportToTheseEmails'|translate}<br/>
-		<textarea cols="30" rows="3" id="report_additional_emails" class="inp"></textarea>
-	</td>
+    <td style='width:240px;' class="first">{'PDFReports_SendReportTo'|translate}
+    </td>
+    <td>
+        <input type="checkbox" id="report_email_me"/>
+        <label for="report_email_me">{'PDFReports_SentToMe'|translate} (<i>{$currentUserEmail}</i>) </label>
+        <br/><br/>
+        {'PDFReports_AlsoSendReportToTheseEmails'|translate}<br/>
+        <textarea cols="30" rows="3" id="report_additional_emails" class="inp"></textarea>
+    </td>
 </tr>
 <tr class='{$reportType}'>
-	<td class="first">
-		 {*PDFReports_AggregateReportsFormat should be named PDFReports_DisplayFormat*}
-		{'PDFReports_AggregateReportsFormat'|translate}
-	</td>
-	<td>
-		<select id="display_format">
-		{foreach from=$displayFormats key=formatValue item=formatLabel}
-			<option {if $formatValue==1}selected{/if} value="{$formatValue}">{$formatLabel}</option>
-		{/foreach}
-		</select>
-		<div class='report_evolution_graph'>
-			<br/>
-			<input type="checkbox" id="report_evolution_graph"/>
-			<label for="report_evolution_graph"><i>{'PDFReports_EvolutionGraph'|translate:5}</i></label>
-		</div>
-	</td>
+    <td class="first">
+        {*PDFReports_AggregateReportsFormat should be named PDFReports_DisplayFormat*}
+        {'PDFReports_AggregateReportsFormat'|translate}
+    </td>
+    <td>
+        <select id="display_format">
+            {foreach from=$displayFormats key=formatValue item=formatLabel}
+                <option {if $formatValue==1}selected{/if} value="{$formatValue}">{$formatLabel}</option>
+            {/foreach}
+        </select>
+
+        <div class='report_evolution_graph'>
+            <br/>
+            <input type="checkbox" id="report_evolution_graph"/>
+            <label for="report_evolution_graph"><i>{'PDFReports_EvolutionGraph'|translate:5}</i></label>
+        </div>
+    </td>
 </tr>

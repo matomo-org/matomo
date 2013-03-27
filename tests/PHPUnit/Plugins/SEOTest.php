@@ -13,8 +13,8 @@ class SEOTest extends PHPUnit_Framework_TestCase
 
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
-        FakeAccess::setIdSitesView( array(1,2));
-        FakeAccess::setIdSitesAdmin( array(3,4));
+        FakeAccess::setIdSitesView(array(1, 2));
+        FakeAccess::setIdSitesAdmin(array(3, 4));
 
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
@@ -42,8 +42,7 @@ class SEOTest extends PHPUnit_Framework_TestCase
         $renderer = Piwik_DataTable_Renderer::factory('php');
         $renderer->setSerialize(false);
         $ranks = $renderer->render($dataTable);
-        foreach ($ranks as $rank)
-        {
+        foreach ($ranks as $rank) {
             $this->assertNotEmpty($rank['rank'], $rank['id'] . ' expected non-zero rank, got [' . $rank['rank'] . ']');
         }
     }

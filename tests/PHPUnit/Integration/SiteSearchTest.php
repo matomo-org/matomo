@@ -11,7 +11,7 @@
  */
 class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -27,23 +27,23 @@ class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
     {
         return array(
             'Actions.get',
-	        'Actions.getPageUrls',
+            'Actions.getPageUrls',
             'Actions.getPageTitles',
-	        'CustomVariables.getCustomVariables',
-	        'Actions.getSiteSearchKeywords',
-	        'Actions.getSiteSearchCategories',
-	        'Actions.getSiteSearchNoResultKeywords',
-	        'Actions.getPageTitlesFollowingSiteSearch',
-	        'Actions.getPageUrlsFollowingSiteSearch',
+            'CustomVariables.getCustomVariables',
+            'Actions.getSiteSearchKeywords',
+            'Actions.getSiteSearchCategories',
+            'Actions.getSiteSearchNoResultKeywords',
+            'Actions.getPageTitlesFollowingSiteSearch',
+            'Actions.getPageUrlsFollowingSiteSearch',
         );
     }
 
     public function getApiForTesting()
     {
-    	$dateTime = self::$fixture->dateTime;
-    	$idSite1 = self::$fixture->idSite1;
-    	
-        $apiToCall       = $this->getApiToCall();
+        $dateTime = self::$fixture->dateTime;
+        $idSite1 = self::$fixture->idSite1;
+
+        $apiToCall = $this->getApiToCall();
 
         $periods = array('day', 'month');
 
@@ -53,15 +53,15 @@ class Test_Piwik_Integration_SiteSearch extends IntegrationTestCase
                                     'date'         => $dateTime,
                                     'periods'      => $periods,
                                     'setDateLastN' => true,
-	                                'testSuffix'   => '_AllSites')),
+                                    'testSuffix'   => '_AllSites')),
 
-	        // We also test a single period/single site to check that this use case (Reports per idSite in the response) works
-	        array($apiToCall, array(
-		        'idSite'       => $idSite1,
-		        'date'         => $dateTime,
-		        'periods'      => $periods,
-		        'setDateLastN' => false,
-		        'testSuffix'   => '_NotLastNPeriods')),
+            // We also test a single period/single site to check that this use case (Reports per idSite in the response) works
+            array($apiToCall, array(
+                'idSite'       => $idSite1,
+                'date'         => $dateTime,
+                'periods'      => $periods,
+                'setDateLastN' => false,
+                'testSuffix'   => '_NotLastNPeriods')),
         );
 
         // testing metadata API for multiple periods

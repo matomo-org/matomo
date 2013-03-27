@@ -8,7 +8,7 @@
 
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoalData extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -27,7 +27,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoal
         // Segment matching ALL
         // + adding DOES NOT CONTAIN segment always matched, to test this particular operator
         $resolution = self::$fixture->resolutionWidthToUse . 'x' . self::$fixture->resolutionHeightToUse;
-        $segment    = 'resolution==' . $resolution . ';customVariableName1!@randomvalue does not exist';
+        $segment = 'resolution==' . $resolution . ';customVariableName1!@randomvalue does not exist';
 
         return array(
             array($apiToCall, array('idSite'       => 'all',
@@ -45,6 +45,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoal
 }
 
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoalData::$fixture
-	= new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+    = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchALL_NoGoalData::$fixture->doExtraQuoteTests = false;
 

@@ -10,7 +10,7 @@
  */
 class Test_Piwik_Integration_OneVisitor_LongUrlsTruncated extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting

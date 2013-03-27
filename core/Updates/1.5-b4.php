@@ -14,16 +14,16 @@
  */
 class Piwik_Updates_1_5_b4 extends Piwik_Updates
 {
-	static function getSql($schema = 'Myisam')
-	{
-		return array(
-			'ALTER TABLE `'. Piwik_Common::prefixTable('site') .'`
+    static function getSql($schema = 'Myisam')
+    {
+        return array(
+            'ALTER TABLE `' . Piwik_Common::prefixTable('site') . '`
 				 ADD ecommerce TINYINT DEFAULT 0' => false,
-		);
-	}
+        );
+    }
 
-	static function update()
-	{
-		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-	}
+    static function update()
+    {
+        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+    }
 }

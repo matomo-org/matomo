@@ -14,14 +14,14 @@
  */
 class Piwik_Updates_1_9_3_b3 extends Piwik_Updates
 {
-	static function update()
-	{
-		// Insight was a temporary code name for Overlay
-		$pluginToDelete = 'Insight';
-		self::deletePluginFromConfigFile($pluginToDelete);
-		self::deletePluginFromFilesystem($pluginToDelete);
+    static function update()
+    {
+        // Insight was a temporary code name for Overlay
+        $pluginToDelete = 'Insight';
+        self::deletePluginFromConfigFile($pluginToDelete);
+        self::deletePluginFromFilesystem($pluginToDelete);
 
-		// We also clean up 1.9.1 and delete Feedburner plugin
-		self::deletePluginFromFilesystem('Feedburner');
-	}
+        // We also clean up 1.9.1 and delete Feedburner plugin
+        self::deletePluginFromFilesystem('Feedburner');
+    }
 }

@@ -14,17 +14,17 @@ class DataTable_Filter_PatternTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(array('ask', array(1))),
-            array(array('oo', array(0,3))),
+            array(array('oo', array(0, 3))),
             array(array('^yah', array(3))),
             array(array('\*', array(6))),
             array(array('2/4', array(5))),
-            array(array('amazon|yahoo', array(3,4))),
+            array(array('amazon|yahoo', array(3, 4))),
         );
     }
 
     /**
      * Test to filter a column with a pattern
-     * 
+     *
      * @group Core
      * @group DataTable
      * @group DataTable_Filter
@@ -34,21 +34,21 @@ class DataTable_Filter_PatternTest extends PHPUnit_Framework_TestCase
     public function testFilterPattern($test)
     {
         $table = new Piwik_DataTable;
-        
+
         $idcol = Piwik_DataTable_Row::COLUMNS;
-        
+
         $rows = array(
-            array( $idcol => array('label'=>'google')),
-            array( $idcol => array('label'=>'ask')),
-            array( $idcol => array('label'=>'piwik')),
-            array( $idcol => array('label'=>'yahoo')),
-            array( Piwik_DataTable_Row::METADATA => array('label'=>'amazon')),
-            array( $idcol => array('label'=>'2389752/47578949')),
-            array( $idcol => array('label'=>'Q*(%&*("$&%*(&"$*")"))'))
+            array($idcol => array('label' => 'google')),
+            array($idcol => array('label' => 'ask')),
+            array($idcol => array('label' => 'piwik')),
+            array($idcol => array('label' => 'yahoo')),
+            array(Piwik_DataTable_Row::METADATA => array('label' => 'amazon')),
+            array($idcol => array('label' => '2389752/47578949')),
+            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))'))
         );
-        $table->addRowsFromArray( $rows );
+        $table->addRowsFromArray($rows);
         $rowIds = array_keys($rows);
-        
+
         $pattern = $test[0];
         $expectedRows = $test[1];
         $rowToDelete = array_diff($rowIds, $expectedRows);

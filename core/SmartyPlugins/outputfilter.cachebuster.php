@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package SmartyPlugins
  */
@@ -30,21 +30,21 @@
  */
 function smarty_outputfilter_cachebuster($source, &$smarty)
 {
-	$tag = 'cb=' . $smarty->get_template_vars('cacheBuster');
+    $tag = 'cb=' . $smarty->get_template_vars('cacheBuster');
 
-	$pattern = array(
-		'~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
-		'~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
-		'~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
-		'~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?cb=~',
-	);
+    $pattern = array(
+        '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
+        '~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
+        '~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
+        '~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?cb=~',
+    );
 
-	$replace = array(
-		'<script type="text/javascript" src="$1?'. $tag .'">',
-		'<script type="text/javascript" src="$1?'. $tag .'">',
-		'<link rel="stylesheet" type="text/css" href="$1?'. $tag .'" />',
-		'$1="index.php?module=$2&amp;action=$3&amp;cb=',
-	);
+    $replace = array(
+        '<script type="text/javascript" src="$1?' . $tag . '">',
+        '<script type="text/javascript" src="$1?' . $tag . '">',
+        '<link rel="stylesheet" type="text/css" href="$1?' . $tag . '" />',
+        '$1="index.php?module=$2&amp;action=$3&amp;cb=',
+    );
 
-	return preg_replace($pattern, $replace, $source);
+    return preg_replace($pattern, $replace, $source);
 }

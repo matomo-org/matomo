@@ -1,6 +1,7 @@
 <div id="geoipdb-update-info" {if !$geoIPDatabasesInstalled}style="display:none"{/if}>
-	<p>{'UserCountry_GeoIPUpdaterInstructions'|translate:'<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">':'</a>':'<a href="http://www.maxmind.com/?rId=piwik">':'</a>'}<br/><br/>
-	{'UserCountry_GeoLiteCityLink'|translate:"<a href=\"$geoLiteUrl\">":$geoLiteUrl:'</a>'}
+    <p>{'UserCountry_GeoIPUpdaterInstructions'|translate:'<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">':'</a>':'<a href="http://www.maxmind.com/?rId=piwik">':'</a>'}
+        <br/><br/>
+{'UserCountry_GeoLiteCityLink'|translate:"<a href=\"$geoLiteUrl\">":$geoLiteUrl:'</a>'}
 	{if $geoIPDatabasesInstalled}
 	<br/><br/>{'UserCountry_GeoIPUpdaterIntro'|translate}:
 	{/if}

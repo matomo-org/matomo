@@ -14,9 +14,9 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
         $result = new Piwik_DataTable();
 
         $result->addRowsFromArray(array(
-            array(Piwik_DataTable_Row::COLUMNS => array('label'=> 'row1', 'col1' => 1)),
-            array(Piwik_DataTable_Row::COLUMNS => array('label'=> 'row2', 'col1' => 2))
-        ));
+                                       array(Piwik_DataTable_Row::COLUMNS => array('label' => 'row1', 'col1' => 1)),
+                                       array(Piwik_DataTable_Row::COLUMNS => array('label' => 'row2', 'col1' => 2))
+                                  ));
 
         return $result;
     }
@@ -38,7 +38,7 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
     {
         $dataTable = new Piwik_DataTable_Array();
 
-        $subDataTableArray1                           = $this->createInstanceWithDataTables();
+        $subDataTableArray1 = $this->createInstanceWithDataTables();
         $dataTable->addTable($subDataTableArray1, 'subArray1');
 
         $subDataTableArray2 = $this->createInstanceWithDataTables();

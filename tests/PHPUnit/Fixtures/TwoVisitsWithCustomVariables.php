@@ -11,29 +11,29 @@
  */
 class Test_Piwik_Fixture_TwoVisitsWithCustomVariables extends Test_Piwik_BaseFixture
 {
-    public $dateTime  = '2010-01-03 11:22:33';
-    public $idSite    = 1;
-    public $idGoal1   = 1;
-    public $idGoal2   = 2;
+    public $dateTime = '2010-01-03 11:22:33';
+    public $idSite = 1;
+    public $idGoal1 = 1;
+    public $idGoal2 = 2;
     public $visitorId = '61e8cc2d51fea26d';
 
-    public $useEscapedQuotes  = true;
+    public $useEscapedQuotes = true;
     public $doExtraQuoteTests = true;
 
-    public $resolutionWidthToUse     = 1111;
-    public $resolutionHeightToUse    = 222;
+    public $resolutionWidthToUse = 1111;
+    public $resolutionHeightToUse = 222;
 
-	public function setUp()
-	{
-		$this->setUpWebsitesAndGoals();
-		$this->trackVisits();
-	}
-	
-	public function tearDown()
-	{
-		// empty
-	}
-	
+    public function setUp()
+    {
+        $this->setUpWebsitesAndGoals();
+        $this->trackVisits();
+    }
+
+    public function tearDown()
+    {
+        // empty
+    }
+
     private function setUpWebsitesAndGoals()
     {
         // tests run in UTC, the Tracker in UTC
@@ -45,9 +45,9 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomVariables extends Test_Piwik_BaseFix
     private function trackVisits()
     {
         $dateTime = $this->dateTime;
-        $idSite   = $this->idSite;
-        $idGoal   = $this->idGoal1;
-        $idGoal2  = $this->idGoal2;
+        $idSite = $this->idSite;
+        $idGoal = $this->idGoal1;
+        $idGoal2 = $this->idGoal2;
 
         $visitorA = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         // Used to test actual referer + keyword position in Live!
@@ -105,9 +105,8 @@ class Test_Piwik_Fixture_TwoVisitsWithCustomVariables extends Test_Piwik_BaseFix
         // -
         // Second new visitor on Idsite 1: one page view
         $visitorB = self::getTracker($idSite, $dateTime, $defaultInit = true);
-        if (!empty($this->visitorId))
-        {
-	        $visitorB->setVisitorId($this->visitorId);
+        if (!empty($this->visitorId)) {
+            $visitorB->setVisitorId($this->visitorId);
         }
         $visitorB->setUrlReferrer('');
 

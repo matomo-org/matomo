@@ -13,19 +13,19 @@
 class Test_Piwik_Fixture_OneVisitWithAbnormalPageviewUrls extends Test_Piwik_BaseFixture
 {
     public $dateTime = '2010-03-06 11:22:33';
-    public $idSite   = 1;
-    
+    public $idSite = 1;
+
     public function setUp()
     {
-    	$this->setUpWebsitesAndGoals();
-    	$this->trackVisits();
+        $this->setUpWebsitesAndGoals();
+        $this->trackVisits();
     }
-    
+
     public function tearDown()
     {
-    	// empty
+        // empty
     }
-    
+
     private function setUpWebsitesAndGoals()
     {
         self::createWebsite($this->dateTime);
@@ -34,8 +34,8 @@ class Test_Piwik_Fixture_OneVisitWithAbnormalPageviewUrls extends Test_Piwik_Bas
     private function trackVisits()
     {
         $dateTime = $this->dateTime;
-        $idSite   = $this->idSite;
-        $t        = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
+        $idSite = $this->idSite;
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
 
         $t->setUrlReferrer('http://www.google.com/search?q=piwik');
         $t->setUrl('http://example.org/foo/bar.html');

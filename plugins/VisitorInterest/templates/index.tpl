@@ -1,4 +1,3 @@
-
 <h2>{'VisitorInterest_VisitsPerDuration'|translate}</h2>
 {$dataTableNumberOfVisitsPerVisitDuration}
 

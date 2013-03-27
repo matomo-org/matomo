@@ -16,22 +16,22 @@
  */
 class Piwik_ImageGraph_StaticGraph_VerticalBar extends Piwik_ImageGraph_StaticGraph_GridGraph
 {
-	const INTERLEAVE = 0.10;
+    const INTERLEAVE = 0.10;
 
-	public function renderGraph()
-	{
-		$this->initGridChart(
-			$displayVerticalGridLines = false,
-			$bulletType = LEGEND_FAMILY_BOX,
-			$horizontalGraph = false,
-			$showTicks = true,
-			$verticalLegend = false
-		);
+    public function renderGraph()
+    {
+        $this->initGridChart(
+            $displayVerticalGridLines = false,
+            $bulletType = LEGEND_FAMILY_BOX,
+            $horizontalGraph = false,
+            $showTicks = true,
+            $verticalLegend = false
+        );
 
-		$this->pImage->drawBarChart(
-			array(
-				 'Interleave' => self::INTERLEAVE,
-			)
-		);
-	}
+        $this->pImage->drawBarChart(
+            array(
+                 'Interleave' => self::INTERLEAVE,
+            )
+        );
+    }
 }

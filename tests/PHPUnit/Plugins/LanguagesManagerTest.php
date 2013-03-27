@@ -24,21 +24,21 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
 
     function getTestDataForLanguageFiles()
     {
-        self::$allLanguages                 = Piwik_Common::getLanguagesList();
-        self::$allCountries                 = Piwik_Common::getCountriesList();
+        self::$allLanguages = Piwik_Common::getLanguagesList();
+        self::$allCountries = Piwik_Common::getCountriesList();
         self::$englishStringsWithParameters = array();
-        self::$englishStringsIndexed        = array();
-        self::$expectedLanguageKeys         = array();
-        $englishStrings                     = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage('en');
+        self::$englishStringsIndexed = array();
+        self::$expectedLanguageKeys = array();
+        $englishStrings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage('en');
         foreach ($englishStrings as $englishString) {
             $stringLabel = $englishString['label'];
             $stringValue = $englishString['value'];
-            $count       = $this->getCountParametersToReplace($stringValue);
+            $count = $this->getCountParametersToReplace($stringValue);
             if ($count > 0) {
                 self::$englishStringsWithParameters[$stringLabel] = $count;
             }
             self::$englishStringsIndexed[$stringLabel] = $stringValue;
-            self::$expectedLanguageKeys[]              = $stringLabel;
+            self::$expectedLanguageKeys[] = $stringLabel;
         }
 
         // we also test that none of the language php files outputs any character on the screen (eg. space before the <?php)
@@ -64,11 +64,11 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
     {
         self::$errors = array();
         ob_start();
-        $writeCleanedFile  = false;
-        $strings           = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage($language);
-        $content           = ob_get_flush();
+        $writeCleanedFile = false;
+        $strings = Piwik_LanguagesManager_API::getInstance()->getTranslationsForLanguage($language);
+        $content = ob_get_flush();
         $serializedStrings = serialize($strings);
-        $invalids          = array("<script", 'document.', 'javascript:', 'src=', 'BACKGROUND=', 'onload=');
+        $invalids = array("<script", 'document.', 'javascript:', 'src=', 'BACKGROUND=', 'onload=');
         foreach ($invalids as $invalid) {
             $this->assertTrue(stripos($serializedStrings, $invalid) === false, "$language: language file containing javascript");
         }
@@ -80,31 +80,31 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
             $stringLabel = $string['label'];
             $stringValue = $string['value'];
 
-            $plugin           = substr($stringLabel, 0, strpos($stringLabel, '_'));
+            $plugin = substr($stringLabel, 0, strpos($stringLabel, '_'));
             $plugins[$plugin] = true;
             // Testing that the translated string is not empty => '',
             if (empty($stringValue) || trim($stringValue) === '') {
-                $writeCleanedFile             = true;
-                self::$errors[]               = "$language: The string $stringLabel is empty in the translation file, removing the line.";
+                $writeCleanedFile = true;
+                self::$errors[] = "$language: The string $stringLabel is empty in the translation file, removing the line.";
                 $cleanedStrings[$stringLabel] = false;
             } elseif (!in_array($stringLabel, self::$expectedLanguageKeys)
                 // translation files should not contain 3rd plugin translations, but if they are there, we shall not delete them
                 // since translators have spent time working on it... at least for now we shall leave them in (until V2 and plugin repository is done)
                 && !in_array($plugin, array('GeoIP', 'Forecast', 'EntryPage', 'UserLanguage'))
             ) {
-                $writeCleanedFile             = true;
-                self::$errors[]               = "$language: The string $stringLabel was not found in the English language file, removing the line.";
+                $writeCleanedFile = true;
+                self::$errors[] = "$language: The string $stringLabel was not found in the English language file, removing the line.";
                 $cleanedStrings[$stringLabel] = false;
             } else {
                 // checking that translated strings have the same number of %s as the english source strings
                 if (isset(self::$englishStringsWithParameters[$stringLabel])) {
                     $englishParametersCount = self::$englishStringsWithParameters[$stringLabel];
-                    $countTranslation       = $this->getCountParametersToReplace($stringValue);
+                    $countTranslation = $this->getCountParametersToReplace($stringValue);
                     if ($englishParametersCount != $countTranslation) {
                         // Write fixed file in given location
                         // Will trigger a ->fail()
                         $writeCleanedFile = true;
-                        self::$errors[]   = "$language: The string $stringLabel has $englishParametersCount parameters in English, but $countTranslation in this translation.";
+                        self::$errors[] = "$language: The string $stringLabel has $englishParametersCount parameters in English, but $countTranslation in this translation.";
                     } else {
                         $cleanedStrings[$stringLabel] = $stringValue;
                     }
@@ -124,8 +124,8 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
                 && strpos($stringLabel, 'UserCountry_') === false
                 && $language != 'de'
             ) {
-                $writeCleanedFile             = true;
-                self::$errors[]               = "$language: The string $stringLabel is the same as in English, removing...";
+                $writeCleanedFile = true;
+                self::$errors[] = "$language: The string $stringLabel is the same as in English, removing...";
                 $cleanedStrings[$stringLabel] = false;
             }
             // remove excessive line breaks (and leading/trailing whitespace) from translations
@@ -135,8 +135,8 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
                     $stringNoLineBreak = str_replace(array("\n", "\r"), " ", $stringNoLineBreak);
                 }
                 if ($cleanedStrings[$stringLabel] !== $stringNoLineBreak) {
-                    self::$errors[]               = "$language: found unnecessary whitespace in some strings in $stringLabel";
-                    $writeCleanedFile             = true;
+                    self::$errors[] = "$language: found unnecessary whitespace in some strings in $stringLabel";
+                    $writeCleanedFile = true;
                     $cleanedStrings[$stringLabel] = $stringNoLineBreak;
                 }
             }
@@ -154,10 +154,10 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
             }
             if (isset($cleanedStrings[$stringLabel])) {
                 $currentString = $cleanedStrings[$stringLabel];
-                $decoded       = Piwik_TranslationWriter::clean($currentString);
+                $decoded = Piwik_TranslationWriter::clean($currentString);
                 if ($currentString != $decoded) {
-                    self::$errors[]               = "$language: found encoded entities in $stringLabel, converting entities to characters";
-                    $writeCleanedFile             = true;
+                    self::$errors[] = "$language: found encoded entities in $stringLabel, converting entities to characters";
+                    $writeCleanedFile = true;
                     $cleanedStrings[$stringLabel] = $decoded;
                 }
             }
@@ -167,9 +167,9 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
         if (!empty($cleanedStrings['General_LayoutDirection'])
             && !in_array($cleanedStrings['General_LayoutDirection'], array('rtl', 'ltr'))
         ) {
-            $writeCleanedFile                          = true;
+            $writeCleanedFile = true;
             $cleanedStrings['General_LayoutDirection'] = false;
-            self::$errors[]                            = "$language: General_LayoutDirection must be rtl or ltr";
+            self::$errors[] = "$language: General_LayoutDirection must be rtl or ltr";
         }
         if ($writeCleanedFile) {
             $path = Piwik_TranslationWriter::getTranslationPath($language, 'tmp');
@@ -218,7 +218,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
     private function getCountParametersToReplace($string)
     {
         $sprintfParameters = array('%s', '%1$s', '%2$s', '%3$s', '%4$s', '%5$s', '%6$s');
-        $count             = 0;
+        $count = 0;
         foreach ($sprintfParameters as $parameter) {
             $count += substr_count($string, $parameter);
         }

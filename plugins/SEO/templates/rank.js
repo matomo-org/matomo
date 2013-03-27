@@ -12,7 +12,7 @@ $(document).ready(function () {
         ajaxRequest.addParams({
             module: 'SEO',
             action: 'getRank',
-            url:    encodeURIComponent($('#seoUrl').val())
+            url: encodeURIComponent($('#seoUrl').val())
         }, 'get');
         ajaxRequest.setCallback(
             function (response) {

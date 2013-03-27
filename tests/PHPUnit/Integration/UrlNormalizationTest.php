@@ -4,7 +4,7 @@
  */
 class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -18,10 +18,10 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
 
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	$dateTime = self::$fixture->dateTime;
-    	
-        $return   = array();
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
+
+        $return = array();
         $return[] = array('Actions.getPageUrls', array(
             'testSuffix' => '_urls',
             'idSite'     => $idSite,
@@ -32,7 +32,7 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
             'idSite'     => $idSite,
             'date'       => $dateTime,
         ));
-        
+
         $return[] = array('Actions.getPageUrls', array(
             'testSuffix' => '_pagesSegmented',
             'idSite'     => $idSite,
@@ -83,15 +83,15 @@ class Test_Piwik_Integration_UrlNormalization extends IntegrationTestCase
      */
     public function testCheckPostConditions()
     {
-        $sql      = "SELECT count(*) FROM " . Piwik_Common::prefixTable('log_action');
-        $count    = Zend_Registry::get('db')->fetchOne($sql);
+        $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable('log_action');
+        $count = Zend_Registry::get('db')->fetchOne($sql);
         $expected = 9; // 4 urls + 5 titles
         $this->assertEquals($expected, $count, "only $expected actions expected");
 
-        $sql      = "SELECT name, url_prefix FROM " . Piwik_Common::prefixTable('log_action')
+        $sql = "SELECT name, url_prefix FROM " . Piwik_Common::prefixTable('log_action')
             . " WHERE type = " . Piwik_Tracker_Action::TYPE_ACTION_URL
             . " ORDER BY idaction ASC";
-        $urls     = Zend_Registry::get('db')->fetchAll($sql);
+        $urls = Zend_Registry::get('db')->fetchAll($sql);
         $expected = array(
             array('name' => 'example.org/foo/bar.html', 'url_prefix' => 0),
             array('name' => 'example.org/foo/bar2.html', 'url_prefix' => 3),

@@ -14,7 +14,7 @@
  */
 class Test_Piwik_Integration_OneVisitor_NoKeywordSpecified extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -31,9 +31,9 @@ class Test_Piwik_Integration_OneVisitor_NoKeywordSpecified extends IntegrationTe
         $apiToCall = array('Referers.getKeywords', 'Live.getLastVisitsDetails');
 
         return array(
-            array($apiToCall, array('idSite' => self::$fixture->idSite,
-            						'date' => self::$fixture->dateTime,
-            						'language' => 'fr') )
+            array($apiToCall, array('idSite'   => self::$fixture->idSite,
+                                    'date'     => self::$fixture->dateTime,
+                                    'language' => 'fr'))
         );
     }
 

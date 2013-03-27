@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package SmartyPlugins
  */
@@ -27,24 +27,24 @@
  */
 function smarty_outputfilter_ajaxcdn($source, &$smarty)
 {
-	$jquery_version = Piwik_Config::getInstance()->General['jquery_version'];
-	$jqueryui_version = Piwik_Config::getInstance()->General['jqueryui_version'];
+    $jquery_version = Piwik_Config::getInstance()->General['jquery_version'];
+    $jqueryui_version = Piwik_Config::getInstance()->General['jqueryui_version'];
 
-	$pattern = array(
-		'~<link rel="stylesheet" type="text/css" href="libs/jquery/themes/([^"]*)" />~',
-		'~<script type="text/javascript" src="libs/jquery/jquery\.js([^"]*)">~',
-		'~<script type="text/javascript" src="libs/jquery/jquery-ui\.js([^"]*)">~',
-		'~<script type="text/javascript" src="libs/jquery/jquery-ui-18n\.js([^"]*)">~',
-	);
+    $pattern = array(
+        '~<link rel="stylesheet" type="text/css" href="libs/jquery/themes/([^"]*)" />~',
+        '~<script type="text/javascript" src="libs/jquery/jquery\.js([^"]*)">~',
+        '~<script type="text/javascript" src="libs/jquery/jquery-ui\.js([^"]*)">~',
+        '~<script type="text/javascript" src="libs/jquery/jquery-ui-18n\.js([^"]*)">~',
+    );
 
-	// IE7 and IE8 bug: downloads css twice if scheme not specified
-	$requestMethod = Piwik_Url::getCurrentScheme();
-	$replace = array(
-		'<link rel="stylesheet" type="text/css" href="'.$requestMethod.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/themes/\\1" />',
-		'<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/'.$jquery_version.'/jquery.min.js">',
-		'<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/jquery-ui.min.js">',
-		'<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryui_version.'/i18n/jquery-ui-18n.min.js">',
-	);
+    // IE7 and IE8 bug: downloads css twice if scheme not specified
+    $requestMethod = Piwik_Url::getCurrentScheme();
+    $replace = array(
+        '<link rel="stylesheet" type="text/css" href="' . $requestMethod . '://ajax.googleapis.com/ajax/libs/jqueryui/' . $jqueryui_version . '/themes/\\1" />',
+        '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/' . $jquery_version . '/jquery.min.js">',
+        '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/' . $jqueryui_version . '/jquery-ui.min.js">',
+        '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/' . $jqueryui_version . '/i18n/jquery-ui-18n.min.js">',
+    );
 
-	return preg_replace($pattern, $replace, $source);
+    return preg_replace($pattern, $replace, $source);
 }

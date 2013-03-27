@@ -12,7 +12,7 @@
  */
 class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends IntegrationTestCase
 {
-	public static $fixture = null;
+    public static $fixture = null;
 
     /**
      * @dataProvider getApiForTesting
@@ -21,7 +21,7 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
      */
     public function testApi($api, $params)
     {
-            $this->runApiTests($api, $params);
+        $this->runApiTests($api, $params);
     }
 
     /**
@@ -58,4 +58,4 @@ class Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit extends
 }
 
 Test_Piwik_Integration_TrackGoals_AllowMultipleConversionsPerVisit::$fixture
-	= new Piwik_Test_Fixture_SomeVisitsAllConversions();
+    = new Piwik_Test_Fixture_SomeVisitsAllConversions();

@@ -11,14 +11,14 @@
  */
 class Test_Piwik_Integration_CsvExport extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	$dateTime = self::$fixture->dateTime;
-    	
-        $apiToCall    = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
+
+        $apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
 
         $enExtraParam = array('expanded' => 0, 'flat' => 1, 'include_aggregate_rows' => 0, 'translateColumnNames' => 1);
 

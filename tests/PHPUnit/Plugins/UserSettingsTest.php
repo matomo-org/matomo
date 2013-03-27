@@ -168,7 +168,7 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 array('BLB', 'BlackBerry', 'BlackBerry'))),
 
             array('Mozilla/5.0 (PlayBook; U; RIM Tablet OS 1.0.0; en-US) AppleWebKit/534.11+ (KHTML, like Gecko) Version/0.0.1 Safari/534.11+', array(
-                array('BP', 'PlayBook', 'PlayBook', '0.0', '0', '0', 'webkit' ),
+                array('BP', 'PlayBook', 'PlayBook', '0.0', '0', '0', 'webkit'),
                 array('QNX', 'QNX', 'QNX'))),
 
             // BrowseX
@@ -1002,10 +1002,9 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
         $res = UserAgentParser::getBrowser($userAgent);
         $family = false;
 
-        if($res === false)
+        if ($res === false)
             $this->assertFalse($expected[0]);
-        else
-        {
+        else {
             $family = Piwik_getBrowserFamily($res['id']);
             $this->assertEquals($expected[0][0], $res['id']);
             $this->assertEquals($expected[0][1], $res['name']);

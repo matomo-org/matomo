@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package SmartyPlugins
  */
@@ -18,13 +18,10 @@
  */
 function smarty_function_ajaxErrorDiv($params, &$smarty)
 {
-	if(empty($params['id'])) 
-	{
-		$id = 'ajaxError';
-	}
-	else
-	{
-		$id = $params['id'];
-	}
-	return '<div class="ajaxError" id="'.$id.'" style="display:none"></div>';
+    if (empty($params['id'])) {
+        $id = 'ajaxError';
+    } else {
+        $id = $params['id'];
+    }
+    return '<div class="ajaxError" id="' . $id . '" style="display:none"></div>';
 }

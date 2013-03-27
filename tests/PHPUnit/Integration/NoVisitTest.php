@@ -13,7 +13,7 @@
  */
 class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -29,8 +29,8 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
     {
         // this will output empty XML result sets as no visit was tracked
         return array(
-            array('all', array('idSite'       => self::$fixture->idSite,
-                               'date'         => self::$fixture->dateTime)),
+            array('all', array('idSite' => self::$fixture->idSite,
+                               'date'   => self::$fixture->dateTime)),
             array('all', array('idSite'       => self::$fixture->idSite,
                                'date'         => self::$fixture->dateTime,
                                'periods'      => array('day', 'week'),

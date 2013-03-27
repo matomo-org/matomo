@@ -14,33 +14,29 @@
  */
 class Piwik_Updates_0_6_2 extends Piwik_Updates
 {
-	static function update()
-	{
-		$obsoleteFiles = array(
-			PIWIK_INCLUDE_PATH . '/core/Db/Mysqli.php',
-		);
-		foreach($obsoleteFiles as $obsoleteFile)
-		{
-			if(file_exists($obsoleteFile))
-			{
-				@unlink($obsoleteFile);
-			}
-		}
+    static function update()
+    {
+        $obsoleteFiles = array(
+            PIWIK_INCLUDE_PATH . '/core/Db/Mysqli.php',
+        );
+        foreach ($obsoleteFiles as $obsoleteFile) {
+            if (file_exists($obsoleteFile)) {
+                @unlink($obsoleteFile);
+            }
+        }
 
-		$obsoleteDirectories = array(
-			PIWIK_INCLUDE_PATH . '/core/Db/Pdo',
-		);
-		foreach($obsoleteDirectories as $dir)
-		{
-			if(file_exists($dir))
-			{
-				Piwik::unlinkRecursive($dir, true);
-			}
-		}
+        $obsoleteDirectories = array(
+            PIWIK_INCLUDE_PATH . '/core/Db/Pdo',
+        );
+        foreach ($obsoleteDirectories as $dir) {
+            if (file_exists($dir)) {
+                Piwik::unlinkRecursive($dir, true);
+            }
+        }
 
-		// force regeneration of cache files
-		Piwik::setUserIsSuperUser();
-		$allSiteIds = Piwik_SitesManager_API::getInstance()->getAllSitesId();
-		Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($allSiteIds);
-	}
+        // force regeneration of cache files
+        Piwik::setUserIsSuperUser();
+        $allSiteIds = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($allSiteIds);
+    }
 }

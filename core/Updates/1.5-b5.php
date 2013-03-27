@@ -14,21 +14,21 @@
  */
 class Piwik_Updates_1_5_b5 extends Piwik_Updates
 {
-	static function getSql($schema = 'Myisam')
-	{
-		return array(
-			'CREATE TABLE `'. Piwik_Common::prefixTable('session') .'` (
+    static function getSql($schema = 'Myisam')
+    {
+        return array(
+            'CREATE TABLE `' . Piwik_Common::prefixTable('session') . '` (
 								id CHAR(32) NOT NULL,
 								modified INTEGER,
 								lifetime INTEGER,
 								data TEXT,
 								PRIMARY KEY ( id )
 								)  DEFAULT CHARSET=utf8' => false,
-		);
-	}
+        );
+    }
 
-	static function update()
-	{
-		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-	}
+    static function update()
+    {
+        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+    }
 }

@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package SmartyPlugins
  */
@@ -18,23 +18,20 @@
  */
 function smarty_modifier_urlRewriteBasicView($parameters)
 {
-	// replace module=X by moduleToLoad=X
-	// replace action=Y by actionToLoad=Y
-	$parameters['moduleToLoad'] = $parameters['module'];
-	unset($parameters['module']);
+    // replace module=X by moduleToLoad=X
+    // replace action=Y by actionToLoad=Y
+    $parameters['moduleToLoad'] = $parameters['module'];
+    unset($parameters['module']);
 
-	if(isset( $parameters['action']))
-	{
-		$parameters['actionToLoad'] = $parameters['action'];
-		unset($parameters['action']);
-	}
-	else
-	{
-		$parameters['actionToLoad'] = null;
-	}
-	$url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
+    if (isset($parameters['action'])) {
+        $parameters['actionToLoad'] = $parameters['action'];
+        unset($parameters['action']);
+    } else {
+        $parameters['actionToLoad'] = null;
+    }
+    $url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
 
-	// add module=CoreHome&action=showInContext
-	$url = $url . '&amp;module=CoreHome&amp;action=showInContext';
-	return Piwik_Common::sanitizeInputValue($url);
+    // add module=CoreHome&action=showInContext
+    $url = $url . '&amp;module=CoreHome&amp;action=showInContext';
+    return Piwik_Common::sanitizeInputValue($url);
 }

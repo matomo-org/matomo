@@ -13,37 +13,37 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testGetId()
     {
-        $period = new Piwik_Period_Day( Piwik_Date::today() );
-        $this->assertNotEquals( 0,  $period->getId() );
-        $period = new Piwik_Period_Week( Piwik_Date::today() );
-        $this->assertNotEquals( 0,  $period->getId() );
-        $period = new Piwik_Period_Month( Piwik_Date::today() );
-        $this->assertNotEquals( 0,  $period->getId() );
-        $period = new Piwik_Period_Year( Piwik_Date::today() );
-        $this->assertNotEquals( 0,  $period->getId() );
+        $period = new Piwik_Period_Day(Piwik_Date::today());
+        $this->assertNotEquals(0, $period->getId());
+        $period = new Piwik_Period_Week(Piwik_Date::today());
+        $this->assertNotEquals(0, $period->getId());
+        $period = new Piwik_Period_Month(Piwik_Date::today());
+        $this->assertNotEquals(0, $period->getId());
+        $period = new Piwik_Period_Year(Piwik_Date::today());
+        $this->assertNotEquals(0, $period->getId());
     }
-    
+
     /**
      * @group Core
      * @group Period
      */
     public function testGetLabel()
     {
-        $period = new Piwik_Period_Day( Piwik_Date::today() );
+        $period = new Piwik_Period_Day(Piwik_Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType( 'string', $label);
+        $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
-        $period = new Piwik_Period_Week( Piwik_Date::today() );
+        $period = new Piwik_Period_Week(Piwik_Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType( 'string', $label);
+        $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
-        $period = new Piwik_Period_Month( Piwik_Date::today() );
+        $period = new Piwik_Period_Month(Piwik_Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType( 'string', $label);
+        $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
-        $period = new Piwik_Period_Year( Piwik_Date::today() );
+        $period = new Piwik_Period_Year(Piwik_Date::today());
         $label = $period->getLabel();
-        $this->assertInternalType( 'string', $label);
+        $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
     }
 

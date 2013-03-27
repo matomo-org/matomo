@@ -17,16 +17,16 @@
 class Piwik_ImageGraph_StaticGraph_Evolution extends Piwik_ImageGraph_StaticGraph_GridGraph
 {
 
-	public function renderGraph()
-	{
-		$this->initGridChart(
-			$displayVerticalGridLines = true,
-			$bulletType = LEGEND_FAMILY_LINE,
-			$horizontalGraph = false,
-			$showTicks = true,
-			$verticalLegend = true
-		);
+    public function renderGraph()
+    {
+        $this->initGridChart(
+            $displayVerticalGridLines = true,
+            $bulletType = LEGEND_FAMILY_LINE,
+            $horizontalGraph = false,
+            $showTicks = true,
+            $verticalLegend = true
+        );
 
-		$this->pImage->drawLineChart();
-	}
+        $this->pImage->drawLineChart();
+    }
 }

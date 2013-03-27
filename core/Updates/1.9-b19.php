@@ -14,27 +14,27 @@
  */
 class Piwik_Updates_1_9_b19 extends Piwik_Updates
 {
-	static function getSql($schema = 'Myisam')
-	{
-		return array(
-			'ALTER TABLE  `'. Piwik_Common::prefixTable('log_link_visit_action') .'`
+    static function getSql($schema = 'Myisam')
+    {
+        return array(
+            'ALTER TABLE  `' . Piwik_Common::prefixTable('log_link_visit_action') . '`
 			CHANGE `idaction_url_ref` `idaction_url_ref` INT( 10 ) UNSIGNED NULL DEFAULT 0'
-			=> false,
-			'ALTER TABLE  `'. Piwik_Common::prefixTable('log_visit') .'`
+            => false,
+            'ALTER TABLE  `' . Piwik_Common::prefixTable('log_visit') . '`
 			CHANGE `visit_exit_idaction_url` `visit_exit_idaction_url` INT( 10 ) UNSIGNED NULL DEFAULT 0'
-			=> false
-		);
-	}
+            => false
+        );
+    }
 
-	static function update()
-	{
-		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+    static function update()
+    {
+        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
 
 
-		try {
-			Piwik_PluginsManager::getInstance()->activatePlugin('Transitions');
-		} catch(Exception $e) {
-		}
-	}
+        try {
+            Piwik_PluginsManager::getInstance()->activatePlugin('Transitions');
+        } catch (Exception $e) {
+        }
+    }
 }
 

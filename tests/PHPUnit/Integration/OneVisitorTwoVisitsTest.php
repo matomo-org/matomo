@@ -18,18 +18,18 @@
  */
 class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class
-	
-	public function setUp()
-	{
-		Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(false);
-	}
-	
-	public function tearDown()
-	{
-		Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(true);
-	}
-	
+    public static $fixture = null; // initialized below class
+
+    public function setUp()
+    {
+        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(false);
+    }
+
+    public function tearDown()
+    {
+        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(true);
+    }
+
     /**
      * @dataProvider getApiForTesting
      * @group        Integration
@@ -42,19 +42,18 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	$dateTime = self::$fixture->dateTime;
-    	
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
+
         $enExtraParam = array('expanded' => 1, 'flat' => 1, 'include_aggregate_rows' => 0, 'translateColumnNames' => 1);
-        $bulkUrls     = array(
-            "idSite=".$idSite."&date=2010-03-06&format=json&expanded=1&period=day&method=VisitsSummary.get",
-            "idSite=".$idSite."&date=2010-03-06&format=xml&expanded=1&period=day&method=VisitsSummary.get",
-            "idSite=".$idSite."&date=2010-03-06&format=json&expanded=1&period=day&method="
+        $bulkUrls = array(
+            "idSite=" . $idSite . "&date=2010-03-06&format=json&expanded=1&period=day&method=VisitsSummary.get",
+            "idSite=" . $idSite . "&date=2010-03-06&format=xml&expanded=1&period=day&method=VisitsSummary.get",
+            "idSite=" . $idSite . "&date=2010-03-06&format=json&expanded=1&period=day&method="
                 . "VisitorInterest.getNumberOfVisitsPerVisitDuration"
         );
-        foreach ($bulkUrls as &$url)
-        {
-        	$url = urlencode($url);
+        foreach ($bulkUrls as &$url) {
+            $url = urlencode($url);
         }
         return array(
             array('all', array('idSite' => $idSite, 'date' => $dateTime)),
@@ -71,101 +70,99 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
                                    'testSuffix'             => '_csv')),
 
             array('API.getBulkRequest', array('otherRequestParameters' => array('urls' => $bulkUrls))),
-            
-            // test API.getProcessedReport w/ report that is its own 'actionToLoadSubTables'
-            array('API.getProcessedReport', array('idSite'		  => $idSite,
-            									  'date'		  => $dateTime,
-            									  'periods'		  => array('week'),
-            									  'apiModule'	  => 'Actions',
-            									  'apiAction'	  => 'getPageUrls',
-            									  'supertableApi' => 'Actions.getPageUrls',
-            									  'testSuffix'	  => '__subtable')),
 
-			// test hideColumns && showColumns parameters
-			array('VisitsSummary.get', array('idSite' => $idSite, 'date' => $dateTime, 'periods' => 'day',
-											 'testSuffix' => '_hideColumns_',
-											 'otherRequestParameters' => array(
-											 	'hideColumns' => 'nb_visits_converted,max_actions,bounce_count,nb_hits,'
-											 		.'nb_visits,nb_actions,sum_visit_length,avg_time_on_site'
-											 ))),
-			array('VisitsSummary.get', array('idSite' => $idSite, 'date' => $dateTime, 'periods' => 'day',
-											 'testSuffix' => '_showColumns_',
-											 'otherRequestParameters' => array(
-											 	'showColumns' => 'nb_visits,nb_actions,nb_hits'
-											 ))),
-			array('VisitsSummary.get', array('idSite' => $idSite, 'date' => $dateTime, 'periods' => 'day',
-											 'testSuffix' => '_hideAllColumns_',
-											 'otherRequestParameters' => array(
-											 	'hideColumns' => 'nb_visits_converted,max_actions,bounce_count,nb_hits,'
-											 		.'nb_visits,nb_actions,sum_visit_length,avg_time_on_site,'
-											 		.'bounce_rate,nb_uniq_visitors,nb_actions_per_visit,'
-											 ))),
-			
-			// test hideColumns w/ API.getProcessedReport
-			array('API.getProcessedReport', array('idSite' => $idSite, 'date' => $dateTime,
-												  'periods' => 'day', 'apiModule' => 'Actions',
-												  'apiAction' => 'getPageTitles', 'testSuffix' => '_hideColumns_',
-												  'otherRequestParameters' => array(
-												  	'hideColumns' => 'nb_visits_converted,xyzaug,entry_nb_visits,'.
-												  		'bounce_rate,nb_hits,nb_visits,avg_time_on_page,avg_time_generation'
-												  ))),
-			
-			array('API.getProcessedReport', array('idSite' => $idSite, 'date' => $dateTime,
-												  'periods' => 'day', 'apiModule' => 'Actions',
-												  'apiAction' => 'getPageTitles', 'testSuffix' => '_showColumns_',
-												  'otherRequestParameters' => array(
-												  	'showColumns' => 'nb_visits_converted,xuena,entry_nb_visits,'.
-												  		'bounce_rate,nb_hits'
-												  ))),
-			array('API.getProcessedReport', array('idSite' => $idSite, 'date' => $dateTime,
-												  'periods' => 'day', 'apiModule' => 'VisitTime',
-												  'apiAction' => 'getVisitInformationPerServerTime',
-												  'testSuffix' => '_showColumnsWithProcessedMetrics_',
-												  'otherRequestParameters' => array(
-												  	'showColumns' => 'nb_visits,revenue'
-												  ))),
-			
-			// test hideColumns w/ expanded=1
-			array('Actions.getPageTitles', array('idSite' => $idSite, 'date' => $dateTime,
-												 'periods' => 'day', 'testSuffix' => '_hideColumns_',
-												  'otherRequestParameters' => array(
-												  	'hideColumns' => 'nb_visits_converted,entry_nb_visits,'.
-												  		'bounce_rate,nb_hits,nb_visits,sum_time_spent,'.
-												  		'entry_sum_visit_length,entry_bounce_count,exit_nb_visits,'.
-												  		'entry_nb_uniq_visitors,exit_nb_uniq_visitors,entry_nb_actions,'.
-												  		'avg_time_generation',
-												  	'expanded' => '1'
-												 ))),
+            // test API.getProcessedReport w/ report that is its own 'actionToLoadSubTables'
+            array('API.getProcessedReport', array('idSite'        => $idSite,
+                                                  'date'          => $dateTime,
+                                                  'periods'       => array('week'),
+                                                  'apiModule'     => 'Actions',
+                                                  'apiAction'     => 'getPageUrls',
+                                                  'supertableApi' => 'Actions.getPageUrls',
+                                                  'testSuffix'    => '__subtable')),
+
+            // test hideColumns && showColumns parameters
+            array('VisitsSummary.get', array('idSite'                 => $idSite, 'date' => $dateTime, 'periods' => 'day',
+                                             'testSuffix'             => '_hideColumns_',
+                                             'otherRequestParameters' => array(
+                                                 'hideColumns' => 'nb_visits_converted,max_actions,bounce_count,nb_hits,'
+                                                     . 'nb_visits,nb_actions,sum_visit_length,avg_time_on_site'
+                                             ))),
+            array('VisitsSummary.get', array('idSite'                 => $idSite, 'date' => $dateTime, 'periods' => 'day',
+                                             'testSuffix'             => '_showColumns_',
+                                             'otherRequestParameters' => array(
+                                                 'showColumns' => 'nb_visits,nb_actions,nb_hits'
+                                             ))),
+            array('VisitsSummary.get', array('idSite'                 => $idSite, 'date' => $dateTime, 'periods' => 'day',
+                                             'testSuffix'             => '_hideAllColumns_',
+                                             'otherRequestParameters' => array(
+                                                 'hideColumns' => 'nb_visits_converted,max_actions,bounce_count,nb_hits,'
+                                                     . 'nb_visits,nb_actions,sum_visit_length,avg_time_on_site,'
+                                                     . 'bounce_rate,nb_uniq_visitors,nb_actions_per_visit,'
+                                             ))),
+
+            // test hideColumns w/ API.getProcessedReport
+            array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
+                                                  'periods'                => 'day', 'apiModule' => 'Actions',
+                                                  'apiAction'              => 'getPageTitles', 'testSuffix' => '_hideColumns_',
+                                                  'otherRequestParameters' => array(
+                                                      'hideColumns' => 'nb_visits_converted,xyzaug,entry_nb_visits,' .
+                                                          'bounce_rate,nb_hits,nb_visits,avg_time_on_page,avg_time_generation'
+                                                  ))),
+
+            array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
+                                                  'periods'                => 'day', 'apiModule' => 'Actions',
+                                                  'apiAction'              => 'getPageTitles', 'testSuffix' => '_showColumns_',
+                                                  'otherRequestParameters' => array(
+                                                      'showColumns' => 'nb_visits_converted,xuena,entry_nb_visits,' .
+                                                          'bounce_rate,nb_hits'
+                                                  ))),
+            array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
+                                                  'periods'                => 'day', 'apiModule' => 'VisitTime',
+                                                  'apiAction'              => 'getVisitInformationPerServerTime',
+                                                  'testSuffix'             => '_showColumnsWithProcessedMetrics_',
+                                                  'otherRequestParameters' => array(
+                                                      'showColumns' => 'nb_visits,revenue'
+                                                  ))),
+
+            // test hideColumns w/ expanded=1
+            array('Actions.getPageTitles', array('idSite'                 => $idSite, 'date' => $dateTime,
+                                                 'periods'                => 'day', 'testSuffix' => '_hideColumns_',
+                                                 'otherRequestParameters' => array(
+                                                     'hideColumns' => 'nb_visits_converted,entry_nb_visits,' .
+                                                         'bounce_rate,nb_hits,nb_visits,sum_time_spent,' .
+                                                         'entry_sum_visit_length,entry_bounce_count,exit_nb_visits,' .
+                                                         'entry_nb_uniq_visitors,exit_nb_uniq_visitors,entry_nb_actions,' .
+                                                         'avg_time_generation',
+                                                     'expanded'    => '1'
+                                                 ))),
         );
     }
-	
-	/**
-	 * Test that Archive_Single::preFetchBlob won't fetch extra unnecessary blobs.
-	 * 
-	 * @group        Integration
-	 * @group        OneVisitorTwoVisits
-	 */
-	public function testArchiveSinglePreFetchBlob()
-	{
-		$archive = Piwik_Archive::build(self::$fixture->idSite, 'day', self::$fixture->dateTime);
-		$archive->preFetchBlob('Actions_actions');
-		$cache = $archive->getBlobCache();
-		
-		$foundSubtable = false;
-		
-		$this->assertTrue(count($cache) > 0, "empty blob cache");
-		foreach ($cache as $name => $value)
-		{
-			$this->assertTrue(strpos($name, "Actions_actions_url") === false, "found blob w/ name '$name'");
-			
-			if (strpos($name, "Actions_actions_") !== false)
-			{
-				$foundSubtable = true;
-			}
-		}
-		
-		$this->assertTrue($foundSubtable, "Actions_actions subtable was not loaded");
-	}
+
+    /**
+     * Test that Archive_Single::preFetchBlob won't fetch extra unnecessary blobs.
+     *
+     * @group        Integration
+     * @group        OneVisitorTwoVisits
+     */
+    public function testArchiveSinglePreFetchBlob()
+    {
+        $archive = Piwik_Archive::build(self::$fixture->idSite, 'day', self::$fixture->dateTime);
+        $archive->preFetchBlob('Actions_actions');
+        $cache = $archive->getBlobCache();
+
+        $foundSubtable = false;
+
+        $this->assertTrue(count($cache) > 0, "empty blob cache");
+        foreach ($cache as $name => $value) {
+            $this->assertTrue(strpos($name, "Actions_actions_url") === false, "found blob w/ name '$name'");
+
+            if (strpos($name, "Actions_actions_") !== false) {
+                $foundSubtable = true;
+            }
+        }
+
+        $this->assertTrue($foundSubtable, "Actions_actions subtable was not loaded");
+    }
 }
 
 Test_Piwik_Integration_OneVisitorTwoVisits::$fixture = new Test_Piwik_Fixture_OneVisitorTwoVisits();

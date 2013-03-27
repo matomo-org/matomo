@@ -8,22 +8,22 @@
 
 class RankingQueryTest extends PHPUnit_Framework_TestCase
 {
-	
+
     /**
      * @group Core
      * @group RankingQuery
      */
     public function testBasic()
     {
-		$query = new Piwik_RankingQuery();
-		$query->addLabelColumn('label');
-		$query->addColumn('column');
-		$query->addColumn('columnSum', 'sum');
-		$query->setLimit(10);
-		
-		$innerQuery = "SELECT label, column, columnSum FROM myTable";
-		
-		$expected = "
+        $query = new Piwik_RankingQuery();
+        $query->addLabelColumn('label');
+        $query->addColumn('column');
+        $query->addColumn('columnSum', 'sum');
+        $query->setLimit(10);
+
+        $innerQuery = "SELECT label, column, columnSum FROM myTable";
+
+        $expected = "
 			SELECT
 				CASE
 					WHEN counter = 11 THEN 'Others'
@@ -46,23 +46,23 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 			 ) AS withCounter
 			GROUP BY counter
 		";
-		
-		$this->checkQuery($query, $innerQuery, $expected);
-	}
-	
-	/**
-	 * @group Core
-	 * @group RankingQuery
-	 */
-	public function testExcludeRows()
-	{
-		$query = new Piwik_RankingQuery(20);
-		$query->addLabelColumn('label');
-		$query->setColumnToMarkExcludedRows('exclude_marker');
-		
-		$innerQuery = "SELECT label, 1 AS exclude_marker FROM myTable";
-		
-		$expected = "
+
+        $this->checkQuery($query, $innerQuery, $expected);
+    }
+
+    /**
+     * @group Core
+     * @group RankingQuery
+     */
+    public function testExcludeRows()
+    {
+        $query = new Piwik_RankingQuery(20);
+        $query->addLabelColumn('label');
+        $query->setColumnToMarkExcludedRows('exclude_marker');
+
+        $innerQuery = "SELECT label, 1 AS exclude_marker FROM myTable";
+
+        $expected = "
 			SELECT
 				CASE
 					WHEN counter = 21 THEN 'Others'
@@ -84,23 +84,23 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 			) AS withCounter
 			GROUP BY counter
 		";
-		
-		$this->checkQuery($query, $innerQuery, $expected);
-	}
-	
-	/**
-	 * @group Core
-	 * @group RankingQuery
-	 */
-	public function testPartitionResult()
-	{
-		$query = new Piwik_RankingQuery(1000);
-		$query->addLabelColumn('label');
-		$query->partitionResultIntoMultipleGroups('partition', array(1, 2, 3));
-		
-		$innerQuery = "SELECT label, partition FROM myTable";
-		
-		$expected = "
+
+        $this->checkQuery($query, $innerQuery, $expected);
+    }
+
+    /**
+     * @group Core
+     * @group RankingQuery
+     */
+    public function testPartitionResult()
+    {
+        $query = new Piwik_RankingQuery(1000);
+        $query->addLabelColumn('label');
+        $query->partitionResultIntoMultipleGroups('partition', array(1, 2, 3));
+
+        $innerQuery = "SELECT label, partition FROM myTable";
+
+        $expected = "
 			SELECT
 				CASE
 					WHEN counter = 1001 THEN 'Others'
@@ -128,24 +128,24 @@ class RankingQueryTest extends PHPUnit_Framework_TestCase
 			) AS withCounter
 			GROUP BY counter, `partition`
 		";
-		
-		$this->checkQuery($query, $innerQuery, $expected);
-	}
 
-	/**
-	 * @param Piwik_RankingQuery $rankingQuery
-	 * @param string $innerQuerySql
-	 * @param string $expected
-	 */
-	private function checkQuery($rankingQuery, $innerQuerySql, $expected)
-	{
-		$query = $rankingQuery->generateQuery($innerQuerySql);
-		
-		$queryNoWhitespace = preg_replace("/\s+/", "", $query);
-		$expectedNoWhitespace = preg_replace("/\s+/", "", $expected);
-		
-		$message = 'Unexpected query: '.$query;
-		$this->assertEquals($queryNoWhitespace, $expectedNoWhitespace, $message);
-	}
-	
+        $this->checkQuery($query, $innerQuery, $expected);
+    }
+
+    /**
+     * @param Piwik_RankingQuery $rankingQuery
+     * @param string $innerQuerySql
+     * @param string $expected
+     */
+    private function checkQuery($rankingQuery, $innerQuerySql, $expected)
+    {
+        $query = $rankingQuery->generateQuery($innerQuerySql);
+
+        $queryNoWhitespace = preg_replace("/\s+/", "", $query);
+        $expectedNoWhitespace = preg_replace("/\s+/", "", $expected);
+
+        $message = 'Unexpected query: ' . $query;
+        $this->assertEquals($queryNoWhitespace, $expectedNoWhitespace, $message);
+    }
+
 }

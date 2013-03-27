@@ -11,13 +11,13 @@
  */
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	$dateTime = self::$fixture->dateTime;
-    	
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
+
         $apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
 
         $return = array(
@@ -25,15 +25,15 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables extends IntegrationTes
                                     'date'         => $dateTime,
                                     'periods'      => array('day', 'week'),
                                     'setDateLastN' => true)),
-			
-			// test getProcessedReport w/ custom variables subtable
-			array('API.getProcessedReport', array('idSite' => $idSite,
-												  'date' => $dateTime,
-												  'periods' => 'day',
-												  'apiModule' => 'CustomVariables',
-												  'apiAction' => 'getCustomVariablesValuesFromNameId',
-												  'supertableApi' => 'CustomVariables.getCustomVariables',
-												  'testSuffix' => '__subtable' )),
+
+            // test getProcessedReport w/ custom variables subtable
+            array('API.getProcessedReport', array('idSite'        => $idSite,
+                                                  'date'          => $dateTime,
+                                                  'periods'       => 'day',
+                                                  'apiModule'     => 'CustomVariables',
+                                                  'apiAction'     => 'getCustomVariablesValuesFromNameId',
+                                                  'supertableApi' => 'CustomVariables.getCustomVariables',
+                                                  'testSuffix'    => '__subtable')),
         );
 
         return $return;

@@ -14,25 +14,25 @@ class DataTable_Filter_PatternRecursiveTest extends PHPUnit_Framework_TestCase
     protected function getTable()
     {
         $subtableAskPath1 = new Piwik_DataTable();
-        $subtableAskPath1->addRowsFromArray(array (
-            array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'path1-index-page.html') ),
-            array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'another-page') ),
-        ));
+        $subtableAskPath1->addRowsFromArray(array(
+                                                 array(Piwik_DataTable_Row::COLUMNS => array('label' => 'path1-index-page.html')),
+                                                 array(Piwik_DataTable_Row::COLUMNS => array('label' => 'another-page')),
+                                            ));
 
         $subtableAsk = new Piwik_DataTable();
-        $subtableAsk->addRowsFromArray(array (
-            array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'path1'),
-                    Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtableAskPath1),
-            array ( Piwik_DataTable_Row::COLUMNS => array( 'label' => 'index.html') ),
-        ));
+        $subtableAsk->addRowsFromArray(array(
+                                            array(Piwik_DataTable_Row::COLUMNS              => array('label' => 'path1'),
+                                                  Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtableAskPath1),
+                                            array(Piwik_DataTable_Row::COLUMNS => array('label' => 'index.html')),
+                                       ));
 
         $table = new Piwik_DataTable;
         $rows = array(
-            array(  Piwik_DataTable_Row::COLUMNS => array('label'=>'http://www.ask.com'),
-                    Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtableAsk),
-            array( Piwik_DataTable_Row::COLUMNS => array('label'=>'yahoo')),
+            array(Piwik_DataTable_Row::COLUMNS              => array('label' => 'http://www.ask.com'),
+                  Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $subtableAsk),
+            array(Piwik_DataTable_Row::COLUMNS => array('label' => 'yahoo')),
         );
-        $table->addRowsFromArray( $rows );
+        $table->addRowsFromArray($rows);
         return $table;
     }
 

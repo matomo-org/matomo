@@ -12,7 +12,7 @@
  */
 class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below test definition
+    public static $fixture = null; // initialized below test definition
 
     public function getOutputPrefix()
     {
@@ -31,13 +31,13 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
 
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	
+        $idSite = self::$fixture->idSite;
+
         $apiToCall = array('Actions.getPageUrls',
-            'VisitsSummary.get',
-            'UserSettings.getResolution',
-            'VisitFrequency.get',
-            'VisitTime.getVisitInformationPerServerTime');
+                           'VisitsSummary.get',
+                           'UserSettings.getResolution',
+                           'VisitFrequency.get',
+                           'VisitTime.getVisitInformationPerServerTime');
 
         // 2 segments: ALL and another way of expressing ALL but triggering the Segment code path
         $segments = array(
@@ -83,15 +83,15 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
             'archive_numeric_2011_01' => 0,
         );
         foreach ($tests as $table => $expectedRows) {
-            $sql        = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
+            $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
             $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
 
-	        $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
+            $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
         }
     }
 
 }
 
 Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_ArchivingTests::$fixture
-	= new Test_Piwik_Fixture_VisitsOverSeveralDays();
+    = new Test_Piwik_Fixture_VisitsOverSeveralDays();
 

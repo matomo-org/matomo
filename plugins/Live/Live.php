@@ -15,56 +15,56 @@
  */
 class Piwik_Live extends Piwik_Plugin
 {
-	public function getInformation()
-	{
-		return array(
-			'description' => Piwik_Translate('Live_PluginDescription'),
-			'author' => 'Piwik',
-			'author_homepage' => 'http://piwik.org/',
-			'version' => Piwik_Version::VERSION,
-		);
-	}
+    public function getInformation()
+    {
+        return array(
+            'description'     => Piwik_Translate('Live_PluginDescription'),
+            'author'          => 'Piwik',
+            'author_homepage' => 'http://piwik.org/',
+            'version'         => Piwik_Version::VERSION,
+        );
+    }
 
-	function getListHooksRegistered()
-	{
-		return array(
-			'AssetManager.getJsFiles' => 'getJsFiles',
-			'AssetManager.getCssFiles' => 'getCssFiles',
-			'WidgetsList.add' => 'addWidget',
-			'Menu.add' => 'addMenu',
-		);
-	}
+    function getListHooksRegistered()
+    {
+        return array(
+            'AssetManager.getJsFiles'  => 'getJsFiles',
+            'AssetManager.getCssFiles' => 'getCssFiles',
+            'WidgetsList.add'          => 'addWidget',
+            'Menu.add'                 => 'addMenu',
+        );
+    }
 
-	/**
-	 * @param Piwik_Event_Notification $notification  notification object
-	 */
-	function getCssFiles( $notification )
-	{
-		$cssFiles = &$notification->getNotificationObject();
-		
-		$cssFiles[] = "plugins/Live/templates/live.css";
-	}	
+    /**
+     * @param Piwik_Event_Notification $notification  notification object
+     */
+    function getCssFiles($notification)
+    {
+        $cssFiles = & $notification->getNotificationObject();
 
-	/**
-	 * @param Piwik_Event_Notification $notification  notification object
-	 */
-	function getJsFiles( $notification )
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		
-		$jsFiles[] = "plugins/Live/templates/scripts/live.js";
-	}
+        $cssFiles[] = "plugins/Live/templates/live.css";
+    }
 
-	function addMenu()
-	{
-		Piwik_AddMenu('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'getVisitorLog'), true, $order = 5);
-	}
+    /**
+     * @param Piwik_Event_Notification $notification  notification object
+     */
+    function getJsFiles($notification)
+    {
+        $jsFiles = & $notification->getNotificationObject();
 
-	public function addWidget() 
-	{
-		Piwik_AddWidget('Live!', 'Live_VisitorsInRealTime', 'Live', 'widget');
-		Piwik_AddWidget('Live!', 'Live_VisitorLog', 'Live', 'getVisitorLog');
-		Piwik_AddWidget('Live!', 'Live_RealTimeVisitorCount', 'Live', 'getSimpleLastVisitCount');
-	}
+        $jsFiles[] = "plugins/Live/templates/scripts/live.js";
+    }
+
+    function addMenu()
+    {
+        Piwik_AddMenu('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'getVisitorLog'), true, $order = 5);
+    }
+
+    public function addWidget()
+    {
+        Piwik_AddWidget('Live!', 'Live_VisitorsInRealTime', 'Live', 'widget');
+        Piwik_AddWidget('Live!', 'Live_VisitorLog', 'Live', 'getVisitorLog');
+        Piwik_AddWidget('Live!', 'Live_RealTimeVisitorCount', 'Live', 'getSimpleLastVisitCount');
+    }
 
 }

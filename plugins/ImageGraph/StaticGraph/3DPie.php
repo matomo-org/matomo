@@ -15,14 +15,14 @@
  */
 class Piwik_ImageGraph_StaticGraph_3DPie extends Piwik_ImageGraph_StaticGraph_PieGraph
 {
-	public function renderGraph()
-	{
-		$this->initPieGraph(true);
+    public function renderGraph()
+    {
+        $this->initPieGraph(true);
 
-		$this->pieChart->draw3DPie(
-			$this->xPosition,
-			$this->yPosition,
-			$this->pieConfig
-		);
-	}
+        $this->pieChart->draw3DPie(
+            $this->xPosition,
+            $this->yPosition,
+            $this->pieConfig
+        );
+    }
 }

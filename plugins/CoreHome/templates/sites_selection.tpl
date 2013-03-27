@@ -14,42 +14,47 @@
  * - $idSite The currently selected idSite. Defaults to the first id in $sites set by Piwik_View.
  *}
 {capture name=sitesSelector_allWebsitesLink assign=sitesSelector_allWebsitesLink}
-<div class="custom_select_all" style="clear: both">
-	<a href="#" {if isset($showAllSitesItem) && $showAllSitesItem eq false}style="display:none;"{/if}>
-		{if isset($allSitesItemText)}{$allSitesItemText}{else}{'General_MultiSitesSummary'|translate}{/if}
-	</a>
-</div>
+    <div class="custom_select_all" style="clear: both">
+        <a href="#" {if isset($showAllSitesItem) && $showAllSitesItem eq false}style="display:none;"{/if}>
+            {if isset($allSitesItemText)}{$allSitesItemText}{else}{'General_MultiSitesSummary'|translate}{/if}
+        </a>
+    </div>
 {/capture}
 <div class="sites_autocomplete" {if isset($siteSelectorId)}id="{$siteSelectorId}"{/if}
-	{if !isset($switchSiteOnSelect) || $switchSiteOnSelect eq true}data-switch-site-on-select="1"{/if}>
+        {if !isset($switchSiteOnSelect) || $switchSiteOnSelect eq true}data-switch-site-on-select="1"{/if}>
     <div class="custom_select">
-    
-        <a href="#" onclick="return false" class="custom_select_main_link" siteid="{if isset($idSite)}{$idSite}{else}{$sites[0].idsite}{/if}">{if isset($siteName)}{$siteName}{else}{$sites[0].name}{/if}</a>
-        
+
+        <a href="#" onclick="return false" class="custom_select_main_link"
+           siteid="{if isset($idSite)}{$idSite}{else}{$sites[0].idsite}{/if}">{if isset($siteName)}{$siteName}{else}{$sites[0].name}{/if}</a>
+
         <div class="custom_select_block">
             {if isset($allWebsitesLinkLocation) && $allWebsitesLinkLocation eq 'top'}
-            {$sitesSelector_allWebsitesLink}
+                {$sitesSelector_allWebsitesLink}
             {/if}
             <div class="custom_select_container">
-            <ul class="custom_select_ul_list" >
-                {foreach from=$sites item=info}
-                    <li {if (!isset($showSelectedSite) || $showSelectedSite eq false) && $idSite==$info.idsite} style="display: none"{/if}><a href="#" siteid="{$info.idsite}">{$info.name}</a></li>
-				{/foreach}
-            </ul>
+                <ul class="custom_select_ul_list">
+                    {foreach from=$sites item=info}
+                        <li {if (!isset($showSelectedSite) || $showSelectedSite eq false) && $idSite==$info.idsite} style="display: none"{/if}><a href="#"
+                                                                                                                                                  siteid="{$info.idsite}">{$info.name}</a>
+                        </li>
+                    {/foreach}
+                </ul>
             </div>
             {if !isset($allWebsitesLinkLocation) || $allWebsitesLinkLocation eq 'bottom'}
-            {$sitesSelector_allWebsitesLink}
+                {$sitesSelector_allWebsitesLink}
             {/if}
             <div class="custom_select_search" {if !$show_autocompleter}style="display:none;"{/if}>
                 <input type="text" length="15" class="websiteSearch inp"/>
-                <input type="hidden" class="max_sitename_width" value="130" />
+                <input type="hidden" class="max_sitename_width" value="130"/>
                 <input type="submit" value="Search" class="but"/>
-				<img title="Clear" class="reset" style="position: relative; top: 4px; left: -44px; cursor: pointer; display: none;" src="plugins/CoreHome/templates/images/reset_search.png"/>
+                <img title="Clear" class="reset" style="position: relative; top: 4px; left: -44px; cursor: pointer; display: none;"
+                     src="plugins/CoreHome/templates/images/reset_search.png"/>
             </div>
         </div>
-	</div>
-	{if isset($inputName)}<input type="hidden" name="{$inputName}" value="{if isset($idSite)}{$idSite}{else}{$sites[0].idsite}{/if}"/>{/if}
+    </div>
+    {if isset($inputName)}<input type="hidden" name="{$inputName}" value="{if isset($idSite)}{$idSite}{else}{$sites[0].idsite}{/if}"/>{/if}
 </div>
 <script type="text/javascript">
-	{literal}$(document).ready(function() { piwik.initSiteSelectors(); });{/literal}
+    {literal}$(document).ready(function () { piwik.initSiteSelectors(); });
+    {/literal}
 </script>

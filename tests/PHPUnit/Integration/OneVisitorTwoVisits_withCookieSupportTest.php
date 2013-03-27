@@ -12,7 +12,7 @@
  */
 class Test_Piwik_Integration_OneVisitorTwoVisits_WithCookieSupport extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class
+    public static $fixture = null; // initialized below class
 
     /**
      * @dataProvider getApiForTesting

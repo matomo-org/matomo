@@ -12,17 +12,17 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
  */
 class ArchivingProcessBenchmark extends BenchmarkTestCase
 {
-	public function setUp()
-	{
-		BenchmarkTestCase::deleteArchiveTables();
-	}
-	
-	/**
+    public function setUp()
+    {
+        BenchmarkTestCase::deleteArchiveTables();
+    }
+
+    /**
      * @group        Benchmarks
      * @group        ArchivingProcess
-	 */
-	public function testArchivingProcess()
-	{
-		Piwik_VisitsSummary_API::get(self::$fixture->idSite, self::$fixture->period, self::$fixture->date);
-	}
+     */
+    public function testArchivingProcess()
+    {
+        Piwik_VisitsSummary_API::get(self::$fixture->idSite, self::$fixture->period, self::$fixture->date);
+    }
 }

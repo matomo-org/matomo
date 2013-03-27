@@ -11,7 +11,7 @@
  */
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -27,7 +27,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
     {
         // Segment matching some
         $segments = array('customVariableName1==VisitorType;customVariableValue1==LoggedIn',
-            'customVariableName1==VisitorType;customVariableValue1=@LoggedI');
+                          'customVariableName1==VisitorType;customVariableValue1=@LoggedI');
 
         $apiToCall = array('Referers.getKeywords', 'CustomVariables.getCustomVariables', 'VisitsSummary.get');
 
@@ -85,7 +85,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
             'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
         );
         foreach ($tests as $table => $expectedRows) {
-            $sql        = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table);
+            $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table);
             $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
             $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
         }
@@ -98,6 +98,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
 }
 
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType::$fixture
-	= new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+    = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorType::$fixture->doExtraQuoteTests = false;
 

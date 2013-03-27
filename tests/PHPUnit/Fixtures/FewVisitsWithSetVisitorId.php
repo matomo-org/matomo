@@ -11,20 +11,20 @@
  */
 class Test_Piwik_Fixture_FewVisitsWithSetVisitorId extends Test_Piwik_BaseFixture
 {
-    public $idSite   = 1;
+    public $idSite = 1;
     public $dateTime = '2010-03-06 11:22:33';
-    
+
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
         $this->trackVisits();
     }
-    
+
     public function tearDown()
     {
-    	// empty
+        // empty
     }
-    
+
     private function setUpWebsitesAndGoals()
     {
         // tests run in UTC, the Tracker in UTC
@@ -34,8 +34,8 @@ class Test_Piwik_Fixture_FewVisitsWithSetVisitorId extends Test_Piwik_BaseFixtur
     private function trackVisits()
     {
         $dateTime = $this->dateTime;
-        $idSite   = $this->idSite;
-        
+        $idSite = $this->idSite;
+
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         // First, some basic tests
@@ -67,19 +67,19 @@ class Test_Piwik_Fixture_FewVisitsWithSetVisitorId extends Test_Piwik_BaseFixtur
         try {
             $t->setVisitorId('test');
             $this->fail('should throw');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             //OK
         }
         try {
             $t->setVisitorId('61e8');
             $this->fail('should throw');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             //OK
         }
         try {
             $t->setVisitorId('61e8cc2d51fea26dabcabcabc');
             $this->fail('should throw');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             //OK
         }
     }

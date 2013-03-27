@@ -11,7 +11,7 @@
  */
 class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -28,11 +28,11 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
      */
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	$idSite2 = self::$fixture->idSite2;
-    	$dateTimeDateInPastWebsite1 = self::$fixture->dateTimeDateInPastWebsite1;
-    	$dateTimeDateInPastWebsite2 = self::$fixture->dateTimeDateInPastWebsite2;
-    	
+        $idSite = self::$fixture->idSite;
+        $idSite2 = self::$fixture->idSite2;
+        $dateTimeDateInPastWebsite1 = self::$fixture->dateTimeDateInPastWebsite1;
+        $dateTimeDateInPastWebsite2 = self::$fixture->dateTimeDateInPastWebsite2;
+
         // We test a typical Numeric and a Recursive blob reports
         $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
 
@@ -42,13 +42,13 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
         // Build tests for the 2 websites
         return array(
             array($apiToCall, array('idSite'                 => $idSite,
-                                    'testSuffix'             => 'Website'.$idSite.'_OldReportsShouldNotAppear',
+                                    'testSuffix'             => 'Website' . $idSite . '_OldReportsShouldNotAppear',
                                     'date'                   => $dateTimeDateInPastWebsite1,
                                     'periods'                => 'month',
                                     'setDateLastN'           => 4, // 4months ahead
                                     'otherRequestParameters' => array('expanded' => 1))),
             array($apiToCall, array('idSite'                 => $idSite2,
-                                    'testSuffix'             => 'Website'.$idSite2.'_OldReportsShouldNotAppear',
+                                    'testSuffix'             => 'Website' . $idSite2 . '_OldReportsShouldNotAppear',
                                     'date'                   => $dateTimeDateInPastWebsite2,
                                     'periods'                => 'month',
                                     'setDateLastN'           => 4, // 4months ahead
@@ -64,9 +64,9 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
      */
     public function testAnotherApi($api, $params)
     {
-    	$idSite = self::$fixture->idSite;
-    	$idSite2 = self::$fixture->idSite2;
-    	
+        $idSite = self::$fixture->idSite;
+        $idSite2 = self::$fixture->idSite2;
+
         // 1) Invalidate old reports for the 2 websites
         // Test invalidate 1 date only
         $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=4,5,6,55,-1,s',1&dates=2010-01-03");
@@ -91,11 +91,11 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
      */
     public function getAnotherApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	$idSite2 = self::$fixture->idSite2;
-    	$dateTimeDateInPastWebsite1 = self::$fixture->dateTimeDateInPastWebsite1;
-    	$dateTimeDateInPastWebsite2 = self::$fixture->dateTimeDateInPastWebsite2;
-    	
+        $idSite = self::$fixture->idSite;
+        $idSite2 = self::$fixture->idSite2;
+        $dateTimeDateInPastWebsite1 = self::$fixture->dateTimeDateInPastWebsite1;
+        $dateTimeDateInPastWebsite2 = self::$fixture->dateTimeDateInPastWebsite2;
+
         $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
 
         return array(

@@ -15,28 +15,28 @@
  */
 class Piwik_Login_FormLogin extends Piwik_QuickForm2
 {
-	function __construct( $id = 'login_form', $method = 'post', $attributes = null, $trackSubmit = false)
-	{
-		parent::__construct($id,  $method, $attributes, $trackSubmit);
-	}
+    function __construct($id = 'login_form', $method = 'post', $attributes = null, $trackSubmit = false)
+    {
+        parent::__construct($id, $method, $attributes, $trackSubmit);
+    }
 
-	function init()
-	{
-		$this->addElement('text', 'form_login')
-		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Username')));
+    function init()
+    {
+        $this->addElement('text', 'form_login')
+            ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('General_Username')));
 
-		$this->addElement('password', 'form_password')
-		     ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_Password')));
+        $this->addElement('password', 'form_password')
+            ->addRule('required', Piwik_Translate('General_Required', Piwik_Translate('Login_Password')));
 
-		$this->addElement('hidden', 'form_nonce');
+        $this->addElement('hidden', 'form_nonce');
 
-		$this->addElement('checkbox', 'form_rememberme');
+        $this->addElement('checkbox', 'form_rememberme');
 
-		$this->addElement('submit', 'submit');
+        $this->addElement('submit', 'submit');
 
-		// default values
-		$this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-			'form_rememberme' => 0,
-		)));
-	}
+        // default values
+        $this->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
+                                                                       'form_rememberme' => 0,
+                                                                  )));
+    }
 }

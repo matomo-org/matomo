@@ -2,7 +2,7 @@
 /**
  * Piwik - Open source web analytics
  *
- * @link	http://piwik.org
+ * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
@@ -12,41 +12,41 @@
  */
 class Test_Piwik_Integration_NonUnicodeTest extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
-	/**
-	 * @dataProvider getApiForTesting
-	 * @group		Integration
-	 * @group		NonUnicodeTest
-	 */
-	public function testApi($api, $params)
-	{
-		$this->runApiTests($api, $params);
-	}
-	
-	public function getApiForTesting()
-	{
-		$apiToCall = array(
-			'Actions.getSiteSearchKeywords',
-			'Actions.getPageTitles',
-			'Actions.getPageUrls',
-			'Referers.getWebsites',
-		);
-		
-		return array(
-			array($apiToCall, array('idSite'	=> self::$fixture->idSite1,
-									'date'		=> self::$fixture->dateTime,
-									'periods'	=> 'day'))
-		);
-	}
+    /**
+     * @dataProvider getApiForTesting
+     * @group        Integration
+     * @group        NonUnicodeTest
+     */
+    public function testApi($api, $params)
+    {
+        $this->runApiTests($api, $params);
+    }
 
-	public function getOutputPrefix()
-	{
-		return 'NonUnicode';
-	}
+    public function getApiForTesting()
+    {
+        $apiToCall = array(
+            'Actions.getSiteSearchKeywords',
+            'Actions.getPageTitles',
+            'Actions.getPageUrls',
+            'Referers.getWebsites',
+        );
+
+        return array(
+            array($apiToCall, array('idSite'  => self::$fixture->idSite1,
+                                    'date'    => self::$fixture->dateTime,
+                                    'periods' => 'day'))
+        );
+    }
+
+    public function getOutputPrefix()
+    {
+        return 'NonUnicode';
+    }
 
 }
 
 Test_Piwik_Integration_NonUnicodeTest::$fixture =
-	new Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles();
+    new Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles();
 

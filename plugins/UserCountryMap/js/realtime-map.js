@@ -1,4 +1,3 @@
-
 /*!
  * Piwik - Web Analytics
  *
@@ -9,9 +8,9 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-(function() {
+(function () {
 
-    var RealtimeMap = window.UserCountryMap.RealtimeMap = function(config, theWidget) {
+    var RealtimeMap = window.UserCountryMap.RealtimeMap = function (config, theWidget) {
         this.config = config;
         this.theWidget = theWidget || false;
         this.run();
@@ -19,7 +18,7 @@
 
     $.extend(RealtimeMap.prototype, {
 
-        run: function() {
+        run: function () {
             var debug = 0;
 
             var self = this,
@@ -72,10 +71,10 @@
                     module: 'API',
                     method: 'Live.getLastVisitsDetails',
                     filter_limit: maxVisits,
-                    showColumns: ['latitude','longitude','actions','lastActionTimestamp',
-                        'visitLocalTime','city','country','referrerType','referrerName',
-                        'referrerTypeName','browserIcon','operatingSystemIcon',
-                        'countryFlag','idVisit','actionDetails','continentCode',
+                    showColumns: ['latitude', 'longitude', 'actions', 'lastActionTimestamp',
+                        'visitLocalTime', 'city', 'country', 'referrerType', 'referrerName',
+                        'referrerTypeName', 'browserIcon', 'operatingSystemIcon',
+                        'countryFlag', 'idVisit', 'actionDetails', 'continentCode',
                         'actions', 'searches', 'goalConversions'].join(','),
                     minTimestamp: firstRun ? -1 : lastTimestamp
                 });
@@ -101,7 +100,7 @@
              */
             function _updateMap(svgUrl, callback) {
                 if (svgUrl === undefined) return;
-                map.loadMap(config.svgBasePath + svgUrl, function() {
+                map.loadMap(config.svgBasePath + svgUrl, function () {
                     map.clear();
                     self.resize();
                     callback();
@@ -131,11 +130,11 @@
             }
 
             function relativeTime(ds) {
-                var val = function(val) { return '<b>'+Math.round(val)+'</b>'; };
+                var val = function (val) { return '<b>' + Math.round(val) + '</b>'; };
                 return (ds < 90 ? _.seconds_ago.replace('%s', val(ds))
-                    : ds < 5400 ? _.minutes_ago.replace('%s', val(ds/60))
-                    : ds < 129600 ? _.hours_ago.replace('%s', val(ds/3600))
-                    : _.days_ago.replace('%s', val(ds/86400)));
+                    : ds < 5400 ? _.minutes_ago.replace('%s', val(ds / 60))
+                    : ds < 129600 ? _.hours_ago.replace('%s', val(ds / 3600))
+                    : _.days_ago.replace('%s', val(ds / 86400)));
             }
 
             /*
@@ -145,32 +144,32 @@
             function visitTooltip(r) {
                 var ds = new Date().getTime() / 1000 - r.lastActionTimestamp,
                     ad = r.actionDetails,
-                    ico = function(src) { return '<img src="'+src+'" alt="" class="icon" />&nbsp;'; };
-                return '<h3>'+(r.city ? r.city+' / ' : '')+r.country+'</h3>'+
+                    ico = function (src) { return '<img src="' + src + '" alt="" class="icon" />&nbsp;'; };
+                return '<h3>' + (r.city ? r.city + ' / ' : '') + r.country + '</h3>' +
                     // icons
-                    ico(r.countryFlag)+ico(r.browserIcon)+ico(r.operatingSystemIcon)+'<br/>'+
+                    ico(r.countryFlag) + ico(r.browserIcon) + ico(r.operatingSystemIcon) + '<br/>' +
                     // last action
-                    (ad && ad.length && ad[ad.length-1].pageTitle ? '<em>' + ad[ad.length-1].pageTitle+'</em><br/>' : '')+
+                    (ad && ad.length && ad[ad.length - 1].pageTitle ? '<em>' + ad[ad.length - 1].pageTitle + '</em><br/>' : '') +
                     // time of visit
-                    '<div class="rel-time" data-actiontime="'+r.lastActionTimestamp+'">'+relativeTime(ds)+'</div>'+
+                    '<div class="rel-time" data-actiontime="' + r.lastActionTimestamp + '">' + relativeTime(ds) + '</div>' +
                     // either from or direct
                     (r.referrerType == "direct" ? r.referrerTypeName :
-                    _.from + ': '+r.referrerName) + '<br />' +
+                        _.from + ': ' + r.referrerName) + '<br />' +
                     // local time
-                    '<small>'+_.local_time+': '+r.visitLocalTime+'</small><br />' +
+                    '<small>' + _.local_time + ': ' + r.visitLocalTime + '</small><br />' +
                     // goals, if available
-                    (self.config.siteHasGoals && r.goalConversions ? '<small>'+_.goal_conversions.replace('%s', '<b>'+r.goalConversions+'</b>') +
-                    (r.searches > 0 ? ', ' + _.searches.replace('%s', r.searches) : '') + '</small><br />' : '')+
+                    (self.config.siteHasGoals && r.goalConversions ? '<small>' + _.goal_conversions.replace('%s', '<b>' + r.goalConversions + '</b>') +
+                        (r.searches > 0 ? ', ' + _.searches.replace('%s', r.searches) : '') + '</small><br />' : '') +
                     // actions and searches
-                    '<small>'+_.actions.replace('%s', '<b>'+r.actions+'</b>') +
-                    (r.searches > 0 ? ', ' + _.searches.replace('%s', '<b>'+r.searches+'</b>') : '') + '</small>';
+                    '<small>' + _.actions.replace('%s', '<b>' + r.actions + '</b>') +
+                    (r.searches > 0 ? ', ' + _.searches.replace('%s', '<b>' + r.searches + '</b>') : '') + '</small>';
             }
 
             /*
              * the radius of the symbol depends on the lastActionTimestamp
              */
             function visitRadius(r) {
-                return Math.pow(age(r),4) * (self.maxRad - self.minRad) + self.minRad;
+                return Math.pow(age(r), 4) * (self.maxRad - self.minRad) + self.minRad;
             }
 
             /*
@@ -192,7 +191,7 @@
                 else col = chroma.hsl(
                     42 * age(r), // hue
                     Math.sqrt(age(r)), // saturation
-                    (engaged ? 0.65 : 0.5) - (1-age(r))* 0.45  // lightness
+                    (engaged ? 0.65 : 0.5) - (1 - age(r)) * 0.45  // lightness
                 );
                 return col;
             }
@@ -203,8 +202,8 @@
             function visitSymbolAttrs(r) {
                 return {
                     fill: visitColor(r).hex(),
-                    'fill-opacity': Math.pow(age(r),2) * 0.8 + 0.2,
-                    'stroke-opacity': Math.pow(age(r),1.7) * 0.8 + 0.2,
+                    'fill-opacity': Math.pow(age(r), 2) * 0.8 + 0.2,
+                    'stroke-opacity': Math.pow(age(r), 1.7) * 0.8 + 0.2,
                     stroke: '#fff',
                     'stroke-width': 1 * age(r),
                     r: visitRadius(r)
@@ -216,7 +215,7 @@
              * that corresponds to a visit on the map
              */
             function highlightVisit(r) {
-                $('#visitsLive li#'+r.idVisit + ' .datetime')
+                $('#visitsLive li#' + r.idVisit + ' .datetime')
                     .css('background', '#E4CD74');
             }
 
@@ -225,7 +224,7 @@
              * the visit marker on the map
              */
             function unhighlightVisit(r) {
-                $('#visitsLive li#'+r.idVisit + ' .datetime')
+                $('#visitsLive li#' + r.idVisit + ' .datetime')
                     .css({ background: '#E4E2D7' });
             }
 
@@ -238,8 +237,8 @@
                 var c = map.paper.circle().attr(s.path.attrs);
                 c.insertBefore(s.path);
                 c.attr({ fill: false });
-                c.animate({ r: c.attrs.r*3, 'stroke-width': 7, opacity: 0 }, 2500,
-                    'linear', function() { c.remove(); });
+                c.animate({ r: c.attrs.r * 3, 'stroke-width': 7, opacity: 0 }, 2500,
+                    'linear', function () { c.remove(); });
                 // ..and pop the bubble itself
                 var col = s.path.attrs.fill,
                     rad = s.path.attrs.r;
@@ -276,23 +275,23 @@
                             data: [],
                             type: Kartograph.Bubble,
                             /*title: function(d) {
-                                return visitRadius(d) > 15 && d.actions > 1 ? d.actions : '';
-                            },
-                            labelattrs: {
-                                fill: '#fff',
-                                'font-weight': 'bold',
-                                'font-size': 11,
-                                stroke: false,
-                                cursor: 'pointer'
-                            },*/
-                            sortBy: function(r) { return r.lastActionTimestamp; },
+                             return visitRadius(d) > 15 && d.actions > 1 ? d.actions : '';
+                             },
+                             labelattrs: {
+                             fill: '#fff',
+                             'font-weight': 'bold',
+                             'font-size': 11,
+                             stroke: false,
+                             cursor: 'pointer'
+                             },*/
+                            sortBy: function (r) { return r.lastActionTimestamp; },
                             radius: visitRadius,
-                            location: function(r) { return [r.longitude, r.latitude]; },
+                            location: function (r) { return [r.longitude, r.latitude]; },
                             attrs: visitSymbolAttrs,
                             tooltip: visitTooltip,
                             mouseenter: highlightVisit,
                             mouseleave: unhighlightVisit,
-                            click: function(r, s, evt) {
+                            click: function (r, s, evt) {
                                 evt.stopPropagation();
                                 var cont = UserCountryMap.cont2cont[s.data.continentCode];
                                 if (cont && cont != currentMap) {
@@ -307,7 +306,7 @@
 
                     if (report.length) {
                         // filter results without location
-                        report = $.grep(report, function(r) {
+                        report = $.grep(report, function (r) {
                             return r.latitude !== null;
                         });
                     }
@@ -322,26 +321,26 @@
                         $('.realTimeMap_overlay .no_data').hide();
 
                         lastVisits = [].concat(report).concat(lastVisits).slice(0, maxVisits);
-                        oldest = lastVisits[lastVisits.length-1].lastActionTimestamp;
+                        oldest = lastVisits[lastVisits.length - 1].lastActionTimestamp;
 
                         // let's try a different strategy
                         // remove symbols that are too old
                         //console.info('before', $('circle').length, visitSymbols.symbols.length);
                         var _removed = 0;
-                        visitSymbols.remove(function(r) {
+                        visitSymbols.remove(function (r) {
                             if (r.lastActionTimestamp < oldest) _removed++;
                             return r.lastActionTimestamp < oldest;
                         });
 
                         // update symbols that remain
                         visitSymbols.update({
-                            radius: function(d) { return visitSymbolAttrs(d).r; },
+                            radius: function (d) { return visitSymbolAttrs(d).r; },
                             attrs: visitSymbolAttrs
                         }, true);
 
                         // add new symbols
                         var newSymbols = [];
-                        $.each(report, function(i, r) {
+                        $.each(report, function (i, r) {
                             newSymbols.push(visitSymbols.add(r));
                         });
 
@@ -350,11 +349,11 @@
 
                         //console.info('rendered', visitSymbols.symbols.length, $('circle').length);
 
-                        $.each(newSymbols, function(i, s) {
-                            if (i>10) return false;
+                        $.each(newSymbols, function (i, s) {
+                            if (i > 10) return false;
                             //if (s.data.lastActionTimestamp > lastTimestamp) {
                             s.path.hide(); // hide new symbol at first
-                            var t = setTimeout(function() { animateSymbol(s); },
+                            var t = setTimeout(function () { animateSymbol(s); },
                                 1000 * (s.data.lastActionTimestamp - now) + config.liveRefreshAfterMs);
                             symbolFadeInTimer.push(t);
                             //}
@@ -396,7 +395,7 @@
                         stroke: colorTheme[currentTheme].bg,
                         'stroke-width': 0.2
                     },
-                    click: function(d, p, evt) {
+                    click: function (d, p, evt) {
                         evt.stopPropagation();
                         if (currentMap != 'world') {  // zoom out if zoomed in
                             updateMap('world');
@@ -404,7 +403,7 @@
                             updateMap(UserCountryMap.ISO3toCONT[d.iso]);
                         }
                     },
-                    title: function(d) {
+                    title: function (d) {
                         // return the country name for educational purpose
                         return d.name;
                     }
@@ -427,7 +426,7 @@
              */
             function updateMap(_map) {
                 clearTimeout(nextReqTimer);
-                $.each(symbolFadeInTimer, function(i, t) {
+                $.each(symbolFadeInTimer, function (i, t) {
                     clearTimeout(t);
                 });
                 symbolFadeInTimer = [];
@@ -442,12 +441,12 @@
             updateMap(location.hash && (location.hash == '#world' || location.hash.match(/^#[A-Z][A-Z]$/)) ? location.hash.substr(1) : 'world'); // TODO: restore last state
 
             // clicking on map background zooms out
-            $('#RealTimeMap_map').off('click').click(function() {
+            $('#RealTimeMap_map').off('click').click(function () {
                 if (currentMap != 'world') updateMap('world');
             });
 
             // secret gimmick shortcuts
-            $(window).keydown(function(evt) {
+            $(window).keydown(function (evt) {
                 // shift+alt+C changes color mode
                 if (evt.shiftKey && evt.altKey && evt.keyCode == 67) {
                     colorMode = ({
@@ -464,8 +463,8 @@
                         $('.widget').css({ 'border-width': 1 });
                     }
                     map.getLayer('countries')
-                        .style('fill', colorTheme[currentTheme].fill )
-                        .style('stroke', colorTheme[currentTheme].bg );
+                        .style('fill', colorTheme[currentTheme].fill)
+                        .style('stroke', colorTheme[currentTheme].bg);
 
                     storeSettings();
                 }
@@ -489,14 +488,15 @@
             function getTimeInSiteTimezone() {
 
             }
+
             // setup automatic tooltip updates
-            setInterval(function() {
-                $('.qtip .rel-time').each(function(i, el) {
+            setInterval(function () {
+                $('.qtip .rel-time').each(function (i, el) {
                     el = $(el);
                     var ds = new Date().getTime() / 1000 - el.data('actiontime');
                     el.html(relativeTime(ds));
                 });
-                var d = new Date(), datetime = d.toTimeString().substr(0,8);
+                var d = new Date(), datetime = d.toTimeString().substr(0, 8);
                 $('.realTimeMap_datetime').html(datetime);
             }, 1000);
         },
@@ -504,17 +504,17 @@
         /*
          * resizes the map to widget dimensions
          */
-        resize: function() {
+        resize: function () {
             var ratio, w, h, map = this.map;
             ratio = map.viewAB.width / map.viewAB.height;
             w = map.container.width();
-            h = Math.min(w / ratio, $(window).height()-30);
+            h = Math.min(w / ratio, $(window).height() - 30);
 
             var radScale = Math.pow((h * ratio * h) / 130000, 0.3);
             this.maxRad = 10 * radScale;
             this.minRad = 4 * radScale;
 
-            map.container.height(h-2);
+            map.container.height(h - 2);
             map.resize(w, h);
             if (map.symbolGroups && map.symbolGroups.length > 0) {
                 map.symbolGroups[0].update();
@@ -524,7 +524,7 @@
             else $('.tableIcon span').show();
         },
 
-        destroy: function() {
+        destroy: function () {
             this.map.clear();
             $(this.map.container).html('');
         }

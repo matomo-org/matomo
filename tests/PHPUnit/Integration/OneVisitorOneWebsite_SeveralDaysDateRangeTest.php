@@ -15,7 +15,7 @@
  */
 class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -29,59 +29,59 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
 
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	
+        $idSite = self::$fixture->idSite;
+
         return array(
-	        // FIRST some MultiSites API goodness!
+            // FIRST some MultiSites API goodness!
 
             // range test
-            array('MultiSites.getAll', array( 'date'    => '2010-12-15,2011-01-15',
-	                                          'periods' => array('range')
-                                            // Testing without &pattern= so should return all sites
-                            )),
+            array('MultiSites.getAll', array('date'    => '2010-12-15,2011-01-15',
+                                             'periods' => array('range')
+                // Testing without &pattern= so should return all sites
+            )),
 
             // test several dates (tests use of IndexedByDate w/ 'date1,date2,etc.')
-            array('MultiSites.getAll', array('date'         => '2010-12-15',
-                                             'periods'      => array('day'),
-                                             'testSuffix'   => '_IndexedByDate',
-	                                         // Testing the pattern to getAll restrict websites using name matching
+            array('MultiSites.getAll', array('date'                   => '2010-12-15',
+                                             'periods'                => array('day'),
+                                             'testSuffix'             => '_IndexedByDate',
+                // Testing the pattern to getAll restrict websites using name matching
                                              'otherRequestParameters' => array('pattern' => 'aAa')
             )),
 
-	        // test getOne call used in MobileMessaging SMS reports
-	        array('MultiSites.getOne', array( 'date'    => '2010-12-15,2011-01-15',
-										        'periods' => array('range'),
-		                                        'idSite' => $idSite,
-										        // Testing without &pattern= so should return all sites
-	        )),
+            // test getOne call used in MobileMessaging SMS reports
+            array('MultiSites.getOne', array('date'    => '2010-12-15,2011-01-15',
+                                             'periods' => array('range'),
+                                             'idSite'  => $idSite,
+                // Testing without &pattern= so should return all sites
+            )),
 
-	        // test that multiple periods are not supported
-	        array('MultiSites.getAll', array( 'date'    => '2010-12-15,2011-01-15',
-		                                      'periods' => array('day'),
-                                             'testSuffix'   => '_MultipleDatesNotSupported',
-	        )),
+            // test that multiple periods are not supported
+            array('MultiSites.getAll', array('date'       => '2010-12-15,2011-01-15',
+                                             'periods'    => array('day'),
+                                             'testSuffix' => '_MultipleDatesNotSupported',
+            )),
 
-	        //---------------------------------------
-	        // THEN some Socials tests. Share these...
-			array('Referers.getSocials', array('idSite'  => 'all',
-											   'date'    => '2010-12-13,2011-01-18',
-											   'periods' => array('range'))),
-			
-			array('Referers.getSocials', array('idSite'		  => 'all',
-											   'date'		  => '2010-12-10',
-											   'periods'	  => array('day'),
-											   'setDateLastN' => true,
-											   'testSuffix'   => '_IndexedByDate')),
-			
-			array('Referers.getUrlsForSocial', array('idSite'		=> 'all', // test w/o idSubtable
-													 'date'			=> '2010-12-13,2011-01-18',
-													 'periods'		=> 'range',
-													 'testSuffix'	=> '_noIdSubtable')),
-			
-			array('Referers.getUrlsForSocial', array('idSite'   	 => 1, // test w/ idSubtable
-													 'date'			 => '2010-12-13,2011-01-18',
-													 'periods'		 => 'range',
-													 'supertableApi' => 'Referers.getSocials')),
+            //---------------------------------------
+            // THEN some Socials tests. Share these...
+            array('Referers.getSocials', array('idSite'  => 'all',
+                                               'date'    => '2010-12-13,2011-01-18',
+                                               'periods' => array('range'))),
+
+            array('Referers.getSocials', array('idSite'       => 'all',
+                                               'date'         => '2010-12-10',
+                                               'periods'      => array('day'),
+                                               'setDateLastN' => true,
+                                               'testSuffix'   => '_IndexedByDate')),
+
+            array('Referers.getUrlsForSocial', array('idSite'     => 'all', // test w/o idSubtable
+                                                     'date'       => '2010-12-13,2011-01-18',
+                                                     'periods'    => 'range',
+                                                     'testSuffix' => '_noIdSubtable')),
+
+            array('Referers.getUrlsForSocial', array('idSite'        => 1, // test w/ idSubtable
+                                                     'date'          => '2010-12-13,2011-01-18',
+                                                     'periods'       => 'range',
+                                                     'supertableApi' => 'Referers.getSocials')),
         );
     }
 
@@ -92,5 +92,5 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange extends I
 }
 
 Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange::$fixture
-	= new Test_Piwik_Fixture_VisitsOverSeveralDays();
+    = new Test_Piwik_Fixture_VisitsOverSeveralDays();
 

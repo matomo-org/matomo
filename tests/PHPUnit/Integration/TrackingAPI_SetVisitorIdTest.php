@@ -12,7 +12,7 @@
  */
 class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     public function setUp()
     {
@@ -38,9 +38,9 @@ class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCas
     {
         return array(
             // test hideColumns && showColumns parameters
-            array('VisitsSummary.get', array('idSite' => self::$fixture->idSite,
-            								 'date' => self::$fixture->dateTime,
-                                             'periods' => 'day',
+            array('VisitsSummary.get', array('idSite'     => self::$fixture->idSite,
+                                             'date'       => self::$fixture->dateTime,
+                                             'periods'    => 'day',
                                              'testSuffix' => '',
             ))
         );

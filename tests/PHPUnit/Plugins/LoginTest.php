@@ -12,21 +12,21 @@ class LoginTest extends DatabaseTestCase
     public function setUp()
     {
         parent::setUp();
-        
+
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
-        FakeAccess::setIdSitesView( array(1,2));
-        FakeAccess::setIdSitesAdmin( array(3,4));
-        
+        FakeAccess::setIdSitesView(array(1, 2));
+        FakeAccess::setIdSitesAdmin(array(3, 4));
+
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
         Zend_Registry::set('access', $pseudoMockAccess);
-        
+
         // we make sure the tests don't depend on the config file content
         Piwik_Config::getInstance()->superuser = array(
-            'login'=>'superusertest',
-            'password'=>md5('passwordsuperusertest'),
-            'email'=>'superuser@example.com'
+            'login'    => 'superusertest',
+            'password' => md5('passwordsuperusertest'),
+            'email'    => 'superuser@example.com'
         );
     }
 
@@ -204,12 +204,13 @@ class LoginTest extends DatabaseTestCase
         $this->assertEquals(Piwik_Auth_Result::SUCCESS, $rc->getCode());
     }
 
-    protected function _setUpUser() {
-        $user = array( 'login'=>'user',
-            'password'=>"geqgeagae",
-            'email'=>"test@test.com",
-            'alias'=>"alias");
-        Piwik_UsersManager_API::getInstance()->addUser($user['login'],$user['password'] ,$user['email'] ,$user['alias'] );
+    protected function _setUpUser()
+    {
+        $user = array('login'    => 'user',
+                      'password' => "geqgeagae",
+                      'email'    => "test@test.com",
+                      'alias'    => "alias");
+        Piwik_UsersManager_API::getInstance()->addUser($user['login'], $user['password'], $user['email'], $user['alias']);
         $password = md5($user['password']);
         $user['tokenAuth'] = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
         return $user;

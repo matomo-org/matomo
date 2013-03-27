@@ -7,19 +7,20 @@
  */
 class MockPiwikOption extends Piwik_Option
 {
-	private $forcedOptionValue = false;
+    private $forcedOptionValue = false;
 
-	function __construct($forcedOptionValue) {
-		$this->forcedOptionValue = $forcedOptionValue;
-	}
+    function __construct($forcedOptionValue)
+    {
+        $this->forcedOptionValue = $forcedOptionValue;
+    }
 
-	public function get($name)
-	{
-		return $this->forcedOptionValue;
-	}
+    public function get($name)
+    {
+        return $this->forcedOptionValue;
+    }
 
-	public function set($name, $value, $autoload = 0)
-	{
-		$this->forcedOptionValue = $value;
-	}
+    public function set($name, $value, $autoload = 0)
+    {
+        $this->forcedOptionValue = $value;
+    }
 }

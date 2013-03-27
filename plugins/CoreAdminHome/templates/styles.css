@@ -1,164 +1,179 @@
 .admin img {
-	vertical-align: middle;;
+    vertical-align: middle;;
 }
+
 .admin a {
-	color: black;
+    color: black;
 }
 
 #content.admin {
-	margin:0 15px 0 270px;
+    margin: 0 15px 0 270px;
     padding: 0 0 40px;
-	font:13px Arial, Helvetica, sans-serif;
+    font: 13px Arial, Helvetica, sans-serif;
 }
 
-.admin #header_message{
-	margin-top:-10px;
+.admin #header_message {
+    margin-top: -10px;
 }
 
 table.admin {
-	font-size: 0.9em;
-	font-family: Arial, Helvetica, verdana sans-serif;
-	background-color: #fff;
-	border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: Arial, Helvetica, verdana sans-serif;
+    background-color: #fff;
+    border-collapse: collapse;
 }
 
 table.admin thead th {
-	border-right: 1px solid #fff;
-	color: #fff;
-	text-align: center;
-	padding: 5px;
-	text-transform: uppercase;
-	height: 25px;
-	background-color: #a3c159;
-	font-weight:bold;
+    border-right: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    text-transform: uppercase;
+    height: 25px;
+    background-color: #a3c159;
+    font-weight: bold;
 }
 
 table.admin tbody tr {
-	background-color: #fff;
-	border-bottom: 1px solid #f0f0f0;
+    background-color: #fff;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 table.admin tbody td {
-	color: #414141;
-	text-align: left;
-	vertical-align:top;
+    color: #414141;
+    text-align: left;
+    vertical-align: top;
 }
 
 table.admin tbody th {
-	text-align: left;
-	padding: 2px;
+    text-align: left;
+    padding: 2px;
 }
+
 table.admin tbody td, table.admin tbody th {
-	color: #536C2A;
-	text-decoration: none;
-	font-weight: normal;
-	padding: 10px;
+    color: #536C2A;
+    text-decoration: none;
+    font-weight: normal;
+    padding: 10px;
 }
 
 table.admin  tbody td:hover, table.admin  tbody th:hover {
-	color: #009193;
-	text-decoration: none;
+    color: #009193;
+    text-decoration: none;
 }
 
 .warning {
-	border: 1px dotted gray;
-	padding: 15px;
-	font-size: .8em;
+    border: 1px dotted gray;
+    padding: 15px;
+    font-size: .8em;
 }
 
 .warning ul {
-	margin-left: 50px;
+    margin-left: 50px;
 }
 
 .access_error {
-	font-size: .7em;
-	padding: 15px;
+    font-size: .7em;
+    padding: 15px;
 }
 
 .admin h2 {
-	border-bottom:1px solid #DADADA;
-	margin:15px -15px 20px 0;
-	padding:0 0 5px 0;
-	font-size:24px;
+    border-bottom: 1px solid #DADADA;
+    margin: 15px -15px 20px 0;
+    padding: 0 0 5px 0;
+    font-size: 24px;
 }
 
-.admin p,.admin section {
-	margin-top:10px;
-	line-height:140%;
-	padding-bottom:20px;
+.admin p, .admin section {
+    margin-top: 10px;
+    line-height: 140%;
+    padding-bottom: 20px;
 }
+
 .adminTable {
-	width: 100%;
-	clear: both;
-	margin: 0;
+    width: 100%;
+    clear: both;
+    margin: 0;
 }
+
 .adminTable a {
-	text-decoration: none;
-	color:#2B5C97;
+    text-decoration: none;
+    color: #2B5C97;
 }
+
 .adminTable abbr {
-	white-space: nowrap;
+    white-space: nowrap;
 }
+
 .adminTable td {
-	font-size: 13px;
-	vertical-align: top;
-	padding: 7px 15px 9px 10px;
-	vertical-align: top;
+    font-size: 13px;
+    vertical-align: top;
+    padding: 7px 15px 9px 10px;
+    vertical-align: top;
 }
+
 .adminTable td.action-links {
-	text-align: right;
+    text-align: right;
 }
+
 .adminTable .check-column {
-	text-align: right;
-	width: 1.5em;
-	padding: 0;
+    text-align: right;
+    width: 1.5em;
+    padding: 0;
 }
+
 .adminTable .num {
-	text-align: center;
+    text-align: center;
 }
+
 .adminTable .name {
-	font-weight: bold;
+    font-weight: bold;
 }
+
 .adminTable .ui-inline-help {
-	margin-top:0;
-	width:100%;
+    margin-top: 0;
+    width: 100%;
 }
 
 #logoSettings .ui-inline-help {
-	width:550px;
+    width: 550px;
 }
 
 /* other styles */
 .form-description {
-	color:#666666;
-	font-style:italic;
-	margin-left:10px;
+    color: #666666;
+    font-style: italic;
+    margin-left: 10px;
 }
 
 #logoSettings, #smtpSettings {
-	margin-left:50px;
+    margin-left: 50px;
 }
 
 /* to override .admin a */
 .admin .sites_autocomplete a {
-	color: #255792;
+    color: #255792;
 }
 
 /* trusted host styles */
 #trustedHostSettings .adminTable {
-	width:300px;
+    width: 300px;
 }
+
 #trustedHostSettings .adminTable td {
-	vertical-align: middle;
-	padding-bottom: 0;
+    vertical-align: middle;
+    padding-bottom: 0;
 }
+
 #trustedHostSettings .adminTable tr td:last-child {
-	padding: 0 0 0 0;
+    padding: 0 0 0 0;
 }
+
 #trustedHostSettings input {
-	width:238px;
+    width: 238px;
 }
+
 #trustedHostSettings .add-trusted-host-container {
-	padding: 12px 24px;
+    padding: 12px 24px;
 }
 

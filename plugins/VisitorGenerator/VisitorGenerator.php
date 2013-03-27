@@ -10,32 +10,36 @@
  */
 
 /**
- * 
+ *
  * @package Piwik_VisitorGenerator
  */
-class Piwik_VisitorGenerator extends Piwik_Plugin {
+class Piwik_VisitorGenerator extends Piwik_Plugin
+{
 
-	public function getInformation() {
-		return array(
-				'description' => Piwik_Translate('VisitorGenerator_PluginDescription'),
-				'author' => 'Piwik',
-				'author_homepage' => 'http://piwik.org/',
-				'version' => Piwik_Version::VERSION,
-		);
-	}
+    public function getInformation()
+    {
+        return array(
+            'description'     => Piwik_Translate('VisitorGenerator_PluginDescription'),
+            'author'          => 'Piwik',
+            'author_homepage' => 'http://piwik.org/',
+            'version'         => Piwik_Version::VERSION,
+        );
+    }
 
-	public function getListHooksRegistered() {
-		return array(
-				'AdminMenu.add' => 'addMenu',
-		);
-	}
+    public function getListHooksRegistered()
+    {
+        return array(
+            'AdminMenu.add' => 'addMenu',
+        );
+    }
 
-	public function addMenu() {
-		Piwik_AddAdminSubMenu(
-				'CoreAdminHome_MenuDiagnostic', 'VisitorGenerator_VisitorGenerator',
-				array('module' => 'VisitorGenerator', 'action' => 'index'),
-				Piwik::isUserIsSuperUser(),
-				$order = 20
-		);
-	}
+    public function addMenu()
+    {
+        Piwik_AddAdminSubMenu(
+            'CoreAdminHome_MenuDiagnostic', 'VisitorGenerator_VisitorGenerator',
+            array('module' => 'VisitorGenerator', 'action' => 'index'),
+            Piwik::isUserIsSuperUser(),
+            $order = 20
+        );
+    }
 }

@@ -21,21 +21,20 @@ class Piwik_ExampleRssWidget_Controller extends Piwik_Controller
             $rss = new Piwik_ExampleRssWidget_Rss('http://feeds.feedburner.com/Piwik');
             $rss->showDescription(true);
             echo $rss->get();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->error($e);
         }
     }
 
     public function rssChangelog()
     {
-        try
-        {
+        try {
             $rss = new Piwik_ExampleRssWidget_Rss('http://feeds.feedburner.com/PiwikReleases');
             $rss->setCountPosts(1);
             $rss->showDescription(false);
             $rss->showContent(true);
             echo $rss->get();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->error($e);
         }
     }

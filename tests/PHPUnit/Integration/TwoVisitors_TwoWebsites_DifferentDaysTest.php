@@ -17,16 +17,16 @@
  */
 class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
-	/**
-	 * @group        Integration
-	 * @group        TwoVisitors_TwoWebsites_DifferentDays
-	 */
-	public function testImagesIncludedInTests()
-	{
-		$this->alertWhenImagesExcludedFromTests();
-	}
+    /**
+     * @group        Integration
+     * @group        TwoVisitors_TwoWebsites_DifferentDays
+     */
+    public function testImagesIncludedInTests()
+    {
+        $this->alertWhenImagesExcludedFromTests();
+    }
 
     /**
      * @dataProvider getApiForTesting
@@ -41,22 +41,22 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
     protected function getApiToCall()
     {
         return array('VisitFrequency.get',
-            'VisitsSummary.get',
-            'Referers.getWebsites',
-            'Actions.getPageUrls',
-            'Actions.getPageTitles',
-            'Actions.getOutlinks',
-            'Actions.getPageTitle',
-            'Actions.getPageUrl',
-            'VisitorInterest.getNumberOfVisitsByDaysSinceLast');
+                     'VisitsSummary.get',
+                     'Referers.getWebsites',
+                     'Actions.getPageUrls',
+                     'Actions.getPageTitles',
+                     'Actions.getOutlinks',
+                     'Actions.getPageTitle',
+                     'Actions.getPageUrl',
+                     'VisitorInterest.getNumberOfVisitsByDaysSinceLast');
     }
 
     public function getApiForTesting()
     {
-    	$idSite1 = self::$fixture->idSite1;
-    	$dateTime = self::$fixture->dateTime;
-    	
-        $apiToCall       = $this->getApiToCall();
+        $idSite1 = self::$fixture->idSite1;
+        $dateTime = self::$fixture->dateTime;
+
+        $apiToCall = $this->getApiToCall();
         $singlePeriodApi = array('VisitsSummary.get', 'Goals.get');
 
         $periods = array('day', 'week', 'month', 'year');
@@ -109,5 +109,5 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays extends Integ
 }
 
 Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays::$fixture =
-	new Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
+    new Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
 

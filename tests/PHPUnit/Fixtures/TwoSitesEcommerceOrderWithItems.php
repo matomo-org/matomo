@@ -11,44 +11,44 @@
  */
 class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_BaseFixture
 {
-    public $dateTime       = '2011-04-05 00:11:42';
-    public $idSite         = 1;
-    public $idSite2        = 2;
+    public $dateTime = '2011-04-05 00:11:42';
+    public $idSite = 1;
+    public $idSite2 = 2;
     public $idGoalStandard = 1;
-    
+
     public function setUp()
     {
         $this->setUpWebsitesAndGoals();
-		self::setUpScheduledReports($this->idSite);
+        self::setUpScheduledReports($this->idSite);
         $this->trackVisits();
     }
-    
+
     public function tearDown()
     {
-    	// empty
+        // empty
     }
-    
+
     private function setUpWebsitesAndGoals()
     {
         self::createWebsite($this->dateTime, $ecommerce = 1);
         self::createWebsite($this->dateTime);
         Piwik_Goals_API::getInstance()->addGoal(
-        	$this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
-        	$caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
-    	);
+            $this->idSite, 'title match, triggered ONCE', 'title', 'incredible', 'contains',
+            $caseSensitive = false, $revenue = 10, $allowMultipleConversions = true
+        );
     }
 
     private function trackVisits()
     {
         $dateTime = $this->dateTime;
-        $idSite   = $this->idSite;
-        $idSite2  = $this->idSite2;
+        $idSite = $this->idSite;
+        $idSite2 = $this->idSite2;
 
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
         // VISIT NO 1
         $t->setUrl('http://example.org/index.htm');
         $category = 'Electronics & Cameras';
-        $price    = 1111.11111;
+        $price = 1111.11111;
 
         // VIEW product page
         $t->setEcommerceView('SKU2', 'PRODUCT name', $category, $price);
@@ -118,7 +118,7 @@ class Test_Piwik_Fixture_TwoSitesEcommerceOrderWithItems extends Test_Piwik_Base
         // This is a frequent use case: ecommerce shops tracking the order from backoffice
         // without passing the custom variable 1st party cookie along since it's not known by back office
         $visitorCustomVarSave = $t->visitorCustomVar;
-        $t->visitorCustomVar  = false;
+        $t->visitorCustomVar = false;
         self::checkResponse($t->doTrackEcommerceOrder($orderId = '1037nsjusu4s3894', $grandTotal = 2000, $subTotal = 1500, $tax = 400, $shipping = 100, $discount = 0));
         $t->visitorCustomVar = $visitorCustomVarSave;
 

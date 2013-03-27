@@ -59,7 +59,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($stringWritten, $config->Category['test']);
         $config->Category = array(
-            'test' => $config->Category['test'],
+            'test'  => $config->Category['test'],
             'test2' => $stringWritten,
         );
         $this->assertEquals($stringWritten, $config->Category['test']);
@@ -145,7 +145,8 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      * Dataprovider for testArrayUnmerge
      * @return array
      */
-    public function getArrayUnmergeData() {
+    public function getArrayUnmergeData()
+    {
         return array(
             array('description of test', array(
                 array(),
@@ -211,7 +212,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function getDumpConfigData()
     {
         $header = "; <?php exit; ?> DO NOT REMOVE THIS LINE\n" .
-                  "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
+            "; file automatically generated or modified by Piwik; you can manually override the default values in global.ini.php by redefining them in this file.\n";
 
         return array(
             array('global only, not cached', array(
@@ -307,18 +308,18 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
             array('sort, common sections', array(
                 array('Tracker' => array('anonymize' => '1'),
-                    'General' => array('debug' => '1')),
+                      'General' => array('debug' => '1')),
                 array('General' => array('debug' => '0'),
-                    'Tracker' => array('anonymize' => '0')),
+                      'Tracker' => array('anonymize' => '0')),
                 array('Tracker' => array('anonymize' => '2')),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 2\n\n",
             )),
 
             array('sort, common sections before new section', array(
                 array('Tracker' => array('anonymize' => '1'),
-                    'General' => array('debug' => '1')),
+                      'General' => array('debug' => '1')),
                 array('General' => array('debug' => '0'),
-                    'Tracker' => array('anonymize' => '0')),
+                      'Tracker' => array('anonymize' => '0')),
                 array('Segment' => array('dimension' => 'foo')),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n[Segment]\ndimension = \"foo\"\n\n",
             )),
@@ -326,7 +327,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
             array('change back to default', array(
                 array('Tracker' => array('anonymize' => '1')),
                 array('Tracker' => array('anonymize' => '0'),
-                    'General' => array('debug' => '1')),
+                      'General' => array('debug' => '1')),
                 array('Tracker' => array('anonymize' => '0')),
                 $header
             )),

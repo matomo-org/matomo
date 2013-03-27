@@ -1,7 +1,7 @@
 {literal}
-<script type="text/javascript">
-	$(document).ready(function() {
-		initializeSparklines();
-	});
-</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            initializeSparklines();
+        });
+    </script>
 {/literal}

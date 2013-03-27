@@ -14,7 +14,7 @@
  * DO NOT USE
  *
  * Use this notation to fetch a config file value:
- * 	Piwik_Config::getInstance()->General['enable_browser_archiving_triggering']
+ *    Piwik_Config::getInstance()->General['enable_browser_archiving_triggering']
  *
  * @todo remove this in 2.0
  * @since 1.7
@@ -25,13 +25,13 @@
  */
 class Piwik_Tracker_Config
 {
-	/**
-	 * Returns the singleton Piwik_Config
-	 *
-	 * @return Piwik_Config
-	 */
-	static public function getInstance()
-	{
-		return Piwik_Config::getInstance();
-	}
+    /**
+     * Returns the singleton Piwik_Config
+     *
+     * @return Piwik_Config
+     */
+    static public function getInstance()
+    {
+        return Piwik_Config::getInstance();
+    }
 }

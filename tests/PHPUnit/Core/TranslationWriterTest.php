@@ -62,8 +62,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
      */
     public function testQuote($data, $expected)
     {
-        if(Piwik_Common::isWindows() && $data == "\n")
-        {
+        if (Piwik_Common::isWindows() && $data == "\n") {
             return;
         }
         $this->assertEquals($expected, Piwik_TranslationWriter::quote($data));
@@ -82,7 +81,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         }
         $this->fail('Expected exception not raised');
     }
-    
+
     /**
      * @group Core
      * @group TranslationWriter
@@ -96,7 +95,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         }
         $this->fail('Expected exception not raised');
     }
-    
+
     /**
      * @group Core
      * @group TranslationWriter
@@ -124,7 +123,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
         }
         $this->fail('Expected exception not raised');
     }
-    
+
     /**
      * @group Core
      * @group TranslationWriter
@@ -151,9 +150,9 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
 
         $translations = array(
             'General_Locale' => 'en_CA.UTF-8',
-            'General_Id' => 'Id',
-            'Goals_Goals' => 'Goals',
-            'Plugin_Body' => "Message\nBody",
+            'General_Id'     => 'Id',
+            'Goals_Goals'    => 'Goals',
+            'Plugin_Body'    => "Message\nBody",
         );
 
         @unlink($path);
@@ -163,7 +162,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
 
         $contents = file_get_contents($path);
         $expected = "<?php\n\$translations = array(\n\t'General_Locale' => 'en_CA.UTF-8',\n\t'General_Id' => 'Id',\n\t'Goals_Goals' => 'Goals',\n\n\t// FOR REVIEW\n\t'Plugin_Body' => 'Message\nBody',\n);\n";
-        if(Piwik_Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
+        if (Piwik_Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
         $this->assertEquals($expected, $contents);
     }
 }

@@ -8,14 +8,14 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-(function() {
+(function () {
 
     // create a global namespace for UserCountryMap plugin
     // this is used both by visitor map and realtime map
     window.UserCountryMap = window.UserCountryMap || {};
 
     // the main class for this widget, provides the interface for the template
-    var VisitorMap = window.UserCountryMap.VisitorMap = function(config, theWidget) {
+    var VisitorMap = window.UserCountryMap.VisitorMap = function (config, theWidget) {
         this.config = config;
         this.theWidget = theWidget || false;
         this.run();
@@ -26,7 +26,7 @@
         /*
          * initializes the map after widget creation
          */
-        run: function() {
+        run: function () {
             var self = this,
                 config = self.config;
 
@@ -76,7 +76,7 @@
             function ajax(params, dataType) {
                 dataType = dataType || 'json';
                 params = $.extend({}, params);
-                var token_auth = ''+params.token_auth;
+                var token_auth = '' + params.token_auth;
                 delete params['token_auth'];
                 return $.ajax({
                     url: 'index.php?' + $.param(params),
@@ -87,22 +87,22 @@
             }
 
             function minmax(values) {
-                values = values.sort(function(a,b) { return Number(a) - Number(b); });
+                values = values.sort(function (a, b) { return Number(a) - Number(b); });
                 return {
                     min: values[0],
-                    max: values[values.length-1],
-                    median: values[Math.floor(values.length*0.5)],
-                    p33: values[Math.floor(values.length*0.33)],
-                    p66: values[Math.floor(values.length*0.66)],
-                    p90: values[Math.floor(values.length*0.9)]
+                    max: values[values.length - 1],
+                    median: values[Math.floor(values.length * 0.5)],
+                    p33: values[Math.floor(values.length * 0.33)],
+                    p66: values[Math.floor(values.length * 0.66)],
+                    p90: values[Math.floor(values.length * 0.9)]
                 };
             }
 
             function formatNumber(v) {
                 v = Number(v);
-                return v > 1000000 ? (v/1000000).toFixed(1) + 'm' :
-                    v > 1000 ? (v/1000).toFixed(1) + 'k' :
-                    v;
+                return v > 1000000 ? (v / 1000000).toFixed(1) + 'm' :
+                    v > 1000 ? (v / 1000).toFixed(1) + 'k' :
+                        v;
             }
 
             //
@@ -113,8 +113,8 @@
             //
             function formatValueForTooltips(data, metric, id) {
 
-                var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric]  ? data[metric] : data[metric].toFixed(1),
-                    v = _[metric].replace('%s', '<b>'+val+'</b>');
+                var val = data[metric] % 1 === 0 || Number(data[metric]) != data[metric] ? data[metric] : data[metric].toFixed(1),
+                    v = _[metric].replace('%s', '<b>' + val + '</b>');
 
                 if (val == 1 && metric == 'nb_visits') v = _.one_visit;
 
@@ -126,17 +126,17 @@
                     else if (id == 'world') total = _worldTotal;
                     else {
                         total = 0;
-                        $.each(UserCountryMap.countriesByIso, function(iso, country) {
+                        $.each(UserCountryMap.countriesByIso, function (iso, country) {
                             if (UserCountryMap.ISO3toCONT[iso] == id) {
                                 total += country[metric];
                             }
                         });
                     }
                     if (total) {
-                        v += ' ('+formatPercentage(data[metric] / total)+')';
+                        v += ' (' + formatPercentage(data[metric] / total) + ')';
                     }
                 } else if (metric == 'avg_time_on_site') {
-                    v += '<br/> (over '+data.nb_visits+' visits)';
+                    v += '<br/> (over ' + data.nb_visits + ' visits)';
                 }
                 return v;
             }
@@ -150,7 +150,7 @@
                         metric = $$('.userCountryMapSelectMetrics').val(),
                         v = formatNumber(Math.round(val)) + (metric == 'avg_time_on_site' ? first ? ' sec' : 's' : '');
                     d.css({ width: 17, height: 17, float: 'left', background: colscale(val) });
-                    l.css({ 'margin-left':20, 'line-height': '20px', 'text-align': 'right' }).html(v);
+                    l.css({ 'margin-left': 20, 'line-height': '20px', 'text-align': 'right' }).html(v);
                     r.css({ clear: 'both', height: 19 });
                     r.append(d).append(l);
                     $('.UserCountryMap-legend .content').append(r);
@@ -158,7 +158,7 @@
 
                 var stats, values = [], id = self.lastSelected, c;
 
-                $.each(rows, function(i, r) {
+                $.each(rows, function (i, r) {
                     if (!$.isFunction(filter) || filter(r)) {
                         var v = quantify(r, metric);
                         if (!isNaN(v)) values.push(v);
@@ -168,7 +168,7 @@
                 stats = minmax(values);
 
                 if (stats.min == stats.max) {
-                    colscale = function() { return chroma.hex('#CDDAEF'); };
+                    colscale = function () { return chroma.hex('#CDDAEF'); };
                     if (choropleth) {
                         $('.UserCountryMap-legend .content').html('').show();
                         addLegendItem(stats.min, true);
@@ -184,7 +184,7 @@
                 if (metric == 'avg_time_on_site' || metric == 'nb_actions_per_visit' || metric == 'bounce_rate') {
                     if (id.length == 3) {
                         c = (stats.p90 - stats.min) / (stats.max - stats.min);
-                        colscale = chroma.scale(['#385993', '#385993','#E87500', '#E87500'], [0, c, c+0.001, 1])
+                        colscale = chroma.scale(['#385993', '#385993', '#E87500', '#E87500'], [0, c, c + 0.001, 1])
                             .domain(chroma.limits(rows, 'c', 5, 'curMetric', filter))
                             .mode('hsl');
                     }
@@ -194,7 +194,7 @@
                 if (choropleth) {
                     $('.UserCountryMap-legend .content').html('').show();
                     var itemExists = {};
-                    $.each(chroma.limits(values, 'k', 3), function(i, v) {
+                    $.each(chroma.limits(values, 'k', 3), function (i, v) {
                         if (itemExists[v]) return;
                         addLegendItem(v, i === 0);
                         itemExists[v] = true;
@@ -210,7 +210,7 @@
 
             function formatPercentage(val) {
                 if (val < 0.001) return '< 0.1%';
-                return Math.round(1000 * val)/10 + '%';
+                return Math.round(1000 * val) / 10 + '%';
             }
 
             /*
@@ -231,7 +231,7 @@
 
             function initUserInterface() {
                 // react to changes of country select
-                $$('.userCountryMapSelectCountry').off('change').change(function() {
+                $$('.userCountryMapSelectCountry').off('change').change(function () {
                     updateState($$('.userCountryMapSelectCountry').val());
                 });
 
@@ -252,13 +252,13 @@
                 $(window).off('resize').resize(onResizeLazy);
 
                 // enable metric changes
-                $$('.userCountryMapSelectMetrics').off('change').change(function() {
+                $$('.userCountryMapSelectMetrics').off('change').change(function () {
                     updateState(self.lastSelected);
                 });
 
                 // handle city button
-                (function(btn) {
-                    btn.off('click').click(function() {
+                (function (btn) {
+                    btn.off('click').click(function () {
                         if (self.lastSelected.length == 3) {
                             if (self.mode != "city") {
                                 self.mode = "city";
@@ -269,8 +269,8 @@
                 })($$('.UserCountryMap-btn-city'));
 
                 // handle region button
-                (function(btn) {
-                    btn.off('click').click(function() {
+                (function (btn) {
+                    btn.off('click').click(function () {
                         if (self.mode != "region") {
                             $$('.UserCountryMap-view-mode-buttons a').removeClass('activeIcon');
                             self.mode = "region";
@@ -286,11 +286,11 @@
                 $$('.UserCountryMap_map').append(bl);
 
                 var infobtn = $('.UserCountryMap-info-btn');
-                infobtn.off('mouseenter').on('mouseenter', function(e) {
+                infobtn.off('mouseenter').on('mouseenter',function (e) {
                     $(infobtn.data('tooltip-target')).show();
-                }).off('mouseleave').on('mouseleave', function(e) {
-                    $(infobtn.data('tooltip-target')).hide();
-                });
+                }).off('mouseleave').on('mouseleave', function (e) {
+                        $(infobtn.data('tooltip-target')).hide();
+                    });
                 $('.UserCountryMap-tooltip').hide();
             }
 
@@ -358,7 +358,7 @@
                 if (id.length == 3) {
                     if (UserCountryMap.countriesByIso[id]) {  // we have visits in this country
                         flag.css({
-                            'background-image': 'url('+UserCountryMap.countriesByIso[id].flag+')',
+                            'background-image': 'url(' + UserCountryMap.countriesByIso[id].flag + ')',
                             'background-repeat': 'no-repeat',
                             'background-position': '5px 5px'
                         });
@@ -382,16 +382,16 @@
 
                 var mapTitle = id.length == 3 ?
                         UserCountryMap.countriesByIso[id].name :
-                        $$('.userCountryMapSelectCountry option[value='+id+']').html(),
+                        $$('.userCountryMapSelectCountry option[value=' + id + ']').html(),
                     totalVisits = 0;
                 // update map title
                 $('.map-title').html(mapTitle);
-                $$('.widgetUserCountryMapvisitorMap .widgetName .map-title').html(' – '+mapTitle);
+                $$('.widgetUserCountryMapvisitorMap .widgetName .map-title').html(' – ' + mapTitle);
                 // update total visits for that region
                 if (id.length == 3) {
                     totalVisits = UserCountryMap.countriesByIso[id]['nb_visits'];
                 } else if (id.length == 2) {
-                    $.each(UserCountryMap.countriesByIso, function(iso, country) {
+                    $.each(UserCountryMap.countriesByIso, function (iso, country) {
                         if (UserCountryMap.ISO3toCONT[iso] == id) {
                             totalVisits += country['nb_visits'];
                         }
@@ -404,8 +404,8 @@
                     $('.map-stats').html(formatValueForTooltips(UserCountryMap.countriesByIso[id], metric, 'world'));
                 } else {
                     $('.map-stats').html(
-                        _.nb_visits.replace('%s', '<b>'+formatNumber(totalVisits) + '</b>') +(id != 'world' ? ' ('+
-                    formatPercentage(totalVisits / worldTotalVisits)+')' : '')
+                        _.nb_visits.replace('%s', '<b>' + formatNumber(totalVisits) + '</b>') + (id != 'world' ? ' (' +
+                            formatPercentage(totalVisits / worldTotalVisits) + ')' : '')
                     );
                 }
             }
@@ -422,7 +422,7 @@
 
                     // Create a chroma ColorScale for the selected metric that regards only the
                     // countries that are visible in the map.
-                    colscale = getColorScale(UserCountryMap.countryData, metric, function(r) {
+                    colscale = getColorScale(UserCountryMap.countryData, metric, function (r) {
                         if (target.length == 2) {
                             return UserCountryMap.ISO3toCONT[r.iso] == target;
                         } else {
@@ -441,23 +441,23 @@
 
                     // Apply the color scale to the map.
                     map.getLayer('countries')
-                    .style('fill', countryFill)
-                    .on('mouseenter', function(d, path, evt) {
+                        .style('fill', countryFill)
+                        .on('mouseenter', function (d, path, evt) {
                             if (evt.shiftKey) { // highlight on mouseover with shift pressed
                                 path.attr('fill', '#f4f45b');
                             }
                         })
-                    .on('mouseleave', function(d, path, evt) {
+                        .on('mouseleave', function (d, path, evt) {
                             if ($.inArray(UserCountryMap.countriesByIso[d.iso].name, _rowEvolution.labels) == -1) {
                                 path.attr('fill', countryFill(d)); // reset color
                             }
                         });
 
                     // Update the map tooltips.
-                    map.getLayer('countries').tooltips(function(data) {
+                    map.getLayer('countries').tooltips(function (data) {
                         var metric = $$('.userCountryMapSelectMetrics').val(),
                             country = UserCountryMap.countriesByIso[data.iso];
-                        return '<h3>'+country.name + '</h3>'+
+                        return '<h3>' + country.name + '</h3>' +
                             formatValueForTooltips(country, metric, target);
                     });
                 }
@@ -470,32 +470,32 @@
                 }
 
                 // otherwise we need to load another map svg
-                _updateMap(target + '.svg', function() {
+                _updateMap(target + '.svg', function () {
 
                     // add a layer for non-selectable countries = for which no data is
                     // defined in the current report
                     map.addLayer('countries', {
                         name: 'context',
-                        filter: function(pd) {
+                        filter: function (pd) {
                             return UserCountryMap.countriesByIso[pd.iso] === undefined;
                         },
-                        tooltips: function(pd) {
-                            return '<h3>'+pd.name+'</h3>' + _.no_visit;
+                        tooltips: function (pd) {
+                            return '<h3>' + pd.name + '</h3>' + _.no_visit;
                         }
                     });
 
                     // add a layer for selectable countries = for which we have data
                     // available in the current report
-                    map.addLayer('countries', { name: 'countryBG', filter: function(pd) {
+                    map.addLayer('countries', { name: 'countryBG', filter: function (pd) {
                         return UserCountryMap.countriesByIso[pd.iso] !== undefined;
                     }});
 
                     map.addLayer('countries', {
                         key: 'iso',
-                        filter: function(pd) {
+                        filter: function (pd) {
                             return UserCountryMap.countriesByIso[pd.iso] !== undefined;
                         },
-                        click: function(data, path, evt) {
+                        click: function (data, path, evt) {
                             evt.stopPropagation();
                             if (evt.shiftKey || _rowEvolution.labels.length) {
                                 if (evt.altKey) {
@@ -526,7 +526,7 @@
              * updateMap is called by renderCountryMap() and renderWorldMap()
              */
             function _updateMap(svgUrl, callback) {
-                map.loadMap(config.svgBasePath + svgUrl, function() {
+                map.loadMap(config.svgBasePath + svgUrl, function () {
 
                     map.clear();
                     self.resize();
@@ -576,7 +576,7 @@
             function aggregate(rows, groupBy) {
 
                 var groups = {};
-                $.each(rows, function(i, row) {
+                $.each(rows, function (i, row) {
                     var g_id = groupBy ? groupBy(row) : 'X';
                     g_id = g_id === true ? $.isNumeric(i) && i === Number(i) ? false : i : g_id;
                     if (g_id) {
@@ -588,19 +588,19 @@
                                 bounce_count: 0
                             };
                         }
-                        $.each(groups[g_id], function(metric) {
+                        $.each(groups[g_id], function (metric) {
                             groups[g_id][metric] += row[metric];
                         });
                     }
                 });
 
-                $.each(groups, function(g_id, group) {
+                $.each(groups, function (g_id, group) {
                     var apv = group.nb_actions / group.nb_visits,
                         ats = group.sum_visit_length / group.nb_visits,
                         br = (group.bounce_count * 100 / group.bounce_count);
                     group['nb_actions_per_visit'] = apv;
-                    group['avg_time_on_site'] = new Date(0,0,0,ats / 3600, ats % 3600 / 60, ats % 60).toLocaleTimeString();
-                    group['bounce_rate'] = (br % 1 !== 0 ? br.toFixed(1) : br)+"%";
+                    group['avg_time_on_site'] = new Date(0, 0, 0, ats / 3600, ats % 3600 / 60, ats % 60).toLocaleTimeString();
+                    group['bounce_rate'] = (br % 1 !== 0 ? br.toFixed(1) : br) + "%";
                 });
 
                 return groupBy ? groups : groups.X;
@@ -610,7 +610,7 @@
                 $('.unlocated-stats').html(
                     $('.unlocated-stats').data('tpl')
                         .replace('%s', unlocated)
-                        .replace('%p', '('+formatPercentage(unlocated/total)+')')
+                        .replace('%p', '(' + formatPercentage(unlocated / total) + ')')
                         .replace('%c', UserCountryMap.countriesByIso[self.lastSelected].name)
                 );
                 $('.UserCountryMap-info-btn').show();
@@ -636,120 +636,120 @@
                     indicateLoading();
                     // load data from Piwik API
                     ajax(_reportParams('UserCountry', 'getRegion', UserCountryMap.countriesByIso[iso].iso2))
-                    .done(function(data) {
+                        .done(function (data) {
 
-                        loadingComplete();
+                            loadingComplete();
 
-                        var regionDict = {},
-                            totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
-                            unlocated = totalCountryVisits;
-                        // self.lastReportMetricStats = {};
+                            var regionDict = {},
+                                totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
+                                unlocated = totalCountryVisits;
+                            // self.lastReportMetricStats = {};
 
-                        function regionCode(region) {
-                            var key = UserCountryMap.keys[iso] || 'fips';
-                            return key.substr(0,4) == "fips" ? region[key].substr(2) : region[key];  // cut first two letters from fips code (=country code)
-                        }
-
-                        function regionExistsInMap(code) {
-                            var key = UserCountryMap.keys[iso] || 'fips', q = {};
-                            q[key] = key.substr(0,4) == 'fips' ? UserCountryMap.countriesByIso[iso].fips + code : code;
-                            if (map.getLayer('regions').getPaths(q).length === 0) {
-                                return false;
+                            function regionCode(region) {
+                                var key = UserCountryMap.keys[iso] || 'fips';
+                                return key.substr(0, 4) == "fips" ? region[key].substr(2) : region[key];  // cut first two letters from fips code (=country code)
                             }
-                            return true;
-                        }
 
-                        $.each(data.reportData, function(i, row) {
-                            regionDict[data.reportMetadata[i].region] = $.extend(row, data.reportMetadata[i], {
-                                curMetric: quantify(row, metric)
-                            });
-                        });
+                            function regionExistsInMap(code) {
+                                var key = UserCountryMap.keys[iso] || 'fips', q = {};
+                                q[key] = key.substr(0, 4) == 'fips' ? UserCountryMap.countriesByIso[iso].fips + code : code;
+                                if (map.getLayer('regions').getPaths(q).length === 0) {
+                                    return false;
+                                }
+                                return true;
+                            }
 
-                        var metric = $$('.userCountryMapSelectMetrics').val();
-
-                        if (UserCountryMap.aggregate[iso]) {
-                            var aggregated = aggregate(regionDict, function(row) {
-                                var id = row.region, res = false;
-                                $.each(UserCountryMap.aggregate[iso].groups, function(group, codes) {
-                                    if ($.inArray(id, codes) > -1) {
-                                        res = group;
-                                    }
+                            $.each(data.reportData, function (i, row) {
+                                regionDict[data.reportMetadata[i].region] = $.extend(row, data.reportMetadata[i], {
+                                    curMetric: quantify(row, metric)
                                 });
-                                return res;
                             });
-                            //if (!UserCountryMap.aggregate.partial) regionDict = {};
-                            $.each(aggregated, function(id, group) {
-                                group.curMetric = quantify(group, metric);
-                                regionDict[id] = group;
+
+                            var metric = $$('.userCountryMapSelectMetrics').val();
+
+                            if (UserCountryMap.aggregate[iso]) {
+                                var aggregated = aggregate(regionDict, function (row) {
+                                    var id = row.region, res = false;
+                                    $.each(UserCountryMap.aggregate[iso].groups, function (group, codes) {
+                                        if ($.inArray(id, codes) > -1) {
+                                            res = group;
+                                        }
+                                    });
+                                    return res;
+                                });
+                                //if (!UserCountryMap.aggregate.partial) regionDict = {};
+                                $.each(aggregated, function (id, group) {
+                                    group.curMetric = quantify(group, metric);
+                                    regionDict[id] = group;
+                                });
+                            }
+
+                            $.each(regionDict, function (key, region) {
+                                if (regionExistsInMap(key)) unlocated -= region.nb_visits;
                             });
-                        }
+                            displayUnlocatableCount(unlocated, totalCountryVisits);
 
-                        $.each(regionDict, function(key, region) {
-                            if (regionExistsInMap(key)) unlocated -= region.nb_visits;
-                        });
-                        displayUnlocatableCount(unlocated, totalCountryVisits);
+                            // create color scale
+                            colscale = getColorScale(regionDict, 'curMetric', null, true);
 
-                        // create color scale
-                        colscale = getColorScale(regionDict, 'curMetric', null, true);
-
-                        function regionFill(data) {
-                            var code = regionCode(data);
-                            return regionDict[code] === undefined ? '#fff' : colscale(regionDict[code].curMetric);
-                        }
-
-                        // apply colors to map
-                        map.getLayer('regions')
-                        .style('fill', regionFill)
-                        .style('stroke', function(data) {
-                            return regionDict[regionCode(data)] === undefined ? '#bbb' : '#3C6FB6';
-                        }).sort(function(data) {
-                            var code = regionCode(data);
-                            return regionDict[code] === undefined ? -1 : regionDict[code].curMetric;
-                        }).tooltips(function(data) {
-                            var metric = $$('.userCountryMapSelectMetrics').val(),
-                            region = regionDict[regionCode(data)];
-                            if (region === undefined) {
-                                return '<h3>'+data.name+'</h3><p>'+_.nb_visits.replace('%s', '<b>0</b>')+'</p>';
+                            function regionFill(data) {
+                                var code = regionCode(data);
+                                return regionDict[code] === undefined ? '#fff' : colscale(regionDict[code].curMetric);
                             }
-                            return '<h3>'+data.name+'</h3>'+
-                                formatValueForTooltips(region, metric, iso);
-                        }).on('click', function(d, path, evt) {
-                            var region = regionDict[regionCode(d)];
-                            if (region && region.label) {
-                                if (evt.shiftKey) {
-                                    path.attr('fill', '#f4f45b');
-                                    addMultipleRowEvolution('getRegion', region.label);
-                                } else {
-                                    map.getLayer('regions').style('fill', regionFill);
-                                    showRowEvolution('getRegion', region.label);
+
+                            // apply colors to map
+                            map.getLayer('regions')
+                                .style('fill', regionFill)
+                                .style('stroke',function (data) {
+                                    return regionDict[regionCode(data)] === undefined ? '#bbb' : '#3C6FB6';
+                                }).sort(function (data) {
+                                    var code = regionCode(data);
+                                    return regionDict[code] === undefined ? -1 : regionDict[code].curMetric;
+                                }).tooltips(function (data) {
+                                    var metric = $$('.userCountryMapSelectMetrics').val(),
+                                        region = regionDict[regionCode(data)];
+                                    if (region === undefined) {
+                                        return '<h3>' + data.name + '</h3><p>' + _.nb_visits.replace('%s', '<b>0</b>') + '</p>';
+                                    }
+                                    return '<h3>' + data.name + '</h3>' +
+                                        formatValueForTooltips(region, metric, iso);
+                                }).on('click',function (d, path, evt) {
+                                    var region = regionDict[regionCode(d)];
+                                    if (region && region.label) {
+                                        if (evt.shiftKey) {
+                                            path.attr('fill', '#f4f45b');
+                                            addMultipleRowEvolution('getRegion', region.label);
+                                        } else {
+                                            map.getLayer('regions').style('fill', regionFill);
+                                            showRowEvolution('getRegion', region.label);
+                                        }
+                                    }
+                                }).on('mouseenter',function (d, path, evt) {
+                                    var region = regionDict[regionCode(d)];
+                                    if (region && region.label) {
+                                        if (evt.shiftKey) {
+                                            path.attr('fill', '#f4f45b');
+                                        }
+                                    }
+                                }).on('mouseleave',function (d, path, evt) {
+                                    var region = regionDict[regionCode(d)];
+                                    if (region && region.label) {
+                                        if ($.inArray(region.label, _rowEvolution.labels) == -1) {
+                                            // reset color
+                                            path.attr('fill', regionFill(d));
+                                        }
+                                    }
+                                }).style('cursor', function (d) {
+                                    return regionDict[regionCode(d)] && regionDict[regionCode(d)].label ? 'pointer' : 'default';
+                                });
+
+                            // check for regions missing in the map
+                            $.each(regionDict, function (code, region) {
+                                if (!regionExistsInMap(code)) {
+                                    console.warn('possible region mismatch!', code, region.nb_visits);
                                 }
-                            }
-                        }).on('mouseenter', function(d, path, evt) {
-                            var region = regionDict[regionCode(d)];
-                            if (region && region.label) {
-                                if (evt.shiftKey) {
-                                    path.attr('fill', '#f4f45b');
-                                }
-                            }
-                        }).on('mouseleave', function(d, path, evt) {
-                            var region = regionDict[regionCode(d)];
-                            if (region && region.label) {
-                                if ($.inArray(region.label, _rowEvolution.labels) == -1) {
-                                    // reset color
-                                    path.attr('fill', regionFill(d));
-                                }
-                            }
-                        }).style('cursor', function(d) {
-                            return regionDict[regionCode(d)] && regionDict[regionCode(d)].label ? 'pointer' : 'default';
+                            });
                         });
-
-                        // check for regions missing in the map
-                        $.each(regionDict, function(code, region) {
-                            if (!regionExistsInMap(code)) {
-                                console.warn('possible region mismatch!', code, region.nb_visits);
-                            }
-                        });
-                    });
                 }
 
                 /*
@@ -765,174 +765,175 @@
 
                     // get visits per city from API
                     ajax(_reportParams('UserCountry', 'getCity', UserCountryMap.countriesByIso[iso].iso2))
-                    .done(function(data) {
+                        .done(function (data) {
 
-                        loadingComplete();
+                            loadingComplete();
 
-                        var metric = $$('.userCountryMapSelectMetrics').val(),
-                            colscale,
-                            totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
-                            unlocated = totalCountryVisits,
-                            cities = [];
+                            var metric = $$('.userCountryMapSelectMetrics').val(),
+                                colscale,
+                                totalCountryVisits = UserCountryMap.countriesByIso[iso].nb_visits,
+                                unlocated = totalCountryVisits,
+                                cities = [];
 
-                        // merge reportData and reportMetadata to cities array
-                        $.each(data.reportData, function(i, row) {
-                            unlocated -= row.nb_visits;
-                            cities.push($.extend(row, data.reportMetadata[i], {
-                                curMetric: quantify(row, metric)
-                            }));
-                        });
+                            // merge reportData and reportMetadata to cities array
+                            $.each(data.reportData, function (i, row) {
+                                unlocated -= row.nb_visits;
+                                cities.push($.extend(row, data.reportMetadata[i], {
+                                    curMetric: quantify(row, metric)
+                                }));
+                            });
 
-                        displayUnlocatableCount(unlocated, totalCountryVisits);
+                            displayUnlocatableCount(unlocated, totalCountryVisits);
 
-                        // sort by current metric
-                        cities.sort(function(a, b) { return b.curMetric - a.curMetric; });
+                            // sort by current metric
+                            cities.sort(function (a, b) { return b.curMetric - a.curMetric; });
 
-                        colscale = getColorScale(cities, metric);
+                            colscale = getColorScale(cities, metric);
 
-                        // construct scale
-                        var radscale = $K.scale.linear(cities.concat({ curMetric: 0 }), 'curMetric');
+                            // construct scale
+                            var radscale = $K.scale.linear(cities.concat({ curMetric: 0 }), 'curMetric');
 
-                        var area = map.container.width() * map.container.height(),
-                            sumArea = 0,
-                            f = {
-                                nb_visits: 0.002,
-                                nb_actions: 0.002,
-                                avg_time_on_site: 0.02,
-                                nb_actions_per_visit: 0.02,
-                                bounce_rate: 0.02
-                            },
-                            maxRad;
+                            var area = map.container.width() * map.container.height(),
+                                sumArea = 0,
+                                f = {
+                                    nb_visits: 0.002,
+                                    nb_actions: 0.002,
+                                    avg_time_on_site: 0.02,
+                                    nb_actions_per_visit: 0.02,
+                                    bounce_rate: 0.02
+                                },
+                                maxRad;
 
-                        $.each(cities, function(i, city) {
-                            sumArea += isNaN(city.curMetric) ? 0 : Math.pow(radscale(city.curMetric), 2);
-                        });
-                        maxRad = Math.sqrt(area * f[metric] / sumArea);
+                            $.each(cities, function (i, city) {
+                                sumArea += isNaN(city.curMetric) ? 0 : Math.pow(radscale(city.curMetric), 2);
+                            });
+                            maxRad = Math.sqrt(area * f[metric] / sumArea);
 
-                        radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([2, maxRad+2]);
+                            radscale = $K.scale.sqrt(cities.concat({ curMetric: 0 }), 'curMetric').range([2, maxRad + 2]);
 
-                        var is_rate = metric.substr(0,3) != 'nb_' || metric == 'nb_actions_per_visit';
+                            var is_rate = metric.substr(0, 3) != 'nb_' || metric == 'nb_actions_per_visit';
 
-                        var citySymbols = map.addSymbols({
-                            type: Kartograph.LabeledBubble,
-                            data: cities,
-                            clustering: 'noverlap',
-                            clusteringOpts: {
-                                size: 128,
-                                tolerance: 0
-                            },
-                            title: function(d) {
-                                return radscale(d.curMetric) > 10 ? formatNumber(d.curMetric) : '';
-                            },
-                            labelattrs: {
-                                fill: '#fff',
-                                'font-size': 11,
-                                stroke: false,
-                                cursor: 'pointer'
-                            },
-                            filter: function(d) {
-                                if (isNaN(d.lat) || isNaN(d.long)) return false;
-                                return is_rate ? d.nb_visits > 5 && d.curMetric : d.curMetric;
-                            },
-                            aggregate: function(rows) {
-                                var row = aggregate(rows);
-                                row.city_names = [];
-                                row.label = rows[0].label; // keep label of biggest city for row evolution
-                                $.each(rows, function(i, r) {
-                                    row.city_names = row.city_names.concat(r.city_names ? r.city_names : [r.city_name]);
-                                });
-                                row.city_name = row.city_names[0] + (row.city_names.length > 1 ? ' '+_.and_n_others.replace('%s', (row.city_names.length-1)) : '');
-                                row.curMetric = quantify(row, metric);
-                                return row;
-                            },
-                            sortBy: 'radius desc',
-                            location: function(city) { return [city.long, city.lat]; },
-                            radius: function(city) { return radscale(city.curMetric); },
-                            tooltip: function(city) {
-                                return '<h3>'+city.city_name+'</h3>'+
-                                    formatValueForTooltips(city, metric, iso);
-                            },
-                            attrs: function(city) {
-                                return {
-                                    fill: colscale(city.curMetric).hex(),
-                                    'fill-opacity': 0.7,
-                                    stroke: '#fff',
+                            var citySymbols = map.addSymbols({
+                                type: Kartograph.LabeledBubble,
+                                data: cities,
+                                clustering: 'noverlap',
+                                clusteringOpts: {
+                                    size: 128,
+                                    tolerance: 0
+                                },
+                                title: function (d) {
+                                    return radscale(d.curMetric) > 10 ? formatNumber(d.curMetric) : '';
+                                },
+                                labelattrs: {
+                                    fill: '#fff',
+                                    'font-size': 11,
+                                    stroke: false,
                                     cursor: 'pointer'
-                                };
-                            },
-                            mouseenter: function(city, symbol, evt) {
-                                symbol.path.attr({
-                                    'fill-opacity': 1,
-                                    'stroke': '#000000',
-                                    'stroke-opacity': 1,
-                                    'stroke-width': 2
-                                });
-                                if (evt.shiftKey) {
-                                    symbol.path.attr({ fill: '#f4f45b' });
-                                    if (symbol.label) symbol.label.attr({ fill: '#000' });
-                                }
-                            },
-                            mouseleave: function(city, symbol) {
-                                symbol.path.attr({
-                                    'fill-opacity': 0.7,
-                                    'stroke-opacity': 1,
-                                    'stroke-width': 1,
-                                    'stroke': '#ffffff'
-                                });
-                                if ($.inArray(city.label, _rowEvolution.labels) == -1) {
-                                    symbol.path.attr({ fill: colscale(city.curMetric) });
-                                    if (symbol.label) symbol.label.attr({ fill: '#fff' });
-                                }
-                            },
-                            click: function(city, symbol, evt) {
-                                if (evt.shiftKey) {
-                                    addMultipleRowEvolution('getCity', city.label);
-                                    symbol.path.attr('fill', '#f4f45b');
-                                    if (symbol.label) symbol.label.attr('fill', '#000');
-                                } else {
-                                    showRowEvolution('getCity', city.label);
-                                    citySymbols.update({
-                                        attrs: function(city) {
-                                            return { fill: colscale(city.curMetric) };
-                                        }
+                                },
+                                filter: function (d) {
+                                    if (isNaN(d.lat) || isNaN(d.long)) return false;
+                                    return is_rate ? d.nb_visits > 5 && d.curMetric : d.curMetric;
+                                },
+                                aggregate: function (rows) {
+                                    var row = aggregate(rows);
+                                    row.city_names = [];
+                                    row.label = rows[0].label; // keep label of biggest city for row evolution
+                                    $.each(rows, function (i, r) {
+                                        row.city_names = row.city_names.concat(r.city_names ? r.city_names : [r.city_name]);
                                     });
+                                    row.city_name = row.city_names[0] + (row.city_names.length > 1 ? ' ' + _.and_n_others.replace('%s', (row.city_names.length - 1)) : '');
+                                    row.curMetric = quantify(row, metric);
+                                    return row;
+                                },
+                                sortBy: 'radius desc',
+                                location: function (city) { return [city.long, city.lat]; },
+                                radius: function (city) { return radscale(city.curMetric); },
+                                tooltip: function (city) {
+                                    return '<h3>' + city.city_name + '</h3>' +
+                                        formatValueForTooltips(city, metric, iso);
+                                },
+                                attrs: function (city) {
+                                    return {
+                                        fill: colscale(city.curMetric).hex(),
+                                        'fill-opacity': 0.7,
+                                        stroke: '#fff',
+                                        cursor: 'pointer'
+                                    };
+                                },
+                                mouseenter: function (city, symbol, evt) {
+                                    symbol.path.attr({
+                                        'fill-opacity': 1,
+                                        'stroke': '#000000',
+                                        'stroke-opacity': 1,
+                                        'stroke-width': 2
+                                    });
+                                    if (evt.shiftKey) {
+                                        symbol.path.attr({ fill: '#f4f45b' });
+                                        if (symbol.label) symbol.label.attr({ fill: '#000' });
+                                    }
+                                },
+                                mouseleave: function (city, symbol) {
+                                    symbol.path.attr({
+                                        'fill-opacity': 0.7,
+                                        'stroke-opacity': 1,
+                                        'stroke-width': 1,
+                                        'stroke': '#ffffff'
+                                    });
+                                    if ($.inArray(city.label, _rowEvolution.labels) == -1) {
+                                        symbol.path.attr({ fill: colscale(city.curMetric) });
+                                        if (symbol.label) symbol.label.attr({ fill: '#fff' });
+                                    }
+                                },
+                                click: function (city, symbol, evt) {
+                                    if (evt.shiftKey) {
+                                        addMultipleRowEvolution('getCity', city.label);
+                                        symbol.path.attr('fill', '#f4f45b');
+                                        if (symbol.label) symbol.label.attr('fill', '#000');
+                                    } else {
+                                        showRowEvolution('getCity', city.label);
+                                        citySymbols.update({
+                                            attrs: function (city) {
+                                                return { fill: colscale(city.curMetric) };
+                                            }
+                                        });
+                                    }
                                 }
-                            }
+                            });
                         });
-                    });
                 }
 
 
-                _updateMap(iso + '.svg', function() {
+                _updateMap(iso + '.svg', function () {
 
                     // add background
                     map.addLayer('context', {
                         key: 'iso',
-                        filter: function(pd) {
+                        filter: function (pd) {
                             return UserCountryMap.countriesByIso[pd.iso] === undefined;
                         }
                     });
                     map.addLayer('context', {
                         key: 'iso',
                         name: 'context-clickable',
-                        filter: function(pd) {
+                        filter: function (pd) {
                             return UserCountryMap.countriesByIso[pd.iso] !== undefined;
                         },
-                        click: function(path, p, evt) {   // add click events for surrounding countries
+                        click: function (path, p, evt) {   // add click events for surrounding countries
                             evt.stopPropagation();
                             updateState(path.iso);
                         },
-                        tooltips: function(data) {
+                        tooltips: function (data) {
                             if (UserCountryMap.countriesByIso[data.iso] === undefined) {
                                 return 'no data';
                             }
                             var metric = $$('.userCountryMapSelectMetrics').val(),
                                 country = UserCountryMap.countriesByIso[data.iso];
-                            return '<h3>'+country.name+'</h3>'+
+                            return '<h3>' + country.name + '</h3>' +
                                 formatValueForTooltips(country, metric, 'world');
                         }
                     });
                     function isThisCountry(d) { return d.iso == iso;}
+
                     map.addLayer("context", {
                         name: "regionBG",
                         filter: isThisCountry
@@ -947,7 +948,7 @@
                         styles: {
                             stroke: '#aaa'
                         },
-                        click: function(d, p, evt) {
+                        click: function (d, p, evt) {
                             evt.stopPropagation();
                         }
                     });
@@ -957,19 +958,21 @@
                             map.getLayer('context-clickable').getPath(data.iso) &&
                             Math.abs(map.getLayer('context-clickable').getPath(data.iso).path.area()) > 700;
                     }
+
                     // returns either the reference to the country polygon or a custom label
                     // position if defined in UserCountryMap.customLabelPositions
                     function countryLabelPos(data) {
                         var CLP = UserCountryMap.customLabelPositions;
                         if (CLP[iso] && CLP[iso][data.iso]) return CLP[iso][data.iso];
-                        return 'context-clickable.'+data.iso;
+                        return 'context-clickable.' + data.iso;
                     }
+
                     map.addSymbols({
                         data: map.getLayer('context-clickable').getPathsData(),
                         type: $K.Label,
                         filter: filtCountryLabels,
                         location: countryLabelPos,
-                        text: function(data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
+                        text: function (data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
                         'class': 'countryLabelBg'
                     });
                     map.addSymbols({
@@ -977,7 +980,7 @@
                         type: $K.Label,
                         filter: filtCountryLabels,
                         location: countryLabelPos,
-                        text: function(data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
+                        text: function (data) { return UserCountryMap.countriesByIso[data.iso].iso2; },
                         'class': 'countryLabel'
                     });
 
@@ -1012,7 +1015,7 @@
 
                 if (multiple) {
                     _rowEvolution.labels.push(label);
-                    $.each(_rowEvolution.labels, function(i,l) {
+                    $.each(_rowEvolution.labels, function (i, l) {
                         _rowEvolution.labels[i] = l.replace(/, /g, '%2C%20');
                     });
                 }
@@ -1032,86 +1035,86 @@
                 if (column) { requestParams.column = column; }
 
                 ajax(requestParams, 'html')
-                .done(function(html) {
-                    Piwik_Popover.setContent(html);
+                    .done(function (html) {
+                        Piwik_Popover.setContent(html);
 
-                    // use the popover title returned from the server
-                    var title = box.find('div.popover-title');
-                    if (title.size() > 0) {
-                        Piwik_Popover.setTitle(title.html());
-                        title.remove();
-                    }
+                        // use the popover title returned from the server
+                        var title = box.find('div.popover-title');
+                        if (title.size() > 0) {
+                            Piwik_Popover.setTitle(title.html());
+                            title.remove();
+                        }
 
-                    box.find('.compare-container').hide();
-                    box.find('.rowevolution-startmulti').hide();
-                    box.find('.multirowevoltion-metric').off('change').change(function(e) {
-                        _rowEvolution.labels = oldLabels;
-                        showRowEvolution(method, label, box.find('.multirowevoltion-metric').val());
+                        box.find('.compare-container').hide();
+                        box.find('.rowevolution-startmulti').hide();
+                        box.find('.multirowevoltion-metric').off('change').change(function (e) {
+                            _rowEvolution.labels = oldLabels;
+                            showRowEvolution(method, label, box.find('.multirowevoltion-metric').val());
+                        });
                     });
-                });
 
                 _rowEvolution.labels = [];
             }
 
             // now load the metrics for all countries
             ajax(_reportParams('UserCountry', 'getCountry'))
-            .done(function(report) {
-                var metrics = $$('.userCountryMapSelectMetrics option');
-                var countryData = [], countrySelect = $$('.userCountryMapSelectCountry'),
-                    countriesByIso = {};
-                UserCountryMap.lastReportMetricStats = {};
-                // read api result to countryData and countriesByIso
-                $.each(report.reportData, function(i, data) {
-                    var meta = report.reportMetadata[i],
-                        country = {
-                            name: data.label,
-                            iso2: meta.code.toUpperCase(),
-                            fips: meta.code.toUpperCase(),
-                            iso: UserCountryMap.ISO2toISO3[meta.code.toUpperCase()],
-                            flag: meta.logo
-                        };
-                    if (UserCountryMap.differentFIPS[country.iso2]) {
-                        country.fips = UserCountryMap.differentFIPS[country.iso2];
-                    }
-                    $.each(metrics, function(i, metric) {
-                        metric = $(metric).attr('value');
-                        country[metric] = data[metric];
+                .done(function (report) {
+                    var metrics = $$('.userCountryMapSelectMetrics option');
+                    var countryData = [], countrySelect = $$('.userCountryMapSelectCountry'),
+                        countriesByIso = {};
+                    UserCountryMap.lastReportMetricStats = {};
+                    // read api result to countryData and countriesByIso
+                    $.each(report.reportData, function (i, data) {
+                        var meta = report.reportMetadata[i],
+                            country = {
+                                name: data.label,
+                                iso2: meta.code.toUpperCase(),
+                                fips: meta.code.toUpperCase(),
+                                iso: UserCountryMap.ISO2toISO3[meta.code.toUpperCase()],
+                                flag: meta.logo
+                            };
+                        if (UserCountryMap.differentFIPS[country.iso2]) {
+                            country.fips = UserCountryMap.differentFIPS[country.iso2];
+                        }
+                        $.each(metrics, function (i, metric) {
+                            metric = $(metric).attr('value');
+                            country[metric] = data[metric];
+                        });
+                        countryData.push(country);
+                        countriesByIso[country.iso] = country;
+                        worldTotalVisits += country['nb_visits'];
                     });
-                    countryData.push(country);
-                    countriesByIso[country.iso] = country;
-                    worldTotalVisits += country['nb_visits'];
-                });
-                _worldTotal = worldTotalVisits;
-                // sort countries by name
-                countryData.sort(function(a,b) { return a.name > b.name ? 1 : -1; });
+                    _worldTotal = worldTotalVisits;
+                    // sort countries by name
+                    countryData.sort(function (a, b) { return a.name > b.name ? 1 : -1; });
 
-                // store country data globally
-                UserCountryMap.countryData = countryData;
-                UserCountryMap.countriesByIso = countriesByIso;
+                    // store country data globally
+                    UserCountryMap.countryData = countryData;
+                    UserCountryMap.countriesByIso = countriesByIso;
 
-                map.loadCSS(config.mapCssPath, function() {
-                    // map stylesheets are loaded
+                    map.loadCSS(config.mapCssPath, function () {
+                        // map stylesheets are loaded
 
-                    // hide loading indicator
-                    $$('.UserCountryMap .loadingPiwik').hide();
-                    $('.mapWidgetStatus').height(0);
+                        // hide loading indicator
+                        $$('.UserCountryMap .loadingPiwik').hide();
+                        $('.mapWidgetStatus').height(0);
 
-                    // start with default view (or saved state??)
-                    var params = self.widget.dashboardWidget('getWidgetObject').parameters;
-                    self.mode = params && params.viewMode ? params.viewMode : 'region';
-                    if (params && params.lastMetric) $$('.userCountryMapSelectMetrics').val(params.lastMetric);
-                    //alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
-                    updateState(params && params.lastMap ? params.lastMap : 'world');
+                        // start with default view (or saved state??)
+                        var params = self.widget.dashboardWidget('getWidgetObject').parameters;
+                        self.mode = params && params.viewMode ? params.viewMode : 'region';
+                        if (params && params.lastMetric) $$('.userCountryMapSelectMetrics').val(params.lastMetric);
+                        //alert('updateState: '+params && params.lastMap ? params.lastMap : 'world');
+                        updateState(params && params.lastMap ? params.lastMap : 'world');
 
-                    // populate country select
-                    $.each(countryData, function(i, country) {
-                        countrySelect.append('<option value="'+country.iso+'">'+country.name+'</option>');
+                        // populate country select
+                        $.each(countryData, function (i, country) {
+                            countrySelect.append('<option value="' + country.iso + '">' + country.name + '</option>');
+                        });
+
+                        initUserInterface();
+
                     });
-
-                    initUserInterface();
-
                 });
-            });
 
             function hideOverlay(e) {
                 var overlay = $('.content', $(e.target).parents('.UserCountryMap-overlay'));
@@ -1119,36 +1122,36 @@
                 overlay.data('locked', true);
                 overlay.fadeOut(200);
 
-                $$('.UserCountryMap').mouseleave(function() {
+                $$('.UserCountryMap').mouseleave(function () {
                     overlay.fadeIn(200);
                     $$('.UserCountryMap').parent().off('mouseleave');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         overlay.data('locked', false);
                     }, 1000);
                 });
                 var offset = $$('.UserCountryMap').offset(),
                     dim = {
-                    x: overlay.offset().left - offset.left,
-                    y: overlay.offset().top - offset.top,
-                    w: overlay.width(),
-                    h: overlay.height()
-                };
-                $$('.UserCountryMap').mousemove(function(e) {
+                        x: overlay.offset().left - offset.left,
+                        y: overlay.offset().top - offset.top,
+                        w: overlay.width(),
+                        h: overlay.height()
+                    };
+                $$('.UserCountryMap').mousemove(function (e) {
                     var mx = e.pageX - offset.left, my = e.pageY - offset.top, pad = 20,
-                    outside = mx < dim.x - pad || mx > dim.x + dim.w + pad || my < dim.y - pad || my > dim.y + dim.h + pad;
+                        outside = mx < dim.x - pad || mx > dim.x + dim.w + pad || my < dim.y - pad || my > dim.y + dim.h + pad;
                     if (outside) {
                         $$('.UserCountryMap').parent().off('mouseleave');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             overlay.fadeIn(200);
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 overlay.data('locked', false);
                             }, 1000);
                         }, 100);
                     }
                 });
                 /*setTimeout(function() {
-                   overlay.fadeIn(1000);
-                }, 3000);*/
+                 overlay.fadeIn(1000);
+                 }, 3000);*/
             }
 
             $('.UserCountryMap-overlay').off('mouseenter').on('mouseenter', hideOverlay);
@@ -1161,7 +1164,7 @@
         /*
          * resizes the map
          */
-        resize: function() {
+        resize: function () {
             var ratio, w, h,
                 map = this.map,
                 maxHeight = $(window).height() - (this.theWidget && this.theWidget.isMaximised ? 150 : 55);
@@ -1179,7 +1182,7 @@
         /*
          * removes the map
          */
-        destroy: function() {
+        destroy: function () {
             this.map.clear();
             $(this.map.container).html('');
         }
@@ -1250,8 +1253,8 @@ $.extend(UserCountryMap, {
         CZE: {
             partial: true,
             groups: {
-                "82": ["82","70","23","20"],
-                "88": ["88","41"]
+                "82": ["82", "70", "23", "20"],
+                "88": ["88", "41"]
             }
         },
         BEL: {
@@ -1266,7 +1269,7 @@ $.extend(UserCountryMap, {
                 "19": ["19", "07"],
                 "18": ["18", "15"],
                 "20": ["20", "12"],
-                "21": ["21", "11",  "04"]
+                "21": ["21", "11", "04"]
             }
         }
     },
@@ -1284,7 +1287,7 @@ $.extend(UserCountryMap, {
         CZE: { DEU: [12.3, 49] },
         DEU: { AUT: [13.9, 48.1] },
         ESP: { PRT: [-8.5, 39.6] },
-        NLD: { BEL: [4.6, 51,1], DEU: [6.9, 51.5] },
+        NLD: { BEL: [4.6, 51, 1], DEU: [6.9, 51.5] },
         CHE: { FRA: [6.2, 47.2], AUT: [9.95, 47.2], ITA: [9.7, 46.0], DEU: [8.14, 47.83] },
         USA: { MEX: [-102, 24], CAN: [-97, 52] },
         BIH: { HRV: [15.3, 45] }

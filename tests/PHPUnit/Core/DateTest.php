@@ -9,31 +9,31 @@ class DateTest extends PHPUnit_Framework_TestCase
 {
     /**
      * create today object check that timestamp is correct (midnight)
-     * 
+     *
      * @group Core
      * @group Date
      */
     public function testToday()
     {
         $date = Piwik_Date::today();
-        $this->assertEquals( strtotime(date("Y-m-d "). " 00:00:00"), $date->getTimestamp());
-        
+        $this->assertEquals(strtotime(date("Y-m-d ") . " 00:00:00"), $date->getTimestamp());
+
         // test getDatetime()
-        $this->assertEquals( $date->getDatetime(), $date->getDateStartUTC());
+        $this->assertEquals($date->getDatetime(), $date->getDateStartUTC());
         $date = $date->setTime('12:00:00');
-        $this->assertEquals( date('Y-m-d') . ' 12:00:00', $date->getDatetime());
+        $this->assertEquals(date('Y-m-d') . ' 12:00:00', $date->getDatetime());
     }
-    
+
     /**
      * create today object check that timestamp is correct (midnight)
-     * 
+     *
      * @group Core
      * @group Date
      */
     public function testYesterday()
     {
         $date = Piwik_Date::yesterday();
-        $this->assertEquals( strtotime(date("Y-m-d",strtotime('-1day')). " 00:00:00"), $date->getTimestamp());
+        $this->assertEquals(strtotime(date("Y-m-d", strtotime('-1day')) . " 00:00:00"), $date->getTimestamp());
     }
 
     /**
@@ -65,14 +65,13 @@ class DateTest extends PHPUnit_Framework_TestCase
         $date = Piwik_Date::factory('now', 'Africa/Brazzaville');
         $dateExpected = Piwik_Date::factory('now')->addHour(1);
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());
-        
+
         // yesterday same time in Congo is the same as today in Congo - 24 hours
         $date = Piwik_Date::factory('yesterdaySameTime', 'Africa/Brazzaville');
         $dateExpected = Piwik_Date::factory('now', 'Africa/Brazzaville')->subHour(24);
         $this->assertEquals($dateExpected->getDatetime(), $date->getDatetime());
 
-        if(Piwik::isTimezoneSupportEnabled())
-        {
+        if (Piwik::isTimezoneSupportEnabled()) {
             // convert to/from local time
             $now = time();
             $date = Piwik_Date::factory($now, 'America/New_York');
@@ -84,7 +83,7 @@ class DateTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($now, $time);
         }
     }
-    
+
     /**
      * @group Core
      * @group Date
@@ -92,30 +91,29 @@ class DateTest extends PHPUnit_Framework_TestCase
     public function testSetTimezoneDayInUTC()
     {
         $date = Piwik_Date::factory('2010-01-01');
-        
+
         $dayStart = '2010-01-01 00:00:00';
         $dayEnd = '2010-01-01 23:59:59';
         $this->assertEquals($dayStart, $date->getDateStartUTC());
         $this->assertEquals($dayEnd, $date->getDateEndUTC());
-        
+
         // try with empty timezone
         $date = $date->setTimezone('');
         $this->assertEquals($dayStart, $date->getDateStartUTC());
         $this->assertEquals($dayEnd, $date->getDateEndUTC());
-        
+
         $date = $date->setTimezone('UTC');
         $this->assertEquals($dayStart, $date->getDateStartUTC());
         $this->assertEquals($dayEnd, $date->getDateEndUTC());
 
-        if(Piwik::isTimezoneSupportEnabled())
-        {
+        if (Piwik::isTimezoneSupportEnabled()) {
             $date = $date->setTimezone('Europe/Paris');
             $utcDayStart = '2009-12-31 23:00:00';
             $utcDayEnd = '2010-01-01 22:59:59';
             $this->assertEquals($utcDayStart, $date->getDateStartUTC());
             $this->assertEquals($utcDayEnd, $date->getDateEndUTC());
         }
-        
+
         $date = $date->setTimezone('UTC+1');
         $utcDayStart = '2009-12-31 23:00:00';
         $utcDayEnd = '2010-01-01 22:59:59';
@@ -128,8 +126,7 @@ class DateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($utcDayStart, $date->getDateStartUTC());
         $this->assertEquals($utcDayEnd, $date->getDateEndUTC());
 
-        if(Piwik::isTimezoneSupportEnabled())
-        {
+        if (Piwik::isTimezoneSupportEnabled()) {
             $date = $date->setTimezone('America/Vancouver');
             $utcDayStart = '2010-01-01 08:00:00';
             $utcDayEnd = '2010-01-02 07:59:59';
@@ -137,7 +134,7 @@ class DateTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($utcDayEnd, $date->getDateEndUTC());
         }
     }
-    
+
     /**
      * @group Core
      * @group Date
@@ -146,14 +143,13 @@ class DateTest extends PHPUnit_Framework_TestCase
     {
         $date = Piwik_Date::factory('2010-01-01');
         $date = $date->setTimezone('UTC-1');
-        
+
         $timestamp = $date->getTimestamp();
         $date = $date->addHour(0)->addHour(0)->addHour(0);
         $this->assertEquals($timestamp, $date->getTimestamp());
-        
 
-        if(Piwik::isTimezoneSupportEnabled())
-        {
+
+        if (Piwik::isTimezoneSupportEnabled()) {
             $date = Piwik_Date::factory('2010-01-01')->setTimezone('Europe/Paris');
             $dateExpected = clone $date;
             $date = $date->addHour(2);
@@ -161,15 +157,14 @@ class DateTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($dateExpected->getTimestamp(), $date->getTimestamp());
         }
     }
-    
+
     /**
      * @group Core
      * @group Date
      */
     public function testGetDateStartUTCEndDuringDstTimezone()
     {
-        if(Piwik::isTimezoneSupportEnabled())
-        {
+        if (Piwik::isTimezoneSupportEnabled()) {
             $date = Piwik_Date::factory('2010-03-28');
 
             $date = $date->setTimezone('Europe/Paris');
@@ -180,7 +175,7 @@ class DateTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($utcDayEnd, $date->getDateEndUTC());
         }
     }
-    
+
     /**
      * @group Core
      * @group Date
@@ -194,12 +189,12 @@ class DateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($dayExpected, $date->getDatetime());
         $date = $date->subHour(0.3);
         $this->assertEquals($dayStart, $date->getDatetime());
-        
+
         // add partial hours
         $dayExpected = '2010-03-28 05:45:00';
         $date = Piwik_Date::factory($dayStart)->addHour(5.75);
         $this->assertEquals($dayExpected, $date->getDatetime());
-        
+
         // remove partial hours
         $dayExpected = '2010-03-27 18:15:00';
         $date = Piwik_Date::factory($dayStart)->subHour(5.75);

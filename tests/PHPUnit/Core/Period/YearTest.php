@@ -18,7 +18,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      */
     public function testYearNormalcase()
     {
-        $correct=array(
+        $correct = array(
             '2024-01-01',
             '2024-02-01',
             '2024-03-01',
@@ -31,12 +31,12 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
             '2024-10-01',
             '2024-11-01',
             '2024-12-01',);
-        
-        $year = new Piwik_Period_Year( Piwik_Date::factory('2024-10-09'));
+
+        $year = new Piwik_Period_Year(Piwik_Date::factory('2024-10-09'));
         $this->assertEquals(12, $year->getNumberOfSubperiods());
         $this->assertEquals($correct, $year->toString());
     }
-    
+
     /**
      * test past
      * @group Core
@@ -45,7 +45,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
      */
     public function testYearPastAndWrongdate()
     {
-        $correct=array(
+        $correct = array(
             '2000-01-01',
             '2000-02-01',
             '2000-03-01',
@@ -59,8 +59,8 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
             '2000-11-01',
             '2000-12-01',
         );
-        
-        $year = new Piwik_Period_Year( Piwik_Date::factory('2000-02-15'));
+
+        $year = new Piwik_Period_Year(Piwik_Date::factory('2000-02-15'));
         $this->assertEquals(12, $year->getNumberOfSubperiods());
         $this->assertEquals($correct, $year->toString());
     }
@@ -73,7 +73,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
     public function testGetLocalizedShortString()
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $year = new Piwik_Period_Year( Piwik_Date::factory('2024-10-09'));
+        $year = new Piwik_Period_Year(Piwik_Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedShortString());
     }
@@ -86,7 +86,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
     public function testGetLocalizedLongString()
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $year = new Piwik_Period_Year( Piwik_Date::factory('2024-10-09'));
+        $year = new Piwik_Period_Year(Piwik_Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getLocalizedLongString());
     }
@@ -99,7 +99,7 @@ class Period_YearTest extends PHPUnit_Framework_TestCase
     public function testGetPrettyString()
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $year = new Piwik_Period_Year( Piwik_Date::factory('2024-10-09'));
+        $year = new Piwik_Period_Year(Piwik_Date::factory('2024-10-09'));
         $shouldBe = '2024';
         $this->assertEquals($shouldBe, $year->getPrettyString());
     }

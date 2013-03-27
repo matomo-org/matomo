@@ -11,7 +11,7 @@
  */
 class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -25,9 +25,9 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
 
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	$dateTime = self::$fixture->dateTime;
-    	
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
+
         $return = array();
 
         // referrers
@@ -78,29 +78,29 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
             )
         ));
 
-		// test expanded=1 w/ idSubtable=X
-		$return[] = array('Actions.getPageUrls', array('idSite'		   => $idSite,
-				    								   'date'		   => $dateTime,
-				    								   'periods'	   => array('week'),
-				    								   'apiModule'	   => 'Actions',
-				    								   'apiAction'	   => 'getPageUrls',
-				    								   'supertableApi' => 'Actions.getPageUrls',
-				    								   'testSuffix'	   => '_expandedSubtable',
-				    								   'otherRequestParameters' => array('expanded' => '1')));
-		
-		// test flat=1 w/ filter_pattern_recursive
-		$return[] = array('Actions.getPageUrls', array('idSite'		   => $idSite,
-				    								   'date'		   => $dateTime,
-				    								   'periods'	   => array('week'),
-				    								   'apiModule'	   => 'Actions',
-				    								   'apiAction'	   => 'getPageUrls',
-				    								   'testSuffix'	   => '_flatFilterPatternRecursive',
-				    								   'otherRequestParameters' => array(
-				    								       'flat' => '1',
-				    								       'expanded' => '0',
-				    								   	   'filter_pattern_recursive' => 'dir2/'
-			    								   	   )));
-		
+        // test expanded=1 w/ idSubtable=X
+        $return[] = array('Actions.getPageUrls', array('idSite'                 => $idSite,
+                                                       'date'                   => $dateTime,
+                                                       'periods'                => array('week'),
+                                                       'apiModule'              => 'Actions',
+                                                       'apiAction'              => 'getPageUrls',
+                                                       'supertableApi'          => 'Actions.getPageUrls',
+                                                       'testSuffix'             => '_expandedSubtable',
+                                                       'otherRequestParameters' => array('expanded' => '1')));
+
+        // test flat=1 w/ filter_pattern_recursive
+        $return[] = array('Actions.getPageUrls', array('idSite'                 => $idSite,
+                                                       'date'                   => $dateTime,
+                                                       'periods'                => array('week'),
+                                                       'apiModule'              => 'Actions',
+                                                       'apiAction'              => 'getPageUrls',
+                                                       'testSuffix'             => '_flatFilterPatternRecursive',
+                                                       'otherRequestParameters' => array(
+                                                           'flat'                     => '1',
+                                                           'expanded'                 => '0',
+                                                           'filter_pattern_recursive' => 'dir2/'
+                                                       )));
+
         return $return;
     }
 
@@ -111,5 +111,5 @@ class Test_Piwik_Integration_FlattenReports extends IntegrationTestCase
 }
 
 Test_Piwik_Integration_FlattenReports::$fixture =
-	new Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars();
+    new Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars();
 

@@ -12,7 +12,7 @@
  */
 class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -26,19 +26,19 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
 
     public function getApiForTesting()
     {
-    	$idSite = self::$fixture->idSite;
-    	$dateTime = self::$fixture->dateTime;
-    	
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
+
         $labelsToTest = array(
-	        // first level
-	        'shouldBeNoData'          => 'nonExistent',
-	        'dir'                     => '  dir   ',
-	        '0'                       => '/0',
+            // first level
+            'shouldBeNoData'          => 'nonExistent',
+            'dir'                     => '  dir   ',
+            '0'                       => '/0',
 
-	        // TODO the label in the API output is ...&amp;#039;... why does it only work this way?
-	        'thisiscool'              => '/ééé&quot;&#039;... &lt;this is cool&gt;!',
+            // TODO the label in the API output is ...&amp;#039;... why does it only work this way?
+            'thisiscool'              => '/ééé&quot;&#039;... &lt;this is cool&gt;!',
 
-	        // second level
+            // second level
             'dirnonExistent'          => 'dir>nonExistent',
             'dirfilephpfoobarfoo2bar' => 'dir>' . urlencode('/file.php?foo=bar&foo2=bar'),
 
@@ -59,57 +59,57 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
             ));
         }
 
-		$label    = 'dir';
-		$return[] = array('Actions.getPageUrls', array(
-			'testSuffix'             => '_' . $label . '_range',
-			'idSite'                 => $idSite,
-			'date'                   => $dateTime,
-			'otherRequestParameters' => array(
-				'date'     => '2010-03-06,2010-03-08',
-				'label'    => urlencode($label),
-				'expanded' => 0
-			)
-		));
+        $label = 'dir';
+        $return[] = array('Actions.getPageUrls', array(
+            'testSuffix'             => '_' . $label . '_range',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                'date'     => '2010-03-06,2010-03-08',
+                'label'    => urlencode($label),
+                'expanded' => 0
+            )
+        ));
 
-		$return[] = array('Actions.getPageTitles', array(
-			'testSuffix'             => '_titles',
-			'idSite'                 => $idSite,
-			'date'                   => $dateTime,
-			'otherRequestParameters' => array(
-				// note: title has no blank prefixed here. in the report it has.
-				'label'    => urlencode('incredible title! <>,;'),
-				'expanded' => 0
-			)
-		));
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'             => '_titles',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                // note: title has no blank prefixed here. in the report it has.
+                'label'    => urlencode('incredible title! <>,;'),
+                'expanded' => 0
+            )
+        ));
 
-		$return[] = array('Actions.getPageTitles', array(
-			'testSuffix'             => '_titlesRecursive',
-			'idSite'                 => $idSite,
-			'date'                   => $dateTime,
-			'otherRequestParameters' => array(
-				'label'    => urlencode(
-				'   ' . // test trimming
-					urlencode('incredible parent title! <>,;') .
-					'>' .
-					urlencode('subtitle <>,;')),
-				'expanded' => 0
-			)
-		));
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'             => '_titlesRecursive',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                'label'    => urlencode(
+                    '   ' . // test trimming
+                        urlencode('incredible parent title! <>,;') .
+                        '>' .
+                        urlencode('subtitle <>,;')),
+                'expanded' => 0
+            )
+        ));
 
-		$keyword          = '&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded';
-		$searchEngineTest = array(
-			'testSuffix'             => '_keywords_html',
-			'idSite'                 => $idSite,
-			'date'                   => $dateTime,
-			'otherRequestParameters' => array(
-				'label'    => urlencode('Google>' . urlencode($keyword)),
-				'expanded' => 0
-			)
-		);
-		$return[]         = array('Referers.getSearchEngines', $searchEngineTest);
+        $keyword = '&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded';
+        $searchEngineTest = array(
+            'testSuffix'             => '_keywords_html',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                'label'    => urlencode('Google>' . urlencode($keyword)),
+                'expanded' => 0
+            )
+        );
+        $return[] = array('Referers.getSearchEngines', $searchEngineTest);
 
-		$searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>' . urlencode(html_entity_decode($keyword)));
-		$return[]                                            = array('Referers.getSearchEngines', $searchEngineTest);
+        $searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>' . urlencode(html_entity_decode($keyword)));
+        $return[] = array('Referers.getSearchEngines', $searchEngineTest);
 
         return $return;
     }

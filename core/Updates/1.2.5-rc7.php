@@ -14,18 +14,18 @@
  */
 class Piwik_Updates_1_2_5_rc7 extends Piwik_Updates
 {
-	static function getSql($schema = 'Myisam')
-	{
-		return array(
-		    'ALTER TABLE `'. Piwik_Common::prefixTable('log_visit') .'` 
+    static function getSql($schema = 'Myisam')
+    {
+        return array(
+            'ALTER TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
 		    	ADD INDEX index_idsite_idvisitor (idsite, idvisitor)' => false,
-		);
-	}
+        );
+    }
 
-	static function update()
-	{
-		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-	}
+    static function update()
+    {
+        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+    }
 }
 
 

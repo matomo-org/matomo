@@ -60,7 +60,7 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
         return array(
             array('A==B%', array('where' => " A = ? ", 'bind' => array('B%'))),
             array('ABCDEF====B===', array('where' => " ABCDEF = ? ", 'bind' => array('==B==='))),
-            array('A===B;CDEF!=C!=', array('where' => " A = ? AND CDEF <> ? ", 'bind' => array('=B', 'C!=' ))),
+            array('A===B;CDEF!=C!=', array('where' => " A = ? AND CDEF <> ? ", 'bind' => array('=B', 'C!='))),
             array('A==B,C==D', array('where' => " (A = ? OR C = ? )", 'bind' => array('B', 'D'))),
             array('A!=B;C==D', array('where' => " A <> ? AND C = ? ", 'bind' => array('B', 'D'))),
             array('A!=B;C==D,E!=Hello World!=', array('where' => " A <> ? AND (C = ? OR E <> ? )", 'bind' => array('B', 'D', 'Hello World!='))),
@@ -70,7 +70,7 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
             array('A<=B', array('where' => " A <= ? ", 'bind' => array('B'))),
             array('A>=B', array('where' => " A >= ? ", 'bind' => array('B'))),
             array('ABCDEF>=>=>=B===', array('where' => " ABCDEF >= ? ", 'bind' => array('>=>=B==='))),
-            array('A>=<=B;CDEF>G;H>=I;J<K;L<=M', array('where' => " A >= ? AND CDEF > ? AND H >= ? AND J < ? AND L <= ? ", 'bind' => array('<=B', 'G','I','K','M' ))),
+            array('A>=<=B;CDEF>G;H>=I;J<K;L<=M', array('where' => " A >= ? AND CDEF > ? AND H >= ? AND J < ? AND L <= ? ", 'bind' => array('<=B', 'G', 'I', 'K', 'M'))),
             array('A>=B;C>=D,E<w_ow great!', array('where' => " A >= ? AND (C >= ? OR E < ? )", 'bind' => array('B', 'D', 'w_ow great!'))),
 
             array('A=@B_', array('where' => " A LIKE ? ", 'bind' => array('%B\_%'))),

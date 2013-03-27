@@ -42,8 +42,7 @@ class Piwik_ExampleRssWidget_Rss
 
     public function get()
     {
-        try
-        {
+        try {
             $rss = Zend_Feed::import($this->url);
         } catch (Zend_Feed_Exception $e) {
             echo "Error while importing feed: {$e->getMessage()}\n";
@@ -53,27 +52,23 @@ class Piwik_ExampleRssWidget_Rss
         $output = '<div style="padding:10px 15px;"><ul class="rss">';
         $i = 0;
 
-        foreach($rss as $post)
-        {
+        foreach ($rss as $post) {
             $title = $post->title();
             $date = @strftime("%B %e, %Y", strtotime($post->pubDate()));
             $link = $post->link();
 
-            $output .= '<li><a class="rss-title" title="" target="_blank" href="?module=Proxy&action=redirect&url='.$link.'">'.$title.'</a>'.
-                '<span class="rss-date">'.$date.'</span>';
-            if($this->showDescription)
-            {
-                $output .= '<div class="rss-description">'.$post->description().'</div>';
+            $output .= '<li><a class="rss-title" title="" target="_blank" href="?module=Proxy&action=redirect&url=' . $link . '">' . $title . '</a>' .
+                '<span class="rss-date">' . $date . '</span>';
+            if ($this->showDescription) {
+                $output .= '<div class="rss-description">' . $post->description() . '</div>';
             }
 
-            if($this->showContent)
-            {
-                $output .= '<div class="rss-content">'.$post->content().'</div>';
+            if ($this->showContent) {
+                $output .= '<div class="rss-content">' . $post->content() . '</div>';
             }
             $output .= '</li>';
 
-            if(++$i == $this->count) 
-            {
+            if (++$i == $this->count) {
                 break;
             }
         }

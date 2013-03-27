@@ -13,38 +13,38 @@
 class Test_Piwik_Fixture_ThreeGoalsOnePageview extends Test_Piwik_BaseFixture
 {
     public $dateTime = '2009-01-04 00:11:42';
-    public $idSite   = 1;
-    public $idGoal   = 1;
-    public $idGoal2  = 2;
-    public $idGoal3  = 3;
-    
-	public function setUp()
-	{
-		$this->setUpWebsitesAndGoals();
-		$this->trackVisits();
-	}
-	
-	public function tearDown()
-	{
-		// empty
-	}
+    public $idSite = 1;
+    public $idGoal = 1;
+    public $idGoal2 = 2;
+    public $idGoal3 = 3;
+
+    public function setUp()
+    {
+        $this->setUpWebsitesAndGoals();
+        $this->trackVisits();
+    }
+
+    public function tearDown()
+    {
+        // empty
+    }
 
     private function setUpWebsitesAndGoals()
     {
         self::createWebsite($this->dateTime, $ecommerce = 1);
         Piwik_Goals_API::getInstance()->addGoal(
-        	$this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false,
-        	$revenue = 10, $allowMultipleConversions = 1
-    	);
-    	
+            $this->idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false,
+            $revenue = 10, $allowMultipleConversions = 1
+        );
+
         Piwik_Goals_API::getInstance()->addGoal(
-        	$this->idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false,
-        	$revenue = 10, $allowMultipleConversions = 0
-    	);
-    	
+            $this->idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false,
+            $revenue = 10, $allowMultipleConversions = 0
+        );
+
         Piwik_Goals_API::getInstance()->addGoal($this->idSite, 'triggered js', 'manually', '', '');
     }
-    
+
     private function trackVisits()
     {
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);

@@ -16,86 +16,85 @@ require_once PIWIK_INCLUDE_PATH . "/plugins/MobileMessaging/APIException.php";
  */
 class Piwik_MobileMessaging_SMSProvider_Clockwork extends Piwik_MobileMessaging_SMSProvider
 {
-	const SOCKET_TIMEOUT = 15;
+    const SOCKET_TIMEOUT = 15;
 
-	const BASE_API_URL = 'https://api.mediaburst.co.uk/http';
-	const CHECK_CREDIT_RESOURCE = '/credit.aspx';
-	const SEND_SMS_RESOURCE = '/send.aspx';
+    const BASE_API_URL = 'https://api.mediaburst.co.uk/http';
+    const CHECK_CREDIT_RESOURCE = '/credit.aspx';
+    const SEND_SMS_RESOURCE = '/send.aspx';
 
-	const ERROR_STRING = 'Error';
+    const ERROR_STRING = 'Error';
 
-	const MAXIMUM_FROM_LENGTH = 11;
-	const MAXIMUM_CONCATENATED_SMS = 3;
+    const MAXIMUM_FROM_LENGTH = 11;
+    const MAXIMUM_CONCATENATED_SMS = 3;
 
-	public function verifyCredential($apiKey)
-	{
-		$this->getCreditLeft($apiKey);
+    public function verifyCredential($apiKey)
+    {
+        $this->getCreditLeft($apiKey);
 
-		return true;
-	}
+        return true;
+    }
 
-	public function sendSMS($apiKey, $smsText, $phoneNumber, $from)
-	{
-		$from = substr($from, 0, self::MAXIMUM_FROM_LENGTH);
+    public function sendSMS($apiKey, $smsText, $phoneNumber, $from)
+    {
+        $from = substr($from, 0, self::MAXIMUM_FROM_LENGTH);
 
-		$smsText = self::truncate($smsText, self::MAXIMUM_CONCATENATED_SMS);
+        $smsText = self::truncate($smsText, self::MAXIMUM_CONCATENATED_SMS);
 
-		$additionalParameters = array(
-			'To' => str_replace('+','', $phoneNumber),
-			'Content' => $smsText,
-			'From' => $from,
-			'Long' => 1,
-			'MsgType' => self::containsUCS2Characters($smsText) ? 'UCS2' : 'TEXT',
-		);
+        $additionalParameters = array(
+            'To'      => str_replace('+', '', $phoneNumber),
+            'Content' => $smsText,
+            'From'    => $from,
+            'Long'    => 1,
+            'MsgType' => self::containsUCS2Characters($smsText) ? 'UCS2' : 'TEXT',
+        );
 
-		$this->issueApiCall(
-			$apiKey,
-			self::SEND_SMS_RESOURCE,
-			$additionalParameters
-		);
-	}
+        $this->issueApiCall(
+            $apiKey,
+            self::SEND_SMS_RESOURCE,
+            $additionalParameters
+        );
+    }
 
-	private function issueApiCall($apiKey, $resource, $additionalParameters = array())
-	{
-		$accountParameters = array(
-			'Key' => $apiKey,
-		);
+    private function issueApiCall($apiKey, $resource, $additionalParameters = array())
+    {
+        $accountParameters = array(
+            'Key' => $apiKey,
+        );
 
-		$parameters = array_merge($accountParameters, $additionalParameters);
+        $parameters = array_merge($accountParameters, $additionalParameters);
 
-		$url = self::BASE_API_URL
-				. $resource
-				. '?' . http_build_query($parameters, '', '&');
+        $url = self::BASE_API_URL
+            . $resource
+            . '?' . http_build_query($parameters, '', '&');
 
-		$timeout = self::SOCKET_TIMEOUT;
+        $timeout = self::SOCKET_TIMEOUT;
 
-		$result = Piwik_Http::sendHttpRequestBy(
-			Piwik_Http::getTransportMethod(),
-			$url,
-			$timeout,
-			$userAgent = null,
-			$destinationPath = null,
-			$file = null,
-			$followDepth = 0,
-			$acceptLanguage = false,
-			$acceptInvalidSslCertificate = true
-		);
+        $result = Piwik_Http::sendHttpRequestBy(
+            Piwik_Http::getTransportMethod(),
+            $url,
+            $timeout,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $acceptLanguage = false,
+            $acceptInvalidSslCertificate = true
+        );
 
-		if(strpos($result, self::ERROR_STRING) !== false)
-		{
-			throw new Piwik_MobileMessaging_APIException(
-				'Clockwork API returned the following error message : ' . $result
-			);
-		}
+        if (strpos($result, self::ERROR_STRING) !== false) {
+            throw new Piwik_MobileMessaging_APIException(
+                'Clockwork API returned the following error message : ' . $result
+            );
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function getCreditLeft($apiKey)
-	{
-		return $this->issueApiCall(
-					$apiKey,
-					self::CHECK_CREDIT_RESOURCE
-				);
-	}
+    public function getCreditLeft($apiKey)
+    {
+        return $this->issueApiCall(
+            $apiKey,
+            self::CHECK_CREDIT_RESOURCE
+        );
+    }
 }

@@ -21,155 +21,155 @@
  */
 class Piwik_CacheFile
 {
-	/**
-	 * @var string
-	 */
-	protected $cachePath;
-	/**
-	 * @var
-	 */
-	protected $cachePrefix;
+    /**
+     * @var string
+     */
+    protected $cachePath;
+    /**
+     * @var
+     */
+    protected $cachePrefix;
 
-	/**
-	 * Minimum enforced TTL in seconds
-	 */
-	const MINIMUM_TTL = 60;
+    /**
+     * Minimum enforced TTL in seconds
+     */
+    const MINIMUM_TTL = 60;
 
-	/**
-	 * @param string  $directory  directory to use
-	 * @param int TTL
-	 */
-	function __construct($directory, $timeToLiveInSeconds = 300)
-	{
-		$this->cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
-		if($timeToLiveInSeconds < self::MINIMUM_TTL) {
-			$timeToLiveInSeconds = self::MINIMUM_TTL;
-		}
-		$this->ttl = $timeToLiveInSeconds;
-	}
+    /**
+     * @param string $directory  directory to use
+     * @param int TTL
+     */
+    function __construct($directory, $timeToLiveInSeconds = 300)
+    {
+        $this->cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
+        if ($timeToLiveInSeconds < self::MINIMUM_TTL) {
+            $timeToLiveInSeconds = self::MINIMUM_TTL;
+        }
+        $this->ttl = $timeToLiveInSeconds;
+    }
 
-	/**
-	 * Function to fetch a cache entry
-	 *
-	 * @param string  $id  The cache entry ID
-	 * @return array|bool  False on error, or array the cache content
-	 */
-	function get($id)
-	{
-		if(empty($id)) {
-			return false;
-		}
-		$id = $this->cleanupId($id);
+    /**
+     * Function to fetch a cache entry
+     *
+     * @param string $id  The cache entry ID
+     * @return array|bool  False on error, or array the cache content
+     */
+    function get($id)
+    {
+        if (empty($id)) {
+            return false;
+        }
+        $id = $this->cleanupId($id);
 
-		$cache_complete = false;
-		$content = '';
-		$expires_on = false;
+        $cache_complete = false;
+        $content = '';
+        $expires_on = false;
 
-		// We are assuming that most of the time cache will exists
-		$ok = @include($this->cachePath . $id . '.php');
+        // We are assuming that most of the time cache will exists
+        $ok = @include($this->cachePath . $id . '.php');
 
-		if ($ok && $cache_complete == true) {
+        if ($ok && $cache_complete == true) {
 
-			if(empty($expires_on)
-				|| $expires_on < time()) {
-				return false;
-			}
-			return $content;
-		}
+            if (empty($expires_on)
+                || $expires_on < time()
+            ) {
+                return false;
+            }
+            return $content;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	private function getExpiresTime()
-	{
-		return time() + $this->ttl;
-	}
+    private function getExpiresTime()
+    {
+        return time() + $this->ttl;
+    }
 
-	protected function cleanupId($id)
-	{
-		if(!Piwik_Common::isValidFilename($id)) {
-			throw new Exception("Invalid cache ID request $id");
-		}
-		return $id;
-	}
+    protected function cleanupId($id)
+    {
+        if (!Piwik_Common::isValidFilename($id)) {
+            throw new Exception("Invalid cache ID request $id");
+        }
+        return $id;
+    }
 
-	/**
-	 * A function to store content a cache entry.
-	 *
-	 * @param string  $id       The cache entry ID
-	 * @param array   $content  The cache content
-	 * @return bool  True if the entry was succesfully stored
-	 */
-	function set($id, $content)
-	{
-		if(empty($id)) {
-			return false;
-		}
-		if( !is_dir($this->cachePath))
-		{
-			Piwik_Common::mkdir($this->cachePath);
-		}
-		if (!is_writable($this->cachePath)) {
-			return false;
-		}
-		$id = $this->cleanupId($id);
-	
-		$id = $this->cachePath . $id . '.php';
+    /**
+     * A function to store content a cache entry.
+     *
+     * @param string $id       The cache entry ID
+     * @param array $content  The cache content
+     * @return bool  True if the entry was succesfully stored
+     */
+    function set($id, $content)
+    {
+        if (empty($id)) {
+            return false;
+        }
+        if (!is_dir($this->cachePath)) {
+            Piwik_Common::mkdir($this->cachePath);
+        }
+        if (!is_writable($this->cachePath)) {
+            return false;
+        }
+        $id = $this->cleanupId($id);
 
-		$cache_literal  = "<"."?php\n";
-		$cache_literal .= "$"."content   = ".var_export($content, true).";\n";
-		$cache_literal .= "$"."expires_on   = ".$this->getExpiresTime().";\n";
-		$cache_literal .= "$"."cache_complete   = true;\n";
-		$cache_literal .= "?".">";
+        $id = $this->cachePath . $id . '.php';
 
-		// Write cache to a temp file, then rename it, overwriting the old cache
-		// On *nix systems this should guarantee atomicity
-		$tmp_filename = tempnam($this->cachePath, 'tmp_');
-		@chmod($tmp_filename, 0640);
-		if ($fp = @fopen($tmp_filename, 'wb')) {
-			@fwrite ($fp, $cache_literal, strlen($cache_literal));
-			@fclose ($fp);
-			
-			if (!@rename($tmp_filename, $id)) {
-				// On some systems rename() doesn't overwrite destination
-				@unlink($id);
-				if (!@rename($tmp_filename, $id)) {
-					// Make sure that no temporary file is left over
-					// if the destination is not writable
-					@unlink($tmp_filename);
-				}
-			}
-			return true;
-		}
-		return false;
-	}
+        $cache_literal = "<" . "?php\n";
+        $cache_literal .= "$" . "content   = " . var_export($content, true) . ";\n";
+        $cache_literal .= "$" . "expires_on   = " . $this->getExpiresTime() . ";\n";
+        $cache_literal .= "$" . "cache_complete   = true;\n";
+        $cache_literal .= "?" . ">";
 
-	/**
-	 * A function to delete a single cache entry
-	 *
-	 * @param string  $id  The cache entry ID
-	 * @return bool  True if the entry was succesfully deleted
-	 */
-	function delete($id)
-	{
-		if(empty($id)) {
-			return false;
-		}
-		$id = $this->cleanupId($id);
+        // Write cache to a temp file, then rename it, overwriting the old cache
+        // On *nix systems this should guarantee atomicity
+        $tmp_filename = tempnam($this->cachePath, 'tmp_');
+        @chmod($tmp_filename, 0640);
+        if ($fp = @fopen($tmp_filename, 'wb')) {
+            @fwrite($fp, $cache_literal, strlen($cache_literal));
+            @fclose($fp);
 
-		$filename = $this->cachePath . $id . '.php';
-		if (file_exists($filename)) {
-			@unlink ($filename);
-			return true;
-		}
-		return false;
-	}
+            if (!@rename($tmp_filename, $id)) {
+                // On some systems rename() doesn't overwrite destination
+                @unlink($id);
+                if (!@rename($tmp_filename, $id)) {
+                    // Make sure that no temporary file is left over
+                    // if the destination is not writable
+                    @unlink($tmp_filename);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * A function to delete all cache entries in the directory
-	 */
-	function deleteAll()
-	{
-		Piwik::unlinkRecursive($this->cachePath, $deleteRootToo = false);
-	}
+    /**
+     * A function to delete a single cache entry
+     *
+     * @param string $id  The cache entry ID
+     * @return bool  True if the entry was succesfully deleted
+     */
+    function delete($id)
+    {
+        if (empty($id)) {
+            return false;
+        }
+        $id = $this->cleanupId($id);
+
+        $filename = $this->cachePath . $id . '.php';
+        if (file_exists($filename)) {
+            @unlink($filename);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * A function to delete all cache entries in the directory
+     */
+    function deleteAll()
+    {
+        Piwik::unlinkRecursive($this->cachePath, $deleteRootToo = false);
+    }
 }

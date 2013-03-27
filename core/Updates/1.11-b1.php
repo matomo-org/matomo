@@ -14,20 +14,17 @@
  */
 class Piwik_Updates_1_11_b1 extends Piwik_Updates
 {
-	static function isMajorUpdate()
-	{
-		return false;
-	}
-	
-	static function update()
-	{
-		try
-		{
-			Piwik_PluginsManager::getInstance()->activatePlugin('UserCountryMap');
-		}
-		catch(Exception $e)
-		{
-			// pass
-		}
-	}
+    static function isMajorUpdate()
+    {
+        return false;
+    }
+
+    static function update()
+    {
+        try {
+            Piwik_PluginsManager::getInstance()->activatePlugin('UserCountryMap');
+        } catch (Exception $e) {
+            // pass
+        }
+    }
 }

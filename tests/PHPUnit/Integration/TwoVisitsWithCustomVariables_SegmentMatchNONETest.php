@@ -11,7 +11,7 @@
  */
 class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -39,7 +39,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
     public function getSegmentToTest()
     {
         // Segment matching NONE
-        $segments          = Piwik_API_API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
+        $segments = Piwik_API_API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
         $segmentExpression = array();
 
         $seenVisitorId = false;
@@ -47,7 +47,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
             $value = 'campaign';
             if ($segment['segment'] == 'visitorId') {
                 $seenVisitorId = true;
-                $value         = '34c31e04394bdc63';
+                $value = '34c31e04394bdc63';
             }
             if ($segment['segment'] == 'visitEcommerceStatus') {
                 $value = 'none';
@@ -71,6 +71,6 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
 }
 
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE::$fixture
-	= new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
+    = new Test_Piwik_Fixture_TwoVisitsWithCustomVariables();
 Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE::$fixture->doExtraQuoteTests = false;
 

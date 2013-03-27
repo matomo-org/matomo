@@ -15,57 +15,57 @@
  */
 class Piwik_MobileMessaging_ReportRenderer_Exception extends Piwik_ReportRenderer
 {
-	private $rendering = "";
+    private $rendering = "";
 
-	function __construct($exception)
-	{
-		$this->rendering = $exception;
-	}
+    function __construct($exception)
+    {
+        $this->rendering = $exception;
+    }
 
-	public function setLocale($locale)
-	{
-		// nothing to do
-	}
+    public function setLocale($locale)
+    {
+        // nothing to do
+    }
 
-	public function sendToDisk($filename)
-	{
-		return Piwik_ReportRenderer::writeFile(
-			$filename,
-			Piwik_MobileMessaging_ReportRenderer_Sms::SMS_FILE_EXTENSION,
-			$this->rendering
-		);
-	}
+    public function sendToDisk($filename)
+    {
+        return Piwik_ReportRenderer::writeFile(
+            $filename,
+            Piwik_MobileMessaging_ReportRenderer_Sms::SMS_FILE_EXTENSION,
+            $this->rendering
+        );
+    }
 
-	public function sendToBrowserDownload($filename)
-	{
-		Piwik_ReportRenderer::sendToBrowser(
-			$filename,
-			Piwik_MobileMessaging_ReportRenderer_Sms::SMS_FILE_EXTENSION,
-			Piwik_MobileMessaging_ReportRenderer_Sms::SMS_CONTENT_TYPE,
-			$this->rendering
-		);
-	}
+    public function sendToBrowserDownload($filename)
+    {
+        Piwik_ReportRenderer::sendToBrowser(
+            $filename,
+            Piwik_MobileMessaging_ReportRenderer_Sms::SMS_FILE_EXTENSION,
+            Piwik_MobileMessaging_ReportRenderer_Sms::SMS_CONTENT_TYPE,
+            $this->rendering
+        );
+    }
 
-	public function sendToBrowserInline($filename)
-	{
-		Piwik_ReportRenderer::inlineToBrowser(
-			Piwik_MobileMessaging_ReportRenderer_Sms::SMS_CONTENT_TYPE,
-			$this->rendering
-		);
-	}
+    public function sendToBrowserInline($filename)
+    {
+        Piwik_ReportRenderer::inlineToBrowser(
+            Piwik_MobileMessaging_ReportRenderer_Sms::SMS_CONTENT_TYPE,
+            $this->rendering
+        );
+    }
 
-	public function getRenderedReport()
-	{
-		return $this->rendering;
-	}
+    public function getRenderedReport()
+    {
+        return $this->rendering;
+    }
 
-	public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)
-	{
-		// nothing to do
-	}
+    public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)
+    {
+        // nothing to do
+    }
 
-	public function renderReport($processedReport)
-	{
-		// nothing to do
-	}
+    public function renderReport($processedReport)
+    {
+        // nothing to do
+    }
 }

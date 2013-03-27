@@ -13,19 +13,19 @@
 class Test_Piwik_Fixture_SomeVisitsWithLongUrls extends Test_Piwik_BaseFixture
 {
     public $dateTime = '2010-03-06 01:22:33';
-    public $idSite   = 1;
-    
+    public $idSite = 1;
+
     public function setUp()
     {
-		$this->setUpWebsitesAndGoals();
-		$this->trackVisits();
+        $this->setUpWebsitesAndGoals();
+        $this->trackVisits();
     }
-    
+
     public function tearDown()
     {
-    	// empty
+        // empty
     }
-    
+
     private function setUpWebsitesAndGoals()
     {
         self::createWebsite($this->dateTime);
@@ -35,7 +35,7 @@ class Test_Piwik_Fixture_SomeVisitsWithLongUrls extends Test_Piwik_BaseFixture
     {
         // tests run in UTC, the Tracker in UTC
         $dateTime = $this->dateTime;
-        $idSite   = $this->idSite;
+        $idSite = $this->idSite;
 
         // Visit 1: keyword and few URLs
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);

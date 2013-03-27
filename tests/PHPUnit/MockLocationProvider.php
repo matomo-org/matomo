@@ -8,46 +8,43 @@
 
 class MockLocationProvider extends Piwik_UserCountry_LocationProvider
 {
-	public static $locations = array();
-	private $currentLocation = 0;
-	private $ipToLocations = array();
-	
-	public function getLocation( $info )
-	{
-		$ip = $info['ip'];
-		
-		if (isset($this->ipToLocations[$ip]))
-		{
-			$result = $this->ipToLocations[$ip];
-		}
-		else
-		{
-			$result = self::$locations[$this->currentLocation];
-			$this->currentLocation = ($this->currentLocation + 1) % count(self::$locations);
-			
-			$this->ipToLocations[$ip] = $result;
-		}
-		$this->completeLocationResult($result);
-		return $result;
-	}
-	
-	public function getInfo()
-	{
-		return array('id' => 'mock_provider', 'title' => 'mock provider', 'description' => 'mock provider');
-	}
-	
-	public function isAvailable()
-	{
-		return true;
-	}
-	
-	public function isWorking()
-	{
-		return true;
-	}
-	
-	public function getSupportedLocationInfo()
-	{
-		return array(); // unimplemented
-	}
+    public static $locations = array();
+    private $currentLocation = 0;
+    private $ipToLocations = array();
+
+    public function getLocation($info)
+    {
+        $ip = $info['ip'];
+
+        if (isset($this->ipToLocations[$ip])) {
+            $result = $this->ipToLocations[$ip];
+        } else {
+            $result = self::$locations[$this->currentLocation];
+            $this->currentLocation = ($this->currentLocation + 1) % count(self::$locations);
+
+            $this->ipToLocations[$ip] = $result;
+        }
+        $this->completeLocationResult($result);
+        return $result;
+    }
+
+    public function getInfo()
+    {
+        return array('id' => 'mock_provider', 'title' => 'mock provider', 'description' => 'mock provider');
+    }
+
+    public function isAvailable()
+    {
+        return true;
+    }
+
+    public function isWorking()
+    {
+        return true;
+    }
+
+    public function getSupportedLocationInfo()
+    {
+        return array(); // unimplemented
+    }
 }

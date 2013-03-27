@@ -14,11 +14,11 @@ class ScheduledTime_HourlyTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::$_JANUARY_01_1971_09_00_00 = mktime(9,00,00,1,1,1971);
-        self::$_JANUARY_01_1971_09_10_00 = mktime(9,10,00,1,1,1971);
-        self::$_JANUARY_01_1971_10_00_00 = mktime(10,00,00,1,1,1971);
+        self::$_JANUARY_01_1971_09_00_00 = mktime(9, 00, 00, 1, 1, 1971);
+        self::$_JANUARY_01_1971_09_10_00 = mktime(9, 10, 00, 1, 1, 1971);
+        self::$_JANUARY_01_1971_10_00_00 = mktime(10, 00, 00, 1, 1, 1971);
     }
-    
+
     /**
      * Tests forbidden call to setHour on Piwik_ScheduledTime_Hourly
      * @group Core
@@ -52,7 +52,7 @@ class ScheduledTime_HourlyTest extends PHPUnit_Framework_TestCase
         }
         $this->fail('Expected exception not raised');
     }
-    
+
     /**
      * Tests getRescheduledTime on Piwik_ScheduledTime_Hourly
      * @group Core
@@ -72,8 +72,8 @@ class ScheduledTime_HourlyTest extends PHPUnit_Framework_TestCase
          */
         $mock = $this->getMock('Piwik_ScheduledTime_Hourly', array('getTime'));
         $mock->expects($this->any())
-             ->method('getTime')
-             ->will($this->returnValue(self::$_JANUARY_01_1971_09_00_00));
+            ->method('getTime')
+            ->will($this->returnValue(self::$_JANUARY_01_1971_09_00_00));
         $this->assertEquals(self::$_JANUARY_01_1971_10_00_00, $mock->getRescheduledTime());
 
         /*
@@ -87,8 +87,8 @@ class ScheduledTime_HourlyTest extends PHPUnit_Framework_TestCase
          */
         $mock = $this->getMock('Piwik_ScheduledTime_Hourly', array('getTime'));
         $mock->expects($this->any())
-             ->method('getTime')
-             ->will($this->returnValue(self::$_JANUARY_01_1971_09_10_00));
+            ->method('getTime')
+            ->will($this->returnValue(self::$_JANUARY_01_1971_09_10_00));
         $this->assertEquals(self::$_JANUARY_01_1971_10_00_00, $mock->getRescheduledTime());
     }
 }

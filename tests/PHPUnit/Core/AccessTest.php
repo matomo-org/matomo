@@ -14,7 +14,7 @@ class AccessTest extends DatabaseTestCase
     public function testGetListAccess()
     {
         $accessList = Piwik_Access::getListAccess();
-        $shouldBe   = array('noaccess', 'view', 'admin', 'superuser');
+        $shouldBe = array('noaccess', 'view', 'admin', 'superuser');
         $this->assertEquals($shouldBe, $accessList);
     }
 
@@ -157,11 +157,11 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock(
             'Piwik_Access',
             array('getSitesIdWithAdminAccess')
-         );
+        );
 
         $mock->expects($this->once())
-             ->method('getSitesIdWithAdminAccess')
-             ->will($this->returnValue(array(2, 9)));
+            ->method('getSitesIdWithAdminAccess')
+            ->will($this->returnValue(array(2, 9)));
 
         $mock->checkUserHasSomeAdminAccess();
     }
@@ -198,11 +198,11 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock(
             'Piwik_Access',
             array('getSitesIdWithAtLeastViewAccess')
-         );
+        );
 
         $mock->expects($this->once())
-             ->method('getSitesIdWithAtLeastViewAccess')
-             ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getSitesIdWithAtLeastViewAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasSomeViewAccess();
     }
@@ -239,11 +239,11 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock(
             'Piwik_Access',
             array('getSitesIdWithAtLeastViewAccess')
-         );
+        );
 
         $mock->expects($this->once())
-             ->method('getSitesIdWithAtLeastViewAccess')
-             ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getSitesIdWithAtLeastViewAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasViewAccess('1,3');
     }
@@ -257,11 +257,11 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock(
             'Piwik_Access',
             array('getSitesIdWithAtLeastViewAccess')
-         );
+        );
 
         $mock->expects($this->any())
-             ->method('getSitesIdWithAtLeastViewAccess')
-             ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getSitesIdWithAtLeastViewAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasViewAccess('all');
     }
@@ -276,11 +276,11 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock(
             'Piwik_Access',
             array('getSitesIdWithAtLeastViewAccess')
-         );
+        );
 
         $mock->expects($this->once())
-             ->method('getSitesIdWithAtLeastViewAccess')
-             ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getSitesIdWithAtLeastViewAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasViewAccess(array(1, 5));
     }
@@ -317,11 +317,11 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock(
             'Piwik_Access',
             array('getSitesIdWithAdminAccess')
-         );
+        );
 
         $mock->expects($this->once())
-             ->method('getSitesIdWithAdminAccess')
-             ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getSitesIdWithAdminAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasAdminAccess('1,3');
     }
@@ -335,15 +335,15 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock(
             'Piwik_Access',
             array('getSitesIdWithAdminAccess', 'getSitesIdWithAtLeastViewAccess')
-         );
+        );
 
         $mock->expects($this->any())
-             ->method('getSitesIdWithAdminAccess')
-             ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getSitesIdWithAdminAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->expects($this->any())
-             ->method('getSitesIdWithAtLeastViewAccess')
-             ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getSitesIdWithAtLeastViewAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasAdminAccess('all');
     }
@@ -358,11 +358,11 @@ class AccessTest extends DatabaseTestCase
         $mock = $this->getMock(
             'Piwik_Access',
             array('getSitesIdWithAdminAccess')
-         );
+        );
 
         $mock->expects($this->once())
-             ->method('getSitesIdWithAdminAccess')
-             ->will($this->returnValue(array(1, 2, 3, 4)));
+            ->method('getSitesIdWithAdminAccess')
+            ->will($this->returnValue(array(1, 2, 3, 4)));
 
         $mock->checkUserHasAdminAccess(array(1, 5));
     }
@@ -397,8 +397,8 @@ class AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock('Piwik_Login_Auth', array('authenticate'));
         $mock->expects($this->once())
-             ->method('authenticate')
-             ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, 'login', 'token' )));
+            ->method('authenticate')
+            ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, 'login', 'token')));
 
         $access = new Piwik_Access();
         Zend_Registry::set('access', $access);
@@ -414,8 +414,8 @@ class AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock('Piwik_Login_Auth', array('authenticate'));
         $mock->expects($this->once())
-             ->method('authenticate')
-             ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, 'superuser', 'superusertoken' )));
+            ->method('authenticate')
+            ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, 'superuser', 'superusertoken')));
 
         $access = new Piwik_Access();
         Zend_Registry::set('access', $access);
@@ -431,8 +431,8 @@ class AccessTest extends DatabaseTestCase
     {
         $mock = $this->getMock('Piwik_Login_Auth', array('authenticate'));
         $mock->expects($this->once())
-             ->method('authenticate')
-             ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::FAILURE_CREDENTIAL_INVALID, null, null )));
+            ->method('authenticate')
+            ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::FAILURE_CREDENTIAL_INVALID, null, null)));
 
         $access = new Piwik_Access();
         Zend_Registry::set('access', $access);

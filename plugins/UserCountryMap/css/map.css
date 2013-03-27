@@ -34,19 +34,18 @@
     stroke: #fff;
     fill: none;
 }
+
 .UserCountryMap_map svg .regionBG-fill {
     stroke: #555;
     stroke-width: 0.2px;
     fill: #F6F5F3;
 }
 
-
 .UserCountryMap_map svg .regionBG-3 {
     stroke: #ccc;
     fill: #F2F1ED;
     stroke-width: 1px;
 }
-
 
 .UserCountryMap_map svg .countryBG {
     stroke: #fff;
@@ -67,7 +66,7 @@
 .UserCountryMap_map svg .countryLabelBg {
     font-weight: bold;
     font-size: 10px;
-    font-family: Arial,Verdana,Helvetica,sans-serif;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
     fill: #F6F5F3;
     stroke: #F6F5F3;
     stroke-width: 3px;
@@ -78,7 +77,7 @@
 .UserCountryMap_map svg .countryLabel {
     font-weight: bold;
     font-size: 10px;
-    font-family: Arial,Verdana,Helvetica,sans-serif;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
     fill: #808888;
 }
 

@@ -12,7 +12,7 @@
  */
 class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdNotHeuristics extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -41,5 +41,5 @@ class Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdN
 }
 
 Test_Piwik_Integration_TrackCustomVariablesAndCampaigns_ForceUsingVisitIdNotHeuristics::$fixture =
-	new Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics();
+    new Test_Piwik_Fixture_SomeVisitsCustomVariablesCampaignsNotHeuristics();
 

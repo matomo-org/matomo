@@ -11,7 +11,7 @@
  */
 class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled extends IntegrationTestCase
 {
-	public static $fixture = null; // initialized below class definition
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -25,8 +25,8 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisa
 
     public function getApiForTesting()
     {
-    	$dateTime = self::$fixture->dateTime;
-    	
+        $dateTime = self::$fixture->dateTime;
+
         $periods = array('day', 'week', 'month', 'year');
 
         return array(
@@ -60,6 +60,6 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisa
 }
 
 Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled::$fixture =
-	new Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
+    new Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays();
 Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_ArchivingDisabled::$fixture->allowConversions = true;
 
