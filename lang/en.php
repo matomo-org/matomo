@@ -191,6 +191,7 @@ $translations = array(
 	'General_HoursMinutes' => '%1$s hours %2$s min',
 	'General_MinutesSeconds' => '%1$s min %2$ss',
 	'General_Seconds' => '%ss',
+	'General_Milliseconds' => '%sms',
 	'General_Save' => 'Save',
 	'General_Faq' => 'FAQ',
 	'General_ForExampleShort' => 'eg.',
