@@ -94,7 +94,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
     const PARAMETER_NAME_SEARCH_KEYWORD = 'search';
 
     /* Custom Variables names & slots plus Tracking API Parameters for performance analytics */
-    const DB_COLUMN_TIME_GENERATION = 'custom_float_1';
+    const DB_COLUMN_TIME_GENERATION = 'custom_float';
     const PARAMETER_NAME_TIME_GENERATION = 'generation_time_ms';
 
     /**
@@ -410,8 +410,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
         $parametersToExclude = array_merge($excludedParameters,
             self::$queryParametersToExclude,
-            $campaignTrackingParameters,
-            array(self::PARAMETER_NAME_TIME_GENERATION));
+            $campaignTrackingParameters);
 
         $parametersToExclude = array_map('strtolower', $parametersToExclude);
         return $parametersToExclude;

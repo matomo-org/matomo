@@ -1220,6 +1220,13 @@ abstract class Piwik_ViewDataTable
 
         $this->columnsToDisplay = array_filter($this->columnsToDisplay);
 
+        $this->removeEmptyColumnsFromDisplay();
+
+        return $this->columnsToDisplay;
+    }
+
+    private function removeEmptyColumnsFromDisplay()
+    {
         if ($this->dataTable instanceof Piwik_DataTable_Array) {
             $emptyColumns = $this->dataTable->getMetadataIntersectArray(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
         } else {
@@ -1234,8 +1241,6 @@ abstract class Piwik_ViewDataTable
             }
             $this->columnsToDisplay = array_values($this->columnsToDisplay);
         }
-
-        return $this->columnsToDisplay;
     }
 
     /**

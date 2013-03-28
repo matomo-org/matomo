@@ -23,7 +23,7 @@ class Piwik_Updates_1_12_b1 extends Piwik_Updates
     {
         return array(
             'ALTER TABLE `' . Piwik_Common::prefixTable('log_link_visit_action') . '`
-			 ADD `custom_float_1` FLOAT NULL DEFAULT NULL' => false
+			 ADD `custom_float` FLOAT NULL DEFAULT NULL' => false
         );
     }
 

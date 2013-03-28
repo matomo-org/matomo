@@ -101,6 +101,7 @@ class Piwik_Live_API
      */
     public function getLastVisitsForVisitor($visitorId, $idSite, $filter_limit = 10)
     {
+        Piwik::checkUserHasViewAccess($idSite);
         $visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit, $filter_offset = false, $visitorId);
         $table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
         return $table;
@@ -150,7 +151,7 @@ class Piwik_Live_API
      */
     private function getCleanedVisitorsFromDetails($visitorDetails, $idSite)
     {
-        $actionsLimit = Piwik_Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
+        $actionsLimit = (int)Piwik_Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
 
         $table = new Piwik_DataTable();
 
@@ -329,7 +330,6 @@ class Piwik_Live_API
             usort($actions, array($this, 'sortByServerTime'));
 
             $visitorDetailsArray['actionDetails'] = $actions;
-            // Convert datetimes to the site timezone
             foreach ($visitorDetailsArray['actionDetails'] as &$details) {
                 switch ($details['type']) {
                     case 'goal':
@@ -356,6 +356,7 @@ class Piwik_Live_API
                         $details['icon'] = null;
                         break;
                 }
+                // Convert datetimes to the site timezone
                 $dateTimeVisit = Piwik_Date::factory($details['serverTimePretty'], $timezone);
                 $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat') . ' %time%');
             }
@@ -393,9 +394,6 @@ class Piwik_Live_API
     {
         if (empty($filter_limit)) {
             $filter_limit = 100;
-        }
-        if (empty($filter_offset)) {
-            $filter_offset = 0;
         }
 
         $where = $whereBind = array();
@@ -474,7 +472,7 @@ class Piwik_Live_API
         $from = "log_visit";
         $subQuery = $segment->getSelectQuery($select, $from, $where, $whereBind, $orderBy);
 
-        $sqlLimit = $filter_limit >= 1 ? " LIMIT " . $filter_offset . ", " . (int)$filter_limit : "";
+        $sqlLimit = $filter_limit >= 1 ? " LIMIT " . (int)$filter_offset . ", " . (int)$filter_limit : "";
 
         // Group by idvisit so that a visitor converting 2 goals only appears once
         $sql = "

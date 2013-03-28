@@ -389,7 +389,7 @@ class Piwik_DataTable_Array
     }
 
     /**
-     * Returns the intersection of cildrends' meta data arrays
+     * Returns the intersection of children's meta data arrays
      *
      * @param string $name The metadata name.
      * @return mixed

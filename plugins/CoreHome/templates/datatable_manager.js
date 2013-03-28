@@ -171,7 +171,7 @@
         getDataTableInstanceByReport: function (report) {
             var dataTableElement = this.getDataTableByReport(report);
             return dataTableElement ? $(dataTableElement).data('dataTableInstance') : undefined;
-        },
+        }
     };
 
     piwik.DataTableManager = new DataTableManager();

@@ -425,7 +425,7 @@
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-			<avg_time_generation>The average time it took to generate the page. The value has either been passed to the Java Script tracker by your website or imported from the logs.</avg_time_generation>
+			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower Avg. Generation Time means a faster website for your visitors!</avg_time_generation>
 		</metricsDocumentation>
 		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
@@ -497,7 +497,7 @@
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-			<avg_time_generation>The average time it took to generate the page. The value has either been passed to the Java Script tracker by your website or imported from the logs.</avg_time_generation>
+			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower Avg. Generation Time means a faster website for your visitors!</avg_time_generation>
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
