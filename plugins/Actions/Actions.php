@@ -153,10 +153,10 @@ class Piwik_Actions extends Piwik_Plugin
         switch ($matchType) {
             case '=@':
                 // use concat to make sure, no %s occurs because some plugins use %s in their sql
-                $sql .= '( name LIKE CONCAT("%", ?, "%") AND type = ' . $actionType . ' )';
+                $sql .= '( name LIKE CONCAT(\'%\', ?, \'%\') AND type = ' . $actionType . ' )';
                 break;
             case '!@':
-                $sql .= '( name NOT LIKE CONCAT("%", ?, "%") AND type = ' . $actionType . ' )';
+                $sql .= '( name NOT LIKE CONCAT(\'%\', ?, \'%\') AND type = ' . $actionType . ' )';
                 break;
             default:
                 throw new Exception("This match type is not available for action-segments.");
