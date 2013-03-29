@@ -158,17 +158,46 @@ JQPlot.prototype = {
         // bind tooltip
         var self = this;
         target.on('jqplotDataHighlight', function (e, s, i, d) {
-            if (type == 'bar') {
-                self.showBarChartTooltip(s, i);
-            } else if (type == 'pie') {
-                self.showPieChartTooltip(i);
-            }
-        })
-            .on('jqplotDataUnhighlight', function (e, s, i, d) {
-                if (type != 'evolution') {
-                    self.hideTooltip();
+                if (type == 'bar') {
+                    var value = self.formatY(self.data[s][i], s);
+                    var series = self.params.series[s].label;
+    
+                    var percentage = '';
+                    if (typeof self.tooltip.percentages != 'undefined') {
+                        var percentage = self.tooltip.percentages[s][i];
+                        percentage = ' (' + percentage + '%)';
+                    }
+    
+                    var label = self.params.axes.xaxis.labels[i];
+                    var text = '<b>' + value + '</b> ' + series + percentage;
+                    $(this).tooltip({
+                                track:   true,
+                                items:   '*',
+                                content: '<h3>' + label + '</h3>' + text
+                            }).trigger('mouseover');
+
+                } else if (type == 'pie') {
+                    var value = self.formatY(self.data[0][i][1], 1); // series index 1 because 0 is the label
+                    var series = self.params.series[0].label;
+                    var percentage = self.tooltip.percentages[0][i];
+    
+                    var label = self.data[0][i][0];
+    
+                    var text = '<b>' + percentage + '%</b> (' + value + ' ' + series + ')';
+                    $(this).tooltip({
+                                track:   true,
+                                items:   '*',
+                                content: '<h3>' + label + '</h3>' + text
+                            }).trigger('mouseover');
                 }
-            });
+        })
+        .on('jqplotDataUnhighlight', function (e, s, i, d) {
+            if (type != 'evolution') {
+                if ($(this).is( ":data('ui-tooltip')" )) {
+                    $(this).tooltip('destroy');
+                }
+            }
+        });
 
         // handle window resize
         var plotWidth = target.innerWidth();
@@ -320,8 +349,10 @@ JQPlot.prototype = {
 
         $('#' + targetDivId)
             .on('jqplotMouseLeave', function (e, s, i, d) {
-                self.hideTooltip();
                 $(this).css('cursor', 'default');
+                if ($(this).is( ":data('ui-tooltip')" )) {
+                    $(this).tooltip('destroy');
+                }
             })
             .on('jqplotClick', function (e, s, i, d) {
                 if (lastTick !== false && typeof self.params.axes.xaxis.onclick != 'undefined'
@@ -332,7 +363,24 @@ JQPlot.prototype = {
             })
             .on('jqplotPiwikTickOver', function (e, tick) {
                 lastTick = tick;
-                self.showEvolutionChartTooltip(tick);
+                var label;
+                if (typeof self.params.axes.xaxis.labels != 'undefined') {
+                    label = self.params.axes.xaxis.labels[tick];
+                } else {
+                    label = self.params.axes.xaxis.ticks[tick];
+                }
+    
+                var text = [];
+                for (var d = 0; d < self.data.length; d++) {
+                    var value = self.formatY(self.data[d][tick], d);
+                    var series = self.params.series[d].label;
+                    text.push('<b>' + value + '</b> ' + series);
+                }
+                $(this).tooltip({
+                            track:   true,
+                            items:   'div',
+                            content: '<h3>'+label+'</h3>'+text.join('<br />')
+                        }).trigger('mouseover');
                 if (typeof self.params.axes.xaxis.onclick != 'undefined'
                     && typeof self.params.axes.xaxis.onclick[lastTick] == 'string') {
                     $(this).css('cursor', 'pointer');
@@ -346,25 +394,6 @@ JQPlot.prototype = {
             show: true
         };
     },
-
-    showEvolutionChartTooltip: function (i) {
-        var label;
-        if (typeof this.params.axes.xaxis.labels != 'undefined') {
-            label = this.params.axes.xaxis.labels[i];
-        } else {
-            label = this.params.axes.xaxis.ticks[i];
-        }
-
-        var text = [];
-        for (var d = 0; d < this.data.length; d++) {
-            var value = this.formatY(this.data[d][i], d);
-            var series = this.params.series[d].label;
-            text.push('<b>' + value + '</b> ' + series);
-        }
-
-        this.showTooltip(label, text.join('<br />'));
-    },
-
 
     // ------------------------------------------------------------
     //  PIE CHART
@@ -408,18 +437,6 @@ JQPlot.prototype = {
         }
     },
 
-    showPieChartTooltip: function (i) {
-        var value = this.formatY(this.data[0][i][1], 1); // series index 1 because 0 is the label
-        var series = this.params.series[0].label;
-        var percentage = this.tooltip.percentages[0][i];
-
-        var label = this.data[0][i][0];
-
-        var text = '<b>' + percentage + '%</b> (' + value + ' ' + series + ')';
-        this.showTooltip(label, text);
-    },
-
-
     // ------------------------------------------------------------
     //  BAR CHART
     // ------------------------------------------------------------
@@ -454,22 +471,6 @@ JQPlot.prototype = {
             show: true
         };
     },
-
-    showBarChartTooltip: function (s, i) {
-        var value = this.formatY(this.data[s][i], s);
-        var series = this.params.series[s].label;
-
-        var percentage = '';
-        if (typeof this.tooltip.percentages != 'undefined') {
-            var percentage = this.tooltip.percentages[s][i];
-            percentage = ' (' + percentage + '%)';
-        }
-
-        var label = this.params.axes.xaxis.labels[i];
-        var text = '<b>' + value + '</b> ' + series + percentage;
-        this.showTooltip(label, text);
-    },
-
 
     // ------------------------------------------------------------
     //  HELPER METHODS
@@ -541,16 +542,6 @@ JQPlot.prototype = {
         }
 
         return value;
-    },
-
-    /** Show the tppltip. The DOM element is created on the fly. */
-    showTooltip: function (head, text) {
-        Piwik_Tooltip.showWithTitle(head, text);
-    },
-
-    /** Hide the tooltip */
-    hideTooltip: function () {
-        Piwik_Tooltip.hide();
     },
 
     addSeriesPicker: function (targetDivId, lang) {
