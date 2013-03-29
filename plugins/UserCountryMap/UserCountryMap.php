@@ -62,7 +62,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
     public function getJsFiles($notification)
     {
         $jsFiles = & $notification->getNotificationObject();
-        $jsFiles[] = "plugins/UserCountryMap/js/vendor/raphael-min.js";
+        $jsFiles[] = "plugins/UserCountryMap/js/vendor/raphael.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/jquery.qtip.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/kartograph.min.js";
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/chroma.min.js";
