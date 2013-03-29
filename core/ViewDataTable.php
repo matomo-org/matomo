@@ -1227,6 +1227,9 @@ abstract class Piwik_ViewDataTable
 
     private function removeEmptyColumnsFromDisplay()
     {
+        if(empty($this->dataTable)) {
+            return;
+        }
         if ($this->dataTable instanceof Piwik_DataTable_Array) {
             $emptyColumns = $this->dataTable->getMetadataIntersectArray(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
         } else {

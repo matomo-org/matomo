@@ -478,7 +478,7 @@ class Piwik_Actions_API
             // Average generation time = total generation time / number of pageviews
             $precisionAvgTimeGeneration = 3;
             $dataTable->queueFilter('ColumnCallbackAddColumnQuotient', array('avg_time_generation', 'sum_time_generation', 'nb_hits_with_time_generation', $precisionAvgTimeGeneration));
-            $dataTable->queueFilter('ColumnDelete', array(array(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)));
+            $dataTable->queueFilter('ColumnDelete', array(array('sum_time_generation')));
         } else {
             // No generation time: remove it from the API output and add it to empty_columns metadata, so that
             // the columns can also be removed from the view

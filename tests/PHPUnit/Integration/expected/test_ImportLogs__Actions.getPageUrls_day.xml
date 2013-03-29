@@ -5,7 +5,6 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>5</nb_hits>
 		<sum_time_spent>170</sum_time_spent>
-		<sum_time_generation>2.214</sum_time_generation>
 		<nb_hits_with_time_generation>5</nb_hits_with_time_generation>
 		<entry_nb_visits>1</entry_nb_visits>
 		<entry_nb_actions>10</entry_nb_actions>
@@ -21,7 +20,6 @@
 				<nb_visits>2</nb_visits>
 				<nb_hits>5</nb_hits>
 				<sum_time_spent>170</sum_time_spent>
-				<sum_time_generation>2.214</sum_time_generation>
 				<nb_hits_with_time_generation>5</nb_hits_with_time_generation>
 				<entry_nb_visits>1</entry_nb_visits>
 				<entry_nb_actions>10</entry_nb_actions>
@@ -37,7 +35,6 @@
 						<nb_visits>1</nb_visits>
 						<nb_hits>2</nb_hits>
 						<sum_time_spent>14</sum_time_spent>
-						<sum_time_generation>1.948</sum_time_generation>
 						<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 						<avg_time_on_page>14</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
@@ -50,7 +47,6 @@
 								<nb_uniq_visitors>1</nb_uniq_visitors>
 								<nb_hits>2</nb_hits>
 								<sum_time_spent>14</sum_time_spent>
-								<sum_time_generation>1.948</sum_time_generation>
 								<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 								<avg_time_on_page>14</avg_time_on_page>
 								<bounce_rate>0%</bounce_rate>
@@ -65,7 +61,6 @@
 						<nb_visits>1</nb_visits>
 						<nb_hits>3</nb_hits>
 						<sum_time_spent>156</sum_time_spent>
-						<sum_time_generation>0.266</sum_time_generation>
 						<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 						<entry_nb_visits>1</entry_nb_visits>
 						<entry_nb_actions>10</entry_nb_actions>
@@ -82,7 +77,6 @@
 								<nb_uniq_visitors>1</nb_uniq_visitors>
 								<nb_hits>3</nb_hits>
 								<sum_time_spent>156</sum_time_spent>
-								<sum_time_generation>0.266</sum_time_generation>
 								<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 								<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 								<entry_nb_visits>1</entry_nb_visits>
@@ -106,7 +100,6 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<sum_time_generation>0.886</sum_time_generation>
 		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
@@ -118,7 +111,6 @@
 				<nb_visits>1</nb_visits>
 				<nb_hits>2</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
-				<sum_time_generation>0.886</sum_time_generation>
 				<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 				<avg_time_on_page>0</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
@@ -131,7 +123,6 @@
 						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_hits>2</nb_hits>
 						<sum_time_spent>0</sum_time_spent>
-						<sum_time_generation>0.886</sum_time_generation>
 						<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 						<avg_time_on_page>0</avg_time_on_page>
 						<bounce_rate>0%</bounce_rate>
@@ -148,7 +139,6 @@
 		<nb_visits>1</nb_visits>
 		<nb_hits>3</nb_hits>
 		<sum_time_spent>52</sum_time_spent>
-		<sum_time_generation>0.765</sum_time_generation>
 		<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 		<exit_nb_visits>1</exit_nb_visits>
 		<avg_time_on_page>52</avg_time_on_page>
@@ -162,7 +152,6 @@
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>3</nb_hits>
 				<sum_time_spent>52</sum_time_spent>
-				<sum_time_generation>0.765</sum_time_generation>
 				<nb_hits_with_time_generation>3</nb_hits_with_time_generation>
 				<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 				<exit_nb_visits>1</exit_nb_visits>

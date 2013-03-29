@@ -5,7 +5,6 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<sum_time_generation>0.6</sum_time_generation>
 		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<entry_nb_visits>2</entry_nb_visits>
 		<entry_nb_actions>6</entry_nb_actions>
@@ -24,7 +23,6 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<sum_time_generation>1.2</sum_time_generation>
 		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<avg_time_on_page>0</avg_time_on_page>
@@ -38,7 +36,6 @@
 		<nb_visits>2</nb_visits>
 		<nb_hits>2</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
-		<sum_time_generation>1.8</sum_time_generation>
 		<nb_hits_with_time_generation>2</nb_hits_with_time_generation>
 		<exit_nb_visits>2</exit_nb_visits>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
