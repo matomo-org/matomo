@@ -193,8 +193,8 @@
     $(document).ready(function () {
 
         var datepickerElem = $('#datepicker').datepicker(getDatePickerOptions()),
-            periodLabels = $('#periodString .period-type label'),
-            periodTooltip = $('#periodString .period-click-tooltip').html();
+            periodLabels = $('#periodString').find('.period-type label'),
+            periodTooltip = $('#periodString').find('.period-click-tooltip').html();
 
         var toggleWhitespaceHighlighting = function (klass, toggleTop, toggleBottom) {
             var viewedYear = $('.ui-datepicker-year', datepickerElem).val(),
@@ -263,7 +263,6 @@
 
         updateDate = function (dateText) {
             piwikHelper.showAjaxLoading('ajaxLoadingCalendar');
-            var date = dateText;
 
             // select new dates in calendar
             setCurrentDate(dateText);
@@ -277,7 +276,7 @@
 
             // Let broadcast do its job:
             // It will replace date value to both search query and hash and load the new page.
-            broadcast.propagateNewPage('date=' + date + '&period=' + selectedPeriod);
+            broadcast.propagateNewPage('date=' + dateText + '&period=' + selectedPeriod);
         };
 
         var toggleMonthDropdown = function (disable) {
