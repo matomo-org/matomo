@@ -22,7 +22,7 @@
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
-			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower Avg. Generation Time means a faster website for your visitors!</avg_time_generation>
+			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 		</metricsDocumentation>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 		<actionToLoadSubTables>getPageTitles</actionToLoadSubTables>
@@ -92,10 +92,10 @@
 		<result prettyDate="Monday 4 January 2010" />
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
-				<idsubdatatable>72</idsubdatatable>
+				
 			</row>
 			<row>
-				<idsubdatatable>71</idsubdatatable>
+				
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />
