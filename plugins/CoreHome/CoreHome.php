@@ -79,7 +79,6 @@ class Piwik_CoreHome extends Piwik_Plugin
         $jsFiles[] = "libs/javascript/sprintf.js";
         $jsFiles[] = "themes/default/common.js";
         $jsFiles[] = "themes/default/ajaxHelper.js";
-        $jsFiles[] = "plugins/CoreHome/templates/tooltip.js";
         $jsFiles[] = "plugins/CoreHome/templates/datatable.js";
         $jsFiles[] = "plugins/CoreHome/templates/datatable_rowactions.js";
         $jsFiles[] = "plugins/CoreHome/templates/popover.js";

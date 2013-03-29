@@ -724,9 +724,9 @@ table.entityTable tr td a {
 }
 
 
-/* Piwik Tooltips (plugins/CoreHome/templates/tooltip.js) */
+/* Piwik jQuery UI Tooltips */
 
-.ui-tooltip, .piwik-tooltip {
+.ui-tooltip {
 	position: absolute;
 	z-index: 2000;
 	text-align: left;
@@ -751,7 +751,7 @@ table.entityTable tr td a {
 	display: none;
 }
 
-.ui-tooltip h3, .piwik-tooltip .tip-title {
+.ui-tooltip h3 {
 	font-weight: bold;
 	color: #7E7363;
 }
