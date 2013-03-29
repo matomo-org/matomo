@@ -233,3 +233,7 @@ a.Piwik_Popover_Error_Back {
 #header_message #checkForUpdates:hover {
     text-decoration: none;
 }
+
+/* Used to link within content text, without adding visual clutter */
+.linkContent { color:#333; text-decoration:none}
+.linkContent:hover { text-decoration:underline;}
