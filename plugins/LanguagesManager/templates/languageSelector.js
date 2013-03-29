@@ -6,10 +6,13 @@
  */
 
 $(document).ready(function () {
-    // no Language sector on the page
-    if ($("#languageSelection").size() == 0) return false;
 
-    $("#languageSelection input").hide();
+    var languageSelector = $("#languageSelection");
+
+    // no Language sector on the page
+    if (languageSelector.size() == 0) return;
+
+    languageSelector.find("input").hide();
     var select = $("#language").hide();
     var langSelect = $("<a>")
         .insertAfter(select)
@@ -31,10 +34,11 @@ $(document).ready(function () {
                 }));
             },
             select: function (event, ui) {
+                event.preventDefault();
                 ui.item.option.selected = true;
                 if (ui.item.value) {
                     langSelect.text(ui.item.label);
-                    $('#languageSelection form').submit();
+                    $('#languageSelection').find('form').submit();
                 } else if (ui.item.href) {
                     window.open(ui.item.href);
                 }
@@ -55,7 +59,7 @@ $(document).ready(function () {
         $(ul).attr('id', 'languageSelect');
         return $( "<li></li>" )
             .data( "item.ui-autocomplete", item )
-            .append( "<a title=\"" + item.title + "\" href=\"" + $('#languageSelection form').attr('action') + "&language=" + item.value + "\">" + item.label + "</a>" )
+            .append( "<a title=\"" + item.title + "\" href=\"javascript:;\">" + item.label + "</a>" )
             .appendTo( ul );
     };
 
