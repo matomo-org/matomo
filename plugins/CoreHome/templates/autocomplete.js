@@ -115,7 +115,7 @@ $(function () {
 
                     $('.custom_select_block_show', selector).width(widthSitesSelection);
                 }
-            }).data("autocomplete")._renderItem = function (ul, item) {
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
                 $(ul).addClass('siteSelect');
 
                 var idSiteParam = 'idSite=' + item.id,
@@ -124,7 +124,7 @@ $(function () {
                     link = $("<a></a>").html(item.label).attr('href', linkUrl),
                     listItem = $('<li></li>');
 
-                listItem.data("item.autocomplete", item)
+                listItem.data("item.ui-autocomplete", item)
                     .append(link)
                     .appendTo(ul);
 
@@ -221,13 +221,16 @@ $(function () {
 
             // if the data-switch-site-on-select attribute is set to 1 on the selector, set
             // a default handler for piwik:siteSelected that switches the current site
-            if (selector.attr('data-switch-site-on-select') == 1) {
-                selector.bind('piwik:siteSelected', function (e, site) {
+            // otherwise only update the input
+            selector.bind('piwik:siteSelected', function (e, site) {
+                if (1 == $(this).attr('data-switch-site-on-select')) {
                     if (piwik.idSite !== site.id) {
                         switchSite(site.id, site.name);
                     }
-                });
-            }
+                } else {
+                    $('input', this).val(site.id);
+                }
+            });
         });
     };
 });

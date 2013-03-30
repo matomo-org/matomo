@@ -1337,7 +1337,7 @@ class Piwik_SitesManager_API
     {
         // make sure value is between 0 & 2
         if (!in_array($keepURLFragments, array(0, 1, 2))) {
-            throw new Exception("Error in SitesManager.updateSite: keepURLFragments must be between 0 & 2" +
+            throw new Exception("Error in SitesManager.updateSite: keepURLFragments must be between 0 & 2" .
                 " (actual value: $keepURLFragments).");
         }
     }

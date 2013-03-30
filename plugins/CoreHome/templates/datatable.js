@@ -1119,7 +1119,7 @@ dataTable.prototype =
         }
 
         // use tooltip (tooltip text determined by the 'title' attribute)
-        tooltipElem.tooltip();
+        tooltipElem.tooltip({track: true});
     },
 
     //Apply some miscelleaneous style to the DataTable
@@ -1467,7 +1467,6 @@ dataTable.prototype =
                 return function (e) {
                     $(this).blur();
                     container.hide();
-                    Piwik_Tooltip.hide();
                     if (typeof actionInstances[action.name].onClick == 'function') {
                         return actionInstances[action.name].onClick(el, tr, e);
                     }
@@ -1492,15 +1491,11 @@ dataTable.prototype =
             }
 
             if (typeof action.dataTableIconTooltip != 'undefined') {
-                actionEl.hover((function (action) {
-                    return function () {
-                        Piwik_Tooltip.showWithTitle(
-                            action.dataTableIconTooltip[0],
-                            action.dataTableIconTooltip[1],
-                            'rowActionTooltip');
-                    };
-                })(action), function () {
-                    Piwik_Tooltip.hide();
+                actionEl.tooltip({
+                    track: true,
+                    items: 'a',
+                    content: '<h3>'+action.dataTableIconTooltip[0]+'</h3>'+action.dataTableIconTooltip[1],
+                    tooltipClass: 'rowActionTooltip'
                 });
             }
         }

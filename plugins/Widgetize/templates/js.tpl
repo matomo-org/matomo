@@ -14,7 +14,7 @@ document.write('
 document.write('
 <scr'+'ipt type="text/javascript" src="{$piwikUrl}libs/jquery/jquery-ui.js"></scr'+'ipt>');
 document.write('
-<scr'+'ipt type="text/javascript" src="{$piwikUrl}libs/jquery/jquery.tooltip.js"></scr'+'ipt>');
+<scr'+'ipt type="text/javascript" src="{$piwikUrl}libs/jquery/jquery.browser.js"></scr'+'ipt>');
 document.write('
 <scr'+'ipt type="text/javascript" src="{$piwikUrl}libs/jquery/jquery.truncate.js"></scr'+'ipt>');
 document.write('

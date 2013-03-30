@@ -186,7 +186,7 @@ span.Transitions_Metric {
     cursor: default;
 }
 
-body .piwik-tooltip.Transitions_Tooltip_Small {
+body .ui-tooltip.Transitions_Tooltip_Small {
     font-size: 11px;
     padding: 3px 5px 3px 6px;
     background: white;

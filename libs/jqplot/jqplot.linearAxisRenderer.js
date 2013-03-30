@@ -3,8 +3,9 @@
  * Pure JavaScript plotting plugin using jQuery
  *
  * Version: @VERSION
+ * Revision: @REVISION
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -30,7 +31,6 @@
 (function($) {
     // class: $.jqplot.LinearAxisRenderer
     // The default jqPlot axis renderer, creating a numeric axis.
-    // The renderer has no additional options beyond the <Axis> object.
     $.jqplot.LinearAxisRenderer = function() {
     };
     
@@ -48,6 +48,15 @@
         // prop: breakTickLabel
         // Label to use at the axis break if breakPoints are specified.
         this.breakTickLabel = "&asymp;";
+        // prop: drawBaseline
+        // True to draw the axis baseline.
+        this.drawBaseline = true;
+        // prop: baselineWidth
+        // width of the baseline in pixels.
+        this.baselineWidth = null;
+        // prop: baselineColor
+        // CSS color spec for the baseline.
+        this.baselineColor = null;
         // prop: forceTickAt0
         // This will ensure that there is always a tick mark at 0.
         // If data range is strictly positive or negative,
@@ -66,8 +75,24 @@
         // This has know effect when any of the following options
         // are set:  autoscale, min, max, numberTicks or tickInterval.
         this.forceTickAt100 = false;
+        // prop: tickInset
+        // Controls the amount to inset the first and last ticks from 
+        // the edges of the grid, in multiples of the tick interval.
+        // 0 is no inset, 0.5 is one half a tick interval, 1 is a full
+        // tick interval, etc.
+        this.tickInset = 0;
+        // prop: minorTicks
+        // Number of ticks to add between "major" ticks.
+        // Major ticks are ticks supplied by user or auto computed.
+        // Minor ticks cannot be created by user.
+        this.minorTicks = 0;
+        // prop: alignTicks
+        // true to align tick marks across opposed axes
+        // such as from the y2axis to yaxis.
+        this.alignTicks = false;
         this._autoFormatString = '';
         this._overrideFormatString = false;
+        this._scalefact = 1.0;
         $.extend(true, this, options);
         if (this.breakPoints) {
             if (!$.isArray(this.breakPoints)) {
@@ -76,6 +101,9 @@
             else if (this.breakPoints.length < 2 || this.breakPoints[1] <= this.breakPoints[0]) {
                 this.breakPoints = null;
             }
+        }
+        if (this.numberTicks != null && this.numberTicks < 2) {
+            this.numberTicks = 2;
         }
         this.resetDataBounds();
     };
@@ -86,7 +114,7 @@
             // populate the axis label and value properties.
             // createTicks is a method on the renderer, but
             // call it within the scope of the axis.
-            this.renderer.createTicks.call(this);
+            this.renderer.createTicks.call(this, plot);
             // fill a div with axes labels in the right direction.
             // Need to pregenerate each axis to get it's bounds and
             // position it and the labels correctly on the plot.
@@ -102,7 +130,7 @@
             
             this._elem = $(document.createElement('div'));
             this._elem.addClass('jqplot-axis jqplot-'+this.name);
-            this._elem.css('posiiton', 'absolute');
+            this._elem.css('position', 'absolute');
 
             
             if (this.name == 'xaxis' || this.name == 'x2axis') {
@@ -137,10 +165,10 @@
     
     // called with scope of an axis
     $.jqplot.LinearAxisRenderer.prototype.reset = function() {
-        this.min = this._min;
-        this.max = this._max;
-        this.tickInterval = this._tickInterval;
-        this.numberTicks = this._numberTicks;
+        this.min = this._options.min;
+        this.max = this._options.max;
+        this.tickInterval = this._options.tickInterval;
+        this.numberTicks = this._options.numberTicks;
         this._autoFormatString = '';
         if (this._overrideFormatString && this.tickOptions && this.tickOptions.formatString) {
             this.tickOptions.formatString = '';
@@ -206,14 +234,15 @@
     };    
     
     // called with scope of axis
-    $.jqplot.LinearAxisRenderer.prototype.createTicks = function() {
+    $.jqplot.LinearAxisRenderer.prototype.createTicks = function(plot) {
         // we're are operating on an axis here
         var ticks = this._ticks;
         var userTicks = this.ticks;
         var name = this.name;
         // databounds were set on axis initialization.
         var db = this._dataBounds;
-        var dim, interval;
+        var dim = (this.name.charAt(0) === 'x') ? this._plotDimensions.width : this._plotDimensions.height;
+        var interval;
         var min, max;
         var pos1, pos2;
         var tt, i;
@@ -222,6 +251,9 @@
         var userMax = this.max;
         var userNT = this.numberTicks;
         var userTI = this.tickInterval;
+
+        var threshold = 30;
+        this._scalefact =  (Math.max(dim, threshold+1) - threshold)/300.0;
         
         // if we already have ticks, use them.
         // ticks must be in order of increasing value.
@@ -231,7 +263,7 @@
             for (i=0; i<userTicks.length; i++){
                 var ut = userTicks[i];
                 var t = new this.tickRenderer(this.tickOptions);
-                if (ut.constructor == Array) {
+                if ($.isArray(ut)) {
                     t.value = ut[0];
                     if (this.breakPoints) {
                         if (ut[0] == this.breakPoints[0]) {
@@ -253,6 +285,12 @@
                         t.label = ut[1];
                     }
                     t.setTick(ut[0], this.name);
+                    this._ticks.push(t);
+                }
+
+                else if ($.isPlainObject(ut)) {
+                    $.extend(true, t, ut);
+                    t.axis = this.name;
                     this._ticks.push(t);
                 }
                 
@@ -288,19 +326,19 @@
             else {
                 dim = this._plotDimensions.height;
             }
-            
-            // // if min, max and number of ticks specified, user can't specify interval.
-            // if (!this.autoscale && this.min != null && this.max != null && this.numberTicks != null) {
-            //     console.log('doing this');
-            //     this.tickInterval = null;
-            // }
-            
-            // if max, min, and interval specified and interval won't fit, ignore interval.
-            // if (this.min != null && this.max != null && this.tickInterval != null) {
-            //     if (parseInt((this.max-this.min)/this.tickInterval, 10) != (this.max-this.min)/this.tickInterval) {
-            //         this.tickInterval = null;
-            //     }
-            // }
+
+            var _numberTicks = this.numberTicks;
+
+            // if aligning this axis, use number of ticks from previous axis.
+            // Do I need to reset somehow if alignTicks is changed and then graph is replotted??
+            if (this.alignTicks) {
+                if (this.name === 'x2axis' && plot.axes.xaxis.show) {
+                    _numberTicks = plot.axes.xaxis.numberTicks;
+                }
+                else if (this.name.charAt(0) === 'y' && this.name !== 'yaxis' && this.name !== 'yMidAxis' && plot.axes.yaxis.show) {
+                    _numberTicks = plot.axes.yaxis.numberTicks;
+                }
+            }
         
             min = ((this.min != null) ? this.min : db.min);
             max = ((this.max != null) ? this.max : db.max);
@@ -309,14 +347,12 @@
             var rmin, rmax;
             var temp;
 
+            if (this.tickOptions == null || !this.tickOptions.formatString) {
+                this._overrideFormatString = true;
+            }
+
             // Doing complete autoscaling
-            if (this.min == null && this.max == null && this.numberTicks == null && this.tickInterval == null && !this.autoscale) {
-                // check to see if we can override tick format string with autocalculated one
-                if (this.tickOptions == null || !this.tickOptions.formatString) {
-                    this._overrideFormatString = true;
-                }
-
-
+            if (this.min == null || this.max == null && this.tickInterval == null && !this.autoscale) {
                 // Check if user must have tick at 0 or 100 and ensure they are in range.
                 // The autoscaling algorithm will always place ticks at 0 and 100 if they are in range.
                 if (this.forceTickAt0) {
@@ -337,37 +373,42 @@
                     }
                 }
 
-                // console.log(this.name);
-                var threshold = 30;
-                var tdim = Math.max(dim, threshold+1);
-                var scalefact =  (tdim-threshold)/300.0;
-                // scalefact = 1;
-                var ret = $.jqplot.LinearTickGenerator(min, max, scalefact); 
+                var keepMin = false,
+                    keepMax = false;
+
+                if (this.min != null) {
+                    keepMin = true;
+                }
+
+                else if (this.max != null) {
+                    keepMax = true;
+                }
+
+                // var threshold = 30;
+                // var tdim = Math.max(dim, threshold+1);
+                // this._scalefact =  (tdim-threshold)/300.0;
+                var ret = $.jqplot.LinearTickGenerator(min, max, this._scalefact, _numberTicks, keepMin, keepMax); 
                 // calculate a padded max and min, points should be less than these
                 // so that they aren't too close to the edges of the plot.
                 // User can adjust how much padding is allowed with pad, padMin and PadMax options. 
-                var tumin = min + range*(this.padMin - 1);
-                var tumax = max - range*(this.padMax - 1);
+                // If min or max is set, don't pad that end of axis.
+                var tumin = (this.min != null) ? min : min + range*(this.padMin - 1);
+                var tumax = (this.max != null) ? max : max - range*(this.padMax - 1);
 
-                if (min <=tumin || max >= tumax) {
-                    tumin = min - range*(this.padMin - 1);
-                    tumax = max + range*(this.padMax - 1);
-                    ret = $.jqplot.LinearTickGenerator(tumin, tumax, scalefact);
+                // if they're equal, we shouldn't have to do anything, right?
+                // if (min <=tumin || max >= tumax) {
+                if (min <tumin || max > tumax) {
+                    tumin = (this.min != null) ? min : min - range*(this.padMin - 1);
+                    tumax = (this.max != null) ? max : max + range*(this.padMax - 1);
+                    ret = $.jqplot.LinearTickGenerator(tumin, tumax, this._scalefact, _numberTicks, keepMin, keepMax);
                 }
-
-
-                // if (ret[2] > max_number_ticks) {
-                //     ret[4] = Math.ceil(r[2]/max_number_ticks) * ret[4];
-                    
-                // }
 
                 this.min = ret[0];
                 this.max = ret[1];
+                // if numberTicks specified, it should return the same.
                 this.numberTicks = ret[2];
                 this._autoFormatString = ret[3];
-                //this.tickInterval = Math.abs(this.max - this.min)/(this.numberTicks - 1);
                 this.tickInterval = ret[4];
-                // console.log('numberticks: %s, interval: %s', ret[2], ret[4]);
             }
 
             // User has specified some axis scale related option, can use auto algorithm
@@ -521,23 +562,40 @@
                             this.max = this.min + rrange;
                         }
                     }
+
+                    // Compute a somewhat decent format string if it is needed.
+                    // get precision of interval and determine a format string.
+                    var sf = $.jqplot.getSignificantFigures(this.tickInterval);
+
+                    var fstr;
+
+                    // if we have only a whole number, use integer formatting
+                    if (sf.digitsLeft >= sf.significantDigits) {
+                        fstr = '%d';
+                    }
+
+                    else {
+                        var temp = Math.max(0, 5 - sf.digitsLeft);
+                        temp = Math.min(temp, sf.digitsRight);
+                        fstr = '%.'+ temp + 'f';
+                    }
+
+                    this._autoFormatString = fstr;
                 }
                 
                 // Use the default algorithm which pads each axis to make the chart
                 // centered nicely on the grid.
                 else {
+
                     rmin = (this.min != null) ? this.min : min - range*(this.padMin - 1);
                     rmax = (this.max != null) ? this.max : max + range*(this.padMax - 1);
-                    this.min = rmin;
-                    this.max = rmax;
-                    range = this.max - this.min;
+                    range = rmax - rmin;
         
                     if (this.numberTicks == null){
                         // if tickInterval is specified by user, we will ignore computed maximum.
                         // max will be equal or greater to fit even # of ticks.
                         if (this.tickInterval != null) {
-                            this.numberTicks = Math.ceil((this.max - this.min)/this.tickInterval)+1;
-                            this.max = this.min + this.tickInterval*(this.numberTicks-1);
+                            this.numberTicks = Math.ceil((rmax - rmin)/this.tickInterval)+1;
                         }
                         else if (dim > 100) {
                             this.numberTicks = parseInt(3+(dim-100)/75, 10);
@@ -550,6 +608,35 @@
                     if (this.tickInterval == null) {
                         this.tickInterval = range / (this.numberTicks-1);
                     }
+                    
+                    if (this.max == null) {
+                        rmax = rmin + this.tickInterval*(this.numberTicks - 1);
+                    }        
+                    if (this.min == null) {
+                        rmin = rmax - this.tickInterval*(this.numberTicks - 1);
+                    }
+
+                    // get precision of interval and determine a format string.
+                    var sf = $.jqplot.getSignificantFigures(this.tickInterval);
+
+                    var fstr;
+
+                    // if we have only a whole number, use integer formatting
+                    if (sf.digitsLeft >= sf.significantDigits) {
+                        fstr = '%d';
+                    }
+
+                    else {
+                        var temp = Math.max(0, 5 - sf.digitsLeft);
+                        temp = Math.min(temp, sf.digitsRight);
+                        fstr = '%.'+ temp + 'f';
+                    }
+
+
+                    this._autoFormatString = fstr;
+
+                    this.min = rmin;
+                    this.max = rmax;
                 }
                 
                 if (this.renderer.constructor == $.jqplot.LinearAxisRenderer && this._autoFormatString == '') {
@@ -633,16 +720,32 @@
                 this.tickOptions.formatString = this._autoFormatString;
             }
 
+            var t, to;
             for (var i=0; i<this.numberTicks; i++){
                 tt = this.min + i * this.tickInterval;
-                var t = new this.tickRenderer(this.tickOptions);
+                t = new this.tickRenderer(this.tickOptions);
                 // var t = new $.jqplot.AxisTickRenderer(this.tickOptions);
 
                 t.setTick(tt, this.name);
                 this._ticks.push(t);
+
+                if (i < this.numberTicks - 1) {
+                    for (var j=0; j<this.minorTicks; j++) {
+                        tt += this.tickInterval/(this.minorTicks+1);
+                        to = $.extend(true, {}, this.tickOptions, {name:this.name, value:tt, label:'', isMinorTick:true});
+                        t = new this.tickRenderer(to);
+                        this._ticks.push(t);
+                    }
+                }
                 t = null;
             }
         }
+
+        if (this.tickInset) {
+            this.min = this.min - this.tickInset * this.tickInterval;
+            this.max = this.max + this.tickInset * this.tickInterval;
+        }
+
         ticks = null;
     };
     

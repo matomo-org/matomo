@@ -26,11 +26,16 @@
 {/if}
 
 {literal}
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.goalTopElement').tooltip();
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.goalTopElement').tooltip({
+            track:   true,
+            content: function () {
+                return $(this).attr("title");
+            }
         });
-    </script>
+    });
+</script>
 {/literal}
 
 {if $displayFullReport}

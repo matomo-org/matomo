@@ -54,15 +54,16 @@ var Piwik_Overlay = (function () {
 
                 var $locationSpan = $location.find('span');
                 $locationSpan.html(piwikHelper.addBreakpointsToUrl($locationSpan.text()));
-                $locationSpan.hover(function () {
-                    if (iframeDomain) {
-                        // use addBreakpointsToUrl because it also encoded html entities
-                        Piwik_Tooltip.show('<b>' + Piwik_Overlay_Translations.domain + ':</b> ' +
-                            piwikHelper.addBreakpointsToUrl(iframeDomain), 'Overlay_Tooltip');
-                    }
-                }, function () {
-                    Piwik_Tooltip.hide();
-                });
+                if (iframeDomain) {
+                    // use addBreakpointsToUrl because it also encoded html entities
+                    $locationSpan.tooltip({
+                        track: true,
+                        items: '*',
+                        tooltipClass: 'Overlay_Tooltip',
+                        content: '<b>' + Piwik_Overlay_Translations.domain + ':</b> ' +
+                                  piwikHelper.addBreakpointsToUrl(iframeDomain)
+                    });
+                }
 
                 $sidebar.empty().append($response).show();
 

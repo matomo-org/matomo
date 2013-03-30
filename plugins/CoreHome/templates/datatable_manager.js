@@ -135,7 +135,7 @@
                     exportText: _pk_translate('General_SaveImageOnYourComputer_js'),
                     metricsToPlot: _pk_translate('General_MetricsToPlot_js'),
                     metricToPlot: _pk_translate('General_MetricToPlot_js'),
-                    recordsToPlot: _pk_translate('General_RecordsToPlot_js'),
+                    recordsToPlot: _pk_translate('General_RecordsToPlot_js')
                 });
             }, 1);
         },
@@ -143,7 +143,7 @@
         /**
          * Returns the first datatable div displaying a specific report.
          *
-         * @param {string} The report, eg, UserSettings.getWideScreen
+         * @param {string} report  The report, eg, UserSettings.getWideScreen
          * @return {Element} The datatable div displaying the report, or undefined if
          *                   it cannot be found.
          */
@@ -164,7 +164,7 @@
          * Returns the datatable instance of the first datatable div displaying
          * a specific report.
          *
-         * @param {string} The report, eg, UserSettings.getWideScrren
+         * @param {string} report  The report, eg, UserSettings.getWideScrren
          * @return {DataTable} The DataTable instance created for the element, if
          *                     the element can be found. undefined, if it can't be found.
          */
