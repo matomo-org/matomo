@@ -245,7 +245,9 @@ Piwik_Transitions.prototype.preparePopover = function () {
             return false;
         },
         items:        '*',
-        tooltipClass: 'Transitions_Tooltip_Small'
+        tooltipClass: 'Transitions_Tooltip_Small',
+        show: false,
+        hide: false
     });
 };
 
@@ -390,7 +392,9 @@ Piwik_Transitions.prototype.addTooltipShowingPercentageOfAllPageviews = function
         track: true,
         content: tip,
         items: '*',
-        tooltipClass: 'Transitions_Tooltip_Small'
+        tooltipClass: 'Transitions_Tooltip_Small',
+        show: false,
+        hide: false
     });
 };
 
@@ -984,7 +988,9 @@ Piwik_Transitions_Canvas.prototype.renderBox = function (params) {
                 track: true,
                 content: tip,
                 items: '*',
-                tooltipClass: 'Transitions_Tooltip_Small'
+                tooltipClass: 'Transitions_Tooltip_Small',
+                show: false,
+                hide: false
             });
         }
         if (typeof params.onMouseOver == 'function') {
@@ -1013,7 +1019,9 @@ Piwik_Transitions_Canvas.prototype.renderBox = function (params) {
                 track: true,
                 content: params.curveTextTooltip,
                 items: '*',
-                tooltipClass: 'Transitions_Tooltip_Small'
+                tooltipClass: 'Transitions_Tooltip_Small',
+                show: false,
+                hide: false
             });
         }
     }

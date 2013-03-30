@@ -61,7 +61,9 @@ var Piwik_Overlay = (function () {
                         items: '*',
                         tooltipClass: 'Overlay_Tooltip',
                         content: '<b>' + Piwik_Overlay_Translations.domain + ':</b> ' +
-                                  piwikHelper.addBreakpointsToUrl(iframeDomain)
+                                  piwikHelper.addBreakpointsToUrl(iframeDomain),
+                        show: false,
+                        hide: false
                     });
                 }
 
