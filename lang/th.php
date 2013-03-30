@@ -1,7 +1,7 @@
 <?php
 $translations = array(
 	'General_Locale' => 'th_TH.UTF-8',
-	'General_TranslatorName' => 'ariesanywhere, coyoty, Jaideejung007',
+	'General_TranslatorName' => 'coyoty, <a href="http://thzaa.com">jaideejung007</a>, ariesanywhere',
 	'General_TranslatorEmail' => 'jaideejung007@gmail.com',
 	'General_EnglishLanguageName' => 'Thai',
 	'General_OriginalLanguageName' => 'ภาษาไทย',
@@ -50,6 +50,7 @@ $translations = array(
 	'General_Name' => 'ชื่อ',
 	'General_Value' => 'ค่า',
 	'General_Total' => 'รวม',
+	'General_Recommended' => '(แนะนำ)',
 	'General_AverageOrderValue' => 'มูลค่าการสั่งซื้อเฉลี่ย',
 	'General_PurchasedProducts' => 'ผลิตภัณฑ์ที่ซื้อ',
 	'General_EcommerceOrders' => 'สั่งซื้อสินค้าอีคอมเมิร์ซ',
@@ -309,7 +310,6 @@ $translations = array(
 	'General_UsePlusMinusIconsDocumentation' => 'ใช้ไอคอนบวกและลบที่อยู่ด้านซ้ายเพื่อเป็นตัวนำทาง',
 	'General_BrokenDownReportDocumentation' => 'แบ่งออกเป็นรายงานต่างๆ ซึ่งจะแสดงในเส้นแบบประกายไฟที่ด้านล่างของหน้า ท่านสามารถทำการขยายกราฟได้โดยคลิกที่รายงานที่คุณต้องการดู',
 	'General_ChangeTagCloudView' => 'โปรดทราบว่าคุณสามารถดูรายงานในรูปแบบอื่น ๆ กว่าเป็นแท็ก Cloud ใช้การควบคุมที่ด้านล่างของรายงานที่จะทำเช่นนั้น',
-	'General_Recommended' => '(แนะนำ)',
 	'General_NotRecommended' => '(ไม่แนะนำ)',
 	'General_Goal' => 'เป้าหมาย',
 	'General_Outlink' => 'Outlink',
