@@ -1,7 +1,7 @@
 <?php
 $translations = array(
 	'General_Locale' => 'fa_IR.UTF-8',
-	'General_TranslatorName' => 'reza abbasi, <a href="http://parsigate.com">ParsiGate and Sweddata</a> , Hojat Ghanad',
+	'General_TranslatorName' => 'reza abbasi, <a href="http://parsigate.com">ParsiGate and Sweddata</a> , <a href="http://blog.migmig.ir">Hojat Ghanad</a>',
 	'General_TranslatorEmail' => 'rasez_secure@yahoo.com, info[at]sweddata[.]com , info[at]parsigate[.]com , Hojat.ghanad@gmail.com',
 	'General_EnglishLanguageName' => 'Persian',
 	'General_OriginalLanguageName' => 'فارسی',
@@ -51,6 +51,7 @@ $translations = array(
 	'General_Name' => 'نام',
 	'General_Value' => 'مقدار',
 	'General_Total' => 'کل',
+	'General_Recommended' => '(توصیه شده)',
 	'General_TotalVisitsPageviewsRevenue' => '(مجموع : %s بازدید ، %sبازدیدازصفحه ،%sدرآمد)',
 	'General_AverageOrderValue' => 'ارزش ترتیبی متوسط',
 	'General_PurchasedProducts' => 'محصولات خریداری شده',
@@ -309,7 +310,6 @@ $translations = array(
 	'General_UsePlusMinusIconsDocumentation' => 'ازآیکون مثبت و منفی بر روی نوار سمت چپ برای حرکت استفاده کنید.',
 	'General_BrokenDownReportDocumentation' => 'ین است که به گزارش های مختلف، که در پایین صفحه نمایش داده شده در خطوط جرقه خراب است. شما می توانید نمودار را با کلیک کردن بر روی این گزارش شما می خواهم برای دیدن تصویر را بزرگ تر ببینید.',
 	'General_ChangeTagCloudView' => 'لطفا توجه داشته باشید که شما می توانید این گزارش را در راه های دیگر به عنوان یک ابر برچسب مشاهده است. استفاده از کنترل در پایین گزارش به انجام این کار است.',
-	'General_Recommended' => '(توصیه شده)',
 	'General_NotRecommended' => '(توصیه نیم شود)',
 	'General_Goal' => 'هدف',
 	'General_Outlink' => 'لینک خروجی',
@@ -1552,6 +1552,7 @@ $translations = array(
 	'UserSettings_SubmenuSettings' => 'تنظیمات',
 	'UserSettings_GamingConsole' => 'کنسول بازی',
 	'UserSettings_MobileVsDesktop' => 'موبایل در برابر رومیزی',
+	'UserCountry_HowToInstallApacheModule' => 'چگونه ماژول GeoIP را برای آپاچی نصب کنم؟',
 	'UsersManager_PluginDescription' => 'مدیریت کاربران در Piwik: اضافه کردن یک کاربر جدید، یک موجود را ویرایش کنید، به روز رسانی مجوز. همه اقدامات نیز در دسترس هستند از طریق API.',
 	'UsersManager_UsersManagement' => 'مدیریت کاربران',
 	'UsersManager_UsersManagementMainDescription' => 'ایجاد کاربران جدید و یا به روز رسانی کاربران موجود است. بعد از آن شما می توانند مجوز خود را به صورت فوق تنظیم شده است.',
