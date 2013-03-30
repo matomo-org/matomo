@@ -3,8 +3,9 @@
  * Pure JavaScript plotting plugin using jQuery
  *
  * Version: @VERSION
+ * Revision: @REVISION
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -63,7 +64,7 @@
         // prop: showLabel
         // wether or not to show the label.
         this.showLabel = true;
-        this.label = '';
+        this.label = null;
         this.value = null;
         this._styles = {};
         // prop: formatter
@@ -73,6 +74,10 @@
         // String to prepend to the tick label.
         // Prefix is prepended to the formatted tick label.
         this.prefix = '';
+        // prop: suffix
+        // String to append to the tick label.
+        // Suffix is appended to the formatted tick label.
+        this.suffix = '';
         // prop: formatString
         // string passed to the formatter.
         this.formatString = '';
@@ -85,6 +90,9 @@
         // prop: textColor
         // css spec for the color attribute.
         this.textColor;
+        // prop: escapeHTML
+        // true to escape HTML entities in the label.
+        this.escapeHTML = false;
         this._elem;
 		this._breakTick = false;
         
@@ -108,8 +116,8 @@
     };
     
     $.jqplot.AxisTickRenderer.prototype.draw = function() {
-        if (!this.label) {
-            this.label = this.prefix + this.formatter(this.formatString, this.value);
+        if (this.label === null) {
+            this.label = this.prefix + this.formatter(this.formatString, this.value) + this.suffix;
         }
         var style = {position: 'absolute'};
         if (Number(this.label)) {
@@ -124,7 +132,14 @@
 
         this._elem = $(document.createElement('div'));
         this._elem.addClass("jqplot-"+this.axis+"-tick");
-        this._elem.text(this.label);
+        
+        if (!this.escapeHTML) {
+            this._elem.html(this.label);
+        }
+        else {
+            this._elem.text(this.label);
+        }
+        
         this._elem.css(style);
 
         for (var s in this._styles) {
@@ -148,6 +163,19 @@
         
     $.jqplot.DefaultTickFormatter = function (format, val) {
         if (typeof val == 'number') {
+            if (!format) {
+                format = $.jqplot.config.defaultTickFormatString;
+            }
+            return $.jqplot.sprintf(format, val);
+        }
+        else {
+            return String(val);
+        }
+    };
+        
+    $.jqplot.PercentTickFormatter = function (format, val) {
+        if (typeof val == 'number') {
+            val = 100 * val;
             if (!format) {
                 format = $.jqplot.config.defaultTickFormatString;
             }

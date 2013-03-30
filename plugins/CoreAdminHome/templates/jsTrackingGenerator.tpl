@@ -24,7 +24,7 @@
         <label class="website-label"><strong>{'General_Website'|translate}</strong></label>
         {include file="CoreHome/templates/sites_selection.tpl"
         siteName=$defaultReportSiteName idSite=$idSite showAllSitesItem=false switchSiteOnSelect=false
-        siteSelectorId="js-tracker-website"}
+        siteSelectorId="js-tracker-website" showSelectedSite=true}
 
         <br/><br/><br/>
     </div>
@@ -189,7 +189,7 @@
         <label class="website-label"><strong>{'General_Website'|translate}</strong></label>
         {include file="CoreHome/templates/sites_selection.tpl"
         siteName=$defaultReportSiteName idSite=$idSite showAllSitesItem=false switchSiteOnSelect=false
-        siteSelectorId="image-tracker-website"}
+        showSelectedSite=true siteSelectorId="image-tracker-website"}
 
         <br/><br/><br/>
     </div>

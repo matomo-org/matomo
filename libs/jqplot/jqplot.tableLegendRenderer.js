@@ -3,8 +3,9 @@
  * Pure JavaScript plotting plugin using jQuery
  *
  * Version: @VERSION
+ * Revision: @REVISION
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -60,10 +61,11 @@
 
         if (this.showSwatches) {
             td = $(document.createElement('td'));
-            td.addClass('jqplot-table-legend');
+            td.addClass('jqplot-table-legend jqplot-table-legend-swatch');
             td.css({textAlign: 'center', paddingTop: rs});
 
             div0 = $(document.createElement('div'));
+            div0.addClass('jqplot-table-legend-swatch-outline');
             div1 = $(document.createElement('div'));
             div1.addClass('jqplot-table-legend-swatch');
             div1.css({backgroundColor: color, borderColor: color});
@@ -76,7 +78,7 @@
         }
         if (this.showLabels) {
             td = $(document.createElement('td'));
-            td.addClass('jqplot-table-legend');
+            td.addClass('jqplot-table-legend jqplot-table-legend-label');
             td.css('paddingTop', rs);
             tr.append(td);
 

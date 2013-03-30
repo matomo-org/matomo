@@ -3,8 +3,9 @@
  * Pure JavaScript plotting plugin using jQuery
  *
  * Version: @VERSION
+ * Revision: @REVISION
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -132,12 +133,7 @@
         }
         
         if (this.enableFontSupport) {
-            
-            function support_canvas_text() {
-                return !!(document.createElement('canvas').getContext && typeof document.createElement('canvas').getContext('2d').fillText == 'function');
-            }
-            
-            if (support_canvas_text()) {
+            if ($.jqplot.support_canvas_text()) {
                 this._textRenderer = new $.jqplot.CanvasFontRenderer(ropts);
             }
             
@@ -149,9 +145,6 @@
             this._textRenderer = new $.jqplot.CanvasTextRenderer(ropts); 
         }
     };
-	
-	$.jqplot.CanvasAxisTickRenderer.prototype = new $.jqplot.ElemContainer();
-    $.jqplot.CanvasAxisTickRenderer.prototype.constructor = $.jqplot.CanvasAxisTickRenderer;
     
     $.jqplot.CanvasAxisTickRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
@@ -209,7 +202,7 @@
         
         // Memory Leaks patch
         if (this._elem) {
-            if ($.jqplot.use_excanvas) {
+            if ($.jqplot.use_excanvas && window.G_vmlCanvasManager.uninitElement !== undefined) {
                 window.G_vmlCanvasManager.uninitElement(this._elem.get(0));
             }
             

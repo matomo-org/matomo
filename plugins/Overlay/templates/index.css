@@ -121,7 +121,7 @@ h2.Overlay_MainMetrics {
     background: url(./info.png) 0 1px no-repeat
 }
 
-body .piwik-tooltip.Overlay_Tooltip {
+body .ui-tooltip.Overlay_Tooltip {
     font-size: 11px;
     padding: 3px 5px 3px 6px;
 }

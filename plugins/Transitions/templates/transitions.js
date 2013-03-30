@@ -224,22 +224,28 @@ Piwik_Transitions.prototype.preparePopover = function () {
         }).css('cursor', 'pointer');
     }
 
-    title.add(self.popover.find('p.Transitions_Pageviews')).hover(function () {
-        var totalNbPageviews = self.model.getTotalNbPageviews();
-        if (totalNbPageviews > 0) {
-            var share = Math.round(self.model.pageviews / totalNbPageviews * 1000) / 10;
+    var element = title.add(self.popover.find('p.Transitions_Pageviews'));
 
-            var text = Piwik_Transitions_Translations.ShareOfAllPageviews;
-            text = text.replace(/%s/, self.model.pageviews).replace(/%s/, share + '%');
-            text += '<br /><i>' + Piwik_Transitions_Translations.DateRange + ' ' + self.model.date + '</i>';
+    element.tooltip({
+        track:        true,
+        content:      function () {
+            var totalNbPageviews = self.model.getTotalNbPageviews();
+            if (totalNbPageviews > 0) {
 
-            var title = '<span class="tip-title">' + piwikHelper.addBreakpointsToUrl(self.actionName) +
-                '</span><br />';
+                var share = Math.round(self.model.pageviews / totalNbPageviews * 1000) / 10;
 
-            Piwik_Tooltip.show(title + text, 'Transitions_Tooltip_Small', 300);
-        }
-    }, function () {
-        Piwik_Tooltip.hide();
+                var text = Piwik_Transitions_Translations.ShareOfAllPageviews;
+                text = text.replace(/%s/, self.model.pageviews).replace(/%s/, share + '%');
+                text += '<br /><i>' + Piwik_Transitions_Translations.DateRange + ' ' + self.model.date + '</i>';
+
+                var title = '<h3>' + piwikHelper.addBreakpointsToUrl(self.actionName) + '</h3>';
+
+                return title + text;
+            }
+            return false;
+        },
+        items:        '*',
+        tooltipClass: 'Transitions_Tooltip_Small'
     });
 };
 
@@ -375,15 +381,16 @@ Piwik_Transitions.prototype.renderCenterBox = function () {
     box.find('.Transitions_CenterBoxMetrics').show();
 };
 
-Piwik_Transitions.prototype.addTooltipShowingPercentageOfAllPageviews = function (element, metric) {
-    var self = this;
-    element.hover(function () {
-        var tip = Piwik_Transitions_Translations.XOfAllPageviews;
-        var percentage = self.model.getPercentage(metric, true);
-        tip = tip.replace(/%s/, '<b>' + percentage + '</b>');
-        Piwik_Tooltip.show(tip, 'Transitions_Tooltip_Small');
-    }, function () {
-        Piwik_Tooltip.hide();
+Piwik_Transitions.prototype.addTooltipShowingPercentageOfAllPageviews = function(element, metric) {
+    var tip = Piwik_Transitions_Translations.XOfAllPageviews;
+    var percentage = this.model.getPercentage(metric, true);
+    tip = tip.replace(/%s/, '<b>' + percentage + '</b>');
+
+    element.tooltip({
+        track: true,
+        content: tip,
+        items: '*',
+        tooltipClass: 'Transitions_Tooltip_Small'
     });
 };
 
@@ -972,17 +979,13 @@ Piwik_Transitions_Canvas.prototype.renderBox = function (params) {
         }
         // tooltip
         if (params.boxTextTooltip) {
-            el.hover(function () {
-                var tip = piwikHelper.addBreakpointsToUrl(params.boxTextTooltip);
-                Piwik_Tooltip.show(tip, 'Transitions_Tooltip_Small', 300);
-            }, function () {
-                Piwik_Tooltip.hide();
+            var tip = piwikHelper.addBreakpointsToUrl(params.boxTextTooltip);
+            el.tooltip({
+                track: true,
+                content: tip,
+                items: '*',
+                tooltipClass: 'Transitions_Tooltip_Small'
             });
-            if (onClick) {
-                el.click(function () {
-                    Piwik_Tooltip.hide();
-                });
-            }
         }
         if (typeof params.onMouseOver == 'function') {
             el.mouseenter(params.onMouseOver);
@@ -1006,10 +1009,11 @@ Piwik_Transitions_Canvas.prototype.renderBox = function (params) {
             params.side == 'left' ? 'CurveTextLeft' : 'CurveTextRight');
         // tooltip
         if (params.curveTextTooltip) {
-            textDiv.hover(function () {
-                Piwik_Tooltip.show(params.curveTextTooltip, 'Transitions_Tooltip_Small');
-            }, function () {
-                Piwik_Tooltip.hide();
+            textDiv.tooltip({
+                track: true,
+                content: params.curveTextTooltip,
+                items: '*',
+                tooltipClass: 'Transitions_Tooltip_Small'
             });
         }
     }

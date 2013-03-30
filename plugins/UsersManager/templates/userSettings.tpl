@@ -45,7 +45,7 @@
                 {if $defaultReport=='MultiSites'}{assign var=defaultReportIdSite value=1}{else}{assign var=defaultReportIdSite value=$defaultReport}{/if}
                 {include file="CoreHome/templates/sites_selection.tpl"
                 siteName=$defaultReportSiteName idSite=$defaultReportIdSite switchSiteOnSelect=false showAllSitesItem=false
-                showSelectedSite=false siteSelectorId='defaultReportSiteSelector'}
+                showSelectedSite=true siteSelectorId='defaultReportSiteSelector'}
             </fieldset>
         </td>
     </tr>
