@@ -9,9 +9,9 @@
 
     /**
      * The DataTableManager class manages the initialization of JS dataTable
-     * instances. It's main purpose is to give each dataTable div a unique ID
-     * when it's possible that any report will be loaded via AJAX, some more
-     * than once.
+     * instances. It's main purpose is to give each dataTable div a unique ID.
+     * This is done in the browser since it's possible for any report to be
+     * loaded via AJAX, some more than once.
      *
      * The singleton instance can be accessed via piwik.DataTableManager.
      */

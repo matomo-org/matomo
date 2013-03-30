@@ -14,7 +14,20 @@ function dataTable() {
     this.param = {};
 }
 
-//Prototype of the DataTable object
+/**
+ * This class contains the client side logic for viewing and interacting with
+ * Piwik datatables.
+ * 
+ * The id attribute for DataTables is set dynamically by the DataTableManager
+ * class, and this class instance is stored using the jQuery $.data function
+ * with the 'piwikDataTable' key.
+ * 
+ * To find a datatable element by report (ie, 'UserSettings.getBrowser'),
+ * use piwik.DataTableManager.getDataTableByReport.
+ * 
+ * To get the dataTable JS instance (an instance of this class) for a
+ * datatable HTML element, use $(element).data('piwikDataTable').
+ */
 dataTable.prototype =
 {
     //initialisation function
@@ -1161,7 +1174,9 @@ dataTable.prototype =
 
                     self.param.idSubtable = idSubTable;
                     self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
-                    self.reloadAjaxDataTable(false);
+                    self.reloadAjaxDataTable(false, function(response) {
+                        self.dataTableLoaded(response, divIdToReplaceWithSubTable);
+                    });
 
                     self.param.action = savedActionVariable;
                     delete self.param.idSubtable;
