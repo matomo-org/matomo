@@ -749,6 +749,7 @@ table.entityTable tr td a {
 	left: -28000px;
 	top: -28000px;
 	display: none;
+	font-family: Arial, Helvetica, sans-serif; 
 }
 
 .ui-tooltip h3 {
@@ -757,8 +758,8 @@ table.entityTable tr td a {
 }
 
 .ui-tooltip h3 {
-	font-size: 13px;
-	margin: 0 0 5px;
+	font-size: 12px;
+	margin: 0 0 2px 0;
 }
 
 
