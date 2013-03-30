@@ -32,7 +32,9 @@
             track:   true,
             content: function () {
                 return $(this).attr("title");
-            }
+            },
+            show: false,
+            hide: false
         });
     });
 </script>

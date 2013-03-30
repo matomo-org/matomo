@@ -1119,7 +1119,11 @@ dataTable.prototype =
         }
 
         // use tooltip (tooltip text determined by the 'title' attribute)
-        tooltipElem.tooltip({track: true});
+        tooltipElem.tooltip({
+            track: true,
+            show: false,
+            hide: false
+        });
     },
 
     //Apply some miscelleaneous style to the DataTable
@@ -1495,7 +1499,9 @@ dataTable.prototype =
                     track: true,
                     items: 'a',
                     content: '<h3>'+action.dataTableIconTooltip[0]+'</h3>'+action.dataTableIconTooltip[1],
-                    tooltipClass: 'rowActionTooltip'
+                    tooltipClass: 'rowActionTooltip',
+                    show: false,
+                    hide: false
                 });
             }
         }

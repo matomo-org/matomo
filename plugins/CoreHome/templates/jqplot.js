@@ -173,7 +173,9 @@ JQPlot.prototype = {
                     $(this).tooltip({
                                 track:   true,
                                 items:   '*',
-                                content: '<h3>' + label + '</h3>' + text
+                                content: '<h3>' + label + '</h3>' + text,
+                                show: false,
+                                hide: false
                             }).trigger('mouseover');
 
                 } else if (type == 'pie') {
@@ -187,7 +189,9 @@ JQPlot.prototype = {
                     $(this).tooltip({
                                 track:   true,
                                 items:   '*',
-                                content: '<h3>' + label + '</h3>' + text
+                                content: '<h3>' + label + '</h3>' + text,
+                                show: false,
+                                hide: false
                             }).trigger('mouseover');
                 }
         })
@@ -379,7 +383,9 @@ JQPlot.prototype = {
                 $(this).tooltip({
                             track:   true,
                             items:   'div',
-                            content: '<h3>'+label+'</h3>'+text.join('<br />')
+                            content: '<h3>'+label+'</h3>'+text.join('<br />'),
+                            show: false,
+                            hide: false
                         }).trigger('mouseover');
                 if (typeof self.params.axes.xaxis.onclick != 'undefined'
                     && typeof self.params.axes.xaxis.onclick[lastTick] == 'string') {
