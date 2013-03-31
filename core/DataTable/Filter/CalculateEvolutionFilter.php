@@ -36,9 +36,10 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
      * Constructor.
      *
      * @param Piwik_DataTable $table The DataTable being filtered.
-     * @param string $columnToAdd
-     * @param string $columnToRead
-     * @param int $quotientPrecision
+     * @param string          $pastDataTable
+     * @param string          $columnToAdd
+     * @param string          $columnToRead
+     * @param int             $quotientPrecision
      */
     function __construct($table, $pastDataTable, $columnToAdd, $columnToRead, $quotientPrecision = 0)
     {
@@ -127,10 +128,11 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
     /**
      * Calculates the evolution percentage for two arbitrary values.
      *
-     * @param numeric $currentValue The current metric value.
-     * @param numeric $pastValue The value of the metric in the past. We measure the % change
-     *                           from this value to $currentValue.
-     * @param numeric $quotientPrecision The quotient precision to round to.
+     * @param float|int  $currentValue      The current metric value.
+     * @param float|int  $pastValue         The value of the metric in the past. We measure the % change
+     *                                      from this value to $currentValue.
+     * @param float|int  $quotientPrecision The quotient precision to round to.
+     *
      * @return string The evolution percent 15%
      */
     public static function calculate($currentValue, $pastValue, $quotientPrecision = 0)

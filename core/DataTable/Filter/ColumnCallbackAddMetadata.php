@@ -29,10 +29,11 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 
     /**
      * @param Piwik_DataTable $table
-     * @param $columnToRead
-     * @param $metadataToAdd
-     * @param null $functionToApply
-     * @param null $functionParameters
+     * @param string          $columnToRead
+     * @param string          $metadataToAdd
+     * @param string          $functionToApply
+     * @param array           $functionParameters
+     * @param bool            $applyToSummaryRow
      */
     public function __construct($table, $columnToRead, $metadataToAdd, $functionToApply = null,
                                 $functionParameters = null, $applyToSummaryRow = true)

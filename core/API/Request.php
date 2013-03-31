@@ -168,7 +168,7 @@ class Piwik_API_Request
      * @param string $method The API method to call, ie, Actions.getPageTitles
      * @param array $paramOverride The parameter name-value pairs to use instead of what's
      *                             in $_GET & $_POST.
-     * @param mixed The result of the API request.
+     * @return mixed The result of the API request.
      */
     public static function processRequest($method, $paramOverride = array())
     {

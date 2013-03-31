@@ -89,8 +89,9 @@ abstract class Piwik_API_DataTableManipulator
      * Load the subtable for a row.
      * Returns null if none is found.
      *
-     * @param Piwik_Datatable_Row $row
-     * @throws Exception
+     * @param Piwik_DataTable     $dataTable
+     * @param Piwik_DataTable_Row $row
+     *
      * @return Piwik_DataTable
      */
     protected function loadSubtable($dataTable, $row)

@@ -76,7 +76,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
             $this->connection->exec($sql);
         }
 
-        if (self::$profiling) {
+        if (self::$profiling && isset($timer)) {
             $this->recordQueryProfile('connect', $timer);
         }
     }
@@ -158,7 +158,7 @@ class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
             $sth = $this->connection->prepare($query);
             $sth->execute($parameters);
 
-            if (self::$profiling) {
+            if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
             return $sth;

@@ -256,7 +256,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
      * from http://example.org/thing;paramA=1;paramB=6542
      * to   http://example.org/thing?paramA=1&paramB=6542
      *
-     * @param string $url
+     * @param string $originalUrl
+     * @return string
      */
     static public function convertMatrixUrl($originalUrl)
     {
@@ -290,7 +291,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
      * and deal ith the hash tag on incoming URLs based on website setting.
      *
      * @param $parsedUrl
-     * @param $idSite int|false The site ID of the current visit. This parameter is
+     * @param $idSite int|bool  The site ID of the current visit. This parameter is
      *                          only used by the tracker to see if we should remove
      *                          the URL fragment for this site.
      * @return array
@@ -314,10 +315,11 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
     /**
      * Cleans and/or removes the URL fragment of a URL.
      *
-     * @param $urlFragment string The URL fragment to process.
-     * @param $idSite int|false If not false, this function will check if URL fragments
+     * @param $urlFragment      string The URL fragment to process.
+     * @param $idSite           int|bool  If not false, this function will check if URL fragments
      *                          should be removed for the site w/ this ID and if so,
      *                          the returned processed fragment will be empty.
+     *
      * @return string The processed URL fragment.
      */
     public static function processUrlFragment($urlFragment, $idSite = false)
@@ -1043,15 +1045,16 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
     /**
      * Checks if query parameters are of a non-UTF-8 encoding and converts the values
      * from the specified encoding to UTF-8.
-     *
      * This method is used to workaround browser/webapp bugs (see #3450). When
      * browsers fail to encode query parameters in UTF-8, the tracker will send the
      * charset of the page viewed and we can sometimes work around invalid data
      * being stored.
      *
-     * @param array $queryParameters Name/value mapping of query parameters.
-     * @param string|false $encoding of the HTML page the URL is for. Used to workaround
-     *                    browser bugs & mis-coded webapps. See #3450.
+     * @param array        $queryParameters Name/value mapping of query parameters.
+     * @param bool|string  $encoding        of the HTML page the URL is for. Used to workaround
+     *                                      browser bugs & mis-coded webapps. See #3450.
+     *
+     * @return array
      */
     private static function reencodeParameters(&$queryParameters, $encoding = false)
     {

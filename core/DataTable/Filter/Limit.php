@@ -59,7 +59,7 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
             $table->deleteRowsOffset($this->limit);
         }
 
-        if ($this->keepSummaryRow && $summaryRow) {
+        if ($this->keepSummaryRow && !empty($summaryRow)) {
             $table->addSummaryRow($summaryRow);
         }
     }

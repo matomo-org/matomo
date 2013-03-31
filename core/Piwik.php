@@ -2243,10 +2243,11 @@ class Piwik
      * Batch insert into table from CSV (or other delimited) file.
      *
      * @param string $tableName  Name of table
-     * @param array $fields     Field names
+     * @param array  $fields     Field names
      * @param string $filePath   Path name of a file.
-     * @param array $fileSpec   File specifications (delimiter, line terminator, etc)
-     * @param book $throwException Should re-throw any exception, used in system check
+     * @param array  $fileSpec   File specifications (delimiter, line terminator, etc)
+     *
+     * @throws Exception
      * @return bool  True if successful; false otherwise
      */
     static public function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)

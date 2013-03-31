@@ -49,20 +49,20 @@ class Piwik_Http
 
     /**
      * Sends http request ensuring the request will fail before $timeout seconds
-     *
      * If no $destinationPath is specified, the trimmed response (without header) is returned as a string.
      * If a $destinationPath is specified, the response (without header) is saved to a file.
      *
-     * @param string $aUrl
-     * @param int $timeout
-     * @param string $userAgent
-     * @param string $destinationPath
-     * @param int $followDepth
-     * @param bool $acceptLanguage
-     * @param array $byteRange For Range: header. Should be two element array of bytes, eg, array(0, 1024)
-     *                                Doesn't work w/ fopen method.
-     * @param bool $getExtendedInfo True to return status code, headers & response, false if just response.
-     * @param string $httpMethod The HTTP method to use. Defaults to 'GET'.
+     * @param string     $aUrl
+     * @param int        $timeout
+     * @param string     $userAgent
+     * @param string     $destinationPath
+     * @param int        $followDepth
+     * @param bool       $acceptLanguage
+     * @param array|bool $byteRange       For Range: header. Should be two element array of bytes, eg, array(0, 1024)
+     *                                    Doesn't work w/ fopen method.
+     * @param bool       $getExtendedInfo True to return status code, headers & response, false if just response.
+     * @param string     $httpMethod      The HTTP method to use. Defaults to 'GET'.
+     *
      * @throws Exception
      * @return bool  true (or string) on success; false on HTTP response error code (1xx or 4xx)
      */
@@ -86,19 +86,20 @@ class Piwik_Http
     /**
      * Sends http request using the specified transport method
      *
-     * @param string $method
-     * @param string $aUrl
-     * @param int $timeout
-     * @param string $userAgent
-     * @param string $destinationPath
-     * @param resource $file
-     * @param int $followDepth
+     * @param string      $method
+     * @param string      $aUrl
+     * @param int         $timeout
+     * @param string      $userAgent
+     * @param string      $destinationPath
+     * @param resource    $file
+     * @param int         $followDepth
      * @param bool|string $acceptLanguage               Accept-language header
-     * @param bool $acceptInvalidSslCertificate  Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
-     * @param array $byteRange For Range: header. Should be two element array of bytes, eg, array(0, 1024)
-     *                                Doesn't work w/ fopen method.
-     * @param bool $getExtendedInfo True to return status code, headers & response, false if just response.
-     * @param string $httpMethod The HTTP method to use. Defaults to 'GET'.
+     * @param bool        $acceptInvalidSslCertificate  Only used with $method == 'curl'. If set to true (NOT recommended!) the SSL certificate will not be checked
+     * @param array|bool  $byteRange                    For Range: header. Should be two element array of bytes, eg, array(0, 1024)
+     *                                                  Doesn't work w/ fopen method.
+     * @param bool        $getExtendedInfo              True to return status code, headers & response, false if just response.
+     * @param string      $httpMethod                   The HTTP method to use. Defaults to 'GET'.
+     *
      * @throws Exception
      * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
      */
@@ -532,14 +533,16 @@ class Piwik_Http
      * Downloads the next chunk of a specific file. The next chunk's byte range
      * is determined by the existing file's size and the expected file size, which
      * is stored in the piwik_option table before starting a download.
-     *
      * Note this function uses the Range HTTP header to accomplish downloading in
      * parts.
      *
-     * @param string $url The url to download from.
-     * @param string $outputPath The path to the file to save/append to.
-     * @param bool $isContinuation True if this is the continuation of a download,
-     *                             or if we're starting a fresh one.
+     * @param string $url            The url to download from.
+     * @param string $outputPath     The path to the file to save/append to.
+     * @param bool   $isContinuation True if this is the continuation of a download,
+     *                               or if we're starting a fresh one.
+     *
+     * @throws Exception
+     * @return array
      */
     public static function downloadChunk($url, $outputPath, $isContinuation)
     {

@@ -1366,7 +1366,9 @@ abstract class Piwik_ViewDataTable
     /**
      * Sets a custom URL to use to reference this report.
      *
-     * @param string $url
+     * @param string  $module
+     * @param string  $action
+     * @param array   $queryParams
      */
     public function setReportUrl($module, $action, $queryParams = array())
     {
@@ -1431,6 +1433,7 @@ abstract class Piwik_ViewDataTable
      * @param string $module
      * @param string $action
      * @param array $queryParams
+     * @return string
      */
     private function getBaseReportUrl($module, $action, $queryParams = array())
     {

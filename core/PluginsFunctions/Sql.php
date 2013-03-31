@@ -233,14 +233,15 @@ class Piwik_Sql
      * Performs a SELECT on a table one chunk at a time and returns the first
      * fetched value.
      *
-     * @param string $sql The SQL to perform. The last two conditions of the WHERE
-     *                    expression must be as follows: 'id >= ? AND id < ?' where
-     *                    'id' is the int id of the table. If $step < 0, the condition
-     *                    should be 'id <= ? AND id > ?'.
-     * @param int $first The minimum ID to loop from.
-     * @param int $last The maximum ID to loop to.
-     * @param int $step The maximum number of rows to scan in each smaller SELECT.
-     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql    The SQL to perform. The last two conditions of the WHERE
+     *                       expression must be as follows: 'id >= ? AND id < ?' where
+     *                       'id' is the int id of the table. If $step < 0, the condition
+     *                       should be 'id <= ? AND id > ?'.
+     * @param int    $first  The minimum ID to loop from.
+     * @param int    $last   The maximum ID to loop to.
+     * @param int    $step   The maximum number of rows to scan in each smaller SELECT.
+     * @param array  $params parameters to bind in the query, array( param1 => value1, param2 => value2)
+     *
      * @return array
      */
     static public function segmentedFetchFirst($sql, $first, $last, $step, $params)
@@ -262,13 +263,14 @@ class Piwik_Sql
      * Performs a SELECT on a table one chunk at a time and returns an array
      * of every fetched value.
      *
-     * @param string $sql The SQL to perform. The last two conditions of the WHERE
-     *                    expression must be as follows: 'id >= ? AND id < ?' where
-     *                    'id' is the int id of the table.
-     * @param int $first The minimum ID to loop from.
-     * @param int $last The maximum ID to loop to.
-     * @param int $step The maximum number of rows to scan in each smaller SELECT.
-     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql    The SQL to perform. The last two conditions of the WHERE
+     *                       expression must be as follows: 'id >= ? AND id < ?' where
+     *                      'id' is the int id of the table.
+     * @param int    $first  The minimum ID to loop from.
+     * @param int    $last   The maximum ID to loop to.
+     * @param int    $step   The maximum number of rows to scan in each smaller SELECT.
+     * @param array  $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     *
      * @return array
      */
     static public function segmentedFetchOne($sql, $first, $last, $step, $params)
@@ -290,13 +292,14 @@ class Piwik_Sql
      * Performs a SELECT on a table one chunk at a time and returns an array
      * of every fetched row.
      *
-     * @param string $sql The SQL to perform. The last two conditions of the WHERE
-     *                    expression must be as follows: 'id >= ? AND id < ?' where
-     *                    'id' is the int id of the table.
-     * @param int $first The minimum ID to loop from.
-     * @param int $last The maximum ID to loop to.
-     * @param int $step The maximum number of rows to scan in each smaller SELECT.
-     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql    The SQL to perform. The last two conditions of the WHERE
+     *                       expression must be as follows: 'id >= ? AND id < ?' where
+     *                      'id' is the int id of the table.
+     * @param int    $first  The minimum ID to loop from.
+     * @param int    $last   The maximum ID to loop to.
+     * @param int    $step   The maximum number of rows to scan in each smaller SELECT.
+     * @param array  $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     *
      * @return array
      */
     static public function segmentedFetchAll($sql, $first, $last, $step, $params)
@@ -319,13 +322,14 @@ class Piwik_Sql
     /**
      * Performs a non-SELECT query on a table one chunk at a time.
      *
-     * @param string $sql The SQL to perform. The last two conditions of the WHERE
-     *                    expression must be as follows: 'id >= ? AND id < ?' where
-     *                    'id' is the int id of the table.
-     * @param int $first The minimum ID to loop from.
-     * @param int $last The maximum ID to loop to.
-     * @param int $step The maximum number of rows to scan in each smaller query.
-     * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     * @param string $sql    The SQL to perform. The last two conditions of the WHERE
+     *                       expression must be as follows: 'id >= ? AND id < ?' where
+     *                      'id' is the int id of the table.
+     * @param int    $first  The minimum ID to loop from.
+     * @param int    $last   The maximum ID to loop to.
+     * @param int    $step   The maximum number of rows to scan in each smaller query.
+     * @param array  $params Parameters to bind in the query, array( param1 => value1, param2 => value2)
+     *
      * @return array
      */
     static public function segmentedQuery($sql, $first, $last, $step, $params)
@@ -553,13 +557,14 @@ function Piwik_UnlockAllTables()
  *
  * @see Piwik_Sql::segmentedFetchFirst
  *
- * @param string $sql The SQL to perform. The last two conditions of the WHERE
- *                    expression must be as follows: 'id >= ? AND id < ?' where
- *                    'id' is the int id of the table.
- * @param int $first The minimum ID to loop from.
- * @param int $last The maximum ID to loop to.
- * @param int $step The maximum number of rows to scan in each smaller SELECT.
- * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @param string  $sql     The SQL to perform. The last two conditions of the WHERE
+ *                         expression must be as follows: 'id >= ? AND id < ?' where
+ *                         'id' is the int id of the table.
+ * @param int     $first   The minimum ID to loop from.
+ * @param int     $last    The maximum ID to loop to.
+ * @param int     $step    The maximum number of rows to scan in each smaller SELECT.
+ * @param array   $params  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ *
  * @return string
  */
 function Piwik_SegmentedFetchFirst($sql, $first, $last, $step, $params = array())
@@ -578,13 +583,14 @@ function Piwik_SegmentedFetchFirst($sql, $first, $last, $step, $params = array()
  *
  * @see Piwik_Sql::segmentedFetchFirst
  *
- * @param string $sql The SQL to perform. The last two conditions of the WHERE
- *                    expression must be as follows: 'id >= ? AND id < ?' where
- *                    'id' is the int id of the table.
- * @param int $first The minimum ID to loop from.
- * @param int $last The maximum ID to loop to.
- * @param int $step The maximum number of rows to scan in each smaller SELECT.
- * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @param string  $sql     The SQL to perform. The last two conditions of the WHERE
+ *                         expression must be as follows: 'id >= ? AND id < ?' where
+ *                         'id' is the int id of the table.
+ * @param int     $first   The minimum ID to loop from.
+ * @param int     $last    The maximum ID to loop to.
+ * @param int     $step    The maximum number of rows to scan in each smaller SELECT.
+ * @param array   $params  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ *
  * @return array
  */
 function Piwik_SegmentedFetchOne($sql, $first, $last, $step, $params = array())
@@ -603,13 +609,14 @@ function Piwik_SegmentedFetchOne($sql, $first, $last, $step, $params = array())
  *
  * @see Piwik_Sql::segmentedFetchFirst
  *
- * @param string $sql The SQL to perform. The last two conditions of the WHERE
- *                    expression must be as follows: 'id >= ? AND id < ?' where
- *                    'id' is the int id of the table.
- * @param int $first The minimum ID to loop from.
- * @param int $last The maximum ID to loop to.
- * @param int $step The maximum number of rows to scan in each smaller SELECT.
- * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @param string  $sql     The SQL to perform. The last two conditions of the WHERE
+ *                         expression must be as follows: 'id >= ? AND id < ?' where
+ *                         'id' is the int id of the table.
+ * @param int     $first   The minimum ID to loop from.
+ * @param int     $last    The maximum ID to loop to.
+ * @param int     $step    The maximum number of rows to scan in each smaller SELECT.
+ * @param array   $params  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ *
  * @return array
  */
 function Piwik_SegmentedFetchAll($sql, $first, $last, $step, $params = array())
@@ -628,13 +635,14 @@ function Piwik_SegmentedFetchAll($sql, $first, $last, $step, $params = array())
  *
  * @see Piwik_Sql::segmentedQuery
  *
- * @param string $sql The SQL to perform. The last two conditions of the WHERE
- *                    expression must be as follows: 'id >= ? AND id < ?' where
- *                    'id' is the int id of the table.
- * @param int $first The minimum ID to loop from.
- * @param int $last The maximum ID to loop to.
- * @param int $step The maximum number of rows to scan in each smaller query.
- * @param array $parameters Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ * @param string  $sql     The SQL to perform. The last two conditions of the WHERE
+ *                         expression must be as follows: 'id >= ? AND id < ?' where
+ *                         'id' is the int id of the table.
+ * @param int     $first   The minimum ID to loop from.
+ * @param int     $last    The maximum ID to loop to.
+ * @param int     $step    The maximum number of rows to scan in each smaller query.
+ * @param array   $params  Parameters to bind in the query, array( param1 => value1, param2 => value2)
+ *
  * @return array
  */
 function Piwik_SegmentedQuery($sql, $first, $last, $step, $params = array())

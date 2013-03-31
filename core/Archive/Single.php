@@ -380,8 +380,9 @@ class Piwik_Archive_Single extends Piwik_Archive
     /**
      * Fetches all blob fields name_* at once for the current archive for performance reasons.
      *
-     * @param $name
-     * @return
+     * @param string  $name
+     *
+     * @return void
      */
     public function preFetchBlob($name)
     {

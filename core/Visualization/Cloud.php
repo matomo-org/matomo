@@ -99,7 +99,9 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
     /**
      * Get the class range using a percentage
      *
-     * @return int $class
+     * @param $percent
+     *
+     * @return int class
      */
     protected function getClassFromPercent($percent)
     {

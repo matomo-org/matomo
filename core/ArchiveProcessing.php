@@ -694,6 +694,7 @@ abstract class Piwik_ArchiveProcessing
     /**
      * Returns the idArchive we will use for the current archive
      *
+     * @throws Exception
      * @return int IdArchive to use when saving the current Archive
      */
     protected function loadNextIdarchive()
@@ -826,9 +827,11 @@ abstract class Piwik_ArchiveProcessing
 
     /**
      * Inserts a record in the right table (either NUMERIC or BLOB)
-     * @param $name
-     * @param $value
-     * @return
+     *
+     * @param string  $name
+     * @param mixed   $value
+     *
+     * @return void
      */
     protected function insertRecord($name, $value)
     {

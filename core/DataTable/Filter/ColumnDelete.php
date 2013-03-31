@@ -44,11 +44,12 @@ class Piwik_DataTable_Filter_ColumnDelete extends Piwik_DataTable_Filter
      * Constructor.
      *
      * @param Piwik_DataTable $table
-     * @param array|string $columnsToRemove An array of column names or a comma-separated list of
-     *                                      column names. These columns will be removed.
-     * @param array|string $columnsToKeep An array of column names that should be kept or a
-     *                                    comma-separated list of column names. Columns not in
-     *                                    this list will be removed.
+     * @param array|string    $columnsToRemove An array of column names or a comma-separated list of
+     *                                         column names. These columns will be removed.
+     * @param array|string    $columnsToKeep   An array of column names that should be kept or a
+     *                                         comma-separated list of column names. Columns not in
+     *                                         this list will be removed.
+     * @param bool            $deleteIfZeroOnly
      */
     public function __construct($table, $columnsToRemove, $columnsToKeep = array(), $deleteIfZeroOnly = false)
     {

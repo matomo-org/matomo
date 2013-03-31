@@ -181,7 +181,9 @@ class Piwik_FrontController
 
     /**
      * Loads the config file and assign to the global registry
-     * This is overriden in tests to ensure test config file is used
+     * This is overridden in tests to ensure test config file is used
+     *
+     * @return Exception
      */
     protected function createConfigObject()
     {
@@ -207,10 +209,9 @@ class Piwik_FrontController
      * - loads the plugin,
      * - inits the DB connection,
      * - etc.
+     *
      * @throws Exception
-     * @throws Exception
-     * @throws bool|Exception
-     * @return
+     * @return void
      */
     function init()
     {

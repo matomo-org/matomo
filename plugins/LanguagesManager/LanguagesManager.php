@@ -60,8 +60,6 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
     /**
      * Show styled language selection drop-down list
-     *
-     * @param string $url The form action.  Default is to save language.
      */
     function showLanguagesSelector()
     {

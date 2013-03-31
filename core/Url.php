@@ -160,10 +160,10 @@ class Piwik_Url
     /**
      * Validate "Host" (untrusted user input)
      *
-     * @param string|false $host Contents of Host: header from Request. If false, gets the
-     *                           value from the request.
+     * @param string|bool $host Contents of Host: header from Request. If false, gets the
+     *                          value from the request.
      *
-     * @return boolean True if valid; false otherwise
+     * @return bool True if valid; false otherwise
      */
     static public function isValidHost($host = false)
     {
@@ -215,6 +215,7 @@ class Piwik_Url
      *
      * @static
      * @param $host string|array
+     * @return bool
      */
     public static function saveTrustedHostnameInConfig($host)
     {
@@ -232,7 +233,9 @@ class Piwik_Url
             $general['trusted_hosts'] = $host;
             Piwik_Config::getInstance()->General = $general;
             Piwik_Config::getInstance()->forceSave();
+            return true;
         }
+        return false;
     }
 
     /**

@@ -301,9 +301,10 @@ abstract class Piwik_Controller
      * Returns a numeric value from the API.
      * Works only for API methods that originally returns numeric values (there is no cast here)
      *
-     * @param string $methodToCall  Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
-     * @param string|false $date A custom date to use when getting the value. If false, the 'date' query
-     *                           parameter is used.
+     * @param string             $methodToCall  Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
+     * @param bool|string        $date          A custom date to use when getting the value. If false, the 'date' query
+     *                                          parameter is used.
+     *
      * @return int|float
      */
     protected function getNumericValue($methodToCall, $date = false)

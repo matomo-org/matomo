@@ -25,7 +25,8 @@ class Piwik_UpdateCheck
     /**
      * Check for a newer version
      *
-     * @param bool $force  Force check
+     * @param bool $force     Force check
+     * @param int  $interval  Interval used for update checks
      */
     public static function check($force = false, $interval = null)
     {

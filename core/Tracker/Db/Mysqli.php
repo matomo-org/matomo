@@ -83,7 +83,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 
         $this->password = '';
 
-        if (self::$profiling) {
+        if (self::$profiling && isset($timer)) {
             $this->recordQueryProfile('connect', $timer);
         }
     }
@@ -126,7 +126,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
             }
             mysqli_free_result($rs);
 
-            if (self::$profiling) {
+            if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
             return $rows;
@@ -160,7 +160,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
             $row = mysqli_fetch_array($rs, MYSQLI_ASSOC);
             mysqli_free_result($rs);
 
-            if (self::$profiling) {
+            if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
             return $row;
@@ -195,7 +195,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
                 mysqli_free_result($result);
             }
 
-            if (self::$profiling) {
+            if (self::$profiling && isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
             return $result;

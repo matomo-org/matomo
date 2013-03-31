@@ -34,6 +34,7 @@ class Piwik_Mail extends Zend_Mail
      *
      * @param string $email
      * @param null|string $name
+     * @return Zend_Mail
      */
     public function setFrom($email, $name = null)
     {
@@ -50,7 +51,7 @@ class Piwik_Mail extends Zend_Mail
             $piwikHost = $url['host'];
         }
         $email = str_replace('{DOMAIN}', $piwikHost, $email);
-        parent::setFrom($email, $name);
+        return parent::setFrom($email, $name);
     }
 
     /**

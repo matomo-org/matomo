@@ -781,6 +781,7 @@ function Piwik_Tracker_GetErrorMessage($e)
  * Displays exception in a friendly UI and exits.
  *
  * @param Exception $e
+ * @param bool      $authenticated
  */
 function Piwik_Tracker_ExitWithException($e, $authenticated = false)
 {

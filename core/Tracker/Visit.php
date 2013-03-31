@@ -747,6 +747,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     /**
      * Returns the visitor's browser (user agent)
      *
+     * @param array  $request  request array to use
+     *
      * @return string
      */
     static public function getUserAgent($request)

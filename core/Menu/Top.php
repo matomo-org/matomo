@@ -75,12 +75,12 @@ function Piwik_GetTopMenu()
 /**
  * Adds a new entry to the TopMenu.
  *
- * @param string $topMenuName
- * @param string $data
- * @param boolean $displayedForCurrentUser
- * @param int $order
- * @param bool $isHTML
- * @param string $tooltip Tooltip to display.
+ * @param string      $topMenuName
+ * @param string      $data
+ * @param boolean     $displayedForCurrentUser
+ * @param int         $order
+ * @param bool        $isHTML
+ * @param bool|string $tooltip Tooltip to display.
  */
 function Piwik_AddTopMenu($topMenuName, $data, $displayedForCurrentUser = true, $order = 10, $isHTML = false,
                           $tooltip = false)

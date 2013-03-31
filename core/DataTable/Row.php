@@ -413,6 +413,8 @@ class Piwik_DataTable_Row
      * Add columns to the row
      *
      * @param array $columns  Name/Value pairs, e.g., array( name => value , ...)
+     *
+     * @throws Exception
      * @return void
      */
     public function addColumns($columns)
@@ -448,12 +450,12 @@ class Piwik_DataTable_Row
      * Sums the given $row columns values to the existing row' columns values.
      * It will sum only the int or float values of $row.
      * It will not sum the column 'label' even if it has a numeric value.
-     *
      * If a given column doesn't exist in $this then it is added with the value of $row.
      * If the column already exists in $this then we have
      *         this.columns[idThisCol] += $row.columns[idThisCol]
      *
      * @param Piwik_DataTable_Row $rowToSum
+     * @param bool                $enableCopyMetadata
      */
     public function sumRow(Piwik_DataTable_Row $rowToSum, $enableCopyMetadata = true)
     {
@@ -503,8 +505,10 @@ class Piwik_DataTable_Row
     /**
      * Helper function: sums 2 values
      *
-     * @param number|bool $thisColumnValue
+     * @param number|bool  $thisColumnValue
      * @param number|array $columnToSumValue
+     *
+     * @throws Exception
      * @return array|int
      */
     protected function sumRowArray($thisColumnValue, $columnToSumValue)

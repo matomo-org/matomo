@@ -408,19 +408,20 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
     /**
      * Query visits by dimension
      *
-     * @param array|string $label    Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
-     *                                Can also be an array of strings, when the dimension spans multiple fields,
-     *                                eg. array("referer_name", "referer_keyword")
-     * @param string $where    Additional condition for WHERE clause
-     * @param bool|array $metrics  Set this if you want to limit the columns that are returned.
-     *                                The possible values in the array are Piwik_Archive::INDEX_*.
-     * @param bool|string $orderBy  ORDER BY clause. This is needed in combination with $rankingQuery.
+     * @param array|string       $label     Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
+     *                                      Can also be an array of strings, when the dimension spans multiple fields,
+     *                                      eg. array("referer_name", "referer_keyword")
+     * @param string             $where     Additional condition for WHERE clause
+     * @param bool|array         $metrics   Set this if you want to limit the columns that are returned.
+     *                                      The possible values in the array are Piwik_Archive::INDEX_*.
+     * @param bool|string        $orderBy   ORDER BY clause. This is needed in combination with $rankingQuery.
      * @param Piwik_RankingQuery $rankingQuery
-     *                                A pre-configured ranking query instance that is used to limit the result.
-     *                                If set, the return value is the array returned by Piwik_RankingQuery::execute().
-     * @param string $addSelect  Additional SELECT clause
-     * @param bool $addSelectGeneratesLabelColumn
-     *                                Set to true if the $label column is generated in $addSelect.
+     *                                      A pre-configured ranking query instance that is used to limit the result.
+     *                                      If set, the return value is the array returned by Piwik_RankingQuery::execute().
+     * @param bool|string        $addSelect Additional SELECT clause
+     * @param bool               $addSelectGeneratesLabelColumn
+     *                                      Set to true if the $label column is generated in $addSelect.
+     *
      * @return mixed
      */
     public function queryVisitsByDimension($label, $where = '', $metrics = false, $orderBy = false,
@@ -813,14 +814,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
     /**
      * Adds the given row $newRowToAdd to the existing  $oldRowToUpdate passed by reference
-     *
      * The rows are php arrays Name => value
      *
      * @param array $newRowToAdd
      * @param array $oldRowToUpdate
-     * @param bool $onlyMetricsAvailableInActionsTable
-     * @param bool $doNotSumVisits
-     * @return
+     * @param bool  $onlyMetricsAvailableInActionsTable
+     * @param bool  $doNotSumVisits
+     *
+     * @return void
      */
     public function updateInterestStats($newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
     {

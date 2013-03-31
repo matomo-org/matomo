@@ -202,14 +202,16 @@ class Piwik_Tracker_GoalManager
 
     /**
      * Records one or several goals matched in this request.
-     * @param int $idSite
-     * @param array $visitorInformation
-     * @param array $visitCustomVariables
+     *
+     * @param int    $idSite
+     * @param array  $visitorInformation
+     * @param array  $visitCustomVariables
      * @param string $action
-     * @param $referrerTimestamp
+     * @param int    $referrerTimestamp
      * @param string $referrerUrl
      * @param string $referrerCampaignName
      * @param string $referrerCampaignKeyword
+     * @param string $browserLanguage
      */
     public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action, $referrerTimestamp, $referrerUrl, $referrerCampaignName, $referrerCampaignKeyword, $browserLanguage)
     {
@@ -625,9 +627,11 @@ class Piwik_Tracker_GoalManager
     /**
      * Updates the cart items in the DB
      * that have been modified since the last cart update
-     * @param $goal
-     * @param array $itemsToUpdate
-     * @return
+     *
+     * @param array  $goal
+     * @param array  $itemsToUpdate
+     *
+     * @return void
      */
     protected function updateEcommerceItems($goal, $itemsToUpdate)
     {
@@ -660,9 +664,11 @@ class Piwik_Tracker_GoalManager
     /**
      * Inserts in the cart in the DB the new items
      * that were not previously in the cart
-     * @param $goal
+     *
+     * @param array $goal
      * @param array $itemsToInsert
-     * @return
+     *
+     * @return void
      */
     protected function insertEcommerceItems($goal, $itemsToInsert)
     {

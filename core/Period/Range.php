@@ -340,8 +340,9 @@ class Piwik_Period_Range extends Piwik_Period
     /**
      * Returns the date that is one period before the supplied date.
      *
-     * @param string $date The date to get the last date of.
-     * @param string $period The period to use (either 'day', 'week', 'month', 'year');
+     * @param bool|string $date   The date to get the last date of.
+     * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
+     *
      * @return array An array with two elements, a string for the date before $date and
      *               a Piwik_Period instance for the period before $date.
      */
