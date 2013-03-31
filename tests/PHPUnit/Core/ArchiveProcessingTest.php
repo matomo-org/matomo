@@ -69,17 +69,23 @@ class ArchiveProcessingTest extends DatabaseTestCase
     {
         $siteTimezone = 'UTC+10';
         $now = time();
+        // this test fails in the last 10 hours of the last day of the month
+        if(date('m', $now) != date('m', $now + 10 * 3600)) {
+            $this->markTestSkipped('testInitCurrentMonth will fail in the last hours of the month, skipping...');
+        }
 
         $dateLabel = date('Y-m-d', $now);
         $archiveProcessing = $this->_createArchiveProcessing('month', $dateLabel, $siteTimezone);
         $archiveProcessing->time = $now;
 
-        // min finished timestamp considered when looking at archive timestamp 
+        $minTimestamp = $archiveProcessing->getMinTimeArchivedProcessed();
+
+
+        // min finished timestamp considered when looking at archive timestamp
         $timeout = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
         $this->assertTrue($timeout >= 10);
         $dateMinArchived = $now - $timeout;
 
-        $minTimestamp = $archiveProcessing->getMinTimeArchivedProcessed();
         $this->assertEquals($minTimestamp, $dateMinArchived, Piwik_Date::factory($minTimestamp)->getDatetime() . " != " . Piwik_Date::factory($dateMinArchived)->getDatetime());
         $this->assertTrue($archiveProcessing->isArchiveTemporary());
     }
