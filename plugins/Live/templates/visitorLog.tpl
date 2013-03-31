@@ -50,7 +50,11 @@
             &nbsp;
             <img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.location|escape:'html'}, Provider {$visitor.columns.provider|escape:'html'}"/>
             &nbsp;
-            <img src="{$visitor.columns.browserIcon}" title="{$visitor.columns.browserName} with plugins {$visitor.columns.plugins} enabled"/>
+            {if $visitor.columns.plugins}
+            <img src="{$visitor.columns.browserIcon}" title="{'UserSettings_BrowserWithPluginsEnabled'|translate:$visitor.columns.browserName:$visitor.columns.plugins}"/>
+            {else}
+            <img src="{$visitor.columns.browserIcon}" title="{'UserSettings_BrowserWithNoPluginsEnabled'|translate:$visitor.columns.browserName}"/>
+            {/if}
             &nbsp;
             <img src="{$visitor.columns.operatingSystemIcon}"
                  title="{$visitor.columns.operatingSystem}, {$visitor.columns.resolution} ({$visitor.columns.screenType})"/>
