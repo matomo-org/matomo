@@ -44,3 +44,5 @@ tests/lib/xhprof-0.9.2/extension/modules
 tests/lib/xhprof-0.9.2/extension/xhprof.la
 tests/lib/xhprof-0.9.2/extension/xhprof.lo
 docs/
+composer.phar
+composer.lock
