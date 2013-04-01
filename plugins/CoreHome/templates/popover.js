@@ -47,6 +47,11 @@ var Piwik_Popover = (function () {
             }
         });
 
+        // override the undocumented _title function to ensure that the title attribute is not escaped (according to jQueryUI bug #6016)
+        container.data( "uiDialog" )._title = function(title) {
+            title.html( this.options.title );
+        };
+
         isOpen = true;
     };
 
@@ -124,7 +129,7 @@ var Piwik_Popover = (function () {
 
         /** Set the title of the popover */
         setTitle: function (titleHtml) {
-            container.dialog({title: titleHtml});
+            container.dialog('option', 'title', titleHtml);
         },
 
         /** Set inner HTML of the popover */
