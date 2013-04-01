@@ -1,7 +1,7 @@
 <?php
 $translations = array(
 	'General_Locale' => 'th_TH.UTF-8',
-	'General_TranslatorName' => 'coyoty, <a href="http://thzaa.com">jaideejung007</a>, ariesanywhere',
+	'General_TranslatorName' => 'coyoty, jaideejung007, ariesanywhere',
 	'General_TranslatorEmail' => 'jaideejung007@gmail.com',
 	'General_EnglishLanguageName' => 'Thai',
 	'General_OriginalLanguageName' => 'ภาษาไทย',

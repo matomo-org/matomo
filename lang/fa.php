@@ -1,7 +1,7 @@
 <?php
 $translations = array(
 	'General_Locale' => 'fa_IR.UTF-8',
-	'General_TranslatorName' => 'reza abbasi, <a href="http://parsigate.com">ParsiGate and Sweddata</a> , <a href="http://blog.migmig.ir">Hojat Ghanad</a>',
+	'General_TranslatorName' => 'reza abbasi, <a href="http://parsigate.com">ParsiGate and Sweddata</a> , Hojat Ghanad',
 	'General_TranslatorEmail' => 'rasez_secure@yahoo.com, info[at]sweddata[.]com , info[at]parsigate[.]com , Hojat.ghanad@gmail.com',
 	'General_EnglishLanguageName' => 'Persian',
 	'General_OriginalLanguageName' => 'فارسی',
