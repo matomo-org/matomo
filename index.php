@@ -32,6 +32,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/testMinimumPhpVersion.php';
 
 session_cache_limiter('nocache');
 @date_default_timezone_set('UTC');
+require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 
 if (!defined('PIWIK_ENABLE_ERROR_HANDLER') || PIWIK_ENABLE_ERROR_HANDLER) {
