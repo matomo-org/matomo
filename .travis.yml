@@ -25,7 +25,7 @@ matrix:
 script: ./travis.sh
 
 before_script:
-  - date
+  - echo `date`
   - mysql -e 'create database piwik_test;'
   - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
