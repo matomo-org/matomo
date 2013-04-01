@@ -123,6 +123,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         include "DataFiles/Countries.php";
         include "DataFiles/Currencies.php";
         include "DataFiles/LanguageToCountry.php";
+        include "DataFiles/Providers.php";
 
         Piwik::createAccessObject();
         Piwik_PostEvent('FrontController.initAuthenticationObject');
