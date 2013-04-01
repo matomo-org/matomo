@@ -120,7 +120,7 @@
 
             var currentWidget = this.element;
             $('body').on('click.dashboardWidget', function (ev) {
-                if (ev.target.className == "ui-widget-overlay") {
+                if (/ui-widget-overlay/.test(ev.target.className)) {
                     $(currentWidget).dialog("close");
                 }
             });
