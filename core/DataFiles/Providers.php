@@ -28,5 +28,24 @@ if(!isset($GLOBALS['Piwik_ProviderNames']))
 
         // US
         "rr"			=> "Time Warner Cable Internet", // Not sure
+        "uu"			=> "Verizon",
+
+        // UK
+        'zen.net' => 'Zen Internet',
+
+        // DE
+        't-ipconnect' => 'Deutsche Telekom',
+        't-dialin' => 'Deutsche Telekom',
+        'dtag' => 'Deutsche Telekom',
+        't-ipnet' => 'Deutsche Telekom',
+        'd1-online' => 'Deutsche Telekom (Mobile)',
+        'superkabel' => 'Kabel Deutschland',
+        'unitymediagroup' => 'Unitymedia',
+        'arcor-ip' => 'Vodafone',
+        'kabel-badenwuerttemberg' => 'Kabel BW',
+        'alicedsl' => 'O2',
+        'komdsl' => 'komDSL - Thüga MeteringService',
+        'mediaways' => 'mediaWays - Telefonica',
+        'citeq' => 'Citeq - Stadt Münster',
     );
 }
