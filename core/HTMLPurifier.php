@@ -16,14 +16,14 @@
  */
 class Piwik_HTMLPurifier
 {
-    static private $instance = null;
+    private static $instance = null;
 
     /**
      * Returns the singleton HTMLPurifier or a mock object
      *
      * @return HTMLPurifier|Piwik_HTMLPurifier
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         if (self::$instance == null) {
             if (file_exists(PIWIK_INCLUDE_PATH . '/libs/HTMLPurifier.php')) {

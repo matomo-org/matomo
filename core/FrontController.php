@@ -35,16 +35,16 @@ class Piwik_FrontController
      *
      * @var bool
      */
-    static public $enableDispatch = true;
+    public static $enableDispatch = true;
 
-    static private $instance = null;
+    private static $instance = null;
 
     /**
      * returns singleton
      *
      * @return Piwik_FrontController
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         if (self::$instance == null) {
             self::$instance = new self;
@@ -63,7 +63,7 @@ class Piwik_FrontController
      * @return mixed The returned value of the calls, often nothing as the module print but don't return data
      * @see fetchDispatch()
      */
-    function dispatch($module = null, $action = null, $parameters = null)
+    public function dispatch($module = null, $action = null, $parameters = null)
     {
         if (self::$enableDispatch === false) {
             return;
@@ -141,7 +141,7 @@ class Piwik_FrontController
      * @param array $parameters
      * @return string
      */
-    function fetchDispatch($controllerName = null, $actionName = null, $parameters = null)
+    public function fetchDispatch($controllerName = null, $actionName = null, $parameters = null)
     {
         ob_start();
         $output = $this->dispatch($controllerName, $actionName, $parameters);
@@ -157,7 +157,7 @@ class Piwik_FrontController
      * Called at the end of the page generation
      *
      */
-    function __destruct()
+    public function __destruct()
     {
         try {
             Piwik::printSqlProfilingReportZend();
@@ -213,7 +213,7 @@ class Piwik_FrontController
      * @throws Exception
      * @return void
      */
-    function init()
+    public function init()
     {
         static $initialized = false;
         if ($initialized) {
@@ -361,7 +361,7 @@ class Piwik_FrontController
  */
 class Piwik_FrontController_PluginDeactivatedException extends Exception
 {
-    function __construct($module)
+    public function __construct($module)
     {
         parent::__construct("The plugin $module is not enabled. You can activate the plugin on Settings > Plugins page in Piwik.");
     }

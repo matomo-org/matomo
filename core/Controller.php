@@ -50,7 +50,7 @@ abstract class Piwik_Controller
     /**
      * Builds the controller object, reads the date from the request, extracts plugin name from
      */
-    function __construct()
+    public function __construct()
     {
         $this->init();
     }
@@ -118,7 +118,7 @@ abstract class Piwik_Controller
      *
      * @return string
      */
-    function getDefaultAction()
+    public function getDefaultAction()
     {
         return 'index';
     }
@@ -289,7 +289,7 @@ abstract class Piwik_Controller
      * @param Piwik_Site $site
      * @return string
      */
-    static public function getDateRangeRelativeToEndDate($period, $lastN, $endDate, $site)
+    public static function getDateRangeRelativeToEndDate($period, $lastN, $endDate, $site)
     {
         $last30Relative = new Piwik_Period_Range($period, $lastN, $site->getTimezone());
         $last30Relative->setDefaultEndDate(Piwik_Date::factory($endDate));
@@ -637,7 +637,7 @@ abstract class Piwik_Controller
      * @param string $defaultDate       Default date, eg. "today"
      * @param array $parameters        Parameters to append to url
      */
-    function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null, $parameters = array())
+    public function redirectToIndex($moduleToRedirect, $actionToRedirect, $websiteId = null, $defaultPeriod = null, $defaultDate = null, $parameters = array())
     {
         if (is_null($websiteId)) {
             $websiteId = $this->getDefaultWebsiteId();

@@ -71,7 +71,7 @@ class Piwik_Access
      *
      * @var array
      */
-    static private $availableAccess = array('noaccess', 'view', 'admin', 'superuser');
+    private static $availableAccess = array('noaccess', 'view', 'admin', 'superuser');
 
     /**
      * Authentification object (see Piwik_Auth)
@@ -87,7 +87,7 @@ class Piwik_Access
      *
      * @return array
      */
-    static public function getListAccess()
+    public static function getListAccess()
     {
         return self::$availableAccess;
     }
@@ -95,7 +95,7 @@ class Piwik_Access
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->idsitesByAccess = array(
             'view'      => array(),
@@ -154,7 +154,7 @@ class Piwik_Access
         return true;
     }
 
-    static public function getRawSitesWithSomeViewAccess($login)
+    public static function getRawSitesWithSomeViewAccess($login)
     {
         return Piwik_FetchAll(self::getSqlAccessSite("access, t2.idsite"), $login);
     }
@@ -165,7 +165,7 @@ class Piwik_Access
      * @param string $select  Columns or expression to SELECT FROM table, eg. "MIN(ts_created)"
      * @return string  SQL query
      */
-    static public function getSqlAccessSite($select)
+    public static function getSqlAccessSite($select)
     {
         return "SELECT " . $select . "
 						  FROM " . Piwik_Common::prefixTable('access') . " as t1

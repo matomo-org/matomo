@@ -146,7 +146,7 @@ class Piwik_DataTable
     /**
      * Maximum nesting level.
      */
-    static private $maximumDepthLevelAllowed = self::MAX_DEPTH_DEFAULT;
+    private static $maximumDepthLevelAllowed = self::MAX_DEPTH_DEFAULT;
 
     /**
      * Array of Piwik_DataTable_Row
@@ -355,7 +355,7 @@ class Piwik_DataTable
     /**
      * Saves the current number of rows
      */
-    function setRowsCountBeforeLimitFilter()
+    public function setRowsCountBeforeLimitFilter()
     {
         $this->rowsCountBeforeLimitFilter = $this->getRowsCount();
     }
@@ -896,7 +896,7 @@ class Piwik_DataTable
      * @param Piwik_DataTable $table2
      * @return bool
      */
-    static public function isEqual(Piwik_DataTable $table1, Piwik_DataTable $table2)
+    public static function isEqual(Piwik_DataTable $table1, Piwik_DataTable $table2)
     {
         $rows1 = $table1->getRows();
         $rows2 = $table2->getRows();
@@ -1232,7 +1232,7 @@ class Piwik_DataTable
      *
      * @param int $atLeastLevel
      */
-    static public function setMaximumDepthLevelAllowedAtLeast($atLeastLevel)
+    public static function setMaximumDepthLevelAllowedAtLeast($atLeastLevel)
     {
         self::$maximumDepthLevelAllowed = max($atLeastLevel, self::$maximumDepthLevelAllowed);
         if (self::$maximumDepthLevelAllowed < 1) {
