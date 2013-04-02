@@ -26,8 +26,8 @@
 		</metricsDocumentation>
 		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2010-03-06&amp;idSubtable=</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2009-08-10,2010-03-07&amp;idSubtable=</imageGraphEvolutionUrl>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2010-03-06&amp;idSubtable=1766</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=Actions&amp;apiAction=getPageUrls&amp;period=week&amp;date=2009-08-10,2010-03-07&amp;idSubtable=1766</imageGraphEvolutionUrl>
 		<uniqueId>Actions_getPageUrls</uniqueId>
 	</metadata>
 	<columns>
@@ -47,7 +47,7 @@
 			<avg_time_on_page>00:00:00</avg_time_on_page>
 			<bounce_rate>100%</bounce_rate>
 			<exit_rate>100%</exit_rate>
-			<avg_time_generation>00:00:00.13</avg_time_generation>
+			<avg_time_generation>0.13s</avg_time_generation>
 		</row>
 	</reportData>
 	<reportMetadata>

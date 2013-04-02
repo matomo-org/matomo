@@ -1314,10 +1314,12 @@ class Piwik
      * @param string $timeAsSentence
      * @return string
      */
-    static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed, $timeAsSentence)
+    static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed)
     {
         // Display time in human readable
         if (strpos($columnName, 'time') !== false) {
+            // Little hack: Display 15s rather than 00:00:15, only for "avg_generation_time"
+            $timeAsSentence = ($columnName == 'avg_time_generation');
             return Piwik::getPrettyTimeFromSeconds($value, $timeAsSentence);
         }
         // Add revenue symbol to revenues

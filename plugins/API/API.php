@@ -974,7 +974,7 @@ class Piwik_API_API
                 // filter metrics according to metadata definition
                 if (isset($metadataColumns[$columnName])) {
                     // generate 'human readable' metric values
-                    $prettyValue = Piwik::getPrettyValue($idSite, $columnName, $columnValue, $htmlAllowed = false, $timeAsSentence = false);
+                    $prettyValue = Piwik::getPrettyValue($idSite, $columnName, $columnValue, $htmlAllowed = false);
                     $enhancedRow->addColumn($columnName, $prettyValue);
                 } // For example the Maps Widget requires the raw metrics to do advanced datavis
                 elseif ($returnRawMetrics) {

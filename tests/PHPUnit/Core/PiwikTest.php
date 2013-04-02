@@ -189,6 +189,10 @@ class PiwikTest extends DatabaseTestCase
         return array(
             array('revenue', 12, '$ 12'),
             array('revenue_evolution', '100 %', '100 %'),
+            array('avg_time_generation', '3.333', '3.33s'),
+            array('avg_time_generation', '333.333', '5&nbsp;min&nbsp;33.33s'),
+            array('avg_time_on_page', '3', '00:00:03'),
+            array('avg_time_on_page', '333', '00:05:33'),
         );
     }
 
@@ -199,6 +203,8 @@ class PiwikTest extends DatabaseTestCase
      */
     public function testGetPrettyValue($columnName, $value, $expected)
     {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+
         $access = new Piwik_Access();
         Zend_Registry::set('access', $access);
         $access->setSuperUser(true);
@@ -209,6 +215,8 @@ class PiwikTest extends DatabaseTestCase
             $expected,
             Piwik::getPrettyValue($idsite, $columnName, $value, false, false)
         );
+
+        Piwik_Translate::getInstance()->unloadEnglishTranslation();
     }
 
     /**

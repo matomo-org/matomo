@@ -49,7 +49,7 @@
 			<nb_pageviews>4</nb_pageviews>
 			<nb_searches>5</nb_searches>
 			<nb_uniq_pageviews>3</nb_uniq_pageviews>
-			<avg_time_generation>00:00:00</avg_time_generation>
+			<avg_time_generation>0s</avg_time_generation>
 			<nb_downloads>0</nb_downloads>
 			<nb_uniq_downloads>0</nb_uniq_downloads>
 			<nb_outlinks>0</nb_outlinks>
@@ -58,7 +58,7 @@
 		<result prettyDate="Monday 4 January 2010">
 			<nb_keywords>3</nb_keywords>
 			<nb_searches>3</nb_searches>
-			<avg_time_generation>00:00:00</avg_time_generation>
+			<avg_time_generation>0s</avg_time_generation>
 			<nb_pageviews>0</nb_pageviews>
 			<nb_uniq_pageviews>0</nb_uniq_pageviews>
 			<nb_downloads>0</nb_downloads>

@@ -48,7 +48,7 @@
 				<avg_time_on_page>00:00:36</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<avg_time_generation>00:00:00</avg_time_generation>
+				<avg_time_generation>0s</avg_time_generation>
 			</row>
 			<row>
 				<label>/index.htm?gkwd=SHOULD be a PageView, NOT a search</label>
@@ -57,7 +57,7 @@
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
-				<avg_time_generation>00:00:00</avg_time_generation>
+				<avg_time_generation>0s</avg_time_generation>
 			</row>
 			<row>
 				<label>/index.htm?random=PAGEVIEW, NOT SEARCH&amp;mykwd=&amp;IS_FOLLOWING_SEARCH ONCE</label>
@@ -66,7 +66,7 @@
 				<avg_time_on_page>00:04:12</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
-				<avg_time_generation>00:00:00</avg_time_generation>
+				<avg_time_generation>0s</avg_time_generation>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010" />
