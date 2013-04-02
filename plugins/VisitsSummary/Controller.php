@@ -116,6 +116,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
         $view->urlSparklineMaxActions = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('max_actions')));
         $view->urlSparklineActionsPerVisit = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_actions_per_visit')));
         $view->urlSparklineBounceRate = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('bounce_rate')));
+		$view->urlSparklineAvgGenerationTime = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_time_generation')));
 
         $idSite = Piwik_Common::getRequestVar('idSite');
         $displaySiteSearch = Piwik_Site::isSiteSearchEnabledFor($idSite);
@@ -145,6 +146,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
         $view->bounceRate = Piwik::getPercentageSafe($nbBouncedVisits, $nbVisits);
         $view->maxActions = (int)$dataRow->getColumn('max_actions');
         $view->nbActionsPerVisit = $dataRow->getColumn('nb_actions_per_visit');
+		$view->averageGenerationTime = $dataActionsRow->getColumn('avg_time_generation');
 
         if ($displaySiteSearch) {
             $view->nbSearches = (int)$dataActionsRow->getColumn('nb_searches');

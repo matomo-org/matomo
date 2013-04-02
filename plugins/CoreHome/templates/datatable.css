@@ -803,3 +803,7 @@ a.tableConfigurationIcon.highlighted {
 .tableConfiguration div.configItem span.action {
     color: #255792;
 }
+
+table.dataTable span.cell-tooltip {
+	cursor: default;
+}

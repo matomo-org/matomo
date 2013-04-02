@@ -223,6 +223,7 @@ dataTable.prototype =
         self.handleColumnDocumentation(domElem);
         self.handleReportDocumentation(domElem);
         self.handleRowActions(domElem);
+		self.handleCellTooltips(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
     },
@@ -1312,6 +1313,19 @@ dataTable.prototype =
     handleRowActions: function (domElem) {
         this.doHandleRowActions(domElem.find('table > tbody > tr'));
     },
+	
+	handleCellTooltips: function(domElem) {
+		domElem.find('span.cell-tooltip').tooltip({
+			track: true,
+			items: 'span',
+			content: function() {
+				return $(this).data('tooltip');
+			},
+			show: false,
+			hide: false,
+			tooltipClass: 'small'
+		});
+	},
 
     handleRelatedReports: function (domElem) {
         var self = this,
@@ -1576,6 +1590,7 @@ actionDataTable.prototype =
     notifyWidgetParametersChange: dataTable.prototype.notifyWidgetParametersChange,
     handleRelatedReports: dataTable.prototype.handleRelatedReports,
     handleTriggeredEvents: dataTable.prototype.handleTriggeredEvents,
+	handleCellTooltips: dataTable.prototype.handleCellTooltips,
     _findReportHeader: dataTable.prototype._findReportHeader,
 
     //initialisation of the actionDataTable
@@ -1627,6 +1642,7 @@ actionDataTable.prototype =
         self.handleReportDocumentation(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
+		self.handleCellTooltips(domElem);
     },
 
     //see dataTable::applyCosmetics

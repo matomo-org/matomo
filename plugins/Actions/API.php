@@ -73,14 +73,15 @@ class Piwik_Actions_API
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
 
         $metrics = array(
-            'Actions_nb_pageviews'      => 'nb_pageviews',
-            'Actions_nb_uniq_pageviews' => 'nb_uniq_pageviews',
-            'Actions_nb_downloads'      => 'nb_downloads',
-            'Actions_nb_uniq_downloads' => 'nb_uniq_downloads',
-            'Actions_nb_outlinks'       => 'nb_outlinks',
-            'Actions_nb_uniq_outlinks'  => 'nb_uniq_outlinks',
-            'Actions_nb_searches'       => 'nb_searches',
-            'Actions_nb_keywords'       => 'nb_keywords',
+            'Actions_nb_pageviews'        => 'nb_pageviews',
+            'Actions_nb_uniq_pageviews'   => 'nb_uniq_pageviews',
+            'Actions_nb_downloads'        => 'nb_downloads',
+            'Actions_nb_uniq_downloads'   => 'nb_uniq_downloads',
+            'Actions_nb_outlinks'         => 'nb_outlinks',
+            'Actions_nb_uniq_outlinks'    => 'nb_uniq_outlinks',
+            'Actions_nb_searches'         => 'nb_searches',
+            'Actions_nb_keywords'         => 'nb_keywords',
+			'Actions_avg_time_generation' => 'avg_time_generation'
         );
 
         // get requested columns
@@ -95,16 +96,38 @@ class Piwik_Actions_API
                 $columns[$i] = $fullColumn;
                 $nameReplace[$fullColumn] = $column;
             }
+			
+			if (false !== ($avgGenerationTimeRequested = array_search('Actions_avg_time_generation', $columns))) {
+				unset($columns[$avgGenerationTimeRequested]);
+				$avgGenerationTimeRequested = true;
+			}
         } else {
             // get all columns
+			unset($metrics['Actions_avg_time_generation']);
             $columns = array_keys($metrics);
             $nameReplace = & $metrics;
+			$avgGenerationTimeRequested = true;
         }
-
+		
+		if ($avgGenerationTimeRequested) {
+			$tempColumns[] = 'Actions_sum_time_generation';
+			$tempColumns[] = 'Actions_nb_hits_with_time_generation';
+			$nameReplace['Actions_sum_time_generation'] = 'sum_time_generation';
+			$nameReplace['Actions_nb_hits_with_time_generation'] = 'nb_hits_with_time_generation';
+			$columns = array_merge($columns, $tempColumns);
+			$columns = array_unique($columns);
+		}
+		
         $table = $archive->getDataTableFromNumeric($columns);
 
         // replace labels (remove Actions_)
         $table->filter('ReplaceColumnNames', array($nameReplace));
+		
+		// compute avg generation time
+		if ($avgGenerationTimeRequested) {
+			$table->filter('ColumnCallbackAddColumnQuotient', array('avg_time_generation', 'sum_time_generation', 'nb_hits_with_time_generation', 3));
+			$table->deleteColumns(array('sum_time_generation', 'nb_hits_with_time_generation'));
+		}
 
         return $table;
     }

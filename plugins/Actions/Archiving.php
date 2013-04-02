@@ -74,6 +74,8 @@ class Piwik_Actions_Archiving
                                                          'Actions_nb_outlinks',
                                                          'Actions_nb_uniq_outlinks',
                                                          'Actions_nb_searches',
+                                                         'Actions_sum_time_generation',
+                                                         'Actions_nb_hits_with_time_generation',
                                                     ));
 
         // Unique Keywords can't be summed, instead we take the RowsCount() of the keyword table
@@ -359,6 +361,8 @@ class Piwik_Actions_Archiving
         $archiveProcessing->insertBlobRecord('Actions_actions_url', $s);
         $archiveProcessing->insertNumericRecord('Actions_nb_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
         $archiveProcessing->insertNumericRecord('Actions_nb_uniq_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+		$archiveProcessing->insertNumericRecord('Actions_sum_time_generation', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)));
+		$archiveProcessing->insertNumericRecord('Actions_nb_hits_with_time_generation', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION)));
         destroy($dataTable);
 
         $dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD];

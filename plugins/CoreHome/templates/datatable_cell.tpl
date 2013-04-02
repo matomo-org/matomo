@@ -1,3 +1,5 @@
+{assign var="tooltipIndex" value=$column|cat:"_tooltip"}
+{if isset($row.metadata[$tooltipIndex])}<span class="cell-tooltip" data-tooltip="{$row.metadata[$tooltipIndex]|escape:'html'}">{/if}
 {if !$row.idsubdatatable && $column=='label' && !empty($row.metadata.url)}
 <a target="_blank" href='{if !in_array(substr($row.metadata.url,0,4), array('http','ftp:'))}http://{/if}{$row.metadata.url|escape:'html'}'>
     {if empty($row.metadata.logo)}
@@ -16,3 +18,4 @@
     {if !$row.idsubdatatable && $column=='label' && !empty($row.metadata.url)}
 </a>
 {/if}
+{if isset($row.metadata[$tooltipIndex])}</span>{/if}

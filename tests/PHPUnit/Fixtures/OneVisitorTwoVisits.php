@@ -76,12 +76,14 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         // Record 1st page view
         $urlPage1 = 'http://example.org/index.htm?excluded_Parameter=SHOULD_NOT_DISPLAY&parameter=Should display';
         $t->setUrl($urlPage1);
+		$t->setGenerationTime(234);
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // testing that / and index.htm above record with different URLs
         // Recording the 2nd page after 3 minutes
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.05)->getDatetime());
         $t->setUrl('http://example.org/');
+		$t->setGenerationTime(224);
         self::checkResponse($t->doTrackPageView('Second page view - should be registered as URL /'));
 
         // Click on external link after 6 minutes (3rd action)
@@ -116,16 +118,19 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
             // Site Search request
             $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.42)->getDatetime());
             $t->setUrl('http://example.org/index.htm?q=Banks Own The World');
+			$t->setGenerationTime(812);
             self::checkResponse($t->doTrackPageView('Site Search request'));
 
             // Final page view (after 27 min)
             $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
             $t->setUrl('http://example.org/index.htm');
+			$t->setGenerationTime(24);
             self::checkResponse($t->doTrackPageView('Looking at homepage after site search...'));
         } else {
             // Final page view (after 27 min)
             $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.45)->getDatetime());
             $t->setUrl('http://example.org/index.htm#ignoredFragment#');
+			$t->setGenerationTime(23);
             self::checkResponse($t->doTrackPageView('Looking at homepage (again)...'));
         }
 
@@ -144,6 +149,7 @@ class Test_Piwik_Fixture_OneVisitorTwoVisits extends Test_Piwik_BaseFixture
         $t->DEBUG_APPEND_URL = '&_idvc=2';
 
         // Goal Tracking URL matching, testing custom referer including keyword
+		$t->setGenerationTime(134);
         self::checkResponse($t->doTrackPageView('Checkout/Purchasing...'));
         // -
         // End of second visit

@@ -17,6 +17,11 @@
         {sparkline src=$urlSparklineActionsPerVisit}
         {'VisitsSummary_NbActionsPerVisit'|translate:"<strong>$nbActionsPerVisit</strong>"}
     </div>
+	<div class="sparkline">
+		{sparkline src=$urlSparklineAvgGenerationTime}
+		{assign var=averageGenerationTime value=$averageGenerationTime|sumtime}
+		{'VisitsSummary_AverageGenerationTime'|translate:"<strong>$averageGenerationTime</strong>"}
+	</div>
 </div>
 
 <div id='rightcolumn'>
