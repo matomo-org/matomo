@@ -49,7 +49,8 @@ class Piwik_Login_Controller extends Piwik_Controller
      * Login form
      *
      * @param string $messageNoAccess Access error message
-     * @param string $currentUrl Current URL
+     * @param bool $infoMessage
+     * @internal param string $currentUrl Current URL
      * @return void
      */
     function login($messageNoAccess = null, $infoMessage = false)
@@ -74,7 +75,7 @@ class Piwik_Login_Controller extends Piwik_Controller
             }
         }
 
-        $view = Piwik_View::factory('login');
+        $view = Piwik_View::factory('@Login/login');
         $view->AccessErrorString = $messageNoAccess;
         $view->infoMessage = nl2br($infoMessage);
         $view->addForm($form);

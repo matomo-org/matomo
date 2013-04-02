@@ -1,0 +1,19 @@
+{
+    "name": "Zeitgeist",
+    "description": "This is the default theme for Piwik",
+    "keywords": ["theme"],
+    "homepage": "http://piwik.org",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Piwik",
+            "email": "hello@piwik.org",
+            "homepage": "http://piwik.org"
+        }
+    ],
+    "require": {
+        "piwik": ">=2.0",
+        "php": ">=5.3.0"
+    },
+    "theme": true
+}
