@@ -59,6 +59,5 @@
             </tbody>
         </table>
     </div>
-
 </div>
 {include file="CoreAdminHome/templates/footer.tpl"}

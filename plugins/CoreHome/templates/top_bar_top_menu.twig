@@ -1,16 +1,13 @@
 <div id="topLeftBar">
-    {foreach from=$topMenu key=label item=menu name=topMenu}
-
-        {if isset($menu._html)}
-            {$menu._html}
-        {elseif $menu._url.module == $currentModule && (empty($menu._url.action) || $menu._url.action == $currentAction)}
-            <span class="topBarElem"><b>{$label|translate}</b></span>
-            |
-        {else}
-            <span class="topBarElem" {if isset($menu._tooltip)}title="{$menu._tooltip}"{/if}><a id="topmenu-{$menu._url.module|strtolower}"
-                                                                                                href="index.php{$menu._url|@urlRewriteWithParameters}">{$label|translate}</a></span>
-            |
-        {/if}
-
-    {/foreach}
+    {% for label,menu in topMenu %}
+        {% if menu._html is defined %}
+            {{ menu._html|raw }}
+        {% elseif (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}
+            <span class="topBarElem"><b>{{ label|translate }}</b></span> |
+        {% else %}
+            <span class="topBarElem" {% if menu._tooltip is defined %}title="{{ menu._tooltip }}"{% endif %}>
+                <a id="topmenu-{{ menu._url.module|lower }}" href="index.php{{ menu._url|urlRewriteWithParameters }}">{{ label|translate }}</a>
+            </span> |
+        {% endif %}
+    {% endfor %}
 </div>

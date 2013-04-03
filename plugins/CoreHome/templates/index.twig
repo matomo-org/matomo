@@ -1,11 +1,14 @@
-{assign var=showSitesSelection value=true}
+{% extends "dashboard.twig" %}
 
-{{ include "CoreHome/templates/header.twig" }}
+{% set showSitesSelection=true %}
 
+{% block content %}
 
-{if isset($menu) && $menu}{include file="CoreHome/templates/menu.tpl"}{/if}
+{% if (menu is defined and menu) %}
+  {% include "@CoreHome/menu.twig" %}
+{% endif %}
 
-{include file="CoreHome/templates/index_content.tpl"}
+{% include "@CoreHome/index_content.twig" %}
 
-{include file="CoreHome/templates/footer.tpl"}
+{% endblock %}
 

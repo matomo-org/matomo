@@ -5,24 +5,28 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 <body>
-{if not trackVisits}{'CoreAdminHome_OptOutComplete'|translate}
+{% if not trackVisits %}
+    {{ 'CoreAdminHome_OptOutComplete'|translate }}
     <br/>
-    {'CoreAdminHome_OptOutCompleteBis'|translate}
-{else}
-    {'CoreAdminHome_YouMayOptOut'|translate}
+    {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
+{% else %}
+    {{ 'CoreAdminHome_YouMayOptOut'|translate }}
     <br/>
-    {'CoreAdminHome_YouMayOptOutBis'|translate}
-{/if}
+    {{ 'CoreAdminHome_YouMayOptOutBis'|translate }}
+{% endif %}
 <br/><br/>
 
-<form method="post" action="?module=CoreAdminHome&amp;action=optOut{if $language}&amp;language={$language}{/if}">
-    <input type="hidden" name="nonce" value="{$nonce}"></input>
-    <input type="hidden" name="fuzz" value="{$smarty.now}"></input>
-    <input onclick="this.form.submit()" type="checkbox" id="trackVisits" name="trackVisits" {if $trackVisits}checked="checked"{/if}></input>
+<form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}">
+    <input type="hidden" name="nonce" value="{{ nonce }}" />
+    <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
+    <input onclick="this.form.submit()" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
     <label for="trackVisits"><strong>
-            {if $trackVisits}{'CoreAdminHome_YouAreOptedIn'|translate} {'CoreAdminHome_ClickHereToOptOut'|translate}
-            {else}{'CoreAdminHome_YouAreOptedOut'|translate} {'CoreAdminHome_ClickHereToOptIn'|translate}{/if}
-        </strong></label>
+        {% if trackVisits %}
+            {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}
+        {% else %}
+            {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_ClickHereToOptIn'|translate }}
+        {% endif %}
+    </strong></label>
 </form>
 </body>
 </html>

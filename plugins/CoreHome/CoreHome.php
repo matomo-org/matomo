@@ -37,7 +37,6 @@ class Piwik_CoreHome extends Piwik_Plugin
     /**
      * Adds the donate form widget.
      *
-     * @param Piwik_Event_Notification $notification  notification object
      */
     public function addWidgets()
     {
@@ -53,7 +52,7 @@ class Piwik_CoreHome extends Piwik_Plugin
         $cssFiles = & $notification->getNotificationObject();
 
         $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
-        $cssFiles[] = "themes/default/common.css";
+        $cssFiles[] = "plugins/Zeitgeist/theme/common.css";
         $cssFiles[] = "plugins/CoreHome/templates/styles.css";
         $cssFiles[] = "plugins/CoreHome/templates/menu.css";
         $cssFiles[] = "plugins/CoreHome/templates/datatable.css";
@@ -77,8 +76,8 @@ class Piwik_CoreHome extends Piwik_Plugin
         $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
         $jsFiles[] = "libs/jquery/jquery.history.js";
         $jsFiles[] = "libs/javascript/sprintf.js";
-        $jsFiles[] = "themes/default/common.js";
-        $jsFiles[] = "themes/default/ajaxHelper.js";
+        $jsFiles[] = "plugins/Zeitgeist/theme/common.js";
+        $jsFiles[] = "plugins/Zeitgeist/theme/ajaxHelper.js";
         $jsFiles[] = "plugins/CoreHome/templates/datatable.js";
         $jsFiles[] = "plugins/CoreHome/templates/datatable_rowactions.js";
         $jsFiles[] = "plugins/CoreHome/templates/popover.js";

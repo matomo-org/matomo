@@ -1,12 +1,12 @@
-{% include file="CoreHome/templates/warning_invalid_host.tpl"}
+{% include "@CoreHome/warning_invalid_host.twig" %}
 
-{if !isset($showTopMenu) || $showTopMenu}
-    {include file="CoreHome/templates/top_bar.tpl"}
-{/if}
-{include file="CoreHome/templates/top_screen.tpl"}
+{% if (showTopMenu == false or showTopMenu) %}
+    {% include "@CoreHome/top_bar.twig" %}
+{% endif %}
+{% include "@CoreHome/top_screen.twig" %}
 
 <div class="ui-confirm" id="alert">
     <h2></h2>
-    <input role="yes" type="button" value="{'General_Ok'|translate}"/>
+    <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
 </div>
 

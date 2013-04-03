@@ -37,7 +37,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         $newVersion = $this->checkNewVersionIsAvailableOrDie();
 
-        $view = Piwik_View::factory('update_new_version_available');
+        $view = new Piwik_View('update_new_version_available');
         $view->piwik_version = Piwik_Version::VERSION;
         $view->piwik_new_version = $newVersion;
         $view->piwik_latest_version_url = self::getLatestZipUrl($newVersion);
@@ -89,7 +89,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         Piwik_API_Request::reloadAuthUsingTokenAuth($_POST);
         Piwik::checkUserIsSuperUser();
 
-        $view = Piwik_View::factory('update_one_click_results');
+        $view = new Piwik_View('update_one_click_results');
         $view->coreError = Piwik_Common::getRequestVar('error', '', 'string', $_POST);
         $view->feedbackMessages = safe_unserialize(Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('messages', '', 'string', $_POST)));
         echo $view->render();
@@ -237,18 +237,18 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         $sqlQueries = $updater->getSqlQueriesToExecute();
         if (Piwik_Common::isPhpCliMode()) {
             if (Piwik_Common::isPhpCliMode()) {
-                $view = Piwik_View::factory('cli_update_welcome');
+                $view = new Piwik_View('cli_update_welcome', array(), false);
             } else {
-                $view = Piwik_View::factory('update_welcome');
+                $view = new Piwik_View('update_welcome');
             }
             $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
             echo $view->render();
 
             if (!$this->coreError && Piwik::getModule() == 'CoreUpdater') {
                 if (Piwik_Common::isPhpCliMode()) {
-                    $view = Piwik_View::factory('cli_update_database_done');
+                    $view = new Piwik_View('cli_update_database_done', array(), false);
                 } else {
-                    $view = Piwik_View::factory('update_database_done');
+                    $view = new Piwik_View('update_database_done');
                 }
                 $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
                 echo $view->render();
@@ -256,9 +256,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         } else if (Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
             $this->warningMessages = array();
             if (Piwik_Common::isPhpCliMode()) {
-                $view = Piwik_View::factory('cli_update_database_done');
+                $view = new Piwik_View('cli_update_database_done', array(), false);
             } else {
-                $view = Piwik_View::factory('update_database_done');
+                $view = new Piwik_View('update_database_done');
             }
             $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 
@@ -269,9 +269,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
             echo $view->render();
         } else {
             if (Piwik_Common::isPhpCliMode()) {
-                $view = Piwik_View::factory('cli_update_welcome');
+                $view = new Piwik_View('cli_update_welcome', array(), false);
             } else {
-                $view = Piwik_View::factory('update_welcome');
+                $view = new Piwik_View('update_welcome');
             }
             $view->queries = $sqlQueries;
             $view->isMajor = $updater->hasMajorDbUpdate();

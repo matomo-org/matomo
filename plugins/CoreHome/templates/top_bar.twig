@@ -1,13 +1,13 @@
 <div id="topBars">
 
-    {include file="CoreHome/templates/top_bar_top_menu.tpl"}
-    {include file="CoreHome/templates/top_bar_hello_menu.tpl"}
+    {% include "@CoreHome/top_bar_top_menu.twig" %}
+    {% include "@CoreHome/top_bar_hello_menu.twig" %}
 
 </div>
 
-{if $showSitesSelection}
+{% if showSitesSelection %}
     <div class="top_bar_sites_selector">
-        <label>{'General_Website'|translate}</label>
-        {include file="CoreHome/templates/sites_selection.tpl"}
+        <label>{{ 'General_Website'|translate }}</label>
+        {% include "@CoreHome/sites_selection.twig" %}
     </div>
-{/if}
+{% endif %}

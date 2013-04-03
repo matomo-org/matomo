@@ -36,6 +36,9 @@ class Piwik_View implements Piwik_View_Interface
 
     public function __construct($templateFile, $smConf = array(), $filter = true)
     {
+        if(substr($templateFile, -5) !== '.twig') {
+            $templateFile .= '.twig';
+        }
         $this->template = $templateFile;
 
         $this->initializeTwig();
@@ -129,7 +132,6 @@ class Piwik_View implements Piwik_View_Interface
         // always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
         @header('X-Frame-Options: ' . (string)$this->xFrameOptions);
 
-
         return $this->twig->render($this->template, $this->templateVars);
     }
 
@@ -195,7 +197,7 @@ class Piwik_View implements Piwik_View_Interface
     static public function clearCompiledTemplates()
     {
         $view = new Piwik_View(null);
-        $view->smarty->clear_compiled_tpl();
+        $view->twig->clearTemplateCache();
     }
 
     /**
@@ -234,7 +236,13 @@ class Piwik_View implements Piwik_View_Interface
         }
         $path = basename(dirname($bt[0]['file']));
 
+        if (Piwik_Common::isPhpCliMode()) {
+            $templateFile = $path . '/templates/cli_' . $templateName . '.tpl';
+            if (file_exists(PIWIK_INCLUDE_PATH . '/plugins/' . $templateFile)) {
+                return new Piwik_View($templateFile, array(), false);
+            }
+        }
         $templateFile = $path . '/templates/' . $templateName . '.twig';
-        return new Piwik_View($templateFile);
+        return new Piwik_View($templateName . '.twig');
     }
 }

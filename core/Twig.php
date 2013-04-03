@@ -32,20 +32,42 @@ class Piwik_Twig
     {
         $loader = $this->getDefaultThemeLoader();
 
+        $this->addPluginNamespaces($loader);
+
         // If theme != default we need to chain
         $chainLoader = new Twig_Loader_Chain(array($loader));
 
         // Create new Twig Environment and set cache dir
         $this->twig = new Twig_Environment($chainLoader,
             array(
-                'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
+                //'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
             )
         );
+        $this->twig->clearTemplateCache();
 
         // Add default filters
         $this->addFilters();
         // Register namespaces
-        $this->addNamespaces();
+        $includeAssetsFunction = new Twig_SimpleFunction('includeAssets', function ($params) {
+            if (!isset($params['type'])) {
+                throw new Exception("The smarty function includeAssets needs a 'type' parameter.");
+            }
+
+            $assetType = strtolower($params['type']);
+            switch ($assetType) {
+                case 'css':
+
+                    return Piwik_AssetManager::getCssAssets();
+
+                case 'js':
+
+                    return Piwik_AssetManager::getJsAssets();
+
+                default:
+                    throw new Exception("The smarty function includeAssets 'type' parameter needs to be either 'css' or 'js'.");
+            }
+        });
+        $this->twig->addFunction($includeAssetsFunction);
     }
 
     /**
@@ -95,13 +117,26 @@ class Piwik_Twig
             }
             return $stringTranslated;
         });
-
         $this->twig->addFilter($translateFilter);
+
+        $urlRewriteFilter = new Twig_SimpleFilter('urlRewriteWithParameters', function ($parameters) {
+            $parameters['updated'] = null;
+            $url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
+            return $url;
+        });
+        $this->twig->addFilter($urlRewriteFilter);
     }
 
-    private function addNamespaces()
+    private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
     {
-        Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+        $plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
+        foreach($plugins as $name) {
+            $name = Piwik::unprefixClass($name);
+            $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
+            if (is_dir($path)) {
+                $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $name . '/templates', $name);
+            }
+        }
     }
 
     /**
