@@ -1,6 +1,6 @@
 {assign var=showSitesSelection value=true}
 
-{include file="CoreHome/templates/header.tpl"}
+{{ include "CoreHome/templates/header.twig" }}
 
 
 {if isset($menu) && $menu}{include file="CoreHome/templates/menu.tpl"}{/if}

@@ -1,4 +1,4 @@
-{* The following parameters can be used to customize this widget when 'include'-ing:
+{# The following parameters can be used to customize this widget when 'include'-ing:
  * 
  * - $showAllSitesItem true if the 'All Websites' option should be shown, false if otherwise. Default = true.
  * - $allSitesItemText The text to use for the 'All Websites' option. Default = 'All Websites'.
@@ -12,7 +12,7 @@
  *              use with <form> elements.
  * - $siteName The currently selected site name. Defaults to the first name in $sites set by Piwik_View.
  * - $idSite The currently selected idSite. Defaults to the first id in $sites set by Piwik_View.
- *}
+ #}
 {capture name=sitesSelector_allWebsitesLink assign=sitesSelector_allWebsitesLink}
     <div class="custom_select_all" style="clear: both">
         <a href="#" {if isset($showAllSitesItem) && $showAllSitesItem eq false}style="display:none;"{/if}>

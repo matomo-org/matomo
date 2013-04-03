@@ -23,18 +23,22 @@ if (!defined('PIWIK_USER_PATH')) {
  */
 class Piwik_View implements Piwik_View_Interface
 {
-    const COREUPDATER_ONE_CLICK_DONE = 'update_one_click_done';
-
-
     private $template = '';
-    private $smarty = false;
+
+    /**
+     * Instance
+     * @var Twig_Environment
+     */
+    private $twig;
+    private $templateVars = array();
     private $contentType = 'text/html; charset=utf-8';
     private $xFrameOptions = null;
 
     public function __construct($templateFile, $smConf = array(), $filter = true)
     {
         $this->template = $templateFile;
-        $this->smarty = new Piwik_Smarty($smConf, $filter);
+
+        $this->initializeTwig();
 
         // global value accessible to all templates: the piwik base URL for the current request
         $this->piwik_version = Piwik_Version::VERSION;
@@ -51,7 +55,7 @@ class Piwik_View implements Piwik_View_Interface
      */
     public function __set($key, $val)
     {
-        $this->smarty->assign($key, $val);
+        $this->templateVars[$key] = $val;
     }
 
     /**
@@ -63,7 +67,13 @@ class Piwik_View implements Piwik_View_Interface
      */
     public function __get($key)
     {
-        return $this->smarty->get_template_vars($key);
+        return $this->templateVars[$key];
+    }
+
+    public function initializeTwig()
+    {
+        $piwikTwig = new Piwik_Twig();
+        $this->twig = $piwikTwig->getTwigEnvironment();
     }
 
     /**
@@ -119,7 +129,8 @@ class Piwik_View implements Piwik_View_Interface
         // always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
         @header('X-Frame-Options: ' . (string)$this->xFrameOptions);
 
-        return $this->smarty->fetch($this->template);
+
+        return $this->twig->render($this->template, $this->templateVars);
     }
 
     /**
@@ -153,28 +164,27 @@ class Piwik_View implements Piwik_View_Interface
      *
      * @param Piwik_QuickForm2 $form
      */
-    public function addForm($form)
+    public function addForm(Piwik_QuickForm2 $form)
     {
-        if ($form instanceof Piwik_QuickForm2) {
-            // assign array with form data
-            $this->smarty->assign('form_data', $form->getFormData());
-            $this->smarty->assign('element_list', $form->getElementList());
-        }
+
+        // assign array with form data
+        $this->assign('form_data', $form->getFormData());
+        $this->assign('element_list', $form->getElementList());
     }
 
     /**
-     * Assign value to a variable for use in Smarty template
-     *
+     * Assign value to a variable for use in a template
+     * ToDo: This is ugly.
      * @param string|array $var
      * @param mixed $value
      */
     public function assign($var, $value = null)
     {
         if (is_string($var)) {
-            $this->smarty->assign($var, $value);
+            $this->$var = $value;
         } elseif (is_array($var)) {
             foreach ($var as $key => $value) {
-                $this->smarty->assign($key, $value);
+                $this->$key = $value;
             }
         }
     }
@@ -198,7 +208,7 @@ class Piwik_View implements Piwik_View_Interface
      */
     static public function singleReport($title, $reportHtml, $fetch = false)
     {
-        $view = new Piwik_View('CoreHome/templates/single_report.tpl');
+        $view = new Piwik_View('@CoreHome/single_report.tpl');
         $view->title = $title;
         $view->report = $reportHtml;
 
@@ -213,16 +223,10 @@ class Piwik_View implements Piwik_View_Interface
      *
      * @param string $templateName Template name (e.g., 'index')
      * @throws Exception
-     * @return Piwik_View|Piwik_View_OneClickDone
+     * @return Piwik_View
      */
     static public function factory($templateName = null)
     {
-        if ($templateName == self::COREUPDATER_ONE_CLICK_DONE) {
-            return new Piwik_View_OneClickDone(Piwik::getCurrentUserTokenAuth());
-        }
-
-        Piwik_PostEvent('View.getViewType', $viewType);
-
         // get caller
         $bt = @debug_backtrace();
         if ($bt === null || !isset($bt[0])) {
@@ -230,13 +234,7 @@ class Piwik_View implements Piwik_View_Interface
         }
         $path = basename(dirname($bt[0]['file']));
 
-        if (Piwik_Common::isPhpCliMode()) {
-            $templateFile = $path . '/templates/cli_' . $templateName . '.tpl';
-            if (file_exists(PIWIK_INCLUDE_PATH . '/plugins/' . $templateFile)) {
-                return new Piwik_View($templateFile, array(), false);
-            }
-        }
-        $templateFile = $path . '/templates/' . $templateName . '.tpl';
+        $templateFile = $path . '/templates/' . $templateName . '.twig';
         return new Piwik_View($templateFile);
     }
 }

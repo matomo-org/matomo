@@ -78,7 +78,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         }
 
         // this is a magic template to trigger the Piwik_View_Update
-        $view = Piwik_View::factory(Piwik_View::COREUPDATER_ONE_CLICK_DONE);
+        $view = new Piwik_View_OneClickDone(Piwik::getCurrentUserTokenAuth());
         $view->coreError = $errorMessage;
         $view->feedbackMessages = $messages;
         echo $view->render();
@@ -236,20 +236,30 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         $sqlQueries = $updater->getSqlQueriesToExecute();
         if (Piwik_Common::isPhpCliMode()) {
-            $view = Piwik_View::factory('update_welcome');
+            if (Piwik_Common::isPhpCliMode()) {
+                $view = Piwik_View::factory('cli_update_welcome');
+            } else {
+                $view = Piwik_View::factory('update_welcome');
+            }
             $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
             echo $view->render();
 
-            if (!$this->coreError
-                && Piwik::getModule() == 'CoreUpdater'
-            ) {
-                $view = Piwik_View::factory('update_database_done');
+            if (!$this->coreError && Piwik::getModule() == 'CoreUpdater') {
+                if (Piwik_Common::isPhpCliMode()) {
+                    $view = Piwik_View::factory('cli_update_database_done');
+                } else {
+                    $view = Piwik_View::factory('update_database_done');
+                }
                 $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
                 echo $view->render();
             }
         } else if (Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
             $this->warningMessages = array();
-            $view = Piwik_View::factory('update_database_done');
+            if (Piwik_Common::isPhpCliMode()) {
+                $view = Piwik_View::factory('cli_update_database_done');
+            } else {
+                $view = Piwik_View::factory('update_database_done');
+            }
             $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
 
             if (count($sqlQueries) == 1 && !$this->coreError) {
@@ -258,7 +268,11 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
             echo $view->render();
         } else {
-            $view = Piwik_View::factory('update_welcome');
+            if (Piwik_Common::isPhpCliMode()) {
+                $view = Piwik_View::factory('cli_update_welcome');
+            } else {
+                $view = Piwik_View::factory('update_welcome');
+            }
             $view->queries = $sqlQueries;
             $view->isMajor = $updater->hasMajorDbUpdate();
             $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
