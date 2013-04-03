@@ -148,7 +148,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
      *                                                             (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
      * @param int $maximumRowsInDataTableLevelZero       Max row count of parent datatable to archive
      * @param int $maximumRowsInSubDataTable             Max row count of children datatable(s) to archive
-     * @param string $columnToSortByBeforeTruncation        Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count)
+     * @param string $columnToSortByBeforeTruncation     Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count)
+     * @param array $columnAggregationOperations         Operations for aggregating columns, @see Piwik_DataTable_Row::sumRow()
      *
      * @return array  array (
      *                    nameTable1 => number of rows,
@@ -159,7 +160,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
                                      $invalidSummedColumnNameToRenamedName = null,
                                      $maximumRowsInDataTableLevelZero = null,
                                      $maximumRowsInSubDataTable = null,
-                                     $columnToSortByBeforeTruncation = null)
+                                     $columnToSortByBeforeTruncation = null,
+                                     &$columnAggregationOperations = null)
     {
         // We clean up below all tables created during this function call (and recursive calls)
         $latestUsedTableId = Piwik_DataTable_Manager::getInstance()->getMostRecentTableId();
@@ -171,7 +173,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
 
         $nameToCount = array();
         foreach ($aRecordName as $recordName) {
-            $table = $this->getRecordDataTableSum($recordName, $invalidSummedColumnNameToRenamedName);
+            $table = $this->getRecordDataTableSum($recordName, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations);
 
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
             $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
@@ -192,11 +194,17 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
      *
      * @param string $name
      * @param array $invalidSummedColumnNameToRenamedName  columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
+     * @param array $columnAggregationOperations           Operations for aggregating columns, @see Piwik_DataTable_Row::sumRow()
      * @return Piwik_DataTable
      */
-    protected function getRecordDataTableSum($name, $invalidSummedColumnNameToRenamedName)
+    protected function getRecordDataTableSum($name, $invalidSummedColumnNameToRenamedName, &$columnAggregationOperations = null)
     {
         $table = new Piwik_DataTable();
+        
+        if (is_array($columnAggregationOperations)) {
+            $table->setColumnAggregationOperations($columnAggregationOperations);
+        }
+        
         foreach ($this->archives as $archive) {
             $archive->preFetchBlob($name);
             $datatableToSum = $archive->getDataTable($name);

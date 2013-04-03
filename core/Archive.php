@@ -81,6 +81,8 @@ abstract class Piwik_Archive
     // Performance Analytics
     const INDEX_PAGE_SUM_TIME_GENERATION = 30;
     const INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION = 31;
+    const INDEX_PAGE_MIN_TIME_GENERATION = 32;
+    const INDEX_PAGE_MAX_TIME_GENERATION = 33;
 
     // Goal reports
     const INDEX_GOAL_NB_CONVERSIONS = 1;
@@ -111,6 +113,8 @@ abstract class Piwik_Archive
         Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT                   => 'sum_time_spent',
         Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION              => 'sum_time_generation',
         Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION     => 'nb_hits_with_time_generation',
+        Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION              => 'min_time_generation',
+        Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION              => 'max_time_generation',
 
         Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS            => 'exit_nb_uniq_visitors',
         Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS                   => 'exit_nb_visits',

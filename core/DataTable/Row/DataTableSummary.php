@@ -54,7 +54,7 @@ class Piwik_DataTable_Row_DataTableSummary extends Piwik_DataTable_Row
     private function sumTable($table)
     {
         foreach ($table->getRows() as $row) {
-            $this->sumRow($row, $enableCopyMetadata = false);
+            $this->sumRow($row, $enableCopyMetadata = false, $table->getColumnAggregationOperations());
         }
     }
 }

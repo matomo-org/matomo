@@ -58,15 +58,22 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
                 continue;
             }
 
-            $oldValue = $row->getColumn($this->columnToRead);
-            $parameters = array($oldValue);
+            if (is_array($this->columnToRead)) {
+                $parameters = array();
+                foreach ($this->columnToRead as $columnToRead) {
+                    $parameters[] = $row->getColumn($columnToRead);
+                }
+            } else {
+                $oldValue = $row->getColumn($this->columnToRead);
+                $parameters = array($oldValue);
+            }
             if (!is_null($this->functionParameters)) {
                 $parameters = array_merge($parameters, $this->functionParameters);
             }
             if (!is_null($this->functionToApply)) {
                 $newValue = call_user_func_array($this->functionToApply, $parameters);
             } else {
-                $newValue = $oldValue;
+                $newValue = $parameters[0];
             }
             if ($newValue !== false) {
                 $row->addMetadata($this->metadataToAdd, $newValue);

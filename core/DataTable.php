@@ -254,6 +254,12 @@ class Piwik_DataTable
      */
     protected $maximumAllowedRows = 0;
 
+    /**
+     * The operations that should be used when aggregating columns from multiple rows.
+     * @see self::addDataTable() and Piwik_DataTable_Row::sumRow() 
+     */
+    protected $columnAggregationOperations = array();
+
     const ID_SUMMARY_ROW = -1;
     const LABEL_SUMMARY_ROW = -1;
     const ID_PARENTS = -2;
@@ -436,7 +442,7 @@ class Piwik_DataTable
                     $this->addRow($row);
                 }
             } else {
-                $rowFound->sumRow($row);
+                $rowFound->sumRow($row, $copyMeta = true, $this->columnAggregationOperations);
 
                 // if the row to add has a subtable whereas the current row doesn't
                 // we simply add it (cloning the subtable)
@@ -1348,6 +1354,7 @@ class Piwik_DataTable
                 {
                     $table = new Piwik_DataTable();
                     $table->setMaximumAllowedRows($maxSubtableRows);
+                    $table->setColumnAggregationOperations($this->columnAggregationOperations);
                     $next->setSubtable($table);
                     // Summary row, has no metadata
                     $next->deleteMetadata();
@@ -1388,7 +1395,7 @@ class Piwik_DataTable
                         if ($existing === false) {
                             $result->addSummaryRow($copy);
                         } else {
-                            $existing->sumRow($copy);
+                            $existing->sumRow($copy, $copyMeta = true, $this->columnAggregationOperations);
                         }
                     } else {
                         if ($labelColumn !== false) {
@@ -1428,4 +1435,36 @@ class Piwik_DataTable
         $dataTable->addRowsFromSimpleArray($array);
         return $dataTable;
     }
+    
+    /**
+     * Set the aggregation operation for a column, e.g. "min".
+     * @see self::addDataTable() and Piwik_DataTable_Row::sumRow()
+     * 
+     * @param string $columnName
+     * @param string $operation
+     */
+    public function setColumnAggregationOperation($columnName, $operation)
+    {
+        $this->columnAggregationOperations[$columnName] = $operation;
+    }
+    
+    /**
+     * Set multiple aggregation operations at once.
+     * @param array $operations  format: column name => operation
+     */
+    public function setColumnAggregationOperations($operations)
+    {
+        foreach ($operations as $columnName => $operation) {
+            $this->setColumnAggregationOperation($columnName, $operation);
+        }
+    }
+    
+    /**
+     * Get the configured column aggregation operations
+     */
+    public function getColumnAggregationOperations()
+    {
+        return $this->columnAggregationOperations;
+    }
+    
 }

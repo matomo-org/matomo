@@ -391,8 +391,17 @@ class Piwik_Actions_Controller extends Piwik_Controller
 			$avgTimeCallback = create_function('$time', 'return $time ? Piwik::getPrettyTimeFromSeconds($time, true, true, false) : "-";');
             $view->queueFilter('ColumnCallbackReplace', array('avg_time_generation', $avgTimeCallback));
 			
-			$tooltipCallback = create_function('$hits', 'return $hits ? Piwik_Translate("Actions_AvgGenerationTimeTooltip", $hits) : false;');
-			$view->queueFilter('ColumnCallbackAddMetadata', array('nb_hits_with_time_generation', 'avg_time_generation_tooltip', $tooltipCallback));
+			$tooltipCallback = create_function('$hits, $min, $max', '
+			    return $hits ? 
+			        Piwik_Translate("Actions_AvgGenerationTimeTooltip", array(
+			            $hits, "<br />", 
+			            Piwik::getPrettyTimeFromSeconds($min), 
+			            Piwik::getPrettyTimeFromSeconds($max)
+			        ))
+			        : false;');
+			$view->queueFilter('ColumnCallbackAddMetadata', array(
+                array('nb_hits_with_time_generation', 'min_time_generation', 'max_time_generation'),
+                'avg_time_generation_tooltip', $tooltipCallback));
         }
 
         if (Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') != '0') {
