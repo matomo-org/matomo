@@ -161,7 +161,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
             var numberOfRows = $('table#editSites')[0].rows.length;
             var newRowId = 'rowNew' + numberOfRows;
             var submitButtonHtml = '<input type="submit" class="addsite submit" value="' + _pk_translate('General_Save_js') + '" />';
-            $(' <tr id="' + newRowId + '">\
+            $($.parseHTML(' <tr id="' + newRowId + '">\
 				<td>&nbsp;</td>\
 				<td><input id="name" value="Name" size="15" /><br/><br/><br/>' + submitButtonHtml + '</td>\
 				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />' + aliasUrlsHelp + keepURLFragmentSelectHTML + '</td>\
@@ -174,7 +174,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
 				<td>' + getEcommerceSelector(0) + '<br />' + ecommerceHelp + '</td>\
 				<td>' + submitButtonHtml + '</td>\
 	  			<td><span class="cancel link_but">' + sprintf(_pk_translate('General_OrCancel_js'), "", "") + '</span></td>\
-	 		</tr>')
+	 		</tr>'))
                 .appendTo('#editSites')
             ;
 
