@@ -175,3 +175,20 @@ This log format can be specified for nginx access logs to capture multiple virtu
 * access_log /PATH/TO/access.log vhosts;
 
 When executing import_logs.py specify the "common_complete" format.
+
+
+## Import Page Speed Metric from logs
+
+In Piwik> Actions> Page URLs and Page Title reports, Piwik reports the Avg. generation time, as an indicator of your website speed.
+This metric works by default when using the Javascript tracker, but you can use it with log file as well.
+
+Apache can log the generation time in microseconds using %D in the LogFormat.
+This metric can be imported using a custom log format in this script.
+In the command line, add the --log-format-regex parameter that contains the group generation_time_micro.
+
+Here's an example:
+Apache LogFormat "%h %l %u %t \"%r\" %>s %b %D"
+--log-format-regex="(?P<ip>\S+) \S+ \S+ \[(?P<date>.*?) (?P<timezone>.*?)\] \"\S+ (?P<path>.*?) \S+\" (?P<status>\S+) (?P<length>\S+) (?P<generation_time_micro>\S+)"
+
+Note: the group <generation_time_milli> is also available if your server logs generation time in milliseconds rather than microseconds.
+

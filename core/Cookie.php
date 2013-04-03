@@ -378,7 +378,7 @@ class Piwik_Cookie
      * @param string $value  Value to be escaped
      * @return mixed  The value once cleaned.
      */
-    static protected function escapeValue($value)
+    protected static function escapeValue($value)
     {
         return Piwik_Common::sanitizeInputValues($value);
     }

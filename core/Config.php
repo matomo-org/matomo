@@ -40,14 +40,14 @@
  */
 class Piwik_Config
 {
-    static private $instance = null;
+    private static $instance = null;
 
     /**
      * Returns the singleton Piwik_Config
      *
      * @return Piwik_Config
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         if (self::$instance == null) {
             self::$instance = new self;
@@ -127,7 +127,7 @@ class Piwik_Config
      *
      * @return string
      */
-    static public function getGlobalConfigPath()
+    public static function getGlobalConfigPath()
     {
         return PIWIK_USER_PATH . '/config/global.ini.php';
     }
@@ -140,7 +140,7 @@ class Piwik_Config
      * @deprecated 1.7
      * @return string
      */
-    static public function getDefaultDefaultConfigPath()
+    public static function getDefaultDefaultConfigPath()
     {
         return self::getGlobalConfigPath();
     }
@@ -150,7 +150,7 @@ class Piwik_Config
      *
      * @return string
      */
-    static public function getLocalConfigPath()
+    public static function getLocalConfigPath()
     {
         return PIWIK_USER_PATH . '/config/config.ini.php';
     }
@@ -309,7 +309,7 @@ class Piwik_Config
      * @param mixed $elem2
      * @return int;
      */
-    static function compareElements($elem1, $elem2)
+    public static function compareElements($elem1, $elem2)
     {
         if (is_array($elem1)) {
             if (is_array($elem2)) {

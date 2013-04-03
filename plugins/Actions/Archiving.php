@@ -25,6 +25,11 @@ class Piwik_Actions_Archiving
         Piwik_Tracker_Action::TYPE_ACTION_NAME,
         Piwik_Tracker_Action::TYPE_SITE_SEARCH,
     );
+    
+    private static $actionColumnAggregationOperations = array(
+        Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION => 'max',
+        Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION => 'min'
+    );
 
     static protected $invalidSummedColumnNameToRenamedNameFromPeriodArchive = array(
         Piwik_Archive::INDEX_NB_UNIQ_VISITORS            => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
@@ -47,17 +52,26 @@ class Piwik_Actions_Archiving
 
     /**
      * Archives Actions reports for a Period
-     * @param Piwik_ArchiveProcessing $archiveProcessing
+     * @param Piwik_ArchiveProcessing_Period $archiveProcessing
      * @return bool
      */
-    public function archivePeriod(Piwik_ArchiveProcessing $archiveProcessing)
+    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
         Piwik_Actions_ArchivingHelper::reloadConfig();
         $dataTableToSum = array(
             'Actions_actions',
+            'Actions_actions_url',
+        );
+        $archiveProcessing->archiveDataTable($dataTableToSum,
+            self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive,
+            Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero,
+            Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable,
+            Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation,
+            self::$actionColumnAggregationOperations);
+
+        $dataTableToSum = array(
             'Actions_downloads',
             'Actions_outlink',
-            'Actions_actions_url',
             'Actions_sitesearch',
         );
         $nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum,
@@ -65,7 +79,7 @@ class Piwik_Actions_Archiving
             Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero,
             Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable,
             Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation);
-
+        
         $archiveProcessing->archiveNumericValuesSum(array(
                                                          'Actions_nb_pageviews',
                                                          'Actions_nb_uniq_pageviews',
@@ -74,6 +88,8 @@ class Piwik_Actions_Archiving
                                                          'Actions_nb_outlinks',
                                                          'Actions_nb_uniq_outlinks',
                                                          'Actions_nb_searches',
+                                                         'Actions_sum_time_generation',
+                                                         'Actions_nb_hits_with_time_generation',
                                                     ));
 
         // Unique Keywords can't be summed, instead we take the RowsCount() of the keyword table
@@ -127,7 +143,12 @@ class Piwik_Actions_Archiving
 						then 0
 						else 1
 					end
-				) as `" . Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION . "`";
+				) as `" . Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION . "`,
+				min(" . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . ") / 1000
+				    as `" . Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION . "`,
+				max(" . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . ") / 1000
+                    as `" . Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION . "`
+				";
 
         $from = array(
             "log_link_visit_action",
@@ -158,6 +179,8 @@ class Piwik_Actions_Archiving
             }
             $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION, 'sum');
             $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION, 'sum');
+            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION, 'min');
+            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION, 'max');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
         }
 
@@ -359,6 +382,8 @@ class Piwik_Actions_Archiving
         $archiveProcessing->insertBlobRecord('Actions_actions_url', $s);
         $archiveProcessing->insertNumericRecord('Actions_nb_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
         $archiveProcessing->insertNumericRecord('Actions_nb_uniq_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+		$archiveProcessing->insertNumericRecord('Actions_sum_time_generation', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)));
+		$archiveProcessing->insertNumericRecord('Actions_nb_hits_with_time_generation', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION)));
         destroy($dataTable);
 
         $dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD];
@@ -527,6 +552,12 @@ class Piwik_Actions_Archiving
             $dataTable = new Piwik_DataTable();
             $dataTable->setMaximumAllowedRows(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero);
 
+            if ($type == Piwik_Tracker_Action::TYPE_ACTION_URL
+                || $type == Piwik_Tracker_Action::TYPE_ACTION_NAME) {
+                // for page urls and page titles, performance metrics exist and have to be aggregated correctly
+                $dataTable->setColumnAggregationOperations(self::$actionColumnAggregationOperations);
+            }
+            
             $this->actionsTablesByType[$type] = $dataTable;
         }
     }

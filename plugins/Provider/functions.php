@@ -54,3 +54,24 @@ function Piwik_getHostnameUrl($in)
         return "https://startpage.com/do/search?q=" . urlencode($in);
     }
 }
+
+/**
+ * Return a pretty provider name for a given domain name
+ *
+ * @param string $in hostname
+ * @return string Real ISP name, IP (if IP address didn't resolve), or Unknown
+ */
+function Piwik_Provider_getPrettyProviderName( $in )
+{
+    $providerName = Piwik_getHostnameName($in);
+
+    $prettyNames = Piwik_Common::getProviderNames();
+
+    if(is_array($prettyNames)
+        && array_key_exists(strtolower($providerName), $prettyNames))
+    {
+        $providerName = $prettyNames[strtolower($providerName)];
+    }
+
+    return $providerName;
+}

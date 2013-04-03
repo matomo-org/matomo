@@ -1,4 +1,9 @@
 <?php
+// Note to devs: In Phpstorm I had to manually set these here as PHPUnit is not init properly.
+// Uncomment and set manually the path to Piwik if you get the WARNING message in your IDE.
+//$_SERVER['REQUEST_URI'] = '/piwik-master/index.php';
+//$_SERVER['HTTP_HOST'] = 'localhost';
+
 if (!defined("PIWIK_PATH_TEST_TO_ROOT")) {
     define('PIWIK_PATH_TEST_TO_ROOT', realpath(dirname(__FILE__) . '/../..'));
 }
@@ -53,7 +58,8 @@ function checkPiwikSetupForTests()
 3) Copy phpunit.xml.dist to phpunit.xml
 4) Edit in phpunit.xml the @REQUEST_URI@ and replace with the webserver path to Piwik, eg. '/dev/piwik/'
 
-Try again and now the tests should run!";
+Try again.
+-> If you still get this message, you can work around it by specifying Host + Request_Uri at the top of this file tests/PHPUnit/bootstrap.php. <-";
         exit(1);
     }
 

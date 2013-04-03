@@ -22,7 +22,7 @@ class Piwik_Http
      *
      * @return string
      */
-    static public function getTransportMethod()
+    public static function getTransportMethod()
     {
         $method = 'curl';
         if (!self::isCurlEnabled()) {
@@ -66,8 +66,7 @@ class Piwik_Http
      * @throws Exception
      * @return bool  true (or string) on success; false on HTTP response error code (1xx or 4xx)
      */
-    static public function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0, $acceptLanguage = false, $byteRange = false, $getExtendedInfo = false, $httpMethod = 'GET'
-    )
+    public static function sendHttpRequest($aUrl, $timeout, $userAgent = null, $destinationPath = null, $followDepth = 0, $acceptLanguage = false, $byteRange = false, $getExtendedInfo = false, $httpMethod = 'GET')
     {
         // create output file
         $file = null;
@@ -103,7 +102,7 @@ class Piwik_Http
      * @throws Exception
      * @return bool  true (or string/array) on success; false on HTTP response error code (1xx or 4xx)
      */
-    static public function sendHttpRequestBy(
+    public static function sendHttpRequestBy(
         $method = 'socket',
         $aUrl,
         $timeout,
@@ -660,7 +659,7 @@ class Piwik_Http
      * @throws Exception
      * @return bool  true on success, throws Exception on failure
      */
-    static public function fetchRemoteFile($url, $destinationPath = null, $tries = 0)
+    public static function fetchRemoteFile($url, $destinationPath = null, $tries = 0)
     {
         @ignore_user_abort(true);
         Piwik::setMaxExecutionTime(0);

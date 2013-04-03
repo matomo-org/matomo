@@ -58,7 +58,7 @@ class Piwik_Date
      * @throws Exception
      * @return Piwik_Date
      */
-    static public function factory($dateString, $timezone = null)
+    public static function factory($dateString, $timezone = null)
     {
         $invalidDateException = new Exception(Piwik_TranslateException('General_ExceptionInvalidDateFormat', array("YYYY-MM-DD, or 'today' or 'yesterday'", "strtotime", "http://php.net/strtotime")) . ": $dateString");
         if ($dateString instanceof self) {
@@ -104,7 +104,7 @@ class Piwik_Date
      *
      * @return string
      */
-    function getDatetime()
+    public function getDatetime()
     {
         return $this->toString(self::DATE_TIME_FORMAT);
     }
@@ -114,7 +114,7 @@ class Piwik_Date
      *
      * @return string
      */
-    function getDateStartUTC()
+    public function getDateStartUTC()
     {
         $dateStartUTC = gmdate('Y-m-d', $this->timestamp);
         $date = Piwik_Date::factory($dateStartUTC)->setTimezone($this->timezone);
@@ -126,7 +126,7 @@ class Piwik_Date
      *
      * @return string
      */
-    function getDateEndUTC()
+    public function getDateEndUTC()
     {
         $dateEndUTC = gmdate('Y-m-d 23:59:59', $this->timestamp);
         $date = Piwik_Date::factory($dateEndUTC)->setTimezone($this->timezone);
@@ -153,7 +153,7 @@ class Piwik_Date
      * @param string $timezone
      * @return int|bool  utc offset or false
      */
-    static protected function extractUtcOffset($timezone)
+    protected static function extractUtcOffset($timezone)
     {
         if ($timezone == 'UTC') {
             return 0;
@@ -178,7 +178,7 @@ class Piwik_Date
      * @param string $timezone   The timezone to adjust to.
      * @return int  The adjusted time as seconds from EPOCH.
      */
-    static public function adjustForTimezone($timestamp, $timezone)
+    public static function adjustForTimezone($timestamp, $timezone)
     {
         // manually adjust for UTC timezones
         $utcOffset = self::extractUtcOffset($timezone);
@@ -308,7 +308,7 @@ class Piwik_Date
      * @param Piwik_Date $date  Month to compare
      * @return int  0 = equal, 1 = later, -1 = earlier
      */
-    function compareMonth(Piwik_Date $date)
+    public function compareMonth(Piwik_Date $date)
     {
         $currentMonth = date('n', $this->getTimestamp());
         $toCompareMonth = date('n', $date->getTimestamp());
@@ -336,7 +336,7 @@ class Piwik_Date
      *
      * @return Piwik_Date
      */
-    static public function now()
+    public static function now()
     {
         return new Piwik_Date(time());
     }
@@ -346,7 +346,7 @@ class Piwik_Date
      *
      * @return Piwik_Date
      */
-    static public function today()
+    public static function today()
     {
         return new Piwik_Date(strtotime(date("Y-m-d 00:00:00")));
     }
@@ -356,7 +356,7 @@ class Piwik_Date
      *
      * @return Piwik_Date
      */
-    static public function yesterday()
+    public static function yesterday()
     {
         return new Piwik_Date(strtotime("yesterday"));
     }
@@ -366,7 +366,7 @@ class Piwik_Date
      *
      * @return Piwik_Date
      */
-    static public function yesterdaySameTime()
+    public static function yesterdaySameTime()
     {
         return new Piwik_Date(strtotime("yesterday " . date('H:i:s')));
     }

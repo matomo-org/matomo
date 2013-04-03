@@ -209,7 +209,7 @@ $(document).ready(function () {
         var newRowId = numberOfRows + 1;
         newRowId = 'row' + newRowId;
 
-        $(' <tr id="' + newRowId + '">\
+        $($.parseHTML(' <tr id="' + newRowId + '">\
 				<td><input id="useradd_login" value="login?" size="10" /></td>\
 				<td><input id="useradd_password" value="password" size="10" /></td>\
 				<td><input id="useradd_email" value="email@domain.com" size="15" /></td>\
@@ -217,7 +217,7 @@ $(document).ready(function () {
 				<td>-</td>\
 				<td><input type="submit" class="submit adduser"  value="' + _pk_translate('General_Save_js') + '" /></td>\
 	  			<td><span class="cancel">' + sprintf(_pk_translate('General_OrCancel_js'), "", "") + '</span></td>\
-	 		</tr>')
+	 		</tr>'))
             .appendTo('#users')
         ;
         $('#' + newRowId).keypress(submitOnEnter);

@@ -81,6 +81,8 @@ abstract class Piwik_Archive
     // Performance Analytics
     const INDEX_PAGE_SUM_TIME_GENERATION = 30;
     const INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION = 31;
+    const INDEX_PAGE_MIN_TIME_GENERATION = 32;
+    const INDEX_PAGE_MAX_TIME_GENERATION = 33;
 
     // Goal reports
     const INDEX_GOAL_NB_CONVERSIONS = 1;
@@ -111,6 +113,8 @@ abstract class Piwik_Archive
         Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT                   => 'sum_time_spent',
         Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION              => 'sum_time_generation',
         Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION     => 'nb_hits_with_time_generation',
+        Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION              => 'min_time_generation',
+        Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION              => 'max_time_generation',
 
         Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS            => 'exit_nb_uniq_visitors',
         Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS                   => 'exit_nb_visits',
@@ -205,7 +209,7 @@ abstract class Piwik_Archive
      * @param bool|string $_restrictSitesToLogin  Used only when running as a scheduled task
      * @return Piwik_Archive
      */
-    static public function build($idSite, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
+    public static function build($idSite, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
         if ($idSite === 'all') {
             $sites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
@@ -249,7 +253,7 @@ abstract class Piwik_Archive
      * @param string $strDate The date or date range string.
      * @return Piwik_Period
      */
-    static public function makePeriodFromQueryParams($site, $strPeriod, $strDate)
+    public static function makePeriodFromQueryParams($site, $strPeriod, $strDate)
     {
         $tz = $site->getTimezone();
 
@@ -341,7 +345,7 @@ abstract class Piwik_Archive
      * @param null $idSubtable
      * @return Piwik_DataTable|Piwik_DataTable_Array
      */
-    static public function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null)
+    public static function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
@@ -422,7 +426,7 @@ abstract class Piwik_Archive
      *
      * @return bool
      */
-    static public function isSegmentationEnabled()
+    public static function isSegmentationEnabled()
     {
         return !Piwik::isUserIsAnonymous()
             || Piwik_Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
@@ -436,7 +440,7 @@ abstract class Piwik_Archive
      * @param  $period
      * @return boolean
      */
-    static public function isMultiplePeriod($dateString, $period)
+    public static function isMultiplePeriod($dateString, $period)
     {
         return (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
             || Piwik_Period_Range::parseDateRange($dateString))
@@ -449,7 +453,7 @@ abstract class Piwik_Archive
      * @param string $idSiteString
      * @return bool
      */
-    static public function isMultipleSites($idSiteString)
+    public static function isMultipleSites($idSiteString)
     {
         return $idSiteString == 'all' || strpos($idSiteString, ',') !== false;
     }

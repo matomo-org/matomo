@@ -136,6 +136,11 @@ class Test_Piwik_Fixture_TwoSitesTwoVisitorsDifferentDays extends Test_Piwik_Bas
         // and an empty title
         $visitorAsite2->setGenerationTime(203);
         self::checkResponse($visitorAsite2->doTrackPageView(''));
+        
+        // track a page view with a domain alias to test the aggregation of both actions 
+        $visitorAsite2->setUrl('http://example2alias.org/home#notIgnoredFragment#');
+        $visitorAsite2->setGenerationTime(503);
+        self::checkResponse($visitorAsite2->doTrackPageView(''));
     }
 }
 

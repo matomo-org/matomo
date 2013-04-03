@@ -88,11 +88,13 @@ class PiwikTest extends DatabaseTestCase
             array(86400 + 3600 * 10, array('1 days 10 hours', '34:00:00')),
             array(86400 * 365, array('365 days 0 hours', '8760:00:00')),
             array((86400 * (365.25 + 10)), array('1 years 10 days', '9006:00:00')),
-            array(1.342, array('1.342s', '00:00:01.342')),
-            array(.342, array('342ms', '00:00:00.342')),
-			array(.02, array('20ms', '00:00:00.020')),
-			array(1.002, array('1.002s', '00:00:01.002')),
-			array(122.1, array('2 min 2.1s', '00:02:02.100'))
+            array(1.342, array('1.34s', '00:00:01.34')),
+            array(.342, array('0.34s', '00:00:00.34')),
+			array(.02, array('0.02s', '00:00:00.02')),
+			array(1.002, array('1s', '00:00:01')),
+			array(1.02, array('1.02s', '00:00:01.02')),
+			array(1.2, array('1.2s', '00:00:01.20')),
+			array(122.1, array('2 min 2.1s', '00:02:02.10'))
         );
     }
 
@@ -187,6 +189,10 @@ class PiwikTest extends DatabaseTestCase
         return array(
             array('revenue', 12, '$ 12'),
             array('revenue_evolution', '100 %', '100 %'),
+            array('avg_time_generation', '3.333', '3.33s'),
+            array('avg_time_generation', '333.333', '5&nbsp;min&nbsp;33.33s'),
+            array('avg_time_on_page', '3', '00:00:03'),
+            array('avg_time_on_page', '333', '00:05:33'),
         );
     }
 
@@ -197,6 +203,8 @@ class PiwikTest extends DatabaseTestCase
      */
     public function testGetPrettyValue($columnName, $value, $expected)
     {
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
+
         $access = new Piwik_Access();
         Zend_Registry::set('access', $access);
         $access->setSuperUser(true);
@@ -207,6 +215,8 @@ class PiwikTest extends DatabaseTestCase
             $expected,
             Piwik::getPrettyValue($idsite, $columnName, $value, false, false)
         );
+
+        Piwik_Translate::getInstance()->unloadEnglishTranslation();
     }
 
     /**

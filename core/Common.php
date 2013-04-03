@@ -43,13 +43,13 @@ class Piwik_Common
      * @param string $string  String to hash
      * @return int  Resulting int hash
      */
-    static public function hashStringToInt($string)
+    public static function hashStringToInt($string)
     {
         $stringHash = substr(md5($string), 0, 8);
         return base_convert($stringHash, 16, 10);
     }
 
-    static public $cachedTablePrefix = null;
+    public static $cachedTablePrefix = null;
 
     /**
      * Returns the table name prefixed by the table prefix.
@@ -58,7 +58,7 @@ class Piwik_Common
      * @param string $table  The table name to prefix, ie "log_visit"
      * @return string  The table name prefixed, ie "piwik-production_log_visit"
      */
-    static public function prefixTable($table)
+    public static function prefixTable($table)
     {
         if (is_null(self::$cachedTablePrefix)) {
             self::$cachedTablePrefix = Piwik_Config::getInstance()->database['tables_prefix'];
@@ -72,7 +72,7 @@ class Piwik_Common
      * @param string ... The table names to prefix, ie "log_visit"
      * @return array The prefixed names in an array.
      */
-    static public function prefixTables()
+    public static function prefixTables()
     {
         $result = array();
         foreach (func_get_args() as $table) {
@@ -87,7 +87,7 @@ class Piwik_Common
      * @param string $table
      * @return string
      */
-    static public function unprefixTable($table)
+    public static function unprefixTable($table)
     {
         static $prefixTable = null;
         if (is_null($prefixTable)) {
@@ -105,7 +105,7 @@ class Piwik_Common
     /*
      * Tracker
      */
-    static public function isGoalPluginEnabled()
+    public static function isGoalPluginEnabled()
     {
         return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
     }
@@ -121,7 +121,7 @@ class Piwik_Common
      * @param string $url  either http://piwik.org/test or /
      * @return string
      */
-    static public function getPathAndQueryFromUrl($url)
+    public static function getPathAndQueryFromUrl($url)
     {
         $parsedUrl = parse_url($url);
         $result = '';
@@ -141,7 +141,7 @@ class Piwik_Common
      * @param string $parameter
      * @return string|bool  Parameter value if found (can be the empty string!), null if not found
      */
-    static public function getParameterFromQueryString($urlQuery, $parameter)
+    public static function getParameterFromQueryString($urlQuery, $parameter)
     {
         $nameToValue = self::getArrayFromQueryString($urlQuery);
         if (isset($nameToValue[$parameter])) {
@@ -156,7 +156,7 @@ class Piwik_Common
      * @param string $urlQuery
      * @return array  array( param1=> value1, param2=>value2)
      */
-    static public function getArrayFromQueryString($urlQuery)
+    public static function getArrayFromQueryString($urlQuery)
     {
         if (strlen($urlQuery) == 0) {
             return array();
@@ -215,7 +215,7 @@ class Piwik_Common
      * @param array $parsed
      * @return bool|string
      */
-    static public function getParseUrlReverse($parsed)
+    public static function getParseUrlReverse($parsed)
     {
         if (!is_array($parsed)) {
             return false;
@@ -245,7 +245,7 @@ class Piwik_Common
      * @param string $url
      * @return bool
      */
-    static public function isLookLikeUrl($url)
+    public static function isLookLikeUrl($url)
     {
         return preg_match('~^(ftp|news|http|https)?://(.*)$~D', $url, $matches) !== 0
             && strlen($matches[2]) > 0;
@@ -260,7 +260,7 @@ class Piwik_Common
      *
      * @return string
      */
-    static public function getPathToPiwikRoot()
+    public static function getPathToPiwikRoot()
     {
         return realpath(dirname(__FILE__) . "/..");
     }
@@ -271,7 +271,7 @@ class Piwik_Common
      * @param string $path
      * @param bool $denyAccess
      */
-    static public function mkdir($path, $denyAccess = true)
+    public static function mkdir($path, $denyAccess = true)
     {
         if (!is_dir($path)) {
             // the mode in mkdir is modified by the current umask
@@ -302,7 +302,7 @@ class Piwik_Common
      * @param bool $overwrite whether to overwrite an existing file or not
      * @param string $content
      */
-    static public function createHtAccess($path, $overwrite = true, $content = "<Files \"*\">\n<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n</Files>\n")
+    public static function createHtAccess($path, $overwrite = true, $content = "<Files \"*\">\n<IfModule mod_access.c>\nDeny from all\n</IfModule>\n<IfModule !mod_access_compat>\n<IfModule mod_authz_host.c>\nDeny from all\n</IfModule>\n</IfModule>\n<IfModule mod_access_compat>\nDeny from all\n</IfModule>\n</Files>\n")
     {
         if (self::isApache()) {
             $file = $path . '/.htaccess';
@@ -319,7 +319,7 @@ class Piwik_Common
      * @param string $path
      * @return string  canonicalized absolute path
      */
-    static public function realpath($path)
+    public static function realpath($path)
     {
         if (file_exists($path)) {
             return realpath($path);
@@ -337,7 +337,7 @@ class Piwik_Common
      * @return bool
      *
      */
-    static public function isValidFilename($filename)
+    public static function isValidFilename($filename)
     {
         return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z_0-9.-]*))$/D', $filename));
     }
@@ -354,7 +354,7 @@ class Piwik_Common
      * @param int     ...      optional length
      * @return string
      */
-    static public function substr($string, $start)
+    public static function substr($string, $start)
     {
         // in case mbstring overloads substr function
         $substr = function_exists('mb_orig_substr') ? 'mb_orig_substr' : 'substr';
@@ -372,7 +372,7 @@ class Piwik_Common
      * @param string $string
      * @return int
      */
-    static public function strlen($string)
+    public static function strlen($string)
     {
         // in case mbstring overloads strlen function
         $strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
@@ -387,7 +387,7 @@ class Piwik_Common
      * @param int     ...      optional length
      * @return string
      */
-    static public function mb_substr($string, $start)
+    public static function mb_substr($string, $start)
     {
         $length = func_num_args() > 2
             ? func_get_arg(2)
@@ -406,7 +406,7 @@ class Piwik_Common
      * @param string $string
      * @return int
      */
-    static public function mb_strlen($string)
+    public static function mb_strlen($string)
     {
         if (function_exists('mb_strlen')) {
             return mb_strlen($string, 'UTF-8');
@@ -421,7 +421,7 @@ class Piwik_Common
      * @param string $string
      * @return string
      */
-    static public function mb_strtolower($string)
+    public static function mb_strtolower($string)
     {
         if (function_exists('mb_strtolower')) {
             return mb_strtolower($string, 'UTF-8');
@@ -458,7 +458,7 @@ class Piwik_Common
      * @throws Exception
      * @return mixed  The variable after cleaning
      */
-    static public function sanitizeInputValues($value, $alreadyStripslashed = false)
+    public static function sanitizeInputValues($value, $alreadyStripslashed = false)
     {
         if (is_numeric($value)) {
             return $value;
@@ -494,7 +494,7 @@ class Piwik_Common
      * @param string $value
      * @return string  sanitized input
      */
-    static public function sanitizeInputValue($value)
+    public static function sanitizeInputValue($value)
     {
         // $_GET and $_REQUEST already urldecode()'d
         // decode
@@ -522,7 +522,7 @@ class Piwik_Common
      * @param string $value
      * @return string  unsanitized input
      */
-    static public function unsanitizeInputValue($value)
+    public static function unsanitizeInputValue($value)
     {
         return htmlspecialchars_decode($value, self::HTML_ENCODING_QUOTE_STYLE);
     }
@@ -533,7 +533,7 @@ class Piwik_Common
      * @param string|array $value
      * @return string|array  unsanitized input
      */
-    static public function unsanitizeInputValues($value)
+    public static function unsanitizeInputValues($value)
     {
         if (is_array($value)) {
             $result = array();
@@ -552,7 +552,7 @@ class Piwik_Common
      * @param string
      * @return string  modified or not
      */
-    static public function undoMagicQuotes($value)
+    public static function undoMagicQuotes($value)
     {
         return version_compare(PHP_VERSION, '5.4', '<')
             && get_magic_quotes_gpc()
@@ -577,7 +577,7 @@ class Piwik_Common
      *
      * @return mixed The variable after cleaning
      */
-    static public function getRequestVar($varName, $varDefault = null, $varType = null, $requestArrayToUse = null)
+    public static function getRequestVar($varName, $varDefault = null, $varType = null, $requestArrayToUse = null)
     {
         if (is_null($requestArrayToUse)) {
             $requestArrayToUse = $_GET + $_POST;
@@ -657,7 +657,7 @@ class Piwik_Common
      *
      * @return string 32 chars
      */
-    static public function generateUniqId()
+    public static function generateUniqId()
     {
         return md5(uniqid(rand(), true));
     }
@@ -667,7 +667,7 @@ class Piwik_Common
      *
      * @return string
      */
-    static public function getSalt()
+    public static function getSalt()
     {
         static $salt = null;
         if (is_null($salt)) {
@@ -683,7 +683,7 @@ class Piwik_Common
      * @param bool $raw_output
      * @return string Hash string
      */
-    static function hash($str, $raw_output = false)
+    public static function hash($str, $raw_output = false)
     {
         static $hashAlgorithm = null;
         if (is_null($hashAlgorithm)) {
@@ -735,7 +735,7 @@ class Piwik_Common
      * @param string $str  Hexadecimal representation
      * @return string
      */
-    static public function hex2bin($str)
+    public static function hex2bin($str)
     {
         return pack("H*", $str);
     }
@@ -753,7 +753,7 @@ class Piwik_Common
      * @throws Exception
      * @return string  binary string
      */
-    static public function convertVisitorIdToBin($id)
+    public static function convertVisitorIdToBin($id)
     {
         if (strlen($id) !== Piwik_Tracker::LENGTH_HEX_ID_STRING
             || @bin2hex(self::hex2bin($id)) != $id
@@ -778,7 +778,7 @@ class Piwik_Common
      * @param string $ip  IP address in network address format
      * @return string
      */
-    static public function long2ip($ip)
+    public static function long2ip($ip)
     {
         return Piwik_IP::long2ip($ip);
     }
@@ -788,7 +788,7 @@ class Piwik_Common
      *
      * @return bool  True if broken; false otherwise
      */
-    static private function useJsonLibrary()
+    private static function useJsonLibrary()
     {
         static $useLib;
 
@@ -820,7 +820,7 @@ class Piwik_Common
      * @param mixed $value
      * @return string
      */
-    static public function json_encode($value)
+    public static function json_encode($value)
     {
         if (self::useJsonLibrary()) {
             return _json_encode($value);
@@ -837,7 +837,7 @@ class Piwik_Common
      * @param bool $assoc
      * @return mixed
      */
-    static public function json_decode($json, $assoc = false)
+    public static function json_decode($json, $assoc = false)
     {
         if (self::useJsonLibrary()) {
             return _json_decode($json, $assoc);
@@ -857,7 +857,7 @@ class Piwik_Common
      *
      * @return array  Array of 3 letter continent codes
      */
-    static public function getContinentsList()
+    public static function getContinentsList()
     {
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 
@@ -873,7 +873,7 @@ class Piwik_Common
      * @param bool $includeInternalCodes
      * @return array  Array of (2 letter ISO codes => 3 letter continent code)
      */
-    static public function getCountriesList($includeInternalCodes = false)
+    public static function getCountriesList($includeInternalCodes = false)
     {
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Countries.php';
 
@@ -893,7 +893,7 @@ class Piwik_Common
      *
      * @return array  Array of 2 letter ISO codes => Language name (in English)
      */
-    static public function getLanguagesList()
+    public static function getLanguagesList()
     {
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Languages.php';
 
@@ -908,7 +908,7 @@ class Piwik_Common
      *
      * @return array  Array of ( 2 letter ISO language codes => 2 letter ISO country codes )
      */
-    static public function getLanguageToCountryList()
+    public static function getLanguageToCountryList()
     {
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/LanguageToCountry.php';
 
@@ -923,7 +923,7 @@ class Piwik_Common
      *
      * @return array  Array of ( URL => array( searchEngineName, keywordParameter, path, charset ) )
      */
-    static public function getSearchEngineUrls()
+    public static function getSearchEngineUrls()
     {
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 
@@ -938,12 +938,27 @@ class Piwik_Common
      *
      * @return array  Array of ( searchEngineName => URL )
      */
-    static public function getSearchEngineNames()
+    public static function getSearchEngineNames()
     {
         require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/SearchEngines.php';
 
         $searchEngines = $GLOBALS['Piwik_SearchEngines_NameToUrl'];
         return $searchEngines;
+    }
+
+    /**
+     * Returns list of provider names
+     *
+     * @see core/DataFiles/Providers.php
+     *
+     * @return array  Array of ( dnsName => providerName )
+     */
+    public static function getProviderNames()
+    {
+        require_once PIWIK_INCLUDE_PATH . '/core/DataFiles/Providers.php';
+
+        $providers = $GLOBALS['Piwik_ProviderNames'];
+        return $providers;
     }
 
     /*
@@ -956,7 +971,7 @@ class Piwik_Common
      * @param string $browserLang  Optional browser language, otherwise taken from the request header
      * @return string
      */
-    static public function getBrowserLanguage($browserLang = NULL)
+    public static function getBrowserLanguage($browserLang = NULL)
     {
         static $replacementPatterns = array(
             // extraneous bits of RFC 3282 that we ignore
@@ -1007,7 +1022,7 @@ class Piwik_Common
      * @param string $ip
      * @return string  2 letter ISO code
      */
-    static public function getCountry($lang, $enableLanguageToCountryGuess, $ip)
+    public static function getCountry($lang, $enableLanguageToCountryGuess, $ip)
     {
         $country = null;
         Piwik_PostEvent('Common.getCountry', $country, $ip);
@@ -1031,7 +1046,7 @@ class Piwik_Common
      * @param bool $enableLanguageToCountryGuess  (if true, will guess country based on language that lacks region information)
      * @return array Array of 2 letter ISO codes
      */
-    static public function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
+    public static function extractCountryCodeFromBrowserLanguage($browserLanguage, $validCountries, $enableLanguageToCountryGuess)
     {
         $langToCountry = self::getLanguageToCountryList();
 
@@ -1062,7 +1077,7 @@ class Piwik_Common
      * @param $validLanguages   array of valid language codes
      * @return string  2 letter ISO 639 code
      */
-    static public function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
+    public static function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
     {
         // assumes language preference is sorted;
         // does not handle language-script-region tags or language range (*)
@@ -1090,7 +1105,7 @@ class Piwik_Common
      *
      * @return string  Continent (3 letters code : afr, asi, eur, amn, ams, oce)
      */
-    static public function getContinent($country)
+    public static function getContinent($country)
     {
         $countryList = self::getCountriesList();
         if (isset($countryList[$country])) {
@@ -1112,7 +1127,7 @@ class Piwik_Common
      *            1 => array( ... ) // campaign keyword parameters
      * );
      */
-    static public function getCampaignParameters()
+    public static function getCampaignParameters()
     {
         $return = array(
             Piwik_Config::getInstance()->Tracker['campaign_var_name'],
@@ -1150,7 +1165,7 @@ class Piwik_Common
      * @param string $url
      * @return string
      */
-    static public function getLossyUrl($url)
+    public static function getLossyUrl($url)
     {
         static $countries;
         if (!isset($countries)) {
@@ -1193,7 +1208,7 @@ class Piwik_Common
      *                            'name' => 'Google',
      *                            'keywords' => 'my searched keywords')
      */
-    static public function extractSearchEngineInformationFromUrl($referrerUrl)
+    public static function extractSearchEngineInformationFromUrl($referrerUrl)
     {
         $refererParsed = @parse_url($referrerUrl);
         $refererHost = '';
@@ -1405,7 +1420,7 @@ class Piwik_Common
      * @since added in 0.4.4
      * @return bool true if PHP invoked as a CGI or from CLI
      */
-    static public function isPhpCliMode()
+    public static function isPhpCliMode()
     {
         $remoteAddr = @$_SERVER['REMOTE_ADDR'];
         return PHP_SAPI == 'cli' ||
@@ -1418,7 +1433,7 @@ class Piwik_Common
      * Helpful for error handling: directly throw error without HTML (eg. when DB is down)
      * @return bool
      */
-    static public function isArchivePhpTriggered()
+    public static function isArchivePhpTriggered()
     {
         return !empty($_GET['trigger'])
             && $_GET['trigger'] == 'archivephp';
@@ -1429,7 +1444,7 @@ class Piwik_Common
      * You can trigger Piwik from the command line by
      * # /usr/bin/php5 /path/to/piwik/index.php -- "module=API&method=Actions.getActions&idSite=1&period=day&date=previous8&format=php"
      */
-    static public function assignCliParametersToRequest()
+    public static function assignCliParametersToRequest()
     {
         if (isset($_SERVER['argc'])
             && $_SERVER['argc'] > 0
@@ -1444,10 +1459,10 @@ class Piwik_Common
     /**
      * Returns true if running on a Windows operating system
      *
-     * @since added in 0.6.5
+     * @since 0.6.5
      * @return bool true if PHP detects it is running on Windows; else false
      */
-    static public function isWindows()
+    public static function isWindows()
     {
         return DIRECTORY_SEPARATOR === '\\';
     }
@@ -1457,7 +1472,7 @@ class Piwik_Common
      *
      * @return bool true if PHP detects it is running on MacOS; else false
      */
-    static public function isMacOS()
+    public static function isMacOS()
     {
         return PHP_OS === 'Darwin';
     }
@@ -1467,7 +1482,7 @@ class Piwik_Common
      *
      * @return bool
      */
-    static public function isApache()
+    public static function isApache()
     {
         $apache = isset($_SERVER['SERVER_SOFTWARE']) &&
             !strncmp($_SERVER['SERVER_SOFTWARE'], 'Apache', 6);
@@ -1480,7 +1495,7 @@ class Piwik_Common
      *
      * @return bool
      */
-    static public function isIIS()
+    public static function isIIS()
     {
         $iis = isset($_SERVER['SERVER_SOFTWARE']) &&
             preg_match('/^Microsoft-IIS\/(.+)/', $_SERVER['SERVER_SOFTWARE'], $matches) &&

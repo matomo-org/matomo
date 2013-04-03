@@ -59,7 +59,7 @@ class Piwik_IP
      * @param string $ipString  IP address
      * @return string|false
      */
-    static public function sanitizeIp($ipString)
+    public static function sanitizeIp($ipString)
     {
         $ipString = trim($ipString);
 
@@ -107,7 +107,7 @@ class Piwik_IP
      * @param string $ipRangeString  IP address range
      * @return string|false  IP address range in CIDR notation
      */
-    static public function sanitizeIpRange($ipRangeString)
+    public static function sanitizeIpRange($ipRangeString)
     {
         $ipRangeString = trim($ipRangeString);
         if (empty($ipRangeString)) {
@@ -151,7 +151,7 @@ class Piwik_IP
      * @param string $ipString  IP address, either IPv4 or IPv6, e.g., "127.0.0.1"
      * @return string  Binary-safe string, e.g., "\x7F\x00\x00\x01"
      */
-    static public function P2N($ipString)
+    public static function P2N($ipString)
     {
         // use @inet_pton() because it throws an exception and E_WARNING on invalid input
         $ip = @_inet_pton($ipString);
@@ -166,7 +166,7 @@ class Piwik_IP
      * @param string $ip  IP address in network address format
      * @return string  IP address in presentation format
      */
-    static public function N2P($ip)
+    public static function N2P($ip)
     {
         // use @inet_ntop() because it throws an exception and E_WARNING on invalid input
         $ipStr = @_inet_ntop($ip);
@@ -179,7 +179,7 @@ class Piwik_IP
      * @param string $ip  IP address in network address format
      * @return string  IP address in presentation format
      */
-    static public function prettyPrint($ip)
+    public static function prettyPrint($ip)
     {
         return self::N2P($ip);
     }
@@ -190,7 +190,7 @@ class Piwik_IP
      * @param string $ip  IP address in network address format
      * @return bool  True if IPv4, else false
      */
-    static public function isIPv4($ip)
+    public static function isIPv4($ip)
     {
         // in case mbstring overloads strlen and substr functions
         $strlen = function_exists('mb_orig_strlen') ? 'mb_orig_strlen' : 'strlen';
@@ -224,7 +224,7 @@ class Piwik_IP
      * @param string $ip  IPv4 address in network address format
      * @return string  IP address in presentation format
      */
-    static public function long2ip($ip)
+    public static function long2ip($ip)
     {
         // IPv4
         if (Piwik_Common::strlen($ip) == 4) {
@@ -251,7 +251,7 @@ class Piwik_IP
      * @param string $ip
      * @return bool
      */
-    static public function isIPv6($ip)
+    public static function isIPv6($ip)
     {
         return strpos($ip, ':') !== false;
     }
@@ -262,7 +262,7 @@ class Piwik_IP
      * @param string $ip
      * @return bool
      */
-    static public function isMappedIPv4($ip)
+    public static function isMappedIPv4($ip)
     {
         return substr($ip, 0, strlen(self::MAPPED_IPv4_START)) === self::MAPPED_IPv4_START;
     }
@@ -270,7 +270,7 @@ class Piwik_IP
     /**
      * Returns
      */
-    static public function getIPv4FromMappedIPv6($ip)
+    public static function getIPv4FromMappedIPv6($ip)
     {
         return substr($ip, strlen(self::MAPPED_IPv4_START));
     }
@@ -281,7 +281,7 @@ class Piwik_IP
      * @param array $ipRange  An IP address range in presentation format
      * @return array|false  Array ($lowIp, $highIp) in network address format, or false if failure
      */
-    static public function getIpsForRange($ipRange)
+    public static function getIpsForRange($ipRange)
     {
         if (strpos($ipRange, '/') === false) {
             $ipRange = self::sanitizeIpRange($ipRange);
@@ -322,7 +322,7 @@ class Piwik_IP
      * @param array $ipRanges  List of IP address ranges
      * @return bool  True if in any of the specified IP address ranges; else false.
      */
-    static public function isIpInRange($ip, $ipRanges)
+    public static function isIpInRange($ip, $ipRanges)
     {
         $ipLen = Piwik_Common::strlen($ip);
         if (empty($ip) || empty($ipRanges) || ($ipLen != 4 && $ipLen != 16)) {
@@ -363,7 +363,7 @@ class Piwik_IP
      *
      * @return string  IP address in presentation format
      */
-    static public function getIpFromHeader()
+    public static function getIpFromHeader()
     {
         $clientHeaders = @Piwik_Config::getInstance()->General['proxy_client_headers'];
         if (!is_array($clientHeaders)) {
@@ -386,7 +386,7 @@ class Piwik_IP
      * @param array $proxyHeaders  List of proxy headers
      * @return string
      */
-    static public function getNonProxyIpFromHeader($default, $proxyHeaders)
+    public static function getNonProxyIpFromHeader($default, $proxyHeaders)
     {
         $proxyIps = @Piwik_Config::getInstance()->General['proxy_ips'];
         if (!is_array($proxyIps)) {
@@ -414,7 +414,7 @@ class Piwik_IP
      * @param array $excludedIps  Optional list of excluded IP addresses (or IP address ranges)
      * @return string  Last (non-excluded) IP address in the list
      */
-    static public function getLastIpFromList($csv, $excludedIps = null)
+    public static function getLastIpFromList($csv, $excludedIps = null)
     {
         $p = strrpos($csv, ',');
         if ($p !== false) {
@@ -432,10 +432,11 @@ class Piwik_IP
     /**
      * Get hostname for a given IP address
      *
+     * @todo Remove in 2.0?
      * @param string $ipStr  Human-readable IP address
      * @return string  Hostname or unmodified $ipStr if failure
      */
-    static public function getHostByAddr($ipStr)
+    public static function getHostByAddr($ipStr)
     {
         // PHP's reverse lookup supports ipv4 and ipv6
         // except on Windows before PHP 5.3

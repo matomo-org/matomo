@@ -120,6 +120,12 @@ class Piwik_Actions_ArchivingHelper
                 if (array_key_exists(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION, $row)) {
                     unset($row[Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION]);
                 }
+                if (array_key_exists(Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION, $row)) {
+                    unset($row[Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION]);
+                }
+                if (array_key_exists(Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION, $row)) {
+                    unset($row[Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION]);
+                }
             }
 
             unset($row['name']);
@@ -132,7 +138,20 @@ class Piwik_Actions_ArchivingHelper
                 // - this happens when 2 visitors visit the same new page at the same time, and 2 actions get recorded for the same name
                 // - this could also happen when 2 URLs end up having the same label (eg. 2 subdomains get aggregated to the "/index" page name)
                 if (($alreadyValue = $actionRow->getColumn($name)) !== false) {
-                    $actionRow->setColumn($name, $alreadyValue + $value);
+                    if ($name == Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION) {
+                        if (empty($alreadyValue)) {
+                            $newValue = $value;
+                        } else if (empty($value)) {
+                            $newValue = $alreadyValue;
+                        } else {
+                            $newValue = min($alreadyValue, $value);
+                        }
+                    } else if ($name == Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION) {
+                        $newValue = max($alreadyValue, $value);
+                    } else {
+                        $newValue = $alreadyValue + $value;
+                    }
+                    $actionRow->setColumn($name, $newValue);
                 } else {
                     $actionRow->addColumn($name, $value);
                 }

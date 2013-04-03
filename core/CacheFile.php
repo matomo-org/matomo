@@ -39,7 +39,7 @@ class Piwik_CacheFile
      * @param string $directory  directory to use
      * @param int TTL
      */
-    function __construct($directory, $timeToLiveInSeconds = 300)
+    public function __construct($directory, $timeToLiveInSeconds = 300)
     {
         $this->cachePath = PIWIK_USER_PATH . '/tmp/cache/' . $directory . '/';
         if ($timeToLiveInSeconds < self::MINIMUM_TTL) {
@@ -54,7 +54,7 @@ class Piwik_CacheFile
      * @param string $id  The cache entry ID
      * @return array|bool  False on error, or array the cache content
      */
-    function get($id)
+    public function get($id)
     {
         if (empty($id)) {
             return false;
@@ -101,7 +101,7 @@ class Piwik_CacheFile
      * @param array $content  The cache content
      * @return bool  True if the entry was succesfully stored
      */
-    function set($id, $content)
+    public function set($id, $content)
     {
         if (empty($id)) {
             return false;
@@ -150,7 +150,7 @@ class Piwik_CacheFile
      * @param string $id  The cache entry ID
      * @return bool  True if the entry was succesfully deleted
      */
-    function delete($id)
+    public function delete($id)
     {
         if (empty($id)) {
             return false;
@@ -168,7 +168,7 @@ class Piwik_CacheFile
     /**
      * A function to delete all cache entries in the directory
      */
-    function deleteAll()
+    public function deleteAll()
     {
         Piwik::unlinkRecursive($this->cachePath, $deleteRootToo = false);
     }
