@@ -889,40 +889,27 @@ class Piwik_API_API
             return $columns;
         }
 
-        // remove columns if hideColumns query parameters exist
-        $columnsToRemove = Piwik_Common::getRequestVar('hideColumns', '');
-        if ($columnsToRemove != '') {
-            $columnsToRemove = explode(',', $columnsToRemove);
-            foreach ($columnsToRemove as $name) {
-                // if a column to remove is in the column list, remove it
-                if (isset($columns[$name])) {
-                    unset($columns[$name]);
-                }
-            }
-        }
+        $columnsToRemove = explode(',', Piwik_Common::getRequestVar('hideColumns', ''));
+        $columnsToKeep = explode(',', Piwik_Common::getRequestVar('showColumns', ''));
 
-        // remove columns if showColumns query parameters exist
-        $columnsToKeep = Piwik_Common::getRequestVar('showColumns', '');
-        if ($columnsToKeep != '') {
-            $columnsToKeep = explode(',', $columnsToKeep);
+        if (count($columnsToKeep) > 0)
+        {
             $columnsToKeep[] = 'label';
-
-            foreach ($columns as $name => $ignore) {
-                // if the current column should not be kept, remove it
-                $idx = array_search($name, $columnsToKeep);
-                if ($idx === FALSE) // if $name is not in $columnsToKeep
-                {
-                    unset($columns[$name]);
-                }
-            }
         }
 
-        // remove empty columns
-        if (is_array($emptyColumns)) {
-            foreach ($emptyColumns as $column) {
-                if (isset($columns[$column])) {
-                    unset($columns[$column]);
-                }
+        // Merge empty columns into columnsToRemove, no need to uniquify it
+        $columnsToRemove = array_merge($columnsToRemove, $emptyColumns);
+
+        foreach ($columns as $name => $ignore)
+        {
+            // FIXME VisitsSummary.get returns array with metric names as values
+            if (is_int($name))
+            {
+                $name = $ignore;
+            }
+
+            if (in_array($name, $columnsToRemove) || (count($columnsToKeep) > 0 && !in_array($name, $columnsToKeep))) {
+                unset($columns[$name]);
             }
         }
 
