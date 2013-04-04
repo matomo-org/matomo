@@ -1,34 +1,34 @@
-{assign var=showSitesSelection value=true}
-{assign var=showPeriodSelection value=false}
-{assign var=showMenu value=false}
-{include file="CoreHome/templates/header.tpl"}
+{% extends 'dashboard.twig' %}
+{% set showSitesSelection=true %}
+{% set showPeriodSelection=false %}
+{% set showMenu=false %}
 
+{% block content %}
 <div class="page_api">
     <div class="top_controls_inner">
-        {include file="CoreHome/templates/period_select.tpl"}
+        {% include "@CoreHome/period_select.twig" %}
     </div>
 
-    <h2>{'API_QuickDocumentationTitle'|translate}</h2>
+    <h2>{{ 'API_QuickDocumentationTitle'|translate }}</h2>
 
-    <p>{'API_PluginDescription'|translate}</p>
+    <p>{{ 'API_PluginDescription'|translate }}</p>
 
-    {if $isSuperUser}
-        <p>{'API_GenerateVisits'|translate:'VisitorGenerator':'VisitorGenerator'}</p>
-    {/if}
+    {% if isSuperUser %}
+        <p>{{ 'API_GenerateVisits'|translate('VisitorGenerator','VisitorGenerator') }}</p>
+    {% endif %}
 
     <p>
-        <b>{'API_MoreInformation'|translate:"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>":"</a>":"<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>":"</a>"}</b>
+        <b>{{ 'API_MoreInformation'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api'>","</a>","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/analytics-api/reference'>","</a>")|raw }}</b>
     </p>
 
-    <h2>{'API_UserAuthentication'|translate}</h2>
+    <h2>{{ 'API_UserAuthentication'|translate }}</h2>
 
     <p>
-        {'API_UsingTokenAuth'|translate:'<b>':'</b>':""}<br/>
-        <span id='token_auth'>&amp;token_auth=<b>{$token_auth}</b></span><br/>
-        {'API_KeepTokenSecret'|translate:'<b>':'</b>'}
+        {{ 'API_UsingTokenAuth'|translate('<b>','</b>',"")|raw }}<br/>
+        <span id='token_auth'>&amp;token_auth=<b>{{ token_auth }}</b></span><br/>
+        {{ 'API_KeepTokenSecret'|translate('<b>','</b>') }}
         <!-- {'API_LoadedAPIs'|translate:$countLoadedAPI} -->
-        {$list_api_methods_with_links}
+        {{ list_api_methods_with_links|raw }}
         <br/>
 </div>
-
-{include file="CoreHome/templates/footer.tpl"}
+{% endblock %}
