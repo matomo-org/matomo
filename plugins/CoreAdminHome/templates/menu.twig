@@ -1,21 +1,23 @@
-{if count($menu) > 1}
+{% if menu|length > 1 %}
     <div id="menu">
         <ul id="tablist">
-            {foreach from=$menu key=name item=submenu name=menu}
-                {if $submenu._hasSubmenu}
+        {% for name,submenu in menu %}
+            {% if submenu["_hasSubmenu"] %}
+            <li>
+                <span>{{ name|translate }}</span>
+                <ul>
+                {% for url,sname in submenu %}
+                    {% if sname|slice(0) != '_' %}
                     <li>
-                        <span>{$name|translate}</span>
-                        <ul>
-                            {foreach from=$submenu key=sname item=url name=submenu}
-                                {if strpos($sname, '_') !== 0}
-                                    <li><a href='index.php{$url._url|@urlRewriteWithParameters}'
-                                           {if isset($currentAdminMenuName) && $sname==$currentAdminMenuName}class='active'{/if}>{$sname|translate}</a></li>
-                                {/if}
-                            {/foreach}
-                        </ul>
+                        <a href='index.php{{ url._url|urlRewriteWithParameters }}'
+                           {% if currentAdminMenuName is defined and sname==currentAdminMenuName %}class='active'{% endif %}>{{ sname|translate }}</a>
                     </li>
-                {/if}
-            {/foreach}
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </li>
+            {% endif %}
+        {% endfor %}
         </ul>
     </div>
-{/if}
+{% endif %}

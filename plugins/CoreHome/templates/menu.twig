@@ -1,16 +1,16 @@
 <ul class="nav">
     {% for level1,level2 in menu %}
-        <li>
-            <a name='{{ level2._url|urlRewriteWithParameters }}' href='#{{ level2._url|urlRewriteWithParameters|slice(1) }}'
-               onclick='return piwikMenu.onItemClick(this);'>{{ level1|translate }}</a>
-            <ul>
-                {% for name,urlParameters in level2 %}
-                    {% if '_' not in name %}
-                        <li><a name='{{ urlParameters._url|urlRewriteWithParameters }}' href='#{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}'
-                               onclick='return piwikMenu.onItemClick(this);'>{{ name|translate|e('html') }}</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </li>
+    <li>
+        <a name='{{ level2._url|urlRewriteWithParameters }}' href='#{{ level2._url|urlRewriteWithParameters|slice(1) }}'
+           onclick='return piwikMenu.onItemClick(this);'>{{ level1|translate }}</a>
+        <ul>
+        {% for name,urlParameters in level2 %}
+            {% if '_' not in name %}
+                <li><a name='{{ urlParameters._url|urlRewriteWithParameters }}' href='#{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}'
+                       onclick='return piwikMenu.onItemClick(this);'>{{ name|translate|e('html') }}</a></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </li>
     {% endfor %}
 </ul>

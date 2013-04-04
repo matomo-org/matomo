@@ -1,13 +1,14 @@
+{% import 'ajaxMacros.twig' as ajax %}
 <div class="page">
     <div class="pageWrap">
         <div class="nav_sep"></div>
         <div class="top_controls">
             {% include "@CoreHome/period_select.twig" %}
             {% include "@CoreHome/header_message.twig" %}
-            {ajaxRequestErrorDiv}
+            {{ ajax.requestErrorDiv }}
         </div>
 
-        {ajaxLoadingDiv}
+        {{ ajax.loadingDiv() }}
 
         <div id="content" class="home">
             {% if content %}{{ content }}{% endif %}
