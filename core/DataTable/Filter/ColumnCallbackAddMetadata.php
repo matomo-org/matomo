@@ -11,7 +11,7 @@
 
 /**
  * Add a new 'metadata' column to the table based on the value resulting
- * from a callback function with the parameter being another column's value
+ * from a callback function with the parameter being another column's (or several columns') value(s)
  *
  * For example from the "label" column we can to create an "icon" 'metadata' column
  * with the icon URI built from the label (LINUX => UserSettings/icons/linux.png)
@@ -21,7 +21,7 @@
  */
 class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_Filter
 {
-    private $columnToRead;
+    private $columnsToRead;
     private $functionToApply;
     private $functionParameters;
     private $metadataToAdd;
@@ -29,19 +29,24 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
 
     /**
      * @param Piwik_DataTable $table
-     * @param string          $columnToRead
+     * @param string|array    $columnsToRead
      * @param string          $metadataToAdd
      * @param string          $functionToApply
      * @param array           $functionParameters
      * @param bool            $applyToSummaryRow
      */
-    public function __construct($table, $columnToRead, $metadataToAdd, $functionToApply = null,
+    public function __construct($table, $columnsToRead, $metadataToAdd, $functionToApply = null,
                                 $functionParameters = null, $applyToSummaryRow = true)
     {
         parent::__construct($table);
+
+        if (!is_array($columnsToRead)) {
+            $columnsToRead = array($columnsToRead);
+        }
+        $this->columnsToRead = $columnsToRead;
+
         $this->functionToApply = $functionToApply;
         $this->functionParameters = $functionParameters;
-        $this->columnToRead = $columnToRead;
         $this->metadataToAdd = $metadataToAdd;
         $this->applyToSummaryRow = $applyToSummaryRow;
     }
@@ -58,15 +63,11 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
                 continue;
             }
 
-            if (is_array($this->columnToRead)) {
-                $parameters = array();
-                foreach ($this->columnToRead as $columnToRead) {
-                    $parameters[] = $row->getColumn($columnToRead);
-                }
-            } else {
-                $oldValue = $row->getColumn($this->columnToRead);
-                $parameters = array($oldValue);
+            $parameters = array();
+            foreach ($this->columnsToRead as $columnsToRead) {
+                $parameters[] = $row->getColumn($columnsToRead);
             }
+
             if (!is_null($this->functionParameters)) {
                 $parameters = array_merge($parameters, $this->functionParameters);
             }

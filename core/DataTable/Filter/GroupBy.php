@@ -83,7 +83,7 @@ class Piwik_DataTable_Filter_GroupBy extends Piwik_DataTable_Filter
             } else {
                 // if we have already encountered this group by value, we add this row to the
                 // row that will be kept, and mark this one for deletion
-                $groupByRows[$groupByValue]->sumRow($row);
+                $groupByRows[$groupByValue]->sumRow($row, $copyMeta = true, $table->getColumnAggregationOperations());
                 $nonGroupByRowIds[] = $rowId;
             }
         }
