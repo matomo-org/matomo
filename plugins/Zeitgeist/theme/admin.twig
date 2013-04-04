@@ -9,7 +9,7 @@
     <meta name="generator" content="Piwik - Open Source Web Analytics"/>
     <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"/>
 
-    {loadJavascriptTranslations plugins='CoreAdminHome CoreHome'}
+    {{ loadJavascriptTranslations(['CoreAdminHome','CoreHome'])|raw }}
 
     {% include "@CoreHome/js_global_variables.twig" %}
     {% include "@CoreHome/js_css_includes.twig" %}
@@ -34,7 +34,8 @@
         {% include "@CoreHome/js_disabled_notice.twig" %}
     </div>
 
-    {ajaxRequestErrorDiv}
+    {% import 'ajaxMacros.twig' as ajax %}
+    {{ ajax.requestErrorDiv }}
     <div id="container">
         {% if showMenu is not defined or showMenu %}
             {% include "@CoreAdminHome/menu.twig" %}
@@ -48,7 +49,7 @@
             <div class="ajaxSuccess" style="display:inline-block">
                 {{ 'General_ConfigFileIsNotWritable'|translate("(config/config.ini.php)","<br/>") }}
             </div>
-            {% elseif preg_match('/updated=[1-9]/', $url) %}
+            {% elseif false %}
             <div class="ajaxSuccess" style="display:inline-block">
                 {{ 'General_YourChangesHaveBeenSaved'|translate }}
             </div>
