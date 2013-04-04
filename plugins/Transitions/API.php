@@ -289,6 +289,9 @@ class Piwik_Transitions_API
         }
     }
 
+    /**
+     * @ignore
+     */
     public function getTranslations()
     {
         $controller = new Piwik_Transitions_Controller();

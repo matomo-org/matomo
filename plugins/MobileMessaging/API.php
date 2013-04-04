@@ -145,8 +145,8 @@ class Piwik_MobileMessaging_API
     /**
      * sanitize phone number
      *
+     * @ignore
      * @param string $phoneNumber
-     *
      * @return string sanitized phone number
      */
     public static function sanitizePhoneNumber($phoneNumber)

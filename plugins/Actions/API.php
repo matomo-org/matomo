@@ -309,7 +309,7 @@ class Piwik_Actions_API
     }
 
     //Visitors can search, and then click "next" to view more results. This is the average number of search results pages viewed for this keyword.
-    public function addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_hits')
+    protected function addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_hits')
     {
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array('nb_pages_per_search', $columnToRead, 'nb_visits', $precision = 1));
     }

@@ -477,6 +477,7 @@ class Piwik_API_API
     /**
      * Returns the URL to application SVG Logo
      *
+     * @ignore
      * @param bool $pathOnly If true, returns path relative to doc root. Otherwise, returns a URL.
      * @return string
      */
@@ -496,7 +497,7 @@ class Piwik_API_API
 
     /**
      * Returns whether there is an SVG Logo available.
-     *
+     * @ignore
      * @return bool
      */
     public function hasSVGLogo()

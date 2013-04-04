@@ -28,6 +28,7 @@ class Piwik_Overlay_API
 
     /**
      * Get translation strings
+     * @ignore
      */
     public function getTranslations($idSite)
     {
