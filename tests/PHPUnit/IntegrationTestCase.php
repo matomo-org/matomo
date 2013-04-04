@@ -157,16 +157,17 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         Piwik::$piwikUrlCache = null;
 
-        try {
-            $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
-            foreach ($plugins AS $plugin) {
-                if ($dropDatabase) {
+        $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+        foreach ($plugins AS $plugin) {
+            if ($dropDatabase) {
+                try {
                     $plugin->uninstall();
+                } catch(Exception $e) {
+                    echo "\n There was an error uninstalling a plugin: " . $e->getMessage() . "\n";
                 }
             }
-            Piwik_PluginsManager::getInstance()->unloadPlugins();
-        } catch (Exception $e) {
         }
+        Piwik_PluginsManager::getInstance()->unloadPlugins();
         if ($dropDatabase) {
             Piwik::dropDatabase();
         }
