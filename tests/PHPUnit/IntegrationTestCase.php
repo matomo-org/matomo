@@ -264,8 +264,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 'Do take note that scheduled reports are not being tested with images. ' .
                     'If images contained in scheduled reports have been altered, tests will fail on the Piwik QA Server. ' .
                     'To include images in the test suite, please use a machine with the following specifications : ' .
-                    'OS = Linux precise32, PHP Version = 5.3.10 and GD Version = 2.0' .
-                    "\n Ignore this message if you're running on your dev machine, but pay attention when it comes from Jenkins."
+                    'OS = '.Test_Piwik_BaseFixture::IMAGES_GENERATED_ONLY_FOR_OS.', PHP Version = '.Test_Piwik_BaseFixture::IMAGES_GENERATED_FOR_PHP.' and GD Version = ' . Test_Piwik_BaseFixture::IMAGES_GENERATED_FOR_GD
+                    . "\n Ignore this message if you're running on your dev machine, but pay attention when it comes from the CI server."
 
             );
         }
