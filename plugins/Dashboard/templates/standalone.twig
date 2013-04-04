@@ -1,17 +1,18 @@
-{include file="Dashboard/templates/header.tpl"}
+{% include "@Dashboard/header.twig" %}
 <div id="menuHead">
-    {include file="CoreHome/templates/period_select.tpl"}
+    {% include "@CoreHome/period_select.twig" %}
     <div id="Dashboard">
         <ul>
-            {foreach from=$dashboards item=dashboard}
-                <li class="dashboardMenuItem" id="Dashboard_embeddedIndex_{$dashboard.iddashboard}"><a
-                            href="javascript:$('#dashboardWidgetsArea').dashboard('loadDashboard', {$dashboard.iddashboard});">{$dashboard.name|escape}</a></li>
-            {/foreach}
+            {% for dashboard in dashboards %}
+                <li class="dashboardMenuItem" id="Dashboard_embeddedIndex_{{ dashboard.iddashboard }}"><a
+                            href="javascript:$('#dashboardWidgetsArea').dashboard('loadDashboard', {{ dashboard.iddashboard }});">{{ dashboard.name|escape }}</a></li>
+            {% endfor %}
         </ul>
     </div>
     <div class="clear"></div>
 </div>
-{ajaxLoadingDiv}
-{include file="Dashboard/templates/index.tpl"}
+{% import 'ajaxMacros.twig' as ajax %}
+{{ ajax.loadingDiv }}
+{% include "@Dashboard/index.twig" }}
 </body>
 </html>
