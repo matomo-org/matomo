@@ -53,7 +53,7 @@
     {% endif %}
 
     {% if isCustomLogo == false %}</a>
-        <div class="description"><a href="http://piwik.org" title="{$linkTitle}">{{ linkTitle }}</a>
+        <div class="description"><a href="http://piwik.org" title="{{ linkTitle }}">{{ linkTitle }}</a>
             <div class="arrow"></div>
         </div>
     {% endif %}
@@ -89,14 +89,14 @@
                 <p class="message">{{ infoMessage}}</p>
             {% endif %}
         </div>
-        <form {{ form_data.attributes }}>
+        <form {{ form_data.attributes|raw }}>
             <h1>{{'Login_LogIn'|translate }}</h1>
             <fieldset class="inputs">
                 <input type="text" name="form_login" id="login_form_login" class="input" value="" size="20" tabindex="10"
                        placeholder="{{'General_Username'|translate }}" autofocus="autofocus"/>
                 <input type="password" name="form_password" id="login_form_password" class="input" value="" size="20" tabindex="20"
                        placeholder="{{ 'Login_Password'|translate }}"/>
-                <input type="hidden" name="form_nonce" id="login_form_nonce" value="{$nonce}"/>
+                <input type="hidden" name="form_nonce" id="login_form_nonce" value="{{ nonce }}"/>
             </fieldset>
 
             <fieldset class="actions">
