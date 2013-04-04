@@ -743,7 +743,7 @@ table.entityTable tr td a {
 	-webkit-box-shadow: 1px 1px 2px #666;
 	box-shadow: 1px 1px 2px #666;
 	overflow: hidden;
-    max-width: 280px;
+    max-width: 600px;
    	min-width: 50px;
     line-height: 14px;
 	left: -28000px;
