@@ -68,6 +68,29 @@ class Piwik_Twig
             }
         });
         $this->twig->addFunction($includeAssetsFunction);
+        $urlFunction = new Twig_SimpleFunction('url', function($params) {
+            return 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+        });
+        $this->twig->addFunction($urlFunction);
+
+        $loadJsTranslationsFunction = new Twig_SimpleFunction('loadJavascriptTranslations', function(array $plugins, $disableScriptTag = false) {
+            static $pluginTranslationsAlreadyLoaded = array();
+            if (in_array($plugins, $pluginTranslationsAlreadyLoaded)) {
+                return;
+            }
+            $pluginTranslationsAlreadyLoaded[] = $plugins;
+            $jsTranslations = Piwik_Translate::getInstance()->getJavascriptTranslations($plugins);
+            $jsCode = '';
+            if ($disableScriptTag) {
+                $jsCode .= $jsTranslations;
+            } else {
+                $jsCode .= '<script type="text/javascript">';
+                $jsCode .= $jsTranslations;
+                $jsCode .= '</script>';
+            }
+            return $jsCode;
+        });
+        $this->twig->addFunction($loadJsTranslationsFunction);
     }
 
     /**
