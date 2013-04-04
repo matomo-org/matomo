@@ -96,7 +96,14 @@ var broadcast = {
         // hash doesn't contain the first # character.
         if (hash) {
 
-            var hashParts = hash.split('&popover=');
+            if (/^popover=/.test(hash)) {
+                var hashParts = [
+                    '',
+                    hash.replace(/^popover=/, '')
+                ];
+            } else {
+                var hashParts = hash.split('&popover=');
+            }
             var hashUrl = hashParts[0];
             var popoverParam = '';
             if (hashParts.length > 1) {
@@ -228,7 +235,7 @@ var broadcast = {
      * NOTE: This method will refresh the page with new values.
      *
      * @param {string} str  url with parameters to be updated
-     * @param {bool} showAjaxLoading whether to show the ajax loading gif or not.
+     * @param {boolean} showAjaxLoading whether to show the ajax loading gif or not.
      * @return {void}
      */
     propagateNewPage: function (str, showAjaxLoading) {
@@ -319,18 +326,24 @@ var broadcast = {
      */
     propagateNewPopoverParameter: function (handlerName, value) {
         var hash = broadcast.getHashFromUrl(window.location.href);
-        var hashParts = hash.split('&popover=');
 
-        var newHash = hashParts[0];
+        var popover = '';
         if (handlerName) {
-            var popover = handlerName + ':' + value;
+            popover = handlerName + ':' + value;
 
             // between jquery.history and different browser bugs, it's impossible to ensure
             // that the parameter is en- and decoded the same number of times. in order to
             // make sure it doesn't change, we have to manipulate the url encoding a bit.
             popover = encodeURIComponent(popover);
             popover = popover.replace(/%/g, '\$');
-            newHash = hashParts[0] + '&popover=' + popover;
+        }
+
+        if (broadcast.getParamValue('popover', hash)) {
+            var newHash = broadcast.updateParamValue('popover='+popover, hash);
+        } else if (hash != '#') {
+            var newHash = hash + '&popover=' + popover
+        } else {
+            var newHash = '#popover='+popover;
         }
 
         window.location.href = 'index.php' + window.location.search + newHash;
@@ -340,7 +353,7 @@ var broadcast = {
      * Add a handler for the popover parameter
      */
     addPopoverHandler: function (handlerName, callback) {
-        this.popoverHandlers[handlerName] = callback;
+        broadcast.popoverHandlers[handlerName] = callback;
     },
 
     /**
