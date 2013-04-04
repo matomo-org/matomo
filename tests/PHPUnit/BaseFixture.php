@@ -23,7 +23,7 @@
 abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '5.4.13';
+    const IMAGES_GENERATED_FOR_PHP = '5.3.10';
     const IMAGES_GENERATED_FOR_GD = '2.0';
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
@@ -264,7 +264,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         $gdInfo = gd_info();
         return
             (stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS)) &&
-            stristr(phpversion(), self::IMAGES_GENERATED_FOR_PHP) &&
+			version_compare(phpversion(), self::IMAGES_GENERATED_FOR_PHP, '>=') &&
             $gdInfo['GD Version'] == self::IMAGES_GENERATED_FOR_GD;
     }
 
