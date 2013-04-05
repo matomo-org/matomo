@@ -1,4 +1,4 @@
-<div class="dataTable" data-report="{$properties.uniqueId}" data-params="{$javascriptVariablesToSet|@json_encode|escape:'html'}">
+<div class="dataTable" data-table-type="actionDataTable" data-report="{$properties.uniqueId}" data-params="{$javascriptVariablesToSet|@json_encode|escape:'html'}">
     <div class="reportDocumentation">
         {if !empty($reportDocumentation)}<p>{$reportDocumentation}</p>{/if}
         {if isset($properties.metadata.archived_date)}<span class='helpDate'>{$properties.metadata.archived_date}</span>{/if}
@@ -47,7 +47,7 @@
             {if $properties.show_footer}
                 {include file="CoreHome/templates/datatable_footer.tpl"}
             {/if}
-            {include file="CoreHome/templates/datatable_actions_js.tpl"}
+            {include file="CoreHome/templates/datatable_js.tpl"}
         {/if}
     </div>
 </div>
