@@ -17,7 +17,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 {
     public function index()
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@VisitsSummary/index');
         $this->setPeriodVariablesView($view);
         $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(true, array('nb_visits'));
         $this->setSparklinesAndNumbers($view);
@@ -26,7 +26,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 
     public function getSparklines()
     {
-        $view = Piwik_View::factory('sparklines');
+        $view = new Piwik_View('@VisitsSummary/sparklines');
         $this->setPeriodVariablesView($view);
         $this->setSparklinesAndNumbers($view);
         echo $view->render();

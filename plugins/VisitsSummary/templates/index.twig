@@ -1,16 +1,16 @@
-{* This graphId must be unique for this report *}
+{# This graphId must be unique for this report #}
 <a name="evolutionGraph" graphId="VisitsSummarygetEvolutionGraph"></a>
 
-<h2>{'Referers_Evolution'|translate}</h2>
+<h2>{{ 'Referers_Evolution'|translate }}</h2>
 
-{$graphEvolutionVisitsSummary}
+{{ graphEvolutionVisitsSummary|raw }}
 
-<h2>{'General_Report'|translate}</h2>
-{include file="VisitsSummary/templates/sparklines.tpl"}
-{*
+<h2>{{ 'General_Report'|translate }}</h2>
+{% include "@VisitsSummary/sparklines.twig" %}
+{#
 Time page generation
 	<p style='color:lightgrey; size:0.8em;'>
 	{'VisitsSummary_GenerateTime'|translate:$totalTimeGeneration:$totalNumberOfQueries}
 	{if $totalNumberOfQueries != 0}, {'VisitsSummary_GenerateQueries'|translate:$totalNumberOfQueries}{/if}
 	</p>
-*}
+#}
