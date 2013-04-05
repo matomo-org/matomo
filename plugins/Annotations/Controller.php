@@ -55,7 +55,7 @@ class Piwik_Annotations_Controller extends Piwik_Controller
         }
 
         // create & render the view
-        $view = Piwik_View::factory('annotationManager');
+        $view = new Piwik_View('@Annotations/annotationManager');
 
         $allAnnotations = Piwik_API_Request::processRequest(
             'Annotations.getAll', array('date' => $date, 'period' => $period, 'lastN' => $lastN));
@@ -103,7 +103,7 @@ class Piwik_Annotations_Controller extends Piwik_Controller
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
 
-            $view = Piwik_View::factory('annotation');
+            $view = new Piwik_View('@Annotations//annotation');
 
             // NOTE: permissions checked in API method
             // save the annotation
@@ -208,7 +208,7 @@ class Piwik_Annotations_Controller extends Piwik_Controller
             "Annotations.getAnnotationCountForDates", array('getAnnotationText' => 1));
 
         // create & render the view
-        $view = Piwik_View::factory('evolutionAnnotations');
+        $view = new Piwik_View('@Annotations/evolutionAnnotations');
         $view->annotationCounts = reset($annotationCounts); // only one idSite allowed for this action
 
         echo $view->render();
