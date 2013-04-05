@@ -196,11 +196,15 @@
                             || $action.type == 'ecommerceOrder'
                             || $action.type == 'ecommerceAbandonedCart'}
                                 <li class="{if !empty($action.goalName)}goal{else}action{/if}"
-                                    title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))} - {$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))}
+                                    title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))}
+                                    
+{$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))}
 
 {$customVariablesTooltip|trim}{/if}{if isset($action.timeSpentPretty)}
 
-{'General_TimeOnPage'|translate}: {$action.timeSpentPretty}{/if}">
+{'General_TimeOnPage'|translate}: {$action.timeSpentPretty}{/if}{if isset($action.generationTime)}
+
+{'General_ColumnGenerationTime'|translate}: {$action.generationTime}{/if}">
                                     {if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
                                     {* Ecommerce Abandoned Cart / Ecommerce Order *}
                                         <img src="{$action.icon}"/>
@@ -327,6 +331,16 @@
                         prevhtml = current;
                         prevelement = $(this);
                     }
+                    
+                    $(this).tooltip({
+                        track: true,
+                        show: false,
+                        hide: false,
+                        content: function() {
+                            return $(this).attr('title').replace(/\n/g, '<br />');
+                        },
+                        tooltipClass: 'small'
+                    });
                 });
             });
         });
