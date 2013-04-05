@@ -1483,7 +1483,7 @@ dataTable.prototype =
 
             actionEl.click((function (action, el) {
                 return function (e) {
-                    $(this).blur();
+                    $(this).blur().tooltip('close');
                     container.hide();
                     if (typeof actionInstances[action.name].onClick == 'function') {
                         return actionInstances[action.name].onClick(el, tr, e);
