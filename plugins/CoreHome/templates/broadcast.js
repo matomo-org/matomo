@@ -340,7 +340,7 @@ var broadcast = {
 
         if (broadcast.getParamValue('popover', hash)) {
             var newHash = broadcast.updateParamValue('popover='+popover, hash);
-        } else if (hash != '#') {
+        } else if (hash && hash != '#') {
             var newHash = hash + '&popover=' + popover
         } else {
             var newHash = '#popover='+popover;
