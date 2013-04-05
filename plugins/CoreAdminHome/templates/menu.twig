@@ -1,16 +1,17 @@
+{{ dump(menu)|raw }}
 {% if menu|length > 1 %}
     <div id="menu">
         <ul id="tablist">
         {% for name,submenu in menu %}
-            {% if submenu["_hasSubmenu"] %}
+            {% if submenu._hasSubmenu %}
             <li>
                 <span>{{ name|translate }}</span>
                 <ul>
                 {% for url,sname in submenu %}
-                    {% if sname|slice(0) != '_' %}
+                    {% if sname|slice(0,1) != '_' %}
                     <li>
                         <a href='index.php{{ url._url|urlRewriteWithParameters }}'
-                           {% if currentAdminMenuName is defined and sname==currentAdminMenuName %}class='active'{% endif %}>{{ sname|translate }}</a>
+                           {% if currentAdminMenuName is defined and sname==currentAdminMenuName %}class='active'{% endif %}>{{ sname._name|translate }}</a>
                     </li>
                     {% endif %}
                 {% endfor %}
