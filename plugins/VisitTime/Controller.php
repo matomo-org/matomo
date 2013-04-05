@@ -17,7 +17,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 {
     public function index()
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@VisitTime/index');
         $view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
         $view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
         echo $view->render();
