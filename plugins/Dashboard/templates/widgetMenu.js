@@ -130,16 +130,16 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
     return '<div id="' + uniqueId + '" class="widget">' +
         '<div class="widgetTop">' +
         '<div class="button" id="close">' +
-        '<img src="themes/default/images/close.png" title="' + _pk_translate('Dashboard_Close_js') + '" />' +
+        '<img src="plugins/Zeitgeist/theme/images/close.png" title="' + _pk_translate('Dashboard_Close_js') + '" />' +
         '</div>' +
         '<div class="button" id="maximise">' +
-        '<img src="themes/default/images/maximise.png" title="' + _pk_translate('Dashboard_Maximise_js') + '" />' +
+        '<img src="plugins/Zeitgeist/theme/images/maximise.png" title="' + _pk_translate('Dashboard_Maximise_js') + '" />' +
         '</div>' +
         '<div class="button" id="minimise">' +
-        '<img src="themes/default/images/minimise.png" title="' + _pk_translate('Dashboard_Minimise_js') + '" />' +
+        '<img src="plugins/Zeitgeist/theme/images/minimise.png" title="' + _pk_translate('Dashboard_Minimise_js') + '" />' +
         '</div>' +
         '<div class="button" id="refresh">' +
-        '<img src="themes/default/images/refresh.png" title="' + _pk_translate('Dashboard_Refresh_js') + '" />' +
+        '<img src="plugins/Zeitgeist/theme/images/refresh.png" title="' + _pk_translate('Dashboard_Refresh_js') + '" />' +
         '</div>' +
         '<div class="widgetName">' + widgetName + '</div>' +
         '</div>' +
