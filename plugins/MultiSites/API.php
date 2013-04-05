@@ -281,7 +281,9 @@ class Piwik_MultiSites_API
 
         // filter rows without visits
         // note: if only one website is queried and there are no visits, we can not remove the row otherwise Piwik_API_ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
-        if ($multipleWebsitesRequested) {
+        if ($multipleWebsitesRequested
+        // We don't delete the 0 visits row, if "Enhanced" mode is on.
+            && !$enhanced) {
             $dataTable->filter(
                 'ColumnCallbackDeleteRow',
                 array(
