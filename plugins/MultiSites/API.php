@@ -98,6 +98,9 @@ class Piwik_MultiSites_API
 
         $idSites = $this->getSitesIdFromPattern($pattern);
 
+        if(empty($idSites)) {
+            return new Piwik_DataTable();
+        }
         return $this->buildDataTable(
             $idSites,
             $period,
@@ -118,17 +121,18 @@ class Piwik_MultiSites_API
     private function getSitesIdFromPattern($pattern)
     {
         $idSites = 'all';
-        if (!empty($pattern)) {
-            $sites = Piwik_API_Request::processRequest('SitesManager.getPatternMatchSites',
-                array('pattern'   => $pattern,
-                      // added because caller could overwrite these
-                      'serialize' => 0,
-                      'format'    => 'original'));
-            if (!empty($sites)) {
-                $idSites = array();
-                foreach ($sites as $site) {
-                    $idSites[] = $site['idsite'];
-                }
+        if(empty($pattern)) {
+            return $idSites;
+        }
+        $idSites = array();
+        $sites = Piwik_API_Request::processRequest('SitesManager.getPatternMatchSites',
+            array('pattern'   => $pattern,
+                  // added because caller could overwrite these
+                  'serialize' => 0,
+                  'format'    => 'original'));
+        if (!empty($sites)) {
+            foreach ($sites as $site) {
+                $idSites[] = $site['idsite'];
             }
         }
         return $idSites;
@@ -280,7 +284,8 @@ class Piwik_MultiSites_API
         $dataTable->filter('Sort', array(self::NB_VISITS_METRIC, 'desc', $naturalSort = false));
 
         // filter rows without visits
-        // note: if only one website is queried and there are no visits, we can not remove the row otherwise Piwik_API_ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
+        // note: if only one website is queried and there are no visits, we can not remove the row otherwise
+        // Piwik_API_ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
         if ($multipleWebsitesRequested
         // We don't delete the 0 visits row, if "Enhanced" mode is on.
             && !$enhanced) {
@@ -460,3 +465,4 @@ class Piwik_MultiSites_API
         return 'last_period_' . $name;
     }
 }
+
