@@ -707,7 +707,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         );
 
         if (!empty($this->timeGeneration)) {
-            $insert[self::DB_COLUMN_TIME_GENERATION] = (int)$this->timeGeneration;
+            $insert[self::DB_COLUMN_TIME_GENERATION] = $this->timeGeneration;
         }
 
         $customVariables = $this->getCustomVariables();
@@ -1019,11 +1019,13 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         return array($url, $actionName, $categoryName, $count);
     }
 
+    const GENERATION_TIME_MS_MAXIMUM = 3600000; // 1 hour
     protected function detectPerformanceAnalyticsParameters()
     {
         $generationTime = Piwik_Common::getRequestVar(self::PARAMETER_NAME_TIME_GENERATION, -1, 'int', $this->request);
-        if ($generationTime > 0) {
-            $this->timeGeneration = $generationTime;
+        if ($generationTime > 0
+            && $generationTime < self::GENERATION_TIME_MS_MAXIMUM) {
+            $this->timeGeneration = (int)$generationTime;
         }
     }
 

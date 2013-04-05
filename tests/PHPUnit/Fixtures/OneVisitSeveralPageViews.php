@@ -58,8 +58,11 @@ class Test_Piwik_Fixture_OneVisitSeveralPageViews extends Test_Piwik_BaseFixture
 
         $t->setUrl('http://example.org/dir2/sub/0/file.php');
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
-        $t->setGenerationTime(837);
+
+        // Very high Generation time should be ignored
+        $t->setGenerationTime(6350000);
         self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
+
 
         $t->setUrl('http://example.org/0');
         $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
