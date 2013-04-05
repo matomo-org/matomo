@@ -1,40 +1,39 @@
-<div class="dataTable" data-report="{$properties.uniqueId}" data-params="{$javascriptVariablesToSet|@json_encode|escape:'html'}">
+<div class="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
 
     <div class="reportDocumentation">
-        {if !empty($reportDocumentation)}<p>{$reportDocumentation}</p>{/if}
-        {if isset($properties.metadata.archived_date)}<p>{$properties.metadata.archived_date}</p>{/if}
+        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation }}</p>{% endif %}
+        {% if properties.metadata.archived_date is defined %}<p>{{ properties.metadata.archived_date }}</p>{% endif %}
     </div>
 
-    <div class="{if $graphType=='evolution'}dataTableGraphEvolutionWrapper{else}dataTableGraphWrapper{/if}">
+    <div class="{% if graphType=='evolution' %}dataTableGraphEvolutionWrapper{% else %}dataTableGraphWrapper{% endif %}">
 
-        {if $isDataAvailable}
-            <div class="jqplot-{$graphType}" style="padding-left: 6px;">
+        {% if isDataAvailable %}
+            <div class="jqplot-{{ graphType }}" style="padding-left: 6px;">
                 <div class="piwik-graph"
-                     style="position: relative; width: {$width}{if substr($width, -1) != '%'}px{/if}; height: {$height}{if substr($height, -1) != '%'}px{/if};"
-                     data-data="{$data|escape:'html'}"
-                     data-graph-type="{$graphType|escape:'html'}"
-                        {if isset($properties.externalSeriesToggle) && $properties.externalSeriesToggle}
-                    data-external-series-toggle="{$properties.externalSeriesToggle|escape:'html'}"
-                    data-external-series-show-all="{if $properties.externalSeriesToggleShowAll}1{else}0{/if}"
-                        {/if}>
+                    style="position: relative; width: {{ width }}{% if width|slice(-1,1) != '%' %}px{% endif %}; height: {{ height }}{% if height|slice(-1,1) != '%' %}px{% endif %};"
+                    data-data="{{ data }}"
+                    data-graph-type="{{ graphType }}"
+                    {% if properties.externalSeriesToggle is defined and properties.externalSeriesToggle %}
+                    data-external-series-toggle="{{ properties.externalSeriesToggle }}"
+                    data-external-series-show-all="{% if properties.externalSeriesToggleShowAll %}1{% else %}0{% endif %}"
+                    {% endif %}>
                 </div>
             </div>
-        {else}
+        {% else %}
             <div>
                 <div class="pk-emptyGraph">
-                    {if $showReportDataWasPurgedMessage}
-                        {'General_DataForThisGraphHasBeenPurged'|translate:$deleteReportsOlderThan}
-                    {else}
-                        {'General_NoDataForGraph_js'|translate}
-                    {/if}
+                    {% if showReportDataWasPurgedMessage %}
+                        {{ 'General_DataForThisGraphHasBeenPurged'|translate(deleteReportsOlderThan) }}
+                    {% else %}
+                        {{ 'General_NoDataForGraph_js'|translate }}
+                    {% endif %}
                 </div>
             </div>
-        {/if}
+        {% endif %}
 
-        {if $properties.show_footer}
-            {include file="CoreHome/templates/datatable_footer.tpl"}
-            {include file="CoreHome/templates/datatable_js.tpl"}
-        {/if}
-
+        {% if properties.show_footer %}
+            {% include "@CoreHome/datatable_footer.twig" %}
+            {% include "@CoreHome/datatable_js.twig" %}
+        {% endif %}
     </div>
 </div>

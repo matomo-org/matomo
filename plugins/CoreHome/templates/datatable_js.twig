@@ -1,7 +1,8 @@
-{if !isset($dataTableClassName)}{assign var=dataTableClassName value=dataTable}{/if}
+{% if dataTableClassName is not defined %}
+{% set dataTableClassName='dataTable' %}
+{% endif %}
 <script type="text/javascript" defer="defer">
-    $(document).ready(function () {literal}{{/literal}
-        piwik.DataTableManager.initNewDataTables({$dataTableClassName});
-        {literal}
-    }{/literal});
+$(document).ready(function () {
+    piwik.DataTableManager.initNewDataTables({{ dataTableClassName }});
+});
 </script>
