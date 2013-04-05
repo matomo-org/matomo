@@ -191,7 +191,8 @@ class Piwik_Live_API
 					log_action.idaction AS pageIdAction,
 					log_link_visit_action.idlink_va AS pageId,
 					log_link_visit_action.server_time as serverTimePretty,
-					log_link_visit_action.time_spent_ref_action as timeSpentRef
+					log_link_visit_action.time_spent_ref_action as timeSpentRef,
+					log_link_visit_action.custom_float
 					$sqlCustomVariables
 				FROM " . Piwik_Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
 					LEFT JOIN " . Piwik_Common::prefixTable('log_action') . " AS log_action
@@ -231,6 +232,11 @@ class Piwik_Live_API
 
                 }
                 unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
+                // handle generation time
+                if ($actionDetail['custom_float'] > 0) {
+                    $actionDetail['generationTime'] = Piwik::getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
+                }
+                unset($actionDetail['custom_float']);
             }
 
             // If the visitor converted a goal, we shall select all Goals

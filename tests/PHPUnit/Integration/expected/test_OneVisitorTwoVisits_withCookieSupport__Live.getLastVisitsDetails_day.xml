@@ -30,6 +30,7 @@
 				<pageIdAction>12</pageIdAction>
 				<pageId>9</pageId>
 				
+				<generationTime>0.13s</generationTime>
 				<icon />
 			</row>
 		</actionDetails>
@@ -119,6 +120,7 @@
 				
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<generationTime>0.23s</generationTime>
 				<icon />
 			</row>
 			<row>
@@ -130,6 +132,7 @@
 				
 				<timeSpent>180</timeSpent>
 				<timeSpentPretty>3 min 0s</timeSpentPretty>
+				<generationTime>0.22s</generationTime>
 				<icon />
 			</row>
 			<row>
@@ -194,6 +197,7 @@
 				
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
+				<generationTime>0.81s</generationTime>
 				<icon>themes/default/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -203,6 +207,7 @@
 				<pageIdAction>10</pageIdAction>
 				<pageId>8</pageId>
 				
+				<generationTime>0.02s</generationTime>
 				<icon />
 			</row>
 		</actionDetails>
