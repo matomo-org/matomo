@@ -1,4 +1,3 @@
-{literal}
 <script type="text/javascript">
     $(document).ready(function () {
         var refreshWidget = function (element, refreshAfterXSecs) {
@@ -67,57 +66,60 @@
             });
         };
 
-        initSimpleRealtimeVisitorWidget({/literal}{$refreshAfterXSecs}{literal});
+        initSimpleRealtimeVisitorWidget({{ refreshAfterXSecs }});
     });
 </script>
-    <style>
-        .simple-realtime-visitor-widget {
-            text-align: center;
-        }
+<style>
+    .simple-realtime-visitor-widget {
+        text-align: center;
+    }
 
-        .simple-realtime-visitor-counter {
-            background-color: #F1F0EB;
+    .simple-realtime-visitor-counter {
+        background-color: #F1F0EB;
 
-            -moz-border-radius: 10px;
-            -webkit-border-radius: 10px;
-            border-radius: 10px;
-            display: inline-block;
-            margin: 2em 0 1em 0;
-        }
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        display: inline-block;
+        margin: 2em 0 1em 0;
+    }
 
-        .simple-realtime-visitor-counter > div {
-            font-size: 4.0em;
-            padding: .25em .5em .25em .5em;
-            color: #444;
-        }
+    .simple-realtime-visitor-counter > div {
+        font-size: 4.0em;
+        padding: .25em .5em .25em .5em;
+        color: #444;
+    }
 
-        .simple-realtime-metric {
-            font-style: italic;
-            font-weight: bold;
-            color: #333;
-        }
+    .simple-realtime-metric {
+        font-style: italic;
+        font-weight: bold;
+        color: #333;
+    }
 
-        .simple-realtime-elaboration {
-            margin: 1em 2em 1em 2em;
-            color: #666;
-            display: inline-block;
-        }
-    </style>
-{/literal}
-<div class='simple-realtime-visitor-widget' data-last-minutes="{$lastMinutes}" data-translations="{$translations|@json_encode|escape:'html'}">
-    <div class='simple-realtime-visitor-counter' title="{if $visitors eq 1}{'Live_NbVisitor'|translate}{else}{'Live_NbVisitors'|translate:$visitors}{/if}">
-        <div>{$visitors}</div>
+    .simple-realtime-elaboration {
+        margin: 1em 2em 1em 2em;
+        color: #666;
+        display: inline-block;
+    }
+</style>
+
+<div class='simple-realtime-visitor-widget' data-last-minutes="{{ lastMinutes }}" data-translations="{{ translations|json_encode }}">
+    <div class='simple-realtime-visitor-counter' title="{% if visitors == 1}{{ 'Live_NbVisitor'|translate }}{% else %}{{ 'Live_NbVisitors'|translate(visitors) }}{% endif %}">
+        <div>{{ visitors }}</div>
     </div>
     <br/>
 
     <div class='simple-realtime-elaboration'>
-        {capture assign="visitsMessage"}<span class="simple-realtime-metric"
-                                              data-metric="visits">{if $visits eq 1}{'General_OneVisit'|translate}{else}{'General_NVisits'|translate:$visits}{/if}</span>{/capture}
-        {capture assign="actionsMessage"}<span class="simple-realtime-metric"
-                                               data-metric="actions">{if $actions eq 1}{'General_OneAction'|translate}{else}{'VisitsSummary_NbActionsDescription'|translate:$actions}{/if}</span>{/capture}
-        {capture assign="minutesMessage"}<span class="simple-realtime-metric"
-                                               data-metric="minutes">{if $lastMinutes eq 1}{'General_OneMinute'|translate}{else}{'General_NMinutes'|translate:$lastMinutes}{/if}</span>{/capture}
+        {% set visitsMessage %}
+            <span class="simple-realtime-metric" data-metric="visits">{% if visits == 1 %}{{ 'General_OneVisit'|translate }}{% else %}{{ 'General_NVisits'|translate(visits) }}{% endif %}</span>
+        {% endset %}
+        {% set actionsMessage %}
+            <span class="simple-realtime-metric" data-metric="actions">{% if actions == 1 %}{{ 'General_OneAction'|translate }}{% else %}{{ 'VisitsSummary_NbActionsDescription'|translate(actions) }}{% endif %}</span>
+        {% endset %}
+        {% set minutesMessage %}
+            <span class="simple-realtime-metric" data-metric="minutes">{% if lastMinutes == 1 %}{{ 'General_OneMinute'|translate }}{% else %}{{ 'General_NMinutes'|translate(lastMinutes) }}{% endif %}</span>
+        {% endset %}
 
-        {'Live_SimpleRealTimeWidget_Message'|translate:$visitsMessage:$actionsMessage:$minutesMessage}
+        {{ 'Live_SimpleRealTimeWidget_Message'|translate(visitsMessage,actionsMessage,minutesMessage) }}
     </div>
 </div>
