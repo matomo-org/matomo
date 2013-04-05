@@ -45,6 +45,9 @@ JQPlot.prototype = {
                 showMark: false,
                 fontSize: '11px',
                 fontFamily: 'Arial'
+            },
+            rendererOptions: {
+                drawBaseline: false
             }
         };
 

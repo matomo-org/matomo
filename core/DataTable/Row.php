@@ -455,12 +455,12 @@ class Piwik_DataTable_Row
      *         this.columns[idThisCol] += $row.columns[idThisCol]
      *
      * @param Piwik_DataTable_Row $rowToSum
+     * @param bool                $enableCopyMetadata
      * @param array               $aggregationOperations  for columns that should not be summed, determine which
      *                                                    aggregation should be used (min, max).
-     *                                                    format: column name => function name 
-     * @param bool                $enableCopyMetadata
+     *                                                    format: column name => function name
      */
-    public function sumRow(Piwik_DataTable_Row $rowToSum, $enableCopyMetadata = true, &$aggregationOperations = null)
+    public function sumRow(Piwik_DataTable_Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = null)
     {
         foreach ($rowToSum->getColumns() as $columnToSumName => $columnToSumValue) {
             if (!isset(self::$unsummableColumns[$columnToSumName])) // make sure we can add this column
@@ -475,25 +475,7 @@ class Piwik_DataTable_Row
                 if ($columnToSumName == Piwik_Archive::INDEX_MAX_ACTIONS) {
                     $operation = 'max';
                 }
-                
-                switch ($operation) {
-                    case 'max':
-                        $newValue = max($thisColumnValue, $columnToSumValue);
-                        break;
-                    case 'min':
-                        if (!$thisColumnValue) {
-                            $newValue = $columnToSumValue;
-                        } else if (!$columnToSumValue) {
-                            $newValue = $thisColumnValue;
-                        } else {
-                            $newValue = min($thisColumnValue, $columnToSumValue);
-                        }
-                        break;
-                    default:
-                        $newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
-                        break;
-                }
-                
+                $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
                 $this->setColumn($columnToSumName, $newValue);
             }
         }
@@ -501,6 +483,32 @@ class Piwik_DataTable_Row
         if ($enableCopyMetadata) {
             $this->sumRowMetadata($rowToSum);
         }
+    }
+
+    /**
+     *
+     */
+    private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue)
+    {
+        switch ($operation) {
+            case 'max':
+                $newValue = max($thisColumnValue, $columnToSumValue);
+                break;
+            case 'min':
+                if (!$thisColumnValue) {
+                    $newValue = $columnToSumValue;
+                } else if (!$columnToSumValue) {
+                    $newValue = $thisColumnValue;
+                } else {
+                    $newValue = min($thisColumnValue, $columnToSumValue);
+                }
+                break;
+            case 'sum':
+            default:
+                $newValue = $this->sumRowArray($thisColumnValue, $columnToSumValue);
+                break;
+        }
+        return $newValue;
     }
 
     public function sumRowMetadata($rowToSum)

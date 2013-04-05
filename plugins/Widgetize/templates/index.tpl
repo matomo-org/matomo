@@ -71,6 +71,7 @@
         $('#widgetPreview').widgetPreview({
             onPreviewLoaded: widgetized.callbackAddExportButtonsUnderWidget
         });
+        broadcast.init();
     });
 
     {/literal}

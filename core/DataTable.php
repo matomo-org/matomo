@@ -582,7 +582,7 @@ class Piwik_DataTable
                                                              )));
                 $this->summaryRow->setColumn('label', self::LABEL_SUMMARY_ROW);
             } else {
-                $this->summaryRow->sumRow($row, $enableCopyMetadata = false);
+                $this->summaryRow->sumRow($row, $enableCopyMetadata = false, $this->columnAggregationOperations);
             }
             return $this->summaryRow;
         }

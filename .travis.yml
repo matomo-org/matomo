@@ -25,6 +25,7 @@ matrix:
 script: ./travis.sh
 
 before_script:
+  - echo `uname -a`
   - echo `date`
   - mysql -e 'create database piwik_test;'
   - ./tests/travis/prepare.sh

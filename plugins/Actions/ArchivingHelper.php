@@ -138,19 +138,7 @@ class Piwik_Actions_ArchivingHelper
                 // - this happens when 2 visitors visit the same new page at the same time, and 2 actions get recorded for the same name
                 // - this could also happen when 2 URLs end up having the same label (eg. 2 subdomains get aggregated to the "/index" page name)
                 if (($alreadyValue = $actionRow->getColumn($name)) !== false) {
-                    if ($name == Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION) {
-                        if (empty($alreadyValue)) {
-                            $newValue = $value;
-                        } else if (empty($value)) {
-                            $newValue = $alreadyValue;
-                        } else {
-                            $newValue = min($alreadyValue, $value);
-                        }
-                    } else if ($name == Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION) {
-                        $newValue = max($alreadyValue, $value);
-                    } else {
-                        $newValue = $alreadyValue + $value;
-                    }
+                    $newValue = self::getColumnValuesMerged($name, $alreadyValue, $value);
                     $actionRow->setColumn($name, $newValue);
                 } else {
                     $actionRow->addColumn($name, $value);
@@ -173,6 +161,33 @@ class Piwik_Actions_ArchivingHelper
         // just to make sure php copies the last $actionRow in the $parentTable array
         $actionRow =& $actionsTablesByType;
         return $rowsProcessed;
+    }
+
+    /**
+     * @param $columnName
+     * @param $alreadyValue
+     * @param $value
+     * @return mixed
+     */
+    private static function getColumnValuesMerged($columnName, $alreadyValue, $value)
+    {
+        if ($columnName == Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION) {
+            if (empty($alreadyValue)) {
+                $newValue = $value;
+            } else if (empty($value)) {
+                $newValue = $alreadyValue;
+            } else {
+                $newValue = min($alreadyValue, $value);
+            }
+            return $newValue;
+        }
+        if ($columnName == Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION) {
+            $newValue = max($alreadyValue, $value);
+            return $newValue;
+        }
+
+        $newValue = $alreadyValue + $value;
+        return $newValue;
     }
 
     static public $maximumRowsInDataTableLevelZero;
