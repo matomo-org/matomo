@@ -41,6 +41,7 @@ class Piwik_Twig
         $this->twig = new Twig_Environment($chainLoader,
             array(
                 //'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
+                'debug' => true,
             )
         );
         $this->twig->clearTemplateCache();
@@ -91,6 +92,17 @@ class Piwik_Twig
             return $jsCode;
         });
         $this->twig->addFunction($loadJsTranslationsFunction);
+
+        $sparklineFunction = new Twig_SimpleFunction('sparkline', function($src) {
+            $graph = new Piwik_Visualization_Sparkline();
+            $width = $graph->getWidth();
+            $height = $graph->getHeight();
+            return sprintf('<img class="sparkline" alt="" src="%s" width="%d" height="%d" />', $src, $width, $height);
+        });
+        $this->twig->addFunction($sparklineFunction);
+
+        // ToDo REMOVE THIS CRAP
+        $this->twig->addExtension(new Twig_Extension_Debug());
     }
 
     /**
@@ -148,6 +160,11 @@ class Piwik_Twig
             return $url;
         });
         $this->twig->addFilter($urlRewriteFilter);
+
+        $sumtimeFilter = new Twig_SimpleFilter('sumtime', function($numberOfSeconds) {
+            return Piwik::getPrettyTimeFromSeconds($numberOfSeconds);
+        });
+        $this->twig->addFilter($sumtimeFilter);
     }
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)

@@ -46,7 +46,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
             $currentControllerAction,
             $apiMethodToRequestDataTable,
             $controllerActionCalledWhenRequestSubTable);
-        $this->dataTableTemplate = 'CoreHome/templates/cloud.tpl';
+        $this->dataTableTemplate = '@CoreHome/cloud';
         $this->disableOffsetInformation();
         $this->disableExcludeLowPopulation();
     }
