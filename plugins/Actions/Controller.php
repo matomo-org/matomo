@@ -120,7 +120,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
      */
     public function indexSiteSearch()
     {
-        $view = Piwik_View::factory('indexSiteSearch');
+        $view = new Piwik_View('@Actions/indexSiteSearch');
 
         $view->keywords = $this->getSiteSearchKeywords(true);
         $view->noResultKeywords = $this->getSiteSearchNoResultKeywords(true);

@@ -10,7 +10,7 @@
                 {% endfor %}
             </select>
             {# During installation token_auth is not set #}
-            {% if token_auth %}<input type="hidden" name="token_auth" value="{{ token_auth }}"/>{% endif %}
+            {% if token_auth is defined %}<input type="hidden" name="token_auth" value="{{ token_auth }}"/>{% endif %}
             <input type="submit" value="go"/>
         </form>
 	</span>

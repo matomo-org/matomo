@@ -1,0 +1,12 @@
+{% if infoMessage is defined %}
+    <p class="message">{{ infoMessage }}</p>
+{% endif %}
+{% if formErrors is defined %}
+    <p id="login_error">
+        {% for data in formErrors %}
+            <strong>{{ 'General_Error'|translate }}</strong>
+            : {{ data }}
+            <br/>
+        {% endfor %}
+    </p>
+{% endif %}
