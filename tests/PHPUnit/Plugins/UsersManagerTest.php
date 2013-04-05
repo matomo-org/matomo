@@ -225,7 +225,7 @@ class UsersManagerTest extends DatabaseTestCase
     public function getWrongEmailTestData()
     {
         return array(
-            array("geggeqgeqag", "geqgeagae", "ema'il@email.com", "alias"),
+            array("geggeqgeqag", "geqgeagae", "alias"),
             array("geggeqgeqag", "geqgeagae", "@email.com", "alias"),
             array("geggeqgeqag", "geqgeagae", "email@.com", "alias"),
             array("geggeqgeqag", "geqgeagae", "email@4.", "alias"),
