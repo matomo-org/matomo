@@ -116,7 +116,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 
         $this->applyPrettyMoney($digestableData);
 
-        $view = new Piwik_View("MultiSites/templates/index.tpl");
+        $view = new Piwik_View("@MultiSites/index");
         $view->isWidgetized = $isWidgetized;
         $view->sitesData = array_values($digestableData);
         $view->evolutionBy = $this->evolutionBy;
