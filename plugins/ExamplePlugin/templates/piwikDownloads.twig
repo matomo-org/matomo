@@ -1,11 +1,10 @@
 <div style="padding:1.5em;text-align:center">
-    {"ExamplePlugin_PiwikForumReceivedVisits"|translate:$prettyDate:'<b class="piwikDownloadCount_cnt" >...</b>'}
+    {{ "ExamplePlugin_PiwikForumReceivedVisits"|translate(prettyDate,'<b class="piwikDownloadCount_cnt" >...</b>')|raw }}
 </div>
-{* 
- * loading piwik download stats from demo.piwik.org 
- *}
+{#
+ # loading piwik download stats from demo.piwik.org
+ #}
 <script type="text/javascript">
-    {literal}
     $.ajax({
         url: "http://demo.piwik.org/?module=API&method=VisitsSummary.getVisits"
                 + "&idSite=7&period=" + piwik.period + "&date=" + broadcast.getValueFromUrl('date')
@@ -16,5 +15,4 @@
             $('.piwikDownloadCount_cnt').html(data.value);
         }
     });
-    {/literal}
 </script>

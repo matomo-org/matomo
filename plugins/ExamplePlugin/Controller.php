@@ -19,7 +19,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
      * Go to /piwik/?module=ExamplePlugin&action=helloWorld to execute this method
      *
      */
-    function helloWorld()
+    public function helloWorld()
     {
         echo "<p>Hello world! <br />";
         echo "Happy coding with Piwik :)</p>";
@@ -30,7 +30,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
      * or in the dashboard > Add a new widget
      *
      */
-    function exampleWidget()
+    public function exampleWidget()
     {
         echo "<p>Hello world! <br /> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
 		<br />Widgets can include graphs, tables, flash, text, images, etc.
@@ -41,7 +41,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		<script type=\"text/javascript\">$('#happycoding').hide().fadeIn(5000);$('#jsenabled').hide().css({'color':'red'}).fadeIn(10000);</script>";
     }
 
-    function photostreamMatt()
+    public function photostreamMatt()
     {
         echo '<object width="400" height="400"> <param name="flashvars" value="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to="></param> <param name="movie" value="http://www.flickr.com/apps/slideshow/show.swf?v=109615"></param> <param name="allowFullScreen" value="true"></param><embed type="application/x-shockwave-flash" src="http://www.flickr.com/apps/slideshow/show.swf?v=109615" allowFullScreen="true" flashvars="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to=" width="400" height="400"></embed></object>';
     }
@@ -50,9 +50,9 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
      * this widgets shows how to make a remote API request to piwik.org
      * you find the main JS code in templates/piwikDownloadCount.tpl
      */
-    function piwikDownloads()
+    public function piwikDownloads()
     {
-        $view = Piwik_View::factory('piwikDownloads');
+        $view = new Piwik_View('@ExamplePlugin/piwikDownloads');
         $this->setGeneralVariablesView($view);
         echo $view->render();
     }
@@ -62,7 +62,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
      * This help is then used on http://piwik.org/docs/plugins/functions
      *
      */
-    function index()
+    public function index()
     {
         $out = '';
         $out .= '<i>This page aims to list the different functions you can use when programming plugins for Piwik.</i><br />';
@@ -134,7 +134,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
         echo $out;
     }
 
-    static private function boolToString($bool)
+    private static function boolToString($bool)
     {
         return $bool ? "true" : "false";
     }
