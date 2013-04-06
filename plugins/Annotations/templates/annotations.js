@@ -432,7 +432,7 @@
         });
     };
 
-// used in below function
+    // used in below function
     var loadingAnnotationManager = false;
 
     /**
@@ -443,8 +443,9 @@
      * @param {int} idSite The ID of the site to show the annotations of.
      * @param {string} date The start date of the period.
      * @param {string} period The period type.
-     * @param {int} Whether to include the last N periods in the date range or not. Can
      *              be undefined.
+     * @param lastN
+     * @param callback
      */
     var showAnnotationViewer = function (domElem, idSite, date, period, lastN, callback) {
         var addToAnnotationCount = function (date, amt, starAmt) {
@@ -461,9 +462,9 @@
                     // modify the starred count & make sure the correct image is used
                     var newStarCount = starredCount + starAmt;
                     if (newStarCount > 0) {
-                        var newImg = 'themes/default/images/yellow_marker.png';
+                        var newImg = 'plugins/Zeitgeist/theme/images/yellow_marker.png';
                     } else {
-                        var newImg = 'themes/default/images/grey_marker.png';
+                        var newImg = 'plugins/Zeitgeist/theme/images/grey_marker.png';
                     }
                     $(this).attr('data-starred', newStarCount).find('img').attr('src', newImg);
 
