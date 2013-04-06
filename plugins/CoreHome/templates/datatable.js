@@ -1450,7 +1450,9 @@ dataTable.prototype =
                     }
                     // reposition and show the actions
                     self.repositionRowActions(tr);
-                    actionsDom.show();
+                    if ($(window).width() >= 600) {
+                        actionsDom.show();
+                    }
                 },
                 function () {
                     if (actionsDom !== null) {
