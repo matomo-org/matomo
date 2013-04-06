@@ -64,7 +64,7 @@ class Piwik_Twig
                     return Piwik_AssetManager::getJsAssets();
 
                 default:
-                    throw new Exception("The smarty function includeAssets 'type' parameter needs to be either 'css' or 'js'.");
+                    throw new Exception("The twig function includeAssets 'type' parameter needs to be either 'css' or 'js'.");
             }
         });
         $this->twig->addFunction($includeAssetsFunction);
@@ -97,14 +97,14 @@ class Piwik_Twig
             $width = $graph->getWidth();
             $height = $graph->getHeight();
             return sprintf('<img class="sparkline" alt="" src="%s" width="%d" height="%d" />', $src, $width, $height);
-        });
+        }, array('is_safe' => array('html')));
         $this->twig->addFunction($sparklineFunction);
 
         $postEventFunction = new Twig_SimpleFunction('postEvent', function($eventName) {
             $str = '';
             Piwik_PostEvent($eventName, $str);
             return $str;
-        });
+        }, array('is_safe' => array('html')));
         $this->twig->addFunction($postEventFunction);
     }
 

@@ -17,7 +17,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 {
     function index()
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@UserCountry/index');
 
         $view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
         $view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
@@ -33,7 +33,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
     function adminIndex()
     {
         Piwik::checkUserIsSuperUser();
-        $view = Piwik_View::factory('adminIndex');
+        $view = new Piwik_View('@UserCountry/adminIndex');
 
         $allProviderInfo = Piwik_UserCountry_LocationProvider::getAllProviderInfo(
             $newline = '<br/>', $includeExtra = true);
@@ -134,7 +134,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
      */
     private function getGeoIpUpdaterManageScreen()
     {
-        $view = Piwik_View::factory('updaterSetup');
+        $view = new Piwik_View('@UserCountry/updaterSetup');
         $view->geoIPDatabasesInstalled = true;
         $this->setUpdaterManageVars($view);
         return $view->render();

@@ -1,0 +1,26 @@
+<div id="leftcolumn">
+    {{ postEvent("template_leftColumnUserCountry") }}
+
+    <h2>{{ 'UserCountry_Continent'|translate }}</h2>
+    {{ dataTableContinent|raw }}
+
+    <div class="sparkline">
+        {{ sparkline(urlSparklineCountries) }}
+        {{ 'UserCountry_DistinctCountries'|translate("<strong>"+numberDistinctCountries+"</strong>")|raw }}
+    </div>
+
+    {{ postEvent("template_footerUserCountry") }}
+
+</div>
+
+<div id="rightcolumn">
+    <h2>{{ 'UserCountry_Country'|translate }}</h2>
+    {{ dataTableCountry|raw }}
+
+    <h2>{{ 'UserCountry_Region'|translate }}</h2>
+    {{ dataTableRegion|raw }}
+
+    <h2>{{ 'UserCountry_City'|translate }}</h2>
+    {{ dataTableCity|raw }}
+</div>
+
