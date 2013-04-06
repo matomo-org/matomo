@@ -33,9 +33,9 @@ class Piwik_Annotations_Controller extends Piwik_Controller
      *
      * @param bool $fetch True if the annotation manager should be returned as a string,
      *                    false if it should be echo-ed.
-     * @param string $date Override for 'date' query parameter.
-     * @param string $period Override for 'period' query parameter.
-     * @param string $lastN Override for 'lastN' query parameter.
+     * @param bool|string $date Override for 'date' query parameter.
+     * @param bool|string $period Override for 'period' query parameter.
+     * @param bool|string $lastN Override for 'lastN' query parameter.
      * @return string|void
      */
     public function getAnnotationManager($fetch = false, $date = false, $period = false, $lastN = false)
