@@ -156,7 +156,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     protected function getGoalReportView($idGoal = false)
     {
-        $view = Piwik_View::factory('single_goal');
+        $view = new Piwik_View('@Goals/single_goal');
         if ($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER) {
             $goalDefinition['name'] = Piwik_Translate('Goals_Ecommerce');
             $goalDefinition['allow_multiple'] = true;
@@ -217,7 +217,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     protected function getOverviewView()
     {
-        $view = Piwik_View::factory('overview');
+        $view = new Piwik_View('@Goals/overview');
         $this->setGeneralVariablesView($view);
 
         $view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'));
@@ -271,7 +271,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     public function addNewGoal()
     {
-        $view = Piwik_View::factory('add_new_goal');
+        $view = new Piwik_View('@Goals/add_new_goal');
         $this->setGeneralVariablesView($view);
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->onlyShowAddNewGoal = true;

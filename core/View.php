@@ -210,7 +210,7 @@ class Piwik_View implements Piwik_View_Interface
      */
     static public function singleReport($title, $reportHtml, $fetch = false)
     {
-        $view = new Piwik_View('@CoreHome/single_report.tpl');
+        $view = new Piwik_View('@CoreHome/single_report');
         $view->title = $title;
         $view->report = $reportHtml;
 

@@ -327,10 +327,10 @@ abstract class Piwik_ViewDataTable
     /**
      * Forces the View to use a given template.
      * Usually the template to use is set in the specific ViewDataTable_*
-     * eg. 'CoreHome/templates/cloud.tpl'
+     * eg. 'CoreHome/templates/cloud'
      * But some users may want to force this template to some other value
      *
-     * @param string $tpl eg .'MyPlugin/templates/templateToUse.tpl'
+     * @param string $tpl eg .'@MyPlugin/templateToUse'
      */
     public function setTemplate($tpl)
     {

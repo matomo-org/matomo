@@ -452,13 +452,13 @@ class Piwik_Actions_Controller extends Piwik_Controller
      */
     protected function configureGenericViewActions($view)
     {
-        $view->setTemplate('CoreHome/templates/datatable_actions.tpl');
+        $view->setTemplate('@CoreHome/datatable_actions');
         if (Piwik_Common::getRequestVar('idSubtable', -1) != -1) {
-            $view->setTemplate('CoreHome/templates/datatable_actions_subdatable.tpl');
+            $view->setTemplate('@CoreHome/datatable_actions_subdatable');
         }
         $currentlySearching = $view->setSearchRecursive();
         if ($currentlySearching) {
-            $view->setTemplate('CoreHome/templates/datatable_actions_recursive.tpl');
+            $view->setTemplate('@CoreHome/datatable_actions_recursive');
         }
         // disable Footer icons
         $view->disableShowAllViewsIcons();

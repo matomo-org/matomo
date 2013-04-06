@@ -23,7 +23,7 @@ class Piwik_View_ReportsByDimension extends Piwik_View
      */
     public function __construct()
     {
-        parent::__construct(PIWIK_INCLUDE_PATH . '/plugins/CoreHome/templates/reports_by_dimension.tpl');
+        parent::__construct('@CoreHome/reports_by_dimension');
         $this->dimensionCategories = array();
     }
 
