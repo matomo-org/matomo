@@ -50,7 +50,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
         return $componentsWithUpdateFile;
     }
 
-    function dispatch()
+    public function dispatch()
     {
         $module = Piwik_Common::getRequestVar('module', '', 'string');
         $action = Piwik_Common::getRequestVar('action', '', 'string');
@@ -76,7 +76,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
         }
     }
 
-    function updateCheck()
+    public function updateCheck()
     {
         Piwik_UpdateCheck::check();
     }
