@@ -17,7 +17,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
 {
     function index()
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@Feedback/index');
         $view->nonce = Piwik_Nonce::getNonce('Piwik_Feedback.sendFeedback', 3600);
         echo $view->render();
     }
@@ -33,7 +33,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
         $category = Piwik_Common::getRequestVar('category', '', 'string');
         $nonce = Piwik_Common::getRequestVar('nonce', '', 'string');
 
-        $view = Piwik_View::factory('sent');
+        $view = new Piwik_View('@Feedback/sent');
         $view->feedbackEmailAddress = Piwik_Config::getInstance()->General['feedback_email_address'];
         try {
             $minimumBodyLength = 40;
@@ -65,7 +65,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
                 . 'URL: ' . Piwik_Url::getReferer() . "\n");
             @$mail->send();
         } catch (Exception $e) {
-            $view->ErrorString = $e->getMessage();
+            $view->errorString = $e->getMessage();
             $view->message = $body;
         }
 
