@@ -179,6 +179,15 @@ class Piwik_Twig
             return Piwik::getPrettyMoney($amount, $idSite);
         });
         $this->twig->addFilter($moneyFilter);
+
+        $truncateFilter = new Twig_SimpleFilter('truncate', function($string, $size) {
+            if(strlen($string) < $size) {
+                return $string;
+            } else {
+                return array_shift(str_split($string, $size)) . "...";
+            }
+        });
+        $this->twig->addFilter($truncateFilter);
     }
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
