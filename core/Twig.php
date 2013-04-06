@@ -165,6 +165,17 @@ class Piwik_Twig
             return Piwik::getPrettyTimeFromSeconds($numberOfSeconds);
         });
         $this->twig->addFilter($sumtimeFilter);
+
+        $moneyFilter = new Twig_SimpleFilter('money', function($amount)
+        {
+            if (func_num_args() != 2) {
+                throw new Exception('the smarty modifier money expects one parameter: the idSite.');
+            }
+            $idSite = func_get_args();
+            $idSite = $idSite[1];
+            return Piwik::getPrettyMoney($amount, $idSite);
+        });
+        $this->twig->addFilter($moneyFilter);
     }
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
