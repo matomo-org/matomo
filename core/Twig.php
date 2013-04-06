@@ -41,7 +41,6 @@ class Piwik_Twig
         $this->twig = new Twig_Environment($chainLoader,
             array(
                 //'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
-                'debug' => true,
             )
         );
         $this->twig->clearTemplateCache();
@@ -101,8 +100,12 @@ class Piwik_Twig
         });
         $this->twig->addFunction($sparklineFunction);
 
-        // ToDo REMOVE THIS CRAP
-        $this->twig->addExtension(new Twig_Extension_Debug());
+        $postEventFunction = new Twig_SimpleFunction('postEvent', function($eventName) {
+            $str = '';
+            Piwik_PostEvent($eventName, $str);
+            return $str;
+        });
+        $this->twig->addFunction($postEventFunction);
     }
 
     /**

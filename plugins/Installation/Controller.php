@@ -29,8 +29,6 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         'finished'              => 'Installation_Congratulations',
     );
 
-    protected $pathView = 'Installation/templates/';
-
     protected $session;
 
     public function __construct()
@@ -74,7 +72,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         Piwik::deleteAllCacheOnUpdate();
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'welcome.tpl',
+            '@Installation/welcome',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -94,7 +92,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'systemCheck.tpl',
+            '@Installation/systemCheck',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -138,7 +136,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         );
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'databaseSetup.tpl',
+            '@Installation/databaseSetup',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -174,7 +172,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
         $view = new Piwik_Installation_View(
-            $this->pathView . 'databaseCheck.tpl',
+            '@Installation/databaseCheck',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -233,7 +231,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'tablesCreation.tpl',
+            '@Installation/tablesCreation',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -299,7 +297,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'generalSetup.tpl',
+            '@Installation/generalSetup',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -356,7 +354,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'firstWebsiteSetup.tpl',
+            '@Installation/firstWebsiteSetup',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -406,7 +404,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'displayJavascriptCode.tpl',
+            '@Installation/displayJavascriptCode',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -445,7 +443,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'finished.tpl',
+            '@Installation/finished',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -475,7 +473,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = Piwik_View::factory('systemCheckPage');
+        $view = new Piwik_View('@Installation/systemCheckPage');
         $this->setBasicVariablesView($view);
         $view->menu = Piwik_GetAdminMenu();
 

@@ -2,64 +2,60 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Piwik &rsaquo; {'Installation_Installation'|translate}</title>
+    <title>Piwik &rsaquo; {{ 'Installation_Installation'|translate }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <link rel="stylesheet" type="text/css" href="themes/default/common.css"/>
     <link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css"/>
-    <link rel="stylesheet" type="text/css" href="themes/default/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/theme/styles.css"/>
     <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"/>
     <script type="text/javascript" src="libs/jquery/jquery.js"></script>
     <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
 
-    {literal}
     <script type="text/javascript">
         $(document).ready(function () {
             $('#toFade').fadeOut(4000, function () { $(this).show().css({visibility: 'hidden'}); });
             $('input:first').focus();
             $('#progressbar').progressbar({
-                {/literal}
-                value: {$percentDone}
-                {literal}
+                value: {{ percentDone }}
             });
         });
     </script>
-    {/literal}
 
     <link rel="stylesheet" type="text/css" href="plugins/Installation/templates/install.css"/>
-    {if 'General_LayoutDirection'|translate =='rtl'}
-        <link rel="stylesheet" type="text/css" href="themes/default/rtl.css"/>
-    {/if}
+    {% if 'General_LayoutDirection'|translate =='rtl' %}
+        <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/theme/rtl.css"/>
+    {% endif %}
 </head>
 <body>
 <div id="main">
     <div id="content">
         <div id="logo">
-            <img id="title" width='160' src="themes/default/images/logo.png"/> &nbsp;&nbsp;&nbsp;<span
-                    id="subtitle"># {'General_OpenSourceWebAnalytics'|translate}</span>
+            <img id="title" width='160' src="plugins/Zeitgeist/theme/images/logo.png"/> &nbsp;&nbsp;&nbsp;<span
+                    id="subtitle"># {{ 'General_OpenSourceWebAnalytics'|translate }}</span>
         </div>
         <div style="float:right" id="topRightBar">
             <br/>
-            {postEvent name="template_topBar"}
+            {{ postEvent('template_topBar')|raw }}
         </div>
         <div class="both"></div>
 
         <div id="generalInstall">
-            {include file="Installation/templates/allSteps.tpl"}
+            {% include "@Installation/allSteps.twig" %}
         </div>
 
         <div id="detailInstall">
-            {if isset($showNextStepAtTop) && $showNextStepAtTop}
+            {% if showNextStepAtTop is defined and showNextStepAtTop %}
                 <p class="nextStep">
-                    <a class="submit" href="{url action=$nextModuleName}">{'General_Next'|translate} &raquo;</a>
+                    <a class="submit" href="{{ url({'action':'nextModuleName'}) }}">{{ 'General_Next'|translate }} &raquo;</a>
                 </p>
-            {/if}
-            {include file="$subTemplateToLoad"}
-            {if $showNextStep}
+            {% endif %}
+            {% block content %}{% endblock %}
+            {% if showNextStep %}
                 <p class="nextStep">
-                    <a class="submit" href="{url action=$nextModuleName}">{'General_Next'|translate} &raquo;</a>
+                    <a class="submit" href="{{ url({'action':'nextModuleName'}) }}">{{ 'General_Next'|translate }} &raquo;</a>
                 </p>
-            {/if}
+            {% endif %}
         </div>
 
         <div class="both"></div>
@@ -67,10 +63,10 @@
         <br/>
         <br/>
 
-        <h3>{'Installation_InstallationStatus'|translate}</h3>
+        <h3>{{ 'Installation_InstallationStatus'|translate }}</h3>
 
         <div id="progressbar"></div>
-        {'Installation_PercentDone'|translate:$percentDone}
+        {{ 'Installation_PercentDone'|translate(percentDone) }}
     </div>
 </div>
 </body>
