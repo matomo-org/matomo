@@ -1,0 +1,61 @@
+<div class="dataTable" data-table-type="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
+    <div class="reportDocumentation">
+        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation }}</p>{% endif %}
+        {% if properties.metadata.archived_date is defined %}<span class='helpDate'>{{ properties.metadata.archived_date }}</span>{% endif %}
+    </div>
+    {% set class %}
+        {% if javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}sub {% endif %}{% if javascriptVariablesToSet.viewDataTable=='tableAllColumns' %}dataTableAllColumnsWrapper{% elseif javascriptVariablesToSet.viewDataTable=='tableGoals' %}dataTableAllColumnsWrapper {% else %}dataTableWrapper{% endif %}
+    {% endset %}
+    <div class="{{ class }}">
+        {% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
+            {{ arrayDataTable.message }}
+        {% else %}
+            {% if arrayDataTable|length == 0 %}
+                {% if showReportDataWasPurgedMessage is defined and showReportDataWasPurgedMessage %}
+                    <div class="pk-emptyDataTable">{{ 'CoreHome_DataForThisReportHasBeenPurged'|translate(deleteReportsOlderThan) }}</div>
+                {% else %}
+                    <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
+                {% endif %}
+            {% else %}
+                <a name="{{ properties.uniqueId }}"></a>
+                <table cellspacing="0" class="dataTable">
+                    <thead>
+                    <tr>
+                        {% for column in dataTableColumns %}
+                            <th class="sortable {% if loop.first %}first{% elseif loop.last %}last{% endif %}" id="{{ column }}">
+                                {% if columnDocumentation[column] is not empty %}
+                                    <div class="columnDocumentation">
+                                        <div class="columnDocumentationTitle">
+                                            {{ columnTranslations[column] }}
+                                        </div>
+                                        {{ columnDocumentation[column] }}
+                                    </div>
+                                {% endif %}
+                                <div id="thDIV">{{ columnTranslations[column]|raw }}</div>
+                            </th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for row in arrayDataTable %}
+                        <tr {% if row.idsubdatatable and javascriptVariablesToSet.controllerActionCalledWhenRequestSubTable is not null %}class="subDataTable"
+                            id="{{ row.idsubdatatable }}"{% endif %}{% if row.issummaryrow is defined and row.issummaryrow and properties.highlight_summary_row %} class="highlight"{% endif %}>
+                            {% for column in dataTableColumns %}
+                                <td>
+                                    {% include "@CoreHome/datatable_cell.twig" %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            {% if properties.show_footer %}
+                {% include "@CoreHome/datatable_footer.twig" %}
+            {% endif %}
+            {% include "@CoreHome/datatable_js.twig" %}
+        {% endif %}
+    </div>
+</div>
