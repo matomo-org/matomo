@@ -223,9 +223,24 @@ class Piwik_Referers_API
         // get the search engine and create the URL to the search result page
         $searchEngines = $this->getSearchEngines($idSite, $period, $date, $segment);
         $searchEngines->applyQueuedFilters();
-        $subTable = $searchEngines->getRowFromIdSubDataTable($idSubtable);
-        if ($subTable) {
-            $searchEngineUrl = $subTable->getMetadata('url');
+
+        if ($searchEngines instanceof Piwik_DataTable_Array) {
+            $dataTables = $searchEngines->getArray();
+
+            // find first datatable containing data
+            foreach ($dataTables AS $subTable) {
+
+                $subTableRow = $subTable->getRowFromIdSubDataTable($idSubtable);
+                if (!empty($subTableRow)) {
+                    break;
+                }
+            }
+        } else {
+            $subTableRow = $searchEngines->getRowFromIdSubDataTable($idSubtable);
+        }
+
+        if (!empty($subTableRow)) {
+            $searchEngineUrl = $subTableRow->getMetadata('url');
             $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getSearchEngineUrlFromKeywordAndUrl', array($searchEngineUrl)));
         }
         $dataTable = $this->handleKeywordNotDefined($dataTable);
