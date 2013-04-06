@@ -121,7 +121,7 @@ class Piwik_Live_Controller extends Piwik_Controller
         $view = new Piwik_View('@Live/lastVisits');
         $view->idSite = $this->idSite;
 
-        $api = new Piwik_API_Request("method=Live.getLastVisitsDetails&idSite=$this->idSite&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
+        $api = new Piwik_API_Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
         $visitors = $api->process();
         $view->visitors = $visitors;
 
