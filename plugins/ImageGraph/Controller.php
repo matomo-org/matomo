@@ -31,7 +31,7 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
                 );
             }
         }
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@ImageGraph/index');
         $view->titleAndUrls = $plot;
         echo $view->render();
     }
@@ -41,7 +41,7 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = Piwik_View::factory('debug_graphs_all_sizes');
+        $view = new Piwik_View('@ImageGraph/debug_graphs_all_sizes');
         $this->setGeneralVariablesView($view);
 
         $period = Piwik_Common::getRequestVar('period', 'day', 'string');

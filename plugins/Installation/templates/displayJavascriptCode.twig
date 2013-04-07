@@ -1,0 +1,23 @@
+{% if displayfirstWebsiteSetupSuccess is defined %}
+    <span id="toFade" class="success">
+	{{ 'Installation_SetupWebsiteSetupSuccess'|translate(displaySiteName) }}
+        <img src="plugins/Zeitgeist/theme/images/success_medium.png"/>
+</span>
+{% endif %}
+
+{{ trackingHelp }}
+<br/><br/>
+<h2>{{ 'Installation_LargePiwikInstances'|translate }}</h2>
+{{ 'Installation_JsTagArchivingHelp1'|translate('<a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">','</a>')|raw }}
+{{ 'General_ReadThisToLearnMore'|translate('<a target="_blank" href="http://piwik.org/docs/optimize/">','</a>')|raw }}
+
+<style type="text/css">
+    code {
+        font-size: 80%;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('code').click(function () { $(this).select(); });
+    });
+</script>

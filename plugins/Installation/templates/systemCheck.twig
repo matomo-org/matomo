@@ -1,0 +1,17 @@
+{% if not showNextStep %}
+    {% include "@Installation/systemCheck_legend.twig" %}
+    <br style="clear:both">
+{% endif %}
+
+<h3>{{ 'Installation_SystemCheck'|translate }}</h3>
+<br/>
+{% include "@Installation/systemCheckSection.twig" %}
+
+{% if not showNextStep %}
+    <br/>
+    <p>
+        <img src='plugins/Zeitgeist/theme/images/link.gif'/> &nbsp;
+        <a href="?module=Proxy&action=redirect&url=http://piwik.org/docs/requirements/" target="_blank">{{ 'Installation_Requirements'|translate }}</a>
+    </p>
+    {% include "@Installation/systemCheck_legend.twig" %}
+{% endif %}
