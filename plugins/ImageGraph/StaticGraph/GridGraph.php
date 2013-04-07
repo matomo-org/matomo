@@ -17,8 +17,6 @@
 abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_StaticGraph
 {
     const GRAPHIC_COLOR_KEY = 'GRAPHIC_COLOR';
-    const VALUE_COLOR_KEY = 'VALUE_COLOR';
-    const GRID_COLOR_KEY = 'GRID_COLOR';
 
     const TRUNCATION_TEXT = '...';
 
@@ -51,8 +49,6 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
     protected function getDefaultColors()
     {
         return array(
-            self::VALUE_COLOR_KEY         => '444444',
-            self::GRID_COLOR_KEY          => 'CCCCCC',
             self::GRAPHIC_COLOR_KEY . '1' => '5170AE',
             self::GRAPHIC_COLOR_KEY . '2' => 'F29007',
             self::GRAPHIC_COLOR_KEY . '3' => 'CC3399',
@@ -86,6 +82,15 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
         $topLeftYValue = $this->getGridTopMargin($horizontalGraph, $verticalLegend);
         $bottomRightXValue = $this->width - $this->getGridRightMargin($horizontalGraph);
         $bottomRightYValue = $this->getGraphBottom($horizontalGraph);
+
+        // background color
+        $this->pImage->drawFilledRectangle(
+            0,
+            0,
+            $this->width,
+            $this->height,
+            array_merge(array('Alpha' => 100), $this->backgroundColor)
+        );
 
         $this->pImage->setGraphArea(
             $topLeftXValue,
@@ -146,7 +151,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
             if ($modTen) $maxOrdinateValue += 10 - $modTen;
         }
 
-        $gridColor = $this->colors[self::GRID_COLOR_KEY];
+        $gridColor = $this->gridColor;
         $this->pImage->drawScale(
             array(
                  'Mode'             => SCALE_MODE_MANUAL,
@@ -291,7 +296,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
             }
 
             // draw legend
-            $legendColor = $this->colors[self::VALUE_COLOR_KEY];
+            $legendColor = $this->textColor;
             $this->pImage->drawLegend(
                 $legendTopLeftXValue,
                 $legendTopLeftYValue,

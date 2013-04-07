@@ -85,6 +85,9 @@ class Piwik_ImageGraph_API
     const UNICODE_FONT = 'unifont.ttf';
     const DEFAULT_FONT_SIZE = 9;
     const DEFAULT_LEGEND_FONT_SIZE_OFFSET = 2;
+    const DEFAULT_TEXT_COLOR = '222222';
+    const DEFAULT_BACKGROUND_COLOR = 'FFFFFF';
+    const DEFAULT_GRID_COLOR = 'CCCCCC';
 
     // number of row evolutions to plot when no labels are specified, can be overridden using &filter_limit
     const DEFAULT_NB_ROW_EVOLUTIONS = 5;
@@ -104,11 +107,30 @@ class Piwik_ImageGraph_API
         return self::$instance;
     }
 
-    public function get($idSite, $period, $date, $apiModule, $apiAction, $graphType = false,
-                        $outputType = Piwik_ImageGraph_API::GRAPH_OUTPUT_INLINE, $columns = false, $labels = false, $showLegend = true,
-                        $width = false, $height = false, $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE, $legendFontSize = false,
-                        $aliasedGraph = true, $idGoal = false, $colors = false, $idSubtable = false, $legendAppendMetric = true)
-    {
+    public function get(
+        $idSite,
+        $period,
+        $date,
+        $apiModule,
+        $apiAction,
+        $graphType = false,
+        $outputType = Piwik_ImageGraph_API::GRAPH_OUTPUT_INLINE,
+        $columns = false,
+        $labels = false,
+        $showLegend = true,
+        $width = false,
+        $height = false,
+        $fontSize = Piwik_ImageGraph_API::DEFAULT_FONT_SIZE,
+        $legendFontSize = false,
+        $aliasedGraph = true,
+        $idGoal = false,
+        $colors = false,
+        $textColor = Piwik_ImageGraph_API::DEFAULT_TEXT_COLOR,
+        $backgroundColor = Piwik_ImageGraph_API::DEFAULT_BACKGROUND_COLOR,
+        $gridColor = Piwik_ImageGraph_API::DEFAULT_GRID_COLOR,
+        $idSubtable = false,
+        $legendAppendMetric = true
+    ) {
         Piwik::checkUserHasViewAccess($idSite);
 
         // Health check - should we also test for GD2 only?
@@ -440,6 +462,9 @@ class Piwik_ImageGraph_API
             $graph->setOrdinateSeries($ordinateSeries);
             $graph->setOrdinateLogos($ordinateLogos);
             $graph->setColors(!empty($colors) ? explode(',', $colors) : array());
+            $graph->setTextColor($textColor);
+            $graph->setBackgroundColor($backgroundColor);
+            $graph->setGridColor($gridColor);
 
             // when requested period is day, x-axis unit is time and all date labels can not be displayed
             // within requested width, force labels to be skipped every 6 days to delimit weeks
