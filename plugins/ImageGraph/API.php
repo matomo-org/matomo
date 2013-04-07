@@ -440,7 +440,10 @@ class Piwik_ImageGraph_API
             $graph->setOrdinateSeries($ordinateSeries);
             $graph->setOrdinateLogos($ordinateLogos);
             $graph->setColors(!empty($colors) ? explode(',', $colors) : array());
-            if ($period == 'day') {
+
+            // when requested period is day, x-axis unit is time and all date labels can not be displayed
+            // within requested width, force labels to be skipped every 6 days to delimit weeks
+            if ($period == 'day' && $isMultiplePeriod) {
                 $graph->setForceSkippedLabels(6);
             }
 
