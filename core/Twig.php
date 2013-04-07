@@ -89,7 +89,7 @@ class Piwik_Twig
                 $jsCode .= '</script>';
             }
             return $jsCode;
-        });
+        }, array('is_safe' => array('html')));
         $this->twig->addFunction($loadJsTranslationsFunction);
 
         $sparklineFunction = new Twig_SimpleFunction('sparkline', function($src) {
