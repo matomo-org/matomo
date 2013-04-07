@@ -33,7 +33,7 @@
             <td width="140">
                 <p>
                     <input class="location-provider" name="location-provider" value="{$id}" type="radio" {% if currentProviderId == id %}checked="checked"{% endif %}
-                           id="provider_input_{$id}" {% if provider.status != 1}disabled="disabled"{% endif %}/>
+                           id="provider_input_{$id}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>
                     <label for="provider_input_{$id}">{{ provider.title|translate }}</label><br/>
                     <span class='loadingPiwik' style='display:none'><img src='./themes/default/images/loading-blue.gif'/></span>
                     <span class="ajaxSuccess" style='display:none'>{{ 'General_Done'|translate }}</span>
@@ -52,9 +52,9 @@
                 </p>
             </td>
             <td>
-                <p>{{ provider.description|translate }}</p>
+                <p>{{ provider.description|translate|raw }}</p>
                 {% if provider.status != 1 and provider.install_docs is defined %}
-                    <p>{{ provider.install_docs }}</p>
+                    <p>{{ provider.install_docs|raw }}</p>
                 {% endif %}
             </td>
             <td width="164">
@@ -64,17 +64,17 @@
                             {{ 'UserCountry_CurrentLocationIntro'|translate }}:
                             <div style="text-align:left;">
                                 <br/>
-                                <span class='loadingPiwik' style='display:none;position:absolute'><img
-                                            src='./themes/default/images/loading-blue.gif'/> {{ 'General_Loading_js'|translate }}</span>
+                                <span class='loadingPiwik' style='display:none;position:absolute'>
+                                    <img src='./themes/default/images/loading-blue.gif'/> {{ 'General_Loading_js'|translate }}</span>
                                 <span class='location'><strong><em>{{ provider.location }}</em></strong></span>
                             </div>
                             <div style="text-align:right;">
-                                <a href="#" class="refresh-loc" data-impl-id="{$id}"><em>{{ 'Dashboard_Refresh_js'|translate }}</em></a>
+                                <a href="#" class="refresh-loc" data-impl-id="{{ id }}"><em>{{ 'Dashboard_Refresh_js'|translate }}</em></a>
                             </div>
                         {% else %}
                             {{ 'UserCountry_CannotLocalizeLocalIP'|translate(thisIP) }}
                         {% endif %}
-                    {% endset %}}
+                    {% endset %}
                     {{ piwik.inlineHelp(currentLocation) }}
                 {% endif %}
                 {% if provider.statusMessage is defined and provider.statusMessage %}
@@ -82,10 +82,10 @@
                         {% if provider.status == 2 %}<strong><em>{{ 'General_Error'|translate }}:</strong></em> {% endif %}{{ provider.statusMessage }}
                     {% endset %}
                     {{ piwik.inlineHelp(brokenReason) }}
-                {/if}
+                {% endif %}
                 {% if provider.extra_message is defined and provider.extra_message %}
                     {% set extraMessage %}
-                        {{ provider.extra_message }}
+                        {{ provider.extra_message|raw }}
                     {% endset %}
                     <br/>
                     {{ piwik.inlineHelp(extraMessage) }}
@@ -110,11 +110,11 @@
             <p>{{ 'UserCountry_PiwikNotManagingGeoIPDBs'|translate }}</p>
 
             <div class="geoipdb-column-1">
-                <p>{{ 'UserCountry_IWantToDownloadFreeGeoIP'|translate }}</p>
+                <p>{{ 'UserCountry_IWantToDownloadFreeGeoIP'|translate|raw }}</p>
                 <input type="button" class="submit" value="{{ 'General_GetStarted'|translate }}..." id="start-download-free-geoip"/>
             </div>
             <div class="geoipdb-column-2">
-                <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>') }}</p>
+                <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>')|raw }}</p>
                 <input type="button" class="submit" value="{{ 'General_GetStarted'|translate }}..." id="start-automatic-update-geoip"/>
             </div>
         </div>
