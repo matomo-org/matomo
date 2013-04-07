@@ -50,6 +50,10 @@ DataTable_RowActions_Registry.register({
     },
 
     isAvailableOnReport: function (dataTableParams) {
+        // Overlay plugin only works when Transitions plugin is enabled
+        if (!window.DataTable_RowActions_Transitions) {
+            return false;
+        }
         return DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action);
     },
 
