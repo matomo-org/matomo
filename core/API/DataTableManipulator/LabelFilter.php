@@ -17,11 +17,6 @@
  * The labels passed to this class should be urlencoded.
  * Some reports use recursive labels (e.g. action reports). Use > to join them.
  *
- * This filter does not work when expanded=1 is set because it is designed to load
- * only the subtables on the path, not all existing subtables (which would happen with
- * expanded=1). Also, the aim of this filter is to return only the row matching the
- * label. With expanded=1, the subtables of the matching row would be returned as well.
- *
  * @package Piwik
  * @subpackage Piwik_API
  */
@@ -69,6 +64,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
         // search for the first part of the tree search
         $labelPart = array_shift($labelParts);
 
+        $row = false;
         foreach ($this->getLabelVariations($labelPart) as $labelPart) {
             $row = $dataTable->getRowFromLabel($labelPart);
             if ($row !== false) {
@@ -141,7 +137,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
     protected function manipulateDataTable($dataTable)
     {
         $result = $dataTable->getEmptyClone();
-        foreach ($this->labels as $labelIdx => $label) {
+        foreach ($this->labels as $label) {
             $row = null;
             foreach ($this->getLabelVariations($label) as $labelVariation) {
                 $labelVariation = explode(self::SEPARATOR_RECURSIVE_LABEL, $labelVariation);
