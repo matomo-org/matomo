@@ -521,10 +521,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
             foreach ($allReports as $category => $reports) {
                 $categoryText = Piwik_Translate('Goals_ViewGoalsBy', $category);
                 foreach ($reports as $report) {
-
-                    $customParams['viewDatatable'] = 'tableGoals';
-                    if(in_array($report, array('getVisitsUntilConversion', 'getDaysToConversion'))) {
-                        $customParams['viewDatatable'] = 'table';
+                    $customParams['viewDataTable'] = 'tableGoals';
+                    if(in_array($report['action'], array('getVisitsUntilConversion', 'getDaysToConversion'))) {
+                        $customParams['viewDataTable'] = 'table';
                     }
 
                     $goalReportsByDimension->addReport(
