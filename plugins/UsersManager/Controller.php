@@ -110,11 +110,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
      */
     protected function getDefaultDateForUser($user)
     {
-        $userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference($user, Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
-        if ($userSettingsDate === false) {
-            return Piwik_Config::getInstance()->General['default_day'];
-        }
-        return $userSettingsDate;
+        return Piwik_UsersManager_API::getInstance()->getUserPreference($user, Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
     }
 
     /**

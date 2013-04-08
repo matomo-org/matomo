@@ -79,10 +79,10 @@ class Piwik_UsersManager_API
         Piwik::checkUserIsSuperUserOrTheUser($userLogin);
         
         $optionValue = Piwik_GetOption($this->getPreferenceId($userLogin, $preferenceName));
-        if ($optionValue === false) {
-            return $this->getDefaultUserPreference($userLogin, $preferenceName);
+        if ($optionValue !== false) {
+            return $optionValue;
         }
-        return $optionValue;
+        return $this->getDefaultUserPreference($preferenceName, $userLogin);
     }
 
     private function getPreferenceId($login, $preference)
@@ -90,14 +90,14 @@ class Piwik_UsersManager_API
         return $login . '_' . $preference;
     }
     
-    private function getDefaultUserPreference($login, $preferenceName)
+    private function getDefaultUserPreference($preferenceName, $login)
     {
         switch ($preferenceName) {
             case self::PREFERENCE_DEFAULT_REPORT:
                 $viewableSiteIds = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
                 return reset($viewableSiteIds);
             case self::PREFERENCE_DEFAULT_REPORT_DATE:
-                return 'yesterday';
+                return Piwik_Config::getInstance()->General['default_day'];
             default:
                 return false;
         }
