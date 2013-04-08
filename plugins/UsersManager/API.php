@@ -601,7 +601,7 @@ class Piwik_UsersManager_API
 
     private function checkUserIsNotSuperUser($userLogin)
     {
-        if ($userLogin == Piwik_Config::getInstance()->superuser['login']) {
+        if ($userLogin == Piwik::getSuperUserLogin()) {
             throw new Exception(Piwik_TranslateException("UsersManager_ExceptionSuperUser"));
         }
     }

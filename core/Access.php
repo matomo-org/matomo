@@ -231,6 +231,17 @@ class Piwik_Access
     {
         return $this->token_auth;
     }
+    
+    /**
+     * Returns the super user's login.
+     * 
+     * @return string
+     */
+    public function getSuperUserLogin()
+    {
+        $superuser = Piwik_Config::getInstance()->superuser;
+        return $superuser['login'];
+    }
 
     /**
      * Returns an array of ID sites for which the user has at least a VIEW access.

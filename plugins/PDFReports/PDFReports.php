@@ -371,7 +371,7 @@ class Piwik_PDFReports extends Piwik_Plugin
             if ($reportParameters[self::EMAIL_ME_PARAMETER] == 1) {
                 if (Piwik::getCurrentUserLogin() == $report['login']) {
                     $emails[] = Piwik::getCurrentUserEmail();
-                } elseif ($report['login'] == Piwik_Config::getInstance()->superuser['login']) {
+                } elseif ($report['login'] == Piwik::getSuperUserLogin()) {
                     $emails[] = Piwik::getSuperUserEmail();
                 } else {
                     try {

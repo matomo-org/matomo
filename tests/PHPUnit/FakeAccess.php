@@ -14,6 +14,7 @@ class FakeAccess
     public static $idSitesAdmin = array();
     public static $idSitesView = array();
     public static $identity = 'superUserLogin';
+    public static $superUserLogin = 'superUserLogin';
 
     public function __construct()
     {
@@ -154,5 +155,10 @@ class FakeAccess
             $result[] = array('idsite' => $idSite);
         }
         return $result;
+    }
+    
+    public function getSuperUserLogin()
+    {
+        return self::$superUserLogin;
     }
 }

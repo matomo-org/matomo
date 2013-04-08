@@ -351,7 +351,7 @@ class Piwik_PDFReports_API
                     // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
                     $userLogin = $report['login'];
                     if (!empty($userLogin)
-                        && $userLogin != Piwik_Config::getInstance()->superuser['login']
+                        && $userLogin != Piwik::getSuperUserLogin()
                     ) {
                         $_GET['_restrictSitesToLogin'] = $userLogin;
                     }
