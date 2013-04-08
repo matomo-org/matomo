@@ -146,9 +146,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // Usually these modules either return random changing data, or are already tested in specific unit tests.
         self::setApiNotToCall(self::$defaultApiNotToCall);
         self::setApiToCall(array());
-        
-        // set config superuser login to test login
-        Piwik_Config::getInstance()->superuser['login'] = 'superUserLogin';
     }
 
     public static function tearDownAfterClass()

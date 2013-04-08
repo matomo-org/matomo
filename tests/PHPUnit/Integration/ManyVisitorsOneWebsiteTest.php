@@ -73,6 +73,17 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
                 'periods'                => array('month'),
                 'otherRequestParameters' => array('ip' => '194.57.91.215')
             )),
+           
+            // test filter_sort_column w/ processed metric
+            array('API.getProcessedReport', array('idSite'                 => $idSite,
+                                                  'date'                   => $dateTime,
+                                                  'periods'                => 'day',
+                                                  'apiModule'              => 'UserCountry',
+                                                  'apiAction'              => 'getCity',
+                                                  'testSuffix'             => '_filterSortProcessed',
+                                                  'otherRequestParameters' => array(
+                                                      //'filter_sort_column' => 'bounce_rate'
+                                                  ))),
         );
     }
 }
