@@ -24,6 +24,9 @@
  */
 class Piwik_UsersManager_API
 {
+    const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
+    const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
+    
     static private $instance = null;
 
     /**
@@ -52,9 +55,6 @@ class Piwik_UsersManager_API
         return self::$instance;
     }
 
-    const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
-    const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
-
     /**
      * Sets a user preference
      * @param string $userLogin
@@ -77,12 +77,30 @@ class Piwik_UsersManager_API
     public function getUserPreference($userLogin, $preferenceName)
     {
         Piwik::checkUserIsSuperUserOrTheUser($userLogin);
-        return Piwik_GetOption($this->getPreferenceId($userLogin, $preferenceName));
+        
+        $optionValue = Piwik_GetOption($this->getPreferenceId($userLogin, $preferenceName));
+        if ($optionValue === false) {
+            return $this->getDefaultUserPreference($userLogin, $preferenceName);
+        }
+        return $optionValue;
     }
 
     private function getPreferenceId($login, $preference)
     {
         return $login . '_' . $preference;
+    }
+    
+    private function getDefaultUserPreference($login, $preferenceName)
+    {
+        switch ($preferenceName) {
+            case self::PREFERENCE_DEFAULT_REPORT:
+                $viewableSiteIds = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
+                return reset($viewableSiteIds);
+            case self::PREFERENCE_DEFAULT_REPORT_DATE:
+                return 'yesterday';
+            default:
+                return false;
+        }
     }
 
     /**

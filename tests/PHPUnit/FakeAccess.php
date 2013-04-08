@@ -146,4 +146,13 @@ class FakeAccess
         }
         return array_merge(self::$idSitesView, self::$idSitesAdmin);
     }
+    
+    public function getRawSitesWithSomeViewAccess($login)
+    {
+        $result = array();
+        foreach (array_merge(self::$idSitesView, self::$idSitesAdmin) as $idSite) {
+            $result[] = array('idsite' => $idSite);
+        }
+        return $result;
+    }
 }

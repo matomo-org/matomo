@@ -1025,5 +1025,19 @@ class UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($user['email'], $userByMail['email']);
         $this->assertEquals($user['alias'], $userByMail['alias']);
     }
-
+    
+    /**
+     * @group Plugins
+     * @group UsersManager
+     */
+    public function testGetUserPreferenceDefault()
+    {
+        $defaultReportPref = Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT;
+        $defaultReportDatePref = Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE;
+        
+        $this->assertEquals(1,
+            Piwik_UsersManager_API::getInstance()->getUserPreference('someUser', $defaultReportPref));
+        $this->assertEquals('yesterday',
+            Piwik_UsersManager_API::getInstance()->getUserPreference('someUser', $defaultReportDatePref));
+    }
 }
