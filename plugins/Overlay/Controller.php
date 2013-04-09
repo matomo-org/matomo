@@ -27,8 +27,6 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         $this->setGeneralVariablesView($view);
         $view->showTopMenu = false;
         $view->showSitesSelection = false;
-        $view->addToHead = '<script type="text/javascript" src="plugins/Overlay/templates/index.js"></script>'
-            . '<link rel="stylesheet" type="text/css" href="plugins/Overlay/templates/index.css" />';
 
         $view->idSite = $this->idSite;
         $view->date = Piwik_Common::getRequestVar('date', 'today');

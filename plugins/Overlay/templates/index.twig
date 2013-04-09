@@ -1,0 +1,69 @@
+{% extends 'dashboard.twig' %}
+
+{% block head %}
+    {{ parent() }}
+    <script type="text/javascript" src="plugins/Overlay/templates/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="plugins/Overlay/templates/index.css" />
+{% endblock %}
+
+{% block content %}
+<h1>{{ 'Overlay_Overlay'|translate }}</h1>
+
+<div id="Overlay_DateRangeSelection">
+    <select id="Overlay_DateRangeSelect" name="Overlay_DateRangeSelect">
+        <option value="day;today">{{ 'General_Today'|translate }}</option>
+        <option value="day;yesterday">{{ 'General_Yesterday'|translate }}</option>
+        <option value="week;today">{{ 'General_CurrentWeek'|translate }}</option>
+        <option value="month;today">{{ 'General_CurrentMonth'|translate }}</option>
+        <option value="year;today">{{ 'General_CurrentYear'|translate }}</option>
+    </select>
+</div>
+
+<div id="Overlay_Error_NotLoading">
+    <p>
+        <span>{{ 'Overlay_ErrorNotLoading'|translate }}</span>
+    </p>
+
+    <p>
+        {% if ssl %}
+            {{ 'Overlay_ErrorNotLoadingDetailsSSL'|translate }}
+        {% else %}
+            {{ 'Overlay_ErrorNotLoadingDetails'|translate }}
+        {% endif %}
+    </p>
+
+    <p>
+        <a href="http://piwik.org/docs/page-overlay/#toc-page-overlay-troubleshooting" target="_blank">
+            {{ 'Overlay_ErrorNotLoadingLink'|translate }}
+        </a>
+    </p>
+</div>
+
+<div id="Overlay_Location">&nbsp;</div>
+
+<div id="Overlay_Loading">{{ 'General_Loading_js'|translate }}</div>
+
+<div id="Overlay_Sidebar"></div>
+
+<a id="Overlay_RowEvolution">{{ 'General_RowEvolutionRowActionTooltipTitle_js'|translate }}</a>
+<a id="Overlay_Transitions">{{ 'General_TransitionsRowActionTooltipTitle_js'|translate }}</a>
+
+<!-- TODO: rethink the way the sidebar works -->
+<!-- <a id="Overlay_FullScreen" href="#">
+	{'Overlay_OpenFullScreen'|translate|escape:'html'}
+</a> -->
+
+
+<div id="Overlay_Main">
+    <iframe id="Overlay_Iframe" src="" frameborder="0"></iframe>
+</div>
+
+<script type="text/javascript">
+    var iframeSrc = 'index.php?module=Overlay&action=startOverlaySession&idsite={{ idSite }}&period={{ period }}&date={{ date }}';
+    Piwik_Overlay.init(iframeSrc, '{{ idSite }}', '{{ period }}', '{{ date }}');
+
+    Piwik_Overlay_Translations = {
+        domain: "{{ 'Overlay_Domain'|translate }}"
+    };
+</script>
+{% endblock %}
