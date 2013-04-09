@@ -265,7 +265,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
             version_compare(phpversion(), self::IMAGES_GENERATED_FOR_PHP, '>=') &&
-            stristr($gdInfo['GD Version'], self::IMAGES_GENERATED_FOR_GD);
+            $gdInfo['GD Version'] == self::IMAGES_GENERATED_FOR_GD;
     }
 
     public static $geoIpDbUrl = 'http://piwik-team.s3.amazonaws.com/GeoIP.dat.gz';
