@@ -53,6 +53,9 @@ abstract class Piwik_ImageGraph_StaticGraph
     protected $colors;
     protected $font;
     protected $fontSize;
+    protected $textColor;
+    protected $backgroundColor;
+    protected $gridColor;
     protected $legendFontSize;
     protected $width;
     protected $height;
@@ -148,6 +151,21 @@ abstract class Piwik_ImageGraph_StaticGraph
         $this->font = $font;
     }
 
+    public function setTextColor($textColor)
+    {
+        $this->textColor = self::hex2rgb($textColor);
+    }
+
+    public function setBackgroundColor($backgroundColor)
+    {
+        $this->backgroundColor = self::hex2rgb($backgroundColor);
+    }
+
+    public function setGridColor($gridColor)
+    {
+        $this->gridColor = self::hex2rgb($gridColor);
+    }
+
     public function setOrdinateSeries($ordinateSeries)
     {
         $this->ordinateSeries = $ordinateSeries;
@@ -241,9 +259,12 @@ abstract class Piwik_ImageGraph_StaticGraph
         $this->pImage->Antialias = $this->aliasedGraph;
 
         $this->pImage->setFontProperties(
-            array(
-                 "FontName" => $this->font,
-                 "FontSize" => $this->fontSize
+            array_merge(
+                array(
+                    'FontName' => $this->font,
+                    'FontSize' => $this->fontSize,
+                ),
+                $this->textColor
             )
         );
     }
@@ -268,7 +289,7 @@ abstract class Piwik_ImageGraph_StaticGraph
             )
         );
 
-        return array($textInfo[1]["X"] + 1, $textInfo[0]["Y"] - $textInfo[2]["Y"]);
+        return array($textInfo[1]['X'] + 1, $textInfo[0]['Y'] - $textInfo[2]['Y']);
     }
 
     protected function getMaximumTextWidthHeight($values)
