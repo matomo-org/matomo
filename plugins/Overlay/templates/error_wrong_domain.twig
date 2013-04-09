@@ -7,7 +7,6 @@
     <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"/>
 
     <style type="text/css">
-        {literal}
         body {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 14px;
@@ -25,14 +24,12 @@
         a {
             color: #255792;
         }
-
-        {/literal}
     </style>
 
 </head>
 <body>
-<p><b>{$message}</b></p>
+<p><strong>{{ message }}</strong></p>
 
-<p>{$troubleshoot}</p>
+<p>{{ troubleshoot }}</p>
 </body>
 </html>
