@@ -21,6 +21,7 @@ class UsersManagerTest extends DatabaseTestCase
 
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
+        FakeAccess::$superUserLogin = 'superusertest';
         Zend_Registry::set('access', $pseudoMockAccess);
 
         // we make sure the tests don't depend on the config file content
@@ -1025,5 +1026,19 @@ class UsersManagerTest extends DatabaseTestCase
         $this->assertEquals($user['email'], $userByMail['email']);
         $this->assertEquals($user['alias'], $userByMail['alias']);
     }
-
+    
+    /**
+     * @group Plugins
+     * @group UsersManager
+     */
+    public function testGetUserPreferenceDefault()
+    {
+        $defaultReportPref = Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT;
+        $defaultReportDatePref = Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE;
+        
+        $this->assertEquals(1,
+            Piwik_UsersManager_API::getInstance()->getUserPreference('someUser', $defaultReportPref));
+        $this->assertEquals('yesterday',
+            Piwik_UsersManager_API::getInstance()->getUserPreference('someUser', $defaultReportDatePref));
+    }
 }

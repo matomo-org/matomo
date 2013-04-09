@@ -14,6 +14,7 @@ class FakeAccess
     public static $idSitesAdmin = array();
     public static $idSitesView = array();
     public static $identity = 'superUserLogin';
+    public static $superUserLogin = 'superUserLogin';
 
     public function __construct()
     {
@@ -145,5 +146,19 @@ class FakeAccess
             return Piwik_SitesManager_API::getInstance()->getAllSitesId();
         }
         return array_merge(self::$idSitesView, self::$idSitesAdmin);
+    }
+    
+    public function getRawSitesWithSomeViewAccess($login)
+    {
+        $result = array();
+        foreach (array_merge(self::$idSitesView, self::$idSitesAdmin) as $idSite) {
+            $result[] = array('idsite' => $idSite);
+        }
+        return $result;
+    }
+    
+    public function getSuperUserLogin()
+    {
+        return self::$superUserLogin;
     }
 }

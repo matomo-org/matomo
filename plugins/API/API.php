@@ -1174,7 +1174,7 @@ class Piwik_API_API
             foreach ($dataTable->getArray() as $table) {
                 $labels = array_merge($labels, $table->getColumn('label'));
             }
-            $labels = array_unique($labels);
+            $labels = array_values(array_unique($labels));
         }
 
         if (count($labels) > 1) {
@@ -1499,18 +1499,23 @@ class Piwik_API_API
         foreach ($dataTable->getArray() as $tableLabel => $table) {
             $newRow = new Piwik_DataTable_Row();
 
-            foreach ($table->getRows() as $rowId => $row) {
-                $value = $row->getColumn($column);
-                $value = floatVal(str_replace(',', '.', $value));
+            foreach ($labels as $labelIdx => $label) {
+                $row = $table->getRowFromId($labelIdx);
+                
+                $value = 0;
+                if ($row) {
+                    $value = $row->getColumn($column);
+                    $value = floatVal(str_replace(',', '.', $value));
+                }
+                
                 if ($value == '') {
                     $value = 0;
                 }
-
-                $newLabel = $column . '_' . $rowId; // $rowId corresponds to the label index
-
+                
+                $newLabel = $column . '_' . (int)$labelIdx;
                 $newRow->addColumn($newLabel, $value);
             }
-
+            
             $newTable = $table->getEmptyClone();
             $newTable->addRow($newRow);
             $dataTableMulti->addTable($newTable, $tableLabel);

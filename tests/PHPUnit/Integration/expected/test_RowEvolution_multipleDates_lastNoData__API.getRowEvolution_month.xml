@@ -18,6 +18,9 @@
 		</result>
 		<result date="2010-04">
 			<row>
+				<nb_visits_0>0</nb_visits_0>
+				<nb_visits_1>0</nb_visits_1>
+				<nb_visits_2>0</nb_visits_2>
 			</row>
 		</result>
 	</reportData>

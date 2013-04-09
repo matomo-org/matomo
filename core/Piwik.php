@@ -1569,8 +1569,7 @@ class Piwik
      */
     static public function getSuperUserLogin()
     {
-        $superuser = Piwik_Config::getInstance()->superuser;
-        return $superuser['login'];
+        return Zend_Registry::get('access')->getSuperUserLogin();
     }
 
     /**

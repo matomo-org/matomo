@@ -302,11 +302,13 @@ class Piwik_SitesManager_API
     public function getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin = false)
     {
         if (!empty($_restrictSitesToLogin)
-            // Very important here to make sure we only proceed when in a scheduled task
-            // Otherwise anyone could get all websites for a given user
-            && Piwik_TaskScheduler::isTaskBeingExecuted()
+            // Only super user or logged in user can see viewable sites for a specific login,
+            // but during scheduled task execution, we sometimes want to restrict sites to
+            // a different login than the superuser.
+            && (Piwik::isUserIsSuperUserOrTheUser($_restrictSitesToLogin)
+                || Piwik_TaskScheduler::isTaskBeingExecuted())
         ) {
-            $accessRaw = Piwik_Access::getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
+            $accessRaw = Zend_Registry::get('access')->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
             $sitesId = array();
             foreach ($accessRaw as $access) {
                 $sitesId[] = $access['idsite'];

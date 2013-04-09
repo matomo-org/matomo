@@ -346,13 +346,13 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         if ($incrementActions) {
             $sqlActionUpdate .= "visit_total_actions = visit_total_actions + 1, ";
         }
+        printDebug("Visit is known (IP = " . Piwik_IP::N2P($this->getVisitorIp()) . ")");
 
         $datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($this->getCurrentTimestamp());
-        printDebug("Visit is known (IP = " . Piwik_IP::N2P($this->getVisitorIp()) . ")");
+        $valuesToUpdate['visit_last_action_time'] = $datetimeServer;
 
         // Add 1 so it's always > 0
         $visitTotalTime = 1 + $this->getCurrentTimestamp() - $this->visitorInfo['visit_first_action_time'];
-        $valuesToUpdate['visit_last_action_time'] = $datetimeServer;
         $valuesToUpdate['visit_total_time'] = self::cleanupVisitTotalTime($visitTotalTime);
 
         // Goal conversion
@@ -382,12 +382,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         // trigger event before update
         Piwik_PostEvent('Tracker.knownVisitorUpdate', $valuesToUpdate);
 
-        // Will be updated in cookie
-        $timeSpentRefererAction = $this->getCurrentTimestamp() - $this->visitorInfo['visit_last_action_time'];
-        if ($timeSpentRefererAction > Piwik_Config::getInstance()->Tracker['visit_standard_length']) {
-            $timeSpentRefererAction = 0;
-        }
-        $this->visitorInfo['time_spent_ref_action'] = $timeSpentRefererAction;
+        $this->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentRefererAction();
 
         // update visitorInfo
         foreach ($valuesToUpdate AS $name => $value) {
@@ -427,6 +422,20 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         }
 
         Piwik_PostEvent('Tracker.knownVisitorInformation', $this->visitorInfo);
+    }
+
+    /**
+     * @return int Time in seconds
+     */
+    protected function getTimeSpentRefererAction()
+    {
+        $timeSpent = $this->getCurrentTimestamp() - $this->visitorInfo['visit_last_action_time'];
+        if ($timeSpent < 0
+            || $timeSpent > Piwik_Config::getInstance()->Tracker['visit_standard_length']
+        ) {
+            $timeSpent = 0;
+        }
+        return $timeSpent;
     }
 
     protected function isTimestampValid($time)
@@ -582,6 +591,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     static private function cleanupVisitTotalTime($t)
     {
         $t = (int)$t;
+        if($t < 0) {
+            $t = 0;
+        }
         $smallintMysqlLimit = 65534;
         if ($t > $smallintMysqlLimit) {
             $t = $smallintMysqlLimit;

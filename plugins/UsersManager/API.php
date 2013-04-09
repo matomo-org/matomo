@@ -24,6 +24,9 @@
  */
 class Piwik_UsersManager_API
 {
+    const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
+    const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
+    
     static private $instance = null;
 
     /**
@@ -52,9 +55,6 @@ class Piwik_UsersManager_API
         return self::$instance;
     }
 
-    const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
-    const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
-
     /**
      * Sets a user preference
      * @param string $userLogin
@@ -77,12 +77,30 @@ class Piwik_UsersManager_API
     public function getUserPreference($userLogin, $preferenceName)
     {
         Piwik::checkUserIsSuperUserOrTheUser($userLogin);
-        return Piwik_GetOption($this->getPreferenceId($userLogin, $preferenceName));
+        
+        $optionValue = Piwik_GetOption($this->getPreferenceId($userLogin, $preferenceName));
+        if ($optionValue !== false) {
+            return $optionValue;
+        }
+        return $this->getDefaultUserPreference($preferenceName, $userLogin);
     }
 
     private function getPreferenceId($login, $preference)
     {
         return $login . '_' . $preference;
+    }
+    
+    private function getDefaultUserPreference($preferenceName, $login)
+    {
+        switch ($preferenceName) {
+            case self::PREFERENCE_DEFAULT_REPORT:
+                $viewableSiteIds = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
+                return reset($viewableSiteIds);
+            case self::PREFERENCE_DEFAULT_REPORT_DATE:
+                return Piwik_Config::getInstance()->General['default_day'];
+            default:
+                return false;
+        }
     }
 
     /**
@@ -583,7 +601,7 @@ class Piwik_UsersManager_API
 
     private function checkUserIsNotSuperUser($userLogin)
     {
-        if ($userLogin == Piwik_Config::getInstance()->superuser['login']) {
+        if ($userLogin == Piwik::getSuperUserLogin()) {
             throw new Exception(Piwik_TranslateException("UsersManager_ExceptionSuperUser"));
         }
     }

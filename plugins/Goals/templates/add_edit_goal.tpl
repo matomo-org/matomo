@@ -1,9 +1,9 @@
 {if isset($onlyShowAddNewGoal)}
     <h2>{'Goals_AddNewGoal'|translate}</h2>
-    <p>Goal Conversion tracking is one of the most efficient ways to measure and improve your business objectives.</p>
-    <p>A Goal in Piwik is your strategy, your priority, and can entail many things: "Downloaded brochure", "Registered newsletter", "Visited page
-        services.html", etc. What do you want your users to do on your website?
-        You will be able to view and analyse your performance for each Goal, and learn how to increase conversions, conversion rates and revenue per visit.</p>
+    <p>{'Goals_NewGoalIntro'|translate}</p>
+    <p>{'Goals_NewGoalDescription'|translate}
+        {'Goals_NewWhatDoYouWantUsersToDo'|translate}
+        {'Goals_NewGoalYouWillBeAbleTo'|translate}</p>
     <p>{'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate:"<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>":"</a>"}
     </p>
 {else}
