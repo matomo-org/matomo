@@ -1,4 +1,4 @@
-<div id="{$properties.uniqueId}">
+<div class="dataTable" data-table-type="actionDataTable" data-report="{$properties.uniqueId}" data-params="{$javascriptVariablesToSet|@json_encode|escape:'html'}">
     <div class="dataTableActionsWrapper">
         {if isset($arrayDataTable.result) and $arrayDataTable.result == 'error'}
             {$arrayDataTable.message}
@@ -33,7 +33,7 @@
             {if $properties.show_footer}
                 {include file="CoreHome/templates/datatable_footer.tpl"}
             {/if}
-            {include file="CoreHome/templates/datatable_actions_js.tpl"}
+            {include file="CoreHome/templates/datatable_js.tpl"}
         {/if}
     </div>
 </div>
