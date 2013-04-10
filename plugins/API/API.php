@@ -1585,10 +1585,11 @@ class Piwik_API_API
     {
         Piwik::checkUserIsSuperUser();
       
-        $result = PIWIK::getFileIntegrityInformation();
+        $result = Piwik::getFileIntegrityInformation();
         if (isset($result[0]) && $result[0] === false) {
+            array_shift($result);
             return $result;
         }
         return 'OK';
-    }    
+    }
 }
