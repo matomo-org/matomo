@@ -1,0 +1,82 @@
+{% if onlyShowAddNewGoal is defined %}
+    <h2>{{ 'Goals_AddNewGoal'|translate }}</h2>
+    <p>{{ 'Goals_NewGoalIntro'|translate }}</p>
+    <p>{{ 'Goals_NewGoalDescription'|translate }}
+        {{ 'Goals_NewWhatDoYouWantUsersToDo'|translate }}
+        {{ 'Goals_NewGoalYouWillBeAbleTo'|translate }}</p>
+    <p>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
+    </p>
+{% else %}
+    <div class="clear"></div>
+    <h2>{{ 'Goals_GoalsManagement'|translate }}</h2>
+    <div class="entityList">
+        <ul class='listCircle'>
+            <li><a onclick='' name='linkAddNewGoal'>{{ 'Goals_CreateNewGOal'|translate }}</a></li>
+            <li><a onclick='' name='linkEditGoals'>{{ 'Goals_ViewAndEditGoals'|translate }}</a></li>
+            <li>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}</li>
+
+            <li>
+                {% if not ecommerceEnabled %}
+                    {% set websiteManageText %}
+                        <a href='{{ url({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
+                    {% endset %}
+                    {% set ecommerceReportText %}
+                        <a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
+                    {% endset %}
+                    {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText) }}
+                {% else %}
+                    {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">',"</a>")|raw }}
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+    <br/>
+{% endif %}
+
+{% import 'ajaxMacros.twig' as ajax %}
+{{ ajax.errorDiv() }}
+{{ ajax.loadingDiv('goalAjaxLoading') }}
+
+<div class="entityContainer">
+    {% if onlyShowAddNewGoal is not defined %}
+        {% include "@Goals/list_goal_edit.twig" %}
+    {% endif %}
+    {% include "@Goals/form_add_goal.twig" %}
+    {% if onlyShowAddNewGoal is not defined %}
+        <div class='entityCancel' style='display:none'>
+            {{ 'General_OrCancel'|translate("<a class='entityCancelLink'>","</a>") }}
+        </div>
+    {% endif %}
+    <a id='bottom'></a>
+</div>
+<br/><br/>
+{{ loadJavascriptTranslations(['Goals']) }}
+<script type="text/javascript">
+    var mappingMatchTypeName = {
+        "url": "{{ 'Goals_URL'|translate }}",
+        "title": "{{ 'Goals_PageTitle'|translate }}",
+        "file": "{{ 'Goals_Filename'|translate }}",
+        "external_website": "{{ 'Goals_ExternalWebsiteUrl'|translate }}"
+    };
+    var mappingMatchTypeExamples = {
+        "url": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'checkout/confirmation'") }} \
+		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://example.com/thank-you.html'") }} \
+		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)\\\/demo\\\/(.*)'") }}",
+        "title": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'Order confirmation'") }}",
+        "file": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'files/brochure.pdf'") }} \
+		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://example.com/files/brochure.pdf'") }} \
+		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'(.*)\\\.zip'") }}",
+        "external_website": "{{ 'General_ForExampleShort'|translate }} {{ 'Goals_Contains'|translate("'amazon.com'") }} \
+		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_IsExactly'|translate("'http://mypartner.com/landing.html'") }} \
+		<br />{{ 'General_ForExampleShort'|translate }} {{ 'Goals_MatchesExpression'|translate("'http://www.amazon.com\\\/(.*)\\\/yourAffiliateId'") }}"
+    };
+    bindGoalForm();
+
+    {% if onlyShowAddNewGoal is not defined %}
+        piwik.goals = {{ goalsJSON }};
+        bindListGoalEdit();
+    {% else %}
+        initAndShowAddGoalForm();
+    {% endif %}
+
+</script>
