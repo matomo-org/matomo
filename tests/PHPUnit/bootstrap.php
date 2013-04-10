@@ -34,6 +34,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockEventDispatcher.php';
+require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
 
 // required to build code coverage for uncovered files
 require_once PIWIK_INCLUDE_PATH . '/plugins/SecurityInfo/PhpSecInfo/PhpSecInfo.php';
