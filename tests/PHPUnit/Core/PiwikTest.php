@@ -91,6 +91,7 @@ class PiwikTest extends DatabaseTestCase
             array(1.342, array('1.34s', '00:00:01.34')),
             array(.342, array('0.34s', '00:00:00.34')),
 			array(.02, array('0.02s', '00:00:00.02')),
+            array(.002, array('0.002s', '00:00:00')),
 			array(1.002, array('1s', '00:00:01')),
 			array(1.02, array('1.02s', '00:00:01.02')),
 			array(1.2, array('1.2s', '00:00:01.20')),

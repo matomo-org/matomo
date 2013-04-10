@@ -282,6 +282,7 @@ class Piwik_DataTable_Row
             $thisSubTable = new Piwik_DataTable();
             $this->addSubtable($thisSubTable);
         }
+        $thisSubTable->setColumnAggregationOperations($subTable->getColumnAggregationOperations());
         $thisSubTable->addDataTable($subTable);
     }
 
