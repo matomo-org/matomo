@@ -1577,4 +1577,18 @@ class Piwik_API_API
         }
         return $result;
     }
+    
+    /**
+     * Returns fileintegrity information if mismatches are found.
+     */
+    public function getFileIntegrityStatus()
+    {
+        Piwik::checkUserIsSuperUser();
+      
+        $result = PIWIK::getFileIntegrityInformation();
+        if (isset($result[0]) && $result[0] === false) {
+            return $result;
+        }
+        return 'OK';
+    }    
 }
