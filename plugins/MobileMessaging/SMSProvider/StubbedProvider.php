@@ -17,18 +17,18 @@
 class Piwik_MobileMessaging_SMSProvider_StubbedProvider extends Piwik_MobileMessaging_SMSProvider
 {
 
-	public function verifyCredential($apiKey)
-	{
-		return true;
-	}
+    public function verifyCredential($apiKey)
+    {
+        return true;
+    }
 
-	public function sendSMS($apiKey, $smsText, $phoneNumber, $from)
-	{
-		// nothing to do
-	}
+    public function sendSMS($apiKey, $smsText, $phoneNumber, $from)
+    {
+        // nothing to do
+    }
 
-	public function getCreditLeft($apiKey)
-	{
-		return 1;
-	}
+    public function getCreditLeft($apiKey)
+    {
+        return 1;
+    }
 }

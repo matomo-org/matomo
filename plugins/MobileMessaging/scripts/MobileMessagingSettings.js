@@ -8,103 +8,93 @@
 // TODO when UI stabilized, factorize ajax boiler plate accros MobileMessagingSettings javascript functions
 var MobileMessagingSettings = MobileMessagingSettings || (function () {
 
-	/************************************************************
-	 * Private data
-	 ************************************************************/
-	var
-		delegatedManagementSelector = 'input[name=delegatedManagement]',
-		apiAccountSubmitSelector = '#apiAccountSubmit',
-		addPhoneNumberSubmitSelector = '#addPhoneNumberSubmit',
-		providersSelector = '#smsProviders',
-		providerDescriptionsSelector = '.providerDescription',
-		apiKeySelector = '#apiKey',
-		countriesSelector = '#countries',
-		countryCallingCodeSelector = '#countryCallingCode',
-		newPhoneNumberSelector = '#newPhoneNumber',
-		suspiciousPhoneNumberSelector = '#suspiciousPhoneNumber',
-		validatePhoneNumberSubmitSelector = '.validatePhoneNumberSubmit',
-		formDescriptionSelector = '.form-description',
-		removePhoneNumberSubmitSelector = '.removePhoneNumberSubmit',
-		verificationCodeSelector = '.verificationCode',
-		phoneNumberSelector = '.phoneNumber',
-		deleteAcountSelector = '#deleteAccount',
-		confirmDeleteAccountSelector = '#confirmDeleteAccount',
-		accountFormSelector = '#accountForm',
-		displayAccountFormSelector = '#displayAccountForm',
-		phoneNumberActivatedSelector = '#phoneNumberActivated',
-		invalidActivationCodeMsgSelector = '#invalidActivationCode',
-		ajaxErrorsSelector = '#ajaxErrorMobileMessagingSettings',
-		invalidVerificationCodeAjaxErrorSelector = '#invalidVerificationCodeAjaxError',
-		ajaxLoadingSelector = '#ajaxLoadingMobileMessagingSettings';
+    /************************************************************
+     * Private data
+     ************************************************************/
+    var
+        delegatedManagementSelector = 'input[name=delegatedManagement]',
+        apiAccountSubmitSelector = '#apiAccountSubmit',
+        addPhoneNumberSubmitSelector = '#addPhoneNumberSubmit',
+        providersSelector = '#smsProviders',
+        providerDescriptionsSelector = '.providerDescription',
+        apiKeySelector = '#apiKey',
+        countriesSelector = '#countries',
+        countryCallingCodeSelector = '#countryCallingCode',
+        newPhoneNumberSelector = '#newPhoneNumber',
+        suspiciousPhoneNumberSelector = '#suspiciousPhoneNumber',
+        validatePhoneNumberSubmitSelector = '.validatePhoneNumberSubmit',
+        formDescriptionSelector = '.form-description',
+        removePhoneNumberSubmitSelector = '.removePhoneNumberSubmit',
+        verificationCodeSelector = '.verificationCode',
+        phoneNumberSelector = '.phoneNumber',
+        deleteAcountSelector = '#deleteAccount',
+        confirmDeleteAccountSelector = '#confirmDeleteAccount',
+        accountFormSelector = '#accountForm',
+        displayAccountFormSelector = '#displayAccountForm',
+        phoneNumberActivatedSelector = '#phoneNumberActivated',
+        invalidActivationCodeMsgSelector = '#invalidActivationCode',
+        ajaxErrorsSelector = '#ajaxErrorMobileMessagingSettings',
+        invalidVerificationCodeAjaxErrorSelector = '#invalidVerificationCodeAjaxError',
+        ajaxLoadingSelector = '#ajaxLoadingMobileMessagingSettings';
 
-	/************************************************************
-	 * Private methods
-	 ************************************************************/
+    /************************************************************
+     * Private methods
+     ************************************************************/
 
-	function initUIEvents() {
+    function initUIEvents() {
 
-		$(delegatedManagementSelector).change(updateDelegatedManagement);
-		$(apiAccountSubmitSelector).click(updateApiAccount);
-		$(deleteAcountSelector).click(confirmDeleteApiAccount);
-		$(displayAccountFormSelector).click(displayAccountForm);
-		$(addPhoneNumberSubmitSelector).click(addPhoneNumber);
-		$(newPhoneNumberSelector).keyup(updateSuspiciousPhoneNumberMessage);
-		$(validatePhoneNumberSubmitSelector).click(validatePhoneNumber);
-		$(removePhoneNumberSubmitSelector).click(removePhoneNumber);
-		$(countryCallingCodeSelector).keyup(updateCountry);
-		$(countriesSelector).change(updateCountryCallingCode);
-		updateCountryCallingCode();
-		$(providersSelector).change(updateProviderDescription);
-		updateProviderDescription();
-	}
+        $(delegatedManagementSelector).change(updateDelegatedManagement);
+        $(apiAccountSubmitSelector).click(updateApiAccount);
+        $(deleteAcountSelector).click(confirmDeleteApiAccount);
+        $(displayAccountFormSelector).click(displayAccountForm);
+        $(addPhoneNumberSubmitSelector).click(addPhoneNumber);
+        $(newPhoneNumberSelector).keyup(updateSuspiciousPhoneNumberMessage);
+        $(validatePhoneNumberSubmitSelector).click(validatePhoneNumber);
+        $(removePhoneNumberSubmitSelector).click(removePhoneNumber);
+        $(countryCallingCodeSelector).keyup(updateCountry);
+        $(countriesSelector).change(updateCountryCallingCode);
+        updateCountryCallingCode();
+        $(providersSelector).change(updateProviderDescription);
+        updateProviderDescription();
+    }
 
-	function updateCountry()
-	{
-		var countryCallingCode = $(countryCallingCodeSelector).val();
-		if(countryCallingCode != null && countryCallingCode != '')
-		{
-			var countryToSelect = $(countriesSelector + ' option[value='+countryCallingCode+']');
-			if(countryToSelect.size() > 0)
-			{
-				countryToSelect.attr('selected', 'selected');
-			}
-			else
-			{
-				$(countriesSelector + ' option:selected').removeAttr('selected');
-			}
-		}
-	}
+    function updateCountry() {
+        var countryCallingCode = $(countryCallingCodeSelector).val();
+        if (countryCallingCode != null && countryCallingCode != '') {
+            var countryToSelect = $(countriesSelector + ' option[value=' + countryCallingCode + ']');
+            if (countryToSelect.size() > 0) {
+                countryToSelect.attr('selected', 'selected');
+            }
+            else {
+                $(countriesSelector + ' option:selected').removeAttr('selected');
+            }
+        }
+    }
 
-	function displayAccountForm()
-	{
-		$(accountFormSelector).show();
-	}
+    function displayAccountForm() {
+        $(accountFormSelector).show();
+    }
 
-	function validatePhoneNumber(event)
-	{
-		var phoneNumberContainer = $(event.target).parent();
-		var verificationCodeContainer = phoneNumberContainer.find(verificationCodeSelector);
-		var verificationCode = verificationCodeContainer.val();
-		var phoneNumber = phoneNumberContainer.find(phoneNumberSelector).html();
+    function validatePhoneNumber(event) {
+        var phoneNumberContainer = $(event.target).parent();
+        var verificationCodeContainer = phoneNumberContainer.find(verificationCodeSelector);
+        var verificationCode = verificationCodeContainer.val();
+        var phoneNumber = phoneNumberContainer.find(phoneNumberSelector).html();
 
-		if(verificationCode != null && verificationCode != '')
-		{
-			var success =
-				function(response)
-				{
-					$(phoneNumberActivatedSelector).hide();
-					if(!response.value)
-					{
-						$(invalidVerificationCodeAjaxErrorSelector).html($(invalidActivationCodeMsgSelector).html()).fadeIn();
-					}
-					else
-					{
-						$(phoneNumberActivatedSelector).show();
-						$(verificationCodeContainer).remove();
-						$(phoneNumberContainer).find(validatePhoneNumberSubmitSelector).remove();
-						$(phoneNumberContainer).find(formDescriptionSelector).remove();
-					}
-				};
+        if (verificationCode != null && verificationCode != '') {
+            var success =
+                function (response) {
+                    $(phoneNumberActivatedSelector).hide();
+                    if (!response.value) {
+                        $(invalidVerificationCodeAjaxErrorSelector).html($(invalidActivationCodeMsgSelector).html()).fadeIn();
+                    }
+                    else {
+                        $(phoneNumberActivatedSelector).show();
+                        $(verificationCodeContainer).remove();
+                        $(phoneNumberContainer).find(validatePhoneNumberSubmitSelector).remove();
+                        $(phoneNumberContainer).find(formDescriptionSelector).remove();
+                    }
+                };
 
             var ajaxHandler = new ajaxHelper();
             ajaxHandler.addParams({
@@ -117,13 +107,12 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
             ajaxHandler.setLoadingElement(ajaxLoadingSelector);
             ajaxHandler.setErrorElement(invalidVerificationCodeAjaxErrorSelector);
             ajaxHandler.send(true);
-		}
-	}
+        }
+    }
 
-	function removePhoneNumber(event)
-	{
-		var phoneNumberContainer = $(event.target).parent();
-		var phoneNumber = phoneNumberContainer.find(phoneNumberSelector).html();
+    function removePhoneNumber(event) {
+        var phoneNumberContainer = $(event.target).parent();
+        var phoneNumber = phoneNumberContainer.find(phoneNumberSelector).html();
 
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams({
@@ -136,32 +125,27 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
         ajaxHandler.setLoadingElement(ajaxLoadingSelector);
         ajaxHandler.setErrorElement(ajaxErrorsSelector);
         ajaxHandler.send(true);
-	}
+    }
 
-	function updateSuspiciousPhoneNumberMessage()
-	{
-		var newPhoneNumber = $(newPhoneNumberSelector).val();
+    function updateSuspiciousPhoneNumberMessage() {
+        var newPhoneNumber = $(newPhoneNumberSelector).val();
 
-		// check if number starts with 0
-		if($.trim(newPhoneNumber).lastIndexOf('0', 0) === 0)
-		{
-			$(suspiciousPhoneNumberSelector).show();
-		}
-		else
-		{
-			$(suspiciousPhoneNumberSelector).hide();
-		}
-	}
+        // check if number starts with 0
+        if ($.trim(newPhoneNumber).lastIndexOf('0', 0) === 0) {
+            $(suspiciousPhoneNumberSelector).show();
+        }
+        else {
+            $(suspiciousPhoneNumberSelector).hide();
+        }
+    }
 
-	function addPhoneNumber()
-	{
-		var newPhoneNumber = $(newPhoneNumberSelector).val();
-		var countryCallingCode = $(countryCallingCodeSelector).val();
+    function addPhoneNumber() {
+        var newPhoneNumber = $(newPhoneNumberSelector).val();
+        var countryCallingCode = $(countryCallingCodeSelector).val();
 
-		var phoneNumber = '+' + countryCallingCode + newPhoneNumber;
+        var phoneNumber = '+' + countryCallingCode + newPhoneNumber;
 
-		if(newPhoneNumber != null && newPhoneNumber != '')
-		{
+        if (newPhoneNumber != null && newPhoneNumber != '') {
             var ajaxHandler = new ajaxHelper();
             ajaxHandler.addParams({
                 module: 'API',
@@ -173,30 +157,27 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
             ajaxHandler.setLoadingElement(ajaxLoadingSelector);
             ajaxHandler.setErrorElement(ajaxErrorsSelector);
             ajaxHandler.send(true);
-		}
-	}
+        }
+    }
 
-	function updateCountryCallingCode()
-	{
-		$(countryCallingCodeSelector).val($(countriesSelector + ' option:selected').val());
-	}
+    function updateCountryCallingCode() {
+        $(countryCallingCodeSelector).val($(countriesSelector + ' option:selected').val());
+    }
 
-	function updateProviderDescription()
-	{
-		$(providerDescriptionsSelector).hide();
-		$('#' + $(providersSelector + ' option:selected').val() + providerDescriptionsSelector).show();
-	}
+    function updateProviderDescription() {
+        $(providerDescriptionsSelector).hide();
+        $('#' + $(providersSelector + ' option:selected').val() + providerDescriptionsSelector).show();
+    }
 
-	function updateDelegatedManagement() {
-		setDelegatedManagement(getDelegatedManagement());
-	}
+    function updateDelegatedManagement() {
+        setDelegatedManagement(getDelegatedManagement());
+    }
 
-	function confirmDeleteApiAccount()
-	{
-		piwikHelper.modalConfirm(confirmDeleteAccountSelector, {yes: deleteApiAccount});
-	}
-	
-	function deleteApiAccount() {
+    function confirmDeleteApiAccount() {
+        piwikHelper.modalConfirm(confirmDeleteAccountSelector, {yes: deleteApiAccount});
+    }
+
+    function deleteApiAccount() {
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams({
             module: 'API',
@@ -207,14 +188,14 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
         ajaxHandler.setLoadingElement(ajaxLoadingSelector);
         ajaxHandler.setErrorElement(ajaxErrorsSelector);
         ajaxHandler.send(true);
-	}
+    }
 
-	function updateApiAccount() {
+    function updateApiAccount() {
 
-		var provider = $(providersSelector + ' option:selected').val();
-		var apiKey = $(apiKeySelector).val();
+        var provider = $(providersSelector + ' option:selected').val();
+        var apiKey = $(apiKeySelector).val();
 
-		if(apiKey != '') {
+        if (apiKey != '') {
             var ajaxHandler = new ajaxHelper();
             ajaxHandler.addParams({
                 module: 'API',
@@ -226,10 +207,10 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
             ajaxHandler.setLoadingElement(ajaxLoadingSelector);
             ajaxHandler.setErrorElement(ajaxErrorsSelector);
             ajaxHandler.send(true);
-		}
-	}
+        }
+    }
 
-	function setDelegatedManagement(delegatedManagement) {
+    function setDelegatedManagement(delegatedManagement) {
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams({
             module: 'API',
@@ -241,28 +222,28 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
         ajaxHandler.setLoadingElement(ajaxLoadingSelector);
         ajaxHandler.setErrorElement(ajaxErrorsSelector);
         ajaxHandler.send(true);
-	}
+    }
 
-	function getDelegatedManagement() {
-		return $(delegatedManagementSelector + ':checked').val();
-	}
+    function getDelegatedManagement() {
+        return $(delegatedManagementSelector + ':checked').val();
+    }
 
-	/************************************************************
-	 * Public data and methods
-	 ************************************************************/
+    /************************************************************
+     * Public data and methods
+     ************************************************************/
 
-	return {
+    return {
 
-		/*
-		 * Initialize UI events
-		 */
-		initUIEvents: function () {
-			initUIEvents();
-		}
-	};
+        /*
+         * Initialize UI events
+         */
+        initUIEvents: function () {
+            initUIEvents();
+        }
+    };
 
 }());
 
-$(document).ready( function() {
-	MobileMessagingSettings.initUIEvents();
+$(document).ready(function () {
+    MobileMessagingSettings.initUIEvents();
 });

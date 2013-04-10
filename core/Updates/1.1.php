@@ -14,18 +14,18 @@
  */
 class Piwik_Updates_1_1 extends Piwik_Updates
 {
-	static function update($schema = 'Myisam')
-	{
-		$config = Piwik_Config::getInstance();
+    static function update($schema = 'Myisam')
+    {
+        $config = Piwik_Config::getInstance();
 
-		$rootLogin = $config->superuser['login'];
-		try {
-			// throws an exception if invalid
-			Piwik::checkValidLoginString($rootLogin);
-		} catch(Exception $e) {
-			throw new Exception('Superuser login name "' . $rootLogin . '" is no longer a valid format. '
-						. $e->getMessage()
-						. ' Edit your config/config.ini.php to change it.');
-		}
-	}
+        $rootLogin = $config->superuser['login'];
+        try {
+            // throws an exception if invalid
+            Piwik::checkValidLoginString($rootLogin);
+        } catch (Exception $e) {
+            throw new Exception('Superuser login name "' . $rootLogin . '" is no longer a valid format. '
+                . $e->getMessage()
+                . ' Edit your config/config.ini.php to change it.');
+        }
+    }
 }

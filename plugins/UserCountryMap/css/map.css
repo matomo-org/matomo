@@ -1,0 +1,84 @@
+/*
+ * Stylesheets for Kartograph map
+ */
+
+.UserCountryMap_map svg path {
+    stroke-linejoin: round;
+}
+
+.UserCountryMap_map svg .countries {
+    cursor: pointer;
+    stroke-width: 0.5px;
+    stroke: #545C6D;
+}
+
+.UserCountryMap_map svg .context {
+    stroke: #BBBBBB;
+    fill: #F6F5F3;
+    stroke-width: 0.5px;
+}
+
+.UserCountryMap_map svg .context-clickable {
+    cursor: pointer;
+    stroke: #BBBBBB;
+    fill: #F2F1ED;
+    stroke-width: 0.5px;
+}
+
+.UserCountryMap_map svg .context-clickable:hover {
+    fill: #E4E2D7;
+}
+
+.UserCountryMap_map svg .regionBG {
+    stroke-width: 6px;
+    stroke: #fff;
+    fill: none;
+}
+
+.UserCountryMap_map svg .regionBG-fill {
+    stroke: #555;
+    stroke-width: 0.2px;
+    fill: #F6F5F3;
+}
+
+.UserCountryMap_map svg .regionBG-3 {
+    stroke: #ccc;
+    fill: #F2F1ED;
+    stroke-width: 1px;
+}
+
+.UserCountryMap_map svg .countryBG {
+    stroke: #fff;
+    fill: #fff;
+    stroke-width: 4px;
+}
+
+.UserCountryMap_map svg .regions {
+    stroke-width: 1px;
+}
+
+.UserCountryMap_map svg .regions2 {
+    stroke-width: 1px;
+    stroke: #aaa;
+    fill: #fff;
+}
+
+.UserCountryMap_map svg .countryLabelBg {
+    font-weight: bold;
+    font-size: 10px;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    fill: #F6F5F3;
+    stroke: #F6F5F3;
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+.UserCountryMap_map svg .countryLabel {
+    font-weight: bold;
+    font-size: 10px;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    fill: #808888;
+}
+
+

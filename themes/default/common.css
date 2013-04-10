@@ -28,6 +28,12 @@ blockquote,q {
 label {
 	cursor:pointer;
 }
+
+/* IE < 9 will use this */
+html.old-ie .ie-hide { 
+	display: none; 
+}
+
 /* remember to define focus styles! */
 :focus {
 	outline: 0;
@@ -89,7 +95,7 @@ a {
 .top_controls{ 
 	position:relative; 
 	height:32px;
-	.z-index:11;
+	.z-index:9999;
 }
 
 .top_controls_inner{ 
@@ -110,7 +116,7 @@ a {
 	-webkit-border-radius:4px;
 	float:left; 
 	margin-right:12px;
-	z-index:11;
+	z-index:999;
 	position:absolute;
 }
 #periodString:hover {
@@ -344,7 +350,7 @@ a {
 .custom_select_block_show{ height:auto; overflow:visible;padding-top:5px;  }
 
 
-#siteSelect a {
+.siteSelect a {
     white-space:normal;
     text-align:left;
 }
@@ -448,9 +454,13 @@ a {
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
 }
-/* extending the jquery UI css for inline help */
-.ui-widget { 
-	text-align:justify;
+/* extending the jquery UI css, for visitor Log popover */
+.ui-widget .dataTable {
+    font-size: 14px;
+}
+/* for inline help */
+.ui-widget {
+    text-align:justify;
 }
 
 .ui-inline-help {
@@ -714,9 +724,9 @@ table.entityTable tr td a {
 }
 
 
-/* Piwik Tooltip (plugins/CoreHome/templates/tooltip.js) */
+/* Piwik jQuery UI Tooltips */
 
-.piwik-tooltip {
+.ui-tooltip {
 	position: absolute;
 	z-index: 2000;
 	text-align: left;
@@ -733,11 +743,28 @@ table.entityTable tr td a {
 	-webkit-box-shadow: 1px 1px 2px #666;
 	box-shadow: 1px 1px 2px #666;
 	overflow: hidden;
+    max-width: 600px;
+   	min-width: 50px;
+    line-height: 14px;
+	left: -28000px;
+	top: -28000px;
+	display: none;
+	font-family: Arial, Helvetica, sans-serif; 
 }
 
-.piwik-tooltip .tip-title {
+.ui-tooltip h3 {
 	font-weight: bold;
 	color: #7E7363;
+}
+
+.ui-tooltip h3 {
+	font-size: 12px;
+	margin: 0 0 2px 0;
+}
+
+body .ui-tooltip.small {
+    font-size: 11px;
+    padding: 3px 5px 3px 6px;
 }
 
 

@@ -12,62 +12,63 @@
 /* workarounds */
 * html .ui-autocomplete {
     /* without this, the menu expands to 100% in IE6 */
-    width:1px;
+    width: 1px;
 }
 
 /* Menu
 ----------------------------------*/
 .ui-menu {
-	list-style:none;
-	padding: 6px;
-	margin: 0;
-	display:block;
-	position: relative;
-	font-family: Arial, Verdana, Arial, Helvetica, sans-serif;
+    list-style: none;
+    padding: 6px;
+    margin: 0;
+    display: block;
+    position: relative;
+    font-family: Arial, Verdana, Arial, Helvetica, sans-serif;
 }
+
 .ui-menu .ui-menu {
-	margin-top: -3px;
+    margin-top: -3px;
     margin-bottom: 8px;
 }
+
 .ui-menu .ui-menu-item {
-	line-height:18px;
-	padding:0;
-	height:auto;
-	display:block;
-	text-decoration:none;
-	white-space:nowrap; 
+    line-height: 18px;
+    padding: 0;
+    height: auto;
+    display: block;
+    text-decoration: none;
+    white-space: nowrap;
 }
+
 .ui-menu .ui-menu-item a {
-	line-height:18px;
-	color:#255792;
-	font-size: 12px;
-	padding: 0 5px 0 5px;
-	position: relative;
+    line-height: 18px;
+    color: #255792;
+    font-size: 12px;
+    padding: 0 5px 0 5px;
+    position: relative;
 }
 
-.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-focus,
 .ui-menu .ui-menu-item a.ui-state-active {
-	font-weight: normal;
-	margin: 0;
+    font-weight: normal;
+    margin: 0;
 }
 
-
-.ui-widget-content  {
-    background:url("../../../libs/jquery/themes/base/images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #FFFFFF;
-    border: 0 solid #D4D4D4;
-    color:#222;
+.ui-widget-content {
+    border: 0;
 }
+
 .ui-corner-all {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 }
 
-.ui-menu .ui-menu-item a.ui-state-hover{
-	background:#ebeae6;
-	border: 0;
+.ui-menu .ui-menu-item a.ui-state-focus {
+    background: #ebeae6;
+    border: 0;
     border-radius: 0;
-	-moz-border-radius: 0;
+    -moz-border-radius: 0;
     -webkit-radius-radius: 0;
 }
 

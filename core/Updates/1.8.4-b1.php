@@ -14,29 +14,29 @@
  */
 class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 {
-	
-	static function isMajorUpdate()
-	{
-		return true;
-	}
-	
-	static function getSql($schema = 'Myisam')
-	{
-		$action = Piwik_Common::prefixTable('log_action');
-		$duplicates = Piwik_Common::prefixTable('log_action_duplicates');
-		$visitAction = Piwik_Common::prefixTable('log_link_visit_action');
-		$conversion = Piwik_Common::prefixTable('log_conversion');
-		$visit = Piwik_Common::prefixTable('log_visit');
-		
-		return array(
-			
-		    // add url_prefix column
-			"   ALTER TABLE `$action` 
+
+    static function isMajorUpdate()
+    {
+        return true;
+    }
+
+    static function getSql($schema = 'Myisam')
+    {
+        $action = Piwik_Common::prefixTable('log_action');
+        $duplicates = Piwik_Common::prefixTable('log_action_duplicates');
+        $visitAction = Piwik_Common::prefixTable('log_link_visit_action');
+        $conversion = Piwik_Common::prefixTable('log_conversion');
+        $visit = Piwik_Common::prefixTable('log_visit');
+
+        return array(
+
+            // add url_prefix column
+            "   ALTER TABLE `$action`
 		    	ADD `url_prefix` TINYINT(2) NULL AFTER `type`;
-		    " => 1060, // ignore error 1060 Duplicate column name 'url_prefix'
-			
-			// remove protocol and www and store information in url_prefix
-			"   UPDATE `$action`
+		    "                                                                                                     => 1060, // ignore error 1060 Duplicate column name 'url_prefix'
+
+            // remove protocol and www and store information in url_prefix
+            "   UPDATE `$action`
 				SET
 				  url_prefix = IF (
 					LEFT(name, 11) = 'http://www.', 1, IF (
@@ -60,21 +60,21 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 				WHERE
 				  type = 1 AND
 				  url_prefix IS NULL;
-			" => false,
-			
-			// find duplicates
-			"   DROP TABLE IF EXISTS `$duplicates`;
-			" => false,
-			"   CREATE TABLE `$duplicates` (
+			"                                                                      => false,
+
+            // find duplicates
+            "   DROP TABLE IF EXISTS `$duplicates`;
+			"                                                    => false,
+            "   CREATE TABLE `$duplicates` (
 				 `before` int(10) unsigned NOT NULL,
 				 `after` int(10) unsigned NOT NULL,
 				 KEY `mainkey` (`before`)
 				) ENGINE=MyISAM;
-			" => false,
+			"                                                            => false,
 
-			// grouping by name only would be case-insensitive, so we GROUP BY name,hash
-			// ON (action.type = 1 AND canonical.hash = action.hash) will use index (type, hash)
-			"   INSERT INTO `$duplicates` (
+            // grouping by name only would be case-insensitive, so we GROUP BY name,hash
+            // ON (action.type = 1 AND canonical.hash = action.hash) will use index (type, hash)
+            "   INSERT INTO `$duplicates` (
 				  SELECT 
 					action.idaction AS `before`,
 					canonical.idaction AS `after`
@@ -100,9 +100,9 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 					AND canonical.idaction != action.idaction
 				);
 			" => false,
-			
-			// replace idaction in log_link_visit_action
-			"   UPDATE
+
+            // replace idaction in log_link_visit_action
+            "   UPDATE
 				  `$visitAction` AS link
 				LEFT JOIN
 				  `$duplicates` AS duplicates_idaction_url
@@ -111,8 +111,8 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 				  link.idaction_url = duplicates_idaction_url.after
 				WHERE
 				  duplicates_idaction_url.after IS NOT NULL;
-			" => false,
-			"   UPDATE
+			"                           => false,
+            "   UPDATE
 				  `$visitAction` AS link
 				LEFT JOIN
 				  `$duplicates` AS duplicates_idaction_url_ref
@@ -121,10 +121,10 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 				  link.idaction_url_ref = duplicates_idaction_url_ref.after
 				WHERE
 				  duplicates_idaction_url_ref.after IS NOT NULL;
-			" => false,
-			
-			// replace idaction in log_conversion
-			"   UPDATE
+			"                           => false,
+
+            // replace idaction in log_conversion
+            "   UPDATE
 				  `$conversion` AS conversion
 				LEFT JOIN
 				  `$duplicates` AS duplicates
@@ -133,10 +133,10 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 				  conversion.idaction_url = duplicates.after
 				WHERE
 				  duplicates.after IS NOT NULL;
-			" => false,
-			
-			// replace idaction in log_visit
-			"   UPDATE
+			"                            => false,
+
+            // replace idaction in log_visit
+            "   UPDATE
 				  `$visit` AS visit
 				LEFT JOIN
 				  `$duplicates` AS duplicates_entry
@@ -145,8 +145,8 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 				  visit.visit_entry_idaction_url = duplicates_entry.after
 				WHERE
 				  duplicates_entry.after IS NOT NULL;
-			" => false,
-			"   UPDATE
+			"                                 => false,
+            "   UPDATE
 				  `$visit` AS visit
 				LEFT JOIN
 				  `$duplicates` AS duplicates_exit
@@ -155,36 +155,33 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 				  visit.visit_exit_idaction_url = duplicates_exit.after
 				WHERE
 				  duplicates_exit.after IS NOT NULL;
-			" => false,
-			
-			// remove duplicates from log_action
-			"   DELETE action FROM
+			"                                 => false,
+
+            // remove duplicates from log_action
+            "   DELETE action FROM
 				  `$action` AS action
 				LEFT JOIN
 				  `$duplicates` AS duplicates
 				  ON action.idaction = duplicates.before
 				WHERE
 				  duplicates.after IS NOT NULL;
-			" => false,
-			
-			// remove the duplicates table
-			"   DROP TABLE `$duplicates`;
-			" => false
-		);
-	}
+			"                                => false,
 
-	static function update()
-	{
-		try
-		{
-			self::enableMaintenanceMode();
-			Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-			self::disableMaintenanceMode();
-		}
-		catch(Exception $e)
-		{
-			self::disableMaintenanceMode();
-			throw $e;
-		}
-	}
+            // remove the duplicates table
+            "   DROP TABLE `$duplicates`;
+			"                                                              => false
+        );
+    }
+
+    static function update()
+    {
+        try {
+            self::enableMaintenanceMode();
+            Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+            self::disableMaintenanceMode();
+        } catch (Exception $e) {
+            self::disableMaintenanceMode();
+            throw $e;
+        }
+    }
 }

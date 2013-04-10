@@ -13,16 +13,15 @@ class UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testAllMethods()
     {
-        $this->assertEquals(Piwik_Url::getCurrentQueryStringWithParametersModified(array()),Piwik_Url::getCurrentQueryString() );
+        $this->assertEquals(Piwik_Url::getCurrentQueryStringWithParametersModified(array()), Piwik_Url::getCurrentQueryString());
         $this->assertEquals(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentUrlWithoutQueryString());
-        $this->assertEquals(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentScheme() . '://' . Piwik_Url::getCurrentHost() . Piwik_Url::getCurrentScriptName() );
-        
+        $this->assertEquals(Piwik_Url::getCurrentUrl(), Piwik_Url::getCurrentScheme() . '://' . Piwik_Url::getCurrentHost() . Piwik_Url::getCurrentScriptName());
+
         $_SERVER['QUERY_STRING'] = 'q=test';
-        
+
         $parameters = array_keys(Piwik_Url::getArrayFromCurrentQueryString());
         $parametersNameToValue = array();
-        foreach($parameters as $name)
-        {
+        foreach ($parameters as $name) {
             $parametersNameToValue[$name] = null;
         }
         $this->assertEquals('', Piwik_Url::getCurrentQueryStringWithParametersModified($parametersNameToValue));
@@ -31,7 +30,8 @@ class UrlTest extends PHPUnit_Framework_TestCase
     /**
      * Dataprovider for testGetCurrentHost()
      */
-    public function getCurrentHosts() {
+    public function getCurrentHosts()
+    {
         return array(
             array('localhost IPv4', array('127.0.0.1', null, null, null, '127.0.0.1')),
             array('localhost IPv6', array('[::1]', null, null, null, '[::1]')),
@@ -62,10 +62,10 @@ class UrlTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['HTTP_HOST'] = $test[0];
         $_SERVER['HTTP_X_FORWARDED_HOST'] = $test[1];
-        Piwik_Config::getInstance()->General['proxy_host_headers'] = array( $test[2] );
-        Piwik_Config::getInstance()->General['proxy_ips'] = array( $test[3] );
+        Piwik_Config::getInstance()->General['proxy_host_headers'] = array($test[2]);
+        Piwik_Config::getInstance()->General['proxy_ips'] = array($test[3]);
         Piwik_Config::getInstance()->General['enable_trusted_host_check'] = 0;
-        $this->assertEquals( $test[4], Piwik_Url::getCurrentHost(), $description );
+        $this->assertEquals($test[4], Piwik_Url::getCurrentHost(), $description);
     }
 
     /**
@@ -123,7 +123,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
             array('www.example.com', 'http://www.example.com/path/', '/path/', 'http://crsf.example.com/path/', false),
         );
     }
-    
+
     /**
      * @dataProvider getLocalUrls
      * @group Core
@@ -137,13 +137,14 @@ class UrlTest extends PHPUnit_Framework_TestCase
         Piwik_Config::getInstance()->General['enable_trusted_host_check'] = 1;
         Piwik_Config::getInstance()->General['trusted_hosts'] = array($httphost);
         $urlToTest = $testurl;
-        $this->assertEquals( $result, Piwik_Url::isLocalUrl($urlToTest) );
+        $this->assertEquals($result, Piwik_Url::isLocalUrl($urlToTest));
     }
 
     /**
      * Dataprovider for testGetCurrentUrlWithoutFilename
      */
-    public function getCurrentUrlWithoutFilename() {
+    public function getCurrentUrlWithoutFilename()
+    {
         return array(
             array('http://example.com/', false, 'example.com', '/'),
             array('https://example.org/', true, 'example.org', '/'),
@@ -161,8 +162,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
     {
         $names = array('PATH_INFO', 'REQUEST_URI', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'argv', 'HTTPS', 'HTTP_HOST', 'QUERY_STRING', 'HTTP_REFERER');
 
-        foreach($names as $name)
-        {
+        foreach ($names as $name) {
             unset($_SERVER[$name]);
         }
 
@@ -176,7 +176,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_HOST'] = $host;
 
         Piwik_Config::getInstance()->General['trusted_hosts'] = array($host);
-        
+
         $url = Piwik_Url::getCurrentUrlWithoutFilename();
         $this->assertEquals($expected, $url);
     }
@@ -189,8 +189,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
     {
         $names = array('PATH_INFO', 'REQUEST_URI', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'argv', 'HTTPS', 'HTTP_HOST', 'QUERY_STRING', 'HTTP_REFERER');
 
-        foreach($names as $name)
-        {
+        foreach ($names as $name) {
             unset($_SERVER[$name]);
         }
 
@@ -204,8 +203,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
             array('/path/index.php', '/path/index.php/route/3/?module=Fu&action=Bar#Hash', '/route/3/'),
         );
 
-        foreach($tests as $test)
-        {
+        foreach ($tests as $test) {
             list($expected, $uri, $pathInfo) = $test;
 
             $_SERVER['REQUEST_URI'] = $uri;
@@ -247,7 +245,7 @@ class UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testIsValidHost($expected, $host, $trustedHosts, $description)
     {
-    	Piwik_Config::getInstance()->General['enable_trusted_host_check'] = 1;
+        Piwik_Config::getInstance()->General['enable_trusted_host_check'] = 1;
         Piwik_Config::getInstance()->General['trusted_hosts'] = $trustedHosts;
         $this->assertEquals($expected, Piwik_Url::isValidHost($host), $description);
     }

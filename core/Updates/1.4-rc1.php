@@ -14,21 +14,21 @@
  */
 class Piwik_Updates_1_4_rc1 extends Piwik_Updates
 {
-	static function getSql($schema = 'Myisam')
-	{
-		return array(
-		    'ALTER TABLE `'. Piwik_Common::prefixTable('pdf') .'`
-		    	ADD COLUMN `format` VARCHAR(10)' => false,
-		    'UPDATE `'. Piwik_Common::prefixTable('pdf') .'`
+    static function getSql($schema = 'Myisam')
+    {
+        return array(
+            'ALTER TABLE `' . Piwik_Common::prefixTable('pdf') . '`
+		    	ADD COLUMN `format` VARCHAR(10)'                                                => false,
+            'UPDATE `' . Piwik_Common::prefixTable('pdf') . '`
 		    	SET format = "pdf"' => false,
-		);
-	}
+        );
+    }
 
-	static function update()
-	{
-		try {
-			Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-		}
-		catch(Exception $e){}
-	}
+    static function update()
+    {
+        try {
+            Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        } catch (Exception $e) {
+        }
+    }
 }

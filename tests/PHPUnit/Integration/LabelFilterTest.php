@@ -12,20 +12,7 @@
  */
 class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
 {
-    protected static $dateTime = '2010-03-06 11:22:33';
-    protected static $idSite   = 1;
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        try {
-            self::setUpWebsitesAndGoals();
-            self::trackVisits();
-        } catch(Exception $e) {
-            // Skip whole test suite if an error occurs while setup
-            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
-        }
-    }
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -39,16 +26,19 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
 
     public function getApiForTesting()
     {
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
+
         $labelsToTest = array(
-	        // first level
-	        'shouldBeNoData'          => 'nonExistent',
-	        'dir'                     => '  dir   ',
-	        '0'                       => '/0',
+            // first level
+            'shouldBeNoData'          => 'nonExistent',
+            'dir'                     => '  dir   ',
+            '0'                       => '/0',
 
-	        // TODO the label in the API output is ...&amp;#039;... why does it only work this way?
-	        'thisiscool'              => '/ééé&quot;&#039;... &lt;this is cool&gt;!',
+            // TODO the label in the API output is ...&amp;#039;... why does it only work this way?
+            'thisiscool'              => '/ééé&quot;&#039;... &lt;this is cool&gt;!',
 
-	        // second level
+            // second level
             'dirnonExistent'          => 'dir>nonExistent',
             'dirfilephpfoobarfoo2bar' => 'dir>' . urlencode('/file.php?foo=bar&foo2=bar'),
 
@@ -60,8 +50,8 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
         foreach ($labelsToTest as $suffix => $label) {
             $return[] = array('Actions.getPageUrls', array(
                 'testSuffix'             => '_' . $suffix,
-                'idSite'                 => self::$idSite,
-                'date'                   => self::$dateTime,
+                'idSite'                 => $idSite,
+                'date'                   => $dateTime,
                 'otherRequestParameters' => array(
                     'label'    => urlencode($label),
                     'expanded' => 0
@@ -69,57 +59,57 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
             ));
         }
 
-		$label    = 'dir';
-		$return[] = array('Actions.getPageUrls', array(
-			'testSuffix'             => '_' . $label . '_range',
-			'idSite'                 => self::$idSite,
-			'date'                   => self::$dateTime,
-			'otherRequestParameters' => array(
-				'date'     => '2010-03-06,2010-03-08',
-				'label'    => urlencode($label),
-				'expanded' => 0
-			)
-		));
+        $label = 'dir';
+        $return[] = array('Actions.getPageUrls', array(
+            'testSuffix'             => '_' . $label . '_range',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                'date'     => '2010-03-06,2010-03-08',
+                'label'    => urlencode($label),
+                'expanded' => 0
+            )
+        ));
 
-		$return[] = array('Actions.getPageTitles', array(
-			'testSuffix'             => '_titles',
-			'idSite'                 => self::$idSite,
-			'date'                   => self::$dateTime,
-			'otherRequestParameters' => array(
-				// note: title has no blank prefixed here. in the report it has.
-				'label'    => urlencode('incredible title! <>,;'),
-				'expanded' => 0
-			)
-		));
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'             => '_titles',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                // note: title has no blank prefixed here. in the report it has.
+                'label'    => urlencode('incredible title! <>,;'),
+                'expanded' => 0
+            )
+        ));
 
-		$return[] = array('Actions.getPageTitles', array(
-			'testSuffix'             => '_titlesRecursive',
-			'idSite'                 => self::$idSite,
-			'date'                   => self::$dateTime,
-			'otherRequestParameters' => array(
-				'label'    => urlencode(
-				'   ' . // test trimming
-					urlencode('incredible parent title! <>,;') .
-					'>' .
-					urlencode('subtitle <>,;')),
-				'expanded' => 0
-			)
-		));
+        $return[] = array('Actions.getPageTitles', array(
+            'testSuffix'             => '_titlesRecursive',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                'label'    => urlencode(
+                    '   ' . // test trimming
+                        urlencode('incredible parent title! <>,;') .
+                        '>' .
+                        urlencode('subtitle <>,;')),
+                'expanded' => 0
+            )
+        ));
 
-		$keyword          = '&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded';
-		$searchEngineTest = array(
-			'testSuffix'             => '_keywords_html',
-			'idSite'                 => self::$idSite,
-			'date'                   => self::$dateTime,
-			'otherRequestParameters' => array(
-				'label'    => urlencode('Google>' . urlencode($keyword)),
-				'expanded' => 0
-			)
-		);
-		$return[]         = array('Referers.getSearchEngines', $searchEngineTest);
+        $keyword = '&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded';
+        $searchEngineTest = array(
+            'testSuffix'             => '_keywords_html',
+            'idSite'                 => $idSite,
+            'date'                   => $dateTime,
+            'otherRequestParameters' => array(
+                'label'    => urlencode('Google>' . urlencode($keyword)),
+                'expanded' => 0
+            )
+        );
+        $return[] = array('Referers.getSearchEngines', $searchEngineTest);
 
-		$searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>' . urlencode(html_entity_decode($keyword)));
-		$return[]                                            = array('Referers.getSearchEngines', $searchEngineTest);
+        $searchEngineTest['otherRequestParameters']['label'] = urlencode('Google>' . urlencode(html_entity_decode($keyword)));
+        $return[] = array('Referers.getSearchEngines', $searchEngineTest);
 
         return $return;
     }
@@ -128,42 +118,7 @@ class Test_Piwik_Integration_LabelFilter extends IntegrationTestCase
     {
         return 'LabelFilter';
     }
-
-    protected static function setUpWebsitesAndGoals()
-    {
-        self::createWebsite(self::$dateTime);
-    }
-
-    protected static function trackVisits()
-    {
-        $dateTime = self::$dateTime;
-        $idSite   = self::$idSite;
-        $t        = self::getTracker($idSite, $dateTime, $defaultInit = true, $useThirdPartyCookie = 1);
-
-        $t->setUrlReferrer('http://www.google.com.vn/url?sa=t&rct=j&q=%3C%3E%26%5C%22the%20pdo%20extension%20is%20required%20for%20this%20adapter%20but%20the%20extension%20is%20not%20loaded&source=web&cd=4&ved=0FjAD&url=http%3A%2F%2Fforum.piwik.org%2Fread.php%3F2%2C1011&ei=y-HHAQ&usg=AFQjCN2-nt5_GgDeg&cad=rja');
-        $t->setUrl('http://example.org/%C3%A9%C3%A9%C3%A9%22%27...%20%3Cthis%20is%20cool%3E!');
-        self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
-
-        $t->setUrl('http://example.org/dir/file.php?foo=bar&foo2=bar');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
-        self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
-
-        $t->setUrl('http://example.org/dir/file.php?foo=bar&foo2=bar2');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
-        self::checkResponse($t->doTrackPageView('incredible parent title! <>,; / subtitle <>,;'));
-
-        $t->setUrl('http://example.org/dir2/file.php?foo=bar&foo2=bar');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
-        self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
-
-        $t->setUrl('http://example.org/dir2/sub/0/file.php');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
-        self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
-
-        $t->setUrl('http://example.org/0');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
-        self::checkResponse($t->doTrackPageView('I am URL zero!'));
-
-    }
 }
+
+Test_Piwik_Integration_LabelFilter::$fixture = new Test_Piwik_Fixture_OneVisitSeveralPageViews();
 

@@ -7,16 +7,17 @@
  */
 class MockEventDispatcher extends Event_Dispatcher
 {
-	private $forcedNotificationObject = false;
+    private $forcedNotificationObject = false;
 
-	function __construct($forcedNotificationObject) {
-		$this->forcedNotificationObject = $forcedNotificationObject;
-	}
+    function __construct($forcedNotificationObject)
+    {
+        $this->forcedNotificationObject = $forcedNotificationObject;
+    }
 
-	function &postNotification(&$notification, $pending = true, $bubble = true)
-	{
-		$notification->_notificationObject = $this->forcedNotificationObject;
+    function &postNotification(&$notification, $pending = true, $bubble = true)
+    {
+        $notification->_notificationObject = $this->forcedNotificationObject;
 
-		return $notification;
-	}
+        return $notification;
+    }
 }

@@ -27,7 +27,7 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
     function testPiwikPhp()
     {
         $curlHandle = curl_init();
-        $url        = $this->getStaticSrvUrl() . '/js/?idsite=1';
+        $url = $this->getStaticSrvUrl() . '/js/?idsite=1';
         curl_setopt($curlHandle, CURLOPT_URL, $url);
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
         $fullResponse = curl_exec($curlHandle);
@@ -44,6 +44,6 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
      */
     private function getStaticSrvUrl()
     {
-	    return IntegrationTestCase::getRootUrl();
+        return Test_Piwik_BaseFixture::getRootUrl();
     }
 }

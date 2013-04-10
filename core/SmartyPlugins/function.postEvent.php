@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package SmartyPlugins
  */
@@ -30,13 +30,12 @@
  */
 function smarty_function_postEvent($params, &$smarty)
 {
-	if(!isset($params['name']))
-	{
-		throw new Exception("The smarty function postEvent needs a 'name' parameter.");
-	}
-	$eventName = $params['name'];
-	
-	$str = '';
-	Piwik_PostEvent($eventName, $str);
-	return $str;
+    if (!isset($params['name'])) {
+        throw new Exception("The smarty function postEvent needs a 'name' parameter.");
+    }
+    $eventName = $params['name'];
+
+    $str = '';
+    Piwik_PostEvent($eventName, $str);
+    return $str;
 }

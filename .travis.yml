@@ -1,35 +1,48 @@
 language: php
 
-# We want to test against 
+# We want to test against PHP 5.3/5.4/5.5
 php:
   - 5.5
   - 5.4
   - 5.3
 
+# Separate different test suites
 env:
   matrix:
     - TEST_SUITE=PluginTests
     - TEST_SUITE=CoreTests
     - TEST_SUITE=IntegrationTests
 
-script: phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --coverage-text
+# Run PHP 5.4 for aa tests to generate
+# code coverage.
+matrix:
+  include:
+    - php: 5.4
+      env: 
+        - TEST_SUITE=
+        - secure: "RaRLGQuYhkPWNdkvNNMm0M4kukzwaaLXgQ9kIq3XALXuS1z31SnD27slFopH\nqIBmIYqevce9VKaytJSXrbjsWp8Yx3mheh4fDs4UP/ULhyJ8FgikGbZyU9DP\nsXUJbVMRXSab98Ga25EoV/d8dJoPLvRxMvtpmiT2XLEpwT8Bc2w="
+
+script: ./travis.sh
 
 before_script:
+  - echo `uname -a`
+  - echo `date`
+  - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_test;'
-  - ./tests/travis.sh
+  - ./tests/travis/prepare.sh
   - ./tests/travis/setup_webserver.sh
   - cd tests/PHPUnit
 
-matrix:
-  allow_failures:
-    - php: 5.5
+after_success:
+  - cd $TRAVIS_BUILD_DIR
+  - ./tests/travis/generate_docs.sh
 
 notifications:
   irc:
     skip_join: true
     on_success: change
     channels:
-      - "irc.freenode.org#piwik"
+      - "irc.freenode.org#piwik-dev"
     template:
       - "%{repository} (%{commit}) : %{message} %{foo} "
       - "Build details: %{build_url}"

@@ -14,10 +14,9 @@ require_once PIWIK_INCLUDE_PATH . "/libs/PiwikTracker/PiwikTracker.php";
 Piwik_FrontController::getInstance()->init();
 Piwik::setUserIsSuperUser();
 $count = 100;
-for($i = 0; $i <= $count; $i++)
-{
-	$id = Piwik_SitesManager_API::getInstance()->addSite(Piwik_Common::getRandomString(), 'http://piwik.org');
+for ($i = 0; $i <= $count; $i++) {
+    $id = Piwik_SitesManager_API::getInstance()->addSite(Piwik_Common::getRandomString(), 'http://piwik.org');
     $t = new PiwikTracker($id, 'http://localhost/trunk/piwik.php');
-    echo $id . " <img width=100 height=10 border=1 src='".$t->getUrlTrackPageView('title') ."'><br/>";
+    echo $id . " <img width=100 height=10 border=1 src='" . $t->getUrlTrackPageView('title') . "'><br/>";
 }
 

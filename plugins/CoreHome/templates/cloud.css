@@ -1,45 +1,56 @@
 .tagCloud {
-	padding:10px;
+    padding: 10px;
 }
+
 .tagCloud img {
-	border:0;
+    border: 0;
 }
+
 .tagCloud .word a {
-	text-decoration:none;
+    text-decoration: none;
 }
+
 .tagCloud .word {
-	padding: 4px 8px 4px 0;
-	white-space: nowrap;
+    padding: 4px 8px 4px 0;
+    white-space: nowrap;
 }
+
 .tagCloud .valueIsZero {
-	text-decoration: line-through;
+    text-decoration: line-through;
 }
+
 .tagCloud span.size0, .tagCloud span.size0 a {
-	color: #255792;
-	font-size: 28px;
+    color: #255792;
+    font-size: 28px;
 }
+
 .tagCloud span.size1, .tagCloud span.size1 a {
-	color: #255792;
-	font-size: 24px;
+    color: #255792;
+    font-size: 24px;
 }
+
 .tagCloud span.size2, .tagCloud span.size2 a {
-	color: #255792;
-	font-size:20px;
+    color: #255792;
+    font-size: 20px;
 }
+
 .tagCloud span.size3, .tagCloud span.size3 a {
-	color: #255792;
-	font-size: 16px;
+    color: #255792;
+    font-size: 16px;
 }
+
 .tagCloud span.size4, .tagCloud span.size4 a {
-	color: #255792;
-	font-size: 15px;
+    color: #255792;
+    font-size: 15px;
 }
+
 .tagCloud span.size5, .tagCloud span.size5 a {
-	color: #255792;
-	font-size: 14px;
+    color: #255792;
+    font-size: 14px;
 }
+
 .tagCloud span.size6, .tagCloud span.size6 a {
-	color: #255792;
-	font-size: 11px;
+    color: #255792;
+    font-size: 11px;
 }
 

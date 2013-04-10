@@ -18,10 +18,10 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             //     array( browser_id, name, short_name, version, major_number, minor_number, family ),
             //     array( os_id, name, short_name ))),
 
-	        // Special: URL encoded IE8
-	        array('Mozilla/4.0+(compatible;+MSIE+8.0;+Windows+NT+6.1;+WOW64;+Trident/4.0;+GTB7.4;+SLCC2;+.NET+CLR+2.0.50727;+.NET+CLR+3.5.30729;+.NET+CLR+3.0.30729;+Media+Center+PC+6.0;+.NET4.0C;+.NET4.0E;+MS-RTC+LM+8;+InfoPath.2)', array(
-		        array('IE', 'Internet Explorer', 'IE', '8.0', '8', '0', 'ie'),
-		        array('WI7', 'Windows 7', 'Win 7'))),
+            // Special: URL encoded IE8
+            array('Mozilla/4.0+(compatible;+MSIE+8.0;+Windows+NT+6.1;+WOW64;+Trident/4.0;+GTB7.4;+SLCC2;+.NET+CLR+2.0.50727;+.NET+CLR+3.5.30729;+.NET+CLR+3.0.30729;+Media+Center+PC+6.0;+.NET4.0C;+.NET4.0E;+MS-RTC+LM+8;+InfoPath.2)', array(
+                array('IE', 'Internet Explorer', 'IE', '8.0', '8', '0', 'ie'),
+                array('WI7', 'Windows 7', 'Win 7'))),
 
             // ABrowse
             array('Mozilla/5.0 (compatible; U; ABrowse 0.6; Syllable) AppleWebKit/420+ (KHTML, like Gecko)', array(
@@ -168,7 +168,7 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 array('BLB', 'BlackBerry', 'BlackBerry'))),
 
             array('Mozilla/5.0 (PlayBook; U; RIM Tablet OS 1.0.0; en-US) AppleWebKit/534.11+ (KHTML, like Gecko) Version/0.0.1 Safari/534.11+', array(
-                array('BP', 'PlayBook', 'PlayBook', '0.0', '0', '0', 'webkit' ),
+                array('BP', 'PlayBook', 'PlayBook', '0.0', '0', '0', 'webkit'),
                 array('QNX', 'QNX', 'QNX'))),
 
             // BrowseX
@@ -373,6 +373,9 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             array('Mozilla/5.0 (Nintendo DS v4; U; M3 Adapter CF + PassMe2; en-US; rv:1.8.0.6 ) Gecko/20060728 Firefox/1.5.0.6 (firefox.gba.ds)', array(
                 array('FF', 'Firefox', 'Firefox', '1.5', '1', '5', 'gecko'),
                 array('NDS', 'Nintendo DS', 'DS'))),
+            array('Mozilla/5.0 (Android; Mobile; rv:15.0) Gecko/15.0 Firefox/15.0a1', array(
+                array('FF', 'Firefox', 'Firefox', '15.0', '15', '0', 'gecko'),
+                array('AND', 'Android', 'Android'))),
 
             // Flock
             array('Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Flock/3.0.0.3737 Chrome/4.1.249.1071 Safari/532.5', array(
@@ -511,6 +514,12 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 array('MAC', 'Mac OS', 'Mac OS'))),
 
             // Internet Explorer
+            array('Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)', array(
+                array('IE', 'Internet Explorer', 'IE', '9.0', '9', '0', 'ie'),
+                array('XBX', 'Xbox', 'Xbox'))),
+            array('Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; Xbox)', array(
+                array('IE', 'Internet Explorer', 'IE', '9.0', '9', '0', 'ie'),
+                array('XBX', 'Xbox', 'Xbox'))),
             array('Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Win64; x64; Trident/6.0)', array(
                 array('IE', 'Internet Explorer', 'IE', '10.0', '10', '0', 'ie'),
                 array('WI8', 'Windows 8', 'Win 8'))),
@@ -745,6 +754,31 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 array('NS', 'Netscape', 'Netscape', '2.02', '2', '02', 'gecko'),
                 array('WNT', 'Windows NT', 'Win NT'))),
 
+            // NetFront NX
+            array('Mozilla/5.0 (Nintendo WiiU) AppleWebKit/534.52 (KHTML, like Gecko) NX/2.1.0.8.21 NintendoBrowser/1.0.0.7494.US', array(
+                array('NF', 'NetFront', 'NetFront', '2.1', '2', '1', 'webkit'),
+                array('WIU', 'Nintendo Wii U', 'Wii U'))),
+            array('Mozilla/5.0 (Nintendo 3DS; U; ; en) Version/1.7498.US', array(
+                array('NF', 'NetFront', 'NetFront', '1.7498', '1', '7498', 'webkit'),
+                array('3DS', 'Nintendo 3DS', '3DS'))),
+            array('Mozilla/5.0 (Playstation Vita 1.61) AppleWebKit/531.22.8 (KHTML, like Gecko) Silk/3.2', array(
+                array('NF', 'NetFront', 'NetFront', '3.2', '3', '2', 'webkit'),
+                array('PSV', 'PlayStation Vita', 'PS Vita'))),
+
+            // Kindle
+            array('Mozilla/4.0 (compatible; Linux 2.6.10) NetFront/3.3 Kindle/1.0 (screen 600x800)', array(
+                array('NF', 'NetFront', 'NetFront', '3.3', '3', '3', 'webkit'),
+                array('LIN', 'Linux', 'Linux'))),
+            array('Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; Kindle Fire Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1', array(
+                array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
+                array('AND', 'Android', 'Android'))),
+            array('Mozilla/5.0 (Linux; U; en-US) AppleWebKit/528.5+ (KHTML, like Gecko, Safari/528.5+) Version/4.0 Kindle/3.0 (screen 600×800; rotate)', array(
+                array('SF', 'Safari', 'Safari', '4.0', '4', '0', 'webkit'),
+                array('LIN', 'Linux', 'Linux'))),
+            array('Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_3; en-us; Silk/1.1.0-80) AppleWebKit/533.16 (KHTML, like Gecko) Version/5.0 Safari/533.16 Silk-Accelerated=true', array(
+                array('SF', 'Safari', 'Safari', '5.0', '5', '0', 'webkit'),
+                array('MAC', 'Mac OS', 'Mac OS'))),
+
             // Omniweb
             array('Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US) AppleWebKit/525.18 (KHTML, like Gecko, Safari/525.20) OmniWeb/v622.3.0.105198', array(
                 array('OW', 'OmniWeb', 'OmniWeb', '5.8', '5', '8', 'webkit'),
@@ -840,7 +874,12 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
             array('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50', array(
                 array('SF', 'Safari', 'Safari', '5.1', '5', '1', 'webkit'),
                 array('MAC', 'Mac OS', 'Mac OS'))),
-
+            array('Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Mobile/10B141', array(
+                array('SF', 'Safari', 'Safari', '6.0', '6', '0', 'webkit'),
+                array('IPH', 'iPhone', 'iPhone'))),
+            array('Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B141 Safari/8536.25', array(
+                array('SF', 'Safari', 'Safari', '6.0', '6', '0', 'webkit'),
+                array('IPH', 'iPhone', 'iPhone'))),
 
             // SeaMonkey (formerly Mozilla Suite and rebranded versions)
             array('Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.8) Gecko/20071008 Iceape/1.1.5 (Ubuntu-1.1.5-1ubuntu0.7.10)', array(
@@ -929,7 +968,6 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
                 array('CH', 'Chrome', 'Chrome', '4.0', '4', '0', 'webkit'),
                 array('LIN', 'Linux', 'Linux'))),
 
-
             // Email Clients
 
             // Thunderbird
@@ -953,7 +991,8 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * 
+     * Test getBrowser()
+     *
      * @dataProvider getUserAgents
      * @group Plugins
      * @group UserSettings
@@ -963,10 +1002,9 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
         $res = UserAgentParser::getBrowser($userAgent);
         $family = false;
 
-        if($res === false)
+        if ($res === false)
             $this->assertFalse($expected[0]);
-        else
-        {
+        else {
             $family = Piwik_getBrowserFamily($res['id']);
             $this->assertEquals($expected[0][0], $res['id']);
             $this->assertEquals($expected[0][1], $res['name']);
@@ -979,7 +1017,8 @@ class UserSettingsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * 
+     * Test getOperatingSystem()
+     *
      * @dataProvider getUserAgents
      * @group Plugins
      * @group UserSettings

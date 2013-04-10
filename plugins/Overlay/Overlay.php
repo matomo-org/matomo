@@ -11,28 +11,28 @@
 
 class Piwik_Overlay extends Piwik_Plugin
 {
-	public function getInformation()
-	{
-		return array(
-			'description' => Piwik_Translate('Overlay_PluginDescription'),
-			'author' => 'Piwik',
-			'author_homepage' => 'http://piwik.org/',
-			'version' => Piwik_Version::VERSION,
-		);
-	}
-	
-	function getListHooksRegistered()
-	{
-		return array(
-			'AssetManager.getJsFiles' => 'getJsFiles'
-		);
-	}
-		
-	public function getJsFiles($notification)
-	{
-		$jsFiles = &$notification->getNotificationObject();
-		$jsFiles[] = 'plugins/Overlay/templates/rowaction.js';
-		$jsFiles[] = 'plugins/Overlay/templates/helper.js';
-	}
+    public function getInformation()
+    {
+        return array(
+            'description'     => Piwik_Translate('Overlay_PluginDescription') . ' Note: Requires the Transitions plugin enabled.',
+            'author'          => 'Piwik',
+            'author_homepage' => 'http://piwik.org/',
+            'version'         => Piwik_Version::VERSION,
+        );
+    }
+
+    function getListHooksRegistered()
+    {
+        return array(
+            'AssetManager.getJsFiles' => 'getJsFiles'
+        );
+    }
+
+    public function getJsFiles($notification)
+    {
+        $jsFiles = & $notification->getNotificationObject();
+        $jsFiles[] = 'plugins/Overlay/templates/rowaction.js';
+        $jsFiles[] = 'plugins/Overlay/templates/helper.js';
+    }
 
 }

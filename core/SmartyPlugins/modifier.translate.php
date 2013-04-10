@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package SmartyPlugins
  */
@@ -27,20 +27,17 @@
  */
 function smarty_modifier_translate($stringToken)
 {
-	if(func_num_args() <= 1)
-	{
-		$aValues = array();
-	}
-	else
-	{
-		$aValues = func_get_args();
-		array_shift($aValues);
-	}
-	
-	try {
-		$stringTranslated = Piwik_Translate($stringToken, $aValues);
-	} catch( Exception $e) {
-		$stringTranslated = $stringToken; 
-	}
-	return $stringTranslated;
+    if (func_num_args() <= 1) {
+        $aValues = array();
+    } else {
+        $aValues = func_get_args();
+        array_shift($aValues);
+    }
+
+    try {
+        $stringTranslated = Piwik_Translate($stringToken, $aValues);
+    } catch (Exception $e) {
+        $stringTranslated = $stringToken;
+    }
+    return $stringTranslated;
 }

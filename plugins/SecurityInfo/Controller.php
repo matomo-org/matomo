@@ -1,7 +1,7 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
@@ -14,30 +14,30 @@
  */
 class Piwik_SecurityInfo_Controller extends Piwik_Controller_Admin
 {
-	function index()
-	{
-		Piwik::checkUserIsSuperUser();
+    function index()
+    {
+        Piwik::checkUserIsSuperUser();
 
-		require_once(dirname(__FILE__) . '/PhpSecInfo/PhpSecInfo.php');
+        require_once(dirname(__FILE__) . '/PhpSecInfo/PhpSecInfo.php');
 
-		// instantiate the class
-		$psi = new PhpSecInfo();
+        // instantiate the class
+        $psi = new PhpSecInfo();
 
-		// load and run all tests
-		$psi->loadAndRun();
+        // load and run all tests
+        $psi->loadAndRun();
 
-		// grab the results as a multidimensional array
-		$results = $psi->getResultsAsArray();
+        // grab the results as a multidimensional array
+        $results = $psi->getResultsAsArray();
 
-		// suppress results
-		unset($results['test_results']['Core']['memory_limit']);
-		unset($results['test_results']['Core']['post_max_size']);
-		unset($results['test_results']['Core']['upload_max_filesize']);
+        // suppress results
+        unset($results['test_results']['Core']['memory_limit']);
+        unset($results['test_results']['Core']['post_max_size']);
+        unset($results['test_results']['Core']['upload_max_filesize']);
 
-		$view = Piwik_View::factory('index');
-		$this->setBasicVariablesView($view);
-		$view->menu = Piwik_GetAdminMenu();
-		$view->results = $results;
-		echo $view->render();
-	}
+        $view = Piwik_View::factory('index');
+        $this->setBasicVariablesView($view);
+        $view->menu = Piwik_GetAdminMenu();
+        $view->results = $results;
+        echo $view->render();
+    }
 }

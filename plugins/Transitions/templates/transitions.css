@@ -1,197 +1,198 @@
-
 #Transitions_Container {
-	position: relative;
-	z-index: 1500;
-	height: 550px;
-	text-align: left;
-	margin-left: 7px;
+    position: relative;
+    z-index: 1500;
+    height: 550px;
+    text-align: left;
+    margin-left: 7px;
 }
 
 .Transitions_Canvas_Container {
-	position: absolute;
+    position: absolute;
 }
 
 #Transitions_Canvas_Background_Left {
-	z-index: 1501;
+    z-index: 1501;
 }
 
 #Transitions_Canvas_Background_Right {
-	z-index: 1502;
+    z-index: 1502;
 }
 
 #Transitions_Canvas_Left {
-	z-index: 1503;
+    z-index: 1503;
 }
 
 #Transitions_Canvas_Right {
-	z-index: 1504;
+    z-index: 1504;
 }
 
 #Transitions_Canvas_Loops {
-	z-index: 1505;
+    z-index: 1505;
 }
 
 .Transitions_Text {
-	color: black;
-	font-size: 11px;
-	line-height: 14px;
-	position: absolute;
-	background: rgba(0,0,0,0); /* without this, IE9 triggers hover only on the text, not the box */
-	z-index: 1506;
-	font-family: Arial, Helvetica, sans-serif;
-	word-wrap: break-word;
-	text-align: left;
-	cursor: default;
+    color: black;
+    font-size: 11px;
+    line-height: 14px;
+    position: absolute;
+    background: rgba(0, 0, 0, 0); /* without this, IE9 triggers hover only on the text, not the box */
+    z-index: 1506;
+    font-family: Arial, Helvetica, sans-serif;
+    word-wrap: break-word;
+    text-align: left;
+    cursor: default;
 }
 
 #Transitions_CenterBox {
-	margin: 27px 0 0 345px;
-	width: 208px;
-	height: 373px;
-	background: #f7f7f7;
-	border: 1px solid #a9a399;
-	border-radius:10px;
-	-moz-border-radius:10px;
-	-webkit-border-radius:10px;
-	-webkit-box-shadow: 0px 0px 9px 0px #999;
-	-moz-box-shadow: 0px 0px 9px 0px #999;
-	box-shadow: 0px 0px 9px 0px #999;
-	z-index: 1507;
+    margin: 27px 0 0 345px;
+    width: 208px;
+    height: 373px;
+    background: #f7f7f7;
+    border: 1px solid #a9a399;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 9px 0px #999;
+    -moz-box-shadow: 0px 0px 9px 0px #999;
+    box-shadow: 0px 0px 9px 0px #999;
+    z-index: 1507;
 }
 
 #Transitions_CenterBox h2 {
-	font-size: 12px;
-	line-height: 16px;
-	padding: 10px;
-	border-bottom: 1px dotted #a9a399;
-	font-weight: bold;
-	overflow: hidden;
-	color: #255792;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 10px;
+    border-bottom: 1px dotted #a9a399;
+    font-weight: bold;
+    overflow: hidden;
+    color: #255792;
 }
 
 .Transitions_Pageviews {
-	text-align: center;
+    text-align: center;
 }
 
 .Transitions_OutgoingTraffic {
-	text-align: right;
+    text-align: right;
 }
 
 .Transitions_CenterBoxMetrics {
-	padding: 15px 10px 0 10px;
-	display: none;
-	font-size: 12px;
+    padding: 15px 10px 0 10px;
+    display: none;
+    font-size: 12px;
 }
 
 .Transitions_CenterBoxMetrics table td {
-	padding: 0 0 5px 0;
+    padding: 0 0 5px 0;
 }
 
 .Transitions_CenterBoxMetrics table td.Transitions_Percentage {
-	padding-right: 6px;
-	font-weight: bold;
+    padding-right: 6px;
+    font-weight: bold;
 }
 
 #Transitions_CenterBox h3 {
-	font-weight: bold;
-	font-size: 12px;
-	margin: 15px 0 7px 0;
-	padding: 0;
-	color: #7E7363;
+    font-weight: bold;
+    font-size: 12px;
+    margin: 15px 0 7px 0;
+    padding: 0;
+    color: #7E7363;
 }
 
 #Transitions_Loops {
-	margin: 445px 0 0 346px;
-	width: 208px;
-	text-align: center;
-	line-height: 25px;
-	font-size: 12px;
-	display: none;
-	z-index: 1506;
-	cursor: default;
+    margin: 445px 0 0 346px;
+    width: 208px;
+    text-align: center;
+    line-height: 25px;
+    font-size: 12px;
+    display: none;
+    z-index: 1506;
+    cursor: default;
 }
 
 .Transitions_CenterBoxMetrics p {
-	margin: 0 0 3px 0;
-	padding: 0;
-	cursor: default;
-	font-size: 12px;
-	line-height: 15px;
+    margin: 0 0 3px 0;
+    padding: 0;
+    cursor: default;
+    font-size: 12px;
+    line-height: 15px;
 }
 
 .Transitions_CenterBoxMetrics p.Transitions_Margin {
-	margin-bottom: 11px;
+    margin-bottom: 11px;
 }
 
 .Transitions_CenterBoxMetrics .Transitions_Highlighted {
-	color: #E87500;
+    color: #E87500;
 }
 
 span.Transitions_Metric {
-	font-weight: bold;
-	cursor: default;
+    font-weight: bold;
+    cursor: default;
 }
 
 .Transitions_Value0 {
-	color: #666;
+    color: #666;
 }
 
 .Transitions_TitleOfOpenGroup {
-	font-size: 12px;
-	color: #E87500;
-	font-weight: bold;
+    font-size: 12px;
+    color: #E87500;
+    font-weight: bold;
 }
 
 .Transitions_BoxTextLeft,
 .Transitions_BoxTextRight {
-	width: 165px;
-	height: 42px;
-	overflow: hidden;
+    width: 165px;
+    height: 42px;
+    overflow: hidden;
 }
 
 .Transitions_BoxTextRight {
-	text-align: right;
+    text-align: right;
 }
 
 .Transitions_BoxTextLeft.Transitions_HasBackground,
 .Transitions_BoxTextRight.Transitions_HasBackground {
-	background-repeat: no-repeat;
-	height: 18px;
+    background-repeat: no-repeat;
+    height: 18px;
 }
 
 .Transitions_BoxTextLeft.Transitions_HasBackground {
-	background-position: 0 1px;
-	width: 175px;
+    background-position: 0 1px;
+    width: 175px;
 }
+
 .Transitions_BoxTextLeft.Transitions_HasBackground span {
-	display: block;
-	padding-left: 16px;
+    display: block;
+    padding-left: 16px;
 }
 
 .Transitions_BoxTextRight.Transitions_HasBackground {
-	background-position: right 1px;
+    background-position: right 1px;
 }
+
 .Transitions_BoxTextRight.Transitions_HasBackground span {
-	display: block;
-	padding-right: 17px;
+    display: block;
+    padding-right: 17px;
 }
 
 .Transitions_CurveTextLeft,
 .Transitions_CurveTextRight {
-	color: #255792;
-	font-weight: bold;
-	width: 34px;
-	text-align: center;
-	cursor: default;
+    color: #255792;
+    font-weight: bold;
+    width: 34px;
+    text-align: center;
+    cursor: default;
 }
 
-body .piwik-tooltip.Transitions_Tooltip_Small {
-	font-size: 11px;
-	padding: 3px 5px 3px 6px;
-	background: white;
+body .ui-tooltip.Transitions_Tooltip_Small {
+    font-size: 11px;
+    padding: 3px 5px 3px 6px;
+    background: white;
 }
 
 .Transitions_SingleLine {
-	font-size: 12px;
-	height: 21px;
+    font-size: 12px;
+    height: 21px;
 }

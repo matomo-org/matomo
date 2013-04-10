@@ -1,11 +1,11 @@
 # Piwik - piwik.org   
 
-## Description 
+## Description
 
 Piwik is the leading Free/Libre open source Web Analytics software.
 
-Piwik is a full featured PHP MySQL software program that you download and install on your own webserver. 
-At the end of the five minute installation process you will be given a JavaScript code. 
+Piwik is a full featured PHP MySQL software program that you download and install on your own webserver.
+At the end of the five minute installation process you will be given a JavaScript code.
 Simply copy and paste this tag on websites you wish to track and access your analytics reports in real time.
 
 Piwik aims to be a Free software alternative to Google Analytics, and is already used on more than 250,000 websites.
@@ -19,7 +19,7 @@ Or in short:
 
 ## License
 
-Piwik is released under the GPL v3 (or later) license, see misc/gpl-3.0.txt 
+Piwik is released under the GPL v3 (or later) license, see [misc/gpl-3.0.txt](misc/gpl-3.0.txt)
 
 ## Requirements
 

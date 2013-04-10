@@ -3,8 +3,9 @@
  * Pure JavaScript plotting plugin using jQuery
  *
  * Version: @VERSION
+ * Revision: @REVISION
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -69,6 +70,7 @@
         this._groupLabels = [];
         this._grouped = false;
         this._barsPerGroup = null;
+        this.reverse = false;
         // prop: tickRenderer
         // A class of a rendering engine for creating the ticks labels displayed on the plot, 
         // See <$.jqplot.AxisTickRenderer>.
@@ -259,7 +261,7 @@
             var track = 0;
             
             // todo: adjust this so more ticks displayed.
-            var maxVisibleTicks = parseInt(3+dim/20, 10);
+            var maxVisibleTicks = parseInt(3+dim/10, 10);
             var skip = parseInt(numcats/maxVisibleTicks, 10);
 
             if (this.tickInterval == null) {
@@ -328,7 +330,7 @@
             this.labelOptions.axis = this.name;
             this._label = new this.labelRenderer(this.labelOptions);
             if (this._label.show) {
-                var elem = this._label.draw(ctx);
+                var elem = this._label.draw(ctx, plot);
                 elem.appendTo(this._elem);
             }
     
@@ -440,32 +442,67 @@
         var pixellength = offmax - offmin;
         var unitlength = max - min;
         
-        // point to unit and unit to point conversions references to Plot DOM element top left corner.
-        this.p2u = function(p){
-            return (p - offmin) * unitlength / pixellength + min;
-        };
-        
-        this.u2p = function(u){
-            return (u - min) * pixellength / unitlength + offmin;
-        };
-                
-        if (this.name == 'xaxis' || this.name == 'x2axis'){
-            this.series_u2p = function(u){
-                return (u - min) * pixellength / unitlength;
+        if (!this.reverse) {
+            // point to unit and unit to point conversions references to Plot DOM element top left corner.
+            
+            this.u2p = function(u){
+                return (u - min) * pixellength / unitlength + offmin;
             };
-            this.series_p2u = function(p){
-                return p * unitlength / pixellength + min;
+
+            this.p2u = function(p){
+                return (p - offmin) * unitlength / pixellength + min;
             };
+                    
+            if (this.name == 'xaxis' || this.name == 'x2axis'){
+                this.series_u2p = function(u){
+                    return (u - min) * pixellength / unitlength;
+                };
+                this.series_p2u = function(p){
+                    return p * unitlength / pixellength + min;
+                };
+            }
+            
+            else {
+                this.series_u2p = function(u){
+                    return (u - max) * pixellength / unitlength;
+                };
+                this.series_p2u = function(p){
+                    return p * unitlength / pixellength + max;
+                };
+            }
         }
-        
+
         else {
-            this.series_u2p = function(u){
-                return (u - max) * pixellength / unitlength;
+            // point to unit and unit to point conversions references to Plot DOM element top left corner.
+            
+            this.u2p = function(u){
+                return offmin + (max - u) * pixellength / unitlength;
             };
-            this.series_p2u = function(p){
-                return p * unitlength / pixellength + max;
+
+            this.p2u = function(p){
+                return min + (p - offmin) * unitlength / pixellength;
             };
+                    
+            if (this.name == 'xaxis' || this.name == 'x2axis'){
+                this.series_u2p = function(u){
+                    return (max - u) * pixellength / unitlength;
+                };
+                this.series_p2u = function(p){
+                    return p * unitlength / pixellength + max;
+                };
+            }
+            
+            else {
+                this.series_u2p = function(u){
+                    return (min - u) * pixellength / unitlength;
+                };
+                this.series_p2u = function(p){
+                    return p * unitlength / pixellength + min;
+                };
+            }
+
         }
+            
         
         if (this.show) {
             if (this.name == 'xaxis' || this.name == 'x2axis') {

@@ -4,33 +4,33 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-(function( $ ){
+(function ($) {
 
     /**
      * Current dashboard column layout
      * @type {object}
      */
-    var dashboardLayout     = {};
+    var dashboardLayout = {};
     /**
      * Id of current dashboard
      * @type {int}
      */
-    var dashboardId         = 1;
+    var dashboardId = 1;
     /**
      * Name of current dashboard
      * @type {string}
      */
-    var dashboardName       = '';
+    var dashboardName = '';
     /**
      * Holds a reference to the dashboard element
      * @type {object}
      */
-    var dashboardElement    = null;
+    var dashboardElement = null;
     /**
      * Boolean indicating wether the layout config has been changed or not
      * @type {boolean}
      */
-    var dashboardChanged    = false;
+    var dashboardChanged = false;
 
     /**
      * public methods of dashboard plugin
@@ -43,7 +43,7 @@
          *
          * @param {object} options
          */
-        init: function(options) {
+        init: function (options) {
 
             dashboardElement = this;
 
@@ -70,11 +70,11 @@
          *
          * @return void
          */
-        destroy: function() {
+        destroy: function () {
             $(dashboardElement).remove();
             dashboardElement = null;
             var widgets = $('[widgetId]');
-            for (var i=0; i < widgets.length; i++) {
+            for (var i = 0; i < widgets.length; i++) {
                 $(widgets[i]).dashboardWidget('destroy');
             }
         },
@@ -84,15 +84,15 @@
          *
          * @param {int} dashboardIdToLoad
          */
-        loadDashboard: function(dashboardIdToLoad) {
+        loadDashboard: function (dashboardIdToLoad) {
 
             $(dashboardElement).empty();
-            dashboardName   = '';
+            dashboardName = '';
             dashboardLayout = null;
-            dashboardId     = dashboardIdToLoad;
+            dashboardId = dashboardIdToLoad;
             piwikHelper.showAjaxLoading();
             broadcast.updateHashOnly = true;
-            broadcast.propagateAjax('?idDashboard='+dashboardIdToLoad);
+            broadcast.propagateAjax('?idDashboard=' + dashboardIdToLoad);
             fetchLayout(generateLayout);
             buildMenu();
             return this;
@@ -103,7 +103,7 @@
          *
          * @param {String} newLayout
          */
-        setColumnLayout: function(newLayout) {
+        setColumnLayout: function (newLayout) {
             adjustDashboardColumns(newLayout);
         },
 
@@ -112,7 +112,7 @@
          *
          * @return {String}
          */
-        getColumnLayout: function() {
+        getColumnLayout: function () {
             return dashboardLayout.config.layout;
         },
 
@@ -121,7 +121,7 @@
          *
          * @return {String}
          */
-        getDashboardName: function() {
+        getDashboardName: function () {
             return dashboardName;
         },
 
@@ -130,7 +130,7 @@
          *
          * @return {int}
          */
-        getDashboardId: function() {
+        getDashboardId: function () {
             return dashboardId;
         },
 
@@ -139,8 +139,8 @@
          *
          * @param {String} newName
          */
-        setDashboardName: function(newName) {
-            dashboardName    = newName;
+        setDashboardName: function (newName) {
+            dashboardName = newName;
             dashboardChanged = true;
             saveLayout();
         },
@@ -154,7 +154,7 @@
          * @param {boolean} addWidgetOnTop
          * @param {boolean} isHidden
          */
-        addWidget: function(uniqueId, columnNumber, widgetParameters, addWidgetOnTop, isHidden) {
+        addWidget: function (uniqueId, columnNumber, widgetParameters, addWidgetOnTop, isHidden) {
             addWidgetTemplate(uniqueId, columnNumber, widgetParameters, addWidgetOnTop, isHidden);
             reloadWidget(uniqueId);
             saveLayout();
@@ -163,12 +163,11 @@
         /**
          * Resets the current layout to the defaults
          */
-        resetLayout: function()
-        {
+        resetLayout: function () {
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams({
-                module:      'Dashboard',
-                action:      'resetLayout',
+                module: 'Dashboard',
+                action: 'resetLayout',
                 idDashboard: dashboardId
             }, 'get');
             ajaxRequest.setCallback(
@@ -184,21 +183,21 @@
         /**
          * Removes the current dashboard
          */
-        removeDashboard: function() {
+        removeDashboard: function () {
             removeDashboard();
         },
 
         /**
          * Saves the current layout aus new default widget layout
          */
-        saveLayoutAsDefaultWidgetLayout: function() {
+        saveLayoutAsDefaultWidgetLayout: function () {
             saveLayout('saveLayoutAsDefault');
         },
 
         /**
          * Returns if the current loaded dashboard is the default dashboard
          */
-        isDefaultDashboard: function() {
+        isDefaultDashboard: function () {
             return (dashboardId == 1);
         }
     };
@@ -215,11 +214,16 @@
         adjustDashboardColumns(dashboardLayout.config.layout);
 
         var dashboardContainsWidgets = false;
-        for (var column=0; column < dashboardLayout.columns.length; column++) {
+        for (var column = 0; column < dashboardLayout.columns.length; column++) {
             for (var i in dashboardLayout.columns[column]) {
+                if (typeof dashboardLayout.columns[column][i] != 'object') {
+                    // Fix IE8 bug: the "i in" loop contains i="indexOf", which would yield type function.
+                    // If we would continue with i="indexOf", an invalid widget would be created.
+                    continue;
+                }
                 var widget = dashboardLayout.columns[column][i];
                 dashboardContainsWidgets = true;
-                addWidgetTemplate(widget.uniqueId, column+1, widget.parameters, false, widget.isHidden)
+                addWidgetTemplate(widget.uniqueId, column + 1, widget.parameters, false, widget.isHidden)
             }
         }
 
@@ -236,8 +240,7 @@
      *
      * @param {function} callback
      */
-    function fetchLayout(callback)
-    {
+    function fetchLayout(callback) {
         globalAjaxQueue.abort();
         var ajaxRequest = new ajaxHelper();
         ajaxRequest.addParams({
@@ -256,8 +259,7 @@
      * @param {String} layout new layout in format xx-xx-xx
      * @return {void}
      */
-    function adjustDashboardColumns(layout)
-    {
+    function adjustDashboardColumns(layout) {
         var columnWidth = layout.split('-');
         var columnCount = columnWidth.length;
 
@@ -265,7 +267,7 @@
 
         if (currentCount < columnCount) {
             $('.menuClear', dashboardElement).remove();
-            for (var i=currentCount;i<columnCount;i++) {
+            for (var i = currentCount; i < columnCount; i++) {
                 if (dashboardLayout.columns.length < i) {
                     dashboardLayout.columns.push({});
                 }
@@ -273,16 +275,16 @@
             }
             $(dashboardElement).append('<div class="menuClear"> </div>');
         } else if (currentCount > columnCount) {
-            for (var i=columnCount;i<currentCount;i++) {
-                if(dashboardLayout.columns.length >= i) {
+            for (var i = columnCount; i < currentCount; i++) {
+                if (dashboardLayout.columns.length >= i) {
                     dashboardLayout.columns.pop();
                 }
                 // move widgets to other columns depending on columns height
-                $('[widgetId]', $('.col:last')).each(function(id, elem){
+                $('[widgetId]', $('.col:last')).each(function (id, elem) {
                     var cols = $('.col').slice(0, columnCount);
                     var smallestColumn = $(cols[0]);
                     var smallestColumnHeight = null;
-                    cols.each(function(colId, col){
+                    cols.each(function (colId, col) {
                         if (smallestColumnHeight == null || smallestColumnHeight > $(col).height()) {
                             smallestColumnHeight = $(col).height();
                             smallestColumn = $(col);
@@ -296,21 +298,21 @@
             }
         }
 
-        for (var i=0; i < columnCount; i++) {
-            $('.col', dashboardElement)[i].className = 'col width-'+columnWidth[i];
+        for (var i = 0; i < columnCount; i++) {
+            $('.col', dashboardElement)[i].className = 'col width-' + columnWidth[i];
         }
 
         makeWidgetsSortable();
 
         // if dashboard column count is changed (not on initial load)
-        if(currentCount > 0 && dashboardLayout.config.layout != layout) {
-            dashboardChanged                 = true;
+        if (currentCount > 0 && dashboardLayout.config.layout != layout) {
+            dashboardChanged = true;
             dashboardLayout.config.layout = layout;
             saveLayout();
         }
 
         // reload all widgets containing a graph to make them display correct
-        $('.widget:has(".piwik-graph")').each(function(id, elem){
+        $('.widget:has(".piwik-graph")').each(function (id, elem) {
             reloadWidget($(elem).attr('id'));
         });
     }
@@ -328,8 +330,8 @@
         // column count was always 3, so use layout 33-33-33 as default
         if ($.isArray(layout)) {
             layout = {
-                    config: {layout: '33-33-33'},
-                    columns: layout
+                config: {layout: '33-33-33'},
+                columns: layout
             };
         }
 
@@ -346,7 +348,7 @@
      * @param {String} uniqueId
      */
     function reloadWidget(uniqueId) {
-        $('[widgetId='+uniqueId+']', dashboardElement).dashboardWidget('reload');
+        $('[widgetId=' + uniqueId + ']', dashboardElement).dashboardWidget('reload', false, true);
     }
 
     /**
@@ -363,22 +365,22 @@
         }
 
         // do not try to add widget if given columnnumber is to high
-        if(columnNumber > $('.col', dashboardElement).length) {
+        if (columnNumber > $('.col', dashboardElement).length) {
             return;
         }
 
-        var widgetContent = '<div class="sortable" widgetId="'+uniqueId+'"></div>';
+        var widgetContent = '<div class="sortable" widgetId="' + uniqueId + '"></div>';
 
         if (addWidgetOnTop) {
-            $('.col:nth-child('+columnNumber+')', dashboardElement).prepend(widgetContent);
+            $('.col:nth-child(' + columnNumber + ')', dashboardElement).prepend(widgetContent);
         } else {
-            $('.col:nth-child('+columnNumber+')', dashboardElement).append(widgetContent);
+            $('.col:nth-child(' + columnNumber + ')', dashboardElement).append(widgetContent);
         }
 
-        $('[widgetId='+uniqueId+']', dashboardElement).dashboardWidget({
+        $('[widgetId=' + uniqueId + ']', dashboardElement).dashboardWidget({
             uniqueId: uniqueId,
             widgetParameters: widgetParameters,
-            onChange: function() {
+            onChange: function () {
                 saveLayout();
             },
             isHidden: isHidden
@@ -388,8 +390,7 @@
     /**
      * Make all widgets on the dashboard sortable
      */
-    function makeWidgetsSortable()
-    {
+    function makeWidgetsSortable() {
         function onStart(event, ui) {
             if (!jQuery.support.noCloneEvent) {
                 $('object', this).hide();
@@ -401,15 +402,18 @@
             $('.widgetHover', this).removeClass('widgetHover');
             $('.widgetTopHover', this).removeClass('widgetTopHover');
             $('.button#close, .button#maximise', this).hide();
-            if($('.widget:has(".piwik-graph")', ui.item).length) {
+            if ($('.widget:has(".piwik-graph")', ui.item).length) {
                 reloadWidget($('.widget', ui.item).attr('id'));
             }
             saveLayout();
         }
 
         //launch 'sortable' property on every dashboard widgets
+        if ($( "div.col", dashboardElement ).is( ":data('ui-sortable')" )) {
+            $( "div.col", dashboardElement ).sortable('destroy');
+        }
+
         $('div.col', dashboardElement)
-                    .sortable('destroy')
                     .sortable({
                         items: 'div.sortable',
                         opacity: 0.6,
@@ -429,24 +433,24 @@
      */
     function buildMenu() {
 
-        var success = function(dashboards) {
+        var success = function (dashboards) {
             var dashboardMenuList = $('#Dashboard > ul');
             dashboardMenuList.empty();
             if (dashboards.length > 1) {
                 dashboardMenuList.show();
-                for (var i=0; i<dashboards.length; i++) {
-                    dashboardMenuList.append('<li id="Dashboard_embeddedIndex_'+dashboards[i].iddashboard+'" class="dashboardMenuItem"><a dashboardId="'+dashboards[i].iddashboard+'">'+ piwikHelper.htmlEntities( dashboards[i].name ) +'</a></li>');
-                    if(dashboards[i].iddashboard == dashboardId) {
+                for (var i = 0; i < dashboards.length; i++) {
+                    dashboardMenuList.append('<li id="Dashboard_embeddedIndex_' + dashboards[i].iddashboard + '" class="dashboardMenuItem"><a dashboardId="' + dashboards[i].iddashboard + '">' + piwikHelper.htmlEntities(dashboards[i].name) + '</a></li>');
+                    if (dashboards[i].iddashboard == dashboardId) {
                         dashboardName = dashboards[i].name;
                     }
                 }
-                $('li a', dashboardMenuList).each(function(){$(this).css({width:$(this).width()+30, paddingLeft:0, paddingRight:0});});
-                $('#Dashboard_embeddedIndex_'+dashboardId).addClass('sfHover');
+                $('li a', dashboardMenuList).each(function () {$(this).css({width: $(this).width() + 30, paddingLeft: 0, paddingRight: 0});});
+                $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
             } else {
                 dashboardMenuList.hide();
             }
 
-            $('.dashboardMenuItem').on('click', function() {
+            $('.dashboardMenuItem').on('click', function () {
                 if (typeof piwikMenu != 'undefined') {
                     piwikMenu.activateMenu('Dashboard', 'embeddedIndex');
                 }
@@ -454,7 +458,7 @@
                 if ($(dashboardElement).length) {
                     $(dashboardElement).dashboard('loadDashboard', $('a', this).attr('dashboardId'));
                 } else {
-                    broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard='+$('a', this).attr('dashboardId'));
+                    broadcast.propagateAjax('module=Dashboard&action=embeddedIndex&idDashboard=' + $('a', this).attr('dashboardId'));
                 }
                 $(this).addClass('sfHover');
             });
@@ -478,15 +482,15 @@
         var columns = [];
 
         var columnNumber = 0;
-        $('.col').each(function() {
+        $('.col').each(function () {
             columns[columnNumber] = new Array;
             var items = $('[widgetId]', this);
-            for (var j=0; j<items.size(); j++) {
+            for (var j = 0; j < items.size(); j++) {
                 columns[columnNumber][j] = $(items[j]).dashboardWidget('getWidgetObject');
-                
+
                 // Do not store segment in the dashboard layout
                 delete columns[columnNumber][j].parameters.segment;
-                
+
             }
             columnNumber++;
         });
@@ -512,7 +516,7 @@
             }, 'post');
             ajaxRequest.setCallback(
                 function () {
-                    if(dashboardChanged) {
+                    if (dashboardChanged) {
                         dashboardChanged = false;
                         buildMenu();
                     }
@@ -550,14 +554,14 @@
     /**
      * Make plugin methods available
      */
-    $.fn.dashboard = function( method ) {
-        if ( methods[method] ) {
-            return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-        } else if ( typeof method === 'object' || ! method ) {
-            return methods.init.apply( this, arguments );
+    $.fn.dashboard = function (method) {
+        if (methods[method]) {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if (typeof method === 'object' || !method) {
+            return methods.init.apply(this, arguments);
         } else {
-            $.error('Method ' +  method + ' does not exist on jQuery.dashboard');
+            $.error('Method ' + method + ' does not exist on jQuery.dashboard');
         }
     }
 
-})( jQuery );
+})(jQuery);

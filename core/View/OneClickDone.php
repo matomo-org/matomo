@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package Piwik
  */
@@ -23,46 +23,46 @@
  */
 class Piwik_View_OneClickDone
 {
-	/**
-	 * @var string
-	 */
-	private $tokenAuth;
+    /**
+     * @var string
+     */
+    private $tokenAuth;
 
-	/**
-	 * @var string
-	 */
-	public $coreError;
+    /**
+     * @var string
+     */
+    public $coreError;
 
-	/**
-	 * @var array
-	 */
-	public $feedbackMessages;
+    /**
+     * @var array
+     */
+    public $feedbackMessages;
 
-	public function __construct($tokenAuth)
-	{
-		$this->tokenAuth = $tokenAuth;
-	}
+    public function __construct($tokenAuth)
+    {
+        $this->tokenAuth = $tokenAuth;
+    }
 
-	/**
-	 * Outputs the data.
-	 *
-	 * @return string  html
-	 */
-	public function render()
-	{
-		// set response headers
-		@header('Content-Type: text/html; charset=UTF-8');
-		@header('Pragma: ');
-		@header('Expires: ');
-		@header('Cache-Control: must-revalidate');
-		@header('X-Frame-Options: deny');
+    /**
+     * Outputs the data.
+     *
+     * @return string  html
+     */
+    public function render()
+    {
+        // set response headers
+        @header('Content-Type: text/html; charset=UTF-8');
+        @header('Pragma: ');
+        @header('Expires: ');
+        @header('Cache-Control: must-revalidate');
+        @header('X-Frame-Options: deny');
 
-		$error = htmlspecialchars($this->coreError, ENT_QUOTES, 'UTF-8');
-		$messages = htmlspecialchars(serialize($this->feedbackMessages), ENT_QUOTES, 'UTF-8');
-		$tokenAuth = $this->tokenAuth;
+        $error = htmlspecialchars($this->coreError, ENT_QUOTES, 'UTF-8');
+        $messages = htmlspecialchars(serialize($this->feedbackMessages), ENT_QUOTES, 'UTF-8');
+        $tokenAuth = $this->tokenAuth;
 
-		// use a heredoc instead of an external file
-		echo <<<END_OF_TEMPLATE
+        // use a heredoc instead of an external file
+        echo <<<END_OF_TEMPLATE
 <!DOCTYPE html>
 <html>
  <head>
@@ -85,5 +85,5 @@ class Piwik_View_OneClickDone
  </body>
 </html>
 END_OF_TEMPLATE;
-	}
+    }
 }

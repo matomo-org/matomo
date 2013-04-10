@@ -14,16 +14,16 @@
  */
 class Piwik_Updates_0_7 extends Piwik_Updates
 {
-	static function getSql($schema = 'Myisam')
-	{
-		return array(
-			'ALTER TABLE `'. Piwik_Common::prefixTable('option') .'`
+    static function getSql($schema = 'Myisam')
+    {
+        return array(
+            'ALTER TABLE `' . Piwik_Common::prefixTable('option') . '`
 				CHANGE `option_name` `option_name` VARCHAR(255) NOT NULL' => false,
-		);
-	}
+        );
+    }
 
-	static function update()
-	{
-		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-	}
+    static function update()
+    {
+        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+    }
 }

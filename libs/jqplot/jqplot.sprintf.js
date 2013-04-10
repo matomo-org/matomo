@@ -3,8 +3,9 @@
  * Pure JavaScript plotting plugin using jQuery
  *
  * Version: @VERSION
+ * Revision: @REVISION
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -83,6 +84,12 @@
       * Format: '%.4g', Input: 12.0, Output: 12.00
       * Format: '%.4p', Input: 4.321e-5, Output: 4.321e-5
       * Format: '%.4g', Input: 4.321e-5, Output: 4.3210e-5
+      * 
+      * Example:
+      * >>> $.jqplot.sprintf('%.2f, %d', 23.3452, 43.23)
+      * "23.35, 43"
+      * >>> $.jqplot.sprintf("no value: %n, decimal with thousands separator: %'d", 23.3452, 433524)
+      * "no value: , decimal with thousands separator: 433,524"
       */
     $.jqplot.sprintf = function() {
         function pad(str, len, chr, leftJustify) {
@@ -91,13 +98,13 @@
 
         }
 
-		function thousand_separate(value) {
-			var value_str = new String(value);
-			for (var i=10; i>0; i--) {
-				if (value_str == (value_str = value_str.replace(/^(\d+)(\d{3})/, "$1"+$.jqplot.sprintf.thousandsSeparator+"$2"))) break;
-			}
-			return value_str; 
-		}
+        function thousand_separate(value) {
+            var value_str = new String(value);
+            for (var i=10; i>0; i--) {
+                if (value_str == (value_str = value_str.replace(/^(\d+)(\d{3})/, "$1"+$.jqplot.sprintf.thousandsSeparator+"$2"))) break;
+            }
+            return value_str; 
+        }
 
         function justify(value, prefix, leftJustify, minWidth, zeroPad, htmlSpace) {
             var diff = minWidth - value.length;
@@ -142,7 +149,7 @@
                 case '0': zeroPad = true; break;
                 case '#': prefixBaseX = true; break;
                 case '&': htmlSpace = true; break;
-				case '\'': thousandSeparation = true; break;
+                case '\'': thousandSeparation = true; break;
             }
 
             // parameters may be null, undefined, empty-string or real valued
@@ -207,7 +214,7 @@
               }
               var prefix = number < 0 ? '-' : positivePrefix;
               var number_str = thousandSeparation ? thousand_separate(String(Math.abs(number))): String(Math.abs(number));
-			  value = prefix + pad(number_str, precision, '0', false);
+              value = prefix + pad(number_str, precision, '0', false);
               //value = prefix + pad(String(Math.abs(number)), precision, '0', false);
               return justify(value, prefix, leftJustify, minWidth, zeroPad, htmlSpace);
                   }
@@ -218,7 +225,7 @@
               }
               var prefix = number < 0 ? '-' : positivePrefix;
               var number_str = thousandSeparation ? thousand_separate(String(Math.abs(number))): String(Math.abs(number));
-			  value = prefix + pad(number_str, precision, '0', false);
+              value = prefix + pad(number_str, precision, '0', false);
               return justify(value, prefix, leftJustify, minWidth, zeroPad, htmlSpace);
                   }
             case 'e':
@@ -238,7 +245,13 @@
                       var number_str = Math.abs(number)[method](precision);
                       number_str = thousandSeparation ? thousand_separate(number_str): number_str;
                       value = prefix + number_str;
-                      return justify(value, prefix, leftJustify, minWidth, zeroPad, htmlSpace)[textTransform]();
+                      var justified = justify(value, prefix, leftJustify, minWidth, zeroPad, htmlSpace)[textTransform]();
+
+                      if ($.jqplot.sprintf.decimalMark !== '.' && $.jqplot.sprintf.decimalMark !== $.jqplot.sprintf.thousandsSeparator) {
+                          return justified.replace(/\./, $.jqplot.sprintf.decimalMark);
+                      } else {
+                          return justified;
+                      }
                   }
             case 'p':
             case 'P':
@@ -280,8 +293,31 @@
         });
     };
 
-	$.jqplot.sprintf.thousandsSeparator = ',';
+    $.jqplot.sprintf.thousandsSeparator = ',';
+    // Specifies the decimal mark for floating point values. By default a period '.'
+    // is used. If you change this value to for example a comma be sure to also
+    // change the thousands separator or else this won't work since a simple String
+    // replace is used (replacing all periods with the mark specified here).
+    $.jqplot.sprintf.decimalMark = '.';
     
     $.jqplot.sprintf.regex = /%%|%(\d+\$)?([-+#0&\' ]*)(\*\d+\$|\*|\d+)?(\.(\*\d+\$|\*|\d+))?([nAscboxXuidfegpEGP])/g;
+
+    $.jqplot.getSignificantFigures = function(number) {
+        var parts = String(Number(Math.abs(number)).toExponential()).split(/e|E/);
+        // total significant digits
+        var sd = (parts[0].indexOf('.') != -1) ? parts[0].length - 1 : parts[0].length;
+        var zeros = (parts[1] < 0) ? -parts[1] - 1 : 0;
+        // exponent
+        var expn = parseInt(parts[1], 10);
+        // digits to the left of the decimal place
+        var dleft = (expn + 1 > 0) ? expn + 1 : 0;
+        // digits to the right of the decimal place
+        var dright = (sd <= dleft) ? 0 : sd - expn - 1;
+        return {significantDigits: sd, digitsLeft: dleft, digitsRight: dright, zeros: zeros, exponent: expn} ;
+    };
+
+    $.jqplot.getPrecision = function(number) {
+        return $.jqplot.getSignificantFigures(number).digitsRight;
+    };
 
 })(jQuery);  

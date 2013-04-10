@@ -18,8 +18,8 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testMonthDec()
     {
-        $month = new Piwik_Period_Month( Piwik_Date::factory("2006-12-31"));
-        $correct=array(
+        $month = new Piwik_Period_Month(Piwik_Date::factory("2006-12-31"));
+        $correct = array(
             "2006-12-01",
             "2006-12-02",
             "2006-12-03",
@@ -54,7 +54,7 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $month->toString());
         $this->assertEquals(31, $month->getNumberOfSubperiods());
     }
-    
+
     /**
      * testing month feb leap year
      * @group Core
@@ -63,8 +63,8 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testMonthFebLeap()
     {
-        $month = new Piwik_Period_Month( Piwik_Date::factory("2024-02-11"));
-        $correct=array(
+        $month = new Piwik_Period_Month(Piwik_Date::factory("2024-02-11"));
+        $correct = array(
             "2024-02-01",
             "2024-02-02",
             "2024-02-03",
@@ -97,7 +97,7 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $month->toString());
         $this->assertEquals(29, $month->getNumberOfSubperiods());
     }
-    
+
     /**
      * testing month feb non-leap year
      * @group Core
@@ -106,8 +106,8 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testMonthFebNonLeap()
     {
-        $month = new Piwik_Period_Month( Piwik_Date::factory("2023-02-11"));
-        $correct=array(
+        $month = new Piwik_Period_Month(Piwik_Date::factory("2023-02-11"));
+        $correct = array(
             "2023-02-01",
             "2023-02-02",
             "2023-02-03",
@@ -139,7 +139,7 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $month->toString());
         $this->assertEquals(28, $month->getNumberOfSubperiods());
     }
-    
+
     /**
      * testing jan
      * @group Core
@@ -148,8 +148,8 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testMonthJan()
     {
-        $month = new Piwik_Period_Month( Piwik_Date::factory("2007-01-01"));
-        $correct=array(
+        $month = new Piwik_Period_Month(Piwik_Date::factory("2007-01-01"));
+        $correct = array(
             "2007-01-01",
             "2007-01-02",
             "2007-01-03",
@@ -184,7 +184,7 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $month->toString());
         $this->assertEquals(31, $month->getNumberOfSubperiods());
     }
-    
+
     /**
      * testing month containing a time change (DST)
      * @group Core
@@ -193,8 +193,8 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testMonthDSTChangeMarch()
     {
-        $month = new Piwik_Period_Month( Piwik_Date::factory("2007-02-31"));
-        $correct=array(
+        $month = new Piwik_Period_Month(Piwik_Date::factory("2007-02-31"));
+        $correct = array(
             "2007-03-01",
             "2007-03-02",
             "2007-03-03",
@@ -229,7 +229,7 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($correct, $month->toString());
         $this->assertEquals(31, $month->getNumberOfSubperiods());
     }
-    
+
     /**
      * @group Core
      * @group Period
@@ -237,8 +237,8 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
      */
     public function testMonthDSTChangeOct()
     {
-        $month = new Piwik_Period_Month( Piwik_Date::factory("2017-10-31"));
-        $correct=array(
+        $month = new Piwik_Period_Month(Piwik_Date::factory("2017-10-31"));
+        $correct = array(
             "2017-10-01",
             "2017-10-02",
             "2017-10-03",
@@ -282,7 +282,7 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
     public function testGetLocalizedShortString()
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $month = new Piwik_Period_Month( Piwik_Date::factory('2024-10-09'));
+        $month = new Piwik_Period_Month(Piwik_Date::factory('2024-10-09'));
         $shouldBe = 'Oct 2024';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
     }
@@ -295,7 +295,7 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
     public function testGetLocalizedLongString()
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $month = new Piwik_Period_Month( Piwik_Date::factory('2024-10-09'));
+        $month = new Piwik_Period_Month(Piwik_Date::factory('2024-10-09'));
         $shouldBe = '2024, October';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
     }
@@ -308,7 +308,7 @@ class Period_MonthTest extends PHPUnit_Framework_TestCase
     public function testGetPrettyString()
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $month = new Piwik_Period_Month( Piwik_Date::factory('2024-10-09'));
+        $month = new Piwik_Period_Month(Piwik_Date::factory('2024-10-09'));
         $shouldBe = '2024-10';
         $this->assertEquals($shouldBe, $month->getPrettyString());
     }

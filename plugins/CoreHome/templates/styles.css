@@ -1,148 +1,147 @@
 h1 {
-	font-size: 18px;
-	font-weight:bold;
-	color: #7e7363;
-	padding:3px 0  7px 0;
-	clear:both;
+    font-size: 18px;
+    font-weight: bold;
+    color: #7e7363;
+    padding: 3px 0 7px 0;
+    clear: both;
 }
 
 h2 {
-	font-size: 18px;
-	font-weight:normal;
- 	color: #7e7363;
-	padding:12px 0  7px 0;
-	clear:both;
+    font-size: 18px;
+    font-weight: normal;
+    color: #7e7363;
+    padding: 12px 0 7px 0;
+    clear: both;
 }
 
 h2 a {
-	text-decoration:none;
- 	color: #7e7363;
+    text-decoration: none;
+    color: #7e7363;
 }
 
 h3 {
-	font-size: 1.3em;
-	margin-top: 2em;
-	color: #1D3256;
+    font-size: 1.3em;
+    margin-top: 2em;
+    color: #1D3256;
 }
 
 .home p {
-	padding-bottom: 1em;
-	margin-right: 1em;
-	margin-left:1em;
+    padding-bottom: 1em;
+    margin-right: 1em;
+    margin-left: 1em;
 }
 
-.page{
-	background: url(../../../themes/default/images/page_border_grad.png) no-repeat 0 20px;
-	min-height:10px;
-	
+.page {
+    background: url(../../../themes/default/images/page_border_grad.png) no-repeat 0 20px;
+    min-height: 10px;
+
 }
 
-.pageWrap{
-	padding:15px 15px 0 15px;
-	min-height:10px;
-	position:relative;
-	background: url(../../../themes/default/images/page_border_grad.png) no-repeat right  20px;
-	
+.pageWrap {
+    padding: 15px 15px 0 15px;
+    min-height: 10px;
+    position: relative;
+    background: url(../../../themes/default/images/page_border_grad.png) no-repeat right 20px;
+
 }
 
-
-
-.nav_sep{  
-	height:39px;
-	margin:-15px -15px 18px -15px;
-	border-radius: 0 4px 0 0;
-	-moz-border-radius:  0 4px 0 0;
-	-webkit-border-radius:  0 4px 0 0;
-	border:1px solid #dddddd;
+.nav_sep {
+    height: 39px;
+    margin: -15px -15px 18px -15px;
+    border-radius: 0 4px 0 0;
+    -moz-border-radius: 0 4px 0 0;
+    -webkit-border-radius: 0 4px 0 0;
+    border: 1px solid #dddddd;
 }
-
 
 /* Content */
 #content.home {
-	padding-top:5px;
-	font-size:14px;
+    padding-top: 5px;
+    font-size: 14px;
 }
-
 
 /* 2 columns reports */
 #leftcolumn {
-	float: left;
-	width: 50%;
+    float: left;
+    width: 50%;
 }
+
 #rightcolumn {
-	float: right;
-	width: 45%;
+    float: right;
+    width: 45%;
 }
+
 /* not in widget */
 .widget #leftcolumn, .widget #rightcolumn {
-	float:left;
-	padding: 0 10px;
-	width:auto;
+    float: left;
+    padding: 0 10px;
+    width: auto;
 }
 
 /* Calendar*/
 div.ui-datepicker {
-	font-size: 62.5%;
+    font-size: 62.5%;
 }
 
 .ui-datepicker-current-period a, .ui-datepicker-current-period a:link, .ui-datepicker-current-period a:visited {
-	border: 1px solid #2E85FF;
-	color: #2E85FF;
+    border: 1px solid #2E85FF;
+    color: #2E85FF;
 }
+
 #otherPeriods a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 #otherPeriods a:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 #currentPeriod {
-	border-bottom: 1px dotted #520202;
+    border-bottom: 1px dotted #520202;
 }
 
 .hoverPeriod {
-	cursor: pointer;
-	font-weight: bold;
-	border-bottom: 1px solid #520202;
+    cursor: pointer;
+    font-weight: bold;
+    border-bottom: 1px solid #520202;
 }
 
 #calendarRangeTo {
-    float:left;
+    float: left;
     margin-left: 20px;
 }
 
 #calendarRangeFrom {
-    float:left;
+    float: left;
 }
 
 #inputCalendarFrom, #inputCalendarTo {
-	margin-left: 10px;
+    margin-left: 10px;
     width: 90px;
 }
 
 #calendarRangeApply {
-    display:none;
-    margin-top:10px;
-    margin-left:10px;
+    display: none;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 #invalidDateRange {
-	display:none;
+    display: none;
 }
 
 div .sparkline {
-	float:left;
-	clear:both;
-	padding-bottom: 1px;
-	margin-top:10px;
-	border-bottom:1px solid white;
+    float: left;
+    clear: both;
+    padding-bottom: 1px;
+    margin-top: 10px;
+    border-bottom: 1px solid white;
 }
 
 .sparkline img {
-	vertical-align: middle;
-	padding-right: 10px;
-	margin-top: 0;
+    vertical-align: middle;
+    padding-right: 10px;
+    margin-top: 0;
 }
 
 div.pk-emptyGraph {
@@ -152,85 +151,89 @@ div.pk-emptyGraph {
     font-style: italic;
 }
 
-
 /**
  * Popover
  * @see popover.js
  */
 
 #Piwik_Popover {
-	font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .Piwik_Popover_Loading_Name {
-	padding: 50px 0 65px 0;
-	font-size: 16px;
-	line-height: 20px;
-	font-weight: normal;
-	text-align: center;
-	background: url(../../../themes/default/images/loading-blue.gif) no-repeat center 20px;
+    padding: 50px 0 65px 0;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: normal;
+    text-align: center;
+    background: url(../../../themes/default/images/loading-blue.gif) no-repeat center 20px;
 }
 
 .Piwik_Popover_Loading_NameWithSubject {
-	padding-bottom: 30px;
+    padding-bottom: 30px;
 }
 
 .Piwik_Popover_Loading_Subject {
-	padding: 0 70px 55px 70px;
-	color: #7e7363;
-	text-align: center;
-	font-size: 14px;
+    padding: 0 70px 55px 70px;
+    color: #7e7363;
+    text-align: center;
+    font-size: 14px;
 }
 
 .Piwik_Popover_Error {
-	padding: 50px 20px 65px 20px;
-	text-align: center;
+    padding: 50px 20px 65px 20px;
+    text-align: center;
 }
 
 .Piwik_Popover_Error_Title {
-	color: #E87500;
-	font-weight: bold;
-	font-size: 16px;
+    color: #E87500;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .Piwik_Popover_Error_Title span {
-	color: #222;
-	font-weight: normal;
-	font-size: 16px;
+    color: #222;
+    font-weight: normal;
+    font-size: 16px;
 }
 
 .Piwik_Popover_Error_Message {
-	color: #7e7363;
-	padding: 20px 0 0 0;
-	font-size: 14px;
+    color: #7e7363;
+    padding: 20px 0 0 0;
+    font-size: 14px;
 }
 
 a.Piwik_Popover_Error_Back {
-	display: block;
-	margin: 20px 0 0 0;
-	color: #1D3256;
-	font-size: 14px;
+    display: block;
+    margin: 20px 0 0 0;
+    color: #1D3256;
+    font-size: 14px;
 }
 
 #alert.ui-confirm input {
     display: block;
-    margin: 10px auto 5px!important;
+    margin: 10px auto 5px !important;
 }
 
 #updateCheckLinkContainer {
-	float:right;
-	cursor:pointer;
+    float: right;
+    cursor: pointer;
 }
 
 #updateCheckLinkContainer>* {
-	vertical-align:bottom;
+    vertical-align: bottom;
 }
 
 #header_message #checkForUpdates {
-	font-size:.8em;
-	line-height:16px;
-	display:inline-block;
+    font-size: .8em;
+    line-height: 16px;
+    display: inline-block;
 }
+
 #header_message #checkForUpdates:hover {
-	text-decoration:none;
+    text-decoration: none;
 }
+
+/* Used to link within content text, without adding visual clutter */
+.linkContent { color:#333; text-decoration:none}
+.linkContent:hover { text-decoration:underline;}

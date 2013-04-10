@@ -7,29 +7,11 @@
  */
 
 /**
- *
+ * Track visits before website creation date and test that Piwik handles them correctly.
  */
 class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends IntegrationTestCase
 {
-    protected static $dateTimeFirstDateWebsite1 = '2010-03-06 01:22:33';
-    protected static $dateTimeDateInPastWebsite1 = '2010-01-06 01:22:33';
-
-    protected static $dateTimeFirstDateWebsite2 = '2010-01-03 20:22:33';
-    protected static $dateTimeDateInPastWebsite2 = '2009-10-30 01:22:33';
-    protected static $idSite = 1;
-    protected static $idSite2 = 2;
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        try {
-            self::setUpWebsitesAndGoals();
-            self::trackVisits();
-        } catch(Exception $e) {
-            // Skip whole test suite if an error occurs while setup
-            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
-        }
-    }
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -46,6 +28,11 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
      */
     public function getApiForTesting()
     {
+        $idSite = self::$fixture->idSite;
+        $idSite2 = self::$fixture->idSite2;
+        $dateTimeDateInPastWebsite1 = self::$fixture->dateTimeDateInPastWebsite1;
+        $dateTimeDateInPastWebsite2 = self::$fixture->dateTimeDateInPastWebsite2;
+
         // We test a typical Numeric and a Recursive blob reports
         $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
 
@@ -54,15 +41,15 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
 
         // Build tests for the 2 websites
         return array(
-            array($apiToCall, array('idSite'                 => self::$idSite,
-                                    'testSuffix'             => 'Website' . self::$idSite . '_OldReportsShouldNotAppear',
-                                    'date'                   => self::$dateTimeDateInPastWebsite1,
+            array($apiToCall, array('idSite'                 => $idSite,
+                                    'testSuffix'             => 'Website' . $idSite . '_OldReportsShouldNotAppear',
+                                    'date'                   => $dateTimeDateInPastWebsite1,
                                     'periods'                => 'month',
                                     'setDateLastN'           => 4, // 4months ahead
                                     'otherRequestParameters' => array('expanded' => 1))),
-            array($apiToCall, array('idSite'                 => self::$idSite2,
-                                    'testSuffix'             => 'Website' . self::$idSite2 . '_OldReportsShouldNotAppear',
-                                    'date'                   => self::$dateTimeDateInPastWebsite2,
+            array($apiToCall, array('idSite'                 => $idSite2,
+                                    'testSuffix'             => 'Website' . $idSite2 . '_OldReportsShouldNotAppear',
+                                    'date'                   => $dateTimeDateInPastWebsite2,
                                     'periods'                => 'month',
                                     'setDateLastN'           => 4, // 4months ahead
                                     'otherRequestParameters' => array('expanded' => 1))),
@@ -77,18 +64,21 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
      */
     public function testAnotherApi($api, $params)
     {
+        $idSite = self::$fixture->idSite;
+        $idSite2 = self::$fixture->idSite2;
+
         // 1) Invalidate old reports for the 2 websites
         // Test invalidate 1 date only
         $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=4,5,6,55,-1,s',1&dates=2010-01-03");
         ($r->process());
         // Test invalidate comma separated dates
-        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$idSite . "," . self::$idSite2 . "&dates=2010-01-06,2009-10-30");
+        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite . "," . $idSite2 . "&dates=2010-01-06,2009-10-30");
         ($r->process());
         // test invalidate date in the past
-        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$idSite2 . "&dates=2009-06-29");
+        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2009-06-29");
         ($r->process());
         // invalidate a date more recent to check the date is only updated when it's earlier than current
-        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$idSite2 . "&dates=2010-03-03");
+        $r = new Piwik_API_Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2010-03-03");
         ($r->process());
 
         // 2) Call API again, with an older date, which should now return data
@@ -101,18 +91,23 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
      */
     public function getAnotherApiForTesting()
     {
+        $idSite = self::$fixture->idSite;
+        $idSite2 = self::$fixture->idSite2;
+        $dateTimeDateInPastWebsite1 = self::$fixture->dateTimeDateInPastWebsite1;
+        $dateTimeDateInPastWebsite2 = self::$fixture->dateTimeDateInPastWebsite2;
+
         $apiToCall = array('VisitsSummary.get', 'Actions.getPageUrls');
 
         return array(
-            array($apiToCall, array('idSite'                 => self::$idSite,
-                                    'testSuffix'             => 'Website' . self::$idSite . '_OldReportsShouldAppear',
-                                    'date'                   => self::$dateTimeDateInPastWebsite1,
+            array($apiToCall, array('idSite'                 => $idSite,
+                                    'testSuffix'             => 'Website' . $idSite . '_OldReportsShouldAppear',
+                                    'date'                   => $dateTimeDateInPastWebsite1,
                                     'periods'                => 'month',
                                     'setDateLastN'           => 4, // 4months ahead
                                     'otherRequestParameters' => array('expanded' => 1))),
-            array($apiToCall, array('idSite'                 => self::$idSite2,
-                                    'testSuffix'             => 'Website' . self::$idSite2 . '_OldReportsShouldAppear',
-                                    'date'                   => self::$dateTimeDateInPastWebsite2,
+            array($apiToCall, array('idSite'                 => $idSite2,
+                                    'testSuffix'             => 'Website' . $idSite2 . '_OldReportsShouldAppear',
+                                    'date'                   => $dateTimeDateInPastWebsite2,
                                     'periods'                => 'month',
                                     'setDateLastN'           => 4, // 4months ahead
                                     'otherRequestParameters' => array('expanded' => 1))),
@@ -123,77 +118,7 @@ class Test_Piwik_Integration_VisitsInPast_InvalidateOldReports extends Integrati
     {
         return 'VisitsInPast_InvalidateOldReports';
     }
-
-    public static function setUpWebsitesAndGoals()
-    {
-        self::createWebsite(self::$dateTimeFirstDateWebsite1);
-        self::createWebsite(self::$dateTimeFirstDateWebsite2);
-    }
-
-    protected static function trackVisits()
-    {
-        /**
-         * Track Visits normal date for the 2 websites
-         */
-        // WEBSITE 1
-        $t = self::getTracker(self::$idSite, self::$dateTimeFirstDateWebsite1, $defaultInit = true);
-        $t->setUrl('http://example.org/category/Page1');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page2');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page3');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/Home');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/Contact');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/Contact/ThankYou');
-        self::checkResponse($t->doTrackPageView('Hello'));
-
-        // WEBSITE 2
-        $t = self::getTracker(self::$idSite2, self::$dateTimeFirstDateWebsite2, $defaultInit = true);
-        $t->setIp('156.15.13.12');
-        $t->setUrl('http://example.org/category/Page1');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page2');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page3');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/Home');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/Contact');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/Contact/ThankYou');
-        self::checkResponse($t->doTrackPageView('Hello'));
-
-        /**
-         * Track visits in the past (before website creation date) for the 2 websites
-         */
-        // WEBSITE1
-        $t = self::getTracker(self::$idSite, self::$dateTimeDateInPastWebsite1, $defaultInit = true);
-        $t->setIp('156.5.55.2');
-        $t->setUrl('http://example.org/category/Page1');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page1');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page2');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Pagexx');
-        self::checkResponse($t->doTrackPageView('Blabla'));
-
-        // WEBSITE2
-        $t = self::getTracker(self::$idSite2, self::$dateTimeDateInPastWebsite2, $defaultInit = true);
-        $t->setIp('156.52.3.22');
-        $t->setUrl('http://example.org/category/Page1');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page1');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Page2');
-        self::checkResponse($t->doTrackPageView('Hello'));
-        $t->setUrl('http://example.org/category/Pageyy');
-        self::checkResponse($t->doTrackPageView('Blabla'));
-        $t->setForceVisitDateTime(Piwik_Date::factory(self::$dateTimeDateInPastWebsite2)->addHour(0.1)->getDatetime());
-        $t->setUrl('http://example.org/category/Pageyy');
-        self::checkResponse($t->doTrackPageView('Blabla'));
-    }
 }
+
+Test_Piwik_Integration_VisitsInPast_InvalidateOldReports::$fixture = new Test_Piwik_Fixture_TwoSitesVisitsInPast();
+

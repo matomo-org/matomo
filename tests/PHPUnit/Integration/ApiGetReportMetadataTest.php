@@ -7,46 +7,21 @@
  */
 
 /**
- * This tests the output of the API plugin API 
+ * This tests the output of the API plugin API
  * It will return metadata about all API reports from all plugins
  * as well as the data itself, pre-processed and ready to be displayed
  */
 class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
 {
-    protected static $dateTime = '2009-01-04 00:11:42';
-    protected static $idSite   = 1;
-    protected static $idGoal   = 1;
-    protected static $idGoal2  = 2;
-    protected static $idGoal3  = 3;
-
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        try {
-            self::setUpWebsitesAndGoals();
-            self::trackVisits();
-        } catch(Exception $e) {
-            // Skip whole test suite if an error occurs while setup
-            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
-        }
-
-    }
-
-    protected static function setUpWebsitesAndGoals()
-    {
-        self::createWebsite(self::$dateTime, $ecommerce = 1);
-        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'Goal 1 - Thank you', 'title', 'Thank you', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 1);
-        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'Goal 2 - Hello', 'url', 'hellow', 'contains', $caseSensitive = false, $revenue = 10, $allowMultipleConversions = 0);
-        Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'triggered js', 'manually', '', '');
-    }
+    public static $fixture = null; // initialized below class definition
 
     public function setUp()
     {
         parent::setUp();
 
-        // From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we ensure that they still work
-        // This hack allows the API proxy to let us generate example URLs for the ignored functions
+        // From Piwik 1.5, we hide Goals.getConversions and other get* methods via @ignore, but we
+        // ensure that they still work. This hack allows the API proxy to let us generate example
+        // URLs for the ignored functions
         Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(false);
     }
 
@@ -65,28 +40,35 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
 
     public function getApiForTesting()
     {
-        return array(
-            array('API', array('idSite' => self::$idSite, 'date' => self::$dateTime)),
-            
-			// test w/ hideMetricsDocs=true
-			array('API.getMetadata', array('idSite' => self::$idSite, 'date' => self::$dateTime,
-										   'apiModule' => 'Actions', 'apiAction' => 'get',
-										   'testSuffix' => '_hideMetricsDoc',
-										   'otherRequestParameters' => array('hideMetricsDoc' => 1)) ),
-			array('API.getProcessedReport', array('idSite' => self::$idSite, 'date' => self::$dateTime,
-												  'apiModule' => 'Actions', 'apiAction' => 'get',
-												  'testSuffix' => '_hideMetricsDoc',
-												  'otherRequestParameters' => array('hideMetricsDoc' => 1)) ),
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
 
-	        // Test w/ showRawMetrics=true
-	        array('API.getProcessedReport', array('idSite' => self::$idSite, 'date' => self::$dateTime,
-		        'apiModule' => 'UserCountry', 'apiAction' => 'getCountry',
-		        'testSuffix' => '_showRawMetrics',
-		        'otherRequestParameters' => array('showRawMetrics' => 1)) ),
-			
-			// test php renderer w/ array data
-			array('API.getDefaultMetricTranslations', array('idSite' => self::$idSite, 'date' => self::$dateTime,
-															'format' => 'php', 'testSuffix' => '_phpRenderer')),
+        return array(
+            array('API', array('idSite' => $idSite, 'date' => $dateTime)),
+
+            // test w/ hideMetricsDocs=true
+            array('API.getMetadata', array('idSite'                 => $idSite, 'date' => $dateTime,
+                                           'apiModule'              => 'Actions', 'apiAction' => 'get',
+                                           'testSuffix'             => '_hideMetricsDoc',
+                                           'otherRequestParameters' => array('hideMetricsDoc' => 1))),
+            array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
+                                                  'apiModule'              => 'Actions', 'apiAction' => 'get',
+                                                  'testSuffix'             => '_hideMetricsDoc',
+                                                  'otherRequestParameters' => array('hideMetricsDoc' => 1))),
+
+            // Test w/ showRawMetrics=true
+            array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
+                                                  'apiModule'              => 'UserCountry', 'apiAction' => 'getCountry',
+                                                  'testSuffix'             => '_showRawMetrics',
+                                                  'otherRequestParameters' => array('showRawMetrics' => 1))),
+
+            // Test w/ showRawMetrics=true
+            array('Actions.getPageTitles', array('idSite'     => $idSite, 'date' => $dateTime,
+                                                 'testSuffix' => '_pageTitleZeroString')),
+
+            // test php renderer w/ array data
+            array('API.getDefaultMetricTranslations', array('idSite' => $idSite, 'date' => $dateTime,
+                                                            'format' => 'php', 'testSuffix' => '_phpRenderer')),
         );
     }
 
@@ -99,20 +81,7 @@ class Test_Piwik_Integration_ApiGetReportMetadata extends IntegrationTestCase
     {
         $this->runApiTests($api, $params);
     }
-
-    protected static function trackVisits()
-    {
-        $idSite   = self::$idSite;
-        $dateTime = self::$dateTime;
-
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
-
-        // Record 1st page view
-        $t->setUrl('http://example.org/index.htm');
-        self::checkResponse($t->doTrackPageView('incredible title!'));
-
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
-        self::checkResponse($t->doTrackGoal(self::$idGoal3, $revenue = 42.256));
-    }
 }
+
+Test_Piwik_Integration_ApiGetReportMetadata::$fixture = new Test_Piwik_Fixture_ThreeGoalsOnePageview();
 

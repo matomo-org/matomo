@@ -6,6 +6,7 @@
 			<nb_pageviews>4</nb_pageviews>
 			<nb_searches>8</nb_searches>
 			<nb_uniq_pageviews>3</nb_uniq_pageviews>
+			<avg_time_generation>0</avg_time_generation>
 		</result>
 		<result date="2010-02" />
 		<result date="2010-03" />
@@ -20,6 +21,7 @@
 			<nb_pageviews>2</nb_pageviews>
 			<nb_searches>3</nb_searches>
 			<nb_uniq_pageviews>2</nb_uniq_pageviews>
+			<avg_time_generation>0</avg_time_generation>
 		</result>
 		<result date="2010-02" />
 		<result date="2010-03" />
@@ -32,6 +34,7 @@
 		<result date="2010-01">
 			<nb_pageviews>3</nb_pageviews>
 			<nb_uniq_pageviews>3</nb_uniq_pageviews>
+			<avg_time_generation>0</avg_time_generation>
 		</result>
 		<result date="2010-02" />
 		<result date="2010-03" />

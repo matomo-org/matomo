@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package SmartyPlugins
  */
@@ -16,9 +16,9 @@
  */
 function smarty_function_sparkline($params, &$smarty = false)
 {
-	$src = $params['src'];
-	$graph = new Piwik_Visualization_Sparkline();
-	$width = $graph->getWidth();
-	$height = $graph->getHeight();
-	return "<img class=\"sparkline\" alt=\"\" src=\"$src\" width=\"$width\" height=\"$height\" />";
+    $src = $params['src'];
+    $graph = new Piwik_Visualization_Sparkline();
+    $width = $graph->getWidth();
+    $height = $graph->getHeight();
+    return "<img class=\"sparkline\" alt=\"\" src=\"$src\" width=\"$width\" height=\"$height\" />";
 }

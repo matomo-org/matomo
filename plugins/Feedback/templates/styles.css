@@ -1,47 +1,68 @@
 #feedback-faq, #feedback-form, #feedback-sent {
-	font-family: Arial, Helvetica, sans-serif;
-	color:#5e5e5c;
-	font-size:14px;
-	line-height:24px;
-	padding:0 20px 15px 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #5e5e5c;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 0 20px 15px 0;
 }
+
 #feedback-faq strong, #feedback-sent strong {
-	color:#5e5e5c;
+    color: #5e5e5c;
 }
 
 #feedback-faq ul, #feedback-sent ul {
-	list-style:none;
-	padding:0 0 0 20px;
-	font-size:12px;
-	line-height:18px;
+    list-style: none;
+    padding: 0 0 0 20px;
+    font-size: 12px;
+    line-height: 18px;
 }
 
-#feedback-faq a, #feedback-sent a{
-	color:#5176a0;
-	text-decoration:none; 
-	font-weight:bold; 
+#feedback-faq a, #feedback-sent a {
+    color: #5176a0;
+    text-decoration: none;
+    font-weight: bold;
 }
-
 
 #feedback-error {
-	color: red;
-	text-align: center;
-	border: 2px solid red;
-	background-color:#FFFBFB;
-	margin: 10px;
-	padding: 10px;
+    color: red;
+    text-align: center;
+    border: 2px solid red;
+    background-color: #FFFBFB;
+    margin: 10px;
+    padding: 10px;
 }
+
 #feedback-success {
-	color: #38D73B;
-	text-align: center;
-	border: 2px solid #38D73B;
-	margin: 10px;
-	padding: 10px;
+    color: #38D73B;
+    text-align: center;
+    border: 2px solid #38D73B;
+    margin: 10px;
+    padding: 10px;
 }
 
-#feedback-form { font-size:12px; line-height:18px;}
-#feedback-form label{ float:left; width:135px; padding:4px 15px 0 0; text-align:right; position:relative;  }
-#feedback-form label i{ font-style:normal; color:#cbcbcb; }
-#feedback-form br{ clear:both;  }
+#feedback-form {
+    font-size: 12px;
+    line-height: 18px;
+}
 
-#feedback-home{ float:left; margin:-7px 0 0 20px; }
+#feedback-form label {
+    float: left;
+    width: 135px;
+    padding: 4px 15px 0 0;
+    text-align: right;
+    position: relative;
+}
+
+#feedback-form label i {
+    font-style: normal;
+    color: #cbcbcb;
+}
+
+#feedback-form br {
+    clear: both;
+}
+
+#feedback-home {
+    float: left;
+    margin: -7px 0 0 20px;
+}

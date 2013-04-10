@@ -16,40 +16,35 @@
  */
 class Piwik_HTMLPurifier
 {
-	static private $instance = null;
+    private static $instance = null;
 
-	/**
-	 * Returns the singleton HTMLPurifier or a mock object
-	 *
-	 * @return HTMLPurifier|Piwik_HTMLPurifier
-	 */
-	static public function getInstance()
-	{
-		if (self::$instance == null)
-		{
-			if(file_exists(PIWIK_INCLUDE_PATH . '/libs/HTMLPurifier.php'))
-			{
-				if(!class_exists('HTMLPurifier_Bootstrap', false))
-				{
-					HTMLPurifier_Bootstrap::registerAutoload();
-				}
+    /**
+     * Returns the singleton HTMLPurifier or a mock object
+     *
+     * @return HTMLPurifier|Piwik_HTMLPurifier
+     */
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            if (file_exists(PIWIK_INCLUDE_PATH . '/libs/HTMLPurifier.php')) {
+                if (!class_exists('HTMLPurifier_Bootstrap', false)) {
+                    HTMLPurifier_Bootstrap::registerAutoload();
+                }
 
-				$config = HTMLPurifier_Config::createDefault();
-				$config->set('Cache.SerializerPath', PIWIK_USER_PATH . '/tmp/purifier');
+                $config = HTMLPurifier_Config::createDefault();
+                $config->set('Cache.SerializerPath', PIWIK_USER_PATH . '/tmp/purifier');
 
-				self::$instance = new HTMLPurifier($config);
-			}
-			else
-			{
-				$c = __CLASS__;
-				self::$instance = new $c();
-			}
-		}
-		return self::$instance;
-	}
+                self::$instance = new HTMLPurifier($config);
+            } else {
+                $c = __CLASS__;
+                self::$instance = new $c();
+            }
+        }
+        return self::$instance;
+    }
 
-	public function purify($html, $config = null)
-	{
-		return $html;
-	}
+    public function purify($html, $config = null)
+    {
+        return $html;
+    }
 }

@@ -16,15 +16,15 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
      */
     public function testConvertMultiDimensionalStandardArrayToJson()
     {
-        $input = array( "firstElement",
-                        array(
-                            "firstElement",
-                            "secondElement",
-                        ),
-                        "thirdElement");
+        $input = array("firstElement",
+                       array(
+                           "firstElement",
+                           "secondElement",
+                       ),
+                       "thirdElement");
 
         $expected = json_encode($input);
-        $actual   = Piwik_API_ResponseBuilder::convertMultiDimensionalArrayToJson($input);
+        $actual = Piwik_API_ResponseBuilder::convertMultiDimensionalArrayToJson($input);
         $this->assertEquals($expected, $actual);
     }
 
@@ -38,15 +38,15 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
     public function testConvertMultiDimensionalAssociativeArrayToJson()
     {
         $input = array(
-                    "firstElement" => "isFirst",
-                    "secondElement" =>     array(
-                                            "firstElement" => "isFirst",
-                                            "secondElement" => "isSecond",
-                                        ),
-                    "thirdElement" => "isThird");
+            "firstElement"  => "isFirst",
+            "secondElement" => array(
+                "firstElement"  => "isFirst",
+                "secondElement" => "isSecond",
+            ),
+            "thirdElement"  => "isThird");
 
         $expected = json_encode($input);
-        $actual   = Piwik_API_ResponseBuilder::convertMultiDimensionalArrayToJson($input);
+        $actual = Piwik_API_ResponseBuilder::convertMultiDimensionalArrayToJson($input);
         $this->assertEquals($expected, $actual);
     }
 
@@ -60,19 +60,19 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
     public function testConvertMultiDimensionalMixedArrayToJson()
     {
         $input = array(
-                    "firstElement" => "isFirst",
-                    array(
-                        "firstElement",
-                        "secondElement",
-                    ),
-                    "thirdElement" =>     array(
-                                            "firstElement" => "isFirst",
-                                            "secondElement" => "isSecond",
-                                        )
+            "firstElement" => "isFirst",
+            array(
+                "firstElement",
+                "secondElement",
+            ),
+            "thirdElement" => array(
+                "firstElement"  => "isFirst",
+                "secondElement" => "isSecond",
+            )
         );
 
         $expected = json_encode($input);
-        $actual   = Piwik_API_ResponseBuilder::convertMultiDimensionalArrayToJson($input);
+        $actual = Piwik_API_ResponseBuilder::convertMultiDimensionalArrayToJson($input);
         $this->assertEquals($expected, $actual);
     }
 }

@@ -1,42 +1,42 @@
-#systemCheckOptional,#systemCheckRequired {
-	border: 1px solid #dadada;
-	width:100%;
-	max-width: 900px;
+#systemCheckOptional, #systemCheckRequired {
+    border: 1px solid #dadada;
+    width: 100%;
+    max-width: 900px;
 }
 
 #systemCheckOptional {
-	margin-bottom:2em;
+    margin-bottom: 2em;
 }
 
-#systemCheckOptional td,#systemCheckRequired td {
-	/*border: 1px solid #222;*/
-	padding: 1em .5em 1em 2em;
-	vertical-align:middle;
-	font-size:1.2em;
-	margin:0;
+#systemCheckOptional td, #systemCheckRequired td {
+    /*border: 1px solid #222;*/
+    padding: 1em .5em 1em 2em;
+    vertical-align: middle;
+    font-size: 1.2em;
+    margin: 0;
 }
 
 #systemCheckOptional tr:nth-child(even), #systemCheckRequired tr:nth-child(even) {
-	background-color: #EFEEEC;
+    background-color: #EFEEEC;
 }
 
 #systemCheckOptional tr:nth-child(odd), #systemCheckRequired tr:nth-child(odd) {
-	background-color: #F6F5F3;
+    background-color: #F6F5F3;
 }
 
 .error {
-	color:red;
-	font-size:100%;
-	font-weight:bold;
-	border: 2px solid red;
-	width: 550px;
-	padding:20px;
-	margin-bottom:10px;
+    color: red;
+    font-size: 100%;
+    font-weight: bold;
+    border: 2px solid red;
+    width: 550px;
+    padding: 20px;
+    margin-bottom: 10px;
 }
 
 .error img {
-	border:0;
-	float:right;
-	margin:10px;
+    border: 0;
+    float: right;
+    margin: 10px;
 }
 

@@ -34,41 +34,37 @@ it might be that your changes are breaking some features unexpectedly.
 
 1. 	Install PHPUnit on your system
 	
-		```
 		$ cd your/php/directory
 		$ sudo pear upgrade PEAR
 		$ pear config-set auto_discover 1
 		$ sudo pear install --alldeps pear.phpunit.de/PHPUnit
-		```
 
 	Doc at: http://www.phpunit.de/manual/current/en/installation.html
 
 2. 	Configure PHPUnit: Copy the file `piwik/tests/PHPUnit/phpunit.xml.dist` to `phpunit.xml`.
 	In this file, you will find the following lines.
-	Please edit HTTP_HOST and REQUEST_URI to match the hostname and path of the Piwik files:
+	Please edit HTTP_HOST and REQUEST_URI to match the hostname and path of the Piwik files.
+    For example if your Piwik is available at http://localhost/path/to/piwik/ you would write:
 
 		<server name="HTTP_HOST" value="localhost"/>
-		<server name="REQUEST_URI" value="/path/to/piwik/tests/all_tests.php"/>
-	
+		<server name="REQUEST_URI" value="/path/to/piwik/"/>
+
+
 3. 	Run the tests (see the next section to run tests in the browser)
 
-		```
 		$ cd /path/to/piwik/tests/PHPUnit
 		$ phpunit
-		```
 
-	This will run all unit + integration tests. It might take 30 minutes to run.
+	This will run all unit + integration tests. It might take 10-20 minutes to run.
 
 	You can also run tests of specified "parts" of Piwik.
 	There are three main groups of tests: Core, Plugins and Integration
-	For example run
-	$ phpunit --group Core
+	For example run `phpunit --group Core`
 	to run all Core Piwik tests. You may also combine groups like
-	$ phpunit --group Core,Plugins
+	`phpunit --group Core,Plugins`
 
 4.	Write more tests :)
-	See "Writing Unit tests with PHPUnit" 
-	http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html
+	See ["Writing Unit tests with PHPUnit"](http://www.phpunit.de/manual/current/en/writing-tests-for-phpunit.html)
 
 ## JavaScript Tests
 
@@ -93,12 +89,12 @@ You can import data over several days in Piwik:
 
 You should now have some interesting data to test with in November 2012!
 
-## Webtests
+## Selenium Webdriver tests
 
-We would like to add webtests testing installation, auto update, and initial user login.
+We would like to add Webdriver selenium testing for the following: installation, auto update from 1.0, initial user login.
 Task is tracked in: http://dev.piwik.org/trac/ticket/2935
 
-## Schedules Reports Tests
+## Scheduled Reports Tests
 
 Piwik scheduled reports (HTML, PDF & SMS) are part of the integration test suite.
 They follow the same principles described in the INTEGRATION TESTS section of this document.
@@ -111,22 +107,26 @@ several environments before being able to commit their work.
 Excluding images altogether is not an option as they are an important feature.
 
 Therefore, PNG graphs are only tested if the system under test has the same characteristics as the integration server.
-The characteristics of the integration server are described in IntegrationTestCase::canImagesBeIncludedInScheduledReports()
+The characteristics of the integration server are described in `IntegrationTestCase::canImagesBeIncludedInScheduledReports()`
 
 If your system does not comply to those characteristics, images will not be tested and PHPUnit will display the
-warning message contained in IntegrationTestCase::alertWhenImagesExcludedFromTests().
+warning message contained in `IntegrationTestCase::alertWhenImagesExcludedFromTests()`.
 
 In this case, the integration test suite might pass on your box but fail on the integration server. This means your
 work altered the expected images. The standard procedure described in the INTEGRATION TESTS section needs to be applied :
- 1 - find out if the change is expected (*)
- 2 - a. if the change is expected, the expected files need to be updated (*)
-     b. if the change is not expected, there is a bug needing to be fixed
+
+ 1. find out if the change is expected (*)
+ 2. a. if the change is expected, the expected files need to be updated (*)
+
+    b. if the change is not expected, there is a bug needing to be fixed
+
 
 (*) to analyse and/or generate the expected files, you can either
-	- set up the vagrant piwik vm (which is used by the integration server) or
-	- retrieve the files from the integration server.
 
-## Continous Integration
+ - set up the vagrant piwik vm (which is used by the integration server) or
+ - retrieve the files from the integration server.
+
+## Continuous Integration
 
 We run a Jenkins server for continuous integration. It automatically downloads the latest version of the Piwik code
 from our GIT repo and runs a battery of thousands of tests. More information at the links:
@@ -141,7 +141,7 @@ which you can use to run PHPUnit tests in your browser.
 
 ### Starting VisualPHPUnit
 
-To load VisualPHPUnit point your browser to http://path/to/piwik/trunk/tests/lib/visualphpunit/.
+To load VisualPHPUnit point your browser to http://path/to/piwik/tests/lib/visualphpunit/.
 
 VisualPHPUnit will already be configured for use with Piwik. 
 
@@ -169,7 +169,7 @@ click the 'Run tests' button.
 If you're in need of a URL that will not only load VisualPHPUnit but run one or more tests,
 you may add the list of tests to run as the hash of the URL. For example,
 
-http://path/to/piwik/trunk/tests/lib/visualphpunit/#/Core/DataTableTest.php:/Core/CookieTest.php
+http://path/to/piwik/tests/lib/visualphpunit/#/Core/DataTableTest.php:/Core/CookieTest.php
 
 will load VisualPHPUnit and immediately run the tests in DataTableTest.php and CookieTest.php.
 Currently, this feature will not allow you to specify directories with tests to run.
@@ -181,7 +181,7 @@ and clicking the 'Run Tests' button. If you want to use a phpunit.xml file, eith
 one that comes with Piwik, you'll need to modify VisualPHPUnit's configuration. Edit the file
 located at
 
-/path/to/piwik/trunk/tests/lib/visualphpunit/app/config/bootstrap.php
+/path/to/piwik/tests/lib/visualphpunit/app/config/bootstrap.php
 
 and set the 'xml_configuration_file' config option.
 
@@ -215,7 +215,7 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
 
  * 	Navigate to the XHProf extension directory.
 
-		$ cd /path/to/piwik/trunk/tests/lib/xhprof-0.9.2/extension
+		$ cd /path/to/piwik/tests/lib/xhprof-0.9.2/extension
     
  * 	Build XHProf.
 
@@ -228,7 +228,7 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
       
 	```
 	[xhprof]
-	extension=/path/to/piwik/trunk/tests/lib/xhprof-0.9.2/extension/modules/xhprof.so
+	extension=/path/to/piwik/tests/lib/xhprof-0.9.2/extension/modules/xhprof.so
 	xhprof.output_dir=/path/to/output/dir
 	```
       
@@ -242,7 +242,7 @@ is installed and act accordingly.
 
 To use XHProf, first load VisualPHPUnit by pointing your browser to:
 
-http://path/to/piwik/trunk/tests/lib/visualphpunit/
+http://path/to/piwik/tests/lib/visualphpunit/
 
 Select a test or get ready to run a benchmark. Make sure the 'Profile with XHProf' select
 box is set to 'Yes' and click 'Run Tests'.

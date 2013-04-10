@@ -14,20 +14,17 @@
  */
 class Piwik_Updates_1_10_1 extends Piwik_Updates
 {
-	static function isMajorUpdate()
-	{
-		return false;
-	}
-	
-	static function update()
-	{
-		try
-		{
-			Piwik_PluginsManager::getInstance()->activatePlugin('Overlay');
-		}
-		catch(Exception $e)
-		{
-			// pass
-		}
-	}
+    static function isMajorUpdate()
+    {
+        return false;
+    }
+
+    static function update()
+    {
+        try {
+            Piwik_PluginsManager::getInstance()->activatePlugin('Overlay');
+        } catch (Exception $e) {
+            // pass
+        }
+    }
 }

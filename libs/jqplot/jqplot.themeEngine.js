@@ -3,8 +3,9 @@
  * Pure JavaScript plotting plugin using jQuery
  *
  * Version: @VERSION
+ * Revision: @REVISION
  *
- * Copyright (c) 2009-2011 Chris Leonello
+ * Copyright (c) 2009-2013 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -68,6 +69,7 @@
      * >     series: [{
      * >         color: "#4bb2c5",
      * >         lineWidth: 2.5,
+     * >         linePattern: "solid",
      * >         shadow: true,
      * >         fillColor: "#4bb2c5",
      * >         showMarker: true,
@@ -507,8 +509,8 @@
                             plot.series[i].renderer.shapeRenderer.strokeStyle = val;
                             plot.series[i][n] = val;
                         }
-                        else if (n == 'lineWidth') {
-                            plot.series[i].renderer.shapeRenderer.lineWidth = val;
+                        else if ((n == 'lineWidth') || (n == 'linePattern')) {
+                            plot.series[i].renderer.shapeRenderer[n] = val;
                             plot.series[i][n] = val;
                         }
                         else if (n == 'markerOptions') {
@@ -835,6 +837,7 @@
     var LineSeriesProperties = function() {
         this.color=null;
         this.lineWidth=null;
+        this.linePattern=null;
         this.shadow=null;
         this.fillColor=null;
         this.showMarker=null;

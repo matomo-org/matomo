@@ -1,72 +1,75 @@
 .locationProviderTable label {
-	font-size: 1.2em;
+    font-size: 1.2em;
 }
 
 input.location-provider {
-	cursor:pointer;
+    cursor: pointer;
 }
 
 span.is-installed {
-	color:green;
+    color: green;
 }
 
 span.is-broken {
-	color:red;
+    color: red;
 }
 
 .loc-provider-status {
-	margin-left:.5em;
+    margin-left: .5em;
 }
 
 #manage-geoip-dbs {
-	height: 20em;
+    height: 20em;
 }
 
-#geoipdb-screen1, #geoipdb-screen2-download,#geoipdb-update-info {
-	width:900px;
+#geoipdb-screen1, #geoipdb-screen2-download, #geoipdb-update-info {
+    width: 900px;
 }
 
-#geoipdb-update-info tr input[type="text"],#geoipdb-screen2-update tr input[type="text"] {
-	width: 90%;
+#geoipdb-update-info tr input[type="text"], #geoipdb-screen2-update tr input[type="text"] {
+    width: 90%;
 }
 
 #geoipdb-screen1>div {
-	display: inline-block;
-	vertical-align:top;
+    display: inline-block;
+    vertical-align: top;
 }
 
 #geoipdb-screen1>div>p {
-	font-size: 2em;
-	height: 4em;
+    font-size: 2em;
+    height: 4em;
 }
 
-.geoipdb-column-1,.geoipdb-column-2 {
-	width:396px;
+.geoipdb-column-1, .geoipdb-column-2 {
+    width: 396px;
 }
+
 .geoipdb-column-1 {
-	margin-right: 50px;
+    margin-right: 50px;
 }
+
 .geoipdb-column-2 {
-	border-left: solid #999 1px;
-	padding-left: 50px;
+    border-left: solid #999 1px;
+    padding-left: 50px;
 }
+
 .geoipdb-column-1>p {
-	padding-left: 20px;
+    padding-left: 20px;
 }
 
 .error {
-	font-weight:bold;
-	color:red;
-	padding:4px 8px 4px 8px;
+    font-weight: bold;
+    color: red;
+    padding: 4px 8px 4px 8px;
 }
 
 #geoip-updater-progressbar-label {
-	float: left;
-	margin: -24px 24px;
+    float: left;
+    margin: -24px 24px;
 }
 
-#geoip-progressbar-container,#geoipdb-update-info-error {
-	margin: 22px 24px;
-	display:inline-block;
+#geoip-progressbar-container, #geoipdb-update-info-error {
+    margin: 22px 24px;
+    display: inline-block;
 }
 

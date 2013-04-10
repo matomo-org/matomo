@@ -172,7 +172,6 @@ $translations = array(
 	'General_SmallTrafficYouCanLeaveDefault' => 'Ar gyfer gwefannau heb lawer o draffig, gallwch adael yr  eiliadau %s diofyn, a agor pob adroddiad mewn amser real.',
 	'General_RequiresFlash' => 'Mae angen Flash i ddangos Graffiau yn Piwik',
 	'General_GraphHelp' => 'Mwy o wybodaeth am ddangos graffiau yn Piwik.',
-	'General_NoDataForGraph' => 'Nid oes data ar gyfer y graff yma.',
 	'General_NoDataForTagCloud' => 'Dim data ar gyfer y tag cwmwl.',
 	'General_DisplaySimpleTable' => 'Dangos tabl syml',
 	'General_DisplayTableWithMoreMetrics' => 'Dangos tabl gyda mwy o metrics',

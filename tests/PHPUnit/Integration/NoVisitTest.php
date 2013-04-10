@@ -13,20 +13,7 @@
  */
 class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
 {
-    protected static $idSite   = 1;
-    protected static $dateTime = '2009-01-04 00:11:42';
-
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        try {
-            self::setUpWebsitesAndGoals();
-            self::trackVisits();
-        } catch(Exception $e) {
-            // Skip whole test suite if an error occurs while setup
-            throw new PHPUnit_Framework_SkippedTestSuiteError($e->getMessage());
-        }
-    }
+    public static $fixture = null; // initialized below class definition
 
     /**
      * @dataProvider getApiForTesting
@@ -42,10 +29,10 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
     {
         // this will output empty XML result sets as no visit was tracked
         return array(
-            array('all', array('idSite'       => self::$idSite,
-                               'date'         => self::$dateTime)),
-            array('all', array('idSite'       => self::$idSite,
-                               'date'         => self::$dateTime,
+            array('all', array('idSite' => self::$fixture->idSite,
+                               'date'   => self::$fixture->dateTime)),
+            array('all', array('idSite'       => self::$fixture->idSite,
+                               'date'         => self::$fixture->dateTime,
                                'periods'      => array('day', 'week'),
                                'setDateLastN' => true,
                                'testSuffix'   => '_PeriodIsLast')),
@@ -56,85 +43,7 @@ class Test_Piwik_Integration_NoVisit extends IntegrationTestCase
     {
         return 'noVisit';
     }
-
-    public static function setUpWebsitesAndGoals()
-    {
-        self::createWebsite(self::$dateTime);
-    }
-
-    protected static function trackVisits()
-    {
-        $dateTime = self::$dateTime;
-        $idSite   = self::$idSite;
-        
-        Piwik_SitesManager_API::getInstance()->setSiteSpecificUserAgentExcludeEnabled(true);
-        Piwik_SitesManager_API::getInstance()->setGlobalExcludedUserAgents('globalexcludeduseragent');
-
-        /*
-           // Trigger invalid website
-           $trackerInvalidWebsite = self::getTracker($idSiteFake = 0, $dateTime, $defaultInit = true);
-           $response = Piwik_Http::fetchRemoteFile($trackerInvalidWebsite->getUrlTrackPageView());
-           self::assertTrue(strpos($response, 'Invalid idSite') !== false, 'invalid website ID');
-
-           // Trigger wrong website
-           $trackerWrongWebsite = self::getTracker($idSiteFake = 33, $dateTime, $defaultInit = true);
-           $response = Piwik_Http::fetchRemoteFile($trackerWrongWebsite->getUrlTrackPageView());
-           self::assertTrue(strpos($response, 'The requested website id = 33 couldn\'t be found') !== false, 'non-existent website ID');
-        */
-
-        // Trigger empty request
-        $trackerUrl = self::getTrackerUrl();
-        $response   = Piwik_Http::fetchRemoteFile($trackerUrl);
-        self::assertTrue(strpos($response, 'is a free open source web') !== false, 'Piwik empty request response not correct: ' . $response);
-
-        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
-
-        // test GoogleBot UA visitor
-        $t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
-        self::checkResponse($t->doTrackPageView('bot visit, please do not record'));
-
-        // Test IP Exclusion works with or without IP exclusion
-        foreach (array(false, true) as $enable) {
-            $excludedIp = '154.1.12.34';
-        	Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = '', $excludedIp . ',1.2.3.4', $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = 'excludeduseragentstring');
-        	
-            // Enable IP Anonymization
-            $t->DEBUG_APPEND_URL = '&forceIpAnonymization=' . (int)$enable;
-
-            // test with excluded User Agent
-            $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729) (excludeduseragentstring)');
-            $t->setIp('211.1.2.3');
-            self::checkResponse($t->doTrackPageView('visit from excluded User Agent'));
-            
-            // test w/ global excluded User Agent
-            $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729) (globalexcludeduseragent)');
-            $t->setIp('211.1.2.3');
-            self::checkResponse($t->doTrackPageView('visit from global excluded User Agent'));
-
-            // test with excluded IP
-            $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent
-            $t->setIp($excludedIp);
-            self::checkResponse($t->doTrackPageView('visit from IP excluded'));
-            
-            // test with global list of excluded IPs
-            $excludedIpBis = '145.5.3.4';
-            Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
-            $t->setIp($excludedIpBis);
-            self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
-        }
-
-        try {
-            @$t->setAttributionInfo(array());
-            self::fail();
-        } catch (Exception $e) {
-        }
-
-        try {
-            $t->setAttributionInfo(json_encode('test'));
-            self::fail();
-        } catch (Exception $e) {
-        }
-
-        $t->setAttributionInfo(json_encode(array()));
-    }
 }
+
+Test_Piwik_Integration_NoVisit::$fixture = new Test_Piwik_Fixture_InvalidVisits();
+

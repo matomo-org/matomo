@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package SmartyPlugins
  */
@@ -24,23 +24,21 @@
  */
 function smarty_function_includeAssets($params, &$smarty)
 {
-	if(!isset($params['type']))
-	{
-		throw new Exception("The smarty function includeAssets needs a 'type' parameter.");
-	}
-	
-	$assetType = strtolower($params['type']);	
-	switch ( $assetType )
-	{
-		case 'css':
-						
-			return Piwik_AssetManager::getCssAssets();
-			
-		case 'js':
-						
-			return Piwik_AssetManager::getJsAssets();
-			
-		default:
-			throw new Exception("The smarty function includeAssets 'type' parameter needs to be either 'css' or 'js'.");
-	}
+    if (!isset($params['type'])) {
+        throw new Exception("The smarty function includeAssets needs a 'type' parameter.");
+    }
+
+    $assetType = strtolower($params['type']);
+    switch ($assetType) {
+        case 'css':
+
+            return Piwik_AssetManager::getCssAssets();
+
+        case 'js':
+
+            return Piwik_AssetManager::getJsAssets();
+
+        default:
+            throw new Exception("The smarty function includeAssets 'type' parameter needs to be either 'css' or 'js'.");
+    }
 }

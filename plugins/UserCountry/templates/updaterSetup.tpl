@@ -1,6 +1,7 @@
 <div id="geoipdb-update-info" {if !$geoIPDatabasesInstalled}style="display:none"{/if}>
-	<p>{'UserCountry_GeoIPUpdaterInstructions'|translate:'<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">':'</a>':'<a href="http://www.maxmind.com/?rId=piwik">':'</a>'}<br/><br/>
-	{'UserCountry_GeoLiteCityLink'|translate:"<a href=\"$geoLiteUrl\">":$geoLiteUrl:'</a>'}
+    <p>{'UserCountry_GeoIPUpdaterInstructions'|translate:'<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">':'</a>':'<a href="http://www.maxmind.com/?rId=piwik">':'</a>'}
+        <br/><br/>
+{'UserCountry_GeoLiteCityLink'|translate:"<a href=\"$geoLiteUrl\">":$geoLiteUrl:'</a>'}
 	{if $geoIPDatabasesInstalled}
 	<br/><br/>{'UserCountry_GeoIPUpdaterIntro'|translate}:
 	{/if}
@@ -39,12 +40,14 @@
 				<label for="geoip-update-period-week">{'CoreHome_PeriodWeek'|translate}</label>
 			</td>
 			<td width="164">
-			{if !empty($lastTimeUpdaterRun)}
-				{capture assign=lastTimeRunNote}
-				{'UserCountry_UpdaterWasLastRun'|translate:$lastTimeUpdaterRun}
-				{/capture}
-				{$lastTimeRunNote|inlineHelp}
-			{/if}
+			{capture assign=lastTimeRunNote}
+				{if !empty($lastTimeUpdaterRun)}
+					{'UserCountry_UpdaterWasLastRun'|translate:$lastTimeUpdaterRun}
+				{else}
+					{'UserCountry_UpdaterHasNotBeenRun'|translate}
+				{/if}
+			{/capture}
+			{$lastTimeRunNote|inlineHelp}
 			</td>
 		</tr>
 	</table>

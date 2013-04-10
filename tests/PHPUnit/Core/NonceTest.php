@@ -14,10 +14,10 @@ class NonceTest extends PHPUnit_Framework_TestCase
     {
         return array(
             // HTTP_HOST => expected
-            array('example.com', array( 'http://example.com', 'https://example.com' )),
-            array('example.com:80', array( 'http://example.com', 'https://example.com' )),
-            array('example.com:443', array( 'http://example.com', 'https://example.com' )),
-            array('example.com:8080', array( 'http://example.com', 'https://example.com', 'http://example.com:8080', 'https://example.com:8080' )),
+            array('example.com', array('http://example.com', 'https://example.com')),
+            array('example.com:80', array('http://example.com', 'https://example.com')),
+            array('example.com:443', array('http://example.com', 'https://example.com')),
+            array('example.com:8080', array('http://example.com', 'https://example.com', 'http://example.com:8080', 'https://example.com:8080')),
         );
     }
 
@@ -31,6 +31,6 @@ class NonceTest extends PHPUnit_Framework_TestCase
         Piwik_Config::getInstance()->General['enable_trusted_host_check'] = 0;
         $_SERVER['HTTP_HOST'] = $host;
         Piwik_Config::getInstance()->General['trusted_hosts'] = array('example.com');
-        $this->assertEquals( $expected, Piwik_Nonce::getAcceptableOrigins(), $host );
+        $this->assertEquals($expected, Piwik_Nonce::getAcceptableOrigins(), $host);
     }
 }

@@ -10,52 +10,56 @@
  */
 
 function DataTable_RowActions_Overlay(dataTable) {
-	this.dataTable = dataTable;
+    this.dataTable = dataTable;
 }
 
 DataTable_RowActions_Overlay.prototype = new DataTable_RowAction;
 
-DataTable_RowActions_Overlay.prototype.onClick = function(actionA, tr, e) {
-	if (!actionA.data('overlay-manipulated')) {
-		actionA.data('overlay-manipulated', 1);
-		
-		var link = tr.find('> td:first > a').attr('href');
-		link = $('<textarea>').html(link).val(); // remove html entities
-		
-		actionA.attr({
-			target: '_blank',
-			href: Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, 'month', 'today', link)
-		});
-	}
-	
-	return true;
+DataTable_RowActions_Overlay.prototype.onClick = function (actionA, tr, e) {
+    if (!actionA.data('overlay-manipulated')) {
+        actionA.data('overlay-manipulated', 1);
+
+        var link = tr.find('> td:first > a').attr('href');
+        link = $('<textarea>').html(link).val(); // remove html entities
+
+        actionA.attr({
+            target: '_blank',
+            href: Overlay_Helper.getOverlayLink(this.dataTable.param.idSite, 'month', 'today', link)
+        });
+    }
+
+    return true;
 };
 
 DataTable_RowActions_Registry.register({
 
-	name: 'Overlay',
+    name: 'Overlay',
 
-	dataTableIcon: 'plugins/Overlay/templates/overlay_icon.png',
-	dataTableIconHover: 'plugins/Overlay/templates/overlay_icon_hover.png',
-	
-	order: 30,
+    dataTableIcon: 'plugins/Overlay/templates/overlay_icon.png',
+    dataTableIconHover: 'plugins/Overlay/templates/overlay_icon_hover.png',
 
-	dataTableIconTooltip: [
-		_pk_translate('CoreHome_OverlayRowActionTooltipTitle_js'),
-		_pk_translate('CoreHome_OverlayRowActionTooltip_js')
-	],
+    order: 30,
 
-	createInstance: function(dataTable) {
-		return new DataTable_RowActions_Overlay(dataTable);
-	},
+    dataTableIconTooltip: [
+        _pk_translate('General_OverlayRowActionTooltipTitle_js'),
+        _pk_translate('General_OverlayRowActionTooltip_js')
+    ],
 
-	isAvailableOnReport: function(dataTableParams) {
-		return DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action);
-	},
+    createInstance: function (dataTable) {
+        return new DataTable_RowActions_Overlay(dataTable);
+    },
 
-	isAvailableOnRow: function(dataTableParams, tr) {
-		var transitions = DataTable_RowActions_Registry.getActionByName('Transitions');
-		return transitions.isAvailableOnRow(dataTableParams, tr);
-	}
+    isAvailableOnReport: function (dataTableParams) {
+        // Overlay plugin only works when Transitions plugin is enabled
+        if (!window.DataTable_RowActions_Transitions) {
+            return false;
+        }
+        return DataTable_RowActions_Transitions.isPageUrlReport(dataTableParams.module, dataTableParams.action);
+    },
+
+    isAvailableOnRow: function (dataTableParams, tr) {
+        var transitions = DataTable_RowActions_Registry.getActionByName('Transitions');
+        return transitions.isAvailableOnRow(dataTableParams, tr);
+    }
 
 });

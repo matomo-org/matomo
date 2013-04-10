@@ -1,10 +1,10 @@
 <?php
 /**
  * Piwik - Open source web analytics
- * 
+ *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- * 
+ *
  * @category Piwik
  * @package SmartyPlugins
  */
@@ -33,29 +33,24 @@
  * @throws Exception
  * @return string
  */
-function smarty_function_loadJavascriptTranslations($params, &$smarty) 
+function smarty_function_loadJavascriptTranslations($params, &$smarty)
 {
-	static $pluginTranslationsAlreadyLoaded = array();
-	if(!isset($params['plugins']))
-	{
-		throw new Exception("The smarty function loadJavascriptTranslations needs a 'plugins' parameter.");
-	}
-	if(in_array($params['plugins'], $pluginTranslationsAlreadyLoaded))
-	{
-		return;
-	}
-	$pluginTranslationsAlreadyLoaded[] = $params['plugins'];
-	$jsTranslations = Piwik_Translate::getInstance()->getJavascriptTranslations(explode(' ',$params['plugins']));
-	$jsCode = '';
-	if( isset($params['disableOutputScriptTag']) )
-	{
-		$jsCode .= $jsTranslations;
-	}
-	else
-	{
-		$jsCode .= '<script type="text/javascript">';
-		$jsCode .= $jsTranslations;
-		$jsCode .= '</script>';
-	}
-	return $jsCode;
+    static $pluginTranslationsAlreadyLoaded = array();
+    if (!isset($params['plugins'])) {
+        throw new Exception("The smarty function loadJavascriptTranslations needs a 'plugins' parameter.");
+    }
+    if (in_array($params['plugins'], $pluginTranslationsAlreadyLoaded)) {
+        return;
+    }
+    $pluginTranslationsAlreadyLoaded[] = $params['plugins'];
+    $jsTranslations = Piwik_Translate::getInstance()->getJavascriptTranslations(explode(' ', $params['plugins']));
+    $jsCode = '';
+    if (isset($params['disableOutputScriptTag'])) {
+        $jsCode .= $jsTranslations;
+    } else {
+        $jsCode .= '<script type="text/javascript">';
+        $jsCode .= $jsTranslations;
+        $jsCode .= '</script>';
+    }
+    return $jsCode;
 }

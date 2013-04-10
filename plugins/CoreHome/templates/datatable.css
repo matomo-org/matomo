@@ -1,99 +1,102 @@
-
 /*Overriding some dataTable css for better dashboard display*/
-.widget .dataTableWrapper, 
+.widget .dataTableWrapper,
 .widget .dataTableAllColumnsWrapper,
 .widget .dataTableGraphWrapper,
 .widget .dataTableActionsWrapper,
 .widget .dataTableGraphEvolutionWrapper {
-	width: 100%;
+    width: 100%;
 }
 
 .widget {
-	z-index:1;
+    z-index: 1;
 }
 
 .widget p {
-	margin-left:10px;
-}
-/* container of each table */
-.dataTableWrapper {
-	width: 450px;
-	/* not more than 450px to make sure 2 tables can fit horizontally on a 1024 screen */
-}
-.dataTableAllColumnsWrapper {
-	width: 535px;
+    margin-left: 10px;
 }
 
-.subdataTableWrapper{
-	width: 95%;
+/* container of each table */
+.dataTableWrapper {
+    width: 450px;
+    /* not more than 450px to make sure 2 tables can fit horizontally on a 1024 screen */
 }
+
+.dataTableAllColumnsWrapper {
+    width: 535px;
+}
+
+.subdataTableWrapper {
+    width: 95%;
+}
+
 .subdataTableAllColumnsWrapper {
-	width: 95%;
+    width: 95%;
 }
 
 .dataTableActionsWrapper {
-	width: 500px;
-	min-height:1px;
+    width: 500px;
+    min-height: 1px;
 }
 
 .dataTableGraphWrapper {
-	width: 500px;
-	min-height:1px;
+    width: 500px;
+    min-height: 1px;
 }
 
 .dataTableGraphEvolutionWrapper {
-	width: 100%;
+    width: 100%;
 }
 
 /* main data table */
 table.dataTable {
-	border:0;
-	width: 100%;
-	padding: 0;
-	border-spacing: 0;
-	margin: 0;
+    border: 0;
+    width: 100%;
+    padding: 0;
+    border-spacing: 0;
+    margin: 0;
 }
 
 table.dataTable td.label,
 table.subDataTable td.label,
 table.dataTableActions td.label {
-	width: 100%;
-	white-space:nowrap;
+    width: 100%;
+    white-space: nowrap;
 }
 
 table.dataTable img,
 table.subDataTable img,
 table.dataTableActions img {
-	vertical-align: middle;
+    vertical-align: middle;
 }
+
 #UserCountrygetCountry table.dataTable img {
-	vertical-align: baseline;
+    vertical-align: baseline;
 }
+
 table.dataTable img {
-	border: 0;
-	margin-right: 1em;
-	margin-left: 0.5em;
+    border: 0;
+    margin-right: 1em;
+    margin-left: 0.5em;
 }
 
 table.dataTable tr.subDataTable {
-	cursor: pointer;
+    cursor: pointer;
 }
-
-
 
 table.dataTable th {
-	margin: 0;
-	color: #255792;
-	text-align: left;
-	padding: 6px 6px 6px 12px;
-	background: #e4e2d7;
-	font-size:12px;
-	font-weight: normal; 
-	border-left: 1px solid #d4d0c4;
-	vertical-align: top;
+    margin: 0;
+    color: #255792;
+    text-align: left;
+    padding: 6px 6px 6px 12px;
+    background: #e4e2d7;
+    font-size: 12px;
+    font-weight: normal;
+    border-left: 1px solid #d4d0c4;
+    vertical-align: top;
 }
-table.dataTable th.sortable{
-	cursor:pointer; 
+
+table.dataTable th.sortable {
+    cursor: pointer;
 }
 
 table.dataTable th.first {
@@ -101,72 +104,73 @@ table.dataTable th.first {
 
 table.dataTable th.last {
 }
+
 table.dataTable th.columnSorted {
-	font-weight: bold;
-	padding-right: 20px;
-	background: #d5d3c8;
+    font-weight: bold;
+    padding-right: 20px;
+    background: #d5d3c8;
 }
 
 table.dataTable td {
-	padding: 5px 5px 5px 12px;
-	background: #fff;
-	border-left:1px solid #e7e7e7;
-	border-bottom:1px solid #e7e7e7;
+    padding: 5px 5px 5px 12px;
+    background: #fff;
+    border-left: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
 }
 
-table.dataTable td,table.dataTable td a {
-	margin: 0;
-	text-decoration: none;
-	color: #444;
+table.dataTable td, table.dataTable td a {
+    margin: 0;
+    text-decoration: none;
+    color: #444;
 }
-
-
 
 table.dataTable tr:hover>td,
-table.dataTable tr:hover>td .dataTableRowActions{
-	background-color:#FFFFF7;
+table.dataTable tr:hover>td .dataTableRowActions {
+    background-color: #FFFFF7;
 }
+
 table.dataTable tr.subDataTable:hover>td,
-table.dataTable tr.subDataTable:hover>td .dataTableRowActions{
-	background-color:#ffffcb;
+table.dataTable tr.subDataTable:hover>td .dataTableRowActions {
+    background-color: #ffffcb;
 }
+
 table.dataTable tr:hover>td.cellSubDataTable
-table.dataTable tr:hover>td.cellSubDataTable .dataTableRowActions{
-	background-color:#fff;
+table.dataTable tr:hover>td.cellSubDataTable .dataTableRowActions {
+    background-color: #fff;
 }
 
-td.clean{
-    background-color:#fff!important;
+td.clean {
+    background-color: #fff !important;
 }
-
 
 table.dataTable td.columneven {
-	background: #efeeec;
+    background: #efeeec;
 }
+
 table.dataTable td.columnodd {
-	background: #f6f5f3;
+    background: #f6f5f3;
 }
 
 table.dataTable td.labeleven {
-	background: #F9FAFA url(images/bullet2.gif) no-repeat;
+    background: #F9FAFA url(images/bullet2.gif) no-repeat;
 }
 
 table.dataTable td.labelodd {
-	background: #fff url(images/bullet1.gif) no-repeat;
+    background: #fff url(images/bullet1.gif) no-repeat;
 }
 
 .dataTable tr.highlight td {
-	background-color: #ECF9DD;
-	font-weight: bold;
+    background-color: #ECF9DD;
+    font-weight: bold;
 }
 
-table.dataTable td.label,table.subActionsDataTable td.label,table.actionsDataTable td.label {
-	border-top: 0;
-	border-left: 0;
+table.dataTable td.label, table.subActionsDataTable td.label, table.actionsDataTable td.label {
+    border-top: 0;
+    border-left: 0;
 }
 
 table.dataTable th.label {
-	border-left: 0;
+    border-left: 0;
 }
 
 table.dataTableActions th.label {
@@ -175,465 +179,474 @@ table.dataTableActions th.label {
 }
 
 table.dataTable span.label.highlighted {
-	font-style: italic;
+    font-style: italic;
 }
 
 /* the cell containing the subdatatable */
 table.dataTable .cellSubDataTable {
-	margin: 0;
-	border-left:0;
+    margin: 0;
+    border-left: 0;
 }
 
 /* A link in a column in the DataTable */
 table.dataTable td #urlLink {
-	display: none;
+    display: none;
 }
 
-/* SUBDATATABLE */ /* a datatable inside another datatable */
+/* SUBDATATABLE */
+/* a datatable inside another datatable */
 table.subDataTable {
-	background: #FFFFFF;
-	margin: 5px 10px;
+    background: #FFFFFF;
+    margin: 5px 10px;
 }
 
 table.subDataTable td {
-	border: 0;
+    border: 0;
 }
 
 table.subDataTable thead th {
-	font-weight: normal;
-	font-size: 12px;
-	text-align: left;
-	padding: .3em 1em;
-	background: #f1f0eb;
-	border: 0;
-	border-top: 1px solid #e7e7e7;
-	border-bottom: 1px solid #e7e7e7;
+    font-weight: normal;
+    font-size: 12px;
+    text-align: left;
+    padding: .3em 1em;
+    background: #f1f0eb;
+    border: 0;
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
 }
-
 
 table.subDataTable th.columnSorted {
-	background: #e3e1d9;
+    background: #e3e1d9;
 }
 
-table.subDataTable td.labeleven,table.subDataTable td.labelodd {
-	background-image: none;
+table.subDataTable td.labeleven, table.subDataTable td.labelodd {
+    background-image: none;
 }
 
 table.subDataTable td {
-	border-bottom: 1px solid #e7e7e7;
-	border-left: 0;
+    border-bottom: 1px solid #e7e7e7;
+    border-left: 0;
 }
 
-table.subDataTable td,table.subDataTable td a {
-	color: #615B53;
+table.subDataTable td, table.subDataTable td a {
+    color: #615B53;
 }
 
-table.subDataTable td.labeleven,table.subDataTable td.columneven {
-	color: #2D2A27;
+table.subDataTable td.labeleven, table.subDataTable td.columneven {
+    color: #2D2A27;
 }
 
 table.subDataTable td.label {
-	width: 80%;
+    width: 80%;
 }
 
-table.subDataTable td.labelodd,table.subDataTable td.labelodd a {
-	background: #fff;
+table.subDataTable td.labelodd, table.subDataTable td.labelodd a {
+    background: #fff;
 }
+
 table.subDataTable td.label {
-	padding: 5px;
+    padding: 5px;
 }
+
 table.dataTable img {
-	margin-left:0;
+    margin-left: 0;
 }
+
 /* misc SPAN and DIV */
 table thead div {
-	
+
 }
 
 #sortIconContainer {
-	float: right;
-	position: relative;
+    float: right;
+    position: relative;
 }
 
 #sortIcon {
-	margin: 0;
-	position: absolute;
+    margin: 0;
+    position: absolute;
 }
 
 .datatableFooterMessage {
-	color: #888;
-	text-align:left;
-	margin: 10px;
+    color: #888;
+    text-align: left;
+    margin: 10px;
 }
 
 .dataTablePages {
-	color: #BFBFBF;
-	font-weight: bold;
-	margin: 10px;
-	font-size: 12px;
+    color: #BFBFBF;
+    font-weight: bold;
+    margin: 10px;
+    font-size: 12px;
 }
 
 .dataTableSearchPattern {
-	margin:8px 0 0 0;
-	height:30px;
-	display: block!important;
-	white-space: nowrap;
-	background:  url(../../../themes/default/images/search_bg.png) no-repeat center 0;
-	text-align:center; 
+    margin: 8px 0 0 0;
+    height: 30px;
+    display: block !important;
+    white-space: nowrap;
+    background: url(../../../themes/default/images/search_bg.png) no-repeat center 0;
+    text-align: center;
 }
 
 .dataTableSearchPattern input {
-	vertical-align:top; 
-	font-size:10px!important;
-	color:#454545!important;
-	border:0!important;
-	background:transparent!important;
-	width:21px;
-	height:17px;
-	overflow:hidden; 
-	opacity:0;
-	filter:Alpha(opacity:0);
-	cursor:pointer; 
+    vertical-align: top;
+    font-size: 10px !important;
+    color: #454545 !important;
+    border: 0 !important;
+    background: transparent !important;
+    width: 21px;
+    height: 17px;
+    overflow: hidden;
+    opacity: 0;
+    filter: Alpha(opacity:0);
+    cursor: pointer;
 }
 
 .dataTableSearchPattern input:hover {
-	
+
 }
 
 .dataTableSearchPattern #keyword {
-	width:114px;
-	height:auto;
-	overflow:visible; 
-	padding:2px 6px;
-	opacity:1;
-    cursor:text;
-	filter:Alpha(opacity:100);
+    width: 114px;
+    height: auto;
+    overflow: visible;
+    padding: 2px 6px;
+    opacity: 1;
+    cursor: text;
+    filter: Alpha(opacity:100);
 }
 
-.dataTableNext,.dataTablePrevious {
-	font-size: 12px;
-	color: #184A83;
-	cursor: pointer;
+.dataTableNext, .dataTablePrevious {
+    font-size: 12px;
+    color: #184A83;
+    cursor: pointer;
 }
 
 .datatableRelatedReports {
-	color: #888;
-    font-size: 11px;    
+    color: #888;
+    font-size: 11px;
     padding-bottom: 5px;
 }
 
 .datatableRelatedReports span {
-	cursor: pointer;
-	font-weight:bold;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 /* are the following two supposed to be together? */
 .subDataTable.dataTableFeatures {
-	padding-top: 0;
-	padding-bottom: 5px;
-}
-.dataTableFeatures {
-	padding-top: 10px;
-	text-align: center;
+    padding-top: 0;
+    padding-bottom: 5px;
 }
 
-.dataTableNext,.dataTablePrevious,.dataTableSearchPattern 
-{
-	display: none;
+.dataTableFeatures {
+    padding-top: 10px;
+    text-align: center;
 }
+
+.dataTableNext, .dataTablePrevious, .dataTableSearchPattern {
+    display: none;
+}
+
 .dataTableFeatures .loadingPiwik {
-	font-size:0.9em;
+    font-size: 0.9em;
 }
+
 .subDataTable .dataTableFooterIcons {
-	height: 0;
+    height: 0;
 }
 
 .dataTable .loadingPiwikBelow {
-	padding-bottom:5px;
-	display:block;
-	text-align:center;
+    padding-bottom: 5px;
+    display: block;
+    text-align: center;
 }
 
 .dataTableFooterIcons {
-	display:block; 
-	height: 20px;
-	white-space:nowrap; 
-	font-size:10px;
-	padding:6px 5px;
-	border-top:1px solid #B6B0A6;
+    display: block;
+    height: 20px;
+    white-space: nowrap;
+    font-size: 10px;
+    padding: 6px 5px;
+    border-top: 1px solid #B6B0A6;
 }
 
-.dataTableFooterWrap{ 
-    position:relative;
+.dataTableFooterWrap {
+    position: relative;
     float: left;
 }
 
 .dataTableFooterWrap select {
-	float: left;
-	margin: 1px 0 1px 10px;
+    float: left;
+    margin: 1px 0 1px 10px;
 }
 
-.tableIcon{
-	background:#f2f1ed;
-	display:inline-block; 
-	float:left; 
-	margin:0 1px 0 0;
-	padding:2px;
-	border-radius:2px;
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;
-}
-.tableIcon:hover{
-	background:#e9e8e1;
+.tableIcon {
+    background: #f2f1ed;
+    display: inline-block;
+    float: left;
+    margin: 0 1px 0 0;
+    padding: 2px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
 }
 
-.activeIcon{
-	background:#e9e8e1;
+.tableIcon:hover {
+    background: #e9e8e1;
 }
 
-.dataTableFooterActiveItem{
-    position:absolute;
-    top:-6px;
-    left:0;
+.activeIcon {
+    background: #e9e8e1;
 }
 
-.exportToFormatItems{
-	background:#dcdacf;
-	float:left; 
-	margin:0 1px 0 0;
-	padding:4px 6px 3px 6px;
-	color: #968d7f;
-	border-radius:2px;
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;
+.dataTableFooterActiveItem {
+    position: absolute;
+    top: -6px;
+    left: 0;
 }
 
-.exportToFormatItems img{
-	vertical-align:middle; 
-	margin:-4px -3px -2px 2px;
+.exportToFormatItems {
+    background: #dcdacf;
+    float: left;
+    margin: 0 1px 0 0;
+    padding: 4px 6px 3px 6px;
+    color: #968d7f;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
 }
 
-.tableIconsGroup{
-	float:left; 
-	padding-right:4px;
+.exportToFormatItems img {
+    vertical-align: middle;
+    margin: -4px -3px -2px 2px;
 }
+
+.tableIconsGroup {
+    float: left;
+    padding-right: 4px;
+}
+
 .tableIconsGroup .tableIcon span {
-	margin-right:5px;
-	margin-left:5px;
-}
-.tableIconsGroup img{
-	vertical-align:bottom;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
-.tableIconsGroupActive{
-	display:block; 
-	float:left; 
-	background:#dcdacf;
-	border-radius:2px;
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;
+.tableIconsGroup img {
+    vertical-align: bottom;
 }
-.tableIconsGroupActive .tableIcon{
-	background:none;
+
+.tableIconsGroupActive {
+    display: block;
+    float: left;
+    background: #dcdacf;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
 }
-.tableIconsGroupActive .tableIcon:hover{
-	background:#e9e8e1;
+
+.tableIconsGroupActive .tableIcon {
+    background: none;
+}
+
+.tableIconsGroupActive .tableIcon:hover {
+    background: #e9e8e1;
 }
 
 .exportToFormatIcons {
-	float: left;
+    float: left;
 }
 
 .dataTableFooterIconsShow {
-	float: left;
+    float: left;
 }
 
-.dataTableFooterIcons,.dataTableFooterIcons a {
-	text-decoration: none;
-	color: #255792;
+.dataTableFooterIcons, .dataTableFooterIcons a {
+    text-decoration: none;
+    color: #255792;
 }
 
 .dataTableSpacer {
-	clear: both;
+    clear: both;
 }
 
 /* Actions table */
 table.dataTableActions tr td.labelodd {
-	background-image: none;
+    background-image: none;
 }
-
 
 /* levels higher than 4 have a default padding left */
-tr.subActionsDataTable td.label,tr.actionsDataTable td.label {
-	padding-left: 7em;
+tr.subActionsDataTable td.label, tr.actionsDataTable td.label {
+    padding-left: 7em;
 }
 
-tr.subActionsDataTable{ 
-	cursor:pointer; 
+tr.subActionsDataTable {
+    cursor: pointer;
 }
 
 tr.level0 td.label {
-	padding-left: 1.5em;
+    padding-left: 1.5em;
 }
 
 tr.level1 td.label {
-	padding-left: 2.5em;
+    padding-left: 2.5em;
 }
 
 tr.level2 td.label {
-	padding-left: 3.5em;
+    padding-left: 3.5em;
 }
 
 tr.level3 td.label {
-	padding-left: 4.5em;
+    padding-left: 4.5em;
 }
 
 tr.level4 td.label {
-	padding-left: 5em;
+    padding-left: 5em;
 }
 
 /* less right margins for the link image in the Pa*/
 table.dataTableActions img.link {
-	margin-right: 0.3em;
-	margin-left:-0.5em;
+    margin-right: 0.3em;
+    margin-left: -0.5em;
 }
+
 tr td.label img.plusMinus {
-	margin-left:-1em;
-	margin-right: 3px;
+    margin-left: -1em;
+    margin-right: 3px;
 }
 
 .pk-emptyDataTable {
-	padding-top: 20px;
-	padding-bottom: 10px;
-	text-align: center;
-	font-style: italic;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-style: italic;
 }
-
 
 /* Documentation */
 
 table.dataTable th .columnDocumentation {
-	display: none;
-	width: 165px;
-	text-align: left;
-	background: #f7f7f7;
-	color: #444;
-	font-size: 11px;
-	font-weight: normal; 
-	border: 1px solid #e4e5e4;
-	padding: 5px 10px 6px 10px;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px; 
-	z-index: 125;
-	position: absolute;
-	-moz-box-shadow: 0 0 4px #e4e5e4;
-	-webkit-box-shadow: 0 0 4px #e4e5e4;
-	box-shadow: 0 0 4px #e4e5e4;
-	cursor: default;
+    display: none;
+    width: 165px;
+    text-align: left;
+    background: #f7f7f7;
+    color: #444;
+    font-size: 11px;
+    font-weight: normal;
+    border: 1px solid #e4e5e4;
+    padding: 5px 10px 6px 10px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    z-index: 125;
+    position: absolute;
+    -moz-box-shadow: 0 0 4px #e4e5e4;
+    -webkit-box-shadow: 0 0 4px #e4e5e4;
+    box-shadow: 0 0 4px #e4e5e4;
+    cursor: default;
 }
 
 table.dataTable th .columnDocumentationTitle {
-	background: url(../../../themes/default/images/help.png) no-repeat;
-	line-height: 14px;
-	padding: 2px 0 3px 21px;
-	font-weight: bold;
+    background: url(../../../themes/default/images/help.png) no-repeat;
+    line-height: 14px;
+    padding: 2px 0 3px 21px;
+    font-weight: bold;
 }
 
 .reportDocumentation {
-	display: none;
-	background: #f7f7f7;
-	font-size: 12px;
-	font-weight: normal; 
-	border: 1px solid #e4e5e4;
-	margin: 0 0 10px 0;
-	padding: 0;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	max-width: 500px; 
+    display: none;
+    background: #f7f7f7;
+    font-size: 12px;
+    font-weight: normal;
+    border: 1px solid #e4e5e4;
+    margin: 0 0 10px 0;
+    padding: 0;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    max-width: 500px;
 }
 
 .reportDocumentation p {
- 	padding: 5px 10px 6px 10px;
-	margin: 0;
-	color: #444;
-	font-size: 12px;
- }
- 
+    padding: 5px 10px 6px 10px;
+    margin: 0;
+    color: #444;
+    font-size: 12px;
+}
+
 .reportDocumentationIcon {
- 	display: block;
-	width: 16px;
-	height: 16px;
-	margin: 10px 0;
-	background: url(../../../themes/default/images/help.png) no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin: 10px 0;
+    background: url(../../../themes/default/images/help.png) no-repeat;
 }
 
 h2 .reportDocumentationIcon {
-	position: absolute;
-	margin: 4px 0 0 0;
-	display: none;
-	background: url(../../../themes/default/images/help_grey.png) no-repeat;
+    position: absolute;
+    margin: 4px 0 0 0;
+    display: none;
+    background: url(../../../themes/default/images/help_grey.png) no-repeat;
 }
 
 h2 .reportDocumentationIcon.hidden {
-	background: none;
+    background: none;
 }
 
 .helpDate {
-	color: #777777;
+    color: #777777;
     font-size: 11px;
-	font-style:italic;    
+    font-style: italic;
     padding: 4px;
     text-align: right;
-    display:block;
+    display: block;
 }
 
 table.dataTable .dataTableRowActions {
-	position: absolute;
-	display: none;
-	overflow: hidden;
-	margin-top: -5px;
+    position: absolute;
+    display: none;
+    overflow: hidden;
+    margin-top: -5px;
 }
+
 *+html table.dataTable .dataTableRowActions {
-	margin-top: -7px;
+    margin-top: -7px;
 }
 
 table.dataTable .dataTableRowActions a {
-	display: block;
-	float: left;
-	padding: 6px 4px 6px 0;
-	margin: 0;
+    display: block;
+    float: left;
+    padding: 6px 4px 6px 0;
+    margin: 0;
 }
 
 table.dataTable .dataTableRowActions a.leftmost {
-	padding-left: 4px;
+    padding-left: 4px;
 }
 
 table.dataTable .dataTableRowActions a.rightmost {
-	padding-right: 8px;
+    padding-right: 8px;
 }
 
 table.dataTable .dataTableRowActions a img {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	width: 20px;
-	height: 17px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: 20px;
+    height: 17px;
 }
 
-body .piwik-tooltip.rowActionTooltip {
-	font-size: 11px;
-	padding: 3px 5px 3px 6px;
+body .ui-tooltip.rowActionTooltip {
+    font-size: 11px;
+    padding: 3px 5px 3px 6px;
 }
-
 
 .limitSelection {
     float: right;
     position: relative;
     margin-left: 5px;
     min-height: 20px;
-    z-index:1;
+    z-index: 1;
 }
 
 .limitSelection.hidden {
@@ -656,7 +669,7 @@ body .piwik-tooltip.rowActionTooltip {
 .limitSelection.disabled div {
     opacity: 0.5;
     cursor: not-allowed;
-    filter:Alpha(opacity:50);
+    filter: Alpha(opacity:50);
 }
 
 .limitSelection.visible div {
@@ -703,46 +716,45 @@ body .piwik-tooltip.rowActionTooltip {
     display: inline-block;
 }
 
-
 .tableConfiguration {
     float: right;
     position: relative;
     margin-left: 5px;
     min-height: 20px;
-	min-width: 25px;
+    min-width: 25px;
 }
 
 a.tableConfigurationIcon {
-	display: block;
-	width: 30px;
-	height: 22px;
-	background: url(../../../themes/default/images/configure.png) no-repeat center 2px;
-	position: absolute;
-	z-index: 9;
-	right: 0;
+    display: block;
+    width: 30px;
+    height: 22px;
+    background: url(../../../themes/default/images/configure.png) no-repeat center 2px;
+    position: absolute;
+    z-index: 9;
+    right: 0;
 }
 
 a.tableConfigurationIcon.highlighted {
-	display: block;
-	width: 30px;
-	height: 22px;
-	background-image: url(../../../themes/default/images/configure-highlight.png);
-	position: absolute;
-	z-index: 9;
-	right: 0;
+    display: block;
+    width: 30px;
+    height: 22px;
+    background-image: url(../../../themes/default/images/configure-highlight.png);
+    position: absolute;
+    z-index: 9;
+    right: 0;
 }
 
 .tableConfiguration ul {
     overflow: visible;
     background-color: #fff;
-	display: none;
-	position: relative;
-	z-index: 8;
-	text-align: left;
+    display: none;
+    position: relative;
+    z-index: 8;
+    text-align: left;
 }
 
 .tableConfiguration ul.open {
-	display: block;
+    display: block;
 }
 
 .tableConfiguration ul li {
@@ -761,13 +773,13 @@ a.tableConfigurationIcon.highlighted {
     border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     -webkit-border-radius: 0 0 4px 4px;
-	height: 25px;
-	cursor: default;
-	margin-top: -4px;
+    height: 25px;
+    cursor: default;
+    margin-top: -4px;
 }
 
 .tableConfiguration ul li.first {
-	margin-top: -65px;
+    margin-top: -65px;
 }
 
 .tableConfiguration ul li.last {
@@ -780,8 +792,8 @@ a.tableConfigurationIcon.highlighted {
 .tableConfiguration div.configItem {
     cursor: pointer;
     padding: 5px 10px;
-	line-height: 15px;
-	color: #444;
+    line-height: 15px;
+    color: #444;
 }
 
 .tableConfiguration div.configItem:hover {
@@ -789,5 +801,9 @@ a.tableConfigurationIcon.highlighted {
 }
 
 .tableConfiguration div.configItem span.action {
-	color: #255792;
+    color: #255792;
+}
+
+table.dataTable span.cell-tooltip {
+	cursor: default;
 }

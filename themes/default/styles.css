@@ -12,7 +12,7 @@
 }
 
 #languageSelection .ui-autocomplete-input {
-    background:#FFF url('images/sortdesc.png') no-repeat right center!important;
+    background:#FFF url(images/sortdesc.png) no-repeat right center!important;
     padding: 2px 18px 2px 4px;
     color:#255792!important;
     text-decoration: none;
@@ -45,4 +45,8 @@ code {
 	text-align:left;
 	line-height:1.3em;
 	font-family: "Courier New" Courier monospace;
+}
+
+pre.code-pre {
+	white-space:pre-wrap;
 }

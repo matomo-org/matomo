@@ -1,44 +1,48 @@
-#token_auth { 
-	background-color:#E8FFE9; 
-	border:1px solid #00CC3A;
-	margin: 0 0 16px 8px;
-	padding: 12px;
-	line-height:4em;
-}
-.example, .example A {
-	color:#9E9E9E;
+#token_auth {
+    background-color: #E8FFE9;
+    border: 1px solid #00CC3A;
+    margin: 0 0 16px 8px;
+    padding: 12px;
+    line-height: 4em;
 }
 
-.page_api{
-	padding:0 15px 0 15px;
-	font-size:13px; 
+.example, .example A {
+    color: #9E9E9E;
+}
+
+.page_api {
+    padding: 0 15px 0 15px;
+    font-size: 13px;
 }
 
 .page_api h2 {
-	border-bottom:1px solid #DADADA;
-	margin:10px -15px 15px 0;
-	padding:0 0 5px 0;
-	font-size:24px;
+    border-bottom: 1px solid #DADADA;
+    margin: 10px -15px 15px 0;
+    padding: 0 0 5px 0;
+    font-size: 24px;
 }
 
 .page_api p {
-	line-height:140%;
-	padding-bottom:20px;
+    line-height: 140%;
+    padding-bottom: 20px;
 }
 
 .apiFirstLine {
-	font-weight:bold;
-	padding-bottom:10px;
+    font-weight: bold;
+    padding-bottom: 10px;
 }
+
 .page_api ul {
     list-style: disc outside none;
     margin-left: 25px;
 }
+
 .apiDescription {
-	line-height:1.5em;
-	padding-bottom:1em;
+    line-height: 1.5em;
+    padding-bottom: 1em;
 }
+
 .apiMethod {
-	margin-bottom:5px;
-	margin-left:20px;
+    margin-bottom: 5px;
+    margin-left: 20px;
 }

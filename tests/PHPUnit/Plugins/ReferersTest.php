@@ -17,8 +17,7 @@ class ReferersTest extends PHPUnit_Framework_TestCase
         include PIWIK_PATH_TEST_TO_ROOT . '/core/DataFiles/SearchEngines.php';
 
         $searchEngines = array();
-        foreach($GLOBALS['Piwik_SearchEngines'] AS $url => $searchEngine)
-        {
+        foreach ($GLOBALS['Piwik_SearchEngines'] AS $url => $searchEngine) {
             $searchEngines[] = array($url, $searchEngine);
         }
         return $searchEngines;
@@ -26,7 +25,7 @@ class ReferersTest extends PHPUnit_Framework_TestCase
 
     /**
      * search engine has at least one keyword
-     * 
+     *
      * @group Plugins
      * @group Referers
      * @dataProvider getSearchEngines
@@ -36,9 +35,8 @@ class ReferersTest extends PHPUnit_Framework_TestCase
         // Get list of search engines and first appearing URL
         static $searchEngines = array();
 
-        $name = parse_url('http://'.$url);
-        if(!array_key_exists($searchEngine[0], $searchEngines))
-        {
+        $name = parse_url('http://' . $url);
+        if (!array_key_exists($searchEngine[0], $searchEngines)) {
             $searchEngines[$searchEngine[0]] = $url;
 
             $this->assertTrue(!empty($searchEngine[1]), $name['host']);
@@ -47,7 +45,7 @@ class ReferersTest extends PHPUnit_Framework_TestCase
 
     /**
      * search engine is defined in DataFiles/SearchEngines.php but there's no favicon
-     * 
+     *
      * @group Plugins
      * @group Referers
      * @dataProvider getSearchEngines
@@ -60,9 +58,8 @@ class ReferersTest extends PHPUnit_Framework_TestCase
         // Get list of search engines and first appearing URL
         static $searchEngines = array();
 
-        $name = parse_url('http://'.$url);
-        if(!array_key_exists($searchEngine[0], $searchEngines))
-        {
+        $name = parse_url('http://' . $url);
+        if (!array_key_exists($searchEngine[0], $searchEngines)) {
             $searchEngines[$searchEngine[0]] = $url;
 
             $this->assertTrue(in_array($name['host'] . '.png', $favicons), $name['host']);
@@ -71,7 +68,7 @@ class ReferersTest extends PHPUnit_Framework_TestCase
 
     /**
      * favicon exists but there's no corresponding search engine defined in DataFiles/SearchEngines.php
-     * 
+     *
      * @group Plugins
      * @group Referers
      */
@@ -81,21 +78,17 @@ class ReferersTest extends PHPUnit_Framework_TestCase
 
         // Get list of search engines and first appearing URL
         $searchEngines = array();
-        foreach($GLOBALS['Piwik_SearchEngines'] as $url => $searchEngine)
-        {
-            $name = parse_url('http://'.$url);
-            if(!array_key_exists($name['host'], $searchEngines))
-            {
+        foreach ($GLOBALS['Piwik_SearchEngines'] as $url => $searchEngine) {
+            $name = parse_url('http://' . $url);
+            if (!array_key_exists($name['host'], $searchEngines)) {
                 $searchEngines[$name['host']] = true;
             }
         }
 
         // Get list of existing favicons
         $favicons = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/Referers/images/searchEngines/');
-        foreach($favicons as $name)
-        {
-            if($name[0] == '.' || strpos($name, 'xx.') === 0)
-            {
+        foreach ($favicons as $name) {
+            if ($name[0] == '.' || strpos($name, 'xx.') === 0) {
                 continue;
             }
 
@@ -106,7 +99,7 @@ class ReferersTest extends PHPUnit_Framework_TestCase
 
     /**
      * get search engine host from url
-     * 
+     *
      * @group Plugins
      * @group Referers
      */
@@ -114,11 +107,10 @@ class ReferersTest extends PHPUnit_Framework_TestCase
     {
         $data = array(
             'http://www.google.com/cse' => array('www.google.com', 'www.google.com/cse'),
-            'http://www.google.com' => array('www.google.com', 'www.google.com'),
+            'http://www.google.com'     => array('www.google.com', 'www.google.com'),
         );
 
-        foreach($data as $url => $expected)
-        {
+        foreach ($data as $url => $expected) {
             $this->assertEquals($expected[0], Piwik_getSearchEngineHostFromUrl($url));
             $this->assertEquals($expected[1], Piwik_getSearchEngineHostPathFromUrl($url));
         }

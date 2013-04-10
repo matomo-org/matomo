@@ -15,78 +15,71 @@
  */
 class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 {
-	function index()
-	{
-		Piwik::checkUserIsSuperUser();
+    function index()
+    {
+        Piwik::checkUserIsSuperUser();
 
-		$plugins = array();
+        $plugins = array();
 
-		$listPlugins = array_merge(
-			Piwik_PluginsManager::getInstance()->readPluginsDirectory(),
-			Piwik_Config::getInstance()->Plugins['Plugins']
-		);
-		$listPlugins = array_unique($listPlugins);
-		foreach($listPlugins as $pluginName)
-		{
-			$oPlugin = Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
-			$plugins[$pluginName] = array(
-			 	'activated' => Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName),
-				'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
-			);
-		}
-		Piwik_PluginsManager::getInstance()->loadPluginTranslations();
+        $listPlugins = array_merge(
+            Piwik_PluginsManager::getInstance()->readPluginsDirectory(),
+            Piwik_Config::getInstance()->Plugins['Plugins']
+        );
+        $listPlugins = array_unique($listPlugins);
+        foreach ($listPlugins as $pluginName) {
+            Piwik_PluginsManager::getInstance()->loadPlugin($pluginName);
+            $plugins[$pluginName] = array(
+                'activated'       => Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName),
+                'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
+            );
+        }
+        Piwik_PluginsManager::getInstance()->loadPluginTranslations();
 
-		$loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
-		foreach($loadedPlugins as $oPlugin)
-		{
-			$pluginName = $oPlugin->getPluginName();
-			$plugins[$pluginName]['info'] = $oPlugin->getInformation();
-		}
-		
-		foreach($plugins as $pluginName => &$plugin)
-		{
-			if (!isset($plugin['info']))
-			{
-				$plugin['info'] = array(
-					'description' => '<strong><em>'.Piwik_Translate('CorePluginsAdmin_PluginCannotBeFound')
-						.'</strong></em>',
-					'version' => Piwik_Translate('General_Unknown')
-				);
-			}
-		}
+        $loadedPlugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+        foreach ($loadedPlugins as $oPlugin) {
+            $pluginName = $oPlugin->getPluginName();
+            $plugins[$pluginName]['info'] = $oPlugin->getInformation();
+        }
 
-		$view = Piwik_View::factory('manage');
-		$view->pluginsName = $plugins;
-		$this->setBasicVariablesView($view);
-		$view->menu = Piwik_GetAdminMenu();
-		if(!Piwik_Config::getInstance()->isFileWritable())
-		{
-			$view->configFileNotWritable = true;
-		}
-		echo $view->render();
-	}
+        foreach ($plugins as $pluginName => &$plugin) {
+            if (!isset($plugin['info'])) {
+                $plugin['info'] = array(
+                    'description' => '<strong><em>' . Piwik_Translate('CorePluginsAdmin_PluginCannotBeFound')
+                        . '</strong></em>',
+                    'version'     => Piwik_Translate('General_Unknown')
+                );
+            }
+        }
 
-	public function deactivate($redirectAfter = true)
-	{
-		Piwik::checkUserIsSuperUser();
-		$this->checkTokenInUrl();
-		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
-		Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
-		if($redirectAfter)
-		{
-			Piwik_Url::redirectToReferer();
-		}
-	}
+        $view = Piwik_View::factory('manage');
+        $view->pluginsName = $plugins;
+        $this->setBasicVariablesView($view);
+        $view->menu = Piwik_GetAdminMenu();
+        if (!Piwik_Config::getInstance()->isFileWritable()) {
+            $view->configFileNotWritable = true;
+        }
+        echo $view->render();
+    }
 
-	public function activate($redirectAfter = true)
-	{
-		Piwik::checkUserIsSuperUser();
-		$this->checkTokenInUrl();
-		$pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
-		Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
-		if($redirectAfter)
-		{
-			Piwik_Url::redirectToReferer();
-		}
-	}
+    public function deactivate($redirectAfter = true)
+    {
+        Piwik::checkUserIsSuperUser();
+        $this->checkTokenInUrl();
+        $pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
+        Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
+        if ($redirectAfter) {
+            Piwik_Url::redirectToReferer();
+        }
+    }
+
+    public function activate($redirectAfter = true)
+    {
+        Piwik::checkUserIsSuperUser();
+        $this->checkTokenInUrl();
+        $pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
+        Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
+        if ($redirectAfter) {
+            Piwik_Url::redirectToReferer();
+        }
+    }
 }

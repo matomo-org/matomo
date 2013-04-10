@@ -1,66 +1,69 @@
-
 {literal}
-<style type="text/css">
-.trackingHelp ul { 
-	padding-left:40px;
-	list-style-type:square;
-}
-.trackingHelp ul li {
-	margin-bottom:10px;
-}
-.trackingHelp h2 {
-	margin-top:20px;
-}
-.trackingHelp .toggleHelp {
-	display:none;
-}
-p {
-	text-align:justify;
-}
-</style>
+    <style type="text/css">
+        .trackingHelp ul {
+            padding-left: 40px;
+            list-style-type: square;
+        }
+
+        .trackingHelp ul li {
+            margin-bottom: 10px;
+        }
+
+        .trackingHelp h2 {
+            margin-top: 20px;
+        }
+
+        p {
+            text-align: justify;
+        }
+    </style>
 {/literal}
 
 <h2>{'SitesManager_TrackingTags'|translate:$displaySiteName}</h2>
 
 <div class='trackingHelp'>
-To record visitors, visits and page views in Piwik, you must add a Tracking code in all your pages. 
-We recommend to use the standard Javascript Tracking code.
+    {'Installation_JSTracking_Intro'|translate}
+    <br/><br/>
+    {'CoreAdminHome_JSTrackingIntro3'|translate:'<a href="http://piwik.org/integrate/" target="_blank">':'</a>'}
 
-<h3>Standard JavaScript Tracking code</h3>
-Copy and paste the following code in all the pages you want to track with Piwik. 
-<br />In most websites, blogs, CMS, etc. you can edit your website templates and add this code in a "footer" file.
+    <h3>{'SitesManager_JsTrackingTag'|translate}</h3>
 
-<p>{'SitesManager_JsTrackingTagHelp'|translate}, just before the &lt;/body&gt; tag.</p>
+    <p>{'CoreAdminHome_JSTracking_CodeNote'|translate:"&lt;/body&gt;"}</p>
 
-<code>{$jsTag}</code>
+    <pre class="code-pre"><code>{$jsTag}</code></pre>
 
-<br />
-If you want to do more than tracking a page view,  
-please check out the <a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/">
-Piwik Javascript Tracking documentation</a> for the list of available functions (for example: Tracking Goals, Custom Variables, Ecommerce orders, products and abandoned carts, etc.).
-
-{include file='SitesManager/templates/DisplayAlternativeTags.tpl'}
+    <br/>
+    {'CoreAdminHome_JSTrackingIntro5'|translate:'<a target="_blank" href="http://piwik.org/docs/javascript-tracking/">':'</a>'}
+    <br/><br/>
+    {'Installation_JSTracking_EndNote'|translate:'<em>':'</em>'}
 
 </div>
-
-
 {literal}
-<script type='text/javascript'>
-$(document).ready( function() {
-	$('.toggleHelp').each(function() {
-		var id = $(this).attr('id');
-		// show 'display' link
-		$(this).show(); 
-		// hide help block
-		$('.'+id).hide();
-	});
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // when code element is clicked, select the text
+            $('code').click(function () {
+                // credit where credit is due:
+                //   http://stackoverflow.com/questions/1173194/select-all-div-text-with-single-mouse-click
+                var range;
+                if (document.body.createTextRange) // MSIE
+                {
+                    range = document.body.createTextRange();
+                    range.moveToElementText(this);
+                    range.select();
+                }
+                else if (window.getSelection) // others
+                {
+                    range = document.createRange();
+                    range.selectNodeContents(this);
 
-	// click on Display links will toggle help text
-	$('.toggleHelp').click( function() {
-		// on click, show help block, hide link
-		$('.'+ $(this).attr('id')).show();
-		$(this).hide();
-	});
-});
-</script>
+                    var selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+            });
+
+            $('code').click();
+        });
+    </script>
 {/literal}

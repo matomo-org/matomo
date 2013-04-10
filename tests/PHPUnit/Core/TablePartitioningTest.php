@@ -22,7 +22,7 @@ class TablePartitioningTest extends DatabaseTestCase
         }
         $this->fail('Expected exception not raised');
     }
-    
+
     /**
      * test table absent => create
      * @group Core
@@ -30,22 +30,22 @@ class TablePartitioningTest extends DatabaseTestCase
      */
     public function testNoTable()
     {
-        $tableName ='archive_numeric';
+        $tableName = 'archive_numeric';
         $p = new Piwik_TablePartitioning_Monthly($tableName);
         $timestamp = strtotime("10 September 2000");
         $suffixShouldBe = "_2000_09";
         $prefixTables = Piwik_Config::getInstance()->database['tables_prefix'];
-        $tablename = $prefixTables.$tableName.$suffixShouldBe;
-        
-        $p->setTimestamp( $timestamp );
-        
+        $tablename = $prefixTables . $tableName . $suffixShouldBe;
+
+        $p->setTimestamp($timestamp);
+
         $allTablesInstalled = Piwik::getTablesInstalled($forceReload = true);
-        
+
         $this->assertContains($tablename, $allTablesInstalled);
         $this->assertEquals($tablename, $p->getTableName());
         $this->assertEquals($tablename, (string)$p->__toString());
     }
-    
+
     /**
      * test monthly
      * @group Core
@@ -53,21 +53,21 @@ class TablePartitioningTest extends DatabaseTestCase
      */
     public function testMonthlyPartition()
     {
-        $tableName ='archive_numeric';
+        $tableName = 'archive_numeric';
         $p = new Piwik_TablePartitioning_Monthly($tableName);
         $timestamp = strtotime("10 September 2000");
         $suffixShouldBe = "_2000_09";
         $prefixTables = Piwik_Config::getInstance()->database['tables_prefix'];
-        $tablename = $prefixTables.$tableName.$suffixShouldBe;
-        
-        $p->setTimestamp( $timestamp );
-        
-        $allTablesInstalled = Piwik::getTablesInstalled( $forceReload = true );
+        $tablename = $prefixTables . $tableName . $suffixShouldBe;
+
+        $p->setTimestamp($timestamp);
+
+        $allTablesInstalled = Piwik::getTablesInstalled($forceReload = true);
         $this->assertContains($tablename, $allTablesInstalled);
         $this->assertEquals($tablename, $p->getTableName());
         $this->assertEquals($tablename, (string)$p->__toString());
     }
-    
+
     /**
      * test daily
      * @group Core
@@ -75,15 +75,15 @@ class TablePartitioningTest extends DatabaseTestCase
      */
     public function testDailyPartition()
     {
-        $tableName ='archive_numeric';
+        $tableName = 'archive_numeric';
         $p = new Piwik_TablePartitioning_Daily($tableName);
         $timestamp = strtotime("10 September 2000");
         $suffixShouldBe = "_2000_09_10";
         $prefixTables = Piwik_Config::getInstance()->database['tables_prefix'];
-        $tablename = $prefixTables.$tableName.$suffixShouldBe;
-        
-        $p->setTimestamp( $timestamp );
-        
+        $tablename = $prefixTables . $tableName . $suffixShouldBe;
+
+        $p->setTimestamp($timestamp);
+
         $allTablesInstalled = Piwik::getTablesInstalled();
         $this->assertContains($tablename, $allTablesInstalled);
         $this->assertEquals($tablename, $p->getTableName());

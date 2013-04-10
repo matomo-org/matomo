@@ -1,0 +1,79 @@
+#javascript-output-section textarea, #image-link-output-section textarea {
+    width: 100%;
+    display: block;
+    color: #111;
+    font-family: "Courier New", Courier, monospace;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#javascript-output-section textarea {
+    height: 256px;
+}
+
+#image-link-output-section textarea {
+    height: 128px;
+}
+
+label {
+    margin-right: .35em;
+    display: inline-block;
+}
+
+#optional-js-tracking-options>tbody>tr>td, #image-tracking-section>tbody>tr>td {
+    width: 488px;
+    max-width: 488px;
+}
+
+.custom-variable-name, .custom-variable-value {
+    width: 100px;
+}
+
+h3 {
+    margin-top: 0;
+}
+
+.small-form-description {
+    color: #666;
+    font-size: 1em;
+    font-style: italic;
+    margin-left: 4em;
+}
+
+.tracking-option-section {
+    margin-bottom: 1.5em;
+}
+
+#javascript-output-section, #image-link-output-section {
+    padding-top: 1em;
+}
+
+#optional-js-tracking-options th, #image-tracking-section th {
+    text-align: left;
+}
+
+#js-visitor-cv-extra, #js-page-cv-extra, #js-campaign-query-param-extra {
+    margin-left: 1em;
+}
+
+#js-visitor-cv-extra td, #js-page-cv-extra td, #js-campaign-query-param-extra td {
+    vertical-align: middle;
+}
+
+.revenue {
+    width: 32px;
+}
+
+.goal-picker {
+    height: 1.2em;
+}
+
+.goal-picker select {
+    width: 128px;
+}
+
+#js-campaign-query-param-extra input {
+    width: 72px;
+}

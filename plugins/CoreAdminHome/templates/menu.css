@@ -1,81 +1,72 @@
-#menu{ 
-	padding:0 0 0 0; 
-	float: left;
-	width: 240px;
-	position: absolute;
+#menu {
+    padding: 0 0 0 0;
+    float: left;
+    width: 240px;
+    position: absolute;
 }
 
 #tablist {
-	background-image: linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-	background-image: -o-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-	background-image: -moz-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-	background-image: -webkit-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
-	background-image: -ms-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
+    background-image: linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
+    background-image: -o-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
+    background-image: -moz-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
+    background-image: -webkit-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
+    background-image: -ms-linear-gradient(top, #FECB00 0%, #FE9800 25%, #FE6702 50%, #CA0000 75%, #670002 100%);
 
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, #FECB00),
-		color-stop(0.25, #FE9800),
-		color-stop(0.5, #FE6702),
-		color-stop(0.75, #CA0000),
-		color-stop(1, #670002)
-	);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FECB00), color-stop(0.25, #FE9800), color-stop(0.5, #FE6702), color-stop(0.75, #CA0000), color-stop(1, #670002));
 
-	-moz-background-size:5px 100%;
-	background-size:5px 100%;
-	background-position:0 0, 100% 0;
-	background-repeat:no-repeat;
+    -moz-background-size: 5px 100%;
+    background-size: 5px 100%;
+    background-position: 0 0, 100% 0;
+    background-repeat: no-repeat;
 }
 
 #tablist {
-	padding-left: 5px;
-	margin-bottom: 0;
-	margin-top: 0.1em;
-	border: 1px solid #ddd;
-	border-radius: 5px;
+    padding-left: 5px;
+    margin-bottom: 0;
+    margin-top: 0.1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 #tablist li {
-	list-style: none;
-	margin: 0;
+    list-style: none;
+    margin: 0;
 }
 
 #tablist > li {
-	padding-bottom: 5px;
+    padding-bottom: 5px;
 }
 
 #tablist > li > span {
-	border-bottom: 1px dotted #778;
-	display: block;
-	padding: 5px 10px;
-	font-size: 18px;
-	color: #7E7363;
+    border-bottom: 1px dotted #778;
+    display: block;
+    padding: 5px 10px;
+    font-size: 18px;
+    color: #7E7363;
 }
 
 #tablist li a {
-	text-decoration: none;
-	padding: 0.6em 0.9em;
-	background: white;
-	font: 14px Arial, Helvetica, sans-serif;
-	display: block;
+    text-decoration: none;
+    padding: 0.6em 0.9em;
+    background: white;
+    font: 14px Arial, Helvetica, sans-serif;
+    display: block;
 }
 
-#tablist li a:link,#tablist li a:visited {
-	color: #000;
+#tablist li a:link, #tablist li a:visited {
+    color: #000;
 }
 
 #tablist li a:hover, #tablist li a.active {
-	color: #e87500;
-	background: #f1f1f1;
-	border-color: #000;
+    color: #e87500;
+    background: #f1f1f1;
+    border-color: #000;
 }
 
 #tablist li a:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 #tablist li a.current {
-	background: #defdbb;
+    background: #defdbb;
 }

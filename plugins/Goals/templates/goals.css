@@ -1,24 +1,27 @@
-.goalTopElement { 
-	border-bottom:1px dotted; 
-} 
-.goalEntry{ 
-	margin:0 0 20px 0; 
-	padding:0 0 10px 0; 
-	border-bottom:1px solid #7e7363; 
-	width:614px;
+.goalTopElement {
+    border-bottom: 1px dotted;
+}
+
+.goalEntry {
+    margin: 0 0 20px 0;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #7e7363;
+    width: 614px;
 }
 
 /* dimension selector */
 #titleGoalsByDimension {
-	padding-top:30px;
+    padding-top: 30px;
 }
+
 ul.ulGoalTopElements {
-	list-style-type:circle;
-	margin-left:30px;
+    list-style-type: circle;
+    margin-left: 30px;
 }
+
 .ulGoalTopElements a {
-	text-decoration:none;
-	color:#0033CC;
-	border-bottom:1px dotted #0033CC;
-	line-height:2em;
+    text-decoration: none;
+    color: #0033CC;
+    border-bottom: 1px dotted #0033CC;
+    line-height: 2em;
 }

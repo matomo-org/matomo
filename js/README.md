@@ -1,0 +1,58 @@
+## Introduction
+
+The js/ folder contains:
+
+* index.php - a servlet described below
+* piwik.js  - the uncompressed piwik.js source for you to study or reference
+* README.md - this documentation file
+
+### Why Use "js/index.php"?
+
+* js/index.php (or implicitly as "js/") can be used to serve up the minified
+  piwik.js
+
+    * it supports conditional-GET and Last-Modified, so piwik.js can be cached
+      by the browser
+    * it supports deflate/gzip compression if your web server (e.g., Apache
+      without mod_deflate or mod_gzip), shrinking the data transfer to 8K
+
+* js/index.php (or implicitly as "js/") can also act as a proxy to piwik.php
+
+* If you are concerned about the impact of browser-based privacy filters which
+  attempt to block tracking, you can change your tracking code to use "js/"
+  instead of "piwik.js" and "piwik.php", respectively.
+
+## Deployment
+
+* piwik.js is minified using YUICompressor 2.4.2.
+  To install YUICompressor run:
+
+  ```
+  $ cd /path/to/piwik/js/
+  $ wget http://www.julienlecomte.net/yuicompressor/yuicompressor-2.4.2.zip
+  $ unzip yuicompressor-2.4.2.zip
+  ```
+    
+  To compress the code containing the evil "eval", either apply the patch from
+  http://yuilibrary.com/projects/yuicompressor/ticket/2343811,
+  or run:
+
+  ```
+  $ cd /path/to/piwik/js/
+  $ sed '/<DEBUG>/,/<\/DEBUG>/d' < piwik.js | sed 's/eval/replacedEvilString/' | java -jar yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar --type js --line-break 1000 | sed 's/replacedEvilString/eval/' | sed 's/^[/][*]/\/*!/' > piwik-min.js && cp piwik-min.js ../piwik.js
+  ```
+    
+  This will generate the minify /path/to/piwik/js/piwik-min.js and copy it to
+  /path/to/piwik/piwik.js
+
+* In a production environment, the tests/javascript folder is not used and can
+  be removed (if present).
+
+  Note: if the file "js/tests/enable_sqlite" exists, additional unit tests
+  (requires the sqlite extension) are enabled.
+
+* We use /*! to include Piwik's license header in the minified source. Read
+  Stallman's "The JavaScript Trap" for more information.
+
+* We do not include the version number as a security best practice
+  (information disclosure).

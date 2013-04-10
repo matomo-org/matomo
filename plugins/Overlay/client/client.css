@@ -1,4 +1,3 @@
-
 /**
  * Reset styles
  */
@@ -11,83 +10,79 @@
 .PIS_LinkHighlightBoxRight,
 .PIS_LinkHighlightBoxLeft,
 .PIS_LinkHighlightBoxText {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: 0;
-	font-weight: normal;
-	font-style: normal;
-	font-size: 11px;
-	font-family: Arial, Helvetica, sans-serif;
-	vertical-align: baseline;
-	line-height: 1.4em;
-	text-indent: 0;
-	text-decoration: none;
-	text-transform: none;
-	cursor: default;
-	text-align: left;
-	float: none;
-	color: #333;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 11px;
+    font-family: Arial, Helvetica, sans-serif;
+    vertical-align: baseline;
+    line-height: 1.4em;
+    text-indent: 0;
+    text-decoration: none;
+    text-transform: none;
+    cursor: default;
+    text-align: left;
+    float: none;
+    color: #333;
 }
-
-
 
 /**
  * Link Tags
  */
 
 .PIS_LinkTag {
-	position: absolute;
-	z-index: 9999;
-	width: 36px;
-	height: 21px;
-	text-align: left;
-	background: url(./linktags_lessshadow.png) no-repeat 0 -21px;
-	overflow: hidden;
+    position: absolute;
+    z-index: 9999;
+    width: 36px;
+    height: 21px;
+    text-align: left;
+    background: url(./linktags_lessshadow.png) no-repeat 0 -21px;
+    overflow: hidden;
 }
 
 .PIS_LinkTag span {
-	position: absolute;
-	width: 31px;
-	height: 14px;
-	font-size: 10px;
-	text-align: center;
-	font-weight: bold;
-	line-height: 14px;
-	margin-left: 1px;
+    position: absolute;
+    width: 31px;
+    height: 14px;
+    font-size: 10px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 14px;
+    margin-left: 1px;
 }
 
 .PIS_LinkTag.PIS_Highlighted {
-	z-index: 10002;
+    z-index: 10002;
 }
 
 .PIS_LinkTag.PIS_Highlighted span {
-	color: #E87500;
+    color: #E87500;
 }
 
 .PIS_LinkTag.PIS_Right {
-	background-position: -36px -21px;
+    background-position: -36px -21px;
 }
 
 .PIS_LinkTag.PIS_Right span,
 .PIS_LinkTag.PIS_BottomRight span {
-	margin-left: 5px;	
+    margin-left: 5px;
 }
 
 .PIS_LinkTag.PIS_Bottom {
-	background-position: 0 0;
+    background-position: 0 0;
 }
 
 .PIS_LinkTag.PIS_Bottom span,
 .PIS_LinkTag.PIS_BottomRight span {
-	margin-top: 4px;
+    margin-top: 4px;
 }
 
 .PIS_LinkTag.PIS_BottomRight {
-	background-position: -36px 0;
+    background-position: -36px 0;
 }
-
-
 
 /**
  * Link Highlights
@@ -97,60 +92,58 @@
 .PIS_LinkHighlightBoxRight,
 .PIS_LinkHighlightBoxText,
 .PIS_LinkHighlightBoxLeft {
-	position: absolute;
-	z-index: 10001;
-	overflow: hidden;
-	width: 2px;
-	height: 2px;
-	background: #E87500; 
+    position: absolute;
+    z-index: 10001;
+    overflow: hidden;
+    width: 2px;
+    height: 2px;
+    background: #E87500;
 }
 
 .PIS_LinkHighlightBoxText {
-	line-height: 20px;
-	height: 20px;
-	font-size: 11px;
-	color: white;
-	width: auto;
+    line-height: 20px;
+    height: 20px;
+    font-size: 11px;
+    color: white;
+    width: auto;
 }
-
-
 
 /**
  * Status bar
  */
 
 #PIS_StatusBar {
-	padding: 10px 0;
-	position: fixed;
-	z-index: 10020;
-	bottom: 0;
-	right: 0;
-	border-top: 1px solid #ccc;
-	border-left: 1px solid #ccc;
-	background: #fbfbfb;
-	-webkit-border-top-left-radius: 6px;
-	-webkit-border-top-right-radius: 0px;
-	-webkit-border-bottom-right-radius: 0px;
-	-webkit-border-bottom-left-radius: 0px;
-	-moz-border-radius-topleft: 6px;
-	-moz-border-radius-topright: 0px;
-	-moz-border-radius-bottomright: 0px;
-	-moz-border-radius-bottomleft: 0px;
-	border-top-left-radius: 6px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-	border-bottom-left-radius: 0px;
+    padding: 10px 0;
+    position: fixed;
+    z-index: 10020;
+    bottom: 0;
+    right: 0;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    background: #fbfbfb;
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 0px;
+    -moz-border-radius-bottomright: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 
 #PIS_StatusBar .PIS_Item {
-	text-align: right;
-	padding: 3px 5px 0 0;
-	margin: 0 15px 0 20px;
-	
-	font-weight: bold;
+    text-align: right;
+    padding: 3px 5px 0 0;
+    margin: 0 15px 0 20px;
+
+    font-weight: bold;
 }
 
 #PIS_StatusBar .PIS_Loading {
-	background: url(./loading.gif) no-repeat right center;
-	padding-right: 30px;
+    background: url(./loading.gif) no-repeat right center;
+    padding-right: 30px;
 }

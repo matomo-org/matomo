@@ -1,0 +1,51 @@
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link    http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/**
+ * This test tests that when using &cid=, the visitor ID is enforced
+ *
+ */
+class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCase
+{
+    public static $fixture = null; // initialized below class definition
+
+    public function setUp()
+    {
+        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(false);
+    }
+
+    public function tearDown()
+    {
+        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(true);
+    }
+
+    /**
+     * @dataProvider getApiForTesting
+     * @group        Integration
+     * @group        OneVisitorTwoVisits
+     */
+    public function testApi($api, $params)
+    {
+        $this->runApiTests($api, $params);
+    }
+
+    public function getApiForTesting()
+    {
+        return array(
+            // test hideColumns && showColumns parameters
+            array('VisitsSummary.get', array('idSite'     => self::$fixture->idSite,
+                                             'date'       => self::$fixture->dateTime,
+                                             'periods'    => 'day',
+                                             'testSuffix' => '',
+            ))
+        );
+    }
+}
+
+Test_Piwik_Integration_TrackingAPI_SetVisitorId::$fixture = new Test_Piwik_Fixture_FewVisitsWithSetVisitorId();
+

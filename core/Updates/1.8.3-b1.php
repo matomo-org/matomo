@@ -15,13 +15,13 @@
 class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
 {
 
-	static function getSql($schema = 'Myisam')
-	{
-		return array(
-			'ALTER TABLE `'. Piwik_Common::prefixTable('site') .'`
-				CHANGE `excluded_parameters` `excluded_parameters` TEXT NOT NULL' => false,
-		
-			'CREATE TABLE `'.Piwik_Common::prefixTable('report').'` (
+    static function getSql($schema = 'Myisam')
+    {
+        return array(
+            'ALTER TABLE `' . Piwik_Common::prefixTable('site') . '`
+				CHANGE `excluded_parameters` `excluded_parameters` TEXT NOT NULL'                            => false,
+
+            'CREATE TABLE `' . Piwik_Common::prefixTable('report') . '` (
 					`idreport` INT(11) NOT NULL AUTO_INCREMENT,
 					`idsite` INTEGER(11) NOT NULL,
 					`login` VARCHAR(100) NOT NULL,
@@ -36,77 +36,75 @@ class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
 					`deleted` tinyint(4) NOT NULL default 0,
 					PRIMARY KEY (`idreport`)
 				) DEFAULT CHARSET=utf8' => false,
-		);
-	}
-	
-	static function update()
-	{
-		Piwik_Updater::updateDatabase(__FILE__, self::getSql());
-		if(!Piwik_PluginsManager::getInstance()->isPluginLoaded('PDFReports'))
-		{
-			return;
-		}
-		
-		try {
+        );
+    }
 
-			// Piwik_Common::prefixTable('pdf') has been heavily refactored to be more generic
-			// The following actions are taken in this update script :
-			// - create the new generic report table Piwik_Common::prefixTable('report')
-			// - migrate previous reports, if any, from Piwik_Common::prefixTable('pdf') to Piwik_Common::prefixTable('report')
-			// - delete Piwik_Common::prefixTable('pdf')
+    static function update()
+    {
+        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        if (!Piwik_PluginsManager::getInstance()->isPluginLoaded('PDFReports')) {
+            return;
+        }
 
-			$reports = Piwik_FetchAll('SELECT * FROM `'. Piwik_Common::prefixTable('pdf') .'`');
-			foreach($reports AS $report) {
+        try {
 
-				$idreport = $report['idreport'];
-				$idsite = $report['idsite'];
-				$login = $report['login'];
-				$description = $report['description'];
-				$period = $report['period'];
-				$format = $report['format'];
-				$display_format = $report['display_format'];
-				$email_me = $report['email_me'];
-				$additional_emails = $report['additional_emails'];
-				$reports = $report['reports'];
-				$ts_created = $report['ts_created'];
-				$ts_last_sent = $report['ts_last_sent'];
-				$deleted = $report['deleted'];
+            // Piwik_Common::prefixTable('pdf') has been heavily refactored to be more generic
+            // The following actions are taken in this update script :
+            // - create the new generic report table Piwik_Common::prefixTable('report')
+            // - migrate previous reports, if any, from Piwik_Common::prefixTable('pdf') to Piwik_Common::prefixTable('report')
+            // - delete Piwik_Common::prefixTable('pdf')
 
-				$parameters = array();
+            $reports = Piwik_FetchAll('SELECT * FROM `' . Piwik_Common::prefixTable('pdf') . '`');
+            foreach ($reports AS $report) {
 
-				if(!is_null($additional_emails))
-				{
-					$parameters[Piwik_PDFReports::ADDITIONAL_EMAILS_PARAMETER] = preg_split('/,/', $additional_emails);
-				}
+                $idreport = $report['idreport'];
+                $idsite = $report['idsite'];
+                $login = $report['login'];
+                $description = $report['description'];
+                $period = $report['period'];
+                $format = $report['format'];
+                $display_format = $report['display_format'];
+                $email_me = $report['email_me'];
+                $additional_emails = $report['additional_emails'];
+                $reports = $report['reports'];
+                $ts_created = $report['ts_created'];
+                $ts_last_sent = $report['ts_last_sent'];
+                $deleted = $report['deleted'];
 
-				$parameters[Piwik_PDFReports::EMAIL_ME_PARAMETER] = is_null($email_me) ? Piwik_PDFReports::EMAIL_ME_PARAMETER_DEFAULT_VALUE : (bool)$email_me;
-				$parameters[Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER] = $display_format;
+                $parameters = array();
 
-				Piwik_Query(
-					'INSERT INTO `' . Piwik_Common::prefixTable('report') . '` SET
+                if (!is_null($additional_emails)) {
+                    $parameters[Piwik_PDFReports::ADDITIONAL_EMAILS_PARAMETER] = preg_split('/,/', $additional_emails);
+                }
+
+                $parameters[Piwik_PDFReports::EMAIL_ME_PARAMETER] = is_null($email_me) ? Piwik_PDFReports::EMAIL_ME_PARAMETER_DEFAULT_VALUE : (bool)$email_me;
+                $parameters[Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER] = $display_format;
+
+                Piwik_Query(
+                    'INSERT INTO `' . Piwik_Common::prefixTable('report') . '` SET
 					idreport = ?, idsite = ?, login = ?, description = ?, period = ?,
 					type = ?, format = ?, reports = ?, parameters = ?, ts_created = ?,
 					ts_last_sent = ?, deleted = ?',
-					array(
-						$idreport,
-						$idsite,
-						$login,
-						$description,
-						is_null($period) ? Piwik_PDFReports::DEFAULT_PERIOD : $period,
-						Piwik_PDFReports::EMAIL_TYPE,
-						is_null($format) ? Piwik_PDFReports::DEFAULT_REPORT_FORMAT : $format,
-						Piwik_Common::json_encode(preg_split('/,/', $reports)),
-						Piwik_Common::json_encode($parameters),
-						$ts_created,
-						$ts_last_sent,
-						$deleted
-					)
-				);
-			}
+                    array(
+                         $idreport,
+                         $idsite,
+                         $login,
+                         $description,
+                         is_null($period) ? Piwik_PDFReports::DEFAULT_PERIOD : $period,
+                         Piwik_PDFReports::EMAIL_TYPE,
+                         is_null($format) ? Piwik_PDFReports::DEFAULT_REPORT_FORMAT : $format,
+                         Piwik_Common::json_encode(preg_split('/,/', $reports)),
+                         Piwik_Common::json_encode($parameters),
+                         $ts_created,
+                         $ts_last_sent,
+                         $deleted
+                    )
+                );
+            }
 
-			Piwik_Query('DROP TABLE `'. Piwik_Common::prefixTable('pdf') .'`');
-		}
-		catch(Exception $e){}
-		
-	}
+            Piwik_Query('DROP TABLE `' . Piwik_Common::prefixTable('pdf') . '`');
+        } catch (Exception $e) {
+        }
+
+    }
 }

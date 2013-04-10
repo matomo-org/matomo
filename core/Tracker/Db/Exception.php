@@ -15,5 +15,6 @@
  * @package Piwik
  * @subpackage Piwik_Tracker
  */
-class Piwik_Tracker_Db_Exception extends Exception {
+class Piwik_Tracker_Db_Exception extends Exception
+{
 }

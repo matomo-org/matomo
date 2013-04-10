@@ -14,6 +14,7 @@
 			<bounce_rate>Bounce Rate</bounce_rate>
 			<avg_time_on_page>Avg. time on page</avg_time_on_page>
 			<exit_rate>Exit rate</exit_rate>
+			<avg_time_generation>Avg. generation time</avg_time_generation>
 		</metrics>
 		<metricsDocumentation>
 			<nb_hits>The number of times this page was visited.</nb_hits>
@@ -21,6 +22,7 @@
 			<bounce_rate>The percentage of visits that started on this page and left the website straight away.</bounce_rate>
 			<avg_time_on_page>The average amount of time visitors spent on this page (only the page, not the entire website).</avg_time_on_page>
 			<exit_rate>The percentage of visits that left the website after viewing this page.</exit_rate>
+			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 		</metricsDocumentation>
 		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<actionToLoadSubTables>getPageUrls</actionToLoadSubTables>
@@ -35,6 +37,7 @@
 		<bounce_rate>Bounce Rate</bounce_rate>
 		<avg_time_on_page>Avg. time on page</avg_time_on_page>
 		<exit_rate>Exit rate</exit_rate>
+		<avg_time_generation>Avg. generation time</avg_time_generation>
 	</columns>
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">
@@ -45,6 +48,7 @@
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0.12s</avg_time_generation>
 			</row>
 			<row>
 				<label>/products</label>
@@ -53,6 +57,7 @@
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<bounce_rate>100%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.15s</avg_time_generation>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010">
@@ -63,6 +68,7 @@
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0.22s</avg_time_generation>
 			</row>
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
@@ -73,6 +79,7 @@
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0.32s</avg_time_generation>
 			</row>
 			<row>
 				<label>/thankyou</label>
@@ -81,6 +88,7 @@
 				<avg_time_on_page>00:06:00</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>100%</exit_rate>
+				<avg_time_generation>0.31s</avg_time_generation>
 			</row>
 			<row>
 				<label>Page URL not defined</label>
@@ -89,6 +97,7 @@
 				<avg_time_on_page>00:00:00</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
+				<avg_time_generation>0s</avg_time_generation>
 			</row>
 		</result>
 		<result prettyDate="Wednesday 6 January 2010" />

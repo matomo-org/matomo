@@ -16,9 +16,9 @@
  */
 final class Piwik_Version
 {
-	/**
-	 * Current Piwik version
-	 * @var string
-	 */
-	const VERSION = '1.10.2-b2';
+    /**
+     * Current Piwik version
+     * @var string
+     */
+    const VERSION = '1.12-b7';
 }
