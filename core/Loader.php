@@ -28,7 +28,7 @@ class Piwik_Loader
      */
     protected static function getClassFileName($class)
     {
-        if (!preg_match("/^[A-Za-z0-9_]+$/", $class)) {
+        if (!preg_match("/^[A-Za-z0-9_]+$/D", $class)) {
             throw new Exception("Invalid class name \"$class\".");
         }
 
