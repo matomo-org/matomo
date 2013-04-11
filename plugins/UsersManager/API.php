@@ -240,7 +240,7 @@ class Piwik_UsersManager_API
 
     /**
      * Returns users that have given access to given site,
-     * but now access to other sites.
+     * but no access to other sites.
      */    
     public function getUsersWithDistinctSiteAccess($idSite, $access)
     {
