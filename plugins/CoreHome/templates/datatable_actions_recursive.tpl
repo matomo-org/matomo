@@ -7,14 +7,9 @@
                 <div class="pk-emptyDataTable">{'CoreHome_ThereIsNoDataForThisReport'|translate}</div>
             {else}
                 <table cellspacing="0" class="dataTable dataTableActions">
-                    <thead>
-                    <tr>
-                        {foreach from=$dataTableColumns item=column}
-                            <th class="sortable" id="{$column}">{$columnTranslations[$column]|escape:'html'}</th>
-                        {/foreach}
-                    </tr>
-                    </thead>
-
+                    
+                    {include file="CoreHome/templates/datatable_head.tpl"}
+                    
                     <tbody>
                     {foreach from=$arrayDataTable item=row}
                         <tr {if $row.idsubdatatable}class="level{$row.level} rowToProcess subActionsDataTable" id="{$row.idsubdatatable}"
