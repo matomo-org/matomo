@@ -68,7 +68,7 @@ class Piwik_Twig
             }
         });
         $this->twig->addFunction($includeAssetsFunction);
-        $urlFunction = new Twig_SimpleFunction('url', function($params) {
+        $urlFunction = new Twig_SimpleFunction('linkTo', function($params) {
             return 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified($params);
         });
         $this->twig->addFunction($urlFunction);
