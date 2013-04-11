@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="UserCountryMap-tooltip UserCountryMap-info">
-            <div foo="bar" class="content unlocated-stats" data-tpl="{{ 'UserCountryMap_Unlocated'|translate }}">
+            <div class="content unlocated-stats" data-tpl="{{ 'UserCountryMap_Unlocated'|translate }}">
             </div>
         </div>
         <div class="UserCountryMap-info-btn" data-tooltip-target=".UserCountryMap-tooltip"></div>
@@ -22,8 +22,9 @@
             <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
         {% else %}
             <span class="loadingPiwik">
-            <img src="{{ piwikUrl }}plugins/Zeitgeist/theme/images/loading-blue.gif"> {{ 'General_LoadingData'|translate }}...
-        </span>
+                <img src="{{ piwikUrl }}plugins/Zeitgeist/theme/images/loading-blue.gif" />
+                {{ 'General_LoadingData'|translate }}...
+            </span>
         {% endif %}
     </div>
     <div class="dataTableFeatures" style="padding-top:0px;">
@@ -41,15 +42,16 @@
                 <div class="tableIconsGroup UserCountryMap-view-mode-buttons">
                     <span class="tableAllColumnsSwitch">
                         <a var="tableAllColumns" class="UserCountryMap-btn-region tableIcon activeIcon" format="tableAllColumns"
-                           data-region="{{ 'UserCountryMap_Regions'|translate }}" data-country="{{ 'UserCountryMap_Countries'|translate }}"><img
-                                    src="{{ piwikUrl }}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country"> <span
-                                    style="margin:0">{{ 'UserCountryMap_Countries'|translate }}</span>&nbsp;</a>
-                        <a var="tableGoals" class="UserCountryMap-btn-city tableIcon inactiveIco" format="tableGoals"><img
-                                    src="{{ piwikUrl }}plugins/UserCountryMap/img/cities.png" title="Show visitors per city"> <span
-                                    style="margin:0">{{ 'UserCountryMap_Cities'|translate }}</span>&nbsp;</a>
+                           data-region="{{ 'UserCountryMap_Regions'|translate }}" data-country="{{ 'UserCountryMap_Countries'|translate }}">
+                            <img src="{{ piwikUrl }}plugins/UserCountryMap/img/regions.png" title="Show vistors per region/country" />
+                            <span style="margin:0">{{ 'UserCountryMap_Countries'|translate }}</span>&nbsp;
+                        </a>
+                        <a var="tableGoals" class="UserCountryMap-btn-city tableIcon inactiveIco" format="tableGoals">
+                            <img src="{{ piwikUrl }}plugins/UserCountryMap/img/cities.png" title="Show visitors per city" />
+                            <span style="margin:0">{{ 'UserCountryMap_Cities'|translate }}</span>&nbsp;
+                        </a>
                     </span>
                 </div>
-
             </div>
 
             <select class="userCountryMapSelectMetrics" style="float:right;margin-right:0;margin-bottom:5px;max-width: 9em;font-size:10px">
