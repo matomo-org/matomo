@@ -947,6 +947,7 @@ dataTable.prototype =
                 close();
                 self.param[paramName] = 1 - self.param[paramName];
                 self.param.filter_offset = 0;
+                delete self.param.totalRows;
                 if (callbackAfterToggle) callbackAfterToggle();
                 self.reloadAjaxDataTable(true, callbackSuccess);
                 var data = {};

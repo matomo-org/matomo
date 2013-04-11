@@ -449,7 +449,9 @@ class Piwik_DataTable
                 // if the row has the subtable already
                 // then we have to recursively sum the subtables
                 if (($idSubTable = $row->getIdSubDataTable()) !== null) {
-                    $rowFound->sumSubtable(Piwik_DataTable_Manager::getInstance()->getTable($idSubTable));
+                    $subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
+                    $subTable->setColumnAggregationOperations($this->columnAggregationOperations);
+                    $rowFound->sumSubtable($subTable);
                 }
             }
         }

@@ -1437,7 +1437,8 @@ class Piwik
         $minutes = floor($minusDaysAndHours / 60);
 
         $seconds = $minusDaysAndHours - $minutes * 60;
-		$seconds = round($seconds, 2);
+        $precision = ($seconds > 0 && $seconds < 0.01 ? 3 : 2);
+		$seconds = round($seconds, $precision);
 
         if ($years > 0) {
             $return = sprintf(Piwik_Translate('General_YearsDays'), $years, $days);

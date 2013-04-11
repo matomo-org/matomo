@@ -11,23 +11,7 @@
                 <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
             {% else %}
                 <table cellspacing="0" class="dataTable dataTableActions">
-                    <thead>
-                    <tr>
-                        {% for column in dataTableColumns %}
-                            <th class="sortable {% if loop.first %}first{% elseif loop.last %}last{% endif %}" id="{{ column }}">
-                                {% if columnDocumentation[column] is not empty %}
-                                    <div class="columnDocumentation">
-                                        <div class="columnDocumentationTitle">
-                                            {{ columnTranslations[column]|raw }}
-                                        </div>
-                                        {{ columnDocumentation[column] }}
-                                    </div>
-                                {% endif %}
-                                <div id="thDIV">{{ columnTranslations[column]|raw }}</div>
-                            </th>
-                        {% endfor %}
-                    </tr>
-                    </thead>
+                    {% include "@CoreHome/datatable_head.twig" %}
 
                     <tbody>
                     {% for row in arrayDataTable %}
