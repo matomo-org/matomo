@@ -455,6 +455,7 @@ $translations = array(
 	'CoreAdminHome_ClickHereToOptIn' => 'Cliquez ici pour participer',
 	'CoreAdminHome_BrandingSettings' => 'Paramètres de l\'image de marque',
 	'CoreAdminHome_CustomLogoHelpText' => 'Vous pouvez personnaliser le logo Piwik qui sera affichée dans l\'interface utilisateur et les rapports par courriel.',
+	'CoreAdminHome_CustomLogoFeedbackInfo' => 'Si vous personnalisez le logo Piwi, vous pouvez être aussi intéressé de cacher le lien %s du menu du haut. Pour ce faire, vous pouvez désactiver le plugin de Feedback dans la page de %sGestionnaire de Plugins%s',
 	'CoreAdminHome_UseCustomLogo' => 'Utiliser un logo personnalisé',
 	'CoreAdminHome_LogoUpload' => 'Sélectionnez le logo à télécharger',
 	'CoreAdminHome_LogoUploadDescription' => 'Veuillez télécharger un fichier dans un de ces formats %s, sans fond transparent et avec une hauteur minimale de %s pixels.',

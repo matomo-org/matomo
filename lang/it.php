@@ -695,6 +695,7 @@ $translations = array(
 	'CustomVariables_ColumnCustomVariableValue' => 'Valori Variabili Personalizzate',
 	'CustomVariables_ScopeVisit' => 'ambito visita',
 	'CustomVariables_ScopePage' => 'campo di applicazione pagina',
+	'CustomVariables_CustomVariablesReportDocumentation' => 'Questo rapporto contiene le informazioni sulle variabili personalizzate. Clicca su un nome di variabile per visualizzare la distribuzione dei valori. %s Per ulteriori informazioni sulle variabili personalizzate in generale, leggere il %sCustom Variabili documentazione su piwik.org %s',
 	'Dashboard_PluginDescription' => 'La tua Dashboard di Web Analytics. Puoi personalizzare la TUA Dashboard: puoi aggiungere nuovi widget e cambiarne l\'ordine.Ogni utente può accedere alla propria Dashboard personalizzata.',
 	'Dashboard_Dashboard' => 'Dashboard',
 	'Dashboard_AddAWidget' => 'Aggiungere un widget',

@@ -509,6 +509,7 @@ $translations = array(
 	'CoreAdminHome_LatestStableRelease' => 'Das aktuellste stabile Release',
 	'CoreAdminHome_LatestBetaRelease' => 'Das aktuellste Beta Release',
 	'CoreAdminHome_ForBetaTestersOnly' => 'Nur für Beta-Tester',
+	'CoreAdminHome_YouAreCurrentlyUsingPHP' => 'Sie verwenden derzeit PHP %1$s.',
 	'CoreHome_InjectedHostWarningIntro' => 'Sie betreten Piwik aktuell von %1$s, allerdings wurde Piwik so konfiguriert, dass es unter dieser Adresse läuft: %2$s.',
 	'CoreHome_InjectedHostSuperUserWarning' => 'Piwik könnte falsch konfiguriert sein (zum Beispiel wenn Sie Piwik vor kurzem auf einen neuen Server umgezogen haben). Sie können entweder %1$shier klicken und %2$s als gültigen Hostnamen (wenn Sei ihm vertrauen) hinzufügen%3$s, oder %4$shier klicken um Piwik unter %5$s sicher zu betreten%6$s',
 	'CoreHome_InjectedHostNonSuperUserWarning' => '%1$sHier klicken um Piwik sicher zu betreten%2$s und die Warnung zu entfernen. Zusätzlich können Sie den Piwik Administrator kontaktieren und ihn auf dieses Problem hinzuweisen (%3$sHier klicken um eine E-Mail zu senden%4$s).',
