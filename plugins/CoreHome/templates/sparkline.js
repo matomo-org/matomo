@@ -22,7 +22,12 @@ function initializeSparklines() {
                     delete params[sparklineUrlParamsToIgnore[i]];
                 }
                 for (var key in params) {
-                    params[key] = decodeURIComponent(params[key]);
+                    if (typeof params[key] == 'undefined') {
+                        // this happens for example with an empty segment parameter
+                        delete params[key];
+                    } else {
+                        params[key] = decodeURIComponent(params[key]);
+                    }
                 }
 
                 // on click, reload the graph with the new url
