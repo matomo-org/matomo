@@ -66,6 +66,17 @@
             </div>
 
             {include file="CoreHome/templates/warning_invalid_host.tpl"}
+            
+            {* PHP version < 5.3 warning *}
+            {if empty($phpIsNewEnough)}
+                <div class="ajaxSuccess">
+                    <strong><em>{'CoreAdminHome_YouAreCurrentlyUsingPHP'|translate:$phpVersion}</em></strong>
+                    <br/><br/>
+                    {'CoreAdminHome_OldPHPVersionWarning_Part1'|translate:'<strong><em>':'</em></strong>'}
+                    <br/><br/>
+                    {'CoreAdminHome_OldPHPVersionWarning_Part2'|translate:'<strong><em>':'</em></strong>'}
+                </div>
+            {/if}
 
             {* missing plugins warning *}
             {if $isSuperUser && !empty($missingPluginsWarning)}
