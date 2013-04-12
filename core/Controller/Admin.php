@@ -61,5 +61,17 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
                                                                                                        '</a>'
                                                                                                   ));
         }
+        
+        self::checkPhpVersion($view);
+    }
+    
+    /**
+     * Check if the current PHP version is >= 5.3. If not, a warning is displayed
+     * to the user.
+     */
+    private static function checkPhpVersion($view)
+    {
+        $view->phpVersion = PHP_VERSION;
+        $view->phpIsNewEnough = version_compare($view->phpVersion, '5.3.0', '>=');
     }
 }

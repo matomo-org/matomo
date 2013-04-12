@@ -325,6 +325,9 @@ var broadcast = {
      * Update the part after the second hash
      */
     propagateNewPopoverParameter: function (handlerName, value) {
+        // init broadcast if not already done (it is required to make popovers work in widgetize mode)
+        broadcast.init();
+
         var hash = broadcast.getHashFromUrl(window.location.href);
 
         var popover = '';
