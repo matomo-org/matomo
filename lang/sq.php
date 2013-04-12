@@ -435,6 +435,7 @@ $translations = array(
 	'CoreHome_NoPrivilegesAskPiwikAdmin' => 'Jeni i futur si \'%s\' por duket se nuk keni leje të rregulluara për ju në Piwik. %s Kërkojini administratorit tuaj te Piwik (klikoni që t’i dërgoni email)%s që t’ju japë të drejta \'parjesh\' te një site web.',
 	'CoreHome_JavascriptDisabled' => 'Që të mund të përdorni Piwik-un në parjen standarde duhet të aktivizohet JavaScript-i.<br />Por ja që duket se ose JavaScript-i është i çaktivizuar, ose nuk mbulohet nga shfletuesi juaj.<br />Që të përdorni parjen standarde, aktivizoni JavaScript-in duke ndryshuar mundësitë përkatëse te shfletuesi juaj, mandej %1$sriprovoni%2$s.<br />',
 	'CoreHome_ThereIsNoDataForThisReport' => 'Nuk ka të dhëna për këtë raport.',
+	'CoreHome_DataForThisReportHasBeenPurged' => 'Të dhënat e këtij raporti janë më të vjetra se %s muaj dhe u pastruan.',
 	'CoreHome_CategoryNoData' => 'Pa të dhëna për këtë kategori. Provoni të "Përfshini tërë popullatën".',
 	'CoreHome_ShowJSCode' => 'Shfaqe kodin JavaScript që duhet futur',
 	'CoreHome_PageOf_js' => '%1$s nga %2$s',
