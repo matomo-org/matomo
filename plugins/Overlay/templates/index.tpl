@@ -1,5 +1,8 @@
 {include file="CoreHome/templates/header.tpl"}
-<h1>{'Overlay_Overlay'|translate|escape:'html'}</h1>
+<a id="Overlay_Title" href="http://piwik.org/docs/page-overlay/" target="_blank">
+    {'Overlay_Overlay'|translate|escape:'html'}
+    <img src="themes/default/images/help.png" alt="Documentation" />
+</a>
 
 <div id="Overlay_DateRangeSelection">
     <select id="Overlay_DateRangeSelect" name="Overlay_DateRangeSelect">

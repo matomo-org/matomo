@@ -12,18 +12,27 @@ body {
 }
 
 body #header {
-    margin-left: -12px;
+    margin-left: -6px;
 }
 
 body #logo {
     margin-top: 5px;
 }
 
-body h1 {
+a#Overlay_Title {
+    display: block;
     font-size: 15px;
     font-weight: normal;
+    color: #7e7363;
+    text-decoration: none;
     margin: -3px 0 0 0;
     padding: 0 0 0 5px;
+    vertical-align: text-bottom;
+}
+
+#Overlay_Title img {
+    vertical-align: text-bottom;
+    margin-left: 4px;
 }
 
 #Overlay_DateRangeSelection {
