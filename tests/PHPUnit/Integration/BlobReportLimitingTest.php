@@ -35,11 +35,17 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
             'UserSettings.getBrowserVersion',
             'UserCountry.getRegion', 'UserCountry.getCity',
         );
+        
+        $ecommerceApi = array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory');
 
         return array(
             array($apiToCall, array('idSite'  => self::$fixture->idSite,
                                     'date'    => self::$fixture->dateTime,
-                                    'periods' => array('day')))
+                                    'periods' => array('day'))),
+            
+            array($ecommerceApi, array('idSite'  => self::$fixture->idSite,
+                                       'date'    => self::$fixture->nextDay,
+                                       'periods' => 'day')),
         );
     }
 
