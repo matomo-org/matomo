@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Books Cat #0</label>
+		<nb_uniq_visitors>5</nb_uniq_visitors>
+		<nb_visits>5</nb_visits>
+		<nb_actions>5</nb_actions>
+		<avg_price>7.5</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
+	<row>
+		<label>Others</label>
+		<nb_uniq_visitors>20</nb_uniq_visitors>
+		<nb_visits>20</nb_visits>
+		<nb_actions>20</nb_actions>
+		<avg_price>30</avg_price>
+		<avg_quantity>0</avg_quantity>
+		<conversion_rate>0%</conversion_rate>
+	</row>
+</result>

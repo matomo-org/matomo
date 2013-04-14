@@ -106,6 +106,33 @@ class Piwik_Actions_Archiving
     public function archiveDay(Piwik_ArchiveProcessing $archiveProcessing)
     {
         $rankingQueryLimit = self::getRankingQueryLimit();
+        
+        // FIXME: This is a quick fix for #3482. The actual cause of the bug is that
+        // the site search & performance metrics additions to 
+        // Piwik_Actions_ArchivingHelper::updateActionsTableWithRowQuery expect every
+        // row to have 'type' data, but not all of the SQL queries that are run w/o
+        // ranking query join on the log_action table and thus do not select the
+        // log_action.type column.
+        // 
+        // NOTES: Archiving logic can be generalized as follows:
+        // 0) Do SQL query over log_link_visit_action & join on log_action to select
+        //    some metrics (like visits, hits, etc.)
+        // 1) For each row, cache the action row & metrics. (This is done by
+        //    updateActionsTableWithRowQuery for result set rows that have 
+        //    name & type columns.)
+        // 2) Do other SQL queries for metrics we can't put in the first query (like
+        //    entry visits, exit vists, etc.) w/o joining log_action.
+        // 3) For each row, find the cached row by idaction & add the new metrics to
+        //    it. (This is done by updateActionsTableWithRowQuery for result set rows
+        //    that DO NOT have name & type columns.)
+        // 
+        // The site search & performance metrics additions expect a 'type' all the time
+        // which breaks the original pre-rankingquery logic. Ranking query requires a
+        // join, so the bug is only seen when ranking query is disabled.
+        if ($rankingQueryLimit === 0) {
+            $rankingQueryLimit = 100000;
+        }
+        
         Piwik_Actions_ArchivingHelper::reloadConfig();
 
         $this->initActionsTables();
