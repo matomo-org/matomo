@@ -106,7 +106,7 @@
 {% endif %}
 </p>
 <span style='margin-left:20px'>
-<a href='{{ url({'token_auth':token_auth, 'action':setIgnoreCookie}) }}#excludeCookie'>&rsaquo; {% if ignoreCookieSet %}{{ 'UsersManager_ClickHereToDeleteTheCookie'|translate }}
+<a href='{{ linkTo({'token_auth':token_auth, 'action':setIgnoreCookie}) }}#excludeCookie'>&rsaquo; {% if ignoreCookieSet %}{{ 'UsersManager_ClickHereToDeleteTheCookie'|translate }}
     {% else %}{{'UsersManager_ClickHereToSetTheCookieOnDomain'|translate(piwikHost) }}{% endif %}
     <br/>
 </a></span>
