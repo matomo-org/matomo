@@ -19,7 +19,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 
     public function index()
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@PDFReports/index');
         $this->setGeneralVariablesView($view);
 
         $view->countWebsites = count(Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess());
