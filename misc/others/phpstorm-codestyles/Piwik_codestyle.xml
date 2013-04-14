@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <code_scheme name="Piwik-codestyle">
+  <option name="LINE_SEPARATOR" value="&#10;" />
   <option name="RIGHT_MARGIN" value="160" />
   <PHPCodeStyleSettings>
     <option name="ALIGN_KEY_VALUE_PAIRS" value="true" />
