@@ -84,6 +84,8 @@ function Piwik_Referrers_isSocialUrl($url, $socialName = false)
  */
 function Piwik_getSocialsLogoFromUrl($domain)
 {
+    $domain = Piwik_Referrers_cleanSocialUrl($domain);
+
     if (isset($GLOBALS['Piwik_socialUrl'][$domain])) {
         // image names are by first domain in list, so make sure we use the first if $domain isn't it
         $firstDomain = $domain;
