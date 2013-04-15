@@ -176,12 +176,14 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     }
 
     /**
-     * Create one MAIL and two MOBILE scheduled reports
+     * Create two MAIL and two MOBILE scheduled reports
      *
      * Reports sent by mail can contain PNG graphs when the user specifies it.
      * Depending on the system under test, generated images differ slightly.
      * Because of this discrepancy, PNG graphs are only tested if the system under test
-     * has the characteristics described in 'canImagesBeIncludedInScheduledReports'
+     * has the characteristics described in 'canImagesBeIncludedInScheduledReports'.
+     * See tests/README.md for more detail.
+     * Note: graphs generated using row evolution API are not tested as they are currently too slow
      *
      * @see canImagesBeIncludedInScheduledReports
      * @param int $idSite id of website created
