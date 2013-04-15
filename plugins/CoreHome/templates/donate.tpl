@@ -33,10 +33,11 @@
         </div>
 
         <div class="donate-submit">
-            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RPL23NJURMTFA&bb2_screener_=1357583494+83.233.186.82"
-               target="_blank">{'CoreHome_MakeOneTimeDonation'|translate}</a>
             <input type="image" src="themes/default/images/paypal_subscribe.gif" border="0" name="submit"
                    title="{'CoreHome_SubscribeAndBecomePiwikSupporter'|translate}"/>
+            <a class="donate-spacer">{'CoreHome_MakeOneTimeDonation'|translate}</a>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RPL23NJURMTFA&bb2_screener_=1357583494+83.233.186.82"
+               target="_blank" class="donate-one-time">{'CoreHome_MakeOneTimeDonation'|translate}</a>
         </div>
 
         <!-- to cache images -->

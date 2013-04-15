@@ -77,7 +77,7 @@
 }
 
 .piwik-donate-call .donate-submit {
-    height: 55px;
+    min-height: 55px;
     position: relative;
 }
 
@@ -90,12 +90,20 @@
 
 .piwik-donate-call .donate-submit a {
     display: inline-block;
-    position: absolute;
-    bottom: .5em;
-    right: 1.2em;
     margin-left: 1.2em;
     font-size: 1em;
     font-style: italic;
+}
+
+.piwik-donate-call .donate-submit a.donate-spacer {
+    margin-bottom:.5em;
+    visibility:hidden;
+}
+
+.piwik-donate-call .donate-submit a.donate-one-time {
+    position: absolute;
+    bottom: .5em;
+    right: 1.2em;
 }
 
 .piwik-donate-call > .piwik-donate-message {
