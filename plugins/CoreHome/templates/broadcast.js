@@ -56,7 +56,7 @@ var broadcast = {
      * Initializes broadcast object
      * @return {void}
      */
-    init: function () {
+    init: function (noLoadingMessage) {
         if (broadcast._isInit) {
             return;
         }
@@ -66,7 +66,9 @@ var broadcast = {
         // The callback is called at once by present location.hash
         $.history.init(broadcast.pageload, {unescape: true});
 
-        piwikHelper.showAjaxLoading();
+        if(noLoadingMessage != true) {
+            piwikHelper.showAjaxLoading();
+        }
     },
 
     /**
@@ -326,7 +328,7 @@ var broadcast = {
      */
     propagateNewPopoverParameter: function (handlerName, value) {
         // init broadcast if not already done (it is required to make popovers work in widgetize mode)
-        broadcast.init();
+        broadcast.init(true);
 
         var hash = broadcast.getHashFromUrl(window.location.href);
 
