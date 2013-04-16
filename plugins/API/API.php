@@ -1175,6 +1175,15 @@ class Piwik_API_API
                 $labels = array_merge($labels, $table->getColumn('label'));
             }
             $labels = array_values(array_unique($labels));
+            
+            // set label index metadata
+            $labelsToIndex = array_flip($labels);
+            foreach ($dataTable->getArray() as $table) {
+                foreach ($table->getRows() as $row) {
+                    $label = $row->getColumn('label');
+                    $row->setMetadata('label_index', $labelsToIndex[$label]);
+                }
+            }
         }
 
         if (count($labels) > 1) {
@@ -1219,7 +1228,7 @@ class Piwik_API_API
     {
         $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal);
         $metricNames = array_keys($metadata['metrics']);
-
+        
         $logo = $actualLabel = false;
         $urlFound = false;
         foreach ($dataTable->getArray() as $date => $subTable) {
@@ -1306,19 +1315,20 @@ class Piwik_API_API
         $label = array_map('rawurlencode', $label);
 
         $parameters = array(
-            'method'                  => $apiModule . '.' . $apiAction,
-            'label'                   => $label,
-            'idSite'                  => $idSite,
-            'period'                  => $period,
-            'date'                    => $date,
-            'format'                  => 'original',
-            'serialize'               => '0',
-            'segment'                 => $segment,
-            'idGoal'                  => $idGoal,
+            'method'                   => $apiModule . '.' . $apiAction,
+            'label'                    => $label,
+            'idSite'                   => $idSite,
+            'period'                   => $period,
+            'date'                     => $date,
+            'format'                   => 'original',
+            'serialize'                => '0',
+            'segment'                  => $segment,
+            'idGoal'                   => $idGoal,
 
-            // if more than one label is used, we add empty rows for labels we can't
-            // find to ensure we know the order of the rows in the returned data table
-            'labelFilterAddEmptyRows' => count($label) > 1 ? 1 : 0,
+            // if more than one label is used, we add metadata to ensure we know which
+            // row corresponds with which label (since the labels can change, and rows
+            // can be sorted in a different order)
+            'labelFilterAddLabelIndex' => count($label) > 1 ? 1 : 0,
         );
 
         // add "processed metrics" like actions per visit or bounce rate
@@ -1330,7 +1340,7 @@ class Piwik_API_API
             $apiModule != 'Actions'
             &&
             ($apiModule != 'Goals' || ($apiAction != 'getVisitsUntilConversion' && $apiAction != 'getDaysToConversion'))
-            && $label // do not request processed metrics when retrieving top n labels
+            && !empty($label)
         ) {
             $parameters['filter_add_columns_when_show_all_columns'] = '1';
         }
@@ -1466,15 +1476,12 @@ class Piwik_API_API
             $metrics = array_keys($metadata['metrics']);
             $column = reset($metrics);
         }
-
+        
         // get the processed label and logo (if any) for every requested label
         $actualLabels = $logos = array();
         foreach ($labels as $labelIdx => $label) {
             foreach ($dataTable->getArray() as $table) {
-                // find row for this label. LabelFilter will add empty rows and
-                // keep them ordered in the same way the labels array is, so we
-                // assume the $labelIdx is also the row Id
-                $labelRow = $table->getRowFromId($labelIdx);
+                $labelRow = $this->getRowEvolutionRowFromLabelIdx($table, $labelIdx);
 
                 if ($labelRow) {
                     $actualLabels[$labelIdx] = $this->getRowUrlForEvolutionLabel(
@@ -1500,7 +1507,7 @@ class Piwik_API_API
             $newRow = new Piwik_DataTable_Row();
 
             foreach ($labels as $labelIdx => $label) {
-                $row = $table->getRowFromId($labelIdx);
+                $row = $this->getRowEvolutionRowFromLabelIdx($table, $labelIdx);
                 
                 $value = 0;
                 if ($row) {
@@ -1546,6 +1553,25 @@ class Piwik_API_API
             'reportData' => $dataTableMulti,
             'metadata'   => $metadata
         );
+    }
+    
+    /**
+     * Returns the row in a datatable by its label_index metadata.
+     * 
+     * @param Piwik_DataTable $table
+     * @param int $labelIdx
+     * @return Piwik_DataTable_Row|false
+     */
+    private function getRowEvolutionRowFromLabelIdx($table, $labelIdx)
+    {
+        foreach ($table->getRows() as $row)
+        {
+            if ($row->getMetadata('label_index') == $labelIdx)
+            {
+                return $row;
+            }
+        }
+        return false;
     }
 
     /**
