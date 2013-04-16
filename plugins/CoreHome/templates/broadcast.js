@@ -488,8 +488,11 @@ var broadcast = {
 
         var result = {};
         for (var i = 0; i != pairs.length; ++i) {
-            var pair = pairs[i].split(/=(.+)?/); // split only on first '='
-            result[pair[0]] = pair[1];
+            // attn: split with regex has bugs in several browsers such as IE 8
+            // so we need to split, use the first part as key and rejoin the rest
+            var pair = pairs[i].split('=');
+            var key  = pair.shift();
+            result[key] = pair.join('=');
         }
         return result;
     },
