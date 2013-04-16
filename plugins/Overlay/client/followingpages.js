@@ -387,35 +387,12 @@ var Piwik_Overlay_FollowingPages = (function () {
             offset = linkTag.offset();
             height = linkTag.outerHeight();
         }
-
-        highlightElements[0].width(width).css({top: offset.top - 2, left: offset.left}).show();
-        highlightElements[1].height(height + 4).css({top: offset.top - 2, left: offset.left + width}).show();
-        highlightElements[2].height(height + 4).css({top: offset.top - 2, left: offset.left - 2}).show();
-
+        
         var numLinks = linksOnPage[linkUrl].length;
-        var text;
-        if (numLinks > 1) {
-            text = Piwik_Overlay_Translations.get('clicksFromXLinks')
-                .replace(/%1\$s/, data.referrals)
-                .replace(/%2\$s/, numLinks);
-        } else if (data.referrals == 1) {
-            text = Piwik_Overlay_Translations.get('oneClick');
-        } else {
-            text = Piwik_Overlay_Translations.get('clicks')
-                .replace(/%s/, data.referrals);
-        }
 
-        var padding = '&nbsp;&nbsp;';
-        highlightElements[3].html(padding + text + padding).css({
-            width: 'auto',
-            top: offset.top + height,
-            left: offset.left - 2
-        }).show();
-        if (highlightElements[3].width() < width + 4) {
-            // we cannot use minWidth because of IE7
-            highlightElements[3].width(width + 4);
-        }
-
+        putBoxAroundLink(offset, width, height, numLinks, data.referrals);
+        
+        // highlight tags
         for (var j = 0; j < numLinks; j++) {
             var tag = linksOnPage[linkUrl][j][0].piwikTagElement;
             tag.addClass('PIS_Highlighted');
@@ -429,6 +406,62 @@ var Piwik_Overlay_FollowingPages = (function () {
         // we don't use .data() because jquery would remove the callback when the link tag is removed
         linkTag[0].piwikHideNotification = Piwik_Overlay_Client.notification(
             Piwik_Overlay_Translations.get('link') + ': ' + linkUrl, 'LinkLocation');
+    }
+    
+    function putBoxAroundLink(offset, width, height, numLinks, numReferrals) {
+        var borderWidth = 2;
+        var padding = 4; // the distance between the link and the border
+        
+        // top border
+        highlightElements[0]
+            .width(width + 2 * padding)
+            .css({
+                top: offset.top - borderWidth - padding,
+                left: offset.left - padding
+            }).show();
+        
+        // right border
+        highlightElements[1]
+            .height(height + 2 * borderWidth + 2 * padding)
+            .css({
+                top: offset.top - borderWidth - padding,
+                left: offset.left + width + padding
+            }).show();
+        
+        // left border
+        highlightElements[2]
+            .height(height + 2 * borderWidth + 2 * padding)
+            .css({
+                top: offset.top - borderWidth - padding,
+                left: offset.left - borderWidth - padding
+            }).show();
+
+        // bottom box text
+        var text;
+        if (numLinks > 1) {
+            text = Piwik_Overlay_Translations.get('clicksFromXLinks')
+                .replace(/%1\$s/, numReferrals)
+                .replace(/%2\$s/, numLinks);
+        } else if (numReferrals == 1) {
+            text = Piwik_Overlay_Translations.get('oneClick');
+        } else {
+            text = Piwik_Overlay_Translations.get('clicks')
+                .replace(/%s/, numReferrals);
+        }
+
+        // bottom box position and dimension
+        var textPadding = '&nbsp;&nbsp;&nbsp;';
+        highlightElements[3].html(textPadding + text + textPadding).css({
+            width: 'auto',
+            top: offset.top + height + padding,
+            left: offset.left - borderWidth - padding
+        }).show();
+        
+        var minBoxWidth = width + 2 * borderWidth + 2 * padding;
+        if (highlightElements[3].width() < minBoxWidth) {
+            // we cannot use minWidth because of IE7
+            highlightElements[3].width(minBoxWidth);
+        }
     }
 
     /** Remove highlight from link */

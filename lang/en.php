@@ -521,6 +521,9 @@ $translations = array(
 'CoreAdminHome_StableReleases' => 'If Piwik is a critical part of your business, we recommend you use the latest stable release.
 
 If you use the latest beta and you find a bug or have a suggestion, please %ssee here%s.',
+  'CoreAdminHome_YouAreCurrentlyUsingPHP' => 'You are currently using PHP %1$s.',
+  'CoreAdminHome_OldPHPVersionWarning_Part1' => 'Piwik is quickly improving and in order to provide you with an improved state-of-the-art Web Analytics platform, we will soon be increasing the minimum required PHP version to PHP 5.3. %1$sPlease ask your server administrator or web hosting provider to update your PHP to the latest version, ideally PHP 5.4.%2$s',
+  'CoreAdminHome_OldPHPVersionWarning_Part2' => 'When you upgrade to PHP 5.3 or higher, this message will disappear and your Piwik server will process reports much faster using less memory. %1$sUpdate PHP and get the most out of Piwik!%2$s',
 	'CoreHome_InjectedHostWarningIntro' => 'You are now accessing Piwik from %1$s, but Piwik has been configured to run at this address: %2$s.',
 	'CoreHome_InjectedHostSuperUserWarning' => 'Piwik may be misconfigured (for example, if Piwik was recently moved to a new server or URL). You can either %1$sclick here and add %2$s as the valid Piwik hostname (if you trust it)%3$s, or %4$sclick here and go to %5$s to access Piwik safely%6$s.',
 	'CoreHome_InjectedHostNonSuperUserWarning' => '%1$sClick here to access Piwik safely%2$s and remove this warning. You may also want to contact your Piwik administrator and notify them about this issue (%3$sclick here to email%4$s).',

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<code_scheme name="Piwik-codestyle">
+  <option name="LINE_SEPARATOR" value="&#10;" />
+  <option name="RIGHT_MARGIN" value="160" />
+  <PHPCodeStyleSettings>
+    <option name="ALIGN_KEY_VALUE_PAIRS" value="true" />
+    <option name="LOWER_CASE_BOOLEAN_CONST" value="true" />
+    <option name="LOWER_CASE_NULL_CONST" value="true" />
+  </PHPCodeStyleSettings>
+  <XML>
+    <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+  </XML>
+  <codeStyleSettings language="JavaScript">
+    <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
+    <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
+    <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="true" />
+  </codeStyleSettings>
+  <codeStyleSettings language="PHP">
+    <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+    <arrangement>
+      <rules>
+        <rule>
+          <match>
+            <TYPE>CONST</TYPE>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>FIELD</TYPE>
+              <MODIFIER>PUBLIC</MODIFIER>
+              <MODIFIER>STATIC</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>FIELD</TYPE>
+              <MODIFIER>PROTECTED</MODIFIER>
+              <MODIFIER>STATIC</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>FIELD</TYPE>
+              <MODIFIER>PRIVATE</MODIFIER>
+              <MODIFIER>STATIC</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>FIELD</TYPE>
+              <MODIFIER>PUBLIC</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>FIELD</TYPE>
+              <MODIFIER>PROTECTED</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>FIELD</TYPE>
+              <MODIFIER>PRIVATE</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <TYPE>CONSTRUCTOR</TYPE>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>METHOD</TYPE>
+              <MODIFIER>PUBLIC</MODIFIER>
+              <MODIFIER>STATIC</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>METHOD</TYPE>
+              <MODIFIER>PROTECTED</MODIFIER>
+              <MODIFIER>STATIC</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>METHOD</TYPE>
+              <MODIFIER>PRIVATE</MODIFIER>
+              <MODIFIER>STATIC</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>METHOD</TYPE>
+              <MODIFIER>PUBLIC</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>METHOD</TYPE>
+              <MODIFIER>PROTECTED</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <AND>
+              <TYPE>METHOD</TYPE>
+              <MODIFIER>PRIVATE</MODIFIER>
+            </AND>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <TYPE>TRAIT</TYPE>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <TYPE>INTERFACE</TYPE>
+          </match>
+        </rule>
+        <rule>
+          <match>
+            <TYPE>CLASS</TYPE>
+          </match>
+        </rule>
+      </rules>
+    </arrangement>
+  </codeStyleSettings>
+</code_scheme>
+

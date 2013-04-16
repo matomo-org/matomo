@@ -212,6 +212,7 @@ class Piwik_Goals_API
         $dataTable = $archive->getDataTable($recordNameFinal);
         $dataTable->filter('Sort', array(Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE));
         $dataTable->queueFilter('ReplaceColumnNames');
+        $dataTable->queueFilter('ReplaceSummaryRowLabel');
 
         $ordersColumn = 'orders';
         if ($abandonedCarts) {

@@ -215,6 +215,11 @@ class Piwik_UserSettings_API
 
             $visitsSum = $visitsSumTotal - $ieVisits;
 
+
+            // When Truncate filter is applied, it will call AddSummaryRow which tries to sum all rows.
+            // We tell the object to skip the column nb_visits_percentage when aggregating (since it's not correct to sum % values)
+            $table->setColumnAggregationOperation('nb_visits_percentage', 'skip');
+
             // The filter must be applied now so that the new column can
             // be sorted by the generic filters (applied right after this loop exits)
             $table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Piwik_Archive::INDEX_NB_VISITS, $visitsSum, 1));

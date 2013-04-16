@@ -202,7 +202,7 @@ var Piwik_Overlay = (function () {
             var optionMatchFound = false;
             $select.find('option').each(function () {
                 if ($(this).val() == period + ';' + date) {
-                    $(this).attr('selected', 'selected');
+                    $(this).prop('selected', true);
                     optionMatchFound = true;
                 }
             });

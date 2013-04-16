@@ -492,6 +492,9 @@ class Piwik_DataTable_Row
     private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue)
     {
         switch ($operation) {
+            case 'skip':
+                $newValue = null;
+                break;
             case 'max':
                 $newValue = max($thisColumnValue, $columnToSumValue);
                 break;

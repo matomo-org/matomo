@@ -35,11 +35,26 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
             'UserSettings.getBrowserVersion',
             'UserCountry.getRegion', 'UserCountry.getCity',
         );
+        
+        $ecommerceApi = array('Goals.getItemsSku', 'Goals.getItemsName', 'Goals.getItemsCategory');
 
         return array(
             array($apiToCall, array('idSite'  => self::$fixture->idSite,
                                     'date'    => self::$fixture->dateTime,
-                                    'periods' => array('day')))
+                                    'periods' => array('day'))),
+            
+            array($ecommerceApi, array('idSite'  => self::$fixture->idSite,
+                                       'date'    => self::$fixture->nextDay,
+                                       'periods' => 'day')),
+        );
+    }
+    
+    public function getRankingQueryDisabledApiForTesting()
+    {
+        return array(
+            array('Actions.getPageUrls', array('idSite'  => self::$fixture->idSite,
+                                               'date'    => self::$fixture->dateTime,
+                                               'periods' => array('day'))),
         );
     }
 
@@ -72,6 +87,29 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
         foreach ($this->getApiForTesting() as $pair) {
             list($apiToCall, $params) = $pair;
             $params['testSuffix'] = '_rankingQuery';
+
+            $this->runApiTests($apiToCall, $params);
+        }
+    }
+    
+    /**
+     * @group        Integration
+     * @group        BlobReportLimiting
+     */
+    public function testApiWithRankingQueryDisabled()
+    {
+        self::deleteArchiveTables();
+        $generalConfig =& Piwik_Config::getInstance()->General;
+        $generalConfig['datatable_archiving_maximum_rows_referers'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_actions'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_standard'] = 500;
+        $generalConfig['archiving_ranking_query_row_limit'] = 0;
+        
+        foreach ($this->getRankingQueryDisabledApiForTesting() as $pair) {
+            list($apiToCall, $params) = $pair;
+            $params['testSuffix'] = '_rankingQueryDisabled';
 
             $this->runApiTests($apiToCall, $params);
         }
