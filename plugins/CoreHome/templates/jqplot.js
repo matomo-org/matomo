@@ -299,20 +299,27 @@ JQPlot.prototype = {
             height: exportCanvas.height + 'px'
         });
 
-        $(document.createElement('div'))
-            .append('<div style="font-size: 13px; margin-bottom: 10px;">'
-                + lang.exportText + '</div>').append($(img))
-            .dialog({
-                title: lang.exportTitle,
-                modal: true,
-                width: 'auto',
-                position: ['center', 'center'],
-                resizable: false,
-                autoOpen: true,
-                close: function (event, ui) {
-                    $(this).dialog("destroy").remove();
-                }
-            });
+        var popover = $(document.createElement('div'));
+		
+		popover.append('<div style="font-size: 13px; margin-bottom: 10px;">'
+            + lang.exportText + '</div>').append($(img))
+			
+		popover.dialog({
+			title: lang.exportTitle,
+			modal: true,
+			width: 'auto',
+			position: ['center', 'center'],
+			resizable: false,
+			autoOpen: true,
+			open: function (event, ui) {
+				$('.ui-widget-overlay').on('click.popover', function () {
+					popover.dialog('close');
+				});
+			},
+			close: function (event, ui) {
+				$(this).dialog("destroy").remove();
+			}
+		});
     },
 
 
