@@ -347,7 +347,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
         $date = Piwik_Common::getRequestVar('date', false);
         if ($period || $date) // in test cases, there are no request params set
         {
-            if ($period == 'range') {
+            if ($period == 'range' || mb_substr($date, 0, 4) == 'last') {
                 $period = new Piwik_Period_Range($period, $date);
             } else if (strpos($date, ',') !== false) {
                 $period = new Piwik_Period_Range('range', $date);
