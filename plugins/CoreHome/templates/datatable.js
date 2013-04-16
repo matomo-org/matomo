@@ -872,7 +872,17 @@ dataTable.prototype =
                     str += '&filter_limit=' + filter_limit;
                 }
                 if (label) {
-                    str += '&label=' + encodeURIComponent(label);
+                    if (self.param.is_multi_evolution) {
+                        label = label.split(',');
+                    }
+                    
+                    if (label instanceof Array) {
+                        for (var i = 0; i != label.length; ++i) {
+                            str += '&label[]=' + encodeURIComponent(label[i]);
+                        }
+                    } else {
+                        str += '&label=' + encodeURIComponent(label);
+                    }
                 }
                 return str;
             }
