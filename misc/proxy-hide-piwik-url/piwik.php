@@ -66,7 +66,7 @@ foreach ($_GET as $key => $value) {
 header("Content-Type: image/gif");
 $stream_options = array('http' => array(
     'user_agent' => @$_SERVER['HTTP_USER_AGENT'],
-    'header'     => sprintf("Accept-Language: %s%s\r\n", @str_replace(array("\n", "\t", "\r"), "", $_SERVER['HTTP_ACCEPT_LANGUAGE'])),
+    'header'     => sprintf("Accept-Language: %s\r\n", @str_replace(array("\n", "\t", "\r"), "", $_SERVER['HTTP_ACCEPT_LANGUAGE'])),
     'timeout'    => $timeout
 ));
 $ctx = stream_context_create($stream_options);
