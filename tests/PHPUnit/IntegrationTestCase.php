@@ -391,6 +391,25 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                      )
                 )
             );
+
+            // mail report with one row evolution based png graph
+            array_push(
+                $apiCalls,
+                array(
+                     'PDFReports.generateReport',
+                     array(
+                         'testSuffix'             => '_scheduled_report_in_html_row_evolution_graph',
+                         'date'                   => $dateTime,
+                         'periods'                => array($period),
+                         'format'                 => 'original',
+                         'fileExtension'          => 'html',
+                         'otherRequestParameters' => array(
+                             'idReport'     => 5,
+                             'outputType'   => Piwik_PDFReports_API::OUTPUT_RETURN
+                         )
+                     )
+                )
+            );
         }
 
         return $apiCalls;
