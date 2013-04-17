@@ -506,10 +506,12 @@ class Piwik_DataTable
      *
      * @return Piwik_DataTable
      */
-    public function getEmptyClone()
+    public function getEmptyClone($keepFilters = true)
     {
         $clone = new Piwik_DataTable;
-        $clone->queuedFilters = $this->queuedFilters;
+        if ($keepFilters) {
+            $clone->queuedFilters = $this->queuedFilters;
+        }
         $clone->metadata = $this->metadata;
         return $clone;
     }

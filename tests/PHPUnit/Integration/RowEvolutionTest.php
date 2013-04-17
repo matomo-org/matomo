@@ -152,7 +152,19 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
                 'apiAction' => 'getBrowser',
                 'label'     => 'Firefox,Chrome,Opera'
             )
-
+        ));
+        
+        // (non-rowevolution test) test flattener w/ search engines to make sure
+        // queued filters are not applied twice
+        $return[] = array('Referers.getSearchEngines', array(
+            'testSuffix'             => '_flatFilters',
+            'periods'                => 'month',
+            'idSite'                 => $idSite,
+            'date'                   => '2010-02-01',
+            'otherRequestParameters' => array(
+                'flat'               => 1,
+                'expanded'           => '0'
+            )
         ));
 
         return $return;
