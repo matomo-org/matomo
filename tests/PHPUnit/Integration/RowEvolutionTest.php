@@ -171,6 +171,21 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
             )
         ));
         
+        // test multi row evolution when there is no data
+        $return[] = array('API.getRowEvolution', array(
+            'testSuffix'             => '_multiWithNoData',
+            'periods'                => 'day',
+            'idSite'                 => $idSite,
+            'date'                   => $today,
+            'otherRequestParameters' => array(
+                'date'      => '2010-04-01,2010-04-06',
+                'period'    => 'day',
+                'apiModule' => 'Referers',
+                'apiAction' => 'getWebsites',
+                // no label
+            )
+        ));
+        
         // (non-rowevolution test) test flattener w/ search engines to make sure
         // queued filters are not applied twice
         $return[] = array('Referers.getSearchEngines', array(

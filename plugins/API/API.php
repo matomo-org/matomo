@@ -1197,7 +1197,7 @@ class Piwik_API_API
             }
         }
 
-        if (count($labels) > 1) {
+        if (count($labels) != 1) {
             $data = $this->getMultiRowEvolution(
                 $dataTable,
                 $idSite,
@@ -1538,7 +1538,10 @@ class Piwik_API_API
             }
             
             $newTable = $table->getEmptyClone();
-            $newTable->addRow($newRow);
+            if (!empty($labels)) { // only add a row if the row has data (no labels === no data)
+                $newTable->addRow($newRow);
+            }
+            
             $dataTableMulti->addTable($newTable, $tableLabel);
         }
 
