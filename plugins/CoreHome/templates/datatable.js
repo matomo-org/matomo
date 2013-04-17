@@ -417,6 +417,9 @@ dataTable.prototype =
                             self.param.filter_column = 'label';
                             self.param.filter_pattern = keyword;
                         }
+						
+						delete self.param.totalRows;
+						
                         self.reloadAjaxDataTable(true, callbackSuccess);
                     }
                 );
