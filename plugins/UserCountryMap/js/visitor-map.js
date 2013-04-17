@@ -1077,7 +1077,7 @@
                             country.fips = UserCountryMap.differentFIPS[country.iso2];
                         }
                         $.each(metrics, function (i, metric) {
-                            metric = $(metric).attr('value');
+                            metric = $(metric).val();
                             country[metric] = data[metric];
                         });
                         countryData.push(country);
