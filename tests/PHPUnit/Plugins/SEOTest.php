@@ -41,7 +41,6 @@ class SEOTest extends PHPUnit_Framework_TestCase
         try {
             $dataTable = Piwik_SEO_API::getInstance()->getRank('http://www.microsoft.com/');
         } catch(Exception $e) {
-            echo "SKIPPEd";
             $this->markTestSkipped('A SEO http request failed, Skipping this test for now. Error was: '.$e->getMessage());
         }
         $renderer = Piwik_DataTable_Renderer::factory('php');
