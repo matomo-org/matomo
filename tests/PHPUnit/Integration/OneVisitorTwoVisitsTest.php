@@ -136,6 +136,17 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
                                                          'avg_time_generation,nb_hits_with_time_generation',
                                                      'expanded'    => '1'
                                                  ))),
+
+            // test showColumns on API.get
+            array('API.get', array(
+                'idSite'                 => $idSite,
+                'date'                   => $dateTime,
+                'periods'                => 'day',
+                'testSuffix'             => '_showColumns', 
+                'otherRequestParameters' => array(
+                    'showColumns'        => 'nb_uniq_visitors,nb_pageviews,bounce_rate'
+                )
+            )),
         );
     }
 

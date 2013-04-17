@@ -584,14 +584,6 @@ class Piwik_API_API
                 // set metric documentation to default if it's not set
                 $availableReport['metricsDocumentation'] = $this->getDefaultMetricsDocumentation();
             }
-
-            // if hide/show columns specified, hide/show metrics & docs
-            $availableReport['metrics'] = $this->hideShowMetrics($availableReport['metrics']);
-            $availableReport['processedMetrics'] = $this->hideShowMetrics($availableReport['processedMetrics']);
-            if (isset($availableReport['metricsDocumentation'])) {
-                $availableReport['metricsDocumentation'] =
-                    $this->hideShowMetrics($availableReport['metricsDocumentation']);
-            }
         }
 
         // Some plugins need to add custom metrics after all plugins hooked in
@@ -623,6 +615,16 @@ class Piwik_API_API
             }
             $availableReport['metrics'] = $cleanedMetrics;
 
+            // if hide/show columns specified, hide/show metrics & docs
+            $availableReport['metrics'] = $this->hideShowMetrics($availableReport['metrics']);
+            if (isset($availableReport['processedMetrics'])) {
+                $availableReport['processedMetrics'] = $this->hideShowMetrics($availableReport['processedMetrics']);
+            }
+            if (isset($availableReport['metricsDocumentation'])) {
+                $availableReport['metricsDocumentation'] =
+                    $this->hideShowMetrics($availableReport['metricsDocumentation']);
+            }
+            
             // Remove array elements that are false (to clean up API output)
             foreach ($availableReport as $attributeName => $attributeValue) {
                 if (empty($attributeValue)) {
@@ -1057,8 +1059,10 @@ class Piwik_API_API
         $meta = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
         foreach ($meta as $reportMeta) {
             // scan all *.get reports
-            if ($reportMeta['action'] == 'get' && !isset($reportMeta['parameters'])
+            if ($reportMeta['action'] == 'get'
+                && !isset($reportMeta['parameters'])
                 && $reportMeta['module'] != 'API'
+                && !empty($reportMeta['metrics'])
             ) {
                 $plugin = $reportMeta['module'];
                 foreach ($reportMeta['metrics'] as $column => $columnTranslation) {
