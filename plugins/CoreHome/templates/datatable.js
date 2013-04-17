@@ -1190,6 +1190,9 @@ dataTable.prototype =
 
                     self.param.idSubtable = idSubTable;
                     self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
+					
+					delete self.param.totalRows;
+					
                     self.reloadAjaxDataTable(false, function(response) {
                         self.dataTableLoaded(response, divIdToReplaceWithSubTable);
                     });
