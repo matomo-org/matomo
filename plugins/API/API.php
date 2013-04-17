@@ -1176,12 +1176,23 @@ class Piwik_API_API
             }
             $labels = array_values(array_unique($labels));
             
+            // if the filter_limit query param is set, treat it as a request to limit
+            // the number of labels used
+            $limit = Piwik_Common::getRequestVar('filter_limit', false);
+            if ($limit != false
+                && $limit >= 0
+            ) {
+                $labels = array_slice($labels, 0, $limit);
+            }
+            
             // set label index metadata
             $labelsToIndex = array_flip($labels);
             foreach ($dataTable->getArray() as $table) {
                 foreach ($table->getRows() as $row) {
                     $label = $row->getColumn('label');
-                    $row->setMetadata('label_index', $labelsToIndex[$label]);
+                    if (isset($labelsToIndex[$label])) {
+                        $row->setMetadata('label_index', $labelsToIndex[$label]);
+                    }
                 }
             }
         }
@@ -1324,6 +1335,9 @@ class Piwik_API_API
             'serialize'                => '0',
             'segment'                  => $segment,
             'idGoal'                   => $idGoal,
+            
+            // data for row evolution should NOT be limited
+            'filter_limit'             => -1,
 
             // if more than one label is used, we add metadata to ensure we know which
             // row corresponds with which label (since the labels can change, and rows
@@ -1564,9 +1578,10 @@ class Piwik_API_API
      */
     private function getRowEvolutionRowFromLabelIdx($table, $labelIdx)
     {
+        $labelIdx = (int)$labelIdx;
         foreach ($table->getRows() as $row)
         {
-            if ($row->getMetadata('label_index') == $labelIdx)
+            if ($row->getMetadata('label_index') === $labelIdx)
             {
                 return $row;
             }

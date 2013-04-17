@@ -75,6 +75,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
             . ',Google>' . urlencode(strtolower($keywords[2]));
         // Test multiple labels search engines, Google should also have a 'logo' entry
         $config['otherRequestParameters']['label'] = urlencode($keywordsStr . ",Google");
+        $config['otherRequestParameters']['filter_limit'] = 1; // should have no effect
         $return[] = array('API.getRowEvolution', $config);
 
         // Actions > Pages titles, standard label
@@ -83,6 +84,7 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $config['otherRequestParameters']['apiModule'] = 'Actions';
         $config['otherRequestParameters']['apiAction'] = 'getPageTitles';
         $config['otherRequestParameters']['label'] = urlencode('incredible title 0');
+        $config['otherRequestParameters']['filter_limit'] = 1; // should have no effect
         $return[] = array('API.getRowEvolution', $config);
 
         // Actions > Page titles, multiple labels
@@ -151,6 +153,21 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
                 'apiModule' => 'UserSettings',
                 'apiAction' => 'getBrowser',
                 'label'     => 'Firefox,Chrome,Opera'
+            )
+        ));
+        
+        // test multi row evolution w/ filter_limit to limit all available labels
+        $return[] = array('API.getRowEvolution', array(
+            'testSuffix'             => '_multiWithFilterLimit',
+            'periods'                => 'day',
+            'idSite'                 => $idSite,
+            'date'                   => $today,
+            'otherRequestParameters' => array(
+                'date'         => '2010-03-01,2010-03-06',
+                'period'       => 'day',
+                'apiModule'    => 'Referers',
+                'apiAction'    => 'getWebsites',
+                'filter_limit' => 3, // only 3 labels should show up
             )
         ));
         
