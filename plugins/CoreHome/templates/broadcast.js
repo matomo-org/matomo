@@ -159,6 +159,7 @@ var broadcast = {
 
         } else {
             // start page
+            Piwik_Popover.close();
             $('#content').empty();
         }
     },
@@ -343,12 +344,19 @@ var broadcast = {
             popover = popover.replace(/%/g, '\$');
         }
 
-        if (broadcast.getParamValue('popover', hash)) {
+        if ('' == value || 'undefined' == typeof value) {
+            var newHash = hash.replace(/(&?popover=.*)/, '');
+        } else if (broadcast.getParamValue('popover', hash)) {
             var newHash = broadcast.updateParamValue('popover='+popover, hash);
         } else if (hash && hash != '#') {
             var newHash = hash + '&popover=' + popover
         } else {
             var newHash = '#popover='+popover;
+        }
+
+        // never use an empty hash, as that might reload the page
+        if ('' == newHash) {
+            newHash = '#';
         }
 
         window.location.href = 'index.php' + window.location.search + newHash;
