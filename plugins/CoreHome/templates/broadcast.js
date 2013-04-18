@@ -56,7 +56,7 @@ var broadcast = {
      * Initializes broadcast object
      * @return {void}
      */
-    init: function () {
+    init: function (noLoadingMessage) {
         if (broadcast._isInit) {
             return;
         }
@@ -66,7 +66,9 @@ var broadcast = {
         // The callback is called at once by present location.hash
         $.history.init(broadcast.pageload, {unescape: true});
 
-        piwikHelper.showAjaxLoading();
+        if(noLoadingMessage != true) {
+            piwikHelper.showAjaxLoading();
+        }
     },
 
     /**
@@ -326,7 +328,7 @@ var broadcast = {
      */
     propagateNewPopoverParameter: function (handlerName, value) {
         // init broadcast if not already done (it is required to make popovers work in widgetize mode)
-        broadcast.init();
+        broadcast.init(true);
 
         var hash = broadcast.getHashFromUrl(window.location.href);
 
@@ -486,8 +488,11 @@ var broadcast = {
 
         var result = {};
         for (var i = 0; i != pairs.length; ++i) {
-            var pair = pairs[i].split(/=(.+)?/); // split only on first '='
-            result[pair[0]] = pair[1];
+            // attn: split with regex has bugs in several browsers such as IE 8
+            // so we need to split, use the first part as key and rejoin the rest
+            var pair = pairs[i].split('=');
+            var key  = pair.shift();
+            result[key] = pair.join('=');
         }
         return result;
     },

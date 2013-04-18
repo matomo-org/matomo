@@ -132,7 +132,7 @@
             var goals = allGoals[idsite] || [];
             for (var key in goals) {
                 var goal = goals[key];
-                selectElement.append($('<option/>').attr('value', goal.idgoal).text(goal.name));
+                selectElement.append($('<option/>').val(goal.idgoal).text(goal.name));
             }
 
             // set currency string

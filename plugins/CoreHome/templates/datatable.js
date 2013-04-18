@@ -417,6 +417,9 @@ dataTable.prototype =
                             self.param.filter_column = 'label';
                             self.param.filter_pattern = keyword;
                         }
+						
+						delete self.param.totalRows;
+						
                         self.reloadAjaxDataTable(true, callbackSuccess);
                     }
                 );
@@ -872,7 +875,17 @@ dataTable.prototype =
                     str += '&filter_limit=' + filter_limit;
                 }
                 if (label) {
-                    str += '&label=' + encodeURIComponent(label);
+                    if (self.param.is_multi_evolution) {
+                        label = label.split(',');
+                    }
+                    
+                    if (label instanceof Array) {
+                        for (var i = 0; i != label.length; ++i) {
+                            str += '&label[]=' + encodeURIComponent(label[i]);
+                        }
+                    } else {
+                        str += '&label=' + encodeURIComponent(label);
+                    }
                 }
                 return str;
             }
@@ -1180,6 +1193,9 @@ dataTable.prototype =
 
                     self.param.idSubtable = idSubTable;
                     self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
+					
+					delete self.param.totalRows;
+					
                     self.reloadAjaxDataTable(false, function(response) {
                         self.dataTableLoaded(response, divIdToReplaceWithSubTable);
                     });

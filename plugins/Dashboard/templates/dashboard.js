@@ -80,9 +80,9 @@ function initDashboard(dashboardId, dashboardLayout) {
 }
 
 function createDashboard() {
-    $('#createDashboardName').attr('value', '');
+    $('#createDashboardName').val('');
     piwikHelper.modalConfirm('#createDashboardConfirm', {yes: function () {
-        var dashboardName = $('#createDashboardName').attr('value');
+        var dashboardName = $('#createDashboardName').val();
         var type = ($('#dashboard_type_empty:checked').length > 0) ? 'empty' : 'default';
 
         var ajaxRequest = new ajaxHelper();
@@ -109,8 +109,8 @@ function resetDashboard() {
 }
 
 function renameDashboard() {
-    $('#newDashboardName').attr('value', $('#dashboardWidgetsArea').dashboard('getDashboardName'));
-    piwikHelper.modalConfirm('#renameDashboardConfirm', {yes: function () { $('#dashboardWidgetsArea').dashboard('setDashboardName', $('#newDashboardName').attr('value')); }});
+    $('#newDashboardName').val($('#dashboardWidgetsArea').dashboard('getDashboardName'));
+    piwikHelper.modalConfirm('#renameDashboardConfirm', {yes: function () { $('#dashboardWidgetsArea').dashboard('setDashboardName', $('#newDashboardName').val()); }});
 }
 
 function removeDashboard() {
@@ -140,7 +140,7 @@ function setAsDefaultWidgets() {
 }
 
 function copyDashboardToUser() {
-    $('#copyDashboardName').attr('value', $('#dashboardWidgetsArea').dashboard('getDashboardName'));
+    $('#copyDashboardName').val($('#dashboardWidgetsArea').dashboard('getDashboardName'));
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams({
         module: 'API',
@@ -166,8 +166,8 @@ function copyDashboardToUser() {
 
     piwikHelper.modalConfirm('#copyDashboardToUserConfirm', {
         yes: function () {
-            var copyDashboardName = $('#copyDashboardName').attr('value');
-            var copyDashboardUser = $('#copyDashboardUser').attr('value');
+            var copyDashboardName = $('#copyDashboardName').val();
+            var copyDashboardUser = $('#copyDashboardUser').val();
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams({

@@ -61,7 +61,11 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
      */
     protected function manipulateDataTable($dataTable)
     {
-        $newDataTable = $dataTable->getEmptyClone();
+        if ($this->includeAggregateRows) {
+            $dataTable->applyQueuedFilters();
+        }
+        
+        $newDataTable = $dataTable->getEmptyClone($keepFilters = false);
         foreach ($dataTable->getRows() as $row) {
             $this->flattenRow($row, $newDataTable);
         }
@@ -77,7 +81,6 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
     private function flattenRow(Piwik_DataTable_Row $row, Piwik_DataTable $dataTable,
                                 $labelPrefix = '', $parentLogo = false)
     {
-
         $label = $row->getColumn('label');
         if ($label !== false) {
             $label = trim($label);

@@ -291,10 +291,10 @@ class Piwik_API_ResponseBuilder
         $label = $this->getLabelQueryParam();
         if (!empty($label)) {
             $label = Piwik_Common::unsanitizeInputValues($label);
-            $addEmptyRows = Piwik_Common::getRequestVar('labelFilterAddEmptyRows', 0, 'int', $this->request) == 1;
+            $addLabelIndex = Piwik_Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
 
             $filter = new Piwik_API_DataTableManipulator_LabelFilter($this->apiModule, $this->apiMethod, $this->request);
-            $datatable = $filter->filter($label, $datatable, $addEmptyRows);
+            $datatable = $filter->filter($label, $datatable, $addLabelIndex);
         }
         return $this->getRenderedDataTable($datatable);
     }
