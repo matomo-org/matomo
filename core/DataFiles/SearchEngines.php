@@ -181,6 +181,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.search-results.com'         => array('Ask'),
         'int.search-results.com'         => array('Ask'),
         '{}.search-results.com'          => array('Ask'),
+        'search.ask.com'                 => array('Ask'),
         '{}.search.ask.com'              => array('Ask'),
         'avira-int.ask.com'              => array('Ask'),
 
