@@ -399,6 +399,11 @@ class Configuration(object):
             help="Invalidate reports for the specified dates (format: YYYY-MM-DD,YYYY-MM-DD,...). "
                  "By default, all dates found in the logs will be invalidated.",
         )
+        option_parser.add_option(
+            '--force-lowercase-path', dest='force_lowercase_path', default=False, action='store_true',
+            help="Make URL path lowercase so paths with the same letters but different cases are "
+                 "treated the same."
+        )
         return option_parser
 
 
@@ -1225,6 +1230,9 @@ class Hit(object):
         for key, value in kwargs.iteritems():
             setattr(self, key, value)
         super(Hit, self).__init__()
+        
+        if config.options.force_lowercase_path:
+            self.full_path = self.full_path.lower()
 
 
 class Parser(object):
