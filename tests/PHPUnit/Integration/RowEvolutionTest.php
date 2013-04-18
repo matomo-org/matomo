@@ -92,6 +92,14 @@ class Test_Piwik_Integration_RowEvolution extends IntegrationTestCase
         $label = urlencode('incredible title 0') . ',' . urlencode('incredible title 2');
         $config['otherRequestParameters']['label'] = urlencode($label);
         $return[] = array('API.getRowEvolution', $config);
+        
+        // standard label, entry page titles
+        $config['testSuffix'] = '_entryPageTitles';
+        $config['periods'] = 'day';
+        $config['otherRequestParameters']['apiModule'] = 'Actions';
+        $config['otherRequestParameters']['apiAction'] = 'getEntryPageTitles';
+        $config['otherRequestParameters']['label'] = urlencode('incredible title 0');
+        $return[] = array('API.getRowEvolution', $config);
 
         // Actions > Page URLS, hierarchical label
         $config['testSuffix'] = '_pageUrls';
