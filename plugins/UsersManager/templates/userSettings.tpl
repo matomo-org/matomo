@@ -10,7 +10,7 @@
     <input role="no" type="button" value="{'General_No'|translate}"/>
 </div>
 
-<table id='userSettingsTable' class="adminTable" style='width:1000px'>
+<table id='userSettingsTable' class="adminTable" style='width:1050px'>
     <tr>
         <td><label for="username">{'General_Username'|translate} </label></td>
         <td>
