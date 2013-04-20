@@ -134,25 +134,25 @@ class Piwik_Transitions_API
             case 'url':
                 $originalActionName = $actionName;
                 $actionName = Piwik_Common::unsanitizeInputValue($actionName);
-                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url');
+                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', Piwik_SegmentExpression::MATCH_EQUAL, 'pageUrl');
 
                 if ($id < 0) {
                     // an example where this is needed is urls containing < or >
                     $actionName = $originalActionName;
-                    $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url');
+                    $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', Piwik_SegmentExpression::MATCH_EQUALs, 'pageUrl');
                 }
 
                 return $id;
 
             case 'title':
-                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name');
+                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name', Piwik_SegmentExpression::MATCH_EQUAL, 'pageTitle');
 
                 if ($id < 0) {
-                    $unkown = Piwik_Actions_ArchivingHelper::getUnknownActionName(
+                    $unknown = Piwik_Actions_ArchivingHelper::getUnknownActionName(
                         Piwik_Tracker_Action::TYPE_ACTION_NAME);
 
-                    if (trim($actionName) == trim($unkown)) {
-                        $id = $actionsPlugin->getIdActionFromSegment('', 'idaction_name');
+                    if (trim($actionName) == trim($unknown)) {
+                        $id = $actionsPlugin->getIdActionFromSegment('', 'idaction_name', Piwik_SegmentExpression::MATCH_EQUAL, 'pageTitle');
                     }
                 }
 

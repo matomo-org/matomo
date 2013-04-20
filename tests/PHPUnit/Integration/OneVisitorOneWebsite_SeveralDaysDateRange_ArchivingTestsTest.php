@@ -42,7 +42,7 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
         // 2 segments: ALL and another way of expressing ALL but triggering the Segment code path
         $segments = array(
             false,
-            'country!=aa',
+            'countryCode!=aa',
             'pageUrl!=ThisIsNotKnownPageUrl',
         );
 

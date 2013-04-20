@@ -54,28 +54,28 @@
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>Continent</name>
-		<segment>continent</segment>
+		<segment>continentCode</segment>
 		<acceptedValues>eur, asi, amc, amn, ams, afr, ant, oce</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>Country</name>
-		<segment>country</segment>
+		<segment>countryCode</segment>
 		<acceptedValues>de, us, fr, in, es, etc.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>Latitude</name>
-		<segment>lat</segment>
+		<segment>latitude</segment>
 		<acceptedValues>-33.578, 40.830, etc.&lt;br/&gt;You can select visitors within a lat/long range using &amp;segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>Longitude</name>
-		<segment>long</segment>
+		<segment>longitude</segment>
 		<acceptedValues>-70.664, 14.326, etc.</acceptedValues>
 	</row>
 	<row>
@@ -89,14 +89,14 @@
 		<type>dimension</type>
 		<category>Visit Location</category>
 		<name>Region</name>
-		<segment>region</segment>
+		<segment>regionCode</segment>
 		<acceptedValues>01 02, OR, P8, etc.&lt;br/&gt;eg. region=A1;country=fr</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
 		<name>Browser</name>
-		<segment>browserName</segment>
+		<segment>browserCode</segment>
 		<acceptedValues>FF, IE, CH, SF, OP, etc.</acceptedValues>
 	</row>
 	<row>
@@ -117,7 +117,7 @@
 		<type>dimension</type>
 		<category>Visit</category>
 		<name>Operating system</name>
-		<segment>operatingSystem</segment>
+		<segment>operatingSystemCode</segment>
 		<acceptedValues>WXP, WI7, MAC, LIN, AND, IPD, etc.</acceptedValues>
 	</row>
 	<row>
@@ -348,6 +348,12 @@
 		<category>Actions</category>
 		<name>Exit Page URL</name>
 		<segment>exitPageUrl</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Actions</category>
+		<name>Keyword (Site Search)</name>
+		<segment>siteSearchKeyword</segment>
 	</row>
 	<row>
 		<type>dimension</type>

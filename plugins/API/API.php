@@ -78,7 +78,8 @@ class Piwik_API extends Piwik_Plugin
  * <li>the list of metrics that will be returned by each method, along with their human readable name, via "getDefaultMetrics" and "getDefaultProcessedMetrics"</li>
  * <li>the list of segments metadata supported by all functions that have a 'segment' parameter</li>
  * <li>the (truly magic) method "getProcessedReport" will return a human readable version of any other report, and include the processed metrics such as
- * conversion rate, time on site, etc. which are not directly available in other methods.
+ * conversion rate, time on site, etc. which are not directly available in other methods.</li>
+ * <li>the method "getSuggestedValuesForSegment" returns top suggested values for a particular segment. It uses the Live.getLastVisitsDetails API to fetch the most recently used values, and will return the most often used values first.</li>
  * </ul>
  * The Metadata API is for example used by the Piwik Mobile App to automatically display all Piwik reports, with translated report & columns names and nicely formatted values.
  * More information on the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API documentation page</a>
@@ -912,7 +913,7 @@ class Piwik_API_API
             foreach ($columns as $name => $ignore) {
                 // if the current column should not be kept, remove it
                 $idx = array_search($name, $columnsToKeep);
-                if ($idx === FALSE) // if $name is not in $columnsToKeep
+                if ($idx === false) // if $name is not in $columnsToKeep
                 {
                     unset($columns[$name]);
                 }
@@ -1624,5 +1625,66 @@ class Piwik_API_API
             $result[] = $req->process();
         }
         return $result;
+    }
+
+    /**
+     * Given a segment, will return a list of the most used values for this particular segment.
+     * @param $segmentName
+     * @param $idSite
+     * @throws Exception
+     */
+    public function getSuggestedValuesForSegment($segmentName, $idSite)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+        $maxSuggestionsToReturn = 30;
+        $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false);
+
+        $segmentFound = false;
+        foreach($segmentsMetadata as $segmentMetadata) {
+            if($segmentMetadata['segment'] == $segmentName) {
+                $segmentFound = $segmentMetadata;
+                break;
+            }
+        }
+        if(empty($segmentFound)) {
+            throw new Exception("Requested segment not found.");
+        }
+
+        $startDate = Piwik_Date::now()->subDay(60)->toString();
+
+        // we know which SQL field this segment matches to: call the LIVE api to  get last 1000 visitors values
+        $request = new Piwik_API_Request("method=Live.getLastVisitsDetails
+            &idSite=$idSite
+            &period=range
+            &date=$startDate,today
+            &filter_limit=10000
+            &format=original
+            &serialize=0
+            &flat=1
+            &segment=");
+        $table = $request->process();
+        if(empty($table)) {
+            throw new Exception("There was no data to suggest for $segmentName");
+        }
+
+        // Cleanup data to return the top suggested (non empty) labels for this segment
+        $values = $table->getColumn($segmentName);
+
+        // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
+        $valuesBis = $table->getColumnsStartingWith($segmentName . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
+        $values = array_merge($values, $valuesBis);
+
+        // remove false values (while keeping zeros)
+        $values = array_filter( $values, 'strlen' );
+
+        // we have a list of all values. let's show the most frequently used first.
+        $values = array_count_values( $values );
+        arsort($values);
+        $values = array_keys($values);
+
+        $values = array_map( array('Piwik_Common', 'unsanitizeInputValue'), $values);
+
+        $values = array_slice($values, 0, $maxSuggestionsToReturn);
+        return $values;
     }
 }

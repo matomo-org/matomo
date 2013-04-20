@@ -676,6 +676,26 @@ class Piwik_DataTable
     }
 
     /**
+     * Returns  the array containing all rows values of all columns which name starts with $name
+     *
+     * @param $name
+     * @return array
+     */
+    public function getColumnsStartingWith($name)
+    {
+        $columnValues = array();
+        foreach ($this->getRows() as $row) {
+            $columns = $row->getColumns();
+            foreach($columns as $column => $value) {
+                if(strpos($column, $name) === 0) {
+                    $columnValues[] = $row->getColumn($column);
+                }
+            }
+        }
+        return $columnValues;
+    }
+
+    /**
      * Returns an array containing the rows Metadata values
      *
      * @param string $name  Metadata column to return

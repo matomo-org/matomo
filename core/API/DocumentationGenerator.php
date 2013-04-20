@@ -132,6 +132,7 @@ class Piwik_API_DocumentationGenerator
             'lastMinutes'    => '30',
             'abandonedCarts' => '0',
             'ip'             => '194.57.91.215',
+//            'segmentName'    => 'browserCode',
         );
 
         foreach ($parametersToSet as $name => $value) {
@@ -231,4 +232,5 @@ class Piwik_API_DocumentationGenerator
         $sParameters = implode(", ", $asParameters);
         return "($sParameters)";
     }
+
 }

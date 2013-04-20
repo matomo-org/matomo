@@ -44,17 +44,17 @@ class SegmentTest extends PHPUnit_Framework_TestCase
     {
         return array(
             // Normal segment
-            array('country==France', array(
+            array('countryCode==France', array(
                 'where' => ' log_visit.location_country = ? ',
                 'bind'  => array('France'))),
 
             // unescape the comma please
-            array('country==a\,==', array(
+            array('countryCode==a\,==', array(
                 'where' => ' log_visit.location_country = ? ',
                 'bind'  => array('a,=='))),
 
             // AND, with 2 values rewrites
-            array('country==a;visitorType!=returning;visitorType==new', array(
+            array('countryCode==a;visitorType!=returning;visitorType==new', array(
                 'where' => ' log_visit.location_country = ? AND log_visit.visitor_returning <> ? AND log_visit.visitor_returning = ? ',
                 'bind'  => array('a', '1', '0'))),
 

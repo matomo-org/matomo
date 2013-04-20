@@ -97,13 +97,15 @@ class Piwik_Live_API
      * @param int $visitorId
      * @param int $idSite
      * @param int $filter_limit
+     * @param bool $flat Whether to flatten the visitor details array
+     *
      * @return Piwik_DataTable
      */
-    public function getLastVisitsForVisitor($visitorId, $idSite, $filter_limit = 10)
+    public function getLastVisitsForVisitor($visitorId, $idSite, $filter_limit = 10, $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period = false, $date = false, $segment = false, $filter_limit, $filter_offset = false, $visitorId);
-        $table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
+        $table = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite, $flat);
         return $table;
     }
 
@@ -121,25 +123,23 @@ class Piwik_Live_API
      *
      * @return Piwik_DataTable
      */
-    public function getLastVisitsDetails($idSite, $period, $date, $segment = false, $filter_limit = false, $filter_offset = false, $minTimestamp = false)
+    public function getLastVisitsDetails($idSite, $period, $date, $segment = false, $filter_limit = false, $filter_offset = false, $minTimestamp = false, $flat = false)
     {
         if (empty($filter_limit)) {
             $filter_limit = 10;
         }
         Piwik::checkUserHasViewAccess($idSite);
         $visitorDetails = $this->loadLastVisitorDetailsFromDatabase($idSite, $period, $date, $segment, $filter_limit, $filter_offset, $visitorId = false, $minTimestamp);
-        $dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite);
-
+        $dataTable = $this->getCleanedVisitorsFromDetails($visitorDetails, $idSite, $flat);
         return $dataTable;
     }
 
     /**
      * @deprecated
      */
-
     public function getLastVisits($idSite, $filter_limit = 10, $minTimestamp = false)
     {
-        return $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $filter_limit, $filter_offset = false, $minTimestamp);
+        return $this->getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $filter_limit, $filter_offset = false, $minTimestamp, $flat = false);
     }
 
     /**
@@ -147,9 +147,10 @@ class Piwik_Live_API
      * as well as make the data human readable
      * @param array $visitorDetails
      * @param int $idSite
+     * @param bool $flat whether to flatten the array (eg. 'customVariables' names/values will appear in the root array rather than in 'customVariables' key
      * @return Piwik_DataTable
      */
-    private function getCleanedVisitorsFromDetails($visitorDetails, $idSite)
+    private function getCleanedVisitorsFromDetails($visitorDetails, $idSite, $flat = false)
     {
         $actionsLimit = (int)Piwik_Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
 
@@ -200,6 +201,7 @@ class Piwik_Live_API
 					LEFT JOIN " . Piwik_Common::prefixTable('log_action') . " AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
 				WHERE log_link_visit_action.idvisit = ?
+				ORDER BY server_time ASC
 				LIMIT 0, $actionsLimit
 				 ";
             $actionDetails = Piwik_FetchAll($sql, array($idvisit));
@@ -212,8 +214,8 @@ class Piwik_Live_API
                         $cvarKey = $actionDetail['custom_var_k' . $i];
                         $cvarKey = $this->getCustomVariablePrettyKey($cvarKey);
                         $customVariablesPage[$i] = array(
-                            'customVariableName' . $i  => $cvarKey,
-                            'customVariableValue' . $i => $actionDetail['custom_var_v' . $i],
+                            'customVariablePageName' . $i  => $cvarKey,
+                            'customVariablePageValue' . $i => $actionDetail['custom_var_v' . $i],
                         );
                     }
                     unset($actionDetail['custom_var_k' . $i]);
@@ -222,21 +224,30 @@ class Piwik_Live_API
                 if (!empty($customVariablesPage)) {
                     $actionDetail['customVariables'] = $customVariablesPage;
                 }
-                // reconstruct url from prefix
+
+                // Reconstruct url from prefix
                 $actionDetail['url'] = Piwik_Tracker_Action::reconstructNormalizedUrl($actionDetail['url'], $actionDetail['url_prefix']);
                 unset($actionDetail['url_prefix']);
-                // set the time spent for this action (which is the timeSpentRef of the next action)
+
+                // Set the time spent for this action (which is the timeSpentRef of the next action)
                 if (isset($actionDetails[$actionIdx + 1])) {
                     $actionDetail['timeSpent'] = $actionDetails[$actionIdx + 1]['timeSpentRef'];
                     $actionDetail['timeSpentPretty'] = Piwik::getPrettyTimeFromSeconds($actionDetail['timeSpent']);
 
                 }
                 unset($actionDetails[$actionIdx]['timeSpentRef']); // not needed after timeSpent is added
-                // handle generation time
+
+                // Handle generation time
                 if ($actionDetail['custom_float'] > 0) {
                     $actionDetail['generationTime'] = Piwik::getPrettyTimeFromSeconds($actionDetail['custom_float'] / 1000);
                 }
                 unset($actionDetail['custom_float']);
+
+                // Handle Site Search
+                if($actionDetail['type'] == Piwik_Tracker_Action::TYPE_SITE_SEARCH) {
+                    $actionDetail['siteSearchKeyword'] = $actionDetail['pageTitle'];
+                    unset($actionDetail['pageTitle']);
+                }
             }
 
             // If the visitor converted a goal, we shall select all Goals
@@ -244,6 +255,7 @@ class Piwik_Live_API
 				SELECT 
 						'goal' as type,
 						goal.name as goalName,
+						goal.idgoal as goalId,
 						goal.revenue as revenue,
 						log_conversion.idlink_va as goalPageId,
 						log_conversion.server_time as serverTimePretty,
@@ -256,6 +268,7 @@ class Piwik_Live_API
 					AND goal.deleted = 0
 				WHERE log_conversion.idvisit = ?
 					AND log_conversion.idgoal > 0
+                ORDER BY server_time ASC
 				LIMIT 0, $actionsLimit
 			";
             $goalDetails = Piwik_FetchAll($sql, array($idvisit));
@@ -274,6 +287,7 @@ class Piwik_Live_API
 					FROM " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion
 					WHERE idvisit = ?
 						AND idgoal <= " . Piwik_Tracker_GoalManager::IDGOAL_ORDER . "
+					ORDER BY server_time ASC
 					LIMIT 0, $actionsLimit";
             $ecommerceDetails = Piwik_FetchAll($sql, array($idvisit));
 
@@ -365,9 +379,13 @@ class Piwik_Live_API
                 // Convert datetimes to the site timezone
                 $dateTimeVisit = Piwik_Date::factory($details['serverTimePretty'], $timezone);
                 $details['serverTimePretty'] = $dateTimeVisit->getLocalized(Piwik_Translate('CoreHome_ShortDateFormat') . ' %time%');
+
             }
             $visitorDetailsArray['goalConversions'] = count($goalDetails);
 
+            if($flat) {
+                $visitorDetailsArray = $this->flattenVisitorDetailsArray($visitorDetailsArray);
+            }
             $table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
         }
         return $table;
@@ -383,6 +401,92 @@ class Piwik_Live_API
             return $rename[$key];
         }
         return $key;
+    }
+
+    /**
+     * The &flat=1 feature is used by API.getSuggestedValuesForSegment
+     *
+     * @param $visitorDetailsArray
+     * @return array
+     */
+    private function flattenVisitorDetailsArray($visitorDetailsArray)
+    {
+        // flatten visit custom variables
+        if (is_array($visitorDetailsArray['customVariables'])) {
+            foreach ($visitorDetailsArray['customVariables'] as $thisCustomVar) {
+                $visitorDetailsArray = array_merge($visitorDetailsArray, $thisCustomVar);
+            }
+            unset($visitorDetailsArray['customVariables']);
+        }
+
+        // flatten page views custom variables
+        $count = 1;
+        foreach ($visitorDetailsArray['actionDetails'] as $action) {
+            if (!empty($action['customVariables'])) {
+                foreach ($action['customVariables'] as $thisCustomVar) {
+                    foreach ($thisCustomVar as $cvKey => $cvValue) {
+                        $flattenedKeyName = $cvKey . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
+                        $visitorDetailsArray[$flattenedKeyName] = $cvValue;
+                        $count++;
+                    }
+                }
+            }
+        }
+        // Flatten Goals
+        $count = 1;
+        foreach($visitorDetailsArray['actionDetails'] as $action) {
+            if(!empty($action['goalId'])) {
+                $flattenedKeyName = 'visitConvertedGoalId' . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
+                $visitorDetailsArray[$flattenedKeyName] = $action['goalId'];
+                $count++;
+            }
+        }
+
+        // Flatten Page Titles/URLs
+        $count = 1;
+        foreach($visitorDetailsArray['actionDetails'] as $action) {
+            if(!empty($action['url'])) {
+                $flattenedKeyName = 'pageUrl' . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
+                $visitorDetailsArray[$flattenedKeyName] = $action['url'];
+            }
+
+            if(!empty($action['pageTitle'])) {
+                $flattenedKeyName = 'pageTitle' . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
+                $visitorDetailsArray[$flattenedKeyName] = $action['pageTitle'];
+            }
+
+            if(!empty($action['siteSearchKeyword'])) {
+                $flattenedKeyName = 'siteSearchKeyword' . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
+                $visitorDetailsArray[$flattenedKeyName] = $action['siteSearchKeyword'];
+            }
+            $count++;
+        }
+
+        // Entry/exit pages
+        $firstAction = $lastAction = false;
+        foreach($visitorDetailsArray['actionDetails'] as $action) {
+            if($action['type'] == 'action')  {
+                if(empty($firstAction)) {
+                    $firstAction = $action;
+                }
+                $lastAction = $action;
+            }
+        }
+
+        if(!empty($firstAction['pageTitle'])) {
+            $visitorDetailsArray['entryPageTitle'] = $firstAction['pageTitle'];
+        }
+        if(!empty($firstAction['url'])) {
+            $visitorDetailsArray['entryPageUrl'] = $firstAction['url'];
+        }
+        if(!empty($lastAction['pageTitle'])) {
+            $visitorDetailsArray['exitPageTitle'] = $lastAction['pageTitle'];
+        }
+        if(!empty($lastAction['url'])) {
+            $visitorDetailsArray['exitPageUrl'] = $lastAction['url'];
+        }
+
+        return $visitorDetailsArray;
     }
 
     private function sortByServerTime($a, $b)

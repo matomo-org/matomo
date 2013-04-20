@@ -69,7 +69,8 @@ class Piwik_CoreUpdater extends Piwik_Plugin
                 && $action == 'saveLanguage')
         ) {
             if (Piwik_FrontController::shouldRethrowException()) {
-                throw new Exception("Piwik and/or some plugins have been upgraded to a new version. Please run the update process first. See documentation: http://piwik.org/docs/update/");
+                throw new Exception("Piwik and/or some plugins have been upgraded to a new version. \n".
+                    "--> Please run the update process first. See documentation: http://piwik.org/docs/update/ \n");
             } else {
                 Piwik::redirectToModule('CoreUpdater');
             }
