@@ -1715,6 +1715,7 @@ $translations = array(
 	'UserSettings_PluginDescription' => '用户环境报表: 浏览器、浏览器种类、操作系统、插件、分辨率、全局参数。',
 	'UserCountry_GeoIpLocationProviderDesc_Php1' => '本地理位置服务商最容易安装，不需要在服务器上设置 (适合虚拟主机!)。它使用 GeoIP 数据库和 MaxMind 的 PHP API 来准确定位访客的地理位置。',
 	'UserCountry_GeoIpLocationProviderDesc_Php2' => '如果您的网站流量很大，这个服务速度会很慢。如果这样，您最好安装 %1$sPECL 扩展%2$s 或者 %3$s服务器模块%4$s。',
+	'UserCountry_GeoIpLocationProviderDesc_ServerBased1' => '本地理位置服务商使用已经安装在 HTTP 服务器上的 GeoIP 模块。本服务商速度快也更精确，但是 %1$s只能使用一般的浏览器跟踪。%2$s',
 	'UserCountry_GeoIpLocationProviderDesc_ServerBased2' => '如果您需要导入日志文件，或者需要设置 IP 地址的操作，使用 %1$sPECL GeoIP 方案 (推荐)%2$s 或者 %3$sPHP GeoIP 方案%4$s。',
 	'UserCountry_GeoIpLocationProviderDesc_ServerBasedAnonWarn' => '提示: IP 屏蔽对这个服务商的报表无效。在使用它和 IP 屏蔽前，请确认这不违反您当地的隐私保护法规。',
 	'UserCountry_GeolocationPageDesc' => '本页面可设定 Piwik 如何检测访客的地理位置。',
