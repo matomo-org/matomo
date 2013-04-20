@@ -1650,18 +1650,31 @@ class Piwik_API_API
             throw new Exception("Requested segment not found.");
         }
 
-        $startDate = Piwik_Date::now()->subDay(60)->toString();
+        $segmentsNeedActionsInfo = array('visitConvertedGoalId',
+                                         'pageUrl', 'pageTitle', 'siteSearchKeyword',
+                                         'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl');
+        $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
+        $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage;
 
-        // we know which SQL field this segment matches to: call the LIVE api to  get last 1000 visitors values
-        $request = new Piwik_API_Request("method=Live.getLastVisitsDetails
+        $startDate = Piwik_Date::now()->subDay(60)->toString();
+        $requestLastVisits = "method=Live.getLastVisitsDetails
             &idSite=$idSite
             &period=range
             &date=$startDate,today
-            &filter_limit=10000
             &format=original
             &serialize=0
             &flat=1
-            &segment=");
+            &segment=";
+
+        // By default Live fetches all actions for all visitors, but we'd rather do this only when required
+        if(!$doesSegmentNeedActionsInfo) {
+            $requestLastVisits .= "&doNotFetchActions=1";
+            $requestLastVisits .= "&filter_limit=10000";
+        } else {
+            $requestLastVisits .= "&filter_limit=1000";
+        }
+
+        $request = new Piwik_API_Request($requestLastVisits);
         $table = $request->process();
         if(empty($table)) {
             throw new Exception("There was no data to suggest for $segmentName");
