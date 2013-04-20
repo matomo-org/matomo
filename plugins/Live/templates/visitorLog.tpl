@@ -187,7 +187,7 @@
                         {capture assign='visitorHasSomeEcommerceActivity'}0{/capture}
                         {foreach from=$visitor.columns.actionDetails item=action}
                             {capture assign='customVariablesTooltip'}{if !empty($action.customVariables)}{'CustomVariables_CustomVariables'|translate}
-                                {foreach from=$action.customVariables item=customVariable key=id}{capture assign=name}customVariableName{$id}{/capture}{capture assign=value}customVariableValue{$id}{/capture}
+                                {foreach from=$action.customVariables item=customVariable key=id}{capture assign=name}customVariablePageName{$id}{/capture}{capture assign=value}customVariablePageValue{$id}{/capture}
 
                                     - {$customVariable.$name|escape:'html'} {if strlen($customVariable.$value) > 0} = {$customVariable.$value|escape:'html'}{/if}
                                 {/foreach}{/if}
@@ -252,9 +252,12 @@
                                     {elseif empty($action.goalName)}
                                     {* Page view / Download / Outlink *}
                                         {if !empty($action.pageTitle)}
+                                            {$action.pageTitle|unescape|urldecode|escape:'html'|truncate:80:"...":true}
+                                        {/if}
+                                        {if !empty($action.siteSearchKeyword)}
                                             {if $action.type == 'search'}<img src='{$action.icon}'
                                                                               title='{'Actions_SubmenuSitesearch'|translate|escape:'html'}'>{/if}
-                                            {$action.pageTitle|unescape|urldecode|escape:'html'|truncate:80:"...":true}
+                                            {$action.siteSearchKeyword|unescape|urldecode|escape:'html'|truncate:80:"...":true}
                                         {/if}
                                         {if !empty($action.url)}
                                             {if $action.type == 'action' && !empty($action.pageTitle)}<br/>{/if}

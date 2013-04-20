@@ -73,7 +73,7 @@
                                          title="{$action.url|escape:'html'} - {$action.serverTimePretty|escape:'html'}"/>
                                 {elseif $action.type == 'search'}
                                     <img class='iconPadding' src="{$action.icon}"
-                                         title="{'Actions_SubmenuSitesearch'|translate|escape:'html'}: {$action.pageTitle|escape:'html'} - {$action.serverTimePretty|escape:'html'}"/>
+                                         title="{'Actions_SubmenuSitesearch'|translate|escape:'html'}: {$action.siteSearchKeyword|escape:'html'} - {$action.serverTimePretty|escape:'html'}"/>
                                 {else}
                                     <img class='iconPadding' src="{$action.icon}"
                                          title="{$action.goalName|escape:'html'} - {if $action.revenue > 0}{'Live_GoalRevenue'|translate}: {$action.revenue|money:$idSite} - {/if} {$action.serverTimePretty|escape:'html'}"/>
