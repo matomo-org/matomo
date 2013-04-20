@@ -10,7 +10,7 @@
     {logoHtml metadata=$row.metadata alt=$row.columns.label}
     {if !empty($row.metadata.html_label_prefix)}<span class='label-prefix'>{$row.metadata.html_label_prefix}</span>{/if}
     <span class='label{if !empty($row.metadata.is_aggregate) && $row.metadata.is_aggregate } highlighted{/if}'
-          {if !empty($properties.tooltip_metadata_name)}title="{$row.metadata[$properties.tooltip_metadata_name]}"{/if}>{* make sure there are no whitespaces inside the span
+          {if !empty($properties.tooltip_metadata_name)}title="{$row.metadata[$properties.tooltip_metadata_name]|escape:'html'}"{/if}>{* make sure there are no whitespaces inside the span
 *}{if !empty($row.metadata.html_label_suffix)}<span class='label-suffix'>{$row.metadata.html_label_suffix}</span>{/if}
         {/if}{*
 *}{if isset($row.columns[$column])}{$row.columns[$column]}{else}{$defaultWhenColumnValueNotDefined}{/if}{*
