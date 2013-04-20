@@ -83,14 +83,7 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
         $bottomRightXValue = $this->width - $this->getGridRightMargin($horizontalGraph);
         $bottomRightYValue = $this->getGraphBottom($horizontalGraph);
 
-        // background color
-        $this->pImage->drawFilledRectangle(
-            0,
-            0,
-            $this->width,
-            $this->height,
-            array_merge(array('Alpha' => 100), $this->backgroundColor)
-        );
+        $this->drawBackground();
 
         $this->pImage->setGraphArea(
             $topLeftXValue,
