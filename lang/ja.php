@@ -414,6 +414,7 @@ $translations = array(
 	'PrivacyManager_LeastMonthsInput' => '月数は %s より大きい数を指定してください。',
 	'PrivacyManager_UseDeleteReports' => '定期的にデータベースから古いリポートを削除',
 	'PrivacyManager_DeleteReportsOlderThan' => 'この月数より古いリポートを削除',
+	'PrivacyManager_DeleteReportsInfo' => '有効の場合は、古いレポートが削除されます。%sデータベース容量が限られている場合のみ有効にすることをお勧めします。%s',
 	'PrivacyManager_DeleteReportsInfo2' => '"%s"が有効でない場合は、要求されれば、古いレポートが自動的に再作成されます。',
 	'PrivacyManager_DeleteReportsInfo3' => '"%s" を有効にすると、データは永久に失われます。',
 	'PrivacyManager_DeleteReportsDetailedInfo' => 'データベースの数値型のアーカイブテーブル（%s）とブロブ型のアーカイブテーブル（%s）からデータが削除されます。',

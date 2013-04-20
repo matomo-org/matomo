@@ -507,6 +507,7 @@ $translations = array(
 	'PrivacyManager_LeastMonthsInput' => 'Ange ett antal månader mer än %s.',
 	'PrivacyManager_UseDeleteReports' => 'Ta regelbundet bort gamla rapporter från databasen',
 	'PrivacyManager_DeleteReportsOlderThan' => 'Ta bort rapporter äldre än',
+	'PrivacyManager_DeleteReportsInfo' => 'Om aktiverat, så kommer gamla rapporter tas bort. %sVi rekommenderar att du aktiverar detta först när databasutrymmet är begränsat.%s',
 	'PrivacyManager_DeleteReportsInfo2' => 'Om du inte har aktiverat "%s", så kommer gamla rapporter att återskapas automatiskt när de efterfrågas.',
 	'PrivacyManager_DeleteReportsInfo3' => 'Om du har aktiverat "%s", så kommer uppgifterna att permanent förloras.',
 	'PrivacyManager_DeleteReportsDetailedInfo' => 'Data från databasens numeriska arkiveringstabeller (%s) och BLOB arkiveringstabeller (%s) kommer att tas bort.',

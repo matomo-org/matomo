@@ -302,6 +302,7 @@ $translations = array(
 	'Actions_WidgetPageTitlesFollowingSearch' => 'Naslovi stranica kod pretraživanja',
 	'Actions_PageUrls' => 'URL stranica',
 	'Actions_SubmenuDownloads' => 'Preuzimanja',
+	'Actions_PagesReportDocumentation' => 'Ovo izvješće sadrži informacije o linkovima stranica koje su posjećene. %s Tablica je organizirana hijerarhijski, URL-ovi su prikazani kao struktura mapa.',
 	'Actions_OutlinksReportDocumentation' => 'Ovo izvješće prikazuje hijerarhijski popis odlaznih URL adresa na koje su kliknuli vaši posjetitelji.',
 	'Actions_OutlinkDocumentation' => 'Odlazna poveznica je poveznica koja odvodi vašeg posjetitelja sa vaše stranice (na drugu domenu).',
 	'Actions_DownloadsReportDocumentation' => 'U ovom izvješću možete vidjeti popis datoteka koje su vaši posjetitelji preuzeli. %s Piwik kao download broji klik na poveznicu za download i ne može znati je li pri tom datoteka zaista u potpunosti preuzeta.',

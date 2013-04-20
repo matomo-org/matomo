@@ -399,6 +399,7 @@ $translations = array(
 	'PrivacyManager_LeastMonthsInput' => 'Harap memasukkan jumlah bulan lebih besar dari %s.',
 	'PrivacyManager_UseDeleteReports' => 'Hapus laporan lama dari basisdata',
 	'PrivacyManager_DeleteReportsOlderThan' => 'Hapus laporan yang berumur lebih dari',
+	'PrivacyManager_DeleteReportsInfo' => 'Bila aktifkan, laporan lama akan dihapus. %sKami menyarankan menggunakannya hanya bila kapasitas basisdata Anda terbatas.%s',
 	'PrivacyManager_DeleteReportsInfo2' => 'Bila Anda tidak mengaktifkan "%s", laporan lama akan dibuat kembali otomatis saat dibutuhkan.',
 	'PrivacyManager_DeleteReportsInfo3' => 'Bila Anda mengaktifkan "%s", data akan hilang permanen.',
 	'PrivacyManager_DeleteReportsDetailedInfo' => 'Data dari tabel arsip angka basisdata (%s) dan tabel arsip blob basisdata (%s) akan dihapus.',
