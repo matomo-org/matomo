@@ -519,6 +519,7 @@ $translations = array(
 	'PrivacyManager_LeastMonthsInput' => '달은 %s보다 커야합니다.',
 	'PrivacyManager_UseDeleteReports' => '정기적으로 데이터베이스에서 오래된 보고서를 삭제',
 	'PrivacyManager_DeleteReportsOlderThan' => '오래된 보고서 삭제',
+	'PrivacyManager_DeleteReportsInfo' => '활성화된 경우, 이전 보고서가 삭제됩니다. %s데이터베이스 용량이 제한된 경우에만 사용하는 것이 좋습니다.%s',
 	'PrivacyManager_DeleteReportsInfo2' => '"%s"가 유효하지 않은 경우, 요구되는 경우, 이전 보고서가 자동으로 다시 만들어집니다.',
 	'PrivacyManager_DeleteReportsInfo3' => '"%s"를 사용하면 데이터가 영구적으로 손실됩니다.',
 	'PrivacyManager_DeleteReportsDetailedInfo' => '데이터베이스의 숫자 아카이브 테이블 (%s)와 blob 아카이브 테이블 (%s)에서 데이터가 삭제됩니다.',
