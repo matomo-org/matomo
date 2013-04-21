@@ -91,13 +91,10 @@ class Piwik_Segment
                 throw new Exception("You do not have enough permission to access the segment " . $name);
             }
 
-//            $this->segmentsHumanReadable[] = $segment['name'] . " " .
-//                                            $this->getNameForMatchType($matchType) .
-//                                            $value;
-
             // apply presentation filter
             if (isset($segment['sqlFilter'])
                 && !empty($segment['sqlFilter'])
+                && $matchType != Piwik_SegmentExpression::MATCH_IS_NOT_NULL
             ) {
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
@@ -184,7 +181,6 @@ class Piwik_Segment
         } else {
             $sql = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
         }
-
         return array(
             'sql'  => $sql,
             'bind' => $bind

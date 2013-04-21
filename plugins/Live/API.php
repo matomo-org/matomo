@@ -398,7 +398,6 @@ class Piwik_Live_API
 			GROUP BY sub.idvisit
 			ORDER BY $orderByParent
 		";
-
         try {
             $data = Piwik_FetchAll($sql, $subQuery['bind']);
         } catch (Exception $e) {
@@ -432,11 +431,6 @@ class Piwik_Live_API
     /**
      * @param $visitorDetailsArray
      * @param $actionsLimit
-     * @param $actionDetail
-     * @param $ecommerceDetail
-     * @param $ecommerceConversion
-     * @param $detail
-     * @param $details
      * @param $timezone
      * @return array
      */

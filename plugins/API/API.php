@@ -1663,15 +1663,17 @@ class Piwik_API_API
             &date=$startDate,today
             &format=original
             &serialize=0
-            &flat=1
-            &segment=";
+            &flat=1";
+
+        // Select non empty fields only
+        $requestLastVisits.= "&segment=$segmentName" . Piwik_SegmentExpression::MATCH_IS_NOT_NULL . "null";
 
         // By default Live fetches all actions for all visitors, but we'd rather do this only when required
         if(!$doesSegmentNeedActionsInfo) {
             $requestLastVisits .= "&doNotFetchActions=1";
-            $requestLastVisits .= "&filter_limit=10000";
-        } else {
             $requestLastVisits .= "&filter_limit=1000";
+        } else {
+            $requestLastVisits .= "&filter_limit=500";
         }
 
         $request = new Piwik_API_Request($requestLastVisits);
