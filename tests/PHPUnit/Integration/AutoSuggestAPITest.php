@@ -123,7 +123,7 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
             but we should try and test the autosuggest for all new segments. Segments skipped were: ' . implode(', ', self::$skipped));
 
         // and check that most others have been tested
-        $minimumSegmentsToTest = 47;
+        $minimumSegmentsToTest = 46;
         $this->assertTrue(self::$processed >= $minimumSegmentsToTest, 'PROCESSED ' . self::$processed . ' segments --> it seems some segments "auto-suggested values" haven\'t been tested as we were expecting');
     }
 }
