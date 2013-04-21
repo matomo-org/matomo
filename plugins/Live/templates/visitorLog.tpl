@@ -340,7 +340,8 @@
                         show: false,
                         hide: false,
                         content: function() {
-                            return $(this).attr('title').replace(/\n/g, '<br />');
+                            var title = $(this).attr('title');
+                            return $('<a>').text( title ).html().replace(/\n/g, '<br />');
                         },
                         tooltipClass: 'small'
                     });
