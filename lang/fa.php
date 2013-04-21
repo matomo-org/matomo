@@ -515,6 +515,7 @@ $translations = array(
 	'CoreHome_Default_js' => 'پیش فرض',
 	'CoreHome_PageOf_js' => '%1$s از %2$s',
 	'CoreHome_FlattenDataTable_js' => 'این گزارش سلسله مراتبی است %sآن را مسطح کن',
+	'CoreHome_UnFlattenDataTable_js' => 'این گزارش مسطح است %s آن را سلسله مراتبی کن',
 	'CoreHome_DateFormat' => 'فرمت',
 	'CoreHome_ShortDateFormat' => '%shortDay% %day% %shortMonth%',
 	'CoreHome_ShortDateFormatWithYear' => '%day% %shortMonth% %shortYear%',
