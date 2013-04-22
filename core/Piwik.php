@@ -2037,7 +2037,7 @@ class Piwik
      */
     static public function isValidEmailString($email)
     {
-        return (preg_match("/^[a-zA-Z0-9_.+'-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,7}$/D", $email) > 0);
+        return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,7}$/D', $email) > 0);
     }
 
     /**
