@@ -1,8 +1,11 @@
+{% extends '@Installation/structure.twig' %}
+
+{% block content %}
 {% if displayGeneralSetupSuccess is defined %}
     <span id="toFade" class="success">
-	{{ 'Installation_SuperUserSetupSuccess'|translate }}
+	    {{ 'Installation_SuperUserSetupSuccess'|translate }}
         <img src="plugins/Zeitgeist/theme/images/success_medium.png"/>
-</span>
+    </span>
 {% endif %}
 
 <h2>{{ 'Installation_SetupWebsite'|translate }}</h2>
@@ -21,3 +24,4 @@
 {% endif %}
 <br/>
 <p><i>{{ 'Installation_SiteSetupFootnote'|translate }}</i></p>
+{% endblock %}

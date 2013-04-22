@@ -5,7 +5,7 @@
     <title>Piwik &rsaquo; {{ 'Installation_Installation'|translate }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-    <link rel="stylesheet" type="text/css" href="themes/default/common.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/theme/common.css"/>
     <link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/theme/styles.css"/>
     <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"/>
@@ -47,13 +47,13 @@
         <div id="detailInstall">
             {% if showNextStepAtTop is defined and showNextStepAtTop %}
                 <p class="nextStep">
-                    <a class="submit" href="{{ url({'action':'nextModuleName'}) }}">{{ 'General_Next'|translate }} &raquo;</a>
+                    <a class="submit" href="{{ linkTo({'action':nextModuleName}) }}">{{ 'General_Next'|translate }} &raquo;</a>
                 </p>
             {% endif %}
             {% block content %}{% endblock %}
             {% if showNextStep %}
                 <p class="nextStep">
-                    <a class="submit" href="{{ url({'action':'nextModuleName'}) }}">{{ 'General_Next'|translate }} &raquo;</a>
+                    <a class="submit" href="{{ linkTo({'action':nextModuleName}) }}">{{ 'General_Next'|translate }} &raquo;</a>
                 </p>
             {% endif %}
         </div>

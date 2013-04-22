@@ -41,7 +41,7 @@
                         {% if infos.isWindows %}
                             {{ 'Installation_SystemCheckWinPdoAndMysqliHelp'|translate("<br /><br /><code>extension=php_mysqli.dll</code><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />")|raw|nl2br }}
                         {% else %}
-                            {{ 'Installation_SystemCheckPdoAndMysqliHelp'|translate("<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br /><br />":"<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />")|raw }}
+                            {{ 'Installation_SystemCheckPdoAndMysqliHelp'|translate("<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br /><br />","<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />")|raw }}
                         {% endif %}
                         {{ 'Installation_RestartWebServer'|translate }}
                         <br/>
@@ -76,7 +76,7 @@
                         <p>
                             <i>{{ helpMessages[missing_extension]|translate }}</i>
                         </p>
-                    {% endif %}
+                    {% endfor %}
                 </small>
             </td>
         </tr>
@@ -109,7 +109,7 @@
                 {% for dir, bool in infos.directories %}
                     {% if bool %}
                         {{ ok }}
-                    {% elseif %}
+                    {% else %}
                         <span style="color:red">{{ error }}</span>
                     {% endif %}
                     {{ dir }}
@@ -271,7 +271,7 @@
                     {{ ok }} {{ desired_function }}
                     <br/>
                 {% endif %}
-            {% endofr %}
+            {% endfor %}
         </td>
     </tr>
     {% if infos.general_infos.assume_secure_protocol is defined %}

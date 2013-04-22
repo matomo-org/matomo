@@ -1,3 +1,6 @@
+{% extends '@Installation/structure.twig' %}
+
+{% block content %}
 {% if displayfirstWebsiteSetupSuccess is defined %}
     <span id="toFade" class="success">
 	{{ 'Installation_SetupWebsiteSetupSuccess'|translate(displaySiteName) }}
@@ -21,3 +24,4 @@
         $('code').click(function () { $(this).select(); });
     });
 </script>
+{% endblock %}

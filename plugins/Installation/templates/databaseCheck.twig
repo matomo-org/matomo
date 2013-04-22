@@ -1,3 +1,6 @@
+{% extends '@Installation/structure.twig' %}
+
+{% block content %}
 {% set ok %}<img src='themes/default/images/ok.png' />{% endset %}
 {% set error %}<img src='themes/default/images/error.png' />{% endset %}
 {% set warning %}<img src='themes/default/images/warning.png' />{% endset %}
@@ -32,3 +35,4 @@
 <p>
     {{ link }} <a href="?module=Proxy&action=redirect&url=http://piwik.org/docs/requirements/" target="_blank">{{ 'Installation_Requirements'|translate }}</a>
 </p>
+{% endblock %}

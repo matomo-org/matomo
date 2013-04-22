@@ -1,3 +1,6 @@
+{% extends '@Installation/structure.twig' %}
+
+{% block content %}
 <h2>{{ 'Installation_DatabaseSetup'|translate }}</h2>
 
 {% if errorMessage is defined %}
@@ -12,3 +15,4 @@
 {% if form_data is defined %}
     {% include "genericForm.twig" %}
 {% endif %}
+{% endblock %}

@@ -1,3 +1,6 @@
+{% extends '@Installation/structure.twig' %}
+
+{% block content %}
 {% if not showNextStep %}
     {% include "@Installation/systemCheck_legend.twig" %}
     <br style="clear:both">
@@ -15,3 +18,4 @@
     </p>
     {% include "@Installation/systemCheck_legend.twig" %}
 {% endif %}
+{% endblock %}

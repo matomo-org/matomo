@@ -1,3 +1,6 @@
+{% extends '@Installation/structure.twig' %}
+
+{% block content %}
 <h2>{{ 'Installation_Tables'|translate }}</h2>
 
 {% if someTablesInstalled is defined}
@@ -56,3 +59,4 @@
         });
     });
 </script>
+{% endblock %}
