@@ -47,25 +47,25 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
                                     'date'       => $dateTime,
                                     'periods'    => array('month'),
                                     'testSuffix' => '_segment_region',
-                                    'segment'    => 'region==P3;country==gb')),
+                                    'segment'    => 'regionCode==P3;countryCode==gb')),
 
             array($apiToCall, array('idSite'     => $idSite,
                                     'date'       => $dateTime,
                                     'periods'    => array('month'),
                                     'testSuffix' => '_segment_city',
-                                    'segment'    => 'city==Stratford-upon-Avon;region==P3;country==gb')),
+                                    'segment'    => 'city==Stratford-upon-Avon;regionCode==P3;countryCode==gb')),
 
             array($apiToCall, array('idSite'     => $idSite,
                                     'date'       => $dateTime,
                                     'periods'    => array('month'),
                                     'testSuffix' => '_segment_lat_long',
-                                    'segment'    => 'lat>45;lat<49.3;long>-125;long<-122')),
+                                    'segment'    => 'latitude>45;latitude<49.3;longitude>-125;longitude<-122')),
 
             array('UserCountry.getCountry', array('idSite'     => $idSite,
                                                   'date'       => $dateTime,
                                                   'periods'    => array('month'),
                                                   'testSuffix' => '_segment_continent',
-                                                  'segment'    => 'continent==eur')),
+                                                  'segment'    => 'continentCode==eur')),
 
             array(array('UserCountry.getLocationFromIP', 'Live.getLastVisitsDetails'), array(
                 'idSite'                 => $idSite,

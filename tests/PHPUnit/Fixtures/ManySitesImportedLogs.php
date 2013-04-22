@@ -99,7 +99,8 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
                       '--enable-bots'               => false,
                       '--enable-http-errors'        => false,
                       '--enable-http-redirects'     => false,
-                      '--enable-reverse-dns'        => false);
+                      '--enable-reverse-dns'        => false,
+                      '--force-lowercase-path'      => false);
 
         self::executeLogImporter($logFile, $opts);
     }

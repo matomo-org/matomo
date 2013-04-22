@@ -54,6 +54,25 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
+    public static function loadAllPlugins()
+    {
+        $pluginsManager = Piwik_PluginsManager::getInstance();
+        $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
+        $pluginsManager->loadPlugins($pluginsToLoad);
+    }
+
+    public static function unloadAllPlugins()
+    {
+        try {
+            $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+            foreach ($plugins AS $plugin) {
+                $plugin->uninstall();
+            }
+            Piwik_PluginsManager::getInstance()->unloadPlugins();
+        } catch (Exception $e) {
+        }
+    }
+
     protected static function setupFixture($fixture)
     {
         try {
@@ -158,7 +177,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function _tearDownAfterClass($dropDatabase = true)
     {
         Piwik::$piwikUrlCache = null;
-
+        IntegrationTestCase::unloadAllPlugins();
+/*
         $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins AS $plugin) {
             if ($dropDatabase) {
@@ -169,7 +189,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 }
             }
         }
-        Piwik_PluginsManager::getInstance()->unloadPlugins();
+        Piwik_PluginsManager::getInstance()->unloadPlugins();*/
         if ($dropDatabase) {
             Piwik::dropDatabase();
         }
@@ -216,6 +236,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         'API',
         'ImageGraph',
         'Annotations',
+        'SegmentEditor',
         'UserCountry.getLocationFromIP',
     );
 
@@ -432,7 +453,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * @throws Exception
      * @return array of API URLs query strings
      */
-    protected function generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $segment = false, $fileExtension = false)
+    protected function generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $fileExtension = false)
     {
         // Get the URLs to query against the API for all functions starting with get*
         $skipped = $requestUrls = array();
@@ -629,7 +650,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $parametersToSet['idGoal'] = $idGoal;
         }
 
-        $requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi, $setDateLastN, $language, $segment, $fileExtension);
+        $requestUrls = $this->generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi, $setDateLastN, $language, $fileExtension);
 
         $this->checkEnoughUrlsAreTested($requestUrls);
 
@@ -702,12 +723,19 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 $expected = $this->removePrettyDateFromXml($expected);
                 $response = $this->removePrettyDateFromXml($response);
             }
-            // avoid build failure when running just before midnight, generating visits in the future
-            $expected = $this->removeXmlElement($expected, 'sum_daily_nb_uniq_visitors');
-            $response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
-            $expected = $this->removeXmlElement($expected, 'nb_visits_converted');
-            $response = $this->removeXmlElement($response, 'nb_visits_converted');
 
+            // avoid build failure when running just before midnight, generating visits in the future
+            // Note: disabled when 'segment' is a hack:
+            //       instead we should only remove these fields for the specific test that was failing.
+            if(strpos($requestUrl, 'segment') === false) {
+                $expected = $this->removeXmlElement($expected, 'sum_daily_nb_uniq_visitors');
+                $response = $this->removeXmlElement($response, 'sum_daily_nb_uniq_visitors');
+                $expected = $this->removeXmlElement($expected, 'nb_visits_converted');
+                $response = $this->removeXmlElement($response, 'nb_visits_converted');
+            }
+
+            $expected = $this->removeXmlElement($expected, 'visitServerHour');
+            $response = $this->removeXmlElement($response, 'visitServerHour');
 
             if (strpos($requestUrl, 'date=') !== false) {
                 $regex = "/date=[-0-9,%Ca-z]+/"; // need to remove %2C which is encoded ,
@@ -767,7 +795,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             'serverTimePrettyFirstAction',
             'goalTimePretty',
             'serverTimePretty',
-            'visitorId'
+            'visitorId',
+            'visitServerHour',
         );
         foreach ($toRemove as $xml) {
             $input = $this->removeXmlElement($input, $xml);
@@ -923,7 +952,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             isset($params['format']) ? $params['format'] : 'xml',
             isset($params['idSite']) ? $params['idSite'] : false,
             isset($params['date']) ? $params['date'] : false,
-            isset($params['periods']) ? $params['periods'] : false,
+            isset($params['periods']) ? $params['periods'] : (isset($params['period']) ? $params['period'] : false),
             isset($params['setDateLastN']) ? $params['setDateLastN'] : false,
             isset($params['language']) ? $params['language'] : false,
             isset($params['segment']) ? $params['segment'] : false,

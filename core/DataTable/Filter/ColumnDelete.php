@@ -34,6 +34,14 @@ class Piwik_DataTable_Filter_ColumnDelete extends Piwik_DataTable_Filter
     private $columnsToKeep;
 
     /**
+     * Hack: when specifying "showColumns", sometimes we'd like to also keep columns that "look" like a given column,
+     * without manually specifying all these columns (which may not be possible if column names are generated dynamically)
+     *
+     * Column will be kept, if they match any name in the $columnsToKeep, or if they look like anyColumnToKeep__anythingHere
+     */
+    const APPEND_TO_COLUMN_NAME_TO_KEEP = '__';
+
+    /**
      * Delete the column, only if the value was zero
      *
      * @var bool
@@ -101,8 +109,18 @@ class Piwik_DataTable_Filter_ColumnDelete extends Piwik_DataTable_Filter
         if (!empty($this->columnsToKeep)) {
             foreach ($table->getRows() as $row) {
                 foreach ($row->getColumns() as $name => $value) {
-                    // label cannot be removed via whitelisting
-                    if ($name != 'label' && !isset($this->columnsToKeep[$name])) {
+
+                    $keep = false;
+                    // @see self::APPEND_TO_COLUMN_NAME_TO_KEEP
+                    foreach($this->columnsToKeep as $nameKeep => $true) {
+                        if(strpos($name, $nameKeep . self::APPEND_TO_COLUMN_NAME_TO_KEEP) === 0) {
+                            $keep = true;
+                        }
+                    }
+
+                    if (!$keep
+                        && $name != 'label' // label cannot be removed via whitelisting
+                        && !isset($this->columnsToKeep[$name])) {
                         $row->deleteColumn($name);
                     }
                 }

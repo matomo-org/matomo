@@ -202,13 +202,13 @@
 	</row>
 	<row>
 		<label>20h</label>
-		<nb_visits>5</nb_visits>
-		<nb_actions>5</nb_actions>
+		<nb_visits>6</nb_visits>
+		<nb_actions>6</nb_actions>
 		<max_actions>1</max_actions>
 		<sum_visit_length>0</sum_visit_length>
-		<bounce_count>5</bounce_count>
-		<nb_visits_converted>5</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
+		<bounce_count>6</bounce_count>
+		<nb_visits_converted>6</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
 	</row>
 	<row>
 		<label>21h</label>

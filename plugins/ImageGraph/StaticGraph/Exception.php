@@ -64,10 +64,13 @@ class Piwik_ImageGraph_StaticGraph_Exception extends Piwik_ImageGraph_StaticGrap
 
         $this->initpImage();
 
+        $this->drawBackground();
+
         $this->pImage->drawText(
             0,
             $textHeight,
-            $message
+            $message,
+            $this->textColor
         );
     }
 }

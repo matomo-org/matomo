@@ -31,6 +31,8 @@
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
 		
 		
 		
@@ -46,6 +48,7 @@
 		<countryCode>fr</countryCode>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<region />
+		<regionCode />
 		<city />
 		<location>France</location>
 		<latitude />
@@ -61,12 +64,15 @@
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<operatingSystem>Inconnu</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemShortName>Unknown</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily>gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Netscape 5.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/NS.gif</browserIcon>
+		<browserCode>NS</browserCode>
+		<browserVersion>5.0</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -113,6 +119,7 @@
 			<row>
 				<type>goal</type>
 				<goalName>triggered js</goalName>
+				<goalId>1</goalId>
 				<revenue>0</revenue>
 				<goalPageId />
 				
@@ -127,6 +134,8 @@
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
 		
 		
 		
@@ -142,6 +151,7 @@
 		<countryCode>fr</countryCode>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<region />
+		<regionCode />
 		<city />
 		<location>France</location>
 		<latitude />
@@ -157,12 +167,15 @@
 		<referrerSearchEngineUrl>http://google.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referers/images/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<operatingSystem>Inconnu</operatingSystem>
+		<operatingSystemCode>UNK</operatingSystemCode>
 		<operatingSystemShortName>Unknown</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/UNK.gif</operatingSystemIcon>
 		<browserFamily>gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Netscape 5.0</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/NS.gif</browserIcon>
+		<browserCode>NS</browserCode>
+		<browserVersion>5.0</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>

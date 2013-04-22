@@ -839,7 +839,7 @@ class PiwikTracker
      */
     public function setDebugStringAppend($string)
     {
-        $this->DEBUG_APPEND_URL = $string;
+        $this->DEBUG_APPEND_URL = '&' . $string;
     }
 
     /**

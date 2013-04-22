@@ -58,11 +58,6 @@ class Piwik_Segment
         $segment->setSubExpressionsAfterCleanup($cleanedExpressions);
     }
 
-    public function getPrettyString()
-    {
-        //@TODO segment.getPrettyString
-    }
-
     public function isEmpty()
     {
         return empty($this->string);
@@ -70,16 +65,6 @@ class Piwik_Segment
 
     protected $availableSegments = array();
     protected $segmentsHumanReadable = '';
-
-    private function getUniqueSqlFields()
-    {
-        $expressions = $this->segment->parsedSubExpressions;
-        $uniqueFields = array();
-        foreach ($expressions as $expression) {
-            $uniqueFields[] = $expression[Piwik_SegmentExpression::INDEX_OPERAND][0];
-        }
-        return $uniqueFields;
-    }
 
     protected function getCleanedExpression($expression)
     {
@@ -106,15 +91,12 @@ class Piwik_Segment
                 throw new Exception("You do not have enough permission to access the segment " . $name);
             }
 
-//            $this->segmentsHumanReadable[] = $segment['name'] . " " .
-//                                            $this->getNameForMatchType($matchType) .
-//                                            $value;
-
             // apply presentation filter
             if (isset($segment['sqlFilter'])
                 && !empty($segment['sqlFilter'])
+                && $matchType != Piwik_SegmentExpression::MATCH_IS_NOT_NULL
             ) {
-                $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType);
+                $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
                 // sqlFilter-callbacks might return arrays for more complex cases
                 // e.g. see Piwik_Actions::getIdActionFromSegment()
@@ -199,7 +181,6 @@ class Piwik_Segment
         } else {
             $sql = $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
         }
-
         return array(
             'sql'  => $sql,
             'bind' => $bind

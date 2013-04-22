@@ -482,6 +482,7 @@ class Piwik_ImageGraph_API
             $graph->setHeight($height);
             $graph->setFont($font);
             $graph->setFontSize($fontSize);
+            $graph->setBackgroundColor($backgroundColor);
             $graph->setTextColor($textColor);
             $graph->setException($e);
             $graph->renderGraph();

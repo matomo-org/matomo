@@ -60,6 +60,8 @@ class Piwik_Live_Visitor
             // all time entries
             'serverDate'                  => $this->getServerDate(),
             'visitLocalTime'              => $this->getVisitLocalTime(),
+            'visitLocalHour'              => $this->getVisitLocalHour(),
+            'visitServerHour'             => $this->getVisitServerHour(),
             'firstActionTimestamp'        => $this->getTimestampFirstAction(),
             'lastActionTimestamp'         => $this->getTimestampLastAction(),
             'lastActionDateTime'          => $this->getDateTimeLastAction(),
@@ -77,6 +79,7 @@ class Piwik_Live_Visitor
             'countryCode'                 => $this->getCountryCode(),
             'countryFlag'                 => $this->getCountryFlag(),
             'region'                      => $this->getRegionName(),
+            'regionCode'                  => $this->getRegionCode(),
             'city'                        => $this->getCityName(),
             'location'                    => $this->getPrettyLocation(),
             'latitude'                    => $this->getLatitude(),
@@ -93,12 +96,15 @@ class Piwik_Live_Visitor
             'referrerSearchEngineUrl'     => $this->getSearchEngineUrl(),
             'referrerSearchEngineIcon'    => $this->getSearchEngineIcon(),
             'operatingSystem'             => $this->getOperatingSystem(),
+            'operatingSystemCode'             => $this->getOperatingSystemCode(),
             'operatingSystemShortName'    => $this->getOperatingSystemShortName(),
             'operatingSystemIcon'         => $this->getOperatingSystemIcon(),
             'browserFamily'               => $this->getBrowserFamily(),
             'browserFamilyDescription'    => $this->getBrowserFamilyDescription(),
             'browserName'                 => $this->getBrowser(),
             'browserIcon'                 => $this->getBrowserIcon(),
+            'browserCode'                 => $this->getBrowserCode(),
+            'browserVersion'              => $this->getBrowserVersion(),
             'screenType'                  => $this->getScreenType(),
             'resolution'                  => $this->getResolution(),
             'screenTypeIcon'              => $this->getScreenTypeIcon(),
@@ -118,6 +124,16 @@ class Piwik_Live_Visitor
     function getVisitLocalTime()
     {
         return $this->details['visitor_localtime'];
+    }
+
+    function getVisitServerHour()
+    {
+        return date('G', strtotime($this->details['visit_last_action_time']));
+    }
+
+    function getVisitLocalHour()
+    {
+        return date('G', strtotime('2012-12-21 ' . $this->details['visitor_localtime']));
     }
 
     function getVisitCount()
@@ -249,12 +265,17 @@ class Piwik_Live_Visitor
 
     public function getRegionName()
     {
-        $region = $this->details['location_region'];
+        $region = $this->getRegionCode();
         if ($region != '' && $region != Piwik_Tracker_Visit::UNKNOWN_CODE) {
             return Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes(
                 $this->details['location_country'], $region);
         }
         return null;
+    }
+
+    public function getRegionCode()
+    {
+        return $this->details['location_region'];
     }
 
     function getPrettyLocation()
@@ -430,6 +451,11 @@ class Piwik_Live_Visitor
         return null;
     }
 
+    function getOperatingSystemCode()
+    {
+        return $this->details['config_os'];
+    }
+
     function getOperatingSystem()
     {
         return Piwik_getOSLabel($this->details['config_os']);
@@ -453,6 +479,16 @@ class Piwik_Live_Visitor
     function getBrowserFamily()
     {
         return Piwik_getBrowserFamily($this->details['config_browser_name']);
+    }
+
+    function getBrowserCode()
+    {
+        return $this->details['config_browser_name'];
+    }
+
+    function getBrowserVersion()
+    {
+        return $this->details['config_browser_version'];
     }
 
     function getBrowser()

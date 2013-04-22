@@ -6,170 +6,197 @@
  */
 
 /**
- * jQuery Plugin for Live visitors widget
+ * jQueryUI widget for Live visitors widget
  */
 
 (function ($) {
-    $.extend({
-        liveWidget: new function () {
+    $.widget('piwik.liveWidget', {
 
-            /**
-             * Default settings for widgetPreview
-             */
-            var settings = {
-                // Maximum numbers of rows to display in widget
-                maxRows: 10,
-                // minimal time in microseconds to wait between updates
-                interval: 3000,
-                // maximum time to wait between requests
-                maxInterval: 300000,
-                // url params to use for data request
-                dataUrlParams: null,
-                // callback triggered on a successfull update (content of widget changed)
-                onUpdate: null,
-                // speed for fade animation
-                fadeInSpeed: 'slow'
-            };
+        /**
+         * Default settings for widgetPreview
+         */
+        options:{
+            // Maximum numbers of rows to display in widget
+            maxRows: 10,
+            // minimal time in microseconds to wait between updates
+            interval: 3000,
+            // maximum time to wait between requests
+            maxInterval: 300000,
+            // url params to use for data request
+            dataUrlParams: null,
+            // callback triggered on a successful update (content of widget changed)
+            onUpdate: null,
+            // speed for fade animation
+            fadeInSpeed: 'slow'
+        },
 
-            var currentInterval, updated, updateInterval, liveWidget;
-            var isStarted = true;
+        /**
+         * current updateInterval used
+         */
+        currentInterval: null,
 
-            /**
-             * Update the widget
-             */
-            function update() {
+        /**
+         * identifies if content has updated (eg new visits/views)
+         */
+        updated: false,
 
-                // is content updated (eg new visits/views)
-                updated = false;
+        /**
+         * window timeout interval
+         */
+        updateInterval: null,
 
-                var ajaxRequest = new ajaxHelper();
-                ajaxRequest.addParams(settings.dataUrlParams, 'GET');
-                ajaxRequest.setFormat('html');
-                ajaxRequest.setCallback(function (r) {
-                    parseResponse(r);
+        /**
+         * identifies if the liveWidget ist started or not
+         */
+        isStarted: true,
 
-                    // add default interval to last interval if not updated or reset to default if so
-                    if (!updated) {
-                        currentInterval += settings.interval;
-                    } else {
-                        currentInterval = settings.interval;
-                        if (settings.onUpdate) settings.onUpdate();
-                    }
+        /**
+         * Update the widget
+         *
+         * @return void
+         */
+        _update: function () {
 
-                    // check new interval doesn't reach the defined maximum
-                    if (settings.maxInterval < currentInterval) {
-                        currentInterval = settings.maxInterval;
-                    }
+            this.updated = false;
 
-                    if (isStarted) {
-                        window.clearTimeout(updateInterval);
-                        if ($(liveWidget).closest('body').length) {
-                            updateInterval = window.setTimeout(update, currentInterval);
-                        }
-                    }
-                });
-                ajaxRequest.send(false);
-            };
+            var that = this;
 
-            /**
-             * Parses the given response and updates the widget if newer content is available
-             */
-            function parseResponse(data) {
-                if (!data || !data.length) {
-                    updated = false;
-                    return;
-                }
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.addParams(this.options.dataUrlParams, 'GET');
+            ajaxRequest.setFormat('html');
+            ajaxRequest.setCallback(function (r) {
+                that._parseResponse(r);
 
-                var items = $('li', $(data));
-                for (var i = items.length; i--;) {
-                    parseItem(items[i]);
-                }
-            };
-
-            /**
-             * Parses the given item and updates or adds an entry to the list
-             *
-             * @param item to parse
-             */
-            function parseItem(item) {
-                var visitId = $(item).attr('id');
-                if ($('#' + visitId, liveWidget).length) {
-                    if ($('#' + visitId, liveWidget).html() != $(item).html()) {
-                        updated = true;
-                    }
-                    $('#' + visitId, liveWidget).remove();
-                    $(liveWidget).prepend(item);
+                // add default interval to last interval if not updated or reset to default if so
+                if (!that.updated) {
+                    that.currentInterval += that.options.interval;
                 } else {
-                    updated = true;
-                    $(item).hide();
-                    $(liveWidget).prepend(item);
-                    $(item).fadeIn(settings.fadeInSpeed);
-                }
-                // remove rows if there are more than the maximum
-                $('li:gt(' + (settings.maxRows - 1) + ')', liveWidget).remove();
-            };
-
-            /**
-             * Constructor
-             *
-             * @param object userSettings Settings to be used
-             * @return void
-             */
-            this.construct = function (userSettings) {
-                settings = jQuery.extend(settings, userSettings);
-
-                if (!settings.dataUrlParams) {
-                    console && console.error('liveWidget error: dataUrlParams needs to be defined in settings.');
-                    return;
+                    that.currentInterval = that.options.interval;
+                    if (that.options.onUpdate) that.options.onUpdate();
                 }
 
-                liveWidget = this;
+                // check new interval doesn't reach the defined maximum
+                if (that.options.maxInterval < that.currentInterval) {
+                    that.currentInterval = that.options.maxInterval;
+                }
 
-                currentInterval = settings.interval;
+                if (that.isStarted) {
+                    window.clearTimeout(that.updateInterval);
+                    if ($(that.element).closest('body').length) {
+                        that.updateInterval = window.setTimeout(function() { that._update() }, that.currentInterval);
+                    }
+                }
+            });
+            ajaxRequest.send(false);
+        },
 
-                updateInterval = window.setTimeout(update, currentInterval);
-            };
+        /**
+         * Parses the given response and updates the widget if newer content is available
+         *
+         * @return void
+         */
+        _parseResponse: function (data) {
+            if (!data || !data.length) {
+                this.updated = false;
+                return;
+            }
 
-            /**
-             * Triggers an update for the widget
-             *
-             * @return void
-             */
-            this.update = function () {
-                update();
-            };
+            var items = $('li', $(data));
+            for (var i = items.length; i--;) {
+                this._parseItem(items[i]);
+            }
+        },
 
-            /**
-             * Starts the automatic update cycle
-             */
-            this.start = function () {
-                isStarted = true;
-                currentInterval = 0;
-                update();
-            };
+        /**
+         * Parses the given item and updates or adds an entry to the list
+         *
+         * @param item to parse
+         * @return void
+         */
+        _parseItem: function (item) {
+            var visitId = $(item).attr('id');
+            if ($('#' + visitId, this.element).length) {
+                if ($('#' + visitId, this.element).html() != $(item).html()) {
+                    this.updated = true;
+                }
+                $('#' + visitId, this.element).remove();
+                $(this.element).prepend(item);
+            } else {
+                this.updated = true;
+                $(item).hide();
+                $(this.element).prepend(item);
+                $(item).fadeIn(this.options.fadeInSpeed);
+            }
+            // remove rows if there are more than the maximum
+            $('li:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
+        },
 
-            /**
-             * Stops the automatic update cycle
-             */
-            this.stop = function () {
-                isStarted = false;
-                window.clearTimeout(updateInterval);
-            };
+        /**
+         * Constructor
+         *
+         * @return void
+         */
+        _create: function () {
 
-            /**
-             * Set the interval for refresh
-             */
-            this.setInterval = function (interval) {
-                currentInterval = interval;
-            };
+            if (!this.options.dataUrlParams) {
+                console && console.error('liveWidget error: dataUrlParams needs to be defined in settings.');
+                return;
+            }
+
+            this.currentInterval = this.options.interval;
+
+            var self = this;
+
+            this.updateInterval = window.setTimeout(function() { self._update(); }, this.currentInterval);
+        },
+
+        /**
+         * Stops requests if widget is destroyed
+         */
+        _destroy: function () {
+
+            this.stop();
+        },
+
+        /**
+         * Triggers an update for the widget
+         *
+         * @return void
+         */
+        update: function () {
+            this._update();
+        },
+
+        /**
+         * Starts the automatic update cycle
+         *
+         * @return void
+         */
+        start: function () {
+            this.isStarted = true;
+            this.currentInterval = 0;
+            this._update();
+        },
+
+        /**
+         * Stops the automatic update cycle
+         *
+         * @return void
+         */
+        stop: function () {
+            this.isStarted = false;
+            window.clearTimeout(this.updateInterval);
+        },
+
+        /**
+         * Set the interval for refresh
+         *
+         * @param {int} interval  new interval for refresh
+         * @return void
+         */
+        setInterval: function (interval) {
+            this.currentInterval = interval;
         }
-    });
-
-    /**
-     * Makes liveWidget available with $().liveWidget()
-     */
-    $.fn.extend({
-        liveWidget: $.liveWidget.construct
     });
 })(jQuery);
 
@@ -181,10 +208,10 @@ var playDisabledImage = "plugins/Live/templates/images/play_disabled.gif";
 function onClickPause() {
     $('#pauseImage').attr('src', pauseImage);
     $('#playImage').attr('src', playDisabledImage);
-    return $.liveWidget.stop();
+    return $('#visitsLive').liveWidget('stop');
 }
 function onClickPlay() {
     $('#playImage').attr('src', playImage);
     $('#pauseImage').attr('src', pauseDisabledImage);
-    return $.liveWidget.start();
+    return $('#visitsLive').liveWidget('start');
 }

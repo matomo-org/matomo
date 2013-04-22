@@ -413,6 +413,7 @@ $translations = array(
 	'Actions_ColumnSearchCategory' => 'Search Category',
 	'Actions_ColumnSearchResultsCount' => 'Search Results Count',
 	'Actions_ColumnSearchKeyword' => 'Keyword',
+	'Actions_SiteSearchKeyword' => 'Keyword (Site Search)',
 	'Actions_ColumnClickedURL' => 'Clicked URL',
 	'Actions_ColumnDownloadURL' => 'Download URL',
 	'Actions_ColumnEntryPageURL' => 'Entry Page URL',

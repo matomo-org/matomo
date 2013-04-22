@@ -381,6 +381,7 @@ $translations = array(
 	'Actions_ColumnSearchExits' => 'Izhodov pri iskanju',
 	'Actions_EntryPagesReportDocumentation' => 'To poročilo vsebuje informacije o vhodnih straneh, ki so bile obiskane v izbranem časovnem obdobju. Vhodna stran je prva stran, ki si jo je obiskovalec ogledal med svojim obiskom. %s Vhodni URL naslovi so prikazani kot struktura mape.',
 	'Actions_EntryPageTitlesReportDocumentation' => 'To poročilo vsebuje informacije o nazivih vhodnih strani, ki so bile obiskane v izbranem časovnam obdobju.',
+	'Actions_ExitPagesReportDocumentation' => 'To poročilo vsebuje informacije o izhodnih straneh, ki so bile obiskane v izbranem časovnem obdobju. izhodna stran je zadnja stran, ki si jo je obiskovalec ogledal med svojim obiskom. %s Izhodni URL naslovi so prikazani kot struktura mape.',
 	'Actions_ExitPageTitlesReportDocumentation' => 'To poročilo vsebuje informacije o nazivih izhodnih strani, ki so bile obiskane v izbranem časovnam obdobju.',
 	'AnonymizeIP_PluginDescription' => 'Anonimiziraj zadnji bajt IP naslova obiskovalca, da se s tem izpolnijo zahteve lokalnih zakonov/smernic o zasebnosti.',
 	'API_PluginDescription' => 'Vsi podatki v Piwiku so na voljo preko prepreostega API vmesnika. Ta vtičnik je vstopna točka spletne storitve, ki jo lahko pokličete, če želite svoje podatke preko xml, json, php, csv, itd.',

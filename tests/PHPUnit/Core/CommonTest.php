@@ -818,6 +818,16 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
             array('http://search.naver.com/search.naver?where=nexearch&query=FAU+&x=0&y=0&sm=top_hty&fbm=1&ie=utf8',
                   array('name' => 'Naver', 'keywords' => 'fau')),
 
+            // Korean search engines
+            array('http://search.naver.com/search.naver?where=nexearch&query=++%EA%B2%80%EC%83%89+++%EC%A7%88%EB%AC%B8%ED%98%95+%EA%B2%80%EC%83%89%EC%96%B4+%EA%B2%B0%ED%98%BC+%ED%9B%84+%EA%B1%B1%EC%A0%95+1%EC%9C%84&sm=top_hty&fbm=1&ie=utf8',
+                  array('name' => 'Naver', 'keywords' => '검색   질문형 검색어 결혼 후 걱정 1위')),
+
+            array('http://search.nate.com/search/all.html?thr=sbus&q=%B0%CB%BB%F6+++%C1%FA%B9%AE%C7%FC+%B0%CB%BB%F6%BE%EE+%B0%E1%C8%A5+%C8%C4+%B0%C6%C1%A4+1%C0%A7',
+                  array('name' => 'Nate', 'keywords' => '검색   질문형 검색어 결혼 후 걱정 1위')),
+
+            array('http://search.daum.net/search?w=tot&DA=UMEF&t__nil_searchbox=suggest&sug=&q=%EA%B2%80%EC%83%89+++%EC%A7%88%EB%AC%B8%ED%98%95+%EA%B2%80%EC%83%89%EC%96%B4+%EA%B2%B0%ED%98%BC+%ED%9B%84+%EA%B1%B1%EC%A0%95+1%EC%9C%84',
+                    array('name' => 'Daum', 'keywords' => '검색   질문형 검색어 결혼 후 걱정 1위')),
+
             // DDG
             array('http://duckduckgo.com/post.html',
                   array('name' => 'DuckDuckGo', 'keywords' => false)),

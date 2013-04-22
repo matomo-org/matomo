@@ -103,7 +103,14 @@ class Piwik_Actions extends Piwik_Plugin
             'sqlSegment' => 'log_link_visit_action.idaction_name',
             'sqlFilter'  => $sqlFilter,
         );
-        // TODO here could add keyword segment and hack $sqlFilter to make it select the right idaction
+        $segments[] = array(
+            'type'       => 'dimension',
+            'category'   => 'Actions_Actions',
+            'name'       => 'Actions_SiteSearchKeyword',
+            'segment'    => 'siteSearchKeyword',
+            'sqlSegment' => 'log_link_visit_action.idaction_name',
+            'sqlFilter'  => $sqlFilter,
+        );
     }
 
     /**
@@ -113,30 +120,29 @@ class Piwik_Actions extends Piwik_Plugin
      * Usually, these callbacks only return a value that should be compared to the
      * column in the database. In this case, that doesn't work since multiple IDs
      * can match an expression (e.g. "pageUrl=@foo").
-     * @param string $string
+     * @param string $valueToMatch
      * @param string $sqlField
      * @param string $matchType
      * @throws Exception
      * @return array|int|string
      */
-    public function getIdActionFromSegment($string, $sqlField, $matchType = '==')
+    public function getIdActionFromSegment($valueToMatch, $sqlField, $matchType, $segmentName)
     {
-        // Field is visit_*_idaction_url or visit_*_idaction_name
-        $actionType = strpos($sqlField, '_name') === false
-            ? Piwik_Tracker_Action::TYPE_ACTION_URL
-            : Piwik_Tracker_Action::TYPE_ACTION_NAME;
+        $actionType = $this->guessActionTypeFromSegment($segmentName);
 
         if ($actionType == Piwik_Tracker_Action::TYPE_ACTION_URL) {
             // for urls trim protocol and www because it is not recorded in the db
-            $string = preg_replace('@^http[s]?://(www\.)?@i', '', $string);
+            $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
         }
+
+        $valueToMatch = Piwik_Common::sanitizeInputValue(Piwik_Common::unsanitizeInputValue($valueToMatch));
 
         // exact matches work by returning the id directly
         if ($matchType == Piwik_SegmentExpression::MATCH_EQUAL
             || $matchType == Piwik_SegmentExpression::MATCH_NOT_EQUAL
         ) {
             $sql = Piwik_Tracker_Action::getSqlSelectActionId();
-            $bind = array($string, $string, $actionType);
+            $bind = array($valueToMatch, $valueToMatch, $actionType);
             $idAction = Piwik_FetchOne($sql, $bind);
             // if the action is not found, we hack -100 to ensure it tries to match against an integer
             // otherwise binding idaction_name to "false" returns some rows for some reasons (in case &segment=pageTitle==Větrnásssssss)
@@ -150,23 +156,24 @@ class Piwik_Actions extends Piwik_Plugin
 
         // build the expression based on the match type
         $sql = 'SELECT idaction FROM ' . Piwik_Common::prefixTable('log_action') . ' WHERE ';
+        $sqlMatchType = 'AND type = ' . $actionType;
         switch ($matchType) {
             case '=@':
                 // use concat to make sure, no %s occurs because some plugins use %s in their sql
-                $sql .= '( name LIKE CONCAT(\'%\', ?, \'%\') AND type = ' . $actionType . ' )';
+                $sql .= '( name LIKE CONCAT(\'%\', ?, \'%\') ' . $sqlMatchType . ' )';
                 break;
             case '!@':
-                $sql .= '( name NOT LIKE CONCAT(\'%\', ?, \'%\') AND type = ' . $actionType . ' )';
+                $sql .= '( name NOT LIKE CONCAT(\'%\', ?, \'%\') ' . $sqlMatchType . ' )';
                 break;
             default:
-                throw new Exception("This match type is not available for action-segments.");
+                throw new Exception("This match type $matchType is not available for action-segments.");
                 break;
         }
 
         return array(
             // mark that the returned value is an sql-expression instead of a literal value
             'SQL'  => $sql,
-            'bind' => $string
+            'bind' => $valueToMatch,
         );
     }
 
@@ -599,6 +606,27 @@ class Piwik_Actions extends Piwik_Plugin
     static protected function isCustomVariablesPluginsEnabled()
     {
         return Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+    }
+
+    /**
+     * @param $segmentName
+     * @return int
+     * @throws Exception
+     */
+    protected function guessActionTypeFromSegment($segmentName)
+    {
+        if (stripos($segmentName, 'pageurl') !== false) {
+            $actionType = Piwik_Tracker_Action::TYPE_ACTION_URL;
+            return $actionType;
+        } elseif (stripos($segmentName, 'pagetitle') !== false) {
+            $actionType = Piwik_Tracker_Action::TYPE_ACTION_NAME;
+            return $actionType;
+        } elseif (stripos($segmentName, 'sitesearch') !== false) {
+            $actionType = Piwik_Tracker_Action::TYPE_SITE_SEARCH;
+            return $actionType;
+        } else {
+            throw new Exception(" The segment $segmentName has an unexpected value.");
+        }
     }
 }
 

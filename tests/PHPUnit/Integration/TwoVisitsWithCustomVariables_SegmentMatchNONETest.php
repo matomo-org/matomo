@@ -25,6 +25,8 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
 
     public function getApiForTesting()
     {
+        IntegrationTestCase::loadAllPlugins();
+
         $apiToCall = array('VisitsSummary.get', 'CustomVariables.getCustomVariables');
 
         return array(
@@ -40,6 +42,9 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchNONE exten
     {
         // Segment matching NONE
         $segments = Piwik_API_API::getInstance()->getSegmentsMetadata(self::$fixture->idSite);
+
+        $minimumExpectedSegmentsCount = 55; // as of Piwik 1.12
+        $this->assertTrue( count($segments) >= $minimumExpectedSegmentsCount);
         $segmentExpression = array();
 
         $seenVisitorId = false;

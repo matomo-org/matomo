@@ -164,7 +164,7 @@ class Piwik_UserCountry extends Piwik_Plugin
             'type'           => 'dimension',
             'category'       => 'Visit Location',
             'name'           => Piwik_Translate('UserCountry_Country'),
-            'segment'        => 'country',
+            'segment'        => 'countryCode',
             'sqlSegment'     => 'log_visit.location_country',
             'acceptedValues' => 'de, us, fr, in, es, etc.',
         );
@@ -172,7 +172,7 @@ class Piwik_UserCountry extends Piwik_Plugin
             'type'           => 'dimension',
             'category'       => 'Visit Location',
             'name'           => Piwik_Translate('UserCountry_Continent'),
-            'segment'        => 'continent',
+            'segment'        => 'continentCode',
             'sqlSegment'     => 'log_visit.location_country',
             'acceptedValues' => 'eur, asi, amc, amn, ams, afr, ant, oce',
             'sqlFilter'      => array('Piwik_UserCountry', 'getCountriesForContinent'),
@@ -181,7 +181,7 @@ class Piwik_UserCountry extends Piwik_Plugin
             'type'           => 'dimension',
             'category'       => 'Visit Location',
             'name'           => Piwik_Translate('UserCountry_Region'),
-            'segment'        => 'region',
+            'segment'        => 'regionCode',
             'sqlSegment'     => 'log_visit.location_region',
             'acceptedValues' => '01 02, OR, P8, etc.<br/>eg. region=A1;country=fr',
         );
@@ -197,7 +197,7 @@ class Piwik_UserCountry extends Piwik_Plugin
             'type'           => 'dimension',
             'category'       => 'Visit Location',
             'name'           => Piwik_Translate('UserCountry_Latitude'),
-            'segment'        => 'lat',
+            'segment'        => 'latitude',
             'sqlSegment'     => 'log_visit.location_latitude',
             'acceptedValues' => '-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.',
         );
@@ -205,7 +205,7 @@ class Piwik_UserCountry extends Piwik_Plugin
             'type'           => 'dimension',
             'category'       => 'Visit Location',
             'name'           => Piwik_Translate('UserCountry_Longitude'),
-            'segment'        => 'long',
+            'segment'        => 'longitude',
             'sqlSegment'     => 'log_visit.location_longitude',
             'acceptedValues' => '-70.664, 14.326, etc.',
         );
@@ -489,9 +489,8 @@ class Piwik_UserCountry extends Piwik_Plugin
      */
     public static function getCountriesForContinent($continent)
     {
-        $continent = strtolower($continent);
-
         $result = array();
+        $continent = strtolower($continent);
         foreach (Piwik_Common::getCountriesList() as $countryCode => $continentCode) {
             if ($continent == $continentCode) {
                 $result[] = $countryCode;

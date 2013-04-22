@@ -317,6 +317,17 @@ abstract class Piwik_ImageGraph_StaticGraph
         return array($maxWidth, $maxHeight);
     }
 
+    protected function drawBackground()
+    {
+        $this->pImage->drawFilledRectangle(
+            0,
+            0,
+            $this->width,
+            $this->height,
+            array_merge(array('Alpha' => 100), $this->backgroundColor)
+        );
+    }
+
     private static function hex2rgb($hexColor)
     {
         if (preg_match('/([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/', $hexColor, $matches)) {

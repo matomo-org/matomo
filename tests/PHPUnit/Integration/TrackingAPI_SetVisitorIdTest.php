@@ -37,7 +37,6 @@ class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCas
     public function getApiForTesting()
     {
         return array(
-            // test hideColumns && showColumns parameters
             array('VisitsSummary.get', array('idSite'     => self::$fixture->idSite,
                                              'date'       => self::$fixture->dateTime,
                                              'periods'    => 'day',

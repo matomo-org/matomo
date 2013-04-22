@@ -68,7 +68,6 @@
             {% endif %}
 
             {% if not displayVisitorsInOwnColumn %}<br/><br/>{% endif %}
-
             &nbsp;
             {% if visitor.columns.visitConverted %}
                 <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.columns.goalConversions) }}" class='visitorRank'
@@ -196,129 +195,135 @@
                                 {% if action.customVariables is not empty %}
                                     {{ 'CustomVariables_CustomVariables'|translate }}
                                     {% for id,customVariable in action.customVariables %}
-                                        {% set name %}customVariableName{{ id }}{% endset %}
-                                        {% set value %}customVariableValue{{ id }}{% endset %}
-
+                                        {% set name %}customVariablePageName{{ id }}{% endset %}
+                                        {% set value %}customVariablePageValue{{ id }}{% endset %}
                                         - {{ customVariable[name] }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value] }}{% endif %}
                                     {% endfor %}
                                 {% endif %}
                             {% endset %}
                             {% if not javascriptVariablesToSet.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
-                                <li class="{if !empty($action.goalName)}goal{else}action{/if}"
-                                    title="{$action.serverTimePretty|escape:'html'}{if !empty($action.url) && strlen(trim($action.url))}
-                                    
-{$action.url|escape:'html'}{/if} {if strlen(trim($customVariablesTooltip))}
+                                <li class="{% if action.goalName is not empty %}goal{% else %}action{% endif %}"
+                                    title="{{ action.serverTimePretty }}{% if action.url is not empty and action.url|trim|length %}
+                                    {{ action.url }}{% endif %} {% if customVariablesTooltip|trim|length %}
 
-{$customVariablesTooltip|trim}{/if}{if isset($action.timeSpentPretty)}
+                                    {{ customVariablesTooltip|trim }}{% endif %}{% if action.timeSpentPretty is defined %}
 
-{'General_TimeOnPage'|translate}: {$action.timeSpentPretty}{/if}{if isset($action.generationTime)}
+                                    {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty }}{% endif %}{% if action.generationTime is defined %}
 
-{'General_ColumnGenerationTime'|translate}: {$action.generationTime}{/if}">
-                                    {if $action.type == 'ecommerceOrder' || $action.type == 'ecommerceAbandonedCart'}
-                                    {* Ecommerce Abandoned Cart / Ecommerce Order *}
-                                        <img src="{$action.icon}"/>
-                                        {if $action.type == 'ecommerceOrder'}
-                                            {capture assign='visitorHasSomeEcommerceActivity'}1{/capture}
-                                            <strong>{'Goals_EcommerceOrder'|translate}</strong>
-                                            <span style='color:#666666'>({$action.orderId})</span>
-                                        {else}<strong>{'Goals_AbandonedCart'|translate}</strong>
+                                    {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime }}{% endif %}">
+                                    {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
+                                    {# Ecommerce Abandoned Cart / Ecommerce Order #}
+                                        <img src="{{ action.icon }}"/>
+                                        {% if action.type == 'ecommerceOrder' %}
+                                            {% set visitorHasSomeEcommerceActivity %}1{% endset %}
+                                            <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
+                                            <span style='color:#666666'>({{ action.orderId }})</span>
+                                        {% else %}
+                                            <strong>{'Goals_AbandonedCart'|translate}</strong>
 
-                                        {* TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer *}
-                                            {if $javascriptVariablesToSet.filterEcommerce == 2}{capture assign='visitorHasSomeEcommerceActivity'}1{/capture}{/if}
-
-                                        {/if}
+                                            {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
+                                            {% if javascriptVariablesToSet.filterEcommerce == 2 %}
+                                                {% set visitorHasSomeEcommerceActivity %}1{% endset %}
+                                            {% endif %}
+                                        {% endif %}
                                         <br/>
-                                        <span {if !$isWidget}style='margin-left:20px'{/if}>
-					{if $action.type == 'ecommerceOrder'}
+                                        <span {% if not isWidget %}style='margin-left:20px'{% endif %}>
+					                        {% if action.type == 'ecommerceOrder' %}
                                             <abbr title="
-						{'Live_GoalRevenue'|translate}: {$action.revenue|money:$javascriptVariablesToSet.idSite} 
-						{if !empty($action.revenueSubTotal)} - {'General_Subtotal'|translate}: {$action.revenueSubTotal|money:$javascriptVariablesToSet.idSite}{/if} 
-						{if !empty($action.revenueTax)} - {'General_Tax'|translate}: {$action.revenueTax|money:$javascriptVariablesToSet.idSite}{/if} 
-						{if !empty($action.revenueShipping)} - {'General_Shipping'|translate}: {$action.revenueShipping|money:$javascriptVariablesToSet.idSite}{/if} 
-						{if !empty($action.revenueDiscount)} - {'General_Discount'|translate}: {$action.revenueDiscount|money:$javascriptVariablesToSet.idSite}{/if} 
-						">{'Live_GoalRevenue'|translate}:
-                                                {else}
-                                                {capture assign='revenueLeft'}{'Live_GoalRevenue'|translate}{/capture}{'Goals_LeftInCart'|translate:$revenueLeft}
-                                                :
-                                                {/if}
-                                                <strong>{$action.revenue|money:$javascriptVariablesToSet.idSite}</strong>{if $action.type == 'ecommerceOrder'}
-                                            </abbr>{/if},
-                                            {'General_Quantity'|translate}: {$action.items}
+                                                {{ 'Live_GoalRevenue'|translate }}: {{ action.revenue|money(javascriptVariablesToSet.idSite) }}
+                                                {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite) %}{% endif %}
+                                                {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(javascriptVariablesToSet.idSite) }}{% endif %}
+                                                {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(javascriptVariablesToSet.idSite) }}{% endif %}
+                                                {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(javascriptVariablesToSet.idSite) }}{% endif %}
+                                                ">{{ 'Live_GoalRevenue'|translate }}:
+                                            {% else %}
+                                                {% set revenueLeft %}{{ 'Live_GoalRevenue'|translate }}{% endset %}
+                                                {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
+                                            {% endif %}
+                                                <strong>{$action.revenue|money:$javascriptVariablesToSet.idSite}</strong>
+                                            {% if action.type == 'ecommerceOrder' %}
+                                            </abbr>
+                                            {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
 
-                                            {* Ecommerce items in Cart/Order *}
-                                            {if !empty($action.itemDetails)}
-                                                <ul style='list-style:square;margin-left:{if $isWidget}15{else}50{/if}px'>
-                                                    {foreach from=$action.itemDetails item=product}
-                                                        <li>{$product.itemSKU|escape}{if !empty($product.itemName)}: {$product.itemName|escape}{/if}{if !empty($product.itemCategory)} ({$product.itemCategory|escape}){/if}
+                                            {##} Ecommerce items in Cart/Order #}
+                                            {% if action.itemDetails is not empty %}
+                                                <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px'>
+                                                    {% for product in action.itemDetails %}
+                                                        <li>
+                                                            {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}
+                                                            {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
                                                             ,
-                                                            {'General_Quantity'|translate}: {$product.quantity},
-                                                            {'General_Price'|translate}: {$product.price|money:$javascriptVariablesToSet.idSite}
+                                                            {{ 'General_Quantity'|translate }}: {{ product.quantity }},
+                                                            {{ 'General_Price'|translate }}: {{ product.price|money(javascriptVariablesToSet.idSite) }}
                                                         </li>
-                                                    {/foreach}
+                                                    {% endfor %}
                                                 </ul>
-                                            {/if}
-					</span>
-                                    {elseif empty($action.goalName)}
-                                    {* Page view / Download / Outlink *}
-                                        {if !empty($action.pageTitle)}
-                                            {if $action.type == 'search'}<img src='{$action.icon}'
-                                                                              title='{'Actions_SubmenuSitesearch'|translate|escape:'html'}'>{/if}
-                                            {$action.pageTitle|unescape|urldecode|escape:'html'|truncate:80:"...":true}
-                                        {/if}
-                                        {if !empty($action.url)}
-                                            {if $action.type == 'action' && !empty($action.pageTitle)}<br/>{/if}
-                                            {if $action.type == 'download'
-                                            || $action.type == 'outlink'}
-                                                <img src='{$action.icon}'>
-                                            {/if}
-                                            <a href="{$action.url|escape:'html'}" target="_blank"
-                                               style="{if $action.type=='action' && !empty($action.pageTitle)}margin-left: 25px;{/if}text-decoration:underline;">{$action.url|escape:'html'|truncate:80:"...":true}</a>
-                                        {elseif $action.type!='search'}
+                                            {% endif %}
+                                        </span>
+                                    {% elseif action.goalName is empty %}
+                                        {# Page view / Download / Outlink #}
+                                        {% if action.pageTitle is not empty %}
+                                            {{ action.pageTitle|truncate(80) }}
+                                        {% endif %}
+                                        {% if action.siteSearchKeyword is not empty %}
+                                            {% if action.type == 'search' %}
+                                                <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}'>
+                                            {% endif %}
+                                            {{ action.siteSearchKeyword|truncate(80) }}
+                                        {% endif %}
+                                        {% if action.url is not empty %}
+                                            {% if action.type == 'action' and action.pageTitle is not empty %}<br/>{% endif %}
+                                            {% if action.type == 'download' or action.type == 'outlink' %}
+                                                <img src='{{ action.icon }}'>
+                                            {% endif %}
+                                            <a href="{{ action.url }}" target="_blank"
+                                               style="{% if action.type=='action' and action.pageTitle is not empty %}margin-left: 25px;{% endif %}text-decoration:underline;">
+                                                {{ action.url|truncate(80) }}
+                                            </a>
+                                        {% elseif action.type != 'search' %}
                                             <br/>
-                                            <span style="margin-left: 25px;">{$javascriptVariablesToSet.pageUrlNotDefined}</span>
-                                        {/if}
-                                    {else}
-                                    {* Goal conversion *}
-                                        <img src="{$action.icon}"/>
-                                        <strong>{$action.goalName|escape:'html'}</strong>
-                                        {if $action.revenue > 0}, {'Live_GoalRevenue'|translate}:
-                                            <strong>{$action.revenue|money:$javascriptVariablesToSet.idSite}</strong>{/if}
-                                    {/if}
+                                            <span style="margin-left: 25px;">{{ javascriptVariablesToSet.pageUrlNotDefined }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                        {# Goal conversion #}
+                                        <img src="{{ action.icon }}" />
+                                        <strong>{{ action.goalName }}</strong>
+                                        {% if action.revenue > 0}, {{ 'Live_GoalRevenue'|translate }}:
+                                            <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite) }}</strong>
+                                        {% endif %}
+                                    {% endif %}
                                 </li>
-                            {/if}
-                        {/foreach}
+                            {% endif %}
+                        {% endfor %}
                     </ol>
                 </td>
             </tr>
-        {/capture}
+        {% endset %}
 
-        {if !$javascriptVariablesToSet.filterEcommerce
-        || !empty($visitorHasSomeEcommerceActivity)}
-            {$visitorRow}
-        {/if}
-    {/foreach}
+        {% if not javascriptVariablesToSet.filterEcommerce or visitorHasSomeEcommerceActivity is not empty %}
+            {{ visitorRow }}
+        {% endif %}
+    {% endfor %}
 
     </tbody>
     </table>
-{/if}
+{% endif %}
 
-    {if $properties.show_footer}
-        {include file="CoreHome/templates/datatable_footer.tpl"}
-    {/if}
+    {% if properties.show_footer %}
+        {% include "@CoreHome/datatable_footer.twig" %}
+    {% endif %}
 
-    {include file="CoreHome/templates/datatable_js.tpl"}
+    {% include "@CoreHome/datatable_js.twig"}
     <script type="text/javascript" defer="defer">
 
-        var visitorLogTitle = '{'Live_VisitorLog'|translate|escape:'javascript'}';
-        function Piwik_Live_LoadVisitorPopover(visitorId) {ldelim}
+        var visitorLogTitle = '{{ 'Live_VisitorLog'|translate|e('js') }}';
+        function Piwik_Live_LoadVisitorPopover(visitorId) {
             var startingDate = piwik.minDateYear + '-01-01';
             var url = 'module=Live&action=getVisitorLog&period=range&date=' + startingDate + ',today&show_footer=0&segment=visitorId' + encodeURIComponent('==') + visitorId;
             return Piwik_Popover.createPopupAndLoadUrl(url, visitorLogTitle);
-            {rdelim
         }
 
-        $(document).ready(function () {ldelim}
-            {literal}
+        $(document).ready(function () {
             // Replace duplicated page views by a NX count instead of using too much vertical space
             $("ol.visitorLog").each(function () {
                 var prevelement;
@@ -333,7 +338,7 @@
                         if (repeat.length) {
                             repeat.html((parseInt(repeat.html()) + 1) + "x");
                         } else {
-                            prevelement.append($("<em title='{/literal}{'Live_PageRefreshed'|translate|escape:'js'}{literal}' class='repeat'>2x</em>"));
+                            prevelement.append($("<em title='{{ 'Live_PageRefreshed'|translate|e('js') }}' class='repeat'>2x</em>"));
                         }
                         $(this).hide();
                     } else {
@@ -346,15 +351,15 @@
                         show: false,
                         hide: false,
                         content: function() {
-                            return $(this).attr('title').replace(/\n/g, '<br />');
+                            var title = $(this).attr('title');
+                            return $('<a>').text( title ).html().replace(/\n/g, '<br />');
                         },
                         tooltipClass: 'small'
                     });
                 });
             });
         });
-        {/literal}
     </script>
-{/if}
+{% endif %}
 
 </div>

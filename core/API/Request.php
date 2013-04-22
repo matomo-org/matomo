@@ -111,7 +111,7 @@ class Piwik_API_Request
      * It then calls the API Proxy which will call the requested method.
      *
      * @throws Piwik_FrontController_PluginDeactivatedException
-     * @return mixed  The data resulting from the API call
+     * @return Piwik_DataTable|mixed  The data resulting from the API call
      */
     public function process()
     {

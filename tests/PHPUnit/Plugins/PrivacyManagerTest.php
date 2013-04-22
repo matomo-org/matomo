@@ -661,11 +661,11 @@ class PrivacyManagerTest extends IntegrationTestCase
         }
 
         // add segment for one day
-        $archive = Piwik_Archive::build(self::$idSite, 'day', '2012-01-14', 'browserName==FF');
+        $archive = Piwik_Archive::build(self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
         $archive->getNumeric('nb_visits', 'nb_hits');
 
         Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(
-            self::$idSite, 'day', '2012-01-14', 'browserName==FF');
+            self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
 
         // add range within January
         $rangeEnd = Piwik_Date::factory('2012-01-29');

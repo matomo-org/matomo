@@ -10,18 +10,18 @@
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>2</nb_conversions>
-				
+				<nb_visits_converted>2</nb_visits_converted>
 				<revenue>1000</revenue>
 			</row>
 			<row idgoal='2'>
 				<nb_conversions>1</nb_conversions>
-				
+				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>0</revenue>
 			</row>
 		</goals>
 		<nb_conversions>3</nb_conversions>
 		<revenue>1000</revenue>
-		
+		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<subtable>
 			<row>
 				<label>LoggedOut</label>
@@ -33,18 +33,18 @@
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
-						
+						<nb_visits_converted>1</nb_visits_converted>
 						<revenue>1000</revenue>
 					</row>
 					<row idgoal='2'>
 						<nb_conversions>1</nb_conversions>
-						
+						<nb_visits_converted>1</nb_visits_converted>
 						<revenue>0</revenue>
 					</row>
 				</goals>
 				<nb_conversions>2</nb_conversions>
 				<revenue>1000</revenue>
-				
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 			<row>
 				<label>LoggedIn</label>
@@ -56,13 +56,13 @@
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
-						
+						<nb_visits_converted>1</nb_visits_converted>
 						<revenue>0</revenue>
 					</row>
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>0</revenue>
-				
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>
 	</row>
@@ -76,13 +76,13 @@
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
-				
+				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>1000</revenue>
 			</row>
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>1000</revenue>
-		
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<subtable>
 			<row>
 				<label>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</label>
@@ -94,13 +94,13 @@
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
-						
+						<nb_visits_converted>1</nb_visits_converted>
 						<revenue>1000</revenue>
 					</row>
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>1000</revenue>
-				
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>
 	</row>
@@ -114,13 +114,13 @@
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
-				
+				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>0</revenue>
 			</row>
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
-		
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<subtable>
 			<row>
 				<label>Value not defined</label>
@@ -132,13 +132,13 @@
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
-						
+						<nb_visits_converted>1</nb_visits_converted>
 						<revenue>0</revenue>
 					</row>
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>0</revenue>
-				
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>
 	</row>
@@ -152,13 +152,13 @@
 		<goals>
 			<row idgoal='1'>
 				<nb_conversions>1</nb_conversions>
-				
+				<nb_visits_converted>1</nb_visits_converted>
 				<revenue>0</revenue>
 			</row>
 		</goals>
 		<nb_conversions>1</nb_conversions>
 		<revenue>0</revenue>
-		
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<subtable>
 			<row>
 				<label>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</label>
@@ -170,13 +170,13 @@
 				<goals>
 					<row idgoal='1'>
 						<nb_conversions>1</nb_conversions>
-						
+						<nb_visits_converted>1</nb_visits_converted>
 						<revenue>0</revenue>
 					</row>
 				</goals>
 				<nb_conversions>1</nb_conversions>
 				<revenue>0</revenue>
-				
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>
 	</row>
@@ -188,13 +188,13 @@
 				<label>looking at &quot;profile page&quot;</label>
 				<nb_visits>2</nb_visits>
 				<nb_actions>2</nb_actions>
-				
+				<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 			</row>
 			<row>
 				<label>Loggedin</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>
 	</row>
@@ -206,7 +206,7 @@
 				<label>Value not defined</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>
 	</row>
@@ -218,7 +218,7 @@
 				<label>FR</label>
 				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
-				
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 			</row>
 		</subtable>
 	</row>

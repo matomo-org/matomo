@@ -17,6 +17,7 @@
 			<row>
 				<type>goal</type>
 				<goalName>matching purchase.htm</goalName>
+				<goalId>2</goalId>
 				<revenue>1</revenue>
 				<goalPageId>9</goalPageId>
 				
@@ -41,6 +42,8 @@
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
 		
 		
 		
@@ -56,6 +59,7 @@
 		<countryCode>fr</countryCode>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<region />
+		<regionCode />
 		<city />
 		<location>France</location>
 		<latitude />
@@ -71,12 +75,15 @@
 		<referrerSearchEngineUrl>http://search.yahoo.com</referrerSearchEngineUrl>
 		<referrerSearchEngineIcon>plugins/Referers/images/searchEngines/search.yahoo.com.png</referrerSearchEngineIcon>
 		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
@@ -182,6 +189,7 @@
 			<row>
 				<type>goal</type>
 				<goalName>triggered js</goalName>
+				<goalId>1</goalId>
 				<revenue>0</revenue>
 				<goalPageId />
 				
@@ -191,13 +199,13 @@
 			<row>
 				<type>search</type>
 				<url />
-				<pageTitle>Banks Own The World</pageTitle>
 				<pageIdAction />
 				<pageId>7</pageId>
 				
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<generationTime>0.81s</generationTime>
+				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
 				<icon>themes/default/images/search_ico.png</icon>
 			</row>
 			<row>
@@ -218,6 +226,8 @@
 		<siteCurrencySymbol>$</siteCurrencySymbol>
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
+		<visitLocalHour>12</visitLocalHour>
+		
 		
 		
 		
@@ -233,6 +243,7 @@
 		<countryCode>fr</countryCode>
 		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
 		<region />
+		<regionCode />
 		<city />
 		<location>France</location>
 		<latitude />
@@ -248,12 +259,15 @@
 		<referrerSearchEngineUrl />
 		<referrerSearchEngineIcon />
 		<operatingSystem>Windows XP</operatingSystem>
+		<operatingSystemCode>WXP</operatingSystemCode>
 		<operatingSystemShortName>Win XP</operatingSystemShortName>
 		<operatingSystemIcon>plugins/UserSettings/images/os/WXP.gif</operatingSystemIcon>
 		<browserFamily>gecko</browserFamily>
 		<browserFamilyDescription>Gecko (Firefox)</browserFamilyDescription>
 		<browserName>Firefox 3.6</browserName>
 		<browserIcon>plugins/UserSettings/images/browsers/FF.gif</browserIcon>
+		<browserCode>FF</browserCode>
+		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>

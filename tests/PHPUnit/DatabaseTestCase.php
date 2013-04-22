@@ -15,6 +15,7 @@
  */
 class DatabaseTestCase extends PHPUnit_Framework_TestCase
 {
+
     /**
      * Setup the database and create the base tables for all tests
      */
@@ -58,14 +59,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         parent::tearDown();
-        try {
-            $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
-            foreach ($plugins AS $plugin) {
-                $plugin->uninstall();
-            }
-            Piwik_PluginsManager::getInstance()->unloadPlugins();
-        } catch (Exception $e) {
-        }
+        IntegrationTestCase::unloadAllPlugins();
         Piwik::dropDatabase();
         Piwik_DataTable_Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
@@ -76,4 +70,5 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
         Zend_Registry::_unsetInstance();
     }
+
 }

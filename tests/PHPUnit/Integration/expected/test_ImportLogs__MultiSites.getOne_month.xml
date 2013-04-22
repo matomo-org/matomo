@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<nb_visits>25</nb_visits>
-	<nb_actions>28</nb_actions>
-	<nb_pageviews>24</nb_pageviews>
-	<revenue>115</revenue>
+	<nb_visits>26</nb_visits>
+	<nb_actions>29</nb_actions>
+	<nb_pageviews>25</nb_pageviews>
+	<revenue>120</revenue>
 	<visits_evolution>100%</visits_evolution>
 	<actions_evolution>100%</actions_evolution>
 	<pageviews_evolution>100%</pageviews_evolution>

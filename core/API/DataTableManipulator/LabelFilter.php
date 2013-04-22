@@ -112,6 +112,8 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
      */
     private function getLabelVariations($label)
     {
+        static $pageTitleReports = array('getPageTitles', 'getEntryPageTitles', 'getExitPageTitles');
+        
         $variations = array();
         $label = trim($label);
 
@@ -119,7 +121,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
         $variations[] = $sanitizedLabel;
 
         if ($this->apiModule == 'Actions'
-            && $this->apiMethod == 'getPageTitles'
+            && in_array($this->apiMethod, $pageTitleReports)
         ) {
             // special case: the Actions.getPageTitles report prefixes some labels with a blank.
             // the blank might be passed by the user but is removed in Piwik_API_Request::getRequestArrayFromString.
