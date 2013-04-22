@@ -77,4 +77,3 @@ Documentation and more info on http://piwik.org
 
   * Travis-CI: [![Build Status](https://travis-ci.org/piwik/piwik.png?branch=master)](https://travis-ci.org/piwik/piwik)
 
- 
