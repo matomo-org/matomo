@@ -86,7 +86,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'Количество посещений',
 	'General_VisitConvertedGoal' => 'Посещение, принято как минимум одной целью',
 	'General_VisitConvertedGoalId' => 'Посещение, которое сконвертировало определенную Цель',
-	'General_EcommerceVisitStatus' => 'Статус посещения "Электронной коммерции" на конец посещения. Например, чтобы выбрать все посещения, когда был совершен электронный заказ, API-запрос будет содержать: %s',
 	'General_VisitConvertedNGoals' => 'Посещение сконвертировало converted %s Целей',
 	'General_NewVisitor' => 'Новый посетитель',
 	'General_NewVisits' => 'Новые посещения',

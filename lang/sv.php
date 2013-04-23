@@ -83,7 +83,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'Antalet besök',
 	'General_VisitConvertedGoal' => 'Besök omvandlat till åtminstone ett mål',
 	'General_VisitConvertedGoalId' => 'Besök som omvandlade ett specifikt mål-id',
-	'General_EcommerceVisitStatus' => 'Besökets E-handelsstatus i slutet av besöket. Till exempel, för att markera alla besök som har gjort en E-handelsbeställning, så skulle API-begäran innehålla %s',
 	'General_VisitConvertedNGoals' => 'Besök omvandlade %s mål',
 	'General_NewVisitor' => 'Ny besökare',
 	'General_NewVisits' => 'Nytt besök',

@@ -10,8 +10,16 @@ function initDashboard(dashboardId, dashboardLayout) {
     // Standard dashboard
     if ($('#periodString').length) {
         $('#periodString').after($('#dashboardSettings'));
-        $('#dashboardSettings').css({left: $('#periodString')[0].offsetWidth});
+
+        var leftMargin = $('#periodString')[0].offsetWidth;
+        var segmentSelector = $('.segmentationContainer:visible');
+        if (segmentSelector.length) {
+            segmentSelector = $($('.segmentationContainer:visible')[0]);
+            leftMargin = segmentSelector.position().left + segmentSelector.outerWidth();
+        }
+        $('#dashboardSettings').css({left: leftMargin});
     }
+
     // Embed dashboard
     if (!$('#topBars').length) {
         $('#dashboardSettings').css({left: 0});

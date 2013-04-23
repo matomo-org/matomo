@@ -78,7 +78,6 @@ $translations = array(
 	'General_DaysSinceFirstVisit' => 'Dagar sidan fyrste vitjing',
 	'General_DaysSinceLastEcommerceOrder' => 'Dagar sidan førre ordre i netthandel',
 	'General_NumberOfVisits' => 'Tal på vitjingar',
-	'General_EcommerceVisitStatus' => 'Netthandelstatus på slutten av vitjinga. Til dømes, for å velja alle vitjingar som har lagt inn ein ordre i netthandelen, vil API-spurnaden innehalda %s',
 	'General_NewVisitor' => 'Ny vitjar',
 	'General_NewVisits' => 'Nye vitjingar',
 	'General_ReturningVisitor' => 'Attendevendande vitjar',

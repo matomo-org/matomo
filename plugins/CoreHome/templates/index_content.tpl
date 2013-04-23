@@ -3,6 +3,7 @@
         <div class="nav_sep"></div>
         <div class="top_controls">
             {include file="CoreHome/templates/period_select.tpl"}
+            {postEvent name="template_nextToCalendar"}
             {include file="CoreHome/templates/header_message.tpl"}
             {ajaxRequestErrorDiv}
         </div>

@@ -77,7 +77,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'Látogatások száma',
 	'General_VisitConvertedGoal' => 'Látogatások legalább egy konverzióval',
 	'General_VisitConvertedGoalId' => 'Látogatások egy adott ID-jű cél konverziójával',
-	'General_EcommerceVisitStatus' => 'A látogatás E-kereskedelmi státusza a látogatás végén. Például azoknak a látogatásoknak a kiválasztására, melyek egy E-kereskedelmi rendelést eredményeztek, az API lekérés tartalmazná ezt: %s',
 	'General_VisitConvertedNGoals' => 'Látogatások %s célkoverzióval',
 	'General_NewVisitor' => 'Új látogató',
 	'General_ReturningVisitor' => 'Visszatérő látogató',

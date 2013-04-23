@@ -83,7 +83,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'تعداد بازدید ها',
 	'General_VisitConvertedGoal' => 'بازدید حداقل یک بار به هدف رسیده',
 	'General_VisitConvertedGoalId' => 'بازدید که به یک هدف مشخص تبدیل شده',
-	'General_EcommerceVisitStatus' => 'وضعیت تجارت الکترونیک در پایان این دیدار است. به عنوان مثال،برای انتخاب تمام بازدیدکننده داشته است را ساخته اند که به منظور تجارت الکترونیک، درخواست API حاوی %s',
 	'General_VisitConvertedNGoals' => 'بازدید تبدیل شده %s به هدف',
 	'General_NewVisitor' => 'بازدید کننده جدید',
 	'General_NewVisits' => 'بازدید جدید',

@@ -83,7 +83,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'Αριθμός επισκέψεων',
 	'General_VisitConvertedGoal' => 'Επίσκεψη που εκπλήρωσε τουλάχιστον ένα Στόχο',
 	'General_VisitConvertedGoalId' => 'Η επίσκεψη μετέτρεψε μια συγκεκριμένη Ταυτότητα Στόχου',
-	'General_EcommerceVisitStatus' => 'Κατάσταση Επίσκεψης Ηλεκτρονικού Εμπορίου στο τέλος της επίσκεψης. Για παράδειγμα, για να επιλέξετε όλες τις επισκέψεις που έχουν κάνει Ηλεκτρονική παραγγελία, το αίτημα API θα περιέχει %s',
 	'General_VisitConvertedNGoals' => 'Η Επίσκεψη μετέτρεψε %s Στόχους',
 	'General_NewVisitor' => 'Νέος Επισκέπτης',
 	'General_NewVisits' => 'Νέες επισκέψεις',

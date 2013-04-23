@@ -83,7 +83,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'Käyntien lukumäärä',
 	'General_VisitConvertedGoal' => 'Käynti joka saavutti vähintään yhden tavoitteen',
 	'General_VisitConvertedGoalId' => 'Käynti joka saavutti määritellyn tavoitteen',
-	'General_EcommerceVisitStatus' => 'Käynnin verkkokaupan tila. Jos haluat esimerkiksi valita kaikki käynnit joilla tehtiin tilaus, API-pyynnössä olisi %s',
 	'General_VisitConvertedNGoals' => 'Käynneistä konvertoitui %s tavoitetta',
 	'General_NewVisitor' => 'Uusi kävijä',
 	'General_NewVisits' => 'Uudet käynnit',

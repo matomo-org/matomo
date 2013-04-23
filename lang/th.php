@@ -81,7 +81,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'จำนวนการเข้าชม',
 	'General_VisitConvertedGoal' => 'เข้าชมเปลี่ยนแปลงอย่างน้อยหนึ่งเป้าหมาย',
 	'General_VisitConvertedGoalId' => 'แปลงผู้เข้าชมไปยัง ID เป้าหมายที่ระบุไว้',
-	'General_EcommerceVisitStatus' => 'สถานะการเยี่ยมชมอีคอมเมิร์ซที่ส่วนท้ายของการเข้าชม ตัวอย่างเช่น การเลือกการเข้าชมทั้งหมดที่ได้ทำคำสั่งอีคอมเมิร์ซการร้องขอ API จะมี %s',
 	'General_VisitConvertedNGoals' => 'เยี่ยมชมแปลง %s เป้าหมาย',
 	'General_NewVisitor' => 'ผู้เข้าชมใหม่',
 	'General_NewVisits' => 'ผู้เข้าชมใหม่',

@@ -75,7 +75,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'Колькасць наведванняў',
 	'General_VisitConvertedGoal' => 'Наведванне пераўтвораннае хаця б у адну Мэту',
 	'General_VisitConvertedGoalId' => 'Наведаць пераўтвораны вызначаным ідэнтыфікатарам мэты',
-	'General_EcommerceVisitStatus' => 'Наведаць статус электроннай камерцыі у канцы наведвання. Напрыклад, каб выбраць усе наведванні, якія зрабілі электронна-камерцыйнаю замову, API-запыт будзе змяшчаць %s',
 	'General_VisitConvertedNGoals' => 'Наведванне, якое канвертавалася %s мэту',
 	'General_NewVisitor' => 'Новы наведвальнік',
 	'General_NewVisits' => 'Новыя наведвання',

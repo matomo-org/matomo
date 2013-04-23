@@ -76,7 +76,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'Apmeklējumu skaits',
 	'General_VisitConvertedGoal' => 'Apmeklējums sasniedza vismaz vienu mērķi',
 	'General_VisitConvertedGoalId' => 'Apmeklējums sasniedza konkrētu mērķi ar Id',
-	'General_EcommerceVisitStatus' => 'Apmeklējuma e-komercijas statuss apmeklējuma beigās. Piemēra, lai izvēlētos visus apmeklējumus, kuros tikai veikts e-komercijas pasūtījums, API pieprasījums saturētu %s',
 	'General_VisitConvertedNGoals' => 'Apmeklējums sasniedza %s mērķus',
 	'General_NewVisitor' => 'Jauns apmeklētājs',
 	'General_NewVisits' => 'Jauni apmeklējumi',

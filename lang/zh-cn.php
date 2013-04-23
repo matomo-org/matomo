@@ -86,7 +86,6 @@ $translations = array(
 	'General_NumberOfVisits' => '访问次数',
 	'General_VisitConvertedGoal' => '至少转化一个目标的访问次数',
 	'General_VisitConvertedGoalId' => '转化特定目标的访问次数',
-	'General_EcommerceVisitStatus' => 'Visit Ecommerce status at the end of the visit. For example, to select all visits that have made an Ecommerce order, the API request would contain %s',
 	'General_VisitConvertedNGoals' => '访问转化 %s 个目标',
 	'General_NewVisitor' => '新访客',
 	'General_NewVisits' => '新访问',

@@ -83,7 +83,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'Número de visites',
 	'General_VisitConvertedGoal' => 'La visita ha convertit al menys un objectiu',
 	'General_VisitConvertedGoalId' => 'La visita ha convertit un id d\'objectiu especific',
-	'General_EcommerceVisitStatus' => 'Visita l\'estat de l\'e-commerce al final de la visita. Per exempel, seleccionar totes les visites que han fet una comanda d\'e-commerce, la petició de l\'API tindrà %s',
 	'General_VisitConvertedNGoals' => 'La visita ha convertit %s objectius',
 	'General_NewVisitor' => 'Nova visita',
 	'General_NewVisits' => 'Noves visites',

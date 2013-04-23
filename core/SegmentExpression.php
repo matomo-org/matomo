@@ -74,7 +74,7 @@ class Piwik_SegmentExpression
                 . '){1}(.+)/';
             $match = preg_match($pattern, $operand, $matches);
             if ($match == 0) {
-                throw new Exception('Segment parameter \'' . $operand . '\' does not appear to have a valid format.');
+                throw new Exception('The segment \'' . $operand . '\' is not valid.');
             }
 
             $leftMember = $matches[1];
@@ -149,7 +149,6 @@ class Piwik_SegmentExpression
      * @throws Exception
      * @return array
      */
-    // @todo case insensitive?
     protected function getSqlMatchFromDefinition($def, &$availableTables)
     {
         $field = $def[0];

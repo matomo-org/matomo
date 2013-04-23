@@ -81,7 +81,6 @@ $translations = array(
 	'General_NumberOfVisits' => 'Numero di visite',
 	'General_VisitConvertedGoal' => 'Visite convertite almeno in un Goal',
 	'General_VisitConvertedGoalId' => 'Visita convertito un Id specifico obiettivo',
-	'General_EcommerceVisitStatus' => 'Visita lo status di e-commerce alla fine della visita. Ad esempio, per selezionare tutte le visite che hanno fatto un ordine di e-commerce, la richiesta di API conterrebbe %s',
 	'General_VisitConvertedNGoals' => 'Visite convertite %s in goal',
 	'General_NewVisitor' => 'Nuovo visitatore',
 	'General_NewVisits' => 'Nuove visite',
