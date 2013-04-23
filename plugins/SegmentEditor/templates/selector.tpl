@@ -12,29 +12,24 @@
         <a class="add_new_segment">Add new segment</a>
     </div>
 
-    <div class="initial-state-rows">
-        <div class="segment-add-row initial">
-            <div>
-                <span>+ Drag &amp; Drop condition</span>
-            </div>
-        </div>
-        <div class="segment-and">AND</div>
-        <div class="segment-add-row initial">
-            <div>
-                <span>+ Drag &amp; Drop condition</span>
-            </div>
-        </div>
+    <div class="initial-state-rows">{* no space here important for jquery *}<div class="segment-add-row initial"><div>
+        <span>+ Drag &amp; Drop condition</span>
+    </div></div>
+    <div class="segment-and">AND</div>
+    <div class="segment-add-row initial"><div>
+        <span>+ Drag &amp; Drop condition</span>
+    </div></div>
     </div>
 
     <div class="segment-row-inputs">
         <div class="segment-input metricListBlock">
             <select title="Choose a segment" class="metricList">
                 {foreach from=$segmentsByCategory key=category item=segmentsInCategory}
-                    <optgroup label="{$category}">
-                        {foreach from=$segmentsInCategory item=segmentInCategory}
-                            <option data-type="{$segmentInCategory.type}" value="{$segmentInCategory.segment}">{$segmentInCategory.name}</option>
-                        {/foreach}
-                    </optgroup>
+                <optgroup label="{$category}">
+                    {foreach from=$segmentsInCategory item=segmentInCategory}
+                        <option data-type="{$segmentInCategory.type}" value="{$segmentInCategory.segment}">{$segmentInCategory.name}</option>
+                    {/foreach}
+                </optgroup>
                 {/foreach}
             </select>
         </div>
@@ -62,59 +57,55 @@
         </div>
     </div>
     <div class="segment-or">OR</div>
-    <div class="segment-add-or">
-        <div>
+    <div class="segment-add-or"><div>
             <a href="#"> + Add <span>OR</span> condition </a>
         </div>
     </div>
     <div class="segment-and">AND</div>
-    <div class="segment-add-row">
-        <div>
+    <div class="segment-add-row"><div>
             <a href="#">+ Add <span>AND</span> condition </a>
         </div>
     </div>
     <div style="position: absolute; z-index:999; width:1040px;" class="segment-element">
         <div class="segment-nav">
             <h4 class="visits"><span id="available_segments"><strong>
-                        <select id="available_segments_select"></select>
-                    </strong></span></h4>
-
+                <select id="available_segments_select"></select>
+            </strong></span></h4>
             <div class="scrollable">
-                <ul>
-                    {foreach from=$segmentsByCategory key=category item=segmentsInCategory}
-                        <li data="visit"><a class="metric_category" href="#">{$category}</a>
-                            <ul style="display:none">
-                                {foreach from=$segmentsInCategory item=segmentInCategory}
-                                    <li data-metric="{$segmentInCategory.segment}"><a class="ddmetric" href="#">{$segmentInCategory.name}</a></li>
-                                {/foreach}
-                            </ul>
-                        </li>
-                    {/foreach}
-                </ul>
+            <ul>
+            {foreach from=$segmentsByCategory key=category item=segmentsInCategory}
+                <li data="visit"><a class="metric_category" href="#">{$category}</a>
+                    <ul style="display:none">
+                        {foreach from=$segmentsInCategory item=segmentInCategory}
+                        <li data-metric="{$segmentInCategory.segment}"><a class="ddmetric" href="#">{$segmentInCategory.name}</a></li>
+                        {/foreach}
+                    </ul>
+                </li>
+            {/foreach}
+            </ul>
             </div>
             <div class="custom_select_search">
                 <a href="#"></a>
-                <input type="text" aria-haspopup="true" aria-autocomplete="list" role="textbox" autocomplete="off" class="inp ui-autocomplete-input"
-                       id="segmentSearch" value="Search" length="15">
+                <input type="text" aria-haspopup="true" aria-autocomplete="list" role="textbox" autocomplete="off" class="inp ui-autocomplete-input" id="segmentSearch" value="Search" length="15">
             </div>
         </div>
         <div class="segment-content">
             {if $isSuperUser}
-                <div class="segment-top">
-                    This segment is visible to: <span id="enabledAllUsers"><strong>
-                            <select id="enabledAllUsers_select">
-                                <option selected="" value="0">me</option>
-                                <option value="1">All users</option>
-                            </select>
-                        </strong></span>
+            <div class="segment-top">
+                This segment is visible to: <span id="enabledAllUsers"><strong>
+                        <select id="enabledAllUsers_select">
+                            <option selected="" value="0">me</option>
+                            <option value="1">All users</option>
+                        </select>
+                    </strong></span>
 
-                    and displayed for <span id="visible_to_website"><strong>
-                            <select id="visible_to_website_select">
-                                <option selected="" value="{$idSite}">this website only</option>
-                                <option value="0">all websites</option>
-                            </select>
-                        </strong></span>
-                </div>
+                and displayed for <span id="visible_to_website"><strong>
+                        <select id="visible_to_website_select">
+                            <option selected="" value="{$idSite}">this website only</option>
+                            <option value="0">all websites</option>
+                        </select>
+                    </strong></span>
+            </div>
             {/if}
             <h3>Name: <span>New segment</span> <a class="editSegmentName" href="#">edit</a></h3>
         </div>
@@ -137,5 +128,5 @@
 </div>
 
 <script type="text/javascript">
-    var availableSegments = {$savedSegmentsJson};
+var availableSegments = {$savedSegmentsJson};
 </script>
