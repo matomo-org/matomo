@@ -242,14 +242,14 @@ class Piwik_MobileMessaging extends Piwik_Plugin
             $notificationInfo = $notification->getNotificationInfo();
             $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
             $contents = $notificationInfo[Piwik_PDFReports_API::REPORT_CONTENT_KEY];
+            $reportSubject = $notificationInfo[Piwik_PDFReports_API::REPORT_SUBJECT_KEY];
 
             $parameters = $report['parameters'];
             $phoneNumbers = $parameters[self::PHONE_NUMBERS_PARAMETER];
 
-            if (in_array('MultiSites_getAll', $report['reports'])) {
-                $from = Piwik_Translate('General_Reports');
-            } else {
-                $from = $notificationInfo[Piwik_PDFReports_API::WEBSITE_NAME_KEY];
+            // 'All Websites' is one character above the limit, use 'Reports' instead
+            if ($reportSubject == Piwik_Translate('General_MultiSitesSummary')) {
+                $reportSubject = Piwik_Translate('General_Reports');
             }
 
             $mobileMessagingAPI = Piwik_MobileMessaging_API::getInstance();
@@ -257,7 +257,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
                 $mobileMessagingAPI->sendSMS(
                     $contents,
                     $phoneNumber,
-                    $from
+                    $reportSubject
                 );
             }
         }

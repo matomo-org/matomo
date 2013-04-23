@@ -211,4 +211,53 @@ class MobileMessagingTest extends DatabaseTestCase
         $mobileMessagingAPI->addPhoneNumber('  6  76 93 26 47');
         $this->assertEquals('676932647', key($mobileMessagingAPI->getPhoneNumbers()));
     }
+
+    /**
+     * Dataprovider for testSendReport
+     */
+    public function getSendReportTestCases()
+    {
+        return array(
+            array('reportContent', '0101010101', 'Piwik.org', 'reportContent', '0101010101', 'Piwik.org'),
+            array('reportContent', '0101010101', 'General_Reports', 'reportContent', '0101010101', 'General_MultiSitesSummary'),
+        );
+    }
+
+    /**
+     * @group Plugins
+     * @group MobileMessaging
+     * @dataProvider getSendReportTestCases
+     */
+    public function testSendReport($expectedReportContent, $expectedPhoneNumber, $expectedFrom, $reportContent, $phoneNumber, $reportSubject)
+    {
+        $eventNotification = new Piwik_Event_Notification(
+            $this,
+            null,
+            array(
+                 Piwik_PDFReports_API::REPORT_CONTENT_KEY   => $reportContent,
+                 Piwik_PDFReports_API::REPORT_SUBJECT_KEY     => $reportSubject,
+                 Piwik_PDFReports_API::REPORT_TYPE_INFO_KEY => Piwik_MobileMessaging::MOBILE_TYPE,
+                 Piwik_PDFReports_API::REPORT_KEY           => array(
+                     'parameters' => array(Piwik_MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
+                 ),
+            )
+        );
+
+        $stubbedMobileMessagingAPI = $this->getMock('Piwik_MobileMessaging_API');
+        $stubbedMobileMessagingAPI->expects($this->once())->method('sendSMS')->with(
+            $this->equalTo($expectedReportContent, 0),
+            $this->equalTo($expectedPhoneNumber, 1),
+            $this->equalTo($expectedFrom, 2)
+        );
+
+        $stubbedMobileMessagingAPIClass = new ReflectionProperty('Piwik_MobileMessaging_API', 'instance');
+        $stubbedMobileMessagingAPIClass->setAccessible(true);
+        $stubbedMobileMessagingAPIClass->setValue($stubbedMobileMessagingAPI);
+
+        $mobileMessaging = new Piwik_MobileMessaging();
+        $mobileMessaging->sendReport($eventNotification);
+
+        // restore Piwik_MobileMessaging_API
+        $stubbedMobileMessagingAPIClass->setValue(null);
+    }
 }

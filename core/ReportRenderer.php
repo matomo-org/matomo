@@ -100,12 +100,12 @@ abstract class Piwik_ReportRenderer
     /**
      * Generate the first page.
      *
-     * @param string $websiteName
+     * @param string $reportTitle
      * @param string $prettyDate formatted date
      * @param string $description
      * @param array $reportMetadata metadata for all reports
      */
-    abstract public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata);
+    abstract public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata);
 
     /**
      * Render the provided report.
