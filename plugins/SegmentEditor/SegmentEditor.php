@@ -94,6 +94,8 @@ class Piwik_SegmentEditor extends Piwik_Plugin
         $jsFiles = & $notification->getNotificationObject();
         $jsFiles[] = "plugins/SegmentEditor/templates/jquery.jscrollpane.js";
         $jsFiles[] = "plugins/SegmentEditor/templates/Segmentation.js";
+        $jsFiles[] = "plugins/SegmentEditor/templates/jquery.mousewheel.js";
+        $jsFiles[] = "plugins/SegmentEditor/templates/mwheelIntent.js";
     }
 
     public function getCssFiles($notification)
@@ -101,6 +103,7 @@ class Piwik_SegmentEditor extends Piwik_Plugin
         $cssFiles = & $notification->getNotificationObject();
         $cssFiles[] = "plugins/SegmentEditor/templates/Segmentation.css";
         $cssFiles[] = "plugins/SegmentEditor/templates/jquery.jscrollpane.css";
+        $cssFiles[] = "plugins/SegmentEditor/templates/scroll.css";
     }
 
 }

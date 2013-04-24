@@ -429,7 +429,7 @@ div.scrollable {
   font-weight: normal;
 }
 .segmentationContainer.visible {
-  width: 250px;
+  width: 180px;
 }
 .segmentationContainer.visible ul.submenu {
   display: block;
@@ -455,7 +455,7 @@ div.scrollable {
 span.segmentationTitle {
   background: url(../../../themes/default/images/sort_subtable_desc.png) right center no-repeat !important;
   padding-right: 20px !important;
-  width: 230px !important;
+  width: 160px !important;
   display: block !important;
   cursor: pointer;
 }
@@ -553,7 +553,7 @@ a.metric_category {
 .segmentationSelectorContainer {
     margin: 8px;
 }
-.grayed, .grayed:hover{
-    color:#BBB6AD !important;
+.segmentSelected, .segmentSelected:hover{
+    font-weight:bold;
 }
 .ui-autocomplete { position: absolute; cursor: default;z-index:1000 !important;}
