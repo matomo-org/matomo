@@ -416,9 +416,7 @@ Segmentation = (function($) {
                 }, 'GET');
                 ajaxHandler.setCallback(function(response) {
                     loadingElement.hide();
-                    console.log("RECEIVED Auto suggested:");
-                    console.log(response);
-                    console.log("How can we display it as autosuggest below this field?");
+
                     inputElement.autocomplete({
                         source: response,
                         minLength: 0,
@@ -427,6 +425,8 @@ Segmentation = (function($) {
                             $(inputElement).val(ui.item.value);
                         }
                     });
+
+                    inputElement.click(function(e){ inputElement.keydown() });
                 });
                 ajaxHandler.send(true);
             }
