@@ -1,4 +1,14 @@
-<?
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link     http://piwik.org
+ * @license  http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ * @category Piwik_Plugins
+ * @package  Piwik_Dashboard
+ */
+
+
 /**
  * This API is the <a href='http://piwik.org/docs/analytics-api/reference/' target='_blank'>Dashboard API</a>: it gives information about dashboards.
  *
