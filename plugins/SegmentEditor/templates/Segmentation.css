@@ -388,7 +388,7 @@ div.scrollable {
 .segmentationContainer .submenu {
   font-size: 13px;
   font-weight: bold;
-  min-width: 250px;
+  min-width: 180px;
 }
 .segmentationContainer .submenu ul {
   color: #5D5342;

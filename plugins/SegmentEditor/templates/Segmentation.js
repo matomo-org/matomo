@@ -402,6 +402,7 @@ Segmentation = (function($) {
                 var loadingElement = parents.find(".segment-loading");
                 loadingElement.show();
                 currentValue = parents.find(".metricValueBlock input").val();
+                inputElement = parents.find(".metricValueBlock input");
                 segmentName = $('option:selected',select).attr('value');
 
                 // Request auto-suggest values
@@ -418,6 +419,14 @@ Segmentation = (function($) {
                     console.log("RECEIVED Auto suggested:");
                     console.log(response);
                     console.log("How can we display it as autosuggest below this field?");
+                    inputElement.autocomplete({
+                        source: response,
+                        minLength: 0,
+                        select: function(event, ui){
+                            event.preventDefault();
+                            $(inputElement).val(ui.item.value);
+                        }
+                    });
                 });
                 ajaxHandler.send(true);
             }
@@ -642,26 +651,40 @@ Segmentation = (function($) {
             // to allow further showing only matching ones, while others remain invisible
             clearSearchMetricHighlight();
             $(self.form).find('.segment-nav div > ul > li').hide();
-
+            var curStr = "";
             // 1 - do most obvious selection -> mark whole categories matching search string
             // also expand whole category
-            $(self.form).find('.segment-nav div > ul > li[data*="'+search+'"]').each( function(){
-                $(this).addClass("searchFound");
-                $(this).find("ul").show();
-                $(this).find("li").show();
-                $(this).show();
-            });
-
-            // 2 - among all unselected categories find metrics which match and mark parent as search result
-            $(self.form).find(".segment-nav div > ul > li:not(.searchFound)").each(function(){
-                if($(this).find('li[data*="'+search+'"]').length > 0)
-                {
+            $(self.form).find('.segment-nav div > ul > li').each( function(){
+                curStr = normalizeSearchString($(this).text())
+                if(curStr.indexOf(search) > -1){
                     $(this).addClass("searchFound");
-                    $(this).find('li').hide();
-                    $(this).find('li[data*="'+search+'"]').show();
-                    $(this).find('ul').show();
+                    $(this).find("ul").show();
+                    $(this).find("li").show();
                     $(this).show();
                 }
+            });
+        
+            var curMetric = "";
+            // 2 - among all unselected categories find metrics which match and mark parent as search result
+            $(self.form).find(".segment-nav div > ul > li:not(.searchFound)").each(function(){
+                var parent = this;
+                $(this).find("li").each( function(){
+                    var curStr = normalizeSearchString($(this).text());
+                    var curMetric = normalizeSearchString($(this).attr("data-metric"));
+                    $(this).hide();
+                    if(curStr.indexOf(search) > -1 || curMetric.indexOf(search) > -1){
+                        $(this).show();
+                        $(parent).find("ul").show();
+                        $(parent).addClass("searchFound").show();
+                    }
+                });
+                
+            //                if(curStr.indexOf(search) > -1 || curMetric.indexOf(search) > -1)
+            //                {
+            //                    $(this).addClass("searchFound");
+            //                    $(this).find('li').hide();
+            //                    $(this).find('li[data*="'+search+'"]').show();
+            //                }
             });
 
             if( $(self.form).find("li.searchFound").length == 0)
@@ -852,6 +875,7 @@ Segmentation = (function($) {
                     }) );
                 },
                 select: function( event, ui ) {
+                    event.preventDefault();
                     ui.item.option.selected = true;
                     if(ui.item.value) {
                         dropList.text(ui.item.label);
@@ -994,5 +1018,19 @@ $(document).ready( function(){
         "testSegmentMethod": testSegment,
         "currentSegmentStr": broadcast.getValueFromHash('segment'),
         "currentSegmentsGlobal": broadcast.getValueFromHash('segment')
+    });
+    
+    $('body').on('mouseup',function(e){
+        if($(e.target).parents('.segment-element').length === 0 && !$(e.target).is('.segment-element') && $(e.target).hasClass("ui-corner-all") == false 
+            && $(e.target).hasClass("ddmetric") == false  && $(".segment-element:visible").length == 1 ) {
+            $(".segment-element:visible").unbind().remove();
+            $("#segmentList").show();
+        }
+        
+        if($(e.target).parents('.segmentList').length === 0 && $(".segmentationContainer").hasClass("visible")){
+            
+            $(".segmentationContainer").trigger("click");  
+        }
+        
     });
 });
