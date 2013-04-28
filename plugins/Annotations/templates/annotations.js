@@ -194,7 +194,7 @@
      * attributes.
      *
      * @param {Element} manager The annotation manager.
-     * @param {string} tml The HTML of the new annotation manager.
+     * @param {string} html The HTML of the new annotation manager.
      */
     var replaceAnnotationManager = function (manager, html) {
         var newManager = $(html);
@@ -208,7 +208,7 @@
      * Returns true if an annotation element is starred, false if otherwise.
      *
      * @param {Element} annotation The annotation element.
-     * @return {bool}
+     * @return {boolean}
      */
     var isAnnotationStarred = function (annotation) {
         return +$('.annotation-star', annotation).attr('data-starred') == 1 ? true : false;
@@ -443,7 +443,7 @@
      * @param {int} idSite The ID of the site to show the annotations of.
      * @param {string} date The start date of the period.
      * @param {string} period The period type.
-     * @param {int} Whether to include the last N periods in the date range or not. Can
+     * @param {int} lastN Whether to include the last N periods in the date range or not. Can
      *              be undefined.
      */
     var showAnnotationViewer = function (domElem, idSite, date, period, lastN, callback) {

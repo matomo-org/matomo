@@ -401,9 +401,8 @@ Segmentation = (function($) {
                 var parents = $(select).parents('.segment-row');
                 var loadingElement = parents.find(".segment-loading");
                 loadingElement.show();
-                currentValue = parents.find(".metricValueBlock input").val();
-                inputElement = parents.find(".metricValueBlock input");
-                segmentName = $('option:selected',select).attr('value');
+                var inputElement = parents.find(".metricValueBlock input");
+                var segmentName = $('option:selected',select).attr('value');
 
                 // Request auto-suggest values
                 var ajaxHandler = new ajaxHelper();
@@ -437,12 +436,12 @@ Segmentation = (function($) {
             var type = $(select).find("option:selected").attr("data-type");
             var matchSelector = $(select).parents(".segment-input").siblings(".metricMatchBlock").find("select");
             if(persist === true){
-                oldMatch = matchSelector.find("option:selected").val();  
+                oldMatch = matchSelector.find("option:selected").val();
             }
             else{
                 oldMatch = "";
             }
-            
+
             if(type === "dimension" || type === "metric"){
                 matchSelector.empty();
                 var optionsHtml = "";
@@ -450,7 +449,7 @@ Segmentation = (function($) {
                     optionsHtml += '<option value="'+key+'">'+self.availableMatches[type][key]+'</option>';
                 }
             }
-            
+
             matchSelector.append(optionsHtml);
             matchSelector.val(oldMatch);
         }
@@ -591,7 +590,7 @@ Segmentation = (function($) {
                 $("#segmentList").show();
                 self.form.unbind().remove();
             });
-            
+
             $("body").on("keyup", function(e){
                 if(e.keyCode == "27"){
                     $("#segmentList").show();
@@ -663,7 +662,7 @@ Segmentation = (function($) {
                     $(this).show();
                 }
             });
-        
+
             var curMetric = "";
             // 2 - among all unselected categories find metrics which match and mark parent as search result
             $(self.form).find(".segment-nav div > ul > li:not(.searchFound)").each(function(){
@@ -678,7 +677,7 @@ Segmentation = (function($) {
                         $(parent).addClass("searchFound").show();
                     }
                 });
-                
+
             //                if(curStr.indexOf(search) > -1 || curMetric.indexOf(search) > -1)
             //                {
             //                    $(this).addClass("searchFound");
@@ -773,7 +772,7 @@ Segmentation = (function($) {
         }
 
         var addForm = function(mode){
-            
+
             $("#segmentEditorPanel").find(".segment-element:visible").unbind().remove();
             if(typeof self.form !== "undefined")
             {
@@ -895,7 +894,7 @@ Segmentation = (function($) {
                 $(this).autocomplete( "search", "" );
 
             });
-            $('body').on('mouseup',function(e){ 
+            $('body').on('mouseup',function(e){
                 if(!$(e.target).parents(spanId).length && !$(e.target).is(spanId) && !$(e.target).parents(spanId).length
                     && !$(e.target).parents(".ui-autocomplete").length && !$(e.target).is(".ui-autocomplete") && !$(e.target).parents(".ui-autocomplete").length
                     ) {
@@ -915,7 +914,7 @@ Segmentation = (function($) {
                 self.content.unbind();
             }
             var html = getListHtml();
-            
+
             if(typeof self.content !== "undefined"){
                 self.content.html($(html).html());
             } else {
@@ -1019,18 +1018,18 @@ $(document).ready( function(){
         "currentSegmentStr": broadcast.getValueFromHash('segment'),
         "currentSegmentsGlobal": broadcast.getValueFromHash('segment')
     });
-    
+
     $('body').on('mouseup',function(e){
-        if($(e.target).parents('.segment-element').length === 0 && !$(e.target).is('.segment-element') && $(e.target).hasClass("ui-corner-all") == false 
+        if($(e.target).parents('.segment-element').length === 0 && !$(e.target).is('.segment-element') && $(e.target).hasClass("ui-corner-all") == false
             && $(e.target).hasClass("ddmetric") == false  && $(".segment-element:visible").length == 1 ) {
             $(".segment-element:visible").unbind().remove();
             $("#segmentList").show();
         }
-        
+
         if($(e.target).parents('.segmentList').length === 0 && $(".segmentationContainer").hasClass("visible")){
-            
-            $(".segmentationContainer").trigger("click");  
+
+            $(".segmentationContainer").trigger("click");
         }
-        
+
     });
 });

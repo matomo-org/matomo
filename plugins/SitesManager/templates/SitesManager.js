@@ -206,7 +206,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
             }
         );
 
-        var alreadyEdited = new Array;
+        var alreadyEdited = [];
         $('.editSite')
             .click(function () {
                 piwikHelper.hideAjaxError();
@@ -274,7 +274,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                             $(n).html(contentAfter);
                         }
                         else if (idName == 'ecommerce') {
-                            ecommerceActive = contentBefore.indexOf("ecommerceActive") > 0 ? 1 : 0;
+                            var ecommerceActive = contentBefore.indexOf("ecommerceActive") > 0 ? 1 : 0;
                             contentAfter = getEcommerceSelector(ecommerceActive) + '<br />' + ecommerceHelp;
                             $(n).html(contentAfter);
                         }
@@ -307,19 +307,19 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
         var globalKeywordParameters = $('input#globalSearchKeywordParameters').val().trim();
         var globalCategoryParameters = $('input#globalSearchCategoryParameters').val().trim();
         if (contentBefore) {
-            enabled = contentBefore.indexOf("sitesearchActive") > 0 ? 1 : 0;
-            spanSearch = $(contentBefore).filter('.sskp');
+            var enabled = contentBefore.indexOf("sitesearchActive") > 0 ? 1 : 0;
+            var spanSearch = $(contentBefore).filter('.sskp');
             var searchKeywordParameters = spanSearch.attr('sitesearch_keyword_parameters').trim();
             var searchCategoryParameters = spanSearch.attr('sitesearch_category_parameters').trim();
-            checked = globalKeywordParameters.length && !searchKeywordParameters.trim().length;
+            var checked = globalKeywordParameters.length && !searchKeywordParameters.trim().length;
         } else {
             var searchKeywordParameters = globalKeywordParameters;
             var searchCategoryParameters = globalCategoryParameters;
-            enabled = searchKeywordParameters.length || searchCategoryParameters.length; // default is enabled
-            checked = enabled;
+            var enabled = searchKeywordParameters.length || searchCategoryParameters.length; // default is enabled
+            var checked = enabled;
         }
 
-        searchGlobalHasValues = globalKeywordParameters.trim().length;
+        var searchGlobalHasValues = globalKeywordParameters.trim().length;
         var html = '<select id="sitesearch" onchange="return onClickSiteSearchUseDefault();">';
         var selected = ' selected="selected" ';
         html += '<option ' + (enabled ? selected : '') + ' value="1">' + sitesearchEnabled + '</option>';
@@ -328,7 +328,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
         html += '<span style="font-size: 11px;"><br/>';
 
         if (searchGlobalHasValues) {
-            checkedStr = checked ? ' checked ' : '';
+            var checkedStr = checked ? ' checked ' : '';
             html += '<label><span id="sitesearchUseDefault"' + (!enabled ? ' style="display:none" ' : '') + '><input type="checkbox" ' + checkedStr + ' id="sitesearchUseDefaultCheck" onclick="return onClickSiteSearchUseDefault();"> ' + sitesearchUseDefault + ' </span>';
             html += '</label>';
 
@@ -354,7 +354,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
 
     function getEcommerceSelector(enabled) {
         var html = '<select id="ecommerce">';
-        selected = ' selected="selected" ';
+        var selected = ' selected="selected" ';
         html += '<option ' + (enabled ? '' : selected) + ' value="0">' + ecommerceDisabled + '</option>';
         html += '<option ' + (enabled ? selected : '') + ' value="1">' + ecommerceEnabled + '</option>';
         html += '</select>';

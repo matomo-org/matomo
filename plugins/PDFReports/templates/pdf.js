@@ -145,7 +145,7 @@ function initManagePdf() {
     $('#linkAddReport').click(function () {
         $('.entityAddContainer').show();
         $('#entityEditContainer').hide();
-        formSetEditReport(idReport = 0);
+        formSetEditReport(/*idReport = */0);
     });
 
     // Cancel click

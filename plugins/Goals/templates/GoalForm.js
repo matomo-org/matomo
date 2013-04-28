@@ -168,6 +168,6 @@ function bindListGoalEdit() {
 }
 
 function initAndShowAddGoalForm() {
-    initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal_js'), '', 'url', '', 'contains', caseSensitive = false, allowMultiple = '0', '0');
+    initGoalForm('Goals.addGoal', _pk_translate('Goals_AddGoal_js'), '', 'url', '', 'contains', /*caseSensitive = */false, /*allowMultiple = */'0', '0');
     return showAddNewGoal();
 }

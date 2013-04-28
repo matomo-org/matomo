@@ -187,6 +187,7 @@ var Piwik_Popover = (function () {
         /**
          * Create a Popover and load the specified URL in it
          * @param url
+         * @param loadingName
          */
         createPopupAndLoadUrl: function (url, loadingName) {
             // open the popover

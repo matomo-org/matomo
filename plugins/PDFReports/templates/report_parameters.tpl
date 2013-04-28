@@ -58,7 +58,7 @@
                     parameters.emailMe = $('#report_email_me').prop('checked');
                     parameters.evolutionGraph = $('#report_evolution_graph').prop('checked');
 
-                    additionalEmails = $('#report_additional_emails').val();
+                    var additionalEmails = $('#report_additional_emails').val();
                     parameters.additionalEmails =
                             additionalEmails != '' ? additionalEmails.split('\n') : [];
 

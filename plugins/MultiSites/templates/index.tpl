@@ -7,8 +7,8 @@
     <div id="main">
         {include file="MultiSites/templates/row.tpl" assign="row"}
         <script type="text/javascript">
-            var allSites = new Array();
-            var params = new Array();
+            var allSites = [];
+            var params = [];
             {foreach from=$sitesData key=i item=site}
             allSites[{$i}] = new setRowData({$site.idsite}, {$site.visits}, {$site.pageviews}, {if empty($site.revenue)}0{else}{$site.revenue}{/if}, '{$site.name|escape:"javascript"}', '{$site.main_url|escape:"javascript"}', '{if isset($site.visits_evolution)}{$site.visits_evolution|replace:",":"."}{/if}', '{if isset($site.pageviews_evolution)}{$site.pageviews_evolution|replace:",":"."}{/if}', '{if isset($site.revenue_evolution)}{$site.revenue_evolution|replace:",":"."}{/if}');
             {/foreach}

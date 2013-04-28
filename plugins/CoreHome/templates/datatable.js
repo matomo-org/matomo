@@ -71,8 +71,8 @@ dataTable.prototype =
     //Reset DataTable filters (used before a reload or view change)
     resetAllFilters: function () {
         var self = this;
-        var FiltersToRestore = new Array();
-        filters = [
+        var FiltersToRestore = [];
+        var filters = [
             'filter_column',
             'filter_pattern',
             'filter_column_recursive',
@@ -99,7 +99,7 @@ dataTable.prototype =
     //Restores the filters to the values given in the array in parameters
     restoreAllFilters: function (FiltersToRestore) {
         var self = this;
-        for (key in FiltersToRestore) {
+        for (var key in FiltersToRestore) {
             self.param[key] = FiltersToRestore[key];
         }
     },
@@ -454,7 +454,7 @@ dataTable.prototype =
                 var offset = 1 + Number(self.param.filter_offset);
                 var offsetEnd = Number(self.param.filter_offset) + Number(self.param.filter_limit);
                 var totalRows = Number(self.param.totalRows);
-                offsetEndDisp = offsetEnd;
+                var offsetEndDisp = offsetEnd;
 
                 if (self.param.keep_summary_row == 1) --totalRows;
 
@@ -998,12 +998,12 @@ dataTable.prototype =
                     self.param.enable_filter_excludelowpop = 0;
                 }
                 if (Number(self.param.enable_filter_excludelowpop) != 0) {
-                    string = getText('CoreHome_IncludeRowsWithLowPopulation_js', true);
+                    var string = getText('CoreHome_IncludeRowsWithLowPopulation_js', true);
                     self.param.enable_filter_excludelowpop = 1;
                     iconHighlighted = true;
                 }
                 else {
-                    string = getText('CoreHome_ExcludeRowsWithLowPopulation_js');
+                    var string = getText('CoreHome_ExcludeRowsWithLowPopulation_js');
                     self.param.enable_filter_excludelowpop = 0;
                 }
                 $(this).html(string);
@@ -1858,7 +1858,7 @@ actionDataTable.prototype =
         }
 
         var re = /subDataTable_(\d+)/;
-        ok = re.exec(self.parentId);
+        var ok = re.exec(self.parentId);
         if (ok) {
             self.parentId = ok[1];
         }
@@ -1889,11 +1889,11 @@ function getLevelFromClass(style) {
 //helper function for actionDataTable
 function getNextLevelFromClass(style) {
     if (!style || typeof style == "undefined") return 0;
-    currentLevel = getLevelFromClass(style);
-    newLevel = currentLevel;
+    var currentLevel = getLevelFromClass(style);
+    var newLevel     = currentLevel;
     // if this is not a row to process so
     if (style.indexOf('rowToProcess') < 0) {
-        newLevel = currentLevel + 1;
+        newLevel     = currentLevel + 1;
     }
     return newLevel;
 }
