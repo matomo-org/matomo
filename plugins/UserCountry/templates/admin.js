@@ -116,7 +116,7 @@ $(document).ready(function () {
                 function (response) {
                     if (response.error) {
                         // on error, show error & stop downloading
-                        $('#' + thisId).fadeOut(1000, function () {
+                        $('#geoipdb-screen2-download').fadeOut(1000, function () {
                             $('#manage-geoip-dbs').html(response.error);
                         });
                     }

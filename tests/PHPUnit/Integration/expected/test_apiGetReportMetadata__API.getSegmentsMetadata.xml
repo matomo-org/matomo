@@ -137,9 +137,9 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visit Ecommerce status at the end of the visit. For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</name>
+		<name>Visit Ecommerce status at the end of the visit</name>
 		<segment>visitEcommerceStatus</segment>
-		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart</acceptedValues>
+		<acceptedValues>none, ordered, abandonedCart, orderedThenAbandonedCart.  For example, to select all visits that have made an Ecommerce order, the API request would contain &quot;&amp;segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart&quot;</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
@@ -173,9 +173,9 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
-		<name>Visitor type. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</name>
+		<name>Visitor type</name>
 		<segment>visitorType</segment>
-		<acceptedValues>new, returning, returningCustomer</acceptedValues>
+		<acceptedValues>new, returning, returningCustomer. For example, to select all visitors who have returned to the website, including those who have bought something in their previous visits, the API request would contain &quot;&amp;segment=visitorType==returning,visitorType==returningCustomer&quot;</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

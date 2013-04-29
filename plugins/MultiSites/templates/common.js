@@ -132,7 +132,7 @@ function switchEvolution(params) {
     $('.visits').hide();
     $('.' + params['evolutionBy']).show();
     sitesVisible = params['sitesVisible'];
-    for (i = 0; i < allSites.length; i++) {
+    for (var i = 0; i < allSites.length; i++) {
         $('#sparkline_' + allSites[i].idsite).html(getSparklineImg(allSites[i].idsite, params['evolutionBy'], params));
     }
 }

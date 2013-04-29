@@ -483,7 +483,7 @@
 
         var columnNumber = 0;
         $('.col').each(function () {
-            columns[columnNumber] = new Array;
+            columns[columnNumber] = [];
             var items = $('[widgetId]', this);
             for (var j = 0; j < items.size(); j++) {
                 columns[columnNumber][j] = $(items[j]).dashboardWidget('getWidgetObject');

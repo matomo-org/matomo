@@ -800,6 +800,9 @@ Piwik_Transitions_Canvas.prototype.isNarrowMode = function () {
 
 /**
  * Helper to create horizontal gradients
+ *
+ * @param    lightColor
+ * @param    darkColor
  * @param    position    left|right
  */
 Piwik_Transitions_Canvas.prototype.createHorizontalGradient = function (lightColor, darkColor, position) {

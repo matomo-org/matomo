@@ -47,7 +47,7 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
         return $this->rendering;
     }
 
-    public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)
+    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata)
     {
         // nothing to do
     }

@@ -2,7 +2,7 @@
 $USAGE = "
 Usage: 
 	/path/to/cli/php \"" . @$_SERVER['argv'][0] . "\" --url=http://your-website.org/path/to/piwik/ [arguments]
-	
+
 Arguments:
 	--url=[piwik-server-url]
 			Mandatory argument. Must be set to the Piwik base URL. 
@@ -70,21 +70,21 @@ class Archiving
     const TRUNCATE_ERROR_MESSAGE_SUMMARY = 400;
 
     // Seconds window to look back to define "active websites" to archive on the first archive.php script execution
-    protected $firstRunActiveWebsitesWithTraffic = 604800; // 7 days
+    private $firstRunActiveWebsitesWithTraffic = 604800; // 7 days
 
     // By default, we only process the current week/month/year at most once an hour
-    protected $processPeriodsMaximumEverySeconds = 3600;
+    private $processPeriodsMaximumEverySeconds = 3600;
 
-    protected $websiteDayHasFinishedSinceLastRun = array();
-    protected $idSitesInvalidatedOldReports = array();
-    protected $piwikUrl = false;
-    protected $token_auth = false;
-    protected $visits = 0;
-    protected $requests = 0;
-    protected $output = '';
-    protected $shouldResetState = false;
-    protected $shouldArchiveAllWebsites = false;
-    protected $acceptInvalidSSLCertificate = false;
+    private $websiteDayHasFinishedSinceLastRun = array();
+    private $idSitesInvalidatedOldReports = array();
+    private $piwikUrl = false;
+    private $token_auth = false;
+    private $visits = 0;
+    private $requests = 0;
+    private $output = '';
+    private $shouldResetState = false;
+    private $shouldArchiveAllWebsites = false;
+    private $acceptInvalidSSLCertificate = false;
     /**
      * By default, will process last 52 days/weeks/months/year.
      * It will be overwritten by the number of days since last archiving ran until completion.
@@ -93,9 +93,9 @@ class Archiving
     // Since weeks are not used in yearly archives, we make sure that all possible weeks are processed
     const DEFAULT_DATE_LAST_WEEKS = 520;
 
-    protected $timeLastCompleted = false;
-    protected $requestPrepend = '&trigger=archivephp';
-    protected $errors = array();
+    private $timeLastCompleted = false;
+    private $requestPrepend = '&trigger=archivephp';
+    private $errors = array();
 
     public function init()
     {
@@ -130,12 +130,8 @@ class Archiving
             . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
         $this->log("- Reports for the current week/month/year will be refreshed at most every "
             . $this->processPeriodsMaximumEverySeconds . " seconds.");
-        // Fetching segments to process
-        $this->segments = Piwik_CoreAdminHome_API::getInstance()->getKnownSegmentsToArchive();
-        if (empty($this->segments)) $this->segments = array();
-        if (!empty($this->segments)) {
-            $this->log("- Segments to pre-process for each website and each period: " . implode(", ", $this->segments));
-        }
+
+        $this->initSegmentsToArchive();
 
         // Try and not request older data we know is already archived
         if ($this->timeLastCompleted !== false) {
@@ -150,7 +146,7 @@ class Archiving
     /**
      * Returns URL to process reports for the $idsite on a given period with no segment
      */
-    protected function getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed = false)
+    private function getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed = false)
     {
         if (empty($lastTimestampWebsiteProcessed)) {
             $dateLast = self::DEFAULT_DATE_LAST;
@@ -167,7 +163,7 @@ class Archiving
         return "?module=API&method=VisitsSummary.getVisits&idSite=$idsite&period=$period&date=last" . $dateLast . "&format=php&token_auth=" . $this->token_auth;
     }
 
-    protected function lastRunKey($idsite, $period)
+    private function lastRunKey($idsite, $period)
     {
         return "lastRunArchive" . $period . "_" . $idsite;
     }
@@ -377,6 +373,28 @@ class Archiving
         $this->log("done");
     }
 
+
+    private function initSegmentsToArchive()
+    {
+// Fetching segments to process
+        $this->segments = Piwik_CoreAdminHome_API::getInstance()->getKnownSegmentsToArchive();
+        if (empty($this->segments)) $this->segments = array();
+        if (!empty($this->segments)) {
+            $this->log("- Will pre-process " . count($this->segments) . " Segments for each website and each period: " . implode(", ", $this->segments));
+        }
+    }
+
+    private function getSegmentsForSite($idsite)
+    {
+        $segmentsAllSites = $this->segments;
+        $segmentsThisSite = Piwik::getKnownSegmentsToArchiveForSite($idsite);
+        if (!empty($segmentsThisSite)) {
+            $this->log("Will pre-process the following " . count($segmentsThisSite) . " Segments for this website (id = $idsite): " . implode(", ", $segmentsThisSite));
+        }
+        $segments = array_unique(array_merge($segmentsAllSites, $segmentsThisSite));
+        return $segments;
+    }
+
     /**
      * Archive visits and segments.
      *
@@ -401,7 +419,7 @@ class Archiving
             $this->requests++;
         }
         $urlNoSegment = $url;
-        foreach ($this->segments as $segment) {
+        foreach ($this->getSegmentsForSite($idsite) as $segment) {
             $segmentUrl = $url . '&segment=' . urlencode($segment);
             $ch = $this->getNewCurlHandle($segmentUrl);
             $this->addCurlHandleToMulti($mh, $ch);
@@ -514,7 +532,7 @@ class Archiving
     /**
      * Issues a request to $url
      */
-    protected function request($url)
+    private function request($url)
     {
         $url = $this->piwikUrl . $url . $this->requestPrepend;
         //$this->log($url);
@@ -571,7 +589,7 @@ class Archiving
     /**
      * Displays script usage
      */
-    protected function usage()
+    private function usage()
     {
         global $USAGE;
         $this->logLines($USAGE);
@@ -638,7 +656,7 @@ class Archiving
         }
     }
 
-    protected function initStateFromParameters()
+    private function initStateFromParameters()
     {
         // Detect parameters
         $reset = $this->isParameterSet("force-all-periods", $valuePossible = true);
@@ -689,7 +707,7 @@ class Archiving
     }
 
     // Fetching websites to process
-    protected function initWebsitesToProcess()
+    private function initWebsitesToProcess()
     {
         $this->allWebsites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
 
@@ -752,7 +770,7 @@ class Archiving
         }
     }
 
-    protected function initTokenAuth()
+    private function initTokenAuth()
     {
         $login = Piwik_Config::getInstance()->superuser['login'];
         $md5Password = Piwik_Config::getInstance()->superuser['password'];

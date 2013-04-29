@@ -147,7 +147,7 @@ function bindUpdateAccess() {
 }
 
 $(document).ready(function () {
-    var alreadyEdited = new Array;
+    var alreadyEdited = [];
     // when click on edituser, the cells become editable
     $('.edituser')
         .click(function () {

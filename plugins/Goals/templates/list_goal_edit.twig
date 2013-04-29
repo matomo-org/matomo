@@ -56,7 +56,7 @@
     $(document).ready(function () {
         // translation of the goal "match attribute" to human readable description
         $('.matchAttribute').each(function () {
-            matchAttribute = $(this).text();
+            var matchAttribute = $(this).text();
             var translation = goalTypeToTranslation[matchAttribute];
             $(this).text(translation);
         });

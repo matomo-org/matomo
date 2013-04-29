@@ -167,7 +167,7 @@
          * a specific report.
          *
          * @param {string} report  The report, eg, UserSettings.getWideScrren
-         * @return {DataTable} The DataTable instance created for the element, if
+         * @return {dataTable} The DataTable instance created for the element, if
          *                     the element can be found. undefined, if it can't be found.
          */
         getDataTableInstanceByReport: function (report) {

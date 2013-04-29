@@ -13,7 +13,7 @@ function widgetize() {
     }
 
     this.getEmbedUrl = function (parameters, exportFormat) {
-        copyParameters = {};
+        var copyParameters = {};
         for (var variableName in parameters) {
             copyParameters[variableName] = parameters[variableName];
         }
@@ -38,9 +38,8 @@ function widgetize() {
     }
 
     this.callbackAddExportButtonsUnderWidget = function (widgetUniqueId, loadedWidgetElement) {
-        widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
-        widgetName = widget["name"];
-        widgetParameters = widget['parameters'];
+        var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
+        var widgetParameters = widget['parameters'];
 
         var exportButtonsElement = $('<span id="exportButtons">');
 

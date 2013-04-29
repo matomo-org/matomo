@@ -11,7 +11,9 @@
 
 /**
  * Constructor function
- * @param the data that would be passed to open flash chart
+ *
+ * @param {object} data          the data that would be passed to open flash chart
+ * @param {int}    dataTableId
  */
 function JQPlot(data, dataTableId) {
     this.init(data, dataTableId);
@@ -507,7 +509,7 @@ JQPlot.prototype = {
         var maxCrossDataSets = 0;
         for (var i = 0; i < this.data.length; i++) {
             if (this.params.series[i].yaxis == axisName) {
-                maxValue = Math.max.apply(Math, this.data[i]);
+                var maxValue = Math.max.apply(Math, this.data[i]);
                 if (maxValue > maxCrossDataSets) {
                     maxCrossDataSets = maxValue;
                 }
@@ -533,9 +535,9 @@ JQPlot.prototype = {
         }
 
         // calculate y-values for ticks
-        ticks = [];
-        numberOfTicks = 2;
-        tickDistance = Math.ceil(maxCrossDataSets / numberOfTicks);
+        var ticks = [];
+        var numberOfTicks = 2;
+        var tickDistance = Math.ceil(maxCrossDataSets / numberOfTicks);
         for (var i = 0; i <= numberOfTicks; i++) {
             ticks.push(i * tickDistance);
         }
@@ -577,7 +579,10 @@ JQPlot.prototype = {
      * Add an external series toggle.
      * As opposed to addSeriesPicker, the external series toggle can only show/hide
      * series that are already loaded.
+     *
      * @param seriesPickerClass a subclass of JQPlotExternalSeriesToggle
+     * @param targetDivId
+     * @param initiallyShowAll
      */
     addExternalSeriesToggle: function (seriesPickerClass, targetDivId, initiallyShowAll) {
         new seriesPickerClass(targetDivId, this.originalData, initiallyShowAll);
@@ -971,7 +976,7 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
         // render series names
         var x = 0;
         var series = plot.legend._series;
-        for (i = 0; i < series.length; i++) {
+        for (var i = 0; i < series.length; i++) {
             var s = series[i];
             var label;
             if (legend.labels && legend.labels[i]) {
@@ -1377,9 +1382,9 @@ RowEvolutionSeriesToggle.prototype.beforeReplot = function () {
 
             // text
             if (right) {
-                x = x2 + 9;
+                var x = x2 + 9;
             } else {
-                x = x2 - 9 - ctx.measureText(label).width;
+                var x = x2 - 9 - ctx.measureText(label).width;
             }
 
             ctx.fillStyle = '#666666';

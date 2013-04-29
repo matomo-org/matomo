@@ -179,6 +179,9 @@ _S3_LOG_FORMAT = (
     '\S+ \S+ \S+ \S+ "\S+ (?P<path>.*?) \S+" (?P<status>\S+) \S+ (?P<length>\S+) '
     '\S+ \S+ \S+ "(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
 )
+_ICECAST2_LOG_FORMAT = ( _NCSA_EXTENDED_LOG_FORMAT +
+    ' (?P<session_time>\S+)'
+)
 
 FORMATS = {
     'common': RegexFormat('common', _COMMON_LOG_FORMAT),
@@ -187,6 +190,7 @@ FORMATS = {
     'common_complete': RegexFormat('common_complete', _HOST_PREFIX + _NCSA_EXTENDED_LOG_FORMAT),
     'iis': IisFormat(),
     's3': RegexFormat('s3', _S3_LOG_FORMAT),
+    'icecast2': RegexFormat('icecast2', _ICECAST2_LOG_FORMAT),
 }
 
 

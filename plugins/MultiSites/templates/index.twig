@@ -8,8 +8,8 @@
     <div id="main">
         {% include "@MultiSites/row.twig" with row %}
         <script type="text/javascript">
-            var allSites = new Array();
-            var params = new Array();
+            var allSites = [];
+            var params = [];
             {% for i,site in sitesData %}
             allSites[{{ i }}] = new setRowData({{ site.idsite }},
                 {{ site.visits }},

@@ -412,7 +412,7 @@ var broadcast = {
             async: true,
             error: broadcast.customAjaxHandleError,	// Callback when the request fails
             success: sectionLoaded, // Callback when the request succeeds
-            data: new Object
+            data: {}
         };
         globalAjaxQueue.push($.ajax(ajaxRequest));
         return false;
