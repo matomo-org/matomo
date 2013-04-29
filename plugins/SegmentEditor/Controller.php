@@ -17,7 +17,7 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
 
     public function getSelector()
     {
-        $view = Piwik_View::factory('selector');
+        $view = Piwik_View::factory('@SegmentEditor/selector');
         $idSite = Piwik_Common::getRequestVar('idSite');
         $this->setGeneralVariablesView($view);
         $segments = Piwik_API_API::getInstance()->getSegmentsMetadata($idSite);

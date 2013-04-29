@@ -12,7 +12,7 @@
         <a class="add_new_segment">Add new segment</a>
     </div>
 
-    <div class="initial-state-rows">{* no space here important for jquery *}<div class="segment-add-row initial"><div>
+    <div class="initial-state-rows">{# no space here important for jquery #}<div class="segment-add-row initial"><div>
         <span>+ Drag &amp; Drop condition</span>
     </div></div>
     <div class="segment-and">AND</div>
@@ -24,13 +24,13 @@
     <div class="segment-row-inputs">
         <div class="segment-input metricListBlock">
             <select title="Choose a segment" class="metricList">
-                {foreach from=$segmentsByCategory key=category item=segmentsInCategory}
-                <optgroup label="{$category}">
-                    {foreach from=$segmentsInCategory item=segmentInCategory}
-                        <option data-type="{$segmentInCategory.type}" value="{$segmentInCategory.segment}">{$segmentInCategory.name}</option>
-                    {/foreach}
+                {% for category,segmentsInCategory in segmentsByCategory %}
+                <optgroup label="{{ category }}">
+                    {% for segmentInCategory in segmentsInCategory %}
+                        <option data-type="{{ segmentInCategory.type }}" value="{{ segmentInCategory.segment }}">{{ segmentInCategory.name }}</option>
+                    {% endfor %}
                 </optgroup>
-                {/foreach}
+                {% endfor %}
             </select>
         </div>
         <div class="segment-input metricMatchBlock">
@@ -73,15 +73,16 @@
             </strong></span></h4>
             <div class="scrollable">
             <ul>
-            {foreach from=$segmentsByCategory key=category item=segmentsInCategory}
-                <li data="visit"><a class="metric_category" href="#">{$category}</a>
+                {% for category,segmentsInCategory in segmentsByCategory %}
+                <li data="visit">
+                    <a class="metric_category" href="#">{{ category }}</a>
                     <ul style="display:none">
-                        {foreach from=$segmentsInCategory item=segmentInCategory}
-                        <li data-metric="{$segmentInCategory.segment}"><a class="ddmetric" href="#">{$segmentInCategory.name}</a></li>
-                        {/foreach}
+                        {% for segmentInCategory in segmentsInCategory %}
+                            <li data-metric="{{ segmentInCategory.segment }}"><a class="ddmetric" href="#">{{ segmentInCategory.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
-            {/foreach}
+                {% endfor %}
             </ul>
             </div>
             <div class="custom_select_search">
@@ -90,7 +91,7 @@
             </div>
         </div>
         <div class="segment-content">
-            {if $isSuperUser}
+            {% if isSuperUser %}
             <div class="segment-top">
                 This segment is visible to: <span id="enabledAllUsers"><strong>
                         <select id="enabledAllUsers_select">
@@ -101,12 +102,12 @@
 
                 and displayed for <span id="visible_to_website"><strong>
                         <select id="visible_to_website_select">
-                            <option selected="" value="{$idSite}">this website only</option>
+                            <option selected="" value="{{ idSite }}">this website only</option>
                             <option value="0">all websites</option>
                         </select>
                     </strong></span>
             </div>
-            {/if}
+            {% endif %}
             <h3>Name: <span>New segment</span> <a class="editSegmentName" href="#">edit</a></h3>
         </div>
         <div class="segment-footer">
@@ -123,10 +124,10 @@
 
 <div class="ui-confirm" id="confirm">
     <h2>Are you sure you want to delete this segment?</h2>
-    <input role="yes" type="button" value="{'General_Yes'|translate}"/>
-    <input role="no" type="button" value="{'General_No'|translate}"/>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
 
 <script type="text/javascript">
-var availableSegments = {$savedSegmentsJson};
+var availableSegments = {{ savedSegmentsJson|raw }};
 </script>
