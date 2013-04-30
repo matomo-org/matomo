@@ -18,7 +18,7 @@
             <li>
                 {% if not ecommerceEnabled %}
                     {% set websiteManageText %}
-                        <a href='{{ url({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
+                        <a href='{{ linkTo({'module':'SitesManager','action':'index' }) }}'>{{ 'SitesManager_WebsitesManagement'|translate }}</a>
                     {% endset %}
                     {% set ecommerceReportText %}
                         <a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
