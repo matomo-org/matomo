@@ -840,7 +840,7 @@ Segmentation = (function($) {
                 "name": segmentName,
                 "definition": segmentStr,
                 "enabledAllUsers": user,
-                "idSite": $('#visible_to_website option:selected').attr('value')
+                "idSite": $('#visible_to_website').find('option:selected').attr('value')
             };
             // determine if save or update should be performed
             if(segmentId === ""){

@@ -117,8 +117,8 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
     }
 
     function sendGlobalSettingsAJAX() {
-        var timezone = $('#defaultTimezone option:selected').val();
-        var currency = $('#defaultCurrency option:selected').val();
+        var timezone = $('#defaultTimezone').find('option:selected').val();
+        var currency = $('#defaultCurrency').find('option:selected').val();
         var excludedIps = $('textarea#globalExcludedIps').val();
         excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
         var excludedQueryParameters = $('textarea#globalExcludedQueryParameters').val();
@@ -199,7 +199,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                 var nameToDelete = $(this).parent().parent().find('input#siteName').val() || $(this).parent().parent().find('td#siteName').html();
                 var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
 
-                $('#confirm h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'), '"' + nameToDelete + '" (idSite = ' + idsiteToDelete + ')'));
+                $('#confirm').find('h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'), '"' + nameToDelete + '" (idSite = ' + idsiteToDelete + ')'));
                 piwikHelper.modalConfirm('#confirm', {yes: function () {
                     sendDeleteSiteAJAX(idsiteToDelete);
                 }});
@@ -213,7 +213,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                 var idRow = $(this).attr('id');
                 if (alreadyEdited[idRow] == 1) return;
                 if (siteBeingEdited) {
-                    $('#alert h2').text(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime_js'), '"' + $("<div/>").html(siteBeingEditedName).text() + '"'));
+                    $('#alert').find('h2').text(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime_js'), '"' + $("<div/>").html(siteBeingEditedName).text() + '"'));
                     piwikHelper.modalConfirm('#alert', {});
                     return;
                 }

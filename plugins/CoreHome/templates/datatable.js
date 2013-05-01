@@ -1366,7 +1366,7 @@ dataTable.prototype =
                 // if this url is also the url of a menu item, better to click that menu item instead of
                 // doing AJAX request
                 var menuItem = null;
-                $("#root>ul.nav a").each(function () {
+                $("#root").find(">ul.nav a").each(function () {
                     if ($(this).attr('name') == url) {
                         menuItem = this;
                         return false

@@ -289,8 +289,8 @@
         };
 
         var togglePeriodPickers = function (showSingle) {
-            $('#periodString .period-date').toggle(showSingle);
-            $('#periodString .period-range').toggle(!showSingle);
+            $('#periodString').find('.period-date').toggle(showSingle);
+            $('#periodString').find('.period-range').toggle(!showSingle);
             $('#calendarRangeApply').toggle(!showSingle);
         };
 
@@ -379,13 +379,13 @@
             return false;
         };
 
-        $("#otherPeriods label").on('click', function (e) {
+        $("#otherPeriods").find("label").on('click', function (e) {
             var id = $(e.target).attr('for');
             changePeriodOnClick($('#' + id));
         });
 
         // when non-range period is clicked, change the period & refresh the date picker
-        $("#otherPeriods input").on('click', function (e) {
+        $("#otherPeriods").find("input").on('click', function (e) {
             var request_URL = $(e.target).val(),
                 period = broadcast.getValueFromUrl('period', request_URL),
                 lastPeriod = selectedPeriod;
@@ -443,7 +443,7 @@
 
         // reset date/period when opening calendar
         var firstClick = true;
-        $('#periodString #date').click(function () {
+        $('#periodString').find('#date').click(function () {
             if (!firstClick) {
                 datepickerElem.datepicker('setDate', currentDate);
                 $('#period_id_' + piwik.period).click();
@@ -497,7 +497,7 @@
                     if (!isValidDate(oDateFrom)
                         || !isValidDate(oDateTo)
                         || oDateFrom > oDateTo) {
-                        $('#alert h2').text(_pk_translate('General_InvalidDateRange_js'));
+                        $('#alert').find('h2').text(_pk_translate('General_InvalidDateRange_js'));
                         piwikHelper.modalConfirm('#alert', {});
                         return false;
                     }

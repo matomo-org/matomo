@@ -23,7 +23,7 @@ $(document).ready(function () {
         }
     };
 
-    $("#periodString #date")
+    $("#periodString").find("#date")
         .hover(function () {
             $(this).css({ cursor: "pointer"});
         }, function () {
@@ -32,7 +32,7 @@ $(document).ready(function () {
         .click(function () {
             periodWidget.toggle();
             if ($("#periodMore").is(":visible")) {
-                $("#periodMore .ui-state-highlight").removeClass('ui-state-highlight');
+                $("#periodMore").find(".ui-state-highlight").removeClass('ui-state-highlight');
             }
         });
 

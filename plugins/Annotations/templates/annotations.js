@@ -211,7 +211,7 @@
      * @return {boolean}
      */
     var isAnnotationStarred = function (annotation) {
-        return +$('.annotation-star', annotation).attr('data-starred') == 1 ? true : false;
+        return !!(+$('.annotation-star', annotation).attr('data-starred') == 1);
     };
 
     /**

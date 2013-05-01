@@ -434,7 +434,7 @@
     function buildMenu() {
 
         var success = function (dashboards) {
-            var dashboardMenuList = $('#Dashboard > ul');
+            var dashboardMenuList = $('#Dashboard').find('> ul');
             dashboardMenuList.empty();
             if (dashboards.length > 1) {
                 dashboardMenuList.show();

@@ -155,7 +155,7 @@ function bindListGoalEdit() {
         var goalId = $(this).attr('id');
         var goal = piwik.goals[goalId];
 
-        $('#confirm h2').text(sprintf(_pk_translate('Goals_DeleteGoalConfirm_js'), '"' + goal.name + '"'));
+        $('#confirm').find('h2').text(sprintf(_pk_translate('Goals_DeleteGoalConfirm_js'), '"' + goal.name + '"'));
         piwikHelper.modalConfirm('#confirm', {yes: function () {
             ajaxDeleteGoal(goalId);
         }});

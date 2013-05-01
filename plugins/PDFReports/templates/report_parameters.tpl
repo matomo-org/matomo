@@ -3,7 +3,7 @@
     function updateEvolutionGraphParameterVisibility() {ldelim}
         var evolutionGraphParameterInput = $('.report_evolution_graph');
         var nonApplicableDisplayFormats = ['1', '4'];
-        $.inArray($('#display_format option:selected').val(), nonApplicableDisplayFormats) != -1 ?
+        $.inArray($('#display_format').find('option:selected').val(), nonApplicableDisplayFormats) != -1 ?
                 evolutionGraphParameterInput.hide() : evolutionGraphParameterInput.show();
         {rdelim
     }
@@ -29,7 +29,7 @@
 
                     if (reportParameters == null) return;
 
-                    $('#display_format option[value=' + reportParameters.displayFormat + ']').prop('selected', 'selected');
+                    $('#display_format').find('option[value=' + reportParameters.displayFormat + ']').prop('selected', 'selected');
                     updateEvolutionGraphParameterVisibility();
 
                     if (reportParameters.emailMe === true)
@@ -54,7 +54,7 @@
 
                     var parameters = Object();
 
-                    parameters.displayFormat = $('#display_format option:selected').val();
+                    parameters.displayFormat = $('#display_format').find('option:selected').val();
                     parameters.emailMe = $('#report_email_me').prop('checked');
                     parameters.evolutionGraph = $('#report_evolution_graph').prop('checked');
 

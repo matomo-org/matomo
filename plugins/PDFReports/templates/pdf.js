@@ -30,8 +30,8 @@ function formSetEditReport(idReport) {
     toggleReportType(report.type);
 
     $('#report_description').html(report.description);
-    $('#report_type option[value=' + report.type + ']').prop('selected', 'selected');
-    $('#report_period option[value=' + report.period + ']').prop('selected', 'selected');
+    $('#report_type').find('option[value=' + report.type + ']').prop('selected', 'selected');
+    $('#report_period').find('option[value=' + report.period + ']').prop('selected', 'selected');
     $('#report_hour').val(report.hour);
     $('[name=report_format].' + report.type + ' option[value=' + report.format + ']').prop('selected', 'selected');
 
@@ -61,7 +61,7 @@ function getReportAjaxRequest(idReport, defaultApiMethod) {
 
 function toggleReportType(reportType) {
     resetReportParametersFunctions[reportType]();
-    $('#report_type option').each(function (index, type) {
+    $('#report_type').find('option').each(function (index, type) {
         $('.' + $(type).val()).hide();
     });
     $('.' + reportType).show();
@@ -74,7 +74,7 @@ function initManagePdf() {
         var apiParameters = getReportAjaxRequest(idReport, 'PDFReports.updateReport');
         apiParameters.idReport = idReport;
         apiParameters.description = $('#report_description').val();
-        apiParameters.reportType = $('#report_type option:selected').val();
+        apiParameters.reportType = $('#report_type').find('option:selected').val();
         apiParameters.reportFormat = $('[name=report_format].' + apiParameters.reportType + ' option:selected').val();
 
         var reports = [];
@@ -89,7 +89,7 @@ function initManagePdf() {
 
         var ajaxHandler = new ajaxHelper();
         ajaxHandler.addParams(apiParameters, 'POST');
-        ajaxHandler.addParams({period: $('#report_period option:selected').val()}, 'GET');
+        ajaxHandler.addParams({period: $('#report_period').find('option:selected').val()}, 'GET');
         ajaxHandler.addParams({hour: $('#report_hour').val()}, 'GET');
         ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement();

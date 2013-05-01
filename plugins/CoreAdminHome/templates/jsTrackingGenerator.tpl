@@ -1,5 +1,5 @@
 {include file="CoreAdminHome/templates/header.tpl"}
-<link rel="stylesheet" href="plugins/CoreAdminHome/templates/jsTrackingGenerator.css"></link>
+<link rel="stylesheet" href="plugins/CoreAdminHome/templates/jsTrackingGenerator.css" />
 <script type="text/javascript" src="plugins/CoreAdminHome/templates/jsTrackingGenerator.js"></script>
 
 <div id="js-tracking-generator-data"
@@ -14,7 +14,7 @@
         <br/><br/>
         {'CoreAdminHome_JSTrackingIntro2'|translate} {'CoreAdminHome_JSTrackingIntro3'|translate:'<a href="http://piwik.org/integrate/" target="_blank">':'</a>'}
         <br/><br/>
-        {'CoreAdminHome_JSTrackingIntro4'|translate:'<a href="#image-tracking-link">':'</a>'}
+        {'CoreAdminHome_JSTrackingIntro4'|translate:'<a href="#image-tracking">':'</a>'}
         <br/><br/>
         {'CoreAdminHome_JSTrackingIntro5'|translate:'<a target="_blank" href="http://piwik.org/docs/javascript-tracking/">':'</a>'}
     </p>
@@ -174,7 +174,7 @@
     <br/>
 </div>
 
-<h2 id="image-tracking-link">{'CoreAdminHome_ImageTracking'|translate}</h2>
+<h2 id="image-tracking">{'CoreAdminHome_ImageTracking'|translate}</h2>
 
 <div id="image-tracking-code-options" class="adminTable">
 
