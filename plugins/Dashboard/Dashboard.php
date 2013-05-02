@@ -234,11 +234,11 @@ class Piwik_Dashboard extends Piwik_Plugin
     {
         $jsFiles = & $notification->getNotificationObject();
 
-        $jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
+        $jsFiles[] = "plugins/Dashboard/javascripts/widgetMenu.js";
         $jsFiles[] = "libs/javascript/json2.js";
-        $jsFiles[] = "plugins/Dashboard/templates/dashboardObject.js";
-        $jsFiles[] = "plugins/Dashboard/templates/dashboardWidget.js";
-        $jsFiles[] = "plugins/Dashboard/templates/dashboard.js";
+        $jsFiles[] = "plugins/Dashboard/javascripts/dashboardObject.js";
+        $jsFiles[] = "plugins/Dashboard/javascripts/dashboardWidget.js";
+        $jsFiles[] = "plugins/Dashboard/javascripts/dashboard.js";
     }
 
     /**
@@ -249,7 +249,7 @@ class Piwik_Dashboard extends Piwik_Plugin
         $cssFiles = & $notification->getNotificationObject();
 
         $cssFiles[] = "plugins/CoreHome/templates/datatable.css";
-        $cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
+        $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.css";
     }
 
     /**
