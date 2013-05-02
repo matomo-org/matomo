@@ -364,7 +364,7 @@
             columnNumber = 1;
         }
 
-        // do not try to add widget if given columnnumber is to high
+        // do not try to add widget if given column number is to high
         if (columnNumber > $('.col', dashboardElement).length) {
             return;
         }

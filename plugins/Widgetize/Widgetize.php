@@ -55,7 +55,7 @@ class Piwik_Widgetize extends Piwik_Plugin
         $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
         $jsFiles[] = "themes/default/common.js";
         $jsFiles[] = "plugins/CoreHome/templates/datatable.js";
-        $jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
+        $jsFiles[] = "plugins/Dashboard/javascripts/widgetMenu.js";
         $jsFiles[] = "plugins/Widgetize/templates/widgetize.js";
     }
 
@@ -69,6 +69,6 @@ class Piwik_Widgetize extends Piwik_Plugin
         $cssFiles[] = "plugins/CoreHome/templates/styles.css";
         $cssFiles[] = "plugins/CoreHome/templates/datatable.css";
         $cssFiles[] = "plugins/CoreHome/templates/cloud.css";
-        $cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
+        $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.css";
     }
 }
