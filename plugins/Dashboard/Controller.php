@@ -43,14 +43,14 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
     public function embeddedIndex()
     {
-        $view = $this->_getDashboardView('@Dashboard/index');
+        $view = $this->_getDashboardView('@Dashboard/embeddedIndex');
 
         echo $view->render();
     }
 
     public function index()
     {
-        $view = $this->_getDashboardView('@Dashboard/standalone');
+        $view = $this->_getDashboardView('@Dashboard/index');
         $view->dashboards = array();
         if (!Piwik::isUserIsAnonymous()) {
             $login = Piwik::getCurrentUserLogin();

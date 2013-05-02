@@ -47,12 +47,12 @@ function initDashboard(dashboardId, dashboardLayout) {
 
     widgetsHelper.getAvailableWidgets();
 
-    $('#dashboardWidgetsArea').on('dashboardempty', showEmptyDashboardNotification);
-
-    $('#dashboardWidgetsArea').dashboard({
-        idDashboard: dashboardId,
-        layout: dashboardLayout
-    });
+    $('#dashboardWidgetsArea')
+        .on('dashboardempty', showEmptyDashboardNotification)
+        .dashboard({
+            idDashboard: dashboardId,
+            layout: dashboardLayout
+        });
 
     $('#dashboardSettings').widgetPreview({
         isWidgetAvailable: function (widgetUniqueId) {
