@@ -411,6 +411,7 @@ $translations = array(
 	'Actions_ColumnSearchCategory' => '搜索类别',
 	'Actions_ColumnSearchResultsCount' => '搜索结果数',
 	'Actions_ColumnSearchKeyword' => '关键词',
+	'Actions_SiteSearchKeyword' => '关键词（站点搜索）',
 	'Actions_ColumnClickedURL' => '点击的网址',
 	'Actions_ColumnDownloadURL' => '下载的网址',
 	'Actions_ColumnEntryPageURL' => '入口页面网址',

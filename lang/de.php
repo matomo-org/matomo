@@ -86,6 +86,7 @@ $translations = array(
 	'General_VisitConvertedGoal' => 'Besuche, die mindestens ein Ziel erreicht haben',
 	'General_VisitConvertedGoalId' => 'Besuche, die eine bestimmte Ziel-Id erreicht haben',
 	'General_EcommerceVisitStatusDesc' => 'Ecommerce Status am Ende des Besuchs',
+	'General_EcommerceVisitStatusEg' => 'Um z.B. alle Besuche auszuwählen, die eine Bestellung aufgegeben haben, würde die API-Anfrage Folgendes beinhalten: %s',
 	'General_VisitConvertedNGoals' => 'Besuch erreichte %s Ziele',
 	'General_NewVisitor' => 'Neuer Besucher',
 	'General_NewVisits' => 'Neue Besuche',
