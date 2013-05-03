@@ -85,6 +85,8 @@ $translations = array(
 	'General_NumberOfVisits' => 'Antal besøg',
 	'General_VisitConvertedGoal' => 'Besøg omregnet mindst et mål',
 	'General_VisitConvertedGoalId' => 'Besøg konverteres til bestemt mål-Id',
+	'General_EcommerceVisitStatusDesc' => 'E-handel status ved afslutningen af ​​besøget',
+	'General_EcommerceVisitStatusEg' => 'For eksempel, for at vælge alle besøg, der har lavet en E-handel ordre, vil API-anmodningen indeholde %s',
 	'General_VisitConvertedNGoals' => 'Besøg konverteret %s mål',
 	'General_NewVisitor' => 'Ny besøgende',
 	'General_NewVisits' => 'Nye besøg',
@@ -411,6 +413,7 @@ $translations = array(
 	'Actions_ColumnSearchCategory' => 'Søgekategori',
 	'Actions_ColumnSearchResultsCount' => 'Antal søgeresultater',
 	'Actions_ColumnSearchKeyword' => 'Søgeord',
+	'Actions_SiteSearchKeyword' => 'Søgeord (intern søgning)',
 	'Actions_ColumnClickedURL' => 'Klikkede URL',
 	'Actions_ColumnDownloadURL' => 'Hentet URL',
 	'Actions_ColumnEntryPageURL' => 'Indgangsside URL',
@@ -2262,6 +2265,7 @@ $translations = array(
 	'UserLanguage_Language_zh' => 'Kinesisk',
 	'UserLanguage_Language_zu' => 'Zulu',
 	'UserSettings_BrowserLanguage' => 'Browser sprog',
+	'General_AddNewSegment_js' => 'Tilføj nyt segment',
 
 	// FOR REVIEW
 	'EntryPage_Bounces' => 'Afvisninger',
