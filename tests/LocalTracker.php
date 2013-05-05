@@ -49,11 +49,8 @@ class Piwik_LocalTracker extends PiwikTracker
         $plugins = Piwik_Config::getInstance()->Plugins['Plugins'];
         $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         $oldTrackerConfig = Piwik_Config::getInstance()->Tracker;
-        try {
-            Piwik_PluginsManager::getInstance()->unloadPlugins();
-        } catch(Exception $e) {
-            // this fails for SegmentEditor for some reasons
-        }
+
+        Piwik_PluginsManager::getInstance()->unloadPlugins();
 
         // modify config
         $GLOBALS['PIWIK_TRACKER_MODE'] = true;

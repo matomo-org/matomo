@@ -54,6 +54,22 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @param $createEmptyDatabase
+     */
+    protected static function installAndLoadPlugins($installPlugins)
+    {
+        $pluginsManager = Piwik_PluginsManager::getInstance();
+        $plugins = $pluginsManager->readPluginsDirectory();
+
+        $pluginsManager->loadPlugins($plugins);
+        if ($installPlugins)
+        {
+            $pluginsManager->installLoadedPlugins();
+        }
+    }
+
+
     public static function loadAllPlugins()
     {
         $pluginsManager = Piwik_PluginsManager::getInstance();
@@ -143,16 +159,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // We need to be SU to create websites for tests
         Piwik::setUserIsSuperUser();
         Piwik_Tracker_Cache::deleteTrackerCache();
+        self::installAndLoadPlugins( $installPlugins = $createEmptyDatabase);
 
-        // Load and install plugins
-        $pluginsManager = Piwik_PluginsManager::getInstance();
-        $plugins = $pluginsManager->readPluginsDirectory();
-
-        $pluginsManager->loadPlugins($plugins);
-        if ($createEmptyDatabase) // only install if database is empty
-        {
-            $pluginsManager->installLoadedPlugins();
-        }
 
         $_GET = $_REQUEST = array();
         $_SERVER['HTTP_REFERER'] = '';

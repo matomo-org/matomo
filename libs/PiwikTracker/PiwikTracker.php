@@ -714,9 +714,18 @@ class PiwikTracker
      * Forces the requests to be recorded for the specified Visitor ID
      * rather than using the heuristics based on IP and other attributes.
      *
-     * This is typically used with the Javascript getVisitorId() function.
-     *
      * Allowed only for Admin/Super User, must be used along with setTokenAuth().
+     *
+     * For example, on your website if you use the Javascript tracker in some pages
+     * and the PHP tracker in other pages, you can write:
+     *      $v->setVisitorId( $v->getVisitorId() );
+     *
+     * This will set this visitor's ID to the ID found in the 1st party Piwik cookies
+     * (created earlier by the Javascript tracker).
+     *
+     * Alternatively you can set the Visitor ID based on a user attribute, for example the user email:
+     *      $v->setVisitorId( substr(md5( $userEmail ), 0, 16));
+     *
      * @see setTokenAuth()
      * @param string $visitorId 16 hexadecimal characters visitor ID, eg. "33c31e01394bdc63"
      * @throws Exception

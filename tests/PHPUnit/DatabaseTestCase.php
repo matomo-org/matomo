@@ -40,7 +40,8 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
             Piwik::createTables();
             Piwik::createLogObject();
 
-            Piwik_PluginsManager::getInstance()->loadPlugins(array());
+//            Piwik_PluginsManager::getInstance()->loadPlugins(array());
+            IntegrationTestCase::loadAllPlugins();
 
         } catch (Exception $e) {
             $this->fail("TEST INITIALIZATION FAILED: " . $e->getMessage());
