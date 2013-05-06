@@ -174,10 +174,13 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $trackVisits = !$trackVisits;
         }
 
-        // $customStyle = Piwik_Common::getRequestVar('style', false);
-        // if (!empty($customStyle)) {
-        //     $view->customStyle = str_replace(array('.', '/', ':'), '_', $customStyle);
-        // }
+        $customStyle = Piwik_Common::getRequestVar('style', false);
+        if (!empty($customStyle)) {
+            $customStyle = 'optout_' . str_replace(array('.', '/', ':'), '_', $customStyle) . '.css';
+            if (file_exists(PIWIK_DOCUMENT_ROOT . '/themes/' . $customStyle)) {
+                $view->customStyle = $customStyle;
+            }
+        }
 
         $view = new Piwik_View('@CoreAdminHome/optOut');
         $view->trackVisits = $trackVisits;
