@@ -18,10 +18,10 @@ To run this properly you will need
 2. create a user, set the login for example: "UserTrackingAPI"
 3. Assign this user "admin" permission on all websites you wish to track without showing the Piwik URL
 4. Copy the "token_auth" for this user, and paste it below in this file, in `$TOKEN_AUTH = "xyz"`
-5. In this file, below this help test, edit $PIWIK_URL variable and change http://piwik-server.com/piwik/ with the URL to your Piwik server.
+5. In this file, below this help test, edit $PIWIK_URL variable and change http://your-piwik-domain.example.org/piwik/ with the URL to your Piwik server.
 6. Upload this modified piwik.php file in the website root directory, for example at: http://trackedsite.com/piwik.php
    This file (http://trackedsite.com/piwik.php) will be called by the Piwik Javascript,
-   instead of calling directly the (secret) Piwik Server URL (http://piwik-server.com/piwik/).
+   instead of calling directly the (secret) Piwik Server URL (http://your-piwik-domain.example.org/piwik/).
 7. You now need to add the modified Piwik Javascript Code to the footer of your pages at http://trackedsite.com/
    Go to Piwik > Settings > Websites > Show Javascript Tracking Code.
    Copy the Javascript snippet. Then, edit this code and change the last lines to the following:
