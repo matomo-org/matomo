@@ -174,6 +174,13 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $trackVisits = !$trackVisits;
         }
 
+        $view = new Piwik_View('@CoreAdminHome/optOut');
+        $view->trackVisits = $trackVisits;
+        $view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
+        $view->language = Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language)
+            ? $language
+            : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+
         $customStyle = Piwik_Common::getRequestVar('style', false);
         if (!empty($customStyle)) {
             $customStyle = 'optout_' . str_replace(array('.', '/', ':'), '_', $customStyle) . '.css';
@@ -182,12 +189,6 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             }
         }
 
-        $view = new Piwik_View('@CoreAdminHome/optOut');
-        $view->trackVisits = $trackVisits;
-        $view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
-        $view->language = Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language)
-            ? $language
-            : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
         echo $view->render();
     }
 
