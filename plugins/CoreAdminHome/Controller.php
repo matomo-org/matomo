@@ -174,6 +174,11 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $trackVisits = !$trackVisits;
         }
 
+        // $customStyle = Piwik_Common::getRequestVar('style', false);
+        // if (!empty($customStyle)) {
+        //     $view->customStyle = str_replace(array('.', '/', ':'), '_', $customStyle);
+        // }
+
         $view = new Piwik_View('@CoreAdminHome/optOut');
         $view->trackVisits = $trackVisits;
         $view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
