@@ -8,7 +8,7 @@
         See also our official guide <b><a href='http://piwik.org/privacy/' target='_blank'>Web Analytics Privacy</a></b></p>
     <a name="anonymizeIPAnchor"></a>
     <h2>{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
-    <form method="post" action="{{ url({'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth}) }}" id="formMaskLength" name="formMaskLength">
+    <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength" name="formMaskLength">
         <div id='anonymizeIpSettings'>
             <table class="adminTable" style='width:800px;'>
                 <tr>
@@ -74,7 +74,7 @@
     <a name="deleteLogsAnchor"></a>
     <h2>{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
     <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
-    <form method="post" action="{{ url({'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth}) }}" id="formDeleteSettings" name="formMaskLength">
+    <form method="post" action="{{ {'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth} | urlRewriteWithParameters }}" id="formDeleteSettings" name="formMaskLength">
         <table class="adminTable" style='width:800px;'>
             <tr id='deleteLogSettingEnabled'>
                 <td width="250">{{ 'PrivacyManager_UseDeleteLog'|translate }}<br/>
@@ -246,7 +246,7 @@
                     {% endif %}
                 </p>
 			<span style='margin-left:20px'>
-			<a href='{{ url({'module':'CorePluginsAdmin','token_auth':token_auth,'action':action,'pluginName':'DoNotTrack'}) }}#DNT'>&rsaquo;
+			<a href='{{ {'module':'CorePluginsAdmin','token_auth':token_auth,'action':action,'pluginName':'DoNotTrack'} | urlRewriteWithParameters }}#DNT'>&rsaquo;
                 {% if dntSupport %}{{ 'PrivacyManager_DoNotTrack_Disable'|translate }} {{ 'General_NotRecommended'|translate }}
                 {% else %}{{ 'PrivacyManager_DoNotTrack_Enable'|translate }} {{ 'General_Recommended'|translate }}{% endif %}
                 <br/>
