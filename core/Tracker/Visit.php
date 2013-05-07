@@ -1121,10 +1121,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 		";
         $from = "FROM " . Piwik_Common::prefixTable('log_visit');
 
-        $bindSql = array();
-
-
-        $timeLookBack = $this->getWindowLookupPreviousVisit();
+        list($timeLookBack,$timeLookAhead) = $this->getWindowLookupThisVisit();
 
         $shouldMatchOneFieldOnly = $this->shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup);
 
@@ -1135,21 +1132,25 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         // 		this page view to the wrong visitor, but this is better than creating artificial visits.
         // 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies, OR it was set using &cid= in tracking API),
         //      and in these cases, we force to look up this visitor id
+        $whereCommon = "visit_last_action_time >= ? AND visit_last_action_time <= ? AND idsite = ?";
+        $bindSql = array(
+            $timeLookBack,
+            $timeLookAhead,
+            $this->idsite
+        );
+
         if ($shouldMatchOneFieldOnly) {
-            $where = "visit_last_action_time >= ? AND idsite = ?";
-            $bindSql[] = $timeLookBack;
-            $bindSql[] = $this->idsite;
             if (!$isVisitorIdToLookup) {
-                $where .= ' AND config_id = ?';
+                $whereCommon .= ' AND config_id = ?';
                 $bindSql[] = $configId;
             } else {
-                $where .= ' AND idvisitor = ?';
+                $whereCommon .= ' AND idvisitor = ?';
                 $bindSql[] = $this->visitorInfo['idvisitor'];
             }
 
             $sql = "$select
 				$from
-				WHERE " . $where . "
+				WHERE " . $whereCommon . "
 				ORDER BY visit_last_action_time DESC
 				LIMIT 1";
         } // We have a config_id AND a visitor_id. We match on either of these.
@@ -1160,31 +1161,27 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         // 		so we also backup by searching for matching config_id.
         // We use a UNION here so that each sql query uses its own INDEX
         else {
-            $whereSameBothQueries = "visit_last_action_time >= ? AND idsite = ?";
-
-
             // will use INDEX index_idsite_config_datetime (idsite, config_id, visit_last_action_time)
-            $bindSql[] = $timeLookBack;
-            $bindSql[] = $this->idsite;
             $where = ' AND config_id = ?';
             $bindSql[] = $configId;
             $sqlConfigId = "$select ,
 					0 as priority
 					$from
-					WHERE $whereSameBothQueries $where
+					WHERE $whereCommon $where
 					ORDER BY visit_last_action_time DESC
 					LIMIT 1
 			";
 
             // will use INDEX index_idsite_idvisitor (idsite, idvisitor)
             $bindSql[] = $timeLookBack;
+            $bindSql[] = $timeLookAhead;
             $bindSql[] = $this->idsite;
             $where = ' AND idvisitor = ?';
             $bindSql[] = $this->visitorInfo['idvisitor'];
             $sqlVisitorId = "$select ,
 					1 as priority
 					$from
-					WHERE $whereSameBothQueries $where
+					WHERE $whereCommon $where
 					LIMIT 1
 			";
 
@@ -1261,10 +1258,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
      * In some cases, it is useful to look back and count unique visitors more accurately. You can set custom lookback window in
      * [Tracker] window_look_back_for_visitor
      *
-     * @return string
+     * The returned value is the window range (Min, max) that the matched visitor should fall within
+     *
+     * Note: we must restrict in the future in case we import old data after having imported new data.
+     *
+     * @return array( datetimeMin, datetimeMax )
      *
      */
-    protected function getWindowLookupPreviousVisit()
+    protected function getWindowLookupThisVisit()
     {
         $lookbackNSeconds = Piwik_Config::getInstance()->Tracker['visit_standard_length'];
 
@@ -1273,8 +1274,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
             $lookbackNSeconds = $lookbackNSecondsCustom;
         }
         $timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - $lookbackNSeconds);
-        return $timeLookBack;
+        $timeLookAhead = date('Y-m-d H:i:s', $this->getCurrentTimestamp() + $lookbackNSeconds);
+
+        return array($timeLookBack, $timeLookAhead);
     }
+
 
     protected function shouldLookupOneVisitorFieldOnly($isVisitorIdToLookup)
     {

@@ -158,6 +158,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         // We need to be SU to create websites for tests
         Piwik::setUserIsSuperUser();
+
         Piwik_Tracker_Cache::deleteTrackerCache();
         self::installAndLoadPlugins( $installPlugins = $createEmptyDatabase);
 
@@ -681,7 +682,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     protected function _testApiUrl($testName, $apiId, $requestUrl)
     {
-        $isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false;
+        $isTestLogImportReverseChronological = strpos($testName, 'ImportedInRandomOrderTest') === false;
+        $isLiveMustDeleteDates = strpos($requestUrl, 'Live.getLastVisits') !== false
+                                // except for that particular test that we care about dates!
+                                && $isTestLogImportReverseChronological;
+
         $request = new Piwik_API_Request($requestUrl);
         $dateTime = Piwik_Common::getRequestVar('date', '', 'string', Piwik_Common::getArrayFromQueryString($requestUrl));
 
@@ -1106,4 +1111,5 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         Piwik_TablePartitioning::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload = true);
     }
+
 }

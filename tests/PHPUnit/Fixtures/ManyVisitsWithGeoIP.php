@@ -67,6 +67,9 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
 
     private function trackVisits($visitorCount, $setIp = false, $useLocal = true, $doBulk = false)
     {
+        static $calledCounter = 0;
+        $calledCounter++;
+
         $dateTime = $this->dateTime;
         $idSite = $this->idSite;
 
@@ -77,7 +80,7 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
             $t->setTokenAuth(self::getTokenAuth());
         }
         for ($i = 0; $i != $visitorCount; ++$i) {
-            $t->setVisitorId( substr(md5($i + 1000), 0, $t::LENGTH_VISITOR_ID));
+            $t->setVisitorId( substr(md5($i + $calledCounter * 1000), 0, $t::LENGTH_VISITOR_ID));
             if ($setIp) {
                 $t->setIp(current($this->ips));
                 next($this->ips);

@@ -77,6 +77,5 @@ class Test_Piwik_Integration_ManyVisitorsOneWebsiteTest extends IntegrationTestC
     }
 }
 
-Test_Piwik_Integration_ManyVisitorsOneWebsiteTest::$fixture
-    = new Test_Piwik_Fixture_ManyVisitsWithGeoIP();
+Test_Piwik_Integration_ManyVisitorsOneWebsiteTest::$fixture = new Test_Piwik_Fixture_ManyVisitsWithGeoIP();
 
