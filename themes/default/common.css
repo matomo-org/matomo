@@ -105,7 +105,7 @@ a {
 }
 
 #periodString {
-	display:block; 
+	display:block;
 	color:#444;
     font-size:14px;
     border: 1px solid #e4e5e4;
@@ -117,7 +117,7 @@ a {
     margin-right:12px;
     z-index:999;
     position:absolute;
-    background: url("images/icon-calendar.gif") no-repeat scroll right 9px center #F7F7F7;
+    background: url("images/icon-calendar.gif") no-repeat scroll right 9px  top 7px #F7F7F7;
 }
 #periodString:hover {
 	background-color:#f1f0eb;

@@ -310,7 +310,7 @@ class Piwik_PDFReports extends Piwik_Plugin
             $filename = $notificationInfo[Piwik_PDFReports_API::FILENAME_KEY];
             $additionalFiles = $notificationInfo[Piwik_PDFReports_API::ADDITIONAL_FILES_KEY];
 
-            $periods = self::getPeriodToFrequency();
+            $periods = self::getPeriodToFrequencyAsAdjective();
             $message = Piwik_Translate('PDFReports_EmailHello');
             $subject = Piwik_Translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
 
@@ -606,6 +606,7 @@ class Piwik_PDFReports extends Piwik_Plugin
     }
 
     /**
+     * Used in the Report Listing
      * @ignore
      */
     static public function getPeriodToFrequency()
@@ -615,6 +616,20 @@ class Piwik_PDFReports extends Piwik_Plugin
             Piwik_ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_Daily'),
             Piwik_ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_Weekly'),
             Piwik_ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_Monthly'),
+        );
+    }
+
+    /**
+     * Used in the Report's email content, ie "monthly report"
+     * @ignore
+     */
+    static public function getPeriodToFrequencyAsAdjective()
+    {
+        return array(
+            Piwik_ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_DailyReport'),
+            Piwik_ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_WeeklyReport'),
+            Piwik_ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_MonthlyReport'),
+            Piwik_ScheduledTime::PERIOD_YEAR => Piwik_Translate('General_YearlyReport'),
         );
     }
 }
