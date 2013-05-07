@@ -232,6 +232,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static $defaultApiNotToCall = array(
         'LanguagesManager',
         'DBStats',
+        'Dashboard',
         'UsersManager',
         'SitesManager',
         'ExampleUI',

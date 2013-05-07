@@ -46,7 +46,7 @@ class Piwik_Dashboard_API
      *
      * @return array[]
      */
-    private function getDashboards()
+    public function getDashboards()
     {
         $dashboards = $this->getUserDashboards();
 
@@ -79,7 +79,7 @@ class Piwik_Dashboard_API
      *
      * @return array[]
      */
-    public function getUserDashboards()
+    private function getUserDashboards()
     {
         $userLogin      = Piwik::getCurrentUserLogin();
         $userDashboards = $this->dashboard->getAllDashboards($userLogin);
