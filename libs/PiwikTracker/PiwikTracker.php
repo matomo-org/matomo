@@ -1067,7 +1067,7 @@ class PiwikTracker
             (!empty($this->customData) ? '&data=' . $this->customData : '') .
             (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '') .
             (!empty($this->pageCustomVar) ? '&cvar=' . urlencode(json_encode($this->pageCustomVar)) : '') .
-            (!empty($this->generationTime) ? '&generation_time_ms=' . ((int)$this->generationTime) : '') .
+            (!empty($this->generationTime) ? '&gt_ms=' . ((int)$this->generationTime) : '') .
 
             // URL parameters
             '&url=' . urlencode($this->pageUrl) .

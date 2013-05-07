@@ -1163,7 +1163,7 @@ class Recorder(object):
                 ("/From = %s" % urllib.quote(args['urlref'], '') if args['urlref'] != ''  else '')
             )
         if hit.generation_time_milli > 0:
-            args['generation_time_ms'] = hit.generation_time_milli
+            args['gt_ms'] = hit.generation_time_milli
         return args
 
     def _record_hits(self, hits):

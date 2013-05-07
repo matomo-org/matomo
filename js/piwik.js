@@ -1750,10 +1750,10 @@ if (typeof Piwik !== 'object') {
 
                 // performance tracking
                 if (configPerformanceTrackingEnabled && configPerformanceGenerationTime) {
-                    request += '&generation_time_ms=' + configPerformanceGenerationTime;
+                    request += '&gt_ms=' + configPerformanceGenerationTime;
                 } else if (configPerformanceTrackingEnabled && performanceAlias && performanceAlias.timing
                         && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
-                    request += '&generation_time_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
+                    request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
                 }
 
                 // update cookies
