@@ -153,25 +153,6 @@ class Piwik_SegmentEditor_API
         return $db->lastInsertId();
     }
 
-    public function getSegmentsToAutoArchive($idSite = false)
-    {
-        Piwik::checkUserIsSuperUser();
-
-        $sqlRestrictSite = '';
-        $bind = array();
-        if ($idSite) {
-            $sqlRestrictSite = 'OR enable_only_idsite = ?';
-            $bind = array($idSite);
-        }
-        $segments = Zend_Registry::get('db')->fetchAll("SELECT *
-                                 FROM " . Piwik_Common::prefixTable("segment") . "
-                                 WHERE auto_archive = 1
-                                    AND deleted = 0
-                                    AND (enable_only_idsite IS NULL " . $sqlRestrictSite . " )", $bind
-        );
-        return $segments;
-    }
-
     public function get($idSegment)
     {
         Piwik::checkUserHasSomeViewAccess();
@@ -188,7 +169,8 @@ class Piwik_SegmentEditor_API
         try {
             Piwik::checkUserIsSuperUserOrTheUser($segment['login']);
         } catch (Exception $e) {
-            throw new Exception("You can only manage your own segments (unless you are Super User).");
+            throw new Exception("You can only edit the custom segments you have created yourself. This segment was created and 'shared with you' by the Super User. " .
+                "To modify this segment, you can create a new one, by clicking on 'Add new segment' where you can then further customize the segment's definition.");
         }
 
         if ($segment['deleted']) {
@@ -211,17 +193,33 @@ class Piwik_SegmentEditor_API
         return $segment;
     }
 
-    public function getAll($idSite)
+    public function getAll($idSite = false, $returnAutoArchived = false)
     {
-        Piwik::checkUserHasViewAccess($idSite);
+        if(!empty($idSite) ) {
+            Piwik::checkUserHasViewAccess($idSite);
+        } else {
+            Piwik::checkUserHasSomeViewAccess();
+        }
+
+        $extraWhere = '';
+        if($returnAutoArchived) {
+            $extraWhere = ' AND auto_archive = 1';
+        }
+
+        $whereIdSite = '';
+        $bind = array(Piwik::getCurrentUserLogin());
+        if(!empty($idSite)) {
+            $whereIdSite = 'enable_only_idsite = ? OR ';
+            $bind = array($idSite, Piwik::getCurrentUserLogin());
+        }
 
         $sql = "SELECT * " .
-            " FROM " . Piwik_Common::prefixTable("segment") .
-            " WHERE (enable_only_idsite = ? OR enable_only_idsite IS NULL)
+        " FROM " . Piwik_Common::prefixTable("segment") .
+        " WHERE ($whereIdSite enable_only_idsite IS NULL)
                 AND  (enable_all_users = 1 OR login = ?)
                 AND deleted = 0
+                $extraWhere
               ORDER BY name ASC";
-        $bind = array($idSite, Piwik::getCurrentUserLogin());
         $segments = Zend_Registry::get('db')->fetchAll($sql, $bind);
 
         return $segments;
