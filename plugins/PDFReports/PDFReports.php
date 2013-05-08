@@ -45,11 +45,11 @@ class Piwik_PDFReports extends Piwik_Plugin
     );
 
     static private $managedReportTypes = array(
-        self::EMAIL_TYPE => 'themes/default/images/email.png'
+        self::EMAIL_TYPE => 'plugins/Zeitgeist/images/email.png'
     );
 
     static private $managedReportFormats = array(
-        Piwik_ReportRenderer::HTML_FORMAT => 'themes/default/images/html_icon.png',
+        Piwik_ReportRenderer::HTML_FORMAT => 'plugins/Zeitgeist/images/html_icon.png',
         Piwik_ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif'
     );
 

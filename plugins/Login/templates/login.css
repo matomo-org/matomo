@@ -111,7 +111,7 @@ form {
 
 #login_form_password, #reset_form_password,
 #reset_form_password_bis, #login_form_login, #reset_form_login {
-    background: #fff url(../../../themes/default/images/login-sprite.png) no-repeat;
+    background: #fff url(../../../plugins/Zeitgeist/images/login-sprite.png) no-repeat;
 }
 
 #login_form_password, #reset_form_password, #reset_form_password_bis {
@@ -192,7 +192,7 @@ a {
 }
 
 #logo .description .arrow {
-    background: url(../../../themes/default/images/affix-arrow.png);
+    background: url(../../../plugins/Zeitgeist/images/affix-arrow.png);
     width: 50px;
     height: 68px;
     position: absolute;

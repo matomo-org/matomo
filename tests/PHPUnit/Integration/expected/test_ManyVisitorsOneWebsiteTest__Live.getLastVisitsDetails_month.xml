@@ -8,7 +8,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -22,7 +22,7 @@
 				<goalPageId>44</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -111,7 +111,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -136,7 +136,7 @@
 				<goalPageId>22</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>search</type>
@@ -151,7 +151,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<icon>themes/default/images/search_ico.png</icon>
+				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -161,7 +161,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -249,7 +249,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -263,7 +263,7 @@
 				<goalPageId>21</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -370,7 +370,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -393,7 +393,7 @@
 				<goalPageId>20</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -403,7 +403,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -491,7 +491,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -505,7 +505,7 @@
 				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -612,7 +612,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -637,7 +637,7 @@
 				<goalPageId>17</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>search</type>
@@ -652,7 +652,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<icon>themes/default/images/search_ico.png</icon>
+				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -662,7 +662,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -750,7 +750,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -764,7 +764,7 @@
 				<goalPageId>16</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -871,7 +871,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -894,7 +894,7 @@
 				<goalPageId>15</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -904,7 +904,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -992,7 +992,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1006,7 +1006,7 @@
 				<goalPageId>14</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1113,7 +1113,7 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -1138,7 +1138,7 @@
 				<goalPageId>12</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>search</type>
@@ -1153,7 +1153,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<icon>themes/default/images/search_ico.png</icon>
+				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1163,7 +1163,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>

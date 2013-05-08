@@ -619,7 +619,7 @@ Piwik_Transitions.prototype.renderClosedGroup = function (groupName, side, onlyB
         boxText: self.model.getGroupTitle(groupName),
         boxTextNumLines: 1,
         boxTextCssClass: 'SingleLine',
-        boxIcon: 'themes/default/images/plus_blue.png',
+        boxIcon: 'plugins/Zeitgeist/images/plus_blue.png',
         smallBox: true,
         onClick: function () {
             self.unHighlightGroup(groupName, side);

@@ -8,9 +8,9 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>ordered</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
 		<actions>0</actions>
 		<actionDetails>
@@ -33,7 +33,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>themes/default/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Zeitgeist/images/ecommerceOrder.gif</icon>
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -47,7 +47,7 @@
 				
 				<itemDetails>
 				</itemDetails>
-				<icon>themes/default/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Zeitgeist/images/ecommerceOrder.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -139,9 +139,9 @@
 		<visitorType>returningCustomer</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
 		<actions>3</actions>
 		<actionDetails>
@@ -254,7 +254,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
+				<icon>plugins/Zeitgeist/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>

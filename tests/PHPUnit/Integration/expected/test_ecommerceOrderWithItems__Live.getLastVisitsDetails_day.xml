@@ -10,7 +10,7 @@
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>themes/default/images/ecommerceAbandonedCart.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceAbandonedCart.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
 		<actions>3</actions>
 		<actionDetails>
@@ -123,7 +123,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
+				<icon>plugins/Zeitgeist/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -215,9 +215,9 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
-		<visitEcommerceStatusIcon>themes/default/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
+		<visitEcommerceStatusIcon>plugins/Zeitgeist/images/ecommerceOrder.gif</visitEcommerceStatusIcon>
 		<searches>0</searches>
 		<actions>6</actions>
 		<actionDetails>
@@ -310,7 +310,7 @@
 						<quantity>6</quantity>
 					</row>
 				</itemDetails>
-				<icon>themes/default/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Zeitgeist/images/ecommerceOrder.gif</icon>
 			</row>
 			<row>
 				<type>ecommerceOrder</type>
@@ -338,7 +338,7 @@
 						<quantity>1</quantity>
 					</row>
 				</itemDetails>
-				<icon>themes/default/images/ecommerceOrder.gif</icon>
+				<icon>plugins/Zeitgeist/images/ecommerceOrder.gif</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -449,7 +449,7 @@
 						<quantity>2</quantity>
 					</row>
 				</itemDetails>
-				<icon>themes/default/images/ecommerceAbandonedCart.gif</icon>
+				<icon>plugins/Zeitgeist/images/ecommerceAbandonedCart.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -541,7 +541,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -555,7 +555,7 @@
 				<goalPageId>1</goalPageId>
 				
 				<url>http://example.org/index.htm</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>

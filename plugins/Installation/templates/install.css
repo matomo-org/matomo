@@ -174,7 +174,7 @@ td {
 
 .submit input {
     margin-top: 15px;
-    background: transparent url(./themes/default/images/background-submit.png) repeat scroll 0;
+    background: transparent url(./plugins/Zeitgeist/images/background-submit.png) repeat scroll 0;
     font-size: 1.4em;
     border-color: #CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
     border-style: double;

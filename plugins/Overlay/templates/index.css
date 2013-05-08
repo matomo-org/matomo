@@ -37,7 +37,7 @@ a#Overlay_Title {
 
 #Overlay_DateRangeSelection {
     padding: 30px 0 20px 23px;
-    background: url(../../../themes/default/images/icon-calendar.gif) 2px 33px no-repeat;
+    background: url(../../../plugins/Zeitgeist/images/icon-calendar.gif) 2px 33px no-repeat;
     margin-left: 5px;
 }
 
@@ -49,7 +49,7 @@ a#Overlay_Title {
 }
 
 #Overlay_Loading {
-    background: url(../../../themes/default/images/loading-blue.gif) no-repeat center 10px;
+    background: url(../../../plugins/Zeitgeist/images/loading-blue.gif) no-repeat center 10px;
     width: 190px;
     padding-top: 30px;
     margin-top: 30px;
@@ -83,7 +83,7 @@ a#Overlay_Transitions {
 
 a#Overlay_RowEvolution {
     margin-top: 20px;
-    background: url(../../../themes/default/images/row_evolution_hover.png) no-repeat 0 7px;
+    background: url(../../../plugins/Zeitgeist/images/row_evolution_hover.png) no-repeat 0 7px;
 }
 
 a#Overlay_Transitions {
@@ -92,7 +92,7 @@ a#Overlay_Transitions {
 
 a#Overlay_FullScreen {
     margin-top: 20px;
-    background: url(../../../themes/default/images/fullscreen.png) no-repeat 3px 8px;
+    background: url(../../../plugins/Zeitgeist/images/fullscreen.png) no-repeat 3px 8px;
 }
 
 a#Overlay_FullScreen:hover,

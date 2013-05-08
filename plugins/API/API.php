@@ -444,7 +444,7 @@ class Piwik_API_API
      */
     public function getLogoUrl($pathOnly = false)
     {
-        $logo = 'themes/default/images/logo.png';
+        $logo = 'plugins/Zeitgeist/images/logo.png';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo.png')
         ) {
@@ -464,7 +464,7 @@ class Piwik_API_API
      */
     public function getHeaderLogoUrl($pathOnly = false)
     {
-        $logo = 'themes/default/images/logo-header.png';
+        $logo = 'plugins/Zeitgeist/images/logo-header.png';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo-header.png')
         ) {

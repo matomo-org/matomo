@@ -334,15 +334,15 @@ dataTable.prototype =
             var imageSortSrc = false;
             if (currentIsSubDataTable) {
                 if (self.param.filter_sort_order == 'asc') {
-                    imageSortSrc = 'themes/default/images/sort_subtable_asc.png';
+                    imageSortSrc = 'plugins/Zeitgeist/images/sort_subtable_asc.png';
                 } else {
-                    imageSortSrc = 'themes/default/images/sort_subtable_desc.png';
+                    imageSortSrc = 'plugins/Zeitgeist/images/sort_subtable_desc.png';
                 }
             } else {
                 if (self.param.filter_sort_order == 'asc') {
-                    imageSortSrc = 'themes/default/images/sortasc.png';
+                    imageSortSrc = 'plugins/Zeitgeist/images/sortasc.png';
                 } else {
-                    imageSortSrc = 'themes/default/images/sortdesc.png';
+                    imageSortSrc = 'plugins/Zeitgeist/images/sortdesc.png';
                 }
             }
             return imageSortSrc;
@@ -1178,7 +1178,7 @@ dataTable.prototype =
                         '<tr>' +
                             '<td colspan="' + numberOfColumns + '" class="cellSubDataTable">' +
                             '<div id="' + divIdToReplaceWithSubTable + '">' +
-                            '<span class="loadingPiwik" style="display:inline"><img src="themes/default/images/loading-blue.gif" />' + _pk_translate('General_Loading_js') + '</span>' +
+                            '<span class="loadingPiwik" style="display:inline"><img src="plugins/Zeitgeist/images/loading-blue.gif" />' + _pk_translate('General_Loading_js') + '</span>' +
                             '</div>' +
                             '</td>' +
                             '</tr>'
@@ -1748,7 +1748,7 @@ actionDataTable.prototype =
             $(domElem).after('\
 			<tr id="' + divIdToReplaceWithSubTable + '" class="cellSubDataTable">\
 				<td colspan="' + numberOfColumns + '">\
-						<span class="loadingPiwik" style="display:inline"><img src="themes/default/images/loading-blue.gif" /> Loading...</span>\
+						<span class="loadingPiwik" style="display:inline"><img src="plugins/Zeitgeist/images/loading-blue.gif" /> Loading...</span>\
 				</td>\
 			</tr>\
 			');
@@ -1900,11 +1900,11 @@ function getNextLevelFromClass(style) {
 
 //helper function for actionDataTable
 function setImageMinus(domElem) {
-    $('img.plusMinus', domElem).attr('src', 'themes/default/images/minus.png');
+    $('img.plusMinus', domElem).attr('src', 'plugins/Zeitgeist/images/minus.png');
 }
 
 //helper function for actionDataTable
 function setImagePlus(domElem) {
-    $('img.plusMinus', domElem).attr('src', 'themes/default/images/plus.png');
+    $('img.plusMinus', domElem).attr('src', 'plugins/Zeitgeist/images/plus.png');
 }
 

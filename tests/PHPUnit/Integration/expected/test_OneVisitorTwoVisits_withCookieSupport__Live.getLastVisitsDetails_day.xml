@@ -8,7 +8,7 @@
 		<visitorType>returning</visitorType>
 		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -22,7 +22,7 @@
 				<goalPageId>9</goalPageId>
 				
 				<url>http://example.org/store/purchase.htm</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -112,7 +112,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -151,7 +151,7 @@
 				
 				<timeSpent>360</timeSpent>
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
-				<icon>themes/default/images/link.gif</icon>
+				<icon>plugins/Zeitgeist/images/link.gif</icon>
 			</row>
 			<row>
 				<type>download</type>
@@ -162,7 +162,7 @@
 				
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<icon>themes/default/images/download.png</icon>
+				<icon>plugins/Zeitgeist/images/download.png</icon>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -173,7 +173,7 @@
 				
 				<timeSpent>108</timeSpent>
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
-				<icon>themes/default/images/link.gif</icon>
+				<icon>plugins/Zeitgeist/images/link.gif</icon>
 			</row>
 			<row>
 				<type>outlink</type>
@@ -184,7 +184,7 @@
 				
 				<timeSpent>72</timeSpent>
 				<timeSpentPretty>1 min 12s</timeSpentPretty>
-				<icon>themes/default/images/link.gif</icon>
+				<icon>plugins/Zeitgeist/images/link.gif</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -194,7 +194,7 @@
 				<goalPageId />
 				
 				<url>http://example.org/</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>search</type>
@@ -206,7 +206,7 @@
 				<timeSpentPretty>1 min 48s</timeSpentPretty>
 				<generationTime>0.81s</generationTime>
 				<siteSearchKeyword>Banks Own The World</siteSearchKeyword>
-				<icon>themes/default/images/search_ico.png</icon>
+				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>action</type>
