@@ -189,8 +189,8 @@ class Piwik_AssetManager
     {
         $priorityCssOrdered = array(
             'libs/',
-            'plugins/Zeitgeist/theme/common.css',
-            'plugins/Zeitgeist/theme/',
+            'plugins/Zeitgeist/stylesheets/common.css',
+            'plugins/Zeitgeist/stylesheets/',
             'plugins/',
         );
 
@@ -284,9 +284,9 @@ class Piwik_AssetManager
             'libs/jquery/jquery-ui.js',
             'libs/jquery/jquery.browser.js',
             'libs/',
-            'plugins/Zeitgeist/theme/common.js',
-            'plugins/Zeitgeist/theme/',
-            'plugins/CoreHome/templates/broadcast.js',
+            'plugins/Zeitgeist/javascripts/piwikHelper.js',
+            'plugins/Zeitgeist/javascripts/',
+            'plugins/CoreHome/javascripts/broadcast.js',
             'plugins/',
         );
 

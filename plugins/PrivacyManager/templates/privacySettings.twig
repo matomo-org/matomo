@@ -183,7 +183,7 @@
                 <td width="500">
                     <div id="deleteDataEstimate"></div>
                     <span class='loadingPiwik' style='display:none'><img
-                                src='./themes/default/images/loading-blue.gif'/> {{ 'General_LoadingData'|translate }}</span>
+                                src='./plugins/Zeitgeist/images/loading-blue.gif'/> {{ 'General_LoadingData'|translate }}</span>
                 </td>
                 <td width="200">
                     {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
@@ -220,7 +220,7 @@
                         <br/>
                         <em><a id="purgeDataNowLink" href="#">{{ 'PrivacyManager_PurgeNow'|translate }}</a></em>
                         <span class='loadingPiwik' style='display:none'><img
-                                    src='./themes/default/images/loading-blue.gif'/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
+                                    src='./plugins/Zeitgeist/images/loading-blue.gif'/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
                         <span id="db-purged-message" style="display: none;"><em>{{ 'PrivacyManager_DBPurged'|translate }}</em></span>
                     {% endset %}
                     {{ piwik.inlineHelp(purgeStats) }}

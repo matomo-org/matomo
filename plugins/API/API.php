@@ -63,7 +63,7 @@ class Piwik_API extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/API/css/styles.css";
+        $cssFiles[] = "plugins/API/stylesheets/listAllAPI.css";
     }
 }
 
@@ -444,7 +444,7 @@ class Piwik_API_API
      */
     public function getLogoUrl($pathOnly = false)
     {
-        $logo = 'themes/default/images/logo.png';
+        $logo = 'plugins/Zeitgeist/images/logo.png';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo.png')
         ) {
@@ -464,7 +464,7 @@ class Piwik_API_API
      */
     public function getHeaderLogoUrl($pathOnly = false)
     {
-        $logo = 'themes/default/images/logo-header.png';
+        $logo = 'plugins/Zeitgeist/images/logo-header.png';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo-header.png')
         ) {
@@ -485,7 +485,7 @@ class Piwik_API_API
      */
     public function getSVGLogoUrl($pathOnly = false)
     {
-        $logo = 'plugins/Zeitgeist/theme/images/logo.svg';
+        $logo = 'plugins/Zeitgeist/images/logo.svg';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo.svg')
         ) {

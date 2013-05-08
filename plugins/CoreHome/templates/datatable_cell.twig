@@ -3,7 +3,7 @@
 {% if not row.idsubdatatable and column=='label' and row.metadata.url is not empty %}
     <a target="_blank" href='{% if row.metadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.metadata.url }}'>
     {% if row.metadata.logo is empty %}
-        <img class="link" width="10" height="9" src="plugins/Zeitgeist/theme/images/link.gif"/>
+        <img class="link" width="10" height="9" src="plugins/Zeitgeist/images/link.gif"/>
     {% endif %}
 {% endif %}
 {% if column=='label' %}

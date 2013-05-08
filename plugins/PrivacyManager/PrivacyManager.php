@@ -94,7 +94,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
     {
         $jsFiles = & $notification->getNotificationObject();
 
-        $jsFiles[] = "plugins/PrivacyManager/templates/privacySettings.js";
+        $jsFiles[] = "plugins/PrivacyManager/javascripts/privacySettings.js";
     }
 
     function addMenu()

@@ -66,7 +66,7 @@
 	<reportMetadata>
 		<row>
 			<code>fr</code>
-			<logo>plugins/UserCountry/flags/fr.png</logo>
+			<logo>plugins/UserCountry/images/flags/fr.png</logo>
 			<logoWidth>16</logoWidth>
 			<logoHeight>11</logoHeight>
 		</row>

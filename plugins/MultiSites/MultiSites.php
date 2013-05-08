@@ -89,7 +89,7 @@ class Piwik_MultiSites extends Piwik_Plugin
     {
         $jsFiles = & $notification->getNotificationObject();
 
-        $jsFiles[] = "plugins/MultiSites/templates/common.js";
+        $jsFiles[] = "plugins/MultiSites/javascripts/multiSites.js";
     }
 
     /**
@@ -99,6 +99,6 @@ class Piwik_MultiSites extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/MultiSites/templates/styles.css";
+        $cssFiles[] = "plugins/MultiSites/stylesheets/multiSites.css";
     }
 }

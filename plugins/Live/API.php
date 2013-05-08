@@ -614,23 +614,23 @@ class Piwik_Live_API
         foreach ($visitorDetailsArray['actionDetails'] as &$details) {
             switch ($details['type']) {
                 case 'goal':
-                    $details['icon'] = 'themes/default/images/goal.png';
+                    $details['icon'] = 'plugins/Zeitgeist/images/goal.png';
                     break;
                 case Piwik_Archive::LABEL_ECOMMERCE_ORDER:
                 case Piwik_Archive::LABEL_ECOMMERCE_CART:
-                    $details['icon'] = 'themes/default/images/' . $details['type'] . '.gif';
+                    $details['icon'] = 'plugins/Zeitgeist/images/' . $details['type'] . '.gif';
                     break;
                 case Piwik_Tracker_Action_Interface::TYPE_DOWNLOAD:
                     $details['type'] = 'download';
-                    $details['icon'] = 'themes/default/images/download.png';
+                    $details['icon'] = 'plugins/Zeitgeist/images/download.png';
                     break;
                 case Piwik_Tracker_Action_Interface::TYPE_OUTLINK:
                     $details['type'] = 'outlink';
-                    $details['icon'] = 'themes/default/images/link.gif';
+                    $details['icon'] = 'plugins/Zeitgeist/images/link.gif';
                     break;
                 case Piwik_Tracker_Action::TYPE_SITE_SEARCH:
                     $details['type'] = 'search';
-                    $details['icon'] = 'themes/default/images/search_ico.png';
+                    $details['icon'] = 'plugins/Zeitgeist/images/search_ico.png';
                     break;
                 default:
                     $details['type'] = 'action';

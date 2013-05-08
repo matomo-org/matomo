@@ -53,10 +53,10 @@ class Piwik_Widgetize extends Piwik_Plugin
 
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
-        $jsFiles[] = "themes/default/common.js";
-        $jsFiles[] = "plugins/CoreHome/templates/datatable.js";
+        $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/datatable.js";
         $jsFiles[] = "plugins/Dashboard/javascripts/widgetMenu.js";
-        $jsFiles[] = "plugins/Widgetize/templates/widgetize.js";
+        $jsFiles[] = "plugins/Widgetize/javascripts/widgetize.js";
     }
 
     /**
@@ -66,9 +66,9 @@ class Piwik_Widgetize extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/CoreHome/templates/styles.css";
-        $cssFiles[] = "plugins/CoreHome/templates/datatable.css";
-        $cssFiles[] = "plugins/CoreHome/templates/cloud.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/corehome.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/datatable.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/cloud.css";
         $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.css";
     }
 }

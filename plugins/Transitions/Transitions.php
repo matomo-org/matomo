@@ -41,13 +41,13 @@ class Piwik_Transitions extends Piwik_Plugin
     public function getCssFiles($notification)
     {
         $cssFiles = & $notification->getNotificationObject();
-        $cssFiles[] = 'plugins/Transitions/templates/transitions.css';
+        $cssFiles[] = 'plugins/Transitions/stylesheets/transitions.css';
     }
 
     public function getJsFiles($notification)
     {
         $jsFiles = & $notification->getNotificationObject();
-        $jsFiles[] = 'plugins/Transitions/templates/transitions.js';
+        $jsFiles[] = 'plugins/Transitions/javascripts/transitions.js';
     }
 
     /**

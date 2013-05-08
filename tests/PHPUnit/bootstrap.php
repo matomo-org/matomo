@@ -71,7 +71,7 @@ Try again.
     } catch (Exception $e) {
         $fetched = "ERROR fetching: " . $e->getMessage();
     }
-    $expectedString = 'plugins/CoreHome/templates/images/favicon.ico';
+    $expectedString = 'plugins/CoreHome/images/favicon.ico';
 
     if (strpos($fetched, $expectedString) === false) {
         echo "\nPiwik should be running at: " . $piwikServerUrl

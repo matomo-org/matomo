@@ -23,7 +23,7 @@
 		<country>xx</country>
 		<country_name>Unknown</country_name>
 		<region_name>Unknown</region_name>
-		<logo>plugins/UserCountry/flags/xx.png</logo>
+		<logo>plugins/UserCountry/images/flags/xx.png</logo>
 	</row>
 	<row>
 		<label>Ashburn, Virginia, United States</label>
@@ -49,6 +49,6 @@
 		<country>us</country>
 		<country_name>United States</country_name>
 		<region_name>Virginia</region_name>
-		<logo>plugins/UserCountry/flags/us.png</logo>
+		<logo>plugins/UserCountry/images/flags/us.png</logo>
 	</row>
 </result>

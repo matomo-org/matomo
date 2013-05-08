@@ -92,18 +92,18 @@ class Piwik_SegmentEditor extends Piwik_Plugin
     public function getJsFiles($notification)
     {
         $jsFiles = & $notification->getNotificationObject();
-        $jsFiles[] = "plugins/SegmentEditor/templates/jquery.jscrollpane.js";
-        $jsFiles[] = "plugins/SegmentEditor/templates/Segmentation.js";
-        $jsFiles[] = "plugins/SegmentEditor/templates/jquery.mousewheel.js";
-        $jsFiles[] = "plugins/SegmentEditor/templates/mwheelIntent.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/jquery.jscrollpane.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/jquery.mousewheel.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/mwheelIntent.js";
     }
 
     public function getCssFiles($notification)
     {
         $cssFiles = & $notification->getNotificationObject();
-        $cssFiles[] = "plugins/SegmentEditor/templates/Segmentation.css";
-        $cssFiles[] = "plugins/SegmentEditor/templates/jquery.jscrollpane.css";
-        $cssFiles[] = "plugins/SegmentEditor/templates/scroll.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/segmentation.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/jquery.jscrollpane.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/scroll.css";
     }
 
 }
