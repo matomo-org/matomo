@@ -201,10 +201,10 @@
 })(jQuery);
 
 
-var pauseImage = "plugins/Live/templates/images/pause.gif";
-var pauseDisabledImage = "plugins/Live/templates/images/pause_disabled.gif";
-var playImage = "plugins/Live/templates/images/play.gif";
-var playDisabledImage = "plugins/Live/templates/images/play_disabled.gif";
+var pauseImage = "plugins/Live/images/pause.gif";
+var pauseDisabledImage = "plugins/Live/images/pause_disabled.gif";
+var playImage = "plugins/Live/images/play.gif";
+var playDisabledImage = "plugins/Live/images/play_disabled.gif";
 function onClickPause() {
     $('#pauseImage').attr('src', pauseImage);
     $('#playImage').attr('src', playDisabledImage);

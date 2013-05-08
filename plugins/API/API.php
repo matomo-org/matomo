@@ -485,7 +485,7 @@ class Piwik_API_API
      */
     public function getSVGLogoUrl($pathOnly = false)
     {
-        $logo = 'plugins/Zeitgeist/theme/images/logo.svg';
+        $logo = 'plugins/Zeitgeist/images/logo.svg';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo.svg')
         ) {

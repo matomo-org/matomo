@@ -27,7 +27,7 @@
             $('.slider-donate-amount', slider).text('$' + donateAmounts[pos] + '/' + _pk_translate('General_YearShort_js'));
 
             // set the right smiley face
-            $('.slider-smiley-face').attr('src', 'plugins/Zeitgeist/theme/images/smileyprog_' + pos + '.png');
+            $('.slider-smiley-face').attr('src', 'plugins/Zeitgeist/images/smileyprog_' + pos + '.png');
 
             // set the hidden option input for paypal
             var option = Math.max(1, pos);

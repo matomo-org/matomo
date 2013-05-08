@@ -32,7 +32,7 @@ input[type=checkbox], input[type=radio] {
 }
 
 .jqplot-seriespicker {
-	background: url(images/chart_line_edit_bg.png) no-repeat center center;
+	background: url(../images/chart_line_edit_bg.png) no-repeat center center;
 }
 
 .jqplock-seriespicker-popover p input {

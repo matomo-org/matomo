@@ -78,8 +78,8 @@ DataTable_RowActions_Registry.register({
 
     name: 'Transitions',
 
-    dataTableIcon: 'plugins/Transitions/templates/transitions_icon.png',
-    dataTableIconHover: 'plugins/Transitions/templates/transitions_icon_hover.png',
+    dataTableIcon: 'plugins/Transitions/images/transitions_icon.png',
+    dataTableIconHover: 'plugins/Transitions/images/transitions_icon_hover.png',
 
     order: 20,
 

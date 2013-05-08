@@ -87,7 +87,7 @@ a#Overlay_RowEvolution {
 }
 
 a#Overlay_Transitions {
-    background: url(../../Transitions/templates/transitions_icon_hover.png) no-repeat 0 6px;
+    background: url(../../Transitions/images/transitions_icon_hover.png) no-repeat 0 6px;
 }
 
 a#Overlay_FullScreen {
@@ -127,7 +127,7 @@ a#Overlay_Transitions:hover {
 }
 
 h2.Overlay_MainMetrics {
-    background: url(./info.png) 0 1px no-repeat
+    background: url(../images/info.png) 0 1px no-repeat
 }
 
 body .ui-tooltip.Overlay_Tooltip {

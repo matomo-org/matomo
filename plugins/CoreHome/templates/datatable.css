@@ -152,11 +152,11 @@ table.dataTable td.columnodd {
 }
 
 table.dataTable td.labeleven {
-    background: #F9FAFA url(images/bullet2.gif) no-repeat;
+    background: #F9FAFA url(../images/bullet2.gif) no-repeat;
 }
 
 table.dataTable td.labelodd {
-    background: #fff url(images/bullet1.gif) no-repeat;
+    background: #fff url(../images/bullet1.gif) no-repeat;
 }
 
 .dataTable tr.highlight td {

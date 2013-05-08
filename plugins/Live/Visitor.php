@@ -215,7 +215,7 @@ class Piwik_Live_Visitor
         if ($type == 'returning'
             || $type == 'returningCustomer'
         ) {
-            return "plugins/Live/templates/images/returningVisitor.gif";
+            return "plugins/Live/images/returningVisitor.gif";
         }
         return null;
     }

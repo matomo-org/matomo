@@ -117,7 +117,7 @@ a {
     margin-right:12px;
     z-index:999;
     position:absolute;
-    background: url("images/icon-calendar.gif") no-repeat scroll right 9px center #F7F7F7;
+    background: url("../images/icon-calendar.gif") no-repeat scroll right 9px center #F7F7F7;
 }
 #periodString:hover {
 	background-color:#f1f0eb;
@@ -205,7 +205,7 @@ a {
 }
 /* Orange alerts box */
 .header_alert {
-	background:#FFFDF7 url(images/ico_alert.png) no-repeat 7px 4px;
+	background:#FFFDF7 url(../images/ico_alert.png) no-repeat 7px 4px;
 	border: 1px solid #FF7F00 ;	
 	font-weight:bold;
 }
@@ -215,7 +215,7 @@ a {
 
 /* Blue info box */
 .header_info {
-	background:#FAFAFA url(images/ico_info.png) no-repeat 7px 4px;
+	background:#FAFAFA url(../images/ico_info.png) no-repeat 7px 4px;
 	border: 1px solid #CBD9EB ;	
 }
 .header_info , .header_info  a { 
@@ -261,7 +261,7 @@ a {
 	position:relative; 
 	z-index:19;
 	padding:6px 6px 5px 6px;
-	background:#fff url(images/sites_selection.png) repeat-x 0 0;
+	background:#fff url(../images/sites_selection.png) repeat-x 0 0;
 	border: 1px solid #d4d4d4;	
 	color:#255792;
 	border-radius:4px;
@@ -274,7 +274,7 @@ a {
 	padding:0 20px 0 4px;
 	display:block; 
 	text-decoration:none; 
-	background: url(images/sort_subtable_desc.png) no-repeat right 0;
+	background: url(../images/sort_subtable_desc.png) no-repeat right 0;
 }
 
 .sites_autocomplete .custom_select_main_link.noselect{
@@ -285,7 +285,7 @@ a {
 }
 
 .sites_autocomplete .custom_select_loading{
-	background: url(images/loading-blue.gif) no-repeat right 3px;
+	background: url(../images/loading-blue.gif) no-repeat right 3px;
 }
 
 .sites_autocomplete .custom_select_ul_list,.sites_autocomplete ul.ui-autocomplete{
@@ -315,7 +315,7 @@ a {
 	height:26px;
 	display: block;
 	white-space: nowrap;
-	background:  url(images/search_bg.png) no-repeat 0 0;
+	background:  url(../images/search_bg.png) no-repeat 0 0;
 }
 
 .sites_autocomplete .custom_select_search .inp {
@@ -486,7 +486,7 @@ div.ui-state-highlight {
 }
 
 .ui-datepicker-header{ 
-	background:#847b6d url(images/dashboard_h_bg_hover.png) repeat-x 0 0!important;
+	background:#847b6d url(../images/dashboard_h_bg_hover.png) repeat-x 0 0!important;
 	color:#fff!important;
 	border-radius:0!important;
 	-moz-border-radius:0!important;
@@ -497,11 +497,11 @@ div.ui-state-highlight {
 }
 
 .ui-datepicker-header .ui-icon-circle-triangle-w{ 
-	background: url(images/datepicker_arr_l.png) no-repeat 5px 4px!important;
+	background: url(../images/datepicker_arr_l.png) no-repeat 5px 4px!important;
 }
 
 .ui-datepicker-header .ui-icon-circle-triangle-e{ 
-	background: url(images/datepicker_arr_r.png) no-repeat 6px 4px!important;
+	background: url(../images/datepicker_arr_r.png) no-repeat 6px 4px!important;
 }
 
 .ui-datepicker .ui-datepicker-next-hover, 
@@ -591,7 +591,7 @@ input, select, textarea {
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	border:1px solid #d4d4d4;
-	background:#fff url(images/inp_bg.png) repeat-x 0 0;
+	background:#fff url(../images/inp_bg.png) repeat-x 0 0;
 	padding:3px 10px;
 	color:#255792;
 	margin-bottom:3px;
@@ -616,7 +616,7 @@ select {
 	-moz-border-radius:4px;
 	-webkit-border-radius:4px;
 	border:0;
-	background:#847b6d url(images/dashboard_h_bg_hover.png) repeat-x 0 0;
+	background:#847b6d url(../images/dashboard_h_bg_hover.png) repeat-x 0 0;
 	float:right; 
 	margin:12px 0 10px 0;
 	cursor:pointer;
@@ -706,7 +706,7 @@ table.entityTable tr td a {
 	padding:4px 0;
 }
 .entityList ul li{
-	background:#fff url(images/li_dbl_gray.gif) no-repeat 6px 10px;
+	background:#fff url(../images/li_dbl_gray.gif) no-repeat 6px 10px;
 	padding:0 0 0 21px;
 	line-height:22px;
 }
@@ -787,7 +787,7 @@ body .ui-tooltip.small {
 	margin: -8px 0 0 0;
 	padding: 0;
 	height: 16px;
-	background: url(images/help.png);
+	background: url(../images/help.png);
 	overflow: hidden;
 }
 

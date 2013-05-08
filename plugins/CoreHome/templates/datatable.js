@@ -432,7 +432,7 @@ dataTable.prototype =
                 if (currentPattern) {
                     var target = this;
                     var clearImg = $('<span style="position: relative;">\
-							<img src="plugins/CoreHome/templates/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear" />\
+							<img src="plugins/CoreHome/images/reset_search.png" style="position: absolute; top: 4px; left: -15px; cursor: pointer; display: inline;" title="Clear" />\
 							</span>')
                         .click(function () {
                             $('#keyword', target).val('');

@@ -6,7 +6,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>0</visitConverted>
 		<visitConvertedIcon />
 		<visitEcommerceStatus>abandonedCart</visitEcommerceStatus>
@@ -160,7 +160,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -213,7 +213,7 @@
 		<visitIp>156.5.3.2</visitIp>
 		
 		<visitorType>returning</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
 		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>orderedThenAbandonedCart</visitEcommerceStatus>
@@ -486,7 +486,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -694,7 +694,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
