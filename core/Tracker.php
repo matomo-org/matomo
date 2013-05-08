@@ -789,8 +789,8 @@ function Piwik_Tracker_ExitWithException($e, $authenticated = false)
 
     if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
         $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
-        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/Zeitgeist/templates/simple_structure_header.tpl');
-        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/Zeitgeist/templates/simple_structure_footer.tpl');
+        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simple_structure_header.tpl');
+        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simple_structure_footer.tpl');
         $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
 
         echo $headerPage . '<p>' . Piwik_Tracker_GetErrorMessage($e) . '</p>' . $trailer . $footerPage;
