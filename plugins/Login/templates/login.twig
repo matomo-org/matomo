@@ -7,7 +7,7 @@
     <title>{% if isCustomLogo == false %}Piwik &rsaquo; {% endif %}{{ 'Login_LogIn'|translate }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/Login/stylesheets/login.css"/>
     <meta name="description" content="{{ 'General_OpenSourceWebAnalytics'|translate }}" />
     <!--[if lt IE 9]>
     <script src="libs/html5shiv/html5shiv.js"></script>
@@ -29,9 +29,9 @@
             $('input').placeholder();
         });
     </script>
-    <script type="text/javascript" src="plugins/Login/templates/login.js"></script>
+    <script type="text/javascript" src="plugins/Login/javascripts/login.js"></script>
     {% if 'General_LayoutDirection'|translate =='rtl' %}
-    <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/theme/rtl.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
     {% endif %}
     {% include "@CoreHome/iframe_buster_header.twig" %}
 </head>

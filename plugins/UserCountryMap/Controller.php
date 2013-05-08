@@ -80,7 +80,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
                                                          ));
         $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
-        $config['mapCssPath'] = 'plugins/UserCountryMap/css/map.css';
+        $config['mapCssPath'] = 'plugins/UserCountryMap/stylesheets/map.css';
         $view->config = Piwik_Common::json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
 

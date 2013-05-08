@@ -32,7 +32,7 @@ h3 {
 }
 
 .page {
-    background: url(../../../plugins/Zeitgeist/images/page_border_grad.png) no-repeat 0 20px;
+    background: url(../../Zeitgeist/images/page_border_grad.png) no-repeat 0 20px;
     min-height: 10px;
 
 }
@@ -41,7 +41,7 @@ h3 {
     padding: 15px 15px 0 15px;
     min-height: 10px;
     position: relative;
-    background: url(../../../plugins/Zeitgeist/images/page_border_grad.png) no-repeat right 20px;
+    background: url(../../Zeitgeist/images/page_border_grad.png) no-repeat right 20px;
 
 }
 
@@ -166,7 +166,7 @@ div.pk-emptyGraph {
     line-height: 20px;
     font-weight: normal;
     text-align: center;
-    background: url(../../../plugins/Zeitgeist/images/loading-blue.gif) no-repeat center 20px;
+    background: url(../../Zeitgeist/images/loading-blue.gif) no-repeat center 20px;
 }
 
 .Piwik_Popover_Loading_NameWithSubject {

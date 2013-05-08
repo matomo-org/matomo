@@ -109,7 +109,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
     {
         $jsFiles = & $notification->getNotificationObject();
 
-        $jsFiles[] = "plugins/MobileMessaging/scripts/MobileMessagingSettings.js";
+        $jsFiles[] = "plugins/MobileMessaging/javascripts/MobileMessagingSettings.js";
     }
 
     /**

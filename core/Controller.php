@@ -718,7 +718,7 @@ abstract class Piwik_Controller
      */
     protected function getDefaultDate()
     {
-        // NOTE: a change in this function might mean a change in plugins/UsersManager/templates/userSettings.js as well
+        // NOTE: a change in this function might mean a change in plugins/UsersManager/javascripts/usersSettings.js as well
         $userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
         if ($userSettingsDate == 'yesterday') {
             return $userSettingsDate;

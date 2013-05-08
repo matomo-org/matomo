@@ -248,7 +248,7 @@ class Piwik_Dashboard extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/CoreHome/templates/datatable.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/datatable.css";
         $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.css";
     }
 

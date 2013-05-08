@@ -95,6 +95,6 @@ class Piwik_Installation extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/Installation/templates/systemCheckPage.css";
+        $cssFiles[] = "plugins/Installation/stylesheets/systemCheckPage.css";
     }
 }

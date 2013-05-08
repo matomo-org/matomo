@@ -78,7 +78,7 @@ var broadcast = {
      * 2. after calling $.history.load();  //look at broadcast.changeParameter();
      * 3. after pushing "Go Back" button of a browser
      *
-     * * Note: the method is manipulated in Overlay/templates/index.js - keep this in mind when making changes.
+     * * Note: the method is manipulated in Overlay/javascripts/Piwik_Overlay.js - keep this in mind when making changes.
      *
      * @param {string}  hash to load page with
      * @return {void}
@@ -372,7 +372,7 @@ var broadcast = {
     /**
      * Loads the given url with ajax and replaces the content
      *
-     * Note: the method is replaced in Overlay/templates/index.js - keep this in mind when making changes.
+     * Note: the method is replaced in Overlay/javascripts/Piwik_Overlay.js - keep this in mind when making changes.
      *
      * @param {string} urlAjax  url to load
      * @return {Boolean}

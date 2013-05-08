@@ -109,7 +109,7 @@ class Piwik_PDFReports extends Piwik_Plugin
     function getJsFiles($notification)
     {
         $jsFiles = & $notification->getNotificationObject();
-        $jsFiles[] = "plugins/PDFReports/templates/pdf.js";
+        $jsFiles[] = "plugins/PDFReports/javascripts/pdf.js";
     }
 
     /**

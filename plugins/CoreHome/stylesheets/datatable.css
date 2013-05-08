@@ -285,7 +285,7 @@ table thead div {
     height: 30px;
     display: block !important;
     white-space: nowrap;
-    background: url(../../../plugins/Zeitgeist/images/search_bg.png) no-repeat center 0;
+    background: url(../../Zeitgeist/images/search_bg.png) no-repeat center 0;
     text-align: center;
 }
 
@@ -547,7 +547,7 @@ table.dataTable th .columnDocumentation {
 }
 
 table.dataTable th .columnDocumentationTitle {
-    background: url(../../../plugins/Zeitgeist/images/help.png) no-repeat;
+    background: url(../../Zeitgeist/images/help.png) no-repeat;
     line-height: 14px;
     padding: 2px 0 3px 21px;
     font-weight: bold;
@@ -579,14 +579,14 @@ table.dataTable th .columnDocumentationTitle {
     width: 16px;
     height: 16px;
     margin: 10px 0;
-    background: url(../../../plugins/Zeitgeist/images/help.png) no-repeat;
+    background: url(../../Zeitgeist/images/help.png) no-repeat;
 }
 
 h2 .reportDocumentationIcon {
     position: absolute;
     margin: 4px 0 0 0;
     display: none;
-    background: url(../../../plugins/Zeitgeist/images/help_grey.png) no-repeat;
+    background: url(../../Zeitgeist/images/help_grey.png) no-repeat;
 }
 
 h2 .reportDocumentationIcon.hidden {
@@ -658,7 +658,7 @@ body .ui-tooltip.rowActionTooltip {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    background: url(../../../plugins/Zeitgeist/images/sort_subtable_desc_light.png) no-repeat right 2px;
+    background: url(../../Zeitgeist/images/sort_subtable_desc_light.png) no-repeat right 2px;
     padding: 0 14px 0 4px;
     display: block;
     width: 24px;
@@ -676,7 +676,7 @@ body .ui-tooltip.rowActionTooltip {
     border-radius: 0 0 4px 4px;
     -moz-border-radius: 0 0 4px 4px;
     -webkit-border-radius: 0 0 4px 4px;
-    background-image: url(../../../plugins/Zeitgeist/images/sort_subtable_asc_light.png)
+    background-image: url(../../Zeitgeist/images/sort_subtable_asc_light.png)
 }
 
 .limitSelection ul {
@@ -728,7 +728,7 @@ a.tableConfigurationIcon {
     display: block;
     width: 30px;
     height: 22px;
-    background: url(../../../plugins/Zeitgeist/images/configure.png) no-repeat center 2px;
+    background: url(../../Zeitgeist/images/configure.png) no-repeat center 2px;
     position: absolute;
     z-index: 9;
     right: 0;
@@ -738,7 +738,7 @@ a.tableConfigurationIcon.highlighted {
     display: block;
     width: 30px;
     height: 22px;
-    background-image: url(../../../plugins/Zeitgeist/images/configure-highlight.png);
+    background-image: url(../../Zeitgeist/images/configure-highlight.png);
     position: absolute;
     z-index: 9;
     right: 0;

@@ -42,7 +42,7 @@ class Piwik_Live extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/Live/templates/live.css";
+        $cssFiles[] = "plugins/Live/stylesheets/live.css";
     }
 
     /**
@@ -52,7 +52,7 @@ class Piwik_Live extends Piwik_Plugin
     {
         $jsFiles = & $notification->getNotificationObject();
 
-        $jsFiles[] = "plugins/Live/templates/scripts/live.js";
+        $jsFiles[] = "plugins/Live/javascripts/live.js";
     }
 
     function addMenu()

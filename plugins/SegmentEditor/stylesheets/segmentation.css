@@ -329,7 +329,7 @@ div.scrollable {
 }
 .segment-element .segment-top a.dropdown {
   padding: 0 17px 0 0;
-  background: url(../../../plugins/Zeitgeist/images/sort_subtable_desc.png) 100% -2px no-repeat;
+  background: url(../../Zeitgeist/images/sort_subtable_desc.png) 100% -2px no-repeat;
 }
 .segment-element .segment-footer {
   background: #eae8e3;
@@ -453,7 +453,7 @@ div.scrollable {
   cursor: pointer;
 }
 span.segmentationTitle {
-  background: url(../../../plugins/Zeitgeist/images/sort_subtable_desc.png) right center no-repeat !important;
+  background: url(../../Zeitgeist/images/sort_subtable_desc.png) right center no-repeat !important;
   padding-right: 20px !important;
   width: 160px !important;
   display: block !important;
@@ -490,7 +490,7 @@ body > a.ddmetric {
   padding-right: 18px;
 }
 .hovered {
-  border-color: #a0a0a0!Important;
+  border-color: #a0a0a0 !important;
 }
 a.metric_category {
   display: block;
@@ -504,7 +504,7 @@ a.metric_category {
   position: relative;
 }
 .no_results a {
-  cursor: normal;
+  cursor: default;
 }
 .ui-widget-segmentation {
   border: 1px solid #D4D4D4 !important;
@@ -521,7 +521,7 @@ a.metric_category {
 }
 
 #available_segments a.dropdown {
-    background: url("../../../plugins/Zeitgeist/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
+    background: url("../../Zeitgeist/images/sort_subtable_desc.png") no-repeat scroll 100% -2px transparent !important;
     padding: 0 17px 0 0 !important;
 }
 .notification{

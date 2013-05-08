@@ -63,7 +63,7 @@ class Piwik_API extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/API/css/styles.css";
+        $cssFiles[] = "plugins/API/stylesheets/listAllAPI.css";
     }
 }
 
