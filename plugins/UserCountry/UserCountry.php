@@ -78,7 +78,7 @@ class Piwik_UserCountry extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/UserCountry/templates/styles.css";
+        $cssFiles[] = "plugins/UserCountry/stylesheets/userCountry.css";
     }
 
     /**
@@ -88,7 +88,7 @@ class Piwik_UserCountry extends Piwik_Plugin
     {
         $jsFiles = & $notification->getNotificationObject();
 
-        $jsFiles[] = "plugins/UserCountry/templates/admin.js";
+        $jsFiles[] = "plugins/UserCountry/javascripts/userCountry.js";
     }
 
     /**

@@ -114,7 +114,7 @@ class Piwik_Twig
     private function getDefaultThemeLoader()
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
-            sprintf("%s/plugins/%s/theme/", PIWIK_INCLUDE_PATH, self::DEFAULT_THEME)
+            sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, self::DEFAULT_THEME)
         ));
 
         return $themeLoader;

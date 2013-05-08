@@ -53,7 +53,7 @@ class Piwik_Annotations extends Piwik_Plugin
     function getCssFiles($notification)
     {
         $cssFiles = & $notification->getNotificationObject();
-        $cssFiles[] = "plugins/Annotations/templates/styles.css";
+        $cssFiles[] = "plugins/Annotations/stylesheets/annotations.css";
     }
 
     /**
@@ -64,6 +64,6 @@ class Piwik_Annotations extends Piwik_Plugin
     function getJsFiles($notification)
     {
         $jsFiles = & $notification->getNotificationObject();
-        $jsFiles[] = "plugins/Annotations/templates/annotations.js";
+        $jsFiles[] = "plugins/Annotations/javascripts/annotations.js";
     }
 }

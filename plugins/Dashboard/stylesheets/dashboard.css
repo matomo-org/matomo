@@ -78,7 +78,7 @@
 .widgetContent.loading {
     opacity: 0.5;
     filter: Alpha(opacity:50);
-    background: url(../../../themes/default/images/loading-blue.gif) no-repeat top right;
+    background: url(../../../plugins/Zeitgeist/images/loading-blue.gif) no-repeat top right;
 }
 
 .widget h2 {
@@ -88,7 +88,7 @@
 }
 
 .widgetTop {
-    background: #b5b0a7 url(../../../themes/default/images/dashboard_h_bg.png) repeat-x 0 0;
+    background: #b5b0a7 url(../../../plugins/Zeitgeist/images/dashboard_h_bg.png) repeat-x 0 0;
     border-radius: 4px 4px 0 0;
     -moz-border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
@@ -100,7 +100,7 @@
 }
 
 .widgetTopHover {
-    background: #B0A798 url(../../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0;
+    background: #B0A798 url(../../../plugins/Zeitgeist/images/dashboard_h_bg_hover.png) repeat-x 0 0;
 }
 
 .widgetName {
@@ -153,7 +153,7 @@
 }
 
 .ui-dialog-buttonset input[type=button], .ui-dialog-buttonset button{
-    background: #B5B0A7 url(../../../themes/default/images/dashboard_h_bg_hover.png) repeat-x 0 0 !important;
+    background: #B5B0A7 url(../../../plugins/Zeitgeist/images/dashboard_h_bg_hover.png) repeat-x 0 0 !important;
     color: #fff !important;
     border: 0 !important;
     font-size: 12px !important;
@@ -223,7 +223,7 @@
 }
 
 #dashboardSettings > span {
-    background: url(../../../themes/default/images/sort_subtable_desc.png) right center no-repeat;
+    background: url(../../../plugins/Zeitgeist/images/sort_subtable_desc.png) right center no-repeat;
     padding-right: 20px;
     display: block;
 }
@@ -360,7 +360,7 @@ ul.widgetpreview-widgetlist li {
 }
 
 .widgetpreview-base li.widgetpreview-choosen {
-    background: #e4e2d7 url(../../../themes/default/images/arr_r.png) no-repeat right 6px;
+    background: #e4e2d7 url(../../../plugins/Zeitgeist/images/arr_r.png) no-repeat right 6px;
     color: #255792;
     font-weight: bold;
 }

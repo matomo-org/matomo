@@ -63,10 +63,10 @@
 				&verifyLinksAndImages;
 
 				<not description="check if system check passed">
-					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error.png']" />
+					<verifyXPath description="looking for error image" xpath="//img[@src='plugins/Zeitgeist/images/error.png']" />
 				</not>
 
-				<verifyXPath description="looking for ok image" xpath="//img[@src='themes/default/images/ok.png']" />
+				<verifyXPath description="looking for ok image" xpath="//img[@src='plugins/Zeitgeist/images/ok.png']" />
 
 				<clickLink description="click 'Next'" label="Next &raquo;" />
 
@@ -102,17 +102,17 @@
 				<!-- 5. tablesCreation -->
 
 				<not description="check if no error">
-					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
+					<verifyXPath description="looking for error image" xpath="//img[@src='plugins/Zeitgeist/images/error_medium.png']" />
 				</not>
 
 				<not description="check if no warning">
-					<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']" />
+					<verifyXPath description="looking for warning image" xpath="//img[@src='plugins/Zeitgeist/images/warning_medium.png']" />
 				</not>
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
 				<verifyText description="check page text" text="Piwik" />
 				<verifyText description="check page text" text="Tables created with success!" />
-				<verifyXPath description="looking for success image" xpath="//img[@src='themes/default/images/success_medium.png']" />
+				<verifyXPath description="looking for success image" xpath="//img[@src='plugins/Zeitgeist/images/success_medium.png']" />
 
 				&checkForErrors;
 				&verifyLinksAndImages;
@@ -138,11 +138,11 @@
 				<!-- 7. firstWebsiteSetup -->
 
 				<not description="check if no error">
-					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
+					<verifyXPath description="looking for error image" xpath="//img[@src='plugins/Zeitgeist/images/error_medium.png']" />
 				</not>
 
 				<not description="check if no warning">
-					<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']" />
+					<verifyXPath description="looking for warning image" xpath="//img[@src='plugins/Zeitgeist/images/warning_medium.png']" />
 				</not>
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />
@@ -161,11 +161,11 @@
 				<!-- 8. displayJavascriptCode -->
 
 				<not description="check if no error">
-					<verifyXPath description="looking for error image" xpath="//img[@src='themes/default/images/error_medium.png']" />
+					<verifyXPath description="looking for error image" xpath="//img[@src='plugins/Zeitgeist/images/error_medium.png']" />
 				</not>
 
 				<not description="check if no warning">
-					<verifyXPath description="looking for warning image" xpath="//img[@src='themes/default/images/warning_medium.png']" />
+					<verifyXPath description="looking for warning image" xpath="//img[@src='plugins/Zeitgeist/images/warning_medium.png']" />
 				</not>
 
 				<verifyTitle description="check the title is parsed correctly" text="Piwik &rsaquo; Installation" />

@@ -10,7 +10,7 @@
         {if isset($ecommerce)}
             <strong>{$nb_conversions}</strong>
             {'General_EcommerceOrders'|translate}
-            <img src='themes/default/images/ecommerceOrder.gif'>
+            <img src='plugins/Zeitgeist/images/ecommerceOrder.gif'>
         {% else %}
             {{ 'Goals_Conversions'|translate("<strong>"+nb_conversions+"</strong>")|raw }}
         {% endif %}
@@ -54,7 +54,7 @@
 {% if ecommerce is defined %}
     <div id='rightcolumn' {% if not isWidget %}style='width:30%'{% endif %}>
         <div>
-            <img src='plugins/Zeitgeist/theme/images/ecommerceAbandonedCart.gif'> <i>{{ 'General_AbandonedCarts'|translate }}</i>
+            <img src='plugins/Zeitgeist/images/ecommerceAbandonedCart.gif'> <i>{{ 'General_AbandonedCarts'|translate }}</i>
         </div>
 
         <div class="sparkline">

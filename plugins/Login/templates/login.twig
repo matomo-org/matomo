@@ -6,8 +6,8 @@
 <head>
     <title>{% if isCustomLogo == false %}Piwik &rsaquo; {% endif %}{{ 'Login_LogIn'|translate }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="shortcut icon" href="plugins/CoreHome/templates/images/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="plugins/Login/templates/login.css"/>
+    <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="plugins/Login/stylesheets/login.css"/>
     <meta name="description" content="{{ 'General_OpenSourceWebAnalytics'|translate }}" />
     <!--[if lt IE 9]>
     <script src="libs/html5shiv/html5shiv.js"></script>
@@ -29,9 +29,9 @@
             $('input').placeholder();
         });
     </script>
-    <script type="text/javascript" src="plugins/Login/templates/login.js"></script>
+    <script type="text/javascript" src="plugins/Login/javascripts/login.js"></script>
     {% if 'General_LayoutDirection'|translate =='rtl' %}
-    <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/theme/rtl.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
     {% endif %}
     {% include "@CoreHome/iframe_buster_header.twig" %}
 </head>
@@ -69,7 +69,7 @@
 
             <br><br>{{ invalidHostMessageHowToFix }}
             <br/><br/><a style="float:right" href="http://piwik.org/faq/troubleshooting/#faq_171" target="_blank">{{ 'General_Help'|translate }}
-                <img style='vertical-align: bottom' src="plugins/Zeitgeist/theme/images/help_grey.png"/></a><br/>
+                <img style='vertical-align: bottom' src="plugins/Zeitgeist/images/help_grey.png"/></a><br/>
         </div>
     {% else %}
         <div id="message_container">
@@ -120,7 +120,7 @@
             </fieldset>
 
             <fieldset class="actions">
-                <span class="loadingPiwik" style="display:none;"><img alt="Loading" src="plugins/Zeitgeist/theme/images/loading-blue.gif"/></span>
+                <span class="loadingPiwik" style="display:none;"><img alt="Loading" src="plugins/Zeitgeist/images/loading-blue.gif"/></span>
                 <input class="submit" id='reset_form_submit' type="submit" value="{{ 'Login_ChangePassword'|translate }}" tabindex="100"/>
             </fieldset>
 

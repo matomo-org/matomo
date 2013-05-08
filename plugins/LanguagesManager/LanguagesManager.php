@@ -45,7 +45,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "themes/default/styles.css";
+        $cssFiles[] = "plugins/Zeitgeist/stylesheets/styles.css";
     }
 
     /**
@@ -55,7 +55,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
     {
         $jsFiles = & $notification->getNotificationObject();
 
-        $jsFiles[] = "plugins/LanguagesManager/templates/languageSelector.js";
+        $jsFiles[] = "plugins/LanguagesManager/javascripts/languageSelector.js";
     }
 
     /**
@@ -68,7 +68,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
     /**
      * Adds the languages drop-down list to topbars other than the main one rendered
-     * in CoreHome/templates/top_bar.tpl. The 'other' topbars are on the Installation
+     * in CoreHome/templates/top_bar.twig. The 'other' topbars are on the Installation
      * and CoreUpdater screens.
      *
      * @param Piwik_Event_Notification $notification notification object
@@ -78,7 +78,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
         $str =& $notification->getNotificationObject();
         // piwik object & scripts aren't loaded in 'other' topbars
         $str .= "<script type='text/javascript'>if (!window.piwik) window.piwik={};</script>";
-        $str .= "<script type='text/javascript' src='plugins/LanguagesManager/templates/languageSelector.js'></script>";
+        $str .= "<script type='text/javascript' src='plugins/LanguagesManager/javascripts/languageSelector.js'></script>";
         $str .= $this->getLanguagesSelector();
     }
 

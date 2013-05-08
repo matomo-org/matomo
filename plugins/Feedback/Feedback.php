@@ -53,7 +53,7 @@ class Piwik_Feedback extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/Feedback/templates/styles.css";
+        $cssFiles[] = "plugins/Feedback/stylesheets/feedback.css";
     }
 
     /**
@@ -63,7 +63,7 @@ class Piwik_Feedback extends Piwik_Plugin
     {
         $jsFiles = & $notification->getNotificationObject();
 
-        $jsFiles[] = "plugins/Feedback/templates/feedback.js";
+        $jsFiles[] = "plugins/Feedback/javascripts/feedback.js";
     }
 
 }

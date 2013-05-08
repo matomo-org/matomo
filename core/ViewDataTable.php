@@ -46,7 +46,7 @@ abstract class Piwik_ViewDataTable
      * Template file that will be loaded for this view.
      * Usually set in the Piwik_ViewDataTable_*
      *
-     * @var string eg. 'CoreHome/templates/cloud.tpl'
+     * @var string eg. 'CoreHome/templates/cloud.twig'
      */
     protected $dataTableTemplate = null;
 

@@ -46,7 +46,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
         $countries = array_merge($GLOBALS['Piwik_CountryList'], $GLOBALS['Piwik_CountryList_Extras']);
 
         // Get list of existing flag icons
-        $flags = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/UserCountry/flags/');
+        $flags = scandir(PIWIK_PATH_TEST_TO_ROOT . '/plugins/UserCountry/images/flags/');
 
         // Get list of countries
         foreach ($countries as $country => $continent) {

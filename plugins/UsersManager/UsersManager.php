@@ -101,8 +101,8 @@ class Piwik_UsersManager extends Piwik_Plugin
     {
         $jsFiles = & $notification->getNotificationObject();
 
-        $jsFiles[] = "plugins/UsersManager/templates/UsersManager.js";
-        $jsFiles[] = "plugins/UsersManager/templates/userSettings.js";
+        $jsFiles[] = "plugins/UsersManager/javascripts/usersManager.js";
+        $jsFiles[] = "plugins/UsersManager/javascripts/usersSettings.js";
     }
 
     /**
