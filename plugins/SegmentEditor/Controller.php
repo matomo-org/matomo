@@ -34,9 +34,12 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
 
         $view->segmentsByCategory = $segmentsByCategory;
 
-
         $savedSegments = Piwik_SegmentEditor_API::getInstance()->getAll($idSite);
+        foreach($savedSegments as &$savedSegment) {
+            $savedSegment['definition'] = str_replace( '&#039;', "'", $savedSegment['definition']);
+        }
         $view->savedSegmentsJson = Piwik_Common::json_encode($savedSegments);
+        $view->authorizedToCreateSegments = !Piwik::isUserIsAnonymous();
 
         $out = $view->render();
         echo $out;

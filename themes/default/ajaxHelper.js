@@ -118,18 +118,12 @@ function ajaxHelper() {
      * @return {void}
      */
     this.addParams = function (params, type) {
-        switch (type.toLowerCase()) {
-
-            case 'get':
-                for (var key in params) {
-                    this.getParams[key] = params[key];
-                }
-                break;
-            case 'post':
-                for (var key in params) {
-                    this.postParams[key] = params[key];
-                }
-                break;
+        for (var key in params) {
+            if(type.toLowerCase() == 'get') {
+                this.getParams[key] = params[key];
+            } else if(type.toLowerCase() == 'post') {
+                this.postParams[key] = params[key];
+            }
         }
     };
     

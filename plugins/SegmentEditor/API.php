@@ -31,12 +31,19 @@ class Piwik_SegmentEditor_API
 
     protected function checkSegmentValue($definition, $idSite)
     {
+        // unsanitize so we don't record the HTML entitied segment
+        $definition = Piwik_Common::unsanitizeInputValue($definition);
+        $definition = str_replace("#", '%23', $definition); // hash delimiter
+        $definition = str_replace("'", '%27', $definition); // not encoded in JS
+        $definition = str_replace("&", '%26', $definition);
+
         try {
             $segment = new Piwik_Segment($definition, $idSite);
             $segment->getHash();
         } catch (Exception $e) {
             throw new Exception("The specified segment is invalid: " . $e->getMessage());
         }
+        return $definition;
     }
 
     protected function checkSegmentName($name)
@@ -106,7 +113,7 @@ class Piwik_SegmentEditor_API
     {
         $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
-        $this->checkSegmentValue($definition, $idSite);
+        $definition = $this->checkSegmentValue($definition, $idSite);
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
 
@@ -134,7 +141,7 @@ class Piwik_SegmentEditor_API
         Piwik::checkUserIsNotAnonymous();
         $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
-        $this->checkSegmentValue($definition, $idSite);
+        $definition = $this->checkSegmentValue($definition, $idSite);
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
 

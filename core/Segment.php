@@ -23,17 +23,34 @@ class Piwik_Segment
     /**
      * Truncate the Segments to 4k
      */
-    const SEGMENT_TRUNCATE_LIMIT = 4096;
+    const SEGMENT_TRUNCATE_LIMIT = 8192;
 
     public function __construct($string, $idSites)
     {
-        $string = Piwik_Common::unsanitizeInputValue($string);
         $string = trim($string);
         if (!Piwik_Archive::isSegmentationEnabled()
             && !empty($string)
         ) {
             throw new Exception("The Super User has disabled the Segmentation feature.");
         }
+
+        // First try with url decoded value. If that fails, try with raw value.
+        // If that also fails, it will throw the exception
+        try {
+            $this->initializeSegment($string, $idSites);
+        } catch(Exception $e) {
+            $this->initializeSegment( urldecode($string), $idSites);
+        }
+    }
+
+    /**
+     * @param $string
+     * @param $idSites
+     * @throws Exception
+     */
+    protected function initializeSegment($string, $idSites)
+    {
+        $string = Piwik_Common::unsanitizeInputValue($string);
         // As a preventive measure, we restrict the filter size to a safe limit
         $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
 
@@ -127,7 +144,9 @@ class Piwik_Segment
         if (empty($this->string)) {
             return '';
         }
-        return md5($this->string);
+        // normalize the string as browsers may send slightly different payloads for the same archive
+        $normalizedSegmentString = urldecode($this->string);
+        return md5($normalizedSegmentString);
     }
 
 

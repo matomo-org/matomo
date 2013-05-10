@@ -61,9 +61,11 @@ class Piwik_API_Request
 
             $request = trim($request);
             $request = str_replace(array("\n", "\t"), '', $request);
-            parse_str($request, $requestArray);
 
-            $requestArray = $requestArray + $defaultRequest;
+            $requestParsed = Piwik_Common::getArrayFromQueryString($request);
+
+//            parse_str($request, $requestArray);
+            $requestArray = $requestParsed + $defaultRequest;
         }
 
         foreach ($requestArray as &$element) {

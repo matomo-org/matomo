@@ -307,10 +307,13 @@ var broadcast = {
         if (paramValue == '') {
             newParamValue = '';
         }
+        var getQuotedRegex = function(str) {
+            return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+        };
+
         if (valFromUrl != '') {
             // replacing current param=value to newParamValue;
-            valFromUrl = valFromUrl.replace(/\$/g, '\\$');
-            valFromUrl = valFromUrl.replace(/\./g, '\\.');
+            valFromUrl = getQuotedRegex(valFromUrl);
             var regToBeReplace = new RegExp(paramName + '=' + valFromUrl, 'ig');
             if (newParamValue == '') {
                 // if new value is empty remove leading &, aswell
@@ -459,7 +462,7 @@ var broadcast = {
             hashStr = url.substring(url.indexOf("#"), url.length);
         }
         else {
-            hashStr = decodeURIComponent(location.hash);
+            hashStr = (location.hash);
         }
 
         return hashStr;
@@ -485,25 +488,34 @@ var broadcast = {
     },
 
     /**
+     * Extracts from a query strings, the request array
+     * @param queryString
+     * @returns {object}
+     */
+    extractKeyValuePairsFromQueryString: function (queryString) {
+        var pairs = queryString.split('&');
+        var result = {};
+        for (var i = 0; i != pairs.length; ++i) {
+            // attn: split with regex has bugs in several browsers such as IE 8
+            // so we need to split, use the first part as key and rejoin the rest
+            var pair = pairs[i].split('=');
+            var key = pair.shift();
+            result[key] = pair.join('=');
+        }
+        return result;
+    },
+
+    /**
      * Returns all key-value pairs in query string of url.
      *
      * @param {string} url url to check. if undefined, null or empty, current url is used.
      * @return {object} key value pair describing query string parameters
      */
     getValuesFromUrl: function (url) {
-        var searchString = this._removeHashFromUrl(url).split('?')[1] || '',
-            pairs = searchString.split('&');
-
-        var result = {};
-        for (var i = 0; i != pairs.length; ++i) {
-            // attn: split with regex has bugs in several browsers such as IE 8
-            // so we need to split, use the first part as key and rejoin the rest
-            var pair = pairs[i].split('=');
-            var key  = pair.shift();
-            result[key] = pair.join('=');
-        }
-        return result;
+        var searchString = this._removeHashFromUrl(url).split('?')[1] || '';
+        return this.extractKeyValuePairsFromQueryString(searchString);
     },
+
 
     /**
      * help to get param value for any given url string with provided param name
@@ -558,9 +570,12 @@ var broadcast = {
                 endStr = url.length;
             }
             var value = url.substring(startStr + param.length + 1, endStr);
-            // sanitize values
-            value = value.replace(/[^_%\+\-\<\>!@\$\.=,;0-9a-zA-Z]/gi, '');
 
+            // we sanitize values to add a protection layer against XSS
+            // &segment= value is not sanitized, since segments are designed to accept any user input
+            if(param != 'segment') {
+                value = value.replace(/[^_%~\*\+\-\<\>!@\$\.()=,;0-9a-zA-Z]/gi, '');
+            }
             return value;
         } else {
             return '';

@@ -42,7 +42,10 @@ Segmentation = (function($) {
 
         segmentation.prototype.getSegment = function(){
             var self = this;
-            return self.currentSegmentStr;
+            if($.browser.mozilla) {
+                return self.currentSegmentStr;
+            }
+            return decodeURIComponent(self.currentSegmentStr);
         }
 
         var setSegment = function(segmentStr){
@@ -51,7 +54,7 @@ Segmentation = (function($) {
 
         segmentation.prototype.shortenSegmentName = function(name, length){
 
-            if(typeof length === "undefined") length = 30;
+            if(typeof length === "undefined") length = 26;
             if(typeof name === "undefined") name = "";
             var i;
             
@@ -73,24 +76,22 @@ Segmentation = (function($) {
 
         var markCurrentSegment = function(){
             var current = self.getSegment();
-//            window.setTimeout(function(){
-                var segmentationTitle = $(self.content).find(".segmentationTitle");
-                if( current != "")
-                {
-                    var foundItems = $(self.content).find('div.segmentList > ul > li[data-definition="'+current+'"]');
-                    if( foundItems.length > 0)
-                    {
-                        var name = $(foundItems).first().find("span.segname").text();
-                        segmentationTitle.html("<b>"+name+"</b>");
-                    }
-                    else{
-                        segmentationTitle.html("<b>Custom Segment</b>");
-                    }
+
+            var segmentationTitle = $(self.content).find(".segmentationTitle");
+            if( current != "")
+            {
+                var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
+                var foundItems = $(selector);
+                if( foundItems.length > 0) {
+                    var name = $(foundItems).first().find("span.segname").text();
+                    segmentationTitle.html("<b>"+name+"</b>");
+                } else {
+                    segmentationTitle.html("<b>Custom Segment</b>");
                 }
-                else {
-                    $(self.content).find(".segmentationTitle").text("All visits");
-                }
-//            }, 20);
+            }
+            else {
+                $(self.content).find(".segmentationTitle").text("All visits");
+            }
         }
 
         var getAndDiv = function(){
@@ -185,17 +186,17 @@ Segmentation = (function($) {
             var segment, injClass;
 
             var listHtml = '<li data-idsegment="" ' +
-                            (self.currentSegmentsGlobal == "" ? " class='segmentSelected' " : "")
+                            (self.currentSegmentStr == "" ? " class='segmentSelected' " : "")
                             + ' data-definition=""><span class="segname">All Visits (default)</span></li> ';
             if(self.segmentList.length > 0) {
                 for(var key in self.segmentList)
                 {
                     segment = self.segmentList[key];
                     injClass = "";
-                    if( segment.definition == self.currentSegmentsGlobal){
+                    if( segment.definition == self.currentSegmentStr){
                         injClass = 'class="segmentSelected"';
                     }
-                    listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition=\''+segment.definition+'\' '
+                    listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition) +'" '
                                 + injClass +' title="'+segment.name+'"><span class="segname">'
                                 + self.shortenSegmentName(segment.name)+'</span>';
                     if(self.segmentAccess == "write") {
@@ -224,12 +225,12 @@ Segmentation = (function($) {
             //$("body").append(html);
             var segmentsDropdown = $(html).find("#available_segments_select");
             var segment, newOption;
-            newOption = '<option data-idsegment="" data-definition="" >New segment</option>';
+            newOption = '<option data-idsegment="" data-definition="" >Add new segment</option>';
             segmentsDropdown.append(newOption);
             for(var key in self.segmentList)
             {
                 segment = self.segmentList[key];
-                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition=\''+segment.definition+'\' title="'+segment.name+'">'+self.shortenSegmentName(segment.name)+'</option>';
+                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition)+'" title="'+segment.name+'">'+self.shortenSegmentName(segment.name)+'</option>';
                 segmentsDropdown.append(newOption);
             }
             $(html).find(".segment-content > h3").after(getInitialStateRowsHtml()).show();
@@ -274,7 +275,7 @@ Segmentation = (function($) {
                 if( index != -1){
                     if(index < minPos){
                         minPos = index;
-                        if(match == ">" || match == "<"){
+                        if(match.length == 1){
                             singleChar = true;
                         }
                     }
@@ -301,6 +302,10 @@ Segmentation = (function($) {
                     newMetric.value = "";
                 }
             }
+
+            // the segment values are URL encoded to prevent ",;<>@= etc. from being misinterpreted
+            newMetric.value = decodeURIComponent(newMetric.value);
+
             return newMetric;
         }
 
@@ -363,7 +368,7 @@ Segmentation = (function($) {
                 var target = $(this).parent("li");
                 var segment = {};
                 segment.idsegment = target.attr("data-idsegment");
-                segment.definition = target.attr("data-definition");
+                segment.definition = target.data("definition");
                 segment.name = target.attr("title");
                 openEditForm(segment);
                 e.stopPropagation();
@@ -374,9 +379,9 @@ Segmentation = (function($) {
                 if($(e.currentTarget).hasClass("grayed") !== true){
                     var segment = {};
                     segment.idsegment = $(this).attr("data-idsegment");
-                    segment.definition = $(this).attr("data-definition");
+                    segment.definition = $(this).data("definition");
                     segment.name = $(this).attr("title");
-                    self.segmentSelectMethod(segment);
+                    self.segmentSelectMethod( segment.definition );
                     setSegment(segment.definition);
                     markCurrentSegment();
                 }
@@ -518,7 +523,7 @@ Segmentation = (function($) {
                 var segment = {};
                 segment.idsegment = option.attr("data-idsegment");
                 segment.name = option.attr("title");
-                segment.definition = option.attr("data-definition");
+                segment.definition = option.data("definition");
                 openEditForm(segment);
 
             });
@@ -940,11 +945,23 @@ $(document).ready( function(){
         return;
     }
 
-    var changeSegment = function(params){
+    var changeSegment = function(segmentDefinition){
         $('#segmentEditorPanel a.close').click();
+        segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
 
-        return broadcast.propagateNewPage('segment=' + params.definition, true, true);
+//        if($.browser.mozilla ) {
+            segmentDefinition = encodeURIComponent(segmentDefinition);
+//        }
+//        alert('new segment to reload='+segmentDefinition);
+
+        return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
     };
+
+    var cleanupSegmentDefinition = function(definition) {
+        definition = definition.replace("'", "%29");
+        definition = definition.replace("&", "%26");
+        return definition;
+    }
 
     var addSegment = function(params){
         var ajaxHandler = new ajaxHelper();
@@ -954,13 +971,15 @@ $(document).ready( function(){
             "format": 'json',
             "method": 'SegmentEditor.add'
         });
+        params.definition = cleanupSegmentDefinition(params.definition);
+
         ajaxHandler.addParams(params, 'GET');
         ajaxHandler.useCallbackInCaseOfError();
         ajaxHandler.setCallback(function (response) {
             if (response && response.result == 'error') {
                 alert(response.message);
             } else {
-                changeSegment(params);
+                changeSegment(params.definition);
             }
         });
         ajaxHandler.send(true);
@@ -974,13 +993,15 @@ $(document).ready( function(){
             "format": 'json',
             "method": 'SegmentEditor.update'
         });
+        params.definition = cleanupSegmentDefinition(params.definition);
+
         ajaxHandler.addParams(params, 'GET');
         ajaxHandler.useCallbackInCaseOfError();
         ajaxHandler.setCallback(function (response) {
             if (response && response.result == 'error') {
                 alert(response.message);
             } else {
-                changeSegment(params);
+                changeSegment(params.definition);
             }
         });
         ajaxHandler.send(true);
@@ -1006,6 +1027,7 @@ $(document).ready( function(){
         console.log(segmentStr);
     }
 
+    var segmentFromHash = broadcast.getParamValue('segment', location.hash);
     var segmentationFtw = new Segmentation({
         "targetId"   : "segmentList",
         "segmentAccess" : "write",
@@ -1015,8 +1037,7 @@ $(document).ready( function(){
         "deleteMethod": deleteSegment,
         "segmentSelectMethod": changeSegment,
         "testSegmentMethod": testSegment,
-        "currentSegmentStr": broadcast.getValueFromHash('segment'),
-        "currentSegmentsGlobal": broadcast.getValueFromHash('segment')
+        "currentSegmentStr": segmentFromHash
     });
 
     $('body').on('mouseup',function(e){

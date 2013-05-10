@@ -280,7 +280,13 @@ class Piwik_API_Proxy
                     $requestValue = Piwik_Common::getRequestVar($name, null, null, $parametersRequest);
                 } else {
                     try {
-                        $requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+
+                        if( $name == 'segment' && !empty($parametersRequest['segment'])) {
+                            // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
+                            $requestValue = ($parametersRequest['segment']);
+                        } else {
+                            $requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+                        }
                     } catch (Exception $e) {
                         // Special case: empty parameter in the URL, should return the empty string
                         if (isset($parametersRequest[$name])

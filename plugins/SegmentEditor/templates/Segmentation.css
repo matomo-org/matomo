@@ -371,7 +371,7 @@ div.scrollable {
   z-index: 2;
   background: #f7f7f7;
   border: 1px solid #e4e5e4;
-  padding: 5px 10px 6px 5px;
+  padding: 5px 10px 6px 10px;
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -387,7 +387,6 @@ div.scrollable {
 }
 .segmentationContainer .submenu {
   font-size: 13px;
-  font-weight: bold;
   min-width: 180px;
 }
 .segmentationContainer .submenu ul {
@@ -402,7 +401,7 @@ div.scrollable {
   padding-top: 10px;
 }
 .segmentationContainer .submenu ul li {
-  padding: 2px 0px 1px 10px;
+  padding: 2px 0px 1px 6px;
   margin: 3px 0 0 0;
   cursor: pointer;
 }

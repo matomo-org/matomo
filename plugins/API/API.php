@@ -1161,14 +1161,11 @@ class Piwik_API_API
             throw new Exception("Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.");
         }
 
-        // this is needed because Piwik_API_Proxy uses Piwik_Common::getRequestVar which in turn
-        // uses Piwik_Common::sanitizeInputValue. This causes the > that separates recursive labels
-        // to become &gt; and we need to undo that here.
-        $label = Piwik_Common::unsanitizeInputValue($label);
-
+        $label = Piwik_API_ResponseBuilder::unsanitizeLabelParameter($label);
         if ($label) {
             $labels = explode(',', $label);
             $labels = array_unique($labels);
+            $labels = array_map('urldecode', $labels);
         } else {
             $labels = array();
         }

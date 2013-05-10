@@ -1,8 +1,9 @@
 <div id="SegmentEditor" style="display:none;">
     <div class="segmentationContainer listHtml">
+        {if $authorizedToCreateSegments}
         <span class="segmentationTitle"><b>Add segment</b></span>
         <ul class="submenu">
-            <li> Select a segment of visitors
+            <li> Select a segment of visitors:
                 <div class="segmentList">
                     <ul>
                     </ul>
@@ -10,6 +11,14 @@
             </li>
         </ul>
         <a class="add_new_segment">Add new segment</a>
+        {else}
+            <span class="segmentationTitle"><b>Add segment</b></span>
+            <ul class="submenu">
+            <li> You must be logged in to create and apply custom visitor segments.
+                <br/>&rsaquo; <a href='index.php?module={$loginModule}'>{'Login_LogIn'|translate}</a></strong>
+            </li>
+            </ul>
+        {/if}
     </div>
 
     <div class="initial-state-rows">{* no space here important for jquery *}<div class="segment-add-row initial"><div>
