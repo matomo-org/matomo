@@ -139,7 +139,7 @@ class Piwik_Transitions_API
                 if ($id < 0) {
                     // an example where this is needed is urls containing < or >
                     $actionName = $originalActionName;
-                    $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', Piwik_SegmentExpression::MATCH_EQUALs, 'pageUrl');
+                    $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', Piwik_SegmentExpression::MATCH_EQUAL, 'pageUrl');
                 }
 
                 return $id;
@@ -289,9 +289,6 @@ class Piwik_Transitions_API
         }
     }
 
-    /**
-     * @ignore
-     */
     public function getTranslations()
     {
         $controller = new Piwik_Transitions_Controller();
