@@ -61,6 +61,9 @@ class Piwik_SegmentExpression
         $parsedSubExpressions = array();
         foreach ($this->tree as $id => $leaf) {
             $operand = $leaf[self::INDEX_OPERAND];
+
+            $operand = urldecode($operand);
+
             $operator = $leaf[self::INDEX_BOOL_OPERATOR];
             $pattern = '/^(.+?)(' . self::MATCH_EQUAL . '|'
                 . self::MATCH_NOT_EQUAL . '|'
@@ -79,7 +82,7 @@ class Piwik_SegmentExpression
 
             $leftMember = $matches[1];
             $operation = $matches[2];
-            $valueRightMember = $matches[3];
+            $valueRightMember = urldecode($matches[3]);
             $parsedSubExpressions[] = array(
                 self::INDEX_BOOL_OPERATOR => $operator,
                 self::INDEX_OPERAND       => array(

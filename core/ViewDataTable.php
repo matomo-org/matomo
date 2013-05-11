@@ -586,9 +586,7 @@ abstract class Piwik_ViewDataTable
         // we need the URL encoded segment parameter, we fetch it from _SERVER['QUERY_STRING'] instead of default URL decoded _GET
         $segment = Piwik_Common::getRequestVar('segment', '', 'string');
         if (!empty($segment)) {
-            $requestRaw = Piwik_Common::getArrayFromQueryString($_SERVER['QUERY_STRING']);
-            $requestRaw['segment'] = str_replace('%3C', '<', $requestRaw['segment']);
-            $requestRaw['segment'] = str_replace('%3E', '>', $requestRaw['segment']);
+            $requestRaw = Piwik_API_Request::getRequestParametersGET();
             $requestString .= '&segment=' . $requestRaw['segment'];
         }
         return $requestString;
