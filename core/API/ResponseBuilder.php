@@ -122,6 +122,8 @@ class Piwik_API_ResponseBuilder
             return "Error: " . $e->getMessage() . " and: " . $exceptionRenderer->getMessage();
         }
 
+        //$e = new Exception($e->getMessage() . " , " . $e->getTraceAsString());
+
         $renderer->setException($e);
 
         if ($format == 'php') {
@@ -288,9 +290,8 @@ class Piwik_API_ResponseBuilder
         }
 
         // apply label filter: only return rows matching the label parameter (more than one if more than one label)
-        $label = $this->getLabelQueryParam();
+        $label = $this->getLabelFromRequest($this->request);
         if (!empty($label)) {
-            $label = Piwik_Common::unsanitizeInputValues($label);
             $addLabelIndex = Piwik_Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
 
             $filter = new Piwik_API_DataTableManipulator_LabelFilter($this->apiModule, $this->apiMethod, $this->request);
@@ -452,15 +453,26 @@ class Piwik_API_ResponseBuilder
      *
      * @return array
      */
-    private function getLabelQueryParam()
+    static public function getLabelFromRequest($request)
     {
-        $label = Piwik_Common::getRequestVar('label', array(), 'array', $this->request);
+        $label = Piwik_Common::getRequestVar('label', array(), 'array', $request);
         if (empty($label)) {
-            $label = Piwik_Common::getRequestVar('label', '', 'string', $this->request);
+            $label = Piwik_Common::getRequestVar('label', '', 'string', $request);
             if (!empty($label)) {
                 $label = array($label);
             }
         }
+
+        $label = self::unsanitizeLabelParameter($label);
+        return $label;
+    }
+
+    static public function unsanitizeLabelParameter($label)
+    {
+        // this is needed because Piwik_API_Proxy uses Piwik_Common::getRequestVar which in turn
+        // uses Piwik_Common::sanitizeInputValue. This causes the > that separates recursive labels
+        // to become &gt; and we need to undo that here.
+        $label = Piwik_Common::unsanitizeInputValues($label);
         return $label;
     }
 }
