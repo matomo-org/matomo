@@ -303,10 +303,15 @@ function ajaxHelper() {
         var parameters = this._mixinDefaultGetParams(this.getParams);
 
         var url = 'index.php?';
+
         // we took care of encoding &segment properly already, so we don't use $.param for it ($.param URL encodes the values)
         if(parameters['segment']) {
             url += 'segment=' + parameters['segment'] + '&';
             delete parameters['segment'];
+        }
+        if(parameters['date']) {
+            url += 'date=' + decodeURIComponent(parameters['date']) + '&';
+            delete parameters['date'];
         }
         url += $.param(parameters);
         var ajaxCall = {

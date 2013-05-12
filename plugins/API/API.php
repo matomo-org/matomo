@@ -1615,7 +1615,7 @@ class Piwik_API_API
             return array();
         }
 
-        $urls = Piwik_Common::unsanitizeInputValues($urls);
+        $urls = array_map('urldecode', $urls);
 
         $result = array();
         foreach ($urls as $url) {
