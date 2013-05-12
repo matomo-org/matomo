@@ -1162,10 +1162,11 @@ class Piwik_API_API
         }
 
         $label = Piwik_API_ResponseBuilder::unsanitizeLabelParameter($label);
+        $label = urldecode($label);
         if ($label) {
             $labels = explode(',', $label);
             $labels = array_unique($labels);
-            $labels = array_map('urldecode', $labels);
+//            $labels = array_map('urldecode', $labels);
         } else {
             $labels = array();
         }

@@ -115,6 +115,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
         static $pageTitleReports = array('getPageTitles', 'getEntryPageTitles', 'getExitPageTitles');
         
         $variations = array();
+        $label = urldecode($label);
         $label = trim($label);
 
         $sanitizedLabel = Piwik_Common::sanitizeInputValue( $label );
@@ -142,7 +143,6 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
         foreach ($this->labels as $labelIndex => $label) {
             $row = null;
             foreach ($this->getLabelVariations($label) as $labelVariation) {
-                $labelVariation = urldecode($labelVariation);
                 $labelVariation = explode(self::SEPARATOR_RECURSIVE_LABEL, $labelVariation);
 
                 $row = $this->doFilterRecursiveDescend($labelVariation, $dataTable);

@@ -654,7 +654,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             $parametersToSet['apiAction'] = $apiAction;
         }
         if (!empty($segment)) {
-            $parametersToSet['segment'] = $segment;
+            $parametersToSet['segment'] = urlencode($segment);
         }
         if ($idGoal !== false) {
             $parametersToSet['idGoal'] = $idGoal;
