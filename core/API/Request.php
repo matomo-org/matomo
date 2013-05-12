@@ -48,6 +48,12 @@ class Piwik_API_Request
     static public function getRequestArrayFromString($request)
     {
         $defaultRequest = $_GET + $_POST;
+
+        $requestRaw = self::getRequestParametersGET();
+        if(!empty($requestRaw['segment'])) {
+            $defaultRequest['segment'] = $requestRaw['segment'];
+        }
+
         $requestArray = $defaultRequest;
 
         if (!is_null($request)) {
@@ -63,9 +69,8 @@ class Piwik_API_Request
             $request = str_replace(array("\n", "\t"), '', $request);
 
             $requestParsed = Piwik_Common::getArrayFromQueryString($request);
-
-//            parse_str($request, $requestArray);
             $requestArray = $requestParsed + $defaultRequest;
+
         }
 
         foreach ($requestArray as &$element) {
@@ -209,6 +214,9 @@ class Piwik_API_Request
      */
     public static function getRequestParametersGET()
     {
+        if(empty($_SERVER['QUERY_STRING'])) {
+            return array();
+        }
         $GET = Piwik_Common::getArrayFromQueryString($_SERVER['QUERY_STRING']);
         return $GET;
     }

@@ -37,9 +37,9 @@ class Piwik_Segment
         // First try with url decoded value. If that fails, try with raw value.
         // If that also fails, it will throw the exception
         try {
-            $this->initializeSegment($string, $idSites);
-        } catch(Exception $e) {
             $this->initializeSegment( urldecode($string), $idSites);
+        } catch(Exception $e) {
+            $this->initializeSegment($string, $idSites);
         }
     }
 
@@ -50,7 +50,6 @@ class Piwik_Segment
      */
     protected function initializeSegment($string, $idSites)
     {
-        $string = Piwik_Common::unsanitizeInputValue($string);
         // As a preventive measure, we restrict the filter size to a safe limit
         $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
 
@@ -111,7 +110,8 @@ class Piwik_Segment
             // apply presentation filter
             if (isset($segment['sqlFilter'])
                 && !empty($segment['sqlFilter'])
-                && $matchType != Piwik_SegmentExpression::MATCH_IS_NOT_NULL
+                && $matchType != Piwik_SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+                && $matchType != Piwik_SegmentExpression::MATCH_IS_NULL_OR_EMPTY
             ) {
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 

@@ -300,10 +300,19 @@ function ajaxHelper() {
     this._buildAjaxCall = function () {
         var that = this;
 
+        var parameters = this._mixinDefaultGetParams(this.getParams);
+
+        var url = 'index.php?';
+        // we took care of encoding &segment properly already, so we don't use $.param for it ($.param URL encodes the values)
+        if(parameters['segment']) {
+            url += 'segment=' + parameters['segment'] + '&';
+            delete parameters['segment'];
+        }
+        url += $.param(parameters);
         var ajaxCall = {
             type:     'POST',
             async:    this.async !== false,
-            url:      'index.php?' + $.param(this._mixinDefaultGetParams(this.getParams)),
+            url:      url,
             dataType: this.format || 'json',
             error:    this.errorCallback,
             success:  function (response) {
@@ -363,7 +372,7 @@ function ajaxHelper() {
         var defaultParams = {
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),
             period:  piwik.period || broadcast.getValueFromUrl('period'),
-            segment: broadcast.getValueFromHash('segment', window.location.href)
+            segment: broadcast.getValueFromHash('segment', window.location.href.split('#')[1])
         };
 
         // never append token_auth to url

@@ -73,7 +73,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
                                                               'date'                        => $date,
                                                               'token_auth'                  => $token_auth,
                                                               'format'                      => 'json',
-                                                              'segment'                     => Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', '')),
+                                                              'segment'                     => Piwik_ViewDataTable::getRawSegmentFromRequest(),
                                                               'showRawMetrics'              => 1,
                                                               'enable_filter_excludelowpop' => 1,
                                                               'filter_excludelowpop_value'  => -1
@@ -144,7 +144,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
                                                 'date'           => self::REAL_TIME_WINDOW,
                                                 'token_auth'     => $token_auth,
                                                 'format'         => 'json',
-                                                'segment'        => Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', '')),
+                                                'segment'        => Piwik_ViewDataTable::getRawSegmentFromRequest(),
                                                 'showRawMetrics' => 1
                                            ));
 
@@ -192,7 +192,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             . "&period=" . $period
             . "&date=" . $date
             . "&token_auth=" . $token_auth
-            . "&segment=" . Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', ''))
+            . "&segment=" . Piwik_ViewDataTable::getRawSegmentFromRequest()
             . "&enable_filter_excludelowpop=1"
             . "&showRawMetrics=1";
 

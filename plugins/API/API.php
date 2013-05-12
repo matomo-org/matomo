@@ -1659,7 +1659,7 @@ class Piwik_API_API
 
         // Select non empty fields only
         // Note: this optimization has only a very minor impact
-        $requestLastVisits.= "&segment=$segmentName" . Piwik_SegmentExpression::MATCH_IS_NOT_NULL . "null";
+        $requestLastVisits.= "&segment=$segmentName".urlencode('!=');
 
         // By default Live fetches all actions for all visitors, but we'd rather do this only when required
         if($this->doesSegmentNeedActionsData($segmentName)) {

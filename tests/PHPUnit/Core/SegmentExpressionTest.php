@@ -60,10 +60,10 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
         return array(
             array('A==B%', array('where' => " A = ? ", 'bind' => array('B%'))),
             array('ABCDEF====B===', array('where' => " ABCDEF = ? ", 'bind' => array('==B==='))),
-            array('A===B;CDEF!=C!=', array('where' => " A = ? AND CDEF <> ? ", 'bind' => array('=B', 'C!='))),
+            array('A===B;CDEF!=C!=', array('where' => " A = ? AND ( CDEF IS NULL OR CDEF <> ? ) ", 'bind' => array('=B', 'C!='))),
             array('A==B,C==D', array('where' => " (A = ? OR C = ? )", 'bind' => array('B', 'D'))),
-            array('A!=B;C==D', array('where' => " A <> ? AND C = ? ", 'bind' => array('B', 'D'))),
-            array('A!=B;C==D,E!=Hello World!=', array('where' => " A <> ? AND (C = ? OR E <> ? )", 'bind' => array('B', 'D', 'Hello World!='))),
+            array('A!=B;C==D', array('where' => " ( A IS NULL OR A <> ? ) AND C = ? ", 'bind' => array('B', 'D'))),
+            array('A!=B;C==D,E!=Hello World!=', array('where' => " ( A IS NULL OR A <> ? ) AND (C = ? OR ( E IS NULL OR E <> ? ) )", 'bind' => array('B', 'D', 'Hello World!='))),
 
             array('A>B', array('where' => " A > ? ", 'bind' => array('B'))),
             array('A<B', array('where' => " A < ? ", 'bind' => array('B'))),
@@ -74,7 +74,7 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
             array('A>=B;C>=D,E<w_ow great!', array('where' => " A >= ? AND (C >= ? OR E < ? )", 'bind' => array('B', 'D', 'w_ow great!'))),
 
             array('A=@B_', array('where' => " A LIKE ? ", 'bind' => array('%B\_%'))),
-            array('A!@B%', array('where' => " A NOT LIKE ? ", 'bind' => array('%B\%%'))),
+            array('A!@B%', array('where' => " ( A IS NULL OR A NOT LIKE ? ) ", 'bind' => array('%B\%%'))),
         );
     }
 
@@ -107,8 +107,7 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
             array(',;,'),
             array(','),
             array(',,'),
-            array('==='),
-            array('!=')
+            array('!='),
         );
     }
 
@@ -126,6 +125,6 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
         } catch (Exception $e) {
             return;
         }
-        $this->fail('Expected exception not raised');
+        $this->fail('Expected exception not raised for:' . var_export($segment->getSql(), true));
     }
 }

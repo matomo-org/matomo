@@ -161,6 +161,7 @@ class Piwik_API_Proxy
 
         // Temporarily sets the Request array to this API call context
         $saveGET = $_GET;
+        $saveQUERY_STRING = @$_SERVER['QUERY_STRING'];
         foreach ($parametersRequest as $param => $value) {
             $_GET[$param] = $value;
         }
@@ -199,6 +200,7 @@ class Piwik_API_Proxy
 
             // Restore the request
             $_GET = $saveGET;
+            $_SERVER['QUERY_STRING'] = $saveQUERY_STRING;
 
             // log the API Call
             try {

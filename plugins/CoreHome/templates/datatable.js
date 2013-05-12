@@ -1367,7 +1367,7 @@ dataTable.prototype =
                 // doing AJAX request
                 var menuItem = null;
                 $("#root").find(">ul.nav a").each(function () {
-                    if ($(this).attr('name') == url) {
+                    if ($(this).attr('href') == url) {
                         menuItem = this;
                         return false
                     }

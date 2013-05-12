@@ -462,7 +462,10 @@ var broadcast = {
             hashStr = url.substring(url.indexOf("#"), url.length);
         }
         else {
-            hashStr = (location.hash);
+            locationSplit = location.href.split('#');
+            if(typeof locationSplit[1] != 'undefined') {
+                hashStr = '#' + locationSplit[1];
+            }
         }
 
         return hashStr;

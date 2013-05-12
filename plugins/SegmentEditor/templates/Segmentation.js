@@ -948,12 +948,7 @@ $(document).ready( function(){
     var changeSegment = function(segmentDefinition){
         $('#segmentEditorPanel a.close').click();
         segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
-
-//        if($.browser.mozilla ) {
-            segmentDefinition = encodeURIComponent(segmentDefinition);
-//        }
-//        alert('new segment to reload='+segmentDefinition);
-
+        segmentDefinition = encodeURIComponent(segmentDefinition);
         return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
     };
 
