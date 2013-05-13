@@ -67,17 +67,19 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
                                                       ));
 
         // template for ajax requests
-        $view->reqParamsJSON = Piwik_Common::json_encode(array(
-                                                              'period'                      => $period,
-                                                              'idSite'                      => $idSite,
-                                                              'date'                        => $date,
-                                                              'token_auth'                  => $token_auth,
-                                                              'format'                      => 'json',
-                                                              'segment'                     => Piwik_ViewDataTable::getRawSegmentFromRequest(),
-                                                              'showRawMetrics'              => 1,
-                                                              'enable_filter_excludelowpop' => 1,
-                                                              'filter_excludelowpop_value'  => -1
-                                                         ));
+        $params = array(
+            'period'                      => $period,
+            'idSite'                      => $idSite,
+            'date'                        => $date,
+            'token_auth'                  => $token_auth,
+            'format'                      => 'json',
+            'segment'                     => Piwik_ViewDataTable::getRawSegmentFromRequest(),
+            'showRawMetrics'              => 1,
+            'enable_filter_excludelowpop' => 1,
+            'filter_excludelowpop_value'  => -1
+        );
+        $params = array_filter($params);
+        $view->reqParamsJSON = Piwik_Common::json_encode($params);
         $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
         $config['mapCssPath'] = 'plugins/UserCountryMap/css/map.css';

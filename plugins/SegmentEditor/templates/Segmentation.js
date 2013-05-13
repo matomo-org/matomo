@@ -49,6 +49,9 @@ Segmentation = (function($) {
         }
 
         var setSegment = function(segmentStr){
+            if(!$.browser.mozilla) {
+                segmentStr = encodeURIComponent(segmentStr);
+            }
             self.currentSegmentStr = segmentStr;
         }
 
