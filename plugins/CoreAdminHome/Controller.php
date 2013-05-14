@@ -180,6 +180,15 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
         $view->language = Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language)
             ? $language
             : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+
+        $customStyle = Piwik_Common::getRequestVar('style', false);
+        if (!empty($customStyle)) {
+            $customStyle = 'optout_' . str_replace(array('.', '/', ':'), '_', $customStyle) . '.css';
+            if (file_exists(PIWIK_DOCUMENT_ROOT . '/themes/' . $customStyle)) {
+                $view->customStyle = $customStyle;
+            }
+        }
+
         echo $view->render();
     }
 

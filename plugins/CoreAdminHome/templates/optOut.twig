@@ -3,6 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    {% if customStyle %}
+    <link rel="stylesheet" type="text/css" href="themes/{{ customStyle }}">
+    {% endif %}
 </head>
 <body>
 {% if not trackVisits %}
