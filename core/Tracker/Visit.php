@@ -578,7 +578,10 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         // Add Custom variable key,value to the visitor array
         $this->visitorInfo = array_merge($this->visitorInfo, $this->visitorCustomVariables);
 
-        Piwik_PostEvent('Tracker.newVisitorInformation', $this->visitorInfo);
+        $extraInfo = array(
+            'UserAgent' => $this->getUserAgent($this->request),
+        );
+        Piwik_PostEvent('Tracker.newVisitorInformation', $this->visitorInfo, $extraInfo);
 
         $debugVisitInfo = $this->visitorInfo;
         $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
