@@ -224,6 +224,7 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
     
  * 	Build XHProf.
 
+		$ phpize
 		$ ./configure
 		$ make
     
