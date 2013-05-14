@@ -25,7 +25,7 @@
  */
 
 
-include_once $GLOBALS['XHPROF_LIB_ROOT'].'/utils/xhprof_lib.php';
+require_once $GLOBALS['XHPROF_LIB_ROOT'].'/utils/xhprof_lib.php';
 
 // param name, its type, and default value
 $params = array('q'          => array(XHPROF_STRING_PARAM, ''),
@@ -69,7 +69,7 @@ if (in_array($q, $functions)) {
   foreach ($old_functions as $f) {
     // exact match case has already been added to the front
     if ($f != $q) {
-      $functions[] =$f;
+      $functions[] = $f;
     }
   }
 }
