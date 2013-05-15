@@ -1,0 +1,6 @@
+{
+  "project_id" : "xhprof",
+  "conduit_uri" : "https://secure.phabricator.com/",
+  "remote_hooks_installed" : true,
+  "copyright_holder" : "Facebook, Inc."
+}

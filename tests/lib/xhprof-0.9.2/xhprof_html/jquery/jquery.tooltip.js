@@ -6,7 +6,7 @@
  *
  * Copyright (c) 2006 - 2008 Jörn Zaefferer
  *
- * $Id: jquery.tooltip.js,v 1.1.1.1 2009/03/17 18:35:18 kannan Exp $
+ * $Id: jquery.tooltip.js,v 1.1.1.1 2009-03-17 18:35:18 kannan Exp $
  * 
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php

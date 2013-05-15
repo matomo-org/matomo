@@ -1,0 +1,17 @@
+{
+    "name": "facebook/xhprof",
+    "type": "library",
+    "description": "XHProf: A Hierarchical Profiler for PHP",
+    "keywords": ["profiling", "performance"],
+    "homepage": "http://pecl.php.net/package/xhprof",
+    "license": "Apache-2.0",
+    "require": {
+        "php": ">=5.2.0"
+    },
+    "autoload": {
+        "files": [
+            "xhprof_lib/utils/xhprof_lib.php",
+            "xhprof_lib/utils/xhprof_runs.php"
+        ]
+    }
+}

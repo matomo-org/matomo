@@ -33,7 +33,7 @@
 // are at the same level.
 $GLOBALS['XHPROF_LIB_ROOT'] = dirname(__FILE__) . '/../xhprof_lib';
 
-include_once $GLOBALS['XHPROF_LIB_ROOT'].'/display/xhprof.php';
+require_once $GLOBALS['XHPROF_LIB_ROOT'].'/display/xhprof.php';
 
 ini_set('max_execution_time', 100);
 

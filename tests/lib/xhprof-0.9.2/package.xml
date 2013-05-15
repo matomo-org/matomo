@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<package packagerversion="1.4.7" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>xhprof</name>
+ <channel>pecl.php.net</channel>
+ <summary>XHProf: A Hierarchical Profiler for PHP</summary>
+ <description>
+XHProf is a function-level hierarchical profiler for PHP and has a simple HTML based navigational interface. The raw data collection component is implemented in C (as a PHP extension). The reporting/UI layer is all in PHP. It is capable of reporting function-level inclusive and exclusive wall times, memory usage, CPU times and number of calls for each function. Additionally, it supports ability to compare two runs (hierarchical DIFF reports), or aggregate results from multiple runs.
+</description>
+ <lead>
+  <name>Kannan Muthukkaruppan</name>
+  <user>kannan</user>
+  <email>kannan@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Venkat Venkataramani</name>
+  <user>veeve</user>
+  <email>veeve@php.net</email>
+  <active>yes</active>
+ </developer>
+ <lead>
+  <name>Changhao Jiang</name>
+  <user>cjiang</user>
+  <email>cjiang@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Haiping Zhao</name>
+  <user>haiping</user>
+  <email>haiping@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2009-03-28</date>
+ <version>
+  <release>0.9.2</release>
+  <api>0.9.2</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</license>
+ <notes>
+-- Request #16544: Mac port for XHProf (svilen spasov)
+-- fix #16574: require/require_once not special cased like include/include_once (kannan)
+-- add a sanity test for sampling mode in xhprof (kannan)
+-- add support to ignore functions (such as call_user_func) during profiling (mike paleczny)
+-- fix #16098: suppress notices due to use of FILE_BINARY (kannan)
+-- add a sanity test for timer (kannan)
+-- fix for compile error on debian linux (russ)
+ </notes>
+ <contents>
+  <dir name="/">
+    <file role="doc" name="CHANGELOG" />
+    <file role="doc" name="CREDITS" />
+    <file role="doc" name="README" />
+    <file role="doc" name="LICENSE" />
+    <dir name="examples">
+      <file role="doc" name="sample.php"/>
+    </dir>
+    <dir name="extension">
+      <file role="src" name="config.m4"/>
+      <file role="src" name="php_xhprof.h"/>
+      <file role="src" name="xhprof.c"/>
+      <dir name="tests">
+        <file role="test" name="common.php" />
+        <file role="test" name="xhprof_001.phpt" />
+        <file role="test" name="xhprof_002.phpt" />
+        <file role="test" name="xhprof_003.phpt" />
+        <file role="test" name="xhprof_004_inc.php" />
+        <file role="test" name="xhprof_004_require.php" />
+        <file role="test" name="xhprof_004.phpt" />
+        <file role="test" name="xhprof_005.phpt" />
+        <file role="test" name="xhprof_006.phpt" />
+        <file role="test" name="xhprof_007.phpt" />
+        <file role="test" name="xhprof_008.phpt" />
+      </dir>
+    </dir>
+    <dir name="xhprof_html">
+      <file role="php" name="callgraph.php"/>
+      <file role="php" name="index.php"/>
+      <file role="php" name="typeahead.php"/>
+      <dir name="css">
+        <file role="src" name="xhprof.css"/>
+      </dir>
+      <dir name="docs">
+        <file role="doc" name="index.html"/>
+        <file role="doc" name="sample-callgraph-image.jpg"/>
+        <file role="doc" name="sample-diff-report-flat-view.jpg"/>
+        <file role="doc" name="sample-diff-report-parent-child-view.jpg"/>
+        <file role="doc" name="sample-flat-view.jpg"/>
+        <file role="doc" name="sample-parent-child-view.jpg"/>
+      </dir>
+      <dir name="jquery">
+        <file role="src" name="indicator.gif"/>
+        <file role="src" name="jquery-1.2.6.js"/>
+        <file role="src" name="jquery.autocomplete.css"/>
+        <file role="src" name="jquery.autocomplete.js"/>
+        <file role="src" name="jquery.tooltip.css"/>
+        <file role="src" name="jquery.tooltip.js"/>
+      </dir>
+      <dir name="js">
+        <file role="src" name="xhprof_report.js"/>
+      </dir>
+    </dir>
+    <dir name="xhprof_lib">
+      <dir name="display">
+        <file role="php" name="typeahead_common.php"/>
+        <file role="php" name="xhprof.php"/>
+      </dir>
+      <dir name="utils">
+        <file role="php" name="callgraph_utils.php"/>
+        <file role="php" name="xhprof_lib.php"/>
+        <file role="php" name="xhprof_runs.php"/>
+      </dir>
+    </dir>
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+   <required>
+     <php>
+       <min>5.2.0</min>
+     </php>
+     <pearinstaller>
+       <min>1.4.0</min>
+     </pearinstaller>
+   </required>
+ </dependencies>
+ <providesextension>xhprof</providesextension>
+ <extsrcrelease/>
+ <changelog>
+   <release>
+      <version>
+        <release>0.9.1</release>
+        <api>0.9.1</api>
+      </version>
+      <date>2009-03-21</date>
+      <stability>
+        <release>beta</release>
+        <api>beta</api>
+      </stability>
+      <notes>
+-- doc improvements/fixes
+      </notes>
+   </release>
+   <release>
+      <version>
+        <release>0.9.0</release>
+        <api>0.9.0</api>
+      </version>
+      <date>2009-03-17</date>
+      <stability>
+       <release>beta</release>
+       <api>beta</api>
+     </stability>
+     <notes>
+ -- initial release of xhprof
+     </notes>
+  </release>
+
+ </changelog>
+
+</package>
