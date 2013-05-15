@@ -2265,7 +2265,6 @@ $translations = array(
 	'UserLanguage_Language_zh' => 'Kinesisk',
 	'UserLanguage_Language_zu' => 'Zulu',
 	'UserSettings_BrowserLanguage' => 'Browser sprog',
-	'General_AddNewSegment_js' => 'Tilføj nyt segment',
 
 	// FOR REVIEW
 	'EntryPage_Bounces' => 'Afvisninger',

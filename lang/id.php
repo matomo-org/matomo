@@ -2272,7 +2272,6 @@ Dan terima kasih menggunakan Piwik!',
 	'UserLanguage_Language_zh' => 'Cina',
 	'UserLanguage_Language_zu' => 'Zulu',
 	'UserSettings_BrowserLanguage' => 'Bahasa Peramban',
-	'General_AddNewSegment_js' => 'Tambah ruas baru',
 
 	// FOR REVIEW
 	'EntryPage_Bounces' => 'Pentalan',

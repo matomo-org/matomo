@@ -2265,7 +2265,6 @@ $translations = array(
 	'UserLanguage_Language_zh' => 'Chinesisch',
 	'UserLanguage_Language_zu' => 'IsiZulu',
 	'UserSettings_BrowserLanguage' => 'Browsersprache',
-	'General_AddNewSegment_js' => 'Neues Segment hinzufügen',
 
 	// FOR REVIEW
 	'EntryPage_Bounces' => 'Absprünge',

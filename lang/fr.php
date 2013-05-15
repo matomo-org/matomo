@@ -2272,7 +2272,6 @@ Merci d\'utiliser Piwik!',
 	'UserLanguage_Language_zh' => 'Chinois',
 	'UserLanguage_Language_zu' => 'Zoulou',
 	'UserSettings_BrowserLanguage' => 'Langage du navigateur',
-	'General_AddNewSegment_js' => 'Ajouter un nouveau segment',
 
 	// FOR REVIEW
 	'EntryPage_Bounces' => 'Rebonds',
