@@ -56,7 +56,7 @@ function ajaxHelper() {
     this.format =         'json';
 
     /**
-     * Should ajax request be synchronous
+     * Should ajax request be asynchronous
      * @type {Boolean}
      */
     this.async =          true;

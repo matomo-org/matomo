@@ -114,7 +114,7 @@ class Piwik_VisitTime extends Piwik_Plugin
         $acceptedValues = "0, 1, 2, 3, ..., 20, 21, 22, 23";
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => Piwik_Translate('VisitTime_ColumnServerTime'),
             'segment'        => 'visitServerHour',
             'sqlSegment'     => 'HOUR(log_visit.visit_last_action_time)',
@@ -122,7 +122,7 @@ class Piwik_VisitTime extends Piwik_Plugin
         );
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => Piwik_Translate('VisitTime_ColumnLocalTime'),
             'segment'        => 'visitLocalHour',
             'sqlSegment'     => 'HOUR(log_visit.visitor_localtime)',

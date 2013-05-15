@@ -1,4 +1,24 @@
 /* ADDITIONAL STYLES*/
+.loadingSegment {
+    color: grey;
+    display: block;
+    font-size: 10pt;
+    margin-left: 28px;
+    display:none;
+}
+.segment-footer .segmentFooterNote {
+    display:none;
+    float: left;
+    padding-top: 9px;
+}
+.segment-footer .segmentFooterNote, .segment-element .segment-footer .segmentFooterNote a {
+    font-size: 8pt;
+    color: #888172;
+}
+.segment-element .segment-footer .segmentFooterNote a {
+    padding:0; margin:0;
+    text-decoration:underline;
+}
 .searchFound {
   border: 0px solid red;
 }
@@ -66,7 +86,7 @@ div.scrollable {
   font: 11px Arial;
   color: #454545;
   width: 125px;
-  padding: 3px 0px 3px 5px;
+  padding: 4px 0 3px 7px;
   border: none;
   background: none;
 }

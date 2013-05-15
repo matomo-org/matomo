@@ -232,7 +232,7 @@ class Piwik_UserSettings extends Piwik_Plugin
             if (empty($segment)) continue;
             $segments[] = array(
                 'type'           => 'dimension',
-                'category'       => 'Visit',
+                'category'       => Piwik_Translate('General_Visit'),
                 'name'           => $columnName,
                 'segment'        => $segment,
                 'acceptedValues' => $acceptedValues,

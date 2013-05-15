@@ -59,7 +59,7 @@ class Piwik_SegmentEditor_API
         if ($enabledAllUsers
             && !Piwik::isUserIsSuperUser()
         ) {
-            throw new Exception("&enabledAllUsers=1 requires Super User access");
+            throw new Exception("enabledAllUsers=1 requires Super User access");
         }
         return $enabledAllUsers;
     }
@@ -101,6 +101,20 @@ class Piwik_SegmentEditor_API
         return $autoArchive;
     }
 
+    /**
+     * @param $idSegment
+     * @throws Exception
+     */
+    protected function getSegmentOrFail($idSegment)
+    {
+        $segment = $this->get($idSegment);
+
+        if (empty($segment)) {
+            throw new Exception("Requested segment not found");
+        }
+        return $segment;
+    }
+
     public function delete($idSegment)
     {
         $segment = $this->getSegmentOrFail($idSegment);
@@ -111,13 +125,14 @@ class Piwik_SegmentEditor_API
 
     public function update($idSegment, $name, $definition, $idSite = false, $autoArchive = false, $enabledAllUsers = false)
     {
+        $segment = $this->getSegmentOrFail($idSegment);
+
         $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
         $definition = $this->checkSegmentValue($definition, $idSite);
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
 
-        $segment = $this->getSegmentOrFail($idSegment);
         $bind = array(
             'name'               => $name,
             'definition'         => $definition,
@@ -167,8 +182,8 @@ class Piwik_SegmentEditor_API
             throw new Exception("idSegment should be numeric.");
         }
         $segment = Zend_Registry::get('db')->fetchRow("SELECT * " .
-            " FROM " . Piwik_Common::prefixTable("segment") .
-            " WHERE idsegment = ?", $idSegment);
+                                                    " FROM " . Piwik_Common::prefixTable("segment") .
+                                                    " WHERE idsegment = ?", $idSegment);
 
         if (empty($segment)) {
             return false;
@@ -177,25 +192,11 @@ class Piwik_SegmentEditor_API
             Piwik::checkUserIsSuperUserOrTheUser($segment['login']);
         } catch (Exception $e) {
             throw new Exception("You can only edit the custom segments you have created yourself. This segment was created and 'shared with you' by the Super User. " .
-                "To modify this segment, you can create a new one, by clicking on 'Add new segment' where you can then further customize the segment's definition.");
+                "To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.");
         }
 
         if ($segment['deleted']) {
             throw new Exception("This segment is marked as deleted.");
-        }
-        return $segment;
-    }
-
-    /**
-     * @param $idSegment
-     * @throws Exception
-     */
-    protected function getSegmentOrFail($idSegment)
-    {
-        $segment = $this->get($idSegment);
-
-        if (empty($segment)) {
-            throw new Exception("Requested segment not found");
         }
         return $segment;
     }

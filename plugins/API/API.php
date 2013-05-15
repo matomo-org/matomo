@@ -271,7 +271,7 @@ class Piwik_API_API
 
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_VisitorIP',
             'segment'        => 'visitIp',
             'acceptedValues' => '13.54.122.1, etc.',
@@ -281,7 +281,7 @@ class Piwik_API_API
         );
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_VisitorID',
             'segment'        => 'visitorId',
             'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
@@ -290,14 +290,14 @@ class Piwik_API_API
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_NbActions',
             'segment'    => 'actions',
             'sqlSegment' => 'log_visit.visit_total_actions',
         );
         $segments[] = array(
             'type'           => 'metric',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_NbSearches',
             'segment'        => 'searches',
             'sqlSegment'     => 'log_visit.visit_total_searches',
@@ -305,14 +305,14 @@ class Piwik_API_API
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_ColumnVisitDuration',
             'segment'    => 'visitDuration',
             'sqlSegment' => 'log_visit.visit_total_time',
         );
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => Piwik_Translate('General_VisitType') ,
             'segment'        => 'visitorType',
             'acceptedValues' => 'new, returning, returningCustomer' . ". " . Piwik_Translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
@@ -321,21 +321,21 @@ class Piwik_API_API
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_DaysSinceLastVisit',
             'segment'    => 'daysSinceLastVisit',
             'sqlSegment' => 'log_visit.visitor_days_since_last',
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_DaysSinceFirstVisit',
             'segment'    => 'daysSinceFirstVisit',
             'sqlSegment' => 'log_visit.visitor_days_since_first',
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_NumberOfVisits',
             'segment'    => 'visitCount',
             'sqlSegment' => 'log_visit.visitor_count_visits',
@@ -343,7 +343,7 @@ class Piwik_API_API
 
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_VisitConvertedGoal',
             'segment'        => 'visitConverted',
             'acceptedValues' => '0, 1',
@@ -352,7 +352,7 @@ class Piwik_API_API
 
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => Piwik_Translate('General_EcommerceVisitStatusDesc'),
             'segment'        => 'visitEcommerceStatus',
             'acceptedValues' => implode(", ", self::$visitEcommerceStatus)
@@ -363,7 +363,7 @@ class Piwik_API_API
 
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_DaysSinceLastEcommerceOrder',
             'segment'    => 'daysSinceLastEcommerceOrder',
             'sqlSegment' => 'log_visit.visitor_days_since_order',

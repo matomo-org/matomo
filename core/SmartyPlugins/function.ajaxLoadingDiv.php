@@ -26,6 +26,9 @@ function smarty_function_ajaxLoadingDiv($params, &$smarty)
     return '<div id="' . $id . '" style="display:none">' .
         '<div class="loadingPiwik"><img src="themes/default/images/loading-blue.gif" alt="" /> ' .
         Piwik_Translate('General_LoadingData') .
+        '<div class="loadingSegment">'.
+        Piwik_Translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime') .
+        '</div>'.
         ' </div>' .
         '</div>';
 }

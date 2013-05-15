@@ -1,20 +1,20 @@
 <div id="SegmentEditor" style="display:none;">
     <div class="segmentationContainer listHtml">
         {if $authorizedToCreateSegments}
-        <span class="segmentationTitle"><b>Add segment</b></span>
+        <span class="segmentationTitle"><b>{'SegmentEditor_AddNewSegment'}</b></span>
         <ul class="submenu">
-            <li> Select a segment of visitors:
+            <li>{'SegmentEditor_SelectSegmentOfVisitors'|translate}
                 <div class="segmentList">
                     <ul>
                     </ul>
                 </div>
             </li>
         </ul>
-        <a class="add_new_segment">Add new segment</a>
+        <a class="add_new_segment">{'SegmentEditor_AddNewSegment'|translate}</a>
         {else}
-            <span class="segmentationTitle"><b>Add segment</b></span>
+            <span class="segmentationTitle"><b>{'SegmentEditor_AddNewSegment'|translate}</b></span>
             <ul class="submenu">
-            <li> You must be logged in to create and apply custom visitor segments.
+            <li> {'SegmentEditor_YouMustBeLoggedInToCreateSegments'|translate}
                 <br/>&rsaquo; <a href='index.php?module={$loginModule}'>{'Login_LogIn'|translate}</a></strong>
             </li>
             </ul>
@@ -22,17 +22,17 @@
     </div>
 
     <div class="initial-state-rows">{* no space here important for jquery *}<div class="segment-add-row initial"><div>
-        <span>+ Drag &amp; Drop condition</span>
+        <span>+ {'SegmentEditor_DragDropCondition'|translate}</span>
     </div></div>
-    <div class="segment-and">AND</div>
+    <div class="segment-and">{'SegmentEditor_OperatorAND'|translate}</div>
     <div class="segment-add-row initial"><div>
-        <span>+ Drag &amp; Drop condition</span>
+        <span>+ {'SegmentEditor_DragDropCondition'|translate}</span>
     </div></div>
     </div>
 
     <div class="segment-row-inputs">
         <div class="segment-input metricListBlock">
-            <select title="Choose a segment" class="metricList">
+            <select title="{'SegmentEditor_ChooseASegment'|translate}" class="metricList">
                 {foreach from=$segmentsByCategory key=category item=segmentsInCategory}
                 <optgroup label="{$category}">
                     {foreach from=$segmentsInCategory item=segmentInCategory}
@@ -43,19 +43,19 @@
             </select>
         </div>
         <div class="segment-input metricMatchBlock">
-            <select title="Matches">
-                <option value="==">Equals</option>
-                <option value="!=">Not Equals</option>
-                <option value="&lt;=">At most</option>
-                <option value="&gt;=">At least</option>
-                <option value="&lt;">Less</option>
-                <option value="&gt;">Greater</option>
-                <option value="=@">Contains</option>
-                <option value="!@">Does not contain</option>
+            <select title="{'General_Matches'|translate}">
+                <option value="==">{'General_OperationEquals'|translate}</option>
+                <option value="!=">{'General_OperationNotEquals'|translate}</option>
+                <option value="<=">{'General_OperationAtMost'|translate}</option>
+                <option value=">=">{'General_OperationAtLeast'|translate}</option>
+                <option value="<">{'General_OperationLessThan'|translate}</option>
+                <option value=">">{'General_OperationGreaterThan'|translate}</option>
+                <option value="=@">{'General_OperationContains'|translate}</option>
+                <option value="!@">{'General_OperationDoesNotContain'|translate}</option>
             </select>
         </div>
         <div class="segment-input metricValueBlock">
-            <input type="text" title="Value">
+            <input type="text" title="{'General_Value'|translate}">
         </div>
         <div class="clear"></div>
     </div>
@@ -65,14 +65,16 @@
             <a href="#" class="segment-loading"></a>
         </div>
     </div>
-    <div class="segment-or">OR</div>
+    <div class="segment-or">{'SegmentEditor_OperatorOR'|translate}</div>
     <div class="segment-add-or"><div>
-            <a href="#"> + Add <span>OR</span> condition </a>
+            {capture assign='orCondition'}<span>{'SegmentEditor_OperatorOR'|translate}</span>{/capture}
+            <a href="#"> + {'SegmentEditor_AddANDorORCondition'|translate:$orCondition} </a>
         </div>
     </div>
-    <div class="segment-and">AND</div>
+    <div class="segment-and">{'SegmentEditor_OperatorAND'|translate}</div>
     <div class="segment-add-row"><div>
-            <a href="#">+ Add <span>AND</span> condition </a>
+            {capture assign='andCondition'}<span>{'SegmentEditor_OperatorAND'|translate}</span>{/capture}
+            <a href="#">+ {'SegmentEditor_AddANDorORCondition'|translate:$andCondition}</a>
         </div>
     </div>
     <div style="position: absolute; z-index:999; width:1040px;" class="segment-element">
@@ -95,33 +97,34 @@
             </div>
             <div class="custom_select_search">
                 <a href="#"></a>
-                <input type="text" aria-haspopup="true" aria-autocomplete="list" role="textbox" autocomplete="off" class="inp ui-autocomplete-input" id="segmentSearch" value="Search" length="15">
+                <input type="text" aria-haspopup="true" aria-autocomplete="list" role="textbox" autocomplete="off" class="inp ui-autocomplete-input" id="segmentSearch" value="{'General_Search'|translate}" length="15">
             </div>
         </div>
         <div class="segment-content">
             {if $isSuperUser}
             <div class="segment-top">
-                This segment is visible to: <span id="enabledAllUsers"><strong>
+                {'SegmentEditor_ThisSegmentIsVisibleTo'|translate} <span id="enabledAllUsers"><strong>
                         <select id="enabledAllUsers_select">
-                            <option selected="" value="0">me</option>
-                            <option value="1">All users</option>
+                            <option selected="" value="0">{'SegmentEditor_VisibleToMe'|translate}</option>
+                            <option value="1">{'SegmentEditor_VisibleToAllUsers'|translate}</option>
                         </select>
                     </strong></span>
 
-                and displayed for <span id="visible_to_website"><strong>
+                {'SegmentEditor_SegmentIsDisplayedForWebsite'|translate}<span id="visible_to_website"><strong>
                         <select id="visible_to_website_select">
-                            <option selected="" value="{$idSite}">this website only</option>
-                            <option value="0">all websites</option>
+                            <option selected="" value="{$idSite}">{'SegmentEditor_SegmentDisplayedThisWebsiteOnly'|translate}</option>
+                            <option value="0">{'SegmentEditor_SegmentDisplayedAllWebsites'|translate}</option>
                         </select>
                     </strong></span>
             </div>
             {/if}
-            <h3>Name: <span>New segment</span> <a class="editSegmentName" href="#">edit</a></h3>
+            <h3>{'General_Name'|translate}: <span  class="segmentName">{'SegmentEditor_NewSegment'|translate}</span> <a class="editSegmentName" href="#">{'General_Edit'|translate|strtolower}</a></h3>
         </div>
         <div class="segment-footer">
-            <a class="delete" href="#">Delete</a>
-            <a class="close" href="#">Close</a>
-            <button class="saveAndApply">Save & Apply</button>
+            <span class="segmentFooterNote">The Segment Editor was <a href='http://crowdfunding.piwik.org/custom-segments-editor/' target='_blank'>crowdfunded</a> with the awesome support of 80 companies and Piwik users worldwide!</span>
+            <a class="delete" href="#">{'General_Delete'|translate}</a>
+            <a class="close" href="#">{'General_Close'|translate}</a>
+            <button class="saveAndApply">{'SegmentEditor_SaveAndApply'|translate}</button>
         </div>
     </div>
 </div>
@@ -131,11 +134,12 @@
 </span>
 
 <div class="ui-confirm" id="confirm">
-    <h2>Are you sure you want to delete this segment?</h2>
+    <h2>{'SegmentEditor_AreYouSureDeleteSegment'|translate}</h2>
     <input role="yes" type="button" value="{'General_Yes'|translate}"/>
     <input role="no" type="button" value="{'General_No'|translate}"/>
 </div>
 
 <script type="text/javascript">
 var availableSegments = {$savedSegmentsJson};
+var segmentTranslations = {$segmentTranslations};
 </script>

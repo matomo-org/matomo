@@ -10,12 +10,12 @@ Segmentation = (function($) {
     var segmentation = function segmentation(config) {
         
         var self = this;
-        // set defaults for widget
+
         self.currentSegmentStr = "";
         self.targetId = "segmentEditorPanel";
         self.segmentAccess = "read";
         self.segmentList = [];
-        // -----------
+
         for(var item in config)
         {
             self[item] = config[item];
@@ -23,22 +23,21 @@ Segmentation = (function($) {
 
         self.timer = ""; // variable for further use in timing events
         self.searchAllowed = true;
-        //----------
 
         self.availableMatches = [];
         self.availableMatches["metric"] = [];
-        self.availableMatches["metric"]["=="] = "Equals";
-        self.availableMatches["metric"]["!="] = "Not Equals";
-        self.availableMatches["metric"]["<="] = "At most";
-        self.availableMatches["metric"][">="] = "At least";
-        self.availableMatches["metric"]["<"] = "Less than";
-        self.availableMatches["metric"][">"] = "Greater than";
+        self.availableMatches["metric"]["=="] = self.translations['General_OperationEquals'];
+        self.availableMatches["metric"]["!="] = self.translations['General_OperationNotEquals'];
+        self.availableMatches["metric"]["<="] = self.translations['General_OperationAtMost'];
+        self.availableMatches["metric"][">="] = self.translations['General_OperationAtLeast'];
+        self.availableMatches["metric"]["<"] = self.translations['General_OperationLessThan'];
+        self.availableMatches["metric"][">"] = self.translations['General_OperationGreaterThan'];
         
         self.availableMatches["dimension"] = [];
-        self.availableMatches["dimension"]["=="] = "Is";
-        self.availableMatches["dimension"]["!="] = "Is not";
-        self.availableMatches["dimension"]["=@"] = "Contains";
-        self.availableMatches["dimension"]["!@"] = "Does not contain";
+        self.availableMatches["dimension"]["=="] = self.translations['General_OperationIs'];
+        self.availableMatches["dimension"]["!="] = self.translations['General_OperationIsNot'];
+        self.availableMatches["dimension"]["=@"] = self.translations['General_OperationContains'];
+        self.availableMatches["dimension"]["!@"] = self.translations['General_OperationDoesNotContain'];
 
         segmentation.prototype.getSegment = function(){
             var self = this;
@@ -93,7 +92,7 @@ Segmentation = (function($) {
                 }
             }
             else {
-                $(self.content).find(".segmentationTitle").text("All visits");
+                $(self.content).find(".segmentationTitle").text(self.translations['SegmentEditor_DefaultAllVisits']);
             }
         }
 
@@ -190,7 +189,9 @@ Segmentation = (function($) {
 
             var listHtml = '<li data-idsegment="" ' +
                             (self.currentSegmentStr == "" ? " class='segmentSelected' " : "")
-                            + ' data-definition=""><span class="segname">All Visits (default)</span></li> ';
+                            + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
+                            + ' ' + self.translations['General_DefaultAppended']
+                            + '</span></li> ';
             if(self.segmentList.length > 0) {
                 for(var key in self.segmentList)
                 {
@@ -203,15 +204,15 @@ Segmentation = (function($) {
                                 + injClass +' title="'+segment.name+'"><span class="segname">'
                                 + self.shortenSegmentName(segment.name)+'</span>';
                     if(self.segmentAccess == "write") {
-                        listHtml += '<span class="editSegment">[edit]</span>';
+                        listHtml += '<span class="editSegment">['+ self.translations['General_Edit'].toLocaleLowerCase() +']</span>';
                     }
                     listHtml += '</li>';
                 }
                 $(html).find(".segmentList > ul").append(listHtml);
                 if(self.segmentAccess === "write"){
-                    $(html).find(".add_new_segment").html(_pk_translate('General_AddNewSegment_js'));
+                    $(html).find(".add_new_segment").html(self.translations['SegmentEditor_AddNewSegment']);
                 }
-                else{
+                else {
                     $(html).find(".add_new_segment").hide();;
                 }
             }
@@ -228,7 +229,10 @@ Segmentation = (function($) {
             //$("body").append(html);
             var segmentsDropdown = $(html).find("#available_segments_select");
             var segment, newOption;
-            newOption = '<option data-idsegment="" data-definition="" >Add new segment</option>';
+            newOption = '<option data-idsegment="" data-definition="" title="'
+                        + self.translations['SegmentEditor_AddNewSegment']
+                        + '">' + self.translations['SegmentEditor_AddNewSegment']
+                        + '</option>';
             segmentsDropdown.append(newOption);
             for(var key in self.segmentList)
             {
@@ -291,13 +295,10 @@ Segmentation = (function($) {
                     newMetric.metric = metric.substr(0,minPos);
                     newMetric.match = metric.substr(minPos,1);
                     newMetric.value = metric.substr(minPos+1);
-
-                }
-                else{
+                } else {
                     newMetric.metric = metric.substr(0,minPos);
                     newMetric.match = metric.substr(minPos,2);
                     newMetric.value = metric.substr(minPos+2);
-
                 }
                 // if value is only "" -> change to empty string
                 if(newMetric.value == '""')
@@ -306,9 +307,7 @@ Segmentation = (function($) {
                 }
             }
 
-            // the segment values are URL encoded to prevent ",;<>@= etc. from being misinterpreted
             newMetric.value = decodeURIComponent(newMetric.value);
-
             return newMetric;
         }
 
@@ -398,11 +397,14 @@ Segmentation = (function($) {
                     persist = false;
                 }
                 alterMatchesList(this, persist);
+
                 doDragDropBindings();
+
                 autoSuggestValues(this, persist);
             } );
         }
 
+        // Request auto-suggest values
         var autoSuggestValues = function(select, persist) {
             var type = $(select).find("option:selected").attr("value");
             if(!persist) {
@@ -412,7 +414,6 @@ Segmentation = (function($) {
                 var inputElement = parents.find(".metricValueBlock input");
                 var segmentName = $('option:selected',select).attr('value');
 
-                // Request auto-suggest values
                 var ajaxHandler = new ajaxHelper();
                 ajaxHandler.addParams({
                     module: 'API',
@@ -435,7 +436,7 @@ Segmentation = (function($) {
 
                     inputElement.click(function(e){ inputElement.keydown() });
                 });
-                ajaxHandler.send(true);
+                ajaxHandler.send();
             }
         }
 
@@ -445,8 +446,7 @@ Segmentation = (function($) {
             var matchSelector = $(select).parents(".segment-input").siblings(".metricMatchBlock").find("select");
             if(persist === true){
                 oldMatch = matchSelector.find("option:selected").val();
-            }
-            else{
+            } else {
                 oldMatch = "";
             }
 
@@ -509,6 +509,11 @@ Segmentation = (function($) {
                 $(e.currentTarget).siblings("#edit_segment_name").focus().val(oldName);
             });
 
+
+            $(self.form).off("click", ".segmentName").on("click", ".segmentName", function(e) {
+                $(self.form).find("a.editSegmentName").trigger('click');
+            });
+
             $(self.form).off("blur", "input#edit_segment_name").on("blur", "input#edit_segment_name", function(e){
                 var newName = $(this).val();
                 $(e.currentTarget).parents("h3").find("span").text(newName).show();
@@ -539,23 +544,22 @@ Segmentation = (function($) {
             });
 
             $(self.form).off("click", ".custom_select_search a").on("click", ".custom_select_search a", function(e){
-                $(self.form).find("#segmentSearch").val("").trigger("keyup").val("Search");
+                $(self.form).find("#segmentSearch").val("").trigger("keyup").val(self.translations['General_Search']);
             });
 
             // attach event that will clear search input upon focus if its content is default
             $(self.form).find("#segmentSearch").on("focus", function(e){
                 var search = $(e.currentTarget).val();
-                if(search == "Search")
+                if(search == self.translations['General_Search'])
                     $(e.currentTarget).val("");
             });
-
 
             // attach event that will set search input value upon blur if its content is not null
             $(self.form).find("#segmentSearch").on("blur", function(e){
                 var search = $(e.currentTarget).val();
                 if(search == ""){
                     clearSearchMetricHighlight();
-                    $(e.currentTarget).val("Search");
+                    $(e.currentTarget).val(self.translations['General_Search']);
                 }
             });
 
@@ -576,9 +580,7 @@ Segmentation = (function($) {
                 }
             });
 
-
             $(self.form).on("click", ".delete", function(){
-
                 var segmentName = $(self.form).find(".segment-content > h3 > span").text();
                 var segmentId = $(self.form).find("#available_segments_select option:selected").attr("data-idsegment")
                 var params = {
@@ -609,7 +611,6 @@ Segmentation = (function($) {
             bindChangeMetricSelectEvent();
 
             placeSegmentationFormControls();
-
         }
 
         var doDragDropBindings = function(){
@@ -651,27 +652,30 @@ Segmentation = (function($) {
         }
 
         var searchSegments = function(search){
-            // pre-proces search string to normalized form
+            // pre-process search string to normalized form
             search = normalizeSearchString(search);
+
             // ---
             // clear all previous search highlights and hide all categories
             // to allow further showing only matching ones, while others remain invisible
             clearSearchMetricHighlight();
             $(self.form).find('.segment-nav div > ul > li').hide();
             var curStr = "";
+            var curMetric = "";
+
             // 1 - do most obvious selection -> mark whole categories matching search string
             // also expand whole category
             $(self.form).find('.segment-nav div > ul > li').each( function(){
-                curStr = normalizeSearchString($(this).text())
-                if(curStr.indexOf(search) > -1){
-                    $(this).addClass("searchFound");
-                    $(this).find("ul").show();
-                    $(this).find("li").show();
-                    $(this).show();
+                curStr = normalizeSearchString($(this).find("a.metric_category").text())
+                    if(curStr.indexOf(search) > -1) {
+                        $(this).addClass("searchFound");
+                        $(this).find("ul").show();
+                        $(this).find("li").show();
+                        $(this).show();
+                    }
                 }
-            });
+           );
 
-            var curMetric = "";
             // 2 - among all unselected categories find metrics which match and mark parent as search result
             $(self.form).find(".segment-nav div > ul > li:not(.searchFound)").each(function(){
                 var parent = this;
@@ -685,19 +689,11 @@ Segmentation = (function($) {
                         $(parent).addClass("searchFound").show();
                     }
                 });
-
-            //                if(curStr.indexOf(search) > -1 || curMetric.indexOf(search) > -1)
-            //                {
-            //                    $(this).addClass("searchFound");
-            //                    $(this).find('li').hide();
-            //                    $(this).find('li[data*="'+search+'"]').show();
-            //                }
             });
 
             if( $(self.form).find("li.searchFound").length == 0)
             {
-                $(self.form).find("div > ul").prepend('<li class="no_results"><a>No results</a></li>').show();
-
+                $(self.form).find("div > ul").prepend('<li class="no_results"><a>'+self.translations['General_SearchNoResults']+'</a></li>').show();
             }
             // check if search allow flag was revoked - then clear all search results
             if(self.searchAllowed == false)
@@ -751,7 +747,7 @@ Segmentation = (function($) {
                 }
             });
 
-            //   add new OR block
+            // add new OR block
             $(self.form).on("click", ".segment-add-or  a", function(event, data){
                 $(event.currentTarget).parents(".segment-rows").find(".segment-or:last").after(getOrDiv()).after(getMockedInputRowHtml());
                 if(typeof data !== "undefined"){
@@ -802,6 +798,12 @@ Segmentation = (function($) {
                 parseFormAndSave();
             });
 
+            $(self.form).find('.segment-footer').hover( function() {
+                $('.segmentFooterNote').fadeIn();
+            }, function() {
+                $('.segmentFooterNote').fadeOut();
+            });
+
             if(typeof mode !== "undefined" && mode == "new")
             {
                 $(self.form).find(".editSegmentName").trigger('click');
@@ -824,9 +826,6 @@ Segmentation = (function($) {
                         var metric = $(this).find(".metricList option:selected").val();
                         var match = $(this).find(".metricMatchBlock > select option:selected").val();
                         var value = $(this).find(".segment-input input").val();
-                        /*if(value == ""){
-                            value= '';
-                        }*/
                         subSegmentStr += metric + match + encodeURIComponent(value);
                     });
                 });
@@ -912,9 +911,7 @@ Segmentation = (function($) {
         }
 
         var setLeftMargin = function(selector) {
-//            setTimeout( function() {
-                $(selector).css({left: Math.max($('#periodString')[0].offsetWidth) + 10});
-//            }, 500);
+            $(selector).css({left: Math.max($('#periodString')[0].offsetWidth) + 10});
         }
 
         var initHtml = function() {
@@ -952,6 +949,9 @@ $(document).ready( function(){
         $('#segmentEditorPanel a.close').click();
         segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
         segmentDefinition = encodeURIComponent(segmentDefinition);
+        if(segmentDefinition.length) {
+            $('.loadingSegment').show();
+        }
         return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
     };
 
@@ -1016,14 +1016,11 @@ $(document).ready( function(){
         ajaxHandler.addParams({
             idSegment: params.idsegment
         }, 'POST');
-        ajaxHandler.redirectOnSuccess();
+//        ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement();
         ajaxHandler.send(true);
+        return broadcast.propagateNewPage('segment=');
     };
-
-    var testSegment = function(segmentStr){
-        console.log(segmentStr);
-    }
 
     var segmentFromHash = broadcast.getParamValue('segment', location.hash);
     var segmentationFtw = new Segmentation({
@@ -1034,8 +1031,8 @@ $(document).ready( function(){
         "updateMethod": updateSegment,
         "deleteMethod": deleteSegment,
         "segmentSelectMethod": changeSegment,
-        "testSegmentMethod": testSegment,
-        "currentSegmentStr": segmentFromHash
+        "currentSegmentStr": segmentFromHash,
+        "translations": segmentTranslations
     });
 
     $('body').on('mouseup',function(e){

@@ -24,13 +24,13 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
 
         $segmentsByCategory = $customVariablesSegments = array();
         foreach($segments as $segment) {
-            if($segment['category'] == 'Visit'
+            if($segment['category'] == Piwik_Translate('General_Visit')
                 && $segment['type'] == 'metric') {
                 $segment['category'] .= ' (' . lcfirst(Piwik_Translate('General_Metrics')) . ')';
             }
             $segmentsByCategory[$segment['category']][] = $segment;
         }
-        uksort($segmentsByCategory, array($this, 'sortCustomVariablesLast'));
+        uksort($segmentsByCategory, array($this, 'sortSegmentCategories'));
 
         $view->segmentsByCategory = $segmentsByCategory;
 
@@ -41,15 +41,49 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
         $view->savedSegmentsJson = Piwik_Common::json_encode($savedSegments);
         $view->authorizedToCreateSegments = !Piwik::isUserIsAnonymous();
 
+
+        $view->segmentTranslations = Piwik_Common::json_encode($this->getTranslations());
         $out = $view->render();
         echo $out;
     }
 
-    public function sortCustomVariablesLast($a, $b)
+    public function sortSegmentCategories($a, $b)
     {
+        // Custom Variables last
         if($a == Piwik_Translate('CustomVariables_CustomVariables')) {
             return 1;
         }
-        return -1;
+        return 0;
+    }
+
+    private function getTranslations()
+    {
+        $translationKeys = array(
+            'General_OperationEquals',
+            'General_OperationNotEquals',
+            'General_OperationAtMost',
+            'General_OperationAtLeast',
+            'General_OperationLessThan',
+            'General_OperationGreaterThan',
+            'General_OperationContains',
+            'General_OperationDoesNotContain',
+            'General_OperationIs',
+            'General_OperationIsNot',
+            'General_OperationContains',
+            'General_OperationDoesNotContain',
+            'SegmentEditor_DefaultAllVisits',
+            'General_DefaultAppended',
+            'SegmentEditor_AddNewSegment',
+            'General_Edit',
+            'General_Search',
+            'General_SearchNoResults',
+            '',
+            '',
+            '',
+        );
+        foreach($translationKeys as $key) {
+            $translations[$key] = Piwik_Translate($key);
+        }
+        return $translations;
     }
 }

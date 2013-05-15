@@ -356,7 +356,7 @@ class Piwik_Goals extends Piwik_Plugin
         $segments =& $notification->getNotificationObject();
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_VisitConvertedGoalId',
             'segment'        => 'visitConvertedGoalId',
             'sqlSegment'     => 'log_conversion.idgoal',
