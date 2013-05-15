@@ -549,6 +549,7 @@ Plugins[] = DoNotTrack
 Plugins[] = Annotations
 Plugins[] = MobileMessaging
 Plugins[] = Overlay
+Plugins[] = SegmentEditor
 
 [PluginsInstalled]
 PluginsInstalled[] = Login
