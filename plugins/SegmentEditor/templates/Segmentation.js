@@ -434,7 +434,9 @@ Segmentation = (function($) {
                         }
                     });
 
-                    inputElement.click(function(e){ inputElement.keydown() });
+                    inputElement.click(function(e){
+                        inputElement.autocomplete('search', $(inputElement).val());
+                    });
                 });
                 ajaxHandler.send();
             }
