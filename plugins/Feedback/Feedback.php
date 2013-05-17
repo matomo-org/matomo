@@ -38,7 +38,7 @@ class Piwik_Feedback extends Piwik_Plugin
     {
         Piwik_AddTopMenu(
             'General_GiveUsYourFeedback',
-            array('module' => 'Feedback', 'action' => 'index'),
+            array('module' => 'Feedback', 'action' => 'index', 'segment' => false),
             true,
             $order = 20,
             $isHTML = false,

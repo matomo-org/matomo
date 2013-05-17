@@ -491,7 +491,7 @@ class Piwik_PDFReports extends Piwik_Plugin
     {
         Piwik_AddTopMenu(
             $this->getTopMenuTranslationKey(),
-            array('module' => 'PDFReports', 'action' => 'index'),
+            array('module' => 'PDFReports', 'action' => 'index', 'segment' => false),
             true,
             13,
             $isHTML = false,

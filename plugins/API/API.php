@@ -36,7 +36,7 @@ class Piwik_API extends Piwik_Plugin
 
     public function addTopMenu()
     {
-        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI');
+        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
         $tooltip = Piwik_Translate('API_TopLinkTooltip');
 
         Piwik_AddTopMenu('General_API', $apiUrlParams, true, 7, $isHTML = false, $tooltip);
