@@ -125,7 +125,7 @@
 
             </div>
             {/if}
-            <h3>{'General_Name'|translate}: <span  class="segmentName">{'SegmentEditor_NewSegment'|translate}</span> <a class="editSegmentName" href="#">{'General_Edit'|translate|strtolower}</a></h3>
+            <h3>{'General_Name'|translate}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{'General_Edit'|translate|strtolower}</a></h3>
         </div>
         <div class="segment-footer">
             <span class="segmentFooterNote">The Segment Editor was <a href='http://crowdfunding.piwik.org/custom-segments-editor/' target='_blank'>crowdfunded</a> with the awesome support of 80 companies and Piwik users worldwide!</span>

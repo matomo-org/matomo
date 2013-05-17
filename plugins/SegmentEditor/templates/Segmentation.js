@@ -509,8 +509,6 @@ Segmentation = (function($) {
         function openEditFormGivenSegment(option) {
             var segment = {};
             segment.idsegment = option.attr("data-idsegment");
-            segment.name = option.attr("title");
-            segment.definition = option.data("definition");
 
 
             var segmentExtra = getSegmentFromId(segment.idsegment);
@@ -518,6 +516,8 @@ Segmentation = (function($) {
             {
                 segment[item] = segmentExtra[item];
             }
+            segment.name = option.attr("title");
+            segment.definition = option.data("definition");
 
             openEditForm(segment);
         }
@@ -548,9 +548,11 @@ Segmentation = (function($) {
 
             $(self.form).off("blur", "input#edit_segment_name").on("blur", "input#edit_segment_name", function(e){
                 var newName = $(this).val();
-                $(e.currentTarget).parents("h3").find("span").text(newName).show();
-                $(self.form).find("a.editSegmentName").show();
-                $(this).remove();
+                if(newName.trim() != '') {
+                    $(e.currentTarget).parents("h3").find("span").text(newName).show();
+                    $(self.form).find("a.editSegmentName").show();
+                    $(this).remove();
+                }
             });
 
             $(self.form).on("click", '.segment-element', function(event) {
@@ -844,7 +846,6 @@ Segmentation = (function($) {
             if(typeof mode !== "undefined" && mode == "new")
             {
                 $(self.form).find(".editSegmentName").trigger('click');
-                $(self.form).find("#edit_segment_name").val("");
             }
             $("#segmentList").hide();
 
