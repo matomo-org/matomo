@@ -1,7 +1,7 @@
 <div id="SegmentEditor" style="display:none;">
     <div class="segmentationContainer listHtml">
-        {if $authorizedToCreateSegments}
-        <span class="segmentationTitle"><b>{'SegmentEditor_AddNewSegment'}</b></span>
+        <span class="segmentationTitle"></span>
+
         <ul class="submenu">
             <li>{'SegmentEditor_SelectSegmentOfVisitors'|translate}
                 <div class="segmentList">
@@ -10,12 +10,12 @@
                 </div>
             </li>
         </ul>
-        <a class="add_new_segment">{'SegmentEditor_AddNewSegment'|translate}</a>
+        {if $authorizedToCreateSegments}
+            <a class="add_new_segment">{'SegmentEditor_AddNewSegment'|translate}</a>
         {else}
-            <span class="segmentationTitle"><b>{'SegmentEditor_AddNewSegment'|translate}</b></span>
             <ul class="submenu">
-            <li> {'SegmentEditor_YouMustBeLoggedInToCreateSegments'|translate}
-                <br/>&rsaquo; <a href='index.php?module={$loginModule}'>{'Login_LogIn'|translate}</a></strong>
+            <li> <span class='youMustBeLoggedIn'>{'SegmentEditor_YouMustBeLoggedInToCreateSegments'|translate}
+                <br/>&rsaquo; <a href='index.php?module={$loginModule}'>{'Login_LogIn'|translate}</a> </span></strong>
             </li>
             </ul>
         {/if}
@@ -103,9 +103,9 @@
         <div class="segment-content">
             {if $isSuperUser}
             <div class="segment-top">
-                {'SegmentEditor_ThisSegmentIsVisibleTo'|translate} <span id="enabledAllUsers"><strong>
-                        <select id="enabledAllUsers_select">
-                            <option selected="" value="0">{'SegmentEditor_VisibleToMe'|translate}</option>
+                {'SegmentEditor_ThisSegmentIsVisibleTo'|translate} <span id="enable_all_users"><strong>
+                        <select id="enable_all_users_select">
+                            <option selected="1" value="0">{'SegmentEditor_VisibleToMe'|translate}</option>
                             <option value="1">{'SegmentEditor_VisibleToAllUsers'|translate}</option>
                         </select>
                     </strong></span>
@@ -116,6 +116,13 @@
                             <option value="0">{'SegmentEditor_SegmentDisplayedAllWebsites'|translate}</option>
                         </select>
                     </strong></span>
+                {'General_And'|translate} <span id="auto_archive"><strong>
+                        <select id="auto_archive_select">
+                            <option selected="1" value="0">{'SegmentEditor_AutoArchiveRealTime'|translate} {'General_DefaultAppended'|translate}</option>
+                            <option value="1">{'SegmentEditor_AutoArchivePreProcessed'|translate} </option>
+                        </select>
+                    </strong></span>
+
             </div>
             {/if}
             <h3>{'General_Name'|translate}: <span  class="segmentName">{'SegmentEditor_NewSegment'|translate}</span> <a class="editSegmentName" href="#">{'General_Edit'|translate|strtolower}</a></h3>

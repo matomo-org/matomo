@@ -41,7 +41,6 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
         $view->savedSegmentsJson = Piwik_Common::json_encode($savedSegments);
         $view->authorizedToCreateSegments = !Piwik::isUserIsAnonymous();
 
-
         $view->segmentTranslations = Piwik_Common::json_encode($this->getTranslations());
         $out = $view->render();
         echo $out;

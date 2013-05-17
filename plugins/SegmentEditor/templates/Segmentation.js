@@ -14,7 +14,7 @@ Segmentation = (function($) {
         self.currentSegmentStr = "";
         self.targetId = "segmentEditorPanel";
         self.segmentAccess = "read";
-        self.segmentList = [];
+        self.availableSegments = [];
 
         for(var item in config)
         {
@@ -182,7 +182,20 @@ Segmentation = (function($) {
             $(self.form).find(".segment-content").append(getInitialStateRowsHtml());
             doDragDropBindings();
         }
-        
+
+        var getSegmentFromId = function (id) {
+            if(self.availableSegments.length > 0) {
+                for(var key in self.availableSegments)
+                {
+                    segment = self.availableSegments[key];
+                    if(segment.idsegment == id) {
+                        return segment;
+                    }
+                }
+            }
+            return false;
+        }
+
         var getListHtml = function() {
             var html = $("#SegmentEditor > .listHtml").clone();
             var segment, injClass;
@@ -192,10 +205,10 @@ Segmentation = (function($) {
                             + ' data-definition=""><span class="segname">' + self.translations['SegmentEditor_DefaultAllVisits']
                             + ' ' + self.translations['General_DefaultAppended']
                             + '</span></li> ';
-            if(self.segmentList.length > 0) {
-                for(var key in self.segmentList)
+            if(self.availableSegments.length > 0) {
+                for(var key in self.availableSegments)
                 {
-                    segment = self.segmentList[key];
+                    segment = self.availableSegments[key];
                     injClass = "";
                     if( segment.definition == self.currentSegmentStr){
                         injClass = 'class="segmentSelected"';
@@ -234,9 +247,9 @@ Segmentation = (function($) {
                         + '">' + self.translations['SegmentEditor_AddNewSegment']
                         + '</option>';
             segmentsDropdown.append(newOption);
-            for(var key in self.segmentList)
+            for(var key in self.availableSegments)
             {
-                segment = self.segmentList[key];
+                segment = self.availableSegments[key];
                 newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition)+'" title="'+segment.name+'">'+self.shortenSegmentName(segment.name)+'</option>';
                 segmentsDropdown.append(newOption);
             }
@@ -325,11 +338,15 @@ Segmentation = (function($) {
         }
 
         var openEditForm = function(segment){
-            addForm();
+            addForm("edit", segment);
+
             $(self.form).find(".segment-content > h3 > span").text(segment.name);
             $(self.form).find('#available_segments_select > option[data-idsegment="'+segment.idsegment+'"]').prop("selected",true);
+
             $(self.form).find('#available_segments a.dropList').html(self.shortenSegmentName(segment.name, 16));
-            
+
+
+
             if(segment.definition != ""){
                 revokeInitialStateRows();
                 var blocks = parseSegmentStr(segment.definition);
@@ -368,11 +385,8 @@ Segmentation = (function($) {
             $(self.content).off("click",".editSegment").on("click", ".editSegment", function(e){
                 $(this).parents(".segmentationContainer").trigger("click");
                 var target = $(this).parent("li");
-                var segment = {};
-                segment.idsegment = target.attr("data-idsegment");
-                segment.definition = target.data("definition");
-                segment.name = target.attr("title");
-                openEditForm(segment);
+
+                openEditFormGivenSegment(target);
                 e.stopPropagation();
                 e.preventDefault();
             });
@@ -492,6 +506,22 @@ Segmentation = (function($) {
             });
         }
 
+        function openEditFormGivenSegment(option) {
+            var segment = {};
+            segment.idsegment = option.attr("data-idsegment");
+            segment.name = option.attr("title");
+            segment.definition = option.data("definition");
+
+
+            var segmentExtra = getSegmentFromId(segment.idsegment);
+            for(var item in segmentExtra)
+            {
+                segment[item] = segmentExtra[item];
+            }
+
+            openEditForm(segment);
+        }
+
         var bindFormEvents = function(){
 
             $(self.form).on("click", "a", function(e){
@@ -530,12 +560,7 @@ Segmentation = (function($) {
 
             $(self.form).find("#available_segments_select").bind("change", function(e){
                 var option = $(e.currentTarget).find('option:selected');
-                var segment = {};
-                segment.idsegment = option.attr("data-idsegment");
-                segment.name = option.attr("title");
-                segment.definition = option.data("definition");
-                openEditForm(segment);
-
+                openEditFormGivenSegment(option);
             });
 
             // attach event that shows/hides child elements of each metric category
@@ -777,7 +802,8 @@ Segmentation = (function($) {
             });
         }
 
-        var addForm = function(mode){
+        // Mode = 'new' or 'edit'
+        var addForm = function(mode, segment){
 
             $("#segmentEditorPanel").find(".segment-element:visible").unbind().remove();
             if(typeof self.form !== "undefined")
@@ -792,8 +818,17 @@ Segmentation = (function($) {
             setLeftMargin('#segmentEditorPanel > .segment-element');
             bindFormEvents();
             bindSegmentManipulationEvents();
-            makeDropList("#enabledAllUsers" , "#enabledAllUsers_select");
+
+            if(mode == "edit") {
+                $(self.form).find('#enable_all_users_select > option[value="'+segment.enable_all_users+'"]').prop("selected",true);
+                $(self.form).find('#visible_to_website_select > option[value="'+segment.enable_only_idsite+'"]').prop("selected",true);
+                $(self.form).find('#auto_archive_select > option[value="'+segment.auto_archive+'"]').prop("selected",true);
+
+            }
+
+            makeDropList("#enable_all_users" , "#enable_all_users_select");
             makeDropList("#visible_to_website" , "#visible_to_website_select");
+            makeDropList("#auto_archive" , "#auto_archive_select");
             makeDropList("#available_segments" , "#available_segments_select");
             $(self.form).find(".saveAndApply").bind("click", function(e){
                 e.preventDefault();
@@ -844,13 +879,16 @@ Segmentation = (function($) {
             var segmentName = $(self.form).find(".segment-content > h3 >span").text();
             var segmentStr = parseForm();
             var segmentId = $(self.form).find('#available_segments_select > option:selected').attr("data-idsegment");
-            var user = $(self.form).find("#enabledAllUsers_select option:selected").val();
+            var user = $(self.form).find("#enable_all_users_select option:selected").val();
+            var autoArchive = $(self.form).find("#auto_archive_select option:selected").val() || 0;
             var params = {
                 "name": segmentName,
                 "definition": segmentStr,
                 "enabledAllUsers": user,
-                "idSite": $('#visible_to_website').find('option:selected').attr('value')
+                "autoArchive": autoArchive,
+                "idSite":  $(self.form).find("#visible_to_website_select option:selected").val()
             };
+
             // determine if save or update should be performed
             if(segmentId === ""){
                 self.addMethod(params);
@@ -885,10 +923,10 @@ Segmentation = (function($) {
                 select: function( event, ui ) {
                     event.preventDefault();
                     ui.item.option.selected = true;
-                    if(ui.item.value) {
-                        dropList.text(ui.item.label);
-                        $(self.form).find(selectId).trigger("change");
-                    }
+                    // Mark original select>option
+                    $('#SegmentEditor ' + spanId + ' option[value="' + ui.item.value + '"]').prop('selected', true);
+                    dropList.text(ui.item.label);
+                    $(self.form).find(selectId).trigger("change");
                 }
             })
             .click(function() {
@@ -1020,15 +1058,23 @@ $(document).ready( function(){
         }, 'POST');
 //        ajaxHandler.redirectOnSuccess();
         ajaxHandler.setLoadingElement();
+        ajaxHandler.useCallbackInCaseOfError();
+        ajaxHandler.setCallback(function (response) {
+            if (response && response.result == 'error') {
+                alert(response.message);
+            } else {
+                return broadcast.propagateNewPage('segment=');
+            }
+        });
+
         ajaxHandler.send(true);
-        return broadcast.propagateNewPage('segment=');
     };
 
     var segmentFromHash = broadcast.getParamValue('segment', location.hash);
     var segmentationFtw = new Segmentation({
         "targetId"   : "segmentList",
         "segmentAccess" : "write",
-        "segmentList" : availableSegments,
+        "availableSegments" : availableSegments,
         "addMethod": addSegment,
         "updateMethod": updateSegment,
         "deleteMethod": deleteSegment,

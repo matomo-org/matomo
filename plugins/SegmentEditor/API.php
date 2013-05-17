@@ -81,6 +81,8 @@ class Piwik_SegmentEditor_API
             }
             Piwik::checkUserHasViewAccess($idSite);
         }
+        $idSite = (int)$idSite;
+        return $idSite;
     }
 
     protected function checkAutoArchive($autoArchive, $idSite)
@@ -115,8 +117,16 @@ class Piwik_SegmentEditor_API
         return $segment;
     }
 
+    protected function checkUserIsNotAnonymous()
+    {
+        if(Piwik::isUserIsAnonymous()) {
+            throw new Exception("To create, edit or delete Custom Segments, please sign in first.");
+        }
+    }
+
     public function delete($idSegment)
     {
+        $this->checkUserIsNotAnonymous();
         $segment = $this->getSegmentOrFail($idSegment);
         $db = Zend_Registry::get('db');
         $db->delete(Piwik_Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
@@ -125,9 +135,10 @@ class Piwik_SegmentEditor_API
 
     public function update($idSegment, $name, $definition, $idSite = false, $autoArchive = false, $enabledAllUsers = false)
     {
+        $this->checkUserIsNotAnonymous();
         $segment = $this->getSegmentOrFail($idSegment);
 
-        $this->checkIdSite($idSite);
+        $idSite = $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
         $definition = $this->checkSegmentValue($definition, $idSite);
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
@@ -153,8 +164,8 @@ class Piwik_SegmentEditor_API
 
     public function add($name, $definition, $idSite = false, $autoArchive = false, $enabledAllUsers = false)
     {
-        Piwik::checkUserIsNotAnonymous();
-        $this->checkIdSite($idSite);
+        $this->checkUserIsNotAnonymous();
+        $idSite = $this->checkIdSite($idSite);
         $this->checkSegmentName($name);
         $definition = $this->checkSegmentValue($definition, $idSite);
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
@@ -201,33 +212,37 @@ class Piwik_SegmentEditor_API
         return $segment;
     }
 
-    public function getAll($idSite = false, $returnAutoArchived = false)
+    public function getAll($idSite = false, $returnOnlyAutoArchived = false)
     {
         if(!empty($idSite) ) {
             Piwik::checkUserHasViewAccess($idSite);
         } else {
             Piwik::checkUserHasSomeViewAccess();
         }
+        $bind = array();
+
+        // Build basic segment filtering
+        $whereIdSite = '';
+        if(!empty($idSite)) {
+            $whereIdSite = 'enable_only_idsite = ? OR ';
+            $bind[] = $idSite;
+        }
+
+        $bind[] = Piwik::getCurrentUserLogin();
 
         $extraWhere = '';
-        if($returnAutoArchived) {
+        if($returnOnlyAutoArchived) {
             $extraWhere = ' AND auto_archive = 1';
         }
 
-        $whereIdSite = '';
-        $bind = array(Piwik::getCurrentUserLogin());
-        if(!empty($idSite)) {
-            $whereIdSite = 'enable_only_idsite = ? OR ';
-            $bind = array($idSite, Piwik::getCurrentUserLogin());
-        }
-
+        // Query
         $sql = "SELECT * " .
-        " FROM " . Piwik_Common::prefixTable("segment") .
-        " WHERE ($whereIdSite enable_only_idsite IS NULL)
-                AND  (enable_all_users = 1 OR login = ?)
-                AND deleted = 0
-                $extraWhere
-              ORDER BY name ASC";
+                " FROM " . Piwik_Common::prefixTable("segment") .
+                " WHERE ($whereIdSite enable_only_idsite = 0)
+                        AND  (enable_all_users = 1 OR login = ?)
+                        AND deleted = 0
+                        $extraWhere
+                      ORDER BY name ASC";
         $segments = Zend_Registry::get('db')->fetchAll($sql, $bind);
 
         return $segments;

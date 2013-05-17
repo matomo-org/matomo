@@ -1,4 +1,9 @@
 /* ADDITIONAL STYLES*/
+.youMustBeLoggedIn {
+    font-size:8pt;
+    font-style: italic;
+
+}
 .loadingSegment {
     color: grey;
     display: block;
