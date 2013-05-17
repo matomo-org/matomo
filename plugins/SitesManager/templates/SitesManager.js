@@ -157,6 +157,11 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
         $('.addRowSite').click(function () {
             piwikHelper.hideAjaxError();
             $('.addRowSite').toggle();
+            
+            var excludedUserAgentCell = '';
+            if ($('#exclude-user-agent-header').is(':visible')) {
+                excludedUserAgentCell = '<td><textarea cols="20" rows="4" id="excludedUserAgents"></textarea><br />' + excludedUserAgentsHelp + '</td>';
+            }
 
             var numberOfRows = $('table#editSites')[0].rows.length;
             var newRowId = 'rowNew' + numberOfRows;
@@ -166,9 +171,9 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
 				<td><input id="name" value="Name" size="15" /><br/><br/><br/>' + submitButtonHtml + '</td>\
 				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />' + aliasUrlsHelp + keepURLFragmentSelectHTML + '</td>\
 				<td><textarea cols="20" rows="4" id="excludedIps"></textarea><br />' + excludedIpHelp + '</td>\
-				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />' + excludedQueryParametersHelp + '</td>\
-				<td><textarea cols="20" rows="4" id="excludedUserAgents"></textarea><br />' + excludedUserAgentsHelp + '</td>\
-				<td>' + getSitesearchSelector(false) + '</td>\
+				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />' + excludedQueryParametersHelp + '</td>' +
+				excludedUserAgentCell +
+				'<td>' + getSitesearchSelector(false) + '</td>\
 				<td>' + getTimezoneSelector(defaultTimezone) + '<br />' + timezoneHelp + '</td>\
 				<td>' + getCurrencySelector(defaultCurrency) + '<br />' + currencyHelp + '</td>\
 				<td>' + getEcommerceSelector(0) + '<br />' + ecommerceHelp + '</td>\
