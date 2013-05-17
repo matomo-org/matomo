@@ -25,7 +25,7 @@ if (!defined('PIWIK_INCLUDE_SEARCH_PATH')) {
 error_reporting(E_ALL | E_NOTICE);
 @date_default_timezone_set('UTC');
 
-$useXhprof = true;
+$useXhprof = false;
 if ($useXhprof) {
     require_once PIWIK_INCLUDE_PATH . '/tests/lib/xhprof-0.9.2/xhprof_lib/utils/xhprof_runs.php';
     
