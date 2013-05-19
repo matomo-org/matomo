@@ -9,7 +9,7 @@
 /**
  * Reusable fixture. Tracks twelve thousand page views for 1000 sites on one day.
  */
-class Piwik_Test_Fixture_ThousandSitesTwelvePageViewsEachOneDay
+class Piwik_Test_Fixture_ThousandSitesTwelveVisitsEachOneDay
 {
     public $date = '2010-01-01';
     public $period = 'day';
@@ -55,10 +55,11 @@ class Piwik_Test_Fixture_ThousandSitesTwelvePageViewsEachOneDay
         foreach ($visitTimes as $visitTime) {
             foreach ($allIdSites as $idSite) {
                 for ($visitor = 0; $visitor != 3; ++$visitor) {
-                    $t = BenchmarkTestCase::getLocalTracker($this->idSite);
+                    $t = BenchmarkTestCase::getLocalTracker($idSite);
 
                     $ip = "157.5.6." . ($visitor + 1);
                     $t->setIp($ip);
+                    $t->setNewVisitorId();
 
                     $t->setForceVisitDateTime($visitTime);
                     foreach ($urls as $url => $title) {

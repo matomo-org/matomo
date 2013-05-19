@@ -50,6 +50,7 @@ class Piwik_Test_Fixture_OneSiteTwelveThousandVisitsOneYear
 
                 $ip = "157.5.6." . ($visitor + 1);
                 $t->setIp($ip);
+                $t->setNewVisitorId();
                 $t->setForceVisitDateTime($visitTime);
 
                 foreach ($urls as $url => $title) {
