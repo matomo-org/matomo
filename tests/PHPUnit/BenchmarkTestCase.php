@@ -54,7 +54,7 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
         }
 
         $createEmptyDatabase = $fixtureName != $installedFixture;
-        parent::_setUpBeforeClass($dbName, $createEmptyDatabase, $createConfig = false);
+        parent::_setUpBeforeClass($dbName, $createEmptyDatabase, $createConfig = false, $installPlugins = true);
 
         // if we created an empty database, setup the fixture
         if ($createEmptyDatabase) {
@@ -75,14 +75,14 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
      */
     public static function getLocalTracker($idSite)
     {
-        $t = new Piwik_LocalTracker($idSite, IntegrationTestCase::getTrackerUrl());
+        $t = new Piwik_LocalTracker($idSite, Test_Piwik_BaseFixture::getTrackerUrl());
         $t->setUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)");
         $t->setBrowserLanguage('fr');
         $t->setLocalTime('12:34:06');
         $t->setResolution(1024, 768);
         $t->setBrowserHasCookies(true);
         $t->setPlugins($flash = true, $java = true, $director = false);
-        $t->setTokenAuth(self::getTokenAuth());
+        $t->setTokenAuth(Test_Piwik_BaseFixture::getTokenAuth());
         return $t;
     }
 }
@@ -99,7 +99,7 @@ class Piwik_Test_Fixture_EmptyOneSite
     public function setUp()
     {
         // add one site
-        IntegrationTestCase::createWebsite(
+        Test_Piwik_BaseFixture::createWebsite(
             $this->date, $ecommerce = 1, $siteName = "Site #0", $siteUrl = "http://whatever.com/");
 
         // add two goals

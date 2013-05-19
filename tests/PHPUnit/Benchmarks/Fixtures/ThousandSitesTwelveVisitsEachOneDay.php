@@ -23,7 +23,7 @@ class Piwik_Test_Fixture_ThousandSitesTwelvePageViewsEachOneDay
         // add one thousand sites
         $allIdSites = array();
         for ($i = 0; $i < 1000; ++$i) {
-            $allIdSites[] = IntegrationTestCase::createWebsite($this->date, $ecommerce = 1, $siteName = "Site #$i");
+            $allIdSites[] = Test_Piwik_BaseFixture::createWebsite($this->date, $ecommerce = 1, $siteName = "Site #$i");
         }
 
         // add goals to 500 sites

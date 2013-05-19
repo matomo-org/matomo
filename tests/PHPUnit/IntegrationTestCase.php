@@ -112,7 +112,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * setupBeforeClass' implementation. Can be called by derived classes in case
      * they need to do some custom setup procedure.
      */
-    public static function _setUpBeforeClass($dbName = false, $createEmptyDatabase = true, $createConfig = true)
+    public static function _setUpBeforeClass($dbName = false, $createEmptyDatabase = true, $createConfig = true, $installPlugins = null)
     {
         try {
             Piwik::$piwikUrlCache = '';
@@ -160,7 +160,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Piwik::setUserIsSuperUser();
 
         Piwik_Tracker_Cache::deleteTrackerCache();
-        self::installAndLoadPlugins( $installPlugins = $createEmptyDatabase);
+        if ($installPlugins === null) $installPlugins = $createEmptyDatabase;
+        self::installAndLoadPlugins( $installPlugins);
 
 
         $_GET = $_REQUEST = array();
