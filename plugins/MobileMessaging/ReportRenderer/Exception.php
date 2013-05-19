@@ -59,7 +59,7 @@ class Piwik_MobileMessaging_ReportRenderer_Exception extends Piwik_ReportRendere
         return $this->rendering;
     }
 
-    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata)
+    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
     {
         // nothing to do
     }

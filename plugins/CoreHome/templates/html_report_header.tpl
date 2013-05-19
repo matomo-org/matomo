@@ -15,6 +15,12 @@
     {$description} - {'General_DateRange'|translate} {$prettyDate}
 </p>
 
+{if $displaySegment}
+    <p style="color: rgb({$reportTitleTextColor});">
+        {'PDFReports_CustomVisitorSegment'|translate:"Piwik"} {$segmentName}
+    </p>
+{/if}
+
 {if sizeof($reportMetadata) > 1}
     <h2 style="color: rgb({$reportTitleTextColor}); font-size: {$reportTitleTextSize}pt;">
         {'PDFReports_TableOfContent'|translate}

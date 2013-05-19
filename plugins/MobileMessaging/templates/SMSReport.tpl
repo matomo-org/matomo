@@ -1,5 +1,9 @@
 {strip}
-    {$prettyDate}.{literal} {/literal}
+    {$prettyDate}
+    {if $displaySegment}
+        ,{literal} {/literal}{$segmentName}
+    {/if}
+    .{literal} {/literal}
 
     {if empty($reportRows)}
         {'CoreHome_ThereIsNoDataForThisReport'|translate}
@@ -14,7 +18,7 @@
             {$rowMetrics.label}:{literal} {/literal}
         {/if}
 
-    {*visits*}
+        {*visits*}
         {$rowMetrics.nb_visits} {'General_ColumnNbVisits'|translate}
         {if $rowMetrics.visits_evolution != 0}
             {literal} {/literal}({$rowMetrics.visits_evolution}%)
@@ -22,7 +26,7 @@
 
         {if $rowMetrics.nb_visits != 0}
 
-        {*actions*}
+            {*actions*}
             ,{literal} {/literal}
             {$rowMetrics.nb_actions} {'General_ColumnNbActions'|translate}
             {if $rowMetrics.actions_evolution != 0}
@@ -31,7 +35,7 @@
 
             {if $isGoalPluginEnabled}
 
-            {*goal metrics*}
+                {*goal metrics*}
                 {if $rowMetrics.nb_conversions != 0}
 
                     ,{literal} {/literal}
@@ -47,7 +51,7 @@
                     {/if}
                 {/if}
 
-            {*eCommerce metrics*}
+                {*eCommerce metrics*}
                 {if $siteHasECommerce[$rowMetadata.idsite]}
 
                     ,{literal} {/literal}

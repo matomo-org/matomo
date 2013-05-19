@@ -16,6 +16,8 @@
  */
 class Piwik_SegmentEditor_API
 {
+    const DELETE_SEGMENT_EVENT = 'SegmentEditor.delete';
+
     static private $instance = null;
 
     /**
@@ -127,6 +129,10 @@ class Piwik_SegmentEditor_API
     public function delete($idSegment)
     {
         $this->checkUserIsNotAnonymous();
+
+        // allow plugins using the segment to throw an exception or propagate the deletion
+        Piwik_PostEvent(self::DELETE_SEGMENT_EVENT, $idSegment);
+
         $segment = $this->getSegmentOrFail($idSegment);
         $db = Zend_Registry::get('db');
         $db->delete(Piwik_Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
