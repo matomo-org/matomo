@@ -19,7 +19,8 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
         $archivingTables = Piwik::getTablesArchivesInstalled();
         if (empty($archivingTables)) {
             $this->archivingLaunched = true;
-            $this->launchArchiving();
+            Piwik_VisitsSummary_API::getInstance()->get(
+                self::$fixture->idSite, self::$fixture->period, self::$fixture->date);
         }
     }
 
@@ -29,15 +30,15 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
      */
     public function testArchivingProcess()
     {
-        echo "NOTE: Had to archive tables, memory results will not be accurate. Run again for better results.";
+        if ($this->archivingLaunched) {
+            echo "NOTE: Had to archive tables, memory results will not be accurate. Run again for better results.";
+        }
         
         Piwik_ArchiveProcessing::$forceDisableArchiving = true;
-        $this->launchArchiving();
-    }
-    
-    private function launchArchiving()
-    {
-        Piwik_VisitsSummary_API::getInstance()->get(
-            self::$fixture->idSite, self::$fixture->period, self::$fixture->date);
+        
+        $period = Piwik_Period::factory(self::$fixture->period, Piwik_Date::factory(self::$fixture->date));
+        $dateRange = $period->getDateStart().','.$period->getDateEnd();
+        
+        Piwik_VisitsSummary_API::getInstance()->get(self::$fixture->idSite, 'day', $dateRange);
     }
 }
