@@ -783,7 +783,9 @@ abstract class Piwik_ViewDataTable
         }
 
         $rawSegment = $this->getRawSegmentFromRequest();
-        $javascriptVariablesToSet['segment'] = $rawSegment;
+        if(!empty($rawSegment)) {
+            $javascriptVariablesToSet['segment'] = $rawSegment;
+        }
 
 
         return $javascriptVariablesToSet;

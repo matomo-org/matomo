@@ -66,20 +66,15 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
                                                            'no_data'              => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
                                                       ));
 
-        // template for ajax requests
-        $params = array(
+        $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
             'period'                      => $period,
             'idSite'                      => $idSite,
             'date'                        => $date,
             'token_auth'                  => $token_auth,
-            'format'                      => 'json',
-            'segment'                     => Piwik_ViewDataTable::getRawSegmentFromRequest(),
-            'showRawMetrics'              => 1,
             'enable_filter_excludelowpop' => 1,
             'filter_excludelowpop_value'  => -1
-        );
-        $params = array_filter($params);
-        $view->reqParamsJSON = Piwik_Common::json_encode($params);
+        ));
+
         $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
         $config['mapCssPath'] = 'plugins/UserCountryMap/css/map.css';
@@ -140,18 +135,28 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
                                              'goal_conversions' => Piwik_Translate('UserCountryMap_GoalConversions'),
                                         ));
 
-        $view->reqParamsJSON = json_encode(array(
+        $view->reqParamsJSON = $this->getEnrichedRequest(array(
                                                 'period'         => 'range',
                                                 'idSite'         => $idSite,
                                                 'date'           => self::REAL_TIME_WINDOW,
                                                 'token_auth'     => $token_auth,
-                                                'format'         => 'json',
-                                                'segment'        => Piwik_ViewDataTable::getRawSegmentFromRequest(),
-                                                'showRawMetrics' => 1
                                            ));
 
         echo $view->render();
     }
+
+    private function getEnrichedRequest($params)
+    {
+        $params['format'] = 'json';
+        $params['showRawMetrics'] = 1;
+        $segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
+        if(!empty($segment)) {
+            $params['segment'] = $segment;
+        }
+
+        return Piwik_Common::json_encode($params);
+    }
+
 
     private function checkUserCountryPluginEnabled()
     {
