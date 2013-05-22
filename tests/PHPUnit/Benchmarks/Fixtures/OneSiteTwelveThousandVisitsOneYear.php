@@ -20,7 +20,7 @@ class Piwik_Test_Fixture_OneSiteTwelveThousandVisitsOneYear
     public function setUp()
     {
         // add one site
-        IntegrationTestCase::createWebsite(
+        Test_Piwik_BaseFixture::createWebsite(
             $this->date, $ecommerce = 1, $siteName = "Site #0", $siteUrl = "http://whatever.com/");
 
         // add two goals
@@ -39,7 +39,6 @@ class Piwik_Test_Fixture_OneSiteTwelveThousandVisitsOneYear
         $date = Piwik_Date::factory($this->date);
         for ($month = 0; $month != 12; ++$month) {
             for ($day = 0; $day != 25; ++$day) {
-                $hour = ($time * 31) / 60.0;
                 $visitTimes[] = $date->addPeriod($month, 'MONTH')->addDay($day)->getDatetime();
             }
         }
@@ -51,6 +50,7 @@ class Piwik_Test_Fixture_OneSiteTwelveThousandVisitsOneYear
 
                 $ip = "157.5.6." . ($visitor + 1);
                 $t->setIp($ip);
+                $t->setNewVisitorId();
                 $t->setForceVisitDateTime($visitTime);
 
                 foreach ($urls as $url => $title) {

@@ -1,0 +1,62 @@
+<?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/**
+ * Adds one site and 1000 actions for every day of one month (January). Each
+ * action uses a distinct URL. The site has two goals, one that is converted on
+ * each visit, and another that matches half of all visits.
+ */
+class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
+{
+    public $date = '2010-01-01';
+    public $period = 'month';
+    public $idSite = 1;
+
+    public function setUp()
+    {
+        // add one site
+        Test_Piwik_BaseFixture::createWebsite(
+            $this->date, $ecommerce = 1, $siteName = "Site #0", $siteUrl = "http://whatever.com/");
+
+        // add two goals
+        $goals = Piwik_Goals_API::getInstance();
+        $goals->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
+        $goals->addGoal($this->idSite, 'all', 'url', 'thing2', 'contains');
+        
+        $start = Piwik_Date::factory($this->date);
+        
+        $dates = array();
+        for ($day = 0; $day != 31; ++$day) {
+            $dates[] = $start->addDay($day);
+        }
+        
+        $t = BenchmarkTestCase::getLocalTracker($this->idSite);
+        
+        $actionNum = 0;
+        foreach ($dates as $date) {
+            for ($visitNum = 0; $visitNum != 1000; ++$visitNum) {
+                if ($visitNum % 2 == 0) {
+                    $url = "http://whatever.com/$actionNum/0/1/2/3/4/5/6/7/8/9";
+                    $referrerUrl = "http://google.com/?q=$actionNum";
+                } else {
+                    $url = "http://whatever.com/thing2/$actionNum/0/1/2/3/4/5/6/7/8/9";
+                    $referrerUrl = "http://";
+                }
+                $title = "A page title / $actionNum / 0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 /9";
+                
+                $t->setNewVisitorId();
+                $t->setForceVisitDateTime($date);
+                
+                $t->setUrl($url);
+                $t->setUrlReferrer($referrerUrl);
+                Test_Piwik_BaseFixture::checkResponse($t->doTrackPageView($title));
+                ++$actionNum;
+            }
+        }
+    }
+}

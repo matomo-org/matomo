@@ -82,7 +82,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
         $this->rendering .= $smarty->fetch(self::prefixTemplatePath("html_report_footer.tpl"));
     }
 
-    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata)
+    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
     {
         $smarty = new Piwik_Smarty();
         $this->assignCommonParameters($smarty);
@@ -92,6 +92,13 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
         $smarty->assign("prettyDate", $prettyDate);
         $smarty->assign("description", $description);
         $smarty->assign("reportMetadata", $reportMetadata);
+
+        // segment
+        $displaySegment = ($segment != null);
+        $smarty->assign("displaySegment", $displaySegment);
+        if ($displaySegment) {
+            $smarty->assign("segmentName", $segment['name']);
+        }
 
         $this->rendering .= $smarty->fetch(self::prefixTemplatePath("html_report_header.tpl"));
     }
@@ -139,7 +146,13 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
             $smarty->assign("renderImageInline", $this->renderImageInline);
 
             if ($this->renderImageInline) {
-                $staticGraph = parent::getStaticGraph($reportMetadata, self::IMAGE_GRAPH_WIDTH, self::IMAGE_GRAPH_HEIGHT, $evolutionGraph);
+                $staticGraph = parent::getStaticGraph(
+                    $reportMetadata,
+                    self::IMAGE_GRAPH_WIDTH,
+                    self::IMAGE_GRAPH_HEIGHT,
+                    $evolutionGraph,
+                    $processedReport['segment']
+                );
                 $smarty->assign("generatedImageGraph", base64_encode($staticGraph));
                 unset($generatedImageGraph);
             }

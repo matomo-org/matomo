@@ -103,9 +103,10 @@ abstract class Piwik_ReportRenderer
      * @param string $reportTitle
      * @param string $prettyDate formatted date
      * @param string $description
-     * @param array $reportMetadata metadata for all reports
+     * @param array  $reportMetadata metadata for all reports
+     * @param array  $segment segment applied to all reports
      */
-    abstract public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata);
+    abstract public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment);
 
     /**
      * Render the provided report.
@@ -215,7 +216,7 @@ abstract class Piwik_ReportRenderer
         );
     }
 
-    public static function getStaticGraph($reportMetadata, $width, $height, $evolution)
+    public static function getStaticGraph($reportMetadata, $width, $height, $evolution, $segment)
     {
 
         $imageGraphUrl = $reportMetadata['imageGraphUrl'];
@@ -226,11 +227,12 @@ abstract class Piwik_ReportRenderer
 
         $request = new Piwik_API_Request(
             $imageGraphUrl .
-                '&outputType=' . Piwik_ImageGraph_API::GRAPH_OUTPUT_PHP .
-                '&format=original&serialize=0' .
-                '&filter_truncate=' .
-                '&width=' . $width .
-                '&height=' . $height
+            '&outputType=' . Piwik_ImageGraph_API::GRAPH_OUTPUT_PHP .
+            '&format=original&serialize=0' .
+            '&filter_truncate=' .
+            '&width=' . $width .
+            '&height=' . $height .
+            ($segment != null ? '&segment=' . $segment['definition'] : '')
         );
 
         try {

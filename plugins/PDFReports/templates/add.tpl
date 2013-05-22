@@ -27,6 +27,25 @@
                     </div>
                 </td>
             </tr>
+            {if $segmentEditorActivated}
+                <tr>
+                    <td class="first">{'SegmentEditor_ChooseASegment'|translate} </td>
+                    <td>
+                        <select id='report_segment'>
+                            <option value="">{'SegmentEditor_DefaultAllVisits'|translate}</option>
+                            {foreach from=$savedSegmentsById key=savedSegmentId item=savedSegmentName}
+                                <option value="{$savedSegmentId}">{$savedSegmentName}</option>
+                            {/foreach}
+                        </select>
+
+                        <div class="entityInlineHelp">
+                            {capture assign='SegmentEditor_DefaultAllVisits'}{'SegmentEditor_DefaultAllVisits'|translate}{/capture}
+                            {capture assign='SegmentEditor_AddNewSegment'}{'SegmentEditor_AddNewSegment'|translate}{/capture}
+                            {'PDFReports_Segment_Help'|translate:'<a href="./" target="_blank">':'</a>':$SegmentEditor_DefaultAllVisits:$SegmentEditor_AddNewSegment}
+                        </div>
+                    </td>
+                </tr>
+            {/if}
             <tr>
                 <td class="first">{'PDFReports_EmailSchedule'|translate}</td>
                 <td>

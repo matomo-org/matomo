@@ -36,7 +36,15 @@
     {else}
     {foreach from=$reports item=report}
         <tr>
-            <td class="first">{$report.description}</td>
+            <td class="first">
+                {$report.description}
+
+                {if $segmentEditorActivated and isset($report.idsegment)}
+                    <div class="entityInlineHelp" style="font-size: 9pt;">
+                        {$savedSegmentsById[$report.idsegment]}
+                    </div>
+                {/if}
+            </td>
             <td>{$periods[$report.period]}
                 <!-- Last sent on {$report.ts_last_sent} -->
             </td>
@@ -63,7 +71,7 @@
             </td>
             <td>
                 {*download link*}
-                <a href="{url module=API period=$report.period token_auth=$token_auth method='PDFReports.generateReport' date=$rawDate idReport=$report.idreport outputType=$downloadOutputType language=$language}"
+                <a href="{url module=API period=$report.period segment=null token_auth=$token_auth method='PDFReports.generateReport' idReport=$report.idreport outputType=$downloadOutputType language=$language}"
                    target="_blank" name="linkDownloadReport" id="{$report.idreport}" class="link_but">
                     <img src='{$reportFormatsByReportType[$report.type][$report.format]}' border="0"/>
                     {'General_Download'|translate}

@@ -129,7 +129,8 @@ class Piwik_ImageGraph_API
         $backgroundColor = Piwik_ImageGraph_API::DEFAULT_BACKGROUND_COLOR,
         $gridColor = Piwik_ImageGraph_API::DEFAULT_GRID_COLOR,
         $idSubtable = false,
-        $legendAppendMetric = true
+        $legendAppendMetric = true,
+        $segment = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -296,7 +297,7 @@ class Piwik_ImageGraph_API
                     $apiModule,
                     $apiAction,
                     $labels,
-                    $segment = false,
+                    $segment,
                     $plottedMetric,
                     $languageLoaded,
                     $idGoal,
@@ -352,7 +353,7 @@ class Piwik_ImageGraph_API
                     $date,
                     $apiModule,
                     $apiAction,
-                    $segment = false,
+                    $segment,
                     $apiParameters = false,
                     $idGoal,
                     $languageLoaded,

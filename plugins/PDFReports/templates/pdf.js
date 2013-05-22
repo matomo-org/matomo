@@ -30,6 +30,7 @@ function formSetEditReport(idReport) {
     toggleReportType(report.type);
 
     $('#report_description').html(report.description);
+    $('#report_segment').find('option[value=' + report.idsegment + ']').prop('selected', 'selected');
     $('#report_type').find('option[value=' + report.type + ']').prop('selected', 'selected');
     $('#report_period').find('option[value=' + report.period + ']').prop('selected', 'selected');
     $('#report_hour').val(report.hour);
@@ -74,6 +75,7 @@ function initManagePdf() {
         var apiParameters = getReportAjaxRequest(idReport, 'PDFReports.updateReport');
         apiParameters.idReport = idReport;
         apiParameters.description = $('#report_description').val();
+        apiParameters.idSegment = $('#report_segment').find('option:selected').val();
         apiParameters.reportType = $('#report_type').find('option:selected').val();
         apiParameters.reportFormat = $('[name=report_format].' + apiParameters.reportType + ' option:selected').val();
 

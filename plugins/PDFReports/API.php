@@ -76,10 +76,11 @@ class Piwik_PDFReports_API
      * @param string $reportFormat 'pdf', 'html' or any other format provided via the PDFReports.getReportFormats hook
      * @param array $reports array of reports
      * @param array $parameters array of parameters
+     * @param int $idSegment Segment Identifier
      *
      * @return int idReport generated
      */
-    public function addReport($idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters)
+    public function addReport($idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
@@ -87,7 +88,7 @@ class Piwik_PDFReports_API
         $currentUser = Piwik::getCurrentUserLogin();
         self::ensureLanguageSetForUser($currentUser);
 
-        self::validateCommonReportAttributes($period, $hour, $description, $reportType, $reportFormat);
+        self::validateCommonReportAttributes($period, $hour, $description, $idSegment, $reportType, $reportFormat);
 
         // report parameters validations
         $parameters = self::validateReportParameters($reportType, $parameters);
@@ -108,6 +109,7 @@ class Piwik_PDFReports_API
                  'idsite'      => $idSite,
                  'login'       => $currentUser,
                  'description' => $description,
+                 'idsegment'   => $idSegment,
                  'period'      => $period,
                  'hour'        => $hour,
                  'type'        => $reportType,
@@ -134,7 +136,7 @@ class Piwik_PDFReports_API
      *
      * @see addReport()
      */
-    public function updateReport($idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters)
+    public function updateReport($idReport, $idSite, $description, $period, $hour, $reportType, $reportFormat, $reports, $parameters, $idSegment = false)
     {
         Piwik::checkUserIsNotAnonymous();
         Piwik::checkUserHasViewAccess($idSite);
@@ -146,7 +148,7 @@ class Piwik_PDFReports_API
         $currentUser = Piwik::getCurrentUserLogin();
         self::ensureLanguageSetForUser($currentUser);
 
-        self::validateCommonReportAttributes($period, $hour, $description, $reportType, $reportFormat);
+        self::validateCommonReportAttributes($period, $hour, $description, $idSegment, $reportType, $reportFormat);
 
         // report parameters validations
         $parameters = self::validateReportParameters($reportType, $parameters);
@@ -157,6 +159,7 @@ class Piwik_PDFReports_API
         Zend_Registry::get('db')->update(Piwik_Common::prefixTable('report'),
             array(
                  'description' => $description,
+                 'idsegment'   => $idSegment,
                  'period'      => $period,
                  'hour'        => $hour,
                  'type'        => $reportType,
@@ -199,10 +202,11 @@ class Piwik_PDFReports_API
      * @param int $idSite If specified, will filter reports that belong to a specific idsite
      * @param string $period If specified, will filter reports that are scheduled for this period (day,week,month)
      * @param int $idReport If specified, will filter the report that has the given idReport
+     * @param int $idSegment If specified, will filter the report that has the given idSegment
      * @return array
      * @throws Exception if $idReport was specified but the report wasn't found
      */
-    public function getReports($idSite = false, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = false)
+    public function getReports($idSite = false, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = false, $idSegment = false)
     {
         Piwik::checkUserHasSomeViewAccess();
         $cacheKey = (int)$idSite . '.' . (string)$period . '.' . (int)$idReport . '.' . (int)$ifSuperUserReturnOnlySuperUserReports;
@@ -234,6 +238,10 @@ class Piwik_PDFReports_API
         if (!empty($idReport)) {
             $sqlWhere .= " AND idreport = ?";
             $bind[] = $idReport;
+        }
+        if (!empty($idSegment)) {
+            $sqlWhere .= " AND idsegment = ?";
+            $bind[] = $idSegment;
         }
 
         // Joining with the site table to work around pre-1.3 where reports could still be linked to a deleted site
@@ -330,6 +338,7 @@ class Piwik_PDFReports_API
 
         $prettyDate = null;
         $processedReports = array();
+        $segment = self::getSegment($report['idsegment']);
         foreach ($reportMetadata as $action) {
             $apiModule = $action['module'];
             $apiAction = $action['action'];
@@ -361,8 +370,11 @@ class Piwik_PDFReports_API
 
             $processedReport = Piwik_API_API::getInstance()->getProcessedReport(
                 $idSite, $period, $date, $apiModule, $apiAction,
-                $segment = false, $apiParameters, $idGoal = false, $language
+                $segment != null ? $segment['definition'] : false,
+                $apiParameters, $idGoal = false, $language
             );
+
+            $processedReport['segment'] = $segment;
 
             // TODO add static method getPrettyDate($period, $date) in Piwik_Period
             $prettyDate = $processedReport['prettyDate'];
@@ -409,7 +421,7 @@ class Piwik_PDFReports_API
         list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Piwik_Site::getNameFor($idSite), $report['reports']);
         $filename = "$reportTitle - $prettyDate - $description";
 
-        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata);
+        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment);
         array_walk($processedReports, array($reportRenderer, 'renderReport'));
 
         switch ($outputType) {
@@ -429,7 +441,8 @@ class Piwik_PDFReports_API
                                     $report['metadata'],
                                     Piwik_ReportRenderer_Html::IMAGE_GRAPH_WIDTH,
                                     Piwik_ReportRenderer_Html::IMAGE_GRAPH_HEIGHT,
-                                    $report['evolutionGraph']
+                                    $report['evolutionGraph'],
+                                    $segment
                                 );
                             $additionalFile['mimeType'] = 'image/png';
                             $additionalFile['encoding'] = Zend_Mime::ENCODING_BASE64;
@@ -609,11 +622,12 @@ class Piwik_PDFReports_API
         return Piwik_Common::json_encode($requestedReports);
     }
 
-    private static function validateCommonReportAttributes($period, $hour, &$description, $reportType, $reportFormat)
+    private static function validateCommonReportAttributes($period, $hour, &$description, &$idSegment, $reportType, $reportFormat)
     {
         self::validateReportPeriod($period);
         self::validateReportHour($hour);
         self::validateAndTruncateDescription($description);
+        self::validateIdSegment($idSegment);
         self::validateReportType($reportType);
         self::validateReportFormat($reportType, $reportFormat);
     }
@@ -630,6 +644,22 @@ class Piwik_PDFReports_API
     {
         if (!is_numeric($hour) || $hour < 0 || $hour > 23) {
             throw new Exception('Invalid hour schedule. Should be anything from 0 to 23 inclusive.');
+        }
+    }
+
+    private static function validateIdSegment(&$idSegment)
+    {
+        if (empty($idSegment) || (is_numeric($idSegment) && $idSegment == 0)) {
+
+            $idSegment = null;
+
+        } elseif (!is_numeric($idSegment)) {
+
+            throw new Exception('Invalid segment identifier. Should be an integer.');
+
+        } elseif (self::getSegment($idSegment) == null) {
+
+            throw new Exception('Segment with id ' . $idSegment . ' does not exist or SegmentEditor is not activated.');
         }
     }
 
@@ -739,5 +769,30 @@ class Piwik_PDFReports_API
         Piwik_PostEvent(self::GET_REPORT_RECIPIENTS_EVENT, $recipients, $notificationInfo);
 
         return $recipients;
+    }
+
+    /**
+     * @ignore
+     */
+    static public function getSegment($idSegment)
+    {
+        if (self::isSegmentEditorActivated() && !empty($idSegment)) {
+
+            $segment = Piwik_SegmentEditor_API::getInstance()->get($idSegment);
+
+            if ($segment) {
+                return $segment;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @ignore
+     */
+    public static function isSegmentEditorActivated()
+    {
+        return Piwik_PluginsManager::getInstance()->isPluginActivated('SegmentEditor');
     }
 }
