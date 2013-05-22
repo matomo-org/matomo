@@ -1615,6 +1615,7 @@ class Piwik_API_API
         }
 
         $urls = array_map('urldecode', $urls);
+        $urls = array_map(array('Piwik_Common','unsanitizeInputValue'), $urls);
 
         $result = array();
         foreach ($urls as $url) {
