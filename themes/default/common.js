@@ -380,6 +380,9 @@ var piwikHelper = {
      */
     getApiFormatTextarea: function (textareaContent)
     {
+        if(typeof textareaContent == 'undefined') {
+            return '';
+        }
         return textareaContent.trim().split("\n").join(',');
     }
 
