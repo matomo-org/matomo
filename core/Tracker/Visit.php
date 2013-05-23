@@ -1199,7 +1199,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
         $visitRow = Piwik_Tracker::getDatabase()->fetch($sql, $bindSql);
 
-        if (!Piwik_Config::getInstance()->Debug['tracker_always_new_visitor']
+        $newVisitEnforcedAPI = !empty($this->request['new_visit'])
+                && ($this->authenticated || !Piwik_Config::getInstance()->Tracker['new_visit_api_requires_admin']);
+        $enforceNewVisit = $newVisitEnforcedAPI || Piwik_Config::getInstance()->Debug['tracker_always_new_visitor'];
+
+        if (!$enforceNewVisit
             && $visitRow
             && count($visitRow) > 0
         ) {
