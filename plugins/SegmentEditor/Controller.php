@@ -26,7 +26,9 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
         foreach($segments as $segment) {
             if($segment['category'] == Piwik_Translate('General_Visit')
                 && $segment['type'] == 'metric') {
-                $segment['category'] .= ' (' . lcfirst(Piwik_Translate('General_Metrics')) . ')';
+                $metricsLabel = Piwik_Translate('General_Metrics');
+                $metricsLabel[0] = strtolower($metricsLabel[0]);
+                $segment['category'] .= ' (' . $metricsLabel . ')';
             }
             $segmentsByCategory[$segment['category']][] = $segment;
         }
