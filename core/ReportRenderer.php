@@ -218,22 +218,21 @@ abstract class Piwik_ReportRenderer
 
     public static function getStaticGraph($reportMetadata, $width, $height, $evolution, $segment)
     {
-
         $imageGraphUrl = $reportMetadata['imageGraphUrl'];
 
         if ($evolution && !empty($reportMetadata['imageGraphEvolutionUrl'])) {
             $imageGraphUrl = $reportMetadata['imageGraphEvolutionUrl'];
         }
 
-        $request = new Piwik_API_Request(
-            $imageGraphUrl .
+        $requestGraph = $imageGraphUrl .
             '&outputType=' . Piwik_ImageGraph_API::GRAPH_OUTPUT_PHP .
             '&format=original&serialize=0' .
             '&filter_truncate=' .
             '&width=' . $width .
             '&height=' . $height .
-            ($segment != null ? '&segment=' . $segment['definition'] : '')
-        );
+            ($segment != null ? '&segment=' . urlencode($segment['definition']) : '');
+
+        $request = new Piwik_API_Request($requestGraph);
 
         try {
             $imageGraph = $request->process();

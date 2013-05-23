@@ -370,7 +370,7 @@ class Piwik_PDFReports_API
 
             $processedReport = Piwik_API_API::getInstance()->getProcessedReport(
                 $idSite, $period, $date, $apiModule, $apiAction,
-                $segment != null ? $segment['definition'] : false,
+                $segment != null ? urlencode($segment['definition']) : false,
                 $apiParameters, $idGoal = false, $language
             );
 

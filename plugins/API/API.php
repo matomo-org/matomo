@@ -733,7 +733,6 @@ class Piwik_API_API
                                                        'idSubtable' => $idSubtable,
                                                   ));
         if (!empty($segment)) $parameters['segment'] = $segment;
-        $parameters = array_map('urlencode', $parameters);
 
         $url = Piwik_Url::getQueryStringFromParameters($parameters);
         $request = new Piwik_API_Request($url);
@@ -1153,7 +1152,7 @@ class Piwik_API_API
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
     {
         // validation of requested $period & $date
-        if ($period == 'range') {
+          if ($period == 'range') {
             // load days in the range
             $period = 'day';
         }
