@@ -733,6 +733,7 @@ class Piwik_API_API
                                                        'idSubtable' => $idSubtable,
                                                   ));
         if (!empty($segment)) $parameters['segment'] = $segment;
+        $parameters = array_map('urlencode', $parameters);
 
         $url = Piwik_Url::getQueryStringFromParameters($parameters);
         $request = new Piwik_API_Request($url);

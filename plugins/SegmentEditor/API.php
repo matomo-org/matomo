@@ -213,7 +213,7 @@ class Piwik_SegmentEditor_API
         }
 
         if ($segment['deleted']) {
-            throw new Exception("This segment is marked as deleted.");
+            throw new Exception("This segment is marked as deleted. ");
         }
         return $segment;
     }
