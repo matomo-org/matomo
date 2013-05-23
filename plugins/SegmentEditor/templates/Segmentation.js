@@ -398,6 +398,7 @@ Segmentation = (function($) {
                     segment.definition = $(this).data("definition");
                     segment.name = $(this).attr("title");
                     self.segmentSelectMethod( segment.definition );
+                    toggleLoadingMessage( segment.definition.length );
                     setSegment(segment.definition);
                     markCurrentSegment();
                 }
@@ -955,6 +956,14 @@ Segmentation = (function($) {
             $(selector).css({left: Math.max($('#periodString')[0].offsetWidth) + 10});
         }
 
+        function toggleLoadingMessage(segmentIsSet) {
+            if (segmentIsSet) {
+                $('#ajaxLoading .loadingSegment').show();
+            } else {
+                $('#ajaxLoading .loadingSegment').hide();
+            }
+        }
+
         var initHtml = function() {
             if(typeof self.content !== "undefined"){
                 self.content.unbind();
@@ -972,6 +981,10 @@ Segmentation = (function($) {
             // assign content to object attribute to make it easil accesible through all widget methods
             bindListEvents();
             markCurrentSegment();
+
+            // Loading message
+            var segmentIsSet = self.getSegment().length;
+            toggleLoadingMessage(segmentIsSet);
         }
         initHtml();
     };
@@ -990,9 +1003,6 @@ $(document).ready( function(){
         $('#segmentEditorPanel a.close').click();
         segmentDefinition = cleanupSegmentDefinition(segmentDefinition);
         segmentDefinition = encodeURIComponent(segmentDefinition);
-        if(segmentDefinition.length) {
-            $('.loadingSegment').show();
-        }
         return broadcast.propagateNewPage('segment=' + segmentDefinition, true);
     };
 

@@ -104,11 +104,6 @@
                 }
             );
             ajaxRequest.setCallback(function (data) {
-                for (var i = 0; i != data.length; ++i) {
-                    data[i] = JSON.parse(data[i]);
-                }
-
-                // set data
                 var currency = data[0][0].currency || '';
                 siteCurrencies[idSite] = currencySymbols[currency.toUpperCase()];
                 siteUrls[idSite] = data[1] || [];
