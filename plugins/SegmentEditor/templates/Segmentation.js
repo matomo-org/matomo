@@ -524,7 +524,7 @@ Segmentation = (function($) {
 
         var bindFormEvents = function(){
 
-            $(self.form).on("click", "a", function(e){
+            $(self.form).on("click", "a:not(.crowdfundingLink)", function(e){
                 e.preventDefault();
             });
 

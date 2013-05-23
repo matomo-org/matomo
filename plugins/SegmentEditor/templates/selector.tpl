@@ -128,7 +128,7 @@
             <h3>{'General_Name'|translate}: <span  class="segmentName"></span> <a class="editSegmentName" href="#">{'General_Edit'|translate|strtolower}</a></h3>
         </div>
         <div class="segment-footer">
-            <span class="segmentFooterNote">The Segment Editor was <a href='http://crowdfunding.piwik.org/custom-segments-editor/' target='_blank'>crowdfunded</a> with the awesome support of 80 companies and Piwik users worldwide!</span>
+            <span class="segmentFooterNote">The Segment Editor was <a class='crowdfundingLink' href='http://crowdfunding.piwik.org/custom-segments-editor/' target='_blank'>crowdfunded</a> with the awesome support of 80 companies and Piwik users worldwide!</span>
             <a class="delete" href="#">{'General_Delete'|translate}</a>
             <a class="close" href="#">{'General_Close'|translate}</a>
             <button class="saveAndApply">{'SegmentEditor_SaveAndApply'|translate}</button>
