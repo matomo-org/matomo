@@ -54,8 +54,10 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 
             $view->branding = $config->branding;
 
-            $directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT . '/themes/');
-            $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/themes/logo.png') && is_writeable(PIWIK_DOCUMENT_ROOT . '/themes/logo-header.png');
+            $directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT . '/misc/user/');
+            $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png')
+                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.svg')
+                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png');;
             $view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 
             $trustedHosts = array();
@@ -224,8 +226,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
         imagecopyresized($logo, $image, 0, 0, 0, 0, $widthExpected, self::LOGO_HEIGHT, $width, $height);
         imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, self::LOGO_SMALL_HEIGHT, $width, $height);
 
-        imagepng($logo, PIWIK_DOCUMENT_ROOT . '/themes/logo.png', 3);
-        imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/themes/logo-header.png', 3);
+        imagepng($logo, PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png', 3);
+        imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png', 3);
         echo '1';
         return;
     }
