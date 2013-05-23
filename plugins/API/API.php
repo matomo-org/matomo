@@ -1619,7 +1619,7 @@ class Piwik_API_API
 
         $result = array();
         foreach ($urls as $url) {
-            $req = new Piwik_API_Request($url);
+            $req = new Piwik_API_Request($url . '&format=php&serialize=0');
             $result[] = $req->process();
         }
         return $result;

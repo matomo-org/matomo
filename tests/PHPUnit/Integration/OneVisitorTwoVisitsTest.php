@@ -47,10 +47,8 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
 
         $enExtraParam = array('expanded' => 1, 'flat' => 1, 'include_aggregate_rows' => 0, 'translateColumnNames' => 1);
         $bulkUrls = array(
-            "idSite=" . $idSite . "&date=2010-03-06&format=json&expanded=1&period=day&method=VisitsSummary.get",
-            "idSite=" . $idSite . "&date=2010-03-06&format=xml&expanded=1&period=day&method=VisitsSummary.get",
-            "idSite=" . $idSite . "&date=2010-03-06&format=json&expanded=1&period=day&method="
-                . "VisitorInterest.getNumberOfVisitsPerVisitDuration"
+            "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitsSummary.get",
+            "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitorInterest.getNumberOfVisitsPerVisitDuration"
         );
         foreach ($bulkUrls as &$url) {
             $url = urlencode($url);
@@ -69,7 +67,13 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
                                    'language'               => 'en',
                                    'testSuffix'             => '_csv')),
 
-            array('API.getBulkRequest', array('otherRequestParameters' => array('urls' => $bulkUrls))),
+            array('API.getBulkRequest', array('format' => 'xml',
+                                               'testSuffix' => '_bulk_xml',
+                                               'otherRequestParameters' => array('urls' => $bulkUrls))),
+
+            array('API.getBulkRequest', array('format' => 'json',
+                                              'testSuffix' => '_bulk_json',
+                                              'otherRequestParameters' => array('urls' => $bulkUrls))),
 
             // test API.getProcessedReport w/ report that is its own 'actionToLoadSubTables'
             array('API.getProcessedReport', array('idSite'        => $idSite,
