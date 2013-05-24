@@ -752,13 +752,10 @@ if (typeof Piwik !== 'object') {
          * Extract parameter from URL
          */
         function getParameter(url, name) {
-            // scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
-            var e = new RegExp('^(?:https?|ftp)(?::/*(?:[^?]+)[?])([^#]+)'),
-                matches = e.exec(url),
-                f = new RegExp('(?:^|&)' + name + '=([^&]*)'),
-                result = matches ? f.exec(matches[1]) : 0;
-
-            return result ? decodeWrapper(result[1]) : '';
+            var regexSearch = "[\\?&#]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexSearch);
+            var results = regex.exec(url);
+            return results ? decodeWrapper(results[1]) : '';
         }
 
         /*
