@@ -169,7 +169,9 @@ class Piwik_DevicesDetection extends Piwik_Plugin
                 Piwik_Exec($q2);
             }
         } catch (Exception $e) {
-            throw $e;
+           if (!Zend_Registry::get('db')->isErrNo($e, '1060')) {
+                throw $e;
+            }
         }
     }
 

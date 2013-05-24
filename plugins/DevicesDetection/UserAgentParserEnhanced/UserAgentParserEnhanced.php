@@ -228,7 +228,7 @@ class UserAgentParserEnhanced
     public static $browserFamilies = array(
         'Android Browser' => array('AN'),
         'BlackBerry Browser' => array('BB'),
-        'Chrome' => array('CH', 'CM', 'CI', 'CF', 'CR'),
+        'Chrome' => array('CH', 'CM', 'CI', 'CF', 'CR', 'RM'),
         'Firefox' => array('FF', 'FE', 'SX', 'FB', 'PX', 'MB'),
         'Internet Explorer' => array('IE', 'IM'),
         'Konqueror' => array('KO'),
@@ -314,6 +314,8 @@ class UserAgentParserEnhanced
         'WO' => 'wOSBrowser',
         'YA' => 'Yandex Browser'
     );
+
+    const UNKNOWN = "UNK";
     protected static $regexesDir = '/regexes/';
     protected static $osRegexesFile = 'oss.yml';
     protected static $browserRegexesFile = 'browsers.yml';
@@ -406,7 +408,7 @@ class UserAgentParserEnhanced
         if (in_array($browserRegex['name'], self::$browsers)) {
             $short = array_search($browserRegex['name'], self::$browsers);
         } else {
-            $short = 'UN';
+            $short = 'XX';
         }
 
         $this->browser = array(
@@ -630,8 +632,9 @@ class UserAgentParserEnhanced
     public function isDesktop()
     {
         $osName = $this->getOs('name');
-        if (empty($osName))
+        if (empty($osName) || empty(self::$osShorts[$osName])) {
             return false;
+        }
 
         $osShort = self::$osShorts[$osName];
         foreach (self::$osFamilies as $family => $familyOs) {
@@ -650,7 +653,7 @@ class UserAgentParserEnhanced
         }
 
         if (!isset($this->os[$attr])) {
-            return '';
+            return self::UNKNOWN;
         }
 
         if ($attr == 'version') {
@@ -666,7 +669,7 @@ class UserAgentParserEnhanced
         }
 
         if (!isset($this->browser[$attr])) {
-            return '';
+            return self::UNKNOWN;
         }
 
         return $this->browser[$attr];
@@ -701,7 +704,7 @@ class UserAgentParserEnhanced
                 return $osFamily;
             }
         }
-        error_log($osLabel);
+
         return 'Other';
     }
 

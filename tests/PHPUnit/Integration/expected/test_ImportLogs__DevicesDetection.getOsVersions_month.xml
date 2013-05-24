@@ -10,7 +10,6 @@
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/os/LIN.gif</logo>
-		<shortLabel>Linux</shortLabel>
 	</row>
 	<row>
 		<label>Windows 7</label>
@@ -21,23 +20,21 @@
 		<bounce_count>7</bounce_count>
 		<nb_visits_converted>7</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
-		<logo>plugins/UserSettings/images/os/WI7.gif</logo>
-		<shortLabel>Win 7</shortLabel>
+		<logo>plugins/UserSettings/images/os/WI8.gif</logo>
 	</row>
 	<row>
-		<label>Mac OS</label>
-		<nb_visits>6</nb_visits>
-		<nb_actions>9</nb_actions>
+		<label>Mac 10.6</label>
+		<nb_visits>5</nb_visits>
+		<nb_actions>8</nb_actions>
 		<max_actions>3</max_actions>
 		<sum_visit_length>305</sum_visit_length>
-		<bounce_count>4</bounce_count>
-		<nb_visits_converted>5</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>6</sum_daily_nb_uniq_visitors>
+		<bounce_count>3</bounce_count>
+		<nb_visits_converted>4</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/os/MAC.gif</logo>
-		<shortLabel>Mac OS</shortLabel>
 	</row>
 	<row>
-		<label>Android</label>
+		<label>Android 2.3</label>
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
 		<max_actions>1</max_actions>
@@ -46,7 +43,6 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/os/AND.gif</logo>
-		<shortLabel>Android</shortLabel>
 	</row>
 	<row>
 		<label>Unknown</label>
@@ -58,7 +54,6 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/os/UNK.gif</logo>
-		<shortLabel>Unknown</shortLabel>
 	</row>
 	<row>
 		<label>Windows XP</label>
@@ -69,7 +64,17 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<logo>plugins/UserSettings/images/os/WXP.gif</logo>
-		<shortLabel>Win XP</shortLabel>
+		<logo>plugins/UserSettings/images/os/WI8.gif</logo>
+	</row>
+	<row>
+		<label>Mac 10.8</label>
+		<nb_visits>1</nb_visits>
+		<nb_actions>1</nb_actions>
+		<max_actions>1</max_actions>
+		<sum_visit_length>0</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>1</nb_visits_converted>
+		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+		<logo>plugins/UserSettings/images/os/MAC.gif</logo>
 	</row>
 </result>

@@ -26,7 +26,7 @@ function Piwik_getBrowserFamilyFullNameExtended($label)
             return $name;
         }
     }
-    return "Unknown";
+    return Piwik_Translate('General_Unknown');
 }
 
 function Piwik_getBrowserFamilyLogoExtended($label)
@@ -46,7 +46,7 @@ function Piwik_getBrowserNameExtended($label)
     if (array_key_exists($short, UserAgentParserEnhanced::$browsers)) {
         return trim(ucfirst(UserAgentParserEnhanced::$browsers[$short]) . ' ' . $ver);
     } else {
-        return "Unknown";
+        return Piwik_Translate('General_Unknown');
     }
 }
 
@@ -65,7 +65,7 @@ function Piwik_getDeviceBrandLabel($label)
     if (array_key_exists($label, UserAgentParserEnhanced::$deviceBrands)) {
         return ucfirst(UserAgentParserEnhanced::$deviceBrands[$label]);
     } else {
-        return "Unknown";
+        return Piwik_Translate('General_Unknown');
     }
 }
 
@@ -74,7 +74,7 @@ function Piwik_getDeviceTypeLabel($label)
     if (isset(UserAgentParserEnhanced::$deviceTypes[$label])) {
         return ucfirst(UserAgentParserEnhanced::$deviceTypes[$label]);
     } else {
-        return "Unknown";
+        return Piwik_Translate('General_Unknown');
     }
 }
 
@@ -99,10 +99,10 @@ function Piwik_getDeviceTypeLogo($label)
 
 function Piwik_getModelName($label)
 {
-    if (!$label)
-        return "Unknown";
-    else
-        return $label;
+    if (!$label) {
+        return Piwik_Translate('General_Unknown');
+    }
+    return $label;
 }
 
 function Piwik_getOSFamilyFullNameExtended($label)
@@ -112,7 +112,7 @@ function Piwik_getOSFamilyFullNameExtended($label)
             return $name;
         }
     }
-    return "Unknown";
+    return Piwik_Translate('General_Unknown');
 }
 
 function Piwik_getOsFamilyLogoExtended($label)
@@ -127,7 +127,7 @@ function Piwik_getOsFamilyLogoExtended($label)
 
 function Piwik_getOsFullNameExtended($label)
 {
-    if ($label != "" && $label != ";") {
+    if (!empty($label) && $label != ";") {
         $os = substr($label, 0, 3);
         $ver = substr($label, 4, 15);
         $osFullName = array_search($os, UserAgentParserEnhanced::$osShorts);
@@ -138,9 +138,8 @@ function Piwik_getOsFullNameExtended($label)
                 return trim($osFullName . " " . $ver);
             }
         }
-    } else {
-        return "Unknown";
     }
+    return Piwik_Translate('General_Unknown');
 }
 
 function Piwik_getOsLogoExtended($label)

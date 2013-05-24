@@ -42,6 +42,7 @@ class Test_Piwik_Fixture_TwoVisitsNoKeywordWithBot extends Test_Piwik_BaseFixtur
         $t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
         $t->DEBUG_APPEND_URL .= '&bots=1';
         $t->DEBUG_APPEND_URL .= '&forceIpAnonymization=1';
+
         // VISIT 1 = Referrer is "Keyword not defined"
         // Alsotrigger goal to check that attribution goes to this keyword
         $t->setUrlReferrer('http://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CC&url=http%3A%2F%2Fpiwik.org%2F&ei=&usg=');
