@@ -470,6 +470,7 @@ div.scrollable {
   margin: 12px 0 10px;
   padding: 3px 10px;
   text-decoration: none;
+  width:130px;
 }
 .segmentationContainer  > ul.submenu > li {
   padding: 5px 0;
