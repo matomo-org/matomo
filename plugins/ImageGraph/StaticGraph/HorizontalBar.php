@@ -173,11 +173,13 @@ class Piwik_ImageGraph_StaticGraph_HorizontalBar extends Piwik_ImageGraph_Static
                             - $logoHeight / 2
                             + 1;
 
-                    $this->pImage->$drawingFunction(
-                        $gridLeftMarginBeforePadding,
-                        $logoYPosition,
-                        $logoPath
-                    );
+                    if(method_exists($this->pImage, $drawingFunction)) {
+                        $this->pImage->$drawingFunction(
+                            $gridLeftMarginBeforePadding,
+                            $logoYPosition,
+                            $logoPath
+                        );
+                    }
                 }
             }
         }
