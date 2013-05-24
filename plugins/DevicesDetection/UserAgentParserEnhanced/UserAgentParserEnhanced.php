@@ -335,17 +335,17 @@ class UserAgentParserEnhanced
 
     protected function getOsRegexes()
     {
-        return Spyc::YAMLLoad(__DIR__ . self::$regexesDir . self::$osRegexesFile);
+        return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$osRegexesFile);
     }
 
     protected function getBrowserRegexes()
     {
-        return Spyc::YAMLLoad(__DIR__ . self::$regexesDir . self::$browserRegexesFile);
+        return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$browserRegexesFile);
     }
 
     protected function getMobileRegexes()
     {
-        return Spyc::YAMLLoad(__DIR__ . self::$regexesDir . self::$mobileRegexesFile);
+        return Spyc::YAMLLoad(dirname(__FILE__) . self::$regexesDir . self::$mobileRegexesFile);
     }
 
     public function parse()

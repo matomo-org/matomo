@@ -11,7 +11,7 @@
  */
 function Piwik_GetBrandLogo($label)
 {
-    $path = __DIR__ . '/images/brand/' . $label . '.ico';
+    $path = dirname(__FILE__) . '/images/brand/' . $label . '.ico';
     if (file_exists($path)) {
         return 'plugins/DevicesDetection/images/brand/' . $label . '.ico';
     } else {
