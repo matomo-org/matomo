@@ -130,17 +130,15 @@ function Piwik_getOsFullNameExtended($label)
     if (!empty($label) && $label != ";") {
         $os = substr($label, 0, 3);
         $ver = substr($label, 4, 15);
-        $osFullName = array_search($os, UserAgentParserEnhanced::$osShorts);
-        if ($osFullName) {
-            if (in_array($os, UserAgentParserEnhanced::$osFamilies['Windows'])) {
-                return $osFullName;
-            } else {
-                return trim($osFullName . " " . $ver);
-            }
+        $name = UserAgentParserEnhanced::getOsNameFromId($os, $ver);
+        if(!empty($name)) {
+            return $name;
         }
     }
     return Piwik_Translate('General_Unknown');
 }
+
+
 
 function Piwik_getOsLogoExtended($label)
 {

@@ -17,14 +17,13 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         Zend_Registry::set('access', $pseudoMockAccess);
 
         // Load and install plugins
-        $pluginsManager = Piwik_PluginsManager::getInstance();
-        $pluginsManager->loadPlugins(Piwik_Config::getInstance()->Plugins['Plugins']);
+        IntegrationTestCase::loadAllPlugins();
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        Piwik_PluginsManager::getInstance()->unloadPlugins();
+        IntegrationTestCase::unloadAllPlugins();
     }
 
     protected function _filterWhitsSpaces($valueToFilter)

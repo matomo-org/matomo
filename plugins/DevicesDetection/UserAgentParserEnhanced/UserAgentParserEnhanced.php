@@ -719,4 +719,17 @@ class UserAgentParserEnhanced
         return 'Other';
     }
 
+    public static function getOsNameFromId($os, $ver = false)
+    {
+        $osFullName = array_search($os, self::$osShorts);
+        if ($osFullName) {
+            if (in_array($os, self::$osFamilies['Windows'])) {
+                return $osFullName;
+            } else {
+                return trim($osFullName . " " . $ver);
+            }
+        }
+        return false;
+    }
+
 }

@@ -21,8 +21,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
     public function getInformation()
     {
         return array(
-            'description' => Piwik_Translate("DevicesDetection_description"),
-            'author' => 'Clearcode.cc',
+            'description' => "[Beta Plugin] " . Piwik_Translate("DevicesDetection_description"),
+            'author' => 'Piwik and Clearcode.cc',
             'author_homepage' => 'http://clearcode.cc',
             'version' => '1.12-b6',
             'TrackerPlugin' => true,

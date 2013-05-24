@@ -1,7 +1,7 @@
 <?php
 
 $translations = array(
-    "DevicesDetection_description" => "Plugin providing extended information about mobile devices visiting page. Also new, more specific reports are available.",
+    "DevicesDetection_description" => "This plugin provides extended information about mobile devices, such as Brand (manufacturer), Model (device version), better Device type detection (tv, consoles, smart phones, desktop, etc) and more. This plugin adds a new report in 'Visitors > Devices'.",
     "DevicesDetection_submenu" => "Devices",
     'DevicesDetection_DevicesDetection' => "Visitor devices",
     // DataTable label translations for reports

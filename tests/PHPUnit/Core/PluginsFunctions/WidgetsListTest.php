@@ -70,9 +70,7 @@ class WidgetsListTest extends DatabaseTestCase
 
         $_GET['idSite'] = 1;
 
-        $pluginsManager = Piwik_PluginsManager::getInstance();
-        $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
-        $pluginsManager->loadPlugins($pluginsToLoad);
+        IntegrationTestCase::loadAllPlugins();
 
         Piwik_WidgetsList::_reset();
         $widgets = Piwik_GetWidgetsList();
@@ -109,9 +107,7 @@ class WidgetsListTest extends DatabaseTestCase
 
         $_GET['idSite'] = 1;
 
-        $pluginsManager = Piwik_PluginsManager::getInstance();
-        $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
-        $pluginsManager->loadPlugins($pluginsToLoad);
+        IntegrationTestCase::loadAllPlugins();
 
         Piwik_WidgetsList::_reset();
         $widgets = Piwik_GetWidgetsList();
