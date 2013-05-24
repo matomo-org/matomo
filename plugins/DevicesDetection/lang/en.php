@@ -3,7 +3,7 @@
 $translations = array(
     "DevicesDetection_description" => "This plugin provides extended information about mobile devices, such as Brand (manufacturer), Model (device version), better Device type detection (tv, consoles, smart phones, desktop, etc) and more. This plugin adds a new report in 'Visitors > Devices'.",
     "DevicesDetection_submenu" => "Devices",
-    'DevicesDetection_DevicesDetection' => "Visitor devices",
+    'DevicesDetection_DevicesDetection' => "Visitor Devices",
     // DataTable label translations for reports
     "DevicesDetection_dataTableLabelBrands" => "Brand",
     "DevicesDetection_dataTableLabelTypes" => "Type",
