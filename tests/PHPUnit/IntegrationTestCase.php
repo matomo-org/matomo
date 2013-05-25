@@ -141,7 +141,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Piwik::createLogObject();
 
             Piwik_PluginsManager::getInstance()->loadPlugins(array());
-
         } catch (Exception $e) {
             self::fail("TEST INITIALIZATION FAILED: " . $e->getMessage());
         }
@@ -168,7 +167,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_REFERER'] = '';
 
         // Make sure translations are loaded to check messages in English
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        Piwik_Translate::getInstance()->reloadLanguage('en');
         Piwik_LanguagesManager_API::getInstance()->setLanguageForUser('superUserLogin', 'en');
 
         // List of Modules, or Module.Method that should not be called as part of the XML output compare

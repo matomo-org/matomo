@@ -1035,8 +1035,8 @@ class Piwik_API_API
                 Piwik_Translate('Referers_Referers'),
                 Piwik_Translate('Goals_Goals'),
                 Piwik_Translate('General_Visitors'),
-                Piwik_Translate('UserSettings_VisitorSettings'),
                 Piwik_Translate('DevicesDetection_DevicesDetection'),
+                Piwik_Translate('UserSettings_VisitorSettings'),
             );
         }
         return ($category = strcmp(array_search($a['category'], $order), array_search($b['category'], $order))) == 0

@@ -251,6 +251,41 @@ Provider
 </a>
 </li>
 <li>
+<a href="#DevicesDetection_getType" style="text-decoration:none; color: rgb(68,68,68);">
+Device type
+</a>
+</li>
+<li>
+<a href="#DevicesDetection_getBrand" style="text-decoration:none; color: rgb(68,68,68);">
+Device brand
+</a>
+</li>
+<li>
+<a href="#DevicesDetection_getModel" style="text-decoration:none; color: rgb(68,68,68);">
+Device model
+</a>
+</li>
+<li>
+<a href="#DevicesDetection_getOsFamilies" style="text-decoration:none; color: rgb(68,68,68);">
+Operating System families
+</a>
+</li>
+<li>
+<a href="#DevicesDetection_getOsVersions" style="text-decoration:none; color: rgb(68,68,68);">
+Operating System versions
+</a>
+</li>
+<li>
+<a href="#DevicesDetection_getBrowserFamilies" style="text-decoration:none; color: rgb(68,68,68);">
+Browsers families
+</a>
+</li>
+<li>
+<a href="#DevicesDetection_getBrowserVersions" style="text-decoration:none; color: rgb(68,68,68);">
+Browser versions
+</a>
+</li>
+<li>
 <a href="#UserSettings_getResolution" style="text-decoration:none; color: rgb(68,68,68);">
 Screen Resolution
 </a>
@@ -303,41 +338,6 @@ Mobile vs Desktop
 <li>
 <a href="#UserSettings_getLanguage" style="text-decoration:none; color: rgb(68,68,68);">
 Browser language
-</a>
-</li>
-<li>
-<a href="#DevicesDetection_getType" style="text-decoration:none; color: rgb(68,68,68);">
-Device type
-</a>
-</li>
-<li>
-<a href="#DevicesDetection_getBrand" style="text-decoration:none; color: rgb(68,68,68);">
-Device brand
-</a>
-</li>
-<li>
-<a href="#DevicesDetection_getModel" style="text-decoration:none; color: rgb(68,68,68);">
-Device model
-</a>
-</li>
-<li>
-<a href="#DevicesDetection_getOsFamilies" style="text-decoration:none; color: rgb(68,68,68);">
-Operating System families
-</a>
-</li>
-<li>
-<a href="#DevicesDetection_getOsVersions" style="text-decoration:none; color: rgb(68,68,68);">
-Operating System versions
-</a>
-</li>
-<li>
-<a href="#DevicesDetection_getBrowserFamilies" style="text-decoration:none; color: rgb(68,68,68);">
-Browsers families
-</a>
-</li>
-<li>
-<a href="#DevicesDetection_getBrowserVersions" style="text-decoration:none; color: rgb(68,68,68);">
-Browser versions
 </a>
 </li>
 </ul><a name="MultiSites_getAll"/>
@@ -5706,6 +5706,466 @@ Unknown
 <br/>
 <a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
 Back to top
+</a><a name="DevicesDetection_getType"/>
+<h2 style="color: rgb(126,115,99); font-size: 11pt;">
+Device type
+</h2>
+<img
+alt=""
+src="data:image/png;base64,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"
+height="200"
+width="700"/>
+<br/>
+<br/>
+<table style="border-collapse:collapse; margin-left: 5px">
+<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
+<th style="padding: 6px 0;">
+&nbsp;Device type&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Visits&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions per Visit&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Avg. Time on Website&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Bounce Rate&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Conversion Rate&nbsp;&nbsp;
+</th>
+</thead>
+<tbody>
+<tr style="">
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+<img src='plugins/DevicesDetection/images/screens/normal.gif'>
+&nbsp;
+Desktop
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+5
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+16
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+3.2
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+00:22:49
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+20%
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+80%
+</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
+Back to top
+</a><a name="DevicesDetection_getBrand"/>
+<h2 style="color: rgb(126,115,99); font-size: 11pt;">
+Device brand
+</h2>
+<img
+alt=""
+src="data:image/png;base64,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"
+height="200"
+width="700"/>
+<br/>
+<br/>
+<table style="border-collapse:collapse; margin-left: 5px">
+<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
+<th style="padding: 6px 0;">
+&nbsp;Device brand&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Visits&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions per Visit&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Avg. Time on Website&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Bounce Rate&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Conversion Rate&nbsp;&nbsp;
+</th>
+</thead>
+<tbody>
+<tr style="">
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+<img src='plugins/DevicesDetection/images/brand/unknown.ico'>
+&nbsp;
+Unknown
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+5
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+16
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+3.2
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+00:22:49
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+20%
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+80%
+</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
+Back to top
+</a><a name="DevicesDetection_getModel"/>
+<h2 style="color: rgb(126,115,99); font-size: 11pt;">
+Device model
+</h2>
+<img
+alt=""
+src="data:image/png;base64,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"
+height="200"
+width="700"/>
+<br/>
+<br/>
+<table style="border-collapse:collapse; margin-left: 5px">
+<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
+<th style="padding: 6px 0;">
+&nbsp;Device model&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Visits&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions per Visit&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Avg. Time on Website&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Bounce Rate&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Conversion Rate&nbsp;&nbsp;
+</th>
+</thead>
+<tbody>
+<tr style="">
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+Unknown
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+5
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+16
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+3.2
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+00:22:49
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+20%
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+80%
+</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
+Back to top
+</a><a name="DevicesDetection_getOsFamilies"/>
+<h2 style="color: rgb(126,115,99); font-size: 11pt;">
+Operating System families
+</h2>
+<img
+alt=""
+src="data:image/png;base64,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"
+height="200"
+width="700"/>
+<br/>
+<br/>
+<table style="border-collapse:collapse; margin-left: 5px">
+<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
+<th style="padding: 6px 0;">
+&nbsp;Operating System families&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Visits&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions per Visit&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Avg. Time on Website&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Bounce Rate&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Conversion Rate&nbsp;&nbsp;
+</th>
+</thead>
+<tbody>
+<tr style="">
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+<img src='plugins/UserSettings/images/os/WI8.gif'>
+&nbsp;
+Windows
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+5
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+16
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+3.2
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+00:22:49
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+20%
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+80%
+</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
+Back to top
+</a><a name="DevicesDetection_getOsVersions"/>
+<h2 style="color: rgb(126,115,99); font-size: 11pt;">
+Operating System versions
+</h2>
+<img
+alt=""
+src="data:image/png;base64,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"
+height="200"
+width="700"/>
+<br/>
+<br/>
+<table style="border-collapse:collapse; margin-left: 5px">
+<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
+<th style="padding: 6px 0;">
+&nbsp;Operating System versions&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Visits&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions per Visit&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Avg. Time on Website&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Bounce Rate&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Conversion Rate&nbsp;&nbsp;
+</th>
+</thead>
+<tbody>
+<tr style="">
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+<img src='plugins/UserSettings/images/os/WI8.gif'>
+&nbsp;
+Windows XP
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+5
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+16
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+3.2
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+00:22:49
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+20%
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+80%
+</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
+Back to top
+</a><a name="DevicesDetection_getBrowserFamilies"/>
+<h2 style="color: rgb(126,115,99); font-size: 11pt;">
+Browsers families
+</h2>
+<img
+alt=""
+src="data:image/png;base64,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"
+height="200"
+width="700"/>
+<br/>
+<br/>
+<table style="border-collapse:collapse; margin-left: 5px">
+<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
+<th style="padding: 6px 0;">
+&nbsp;Browsers families&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Visits&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions per Visit&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Avg. Time on Website&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Bounce Rate&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Conversion Rate&nbsp;&nbsp;
+</th>
+</thead>
+<tbody>
+<tr style="">
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+<img src='plugins/UserSettings/images/browsers/FF.gif'>
+&nbsp;
+Firefox
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+5
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+16
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+3.2
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+00:22:49
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+20%
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+80%
+</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
+Back to top
+</a><a name="DevicesDetection_getBrowserVersions"/>
+<h2 style="color: rgb(126,115,99); font-size: 11pt;">
+Browser versions
+</h2>
+<img
+alt=""
+src="data:image/png;base64,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"
+height="200"
+width="700"/>
+<br/>
+<br/>
+<table style="border-collapse:collapse; margin-left: 5px">
+<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
+<th style="padding: 6px 0;">
+&nbsp;Browser versions&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Visits&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Actions per Visit&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Avg. Time on Website&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Bounce Rate&nbsp;&nbsp;
+</th>
+<th style="padding: 6px 0;">
+&nbsp;Conversion Rate&nbsp;&nbsp;
+</th>
+</thead>
+<tbody>
+<tr style="">
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+<img src='plugins/UserSettings/images/browsers/FF.gif'>
+&nbsp;
+Firefox 3.6
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+5
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+16
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+3.2
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+00:22:49
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+20%
+</td>
+<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
+80%
+</td>
+</tr>
+</tbody>
+</table>
+<br/>
+<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
+Back to top
 </a><a name="UserSettings_getResolution"/>
 <h2 style="color: rgb(126,115,99); font-size: 11pt;">
 Screen Resolution
@@ -6517,466 +6977,6 @@ width="700"/>
 <tr style="">
 <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
 French
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-5
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-16
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-3.2
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-00:22:49
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-20%
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-80%
-</td>
-</tr>
-</tbody>
-</table>
-<br/>
-<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
-Back to top
-</a><a name="DevicesDetection_getType"/>
-<h2 style="color: rgb(126,115,99); font-size: 11pt;">
-Device type
-</h2>
-<img
-alt=""
-src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArwAAADICAIAAACF9KXqAAAJgUlEQVR4nO3dW2+bdx3A8cdnx6ckLUmTplWFsq3AKsFYp4EmuOAFIPEC4IZ7JLQ7XgDiTfBOeAmMm1GGtGXr2sbpIac5ztF2zEWkkDlO+0tzcOx8PheV8/ix848j11///4+fpLrdbgIA8CbpQQ8AABgOogEACBENAECIaAAAQkQDABAiGgCAENEAAISIBgAgRDT0Nz8/33dj3+2vvxUAjIbsoAcwGH/9+z97tvzljw8jN1xYWIhfOz8///r9AWCIXNNo+PJpo9VqHX6Zy+UWFxfn5uYOtywsLPS85CsAAK65axoNSZJsbW0dXh4fH6/X60ej4STHS+Lwck9nHFx1uMPBtUd3PtvwAeCyXd9oOLvXBETSryHMWwAw1BwIeaKjcwOR1/hTRYBiAGDoXN+ZhlKpdMZ7OKyKSAGcamcAuIKuaTT87jfz9cXFs9/PQQEEa+BUOwPAVXNNo+G3v76XJPfeuFtweuBoDUTuM3FMAwBDyDENb+9Up3Jy3icAht01nWk4F8c/Rdn3AxQn7Xw5gwSA85LqdruDHgMAMAQsTwAAIaIBAAgRDQBAiGgAAEJEAwAQIhoAgBDRAACEjODJnZxDCa4sT0+4yo6ekLDvDqMWDT1/08GfeICrw9MTrrLIU9LyBHBJJAJcWcGIH7WZBgDgLURWD0UDcKneuGgKDERk9VA0AJfq8H8ixzTA0HFMAwAQIhqAS3J0xRQYRqlutzvoMZwzHwSHK8vTE66syNNzBKMBALgIlicAgBDRAACEiAYAIEQ0AAAhogEACBENAEDIyEbDZ599NughAH3U6/V6vT7oUQB9vPGlc2SjAQA4X6IBAAgRDQBAiGgAAEJEAwAQIhoAgBDRAACEiAYAIEQ0AAAhogEACBENAECIaAAAQkQDABAiGgCAENEAAIRkBz2AC/TsxcaghwD0ermynSTJfsbTkwt351Z10EMYNaMcDX/62z8GPQQABubTP3z0yQd3Bj2KkWJ5AgAIEQ0AQIhoAABCRAMAECIaAIAQ0QAAhIgGACBENAAAIaIBAAgRDQBAiGgAAEJEAwAQIhoAgBDRAACEiAYAIEQ0AAAhogEACBENAECIaAAAQkQDABAiGgCAENEAAISIBgAgRDQAACGiAQAIEQ0AQIhoAABCRAMAECIaAIAQ0QAAhIgGACBENAAAIaIBAAgRDQBAiGgAAEJEAwAQIhoAgBDRAACEiAYAIEQ0AAAhogEACBENAECIaAAAQkQDABAiGgCAENEAAISIBgAgJDvoAbxBt9s9uNBqtfb3u612u9NudzrtRqOx/t1a0k3NzMxMTU1lMpkkSVKp1EAHCwCj7KpHw8ZGc2Nra3N7b3Wj2dzc3FhfX371stXKFJNmNpdNp9MvXz7/8MOHN27cVAwAcKHOIRrm5+cXFhbOfj99ff6fLxpbu89WNpp7+0mSlPK5qR/M3poYK5XyuVx6dXX15YtXjx9/Uy5XisXiBY0BAEiORsP8/PzRK87YAedVEs/rS5Mzd1e2mju5iVqtMj5Zmr89/u6tbCppJ0lSrWZXV188ffbt3NzdmZmZs387AOAk35tpOPoyf6HzB3Gtve1cNtPN13ayN4uFSqqUK1bKzf39cmYnSe0Vy+liufD46+fLK8tTU1PZ7FVfbQHgkvW8JU7O/K74OjvxVXZhYeGwG44+4j1beh76g5scXHvw7+GXPTc/uv01v79sNttp740Vc0tbrdR2Z3sv2+qmkiTZbKe7SWY3VS4Uphvb9efPl999pyMaADhOJZyXN7/K9kw5HKbAa/bsCY6+ExhHt79mVmNmZqbV2a2OFbZXtrZTpZvl/PpmMpbJ77fbrU42SZLM5FxlutloNHZ2dorFQvgHBwBO59zemp92OSO48/jE+JNni9ViJUl213eSpWb3m+W9diefS6WTTidJklYrqRazi0uLL168mJgYf8vRAzC6jk9483ZC0XD8GMme+YaLOwBivDqeJIuVXCGXam3stOrNdH6ptdHOT+S7hf3dQredam2XitmVbuvV8qv799+7iDEAMLz6LqMPajDDLhQNxx/fniWGo+sR56tSreazhb2kNZZq7TVXG0l+udvNdbPtQrqc7JWT3dbm+s5mozxWqFSr5/7dAYBDJ55G+qQIOH4Y6oGeAx7PSzabzWTS3e3GRGbr5v7KreS7ufTuxPZKdm1pd/Hrx5//6+lXXyTt3Z/86MfvvTN37t8dADj0vZmGvqs+xz/+cNKnHo7ONxxdwuh7t8EVpnw+Pz09vvBt/d3pSrmQFLutTGetlE7l0ql2rr2205i4MfnLjz+6d++HhcLY6X50AK4B6xHn6P/R8JrH9HgcnPRl38t97zn4KywU8rXKje3Gf5dXn+zttvOF7N07s9PTU51OZ339u529mXQqVRorlcbG0mmnkQag10nvXXkLQ3Big6npqfcfvP/Vl189ffasmM+WK5XOfrK1vdPudKqVyvLKSr1en52ddRppAPoSCudlMNFwqt9fsVi8/9796anpR4/+vb+/X6tVM5l8JpMpjRUb+c21xmo6nT74K5cAwMU58UDIKyWXy9VqtdnZ22OlarlcLZVKtVptv5uqLy5msmOzs7O5XG7QYwSAETcEyxMHisXirVszr5aXHj161m63m81ms9msVCq/+Pjh7OztQY8OAEbf0ERDkiSTkxM/++lHT558+/z5UnVi4vatmbt379RqNdMMAHAJrno0pFLf+0xErVZ98ODBgwcPBjUeALi2huOYBgBg4EQDABAiGgCAENEAAISIBgAgRDQAACGiAQAIEQ0AQIhoAABCRAMAECIaAIAQ0QAAhIgGACBENAAAIaIBAAgRDQBAiGgAAEJEAwAQIhoAgBDRAACEiAYAIEQ0AAAhogEACBENAECIaAAAQkQDABAiGgCAENEAAISIBgAgRDQAACGiAQAIEQ0AQIhoAABCRAMAECIaAIAQ0QAAhIgGACBENAAAIaIBAAgRDQBAiGgAAEJEAwAQIhoAgBDRAACEiAYAIEQ0AAAh2UEP4AL9+fcPBz0EoNfa2lqSJJOTk4MeCKPvkw/uDHoIo2aUo+FXP7876CEAver1TJIkt2/fHvRAgFOzPAEAhIgGACBENAAAIaIBAAgRDQBAiGgAAEJEAwAQIhoAgBDRAACEiAYAIEQ0AAAhogEACBENAECIaAAAQkQDABCS6na7gx4DADAEzDQAACGiAQAIEQ0AQIhoAABCRAMAECIaAIAQ0QAAhIgGACDkf7Bm6LOtE0aWAAAAAElFTkSuQmCC"
-height="200"
-width="700"/>
-<br/>
-<br/>
-<table style="border-collapse:collapse; margin-left: 5px">
-<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
-<th style="padding: 6px 0;">
-&nbsp;Device type&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Visits&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions per Visit&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Avg. Time on Website&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Bounce Rate&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Conversion Rate&nbsp;&nbsp;
-</th>
-</thead>
-<tbody>
-<tr style="">
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-<img src='plugins/DevicesDetection/images/screens/normal.gif'>
-&nbsp;
-Desktop
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-5
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-16
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-3.2
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-00:22:49
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-20%
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-80%
-</td>
-</tr>
-</tbody>
-</table>
-<br/>
-<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
-Back to top
-</a><a name="DevicesDetection_getBrand"/>
-<h2 style="color: rgb(126,115,99); font-size: 11pt;">
-Device brand
-</h2>
-<img
-alt=""
-src="data:image/png;base64,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"
-height="200"
-width="700"/>
-<br/>
-<br/>
-<table style="border-collapse:collapse; margin-left: 5px">
-<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
-<th style="padding: 6px 0;">
-&nbsp;Device brand&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Visits&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions per Visit&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Avg. Time on Website&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Bounce Rate&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Conversion Rate&nbsp;&nbsp;
-</th>
-</thead>
-<tbody>
-<tr style="">
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-<img src='plugins/DevicesDetection/images/brand/unknown.ico'>
-&nbsp;
-Unknown
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-5
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-16
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-3.2
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-00:22:49
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-20%
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-80%
-</td>
-</tr>
-</tbody>
-</table>
-<br/>
-<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
-Back to top
-</a><a name="DevicesDetection_getModel"/>
-<h2 style="color: rgb(126,115,99); font-size: 11pt;">
-Device model
-</h2>
-<img
-alt=""
-src="data:image/png;base64,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"
-height="200"
-width="700"/>
-<br/>
-<br/>
-<table style="border-collapse:collapse; margin-left: 5px">
-<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
-<th style="padding: 6px 0;">
-&nbsp;Device model&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Visits&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions per Visit&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Avg. Time on Website&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Bounce Rate&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Conversion Rate&nbsp;&nbsp;
-</th>
-</thead>
-<tbody>
-<tr style="">
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-Unknown
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-5
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-16
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-3.2
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-00:22:49
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-20%
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-80%
-</td>
-</tr>
-</tbody>
-</table>
-<br/>
-<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
-Back to top
-</a><a name="DevicesDetection_getOsFamilies"/>
-<h2 style="color: rgb(126,115,99); font-size: 11pt;">
-Operating System families
-</h2>
-<img
-alt=""
-src="data:image/png;base64,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"
-height="200"
-width="700"/>
-<br/>
-<br/>
-<table style="border-collapse:collapse; margin-left: 5px">
-<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
-<th style="padding: 6px 0;">
-&nbsp;Operating System families&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Visits&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions per Visit&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Avg. Time on Website&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Bounce Rate&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Conversion Rate&nbsp;&nbsp;
-</th>
-</thead>
-<tbody>
-<tr style="">
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-<img src='plugins/UserSettings/images/os/WI8.gif'>
-&nbsp;
-Windows
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-5
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-16
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-3.2
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-00:22:49
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-20%
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-80%
-</td>
-</tr>
-</tbody>
-</table>
-<br/>
-<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
-Back to top
-</a><a name="DevicesDetection_getOsVersions"/>
-<h2 style="color: rgb(126,115,99); font-size: 11pt;">
-Operating System versions
-</h2>
-<img
-alt=""
-src="data:image/png;base64,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"
-height="200"
-width="700"/>
-<br/>
-<br/>
-<table style="border-collapse:collapse; margin-left: 5px">
-<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
-<th style="padding: 6px 0;">
-&nbsp;Operating System versions&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Visits&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions per Visit&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Avg. Time on Website&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Bounce Rate&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Conversion Rate&nbsp;&nbsp;
-</th>
-</thead>
-<tbody>
-<tr style="">
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-<img src='plugins/UserSettings/images/os/WI8.gif'>
-&nbsp;
-Windows XP
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-5
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-16
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-3.2
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-00:22:49
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-20%
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-80%
-</td>
-</tr>
-</tbody>
-</table>
-<br/>
-<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
-Back to top
-</a><a name="DevicesDetection_getBrowserFamilies"/>
-<h2 style="color: rgb(126,115,99); font-size: 11pt;">
-Browsers families
-</h2>
-<img
-alt=""
-src="data:image/png;base64,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"
-height="200"
-width="700"/>
-<br/>
-<br/>
-<table style="border-collapse:collapse; margin-left: 5px">
-<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
-<th style="padding: 6px 0;">
-&nbsp;Browsers families&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Visits&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions per Visit&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Avg. Time on Website&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Bounce Rate&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Conversion Rate&nbsp;&nbsp;
-</th>
-</thead>
-<tbody>
-<tr style="">
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-<img src='plugins/UserSettings/images/browsers/FF.gif'>
-&nbsp;
-Firefox
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-5
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-16
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-3.2
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-00:22:49
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-20%
-</td>
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-80%
-</td>
-</tr>
-</tbody>
-</table>
-<br/>
-<a style="text-decoration:none; color: rgb(126,115,99); font-size: 9pt" href="#reportTop">
-Back to top
-</a><a name="DevicesDetection_getBrowserVersions"/>
-<h2 style="color: rgb(126,115,99); font-size: 11pt;">
-Browser versions
-</h2>
-<img
-alt=""
-src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArwAAADICAIAAACF9KXqAAAIkUlEQVR4nO3dT4icZx3A8d/aLS0122nISiTZUOmQaiiSrmmJi0kKIY2iKC1RUkShIEbsQfTgQfHgQcVbBWtVRPCg1SItxeKlLa3dBpbSDmlAiW462tpmaE2WZnfiaml0PEwYp5vdmd/Obved3fl8DmH+vPvuw4TJ+83zvPPOUKPRCACAbt5V9AAAgPVBNAAAKaIBAEgRDQBAimgAAFJEAwCQIhoAgBTRAACkiIaVKpfLiz646OOdfwoA+tlw0QPod9/7+fMLHvnmF27J/GC1Ws0/Wy6XO28PAIUTDV2cfmXurbfeat298sorz5w5s3379tYj1Wp1wSFfAQCwIYmG7ubn51u3S6VSrVZrj4alXF4SrdsLOqP5VGuD5rPtG69s+ACwOkTDWugQELFYQ5i3AKAPORFyFbTPDWSO8cuKAMUAQJ8w09DdNddcs8I9tKoiUwDL2hgA1oxo6OLOg+XamTMr30+zAJI1sKyNAWBtiIYuPnXg+ojru26WnB5or4HMPsM5DQD0Dec0rIVlXcrJdZ8A6E9mGtbC5Z+iXPQDFEttvDaDBIDOhhqNRtFjAADWAcsTAECKaAAAUkQDAJAiGgCAFNEAAKSIBgAgRTQAACkDfXEn11CCfuCdCH2i/TKDi24wuNGw4DsdfMUDFMI7EfpE5t1neQIokkSAfpDs9cGdaQAAWjILhaIBKF7XlVTgnZZZKBQNQPFa/zw5pwH6mXMaAIAU0QAUqX0ZFehzQ41Go+gxFManw6EfeCdCP8i8Ewc6GgCAPMsTAECKaAAAUkQDAJAiGgCAFNEAAKSIBgAgRTREpVIpeggw6Gq1Wq1WK3oUMOi6HhBFAwCQIhoAgBTRAACkiAYAIEU0AAApogEASBENAECKaAAAUkQDAJAiGgCAFNEAAKSIBgAgRTQAACmiAQBIEQ0AQMpw0QPoC6++Xi96CDDQ/jHzr4j47xXeiay+sa0jRQ9h4xANERFf+f4TRQ8BgHfEw/feWfQQNg7LEwBAimgAAFJEAwCQIhoAgBTRAACkiAYAIEU0AAApogEASBENAECKaAAAUkQDAJAiGgCAFNEAAKSIBgAgRTQAACmiAQBIEQ0AQIpoAABSRAMAkCIaAIAU0QAApIgGACBFNAAAKaIBAEgRDQBAimgAAFJEAwCQIhoAgBTRAACkiAYAIEU0AAApogEASBENAECKaAAAUkQDAJAiGgCAFNEAAKSIBgAgRTQAACmiAQBIEQ0AQIpoAABSRAMAkCIaAIAU0QAApIgGACBFNAAAKaIBAEgRDQBAynDRA1hNp048P3bDzubtBx6demT26jtK/46Iq2ZORMTeA7eP3bBzpFQqcogAsG6tWjSUy+WIqFarq7XD5arPzj47+Xjz9rOTj18VcceW8Udmr46IoxF37XqsPvXQQ5NHjtx9j24AgB78PxqaR/2WarVaLpeTEZDfcqkfb/+9HTbo/FsO7Xgp/vaziDi0I5545X0R0ZxpeDPGf3Mq7tr12KELLz3w6NSXPvexnocKwHq04BgXhf4vd/1620zDgldwbV7QBcFxeX8ki+TVv54eiRjdNB0R5y7cODJz/CeP/HHzp7946enhiUMXXhrdND36wg8jRAPAwFEJK9fpRMhml7X/2Xq8pX2D1jaLbtC+z3ad/xbzcxjPTj4+umm6/mK9/mI9IvbePPbCrUefennuqZfnIuKpl+eacw8H3vt6Zm8AwAKpcxraj9yLTgwkN+htFaPr4kVLMxcatbN/+P0T981/OG699HizG04++fRdu2Lyta1HljsCANa//NGEpbwtGpZ6Qdfgxe1w1kLnxYuWk08+/fEPnm1/5FdX//T4yf/8+P33NO/u233Fqg0XgHWlt4VvFuh0TsNSLl9i6KrrNMNSExXLUp8+P3LjdUPb3vPRbXG4drz+5/Oxe9/UMw++cOvRm597MPb3tlcAIKK3j1z2tsTQ8/JE0rFvf2fqW0cPx8VG7WxEPHZiuDI8MfXMdc1i+Pr+83tvHouYrm/Z9w4NAAA2tpVeEbKHWYfMHnrY7dgNOyvDO+vT55t3D49f3HPx9MS1M1/+y/2/+8jxT+ybH900/Y0fXbX3wO0rHDAA687Kj1ZEDzMNzQmD9rtdN2hNMCw62dB5h11/XctIqfSBz3x16ten40RMvPtcRBwev+5wnGo+W3+xPvna1t0H97UuGQnA4MgfTehgqNFoFD2GVVOfnX3oF/effPLpPRdPR1xKh4iY+udoZXjn7oO3LXo5yEql8t1f/n2txwrAmnj43juLHsK6UalU9uzZ02GDDfXdEyOl0pG773lzy3jltz+Ymtty33xMXDszNbdl4tqZ3Qdv23vgdheQBoCebahoiIiRUumzn5x49abRYxGTfzoXEcduGo0IX1UFACu00aIhIkZKpV3jt0TErvGihwIAG8hKPz0BAAwI0QAApIgGACBFNAAAKaIBAEgRDQBAimgAAFJEAwCQIhoAgBTRAACkiAYAIEU0AAApogEASBENAECKaAAAUkQDAJAiGgCAFNEAAKSIBgAgRTQAACmiAQBIEQ0AQIpoAABSRAMAkCIaAIAU0QAApIgGACBFNAAAKaIBAEgRDQBAimgAAFJEAwCQIhoAgBTRAACkiAYAIEU0AAApogEASBENAECKaAAAUkQDAJAiGgCAFNEAAKSIBgAgRTQAACmiAQBIEQ0AQIpoAABSRAMAkDJc9AD6wtc+f0vRQ4CB9sYbb0TE5s2bix4I0IloiIjY/6EdRQ8BBlqtdkVEbNu2reiBAJ1YngAAUkQDAJAiGgCAFNEAAKSIBgAgRTQAACmiAQBIEQ0AQIpoAABSRAMAkCIaAIAU0QAApIgGACBFNAAAKaIBAEgZajQaRY8BAFgHzDQAACmiAQBIEQ0AQIpoAABSRAMAkCIaAIAU0QAApIgGACDlf+dwY1+811HOAAAAAElFTkSuQmCC"
-height="200"
-width="700"/>
-<br/>
-<br/>
-<table style="border-collapse:collapse; margin-left: 5px">
-<thead style="background-color: rgb(228,226,215); color: rgb(37,87,146); font-size: 11pt;">
-<th style="padding: 6px 0;">
-&nbsp;Browser versions&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Visits&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Actions per Visit&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Avg. Time on Website&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Bounce Rate&nbsp;&nbsp;
-</th>
-<th style="padding: 6px 0;">
-&nbsp;Conversion Rate&nbsp;&nbsp;
-</th>
-</thead>
-<tbody>
-<tr style="">
-<td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
-<img src='plugins/UserSettings/images/browsers/FF.gif'>
-&nbsp;
-Firefox 3.6
 </td>
 <td style="font-size: 11pt; border-bottom: 1px solid rgb(231,231,231); padding: 5px 0 5px 5px;">
 5

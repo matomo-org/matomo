@@ -80,7 +80,6 @@ class Piwik_Referers extends Piwik_Plugin
                                                   'module'        => 'Referers',
                                                   'action'        => 'getAll',
                                                   'dimension'     => Piwik_Translate('Referers_Referrer'),
-                                                  'constantRowsCount' => true,
                                                   'documentation' => Piwik_Translate('Referers_AllReferersReportDocumentation', '<br />'),
                                                   'order'         => 2,
                                               ),

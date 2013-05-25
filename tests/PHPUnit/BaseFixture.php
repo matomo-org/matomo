@@ -23,8 +23,8 @@
 abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 {
     const IMAGES_GENERATED_ONLY_FOR_OS = 'linux';
-    const IMAGES_GENERATED_FOR_PHP = '5.3.10';
-    const IMAGES_GENERATED_FOR_GD = '2.0';
+    const IMAGES_GENERATED_FOR_PHP = '5.4';
+    const IMAGES_GENERATED_FOR_GD = '2.0.36';
 
     /** Adds data to Piwik. Creates sites, tracks visits, imports log files, etc. */
     public abstract function setUp();
@@ -270,17 +270,14 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     }
 
     /**
-     * Return true if system under test has the following characteristics :
-     *  - php_uname() contains 'precise32' or 'ubuntu'
-     *  - phpversion() contains '5.3.10'
-     *  - 'GD Version' equals '2.0'
+     * Return true if system under test has Piwik core team's most common configuration
      */
     public static function canImagesBeIncludedInScheduledReports()
     {
         $gdInfo = gd_info();
         return
             stristr(php_uname(), self::IMAGES_GENERATED_ONLY_FOR_OS) &&
-            version_compare(phpversion(), self::IMAGES_GENERATED_FOR_PHP, '>=') &&
+            strpos( phpversion(), self::IMAGES_GENERATED_FOR_PHP) !== false &&
             $gdInfo['GD Version'] == self::IMAGES_GENERATED_FOR_GD;
     }
 
