@@ -433,6 +433,7 @@ div.scrollable {
 .segmentationContainer .submenu ul li:hover {
   color: #255792;
   margin: 0;
+  margin-left:-3px;
   border: 1px solid #d5d2c6;
   border-bottom: 2px solid #918f88;
   border-radius: 4px;

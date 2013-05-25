@@ -73,6 +73,7 @@ class Piwik_WidgetsList
             'Live!',
             'General_Visitors',
             'UserSettings_VisitorSettings',
+            'DevicesDetection_DevicesDetection',
             'Actions_Actions',
             'Actions_SubmenuSitesearch',
             'Referers_Referers',
