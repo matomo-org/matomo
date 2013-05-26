@@ -201,7 +201,18 @@ class Piwik_Goals_Controller extends Piwik_Controller
     public function index()
     {
         $view = $this->getOverviewView();
-        $view->goalsJSON = Piwik_Common::json_encode($this->goals);
+        
+        // unsanitize goal names and other text data (not done in API so as not to break
+        // any other code/cause security issues)
+        $goals = $this->goals;
+        foreach ($goals as &$goal) {
+            $goal['name'] = Piwik_Common::unsanitizeInputValue($goal['name']);
+            if (isset($goal['pattern'])) {
+                $goal['pattern'] = Piwik_Common::unsanitizeInputValue($goal['pattern']);
+            }
+        }
+        $view->goalsJSON = Piwik_Common::json_encode($goals);
+        
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
         $view->displayFullReport = true;
