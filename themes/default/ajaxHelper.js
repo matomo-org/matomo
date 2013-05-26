@@ -66,11 +66,11 @@ function ajaxHelper() {
      */
     this.callback =       function () {};
 
-	/**
-	 * Use this.callback if an error is returned
-	 * @type {Boolean}
-	 */
-	this.useRegularCallbackInCaseOfError = false;
+    /**
+     * Use this.callback if an error is returned
+     * @type {Boolean}
+     */
+    this.useRegularCallbackInCaseOfError = false;
 
     /**
      * Callback function to be executed on error
@@ -132,18 +132,17 @@ function ajaxHelper() {
      * function is a single request to use.
      */
     this.setBulkRequests = function () {
-    	var urls = [];
-    	for (var i = 0; i != arguments.length; ++i)
-    	{
-    		urls.push($.param(arguments[i]));
-    	}
-    	
-    	this.addParams({
-    		module: 'API',
-    		method: 'API.getBulkRequest',
-    		urls: urls,
-    		format: 'json'
-    	}, 'post');
+        var urls = [];
+        for (var i = 0; i != arguments.length; ++i) {
+            urls.push($.param(arguments[i]));
+        }
+
+        this.addParams({
+            module: 'API',
+            method: 'API.getBulkRequest',
+            urls: urls,
+            format: 'json'
+        }, 'post');
     };
 
     /**
@@ -156,15 +155,13 @@ function ajaxHelper() {
         this.callback = callback;
     };
 
-	/**
-	 * Set that the callback passed to setCallback() should be used if an application error (i.e. an
-	 * Exception in PHP) is returned.
-	 * 
-	 * @param {void}
-	 */
-	this.useCallbackInCaseOfError = function () {
-		this.useRegularCallbackInCaseOfError = true;
-	};
+    /**
+     * Set that the callback passed to setCallback() should be used if an application error (i.e. an
+     * Exception in PHP) is returned.
+     */
+    this.useCallbackInCaseOfError = function () {
+        this.useRegularCallbackInCaseOfError = true;
+    };
 
     /**
      * Set callback to redirect on success handler
