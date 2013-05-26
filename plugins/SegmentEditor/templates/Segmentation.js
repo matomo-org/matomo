@@ -434,8 +434,7 @@ Segmentation = (function($) {
                     module: 'API',
                     format: 'json',
                     method: 'API.getSuggestedValuesForSegment',
-                    segmentName: segmentName,
-                    idSite: piwik.idSite
+                    segmentName: segmentName
                 }, 'GET');
                 ajaxHandler.setCallback(function(response) {
                     loadingElement.hide();
