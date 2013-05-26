@@ -156,7 +156,7 @@ function Piwik_getBrowserVersion($str)
 function Piwik_getLogoImageFromId($dir, $id)
 {
     $path = $dir.'/'.$id.'.gif';
-    if (file_exists($path)) {
+    if (file_exists(PIWIK_INCLUDE_PATH . '/' . $path)) {
         return $path;
     } else {
         return $dir.'/UNK.gif';
