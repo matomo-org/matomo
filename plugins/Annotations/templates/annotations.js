@@ -45,7 +45,6 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
-            ajaxRequest.addParams({token_auth: piwik.token_auth}, 'post');
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
@@ -68,7 +67,6 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
-            ajaxRequest.addParams({token_auth: piwik.token_auth}, 'post');
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);
@@ -88,7 +86,6 @@
 
             var ajaxRequest = new ajaxHelper();
             ajaxRequest.addParams(ajaxParams, 'get');
-            ajaxRequest.addParams({token_auth: piwik.token_auth}, 'post');
             ajaxRequest.setCallback(callback);
             ajaxRequest.setFormat('html');
             ajaxRequest.send(false);

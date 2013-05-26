@@ -68,7 +68,6 @@ $(document).ready(function () {
         var data = {
             module: 'UserCountry',
             action: action,
-            token_auth: piwik.token_auth,
             'continue': cont ? 1 : 0
         };
         for (var k in extraData) {
@@ -182,7 +181,6 @@ $(document).ready(function () {
         ajaxRequest.addParams({
             module: 'UserCountry',
             action: 'updateGeoIPLinks',
-            token_auth: piwik.token_auth,
             loc_db: $('#geoip-location-db').val(),
             isp_db: $('#geoip-isp-db').val(),
             org_db: $('#geoip-org-db').val()

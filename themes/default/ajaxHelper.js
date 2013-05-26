@@ -387,13 +387,13 @@ function ajaxHelper() {
         }
 
         for (var key in defaultParams) {
-            if (!params[key] && defaultParams[key]) {
+            if (!params[key] && !this.postParams[key] && defaultParams[key]) {
                 params[key] = defaultParams[key];
             }
         }
 
         // handle default date & period if not already set
-        if (!params.date) {
+        if (!params.date && !this.postParams.date) {
             params.date = piwik.currentDateString || broadcast.getValueFromUrl('date');
             if (params.period == 'range' && piwik.currentDateString) {
                 params.date = piwik.startDateString + ',' + params.date;
