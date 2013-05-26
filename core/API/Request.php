@@ -196,9 +196,7 @@ class Piwik_API_Request
      */
     public static function processRequest($method, $paramOverride = array())
     {
-        // QUERY_STRING contains the URL encoded parameters which we're looking for
-        $GET = self::getRequestParametersGET();
-        $params = $GET + $_POST;
+        $params = array();
         $params['format'] = 'original';
         $params['module'] = 'API';
         $params['method'] = $method;
