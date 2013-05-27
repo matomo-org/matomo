@@ -131,10 +131,10 @@ a {
   right:9px;
   top:7px;
   background: url("images/icon-calendar.gif") no-repeat scroll;
+  cursor:pointer;
 }
 #periodString #date{
-	cursor:pointer; 
-	display:inline-block; 
+	cursor:pointer;
 	padding:5px 10px 6px 10px;
 	margin:-5px -10px -6px -10px;
 	
