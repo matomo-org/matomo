@@ -84,7 +84,8 @@ dataTable.prototype =
             'disable_generic_filters',
             'columns',
             'flat',
-            'include_aggregate_rows'
+            'include_aggregate_rows',
+            'totalRows'
         ];
 
         for (var key in filters) {
