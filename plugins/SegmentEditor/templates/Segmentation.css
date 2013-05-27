@@ -4,13 +4,6 @@
     font-style: italic;
 
 }
-.loadingSegment {
-    color: grey;
-    display: block;
-    font-size: 10pt;
-    margin-left: 28px;
-    display:none;
-}
 .segment-footer .segmentFooterNote {
     display:none;
     float: left;
