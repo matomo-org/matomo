@@ -64,6 +64,7 @@
 		<latitude>1.000000</latitude>
 		<longitude>2.000000</longitude>
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
@@ -202,6 +203,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -323,6 +325,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -444,6 +447,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -565,6 +569,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -703,6 +708,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -824,6 +830,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -945,6 +952,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -1066,6 +1074,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -1203,8 +1212,9 @@
 		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
 		<latitude />
 		<longitude />
-		<provider>Unknown</provider>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<provider>awesomeisp.com</provider>
+		<providerName>Awesomeisp</providerName>
+		<providerUrl>http://www.awesomeisp.com/</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />

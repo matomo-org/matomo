@@ -188,16 +188,16 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
             self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 123.456, 21.321), // template location
 
             // same region, different city, same country
-            self::makeLocation('Nuneaton and Bedworth', 'P3', 'gb'),
+            self::makeLocation('Nuneaton and Bedworth', 'P3', 'gb', $isp = 'comcast.net'),
 
             // same region, city & country (different lat/long)
-            self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 124.456, 22.231),
+            self::makeLocation('Stratford-upon-Avon', 'P3', 'gb', 124.456, 22.231, $isp = 'comcast.net'),
 
             // same country, different region & city
             self::makeLocation('London', 'H9', 'gb'),
 
             // same country, different region, same city
-            self::makeLocation('Stratford-upon-Avon', 'G5', 'gb'),
+            self::makeLocation('Stratford-upon-Avon', 'G5', 'gb', $lat = null, $long = null, $isp = 'awesomeisp.com'),
 
             // different country, diff region, same city
             self::makeLocation('Stratford-upon-Avon', '66', 'ru'),

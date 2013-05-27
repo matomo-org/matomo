@@ -54,6 +54,7 @@
 		<latitude />
 		<longitude />
 		<provider>Inconnu</provider>
+		<providerName>Inconnu</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>
@@ -157,6 +158,7 @@
 		<latitude />
 		<longitude />
 		<provider>Inconnu</provider>
+		<providerName>Inconnu</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Moteurs de recherche</referrerTypeName>

@@ -48,7 +48,7 @@
 
         {capture assign='visitorColumnContent'}
             &nbsp;
-            <img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.location|escape:'html'}, Provider {$visitor.columns.provider|escape:'html'}"/>
+            <img src="{$visitor.columns.countryFlag}" title="{$visitor.columns.location|escape:'html'}, Provider {$visitor.columns.providerName|escape:'html'}"/>
             &nbsp;
             {if $visitor.columns.plugins}
             <img src="{$visitor.columns.browserIcon}" title="{'UserSettings_BrowserWithPluginsEnabled'|translate:$visitor.columns.browserName:$visitor.columns.plugins}"/>
@@ -107,11 +107,11 @@
 			GPS (lat/long): {$visitor.columns.latitude|escape:'html'},{$visitor.columns.longitude|escape:'html'}{/if}">
                         IP: {$visitor.columns.visitIp}</span>{/if}
 
-                    {if (isset($visitor.columns.provider)&&$visitor.columns.provider!='IP')}
+                    {if (isset($visitor.columns.providerName)&&$visitor.columns.providerName!='IP')}
                         <br/>
                         {'Provider_ColumnProvider'|translate}:
                         <a href="{$visitor.columns.providerUrl}" target="_blank" title="{$visitor.columns.providerUrl}" style="text-decoration:underline;">
-                            {$visitor.columns.provider}
+                            {$visitor.columns.providerName}
                         </a>
                     {/if}
                     {if !empty($visitor.columns.customVariables)}

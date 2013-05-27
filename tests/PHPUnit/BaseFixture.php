@@ -152,13 +152,14 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         );
     }
 
-    public static function makeLocation($city, $region, $country, $lat = null, $long = null)
+    public static function makeLocation($city, $region, $country, $lat = null, $long = null, $isp = null)
     {
         return array(Piwik_UserCountry_LocationProvider::CITY_NAME_KEY    => $city,
                      Piwik_UserCountry_LocationProvider::REGION_CODE_KEY  => $region,
                      Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY => $country,
                      Piwik_UserCountry_LocationProvider::LATITUDE_KEY     => $lat,
-                     Piwik_UserCountry_LocationProvider::LONGITUDE_KEY    => $long);
+                     Piwik_UserCountry_LocationProvider::LONGITUDE_KEY    => $long,
+                     Piwik_UserCountry_LocationProvider::ISP_KEY          => $isp);
     }
 
     /**

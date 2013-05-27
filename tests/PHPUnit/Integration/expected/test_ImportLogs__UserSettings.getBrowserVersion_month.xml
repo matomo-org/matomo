@@ -21,7 +21,7 @@
 		<bounce_count>3</bounce_count>
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
-		<logo>plugins/UserSettings/images/browsers/RM.gif</logo>
+		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
 		<shortLabel>RM;0.9</shortLabel>
 	</row>
 	<row>
@@ -93,7 +93,7 @@
 		<bounce_count>2</bounce_count>
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
-		<logo>plugins/UserSettings/images/browsers/MF.gif</logo>
+		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
 		<shortLabel>MF;4.0</shortLabel>
 	</row>
 	<row>

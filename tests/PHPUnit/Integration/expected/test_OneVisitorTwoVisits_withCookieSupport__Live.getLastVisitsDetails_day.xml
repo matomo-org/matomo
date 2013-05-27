@@ -65,6 +65,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
@@ -249,6 +250,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>website</referrerType>
 		<referrerTypeName>Websites</referrerTypeName>

@@ -85,6 +85,7 @@ class Piwik_Live_Visitor
             'latitude'                    => $this->getLatitude(),
             'longitude'                   => $this->getLongitude(),
             'provider'                    => $this->getProvider(),
+            'providerName'                => $this->getProviderName(),
             'providerUrl'                 => $this->getProviderUrl(),
 
             'referrerType'                => $this->getRefererType(),
@@ -515,10 +516,19 @@ class Piwik_Live_Visitor
     {
         return Piwik_getScreensLogo($this->getScreenType());
     }
-
+    
     function getProvider()
     {
-        return Piwik_Provider_getPrettyProviderName(@$this->details['location_provider']);
+        if (isset($this->details['location_provider'])) {
+            return $this->details['location_provider'];
+        } else {
+            return Piwik_Translate('General_Unknown');
+        }
+    }
+
+    function getProviderName()
+    {
+        return Piwik_Provider_getPrettyProviderName($this->getProvider());
     }
 
     function getProviderUrl()

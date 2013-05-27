@@ -51,10 +51,23 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
     
     public function getRankingQueryDisabledApiForTesting()
     {
+        $idSite = self::$fixture->idSite;
+        $dateTime = self::$fixture->dateTime;
+        
         return array(
-            array('Actions.getPageUrls', array('idSite'  => self::$fixture->idSite,
-                                               'date'    => self::$fixture->dateTime,
+            array('Actions.getPageUrls', array('idSite'  => $idSite,
+                                               'date'    => $dateTime,
                                                'periods' => array('day'))),
+            
+            array('Provider.getProvider', array('idSite'  => $idSite,
+                                                'date'    => $dateTime,
+                                                'periods' => array('month'))),
+            
+            array('Provider.getProvider', array('idSite'     => $idSite,
+                                                'date'       => $dateTime,
+                                                'periods'    => array('month'),
+                                                'segment'    => 'provider==comcast.net',
+                                                'testSuffix' => '_segment_provider')),
         );
     }
 
@@ -86,7 +99,11 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
 
         foreach ($this->getApiForTesting() as $pair) {
             list($apiToCall, $params) = $pair;
-            $params['testSuffix'] = '_rankingQuery';
+            
+            if (empty($params['testSuffix'])) {
+                $params['testSuffix'] = '';
+            }
+            $params['testSuffix'] .= '_rankingQuery';
 
             $this->runApiTests($apiToCall, $params);
         }
@@ -109,7 +126,11 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
         
         foreach ($this->getRankingQueryDisabledApiForTesting() as $pair) {
             list($apiToCall, $params) = $pair;
-            $params['testSuffix'] = '_rankingQueryDisabled';
+            
+            if (empty($params['testSuffix'])) {
+                $params['testSuffix'] = '';
+            }
+            $params['testSuffix'] .= '_rankingQueryDisabled';
 
             $this->runApiTests($apiToCall, $params);
         }
