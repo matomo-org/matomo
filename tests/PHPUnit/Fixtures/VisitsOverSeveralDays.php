@@ -110,8 +110,8 @@ class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
             // we do not use setVisitorId(), because we want shouldLookupOneVisitorFieldOnly() to return false for this particular test case
             $debugStringAppend .= '&_id=2f4f673d4732e11d';
 
-            $tracker->setDebugStringAppend($debugStringAppend);
         }
+        $tracker->setDebugStringAppend($debugStringAppend);
         return $tracker;
     }
 }
