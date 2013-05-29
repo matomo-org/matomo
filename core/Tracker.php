@@ -734,6 +734,11 @@ class Piwik_Tracker
             self::updateTrackerConfig('use_third_party_id_cookie', 1);
         }
 
+        // Tests using window_look_back_for_visitor
+        if (Piwik_Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1) {
+            self::updateTrackerConfig('window_look_back_for_visitor', 2678400);
+        }
+
         // Tests can force the enabling of IP anonymization
         $forceIpAnonymization = false;
         if (Piwik_Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
