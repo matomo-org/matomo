@@ -1130,8 +1130,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
         // Two use cases:
         // 1) there is no visitor ID so we try to match only on config_id (heuristics)
-        // 		Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed, etc.
-        // 		We can use config_id heuristics to try find the visitor in the past, there is a risk to assign
+        // 		Possible causes of no visitor ID: no browser cookie support, direct Tracking API request without visitor ID passed,
+        //        importing server access logs with import_logs.py, etc.
+        // 		In this case we use config_id heuristics to try find the visitor in the past. There is a risk to assign
         // 		this page view to the wrong visitor, but this is better than creating artificial visits.
         // 2) there is a visitor ID and we trust it (config setting trust_visitors_cookies, OR it was set using &cid= in tracking API),
         //      and in these cases, we force to look up this visitor id
@@ -1156,7 +1157,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 				WHERE " . $whereCommon . "
 				ORDER BY visit_last_action_time DESC
 				LIMIT 1";
-        } // We have a config_id AND a visitor_id. We match on either of these.
+        }
+        // We have a config_id AND a visitor_id. We match on either of these.
         // 		Why do we also match on config_id?
         //		we do not trust the visitor ID only. Indeed, some browsers, or browser addons,
         // 		cause the visitor id from the 1st party cookie to be different on each page view!
@@ -1185,6 +1187,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 					1 as priority
 					$from
 					WHERE $whereCommon $where
+					ORDER BY visit_last_action_time DESC
 					LIMIT 1
 			";
 
@@ -1192,7 +1195,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
             $sql = " ( $sqlConfigId )
 					UNION 
 					( $sqlVisitorId ) 
-					ORDER BY priority DESC 
+					ORDER BY priority DESC
 					LIMIT 1";
         }
 
@@ -1274,14 +1277,17 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
      */
     protected function getWindowLookupThisVisit()
     {
-        $lookbackNSeconds = Piwik_Config::getInstance()->Tracker['visit_standard_length'];
-
+        $visitStandardLength = Piwik_Config::getInstance()->Tracker['visit_standard_length'];
         $lookbackNSecondsCustom = Piwik_Config::getInstance()->Tracker['window_look_back_for_visitor'];
+
+        $lookAheadNSeconds = $visitStandardLength;
+        $lookbackNSeconds = $visitStandardLength;
         if ($lookbackNSecondsCustom > $lookbackNSeconds) {
             $lookbackNSeconds = $lookbackNSecondsCustom;
         }
+
         $timeLookBack = date('Y-m-d H:i:s', $this->getCurrentTimestamp() - $lookbackNSeconds);
-        $timeLookAhead = date('Y-m-d H:i:s', $this->getCurrentTimestamp() + $lookbackNSeconds);
+        $timeLookAhead = date('Y-m-d H:i:s', $this->getCurrentTimestamp() + $lookAheadNSeconds);
 
         return array($timeLookBack, $timeLookAhead);
     }
