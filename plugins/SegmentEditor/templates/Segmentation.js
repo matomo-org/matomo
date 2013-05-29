@@ -1100,10 +1100,9 @@ $(document).ready( function(){
             $("#segmentList").show();
         }
 
-        if($(e.target).parents('.segmentList').length === 0 && $(".segmentationContainer").hasClass("visible")){
 
+        if($(e.target).parents('#segmentList').length === 0 && $(".segmentationContainer").hasClass("visible")){
             $(".segmentationContainer").trigger("click");
         }
-
     });
 });

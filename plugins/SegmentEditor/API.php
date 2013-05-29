@@ -10,7 +10,7 @@
  */
 
 /**
- * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
+ * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
  *
  * @package Piwik_SegmentEditor
  */
@@ -66,11 +66,6 @@ class Piwik_SegmentEditor_API
         return $enabledAllUsers;
     }
 
-
-    /**
-     * @param $idSite
-     * @throws Exception
-     */
     protected function checkIdSite($idSite)
     {
         if (empty($idSite)) {
@@ -105,10 +100,6 @@ class Piwik_SegmentEditor_API
         return $autoArchive;
     }
 
-    /**
-     * @param $idSegment
-     * @throws Exception
-     */
     protected function getSegmentOrFail($idSegment)
     {
         $segment = $this->get($idSegment);
@@ -126,6 +117,11 @@ class Piwik_SegmentEditor_API
         }
     }
 
+    /**
+     * Deletes a stored segment.
+     *
+     * @param $idSegment
+     */
     public function delete($idSegment)
     {
         $this->checkUserIsNotAnonymous();
@@ -139,6 +135,17 @@ class Piwik_SegmentEditor_API
         return true;
     }
 
+    /**
+     * Modifies an existing stored segment.
+     *
+     * @param $idSegment The ID of the stored segment to modify.
+     * @param $name  The new name of the segment.
+     * @param $definition  The new definition of the segment.
+     * @param bool $idSite  If supplied, associates the stored segment with as single site.
+     * @param bool $autoArchive Whether to automatically archive data with the segment or not.
+     * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
+     *
+     */
     public function update($idSegment, $name, $definition, $idSite = false, $autoArchive = false, $enabledAllUsers = false)
     {
         $this->checkUserIsNotAnonymous();
@@ -167,7 +174,17 @@ class Piwik_SegmentEditor_API
         return true;
     }
 
-
+    /**
+     * Adds a new stored segment.
+     *
+     * @param $name  The new name of the segment.
+     * @param $definition  The new definition of the segment.
+     * @param bool $idSite  If supplied, associates the stored segment with as single site.
+     * @param bool $autoArchive Whether to automatically archive data with the segment or not.
+     * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
+     *
+     * @return int The newly created segment Id
+     */
     public function add($name, $definition, $idSite = false, $autoArchive = false, $enabledAllUsers = false)
     {
         $this->checkUserIsNotAnonymous();
@@ -192,6 +209,11 @@ class Piwik_SegmentEditor_API
         return $db->lastInsertId();
     }
 
+    /**
+     * Returns a stored segment by ID
+     *
+     * @param $idSegment
+     */
     public function get($idSegment)
     {
         Piwik::checkUserHasSomeViewAccess();
@@ -218,6 +240,13 @@ class Piwik_SegmentEditor_API
         return $segment;
     }
 
+    /**
+     * Returns all stored segments.
+     *
+     * @param bool $idSite  Whether to return stored segments that are only auto-archived for a specific idSite, or all of them. If supplied, must be a valid site ID.
+     * @param bool $returnOnlyAutoArchived Whether to only return stored segments that are auto-archived or not.
+     * @return array
+     */
     public function getAll($idSite = false, $returnOnlyAutoArchived = false)
     {
         if(!empty($idSite) ) {
