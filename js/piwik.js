@@ -1548,13 +1548,16 @@ if (typeof Piwik !== 'object') {
             }
 
             function deleteCookies() {
+                var savedConfigCookiesDisabled = configCookiesDisabled;
+
                 // Temporarily allow cookies just to delete the existing ones
                 configCookiesDisabled = false;
                 setCookie(getCookieName('id'), '', -86400, configCookiePath, configCookieDomain);
                 setCookie(getCookieName('ses'), '', -86400, configCookiePath, configCookieDomain);
                 setCookie(getCookieName('cvar'), '', -86400, configCookiePath, configCookieDomain);
                 setCookie(getCookieName('ref'), '', -86400, configCookiePath, configCookieDomain);
-                configCookiesDisabled = true;
+
+                configCookiesDisabled = savedConfigCookiesDisabled;
             }
 
             /**
