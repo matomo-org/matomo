@@ -16,7 +16,7 @@
         {/foreach}
     </div>
 
-    <div style="float:left;">
+    <div style="float:left;max-width:900px;">
         <div class="loadingPiwik" style="display:none">
             <img src="themes/default/images/loading-blue.gif" alt=""/>{'General_LoadingData'|translate}
         </div>

@@ -600,7 +600,9 @@ abstract class Piwik_ViewDataTable
         $segment = Piwik_Common::getRequestVar('segment', '', 'string');
         if (!empty($segment)) {
             $request = Piwik_API_Request::getRequestParametersGET();
-            $segmentRaw = $request['segment'];
+            if(!empty($request['segment'])) {
+                $segmentRaw = $request['segment'];
+            }
         }
         return $segmentRaw;
     }
