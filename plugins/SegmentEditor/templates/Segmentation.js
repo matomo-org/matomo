@@ -213,7 +213,7 @@ Segmentation = (function($) {
                     if( segment.definition == self.currentSegmentStr){
                         injClass = 'class="segmentSelected"';
                     }
-                    listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition) +'" '
+                    listHtml += '<li data-idsegment="'+segment.idsegment+'" data-definition="'+ (segment.definition).replace(/"/g, '&quot;') +'" '
                                 + injClass +' title="'+segment.name+'"><span class="segname">'
                                 + self.shortenSegmentName(segment.name)+'</span>';
                     if(self.segmentAccess == "write") {
@@ -250,7 +250,7 @@ Segmentation = (function($) {
             for(var key in self.availableSegments)
             {
                 segment = self.availableSegments[key];
-                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition)+'" title="'+segment.name+'">'+self.shortenSegmentName(segment.name)+'</option>';
+                newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+segment.name+'">'+self.shortenSegmentName(segment.name)+'</option>';
                 segmentsDropdown.append(newOption);
             }
             $(html).find(".segment-content > h3").after(getInitialStateRowsHtml()).show();
@@ -397,6 +397,7 @@ Segmentation = (function($) {
                     segment.idsegment = $(this).attr("data-idsegment");
                     segment.definition = $(this).data("definition");
                     segment.name = $(this).attr("title");
+
                     self.segmentSelectMethod( segment.definition );
                     toggleLoadingMessage( segment.definition.length );
                     setSegment(segment.definition);
@@ -516,7 +517,9 @@ Segmentation = (function($) {
             {
                 segment[item] = segmentExtra[item];
             }
+
             segment.name = option.attr("title");
+
             segment.definition = option.data("definition");
 
             openEditForm(segment);
