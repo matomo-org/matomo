@@ -72,7 +72,7 @@ function Piwik_getDeviceBrandLabel($label)
 function Piwik_getDeviceTypeLabel($label)
 {
     if (isset(UserAgentParserEnhanced::$deviceTypes[$label])) {
-        return ucfirst(UserAgentParserEnhanced::$deviceTypes[$label]);
+        return UserAgentParserEnhanced::$deviceTypes[$label];
     } else {
         return Piwik_Translate('General_Unknown');
     }

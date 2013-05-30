@@ -9,9 +9,6 @@
  * @category Piwik_Plugins
  * @package Piwik_DevicesDetection
  */
-require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
-require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php';
-
 class Piwik_DevicesDetection_API
 {
 
@@ -60,6 +57,7 @@ class Piwik_DevicesDetection_API
     {
         $dataTable = $this->getDataTable('DevicesDetection_types', $idSite, $period, $date, $segment);
         $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getDeviceTypeLabel'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', 'ucfirst'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getDeviceTypeLogo'));
         return $dataTable;
     }

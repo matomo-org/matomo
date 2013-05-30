@@ -74,6 +74,7 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<screenType>unknown</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
@@ -158,6 +159,7 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<screenType>unknown</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />
@@ -242,6 +244,7 @@
 		<browserCode>IE</browserCode>
 		<browserVersion>7.0</browserVersion>
 		<screenType>unknown</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>unknown</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/unknown.gif</screenTypeIcon>
 		<plugins />

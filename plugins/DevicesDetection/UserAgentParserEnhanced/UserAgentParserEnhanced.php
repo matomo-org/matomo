@@ -14,8 +14,8 @@ require_once('spyc.php');
 
 class UserAgentParserEnhanced
 {
+    public static $deviceTypes = array( 'desktop', 'smartphone', 'tablet', 'feature phone', 'console', 'tv', 'car browser' );
 
-    public static $deviceTypes = array('car browser', 'console', 'desktop', 'feature phone', 'smartphone', 'tablet', 'tv');
     public static $deviceBrands = array(
         'AC' => 'Acer',
         'AI' => 'Airness',

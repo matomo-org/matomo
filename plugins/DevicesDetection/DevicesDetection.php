@@ -9,7 +9,8 @@
  * @category Piwik_Plugins
  * @package Piwik_DevicesDetection
  */
-require_once "UserAgentParserEnhanced/UserAgentParserEnhanced.php";
+require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";
+require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
 class Piwik_DevicesDetection extends Piwik_Plugin
 {
@@ -32,70 +33,78 @@ class Piwik_DevicesDetection extends Piwik_Plugin
 
     /*
      * Defines API reports.
-     * Also used to define Widgets.
+     * Also used to define Widgets, and Segment(s)
      *
-     * @array Category, Report Name, API Module, API action, Translated column name,
-     * W
+     * @return array Category, Report Name, API Module, API action, Translated column name, & optional segment info
+     *
      */
+    protected function getRawMetadataReports()
+    {
+        $report = array(
+            array(
+                'DevicesDetection_DevicesDetection',
+                'DevicesDetection_DeviceType',
+                'DevicesDetection',
+                'getType',
+                'DevicesDetection_DeviceType',
 
-    protected $reportMetadata = array(
-        // device types report
-        array(
-            'DevicesDetection_DevicesDetection',
-            'DevicesDetection_DeviceType',
-            'DevicesDetection',
-            'getType',
-            'DevicesDetection_DeviceType',
-        ),
-        // device brands report
-        array(
-            'DevicesDetection_DevicesDetection',
-            'DevicesDetection_DeviceBrand',
-            'DevicesDetection',
-            'getBrand',
-            'DevicesDetection_DeviceBrand',
-        ),
-        // device model report
-        array(
-            'DevicesDetection_DevicesDetection',
-            'DevicesDetection_DeviceModel',
-            'DevicesDetection',
-            'getModel',
-            'DevicesDetection_DeviceModel',
-        ),
-        // device OS family report
-        array(
-            'DevicesDetection_DevicesDetection',
-            'DeviceDetection_OperatingSystemFamilies',
-            'DevicesDetection',
-            'getOsFamilies',
-            'DeviceDetection_OperatingSystemFamilies',
-        ),
-        // device OS version report
-        array(
-            'DevicesDetection_DevicesDetection',
-            'DeviceDetection_OperatingSystemVersions',
-            'DevicesDetection',
-            'getOsVersions',
-            'DeviceDetection_OperatingSystemVersions',
-        ),
-        // Browser family report
-        array(
-            'DevicesDetection_DevicesDetection',
-            'DevicesDetection_BrowsersFamily',
-            'DevicesDetection',
-            'getBrowserFamilies',
-            'DevicesDetection_BrowsersFamily',
-        ),
-        // Browser versions report
-        array(
-            'DevicesDetection_DevicesDetection',
-            'DevicesDetection_BrowserVersions',
-            'DevicesDetection',
-            'getBrowserVersions',
-            'DevicesDetection_BrowserVersions',
-        ),
-    );
+                // Segment
+                'deviceType',
+                'log_visit.config_device_type',
+                implode(", ", UserAgentParserEnhanced::$deviceTypes), // comma separated examples
+                create_function('$type', 'return array_search( strtolower(trim(urldecode($type))), UserAgentParserEnhanced::$deviceTypes);')
+            ),
+            // device brands report
+            array(
+                'DevicesDetection_DevicesDetection',
+                'DevicesDetection_DeviceBrand',
+                'DevicesDetection',
+                'getBrand',
+                'DevicesDetection_DeviceBrand',
+            ),
+            // device model report
+            array(
+                'DevicesDetection_DevicesDetection',
+                'DevicesDetection_DeviceModel',
+                'DevicesDetection',
+                'getModel',
+                'DevicesDetection_DeviceModel',
+            ),
+            // device OS family report
+            array(
+                'DevicesDetection_DevicesDetection',
+                'DeviceDetection_OperatingSystemFamilies',
+                'DevicesDetection',
+                'getOsFamilies',
+                'DeviceDetection_OperatingSystemFamilies',
+            ),
+            // device OS version report
+            array(
+                'DevicesDetection_DevicesDetection',
+                'DeviceDetection_OperatingSystemVersions',
+                'DevicesDetection',
+                'getOsVersions',
+                'DeviceDetection_OperatingSystemVersions',
+            ),
+            // Browser family report
+            array(
+                'DevicesDetection_DevicesDetection',
+                'DevicesDetection_BrowsersFamily',
+                'DevicesDetection',
+                'getBrowserFamilies',
+                'DevicesDetection_BrowsersFamily',
+            ),
+            // Browser versions report
+            array(
+                'DevicesDetection_DevicesDetection',
+                'DevicesDetection_BrowserVersions',
+                'DevicesDetection',
+                'getBrowserVersions',
+                'DevicesDetection_BrowserVersions',
+            ),
+        );
+        return $report;
+    }
 
     public function getListHooksRegistered()
     {
@@ -106,18 +115,46 @@ class Piwik_DevicesDetection extends Piwik_Plugin
             'Tracker.newVisitorInformation' => 'parseMobileVisitData',
             'WidgetsList.add' => 'addWidgets',
             'API.getReportMetadata' => 'getReportMetadata',
+            'API.getSegmentsMetadata' => 'getSegmentsMetadata',
         );
     }
 
     public function addWidgets()
     {
-        foreach ($this->reportMetadata as $report) {
+        foreach ($this->getRawMetadataReports() as $report) {
             list($category, $name, $controllerName, $controllerAction) = $report;
             if ($category == false)
                 continue;
             Piwik_AddWidget($category, $name, $controllerName, $controllerAction);
         }
     }
+
+
+    /**
+     * Get segments meta data
+     *
+     * @param Piwik_Event_Notification $notification  notification object
+     */
+    public function getSegmentsMetadata($notification)
+    {
+        // Note: only one field segmented so far: deviceType
+        $segments =& $notification->getNotificationObject();
+        foreach ($this->getRawMetadataReports() as $report) {
+            @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues) = $report;
+
+            if (empty($segment)) continue;
+            $segments[] = array(
+                'type'           => 'dimension',
+                'category'       => Piwik_Translate('General_Visit'),
+                'name'           => $columnName,
+                'segment'        => $segment,
+                'acceptedValues' => $acceptedValues,
+                'sqlSegment'     => $sqlSegment,
+                'sqlFilter'      => isset($sqlFilter) ? $sqlFilter : false,
+            );
+        }
+    }
+
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
@@ -127,7 +164,7 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         $reports = & $notification->getNotificationObject();
 
         $i = 0;
-        foreach ($this->reportMetadata as $report) {
+        foreach ($this->getRawMetadataReports() as $report) {
             list($category, $name, $apiModule, $apiAction, $columnName) = $report;
             if ($category == false)
                 continue;

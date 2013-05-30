@@ -109,6 +109,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Device type</name>
+		<segment>deviceType</segment>
+		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Local time</name>
 		<segment>visitLocalHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>

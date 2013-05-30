@@ -107,6 +107,7 @@ class Piwik_Live_Visitor
             'browserCode'                 => $this->getBrowserCode(),
             'browserVersion'              => $this->getBrowserVersion(),
             'screenType'                  => $this->getScreenType(),
+            'deviceType'                  => $this->getDeviceType(),
             'resolution'                  => $this->getResolution(),
             'screenTypeIcon'              => $this->getScreenTypeIcon(),
             'plugins'                     => $this->getPlugins(),
@@ -505,6 +506,14 @@ class Piwik_Live_Visitor
     function getScreenType()
     {
         return Piwik_getScreenTypeFromResolution($this->details['config_resolution']);
+    }
+
+    function getDeviceType()
+    {
+        if(Piwik_PluginsManager::getInstance()->isPluginActivated('DevicesDetection')) {
+            return Piwik_getDeviceTypeLabel($this->details['config_device_type']);
+        }
+        return false;
     }
 
     function getResolution()
