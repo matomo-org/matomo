@@ -45,11 +45,20 @@ If you do not have a server, consider our Piwik Hosting partner: http://piwik.or
 
 For the list of all tickets closed in the current and past relases, see http://piwik.org/changelog/
 
+## Participate!
+
+We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Piwik was built by dozens of people like you,
+and we need your help to make Piwik better… Why not participate in a useful project today?
+
+You will find pointers on how you can participate in Piwik at http://piwik.org/contribute/
+
 ## Contact
 
 http://piwik.org
 
 hello@piwik.org
+
+About us: http://piwik.org/the-piwik-team/
 
 ## More information
 
