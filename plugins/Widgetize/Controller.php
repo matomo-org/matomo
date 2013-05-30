@@ -25,7 +25,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 
     public function testJsInclude1()
     {
-        $view = new Piwik_View('@Widgetize/test_jsinclude');
+        $view = new Piwik_View('@Widgetize/testJsInclude1');
         $view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
         $view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=API&actionToWidgetize=index&method=ExamplePlugin.getGoldenRatio&format=original';
         echo $view->render();
@@ -33,7 +33,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
 
     public function testJsInclude2()
     {
-        $view = new Piwik_View('@Widgetize/test_jsinclude2');
+        $view = new Piwik_View('@Widgetize/testJsInclude2');
         $view->url1 = '?module=Widgetize&action=js&moduleToWidgetize=UserSettings&actionToWidgetize=getBrowser&idSite=1&period=day&date=yesterday';
         $view->url2 = '?module=Widgetize&action=js&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&idSite=1&period=day&date=yesterday&viewDataTable=cloud&show_footer=0';
         $view->url3 = '?module=Widgetize&action=js&moduleToWidgetize=Referers&actionToWidgetize=getKeywords&idSite=1&period=day&date=yesterday&viewDataTable=table&show_footer=0';
@@ -49,7 +49,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
         $parameters = array($fetch = true);
         $outputDataTable = Piwik_FrontController::getInstance()->fetchDispatch($controllerName, $actionName, $parameters);
         if ($controllerName == 'Dashboard' && $actionName == 'index') {
-            $view = new Piwik_View('@Widgetize/empty');
+            $view = new Piwik_View('@Widgetize/iframe_empty');
         } else {
             $view = new Piwik_View('@Widgetize/iframe');
         }

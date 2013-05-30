@@ -124,7 +124,7 @@
 	        <div id="geoip-download-progress"></div>
         </div>
     {% endif %}
-    {% include "@UserCountry/updaterSetup.twig" %}
+    {% include "@UserCountry/_updaterManage.twig" %}
 {% else %}
 <p style="width:900px" class="form-description">{{ 'UserCountry_CannotSetupGeoIPAutoUpdating'|translate }}</p>
 {% endif %}

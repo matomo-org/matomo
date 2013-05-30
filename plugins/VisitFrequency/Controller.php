@@ -25,7 +25,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
 
     public function getSparklines()
     {
-        $view = new Piwik_View('@VisitFrequency/sparklines');
+        $view = new Piwik_View('@VisitFrequency/getSparklines');
         $this->setSparklinesAndNumbers($view);
         echo $view->render();
     }

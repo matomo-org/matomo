@@ -48,7 +48,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
             $apiMethodToRequestDataTable,
             $controllerActionCalledWhenRequestSubTable);
 
-        $this->dataTableTemplate = '@CoreHome/graph';
+        $this->dataTableTemplate = '@CoreHome/_dataTableGraph';
 
         $this->disableOffsetInformationAndPaginationControls();
         $this->disableExcludeLowPopulation();

@@ -41,7 +41,7 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = new Piwik_View('@ImageGraph/debug_graphs_all_sizes');
+        $view = new Piwik_View('@ImageGraph/testAllSizes');
         $this->setGeneralVariablesView($view);
 
         $period = Piwik_Common::getRequestVar('period', 'day', 'string');

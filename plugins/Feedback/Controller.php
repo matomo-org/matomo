@@ -33,7 +33,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
         $category = Piwik_Common::getRequestVar('category', '', 'string');
         $nonce = Piwik_Common::getRequestVar('nonce', '', 'string');
 
-        $view = new Piwik_View('@Feedback/sent');
+        $view = new Piwik_View('@Feedback/sendFeedback');
         $view->feedbackEmailAddress = Piwik_Config::getInstance()->General['feedback_email_address'];
         try {
             $minimumBodyLength = 40;

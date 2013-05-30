@@ -10,7 +10,7 @@
  */
 
 /**
- * A facade that makes it easier to use the 'reports_by_dimension.tpl' template.
+ * A facade that makes it easier to use the 'reports_by_dimension.twig' template.
  *
  * This view will output HTML that displays a list of report names by category and
  * loads them by AJAX when clicked. The loaded report is displayed to the right
@@ -23,7 +23,7 @@ class Piwik_View_ReportsByDimension extends Piwik_View
      */
     public function __construct()
     {
-        parent::__construct('@CoreHome/reports_by_dimension');
+        parent::__construct('@CoreHome/ReportsByDimension/reports_by_dimension');
         $this->dimensionCategories = array();
     }
 

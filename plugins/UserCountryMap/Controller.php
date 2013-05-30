@@ -30,7 +30,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $date = Piwik_Common::getRequestVar('date');
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
-        $view = new Piwik_View('@UserCountryMap/visitor-map');
+        $view = new Piwik_View('@UserCountryMap/visitorMap');
 
         // request visits summary
         $request = new Piwik_API_Request(
@@ -106,7 +106,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         Piwik::checkUserHasViewAccess($idSite);
 
         $token_auth = Piwik::getCurrentUserTokenAuth();
-        $view = new Piwik_View('@UserCountryMap/realtime-map');
+        $view = new Piwik_View('@UserCountryMap/realtimeMap');
 
         $view->mapIsStandaloneNotWidget = $standalone;
 

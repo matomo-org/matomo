@@ -129,7 +129,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
      */
     public function trackingCodeGenerator()
     {
-        $view = new Piwik_View('@CoreAdminHome/jsTrackingGenerator');
+        $view = new Piwik_View('@CoreAdminHome/trackingCodeGenerator');
         $this->setBasicVariablesView($view);
         $view->topMenu = Piwik_GetTopMenu();
         $view->menu = Piwik_GetAdminMenu();

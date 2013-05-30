@@ -1,0 +1,365 @@
+<div class="visitorLog dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
+
+{% if not isWidget %}
+    <h2>{% if javascriptVariablesToSet.filterEcommerce %}{{ 'Goals_EcommerceLog'|translate }}{% else %}{{ 'Live_VisitorLog'|translate }}{% endif %}</h2>
+    {% if reportDocumentation is not empty %}
+        <div class="reportDocumentation"><p>{{ reportDocumentation }}</p></div>
+    {% endif %}
+{% endif %}
+{% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
+
+<a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
+
+{% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
+    {{ arrayDataTable.message }}
+{% else %}
+{% if arrayDataTable|length == 0 %}
+    <a name="{{ properties.uniqueId }}"></a>
+    <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
+{% else %}
+    <a name="{{ properties.uniqueId }}"></a>
+    <table class="dataTable" cellspacing="0" width="100%" style="width:100%;">
+    <thead>
+    <tr>
+        <th style="display:none"></th>
+        <th id="label" class="sortable label" style="cursor: auto;width:12%" width="12%">
+            <div id="thDIV">{{ 'General_Date'|translate }}
+                <div>
+        </th>
+        {% if displayVisitorsInOwnColumn %}
+            <th id="label" class="sortable label" style="cursor: auto;width:13%" width="13%">
+                <div id="thDIV">{{ 'General_Visitors'|translate }}
+                    <div>
+            </th>
+        {% endif %}
+        <th id="label" class="sortable label" style="cursor: auto;width:15%" width="15%">
+            <div id="thDIV">{{ 'Live_Referrer_URL'|translate }}
+                <div>
+        </th>
+        <th id="label" class="sortable label" style="cursor: auto;width:62%" width="62%">
+            <div id="thDIV">{{ 'General_ColumnNbActions'|translate }}
+                <div>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for visitor in arrayDataTable %}
+        {% set visitorColumnContent %}
+            &nbsp;
+            <img src="{{ visitor.columns.countryFlag }}" title="{{ visitor.columns.location }}, Provider {{ visitor.columns.provider }}"/>
+            &nbsp;
+            {% if visitor.columns.plugins %}
+            <img src="{{ visitor.columns.browserIcon }}" title="{{ 'UserSettings_BrowserWithPluginsEnabled'|translate(visitor.columns.browserName,visitor.columns.plugins) }}"/>
+            {% else %}
+            <img src="{{ visitor.columns.browserIcon }}" title="{{ 'UserSettings_BrowserWithNoPluginsEnabled'|translate(visitor.columns.browserName) }}"/>
+            {% endif %}
+            &nbsp;
+            <img src="{{ visitor.columns.operatingSystemIcon }}"
+                 title="{{ visitor.columns.operatingSystem }}, {{ visitor.columns.resolution }} ({{ visitor.columns.screenType }})"/>
+            {% if visitor.columns.visitorTypeIcon %}
+                {% if visitor.columns.visitorId is not empty %}
+                    <a class="rightLink" href="javascript:Piwik_Live_LoadVisitorPopover('{{ visitor.columns.visitorId }}')">
+                {% endif %}
+                &nbsp;-
+                <img src="{{ visitor.columns.visitorTypeIcon }}"
+                     title="{{ 'General_ReturningVisitor'|translate }}{% if visitor.columns.visitorId is not empty %} - {{ 'General_ReturningVisitorAllVisits'|translate }}{% endif %}"/>
+                {% if visitor.columns.visitorId is not empty %}</a>{% endif %}
+            {% endif %}
+
+            {% if not displayVisitorsInOwnColumn %}<br/><br/>{% endif %}
+            &nbsp;
+            {% if visitor.columns.visitConverted %}
+                <span title="{{ 'General_VisitConvertedNGoals'|translate(visitor.columns.goalConversions) }}" class='visitorRank'
+                    {% if not displayVisitorsInOwnColumn %}style='margin-left:0'{% endif %}>
+                <img src="{{ visitor.columns.visitConvertedIcon }}"/>
+                <span class='hash'>#</span>
+                {{ visitor.columns.goalConversions }}
+                {% if visitor.columns.visitEcommerceStatusIcon %}
+                    &nbsp;-
+                    <img src="{{ visitor.columns.visitEcommerceStatusIcon }}" title="{{ visitor.columns.visitEcommerceStatus }}"/>
+                {% endif %}
+                </span>
+            {% endif %}
+            <br/>
+            {% if displayVisitorsInOwnColumn %}
+                {% if visitor.columns.pluginsIcons|length > 0 %}
+                    <hr/>
+                    {{ 'UserSettings_Plugins'|translate }}:
+                    {% for pluginIcon in visitor.columns.pluginsIcons %}
+                        <img src="{{ pluginIcon.pluginIcon }}" title="{{ pluginIcon.pluginName|capitalize(true) }}" alt="{{ pluginIcon.pluginName|capitalize(true) }}"/>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% endset %}
+
+        {% set visitorRow %}
+            <tr class="label{cycle values='odd,even'}">
+                <td style="display:none;"></td>
+                <td class="label" style="width:12%" width="12%">
+                    <strong title="{% if visitor.columns.visitorType=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitor.columns.daysSinceLastVisit) }}{% endif %}">
+                        {{ visitor.columns.serverDatePrettyFirstAction }}
+                        {% if isWidget %}<br/>{% else %}-{% endif %} {{ visitor.columns.serverTimePrettyFirstAction }}</strong>
+                    {% if visitor.columns.visitIp is not empty %}
+                        <br/>
+                    <span title="{% if visitor.columns.visitorId is not empty %}{{ 'General_VisitorID'|translate }}: {{ visitor.columns.visitorId }}{% endif %}
+
+                    {% if visitor.columns.latitude or visitor.columns.longitude %}
+                            GPS (lat/long): {{ visitor.columns.latitude }},{{ visitor.columns.longitude }}{% endif %}">
+                        IP: {{ visitor.columns.visitIp }}</span>{% endif %}
+
+                    {% if visitor.columns.provider is defined and visitor.columns.provider!='IP' %}
+                        <br/>
+                        {{ 'Provider_ColumnProvider'|translate }}:
+                        <a href="{{ visitor.columns.providerUrl }}" target="_blank" title="{{ visitor.columns.providerUrl }}" style="text-decoration:underline;">
+                            {{ visitor.columns.provider }}
+                        </a>
+                    {% endif %}
+                    {% if visitor.columns.customVariables is not empty %}
+                        <br/>
+                        {% for id,customVariable in visitor.columns.customVariables %}
+                            {% set name %}customVariableName{{ id }}{% endset %}
+                            {% set value %}customVariableValue{{ id }}{% endset %}
+                            <br/>
+                            <acronym title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
+                                {{ customVariable[name]|truncate(30) }}
+                            </acronym>
+                        {% if customVariable[value]|length > 0 %}: {{ customVariable[value]|truncate(50) }}{% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if not displayVisitorsInOwnColumn %}
+                        <br/>
+                        {{ visitorColumnContent }}
+                    {% endif %}
+                </td>
+
+                {% if displayVisitorsInOwnColumn %}
+                    <td class="label" style="width:13%" width="13%">
+                        {{ visitorColumnContent }}
+                    </td>
+                {% endif %}
+
+                <td class="column" style="width:20%" width="20%">
+                    <div class="referer">
+                        {% if visitor.columns.referrerType == 'website' %}
+                            {{ 'Referers_ColumnWebsite'|translate }}:
+                            <a href="{{ visitor.columns.referrerUrl }}" target="_blank" title="{{ visitor.columns.referrerUrl }}"
+                               style="text-decoration:underline;">
+                                {{ visitor.columns.referrerName }}
+                            </a>
+                        {% endif %}
+                        {% if visitor.columns.referrerType == 'campaign' %}
+                            {{ 'Referers_ColumnCampaign'|translate }}
+                            <br/>
+                            {{ visitor.columns.referrerName }}
+                            {% if visitor.columns.referrerKeyword is not empty %} - {{ visitor.columns.referrerKeyword }}{% endif %}
+                        {% endif %}
+                        {% if visitor.columns.referrerType == 'search' %}
+                            {% if visitor.columns.searchEngineIcon is not empty %}
+                                <img src="{{ visitor.columns.searchEngineIcon }}" alt="{{ visitor.columns.referrerName }}"/>
+                            {% endif %}
+                            {{ visitor.columns.referrerName }}
+                            {% if visitor.columns.referrerKeyword is not empty %}{{ 'Referers_Keywords'|translate }}:
+                                <br/>
+                                <a href="{{ visitor.columns.referrerUrl }}" target="_blank" style="text-decoration:underline;">
+                                    "{{ visitor.columns.referrerKeyword }}"</a>
+                            {% endif %}
+                            {% set keyword %}{{ visitor.columns.referrerKeyword }}{% endset %}
+                            {% set searchName %}{{ visitor.columns.referrerName }}{% endset %}
+                            {% set position}#{{ visitor.columns.referrerKeywordPosition }}{% endset %}
+                            {% if visitor.columns.referrerKeywordPosition %}
+                                <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank'>
+                                    <span class='hash'>#</span>
+                                    {{ visitor.columns.referrerKeywordPosition }}
+                                </span>
+                            {% endif %}
+                        {% endif %}
+                        {% if visitor.columns.referrerType == 'direct' %}{{ 'Referers_DirectEntry'|translate }}{% endif %}
+                    </div>
+                </td>
+                <td class="column {% if visitor.columns.visitConverted and not isWidget %}highlightField{% endif %}" style="width:55%" width="55%">
+                    <strong>
+                        {{ visitor.columns.actionDetails|length }}
+                        {% if visitor.columns.actionDetails|length <= 1 %}
+                            {{ 'Live_Action'|translate }}
+                        {% else %}
+                            {{ 'Live_Actions'|translate }}
+                        {% endif %}
+                        {% if visitor.columns.visitDuration > 0 %}- {{ visitor.columns.visitDurationPretty }}{% endif %}
+                    </strong>
+                    <br/>
+                    <ol class='visitorLog'>
+                        {% set visitorHasSomeEcommerceActivity %}0{% endset %}
+                        {% for action in visitor.columns.actionDetails %}
+                            {% set customVariablesTooltip %}
+                                {% if action.customVariables is not empty %}
+                                    {{ 'CustomVariables_CustomVariables'|translate }}
+                                    {% for id,customVariable in action.customVariables %}
+                                        {% set name %}customVariablePageName{{ id }}{% endset %}
+                                        {% set value %}customVariablePageValue{{ id }}{% endset %}
+                                        - {{ customVariable[name] }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value] }}{% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endset %}
+                            {% if not javascriptVariablesToSet.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
+                                <li class="{% if action.goalName is not empty %}goal{% else %}action{% endif %}"
+                                    title="{{ action.serverTimePretty }}{% if action.url is not empty and action.url|trim|length %}
+                                    {{ action.url }}{% endif %} {% if customVariablesTooltip|trim|length %}
+
+                                    {{ customVariablesTooltip|trim }}{% endif %}{% if action.timeSpentPretty is defined %}
+
+                                    {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty }}{% endif %}{% if action.generationTime is defined %}
+
+                                    {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime }}{% endif %}">
+                                    {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
+                                    {# Ecommerce Abandoned Cart / Ecommerce Order #}
+                                        <img src="{{ action.icon }}"/>
+                                        {% if action.type == 'ecommerceOrder' %}
+                                            {% set visitorHasSomeEcommerceActivity %}1{% endset %}
+                                            <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
+                                            <span style='color:#666666'>({{ action.orderId }})</span>
+                                        {% else %}
+                                            <strong>{'Goals_AbandonedCart'|translate}</strong>
+
+                                            {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
+                                            {% if javascriptVariablesToSet.filterEcommerce == 2 %}
+                                                {% set visitorHasSomeEcommerceActivity %}1{% endset %}
+                                            {% endif %}
+                                        {% endif %}
+                                        <br/>
+                                        <span {% if not isWidget %}style='margin-left:20px'{% endif %}>
+					                        {% if action.type == 'ecommerceOrder' %}
+                                            <abbr title="
+                                                {{ 'Live_GoalRevenue'|translate }}: {{ action.revenue|money(javascriptVariablesToSet.idSite) }}
+                                                {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite) %}{% endif %}
+                                                {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(javascriptVariablesToSet.idSite) }}{% endif %}
+                                                {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(javascriptVariablesToSet.idSite) }}{% endif %}
+                                                {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(javascriptVariablesToSet.idSite) }}{% endif %}
+                                                ">{{ 'Live_GoalRevenue'|translate }}:
+                                            {% else %}
+                                                {% set revenueLeft %}{{ 'Live_GoalRevenue'|translate }}{% endset %}
+                                                {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
+                                            {% endif %}
+                                                <strong>{$action.revenue|money:$javascriptVariablesToSet.idSite}</strong>
+                                            {% if action.type == 'ecommerceOrder' %}
+                                            </abbr>
+                                            {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
+
+                                            {##} Ecommerce items in Cart/Order #}
+                                            {% if action.itemDetails is not empty %}
+                                                <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px'>
+                                                    {% for product in action.itemDetails %}
+                                                        <li>
+                                                            {{ product.itemSKU }}{% if product.itemName is not empty %}: {{ product.itemName }}{% endif %}
+                                                            {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
+                                                            ,
+                                                            {{ 'General_Quantity'|translate }}: {{ product.quantity }},
+                                                            {{ 'General_Price'|translate }}: {{ product.price|money(javascriptVariablesToSet.idSite) }}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </span>
+                                    {% elseif action.goalName is empty %}
+                                        {# Page view / Download / Outlink #}
+                                        {% if action.pageTitle is not empty %}
+                                            {{ action.pageTitle|truncate(80) }}
+                                        {% endif %}
+                                        {% if action.siteSearchKeyword is not empty %}
+                                            {% if action.type == 'search' %}
+                                                <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}'>
+                                            {% endif %}
+                                            {{ action.siteSearchKeyword|truncate(80) }}
+                                        {% endif %}
+                                        {% if action.url is not empty %}
+                                            {% if action.type == 'action' and action.pageTitle is not empty %}<br/>{% endif %}
+                                            {% if action.type == 'download' or action.type == 'outlink' %}
+                                                <img src='{{ action.icon }}'>
+                                            {% endif %}
+                                            <a href="{{ action.url }}" target="_blank"
+                                               style="{% if action.type=='action' and action.pageTitle is not empty %}margin-left: 25px;{% endif %}text-decoration:underline;">
+                                                {{ action.url|truncate(80) }}
+                                            </a>
+                                        {% elseif action.type != 'search' %}
+                                            <br/>
+                                            <span style="margin-left: 25px;">{{ javascriptVariablesToSet.pageUrlNotDefined }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                        {# Goal conversion #}
+                                        <img src="{{ action.icon }}" />
+                                        <strong>{{ action.goalName }}</strong>
+                                        {% if action.revenue > 0}, {{ 'Live_GoalRevenue'|translate }}:
+                                            <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite) }}</strong>
+                                        {% endif %}
+                                    {% endif %}
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                </td>
+            </tr>
+        {% endset %}
+
+        {% if not javascriptVariablesToSet.filterEcommerce or visitorHasSomeEcommerceActivity is not empty %}
+            {{ visitorRow }}
+        {% endif %}
+    {% endfor %}
+
+    </tbody>
+    </table>
+{% endif %}
+
+    {% if properties.show_footer %}
+        {% include "@CoreHome/_dataTableFooter.twig" %}
+    {% endif %}
+
+    {% include "@CoreHome/_dataTableJS.twig"}
+    <script type="text/javascript" defer="defer">
+
+        var visitorLogTitle = '{{ 'Live_VisitorLog'|translate|e('js') }}';
+        function Piwik_Live_LoadVisitorPopover(visitorId) {
+            var startingDate = piwik.minDateYear + '-01-01';
+            var url = 'module=Live&action=getVisitorLog&period=range&date=' + startingDate + ',today&show_footer=0&segment=visitorId' + encodeURIComponent('==') + visitorId;
+            return Piwik_Popover.createPopupAndLoadUrl(url, visitorLogTitle);
+        }
+
+        $(document).ready(function () {
+            // Replace duplicated page views by a NX count instead of using too much vertical space
+            $("ol.visitorLog").each(function () {
+                var prevelement;
+                var prevhtml;
+                var counter = 0;
+                $(this).find("li").each(function () {
+                    counter++;
+                    $(this).val(counter);
+                    var current = $(this).html();
+                    if (current == prevhtml) {
+                        var repeat = prevelement.find(".repeat")
+                        if (repeat.length) {
+                            repeat.html((parseInt(repeat.html()) + 1) + "x");
+                        } else {
+                            prevelement.append($("<em title='{{ 'Live_PageRefreshed'|translate|e('js') }}' class='repeat'>2x</em>"));
+                        }
+                        $(this).hide();
+                    } else {
+                        prevhtml = current;
+                        prevelement = $(this);
+                    }
+                    
+                    $(this).tooltip({
+                        track: true,
+                        show: false,
+                        hide: false,
+                        content: function() {
+                            var title = $(this).attr('title');
+                            return $('<a>').text( title ).html().replace(/\n/g, '<br />');
+                        },
+                        tooltipClass: 'small'
+                    });
+                });
+            });
+        });
+    </script>
+{% endif %}
+
+</div>

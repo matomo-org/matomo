@@ -86,7 +86,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
     public function getDatabaseSize()
     {
         Piwik::checkUserIsSuperUser();
-        $view = new Piwik_View('@PrivacyManager/databaseSize');
+        $view = new Piwik_View('@PrivacyManager/getDatabaseSize');
 
         $forceEstimate = Piwik_Common::getRequestVar('forceEstimate', 0);
         $view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
