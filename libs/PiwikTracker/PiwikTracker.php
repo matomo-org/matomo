@@ -89,12 +89,12 @@ class PiwikTracker
 
         $this->requestCookie = '';
         $this->idSite = $idSite;
-        $this->urlReferrer = @$_SERVER['HTTP_REFERER'];
+        $this->urlReferrer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
         $this->pageCharset = self::DEFAULT_CHARSET_PARAMETER_VALUES;
         $this->pageUrl = self::getCurrentUrl();
-        $this->ip = @$_SERVER['REMOTE_ADDR'];
-        $this->acceptLanguage = @$_SERVER['HTTP_ACCEPT_LANGUAGE'];
-        $this->userAgent = @$_SERVER['HTTP_USER_AGENT'];
+        $this->ip = !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : false;
+        $this->acceptLanguage = !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : false;
+        $this->userAgent = !empty($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : false;
         if (!empty($apiUrl)) {
             self::$URL = $apiUrl;
         }
