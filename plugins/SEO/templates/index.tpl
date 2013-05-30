@@ -23,8 +23,8 @@
                 <table cellspacing='2' style='margin:auto;line-height:1.5em;padding-top:10px'>
                     {foreach from=$ranks item=rank}
                         <tr>
-                            {capture assign=seoLink}<a class="linkContent" href="?module=Proxy&action=redirect&url={$rank.logo_link|urlencode}" target="_blank"
-                                                     {if !empty($rank.logo_tooltip)}title="{$rank.logo_tooltip}"{/if}>{/capture}
+{capture assign=seoLink}{if !empty($rank.logo_link)}<a class="linkContent" href="?module=Proxy&action=redirect&url={$rank.logo_link|urlencode}" target="_blank"
+                         {if !empty($rank.logo_tooltip)}title="{$rank.logo_tooltip}"{/if}>{/if}{/capture}
                             {capture assign=majesticLink}{$seoLink}Majestic</a>{/capture}
                             <td>{if !empty($rank.logo_link)}{$seoLink}{/if}<img
                                             style='vertical-align:middle;margin-right:6px;' src='{$rank.logo}' border='0'
