@@ -85,6 +85,7 @@ class Piwik_VisitTime_API
         $dataTable = $archive->getDataTableFromNumeric($metrics)->mergeChildren();
 
         // if there's no data for this report, don't bother w/ anything else
+        // TODO: with changes to getDataTableFromNumeric, this code would have to check if every row has 0 column values. is it really necessary? (assuming no for now)
         if ($dataTable->getRowsCount() == 0) {
             return $dataTable;
         }

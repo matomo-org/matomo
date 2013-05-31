@@ -3,10 +3,10 @@
 	<result date="2010-01">
 		<row>
 			<label>Site 1</label>
+			<nb_visits>3</nb_visits>
+			<nb_actions>8</nb_actions>
 			<nb_pageviews>8</nb_pageviews>
 			<revenue>15</revenue>
-			<nb_actions>8</nb_actions>
-			<nb_visits>3</nb_visits>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
@@ -15,12 +15,14 @@
 		</row>
 		<row>
 			<label>Site 2</label>
-			<nb_pageviews>3</nb_pageviews>
-			<nb_actions>3</nb_actions>
 			<nb_visits>1</nb_visits>
+			<nb_actions>3</nb_actions>
+			<nb_pageviews>3</nb_pageviews>
+			<revenue>0</revenue>
 			<visits_evolution>100%</visits_evolution>
 			<actions_evolution>100%</actions_evolution>
 			<pageviews_evolution>100%</pageviews_evolution>
+			<revenue_evolution>0%</revenue_evolution>
 			<idsite>2</idsite>
 		</row>
 	</result>

@@ -218,7 +218,9 @@ class Piwik_MultiSites_API
         ) {
             $dataTable = $dataTable->mergeChildren();
         } else {
-            if (!$dataTable instanceof Piwik_DataTable_Array) {
+            if (!$dataTable instanceof Piwik_DataTable_Array
+                && $dataTable->getRowsCount() > 0
+            ) {
                 $firstDataTableRow = $dataTable->getFirstRow();
                 $firstDataTableRow->setColumn('label', $sites);
             }

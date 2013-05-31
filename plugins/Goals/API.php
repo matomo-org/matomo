@@ -210,6 +210,7 @@ class Piwik_Goals_API
         }
         $archive = Piwik_Archive::build($idSite, $period, $date);
         $dataTable = $archive->getDataTable($recordNameFinal);
+        
         $dataTable->filter('Sort', array(Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
@@ -428,7 +429,7 @@ class Piwik_Goals_API
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
-        $dataTable = $archive->getNumeric($toFetch);
+        $dataTable = $archive->getDataTableFromNumeric($toFetch);
         return $dataTable;
     }
 

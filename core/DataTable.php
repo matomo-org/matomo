@@ -369,11 +369,17 @@ class Piwik_DataTable
     /**
      * Apply a filter to this datatable
      *
-     * @param string $className   Class name, eg. "Sort" or "Piwik_DataTable_Filter_Sort"
+     * @param string|Closure $className   Class name, eg. "Sort" or "Piwik_DataTable_Filter_Sort".
+     *                                    If this variable is a closure, it will get executed immediately.
      * @param array $parameters  Array of parameters to the filter, eg. array('nb_visits', 'asc')
      */
     public function filter($className, $parameters = array())
     {
+        if ($className instanceof Closure) {
+            $className($this);
+            return;
+        }
+        
         if (!class_exists($className, false)) {
             $className = "Piwik_DataTable_Filter_" . $className;
         }
@@ -1491,4 +1497,16 @@ class Piwik_DataTable
         return $this->columnAggregationOperations;
     }
     
+    /**
+     * Creates a new DataTable instance from a serialize()'d array of rows.
+     * 
+     * @param string $data
+     * @return Piwik_DataTable
+     */
+    public static function fromSerializedArray($data)
+    {
+        $result = new Piwik_DataTable();
+        $result->addRowsFromSerializedArray($data);
+        return $result;
+    }
 }

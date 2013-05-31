@@ -171,7 +171,7 @@ class Piwik_UserSettings_API
         $dataTable = $this->getDataTable('UserSettings_plugin', $idSite, $period, $date, $segment);
         $browserTypes = $this->getDataTable('UserSettings_browserType', $idSite, $period, $date, $segment);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
-        $visitsSums = $archive->getNumeric('nb_visits');
+        $visitsSums = $archive->getDataTableFromNumeric('nb_visits');
 
         // check whether given tables are arrays
         if ($dataTable instanceof Piwik_DataTable_Array) {
@@ -179,9 +179,9 @@ class Piwik_UserSettings_API
             $browserTypesArray = $browserTypes->getArray();
             $visitSumsArray = $visitsSums->getArray();
         } else {
-            $tableArray = Array($dataTable);
-            $browserTypesArray = Array($browserTypes);
-            $visitSumsArray = Array($visitsSums);
+            $tableArray = array($dataTable);
+            $browserTypesArray = array($browserTypes);
+            $visitSumsArray = array($visitsSums);
         }
 
         // walk through the results and calculate the percentage
@@ -198,7 +198,11 @@ class Piwik_UserSettings_API
             foreach ($visitSumsArray AS $k => $visits) {
                 if ($k == $key) {
                     if (is_object($visits)) {
-                        $visitsSumTotal = (float)$visits->getFirstRow()->getColumn(0);
+                        if ($visits->getRowsCount() == 0) {
+                            $visitsSumTotal = 0;
+                        } else {
+                            $visitsSumTotal = (float)$visits->getFirstRow()->getColumn('nb_visits');
+                        }
                     } else {
                         $visitsSumTotal = (float)$visits;
                     }

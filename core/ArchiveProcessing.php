@@ -507,7 +507,7 @@ abstract class Piwik_ArchiveProcessing
     public function getDoneStringFlag($flagArchiveAsAllPlugins = false)
     {
         return self::getDoneStringFlagFor(
-            $this->getSegment(), $this->period, $this->getRequestedReport(), $flagArchiveAsAllPlugins);
+            $this->getSegment(), $this->period->getLabel(), $this->getRequestedReport(), $flagArchiveAsAllPlugins);
     }
 
     /**
@@ -515,15 +515,15 @@ abstract class Piwik_ArchiveProcessing
      * whether the archive was created successfully or not).
      *
      * @param Piwik_Segment $segment
-     * @param Piwik_Period $period
+     * @param string $periodLabel
      * @param string $requestedReport
      * @param bool $flagArchiveAsAllPlugins
      * @return string
      */
-    public static function getDoneStringFlagFor($segment, $period, $requestedReport, $flagArchiveAsAllPlugins = false)
+    public static function getDoneStringFlagFor($segment, $periodLabel, $requestedReport, $flagArchiveAsAllPlugins = false)
     {
         $segmentHash = $segment->getHash();
-        if (!self::shouldProcessReportsAllPluginsFor($segment, $period)) {
+        if (!self::shouldProcessReportsAllPluginsFor($segment, $periodLabel)) {
             $pluginProcessed = self::getPluginBeingProcessed($requestedReport);
             if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginProcessed)
                 || $flagArchiveAsAllPlugins
@@ -583,10 +583,10 @@ abstract class Piwik_ArchiveProcessing
         }
         $this->insertNumericRecord($done, $flag);
     }
-
+    
     /**
      * Returns the name of the numeric table where the archive numeric values are stored
-     *
+     * 
      * @return string
      */
     public function getTableArchiveNumericName()
@@ -639,7 +639,7 @@ abstract class Piwik_ArchiveProcessing
         $this->requestedReport = $requestedReport;
     }
 
-    protected function getRequestedReport()
+    public function getRequestedReport()
     {
         return $this->requestedReport;
     }
@@ -957,15 +957,15 @@ abstract class Piwik_ArchiveProcessing
      */
     public function isArchivingDisabled()
     {
-        return self::isArchivingDisabledFor($this->getSegment(), $this->period);
+        return self::isArchivingDisabledFor($this->getSegment(), $this->period->getLabel());
     }
 
-    public static function isArchivingDisabledFor($segment, $period)
+    public static function isArchivingDisabledFor($segment, $periodLabel)
     {
-        if ($period->getLabel() == 'range') {
+        if ($periodLabel == 'range') {
             return false;
         }
-        $processOneReportOnly = !self::shouldProcessReportsAllPluginsFor($segment, $period);
+        $processOneReportOnly = !self::shouldProcessReportsAllPluginsFor($segment, $periodLabel);
         $isArchivingDisabled = !self::isRequestAuthorizedToArchive();
 
         if ($processOneReportOnly) {
@@ -1003,17 +1003,17 @@ abstract class Piwik_ArchiveProcessing
      */
     protected function shouldProcessReportsAllPlugins($segment, $period)
     {
-        return self::shouldProcessReportsAllPluginsFor($segment, $period);
+        return self::shouldProcessReportsAllPluginsFor($segment, $period->getLabel());
     }
 
     /**
      * @param Piwik_Segment $segment
-     * @param Piwik_Period $period
+     * @param string $period
      * @return bool
      */
-    protected static function shouldProcessReportsAllPluginsFor($segment, $period)
+    protected static function shouldProcessReportsAllPluginsFor($segment, $periodLabel)
     {
-        if ($segment->isEmpty() && $period->getLabel() != 'range') {
+        if ($segment->isEmpty() && $periodLabel != 'range') {
             return true;
         }
 

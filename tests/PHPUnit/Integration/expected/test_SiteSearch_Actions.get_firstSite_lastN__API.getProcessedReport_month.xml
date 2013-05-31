@@ -45,15 +45,15 @@
 	</columns>
 	<reportData>
 		<result prettyDate="2010, January">
-			<nb_keywords>5</nb_keywords>
 			<nb_pageviews>4</nb_pageviews>
-			<nb_searches>8</nb_searches>
 			<nb_uniq_pageviews>3</nb_uniq_pageviews>
-			<avg_time_generation>0s</avg_time_generation>
 			<nb_downloads>0</nb_downloads>
 			<nb_uniq_downloads>0</nb_uniq_downloads>
 			<nb_outlinks>0</nb_outlinks>
 			<nb_uniq_outlinks>0</nb_uniq_outlinks>
+			<nb_searches>8</nb_searches>
+			<nb_keywords>5</nb_keywords>
+			<avg_time_generation>0s</avg_time_generation>
 		</result>
 		<result prettyDate="2010, February" />
 		<result prettyDate="2010, March" />

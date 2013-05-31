@@ -100,7 +100,7 @@ class Piwik_VisitsSummary_API
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
-        $dataTable = $archive->getNumeric($toFetch);
+        $dataTable = $archive->getDataTableFromNumeric($toFetch);
         return $dataTable;
     }
 
@@ -142,8 +142,9 @@ class Piwik_VisitsSummary_API
     public function getSumVisitsLengthPretty($idSite, $period, $date, $segment = false)
     {
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
-        if ($table instanceof Piwik_DataTable_Array) {
-            $table->filter('ColumnCallbackReplace', array(0, array('Piwik', 'getPrettyTimeFromSeconds')));
+        if (is_object($table)) {
+            $table->filter('ColumnCallbackReplace',
+                array('sum_visit_length', array('Piwik', 'getPrettyTimeFromSeconds')));
         } else {
             $table = Piwik::getPrettyTimeFromSeconds($table);
         }

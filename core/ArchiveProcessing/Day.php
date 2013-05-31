@@ -126,11 +126,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      */
     private function redirectRequestToVisitsSummary()
     {
-        $archive = new Piwik_Archive_Single();
-        $archive->setSite($this->site);
-        $archive->setPeriod($this->period);
-        $archive->setSegment($this->getSegment());
-        $archive->setRequestedReport('VisitsSummary');
+        $archive = new Piwik_Archive($this->site->getId(), $this->period, $this->getSegment());
 
         $nbVisits = $archive->getNumeric('nb_visits');
         $this->isThereSomeVisits = $nbVisits > 0;

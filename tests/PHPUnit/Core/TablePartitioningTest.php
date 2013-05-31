@@ -67,26 +67,4 @@ class TablePartitioningTest extends DatabaseTestCase
         $this->assertEquals($tablename, $p->getTableName());
         $this->assertEquals($tablename, (string)$p->__toString());
     }
-
-    /**
-     * test daily
-     * @group Core
-     * @group TablePartitioning
-     */
-    public function testDailyPartition()
-    {
-        $tableName = 'archive_numeric';
-        $p = new Piwik_TablePartitioning_Daily($tableName);
-        $timestamp = strtotime("10 September 2000");
-        $suffixShouldBe = "_2000_09_10";
-        $prefixTables = Piwik_Config::getInstance()->database['tables_prefix'];
-        $tablename = $prefixTables . $tableName . $suffixShouldBe;
-
-        $p->setTimestamp($timestamp);
-
-        $allTablesInstalled = Piwik::getTablesInstalled();
-        $this->assertContains($tablename, $allTablesInstalled);
-        $this->assertEquals($tablename, $p->getTableName());
-        $this->assertEquals($tablename, (string)$p->__toString());
-    }
 }

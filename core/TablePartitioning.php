@@ -97,6 +97,9 @@ abstract class Piwik_TablePartitioning
  */
 class Piwik_TablePartitioning_Monthly extends Piwik_TablePartitioning
 {
+    private static $blobArchiveTable = null;
+    private static $numericArchiveTable = null;
+    
     public function __construct($tableName)
     {
         parent::__construct($tableName);
@@ -107,24 +110,29 @@ class Piwik_TablePartitioning_Monthly extends Piwik_TablePartitioning
         $config = Piwik_Config::getInstance();
         return $config->database['tables_prefix'] . $this->tableName . "_" . date("Y_m", $this->timestamp);
     }
-
+    
+    /**
+     * Creates archive_blob & archive_numeric tables for a period if they don't
+     * already exist.
+     * 
+     * @param Piwik_Period $periodInMonth
+     */
+    public static function createArchiveTablesIfAbsent($periodInMonth)
+    {
+        $timestamp = $periodInMonth->getDateStart()->getTimestamp();
+        
+        self::$blobArchiveTable->setTimestamp($timestamp);
+        self::$blobArchiveTable->getTableName();
+        
+        self::$numericArchiveTable->setTimestamp($timestamp);
+        self::$numericArchiveTable->getTableName();
+    }
+    
+    public static function init()
+    {
+        self::$blobArchiveTable = new Piwik_TablePartitioning_Monthly('archive_blob');
+        self::$numericArchiveTable = new Piwik_TablePartitioning_Monthly('archive_numeric');
+    }
 }
 
-/**
- *
- * @package Piwik
- * @subpackage Piwik_TablePartitioning
- */
-class Piwik_TablePartitioning_Daily extends Piwik_TablePartitioning
-{
-    public function __construct($tableName)
-    {
-        parent::__construct($tableName);
-    }
-
-    protected function generateTableName()
-    {
-        $config = Piwik_Config::getInstance();
-        return $config->database['tables_prefix'] . $this->tableName . "_" . date("Y_m_d", $this->timestamp);
-    }
-}
+Piwik_TablePartitioning_Monthly::init();

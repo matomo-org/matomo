@@ -265,4 +265,9 @@ abstract class Piwik_Period
     abstract public function getLocalizedShortString();
 
     abstract public function getLocalizedLongString();
+    
+    public function getRangeString()
+    {
+        return $this->getDateStart()->toString("Y-m-d").",".$this->getDateEnd()->toString("Y-m-d");
+    }
 }
