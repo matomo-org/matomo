@@ -507,7 +507,7 @@ abstract class Piwik_ArchiveProcessing
     public function getDoneStringFlag($flagArchiveAsAllPlugins = false)
     {
         return self::getDoneStringFlagFor(
-            $this->getSegment(), $this->period->getLabel(), $this->getRequestedReport(), $flagArchiveAsAllPlugins);
+            $this->getSegment(), $this->period->getLabel(), $this->getRequestedPlugin(), $flagArchiveAsAllPlugins);
     }
 
     /**
@@ -516,21 +516,20 @@ abstract class Piwik_ArchiveProcessing
      *
      * @param Piwik_Segment $segment
      * @param string $periodLabel
-     * @param string $requestedReport
+     * @param string $plugin
      * @param bool $flagArchiveAsAllPlugins
      * @return string
      */
-    public static function getDoneStringFlagFor($segment, $periodLabel, $requestedReport, $flagArchiveAsAllPlugins = false)
+    public static function getDoneStringFlagFor($segment, $periodLabel, $plugin, $flagArchiveAsAllPlugins = false)
     {
         $segmentHash = $segment->getHash();
         if (!self::shouldProcessReportsAllPluginsFor($segment, $periodLabel)) {
-            $pluginProcessed = self::getPluginBeingProcessed($requestedReport);
-            if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginProcessed)
+            if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($plugin)
                 || $flagArchiveAsAllPlugins
             ) {
-                $pluginProcessed = 'all';
+                $plugin = 'all';
             }
-            $segmentHash .= '.' . $pluginProcessed;
+            $segmentHash .= '.' . $plugin;
         }
         return 'done' . $segmentHash;
     }
@@ -556,7 +555,7 @@ abstract class Piwik_ArchiveProcessing
             $this->idsite,
             $temporary,
             $this->getSegment()->getString(),
-            $this->getRequestedReport(),
+            $this->getRequestedPlugin(),
             $this->startDatetimeUTC,
             $this->endTimestampUTC
         ));
@@ -634,26 +633,14 @@ abstract class Piwik_ArchiveProcessing
         $this->site = $site;
     }
 
-    public function setRequestedReport($requestedReport)
+    public function setRequestedPlugin($plugin)
     {
-        $this->requestedReport = $requestedReport;
+        $this->requestedPlugin = $plugin;
     }
-
-    public function getRequestedReport()
+    
+    public function getRequestedPlugin()
     {
-        return $this->requestedReport;
-    }
-
-    public static function getPluginBeingProcessed($requestedReport)
-    {
-        $plugin = substr($requestedReport, 0, strpos($requestedReport, '_'));
-        if (empty($plugin)
-            || !Piwik_PluginsManager::getInstance()->isPluginActivated($plugin)
-        ) {
-            $pluginStr = empty($plugin) ? '' : "($plugin)";
-            throw new Exception("Error: The report '$requestedReport' was requested but it is not available at this stage. You may also disable the related plugin $pluginStr to avoid this error.");
-        }
-        return $plugin;
+        return $this->requestedPlugin;
     }
 
     /**
@@ -931,7 +918,7 @@ abstract class Piwik_ArchiveProcessing
             return false;
         }
 
-        if ($this->getPluginBeingProcessed($this->getRequestedReport()) == 'VisitsSummary') {
+        if ($this->getRequestedPlugin() == 'VisitsSummary') {
             $this->isThereSomeVisits = false;
         }
 
@@ -1045,7 +1032,7 @@ abstract class Piwik_ArchiveProcessing
 
         // If any other segment, only process if the requested report belong to this plugin
         // or process all plugins if the requested report plugin couldn't be guessed
-        $pluginBeingProcessed = self::getPluginBeingProcessed($this->getRequestedReport());
+        $pluginBeingProcessed = $this->getRequestedPlugin();
         return $pluginBeingProcessed == $pluginName
             || !Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed);
     }

@@ -572,48 +572,18 @@ class Piwik_Archive
     }
     
     /**
-     * Returns the report names for a list of metric/record names.
-     * 
-     * @see getRequestedReport
+     * Returns the list of plugins that archive the given reports.
      * 
      * @param array $archiveNames
+     * @return array
      */
-    public function getRequestedReports($archiveNames)
+    public function getRequestedPlugins($archiveNames)
     {
         $result = array();
         foreach ($archiveNames as $name) {
-            $result[] = self::getRequestedReport($name);
+            $result[] = self::getPluginForReport($name);
         }
         return array_unique($result);
-    }
-    
-    /**
-     * Returns the report name for a metric/record name.
-     * 
-     * A report name has the following format: {$pluginName}_{$reportId}, eg. VisitFrequency_Metrics.
-     * The report ID is not used anywhere in Piwik.
-     */
-    public static function getRequestedReport($archiveName)
-    {
-        // Core metrics are always processed in Core, for the requested date/period/segment
-        if (in_array($archiveName, Piwik_ArchiveProcessing::getCoreMetrics())
-            || $archiveName == 'max_actions'
-        ) {
-            return 'VisitsSummary_CoreMetrics';
-        }
-        // VisitFrequency metrics don't follow the same naming convention (HACK) 
-        else if(strpos($archiveName, '_returning') > 0
-            // ignore Goal_visitor_returning_1_1_nb_conversions 
-            && strpos($archiveName, 'Goal_') === false
-        ) {
-            return 'VisitFrequency_Metrics';
-        }
-        // Goal_* metrics are processed by the Goals plugin (HACK)
-        else if(strpos($archiveName, 'Goal_') === 0) {
-            return 'Goals_Metrics';
-        } else {
-            return $archiveName;
-        }
     }
     
     /**
@@ -703,19 +673,18 @@ class Piwik_Archive
      */
     private function getArchiveIds($archiveNames)
     {
-        $requestedReports = $this->getRequestedReports($archiveNames);
+        $plugins = $this->getRequestedPlugins($archiveNames);
         
         // figure out which archives haven't been processed (if an archive has been processed,
         // then we have the archive IDs in $this->idarchives)
         $doneFlags = array();
         $archiveGroups = array();
-        foreach ($requestedReports as $report) {
-            $doneFlag = Piwik_ArchiveProcessing::getDoneStringFlagFor(
-                $this->segment, $this->getPeriodLabel(), $report);
+        foreach ($plugins as $plugin) {
+            $doneFlag = $this->getDoneStringForPlugin($plugin);
             
             $doneFlags[$doneFlag] = true;
             if (!isset($this->idarchives[$doneFlag])) {
-                $archiveGroups[] = $this->getArchiveGroupOfReport($report);
+                $archiveGroups[] = $this->getArchiveGroupOfPlugin($plugin);
             }
         }
         
@@ -724,9 +693,9 @@ class Piwik_Archive
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
             if (!$this->isArchivingDisabled()) {
-                $this->cacheArchiveIdsAfterLaunching($archiveGroups, $requestedReports);
+                $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
             } else {
-                $this->cacheArchiveIdsWithoutLaunching($requestedReports);
+                $this->cacheArchiveIdsWithoutLaunching($plugins);
             }
         }
         
@@ -753,9 +722,9 @@ class Piwik_Archive
      * metrics/reports have not been calculated/archived already.
      * 
      * @param array $archiveGroups @see getArchiveGroupOfReport
-     * @param array $requestedReports @see getRequestedReport
+     * @param array $plugins List of plugin names to archive.
      */
-    private function cacheArchiveIdsAfterLaunching($archiveGroups, $requestedReports)
+    private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
     {
         $today = Piwik_Date::today();
         
@@ -793,19 +762,17 @@ class Piwik_Archive
                 
                 $processing->isThereSomeVisits = null;
                 
-                // process for each requested report as well
-                foreach ($archiveGroups as $pluginOrAll) {
-                    if ($pluginOrAll == 'all') {
-                        $pluginOrAll = $this->getPluginForReport(reset($requestedReports));
+                // process for each plugin as well
+                foreach ($archiveGroups as $plugin) {
+                    if ($plugin == 'all') {
+                        $plugin = reset($plugins);
                     }
-                    $report = $pluginOrAll.'_reportsAndMetrics';
                     
-                    $doneFlag = Piwik_ArchiveProcessing::getDoneStringFlagFor(
-                        $this->segment, $period->getLabel(), $report);
+                    $doneFlag = $this->getDoneStringForPlugin($plugin);
                     $this->initializeArchiveIdCache($doneFlag);
                     
                     $processing->init();
-                    $processing->setRequestedReport($report);
+                    $processing->setRequestedPlugin($plugin);
                     
                     // launch archiving if the requested data hasn't been archived
                     $idArchive = $processing->loadArchive();
@@ -829,21 +796,19 @@ class Piwik_Archive
      * This function will not launch the archiving process (and is thus much, much faster
      * than cacheArchiveIdsAfterLaunching).
      * 
-     * @param array $requestedReports @see getRequestedReport
+     * @param array $plugins List of plugin names from which data is being requested.
      */
-    private function cacheArchiveIdsWithoutLaunching($requestedReports)
+    private function cacheArchiveIdsWithoutLaunching($plugins)
     {
-        $periodType = $this->getPeriodLabel();
-        
         $idarchivesByReport = $this->dataAccess->getArchiveIds(
-            $this->siteIds, $this->periods, $this->segment, $requestedReports);
+            $this->siteIds, $this->periods, $this->segment, $plugins);
         
         // initialize archive ID cache for each report
-        foreach ($requestedReports as $report) {
-            $doneFlag = Piwik_ArchiveProcessing::getDoneStringFlagFor($this->segment, $periodType, $report);
+        foreach ($plugins as $plugin) {
+            $doneFlag = $this->getDoneStringForPlugin($plugin);
             $this->initializeArchiveIdCache($doneFlag);
         }
-       
+        
         foreach ($idarchivesByReport as $doneFlag => $idarchivesByDate) {
             foreach ($idarchivesByDate as $dateRange => $idarchives) {
                 foreach ($idarchives as $idarchive) {
@@ -851,6 +816,19 @@ class Piwik_Archive
                 }
             }
         }
+    }
+    
+    /**
+     * Returns the done string flag for a plugin using this instance's segment & periods.
+     * 
+     * @see Piwik_ArchiveProcessing::getDoneStringFlagFor
+     * 
+     * @param string $plugin
+     * @return string
+     */
+    private function getDoneStringForPlugin($plugin)
+    {
+        return Piwik_ArchiveProcessing::getDoneStringFlagFor($this->segment, $this->getPeriodLabel(), $plugin);
     }
     
     /**
@@ -957,28 +935,61 @@ class Piwik_Archive
     }
     
     /**
-     * Returns the archiving group identifier of a report.
+     * Returns the archiving group identifier given a plugin.
      * 
-     * More than one plugin can be called at once. In such a case we don't want to
-     * launch archiving three times for three plugins if doing it once is enough,
-     * so getArchiveIds makes sure to get the archive group of all reports.
+     * More than one plugin can be called at once when archiving. In such a case 
+     * we don't want to launch archiving three times for three plugins if doing 
+     * it once is enough, so getArchiveIds makes sure to get the archive group of
+     * all reports.
      * 
      * If the period isn't a range, then all plugins' archiving code is executed.
      * If the period is a range, then archiving code is executed individually for
      * each plugin.
      */
-    private function getArchiveGroupOfReport($report)
+    private function getArchiveGroupOfPlugin($plugin)
     {
         if ($this->getPeriodLabel() != 'range') {
             return 'all';
         }
         
-        return $this->getPluginForReport($report);
+        return $plugin;
     }
     
-    private function getPluginForReport($report)
+    /**
+     * Returns the name of the plugin that archives a given report.
+     * 
+     * @param string $report Archive data name, ie, 'nb_visits', 'UserSettings_...', etc.
+     * @return string
+     */
+    public static function getPluginForReport($report)
     {
-        $parts = explode('_', $report);
-        return $parts[0];
+        // Core metrics are always processed in Core, for the requested date/period/segment
+        if (in_array($report, Piwik_ArchiveProcessing::getCoreMetrics())
+            || $report == 'max_actions'
+        ) {
+            $report = 'VisitsSummary_CoreMetrics';
+        }
+        // VisitFrequency metrics don't follow the same naming convention (HACK) 
+        else if(strpos($report, '_returning') > 0
+            // ignore Goal_visitor_returning_1_1_nb_conversions 
+            && strpos($report, 'Goal_') === false
+        ) {
+            $report = 'VisitFrequency_Metrics';
+        }
+        // Goal_* metrics are processed by the Goals plugin (HACK)
+        else if(strpos($report, 'Goal_') === 0) {
+            $report = 'Goals_Metrics';
+        }
+        
+        $plugin = substr($report, 0, strpos($report, '_'));
+        if (empty($plugin)
+            || !Piwik_PluginsManager::getInstance()->isPluginActivated($plugin)
+        ) {
+            $pluginStr = empty($plugin) ? '' : "($plugin)";
+            throw new Exception("Error: The report '$report' was requested but it is not available "
+                               . "at this stage. You may also disable the related plugin $pluginStr "
+                               . "to avoid this error.");
+        }
+        return $plugin;
     }
 }

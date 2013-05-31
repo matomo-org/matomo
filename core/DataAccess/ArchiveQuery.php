@@ -20,7 +20,7 @@ class Piwik_DataAccess_ArchiveQuery
      * @param array $siteIds
      * @param array $periods
      * @param Piwik_Segment|null $segment
-     * @param array $requestedReports
+     * @param array $plugins List of plugin names for which data is being requested.
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
      *                   'VisitsSummary.done' => array(
@@ -28,7 +28,7 @@ class Piwik_DataAccess_ArchiveQuery
      *                   )
      *               )
      */
-    public function getArchiveIds($siteIds, $periods, $segment, $requestedReports)
+    public function getArchiveIds($siteIds, $periods, $segment, $plugins)
     {
         $periodType = reset($periods)->getLabel();
         
@@ -36,7 +36,7 @@ class Piwik_DataAccess_ArchiveQuery
                                FROM %s
                               WHERE period = ?
                                 AND %s
-                                AND ".$this->getNameCondition($requestedReports, $segment, $periodType)."
+                                AND ".$this->getNameCondition($plugins, $segment, $periodType)."
                                 AND idsite IN (".implode(',', $siteIds).")
                            GROUP BY idsite, date1, date2";
         
@@ -132,17 +132,19 @@ class Piwik_DataAccess_ArchiveQuery
      * Returns the SQL condition used to find successfully completed archives that
      * this instance is querying for.
      * 
-     * @param array $requestedReports @see getRequestedReport
+     * @param array $plugins @see getArchiveData
+     * @param Piwik_Segment $segment
+     * @param string $periodType
      * @return string
      */
-    private function getNameCondition($requestedReports, $segment, $periodType)
+    private function getNameCondition($plugins, $segment, $periodType)
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed
         $doneFlags = array();
-        foreach ($requestedReports as $report) {
-            $done = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $periodType, $report);
-            $donePlugins = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $periodType, $report, true);
+        foreach ($plugins as $plugin) {
+            $done = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $periodType, $plugin);
+            $donePlugins = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $periodType, $plugin, true);
             
             $doneFlags[$done] = $done;
             $doneFlags[$donePlugins] = $donePlugins;

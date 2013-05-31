@@ -335,7 +335,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
         }
 
         $this->loadSubPeriods();
-        if (self::getPluginBeingProcessed($this->getRequestedReport()) == 'VisitsSummary'
+        if ($this->getRequestedPlugin() == 'VisitsSummary'
             || $this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period)
         ) {
             $toSum = self::getCoreMetrics();

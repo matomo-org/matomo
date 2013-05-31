@@ -71,7 +71,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         //  If no specified Segment
         //  Or if a segment is passed and we specifically process VisitsSummary
         //   Then we check the logs. This is to ensure that this query is ran only once for this day/site/segment (rather than running it for every plugin)
-        $reportType = self::getPluginBeingProcessed($this->getRequestedReport());
+        $reportType = $this->getRequestedPlugin();
         if ($this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period)
             || ($reportType == 'VisitsSummary')
         ) {
