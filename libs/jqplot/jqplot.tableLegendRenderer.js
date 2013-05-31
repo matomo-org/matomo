@@ -144,7 +144,7 @@
         
             var pad = false, 
                 reverse = false,
-				s;
+                s;
             for (var i = 0; i< series.length; i++) {
                 s = series[i];
                 if (s._stack || s.renderer.constructor == $.jqplot.BezierCurveRenderer){

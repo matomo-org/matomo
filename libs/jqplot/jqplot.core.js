@@ -511,7 +511,7 @@
     /**
      * Class: Axis
      * An individual axis object.  Cannot be instantiated directly, but created
-     * by the Plot oject.  Axis properties can be set or overriden by the 
+     * by the Plot object.  Axis properties can be set or overridden by the 
      * options passed in from the user.
      * 
      */
@@ -848,7 +848,7 @@
     /**
      * Class: Legend
      * Legend object.  Cannot be instantiated directly, but created
-     * by the Plot oject.  Legend properties can be set or overriden by the 
+     * by the Plot object.  Legend properties can be set or overridden by the 
      * options passed in from the user.
      */
     function Legend(options) {
@@ -1077,7 +1077,7 @@
     /**
      * Class: Title
      * Plot Title object.  Cannot be instantiated directly, but created
-     * by the Plot oject.  Title properties can be set or overriden by the 
+     * by the Plot object.  Title properties can be set or overridden by the 
      * options passed in from the user.
      * 
      * Parameters:
@@ -1091,7 +1091,7 @@
         // text of the title;
         this.text = text;
         // prop: show
-        // wether or not to show the title
+        // whether or not to show the title
         this.show = true;
         // prop: fontFamily
         // css font-family spec for the text.
@@ -1140,7 +1140,7 @@
     /**
      * Class: Series
      * An individual data series object.  Cannot be instantiated directly, but created
-     * by the Plot oject.  Series properties can be set or overriden by the 
+     * by the Plot object.  Series properties can be set or overridden by the 
      * options passed in from the user.
      */
     function Series(options) {
@@ -1159,7 +1159,7 @@
         // > }
 
         // prop: show
-        // wether or not to draw the series.
+        // whether or not to draw the series.
         this.show = true;
         // prop: xaxis
         // which x axis to use with this series, either 'xaxis' or 'x2axis'.
@@ -1233,16 +1233,16 @@
         // see <$.jqplot.MarkerRenderer>.
         this.markerOptions = {};
         // prop: showLine
-        // wether to actually draw the line or not.  Series will still be renderered, even if no line is drawn.
+        // whether to actually draw the line or not.  Series will still be renderered, even if no line is drawn.
         this.showLine = true;
         // prop: showMarker
-        // wether or not to show the markers at the data points.
+        // whether or not to show the markers at the data points.
         this.showMarker = true;
         // prop: index
         // 0 based index of this series in the plot series array.
         this.index;
         // prop: fill
-        // true or false, wether to fill under lines or in bars.
+        // true or false, whether to fill under lines or in bars.
         // May not be implemented in all renderers.
         this.fill = false;
         // prop: fillColor
@@ -1369,7 +1369,7 @@
             this.markerOptions.show = this.showMarker;
         }
         this.showMarker = this.markerOptions.show;
-        // the markerRenderer is called within it's own scaope, don't want to overwrite series options!!
+        // the markerRenderer is called within its own scope, don't want to overwrite series options!!
         this.markerRenderer.init(this.markerOptions);
     };
     
@@ -1524,15 +1524,15 @@
      * Object representing the grid on which the plot is drawn.  The grid in this
      * context is the area bounded by the axes, the area which will contain the series.
      * Note, the series are drawn on their own canvas.
-     * The Grid object cannot be instantiated directly, but is created by the Plot oject.  
-     * Grid properties can be set or overriden by the options passed in from the user.
+     * The Grid object cannot be instantiated directly, but is created by the Plot object.  
+     * Grid properties can be set or overridden by the options passed in from the user.
      */
     function Grid() {
         $.jqplot.ElemContainer.call(this);
         // Group: Properties
         
         // prop: drawGridlines
-        // wether to draw the gridlines on the plot.
+        // whether to draw the gridlines on the plot.
         this.drawGridlines = true;
         // prop: gridLineColor
         // color of the grid lines.
@@ -1553,7 +1553,7 @@
         // True to draw border around grid.
         this.drawBorder = true;
         // prop: shadow
-        // wether to show a shadow behind the grid.
+        // whether to show a shadow behind the grid.
         this.shadow = true;
         // prop: shadowAngle
         // shadow angle in degrees
@@ -1741,7 +1741,7 @@
         // animation in these situations can cause problems.
         this.animateReplot = false;
         // prop: axes
-        // up to 4 axes are supported, each with it's own options, 
+        // up to 4 axes are supported, each with its own options, 
         // See <Axis> for axis specific options.
         this.axes = {xaxis: new Axis('xaxis'), yaxis: new Axis('yaxis'), x2axis: new Axis('x2axis'), y2axis: new Axis('y2axis'), y3axis: new Axis('y3axis'), y4axis: new Axis('y4axis'), y5axis: new Axis('y5axis'), y6axis: new Axis('y6axis'), y7axis: new Axis('y7axis'), y8axis: new Axis('y8axis'), y9axis: new Axis('y9axis'), yMidAxis: new Axis('yMidAxis')};
         this.baseCanvas = new $.jqplot.GenericCanvas();
@@ -1757,7 +1757,8 @@
         this.data = [];
         // prop: dataRenderer
         // A callable which can be used to preprocess data passed into the plot.
-        // Will be called with 2 arguments, the plot data and a reference to the plot.
+        // Will be called with 3 arguments: the plot data, a reference to the plot,
+        // and the value of dataRendererOptions.
         this.dataRenderer;
         // prop: dataRendererOptions
         // Options that will be passed to the dataRenderer.
@@ -1820,7 +1821,6 @@
         this.legend = new Legend();
         // prop: noDataIndicator
         // Options to set up a mock plot with a data loading indicator if no data is specified.
-        this.negativeSeriesColors = $.jqplot.config.defaultNegativeColors;
         this.noDataIndicator = {    
             show: false,
             indicator: 'Loading Data...',
@@ -1839,16 +1839,19 @@
                 }
             }
         };
+        // prop: negativeSeriesColors 
+        // colors to use for portions of the line below zero.
+        this.negativeSeriesColors = $.jqplot.config.defaultNegativeColors;
         // container to hold all of the merged options.  Convienence for plugins.
         this.options = {};
         this.previousSeriesStack = [];
-        // Namespece to hold plugins.  Generally non-renderer plugins add themselves to here.
+        // Namespace to hold plugins.  Generally non-renderer plugins add themselves to here.
         this.plugins = {};
         // prop: series
         // Array of series object options.
         // see <Series> for series specific options.
         this.series = [];
-        // array of series indicies. Keep track of order
+        // array of series indices. Keep track of order
         // which series canvases are displayed, lowest
         // to highest, back to front.
         this.seriesStack = [];
@@ -1860,7 +1863,7 @@
         this.seriesColors = $.jqplot.config.defaultColors;
         // prop: sortData
         // false to not sort the data passed in by the user.
-        // Many bar, stakced and other graphs as well as many plugins depend on
+        // Many bar, stacked and other graphs as well as many plugins depend on
         // having sorted data.
         this.sortData = true;
         // prop: stackSeries
@@ -1887,7 +1890,7 @@
         // Mostly used to test if plot has never been dran (=0), has been successfully drawn
         // into a visible container once (=1) or draw more than once into a visible container.
         // Can use this in tests to see if plot has been visibly drawn at least one time.
-        // After plot has been visibly drawn once, it generally doesn't need redrawn if its
+        // After plot has been visibly drawn once, it generally doesn't need redrawing if its
         // container is hidden and shown.
         this._drawCount = 0;
         // sum of y values for all series in plot.
@@ -1963,7 +1966,7 @@
             // remove any error class that may be stuck on target.
             this.target.removeClass('jqplot-error');
             if (!this.target.get(0)) {
-                throw "No plot target specified";
+                throw new Error("No plot target specified");
             }
             
             // make sure the target is positioned by some means and set css
@@ -2022,7 +2025,7 @@
             this.eventCanvas._plotDimensions = this._plotDimensions;
             this.legend._plotDimensions = this._plotDimensions;
             if (this._height <=0 || this._width <=0 || !this._height || !this._width) {
-                throw "Canvas dimension not set";
+                throw new Error("Canvas dimension not set");
             }
             
             if (options.dataRenderer && $.isFunction(options.dataRenderer)) {
@@ -2040,7 +2043,7 @@
             if (data == null || $.isArray(data) == false || data.length == 0 || $.isArray(data[0]) == false || data[0].length == 0) {
                 
                 if (this.noDataIndicator.show == false) {
-                    throw "No Data";
+                    throw new Error("No data specified");
                 }
                 
                 else {
@@ -2205,7 +2208,7 @@
             this._width = this.target.width();
             
             if (this._height <=0 || this._width <=0 || !this._height || !this._width) {
-                throw "Target dimension not set";
+                throw new Error("Target dimension not set");
             }
             
             this._plotDimensions.height = this._height;
@@ -2361,7 +2364,7 @@
             this._width = this.target.width();
             
             if (this._height <=0 || this._width <=0 || !this._height || !this._width) {
-                throw "Target dimension not set";
+                throw new Error("Target dimension not set");
             }
             
             this._plotDimensions.height = this._height;
@@ -2924,7 +2927,7 @@
                 for (i=0, l=$.jqplot.preDrawHooks.length; i<l; i++) {
                     $.jqplot.preDrawHooks[i].call(this);
                 }
-                for (i=0, l=this.preDrawHooks.length; i<l; i++) {
+                for (i=0, l=this.preDrawHooks.hooks.length; i<l; i++) {
                     this.preDrawHooks.hooks[i].apply(this, this.preDrawSeriesHooks.args[i]);
                 }
                 // create an underlying canvas to be used for special features.
@@ -3296,7 +3299,7 @@
                                 minang = (j>0) ? s.gridData[j-1][1]+sm : sm;
                                 maxang = s.gridData[j][1];
                                 if (theta > minang && theta < maxang) {
-                                    return {seriesIndex:s.index, pointIndex:j, gridData:s.gridData[j], data:s.data[j]};
+                                    return {seriesIndex:s.index, pointIndex:j, gridData:[gridpos.x,gridpos.y], data:s.data[j]};
                                 }
                             }
                         }
@@ -3341,7 +3344,7 @@
                                 minang = (j>0) ? s.gridData[j-1][1]+sm : sm;
                                 maxang = s.gridData[j][1];
                                 if (theta > minang && theta < maxang) {
-                                    return {seriesIndex:s.index, pointIndex:j, gridData:s.gridData[j], data:s.data[j]};
+                                    return {seriesIndex:s.index, pointIndex:j, gridData:[gridpos.x,gridpos.y], data:s.data[j]};
                                 }
                             }
                         }
@@ -3906,7 +3909,7 @@
             return $.jqplot.hex2rgb(s, a);
         }
         else {
-            throw 'invalid color spec';
+            throw new Error('Invalid color spec');
         }
     };
     
