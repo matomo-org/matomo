@@ -305,7 +305,7 @@
   keywords: '검색   질문형 검색어 결혼 후 걱정 1위'
 
 - url: 'http://search.daum.net/search?w=tot&DA=UMEF&t__nil_searchbox=suggest&sug=&q=%EA%B2%80%EC%83%89+++%EC%A7%88%EB%AC%B8%ED%98%95+%EA%B2%80%EC%83%89%EC%96%B4+%EA%B2%B0%ED%98%BC+%ED%9B%84+%EA%B1%B1%EC%A0%95+1%EC%9C%84'
-    engine: 'Daum'
+  engine: 'Daum'
   keywords: '검색   질문형 검색어 결혼 후 걱정 1위'
 
 # DDG
@@ -327,3 +327,31 @@
 - url: 'http://images.search.conduit.com/ImagePreview/?q=test+5&ctid=CT2431245&SearchSource=13&PageSource=HomePage&start=105&pos=33'
   engine: 'Conduit.com'
   keywords: 'test 5'
+
+# web.de
+- url: 'http://suche.web.de/web?origin=HP&q=test+5&jsenabled=true'
+  engine: 'Web.de'
+  keywords: 'test 5'
+
+- url: 'http://avira-int.ask.com/web?q=piwik&gct=serp&qsrc=0&o=APN10261&l=dis&locale=de_DE&qid=E17EE997A2AD0B90FF6771B4873C379E&frstpgo=0&page=2&jss=1'
+  engine: 'Ask'
+  keywords: 'piwik'
+
+- url: 'http://de.wow.com/search?s_pt=aolsem&s_it=aolsem&s_chn=7&q=piwik%20analytics'
+  engine: 'Google'
+  keywords: 'piwik analytics'
+
+# Snap.do
+- url: 'http://search.snap.do/?q=piwik&category=Web'
+  engine: 'Snap.do'
+  keywords: 'piwik'
+
+# benefind (Yahoo! powered)
+- url: 'http://www.benefind.de/web.php?q=piwik'
+  engine: 'Yahoo!'
+  keywords: 'piwik'
+
+# talimba
+- url: 'http://www.talimba.com/index.php?page=search/web&search=piwik&type=Web&fl=0'
+  engine: 'talimba'
+  keywords: 'piwik'

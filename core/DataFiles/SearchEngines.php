@@ -433,6 +433,8 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.1und1.de'                => array('Google', 'q', 'web?q={k}'),
         'search.zonealarm.com'           => array('Google'),
         'start.lenovo.com'               => array('Google', 'q', 'search/index.php?q={k}'),
+        'wow.com'                        => array('Google'),
+        '{}.wow.com'                     => array('Google'),
 
         // Google Earth
         // - 2010-09-13: are these redirects now?
@@ -767,6 +769,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Skynet
         'www.skynet.be'                  => array('Skynet', 'q', 'services/recherche/google?q={k}'),
 
+        // Snap.do
+        'search.snap.do'                 => array('Snap.do', 'q', '?q={k}'),
+
         // Sogou
         'www.sogou.com'                  => array('Sogou', 'query', 'web?query={k}', 'gb2312'),
 
@@ -790,6 +795,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Suchnase
         'www.suchnase.de'                => array('Suchnase', 'q'),
+
+        // talimba
+        'www.talimba.com'                => array('talimba', 'search', 'index.php?page=search/web&search={k}'),
 
         // TalkTalk
         'www.talktalk.co.uk'             => array('TalkTalk', 'query', 'search/results.html?query={k}'),
@@ -915,6 +923,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Powered by Yahoo APIs
         'www.cercato.it'                 => array('Yahoo!', 'q'),
         'search.offerbox.com'            => array('Yahoo!', 'q'),
+        'www.benefind.de'                => array('Yahoo!', 'q'),
 
         // Powered by Yahoo! Search Marketing (Overture)
         'ys.mirostart.com'               => array('Yahoo!', 'q'),
