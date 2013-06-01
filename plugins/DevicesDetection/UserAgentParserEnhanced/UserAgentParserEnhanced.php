@@ -10,7 +10,7 @@
  * @package Piwik_DevicesDetection
  */
 //yml parser
-require_once('spyc.php');
+require_once(PIWIK_INCLUDE_PATH.'/libs/spyc.php');
 
 class UserAgentParserEnhanced
 {
