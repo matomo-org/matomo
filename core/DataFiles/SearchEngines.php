@@ -247,6 +247,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Conduit
         'search.conduit.com'             => array('Conduit.com', 'q', 'Results.aspx?q={k}'),
+        'images.search.conduit.com'      => array('Conduit.com'),
 
         // Comcast
         'search.comcast.net'             => array('Comcast', 'q', '?q={k}'),
