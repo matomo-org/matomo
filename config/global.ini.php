@@ -269,7 +269,7 @@ multisites_refresh_after_seconds = 300
 use_ajax_cdn = 0
 
 ; required AJAX library versions
-jquery_version = 1.10.0
+jquery_version = 1.10.1
 jqueryui_version = 1.10.3
 
 ; Set to 1 if you're using https on your Piwik server and Piwik can't detect it,
