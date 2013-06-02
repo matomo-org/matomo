@@ -13,7 +13,7 @@
 
     <div class="donate-form-instructions">({'CoreHome_DonateFormInstructions'|translate})</div>
 
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <form action="index.php?module=CoreHome&action=redirectToPaypal&idSite=1" method="post" target="_blank">
         <input type="hidden" name="cmd" value="_s-xclick"/>
         <input type="hidden" name="hosted_button_id" value="DVKLY73RS7JTE"/>
         <input type="hidden" name="currency_code" value="USD"/>
@@ -36,7 +36,7 @@
             <input type="image" src="themes/default/images/paypal_subscribe.gif" border="0" name="submit"
                    title="{'CoreHome_SubscribeAndBecomePiwikSupporter'|translate}"/>
             <a class="donate-spacer">{'CoreHome_MakeOneTimeDonation'|translate}</a>
-            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RPL23NJURMTFA&bb2_screener_=1357583494+83.233.186.82"
+            <a href="index.php?module=CoreHome&action=redirectToPaypal&idSite=1&cmd=_s-xclick&hosted_button_id=RPL23NJURMTFA&bb2_screener_=1357583494+83.233.186.82"
                target="_blank" class="donate-one-time">{'CoreHome_MakeOneTimeDonation'|translate}</a>
         </div>
 
