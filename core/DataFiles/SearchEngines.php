@@ -435,6 +435,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'start.lenovo.com'               => array('Google', 'q', 'search/index.php?q={k}'),
         'wow.com'                        => array('Google'),
         '{}.wow.com'                     => array('Google'),
+        'search.leonardo.it'             => array('Google'),
+        'www.optuszoo.com.au'            => array('Google'),
+
 
         // Google Earth
         // - 2010-09-13: are these redirects now?
@@ -519,6 +522,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Ilse
         'www.ilse.nl'                    => array('Ilse NL', 'search_for', '?search_for={k}'),
 
+        // iMesh
+        'search.imesh.com'               => array('iMesh', array('q', 'si'), 'web?q={k}'),
+
         // Inbox.com
         'www2.inbox.com'                 => array('Inbox', 'q', 'search/results1.aspx?q={k}'),
 
@@ -537,8 +543,15 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Powered by InfoSpace
         'isearch.babylon.com'            => array('InfoSpace', 'q'),
         'start.facemoods.com'            => array('InfoSpace', 's'),
+        'start.funmoods.com'             => array('InfoSpace', 'q'),
         'search.magentic.com'            => array('InfoSpace', 'q'),
         'search.searchcompletion.com'    => array('InfoSpace', 'q'),
+        'www.searchmobileonline.com'     => array('InfoSpace', 'q'),
+        'isearch.glarysoft.com'          => array('InfoSpace', 'q'),
+        'search.chatzum.com'             => array('InfoSpace', 'q'),
+        'home.speedbit.com'              => array('InfoSpace', 'q'),
+        'search.b1.org'                  => array('InfoSpace', 'q'),
+        'searchya.com'                   => array('InfoSpace', 'q'),
 
         /*
          * Other InfoSpace powered metasearches are handled in Piwik_Common::extractSearchEngineInformationFromUrl()

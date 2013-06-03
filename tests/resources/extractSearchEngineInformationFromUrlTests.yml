@@ -355,3 +355,11 @@
 - url: 'http://www.talimba.com/index.php?page=search/web&search=piwik&type=Web&fl=0'
   engine: 'talimba'
   keywords: 'piwik'
+
+- url: 'http://www.searchmobileonline.com/search?q=searchterm'
+  engine: 'InfoSpace'
+  keywords: 'searchterm'
+
+- url: 'http://search.leonardo.it/?q=searchterm'
+  engine: 'Google'
+  keywords: 'searchterm'
