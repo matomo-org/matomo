@@ -140,7 +140,7 @@
     <div id="segmentList"></div>
 </span>
 
-<div class="ui-confirm" id="confirm">
+<div class="ui-confirm" id="segment-delete-confirm">
     <h2>{'SegmentEditor_AreYouSureDeleteSegment'|translate}</h2>
     <input role="yes" type="button" value="{'General_Yes'|translate}"/>
     <input role="no" type="button" value="{'General_No'|translate}"/>
