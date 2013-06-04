@@ -122,7 +122,7 @@ class Piwik_API_ResponseBuilder
             return "Error: " . $e->getMessage() . " and: " . $exceptionRenderer->getMessage();
         }
 
-        //$e = new Exception($e->getMessage() . " , " . $e->getTraceAsString());
+        $e = $this->decorateExceptionWithDebugTrace($e);
 
         $renderer->setException($e);
 
@@ -131,6 +131,19 @@ class Piwik_API_ResponseBuilder
         }
 
         return $renderer->renderException();
+    }
+
+    /**
+     * @param Exception $e
+     * @return Exception
+     */
+    protected function decorateExceptionWithDebugTrace(Exception $e)
+    {
+        // If we are in tests, show full backtrace
+        if( defined('PIWIK_PATH_TEST_TO_ROOT') ) {
+            return new Exception($e->getMessage() . " , " . $e->getTraceAsString());
+        }
+        return $e;
     }
 
     /**
