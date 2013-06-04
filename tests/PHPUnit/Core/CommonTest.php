@@ -604,8 +604,7 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testExtractSearchEngineInformationFromUrl($url, $engine, $keywords)
     {
-        include "DataFiles/SearchEngines.php";
-        include "DataFiles/Countries.php";
+        $this->includeDataFilesForSearchEngineTest();
         $returnedValue = Piwik_Common::extractSearchEngineInformationFromUrl($url);
 
         $exptectedValue = false;
@@ -645,5 +644,11 @@ class Core_CommonTest extends PHPUnit_Framework_TestCase
     public function testGetLossyUrl($input, $expected)
     {
         $this->assertEquals($expected, Piwik_Common::getLossyUrl($input));
+    }
+    
+    private function includeDataFilesForSearchEngineTest()
+    {
+        include "DataFiles/SearchEngines.php";
+        include "DataFiles/Countries.php";
     }
 }
