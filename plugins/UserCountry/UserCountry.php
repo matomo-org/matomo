@@ -391,9 +391,9 @@ class Piwik_UserCountry extends Piwik_Plugin
                 $label = (string)$row[$dimension];
 
                 if (!isset($table[$label])) {
-                    $table[$label] = $archiveProcessing->getNewInterestRow();
+                    $table[$label] = $archiveProcessing->makeEmptyRow();
                 }
-                $archiveProcessing->updateInterestStats($row, $table[$label]);
+                $archiveProcessing->sumMetrics($row, $table[$label]);
             }
         }
     }
@@ -419,10 +419,10 @@ class Piwik_UserCountry extends Piwik_Plugin
                 $label = (string)$row[$dimension];
 
                 if (!isset($table[$label][Piwik_Archive::INDEX_GOALS][$idGoal])) {
-                    $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal] = $archiveProcessing->getNewGoalRow($idGoal);
+                    $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal] = $archiveProcessing->makeEmptyGoalRow($idGoal);
                 }
 
-                $archiveProcessing->updateGoalStats($row, $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal]);
+                $archiveProcessing->sumGoalMetrics($row, $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal]);
             }
         }
 

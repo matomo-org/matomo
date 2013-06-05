@@ -165,18 +165,18 @@ class Piwik_VisitTime extends Piwik_Plugin
     protected function archiveDayAggregateVisits($archiveProcessing)
     {
         $labelSQL = "HOUR(log_visit.visitor_localtime)";
-        $this->interestByLocalTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $this->metricsByLocalTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 
         $labelSQL = "HOUR(log_visit.visit_last_action_time)";
-        $this->interestByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $this->metricsByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
     }
 
-    protected function convertServerTimeToLocalTimezone($interestByServerTime, $archiveProcessing)
+    protected function convertServerTimeToLocalTimezone($metricsByServerTime, $archiveProcessing)
     {
         $date = Piwik_Date::factory($archiveProcessing->getStartDatetimeUTC())->toString();
         $timezone = $archiveProcessing->site->getTimezone();
         $visitsByHourTz = array();
-        foreach ($interestByServerTime as $hour => $stats) {
+        foreach ($metricsByServerTime as $hour => $stats) {
             $datetime = $date . ' ' . $hour . ':00:00';
             $hourInTz = (int)Piwik_Date::factory($datetime, $timezone)->toString('H');
             $visitsByHourTz[$hourInTz] = $stats;
@@ -191,22 +191,22 @@ class Piwik_VisitTime extends Piwik_Plugin
         if ($query === false) return;
 
         while ($row = $query->fetch()) {
-            if (!isset($this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
-            $archiveProcessing->updateGoalStats($row, $this->interestByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+            if (!isset($this->metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->makeEmptyGoalRow($row['idgoal']);
+            $archiveProcessing->sumGoalMetrics($row, $this->metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
         }
-        $goalByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
-        $archiveProcessing->enrichConversionsByLabelArray($this->interestByServerTime);
+        $goalByServerTime = $this->convertServerTimeToLocalTimezone($this->metricsByServerTime, $archiveProcessing);
+        $archiveProcessing->enrichConversionsByLabelArray($this->metricsByServerTime);
     }
 
     protected function archiveDayRecordInDatabase($archiveProcessing)
     {
-        $tableLocalTime = $archiveProcessing->getDataTableFromArray($this->interestByLocalTime);
+        $tableLocalTime = $archiveProcessing->getDataTableFromArray($this->metricsByLocalTime);
         $this->makeSureAllHoursAreSet($tableLocalTime, $archiveProcessing);
         $archiveProcessing->insertBlobRecord('VisitTime_localTime', $tableLocalTime->getSerialized());
         destroy($tableLocalTime);
 
-        $this->interestByServerTime = $this->convertServerTimeToLocalTimezone($this->interestByServerTime, $archiveProcessing);
-        $tableServerTime = $archiveProcessing->getDataTableFromArray($this->interestByServerTime);
+        $this->metricsByServerTime = $this->convertServerTimeToLocalTimezone($this->metricsByServerTime, $archiveProcessing);
+        $tableServerTime = $archiveProcessing->getDataTableFromArray($this->metricsByServerTime);
         $this->makeSureAllHoursAreSet($tableServerTime, $archiveProcessing);
         $archiveProcessing->insertBlobRecord('VisitTime_serverTime', $tableServerTime->getSerialized());
         destroy($tableServerTime);
@@ -216,7 +216,7 @@ class Piwik_VisitTime extends Piwik_Plugin
     {
         for ($i = 0; $i <= 23; $i++) {
             if ($table->getRowFromLabel($i) === false) {
-                $row = $archiveProcessing->getNewInterestRowLabeled($i);
+                $row = $archiveProcessing->makeEmptyRowLabeled($i);
                 $table->addRow($row);
             }
         }

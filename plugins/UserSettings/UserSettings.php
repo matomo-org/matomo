@@ -285,23 +285,23 @@ class Piwik_UserSettings extends Piwik_Plugin
 
         $recordName = 'UserSettings_configuration';
         $labelSQL = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
-        $interestByConfiguration = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $metricsByConfiguration = $archiveProcessing->getArrayInterestForLabel($labelSQL);
 
-        $tableConfiguration = $archiveProcessing->getDataTableFromArray($interestByConfiguration);
+        $tableConfiguration = $archiveProcessing->getDataTableFromArray($metricsByConfiguration);
         $archiveProcessing->insertBlobRecord($recordName, $tableConfiguration->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
-        destroy($tableConfiguration);
+        destroy($tableConfiguration);   
 
         $recordName = 'UserSettings_os';
         $labelSQL = "log_visit.config_os";
-        $interestByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableOs = $archiveProcessing->getDataTableFromArray($interestByOs);
+        $metricsByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $tableOs = $archiveProcessing->getDataTableFromArray($metricsByOs);
         $archiveProcessing->insertBlobRecord($recordName, $tableOs->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
         destroy($tableOs);
 
         $recordName = 'UserSettings_browser';
         $labelSQL = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
-        $interestByBrowser = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableBrowser = $archiveProcessing->getDataTableFromArray($interestByBrowser);
+        $metricsByBrowser = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $tableBrowser = $archiveProcessing->getDataTableFromArray($metricsByBrowser);
         $archiveProcessing->insertBlobRecord($recordName, $tableBrowser->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 
         $recordName = 'UserSettings_browserType';
@@ -312,8 +312,8 @@ class Piwik_UserSettings extends Piwik_Plugin
 
         $recordName = 'UserSettings_resolution';
         $labelSQL = "log_visit.config_resolution";
-        $interestByResolution = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableResolution = $archiveProcessing->getDataTableFromArray($interestByResolution);
+        $metricsByResolution = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $tableResolution = $archiveProcessing->getDataTableFromArray($metricsByResolution);
         $tableResolution->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_UserSettings_keepStrlenGreater'));
         $archiveProcessing->insertBlobRecord($recordName, $tableResolution->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
 
@@ -433,29 +433,29 @@ class Piwik_UserSettings extends Piwik_Plugin
     protected function getDataTableLanguages()
     {
         $labelSQL = "log_visit.location_browser_lang";
-        $interestByLanguage = $this->archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $metricsByLanguage = $this->archiveProcessing->getArrayInterestForLabel($labelSQL);
 
         $languageCodes = array_keys(Piwik_Common::getLanguagesList());
 
-        foreach ($interestByLanguage as $lang => $count) {
+        foreach ($metricsByLanguage as $lang => $count) {
             // get clean language code
             $code = Piwik_Common::extractLanguageCodeFromBrowserLanguage($lang, $languageCodes);
             if ($code != $lang) {
-                if (!array_key_exists($code, $interestByLanguage)) {
-                    $interestByLanguage[$code] = array();
+                if (!array_key_exists($code, $metricsByLanguage)) {
+                    $metricsByLanguage[$code] = array();
                 }
                 // Add the values to the primary language
                 foreach ($count as $key => $value) {
-                    if (array_key_exists($key, $interestByLanguage[$code])) {
-                        $interestByLanguage[$code][$key] += $value;
+                    if (array_key_exists($key, $metricsByLanguage[$code])) {
+                        $metricsByLanguage[$code][$key] += $value;
                     } else {
-                        $interestByLanguage[$code][$key] = $value;
+                        $metricsByLanguage[$code][$key] = $value;
                     }
                 }
-                unset($interestByLanguage[$lang]);
+                unset($metricsByLanguage[$lang]);
             }
         }
-        $tableLanguage = $this->archiveProcessing->getDataTableFromArray($interestByLanguage);
+        $tableLanguage = $this->archiveProcessing->getDataTableFromArray($metricsByLanguage);
         return $tableLanguage;
     }
 }

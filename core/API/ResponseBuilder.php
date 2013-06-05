@@ -140,8 +140,16 @@ class Piwik_API_ResponseBuilder
     protected function decorateExceptionWithDebugTrace(Exception $e)
     {
         // If we are in tests, show full backtrace
-        if( defined('PIWIK_PATH_TEST_TO_ROOT') ) {
-            return new Exception($e->getMessage() . " , " . $e->getTraceAsString());
+        if( defined('PIWIK_PATH_TEST_TO_ROOT')) {
+            // Set this to true to see the light!
+            $SHOW_ME_BACKTRACE = false;
+
+            if($SHOW_ME_BACKTRACE) {
+                $message = $e->getMessage() . " in \n " . $e->getFile() . ":" . $e->getLine() . " \n " . $e->getTraceAsString();
+            } else {
+                $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set \$SHOW_ME_BACKTRACE=true; in " . basename(__FILE__) ;
+            }
+            return new Exception($message);
         }
         return $e;
     }

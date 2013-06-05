@@ -286,7 +286,7 @@ class Piwik_Goals_API
             }
             return;
         }
-        $rowNotDefined = $dataTable->getRowFromLabel(Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED);
+        $rowNotDefined = $dataTable->getRowFromLabel(Piwik_CustomVariables_Archiving::LABEL_CUSTOM_VALUE_NOT_DEFINED);
         if ($rowNotDefined) {
             $rowNotDefined->setColumn('label', $notDefinedStringPretty);
         }

@@ -55,20 +55,20 @@
 		<result prettyDate="2010, January">
 			<row>
 				<label>_pk_scount</label>
+				<nb_visits>7</nb_visits>
 				<nb_actions>9</nb_actions>
-				<nb_actions_per_visit>0</nb_actions_per_visit>
+				<nb_actions_per_visit>1.29</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<nb_visits>0</nb_visits>
 				<revenue>$ 0</revenue>
 			</row>
 			<row>
 				<label>_pk_scat</label>
+				<nb_visits>4</nb_visits>
 				<nb_actions>5</nb_actions>
-				<nb_actions_per_visit>0</nb_actions_per_visit>
+				<nb_actions_per_visit>1.25</nb_actions_per_visit>
 				<avg_time_on_site>00:00:00</avg_time_on_site>
 				<bounce_rate>0%</bounce_rate>
-				<nb_visits>0</nb_visits>
 				<revenue>$ 0</revenue>
 			</row>
 		</result>

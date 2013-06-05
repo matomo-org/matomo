@@ -645,22 +645,22 @@ class Piwik_Goals extends Piwik_Plugin
         $daysToConvReport = array();
 
         // Get a standard empty goal row
-        $overall = $archiveProcessing->getNewGoalRow($idGoal = 1);
+        $overall = $archiveProcessing->makeEmptyGoalRow($idGoal = 1);
         while ($row = $query->fetch()) {
             $idgoal = $row['idgoal'];
 
             if (!isset($goals[$idgoal])) {
-                $goals[$idgoal] = $archiveProcessing->getNewGoalRow($idgoal);
+                $goals[$idgoal] = $archiveProcessing->makeEmptyGoalRow($idgoal);
 
                 $visitsToConvReport[$idgoal] = new Piwik_DataTable();
                 $daysToConvReport[$idgoal] = new Piwik_DataTable();
             }
-            $archiveProcessing->updateGoalStats($row, $goals[$idgoal]);
+            $archiveProcessing->sumGoalMetrics($row, $goals[$idgoal]);
 
             // We don't want to sum Abandoned cart metrics in the overall revenue/conversions/converted visits
             // since it is a "negative conversion"
             if ($idgoal != Piwik_Tracker_GoalManager::IDGOAL_CART) {
-                $archiveProcessing->updateGoalStats($row, $overall);
+                $archiveProcessing->sumGoalMetrics($row, $overall);
             }
 
             // map the goal + visit number of a visitor with the # of conversions that happened on that visit
@@ -777,7 +777,7 @@ class Piwik_Goals extends Piwik_Plugin
                     }
                     // Product Name/Category not defined"
                     if (class_exists('Piwik_CustomVariables')) {
-                        $label = Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED;
+                        $label = Piwik_CustomVariables_Archiving::LABEL_CUSTOM_VALUE_NOT_DEFINED;
                     } else {
                         $label = "Value not defined";
                     }

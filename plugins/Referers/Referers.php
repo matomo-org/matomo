@@ -393,15 +393,15 @@ class Piwik_Referers extends Piwik_Plugin
 
     protected function cleanup()
     {
-        destroy($this->interestBySearchEngine);
-        destroy($this->interestByKeyword);
-        destroy($this->interestBySearchEngineAndKeyword);
-        destroy($this->interestByKeywordAndSearchEngine);
-        destroy($this->interestByWebsite);
-        destroy($this->interestByWebsiteAndUrl);
-        destroy($this->interestByCampaignAndKeyword);
-        destroy($this->interestByCampaign);
-        destroy($this->interestByType);
+        destroy($this->metricsBySearchEngine);
+        destroy($this->metricsByKeyword);
+        destroy($this->metricsBySearchEngineAndKeyword);
+        destroy($this->metricsByKeywordAndSearchEngine);
+        destroy($this->metricsByWebsite);
+        destroy($this->metricsByWebsiteAndUrl);
+        destroy($this->metricsByCampaignAndKeyword);
+        destroy($this->metricsByCampaign);
+        destroy($this->metricsByType);
         destroy($this->distinctUrls);
     }
 
@@ -418,15 +418,15 @@ class Piwik_Referers extends Piwik_Plugin
         $dimension = array("referer_type", "referer_name", "referer_keyword", "referer_url");
         $query = $archiveProcessing->queryVisitsByDimension($dimension);
 
-        $this->interestBySearchEngine =
-        $this->interestByKeyword =
-        $this->interestBySearchEngineAndKeyword =
-        $this->interestByKeywordAndSearchEngine =
-        $this->interestByWebsite =
-        $this->interestByWebsiteAndUrl =
-        $this->interestByCampaignAndKeyword =
-        $this->interestByCampaign =
-        $this->interestByType =
+        $this->metricsBySearchEngine =
+        $this->metricsByKeyword =
+        $this->metricsBySearchEngineAndKeyword =
+        $this->metricsByKeywordAndSearchEngine =
+        $this->metricsByWebsite =
+        $this->metricsByWebsiteAndUrl =
+        $this->metricsByCampaignAndKeyword =
+        $this->metricsByCampaign =
+        $this->metricsByType =
         $this->distinctUrls = array();
         while ($row = $query->fetch()) {
             if (empty($row['referer_type'])) {
@@ -437,24 +437,24 @@ class Piwik_Referers extends Piwik_Plugin
                         if (empty($row['referer_keyword'])) {
                             $row['referer_keyword'] = self::LABEL_KEYWORD_NOT_DEFINED;
                         }
-                        if (!isset($this->interestBySearchEngine[$row['referer_name']])) $this->interestBySearchEngine[$row['referer_name']] = $archiveProcessing->getNewInterestRow();
-                        if (!isset($this->interestByKeyword[$row['referer_keyword']])) $this->interestByKeyword[$row['referer_keyword']] = $archiveProcessing->getNewInterestRow();
-                        if (!isset($this->interestBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']])) $this->interestBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']] = $archiveProcessing->getNewInterestRow();
-                        if (!isset($this->interestByKeywordAndSearchEngine[$row['referer_keyword']][$row['referer_name']])) $this->interestByKeywordAndSearchEngine[$row['referer_keyword']][$row['referer_name']] = $archiveProcessing->getNewInterestRow();
+                        if (!isset($this->metricsBySearchEngine[$row['referer_name']])) $this->metricsBySearchEngine[$row['referer_name']] = $archiveProcessing->makeEmptyRow();
+                        if (!isset($this->metricsByKeyword[$row['referer_keyword']])) $this->metricsByKeyword[$row['referer_keyword']] = $archiveProcessing->makeEmptyRow();
+                        if (!isset($this->metricsBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']])) $this->metricsBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']] = $archiveProcessing->makeEmptyRow();
+                        if (!isset($this->metricsByKeywordAndSearchEngine[$row['referer_keyword']][$row['referer_name']])) $this->metricsByKeywordAndSearchEngine[$row['referer_keyword']][$row['referer_name']] = $archiveProcessing->makeEmptyRow();
 
-                        $archiveProcessing->updateInterestStats($row, $this->interestBySearchEngine[$row['referer_name']]);
-                        $archiveProcessing->updateInterestStats($row, $this->interestByKeyword[$row['referer_keyword']]);
-                        $archiveProcessing->updateInterestStats($row, $this->interestBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']]);
-                        $archiveProcessing->updateInterestStats($row, $this->interestByKeywordAndSearchEngine[$row['referer_keyword']][$row['referer_name']]);
+                        $archiveProcessing->sumMetrics($row, $this->metricsBySearchEngine[$row['referer_name']]);
+                        $archiveProcessing->sumMetrics($row, $this->metricsByKeyword[$row['referer_keyword']]);
+                        $archiveProcessing->sumMetrics($row, $this->metricsBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']]);
+                        $archiveProcessing->sumMetrics($row, $this->metricsByKeywordAndSearchEngine[$row['referer_keyword']][$row['referer_name']]);
                         break;
 
                     case Piwik_Common::REFERER_TYPE_WEBSITE:
 
-                        if (!isset($this->interestByWebsite[$row['referer_name']])) $this->interestByWebsite[$row['referer_name']] = $archiveProcessing->getNewInterestRow();
-                        $archiveProcessing->updateInterestStats($row, $this->interestByWebsite[$row['referer_name']]);
+                        if (!isset($this->metricsByWebsite[$row['referer_name']])) $this->metricsByWebsite[$row['referer_name']] = $archiveProcessing->makeEmptyRow();
+                        $archiveProcessing->sumMetrics($row, $this->metricsByWebsite[$row['referer_name']]);
 
-                        if (!isset($this->interestByWebsiteAndUrl[$row['referer_name']][$row['referer_url']])) $this->interestByWebsiteAndUrl[$row['referer_name']][$row['referer_url']] = $archiveProcessing->getNewInterestRow();
-                        $archiveProcessing->updateInterestStats($row, $this->interestByWebsiteAndUrl[$row['referer_name']][$row['referer_url']]);
+                        if (!isset($this->metricsByWebsiteAndUrl[$row['referer_name']][$row['referer_url']])) $this->metricsByWebsiteAndUrl[$row['referer_name']][$row['referer_url']] = $archiveProcessing->makeEmptyRow();
+                        $archiveProcessing->sumMetrics($row, $this->metricsByWebsiteAndUrl[$row['referer_name']][$row['referer_url']]);
 
                         if (!isset($this->distinctUrls[$row['referer_url']])) {
                             $this->distinctUrls[$row['referer_url']] = true;
@@ -463,15 +463,15 @@ class Piwik_Referers extends Piwik_Plugin
 
                     case Piwik_Common::REFERER_TYPE_CAMPAIGN:
                         if (!empty($row['referer_keyword'])) {
-                            if (!isset($this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']])) $this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']] = $archiveProcessing->getNewInterestRow();
-                            $archiveProcessing->updateInterestStats($row, $this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']]);
+                            if (!isset($this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']])) $this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']] = $archiveProcessing->makeEmptyRow();
+                            $archiveProcessing->sumMetrics($row, $this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']]);
                         }
-                        if (!isset($this->interestByCampaign[$row['referer_name']])) $this->interestByCampaign[$row['referer_name']] = $archiveProcessing->getNewInterestRow();
-                        $archiveProcessing->updateInterestStats($row, $this->interestByCampaign[$row['referer_name']]);
+                        if (!isset($this->metricsByCampaign[$row['referer_name']])) $this->metricsByCampaign[$row['referer_name']] = $archiveProcessing->makeEmptyRow();
+                        $archiveProcessing->sumMetrics($row, $this->metricsByCampaign[$row['referer_name']]);
                         break;
 
                     case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
-                        // direct entry are aggregated below in $this->interestByType array
+                        // direct entry are aggregated below in $this->metricsByType array
                         break;
 
                     default:
@@ -479,8 +479,8 @@ class Piwik_Referers extends Piwik_Plugin
                         break;
                 }
             }
-            if (!isset($this->interestByType[$row['referer_type']])) $this->interestByType[$row['referer_type']] = $archiveProcessing->getNewInterestRow();
-            $archiveProcessing->updateInterestStats($row, $this->interestByType[$row['referer_type']]);
+            if (!isset($this->metricsByType[$row['referer_type']])) $this->metricsByType[$row['referer_type']] = $archiveProcessing->makeEmptyRow();
+            $archiveProcessing->sumMetrics($row, $this->metricsByType[$row['referer_type']]);
         }
     }
 
@@ -505,25 +505,25 @@ class Piwik_Referers extends Piwik_Plugin
                         if (empty($row['referer_keyword'])) {
                             $row['referer_keyword'] = self::LABEL_KEYWORD_NOT_DEFINED;
                         }
-                        if (!isset($this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
-                        if (!isset($this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
+                        if (!isset($this->metricsBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->metricsBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->makeEmptyGoalRow($row['idgoal']);
+                        if (!isset($this->metricsByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->metricsByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->makeEmptyGoalRow($row['idgoal']);
 
-                        $archiveProcessing->updateGoalStats($row, $this->interestBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
-                        $archiveProcessing->updateGoalStats($row, $this->interestByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+                        $archiveProcessing->sumGoalMetrics($row, $this->metricsBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+                        $archiveProcessing->sumGoalMetrics($row, $this->metricsByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
                         break;
 
                     case Piwik_Common::REFERER_TYPE_WEBSITE:
-                        if (!isset($this->interestByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
-                        $archiveProcessing->updateGoalStats($row, $this->interestByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+                        if (!isset($this->metricsByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->metricsByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->makeEmptyGoalRow($row['idgoal']);
+                        $archiveProcessing->sumGoalMetrics($row, $this->metricsByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
                         break;
 
                     case Piwik_Common::REFERER_TYPE_CAMPAIGN:
                         if (!empty($row['referer_keyword'])) {
-                            if (!isset($this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
-                            $archiveProcessing->updateGoalStats($row, $this->interestByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+                            if (!isset($this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->makeEmptyGoalRow($row['idgoal']);
+                            $archiveProcessing->sumGoalMetrics($row, $this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
                         }
-                        if (!isset($this->interestByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
-                        $archiveProcessing->updateGoalStats($row, $this->interestByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+                        if (!isset($this->metricsByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->metricsByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->makeEmptyGoalRow($row['idgoal']);
+                        $archiveProcessing->sumGoalMetrics($row, $this->metricsByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
                         break;
 
                     case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
@@ -537,16 +537,16 @@ class Piwik_Referers extends Piwik_Plugin
                         break;
                 }
             }
-            if (!isset($this->interestByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->interestByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->getNewGoalRow($row['idgoal']);
-            $archiveProcessing->updateGoalStats($row, $this->interestByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+            if (!isset($this->metricsByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->metricsByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->makeEmptyGoalRow($row['idgoal']);
+            $archiveProcessing->sumGoalMetrics($row, $this->metricsByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
         }
 
-        $archiveProcessing->enrichConversionsByLabelArray($this->interestByType);
-        $archiveProcessing->enrichConversionsByLabelArray($this->interestBySearchEngine);
-        $archiveProcessing->enrichConversionsByLabelArray($this->interestByKeyword);
-        $archiveProcessing->enrichConversionsByLabelArray($this->interestByWebsite);
-        $archiveProcessing->enrichConversionsByLabelArray($this->interestByCampaign);
-        $archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->interestByCampaignAndKeyword);
+        $archiveProcessing->enrichConversionsByLabelArray($this->metricsByType);
+        $archiveProcessing->enrichConversionsByLabelArray($this->metricsBySearchEngine);
+        $archiveProcessing->enrichConversionsByLabelArray($this->metricsByKeyword);
+        $archiveProcessing->enrichConversionsByLabelArray($this->metricsByWebsite);
+        $archiveProcessing->enrichConversionsByLabelArray($this->metricsByCampaign);
+        $archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->metricsByCampaignAndKeyword);
     }
 
     /**
@@ -558,10 +558,10 @@ class Piwik_Referers extends Piwik_Plugin
     protected function archiveDayRecordInDatabase($archiveProcessing)
     {
         $numericRecords = array(
-            'Referers_distinctSearchEngines' => count($this->interestBySearchEngineAndKeyword),
-            'Referers_distinctKeywords'      => count($this->interestByKeywordAndSearchEngine),
-            'Referers_distinctCampaigns'     => count($this->interestByCampaign),
-            'Referers_distinctWebsites'      => count($this->interestByWebsite),
+            'Referers_distinctSearchEngines' => count($this->metricsBySearchEngineAndKeyword),
+            'Referers_distinctKeywords'      => count($this->metricsByKeywordAndSearchEngine),
+            'Referers_distinctCampaigns'     => count($this->metricsByCampaign),
+            'Referers_distinctWebsites'      => count($this->metricsByWebsite),
             'Referers_distinctWebsitesUrls'  => count($this->distinctUrls),
         );
 
@@ -569,15 +569,15 @@ class Piwik_Referers extends Piwik_Plugin
             $archiveProcessing->insertNumericRecord($name, $value);
         }
 
-        $dataTable = $archiveProcessing->getDataTableSerialized($this->interestByType);
+        $dataTable = $archiveProcessing->getDataTableSerialized($this->metricsByType);
         $archiveProcessing->insertBlobRecord('Referers_type', $dataTable);
         destroy($dataTable);
 
         $blobRecords = array(
-            'Referers_keywordBySearchEngine' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestBySearchEngineAndKeyword, $this->interestBySearchEngine),
-            'Referers_searchEngineByKeyword' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestByKeywordAndSearchEngine, $this->interestByKeyword),
-            'Referers_keywordByCampaign'     => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestByCampaignAndKeyword, $this->interestByCampaign),
-            'Referers_urlByWebsite'          => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->interestByWebsiteAndUrl, $this->interestByWebsite),
+            'Referers_keywordBySearchEngine' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsBySearchEngineAndKeyword, $this->metricsBySearchEngine),
+            'Referers_searchEngineByKeyword' => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByKeywordAndSearchEngine, $this->metricsByKeyword),
+            'Referers_keywordByCampaign'     => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByCampaignAndKeyword, $this->metricsByCampaign),
+            'Referers_urlByWebsite'          => $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByWebsiteAndUrl, $this->metricsByWebsite),
         );
         foreach ($blobRecords as $recordName => $table) {
             $blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);

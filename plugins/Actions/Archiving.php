@@ -230,11 +230,6 @@ class Piwik_Actions_Archiving
 
             $select .= $selectFlagNoResultKeywords
                 . $selectSiteSearchFollowingPages;
-            // Not working yet
-//			$selectRefPageIsStartingSiteSearch = ",
-//				SUM(CASE WHEN log_action_name_ref.type = " . Piwik_Tracker_Action::TYPE_ACTION_NAME . " THEN 1 ELSE 0 END) AS `". Piwik_Archive::INDEX_PAGE_STARTING_SITE_SEARCH_NB_HITS."`";
-//				. $selectRefPageIsStartingSiteSearch
-//				. ", idaction_url_ref, idaction_name_ref"
         }
 
         $this->archiveDayQueryProcess($select, $from, $where, $orderBy, $groupBy,

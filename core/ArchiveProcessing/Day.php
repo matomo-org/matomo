@@ -654,8 +654,8 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         $query = $this->queryVisitsByDimension($label);
         $interest = array();
         while ($row = $query->fetch()) {
-            if (!isset($interest[$row['label']])) $interest[$row['label']] = $this->getNewInterestRow();
-            $this->updateInterestStats($row, $interest[$row['label']]);
+            if (!isset($interest[$row['label']])) $interest[$row['label']] = $this->makeEmptyRow();
+            $this->sumMetrics($row, $interest[$row['label']]);
         }
         return $interest;
     }
@@ -763,23 +763,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
     }
 
     /**
-     * Returns an empty row containing default values for the common stat
+     * Returns an empty row containing default metrics
      *
-     * @param bool $onlyMetricsAvailableInActionsTable
-     * @param bool $doNotSumVisits
      * @return array
      */
-    public function getNewInterestRow($onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
+    public function makeEmptyRow()
     {
-        if ($onlyMetricsAvailableInActionsTable) {
-            if ($doNotSumVisits) {
-                return array(Piwik_Archive::INDEX_NB_ACTIONS => 0);
-            }
-            return array(
-                Piwik_Archive::INDEX_NB_UNIQ_VISITORS => 0,
-                Piwik_Archive::INDEX_NB_VISITS        => 0,
-                Piwik_Archive::INDEX_NB_ACTIONS       => 0);
-        }
         return array(Piwik_Archive::INDEX_NB_UNIQ_VISITORS    => 0,
                      Piwik_Archive::INDEX_NB_VISITS           => 0,
                      Piwik_Archive::INDEX_NB_ACTIONS          => 0,
@@ -792,18 +781,63 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
 
     /**
+     * Returns an empty row tracking only Actions
+     *
+     * @return array
+     */
+    public function makeEmptyActionRow()
+    {
+        return array(
+            Piwik_Archive::INDEX_NB_UNIQ_VISITORS    => 0,
+            Piwik_Archive::INDEX_NB_VISITS           => 0,
+            Piwik_Archive::INDEX_NB_ACTIONS          => 0,
+        );
+    }
+
+    /**
+     * @param $idGoal
+     * @return array
+     */
+    public function makeEmptyGoalRow($idGoal)
+    {
+        if ($idGoal > Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+            return array(Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS      => 0,
+                         Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
+                         Piwik_Archive::INDEX_GOAL_REVENUE             => 0,
+            );
+        }
+        if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+            return array(Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS             => 0,
+                         Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
+                         Piwik_Archive::INDEX_GOAL_REVENUE                    => 0,
+                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 0,
+                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => 0,
+                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 0,
+                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 0,
+                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS            => 0,
+            );
+        }
+        // idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART
+        return array(Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS      => 0,
+                     Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
+                     Piwik_Archive::INDEX_GOAL_REVENUE             => 0,
+                     Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS     => 0,
+        );
+    }
+
+    /**
      * Returns a Piwik_DataTable_Row containing default values for common stat,
      * plus a column 'label' with the value $label
      *
      * @param string $label
      * @return Piwik_DataTable_Row
      */
-    public function getNewInterestRowLabeled($label)
+    public function makeEmptyRowLabeled($label)
     {
         return new Piwik_DataTable_Row(
             array(
                  Piwik_DataTable_Row::COLUMNS => array('label' => $label)
-                     + $this->getNewInterestRow()
+                     + $this->makeEmptyRow()
             )
         );
     }
@@ -819,16 +853,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      *
      * @return void
      */
-    public function updateInterestStats($newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false, $doNotSumVisits = false)
+    public function sumMetrics($newRowToAdd, &$oldRowToUpdate, $onlyMetricsAvailableInActionsTable = false)
     {
         // Pre 1.2 format: string indexed rows are returned from the DB
         // Left here for Backward compatibility with plugins doing custom SQL queries using these metrics as string
         if (!isset($newRowToAdd[Piwik_Archive::INDEX_NB_VISITS])) {
-            if (!$doNotSumVisits) {
-                $oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd['nb_uniq_visitors'];
-                $oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] += $newRowToAdd['nb_visits'];
-            }
+            $oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] += $newRowToAdd['nb_visits'];
             $oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] += $newRowToAdd['nb_actions'];
+            $oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd['nb_uniq_visitors'];
             if ($onlyMetricsAvailableInActionsTable) {
                 return;
             }
@@ -838,22 +870,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
             $oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS_CONVERTED] += $newRowToAdd['nb_visits_converted'];
             return;
         }
-        if (!$doNotSumVisits) {
-            $oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
-            $oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] += $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
-        }
+
+        $oldRowToUpdate[Piwik_Archive::INDEX_NB_VISITS] += $newRowToAdd[Piwik_Archive::INDEX_NB_VISITS];
         $oldRowToUpdate[Piwik_Archive::INDEX_NB_ACTIONS] += $newRowToAdd[Piwik_Archive::INDEX_NB_ACTIONS];
-
-        // Hack for Price tracking on Ecommerce product/category pages
-        // The price is not summed, but AVG is taken in the SQL query
-        $index = Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
-        if (!empty($newRowToAdd[$index])) {
-            $oldRowToUpdate[$index] = (float)$newRowToAdd[$index];
-        }
-
+        $oldRowToUpdate[Piwik_Archive::INDEX_NB_UNIQ_VISITORS] += $newRowToAdd[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
         if ($onlyMetricsAvailableInActionsTable) {
             return;
         }
+
         $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS] = (float)max($newRowToAdd[Piwik_Archive::INDEX_MAX_ACTIONS], $oldRowToUpdate[Piwik_Archive::INDEX_MAX_ACTIONS]);
         $oldRowToUpdate[Piwik_Archive::INDEX_SUM_VISIT_LENGTH] += $newRowToAdd[Piwik_Archive::INDEX_SUM_VISIT_LENGTH];
         $oldRowToUpdate[Piwik_Archive::INDEX_BOUNCE_COUNT] += $newRowToAdd[Piwik_Archive::INDEX_BOUNCE_COUNT];
@@ -936,7 +960,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      * @param $newRowToAdd
      * @param $oldRowToUpdate
      */
-    function updateGoalStats($newRowToAdd, &$oldRowToUpdate)
+    function sumGoalMetrics($newRowToAdd, &$oldRowToUpdate)
     {
         $oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS] += $newRowToAdd[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
         $oldRowToUpdate[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED] += $newRowToAdd[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED];
@@ -956,35 +980,4 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         }
     }
 
-    /**
-     *
-     * @param $idGoal
-     * @return array
-     */
-    function getNewGoalRow($idGoal)
-    {
-        if ($idGoal > Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
-            return array(Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS      => 0,
-                         Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
-                         Piwik_Archive::INDEX_GOAL_REVENUE             => 0,
-            );
-        }
-        if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
-            return array(Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS             => 0,
-                         Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED        => 0,
-                         Piwik_Archive::INDEX_GOAL_REVENUE                    => 0,
-                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 0,
-                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => 0,
-                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 0,
-                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 0,
-                         Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS            => 0,
-            );
-        }
-        // $row['idgoal'] == Piwik_Tracker_GoalManager::IDGOAL_CART
-        return array(Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS      => 0,
-                     Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED => 0,
-                     Piwik_Archive::INDEX_GOAL_REVENUE             => 0,
-                     Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS     => 0,
-        );
-    }
 }

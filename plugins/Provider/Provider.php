@@ -142,8 +142,8 @@ class Piwik_Provider extends Piwik_Plugin
 
         $recordName = 'Provider_hostnameExt';
         $labelSQL = "log_visit.location_provider";
-        $interestByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableProvider = $archiveProcessing->getDataTableFromArray($interestByProvider);
+        $metricsByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $tableProvider = $archiveProcessing->getDataTableFromArray($metricsByProvider);
         $columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
         $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));

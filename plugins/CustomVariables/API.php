@@ -42,8 +42,9 @@ class Piwik_CustomVariables_API
     protected function getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable)
     {
         $dataTable = Piwik_Archive::getDataTableFromArchive('CustomVariables_valueByName', $idSite, $period, $date, $segment, $expanded, $idSubtable);
-        $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
+        $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_ACTIONS, 'desc', $naturalSort = false, $expanded));
         $dataTable->queueFilter('ReplaceColumnNames');
+        $dataTable->queueFilter('ColumnDelete', 'nb_uniq_visitors');
         return $dataTable;
     }
 
@@ -64,7 +65,7 @@ class Piwik_CustomVariables_API
         if ($dataTable instanceof Piwik_DataTable
             && !$_leavePiwikCoreVariables
         ) {
-            $mapping = array('_pks', '_pkn', '_pkc', '_pkp', Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT, Piwik_Tracker_Action::CVAR_KEY_SEARCH_CATEGORY);
+            $mapping = self::getReservedCustomVariableKeys();
             foreach ($mapping as $name) {
                 $row = $dataTable->getRowFromLabel($name);
                 if ($row) {
@@ -73,6 +74,15 @@ class Piwik_CustomVariables_API
             }
         }
         return $dataTable;
+    }
+
+    /**
+     * @ignore
+     * @return array
+     */
+    public static function getReservedCustomVariableKeys()
+    {
+        return array('_pks', '_pkn', '_pkc', '_pkp', Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT, Piwik_Tracker_Action::CVAR_KEY_SEARCH_CATEGORY);
     }
 
     /**
@@ -96,7 +106,7 @@ class Piwik_CustomVariables_API
             $dataTable->renameColumn('price_viewed', 'price');
         }
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', create_function('$label', '
-			return $label == Piwik_CustomVariables::LABEL_CUSTOM_VALUE_NOT_DEFINED 
+			return $label == Piwik_CustomVariables_Archiving::LABEL_CUSTOM_VALUE_NOT_DEFINED
 				? "' . Piwik_Translate('General_NotDefined', Piwik_Translate('CustomVariables_ColumnCustomVariableValue')) . '"
 				: $label;')));
         return $dataTable;
