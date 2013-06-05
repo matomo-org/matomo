@@ -115,42 +115,6 @@ class Piwik_Provider extends Piwik_Plugin
     }
 
     /**
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return mixed
-     */
-    function archivePeriod($notification)
-    {
-        $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $archiveProcessing = $notification->getNotificationObject();
-
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
-        $dataTableToSum = array('Provider_hostnameExt');
-        $archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
-    }
-
-    /**
-     * Daily archive: processes the report Visits by Provider
-     *
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function archiveDay($notification)
-    {
-        $archiveProcessing = $notification->getNotificationObject();
-
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
-        $recordName = 'Provider_hostnameExt';
-        $labelSQL = "log_visit.location_provider";
-        $metricsByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableProvider = $archiveProcessing->getDataTableFromArray($metricsByProvider);
-        $columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-        $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
-        destroy($tableProvider);
-    }
-
-    /**
      * Logs the provider in the log_visit table
      *
      * @param Piwik_Event_Notification $notification  notification object
@@ -249,5 +213,39 @@ class Piwik_Provider extends Piwik_Plugin
         $out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
         $out .= '</div>';
     }
+
+    /**
+     * Daily archive: processes the report Visits by Provider
+     *
+     * @param Piwik_Event_Notification $notification  notification object
+     */
+    function archiveDay($notification)
+    {
+        $archiveProcessing = $notification->getNotificationObject();
+
+        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
+            return;
+        }
+
+        $archiving = new Piwik_Provider_Archiving();
+        $archiving->archiveDay($archiveProcessing);
+    }
+
+    /**
+     * @param Piwik_Event_Notification $notification  notification object
+     * @return mixed
+     */
+    function archivePeriod($notification)
+    {
+        $archiveProcessing = $notification->getNotificationObject();
+
+        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
+            return;
+        }
+
+        $archiving = new Piwik_Provider_Archiving();
+        $archiving->archivePeriod($archiveProcessing);
+    }
+
 
 }

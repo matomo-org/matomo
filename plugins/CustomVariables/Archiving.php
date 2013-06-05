@@ -27,24 +27,6 @@ class Piwik_CustomVariables_Archiving
 
     public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
-        $this->archiveDayAggregate($archiveProcessing);
-
-        $table = $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByKeyAndValue, $this->metricsByKey);
-
-        $blob = $table->getSerialized(
-            $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
-            $columnToSort = Piwik_Archive::INDEX_NB_VISITS
-        );
-
-        $archiveProcessing->insertBlobRecord(self::BLOB_NAME, $blob);
-    }
-
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     * @return void
-     */
-    protected function archiveDayAggregate(Piwik_ArchiveProcessing_Day $archiveProcessing)
-    {
         for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             $this->aggregateCustomVariable($archiveProcessing, $i);
         }
@@ -52,6 +34,14 @@ class Piwik_CustomVariables_Archiving
         $this->removeVisitsMetricsFromActionsAggregate($archiveProcessing);
         $archiveProcessing->enrichConversionsByLabelArray($this->metricsByKey);
         $archiveProcessing->enrichConversionsByLabelArrayHasTwoLevels($this->metricsByKeyAndValue);
+
+        $table = $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByKeyAndValue, $this->metricsByKey);
+        $blob = $table->getSerialized(
+            $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
+            $columnToSort = Piwik_Archive::INDEX_NB_VISITS
+        );
+
+        $archiveProcessing->insertBlobRecord(self::BLOB_NAME, $blob);
     }
 
     /**

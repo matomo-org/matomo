@@ -344,7 +344,7 @@ class Piwik_Live_Visitor
         if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')
             && $this->getRefererType() == 'search'
         ) {
-            $keyword = Piwik_Referers::getCleanKeyword($keyword);
+            $keyword = Piwik_Referers_API::getCleanKeyword($keyword);
         }
         return urldecode($keyword);
     }
@@ -353,7 +353,7 @@ class Piwik_Live_Visitor
     {
         if ($this->getRefererType() == 'search') {
             if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')
-                && $this->details['referer_keyword'] == Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED
+                && $this->details['referer_keyword'] == Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED
             ) {
                 return 'http://piwik.org/faq/general/#faq_144';
             } // Case URL is google.XX/url.... then we rewrite to the search result page url

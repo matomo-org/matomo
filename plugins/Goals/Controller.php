@@ -361,7 +361,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
         $keywordNotDefinedString = '';
         if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')) {
-            $keywordNotDefinedString = Piwik_Referers::getKeywordNotDefinedString();
+            $keywordNotDefinedString = Piwik_Referers_API::getKeywordNotDefinedString();
             $topDimensionsToLoad += array(
                 'keyword' => 'Referers.getKeywords',
                 'website' => 'Referers.getWebsites',

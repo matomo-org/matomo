@@ -138,8 +138,28 @@ class Piwik_Referers_API
 
     protected function handleKeywordNotDefined($dataTable)
     {
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', array('Piwik_Referers', 'getCleanKeyword')));
+        $dataTable->queueFilter('ColumnCallbackReplace', array('label', array('Piwik_Referers_API', 'getCleanKeyword')));
         return $dataTable;
+    }
+
+    const LABEL_KEYWORD_NOT_DEFINED = "";
+
+    /**
+     * @ignore
+     */
+    static public function getKeywordNotDefinedString()
+    {
+        return Piwik_Translate('General_NotDefined', Piwik_Translate('Referers_ColumnKeyword'));
+    }
+
+    /**
+     * @ignore
+     */
+    static public function getCleanKeyword($label)
+    {
+        return $label == self::LABEL_KEYWORD_NOT_DEFINED
+            ? self::getKeywordNotDefinedString()
+            : $label;
     }
 
     public function getKeywordsForPageUrl($idSite, $period, $date, $url)

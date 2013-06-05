@@ -118,7 +118,7 @@ class Piwik_Transitions extends Piwik_Plugin
 
             foreach ($subData as &$row) {
                 if ($referrerType == Piwik_Common::REFERER_TYPE_SEARCH_ENGINE && empty($row['referrer_data'])) {
-                    $row['referrer_data'] = Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED;
+                    $row['referrer_data'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
                 }
 
                 $referrerData[$referrerType][Piwik_Archive::INDEX_NB_VISITS] += $row[Piwik_Archive::INDEX_NB_VISITS];
