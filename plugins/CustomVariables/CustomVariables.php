@@ -151,7 +151,9 @@ class Piwik_CustomVariables extends Piwik_Plugin
         /** @var Piwik_ArchiveProcessing_Day $archiveProcessing */
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
+            return;
+        }
 
         $archiving = new Piwik_CustomVariables_Archiving();
         $archiving->archiveDay($archiveProcessing);
@@ -164,7 +166,9 @@ class Piwik_CustomVariables extends Piwik_Plugin
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
+            return;
+        }
 
         $archiving = new Piwik_CustomVariables_Archiving();
         $archiving->archivePeriod($archiveProcessing);

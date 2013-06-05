@@ -571,7 +571,9 @@ class Piwik_Actions extends Piwik_Plugin
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
+            return;
+        }
 
         $actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);
         return $actionsArchiving->archivePeriod($archiveProcessing);
@@ -590,7 +592,9 @@ class Piwik_Actions extends Piwik_Plugin
         /* @var $archiveProcessing Piwik_ArchiveProcessing_Day */
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
+            return;
+        }
 
         $actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);
         return $actionsArchiving->archiveDay($archiveProcessing);

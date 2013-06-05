@@ -292,7 +292,6 @@ class Piwik_Actions_Archiving
             "visit_entry_idaction_name", $archiveProcessing, $rankingQuery);
     }
 
-
     /**
      * Time per action
      */

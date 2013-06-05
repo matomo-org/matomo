@@ -14,7 +14,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
 class Piwik_DevicesDetection extends Piwik_Plugin
 {
-
     /**
      * Return information about this plugin.
      * @return array
@@ -238,120 +237,28 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         printDebug($deviceInfo);
     }
 
-    private function archiveDayDeviceTypes($archiveProcessing)
-    {
-        $recordName = 'DevicesDetection_types';
-        $labelSQL = "log_visit.config_device_type";
-        $interestByType = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableType = $archiveProcessing->getDataTableFromArray($interestByType);
-
-        $archiveProcessing->insertBlobRecord($recordName, $tableType->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
-        destroy($tableType);
-    }
-
-    private function archiveDayDeviceBrands($archiveProcessing)
-    {
-        $recordName = 'DevicesDetection_brands';
-        $labelSQL = "log_visit.config_device_brand";
-        $interestByBrand = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableBrand = $archiveProcessing->getDataTableFromArray($interestByBrand);
-
-        $archiveProcessing->insertBlobRecord($recordName, $tableBrand->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
-        destroy($tableBrand);
-    }
-
-    private function archiveDayDeviceModels($archiveProcessing)
-    {
-        $recordName = 'DevicesDetection_models';
-        $labelSQL = "log_visit.config_device_model";
-        $interestByModel = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableModel = $archiveProcessing->getDataTableFromArray($interestByModel);
-
-        $archiveProcessing->insertBlobRecord($recordName, $tableModel->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
-        destroy($tableModel);
-    }
-
-    private function archiveDayOs($archiveProcessing)
-    {
-        $recordName = 'DevicesDetection_os';
-        $labelSQL = "log_visit.config_os";
-        $interestByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableOs = $archiveProcessing->getDataTableFromArray($interestByOs);
-
-        $archiveProcessing->insertBlobRecord($recordName, $tableOs->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
-        destroy($tableOs);
-    }
-
-    private function archiveDayBrowserFamilies($archiveProcessing)
-    {
-        $recordName = 'DevicesDetection_browsers';
-        $labelSQL = "log_visit.config_browser_name";
-        $interestByBrowser = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableBrowser = $archiveProcessing->getDataTableFromArray($interestByBrowser);
-
-        $archiveProcessing->insertBlobRecord($recordName, $tableBrowser->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
-        destroy($tableBrowser);
-    }
-
-    private function archiveDayBrowsersVersions($archiveProcessing)
-    {
-        $recordName = 'DevicesDetection_browserVersions';
-        $labelSQL = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
-        $interestByBrowserVersion = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableBrowserVersion = $archiveProcessing->getDataTableFromArray($interestByBrowserVersion);
-        $archiveProcessing->insertBlobRecord($recordName, $tableBrowserVersion->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
-        destroy($tableBrowserVersion);
-    }
-
-    private function archiveDayOsVersions($archiveProcessing)
-    {
-        $recordName = 'DevicesDetection_osVersions';
-        $labelSQL = "CONCAT(log_visit.config_os, ';', log_visit.config_os_version)";
-        $interestByBrowserVersion = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableOsVersion = $archiveProcessing->getDataTableFromArray($interestByBrowserVersion);
-        $archiveProcessing->insertBlobRecord($recordName, $tableOsVersion->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
-        destroy($tableOsVersion);
-    }
-
     public function archiveDay($notification)
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName()))
+        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
             return;
+        }
 
-        $this->maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-
-        $this->archiveDayDeviceTypes($archiveProcessing);
-        $this->archiveDayDeviceBrands($archiveProcessing);
-        $this->archiveDayDeviceModels($archiveProcessing);
-        $this->archiveDayOs($archiveProcessing);
-        $this->archiveDayOsVersions($archiveProcessing);
-        $this->archiveDayBrowserFamilies($archiveProcessing);
-        $this->archiveDayBrowsersVersions($archiveProcessing);
+        $archiving = new Piwik_DevicesDetection_Archiving();
+        $archiving->archiveDay($archiveProcessing);
     }
 
     public function archivePeriod($notification)
     {
-        $this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
-        $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
+
         $archiveProcessing = $notification->getNotificationObject();
-
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName()))
+        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
             return;
-
-        $dataTablesToSum[] = 'DevicesDetection_types';
-        $dataTablesToSum[] = 'DevicesDetection_brands';
-        $dataTablesToSum[] = "DevicesDetection_models";
-        $dataTablesToSum[] = "DevicesDetection_os";
-        $dataTablesToSum[] = "DevicesDetection_osVersions";
-        $dataTablesToSum[] = "DevicesDetection_browsers";
-        $dataTablesToSum[] = "DevicesDetection_browserVersions";
-        foreach ($dataTablesToSum as $dt) {
-            $archiveProcessing->archiveDataTable(
-                    $dt, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $columnToSort = "nb_visits");
         }
+
+        $archiving = new Piwik_DevicesDetection_Archiving();
+        $archiving->archivePeriod($archiveProcessing);
     }
 
     public function addMenu()
