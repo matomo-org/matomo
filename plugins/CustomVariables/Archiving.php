@@ -21,9 +21,8 @@ class Piwik_CustomVariables_Archiving
 
     function __construct()
     {
-        //TODO FIX
-        $this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
-        $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
+        $this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_custom_variables'];
+        $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
     }
 
     public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
@@ -31,7 +30,6 @@ class Piwik_CustomVariables_Archiving
         $this->archiveDayAggregate($archiveProcessing);
 
         $table = $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByKeyAndValue, $this->metricsByKey);
-
 
         $blob = $table->getSerialized(
             $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,

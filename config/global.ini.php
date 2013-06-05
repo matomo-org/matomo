@@ -228,10 +228,14 @@ feedback_email_address = "hello@piwik.org"
 
 ; during archiving, Piwik will limit the number of results recorded, for performance reasons
 ; maximum number of rows for any of the Referers tables (keywords, search engines, campaigns, etc.)
-; this limit will also be applied to the Custom Variables names and values reports
 datatable_archiving_maximum_rows_referers = 1000
 ; maximum number of rows for any of the Referers subtable (search engines by keyword, keyword by campaign, etc.)
 datatable_archiving_maximum_rows_subtable_referers = 50
+
+; maximum number of rows for the Custom Variables names report
+datatable_archiving_maximum_rows_custom_variables = 1000
+; maximum number of rows for the Custom Variables values reports
+datatable_archiving_maximum_rows_subtable_custom_variables = 1000
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
 datatable_archiving_maximum_rows_actions = 500
