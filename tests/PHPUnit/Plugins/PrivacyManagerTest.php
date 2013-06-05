@@ -693,9 +693,9 @@ class PrivacyManagerTest extends IntegrationTestCase
         $metricsToSave = array(
             'nb_visits',
             'nb_actions',
-            Piwik_Goals::getRecordName('revenue'),
-            Piwik_Goals::getRecordName('nb_conversions', 1),
-            Piwik_Goals::getRecordName('revenue', Piwik_Tracker_GoalManager::IDGOAL_ORDER)
+            Piwik_Goals_Archiving::getRecordName('revenue'),
+            Piwik_Goals_Archiving::getRecordName('nb_conversions', 1),
+            Piwik_Goals_Archiving::getRecordName('revenue', Piwik_Tracker_GoalManager::IDGOAL_ORDER)
         );
 
         $archiveTables = self::_getArchiveTableNames();

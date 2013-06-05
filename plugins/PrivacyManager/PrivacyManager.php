@@ -354,12 +354,12 @@ class Piwik_PrivacyManager extends Piwik_Plugin
             foreach ($goalMetricsToKeep as $metric) {
                 for ($i = 1; $i <= $maxGoalId; ++$i) // maxGoalId can be 0
                 {
-                    $metricsToKeep[] = Piwik_Goals::getRecordName($metric, $i);
+                    $metricsToKeep[] = Piwik_Goals_Archiving::getRecordName($metric, $i);
                 }
 
-                $metricsToKeep[] = Piwik_Goals::getRecordName($metric);
-                $metricsToKeep[] = Piwik_Goals::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_ORDER);
-                $metricsToKeep[] = Piwik_Goals::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_CART);
+                $metricsToKeep[] = Piwik_Goals_Archiving::getRecordName($metric);
+                $metricsToKeep[] = Piwik_Goals_Archiving::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_ORDER);
+                $metricsToKeep[] = Piwik_Goals_Archiving::getRecordName($metric, Piwik_Tracker_GoalManager::IDGOAL_CART);
             }
         }
 

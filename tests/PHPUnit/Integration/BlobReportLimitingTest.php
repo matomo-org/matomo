@@ -93,6 +93,8 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 4;
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 4;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 4;
+        $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 4;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 4;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 4;
         Piwik_Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
         Piwik_Actions_ArchivingHelper::reloadConfig();
@@ -122,6 +124,8 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 500;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 500;
         $generalConfig['archiving_ranking_query_row_limit'] = 0;
         
         foreach ($this->getRankingQueryDisabledApiForTesting() as $pair) {
@@ -148,6 +152,8 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 3;
+        $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 3;
+        $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_subtable_actions'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 3;
         $generalConfig['archiving_ranking_query_row_limit'] = 50000;

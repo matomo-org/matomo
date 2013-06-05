@@ -206,7 +206,7 @@ class Piwik_Goals_API
         Piwik::checkUserHasViewAccess($idSite);
         $recordNameFinal = $recordName;
         if ($abandonedCarts) {
-            $recordNameFinal = Piwik_Goals::getItemRecordNameAbandonedCart($recordName);
+            $recordNameFinal = Piwik_Goals_Archiving::getItemRecordNameAbandonedCart($recordName);
         }
         $archive = Piwik_Archive::build($idSite, $period, $date);
         $dataTable = $archive->getDataTable($recordNameFinal);
@@ -390,7 +390,7 @@ class Piwik_Goals_API
         }
         $columnsToSelect = array();
         foreach ($columns as &$columnName) {
-            $columnsToSelect[] = Piwik_Goals::getRecordName($columnName, $idGoal);
+            $columnsToSelect[] = Piwik_Goals_Archiving::getRecordName($columnName, $idGoal);
         }
         $dataTable = $archive->getDataTableFromNumeric($columnsToSelect);
 
@@ -438,7 +438,7 @@ class Piwik_Goals_API
      */
     public function getConversions($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        return $this->getNumeric($idSite, $period, $date, $segment, Piwik_Goals::getRecordName('nb_conversions', $idGoal));
+        return $this->getNumeric($idSite, $period, $date, $segment, Piwik_Goals_Archiving::getRecordName('nb_conversions', $idGoal));
     }
 
     /**
@@ -446,7 +446,7 @@ class Piwik_Goals_API
      */
     public function getNbVisitsConverted($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        return $this->getNumeric($idSite, $period, $date, $segment, Piwik_Goals::getRecordName('nb_visits_converted', $idGoal));
+        return $this->getNumeric($idSite, $period, $date, $segment, Piwik_Goals_Archiving::getRecordName('nb_visits_converted', $idGoal));
     }
 
     /**
@@ -454,7 +454,7 @@ class Piwik_Goals_API
      */
     public function getConversionRate($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        return $this->getNumeric($idSite, $period, $date, $segment, Piwik_Goals::getRecordName('conversion_rate', $idGoal));
+        return $this->getNumeric($idSite, $period, $date, $segment, Piwik_Goals_Archiving::getRecordName('conversion_rate', $idGoal));
     }
 
     /**
@@ -462,7 +462,7 @@ class Piwik_Goals_API
      */
     public function getRevenue($idSite, $period, $date, $segment = false, $idGoal = false)
     {
-        return $this->getNumeric($idSite, $period, $date, $segment, Piwik_Goals::getRecordName('revenue', $idGoal));
+        return $this->getNumeric($idSite, $period, $date, $segment, Piwik_Goals_Archiving::getRecordName('revenue', $idGoal));
     }
 
     /**
@@ -488,7 +488,7 @@ class Piwik_Goals_API
         $realGoalId = $idGoal != true ? false : self::convertSpecialGoalIds($idGoal);
 
         // get the data table
-        $dataTable = $archive->getDataTable(Piwik_Goals::getRecordName($recordName, $realGoalId), $idSubtable = null);
+        $dataTable = $archive->getDataTable(Piwik_Goals_Archiving::getRecordName($recordName, $realGoalId), $idSubtable = null);
         $dataTable->queueFilter('ReplaceColumnNames');
 
         return $dataTable;
@@ -508,7 +508,7 @@ class Piwik_Goals_API
     public function getDaysToConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {
         $dataTable = $this->getGoalSpecificDataTable(
-            Piwik_Goals::DAYS_UNTIL_CONV_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+            Piwik_Goals_Archiving::DAYS_UNTIL_CONV_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
 
         $dataTable->queueFilter('Sort', array('label', 'asc', true));
         $dataTable->queueFilter(
@@ -531,7 +531,7 @@ class Piwik_Goals_API
     public function getVisitsUntilConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {
         $dataTable = $this->getGoalSpecificDataTable(
-            Piwik_Goals::VISITS_UNTIL_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
+            Piwik_Goals_Archiving::VISITS_UNTIL_RECORD_NAME, $idSite, $period, $date, $segment, $idGoal);
 
         $dataTable->queueFilter('Sort', array('label', 'asc', true));
         $dataTable->queueFilter(
