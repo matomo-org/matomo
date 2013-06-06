@@ -531,7 +531,7 @@ class Piwik_Goals extends Piwik_Plugin
         $archiveProcessing = $notification->getNotificationObject();
 
         $archiving = new Piwik_Goals_Archiver($archiveProcessing);
-        if$archiving->shouldArchive()) {
+        if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
