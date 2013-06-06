@@ -39,7 +39,7 @@ class Piwik_DevicesDetection_Archiving
 
     private function aggregateByLabel($archiveProcessing, $labelSQL, $recordName)
     {
-        $metricsByLabel = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $metricsByLabel = $archiveProcessing->getMetricsForLabel($labelSQL);
         $tableBrand = $archiveProcessing->getDataTableFromArray($metricsByLabel);
 
         $archiveProcessing->insertBlobRecord($recordName, $tableBrand->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));

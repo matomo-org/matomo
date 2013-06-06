@@ -649,15 +649,17 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      * @param string $label  Table log_visit field name to be use to compute common stats
      * @return array
      */
-    public function getArrayInterestForLabel($label)
+    public function getMetricsForLabel($label)
     {
         $query = $this->queryVisitsByDimension($label);
-        $interest = array();
+        $metrics = array();
         while ($row = $query->fetch()) {
-            if (!isset($interest[$row['label']])) $interest[$row['label']] = $this->makeEmptyRow();
-            $this->sumMetrics($row, $interest[$row['label']]);
+            if (!isset($metrics[$row['label']])) {
+                $metrics[$row['label']] = $this->makeEmptyRow();
+            }
+            $this->sumMetrics($row, $metrics[$row['label']]);
         }
-        return $interest;
+        return $metrics;
     }
 
     /**
@@ -889,7 +891,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      * Given an array of stats, it will process the sum of goal conversions
      * and sum of revenue and add it in the stats array in two new fields.
      *
-     * @param array $interestByLabel Passed by reference, it will be modified as follows:
+     * @param array $metricsByLabel Passed by reference, it will be modified as follows:
      * Input:
      *        array(
      *            LABEL  => array( Piwik_Archive::INDEX_NB_VISITS => X,
@@ -916,11 +918,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      *            );
      *        )
      *
-     * @param array $interestByLabel  Passed by reference, will be modified
+     * @param array $metricsByLabel  Passed by reference, will be modified
      */
-    function enrichConversionsByLabelArray(&$interestByLabel)
+    function enrichConversionsByLabelArray(&$metricsByLabel)
     {
-        foreach ($interestByLabel as $label => &$values) {
+        foreach ($metricsByLabel as $label => &$values) {
             if (isset($values[Piwik_Archive::INDEX_GOALS])) {
                 // When per goal metrics are processed, general 'visits converted' is not meaningful because
                 // it could differ from the sum of each goal conversions
@@ -946,12 +948,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
     /**
      *
-     * @param array $interestByLabelAndSubLabel  Passed by reference, will be modified
+     * @param array $metricsByLabelAndSubLabel  Passed by reference, will be modified
      */
-    function enrichConversionsByLabelArrayHasTwoLevels(&$interestByLabelAndSubLabel)
+    function enrichConversionsByLabelArrayHasTwoLevels(&$metricsByLabelAndSubLabel)
     {
-        foreach ($interestByLabelAndSubLabel as $mainLabel => &$interestBySubLabel) {
-            $this->enrichConversionsByLabelArray($interestBySubLabel);
+        foreach ($metricsByLabelAndSubLabel as $mainLabel => &$metricsBySubLabel) {
+            $this->enrichConversionsByLabelArray($metricsBySubLabel);
         }
     }
 

@@ -41,14 +41,14 @@ class Piwik_UserSettings_Archiving
     protected function aggregateByConfiguration($archiveProcessing)
     {
         $labelSQL = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
-        $metrics = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $metrics = $archiveProcessing->getMetricsForLabel($labelSQL);
         $table = $archiveProcessing->getDataTableFromArray($metrics);
         $archiveProcessing->insertBlobRecord(self::CONFIGURATION_RECORD_NAME, $table->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
     }
 
     protected function aggregateByOs($archiveProcessing)
     {
-        $metrics = $archiveProcessing->getArrayInterestForLabel("log_visit.config_os");
+        $metrics = $archiveProcessing->getMetricsForLabel("log_visit.config_os");
         $table = $archiveProcessing->getDataTableFromArray($metrics);
         $archiveProcessing->insertBlobRecord(self::OS_RECORD_NAME, $table->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
     }
@@ -62,7 +62,7 @@ class Piwik_UserSettings_Archiving
     protected function aggregateByBrowserVersion($archiveProcessing)
     {
         $labelSQL = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
-        $metrics = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $metrics = $archiveProcessing->getMetricsForLabel($labelSQL);
         $tableBrowser = $archiveProcessing->getDataTableFromArray($metrics);
 
         $archiveProcessing->insertBlobRecord(self::BROWSER_RECORD_NAME, $tableBrowser->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
@@ -83,7 +83,7 @@ class Piwik_UserSettings_Archiving
 
     protected function aggregateByResolution($archiveProcessing)
     {
-        $metrics = $archiveProcessing->getArrayInterestForLabel("log_visit.config_resolution");
+        $metrics = $archiveProcessing->getMetricsForLabel("log_visit.config_resolution");
         $table = $archiveProcessing->getDataTableFromArray($metrics);
         $table->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_UserSettings_keepStrlenGreater'));
         $archiveProcessing->insertBlobRecord(self::RESOLUTION_RECORD_NAME, $table->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));

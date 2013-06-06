@@ -136,7 +136,6 @@ class Piwik_UserCountry_Archiving
                 if (!isset($table[$label][Piwik_Archive::INDEX_GOALS][$idGoal])) {
                     $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal] = $archiveProcessing->makeEmptyGoalRow($idGoal);
                 }
-
                 $archiveProcessing->sumGoalMetrics($row, $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal]);
             }
         }

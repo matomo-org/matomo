@@ -14,7 +14,7 @@ class Piwik_Provider_Archiving
     {
         $recordName = 'Provider_hostnameExt';
         $labelSQL = "log_visit.location_provider";
-        $metricsByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
+        $metricsByProvider = $archiveProcessing->getMetricsForLabel($labelSQL);
         $tableProvider = $archiveProcessing->getDataTableFromArray($metricsByProvider);
         $columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
         $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];

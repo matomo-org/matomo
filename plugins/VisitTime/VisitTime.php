@@ -130,10 +130,6 @@ class Piwik_VisitTime extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return mixed
-     */
     function archivePeriod($notification)
     {
         $archiveProcessing = $notification->getNotificationObject();
@@ -147,79 +143,14 @@ class Piwik_VisitTime extends Piwik_Plugin
         $archiveProcessing->archiveDataTable($dataTableToSum);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return mixed
-     */
     public function archiveDay($notification)
     {
         $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-        $this->archiveDayAggregateVisits($archiveProcessing);
-        $this->archiveDayAggregateGoals($archiveProcessing);
-        $this->recordDayReports($archiveProcessing);
+        $archiving = new Piwik_VisitTime_Archiving();
+        $archiving->archiveDay($archiveProcessing);
     }
 
-    protected function archiveDayAggregateVisits($archiveProcessing)
-    {
-        $labelSQL = "HOUR(log_visit.visitor_localtime)";
-        $this->metricsByLocalTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-
-        $labelSQL = "HOUR(log_visit.visit_last_action_time)";
-        $this->metricsByServerTime = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-    }
-
-    protected function convertServerTimeToLocalTimezone($metricsByServerTime, $archiveProcessing)
-    {
-        $date = Piwik_Date::factory($archiveProcessing->getStartDatetimeUTC())->toString();
-        $timezone = $archiveProcessing->site->getTimezone();
-        $visitsByHourTz = array();
-        foreach ($metricsByServerTime as $hour => $stats) {
-            $datetime = $date . ' ' . $hour . ':00:00';
-            $hourInTz = (int)Piwik_Date::factory($datetime, $timezone)->toString('H');
-            $visitsByHourTz[$hourInTz] = $stats;
-        }
-        return $visitsByHourTz;
-    }
-
-    protected function archiveDayAggregateGoals($archiveProcessing)
-    {
-        $query = $archiveProcessing->queryConversionsByDimension("HOUR(log_conversion.server_time)");
-
-        if ($query === false) return;
-
-        while ($row = $query->fetch()) {
-            if (!isset($this->metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) $this->metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $archiveProcessing->makeEmptyGoalRow($row['idgoal']);
-            $archiveProcessing->sumGoalMetrics($row, $this->metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
-        }
-        $goalByServerTime = $this->convertServerTimeToLocalTimezone($this->metricsByServerTime, $archiveProcessing);
-        $archiveProcessing->enrichConversionsByLabelArray($this->metricsByServerTime);
-    }
-
-    protected function recordDayReports($archiveProcessing)
-    {
-        $tableLocalTime = $archiveProcessing->getDataTableFromArray($this->metricsByLocalTime);
-        $this->makeSureAllHoursAreSet($tableLocalTime, $archiveProcessing);
-        $archiveProcessing->insertBlobRecord('VisitTime_localTime', $tableLocalTime->getSerialized());
-        destroy($tableLocalTime);
-
-        $this->metricsByServerTime = $this->convertServerTimeToLocalTimezone($this->metricsByServerTime, $archiveProcessing);
-        $tableServerTime = $archiveProcessing->getDataTableFromArray($this->metricsByServerTime);
-        $this->makeSureAllHoursAreSet($tableServerTime, $archiveProcessing);
-        $archiveProcessing->insertBlobRecord('VisitTime_serverTime', $tableServerTime->getSerialized());
-        destroy($tableServerTime);
-    }
-
-    private function makeSureAllHoursAreSet($table, $archiveProcessing)
-    {
-        for ($i = 0; $i <= 23; $i++) {
-            if ($table->getRowFromLabel($i) === false) {
-                $row = $archiveProcessing->makeEmptyRowLabeled($i);
-                $table->addRow($row);
-            }
-        }
-    }
 }
 
