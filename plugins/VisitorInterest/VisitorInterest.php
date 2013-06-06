@@ -126,19 +126,21 @@ class Piwik_VisitorInterest extends Piwik_Plugin
     function archivePeriod($notification)
     {
         $archiveProcessing = $notification->getNotificationObject();
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessing);
-        $archiving->archivePeriod();
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
     }
 
     public function archiveDay($notification)
     {
         $archiveProcessing = $notification->getNotificationObject();
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessing);
-        $archiving->archiveDay();
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
     }
 
 

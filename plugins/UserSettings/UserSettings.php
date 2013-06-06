@@ -274,10 +274,10 @@ class Piwik_UserSettings extends Piwik_Plugin
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
         $archiving = new Piwik_UserSettings_Archiver($archiveProcessing);
-        $archiving->archiveDay();
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
     }
 
 
@@ -291,9 +291,9 @@ class Piwik_UserSettings extends Piwik_Plugin
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
         $archiving = new Piwik_UserSettings_Archiver($archiveProcessing);
-        $archiving->archivePeriod();
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
     }
 }

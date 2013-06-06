@@ -314,7 +314,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
         // Per item doesn't support segment
         // Also, when querying Goal metrics for visitorType==returning, we wouldnt want to trigger an extra request
         // event if it did support segment
-        // (if this is implented, we should have shouldProcessReportsForPlugin() support partial archiving based on which metric is requested)
+        // (when this is implemented, we should have shouldProcessReportsForPlugin() support partial archiving based on which metric is requested)
         if (!$this->getProcessor()->getSegment()->isEmpty()) {
             return false;
         }

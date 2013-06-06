@@ -223,12 +223,10 @@ class Piwik_Provider extends Piwik_Plugin
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
-        }
-
         $archiving = new Piwik_Provider_Archiver($archiveProcessing);
-        $archiving->archiveDay();
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
     }
 
     /**
@@ -239,12 +237,10 @@ class Piwik_Provider extends Piwik_Plugin
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
-        }
-
         $archiving = new Piwik_Provider_Archiver($archiveProcessing);
-        $archiving->archivePeriod();
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
     }
 
 

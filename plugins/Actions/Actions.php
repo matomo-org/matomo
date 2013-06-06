@@ -576,25 +576,22 @@ class Piwik_Actions extends Piwik_Plugin
         /* @var $archiveProcessing Piwik_ArchiveProcessing_Day */
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
-        }
-
         $archiving = new Piwik_Actions_Archiver($archiveProcessing);
-        $archiving->archiveDay();
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
     }
 
     function archivePeriod($notification)
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
+        $archiving = new Piwik_Actions_Archiver($archiveProcessing);
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
         }
-
-        $actionsArchiving = new Piwik_Actions_Archiver($archiveProcessing);
-        return $actionsArchiving->archivePeriod();
     }
+
     static public function checkCustomVariablesPluginEnabled()
     {
         if (!self::isCustomVariablesPluginsEnabled()) {

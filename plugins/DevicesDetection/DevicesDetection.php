@@ -241,24 +241,19 @@ class Piwik_DevicesDetection extends Piwik_Plugin
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
-        }
-
         $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessing);
-        $archiving->archiveDay();
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
     }
 
     public function archivePeriod($notification)
     {
-
         $archiveProcessing = $notification->getNotificationObject();
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
-        }
-
         $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessing);
-        $archiving->archivePeriod();
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
     }
 
     public function addMenu()

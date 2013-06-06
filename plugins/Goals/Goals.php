@@ -513,10 +513,10 @@ class Piwik_Goals extends Piwik_Plugin
          */
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
         $archiving = new Piwik_Goals_Archiver($archiveProcessing);
-        $archiving->archiveDay();
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
     }
 
     /**
@@ -528,16 +528,11 @@ class Piwik_Goals extends Piwik_Plugin
      */
     function archivePeriod($notification)
     {
-        /**
-         * @var Piwik_ArchiveProcessing
-         */
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
-        }
-
         $archiving = new Piwik_Goals_Archiver($archiveProcessing);
-        $archiving->archivePeriod();
+        if$archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
     }
 }

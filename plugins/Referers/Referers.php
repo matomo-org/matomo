@@ -282,45 +282,33 @@ class Piwik_Referers extends Piwik_Plugin
                                                ));
     }
 
-
     /**
      * Hooks on daily archive to trigger various log processing
      *
      * @param Piwik_Event_Notification $notification  notification object
-     * @return void
      */
     public function archiveDay($notification)
     {
-        /**
-         * @var Piwik_ArchiveProcessing_Day
-         */
         $archiveProcessing = $notification->getNotificationObject();
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
-        }
 
         $archiving = new Piwik_Referers_Archiver($archiveProcessing);
-        $archiving->archiveDay();
+        if ($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
     }
-
-
 
     /**
      * Period archiving: sums up daily stats and sums report tables,
      * making sure that tables are still truncated.
      *
      * @param Piwik_Event_Notification $notification  notification object
-     * @return void
      */
     function archivePeriod($notification)
     {
         $archiveProcessing = $notification->getNotificationObject();
-
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
-        }
-
         $archiving = new Piwik_Referers_Archiver($archiveProcessing);
-        $archiving->archivePeriod();
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
     }
 }

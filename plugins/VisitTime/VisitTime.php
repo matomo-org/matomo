@@ -134,20 +134,20 @@ class Piwik_VisitTime extends Piwik_Plugin
     {
         $archiveProcessing = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
         $archiving = new Piwik_VisitTime_Archiver($archiveProcessing);
-        $archiving->archivePeriod();
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
     }
 
 
     public function archiveDay($notification)
     {
         $archiveProcessing = $notification->getNotificationObject();
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
         $archiving = new Piwik_VisitTime_Archiver($archiveProcessing);
-        $archiving->archiveDay();
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
     }
 
 }
