@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<error message="VisitTime.getByDayOfWeek does not support multiple dates." />
+	<error message="VisitTime.getByDayOfWeek does not support multiple dates.
+ 
+ --&gt; To temporarily debug this error further, set $SHOW_ME_BACKTRACE=true; in ResponseBuilder.php" />
 </result>

@@ -4,7 +4,6 @@
 		<result date="2010-01-03">
 			<row>
 				<label>VisitorType</label>
-				<nb_uniq_visitors>2</nb_uniq_visitors>
 				<nb_visits>3</nb_visits>
 				<nb_actions>6</nb_actions>
 				<max_actions>4</max_actions>
@@ -26,8 +25,24 @@
 				<revenue>1000</revenue>
 				<subtable>
 					<row>
+						<label>LoggedIn</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>4</nb_actions>
+						<max_actions>4</max_actions>
+						<sum_visit_length>361</sum_visit_length>
+						<bounce_count>0</bounce_count>
+						<goals>
+							<row idgoal='1'>
+								<nb_conversions>1</nb_conversions>
+								<nb_visits_converted>1</nb_visits_converted>
+								<revenue>0</revenue>
+							</row>
+						</goals>
+						<nb_conversions>1</nb_conversions>
+						<revenue>0</revenue>
+					</row>
+					<row>
 						<label>LoggedOut</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>2</nb_visits>
 						<nb_actions>2</nb_actions>
 						<max_actions>1</max_actions>
@@ -48,67 +63,10 @@
 						<nb_conversions>2</nb_conversions>
 						<revenue>1000</revenue>
 					</row>
-					<row>
-						<label>LoggedIn</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
-						<nb_visits>1</nb_visits>
-						<nb_actions>4</nb_actions>
-						<max_actions>4</max_actions>
-						<sum_visit_length>361</sum_visit_length>
-						<bounce_count>0</bounce_count>
-						<goals>
-							<row idgoal='1'>
-								<nb_conversions>1</nb_conversions>
-								<nb_visits_converted>1</nb_visits_converted>
-								<revenue>0</revenue>
-							</row>
-						</goals>
-						<nb_conversions>1</nb_conversions>
-						<revenue>0</revenue>
-					</row>
-				</subtable>
-			</row>
-			<row>
-				<label>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>2</nb_visits>
-				<nb_actions>2</nb_actions>
-				<max_actions>1</max_actions>
-				<sum_visit_length>361</sum_visit_length>
-				<bounce_count>2</bounce_count>
-				<goals>
-					<row idgoal='1'>
-						<nb_conversions>1</nb_conversions>
-						<nb_visits_converted>1</nb_visits_converted>
-						<revenue>1000</revenue>
-					</row>
-				</goals>
-				<nb_conversions>1</nb_conversions>
-				<revenue>1000</revenue>
-				<subtable>
-					<row>
-						<label>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
-						<nb_visits>2</nb_visits>
-						<nb_actions>2</nb_actions>
-						<max_actions>1</max_actions>
-						<sum_visit_length>361</sum_visit_length>
-						<bounce_count>2</bounce_count>
-						<goals>
-							<row idgoal='1'>
-								<nb_conversions>1</nb_conversions>
-								<nb_visits_converted>1</nb_visits_converted>
-								<revenue>1000</revenue>
-							</row>
-						</goals>
-						<nb_conversions>1</nb_conversions>
-						<revenue>1000</revenue>
-					</row>
 				</subtable>
 			</row>
 			<row>
 				<label>SET WITH EMPTY VALUE</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_actions>4</nb_actions>
 				<max_actions>4</max_actions>
@@ -126,7 +84,6 @@
 				<subtable>
 					<row>
 						<label>Value not defined</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
 						<nb_actions>4</nb_actions>
 						<max_actions>4</max_actions>
@@ -146,7 +103,6 @@
 			</row>
 			<row>
 				<label>Value will be VERY long and truncated</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_actions>4</nb_actions>
 				<max_actions>4</max_actions>
@@ -164,7 +120,6 @@
 				<subtable>
 					<row>
 						<label>abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrst</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
 						<nb_actions>4</nb_actions>
 						<max_actions>4</max_actions>
@@ -188,37 +143,58 @@
 				<subtable>
 					<row>
 						<label>looking at &quot;profile page&quot;</label>
-						<nb_uniq_visitors>2</nb_uniq_visitors>
 						<nb_visits>2</nb_visits>
 						<nb_actions>2</nb_actions>
 					</row>
 					<row>
 						<label>Loggedin</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
 				</subtable>
 			</row>
 			<row>
-				<label>var3</label>
-				<nb_actions>1</nb_actions>
+				<label>Othercustom value which should be truncated abcdefghijklmnopqrstuvwxyz</label>
+				<nb_visits>2</nb_visits>
+				<nb_actions>2</nb_actions>
+				<max_actions>1</max_actions>
+				<sum_visit_length>361</sum_visit_length>
+				<bounce_count>2</bounce_count>
+				<goals>
+					<row idgoal='1'>
+						<nb_conversions>1</nb_conversions>
+						<nb_visits_converted>1</nb_visits_converted>
+						<revenue>1000</revenue>
+					</row>
+				</goals>
+				<nb_conversions>1</nb_conversions>
+				<revenue>1000</revenue>
 				<subtable>
 					<row>
-						<label>\looking at &quot;\profile page&quot;\</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
-						<nb_visits>1</nb_visits>
-						<nb_actions>1</nb_actions>
+						<label>abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz</label>
+						<nb_visits>2</nb_visits>
+						<nb_actions>2</nb_actions>
+						<max_actions>1</max_actions>
+						<sum_visit_length>361</sum_visit_length>
+						<bounce_count>2</bounce_count>
+						<goals>
+							<row idgoal='1'>
+								<nb_conversions>1</nb_conversions>
+								<nb_visits_converted>1</nb_visits_converted>
+								<revenue>1000</revenue>
+							</row>
+						</goals>
+						<nb_conversions>1</nb_conversions>
+						<revenue>1000</revenue>
 					</row>
 				</subtable>
 			</row>
 			<row>
-				<label>var2</label>
+				<label>Language</label>
 				<nb_actions>1</nb_actions>
 				<subtable>
 					<row>
-						<label>&amp;#039;looking at &quot;\profile page&quot;&amp;#039;</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
+						<label>FR</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
@@ -230,19 +206,6 @@
 				<subtable>
 					<row>
 						<label>Value not defined</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
-						<nb_visits>1</nb_visits>
-						<nb_actions>1</nb_actions>
-					</row>
-				</subtable>
-			</row>
-			<row>
-				<label>Language</label>
-				<nb_actions>1</nb_actions>
-				<subtable>
-					<row>
-						<label>FR</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
@@ -254,7 +217,28 @@
 				<subtable>
 					<row>
 						<label>looking at &quot;profile page&quot;</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
+						<nb_visits>1</nb_visits>
+						<nb_actions>1</nb_actions>
+					</row>
+				</subtable>
+			</row>
+			<row>
+				<label>var2</label>
+				<nb_actions>1</nb_actions>
+				<subtable>
+					<row>
+						<label>&amp;#039;looking at &quot;\profile page&quot;&amp;#039;</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>1</nb_actions>
+					</row>
+				</subtable>
+			</row>
+			<row>
+				<label>var3</label>
+				<nb_actions>1</nb_actions>
+				<subtable>
+					<row>
+						<label>\looking at &quot;\profile page&quot;\</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>

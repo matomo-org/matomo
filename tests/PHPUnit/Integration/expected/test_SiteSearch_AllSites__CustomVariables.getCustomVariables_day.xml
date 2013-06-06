@@ -4,17 +4,16 @@
 		<result date="2010-01-03">
 			<row>
 				<label>_pk_scount</label>
+				<nb_visits>4</nb_visits>
 				<nb_actions>6</nb_actions>
 				<subtable>
 					<row>
-						<label>10</label>
-						<nb_uniq_visitors>2</nb_uniq_visitors>
+						<label>0</label>
 						<nb_visits>2</nb_visits>
 						<nb_actions>3</nb_actions>
 					</row>
 					<row>
-						<label>0</label>
-						<nb_uniq_visitors>2</nb_uniq_visitors>
+						<label>10</label>
 						<nb_visits>2</nb_visits>
 						<nb_actions>3</nb_actions>
 					</row>
@@ -22,11 +21,11 @@
 			</row>
 			<row>
 				<label>_pk_scat</label>
+				<nb_visits>2</nb_visits>
 				<nb_actions>3</nb_actions>
 				<subtable>
 					<row>
 						<label>Search Category</label>
-						<nb_uniq_visitors>2</nb_uniq_visitors>
 						<nb_visits>2</nb_visits>
 						<nb_actions>3</nb_actions>
 					</row>
@@ -36,23 +35,21 @@
 		<result date="2010-01-04">
 			<row>
 				<label>_pk_scount</label>
+				<nb_visits>3</nb_visits>
 				<nb_actions>3</nb_actions>
 				<subtable>
 					<row>
+						<label>0</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>1</nb_actions>
+					</row>
+					<row>
 						<label>5</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
 					<row>
 						<label>10</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
-						<nb_visits>1</nb_visits>
-						<nb_actions>1</nb_actions>
-					</row>
-					<row>
-						<label>0</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
@@ -60,17 +57,16 @@
 			</row>
 			<row>
 				<label>_pk_scat</label>
+				<nb_visits>2</nb_visits>
 				<nb_actions>2</nb_actions>
 				<subtable>
 					<row>
-						<label>Category</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
+						<label>Bad No Result Category :(</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
 					<row>
-						<label>Bad No Result Category :(</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
+						<label>Category</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
@@ -87,11 +83,11 @@
 		<result date="2010-01-03">
 			<row>
 				<label>_pk_scount</label>
+				<nb_visits>1</nb_visits>
 				<nb_actions>2</nb_actions>
 				<subtable>
 					<row>
 						<label>0</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
 						<nb_actions>2</nb_actions>
 					</row>
@@ -99,11 +95,11 @@
 			</row>
 			<row>
 				<label>_pk_scat</label>
+				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
 				<subtable>
 					<row>
 						<label>Bad No Result Category bis :(</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 					</row>
@@ -121,7 +117,6 @@
 		<result date="2010-01-03">
 			<row>
 				<label>test cvar name</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
 				<nb_actions>3</nb_actions>
 				<max_actions>3</max_actions>
@@ -131,7 +126,6 @@
 				<subtable>
 					<row>
 						<label>test cvar value</label>
-						<nb_uniq_visitors>1</nb_uniq_visitors>
 						<nb_visits>1</nb_visits>
 						<nb_actions>3</nb_actions>
 						<max_actions>3</max_actions>

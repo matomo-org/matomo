@@ -92,7 +92,7 @@ function Piwik_UserCountry_getRegionName($label)
         return Piwik_Translate('General_Unknown');
     }
 
-    list($regionCode, $countryCode) = explode(Piwik_UserCountry::LOCATION_SEPARATOR, $label);
+    list($regionCode, $countryCode) = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
     return Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
 }
 
@@ -114,7 +114,7 @@ function Piwik_UserCountry_getPrettyRegionName($label)
         return Piwik_Translate('General_Unknown');
     }
 
-    list($regionCode, $countryCode) = explode(Piwik_UserCountry::LOCATION_SEPARATOR, $label);
+    list($regionCode, $countryCode) = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
 
     $result = Piwik_UserCountry_LocationProvider_GeoIp::getRegionNameFromCodes($countryCode, $regionCode);
     if ($countryCode != Piwik_Tracker_Visit::UNKNOWN_CODE && $countryCode != '') {
@@ -143,7 +143,7 @@ function Piwik_UserCountry_getPrettyCityName($label)
     }
 
     // get city name, region code & country code
-    $parts = explode(Piwik_UserCountry::LOCATION_SEPARATOR, $label);
+    $parts = explode(Piwik_UserCountry_Archiver::LOCATION_SEPARATOR, $label);
     $cityName = $parts[0];
     $regionCode = $parts[1];
     $countryCode = $parts[2];

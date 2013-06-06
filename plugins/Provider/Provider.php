@@ -45,8 +45,9 @@ class Piwik_Provider extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata(&$reports)
+    public function getReportMetadata($notification)
     {
+        $reports = & $notification->getNotificationObject();
         $reports[] = array(
             'category'      => Piwik_Translate('General_Visitors'),
             'name'          => Piwik_Translate('Provider_ColumnProvider'),
@@ -61,8 +62,9 @@ class Piwik_Provider extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata(&$segments)
+    public function getSegmentsMetadata($notification)
     {
+        $segments =& $notification->getNotificationObject();
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
@@ -113,45 +115,14 @@ class Piwik_Provider extends Piwik_Plugin
     }
 
     /**
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return mixed
-     */
-    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
-    {
-        $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
-        $dataTableToSum = array('Provider_hostnameExt');
-        $archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
-    }
-
-    /**
-     * Daily archive: processes the report Visits by Provider
-     *
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
-    {
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
-        $recordName = 'Provider_hostnameExt';
-        $labelSQL = "log_visit.location_provider";
-        $interestByProvider = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableProvider = $archiveProcessing->getDataTableFromArray($interestByProvider);
-        $columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-        $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $archiveProcessing->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
-        destroy($tableProvider);
-    }
-
-    /**
      * Logs the provider in the log_visit table
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function logProviderInfo(&$visitorInfo)
+    public function logProviderInfo($notification)
     {
+        $visitorInfo =& $notification->getNotificationObject();
+
         // if provider info has already been set, abort
         if (!empty($visitorInfo['location_provider'])) {
             return;
@@ -234,12 +205,37 @@ class Piwik_Provider extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    static public function footerUserCountry(&$out)
+    static public function footerUserCountry($notification)
     {
+        $out =& $notification->getNotificationObject();
         $out = '<div>
 			<h2>' . Piwik_Translate('Provider_WidgetProviders') . '</h2>';
         $out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
         $out .= '</div>';
     }
 
+    /**
+     * Daily archive: processes the report Visits by Provider
+     *
+     * @param Piwik_Event_Notification $notification  notification object
+     */
+    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
+    {
+        $archiving = new Piwik_Provider_Archiver($archiveProcessing);
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
+    }
+
+    /**
+     * @param Piwik_Event_Notification $notification  notification object
+     * @return mixed
+     */
+    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    {
+        $archiving = new Piwik_Provider_Archiver($archiveProcessing);
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
+    }
 }

@@ -559,19 +559,6 @@ class Piwik_Actions extends Piwik_Plugin
         return Piwik_Site::isSiteSearchEnabledFor($idSite);
     }
 
-
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return mixed
-     */
-    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
-    {
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
-        $actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);
-        return $actionsArchiving->archivePeriod($archiveProcessing);
-    }
-
     /**
      * Compute all the actions along with their hierarchies.
      *
@@ -582,10 +569,18 @@ class Piwik_Actions extends Piwik_Plugin
      */
     public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
+        $archiving = new Piwik_Actions_Archiver($archiveProcessing);
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
+    }
 
-        $actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);
-        return $actionsArchiving->archiveDay($archiveProcessing);
+    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    {
+        $archiving = new Piwik_Actions_Archiver($archiveProcessing);
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
     }
 
     static public function checkCustomVariablesPluginEnabled()

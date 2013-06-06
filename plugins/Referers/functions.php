@@ -178,7 +178,7 @@ function Piwik_getSearchEngineHostPathFromUrl($url)
  */
 function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
 {
-    if ($keyword === Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED) {
+    if ($keyword === Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED) {
         return 'http://piwik.org/faq/general/#faq_144';
     }
     $searchEngineUrls = Piwik_Common::getSearchEngineUrls();
