@@ -48,10 +48,8 @@ class Piwik_DBStats extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getScheduledTasks($notification)
+    public function getScheduledTasks(&$tasks)
     {
-        $tasks = & $notification->getNotificationObject();
-
         $cacheDataByArchiveNameReportsTask = new Piwik_ScheduledTask(
             $this,
             'cacheDataByArchiveNameReports',

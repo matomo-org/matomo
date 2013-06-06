@@ -38,20 +38,16 @@ class Piwik_Live extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "plugins/Live/templates/live.css";
     }
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "plugins/Live/templates/scripts/live.js";
     }
 

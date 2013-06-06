@@ -312,7 +312,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
         if (!$this->isThereSomeVisits()) {
             return;
         }
-        Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);
+        Piwik_PostEvent('ArchiveProcessing_Period.compute', array($this));
     }
 
     protected function loadSubPeriods()

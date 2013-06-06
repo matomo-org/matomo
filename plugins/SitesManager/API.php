@@ -518,7 +518,7 @@ class Piwik_SitesManager_API
         Zend_Registry::get('access')->reloadAccess();
         $this->postUpdateWebsite($idSite);
 
-        Piwik_PostEvent('SitesManager.addSite', $idSite);
+        Piwik_PostEvent('SitesManager.addSite', array($idSite));
 
         return (int)$idSite;
     }
@@ -564,7 +564,7 @@ class Piwik_SitesManager_API
         // we do not delete logs here on purpose (you can run these queries on the log_ tables to delete all data)
         Piwik_Tracker_Cache::deleteCacheWebsiteAttributes($idSite);
 
-        Piwik_PostEvent('SitesManager.deleteSite', $idSite);
+        Piwik_PostEvent('SitesManager.deleteSite', array($idSite));
     }
 
 
@@ -1025,7 +1025,7 @@ class Piwik_SitesManager_API
         }
         $this->postUpdateWebsite($idSite);
 
-        Piwik_PostEvent('SitesManager.updateSite', $idSite);
+        Piwik_PostEvent('SitesManager.updateSite', array($idSite));
     }
 
     private function checkAndReturnCommaSeparatedStringList($parameters)

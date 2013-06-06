@@ -47,10 +47,8 @@ class Piwik_Widgetize extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
         $jsFiles[] = "themes/default/common.js";
@@ -62,10 +60,8 @@ class Piwik_Widgetize extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "plugins/CoreHome/templates/styles.css";
         $cssFiles[] = "plugins/CoreHome/templates/datatable.css";
         $cssFiles[] = "plugins/CoreHome/templates/cloud.css";

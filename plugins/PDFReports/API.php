@@ -400,16 +400,14 @@ class Piwik_PDFReports_API
         // allow plugins to alter processed reports
         Piwik_PostEvent(
             self::PROCESS_REPORTS_EVENT,
-            $processedReports,
-            $notificationInfo
+            array(&$processedReports, $notificationInfo)
         );
 
         // retrieve report renderer instance
         $reportRenderer = null;
         Piwik_PostEvent(
             self::GET_RENDERER_INSTANCE_EVENT,
-            $reportRenderer,
-            $notificationInfo
+            array(&$reportRenderer, $notificationInfo)
         );
 
         // init report renderer
@@ -518,19 +516,19 @@ class Piwik_PDFReports_API
         $contents = fread($handle, filesize($outputFilename));
         fclose($handle);
 
-        $notificationObject = null;
         Piwik_PostEvent(
             self::SEND_REPORT_EVENT,
-            $notificationObject,
-            $notificationInfo = array(
-                self::REPORT_TYPE_INFO_KEY => $report['type'],
-                self::REPORT_KEY           => $report,
-                self::REPORT_CONTENT_KEY   => $contents,
-                self::FILENAME_KEY         => $filename,
-                self::PRETTY_DATE_KEY      => $prettyDate,
-                self::REPORT_SUBJECT_KEY   => $reportSubject,
-                self::REPORT_TITLE_KEY     => $reportTitle,
-                self::ADDITIONAL_FILES_KEY => $additionalFiles,
+            array(
+                $notificationInfo = array(
+                    self::REPORT_TYPE_INFO_KEY => $report['type'],
+                    self::REPORT_KEY           => $report,
+                    self::REPORT_CONTENT_KEY   => $contents,
+                    self::FILENAME_KEY         => $filename,
+                    self::PRETTY_DATE_KEY      => $prettyDate,
+                    self::REPORT_SUBJECT_KEY   => $reportSubject,
+                    self::REPORT_TITLE_KEY     => $reportTitle,
+                    self::ADDITIONAL_FILES_KEY => $additionalFiles,
+                )
             )
         );
 
@@ -570,7 +568,7 @@ class Piwik_PDFReports_API
             self::REPORT_TYPE_INFO_KEY => $reportType
         );
 
-        Piwik_PostEvent(self::GET_REPORT_PARAMETERS_EVENT, $availableParameters, $notificationInfo);
+        Piwik_PostEvent(self::GET_REPORT_PARAMETERS_EVENT, array(&$availableParameters, $notificationInfo));
 
         // unset invalid parameters
         $availableParameterKeys = array_keys($availableParameters);
@@ -588,7 +586,7 @@ class Piwik_PDFReports_API
         }
 
         // delegate report parameter validation
-        Piwik_PostEvent(self::VALIDATE_PARAMETERS_EVENT, $parameters, $notificationInfo);
+        Piwik_PostEvent(self::VALIDATE_PARAMETERS_EVENT, array(&$parameters, $notificationInfo));
 
         return Piwik_Common::json_encode($parameters);
     }
@@ -702,8 +700,7 @@ class Piwik_PDFReports_API
         $availableReportMetadata = array();
         Piwik_PostEvent(
             self::GET_REPORT_METADATA_EVENT,
-            $availableReportMetadata,
-            $notificationInfo
+            array(&$availableReportMetadata, $notificationInfo)
         );
 
         return $availableReportMetadata;
@@ -717,9 +714,11 @@ class Piwik_PDFReports_API
         $allowMultipleReports = null;
         Piwik_PostEvent(
             self::ALLOW_MULTIPLE_REPORTS_EVENT,
-            $allowMultipleReports,
-            $notificationInfo = array(
-                self::REPORT_TYPE_INFO_KEY => $reportType,
+            array(
+                &$allowMultipleReports,
+                $notificationInfo = array(
+                    self::REPORT_TYPE_INFO_KEY => $reportType,
+                )
             )
         );
         return $allowMultipleReports;
@@ -731,7 +730,7 @@ class Piwik_PDFReports_API
     static public function getReportTypes()
     {
         $reportTypes = array();
-        Piwik_PostEvent(self::GET_REPORT_TYPES_EVENT, $reportTypes);
+        Piwik_PostEvent(self::GET_REPORT_TYPES_EVENT, array(&$reportTypes));
 
         return $reportTypes;
     }
@@ -745,9 +744,11 @@ class Piwik_PDFReports_API
 
         Piwik_PostEvent(
             self::GET_REPORT_FORMATS_EVENT,
-            $reportFormats,
-            $notificationInfo = array(
-                self::REPORT_TYPE_INFO_KEY => $reportType
+            array(
+                &$reportFormats,
+                $notificationInfo = array(
+                    self::REPORT_TYPE_INFO_KEY => $reportType
+                )
             )
         );
 
@@ -766,7 +767,7 @@ class Piwik_PDFReports_API
 
         // retrieve report renderer instance
         $recipients = array();
-        Piwik_PostEvent(self::GET_REPORT_RECIPIENTS_EVENT, $recipients, $notificationInfo);
+        Piwik_PostEvent(self::GET_REPORT_RECIPIENTS_EVENT, array(&$recipients, $notificationInfo));
 
         return $recipients;
     }

@@ -43,9 +43,8 @@ class Piwik_VisitTime extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports[] = array(
             'category'          => Piwik_Translate('VisitsSummary_VisitsSummary'),
             'name'              => Piwik_Translate('VisitTime_WidgetLocalTime'),
@@ -95,9 +94,8 @@ class Piwik_VisitTime extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getReportsWithGoalMetrics($notification)
+    function getReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions =& $notification->getNotificationObject();
         $dimensions[] = array('category' => Piwik_Translate('VisitTime_ColumnServerTime'),
                               'name'     => Piwik_Translate('VisitTime_ColumnServerTime'),
                               'module'   => 'VisitTime',
@@ -108,9 +106,8 @@ class Piwik_VisitTime extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $acceptedValues = "0, 1, 2, 3, ..., 20, 21, 22, 23";
         $segments[] = array(
             'type'           => 'dimension',
@@ -134,10 +131,8 @@ class Piwik_VisitTime extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    function archivePeriod($notification)
+    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $dataTableToSum = array(
@@ -151,10 +146,8 @@ class Piwik_VisitTime extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $this->archiveDayAggregateVisits($archiveProcessing);

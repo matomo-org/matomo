@@ -57,9 +57,8 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function addUniqueVisitorsColumnToGivenReport($notification)
+    function addUniqueVisitorsColumnToGivenReport($view)
     {
-        $view = $notification->getNotificationInfo();
         $view = $view['view'];
         if ($view->getCurrentControllerName() == 'Referers'
             && $view->getCurrentControllerAction() == 'getWebsites'

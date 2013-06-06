@@ -38,10 +38,8 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getScheduledTasks($notification)
+    function getScheduledTasks(&$tasks)
     {
-        $tasks = & $notification->getNotificationObject();
-
         // general data purge on older archive tables, executed daily
         $purgeArchiveTablesTask = new Piwik_ScheduledTask ($this,
             'purgeOutdatedArchives',
@@ -62,10 +60,8 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
         $cssFiles[] = "plugins/CoreAdminHome/templates/menu.css";
         $cssFiles[] = "themes/default/common.css";
@@ -76,10 +72,8 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "libs/jquery/jquery.js";
         $jsFiles[] = "libs/jquery/jquery-ui.js";
         $jsFiles[] = "libs/jquery/jquery.browser.js";

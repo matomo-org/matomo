@@ -94,9 +94,8 @@ class Piwik_Goals extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function deleteSiteGoals($notification)
+    function deleteSiteGoals(&$idSite)
     {
-        $idSite = & $notification->getNotificationObject();
         Piwik_Query("DELETE FROM " . Piwik_Common::prefixTable('goal') . " WHERE idsite = ? ", array($idSite));
     }
 
@@ -109,12 +108,10 @@ class Piwik_Goals extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports, $info)
     {
-        $info = $notification->getNotificationInfo();
         $idSites = $info['idSites'];
-        $reports = & $notification->getNotificationObject();
-
+        
         // Processed in AddColumnsProcessedMetricsGoal
         // These metrics will also be available for some reports, for each goal
         // Example: Conversion rate for Goal 2 for the keyword 'piwik'
@@ -331,7 +328,7 @@ class Piwik_Goals extends Piwik_Plugin
          * to all reports that have Goal segmentation
          */
         $reportsWithGoals = array();
-        Piwik_PostEvent('Goals.getReportsWithGoalMetrics', $reportsWithGoals);
+        Piwik_PostEvent('Goals.getReportsWithGoalMetrics', array(&$reportsWithGoals));
         foreach ($reportsWithGoals as $reportWithGoals) {
             // Select this report from the API metadata array
             // and add the Goal metrics to it
@@ -351,9 +348,8 @@ class Piwik_Goals extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => Piwik_Translate('General_Visit'),
@@ -386,7 +382,7 @@ class Piwik_Goals extends Piwik_Plugin
     static public function getReportsWithGoalMetrics()
     {
         $dimensions = array();
-        Piwik_PostEvent('Goals.getReportsWithGoalMetrics', $dimensions);
+        Piwik_PostEvent('Goals.getReportsWithGoalMetrics', array(&$dimensions));
         $dimensionsByGroup = array();
         foreach ($dimensions as $dimension) {
             $group = $dimension['category'];
@@ -399,30 +395,25 @@ class Piwik_Goals extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
         $jsFiles[] = "plugins/Goals/templates/GoalForm.js";
     }
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
         $cssFiles[] = "plugins/Goals/templates/goals.css";
     }
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function fetchGoalsFromDb($notification)
+    function fetchGoalsFromDb(&$array, $idsite)
     {
-        $idsite = $notification->getNotificationInfo();
-
         // add the 'goal' entry in the website array
-        $array =& $notification->getNotificationObject();
         $array['goals'] = Piwik_Goals_API::getInstance()->getGoals($idsite);
     }
 
@@ -513,13 +504,8 @@ class Piwik_Goals extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification
      * @return void
      */
-    function archivePeriod($notification)
+    function archivePeriod($archiveProcessing)
     {
-        /**
-         * @var Piwik_ArchiveProcessing
-         */
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         /*
@@ -607,13 +593,8 @@ class Piwik_Goals extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification
      * @return void
      */
-    function archiveDay($notification)
+    function archiveDay($archiveProcessing)
     {
-        /**
-         * @var Piwik_ArchiveProcessing_Day
-         */
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $this->archiveGeneralGoalMetrics($archiveProcessing);
@@ -850,9 +831,8 @@ class Piwik_Goals extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getActualReportsWithGoalMetrics($notification)
+    function getActualReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions =& $notification->getNotificationObject();
         $dimensions = array_merge($dimensions, array(
                                                     array('category' => Piwik_Translate('General_Visit'),
                                                           'name'     => Piwik_Translate('Goals_VisitsUntilConv'),

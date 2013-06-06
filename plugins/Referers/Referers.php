@@ -53,9 +53,8 @@ class Piwik_Referers extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports = array_merge($reports, array(
                                               array(
                                                   'category'          => Piwik_Translate('Referers_Referers'),
@@ -184,9 +183,8 @@ class Piwik_Referers extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Referers_Referers',
@@ -257,9 +255,8 @@ class Piwik_Referers extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return void
      */
-    function getReportsWithGoalMetrics($notification)
+    function getReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions =& $notification->getNotificationObject();
         $dimensions = array_merge($dimensions, array(
                                                     array('category' => Piwik_Translate('Referers_Referers'),
                                                           'name'     => Piwik_Translate('Referers_Keywords'),
@@ -303,10 +300,8 @@ class Piwik_Referers extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return void
      */
-    function archivePeriod($notification)
+    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $dataTableToSum = array(
@@ -376,17 +371,14 @@ class Piwik_Referers extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return void
      */
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
-        /**
-         * @var Piwik_ArchiveProcessing_Day
-         */
-        $this->archiveProcessing = $notification->getNotificationObject();
+        $this->archiveProcessing = $archiveProcessing;
         if (!$this->archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $this->archiveDayAggregateVisits($this->archiveProcessing);
         $this->archiveDayAggregateGoals($this->archiveProcessing);
-        Piwik_PostEvent('Referers.archiveDay', $this);
+        Piwik_PostEvent('Referers.archiveDay', array($this));
         $this->archiveDayRecordInDatabase($this->archiveProcessing);
         $this->cleanup();
     }

@@ -59,10 +59,8 @@ class Piwik_API extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getCssFiles($notification)
+    public function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "plugins/API/css/styles.css";
     }
 }
@@ -267,7 +265,7 @@ class Piwik_API_API
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
     {
         $segments = array();
-        Piwik_PostEvent('API.getSegmentsMetadata', $segments, $idSites);
+        Piwik_PostEvent('API.getSegmentsMetadata', array(&$segments, $idSites));
 
         $segments[] = array(
             'type'           => 'dimension',
@@ -570,7 +568,7 @@ class Piwik_API_API
         $parameters = array('idSites' => $idSites, 'period' => $period, 'date' => $date);
 
         $availableReports = array();
-        Piwik_PostEvent('API.getReportMetadata', $availableReports, $parameters);
+        Piwik_PostEvent('API.getReportMetadata', array(&$availableReports, $parameters));
         foreach ($availableReports as &$availableReport) {
             if (!isset($availableReport['metrics'])) {
                 $availableReport['metrics'] = $this->getDefaultMetrics();
@@ -589,9 +587,9 @@ class Piwik_API_API
         }
 
         // Some plugins need to add custom metrics after all plugins hooked in
-        Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $parameters);
+        Piwik_PostEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
         // Oh this is not pretty! Until we have event listeners order parameter...
-        Piwik_PostEvent('API.getReportMetadata.end.end', $availableReports, $parameters);
+        Piwik_PostEvent('API.getReportMetadata.end.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order
         usort($availableReports, array($this, 'sort'));

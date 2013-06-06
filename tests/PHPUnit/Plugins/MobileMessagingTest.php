@@ -230,17 +230,13 @@ class MobileMessagingTest extends DatabaseTestCase
      */
     public function testSendReport($expectedReportContent, $expectedPhoneNumber, $expectedFrom, $reportContent, $phoneNumber, $reportSubject)
     {
-        $eventNotification = new Piwik_Event_Notification(
-            $this,
-            null,
-            array(
-                 Piwik_PDFReports_API::REPORT_CONTENT_KEY   => $reportContent,
-                 Piwik_PDFReports_API::REPORT_SUBJECT_KEY     => $reportSubject,
-                 Piwik_PDFReports_API::REPORT_TYPE_INFO_KEY => Piwik_MobileMessaging::MOBILE_TYPE,
-                 Piwik_PDFReports_API::REPORT_KEY           => array(
-                     'parameters' => array(Piwik_MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
-                 ),
-            )
+        $notificationInfo = array(
+             Piwik_PDFReports_API::REPORT_CONTENT_KEY   => $reportContent,
+             Piwik_PDFReports_API::REPORT_SUBJECT_KEY     => $reportSubject,
+             Piwik_PDFReports_API::REPORT_TYPE_INFO_KEY => Piwik_MobileMessaging::MOBILE_TYPE,
+             Piwik_PDFReports_API::REPORT_KEY           => array(
+                 'parameters' => array(Piwik_MobileMessaging::PHONE_NUMBERS_PARAMETER => array($phoneNumber)),
+             ),
         );
 
         $stubbedMobileMessagingAPI = $this->getMock('Piwik_MobileMessaging_API');
@@ -255,7 +251,7 @@ class MobileMessagingTest extends DatabaseTestCase
         $stubbedMobileMessagingAPIClass->setValue($stubbedMobileMessagingAPI);
 
         $mobileMessaging = new Piwik_MobileMessaging();
-        $mobileMessaging->sendReport($eventNotification);
+        $mobileMessaging->sendReport($notificationInfo);
 
         // restore Piwik_MobileMessaging_API
         $stubbedMobileMessagingAPIClass->setValue(null);

@@ -180,10 +180,8 @@ class Piwik_UserSettings extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
-
         $i = 0;
         foreach ($this->reportMetadata as $report) {
             list($category, $name, $apiModule, $apiAction, $columnName) = $report;
@@ -224,9 +222,8 @@ class Piwik_UserSettings extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         foreach ($this->reportMetadata as $report) {
             @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues, $sqlFilter) = $report;
             if (empty($segment)) continue;
@@ -271,13 +268,11 @@ class Piwik_UserSettings extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return void
      */
-    function archiveDay($notification)
+    function archiveDay($archiveProcessing)
     {
         require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
         $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-
-        $archiveProcessing = $notification->getNotificationObject();
 
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
@@ -339,10 +334,8 @@ class Piwik_UserSettings extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return void
      */
-    function archivePeriod($notification)
+    function archivePeriod($archiveProcessing)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];

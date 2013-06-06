@@ -1541,7 +1541,7 @@ class Piwik
             $segments = Piwik_Config::getInstance()->Segments;
             $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : '';
 
-            Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', $cachedResult);
+            Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', array(&$cachedResult));
 
         }
 
@@ -1551,7 +1551,7 @@ class Piwik
     static public function getKnownSegmentsToArchiveForSite($idSite)
     {
         $segments = array();
-        Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveForSite', $segments, $idSite);
+        Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
         return $segments;
     }
 
@@ -1909,12 +1909,12 @@ class Piwik
             $dbInfos = $config->database;
         }
 
-        Piwik_PostEvent('Reporting.getDatabaseConfig', $dbInfos);
+        Piwik_PostEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
 
         $dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
 
         $db = null;
-        Piwik_PostEvent('Reporting.createDatabase', $db);
+        Piwik_PostEvent('Reporting.createDatabase', array(&$db));
         if (is_null($db)) {
             $adapter = $dbInfos['adapter'];
             $db = @Piwik_Db_Adapter::factory($adapter, $dbInfos);

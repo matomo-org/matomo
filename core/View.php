@@ -221,7 +221,7 @@ class Piwik_View implements Piwik_View_Interface
             return new Piwik_View_OneClickDone(Piwik::getCurrentUserTokenAuth());
         }
 
-        Piwik_PostEvent('View.getViewType', $viewType);
+        Piwik_PostEvent('View.getViewType', array($viewType));
 
         // get caller
         $bt = @debug_backtrace();

@@ -68,9 +68,8 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function setVisitorIpAddress($notification)
+    function setVisitorIpAddress(&$ip)
     {
-        $ip =& $notification->getNotificationObject();
         $ip = self::applyIPMask($ip, Piwik_Config::getInstance()->Tracker['ip_address_mask_length']);
     }
 }

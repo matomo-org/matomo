@@ -807,7 +807,7 @@ class Piwik(object):
         try:
             return json.loads(res)
         except ValueError:
-            raise urllib2.URLError('Piwik returned an invalid response: ' + res[:300])
+            raise urllib2.URLError('Piwik returned an invalid response: ' + res)
 
 
     @staticmethod

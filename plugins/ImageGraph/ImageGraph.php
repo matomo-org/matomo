@@ -48,10 +48,8 @@ class Piwik_ImageGraph extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports, $info)
     {
-        $info = $notification->getNotificationInfo();
-        $reports = & $notification->getNotificationObject();
         $idSites = $info['idSites'];
 
         // If only one website is selected, we add the Graph URL

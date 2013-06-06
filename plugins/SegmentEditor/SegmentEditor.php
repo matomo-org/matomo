@@ -35,26 +35,22 @@ class Piwik_SegmentEditor extends Piwik_Plugin
         );
     }
 
-    function getSegmentEditorHtml($notification)
+    function getSegmentEditorHtml(&$out)
     {
-        $out =& $notification->getNotificationObject();
         $controller = new Piwik_SegmentEditor_Controller();
         $out .= $controller->getSelector();
     }
 
-    public function getKnownSegmentsToArchiveAllSites($notification)
+    public function getKnownSegmentsToArchiveAllSites(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $segmentToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getAll($idSite = false, $returnAutoArchived = true);
         if (!empty($segmentToAutoArchive)) {
             $segments = array_merge($segments, $segmentToAutoArchive);
         }
     }
 
-    public function getKnownSegmentsToArchiveForSite($notification)
+    public function getKnownSegmentsToArchiveForSite(&$segments, $idSite)
     {
-        $segments =& $notification->getNotificationObject();
-        $idSite = $notification->getNotificationInfo();
         $segmentToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getAll($idSite, $returnAutoArchived = true);
 
         foreach ($segmentToAutoArchive as $segmentInfo) {
@@ -89,18 +85,16 @@ class Piwik_SegmentEditor extends Piwik_Plugin
         }
     }
 
-    public function getJsFiles($notification)
+    public function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
         $jsFiles[] = "plugins/SegmentEditor/templates/jquery.jscrollpane.js";
         $jsFiles[] = "plugins/SegmentEditor/templates/Segmentation.js";
         $jsFiles[] = "plugins/SegmentEditor/templates/jquery.mousewheel.js";
         $jsFiles[] = "plugins/SegmentEditor/templates/mwheelIntent.js";
     }
 
-    public function getCssFiles($notification)
+    public function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
         $cssFiles[] = "plugins/SegmentEditor/templates/Segmentation.css";
         $cssFiles[] = "plugins/SegmentEditor/templates/jquery.jscrollpane.css";
         $cssFiles[] = "plugins/SegmentEditor/templates/scroll.css";

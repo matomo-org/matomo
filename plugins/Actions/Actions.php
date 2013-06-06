@@ -46,9 +46,8 @@ class Piwik_Actions extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $sqlFilter = array($this, 'getIdActionFromSegment');
 
         // entry and exit pages of visit
@@ -182,10 +181,8 @@ class Piwik_Actions extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
-
         $reports[] = array(
             'category'             => Piwik_Translate('Actions_Actions'),
             'name'                 => Piwik_Translate('Actions_Actions') . ' - ' . Piwik_Translate('General_MainMetrics'),
@@ -567,10 +564,8 @@ class Piwik_Actions extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    function archivePeriod($notification)
+    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);
@@ -585,11 +580,8 @@ class Piwik_Actions extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
-        /* @var $archiveProcessing Piwik_ArchiveProcessing_Day */
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);

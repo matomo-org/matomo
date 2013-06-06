@@ -41,9 +41,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports[] = array(
             'category'         => Piwik_Translate('General_Visitors'),
             'name'             => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
@@ -82,10 +81,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    function archivePeriod($notification)
+    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $numericToSum = array(
@@ -103,11 +100,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    function archiveDay($notification)
+    function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
-        /* @var $archiveProcessing Piwik_ArchiveProcessing */
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $select = "count(distinct log_visit.idvisitor) as nb_uniq_visitors_returning,

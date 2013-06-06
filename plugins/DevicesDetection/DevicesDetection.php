@@ -135,10 +135,9 @@ class Piwik_DevicesDetection extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
         // Note: only one field segmented so far: deviceType
-        $segments =& $notification->getNotificationObject();
         foreach ($this->getRawMetadataReports() as $report) {
             @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues) = $report;
 
@@ -159,10 +158,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
-
         $i = 0;
         foreach ($this->getRawMetadataReports() as $report) {
             list($category, $name, $apiModule, $apiAction, $columnName) = $report;
@@ -212,11 +209,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         }
     }
 
-    public function parseMobileVisitData($notification)
+    public function parseMobileVisitData(&$visitorInfo, $extraInfo)
     {
-        $visitorInfo = &$notification->getNotificationObject();
-
-        $extraInfo = $notification->getNotificationInfo();
         $userAgent = $extraInfo['UserAgent'];
 
         $UAParser = new UserAgentParserEnhanced($userAgent);
@@ -313,10 +307,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         destroy($tableOsVersion);
     }
 
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName()))
             return;
 
@@ -332,11 +324,10 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         $this->archiveDayBrowsersVersions($archiveProcessing);
     }
 
-    public function archivePeriod($notification)
+    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
         $this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
         $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
-        $archiveProcessing = $notification->getNotificationObject();
 
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName()))
             return;

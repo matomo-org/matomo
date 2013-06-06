@@ -43,10 +43,8 @@ class Piwik_Login extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function noAccess($notification)
+    function noAccess(Exception $exception)
     {
-        /* @var Exception $exception */
-        $exception = $notification->getNotificationObject();
         $exceptionMessage = $exception->getMessage();
 
         $controller = new Piwik_Login_Controller();
@@ -59,9 +57,8 @@ class Piwik_Login extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function ApiRequestAuthenticate($notification)
+    function ApiRequestAuthenticate($tokenAuth)
     {
-        $tokenAuth = $notification->getNotificationObject();
         Zend_Registry::get('auth')->setLogin($login = null);
         Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
     }
@@ -72,12 +69,10 @@ class Piwik_Login extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function initAuthenticationObject($notification)
+    function initAuthenticationObject($allowCookieAuthentication = false)
     {
         $auth = new Piwik_Login_Auth();
         Zend_Registry::set('auth', $auth);
-
-        $allowCookieAuthentication = $notification->getNotificationInfo();
 
         $action = Piwik::getAction();
         if (Piwik::getModule() === 'API'
@@ -108,9 +103,8 @@ class Piwik_Login extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @throws Exception
      */
-    function initSession($notification)
+    function initSession($info)
     {
-        $info = $notification->getNotificationObject();
         $login = $info['login'];
         $md5Password = $info['md5Password'];
         $rememberMe = $info['rememberMe'];

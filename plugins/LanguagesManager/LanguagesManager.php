@@ -41,20 +41,16 @@ class Piwik_LanguagesManager extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "themes/default/styles.css";
     }
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "plugins/LanguagesManager/templates/languageSelector.js";
     }
 
@@ -73,9 +69,8 @@ class Piwik_LanguagesManager extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification notification object
      */
-    public function addLanguagesManagerToOtherTopBar($notification)
+    public function addLanguagesManagerToOtherTopBar(&$str)
     {
-        $str =& $notification->getNotificationObject();
         // piwik object & scripts aren't loaded in 'other' topbars
         $str .= "<script type='text/javascript'>if (!window.piwik) window.piwik={};</script>";
         $str .= "<script type='text/javascript' src='plugins/LanguagesManager/templates/languageSelector.js'></script>";
@@ -100,9 +95,8 @@ class Piwik_LanguagesManager extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getLanguageToLoad($notification)
+    function getLanguageToLoad(&$language)
     {
-        $language =& $notification->getNotificationObject();
         if (empty($language)) {
             $language = self::getLanguageCodeForCurrentUser();
         }
@@ -114,9 +108,8 @@ class Piwik_LanguagesManager extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function deleteUserLanguage($notification)
+    function deleteUserLanguage($userLogin)
     {
-        $userLogin = $notification->getNotificationObject();
         Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
     }
 

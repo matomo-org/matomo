@@ -40,7 +40,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         if (!$this->isThereSomeVisits()) {
             return;
         }
-        Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
+        Piwik_PostEvent('ArchiveProcessing_Day.compute', array($this));
     }
 
     /**

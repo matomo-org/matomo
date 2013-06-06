@@ -36,6 +36,6 @@ function smarty_function_postEvent($params, &$smarty)
     $eventName = $params['name'];
 
     $str = '';
-    Piwik_PostEvent($eventName, $str);
+    Piwik_PostEvent($eventName, array(&$str));
     return $str;
 }

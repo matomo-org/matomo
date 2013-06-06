@@ -72,7 +72,7 @@ class Piwik_Smarty extends Smarty
         }
         $this->error_reporting = $error_reporting;
 
-        Piwik_PostEvent('Smarty.initSettings', $this);
+        Piwik_PostEvent('Smarty.initSettings', array($this));
 
     }
 

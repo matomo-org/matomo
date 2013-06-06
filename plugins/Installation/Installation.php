@@ -53,10 +53,9 @@ class Piwik_Installation extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification|null $notification  notification object
      */
-    function dispatch($notification = null)
+    function dispatch($exception = null)
     {
-        if ($notification) {
-            $exception = $notification->getNotificationObject();
+        if ($exception) {
             $message = $exception->getMessage();
         } else {
             $message = '';
@@ -64,7 +63,7 @@ class Piwik_Installation extends Piwik_Plugin
 
         Piwik_Translate::getInstance()->loadCoreTranslation();
 
-        Piwik_PostEvent('Installation.startInstallation', $this);
+        Piwik_PostEvent('Installation.startInstallation', array($this));
 
         $step = Piwik_Common::getRequestVar('action', 'welcome', 'string');
         $controller = $this->getInstallationController();
@@ -91,10 +90,8 @@ class Piwik_Installation extends Piwik_Plugin
     /**
      * Adds CSS files to list of CSS files for asset manager.
      */
-    public function getCss($notification)
+    public function getCss(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "plugins/Installation/templates/systemCheckPage.css";
     }
 }

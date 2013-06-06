@@ -61,10 +61,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
-
         $documentation = Piwik_Translate('CustomVariables_CustomVariablesReportDocumentation',
             array('<br />', '<a href="http://piwik.org/docs/custom-variables/" target="_blank">', '</a>'));
 
@@ -90,9 +88,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             $segments[] = array(
                 'type'       => 'dimension',
@@ -134,9 +131,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getReportsWithGoalMetrics($notification)
+    function getReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions =& $notification->getNotificationObject();
         $dimensions = array_merge($dimensions, array(
                                                     array('category' => Piwik_Translate('General_Visit'),
                                                           'name'     => Piwik_Translate('CustomVariables_CustomVariables'),
@@ -161,14 +157,10 @@ class Piwik_CustomVariables extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return void
      */
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
+        $this->archiveProcessing = $archiveProcessing;
         $this->interestByCustomVariables = $this->interestByCustomVariablesAndValue = array();
-
-        /**
-         * @var Piwik_ArchiveProcessing_Day
-         */
-        $this->archiveProcessing = $notification->getNotificationObject();
 
         if (!$this->archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
@@ -314,10 +306,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    function archivePeriod($notification)
+    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $dataTableToSum = 'CustomVariables_valueByName';

@@ -64,9 +64,8 @@ class Piwik_UsersManager extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return void
      */
-    function recordAdminUsersInCache($notification)
+    function recordAdminUsersInCache(&$array, $idSite)
     {
-        $idSite = $notification->getNotificationInfo();
         // add the 'hosts' entry in the website array
         $users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($idSite, 'admin');
 
@@ -74,8 +73,6 @@ class Piwik_UsersManager extends Piwik_Plugin
         foreach ($users as $user) {
             $tokens[] = $user['token_auth'];
         }
-        $array =& $notification->getNotificationObject();
-        $array['admin_token_auth'] = $tokens;
     }
 
     /**
@@ -83,10 +80,8 @@ class Piwik_UsersManager extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function deleteSite($notification)
+    function deleteSite(&$idSite)
     {
-        $idSite = & $notification->getNotificationObject();
-
         Piwik_Option::getInstance()->deleteLike('%\_' . Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
 
@@ -97,10 +92,8 @@ class Piwik_UsersManager extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "plugins/UsersManager/templates/UsersManager.js";
         $jsFiles[] = "plugins/UsersManager/templates/userSettings.js";
     }

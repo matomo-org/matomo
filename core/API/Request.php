@@ -164,7 +164,7 @@ class Piwik_API_Request
         // if a token_auth is specified in the API request, we load the right permissions
         $token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string', $request);
         if ($token_auth) {
-            Piwik_PostEvent('API.Request.authenticate', $token_auth);
+            Piwik_PostEvent('API.Request.authenticate', array($token_auth));
             Zend_Registry::get('access')->reloadAccess();
             Piwik::raiseMemoryLimitIfNecessary();
         }

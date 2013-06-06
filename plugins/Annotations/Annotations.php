@@ -50,9 +50,8 @@ class Piwik_Annotations extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
         $cssFiles[] = "plugins/Annotations/templates/styles.css";
     }
 
@@ -61,9 +60,8 @@ class Piwik_Annotations extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
         $jsFiles[] = "plugins/Annotations/templates/annotations.js";
     }
 }

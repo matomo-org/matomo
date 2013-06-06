@@ -53,10 +53,8 @@ class Piwik_SitesManager extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "themes/default/styles.css";
     }
 
@@ -65,10 +63,8 @@ class Piwik_SitesManager extends Piwik_Plugin
      *
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "plugins/SitesManager/templates/SitesManager.js";
     }
 
@@ -79,11 +75,11 @@ class Piwik_SitesManager extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return void
      */
-    function recordWebsiteDataInCache($notification)
+    function recordWebsiteDataInCache(&$array, $idSite)
     {
-        $idSite = (int)$notification->getNotificationInfo();
+        $idSite = (int)$idSite;
+        
         // add the 'hosts' entry in the website array
-        $array =& $notification->getNotificationObject();
         $array['hosts'] = $this->getTrackerHosts($idSite);
 
         $website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);

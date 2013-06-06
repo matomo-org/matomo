@@ -63,10 +63,8 @@ class Piwik_UserCountry extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getScheduledTasks($notification)
+    function getScheduledTasks(&$tasks)
     {
-        $tasks = & $notification->getNotificationObject();
-
         // add the auto updater task
         $tasks[] = Piwik_UserCountry_GeoIPAutoUpdater::makeScheduledTask();
     }
@@ -74,31 +72,25 @@ class Piwik_UserCountry extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "plugins/UserCountry/templates/styles.css";
     }
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getJsFiles($notification)
+    public function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "plugins/UserCountry/templates/admin.js";
     }
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getVisitorLocation($notification)
+    public function getVisitorLocation(&$location, $visitorInfo)
     {
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
-        $location = & $notification->getNotificationObject();
-        $visitorInfo = $notification->getNotificationInfo();
 
         $id = Piwik_Common::getCurrentLocationProviderId();
         $provider = Piwik_UserCountry_LocationProvider::getProviderById($id);
@@ -157,9 +149,8 @@ class Piwik_UserCountry extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
@@ -214,15 +205,13 @@ class Piwik_UserCountry extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
         $metrics = array(
             'nb_visits'        => Piwik_Translate('General_ColumnNbVisits'),
             'nb_uniq_visitors' => Piwik_Translate('General_ColumnNbUniqVisitors'),
             'nb_actions'       => Piwik_Translate('General_ColumnNbActions'),
         );
-
-        $reports = & $notification->getNotificationObject();
 
         $reports[] = array(
             'category'  => Piwik_Translate('General_Visitors'),
@@ -268,9 +257,8 @@ class Piwik_UserCountry extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getReportsWithGoalMetrics($notification)
+    function getReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions =& $notification->getNotificationObject();
         $dimensions = array_merge($dimensions, array(
                                                     array('category' => Piwik_Translate('General_Visit'),
                                                           'name'     => Piwik_Translate('UserCountry_Country'),
@@ -297,13 +285,8 @@ class Piwik_UserCountry extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    function archivePeriod($notification)
+    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
-        /**
-         * @param Piwik_ArchiveProcessing_Period $archiveProcessing
-         */
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $dataTableToSum = array(
@@ -324,13 +307,8 @@ class Piwik_UserCountry extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    function archiveDay($notification)
+    function archiveDay(Piwik_ArchiveProcessing $archiveProcessing)
     {
-        /**
-         * @var Piwik_ArchiveProcessing
-         */
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $this->interestTables = array('location_country' => array(),

@@ -41,9 +41,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports[] = array(
             'category'          => Piwik_Translate('General_Visitors'),
             'name'              => Piwik_Translate('VisitorInterest_WidgetLengths'),
@@ -194,10 +193,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    function archivePeriod($notification)
+    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         $dataTableToSum = array(
@@ -213,10 +210,9 @@ class Piwik_VisitorInterest extends Piwik_Plugin
      * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
-        $this->archiveProcessing = $notification->getNotificationObject();
-
+        $this->archiveProcessing = $archiveProcessing;
         if (!$this->archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
         // these prefixes are prepended to the 'SELECT as' parts of each SELECT expression. detecting
@@ -313,18 +309,16 @@ class Piwik_VisitorInterest extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    static public function headerVisitsFrequency($notification)
+    static public function headerVisitsFrequency(&$out)
     {
-        $out =& $notification->getNotificationObject();
         $out = '<div id="leftcolumn">';
     }
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    static public function footerVisitsFrequency($notification)
+    static public function footerVisitsFrequency(&$out)
     {
-        $out =& $notification->getNotificationObject();
         $out = '</div>
 			<div id="rightcolumn">
 			';

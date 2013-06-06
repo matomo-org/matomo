@@ -230,10 +230,8 @@ class Piwik_Dashboard extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
         $jsFiles[] = "libs/javascript/json2.js";
         $jsFiles[] = "plugins/Dashboard/templates/dashboardObject.js";
@@ -244,10 +242,8 @@ class Piwik_Dashboard extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "plugins/CoreHome/templates/datatable.css";
         $cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
     }
@@ -255,9 +251,8 @@ class Piwik_Dashboard extends Piwik_Plugin
     /**
      * @param Piwik_Event_Notification $notification  notification object
      */
-    function deleteDashboardLayout($notification)
+    function deleteDashboardLayout($userLogin)
     {
-        $userLogin = $notification->getNotificationObject();
         Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
     }
 
