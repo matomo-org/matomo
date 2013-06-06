@@ -141,8 +141,7 @@ class Piwik_Actions_Archiving
         $this->archiveDayExitActions($archiveProcessing, $rankingQueryLimit);
         $this->archiveDayActionsTime($archiveProcessing, $rankingQueryLimit);
 
-        // Record the final datasets
-        $this->archiveDayRecordInDatabase($archiveProcessing);
+        $this->recordDayReports($archiveProcessing);
 
         return true;
     }
@@ -392,7 +391,7 @@ class Piwik_Actions_Archiving
      *
      * @param $archiveProcessing
      */
-    protected function archiveDayRecordInDatabase($archiveProcessing)
+    protected function recordDayReports($archiveProcessing)
     {
         Piwik_Actions_ArchivingHelper::clearActionsCache();
 

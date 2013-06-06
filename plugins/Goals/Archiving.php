@@ -1,8 +1,16 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @category Piwik_Plugins
+ * @package Piwik_Goals
+ */
 
 class Piwik_Goals_Archiving
 {
-
     const VISITS_UNTIL_RECORD_NAME = 'visits_until_conv';
     const DAYS_UNTIL_CONV_RECORD_NAME = 'days_until_conv';
     /**
@@ -162,26 +170,6 @@ class Piwik_Goals_Archiving
     }
 
     /**
-     * @param string $recordName 'nb_conversions'
-     * @param int|bool $idGoal idGoal to return the metrics for, or false to return overall
-     * @return string Archive record name
-     */
-    static public function getRecordName($recordName, $idGoal = false)
-    {
-        $idGoalStr = '';
-        if ($idGoal !== false) {
-            $idGoalStr = $idGoal . "_";
-        }
-        return 'Goal_' . $idGoalStr . $recordName;
-    }
-
-    private function getConversionRate($count, $archiveProcessing)
-    {
-        $visits = $archiveProcessing->getNumberOfVisits();
-        return round(100 * $count / $visits, Piwik_Tracker_GoalManager::REVENUE_PRECISION);
-    }
-
-    /**
      * @param Piwik_ArchiveProcessing_Day $archiveProcessing
      */
     function archiveEcommerceItems($archiveProcessing)
@@ -271,23 +259,6 @@ class Piwik_Goals_Archiving
         }
     }
 
-    protected function shouldArchiveEcommerceItems($archiveProcessing)
-    {
-        // Per item doesn't support segment
-        // Also, when querying Goal metrics for visitorType==returning, we wouldnt want to trigger an extra request
-        // event if it did support segment
-        // (if this is implented, we should have shouldProcessReportsForPlugin() support partial archiving based on which metric is requested)
-        if (!$archiveProcessing->getSegment()->isEmpty()) {
-            return false;
-        }
-        return true;
-    }
-
-    static public function getItemRecordNameAbandonedCart($recordName)
-    {
-        return $recordName . '_Cart';
-    }
-
     /**
      * @param $archiveProcessing
      */
@@ -341,6 +312,43 @@ class Piwik_Goals_Archiving
         $archiveProcessing->archiveDataTable(array(
                                                   self::getRecordName(self::VISITS_UNTIL_RECORD_NAME),
                                                   self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)));
+    }
+
+    protected function shouldArchiveEcommerceItems($archiveProcessing)
+    {
+        // Per item doesn't support segment
+        // Also, when querying Goal metrics for visitorType==returning, we wouldnt want to trigger an extra request
+        // event if it did support segment
+        // (if this is implented, we should have shouldProcessReportsForPlugin() support partial archiving based on which metric is requested)
+        if (!$archiveProcessing->getSegment()->isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    static public function getItemRecordNameAbandonedCart($recordName)
+    {
+        return $recordName . '_Cart';
+    }
+
+    /**
+     * @param string $recordName 'nb_conversions'
+     * @param int|bool $idGoal idGoal to return the metrics for, or false to return overall
+     * @return string Archive record name
+     */
+    static public function getRecordName($recordName, $idGoal = false)
+    {
+        $idGoalStr = '';
+        if ($idGoal !== false) {
+            $idGoalStr = $idGoal . "_";
+        }
+        return 'Goal_' . $idGoalStr . $recordName;
+    }
+
+    private function getConversionRate($count, $archiveProcessing)
+    {
+        $visits = $archiveProcessing->getNumberOfVisits();
+        return round(100 * $count / $visits, Piwik_Tracker_GoalManager::REVENUE_PRECISION);
     }
 
 }

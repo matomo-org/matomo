@@ -159,7 +159,7 @@ class Piwik_VisitTime extends Piwik_Plugin
 
         $this->archiveDayAggregateVisits($archiveProcessing);
         $this->archiveDayAggregateGoals($archiveProcessing);
-        $this->archiveDayRecordInDatabase($archiveProcessing);
+        $this->recordDayReports($archiveProcessing);
     }
 
     protected function archiveDayAggregateVisits($archiveProcessing)
@@ -198,7 +198,7 @@ class Piwik_VisitTime extends Piwik_Plugin
         $archiveProcessing->enrichConversionsByLabelArray($this->metricsByServerTime);
     }
 
-    protected function archiveDayRecordInDatabase($archiveProcessing)
+    protected function recordDayReports($archiveProcessing)
     {
         $tableLocalTime = $archiveProcessing->getDataTableFromArray($this->metricsByLocalTime);
         $this->makeSureAllHoursAreSet($tableLocalTime, $archiveProcessing);

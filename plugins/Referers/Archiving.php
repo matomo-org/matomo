@@ -22,9 +22,6 @@ class Piwik_Referers_Archiving
         $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
     }
 
-    /**
-     * @param $archiveProcessing
-     */
     public function archiveDay($archiveProcessing)
     {
         $query = $archiveProcessing->queryVisitsByDimension(array("referer_type", "referer_name", "referer_keyword", "referer_url"));
@@ -34,14 +31,9 @@ class Piwik_Referers_Archiving
         $this->aggregateFromConversions($archiveProcessing, $query);
 
         Piwik_PostEvent('Referers.archiveDay', $this);
-        $this->archiveDayRecordInDatabase($archiveProcessing);
+        $this->recordDayReports($archiveProcessing);
     }
 
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     * @param $query
-     * @throws Exception
-     */
     protected function aggregateFromVisits(Piwik_ArchiveProcessing_Day $archiveProcessing, $query)
     {
         $this->metricsBySearchEngine =
@@ -58,7 +50,6 @@ class Piwik_Referers_Archiving
             $this->makeRefererTypeNonEmpty($row);
             $this->aggregateVisit($archiveProcessing, $row);
             $this->aggregateVisitByType($archiveProcessing, $row);
-
         }
     }
 
@@ -259,9 +250,8 @@ class Piwik_Referers_Archiving
      * Records the daily stats (numeric or datatable blob) into the archive tables.
      *
      * @param Piwik_ArchiveProcessing $archiveProcessing
-     * @return void
      */
-    protected function archiveDayRecordInDatabase($archiveProcessing)
+    protected function recordDayReports($archiveProcessing)
     {
         $numericRecords = array(
             'Referers_distinctSearchEngines' => count($this->metricsBySearchEngineAndKeyword),
@@ -292,9 +282,6 @@ class Piwik_Referers_Archiving
         }
     }
 
-    /**
-     * @param $archiveProcessing
-     */
     public function archivePeriod($archiveProcessing)
     {
         $dataTableToSum = array(

@@ -72,15 +72,7 @@ class Piwik_CustomVariables_Archiving
             $value = $this->cleanCustomVarValue($value);
 
             $key = $row[$keyField];
-            if (!isset($this->metricsByKey[$key])) {
-                $this->metricsByKey[$key] = $archiveProcessing->makeEmptyRow();
-            }
-            if (!isset($this->metricsByKeyAndValue[$key][$value])) {
-                $this->metricsByKeyAndValue[$key][$value] = $archiveProcessing->makeEmptyRow();
-            }
-
-            $archiveProcessing->sumMetrics($row, $this->metricsByKey[$key]);
-            $archiveProcessing->sumMetrics($row, $this->metricsByKeyAndValue[$key][$value]);
+            $this->aggregateVisit($archiveProcessing, $key, $value, $row);
         }
     }
 
@@ -92,23 +84,35 @@ class Piwik_CustomVariables_Archiving
         return self::LABEL_CUSTOM_VALUE_NOT_DEFINED;
     }
 
+    protected function aggregateVisit(Piwik_ArchiveProcessing_Day $archiveProcessing, $key, $value, $row)
+    {
+        if (!isset($this->metricsByKey[$key])) {
+            $this->metricsByKey[$key] = $archiveProcessing->makeEmptyRow();
+        }
+        if (!isset($this->metricsByKeyAndValue[$key][$value])) {
+            $this->metricsByKeyAndValue[$key][$value] = $archiveProcessing->makeEmptyRow();
+        }
+
+        $archiveProcessing->sumMetrics($row, $this->metricsByKey[$key]);
+        $archiveProcessing->sumMetrics($row, $this->metricsByKeyAndValue[$key][$value]);
+    }
+
     protected function aggregateFromActions(Piwik_ArchiveProcessing_Day $archiveProcessing, $query, $keyField, $valueField)
     {
-        $keys = array();
         while ($row = $query->fetch()) {
             $key = $row[$keyField];
             $value = $row[$valueField];
             $value = $this->cleanCustomVarValue($value);
+            $this->aggregateAction($archiveProcessing, $key, $value, $row);
+        }
+    }
 
-            $alreadyAggregated = $this->aggregateEcommerceCategories($archiveProcessing, $key, $value, $row);
-            if (!$alreadyAggregated) {
-                $this->aggregateAction($archiveProcessing, $key, $value, $row);
-
-                if (!isset($this->metricsByKey[$key])) {
-                    $this->metricsByKey[$key] = $archiveProcessing->makeEmptyActionRow();
-                }
-                $archiveProcessing->sumMetrics($row, $this->metricsByKey[$key], $onlyMetricsAvailableInActionsTable = true);
-            }
+    protected function aggregateAction(Piwik_ArchiveProcessing_Day $archiveProcessing, $key, $value, $row)
+    {
+        $alreadyAggregated = $this->aggregateEcommerceCategories($archiveProcessing, $key, $value, $row);
+        if (!$alreadyAggregated) {
+            $this->aggregateActionByKeyAndValue($archiveProcessing, $key, $value, $row);
+            $this->aggregateActionByKey($archiveProcessing, $key, $row);
         }
     }
 
@@ -134,7 +138,7 @@ class Piwik_CustomVariables_Archiving
                     ) {
                         continue;
                     }
-                    $this->aggregateAction($archiveProcessing, $key, $category, $row);
+                    $this->aggregateActionByKeyAndValue($archiveProcessing, $key, $category, $row);
                     $ecommerceCategoriesAggregated = true;
                     $count++;
                 }
@@ -143,13 +147,7 @@ class Piwik_CustomVariables_Archiving
         return $ecommerceCategoriesAggregated;
     }
 
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     * @param $key
-     * @param $value
-     * @param $row
-     */
-    protected function aggregateAction(Piwik_ArchiveProcessing_Day $archiveProcessing, $key, $value, $row)
+    protected function aggregateActionByKeyAndValue(Piwik_ArchiveProcessing_Day $archiveProcessing, $key, $value, $row)
     {
         if (!isset($this->metricsByKeyAndValue[$key][$value])) {
             $this->metricsByKeyAndValue[$key][$value] = $archiveProcessing->makeEmptyActionRow();
@@ -158,7 +156,7 @@ class Piwik_CustomVariables_Archiving
 
         if ($this->isReservedKey($key)) {
             // Price tracking on Ecommerce product/category pages:
-            // The the AVG is returned from the SQL query so the price is not summed
+            // the average is returned from the SQL query so the price is not "summed" like other metrics
             $index = Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
             if (!empty($row[$index])) {
                 $this->metricsByKeyAndValue[$key][$value][$index] = (float)$row[$index];
@@ -171,6 +169,19 @@ class Piwik_CustomVariables_Archiving
         return in_array($key, Piwik_CustomVariables_API::getReservedCustomVariableKeys());
     }
 
+    /**
+     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
+     * @param $key
+     * @param $row
+     */
+    protected function aggregateActionByKey(Piwik_ArchiveProcessing_Day $archiveProcessing, $key, $row)
+    {
+        if (!isset($this->metricsByKey[$key])) {
+            $this->metricsByKey[$key] = $archiveProcessing->makeEmptyActionRow();
+        }
+        $archiveProcessing->sumMetrics($row, $this->metricsByKey[$key], $onlyMetricsAvailableInActionsTable = true);
+    }
+
     protected function aggregateFromConversions(Piwik_ArchiveProcessing_Day $archiveProcessing, $query, $keyField, $valueField)
     {
         if ($query === false) {
@@ -180,17 +191,21 @@ class Piwik_CustomVariables_Archiving
             $key = $row[$keyField];
             $value = $this->cleanCustomVarValue($row[$valueField]);
             $idGoal = $row['idgoal'];
-
-            if (!isset($this->metricsByKey[$key][Piwik_Archive::INDEX_GOALS][$idGoal])) {
-                $this->metricsByKey[$key][Piwik_Archive::INDEX_GOALS][$idGoal] = $archiveProcessing->makeEmptyGoalRow($idGoal);
-            }
-            if (!isset($this->metricsByKeyAndValue[$key][$value][Piwik_Archive::INDEX_GOALS][$idGoal])) {
-                $this->metricsByKeyAndValue[$key][$value][Piwik_Archive::INDEX_GOALS][$idGoal] = $archiveProcessing->makeEmptyGoalRow($idGoal);
-            }
-
-            $archiveProcessing->sumGoalMetrics($row, $this->metricsByKey[$key][Piwik_Archive::INDEX_GOALS][$idGoal]);
-            $archiveProcessing->sumGoalMetrics($row, $this->metricsByKeyAndValue[$key][$value][Piwik_Archive::INDEX_GOALS][$idGoal]);
+            $this->aggregateConversion($archiveProcessing, $key, $value, $idGoal, $row);
         }
+    }
+
+    protected function aggregateConversion(Piwik_ArchiveProcessing_Day $archiveProcessing, $key, $value, $idGoal, $row)
+    {
+        if (!isset($this->metricsByKey[$key][Piwik_Archive::INDEX_GOALS][$idGoal])) {
+            $this->metricsByKey[$key][Piwik_Archive::INDEX_GOALS][$idGoal] = $archiveProcessing->makeEmptyGoalRow($idGoal);
+        }
+        if (!isset($this->metricsByKeyAndValue[$key][$value][Piwik_Archive::INDEX_GOALS][$idGoal])) {
+            $this->metricsByKeyAndValue[$key][$value][Piwik_Archive::INDEX_GOALS][$idGoal] = $archiveProcessing->makeEmptyGoalRow($idGoal);
+        }
+
+        $archiveProcessing->sumGoalMetrics($row, $this->metricsByKey[$key][Piwik_Archive::INDEX_GOALS][$idGoal]);
+        $archiveProcessing->sumGoalMetrics($row, $this->metricsByKeyAndValue[$key][$value][Piwik_Archive::INDEX_GOALS][$idGoal]);
     }
 
     protected function removeVisitsMetricsFromActionsAggregate(Piwik_ArchiveProcessing_Day $archiveProcessing)

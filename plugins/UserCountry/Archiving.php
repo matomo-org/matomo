@@ -28,12 +28,9 @@ class Piwik_UserCountry_Archiving
                                           'location_city'    => array());
         $this->aggregateFromVisits($archiveProcessing);
         $this->aggregateFromConversions($archiveProcessing);
-        $this->archiveDayRecordInDatabase($archiveProcessing);
+        $this->recordDayReports($archiveProcessing);
     }
 
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     */
     protected function aggregateFromVisits($archiveProcessing)
     {
         $dimensions = array_keys($this->metricsByDimension);
@@ -54,7 +51,7 @@ class Piwik_UserCountry_Archiving
         while ($row = $query->fetch()) {
             $this->makeRegionCityLabelsUnique($row);
             $this->rememberCityLatLong($row);
-            $this->aggregateConversion($archiveProcessing, $row);
+            $this->aggregateVisit($archiveProcessing, $row);
         }
     }
 
@@ -104,7 +101,7 @@ class Piwik_UserCountry_Archiving
         }
     }
 
-    protected function aggregateConversion($archiveProcessing, $row)
+    protected function aggregateVisit($archiveProcessing, $row)
     {
         foreach ($this->metricsByDimension as $dimension => &$table) {
             $label = (string)$row[$dimension];
@@ -149,10 +146,7 @@ class Piwik_UserCountry_Archiving
         }
     }
 
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     */
-    protected function archiveDayRecordInDatabase($archiveProcessing)
+    protected function recordDayReports($archiveProcessing)
     {
         $maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
 
