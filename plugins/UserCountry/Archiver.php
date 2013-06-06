@@ -139,7 +139,7 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
         }
 
         foreach ($this->metricsByDimension as &$table) {
-            $this->getProcessor()->enrichConversionsByLabelArray($table);
+            $this->getProcessor()->enrichMetricsWithConversions($table);
         }
     }
 

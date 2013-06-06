@@ -33,8 +33,8 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
         }
 
         $this->removeVisitsMetricsFromActionsAggregate();
-        $this->getProcessor()->enrichConversionsByLabelArray($this->metricsByKey);
-        $this->getProcessor()->enrichConversionsByLabelArrayHasTwoLevels($this->metricsByKeyAndValue);
+        $this->getProcessor()->enrichMetricsWithConversions($this->metricsByKey);
+        $this->getProcessor()->enrichPivotMetricsWithConversions($this->metricsByKeyAndValue);
 
         $table = $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByKeyAndValue, $this->metricsByKey);
         $blob = $table->getSerialized(

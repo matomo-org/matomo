@@ -109,8 +109,11 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
 				sum(case log_visit.config_gears when 1 then 1 else 0 end) as gears,
 				sum(case log_visit.config_silverlight when 1 then 1 else 0 end) as silverlight,
 				sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie	";
-        $table = $this->getProcessor()->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
-        $this->getProcessor()->insertBlobRecord(self::PLUGIN_RECORD_NAME, $table->getSerialized());
+
+        $processor = $this->getProcessor();
+        $data = $processor->queryVisitsSimple($toSelect);
+        $table =  $processor->getSimpleDataTableFromRow($data, Piwik_Archive::INDEX_NB_VISITS);
+        $processor->insertBlobRecord(self::PLUGIN_RECORD_NAME, $table->getSerialized());
     }
 
     protected function aggregateByLanguage()

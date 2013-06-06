@@ -164,12 +164,12 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
             }
         }
 
-        $this->getProcessor()->enrichConversionsByLabelArray($this->metricsByType);
-        $this->getProcessor()->enrichConversionsByLabelArray($this->metricsBySearchEngine);
-        $this->getProcessor()->enrichConversionsByLabelArray($this->metricsByKeyword);
-        $this->getProcessor()->enrichConversionsByLabelArray($this->metricsByWebsite);
-        $this->getProcessor()->enrichConversionsByLabelArray($this->metricsByCampaign);
-        $this->getProcessor()->enrichConversionsByLabelArrayHasTwoLevels($this->metricsByCampaignAndKeyword);
+        $this->getProcessor()->enrichMetricsWithConversions($this->metricsByType);
+        $this->getProcessor()->enrichMetricsWithConversions($this->metricsBySearchEngine);
+        $this->getProcessor()->enrichMetricsWithConversions($this->metricsByKeyword);
+        $this->getProcessor()->enrichMetricsWithConversions($this->metricsByWebsite);
+        $this->getProcessor()->enrichMetricsWithConversions($this->metricsByCampaign);
+        $this->getProcessor()->enrichPivotMetricsWithConversions($this->metricsByCampaignAndKeyword);
     }
 
     protected function aggregateConversion($row)
@@ -254,21 +254,15 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
      */
     protected function recordDayReports()
     {
-        $numericRecords = array(
-            'Referers_distinctSearchEngines' => count($this->metricsBySearchEngineAndKeyword),
-            'Referers_distinctKeywords'      => count($this->metricsByKeywordAndSearchEngine),
-            'Referers_distinctCampaigns'     => count($this->metricsByCampaign),
-            'Referers_distinctWebsites'      => count($this->metricsByWebsite),
-            'Referers_distinctWebsitesUrls'  => count($this->distinctUrls),
-        );
+        $this->recordDayNumeric();
+        $this->recordDayBlobs();
+    }
 
-        foreach ($numericRecords as $name => $value) {
-            $this->getProcessor()->insertNumericRecord($name, $value);
-        }
-
-        $dataTable = $this->getProcessor()->getDataTableSerialized($this->metricsByType);
-        $this->getProcessor()->insertBlobRecord('Referers_type', $dataTable);
-        destroy($dataTable);
+    protected function recordDayBlobs()
+    {
+        $table = new Piwik_DataTable();
+        $table->addRowsFromArrayWithIndexLabel($this->metricsByType);
+        $this->getProcessor()->insertBlobRecord('Referers_type', $table->getSerialized());
 
         $blobRecords = array(
             'Referers_keywordBySearchEngine' => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsBySearchEngineAndKeyword, $this->metricsBySearchEngine),
@@ -279,7 +273,21 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
         foreach ($blobRecords as $recordName => $table) {
             $blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
             $this->getProcessor()->insertBlobRecord($recordName, $blob);
-            destroy($table);
+        }
+    }
+
+    protected function recordDayNumeric()
+    {
+        $numericRecords = array(
+            'Referers_distinctSearchEngines' => count($this->metricsBySearchEngineAndKeyword),
+            'Referers_distinctKeywords'      => count($this->metricsByKeywordAndSearchEngine),
+            'Referers_distinctCampaigns'     => count($this->metricsByCampaign),
+            'Referers_distinctWebsites'      => count($this->metricsByWebsite),
+            'Referers_distinctWebsitesUrls'  => count($this->distinctUrls),
+        );
+
+        foreach ($numericRecords as $name => $value) {
+            $this->getProcessor()->insertNumericRecord($name, $value);
         }
     }
 

@@ -30,7 +30,7 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
             }
             $this->getProcessor()->sumGoalMetrics($row, $metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
         }
-        $this->getProcessor()->enrichConversionsByLabelArray($metricsByServerTime);
+        $this->getProcessor()->enrichMetricsWithConversions($metricsByServerTime);
 
         $metricsByServerTime = $this->convertServerTimeToLocalTimezone($metricsByServerTime);
         $tableServerTime = $this->getProcessor()->getDataTableFromArray($metricsByServerTime);

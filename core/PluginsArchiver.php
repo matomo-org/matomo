@@ -26,6 +26,7 @@ abstract class Piwik_PluginsArchiver
 
     abstract public function archivePeriod();
 
+    // TODO: Review this concept / each plugin should somehow maintain the list of report names they generate
     public function shouldArchive()
     {
         $pluginName = Piwik::unprefixClass(get_class($this));
