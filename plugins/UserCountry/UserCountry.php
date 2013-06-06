@@ -296,8 +296,8 @@ class Piwik_UserCountry extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_UserCountry_Archiving();
-        $archiving->archivePeriod($archiveProcessing);
+        $archiving = new Piwik_UserCountry_Archiver($archiveProcessing);
+        $archiving->archivePeriod();
     }
 
     /**
@@ -311,8 +311,8 @@ class Piwik_UserCountry extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_UserCountry_Archiving();
-        $archiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_UserCountry_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
 

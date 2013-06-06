@@ -9,7 +9,7 @@
  * @package Piwik_UserCountry
  */
 
-class Piwik_UserCountry_Archiving
+class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 {
     const VISITS_BY_COUNTRY_RECORD_NAME = 'UserCountry_country';
     const VISITS_BY_REGION_RECORD_NAME = 'UserCountry_region';
@@ -21,20 +21,22 @@ class Piwik_UserCountry_Archiving
 
     private $latLongForCities = array();
 
-    public function archiveDay($archiveProcessing)
+    private $metricsByDimension = array();
+
+    public function archiveDay()
     {
         $this->metricsByDimension = array('location_country' => array(),
                                           'location_region'  => array(),
                                           'location_city'    => array());
-        $this->aggregateFromVisits($archiveProcessing);
-        $this->aggregateFromConversions($archiveProcessing);
-        $this->recordDayReports($archiveProcessing);
+        $this->aggregateFromVisits();
+        $this->aggregateFromConversions();
+        $this->recordDayReports();
     }
 
-    protected function aggregateFromVisits($archiveProcessing)
+    protected function aggregateFromVisits()
     {
         $dimensions = array_keys($this->metricsByDimension);
-        $query = $archiveProcessing->queryVisitsByDimension(
+        $query = $this->getProcessor()->queryVisitsByDimension(
             $dimensions,
             $where = '',
             $metrics = false,
@@ -51,7 +53,7 @@ class Piwik_UserCountry_Archiving
         while ($row = $query->fetch()) {
             $this->makeRegionCityLabelsUnique($row);
             $this->rememberCityLatLong($row);
-            $this->aggregateVisit($archiveProcessing, $row);
+            $this->aggregateVisit($row);
         }
     }
 
@@ -101,26 +103,22 @@ class Piwik_UserCountry_Archiving
         }
     }
 
-    protected function aggregateVisit($archiveProcessing, $row)
+    protected function aggregateVisit($row)
     {
         foreach ($this->metricsByDimension as $dimension => &$table) {
             $label = (string)$row[$dimension];
 
             if (!isset($table[$label])) {
-                $table[$label] = $archiveProcessing->makeEmptyRow();
+                $table[$label] = $this->getProcessor()->makeEmptyRow();
             }
-            $archiveProcessing->sumMetrics($row, $table[$label]);
+            $this->getProcessor()->sumMetrics($row, $table[$label]);
         }
-        return $table;
     }
 
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     */
-    protected function aggregateFromConversions($archiveProcessing)
+    protected function aggregateFromConversions()
     {
         $dimensions = array_keys($this->metricsByDimension);
-        $query = $archiveProcessing->queryConversionsByDimension($dimensions);
+        $query = $this->getProcessor()->queryConversionsByDimension($dimensions);
 
         if ($query === false) {
             return;
@@ -134,35 +132,35 @@ class Piwik_UserCountry_Archiving
                 $label = (string)$row[$dimension];
 
                 if (!isset($table[$label][Piwik_Archive::INDEX_GOALS][$idGoal])) {
-                    $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal] = $archiveProcessing->makeEmptyGoalRow($idGoal);
+                    $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal] = $this->getProcessor()->makeEmptyGoalRow($idGoal);
                 }
-                $archiveProcessing->sumGoalMetrics($row, $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal]);
+                $this->getProcessor()->sumGoalMetrics($row, $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal]);
             }
         }
 
         foreach ($this->metricsByDimension as &$table) {
-            $archiveProcessing->enrichConversionsByLabelArray($table);
+            $this->getProcessor()->enrichConversionsByLabelArray($table);
         }
     }
 
-    protected function recordDayReports($archiveProcessing)
+    protected function recordDayReports()
     {
         $maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
 
         $tableCountry = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_country']);
-        $archiveProcessing->insertBlobRecord(self::VISITS_BY_COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
-        $archiveProcessing->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
+        $this->getProcessor()->insertBlobRecord(self::VISITS_BY_COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
+        $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
         destroy($tableCountry);
 
         $tableRegion = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_region']);
         $serialized = $tableRegion->getSerialized($maximumRows, $maximumRows, Piwik_Archive::INDEX_NB_VISITS);
-        $archiveProcessing->insertBlobRecord(self::VISITS_BY_REGION_RECORD_NAME, $serialized);
+        $this->getProcessor()->insertBlobRecord(self::VISITS_BY_REGION_RECORD_NAME, $serialized);
         destroy($tableRegion);
 
         $tableCity = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_city']);
         $this->setLatitudeLongitude($tableCity);
         $serialized = $tableCity->getSerialized($maximumRows, $maximumRows, Piwik_Archive::INDEX_NB_VISITS);
-        $archiveProcessing->insertBlobRecord(self::VISITS_BY_CITY_RECORD_NAME, $serialized);
+        $this->getProcessor()->insertBlobRecord(self::VISITS_BY_CITY_RECORD_NAME, $serialized);
         destroy($tableCity);
     }
 
@@ -170,7 +168,7 @@ class Piwik_UserCountry_Archiving
      * Utility method, appends latitude/longitude pairs to city table labels, if that data
      * exists for the city.
      */
-    private function setLatitudeLongitude($tableCity)
+    private function setLatitudeLongitude(Piwik_DataTable $tableCity)
     {
         foreach ($tableCity->getRows() as $row) {
             $label = $row->getColumn('label');
@@ -187,7 +185,7 @@ class Piwik_UserCountry_Archiving
         }
     }
 
-    public function archivePeriod($archiveProcessing)
+    public function archivePeriod()
     {
         $dataTableToSum = array(
             self::VISITS_BY_COUNTRY_RECORD_NAME,
@@ -195,8 +193,8 @@ class Piwik_UserCountry_Archiving
             self::VISITS_BY_CITY_RECORD_NAME,
         );
 
-        $nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum);
-        $archiveProcessing->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
+        $nameToCount = $this->getProcessor()->archiveDataTable($dataTableToSum);
+        $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
             $nameToCount[self::VISITS_BY_COUNTRY_RECORD_NAME]['level0']);
     }
 

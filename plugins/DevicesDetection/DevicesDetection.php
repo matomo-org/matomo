@@ -245,8 +245,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_DevicesDetection_Archiving();
-        $archiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
     public function archivePeriod($notification)
@@ -257,8 +257,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_DevicesDetection_Archiving();
-        $archiving->archivePeriod($archiveProcessing);
+        $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessing);
+        $archiving->archivePeriod();
     }
 
     public function addMenu()

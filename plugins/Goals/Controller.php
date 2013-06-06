@@ -458,7 +458,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
         $view->setSortedColumn('label', 'asc');
         $view->setColumnTranslation('label', Piwik_Translate('Goals_VisitsUntilConv'));
         $view->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
-        $view->setLimit(count(Piwik_Goals_Archiving::$visitCountRanges));
+        $view->setLimit(count(Piwik_Goals_Archiver::$visitCountRanges));
         $view->disableOffsetInformationAndPaginationControls();
         $view->disableShowAllViewsIcons();
         return $this->renderView($view, $fetch);
@@ -480,7 +480,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
         $view->setColumnTranslation('label', Piwik_Translate('Goals_DaysToConv'));
         $view->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
         $view->disableShowAllViewsIcons();
-        $view->setLimit(count(Piwik_Goals_Archiving::$daysToConvRanges));
+        $view->setLimit(count(Piwik_Goals_Archiver::$daysToConvRanges));
         $view->disableOffsetInformationAndPaginationControls();
         return $this->renderView($view, $fetch);
     }

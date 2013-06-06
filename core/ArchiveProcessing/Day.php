@@ -505,7 +505,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      * @param string|array $label
      * @param string $where
      * @param array $aggregateLabels
-     * @return
+     * @return PDOStatement
      */
     public function queryConversionsByDimension($label, $where = '', $aggregateLabels = array())
     {

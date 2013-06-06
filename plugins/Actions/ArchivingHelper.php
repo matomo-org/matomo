@@ -22,7 +22,7 @@ class Piwik_Actions_ArchivingHelper
     const OTHERS_ROW_KEY = '';
 
     /**
-     * FIXME See FIXME related to this function at Piwik_Actions_Archiving::archiveDay.
+     * FIXME See FIXME related to this function at Piwik_Actions_Archiver::archiveDay.
      * 
      * @param Zend_Db_Statement|PDOStatement $query
      * @param string|bool $fieldQueried

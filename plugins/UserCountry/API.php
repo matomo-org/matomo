@@ -32,7 +32,7 @@ class Piwik_UserCountry_API
 
     public function getCountry($idSite, $period, $date, $segment = false)
     {
-        $recordName = Piwik_UserCountry_Archiving::VISITS_BY_COUNTRY_RECORD_NAME;
+        $recordName = Piwik_UserCountry_Archiver::VISITS_BY_COUNTRY_RECORD_NAME;
         $dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
 
         // apply filter on the whole datatable in order the inline search to work (searches
@@ -48,7 +48,7 @@ class Piwik_UserCountry_API
 
     public function getContinent($idSite, $period, $date, $segment = false)
     {
-        $recordName = Piwik_UserCountry_Archiving::VISITS_BY_COUNTRY_RECORD_NAME;
+        $recordName = Piwik_UserCountry_Archiver::VISITS_BY_COUNTRY_RECORD_NAME;
         $dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
 
         $getContinent = array('Piwik_Common', 'getContinent');
@@ -71,10 +71,10 @@ class Piwik_UserCountry_API
      */
     public function getRegion($idSite, $period, $date, $segment = false)
     {
-        $recordName = Piwik_UserCountry_Archiving::VISITS_BY_REGION_RECORD_NAME;
+        $recordName = Piwik_UserCountry_Archiver::VISITS_BY_REGION_RECORD_NAME;
         $dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
 
-        $separator = Piwik_UserCountry_Archiving::LOCATION_SEPARATOR;
+        $separator = Piwik_UserCountry_Archiver::LOCATION_SEPARATOR;
         $unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
 
         // split the label and put the elements into the 'region' and 'country' metadata fields
@@ -114,10 +114,10 @@ class Piwik_UserCountry_API
      */
     public function getCity($idSite, $period, $date, $segment = false)
     {
-        $recordName = Piwik_UserCountry_Archiving::VISITS_BY_CITY_RECORD_NAME;
+        $recordName = Piwik_UserCountry_Archiver::VISITS_BY_CITY_RECORD_NAME;
         $dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
 
-         $separator = Piwik_UserCountry_Archiving::LOCATION_SEPARATOR;
+         $separator = Piwik_UserCountry_Archiver::LOCATION_SEPARATOR;
         $unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
 
         // split the label and put the elements into the 'city_name', 'region', 'country',

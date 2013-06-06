@@ -136,20 +136,18 @@ class Piwik_VisitTime extends Piwik_Plugin
 
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-        $dataTableToSum = array(
-            'VisitTime_localTime',
-            'VisitTime_serverTime',
-        );
-        $archiveProcessing->archiveDataTable($dataTableToSum);
+        $archiving = new Piwik_VisitTime_Archiver($archiveProcessing);
+        $archiving->archivePeriod();
     }
+
 
     public function archiveDay($notification)
     {
         $archiveProcessing = $notification->getNotificationObject();
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-        $archiving = new Piwik_VisitTime_Archiving();
-        $archiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_VisitTime_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
 }

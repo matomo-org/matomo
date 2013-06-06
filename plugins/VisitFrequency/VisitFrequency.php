@@ -83,8 +83,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
         $archiveProcessing = $notification->getNotificationObject();
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-        $archiving = new Piwik_VisitFrequency_Archiving();
-        $archiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_VisitFrequency_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
     function archivePeriod($notification)
@@ -92,8 +92,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
         $archiveProcessing = $notification->getNotificationObject();
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-        $archiving = new Piwik_VisitFrequency_Archiving();
-        $archiving->archivePeriod($archiveProcessing);
+        $archiving = new Piwik_VisitFrequency_Archiver($archiveProcessing);
+        $archiving->archivePeriod();
     }
 
 }

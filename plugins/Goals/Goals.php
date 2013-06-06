@@ -515,8 +515,8 @@ class Piwik_Goals extends Piwik_Plugin
 
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-        $archiving = new Piwik_Goals_Archiving();
-        $archiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_Goals_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
     /**
@@ -537,7 +537,7 @@ class Piwik_Goals extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_Goals_Archiving();
-        $archiving->archivePeriod($archiveProcessing);
+        $archiving = new Piwik_Goals_Archiver($archiveProcessing);
+        $archiving->archivePeriod();
     }
 }

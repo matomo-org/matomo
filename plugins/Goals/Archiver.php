@@ -9,7 +9,7 @@
  * @package Piwik_Goals
  */
 
-class Piwik_Goals_Archiving
+class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
 {
     const VISITS_UNTIL_RECORD_NAME = 'visits_until_conv';
     const DAYS_UNTIL_CONV_RECORD_NAME = 'days_until_conv';
@@ -50,25 +50,20 @@ class Piwik_Goals_Archiving
         array(121, 364),
         array(364)
     );
+
     protected $dimensions = array(
         'idaction_sku'      => 'Goals_ItemsSku',
         'idaction_name'     => 'Goals_ItemsName',
         'idaction_category' => 'Goals_ItemsCategory'
     );
 
-    /**
-     * @param $archiveProcessing
-     */
-    public function archiveDay($archiveProcessing)
+    public function archiveDay()
     {
-        $this->archiveGeneralGoalMetrics($archiveProcessing);
-        $this->archiveEcommerceItems($archiveProcessing);
+        $this->archiveGeneralGoalMetrics();
+        $this->archiveEcommerceItems();
     }
 
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     */
-    function archiveGeneralGoalMetrics($archiveProcessing)
+    function archiveGeneralGoalMetrics()
     {
         // extra aggregate selects for the visits to conversion report
         $visitToConvExtraCols = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
@@ -78,7 +73,7 @@ class Piwik_Goals_Archiving
         $daysToConvExtraCols = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
             'visitor_days_since_first', self::$daysToConvRanges, 'log_conversion', 'vdsf');
 
-        $query = $archiveProcessing->queryConversionsByDimension(
+        $query = $this->getProcessor()->queryConversionsByDimension(
             array(), '', array_merge($visitToConvExtraCols, $daysToConvExtraCols));
 
         if ($query === false) {
@@ -90,30 +85,30 @@ class Piwik_Goals_Archiving
         $daysToConvReport = array();
 
         // Get a standard empty goal row
-        $overall = $archiveProcessing->makeEmptyGoalRow($idGoal = 1);
+        $overall = $this->getProcessor()->makeEmptyGoalRow($idGoal = 1);
         while ($row = $query->fetch()) {
             $idgoal = $row['idgoal'];
 
             if (!isset($goals[$idgoal])) {
-                $goals[$idgoal] = $archiveProcessing->makeEmptyGoalRow($idgoal);
+                $goals[$idgoal] = $this->getProcessor()->makeEmptyGoalRow($idgoal);
 
                 $visitsToConvReport[$idgoal] = new Piwik_DataTable();
                 $daysToConvReport[$idgoal] = new Piwik_DataTable();
             }
-            $archiveProcessing->sumGoalMetrics($row, $goals[$idgoal]);
+            $this->getProcessor()->sumGoalMetrics($row, $goals[$idgoal]);
 
             // We don't want to sum Abandoned cart metrics in the overall revenue/conversions/converted visits
             // since it is a "negative conversion"
             if ($idgoal != Piwik_Tracker_GoalManager::IDGOAL_CART) {
-                $archiveProcessing->sumGoalMetrics($row, $overall);
+                $this->getProcessor()->sumGoalMetrics($row, $overall);
             }
 
             // map the goal + visit number of a visitor with the # of conversions that happened on that visit
-            $table = $archiveProcessing->getSimpleDataTableFromRow($row, Piwik_Archive::INDEX_NB_CONVERSIONS, 'vcv');
+            $table = $this->getProcessor()->getSimpleDataTableFromRow($row, Piwik_Archive::INDEX_NB_CONVERSIONS, 'vcv');
             $visitsToConvReport[$idgoal]->addDataTable($table);
 
             // map the goal + day number of a visit with the # of conversion that happened on that day
-            $table = $archiveProcessing->getSimpleDataTableFromRow($row, Piwik_Archive::INDEX_NB_CONVERSIONS, 'vdsf');
+            $table = $this->getProcessor()->getSimpleDataTableFromRow($row, Piwik_Archive::INDEX_NB_CONVERSIONS, 'vdsf');
             $daysToConvReport[$idgoal]->addDataTable($table);
         }
 
@@ -126,11 +121,11 @@ class Piwik_Goals_Archiving
             foreach ($values as $metricId => $value) {
                 $metricName = Piwik_Archive::$mappingFromIdToNameGoal[$metricId];
                 $recordName = self::getRecordName($metricName, $idgoal);
-                $archiveProcessing->insertNumericRecord($recordName, $value);
+                $this->getProcessor()->insertNumericRecord($recordName, $value);
             }
-            $conversion_rate = $this->getConversionRate($values[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED], $archiveProcessing);
+            $conversion_rate = $this->getConversionRate($values[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED]);
             $recordName = self::getRecordName('conversion_rate', $idgoal);
-            $archiveProcessing->insertNumericRecord($recordName, $conversion_rate);
+            $this->getProcessor()->insertNumericRecord($recordName, $conversion_rate);
 
             // if the goal is not a special goal (like ecommerce) add it to the overview report
             if ($idgoal !== Piwik_Tracker_GoalManager::IDGOAL_CART &&
@@ -141,40 +136,40 @@ class Piwik_Goals_Archiving
             }
 
             // visit count until conversion stats
-            $archiveProcessing->insertBlobRecord(
+            $this->getProcessor()->insertBlobRecord(
                 self::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $idgoal),
                 $visitsToConvReport[$idgoal]->getSerialized());
 
             // day count until conversion stats
-            $archiveProcessing->insertBlobRecord(
+            $this->getProcessor()->insertBlobRecord(
                 self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $idgoal),
                 $daysToConvReport[$idgoal]->getSerialized());
         }
 
         // archive overview reports
-        $archiveProcessing->insertBlobRecord(
+        $this->getProcessor()->insertBlobRecord(
             self::getRecordName(self::VISITS_UNTIL_RECORD_NAME), $visitsToConvOverview->getSerialized());
-        $archiveProcessing->insertBlobRecord(
+        $this->getProcessor()->insertBlobRecord(
             self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME), $daysToConvOverview->getSerialized());
 
         // Stats for all goals
         $totalAllGoals = array(
-            self::getRecordName('conversion_rate')     => $this->getConversionRate($archiveProcessing->getNumberOfVisitsConverted(), $archiveProcessing),
+            self::getRecordName('conversion_rate')     => $this->getConversionRate($this->getProcessor()->getNumberOfVisitsConverted()),
             self::getRecordName('nb_conversions')      => $overall[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS],
-            self::getRecordName('nb_visits_converted') => $archiveProcessing->getNumberOfVisitsConverted(),
+            self::getRecordName('nb_visits_converted') => $this->getProcessor()->getNumberOfVisitsConverted(),
             self::getRecordName('revenue')             => $overall[Piwik_Archive::INDEX_GOAL_REVENUE],
         );
         foreach ($totalAllGoals as $recordName => $value) {
-            $archiveProcessing->insertNumericRecord($recordName, $value);
+            $this->getProcessor()->insertNumericRecord($recordName, $value);
         }
     }
 
     /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
+     * @param Piwik_ArchiveProcessing_Day $this->getProcessor()
      */
-    function archiveEcommerceItems($archiveProcessing)
+    function archiveEcommerceItems()
     {
-        if (!$this->shouldArchiveEcommerceItems($archiveProcessing)) {
+        if (!$this->shouldArchiveEcommerceItems()) {
             return false;
         }
         $items = array();
@@ -186,7 +181,7 @@ class Piwik_Goals_Archiving
         $dimensionsToQuery['idaction_category5'] = 'AdditionalCategory';
 
         foreach ($dimensionsToQuery as $dimension => $recordName) {
-            $query = $archiveProcessing->queryEcommerceItems($dimension);
+            $query = $this->getProcessor()->queryEcommerceItems($dimension);
             if ($query == false) {
                 continue;
             }
@@ -204,7 +199,7 @@ class Piwik_Goals_Archiving
                     }
                     // Product Name/Category not defined"
                     if (class_exists('Piwik_CustomVariables')) {
-                        $label = Piwik_CustomVariables_Archiving::LABEL_CUSTOM_VALUE_NOT_DEFINED;
+                        $label = Piwik_CustomVariables_Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED;
                     } else {
                         $label = "Value not defined";
                     }
@@ -243,42 +238,42 @@ class Piwik_Goals_Archiving
                 if ($ecommerceType == Piwik_Tracker_GoalManager::IDGOAL_CART) {
                     $recordNameInsert = self::getItemRecordNameAbandonedCart($recordName);
                 }
-                $table = $archiveProcessing->getDataTableFromArray($items[$dimension][$ecommerceType]);
+                $table = $this->getProcessor()->getDataTableFromArray($items[$dimension][$ecommerceType]);
 
                 // For "category" report, we aggregate all 5 category queries into one datatable
                 if ($dimension == 'idaction_category') {
                     foreach (array('idaction_category2', 'idaction_category3', 'idaction_category4', 'idaction_category5') as $categoryToSum) {
                         if (!empty($items[$categoryToSum][$ecommerceType])) {
-                            $tableToSum = $archiveProcessing->getDataTableFromArray($items[$categoryToSum][$ecommerceType]);
+                            $tableToSum = $this->getProcessor()->getDataTableFromArray($items[$categoryToSum][$ecommerceType]);
                             $table->addDataTable($tableToSum);
                         }
                     }
                 }
-                $archiveProcessing->insertBlobRecord($recordNameInsert, $table->getSerialized());
+                $this->getProcessor()->insertBlobRecord($recordNameInsert, $table->getSerialized());
             }
         }
     }
 
     /**
-     * @param $archiveProcessing
+     * @param $this->getProcessor()
      */
-    public function archivePeriod($archiveProcessing)
+    public function archivePeriod()
     {
         /*
          * Archive Ecommerce Items
          */
-        if ($this->shouldArchiveEcommerceItems($archiveProcessing)) {
+        if ($this->shouldArchiveEcommerceItems()) {
             $dataTableToSum = $this->dimensions;
             foreach ($this->dimensions as $recordName) {
                 $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
             }
-            $archiveProcessing->archiveDataTable($dataTableToSum);
+            $this->getProcessor()->archiveDataTable($dataTableToSum);
         }
 
         /*
          *  Archive General Goal metrics
          */
-        $goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($archiveProcessing->idsite);
+        $goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($this->getProcessor()->idsite);
 
         //Ecommerce
         $goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_ORDER;
@@ -294,33 +289,33 @@ class Piwik_Goals_Archiving
                 $fieldsToSum[] = self::getRecordName($metricName, $goalId);
             }
         }
-        $records = $archiveProcessing->archiveNumericValuesSum($fieldsToSum);
+        $records = $this->getProcessor()->archiveNumericValuesSum($fieldsToSum);
 
         // also recording conversion_rate for each goal
         foreach ($goalIdsToSum as $goalId) {
             $nb_conversions = $records[self::getRecordName('nb_visits_converted', $goalId)];
-            $conversion_rate = $this->getConversionRate($nb_conversions, $archiveProcessing);
-            $archiveProcessing->insertNumericRecord(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
+            $conversion_rate = $this->getConversionRate($nb_conversions);
+            $this->getProcessor()->insertNumericRecord(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
 
             // sum up the visits to conversion data table & the days to conversion data table
-            $archiveProcessing->archiveDataTable(array(
+            $this->getProcessor()->archiveDataTable(array(
                                                       self::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $goalId),
                                                       self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $goalId)));
         }
 
         // sum up goal overview reports
-        $archiveProcessing->archiveDataTable(array(
+        $this->getProcessor()->archiveDataTable(array(
                                                   self::getRecordName(self::VISITS_UNTIL_RECORD_NAME),
                                                   self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)));
     }
 
-    protected function shouldArchiveEcommerceItems($archiveProcessing)
+    protected function shouldArchiveEcommerceItems()
     {
         // Per item doesn't support segment
         // Also, when querying Goal metrics for visitorType==returning, we wouldnt want to trigger an extra request
         // event if it did support segment
         // (if this is implented, we should have shouldProcessReportsForPlugin() support partial archiving based on which metric is requested)
-        if (!$archiveProcessing->getSegment()->isEmpty()) {
+        if (!$this->getProcessor()->getSegment()->isEmpty()) {
             return false;
         }
         return true;
@@ -345,9 +340,9 @@ class Piwik_Goals_Archiving
         return 'Goal_' . $idGoalStr . $recordName;
     }
 
-    private function getConversionRate($count, $archiveProcessing)
+    private function getConversionRate($count)
     {
-        $visits = $archiveProcessing->getNumberOfVisits();
+        $visits = $this->getProcessor()->getNumberOfVisits();
         return round(100 * $count / $visits, Piwik_Tracker_GoalManager::REVENUE_PRECISION);
     }
 

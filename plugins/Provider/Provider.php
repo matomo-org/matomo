@@ -227,8 +227,8 @@ class Piwik_Provider extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_Provider_Archiving();
-        $archiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_Provider_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
     /**
@@ -243,8 +243,8 @@ class Piwik_Provider extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_Provider_Archiving();
-        $archiving->archivePeriod($archiveProcessing);
+        $archiving = new Piwik_Provider_Archiver($archiveProcessing);
+        $archiving->archivePeriod();
     }
 
 

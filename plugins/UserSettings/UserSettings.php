@@ -276,8 +276,8 @@ class Piwik_UserSettings extends Piwik_Plugin
 
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-        $archiving = new Piwik_UserSettings_Archiving();
-        $archiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_UserSettings_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
 
@@ -293,7 +293,7 @@ class Piwik_UserSettings extends Piwik_Plugin
 
         if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
 
-        $archiving = new Piwik_UserSettings_Archiving();
-        $archiving->archivePeriod($archiveProcessing);
+        $archiving = new Piwik_UserSettings_Archiver($archiveProcessing);
+        $archiving->archivePeriod();
     }
 }

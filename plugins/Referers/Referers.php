@@ -299,8 +299,8 @@ class Piwik_Referers extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_Referers_Archiving();
-        $archiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_Referers_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
 
@@ -320,7 +320,7 @@ class Piwik_Referers extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_Referers_Archiving();
-        $archiving->archivePeriod($archiveProcessing);
+        $archiving = new Piwik_Referers_Archiver($archiveProcessing);
+        $archiving->archivePeriod();
     }
 }

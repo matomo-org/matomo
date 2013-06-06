@@ -155,8 +155,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_CustomVariables_Archiving();
-        $archiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_CustomVariables_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
     /**
@@ -170,8 +170,8 @@ class Piwik_CustomVariables extends Piwik_Plugin
             return;
         }
 
-        $archiving = new Piwik_CustomVariables_Archiving();
-        $archiving->archivePeriod($archiveProcessing);
+        $archiving = new Piwik_CustomVariables_Archiver($archiveProcessing);
+        $archiving->archivePeriod();
     }
 
 }

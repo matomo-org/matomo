@@ -9,11 +9,11 @@
  * @package Piwik_UserSettings
  */
 
-class Piwik_VisitFrequency_Archiving
+class Piwik_VisitFrequency_Archiver extends Piwik_PluginsArchiver
 {
     // OMG THIS IS SO WRONG!
     // use segment instead
-    public function archiveDay($archiveProcessing)
+    public function archiveDay()
     {
         $select = "count(distinct log_visit.idvisitor) as nb_uniq_visitors_returning,
 				count(*) as nb_visits_returning,
@@ -30,12 +30,12 @@ class Piwik_VisitFrequency_Archiving
 		 		AND log_visit.idsite = ?
 		 		AND log_visit.visitor_returning >= 1";
 
-        $bind = array($archiveProcessing->getStartDatetimeUTC(),
-                      $archiveProcessing->getEndDatetimeUTC(), $archiveProcessing->idsite);
+        $bind = array($this->getProcessor()->getStartDatetimeUTC(),
+                      $this->getProcessor()->getEndDatetimeUTC(), $this->getProcessor()->idsite);
 
-        $query = $archiveProcessing->getSegment()->getSelectQuery($select, $from, $where, $bind);
+        $query = $this->getProcessor()->getSegment()->getSelectQuery($select, $from, $where, $bind);
 
-        $row = $archiveProcessing->db->fetchRow($query['sql'], $query['bind']);
+        $row = $this->getProcessor()->db->fetchRow($query['sql'], $query['bind']);
 
         if ($row === false || $row === null) {
             $row['nb_visits_returning'] = 0;
@@ -47,11 +47,11 @@ class Piwik_VisitFrequency_Archiving
         }
 
         foreach ($row as $name => $value) {
-            $archiveProcessing->insertNumericRecord($name, $value);
+            $this->getProcessor()->insertNumericRecord($name, $value);
         }
     }
 
-    public function archivePeriod($archiveProcessing)
+    public function archivePeriod()
     {
         $numericToSum = array(
             'nb_visits_returning',
@@ -60,7 +60,7 @@ class Piwik_VisitFrequency_Archiving
             'bounce_count_returning',
             'nb_visits_converted_returning',
         );
-        $archiveProcessing->archiveNumericValuesSum($numericToSum);
-        $archiveProcessing->archiveNumericValuesMax('max_actions_returning');
+        $this->getProcessor()->archiveNumericValuesSum($numericToSum);
+        $this->getProcessor()->archiveNumericValuesMax('max_actions_returning');
     }
 }

@@ -564,22 +564,6 @@ class Piwik_Actions extends Piwik_Plugin
 
 
     /**
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return mixed
-     */
-    function archivePeriod($notification)
-    {
-        $archiveProcessing = $notification->getNotificationObject();
-
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
-            return;
-        }
-
-        $actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);
-        return $actionsArchiving->archivePeriod($archiveProcessing);
-    }
-
-    /**
      * Compute all the actions along with their hierarchies.
      *
      * For each action we process the "interest statistics" :
@@ -596,10 +580,21 @@ class Piwik_Actions extends Piwik_Plugin
             return;
         }
 
-        $actionsArchiving = new Piwik_Actions_Archiving($archiveProcessing->idsite);
-        return $actionsArchiving->archiveDay($archiveProcessing);
+        $archiving = new Piwik_Actions_Archiver($archiveProcessing);
+        $archiving->archiveDay();
     }
 
+    function archivePeriod($notification)
+    {
+        $archiveProcessing = $notification->getNotificationObject();
+
+        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) {
+            return;
+        }
+
+        $actionsArchiving = new Piwik_Actions_Archiver($archiveProcessing);
+        return $actionsArchiving->archivePeriod();
+    }
     static public function checkCustomVariablesPluginEnabled()
     {
         if (!self::isCustomVariablesPluginsEnabled()) {

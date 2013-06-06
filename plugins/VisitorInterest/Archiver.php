@@ -9,7 +9,7 @@
  * @package Piwik_VisitorInterest
  */
 
-class Piwik_VisitorInterest_Archiving
+class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
 {
     // third element is unit (s for seconds, default is munutes)
     protected static $timeGap = array(
@@ -78,7 +78,7 @@ class Piwik_VisitorInterest_Archiving
         array(364)
     );
 
-    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
+    public function archiveDay()
     {
 // these prefixes are prepended to the 'SELECT as' parts of each SELECT expression. detecting
         // these prefixes allows us to get all the data in one query.
@@ -111,26 +111,26 @@ class Piwik_VisitorInterest_Archiving
             $timeGapSelects, $pageGapSelects, $visitsByVisitNumSelects, $daysSinceLastVisitSelects);
 
         // select data for every report
-        $row = $archiveProcessing->queryVisitsSimple(implode(',', $selects));
+        $row = $this->getProcessor()->queryVisitsSimple(implode(',', $selects));
 
         // archive visits by total time report
         $recordName = 'VisitorInterest_timeGap';
-        $this->archiveRangeStats($archiveProcessing, $recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $timeGapPrefix);
+        $this->archiveRangeStats($recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $timeGapPrefix);
 
         // archive visits by total actions report
         $recordName = 'VisitorInterest_pageGap';
-        $this->archiveRangeStats($archiveProcessing, $recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $pageGapPrefix);
+        $this->archiveRangeStats($recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $pageGapPrefix);
 
         // archive visits by visit number report
         $recordName = 'VisitorInterest_visitsByVisitCount';
-        $this->archiveRangeStats($archiveProcessing, $recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $visitsByVisitNumPrefix);
+        $this->archiveRangeStats($recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $visitsByVisitNumPrefix);
 
         // archive days since last visit report
         $recordName = 'VisitorInterest_daysSinceLastVisit';
-        $this->archiveRangeStats($archiveProcessing, $recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $daysSinceLastVisitPrefix);
+        $this->archiveRangeStats($recordName, $row, Piwik_Archive::INDEX_NB_VISITS, $daysSinceLastVisitPrefix);
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessing $archiveProcessing)
+    public function archivePeriod()
     {
         $dataTableToSum = array(
             'VisitorInterest_timeGap',
@@ -138,7 +138,7 @@ class Piwik_VisitorInterest_Archiving
             'VisitorInterest_visitsByVisitCount',
             'VisitorInterest_daysSinceLastVisit'
         );
-        $archiveProcessing->archiveDataTable($dataTableToSum);
+        $this->getProcessor()->archiveDataTable($dataTableToSum);
     }
 
 
@@ -173,10 +173,10 @@ class Piwik_VisitorInterest_Archiving
      *                               with this string as a prefix are used in creating
      *                               the DataTable.'
      */
-    protected function archiveRangeStats($archiveProcessing, $recordName, $row, $index, $selectAsPrefix)
+    protected function archiveRangeStats($recordName, $row, $index, $selectAsPrefix)
     {
-        $dataTable = $archiveProcessing->getSimpleDataTableFromRow($row, $index, $selectAsPrefix);
+        $dataTable = $this->getProcessor()->getSimpleDataTableFromRow($row, $index, $selectAsPrefix);
 
-        $archiveProcessing->insertBlobRecord($recordName, $dataTable->getSerialized());
+        $this->getProcessor()->insertBlobRecord($recordName, $dataTable->getSerialized());
     }
 }

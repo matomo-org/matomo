@@ -106,7 +106,7 @@ class Piwik_CustomVariables_API
             $dataTable->renameColumn('price_viewed', 'price');
         }
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', create_function('$label', '
-			return $label == Piwik_CustomVariables_Archiving::LABEL_CUSTOM_VALUE_NOT_DEFINED
+			return $label == Piwik_CustomVariables_Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED
 				? "' . Piwik_Translate('General_NotDefined', Piwik_Translate('CustomVariables_ColumnCustomVariableValue')) . '"
 				: $label;')));
         return $dataTable;
