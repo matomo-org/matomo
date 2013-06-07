@@ -411,49 +411,37 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     {
         Piwik_Actions_ArchivingHelper::clearActionsCache();
 
-        /** @var Piwik_DataTable $dataTable */
-        $dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_URL];
-        self::deleteInvalidSummedColumnsFromDataTable($dataTable);
-        $s = $dataTable->getSerialized(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation);
-        $this->getProcessor()->insertBlobRecord('Actions_actions_url', $s);
+        $this->recordPageUrlsReports();
+        $this->recordDownloadsReports();
+        $this->recordOutlinksReports();
+        $this->recordPageTitlesReports();
+        $this->recordSiteSearchReports();
+    }
+
+    protected function recordPageUrlsReports()
+    {
+        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_ACTION_URL);
+        $this->recordDataTable($dataTable, 'Actions_actions_url');
         $this->getProcessor()->insertNumericRecord('Actions_nb_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
         $this->getProcessor()->insertNumericRecord('Actions_nb_uniq_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
         $this->getProcessor()->insertNumericRecord('Actions_sum_time_generation', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)));
         $this->getProcessor()->insertNumericRecord('Actions_nb_hits_with_time_generation', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION)));
-        destroy($dataTable);
+    }
 
-        $dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_DOWNLOAD];
+    /**
+     * @param $typeId
+     * @return Piwik_DataTable
+     */
+    protected function getDataTable($typeId)
+    {
+        return $this->actionsTablesByType[$typeId];
+    }
+
+    protected function recordDataTable($dataTable, $recordName)
+    {
         self::deleteInvalidSummedColumnsFromDataTable($dataTable);
         $s = $dataTable->getSerialized(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation);
-        $this->getProcessor()->insertBlobRecord('Actions_downloads', $s);
-        $this->getProcessor()->insertNumericRecord('Actions_nb_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-        $this->getProcessor()->insertNumericRecord('Actions_nb_uniq_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
-        destroy($dataTable);
-
-        $dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_OUTLINK];
-        self::deleteInvalidSummedColumnsFromDataTable($dataTable);
-        $s = $dataTable->getSerialized(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation);
-        $this->getProcessor()->insertBlobRecord('Actions_outlink', $s);
-        $this->getProcessor()->insertNumericRecord('Actions_nb_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-        $this->getProcessor()->insertNumericRecord('Actions_nb_uniq_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
-        destroy($dataTable);
-
-        $dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_ACTION_NAME];
-        self::deleteInvalidSummedColumnsFromDataTable($dataTable);
-        $s = $dataTable->getSerialized(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation);
-        $this->getProcessor()->insertBlobRecord('Actions_actions', $s);
-        destroy($dataTable);
-
-        $dataTable = $this->actionsTablesByType[Piwik_Tracker_Action::TYPE_SITE_SEARCH];
-        self::deleteInvalidSummedColumnsFromDataTable($dataTable);
-        $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
-        $s = $dataTable->getSerialized(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero, Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable, Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation);
-        $this->getProcessor()->insertBlobRecord('Actions_sitesearch', $s);
-        $this->getProcessor()->insertNumericRecord('Actions_nb_searches', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
-        $this->getProcessor()->insertNumericRecord('Actions_nb_keywords', $dataTable->getRowsCount());
-        destroy($dataTable);
-
-        destroy($this->actionsTablesByType);
+        $this->getProcessor()->insertBlobRecord($recordName, $s);
     }
 
     /**
@@ -495,6 +483,40 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
                                                 $columnsToKeep = array(),
                                                 $deleteIfZeroOnly = true
                                            ));
+    }
+
+    protected function recordDownloadsReports()
+    {
+        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_DOWNLOAD);
+        $this->recordDataTable($dataTable, 'Actions_downloads');
+
+        $this->getProcessor()->insertNumericRecord('Actions_nb_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
+        $this->getProcessor()->insertNumericRecord('Actions_nb_uniq_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+    }
+
+    protected function recordOutlinksReports()
+    {
+        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_OUTLINK);
+        $this->recordDataTable($dataTable, 'Actions_outlink');
+
+        $this->getProcessor()->insertNumericRecord('Actions_nb_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
+        $this->getProcessor()->insertNumericRecord('Actions_nb_uniq_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+    }
+
+    protected function recordPageTitlesReports()
+    {
+        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_ACTION_NAME);
+        $this->recordDataTable($dataTable, 'Actions_actions');
+    }
+
+    protected function recordSiteSearchReports()
+    {
+        $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_SITE_SEARCH);
+        $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
+        $this->recordDataTable($dataTable, 'Actions_sitesearch');
+
+        $this->getProcessor()->insertNumericRecord('Actions_nb_searches', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+        $this->getProcessor()->insertNumericRecord('Actions_nb_keywords', $dataTable->getRowsCount());
     }
 
     protected function deleteUnusedColumnsFromKeywordsDataTable($dataTable)

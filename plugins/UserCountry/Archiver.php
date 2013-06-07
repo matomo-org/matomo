@@ -23,6 +23,8 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 
     private $metricsByDimension = array();
 
+    protected $maximumRows;
+
     public function archiveDay()
     {
         $this->metricsByDimension = array('location_country' => array(),
@@ -145,23 +147,19 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 
     protected function recordDayReports()
     {
-        $maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-
         $tableCountry = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_country']);
         $this->getProcessor()->insertBlobRecord(self::VISITS_BY_COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
         destroy($tableCountry);
 
         $tableRegion = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_region']);
-        $serialized = $tableRegion->getSerialized($maximumRows, $maximumRows, Piwik_Archive::INDEX_NB_VISITS);
+        $serialized = $tableRegion->getSerialized($this->maximumRows, $this->maximumRows, Piwik_Archive::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::VISITS_BY_REGION_RECORD_NAME, $serialized);
-        destroy($tableRegion);
 
         $tableCity = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_city']);
         $this->setLatitudeLongitude($tableCity);
-        $serialized = $tableCity->getSerialized($maximumRows, $maximumRows, Piwik_Archive::INDEX_NB_VISITS);
+        $serialized = $tableCity->getSerialized($this->maximumRows, $this->maximumRows, Piwik_Archive::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::VISITS_BY_CITY_RECORD_NAME, $serialized);
-        destroy($tableCity);
     }
 
     /**
