@@ -52,7 +52,7 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
     protected function convertServerTimeToLocalTimezone($metricsByServerTime)
     {
         $date = Piwik_Date::factory($this->getProcessor()->getStartDatetimeUTC())->toString();
-        $timezone = $this->getProcessor()->site->getTimezone();
+        $timezone = $this->getProcessor()->getSite()->getTimezone();
         $visitsByHourTz = array();
         foreach ($metricsByServerTime as $hour => $stats) {
             $datetime = $date . ' ' . $hour . ':00:00';

@@ -60,7 +60,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->isSiteSearchEnabled = Piwik_Site::isSiteSearchEnabledFor($processor->idsite);
+        $this->isSiteSearchEnabled = $processor->getSite()->isSiteSearchEnabled();
     }
 
     /**
@@ -261,7 +261,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         // extend bindings
         $bind = array_merge(array($this->getProcessor()->getStartDatetimeUTC(),
                                   $this->getProcessor()->getEndDatetimeUTC(),
-                                  $this->getProcessor()->idsite
+                                  $this->getProcessor()->getSite()->getId()
                             ),
             $query['bind']
         );
@@ -275,7 +275,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         }
 
         // get result
-        $resultSet = $this->getProcessor()->db->query($querySql, $bind);
+        $resultSet = $this->getProcessor()->getDb()->query($querySql, $bind);
         $modified = Piwik_Actions_ArchivingHelper::updateActionsTableWithRowQuery($resultSet, $sprintfField, $this->actionsTablesByType);
         return $modified;
     }

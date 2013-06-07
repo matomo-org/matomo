@@ -21,13 +21,9 @@
  */
 class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 {
-    /**
-     * Constructor
-     */
-    function __construct()
+    public function getDb()
     {
-        parent::__construct();
-        $this->db = Zend_Registry::get('db');
+        return Zend_Registry::get('db');
     }
 
     /**
@@ -64,57 +60,46 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
             return $this->isThereSomeVisits;
         }
 
-        // prepare segmentation
-        $segment = $this->getSegment();
-
-        // We check if there is visits for the requested date / site / segment
-        //  If no specified Segment
-        //  Or if a segment is passed and we specifically process VisitsSummary
-        //   Then we check the logs. This is to ensure that this query is ran only once for this day/site/segment (rather than running it for every plugin)
-        $reportType = $this->getRequestedPlugin();
-        if ($this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period)
-            || ($reportType == 'VisitsSummary')
-        ) {
-            // build query parts
-            $select = "count(distinct log_visit.idvisitor) as nb_uniq_visitors,
-				count(*) as nb_visits,
-				sum(log_visit.visit_total_actions) as nb_actions,
-				max(log_visit.visit_total_actions) as max_actions,
-				sum(log_visit.visit_total_time) as sum_visit_length,
-				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as bounce_count,
-				sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
-			";
-            $from = "log_visit";
-            $where = "log_visit.visit_last_action_time >= ?
-				AND log_visit.visit_last_action_time <= ?
-				AND log_visit.idsite = ?
-			";
-
-            $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
-            $query = $segment->getSelectQuery($select, $from, $where, $bind);
-
-            $bind = $query['bind'];
-            $sql = $query['sql'];
-
-            $data = $this->db->fetchRow($sql, $bind);
-
-            // no visits found
-            if (!is_array($data) || $data['nb_visits'] == 0) {
-                return $this->isThereSomeVisits = false;
-            }
-
-            // visits found: set attribtues
-            foreach ($data as $name => $value) {
-                $this->insertNumericRecord($name, $value);
-            }
-
-            $this->setNumberOfVisits($data['nb_visits']);
-            $this->setNumberOfVisitsConverted($data['nb_visits_converted']);
-
-            return $this->isThereSomeVisits = true;
+        if (!$this->isProcessingEnabled()) {
+            return $this->redirectRequestToVisitsSummary();
         }
 
-        return $this->redirectRequestToVisitsSummary();
+        $select = "count(distinct log_visit.idvisitor) as nb_uniq_visitors,
+            count(*) as nb_visits,
+            sum(log_visit.visit_total_actions) as nb_actions,
+            max(log_visit.visit_total_actions) as max_actions,
+            sum(log_visit.visit_total_time) as sum_visit_length,
+            sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as bounce_count,
+            sum(case log_visit.visit_goal_converted when 1 then 1 else 0 end) as nb_visits_converted
+        ";
+        $from = "log_visit";
+        $where = "log_visit.visit_last_action_time >= ?
+            AND log_visit.visit_last_action_time <= ?
+            AND log_visit.idsite = ?
+        ";
+
+        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->getSite()->getId());
+        $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind);
+
+        $bind = $query['bind'];
+        $sql = $query['sql'];
+
+        $data = $this->getDb()->fetchRow($sql, $bind);
+
+        // no visits found
+        if (!is_array($data) || $data['nb_visits'] == 0) {
+            return $this->isThereSomeVisits = false;
+        }
+
+        // visits found: set attribtues
+        foreach ($data as $name => $value) {
+            $this->insertNumericRecord($name, $value);
+        }
+
+        $this->setNumberOfVisits($data['nb_visits']);
+        $this->setNumberOfVisitsConverted($data['nb_visits_converted']);
+
+        return $this->isThereSomeVisits = true;
     }
 
     /**
@@ -126,8 +111,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      */
     private function redirectRequestToVisitsSummary()
     {
-        $archive = new Piwik_Archive($this->site->getId(), $this->period, $this->getSegment());
-
+        $archive = $this->makeNewArchive();
         $nbVisits = $archive->getNumeric('nb_visits');
         $this->isThereSomeVisits = $nbVisits > 0;
 
@@ -138,48 +122,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         }
 
         return $this->isThereSomeVisits;
-    }
-
-    /**
-     * Creates and returns an array of SQL SELECT expressions that will summarize
-     * the data in a column of a specified table, over a set of ranges.
-     *
-     * The SELECT expressions will count the number of column values that are
-     * within each range.
-     *
-     * @param string $column              The column of the log_conversion table to reduce.
-     * @param array $ranges              The ranges to reduce data over.
-     * @param string $table               The table the SELECTs should use.
-     * @param string $selectColumnPrefix  The prefix when specifying what a SELECT
-     *                                          expression will be selected AS.
-     * @param bool|string $extraCondition      An extra condition to be appended to 'case when'
-     *                                          expressions. Must start with the logical operator,
-     *                                          ie (AND, OR, etc.).
-     * @return array  An array of SQL SELECT expressions.
-     */
-    public static function buildReduceByRangeSelect( $column, $ranges, $table, $selectColumnPrefix = '', $extraCondition = false)
-    {
-        $selects = array();
-
-        foreach ($ranges as $gap) {
-            if (count($gap) == 2) {
-                $lowerBound = $gap[0];
-                $upperBound = $gap[1];
-
-                $selectAs = "$selectColumnPrefix$lowerBound-$upperBound";
-
-                $selects[] = "sum(case when $table.$column between $lowerBound and $upperBound $extraCondition" .
-                    " then 1 else 0 end) as `$selectAs`";
-            } else {
-                $lowerBound = $gap[0];
-
-                $selectAs = $selectColumnPrefix . ($lowerBound + 1) . urlencode('+');
-
-                $selects[] = "sum(case when $table.$column > $lowerBound $extraCondition then 1 else 0 end) as `$selectAs`";
-            }
-        }
-
-        return $selects;
     }
 
     /**
@@ -216,6 +158,30 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         return $table;
     }
 
+
+    /**
+     * Helper function that returns a DataTable containing the $select fields / value pairs.
+     * IMPORTANT: The $select must return only one row!!
+     *
+     * Example $select = "count(distinct( config_os )) as countDistinctOs,
+     *                        sum( config_flash ) / count(distinct(idvisit)) as percentFlash "
+     *           $labelCount = "test_column_name"
+     * will return a dataTable that looks like
+     *        label                test_column_name
+     *        CountDistinctOs    9
+     *        PercentFlash        0.5676
+     *
+     *
+     * @param string $select
+     * @param string $labelCount
+     * @return Piwik_DataTable
+     */
+    public function getSimpleDataTableFromSelect($select, $labelCount)
+    {
+        $data = $this->queryVisitsSimple($select);
+        return $this->getSimpleDataTableFromRow($data, $labelCount);
+    }
+
     /**
      * Performs a simple query on the log_visit table within the time range this archive
      * represents.
@@ -241,38 +207,15 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
             $groupBy = implode(',', $groupByCols);
         }
 
-        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
+        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->getSite()->getId());
 
         $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
 
         if ($oneResultRow) {
-            return $this->db->fetchRow($query['sql'], $query['bind']);
+            return $this->getDb()->fetchRow($query['sql'], $query['bind']);
         } else {
-            return $this->db->fetchAll($query['sql'], $query['bind']);
+            return $this->getDb()->fetchAll($query['sql'], $query['bind']);
         }
-    }
-
-    /**
-     * Helper function that returns a DataTable containing the $select fields / value pairs.
-     * IMPORTANT: The $select must return only one row!!
-     *
-     * Example $select = "count(distinct( config_os )) as countDistinctOs,
-     *                        sum( config_flash ) / count(distinct(idvisit)) as percentFlash "
-     *           $labelCount = "test_column_name"
-     * will return a dataTable that looks like
-     *        label                test_column_name
-     *        CountDistinctOs    9
-     *        PercentFlash        0.5676
-     *
-     *
-     * @param string $select
-     * @param string $labelCount
-     * @return Piwik_DataTable
-     */
-    public function getSimpleDataTableFromSelect($select, $labelCount)
-    {
-        $data = $this->queryVisitsSimple($select);
-        return $this->getSimpleDataTableFromRow($data, $labelCount);
     }
 
     /**
@@ -375,7 +318,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				AND log_link_visit_action.idsite = ?
 				$where";
 
-        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
+        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->getSite()->getId());
 
         $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
 
@@ -397,7 +340,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
             return $rankingQuery->execute($query['sql'], $query['bind']);
         }
 
-        return $this->db->query($query['sql'], $query['bind']);
+        return $this->getDb()->query($query['sql'], $query['bind']);
     }
 
     /**
@@ -468,7 +411,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 				AND log_visit.idsite = ?
 				$where";
 
-        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
+        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->getSite()->getId());
 
         $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
 
@@ -493,7 +436,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
             return $rankingQuery->execute($query['sql'], $query['bind']);
         }
 
-        return $this->db->query($query['sql'], $query['bind']);
+        return $this->getDb()->query($query['sql'], $query['bind']);
     }
 
     /**
@@ -552,11 +495,11 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
         $groupBy = "log_conversion.idgoal $groupBy";
 
-        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
+        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->getSite()->getId());
 
         $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy = false, $groupBy);
 
-        return $this->db->query($query['sql'], $query['bind']);
+        return $this->getDb()->query($query['sql'], $query['bind']);
     }
 
     /**
@@ -587,9 +530,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
         $bind = array($this->getStartDatetimeUTC(),
                       $this->getEndDatetimeUTC(),
-                      $this->idsite
+                      $this->getSite()->getId()
         );
-        $query = $this->db->query($query, $bind);
+        $query = $this->getDb()->query($query, $bind);
         return $query;
     }
 

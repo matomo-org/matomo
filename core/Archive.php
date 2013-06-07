@@ -194,27 +194,6 @@ class Piwik_Archive
     const LABEL_ECOMMERCE_ORDER = 'ecommerceOrder';
     
     /**
-     * The list of site IDs to query archive data for.
-     * 
-     * @var array
-     */
-    private $siteIds;
-    
-    /**
-     * The list of Piwik_Period's to query archive data for.
-     * 
-     * @var array
-     */
-    private $periods;
-    
-    /**
-     * Segment applied to the visits set.
-     * 
-     * @var Piwik_Segment
-     */
-    private $segment;
-    
-    /**
      * List of archive IDs for the sites, periods and segment we are querying with.
      * Archive IDs are indexed by done flag and period, ie:
      * 
@@ -272,73 +251,59 @@ class Piwik_Archive
      * @var array
      */
     private $processingCache = array();
+
+    /**
+     * @var Piwik_Archive_Parameters
+     */
+    private $params;
     
     /**
      * Constructor.
      * 
-     * @param array|int $siteIds List of site IDs to query data for.
-     * @param array|Piwik_Period $periods List of periods to query data for.
-     * @param Piwik_Segment $segment The segment used to narrow the visits set.
+     * @param Piwik_Archive_Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
-    public function __construct($siteIds, $periods, Piwik_Segment $segment, $forceIndexedBySite = false,
+    public function __construct(Piwik_Archive_Parameters $params, $forceIndexedBySite = false,
                                   $forceIndexedByDate = false)
     {
-        $this->siteIds = $this->getAsNonEmptyArray($siteIds, 'siteIds');
-        
-        $periods = $this->getAsNonEmptyArray($periods, 'periods');
-        $this->periods = array();
-        foreach ($periods as $period) {
-            $this->periods[$period->getRangeString()] = $period;
-        }
-        
-        $this->segment = $segment;
+        $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
         $this->dataAccess = new Piwik_DataAccess_ArchiveQuery();
     }
-    
+
     /**
-     * Destructor.
-     */
-    public function __destruct()
-    {
-        $this->periods = null;
-        $this->siteIds = null;
-        $this->segment = null;
-        $this->idarchives = array();
-        $this->processingCache = array();
-    }
-    
-    /**
+     * FIXMEA
      * Returns the IDs of sites we are querying archive data for.
      * 
      * @return array
      */
-    public function getSiteIds()
+    public function getIdSites()
     {
-        return $this->siteIds;
+        return $this->params->getIdSites();
     }
     
     /**
+     * FIXMEA
      * Returns the periods we are querying archive data for.
      * 
      * @return array
      */
     public function getPeriods()
     {
-        return $this->periods;
+        return $this->params->getPeriods();
     }
     
     /**
+     * FIXMEA
      * Returns the segment used to limit the visit set.
      * 
      * @return Piwik_Segment|null
      */
     public function getSegment()
     {
-        return $this->segment;
+        return $this->params->getSegment();
     }
 
     /**
@@ -364,66 +329,55 @@ class Piwik_Archive
             $forceIndexedBySite = true;
         }
         $sites = Piwik_Site::getIdSitesFromIdSitesString($idSite, $_restrictSitesToLogin);
-        
-        // if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
-        if (is_string($strDate)
-            && self::isMultiplePeriod($strDate, $period)
-        ) {
+
+        if (self::isMultiplePeriod($strDate, $period)) {
             $oPeriod = new Piwik_Period_Range($period, $strDate);
             $allPeriods = $oPeriod->getSubperiods();
             $forceIndexedByDate = true;
         } else {
-            if (count($sites) == 1) {
-                $oSite = new Piwik_Site($sites[0]);
-            } else {
-                $oSite = null;
-            }
-            
-            $oPeriod = Piwik_Archive::makePeriodFromQueryParams($oSite, $period, $strDate);
+            $timezone = count($sites) == 1 ? Piwik_Site::getTimezoneFor($sites[0]) : false;
+            $oPeriod = Piwik_Archive::makePeriodFromQueryParams($timezone, $period, $strDate);
             $allPeriods = array($oPeriod);
         }
+
+        $segment = new Piwik_Segment($segment, $sites);
+
+        $params = new Piwik_Archive_Parameters();
+        $params->setIdSites($sites);
+        $params->setPeriods($allPeriods);
+        $params->setSegment($segment);
         
-        return new Piwik_Archive(
-            $sites, $allPeriods, new Piwik_Segment($segment, $sites), $forceIndexedBySite, $forceIndexedByDate);
+        return new Piwik_Archive($params, $forceIndexedBySite, $forceIndexedByDate);
     }
 
     /**
      * Creates a period instance using a Piwik_Site instance and two strings describing
      * the period & date.
      *
-     * @param Piwik_Site|null $site
-     * @param string $strPeriod The period string: day, week, month, year, range
+     * @param string $timezone
+     * @param string $period The period string: day, week, month, year, range
      * @param string $strDate The date or date range string.
      * @return Piwik_Period
      */
-    public static function makePeriodFromQueryParams($site, $strPeriod, $strDate)
+    public static function makePeriodFromQueryParams($timezone, $period, $date)
     {
-        if ($site === null) {
-            $tz = 'UTC';
-        } else {
-            $tz = $site->getTimezone();
+        if (empty($timezone)) {
+            $timezone = 'UTC';
         }
 
-        if ($strPeriod == 'range') {
-            $oPeriod = new Piwik_Period_Range('range', $strDate, $tz, Piwik_Date::factory('today', $tz));
+        if ($period == 'range') {
+            $oPeriod = new Piwik_Period_Range('range', $date, $timezone, Piwik_Date::factory('today', $timezone));
         } else {
-            $oDate = $strDate;
-            if (!($strDate instanceof Piwik_Date)) {
-                if ($strDate == 'now'
-                    || $strDate == 'today'
-                ) {
-                    $strDate = date('Y-m-d', Piwik_Date::factory('now', $tz)->getTimestamp());
-                } elseif ($strDate == 'yesterday'
-                          || $strDate == 'yesterdaySameTime'
-                ) {
-                    $strDate = date('Y-m-d', Piwik_Date::factory('now', $tz)->subDay(1)->getTimestamp());
+            if (!($date instanceof Piwik_Date)) {
+                if ($date == 'now' || $date == 'today') {
+                    $date = date('Y-m-d', Piwik_Date::factory('now', $timezone)->getTimestamp());
+                } elseif ($date == 'yesterday' || $date == 'yesterdaySameTime' ) {
+                    $date = date('Y-m-d', Piwik_Date::factory('now', $timezone)->subDay(1)->getTimestamp());
                 }
-                $oDate = Piwik_Date::factory($strDate);
+                $date = Piwik_Date::factory( $date );
             }
-            $date = $oDate->toString();
-            $oPeriod = Piwik_Period::factory($strPeriod, $oDate);
+            $oPeriod = Piwik_Period::factory($period, $date);
         }
-
         return $oPeriod;
     }
     
@@ -531,7 +485,7 @@ class Piwik_Archive
      */
     public function isArchivingDisabled()
     {
-        return Piwik_ArchiveProcessing::isArchivingDisabledFor($this->segment, $this->getPeriodLabel());
+        return Piwik_ArchiveProcessing::isArchivingDisabledFor($this->getSegment(), $this->getPeriodLabel());
     }
 
     /**
@@ -555,8 +509,10 @@ class Piwik_Archive
      */
     public static function isMultiplePeriod($dateString, $period)
     {
-        return (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
-            || Piwik_Period_Range::parseDateRange($dateString))
+        return
+            is_string($dateString)
+            && (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
+                || Piwik_Period_Range::parseDateRange($dateString))
             && $period != 'range';
     }
 
@@ -638,7 +594,7 @@ class Piwik_Archive
         }
         
         $result = new Piwik_Archive_DataCollection(
-            $archiveNames, $archiveDataType, $this->siteIds, $this->periods, $defaultRow = null);
+            $archiveNames, $archiveDataType, $this->getIdSites(), $this->getPeriods(), $defaultRow = null);
         
         $archiveIds = $this->getArchiveIds($archiveNames);
         if (empty($archiveIds)) {
@@ -729,13 +685,13 @@ class Piwik_Archive
         $today = Piwik_Date::today();
         
         // for every individual query permutation, launch the archiving process and get the archive ID
-        foreach ($this->periods as $period) {
+        foreach ($this->getPeriods() as $period) {
             $periodStr = $period->getRangeString();
             
             $twoDaysBeforePeriod = $period->getDateStart()->subDay(2);
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
             
-            foreach ($this->siteIds as $idSite) {
+            foreach ($this->getIdSites() as $idSite) {
                 $site = new Piwik_Site($idSite);
                 
                 // if the END of the period is BEFORE the website creation date
@@ -758,7 +714,7 @@ class Piwik_Archive
                 $processing = $this->getArchiveProcessingInstance($period);
                 $processing->setSite($site);
                 $processing->setPeriod($period);
-                $processing->setSegment($this->segment);
+                $processing->setSegment($this->getSegment());
                 
                 $processing->isThereSomeVisits = null;
                 
@@ -770,8 +726,7 @@ class Piwik_Archive
                     
                     $doneFlag = $this->getDoneStringForPlugin($plugin);
                     $this->initializeArchiveIdCache($doneFlag);
-                    
-                    $processing->init();
+
                     $processing->setRequestedPlugin($plugin);
                     
                     // launch archiving if the requested data hasn't been archived
@@ -801,7 +756,7 @@ class Piwik_Archive
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
         $idarchivesByReport = $this->dataAccess->getArchiveIds(
-            $this->siteIds, $this->periods, $this->segment, $plugins);
+            $this->getIdSites(), $this->getPeriods(), $this->getSegment(), $plugins);
         
         // initialize archive ID cache for each report
         foreach ($plugins as $plugin) {
@@ -828,7 +783,7 @@ class Piwik_Archive
      */
     private function getDoneStringForPlugin($plugin)
     {
-        return Piwik_ArchiveProcessing::getDoneStringFlagFor($this->segment, $this->getPeriodLabel(), $plugin);
+        return Piwik_ArchiveProcessing::getDoneStringFlagFor($this->getSegment(), $this->getPeriodLabel(), $plugin);
     }
     
     /**
@@ -836,6 +791,7 @@ class Piwik_Archive
      * period.
      * 
      * @param Piwik_Period $period
+     * @return Piwik_ArchiveProcessing
      */
     private function getArchiveProcessingInstance($period)
     {
@@ -848,7 +804,8 @@ class Piwik_Archive
     
     private function getPeriodLabel()
     {
-        return reset($this->periods)->getLabel();
+        $periods = $this->getPeriods();
+        return reset($periods)->getLabel();
     }
     
     /**
@@ -861,13 +818,13 @@ class Piwik_Archive
     {
         $indices = array();
         
-        if (count($this->siteIds) > 1
+        if (count($this->getIdSites()) > 1
             || $this->forceIndexedBySite
         ) {
             $indices['site'] = 'idSite';
         }
         
-        if (count($this->periods) > 1
+        if (count($this->getPeriods()) > 1
             || $this->forceIndexedByDate
         ) {
             $indices['period'] = 'date';
@@ -901,20 +858,7 @@ class Piwik_Archive
     {
         return @gzuncompress($data);
     }
-    
-    private function getAsNonEmptyArray($array, $paramName)
-    {
-        if (!is_array($array)) {
-            $array = array($array);
-        }
-        
-        if (empty($array)) {
-            throw new Exception("Piwik_Archive::__construct: \$$paramName is empty.");
-        }
-        
-        return $array;
-    }
-    
+
     /**
      * Initializes the archive ID cache ($this->idarchives) for a particular 'done' flag.
      * 

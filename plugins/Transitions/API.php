@@ -66,7 +66,6 @@ class Piwik_Transitions_API
         $archiveProcessing->setSite(new Piwik_Site($idSite));
         $archiveProcessing->setPeriod(Piwik_Period::advancedFactory($period, $date));
         $archiveProcessing->setSegment(new Piwik_Segment($segment, $idSite));
-        $archiveProcessing->initForLiveUsage();
 
         // prepare the report
         $report = array(

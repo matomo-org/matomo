@@ -108,19 +108,20 @@ class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
         $selectAs = $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME] . 'General_NewVisits';
         $newVisitCountSelect = "sum(case when log_visit.visitor_returning = 0 then 1 else 0 end) as `$selectAs`";
 
-        // create the select expressions to use
-        $timeGapSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
-            'visit_total_time', self::getSecondsGap(), 'log_visit', $prefixes[self::TIME_SPENT_RECORD_NAME]);
-
-        $pageGapSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
-            'visit_total_actions', self::$pageGap, 'log_visit', $prefixes[self::PAGES_VIEWED_RECORD_NAME]);
-
-        $visitsByVisitNumSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
-            'visitor_count_visits', self::$visitNumberGap, 'log_visit', $prefixes[self::VISITS_COUNT_RECORD_NAME]);
-
-        $daysSinceLastVisitSelects = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
+        $daysSinceLastVisitSelects = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
             'visitor_days_since_last', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
             $daysSinceLastExtraCondition);
+
+        // create the select expressions to use
+        $timeGapSelects = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
+            'visit_total_time', self::getSecondsGap(), 'log_visit', $prefixes[self::TIME_SPENT_RECORD_NAME]);
+
+        $pageGapSelects = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
+            'visit_total_actions', self::$pageGap, 'log_visit', $prefixes[self::PAGES_VIEWED_RECORD_NAME]);
+
+        $visitsByVisitNumSelects = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
+            'visitor_count_visits', self::$visitNumberGap, 'log_visit', $prefixes[self::VISITS_COUNT_RECORD_NAME]);
+
 
         array_unshift($daysSinceLastVisitSelects, $newVisitCountSelect);
 

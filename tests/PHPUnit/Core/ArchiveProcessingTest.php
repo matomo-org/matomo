@@ -56,7 +56,6 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $archiveProcessing->setSite($site);
         $archiveProcessing->setPeriod($period);
         $archiveProcessing->setSegment(new Piwik_Segment('', $site->getId()));
-        $archiveProcessing->init();
         return $archiveProcessing;
     }
 
@@ -79,6 +78,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $archiveProcessing->time = $now;
 
         $minTimestamp = $archiveProcessing->getMinTimeArchivedProcessed();
+
 
 
         // min finished timestamp considered when looking at archive timestamp

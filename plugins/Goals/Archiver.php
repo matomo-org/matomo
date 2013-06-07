@@ -71,11 +71,11 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
         $selectAsVisitCount = 'vcv';
         $selectAsDaysSince = 'vdsf';
         // extra aggregate selects for the visits to conversion report
-        $visitToConvExtraCols = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
+        $visitToConvExtraCols = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
         'visitor_count_visits', self::$visitCountRanges, 'log_conversion', $selectAsVisitCount);
 
         // extra aggregate selects for the days to conversion report
-        $daysToConvExtraCols = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
+        $daysToConvExtraCols = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
             'visitor_days_since_first', self::$daysToConvRanges, 'log_conversion', $selectAsDaysSince);
 
         $query = $this->getProcessor()->queryConversionsByDimension(array(), '', array_merge($visitToConvExtraCols, $daysToConvExtraCols));
@@ -277,7 +277,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
         /*
          *  Archive General Goal metrics
          */
-        $goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($this->getProcessor()->idsite);
+        $goalIdsToSum = Piwik_Tracker_GoalManager::getGoalIds($this->getProcessor()->getSite()->getId());
 
         //Ecommerce
         $goalIdsToSum[] = Piwik_Tracker_GoalManager::IDGOAL_ORDER;

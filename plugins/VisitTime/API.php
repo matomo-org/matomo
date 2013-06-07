@@ -77,8 +77,7 @@ class Piwik_VisitTime_API
         $metrics = Piwik_ArchiveProcessing::getCoreMetrics();
 
         // get metric data for every day within the supplied period
-        $oSite = new Piwik_Site($idSite);
-        $oPeriod = Piwik_Archive::makePeriodFromQueryParams($oSite, $period, $date);
+        $oPeriod = Piwik_Archive::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
         $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
 
         $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);

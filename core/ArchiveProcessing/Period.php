@@ -163,7 +163,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
             }
         }
         
-        if (!Piwik::isUniqueVisitorsEnabled($this->period->getLabel())) {
+        if (!Piwik::isUniqueVisitorsEnabled($this->getPeriod()->getLabel())) {
             unset($results['nb_uniq_visitors']);
         }
         
@@ -291,10 +291,13 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
      */
     protected function loadSubperiodsArchive()
     {
+        $params = new Piwik_Archive_Parameters();
+        $params->setSegment( $this->getSegment() );
+        $params->setIdSites( $this->getSite()->getId() );
+        $params->setPeriods( $this->getPeriod()->getSubperiods() );
+
         return new Piwik_Archive(
-            array($this->site->getId()),
-            $this->period->getSubperiods(),
-            $this->getSegment(),
+            $params,
             $forceIndexedBySite = false,
             $forceIndexedByDate = true
         );
@@ -335,9 +338,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
         }
 
         $this->loadSubPeriods();
-        if ($this->getRequestedPlugin() == 'VisitsSummary'
-            || $this->shouldProcessReportsAllPlugins($this->getSegment(), $this->period)
-        ) {
+        if ($this->isProcessingEnabled()) {
             $toSum = self::getCoreMetrics();
             $record = $this->archiveNumericValuesSum($toSum);
             $this->archiveNumericValuesMax('max_actions');
@@ -349,7 +350,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
                 $nbVisits = $record['nb_visits'];
             }
         } else {
-            $archive = new Piwik_Archive($this->site->getId(), $this->period, $this->getSegment());
+
+            $archive = $this->makeNewArchive();
 
             $metrics = $archive->getNumeric(array('nb_visits', 'nb_visits_converted'));
             if (!isset($metrics['nb_visits'])) {
@@ -365,6 +367,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
         $this->isThereSomeVisits = ($nbVisits > 0);
         return $this->isThereSomeVisits;
     }
+
 
     /**
      * Processes number of unique visitors for the given period
@@ -382,7 +385,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
                 AND log_visit.visit_last_action_time <= ? 
                 AND log_visit.idsite = ?";
 
-        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->idsite);
+        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->getSite()->getId());
 
         $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind);
 
@@ -397,8 +400,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
     {
         parent::postCompute();
 
-        $numericTable = $this->tableArchiveNumeric->getTableName();
-        self::doPurgeOutdatedArchives($numericTable, $this->isArchiveTemporary());
+        self::doPurgeOutdatedArchives($this->getTableArchiveNumericName(), $this->isArchiveTemporary());
         
         $this->resetSubperiodArchiveQuery();
     }
@@ -498,7 +500,8 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
             Piwik::log("Purging temporary archives: skipped.");
         }
     }
-    
+
+    //FIXMEA
     private function resetSubperiodArchiveQuery()
     {
         if ($this->archive !== null) {

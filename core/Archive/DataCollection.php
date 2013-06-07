@@ -108,6 +108,8 @@ class Piwik_Archive_DataCollection
         if ($defaultRow === null) {
             $defaultRow = array_fill_keys($dataNames, 0);
         }
+
+        //FIXMEA
         $this->sitesId = $sitesId;
         $this->periods = $periods;
         $this->defaultRow = $defaultRow;

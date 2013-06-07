@@ -71,6 +71,7 @@ class Piwik_Archive_DataTableFactory
      */
     public function __construct($dataNames, $dataType, $sitesId, $periods, $defaultRow)
     {
+        //FIXMEA
         $this->dataNames = $dataNames;
         $this->dataType = $dataType;
         $this->sitesId = $sitesId;
