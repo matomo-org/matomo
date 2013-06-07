@@ -157,8 +157,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      *                                          ie (AND, OR, etc.).
      * @return array  An array of SQL SELECT expressions.
      */
-    public static function buildReduceByRangeSelect(
-        $column, $ranges, $table, $selectColumnPrefix = '', $extraCondition = false)
+    public static function buildReduceByRangeSelect( $column, $ranges, $table, $selectColumnPrefix = '', $extraCondition = false)
     {
         $selects = array();
 
@@ -662,67 +661,6 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         return $metrics;
     }
 
-    /**
-     * Generates a dataTable given a multidimensional PHP array that associates LABELS to Piwik_DataTableRows
-     * This is used for the "Actions" DataTable, where a line is the aggregate of all the subtables
-     * Example: the category /blog has 3 visits because it has /blog/index (2 visits) + /blog/about (1 visit)
-     *
-     * @param array $table
-     * @param array $parents
-     * @return Piwik_DataTable
-     */
-    static public function generateDataTable($table, $parents = array())
-    {
-        $dataTableToReturn = new Piwik_DataTable();
-        foreach ($table as $label => $maybeDatatableRow) {
-            // case the aInfo is a subtable-like array
-            // it means that we have to go recursively and process it
-            // then we build the row that is an aggregate of all the children
-            // and we associate this row to the subtable
-            if (!($maybeDatatableRow instanceof Piwik_DataTable_Row)) {
-                array_push($parents, array($dataTableToReturn->getId(), $label));
-
-                $subTable = self::generateDataTable($maybeDatatableRow, $parents);
-                $subTable->setParents($parents);
-                $row = new Piwik_DataTable_Row_DataTableSummary($subTable);
-                $row->setColumns(array('label' => $label) + $row->getColumns());
-                $row->addSubtable($subTable);
-
-                array_pop($parents);
-            } // if aInfo is a simple Row we build it
-            else {
-                $row = $maybeDatatableRow;
-            }
-
-            if ($row->getMetadata('issummaryrow') == true) {
-                $row->deleteMetadata('issummaryrow');
-                $dataTableToReturn->addSummaryRow($row);
-            } else {
-                $dataTableToReturn->addRow($row);
-            }
-        }
-        return $dataTableToReturn;
-    }
-
-    /**
-     * Helper function that returns the serialized DataTable of the given PHP array.
-     * The array must have the format of Piwik_DataTable::addRowsFromArrayWithIndexLabel()
-     * Example:    array (
-     *                    LABEL => array(col1 => X, col2 => Y),
-     *                    LABEL2 => array(col1 => X, col2 => Y),
-     *                )
-     *
-     * @param array $array  at the given format
-     * @return array  Array with one element: the serialized data table string
-     */
-    public function getDataTableSerialized($array)
-    {
-        $table = new Piwik_DataTable();
-        $table->addRowsFromArrayWithIndexLabel($array);
-        $toReturn = $table->getSerialized();
-        return $toReturn;
-    }
-
 
     /**
      * Helper function that returns the multiple serialized DataTable of the given PHP array.
@@ -920,7 +858,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      *
      * @param array $metricsByLabel  Passed by reference, will be modified
      */
-    function enrichConversionsByLabelArray(&$metricsByLabel)
+    function enrichMetricsWithConversions(&$metricsByLabel)
     {
         foreach ($metricsByLabel as $label => &$values) {
             if (isset($values[Piwik_Archive::INDEX_GOALS])) {
@@ -950,10 +888,10 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
      *
      * @param array $metricsByLabelAndSubLabel  Passed by reference, will be modified
      */
-    function enrichConversionsByLabelArrayHasTwoLevels(&$metricsByLabelAndSubLabel)
+    function enrichPivotMetricsWithConversions(&$metricsByLabelAndSubLabel)
     {
         foreach ($metricsByLabelAndSubLabel as $mainLabel => &$metricsBySubLabel) {
-            $this->enrichConversionsByLabelArray($metricsBySubLabel);
+            $this->enrichMetricsWithConversions($metricsBySubLabel);
         }
     }
 

@@ -19,6 +19,8 @@ abstract class Piwik_PluginsArchiver
 
     public function __construct(Piwik_ArchiveProcessing $processing)
     {
+        $this->maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
+        $this->maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processing;
     }
 
@@ -26,6 +28,7 @@ abstract class Piwik_PluginsArchiver
 
     abstract public function archivePeriod();
 
+    // TODO: Review this concept / each plugin should somehow maintain the list of report names they generate
     public function shouldArchive()
     {
         $pluginName = Piwik::unprefixClass(get_class($this));

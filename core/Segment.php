@@ -80,7 +80,6 @@ class Piwik_Segment
     }
 
     protected $availableSegments = array();
-    protected $segmentsHumanReadable = '';
 
     protected function getCleanedExpression($expression)
     {

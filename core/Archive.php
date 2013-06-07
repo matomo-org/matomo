@@ -969,13 +969,6 @@ class Piwik_Archive
         ) {
             $report = 'VisitsSummary_CoreMetrics';
         }
-        // VisitFrequency metrics don't follow the same naming convention (HACK) 
-        else if(strpos($report, '_returning') > 0
-            // ignore Goal_visitor_returning_1_1_nb_conversions 
-            && strpos($report, 'Goal_') === false
-        ) {
-            $report = 'VisitFrequency_Metrics';
-        }
         // Goal_* metrics are processed by the Goals plugin (HACK)
         else if(strpos($report, 'Goal_') === 0) {
             $report = 'Goals_Metrics';

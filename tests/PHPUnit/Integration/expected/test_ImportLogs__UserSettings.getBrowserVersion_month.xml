@@ -22,7 +22,7 @@
 		<nb_visits_converted>4</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>5</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
-		<shortLabel>RM;0.9</shortLabel>
+		<shortLabel>RockMelt 0.9</shortLabel>
 	</row>
 	<row>
 		<label>Internet Explorer 10.6</label>
@@ -34,7 +34,7 @@
 		<nb_visits_converted>3</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
-		<shortLabel>IE 10.6</shortLabel>
+		<shortLabel>Internet Explorer 10.6</shortLabel>
 	</row>
 	<row>
 		<label>Chrome 19.0</label>
@@ -82,7 +82,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
-		<shortLabel>IE 10.0</shortLabel>
+		<shortLabel>Internet Explorer 10.0</shortLabel>
 	</row>
 	<row>
 		<label>Mobile Safari 4.0</label>
@@ -94,7 +94,7 @@
 		<nb_visits_converted>2</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/UNK.gif</logo>
-		<shortLabel>MF;4.0</shortLabel>
+		<shortLabel>Mobile Safari 4.0</shortLabel>
 	</row>
 	<row>
 		<label>Chrome 11.0</label>
@@ -118,7 +118,7 @@
 		<nb_visits_converted>1</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<logo>plugins/UserSettings/images/browsers/IE.gif</logo>
-		<shortLabel>IE 6.0</shortLabel>
+		<shortLabel>Internet Explorer 6.0</shortLabel>
 	</row>
 	<row>
 		<label>Unknown</label>

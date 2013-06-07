@@ -51,12 +51,45 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
      */
     public function filter($table)
     {
+        if($table instanceof Piwik_DataTable_Simple) {
+            $this->filterSimple($table);
+        } else {
+            $this->filterTable($table);
+        }
+    }
+
+    protected function filterTable($table)
+    {
         foreach ($table->getRows() as $key => $row) {
             $oldColumns = $row->getColumns();
             $newColumns = $this->getRenamedColumns($oldColumns);
             $row->setColumns($newColumns);
             $this->filterSubTable($row);
         }
+    }
+
+    protected function filterSimple(Piwik_DataTable_Simple $table)
+    {
+        foreach ($table->getRows() as $row) {
+            $columns = array_keys( $row->getColumns() );
+            foreach($columns as $column) {
+                $newName = $this->getRenamedColumn($column);
+                if($newName) {
+                    $row->renameColumn($column, $newName);
+                }
+            }
+        }
+    }
+
+    protected function getRenamedColumn($column)
+    {
+        $newName = false;
+        if (isset($this->mappingToApply[$column])
+            && $this->mappingToApply[$column] != $column
+        ) {
+            $newName = $this->mappingToApply[$column];
+        }
+        return $newName;
     }
 
     /**
@@ -69,36 +102,46 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
     {
         $newColumns = array();
         foreach ($columns as $columnName => $columnValue) {
-            if (isset($this->mappingToApply[$columnName])) {
-                $columnName = $this->mappingToApply[$columnName];
-
-                if ($columnName == 'goals') {
-                    $newSubColumns = array();
-                    foreach ($columnValue as $idGoal => $goalValues) {
-                        $mapping = Piwik_Archive::$mappingFromIdToNameGoal;
-                        if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART) {
-                            $idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
-                        } elseif ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
-                            $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
-                        }
-                        foreach ($goalValues as $id => $goalValue) {
-                            $subColumnName = $mapping[$id];
-                            $newSubColumns['idgoal=' . $idGoal][$subColumnName] = $goalValue;
-                        }
-                    }
-                    $columnValue = $newSubColumns;
+            $renamedColumn = $this->getRenamedColumn($columnName);
+            if ($renamedColumn) {
+                if ($renamedColumn == 'goals') {
+                    $columnValue = $this->flattenGoalColumns($columnValue);
                 }
                 // If we happen to rename a column to a name that already exists,
                 // sum both values in the column. This should really not happen, but
                 // we introduced in 1.1 a new dataTable indexing scheme for Actions table, and
                 // could end up with both strings and their int indexes counterpart in a monthly/yearly dataTable
                 // built from DataTable with both formats
-                if (isset($newColumns[$columnName])) {
-                    $columnValue += $newColumns[$columnName];
+                if (isset($newColumns[$renamedColumn])) {
+                    $columnValue += $newColumns[$renamedColumn];
                 }
+
+                $columnName = $renamedColumn;
             }
             $newColumns[$columnName] = $columnValue;
         }
         return $newColumns;
+    }
+
+    /**
+     * @param $columnValue
+     * @return array
+     */
+    protected function flattenGoalColumns($columnValue)
+    {
+        $newSubColumns = array();
+        foreach ($columnValue as $idGoal => $goalValues) {
+            $mapping = Piwik_Archive::$mappingFromIdToNameGoal;
+            if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART) {
+                $idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
+            } elseif ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
+                $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
+            }
+            foreach ($goalValues as $id => $goalValue) {
+                $subColumnName = $mapping[$id];
+                $newSubColumns['idgoal=' . $idGoal][$subColumnName] = $goalValue;
+            }
+        }
+        return $newSubColumns;
     }
 }

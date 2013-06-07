@@ -13,6 +13,9 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
 {
     const VISITS_UNTIL_RECORD_NAME = 'visits_until_conv';
     const DAYS_UNTIL_CONV_RECORD_NAME = 'days_until_conv';
+    const ITEMS_SKU_RECORD_NAME = 'Goals_ItemsSku';
+    const ITEMS_NAME_RECORD_NAME = 'Goals_ItemsName';
+    const ITEMS_CATEGORY_RECORD_NAME = 'Goals_ItemsCategory';
     /**
      * This array stores the ranges to use when displaying the 'visits to conversion' report
      */
@@ -52,9 +55,9 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
     );
 
     protected $dimensions = array(
-        'idaction_sku'      => 'Goals_ItemsSku',
-        'idaction_name'     => 'Goals_ItemsName',
-        'idaction_category' => 'Goals_ItemsCategory'
+        'idaction_sku'      => self::ITEMS_SKU_RECORD_NAME,
+        'idaction_name'     => self::ITEMS_NAME_RECORD_NAME,
+        'idaction_category' => self::ITEMS_CATEGORY_RECORD_NAME
     );
 
     public function archiveDay()
@@ -65,16 +68,17 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
 
     function archiveGeneralGoalMetrics()
     {
+        $selectAsVisitCount = 'vcv';
+        $selectAsDaysSince = 'vdsf';
         // extra aggregate selects for the visits to conversion report
         $visitToConvExtraCols = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
-            'visitor_count_visits', self::$visitCountRanges, 'log_conversion', 'vcv');
+        'visitor_count_visits', self::$visitCountRanges, 'log_conversion', $selectAsVisitCount);
 
         // extra aggregate selects for the days to conversion report
         $daysToConvExtraCols = Piwik_ArchiveProcessing_Day::buildReduceByRangeSelect(
-            'visitor_days_since_first', self::$daysToConvRanges, 'log_conversion', 'vdsf');
+            'visitor_days_since_first', self::$daysToConvRanges, 'log_conversion', $selectAsDaysSince);
 
-        $query = $this->getProcessor()->queryConversionsByDimension(
-            array(), '', array_merge($visitToConvExtraCols, $daysToConvExtraCols));
+        $query = $this->getProcessor()->queryConversionsByDimension(array(), '', array_merge($visitToConvExtraCols, $daysToConvExtraCols));
 
         if ($query === false) {
             return;
@@ -104,11 +108,11 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
             }
 
             // map the goal + visit number of a visitor with the # of conversions that happened on that visit
-            $table = $this->getProcessor()->getSimpleDataTableFromRow($row, Piwik_Archive::INDEX_NB_CONVERSIONS, 'vcv');
+            $table = $this->getProcessor()->getSimpleDataTableFromRow($row, Piwik_Archive::INDEX_NB_CONVERSIONS, $selectAsVisitCount);
             $visitsToConvReport[$idgoal]->addDataTable($table);
 
             // map the goal + day number of a visit with the # of conversion that happened on that day
-            $table = $this->getProcessor()->getSimpleDataTableFromRow($row, Piwik_Archive::INDEX_NB_CONVERSIONS, 'vdsf');
+            $table = $this->getProcessor()->getSimpleDataTableFromRow($row, Piwik_Archive::INDEX_NB_CONVERSIONS, $selectAsDaysSince);
             $daysToConvReport[$idgoal]->addDataTable($table);
         }
 

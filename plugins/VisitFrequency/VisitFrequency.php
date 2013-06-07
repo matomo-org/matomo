@@ -29,8 +29,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
     function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'    => 'archiveDay',
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
             'WidgetsList.add'                  => 'addWidgets',
             'Menu.add'                         => 'addMenu',
             'API.getReportMetadata'            => 'getReportMetadata',
@@ -72,21 +70,5 @@ class Piwik_VisitFrequency extends Piwik_Plugin
     function addMenu()
     {
         Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency', 'action' => 'index'));
-    }
-
-    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
-    {
-        $archiving = new Piwik_VisitFrequency_Archiver($archiveProcessing);
-        if($archiving->shouldArchive()) {
-            $archiving->archiveDay();
-        }
-    }
-
-    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
-    {
-        $archiving = new Piwik_VisitFrequency_Archiver($archiveProcessing);
-        if($archiving->shouldArchive()) {
-            $archiving->archivePeriod();
-        }
     }
 }
