@@ -62,19 +62,7 @@ class Piwik_VisitsSummary_API
             $columns = array_merge($columns, $tempColumns);
         } else {
             $bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
-            $columns = array(
-                'nb_visits',
-                'nb_actions',
-                'nb_visits_converted',
-                'bounce_count',
-                'sum_visit_length',
-                'max_actions'
-            );
-            if (Piwik::isUniqueVisitorsEnabled($period)) {
-                $columns = array_merge(array('nb_uniq_visitors'), $columns);
-            }
-            // Force reindex from 0 to N otherwise the SQL bind will fail
-            $columns = array_values($columns);
+            $columns = $this->getCoreColumns($period);
         }
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
@@ -94,6 +82,33 @@ class Piwik_VisitsSummary_API
         $dataTable->deleteColumns($tempColumns);
 
         return $dataTable;
+    }
+
+    /**
+     * @ignore
+     */
+    public function getColumns($period)
+    {
+        $columns = $this->getCoreColumns($period);
+        $columns = array_merge($columns, array('bounce_rate', 'nb_actions_per_visit', 'avg_time_on_site'));
+        return $columns;
+    }
+
+    protected function getCoreColumns($period)
+    {
+        $columns = array(
+            'nb_visits',
+            'nb_actions',
+            'nb_visits_converted',
+            'bounce_count',
+            'sum_visit_length',
+            'max_actions'
+        );
+        if (Piwik::isUniqueVisitorsEnabled($period)) {
+            $columns = array_merge(array('nb_uniq_visitors'), $columns);
+        }
+        $columns = array_values($columns);
+        return $columns;
     }
 
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)
