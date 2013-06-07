@@ -16,6 +16,23 @@
  */
 class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
 {
+    const DOWNLOADS_RECORD_NAME = 'Actions_downloads';
+    const OUTLINKS_RECORD_NAME = 'Actions_outlink';
+    const PAGE_TITLES_RECORD_NAME = 'Actions_actions';
+    const SITE_SEARCH_RECORD_NAME = 'Actions_sitesearch';
+    const PAGE_URLS_RECORD_NAME = 'Actions_actions_url';
+
+    const METRIC_PAGEVIEWS_RECORD_NAME = 'Actions_nb_pageviews';
+    const METRIC_UNIQ_PAGEVIEWS_RECORD_NAME = 'Actions_nb_uniq_pageviews';
+    const METRIC_SUM_TIME_RECORD_NAME = 'Actions_sum_time_generation';
+    const METRIC_HITS_TIMED_RECORD_NAME = 'Actions_nb_hits_with_time_generation';
+    const METRIC_DOWNLOADS_RECORD_NAME = 'Actions_nb_downloads';
+    const METRIC_UNIQ_DOWNLOADS_RECORD_NAME = 'Actions_nb_uniq_downloads';
+    const METRIC_OUTLINKS_RECORD_NAME = 'Actions_nb_outlinks';
+    const METRIC_UNIQ_OUTLINKS_RECORD_NAME = 'Actions_nb_uniq_outlinks';
+    const METRIC_SEARCHES_RECORD_NAME = 'Actions_nb_searches';
+    const METRIC_KEYWORDS_RECORD_NAME = 'Actions_nb_keywords';
+
     public static $actionTypes = array(
         Piwik_Tracker_Action::TYPE_ACTION_URL,
         Piwik_Tracker_Action::TYPE_OUTLINK,
@@ -421,11 +438,11 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     protected function recordPageUrlsReports()
     {
         $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_ACTION_URL);
-        $this->recordDataTable($dataTable, 'Actions_actions_url');
-        $this->getProcessor()->insertNumericRecord('Actions_nb_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-        $this->getProcessor()->insertNumericRecord('Actions_nb_uniq_pageviews', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
-        $this->getProcessor()->insertNumericRecord('Actions_sum_time_generation', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)));
-        $this->getProcessor()->insertNumericRecord('Actions_nb_hits_with_time_generation', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION)));
+        $this->recordDataTable($dataTable, self::PAGE_URLS_RECORD_NAME);
+        $this->getProcessor()->insertNumericRecord(self::METRIC_PAGEVIEWS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_SUM_TIME_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_HITS_TIMED_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION)));
     }
 
     /**
@@ -488,35 +505,35 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     protected function recordDownloadsReports()
     {
         $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_DOWNLOAD);
-        $this->recordDataTable($dataTable, 'Actions_downloads');
+        $this->recordDataTable($dataTable, self::DOWNLOADS_RECORD_NAME);
 
-        $this->getProcessor()->insertNumericRecord('Actions_nb_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-        $this->getProcessor()->insertNumericRecord('Actions_nb_uniq_downloads', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_DOWNLOADS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
     }
 
     protected function recordOutlinksReports()
     {
         $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_OUTLINK);
-        $this->recordDataTable($dataTable, 'Actions_outlink');
+        $this->recordDataTable($dataTable, self::OUTLINKS_RECORD_NAME);
 
-        $this->getProcessor()->insertNumericRecord('Actions_nb_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-        $this->getProcessor()->insertNumericRecord('Actions_nb_uniq_outlinks', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_OUTLINKS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_OUTLINKS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
     }
 
     protected function recordPageTitlesReports()
     {
         $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_ACTION_NAME);
-        $this->recordDataTable($dataTable, 'Actions_actions');
+        $this->recordDataTable($dataTable, self::PAGE_TITLES_RECORD_NAME);
     }
 
     protected function recordSiteSearchReports()
     {
         $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_SITE_SEARCH);
         $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
-        $this->recordDataTable($dataTable, 'Actions_sitesearch');
+        $this->recordDataTable($dataTable, self::SITE_SEARCH_RECORD_NAME);
 
-        $this->getProcessor()->insertNumericRecord('Actions_nb_searches', array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
-        $this->getProcessor()->insertNumericRecord('Actions_nb_keywords', $dataTable->getRowsCount());
+        $this->getProcessor()->insertNumericRecord(self::METRIC_SEARCHES_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_KEYWORDS_RECORD_NAME, $dataTable->getRowsCount());
     }
 
     protected function deleteUnusedColumnsFromKeywordsDataTable($dataTable)
@@ -538,8 +555,8 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     {
         Piwik_Actions_ArchivingHelper::reloadConfig();
         $dataTableToSum = array(
-            'Actions_actions',
-            'Actions_actions_url',
+            self::PAGE_TITLES_RECORD_NAME,
+            self::PAGE_URLS_RECORD_NAME,
         );
         $this->getProcessor()->archiveDataTable($dataTableToSum,
             self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive,
@@ -549,9 +566,9 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             self::$actionColumnAggregationOperations);
 
         $dataTableToSum = array(
-            'Actions_downloads',
-            'Actions_outlink',
-            'Actions_sitesearch',
+            self::DOWNLOADS_RECORD_NAME,
+            self::OUTLINKS_RECORD_NAME,
+            self::SITE_SEARCH_RECORD_NAME,
         );
         $nameToCount = $this->getProcessor()->archiveDataTable($dataTableToSum,
             self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive,
@@ -560,18 +577,18 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation);
 
         $this->getProcessor()->archiveNumericValuesSum(array(
-                                                            'Actions_nb_pageviews',
-                                                            'Actions_nb_uniq_pageviews',
-                                                            'Actions_nb_downloads',
-                                                            'Actions_nb_uniq_downloads',
-                                                            'Actions_nb_outlinks',
-                                                            'Actions_nb_uniq_outlinks',
-                                                            'Actions_nb_searches',
-                                                            'Actions_sum_time_generation',
-                                                            'Actions_nb_hits_with_time_generation',
+                                                            self::METRIC_PAGEVIEWS_RECORD_NAME,
+                                                            self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME,
+                                                            self::METRIC_DOWNLOADS_RECORD_NAME,
+                                                            self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME,
+                                                            self::METRIC_OUTLINKS_RECORD_NAME,
+                                                            self::METRIC_UNIQ_OUTLINKS_RECORD_NAME,
+                                                            self::METRIC_SEARCHES_RECORD_NAME,
+                                                            self::METRIC_SUM_TIME_RECORD_NAME,
+                                                            self::METRIC_HITS_TIMED_RECORD_NAME,
                                                        ));
 
         // Unique Keywords can't be summed, instead we take the RowsCount() of the keyword table
-        $this->getProcessor()->insertNumericRecord('Actions_nb_keywords', $nameToCount['Actions_sitesearch']['level0']);
+        $this->getProcessor()->insertNumericRecord(self::METRIC_KEYWORDS_RECORD_NAME, $nameToCount[self::SITE_SEARCH_RECORD_NAME]['level0']);
     }
 }

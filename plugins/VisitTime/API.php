@@ -39,12 +39,12 @@ class Piwik_VisitTime_API
 
     public function getVisitInformationPerLocalTime($idSite, $period, $date, $segment = false)
     {
-        return $this->getDataTable('VisitTime_localTime', $idSite, $period, $date, $segment);
+        return $this->getDataTable(Piwik_VisitTime_Archiver::LOCAL_TIME_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
     public function getVisitInformationPerServerTime($idSite, $period, $date, $segment = false, $hideFutureHoursWhenToday = false)
     {
-        $table = $this->getDataTable('VisitTime_serverTime', $idSite, $period, $date, $segment);
+        $table = $this->getDataTable(Piwik_VisitTime_Archiver::SERVER_TIME_RECORD_NAME, $idSite, $period, $date, $segment);
         if ($hideFutureHoursWhenToday) {
             $table = $this->removeHoursInFuture($table, $idSite, $period, $date);
         }

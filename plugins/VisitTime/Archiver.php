@@ -11,6 +11,9 @@
 
 class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
 {
+    const SERVER_TIME_RECORD_NAME = 'VisitTime_serverTime';
+    const LOCAL_TIME_RECORD_NAME = 'VisitTime_localTime';
+
     public function archiveDay()
     {
         $this->aggregateByLocalTime();
@@ -35,7 +38,7 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
         $metricsByServerTime = $this->convertServerTimeToLocalTimezone($metricsByServerTime);
         $tableServerTime = $this->getProcessor()->getDataTableFromArray($metricsByServerTime);
         $this->makeSureAllHoursAreSet($tableServerTime);
-        $this->getProcessor()->insertBlobRecord('VisitTime_serverTime', $tableServerTime->getSerialized());
+        $this->getProcessor()->insertBlobRecord(self::SERVER_TIME_RECORD_NAME, $tableServerTime->getSerialized());
     }
 
     protected function aggregateByLocalTime()
@@ -43,7 +46,7 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
         $metricsByLocalTime = $this->getProcessor()->getMetricsForLabel("HOUR(log_visit.visitor_localtime)");
         $tableLocalTime = $this->getProcessor()->getDataTableFromArray($metricsByLocalTime);
         $this->makeSureAllHoursAreSet($tableLocalTime);
-        $this->getProcessor()->insertBlobRecord('VisitTime_localTime', $tableLocalTime->getSerialized());
+        $this->getProcessor()->insertBlobRecord(self::LOCAL_TIME_RECORD_NAME, $tableLocalTime->getSerialized());
     }
 
     protected function convertServerTimeToLocalTimezone($metricsByServerTime)
@@ -73,8 +76,8 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
     public function archivePeriod()
     {
         $dataTableToSum = array(
-            'VisitTime_localTime',
-            'VisitTime_serverTime',
+            self::LOCAL_TIME_RECORD_NAME,
+            self::SERVER_TIME_RECORD_NAME,
         );
         $this->getProcessor()->archiveDataTable($dataTableToSum);
     }

@@ -10,21 +10,25 @@
  */
 class Piwik_Provider_Archiver extends Piwik_PluginsArchiver
 {
+    const PROVIDER_RECORD_NAME = 'Provider_hostnameExt';
+    protected $maximumRows;
+
+    public function __construct($processor)
+    {
+        parent::__construct($processor);
+        $this->maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
+    }
+
     public function archiveDay()
     {
-        $recordName = 'Provider_hostnameExt';
         $labelSQL = "log_visit.location_provider";
         $metricsByProvider = $this->getProcessor()->getMetricsForLabel($labelSQL);
         $tableProvider = $this->getProcessor()->getDataTableFromArray($metricsByProvider);
-        $columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-        $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $this->getProcessor()->insertBlobRecord($recordName, $tableProvider->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
+        $this->getProcessor()->insertBlobRecord(self::PROVIDER_RECORD_NAME, $tableProvider->getSerialized($this->maximumRows, null, Piwik_Archive::INDEX_NB_VISITS));
     }
 
     public function archivePeriod()
     {
-        $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $dataTableToSum = array('Provider_hostnameExt');
-        $this->getProcessor()->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
+        $this->getProcessor()->archiveDataTable(array(self::PROVIDER_RECORD_NAME), null, $this->maximumRows);
     }
 }

@@ -32,11 +32,9 @@ class Piwik_UserCountry_API
 
     public function getCountry($idSite, $period, $date, $segment = false)
     {
-        $recordName = Piwik_UserCountry_Archiver::VISITS_BY_COUNTRY_RECORD_NAME;
-        $dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::VISITS_BY_COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
-        // apply filter on the whole datatable in order the inline search to work (searches
-        // are done on "beautiful" label)
+        // apply filter on the whole datatable in order the inline search to work (searches are done on "beautiful" label)
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'code'));
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', 'Piwik_getFlagFromCode'));
         $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_CountryTranslate'));
@@ -48,8 +46,7 @@ class Piwik_UserCountry_API
 
     public function getContinent($idSite, $period, $date, $segment = false)
     {
-        $recordName = Piwik_UserCountry_Archiver::VISITS_BY_COUNTRY_RECORD_NAME;
-        $dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::VISITS_BY_COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
         $getContinent = array('Piwik_Common', 'getContinent');
         $dataTable->filter('GroupBy', array('label', $getContinent));
@@ -71,8 +68,7 @@ class Piwik_UserCountry_API
      */
     public function getRegion($idSite, $period, $date, $segment = false)
     {
-        $recordName = Piwik_UserCountry_Archiver::VISITS_BY_REGION_RECORD_NAME;
-        $dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::VISITS_BY_REGION_RECORD_NAME, $idSite, $period, $date, $segment);
 
         $separator = Piwik_UserCountry_Archiver::LOCATION_SEPARATOR;
         $unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
@@ -114,8 +110,7 @@ class Piwik_UserCountry_API
      */
     public function getCity($idSite, $period, $date, $segment = false)
     {
-        $recordName = Piwik_UserCountry_Archiver::VISITS_BY_CITY_RECORD_NAME;
-        $dataTable = $this->getDataTable($recordName, $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::VISITS_BY_CITY_RECORD_NAME, $idSite, $period, $date, $segment);
 
          $separator = Piwik_UserCountry_Archiver::LOCATION_SEPARATOR;
         $unk = Piwik_Tracker_Visit::UNKNOWN_CODE;
@@ -204,6 +199,6 @@ class Piwik_UserCountry_API
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
-        return $archive->getDataTableFromNumeric('UserCountry_distinctCountries');
+        return $archive->getDataTableFromNumeric(Piwik_UserCountry_Archiver::DISTINCT_COUNTRIES_METRIC);
     }
 }

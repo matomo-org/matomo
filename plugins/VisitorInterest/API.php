@@ -38,7 +38,7 @@ class Piwik_VisitorInterest_API
 
     public function getNumberOfVisitsPerVisitDuration($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable('VisitorInterest_timeGap', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Piwik_VisitorInterest_Archiver::TIME_SPENT_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->queueFilter('Sort', array('label', 'asc', true));
         $dataTable->queueFilter('BeautifyTimeRangeLabels', array(
                                                                 Piwik_Translate('VisitorInterest_BetweenXYSeconds'),
@@ -49,7 +49,7 @@ class Piwik_VisitorInterest_API
 
     public function getNumberOfVisitsPerPage($idSite, $period, $date, $segment = false)
     {
-        $dataTable = $this->getDataTable('VisitorInterest_pageGap', $idSite, $period, $date, $segment);
+        $dataTable = $this->getDataTable(Piwik_VisitorInterest_Archiver::PAGES_VIEWED_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->queueFilter('Sort', array('label', 'asc', true));
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik_Translate('VisitorInterest_OnePage'),
@@ -69,9 +69,8 @@ class Piwik_VisitorInterest_API
      */
     public function getNumberOfVisitsByDaysSinceLast($idSite, $period, $date, $segment = false)
     {
-        $recordName = 'VisitorInterest_daysSinceLastVisit';
         $dataTable = $this->getDataTable(
-            $recordName, $idSite, $period, $date, $segment, Piwik_Archive::INDEX_NB_VISITS);
+            Piwik_VisitorInterest_Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Piwik_Archive::INDEX_NB_VISITS);
 
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik_Translate('General_OneDay'), Piwik_Translate('General_NDays')));
@@ -92,7 +91,7 @@ class Piwik_VisitorInterest_API
     public function getNumberOfVisitsByVisitCount($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(
-            'VisitorInterest_visitsByVisitCount', $idSite, $period, $date, $segment, Piwik_Archive::INDEX_NB_VISITS);
+            Piwik_VisitorInterest_Archiver::VISITS_COUNT_RECORD_NAME, $idSite, $period, $date, $segment, Piwik_Archive::INDEX_NB_VISITS);
 
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik_Translate('General_OneVisit'), Piwik_Translate('General_NVisits')));

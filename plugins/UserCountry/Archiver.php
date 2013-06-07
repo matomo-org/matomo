@@ -150,7 +150,6 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
         $tableCountry = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_country']);
         $this->getProcessor()->insertBlobRecord(self::VISITS_BY_COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
-        destroy($tableCountry);
 
         $tableRegion = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_region']);
         $serialized = $tableRegion->getSerialized($this->maximumRows, $this->maximumRows, Piwik_Archive::INDEX_NB_VISITS);

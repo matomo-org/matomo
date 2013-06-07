@@ -15,7 +15,7 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
 {
     const LANGUAGE_RECORD_NAME = 'UserSettings_language';
     const PLUGIN_RECORD_NAME = 'UserSettings_plugin';
-    const SCREEN_TYPES_RECORD_NAME = 'UserSettings_wideScreen';
+    const SCREEN_TYPE_RECORD_NAME = 'UserSettings_wideScreen';
     const RESOLUTION_RECORD_NAME = 'UserSettings_resolution';
     const BROWSER_RECORD_NAME = 'UserSettings_browser';
     const BROWSER_TYPE_RECORD_NAME = 'UserSettings_browserType';
@@ -94,7 +94,7 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
     protected function aggregateByScreenType(Piwik_DataTable $resolutions)
     {
         $resolutions->filter('GroupBy', array('label', 'Piwik_getScreenTypeFromResolution'));
-        $this->getProcessor()->insertBlobRecord(self::SCREEN_TYPES_RECORD_NAME, $resolutions->getSerialized());
+        $this->getProcessor()->insertBlobRecord(self::SCREEN_TYPE_RECORD_NAME, $resolutions->getSerialized());
     }
 
     protected function aggregateByPlugin()
@@ -142,10 +142,11 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
             self::BROWSER_RECORD_NAME,
             self::BROWSER_TYPE_RECORD_NAME,
             self::RESOLUTION_RECORD_NAME,
-            self::SCREEN_TYPES_RECORD_NAME,
+            self::SCREEN_TYPE_RECORD_NAME,
             self::PLUGIN_RECORD_NAME,
             self::LANGUAGE_RECORD_NAME,
         );
         $this->getProcessor()->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTable);
     }
 }
+

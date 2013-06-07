@@ -11,6 +11,18 @@
 
 class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
 {
+    const KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME = 'Referers_keywordBySearchEngine';
+    const SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME = 'Referers_searchEngineByKeyword';
+    const KEYWORD_BY_CAMPAIGN_RECORD_NAME = 'Referers_keywordByCampaign';
+    const URL_BY_WEBSITE_RECORD_NAME = 'Referers_urlByWebsite';
+    const REFERER_TYPE_RECORD_NAME = 'Referers_type';
+
+    const METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME = 'Referers_distinctSearchEngines';
+    const METRIC_DISTINCT_KEYWORD_RECORD_NAME = 'Referers_distinctKeywords';
+    const METRIC_DISTINCT_CAMPAIGN_RECORD_NAME = 'Referers_distinctCampaigns';
+    const METRIC_DISTINCT_WEBSITE_RECORD_NAME = 'Referers_distinctWebsites';
+    const METRIC_DISTINCT_URLS_RECORD_NAME = 'Referers_distinctWebsitesUrls';
+
     protected $columnToSortByBeforeTruncation;
     protected $maximumRowsInDataTableLevelZero;
     protected $maximumRowsInSubDataTable;
@@ -258,32 +270,14 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
         $this->recordDayBlobs();
     }
 
-    protected function recordDayBlobs()
-    {
-        $table = new Piwik_DataTable();
-        $table->addRowsFromArrayWithIndexLabel($this->metricsByType);
-        $this->getProcessor()->insertBlobRecord('Referers_type', $table->getSerialized());
-
-        $blobRecords = array(
-            'Referers_keywordBySearchEngine' => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsBySearchEngineAndKeyword, $this->metricsBySearchEngine),
-            'Referers_searchEngineByKeyword' => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByKeywordAndSearchEngine, $this->metricsByKeyword),
-            'Referers_keywordByCampaign'     => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByCampaignAndKeyword, $this->metricsByCampaign),
-            'Referers_urlByWebsite'          => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByWebsiteAndUrl, $this->metricsByWebsite),
-        );
-        foreach ($blobRecords as $recordName => $table) {
-            $blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
-            $this->getProcessor()->insertBlobRecord($recordName, $blob);
-        }
-    }
-
     protected function recordDayNumeric()
     {
         $numericRecords = array(
-            'Referers_distinctSearchEngines' => count($this->metricsBySearchEngineAndKeyword),
-            'Referers_distinctKeywords'      => count($this->metricsByKeywordAndSearchEngine),
-            'Referers_distinctCampaigns'     => count($this->metricsByCampaign),
-            'Referers_distinctWebsites'      => count($this->metricsByWebsite),
-            'Referers_distinctWebsitesUrls'  => count($this->distinctUrls),
+            self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => count($this->metricsBySearchEngineAndKeyword),
+            self::METRIC_DISTINCT_KEYWORD_RECORD_NAME       => count($this->metricsByKeywordAndSearchEngine),
+            self::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME      => count($this->metricsByCampaign),
+            self::METRIC_DISTINCT_WEBSITE_RECORD_NAME       => count($this->metricsByWebsite),
+            self::METRIC_DISTINCT_URLS_RECORD_NAME          => count($this->distinctUrls),
         );
 
         foreach ($numericRecords as $name => $value) {
@@ -291,37 +285,55 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
         }
     }
 
+    protected function recordDayBlobs()
+    {
+        $table = new Piwik_DataTable();
+        $table->addRowsFromArrayWithIndexLabel($this->metricsByType);
+        $this->getProcessor()->insertBlobRecord(self::REFERER_TYPE_RECORD_NAME, $table->getSerialized());
+
+        $blobRecords = array(
+            self::KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsBySearchEngineAndKeyword, $this->metricsBySearchEngine),
+            self::SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME  => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByKeywordAndSearchEngine, $this->metricsByKeyword),
+            self::KEYWORD_BY_CAMPAIGN_RECORD_NAME       => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByCampaignAndKeyword, $this->metricsByCampaign),
+            self::URL_BY_WEBSITE_RECORD_NAME            => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByWebsiteAndUrl, $this->metricsByWebsite),
+        );
+        foreach ($blobRecords as $recordName => $table) {
+            $blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+            $this->getProcessor()->insertBlobRecord($recordName, $blob);
+        }
+    }
+
     public function archivePeriod()
     {
         $dataTableToSum = array(
-            'Referers_type',
-            'Referers_keywordBySearchEngine',
-            'Referers_searchEngineByKeyword',
-            'Referers_keywordByCampaign',
-            'Referers_urlByWebsite',
+            self::REFERER_TYPE_RECORD_NAME,
+            self::KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME,
+            self::SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME,
+            self::KEYWORD_BY_CAMPAIGN_RECORD_NAME,
+            self::URL_BY_WEBSITE_RECORD_NAME,
         );
         $nameToCount = $this->getProcessor()->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 
         $mappingFromArchiveName = array(
-            'Referers_distinctSearchEngines' =>
+            self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME =>
             array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => 'Referers_keywordBySearchEngine',
+                  'nameTableToUse' => self::KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME,
             ),
-            'Referers_distinctKeywords'      =>
+            self::METRIC_DISTINCT_KEYWORD_RECORD_NAME       =>
             array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => 'Referers_searchEngineByKeyword',
+                  'nameTableToUse' => self::SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME,
             ),
-            'Referers_distinctCampaigns'     =>
+            self::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME      =>
             array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => 'Referers_keywordByCampaign',
+                  'nameTableToUse' => self::KEYWORD_BY_CAMPAIGN_RECORD_NAME,
             ),
-            'Referers_distinctWebsites'      =>
+            self::METRIC_DISTINCT_WEBSITE_RECORD_NAME       =>
             array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => 'Referers_urlByWebsite',
+                  'nameTableToUse' => self::URL_BY_WEBSITE_RECORD_NAME,
             ),
-            'Referers_distinctWebsitesUrls'  =>
+            self::METRIC_DISTINCT_URLS_RECORD_NAME          =>
             array('typeCountToUse' => 'recursive',
-                  'nameTableToUse' => 'Referers_urlByWebsite',
+                  'nameTableToUse' => self::URL_BY_WEBSITE_RECORD_NAME,
             ),
         );
 

@@ -12,7 +12,7 @@
 class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
 {
     const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
-    const BLOB_NAME = 'CustomVariables_valueByName';
+    const CUSTOM_VARIABLE_RECORD_NAME = 'CustomVariables_valueByName';
     protected $metricsByKey = array();
     protected $metricsByKeyAndValue = array();
     protected $maximumRowsInDataTableLevelZero;
@@ -42,7 +42,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
             $columnToSort = Piwik_Archive::INDEX_NB_VISITS
         );
 
-        $this->getProcessor()->insertBlobRecord(self::BLOB_NAME, $blob);
+        $this->getProcessor()->insertBlobRecord(self::CUSTOM_VARIABLE_RECORD_NAME, $blob);
     }
 
     protected function aggregateCustomVariable($slot)
@@ -218,7 +218,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
     public function archivePeriod()
     {
         $nameToCount = $this->getProcessor()->archiveDataTable(
-            self::BLOB_NAME, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
+            self::CUSTOM_VARIABLE_RECORD_NAME, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
             $columnToSort = Piwik_Archive::INDEX_NB_VISITS);
     }
 }

@@ -11,6 +11,14 @@
 
 class Piwik_DevicesDetection_Archiver extends Piwik_PluginsArchiver
 {
+    const TYPE_RECORD_NAME = 'DevicesDetection_types';
+    const BRAND_RECORD_NAME = 'DevicesDetection_brands';
+    const MODEL_RECORD_NAME = 'DevicesDetection_models';
+    const OS_RECORD_NAME = 'DevicesDetection_os';
+    const OS_VERSION_RECORD_NAME = 'DevicesDetection_osVersions';
+    const BROWSER_RECORD_NAME = 'DevicesDetection_browsers';
+    const BROWSER_VERSION_RECORD_NAME = 'DevicesDetection_browserVersions';
+
     public function __construct($processor)
     {
         parent::__construct($processor);
@@ -30,9 +38,8 @@ class Piwik_DevicesDetection_Archiver extends Piwik_PluginsArchiver
 
     private function archiveDayDeviceTypes()
     {
-        $recordName = 'DevicesDetection_types';
         $labelSQL = "log_visit.config_device_type";
-        $this->aggregateByLabel( $labelSQL, $recordName);
+        $this->aggregateByLabel( $labelSQL, self::TYPE_RECORD_NAME);
     }
 
     private function aggregateByLabel( $labelSQL, $recordName)
@@ -45,57 +52,45 @@ class Piwik_DevicesDetection_Archiver extends Piwik_PluginsArchiver
 
     private function archiveDayDeviceBrands()
     {
-        $recordName = 'DevicesDetection_brands';
-        $labelSQL = "log_visit.config_device_brand";
-        $this->aggregateByLabel( $labelSQL, $recordName);
+        $this->aggregateByLabel( "log_visit.config_device_brand", self::BRAND_RECORD_NAME);
     }
 
     private function archiveDayDeviceModels()
     {
-        $recordName = 'DevicesDetection_models';
-        $labelSQL = "log_visit.config_device_model";
-        $this->aggregateByLabel( $labelSQL, $recordName);
+        $this->aggregateByLabel( "log_visit.config_device_model", self::MODEL_RECORD_NAME);
     }
 
     private function archiveDayOs()
     {
-        $recordName = 'DevicesDetection_os';
-        $labelSQL = "log_visit.config_os";
-        $this->aggregateByLabel( $labelSQL, $recordName);
+        $this->aggregateByLabel( "log_visit.config_os", self::OS_RECORD_NAME);
     }
 
     private function archiveDayOsVersions()
     {
-        $recordName = 'DevicesDetection_osVersions';
-        $labelSQL = "CONCAT(log_visit.config_os, ';', log_visit.config_os_version)";
-        $this->aggregateByLabel( $labelSQL, $recordName);
+        $this->aggregateByLabel( "CONCAT(log_visit.config_os, ';', log_visit.config_os_version)", self::OS_VERSION_RECORD_NAME);
     }
 
     private function archiveDayBrowserFamilies()
     {
-        $recordName = 'DevicesDetection_browsers';
-        $labelSQL = "log_visit.config_browser_name";
-        $this->aggregateByLabel( $labelSQL, $recordName);
+        $this->aggregateByLabel( "log_visit.config_browser_name", self::BROWSER_RECORD_NAME);
     }
 
     private function archiveDayBrowsersVersions()
     {
-        $recordName = 'DevicesDetection_browserVersions';
-        $labelSQL = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
-        $this->aggregateByLabel( $labelSQL, $recordName);
+        $this->aggregateByLabel( "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)", self::BROWSER_VERSION_RECORD_NAME);
     }
 
     public function archivePeriod()
     {
         $maximumRowsInSubDataTable = $this->maximumRowsInDataTable;
         $dataTablesToSum = array(
-            'DevicesDetection_types',
-            'DevicesDetection_brands',
-            'DevicesDetection_models',
-            'DevicesDetection_os',
-            'DevicesDetection_osVersions',
-            'DevicesDetection_browsers',
-            'DevicesDetection_browserVersions'
+            self::TYPE_RECORD_NAME,
+            self::BRAND_RECORD_NAME,
+            self::MODEL_RECORD_NAME,
+            self::OS_RECORD_NAME,
+            self::OS_VERSION_RECORD_NAME,
+            self::BROWSER_RECORD_NAME,
+            self::BROWSER_VERSION_RECORD_NAME
         );
         foreach ($dataTablesToSum as $dt) {
             $this->getProcessor()->archiveDataTable(
