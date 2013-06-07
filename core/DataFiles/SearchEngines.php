@@ -59,7 +59,7 @@
 if (!isset($GLOBALS['Piwik_SearchEngines'])) {
     $GLOBALS['Piwik_SearchEngines'] = array(
         // 1
-        '1.cz'                           => array('1.cz', 'q', 'index.php?q={k}', 'iso-8859-2'),
+        '1.cz'                           => array('1.cz', array('/s\/([^\/]+)/', 'q'), 's/{k}', 'iso-8859-2'),
 
         // 123people
         'www.123people.com'              => array('123people', array('/s\/([^\/]+)/', 'search_term'), 's/{k}'),
@@ -230,7 +230,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.blogpulse.com'              => array('Blogpulse', 'query', 'search?query={k}'),
 
         // Bluewin
-        'search.bluewin.ch'              => array('Bluewin', 'searchTerm', '?searchTerm={k}'),
+        'search.bluewin.ch'              => array('Bluewin', array('searchTerm', 'q'), 'v2/index.php?q={k}'),
 
         // canoe.ca
         'web.canoe.ca'                   => array('Canoe.ca', 'q', 'search?q={k}'),
@@ -552,6 +552,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'home.speedbit.com'              => array('InfoSpace', 'q'),
         'search.b1.org'                  => array('InfoSpace', 'q'),
         'searchya.com'                   => array('InfoSpace', 'q'),
+        'search.handycafe.com'           => array('InfoSpace', 'q'),
 
         /*
          * Other InfoSpace powered metasearches are handled in Piwik_Common::extractSearchEngineInformationFromUrl()
@@ -851,7 +852,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'www.trovarapido.com'            => array('TrovaRapido', 'q', 'result.php?q={k}'),
 
         // Trusted-Search
-        'www.trusted--search.com'        => array('Trusted Search', 'w', 'search?w={k}'),
+        'www.trusted-search.com'         => array('Trusted Search', 'w', 'search?w={k}'),
 
         // Twingly
         'www.twingly.com'                => array('Twingly', 'q', 'search?q={k}'),
