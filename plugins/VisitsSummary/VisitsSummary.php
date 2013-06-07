@@ -39,9 +39,6 @@ class Piwik_VisitsSummary extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getReportMetadata(&$reports)
     {
         $reports[] = array(

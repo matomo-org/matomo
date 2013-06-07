@@ -131,8 +131,6 @@ class Piwik_DevicesDetection extends Piwik_Plugin
 
     /**
      * Get segments meta data
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
     public function getSegmentsMetadata(&$segments)
     {
@@ -153,10 +151,6 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         }
     }
 
-
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getReportMetadata(&$reports)
     {
         $i = 0;

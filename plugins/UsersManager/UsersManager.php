@@ -45,7 +45,7 @@ class Piwik_UsersManager extends Piwik_Plugin
      *
      * @return array
      */
-    function getListHooksRegistered()
+    public function getListHooksRegistered()
     {
         return array(
             'AdminMenu.add'                 => 'addMenu',
@@ -61,10 +61,9 @@ class Piwik_UsersManager extends Piwik_Plugin
      * Will record in the tracker config file the list of Admin token_auth for this website. This
      * will be used when the Tracking API is used with setIp(), setForceDateTime(), setVisitorId(), etc.
      *
-     * @param Piwik_Event_Notification $notification  notification object
      * @return void
      */
-    function recordAdminUsersInCache(&$array, $idSite)
+    public function recordAdminUsersInCache(&$array, $idSite)
     {
         // add the 'hosts' entry in the website array
         $users = Piwik_UsersManager_API::getInstance()->getUsersWithSiteAccess($idSite, 'admin');
@@ -77,10 +76,8 @@ class Piwik_UsersManager extends Piwik_Plugin
 
     /**
      * Delete user preferences associated with a particular site
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function deleteSite(&$idSite)
+    public function deleteSite(&$idSite)
     {
         Piwik_Option::getInstance()->deleteLike('%\_' . Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
@@ -89,10 +86,8 @@ class Piwik_UsersManager extends Piwik_Plugin
      * Return list of plug-in specific JavaScript files to be imported by the asset manager
      *
      * @see Piwik_AssetManager
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/UsersManager/templates/UsersManager.js";
         $jsFiles[] = "plugins/UsersManager/templates/userSettings.js";

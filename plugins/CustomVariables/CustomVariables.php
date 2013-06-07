@@ -53,8 +53,6 @@ class Piwik_CustomVariables extends Piwik_Plugin
 
     /**
      * Returns metadata for available reports
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
     public function getReportMetadata(&$reports)
     {
@@ -80,9 +78,6 @@ class Piwik_CustomVariables extends Piwik_Plugin
                            'order'            => 15);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getSegmentsMetadata(&$segments)
     {
         for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
@@ -123,8 +118,6 @@ class Piwik_CustomVariables extends Piwik_Plugin
 
     /**
      * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
     public function getReportsWithGoalMetrics(&$dimensions)
     {
@@ -139,8 +132,6 @@ class Piwik_CustomVariables extends Piwik_Plugin
 
     /**
      * Hooks on daily archive to trigger various log processing
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
     public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
@@ -150,9 +141,6 @@ class Piwik_CustomVariables extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
         $archiving = new Piwik_CustomVariables_Archiver($archiveProcessing);

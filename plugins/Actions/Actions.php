@@ -43,9 +43,6 @@ class Piwik_Actions extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getSegmentsMetadata(&$segments)
     {
         $sqlFilter = array($this, 'getIdActionFromSegment');
@@ -176,11 +173,6 @@ class Piwik_Actions extends Piwik_Plugin
         );
     }
 
-    /**
-     * Returns metadata for available reports
-     *
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getReportMetadata(&$reports)
     {
         $reports[] = array(
@@ -564,8 +556,6 @@ class Piwik_Actions extends Piwik_Plugin
      *
      * For each action we process the "interest statistics" :
      * visits, unique visitors, bounce count, sum visit length.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
     public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {

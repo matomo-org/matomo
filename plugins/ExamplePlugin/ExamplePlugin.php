@@ -54,10 +54,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
         // Executed every time plugin is disabled
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function addUniqueVisitorsColumnToGivenReport($view)
+    public function addUniqueVisitorsColumnToGivenReport($view)
     {
         $view = $view['view'];
         if ($view->getCurrentControllerName() == 'Referers'
@@ -67,7 +64,7 @@ class Piwik_ExamplePlugin extends Piwik_Plugin
         }
     }
 
-    function addWidgets()
+    public function addWidgets()
     {
         // we register the widgets so they appear in the "Add a new widget" window in the dashboard
         // Note that the first two parameters can be either a normal string, or an index to a translation string

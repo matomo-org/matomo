@@ -52,34 +52,22 @@ class Piwik_UserCountry extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getScheduledTasks(&$tasks)
+    public function getScheduledTasks(&$tasks)
     {
         // add the auto updater task
         $tasks[] = Piwik_UserCountry_GeoIPAutoUpdater::makeScheduledTask();
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getCssFiles(&$cssFiles)
+    public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "plugins/UserCountry/templates/styles.css";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/UserCountry/templates/admin.js";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getVisitorLocation(&$location, $visitorInfo)
     {
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
@@ -138,9 +126,6 @@ class Piwik_UserCountry extends Piwik_Plugin
             $order = 8);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getSegmentsMetadata(&$segments)
     {
         $segments[] = array(
@@ -194,9 +179,6 @@ class Piwik_UserCountry extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getReportMetadata(&$reports)
     {
         $metrics = array(
@@ -246,10 +228,7 @@ class Piwik_UserCountry extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getReportsWithGoalMetrics(&$dimensions)
+    public function getReportsWithGoalMetrics(&$dimensions)
     {
         $dimensions = array_merge($dimensions, array(
                                                     array('category' => Piwik_Translate('General_Visit'),
@@ -273,10 +252,6 @@ class Piwik_UserCountry extends Piwik_Plugin
                                                ));
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return mixed
-     */
     public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
         $archiving = new Piwik_UserCountry_Archiver($archiveProcessing);
@@ -285,10 +260,6 @@ class Piwik_UserCountry extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return mixed
-     */
     public function archiveDay(Piwik_ArchiveProcessing $archiveProcessing)
     {
         $archiving = new Piwik_UserCountry_Archiver($archiveProcessing);

@@ -45,8 +45,6 @@ class Piwik_DBStats extends Piwik_Plugin
 
     /**
      * Gets all scheduled tasks executed by this plugin.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
     public function getScheduledTasks(&$tasks)
     {

@@ -66,10 +66,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getScheduledTasks(&$tasks)
+    public function getScheduledTasks(&$tasks)
     {
         // both tasks are low priority so they will execute after most others, but not lowest, so
         // they will execute before the optimize tables task
@@ -85,10 +82,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         $tasks[] = $purgeLogDataTask;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/PrivacyManager/templates/privacySettings.js";
     }

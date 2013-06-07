@@ -44,10 +44,7 @@ class Piwik_Widgetize extends Piwik_Plugin
         Piwik_AddTopMenu('General_Widgets', $urlParams, true, 5, $isHTML = false, $tooltip);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "libs/jquery/jquery.truncate.js";
         $jsFiles[] = "libs/jquery/jquery.scrollTo.js";
@@ -57,10 +54,7 @@ class Piwik_Widgetize extends Piwik_Plugin
         $jsFiles[] = "plugins/Widgetize/templates/widgetize.js";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getCssFiles(&$cssFiles)
+    public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "plugins/CoreHome/templates/styles.css";
         $cssFiles[] = "plugins/CoreHome/templates/datatable.css";

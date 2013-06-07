@@ -38,26 +38,17 @@ class Piwik_LanguagesManager extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getCssFiles(&$cssFiles)
+    public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "themes/default/styles.css";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/LanguagesManager/templates/languageSelector.js";
     }
 
-    /**
-     * Show styled language selection drop-down list
-     */
-    function showLanguagesSelector()
+    public function showLanguagesSelector()
     {
         Piwik_AddTopMenu('LanguageSelector', $this->getLanguagesSelector(), true, $order = 30, true);
     }
@@ -66,8 +57,6 @@ class Piwik_LanguagesManager extends Piwik_Plugin
      * Adds the languages drop-down list to topbars other than the main one rendered
      * in CoreHome/templates/top_bar.tpl. The 'other' topbars are on the Installation
      * and CoreUpdater screens.
-     *
-     * @param Piwik_Event_Notification $notification notification object
      */
     public function addLanguagesManagerToOtherTopBar(&$str)
     {
@@ -92,9 +81,6 @@ class Piwik_LanguagesManager extends Piwik_Plugin
         return $view->render();
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     function getLanguageToLoad(&$language)
     {
         if (empty($language)) {
@@ -105,10 +91,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function deleteUserLanguage($userLogin)
+    public function deleteUserLanguage($userLogin)
     {
         Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
     }

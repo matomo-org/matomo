@@ -31,8 +31,6 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 @ignore_user_abort(true);
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
-require_once PIWIK_INCLUDE_PATH . '/libs/Event/Dispatcher.php';
-require_once PIWIK_INCLUDE_PATH . '/libs/Event/Notification.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';

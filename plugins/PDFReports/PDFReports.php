@@ -89,10 +89,8 @@ class Piwik_PDFReports extends Piwik_Plugin
 
     /**
      * Delete reports for the website
-     *
-     * @param Piwik_Event_Notification $notification notification object
      */
-    function deleteSiteReport(&$idSite)
+    public function deleteSiteReport(&$idSite)
     {
         $idReports = Piwik_PDFReports_API::getInstance()->getReports($idSite);
 
@@ -102,18 +100,12 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/PDFReports/templates/pdf.js";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function validateReportParameters(&$parameters, $info)
+    public function validateReportParameters(&$parameters, $info)
     {
         if (self::manageEvent($info)) {
             $reportFormat = $parameters[self::DISPLAY_FORMAT_PARAMETER];
@@ -155,10 +147,7 @@ class Piwik_PDFReports extends Piwik_Plugin
         return $value == 'true' || $value == 1 || $value == '1' || $value === true;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportMetadata(&$reportMetadata, $notificationInfo)
+    public function getReportMetadata(&$reportMetadata, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
             $idSite = $notificationInfo[Piwik_PDFReports_API::ID_SITE_INFO_KEY];
@@ -180,38 +169,26 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportTypes(&$reportTypes)
+    public function getReportTypes(&$reportTypes)
     {
         $reportTypes = array_merge($reportTypes, self::$managedReportTypes);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportFormats(&$reportFormats, $info)
+    public function getReportFormats(&$reportFormats, $info)
     {
         if (self::manageEvent($info)) {
             $reportFormats = self::$managedReportFormats;
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportParameters(&$availableParameters, $info)
+    public function getReportParameters(&$availableParameters, $info)
     {
         if (self::manageEvent($info)) {
             $availableParameters = self::$availableParameters;
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function processReports(&$processedReports, $notificationInfo)
+    public function processReports(&$processedReports, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
             $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
@@ -252,10 +229,7 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getRendererInstance(&$reportRenderer, $notificationInfo)
+    public function getRendererInstance(&$reportRenderer, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
             $reportFormat = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY]['format'];
@@ -269,20 +243,14 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function allowMultipleReports(&$allowMultipleReports, $info)
+    public function allowMultipleReports(&$allowMultipleReports, $info)
     {
         if (self::manageEvent($info)) {
             $allowMultipleReports = true;
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function sendReport($notificationInfo)
+    public function sendReport($notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
             $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
@@ -405,10 +373,7 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportRecipients(&$recipients, $notificationInfo)
+    public function getReportRecipients(&$recipients, $notificationInfo)
     {
         if (self::manageEvent($notificationInfo)) {
             $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
@@ -427,9 +392,6 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
     static public function template_reportParametersPDFReports(&$out)
     {
         $view = Piwik_View::factory('report_parameters');
@@ -450,10 +412,7 @@ class Piwik_PDFReports extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getScheduledTasks(&$tasks)
+    public function getScheduledTasks(&$tasks)
     {
         $arbitraryDateInUTC = Piwik_Date::factory('2011-01-01');
         foreach (Piwik_PDFReports_API::getInstance()->getReports() as $report) {
@@ -480,10 +439,7 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function segmentDeletion(&$idSegment)
+    public function segmentDeletion(&$idSegment)
     {
         $reportsUsingSegment = Piwik_PDFReports_API::getInstance()->getReports(false, false, false, true, $idSegment);
 
@@ -552,15 +508,12 @@ class Piwik_PDFReports extends Piwik_Plugin
         return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function deleteUserReport($userLogin)
+    public function deleteUserReport($userLogin)
     {
         Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('report') . ' WHERE login = ?', $userLogin);
     }
 
-    function install()
+    public function install()
     {
         $queries[] = '
                 CREATE TABLE `' . Piwik_Common::prefixTable('report') . '` (

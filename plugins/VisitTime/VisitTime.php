@@ -40,9 +40,6 @@ class Piwik_VisitTime extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getReportMetadata(&$reports)
     {
         $reports[] = array(
@@ -91,10 +88,7 @@ class Piwik_VisitTime extends Piwik_Plugin
         Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getReportsWithGoalMetrics(&$dimensions)
+    public function getReportsWithGoalMetrics(&$dimensions)
     {
         $dimensions[] = array('category' => Piwik_Translate('VisitTime_ColumnServerTime'),
                               'name'     => Piwik_Translate('VisitTime_ColumnServerTime'),
@@ -103,9 +97,6 @@ class Piwik_VisitTime extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getSegmentsMetadata(&$segments)
     {
         $acceptedValues = "0, 1, 2, 3, ..., 20, 21, 22, 23";

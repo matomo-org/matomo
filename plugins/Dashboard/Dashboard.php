@@ -227,10 +227,7 @@ class Piwik_Dashboard extends Piwik_Plugin
         Piwik_AddTopMenu('General_Dashboard', $urlParams, true, 1, $isHTML = false, $tooltip);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
         $jsFiles[] = "libs/javascript/json2.js";
@@ -239,19 +236,13 @@ class Piwik_Dashboard extends Piwik_Plugin
         $jsFiles[] = "plugins/Dashboard/templates/dashboard.js";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getCssFiles(&$cssFiles)
+    public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "plugins/CoreHome/templates/datatable.css";
         $cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function deleteDashboardLayout($userLogin)
+    public function deleteDashboardLayout($userLogin)
     {
         Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
     }

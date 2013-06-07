@@ -50,10 +50,7 @@ class Piwik_Installation extends Piwik_Plugin
         return new $this->installationControllerName();
     }
 
-    /**
-     * @param Piwik_Event_Notification|null $notification  notification object
-     */
-    function dispatch($exception = null)
+    public function dispatch($exception = null)
     {
         if ($exception) {
             $message = $exception->getMessage();

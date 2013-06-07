@@ -50,20 +50,16 @@ class Piwik_SitesManager extends Piwik_Plugin
 
     /**
      * Get CSS files
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles(&$cssFiles)
+    public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "themes/default/styles.css";
     }
 
     /**
      * Get JavaScript files
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/SitesManager/templates/SitesManager.js";
     }
@@ -71,11 +67,10 @@ class Piwik_SitesManager extends Piwik_Plugin
     /**
      * Hooks when a website tracker cache is flushed (website updated, cache deleted, or empty cache)
      * Will record in the tracker config file all data needed for this website in Tracker.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
+     * 
      * @return void
      */
-    function recordWebsiteDataInCache(&$array, $idSite)
+    public function recordWebsiteDataInCache(&$array, $idSite)
     {
         $idSite = (int)$idSite;
         

@@ -35,10 +35,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getScheduledTasks(&$tasks)
+    public function getScheduledTasks(&$tasks)
     {
         // general data purge on older archive tables, executed daily
         $purgeArchiveTablesTask = new Piwik_ScheduledTask ($this,
@@ -57,10 +54,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
         $tasks[] = $optimizeArchiveTableTask;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getCssFiles(&$cssFiles)
+    public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
         $cssFiles[] = "plugins/CoreAdminHome/templates/menu.css";
@@ -69,10 +63,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
         $cssFiles[] = "plugins/CoreHome/templates/donate.css";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "libs/jquery/jquery.js";
         $jsFiles[] = "libs/jquery/jquery-ui.js";

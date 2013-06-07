@@ -36,7 +36,8 @@ class Piwik_ImageGraph extends Piwik_Plugin
     function getListHooksRegistered()
     {
         $hooks = array(
-            'API.getReportMetadata.end.end' => 'getReportMetadata',
+            'API.getReportMetadata.end' => array('function' => 'getReportMetadata',
+                                                 'after'    => true),
         );
         return $hooks;
     }
@@ -45,7 +46,6 @@ class Piwik_ImageGraph extends Piwik_Plugin
     const GRAPH_EVOLUTION_LAST_PERIODS = 30;
 
     /**
-     * @param Piwik_Event_Notification $notification  notification object
      * @return mixed
      */
     public function getReportMetadata(&$reports, $info)

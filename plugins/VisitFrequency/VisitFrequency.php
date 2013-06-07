@@ -38,9 +38,6 @@ class Piwik_VisitFrequency extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getReportMetadata(&$reports)
     {
         $reports[] = array(

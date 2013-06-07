@@ -38,9 +38,6 @@ class Piwik_VisitorInterest extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getReportMetadata(&$reports)
     {
         $reports[] = array(
@@ -138,17 +135,11 @@ class Piwik_VisitorInterest extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     static public function headerVisitsFrequency(&$out)
     {
         $out = '<div id="leftcolumn">';
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     static public function footerVisitsFrequency(&$out)
     {
         $out = '</div>

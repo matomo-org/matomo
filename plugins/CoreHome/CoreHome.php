@@ -36,8 +36,6 @@ class Piwik_CoreHome extends Piwik_Plugin
 
     /**
      * Adds the donate form widget.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
     public function addWidgets()
     {
@@ -45,10 +43,7 @@ class Piwik_CoreHome extends Piwik_Plugin
         Piwik_AddWidget('Example Widgets', 'Installation_Welcome', 'CoreHome', 'getPromoVideo');
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getCssFiles(&$cssFiles)
+    public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
         $cssFiles[] = "themes/default/common.css";
@@ -61,10 +56,7 @@ class Piwik_CoreHome extends Piwik_Plugin
         $cssFiles[] = "plugins/CoreHome/templates/donate.css";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "libs/jquery/jquery.js";
         $jsFiles[] = "libs/jquery/jquery-ui.js";

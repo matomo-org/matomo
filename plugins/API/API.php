@@ -56,9 +56,6 @@ class Piwik_API extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "plugins/API/css/styles.css";
@@ -588,8 +585,6 @@ class Piwik_API_API
 
         // Some plugins need to add custom metrics after all plugins hooked in
         Piwik_PostEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
-        // Oh this is not pretty! Until we have event listeners order parameter...
-        Piwik_PostEvent('API.getReportMetadata.end.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order
         usort($availableReports, array($this, 'sort'));

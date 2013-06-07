@@ -47,20 +47,16 @@ class Piwik_Annotations extends Piwik_Plugin
 
     /**
      * Adds css files for this plugin to the list in the event notification.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles(&$cssFiles)
+    public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "plugins/Annotations/templates/styles.css";
     }
 
     /**
      * Adds js files for this plugin to the list in the event notification.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles(&$jsFiles)
+    public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/Annotations/templates/annotations.js";
     }

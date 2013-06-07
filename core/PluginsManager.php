@@ -434,7 +434,6 @@ class Piwik_PluginsManager
 
             $plugin = $oPlugin;
         }
-        $hooks = $plugin->getListHooksRegistered();
 
         unset($this->loadedPlugins[$plugin->getPluginName()]);
     }
@@ -604,42 +603,111 @@ class Piwik_PluginsManager
         }
     }
     
+    const EVENT_CALLBACK_GROUP_FIRST = 0;
+    const EVENT_CALLBACK_GROUP_SECOND = 1;
+    const EVENT_CALLBACK_GROUP_THIRD = 2;
+    
     /**
-     * TODO
+     * Triggers an event, executing all callbacks associated with it.
+     * 
+     * @param string $eventName The name of the event, ie, API.getReportMetadata.
+     * @param array $params The parameters to pass to each callback when executing.
      */
     public function postEvent($eventName, $params)
     {
+        $callbacks = array();
+        
+        // collect all callbacks to execute
         foreach ($this->getLoadedPlugins() as $plugin) {
-            if (!$this->isPluginActivated($plugin->getPluginName())) { // TODO: double check this line. added because it was present in removed code above.
+            if (!$this->isPluginActivated($plugin->getPluginName())) {
                 continue;
             }
             
             $hooks = $plugin->getListHooksRegistered();
             
             if (isset($hooks[$eventName])) {
-                $callback = array($plugin, $hooks[$eventName]);
-                call_user_func_array($callback, $params);
+                list($pluginFunction, $callbackGroup) = $this->getCallbackFunctionAndGroupNumber($hooks[$eventName]);
+                
+                $callbacks[$callbackGroup][] = array($plugin, $pluginFunction);
             }
         }
         
         if (isset($this->extraObservers[$eventName])) {
-            foreach ($this->extraObservers[$eventName] as $callback) {
+            foreach ($this->extraObservers[$eventName] as $callbackInfo) {
+                list($callback, $callbackGroup) = $this->getCallbackFunctionAndGroupNumber($callbackInfo);
+                
+                $callbacks[$callbackGroup][] = $callback;
+            }
+        }
+        
+        // execute callbacks in order
+        foreach ($callbacks as $callbackGroup) {
+            foreach ($callbackGroup as $callback) {
                 call_user_func_array($callback, $params);
             }
         }
     }
     
+    private function getCallbackFunctionAndGroupNumber($hookInfo)
+    {
+        if (is_array($hookInfo)
+            && !empty($hookInfo['function'])
+        ) {
+            $pluginFunction = $hookInfo['function'];
+            if (!empty($hookInfo['before'])) {
+                $callbackGroup = self::EVENT_CALLBACK_GROUP_FIRST;
+            } else if (!empty($hookInfo['after'])) {
+                $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;
+            } else {
+                $callbackGroup = self::EVENT_CALLBACK_GROUP_THIRD;
+            }
+        } else {
+            $pluginFunction = $hookInfo;
+            $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;
+        }
+        
+        return array($pluginFunction, $callbackGroup);
+    }
+    
     /**
-     * TODO
+     * Array of observers (callbacks attached to events) that are not methods
+     * of plugin classes.
      */
     private $extraObservers = array();
     
     /**
-     * TODO
+     * Associates a callback that is not a plugin class method with an event
+     * name.
+     * 
+     * @param string $eventName
+     * @param array $callback This can be a normal PHP callback or an array
+     *                        that looks like this:
+     *                        array(
+     *                            'function' => $callback,
+     *                            'before' => true
+     *                        )
+     *                        or this:
+     *                        array(
+     *                            'function' => $callback,
+     *                            'after' => true
+     *                        )
+     *                        If 'before' is set, the callback will be executed
+     *                        before normal & 'after' ones. If 'after' then it
+     *                        will be executed after normal ones.
      */
     public function addObserver($eventName, $callback)
     {
         $this->extraObservers[$eventName][] = $callback;
+    }
+    
+    /**
+     * Removes all registered observers for an event name. Only used for testing.
+     * 
+     * @param string $eventName
+     */
+    public function clearObservers($eventName)
+    {
+        $this->extraObservers[$eventName] = array();
     }
 }
 
@@ -658,16 +726,17 @@ class Piwik_PluginsManager_PluginException extends Exception
 				PluginsInstalled[] = $pluginName");
     }
 }
-// TODO Remove docs for Piwik_Event_Notification (& class?)
-// TODO: allow ordering of events (use proof of concept code first in other sections)
+
+// TODO: get tests to pass.
 // TODO: test all of Piwik.
 /**
- * Post an event to the dispatcher which will notice the observers
- * TODO modify
- * @param string $eventName  The event name
+ * Post an event to the dispatcher which will notice the observers.
+ * 
+ * @param string $eventName  The event name.
+ * @param array $params The parameter array to forward to observer callbacks.
  * @return void
  */
-function Piwik_PostEvent($eventName, $params = array()) // TODO modify caller & all event handlers (look for getNotificationObject)
+function Piwik_PostEvent($eventName, $params = array())
 {
     Piwik_PluginsManager::getInstance()->postEvent($eventName, $params);
 }

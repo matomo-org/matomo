@@ -50,14 +50,11 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         return $hooks;
     }
 
-    function addMenu()
+    public function addMenu()
     {
         Piwik_AddMenu('General_Visitors', 'UserCountryMap_RealTimeMap', array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), true, $order = 70);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = "plugins/UserCountryMap/js/vendor/raphael.min.js";

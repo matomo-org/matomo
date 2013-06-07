@@ -42,12 +42,8 @@ class Piwik_Provider extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports[] = array(
             'category'      => Piwik_Translate('General_Visitors'),
             'name'          => Piwik_Translate('Provider_ColumnProvider'),
@@ -59,12 +55,8 @@ class Piwik_Provider extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit Location',
@@ -116,13 +108,9 @@ class Piwik_Provider extends Piwik_Plugin
 
     /**
      * Logs the provider in the log_visit table
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    public function logProviderInfo($notification)
+    public function logProviderInfo(&$visitorInfo)
     {
-        $visitorInfo =& $notification->getNotificationObject();
-
         // if provider info has already been set, abort
         if (!empty($visitorInfo['location_provider'])) {
             return;
@@ -202,12 +190,8 @@ class Piwik_Provider extends Piwik_Plugin
         return trim(strtolower(@Piwik_IP::getHostByAddr($ip)));
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    static public function footerUserCountry($notification)
+    static public function footerUserCountry(&$out)
     {
-        $out =& $notification->getNotificationObject();
         $out = '<div>
 			<h2>' . Piwik_Translate('Provider_WidgetProviders') . '</h2>';
         $out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
@@ -216,8 +200,6 @@ class Piwik_Provider extends Piwik_Plugin
 
     /**
      * Daily archive: processes the report Visits by Provider
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
     public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
     {
@@ -227,10 +209,6 @@ class Piwik_Provider extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return mixed
-     */
     public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
     {
         $archiving = new Piwik_Provider_Archiver($archiveProcessing);

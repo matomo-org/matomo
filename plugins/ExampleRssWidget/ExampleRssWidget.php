@@ -45,9 +45,6 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
     public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "plugins/ExampleRssWidget/templates/styles.css";
