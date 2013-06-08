@@ -3029,7 +3029,7 @@ if (typeof Piwik !== 'object') {
 
         // Expose Piwik as an AMD module
         if (typeof define === 'function' && define.amd) {
-            define(['piwik'], [], function () { return Piwik; });
+            define('piwik', [], function () { return Piwik; });
         }
 
         return Piwik;
