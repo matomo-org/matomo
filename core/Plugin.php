@@ -116,7 +116,7 @@ abstract class Piwik_Plugin
      */
     final public function getPluginName()
     {
-        return Piwik::unprefixClass(get_class($this));
+        return Piwik_Common::unprefixClass(get_class($this));
     }
 
     /**

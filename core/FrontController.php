@@ -191,7 +191,7 @@ class Piwik_FrontController
         try {
             Piwik::createConfigObject();
         } catch (Exception $e) {
-            Piwik_PostEvent('FrontController.NoConfigurationFile', array($e)); // TODO: removed $pending, must test this
+            Piwik_PostEvent('FrontController.NoConfigurationFile', array($e), $pending = true);
             $exceptionToThrow = $e;
         }
         return $exceptionToThrow;
@@ -261,7 +261,7 @@ class Piwik_FrontController
                 if (self::shouldRethrowException()) {
                     throw $e;
                 }
-                Piwik_PostEvent('FrontController.badConfigurationFile', array($e)); // TODO: removed pending, test this
+                Piwik_PostEvent('FrontController.badConfigurationFile', array($e), $pending = true);
                 throw $e;
             }
 

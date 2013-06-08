@@ -20,6 +20,8 @@
  */
 class Piwik_Common
 {
+    const CLASSES_PREFIX = 'Piwik_';
+    
     /**
      * Const used to map the referer type to an integer in the log_visit table
      */
@@ -1548,6 +1550,21 @@ class Piwik_Common
         return empty($cache['currentLocationProviderId'])
             ? Piwik_UserCountry_LocationProvider_Default::ID
             : $cache['currentLocationProviderId'];
+    }
+
+    /**
+     * Unprefix class name (if needed)
+     *
+     * @param string $class
+     * @return string
+     */
+    public static function unprefixClass($class)
+    {
+        $lenPrefix = strlen(self::CLASSES_PREFIX);
+        if (!strncmp($class, self::CLASSES_PREFIX, $lenPrefix)) {
+            return substr($class, $lenPrefix);
+        }
+        return $class;
     }
 }
 

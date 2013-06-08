@@ -22,7 +22,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
  */
 class Piwik
 {
-    const CLASSES_PREFIX = 'Piwik_';
     const COMPRESSED_FILE_LOCATION = '/tmp/assets/';
 
     /**
@@ -70,25 +69,10 @@ class Piwik
      */
     static public function prefixClass($class)
     {
-        if (!strncmp($class, Piwik::CLASSES_PREFIX, strlen(Piwik::CLASSES_PREFIX))) {
+        if (!strncmp($class, Piwik_Common::CLASSES_PREFIX, strlen(Piwik_Common::CLASSES_PREFIX))) {
             return $class;
         }
-        return Piwik::CLASSES_PREFIX . $class;
-    }
-
-    /**
-     * Unprefix class name (if needed)
-     *
-     * @param string $class
-     * @return string
-     */
-    static public function unprefixClass($class)
-    {
-        $lenPrefix = strlen(Piwik::CLASSES_PREFIX);
-        if (!strncmp($class, Piwik::CLASSES_PREFIX, $lenPrefix)) {
-            return substr($class, $lenPrefix);
-        }
-        return $class;
+        return Piwik_Common::CLASSES_PREFIX . $class;
     }
 
     /**
