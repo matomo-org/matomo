@@ -124,7 +124,7 @@ class Piwik_FrontController
         try {
             return call_user_func_array(array($params[0], $params[1]), $params[2]);
         } catch (Piwik_Access_NoAccessException $e) {
-            Piwik_PostEvent('FrontController.NoAccessException', array($e));
+            Piwik_PostEvent('FrontController.NoAccessException', array($e), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
             $message = Piwik_Common::sanitizeInputValue($e->getMessage());
