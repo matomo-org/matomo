@@ -111,7 +111,10 @@ class Piwik_Archive_DataCollection
 
         //FIXMEA
         $this->sitesId = $sitesId;
-        $this->periods = $periods;
+
+        foreach ($periods as $period) {
+            $this->periods[$period->getRangeString()] = $period;
+        }
         $this->defaultRow = $defaultRow;
     }
     

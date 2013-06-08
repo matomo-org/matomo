@@ -194,7 +194,7 @@ class Piwik_Archive
     const LABEL_ECOMMERCE_ORDER = 'ecommerceOrder';
     
     /**
-     * List of archive IDs for the sites, periods and segment we are querying with.
+     * List of archive IDs for the site, periods and segment we are querying with.
      * Archive IDs are indexed by done flag and period, ie:
      * 
      * array(
@@ -273,38 +273,6 @@ class Piwik_Archive
         $this->dataAccess = new Piwik_DataAccess_ArchiveQuery();
     }
 
-    /**
-     * FIXMEA
-     * Returns the IDs of sites we are querying archive data for.
-     * 
-     * @return array
-     */
-    public function getIdSites()
-    {
-        return $this->params->getIdSites();
-    }
-    
-    /**
-     * FIXMEA
-     * Returns the periods we are querying archive data for.
-     * 
-     * @return array
-     */
-    public function getPeriods()
-    {
-        return $this->params->getPeriods();
-    }
-    
-    /**
-     * FIXMEA
-     * Returns the segment used to limit the visit set.
-     * 
-     * @return Piwik_Segment|null
-     */
-    public function getSegment()
-    {
-        return $this->params->getSegment();
-    }
 
     /**
      * Builds an Archive object using query parameter values.
@@ -485,7 +453,7 @@ class Piwik_Archive
      */
     public function isArchivingDisabled()
     {
-        return Piwik_ArchiveProcessing::isArchivingDisabledFor($this->getSegment(), $this->getPeriodLabel());
+        return Piwik_ArchiveProcessing::isArchivingDisabledFor($this->params->getSegment(), $this->getPeriodLabel());
     }
 
     /**
@@ -541,7 +509,8 @@ class Piwik_Archive
         }
         return array_unique($result);
     }
-    
+
+
     /**
      * Helper - Loads a DataTable from the Archive.
      * Optionally loads the table recursively,
@@ -594,7 +563,7 @@ class Piwik_Archive
         }
         
         $result = new Piwik_Archive_DataCollection(
-            $archiveNames, $archiveDataType, $this->getIdSites(), $this->getPeriods(), $defaultRow = null);
+            $archiveNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
         
         $archiveIds = $this->getArchiveIds($archiveNames);
         if (empty($archiveIds)) {
@@ -613,7 +582,7 @@ class Piwik_Archive
                 $value = $this->uncompress($row['value']);
                 $result->addMetadata($idSite, $periodStr, 'ts_archived', $row['ts_archived']);
             }
-            
+            //FIXMEA
             $resultRow = &$result->get($idSite, $periodStr);
             $resultRow[$row['name']] = $value;
         }
@@ -685,13 +654,13 @@ class Piwik_Archive
         $today = Piwik_Date::today();
         
         // for every individual query permutation, launch the archiving process and get the archive ID
-        foreach ($this->getPeriods() as $period) {
+        foreach ($this->params->getPeriods() as $period) {
             $periodStr = $period->getRangeString();
             
             $twoDaysBeforePeriod = $period->getDateStart()->subDay(2);
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
             
-            foreach ($this->getIdSites() as $idSite) {
+            foreach ($this->params->getIdSites() as $idSite) {
                 $site = new Piwik_Site($idSite);
                 
                 // if the END of the period is BEFORE the website creation date
@@ -714,7 +683,7 @@ class Piwik_Archive
                 $processing = $this->getArchiveProcessingInstance($period);
                 $processing->setSite($site);
                 $processing->setPeriod($period);
-                $processing->setSegment($this->getSegment());
+                $processing->setSegment($this->params->getSegment());
                 
                 $processing->isThereSomeVisits = null;
                 
@@ -756,7 +725,7 @@ class Piwik_Archive
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
         $idarchivesByReport = $this->dataAccess->getArchiveIds(
-            $this->getIdSites(), $this->getPeriods(), $this->getSegment(), $plugins);
+            $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
         
         // initialize archive ID cache for each report
         foreach ($plugins as $plugin) {
@@ -783,7 +752,7 @@ class Piwik_Archive
      */
     private function getDoneStringForPlugin($plugin)
     {
-        return Piwik_ArchiveProcessing::getDoneStringFlagFor($this->getSegment(), $this->getPeriodLabel(), $plugin);
+        return Piwik_ArchiveProcessing::getDoneStringFlagFor($this->params->getSegment(), $this->getPeriodLabel(), $plugin);
     }
     
     /**
@@ -804,7 +773,7 @@ class Piwik_Archive
     
     private function getPeriodLabel()
     {
-        $periods = $this->getPeriods();
+        $periods = $this->params->getPeriods();
         return reset($periods)->getLabel();
     }
     
@@ -818,13 +787,13 @@ class Piwik_Archive
     {
         $indices = array();
         
-        if (count($this->getIdSites()) > 1
+        if (count($this->params->getIdSites()) > 1
             || $this->forceIndexedBySite
         ) {
             $indices['site'] = 'idSite';
         }
         
-        if (count($this->getPeriods()) > 1
+        if (count($this->params->getPeriods()) > 1
             || $this->forceIndexedByDate
         ) {
             $indices['period'] = 'date';

@@ -9,6 +9,8 @@
  * @package Piwik
  */
 
+const FIX_ME_OMG = 'this is a warning and reminder to fix this code ';
+
 /**
  * Creates a Piwik_DataTable or Piwik_DataTable_Array instance based on an array
  * index created by Piwik_Archive_DataCollection.
@@ -71,10 +73,11 @@ class Piwik_Archive_DataTableFactory
      */
     public function __construct($dataNames, $dataType, $sitesId, $periods, $defaultRow)
     {
-        //FIXMEA
         $this->dataNames = $dataNames;
         $this->dataType = $dataType;
         $this->sitesId = $sitesId;
+
+        //here index period by string only
         $this->periods = $periods;
         $this->defaultRow = $defaultRow;
     }
@@ -355,7 +358,9 @@ class Piwik_Archive_DataTableFactory
         $periods = $this->periods;
         $table->filter(function ($table) use($periods) {
             $table->metadata['site'] = new Piwik_Site($table->metadata['site']);
-            $table->metadata['period'] = $periods[$table->metadata['period']];
+            $table->metadata['period'] = empty($periods[$table->metadata['period']])
+                                            ? FIX_ME_OMG
+                                            : $periods[$table->metadata['period']];
         });
     }
     
@@ -368,6 +373,9 @@ class Piwik_Archive_DataTableFactory
      */
     private function prettifyIndexLabel($labelType, $label)
     {
+        if(empty($this->periods[$label])) {
+            return $label; // BAD BUG FIXME
+        }
         if ($labelType == 'period') { // prettify period labels
             return $this->periods[$label]->getPrettyString();
         }

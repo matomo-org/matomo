@@ -165,7 +165,7 @@ abstract class Piwik_ArchiveProcessing
     {
         $params = new Piwik_Archive_Parameters();
         $params->setSegment($this->getSegment());
-        $params->setIdSites($this->site->getId());
+        $params->setIdSites($this->getSite()->getId());
         $params->setPeriods($this->getPeriod());
 
         $archive = new Piwik_Archive($params);
@@ -232,12 +232,12 @@ abstract class Piwik_ArchiveProcessing
 
     private function getDateEnd()
     {
-        return $this->getPeriod()->getDateEnd()->setTimezone($this->site->getTimezone());
+        return $this->getPeriod()->getDateEnd()->setTimezone($this->getSite()->getTimezone());
     }
 
     private function getDateStart()
     {
-        return $this->getPeriod()->getDateStart()->setTimezone($this->site->getTimezone());
+        return $this->getPeriod()->getDateStart()->setTimezone($this->getSite()->getTimezone());
     }
 
     public function getStartDatetimeUTC()
@@ -266,17 +266,16 @@ abstract class Piwik_ArchiveProcessing
     {
         $startTimestampUTC = $this->getDateStart()->getTimestamp();
         $endTimestampUTC = strtotime($this->getEndDatetimeUTC());
-
-        $time = time();
+        $now = time();
 
         $this->temporaryArchive = false;
         // if the current archive is a DAY and if it's today,
         // we set this minDatetimeArchiveProcessedUTC that defines the lifetime value of today's archive
         if ($this->getPeriod()->getNumberOfSubperiods() == 0
-            && ($startTimestampUTC <= $time && $endTimestampUTC > $time)
+            && ($startTimestampUTC <= $now && $endTimestampUTC > $now)
         ) {
             $this->temporaryArchive = true;
-            $minDatetimeArchiveProcessedUTC = $time - self::getTodayArchiveTimeToLive();
+            $minDatetimeArchiveProcessedUTC = $now - self::getTodayArchiveTimeToLive();
             // see #1150; if new archives are not triggered from the browser,
             // we still want to try and return the latest archive available for today (rather than return nothing)
             if ($this->isArchivingDisabled()) {
@@ -284,19 +283,19 @@ abstract class Piwik_ArchiveProcessing
             }
         } // - if the period we are looking for is finished, we look for a ts_archived that
         //   is greater than the last day of the archive
-        elseif ($endTimestampUTC <= $time) {
+        elseif ($endTimestampUTC <= $now) {
             $minDatetimeArchiveProcessedUTC = $endTimestampUTC;
         } // - if the period we're looking for is not finished, we look for a recent enough archive
         else {
             $this->temporaryArchive = true;
 
             // We choose to only look at archives that are newer than the specified timeout
-            $minDatetimeArchiveProcessedUTC = $time - self::getTodayArchiveTimeToLive();
+            $minDatetimeArchiveProcessedUTC = $now - self::getTodayArchiveTimeToLive();
 
             // However, if archiving is disabled for this request, we shall
             // accept any archive that was processed today after 00:00:01 this morning
             if ($this->isArchivingDisabled()) {
-                $timezone = $this->site->getTimezone();
+                $timezone = $this->getSite()->getTimezone();
                 $minDatetimeArchiveProcessedUTC = Piwik_Date::factory(Piwik_Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
             }
         }
@@ -326,8 +325,8 @@ abstract class Piwik_ArchiveProcessing
      */
     public function launchArchiving()
     {
-        if (!Piwik::getArchiveProcessingLock($this->site->getId(), $this->getPeriod(), $this->getSegment())) {
-            Piwik::log('Unable to get lock for idSite = ' . $this->site->getId()
+        if (!Piwik::getArchiveProcessingLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment())) {
+            Piwik::log('Unable to get lock for idSite = ' . $this->getSite()->getId()
                 . ', period = ' . $this->getPeriod()->getLabel()
                 . ', UTC datetime [' . $this->getStartDatetimeUTC() . ' -> ' . $this->getEndDatetimeUTC() . ' ]...');
             return;
@@ -339,7 +338,7 @@ abstract class Piwik_ArchiveProcessing
 
         // we execute again the isArchived that does some initialization work
         $this->idArchive = $this->isArchived();
-        Piwik::releaseArchiveProcessingLock($this->site->getId(), $this->getPeriod(), $this->getSegment());
+        Piwik::releaseArchiveProcessingLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment());
     }
 
     /**
@@ -394,7 +393,7 @@ abstract class Piwik_ArchiveProcessing
         }
         Piwik::log(sprintf("'%s, idSite = %d (%s), segment '%s', report = '%s', UTC datetime [%s -> %s]",
             $this->getPeriod()->getLabel(),
-            $this->site->getId(),
+            $this->getSite()->getId(),
             $temporary,
             $this->getSegment()->getString(),
             $this->getRequestedPlugin(),
@@ -510,7 +509,7 @@ abstract class Piwik_ArchiveProcessing
         $db->exec("INSERT INTO $table "
             . " SELECT ifnull(max(idarchive),0)+1,
 								'" . $locked . "',
-								" . (int)$this->site->getId() . ",
+								" . (int)$this->getSite()->getId() . ",
 								'" . $date . "',
 								'" . $date . "',
 								0,
@@ -608,7 +607,7 @@ abstract class Piwik_ArchiveProcessing
     protected function getBindArray()
     {
         return array($this->getIdArchive(),
-                     $this->site->getId(),
+                     $this->getSite()->getId(),
                      $this->getPeriod()->getDateStart()->toString('Y-m-d'),
                      $this->getPeriod()->getDateEnd()->toString('Y-m-d'),
                      $this->getPeriod()->getId(),
@@ -670,7 +669,7 @@ abstract class Piwik_ArchiveProcessing
      */
     protected function isArchived()
     {
-        $bindSQL = array($this->site->getId(),
+        $bindSQL = array($this->getSite()->getId(),
                          $this->getPeriod()->getDateStart()->toString('Y-m-d'),
                          $this->getPeriod()->getDateEnd()->toString('Y-m-d'),
                          $this->getPeriod()->getId(),
@@ -856,6 +855,29 @@ abstract class Piwik_ArchiveProcessing
             || !Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed);
     }
 
+    /**
+     * Site of the current archive
+     * Can be accessed by plugins (that is why it's public)
+     *
+     * @var Piwik_Site
+     */
+    private $site = null;
+
+
+    /**
+     * Period of the current archive
+     * Can be accessed by plugins (that is why it's public)
+     *
+     * @var Piwik_Period
+     */
+    private $period = null;
+
+
+
+    /**
+     * @var Piwik_Segment
+     */
+    private $segment = null;
 
 
     /**
@@ -898,31 +920,8 @@ abstract class Piwik_ArchiveProcessing
         return $this->site;
     }
 
-    /**
-     * Site of the current archive
-     * Can be accessed by plugins (that is why it's public)
-     *
-     * @var Piwik_Site
-     */
-    private $site = null;
-
-
-    /**
-     * Period of the current archive
-     * Can be accessed by plugins (that is why it's public)
-     *
-     * @var Piwik_Period
-     */
-    private $period = null;
-
     public function getPeriod()
     {
         return $this->period;
     }
-
-
-    /**
-     * @var Piwik_Segment
-     */
-    private $segment = null;
 }

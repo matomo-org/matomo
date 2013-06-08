@@ -10,9 +10,7 @@
  */
 
 /**
- *
- * NB: When a new table is partitionned using this class, we have to update the method
- *     Piwik::getTablesInstalled() to add the new table to the list of tablename_* to fetch
+ * FIXMEA: simplify/delete this code
  *
  * @package Piwik
  * @subpackage Piwik_TablePartitioning

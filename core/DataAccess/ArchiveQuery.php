@@ -45,6 +45,7 @@ class Piwik_DataAccess_ArchiveQuery
         foreach ($this->getPeriodsByTableMonth($periods) as $tableMonth => $periods) {
             $firstPeriod = reset($periods);
             $table = Piwik_Common::prefixTable("archive_numeric_$tableMonth");
+//            echo $periods;
             
             Piwik_TablePartitioning_Monthly::createArchiveTablesIfAbsent($firstPeriod);
             
@@ -68,6 +69,8 @@ class Piwik_DataAccess_ArchiveQuery
             // get the archive IDs
             foreach (Piwik_FetchAll($sql, $bind) as $row) {
                 $archiveName = $row['name'];
+
+                //FIXMEA duplicate with Archive.php
                 $dateStr = $row['date1'].",".$row['date2'];
                 
                 $result[$archiveName][$dateStr][] = $row['idarchive'];
