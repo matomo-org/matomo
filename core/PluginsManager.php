@@ -59,11 +59,21 @@ class Piwik_PluginsManager
     /**
      * Array of observers (callbacks attached to events) that are not methods
      * of plugin classes.
+     * 
+     * @var array
      */
     private $extraObservers = array();
     
     /**
-     * TODO
+     * Array storing information for all pending events. Each item in the array
+     * will be an array w/ two elements:
+     * 
+     * array(
+     *     'Event.Name',                  // the event name
+     *     array('event', 'parameters')   // the parameters to pass to event observers
+     * )
+     * 
+     * @var array
      */
     private $pendingEvents = array();
 
@@ -626,10 +636,12 @@ class Piwik_PluginsManager
      * 
      * @param string $eventName The name of the event, ie, API.getReportMetadata.
      * @param array $params The parameters to pass to each callback when executing.
-     * @param bool $pending Whether this posted event should be posted again for
-     *                      plugins loaded after the event is fired.
+     * @param bool $pending Whether this event should be posted again for plugins
+     *                      loaded after the event is fired.
      * @param array|null $plugins The plugins to post events to. If null, the event
-     *                            is posted to all events.
+     *                            is posted to all plugins. The elements of this array
+     *                            can be either the Piwik_Plugin objects themselves
+     *                            or their string names.
      */
     public function postEvent($eventName, $params, $pending = false, $plugins = null)
     {
@@ -645,6 +657,10 @@ class Piwik_PluginsManager
         
         // collect all callbacks to execute
         foreach ($plugins as $plugin) {
+            if (is_string($plugin)) {
+                $plugin = $this->getLoadedPlugin($plugin);
+            }
+            
             if (!$this->isPluginActivated($plugin->getPluginName())) {
                 continue;
             }
@@ -760,9 +776,6 @@ class Piwik_PluginsManager_PluginException extends Exception
     }
 }
 
-// TODO: test pending events & addaction events
-// TODO: get tests to pass.
-// TODO: test all of Piwik.
 /**
  * Post an event to the dispatcher which will notice the observers.
  * 

@@ -489,7 +489,7 @@ class Piwik_Tracker
             $configDb['port'] = '3306';
         }
 
-        Piwik_PostEvent('Tracker.getDatabaseConfig', array($configDb));
+        Piwik_PostEvent('Tracker.getDatabaseConfig', array(&$configDb));
 
         $db = self::factory($configDb);
         $db->connect();
@@ -505,7 +505,7 @@ class Piwik_Tracker
 
         try {
             $db = null;
-            Piwik_PostEvent('Tracker.createDatabase', array(&$db)); // TODO: test installation.
+            Piwik_PostEvent('Tracker.createDatabase', array(&$db));
             if (is_null($db)) {
                 $db = self::connectPiwikTrackerDb();
             }

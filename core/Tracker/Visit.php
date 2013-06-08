@@ -421,7 +421,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
                     . " wasn't found in the DB, we fallback to a new visitor");
         }
 
-        Piwik_PostEvent('Tracker.knownVisitorInformation', array(&$this->visitorInfo)); // TODO: check all PostEvent changes for whether first arg should be reference or not
+        Piwik_PostEvent('Tracker.knownVisitorInformation', array(&$this->visitorInfo));
     }
 
     /**
