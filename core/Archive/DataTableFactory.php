@@ -272,6 +272,18 @@ class Piwik_Archive_DataTableFactory
                 Piwik_Archive_DataCollection::removeMetadataFromDataRow($data);
                 
                 $table->addRow(new Piwik_DataTable_Row(array(Piwik_DataTable_Row::COLUMNS => $data)));
+            } else {
+                // if we're querying numeric data, we couldn't find any, and we're only
+                // looking for one metric, add a row w/ one column w/ value 0. this is to
+                // ensure that the PHP renderer outputs 0 when only one column is queried.
+                // w/o this code, an empty array would be created, and other parts of Piwik
+                // would break.
+                if (count($this->dataNames) == 1) {
+                    $name = reset($this->dataNames);
+                    $table->addRow(new Piwik_DataTable_Row(array(
+                        Piwik_DataTable_Row::COLUMNS => array($name => 0)
+                    )));
+                }
             }
             
             $result = $table;
