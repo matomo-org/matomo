@@ -11,7 +11,7 @@
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<label>Others</label>
+			<label>https://example.org/the/third_page.html?foo=baz</label>
 			<referrals>2</referrals>
 		</row>
 	</previousPages>
@@ -37,8 +37,12 @@
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<label>Others</label>
-			<referrals>3</referrals>
+			<label>https://example.org/the/third_page.html?foo=bar</label>
+			<referrals>2</referrals>
+		</row>
+		<row>
+			<label>http://example.org/page3.html</label>
+			<referrals>1</referrals>
 		</row>
 	</followingPages>
 	<followingSiteSearches>

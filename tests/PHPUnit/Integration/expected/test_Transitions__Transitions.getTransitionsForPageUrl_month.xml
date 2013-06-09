@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<date>Sat 6 Mar</date>
+	<date>Mar 2010</date>
 	<previousPages>
 		<row>
 			<label>https://example.org/the/third_page.html?foo=bar</label>
@@ -23,7 +23,7 @@
 	</previousSiteSearches>
 	<pageMetrics>
 		<loops>1</loops>
-		<pageviews>17</pageviews>
+		<pageviews>19</pageviews>
 		<entries>4</entries>
 		<exits>3</exits>
 	</pageMetrics>
@@ -44,7 +44,7 @@
 	<followingSiteSearches>
 		<row>
 			<label>anotherkwd</label>
-			<referrals>1</referrals>
+			<referrals>2</referrals>
 		</row>
 	</followingSiteSearches>
 	<outlinks>
@@ -54,6 +54,10 @@
 		</row>
 		<row>
 			<label>http://anothersite.com/to/outlink/page2.html</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>Others</label>
 			<referrals>1</referrals>
 		</row>
 	</outlinks>
