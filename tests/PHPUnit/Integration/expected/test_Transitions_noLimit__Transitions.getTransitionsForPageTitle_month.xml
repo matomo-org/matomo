@@ -34,10 +34,10 @@
 		</row>
 	</previousSiteSearches>
 	<pageMetrics>
-		<loops>5</loops>
-		<pageviews>18</pageviews>
+		<loops>6</loops>
+		<pageviews>19</pageviews>
 		<entries>3</entries>
-		<exits>-2</exits>
+		<exits>-3</exits>
 	</pageMetrics>
 	<followingPages>
 		<row>
@@ -88,6 +88,10 @@
 		</row>
 		<row>
 			<label>https://example.org/downloads/31.tar.gz</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>http://www.example.org/downloads/38.tar.gz</label>
 			<referrals>1</referrals>
 		</row>
 	</downloads>

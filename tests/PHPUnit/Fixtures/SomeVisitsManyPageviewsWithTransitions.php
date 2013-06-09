@@ -109,7 +109,9 @@ class Test_Piwik_Fixture_SomeVisitsManyPageviewsWithTransitions extends Test_Piw
         $this->trackPageView($tracker, 0.1, 'page/one.html', $laterDate);
         $this->trackPageView($tracker, 0.15, 'to/another/outlink.html', $laterDate, $pageViewType = 'outlink');
         $this->trackPageView($tracker, 0.2, 'page/one.html', $laterDate);
-        $this->trackPageView($tracker, 0.25, 'page/search.html#q=anotherkwd', $laterDate,
+        $this->trackPageView($tracker, 0.25, '', $laterDate, $pageViewType = 'download');
+        $this->trackPageView($tracker, 0.3, 'page/one.html', $laterDate);
+        $this->trackPageView($tracker, 0.35, 'page/search.html#q=anotherkwd', $laterDate,
                              $pageViewType = 'site-search', $searchKeyword = 'anotherkwd',
                              $searchCategory = 'mysearchcat');
         
