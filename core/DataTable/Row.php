@@ -522,7 +522,7 @@ class Piwik_DataTable_Row
         ) {
             // We shall update metadata, and keep the metadata with the _most visits or pageviews_, rather than first or last seen
             $visits = max($rowToSum->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS) || $rowToSum->getColumn(Piwik_Archive::INDEX_NB_VISITS),
-                // Old format pre-1.2, @see also method sumMetrics()
+                // Old format pre-1.2, @see also method doSumVisitsMetrics()
                 $rowToSum->getColumn('nb_actions') || $rowToSum->getColumn('nb_visits'));
             if (($visits && $visits > $this->maxVisitsSummed)
                 || empty($this->c[self::METADATA])

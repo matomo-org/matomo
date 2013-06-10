@@ -189,7 +189,6 @@ class Piwik_UserSettings_API
 
         // walk through the results and calculate the percentage
         foreach ($tableArray as $key => $table) {
-
             // get according browserType table
             foreach ($browserTypesArray AS $k => $browsers) {
                 if ($k == $key) {

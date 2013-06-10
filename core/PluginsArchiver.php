@@ -20,7 +20,6 @@ abstract class Piwik_PluginsArchiver
     public function __construct(Piwik_ArchiveProcessing $processing)
     {
         $this->maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $this->maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processing;
     }
 

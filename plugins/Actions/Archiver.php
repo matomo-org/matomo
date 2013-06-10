@@ -439,10 +439,14 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     {
         $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_ACTION_URL);
         $this->recordDataTable($dataTable, self::PAGE_URLS_RECORD_NAME);
-        $this->getProcessor()->insertNumericRecord(self::METRIC_PAGEVIEWS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-        $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
-        $this->getProcessor()->insertNumericRecord(self::METRIC_SUM_TIME_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)));
-        $this->getProcessor()->insertNumericRecord(self::METRIC_HITS_TIMED_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION)));
+
+        $records = array(
+            self::METRIC_PAGEVIEWS_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)),
+            self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)),
+            self::METRIC_SUM_TIME_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)),
+            self::METRIC_HITS_TIMED_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION))
+        );
+        $this->getProcessor()->insertNumericRecords( $records );
     }
 
     /**

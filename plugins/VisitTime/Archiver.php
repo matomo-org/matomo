@@ -22,53 +22,49 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
 
     protected function aggregateByServerTime()
     {
-        $metricsByServerTime = $this->getProcessor()->getMetricsForLabel("HOUR(log_visit.visit_last_action_time)");
-        $query = $this->getProcessor()->queryConversionsByDimension("HOUR(log_conversion.server_time)");
-
-        if ($query === false) return;
+        $array = $this->getProcessor()->getMetricsForDimension( array("label" => "HOUR(log_visit.visit_last_action_time)" )) ;
+        $query = $this->getProcessor()->queryConversionsByDimension( array("label" => "HOUR(log_conversion.server_time)") );
+        if ($query === false) {
+            return;
+        }
 
         while ($row = $query->fetch()) {
-            if (!isset($metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) {
-                $metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $this->getProcessor()->makeEmptyGoalRow($row['idgoal']);
-            }
-            $this->getProcessor()->sumGoalMetrics($row, $metricsByServerTime[$row['label']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
+            $array->sumMetricsGoals($row['label'], $row);
         }
-        $this->getProcessor()->enrichMetricsWithConversions($metricsByServerTime);
-
-        $metricsByServerTime = $this->convertServerTimeToLocalTimezone($metricsByServerTime);
-        $tableServerTime = $this->getProcessor()->getDataTableFromArray($metricsByServerTime);
-        $this->makeSureAllHoursAreSet($tableServerTime);
-        $this->getProcessor()->insertBlobRecord(self::SERVER_TIME_RECORD_NAME, $tableServerTime->getSerialized());
+        $array->enrichMetricsWithConversions();
+        $array = $this->convertTimeToLocalTimezone($array);
+        $this->ensureAllHoursAreSet($array);
+        $this->getProcessor()->insertBlobRecord(self::SERVER_TIME_RECORD_NAME, $this->getProcessor()->getDataTableFromDataArray($array)->getSerialized());
     }
 
     protected function aggregateByLocalTime()
     {
-        $metricsByLocalTime = $this->getProcessor()->getMetricsForLabel("HOUR(log_visit.visitor_localtime)");
-        $tableLocalTime = $this->getProcessor()->getDataTableFromArray($metricsByLocalTime);
-        $this->makeSureAllHoursAreSet($tableLocalTime);
-        $this->getProcessor()->insertBlobRecord(self::LOCAL_TIME_RECORD_NAME, $tableLocalTime->getSerialized());
+        $array = $this->getProcessor()->getMetricsForDimension("HOUR(log_visit.visitor_localtime)");
+        $this->ensureAllHoursAreSet($array);
+        $this->getProcessor()->insertBlobRecord(self::LOCAL_TIME_RECORD_NAME, $this->getProcessor()->getDataTableFromDataArray($array)->getSerialized());
     }
 
-    protected function convertServerTimeToLocalTimezone($metricsByServerTime)
+    protected function convertTimeToLocalTimezone(Piwik_DataArray &$array)
     {
         $date = Piwik_Date::factory($this->getProcessor()->getStartDatetimeUTC())->toString();
         $timezone = $this->getProcessor()->getSite()->getTimezone();
-        $visitsByHourTz = array();
-        foreach ($metricsByServerTime as $hour => $stats) {
+
+        $converted = array();
+        foreach ($array->getDataArray() as $hour => $stats) {
             $datetime = $date . ' ' . $hour . ':00:00';
             $hourInTz = (int)Piwik_Date::factory($datetime, $timezone)->toString('H');
-            $visitsByHourTz[$hourInTz] = $stats;
+            $converted[$hourInTz] = $stats;
         }
-        return $visitsByHourTz;
+        return new Piwik_DataArray($converted);
     }
 
 
-    private function makeSureAllHoursAreSet($table)
+    private function ensureAllHoursAreSet( Piwik_DataArray &$array)
     {
+        $data = $array->getDataArray();
         for ($i = 0; $i <= 23; $i++) {
-            if ($table->getRowFromLabel($i) === false) {
-                $row = $this->getProcessor()->makeEmptyRowLabeled($i);
-                $table->addRow($row);
+            if (empty($data[$i])) {
+                $array->sumMetricsVisits( $i, Piwik_DataArray::makeEmptyRow());
             }
         }
     }

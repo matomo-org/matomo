@@ -532,6 +532,13 @@ abstract class Piwik_ArchiveProcessing
         return $this->insertRecord($name, $value);
     }
 
+    public function insertNumericRecords($numericRecords)
+    {
+        foreach ($numericRecords as $name => $value) {
+            $this->insertNumericRecord($name, $value);
+        }
+    }
+
     /**
      * @param string $name
      * @param string|array $values
@@ -547,6 +554,7 @@ abstract class Piwik_ArchiveProcessing
                 // but for the child table of 'Google' which has the ID = 9 the name would be 'referer_search_engine_9'
                 $newName = $name;
                 if ($id != 0) {
+                    //FIXMEA: refactor
                     $newName = $name . '_' . $id;
                 }
 
@@ -630,7 +638,7 @@ abstract class Piwik_ArchiveProcessing
     protected function insertRecord($name, $value)
     {
         // We choose not to record records with a value of 0
-        if ($value === 0) {
+        if ($value == 0) {
             return;
         }
         $tableName = $this->getTableNameToInsert($value);
@@ -831,7 +839,7 @@ abstract class Piwik_ArchiveProcessing
     protected function isProcessingEnabled()
     {
         return $this->shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel())
-            || ($this->isVisitsSummaryRequested());
+               || $this->isVisitsSummaryRequested();
     }
 
     /**

@@ -11,30 +11,21 @@
 
 class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
 {
-    const KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME = 'Referers_keywordBySearchEngine';
-    const SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME = 'Referers_searchEngineByKeyword';
-    const KEYWORD_BY_CAMPAIGN_RECORD_NAME = 'Referers_keywordByCampaign';
-    const URL_BY_WEBSITE_RECORD_NAME = 'Referers_urlByWebsite';
+    const SEARCH_ENGINES_RECORD_NAME = 'Referers_keywordBySearchEngine';
+    const KEYWORDS_RECORD_NAME = 'Referers_searchEngineByKeyword';
+    const CAMPAIGNS_RECORD_NAME = 'Referers_keywordByCampaign';
+    const WEBSITES_RECORD_NAME = 'Referers_urlByWebsite';
     const REFERER_TYPE_RECORD_NAME = 'Referers_type';
-
     const METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME = 'Referers_distinctSearchEngines';
     const METRIC_DISTINCT_KEYWORD_RECORD_NAME = 'Referers_distinctKeywords';
     const METRIC_DISTINCT_CAMPAIGN_RECORD_NAME = 'Referers_distinctCampaigns';
     const METRIC_DISTINCT_WEBSITE_RECORD_NAME = 'Referers_distinctWebsites';
     const METRIC_DISTINCT_URLS_RECORD_NAME = 'Referers_distinctWebsitesUrls';
-
     protected $columnToSortByBeforeTruncation;
     protected $maximumRowsInDataTableLevelZero;
     protected $maximumRowsInSubDataTable;
-    protected $metricsBySearchEngine = array();
-    protected $metricsByKeyword = array();
-    protected $metricsBySearchEngineAndKeyword = array();
-    protected $metricsByKeywordAndSearchEngine = array();
-    protected $metricsByWebsite = array();
-    protected $metricsByWebsiteAndUrl = array();
-    protected $metricsByCampaignAndKeyword = array();
-    protected $metricsByCampaign = array();
-    protected $metricsByType = array();
+    /* @var array[Piwik_DataArray] $arrays */
+    protected $arrays = array();
     protected $distinctUrls = array();
 
     function __construct($processor)
@@ -47,6 +38,9 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
 
     public function archiveDay()
     {
+        foreach ($this->getRecordNames() as $record) {
+            $this->arrays[$record] = new Piwik_DataArray();
+        }
         $query = $this->getProcessor()->queryVisitsByDimension(array("referer_type", "referer_name", "referer_keyword", "referer_url"));
         $this->aggregateFromVisits($query);
 
@@ -57,12 +51,22 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
         $this->recordDayReports();
     }
 
+    protected function getRecordNames()
+    {
+        return array(
+            self::REFERER_TYPE_RECORD_NAME,
+            self::KEYWORDS_RECORD_NAME,
+            self::SEARCH_ENGINES_RECORD_NAME,
+            self::WEBSITES_RECORD_NAME,
+            self::CAMPAIGNS_RECORD_NAME,
+        );
+    }
+
     protected function aggregateFromVisits($query)
     {
         while ($row = $query->fetch()) {
             $this->makeRefererTypeNonEmpty($row);
             $this->aggregateVisit($row);
-            $this->aggregateVisitByType($row);
         }
     }
 
@@ -77,15 +81,32 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     {
         switch ($row['referer_type']) {
             case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
-                $this->aggregateVisitBySearchEngine($row);
+                if (empty($row['referer_keyword'])) {
+                    $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
+                }
+                $searchEnginesArray = $this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME);
+                $searchEnginesArray->sumMetricsVisits($row['referer_name'], $row);
+                $searchEnginesArray->sumMetricsVisitsPivot($row['referer_name'], $row['referer_keyword'], $row);
+                $keywordsDataArray = $this->getDataArray(self::KEYWORDS_RECORD_NAME);
+                $keywordsDataArray->sumMetricsVisits($row['referer_keyword'], $row);
+                $keywordsDataArray->sumMetricsVisitsPivot($row['referer_keyword'], $row['referer_name'], $row);
                 break;
 
             case Piwik_Common::REFERER_TYPE_WEBSITE:
-                $this->aggregateVisitByWebsite($row);
+                $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
+                $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_url'], $row);
+
+                $urlHash = substr(md5($row['referer_url']), 0, 10);
+                if (!isset($this->distinctUrls[$urlHash])) {
+                    $this->distinctUrls[$urlHash] = true;
+                }
                 break;
 
             case Piwik_Common::REFERER_TYPE_CAMPAIGN:
-                $this->aggregateVisitByCampaign($row);
+                if (!empty($row['referer_keyword'])) {
+                    $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_keyword'], $row);
+                }
+                $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
                 break;
 
             case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
@@ -96,70 +117,16 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
                 throw new Exception("Non expected referer_type = " . $row['referer_type']);
                 break;
         }
+        $this->getDataArray(self::REFERER_TYPE_RECORD_NAME)->sumMetricsVisits($row['referer_type'], $row);
     }
 
-    protected function aggregateVisitBySearchEngine($row)
+    /**
+     * @param $name
+     * @return Piwik_DataArray
+     */
+    protected function getDataArray($name)
     {
-        if (empty($row['referer_keyword'])) {
-            $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
-        }
-        if (!isset($this->metricsBySearchEngine[$row['referer_name']])) {
-            $this->metricsBySearchEngine[$row['referer_name']] = $this->getProcessor()->makeEmptyRow();
-        }
-        if (!isset($this->metricsByKeyword[$row['referer_keyword']])) {
-            $this->metricsByKeyword[$row['referer_keyword']] = $this->getProcessor()->makeEmptyRow();
-        }
-        if (!isset($this->metricsBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']])) {
-            $this->metricsBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']] = $this->getProcessor()->makeEmptyRow();
-        }
-        if (!isset($this->metricsByKeywordAndSearchEngine[$row['referer_keyword']][$row['referer_name']])) {
-            $this->metricsByKeywordAndSearchEngine[$row['referer_keyword']][$row['referer_name']] = $this->getProcessor()->makeEmptyRow();
-        }
-
-        $this->getProcessor()->sumMetrics($row, $this->metricsBySearchEngine[$row['referer_name']]);
-        $this->getProcessor()->sumMetrics($row, $this->metricsByKeyword[$row['referer_keyword']]);
-        $this->getProcessor()->sumMetrics($row, $this->metricsBySearchEngineAndKeyword[$row['referer_name']][$row['referer_keyword']]);
-        $this->getProcessor()->sumMetrics($row, $this->metricsByKeywordAndSearchEngine[$row['referer_keyword']][$row['referer_name']]);
-    }
-
-    protected function aggregateVisitByWebsite($row)
-    {
-        if (!isset($this->metricsByWebsite[$row['referer_name']])) {
-            $this->metricsByWebsite[$row['referer_name']] = $this->getProcessor()->makeEmptyRow();
-        }
-        $this->getProcessor()->sumMetrics($row, $this->metricsByWebsite[$row['referer_name']]);
-
-        if (!isset($this->metricsByWebsiteAndUrl[$row['referer_name']][$row['referer_url']])) {
-            $this->metricsByWebsiteAndUrl[$row['referer_name']][$row['referer_url']] = $this->getProcessor()->makeEmptyRow();
-        }
-        $this->getProcessor()->sumMetrics($row, $this->metricsByWebsiteAndUrl[$row['referer_name']][$row['referer_url']]);
-
-        $urlHash = substr(md5($row['referer_url']), 0, 10);
-        if (!isset($this->distinctUrls[$urlHash])) {
-            $this->distinctUrls[$urlHash] = true;
-        }
-    }
-
-    protected function aggregateVisitByCampaign($row)
-    {
-        if (!empty($row['referer_keyword'])) {
-            if (!isset($this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']])) {
-                $this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']] = $this->getProcessor()->makeEmptyRow();
-            }
-            $this->getProcessor()->sumMetrics($row, $this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']]);
-        }
-        if (!isset($this->metricsByCampaign[$row['referer_name']])) {
-            $this->metricsByCampaign[$row['referer_name']] = $this->getProcessor()->makeEmptyRow();
-        }
-        $this->getProcessor()->sumMetrics($row, $this->metricsByCampaign[$row['referer_name']]);
-    }
-
-    protected function aggregateVisitByType($row)
-    {
-        if (!isset($this->metricsByType[$row['referer_type']])) {
-            $this->metricsByType[$row['referer_type']] = $this->getProcessor()->makeEmptyRow();
-        }
-        $this->getProcessor()->sumMetrics($row, $this->metricsByType[$row['referer_type']]);
+        return $this->arrays[$name];
     }
 
     protected function aggregateFromConversions($query)
@@ -172,16 +139,14 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
 
             $skipAggregateByType = $this->aggregateConversion($row);
             if (!$skipAggregateByType) {
-                $this->aggregateConversionByType($row);
+                $this->getDataArray(self::REFERER_TYPE_RECORD_NAME)->sumMetricsGoals($row['referer_type'], $row);
             }
         }
 
-        $this->getProcessor()->enrichMetricsWithConversions($this->metricsByType);
-        $this->getProcessor()->enrichMetricsWithConversions($this->metricsBySearchEngine);
-        $this->getProcessor()->enrichMetricsWithConversions($this->metricsByKeyword);
-        $this->getProcessor()->enrichMetricsWithConversions($this->metricsByWebsite);
-        $this->getProcessor()->enrichMetricsWithConversions($this->metricsByCampaign);
-        $this->getProcessor()->enrichPivotMetricsWithConversions($this->metricsByCampaignAndKeyword);
+        foreach ($this->arrays as $dataArray) {
+            /* @var Piwik_DataArray $dataArray */
+            $dataArray->enrichMetricsWithConversions();
+        }
     }
 
     protected function aggregateConversion($row)
@@ -189,15 +154,23 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
         $skipAggregateByType = false;
         switch ($row['referer_type']) {
             case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
-                $this->aggregateConversionBySearchEngine($row);
+                if (empty($row['referer_keyword'])) {
+                    $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
+                }
+
+                $this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
+                $this->getDataArray(self::KEYWORDS_RECORD_NAME)->sumMetricsGoals($row['referer_keyword'], $row);
                 break;
 
             case Piwik_Common::REFERER_TYPE_WEBSITE:
-                $this->aggregateConversionByWebsite($row);
+                $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
                 break;
 
             case Piwik_Common::REFERER_TYPE_CAMPAIGN:
-                $this->aggregateConversionByCampaign($row);
+                if (!empty($row['referer_keyword'])) {
+                    $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoalsPivot($row['referer_name'], $row['referer_keyword'], $row);
+                }
+                $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
                 break;
 
             case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
@@ -211,52 +184,6 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
                 break;
         }
         return $skipAggregateByType;
-    }
-
-    protected function aggregateConversionBySearchEngine($row)
-    {
-        if (empty($row['referer_keyword'])) {
-            $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
-        }
-        if (!isset($this->metricsBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) {
-            $this->metricsBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $this->getProcessor()->makeEmptyGoalRow($row['idgoal']);
-        }
-        if (!isset($this->metricsByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) {
-            $this->metricsByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $this->getProcessor()->makeEmptyGoalRow($row['idgoal']);
-        }
-
-        $this->getProcessor()->sumGoalMetrics($row, $this->metricsBySearchEngine[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
-        $this->getProcessor()->sumGoalMetrics($row, $this->metricsByKeyword[$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
-    }
-
-    protected function aggregateConversionByWebsite($row)
-    {
-        if (!isset($this->metricsByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) {
-            $this->metricsByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $this->getProcessor()->makeEmptyGoalRow($row['idgoal']);
-        }
-        $this->getProcessor()->sumGoalMetrics($row, $this->metricsByWebsite[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
-    }
-
-    protected function aggregateConversionByCampaign($row)
-    {
-        if (!empty($row['referer_keyword'])) {
-            if (!isset($this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) {
-                $this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $this->getProcessor()->makeEmptyGoalRow($row['idgoal']);
-            }
-            $this->getProcessor()->sumGoalMetrics($row, $this->metricsByCampaignAndKeyword[$row['referer_name']][$row['referer_keyword']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
-        }
-        if (!isset($this->metricsByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) {
-            $this->metricsByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $this->getProcessor()->makeEmptyGoalRow($row['idgoal']);
-        }
-        $this->getProcessor()->sumGoalMetrics($row, $this->metricsByCampaign[$row['referer_name']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
-    }
-
-    protected function aggregateConversionByType($row)
-    {
-        if (!isset($this->metricsByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']])) {
-            $this->metricsByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']] = $this->getProcessor()->makeEmptyGoalRow($row['idgoal']);
-        }
-        $this->getProcessor()->sumGoalMetrics($row, $this->metricsByType[$row['referer_type']][Piwik_Archive::INDEX_GOALS][$row['idgoal']]);
     }
 
     /**
@@ -273,31 +200,21 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     protected function recordDayNumeric()
     {
         $numericRecords = array(
-            self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => count($this->metricsBySearchEngineAndKeyword),
-            self::METRIC_DISTINCT_KEYWORD_RECORD_NAME       => count($this->metricsByKeywordAndSearchEngine),
-            self::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME      => count($this->metricsByCampaign),
-            self::METRIC_DISTINCT_WEBSITE_RECORD_NAME       => count($this->metricsByWebsite),
+            self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => count($this->getDataArray(self::SEARCH_ENGINES_RECORD_NAME)),
+            self::METRIC_DISTINCT_KEYWORD_RECORD_NAME       => count($this->getDataArray(self::KEYWORDS_RECORD_NAME)),
+            self::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME      => count($this->getDataArray(self::CAMPAIGNS_RECORD_NAME)),
+            self::METRIC_DISTINCT_WEBSITE_RECORD_NAME       => count($this->getDataArray(self::WEBSITES_RECORD_NAME)),
             self::METRIC_DISTINCT_URLS_RECORD_NAME          => count($this->distinctUrls),
         );
 
-        foreach ($numericRecords as $name => $value) {
-            $this->getProcessor()->insertNumericRecord($name, $value);
-        }
+        $this->getProcessor()->insertNumericRecords($numericRecords);
     }
 
     protected function recordDayBlobs()
     {
-        $table = new Piwik_DataTable();
-        $table->addRowsFromArrayWithIndexLabel($this->metricsByType);
-        $this->getProcessor()->insertBlobRecord(self::REFERER_TYPE_RECORD_NAME, $table->getSerialized());
-
-        $blobRecords = array(
-            self::KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsBySearchEngineAndKeyword, $this->metricsBySearchEngine),
-            self::SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME  => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByKeywordAndSearchEngine, $this->metricsByKeyword),
-            self::KEYWORD_BY_CAMPAIGN_RECORD_NAME       => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByCampaignAndKeyword, $this->metricsByCampaign),
-            self::URL_BY_WEBSITE_RECORD_NAME            => $this->getProcessor()->getDataTableWithSubtablesFromArraysIndexedByLabel($this->metricsByWebsiteAndUrl, $this->metricsByWebsite),
-        );
-        foreach ($blobRecords as $recordName => $table) {
+        foreach ($this->getRecordNames() as $recordName) {
+            $dataArray = $this->getDataArray($recordName);
+            $table = $this->getProcessor()->getDataTableFromDataArray($dataArray);
             $blob = $table->getSerialized($this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
             $this->getProcessor()->insertBlobRecord($recordName, $blob);
         }
@@ -305,35 +222,29 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
 
     public function archivePeriod()
     {
-        $dataTableToSum = array(
-            self::REFERER_TYPE_RECORD_NAME,
-            self::KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME,
-            self::SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME,
-            self::KEYWORD_BY_CAMPAIGN_RECORD_NAME,
-            self::URL_BY_WEBSITE_RECORD_NAME,
-        );
+        $dataTableToSum = $this->getRecordNames();
         $nameToCount = $this->getProcessor()->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 
         $mappingFromArchiveName = array(
             self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME =>
             array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => self::KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME,
+                  'nameTableToUse' => self::SEARCH_ENGINES_RECORD_NAME,
             ),
             self::METRIC_DISTINCT_KEYWORD_RECORD_NAME       =>
             array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => self::SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME,
+                  'nameTableToUse' => self::KEYWORDS_RECORD_NAME,
             ),
             self::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME      =>
             array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => self::KEYWORD_BY_CAMPAIGN_RECORD_NAME,
+                  'nameTableToUse' => self::CAMPAIGNS_RECORD_NAME,
             ),
             self::METRIC_DISTINCT_WEBSITE_RECORD_NAME       =>
             array('typeCountToUse' => 'level0',
-                  'nameTableToUse' => self::URL_BY_WEBSITE_RECORD_NAME,
+                  'nameTableToUse' => self::WEBSITES_RECORD_NAME,
             ),
             self::METRIC_DISTINCT_URLS_RECORD_NAME          =>
             array('typeCountToUse' => 'recursive',
-                  'nameTableToUse' => self::URL_BY_WEBSITE_RECORD_NAME,
+                  'nameTableToUse' => self::WEBSITES_RECORD_NAME,
             ),
         );
 

@@ -79,16 +79,15 @@ class Piwik_Transitions extends Piwik_Plugin
         // group by. when we group by both, we don't get a single column for the keyword but instead
         // one column per keyword + search engine url. this way, we could not get the top keywords using
         // the ranking query.
-        $dimension = 'referrer_data';
+        $dimensions = array('referrer_data', 'referer_type');
         $rankingQuery->addLabelColumn('referrer_data');
-        $select = '
-			CASE referer_type
+        $selects = array(
+            'CASE referer_type
 				WHEN ' . Piwik_Common::REFERER_TYPE_DIRECT_ENTRY . ' THEN \'\'
 				WHEN ' . Piwik_Common::REFERER_TYPE_SEARCH_ENGINE . ' THEN referer_keyword
 				WHEN ' . Piwik_Common::REFERER_TYPE_WEBSITE . ' THEN referer_url
 				WHEN ' . Piwik_Common::REFERER_TYPE_CAMPAIGN . ' THEN CONCAT(referer_name, \' \', referer_keyword)
-			END AS referrer_data,
-			referer_type';
+			END AS referrer_data');
 
         // get one limited group per referrer type
         $rankingQuery->partitionResultIntoMultipleGroups('referer_type', array(
@@ -98,14 +97,11 @@ class Piwik_Transitions extends Piwik_Plugin
                                                                               Piwik_Common::REFERER_TYPE_CAMPAIGN
                                                                          ));
 
-        $orderBy = '`' . Piwik_Archive::INDEX_NB_VISITS . '` DESC';
-
         $type = $this->getColumnTypeSuffix($actionType);
         $where = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
 
         $metrics = array(Piwik_Archive::INDEX_NB_VISITS);
-        $data = $archiveProcessing->queryVisitsByDimension($dimension, $where, $metrics, $orderBy,
-            $rankingQuery, $select, $selectGeneratesLabelColumn = true);
+        $data = $archiveProcessing->queryVisitsByDimension($dimensions, $where, $selects, $metrics, $rankingQuery);
 
         $referrerData = array();
         $referrerSubData = array();
@@ -132,7 +128,9 @@ class Piwik_Transitions extends Piwik_Plugin
             }
         }
 
-        return $archiveProcessing->getDataTableWithSubtablesFromArraysIndexedByLabel($referrerSubData, $referrerData);
+        //FIXMEA refactor after integration tests written
+        $array = new Piwik_DataArray($referrerData, $referrerSubData);
+        return Piwik_ArchiveProcessing_Day::getDataTableFromDataArray($array);
     }
 
     /**
@@ -161,14 +159,16 @@ class Piwik_Transitions extends Piwik_Plugin
             $dimension = 'idaction_name_ref';
         }
 
-        $addSelect = '
-			log_action.name, log_action.url_prefix,
-			CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS is_self,
-			CASE
-				WHEN log_action.type = ' . $mainActionType . ' THEN 1
-				WHEN log_action.type = ' . Piwik_Tracker_Action::TYPE_SITE_SEARCH . ' THEN 2
-				ELSE 0 
-			END AS action_partition';
+        $selects = array(
+                    'log_action.name',
+                    'log_action.url_prefix',
+			        'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS is_self',
+                    'CASE
+                        WHEN log_action.type = ' . $mainActionType . ' THEN 1
+                        WHEN log_action.type = ' . Piwik_Tracker_Action::TYPE_SITE_SEARCH . ' THEN 2
+                        ELSE 0
+                    END AS action_partition'
+        );
 
         $where = '
 			log_link_visit_action.idaction_' . $type . ' = ' . intval($idaction);
@@ -183,11 +183,8 @@ class Piwik_Transitions extends Piwik_Plugin
             $dimension = array($dimension);
         }
 
-        $orderBy = '`' . Piwik_Archive::INDEX_NB_ACTIONS . '` DESC';
-
         $metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
-        $data = $archiveProcessing->queryActionsByDimension($dimension, $where, $metrics, $orderBy,
-            $rankingQuery, $joinLogActionOn, $addSelect);
+        $data = $archiveProcessing->queryActionsByDimension($dimension, $where, $selects, $metrics, $rankingQuery, $joinLogActionOn);
 
         $loops = 0;
         $nbPageviews = 0;
@@ -278,7 +275,7 @@ class Piwik_Transitions extends Piwik_Plugin
             // site search referrers are logged with url=NULL
             // when we find one, we have to join on name
             $joinLogActionColumn = $dimension;
-            $addSelect = 'log_action.name, log_action.url_prefix, log_action.type';
+            $selects = array('log_action.name', 'log_action.url_prefix', 'log_action.type');
         } else {
             // specific setup for page titles:
             $types[Piwik_Tracker_Action::TYPE_ACTION_NAME] = 'followingPages';
@@ -295,25 +292,25 @@ class Piwik_Transitions extends Piwik_Plugin
 					ELSE log_action1.idaction
 				END
 			';
-            $addSelect = '
-				CASE
+            $selects = array(
+                'CASE
 					' /* following site search */ . '
 					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.name
 					' /* following page view: use page title */ . '
 					WHEN log_action1.type = ' . Piwik_Tracker_Action::TYPE_ACTION_URL . ' THEN log_action2.name
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.name
-				END AS name,
-				CASE
+				END AS name',
+				'CASE
 					' /* following site search */ . '
 					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.type
 					' /* following page view: use page title */ . '
 					WHEN log_action1.type = ' . Piwik_Tracker_Action::TYPE_ACTION_URL . ' THEN log_action2.type
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.type
-				END AS type,
-				NULL AS url_prefix
-			';
+				END AS type',
+				'NULL AS url_prefix'
+            );
         }
 
         // these types are available for both titles and urls
@@ -332,11 +329,8 @@ class Piwik_Transitions extends Piwik_Plugin
                 . 'log_link_visit_action.idaction_' . $type . ' != ' . intval($idaction) . ')';
         }
 
-        $orderBy = '`' . Piwik_Archive::INDEX_NB_ACTIONS . '` DESC';
-
         $metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
-        $data = $archiveProcessing->queryActionsByDimension($dimension, $where, $metrics, $orderBy,
-            $rankingQuery, $joinLogActionColumn, $addSelect);
+        $data = $archiveProcessing->queryActionsByDimension($dimension, $where, $selects, $metrics, $rankingQuery, $joinLogActionColumn);
 
         $this->totalTransitionsToFollowingActions = 0;
         $dataTables = array();

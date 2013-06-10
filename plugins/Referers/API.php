@@ -129,7 +129,7 @@ class Piwik_Referers_API
 
     public function getKeywords($idSite, $period, $date, $segment = false, $expanded = false)
     {
-        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::KEYWORDS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
         $dataTable = $this->handleKeywordNotDefined($dataTable);
         return $dataTable;
     }
@@ -212,7 +212,7 @@ class Piwik_Referers_API
 
     public function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::SEARCH_ENGINE_BY_KEYWORD_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::KEYWORDS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getSearchEngineUrlFromName'));
         $dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', 'Piwik_getSearchEngineLogoFromUrl'));
 
@@ -228,7 +228,7 @@ class Piwik_Referers_API
 
     public function getSearchEngines($idSite, $period, $date, $segment = false, $expanded = false)
     {
-        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getSearchEngineUrlFromName'));
         $dataTable->queueFilter('MetadataCallbackAddMetadata', array('url', 'logo', 'Piwik_getSearchEngineLogoFromUrl'));
         return $dataTable;
@@ -236,7 +236,7 @@ class Piwik_Referers_API
 
     public function getKeywordsFromSearchEngineId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::KEYWORDS_BY_SEARCH_ENGINE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
 
         // get the search engine and create the URL to the search result page
         $searchEngines = $this->getSearchEngines($idSite, $period, $date, $segment);
@@ -267,25 +267,25 @@ class Piwik_Referers_API
 
     public function getCampaigns($idSite, $period, $date, $segment = false, $expanded = false)
     {
-        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::KEYWORD_BY_CAMPAIGN_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
         return $dataTable;
     }
 
     public function getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::KEYWORD_BY_CAMPAIGN_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         return $dataTable;
     }
 
     public function getWebsites($idSite, $period, $date, $segment = false, $expanded = false)
     {
-        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::URL_BY_WEBSITE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
         return $dataTable;
     }
 
     public function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable, $segment = false)
     {
-        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::URL_BY_WEBSITE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable(Piwik_Referers_Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
         // the htmlspecialchars_decode call is for BC for before 1.1
         // as the Referer URL was previously encoded in the log tables, but is now recorded raw
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', create_function('$label', 'return htmlspecialchars_decode($label);')));
@@ -308,7 +308,7 @@ class Piwik_Referers_API
     {
         require PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
 
-        $dataTable = $this->getDataTable( Piwik_Referers_Archiver::URL_BY_WEBSITE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
+        $dataTable = $this->getDataTable( Piwik_Referers_Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
 
         $dataTable->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_Referrers_isSocialUrl'));
 
@@ -341,7 +341,7 @@ class Piwik_Referers_API
     {
         require PIWIK_INCLUDE_PATH . '/core/DataFiles/Socials.php';
 
-        $dataTable = $this->getDataTable( Piwik_Referers_Archiver::URL_BY_WEBSITE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
+        $dataTable = $this->getDataTable( Piwik_Referers_Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
 
         // get the social network domain referred to by $idSubtable
         $social = false;

@@ -21,10 +21,20 @@ class Piwik_DataAccess_LogAggregator
      *                                          ie (AND, OR, etc.).
      * @return array  An array of SQL SELECT expressions.
      */
-    public static function buildReduceByRangeSelect( $column, $ranges, $table, $selectColumnPrefix = '', $extraCondition = false)
+    public static function getSelectsFromRangedColumn( $metadata )
     {
-        $selects = array();
+        @list($column, $ranges, $table, $selectColumnPrefix, $i_am_your_nightmare_DELETE_ME) = $metadata;
 
+        $selects = array();
+        $extraCondition = '';
+        if($i_am_your_nightmare_DELETE_ME) {
+            // extra condition for the SQL SELECT that makes sure only returning visits are counted
+            // when creating the 'days since last visit' report
+            $extraCondition = 'and log_visit.visitor_returning = 1';
+            $extraSelect = "sum(case when log_visit.visitor_returning = 0 then 1 else 0 end) "
+                    . " as `". $selectColumnPrefix . 'General_NewVisits' . "`";
+            $selects[] = $extraSelect;
+        }
         foreach ($ranges as $gap) {
             if (count($gap) == 2) {
                 $lowerBound = $gap[0];
@@ -44,6 +54,32 @@ class Piwik_DataAccess_LogAggregator
         }
 
         return $selects;
+    }
+
+    /**
+     * Clean up the row data and return values.
+     * $lookForThisPrefix can be used to make sure only SOME of the data in $row is used.
+     *
+     * The array will have one column $columnName
+     *
+     * @param $row
+     * @param $columnName
+     * @param $lookForThisPrefix A string that identifies which elements of $row to use
+     *                                 in the result. Every key of $row that starts with this
+     *                                 value is used.
+     * @return array
+     */
+    static public function makeArrayOneColumn($row, $columnName, $lookForThisPrefix = false)
+    {
+        $cleanRow = array();
+        foreach ($row as $label => $count) {
+            if (empty($lookForThisPrefix)
+                || strpos($label, $lookForThisPrefix) === 0) {
+                $cleanLabel = substr($label, strlen($lookForThisPrefix));
+                $cleanRow[$cleanLabel] = array($columnName => $count);
+            }
+        }
+        return $cleanRow;
     }
 
 }

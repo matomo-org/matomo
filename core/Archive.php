@@ -678,9 +678,10 @@ class Piwik_Archive
                     Piwik::log("Archive $archiveDesc skipped, archive is after today.");
                     continue;
                 }
-                
+
                 // prepare the ArchiveProcessing instance
-                $processing = $this->getArchiveProcessingInstance($period);
+                $processing = Piwik_ArchiveProcessing::factory($period->getLabel());
+
                 $processing->setSite($site);
                 $processing->setPeriod($period);
                 $processing->setSegment($this->params->getSegment());
@@ -754,23 +755,7 @@ class Piwik_Archive
     {
         return Piwik_ArchiveProcessing::getDoneStringFlagFor($this->params->getSegment(), $this->getPeriodLabel(), $plugin);
     }
-    
-    /**
-     * Returns an ArchiveProcessing instance that should be used for a specific
-     * period.
-     * 
-     * @param Piwik_Period $period
-     * @return Piwik_ArchiveProcessing
-     */
-    private function getArchiveProcessingInstance($period)
-    {
-        $label = $period->getLabel();
-        if (!isset($this->processingCache[$label])) {
-            $this->processingCache[$label] = Piwik_ArchiveProcessing::factory($label);
-        }
-        return $this->processingCache[$label];
-    }
-    
+
     private function getPeriodLabel()
     {
         $periods = $this->params->getPeriods();

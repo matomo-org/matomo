@@ -162,8 +162,6 @@ class Piwik_Segment
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false)
     {
-        $joinWithSubSelect = false;
-
         if (!is_array($from)) {
             $from = array($from);
         }

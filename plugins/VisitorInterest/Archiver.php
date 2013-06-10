@@ -90,47 +90,27 @@ class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
             self::VISITS_COUNT_RECORD_NAME => 'vbvn',
             self::DAYS_SINCE_LAST_RECORD_NAME => 'dslv',
         );
-        $row = $this->aggregateFromVisits($prefixes);
 
-        foreach($prefixes as $recordName => $selectAsPrefix) {
-            $processor = $this->getProcessor();
-            $dataTable = $processor->getSimpleDataTableFromRow($row, Piwik_Archive::INDEX_NB_VISITS, $selectAsPrefix);
-            $processor->insertBlobRecord($recordName, $dataTable->getSerialized());
+        $aggregatesMetadata = array(
+            array('visit_total_time', self::getSecondsGap(), 'log_visit', $prefixes[self::TIME_SPENT_RECORD_NAME]),
+            array('visit_total_actions', self::$pageGap, 'log_visit', $prefixes[self::PAGES_VIEWED_RECORD_NAME]),
+            array('visitor_count_visits', self::$visitNumberGap, 'log_visit', $prefixes[self::VISITS_COUNT_RECORD_NAME]),
+            array('visitor_days_since_last', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
+                  $i_am_your_nightmare_DELETE_ME = true
+            ),
+        );
+        $selects = array();
+        foreach($aggregatesMetadata as $aggregateMetadata) {
+            $selectsFromRangedColumn = Piwik_DataAccess_LogAggregator::getSelectsFromRangedColumn($aggregateMetadata);
+            $selects = array_merge( $selects, $selectsFromRangedColumn);
         }
-    }
-
-    protected function aggregateFromVisits($prefixes)
-    {
-        // extra condition for the SQL SELECT that makes sure only returning visits are counted
-        // when creating the 'days since last visit' report. the SELECT expression below it
-        // is used to count all new visits.
-        $daysSinceLastExtraCondition = 'and log_visit.visitor_returning = 1';
-        $selectAs = $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME] . 'General_NewVisits';
-        $newVisitCountSelect = "sum(case when log_visit.visitor_returning = 0 then 1 else 0 end) as `$selectAs`";
-
-        $daysSinceLastVisitSelects = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
-            'visitor_days_since_last', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
-            $daysSinceLastExtraCondition);
-
-        // create the select expressions to use
-        $timeGapSelects = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
-            'visit_total_time', self::getSecondsGap(), 'log_visit', $prefixes[self::TIME_SPENT_RECORD_NAME]);
-
-        $pageGapSelects = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
-            'visit_total_actions', self::$pageGap, 'log_visit', $prefixes[self::PAGES_VIEWED_RECORD_NAME]);
-
-        $visitsByVisitNumSelects = Piwik_DataAccess_LogAggregator::buildReduceByRangeSelect(
-            'visitor_count_visits', self::$visitNumberGap, 'log_visit', $prefixes[self::VISITS_COUNT_RECORD_NAME]);
-
-
-        array_unshift($daysSinceLastVisitSelects, $newVisitCountSelect);
-
-        $selects = array_merge(
-            $timeGapSelects, $pageGapSelects, $visitsByVisitNumSelects, $daysSinceLastVisitSelects);
-
-        // select data for every report
-        $row = $this->getProcessor()->queryVisitsSimple(implode(',', $selects));
-        return $row;
+        $query = $this->getProcessor()->queryVisitsByDimension(array(), $where = false, $selects, array());
+        $row = $query->fetch();
+        foreach($prefixes as $recordName => $selectAsPrefix) {
+            $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Piwik_Archive::INDEX_NB_VISITS, $selectAsPrefix);
+            $dataTable = Piwik_DataTable::makeFromIndexedArray($cleanRow);
+            $this->getProcessor()->insertBlobRecord($recordName, $dataTable->getSerialized());
+        }
     }
 
     /**
