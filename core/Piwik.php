@@ -1539,7 +1539,7 @@ class Piwik
 
         if (is_null($cachedResult)) {
             $segments = Piwik_Config::getInstance()->Segments;
-            $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : '';
+            $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : array();
 
             Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', $cachedResult);
 
