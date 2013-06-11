@@ -46,7 +46,8 @@ class Piwik_PDFReports_API
     const REPORT_CONTENT_KEY = 'contents';
     const FILENAME_KEY = 'filename';
     const PRETTY_DATE_KEY = 'prettyDate';
-    const WEBSITE_NAME_KEY = 'websiteName';
+    const REPORT_SUBJECT_KEY = 'reportSubject';
+    const REPORT_TITLE_KEY = 'reportTitle';
     const ADDITIONAL_FILES_KEY = 'additionalFiles';
 
     const REPORT_TRUNCATE = 23;
@@ -405,16 +406,10 @@ class Piwik_PDFReports_API
         // render report
         $description = str_replace(array("\r", "\n"), ' ', $report['description']);
 
-        // if the only report is "All websites", we don't display the site name
-        $websiteName = Piwik_Translate('General_Website') . " " . Piwik_Site::getNameFor($idSite);
-        if (count($report['reports']) == 1
-            && $report['reports'][0] == 'MultiSites_getAll'
-        ) {
-            $websiteName = Piwik_Translate('General_MultiSitesSummary');
-        }
-        $reportTitle = "$websiteName - $prettyDate - $description";
+        list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Piwik_Site::getNameFor($idSite), $report['reports']);
+        $filename = "$reportTitle - $prettyDate - $description";
 
-        $reportRenderer->renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata);
+        $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata);
         array_walk($processedReports, array($reportRenderer, 'renderReport'));
 
         switch ($outputType) {
@@ -447,14 +442,15 @@ class Piwik_PDFReports_API
                 return array(
                     $outputFilename,
                     $prettyDate,
-                    $websiteName,
+                    $reportSubject,
+                    $reportTitle,
                     $additionalFiles,
                 );
                 break;
 
             case self::OUTPUT_INLINE:
 
-                $reportRenderer->sendToBrowserInline($reportTitle);
+                $reportRenderer->sendToBrowserInline($filename);
                 break;
 
             case self::OUTPUT_RETURN:
@@ -464,7 +460,7 @@ class Piwik_PDFReports_API
 
             default:
             case self::OUTPUT_DOWNLOAD:
-                $reportRenderer->sendToBrowserDownload($reportTitle);
+                $reportRenderer->sendToBrowserDownload($filename);
                 break;
         }
     }
@@ -491,7 +487,7 @@ class Piwik_PDFReports_API
         $language = Piwik_LanguagesManager_API::getInstance()->getLanguageForUser($report['login']);
 
         // generate report
-        list($outputFilename, $prettyDate, $websiteName, $additionalFiles) =
+        list($outputFilename, $prettyDate, $reportSubject, $reportTitle, $additionalFiles) =
             $this->generateReport(
                 $idReport,
                 $date,
@@ -519,7 +515,8 @@ class Piwik_PDFReports_API
                 self::REPORT_CONTENT_KEY   => $contents,
                 self::FILENAME_KEY         => $filename,
                 self::PRETTY_DATE_KEY      => $prettyDate,
-                self::WEBSITE_NAME_KEY     => $websiteName,
+                self::REPORT_SUBJECT_KEY   => $reportSubject,
+                self::REPORT_TITLE_KEY     => $reportTitle,
                 self::ADDITIONAL_FILES_KEY => $additionalFiles,
             )
         );
@@ -534,6 +531,21 @@ class Piwik_PDFReports_API
         if (!isset($GLOBALS['PIWIK_TRACKER_DEBUG']) || !$GLOBALS['PIWIK_TRACKER_DEBUG']) {
             @chmod($outputFilename, 0600);
         }
+    }
+
+    private static function getReportSubjectAndReportTitle($websiteName, $reports)
+    {
+        // if the only report is "All websites", we don't display the site name
+        $reportTitle = Piwik_Translate('General_Website') . " " . $websiteName;
+        $reportSubject = $websiteName;
+        if (count($reports) == 1
+            && $reports[0] == 'MultiSites_getAll'
+        ) {
+            $reportSubject = Piwik_Translate('General_MultiSitesSummary');
+            $reportTitle = $reportSubject;
+        }
+
+        return array($reportSubject, $reportTitle);
     }
 
     private static function validateReportParameters($reportType, $parameters)

@@ -142,14 +142,14 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
         return $this->TCPDF->Output(null, 'S');
     }
 
-    public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)
+    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata)
     {
-        $websiteTitle = $this->formatText($websiteName);
+        $reportTitle = $this->formatText($reportTitle);
         $dateRange = $this->formatText(Piwik_Translate('General_DateRange') . " " . $prettyDate);
 
         //Setup Footer font and data
         $this->TCPDF->SetFooterFont(array($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize));
-        $this->TCPDF->SetFooterContent($websiteTitle . " | " . $dateRange . " | ");
+        $this->TCPDF->SetFooterContent($reportTitle . " | " . $dateRange . " | ");
 
         $this->TCPDF->setPrintHeader(false);
         //		$this->SetMargins($left = , $top, $right=-1, $keepmargins=true)
@@ -163,7 +163,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
         $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize + 5);
         $this->TCPDF->SetTextColor($this->headerTextColor[0], $this->headerTextColor[1], $this->headerTextColor[2]);
-        $this->TCPDF->Cell(40, 210, $websiteTitle);
+        $this->TCPDF->Cell(40, 210, $reportTitle);
         $this->TCPDF->Ln(8 * 4);
 
         $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize);

@@ -67,10 +67,10 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
         $cssFiles = & $notification->getNotificationObject();
 
         $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
-        $cssFiles[] = "plugins/CoreAdminHome/templates/menu.css";
-        $cssFiles[] = "themes/default/common.css";
-        $cssFiles[] = "plugins/CoreAdminHome/templates/styles.css";
-        $cssFiles[] = "plugins/CoreHome/templates/donate.css";
+        $cssFiles[] = "plugins/CoreAdminHome/stylesheets/menu.css";
+        $cssFiles[] = "plugins/Zeitgeist/stylesheets/common.css";
+        $cssFiles[] = "plugins/CoreAdminHome/stylesheets/generalSettings.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/donate.css";
     }
 
     /**
@@ -84,12 +84,12 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
         $jsFiles[] = "libs/jquery/jquery-ui.js";
         $jsFiles[] = "libs/jquery/jquery.browser.js";
         $jsFiles[] = "libs/javascript/sprintf.js";
-        $jsFiles[] = "themes/default/common.js";
-        $jsFiles[] = "themes/default/ajaxHelper.js";
+        $jsFiles[] = "plugins/Zeitgeist/javascripts/piwikHelper.js";
+        $jsFiles[] = "plugins/Zeitgeist/javascripts/ajaxHelper.js";
         $jsFiles[] = "libs/jquery/jquery.history.js";
-        $jsFiles[] = "plugins/CoreHome/templates/broadcast.js";
-        $jsFiles[] = "plugins/CoreAdminHome/templates/generalSettings.js";
-        $jsFiles[] = "plugins/CoreHome/templates/donate.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/broadcast.js";
+        $jsFiles[] = "plugins/CoreAdminHome/javascripts/generalSettings.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
     }
 
     function addMenu()

@@ -63,7 +63,7 @@ class Piwik_API extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
-        $cssFiles[] = "plugins/API/css/styles.css";
+        $cssFiles[] = "plugins/API/stylesheets/listAllAPI.css";
     }
 }
 
@@ -313,9 +313,9 @@ class Piwik_API_API
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit',
-            'name'           => Piwik_Translate('General_VisitType') . ". " . Piwik_Translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
+            'name'           => Piwik_Translate('General_VisitType') ,
             'segment'        => 'visitorType',
-            'acceptedValues' => 'new, returning, returningCustomer',
+            'acceptedValues' => 'new, returning, returningCustomer' . ". " . Piwik_Translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
             'sqlSegment'     => 'log_visit.visitor_returning',
             'sqlFilter'      => create_function('$type', 'return $type == "new" ? 0 : ($type == "returning" ? 1 : 2);'),
         );
@@ -353,9 +353,10 @@ class Piwik_API_API
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Visit',
-            'name'           => Piwik_Translate('General_EcommerceVisitStatus', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
+            'name'           => Piwik_Translate('General_EcommerceVisitStatusDesc'),
             'segment'        => 'visitEcommerceStatus',
-            'acceptedValues' => implode(", ", self::$visitEcommerceStatus),
+            'acceptedValues' => implode(", ", self::$visitEcommerceStatus)
+                   . '. '. Piwik_Translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
             'sqlSegment'     => 'log_visit.visit_goal_buyer',
             'sqlFilter'      => array('Piwik_API_API', 'getVisitEcommerceStatus'),
         );
@@ -443,7 +444,7 @@ class Piwik_API_API
      */
     public function getLogoUrl($pathOnly = false)
     {
-        $logo = 'themes/default/images/logo.png';
+        $logo = 'plugins/Zeitgeist/images/logo.png';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo.png')
         ) {
@@ -463,7 +464,7 @@ class Piwik_API_API
      */
     public function getHeaderLogoUrl($pathOnly = false)
     {
-        $logo = 'themes/default/images/logo-header.png';
+        $logo = 'plugins/Zeitgeist/images/logo-header.png';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo-header.png')
         ) {
@@ -484,7 +485,7 @@ class Piwik_API_API
      */
     public function getSVGLogoUrl($pathOnly = false)
     {
-        $logo = 'plugins/Zeitgeist/theme/images/logo.svg';
+        $logo = 'plugins/Zeitgeist/images/logo.svg';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo.svg')
         ) {
@@ -1650,12 +1651,6 @@ class Piwik_API_API
             throw new Exception("Requested segment not found.");
         }
 
-        $segmentsNeedActionsInfo = array('visitConvertedGoalId',
-                                         'pageUrl', 'pageTitle', 'siteSearchKeyword',
-                                         'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl');
-        $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
-        $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage;
-
         $startDate = Piwik_Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
             &idSite=$idSite
@@ -1666,14 +1661,15 @@ class Piwik_API_API
             &flat=1";
 
         // Select non empty fields only
+        // Note: this optimization has only a very minor impact
         $requestLastVisits.= "&segment=$segmentName" . Piwik_SegmentExpression::MATCH_IS_NOT_NULL . "null";
 
         // By default Live fetches all actions for all visitors, but we'd rather do this only when required
-        if(!$doesSegmentNeedActionsInfo) {
+        if($this->doesSegmentNeedActionsData($segmentName)) {
+            $requestLastVisits .= "&filter_limit=500";
+        } else {
             $requestLastVisits .= "&doNotFetchActions=1";
             $requestLastVisits .= "&filter_limit=1000";
-        } else {
-            $requestLastVisits .= "&filter_limit=500";
         }
 
         $request = new Piwik_API_Request($requestLastVisits);
@@ -1702,4 +1698,19 @@ class Piwik_API_API
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
         return $values;
     }
+
+    /**
+     * @param $segmentName
+     * @return bool
+     */
+    protected function doesSegmentNeedActionsData($segmentName)
+    {
+        $segmentsNeedActionsInfo = array('visitConvertedGoalId',
+                                         'pageUrl', 'pageTitle', 'siteSearchKeyword',
+                                         'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl');
+        $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
+        $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage;
+        return $doesSegmentNeedActionsInfo;
+    }
+
 }

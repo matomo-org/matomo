@@ -5,7 +5,7 @@
 <p>{{ 'VisitorGenerator_PluginDescription'|translate }}</p>
 <p>You can overwrite the log file that is used to generate fake visits (change {{ accessLogPath }}). This is a log file of requests to "piwik.php" in the format
     "Apache combined log".</p>
-<form method="POST" action="{{ url({'module':'VisitorGenerator', 'action':'generate'}) }}">
+<form method="POST" action="{{ linkTo({'module':'VisitorGenerator', 'action':'generate'}) }}">
     <table class="adminTable" style="width: 600px;">
         <tr>
             <td><label for="idSite">{{ 'General_ChooseWebsite'|translate }}</label></td>

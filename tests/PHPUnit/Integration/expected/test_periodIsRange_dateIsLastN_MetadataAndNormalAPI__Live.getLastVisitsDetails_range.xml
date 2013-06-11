@@ -21,7 +21,7 @@
 				<pageIdAction>6</pageIdAction>
 				<pageId>5</pageId>
 				
-				<icon>themes/default/images/link.gif</icon>
+				<icon>plugins/Zeitgeist/images/link.gif</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -40,7 +40,7 @@
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
-		<visitServerHour>10</visitServerHour>
+		
 		
 		
 		
@@ -54,7 +54,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -109,7 +109,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -123,7 +123,7 @@
 				<goalPageId />
 				
 				<url>http://example.org/homepage</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -151,7 +151,7 @@
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
-		<visitServerHour>9</visitServerHour>
+		
 		
 		
 		
@@ -165,7 +165,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -220,7 +220,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -234,7 +234,7 @@
 				<goalPageId />
 				
 				<url>http://example.org/homepage</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -255,7 +255,7 @@
 				<goalPageId />
 				
 				<url>http://example.org/user/profile</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -322,7 +322,7 @@
 		
 		<visitLocalTime>12:34:06</visitLocalTime>
 		<visitLocalHour>12</visitLocalHour>
-		<visitServerHour>8</visitServerHour>
+		
 		
 		
 		
@@ -336,7 +336,7 @@
 		<continentCode>eur</continentCode>
 		<country>France</country>
 		<countryCode>fr</countryCode>
-		<countryFlag>plugins/UserCountry/flags/fr.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/fr.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />

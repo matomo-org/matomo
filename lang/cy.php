@@ -73,7 +73,6 @@ $translations = array(
 	'General_DaysSinceLastEcommerceOrder' => 'Nifer o ddiwrnodau ers yr archeb eFasnach diwethaf',
 	'General_NumberOfVisits' => 'Nifer o Ymweliadau',
 	'General_VisitConvertedGoal' => 'Mae\'r ymweliad wedi trosi o leiaf un Nod',
-	'General_EcommerceVisitStatus' => 'Ymwelwch â statws eFasnach ar ddiwedd yr ymweliad. Er enghraifft, i ddewis yr holl ymweliadau sydd wedi gwneud archeb Efasnach, byddai\'r cais API yn cynnwys %s',
 	'General_VisitConvertedNGoals' => 'Mae\'r ymweliad wedi trosi %s Nod',
 	'General_NewVisitor' => 'Ymwelydd Newydd',
 	'General_ReturningVisitor' => 'Ymwelydd yn ail ymweld',

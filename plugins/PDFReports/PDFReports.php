@@ -45,11 +45,11 @@ class Piwik_PDFReports extends Piwik_Plugin
     );
 
     static private $managedReportTypes = array(
-        self::EMAIL_TYPE => 'themes/default/images/email.png'
+        self::EMAIL_TYPE => 'plugins/Zeitgeist/images/email.png'
     );
 
     static private $managedReportFormats = array(
-        Piwik_ReportRenderer::HTML_FORMAT => 'themes/default/images/html_icon.png',
+        Piwik_ReportRenderer::HTML_FORMAT => 'plugins/Zeitgeist/images/html_icon.png',
         Piwik_ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif'
     );
 
@@ -109,7 +109,7 @@ class Piwik_PDFReports extends Piwik_Plugin
     function getJsFiles($notification)
     {
         $jsFiles = & $notification->getNotificationObject();
-        $jsFiles[] = "plugins/PDFReports/templates/pdf.js";
+        $jsFiles[] = "plugins/PDFReports/javascripts/pdf.js";
     }
 
     /**
@@ -304,7 +304,7 @@ class Piwik_PDFReports extends Piwik_Plugin
         if (self::manageEvent($notification)) {
             $notificationInfo = $notification->getNotificationInfo();
             $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
-            $websiteName = $notificationInfo[Piwik_PDFReports_API::WEBSITE_NAME_KEY];
+            $reportTitle = $notificationInfo[Piwik_PDFReports_API::REPORT_TITLE_KEY];
             $prettyDate = $notificationInfo[Piwik_PDFReports_API::PRETTY_DATE_KEY];
             $contents = $notificationInfo[Piwik_PDFReports_API::REPORT_CONTENT_KEY];
             $filename = $notificationInfo[Piwik_PDFReports_API::FILENAME_KEY];
@@ -312,7 +312,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 
             $periods = self::getPeriodToFrequency();
             $message = Piwik_Translate('PDFReports_EmailHello');
-            $subject = Piwik_Translate('General_Report') . ' ' . $websiteName . " - " . $prettyDate;
+            $subject = Piwik_Translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
 
             $mail = new Piwik_Mail();
             $mail->setSubject($subject);
@@ -328,13 +328,13 @@ class Piwik_PDFReports extends Piwik_Plugin
 
                     // Needed when using images as attachment with cid
                     $mail->setType(Zend_Mime::MULTIPART_RELATED);
-                    $message .= "<br/>" . Piwik_Translate('PDFReports_PleaseFindBelow', array($periods[$report['period']], $websiteName));
+                    $message .= "<br/>" . Piwik_Translate('PDFReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
                     $mail->setBodyHtml($message . "<br/><br/>" . $contents);
                     break;
 
                 default:
                 case 'pdf':
-                    $message .= "\n" . Piwik_Translate('PDFReports_PleaseFindAttachedFile', array($periods[$report['period']], $websiteName));
+                    $message .= "\n" . Piwik_Translate('PDFReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
                     $mail->setBodyText($message);
                     $mail->createAttachment(
                         $contents,

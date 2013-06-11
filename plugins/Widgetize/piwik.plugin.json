@@ -1,0 +1,17 @@
+{
+    "name": "Widgetize",
+    "description": "The plugin makes it easy to export any Piwik Widget in your Blog, Website or on Igoogle and Netvibes!",
+    "keywords": ["core"],
+    "homepage": "http://piwik.org",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Piwik",
+            "email": "hello@piwik.org",
+            "homepage": "http://piwik.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
+}

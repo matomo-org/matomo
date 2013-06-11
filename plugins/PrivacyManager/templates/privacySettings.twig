@@ -8,7 +8,7 @@
         See also our official guide <b><a href='http://piwik.org/privacy/' target='_blank'>Web Analytics Privacy</a></b></p>
     <a name="anonymizeIPAnchor"></a>
     <h2>{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
-    <form method="post" action="{{ url({'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth}) }}" id="formMaskLength" name="formMaskLength">
+    <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength" name="formMaskLength">
         <div id='anonymizeIpSettings'>
             <table class="adminTable" style='width:800px;'>
                 <tr>
@@ -74,7 +74,7 @@
     <a name="deleteLogsAnchor"></a>
     <h2>{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
     <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
-    <form method="post" action="{{ url({'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth}) }}" id="formDeleteSettings" name="formMaskLength">
+    <form method="post" action="{{ {'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth} | urlRewriteWithParameters }}" id="formDeleteSettings" name="formMaskLength">
         <table class="adminTable" style='width:800px;'>
             <tr id='deleteLogSettingEnabled'>
                 <td width="250">{{ 'PrivacyManager_UseDeleteLog'|translate }}<br/>
@@ -183,7 +183,7 @@
                 <td width="500">
                     <div id="deleteDataEstimate"></div>
                     <span class='loadingPiwik' style='display:none'><img
-                                src='./themes/default/images/loading-blue.gif'/> {{ 'General_LoadingData'|translate }}</span>
+                                src='./plugins/Zeitgeist/images/loading-blue.gif'/> {{ 'General_LoadingData'|translate }}</span>
                 </td>
                 <td width="200">
                     {% if deleteData.config.enable_auto_database_size_estimate == '0' %}
@@ -220,7 +220,7 @@
                         <br/>
                         <em><a id="purgeDataNowLink" href="#">{{ 'PrivacyManager_PurgeNow'|translate }}</a></em>
                         <span class='loadingPiwik' style='display:none'><img
-                                    src='./themes/default/images/loading-blue.gif'/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
+                                    src='./plugins/Zeitgeist/images/loading-blue.gif'/> {{ 'PrivacyManager_PurgingData'|translate }}</span>
                         <span id="db-purged-message" style="display: none;"><em>{{ 'PrivacyManager_DBPurged'|translate }}</em></span>
                     {% endset %}
                     {{ piwik.inlineHelp(purgeStats) }}
@@ -246,7 +246,7 @@
                     {% endif %}
                 </p>
 			<span style='margin-left:20px'>
-			<a href='{{ url({'module':'CorePluginsAdmin','token_auth':token_auth,'action':action,'pluginName':'DoNotTrack'}) }}#DNT'>&rsaquo;
+			<a href='{{ {'module':'CorePluginsAdmin','token_auth':token_auth,'action':action,'pluginName':'DoNotTrack'} | urlRewriteWithParameters }}#DNT'>&rsaquo;
                 {% if dntSupport %}{{ 'PrivacyManager_DoNotTrack_Disable'|translate }} {{ 'General_NotRecommended'|translate }}
                 {% else %}{{ 'PrivacyManager_DoNotTrack_Enable'|translate }} {{ 'General_Recommended'|translate }}{% endif %}
                 <br/>
@@ -266,7 +266,7 @@
     {% set iframeOptOut %}<iframe frameborder="no" width="600px" height="200px" src="{{ optOutUrl }}"></iframe>{% endset %}
     <code>{{ iframeOptOut|e('html') }}</code>
     <br/>
-    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='"+optOutUrl+"' target='_blank'>","</a>")|raw }}
+    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}
 </p>
 
 <div style='height:100px'></div>

@@ -40,7 +40,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *                        'visitors' => 155,
  *                        'pages' => 214,
  *                        'bounce_rate' => 67)
- * - metadata = array('logo' => '/img/browsers/FF.png')
+ * - metadata = array('logo' => '/plugins/UserSettings/images/browsers/FF.gif')
  * - no sub DataTable
  *
  * A more complex example would be a DataTable_Row that is associated to a sub DataTable.
@@ -50,7 +50,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
  *                        'visits' => 1550,
  *                        'visits_length' => 514214,
  *                        'returning_visits' => 77)
- * - metadata = array(    'logo' => '/img/search/google.png',
+ * - metadata = array(    'logo' => '/plugins/Referers/images/searchEngines/google.com.png',
  *                        'url' => 'http://google.com')
  * - DataTable = DataTable containing several DataTable_Row containing the keywords information for this search engine
  *            Example of one DataTable_Row

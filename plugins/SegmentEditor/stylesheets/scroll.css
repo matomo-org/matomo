@@ -1,0 +1,140 @@
+/*
+ * CSS Styles that are needed by jScrollPane for it to operate correctly.
+ *
+ * Include this stylesheet in your site or copy and paste the styles below into your stylesheet - jScrollPane
+ * may not operate correctly without them.
+ */
+
+.jspContainer
+{
+    /*overflow: hidden;*/
+    position: relative;
+}
+
+.jspPane
+{
+    position: absolute;
+}
+
+.jspVerticalBar
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 100%;
+}
+
+.jspHorizontalBar
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 16px;
+    background: red;
+}
+
+.jspVerticalBar *,
+.jspHorizontalBar *
+{
+    margin: 0;
+    padding: 0;
+}
+
+.jspCap
+{
+    display: none;
+}
+
+.jspHorizontalBar .jspCap
+{
+    float: left;
+}
+
+.jspTrack
+{
+    background: url("../images/slide.png") transparent no-repeat 7px;
+    position: relative;
+    background-size: 20% 100%;
+    /*height: 447px!important;*/
+}
+
+.jspDrag
+{
+    background: url("../images/scroller.png") transparent no-repeat;
+    background-size: 100% 100%;
+    width: 17px;
+    position: relative;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.jspHorizontalBar .jspTrack,
+.jspHorizontalBar .jspDrag
+{
+    float: left;
+    height: 100%;
+}
+
+.jspArrow
+{
+
+    text-indent: -20000px;
+    display: block;
+    cursor: pointer;
+}
+.jspArrowDown{
+    background: url("../images/down_arrow.png") transparent no-repeat;
+}
+.jspArrowUp{
+    background: url("../images/up_arrow.png") transparent no-repeat;
+}
+
+.jspVerticalBar .jspArrow
+{
+    height: 14px;
+
+}
+
+.jspHorizontalBar .jspArrow
+{
+    width: 16px;
+    float: left;
+    height: 100%;
+}
+
+.jspVerticalBar .jspArrow:focus
+{
+    outline: none;
+}
+
+.jspCorner
+{
+    background: #eeeef4;
+    float: left;
+    height: 100%;
+}
+
+/* Yuk! CSS Hack for IE6 3 pixel bug :( */
+* html .jspCorner
+{
+    margin: 0 -3px 0 0;
+}
+
+/* Styles specific to this particular page */
+.scroll-pane-before,
+.scroll-pane-after,
+.scroll-pane-split,
+.scroll-pane-os
+{
+    width: 100%;
+    height: 200px;
+    overflow: auto;
+}
+.horizontal-only
+{
+    height: auto;
+    max-height: 200px;
+}

@@ -388,6 +388,35 @@ class PDFReportsTest extends DatabaseTestCase
         $stubbedPDFReportsAPIClass->setValue(null);
     }
 
+    /**
+     * Dataprovider for testGetReportSubjectAndReportTitle
+     */
+    public function getGetReportSubjectAndReportTitleTestCases()
+    {
+        return array(
+            array('Piwik.org', 'General_Website Piwik.org', 'Piwik.org', array('UserSettings_getBrowserType')),
+            array('Piwik.org', 'General_Website Piwik.org', 'Piwik.org', array('MultiSites_getAll', 'UserSettings_getBrowserType')),
+            array('General_MultiSitesSummary', 'General_MultiSitesSummary', 'Piwik.org', array('MultiSites_getAll')),
+        );
+    }
+
+    /**
+     * @group Plugins
+     * @group PDFReports
+     * @dataProvider getGetReportSubjectAndReportTitleTestCases
+     */
+    public function testGetReportSubjectAndReportTitle($expectedReportSubject, $expectedReportTitle, $websiteName, $reports)
+    {
+        $getReportSubjectAndReportTitle = new ReflectionMethod(
+            'Piwik_PDFReports_API', 'getReportSubjectAndReportTitle'
+        );
+        $getReportSubjectAndReportTitle->setAccessible(true);
+
+        list($reportSubject, $reportTitle) = $getReportSubjectAndReportTitle->invoke(new Piwik_PDFReports_API(), $websiteName, $reports);
+        $this->assertEquals($expectedReportSubject, $reportSubject);
+        $this->assertEquals($expectedReportTitle, $reportTitle);
+    }
+
     private function assertReportsEqual($report, $data)
     {
         foreach ($data as $key => $value) {

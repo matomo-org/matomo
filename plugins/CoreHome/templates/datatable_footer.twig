@@ -20,38 +20,38 @@
     </span>
     {% endif %}
 
-    <span class="loadingPiwik" style='display:none'><img src="plugins/Zeitgeist/theme/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+    <span class="loadingPiwik" style='display:none'><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
     {% if properties.show_footer_icons %}
         <div class="dataTableFooterIcons">
             <div class="dataTableFooterWrap" var="{{ javascriptVariablesToSet.viewDataTable }}">
                 {% if not properties.hide_all_views_icons %}
-                    <img src="plugins/Zeitgeist/theme/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
+                    <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
                 {% endif %}
                 <div class="tableIconsGroup">
             	<span class="tableAllColumnsSwitch">
                     {% if properties.show_table %}
                         <a class="tableIcon" format="table" var="table">
-                            <img title="{{ 'General_DisplaySimpleTable'|translate }}" src="plugins/Zeitgeist/theme/images/table.png"/>
+                            <img title="{{ 'General_DisplaySimpleTable'|translate }}" src="plugins/Zeitgeist/images/table.png"/>
                         </a>
                     {% endif %}
                     {% if properties.show_table_all_columns %}
                         <a class="tableIcon" format="tableAllColumns" var="tableAllColumns">
-                            <img title="{{ 'General_DisplayTableWithMoreMetrics'|translate }}" src="plugins/Zeitgeist/theme/images/table_more.png"/>
+                            <img title="{{ 'General_DisplayTableWithMoreMetrics'|translate }}" src="plugins/Zeitgeist/images/table_more.png"/>
                         </a>
                     {% endif %}
                     {% if properties.show_goals %}
                         <a class="tableIcon" format="tableGoals" var="tableGoals">
                             <img title="{{ 'General_DisplayTableWithGoalMetrics'|translate }}"
-                                 src="plugins/Zeitgeist/theme/images/{% if javascriptVariablesToSet.idGoal is defined and javascriptVariablesToSet.idGoal=='ecommerceOrder' %}ecommerceOrder.gif{% else %}goal.png{% endif %}"/>
+                                 src="plugins/Zeitgeist/images/{% if javascriptVariablesToSet.idGoal is defined and javascriptVariablesToSet.idGoal=='ecommerceOrder' %}ecommerceOrder.gif{% else %}goal.png{% endif %}"/>
                         </a>
                     {% endif %}
                     {% if properties.show_ecommerce %}
                         <a class="tableIcon" format="ecommerceOrder" var="ecommerceOrder">
-                            <img title="{{ 'General_EcommerceOrders'|translate }}" src="plugins/Zeitgeist/theme/images/ecommerceOrder.gif" />
+                            <img title="{{ 'General_EcommerceOrders'|translate }}" src="plugins/Zeitgeist/images/ecommerceOrder.gif" />
                             <span>{{ 'General_EcommerceOrders'|translate }}</span>
                         </a>
                         <a class="tableIcon" format="ecommerceAbandonedCart" var="ecommerceAbandonedCart">
-                            <img title="{{ 'General_AbandonedCarts'|translate }}" src="plugins/Zeitgeist/theme/images/ecommerceAbandonedCart.gif" />
+                            <img title="{{ 'General_AbandonedCarts'|translate }}" src="plugins/Zeitgeist/images/ecommerceAbandonedCart.gif" />
                             <span>{{ 'General_AbandonedCarts'|translate }}</span>
                         </a>
                     {% endif %}
@@ -62,17 +62,17 @@
             	    <span class="tableGraphViews tableGraphCollapsed">
                     {% if properties.show_bar_chart %}
                         <a class="tableIcon" format="graphVerticalBar" var="graphVerticalBar">
-                            <img width="16" height="16" src="plugins/Zeitgeist/theme/images/chart_bar.png" title="{{ 'General_VBarGraph'|translate }}"/>
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/chart_bar.png" title="{{ 'General_VBarGraph'|translate }}"/>
                         </a>
                     {% endif %}
                     {% if properties.show_pie_chart %}
                         <a class="tableIcon" format="graphPie" var="graphPie">
-                            <img width="16" height="16" src="plugins/Zeitgeist/theme/images/chart_pie.png" title="{{ 'General_Piechart'|translate }}"/>
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/chart_pie.png" title="{{ 'General_Piechart'|translate }}"/>
                         </a>
                     {% endif %}
                     {% if properties.show_tag_cloud %}
                         <a class="tableIcon" format="cloud" var="cloud">
-                            <img width="16" height="16" src="plugins/Zeitgeist/theme/images/tagcloud.png" title="{{ 'General_TagCloud'|translate }}"/>
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/tagcloud.png" title="{{ 'General_TagCloud'|translate }}"/>
                         </a>
                     {% endif %}
 				    </span>
@@ -81,7 +81,7 @@
                 <div class="tableIconsGroup">
             	    <span class="tableGraphViews">
                         <a class="tableIcon" format="graphEvolution" var="graphEvolution">
-                            <img width="16" height="16" src="plugins/Zeitgeist/theme/images/chart_bar.png" title="{{ 'General_VBarGraph'|translate }}"/>
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/chart_bar.png" title="{{ 'General_VBarGraph'|translate }}"/>
                         </a>
                     </span>
                 </div>
@@ -89,7 +89,7 @@
                 <div class="tableIconsGroup">
                     <span class="exportToFormatIcons">
                         <a class="tableIcon" var="export">
-                            <img width="16" height="16" src="plugins/Zeitgeist/theme/images/export.png" title="{{ 'General_ExportThisReport'|translate }}"/>
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/export.png" title="{{ 'General_ExportThisReport'|translate }}"/>
                         </a>
                     </span>
 				    <span class="exportToFormatItems" style="display:none">
@@ -102,14 +102,14 @@
                     {% if properties.show_export_as_rss_feed %}
                         |
                         <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.exportLimit }}" date="last10">
-                            <img border="0" src="plugins/Zeitgeist/theme/images/feed.png"/>
+                            <img border="0" src="plugins/Zeitgeist/images/feed.png"/>
                         </a>
                     {% endif %}
 				    </span>
                     {% if properties.show_export_as_image_icon %}
                         <span id="dataTableFooterExportAsImageIcon">
                             <a class="tableIcon" href="#" onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;">
-                                <img title="{{ 'General_ExportAsImage_js'|translate }}" src="plugins/Zeitgeist/theme/images/image.png"/>
+                                <img title="{{ 'General_ExportAsImage_js'|translate }}" src="plugins/Zeitgeist/images/image.png"/>
                             </a>
                         </span>
                     {% endif %}
@@ -139,7 +139,7 @@
             {% if not properties.hide_annotations_view %}
                 <div class="annotationView" title="{{ 'Annotations_IconDesc_js'|translate }}">
                     <a class="tableIcon">
-                        <img width="16" height="16" src="plugins/Zeitgeist/theme/images/grey_marker.png"/>
+                        <img width="16" height="16" src="plugins/Zeitgeist/images/grey_marker.png"/>
                     </a>
                     <span>{{ 'Annotations_Annotations'|translate }}</span>
                 </div>
@@ -170,6 +170,6 @@
 
 </div>
 
-<span class="loadingPiwikBelow" style='display:none'><img src="plugins/Zeitgeist/theme/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+<span class="loadingPiwikBelow" style='display:none'><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
 
 <div class="dataTableSpacer"></div>

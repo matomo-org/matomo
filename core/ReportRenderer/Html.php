@@ -82,17 +82,18 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
         $this->rendering .= $view->render();
     }
 
-    public function renderFrontPage($websiteName, $prettyDate, $description, $reportMetadata)
+    public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata)
     {
-        $fronPageView = new Piwik_View('@CoreHome/html_report_header');
-        $this->assignCommonParameters($fronPageView);
+        $frontPageView = new Piwik_View('@CoreHome/html_report_header');
+        $this->assignCommonParameters($frontPageView);
 
-        $fronPageView->assign("websiteName", $websiteName);
-        $fronPageView->assign("prettyDate", $prettyDate);
-        $fronPageView->assign("description", $description);
-        $fronPageView->assign("reportMetadata", $reportMetadata);
+        // todo rename 'websiteName' to 'reportTitle' once branch twig is merged
+        $frontPageView->assign("websiteName", $reportTitle);
+        $frontPageView->assign("prettyDate", $prettyDate);
+        $frontPageView->assign("description", $description);
+        $frontPageView->assign("reportMetadata", $reportMetadata);
 
-        $this->rendering .= $fronPageView->render();
+        $this->rendering .= $frontPageView->render();
     }
 
     private function assignCommonParameters(Piwik_View $view)

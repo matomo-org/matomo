@@ -359,7 +359,7 @@ class Piwik
      * @param int $nFlags    glob() flags
      * @return array
      */
-    public static function globr($sDir, $sPattern, $nFlags = NULL)
+    public static function globr($sDir, $sPattern, $nFlags = null)
     {
         if (($aFiles = _glob("$sDir/$sPattern", $nFlags)) == false) {
             $aFiles = array();
@@ -1043,7 +1043,7 @@ class Piwik
     {
         $output = "<style>a{color:red;}</style>\n" .
             "<div style='color:red;font-family:Georgia;font-size:120%'>" .
-            "<p><img src='themes/default/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20' />" .
+            "<p><img src='plugins/Zeitgeist/images/error_medium.png' style='vertical-align:middle; float:left;padding:20 20 20 20' />" .
             $message .
             "</p></div>";
         print(Piwik_Log_Formatter_ScreenFormatter::getFormattedString($output));
@@ -1438,7 +1438,7 @@ class Piwik
 
         $seconds = $minusDaysAndHours - $minutes * 60;
         $precision = ($seconds > 0 && $seconds < 0.01 ? 3 : 2);
-		$seconds = round($seconds, $precision);
+        $seconds = round($seconds, $precision);
 
         if ($years > 0) {
             $return = sprintf(Piwik_Translate('General_YearsDays'), $years, $days);
@@ -1448,7 +1448,7 @@ class Piwik
             $return = sprintf(Piwik_Translate('General_HoursMinutes'), $hours, $minutes);
         } elseif ($minutes > 0) {
             $return = sprintf(Piwik_Translate('General_MinutesSeconds'), $minutes, $seconds);
-		} else {
+        } else {
             $return = sprintf(Piwik_Translate('General_Seconds'), $seconds);
         }
         if ($isHtml) {
@@ -1483,7 +1483,7 @@ class Piwik
      */
     static public function getJavascriptCode($idSite, $piwikUrl)
     {
-        $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Zeitgeist/theme/javascriptCode.tpl");
+        $jsCode = file_get_contents(PIWIK_INCLUDE_PATH . "/plugins/Zeitgeist/templates/javascriptCode.tpl");
         $jsCode = htmlentities($jsCode);
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
         $piwikUrl = @$matches[2];
@@ -1540,9 +1540,19 @@ class Piwik
         if (is_null($cachedResult)) {
             $segments = Piwik_Config::getInstance()->Segments;
             $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : '';
+
+            Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', $cachedResult);
+
         }
 
         return $cachedResult;
+    }
+
+    static public function getKnownSegmentsToArchiveForSite($idSite)
+    {
+        $segments = array();
+        Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveForSite', $segments, $idSite);
+        return $segments;
     }
 
     /*
@@ -2037,7 +2047,7 @@ class Piwik
      */
     static public function isValidEmailString($email)
     {
-        return (preg_match("/^[a-zA-Z0-9_.+'-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,7}$/D", $email) > 0);
+        return (preg_match('/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z]{2,7}$/D', $email) > 0);
     }
 
     /**

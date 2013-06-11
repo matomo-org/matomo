@@ -6,7 +6,7 @@
               {% if counts.count == 0 %}title="{{ 'Annotations_AddAnnotationsFor_js'|translate(date) }}"
               {% elseif counts.count == 1 %}title="{{ 'Annotations_AnnotationOnDate'|translate(date,counts.note) }}{{ 'Annotations_ClickToEditOrAdd'|translate }}"
               {% else %}}title="{{ 'Annotations_ViewAndAddAnnotations_js'|translate(date) }}"{% endif %}>
-		<img src="plugins/Zeitgeist/theme/images/{% if counts.starred > 0 %}yellow_marker.png{% else %}grey_marker.png{% endif %}" width="16" height="16"/>
+		<img src="plugins/Zeitgeist/images/{% if counts.starred > 0 %}yellow_marker.png{% else %}grey_marker.png{% endif %}" width="16" height="16"/>
 	</span>
     {% endfor %}
 </div>

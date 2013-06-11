@@ -4,6 +4,7 @@
         <div class="nav_sep"></div>
         <div class="top_controls">
             {% include "@CoreHome/period_select.twig" %}
+            {{ postEvent("template_nextToCalendar") }}
             {% include "@CoreHome/header_message.twig" %}
             {{ ajax.requestErrorDiv }}
         </div>

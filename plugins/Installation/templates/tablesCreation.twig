@@ -3,9 +3,9 @@
 {% block content %}
 <h2>{{ 'Installation_Tables'|translate }}</h2>
 
-{% if someTablesInstalled is defined}
-    <div class="warning">{{ 'Installation_TablesWithSameNamesFound'|translate("<span id='linkToggle'>","</span>") }}
-        <img src="plugins/Zeitgeist/theme/images/warning_medium.png"/>
+{% if someTablesInstalled is defined %}
+    <div class="warning">{{ 'Installation_TablesWithSameNamesFound'|translate("<span id='linkToggle'>","</span>")|raw }}
+        <img src="plugins/Zeitgeist/images/warning_medium.png"/>
     </div>
     <div id="toggle" style="display:none;color:#4F2410">
         <small>
@@ -15,21 +15,21 @@
     </div>
     {% if showReuseExistingTables is defined %}
         <p>{{ 'Installation_TablesWarningHelp'|translate }}</p>
-        <p class="nextStep"><a href="{{ url({'action':nextModuleName}) }}">{{ 'Installation_TablesReuse'|translate }} &raquo;</a></p>
+        <p class="nextStep"><a href="{{ linkTo({'action':nextModuleName}) }}">{{ 'Installation_TablesReuse'|translate }} &raquo;</a></p>
     {% else %}
-        <p class="nextStep"><a href="{{ url({'action':previousPreviousModuleName}) }}">&laquo; {{ 'Installation_GoBackAndDefinePrefix'|translate }}</a></p>
+        <p class="nextStep"><a href="{{ linkTo({'action':previousPreviousModuleName}) }}">&laquo; {{ 'Installation_GoBackAndDefinePrefix'|translate }}</a></p>
     {% endif %}
-    <p class="nextStep"><a href="{{ url({'deleteTables':1}) }}" id="eraseAllTables">{{ 'Installation_TablesDelete'|translate }} &raquo;</a></p>
+    <p class="nextStep"><a href="{{ linkTo({'deleteTables':1}) }}" id="eraseAllTables">{{ 'Installation_TablesDelete'|translate }} &raquo;</a></p>
 {% endif %}
 
-{% if existingTablesDeleted is defined}
+{% if existingTablesDeleted is defined %}
     <div class="success"> {{ 'Installation_TablesDeletedSuccess'|translate }}
-        <img src="plugins/Zeitgeist/theme/images/success_medium.png"/></div>
+        <img src="plugins/Zeitgeist/images/success_medium.png"/></div>
 {% endif %}
 
 {% if tablesCreated is defined %}
     <div class="success"> {{ 'Installation_TablesCreatedSuccess'|translate }}
-        <img src="plugins/Zeitgeist/theme/images/success_medium.png"/></div>
+        <img src="plugins/Zeitgeist/images/success_medium.png"/></div>
 {% endif %}
 
 <script>
