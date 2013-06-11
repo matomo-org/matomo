@@ -1542,7 +1542,8 @@ class Piwik
             $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : array();
 
             Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', $cachedResult);
-
+            
+            $cachedResult = array_unique($cachedResult);
         }
 
         return $cachedResult;
