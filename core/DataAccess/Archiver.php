@@ -14,7 +14,7 @@
  */
 class Piwik_DataAccess_Archiver
 {
-    public static function deleteTemporaryLockedArchive($numericTable, $requestedPlugin, $segment, $period, $idArchive)
+    public static function deletePreviousArchiveStatus($numericTable, $requestedPlugin, $segment, $period, $idArchive)
     {
         $done = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($segment, $period->getLabel(), $requestedPlugin);
         Piwik_Query("DELETE FROM " . $numericTable . "
@@ -140,7 +140,7 @@ class Piwik_DataAccess_Archiver
             $firstPeriod = reset($periods);
             $table = Piwik_Common::prefixTable("archive_numeric_$tableMonth");
 
-            Piwik_TablePartitioning_Monthly::createArchiveTablesIfAbsent($firstPeriod);
+            Piwik_TablePartitioning_Monthly::createArchiveTablesIfAbsent($firstPeriod->getDateStart());
             
             // if looking for a range archive. NOTE: we assume there's only one period if its a range.
             $bind = array($firstPeriod->getId());
@@ -211,8 +211,15 @@ class Piwik_DataAccess_Archiver
         // get data from every table we're querying
         $rows = array();
         foreach ($archiveIds as $period => $ids) {
-            $tableMonth = $this->getTableMonthFromDateRange($period);
-            
+            if(empty($ids)) {
+                throw new Exception("Unexpected: id archive not found for period '$period' '");
+            }
+            // $period = "2009-01-04,2009-01-04",
+            $date = substr($period, 0, 10);
+            $tableMonth = str_replace('-', '_', substr($date, 0, 7) );
+
+            Piwik_TablePartitioning_Monthly::createArchiveTablesIfAbsent(Piwik_Date::factory($date));
+
             $table = Piwik_Common::prefixTable($archiveTableType."_".$tableMonth);
             $sql = sprintf($getValuesSql, $table, implode(',', $ids));
             foreach (Piwik_FetchAll($sql, $bind) as $row) {
@@ -271,18 +278,7 @@ class Piwik_DataAccess_Archiver
         }
         return $result;
     }
-    
-    /**
-     * Returns the table & month that an archive for a specific date range is stored
-     * in.
-     * 
-     * @param string $dateRange eg, "2012-01-01,2012-01-02"
-     * @return string eg, "2012_01"
-     */
-    private function getTableMonthFromDateRange($dateRange)
-    {
-        return str_replace('-', '_', substr($dateRange, 0, 7));
-    }
+
 
     static public function purgeOutdatedArchives($numericTable, $blobTable, $purgeArchivesOlderThan)
     {

@@ -491,7 +491,7 @@ class Piwik_Tracker
 
         Piwik_PostEvent('Tracker.getDatabaseConfig', $configDb);
 
-        $db = self::factory($configDb);
+        $db = Piwik_Tracker::factory($configDb);
         $db->connect();
 
         return $db;
@@ -773,7 +773,7 @@ class Piwik_Tracker
             $pluginsDisabled[] = 'AnonymizeIP';
         }
 
-        // Disable provider plugin, because it is so slow to do reverse ip lookup in dev environment somehow
+        // Disable provider plugin, because it is so slow to do many reverse ip lookups
         self::setPluginsNotToLoad($pluginsDisabled);
 
         // we load 'DevicesDetection' in tests only (disabled by default)

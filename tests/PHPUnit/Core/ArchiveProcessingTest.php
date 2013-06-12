@@ -53,7 +53,12 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $period = Piwik_Period::factory($periodLabel, $date);
         $segment = new Piwik_Segment('', $site->getId());
 
-        return Piwik_ArchiveProcessor::factory($period, $site, $segment);
+
+        if($period->getLabel() == 'day') {
+            return new Piwik_ArchiveProcessor_Day($period, $site, $segment);
+        } else {
+            return new Piwik_ArchiveProcessor_Period($period, $site, $segment);
+        }
     }
 
     /**

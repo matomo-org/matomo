@@ -1436,7 +1436,7 @@ abstract class Piwik_ViewDataTable
                 $period = new Piwik_Period_Range('range', $strDate, $timezone);
                 $reportDate = $period->getDateStart();
             } // if a multiple period, this function is irrelevant
-            else if (Piwik_Archive::isMultiplePeriod($strDate, $strPeriod)) {
+            else if (Piwik_Period::isMultiplePeriod($strDate, $strPeriod)) {
                 return false;
             } // otherwise, use the date as given
             else {

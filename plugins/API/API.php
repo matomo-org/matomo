@@ -1158,7 +1158,7 @@ class Piwik_API_API
             $period = 'day';
         }
 
-        if (!Piwik_Archive::isMultiplePeriod($date, $period)) {
+        if (!Piwik_Period::isMultiplePeriod($date, $period)) {
             throw new Exception("Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.");
         }
 

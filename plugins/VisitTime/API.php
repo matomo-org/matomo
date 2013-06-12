@@ -64,24 +64,25 @@ class Piwik_VisitTime_API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        // disabled for multiple sites/dates
-        if (Piwik_Archive::isMultipleSites($idSite)) {
-            throw new Exception("VisitTime.getByDayOfWeek does not support multiple sites.");
-        }
-
-        if (Piwik_Archive::isMultiplePeriod($date, $period)) {
-            throw new Exception("VisitTime.getByDayOfWeek does not support multiple dates.");
-        }
-
         // metrics to query
         $metrics = Piwik_Archive::getVisitsMetricNames();
         unset($metrics[Piwik_Archive::INDEX_MAX_ACTIONS]);
 
         // get metric data for every day within the supplied period
-        $oPeriod = Piwik_Archive::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
         $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
 
         $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
+
+        // disabled for multiple sites/dates
+        if ( count( $archive->getParams()->getIdSites() ) > 1) {
+            throw new Exception("VisitTime.getByDayOfWeek does not support multiple sites.");
+        }
+
+        if ( count ($archive->getParams()->getPeriods() ) > 1) {
+            throw new Exception("VisitTime.getByDayOfWeek does not support multiple dates.");
+        }
+
         $dataTable = $archive->getDataTableFromNumeric($metrics);
 
         // if there's no data for this report, don't bother w/ anything else

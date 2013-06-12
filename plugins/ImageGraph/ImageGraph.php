@@ -69,7 +69,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
         }
 
         // need two sets of period & date, one for single period graphs, one for multiple periods graphs
-        if (Piwik_Archive::isMultiplePeriod($info['date'], $info['period'])) {
+        if (Piwik_Period::isMultiplePeriod($info['date'], $info['period'])) {
             $periodForMultiplePeriodGraph = $info['period'];
             $dateForMultiplePeriodGraph = $info['date'];
 

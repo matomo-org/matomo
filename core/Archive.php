@@ -41,6 +41,7 @@
  */
 class Piwik_Archive
 {
+    const FLAG_ALL_WEBSITES_REQUESTED = 'all';
     /**
      * When saving DataTables in the DB, we sometimes replace the columns name by these IDs so we save up lots of bytes
      * Eg. INDEX_NB_UNIQ_VISITORS is an integer: 4 bytes, but 'nb_uniq_visitors' is 16 bytes at least
@@ -277,13 +278,11 @@ class Piwik_Archive
     private $params;
     
     /**
-     * Constructor.
-     * 
      * @param Piwik_Archive_Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
-    public function __construct(Piwik_Archive_Parameters $params, $forceIndexedBySite = false,
+    protected function __construct(Piwik_Archive_Parameters $params, $forceIndexedBySite = false,
                                   $forceIndexedByDate = false)
     {
         $this->params = $params;
@@ -304,28 +303,28 @@ class Piwik_Archive
      * @param false|string $_restrictSitesToLogin Used only when running as a scheduled task.
      * @return Piwik_Archive
      */
-    public static function build($idSite, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
+    public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
-        $sites = Piwik_Site::getIdSitesFromIdSitesString($idSite, $_restrictSitesToLogin);
-
-        if (self::isMultiplePeriod($strDate, $period)) {
+        if (Piwik_Period::isMultiplePeriod($strDate, $period)) {
             $oPeriod = new Piwik_Period_Range($period, $strDate);
             $allPeriods = $oPeriod->getSubperiods();
         } else {
-            $timezone = count($sites) == 1 ? Piwik_Site::getTimezoneFor($sites[0]) : false;
-            $oPeriod = Piwik_Archive::makePeriodFromQueryParams($timezone, $period, $strDate);
+            $timezone = false;//count($sites) == 1 ? Piwik_Site::getTimezoneFor($sites[0]) : false;
+            $oPeriod = Piwik_Period::makePeriodFromQueryParams($timezone, $period, $strDate);
             $allPeriods = array($oPeriod);
         }
-        $segment = new Piwik_Segment($segment, $sites);
-        return self::factory($segment, $allPeriods, $sites);
+        $segment = new Piwik_Segment($segment, $idSites);
+        return Piwik_Archive::factory($segment, $allPeriods, $idSites, $_restrictSitesToLogin);
     }
 
-    public static function factory(Piwik_Segment $segment, array $periods, array $sites)
+    public static function factory(Piwik_Segment $segment, array $periods, $idSites, $_restrictSitesToLogin = false)
     {
+        $sites = Piwik_Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
+
         $forceIndexedBySite = false;
         $forceIndexedByDate = false;
-
-        if (count($sites) > 1) {
+        if ($idSites == self::FLAG_ALL_WEBSITES_REQUESTED
+            || count($sites) > 1) {
             $forceIndexedBySite = true;
         }
         if (count($periods) > 1) {
@@ -340,36 +339,6 @@ class Piwik_Archive
         return new Piwik_Archive($params, $forceIndexedBySite, $forceIndexedByDate);
     }
 
-    /**
-     * Creates a period instance using a Piwik_Site instance and two strings describing
-     * the period & date.
-     *
-     * @param string $timezone
-     * @param string $period The period string: day, week, month, year, range
-     * @param string $strDate The date or date range string.
-     * @return Piwik_Period
-     */
-    public static function makePeriodFromQueryParams($timezone, $period, $date)
-    {
-        if (empty($timezone)) {
-            $timezone = 'UTC';
-        }
-
-        if ($period == 'range') {
-            $oPeriod = new Piwik_Period_Range('range', $date, $timezone, Piwik_Date::factory('today', $timezone));
-        } else {
-            if (!($date instanceof Piwik_Date)) {
-                if ($date == 'now' || $date == 'today') {
-                    $date = date('Y-m-d', Piwik_Date::factory('now', $timezone)->getTimestamp());
-                } elseif ($date == 'yesterday' || $date == 'yesterdaySameTime' ) {
-                    $date = date('Y-m-d', Piwik_Date::factory('now', $timezone)->subDay(1)->getTimestamp());
-                }
-                $date = Piwik_Date::factory( $date );
-            }
-            $oPeriod = Piwik_Period::factory($period, $date);
-        }
-        return $oPeriod;
-    }
     
     /**
      * Returns the value of the element $name from the current archive 
@@ -479,34 +448,6 @@ class Piwik_Archive
             || Piwik_Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
     }
 
-    /**
-     * Indicate if $dateString and $period correspond to multiple periods
-     *
-     * @static
-     * @param  $dateString
-     * @param  $period
-     * @return boolean
-     */
-    public static function isMultiplePeriod($dateString, $period)
-    {
-        return
-            is_string($dateString)
-            && (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
-                || Piwik_Period_Range::parseDateRange($dateString))
-            && $period != 'range';
-    }
-
-    /**
-     * Indicate if $idSiteString corresponds to multiple sites.
-     *
-     * @param string $idSiteString
-     * @return bool
-     */
-    public static function isMultipleSites($idSiteString)
-    {
-        return $idSiteString == 'all' || strpos($idSiteString, ',') !== false;
-    }
-    
     /**
      * Returns the list of plugins that archive the given reports.
      * 
@@ -652,7 +593,15 @@ class Piwik_Archive
         
         return $idArchivesByMonth;
     }
-    
+
+    /**
+     * @return Piwik_Archive_Parameters
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
     /**
      * Gets the IDs of the archives we're querying for and stores them in $this->archives.
      * This function will launch the archiving process for each period/site/plugin if 
@@ -665,7 +614,7 @@ class Piwik_Archive
     {
         $today = Piwik_Date::today();
         
-        // for every individual query permutation, launch the archiving process and get the archive ID
+        /* @var Piwik_Period $period */
         foreach ($this->params->getPeriods() as $period) {
             $periodStr = $period->getRangeString();
             
@@ -691,8 +640,12 @@ class Piwik_Archive
                     continue;
                 }
 
-                // prepare the ArchiveProcessing instance
-                $processing = Piwik_ArchiveProcessor::factory($period, $site, $this->params->getSegment());
+
+                if($period->getLabel() == 'day') {
+                    $processing = new Piwik_ArchiveProcessor_Day($period, $site, $this->params->getSegment());
+                } else {
+                    $processing = new Piwik_ArchiveProcessor_Period($period, $site, $this->params->getSegment());
+                }
 
                 // process for each plugin as well
                 foreach ($archiveGroups as $plugin) {
@@ -703,14 +656,12 @@ class Piwik_Archive
                     $doneFlag = $this->getDoneStringForPlugin($plugin);
                     $this->initializeArchiveIdCache($doneFlag);
 
-                    $processing->launchArchiving($plugin);
-                    $idArchive = $processing->getIdArchive();
+                    $idArchive = $processing->preProcessArchive($plugin);
 
-                    if ($processing->getNumberOfVisits() == 0) {
-                        continue;
+                    $visits = $processing->getNumberOfVisits();
+                    if($visits > 0) {
+                        $this->idarchives[$doneFlag][$periodStr][] = $idArchive;
                     }
-                    
-                    $this->idarchives[$doneFlag][$periodStr][] = $idArchive;
                 }
             }
         }
@@ -847,7 +798,7 @@ class Piwik_Archive
     private function getArchiveGroupOfPlugin($plugin)
     {
         if ($this->getPeriodLabel() != 'range') {
-            return 'all';
+            return 'all';;
         }
         
         return $plugin;

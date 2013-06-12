@@ -73,7 +73,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
         $period = Piwik_Common::getRequestVar('period');
 
         // create a period instance
-        $oPeriod = Piwik_Archive::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
 
         // set the footer message using the period start & end date
         $start = $oPeriod->getDateStart()->toString();

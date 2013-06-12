@@ -233,9 +233,9 @@ class Piwik_MultiSites_API
         // data for the last period to show the evolution of visits/actions/revenue
         list($strLastDate, $lastPeriod) = Piwik_Period_Range::getLastDate($date, $period);
         if (
-            false &&
-
-            $strLastDate !== false) {
+            // FIXMEA broken without this false
+            false
+            && $strLastDate !== false) {
             if ($lastPeriod !== false) {
                 // NOTE: no easy way to set last period date metadata when range of dates is requested.
                 //       will be easier if DataTable_Array::metadata is removed, and metadata that is

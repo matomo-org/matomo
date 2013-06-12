@@ -24,19 +24,16 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
     const LOG_VISIT_TABLE = 'log_visit';
     const LOG_ACTIONS_TABLE = 'log_link_visit_action';
     const LOG_CONVERSION_TABLE = "log_conversion";
-
     const REVENUE_SUBTOTAL_FIELD = 'revenue_subtotal';
     const REVENUE_TAX_FIELD = 'revenue_tax';
     const REVENUE_SHIPPING_FIELD = 'revenue_shipping';
     const REVENUE_DISCOUNT_FIELD = 'revenue_discount';
     const TOTAL_REVENUE_FIELD = 'revenue';
     const ITEMS_COUNT_FIELD = "items";
-
     const CONVERSION_DATETIME_FIELD = "server_time";
     const ACTION_DATETIME_FIELD = "server_time";
     const VISIT_DATETIME_FIELD = 'visit_last_action_time';
     const IDGOAL_FIELD = 'idgoal';
-
     const FIELDS_SEPARATOR = ", \n\t\t\t";
 
     public function queryActionsByDimension($dimensions, $where = '', $additionalSelects = array(), $metrics = false, $rankingQuery = null, $joinLogActionOnColumn = false)
@@ -76,7 +73,7 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
             $orderBy = '`' . Piwik_Archive::INDEX_NB_ACTIONS . '` DESC';
         }
 
-        $query = $this->query($select, $from, $where, $groupBy, $orderBy);
+        $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
 
         if ($rankingQuery !== null) {
             $sumColumns = array_keys($availableMetrics);
@@ -99,18 +96,6 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         );
     }
 
-    protected function query($select, $from, $where, $groupBy, $orderBy)
-    {
-        $bind = $this->getBindDatetimeSite();
-        $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
-        return $query;
-    }
-
-    protected function getBindDatetimeSite()
-    {
-        return array($this->getDateStart()->getDateStartUTC(), $this->getDateEnd()->getDateEndUTC(), $this->getSite()->getId());
-    }
-
     /**
      * @see queryVisitsByDimension() Similar to this function,
      * but queries metrics for the requested dimensionRecord,
@@ -123,7 +108,7 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
      */
     public function queryConversionsByDimension($dimensions = array(), $where = false, $additionalSelects = array())
     {
-        $dimensions = array_merge( array(self::IDGOAL_FIELD), $dimensions );
+        $dimensions = array_merge(array(self::IDGOAL_FIELD), $dimensions);
         $availableMetrics = $this->getConversionsMetricFields();
         $tableName = self::LOG_CONVERSION_TABLE;
 
@@ -132,20 +117,9 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         $from = array($tableName);
         $where = $this->getWhereStatement($tableName, self::CONVERSION_DATETIME_FIELD, $where);
         $groupBy = $this->getGroupByStatement($dimensions, $tableName);
-        $orderBy =  false;
-        $query = $this->query($select, $from, $where, $groupBy, $orderBy);
+        $orderBy = false;
+        $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
         return $this->getDb()->query($query['sql'], $query['bind']);
-    }
-
-    protected function getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics, $requestedMetrics = false)
-    {
-        $selects = array_merge(
-            $this->getSelectDimensions($dimensions, $tableName),
-            $this->getSelectsMetrics($availableMetrics, $requestedMetrics),
-            !empty($additionalSelects) ? $additionalSelects : array()
-        );
-        $select = implode(self::FIELDS_SEPARATOR, $selects);
-        return $select;
     }
 
     static public function getConversionsMetricFields()
@@ -165,6 +139,129 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
     static public function getSqlConversionRevenueSum($field)
     {
         return self::getSqlRevenue('SUM(' . self::LOG_CONVERSION_TABLE . '.' . $field . ')');
+    }
+
+    /**
+     * @param string $field
+     * @return string
+     */
+    static public function getSqlRevenue($field)
+    {
+        return "ROUND(" . $field . "," . Piwik_Tracker_GoalManager::REVENUE_PRECISION . ")";
+    }
+
+    protected function getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics, $requestedMetrics = false)
+    {
+        $selects = array_merge(
+            $this->getSelectDimensions($dimensions, $tableName),
+            $this->getSelectsMetrics($availableMetrics, $requestedMetrics),
+            !empty($additionalSelects) ? $additionalSelects : array()
+        );
+        $select = implode(self::FIELDS_SEPARATOR, $selects);
+        return $select;
+    }
+
+    protected function getSelectDimensions($dimensions, $tableName, $appendSelectAs = true)
+    {
+        foreach ($dimensions as $selectAs => &$field) {
+            $selectAsString = $field;
+            if (!is_numeric($selectAs)) {
+                $selectAsString = $selectAs;
+            }
+            if ($selectAsString == $field) {
+                $field = "$tableName.$field";
+            }
+            if ($appendSelectAs) {
+                $field = "$field AS $selectAsString";
+            }
+        }
+        return $dimensions;
+    }
+
+    protected function getSelectsMetrics($metricsAvailable, $metricsRequested = false)
+    {
+        $selects = array();
+        foreach ($metricsAvailable as $metricId => $statement) {
+            if ($this->isMetricRequested($metricId, $metricsRequested)) {
+                $selects[] = $statement . " as `" . $metricId . "`";
+            }
+        }
+        return $selects;
+    }
+
+    /**
+     * @param $metricId
+     * @param $metricsRequested
+     * @return bool
+     */
+    protected function isMetricRequested($metricId, $metricsRequested)
+    {
+        return $metricsRequested === false
+            || in_array($metricId, $metricsRequested);
+    }
+
+    protected function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
+    {
+        $where = "$tableName.$datetimeField >= ?
+				AND $tableName.$datetimeField <= ?
+				AND $tableName.idsite = ?";
+        if (!empty($extraWhere)) {
+            $extraWhere = sprintf($extraWhere, $tableName, $tableName);
+            $where .= ' AND ' . $extraWhere;
+        }
+        return $where;
+    }
+
+    /**
+     * Returns the actions by the given dimension
+     *
+     * - The basic use case is to use $dimensionRecord and optionally $where.
+     * - If you want to apply a limit and group the others, use $orderBy to sort the way you
+     *   want the limit to be applied and pass a pre-configured instance of Piwik_RankingQuery.
+     *   The ranking query instance has to have a limit and at least one label column.
+     *   See Piwik_RankingQuery::setLimit() and Piwik_RankingQuery::addLabelColumn().
+     *   If $rankingQuery is set, the return value is the array returned by
+     *   Piwik_RankingQuery::execute().
+     * - By default, the method only queries log_link_visit_action. If you need data from
+     *   log_action (e.g. to partition the result from the ranking query into the different
+     *   action types), use $joinLogActionOnColumn and $additionalSelects to join log_action and select
+     *   the column you need from log_action.
+     *
+     *
+     * @param array|string $dimensions      the dimensionRecord(s) you're interested in
+     * @param string $where      where clause
+     * @param bool|string $additionalSelects  additional select clause
+     * @param bool|array $metrics    Set this if you want to limit the columns that are returned.
+     *                                  The possible values in the array are Piwik_Archive::INDEX_*.
+     * @param Piwik_RankingQuery $rankingQuery     pre-configured ranking query instance
+     * @param bool|string $joinLogActionOnColumn  column from log_link_visit_action that
+     *                                              log_action should be joined on.
+     *                                                can be an array to join multiple times.
+     * @internal param bool|string $orderBy order by clause
+     * @return mixed
+     */
+    protected function getGroupByStatement($dimensions, $tableName)
+    {
+        $dimensions = $this->getSelectDimensions($dimensions, $tableName, $appendSelectAs = false);
+        $groupBy = implode(", ", $dimensions);
+        return $groupBy;
+    }
+
+    public function generateQuery($select, $from, $where, $groupBy, $orderBy)
+    {
+        $bind = $this->getBindDatetimeSite();
+        $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
+        return $query;
+    }
+
+    protected function getBindDatetimeSite()
+    {
+        return array($this->getDateStart()->getDateStartUTC(), $this->getDateEnd()->getDateEndUTC(), $this->getSite()->getId());
+    }
+
+    public function getDb()
+    {
+        return Zend_Registry::get('db');
     }
 
     /**
@@ -198,15 +295,6 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         $bind = $this->getBindDatetimeSite();
         $query = $this->getDb()->query($query, $bind);
         return $query;
-    }
-
-    /**
-     * @param string $field
-     * @return string
-     */
-    static public function getSqlRevenue($field)
-    {
-        return "ROUND(" . $field . "," . Piwik_Tracker_GoalManager::REVENUE_PRECISION . ")";
     }
 
     /**
@@ -265,10 +353,10 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
      */
     public function getMetricsForDimension($dimension)
     {
-        if(!is_array($dimension)) {
+        if (!is_array($dimension)) {
             $dimension = array($dimension);
         }
-        if(count($dimension) == 1) {
+        if (count($dimension) == 1) {
             $dimension = array("label" => reset($dimension));
         }
         $query = $this->queryVisitsByDimension($dimension);
@@ -279,34 +367,13 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         return $metrics;
     }
 
-
-
     protected function aggregateCoreVisitsMetrics()
     {
         $query = $this->queryVisitsByDimension();
         $data = $query->fetch();
 
-        if (empty($data[Piwik_Archive::INDEX_NB_VISITS])) {
-            $this->setNumberOfVisits(false);
-        }
         $metrics = $this->convertMetricsIdToName($data);
-        $this->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
-
         $this->insertNumericRecords($metrics);
-        return $metrics;
-    }
-
-    /**
-     * @param $data
-     * @return array
-     */
-    protected function convertMetricsIdToName($data)
-    {
-        $metrics = array();
-        foreach ($data as $metricId => $value) {
-            $readableMetric = Piwik_Archive::$mappingFromIdToName[$metricId];
-            $metrics[$readableMetric] = $value;
-        }
         return $metrics;
     }
 
@@ -340,7 +407,7 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         if ($rankingQuery) {
             $orderBy = '`' . Piwik_Archive::INDEX_NB_VISITS . '` DESC';
         }
-        $query = $this->query($select, $from, $where, $groupBy, $orderBy);
+        $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
 
         if ($rankingQuery) {
             unset($availableMetrics[Piwik_Archive::INDEX_MAX_ACTIONS]);
@@ -371,100 +438,22 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         );
     }
 
-    protected function getWhereStatement($tableName, $datetimeField, $extraWhere = false)
-    {
-        $where = "$tableName.$datetimeField >= ?
-				AND $tableName.$datetimeField <= ?
-				AND $tableName.idsite = ?";
-        if (!empty($extraWhere)) {
-            $extraWhere = sprintf($extraWhere, $tableName, $tableName);
-            $where .= ' AND ' . $extraWhere;
-        }
-        return $where;
-    }
-
-
-    protected function getSelectsMetrics($metricsAvailable, $metricsRequested = false)
-    {
-        $selects = array();
-        foreach ($metricsAvailable as $metricId => $statement) {
-            if ($this->isMetricRequested($metricId, $metricsRequested)) {
-                $selects[] = $statement . " as `" . $metricId . "`";
-            }
-        }
-        return $selects;
-    }
-
     /**
-     * @param $metricId
-     * @param $metricsRequested
-     * @return bool
+     * @param $data
+     * @return array
      */
-    protected function isMetricRequested($metricId, $metricsRequested)
+    protected function convertMetricsIdToName($data)
     {
-        return $metricsRequested === false
-            || in_array($metricId, $metricsRequested);
-    }
-
-    /**
-     * Returns the actions by the given dimension
-     *
-     * - The basic use case is to use $dimensionRecord and optionally $where.
-     * - If you want to apply a limit and group the others, use $orderBy to sort the way you
-     *   want the limit to be applied and pass a pre-configured instance of Piwik_RankingQuery.
-     *   The ranking query instance has to have a limit and at least one label column.
-     *   See Piwik_RankingQuery::setLimit() and Piwik_RankingQuery::addLabelColumn().
-     *   If $rankingQuery is set, the return value is the array returned by
-     *   Piwik_RankingQuery::execute().
-     * - By default, the method only queries log_link_visit_action. If you need data from
-     *   log_action (e.g. to partition the result from the ranking query into the different
-     *   action types), use $joinLogActionOnColumn and $additionalSelects to join log_action and select
-     *   the column you need from log_action.
-     *
-     *
-     * @param array|string $dimensions      the dimensionRecord(s) you're interested in
-     * @param string $where      where clause
-     * @param bool|string $additionalSelects  additional select clause
-     * @param bool|array $metrics    Set this if you want to limit the columns that are returned.
-     *                                  The possible values in the array are Piwik_Archive::INDEX_*.
-     * @param Piwik_RankingQuery $rankingQuery     pre-configured ranking query instance
-     * @param bool|string $joinLogActionOnColumn  column from log_link_visit_action that
-     *                                              log_action should be joined on.
-     *                                                can be an array to join multiple times.
-     * @internal param bool|string $orderBy order by clause
-     * @return mixed
-     */
-    protected function getGroupByStatement($dimensions, $tableName)
-    {
-        $dimensions = $this->getSelectDimensions($dimensions, $tableName, $appendSelectAs = false);
-        $groupBy = implode(", ", $dimensions);
-        return $groupBy;
-    }
-
-    protected function getSelectDimensions($dimensions, $tableName, $appendSelectAs = true)
-    {
-        foreach ($dimensions as $selectAs => &$field) {
-            $selectAsString = $field;
-            if(!is_numeric($selectAs)) {
-                $selectAsString = $selectAs;
-            }
-            if($selectAsString == $field) {
-                $field = "$tableName.$field";
-            }
-            if($appendSelectAs) {
-                $field = "$field AS $selectAsString";
-            }
+        $metrics = array();
+        foreach ($data as $metricId => $value) {
+            $readableMetric = Piwik_Archive::$mappingFromIdToName[$metricId];
+            $metrics[$readableMetric] = $value;
         }
-        return $dimensions;
+        return $metrics;
     }
 
     protected function compute()
     {
         Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
-    }
-
-    public function getDb()
-    {
-        return Zend_Registry::get('db');
     }
 }

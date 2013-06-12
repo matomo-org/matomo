@@ -252,14 +252,9 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         // to the outer select. therefore, $segment needs to know about it.
         $select = sprintf($select, $sprintfField);
 
-        $bind = array($this->getProcessor()->getDateStart()->getDateStartUTC(),
-                      $this->getProcessor()->getDateEnd()->getDateEndUTC(),
-                      $this->getProcessor()->getSite()->getId()
-        );
 
         // get query with segmentation
-        $query = $this->getProcessor()->getSegment()->getSelectQuery(
-            $select, $from, $where, $bind, $orderBy, $groupBy);
+        $query = $this->getProcessor()->generateQuery($select, $from, $where, $groupBy, $orderBy);
 
         // replace the rest of the %s
         $querySql = str_replace("%s", $sprintfField, $query['sql']);
@@ -270,7 +265,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         }
 
         // get result
-        $resultSet = $this->getProcessor()->getDb()->query($querySql, $bind);
+        $resultSet = $this->getProcessor()->getDb()->query($querySql, $query['bind']);
         $modified = Piwik_Actions_ArchivingHelper::updateActionsTableWithRowQuery($resultSet, $sprintfField, $this->actionsTablesByType);
         return $modified;
     }
@@ -570,11 +565,12 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             self::OUTLINKS_RECORD_NAME,
             self::SITE_SEARCH_RECORD_NAME,
         );
+        $aggregation = null;
         $nameToCount = $this->getProcessor()->aggregateDataTableReports($dataTableToSum,
             Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero,
             Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable,
             Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation,
-            $aggregation = null,
+            $aggregation,
             self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive);
 
         $this->getProcessor()->archiveNumericValuesGeneral(array(
