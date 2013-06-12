@@ -141,6 +141,6 @@ class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
             self::VISITS_COUNT_RECORD_NAME,
             self::DAYS_SINCE_LAST_RECORD_NAME
         );
-        $this->getProcessor()->archiveDataTable($dataTableToSum);
+        $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
     }
 }

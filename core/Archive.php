@@ -102,6 +102,25 @@ class Piwik_Archive
     const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
 
+    public static function getVisitsMetricNames()
+    {
+        $names = array();
+        foreach(self::$metricsAggregatedFromLogs as $metricId) {
+            $names[$metricId] = self::$mappingFromIdToName[$metricId];
+        }
+        return $names;
+    }
+
+    protected static $metricsAggregatedFromLogs = array(
+        Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
+        Piwik_Archive::INDEX_NB_VISITS,
+        Piwik_Archive::INDEX_NB_ACTIONS,
+        Piwik_Archive::INDEX_MAX_ACTIONS,
+        Piwik_Archive::INDEX_SUM_VISIT_LENGTH,
+        Piwik_Archive::INDEX_BOUNCE_COUNT,
+        Piwik_Archive::INDEX_NB_VISITS_CONVERTED,
+    );
+
     public static $mappingFromIdToName = array(
         Piwik_Archive::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
         Piwik_Archive::INDEX_NB_VISITS                             => 'nb_visits',
@@ -240,12 +259,12 @@ class Piwik_Archive
     /**
      * Data Access Layer object.
      * 
-     * @var Piwik_DataAccess_ArchiveQuery
+     * @var Piwik_DataAccess_Archiver
      */
     private $dataAccess;
     
     /**
-     * Cache of Piwik_ArchiveProcessing instances used when launching the archiving
+     * Cache of Piwik_ArchiveProcessor instances used when launching the archiving
      * process.
      * 
      * @var array
@@ -270,7 +289,7 @@ class Piwik_Archive
         $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
-        $this->dataAccess = new Piwik_DataAccess_ArchiveQuery();
+        $this->dataAccess = new Piwik_DataAccess_Archiver();
     }
 
 
@@ -287,34 +306,37 @@ class Piwik_Archive
      */
     public static function build($idSite, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
-        $forceIndexedBySite = false;
-        $forceIndexedByDate = false;
-        
-        // determine site IDs to query from
-        if (is_array($idSite)
-            || $idSite == 'all'
-        ) {
-            $forceIndexedBySite = true;
-        }
         $sites = Piwik_Site::getIdSitesFromIdSitesString($idSite, $_restrictSitesToLogin);
 
         if (self::isMultiplePeriod($strDate, $period)) {
             $oPeriod = new Piwik_Period_Range($period, $strDate);
             $allPeriods = $oPeriod->getSubperiods();
-            $forceIndexedByDate = true;
         } else {
             $timezone = count($sites) == 1 ? Piwik_Site::getTimezoneFor($sites[0]) : false;
             $oPeriod = Piwik_Archive::makePeriodFromQueryParams($timezone, $period, $strDate);
             $allPeriods = array($oPeriod);
         }
-
         $segment = new Piwik_Segment($segment, $sites);
+        return self::factory($segment, $allPeriods, $sites);
+    }
+
+    public static function factory(Piwik_Segment $segment, array $periods, array $sites)
+    {
+        $forceIndexedBySite = false;
+        $forceIndexedByDate = false;
+
+        if (count($sites) > 1) {
+            $forceIndexedBySite = true;
+        }
+        if (count($periods) > 1) {
+            $forceIndexedByDate = true;
+        }
 
         $params = new Piwik_Archive_Parameters();
         $params->setIdSites($sites);
-        $params->setPeriods($allPeriods);
+        $params->setPeriods($periods);
         $params->setSegment($segment);
-        
+
         return new Piwik_Archive($params, $forceIndexedBySite, $forceIndexedByDate);
     }
 
@@ -444,16 +466,6 @@ class Piwik_Archive
     {
         $data = $this->get($name, 'blob', 'all');
         return $data->getExpandedDataTable($this->getResultIndices(), $idSubtable, $addMetadataSubtableId);
-    }
-    
-    /**
-     * Returns true if we shouldn't launch the archiving process and false if we should.
-     * 
-     * @return bool
-     */
-    public function isArchivingDisabled()
-    {
-        return Piwik_ArchiveProcessing::isArchivingDisabledFor($this->params->getSegment(), $this->getPeriodLabel());
     }
 
     /**
@@ -594,7 +606,7 @@ class Piwik_Archive
      * Returns archive IDs for the sites, periods and archive names that are being
      * queried. This function will use the idarchive cache if it has the right data,
      * query archive tables for IDs w/o launching archiving, or launch archiving and
-     * get the idarchive from Piwik_ArchiveProcessing instances.
+     * get the idarchive from Piwik_ArchiveProcessor instances.
      */
     private function getArchiveIds($archiveNames)
     {
@@ -617,7 +629,7 @@ class Piwik_Archive
         
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
-            if (!$this->isArchivingDisabled()) {
+            if (!Piwik_ArchiveProcessor_Rules::isArchivingDisabledFor($this->params->getSegment(), $this->getPeriodLabel())) {
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
@@ -680,33 +692,21 @@ class Piwik_Archive
                 }
 
                 // prepare the ArchiveProcessing instance
-                $processing = Piwik_ArchiveProcessing::factory($period->getLabel());
+                $processing = Piwik_ArchiveProcessor::factory($period, $site, $this->params->getSegment());
 
-                $processing->setSite($site);
-                $processing->setPeriod($period);
-                $processing->setSegment($this->params->getSegment());
-                
-                $processing->isThereSomeVisits = null;
-                
                 // process for each plugin as well
                 foreach ($archiveGroups as $plugin) {
                     if ($plugin == 'all') {
                         $plugin = reset($plugins);
                     }
-                    
+
                     $doneFlag = $this->getDoneStringForPlugin($plugin);
                     $this->initializeArchiveIdCache($doneFlag);
 
-                    $processing->setRequestedPlugin($plugin);
-                    
-                    // launch archiving if the requested data hasn't been archived
-                    $idArchive = $processing->loadArchive();
-                    if (empty($idArchive)) {
-                        $processing->launchArchiving();
-                        $idArchive = $processing->getIdArchive();
-                    }
-                    
-                    if (!$processing->isThereSomeVisits()) {
+                    $processing->launchArchiving($plugin);
+                    $idArchive = $processing->getIdArchive();
+
+                    if ($processing->getNumberOfVisits() == 0) {
                         continue;
                     }
                     
@@ -715,7 +715,7 @@ class Piwik_Archive
             }
         }
     }
-    
+
     /**
      * Gets the IDs of the archives we're querying for and stores them in $this->archives.
      * This function will not launch the archiving process (and is thus much, much faster
@@ -753,7 +753,7 @@ class Piwik_Archive
      */
     private function getDoneStringForPlugin($plugin)
     {
-        return Piwik_ArchiveProcessing::getDoneStringFlagFor($this->params->getSegment(), $this->getPeriodLabel(), $plugin);
+        return Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($this->params->getSegment(), $this->getPeriodLabel(), $plugin);
     }
 
     private function getPeriodLabel()
@@ -862,9 +862,7 @@ class Piwik_Archive
     public static function getPluginForReport($report)
     {
         // Core metrics are always processed in Core, for the requested date/period/segment
-        if (in_array($report, Piwik_ArchiveProcessing::getCoreMetrics())
-            || $report == 'max_actions'
-        ) {
+        if (in_array($report, Piwik_Archive::getVisitsMetricNames())) {
             $report = 'VisitsSummary_CoreMetrics';
         }
         // Goal_* metrics are processed by the Goals plugin (HACK)

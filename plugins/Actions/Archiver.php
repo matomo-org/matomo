@@ -66,7 +66,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     /**
      * Archives Actions reports for a Day
      *
-     * @param Piwik_ArchiveProcessing $this->getProcessor()
+     * @param Piwik_ArchiveProcessor $this->getProcessor()
      * @return bool
      */
     public function archiveDay()
@@ -252,19 +252,14 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         // to the outer select. therefore, $segment needs to know about it.
         $select = sprintf($select, $sprintfField);
 
-        $bind = array();
+        $bind = array($this->getProcessor()->getDateStart()->getDateStartUTC(),
+                      $this->getProcessor()->getDateEnd()->getDateEndUTC(),
+                      $this->getProcessor()->getSite()->getId()
+        );
 
         // get query with segmentation
         $query = $this->getProcessor()->getSegment()->getSelectQuery(
             $select, $from, $where, $bind, $orderBy, $groupBy);
-
-        // extend bindings
-        $bind = array_merge(array($this->getProcessor()->getStartDatetimeUTC(),
-                                  $this->getProcessor()->getEndDatetimeUTC(),
-                                  $this->getProcessor()->getSite()->getId()
-                            ),
-            $query['bind']
-        );
 
         // replace the rest of the %s
         $querySql = str_replace("%s", $sprintfField, $query['sql']);
@@ -562,25 +557,27 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             self::PAGE_TITLES_RECORD_NAME,
             self::PAGE_URLS_RECORD_NAME,
         );
-        $this->getProcessor()->archiveDataTable($dataTableToSum,
-            self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive,
+        $this->getProcessor()->aggregateDataTableReports($dataTableToSum,
             Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero,
             Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable,
             Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation,
-            self::$actionColumnAggregationOperations);
+            self::$actionColumnAggregationOperations,
+            self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive
+        );
 
         $dataTableToSum = array(
             self::DOWNLOADS_RECORD_NAME,
             self::OUTLINKS_RECORD_NAME,
             self::SITE_SEARCH_RECORD_NAME,
         );
-        $nameToCount = $this->getProcessor()->archiveDataTable($dataTableToSum,
-            self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive,
+        $nameToCount = $this->getProcessor()->aggregateDataTableReports($dataTableToSum,
             Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero,
             Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable,
-            Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation);
+            Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation,
+            $aggregation = null,
+            self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive);
 
-        $this->getProcessor()->archiveNumericValuesSum(array(
+        $this->getProcessor()->archiveNumericValuesGeneral(array(
                                                             self::METRIC_PAGEVIEWS_RECORD_NAME,
                                                             self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME,
                                                             self::METRIC_DOWNLOADS_RECORD_NAME,

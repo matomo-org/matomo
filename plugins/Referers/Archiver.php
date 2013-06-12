@@ -189,7 +189,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     /**
      * Records the daily stats (numeric or datatable blob) into the archive tables.
      *
-     * @param Piwik_ArchiveProcessing $this->getProcessor()
+     * @param Piwik_ArchiveProcessor $this->getProcessor()
      */
     protected function recordDayReports()
     {
@@ -223,7 +223,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     public function archivePeriod()
     {
         $dataTableToSum = $this->getRecordNames();
-        $nameToCount = $this->getProcessor()->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
+        $nameToCount = $this->getProcessor()->aggregateDataTableReports($dataTableToSum, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable, $this->columnToSortByBeforeTruncation);
 
         $mappingFromArchiveName = array(
             self::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME =>

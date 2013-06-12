@@ -22,6 +22,6 @@ class Piwik_Provider_Archiver extends Piwik_PluginsArchiver
 
     public function archivePeriod()
     {
-        $this->getProcessor()->archiveDataTable(array(self::PROVIDER_RECORD_NAME), null, $this->maximumRows);
+        $this->getProcessor()->aggregateDataTableReports(array(self::PROVIDER_RECORD_NAME), $this->maximumRows);
     }
 }

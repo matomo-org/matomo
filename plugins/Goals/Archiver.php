@@ -146,10 +146,11 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
         $this->insertReports(self::DAYS_UNTIL_CONV_RECORD_NAME, $daysToConversions);
 
         // Stats for all goals
+        $nbConvertedVisits = $this->getProcessor()->getNumberOfVisitsConverted();
         $metrics = array(
-            self::getRecordName('conversion_rate')     => $this->getConversionRate($this->getProcessor()->getNumberOfVisitsConverted()),
+            self::getRecordName('conversion_rate')     => $this->getConversionRate($nbConvertedVisits),
             self::getRecordName('nb_conversions')      => $totalConversions,
-            self::getRecordName('nb_visits_converted') => $this->getProcessor()->getNumberOfVisitsConverted(),
+            self::getRecordName('nb_visits_converted') => $nbConvertedVisits,
             self::getRecordName('revenue')             => $totalRevenue,
         );
         $this->getProcessor()->insertNumericRecords($metrics);
@@ -380,7 +381,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
             foreach ($this->dimensionRecord as $recordName) {
                 $dataTableToSum[] = self::getItemRecordNameAbandonedCart($recordName);
             }
-            $this->getProcessor()->archiveDataTable($dataTableToSum);
+            $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
         }
 
         /*
@@ -402,7 +403,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
                 $fieldsToSum[] = self::getRecordName($metricName, $goalId);
             }
         }
-        $records = $this->getProcessor()->archiveNumericValuesSum($fieldsToSum);
+        $records = $this->getProcessor()->archiveNumericValuesGeneral($fieldsToSum);
 
         // also recording conversion_rate for each goal
         foreach ($goalIdsToSum as $goalId) {
@@ -411,13 +412,13 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
             $this->getProcessor()->insertNumericRecord(self::getRecordName('conversion_rate', $goalId), $conversion_rate);
 
             // sum up the visits to conversion data table & the days to conversion data table
-            $this->getProcessor()->archiveDataTable(array(
+            $this->getProcessor()->aggregateDataTableReports(array(
                                                          self::getRecordName(self::VISITS_UNTIL_RECORD_NAME, $goalId),
                                                          self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME, $goalId)));
         }
 
         // sum up goal overview reports
-        $this->getProcessor()->archiveDataTable(array(
+        $this->getProcessor()->aggregateDataTableReports(array(
                                                      self::getRecordName(self::VISITS_UNTIL_RECORD_NAME),
                                                      self::getRecordName(self::DAYS_UNTIL_CONV_RECORD_NAME)));
     }

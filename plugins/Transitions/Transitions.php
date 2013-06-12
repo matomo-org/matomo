@@ -64,7 +64,7 @@ class Piwik_Transitions extends Piwik_Plugin
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
+     * @param Piwik_ArchiveProcessor_Day $archiveProcessing
      * @param $limitBeforeGrouping
      * @return Piwik_DataTable
      */
@@ -130,7 +130,7 @@ class Piwik_Transitions extends Piwik_Plugin
 
         //FIXMEA refactor after integration tests written
         $array = new Piwik_DataArray($referrerData, $referrerSubData);
-        return Piwik_ArchiveProcessing_Day::getDataTableFromDataArray($array);
+        return Piwik_ArchiveProcessor_Day::getDataTableFromDataArray($array);
     }
 
     /**
@@ -138,7 +138,7 @@ class Piwik_Transitions extends Piwik_Plugin
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
+     * @param Piwik_ArchiveProcessor_Day $archiveProcessing
      * @param $limitBeforeGrouping
      * @return array(previousPages:Piwik_DataTable, loops:integer)
      */
@@ -257,12 +257,12 @@ class Piwik_Transitions extends Piwik_Plugin
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
+     * @param Piwik_ArchiveProcessor_Day $archiveProcessing
      * @param $limitBeforeGrouping
      * @param $includeLoops
      * @return array(followingPages:Piwik_DataTable, outlinks:Piwik_DataTable, downloads:Piwik_DataTable)
      */
-    public function queryFollowingActions($idaction, $actionType, Piwik_ArchiveProcessing_Day $archiveProcessing,
+    public function queryFollowingActions($idaction, $actionType, Piwik_ArchiveProcessor_Day $archiveProcessing,
                                           $limitBeforeGrouping = false, $includeLoops = false)
     {
         $types = array();

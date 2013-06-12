@@ -74,14 +74,15 @@ class Piwik_VisitTime_API
         }
 
         // metrics to query
-        $metrics = Piwik_ArchiveProcessing::getCoreMetrics();
+        $metrics = Piwik_Archive::getVisitsMetricNames();
+        unset($metrics[Piwik_Archive::INDEX_MAX_ACTIONS]);
 
         // get metric data for every day within the supplied period
         $oPeriod = Piwik_Archive::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
         $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
 
         $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
-        $dataTable = $archive->getDataTableFromNumeric($metrics)->mergeChildren();
+        $dataTable = $archive->getDataTableFromNumeric($metrics);
 
         // if there's no data for this report, don't bother w/ anything else
         // TODO: with changes to getDataTableFromNumeric, this code would have to check if every row has 0 column values. is it really necessary? (assuming no for now)

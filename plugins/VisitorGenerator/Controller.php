@@ -76,7 +76,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
         $api = Piwik_CoreAdminHome_API::getInstance();
         $api->invalidateArchivedReports($idSite, implode($dates, ","));
 
-        $browserArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
+        $browserArchiving = Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled();
 
         // Init view
         $view = Piwik_View::factory('generate');

@@ -114,7 +114,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
         $archiveTables = Piwik::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {
             if (strpos($table, 'numeric') !== false) {
-                Piwik_ArchiveProcessing_Period::doPurgeOutdatedArchives($table);
+                Piwik_ArchiveProcessor_Rules::doPurgeOutdatedArchives($table);
             }
         }
     }

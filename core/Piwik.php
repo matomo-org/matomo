@@ -2425,57 +2425,6 @@ class Piwik
     }
 
     /**
-     * Generate advisory lock name
-     *
-     * @param int $idsite
-     * @param Piwik_Period $period
-     * @param Piwik_Segment $segment
-     * @return string
-     */
-    static public function getArchiveProcessingLockName($idsite, $period, Piwik_Segment $segment)
-    {
-        $config = Piwik_Config::getInstance();
-
-        $lockName = 'piwik.'
-            . $config->database['dbname'] . '.'
-            . $config->database['tables_prefix'] . '/'
-            . $idsite . '/'
-            . (!$segment->isEmpty() ? $segment->getHash() . '/' : '')
-            . $period->getId() . '/'
-            . $period->getDateStart()->toString('Y-m-d') . ','
-            . $period->getDateEnd()->toString('Y-m-d');
-        return $lockName . '/' . md5($lockName . Piwik_Common::getSalt());
-    }
-
-    /**
-     * Get an advisory lock
-     *
-     * @param int $idsite
-     * @param Piwik_Period $period
-     * @param Piwik_Segment $segment
-     * @return bool  True if lock acquired; false otherwise
-     */
-    static public function getArchiveProcessingLock($idsite, $period, $segment)
-    {
-        $lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
-        return Piwik_GetDbLock($lockName, $maxRetries = 30);
-    }
-
-    /**
-     * Release an advisory lock
-     *
-     * @param int $idsite
-     * @param Piwik_Period $period
-     * @param Piwik_Segment $segment
-     * @return bool True if lock released; false otherwise
-     */
-    static public function releaseArchiveProcessingLock($idsite, $period, $segment)
-    {
-        $lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
-        return Piwik_ReleaseDbLock($lockName);
-    }
-
-    /**
      * Cached result of isLockprivilegeGranted function.
      *
      * Public so tests can simulate the situation where the lock tables privilege isn't granted.

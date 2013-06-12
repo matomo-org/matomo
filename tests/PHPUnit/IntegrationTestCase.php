@@ -950,9 +950,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $this->_setCallableApi($api);
 
         if (isset($params['disableArchiving']) && $params['disableArchiving'] === true) {
-            Piwik_ArchiveProcessing::$forceDisableArchiving = true;
+            Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = true;
         } else {
-            Piwik_ArchiveProcessing::$forceDisableArchiving = false;
+            Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = false;
         }
 
         if (isset($params['language'])) {

@@ -46,7 +46,7 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
 
     protected function convertTimeToLocalTimezone(Piwik_DataArray &$array)
     {
-        $date = Piwik_Date::factory($this->getProcessor()->getStartDatetimeUTC())->toString();
+        $date = Piwik_Date::factory($this->getProcessor()->getDateStart()->getDateStartUTC())->toString();
         $timezone = $this->getProcessor()->getSite()->getTimezone();
 
         $converted = array();
@@ -75,6 +75,6 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
             self::LOCAL_TIME_RECORD_NAME,
             self::SERVER_TIME_RECORD_NAME,
         );
-        $this->getProcessor()->archiveDataTable($dataTableToSum);
+        $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
     }
 }

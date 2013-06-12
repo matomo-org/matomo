@@ -74,7 +74,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
 
     protected function getSelectAveragePrice()
     {
-        return Piwik_ArchiveProcessing_Day::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
+        return Piwik_ArchiveProcessor_Day::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
             . " as `" . Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 
@@ -191,8 +191,8 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
 
     public function archivePeriod()
     {
-        $nameToCount = $this->getProcessor()->archiveDataTable(
-            self::CUSTOM_VARIABLE_RECORD_NAME, null, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
+        $nameToCount = $this->getProcessor()->aggregateDataTableReports(
+            self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
             $columnToSort = Piwik_Archive::INDEX_NB_VISITS);
     }
 }

@@ -62,10 +62,10 @@ class Piwik_Transitions_API
         }
 
         // prepare archive processing that can be used by the archiving code
-        $archiveProcessing = new Piwik_ArchiveProcessing_Day();
-        $archiveProcessing->setSite(new Piwik_Site($idSite));
-        $archiveProcessing->setPeriod(Piwik_Period::advancedFactory($period, $date));
-        $archiveProcessing->setSegment(new Piwik_Segment($segment, $idSite));
+        $segment = new Piwik_Segment($segment, $idSite);
+        $site = new Piwik_Site($idSite);
+        $period = Piwik_Period::advancedFactory($period, $date);
+        $archiveProcessing = Piwik_ArchiveProcessor::factory($period, $site, $segment);
 
         // prepare the report
         $report = array(

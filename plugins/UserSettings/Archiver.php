@@ -146,7 +146,7 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
             self::PLUGIN_RECORD_NAME,
             self::LANGUAGE_RECORD_NAME,
         );
-        $this->getProcessor()->archiveDataTable($dataTableToSum, null, $this->maximumRows);
+        $this->getProcessor()->aggregateDataTableReports($dataTableToSum, $this->maximumRows);
     }
 }
 

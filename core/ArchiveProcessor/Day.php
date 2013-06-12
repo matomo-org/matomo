@@ -17,12 +17,14 @@
  * All the logic of the archiving is done inside the plugins listening to the event 'ArchiveProcessing_Day.compute'
  *
  * @package Piwik
- * @subpackage Piwik_ArchiveProcessing
+ * @subpackage Piwik_ArchiveProcessor
  */
-class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
+class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
 {
-    const FIELDS_SEPARATOR = ", \n\t\t\t";
+    const LOG_VISIT_TABLE = 'log_visit';
+    const LOG_ACTIONS_TABLE = 'log_link_visit_action';
     const LOG_CONVERSION_TABLE = "log_conversion";
+
     const REVENUE_SUBTOTAL_FIELD = 'revenue_subtotal';
     const REVENUE_TAX_FIELD = 'revenue_tax';
     const REVENUE_SHIPPING_FIELD = 'revenue_shipping';
@@ -30,16 +32,12 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
     const TOTAL_REVENUE_FIELD = 'revenue';
     const ITEMS_COUNT_FIELD = "items";
 
-    const IDGOAL_FIELD = 'idgoal';
-
     const CONVERSION_DATETIME_FIELD = "server_time";
     const ACTION_DATETIME_FIELD = "server_time";
-
     const VISIT_DATETIME_FIELD = 'visit_last_action_time';
+    const IDGOAL_FIELD = 'idgoal';
 
-    const LOG_ACTIONS_TABLE = 'log_link_visit_action';
-
-    const LOG_VISIT_TABLE = 'log_visit';
+    const FIELDS_SEPARATOR = ", \n\t\t\t";
 
     public function queryActionsByDimension($dimensions, $where = '', $additionalSelects = array(), $metrics = false, $rankingQuery = null, $joinLogActionOnColumn = false)
     {
@@ -103,10 +101,14 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
 
     protected function query($select, $from, $where, $groupBy, $orderBy)
     {
-        $bind = array($this->getStartDatetimeUTC(), $this->getEndDatetimeUTC(), $this->getSite()->getId());
-
+        $bind = $this->getBindDatetimeSite();
         $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind, $orderBy, $groupBy);
         return $query;
+    }
+
+    protected function getBindDatetimeSite()
+    {
+        return array($this->getDateStart()->getDateStartUTC(), $this->getDateEnd()->getDateEndUTC(), $this->getSite()->getId());
     }
 
     /**
@@ -193,10 +195,7 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         // Segment not supported yet
         // $query = $this->query($select, $from, $where, $groupBy, $orderBy);
 
-        $bind = array($this->getStartDatetimeUTC(),
-                      $this->getEndDatetimeUTC(),
-                      $this->getSite()->getId()
-        );
+        $bind = $this->getBindDatetimeSite();
         $query = $this->getDb()->query($query, $bind);
         return $query;
     }
@@ -280,44 +279,35 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         return $metrics;
     }
 
-    /**
-     * Returns true if there are logs for the current archive.
-     *
-     * If the current archive is for a specific plugin (for example, Referers),
-     *   (for example when a Segment is defined and the Keywords report is requested)
-     * Then the function will create the Archive for the Core metrics 'VisitsSummary' which will in turn process the number of visits
-     *
-     * If there is no specified segment, the SQL query will always run.
-     *
-     * @return bool|null
-     */
-    public function isThereSomeVisits()
+
+
+    protected function aggregateCoreVisitsMetrics()
     {
-        if (!is_null($this->isThereSomeVisits)) {
-            return $this->isThereSomeVisits;
-        }
-
-        if (!$this->isProcessingEnabled()) {
-            return $this->makeArchiveToCheckForVisits();
-        }
-
         $query = $this->queryVisitsByDimension();
         $data = $query->fetch();
 
-        // no visits found
-        if (!is_array($data) || $data[Piwik_Archive::INDEX_NB_VISITS] == 0) {
-            return $this->isThereSomeVisits = false;
+        if (empty($data[Piwik_Archive::INDEX_NB_VISITS])) {
+            $this->setNumberOfVisits(false);
         }
+        $metrics = $this->convertMetricsIdToName($data);
+        $this->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
+
+        $this->insertNumericRecords($metrics);
+        return $metrics;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    protected function convertMetricsIdToName($data)
+    {
         $metrics = array();
-        foreach($data as $metricId => $value) {
+        foreach ($data as $metricId => $value) {
             $readableMetric = Piwik_Archive::$mappingFromIdToName[$metricId];
             $metrics[$readableMetric] = $value;
         }
-        $this->insertNumericRecords($metrics);
-
-        $this->setNumberOfVisits($data[Piwik_Archive::INDEX_NB_VISITS]);
-        $this->setNumberOfVisitsConverted($data[Piwik_Archive::INDEX_NB_VISITS_CONVERTED]);
-        return $this->isThereSomeVisits = true;
+        return $metrics;
     }
 
     /**
@@ -468,39 +458,9 @@ class Piwik_ArchiveProcessing_Day extends Piwik_ArchiveProcessing
         return $dimensions;
     }
 
-    /**
-     * Main method to process logs for a day. The only logic done here is computing the number of visits, actions, etc.
-     * All the other reports are computed inside plugins listening to the event 'ArchiveProcessing_Day.compute'.
-     * See some of the plugins for an example eg. 'Provider'
-     */
     protected function compute()
     {
-        if (!$this->isThereSomeVisits()) {
-            return;
-        }
         Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
-    }
-
-    /**
-     * If a segment is specified but a plugin other than 'VisitsSummary' is being requested,
-     * we create an archive for processing VisitsSummary Core Metrics, which will in turn
-     * execute the query above (in isThereSomeVisits)
-     *
-     * @return bool|null
-     */
-    private function makeArchiveToCheckForVisits()
-    {
-        $archive = $this->makeNewArchive();
-        $nbVisits = $archive->getNumeric('nb_visits');
-        $this->isThereSomeVisits = $nbVisits > 0;
-
-        if ($this->isThereSomeVisits) {
-            $nbVisitsConverted = $archive->getNumeric('nb_visits_converted');
-            $this->setNumberOfVisits($nbVisits);
-            $this->setNumberOfVisitsConverted($nbVisitsConverted);
-        }
-
-        return $this->isThereSomeVisits;
     }
 
     public function getDb()

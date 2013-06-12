@@ -57,8 +57,8 @@ class Piwik_DevicesDetection_Archiver extends Piwik_PluginsArchiver
             self::BROWSER_VERSION_RECORD_NAME
         );
         foreach ($dataTablesToSum as $dt) {
-            $this->getProcessor()->archiveDataTable(
-                $dt, null, $this->maximumRows, $this->maximumRows, $columnToSort = "nb_visits");
+            $this->getProcessor()->aggregateDataTableReports(
+                $dt, $this->maximumRows, $this->maximumRows, $columnToSort = "nb_visits");
         }
     }
 }

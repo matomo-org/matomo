@@ -232,18 +232,22 @@ class Piwik_MultiSites_API
         // if the period isn't a range & a lastN/previousN date isn't used, we get the same
         // data for the last period to show the evolution of visits/actions/revenue
         list($strLastDate, $lastPeriod) = Piwik_Period_Range::getLastDate($date, $period);
-        if ($strLastDate !== false) {
+        if (
+            false &&
+
+            $strLastDate !== false) {
             if ($lastPeriod !== false) {
                 // NOTE: no easy way to set last period date metadata when range of dates is requested.
                 //       will be easier if DataTable_Array::metadata is removed, and metadata that is
                 //       put there is put directly in Piwik_DataTable::metadata.
                 $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
             }
-
             $pastArchive = Piwik_Archive::build('all', $period, $strLastDate, $segment, $_restrictSitesToLogin);
             $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
 
-            $pastData = $pastData->mergeChildren();
+            if(!($dataTable instanceof Piwik_DataTable_Simple)) {
+                $pastData = $pastData->mergeChildren();
+            }
 
             // use past data to calculate evolution percentages
             $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
@@ -315,7 +319,7 @@ class Piwik_MultiSites_API
     private function calculateEvolutionPercentages($currentData, $pastData, $apiMetrics)
     {
         if ($currentData instanceof Piwik_DataTable_Array) {
-            $pastArray = $pastData->getArray();
+            $pastArray = $pastData->getRows();
             foreach ($currentData->getArray() as $subTable) {
                 $this->calculateEvolutionPercentages($subTable, current($pastArray), $apiMetrics);
                 next($pastArray);

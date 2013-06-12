@@ -509,7 +509,7 @@ class Piwik_Goals extends Piwik_Plugin
     function archiveDay($notification)
     {
         /**
-         * @var Piwik_ArchiveProcessing_Day
+         * @var Piwik_ArchiveProcessor_Day
          */
         $archiveProcessing = $notification->getNotificationObject();
 

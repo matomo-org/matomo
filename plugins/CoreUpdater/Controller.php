@@ -163,7 +163,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         /*
          * Make sure the execute bit is set for this shell script
          */
-        if (!Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled()) {
+        if (!Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()) {
             @chmod($this->pathRootExtractedPiwik . '/misc/cron/archive.sh', 0755);
         }
 
