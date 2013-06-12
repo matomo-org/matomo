@@ -164,6 +164,18 @@ class Piwik_Archive_DataCollection
         $result = $this->createEmptyIndex($indexKeys);
         foreach ($this->data as $idSite => $rowsByPeriod) {
             foreach ($rowsByPeriod as $period => $row) {
+                // FIXME: This hack works around a strange bug that occurs when getting
+                //         archive IDs through ArchiveProcessing instances. When a table
+                //         does not already exist, for some reason the archive ID for
+                //         today (or from two days ago) will be added to the Archive
+                //         instances list. The Archive instance will then select data
+                //         for periods outside of the requested set.
+                //         working around the bug here, but ideally, we need to figure
+                //         out why incorrect idarchives are being selected.
+                if (empty($this->periods[$period])) {
+                    continue;
+                }
+                
                 $indexRowKeys = $this->getRowKeys($indexKeys, $row, $idSite, $period);
                 
                 $this->setIndexRow($result, $indexRowKeys, $row);
