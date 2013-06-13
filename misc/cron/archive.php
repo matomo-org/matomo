@@ -458,7 +458,7 @@ class Archiving
     }
 
     private function addCurlHandleToMulti(&$mh, $ch)
-    {return;
+    {
         if (!$mh) {
             $mh = curl_multi_init();
         }
@@ -568,7 +568,7 @@ class Archiving
     }
 
     private function logNetworkError($url, $response)
-    {echo "WHOLE RESPONSE: ".$response."\n";
+    {
         $message = "Got invalid response from API request: $url. ";
         if (empty($response)) {
             $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
