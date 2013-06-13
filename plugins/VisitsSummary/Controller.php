@@ -26,7 +26,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 
     public function getSparklines()
     {
-        $view = new Piwik_View('@VisitsSummary/sparklines');
+        $view = new Piwik_View('@VisitsSummary/getSparklines');
         $this->setPeriodVariablesView($view);
         $this->setSparklinesAndNumbers($view);
         echo $view->render();

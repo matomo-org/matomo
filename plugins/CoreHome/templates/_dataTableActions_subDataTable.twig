@@ -1,0 +1,20 @@
+<tr id="{{ properties.uniqueId }}"></tr>
+{% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
+    {{ arrayDataTable.message }}
+{% else %}
+    {% if arrayDataTable|length == 0 %}
+        <tr>
+            <td colspan="{{ nbColumns }}">{{ 'CoreHome_CategoryNoData'|translate }}</td>
+        </tr>
+    {% else %}
+        {% for row in arrayDataTable %}
+            <tr {% if row.idsubdatatable %}class="subActionsDataTable" id="{{ row.idsubdatatable }}" {% else %}class="actionsDataTable"{% endif %}>
+                {% for column in dataTableColumns %}
+                    <td>
+                        {% include "@CoreHome/_dataTableCell.twig" with {'column': column} %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endif %}
+{% endif %}

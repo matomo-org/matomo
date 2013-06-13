@@ -1,0 +1,21 @@
+{% import 'ajaxMacros.twig' as ajax %}
+<div class="page">
+    <div class="pageWrap">
+        <div class="nav_sep"></div>
+        <div class="top_controls">
+            {% include "@CoreHome/_periodSelect.twig" %}
+            {{ postEvent("template_nextToCalendar") }}
+            {% include "@CoreHome/_headerMessage.twig" %}
+            {{ ajax.requestErrorDiv }}
+        </div>
+
+        {{ ajax.loadingDiv() }}
+
+        <div id="content" class="home">
+            {% if content %}{{ content }}{% endif %}
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<br/><br/>

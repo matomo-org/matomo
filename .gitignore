@@ -5,8 +5,9 @@ documentation
 favicon.ico
 logs
 plugins/*.zip
-themes/logo-header.png
-themes/logo.png
+misc/user/logo-header.png
+misc/user/logo.png
+misc/user/logo.svg
 piwik-min.js
 robots.txt
 tmp

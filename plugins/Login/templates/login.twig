@@ -33,10 +33,10 @@
     {% if 'General_LayoutDirection'|translate =='rtl' %}
     <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
     {% endif %}
-    {% include "@CoreHome/iframe_buster_header.twig" %}
+    {% include "_iframeBusterHeader.twig" %}
 </head>
 <body class="login">
-{% include "@CoreHome/iframe_buster_body.twig" %}
+{% include "_iframeBusterBody.twig" %}
 <div id="logo">
     {% if isCustomLogo == false %}<a href="http://piwik.org" title="{{ linkTitle }}">{% endif %}
     {% if hasSVGLogo %}

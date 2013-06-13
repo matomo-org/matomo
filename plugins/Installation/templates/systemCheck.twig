@@ -1,14 +1,14 @@
-{% extends '@Installation/structure.twig' %}
+{% extends '@Installation/layout.twig' %}
 
 {% block content %}
 {% if not showNextStep %}
-    {% include "@Installation/systemCheck_legend.twig" %}
+    {% include "@Installation/_systemCheckLegend.twig" %}
     <br style="clear:both">
 {% endif %}
 
 <h3>{{ 'Installation_SystemCheck'|translate }}</h3>
 <br/>
-{% include "@Installation/systemCheckSection.twig" %}
+{% include "@Installation/_systemCheckSection.twig" %}
 
 {% if not showNextStep %}
     <br/>
@@ -16,6 +16,6 @@
         <img src='plugins/Zeitgeist/images/link.gif'/> &nbsp;
         <a href="?module=Proxy&action=redirect&url=http://piwik.org/docs/requirements/" target="_blank">{{ 'Installation_Requirements'|translate }}</a>
     </p>
-    {% include "@Installation/systemCheck_legend.twig" %}
+    {% include "@Installation/_systemCheckLegend.twig" %}
 {% endif %}
 {% endblock %}

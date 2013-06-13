@@ -120,7 +120,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getSearchEnginesAndKeywords()
     {
-        $view = new Piwik_View('@Referers/searchEngines_Keywords');
+        $view = new Piwik_View('@Referers/getSearchEnginesAndKeywords');
         $view->searchEngines = $this->getSearchEngines(true);
         $view->keywords = $this->getKeywords(true);
         echo $view->render();
@@ -295,7 +295,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function indexWebsites($fetch = false)
     {
-        $view = new Piwik_View('@Referers/Websites_SocialNetworks');
+        $view = new Piwik_View('@Referers/indexWebsites');
         $view->websites = $this->getWebsites(true);
         $view->socials = $this->getSocials(true);
         if ($fetch) {

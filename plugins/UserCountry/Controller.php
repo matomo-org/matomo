@@ -134,7 +134,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
      */
     private function getGeoIpUpdaterManageScreen()
     {
-        $view = new Piwik_View('@UserCountry/updaterSetup');
+        $view = new Piwik_View('@UserCountry/getGeoIpUpdaterManageScreen');
         $view->geoIPDatabasesInstalled = true;
         $this->setUpdaterManageVars($view);
         return $view->render();

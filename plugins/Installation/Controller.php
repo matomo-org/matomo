@@ -419,7 +419,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $idSite = $this->session->site_idSite;
 
         // Load the Tracking code and help text from the SitesManager
-        $viewTrackingHelp = new Piwik_View('SitesManager/templates/DisplayJavascriptCode.tpl');
+        $viewTrackingHelp = new Piwik_View('@SitesManager/_displayJavascriptCode');
         $viewTrackingHelp->displaySiteName = $siteName;
         $viewTrackingHelp->jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
         $viewTrackingHelp->idSite = $idSite;

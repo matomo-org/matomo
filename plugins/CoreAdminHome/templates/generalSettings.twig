@@ -229,11 +229,11 @@
                         </td>
                         <td style='width:200px'>
                             <input name="customLogo" type="file" id="customLogo"/>
-                            <img src="themes/logo.png?r={math equation='rand(10,1000)'}" id="currentLogo" height="150"/>
+                            <img src="misc/user/logo.png?r={math equation='rand(10,1000)'}" id="currentLogo" height="150"/>
                         </td>
                     {% else %}
                         <td>
-                            <span class="ajaxSuccess">{{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/themes/</li><li>/themes/logo.png</li><li>/themes/logo-header.png</li></ul>")|raw }}</span>
+                            <span class="ajaxSuccess">{{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/misc/user/</li><li>/misc/user/logo.png</li><li>/misc/user/logo-header.png</li></ul>")|raw }}</span>
                         </td>
                     {% endif %}
                 </tr>

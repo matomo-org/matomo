@@ -77,8 +77,8 @@ if (!function_exists('Piwik_ExitWithMessage')) {
                             <li><a target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
                             </ul>';
         }
-        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simple_structure_header.tpl');
-        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simple_structure_footer.tpl');
+        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutHeader.tpl');
+        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
 
         $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
         $content = '<p>' . $message . '</p>
