@@ -132,9 +132,9 @@ class Piwik_VisitTime extends Piwik_Plugin
 
     function archivePeriod($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_VisitTime_Archiver($archiveProcessing);
+        $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
@@ -143,8 +143,8 @@ class Piwik_VisitTime extends Piwik_Plugin
 
     public function archiveDay($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-        $archiving = new Piwik_VisitTime_Archiver($archiveProcessing);
+        $archiveProcessor = $notification->getNotificationObject();
+        $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }

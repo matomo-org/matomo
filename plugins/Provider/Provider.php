@@ -221,9 +221,9 @@ class Piwik_Provider extends Piwik_Plugin
      */
     function archiveDay($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_Provider_Archiver($archiveProcessing);
+        $archiving = new Piwik_Provider_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
@@ -235,9 +235,9 @@ class Piwik_Provider extends Piwik_Plugin
      */
     function archivePeriod($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_Provider_Archiver($archiveProcessing);
+        $archiving = new Piwik_Provider_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }

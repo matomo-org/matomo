@@ -65,7 +65,7 @@ class Piwik_Transitions_API
         $segment = new Piwik_Segment($segment, $idSite);
         $site = new Piwik_Site($idSite);
         $period = Piwik_Period::advancedFactory($period, $date);
-        $archiveProcessing = new Piwik_ArchiveProcessor_Day($period, $site, $segment);
+        $archiveProcessor = new Piwik_ArchiveProcessor_Day($period, $site, $segment);
 
         // prepare the report
         $report = array(
@@ -81,16 +81,16 @@ class Piwik_Transitions_API
         $partsArray = explode(',', $parts);
 
         if ($parts == 'all' || in_array('internalReferrers', $partsArray)) {
-            $this->addInternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction,
+            $this->addInternalReferrers($transitionsArchiving, $archiveProcessor, $report, $idaction,
                 $actionType, $limitBeforeGrouping);
         }
         if ($parts == 'all' || in_array('followingActions', $partsArray)) {
             $includeLoops = $parts != 'all' && !in_array('internalReferrers', $partsArray);
-            $this->addFollowingActions($transitionsArchiving, $archiveProcessing, $report, $idaction,
+            $this->addFollowingActions($transitionsArchiving, $archiveProcessor, $report, $idaction,
                 $actionType, $limitBeforeGrouping, $includeLoops);
         }
         if ($parts == 'all' || in_array('externalReferrers', $partsArray)) {
-            $this->addExternalReferrers($transitionsArchiving, $archiveProcessing, $report, $idaction,
+            $this->addExternalReferrers($transitionsArchiving, $archiveProcessor, $report, $idaction,
                 $actionType, $limitBeforeGrouping);
         }
 
@@ -167,19 +167,19 @@ class Piwik_Transitions_API
      * previous pages and previous site searches
      *
      * @param Piwik_Transitions $transitionsArchiving
-     * @param $archiveProcessing
+     * @param $archiveProcessor
      * @param $report
      * @param $idaction
      * @param string $actionType
      * @param $limitBeforeGrouping
      * @throws Exception
      */
-    private function addInternalReferrers($transitionsArchiving, $archiveProcessing, &$report,
+    private function addInternalReferrers($transitionsArchiving, $archiveProcessor, &$report,
                                           $idaction, $actionType, $limitBeforeGrouping)
     {
 
         $data = $this->queryInternalReferrers(
-            $idaction, $actionType, $archiveProcessing, $limitBeforeGrouping);
+            $idaction, $actionType, $archiveProcessor, $limitBeforeGrouping);
 
         if ($data['pageviews'] == 0) {
             throw new Exception('NoDataForAction');
@@ -196,19 +196,19 @@ class Piwik_Transitions_API
      * following pages, downloads, outlinks
      *
      * @param Piwik_Transitions $transitionsArchiving
-     * @param $archiveProcessing
+     * @param $archiveProcessor
      * @param $report
      * @param $idaction
      * @param string $actionType
      * @param $limitBeforeGrouping
      * @param boolean $includeLoops
      */
-    private function addFollowingActions($transitionsArchiving, $archiveProcessing, &$report,
+    private function addFollowingActions($transitionsArchiving, $archiveProcessor, &$report,
                                          $idaction, $actionType, $limitBeforeGrouping, $includeLoops = false)
     {
 
         $data = $this->queryFollowingActions(
-            $idaction, $actionType, $archiveProcessing, $limitBeforeGrouping, $includeLoops);
+            $idaction, $actionType, $archiveProcessor, $limitBeforeGrouping, $includeLoops);
 
         foreach ($data as $tableName => $table) {
             $report[$tableName] = $table;
@@ -222,12 +222,12 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessor_Day $archiveProcessing
+     * @param Piwik_ArchiveProcessor_Day $archiveProcessor
      * @param $limitBeforeGrouping
      * @param $includeLoops
      * @return array(followingPages:Piwik_DataTable, outlinks:Piwik_DataTable, downloads:Piwik_DataTable)
      */
-    public function queryFollowingActions($idaction, $actionType, Piwik_ArchiveProcessor_Day $archiveProcessing,
+    public function queryFollowingActions($idaction, $actionType, Piwik_ArchiveProcessor_Day $archiveProcessor,
                                           $limitBeforeGrouping = false, $includeLoops = false)
     {
         $types = array();
@@ -295,7 +295,7 @@ class Piwik_Transitions_API
         }
 
         $metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
-        $data = $archiveProcessing->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionColumn);
+        $data = $archiveProcessor->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionColumn);
 
         $this->totalTransitionsToFollowingActions = 0;
         $dataTables = array();
@@ -334,11 +334,11 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessor_Day $archiveProcessing
+     * @param Piwik_ArchiveProcessor_Day $archiveProcessor
      * @param $limitBeforeGrouping
      * @return Piwik_DataTable
      */
-    public function queryExternalReferrers($idaction, $actionType, $archiveProcessing,
+    public function queryExternalReferrers($idaction, $actionType, $archiveProcessor,
                                            $limitBeforeGrouping = false)
     {
         $rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
@@ -371,7 +371,7 @@ class Piwik_Transitions_API
         $where = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
 
         $metrics = array(Piwik_Archive::INDEX_NB_VISITS);
-        $data = $archiveProcessing->queryVisitsByDimension($dimensions, $where, $selects, $metrics, $rankingQuery);
+        $data = $archiveProcessor->queryVisitsByDimension($dimensions, $where, $selects, $metrics, $rankingQuery);
 
         $referrerData = array();
         $referrerSubData = array();
@@ -408,11 +408,11 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessor_Day $archiveProcessing
+     * @param Piwik_ArchiveProcessor_Day $archiveProcessor
      * @param $limitBeforeGrouping
      * @return array(previousPages:Piwik_DataTable, loops:integer)
      */
-    protected function queryInternalReferrers($idaction, $actionType, $archiveProcessing,
+    protected function queryInternalReferrers($idaction, $actionType, $archiveProcessor,
                                            $limitBeforeGrouping = false)
     {
         $rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
@@ -453,7 +453,7 @@ class Piwik_Transitions_API
             $joinLogActionOn = $dimension;
         }
         $metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
-        $data = $archiveProcessing->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionOn);
+        $data = $archiveProcessor->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionOn);
 
         $loops = 0;
         $nbPageviews = 0;
@@ -549,18 +549,18 @@ class Piwik_Transitions_API
      * direct entries, websites, campaigns, search engines
      *
      * @param Piwik_Transitions $transitionsArchiving
-     * @param $archiveProcessing
+     * @param $archiveProcessor
      * @param $report
      * @param $idaction
      * @param string $actionType
      * @param $limitBeforeGrouping
      */
-    private function addExternalReferrers($transitionsArchiving, $archiveProcessing, &$report,
+    private function addExternalReferrers($transitionsArchiving, $archiveProcessor, &$report,
                                           $idaction, $actionType, $limitBeforeGrouping)
     {
 
         $data = $transitionsArchiving->queryExternalReferrers(
-            $idaction, $actionType, $archiveProcessing, $limitBeforeGrouping);
+            $idaction, $actionType, $archiveProcessor, $limitBeforeGrouping);
 
         $report['pageMetrics']['entries'] = 0;
         $report['referrers'] = array();

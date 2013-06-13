@@ -291,9 +291,9 @@ class Piwik_UserCountry extends Piwik_Plugin
      */
     function archivePeriod($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_UserCountry_Archiver($archiveProcessing);
+        $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
@@ -305,9 +305,9 @@ class Piwik_UserCountry extends Piwik_Plugin
      */
     function archiveDay($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_UserCountry_Archiver($archiveProcessing);
+        $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }

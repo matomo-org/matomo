@@ -125,9 +125,9 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 
     function archivePeriod($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessing);
+        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
@@ -135,9 +135,9 @@ class Piwik_VisitorInterest extends Piwik_Plugin
 
     public function archiveDay($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessing);
+        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }

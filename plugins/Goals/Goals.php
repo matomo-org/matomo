@@ -511,9 +511,9 @@ class Piwik_Goals extends Piwik_Plugin
         /**
          * @var Piwik_ArchiveProcessor_Day
          */
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_Goals_Archiver($archiveProcessing);
+        $archiving = new Piwik_Goals_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
@@ -528,9 +528,9 @@ class Piwik_Goals extends Piwik_Plugin
      */
     function archivePeriod($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_Goals_Archiver($archiveProcessing);
+        $archiving = new Piwik_Goals_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }

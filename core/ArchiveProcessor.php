@@ -10,10 +10,10 @@
  */
 
 /**
- * The ArchiveProcessing module is a module that reads the Piwik logs from the DB and
+ * The ArchiveProcessor module is a module that reads the Piwik logs from the DB and
  * compute all the reports, which are then stored in the database.
  *
- * The ArchiveProcessing class is used by the Archive object to make sure the given Archive is processed and available in the DB.
+ * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.
  *
  * A record in the Database for a given report is defined by
  * - idarchive    = unique ID that is associated to all the data of this archive (idsite+period+date)
@@ -178,7 +178,7 @@ abstract class Piwik_ArchiveProcessor
             return $idArchive;
         }
 
-        if (!Piwik_DataAccess_Archiver::getArchiveProcessingLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment())) {
+        if (!Piwik_DataAccess_Archiver::getArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment())) {
             Piwik::log('Unable to get lock for idSite = ' . $this->getSite()->getId()
                 . ', period = ' . $this->getPeriod()->getLabel()
                 . ', UTC datetime [' . $this->getDateStart()->getDateStartUTC() . ' -> ' . $this->getDateEnd()->getDateEndUTC() . ' ]...');
@@ -224,7 +224,7 @@ abstract class Piwik_ArchiveProcessor
         }
         $this->insertNumericRecord($done, $flag);
 
-        Piwik_DataAccess_Archiver::releaseArchiveProcessingLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment());
+        Piwik_DataAccess_Archiver::releaseArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment());
 
         return $idArchive;
 

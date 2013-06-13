@@ -527,7 +527,7 @@ class Piwik_API_API
         $reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
 
         foreach ($reportsMetadata as $report) {
-            // See ArchiveProcessing/Period.php - unique visitors are not processed for period != day
+            // See ArchiveProcessor/Period.php - unique visitors are not processed for period != day
             if (($period && $period != 'day') && !($apiModule == 'VisitsSummary' && $apiAction == 'get')) {
                 unset($report['metrics']['nb_uniq_visitors']);
             }

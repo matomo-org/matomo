@@ -32,7 +32,7 @@
  *        return $nbVisits;
  * </pre>
  *
- * If the requested statistics are not yet processed, Archive uses ArchiveProcessing to archive the statistics.
+ * If the requested statistics are not yet processed, Archive uses ArchiveProcessor to archive the statistics.
  * 
  * TODO: create ticket for this: when building archives, should use each site's timezone (ONLY FOR 'now'). 
  * 
@@ -697,7 +697,7 @@ class Piwik_Archive
     /**
      * Returns the done string flag for a plugin using this instance's segment & periods.
      * 
-     * @see Piwik_ArchiveProcessing::getDoneStringFlagFor
+     * @see Piwik_ArchiveProcessor::getDoneStringFlagFor
      * 
      * @param string $plugin
      * @return string

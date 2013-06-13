@@ -239,9 +239,9 @@ class Piwik_DevicesDetection extends Piwik_Plugin
 
     public function archiveDay($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessing);
+        $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
@@ -249,8 +249,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
 
     public function archivePeriod($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
-        $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessing);
+        $archiveProcessor = $notification->getNotificationObject();
+        $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }

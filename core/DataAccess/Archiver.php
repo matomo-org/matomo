@@ -32,7 +32,7 @@ class Piwik_DataAccess_Archiver
      * @param Piwik_Segment $segment
      * @return string
      */
-    static protected function getArchiveProcessingLockName($idsite, $period, Piwik_Segment $segment)
+    static protected function getArchiveProcessorLockName($idsite, $period, Piwik_Segment $segment)
     {
         $config = Piwik_Config::getInstance();
 
@@ -55,9 +55,9 @@ class Piwik_DataAccess_Archiver
      * @param Piwik_Segment $segment
      * @return bool  True if lock acquired; false otherwise
      */
-    static public function getArchiveProcessingLock($idsite, $period, $segment)
+    static public function getArchiveProcessorLock($idsite, $period, $segment)
     {
-        $lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
+        $lockName = self::getArchiveProcessorLockName($idsite, $period, $segment);
         return Piwik_GetDbLock($lockName, $maxRetries = 30);
     }
 
@@ -69,9 +69,9 @@ class Piwik_DataAccess_Archiver
      * @param Piwik_Segment $segment
      * @return bool True if lock released; false otherwise
      */
-    static public function releaseArchiveProcessingLock($idsite, $period, $segment)
+    static public function releaseArchiveProcessorLock($idsite, $period, $segment)
     {
-        $lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
+        $lockName = self::getArchiveProcessorLockName($idsite, $period, $segment);
         return Piwik_ReleaseDbLock($lockName);
     }
 
