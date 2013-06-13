@@ -50,8 +50,6 @@ class Piwik_PDFReports_API
     const REPORT_TITLE_KEY = 'reportTitle';
     const ADDITIONAL_FILES_KEY = 'additionalFiles';
 
-    const REPORT_TRUNCATE = 23;
-
     static private $instance = null;
 
     /**
@@ -331,10 +329,13 @@ class Piwik_PDFReports_API
             }
         }
 
-        // the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
-        // 23 rows table fits in one portrait page
+        // the report will be rendered with the first X rows and will aggregate other rows in a summary row.
+        // the default is 23 because a table with 23 rows fits in one portrait page.
         $initialFilterTruncate = Piwik_Common::getRequestVar('filter_truncate', false);
-        $_GET['filter_truncate'] = self::REPORT_TRUNCATE;
+        $reportTruncate = Piwik_Config::getInstance()->PDFReports['report_truncation'];
+        if ($reportTruncate) {
+            $_GET['filter_truncate'] = $reportTruncate;
+        }
 
         $prettyDate = null;
         $processedReports = array();

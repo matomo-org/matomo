@@ -384,6 +384,11 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
                     if (empty($rowMetrics[$columnId])) {
                         $rowMetrics[$columnId] = 0;
                     }
+                    // Generation times are formatted with &nbsp;. Replace it with a regular space.
+                    // (see Piwik.getPrettyValue)
+                    if (substr($columnId, -16) == '_time_generation') {
+                        $rowMetrics[$columnId] = str_replace('&nbsp;', ' ', $rowMetrics[$columnId]);
+                    }
                     $this->TCPDF->Cell($this->cellWidth, $this->cellHeight, $rowMetrics[$columnId], 'LR', 0, 'L', $fill);
                 }
             }
