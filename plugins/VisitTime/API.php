@@ -71,7 +71,6 @@ class Piwik_VisitTime_API
         // get metric data for every day within the supplied period
         $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
         $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
-
         $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
 
         // disabled for multiple sites/dates
@@ -79,14 +78,18 @@ class Piwik_VisitTime_API
             throw new Exception("VisitTime.getByDayOfWeek does not support multiple sites.");
         }
 
-        if ( count ($archive->getParams()->getPeriods() ) > 1) {
+        $periods = $archive->getParams()->getPeriods();
+        if ( count ($periods) > 1
+            && !($periods[0] instanceof Piwik_Period_Day)) {
             throw new Exception("VisitTime.getByDayOfWeek does not support multiple dates.");
         }
+
+        //FIXMEA
+        throw new exception("Temporarily broken - stay tuned");
 
         $dataTable = $archive->getDataTableFromNumeric($metrics);
 
         // if there's no data for this report, don't bother w/ anything else
-        // TODO: with changes to getDataTableFromNumeric, this code would have to check if every row has 0 column values. is it really necessary? (assuming no for now)
         if ($dataTable->getRowsCount() == 0) {
             return $dataTable;
         }
