@@ -221,7 +221,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
     {
         if (empty($this->archiver)) {
             $subPeriods = $this->getPeriod()->getSubperiods();
-            $this->archiver = Piwik_Archive::factory($this->getSegment(), $subPeriods, $this->getSite()->getId());
+            $this->archiver = Piwik_Archive::factory($this->getSegment(), $subPeriods, array( $this->getSite()->getId() ));
         }
     }
 

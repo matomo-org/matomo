@@ -62,16 +62,21 @@ class Piwik_VisitTime_API
      */
     public function getByDayOfWeek($idSite, $period, $date, $segment = false)
     {
+
         Piwik::checkUserHasViewAccess($idSite);
 
         // metrics to query
         $metrics = Piwik_Archive::getVisitsMetricNames();
         unset($metrics[Piwik_Archive::INDEX_MAX_ACTIONS]);
 
-        // get metric data for every day within the supplied period
-        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
-        $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
-        $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
+        try {
+            // get metric data for every day within the supplied period
+            $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+            $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
+            $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
+        } catch(Exception $e) {
+            throw new Exception("getByDayOfWeek not working yet");
+        }
 
         // disabled for multiple sites/dates
         if ( count( $archive->getParams()->getIdSites() ) > 1) {
@@ -84,11 +89,11 @@ class Piwik_VisitTime_API
             throw new Exception("VisitTime.getByDayOfWeek does not support multiple dates.");
         }
 
-        //FIXMEA
-        throw new exception("Temporarily broken - stay tuned");
-
         $dataTable = $archive->getDataTableFromNumeric($metrics);
 
+        if(!($dataTable instanceof Piwik_DataTable)) {
+            return new Piwik_DataTable();
+        }
         // if there's no data for this report, don't bother w/ anything else
         if ($dataTable->getRowsCount() == 0) {
             return $dataTable;
@@ -102,7 +107,6 @@ class Piwik_VisitTime_API
         foreach (array(1, 2, 3, 4, 5, 6, 7) as $day) {
             $rows[] = array('label' => $day, 'nb_visits' => 0);
         }
-
         $result = new Piwik_DataTable();
         $result->addRowsFromSimpleArray($rows);
         $result->addDataTable($dataTable);

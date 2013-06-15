@@ -258,13 +258,6 @@ class Piwik_Archive
     private $forceIndexedByDate;
     
     /**
-     * Data Access Layer object.
-     * 
-     * @var Piwik_DataAccess_Archiver
-     */
-    private $dataAccess;
-    
-    /**
      * Cache of Piwik_ArchiveProcessor instances used when launching the archiving
      * process.
      * 
@@ -288,7 +281,6 @@ class Piwik_Archive
         $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
-        $this->dataAccess = new Piwik_DataAccess_Archiver();
     }
 
 
@@ -305,26 +297,26 @@ class Piwik_Archive
      */
     public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
+        $websiteIds = Piwik_Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
+
         if (Piwik_Period::isMultiplePeriod($strDate, $period)) {
             $oPeriod = new Piwik_Period_Range($period, $strDate);
             $allPeriods = $oPeriod->getSubperiods();
         } else {
-            $timezone = false;//count($sites) == 1 ? Piwik_Site::getTimezoneFor($sites[0]) : false;
+            $timezone = count($websiteIds) == 1 ? Piwik_Site::getTimezoneFor($websiteIds[0]) : false;
             $oPeriod = Piwik_Period::makePeriodFromQueryParams($timezone, $period, $strDate);
             $allPeriods = array($oPeriod);
         }
-        $segment = new Piwik_Segment($segment, $idSites);
-        return Piwik_Archive::factory($segment, $allPeriods, $idSites, $_restrictSitesToLogin);
+        $segment = new Piwik_Segment($segment, $websiteIds);
+        $idSiteIsAll = $idSites == self::FLAG_ALL_WEBSITES_REQUESTED;
+        return Piwik_Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll);
     }
 
-    public static function factory(Piwik_Segment $segment, array $periods, $idSites, $_restrictSitesToLogin = false)
+    public static function factory(Piwik_Segment $segment, array $periods, $idSites, $idSiteIsAll = false)
     {
-        $sites = Piwik_Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
-
         $forceIndexedBySite = false;
         $forceIndexedByDate = false;
-        if ($idSites == self::FLAG_ALL_WEBSITES_REQUESTED
-            || count($sites) > 1) {
+        if ($idSiteIsAll || count($idSites) > 1) {
             $forceIndexedBySite = true;
         }
         if (count($periods) > 1) {
@@ -332,7 +324,7 @@ class Piwik_Archive
         }
 
         $params = new Piwik_Archive_Parameters();
-        $params->setIdSites($sites);
+        $params->setIdSites($idSites);
         $params->setPeriods($periods);
         $params->setSegment($segment);
 
@@ -523,7 +515,7 @@ class Piwik_Archive
             return $result;
         }
         
-        $archiveData = $this->dataAccess->getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
+        $archiveData = Piwik_DataAccess_Archiver::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
             $idSite = $row['idsite'];
@@ -676,7 +668,7 @@ class Piwik_Archive
      */
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
-        $idarchivesByReport = $this->dataAccess->getArchiveIds(
+        $idarchivesByReport = Piwik_DataAccess_Archiver::getArchiveIds(
             $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
         
         // initialize archive ID cache for each report

@@ -108,6 +108,73 @@ class Piwik_DataAccess_Archiver
         return $id;
     }
 
+
+    /**
+     * @param $numericTableName
+     * @param $site
+     * @param $period
+     * @param $segment
+     * @param $minDatetimeArchiveProcessedUTC
+     * @param $requestedPlugin
+     * @return array|bool
+     */
+    static public function getArchiveIdAndVisits($numericTableName, Piwik_Site $site, Piwik_Period $period, Piwik_Segment $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin)
+    {
+        $bindSQL = array($site->getId(),
+                         $period->getDateStart()->toString('Y-m-d'),
+                         $period->getDateEnd()->toString('Y-m-d'),
+                         $period->getId(),
+        );
+
+        $timeStampWhere = '';
+        if ($minDatetimeArchiveProcessedUTC) {
+            $timeStampWhere = " AND ts_archived >= ? ";
+            $bindSQL[] = Piwik_Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
+        }
+
+        $done = Piwik_ArchiveProcessor_Rules::getDoneFlagArchiveContainsOnePlugin($segment, $requestedPlugin);
+        $doneAllPluginsProcessed = Piwik_ArchiveProcessor_Rules::getDoneFlagArchiveContainsAllPlugins($segment);
+
+        $doneFlagSelect = self::getNameCondition(array($requestedPlugin), $segment);
+        $sqlQuery = "	SELECT idarchive, value, name, date1 as startDate
+						FROM " . $numericTableName . "``
+						WHERE idsite = ?
+							AND date1 = ?
+							AND date2 = ?
+							AND period = ?
+							AND ( $doneFlagSelect
+								  OR name = 'nb_visits')
+							$timeStampWhere
+						ORDER BY idarchive DESC";
+        $results = Piwik_FetchAll($sqlQuery, $bindSQL);
+        if (empty($results)) {
+            return false;
+        }
+
+        $idArchive = false;
+        // we look for the more recent idarchive
+        foreach ($results as $result) {
+            if ( in_array($result['name'], array($done, $doneAllPluginsProcessed)) ) {
+                $idArchive = $result['idarchive'];
+                break;
+            }
+        }
+
+        if(!$idArchive) {
+            return false;
+        }
+
+        $visits = 0;
+        foreach($results as $result) {
+            if($result['idarchive'] == $idArchive
+                && $result['name'] == 'nb_visits') {
+                $visits = (int)$result['value'];
+                break;
+            }
+        }
+        return array($idArchive, $visits);
+    }
+
     /**
      * Queries and returns archive IDs for a set of sites, periods, and a segment.
      * 
@@ -122,21 +189,19 @@ class Piwik_DataAccess_Archiver
      *                   )
      *               )
      */
-    public function getArchiveIds($siteIds, $periods, $segment, $plugins)
+    static public function getArchiveIds($siteIds, $periods, $segment, $plugins)
     {
-        $periodType = reset($periods)->getLabel();
-
         $getArchiveIdsSql = "SELECT idsite, name, date1, date2, MAX(idarchive) as idarchive
                                FROM %s
                               WHERE period = ?
                                 AND %s
-                                AND ".$this->getNameCondition($plugins, $segment, $periodType)."
+                                AND ".self::getNameCondition($plugins, $segment)."
                                 AND idsite IN (".implode(',', $siteIds).")
                            GROUP BY idsite, date1, date2";
         
         // for every month within the archive query, select from numeric table
         $result = array();
-        foreach ($this->getPeriodsByTableMonth($periods) as $tableMonth => $periods) {
+        foreach (self::getPeriodsByTableMonth($periods) as $tableMonth => $periods) {
             $firstPeriod = reset($periods);
             $table = Piwik_Common::prefixTable("archive_numeric_$tableMonth");
 
@@ -182,7 +247,7 @@ class Piwik_DataAccess_Archiver
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
      * @param string|null $idSubtable The subtable to retrieve ('all' for all subtables).
      */
-    public function getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable)
+    static public function getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable)
     {
         $archiveTableType = 'archive_'.$archiveDataType;
         
@@ -236,20 +301,19 @@ class Piwik_DataAccess_Archiver
      * 
      * @param array $plugins @see getArchiveData
      * @param Piwik_Segment $segment
-     * @param string $periodType
      * @return string
      */
-    private function getNameCondition($plugins, $segment, $periodType)
+    static private function getNameCondition(array $plugins, $segment)
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed
         $doneFlags = array();
         foreach ($plugins as $plugin) {
-            $done = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($segment, $periodType, $plugin);
-            $donePlugins = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($segment, $periodType, $plugin, true);
+            $doneAllPlugins = Piwik_ArchiveProcessor_Rules::getDoneFlagArchiveContainsAllPlugins($segment);
+            $doneOnePlugin = Piwik_ArchiveProcessor_Rules::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
             
-            $doneFlags[$done] = $done;
-            $doneFlags[$donePlugins] = $donePlugins;
+            $doneFlags[$doneAllPlugins] = $doneAllPlugins;
+            $doneFlags[$doneOnePlugin] = $doneOnePlugin;
         }
 
         $allDoneFlags = "'".implode("','", $doneFlags)."'";
@@ -269,7 +333,7 @@ class Piwik_DataAccess_Archiver
      *               eg, 2012_01. The format is the same format used in archive database
      *               table names.
      */
-    private function getPeriodsByTableMonth($periods)
+    static private function getPeriodsByTableMonth($periods)
     {
         $result = array();
         foreach ($periods as $period) {

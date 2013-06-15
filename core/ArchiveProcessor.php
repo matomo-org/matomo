@@ -185,19 +185,35 @@ abstract class Piwik_ArchiveProcessor
             return;
         }
 
+        // Visits will be stored in this archive
+        $visitsSummaryWillBeProcessed = Piwik_ArchiveProcessor_Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel());
+
+        // If visits were not stored in this archive and will not be archived as part of it, we create a new one
+//        if($this->getNumberOfVisits() === false
+//            && !$visitsSummaryWillBeProcessed) {
+//            if($requestedPlugin != 'VisitsSummary') {
+//                // creates an archive to store visits
+//                $requestedPlugin = $this->getRequestedPlugin();
+//                $this->preProcessArchive('VisitsSummary');
+//                $this->setRequestedPlugin($requestedPlugin);
+//            }
+//        }
+//
         $idArchive = Piwik_DataAccess_Archiver::allocateNewArchiveId($this->getTableArchiveNumericName(), $this->getSite()->getId());
         $this->idArchive = $idArchive;
 
         $doneFlag = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($this->getSegment(), $this->getPeriod()->getLabel(), $requestedPlugin);
         $this->insertNumericRecord($doneFlag, Piwik_ArchiveProcessor::DONE_ERROR);
 
+//        if($visitsSummaryWillBeProcessed ) {
         $metrics = $this->aggregateCoreVisitsMetrics();
+
         if(empty($metrics)) {
             $this->setNumberOfVisits(false);
         } else {
             $this->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
         }
-
+//        }
         $temporary = 'definitive archive';
         if ($this->isArchiveTemporary()) {
             $temporary = 'temporary archive';
@@ -269,8 +285,8 @@ abstract class Piwik_ArchiveProcessor
         return $this->requestedPlugin;
     }
 
-    protected $visitsMetricCached;
-    protected $convertedVisitsMetricCached;
+    protected $visitsMetricCached = false;
+    protected $convertedVisitsMetricCached = false;
 
     /**
      * A flag mechanism to store whether
@@ -291,7 +307,6 @@ abstract class Piwik_ArchiveProcessor
 
     public function getNumberOfVisits()
     {
-
         return $this->visitsMetricCached;
     }
 
@@ -452,79 +467,23 @@ abstract class Piwik_ArchiveProcessor
      */
     protected function loadExistingArchiveIdFromDb($requestedPlugin)
     {
-        $bindSQL = array($this->getSite()->getId(),
-                         $this->getPeriod()->getDateStart()->toString('Y-m-d'),
-                         $this->getPeriod()->getDateEnd()->toString('Y-m-d'),
-                         $this->getPeriod()->getId(),
-        );
-
-        $timeStampWhere = '';
-
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchivedProcessed();
-        if ($minDatetimeArchiveProcessedUTC) {
-            $timeStampWhere = " AND ts_archived >= ? ";
-            $bindSQL[] = Piwik_Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
-        }
+        $site = $this->getSite();
+        $period = $this->getPeriod();
+        $segment = $this->getSegment();
+        $numericTableName = $this->getTableArchiveNumericName();
 
-        // When a Segment is specified, we try and only process the requested report in the archive
-        // As a limitation, we don't know all the time which plugin should process which report
-        // There is a catch all flag 'all' appended to archives containing all reports already
-        // We look for this 'done.ABCDEFG.all', or for an archive that contains only our plugin data 'done.ABDCDEFG.Referers'
-        $done = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($this->getSegment(), $this->getPeriod()->getLabel(), $requestedPlugin);
-        $doneAllPluginsProcessed = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($this->getSegment(), $this->getPeriod()->getLabel(), $requestedPlugin, $allPlugins = true);
-
-        $sqlSegmentsFindArchiveAllPlugins = '';
-
-        if ($done != $doneAllPluginsProcessed) {
-            $sqlSegmentsFindArchiveAllPlugins = "OR (name = '" . $doneAllPluginsProcessed . "' AND value = " . Piwik_ArchiveProcessor::DONE_OK . ")
-					OR (name = '" . $doneAllPluginsProcessed . "' AND value = " . Piwik_ArchiveProcessor::DONE_OK_TEMPORARY . ")";
-        }
-        $sqlQuery = "	SELECT idarchive, value, name, date1 as startDate
-						FROM " . $this->getTableArchiveNumericName() . "
-						WHERE idsite = ?
-							AND date1 = ?
-							AND date2 = ?
-							AND period = ?
-							AND ( (name = '" . $done . "' AND value = " . Piwik_ArchiveProcessor::DONE_OK . ")
-									OR (name = '" . $done . "' AND value = " . Piwik_ArchiveProcessor::DONE_OK_TEMPORARY . ")
-									$sqlSegmentsFindArchiveAllPlugins
-									OR name = 'nb_visits')
-
-							$timeStampWhere
-						ORDER BY idarchive DESC";
-        $results = Piwik_FetchAll($sqlQuery, $bindSQL);
-        if (empty($results)) {
+        $idAndVisits = Piwik_DataAccess_Archiver::getArchiveIdAndVisits($numericTableName, $site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
+        if(!$idAndVisits) {
             return false;
         }
-
-        $idArchive = false;
-        // we look for the more recent idarchive
-        foreach ($results as $result) {
-            if ( in_array($result['name'], array($done, $doneAllPluginsProcessed)) ) {
-                $idArchive = $result['idarchive'];
-                break;
-            }
-        }
-
-        if(!$idArchive) {
-            return false;
-        }
-
-        foreach($results as $result) {
-            if($result['idarchive'] == $idArchive
-                && $result['name'] == 'nb_visits') {
-                $visits = (int)$result['value'];
-                $this->setNumberOfVisits( $visits);
-            }
-        }
+        list($idArchive, $visits) = $idAndVisits;
+        $this->setNumberOfVisits( $visits );
         return $idArchive;
     }
 
     /**
-     * When a segment is set, we shall only process the requested report (no more).
-     * The requested data set will return a lot faster if we only process these reports rather than all plugins.
-     * Similarly, when a period=range is requested, we shall only process the requested report for the range itself.
-     *
+     * Whether the specified plugin's reports should be archived
      * @param string $pluginName
      * @return bool
      */

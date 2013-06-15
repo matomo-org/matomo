@@ -97,7 +97,7 @@ class Piwik_Transitions_API
         // derive the number of exits from the other metrics
         if ($parts == 'all') {
             $report['pageMetrics']['exits'] = $report['pageMetrics']['pageviews']
-                - $transitionsArchiving->getTotalTransitionsToFollowingActions()
+                - $this->getTotalTransitionsToFollowingActions()
                 - $report['pageMetrics']['loops'];
         }
 
@@ -178,8 +178,7 @@ class Piwik_Transitions_API
                                           $idaction, $actionType, $limitBeforeGrouping)
     {
 
-        $data = $this->queryInternalReferrers(
-            $idaction, $actionType, $archiveProcessor, $limitBeforeGrouping);
+        $data = $this->queryInternalReferrers($idaction, $actionType, $archiveProcessor, $limitBeforeGrouping);
 
         if ($data['pageviews'] == 0) {
             throw new Exception('NoDataForAction');
@@ -265,7 +264,7 @@ class Piwik_Transitions_API
 					WHEN log_action1.type = ' . Piwik_Tracker_Action::TYPE_ACTION_URL . ' THEN log_action2.name
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.name
-				END AS name',
+				END AS `name`',
                 'CASE
                     ' /* following site search */ . '
 					WHEN log_link_visit_action.idaction_url IS NULL THEN log_action2.type
@@ -273,8 +272,8 @@ class Piwik_Transitions_API
 					WHEN log_action1.type = ' . Piwik_Tracker_Action::TYPE_ACTION_URL . ' THEN log_action2.type
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.type
-				END AS type',
-                'NULL AS url_prefix'
+				END AS `type`',
+                'NULL AS `url_prefix`'
             );
         }
 
@@ -357,7 +356,7 @@ class Piwik_Transitions_API
 				WHEN ' . Piwik_Common::REFERER_TYPE_SEARCH_ENGINE . ' THEN referer_keyword
 				WHEN ' . Piwik_Common::REFERER_TYPE_WEBSITE . ' THEN referer_url
 				WHEN ' . Piwik_Common::REFERER_TYPE_CAMPAIGN . ' THEN CONCAT(referer_name, \' \', referer_keyword)
-			END AS referrer_data');
+			END AS `referrer_data`');
 
         // get one limited group per referrer type
         $rankingQuery->partitionResultIntoMultipleGroups('referer_type', array(
@@ -433,12 +432,12 @@ class Piwik_Transitions_API
         $selects = array(
             'log_action.name',
             'log_action.url_prefix',
-            'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS is_self',
+            'CASE WHEN log_link_visit_action.idaction_' . $type . '_ref = ' . intval($idaction) . ' THEN 1 ELSE 0 END AS `is_self`',
             'CASE
                 WHEN log_action.type = ' . $mainActionType . ' THEN 1
                         WHEN log_action.type = ' . Piwik_Tracker_Action::TYPE_SITE_SEARCH . ' THEN 2
                         ELSE 0
-                    END AS action_partition'
+                    END AS `action_partition`'
         );
 
         $where = '
@@ -559,7 +558,7 @@ class Piwik_Transitions_API
                                           $idaction, $actionType, $limitBeforeGrouping)
     {
 
-        $data = $transitionsArchiving->queryExternalReferrers(
+        $data = $this->queryExternalReferrers(
             $idaction, $actionType, $archiveProcessor, $limitBeforeGrouping);
 
         $report['pageMetrics']['entries'] = 0;

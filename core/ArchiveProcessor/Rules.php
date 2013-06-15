@@ -101,22 +101,25 @@ class Piwik_ArchiveProcessor_Rules
      * @param Piwik_Segment $segment
      * @param string $periodLabel
      * @param string $plugin
-     * @param bool $flagArchiveAsAllPlugins
      * @return string
      */
     // FIXMEA: this is called all over the place, not right
-    public static function getDoneStringFlagFor($segment, $periodLabel, $plugin, $flagArchiveAsAllPlugins = false)
+    public static function getDoneStringFlagFor($segment, $periodLabel, $plugin)
     {
-        $segmentHash = $segment->getHash();
         if (!self::shouldProcessReportsAllPlugins($segment, $periodLabel)) {
-            if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($plugin)
-                || $flagArchiveAsAllPlugins
-            ) {
-                $plugin = 'all';
-            }
-            $segmentHash .= '.' . $plugin;
+            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
         }
-        return 'done' . $segmentHash;
+        return self::getDoneFlagArchiveContainsAllPlugins($segment);
+    }
+
+    public static function getDoneFlagArchiveContainsAllPlugins($segment)
+    {
+        return 'done' . $segment->getHash();
+    }
+
+    public static function getDoneFlagArchiveContainsOnePlugin($segment, $plugin)
+    {
+        return 'done' . $segment->getHash() . '.' . $plugin;
     }
 
     /**

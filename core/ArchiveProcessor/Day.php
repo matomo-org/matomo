@@ -53,7 +53,7 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
                 $joinLogActionOnColumn = array($joinLogActionOnColumn);
             }
 
-            foreach ($joinLogActionOnColumn as $i => $joinColumn) {
+            foreach($joinLogActionOnColumn as $i => $joinColumn) {
                 $tableAlias = 'log_action' . ($multiJoin ? $i + 1 : '');
                 if (strpos($joinColumn, ' ') === false) {
                     $joinOn = $tableAlias . '.idaction = ' . $tableName . '.' . $joinColumn;
@@ -150,15 +150,41 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         return "ROUND(" . $field . "," . Piwik_Tracker_GoalManager::REVENUE_PRECISION . ")";
     }
 
-    protected function getSelectStatement($dimensions, $tableName, $additionalSelects, $availableMetrics, $requestedMetrics = false)
+    protected function getSelectStatement($dimensions, $tableName, $additionalSelects, array $availableMetrics, $requestedMetrics = false)
     {
+        $dimensionsToSelect = $this->getDimensionsToSelect($dimensions, $additionalSelects);
         $selects = array_merge(
-            $this->getSelectDimensions($dimensions, $tableName),
+            $this->getSelectDimensions($dimensionsToSelect, $tableName),
             $this->getSelectsMetrics($availableMetrics, $requestedMetrics),
             !empty($additionalSelects) ? $additionalSelects : array()
         );
         $select = implode(self::FIELDS_SEPARATOR, $selects);
         return $select;
+    }
+
+    /**
+     * Will return the subset of $dimensions that are not found in $additionalSelects
+     *
+     * @param $dimensions
+     * @param array $additionalSelects
+     * @return array
+     */
+    protected function getDimensionsToSelect($dimensions, $additionalSelects)
+    {
+        if(empty($additionalSelects)) {
+            return $dimensions;
+        }
+        $dimensionsToSelect = array();
+        foreach ($dimensions as $selectAs => $dimension) {
+            $asAlias = $this->getSelectAliasAs($dimension);
+            foreach ($additionalSelects as $additionalSelect) {
+                if (strpos($additionalSelect, $asAlias) === false) {
+                    $dimensionsToSelect[$selectAs] = $dimension;
+                }
+            }
+        }
+        $dimensionsToSelect = array_unique($dimensionsToSelect);
+        return $dimensionsToSelect;
     }
 
     protected function getSelectDimensions($dimensions, $tableName, $appendSelectAs = true)
@@ -168,11 +194,20 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
             if (!is_numeric($selectAs)) {
                 $selectAsString = $selectAs;
             }
-            if ($selectAsString == $field) {
+            else
+            {
+                // if function, do not alias or prefix
+                if(strpos($field, "(") !== false) {
+                    $selectAsString = $appendSelectAs = false;
+                }
+            }
+            $isKnownField = !in_array($field, array('referrer_data'));
+            if ($selectAsString == $field
+                && $isKnownField) {
                 $field = "$tableName.$field";
             }
             if ($appendSelectAs) {
-                $field = "$field AS $selectAsString";
+                $field = $field . $this->getSelectAliasAs($selectAsString);
             }
         }
         return $dimensions;
@@ -183,10 +218,16 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         $selects = array();
         foreach ($metricsAvailable as $metricId => $statement) {
             if ($this->isMetricRequested($metricId, $metricsRequested)) {
-                $selects[] = $statement . " as `" . $metricId . "`";
+                $aliasAs = $this->getSelectAliasAs($metricId);
+                $selects[] = $statement . $aliasAs;
             }
         }
         return $selects;
+    }
+
+    protected function getSelectAliasAs($metricId)
+    {
+        return " AS `" . $metricId . "`";
     }
 
     /**
@@ -421,7 +462,6 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
             }
             return $rankingQuery->execute($query['sql'], $query['bind']);
         }
-
         return $this->getDb()->query($query['sql'], $query['bind']);
     }
 
