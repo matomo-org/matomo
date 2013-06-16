@@ -193,20 +193,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
         $view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'), $idGoal);
         $view->nameGraphEvolution = 'GoalsgetEvolutionGraph' . $idGoal;
         $view->topDimensions = $this->getTopDimensions($idGoal);
-        
-        $goalsApi = Piwik_Goals_API::getInstance();
-        $period = Piwik_Common::getRequestVar('period');
-        $date = Piwik_Common::getRequestVar('date');
 
         // conversion rate for new and returning visitors
         $segment = 'visitorType==returning,visitorType==returningCustomer';
-        $conversionRateReturning = $goalsApi->getConversionRate($this->idSite, $period, $date, $segment, $idGoal);
+        $conversionRateReturning = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $segment, $idGoal);
         $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
-        
         $segment = 'visitorType==new';
-        $conversionRateNew = $goalsApi->getConversionRate($this->idSite, $period, $date, $segment, $idGoal);
+        $conversionRateNew = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $segment, $idGoal);
         $view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
-        
         $view->goalReportsByDimension = $this->getGoalReportsByDimensionTable(
             $view->nb_conversions, isset($ecommerce), !empty($view->cart_nb_conversions));
         return $view;

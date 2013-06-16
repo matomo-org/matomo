@@ -491,6 +491,7 @@ class Piwik_Archive
     
     /**
      * Queries archive tables for data and returns the result.
+     * @return Piwik_Archive_DataCollection
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
