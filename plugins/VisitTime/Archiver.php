@@ -23,7 +23,7 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
     protected function aggregateByServerTime()
     {
         $array = $this->getProcessor()->getMetricsForDimension( array("label" => "HOUR(log_visit.visit_last_action_time)" )) ;
-        $query = $this->getProcessor()->queryConversionsByDimension( array("label" => "HOUR(log_conversion.server_time)") );
+        $query = $this->getLogAggregator()->queryConversionsByDimension( array("label" => "HOUR(log_conversion.server_time)") );
         if ($query === false) {
             return;
         }

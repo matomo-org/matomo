@@ -42,4 +42,12 @@ abstract class Piwik_PluginsArchiver
     {
         return $this->processor;
     }
+
+    /**
+     * @return Piwik_DataAccess_LogAggregator
+     */
+    protected function getLogAggregator()
+    {
+        return $this->getProcessor()->getLogAggregator();
+    }
 }

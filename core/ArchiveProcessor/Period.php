@@ -283,6 +283,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
      */
     protected function computeNbUniqVisitors()
     {
+
         $select = "count(distinct log_visit.idvisitor) as nb_uniq_visitors";
         $from = "log_visit";
         $where = "log_visit.visit_last_action_time >= ?

@@ -104,7 +104,7 @@ class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
             $selectsFromRangedColumn = Piwik_DataAccess_LogAggregator::getSelectsFromRangedColumn($aggregateMetadata);
             $selects = array_merge( $selects, $selectsFromRangedColumn);
         }
-        $query = $this->getProcessor()->queryVisitsByDimension(array(), $where = false, $selects, array());
+        $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = false, $selects, array());
         $row = $query->fetch();
         foreach($prefixes as $recordName => $selectAsPrefix) {
             $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Piwik_Archive::INDEX_NB_VISITS, $selectAsPrefix);

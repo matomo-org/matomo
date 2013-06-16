@@ -41,10 +41,10 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
         foreach ($this->getRecordNames() as $record) {
             $this->arrays[$record] = new Piwik_DataArray();
         }
-        $query = $this->getProcessor()->queryVisitsByDimension(array("referer_type", "referer_name", "referer_keyword", "referer_url"));
+        $query = $this->getLogAggregator()->queryVisitsByDimension(array("referer_type", "referer_name", "referer_keyword", "referer_url"));
         $this->aggregateFromVisits($query);
 
-        $query = $this->getProcessor()->queryConversionsByDimension(array("referer_type", "referer_name", "referer_keyword"));
+        $query = $this->getLogAggregator()->queryConversionsByDimension(array("referer_type", "referer_name", "referer_keyword"));
         $this->aggregateFromConversions($query);
 
         Piwik_PostEvent('Referers.archiveDay', $this);

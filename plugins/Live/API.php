@@ -537,11 +537,11 @@ class Piwik_Live_API
         $sql = "SELECT
 						case idgoal when " . Piwik_Tracker_GoalManager::IDGOAL_CART . " then '" . Piwik_Archive::LABEL_ECOMMERCE_CART . "' else '" . Piwik_Archive::LABEL_ECOMMERCE_ORDER . "' end as type,
 						idorder as orderId,
-						" . Piwik_ArchiveProcessor_Day::getSqlRevenue('revenue') . " as revenue,
-						" . Piwik_ArchiveProcessor_Day::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
-						" . Piwik_ArchiveProcessor_Day::getSqlRevenue('revenue_tax') . " as revenueTax,
-						" . Piwik_ArchiveProcessor_Day::getSqlRevenue('revenue_shipping') . " as revenueShipping,
-						" . Piwik_ArchiveProcessor_Day::getSqlRevenue('revenue_discount') . " as revenueDiscount,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue') . " as revenue,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue_tax') . " as revenueTax,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue_shipping') . " as revenueShipping,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
 						items as items,
 
 						log_conversion.server_time as serverTimePretty
@@ -578,7 +578,7 @@ class Piwik_Live_API
 							log_action_sku.name as itemSKU,
 							log_action_name.name as itemName,
 							log_action_category.name as itemCategory,
-							" . Piwik_ArchiveProcessor_Day::getSqlRevenue('price') . " as price,
+							" . Piwik_DataAccess_LogAggregator::getSqlRevenue('price') . " as price,
 							quantity as quantity
 						FROM " . Piwik_Common::prefixTable('log_conversion_item') . "
 							INNER JOIN " . Piwik_Common::prefixTable('log_action') . " AS log_action_sku

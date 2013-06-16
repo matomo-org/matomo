@@ -254,7 +254,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
 
 
         // get query with segmentation
-        $query = $this->getProcessor()->generateQuery($select, $from, $where, $groupBy, $orderBy);
+        $query = $this->getLogAggregator()->generateQuery($select, $from, $where, $groupBy, $orderBy);
 
         // replace the rest of the %s
         $querySql = str_replace("%s", $sprintfField, $query['sql']);

@@ -52,7 +52,7 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
     {
         $additionalSelects = array('MAX(log_visit.location_latitude) as location_latitude',
                                    'MAX(log_visit.location_longitude) as location_longitude');
-        $query = $this->getProcessor()->queryVisitsByDimension($this->dimensions, $where = false, $additionalSelects);
+        $query = $this->getLogAggregator()->queryVisitsByDimension($this->dimensions, $where = false, $additionalSelects);
         if ($query === false) {
             return;
         }
@@ -101,7 +101,7 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 
     protected function aggregateFromConversions()
     {
-        $query = $this->getProcessor()->queryConversionsByDimension($this->dimensions);
+        $query = $this->getLogAggregator()->queryConversionsByDimension($this->dimensions);
 
         if ($query === false) {
             return;

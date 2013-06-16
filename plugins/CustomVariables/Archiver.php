@@ -55,7 +55,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
         $where = "%s.$keyField != ''";
         $dimensions = array($keyField, $valueField);
 
-        $query = $this->getProcessor()->queryVisitsByDimension($dimensions, $where);
+        $query = $this->getLogAggregator()->queryVisitsByDimension($dimensions, $where);
         $this->aggregateFromVisits($query, $keyField, $valueField);
 
         // IF we query Custom Variables scope "page" either: Product SKU, Product Name,
@@ -65,16 +65,16 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
         if (in_array($slot, array(3,4,5))) {
             $additionalSelects = array( $this->getSelectAveragePrice() );
         }
-        $query = $this->getProcessor()->queryActionsByDimension($dimensions, $where, $additionalSelects);
+        $query = $this->getLogAggregator()->queryActionsByDimension($dimensions, $where, $additionalSelects);
         $this->aggregateFromActions($query, $keyField, $valueField);
 
-        $query = $this->getProcessor()->queryConversionsByDimension($dimensions, $where);
+        $query = $this->getLogAggregator()->queryConversionsByDimension($dimensions, $where);
         $this->aggregateFromConversions($query, $keyField, $valueField);
     }
 
     protected function getSelectAveragePrice()
     {
-        return Piwik_ArchiveProcessor_Day::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
+        return Piwik_DataAccess_LogAggregator::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
             . " as `" . Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 

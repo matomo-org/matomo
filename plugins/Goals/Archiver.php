@@ -97,7 +97,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
             $selects = array_merge($selects, Piwik_DataAccess_LogAggregator::getSelectsFromRangedColumn($aggregateMetadata));
         }
 
-        $query = $this->getProcessor()->queryConversionsByDimension(array(), false, $selects);
+        $query = $this->getLogAggregator()->queryConversionsByDimension(array(), false, $selects);
         if ($query === false) {
             return;
         }
@@ -106,7 +106,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
         $goals = new Piwik_DataArray();
         $visitsToConversions = $daysToConversions = array();
 
-        $conversionMetrics = $this->getProcessor()->getConversionsMetricFields();
+        $conversionMetrics = $this->getLogAggregator()->getConversionsMetricFields();
         while ($row = $query->fetch()) {
             $idGoal = $row['idgoal'];
             unset($row['idgoal']);
@@ -228,7 +228,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
         }
         $this->initItemReports();
         foreach ($this->getItemsDimensions() as $dimension) {
-            $query = $this->getProcessor()->queryEcommerceItems($dimension);
+            $query = $this->getLogAggregator()->queryEcommerceItems($dimension);
             if ($query == false) {
                 continue;
             }

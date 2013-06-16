@@ -108,7 +108,7 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
             "sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie"
         );
 
-        $query = $this->getProcessor()->queryVisitsByDimension(array(), false, $selects, $metrics = array());
+        $query = $this->getLogAggregator()->queryVisitsByDimension(array(), false, $selects, $metrics = array());
         $data = $query->fetch();
         $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($data, Piwik_Archive::INDEX_NB_VISITS);
         $table = Piwik_DataTable::makeFromIndexedArray($cleanRow);
@@ -117,7 +117,7 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
 
     protected function aggregateByLanguage()
     {
-        $query = $this->getProcessor()->queryVisitsByDimension( array("label" => self::LANGUAGE_DIMENSION) );
+        $query = $this->getLogAggregator()->queryVisitsByDimension( array("label" => self::LANGUAGE_DIMENSION) );
         $languageCodes = array_keys(Piwik_Common::getLanguagesList());
         $metricsByLanguage = new Piwik_DataArray();
         while ($row = $query->fetch()) {

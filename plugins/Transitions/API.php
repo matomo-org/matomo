@@ -66,7 +66,7 @@ class Piwik_Transitions_API
         $site = new Piwik_Site($idSite);
         $period = Piwik_Period::advancedFactory($period, $date);
         $archiveProcessor = new Piwik_ArchiveProcessor_Day($period, $site, $segment);
-
+        $logAggregator = $archiveProcessor->getLogAggregator();
         // prepare the report
         $report = array(
             'date' => Piwik_Period_Day::advancedFactory($period->getLabel(), $date)->getLocalizedShortString()
@@ -81,17 +81,14 @@ class Piwik_Transitions_API
         $partsArray = explode(',', $parts);
 
         if ($parts == 'all' || in_array('internalReferrers', $partsArray)) {
-            $this->addInternalReferrers($transitionsArchiving, $archiveProcessor, $report, $idaction,
-                $actionType, $limitBeforeGrouping);
+            $this->addInternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
         }
         if ($parts == 'all' || in_array('followingActions', $partsArray)) {
             $includeLoops = $parts != 'all' && !in_array('internalReferrers', $partsArray);
-            $this->addFollowingActions($transitionsArchiving, $archiveProcessor, $report, $idaction,
-                $actionType, $limitBeforeGrouping, $includeLoops);
+            $this->addFollowingActions($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops);
         }
         if ($parts == 'all' || in_array('externalReferrers', $partsArray)) {
-            $this->addExternalReferrers($transitionsArchiving, $archiveProcessor, $report, $idaction,
-                $actionType, $limitBeforeGrouping);
+            $this->addExternalReferrers($logAggregator, $report, $idaction, $actionType, $limitBeforeGrouping);
         }
 
         // derive the number of exits from the other metrics
@@ -166,19 +163,17 @@ class Piwik_Transitions_API
      * Add the internal referrers to the report:
      * previous pages and previous site searches
      *
-     * @param Piwik_Transitions $transitionsArchiving
-     * @param $archiveProcessor
+     * @param Piwik_DataAccess_LogAggregator $logAggregator
      * @param $report
      * @param $idaction
      * @param string $actionType
      * @param $limitBeforeGrouping
      * @throws Exception
      */
-    private function addInternalReferrers($transitionsArchiving, $archiveProcessor, &$report,
-                                          $idaction, $actionType, $limitBeforeGrouping)
+    private function addInternalReferrers($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping)
     {
 
-        $data = $this->queryInternalReferrers($idaction, $actionType, $archiveProcessor, $limitBeforeGrouping);
+        $data = $this->queryInternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping);
 
         if ($data['pageviews'] == 0) {
             throw new Exception('NoDataForAction');
@@ -194,20 +189,18 @@ class Piwik_Transitions_API
      * Add the following actions to the report:
      * following pages, downloads, outlinks
      *
-     * @param Piwik_Transitions $transitionsArchiving
-     * @param $archiveProcessor
+     * @param Piwik_DataAccess_LogAggregator $logAggregator
      * @param $report
      * @param $idaction
      * @param string $actionType
      * @param $limitBeforeGrouping
      * @param boolean $includeLoops
      */
-    private function addFollowingActions($transitionsArchiving, $archiveProcessor, &$report,
-                                         $idaction, $actionType, $limitBeforeGrouping, $includeLoops = false)
+    private function addFollowingActions($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping, $includeLoops = false)
     {
 
         $data = $this->queryFollowingActions(
-            $idaction, $actionType, $archiveProcessor, $limitBeforeGrouping, $includeLoops);
+            $idaction, $actionType, $logAggregator, $limitBeforeGrouping, $includeLoops);
 
         foreach ($data as $tableName => $table) {
             $report[$tableName] = $table;
@@ -221,12 +214,12 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessor_Day $archiveProcessor
+     * @param Piwik_DataAccess_LogAggregator  $logAggregator
      * @param $limitBeforeGrouping
      * @param $includeLoops
      * @return array(followingPages:Piwik_DataTable, outlinks:Piwik_DataTable, downloads:Piwik_DataTable)
      */
-    public function queryFollowingActions($idaction, $actionType, Piwik_ArchiveProcessor_Day $archiveProcessor,
+    public function queryFollowingActions($idaction, $actionType, Piwik_DataAccess_LogAggregator $logAggregator,
                                           $limitBeforeGrouping = false, $includeLoops = false)
     {
         $types = array();
@@ -294,7 +287,7 @@ class Piwik_Transitions_API
         }
 
         $metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
-        $data = $archiveProcessor->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionColumn);
+        $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionColumn);
 
         $this->totalTransitionsToFollowingActions = 0;
         $dataTables = array();
@@ -333,11 +326,11 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessor_Day $archiveProcessor
+     * @param Piwik_ArchiveProcessor_Day $logAggregator
      * @param $limitBeforeGrouping
      * @return Piwik_DataTable
      */
-    public function queryExternalReferrers($idaction, $actionType, $archiveProcessor,
+    public function queryExternalReferrers($idaction, $actionType, $logAggregator,
                                            $limitBeforeGrouping = false)
     {
         $rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
@@ -370,7 +363,7 @@ class Piwik_Transitions_API
         $where = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
 
         $metrics = array(Piwik_Archive::INDEX_NB_VISITS);
-        $data = $archiveProcessor->queryVisitsByDimension($dimensions, $where, $selects, $metrics, $rankingQuery);
+        $data = $logAggregator->queryVisitsByDimension($dimensions, $where, $selects, $metrics, $rankingQuery);
 
         $referrerData = array();
         $referrerSubData = array();
@@ -407,11 +400,11 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessor_Day $archiveProcessor
+     * @param Piwik_ArchiveProcessor_Day $logAggregator
      * @param $limitBeforeGrouping
      * @return array(previousPages:Piwik_DataTable, loops:integer)
      */
-    protected function queryInternalReferrers($idaction, $actionType, $archiveProcessor,
+    protected function queryInternalReferrers($idaction, $actionType, $logAggregator,
                                            $limitBeforeGrouping = false)
     {
         $rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
@@ -452,7 +445,7 @@ class Piwik_Transitions_API
             $joinLogActionOn = $dimension;
         }
         $metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
-        $data = $archiveProcessor->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionOn);
+        $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionOn);
 
         $loops = 0;
         $nbPageviews = 0;
@@ -547,19 +540,18 @@ class Piwik_Transitions_API
      * Add the external referrers to the report:
      * direct entries, websites, campaigns, search engines
      *
-     * @param Piwik_Transitions $transitionsArchiving
-     * @param $archiveProcessor
+     * @param Piwik_DataAccess_LogAggregator  $logAggregator
      * @param $report
      * @param $idaction
      * @param string $actionType
      * @param $limitBeforeGrouping
      */
-    private function addExternalReferrers($transitionsArchiving, $archiveProcessor, &$report,
+    private function addExternalReferrers($logAggregator, &$report,
                                           $idaction, $actionType, $limitBeforeGrouping)
     {
 
         $data = $this->queryExternalReferrers(
-            $idaction, $actionType, $archiveProcessor, $limitBeforeGrouping);
+            $idaction, $actionType, $logAggregator, $limitBeforeGrouping);
 
         $report['pageMetrics']['entries'] = 0;
         $report['referrers'] = array();
