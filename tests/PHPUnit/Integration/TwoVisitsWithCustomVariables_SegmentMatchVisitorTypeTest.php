@@ -73,7 +73,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
             //  + 3 done flag )
             //  * 2 segments
             // + 1 Done flag per Plugin, for each "Last N" date
-            'archive_numeric_2010_01' => 138,
+            'archive_numeric_2010_01' => 142,
 
             // 2) CHECK 'week' archive stored in December (week starts the month before)
             // We expect 2 segments * (1 custom variable name + 2 ref metrics + 6 subtable for the values of the name + 5 referers blob)
@@ -88,7 +88,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
             $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table);
             $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
             if($expectedRows != $countBlobs) {
-                var_export(Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Piwik_Common::prefixTable($table)));
+                var_export(Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Piwik_Common::prefixTable($table) . " ORDER BY name, idarchive ASC"));
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
         }
