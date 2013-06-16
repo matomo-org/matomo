@@ -265,7 +265,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         }
 
         // get result
-        $resultSet = $this->getProcessor()->getDb()->query($querySql, $query['bind']);
+        $resultSet = $this->getLogAggregator()->getDb()->query($querySql, $query['bind']);
         $modified = Piwik_Actions_ArchivingHelper::updateActionsTableWithRowQuery($resultSet, $sprintfField, $this->actionsTablesByType);
         return $modified;
     }

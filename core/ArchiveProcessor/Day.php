@@ -10,31 +10,11 @@
  */
 
 /**
- * Handles the archiving process for a day.
- * The class provides generic helper methods to manipulate data from the DB,
- * easily create Piwik_DataTable objects from running SELECT ... GROUP BY on the log_visit table.
- *
- * All the logic of the archiving is done inside the plugins listening to the event 'ArchiveProcessing_Day.compute'
- *
  * @package Piwik
  * @subpackage Piwik_ArchiveProcessor
  */
 class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
 {
-    protected $logAggregator = null;
-
-    function __construct(Piwik_Period $period, Piwik_Site $site, Piwik_Segment $segment) {
-        parent::__construct($period, $site, $segment);
-        $this->logAggregator = new Piwik_DataAccess_LogAggregator($period->getDateStart(), $period->getDateEnd(), $site, $segment);
-    }
-    /**
-     * @return Piwik_DataAccess_LogAggregator
-     */
-    public function getLogAggregator()
-    {
-        return $this->logAggregator;
-    }
-
     /**
      * Converts the given array to a datatable
      * @param Piwik_DataArray $array

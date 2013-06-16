@@ -35,11 +35,6 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
      */
     public $archiver = null;
 
-    function __construct($period, $site, $segment)
-    {
-        parent::__construct($period, $site, $segment);
-    }
-
     /**
      * This method will compute the sum of DataTables over the period for the given fields $recordNames.
      * The resulting DataTable will be then added to queue of data to be recorded in the database.
@@ -283,17 +278,10 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
      */
     protected function computeNbUniqVisitors()
     {
-
-        $select = "count(distinct log_visit.idvisitor) as nb_uniq_visitors";
-        $from = "log_visit";
-        $where = "log_visit.visit_last_action_time >= ?
-                AND log_visit.visit_last_action_time <= ?
-                AND log_visit.idsite = ?";
-
-        $bind = array($this->getDateStart()->getDateStartUTC(), $this->getDateEnd()->getDateEndUTC(), $this->getSite()->getId());
-
-        $query = $this->getSegment()->getSelectQuery($select, $from, $where, $bind);
-
-        return Zend_Registry::get('db')->fetchOne($query['sql'], $query['bind']);
+        $logAggregator = $this->getLogAggregator();
+        $query = $logAggregator->queryVisitsByDimension(array(), false, array(), array(Piwik_Archive::INDEX_NB_UNIQ_VISITORS));
+        $data = $query->fetch();
+        return $data[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
     }
+
 }

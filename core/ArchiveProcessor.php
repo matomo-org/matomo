@@ -103,6 +103,20 @@ abstract class Piwik_ArchiveProcessor
         $this->segment = $segment;
     }
 
+    protected $logAggregator = null;
+
+    /**
+     * @return Piwik_DataAccess_LogAggregator
+     */
+    public function getLogAggregator()
+    {
+        if(empty($this->logAggregator)) {
+            $this->logAggregator = new Piwik_DataAccess_LogAggregator(  $this->getPeriod()->getDateStart(), $this->getPeriod()->getDateEnd(),
+                $this->getSite(), $this->getSegment() );
+        }
+        return $this->logAggregator;
+    }
+
     /**
      * Returns the minimum archive processed datetime to look at
      *
