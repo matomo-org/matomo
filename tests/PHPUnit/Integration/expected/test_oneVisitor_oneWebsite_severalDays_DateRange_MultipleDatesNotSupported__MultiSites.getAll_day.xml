@@ -2,5 +2,5 @@
 <result>
 	<error message="Date format must be: YYYY-MM-DD, or 'today' or 'yesterday' or any keyword supported by the strtotime function (see http://php.net/strtotime for more information): 1970-01-01
  
- --&gt; To temporarily debug this error further, set $SHOW_ME_BACKTRACE=true; in ResponseBuilder.php" />
+ --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php" />
 </result>

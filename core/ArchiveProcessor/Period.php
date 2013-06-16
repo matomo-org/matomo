@@ -77,7 +77,6 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
     {
         // We clean up below all tables created during this function call (and recursive calls)
         $latestUsedTableId = Piwik_DataTable_Manager::getInstance()->getMostRecentTableId();
-
         if (!is_array($recordNames)) {
             $recordNames = array($recordNames);
         }
@@ -116,8 +115,12 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
         }
 
         $data = $this->archiver->getDataTableExpanded($name, $idSubTable = null, $addMetadataSubtableId = false);
-        foreach ($data->getArray() as $date => $tableToSum) {
-            $table->addDataTable($tableToSum);
+        if($data instanceof Piwik_DataTable_Array) {
+            foreach ($data->getArray() as $date => $tableToSum) {
+                $table->addDataTable($tableToSum);
+            }
+        } else {
+            $table->addDataTable($data);
         }
 
         if (is_null($invalidSummedColumnNameToRenamedName)) {
@@ -229,8 +232,11 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
     {
         $results = array();
         foreach ($data as $row) {
+            if(!is_array($row)) {
+                // this is not a data array to aggregate
+                return $data;
+            }
             foreach ($row as $name => $value) {
-
                 $operation = $operationForColumn[$name];
                 switch ($operation) {
                     case 'sum':

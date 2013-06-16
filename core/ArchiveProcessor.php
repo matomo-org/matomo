@@ -88,7 +88,6 @@ abstract class Piwik_ArchiveProcessor
      */
     protected $temporaryArchive;
 
-
     /**
      * This methods reads the subperiods if necessary,
      * and computes the archive of the current period.
@@ -134,10 +133,11 @@ abstract class Piwik_ArchiveProcessor
 
         $isArchivingDisabled = Piwik_ArchiveProcessor_Rules::isArchivingDisabledFor($segment, $period->getLabel());
 
-        if($isArchivingDisabled) {
+        if ($isArchivingDisabled) {
             if ($endTimestampUTC > $now
                 && $period->getNumberOfSubperiods() == 0
-                && $dateStart->getTimestamp() <= $now) {
+                && $dateStart->getTimestamp() <= $now
+            ) {
                 $minimumArchiveTime = false;
             } else {
                 // However, if archiving is disabled for this request, we shall
@@ -154,28 +154,48 @@ abstract class Piwik_ArchiveProcessor
     {
         $period = $this->getPeriod()->getLabel();
         $debugSetting = 'always_archive_data_period'; // default
-        if($period == 'day') {
+        if ($period == 'day') {
             $debugSetting = 'always_archive_data_day';
-        } elseif($period == 'range') {
+        } elseif ($period == 'range') {
             $debugSetting = 'always_archive_data_range';
         }
         return Piwik_Config::getInstance()->Debug[$debugSetting];
     }
 
-    public function preProcessArchive($requestedPlugin)
+    public function preProcessArchive($requestedPlugin, $enforceProcessCoreMetricsOnly = false)
     {
         $this->idArchive = false;
 
         $this->setRequestedPlugin($requestedPlugin);
 
-        $idArchive = $this->loadExistingArchiveIdFromDb($requestedPlugin);
-        if ($this->isArchivingForcedToTrigger()) {
-            $idArchive = false;
-        }
+        $processAllReportsIncludingVisitsSummary = Piwik_ArchiveProcessor_Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel());
 
-        if(!empty($idArchive)) {
-            $this->idArchive = $idArchive;
-            return $idArchive;
+        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary || $requestedPlugin == 'VisitsSummary';
+
+        if( !$enforceProcessCoreMetricsOnly ) {
+            $this->idArchive = $this->loadExistingArchiveIdFromDb($requestedPlugin);
+            if ($this->isArchivingForcedToTrigger()) {
+                $this->idArchive = false;
+                $this->setNumberOfVisits(false);
+            }
+            if (!empty($this->idArchive)) {
+                return $this->idArchive;
+            }
+
+            $visitsNotKnownYet = $this->getNumberOfVisits() === false;
+
+            $createAnotherArchiveForVisitsSummary = !$doesRequestedPluginIncludeVisitsSummary && $visitsNotKnownYet;
+
+            if ($createAnotherArchiveForVisitsSummary) {
+                // recursive archive creation in case we create another separate one, for VisitsSummary core metrics
+                // We query VisitsSummary here, as it is needed in the call below ($this->getNumberOfVisits() > 0)
+                $requestedPlugin = $this->getRequestedPlugin();
+                $this->preProcessArchive('VisitsSummary', $pleaseProcessCoreMetricsOnly = true);
+                $this->setRequestedPlugin($requestedPlugin);
+                if($this->getNumberOfVisits() === false) {
+                    throw new Exception("preProcessArchive() is expected to set number of visits to a numeric value.");
+                }
+            }
         }
 
         if (!Piwik_DataAccess_Archiver::getArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment())) {
@@ -185,35 +205,26 @@ abstract class Piwik_ArchiveProcessor
             return;
         }
 
-        // Visits will be stored in this archive
-        $visitsSummaryWillBeProcessed = Piwik_ArchiveProcessor_Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel());
-
-        // If visits were not stored in this archive and will not be archived as part of it, we create a new one
-//        if($this->getNumberOfVisits() === false
-//            && !$visitsSummaryWillBeProcessed) {
-//            if($requestedPlugin != 'VisitsSummary') {
-//                // creates an archive to store visits
-//                $requestedPlugin = $this->getRequestedPlugin();
-//                $this->preProcessArchive('VisitsSummary');
-//                $this->setRequestedPlugin($requestedPlugin);
-//            }
-//        }
-//
-        $idArchive = Piwik_DataAccess_Archiver::allocateNewArchiveId($this->getTableArchiveNumericName(), $this->getSite()->getId());
-        $this->idArchive = $idArchive;
+        $this->idArchive = Piwik_DataAccess_Archiver::allocateNewArchiveId($this->getTableArchiveNumericName(), $this->getSite()->getId());
 
         $doneFlag = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($this->getSegment(), $this->getPeriod()->getLabel(), $requestedPlugin);
+//        var_dump($requestedPlugin); var_dump($doneFlag); var_dump($this->getSegment()->getString());
         $this->insertNumericRecord($doneFlag, Piwik_ArchiveProcessor::DONE_ERROR);
 
-//        if($visitsSummaryWillBeProcessed ) {
-        $metrics = $this->aggregateCoreVisitsMetrics();
+        $visitsNotKnownYet = $this->getNumberOfVisits() === false;
 
-        if(empty($metrics)) {
-            $this->setNumberOfVisits(false);
-        } else {
-            $this->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
+        if ($visitsNotKnownYet
+            || $doesRequestedPluginIncludeVisitsSummary
+            || $enforceProcessCoreMetricsOnly) {
+            $metrics = $this->aggregateCoreVisitsMetrics();
+
+            if (empty($metrics)) {
+                $this->setNumberOfVisits(false);
+            } else {
+                $this->setNumberOfVisits($metrics['nb_visits'], $metrics['nb_visits_converted']);
+            }
         }
-//        }
+
         $temporary = 'definitive archive';
         if ($this->isArchiveTemporary()) {
             $temporary = 'temporary archive';
@@ -228,7 +239,8 @@ abstract class Piwik_ArchiveProcessor
             $this->getDateEnd()->getDateEndUTC()
         ));
 
-        if ($this->getNumberOfVisits() > 0) {
+        if ($this->getNumberOfVisits() > 0
+            && !$enforceProcessCoreMetricsOnly) {
             $this->compute();
         }
 
@@ -242,8 +254,7 @@ abstract class Piwik_ArchiveProcessor
 
         Piwik_DataAccess_Archiver::releaseArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment());
 
-        return $idArchive;
-
+        return $this->idArchive;
     }
 
     /**
@@ -253,7 +264,7 @@ abstract class Piwik_ArchiveProcessor
      */
     public function getTableArchiveNumericName()
     {
-        if(empty($this->tableArchiveNumeric)) {
+        if (empty($this->tableArchiveNumeric)) {
             $this->tableArchiveNumeric = new Piwik_TablePartitioning_Monthly('archive_numeric');
             $this->tableArchiveNumeric->setTimestamp($this->getPeriod()->getDateStart()->getTimestamp());
         }
@@ -267,13 +278,12 @@ abstract class Piwik_ArchiveProcessor
      */
     public function getTableArchiveBlobName()
     {
-        if(empty($this->tableArchiveBlob)) {
+        if (empty($this->tableArchiveBlob)) {
             $this->tableArchiveBlob = new Piwik_TablePartitioning_Monthly('archive_blob');
             $this->tableArchiveBlob->setTimestamp($this->getPeriod()->getDateStart()->getTimestamp());
         }
         return $this->tableArchiveBlob->getTableName();
     }
-
 
     public function setRequestedPlugin($plugin)
     {
@@ -295,10 +305,10 @@ abstract class Piwik_ArchiveProcessor
      */
     protected function setNumberOfVisits($visitsMetricCached, $convertedVisitsMetricCached = false)
     {
-        if(empty($visitsMetricCached)) {
+        if (empty($visitsMetricCached)) {
             $visitsMetricCached = 0;
         }
-        if(empty($convertedVisitsMetricCached)) {
+        if (empty($convertedVisitsMetricCached)) {
             $convertedVisitsMetricCached = 0;
         }
         $this->visitsMetricCached = (int)$visitsMetricCached;
@@ -314,7 +324,6 @@ abstract class Piwik_ArchiveProcessor
     {
         return $this->convertedVisitsMetricCached;
     }
-
 
     /**
      * @param string $name
@@ -364,9 +373,9 @@ abstract class Piwik_ArchiveProcessor
         return array($name => $values);
     }
 
-    protected function compress( $data)
+    protected function compress($data)
     {
-        if(Zend_Registry::get('db')->hasBlobDataType()) {
+        if (Zend_Registry::get('db')->hasBlobDataType()) {
             return gzcompress($data);
         }
         return $data;
@@ -424,18 +433,17 @@ abstract class Piwik_ArchiveProcessor
     /**
      * Inserts a record in the right table (either NUMERIC or BLOB)
      *
-     * @param string  $name
-     * @param mixed   $value
+     * @param string $name
+     * @param mixed $value
      *
      * @return void
      */
     protected function insertRecord($name, $value)
     {
-        // We choose not to record records with a value of 0
-        if ($value === 0
-            && $name != 'nb_visits') {
+        if($this->isRecordZero($name, $value)) {
             return;
         }
+
         $tableName = $this->getTableNameToInsert($value);
 
         // duplicate idarchives are Ignored, see http://dev.piwik.org/trac/ticket/987
@@ -447,6 +455,16 @@ abstract class Piwik_ArchiveProcessor
         $bindSql[] = $name;
         $bindSql[] = $value;
         Piwik_Query($query, $bindSql);
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     * @return bool
+     */
+    protected function isRecordZero($name, $value)
+    {
+        return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
     }
 
     protected function getTableNameToInsert($value)
@@ -474,11 +492,11 @@ abstract class Piwik_ArchiveProcessor
         $numericTableName = $this->getTableArchiveNumericName();
 
         $idAndVisits = Piwik_DataAccess_Archiver::getArchiveIdAndVisits($numericTableName, $site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
-        if(!$idAndVisits) {
+        if (!$idAndVisits) {
             return false;
         }
-        list($idArchive, $visits) = $idAndVisits;
-        $this->setNumberOfVisits( $visits );
+        list($idArchive, $visits, $visitsConverted) = $idAndVisits;
+        $this->setNumberOfVisits($visits, $visitsConverted);
         return $idArchive;
     }
 
@@ -494,15 +512,14 @@ abstract class Piwik_ArchiveProcessor
         }
         // If any other segment, only process if the requested report belong to this plugin
         $pluginBeingProcessed = $this->getRequestedPlugin();
-        if($pluginBeingProcessed == $pluginName) {
+        if ($pluginBeingProcessed == $pluginName) {
             return true;
         }
-        if(!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
+        if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
             return true;
         }
         return false;
     }
-
 
     /**
      * Site of the current archive
@@ -511,7 +528,6 @@ abstract class Piwik_ArchiveProcessor
      * @var Piwik_Site
      */
     private $site = null;
-
 
     /**
      * @var Piwik_Period
@@ -569,5 +585,4 @@ abstract class Piwik_ArchiveProcessor
     {
         return $this->idArchive;
     }
-
 }

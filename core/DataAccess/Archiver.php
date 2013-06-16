@@ -14,6 +14,9 @@
  */
 class Piwik_DataAccess_Archiver
 {
+    const NB_VISITS_RECORD_LOOKED_UP = "nb_visits";
+    const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
+
     public static function deletePreviousArchiveStatus($numericTable, $requestedPlugin, $segment, $period, $idArchive)
     {
         $done = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($segment, $period->getLabel(), $requestedPlugin);
@@ -132,18 +135,19 @@ class Piwik_DataAccess_Archiver
             $bindSQL[] = Piwik_Date::factory($minDatetimeArchiveProcessedUTC)->getDatetime();
         }
 
-        $done = Piwik_ArchiveProcessor_Rules::getDoneFlagArchiveContainsOnePlugin($segment, $requestedPlugin);
-        $doneAllPluginsProcessed = Piwik_ArchiveProcessor_Rules::getDoneFlagArchiveContainsAllPlugins($segment);
+        $pluginOrVisitsSummary = array("VisitsSummary", $requestedPlugin);
+        $pluginOrVisitsSummary = array_unique($pluginOrVisitsSummary);
+        $sqlWhereArchiveName = self::getNameCondition($pluginOrVisitsSummary, $segment);
 
-        $doneFlagSelect = self::getNameCondition(array($requestedPlugin), $segment);
         $sqlQuery = "	SELECT idarchive, value, name, date1 as startDate
 						FROM " . $numericTableName . "``
 						WHERE idsite = ?
 							AND date1 = ?
 							AND date2 = ?
 							AND period = ?
-							AND ( $doneFlagSelect
-								  OR name = 'nb_visits')
+							AND ( ($sqlWhereArchiveName)
+								  OR name = '" . self::NB_VISITS_RECORD_LOOKED_UP . "'
+								  OR name = '" . self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
 							$timeStampWhere
 						ORDER BY idarchive DESC";
         $results = Piwik_FetchAll($sqlQuery, $bindSQL);
@@ -151,28 +155,54 @@ class Piwik_DataAccess_Archiver
             return false;
         }
 
-        $idArchive = false;
-        // we look for the more recent idarchive
+        $idArchive = self::getMostRecentIdArchiveFromResults($segment, $requestedPlugin, $results);
+        $idArchiveVisitsSummary = self::getMostRecentIdArchiveFromResults($segment, "VisitsSummary", $results);
+
+        list($visits, $visitsConverted) = self::getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results);
+
+        if($visits === false
+            && $idArchive === false) {
+            return false;
+        }
+
+        return array($idArchive, $visits, $visitsConverted);
+    }
+
+    protected static function getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results)
+    {
+        $visits = $visitsConverted = false;
+        if($idArchiveVisitsSummary !== false) {
+            $visits = $visitsConverted = 0;
+        }
         foreach ($results as $result) {
-            if ( in_array($result['name'], array($done, $doneAllPluginsProcessed)) ) {
+            if (in_array($result['idarchive'], array($idArchive, $idArchiveVisitsSummary))) {
+                $value = (int)$result['value'];
+                if (empty($visits)
+                    && $result['name'] == self::NB_VISITS_RECORD_LOOKED_UP) {
+                    $visits = $value;
+                }
+                if (empty($visitsConverted)
+                    && $result['name'] == self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP) {
+                    $visitsConverted = $value;
+                }
+            }
+        }
+        return array($visits, $visitsConverted);
+    }
+
+    protected static function getMostRecentIdArchiveFromResults(Piwik_Segment $segment, $requestedPlugin, $results)
+    {
+        $idArchive = false;
+        $namesRequestedPlugin = Piwik_ArchiveProcessor_Rules::getDoneFlags(array($requestedPlugin), $segment);
+        foreach ($results as $result) {
+            if ($idArchive === false
+                && in_array($result['name'], $namesRequestedPlugin)
+            ) {
                 $idArchive = $result['idarchive'];
                 break;
             }
         }
-
-        if(!$idArchive) {
-            return false;
-        }
-
-        $visits = 0;
-        foreach($results as $result) {
-            if($result['idarchive'] == $idArchive
-                && $result['name'] == 'nb_visits') {
-                $visits = (int)$result['value'];
-                break;
-            }
-        }
-        return array($idArchive, $visits);
+        return $idArchive;
     }
 
     /**
@@ -195,7 +225,7 @@ class Piwik_DataAccess_Archiver
                                FROM %s
                               WHERE period = ?
                                 AND %s
-                                AND ".self::getNameCondition($plugins, $segment)."
+                                AND ". self::getNameCondition($plugins, $segment) ."
                                 AND idsite IN (".implode(',', $siteIds).")
                            GROUP BY idsite, date1, date2";
         
@@ -307,23 +337,16 @@ class Piwik_DataAccess_Archiver
     {
         // the flags used to tell how the archiving process for a specific archive was completed,
         // if it was completed
-        $doneFlags = array();
-        foreach ($plugins as $plugin) {
-            $doneAllPlugins = Piwik_ArchiveProcessor_Rules::getDoneFlagArchiveContainsAllPlugins($segment);
-            $doneOnePlugin = Piwik_ArchiveProcessor_Rules::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
-            
-            $doneFlags[$doneAllPlugins] = $doneAllPlugins;
-            $doneFlags[$doneOnePlugin] = $doneOnePlugin;
-        }
+        $doneFlags = Piwik_ArchiveProcessor_Rules::getDoneFlags($plugins, $segment);
 
         $allDoneFlags = "'".implode("','", $doneFlags)."'";
         
         // create the SQL to find archives that are DONE
-        return "(name IN ($allDoneFlags)) AND
-                (value = '".Piwik_ArchiveProcessor::DONE_OK."' OR
-                 value = '".Piwik_ArchiveProcessor::DONE_OK_TEMPORARY."')";
+        return "(name IN ($allDoneFlags)) AND ".
+                " (value = '".Piwik_ArchiveProcessor::DONE_OK."' OR ".
+                " value = '".Piwik_ArchiveProcessor::DONE_OK_TEMPORARY."')";
     }
-    
+
     /**
      * Returns the periods of the archives this instance is querying for grouped by
      * by year & month.

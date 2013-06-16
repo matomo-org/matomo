@@ -571,7 +571,8 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             Piwik_Actions_ArchivingHelper::$maximumRowsInSubDataTable,
             Piwik_Actions_ArchivingHelper::$columnToSortByBeforeTruncation,
             $aggregation,
-            self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive);
+            self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive
+        );
 
         $this->getProcessor()->archiveNumericValuesGeneral(array(
                                                             self::METRIC_PAGEVIEWS_RECORD_NAME,

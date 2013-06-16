@@ -112,14 +112,31 @@ class Piwik_ArchiveProcessor_Rules
         return self::getDoneFlagArchiveContainsAllPlugins($segment);
     }
 
-    public static function getDoneFlagArchiveContainsAllPlugins($segment)
+    private static function getDoneFlagArchiveContainsAllPlugins($segment)
     {
         return 'done' . $segment->getHash();
     }
 
-    public static function getDoneFlagArchiveContainsOnePlugin($segment, $plugin)
+    private static function getDoneFlagArchiveContainsOnePlugin($segment, $plugin)
     {
         return 'done' . $segment->getHash() . '.' . $plugin;
+    }
+
+    /**
+     * @param array $plugins
+     * @param $segment
+     * @return array
+     */
+    public static function getDoneFlags(array $plugins, $segment)
+    {
+        $doneFlags = array();
+        $doneAllPlugins = self::getDoneFlagArchiveContainsAllPlugins($segment);
+        $doneFlags[$doneAllPlugins] = $doneAllPlugins;
+        foreach ($plugins as $plugin) {
+            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
+            $doneFlags[$plugin] = $doneOnePlugin;
+        }
+        return $doneFlags;
     }
 
     /**

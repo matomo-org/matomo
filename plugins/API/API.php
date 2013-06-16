@@ -740,7 +740,7 @@ class Piwik_API_API
             /** @var Piwik_DataTable */
             $dataTable = $request->process();
         } catch (Exception $e) {
-            throw new Exception("API returned an error: " . $e->getMessage() . "\n");
+            throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()). ":" . $e->getLine() . "\n");
         }
 
         list($newReport, $columns, $rowsMetadata) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, isset($reportMetadata['dimension']), $showRawMetrics);
