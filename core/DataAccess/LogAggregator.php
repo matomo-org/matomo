@@ -201,7 +201,7 @@ class Piwik_DataAccess_LogAggregator
                 $selectAsString = $selectAs;
             } else {
                 // if function, do not alias or prefix
-                if (strpos($field, "(") !== false) {
+                if ($this->isFieldFunctionOrComplexExpression($field)) {
                     $selectAsString = $appendSelectAs = false;
                 }
             }
@@ -211,11 +211,21 @@ class Piwik_DataAccess_LogAggregator
             ) {
                 $field = "$tableName.$field";
             }
-            if ($appendSelectAs) {
+            if ($appendSelectAs && $selectAsString) {
                 $field = $field . $this->getSelectAliasAs($selectAsString);
             }
         }
         return $dimensions;
+    }
+
+    /**
+     * @param $field
+     * @return bool
+     */
+    protected function isFieldFunctionOrComplexExpression($field)
+    {
+        return strpos($field, "(") !== false
+            || strpos($field, "CASE") !== false;
     }
 
     protected function getSelectAliasAs($metricId)
