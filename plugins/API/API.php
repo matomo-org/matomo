@@ -269,6 +269,8 @@ class Piwik_API_API
         $segments = array();
         Piwik_PostEvent('API.getSegmentsMetadata', $segments, $idSites);
 
+        $isAuthenticatedWithViewAccess = Piwik::isUserHasViewAccess($idSites) && !Piwik::isUserIsAnonymous();
+
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => Piwik_Translate('General_Visit'),
@@ -277,7 +279,7 @@ class Piwik_API_API
             'acceptedValues' => '13.54.122.1, etc.',
             'sqlSegment'     => 'log_visit.location_ip',
             'sqlFilter'      => array('Piwik_IP', 'P2N'),
-            'permission'     => Piwik::isUserHasAdminAccess($idSites),
+            'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
             'type'           => 'dimension',
@@ -287,6 +289,7 @@ class Piwik_API_API
             'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
             'sqlSegment'     => 'log_visit.idvisitor',
             'sqlFilter'      => array('Piwik_Common', 'convertVisitorIdToBin'),
+            'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
             'type'       => 'metric',
