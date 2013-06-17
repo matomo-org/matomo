@@ -41,7 +41,6 @@
  */
 class Piwik_Archive
 {
-    const FLAG_ALL_WEBSITES_REQUESTED = 'all';
     /**
      * When saving DataTables in the DB, we sometimes replace the columns name by these IDs so we save up lots of bytes
      * Eg. INDEX_NB_UNIQ_VISITORS is an integer: 4 bytes, but 'nb_uniq_visitors' is 16 bytes at least
@@ -102,6 +101,8 @@ class Piwik_Archive
     const INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING = 6;
     const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
+
+    const REQUEST_ALL_WEBSITES_FLAG = 'all';
 
     public static function getVisitsMetricNames()
     {
@@ -308,7 +309,7 @@ class Piwik_Archive
             $allPeriods = array($oPeriod);
         }
         $segment = new Piwik_Segment($segment, $websiteIds);
-        $idSiteIsAll = $idSites == self::FLAG_ALL_WEBSITES_REQUESTED;
+        $idSiteIsAll = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
         return Piwik_Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll);
     }
 
@@ -516,7 +517,7 @@ class Piwik_Archive
             return $result;
         }
         
-        $archiveData = Piwik_DataAccess_Archiver::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
+        $archiveData = Piwik_DataAccess_ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
             $idSite = $row['idsite'];
@@ -669,7 +670,7 @@ class Piwik_Archive
      */
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
-        $idarchivesByReport = Piwik_DataAccess_Archiver::getArchiveIds(
+        $idarchivesByReport = Piwik_DataAccess_ArchiveSelector::getArchiveIds(
             $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
         
         // initialize archive ID cache for each report

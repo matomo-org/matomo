@@ -8,6 +8,7 @@ class Piwik_ArchiveProcessor_Rules
 
     const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
     const OPTION_BROWSER_TRIGGER_ARCHIVING = 'enableBrowserTriggerArchiving';
+
     static public function isBrowserTriggerEnabled()
     {
         $browserArchivingEnabled = Piwik_GetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING);
@@ -16,6 +17,7 @@ class Piwik_ArchiveProcessor_Rules
         }
         return (bool)Piwik_Config::getInstance()->General['enable_browser_archiving_triggering'];
     }
+
     public static function getTodayArchiveTimeToLive()
     {
         $timeToLive = Piwik_GetOption(self::OPTION_TODAY_ARCHIVE_TTL);
@@ -92,7 +94,6 @@ class Piwik_ArchiveProcessor_Rules
         }
         return $isArchivingDisabled;
     }
-
 
     /**
      * Returns the name of the archive field used to tell the status of an archive, (ie,
@@ -176,14 +177,12 @@ class Piwik_ArchiveProcessor_Rules
             else {
                 $purgeArchivesOlderThan = Piwik_Date::factory('today')->getDateTime();
             }
-            Piwik_DataAccess_Archiver::purgeOutdatedArchives($numericTable, $blobTable, $purgeArchivesOlderThan);
-
+            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives($numericTable, $blobTable, $purgeArchivesOlderThan);
             // these tables will be OPTIMIZEd daily in a scheduled task, to claim lost space
         } else {
             Piwik::log("Purging temporary archives: skipped.");
         }
     }
-
 
     public static function setTodayArchiveTimeToLive($timeToLiveSeconds)
     {
@@ -193,4 +192,27 @@ class Piwik_ArchiveProcessor_Rules
         }
         Piwik_SetOption(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoload = true);
     }
+
+    static public function getMinTimeProcessedForTemporaryArchive(Piwik_Date $dateStart, Piwik_Period $period, Piwik_Segment $segment,
+                                                       Piwik_Site $site)
+    {
+        $now = time();
+        $minimumArchiveTime = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
+
+        $isArchivingDisabled = Piwik_ArchiveProcessor_Rules::isArchivingDisabledFor($segment, $period->getLabel());
+        if ($isArchivingDisabled) {
+            if ($period->getNumberOfSubperiods() == 0
+                && $dateStart->getTimestamp() <= $now
+            ) {
+                $minimumArchiveTime = false;
+            } else {
+                // However, if archiving is disabled for this request, we shall
+                // accept any archive that was processed today after 00:00:01 this morning
+                $timezone = $site->getTimezone();
+                $minimumArchiveTime = Piwik_Date::factory(Piwik_Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
+            }
+        }
+        return $minimumArchiveTime;
+    }
+
 }

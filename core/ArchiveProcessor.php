@@ -10,20 +10,7 @@
  */
 
 /**
- * The ArchiveProcessor module is a module that reads the Piwik logs from the DB and
- * compute all the reports, which are then stored in the database.
- *
  * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.
- *
- * A record in the Database for a given report is defined by
- * - idarchive    = unique ID that is associated to all the data of this archive (idsite+period+date)
- * - idsite        = the ID of the website
- * - date1        = starting day of the period
- * - date2        = ending day of the period
- * - period    = integer that defines the period (day/week/etc.). @see period::getId()
- * - ts_archived = timestamp when the archive was processed (UTC)
- * - name        = the name of the report (ex: uniq_visitors or search_keywords_by_search_engines)
- * - value        = the actual data
  *
  * @package Piwik
  * @subpackage Piwik_ArchiveProcessor
@@ -75,26 +62,41 @@ abstract class Piwik_ArchiveProcessor
     protected $tableArchiveBlob;
 
     /**
-     * Minimum timestamp looked at for processed archives
-     *
-     * @var int
-     */
-    protected $minDatetimeArchiveProcessedUTC = false;
-
-    /**
      * Is the current archive temporary. ie.
      * - today
      * - current week / month / year
      */
     protected $temporaryArchive;
 
-    /**
-     * This methods reads the subperiods if necessary,
-     * and computes the archive of the current period.
-     */
-    abstract protected function compute();
+    protected $logAggregator = null;
 
-    abstract protected function aggregateCoreVisitsMetrics();
+    /**
+     * @var int Number of visits cached as early as possible
+     */
+    protected $visitsMetricCached = false;
+
+    /**
+     * @var int Number of visits with conversions, cached when selecting
+     */
+    protected $convertedVisitsMetricCached = false;
+
+    /**
+     * Site of the current archive
+     * Can be accessed by plugins (that is why it's public)
+     *
+     * @var Piwik_Site
+     */
+    private $site = null;
+
+    /**
+     * @var Piwik_Period
+     */
+    private $period = null;
+
+    /**
+     * @var Piwik_Segment
+     */
+    private $segment = null;
 
     public function __construct(Piwik_Period $period, Piwik_Site $site, Piwik_Segment $segment)
     {
@@ -103,77 +105,16 @@ abstract class Piwik_ArchiveProcessor
         $this->segment = $segment;
     }
 
-    protected $logAggregator = null;
-
     /**
      * @return Piwik_DataAccess_LogAggregator
      */
     public function getLogAggregator()
     {
-        if(empty($this->logAggregator)) {
-            $this->logAggregator = new Piwik_DataAccess_LogAggregator(  $this->getPeriod()->getDateStart(), $this->getPeriod()->getDateEnd(),
-                $this->getSite(), $this->getSegment() );
+        if (empty($this->logAggregator)) {
+            $this->logAggregator = new Piwik_DataAccess_LogAggregator($this->getPeriod()->getDateStart(), $this->getPeriod()->getDateEnd(),
+                $this->getSite(), $this->getSegment());
         }
         return $this->logAggregator;
-    }
-
-    /**
-     * Returns the minimum archive processed datetime to look at
-     *
-     * @return string Datetime string, or false if must look at any archive available
-     *
-     * @public for tests
-     */
-    public function getMinTimeArchivedProcessed()
-    {
-        $site = $this->getSite();
-        $segment = $this->getSegment();
-        $period = $this->getPeriod();
-        $dateStart = $this->getDateStart();
-        $dateEnd = $this->getDateEnd();
-
-        $now = time();
-        $endTimestampUTC = strtotime($dateEnd->getDateEndUTC());
-        if ($endTimestampUTC <= $now) {
-            // - if the period we are looking for is finished, we look for a ts_archived that
-            //   is greater than the last day of the archive
-            $this->temporaryArchive = false;
-            return $endTimestampUTC;
-        }
-
-        $this->temporaryArchive = true;
-
-        $minimumArchiveTime = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
-
-        $isArchivingDisabled = Piwik_ArchiveProcessor_Rules::isArchivingDisabledFor($segment, $period->getLabel());
-
-        if ($isArchivingDisabled) {
-            if ($endTimestampUTC > $now
-                && $period->getNumberOfSubperiods() == 0
-                && $dateStart->getTimestamp() <= $now
-            ) {
-                $minimumArchiveTime = false;
-            } else {
-                // However, if archiving is disabled for this request, we shall
-                // accept any archive that was processed today after 00:00:01 this morning
-                $timezone = $site->getTimezone();
-                $minimumArchiveTime = Piwik_Date::factory(Piwik_Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
-            }
-        }
-
-        return $minimumArchiveTime;
-    }
-
-    protected function isArchivingForcedToTrigger()
-    {
-        $period = $this->getPeriod()->getLabel();
-        $debugSetting = 'always_archive_data_period'; // default
-        if ($period == 'day') {
-            $debugSetting = 'always_archive_data_day';
-        } elseif ($period == 'range') {
-            $debugSetting = 'always_archive_data_range';
-        }
-        return Piwik_Config::getInstance()->Debug[$debugSetting];
     }
 
     public function preProcessArchive($requestedPlugin, $enforceProcessCoreMetricsOnly = false)
@@ -182,7 +123,7 @@ abstract class Piwik_ArchiveProcessor
 
         $this->setRequestedPlugin($requestedPlugin);
 
-        if( !$enforceProcessCoreMetricsOnly ) {
+        if (!$enforceProcessCoreMetricsOnly) {
             $this->idArchive = $this->loadExistingArchiveIdFromDb($requestedPlugin);
             if ($this->isArchivingForcedToTrigger()) {
                 $this->idArchive = false;
@@ -202,13 +143,125 @@ abstract class Piwik_ArchiveProcessor
                 $requestedPlugin = $this->getRequestedPlugin();
                 $this->preProcessArchive('VisitsSummary', $pleaseProcessCoreMetricsOnly = true);
                 $this->setRequestedPlugin($requestedPlugin);
-                if($this->getNumberOfVisits() === false) {
+                if ($this->getNumberOfVisits() === false) {
                     throw new Exception("preProcessArchive() is expected to set number of visits to a numeric value.");
                 }
             }
         }
 
         return $this->computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly);
+    }
+
+    public function setRequestedPlugin($plugin)
+    {
+        $this->requestedPlugin = $plugin;
+    }
+
+    /**
+     * Returns the idArchive if the archive is available in the database for the requested plugin.
+     * Returns false if the archive needs to be processed.
+     *
+     * @return int|false
+     */
+    protected function loadExistingArchiveIdFromDb($requestedPlugin)
+    {
+        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchivedProcessed();
+        $site = $this->getSite();
+        $period = $this->getPeriod();
+        $segment = $this->getSegment();
+        $numericTableName = $this->getTableArchiveNumericName();
+
+        $idAndVisits = Piwik_DataAccess_ArchiveSelector::getArchiveIdAndVisits($numericTableName, $site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
+        if (!$idAndVisits) {
+            return false;
+        }
+        list($idArchive, $visits, $visitsConverted) = $idAndVisits;
+        $this->setNumberOfVisits($visits, $visitsConverted);
+        return $idArchive;
+    }
+
+    protected static function determineIfArchivePermanent(Piwik_Date $dateEnd)
+    {
+        $now = time();
+        $endTimestampUTC = strtotime($dateEnd->getDateEndUTC());
+        if ($endTimestampUTC <= $now) {
+            // - if the period we are looking for is finished, we look for a ts_archived that
+            //   is greater than the last day of the archive
+            return $endTimestampUTC;
+        }
+        return false;
+    }
+
+    /**
+     * Returns the minimum archive processed datetime to look at
+     *
+     * @return string Datetime string, or false if must look at any archive available
+     *
+     * @public for tests
+     */
+    public function getMinTimeArchivedProcessed()
+    {
+
+        $endDateTimestamp = self::determineIfArchivePermanent($this->getDateEnd());
+        $isArchiveTemporary = ($endDateTimestamp === false);
+        $this->temporaryArchive = $isArchiveTemporary;
+
+        if($endDateTimestamp) {
+            // Permanent archive
+            return $endDateTimestamp;
+        }
+        // Temporary archive
+        return Piwik_ArchiveProcessor_Rules::getMinTimeProcessedForTemporaryArchive($this->getDateStart(), $this->getPeriod(), $this->getSegment(), $this->getSite());
+    }
+
+    /**
+     * @return Piwik_Date
+     */
+    public function getDateStart()
+    {
+        return $this->getPeriod()->getDateStart()->setTimezone($this->getSite()->getTimezone());
+    }
+
+    /**
+     * @return Piwik_Date
+     */
+    public function getDateEnd()
+    {
+        return $this->getPeriod()->getDateEnd()->setTimezone($this->getSite()->getTimezone());
+    }
+
+    /**
+     * A flag mechanism to store whether
+     * @param $visitsMetricCached
+     * @param bool $convertedVisitsMetricCached
+     */
+    protected function setNumberOfVisits($visitsMetricCached, $convertedVisitsMetricCached = false)
+    {
+        if (empty($visitsMetricCached)) {
+            $visitsMetricCached = 0;
+        }
+        if (empty($convertedVisitsMetricCached)) {
+            $convertedVisitsMetricCached = 0;
+        }
+        $this->visitsMetricCached = (int)$visitsMetricCached;
+        $this->convertedVisitsMetricCached = (int)$convertedVisitsMetricCached;
+    }
+
+    protected function isArchivingForcedToTrigger()
+    {
+        $period = $this->getPeriod()->getLabel();
+        $debugSetting = 'always_archive_data_period'; // default
+        if ($period == 'day') {
+            $debugSetting = 'always_archive_data_day';
+        } elseif ($period == 'range') {
+            $debugSetting = 'always_archive_data_range';
+        }
+        return Piwik_Config::getInstance()->Debug[$debugSetting];
+    }
+
+    public function getNumberOfVisits()
+    {
+        return $this->visitsMetricCached;
     }
 
     protected function doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
@@ -226,11 +279,9 @@ abstract class Piwik_ArchiveProcessor
      */
     protected function computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly)
     {
-        if (!Piwik_DataAccess_Archiver::getArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment())) {
-            Piwik::log('SELECT GET_LOCK(?, 1) FAILED to acquire lock. Proceeding anyway...');
-        }
+        Piwik_DataAccess_ArchiveSelector::getArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment());
 
-        $this->idArchive = Piwik_DataAccess_Archiver::allocateNewArchiveId($this->getTableArchiveNumericName(), $this->getSite()->getId());
+        $this->idArchive = Piwik_DataAccess_ArchiveSelector::allocateNewArchiveId($this->getTableArchiveNumericName(), $this->getSite()->getId());
 
         $doneFlag = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($this->getSegment(), $this->getPeriod()->getLabel(), $requestedPlugin);
         $this->insertNumericRecord($doneFlag, Piwik_ArchiveProcessor::DONE_ERROR);
@@ -250,6 +301,34 @@ abstract class Piwik_ArchiveProcessor
             }
         }
 
+        $this->logStatus($requestedPlugin);
+
+        if ($this->getNumberOfVisits() > 0
+            && !$enforceProcessCoreMetricsOnly
+        ) {
+            $this->compute();
+        }
+
+        Piwik_DataAccess_ArchiveSelector::deletePreviousArchiveStatus($this->getTableArchiveNumericName(), $doneFlag, $this->getIdArchive());
+
+        $flag = Piwik_ArchiveProcessor::DONE_OK;
+        if ($this->isArchiveTemporary()) {
+            $flag = Piwik_ArchiveProcessor::DONE_OK_TEMPORARY;
+        }
+        $this->insertNumericRecord($doneFlag, $flag);
+
+        Piwik_DataAccess_ArchiveSelector::releaseArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment());
+
+        return $this->idArchive;
+    }
+
+    abstract protected function aggregateCoreVisitsMetrics();
+
+    /**
+     * @param $requestedPlugin
+     */
+    protected function logStatus($requestedPlugin)
+    {
         $temporary = 'definitive archive';
         if ($this->isArchiveTemporary()) {
             $temporary = 'temporary archive';
@@ -263,92 +342,29 @@ abstract class Piwik_ArchiveProcessor
             $this->getDateStart()->getDateStartUTC(),
             $this->getDateEnd()->getDateEndUTC()
         ));
+    }
 
-        if ($this->getNumberOfVisits() > 0
-            && !$enforceProcessCoreMetricsOnly
-        ) {
-            $this->compute();
-        }
-
-        Piwik_DataAccess_Archiver::deletePreviousArchiveStatus($this->getTableArchiveNumericName(), $doneFlag, $this->getIdArchive());
-
-        $flag = Piwik_ArchiveProcessor::DONE_OK;
-        if ($this->isArchiveTemporary()) {
-            $flag = Piwik_ArchiveProcessor::DONE_OK_TEMPORARY;
-        }
-        $this->insertNumericRecord($doneFlag, $flag);
-
-        Piwik_DataAccess_Archiver::releaseArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment());
-
-        return $this->idArchive;
+    public function isArchiveTemporary()
+    {
+        return $this->temporaryArchive;
     }
 
     /**
-     * Returns the name of the numeric table where the archive numeric values are stored
-     *
-     * @return string
+     * This methods reads the subperiods if necessary,
+     * and computes the archive of the current period.
      */
-    public function getTableArchiveNumericName()
-    {
-        if (empty($this->tableArchiveNumeric)) {
-            $this->tableArchiveNumeric = new Piwik_TablePartitioning_Monthly('archive_numeric');
-            $this->tableArchiveNumeric->setTimestamp($this->getPeriod()->getDateStart()->getTimestamp());
-        }
-        return $this->tableArchiveNumeric->getTableName();
-    }
-
-    /**
-     * Returns the name of the blob table where the archive blob values are stored
-     *
-     * @return string
-     */
-    public function getTableArchiveBlobName()
-    {
-        if (empty($this->tableArchiveBlob)) {
-            $this->tableArchiveBlob = new Piwik_TablePartitioning_Monthly('archive_blob');
-            $this->tableArchiveBlob->setTimestamp($this->getPeriod()->getDateStart()->getTimestamp());
-        }
-        return $this->tableArchiveBlob->getTableName();
-    }
-
-    public function setRequestedPlugin($plugin)
-    {
-        $this->requestedPlugin = $plugin;
-    }
-
-    protected function getRequestedPlugin()
-    {
-        return $this->requestedPlugin;
-    }
-
-    protected $visitsMetricCached = false;
-    protected $convertedVisitsMetricCached = false;
-
-    /**
-     * A flag mechanism to store whether
-     * @param $visitsMetricCached
-     * @param bool $convertedVisitsMetricCached
-     */
-    protected function setNumberOfVisits($visitsMetricCached, $convertedVisitsMetricCached = false)
-    {
-        if (empty($visitsMetricCached)) {
-            $visitsMetricCached = 0;
-        }
-        if (empty($convertedVisitsMetricCached)) {
-            $convertedVisitsMetricCached = 0;
-        }
-        $this->visitsMetricCached = (int)$visitsMetricCached;
-        $this->convertedVisitsMetricCached = (int)$convertedVisitsMetricCached;
-    }
-
-    public function getNumberOfVisits()
-    {
-        return $this->visitsMetricCached;
-    }
+    abstract protected function compute();
 
     public function getNumberOfVisitsConverted()
     {
         return $this->convertedVisitsMetricCached;
+    }
+
+    public function insertNumericRecords($numericRecords)
+    {
+        foreach ($numericRecords as $name => $value) {
+            $this->insertNumericRecord($name, $value);
+        }
     }
 
     /**
@@ -359,13 +375,6 @@ abstract class Piwik_ArchiveProcessor
     {
         $value = round($value, 2);
         return $this->insertRecord($name, $value);
-    }
-
-    public function insertNumericRecords($numericRecords)
-    {
-        foreach ($numericRecords as $name => $value) {
-            $this->insertNumericRecord($name, $value);
-        }
     }
 
     /**
@@ -441,21 +450,6 @@ abstract class Piwik_ArchiveProcessor
         return true;
     }
 
-    protected function getInsertRecordBind()
-    {
-        return array($this->getIdArchive(),
-                     $this->getSite()->getId(),
-                     $this->getPeriod()->getDateStart()->toString('Y-m-d'),
-                     $this->getPeriod()->getDateEnd()->toString('Y-m-d'),
-                     $this->getPeriod()->getId(),
-                     date("Y-m-d H:i:s"));
-    }
-
-    protected function getInsertFields()
-    {
-        return array('idarchive', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'name', 'value');
-    }
-
     /**
      * Inserts a record in the right table (either NUMERIC or BLOB)
      *
@@ -466,7 +460,7 @@ abstract class Piwik_ArchiveProcessor
      */
     protected function insertRecord($name, $value)
     {
-        if($this->isRecordZero($name, $value)) {
+        if ($this->isRecordZero($name, $value)) {
             return;
         }
 
@@ -481,6 +475,7 @@ abstract class Piwik_ArchiveProcessor
         $bindSql[] = $name;
         $bindSql[] = $value;
         Piwik_Query($query, $bindSql);
+        return true;
     }
 
     /**
@@ -504,26 +499,64 @@ abstract class Piwik_ArchiveProcessor
     }
 
     /**
-     * Returns the idArchive if the archive is available in the database for the requested plugin.
-     * Returns false if the archive needs to be processed.
+     * Returns the name of the numeric table where the archive numeric values are stored
      *
-     * @return int|false
+     * @return string
      */
-    protected function loadExistingArchiveIdFromDb($requestedPlugin)
+    public function getTableArchiveNumericName()
     {
-        $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchivedProcessed();
-        $site = $this->getSite();
-        $period = $this->getPeriod();
-        $segment = $this->getSegment();
-        $numericTableName = $this->getTableArchiveNumericName();
-
-        $idAndVisits = Piwik_DataAccess_Archiver::getArchiveIdAndVisits($numericTableName, $site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
-        if (!$idAndVisits) {
-            return false;
+        if (empty($this->tableArchiveNumeric)) {
+            $this->tableArchiveNumeric = new Piwik_TablePartitioning_Monthly('archive_numeric');
+            $this->tableArchiveNumeric->setTimestamp($this->getPeriod()->getDateStart()->getTimestamp());
         }
-        list($idArchive, $visits, $visitsConverted) = $idAndVisits;
-        $this->setNumberOfVisits($visits, $visitsConverted);
-        return $idArchive;
+        return $this->tableArchiveNumeric->getTableName();
+    }
+
+    public function getPeriod()
+    {
+        return $this->period;
+    }
+
+    /**
+     * Returns the name of the blob table where the archive blob values are stored
+     *
+     * @return string
+     */
+    public function getTableArchiveBlobName()
+    {
+        if (empty($this->tableArchiveBlob)) {
+            $this->tableArchiveBlob = new Piwik_TablePartitioning_Monthly('archive_blob');
+            $this->tableArchiveBlob->setTimestamp($this->getPeriod()->getDateStart()->getTimestamp());
+        }
+        return $this->tableArchiveBlob->getTableName();
+    }
+
+    protected function getInsertFields()
+    {
+        return array('idarchive', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'name', 'value');
+    }
+
+    protected function getInsertRecordBind()
+    {
+        return array($this->getIdArchive(),
+                     $this->getSite()->getId(),
+                     $this->getPeriod()->getDateStart()->toString('Y-m-d'),
+                     $this->getPeriod()->getDateEnd()->toString('Y-m-d'),
+                     $this->getPeriod()->getId(),
+                     date("Y-m-d H:i:s"));
+    }
+
+    public function getIdArchive()
+    {
+        return $this->idArchive;
+    }
+
+    /**
+     * @return Piwik_Site
+     */
+    public function getSite()
+    {
+        return $this->site;
     }
 
     /**
@@ -548,24 +581,6 @@ abstract class Piwik_ArchiveProcessor
     }
 
     /**
-     * Site of the current archive
-     * Can be accessed by plugins (that is why it's public)
-     *
-     * @var Piwik_Site
-     */
-    private $site = null;
-
-    /**
-     * @var Piwik_Period
-     */
-    private $period = null;
-
-    /**
-     * @var Piwik_Segment
-     */
-    private $segment = null;
-
-    /**
      * @return Piwik_Segment
      */
     public function getSegment()
@@ -573,42 +588,8 @@ abstract class Piwik_ArchiveProcessor
         return $this->segment;
     }
 
-    /**
-     * @return Piwik_Site
-     */
-    public function getSite()
+    protected function getRequestedPlugin()
     {
-        return $this->site;
-    }
-
-    public function getPeriod()
-    {
-        return $this->period;
-    }
-
-    /**
-     * @return Piwik_Date
-     */
-    public function getDateEnd()
-    {
-        return $this->getPeriod()->getDateEnd()->setTimezone($this->getSite()->getTimezone());
-    }
-
-    /**
-     * @return Piwik_Date
-     */
-    public function getDateStart()
-    {
-        return $this->getPeriod()->getDateStart()->setTimezone($this->getSite()->getTimezone());
-    }
-
-    public function isArchiveTemporary()
-    {
-        return $this->temporaryArchive;
-    }
-
-    public function getIdArchive()
-    {
-        return $this->idArchive;
+        return $this->requestedPlugin;
     }
 }

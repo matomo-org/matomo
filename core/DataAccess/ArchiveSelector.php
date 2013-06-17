@@ -11,8 +11,19 @@
 
 /**
  * Data Access object used to query archives, create new archives, and insert data for them.
+ *
+ * A record in the Database for a given report is defined by
+ * - idarchive     = unique ID that is associated to all the data of this archive (idsite+period+date)
+ * - idsite        = the ID of the website
+ * - date1         = starting day of the period
+ * - date2         = ending day of the period
+ * - period        = integer that defines the period (day/week/etc.). @see period::getId()
+ * - ts_archived   = timestamp when the archive was processed (UTC)
+ * - name          = the name of the report (ex: uniq_visitors or search_keywords_by_search_engines)
+ * - value         = the actual data (a numeric value, or a blob of compressed serialized data)
+ *
  */
-class Piwik_DataAccess_Archiver
+class Piwik_DataAccess_ArchiveSelector
 {
     const NB_VISITS_RECORD_LOOKED_UP = "nb_visits";
     const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
@@ -58,8 +69,12 @@ class Piwik_DataAccess_Archiver
      */
     static public function getArchiveProcessorLock($idsite, $period, $segment)
     {
+
         $lockName = self::getArchiveProcessorLockName($idsite, $period, $segment);
-        return Piwik_GetDbLock($lockName, $maxRetries = 30);
+        $result = Piwik_GetDbLock($lockName, $maxRetries = 30);
+        if(!$result) {
+            Piwik::log('SELECT GET_LOCK(?, 1) FAILED to acquire lock. Proceeding anyway...');
+        }
     }
 
     /**
@@ -169,7 +184,9 @@ class Piwik_DataAccess_Archiver
     protected static function getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results)
     {
         $visits = $visitsConverted = false;
-        if($idArchiveVisitsSummary !== false) {
+
+        $archiveWithVisitsMetricsWasFound = ($idArchiveVisitsSummary !== false);
+        if($archiveWithVisitsMetricsWasFound) {
             $visits = $visitsConverted = 0;
         }
         foreach ($results as $result) {
