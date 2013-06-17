@@ -378,7 +378,7 @@ abstract class Piwik_ArchiveProcessor
     /**
      * @return Piwik_Date
      */
-    protected function getDateEnd()
+    public function getDateEnd()
     {
         return $this->getPeriod()->getDateEnd()->setTimezone($this->getSite()->getTimezone());
     }
