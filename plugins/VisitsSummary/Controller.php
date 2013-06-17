@@ -20,8 +20,6 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
         $view = Piwik_View::factory('index');
         $this->setPeriodVariablesView($view);
         $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(true, array('nb_visits'));
-        // do not use columns paramter for sparklines
-        unset($_GET['columns']);
         $this->setSparklinesAndNumbers($view);
         echo $view->render();
     }
