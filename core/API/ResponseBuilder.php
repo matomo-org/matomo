@@ -15,6 +15,8 @@
  */
 class Piwik_API_ResponseBuilder
 {
+    const DISPLAY_BACKTRACE_DEBUG = false;
+
     private $request = null;
     private $outputFormat = null;
 
@@ -133,7 +135,6 @@ class Piwik_API_ResponseBuilder
         return $renderer->renderException();
     }
 
-    const DISPLAY_BACKTRACE_DEBUG = false;
 
     /**
      * @param Exception $e

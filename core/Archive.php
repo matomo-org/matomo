@@ -103,6 +103,8 @@ class Piwik_Archive
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
 
     const REQUEST_ALL_WEBSITES_FLAG = 'all';
+    const ARCHIVE_ALL_PLUGINS_FLAG = 'all';
+    const ID_SUBTABLE_LOAD_ALL_SUBTABLES = 'all';
 
     public static function getVisitsMetricNames()
     {
@@ -213,7 +215,7 @@ class Piwik_Archive
 
     const LABEL_ECOMMERCE_CART = 'ecommerceAbandonedCart';
     const LABEL_ECOMMERCE_ORDER = 'ecommerceOrder';
-    
+
     /**
      * List of archive IDs for the site, periods and segment we are querying with.
      * Archive IDs are indexed by done flag and period, ie:
@@ -257,14 +259,6 @@ class Piwik_Archive
      * @var bool
      */
     private $forceIndexedByDate;
-    
-    /**
-     * Cache of Piwik_ArchiveProcessor instances used when launching the archiving
-     * process.
-     * 
-     * @var array
-     */
-    private $processingCache = array();
 
     /**
      * @var Piwik_Archive_Parameters
@@ -284,16 +278,15 @@ class Piwik_Archive
         $this->forceIndexedByDate = $forceIndexedByDate;
     }
 
-
     /**
      * Builds an Archive object using query parameter values.
      *
-     * @param int|string $idSite Integer, or comma separated list of integer site IDs.
+     * @param $idSites
      * @param string $period 'day', 'week', 'month', 'year' or 'range'
      * @param Piwik_Date|string $strDate 'YYYY-MM-DD', magic keywords (ie, 'today'; @see Piwik_Date::factory())
      *                                   or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD').
-     * @param false|string $segment Segment definition - defaults to false for backward compatibility.
-     * @param false|string $_restrictSitesToLogin Used only when running as a scheduled task.
+     * @param bool|string $segment Segment definition - defaults to false for backward compatibility.
+     * @param bool|string $_restrictSitesToLogin Used only when running as a scheduled task.
      * @return Piwik_Archive
      */
     public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
@@ -359,15 +352,16 @@ class Piwik_Archive
         
         return $result;
     }
-    
+
     /**
      * Returns the value of the elements in $names from the current archive.
-     * 
+     *
      * The value to be returned is a blob value and is stored in the archive_blob_* tables.
-     * 
+     *
      * It can return anything from strings, to serialized PHP arrays or PHP objects, etc.
      *
      * @param string|array $names One or more archive names, eg, 'Referers_keywordBySearchEngine'.
+     * @param null $idSubtable
      * @return string|array|false False if no value with the given name, numeric if only one site
      *                            and date and we're not forcing an index, and array if multiple
      *                            sites/dates are queried.
@@ -419,14 +413,14 @@ class Piwik_Archive
      * Piwik_DataTable_Manager::getTable() function.
      *
      * @param string $name The name of the record to get.
-     * @param int|string|null $idSubtable The subtable ID (if any) or 'all' if requesting every datatable.
+     * @param int|string|null $idSubtable The subtable ID (if any) or self::ID_SUBTABLE_LOAD_ALL_SUBTABLES if requesting every datatable.
      * @param bool $addMetadataSubtableId Whether to add the DB subtable ID as metadata to each datatable,
      *                                    or not.
      * @return Piwik_DataTable
      */
     public function getDataTableExpanded($name, $idSubtable = null, $addMetadataSubtableId = true)
     {
-        $data = $this->get($name, 'blob', 'all');
+        $data = $this->get($name, 'blob', self::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
         return $data->getExpandedDataTable($this->getResultIndices(), $idSubtable, $addMetadataSubtableId);
     }
 
@@ -502,7 +496,7 @@ class Piwik_Archive
         
         // apply idSubtable
         if ($idSubtable !== null
-            && $idSubtable != 'all'
+            && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
             foreach ($archiveNames as &$name) {
                 $name .= "_$idSubtable";
@@ -516,8 +510,9 @@ class Piwik_Archive
         if (empty($archiveIds)) {
             return $result;
         }
-        
-        $archiveData = Piwik_DataAccess_ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
+
+        $loadAllSubtables = $idSubtable == self::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
+        $archiveData = Piwik_DataAccess_ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $loadAllSubtables);
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
             $idSite = $row['idsite'];
@@ -643,7 +638,7 @@ class Piwik_Archive
 
                 // process for each plugin as well
                 foreach ($archiveGroups as $plugin) {
-                    if ($plugin == 'all') {
+                    if ($plugin == self::ARCHIVE_ALL_PLUGINS_FLAG) {
                         $plugin = reset($plugins);
                     }
 
@@ -672,7 +667,9 @@ class Piwik_Archive
     {
         $idarchivesByReport = Piwik_DataAccess_ArchiveSelector::getArchiveIds(
             $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
-        
+
+// FIXMEA: this should throw in tests!    throw new Exception("this is tested");
+
         // initialize archive ID cache for each report
         foreach ($plugins as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin);
@@ -789,7 +786,7 @@ class Piwik_Archive
     private function getArchiveGroupOfPlugin($plugin)
     {
         if ($this->getPeriodLabel() != 'range') {
-            return 'all';;
+            return self::ARCHIVE_ALL_PLUGINS_FLAG;
         }
         
         return $plugin;

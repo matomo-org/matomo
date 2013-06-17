@@ -361,9 +361,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
     {
         $siteTimezone = 'America/Toronto';
         $dateLabel = '2011-03-31';
-        $archiveProcessor = $this->_createArchiveProcessor('day', $dateLabel, $siteTimezone);
-
-        $table = $archiveProcessor->getTableArchiveBlobName();
+        $table = Piwik_DataAccess_ArchiveTableCreator::getBlobTable(Piwik_Date::factory($dateLabel));
 
         $data = $this->_getBlobDataInsert();
         try {
@@ -396,9 +394,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
     {
         $siteTimezone = 'America/Toronto';
         $dateLabel = '2011-03-31';
-        $archiveProcessor = $this->_createArchiveProcessor('day', $dateLabel, $siteTimezone);
-
-        $table = $archiveProcessor->getTableArchiveBlobName();
+        $table = Piwik_DataAccess_ArchiveTableCreator::getBlobTable(Piwik_Date::factory($dateLabel));
 
         $data = $this->_getBlobDataInsert();
         Piwik::tableInsertBatchIterate($table, array('idarchive', 'name', 'idsite', 'date1', 'date2', 'period', 'ts_archived', 'value'), $data);

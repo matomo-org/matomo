@@ -174,7 +174,7 @@ class Piwik
             || $currentUrl != $url
         ) {
             if (strlen($currentUrl) >= strlen('http://a/')) {
-                Piwik_SetOption($key, $currentUrl, $autoload = true);
+                Piwik_SetOption($key, $currentUrl, $autoLoad = true);
             }
             $url = $currentUrl;
         }

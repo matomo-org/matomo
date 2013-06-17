@@ -5,55 +5,37 @@
 
 class Piwik_ArchiveProcessor_Rules
 {
-
     const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
+
     const OPTION_BROWSER_TRIGGER_ARCHIVING = 'enableBrowserTriggerArchiving';
-
-    static public function isBrowserTriggerEnabled()
-    {
-        $browserArchivingEnabled = Piwik_GetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING);
-        if ($browserArchivingEnabled !== false) {
-            return (bool)$browserArchivingEnabled;
-        }
-        return (bool)Piwik_Config::getInstance()->General['enable_browser_archiving_triggering'];
-    }
-
-    public static function getTodayArchiveTimeToLive()
-    {
-        $timeToLive = Piwik_GetOption(self::OPTION_TODAY_ARCHIVE_TTL);
-        if ($timeToLive !== false) {
-            return $timeToLive;
-        }
-        return Piwik_Config::getInstance()->General['time_before_today_archive_considered_outdated'];
-    }
-
-    public static function setBrowserTriggerArchiving($enabled)
-    {
-        if (!is_bool($enabled)) {
-            throw new Exception('Browser trigger archiving must be set to true or false.');
-        }
-        Piwik_SetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING, (int)$enabled, $autoload = true);
-        Piwik_Tracker_Cache::clearCacheGeneral();
-    }
-
-    // Old Archives purge can be disabled (used in tests only)
-    static public $purgeDisabledByTests = true;
-
-    // Flag that will forcefully disable the archiving process (used in tests only)
-    public static $archivingDisabledByTests = false;
 
     const FLAG_TABLE_PURGED = 'lastPurge_';
 
-    protected static function isRequestAuthorizedToArchive()
+    /** Old Archives purge can be disabled (used in tests only) */
+    static public $purgeDisabledByTests = true;
+
+    /** Flag that will forcefully disable the archiving process (used in tests only) */
+    public static $archivingDisabledByTests = false;
+
+    /**
+     * Returns the name of the archive field used to tell the status of an archive, (ie,
+     * whether the archive was created successfully or not).
+     *
+     * @param Piwik_Segment $segment
+     * @param string $periodLabel
+     * @param string $plugin
+     * @return string
+     */
+    // FIXMEA: this is called all over the place, not right
+    public static function getDoneStringFlagFor($segment, $periodLabel, $plugin)
     {
-        return !self::$archivingDisabledByTests &&
-            (Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()
-                || Piwik_Common::isPhpCliMode()
-                || (Piwik::isUserIsSuperUser()
-                    && Piwik_Common::isArchivePhpTriggered()));
+        if (!self::shouldProcessReportsAllPlugins($segment, $periodLabel)) {
+            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
+        }
+        return self::getDoneFlagArchiveContainsAllPlugins($segment);
     }
 
-    static public function shouldProcessReportsAllPlugins(Piwik_Segment $segment, $periodLabel)
+    public static function shouldProcessReportsAllPlugins(Piwik_Segment $segment, $periodLabel)
     {
         if ($segment->isEmpty() && $periodLabel != 'range') {
             return true;
@@ -69,6 +51,115 @@ class Piwik_ArchiveProcessor_Rules
             }
         }
         return false;
+    }
+
+    private static function getDoneFlagArchiveContainsOnePlugin(Piwik_Segment $segment, $plugin)
+    {
+        return 'done' . $segment->getHash() . '.' . $plugin;
+    }
+
+    private static function getDoneFlagArchiveContainsAllPlugins(Piwik_Segment $segment)
+    {
+        return 'done' . $segment->getHash();
+    }
+
+    /**
+     * @param array $plugins
+     * @param $segment
+     * @return array
+     */
+    public static function getDoneFlags(array $plugins, $segment)
+    {
+        $doneFlags = array();
+        $doneAllPlugins = self::getDoneFlagArchiveContainsAllPlugins($segment);
+        $doneFlags[$doneAllPlugins] = $doneAllPlugins;
+        foreach ($plugins as $plugin) {
+            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
+            $doneFlags[$plugin] = $doneOnePlugin;
+        }
+        return $doneFlags;
+    }
+
+    /**
+     * Given a monthly archive table, will delete all reports that are now outdated,
+     * or reports that ended with an error
+     */
+    public static function doPurgeOutdatedArchives(Piwik_Date $date)
+    {
+        if (self::$purgeDisabledByTests) {
+            return false;
+        }
+        $key = self::FLAG_TABLE_PURGED . "blob_" . $date->toString('Y_m');
+        $timestamp = Piwik_GetOption($key);
+
+        // we shall purge temporary archives after their timeout is finished, plus an extra 6 hours
+        // in case archiving is disabled or run once a day, we give it this extra time to run
+        // and re-process more recent records...
+        // TODO: Instead of hardcoding 6 we should put the actual number of hours between 2 archiving runs
+        $temporaryArchivingTimeout = self::getTodayArchiveTimeToLive();
+        $purgeEveryNSeconds = max($temporaryArchivingTimeout, 6 * 3600);
+
+        // we only delete archives if we are able to process them, otherwise, the browser might process reports
+        // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
+        // browser is not able to process until next cron run (which could be more than 1 hour away)
+        if (self::isRequestAuthorizedToArchive()
+            && (!$timestamp
+                || $timestamp < time() - $purgeEveryNSeconds)
+        ) {
+            Piwik_SetOption($key, time());
+
+            if (self::isBrowserTriggerEnabled()) {
+                // If Browser Archiving is enabled, it is likely there are many more temporary archives
+                // We delete more often which is safe, since reports are re-processed on demand
+                $purgeArchivesOlderThan = Piwik_Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
+            } else {
+                // If archive.php via Cron is building the reports, we should keep all temporary reports from today
+                $purgeArchivesOlderThan = Piwik_Date::factory('today')->getDateTime();
+            }
+            return $purgeArchivesOlderThan;
+        }
+
+        Piwik::log("Purging temporary archives: skipped.");
+        return false;
+    }
+
+
+    public static function getMinTimeProcessedForTemporaryArchive(Piwik_Date $dateStart, Piwik_Period $period, Piwik_Segment $segment, Piwik_Site $site)
+    {
+        $now = time();
+        $minimumArchiveTime = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
+
+        $isArchivingDisabled = Piwik_ArchiveProcessor_Rules::isArchivingDisabledFor($segment, $period->getLabel());
+        if ($isArchivingDisabled) {
+            if ($period->getNumberOfSubperiods() == 0
+                && $dateStart->getTimestamp() <= $now
+            ) {
+                $minimumArchiveTime = false;
+            } else {
+                // However, if archiving is disabled for this request, we shall
+                // accept any archive that was processed today after 00:00:01 this morning
+                $timezone = $site->getTimezone();
+                $minimumArchiveTime = Piwik_Date::factory(Piwik_Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
+            }
+        }
+        return $minimumArchiveTime;
+    }
+
+    public static function setTodayArchiveTimeToLive($timeToLiveSeconds)
+    {
+        $timeToLiveSeconds = (int)$timeToLiveSeconds;
+        if ($timeToLiveSeconds <= 0) {
+            throw new Exception(Piwik_TranslateException('General_ExceptionInvalidArchiveTimeToLive'));
+        }
+        Piwik_SetOption(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoLoad = true);
+    }
+    public static function getTodayArchiveTimeToLive()
+    {
+        $timeToLive = Piwik_GetOption(self::OPTION_TODAY_ARCHIVE_TTL);
+        if ($timeToLive !== false) {
+            return $timeToLive;
+        }
+        return Piwik_Config::getInstance()->General['time_before_today_archive_considered_outdated'];
     }
 
     public static function isArchivingDisabledFor(Piwik_Segment $segment, $periodLabel)
@@ -95,124 +186,30 @@ class Piwik_ArchiveProcessor_Rules
         return $isArchivingDisabled;
     }
 
-    /**
-     * Returns the name of the archive field used to tell the status of an archive, (ie,
-     * whether the archive was created successfully or not).
-     *
-     * @param Piwik_Segment $segment
-     * @param string $periodLabel
-     * @param string $plugin
-     * @return string
-     */
-    // FIXMEA: this is called all over the place, not right
-    public static function getDoneStringFlagFor($segment, $periodLabel, $plugin)
+    protected static function isRequestAuthorizedToArchive()
     {
-        if (!self::shouldProcessReportsAllPlugins($segment, $periodLabel)) {
-            return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
+        return !self::$archivingDisabledByTests &&
+            (Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()
+                || Piwik_Common::isPhpCliMode()
+                || (Piwik::isUserIsSuperUser()
+                    && Piwik_Common::isArchivePhpTriggered()));
+    }
+
+    public static function isBrowserTriggerEnabled()
+    {
+        $browserArchivingEnabled = Piwik_GetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING);
+        if ($browserArchivingEnabled !== false) {
+            return (bool)$browserArchivingEnabled;
         }
-        return self::getDoneFlagArchiveContainsAllPlugins($segment);
+        return (bool)Piwik_Config::getInstance()->General['enable_browser_archiving_triggering'];
     }
 
-    private static function getDoneFlagArchiveContainsAllPlugins($segment)
+    public static function setBrowserTriggerArchiving($enabled)
     {
-        return 'done' . $segment->getHash();
-    }
-
-    private static function getDoneFlagArchiveContainsOnePlugin($segment, $plugin)
-    {
-        return 'done' . $segment->getHash() . '.' . $plugin;
-    }
-
-    /**
-     * @param array $plugins
-     * @param $segment
-     * @return array
-     */
-    public static function getDoneFlags(array $plugins, $segment)
-    {
-        $doneFlags = array();
-        $doneAllPlugins = self::getDoneFlagArchiveContainsAllPlugins($segment);
-        $doneFlags[$doneAllPlugins] = $doneAllPlugins;
-        foreach ($plugins as $plugin) {
-            $doneOnePlugin = self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
-            $doneFlags[$plugin] = $doneOnePlugin;
+        if (!is_bool($enabled)) {
+            throw new Exception('Browser trigger archiving must be set to true or false.');
         }
-        return $doneFlags;
+        Piwik_SetOption(self::OPTION_BROWSER_TRIGGER_ARCHIVING, (int)$enabled, $autoLoad = true);
+        Piwik_Tracker_Cache::clearCacheGeneral();
     }
-
-    /**
-     * Given a monthly archive table, will delete all reports that are now outdated,
-     * or reports that ended with an error
-     */
-    static public function doPurgeOutdatedArchives($numericTable)
-    {
-        if (self::$purgeDisabledByTests) {
-            return;
-        }
-        $blobTable = str_replace("numeric", "blob", $numericTable);
-        $key = self::FLAG_TABLE_PURGED . $blobTable;
-        $timestamp = Piwik_GetOption($key);
-
-        // we shall purge temporary archives after their timeout is finished, plus an extra 6 hours
-        // in case archiving is disabled or run once a day, we give it this extra time to run
-        // and re-process more recent records...
-        // TODO: Instead of hardcoding 6 we should put the actual number of hours between 2 archiving runs
-        $temporaryArchivingTimeout = self::getTodayArchiveTimeToLive();
-        $purgeEveryNSeconds = max($temporaryArchivingTimeout, 6 * 3600);
-
-        // we only delete archives if we are able to process them, otherwise, the browser might process reports
-        // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
-        // browser is not able to process until next cron run (which could be more than 1 hour away)
-        if (self::isRequestAuthorizedToArchive()
-            && (!$timestamp
-                || $timestamp < time() - $purgeEveryNSeconds)
-        ) {
-            Piwik_SetOption($key, time());
-
-            // If Browser Archiving is enabled, it is likely there are many more temporary archives
-            // We delete more often which is safe, since reports are re-processed on demand
-            if (self::isBrowserTriggerEnabled()) {
-                $purgeArchivesOlderThan = Piwik_Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
-            } // If archive.php via Cron is building the reports, we should keep all temporary reports from today
-            else {
-                $purgeArchivesOlderThan = Piwik_Date::factory('today')->getDateTime();
-            }
-            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives($numericTable, $blobTable, $purgeArchivesOlderThan);
-            // these tables will be OPTIMIZEd daily in a scheduled task, to claim lost space
-        } else {
-            Piwik::log("Purging temporary archives: skipped.");
-        }
-    }
-
-    public static function setTodayArchiveTimeToLive($timeToLiveSeconds)
-    {
-        $timeToLiveSeconds = (int)$timeToLiveSeconds;
-        if ($timeToLiveSeconds <= 0) {
-            throw new Exception(Piwik_TranslateException('General_ExceptionInvalidArchiveTimeToLive'));
-        }
-        Piwik_SetOption(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoload = true);
-    }
-
-    static public function getMinTimeProcessedForTemporaryArchive(Piwik_Date $dateStart, Piwik_Period $period, Piwik_Segment $segment,
-                                                       Piwik_Site $site)
-    {
-        $now = time();
-        $minimumArchiveTime = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
-
-        $isArchivingDisabled = Piwik_ArchiveProcessor_Rules::isArchivingDisabledFor($segment, $period->getLabel());
-        if ($isArchivingDisabled) {
-            if ($period->getNumberOfSubperiods() == 0
-                && $dateStart->getTimestamp() <= $now
-            ) {
-                $minimumArchiveTime = false;
-            } else {
-                // However, if archiving is disabled for this request, we shall
-                // accept any archive that was processed today after 00:00:01 this morning
-                $timezone = $site->getTimezone();
-                $minimumArchiveTime = Piwik_Date::factory(Piwik_Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
-            }
-        }
-        return $minimumArchiveTime;
-    }
-
 }

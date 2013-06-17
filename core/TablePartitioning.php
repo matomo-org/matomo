@@ -114,7 +114,7 @@ class Piwik_TablePartitioning_Monthly extends Piwik_TablePartitioning
      * 
      * @param Piwik_Date
      */
-    public static function createArchiveTablesIfAbsent($dateInMonth)
+    public static function createArchiveTablesIfAbsent(Piwik_Date $dateInMonth)
     {
         $timestamp = $dateInMonth->getTimestamp();
         

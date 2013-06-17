@@ -130,8 +130,6 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
     protected function compute()
     {
         Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);
-
-        Piwik_ArchiveProcessor_Rules::doPurgeOutdatedArchives($this->getTableArchiveNumericName());
     }
 
     protected function aggregateCoreVisitsMetrics()
@@ -181,15 +179,14 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
 
         if (array_key_exists('nb_uniq_visitors', $results)) {
             if (Piwik::isUniqueVisitorsEnabled($this->getPeriod()->getLabel())) {
-                $value = (float)$this->computeNbUniqVisitors();
-                $this->insertRecord('nb_uniq_visitors', $value);
+                $results['nb_uniq_visitors'] = (float)$this->computeNbUniqVisitors();
             } else {
                 unset($results['nb_uniq_visitors']);
             }
         }
 
         foreach ($results as $name => $value) {
-            $this->insertRecord($name, $value);
+            $this->archiveWriter->insertRecord($name, $value);
         }
 
         // if asked for only one field to sum
