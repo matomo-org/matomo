@@ -19,7 +19,15 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
     {
         $view = Piwik_View::factory('index');
         $this->setPeriodVariablesView($view);
-        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(true, array('nb_visits'));
+        
+        // if the columns parameter parameter is set, we need to pass an empty array
+        // to getEvolutionGraph() because otherwise we would override it and restoring
+        // the selected metrics on the dashboard wouldn't work.
+        $columnsParameter = Piwik_Common::getRequestVar('columns', false);
+        $columnsParameterIsSet = !empty($columnsParameter);
+        $columns = $columnsParameterIsSet ? array() : array('nb_visits');
+        $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(true, $columns);
+        
         $this->setSparklinesAndNumbers($view);
         echo $view->render();
     }
@@ -92,7 +100,10 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
             "&format=original" .
             // we disable filters for example "search for pattern", in the case this method is called
             // by a method that already calls the API with some generic filters applied
-            "&disable_generic_filters=1";
+            "&disable_generic_filters=1" . 
+            // override the columns parameter that might be there in the $_GET array because a non-empty 
+            // value would cause an error
+            "&columns=";
         $request = new Piwik_API_Request($requestString);
         $result = $request->process();
         return empty($result) ? new Piwik_DataTable() : $result;
