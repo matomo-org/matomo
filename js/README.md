@@ -1,4 +1,4 @@
-## Introduction 
+## Introduction
 
 The js/ folder contains:
 
