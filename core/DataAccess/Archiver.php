@@ -17,14 +17,12 @@ class Piwik_DataAccess_Archiver
     const NB_VISITS_RECORD_LOOKED_UP = "nb_visits";
     const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
-    public static function deletePreviousArchiveStatus($numericTable, $requestedPlugin, $segment, $period, $idArchive)
+    public static function deletePreviousArchiveStatus($numericTable, $done, $idArchive)
     {
-        $done = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($segment, $period->getLabel(), $requestedPlugin);
         Piwik_Query("DELETE FROM " . $numericTable . "
 					WHERE idarchive = ? AND (name = '" . $done . "' OR name LIKE '" . self::PREFIX_SQL_LOCK . "%')",
             array($idArchive)
         );
-        return $done;
     }
 
     /**

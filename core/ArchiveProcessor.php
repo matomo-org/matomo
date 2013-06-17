@@ -212,24 +212,32 @@ abstract class Piwik_ArchiveProcessor
             }
         }
 
+        return $this->computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly, $doesRequestedPluginIncludeVisitsSummary);
+    }
+
+    /**
+     * @param $requestedPlugin
+     * @param $enforceProcessCoreMetricsOnly
+     * @param $doesRequestedPluginIncludeVisitsSummary
+     * @return mixed
+     */
+    protected function computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly, $doesRequestedPluginIncludeVisitsSummary)
+    {
         if (!Piwik_DataAccess_Archiver::getArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment())) {
-            Piwik::log('Unable to get lock for idSite = ' . $this->getSite()->getId()
-                . ', period = ' . $this->getPeriod()->getLabel()
-                . ', UTC datetime [' . $this->getDateStart()->getDateStartUTC() . ' -> ' . $this->getDateEnd()->getDateEndUTC() . ' ]...');
-            return;
+            Piwik::log('SELECT GET_LOCK(?, 1) FAILED to acquire lock. Proceeding anyway...');
         }
 
         $this->idArchive = Piwik_DataAccess_Archiver::allocateNewArchiveId($this->getTableArchiveNumericName(), $this->getSite()->getId());
 
         $doneFlag = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($this->getSegment(), $this->getPeriod()->getLabel(), $requestedPlugin);
-//        var_dump($requestedPlugin); var_dump($doneFlag); var_dump($this->getSegment()->getString());
         $this->insertNumericRecord($doneFlag, Piwik_ArchiveProcessor::DONE_ERROR);
 
         $visitsNotKnownYet = $this->getNumberOfVisits() === false;
 
         if ($visitsNotKnownYet
             || $doesRequestedPluginIncludeVisitsSummary
-            || $enforceProcessCoreMetricsOnly) {
+            || $enforceProcessCoreMetricsOnly
+        ) {
             $metrics = $this->aggregateCoreVisitsMetrics();
 
             if (empty($metrics)) {
@@ -254,17 +262,18 @@ abstract class Piwik_ArchiveProcessor
         ));
 
         if ($this->getNumberOfVisits() > 0
-            && !$enforceProcessCoreMetricsOnly) {
+            && !$enforceProcessCoreMetricsOnly
+        ) {
             $this->compute();
         }
 
-        $done = Piwik_DataAccess_Archiver::deletePreviousArchiveStatus($this->getTableArchiveNumericName(), $requestedPlugin, $this->getSegment(), $this->getPeriod(), $this->getIdArchive());
+        Piwik_DataAccess_Archiver::deletePreviousArchiveStatus($this->getTableArchiveNumericName(), $doneFlag, $this->getIdArchive());
 
         $flag = Piwik_ArchiveProcessor::DONE_OK;
         if ($this->isArchiveTemporary()) {
             $flag = Piwik_ArchiveProcessor::DONE_OK_TEMPORARY;
         }
-        $this->insertNumericRecord($done, $flag);
+        $this->insertNumericRecord($doneFlag, $flag);
 
         Piwik_DataAccess_Archiver::releaseArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment());
 

@@ -689,9 +689,6 @@ class Piwik_Archive
     
     /**
      * Returns the done string flag for a plugin using this instance's segment & periods.
-     * 
-     * @see Piwik_ArchiveProcessor::getDoneStringFlagFor
-     * 
      * @param string $plugin
      * @return string
      */
