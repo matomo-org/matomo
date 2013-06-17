@@ -206,7 +206,7 @@ Segmentation = (function($) {
                             + ' ' + self.translations['General_DefaultAppended']
                             + '</span></li> ';
             if(self.availableSegments.length > 0) {
-                for(var key in self.availableSegments)
+                for(var key = 0; key < self.availableSegments.length; key++)
                 {
                     segment = self.availableSegments[key];
                     injClass = "";
@@ -247,7 +247,8 @@ Segmentation = (function($) {
                         + '">' + self.translations['SegmentEditor_AddNewSegment']
                         + '</option>';
             segmentsDropdown.append(newOption);
-            for(var key in self.availableSegments)
+            
+            for(var key = 0; key < self.availableSegments.length; key++)
             {
                 segment = self.availableSegments[key];
                 newOption = '<option data-idsegment="'+segment.idsegment+'" data-definition="'+(segment.definition).replace(/"/g, '&quot;')+'" title="'+segment.name+'">'+self.shortenSegmentName(segment.name)+'</option>';
