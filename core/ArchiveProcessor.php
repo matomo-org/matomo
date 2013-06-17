@@ -182,10 +182,6 @@ abstract class Piwik_ArchiveProcessor
 
         $this->setRequestedPlugin($requestedPlugin);
 
-        $processAllReportsIncludingVisitsSummary = Piwik_ArchiveProcessor_Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel());
-
-        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary || $requestedPlugin == 'VisitsSummary';
-
         if( !$enforceProcessCoreMetricsOnly ) {
             $this->idArchive = $this->loadExistingArchiveIdFromDb($requestedPlugin);
             if ($this->isArchivingForcedToTrigger()) {
@@ -198,7 +194,7 @@ abstract class Piwik_ArchiveProcessor
 
             $visitsNotKnownYet = $this->getNumberOfVisits() === false;
 
-            $createAnotherArchiveForVisitsSummary = !$doesRequestedPluginIncludeVisitsSummary && $visitsNotKnownYet;
+            $createAnotherArchiveForVisitsSummary = !$this->doesRequestedPluginIncludeVisitsSummary($requestedPlugin) && $visitsNotKnownYet;
 
             if ($createAnotherArchiveForVisitsSummary) {
                 // recursive archive creation in case we create another separate one, for VisitsSummary core metrics
@@ -212,16 +208,23 @@ abstract class Piwik_ArchiveProcessor
             }
         }
 
-        return $this->computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly, $doesRequestedPluginIncludeVisitsSummary);
+        return $this->computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly);
+    }
+
+    protected function doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
+    {
+        $processAllReportsIncludingVisitsSummary = Piwik_ArchiveProcessor_Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel());
+
+        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary || $requestedPlugin == 'VisitsSummary';
+        return $doesRequestedPluginIncludeVisitsSummary;
     }
 
     /**
      * @param $requestedPlugin
      * @param $enforceProcessCoreMetricsOnly
-     * @param $doesRequestedPluginIncludeVisitsSummary
      * @return mixed
      */
-    protected function computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly, $doesRequestedPluginIncludeVisitsSummary)
+    protected function computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly)
     {
         if (!Piwik_DataAccess_Archiver::getArchiveProcessorLock($this->getSite()->getId(), $this->getPeriod(), $this->getSegment())) {
             Piwik::log('SELECT GET_LOCK(?, 1) FAILED to acquire lock. Proceeding anyway...');
@@ -235,7 +238,7 @@ abstract class Piwik_ArchiveProcessor
         $visitsNotKnownYet = $this->getNumberOfVisits() === false;
 
         if ($visitsNotKnownYet
-            || $doesRequestedPluginIncludeVisitsSummary
+            || $this->doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
             || $enforceProcessCoreMetricsOnly
         ) {
             $metrics = $this->aggregateCoreVisitsMetrics();
