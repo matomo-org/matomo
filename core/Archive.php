@@ -668,8 +668,6 @@ class Piwik_Archive
         $idarchivesByReport = Piwik_DataAccess_ArchiveSelector::getArchiveIds(
             $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
 
-// FIXMEA: this should throw in tests!    throw new Exception("this is tested");
-
         // initialize archive ID cache for each report
         foreach ($plugins as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin);

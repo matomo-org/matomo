@@ -27,13 +27,14 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
      * The summed value is not accurate and these columns will be renamed accordingly.
      * @var array
      */
-    static public $invalidSummedColumnNameToRenamedName = array(
+    protected static $invalidSummedColumnNameToRenamedName = array(
         Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS
     );
+
     /**
      * @var Piwik_Archive
      */
-    public $archiver = null;
+    protected $archiver = null;
 
     /**
      * This method will compute the sum of DataTables over the period for the given fields $recordNames.
@@ -92,6 +93,14 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
         return $nameToCount;
     }
 
+    protected function initArchiver()
+    {
+        if (empty($this->archiver)) {
+            $subPeriods = $this->getPeriod()->getSubperiods();
+            $this->archiver = Piwik_Archive::factory($this->getSegment(), $subPeriods, array($this->getSite()->getId()));
+        }
+    }
+
     /**
      * This method selects all DataTables that have the name $name over the period.
      * It calls the appropriate methods that sum all these tables together.
@@ -110,7 +119,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
         }
 
         $data = $this->archiver->getDataTableExpanded($name, $idSubTable = null, $addMetadataSubtableId = false);
-        if($data instanceof Piwik_DataTable_Array) {
+        if ($data instanceof Piwik_DataTable_Array) {
             foreach ($data->getArray() as $date => $tableToSum) {
                 $table->addDataTable($tableToSum);
             }
@@ -155,35 +164,13 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
         if (!is_array($columns)) {
             $columns = array($columns);
         }
-
-        $operationForColumn = array();
-        foreach ($columns as $name) {
-            $operation = $operationToApply;
-            if (empty($operation)) {
-                $operation = $this->guessOperationForColumn($name);
-            }
-            $operationForColumn[$name] = $operation;
-        }
-
-        // data will be array mapping each period w/ result row for period
         $this->initArchiver();
         $data = $this->archiver->getNumeric($columns);
+
+        $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
         $results = $this->aggregateDataArray($data, $operationForColumn);
-
-        // set default for metrics that weren't found
-        foreach ($columns as $name) {
-            if (!isset($results[$name])) {
-                $results[$name] = 0;
-            }
-        }
-
-        if (array_key_exists('nb_uniq_visitors', $results)) {
-            if (Piwik::isUniqueVisitorsEnabled($this->getPeriod()->getLabel())) {
-                $results['nb_uniq_visitors'] = (float)$this->computeNbUniqVisitors();
-            } else {
-                unset($results['nb_uniq_visitors']);
-            }
-        }
+        $results = $this->defaultColumnsToZero($columns, $results);
+        $this->enrichWithUniqueVisitorsMetric($results);
 
         foreach ($results as $name => $value) {
             $this->archiveWriter->insertRecord($name, $value);
@@ -198,33 +185,24 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
         return $results;
     }
 
-    protected function guessOperationForColumn($column)
+    protected function getOperationForColumns($columns, $defaultOperation)
     {
-        if (strpos($column, 'max_') === 0) {
-            return 'max';
+        $operationForColumn = array();
+        foreach ($columns as $name) {
+            $operation = $defaultOperation;
+            if (empty($operation)) {
+                $operation = $this->guessOperationForColumn($name);
+            }
+            $operationForColumn[$name] = $operation;
         }
-        if (strpos($column, 'min_') === 0) {
-            return 'min';
-        }
-        if ($column === 'nb_uniq_visitors') {
-            return false;
-        }
-        return 'sum';
-    }
-
-    protected function initArchiver()
-    {
-        if (empty($this->archiver)) {
-            $subPeriods = $this->getPeriod()->getSubperiods();
-            $this->archiver = Piwik_Archive::factory($this->getSegment(), $subPeriods, array( $this->getSite()->getId() ));
-        }
+        return $operationForColumn;
     }
 
     protected function aggregateDataArray(array $data, array $operationForColumn)
     {
         $results = array();
         foreach ($data as $row) {
-            if(!is_array($row)) {
+            if (!is_array($row)) {
                 // this is not a data array to aggregate
                 return $data;
             }
@@ -265,6 +243,41 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
         return $results;
     }
 
+    protected function defaultColumnsToZero($columns, $results)
+    {
+        foreach ($columns as $name) {
+            if (!isset($results[$name])) {
+                $results[$name] = 0;
+            }
+        }
+        return $results;
+    }
+
+    protected function enrichWithUniqueVisitorsMetric(&$results)
+    {
+        if (array_key_exists('nb_uniq_visitors', $results)) {
+            if (Piwik::isUniqueVisitorsEnabled($this->getPeriod()->getLabel())) {
+                $results['nb_uniq_visitors'] = (float)$this->computeNbUniqVisitors();
+            } else {
+                unset($results['nb_uniq_visitors']);
+            }
+        }
+    }
+
+    protected function guessOperationForColumn($column)
+    {
+        if (strpos($column, 'max_') === 0) {
+            return 'max';
+        }
+        if (strpos($column, 'min_') === 0) {
+            return 'min';
+        }
+        if ($column === 'nb_uniq_visitors') {
+            return false;
+        }
+        return 'sum';
+    }
+
     /**
      * Processes number of unique visitors for the given period
      *
@@ -280,5 +293,4 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
         $data = $query->fetch();
         return $data[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
     }
-
 }

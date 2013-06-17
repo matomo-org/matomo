@@ -17,8 +17,8 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     // the number of archive entries for a single metric if no purging is done. this #
     // is dependent on the number of periods for which there were visits.
-    const JAN_METRIC_ARCHIVE_COUNT = 9; // 5 days + 4 weeks + 1 month + 1 year
-    const FEB_METRIC_ARCHIVE_COUNT = 10; // 6 days + 4 weeks + 1 month
+    const JAN_METRIC_ARCHIVE_COUNT = 11; // 5 days + 4 weeks + 1 month + 1 year
+    const FEB_METRIC_ARCHIVE_COUNT = 11; // 6 days + 4 weeks + 1 month
 
     // fake metric/report name used to make sure unwanted metrics are purged
     const GARBAGE_FIELD = 'abcdefg';
@@ -352,7 +352,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = -2;
+        $unexplained = 0;//-2;
         $expectedPrediction = array(
             Piwik_Common::prefixTable('log_conversion')          => 6,
             Piwik_Common::prefixTable('log_link_visit_action')   => 6,
@@ -389,7 +389,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = -2;
+        $unexplained = 0;//-2;
         $expectedPrediction = array(
             Piwik_Common::prefixTable('log_conversion')          => 6,
             Piwik_Common::prefixTable('log_link_visit_action')   => 6,
@@ -425,7 +425,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         // get purge data prediction
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
 
-        $unexplained = -1;
+        $unexplained = 0;//-1;
         // perform checks on prediction
         $expectedPrediction = array(
             Piwik_Common::prefixTable('log_conversion')          => 6,
@@ -444,7 +444,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 0);
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1);
     }
 
     /**
@@ -463,7 +463,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = -1;
+        $unexplained = 0;//-1;
         $expectedPrediction = array(
             Piwik_Common::prefixTable('log_conversion')          => 6,
             Piwik_Common::prefixTable('log_link_visit_action')   => 6,
@@ -481,7 +481,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 0);
+        $this->_checkReportsAndMetricsPurged($janBlobsRemaining = 1);
     }
 
     /**
@@ -532,7 +532,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = -2;
+        $unexplained = 0;//-2;
         $expectedPrediction = array(
             Piwik_Common::prefixTable('log_conversion')          => 6,
             Piwik_Common::prefixTable('log_link_visit_action')   => 6,
@@ -570,7 +570,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $prediction = Piwik_PrivacyManager::getPurgeEstimate();
 
         // perform checks on prediction
-        $unexplained = -2;
+        $unexplained = 0;//-2;
         $expectedPrediction = array(
             Piwik_Common::prefixTable('log_conversion')          => 6,
             Piwik_Common::prefixTable('log_link_visit_action')   => 6,
@@ -655,10 +655,9 @@ class PrivacyManagerTest extends IntegrationTestCase
         $date = Piwik_Date::factory(self::$dateTime);
 
         $archive = Piwik_Archive::build(self::$idSite, 'year', $date);
-        var_dump($archive->getNumeric('nb_visits', 'nb_hits'));
 
         Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
-        Piwik_Goals_API::getInstance()->get(self::$idSite, 'month', $date, $segment = false, self::$idSite);
+//        Piwik_Goals_API::getInstance()->get(self::$idSite, 'month', $date, $segment = false, self::$idSite);
 
         // months are added via the 'year' period, but weeks must be done manually
         for ($daysAgo = self::$daysAgoStart; $daysAgo > 0; $daysAgo -= 7) // every week
