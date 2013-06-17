@@ -399,7 +399,7 @@ class Piwik_ArchiveProcessing_Period extends Piwik_ArchiveProcessing
             $result = Piwik_FetchAll("
 				SELECT idarchive
 				FROM $numericTable
-				WHERE name LIKE 'done%'
+				WHERE name LIKE '".Piwik_ArchiveProcessing::ARCHIVE_NAME_DONE_FLAG."%'
 					AND ((  value = " . Piwik_ArchiveProcessing::DONE_OK_TEMPORARY . "
 						    AND ts_archived < ?)
 						 OR value = " . Piwik_ArchiveProcessing::DONE_ERROR . ")",

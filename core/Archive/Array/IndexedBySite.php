@@ -211,11 +211,13 @@ class Piwik_Archive_Array_IndexedBySite extends Piwik_Archive_Array
         // if it was completed
         $doneFlags = array();
         foreach ($metrics as $metric) {
-            $done = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $period, $metric);
-            $donePlugins = Piwik_ArchiveProcessing::getDoneStringFlagFor($segment, $period, $metric, true);
-
+            $done = Piwik_ArchiveProcessing::getDoneArchiveContainsAllPlugins($segment);
             $doneFlags[$done] = $done;
-            $doneFlags[$donePlugins] = $donePlugins;
+            try {
+                $donePlugins = Piwik_ArchiveProcessing::getDoneArchiveContainsOnePlugin($segment, $metric);
+                $doneFlags[$donePlugins] = $donePlugins;
+            } catch(Exception $e) {
+            }
         }
 
         $allDoneFlags = "'" . implode("','", $doneFlags) . "'";

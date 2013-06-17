@@ -30,6 +30,8 @@
  */
 abstract class Piwik_ArchiveProcessing
 {
+
+
     /**
      * Flag stored at the end of the archiving
      *
@@ -58,6 +60,8 @@ abstract class Piwik_ArchiveProcessing
      * @var string
      */
     const PREFIX_SQL_LOCK = "locked_";
+
+    const ARCHIVE_NAME_DONE_FLAG = 'done';
 
     /**
      * Idarchive in the DB for the requested archive
@@ -501,13 +505,12 @@ abstract class Piwik_ArchiveProcessing
      * Returns the name of the archive field used to tell the status of an archive, (ie,
      * whether the archive was created successfully or not).
      *
-     * @param bool $flagArchiveAsAllPlugins
      * @return string
      */
-    public function getDoneStringFlag($flagArchiveAsAllPlugins = false)
+    public function getDoneStringFlag()
     {
         return self::getDoneStringFlagFor(
-            $this->getSegment(), $this->period, $this->getRequestedReport(), $flagArchiveAsAllPlugins);
+            $this->getSegment(), $this->period, $this->getRequestedReport());
     }
 
     /**
@@ -520,19 +523,23 @@ abstract class Piwik_ArchiveProcessing
      * @param bool $flagArchiveAsAllPlugins
      * @return string
      */
-    public static function getDoneStringFlagFor($segment, $period, $requestedReport, $flagArchiveAsAllPlugins = false)
+    public static function getDoneStringFlagFor($segment, $period, $requestedReport)
     {
-        $segmentHash = $segment->getHash();
         if (!self::shouldProcessReportsAllPluginsFor($segment, $period)) {
-            $pluginProcessed = self::getPluginBeingProcessed($requestedReport);
-            if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginProcessed)
-                || $flagArchiveAsAllPlugins
-            ) {
-                $pluginProcessed = 'all';
-            }
-            $segmentHash .= '.' . $pluginProcessed;
+            return self::getDoneArchiveContainsOnePlugin($segment, $requestedReport);
         }
-        return 'done' . $segmentHash;
+        return self::getDoneArchiveContainsAllPlugins($segment);
+    }
+
+    public static function getDoneArchiveContainsAllPlugins($segment)
+    {
+        return self::ARCHIVE_NAME_DONE_FLAG . $segment->getHash();
+    }
+
+    public static function getDoneArchiveContainsOnePlugin($segment, $requestedReport)
+    {
+        $pluginProcessed = self::getPluginBeingProcessed($requestedReport);
+        return self::ARCHIVE_NAME_DONE_FLAG . $segment->getHash() . '.' . $pluginProcessed;
     }
 
     /**
@@ -883,28 +890,24 @@ abstract class Piwik_ArchiveProcessing
             $bindSQL[] = Piwik_Date::factory($this->minDatetimeArchiveProcessedUTC)->getDatetime();
         }
 
-        // When a Segment is specified, we try and only process the requested report in the archive
-        // As a limitation, we don't know all the time which plugin should process which report
-        // There is a catch all flag 'all' appended to archives containing all reports already
-        // We look for this 'done.ABCDEFG.all', or for an archive that contains only our plugin data 'done.ABDCDEFG.Referers'
-        $done = $this->getDoneStringFlag();
-        $doneAllPluginsProcessed = $this->getDoneStringFlag($flagArchiveAsAllPlugins = true);
-
-        $sqlSegmentsFindArchiveAllPlugins = '';
-
-        if ($done != $doneAllPluginsProcessed) {
-            $sqlSegmentsFindArchiveAllPlugins = "OR (name = '" . $doneAllPluginsProcessed . "' AND value = " . Piwik_ArchiveProcessing::DONE_OK . ")
-					OR (name = '" . $doneAllPluginsProcessed . "' AND value = " . Piwik_ArchiveProcessing::DONE_OK_TEMPORARY . ")";
+        $doneOnePluginSql = '';
+        try {
+            $doneOnePlugin = $this->getDoneArchiveContainsOnePlugin($this->getSegment(), $this->getRequestedReport());
+            $doneOnePluginSql = " OR (name = '" . $doneOnePlugin . "' AND value = " . Piwik_ArchiveProcessing::DONE_OK . ")
+                OR (name = '" . $doneOnePlugin . "' AND value = " . Piwik_ArchiveProcessing::DONE_OK_TEMPORARY . ")";
+        } catch(Exception $e){
         }
+        $doneAllPlugins = $this->getDoneArchiveContainsAllPlugins($this->getSegment());
+
         $sqlQuery = "	SELECT idarchive, value, name, date1 as startDate
 						FROM " . $this->tableArchiveNumeric->getTableName() . "
 						WHERE idsite = ?
 							AND date1 = ?
 							AND date2 = ?
 							AND period = ?
-							AND ( (name = '" . $done . "' AND value = " . Piwik_ArchiveProcessing::DONE_OK . ")
-									OR (name = '" . $done . "' AND value = " . Piwik_ArchiveProcessing::DONE_OK_TEMPORARY . ")
-									$sqlSegmentsFindArchiveAllPlugins
+							AND ( (name = '" . $doneAllPlugins . "' AND value = " . Piwik_ArchiveProcessing::DONE_OK . ")
+									OR (name = '" . $doneAllPlugins . "' AND value = " . Piwik_ArchiveProcessing::DONE_OK_TEMPORARY . ")
+									$doneOnePluginSql
 									OR name = 'nb_visits')
 							$timeStampWhere
 						ORDER BY idarchive DESC";
@@ -916,8 +919,8 @@ abstract class Piwik_ArchiveProcessing
         $idarchive = false;
         // we look for the more recent idarchive
         foreach ($results as $result) {
-            if ($result['name'] == $done
-                || $result['name'] == $doneAllPluginsProcessed
+            if ($result['name'] == $doneAllPlugins
+                || $result['name'] == $doneOnePlugin
             ) {
                 $idarchive = $result['idarchive'];
                 $this->timestampDateStart = Piwik_Date::factory($result['startDate'])->getTimestamp();
