@@ -329,7 +329,7 @@ Segmentation = (function($) {
         {
             var blocks;
             blocks = segmentStr.split(";");
-            for(var key in blocks){
+            for(var key = 0; key < blocks.length; key++){
                 blocks[key] = blocks[key].split(",");
                 for(var innerkey = 0; innerkey < blocks[key].length; innerkey++){
                     blocks[key][innerkey] = findAndExplodeByMatch(blocks[key][innerkey]);
@@ -351,7 +351,7 @@ Segmentation = (function($) {
             if(segment.definition != ""){
                 revokeInitialStateRows();
                 var blocks = parseSegmentStr(segment.definition);
-                for(var key in blocks){
+                for(var key = 0; key < blocks.length; key++){
                     appendComplexRowHtml(blocks[key]);
                 }
                 $(self.form).find(".segment-content").append(getAddNewBlockButtonHtml());
