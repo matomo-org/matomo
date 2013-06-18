@@ -16,18 +16,31 @@
 class Piwik_DataAccess_LogAggregator
 {
     const LOG_VISIT_TABLE = 'log_visit';
+
     const LOG_ACTIONS_TABLE = 'log_link_visit_action';
+
     const LOG_CONVERSION_TABLE = "log_conversion";
+
     const REVENUE_SUBTOTAL_FIELD = 'revenue_subtotal';
+
     const REVENUE_TAX_FIELD = 'revenue_tax';
+
     const REVENUE_SHIPPING_FIELD = 'revenue_shipping';
+
     const REVENUE_DISCOUNT_FIELD = 'revenue_discount';
+
     const TOTAL_REVENUE_FIELD = 'revenue';
+
     const ITEMS_COUNT_FIELD = "items";
+
     const CONVERSION_DATETIME_FIELD = "server_time";
+
     const ACTION_DATETIME_FIELD = "server_time";
+
     const VISIT_DATETIME_FIELD = 'visit_last_action_time';
+
     const IDGOAL_FIELD = 'idgoal';
+
     const FIELDS_SEPARATOR = ", \n\t\t\t";
 
     /** @var \Piwik_Date */

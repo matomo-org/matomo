@@ -26,6 +26,7 @@
 class Piwik_DataAccess_ArchiveSelector
 {
     const NB_VISITS_RECORD_LOOKED_UP = "nb_visits";
+
     const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
     static public function getArchiveIdAndVisits(Piwik_Site $site, Piwik_Period $period, Piwik_Segment $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin)
@@ -46,7 +47,6 @@ class Piwik_DataAccess_ArchiveSelector
         $pluginOrVisitsSummary = array("VisitsSummary", $requestedPlugin);
         $pluginOrVisitsSummary = array_unique($pluginOrVisitsSummary);
         $sqlWhereArchiveName = self::getNameCondition($pluginOrVisitsSummary, $segment);
-
 
         $sqlQuery = "	SELECT idarchive, value, name, date1 as startDate
 						FROM " . Piwik_DataAccess_ArchiveTableCreator::getNumericTable($dateStart) . "``
@@ -69,8 +69,9 @@ class Piwik_DataAccess_ArchiveSelector
 
         list($visits, $visitsConverted) = self::getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results);
 
-        if($visits === false
-            && $idArchive === false) {
+        if ($visits === false
+            && $idArchive === false
+        ) {
             return false;
         }
 
@@ -81,18 +82,20 @@ class Piwik_DataAccess_ArchiveSelector
     {
         $visits = $visitsConverted = false;
         $archiveWithVisitsMetricsWasFound = ($idArchiveVisitsSummary !== false);
-        if($archiveWithVisitsMetricsWasFound) {
+        if ($archiveWithVisitsMetricsWasFound) {
             $visits = $visitsConverted = 0;
         }
         foreach ($results as $result) {
             if (in_array($result['idarchive'], array($idArchive, $idArchiveVisitsSummary))) {
                 $value = (int)$result['value'];
                 if (empty($visits)
-                    && $result['name'] == self::NB_VISITS_RECORD_LOOKED_UP) {
+                    && $result['name'] == self::NB_VISITS_RECORD_LOOKED_UP
+                ) {
                     $visits = $value;
                 }
                 if (empty($visitsConverted)
-                    && $result['name'] == self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP) {
+                    && $result['name'] == self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP
+                ) {
                     $visitsConverted = $value;
                 }
             }
@@ -117,7 +120,7 @@ class Piwik_DataAccess_ArchiveSelector
 
     /**
      * Queries and returns archive IDs for a set of sites, periods, and a segment.
-     * 
+     *
      * @param array $siteIds
      * @param array $periods
      * @param Piwik_Segment $segment
@@ -135,8 +138,8 @@ class Piwik_DataAccess_ArchiveSelector
                                FROM %s
                               WHERE period = ?
                                 AND %s
-                                AND ". self::getNameCondition($plugins, $segment) ."
-                                AND idsite IN (".implode(',', $siteIds).")
+                                AND " . self::getNameCondition($plugins, $segment) . "
+                                AND idsite IN (" . implode(',', $siteIds) . ")
                            GROUP BY idsite, date1, date2";
 
         $monthToPeriods = array();
@@ -162,23 +165,23 @@ class Piwik_DataAccess_ArchiveSelector
                 foreach ($periods as $period) {
                     $dateStrs[] = $period->getDateStart()->toString('Y-m-d');
                 }
-                
-                $dateCondition = "date1 IN ('".implode("','", $dateStrs)."')";
+
+                $dateCondition = "date1 IN ('" . implode("','", $dateStrs) . "')";
             }
-            
+
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
-            
+
             // get the archive IDs
             foreach (Piwik_FetchAll($sql, $bind) as $row) {
                 $archiveName = $row['name'];
 
                 //FIXMEA duplicate with Archive.php
-                $dateStr = $row['date1'].",".$row['date2'];
-                
+                $dateStr = $row['date1'] . "," . $row['date2'];
+
                 $result[$archiveName][$dateStr][] = $row['idarchive'];
             }
         }
-        
+
         return $result;
     }
 
@@ -198,14 +201,14 @@ class Piwik_DataAccess_ArchiveSelector
         $inNames = Piwik_Common::getSqlStringFieldsArray($recordNames);
         if ($loadAllSubtables) {
             $name = reset($recordNames);
-            
+
             // select blobs w/ name like "$name_[0-9]+" w/o using RLIKE
             $nameEnd = strlen($name) + 2;
             $whereNameIs = "(name = ?
                             OR (name LIKE ?
                                  AND SUBSTRING(name, $nameEnd, 1) >= '0'
                                  AND SUBSTRING(name, $nameEnd, 1) <= '9') )";
-            $bind = array($name, $name.'%');
+            $bind = array($name, $name . '%');
         } else {
             $whereNameIs = "name IN ($inNames)";
             $bind = array_values($recordNames);
@@ -219,12 +222,12 @@ class Piwik_DataAccess_ArchiveSelector
         // get data from every table we're querying
         $rows = array();
         foreach ($archiveIds as $period => $ids) {
-            if(empty($ids)) {
+            if (empty($ids)) {
                 throw new Exception("Unexpected: id archive not found for period '$period' '");
             }
             // $period = "2009-01-04,2009-01-04",
-            $date = Piwik_Date::factory( substr($period, 0, 10) );
-            if($archiveDataType == 'numeric') {
+            $date = Piwik_Date::factory(substr($period, 0, 10));
+            if ($archiveDataType == 'numeric') {
                 $table = Piwik_DataAccess_ArchiveTableCreator::getNumericTable($date);
             } else {
                 $table = Piwik_DataAccess_ArchiveTableCreator::getBlobTable($date);
@@ -234,14 +237,14 @@ class Piwik_DataAccess_ArchiveSelector
                 $rows[] = $row;
             }
         }
-        
+
         return $rows;
     }
 
     /**
      * Returns the SQL condition used to find successfully completed archives that
      * this instance is querying for.
-     * 
+     *
      * @param array $plugins
      * @param Piwik_Segment $segment
      * @return string
@@ -252,21 +255,20 @@ class Piwik_DataAccess_ArchiveSelector
         // if it was completed
         $doneFlags = Piwik_ArchiveProcessor_Rules::getDoneFlags($plugins, $segment);
 
-        $allDoneFlags = "'".implode("','", $doneFlags)."'";
-        
-        // create the SQL to find archives that are DONE
-        return "(name IN ($allDoneFlags)) AND ".
-                " (value = '".Piwik_ArchiveProcessor::DONE_OK."' OR ".
-                " value = '".Piwik_ArchiveProcessor::DONE_OK_TEMPORARY."')";
-    }
+        $allDoneFlags = "'" . implode("','", $doneFlags) . "'";
 
+        // create the SQL to find archives that are DONE
+        return "(name IN ($allDoneFlags)) AND " .
+            " (value = '" . Piwik_ArchiveProcessor::DONE_OK . "' OR " .
+            " value = '" . Piwik_ArchiveProcessor::DONE_OK_TEMPORARY . "')";
+    }
 
     static public function purgeOutdatedArchives(Piwik_Date $dateStart, $purgeArchivesOlderThan)
     {
         $numericTable = Piwik_DataAccess_ArchiveTableCreator::getNumericTable($dateStart);
         $blobTable = Piwik_DataAccess_ArchiveTableCreator::getBlobTable($dateStart);
         $idArchivesToDelete = self::getTemporaryArchiveIdsOlderThan($numericTable, $purgeArchivesOlderThan);
-        if(!empty($idArchivesToDelete)) {
+        if (!empty($idArchivesToDelete)) {
             self::deleteArchiveIds($numericTable, $blobTable, $idArchivesToDelete);
         }
         Piwik::log("Purging temporary archives: done [ purged archives older than $purgeArchivesOlderThan from $blobTable and $numericTable ] [Deleted IDs: " . implode(',', $idArchivesToDelete) . "]");
@@ -312,7 +314,7 @@ class Piwik_DataAccess_ArchiveSelector
                             AND ts_archived < ?)
                          OR value = " . Piwik_ArchiveProcessor::DONE_ERROR . ")";
 
-        $result = Piwik_FetchAll($query,array($purgeArchivesOlderThan));
+        $result = Piwik_FetchAll($query, array($purgeArchivesOlderThan));
         $idArchivesToDelete = array();
         if (!empty($result)) {
             foreach ($result as $row) {

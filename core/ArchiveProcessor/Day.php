@@ -85,7 +85,6 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         return $metrics;
     }
 
-
     protected function convertMetricsIdToName($data)
     {
         $metrics = array();

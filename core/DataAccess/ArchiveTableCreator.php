@@ -15,6 +15,7 @@ class Piwik_DataAccess_ArchiveTableCreator
     {
         return self::getTable($date, "numeric");
     }
+
     static public function getBlobTable(Piwik_Date $date)
     {
         return self::getTable($date, "blob");

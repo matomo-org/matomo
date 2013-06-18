@@ -43,7 +43,7 @@ class Piwik_DataAccess_ArchiveWriter
 
     public function getIdArchive()
     {
-        if($this->idArchive === false) {
+        if ($this->idArchive === false) {
             throw new Exception("Must call allocateNewArchiveId() first");
         }
         return $this->idArchive;
@@ -133,9 +133,9 @@ class Piwik_DataAccess_ArchiveWriter
         $this->logArchiveStatusAsFinal();
         $this->releaseArchiveProcessorLock();
 
-        if($this->period->getLabel() != 'day') {
+        if ($this->period->getLabel() != 'day') {
             $purgeArchivesOlderThan = Piwik_ArchiveProcessor_Rules::shouldPurgeOutdatedArchives($this->dateStart);
-            if($purgeArchivesOlderThan) {
+            if ($purgeArchivesOlderThan) {
                 Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives($this->dateStart, $purgeArchivesOlderThan);
             }
         }
@@ -251,6 +251,4 @@ class Piwik_DataAccess_ArchiveWriter
     {
         return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
     }
-
-
 }

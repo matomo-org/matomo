@@ -8,12 +8,14 @@ class Piwik_Archive_Parameters
      * @var array
      */
     private $idSites = array();
+
     /**
      * The list of Piwik_Period's to query archive data for.
      *
      * @var array
      */
     private $periods = array();
+
     /**
      * Segment applied to the visits set.
      *
@@ -41,6 +43,16 @@ class Piwik_Archive_Parameters
         $this->periods = $this->getAsNonEmptyArray($periods, 'periods');
     }
 
+    public function getIdSites()
+    {
+        return $this->idSites;
+    }
+
+    public function setIdSites($idSites)
+    {
+        $this->idSites = $this->getAsNonEmptyArray($idSites, 'idSites');
+    }
+
     private function getAsNonEmptyArray($array, $paramName)
     {
         if (!is_array($array)) {
@@ -52,16 +64,6 @@ class Piwik_Archive_Parameters
         }
 
         return $array;
-    }
-
-    public function getIdSites()
-    {
-        return $this->idSites;
-    }
-
-    public function setIdSites($idSites)
-    {
-        $this->idSites = $this->getAsNonEmptyArray($idSites, 'idSites');
     }
 }
 
