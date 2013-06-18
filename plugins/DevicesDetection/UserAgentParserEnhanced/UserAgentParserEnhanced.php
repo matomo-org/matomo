@@ -362,7 +362,7 @@ class UserAgentParserEnhanced
             $this->device = array_search('desktop', self::$deviceTypes);
         }
         if ($this->debug) {
-            var_dump($this->brand, $this->model, $this->device);
+            var_export($this->brand, $this->model, $this->device);
         }
     }
 

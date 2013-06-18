@@ -207,7 +207,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Piwik_Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
         Piwik_Config::getInstance()->clear();
-        Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
+        Piwik_DataAccess_ArchiveTableCreator::clear();
         Piwik_PDFReports_API::$cache = array();
         Zend_Registry::_unsetInstance();
 
@@ -1109,7 +1109,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Piwik_Query("DROP TABLE IF EXISTS $table");
         }
 
-        Piwik_TablePartitioning::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload = true);
+        Piwik_DataAccess_ArchiveTableCreator::refreshTableList($forceReload = true);
     }
 
 }

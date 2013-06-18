@@ -458,8 +458,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
             // we get the intersection between all the tables in the DB and the tables to be installed
             $tablesInstalled = array_intersect($allMyTables, $allTables);
 
-            // at this point we have only the piwik tables which is good
-            // but we still miss the piwik generated tables (using the class Piwik_TablePartitioning)
+            // at this point we have the static list of core tables, but let's add the monthly archive tables
             $allArchiveNumeric = $db->fetchCol("SHOW TABLES LIKE '" . $prefixTables . "archive_numeric%'");
             $allArchiveBlob = $db->fetchCol("SHOW TABLES LIKE '" . $prefixTables . "archive_blob%'");
 

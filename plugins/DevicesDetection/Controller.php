@@ -140,7 +140,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
             echo "Processing idvisit = " . $rec['idvisit'] . "<br/>";
             echo "UserAgent string: " . $rec['config_debug_ua'] . "<br/> Decoded values:";
             $uaDetails = $this->getArray($UAParser);
-            var_dump($uaDetails);
+            var_export($uaDetails);
             echo "<hr/>";
             $this->updateVisit($rec['idvisit'], $uaDetails);
             unset($UAParser);

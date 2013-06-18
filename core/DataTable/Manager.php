@@ -136,7 +136,7 @@ class Piwik_DataTable_Manager
         foreach ($this->tables as $id => $table) {
             if (!($table instanceof Piwik_DataTable)) {
                 echo "Error table $id is not instance of datatable<br />";
-                var_dump($table);
+                var_export($table);
             } else {
                 echo "<hr />";
                 echo "Table (index=$id) TableId = " . $table->getId() . "<br />";

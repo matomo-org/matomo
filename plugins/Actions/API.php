@@ -346,7 +346,7 @@ class Piwik_Actions_API
 
         $dataTable = new Piwik_DataTable();
         // Handle case where date=last30&period=day
-        // TODO: this logic should really be refactored somewhere, this is ugly!
+        // FIXMEA: this logic should really be refactored somewhere, this is ugly!
         if ($customVariables instanceof Piwik_DataTable_Array) {
             $dataTable = $customVariables->getEmptyClone();
 

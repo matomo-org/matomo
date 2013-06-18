@@ -385,7 +385,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         $deleteIntervalSeconds = $this->getDeleteIntervalInSeconds($deleteIntervalDays);
 
         if ($lastDelete === false ||
-            ($lastDelete !== false && ((int)$lastDelete + $deleteIntervalSeconds) <= time())
+            ((int)$lastDelete + $deleteIntervalSeconds) <= time()
         ) {
             return true;
         } else // not time to run data purge
