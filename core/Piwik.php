@@ -2247,23 +2247,6 @@ class Piwik
     }
 
     /**
-     * Returns all table names archive_*
-     *
-     * @return array
-     */
-    static public function getTablesArchivesInstalled()
-    {
-        $archiveTables = array();
-        $tables = Piwik::getTablesInstalled();
-        foreach ($tables as $table) {
-            if (strpos($table, 'archive_') !== false) {
-                $archiveTables[] = $table;
-            }
-        }
-        return $archiveTables;
-    }
-
-    /**
      * Batch insert into table from CSV (or other delimited) file.
      *
      * @param string $tableName  Name of table

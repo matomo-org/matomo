@@ -69,4 +69,44 @@ class Piwik_DataAccess_ArchiveTableCreator
     {
         self::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload);
     }
+
+    /**
+     * Returns all table names archive_*
+     *
+     * @return array
+     */
+    static public function getTablesArchivesInstalled()
+    {
+        if (is_null(self::$tablesAlreadyInstalled)) {
+            self::refreshTableList();
+        }
+
+        $archiveTables = array();
+        foreach (self::$tablesAlreadyInstalled as $table) {
+            if (strpos($table, 'archive_numeric_') !== false
+                || strpos($table, 'archive_blob_') !== false ) {
+                $archiveTables[] = $table;
+            }
+        }
+        return $archiveTables;
+    }
+
+    static public function getDateFromTableName($tableName)
+    {
+        $tableName = Piwik_Common::unprefixTable($tableName);
+        $date = str_replace(array('archive_numeric_', 'archive_blob_'), '', $tableName);
+        return $date;
+    }
+
+    static public function getTypeFromTableName($tableName)
+    {
+        if(strpos('archive_numeric_', $tableName) !== false) {
+            return self::NUMERIC_TABLE;
+        }
+        if(strpos('archive_blob_', $tableName) !== false) {
+            return self::BLOB_TABLE;
+        }
+        return false;
+    }
+
 }

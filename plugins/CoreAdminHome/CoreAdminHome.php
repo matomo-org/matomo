@@ -111,7 +111,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 
     function purgeOutdatedArchives()
     {
-        $archiveTables = Piwik::getTablesArchivesInstalled();
+        $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {
             if (strpos($table, 'numeric') !== false) {
                 Piwik_ArchiveProcessor_Rules::shouldPurgeOutdatedArchives($table);
@@ -121,7 +121,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 
     function optimizeArchiveTable()
     {
-        $archiveTables = Piwik::getTablesArchivesInstalled();
+        $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
         Piwik_OptimizeTables($archiveTables);
     }
 }

@@ -16,7 +16,7 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
     
     public function setUp()
     {
-        $archivingTables = Piwik::getTablesArchivesInstalled();
+        $archivingTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
         if (empty($archivingTables)) {
             $this->archivingLaunched = true;
             Piwik_VisitsSummary_API::getInstance()->get(

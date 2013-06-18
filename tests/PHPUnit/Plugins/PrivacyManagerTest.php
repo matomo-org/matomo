@@ -250,7 +250,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     public function testPurgeDataDeleteLogsNoData()
     {
         Piwik::truncateAllTables();
-        foreach (Piwik::getTablesArchivesInstalled() as $table) {
+        foreach (Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
             Piwik_Exec("DROP TABLE $table");
         }
 
