@@ -134,10 +134,7 @@ class Piwik_DataAccess_ArchiveWriter
         $this->releaseArchiveProcessorLock();
 
         if ($this->period->getLabel() != 'day') {
-            $purgeArchivesOlderThan = Piwik_ArchiveProcessor_Rules::shouldPurgeOutdatedArchives($this->dateStart);
-            if ($purgeArchivesOlderThan) {
-                Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives($this->dateStart, $purgeArchivesOlderThan);
-            }
+            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives($this->dateStart);
         }
     }
 

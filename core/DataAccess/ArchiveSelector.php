@@ -263,8 +263,14 @@ class Piwik_DataAccess_ArchiveSelector
             " value = '" . Piwik_ArchiveProcessor::DONE_OK_TEMPORARY . "')";
     }
 
-    static public function purgeOutdatedArchives(Piwik_Date $dateStart, $purgeArchivesOlderThan)
+    static public function purgeOutdatedArchives(Piwik_Date $dateStart)
     {
+
+        $purgeArchivesOlderThan = Piwik_ArchiveProcessor_Rules::shouldPurgeOutdatedArchives($dateStart);
+        if (!$purgeArchivesOlderThan) {
+            return;
+        }
+
         $numericTable = Piwik_DataAccess_ArchiveTableCreator::getNumericTable($dateStart);
         $blobTable = Piwik_DataAccess_ArchiveTableCreator::getBlobTable($dateStart);
         $idArchivesToDelete = self::getTemporaryArchiveIdsOlderThan($numericTable, $purgeArchivesOlderThan);
