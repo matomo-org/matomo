@@ -672,6 +672,7 @@ class Piwik_PDFReports extends Piwik_Plugin
             Piwik_ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_WeeklyReport'),
             Piwik_ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_MonthlyReport'),
             Piwik_ScheduledTime::PERIOD_YEAR => Piwik_Translate('General_YearlyReport'),
+            Piwik_ScheduledTime::PERIOD_RANGE => Piwik_Translate('General_RangeReports'),
         );
     }
 }
