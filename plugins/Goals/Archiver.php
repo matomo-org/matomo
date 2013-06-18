@@ -121,20 +121,20 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
             if (empty($visitsToConversions[$idGoal])) {
                 $visitsToConversions[$idGoal] = new Piwik_DataTable();
             }
-            $array = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Piwik_Archive::INDEX_NB_CONVERSIONS, $prefixes[self::VISITS_UNTIL_RECORD_NAME]);
+            $array = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Piwik_Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::VISITS_UNTIL_RECORD_NAME]);
             $visitsToConversions[$idGoal]->addDataTable(Piwik_DataTable::makeFromIndexedArray($array));
 
             if (empty($daysToConversions[$idGoal])) {
                 $daysToConversions[$idGoal] = new Piwik_DataTable();
             }
-            $array = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Piwik_Archive::INDEX_NB_CONVERSIONS, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]);
+            $array = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Piwik_Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]);
             $daysToConversions[$idGoal]->addDataTable(Piwik_DataTable::makeFromIndexedArray($array));
 
             // We don't want to sum Abandoned cart metrics in the overall revenue/conversions/converted visits
             // since it is a "negative conversion"
             if ($idGoal != Piwik_Tracker_GoalManager::IDGOAL_CART) {
-                $totalConversions += $row[Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS];
-                $totalRevenue += $row[Piwik_Archive::INDEX_GOAL_REVENUE];
+                $totalConversions += $row[Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS];
+                $totalRevenue += $row[Piwik_Metrics::INDEX_GOAL_REVENUE];
             }
         }
 
@@ -162,12 +162,12 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
         $goals = $goals->getDataArray();
         foreach ($goals as $idGoal => $array) {
             foreach ($array as $metricId => $value) {
-                $metricName = Piwik_Archive::$mappingFromIdToNameGoal[$metricId];
+                $metricName = Piwik_Metrics::$mappingFromIdToNameGoal[$metricId];
                 $recordName = self::getRecordName($metricName, $idGoal);
                 $numericRecords[$recordName] = $value;
             }
-            if(!empty($array[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED])) {
-                $conversion_rate = $this->getConversionRate($array[Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED]);
+            if(!empty($array[Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED])) {
+                $conversion_rate = $this->getConversionRate($array[Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED]);
                 $recordName = self::getRecordName('conversion_rate', $idGoal);
                 $numericRecords[$recordName] = $conversion_rate;
             }
@@ -330,10 +330,10 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
 
         if ($row['ecommerceType'] == Piwik_Tracker_GoalManager::IDGOAL_CART) {
             // abandoned carts are the numner of visits with an abandoned cart
-            $row[Piwik_Archive::INDEX_ECOMMERCE_ORDERS] = $row[Piwik_Archive::INDEX_NB_VISITS];
+            $row[Piwik_Metrics::INDEX_ECOMMERCE_ORDERS] = $row[Piwik_Metrics::INDEX_NB_VISITS];
         }
 
-        unset($row[Piwik_Archive::INDEX_NB_VISITS]);
+        unset($row[Piwik_Metrics::INDEX_NB_VISITS]);
         unset($row['label']);
         unset($row['ecommerceType']);
 
@@ -343,10 +343,10 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
     protected function roundColumnValues(&$row)
     {
         $columnsToRound = array(
-            Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE,
-            Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY,
-            Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE,
-            Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED,
+            Piwik_Metrics::INDEX_ECOMMERCE_ITEM_REVENUE,
+            Piwik_Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY,
+            Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE,
+            Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED,
         );
         foreach ($columnsToRound as $column) {
             if (isset($row[$column])

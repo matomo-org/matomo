@@ -37,6 +37,9 @@ class Piwik
         'range' => 5,
     );
 
+    const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
+    const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
+
     /**
      * Should we process and display Unique Visitors?
      * -> Always process for day/week/month periods
@@ -60,6 +63,17 @@ class Piwik
         }
 
         return $result;
+    }
+
+    /**
+     * Returns true if Segmentation is allowed for this user
+     *
+     * @return bool
+     */
+    public static function isSegmentationEnabled()
+    {
+        return !Piwik::isUserIsAnonymous()
+            || Piwik_Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
     }
 
     /**

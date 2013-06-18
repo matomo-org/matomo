@@ -36,7 +36,7 @@ class Piwik_Provider_API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable(Piwik_Provider_Archiver::PROVIDER_RECORD_NAME);
-        $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
+        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS));
         $dataTable->queueFilter('ColumnCallbackAddMetadata', array('label', 'url', 'Piwik_getHostnameUrl'));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_Provider_getPrettyProviderName'));
         $dataTable->queueFilter('ReplaceColumnNames');

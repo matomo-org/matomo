@@ -31,7 +31,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
+        $this->columnToSortByBeforeTruncation = Piwik_Metrics::INDEX_NB_VISITS;
         $this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
         $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
     }

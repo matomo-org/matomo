@@ -28,7 +28,7 @@ class Piwik_Segment
     public function __construct($string, $idSites)
     {
         $string = trim($string);
-        if (!Piwik_Archive::isSegmentationEnabled()
+        if (!Piwik::isSegmentationEnabled()
             && !empty($string)
         ) {
             throw new Exception("The Super User has disabled the Segmentation feature.");

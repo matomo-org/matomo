@@ -73,27 +73,27 @@ class Piwik_DataAccess_LogAggregator
     protected function getVisitsMetricFields()
     {
         return array(
-            Piwik_Archive::INDEX_NB_UNIQ_VISITORS    => "count(distinct " . self::LOG_VISIT_TABLE . ".idvisitor)",
-            Piwik_Archive::INDEX_NB_VISITS           => "count(*)",
-            Piwik_Archive::INDEX_NB_ACTIONS          => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
-            Piwik_Archive::INDEX_MAX_ACTIONS         => "max(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
-            Piwik_Archive::INDEX_SUM_VISIT_LENGTH    => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_time)",
-            Piwik_Archive::INDEX_BOUNCE_COUNT        => "sum(case " . self::LOG_VISIT_TABLE . ".visit_total_actions when 1 then 1 when 0 then 1 else 0 end)",
-            Piwik_Archive::INDEX_NB_VISITS_CONVERTED => "sum(case " . self::LOG_VISIT_TABLE . ".visit_goal_converted when 1 then 1 else 0 end)",
+            Piwik_Metrics::INDEX_NB_UNIQ_VISITORS    => "count(distinct " . self::LOG_VISIT_TABLE . ".idvisitor)",
+            Piwik_Metrics::INDEX_NB_VISITS           => "count(*)",
+            Piwik_Metrics::INDEX_NB_ACTIONS          => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
+            Piwik_Metrics::INDEX_MAX_ACTIONS         => "max(" . self::LOG_VISIT_TABLE . ".visit_total_actions)",
+            Piwik_Metrics::INDEX_SUM_VISIT_LENGTH    => "sum(" . self::LOG_VISIT_TABLE . ".visit_total_time)",
+            Piwik_Metrics::INDEX_BOUNCE_COUNT        => "sum(case " . self::LOG_VISIT_TABLE . ".visit_total_actions when 1 then 1 when 0 then 1 else 0 end)",
+            Piwik_Metrics::INDEX_NB_VISITS_CONVERTED => "sum(case " . self::LOG_VISIT_TABLE . ".visit_goal_converted when 1 then 1 else 0 end)",
         );
     }
 
     static public function getConversionsMetricFields()
     {
         return array(
-            Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS             => "count(*)",
-            Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED        => "count(distinct " . self::LOG_CONVERSION_TABLE . ".idvisit)",
-            Piwik_Archive::INDEX_GOAL_REVENUE                    => self::getSqlConversionRevenueSum(self::TOTAL_REVENUE_FIELD),
-            Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => self::getSqlConversionRevenueSum(self::REVENUE_SUBTOTAL_FIELD),
-            Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => self::getSqlConversionRevenueSum(self::REVENUE_TAX_FIELD),
-            Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => self::getSqlConversionRevenueSum(self::REVENUE_SHIPPING_FIELD),
-            Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => self::getSqlConversionRevenueSum(self::REVENUE_DISCOUNT_FIELD),
-            Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS            => "SUM(" . self::LOG_CONVERSION_TABLE . "." . self::ITEMS_COUNT_FIELD . ")",
+            Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS             => "count(*)",
+            Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => "count(distinct " . self::LOG_CONVERSION_TABLE . ".idvisit)",
+            Piwik_Metrics::INDEX_GOAL_REVENUE                    => self::getSqlConversionRevenueSum(self::TOTAL_REVENUE_FIELD),
+            Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => self::getSqlConversionRevenueSum(self::REVENUE_SUBTOTAL_FIELD),
+            Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => self::getSqlConversionRevenueSum(self::REVENUE_TAX_FIELD),
+            Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => self::getSqlConversionRevenueSum(self::REVENUE_SHIPPING_FIELD),
+            Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => self::getSqlConversionRevenueSum(self::REVENUE_DISCOUNT_FIELD),
+            Piwik_Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => "SUM(" . self::LOG_CONVERSION_TABLE . "." . self::ITEMS_COUNT_FIELD . ")",
         );
     }
 
@@ -116,7 +116,7 @@ class Piwik_DataAccess_LogAggregator
      * @param bool|string $where Additional condition for WHERE clause
      * @param array $additionalSelects Additional SELECT clause
      * @param bool|array $metrics   Set this if you want to limit the columns that are returned.
-     *                                      The possible values in the array are Piwik_Archive::INDEX_*.
+     *                                      The possible values in the array are Piwik_Metrics::INDEX_*.
      * @param bool|Piwik_RankingQuery $rankingQuery
      *                                      A pre-configured ranking query instance that is used to limit the result.
      *                                      If set, the return value is the array returned by Piwik_RankingQuery::execute().
@@ -135,19 +135,19 @@ class Piwik_DataAccess_LogAggregator
         $orderBy = false;
 
         if ($rankingQuery) {
-            $orderBy = '`' . Piwik_Archive::INDEX_NB_VISITS . '` DESC';
+            $orderBy = '`' . Piwik_Metrics::INDEX_NB_VISITS . '` DESC';
         }
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
 
         if ($rankingQuery) {
-            unset($availableMetrics[Piwik_Archive::INDEX_MAX_ACTIONS]);
+            unset($availableMetrics[Piwik_Metrics::INDEX_MAX_ACTIONS]);
             $sumColumns = array_keys($availableMetrics);
             if ($metrics) {
                 $sumColumns = array_intersect($sumColumns, $metrics);
             }
             $rankingQuery->addColumn($sumColumns, 'sum');
-            if ($this->isMetricRequested(Piwik_Archive::INDEX_MAX_ACTIONS, $metrics)) {
-                $rankingQuery->addColumn(Piwik_Archive::INDEX_MAX_ACTIONS, 'max');
+            if ($this->isMetricRequested(Piwik_Metrics::INDEX_MAX_ACTIONS, $metrics)) {
+                $rankingQuery->addColumn(Piwik_Metrics::INDEX_MAX_ACTIONS, 'max');
             }
             return $rankingQuery->execute($query['sql'], $query['bind']);
         }
@@ -249,7 +249,7 @@ class Piwik_DataAccess_LogAggregator
         return " AS `" . $metricId . "`";
     }
 
-    protected function isMetricRequested($metricId, array $metricsRequested)
+    protected function isMetricRequested($metricId, $metricsRequested)
     {
         return $metricsRequested === false
             || in_array($metricId, $metricsRequested);
@@ -289,11 +289,11 @@ class Piwik_DataAccess_LogAggregator
     {
         $query = "SELECT
 						name as label,
-						" . self::getSqlRevenue('SUM(quantity * price)') . " as `" . Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE . "`,
-						" . self::getSqlRevenue('SUM(quantity)') . " as `" . Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY . "`,
-						" . self::getSqlRevenue('SUM(price)') . " as `" . Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE . "`,
-						count(distinct idorder) as `" . Piwik_Archive::INDEX_ECOMMERCE_ORDERS . "`,
-						count(idvisit) as `" . Piwik_Archive::INDEX_NB_VISITS . "`,
+						" . self::getSqlRevenue('SUM(quantity * price)') . " as `" . Piwik_Metrics::INDEX_ECOMMERCE_ITEM_REVENUE . "`,
+						" . self::getSqlRevenue('SUM(quantity)') . " as `" . Piwik_Metrics::INDEX_ECOMMERCE_ITEM_QUANTITY . "`,
+						" . self::getSqlRevenue('SUM(price)') . " as `" . Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE . "`,
+						count(distinct idorder) as `" . Piwik_Metrics::INDEX_ECOMMERCE_ORDERS . "`,
+						count(idvisit) as `" . Piwik_Metrics::INDEX_NB_VISITS . "`,
 						case idorder when '0' then " . Piwik_Tracker_GoalManager::IDGOAL_CART . " else " . Piwik_Tracker_GoalManager::IDGOAL_ORDER . " end as ecommerceType
 			 	FROM " . Piwik_Common::prefixTable('log_conversion_item') . "
 			 		LEFT JOIN " . Piwik_Common::prefixTable('log_action') . "
@@ -319,7 +319,7 @@ class Piwik_DataAccess_LogAggregator
      * @param string $where      where clause
      * @param array|bool $additionalSelects additional select clause
      * @param bool|array $metrics    Set this if you want to limit the columns that are returned.
-     *                                  The possible values in the array are Piwik_Archive::INDEX_*.
+     *                                  The possible values in the array are Piwik_Metrics::INDEX_*.
      * @param Piwik_RankingQuery $rankingQuery     pre-configured ranking query instance
      * @param bool|string $joinLogActionOnColumn  column from log_link_visit_action that
      *                                              log_action should be joined on.
@@ -360,7 +360,7 @@ class Piwik_DataAccess_LogAggregator
         }
 
         if ($rankingQuery) {
-            $orderBy = '`' . Piwik_Archive::INDEX_NB_ACTIONS . '` DESC';
+            $orderBy = '`' . Piwik_Metrics::INDEX_NB_ACTIONS . '` DESC';
         }
 
         $query = $this->generateQuery($select, $from, $where, $groupBy, $orderBy);
@@ -380,9 +380,9 @@ class Piwik_DataAccess_LogAggregator
     protected function getActionsMetricFields()
     {
         return $availableMetrics = array(
-            Piwik_Archive::INDEX_NB_VISITS        => "count(distinct " . self::LOG_ACTIONS_TABLE . ".idvisit)",
-            Piwik_Archive::INDEX_NB_UNIQ_VISITORS => "count(distinct " . self::LOG_ACTIONS_TABLE . ".idvisitor)",
-            Piwik_Archive::INDEX_NB_ACTIONS       => "count(*)",
+            Piwik_Metrics::INDEX_NB_VISITS        => "count(distinct " . self::LOG_ACTIONS_TABLE . ".idvisit)",
+            Piwik_Metrics::INDEX_NB_UNIQ_VISITORS => "count(distinct " . self::LOG_ACTIONS_TABLE . ".idvisitor)",
+            Piwik_Metrics::INDEX_NB_ACTIONS       => "count(*)",
         );
     }
 

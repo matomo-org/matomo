@@ -42,7 +42,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
         $table = $this->getProcessor()->getDataTableFromDataArray($this->dataArray);
         $blob = $table->getSerialized(
             $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
-            $columnToSort = Piwik_Archive::INDEX_NB_VISITS
+            $columnToSort = Piwik_Metrics::INDEX_NB_VISITS
         );
 
         $this->getProcessor()->insertBlobRecord(self::CUSTOM_VARIABLE_RECORD_NAME, $blob);
@@ -75,7 +75,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
     protected function getSelectAveragePrice()
     {
         return Piwik_DataAccess_LogAggregator::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
-            . " as `" . Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
+            . " as `" . Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 
     protected function aggregateFromVisits($query, $keyField, $valueField)
@@ -150,7 +150,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
         if ($this->isReservedKey($key)) {
             // Price tracking on Ecommerce product/category pages:
             // the average is returned from the SQL query so the price is not "summed" like other metrics
-            $index = Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
+            $index = Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED;
             if (!empty($row[$index])) {
                 $this->dataArray->setRowColumnPivot($key, $value, $index, (float)$row[$index]);
             }
@@ -183,8 +183,8 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
             if (!self::isReservedKey($key)
                 && Piwik_DataArray::isRowActions($row)
             ) {
-                unset($row[Piwik_Archive::INDEX_NB_UNIQ_VISITORS]);
-                unset($row[Piwik_Archive::INDEX_NB_VISITS]);
+                unset($row[Piwik_Metrics::INDEX_NB_UNIQ_VISITORS]);
+                unset($row[Piwik_Metrics::INDEX_NB_VISITS]);
             }
         }
     }
@@ -193,6 +193,6 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
     {
         $nameToCount = $this->getProcessor()->aggregateDataTableReports(
             self::CUSTOM_VARIABLE_RECORD_NAME, $this->maximumRowsInDataTableLevelZero, $this->maximumRowsInSubDataTable,
-            $columnToSort = Piwik_Archive::INDEX_NB_VISITS);
+            $columnToSort = Piwik_Metrics::INDEX_NB_VISITS);
     }
 }

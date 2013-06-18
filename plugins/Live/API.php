@@ -535,7 +535,7 @@ class Piwik_Live_API
         $goalDetails = Piwik_FetchAll($sql, array($idVisit));
 
         $sql = "SELECT
-						case idgoal when " . Piwik_Tracker_GoalManager::IDGOAL_CART . " then '" . Piwik_Archive::LABEL_ECOMMERCE_CART . "' else '" . Piwik_Archive::LABEL_ECOMMERCE_ORDER . "' end as type,
+						case idgoal when " . Piwik_Tracker_GoalManager::IDGOAL_CART . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
 						idorder as orderId,
 						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue') . " as revenue,
 						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
@@ -553,7 +553,7 @@ class Piwik_Live_API
         $ecommerceDetails = Piwik_FetchAll($sql, array($idVisit));
 
         foreach ($ecommerceDetails as &$ecommerceDetail) {
-            if ($ecommerceDetail['type'] == Piwik_Archive::LABEL_ECOMMERCE_CART) {
+            if ($ecommerceDetail['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
                 unset($ecommerceDetail['orderId']);
                 unset($ecommerceDetail['revenueSubTotal']);
                 unset($ecommerceDetail['revenueTax']);
@@ -616,8 +616,8 @@ class Piwik_Live_API
                 case 'goal':
                     $details['icon'] = 'themes/default/images/goal.png';
                     break;
-                case Piwik_Archive::LABEL_ECOMMERCE_ORDER:
-                case Piwik_Archive::LABEL_ECOMMERCE_CART:
+                case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER:
+                case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART:
                     $details['icon'] = 'themes/default/images/' . $details['type'] . '.gif';
                     break;
                 case Piwik_Tracker_Action_Interface::TYPE_DOWNLOAD:

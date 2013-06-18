@@ -66,8 +66,8 @@ class Piwik_VisitTime_API
         Piwik::checkUserHasViewAccess($idSite);
 
         // metrics to query
-        $metrics = Piwik_Archive::getVisitsMetricNames();
-        unset($metrics[Piwik_Archive::INDEX_MAX_ACTIONS]);
+        $metrics = Piwik_Metrics::getVisitsMetricNames();
+        unset($metrics[Piwik_Metrics::INDEX_MAX_ACTIONS]);
 
         try {
             // get metric data for every day within the supplied period

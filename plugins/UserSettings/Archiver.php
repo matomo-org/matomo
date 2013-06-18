@@ -110,7 +110,7 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
 
         $query = $this->getLogAggregator()->queryVisitsByDimension(array(), false, $selects, $metrics = array());
         $data = $query->fetch();
-        $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($data, Piwik_Archive::INDEX_NB_VISITS);
+        $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($data, Piwik_Metrics::INDEX_NB_VISITS);
         $table = Piwik_DataTable::makeFromIndexedArray($cleanRow);
         $this->insertTable(self::PLUGIN_RECORD_NAME, $table);
     }
@@ -131,7 +131,7 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
 
     protected function insertTable($recordName, Piwik_DataTable $table)
     {
-        return $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Piwik_Archive::INDEX_NB_VISITS));
+        return $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Piwik_Metrics::INDEX_NB_VISITS));
     }
 
     public function archivePeriod()

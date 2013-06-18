@@ -745,8 +745,8 @@ abstract class Piwik_ViewDataTable
             // which can be different from the one specified (eg. if the column doesn't exist)
             $javascriptVariablesToSet['filter_sort_column'] = $this->dataTable->getSortedByColumnName();
             // datatable can return "2" but we want to write "nb_visits" in the js
-            if (isset(Piwik_Archive::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']])) {
-                $javascriptVariablesToSet['filter_sort_column'] = Piwik_Archive::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']];
+            if (isset(Piwik_Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']])) {
+                $javascriptVariablesToSet['filter_sort_column'] = Piwik_Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']];
             }
         }
 
@@ -1081,7 +1081,7 @@ abstract class Piwik_ViewDataTable
     /**
      * Sets the dataTable column to sort by. This sorting will be applied before applying the (offset, limit) filter.
      *
-     * @param int|string $columnId eg. 'nb_visits' for some tables, or Piwik_Archive::INDEX_NB_VISITS for others
+     * @param int|string $columnId eg. 'nb_visits' for some tables, or Piwik_Metrics::INDEX_NB_VISITS for others
      * @param string $order desc or asc
      */
     public function setSortedColumn($columnId, $order = 'desc')

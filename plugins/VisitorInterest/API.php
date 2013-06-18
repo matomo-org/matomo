@@ -27,7 +27,7 @@ class Piwik_VisitorInterest_API
         return self::$instance;
     }
 
-    protected function getDataTable($name, $idSite, $period, $date, $segment, $column = Piwik_Archive::INDEX_NB_VISITS)
+    protected function getDataTable($name, $idSite, $period, $date, $segment, $column = Piwik_Metrics::INDEX_NB_VISITS)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
@@ -70,7 +70,7 @@ class Piwik_VisitorInterest_API
     public function getNumberOfVisitsByDaysSinceLast($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(
-            Piwik_VisitorInterest_Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Piwik_Archive::INDEX_NB_VISITS);
+            Piwik_VisitorInterest_Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Piwik_Metrics::INDEX_NB_VISITS);
 
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik_Translate('General_OneDay'), Piwik_Translate('General_NDays')));
@@ -91,7 +91,7 @@ class Piwik_VisitorInterest_API
     public function getNumberOfVisitsByVisitCount($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getDataTable(
-            Piwik_VisitorInterest_Archiver::VISITS_COUNT_RECORD_NAME, $idSite, $period, $date, $segment, Piwik_Archive::INDEX_NB_VISITS);
+            Piwik_VisitorInterest_Archiver::VISITS_COUNT_RECORD_NAME, $idSite, $period, $date, $segment, Piwik_Metrics::INDEX_NB_VISITS);
 
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik_Translate('General_OneVisit'), Piwik_Translate('General_NVisits')));
@@ -116,7 +116,7 @@ class Piwik_VisitorInterest_API
                 self::addVisitsPercentColumn($table);
             }
         } else {
-            $totalVisits = array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS));
+            $totalVisits = array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_NB_VISITS));
             $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array(
                                                                               'nb_visits_percentage', 'nb_visits', $totalVisits));
         }

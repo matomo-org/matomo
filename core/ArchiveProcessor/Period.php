@@ -27,7 +27,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
      * @var array
      */
     protected static $invalidSummedColumnNameToRenamedName = array(
-        Piwik_Archive::INDEX_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS
+        Piwik_Metrics::INDEX_NB_UNIQ_VISITORS => Piwik_Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS
     );
 
     /**
@@ -180,7 +180,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
 
     protected function aggregateCoreVisitsMetrics()
     {
-        $toSum = Piwik_Archive::getVisitsMetricNames();
+        $toSum = Piwik_Metrics::getVisitsMetricNames();
         $metrics = $this->aggregateNumericMetrics($toSum);
         return $metrics;
     }
@@ -289,8 +289,8 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
     protected function computeNbUniqVisitors()
     {
         $logAggregator = $this->getLogAggregator();
-        $query = $logAggregator->queryVisitsByDimension(array(), false, array(), array(Piwik_Archive::INDEX_NB_UNIQ_VISITORS));
+        $query = $logAggregator->queryVisitsByDimension(array(), false, array(), array(Piwik_Metrics::INDEX_NB_UNIQ_VISITORS));
         $data = $query->fetch();
-        return $data[Piwik_Archive::INDEX_NB_UNIQ_VISITORS];
+        return $data[Piwik_Metrics::INDEX_NB_UNIQ_VISITORS];
     }
 }

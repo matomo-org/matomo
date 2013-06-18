@@ -37,7 +37,7 @@ class Piwik_Referers_API
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
     {
         $dataTable = Piwik_Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable);
-        $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
+        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
     }
@@ -120,7 +120,7 @@ class Piwik_Referers_API
 
         $dataTable = $dataTable->mergeSubtables($labelColumn = 'referrer_type', $useMetadataColumn = true);
 
-        $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc'));
+        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS, 'desc'));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
 
@@ -367,7 +367,7 @@ class Piwik_Referers_API
 
         // prettify the DataTable
         $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_Referrers_removeUrlProtocol'));
-        $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
+        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
         $dataTable->queueFilter('ReplaceColumnNames');
 
         return $dataTable;

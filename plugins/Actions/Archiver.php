@@ -33,6 +33,18 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     const METRIC_SEARCHES_RECORD_NAME = 'Actions_nb_searches';
     const METRIC_KEYWORDS_RECORD_NAME = 'Actions_nb_keywords';
 
+    /* Metrics in use by the API Actions.get */
+    public static $actionsAggregateMetrics  = array(
+        self::METRIC_PAGEVIEWS_RECORD_NAME        => 'nb_pageviews',
+        self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME   => 'nb_uniq_pageviews',
+        self::METRIC_DOWNLOADS_RECORD_NAME        => 'nb_downloads',
+        self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME  => 'nb_uniq_downloads',
+        self::METRIC_OUTLINKS_RECORD_NAME         => 'nb_outlinks',
+        self::METRIC_UNIQ_OUTLINKS_RECORD_NAME    => 'nb_uniq_outlinks',
+        self::METRIC_SEARCHES_RECORD_NAME        => 'nb_searches',
+        self::METRIC_KEYWORDS_RECORD_NAME         => 'nb_keywords',
+    );
+
     public static $actionTypes = array(
         Piwik_Tracker_Action::TYPE_ACTION_URL,
         Piwik_Tracker_Action::TYPE_OUTLINK,
@@ -41,18 +53,18 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         Piwik_Tracker_Action::TYPE_SITE_SEARCH,
     );
     static protected $invalidSummedColumnNameToRenamedNameFromPeriodArchive = array(
-        Piwik_Archive::INDEX_NB_UNIQ_VISITORS            => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
-        Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => Piwik_Archive::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS,
-        Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS  => Piwik_Archive::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS,
+        Piwik_Metrics::INDEX_NB_UNIQ_VISITORS            => Piwik_Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
+        Piwik_Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => Piwik_Metrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS,
+        Piwik_Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS  => Piwik_Metrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS,
     );
     static protected $invalidSummedColumnNameToDeleteFromDayArchive = array(
-        Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
-        Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
-        Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
+        Piwik_Metrics::INDEX_NB_UNIQ_VISITORS,
+        Piwik_Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
+        Piwik_Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
     );
     private static $actionColumnAggregationOperations = array(
-        Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION => 'max',
-        Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION => 'min'
+        Piwik_Metrics::INDEX_PAGE_MAX_TIME_GENERATION => 'max',
+        Piwik_Metrics::INDEX_PAGE_MIN_TIME_GENERATION => 'min'
     );
     protected $actionsTablesByType = null;
     protected $isSiteSearchEnabled = false;
@@ -159,25 +171,25 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
 				log_action.type,
 				log_action.idaction,
 				log_action.url_prefix,
-				count(distinct log_link_visit_action.idvisit) as `" . Piwik_Archive::INDEX_NB_VISITS . "`,
-				count(distinct log_link_visit_action.idvisitor) as `" . Piwik_Archive::INDEX_NB_UNIQ_VISITORS . "`,
-				count(*) as `" . Piwik_Archive::INDEX_PAGE_NB_HITS . "`,
+				count(distinct log_link_visit_action.idvisit) as `" . Piwik_Metrics::INDEX_NB_VISITS . "`,
+				count(distinct log_link_visit_action.idvisitor) as `" . Piwik_Metrics::INDEX_NB_UNIQ_VISITORS . "`,
+				count(*) as `" . Piwik_Metrics::INDEX_PAGE_NB_HITS . "`,
 				sum(
 					case when " . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . " is null
 						then 0
 						else " . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . "
 					end
-				) / 1000 as `" . Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION . "`,
+				) / 1000 as `" . Piwik_Metrics::INDEX_PAGE_SUM_TIME_GENERATION . "`,
 				sum(
 					case when " . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . " is null
 						then 0
 						else 1
 					end
-				) as `" . Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION . "`,
+				) as `" . Piwik_Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION . "`,
 				min(" . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . ") / 1000
-				    as `" . Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION . "`,
+				    as `" . Piwik_Metrics::INDEX_PAGE_MIN_TIME_GENERATION . "`,
 				max(" . Piwik_Tracker_Action::DB_COLUMN_TIME_GENERATION . ") / 1000
-                    as `" . Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION . "`
+                    as `" . Piwik_Metrics::INDEX_PAGE_MAX_TIME_GENERATION . "`
 				";
 
         $from = array(
@@ -194,23 +206,23 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
 				AND log_link_visit_action.%s IS NOT NULL";
 
         $groupBy = "log_action.idaction";
-        $orderBy = "`" . Piwik_Archive::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
+        $orderBy = "`" . Piwik_Metrics::INDEX_PAGE_NB_HITS . "` DESC, name ASC";
 
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('idaction', 'name'));
-            $rankingQuery->addColumn(array('url_prefix', Piwik_Archive::INDEX_NB_UNIQ_VISITORS));
-            $rankingQuery->addColumn(array(Piwik_Archive::INDEX_PAGE_NB_HITS, Piwik_Archive::INDEX_NB_VISITS), 'sum');
+            $rankingQuery->addColumn(array('url_prefix', Piwik_Metrics::INDEX_NB_UNIQ_VISITORS));
+            $rankingQuery->addColumn(array(Piwik_Metrics::INDEX_PAGE_NB_HITS, Piwik_Metrics::INDEX_NB_VISITS), 'sum');
             if ($this->isSiteSearchEnabled()) {
-                $rankingQuery->addColumn(Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT, 'min');
-                $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS, 'sum');
+                $rankingQuery->addColumn(Piwik_Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT, 'min');
+                $rankingQuery->addColumn(Piwik_Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS, 'sum');
             }
-            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION, 'sum');
-            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION, 'sum');
-            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION, 'min');
-            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION, 'max');
+            $rankingQuery->addColumn(Piwik_Metrics::INDEX_PAGE_SUM_TIME_GENERATION, 'sum');
+            $rankingQuery->addColumn(Piwik_Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION, 'sum');
+            $rankingQuery->addColumn(Piwik_Metrics::INDEX_PAGE_MIN_TIME_GENERATION, 'min');
+            $rankingQuery->addColumn(Piwik_Metrics::INDEX_PAGE_MAX_TIME_GENERATION, 'max');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
         }
 
@@ -219,7 +231,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         // 2) For each page view, count number of times the referrer page was a Site Search
         if ($this->isSiteSearchEnabled()) {
             $selectFlagNoResultKeywords = ",
-				CASE WHEN (MAX(log_link_visit_action.custom_var_v" . Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT . ") = 0 AND log_link_visit_action.custom_var_k" . Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT . " = '" . Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT . "') THEN 1 ELSE 0 END AS `" . Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
+				CASE WHEN (MAX(log_link_visit_action.custom_var_v" . Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT . ") = 0 AND log_link_visit_action.custom_var_k" . Piwik_Tracker_Action::CVAR_INDEX_SEARCH_COUNT . " = '" . Piwik_Tracker_Action::CVAR_KEY_SEARCH_COUNT . "') THEN 1 ELSE 0 END AS `" . Piwik_Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
 
             //we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
             $from[] = array(
@@ -229,7 +241,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             );
 
             $selectSiteSearchFollowingPages = ",
-				SUM(CASE WHEN log_action_name_ref.type = " . Piwik_Tracker_Action::TYPE_SITE_SEARCH . " THEN 1 ELSE 0 END) AS `" . Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS . "`";
+				SUM(CASE WHEN log_action_name_ref.type = " . Piwik_Tracker_Action::TYPE_SITE_SEARCH . " THEN 1 ELSE 0 END) AS `" . Piwik_Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS . "`";
 
             $select .= $selectFlagNoResultKeywords
                 . $selectSiteSearchFollowingPages;
@@ -280,11 +292,11 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
-            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS);
-            $rankingQuery->addColumn(array(Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS,
-                                           Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS,
-                                           Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH,
-                                           Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT), 'sum');
+            $rankingQuery->addColumn(Piwik_Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS);
+            $rankingQuery->addColumn(array(Piwik_Metrics::INDEX_PAGE_ENTRY_NB_VISITS,
+                                           Piwik_Metrics::INDEX_PAGE_ENTRY_NB_ACTIONS,
+                                           Piwik_Metrics::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH,
+                                           Piwik_Metrics::INDEX_PAGE_ENTRY_BOUNCE_COUNT), 'sum');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
 
             $extraSelects = 'log_action.type, log_action.name,';
@@ -295,7 +307,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
                     "joinOn" => "log_visit.%s = log_action.idaction"
                 )
             );
-            $orderBy = "`" . Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS . "` DESC, log_action.name ASC";
+            $orderBy = "`" . Piwik_Metrics::INDEX_PAGE_ENTRY_NB_ACTIONS . "` DESC, log_action.name ASC";
         } else {
             $extraSelects = false;
             $from = "log_visit";
@@ -303,11 +315,11 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         }
 
         $select = "log_visit.%s as idaction, $extraSelects
-				count(distinct log_visit.idvisitor) as `" . Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS . "`,
-				count(*) as `" . Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS . "`,
-				sum(log_visit.visit_total_actions) as `" . Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS . "`,
-				sum(log_visit.visit_total_time) as `" . Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH . "`,
-				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `" . Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT . "`";
+				count(distinct log_visit.idvisitor) as `" . Piwik_Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS . "`,
+				count(*) as `" . Piwik_Metrics::INDEX_PAGE_ENTRY_NB_VISITS . "`,
+				sum(log_visit.visit_total_actions) as `" . Piwik_Metrics::INDEX_PAGE_ENTRY_NB_ACTIONS . "`,
+				sum(log_visit.visit_total_time) as `" . Piwik_Metrics::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH . "`,
+				sum(case log_visit.visit_total_actions when 1 then 1 when 0 then 1 else 0 end) as `" . Piwik_Metrics::INDEX_PAGE_ENTRY_BOUNCE_COUNT . "`";
 
         $where = "log_visit.visit_last_action_time >= ?
 				AND log_visit.visit_last_action_time <= ?
@@ -331,8 +343,8 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
-            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS);
-            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS, 'sum');
+            $rankingQuery->addColumn(Piwik_Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS);
+            $rankingQuery->addColumn(Piwik_Metrics::INDEX_PAGE_EXIT_NB_VISITS, 'sum');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
 
             $extraSelects = 'log_action.type, log_action.name,';
@@ -343,7 +355,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
                     "joinOn" => "log_visit.%s = log_action.idaction"
                 )
             );
-            $orderBy = "`" . Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS . "` DESC, log_action.name ASC";
+            $orderBy = "`" . Piwik_Metrics::INDEX_PAGE_EXIT_NB_VISITS . "` DESC, log_action.name ASC";
         } else {
             $extraSelects = false;
             $from = "log_visit";
@@ -351,8 +363,8 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         }
 
         $select = "log_visit.%s as idaction, $extraSelects
-				count(distinct log_visit.idvisitor) as `" . Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS . "`,
-				count(*) as `" . Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS . "`";
+				count(distinct log_visit.idvisitor) as `" . Piwik_Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS . "`,
+				count(*) as `" . Piwik_Metrics::INDEX_PAGE_EXIT_NB_VISITS . "`";
 
         $where = "log_visit.visit_last_action_time >= ?
 				AND log_visit.visit_last_action_time <= ?
@@ -377,10 +389,10 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
-            $rankingQuery->addColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
+            $rankingQuery->addColumn(Piwik_Metrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
 
-            $extraSelects = "log_action.type, log_action.name, count(*) as `" . Piwik_Archive::INDEX_PAGE_NB_HITS . "`,";
+            $extraSelects = "log_action.type, log_action.name, count(*) as `" . Piwik_Metrics::INDEX_PAGE_NB_HITS . "`,";
             $from = array(
                 "log_link_visit_action",
                 array(
@@ -388,7 +400,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
                     "joinOn" => "log_link_visit_action.%s = log_action.idaction"
                 )
             );
-            $orderBy = "`" . Piwik_Archive::INDEX_PAGE_NB_HITS . "` DESC, log_action.name ASC";
+            $orderBy = "`" . Piwik_Metrics::INDEX_PAGE_NB_HITS . "` DESC, log_action.name ASC";
         } else {
             $extraSelects = false;
             $from = "log_link_visit_action";
@@ -396,7 +408,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         }
 
         $select = "log_link_visit_action.%s as idaction, $extraSelects
-				sum(log_link_visit_action.time_spent_ref_action) as `" . Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT . "`";
+				sum(log_link_visit_action.time_spent_ref_action) as `" . Piwik_Metrics::INDEX_PAGE_SUM_TIME_SPENT . "`";
 
         $where = "log_link_visit_action.server_time >= ?
 				AND log_link_visit_action.server_time <= ?
@@ -431,10 +443,10 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         $this->recordDataTable($dataTable, self::PAGE_URLS_RECORD_NAME);
 
         $records = array(
-            self::METRIC_PAGEVIEWS_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)),
-            self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)),
-            self::METRIC_SUM_TIME_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)),
-            self::METRIC_HITS_TIMED_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION))
+            self::METRIC_PAGEVIEWS_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_PAGE_NB_HITS)),
+            self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_NB_VISITS)),
+            self::METRIC_SUM_TIME_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_PAGE_SUM_TIME_GENERATION)),
+            self::METRIC_HITS_TIMED_RECORD_NAME => array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION))
         );
         $this->getProcessor()->insertNumericRecords( $records );
     }
@@ -490,7 +502,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     {
         // Delete all columns that have a value of zero
         $dataTable->filter('ColumnDelete', array(
-                                                $columnsToRemove = array(Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS),
+                                                $columnsToRemove = array(Piwik_Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS),
                                                 $columnsToKeep = array(),
                                                 $deleteIfZeroOnly = true
                                            ));
@@ -501,8 +513,8 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_DOWNLOAD);
         $this->recordDataTable($dataTable, self::DOWNLOADS_RECORD_NAME);
 
-        $this->getProcessor()->insertNumericRecord(self::METRIC_DOWNLOADS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-        $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_DOWNLOADS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_PAGE_NB_HITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_DOWNLOADS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_NB_VISITS)));
     }
 
     protected function recordOutlinksReports()
@@ -510,8 +522,8 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         $dataTable = $this->getDataTable(Piwik_Tracker_Action::TYPE_OUTLINK);
         $this->recordDataTable($dataTable, self::OUTLINKS_RECORD_NAME);
 
-        $this->getProcessor()->insertNumericRecord(self::METRIC_OUTLINKS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS)));
-        $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_OUTLINKS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_OUTLINKS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_PAGE_NB_HITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_UNIQ_OUTLINKS_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_NB_VISITS)));
     }
 
     protected function recordPageTitlesReports()
@@ -526,21 +538,21 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
         $this->recordDataTable($dataTable, self::SITE_SEARCH_RECORD_NAME);
 
-        $this->getProcessor()->insertNumericRecord(self::METRIC_SEARCHES_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Archive::INDEX_NB_VISITS)));
+        $this->getProcessor()->insertNumericRecord(self::METRIC_SEARCHES_RECORD_NAME, array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_NB_VISITS)));
         $this->getProcessor()->insertNumericRecord(self::METRIC_KEYWORDS_RECORD_NAME, $dataTable->getRowsCount());
     }
 
     protected function deleteUnusedColumnsFromKeywordsDataTable($dataTable)
     {
         $columnsToDelete = array(
-            Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
-            Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS,
-            Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
-            Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS,
-            Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH,
-            Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS,
-            Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT,
-            Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
+            Piwik_Metrics::INDEX_NB_UNIQ_VISITORS,
+            Piwik_Metrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS,
+            Piwik_Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS,
+            Piwik_Metrics::INDEX_PAGE_ENTRY_NB_ACTIONS,
+            Piwik_Metrics::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH,
+            Piwik_Metrics::INDEX_PAGE_ENTRY_NB_VISITS,
+            Piwik_Metrics::INDEX_PAGE_ENTRY_BOUNCE_COUNT,
+            Piwik_Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
         );
         $dataTable->deleteColumns($columnsToDelete);
     }

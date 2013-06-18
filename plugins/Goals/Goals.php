@@ -239,7 +239,7 @@ class Piwik_Goals extends Piwik_Plugin
                     'name'             => Piwik_Translate('General_EcommerceOrders'),
                     'module'           => 'Goals',
                     'action'           => 'get',
-                    'parameters'       => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER),
+                    'parameters'       => array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER),
                     'metrics'          => $ecommerceMetrics,
                     'processedMetrics' => false,
                     'order'            => 10
@@ -252,7 +252,7 @@ class Piwik_Goals extends Piwik_Plugin
                     'dimension'         => Piwik_Translate('Goals_VisitsUntilConv'),
                     'constantRowsCount' => true,
                     'metrics'           => $conversionReportMetrics,
-                    'parameters'        => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER),
+                    'parameters'        => array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER),
                     'order'             => 11
                 );
                 $reports[] = array(
@@ -263,7 +263,7 @@ class Piwik_Goals extends Piwik_Plugin
                     'dimension'         => Piwik_Translate('Goals_DaysToConv'),
                     'constantRowsCount' => true,
                     'metrics'           => $conversionReportMetrics,
-                    'parameters'        => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER),
+                    'parameters'        => array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER),
                     'order'             => 12
                 );
 
@@ -280,7 +280,7 @@ class Piwik_Goals extends Piwik_Plugin
                     'name'             => Piwik_Translate('General_AbandonedCarts'),
                     'module'           => 'Goals',
                     'action'           => 'get',
-                    'parameters'       => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_CART),
+                    'parameters'       => array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART),
                     'metrics'          => $abandonedCartMetrics,
                     'processedMetrics' => false,
                     'order'            => 15
@@ -294,7 +294,7 @@ class Piwik_Goals extends Piwik_Plugin
                     'dimension'         => Piwik_Translate('Goals_VisitsUntilConv'),
                     'constantRowsCount' => true,
                     'metrics'           => $conversionReportMetrics,
-                    'parameters'        => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_CART),
+                    'parameters'        => array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART),
                     'order'             => 20
                 );
                 $reports[] = array(
@@ -305,7 +305,7 @@ class Piwik_Goals extends Piwik_Plugin
                     'dimension'         => Piwik_Translate('Goals_DaysToConv'),
                     'constantRowsCount' => true,
                     'metrics'           => $conversionReportMetrics,
-                    'parameters'        => array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_CART),
+                    'parameters'        => array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART),
                     'order'             => 25
                 );
 
@@ -440,7 +440,7 @@ class Piwik_Goals extends Piwik_Plugin
         // Ecommerce widgets
         $site = new Piwik_Site($idSite);
         if ($site->isEcommerceEnabled()) {
-            Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER));
+            Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
             Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceLog', 'Goals', 'getEcommerceLog');
             foreach ($this->ecommerceReports as $widget) {
                 Piwik_AddWidget('Goals_Ecommerce', $widget[0], $widget[1], $widget[2]);
@@ -467,23 +467,23 @@ class Piwik_Goals extends Piwik_Plugin
             Piwik_AddMenu($mainGoalMenu, '', array(
                                                   'module' => 'Goals',
                                                   'action' => ($site->isEcommerceEnabled() ? 'ecommerceReport' : 'addNewGoal'),
-                                                  'idGoal' => ($site->isEcommerceEnabled() ? Piwik_Archive::LABEL_ECOMMERCE_ORDER : null)),
+                                                  'idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null)),
                 true,
                 25);
             if ($site->isEcommerceEnabled()) {
-                Piwik_AddMenu($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER), true, 1);
+                Piwik_AddMenu($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER), true, 1);
             }
             Piwik_AddMenu($mainGoalMenu, 'Goals_AddNewGoal', array('module' => 'Goals', 'action' => 'addNewGoal'));
         } else {
             Piwik_AddMenu($mainGoalMenu, '', array(
                                                   'module' => 'Goals',
                                                   'action' => ($site->isEcommerceEnabled() ? 'ecommerceReport' : 'index'),
-                                                  'idGoal' => ($site->isEcommerceEnabled() ? Piwik_Archive::LABEL_ECOMMERCE_ORDER : null)),
+                                                  'idGoal' => ($site->isEcommerceEnabled() ? Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER : null)),
                 true,
                 25);
 
             if ($site->isEcommerceEnabled()) {
-                Piwik_AddMenu($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER), true, 1);
+                Piwik_AddMenu($mainGoalMenu, 'Goals_Ecommerce', array('module' => 'Goals', 'action' => 'ecommerceReport', 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER), true, 1);
             }
             Piwik_AddMenu($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), true, 2);
             foreach ($goals as $goal) {

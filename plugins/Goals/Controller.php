@@ -77,7 +77,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
             throw new Exception("Ecommerce Tracking requires that the plugin Custom Variables is enabled. Please enable the plugin CustomVariables (or ask your admin).");
         }
 
-        $view = $this->getGoalReportView($idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER);
+        $view = $this->getGoalReportView($idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
         $view->displayFullReport = true;
         echo $view->render();
     }
@@ -165,7 +165,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
     protected function getGoalReportView($idGoal = false)
     {
         $view = Piwik_View::factory('single_goal');
-        if ($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER) {
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             $goalDefinition['name'] = Piwik_Translate('Goals_Ecommerce');
             $goalDefinition['allow_multiple'] = true;
             $ecommerce = $view->ecommerce = true;
@@ -180,8 +180,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
         foreach ($goal as $name => $value) {
             $view->$name = $value;
         }
-        if ($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER) {
-            $goal = $this->getMetricsForGoal(Piwik_Archive::LABEL_ECOMMERCE_CART);
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
+            $goal = $this->getMetricsForGoal(Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART);
             foreach ($goal as $name => $value) {
                 $name = 'cart_' . $name;
                 $view->$name = $value;
@@ -313,9 +313,9 @@ class Piwik_Goals_Controller extends Piwik_Controller
         $view->setParametersToModify(array('idGoal' => $idGoal));
 
         $nameToLabel = $this->goalColumnNameToLabel;
-        if ($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER) {
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             $nameToLabel['nb_conversions'] = 'General_EcommerceOrders';
-        } elseif ($idGoal == Piwik_Archive::LABEL_ECOMMERCE_CART) {
+        } elseif ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
             $nameToLabel['nb_conversions'] = Piwik_Translate('General_VisitsWith', Piwik_Translate('Goals_AbandonedCart'));
             $nameToLabel['conversion_rate'] = $nameToLabel['nb_conversions'];
             $nameToLabel['revenue'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('Goals_ColumnRevenue'));
@@ -433,7 +433,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
             'urlSparklineConversionRate' => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('conversion_rate'), 'idGoal' => $idGoal)),
             'urlSparklineRevenue'        => $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue'), 'idGoal' => $idGoal)),
         );
-        if ($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER) {
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             $items = $dataRow->getColumn('items');
             $aov = $dataRow->getColumn('avg_order_revenue');
             $return = array_merge($return, array(
@@ -561,7 +561,7 @@ class Piwik_ViewDataTable_HtmlTable_EcommerceOrder extends Piwik_ViewDataTable_H
 {
     protected function getViewDataTableId()
     {
-        return Piwik_Archive::LABEL_ECOMMERCE_ORDER;
+        return Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
     }
 }
 
@@ -569,6 +569,6 @@ class Piwik_ViewDataTable_HtmlTable_EcommerceAbandonedCart extends Piwik_ViewDat
 {
     protected function getViewDataTableId()
     {
-        return Piwik_Archive::LABEL_ECOMMERCE_CART;
+        return Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
     }
 }

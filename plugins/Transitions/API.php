@@ -109,9 +109,9 @@ class Piwik_Transitions_API
         );
         foreach ($reportNames as $reportName => $replaceLabel) {
             if (isset($report[$reportName])) {
-                $columnNames = array(Piwik_Archive::INDEX_NB_ACTIONS => 'referrals');
+                $columnNames = array(Piwik_Metrics::INDEX_NB_ACTIONS => 'referrals');
                 if ($replaceLabel) {
-                    $columnNames[Piwik_Archive::INDEX_NB_ACTIONS] = 'referrals';
+                    $columnNames[Piwik_Metrics::INDEX_NB_ACTIONS] = 'referrals';
                 }
                 $report[$reportName]->filter('ReplaceColumnNames', array($columnNames));
             }
@@ -286,7 +286,7 @@ class Piwik_Transitions_API
                 . 'log_link_visit_action.idaction_' . $type . ' != ' . intval($idaction) . ')';
         }
 
-        $metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
+        $metrics = array(Piwik_Metrics::INDEX_NB_ACTIONS);
         $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionColumn);
 
         $this->totalTransitionsToFollowingActions = 0;
@@ -295,11 +295,11 @@ class Piwik_Transitions_API
             $dataTable = new Piwik_DataTable;
             if (isset($data[$type])) {
                 foreach ($data[$type] as &$record) {
-                    $actions = intval($record[Piwik_Archive::INDEX_NB_ACTIONS]);
+                    $actions = intval($record[Piwik_Metrics::INDEX_NB_ACTIONS]);
                     $dataTable->addRow(new Piwik_DataTable_Row(array(
                                                                     Piwik_DataTable_Row::COLUMNS => array(
                                                                         'label'                         => $this->getPageLabel($record, $isTitle),
-                                                                        Piwik_Archive::INDEX_NB_ACTIONS => $actions
+                                                                        Piwik_Metrics::INDEX_NB_ACTIONS => $actions
                                                                     )
                                                                )));
                     $this->totalTransitionsToFollowingActions += $actions;
@@ -362,14 +362,14 @@ class Piwik_Transitions_API
         $type = $this->getColumnTypeSuffix($actionType);
         $where = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
 
-        $metrics = array(Piwik_Archive::INDEX_NB_VISITS);
+        $metrics = array(Piwik_Metrics::INDEX_NB_VISITS);
         $data = $logAggregator->queryVisitsByDimension($dimensions, $where, $selects, $metrics, $rankingQuery);
 
         $referrerData = array();
         $referrerSubData = array();
 
         foreach ($data as $referrerType => &$subData) {
-            $referrerData[$referrerType] = array(Piwik_Archive::INDEX_NB_VISITS => 0);
+            $referrerData[$referrerType] = array(Piwik_Metrics::INDEX_NB_VISITS => 0);
             if ($referrerType != Piwik_Common::REFERER_TYPE_DIRECT_ENTRY) {
                 $referrerSubData[$referrerType] = array();
             }
@@ -379,12 +379,12 @@ class Piwik_Transitions_API
                     $row['referrer_data'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
                 }
 
-                $referrerData[$referrerType][Piwik_Archive::INDEX_NB_VISITS] += $row[Piwik_Archive::INDEX_NB_VISITS];
+                $referrerData[$referrerType][Piwik_Metrics::INDEX_NB_VISITS] += $row[Piwik_Metrics::INDEX_NB_VISITS];
 
                 $label = $row['referrer_data'];
                 if ($label) {
                     $referrerSubData[$referrerType][$label] = array(
-                        Piwik_Archive::INDEX_NB_VISITS => $row[Piwik_Archive::INDEX_NB_VISITS]
+                        Piwik_Metrics::INDEX_NB_VISITS => $row[Piwik_Metrics::INDEX_NB_VISITS]
                     );
                 }
             }
@@ -444,7 +444,7 @@ class Piwik_Transitions_API
         } else {
             $joinLogActionOn = $dimension;
         }
-        $metrics = array(Piwik_Archive::INDEX_NB_ACTIONS);
+        $metrics = array(Piwik_Metrics::INDEX_NB_ACTIONS);
         $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionOn);
 
         $loops = 0;
@@ -452,11 +452,11 @@ class Piwik_Transitions_API
         $previousPagesDataTable = new Piwik_DataTable;
         if (isset($data['result'][1])) {
             foreach ($data['result'][1] as &$page) {
-                $nbActions = intval($page[Piwik_Archive::INDEX_NB_ACTIONS]);
+                $nbActions = intval($page[Piwik_Metrics::INDEX_NB_ACTIONS]);
                 $previousPagesDataTable->addRow(new Piwik_DataTable_Row(array(
                                                                              Piwik_DataTable_Row::COLUMNS => array(
                                                                                  'label'                         => $this->getPageLabel($page, $isTitle),
-                                                                                 Piwik_Archive::INDEX_NB_ACTIONS => $nbActions
+                                                                                 Piwik_Metrics::INDEX_NB_ACTIONS => $nbActions
                                                                              )
                                                                         )));
                 $nbPageviews += $nbActions;
@@ -466,11 +466,11 @@ class Piwik_Transitions_API
         $previousSearchesDataTable = new Piwik_DataTable;
         if (isset($data['result'][2])) {
             foreach ($data['result'][2] as &$search) {
-                $nbActions = intval($search[Piwik_Archive::INDEX_NB_ACTIONS]);
+                $nbActions = intval($search[Piwik_Metrics::INDEX_NB_ACTIONS]);
                 $previousSearchesDataTable->addRow(new Piwik_DataTable_Row(array(
                                                                                 Piwik_DataTable_Row::COLUMNS => array(
                                                                                     'label'                         => $search['name'],
-                                                                                    Piwik_Archive::INDEX_NB_ACTIONS => $nbActions
+                                                                                    Piwik_Metrics::INDEX_NB_ACTIONS => $nbActions
                                                                                 )
                                                                            )));
                 $nbPageviews += $nbActions;
@@ -479,12 +479,12 @@ class Piwik_Transitions_API
 
         if (isset($data['result'][0])) {
             foreach ($data['result'][0] as &$referrer) {
-                $nbPageviews += intval($referrer[Piwik_Archive::INDEX_NB_ACTIONS]);
+                $nbPageviews += intval($referrer[Piwik_Metrics::INDEX_NB_ACTIONS]);
             }
         }
 
         if (count($data['excludedFromLimit'])) {
-            $loops += intval($data['excludedFromLimit'][0][Piwik_Archive::INDEX_NB_ACTIONS]);
+            $loops += intval($data['excludedFromLimit'][0][Piwik_Metrics::INDEX_NB_ACTIONS]);
             $nbPageviews += $loops;
         }
 
@@ -557,7 +557,7 @@ class Piwik_Transitions_API
         $report['referrers'] = array();
         foreach ($data->getRows() as $row) {
             $referrerId = $row->getColumn('label');
-            $visits = $row->getColumn(Piwik_Archive::INDEX_NB_VISITS);
+            $visits = $row->getColumn(Piwik_Metrics::INDEX_NB_VISITS);
             if ($visits) {
                 // load details (i.e. subtables)
                 $details = array();
@@ -566,7 +566,7 @@ class Piwik_Transitions_API
                     foreach ($subTable->getRows() as $subRow) {
                         $details[] = array(
                             'label'     => $subRow->getColumn('label'),
-                            'referrals' => $subRow->getColumn(Piwik_Archive::INDEX_NB_VISITS)
+                            'referrals' => $subRow->getColumn(Piwik_Metrics::INDEX_NB_VISITS)
                         );
                     }
                 }

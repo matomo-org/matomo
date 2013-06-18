@@ -17,7 +17,7 @@ class Piwik_Provider_Archiver extends Piwik_PluginsArchiver
     {
         $metrics = $this->getProcessor()->getMetricsForDimension(self::PROVIDER_FIELD);
         $tableProvider = $this->getProcessor()->getDataTableFromDataArray($metrics);
-        $this->getProcessor()->insertBlobRecord(self::PROVIDER_RECORD_NAME, $tableProvider->getSerialized($this->maximumRows, null, Piwik_Archive::INDEX_NB_VISITS));
+        $this->getProcessor()->insertBlobRecord(self::PROVIDER_RECORD_NAME, $tableProvider->getSerialized($this->maximumRows, null, Piwik_Metrics::INDEX_NB_VISITS));
     }
 
     public function archivePeriod()

@@ -1353,7 +1353,7 @@ class Piwik_API_API
 
         // add "processed metrics" like actions per visit or bounce rate
         // note: some reports should not be filtered with AddColumnProcessedMetrics
-        // specifically, reports without the Piwik_Archive::INDEX_NB_VISITS metric such as Goals.getVisitsUntilConversion & Goal.getDaysToConversion
+        // specifically, reports without the Piwik_Metrics::INDEX_NB_VISITS metric such as Goals.getVisitsUntilConversion & Goal.getDaysToConversion
         // this is because the AddColumnProcessedMetrics filter removes all datable rows lacking this metric
         if
         (

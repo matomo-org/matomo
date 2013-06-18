@@ -227,7 +227,7 @@ class Piwik_Referers extends Piwik_Plugin
         Piwik_AddWidget('Referers_Referers', 'Referers_WidgetCampaigns', 'Referers', 'getCampaigns');
         Piwik_AddWidget('Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
         Piwik_AddWidget('Referers_Referers', 'Referers_WidgetGetAll', 'Referers', 'getAll');
-        if (Piwik_Archive::isSegmentationEnabled()) {
+        if (Piwik::isSegmentationEnabled()) {
             Piwik_AddWidget('SEO', 'Referers_WidgetTopKeywordsForPages', 'Referers', 'getKeywordsForPage');
         }
     }

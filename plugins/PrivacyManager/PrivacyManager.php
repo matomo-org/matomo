@@ -332,7 +332,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
     private static function getGoalMetricsToKeep()
     {
         // keep all goal metrics
-        return array_values(Piwik_Archive::$mappingFromIdToNameGoal);
+        return array_values(Piwik_Metrics::$mappingFromIdToNameGoal);
     }
 
     /**

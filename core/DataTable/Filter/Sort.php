@@ -151,9 +151,10 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
             return $this->columnToSort;
         }
 
-        // sorting by "nb_visits" but the index is Piwik_Archive::INDEX_NB_VISITS in the table
-        if (isset(Piwik_Archive::$mappingFromNameToId[$this->columnToSort])) {
-            $column = Piwik_Archive::$mappingFromNameToId[$this->columnToSort];
+        $columnIdToName = Piwik_Metrics::getMappingFromIdToName();
+        // sorting by "nb_visits" but the index is Piwik_Metrics::INDEX_NB_VISITS in the table
+        if (isset($columnIdToName[$this->columnToSort])) {
+            $column = $columnIdToName[$this->columnToSort];
             $value = $row->getColumn($column);
 
             if ($value !== false) {
@@ -163,7 +164,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 
         // eg. was previously sorted by revenue_per_visit, but this table
         // doesn't have this column; defaults with nb_visits
-        $column = Piwik_Archive::INDEX_NB_VISITS;
+        $column = Piwik_Metrics::INDEX_NB_VISITS;
         $value = $row->getColumn($column);
         if ($value !== false) {
             return $column;
