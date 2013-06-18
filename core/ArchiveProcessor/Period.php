@@ -154,7 +154,6 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
             $table->setColumnAggregationOperations($columnAggregationOperations);
         }
 
-        $this->initArchiver();
         $data = $this->archiver->getDataTableExpanded($name, $idSubTable = null, $addMetadataSubtableId = false);
         if ($data instanceof Piwik_DataTable_Array) {
             foreach ($data->getArray() as $date => $tableToSum) {
