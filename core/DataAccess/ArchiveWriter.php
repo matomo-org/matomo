@@ -9,12 +9,13 @@
  * @package Piwik
  */
 
+/**
+ * This class is used to create a new Archive.
+ * An Archive is a set of reports (numeric and data tables).
+ * New data can be inserted in the archive with insertRecord/insertBulkRecords
+ */
 class Piwik_DataAccess_ArchiveWriter
 {
-    /**
-     * A row is created to lock an idarchive for the current archive being processed
-     * @var string
-     */
     const PREFIX_SQL_LOCK = "locked_";
 
     protected $fields = array('idarchive',
@@ -111,12 +112,6 @@ class Piwik_DataAccess_ArchiveWriter
         return self::makeLockName($this->idSite, $this->period, $this->segment);
     }
 
-    /**
-     * @param $idsite
-     * @param $period
-     * @param Piwik_Segment $segment
-     * @return string
-     */
     protected static function makeLockName($idsite, Piwik_Period $period, Piwik_Segment $segment)
     {
         $config = Piwik_Config::getInstance();
@@ -139,7 +134,7 @@ class Piwik_DataAccess_ArchiveWriter
         $this->releaseArchiveProcessorLock();
 
         if($this->period->getLabel() != 'day') {
-            $purgeArchivesOlderThan = Piwik_ArchiveProcessor_Rules::doPurgeOutdatedArchives($this->dateStart);
+            $purgeArchivesOlderThan = Piwik_ArchiveProcessor_Rules::shouldPurgeOutdatedArchives($this->dateStart);
             if($purgeArchivesOlderThan) {
                 Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives($this->dateStart, $purgeArchivesOlderThan);
             }

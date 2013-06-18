@@ -574,7 +574,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
             self::$invalidSummedColumnNameToRenamedNameFromPeriodArchive
         );
 
-        $this->getProcessor()->archiveNumericValuesGeneral(array(
+        $this->getProcessor()->aggregateNumericMetrics(array(
                                                             self::METRIC_PAGEVIEWS_RECORD_NAME,
                                                             self::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME,
                                                             self::METRIC_DOWNLOADS_RECORD_NAME,

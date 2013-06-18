@@ -53,35 +53,24 @@ abstract class Piwik_ArchiveProcessor
     protected $archiveWriter;
 
     /**
-     * Object used to generate (depending on the $dateStart) the name of the DB table to use to store numeric values
-     *
-     * @var Piwik_TablePartitioning
-     */
-    protected $tableArchiveNumeric;
-
-    /**
-     * Object used to generate (depending on the $dateStart)  the name of the DB table to use to store numeric values
-     *
-     * @var Piwik_TablePartitioning
-     */
-    protected $tableArchiveBlob;
-
-    /**
      * Is the current archive temporary. ie.
      * - today
      * - current week / month / year
      */
     protected $temporaryArchive;
 
+    /**
+     * @var Piwik_DataAccess_LogAggregator
+     */
     protected $logAggregator = null;
 
     /**
-     * @var int Number of visits cached as early as possible
+     * @var int Cached number of visits cached
      */
     protected $visitsMetricCached = false;
 
     /**
-     * @var int Number of visits with conversions, cached when selecting
+     * @var int Cached number of visits with conversions
      */
     protected $convertedVisitsMetricCached = false;
 
@@ -264,16 +253,10 @@ abstract class Piwik_ArchiveProcessor
     protected function doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
     {
         $processAllReportsIncludingVisitsSummary = Piwik_ArchiveProcessor_Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel());
-
         $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary || $requestedPlugin == 'VisitsSummary';
         return $doesRequestedPluginIncludeVisitsSummary;
     }
 
-    /**
-     * @param $requestedPlugin
-     * @param $enforceProcessCoreMetricsOnly
-     * @return mixed
-     */
     protected function computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly)
     {
         $archiveWriter = new Piwik_DataAccess_ArchiveWriter($this->getSite()->getId(), $this->getSegment(), $this->getPeriod(), $requestedPlugin, $this->isArchiveTemporary());

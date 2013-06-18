@@ -10,6 +10,7 @@
  */
 
 /**
+ * This class
  * @package Piwik
  * @subpackage Piwik_ArchiveProcessor
  */
@@ -36,17 +37,6 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
     }
 
     /**
-     * Output:
-     *        array(
-     *            LABEL => array(
-     *                        Piwik_Archive::INDEX_NB_UNIQ_VISITORS    => 0,
-     *                        Piwik_Archive::INDEX_NB_VISITS            => 0
-     *                    ),
-     *            LABEL2 => array(
-     *                    [...]
-     *                    )
-     *        )
-     *
      * Helper function that returns an array with common statistics for a given database field distinct values.
      *
      * The statistics returned are:
@@ -96,10 +86,6 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
     }
 
 
-    /**
-     * @param $data
-     * @return array
-     */
     protected function convertMetricsIdToName($data)
     {
         $metrics = array();

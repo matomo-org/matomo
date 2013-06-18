@@ -402,7 +402,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
                 $fieldsToSum[] = self::getRecordName($metricName, $goalId);
             }
         }
-        $records = $this->getProcessor()->archiveNumericValuesGeneral($fieldsToSum);
+        $records = $this->getProcessor()->aggregateNumericMetrics($fieldsToSum);
 
         // also recording conversion_rate for each goal
         foreach ($goalIdsToSum as $goalId) {

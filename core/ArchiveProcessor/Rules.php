@@ -1,8 +1,17 @@
 <?php
 /**
- * The class that rules the ArchiveProcessor
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @category Piwik
+ * @package Piwik
  */
 
+/**
+ * This class contains Archiving rules/logic which are used in several places
+ */
 class Piwik_ArchiveProcessor_Rules
 {
     const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
@@ -83,8 +92,10 @@ class Piwik_ArchiveProcessor_Rules
     /**
      * Given a monthly archive table, will delete all reports that are now outdated,
      * or reports that ended with an error
+     *
+     * @return int False, or timestamp indicating which archives to delete
      */
-    public static function doPurgeOutdatedArchives(Piwik_Date $date)
+    public static function shouldPurgeOutdatedArchives(Piwik_Date $date)
     {
         if (self::$purgeDisabledByTests) {
             return false;
@@ -95,9 +106,9 @@ class Piwik_ArchiveProcessor_Rules
         // we shall purge temporary archives after their timeout is finished, plus an extra 6 hours
         // in case archiving is disabled or run once a day, we give it this extra time to run
         // and re-process more recent records...
-        // TODO: Instead of hardcoding 6 we should put the actual number of hours between 2 archiving runs
         $temporaryArchivingTimeout = self::getTodayArchiveTimeToLive();
-        $purgeEveryNSeconds = max($temporaryArchivingTimeout, 6 * 3600);
+        $hoursBetweenPurge = 6;
+        $purgeEveryNSeconds = max($temporaryArchivingTimeout, $hoursBetweenPurge * 3600);
 
         // we only delete archives if we are able to process them, otherwise, the browser might process reports
         // when &segment= is specified (or custom date range) and would below, delete temporary archives that the
@@ -123,7 +134,6 @@ class Piwik_ArchiveProcessor_Rules
         return false;
     }
 
-
     public static function getMinTimeProcessedForTemporaryArchive(Piwik_Date $dateStart, Piwik_Period $period, Piwik_Segment $segment, Piwik_Site $site)
     {
         $now = time();
@@ -134,9 +144,10 @@ class Piwik_ArchiveProcessor_Rules
             if ($period->getNumberOfSubperiods() == 0
                 && $dateStart->getTimestamp() <= $now
             ) {
+                // Today: accept any recent enough archive
                 $minimumArchiveTime = false;
             } else {
-                // However, if archiving is disabled for this request, we shall
+                // This week, this month, this year:
                 // accept any archive that was processed today after 00:00:01 this morning
                 $timezone = $site->getTimezone();
                 $minimumArchiveTime = Piwik_Date::factory(Piwik_Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
@@ -153,6 +164,7 @@ class Piwik_ArchiveProcessor_Rules
         }
         Piwik_SetOption(self::OPTION_TODAY_ARCHIVE_TTL, $timeToLiveSeconds, $autoLoad = true);
     }
+
     public static function getTodayArchiveTimeToLive()
     {
         $timeToLive = Piwik_GetOption(self::OPTION_TODAY_ARCHIVE_TTL);

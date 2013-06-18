@@ -10,7 +10,8 @@
  */
 
 /**
- * This class queries the Visitor Logs tables (visits, actions, conversions, ecommerce) and returns aggregate data
+ * This class queries the Visitor logs tables (visits, actions, conversions, ecommerce)
+ * and returns aggregate data.
  */
 class Piwik_DataAccess_LogAggregator
 {
@@ -88,17 +89,13 @@ class Piwik_DataAccess_LogAggregator
         return self::getSqlRevenue('SUM(' . self::LOG_CONVERSION_TABLE . '.' . $field . ')');
     }
 
-    /**
-     * @param string $field
-     * @return string
-     */
     static public function getSqlRevenue($field)
     {
         return "ROUND(" . $field . "," . Piwik_Tracker_GoalManager::REVENUE_PRECISION . ")";
     }
 
     /**
-     * Query visits by dimension
+     * Query visits logs by dimension, and return the aggregate data.
      *
      * @param array|string $dimensions     Can be a string, eg. "referer_name", will be aliased as 'label' in the returned rows
      *                                      Can also be an array of strings, when the dimension spans multiple fields,
@@ -193,6 +190,16 @@ class Piwik_DataAccess_LogAggregator
         return $dimensionsToSelect;
     }
 
+    /**
+     * Returns the dimensions array, where
+     * (1) the table name is prepended to the field
+     * (2) the "AS `label` " is appended to the field
+     *
+     * @param $dimensions
+     * @param $tableName
+     * @param bool $appendSelectAs
+     * @return mixed
+     */
     protected function getSelectDimensions($dimensions, $tableName, $appendSelectAs = true)
     {
         foreach ($dimensions as $selectAs => &$field) {
@@ -218,10 +225,6 @@ class Piwik_DataAccess_LogAggregator
         return $dimensions;
     }
 
-    /**
-     * @param $field
-     * @return bool
-     */
     protected function isFieldFunctionOrComplexExpression($field)
     {
         return strpos($field, "(") !== false
@@ -233,12 +236,7 @@ class Piwik_DataAccess_LogAggregator
         return " AS `" . $metricId . "`";
     }
 
-    /**
-     * @param $metricId
-     * @param $metricsRequested
-     * @return bool
-     */
-    protected function isMetricRequested($metricId, $metricsRequested)
+    protected function isMetricRequested($metricId, array $metricsRequested)
     {
         return $metricsRequested === false
             || in_array($metricId, $metricsRequested);
@@ -302,20 +300,7 @@ class Piwik_DataAccess_LogAggregator
     }
 
     /**
-     * Returns the actions by the given dimension
-     *
-     * - The basic use case is to use $dimensionRecord and optionally $where.
-     * - If you want to apply a limit and group the others, use $orderBy to sort the way you
-     *   want the limit to be applied and pass a pre-configured instance of Piwik_RankingQuery.
-     *   The ranking query instance has to have a limit and at least one label column.
-     *   See Piwik_RankingQuery::setLimit() and Piwik_RankingQuery::addLabelColumn().
-     *   If $rankingQuery is set, the return value is the array returned by
-     *   Piwik_RankingQuery::execute().
-     * - By default, the method only queries log_link_visit_action. If you need data from
-     *   log_action (e.g. to partition the result from the ranking query into the different
-     *   action types), use $joinLogActionOnColumn and $additionalSelects to join log_action and select
-     *   the column you need from log_action.
-     *
+     * Queries the Actions table log_link_visit_action and returns the aggregate data.
      *
      * @param array|string $dimensions      the dimensionRecord(s) you're interested in
      * @param string $where      where clause
@@ -326,7 +311,6 @@ class Piwik_DataAccess_LogAggregator
      * @param bool|string $joinLogActionOnColumn  column from log_link_visit_action that
      *                                              log_action should be joined on.
      *                                                can be an array to join multiple times.
-     * @internal param bool|string $orderBy order by clause
      * @return mixed
      */
     public function queryActionsByDimension($dimensions, $where = '', $additionalSelects = array(), $metrics = false, $rankingQuery = null, $joinLogActionOnColumn = false)
@@ -390,9 +374,7 @@ class Piwik_DataAccess_LogAggregator
     }
 
     /**
-     * @see queryVisitsByDimension() Similar to this function,
-     * but queries metrics for the requested dimensionRecord,
-     * for each Goal conversion
+     * Queries the log_conversion table and return aggregate data
      *
      * @param string|array $dimensions
      * @param bool|string $where

@@ -10,7 +10,7 @@
  */
 
 /**
- * Data Access object used to query archives, create new archives, and insert data for them.
+ * Data Access object used to query archives
  *
  * A record in the Database for a given report is defined by
  * - idarchive     = unique ID that is associated to all the data of this archive (idsite+period+date)
@@ -28,14 +28,6 @@ class Piwik_DataAccess_ArchiveSelector
     const NB_VISITS_RECORD_LOOKED_UP = "nb_visits";
     const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
-    /**
-     * @param $site
-     * @param $period
-     * @param $segment
-     * @param $minDatetimeArchiveProcessedUTC
-     * @param $requestedPlugin
-     * @return array|bool
-     */
     static public function getArchiveIdAndVisits(Piwik_Site $site, Piwik_Period $period, Piwik_Segment $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin)
     {
         $dateStart = $period->getDateStart();
@@ -88,7 +80,6 @@ class Piwik_DataAccess_ArchiveSelector
     protected static function getVisitsMetricsFromResults($idArchive, $idArchiveVisitsSummary, $results)
     {
         $visits = $visitsConverted = false;
-
         $archiveWithVisitsMetricsWasFound = ($idArchiveVisitsSummary !== false);
         if($archiveWithVisitsMetricsWasFound) {
             $visits = $visitsConverted = 0;
@@ -129,7 +120,7 @@ class Piwik_DataAccess_ArchiveSelector
      * 
      * @param array $siteIds
      * @param array $periods
-     * @param Piwik_Segment|null $segment
+     * @param Piwik_Segment $segment
      * @param array $plugins List of plugin names for which data is being requested.
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
@@ -190,15 +181,16 @@ class Piwik_DataAccess_ArchiveSelector
         
         return $result;
     }
-    
+
     /**
      * Queries and returns archive data using a set of archive IDs.
-     * 
+     *
      * @param array $archiveIds The IDs of the archives to get data from.
-     * @param array $recordNames The names of the data to retrieve (ie, nb_visits,
-     *                            nb_actions, etc.)
+     * @param array $recordNames The names of the data to retrieve (ie, nb_visits, nb_actions, etc.)
      * @param string $archiveDataType The archive data type (either, 'blob' or 'numeric').
      * @param bool $loadAllSubtables Whether to pre-load all subtables
+     * @throws Exception
+     * @return array
      */
     static public function getArchiveData($archiveIds, $recordNames, $archiveDataType, $loadAllSubtables)
     {

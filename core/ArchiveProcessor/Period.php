@@ -10,12 +10,11 @@
  */
 
 /**
- * Handles the archiving process for a period
- *
  * This class provides generic methods to archive data for a period (week / month / year).
+ * The archiving for a period is done by aggregating "sub periods" contained within this period.
+ * For example to process a week's data, we sum each day's data.
  *
- * These methods are called by the plugins that do the logic of archiving their own data. \
- * They hook on the event 'ArchiveProcessing_Period.compute'
+ * Public methods can be called by the plugins that hook on the event 'ArchiveProcessing_Period.compute'
  *
  * @package Piwik
  * @subpackage Piwik_ArchiveProcessor
@@ -24,7 +23,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
 {
     /**
      * Array of (column name before => column name renamed) of the columns for which sum operation is invalid.
-     * The summed value is not accurate and these columns will be renamed accordingly.
+     * These columns will be renamed as per this mapping.
      * @var array
      */
     protected static $invalidSummedColumnNameToRenamedName = array(
@@ -52,12 +51,12 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
      *  final DataTable (ie. the number of distinct LABEL over the period) (eg. the number of distinct keywords over the last month)
      *
      * @param string|array $recordNames                           Field name(s) of DataTable to select so we can get the sum
-     * @param array $invalidSummedColumnNameToRenamedName  (current_column_name => new_column_name) for columns that must change names when summed
-     *                                                             (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
      * @param int $maximumRowsInDataTableLevelZero       Max row count of parent datatable to archive
      * @param int $maximumRowsInSubDataTable             Max row count of children datatable(s) to archive
      * @param string $columnToSortByBeforeTruncation     Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count)
      * @param array $columnAggregationOperations         Operations for aggregating columns, @see Piwik_DataTable_Row::sumRow()
+     * @param array $invalidSummedColumnNameToRenamedName  (current_column_name => new_column_name) for columns that must change names when summed
+     *                                                             (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
      *
      * @return array  array (
      *                    nameTable1 => number of rows,
@@ -93,6 +92,44 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
         return $nameToCount;
     }
 
+    /**
+     * Given a list of records names, the method will fetch all their values over the period, and aggregate them.
+     *
+     * For example $columns = array('nb_visits', 'sum_time_visit')
+     *  it will sum all values of nb_visits for the period (eg. get number of visits for the month by summing the visits of every day)
+     *
+     * The aggregate metrics are then stored in the Archive and the values are returned.
+     *
+     * @param array|string $columns            Array of strings or string containing the field names to select
+     * @param bool|string $operationToApply Available operations = sum, max, min. If false, the operation will be guessed from the column name (guesses from column names min_ and max_)
+     * @return array
+     */
+    public function aggregateNumericMetrics($columns, $operationToApply = false)
+    {
+        if (!is_array($columns)) {
+            $columns = array($columns);
+        }
+        $this->initArchiver();
+        $data = $this->archiver->getNumeric($columns);
+
+        $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
+        $results = $this->aggregateDataArray($data, $operationForColumn);
+        $results = $this->defaultColumnsToZero($columns, $results);
+        $this->enrichWithUniqueVisitorsMetric($results);
+
+        foreach ($results as $name => $value) {
+            $this->archiveWriter->insertRecord($name, $value);
+        }
+
+        // if asked for only one field to sum
+        if (count($results) == 1) {
+            return reset($results);
+        }
+
+        // returns the array of records once summed
+        return $results;
+    }
+
     protected function initArchiver()
     {
         if (empty($this->archiver)) {
@@ -103,8 +140,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
 
     /**
      * This method selects all DataTables that have the name $name over the period.
-     * It calls the appropriate methods that sum all these tables together.
-     * The resulting DataTable is returned.
+     * All these DataTables are then added together, and the resulting DataTable is returned.
      *
      * @param string $name
      * @param array $invalidSummedColumnNameToRenamedName  columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
@@ -118,6 +154,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
             $table->setColumnAggregationOperations($columnAggregationOperations);
         }
 
+        $this->initArchiver();
         $data = $this->archiver->getDataTableExpanded($name, $idSubTable = null, $addMetadataSubtableId = false);
         if ($data instanceof Piwik_DataTable_Array) {
             foreach ($data->getArray() as $date => $tableToSum) {
@@ -144,45 +181,8 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
     protected function aggregateCoreVisitsMetrics()
     {
         $toSum = Piwik_Archive::getVisitsMetricNames();
-        $metrics = $this->archiveNumericValuesGeneral($toSum);
+        $metrics = $this->aggregateNumericMetrics($toSum);
         return $metrics;
-    }
-
-    /**
-     * Given a list of fields names, the method will fetch all their values over the period, and archive them using the given operation.
-     *
-     * For example $columns = array('nb_visits', 'sum_time_visit')
-     *  it will sum all values of nb_visits for the period (for example give the number of visits for the month by summing the visits of every day)
-     *
-     * @param array|string $columns            Array of strings or string containg the field names to select
-     * @param string $operationToApply  Available operations = sum, max, min. If false, the operation will be guessed from the column name (guesses from column names min_ and max_)
-     * @throws Exception
-     * @return array
-     */
-    public function archiveNumericValuesGeneral($columns, $operationToApply = false)
-    {
-        if (!is_array($columns)) {
-            $columns = array($columns);
-        }
-        $this->initArchiver();
-        $data = $this->archiver->getNumeric($columns);
-
-        $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
-        $results = $this->aggregateDataArray($data, $operationForColumn);
-        $results = $this->defaultColumnsToZero($columns, $results);
-        $this->enrichWithUniqueVisitorsMetric($results);
-
-        foreach ($results as $name => $value) {
-            $this->archiveWriter->insertRecord($name, $value);
-        }
-
-        // if asked for only one field to sum
-        if (count($results) == 1) {
-            return reset($results);
-        }
-
-        // returns the array of records once summed
-        return $results;
     }
 
     protected function getOperationForColumns($columns, $defaultOperation)
@@ -281,7 +281,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
     /**
      * Processes number of unique visitors for the given period
      *
-     * This is the only metric we process from the logs directly,
+     * This is the only Period metric (ie. week/month/year/range) that we process from the logs directly,
      * since unique visitors cannot be summed like other metrics.
      *
      * @return int
