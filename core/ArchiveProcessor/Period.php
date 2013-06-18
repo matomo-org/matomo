@@ -111,7 +111,6 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
         }
         $this->initArchiver();
         $data = $this->archiver->getNumeric($columns);
-
         $operationForColumn = $this->getOperationForColumns($columns, $operationToApply);
         $results = $this->aggregateDataArray($data, $operationForColumn);
         $results = $this->defaultColumnsToZero($columns, $results);

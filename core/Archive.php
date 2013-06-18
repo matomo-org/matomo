@@ -175,6 +175,7 @@ class Piwik_Archive
         // if only one metric is returned, just return it as a numeric value
         if (empty($resultIndices)
             && count($result) <= 1
+            && (!is_array($names) || count($names) == 1)
         ) {
             $result = (float)reset($result); // convert to float in case $result is empty
         }

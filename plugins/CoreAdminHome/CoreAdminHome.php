@@ -115,7 +115,7 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
         foreach ($archiveTables as $table) {
             $date = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
             list($month, $year) = explode('_', $date);
-            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives(Piwik_Date::factory("01-$month-$year"));
+            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives(Piwik_Date::factory("$year-$month-15"));
         }
     }
 
