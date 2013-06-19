@@ -21,7 +21,6 @@ p {
 }
 
 #subtitle {
-    font-size: 30px;
     color: #6B320B;
     font-size: 27px;
 }
@@ -41,6 +40,10 @@ h3 {
     margin-top: 10px;
     font-size: 17px;
     color: #3F5163;
+}
+
+code {
+    font-size: 80%;
 }
 
 .topBarElem {
@@ -113,13 +116,10 @@ h3 {
     line-height: 1.4em;
     width: 860px;
     border: 1px solid #7A5A3F;
-    text-align: $ rightouleft;
     margin: auto;
     background: #FFFFFF;
     padding: 0.2em 2em 2em 2em;
     border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
 }
 
 /* form errors */
@@ -174,7 +174,7 @@ td {
 
 .submit input {
     margin-top: 15px;
-    background: transparent url(./plugins/Zeitgeist/images/background-submit.png) repeat scroll 0;
+    background: transparent url(../../../plugins/Zeitgeist/images/background-submit.png) repeat scroll 0;
     font-size: 1.4em;
     border-color: #CCCCCC rgb(153, 153, 153) rgb(153, 153, 153) rgb(204, 204, 204);
     border-style: double;

@@ -10,16 +10,7 @@
     <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
     <script type="text/javascript" src="libs/jquery/jquery.js"></script>
     <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#toFade').fadeOut(4000, function () { $(this).show().css({visibility: 'hidden'}); });
-            $('input:first').focus();
-            $('#progressbar').progressbar({
-                value: {{ percentDone }}
-            });
-        });
-    </script>
+    <script type="text/javascript" src="plugins/Installation/javascripts/installation.js"></script>
 
     <link rel="stylesheet" type="text/css" href="plugins/Installation/stylesheets/installation.css"/>
     {% if 'General_LayoutDirection'|translate =='rtl' %}
@@ -64,7 +55,7 @@
 
         <h3>{{ 'Installation_InstallationStatus'|translate }}</h3>
 
-        <div id="progressbar"></div>
+        <div id="progressbar" data-progress="{{ percentDone }}"></div>
         {{ 'Installation_PercentDone'|translate(percentDone) }}
     </div>
 </div>
