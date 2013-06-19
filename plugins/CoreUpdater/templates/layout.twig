@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <title>Piwik &rsaquo; {{ 'CoreUpdater_UpdateTitle'|translate }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -11,28 +10,14 @@
     <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/styles.css"/>
     <link rel="stylesheet" type="text/css" href="plugins/CoreHome/stylesheets/donate.css" />
     <link rel="stylesheet" type="text/css" href="plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css" />
-    <style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        .topBarElem {
-            font-family: arial, sans-serif !important;
-            font-size: 13px;
-            line-height: 1.33;
-        }
-
-        #donate-form-container {
-            margin: 0 0 2em 2em;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="plugins/CoreUpdater/stylesheets/updateLayout.css" />
 
     <script type="text/javascript" src="libs/jquery/jquery.js"></script>
     <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
     <script type="text/javascript" src="plugins/CoreHome/javascripts/donate.js"></script>
+    <script type="text/javascript" src="plugins/CoreUpdater/javascripts/updateLayout.js"></script>
     {% if 'General_LayoutDirection'|translate =='rtl' %}
-    <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
+        <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
     {% endif %}
     {{ loadJavascriptTranslations(['CoreHome'])|raw }}
 </head>
