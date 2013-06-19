@@ -132,17 +132,18 @@ class Piwik_Archive
         }
         $segment = new Piwik_Segment($segment, $websiteIds);
         $idSiteIsAll = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
-        return Piwik_Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll);
+        $isMultipleDate = Piwik_Period::isMultiplePeriod($strDate, $period);
+        return Piwik_Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
     }
 
-    public static function factory(Piwik_Segment $segment, array $periods, $idSites, $idSiteIsAll = false)
+    public static function factory(Piwik_Segment $segment, array $periods, $idSites, $idSiteIsAll = false, $isMultipleDate = false)
     {
         $forceIndexedBySite = false;
         $forceIndexedByDate = false;
         if ($idSiteIsAll || count($idSites) > 1) {
             $forceIndexedBySite = true;
         }
-        if (count($periods) > 1) {
+        if (count($periods) > 1 || $isMultipleDate) {
             $forceIndexedByDate = true;
         }
 

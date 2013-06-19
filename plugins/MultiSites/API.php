@@ -218,11 +218,13 @@ class Piwik_MultiSites_API
         ) {
             $dataTable = $dataTable->mergeChildren();
         } else {
-            if (!$dataTable instanceof Piwik_DataTable_Array
+            if (!($dataTable instanceof Piwik_DataTable_Array)
                 && $dataTable->getRowsCount() > 0
             ) {
+                $firstSite = is_array($sites) ? reset($sites) : $sites;
+                
                 $firstDataTableRow = $dataTable->getFirstRow();
-                $firstDataTableRow->setColumn('label', $sites);
+                $firstDataTableRow->setColumn('label', $firstSite);
             }
         }
 
@@ -232,20 +234,19 @@ class Piwik_MultiSites_API
         // if the period isn't a range & a lastN/previousN date isn't used, we get the same
         // data for the last period to show the evolution of visits/actions/revenue
         list($strLastDate, $lastPeriod) = Piwik_Period_Range::getLastDate($date, $period);
-        if (
-            // FIXMEA broken without this false
-            false
-            && $strLastDate !== false) {
+        if ($strLastDate !== false) {
             if ($lastPeriod !== false) {
                 // NOTE: no easy way to set last period date metadata when range of dates is requested.
                 //       will be easier if DataTable_Array::metadata is removed, and metadata that is
                 //       put there is put directly in Piwik_DataTable::metadata.
                 $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
             }
-            $pastArchive = Piwik_Archive::build('all', $period, $strLastDate, $segment, $_restrictSitesToLogin);
+            $pastArchive = Piwik_Archive::build($sites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
             $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
-
-            if(!($dataTable instanceof Piwik_DataTable_Simple)) {
+            
+            if ($pastData instanceof Piwik_DataTable_Array
+                && $multipleWebsitesRequested
+            ) {
                 $pastData = $pastData->mergeChildren();
             }
 
@@ -318,8 +319,13 @@ class Piwik_MultiSites_API
      */
     private function calculateEvolutionPercentages($currentData, $pastData, $apiMetrics)
     {
+        if (get_class($currentData) != get_class($pastData)) { // sanity check for regressions
+            throw new Exception("Expected \$pastData to be of type ".get_class($currentData)." - got "
+                               . get_class($pastData).".");
+        }
+        
         if ($currentData instanceof Piwik_DataTable_Array) {
-            $pastArray = $pastData->getRows();
+            $pastArray = $pastData->getArray();
             foreach ($currentData->getArray() as $subTable) {
                 $this->calculateEvolutionPercentages($subTable, current($pastArray), $apiMetrics);
                 next($pastArray);

@@ -553,6 +553,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                         $parametersToSet['serialize'] = 1;
 
                         $exampleUrl = $apiMetadata->getExampleUrl($class, $methodName, $parametersToSet);
+                        
                         if ($exampleUrl === false) {
                             $skipped[] = $apiId;
                             continue;
@@ -621,7 +622,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
         $parametersToSet = array(
             'idSite'         => $idSite,
-            'date'           => $periods == array('range') ? $dateTime : date('Y-m-d', strtotime($dateTime)),
+            'date'           => ($periods == array('range') || strpos($dateTime, ',') !== false) ?
+                                    $dateTime : date('Y-m-d', strtotime($dateTime)),
             'expanded'       => '1',
             'piwikUrl'       => 'http://example.org/piwik/',
             // Used in getKeywordsForPageUrl

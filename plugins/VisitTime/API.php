@@ -68,32 +68,24 @@ class Piwik_VisitTime_API
         // metrics to query
         $metrics = Piwik_Metrics::getVisitsMetricNames();
         unset($metrics[Piwik_Metrics::INDEX_MAX_ACTIONS]);
-
-        try {
-            // get metric data for every day within the supplied period
-            $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
-            $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
-            $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
-        } catch(Exception $e) {
-            throw new Exception("getByDayOfWeek not working yet");
-        }
-
-        // disabled for multiple sites/dates
-        if ( count( $archive->getParams()->getIdSites() ) > 1) {
-            throw new Exception("VisitTime.getByDayOfWeek does not support multiple sites.");
-        }
-
-        $periods = $archive->getParams()->getPeriods();
-        if ( count ($periods) > 1
-            && !($periods[0] instanceof Piwik_Period_Day)) {
+        
+        // disabled for multiple dates
+        if (Piwik_Period::isMultiplePeriod($date, $period)) {
             throw new Exception("VisitTime.getByDayOfWeek does not support multiple dates.");
         }
 
-        $dataTable = $archive->getDataTableFromNumeric($metrics);
+        // get metric data for every day within the supplied period
+        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+        $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
+        $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
 
-        if(!($dataTable instanceof Piwik_DataTable)) {
-            return new Piwik_DataTable();
+        // disabled for multiple sites
+        if (count($archive->getParams()->getIdSites()) > 1) {
+            throw new Exception("VisitTime.getByDayOfWeek does not support multiple sites.");
         }
+
+        $dataTable = $archive->getDataTableFromNumeric($metrics)->mergeChildren();
+
         // if there's no data for this report, don't bother w/ anything else
         if ($dataTable->getRowsCount() == 0) {
             return $dataTable;
