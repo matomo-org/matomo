@@ -37,8 +37,6 @@ class Piwik_DataAccess_ArchiveWriter
         $this->isArchiveTemporary = $isArchiveTemporary;
 
         $this->dateStart = $this->period->getDateStart();
-        $this->numericTable = Piwik_DataAccess_ArchiveTableCreator::getNumericTable($this->dateStart);
-        $this->blobTable = Piwik_DataAccess_ArchiveTableCreator::getBlobTable($this->dateStart);
     }
 
     public function getIdArchive()
@@ -73,18 +71,18 @@ class Piwik_DataAccess_ArchiveWriter
 
     protected function insertNewArchiveId()
     {
-        $table = $this->numericTable;
+        $numericTable = $this->getTableNumeric();
         $idSite = $this->idSite;
 
         $db = Zend_Registry::get('db');
         $locked = self::PREFIX_SQL_LOCK . Piwik_Common::generateUniqId();
         $date = date("Y-m-d H:i:s");
-        $dbLockName = "allocateNewArchiveId.$table";
+        $dbLockName = "allocateNewArchiveId.$numericTable";
 
         if (Piwik_GetDbLock($dbLockName, $maxRetries = 30) === false) {
-            throw new Exception("allocateNewArchiveId: Cannot get named lock for table $table.");
+            throw new Exception("allocateNewArchiveId: Cannot get named lock for table $numericTable.");
         }
-        $insertSql = "INSERT INTO $table "
+        $insertSql = "INSERT INTO $numericTable "
             . " SELECT ifnull(max(idarchive),0)+1,
 								'" . $locked . "',
 								" . (int)$idSite . ",
@@ -93,10 +91,10 @@ class Piwik_DataAccess_ArchiveWriter
 								0,
 								'" . $date . "',
 								0 "
-            . " FROM $table as tb1";
+            . " FROM $numericTable as tb1";
         $db->exec($insertSql);
         Piwik_ReleaseDbLock($dbLockName);
-        $selectIdSql = "SELECT idarchive FROM $table WHERE name = ? LIMIT 1";
+        $selectIdSql = "SELECT idarchive FROM $numericTable WHERE name = ? LIMIT 1";
         $id = $db->fetchOne($selectIdSql, $locked);
         return $id;
     }
@@ -132,15 +130,12 @@ class Piwik_DataAccess_ArchiveWriter
         $this->deletePreviousArchiveStatus();
         $this->logArchiveStatusAsFinal();
         $this->releaseArchiveProcessorLock();
-
-        if ($this->period->getLabel() != 'day') {
-            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives($this->dateStart);
-        }
     }
 
     protected function deletePreviousArchiveStatus()
     {
-        Piwik_Query("DELETE FROM " . $this->numericTable . "
+
+        Piwik_Query("DELETE FROM " . $this->getTableNumeric() . "
 					WHERE idarchive = ? AND (name = '" . $this->doneFlag . "' OR name LIKE '" . self::PREFIX_SQL_LOCK . "%')",
             array($this->getIdArchive())
         );
@@ -190,7 +185,6 @@ class Piwik_DataAccess_ArchiveWriter
         if (empty($values)) return true;
 
         $tableName = $this->getTableNameToInsert($valueSeen);
-
         Piwik::tableInsertBatch($tableName, $this->getInsertFields(), $values);
         return true;
     }
@@ -210,7 +204,6 @@ class Piwik_DataAccess_ArchiveWriter
         $tableName = $this->getTableNameToInsert($value);
 
         // duplicate idarchives are Ignored, see http://dev.piwik.org/trac/ticket/987
-
         $query = "INSERT IGNORE INTO " . $tableName . "
 					(" . implode(", ", $this->getInsertFields()) . ")
 					VALUES (?,?,?,?,?,?,?,?)";
@@ -234,9 +227,14 @@ class Piwik_DataAccess_ArchiveWriter
     protected function getTableNameToInsert($value)
     {
         if (is_numeric($value)) {
-            return $this->numericTable;
+            return $this->getTableNumeric();
         }
-        return $this->blobTable;
+        return Piwik_DataAccess_ArchiveTableCreator::getBlobTable($this->dateStart);;
+    }
+
+    protected function getTableNumeric()
+    {
+        return Piwik_DataAccess_ArchiveTableCreator::getNumericTable($this->dateStart);
     }
 
     protected function getInsertFields()

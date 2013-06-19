@@ -279,13 +279,18 @@ abstract class Piwik_ArchiveProcessor
         }
         $this->logStatusDebug($requestedPlugin);
 
-        if ($this->getNumberOfVisits() > 0
-            && !$enforceProcessCoreMetricsOnly
-        ) {
+        $isVisitsToday = $this->getNumberOfVisits() > 0;
+        if ($isVisitsToday
+            && !$enforceProcessCoreMetricsOnly) {
             $this->compute();
         }
 
         $archiveWriter->finalizeArchive();
+
+        if ($isVisitsToday && $this->period->getLabel() != 'day') {
+            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives($this->getPeriod()->getDateStart());
+        }
+
         return $archiveWriter->getIdArchive();
     }
 
