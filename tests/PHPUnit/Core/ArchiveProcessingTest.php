@@ -88,7 +88,8 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $this->assertTrue($timeout >= 10);
         $dateMinArchived = $now - $timeout;
 
-        $this->assertEquals($minTimestamp, $dateMinArchived, Piwik_Date::factory($minTimestamp)->getDatetime() . " != " . Piwik_Date::factory($dateMinArchived)->getDatetime());
+        $messageIfFails = Piwik_Date::factory($minTimestamp)->getDatetime() . " != " . Piwik_Date::factory($dateMinArchived)->getDatetime();
+        $this->assertTrue( $minTimestamp == $dateMinArchived || $minTimestamp == $dateMinArchived + 1, $messageIfFails);
         $this->assertTrue($archiveProcessor->isArchiveTemporary());
     }
 
