@@ -201,6 +201,78 @@
 })(jQuery);
 
 
+$(function() {
+    var refreshWidget = function (element, refreshAfterXSecs) {
+        // if the widget has been removed from the DOM, abort
+        if ($(element).parent().length == 0) {
+            return;
+        }
+
+        var lastMinutes = $(element).attr('data-last-minutes') || 3,
+          translations = JSON.parse($(element).attr('data-translations'));
+
+        var ajaxRequest = new ajaxHelper();
+        ajaxRequest.addParams({
+            module: 'API',
+            method: 'Live.getCounters',
+            format: 'json',
+            lastMinutes: lastMinutes
+        }, 'get');
+        ajaxRequest.setFormat('json');
+        ajaxRequest.setCallback(function (data) {
+            data = data[0];
+
+            // set text and tooltip of visitors count metric
+            var visitors = data['visitors'];
+            if (visitors == 1) {
+                var visitorsCountMessage = translations['one_visitor'];
+            }
+            else {
+                var visitorsCountMessage = translations['visitors'].replace('%s', visitors);
+            }
+            $('.simple-realtime-visitor-counter', element)
+              .attr('title', visitorsCountMessage)
+              .find('div').text(visitors);
+
+            // set text of individual metrics spans
+            var metrics = $('.simple-realtime-metric', element);
+
+            var visitsText = data['visits'] == 1
+              ? translations['one_visit'] : translations['visits'].replace('%s', data['visits']);
+            $(metrics[0]).text(visitsText);
+
+            var actionsText = data['actions'] == 1
+              ? translations['one_action'] : translations['actions'].replace('%s', data['actions']);
+            $(metrics[1]).text(actionsText);
+
+            var lastMinutesText = lastMinutes == 1
+              ? translations['one_minute'] : translations['minutes'].replace('%s', lastMinutes);
+            $(metrics[2]).text(lastMinutesText);
+
+            // schedule another request
+            setTimeout(function () { refreshWidget(element, refreshAfterXSecs); }, refreshAfterXSecs * 1000);
+        });
+        ajaxRequest.send(true);
+    };
+
+    var initSimpleRealtimeVisitorWidget = function () {
+        $('.simple-realtime-visitor-widget').each(function() {
+            var $this = $(this),
+              refreshAfterXSecs = $this.attr('data-refreshAfterXSecs');
+            if ($this.attr('data-inited')) {
+                return;
+            }
+
+            $this.attr('data-inited', 1);
+
+            setTimeout(function() { refreshWidget(this, refreshAfterXSecs ) }, refreshAfterXSecs * 1000);
+        });
+    };
+
+    initSimpleRealtimeVisitorWidget();
+});
+
+
 var pauseImage = "plugins/Live/images/pause.gif";
 var pauseDisabledImage = "plugins/Live/images/pause_disabled.gif";
 var playImage = "plugins/Live/images/play.gif";
