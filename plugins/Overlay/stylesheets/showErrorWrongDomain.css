@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: black;
+    background: white;
+    margin: 15px;
+    padding: 0;
+}
+
+p {
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+
+a {
+    color: #255792;
+}
