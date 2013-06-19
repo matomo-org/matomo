@@ -295,7 +295,7 @@ class Piwik_DataAccess_ArchiveSelector
         Piwik_Query(sprintf($query, $numericTable), $bind);
         Piwik::log("Purging Custom Range archives: done [ purged archives older than $yesterday from $numericTable / blob ]");
         try {
-            Piwik_Query(sprintf($query, Piwik_DataAccess_ArchiveTableCreator::getBlobTable($date, $createIfNotFound = false)), $bind);
+            Piwik_Query(sprintf($query, Piwik_DataAccess_ArchiveTableCreator::getBlobTable($date)), $bind);
         } catch (Exception $e) {
             // Individual blob tables could be missing
         }
@@ -307,7 +307,7 @@ class Piwik_DataAccess_ArchiveSelector
 
         Piwik_Query(sprintf($query, Piwik_DataAccess_ArchiveTableCreator::getNumericTable($date)));
         try {
-            Piwik_Query(sprintf($query, Piwik_DataAccess_ArchiveTableCreator::getBlobTable($date, $createIfNotFound = false)));
+            Piwik_Query(sprintf($query, Piwik_DataAccess_ArchiveTableCreator::getBlobTable($date)));
         } catch (Exception $e) {
             // Individual blob tables could be missing
         }

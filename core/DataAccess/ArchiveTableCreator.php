@@ -19,23 +19,20 @@ class Piwik_DataAccess_ArchiveTableCreator
 
     static public function getNumericTable(Piwik_Date $date)
     {
-        return self::getTable($date, self::NUMERIC_TABLE, $createIfNotFound = true);
+        return self::getTable($date, self::NUMERIC_TABLE);
     }
 
-    static public function getBlobTable(Piwik_Date $date, $createIfNotFound = true)
+    static public function getBlobTable(Piwik_Date $date)
     {
-        return self::getTable($date, self::BLOB_TABLE, $createIfNotFound);
+        return self::getTable($date, self::BLOB_TABLE);
     }
 
-    static protected function getTable(Piwik_Date $date, $type, $createIfNotFound)
+    static protected function getTable(Piwik_Date $date, $type)
     {
         $tableNamePrefix = "archive_" . $type;
         $tableName = $tableNamePrefix . "_" . $date->toString('Y_m');
         $tableName = Piwik_Common::prefixTable($tableName);
-        if($createIfNotFound) {
-            self::createArchiveTablesIfAbsent($tableName, $tableNamePrefix);
-        }
-        return $tableName;
+        self::createArchiveTablesIfAbsent($tableName, $tableNamePrefix);
         return $tableName;
     }
 
