@@ -3,35 +3,6 @@
 {% block content %}
 {{ loadJavascriptTranslations(['UsersManager'])|raw }}
 
-<style type="text/css">
-    .dialog {
-        display: none;
-        padding: 20px 10px;
-        color: #7A0101;
-        cursor: wait;
-        font-size: 1.2em;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    .editable:hover, .addrow:hover, .updateAccess:hover, .accessGranted:hover, .adduser:hover, .edituser:hover, .deleteuser:hover, .updateuser:hover, .cancel:hover {
-        cursor: pointer;
-    }
-
-    .addrow {
-        padding: 1em;
-        font-weight: bold;
-    }
-
-    .addrow a {
-        text-decoration: none;
-    }
-
-    .addrow img {
-        vertical-align: middle;
-    }
-</style>
-
 <h2>{{ 'UsersManager_ManageAccess'|translate }}</h2>
 <div id="sites">
     <section class="sites_selector_container">
