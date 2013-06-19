@@ -122,7 +122,7 @@ function renameDashboard() {
 }
 
 function removeDashboard() {
-    $('#removeDashboardConfirm').find('h2 span').html($('#dashboardWidgetsArea').dashboard('getDashboardName'));
+    $('#removeDashboardConfirm').find('h2 span').text($('#dashboardWidgetsArea').dashboard('getDashboardName'));
     piwikHelper.modalConfirm('#removeDashboardConfirm', {yes: function () { $('#dashboardWidgetsArea').dashboard('removeDashboard'); }});
 }
 
@@ -159,12 +159,12 @@ function copyDashboardToUser() {
         function (availableUsers) {
             $('#copyDashboardUser').empty();
             $('#copyDashboardUser').append(
-                $('<option></option>').val(piwik.userLogin).html(piwik.userLogin)
+                $('<option></option>').val(piwik.userLogin).text(piwik.userLogin)
             );
             $.each(availableUsers, function (index, user) {
                 if (user.login != 'anonymous' && user.login != piwik.userLogin) {
                     $('#copyDashboardUser').append(
-                        $('<option></option>').val(user.login).html(user.login + ' (' + user.alias + ')')
+                        $('<option></option>').val(user.login).text(user.login + ' (' + user.alias + ')')
                     );
                 }
             });

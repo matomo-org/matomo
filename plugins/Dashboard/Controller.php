@@ -153,8 +153,11 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     public function getAllDashboards()
     {
         $this->checkTokenInUrl();
+        
         if (Piwik::isUserIsAnonymous()) {
+            Piwik_DataTable_Renderer_Json::sendHeaderJSON();
             echo '[]';
+            
             return;
         }
 
