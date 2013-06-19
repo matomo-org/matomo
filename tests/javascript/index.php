@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
- <title>piwik.js: Unit Tests</title>
+    <meta charset="utf-8">
+    <title>piwik.js: Unit Tests</title>
 <?php
 require_once(dirname(__FILE__).'/SQLite.php');
 

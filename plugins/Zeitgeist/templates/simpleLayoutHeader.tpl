@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>{$HTML_TITLE}</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/simple_structure.css" />
 </head>
