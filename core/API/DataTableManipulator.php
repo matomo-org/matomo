@@ -109,7 +109,12 @@ abstract class Piwik_API_DataTableManipulator
 
         $request['idSubtable'] = $idSubTable;
         if ($dataTable) {
-            $request['date'] = $dataTable->metadata['period']->getDateStart()->toString();
+            $period = $dataTable->metadata['period'];
+            if ($period instanceof Piwik_Period_Range) {
+                $request['date'] = $period->getDateStart().','.$period->getDateEnd();
+            } else {
+                $request['date'] = $period->getDateStart()->toString();
+            }
         }
 
         $class = 'Piwik_' . $this->apiModule . '_API';

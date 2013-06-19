@@ -68,6 +68,16 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
                                                 'periods'    => array('month'),
                                                 'segment'    => 'provider==comcast.net',
                                                 'testSuffix' => '_segment_provider')),
+            
+            // test getDownloads w/ period=range & flat=1
+            array('Actions.getDownloads', array('idSite'                 => $idSite,
+                                                'date'                   => '2010-01-02,2010-01-05',
+                                                'periods'                => 'range',
+                                                'testSuffix'             => '_rangeFlat',
+                                                'otherRequestParameters' => array(
+                                                    'flat'               => 1,
+                                                    'expanded'           => 0
+                                                ))),
         );
     }
 
