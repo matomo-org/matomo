@@ -275,8 +275,8 @@ $(document).ready(function () {
 
 {% if isSuperUser %}
 <br/>
-<a name='globalSettings'></a>
-<h2>{{ 'SitesManager_GlobalWebsitesSettings'|translate }}</h2>
+
+<h2 id="globalSettings">{{ 'SitesManager_GlobalWebsitesSettings'|translate }}</h2>
 <br/>
 <table style='width:600px' class="adminTable">
 
@@ -366,8 +366,7 @@ $(document).ready(function () {
 {# global site search #}
     <tr>
         <td colspan="2">
-            <a name='globalSiteSearch'></a><b>{{ 'SitesManager_TrackingSiteSearch'|translate }}</b>
-
+            <b id="globalSiteSearch">{{ 'SitesManager_TrackingSiteSearch'|translate }}</b>
             <p>{{ sitesearchIntro }}</p>
             <span class="form-description" style='font-size:8pt'>
                 {{ 'SitesManager_SearchParametersNote'|translate }} {{ 'SitesManager_SearchParametersNote2'|translate }}

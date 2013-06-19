@@ -1,5 +1,4 @@
-<a name="evolutionGraph" graphId="{{ nameGraphEvolutionReferers }}"></a>
-<h2>{{ 'Referers_Evolution'|translate }}</h2>
+<h2 data-graph-id="{{ nameGraphEvolutionReferers }}">{{ 'Referers_Evolution'|translate }}</h2>
 {{ graphEvolutionReferers|raw }}
 
 <br/>
@@ -84,7 +83,7 @@
                     </div>
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctCampaigns) }}
                         <strong>{{ numberDistinctCampaigns }}</strong> {{ 'Referers_DistinctCampaigns'|translate }}
-                        {% if numberDistinctCampaignsEvolution is not empty }}
+                        {% if numberDistinctCampaignsEvolution is not empty %}
                             {{ numberDistinctCampaignsEvolution }}
                         {% endif %}
                     </div>

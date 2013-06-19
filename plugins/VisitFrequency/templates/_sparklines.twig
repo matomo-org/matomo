@@ -11,7 +11,7 @@
     {{ 'VisitFrequency_ReturnAvgActions'|translate("<strong>"+nbActionsPerVisitReturning+"</strong>")|raw }}
 </div>
 <div class="sparkline">
-    {{ sparkline(urlSparklineAvgVisitDurationReturning }}
+    {{ sparkline(urlSparklineAvgVisitDurationReturning) }}
     {% set avgVisitDurationReturning=avgVisitDurationReturning|sumtime %}
     {{ 'VisitFrequency_ReturnAverageVisitDuration'|translate("<strong>"+avgVisitDurationReturning+"</strong>")|raw }}
 </div>

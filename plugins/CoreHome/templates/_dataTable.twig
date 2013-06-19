@@ -17,8 +17,7 @@
                     <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
                 {% endif %}
             {% else %}
-                <a name="{{ properties.uniqueId }}"></a>
-                <table cellspacing="0" class="dataTable">
+                <table cellspacing="0" class="dataTable" id="{{ properties.uniqueId }}">
                     {% include "@CoreHome/_dataTableHead.twig" %}
 
                     <tbody>
