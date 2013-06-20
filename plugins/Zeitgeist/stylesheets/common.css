@@ -126,7 +126,7 @@ a {
     margin-right: 12px;
     z-index: 999;
     position: absolute;
-    background: url("../images/icon-calendar.gif") no-repeat scroll right 9px center #F7F7F7;
+    background: url("../images/icon-calendar.gif") no-repeat scroll right 9px top 8px #F7F7F7;
 }
 
 #periodString:hover {
@@ -136,7 +136,6 @@ a {
 
 #periodString #date {
     cursor: pointer;
-    display: inline-block;
     padding: 5px 10px 6px 10px;
     margin: -5px -10px -6px -10px;
 
