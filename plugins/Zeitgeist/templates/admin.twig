@@ -24,16 +24,7 @@
     {% include "_iframeBusterBody.twig" %}
 
         <div id="root">
-            {% if showTopMenu is not defined or showTopMenu %}
-                {% set showPeriodSelection = false %}
-                {% include "@CoreHome/_topBar.twig" %}
-            {% endif %}
-
-            <div id="header">
-                {% include "@CoreHome/_logo.twig" %}
-                {% if showPeriodSelection %}{% include "@CoreHome/_periodSelect.twig"%}{% endif %}
-                {% include "@CoreHome/_javaScriptDisabled.twig" %}
-            </div>
+            {% include "@CoreHome/_topScreen.twig" %}
 
             {% import 'ajaxMacros.twig' as ajax %}
             {{ ajax.requestErrorDiv }}

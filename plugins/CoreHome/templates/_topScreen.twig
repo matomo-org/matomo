@@ -1,4 +1,7 @@
 <div id="header">
     {% include "@CoreHome/_logo.twig" %}
     {% include "@CoreHome/_javaScriptDisabled.twig" %}
+    {% if (showTopMenu == false or showTopMenu) %}
+        {% include "@CoreHome/_topBar.twig" %}
+    {% endif %}
 </div>
