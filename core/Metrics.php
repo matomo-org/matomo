@@ -164,4 +164,134 @@ class Piwik_Metrics
         'sum_daily_nb_uniq_visitors' => Piwik_Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
     );
 
+
+    /**
+     * Is a lower value for a given column better?
+     * @param $column
+     * @return bool
+     *
+     * @ignore
+     */
+    static public function isLowerValueBetter($column)
+    {
+        $lowerIsBetterPatterns = array(
+            'bounce', 'exit'
+        );
+
+        foreach ($lowerIsBetterPatterns as $pattern) {
+            if (strpos($column, $pattern) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Derive the unit name from a column name
+     * @param $column
+     * @param $idSite
+     * @return string
+     * @ignore
+     */
+    static public function getUnit($column, $idSite)
+    {
+        $nameToUnit = array(
+            '_rate'   => '%',
+            'revenue' => Piwik::getCurrency($idSite),
+            '_time_'  => 's'
+        );
+
+        foreach ($nameToUnit as $pattern => $type) {
+            if (strpos($column, $pattern) !== false) {
+                return $type;
+            }
+        }
+
+        return '';
+    }
+
+    public static function getDefaultMetricTranslations()
+    {
+        $trans = array(
+            'label'                         => 'General_ColumnLabel',
+            'date'                          => 'General_Date',
+            'avg_time_on_page'              => 'General_ColumnAverageTimeOnPage',
+            'sum_time_spent'                => 'General_ColumnSumVisitLength',
+            'sum_visit_length'              => 'General_ColumnSumVisitLength',
+            'bounce_count'                  => 'General_ColumnBounces',
+            'bounce_count_returning'        => 'VisitFrequency_ColumnBounceCountForReturningVisits',
+            'max_actions'                   => 'General_ColumnMaxActions',
+            'max_actions_returning'         => 'VisitFrequency_ColumnMaxActionsInReturningVisit',
+            'nb_visits_converted_returning' => 'VisitFrequency_ColumnNbReturningVisitsConverted',
+            'sum_visit_length_returning'    => 'VisitFrequency_ColumnSumVisitLengthReturning',
+            'nb_visits_converted'           => 'General_ColumnVisitsWithConversions',
+            'nb_conversions'                => 'Goals_ColumnConversions',
+            'revenue'                       => 'Goals_ColumnRevenue',
+            'nb_hits'                       => 'General_ColumnPageviews',
+            'entry_nb_visits'               => 'General_ColumnEntrances',
+            'entry_nb_uniq_visitors'        => 'General_ColumnUniqueEntrances',
+            'exit_nb_visits'                => 'General_ColumnExits',
+            'exit_nb_uniq_visitors'         => 'General_ColumnUniqueExits',
+            'entry_bounce_count'            => 'General_ColumnBounces',
+            'exit_bounce_count'             => 'General_ColumnBounces',
+            'exit_rate'                     => 'General_ColumnExitRate'
+        );
+
+        $trans = array_map('Piwik_Translate', $trans);
+
+        $dailySum = ' (' . Piwik_Translate('General_DailySum') . ')';
+        $afterEntry = ' ' . Piwik_Translate('General_AfterEntry');
+
+        $trans['sum_daily_nb_uniq_visitors'] = Piwik_Translate('General_ColumnNbUniqVisitors') . $dailySum;
+        $trans['sum_daily_entry_nb_uniq_visitors'] = Piwik_Translate('General_ColumnUniqueEntrances') . $dailySum;
+        $trans['sum_daily_exit_nb_uniq_visitors'] = Piwik_Translate('General_ColumnUniqueExits') . $dailySum;
+        $trans['entry_nb_actions'] = Piwik_Translate('General_ColumnNbActions') . $afterEntry;
+        $trans['entry_sum_visit_length'] = Piwik_Translate('General_ColumnSumVisitLength') . $afterEntry;
+
+        $trans = array_merge(self::getDefaultMetrics(), self::getDefaultProcessedMetrics(), $trans);
+
+        return $trans;
+    }
+
+    static public function getDefaultMetrics()
+    {
+        $translations = array(
+            'nb_visits'        => 'General_ColumnNbVisits',
+            'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
+            'nb_actions'       => 'General_ColumnNbActions',
+        );
+        $translations = array_map('Piwik_Translate', $translations);
+        return $translations;
+    }
+
+    public function getDefaultMetricsDocumentation()
+    {
+        $documentation = array(
+            'nb_visits'            => 'General_ColumnNbVisitsDocumentation',
+            'nb_uniq_visitors'     => 'General_ColumnNbUniqVisitorsDocumentation',
+            'nb_actions'           => 'General_ColumnNbActionsDocumentation',
+            'nb_actions_per_visit' => 'General_ColumnActionsPerVisitDocumentation',
+            'avg_time_on_site'     => 'General_ColumnAvgTimeOnSiteDocumentation',
+            'bounce_rate'          => 'General_ColumnBounceRateDocumentation',
+            'conversion_rate'      => 'General_ColumnConversionRateDocumentation',
+            'avg_time_on_page'     => 'General_ColumnAverageTimeOnPageDocumentation',
+            'nb_hits'              => 'General_ColumnPageviewsDocumentation',
+            'exit_rate'            => 'General_ColumnExitRateDocumentation'
+        );
+        return array_map('Piwik_Translate', $documentation);
+    }
+    public function getDefaultProcessedMetrics()
+    {
+        $translations = array(
+            // Processed in AddColumnsProcessedMetrics
+            'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
+            'avg_time_on_site'     => 'General_ColumnAvgTimeOnSite',
+            'bounce_rate'          => 'General_ColumnBounceRate',
+            'conversion_rate'      => 'General_ColumnConversionRate',
+        );
+        return array_map('Piwik_Translate', $translations);
+    }
+
+
 }

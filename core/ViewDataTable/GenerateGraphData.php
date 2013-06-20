@@ -152,7 +152,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
     {
         $units = array();
         foreach ($requestedColumnNames as $columnName) {
-            $derivedUnit = Piwik_API_API::getUnit($columnName, $idSite);
+            $derivedUnit = Piwik_Metrics::getUnit($columnName, $idSite);
             $units[$columnName] = empty($derivedUnit) ? false : $derivedUnit;
         }
         return $units;
