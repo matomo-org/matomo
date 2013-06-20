@@ -66,6 +66,7 @@ class Piwik_Widgetize extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
+        $cssFiles[] = "plugins/Widgetize/stylesheets/widgetize.css";
         $cssFiles[] = "plugins/CoreHome/stylesheets/corehome.css";
         $cssFiles[] = "plugins/CoreHome/stylesheets/datatable.css";
         $cssFiles[] = "plugins/CoreHome/stylesheets/cloud.css";
