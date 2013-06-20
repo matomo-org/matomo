@@ -26,7 +26,6 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 
         $this->setGeneralVariablesView($view);
         $view->showTopMenu = false;
-        $view->showSitesSelection = false;
 
         $view->idSite = $this->idSite;
         $view->date = Piwik_Common::getRequestVar('date', 'today');

@@ -236,10 +236,7 @@ a {
 	display: inline-block;
 }
 .top_bar_sites_selector{ 
-	position:absolute; 
-	top:65px; 
-	right:0;
-	z-index:20;
+	float: right
 }
 .top_bar_sites_selector>label{
 	display:inline-block; 

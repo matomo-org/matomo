@@ -25,7 +25,6 @@
 
         <div id="root">
             {% if showTopMenu is not defined or showTopMenu %}
-                {% set showSitesSelection = false %}
                 {% set showPeriodSelection = false %}
                 {% include "@CoreHome/_topBar.twig" %}
             {% endif %}
@@ -39,6 +38,7 @@
             {% import 'ajaxMacros.twig' as ajax %}
             {{ ajax.requestErrorDiv }}
             <div id="container">
+
                 {% if showMenu is not defined or showMenu %}
                     {% include "@CoreAdminHome/_menu.twig" %}
                 {% endif %}
