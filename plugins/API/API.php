@@ -66,7 +66,6 @@ class Piwik_API extends Piwik_Plugin
     }
 }
 
-
 /**
  * This API is the <a href='http://piwik.org/docs/analytics-api/metadata/' target='_blank'>Metadata API</a>: it gives information about all other available APIs methods, as well as providing
  * human readable and more complete outputs than normal API methods.
@@ -183,7 +182,7 @@ class Piwik_API_API
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => Piwik_Translate('General_Visit'),
-            'name'           => Piwik_Translate('General_VisitType') ,
+            'name'           => Piwik_Translate('General_VisitType'),
             'segment'        => 'visitorType',
             'acceptedValues' => 'new, returning, returningCustomer' . ". " . Piwik_Translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
             'sqlSegment'     => 'log_visit.visitor_returning',
@@ -226,7 +225,7 @@ class Piwik_API_API
             'name'           => Piwik_Translate('General_EcommerceVisitStatusDesc'),
             'segment'        => 'visitEcommerceStatus',
             'acceptedValues' => implode(", ", self::$visitEcommerceStatus)
-                   . '. '. Piwik_Translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
+                . '. ' . Piwik_Translate('General_EcommerceVisitStatusEg', '"&segment=visitEcommerceStatus==ordered,visitEcommerceStatus==orderedThenAbandonedCart"'),
             'sqlSegment'     => 'log_visit.visit_goal_buyer',
             'sqlFilter'      => array('Piwik_API_API', 'getVisitEcommerceStatus'),
         );
@@ -496,7 +495,7 @@ class Piwik_API_API
                 $availableReport['metricsDocumentation'] =
                     $this->hideShowMetrics($availableReport['metricsDocumentation']);
             }
-            
+
             // Remove array elements that are false (to clean up API output)
             foreach ($availableReport as $attributeName => $attributeValue) {
                 if (empty($attributeValue)) {
@@ -534,7 +533,6 @@ class Piwik_API_API
 
         return array_values($availableReports); // make sure array has contiguous key values
     }
-
 
     /**
      * Add the metadata for the API.get report
@@ -610,10 +608,10 @@ class Piwik_API_API
             /** @var Piwik_DataTable */
             $dataTable = $request->process();
         } catch (Exception $e) {
-            throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()). ":" . $e->getLine() . "\n");
+            throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
 
-        list($newReport, $columns, $rowsMetadata) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, isset($reportMetadata['dimension']), $showRawMetrics);
+        list($newReport, $columns, $rowsMetadata) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics);
         foreach ($columns as $columnId => &$name) {
             $name = ucfirst($name);
         }
@@ -653,8 +651,9 @@ class Piwik_API_API
      * @param boolean $hasDimension
      * @return array Piwik_DataTable_Simple|Piwik_DataTable_Array $newReport with human readable format & array $columns list of translated column names & Piwik_DataTable_Simple|Piwik_DataTable_Array $rowsMetadata
      **/
-    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $hasDimension, $showRawMetrics = false)
+    private function handleTableReport($idSite, $dataTable, &$reportMetadata, $showRawMetrics = false)
     {
+        $hasDimension = isset($reportMetadata['dimension']);
         $columns = $reportMetadata['metrics'];
 
         if ($hasDimension) {
@@ -986,7 +985,6 @@ class Piwik_API_API
         return $mergedDataTable;
     }
 
-
     /**
      * Merge the columns of two data tables.
      * Manipulates the first table.
@@ -1012,7 +1010,6 @@ class Piwik_API_API
         }
     }
 
-
     /**
      * Given an API report to query (eg. "Referers.getKeywords", and a Label (eg. "free%20software"),
      * this function will query the API for the previous days/weeks/etc. and will return
@@ -1023,7 +1020,7 @@ class Piwik_API_API
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
     {
         $rowEvolution = new Piwik_API_RowEvolution();
-        return $rowEvolution->getRowEvolution($idSite, $period,  $date, $apiModule, $apiAction, $label, $segment, $column,
+        return $rowEvolution->getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $column,
             $language, $idGoal, $legendAppendMetric, $labelUseAbsoluteUrl);
     }
 
@@ -1039,7 +1036,7 @@ class Piwik_API_API
         }
 
         $urls = array_map('urldecode', $urls);
-        $urls = array_map(array('Piwik_Common','unsanitizeInputValue'), $urls);
+        $urls = array_map(array('Piwik_Common', 'unsanitizeInputValue'), $urls);
 
         $result = array();
         foreach ($urls as $url) {
@@ -1062,13 +1059,13 @@ class Piwik_API_API
         $segmentsMetadata = $this->getSegmentsMetadata($idSite, $_hideImplementationData = false);
 
         $segmentFound = false;
-        foreach($segmentsMetadata as $segmentMetadata) {
-            if($segmentMetadata['segment'] == $segmentName) {
+        foreach ($segmentsMetadata as $segmentMetadata) {
+            if ($segmentMetadata['segment'] == $segmentName) {
                 $segmentFound = $segmentMetadata;
                 break;
             }
         }
-        if(empty($segmentFound)) {
+        if (empty($segmentFound)) {
             throw new Exception("Requested segment not found.");
         }
 
@@ -1083,10 +1080,10 @@ class Piwik_API_API
 
         // Select non empty fields only
         // Note: this optimization has only a very minor impact
-        $requestLastVisits.= "&segment=$segmentName".urlencode('!=');
+        $requestLastVisits .= "&segment=$segmentName" . urlencode('!=');
 
         // By default Live fetches all actions for all visitors, but we'd rather do this only when required
-        if($this->doesSegmentNeedActionsData($segmentName)) {
+        if ($this->doesSegmentNeedActionsData($segmentName)) {
             $requestLastVisits .= "&filter_limit=500";
         } else {
             $requestLastVisits .= "&doNotFetchActions=1";
@@ -1095,7 +1092,7 @@ class Piwik_API_API
 
         $request = new Piwik_API_Request($requestLastVisits);
         $table = $request->process();
-        if(empty($table)) {
+        if (empty($table)) {
             throw new Exception("There was no data to suggest for $segmentName");
         }
 
@@ -1107,14 +1104,14 @@ class Piwik_API_API
         $values = array_merge($values, $valuesBis);
 
         // remove false values (while keeping zeros)
-        $values = array_filter( $values, 'strlen' );
+        $values = array_filter($values, 'strlen');
 
         // we have a list of all values. let's show the most frequently used first.
-        $values = array_count_values( $values );
+        $values = array_count_values($values);
         arsort($values);
         $values = array_keys($values);
 
-        $values = array_map( array('Piwik_Common', 'unsanitizeInputValue'), $values);
+        $values = array_map(array('Piwik_Common', 'unsanitizeInputValue'), $values);
 
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
         return $values;
@@ -1133,5 +1130,4 @@ class Piwik_API_API
         $doesSegmentNeedActionsInfo = in_array($segmentName, $segmentsNeedActionsInfo) || $isCustomVariablePage;
         return $doesSegmentNeedActionsInfo;
     }
-
 }

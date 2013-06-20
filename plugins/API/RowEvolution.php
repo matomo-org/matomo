@@ -30,84 +30,81 @@ class Piwik_API_RowEvolution
         }
 
         $label = Piwik_API_ResponseBuilder::unsanitizeLabelParameter($label);
-        if ($label) {
-            $labels = explode(',', $label);
-            $labels = array_unique($labels);
-        } else {
-            $labels = array();
-        }
+        $labels = Piwik::getArrayFromApiParameter($label);
+
 
         $dataTable = $this->loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $idGoal);
 
         if (empty($labels)) {
-            // if no labels specified, use all possible labels as list
-            foreach ($dataTable->getArray() as $table) {
-                $labels = array_merge($labels, $table->getColumn('label'));
-            }
-            $labels = array_values(array_unique($labels));
-
-            // if the filter_limit query param is set, treat it as a request to limit
-            // the number of labels used
-            $limit = Piwik_Common::getRequestVar('filter_limit', false);
-            if ($limit != false
-                && $limit >= 0
-            ) {
-                $labels = array_slice($labels, 0, $limit);
-            }
-
-            // set label index metadata
-            $labelsToIndex = array_flip($labels);
-            foreach ($dataTable->getArray() as $table) {
-                foreach ($table->getRows() as $row) {
-                    $label = $row->getColumn('label');
-                    if (isset($labelsToIndex[$label])) {
-                        $row->setMetadata('label_index', $labelsToIndex[$label]);
-                    }
-                }
-            }
+            $labels = $this->getLabelsFromDataTable($dataTable, $labels);
+            $dataTable = $this->enrichRowAddMetadataLabelIndex($labels, $dataTable);
         }
+        $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal);
 
         if (count($labels) != 1) {
             $data = $this->getMultiRowEvolution(
                 $dataTable,
-                $idSite,
-                $period,
-                $date,
+                $metadata,
                 $apiModule,
                 $apiAction,
                 $labels,
-                $segment,
                 $column,
-                $language,
-                $idGoal,
                 $legendAppendMetric,
                 $labelUseAbsoluteUrl
             );
         } else {
             $data = $this->getSingleRowEvolution(
                 $dataTable,
-                $idSite,
-                $period,
-                $date,
+                $metadata,
                 $apiModule,
                 $apiAction,
                 $labels[0],
-                $segment,
-                $language,
-                $idGoal,
                 $labelUseAbsoluteUrl
             );
         }
         return $data;
     }
 
+    protected function enrichRowAddMetadataLabelIndex($labels, $dataTable)
+    {
+        // set label index metadata
+        $labelsToIndex = array_flip($labels);
+        foreach ($dataTable->getArray() as $table) {
+            foreach ($table->getRows() as $row) {
+                $label = $row->getColumn('label');
+                if (isset($labelsToIndex[$label])) {
+                    $row->setMetadata(Piwik_API_DataTableManipulator_LabelFilter::FLAG_IS_ROW_EVOLUTION, $labelsToIndex[$label]);
+                }
+            }
+        }
+        return $dataTable;
+    }
+
+    protected function getLabelsFromDataTable($dataTable, $labels)
+    {
+        // if no labels specified, use all possible labels as list
+        foreach ($dataTable->getArray() as $table) {
+            $labels = array_merge($labels, $table->getColumn('label'));
+        }
+        $labels = array_values(array_unique($labels));
+
+        // if the filter_limit query param is set, treat it as a request to limit
+        // the number of labels used
+        $limit = Piwik_Common::getRequestVar('filter_limit', false);
+        if ($limit != false
+            && $limit >= 0
+        ) {
+            $labels = array_slice($labels, 0, $limit);
+        }
+        return $labels;
+    }
+
     /**
      * Get row evolution for a single label
      * @return array containing  report data, metadata, label, logo
      */
-    private function getSingleRowEvolution($dataTable, $idSite, $period, $date, $apiModule, $apiAction, $label, $segment, $language = false, $idGoal = false, $labelUseAbsoluteUrl = true)
+    private function getSingleRowEvolution($dataTable, $metadata, $apiModule, $apiAction, $label, $labelUseAbsoluteUrl = true)
     {
-        $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal);
         $metricNames = array_keys($metadata['metrics']);
 
         $logo = $actualLabel = false;
@@ -127,7 +124,6 @@ class Piwik_API_RowEvolution
                     if (empty($actualLabel)) {
                         $actualLabel = $row->getColumn('label');
                     }
-
                 }
 
                 // remove all columns that are not in the available metrics.
@@ -138,7 +134,6 @@ class Piwik_API_RowEvolution
                         $row->deleteColumn($column);
                     }
                 }
-
                 $row->deleteMetadata();
             }
         }
@@ -261,7 +256,8 @@ class Piwik_API_RowEvolution
         if (!empty($idGoal) && $idGoal > 0) {
             $apiParameters = array('idGoal' => $idGoal);
         }
-        $reportMetadata = $this->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc = false, $showSubtableReports = true);
+        $reportMetadata = Piwik_API_API::getInstance()->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language,
+                                                    $period, $date, $hideMetricsDoc = false, $showSubtableReports = true);
 
         if (empty($reportMetadata)) {
             throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite "
@@ -349,12 +345,10 @@ class Piwik_API_RowEvolution
     }
 
     /** Get row evolution for a multiple labels */
-    private function getMultiRowEvolution($dataTable, $idSite, $period, $date, $apiModule, $apiAction, $labels, $segment, $column, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
+    private function getMultiRowEvolution($dataTable, $metadata, $apiModule, $apiAction, $labels, $column,
+                                          $legendAppendMetric = true,
+                                          $labelUseAbsoluteUrl = true)
     {
-        $actualLabels = $logos = array();
-
-        $metadata = $this->getRowEvolutionMetaData($idSite, $period, $date, $apiModule, $apiAction, $language, $idGoal);
-
         if (!isset($metadata['metrics'][$column])) {
             // invalid column => use the first one that's available
             $metrics = array_keys($metadata['metrics']);
@@ -443,7 +437,7 @@ class Piwik_API_RowEvolution
     }
 
     /**
-     * Returns the row in a datatable by its label_index metadata.
+     * Returns the row in a datatable by its Piwik_API_DataTableManipulator_LabelFilter::FLAG_IS_ROW_EVOLUTION metadata.
      *
      * @param Piwik_DataTable $table
      * @param int $labelIdx
@@ -454,7 +448,7 @@ class Piwik_API_RowEvolution
         $labelIdx = (int)$labelIdx;
         foreach ($table->getRows() as $row)
         {
-            if ($row->getMetadata('label_index') === $labelIdx)
+            if ($row->getMetadata(Piwik_API_DataTableManipulator_LabelFilter::FLAG_IS_ROW_EVOLUTION) === $labelIdx)
             {
                 return $row;
             }

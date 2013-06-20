@@ -26,6 +26,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
 
     private $labels;
     private $addLabelIndex;
+    const FLAG_IS_ROW_EVOLUTION = 'label_index';
 
     /**
      * Filter a data table by label.
@@ -148,9 +149,8 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
                 $row = $this->doFilterRecursiveDescend($labelVariation, $dataTable);
                 if ($row) {
                     if ($this->addLabelIndex) {
-                        $row->setMetadata('label_index', $labelIndex);
+                        $row->setMetadata(self::FLAG_IS_ROW_EVOLUTION, $labelIndex);
                     }
-                    
                     $result->addRow($row);
                     break;
                 }

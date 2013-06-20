@@ -33,11 +33,9 @@ class Piwik_Metrics
     // Specific to the Actions reports
     const INDEX_PAGE_NB_HITS = 12;
     const INDEX_PAGE_SUM_TIME_SPENT = 13;
-
     const INDEX_PAGE_EXIT_NB_UNIQ_VISITORS = 14;
     const INDEX_PAGE_EXIT_NB_VISITS = 15;
     const INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS = 16;
-
     const INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS = 17;
     const INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS = 18;
     const INDEX_PAGE_ENTRY_NB_VISITS = 19;
@@ -66,14 +64,12 @@ class Piwik_Metrics
     const INDEX_GOAL_NB_CONVERSIONS = 1;
     const INDEX_GOAL_REVENUE = 2;
     const INDEX_GOAL_NB_VISITS_CONVERTED = 3;
-
     const INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL = 4;
     const INDEX_GOAL_ECOMMERCE_REVENUE_TAX = 5;
     const INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING = 6;
     const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
     const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
-
-    public static $mappingFromIdToName = array(
+    static public $mappingFromIdToName = array(
         Piwik_Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
         Piwik_Metrics::INDEX_NB_VISITS                             => 'nb_visits',
         Piwik_Metrics::INDEX_NB_ACTIONS                            => 'nb_actions',
@@ -113,8 +109,7 @@ class Piwik_Metrics
         Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED           => 'price_viewed',
         Piwik_Metrics::INDEX_ECOMMERCE_ORDERS                      => 'orders',
     );
-
-    public static $mappingFromIdToNameGoal = array(
+    static public $mappingFromIdToNameGoal = array(
         Piwik_Metrics::INDEX_GOAL_NB_CONVERSIONS             => 'nb_conversions',
         Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 'nb_visits_converted',
         Piwik_Metrics::INDEX_GOAL_REVENUE                    => 'revenue',
@@ -124,33 +119,7 @@ class Piwik_Metrics
         Piwik_Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 'revenue_discount',
         Piwik_Metrics::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
     );
-
-    protected static $metricsAggregatedFromLogs = array(
-        Piwik_Metrics::INDEX_NB_UNIQ_VISITORS,
-        Piwik_Metrics::INDEX_NB_VISITS,
-        Piwik_Metrics::INDEX_NB_ACTIONS,
-        Piwik_Metrics::INDEX_MAX_ACTIONS,
-        Piwik_Metrics::INDEX_SUM_VISIT_LENGTH,
-        Piwik_Metrics::INDEX_BOUNCE_COUNT,
-        Piwik_Metrics::INDEX_NB_VISITS_CONVERTED,
-    );
-
-    public static function getVisitsMetricNames()
-    {
-        $names = array();
-        foreach(self::$metricsAggregatedFromLogs as $metricId) {
-            $names[$metricId] = self::$mappingFromIdToName[$metricId];
-        }
-        return $names;
-    }
-
-    /* Used in DataTable Sort filter */
-    public static function getMappingFromIdToName()
-    {
-        $idToName = array_flip(self::$mappingFromIdToName);
-        return $idToName;
-    }
-    public static $mappingFromNameToId = array(
+    static public $mappingFromNameToId = array(
         'nb_uniq_visitors'           => Piwik_Metrics::INDEX_NB_UNIQ_VISITORS,
         'nb_visits'                  => Piwik_Metrics::INDEX_NB_VISITS,
         'nb_actions'                 => Piwik_Metrics::INDEX_NB_ACTIONS,
@@ -163,7 +132,32 @@ class Piwik_Metrics
         'goals'                      => Piwik_Metrics::INDEX_GOALS,
         'sum_daily_nb_uniq_visitors' => Piwik_Metrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
     );
+    static protected $metricsAggregatedFromLogs = array(
+        Piwik_Metrics::INDEX_NB_UNIQ_VISITORS,
+        Piwik_Metrics::INDEX_NB_VISITS,
+        Piwik_Metrics::INDEX_NB_ACTIONS,
+        Piwik_Metrics::INDEX_MAX_ACTIONS,
+        Piwik_Metrics::INDEX_SUM_VISIT_LENGTH,
+        Piwik_Metrics::INDEX_BOUNCE_COUNT,
+        Piwik_Metrics::INDEX_NB_VISITS_CONVERTED,
+    );
 
+    /* Used in DataTable Sort filter */
+
+    static public function getVisitsMetricNames()
+    {
+        $names = array();
+        foreach (self::$metricsAggregatedFromLogs as $metricId) {
+            $names[$metricId] = self::$mappingFromIdToName[$metricId];
+        }
+        return $names;
+    }
+
+    static public function getMappingFromIdToName()
+    {
+        $idToName = array_flip(self::$mappingFromIdToName);
+        return $idToName;
+    }
 
     /**
      * Is a lower value for a given column better?
@@ -211,7 +205,7 @@ class Piwik_Metrics
         return '';
     }
 
-    public static function getDefaultMetricTranslations()
+    static public function getDefaultMetricTranslations()
     {
         $trans = array(
             'label'                         => 'General_ColumnLabel',
@@ -265,7 +259,19 @@ class Piwik_Metrics
         return $translations;
     }
 
-    public function getDefaultMetricsDocumentation()
+    static public function getDefaultProcessedMetrics()
+    {
+        $translations = array(
+            // Processed in AddColumnsProcessedMetrics
+            'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
+            'avg_time_on_site'     => 'General_ColumnAvgTimeOnSite',
+            'bounce_rate'          => 'General_ColumnBounceRate',
+            'conversion_rate'      => 'General_ColumnConversionRate',
+        );
+        return array_map('Piwik_Translate', $translations);
+    }
+
+    static public function getDefaultMetricsDocumentation()
     {
         $documentation = array(
             'nb_visits'            => 'General_ColumnNbVisitsDocumentation',
@@ -281,17 +287,4 @@ class Piwik_Metrics
         );
         return array_map('Piwik_Translate', $documentation);
     }
-    public function getDefaultProcessedMetrics()
-    {
-        $translations = array(
-            // Processed in AddColumnsProcessedMetrics
-            'nb_actions_per_visit' => 'General_ColumnActionsPerVisit',
-            'avg_time_on_site'     => 'General_ColumnAvgTimeOnSite',
-            'bounce_rate'          => 'General_ColumnBounceRate',
-            'conversion_rate'      => 'General_ColumnConversionRate',
-        );
-        return array_map('Piwik_Translate', $translations);
-    }
-
-
 }
