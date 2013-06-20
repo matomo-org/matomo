@@ -213,7 +213,7 @@ class Piwik_PrivacyManager_ReportsPurger
                 continue;
             }
             $date = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
-            list($month, $year) = explode('_', $date);
+            list($year, $month) = explode('_', $date);
 
             if (self::shouldReportBePurged($year, $month, $toRemoveDate)) {
                 if ($type == Piwik_DataAccess_ArchiveTableCreator::NUMERIC_TABLE) {
