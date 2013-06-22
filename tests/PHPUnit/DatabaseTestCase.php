@@ -40,7 +40,8 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
             Piwik::createTables();
             Piwik::createLogObject();
 
-            Piwik_PluginsManager::getInstance()->loadPlugins(array());
+//            Piwik_PluginsManager::getInstance()->loadPlugins(array());
+            IntegrationTestCase::loadAllPlugins();
 
         } catch (Exception $e) {
             $this->fail("TEST INITIALIZATION FAILED: " . $e->getMessage());
@@ -67,7 +68,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         Piwik_Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
         Piwik_Config::getInstance()->clear();
-        Piwik_TablePartitioning::$tablesAlreadyInstalled = null;
+        Piwik_DataAccess_ArchiveTableCreator::clear();
         Zend_Registry::_unsetInstance();
     }
 

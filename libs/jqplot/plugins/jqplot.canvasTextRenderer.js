@@ -38,7 +38,7 @@
  * jsDate borrows many concepts and ideas from the Date Instance 
  * Methods by Ken Snyder along with some parts of Ken's actual code.
  * 
- * Ken's origianl Date Instance Methods and copyright notice:
+ * Ken's original Date Instance Methods and copyright notice:
  * 
  * Ken Snyder (ken d snyder at gmail dot com)
  * 2008-09-10

@@ -33,6 +33,7 @@
 {% endfor %}
 
 {% if displayFullReport %}
+    {% if sum_nb_conversions != 0 %}
     <h2 id='titleGoalsByDimension'>
         {% if idGoal is defined %}
             {{ 'Goals_GoalConversionsBy'|translate(goalName) }}
@@ -41,6 +42,7 @@
         {% endif %}
     </h2>
     {{ goalReportsByDimension }}
+    {% endif %}
 
     {% if userCanEditGoals %}
         {% include "@Goals/add_edit_goal.twig" %}

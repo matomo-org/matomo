@@ -63,7 +63,7 @@
         this.depth = 3;
         this.strokeStyle = 'rgba(0,0,0,0.1)';
         // prop: isarc
-        // wether the shadow is an arc or not.
+        // whether the shadow is an arc or not.
         this.isarc = false;
         
         $.extend(true, this, options);

@@ -251,19 +251,20 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         }
 
         $tablesInstalled = Piwik::getTablesInstalled();
-        $tablesToInstall = Piwik::getTablesNames();
         $view->tablesInstalled = '';
         if (count($tablesInstalled) > 0) {
             // we have existing tables
             $view->tablesInstalled = implode(', ', $tablesInstalled);
             $view->someTablesInstalled = true;
 
+            // remove monthly archive tables
+            $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
+            $baseTablesInstalled = count($tablesInstalled) - count($archiveTables);
             $minimumCountPiwikTables = 17;
-            $baseTablesInstalled = preg_grep('/archive_numeric|archive_blob/', $tablesInstalled, PREG_GREP_INVERT);
 
             Piwik::createAccessObject();
             Piwik::setUserIsSuperUser();
-            if (count($baseTablesInstalled) >= $minimumCountPiwikTables &&
+            if ($baseTablesInstalled >= $minimumCountPiwikTables &&
                 count(Piwik_SitesManager_API::getInstance()->getAllSitesId()) > 0 &&
                 count(Piwik_UsersManager_API::getInstance()->getUsers()) > 0
             ) {

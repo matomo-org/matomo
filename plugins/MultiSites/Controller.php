@@ -68,50 +68,60 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
         foreach ($siteIds as $idSite) {
             $isEcommerceEnabled = Piwik_Site::isEcommerceEnabledFor($idSite);
 
-            $digestableData[$idSite] = array(
-                'idsite'    => $idSite,
-                'main_url'  => Piwik_Site::getMainUrlFor($idSite),
-                'name'      => Piwik_Site::getNameFor($idSite),
-                'visits'    => 0,
-                'pageviews' => 0
+//            allSites[{$i}] = new setRowData(
+//            0 {$site.idsite},
+//            1 {$site.visits},
+//            2 {$site.pageviews},
+//            3 {if empty($site.revenue)}0{else}{$site.revenue}{/if},
+//            4 '{$site.name|escape:"javascript"}',
+//            5 '{$site.main_url|escape:"javascript"}',
+//            6 '{if isset($site.visits_evolution)}{$site.visits_evolution|replace:",":"."}{/if}',
+//            7 '{if isset($site.pageviews_evolution)}{$site.pageviews_evolution|replace:",":"."}{/if}',
+//            8 '{if isset($site.revenue_evolution)}{$site.revenue_evolution|replace:",":"."}{/if}');
+
+            $siteData = array($idSite,0,0.0,
+                Piwik_Site::getMainUrlFor($idSite),
+                Piwik_Site::getNameFor($idSite),
             );
 
             if ($period != 'range') {
-                $digestableData[$idSite]['visits_evolution'] = 0;
-                $digestableData[$idSite]['pageviews_evolution'] = 0;
+                $siteData[6] = 0;
+                $siteData[7] = 0;
             }
 
             if ($displayRevenueColumn) {
                 $revenueDefault = $isEcommerceEnabled ? 0 : "'-'";
 
                 if ($period != 'range') {
-                    $digestableData[$idSite]['revenue_evolution'] = $revenueDefault;
+                    $siteData[8] = $revenueDefault;
                 }
             }
+            $digestableData[$idSite] = $siteData;
         }
 
         foreach ($dataTable->getRows() as $row) {
             $idsite = (int)$row->getMetadata('idsite');
 
-            $site = & $digestableData[$idsite];
+            $siteData = array();
 
-            $site['visits'] = (int)$row->getColumn('nb_visits');
-            $site['pageviews'] = (int)$row->getColumn('nb_pageviews');
+            $siteData[1] = (int)$row->getColumn('nb_visits');http://pastebin.com/raw.php?i=1dvHmEUA
+            $siteData[2] = (int)$row->getColumn('nb_pageviews');
 
             if ($displayRevenueColumn) {
                 if ($row->getColumn('revenue') !== false) {
-                    $site['revenue'] = $row->getColumn('revenue');
+                    $siteData[3] = $row->getColumn('revenue');
                 }
             }
 
             if ($period != 'range') {
-                $site['visits_evolution'] = $row->getColumn('visits_evolution');
-                $site['pageviews_evolution'] = $row->getColumn('pageviews_evolution');
+                $siteData[6] = $row->getColumn('visits_evolution');
+                $siteData[7] = $row->getColumn('pageviews_evolution');
 
                 if ($displayRevenueColumn) {
-                    $site['revenue_evolution'] = $row->getColumn('revenue_evolution');
+                    $siteData[8] = $row->getColumn('revenue_evolution');
                 }
             }
+            $digestableData[$idsite] = array_merge($digestableData[$idsite], $siteData);
         }
 
         $this->applyPrettyMoney($digestableData);

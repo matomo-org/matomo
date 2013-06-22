@@ -535,13 +535,13 @@ class Piwik_Live_API
         $goalDetails = Piwik_FetchAll($sql, array($idVisit));
 
         $sql = "SELECT
-						case idgoal when " . Piwik_Tracker_GoalManager::IDGOAL_CART . " then '" . Piwik_Archive::LABEL_ECOMMERCE_CART . "' else '" . Piwik_Archive::LABEL_ECOMMERCE_ORDER . "' end as type,
+						case idgoal when " . Piwik_Tracker_GoalManager::IDGOAL_CART . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
 						idorder as orderId,
-						" . Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue') . " as revenue,
-						" . Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
-						" . Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue_tax') . " as revenueTax,
-						" . Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue_shipping') . " as revenueShipping,
-						" . Piwik_ArchiveProcessing_Day::getSqlRevenue('revenue_discount') . " as revenueDiscount,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue') . " as revenue,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue_subtotal') . " as revenueSubTotal,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue_tax') . " as revenueTax,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue_shipping') . " as revenueShipping,
+						" . Piwik_DataAccess_LogAggregator::getSqlRevenue('revenue_discount') . " as revenueDiscount,
 						items as items,
 
 						log_conversion.server_time as serverTimePretty
@@ -553,7 +553,7 @@ class Piwik_Live_API
         $ecommerceDetails = Piwik_FetchAll($sql, array($idVisit));
 
         foreach ($ecommerceDetails as &$ecommerceDetail) {
-            if ($ecommerceDetail['type'] == Piwik_Archive::LABEL_ECOMMERCE_CART) {
+            if ($ecommerceDetail['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
                 unset($ecommerceDetail['orderId']);
                 unset($ecommerceDetail['revenueSubTotal']);
                 unset($ecommerceDetail['revenueTax']);
@@ -578,7 +578,7 @@ class Piwik_Live_API
 							log_action_sku.name as itemSKU,
 							log_action_name.name as itemName,
 							log_action_category.name as itemCategory,
-							" . Piwik_ArchiveProcessing_Day::getSqlRevenue('price') . " as price,
+							" . Piwik_DataAccess_LogAggregator::getSqlRevenue('price') . " as price,
 							quantity as quantity
 						FROM " . Piwik_Common::prefixTable('log_conversion_item') . "
 							INNER JOIN " . Piwik_Common::prefixTable('log_action') . " AS log_action_sku
@@ -616,8 +616,8 @@ class Piwik_Live_API
                 case 'goal':
                     $details['icon'] = 'plugins/Zeitgeist/images/goal.png';
                     break;
-                case Piwik_Archive::LABEL_ECOMMERCE_ORDER:
-                case Piwik_Archive::LABEL_ECOMMERCE_CART:
+                case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER:
+                case Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART:
                     $details['icon'] = 'plugins/Zeitgeist/images/' . $details['type'] . '.gif';
                     break;
                 case Piwik_Tracker_Action_Interface::TYPE_DOWNLOAD:

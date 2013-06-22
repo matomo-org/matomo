@@ -582,7 +582,29 @@ abstract class Piwik_ViewDataTable
                 }
             }
         }
+
+        $segment = $this->getRawSegmentFromRequest();
+        if(!empty($segment)) {
+            $requestString .= '&segment=' . $segment;
+        }
         return $requestString;
+    }
+
+    /**
+     * @return array|bool
+     */
+    static public function getRawSegmentFromRequest()
+    {
+        // we need the URL encoded segment parameter, we fetch it from _SERVER['QUERY_STRING'] instead of default URL decoded _GET
+        $segmentRaw = false;
+        $segment = Piwik_Common::getRequestVar('segment', '', 'string');
+        if (!empty($segment)) {
+            $request = Piwik_API_Request::getRequestParametersGET();
+            if(!empty($request['segment'])) {
+                $segmentRaw = $request['segment'];
+            }
+        }
+        return $segmentRaw;
     }
 
     /**
@@ -723,8 +745,8 @@ abstract class Piwik_ViewDataTable
             // which can be different from the one specified (eg. if the column doesn't exist)
             $javascriptVariablesToSet['filter_sort_column'] = $this->dataTable->getSortedByColumnName();
             // datatable can return "2" but we want to write "nb_visits" in the js
-            if (isset(Piwik_Archive::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']])) {
-                $javascriptVariablesToSet['filter_sort_column'] = Piwik_Archive::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']];
+            if (isset(Piwik_Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']])) {
+                $javascriptVariablesToSet['filter_sort_column'] = Piwik_Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']];
             }
         }
 
@@ -761,6 +783,13 @@ abstract class Piwik_ViewDataTable
                 unset($javascriptVariablesToSet[$name]);
             }
         }
+
+        $rawSegment = $this->getRawSegmentFromRequest();
+        if(!empty($rawSegment)) {
+            $javascriptVariablesToSet['segment'] = $rawSegment;
+        }
+
+
         return $javascriptVariablesToSet;
     }
 
@@ -1052,7 +1081,7 @@ abstract class Piwik_ViewDataTable
     /**
      * Sets the dataTable column to sort by. This sorting will be applied before applying the (offset, limit) filter.
      *
-     * @param int|string $columnId eg. 'nb_visits' for some tables, or Piwik_Archive::INDEX_NB_VISITS for others
+     * @param int|string $columnId eg. 'nb_visits' for some tables, or Piwik_Metrics::INDEX_NB_VISITS for others
      * @param string $order desc or asc
      */
     public function setSortedColumn($columnId, $order = 'desc')
@@ -1407,7 +1436,7 @@ abstract class Piwik_ViewDataTable
                 $period = new Piwik_Period_Range('range', $strDate, $timezone);
                 $reportDate = $period->getDateStart();
             } // if a multiple period, this function is irrelevant
-            else if (Piwik_Archive::isMultiplePeriod($strDate, $strPeriod)) {
+            else if (Piwik_Period::isMultiplePeriod($strDate, $strPeriod)) {
                 return false;
             } // otherwise, use the date as given
             else {

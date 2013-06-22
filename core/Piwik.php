@@ -37,6 +37,9 @@ class Piwik
         'range' => 5,
     );
 
+    const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
+    const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
+
     /**
      * Should we process and display Unique Visitors?
      * -> Always process for day/week/month periods
@@ -60,6 +63,17 @@ class Piwik
         }
 
         return $result;
+    }
+
+    /**
+     * Returns true if Segmentation is allowed for this user
+     *
+     * @return bool
+     */
+    public static function isSegmentationEnabled()
+    {
+        return !Piwik::isUserIsAnonymous()
+            || Piwik_Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
     }
 
     /**
@@ -174,7 +188,7 @@ class Piwik
             || $currentUrl != $url
         ) {
             if (strlen($currentUrl) >= strlen('http://a/')) {
-                Piwik_SetOption($key, $currentUrl, $autoload = true);
+                Piwik_SetOption($key, $currentUrl, $autoLoad = true);
             }
             $url = $currentUrl;
         }
@@ -1539,10 +1553,11 @@ class Piwik
 
         if (is_null($cachedResult)) {
             $segments = Piwik_Config::getInstance()->Segments;
-            $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : '';
+            $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : array();
 
             Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', $cachedResult);
-
+            
+            $cachedResult = array_unique($cachedResult);
         }
 
         return $cachedResult;
@@ -2232,23 +2247,6 @@ class Piwik
     }
 
     /**
-     * Returns all table names archive_*
-     *
-     * @return array
-     */
-    static public function getTablesArchivesInstalled()
-    {
-        $archiveTables = array();
-        $tables = Piwik::getTablesInstalled();
-        foreach ($tables as $table) {
-            if (strpos($table, 'archive_') !== false) {
-                $archiveTables[] = $table;
-            }
-        }
-        return $archiveTables;
-    }
-
-    /**
      * Batch insert into table from CSV (or other delimited) file.
      *
      * @param string $tableName  Name of table
@@ -2421,57 +2419,6 @@ class Piwik
 					VALUES (" . Piwik_Common::getSqlStringFieldsArray($row) . ")";
             Piwik_Query($query, $row);
         }
-    }
-
-    /**
-     * Generate advisory lock name
-     *
-     * @param int $idsite
-     * @param Piwik_Period $period
-     * @param Piwik_Segment $segment
-     * @return string
-     */
-    static public function getArchiveProcessingLockName($idsite, $period, Piwik_Segment $segment)
-    {
-        $config = Piwik_Config::getInstance();
-
-        $lockName = 'piwik.'
-            . $config->database['dbname'] . '.'
-            . $config->database['tables_prefix'] . '/'
-            . $idsite . '/'
-            . (!$segment->isEmpty() ? $segment->getHash() . '/' : '')
-            . $period->getId() . '/'
-            . $period->getDateStart()->toString('Y-m-d') . ','
-            . $period->getDateEnd()->toString('Y-m-d');
-        return $lockName . '/' . md5($lockName . Piwik_Common::getSalt());
-    }
-
-    /**
-     * Get an advisory lock
-     *
-     * @param int $idsite
-     * @param Piwik_Period $period
-     * @param Piwik_Segment $segment
-     * @return bool  True if lock acquired; false otherwise
-     */
-    static public function getArchiveProcessingLock($idsite, $period, $segment)
-    {
-        $lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
-        return Piwik_GetDbLock($lockName, $maxRetries = 30);
-    }
-
-    /**
-     * Release an advisory lock
-     *
-     * @param int $idsite
-     * @param Piwik_Period $period
-     * @param Piwik_Segment $segment
-     * @return bool True if lock released; false otherwise
-     */
-    static public function releaseArchiveProcessingLock($idsite, $period, $segment)
-    {
-        $lockName = self::getArchiveProcessingLockName($idsite, $period, $segment);
-        return Piwik_ReleaseDbLock($lockName);
     }
 
     /**

@@ -1,5 +1,5 @@
 <div id='SeoRanks'>
-    <script type="text/javascript" src="plugins/SEO/javascripts/rank.js"></script>
+    <script type="text/javascript" src="plugins/SEO/templates/rank.js"></script>
 
     <form method="post" style="padding: 8px;">
         <div align="left" class="mediumtext">
@@ -10,8 +10,8 @@
 		  </span>
         </div>
 
-        {% import 'ajaxMacros.twig' as ajax %}
-        {{ ajax.loadingDiv('ajaxLoadingSEO') }}
+        {% import "ajaxMacros.twig" as ajax %}
+        {{ ajax.LoadingDiv('ajaxLoadingSEO') }}
 
         <div id="rankStats" align="left" style='margin-top:10px'>
             {% if ranks is empty %}
@@ -24,27 +24,26 @@
                 <table cellspacing='2' style='margin:auto;line-height:1.5em;padding-top:10px'>
                     {% for rank in ranks %}
                         <tr>
-                            {% set seoLink %}<a class="linkContent" href="?module=Proxy&action=redirect&url={{ rank.logo_link|url_encode }}" target="_blank"
-                                     {% if rank.logo_tooltip is not empty %}title="{{ rank.logo_tooltip }}"{% endif %}>
-                            {% endset %}
+{% set seoLink %}{% if rank.logo_link is not empty %}<a class="linkContent" href="?module=Proxy&action=redirect&url={{ rank.logo_link|url_encode }}" target="_blank"
+                         {% if rank.logo_tooltip is not empty %}title="{{ rank.logo_tooltip }}"{% endif %}>{% endif %}{% endset %}
                             {% set majesticLink %}{{ seoLink }}Majestic</a>{% endset %}
-                            <td>
-                                {% if rank.logo_link is not empty %}{{ seoLink }}{% endif %}
-                                <img style='vertical-align:middle;margin-right:6px;' src='{{ rank.logo }}' border='0'
-                                    alt="{{ rank.label }}">{% if rank.logo_link is not empty %}</a>{% endif %} {{ rank.label|replace({"Majestic":majesticLink}) }}
+                            <td>{% if rank.logo_link is not empty %}{{ seoLink }}{% endif %}<img
+                                            style='vertical-align:middle;margin-right:6px;' src='{{ rank.logo }}' border='0'
+                                            alt="{{ rank.label }}">{% if rank.logo_link is not empty %}</a>{% endif %} {{ rank.label|replace({"Majestic": majesticLink}) }}
                             </td>
                             <td>
                                 <div style='margin-left:15px'>
-                                {% if rank.logo_link is not empty %}{{ seoLink }}{% endif %}
-                                {% if rank.rank is defined %}{{ rank.rank }}{% else %}-{% endif %}
-                                {% if rank.id=='pagerank' %} /10
-                                {% elseif rank.id=='google-index' or rank.id=='bing-index' %} {{ 'SEO_Pages'|translate }}
-                                {% endif %}
+                                {% if rank.logo_link is not empty }{{ seoLink }}{% endif %}
+                                    {% if rank.rank %}{{ rank.rank }}{% else% }-{% endif %}
+                                    {% if rank.id=='pagerank' %} /10
+                                    {% elseif rank.id=='google-index' or rank.id=='bing-index' %} {{ 'SEO_Pages'|translate }}
+                                    {% endif %}
                                 {% if rank.logo_link is not empty %}</a>{% endif %}
                                 </div>
                             </td>
                         </tr>
                     {% endfor %}
+
                 </table>
             {% endif %}
         </div>

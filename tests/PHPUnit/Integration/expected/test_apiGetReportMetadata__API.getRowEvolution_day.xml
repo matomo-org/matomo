@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<error message="Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters." />
+	<error message="Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.
+ 
+ --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php" />
 </result>

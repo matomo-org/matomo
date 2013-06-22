@@ -100,8 +100,6 @@ class Piwik_SEO_API
             $data[Piwik_Translate('SEO_Dmoz')] = $dmozRank;
         }
 
-        $dataTable = new Piwik_DataTable();
-        $dataTable->addRowsFromArrayWithIndexLabel($data);
-        return $dataTable;
+        return Piwik_DataTable::makeFromIndexedArray($data);
     }
 }

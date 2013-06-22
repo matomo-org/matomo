@@ -95,7 +95,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
     /* Custom Variables names & slots plus Tracking API Parameters for performance analytics */
     const DB_COLUMN_TIME_GENERATION = 'custom_float';
-    const PARAMETER_NAME_TIME_GENERATION = 'generation_time_ms';
+    const PARAMETER_NAME_TIME_GENERATION = 'gt_ms';
 
     /**
      * Map URL prefixes to integers.

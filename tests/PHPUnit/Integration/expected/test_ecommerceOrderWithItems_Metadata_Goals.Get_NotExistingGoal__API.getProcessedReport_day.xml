@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<error message="Requested report Goals.get for Website id=1 not found in the list of available reports. 
-" />
+
+ 
+ --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php" />
 </result>

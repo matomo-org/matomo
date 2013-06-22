@@ -85,6 +85,7 @@ class Piwik_Live_Visitor
             'latitude'                    => $this->getLatitude(),
             'longitude'                   => $this->getLongitude(),
             'provider'                    => $this->getProvider(),
+            'providerName'                => $this->getProviderName(),
             'providerUrl'                 => $this->getProviderUrl(),
 
             'referrerType'                => $this->getRefererType(),
@@ -106,6 +107,7 @@ class Piwik_Live_Visitor
             'browserCode'                 => $this->getBrowserCode(),
             'browserVersion'              => $this->getBrowserVersion(),
             'screenType'                  => $this->getScreenType(),
+            'deviceType'                  => $this->getDeviceType(),
             'resolution'                  => $this->getResolution(),
             'screenTypeIcon'              => $this->getScreenTypeIcon(),
             'plugins'                     => $this->getPlugins(),
@@ -342,7 +344,7 @@ class Piwik_Live_Visitor
         if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')
             && $this->getRefererType() == 'search'
         ) {
-            $keyword = Piwik_Referers::getCleanKeyword($keyword);
+            $keyword = Piwik_Referers_API::getCleanKeyword($keyword);
         }
         return urldecode($keyword);
     }
@@ -351,7 +353,7 @@ class Piwik_Live_Visitor
     {
         if ($this->getRefererType() == 'search') {
             if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')
-                && $this->details['referer_keyword'] == Piwik_Referers::LABEL_KEYWORD_NOT_DEFINED
+                && $this->details['referer_keyword'] == Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED
             ) {
                 return 'http://piwik.org/faq/general/#faq_144';
             } // Case URL is google.XX/url.... then we rewrite to the search result page url
@@ -506,6 +508,14 @@ class Piwik_Live_Visitor
         return Piwik_getScreenTypeFromResolution($this->details['config_resolution']);
     }
 
+    function getDeviceType()
+    {
+        if(Piwik_PluginsManager::getInstance()->isPluginActivated('DevicesDetection')) {
+            return Piwik_getDeviceTypeLabel($this->details['config_device_type']);
+        }
+        return false;
+    }
+
     function getResolution()
     {
         return $this->details['config_resolution'];
@@ -515,10 +525,19 @@ class Piwik_Live_Visitor
     {
         return Piwik_getScreensLogo($this->getScreenType());
     }
-
+    
     function getProvider()
     {
-        return Piwik_Provider_getPrettyProviderName(@$this->details['location_provider']);
+        if (isset($this->details['location_provider'])) {
+            return $this->details['location_provider'];
+        } else {
+            return Piwik_Translate('General_Unknown');
+        }
+    }
+
+    function getProviderName()
+    {
+        return Piwik_Provider_getPrettyProviderName($this->getProvider());
     }
 
     function getProviderUrl()

@@ -46,6 +46,7 @@ class Piwik_Tracker
     static protected $forcedVisitorId = null;
 
     static protected $pluginsNotToLoad = array();
+    static protected $pluginsToLoad = array();
 
     /**
      * The set of visits to track.
@@ -125,6 +126,17 @@ class Piwik_Tracker
     {
         return self::$pluginsNotToLoad;
     }
+
+    static public function getPluginsToLoad()
+    {
+        return self::$pluginsToLoad;
+    }
+    static public function setPluginsToLoad($plugins)
+    {
+        self::$pluginsToLoad = $plugins;
+    }
+
+
 
     /**
      * Update Tracker config
@@ -357,6 +369,7 @@ class Piwik_Tracker
             $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
             $pluginsForcedNotToLoad = Piwik_Tracker::getPluginsNotToLoad();
             $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
+            $pluginsToLoad = array_merge($pluginsToLoad, Piwik_Tracker::getPluginsToLoad());
             $pluginsManager->loadPlugins($pluginsToLoad);
         }
     }
@@ -478,7 +491,7 @@ class Piwik_Tracker
 
         Piwik_PostEvent('Tracker.getDatabaseConfig', $configDb);
 
-        $db = self::factory($configDb);
+        $db = Piwik_Tracker::factory($configDb);
         $db->connect();
 
         return $db;
@@ -589,15 +602,15 @@ class Piwik_Tracker
         }
 
         try {
-            $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker;
-            if (is_array($pluginsTracker)
-                && count($pluginsTracker) != 0
-            ) {
-                $pluginsTracker['Plugins_Tracker'] = array_diff($pluginsTracker['Plugins_Tracker'], self::getPluginsNotToLoad());
+            $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+            if (count($pluginsTracker) > 0) {
+                $pluginsTracker = $pluginsTracker;
+                $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
                 Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
-                Piwik_PluginsManager::getInstance()->loadPlugins($pluginsTracker['Plugins_Tracker']);
 
-                printDebug("Loading plugins: { " . implode(",", $pluginsTracker['Plugins_Tracker']) . " }");
+                Piwik_PluginsManager::getInstance()->loadPlugins($pluginsTracker);
+
+                printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
             }
         } catch (Exception $e) {
             printDebug("ERROR: " . $e->getMessage());
@@ -721,6 +734,11 @@ class Piwik_Tracker
             self::updateTrackerConfig('use_third_party_id_cookie', 1);
         }
 
+        // Tests using window_look_back_for_visitor
+        if (Piwik_Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1) {
+            self::updateTrackerConfig('window_look_back_for_visitor', 2678400);
+        }
+
         // Tests can force the enabling of IP anonymization
         $forceIpAnonymization = false;
         if (Piwik_Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
@@ -755,8 +773,11 @@ class Piwik_Tracker
             $pluginsDisabled[] = 'AnonymizeIP';
         }
 
-        // Disable provider plugin, because it is so slow to do reverse ip lookup in dev environment somehow
+        // Disable provider plugin, because it is so slow to do many reverse ip lookups
         self::setPluginsNotToLoad($pluginsDisabled);
+
+        // we load 'DevicesDetection' in tests only (disabled by default)
+        self::setPluginsToLoad( array('DevicesDetection') );
     }
 }
 

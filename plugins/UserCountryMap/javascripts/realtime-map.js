@@ -215,7 +215,7 @@
              * that corresponds to a visit on the map
              */
             function highlightVisit(r) {
-                $('#visitsLive li#' + r.idVisit + ' .datetime')
+                $('#visitsLive').find('li#' + r.idVisit + ' .datetime')
                     .css('background', '#E4CD74');
             }
 
@@ -224,7 +224,7 @@
              * the visit marker on the map
              */
             function unhighlightVisit(r) {
-                $('#visitsLive li#' + r.idVisit + ' .datetime')
+                $('#visitsLive').find('li#' + r.idVisit + ' .datetime')
                     .css({ background: '#E4E2D7' });
             }
 

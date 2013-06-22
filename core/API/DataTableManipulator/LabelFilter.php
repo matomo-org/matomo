@@ -105,7 +105,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
      * Use variations of the label to make it easier to specify the desired label
      *
      * Note: The HTML Encoded version must be tried first, since in Piwik_API_ResponseBuilder the $label is unsanitized
-     * via Piwik_Common::unsanitizeInputValue.
+     * via Piwik_Common::unsanitizeLabelParameter.
      *
      * @param string $label
      * @return array
@@ -115,9 +115,10 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
         static $pageTitleReports = array('getPageTitles', 'getEntryPageTitles', 'getExitPageTitles');
         
         $variations = array();
+        $label = urldecode($label);
         $label = trim($label);
 
-        $sanitizedLabel = Piwik_Common::sanitizeInputValue($label);
+        $sanitizedLabel = Piwik_Common::sanitizeInputValue( $label );
         $variations[] = $sanitizedLabel;
 
         if ($this->apiModule == 'Actions'
@@ -143,7 +144,6 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
             $row = null;
             foreach ($this->getLabelVariations($label) as $labelVariation) {
                 $labelVariation = explode(self::SEPARATOR_RECURSIVE_LABEL, $labelVariation);
-                $labelVariation = array_map('urldecode', $labelVariation);
 
                 $row = $this->doFilterRecursiveDescend($labelVariation, $dataTable);
                 if ($row) {

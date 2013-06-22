@@ -65,7 +65,7 @@
             siteUrls = {},
             siteCurrencies = {},
             allGoals = {},
-            noneText = $('#image-tracker-goal>option').text();
+            noneText = $('#image-tracker-goal').find('>option').text();
 
         // queries Piwik for needed site info for one site
         var getSiteData = function (idSite, sectionSelect, callback) {
@@ -104,11 +104,6 @@
                 }
             );
             ajaxRequest.setCallback(function (data) {
-                for (var i = 0; i != data.length; ++i) {
-                    data[i] = JSON.parse(data[i]);
-                }
-
-                // set data
                 var currency = data[0][0].currency || '';
                 siteCurrencies[idSite] = currencySymbols[currency.toUpperCase()];
                 siteUrls[idSite] = data[1] || [];
@@ -142,7 +137,7 @@
         // function that generates JS code
         var generateJsCode = function () {
             // get data
-            var idSite = $('#js-tracker-website .custom_select_main_link').attr('siteid'),
+            var idSite = $('#js-tracker-website').find('.custom_select_main_link').attr('siteid'),
                 groupPageTitlesByDomain = $('#javascript-tracking-group-by-domain').is(':checked'),
                 mergeSubdomains = $('#javascript-tracking-all-subdomains').is(':checked'),
                 mergeAliasUrls = $('#javascript-tracking-all-aliases').is(':checked'),
@@ -214,13 +209,13 @@
 </script>\n\
 <!-- End Piwik Code -->';
 
-            $('#javascript-text textarea').val(result)
+            $('#javascript-text').find('textarea').val(result)
         };
 
         // function that generates image tracker link
         var generateImageTrackerLink = function () {
             // get data ( (("https:" == document.location.protocol)?"https://' + piwikHost + '":"http://' + piwikHost + '") )
-            var idSite = $('#image-tracker-website .custom_select_main_link').attr('siteid'),
+            var idSite = $('#image-tracker-website').find('.custom_select_main_link').attr('siteid'),
                 path = document.location.pathname,
                 piwikURL = ("https:" == document.location.protocol ? "https://" + piwikHost : "http://" + piwikHost) + path.substring(0, path.lastIndexOf('/')) + '/piwik.php',
                 actionName = $('#image-tracker-action-name').val(),
@@ -230,7 +225,7 @@
             if ($('#image-tracking-goal-check').is(':checked')) {
                 idGoal = $('#image-tracker-goal').val();
                 if (idGoal) {
-                    revenue = $('#image-tracker-advanced-options .revenue').val();
+                    revenue = $('#image-tracker-advanced-options').find('.revenue').val();
                 }
             }
 
@@ -256,7 +251,7 @@
 <!-- End Piwik -->';
 
             result = result.replace("&", "&amp;", "g");
-            $('#image-tracking-link textarea').val(result);
+            $('#image-tracking-link').find('textarea').val(result);
         };
 
         // on image link tracker site change, change available goals
@@ -328,11 +323,11 @@
         });
 
         // initial generation
-        getSiteData($(
-            '#js-tracker-website .custom_select_main_link').attr('siteid'),
+        getSiteData(
+            $('#js-tracker-website').find('.custom_select_main_link').attr('siteid'),
             '#js-code-options,#image-tracking-code-options',
             function () {
-                var imageTrackerSiteId = $('#image-tracker-website .custom_select_main_link').attr('siteid');
+                var imageTrackerSiteId = $('#image-tracker-website').find('.custom_select_main_link').attr('siteid');
                 resetGoalSelectItems(imageTrackerSiteId, 'image-tracker-goal');
 
                 generateJsCode();

@@ -50,6 +50,11 @@ class Home extends \app\core\Controller {
             $sandbox_errors = \app\lib\Library::retrieve('sandbox_errors');
             $use_xml = \app\lib\Library::retrieve('xml_configuration_file');
             $xhprof_installed = \app\lib\Library::isXHProfInstalled();
+            
+            $tests_dir = dirname(dirname(dirname(dirname(__DIR__))));
+            $benchmark_fixtures_dir = $tests_dir.'/PHPUnit/Benchmarks/Fixtures';
+            $benchmark_fixtures = array_map('basename', glob($benchmark_fixtures_dir.'/*.php'));
+            
             return compact(
                 'create_snapshots',
                 'sandbox_errors',
@@ -58,14 +63,15 @@ class Home extends \app\core\Controller {
                 'suites',
                 'test_directory',
                 'use_xml',
-                'xhprof_installed'
+                'xhprof_installed',
+                'benchmark_fixtures'
             );
         }
 
         $data = array();
         if (!empty($request->data['data_keys']) && !empty($request->data['data_values']))
         {
-	        $data = array_combine($request->data['data_keys'], $request->data['data_values']);
+	          $data = array_combine($request->data['data_keys'], $request->data['data_values']);
         }
         
         $tests = explode('|', $request->data['test_files']);
@@ -94,6 +100,20 @@ class Home extends \app\core\Controller {
         }
         
         $use_xhprof = $request->data['use_xhprof'];
+        
+        // set benchmarking globals
+        if (count($tests) == 1
+            && basename(dirname(reset($tests))) == 'Benchmarks') {
+            
+            if (!empty($request->data['benchmark_fixture'])) {
+                $parts = explode('.', $request->data['benchmark_fixture']);
+                $data['PIWIK_BENCHMARK_FIXTURE'] = $parts[0];
+            }
+            
+            if (!empty($request->data['fixture_db_name'])) {
+                $data['PIWIK_BENCHMARK_DATABASE'] = $request->data['fixture_db_name'];
+            }
+        }
 
         list($results, $memory_stats, $xhprof_run_id) = ( $xml_config )
             ? $vpu->run_with_xml($xml_config, $use_xhprof)
@@ -110,7 +130,7 @@ class Home extends \app\core\Controller {
         if ( $request->data['sandbox_errors'] ) {
             restore_error_handler();
         }
-
+        
         $suites = $results['suites'];
         $stats = $results['stats'];
         $errors = $vpu->get_errors();

@@ -338,6 +338,7 @@ $translations = array(
 	'Actions_SubmenuPages' => 'หน้า',
 	'Actions_SubmenuPagesEntry' => 'รายการเพจ',
 	'Actions_SubmenuPagesExit' => 'ออกจากหน้าเพจ',
+	'Actions_WidgetPagesExit' => 'ออกจากเพจ',
 	'Actions_EntryPageTitles' => 'ชื่อหน้ารายการ',
 	'Actions_ExitPageTitles' => 'ชื่อเว็บเพจที่ไปต่อ',
 	'Actions_SubmenuPageTitles' => 'ชื่อเพจ',

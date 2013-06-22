@@ -52,7 +52,10 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
     {
         foreach ($values as $label => &$data) {
             $this->series[] = array(
-                'label'         => $label,
+                // unsanitize here is safe since data gets outputted as JSON, not HTML
+                // NOTE: this is a quick fix for a double-encode issue. if this file is refactored,
+                // this fix can probably be removed (or at least made more understandable).
+                'label'         => Piwik_Common::unsanitizeInputValue($label),
                 'internalLabel' => $label
             );
 

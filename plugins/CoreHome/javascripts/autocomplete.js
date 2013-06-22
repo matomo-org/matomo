@@ -14,7 +14,7 @@ function switchSite(id, name, showAjaxLoading, idCanBeAll) {
         $('.sites_autocomplete input').val(id);
         $('.custom_select_main_link').text(name);
         $('.custom_select_main_link').addClass('custom_select_loading');
-        broadcast.propagateNewPage('idSite=' + id, showAjaxLoading);
+        broadcast.propagateNewPage('segment=&idSite=' + id, showAjaxLoading);
     }
     return false;
 }
@@ -29,6 +29,15 @@ $(function () {
 
     // sets up every un-inited site selector widget
     piwik.initSiteSelectors = function () {
+        function getUrlForWebsiteId(idSite) {
+            var idSiteParam = 'idSite=' + idSite;
+            var newParameters = 'segment=&' + idSiteParam;
+            var hash = broadcast.isHashExists() ? broadcast.getHashFromUrl() : "",
+                linkUrl = piwikHelper.getCurrentQueryStringWithParametersModified(newParameters)
+                    + '#' + piwikHelper.getQueryStringWithParametersModified(hash.substring(1), newParameters);
+            return linkUrl;
+        }
+
         $('.sites_autocomplete').each(function () {
             var selector = $(this);
 
@@ -117,11 +126,8 @@ $(function () {
                 }
             }).data("ui-autocomplete")._renderItem = function (ul, item) {
                 $(ul).addClass('siteSelect');
-
-                var idSiteParam = 'idSite=' + item.id,
-                    hash = broadcast.isHashExists() ? broadcast.getHashFromUrl().replace(/idSite=[0-9]+/, idSiteParam) : "",
-                    linkUrl = piwikHelper.getCurrentQueryStringWithParametersModified(idSiteParam) + hash,
-                    link = $("<a></a>").html(item.label).attr('href', linkUrl),
+                var linkUrl = getUrlForWebsiteId(item.id);
+                var link = $("<a></a>").html(item.label).attr('href', linkUrl),
                     listItem = $('<li></li>');
 
                 listItem.data("item.ui-autocomplete", item)
@@ -162,12 +168,10 @@ $(function () {
 
                 $('.custom_select_block', selector).on('mouseenter', function () {
                     $('.custom_select_ul_list li a', selector).each(function () {
-                        var hash = broadcast.getHashFromUrl();
-                        hash = hash ? hash.replace(/idSite=[0-9]+/, 'idSite=' + $(this).attr('siteid')) : "";
+                        var idSite = $(this).attr('siteid');
 
-                        var queryString = piwikHelper.getCurrentQueryStringWithParametersModified(
-                            'idSite=' + $(this).attr('siteid'));
-                        $(this).attr('href', queryString + hash);
+                        var linkUrl = getUrlForWebsiteId(idSite);
+                        $(this).attr('href', linkUrl);
                     });
                 });
 

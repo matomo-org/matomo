@@ -13,7 +13,7 @@
         });
 
         $('#feedback-form-submit').click(function () {
-            var feedback = $('#feedback-form form');
+            var feedback = $('#feedback-form').find('form');
             $('#feedback-form').hide();
             $.post(feedback.attr('action'), feedback.serialize(), function (data) {
                 $('#feedback-sent').show().html(data);

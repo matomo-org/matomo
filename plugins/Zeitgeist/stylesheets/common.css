@@ -78,6 +78,15 @@ a {
 .loadingPiwik img {
 	margin-right:5px;
 }
+
+.loadingSegment {
+    color: grey;
+    display: block;
+    font-size: 10pt;
+    margin-left: 28px;
+    display:none;
+}
+
 #loadingError {
 	font-weight: bold;
 	font-size: 1.1em;
@@ -105,7 +114,7 @@ a {
 }
 
 #periodString {
-	display:block; 
+	display:block;
 	color:#444;
     font-size:14px;
     border: 1px solid #e4e5e4;
@@ -118,14 +127,24 @@ a {
     z-index:999;
     position:absolute;
     background: url("../images/icon-calendar.gif") no-repeat scroll right 9px center #F7F7F7;
+    background-color: #f7f7f7;
 }
 #periodString:hover {
 	background-color:#f1f0eb;
 	border-color:#a9a399;
 }
+#periodString .calendar-icon {
+  width: 13px;
+  height: 15px;
+  display:inline-block;
+  position:absolute;
+  right:9px;
+  top:7px;
+  background: url("images/icon-calendar.gif") no-repeat scroll;
+  cursor:pointer;
+}
 #periodString #date{
-	cursor:pointer; 
-	display:inline-block; 
+	cursor:pointer;
 	padding:5px 10px 6px 10px;
 	margin:-5px -10px -6px -10px;
 	

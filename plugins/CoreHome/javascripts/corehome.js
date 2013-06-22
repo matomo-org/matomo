@@ -25,8 +25,7 @@
             ajaxRequest.setLoadingElement('#header_message .loadingPiwik');
             ajaxRequest.addParams({
                 module: 'CoreHome',
-                action: 'checkForUpdates',
-                token_auth: piwik.token_auth
+                action: 'checkForUpdates'
             }, 'get');
             ajaxRequest.setCallback(function (response) {
                 headerMessage.fadeOut('slow', function () {

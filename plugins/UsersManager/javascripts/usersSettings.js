@@ -23,7 +23,7 @@ function sendUserSettingsAJAX() {
     var passwordBis = $('#passwordBis').val();
     var defaultReport = $('input[name=defaultReport]:checked').val();
     if (defaultReport == 1) {
-        defaultReport = $('#defaultReportSiteSelector .custom_select_main_link').attr('siteid');
+        defaultReport = $('#defaultReportSiteSelector').find('.custom_select_main_link').attr('siteid');
     }
     var postParams = {};
     postParams.alias = alias;
@@ -52,7 +52,7 @@ function sendUserSettingsAJAX() {
 function sendAnonymousUserSettingsAJAX() {
     var anonymousDefaultReport = $('input[name=anonymousDefaultReport]:checked').val();
     if (anonymousDefaultReport == 1) {
-        anonymousDefaultReport = $('#anonymousDefaultReportWebsite option:selected').val();
+        anonymousDefaultReport = $('#anonymousDefaultReportWebsite').find('option:selected').val();
     }
     var anonymousDefaultDate = $('input[name=anonymousDefaultDate]:checked').val();
 
@@ -81,7 +81,7 @@ $(document).ready(function () {
         }
 
     });
-    $('#userSettingsTable input').keypress(function (e) {
+    $('#userSettingsTable').find('input').keypress(function (e) {
         var key = e.keyCode || e.which;
         if (key == 13) {
             $('#userSettingsSubmit').click();

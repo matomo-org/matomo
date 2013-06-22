@@ -12,10 +12,10 @@
 // https://github.com/piwik/piwik/tree/master/misc/proxy-hide-piwik-url#piwik-proxy-hide-url
 // -----
 
-// Edit the line below, and replace http://piwik-server.com/piwik/
+// Edit the line below, and replace http://your-piwik-domain.example.org/piwik/
 // with your Piwik URL ending with a slash.
 // This URL will never be revealed to visitors or search engines.
-$PIWIK_URL = 'http://piwik-server.com/piwik/';
+$PIWIK_URL = 'http://your-piwik-domain.example.org/piwik/';
 
 // Edit the line below, and replace xyz by the token_auth for the user "UserTrackingAPI"
 // which you created when you followed instructions above.

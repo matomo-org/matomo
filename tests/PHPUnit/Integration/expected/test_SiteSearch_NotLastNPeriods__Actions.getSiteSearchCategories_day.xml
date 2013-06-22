@@ -2,7 +2,6 @@
 <result>
 	<row>
 		<label>Search Category</label>
-		<nb_uniq_visitors>2</nb_uniq_visitors>
 		<nb_visits>2</nb_visits>
 		<nb_actions>3</nb_actions>
 		<nb_pages_per_search>1.5</nb_pages_per_search>

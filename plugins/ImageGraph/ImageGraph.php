@@ -15,6 +15,11 @@ class Piwik_ImageGraph extends Piwik_Plugin
         'Referers_getRefererType',
     );
 
+    // row evolution support not yet implemented for these APIs
+    static private $REPORTS_DISABLED_EVOLUTION_GRAPH = array(
+        'Referers_getAll',
+    );
+
     public function getInformation()
     {
         return array(
@@ -64,7 +69,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
         }
 
         // need two sets of period & date, one for single period graphs, one for multiple periods graphs
-        if (Piwik_Archive::isMultiplePeriod($info['date'], $info['period'])) {
+        if (Piwik_Period::isMultiplePeriod($info['date'], $info['period'])) {
             $periodForMultiplePeriodGraph = $info['period'];
             $dateForMultiplePeriodGraph = $info['date'];
 
@@ -130,7 +135,12 @@ class Piwik_ImageGraph extends Piwik_Plugin
             // thanks to API.getRowEvolution, reports with dimensions can now be plotted using an evolution graph
             // however, most reports with a fixed set of dimension values are excluded
             // this is done so Piwik Mobile and Scheduled Reports do not display them
-            if (empty($report['constantRowsCount']) || in_array($reportUniqueId, self::$CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS)) {
+            $reportWithDimensionsSupportsEvolution = empty($report['constantRowsCount']) || in_array($reportUniqueId, self::$CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS);
+
+            $reportSupportsEvolution = !in_array($reportUniqueId, self::$REPORTS_DISABLED_EVOLUTION_GRAPH);
+
+            if ( $reportSupportsEvolution
+                && $reportWithDimensionsSupportsEvolution) {
                 $parameters['period'] = $periodForMultiplePeriodGraph;
                 $parameters['date'] = $dateForMultiplePeriodGraph;
                 $report['imageGraphEvolutionUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);

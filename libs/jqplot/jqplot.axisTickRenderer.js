@@ -40,10 +40,10 @@
         // name of the axis associated with this tick
         this.axis;
         // prop: showMark
-        // wether or not to show the mark on the axis.
+        // whether or not to show the mark on the axis.
         this.showMark = true;
         // prop: showGridline
-        // wether or not to draw the gridline on the grid at this tick.
+        // whether or not to draw the gridline on the grid at this tick.
         this.showGridline = true;
         // prop: isMinorTick
         // if this is a minor tick.
@@ -57,12 +57,12 @@
         // will be stoked above and below axis, so total length will be twice this.
         this.markSize = 6;
         // prop: show
-        // wether or not to show the tick (mark and label).
+        // whether or not to show the tick (mark and label).
         // Setting this to false requires more testing.  It is recommended
         // to set showLabel and showMark to false instead.
         this.show = true;
         // prop: showLabel
-        // wether or not to show the label.
+        // whether or not to show the label.
         this.showLabel = true;
         this.label = null;
         this.value = null;
@@ -94,7 +94,7 @@
         // true to escape HTML entities in the label.
         this.escapeHTML = false;
         this._elem;
-		this._breakTick = false;
+        this._breakTick = false;
         
         $.extend(true, this, options);
     };
@@ -154,9 +154,9 @@
         if (this.textColor) {
             this._elem.css('color', this.textColor);
         }
-		if (this._breakTick) {
-			this._elem.addClass('jqplot-breakTick');
-		}
+        if (this._breakTick) {
+          this._elem.addClass('jqplot-breakTick');
+        }
         
         return this._elem;
     };

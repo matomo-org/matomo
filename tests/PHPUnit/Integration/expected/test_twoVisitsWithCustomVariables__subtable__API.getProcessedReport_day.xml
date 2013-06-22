@@ -49,23 +49,23 @@
 	</columns>
 	<reportData>
 		<row>
-			<label>LoggedOut</label>
-			<nb_uniq_visitors>1</nb_uniq_visitors>
-			<nb_visits>2</nb_visits>
-			<nb_actions>2</nb_actions>
-			<nb_actions_per_visit>1</nb_actions_per_visit>
-			<avg_time_on_site>00:03:01</avg_time_on_site>
-			<bounce_rate>100%</bounce_rate>
-			<conversion_rate>0%</conversion_rate>
-		</row>
-		<row>
 			<label>LoggedIn</label>
-			<nb_uniq_visitors>1</nb_uniq_visitors>
 			<nb_visits>1</nb_visits>
 			<nb_actions>4</nb_actions>
 			<nb_actions_per_visit>4</nb_actions_per_visit>
 			<avg_time_on_site>00:06:01</avg_time_on_site>
 			<bounce_rate>0%</bounce_rate>
+			<nb_uniq_visitors>0</nb_uniq_visitors>
+			<conversion_rate>0%</conversion_rate>
+		</row>
+		<row>
+			<label>LoggedOut</label>
+			<nb_visits>2</nb_visits>
+			<nb_actions>2</nb_actions>
+			<nb_actions_per_visit>1</nb_actions_per_visit>
+			<avg_time_on_site>00:03:01</avg_time_on_site>
+			<bounce_rate>100%</bounce_rate>
+			<nb_uniq_visitors>0</nb_uniq_visitors>
 			<conversion_rate>0%</conversion_rate>
 		</row>
 	</reportData>

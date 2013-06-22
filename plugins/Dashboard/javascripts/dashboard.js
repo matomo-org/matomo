@@ -24,7 +24,7 @@ function initDashboard(dashboardId, dashboardLayout) {
     if (!$('#topBars').length) {
         $('#dashboardSettings').css({left: 0});
         $('#dashboardSettings').after($('#Dashboard'));
-        $('#Dashboard > ul li a').each(function () {$(this).css({width: this.offestWidth + 30, paddingLeft: 0, paddingRight: 0});});
+        $('#Dashboard').find('> ul li a').each(function () {$(this).css({width: this.offestWidth + 30, paddingLeft: 0, paddingRight: 0});});
         $('#Dashboard_embeddedIndex_' + dashboardId).addClass('sfHover');
     }
 
@@ -36,7 +36,7 @@ function initDashboard(dashboardId, dashboardLayout) {
             $('#removeDashboardLink').show();
         }
         // fix position
-        $('#dashboardSettings .widgetpreview-widgetlist').css('paddingTop', $('#dashboardSettings .widgetpreview-categorylist').parent('li').position().top);
+        $('#dashboardSettings').find('.widgetpreview-widgetlist').css('paddingTop', $('#dashboardSettings').find('.widgetpreview-categorylist').parent('li').position().top);
     });
     $('body').on('mouseup', function (e) {
         if (!$(e.target).parents('#dashboardSettings').length && !$(e.target).is('#dashboardSettings')) {
@@ -56,7 +56,7 @@ function initDashboard(dashboardId, dashboardLayout) {
 
     $('#dashboardSettings').widgetPreview({
         isWidgetAvailable: function (widgetUniqueId) {
-            return !$('#dashboardWidgetsArea [widgetId=' + widgetUniqueId + ']').length;
+            return !$('#dashboardWidgetsArea').find('[widgetId=' + widgetUniqueId + ']').length;
         },
         onSelect: function (widgetUniqueId) {
             var widget = widgetsHelper.getWidgetObjectFromUniqueId(widgetUniqueId);
@@ -66,7 +66,7 @@ function initDashboard(dashboardId, dashboardLayout) {
         resetOnSelect: true
     });
 
-    $('#columnPreview>div').each(function () {
+    $('#columnPreview').find('>div').each(function () {
         var width = [];
         $('div', this).each(function () {
             width.push(this.className.replace(/width-/, ''));
@@ -74,8 +74,8 @@ function initDashboard(dashboardId, dashboardLayout) {
         $(this).attr('layout', width.join('-'));
     });
 
-    $('#columnPreview>div').on('click', function () {
-        $('#columnPreview>div').removeClass('choosen');
+    $('#columnPreview').find('>div').on('click', function () {
+        $('#columnPreview').find('>div').removeClass('choosen');
         $(this).addClass('choosen');
     });
 
@@ -122,15 +122,15 @@ function renameDashboard() {
 }
 
 function removeDashboard() {
-    $('#removeDashboardConfirm h2 span').html($('#dashboardWidgetsArea').dashboard('getDashboardName'));
+    $('#removeDashboardConfirm').find('h2 span').text($('#dashboardWidgetsArea').dashboard('getDashboardName'));
     piwikHelper.modalConfirm('#removeDashboardConfirm', {yes: function () { $('#dashboardWidgetsArea').dashboard('removeDashboard'); }});
 }
 
 function showChangeDashboardLayoutDialog() {
-    $('#columnPreview>div').removeClass('choosen');
-    $('#columnPreview>div[layout=' + $('#dashboardWidgetsArea').dashboard('getColumnLayout') + ']').addClass('choosen');
+    $('#columnPreview').find('>div').removeClass('choosen');
+    $('#columnPreview').find('>div[layout=' + $('#dashboardWidgetsArea').dashboard('getColumnLayout') + ']').addClass('choosen');
     piwikHelper.modalConfirm('#changeDashboardLayout', {yes: function () {
-        $('#dashboardWidgetsArea').dashboard('setColumnLayout', $('#changeDashboardLayout .choosen').attr('layout'));
+        $('#dashboardWidgetsArea').dashboard('setColumnLayout', $('#changeDashboardLayout').find('.choosen').attr('layout'));
     }});
 }
 
@@ -159,12 +159,12 @@ function copyDashboardToUser() {
         function (availableUsers) {
             $('#copyDashboardUser').empty();
             $('#copyDashboardUser').append(
-                $('<option></option>').val(piwik.userLogin).html(piwik.userLogin)
+                $('<option></option>').val(piwik.userLogin).text(piwik.userLogin)
             );
             $.each(availableUsers, function (index, user) {
                 if (user.login != 'anonymous' && user.login != piwik.userLogin) {
                     $('#copyDashboardUser').append(
-                        $('<option></option>').val(user.login).html(user.login + ' (' + user.alias + ')')
+                        $('<option></option>').val(user.login).text(user.login + ' (' + user.alias + ')')
                     );
                 }
             });
@@ -189,7 +189,7 @@ function copyDashboardToUser() {
             }, 'post');
             ajaxRequest.setCallback(
                 function (id) {
-                    $('#alert h2').text(_pk_translate('Dashboard_DashboardCopied_js'));
+                    $('#alert').find('h2').text(_pk_translate('Dashboard_DashboardCopied_js'));
                     piwikHelper.modalConfirm('#alert', {});
                 }
             );

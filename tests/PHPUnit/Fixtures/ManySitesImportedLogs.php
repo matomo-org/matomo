@@ -136,33 +136,4 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
         self::executeLogImporter($logFile, $opts);
     }
 
-    private static function executeLogImporter($logFile, $options)
-    {
-        $python = Piwik_Common::isWindows() ? "C:\Python27\python.exe" : 'python';
-
-        // create the command
-        $cmd = $python
-            . ' "' . PIWIK_INCLUDE_PATH . '/misc/log-analytics/import_logs.py" ' # script loc
-            . '-ddd ' // debug
-            . '--url="' . self::getRootUrl() . 'tests/PHPUnit/proxy/" ' # proxy so that piwik uses test config files
-        ;
-
-        foreach ($options as $name => $value) {
-            $cmd .= $name;
-            if ($value !== false) {
-                $cmd .= '="' . $value . '"';
-            }
-            $cmd .= ' ';
-        }
-
-        $cmd .= '"' . $logFile . '" 2>&1';
-
-        // run the command
-        exec($cmd, $output, $result);
-        if ($result !== 0) {
-            throw new Exception("log importer failed: " . implode("\n", $output) . "\n\ncommand used: $cmd");
-        }
-
-        return $output;
-    }
 }

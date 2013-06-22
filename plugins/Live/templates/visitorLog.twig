@@ -47,7 +47,7 @@
     {% for visitor in arrayDataTable %}
         {% set visitorColumnContent %}
             &nbsp;
-            <img src="{{ visitor.columns.countryFlag }}" title="{{ visitor.columns.location }}, Provider {{ visitor.columns.provider }}"/>
+            <img src="{{ visitor.columns.countryFlag }}" title="{{ visitor.columns.location }}, Provider {{ visitor.columns.providerName }}"/>
             &nbsp;
             {% if visitor.columns.plugins %}
             <img src="{{ visitor.columns.browserIcon }}" title="{{ 'UserSettings_BrowserWithPluginsEnabled'|translate(visitor.columns.browserName,visitor.columns.plugins) }}"/>
@@ -108,11 +108,11 @@
                             GPS (lat/long): {{ visitor.columns.latitude }},{{ visitor.columns.longitude }}{% endif %}">
                         IP: {{ visitor.columns.visitIp }}</span>{% endif %}
 
-                    {% if visitor.columns.provider is defined and visitor.columns.provider!='IP' %}
+                    {% if visitor.columns.provider is defined and visitor.columns.providerName!='IP' %}
                         <br/>
                         {{ 'Provider_ColumnProvider'|translate }}:
                         <a href="{{ visitor.columns.providerUrl }}" target="_blank" title="{{ visitor.columns.providerUrl }}" style="text-decoration:underline;">
-                            {{ visitor.columns.provider }}
+                            {{ visitor.columns.providerName }}
                         </a>
                     {% endif %}
                     {% if visitor.columns.customVariables is not empty %}

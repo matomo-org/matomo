@@ -369,11 +369,17 @@ class Piwik_DataTable
     /**
      * Apply a filter to this datatable
      *
-     * @param string $className   Class name, eg. "Sort" or "Piwik_DataTable_Filter_Sort"
+     * @param string|Closure $className   Class name, eg. "Sort" or "Piwik_DataTable_Filter_Sort".
+     *                                    If this variable is a closure, it will get executed immediately.
      * @param array $parameters  Array of parameters to the filter, eg. array('nb_visits', 'asc')
      */
     public function filter($className, $parameters = array())
     {
+        if ($className instanceof Closure) {
+            $className($this);
+            return;
+        }
+        
         if (!class_exists($className, false)) {
             $className = "Piwik_DataTable_Filter_" . $className;
         }
@@ -1023,6 +1029,7 @@ class Piwik_DataTable
 
         // we then serialize the rows and store them in the serialized dataTable
         $addToRows = array(self::ID_SUMMARY_ROW => $this->summaryRow);
+        //FIXMEA let's kill this soon * re-do if necessary
         if ($this->parents && Piwik_Config::getInstance()->General['enable_archive_parents_of_datatable']) {
             $addToRows[self::ID_PARENTS] = $this->parents;
         }
@@ -1175,7 +1182,7 @@ class Piwik_DataTable
      *     LABEL => array(col1 => X, col2 => Y),
      *     LABEL2 => array(col1 => X, col2 => Y),
      * )
-     * to the structure
+     * to a DataTable, ie. with the internal structure
      * array (
      *     array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL, col1 => X, col2 => Y)),
      *     array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL2, col1 => X, col2 => Y)),
@@ -1186,57 +1193,42 @@ class Piwik_DataTable
      *     LABEL => X,
      *     LABEL2 => Y,
      * )
-     * would be converted to the structure
+     * would be converted to:
      * array (
      *     array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL, 'value' => X)),
      *     array( Piwik_DataTable_Row::COLUMNS => array('label' => LABEL2, 'value' => Y)),
      * )
      *
-     * The optional parameter $subtablePerLabel is an array of subTable associated to the rows of the $array
-     * For example if $subtablePerLabel is given
-     * array(
-     *        LABEL => #Piwik_DataTable_ForLABEL,
-     *        LABEL2 => #Piwik_DataTable_ForLABEL2,
-     * )
      *
-     * the $array would become
-     * array (
-     *     array(    Piwik_DataTable_Row::COLUMNS => array('label' => LABEL, col1 => X, col2 => Y),
-     *                Piwik_DataTable_Row::DATATABLE_ASSOCIATED => #ID DataTable For LABEL
-     *        ),
-     *     array(    Piwik_DataTable_Row::COLUMNS => array('label' => LABEL2, col1 => X, col2 => Y)
-     *                Piwik_DataTable_Row::DATATABLE_ASSOCIATED => #ID2 DataTable For LABEL2
-     *        ),
-     * )
-     *
-     * @param array $array             See method description
-     * @param array|null $subtablePerLabel  See method description
+     * @param array $array Indexed array, two formats are supported
+     * @param array|null $subtablePerLabel An indexed array of up to one DataTable to associate as a sub table
      */
-    public function addRowsFromArrayWithIndexLabel($array, $subtablePerLabel = null)
+    public static function makeFromIndexedArray($array, $subtablePerLabel = null)
     {
+        $table = new Piwik_DataTable();
         $cleanRow = array();
         foreach ($array as $label => $row) {
+            // Support the case of an $array of single values
             if (!is_array($row)) {
                 $row = array('value' => $row);
             }
-            $cleanRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = null;
-            // we put the 'label' column first as it looks prettier in API results
+            // Put the 'label' column first
             $cleanRow[Piwik_DataTable_Row::COLUMNS] = array('label' => $label) + $row;
-            if (!is_null($subtablePerLabel)
-                // some rows of this table don't have subtables
-                // (for example case of campaigns without keywords)
-                && isset($subtablePerLabel[$label])
-            ) {
+            // Assign subtable if specified
+            if (isset($subtablePerLabel[$label])) {
                 $cleanRow[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $subtablePerLabel[$label];
             }
-            $this->addRow(new Piwik_DataTable_Row($cleanRow));
+            $table->addRow(new Piwik_DataTable_Row($cleanRow));
         }
+        return $table;
     }
 
     /**
      * Set the array of parent ids
      *
      * @param array $parents
+     *
+     * FIXMEA
      */
     public function setParents($parents)
     {
@@ -1491,4 +1483,16 @@ class Piwik_DataTable
         return $this->columnAggregationOperations;
     }
     
+    /**
+     * Creates a new DataTable instance from a serialize()'d array of rows.
+     * 
+     * @param string $data
+     * @return Piwik_DataTable
+     */
+    public static function fromSerializedArray($data)
+    {
+        $result = new Piwik_DataTable();
+        $result->addRowsFromSerializedArray($data);
+        return $result;
+    }
 }

@@ -25,10 +25,15 @@ Integration tests allow to test how major Piwik components interact together.
 A test will typically generate hits to the Tracker (record visits and page views)
 and then test all API responses and for each API output. It then checks that they match expected XML (or CSV, json, etc.).
 If a test fails, you can compare the processed/ and expected/ directories in a graphical 
-text compare tool, such as WinMerge on Win, to easily view changes between files.
+text compare tool, such as WinMerge on Win, or MELD on Linux, to easily view changes between files.
+
+For example using Meld, click on "Start new comparison", "Directory comparison",
+in "Original" select "path/to/piwik/tests/PHPUnit/Integration/expected"
+in "Mine" select "path/to/piwik/tests/PHPUnit/Integration/processed"
+
 If changes are expected due to the code changes you make, simply copy the file from processed/ to 
-expected/, and test will then pass. Otherwise, if you didn't expect to modify the API outputs, 
-it might be that your changes are breaking some features unexpectedly.
+expected/, and test will then pass. Copying files is done easily using Meld (ALT+LEFT).
+Otherwise, if you didn't expect to modify the API outputs, it might be that your changes are breaking some features unexpectedly.
 
 ## PHPUnit Tests
 
@@ -219,6 +224,7 @@ First, XHProf must be built (this guide assumes you're using a linux variant):
     
  * 	Build XHProf.
 
+		$ phpize
 		$ ./configure
 		$ make
     

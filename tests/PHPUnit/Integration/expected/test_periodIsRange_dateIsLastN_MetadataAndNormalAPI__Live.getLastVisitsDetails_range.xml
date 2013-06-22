@@ -62,6 +62,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -82,6 +83,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
 		<screenType>dual</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1111x222</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -173,6 +175,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -193,6 +196,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.0</browserVersion>
 		<screenType>dual</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1111x222</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -344,6 +348,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
@@ -364,6 +369,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>dual</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1111x222</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/dual.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>

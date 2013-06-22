@@ -109,6 +109,13 @@
 	<row>
 		<type>dimension</type>
 		<category>Visit</category>
+		<name>Device type</name>
+		<segment>deviceType</segment>
+		<acceptedValues>desktop, smartphone, tablet, feature phone, console, tv, car browser</acceptedValues>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visit</category>
 		<name>Local time</name>
 		<segment>visitLocalHour</segment>
 		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
@@ -161,6 +168,7 @@
 		<name>Visitor ID</name>
 		<segment>visitorId</segment>
 		<acceptedValues>34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()</acceptedValues>
+		<permission>1</permission>
 	</row>
 	<row>
 		<type>dimension</type>

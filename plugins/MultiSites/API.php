@@ -218,9 +218,13 @@ class Piwik_MultiSites_API
         ) {
             $dataTable = $dataTable->mergeChildren();
         } else {
-            if (!$dataTable instanceof Piwik_DataTable_Array) {
+            if (!($dataTable instanceof Piwik_DataTable_Array)
+                && $dataTable->getRowsCount() > 0
+            ) {
+                $firstSite = is_array($sites) ? reset($sites) : $sites;
+                
                 $firstDataTableRow = $dataTable->getFirstRow();
-                $firstDataTableRow->setColumn('label', $sites);
+                $firstDataTableRow->setColumn('label', $firstSite);
             }
         }
 
@@ -237,11 +241,14 @@ class Piwik_MultiSites_API
                 //       put there is put directly in Piwik_DataTable::metadata.
                 $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
             }
-
-            $pastArchive = Piwik_Archive::build('all', $period, $strLastDate, $segment, $_restrictSitesToLogin);
+            $pastArchive = Piwik_Archive::build($sites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
             $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
-
-            $pastData = $pastData->mergeChildren();
+            
+            if ($pastData instanceof Piwik_DataTable_Array
+                && $multipleWebsitesRequested
+            ) {
+                $pastData = $pastData->mergeChildren();
+            }
 
             // use past data to calculate evolution percentages
             $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
@@ -312,6 +319,11 @@ class Piwik_MultiSites_API
      */
     private function calculateEvolutionPercentages($currentData, $pastData, $apiMetrics)
     {
+        if (get_class($currentData) != get_class($pastData)) { // sanity check for regressions
+            throw new Exception("Expected \$pastData to be of type ".get_class($currentData)." - got "
+                               . get_class($pastData).".");
+        }
+        
         if ($currentData instanceof Piwik_DataTable_Array) {
             $pastArray = $pastData->getArray();
             foreach ($currentData->getArray() as $subTable) {
@@ -349,7 +361,7 @@ class Piwik_MultiSites_API
         } else {
             $revenueMetric = '';
             if (Piwik_Common::isGoalPluginEnabled()) {
-                $revenueMetric = Piwik_Goals::getRecordName(self::GOAL_REVENUE_METRIC);
+                $revenueMetric = Piwik_Goals_Archiver::getRecordName(self::GOAL_REVENUE_METRIC);
             }
 
             $totals = array();
@@ -421,7 +433,7 @@ class Piwik_MultiSites_API
             $metrics[self::GOAL_REVENUE_METRIC] = array(
                 self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnRevenue',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_REVENUE_METRIC . '_evolution',
-                self::METRIC_RECORD_NAME_KEY        => Piwik_Goals::getRecordName(self::GOAL_REVENUE_METRIC),
+                self::METRIC_RECORD_NAME_KEY        => Piwik_Goals_Archiver::getRecordName(self::GOAL_REVENUE_METRIC),
                 self::METRIC_IS_ECOMMERCE_KEY       => false,
             );
 
@@ -430,7 +442,7 @@ class Piwik_MultiSites_API
                 $metrics[self::GOAL_CONVERSION_METRIC] = array(
                     self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnConversions',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::GOAL_CONVERSION_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Piwik_Goals::getRecordName(self::GOAL_CONVERSION_METRIC),
+                    self::METRIC_RECORD_NAME_KEY        => Piwik_Goals_Archiver::getRecordName(self::GOAL_CONVERSION_METRIC),
                     self::METRIC_IS_ECOMMERCE_KEY       => false,
                 );
 
@@ -438,7 +450,7 @@ class Piwik_MultiSites_API
                 $metrics[self::ECOMMERCE_ORDERS_METRIC] = array(
                     self::METRIC_TRANSLATION_KEY        => 'General_EcommerceOrders',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_ORDERS_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Piwik_Goals::getRecordName(self::GOAL_CONVERSION_METRIC, 0),
+                    self::METRIC_RECORD_NAME_KEY        => Piwik_Goals_Archiver::getRecordName(self::GOAL_CONVERSION_METRIC, 0),
                     self::METRIC_IS_ECOMMERCE_KEY       => true,
                 );
 
@@ -446,7 +458,7 @@ class Piwik_MultiSites_API
                 $metrics[self::ECOMMERCE_REVENUE_METRIC] = array(
                     self::METRIC_TRANSLATION_KEY        => 'General_ProductRevenue',
                     self::METRIC_EVOLUTION_COL_NAME_KEY => self::ECOMMERCE_REVENUE_METRIC . '_evolution',
-                    self::METRIC_RECORD_NAME_KEY        => Piwik_Goals::getRecordName(self::GOAL_REVENUE_METRIC, 0),
+                    self::METRIC_RECORD_NAME_KEY        => Piwik_Goals_Archiver::getRecordName(self::GOAL_REVENUE_METRIC, 0),
                     self::METRIC_IS_ECOMMERCE_KEY       => true,
                 );
             }

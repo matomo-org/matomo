@@ -473,7 +473,7 @@ class Piwik_DataTable_Row
                 
                 // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
                 // present in any data table and is not part of the $aggregationOperations mechanism.
-                if ($columnToSumName == Piwik_Archive::INDEX_MAX_ACTIONS) {
+                if ($columnToSumName == Piwik_Metrics::INDEX_MAX_ACTIONS) {
                     $operation = 'max';
                 }
                 $newValue = $this->getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue);
@@ -521,8 +521,8 @@ class Piwik_DataTable_Row
             && !$this->isSummaryRow()
         ) {
             // We shall update metadata, and keep the metadata with the _most visits or pageviews_, rather than first or last seen
-            $visits = max($rowToSum->getColumn(Piwik_Archive::INDEX_PAGE_NB_HITS) || $rowToSum->getColumn(Piwik_Archive::INDEX_NB_VISITS),
-                // Old format pre-1.2, @see also method updateInterestStats()
+            $visits = max($rowToSum->getColumn(Piwik_Metrics::INDEX_PAGE_NB_HITS) || $rowToSum->getColumn(Piwik_Metrics::INDEX_NB_VISITS),
+                // Old format pre-1.2, @see also method doSumVisitsMetrics()
                 $rowToSum->getColumn('nb_actions') || $rowToSum->getColumn('nb_visits'));
             if (($visits && $visits > $this->maxVisitsSummed)
                 || empty($this->c[self::METADATA])

@@ -47,13 +47,11 @@ class Piwik_LocalTracker extends PiwikTracker
 
         // save some values
         $plugins = Piwik_Config::getInstance()->Plugins['Plugins'];
+        $plugins[] = 'DevicesDetection';
         $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         $oldTrackerConfig = Piwik_Config::getInstance()->Tracker;
-        try {
-            Piwik_PluginsManager::getInstance()->unloadPlugins();
-        } catch(Exception $e) {
-            // this fails for SegmentEditor for some reasons
-        }
+
+        Piwik_PluginsManager::getInstance()->unloadPlugins();
 
         // modify config
         $GLOBALS['PIWIK_TRACKER_MODE'] = true;

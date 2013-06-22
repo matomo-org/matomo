@@ -88,16 +88,20 @@ class SegmentEditorTest extends DatabaseTestCase
         $this->assertEquals($segment, $expected);
 
         // There is a segment to process for this particular site
-        $segments = Piwik_SegmentEditor_API::getInstance()->getSegmentsToAutoArchive($idSite);
+        $segments = Piwik_SegmentEditor_API::getInstance()->getAll($idSite, $autoArchived = true);
         unset($segments[0]['ts_created']);
         $this->assertEquals($segments, array($expected));
 
-        // There is no segment to process across all sites
-        $segments = Piwik_SegmentEditor_API::getInstance()->getSegmentsToAutoArchive();
-        $this->assertEquals($segments, array());
-
         // There is no segment to process for a non existing site
-        $segments = Piwik_SegmentEditor_API::getInstance()->getSegmentsToAutoArchive(33);
+        try {
+            $segments = Piwik_SegmentEditor_API::getInstance()->getAll(33, $autoArchived = true);
+            $this->fail();
+        } catch(Exception $e) {
+            // expected
+        }
+
+        // There is no segment to process across all sites
+        $segments = Piwik_SegmentEditor_API::getInstance()->getAll($idSite = false, $autoArchived = true);
         $this->assertEquals($segments, array());
     }
 

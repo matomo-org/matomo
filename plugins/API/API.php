@@ -36,7 +36,7 @@ class Piwik_API extends Piwik_Plugin
 
     public function addTopMenu()
     {
-        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI');
+        $apiUrlParams = array('module' => 'API', 'action' => 'listAllAPI', 'segment' => false);
         $tooltip = Piwik_Translate('API_TopLinkTooltip');
 
         Piwik_AddTopMenu('General_API', $apiUrlParams, true, 7, $isHTML = false, $tooltip);
@@ -269,35 +269,38 @@ class Piwik_API_API
         $segments = array();
         Piwik_PostEvent('API.getSegmentsMetadata', $segments, $idSites);
 
+        $isAuthenticatedWithViewAccess = Piwik::isUserHasViewAccess($idSites) && !Piwik::isUserIsAnonymous();
+
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_VisitorIP',
             'segment'        => 'visitIp',
             'acceptedValues' => '13.54.122.1, etc.',
             'sqlSegment'     => 'log_visit.location_ip',
             'sqlFilter'      => array('Piwik_IP', 'P2N'),
-            'permission'     => Piwik::isUserHasAdminAccess($idSites),
+            'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_VisitorID',
             'segment'        => 'visitorId',
             'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
             'sqlSegment'     => 'log_visit.idvisitor',
             'sqlFilter'      => array('Piwik_Common', 'convertVisitorIdToBin'),
+            'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_NbActions',
             'segment'    => 'actions',
             'sqlSegment' => 'log_visit.visit_total_actions',
         );
         $segments[] = array(
             'type'           => 'metric',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_NbSearches',
             'segment'        => 'searches',
             'sqlSegment'     => 'log_visit.visit_total_searches',
@@ -305,14 +308,14 @@ class Piwik_API_API
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_ColumnVisitDuration',
             'segment'    => 'visitDuration',
             'sqlSegment' => 'log_visit.visit_total_time',
         );
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => Piwik_Translate('General_VisitType') ,
             'segment'        => 'visitorType',
             'acceptedValues' => 'new, returning, returningCustomer' . ". " . Piwik_Translate('General_VisitTypeExample', '"&segment=visitorType==returning,visitorType==returningCustomer"'),
@@ -321,21 +324,21 @@ class Piwik_API_API
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_DaysSinceLastVisit',
             'segment'    => 'daysSinceLastVisit',
             'sqlSegment' => 'log_visit.visitor_days_since_last',
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_DaysSinceFirstVisit',
             'segment'    => 'daysSinceFirstVisit',
             'sqlSegment' => 'log_visit.visitor_days_since_first',
         );
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_NumberOfVisits',
             'segment'    => 'visitCount',
             'sqlSegment' => 'log_visit.visitor_count_visits',
@@ -343,7 +346,7 @@ class Piwik_API_API
 
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => 'General_VisitConvertedGoal',
             'segment'        => 'visitConverted',
             'acceptedValues' => '0, 1',
@@ -352,7 +355,7 @@ class Piwik_API_API
 
         $segments[] = array(
             'type'           => 'dimension',
-            'category'       => 'Visit',
+            'category'       => Piwik_Translate('General_Visit'),
             'name'           => Piwik_Translate('General_EcommerceVisitStatusDesc'),
             'segment'        => 'visitEcommerceStatus',
             'acceptedValues' => implode(", ", self::$visitEcommerceStatus)
@@ -363,7 +366,7 @@ class Piwik_API_API
 
         $segments[] = array(
             'type'       => 'metric',
-            'category'   => 'Visit',
+            'category'   => Piwik_Translate('General_Visit'),
             'name'       => 'General_DaysSinceLastEcommerceOrder',
             'segment'    => 'daysSinceLastEcommerceOrder',
             'sqlSegment' => 'log_visit.visitor_days_since_order',
@@ -527,7 +530,7 @@ class Piwik_API_API
         $reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
 
         foreach ($reportsMetadata as $report) {
-            // See ArchiveProcessing/Period.php - unique visitors are not processed for period != day
+            // See ArchiveProcessor/Period.php - unique visitors are not processed for period != day
             if (($period && $period != 'day') && !($apiModule == 'VisitsSummary' && $apiAction == 'get')) {
                 unset($report['metrics']['nb_uniq_visitors']);
             }
@@ -740,7 +743,7 @@ class Piwik_API_API
             /** @var Piwik_DataTable */
             $dataTable = $request->process();
         } catch (Exception $e) {
-            throw new Exception("API returned an error: " . $e->getMessage() . "\n");
+            throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()). ":" . $e->getLine() . "\n");
         }
 
         list($newReport, $columns, $rowsMetadata) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, isset($reportMetadata['dimension']), $showRawMetrics);
@@ -1035,6 +1038,7 @@ class Piwik_API_API
                 Piwik_Translate('Referers_Referers'),
                 Piwik_Translate('Goals_Goals'),
                 Piwik_Translate('General_Visitors'),
+                Piwik_Translate('DevicesDetection_DevicesDetection'),
                 Piwik_Translate('UserSettings_VisitorSettings'),
             );
         }
@@ -1152,20 +1156,16 @@ class Piwik_API_API
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
     {
         // validation of requested $period & $date
-        if ($period == 'range') {
+          if ($period == 'range') {
             // load days in the range
             $period = 'day';
         }
 
-        if (!Piwik_Archive::isMultiplePeriod($date, $period)) {
+        if (!Piwik_Period::isMultiplePeriod($date, $period)) {
             throw new Exception("Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.");
         }
 
-        // this is needed because Piwik_API_Proxy uses Piwik_Common::getRequestVar which in turn
-        // uses Piwik_Common::sanitizeInputValue. This causes the > that separates recursive labels
-        // to become &gt; and we need to undo that here.
-        $label = Piwik_Common::unsanitizeInputValue($label);
-
+        $label = Piwik_API_ResponseBuilder::unsanitizeLabelParameter($label);
         if ($label) {
             $labels = explode(',', $label);
             $labels = array_unique($labels);
@@ -1353,7 +1353,7 @@ class Piwik_API_API
 
         // add "processed metrics" like actions per visit or bounce rate
         // note: some reports should not be filtered with AddColumnProcessedMetrics
-        // specifically, reports without the Piwik_Archive::INDEX_NB_VISITS metric such as Goals.getVisitsUntilConversion & Goal.getDaysToConversion
+        // specifically, reports without the Piwik_Metrics::INDEX_NB_VISITS metric such as Goals.getVisitsUntilConversion & Goal.getDaysToConversion
         // this is because the AddColumnProcessedMetrics filter removes all datable rows lacking this metric
         if
         (
@@ -1618,11 +1618,12 @@ class Piwik_API_API
             return array();
         }
 
-        $urls = Piwik_Common::unsanitizeInputValues($urls);
+        $urls = array_map('urldecode', $urls);
+        $urls = array_map(array('Piwik_Common','unsanitizeInputValue'), $urls);
 
         $result = array();
         foreach ($urls as $url) {
-            $req = new Piwik_API_Request($url);
+            $req = new Piwik_API_Request($url . '&format=php&serialize=0');
             $result[] = $req->process();
         }
         return $result;
@@ -1662,7 +1663,7 @@ class Piwik_API_API
 
         // Select non empty fields only
         // Note: this optimization has only a very minor impact
-        $requestLastVisits.= "&segment=$segmentName" . Piwik_SegmentExpression::MATCH_IS_NOT_NULL . "null";
+        $requestLastVisits.= "&segment=$segmentName".urlencode('!=');
 
         // By default Live fetches all actions for all visitors, but we'd rather do this only when required
         if($this->doesSegmentNeedActionsData($segmentName)) {

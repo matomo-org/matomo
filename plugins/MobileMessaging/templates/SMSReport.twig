@@ -1,5 +1,9 @@
 {% spaceless %}
-    {{ prettyDate }}.{% endspaceless %} {% spaceless %}
+    {{ prettyDate }}
+    {% if displaySegment %}
+    ,{% endspaceless %}} {% spaceless %}}{{ segmentName }}
+    {% endif %}
+    .{% endspaceless %} {% spaceless %}
 
     {% if reportRows is empty %}
         {{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}

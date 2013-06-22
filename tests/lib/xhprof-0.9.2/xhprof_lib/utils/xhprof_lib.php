@@ -31,14 +31,90 @@ function xhprof_error($message) {
  */
 function xhprof_get_possible_metrics() {
  static $possible_metrics =
-   array("wt" => array("Wall", "microsecs", "walltime" ),
-         "ut" => array("User", "microsecs", "user cpu time" ),
+   array("wt" => array("Wall", "microsecs", "walltime"),
+         "ut" => array("User", "microsecs", "user cpu time"),
          "st" => array("Sys", "microsecs", "system cpu time"),
          "cpu" => array("Cpu", "microsecs", "cpu time"),
          "mu" => array("MUse", "bytes", "memory usage"),
          "pmu" => array("PMUse", "bytes", "peak memory usage"),
          "samples" => array("Samples", "samples", "cpu time"));
  return $possible_metrics;
+}
+
+/**
+ * Initialize the metrics we'll display based on the information
+ * in the raw data.
+ *
+ * @author Kannan
+ */
+function init_metrics($xhprof_data, $rep_symbol, $sort, $diff_report = false) {
+  global $stats;
+  global $pc_stats;
+  global $metrics;
+  global $diff_mode;
+  global $sortable_columns;
+  global $sort_col;
+  global $display_calls;
+
+  $diff_mode = $diff_report;
+
+  if (!empty($sort)) {
+    if (array_key_exists($sort, $sortable_columns)) {
+      $sort_col = $sort;
+    } else {
+      print("Invalid Sort Key $sort specified in URL");
+    }
+  }
+
+  // For C++ profiler runs, walltime attribute isn't present.
+  // In that case, use "samples" as the default sort column.
+  if (!isset($xhprof_data["main()"]["wt"])) {
+
+    if ($sort_col == "wt") {
+      $sort_col = "samples";
+    }
+
+    // C++ profiler data doesn't have call counts.
+    // ideally we should check to see if "ct" metric
+    // is present for "main()". But currently "ct"
+    // metric is artificially set to 1. So, relying
+    // on absence of "wt" metric instead.
+    $display_calls = false;
+  } else {
+    $display_calls = true;
+  }
+
+  // parent/child report doesn't support exclusive times yet.
+  // So, change sort hyperlinks to closest fit.
+  if (!empty($rep_symbol)) {
+    $sort_col = str_replace("excl_", "", $sort_col);
+  }
+
+  if ($display_calls) {
+    $stats = array("fn", "ct", "Calls%");
+  } else {
+    $stats = array("fn");
+  }
+
+  $pc_stats = $stats;
+
+  $possible_metrics = xhprof_get_possible_metrics($xhprof_data);
+  foreach ($possible_metrics as $metric => $desc) {
+    if (isset($xhprof_data["main()"][$metric])) {
+      $metrics[] = $metric;
+      // flat (top-level reports): we can compute
+      // exclusive metrics reports as well.
+      $stats[] = $metric;
+      $stats[] = "I" . $desc[0] . "%";
+      $stats[] = "excl_" . $metric;
+      $stats[] = "E" . $desc[0] . "%";
+
+      // parent/child report for a function: we can
+      // only breakdown inclusive times correctly.
+      $pc_stats[] = $metric;
+      $pc_stats[] = "I" . $desc[0] . "%";
+    }
+  }
 }
 
 /*
@@ -259,7 +335,7 @@ function xhprof_aggregate_runs($xhprof_runs_impl, $runs,
   }
 
   $bad_runs = array();
-  foreach($runs as $idx => $run_id) {
+  foreach ($runs as $idx => $run_id) {
 
     $raw_data = $xhprof_runs_impl->get_run($run_id, $source, $description);
 
@@ -294,7 +370,7 @@ function xhprof_aggregate_runs($xhprof_runs_impl, $runs,
       // it shows up above the new entry in reports sorted by
       // inclusive metrics or call counts.
       if ($page) {
-        foreach($raw_data["main()"] as $metric => $val) {
+        foreach ($raw_data["main()"] as $metric => $val) {
           $fake_edge[$metric] = $val;
           $new_main[$metric]  = $val + 0.00001;
         }
@@ -316,7 +392,7 @@ function xhprof_aggregate_runs($xhprof_runs_impl, $runs,
         // if this is an old edge originating from main(), it now
         // needs to be from '__script::$page'
         if (substr($parent_child, 0, 9) == "main()==>") {
-          $child =substr($parent_child, 9);
+          $child = substr($parent_child, 9);
           // ignore the newly added edge from main()
           if (substr($child, 0, 10) != "__script::") {
             $parent_child = xhprof_build_parent_child_key("__script::$page",
@@ -381,7 +457,7 @@ function xhprof_compute_flat_info($raw_data, &$overall_totals) {
 
   $metrics = xhprof_get_metrics($raw_data);
 
-  $overall_totals = array( "ct" => 0,
+  $overall_totals = array("ct" => 0,
                            "wt" => 0,
                            "ut" => 0,
                            "st" => 0,
@@ -827,10 +903,6 @@ function xhprof_param_init($params) {
       xhprof_error("Invalid param type passed to xhprof_param_init: "
                    . $v[0]);
       exit();
-    }
-
-    if ($k === 'run') {
-      $p = implode(',', array_filter(explode(',', $p), 'is_numeric'));
     }
 
     // create a global variable using the parameter name.

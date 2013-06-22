@@ -39,8 +39,8 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
     {
         $rowsIdToDelete = array();
         foreach ($table->getRows() as $key => $row) {
-            $nbVisits = $this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS);
-            $nbActions = $this->getColumn($row, Piwik_Archive::INDEX_NB_ACTIONS);
+            $nbVisits = $this->getColumn($row, Piwik_Metrics::INDEX_NB_VISITS);
+            $nbActions = $this->getColumn($row, Piwik_Metrics::INDEX_NB_ACTIONS);
             if ($nbVisits == 0
                 && $nbActions == 0
                 && $this->deleteRowsWithNoVisit
@@ -51,7 +51,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
                 continue;
             }
 
-            $nbVisitsConverted = (int)$this->getColumn($row, Piwik_Archive::INDEX_NB_VISITS_CONVERTED);
+            $nbVisitsConverted = (int)$this->getColumn($row, Piwik_Metrics::INDEX_NB_VISITS_CONVERTED);
             if ($nbVisitsConverted > 0) {
                 $conversionRate = round(100 * $nbVisitsConverted / $nbVisits, $this->roundPrecision);
                 try {
@@ -68,9 +68,9 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
                 // sum_visit_length / nb_visits => Avg. Time on Site
                 // bounce_count / nb_visits => Bounce Rate
                 $actionsPerVisit = round($nbActions / $nbVisits, $this->roundPrecision);
-                $visitLength = $this->getColumn($row, Piwik_Archive::INDEX_SUM_VISIT_LENGTH);
+                $visitLength = $this->getColumn($row, Piwik_Metrics::INDEX_SUM_VISIT_LENGTH);
                 $averageTimeOnSite = round($visitLength / $nbVisits, $rounding = 0);
-                $bounceRate = round(100 * $this->getColumn($row, Piwik_Archive::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
+                $bounceRate = round(100 * $this->getColumn($row, Piwik_Metrics::INDEX_BOUNCE_COUNT) / $nbVisits, $this->roundPrecision);
             }
             try {
                 $row->addColumn('nb_actions_per_visit', $actionsPerVisit);
@@ -104,7 +104,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
     protected function getColumn($row, $columnIdRaw, $mappingIdToName = false)
     {
         if (empty($mappingIdToName)) {
-            $mappingIdToName = Piwik_Archive::$mappingFromIdToName;
+            $mappingIdToName = Piwik_Metrics::$mappingFromIdToName;
         }
         $columnIdReadable = $mappingIdToName[$columnIdRaw];
         if ($row instanceof Piwik_DataTable_Row) {

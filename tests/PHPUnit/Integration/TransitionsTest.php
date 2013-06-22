@@ -23,6 +23,46 @@ class Test_Piwik_Integration_Transitions extends IntegrationTestCase
         $return[] = array('Transitions.getTransitionsForPageUrl', array(
             'idSite'                 => self::$fixture->idSite,
             'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day', 'month'),
+            'testSuffix'             => '_noLimit',
+            'otherRequestParameters' => array(
+                'pageUrl'            => 'http://example.org/page/one.html',
+            )
+        ));
+        $return[] = array('Transitions.getTransitionsForPageTitle', array(
+            'idSite'                 => self::$fixture->idSite,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day', 'month'),
+            'testSuffix'             => '_noLimit',
+            'otherRequestParameters' => array(
+                'pageTitle'          => 'page title - page/one.html',
+            )
+        ));
+        
+        // test w/ pages that don't exist
+        $return[] = array('Transitions.getTransitionsForPageUrl', array(
+            'idSite'                 => self::$fixture->idSite,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day', 'month'),
+            'testSuffix'             => '_noData',
+            'otherRequestParameters' => array(
+                'pageUrl'            => 'http://example.org/not/a/page.html',
+            )
+        ));
+        $return[] = array('Transitions.getTransitionsForPageTitle', array(
+            'idSite'                 => self::$fixture->idSite,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day', 'month'),
+            'testSuffix'             => '_noData',
+            'otherRequestParameters' => array(
+                'pageTitle'          => 'not a page title',
+            )
+        ));
+        
+        $return[] = array('Transitions.getTransitionsForPageUrl', array( // test w/ limiting
+            'idSite'                 => self::$fixture->idSite,
+            'date'                   => self::$fixture->dateTime,
+            'periods'                => array('day', 'month'),
             'otherRequestParameters' => array(
                 'pageUrl'             => 'http://example.org/page/one.html',
                 'limitBeforeGrouping' => 2

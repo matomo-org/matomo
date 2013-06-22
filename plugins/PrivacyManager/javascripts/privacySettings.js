@@ -95,10 +95,10 @@ $(document).ready(function () {
     });
 
     // make sure the DB size estimate is reloaded every time a delete logs/reports setting is changed
-    $('#formDeleteSettings input[type=text]').each(function () {
+    $('#formDeleteSettings').find('input[type=text]').each(function () {
         $(this).change(reloadDbStats);
     });
-    $('#formDeleteSettings input[type=checkbox]').each(function () {
+    $('#formDeleteSettings').find('input[type=checkbox]').each(function () {
         $(this).click(reloadDbStats);
     });
 
@@ -111,7 +111,7 @@ $(document).ready(function () {
 
         // hide all confirmation texts, then show the correct one based on what
         // type of deletion is enabled.
-        $('#confirmDeleteSettings>h2').each(function () {
+        $('#confirmDeleteSettings').find('>h2').each(function () {
             $(this).hide();
         });
 
@@ -145,7 +145,7 @@ $(document).ready(function () {
 
         // if any option has been modified, abort purging and instruct user to save first
         var modified = false;
-        $('#formDeleteSettings input').each(function () {
+        $('#formDeleteSettings').find('input').each(function () {
             if (this.type === 'checkbox' || this.type === 'radio') {
                 modified |= this.defaultChecked !== this.checked;
             } else {

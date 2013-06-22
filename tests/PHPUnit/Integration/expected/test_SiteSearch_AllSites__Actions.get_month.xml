@@ -2,10 +2,14 @@
 <results>
 	<result idSite="1">
 		<result date="2010-01">
-			<nb_keywords>5</nb_keywords>
 			<nb_pageviews>4</nb_pageviews>
-			<nb_searches>8</nb_searches>
 			<nb_uniq_pageviews>3</nb_uniq_pageviews>
+			<nb_downloads>0</nb_downloads>
+			<nb_uniq_downloads>0</nb_uniq_downloads>
+			<nb_outlinks>0</nb_outlinks>
+			<nb_uniq_outlinks>0</nb_uniq_outlinks>
+			<nb_searches>8</nb_searches>
+			<nb_keywords>5</nb_keywords>
 			<avg_time_generation>0</avg_time_generation>
 		</result>
 		<result date="2010-02" />
@@ -17,10 +21,14 @@
 	</result>
 	<result idSite="2">
 		<result date="2010-01">
-			<nb_keywords>3</nb_keywords>
 			<nb_pageviews>2</nb_pageviews>
-			<nb_searches>3</nb_searches>
 			<nb_uniq_pageviews>2</nb_uniq_pageviews>
+			<nb_downloads>0</nb_downloads>
+			<nb_uniq_downloads>0</nb_uniq_downloads>
+			<nb_outlinks>0</nb_outlinks>
+			<nb_uniq_outlinks>0</nb_uniq_outlinks>
+			<nb_searches>3</nb_searches>
+			<nb_keywords>3</nb_keywords>
 			<avg_time_generation>0</avg_time_generation>
 		</result>
 		<result date="2010-02" />
@@ -34,6 +42,12 @@
 		<result date="2010-01">
 			<nb_pageviews>3</nb_pageviews>
 			<nb_uniq_pageviews>3</nb_uniq_pageviews>
+			<nb_downloads>0</nb_downloads>
+			<nb_uniq_downloads>0</nb_uniq_downloads>
+			<nb_outlinks>0</nb_outlinks>
+			<nb_uniq_outlinks>0</nb_uniq_outlinks>
+			<nb_searches>0</nb_searches>
+			<nb_keywords>0</nb_keywords>
 			<avg_time_generation>0</avg_time_generation>
 		</result>
 		<result date="2010-02" />

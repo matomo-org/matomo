@@ -2,13 +2,13 @@
 <results>
 	<result idSite="1">
 		<result date="From 2009-12-28 to 2010-01-03">
-			<bounce_count>2</bounce_count>
-			<max_actions>4</max_actions>
-			<nb_actions>6</nb_actions>
 			<nb_uniq_visitors>2</nb_uniq_visitors>
 			<nb_visits>3</nb_visits>
+			<nb_actions>6</nb_actions>
 			<nb_visits_converted>2</nb_visits_converted>
+			<bounce_count>2</bounce_count>
 			<sum_visit_length>722</sum_visit_length>
+			<max_actions>4</max_actions>
 			<bounce_rate>67%</bounce_rate>
 			<nb_actions_per_visit>2</nb_actions_per_visit>
 			<avg_time_on_site>241</avg_time_on_site>

@@ -62,6 +62,6 @@ class Piwik_Test_Fixture_SqlDump
         }
 
         // make sure archiving will be called
-        Piwik_ArchiveProcessing::setBrowserTriggerArchiving(true);
+        Piwik_ArchiveProcessor_Rules::setBrowserTriggerArchiving(true);
     }
 }

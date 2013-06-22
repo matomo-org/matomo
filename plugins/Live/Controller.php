@@ -130,7 +130,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     private function setCounters($view)
     {
-        $segment = Piwik_Common::getRequestVar('segment', false, 'string');
+        $segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
         $last30min = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment);
         $last30min = $last30min[0];
         $today = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment);

@@ -232,7 +232,7 @@ class Piwik_UserSettings extends Piwik_Plugin
             if (empty($segment)) continue;
             $segments[] = array(
                 'type'           => 'dimension',
-                'category'       => 'Visit',
+                'category'       => Piwik_Translate('General_Visit'),
                 'name'           => $columnName,
                 'segment'        => $segment,
                 'acceptedValues' => $acceptedValues,
@@ -269,69 +269,17 @@ class Piwik_UserSettings extends Piwik_Plugin
      * are superset of an existing report (eg. Browser family is built from the Browser report)
      *
      * @param Piwik_Event_Notification $notification  notification object
-     * @return void
      */
     function archiveDay($notification)
     {
-        require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
-        $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
+        $archiveProcessor = $notification->getNotificationObject();
 
-        $archiveProcessing = $notification->getNotificationObject();
-
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
-        $this->archiveProcessing = $archiveProcessing;
-
-        $recordName = 'UserSettings_configuration';
-        $labelSQL = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
-        $interestByConfiguration = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-
-        $tableConfiguration = $archiveProcessing->getDataTableFromArray($interestByConfiguration);
-        $archiveProcessing->insertBlobRecord($recordName, $tableConfiguration->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
-        destroy($tableConfiguration);
-
-        $recordName = 'UserSettings_os';
-        $labelSQL = "log_visit.config_os";
-        $interestByOs = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableOs = $archiveProcessing->getDataTableFromArray($interestByOs);
-        $archiveProcessing->insertBlobRecord($recordName, $tableOs->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
-        destroy($tableOs);
-
-        $recordName = 'UserSettings_browser';
-        $labelSQL = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
-        $interestByBrowser = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableBrowser = $archiveProcessing->getDataTableFromArray($interestByBrowser);
-        $archiveProcessing->insertBlobRecord($recordName, $tableBrowser->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
-
-        $recordName = 'UserSettings_browserType';
-        $tableBrowserType = $this->getTableBrowserByType($tableBrowser);
-        $archiveProcessing->insertBlobRecord($recordName, $tableBrowserType->getSerialized());
-        destroy($tableBrowser);
-        destroy($tableBrowserType);
-
-        $recordName = 'UserSettings_resolution';
-        $labelSQL = "log_visit.config_resolution";
-        $interestByResolution = $archiveProcessing->getArrayInterestForLabel($labelSQL);
-        $tableResolution = $archiveProcessing->getDataTableFromArray($interestByResolution);
-        $tableResolution->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_UserSettings_keepStrlenGreater'));
-        $archiveProcessing->insertBlobRecord($recordName, $tableResolution->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
-
-        $recordName = 'UserSettings_wideScreen';
-        $tableWideScreen = $this->getTableWideScreen($tableResolution);
-        $archiveProcessing->insertBlobRecord($recordName, $tableWideScreen->getSerialized());
-        destroy($tableResolution);
-        destroy($tableWideScreen);
-
-        $recordName = 'UserSettings_plugin';
-        $tablePlugin = $this->getDataTablePlugin();
-        $archiveProcessing->insertBlobRecord($recordName, $tablePlugin->getSerialized());
-        destroy($tablePlugin);
-
-        $recordName = 'UserSettings_language';
-        $tableLanguage = $this->getDataTableLanguages();
-        $archiveProcessing->insertBlobRecord($recordName, $tableLanguage->getSerialized($maximumRowsInDataTable, null, $columnToSortByBeforeTruncation));
+        $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
+        }
     }
+
 
     /**
      * Period archiving: simply sums up daily archives
@@ -341,121 +289,11 @@ class Piwik_UserSettings extends Piwik_Plugin
      */
     function archivePeriod($notification)
     {
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
-        $maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-
-        $dataTableToSum = array(
-            'UserSettings_configuration',
-            'UserSettings_os',
-            'UserSettings_browser',
-            'UserSettings_browserType',
-            'UserSettings_resolution',
-            'UserSettings_wideScreen',
-            'UserSettings_plugin',
-            'UserSettings_language',
-        );
-
-        $archiveProcessing->archiveDataTable($dataTableToSum, null, $maximumRowsInDataTable);
-    }
-
-    /**
-     * Returns the report Visits by Screen type given the Resolution table
-     *
-     * @param Piwik_DataTable $tableResolution
-     * @return Piwik_DataTable
-     */
-    protected function getTableWideScreen(Piwik_DataTable $tableResolution)
-    {
-        $nameToRow = array();
-        foreach ($tableResolution->getRows() as $row) {
-            $resolution = $row->getColumn('label');
-            $name = Piwik_getScreenTypeFromResolution($resolution);
-            if (!isset($nameToRow[$name])) {
-                $nameToRow[$name] = new Piwik_DataTable_Row();
-                $nameToRow[$name]->addColumn('label', $name);
-            }
-
-            $nameToRow[$name]->sumRow($row);
+        $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
         }
-        $tableWideScreen = new Piwik_DataTable();
-        $tableWideScreen->addRowsFromArray($nameToRow);
-
-        return $tableWideScreen;
-    }
-
-    /**
-     * Returns the report Visits by Browser family given the Browser report
-     *
-     * @param Piwik_DataTable $tableBrowser
-     * @return Piwik_DataTable
-     */
-    protected function getTableBrowserByType(Piwik_DataTable $tableBrowser)
-    {
-        $nameToRow = array();
-        foreach ($tableBrowser->getRows() as $row) {
-            $browserLabel = $row->getColumn('label');
-            $familyNameToUse = Piwik_getBrowserFamily($browserLabel);
-            if (!isset($nameToRow[$familyNameToUse])) {
-                $nameToRow[$familyNameToUse] = new Piwik_DataTable_Row();
-                $nameToRow[$familyNameToUse]->addColumn('label', $familyNameToUse);
-            }
-            $nameToRow[$familyNameToUse]->sumRow($row);
-        }
-
-        $tableBrowserType = new Piwik_DataTable();
-        $tableBrowserType->addRowsFromArray($nameToRow);
-        return $tableBrowserType;
-    }
-
-    /**
-     * Returns SQL that processes stats for Plugins
-     *
-     * @return Piwik_DataTable_Simple
-     */
-    protected function getDataTablePlugin()
-    {
-        $toSelect = "sum(case log_visit.config_pdf when 1 then 1 else 0 end) as pdf,
-				sum(case log_visit.config_flash when 1 then 1 else 0 end) as flash,
-				sum(case log_visit.config_java when 1 then 1 else 0 end) as java,
-				sum(case log_visit.config_director when 1 then 1 else 0 end) as director,
-				sum(case log_visit.config_quicktime when 1 then 1 else 0 end) as quicktime,
-				sum(case log_visit.config_realplayer when 1 then 1 else 0 end) as realplayer,
-				sum(case log_visit.config_windowsmedia when 1 then 1 else 0 end) as windowsmedia,
-				sum(case log_visit.config_gears when 1 then 1 else 0 end) as gears,
-				sum(case log_visit.config_silverlight when 1 then 1 else 0 end) as silverlight,
-				sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie	";
-        return $this->archiveProcessing->getSimpleDataTableFromSelect($toSelect, Piwik_Archive::INDEX_NB_VISITS);
-    }
-
-    protected function getDataTableLanguages()
-    {
-        $labelSQL = "log_visit.location_browser_lang";
-        $interestByLanguage = $this->archiveProcessing->getArrayInterestForLabel($labelSQL);
-
-        $languageCodes = array_keys(Piwik_Common::getLanguagesList());
-
-        foreach ($interestByLanguage as $lang => $count) {
-            // get clean language code
-            $code = Piwik_Common::extractLanguageCodeFromBrowserLanguage($lang, $languageCodes);
-            if ($code != $lang) {
-                if (!array_key_exists($code, $interestByLanguage)) {
-                    $interestByLanguage[$code] = array();
-                }
-                // Add the values to the primary language
-                foreach ($count as $key => $value) {
-                    if (array_key_exists($key, $interestByLanguage[$code])) {
-                        $interestByLanguage[$code][$key] += $value;
-                    } else {
-                        $interestByLanguage[$code][$key] = $value;
-                    }
-                }
-                unset($interestByLanguage[$lang]);
-            }
-        }
-        $tableLanguage = $this->archiveProcessing->getDataTableFromArray($interestByLanguage);
-        return $tableLanguage;
     }
 }

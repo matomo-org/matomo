@@ -12,7 +12,7 @@
 /**
  * The DataTable_Manager registers all the instanciated DataTable and provides an
  * easy way to access them. This is used to store all the DataTable during the archiving process.
- * At the end of archiving, the ArchiveProcessing will read the stored datatable and record them in the DB.
+ * At the end of archiving, the ArchiveProcessor will read the stored datatable and record them in the DB.
  *
  * @package Piwik
  * @subpackage Piwik_DataTable
@@ -39,7 +39,7 @@ class Piwik_DataTable_Manager
      *
      * @var array
      */
-    protected $tables = array();
+    private $tables = array();
 
     /**
      * Id of the next inserted table id in the Manager
@@ -136,7 +136,7 @@ class Piwik_DataTable_Manager
         foreach ($this->tables as $id => $table) {
             if (!($table instanceof Piwik_DataTable)) {
                 echo "Error table $id is not instance of datatable<br />";
-                var_dump($table);
+                var_export($table);
             } else {
                 echo "<hr />";
                 echo "Table (index=$id) TableId = " . $table->getId() . "<br />";

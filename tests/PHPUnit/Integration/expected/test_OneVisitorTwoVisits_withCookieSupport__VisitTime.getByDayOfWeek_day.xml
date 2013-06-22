@@ -28,11 +28,11 @@
 	<row>
 		<label>Saturday</label>
 		<nb_visits>2</nb_visits>
-		<bounce_count>1</bounce_count>
-		<nb_actions>9</nb_actions>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
-		<nb_visits_converted>2</nb_visits_converted>
+		<nb_actions>9</nb_actions>
 		<sum_visit_length>1621</sum_visit_length>
+		<bounce_count>1</bounce_count>
+		<nb_visits_converted>2</nb_visits_converted>
 		<day_of_week>6</day_of_week>
 	</row>
 	<row>

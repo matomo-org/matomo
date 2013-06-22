@@ -15,10 +15,15 @@
 			<referrals>2</referrals>
 		</row>
 	</previousPages>
-	<previousSiteSearches />
+	<previousSiteSearches>
+		<row>
+			<label>anotherkwd</label>
+			<referrals>1</referrals>
+		</row>
+	</previousSiteSearches>
 	<pageMetrics>
 		<loops>1</loops>
-		<pageviews>12</pageviews>
+		<pageviews>17</pageviews>
 		<entries>4</entries>
 		<exits>3</exits>
 	</pageMetrics>
@@ -36,9 +41,32 @@
 			<referrals>3</referrals>
 		</row>
 	</followingPages>
-	<followingSiteSearches />
-	<outlinks />
-	<downloads />
+	<followingSiteSearches>
+		<row>
+			<label>anotherkwd</label>
+			<referrals>1</referrals>
+		</row>
+	</followingSiteSearches>
+	<outlinks>
+		<row>
+			<label>https://anothersite.com/to/outlink/page.html</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>http://anothersite.com/to/outlink/page2.html</label>
+			<referrals>1</referrals>
+		</row>
+	</outlinks>
+	<downloads>
+		<row>
+			<label>http://example.org/downloads/29.tar.gz</label>
+			<referrals>1</referrals>
+		</row>
+		<row>
+			<label>https://example.org/downloads/31.tar.gz</label>
+			<referrals>1</referrals>
+		</row>
+	</downloads>
 	<referrers>
 		<row>
 			<label>Direct Entries</label>

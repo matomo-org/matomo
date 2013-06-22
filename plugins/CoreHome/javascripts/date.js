@@ -23,18 +23,12 @@ $(document).ready(function () {
         }
     };
 
-    $("#periodString #date")
-        .hover(function () {
-            $(this).css({ cursor: "pointer"});
-        }, function () {
-
-        })
-        .click(function () {
-            periodWidget.toggle();
-            if ($("#periodMore").is(":visible")) {
-                $("#periodMore .ui-state-highlight").removeClass('ui-state-highlight');
-            }
-        });
+    $("#periodString").on('click', "#date,.calendar-icon", function () {
+        periodWidget.toggle();
+        if ($("#periodMore").is(":visible")) {
+            $("#periodMore").find(".ui-state-highlight").removeClass('ui-state-highlight');
+        }
+    });
 
     //close periodString onClickOutside
     $('body').on('mouseup', function (e) {

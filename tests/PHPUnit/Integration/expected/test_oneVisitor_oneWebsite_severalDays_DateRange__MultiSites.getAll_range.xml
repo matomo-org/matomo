@@ -5,7 +5,7 @@
 		<nb_visits>6</nb_visits>
 		<nb_actions>9</nb_actions>
 		<nb_pageviews>9</nb_pageviews>
-		<revenue />
+		<revenue>0</revenue>
 		<idsite>1</idsite>
 	</row>
 	<row>
@@ -13,7 +13,7 @@
 		<nb_visits>2</nb_visits>
 		<nb_actions>2</nb_actions>
 		<nb_pageviews>2</nb_pageviews>
-		<revenue />
+		<revenue>0</revenue>
 		<idsite>2</idsite>
 	</row>
 </result>

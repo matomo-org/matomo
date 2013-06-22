@@ -111,17 +111,17 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
 
     function purgeOutdatedArchives()
     {
-        $archiveTables = Piwik::getTablesArchivesInstalled();
+        $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {
-            if (strpos($table, 'numeric') !== false) {
-                Piwik_ArchiveProcessing_Period::doPurgeOutdatedArchives($table);
-            }
+            $date = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
+            list($month, $year) = explode('_', $date);
+            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives(Piwik_Date::factory("$year-$month-15"));
         }
     }
 
     function optimizeArchiveTable()
     {
-        $archiveTables = Piwik::getTablesArchivesInstalled();
+        $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
         Piwik_OptimizeTables($archiveTables);
     }
 }

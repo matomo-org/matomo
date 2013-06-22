@@ -45,9 +45,9 @@ class Piwik_SegmentEditor extends Piwik_Plugin
     public function getKnownSegmentsToArchiveAllSites($notification)
     {
         $segments =& $notification->getNotificationObject();
-        $segmentToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getSegmentsToAutoArchive();
-        if (!empty($segmentToAutoArchive)) {
-            $segments = array_merge($segments, $segmentToAutoArchive);
+        $segmentsToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getAll($idSite = false, $returnAutoArchived = true);
+        foreach ($segmentsToAutoArchive as $segment) {
+            $segments[] = $segment['definition'];
         }
     }
 
@@ -55,7 +55,7 @@ class Piwik_SegmentEditor extends Piwik_Plugin
     {
         $segments =& $notification->getNotificationObject();
         $idSite = $notification->getNotificationInfo();
-        $segmentToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getSegmentsToAutoArchive($idSite);
+        $segmentToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getAll($idSite, $returnAutoArchived = true);
 
         foreach ($segmentToAutoArchive as $segmentInfo) {
             $segments[] = $segmentInfo['definition'];

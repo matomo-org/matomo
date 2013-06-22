@@ -135,7 +135,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group ReleaseCheckList
      */
-    public function testSvnEolStyle()
+    public function testEndOfLines()
     {
         if (Piwik_Common::isWindows()) {
             // SVN native does not make this work on windows
@@ -154,7 +154,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
             }
 
             // skip files with these file extensions
-            if (preg_match('/\.(bmp|fdf|gif|deflate|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps)$/', $file)) {
+            if (preg_match('/\.(bmp|fdf|gif|deflate|gz|ico|jar|jpg|p12|pdf|png|rar|swf|vsd|z|zip|ttf|so|dat|eps|phar)$/', $file)) {
                 continue;
             }
 

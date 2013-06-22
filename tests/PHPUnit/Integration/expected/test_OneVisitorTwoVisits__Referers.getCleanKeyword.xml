@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<error message="Please specify a value for 'label'.
+ 
+ --&gt; To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in ResponseBuilder.php" />
+</result>

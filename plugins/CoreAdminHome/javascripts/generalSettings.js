@@ -123,16 +123,17 @@ $(document).ready(function () {
     $('#customLogo').change(function () {$("#logoUploadForm").submit()});
 
     // trusted hosts event handling
-    $('#trustedHostSettings .adminTable').on('click', '.remove-trusted-host', function (e) {
+    var trustedHostSettings = $('#trustedHostSettings');
+    trustedHostSettings.find('.adminTable').on('click', '.remove-trusted-host', function (e) {
         e.preventDefault();
         $(this).parent().parent().remove();
         return false;
     });
-    $('#trustedHostSettings .add-trusted-host').click(function (e) {
+    trustedHostSettings.find('.add-trusted-host').click(function (e) {
         e.preventDefault();
 
         // append new row to the table
-        $('#trustedHostSettings tbody').append('<tr>'
+        $('#trustedHostSettings').find('tbody').append('<tr>'
             + '<td><input name="trusted_host" type="text" value=""/></td>'
             + '<td><a href="#" class="remove-trusted-host">x</a></td>'
             + '</tr>');

@@ -28,7 +28,9 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
 
     public function getApiToCall()
     {
-        return array('Goals.getDaysToConversion', 'MultiSites.getAll');
+        return array('Goals.getDaysToConversion',
+//                     'MultiSites.getAll'
+        );
     }
 
     public function getApiForTesting()
@@ -42,7 +44,11 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         $apiToCall = $this->getApiToCall();
         $singlePeriodApi = array('VisitsSummary.get', 'Goals.get');
 
-        $periods = array('day', 'week', 'month', 'year');
+        $periods = array(
+//                'day',
+                'week',
+//                'month', 'year'
+        );
 
         $result = array(
             // Request data for the last 6 periods and idSite=all
@@ -51,19 +57,19 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
                                     'periods'      => $periods,
                                     'setDateLastN' => true)),
 
-            // Request data for the last 6 periods and idSite=1
-            array($apiToCall, array('idSite'       => $idSite1,
-                                    'date'         => $dateTime,
-                                    'periods'      => $periods,
-                                    'setDateLastN' => true,
-                                    'testSuffix'   => '_idSiteOne_')),
-
-            // We also test a single period to check that this use case (Reports per idSite in the response) works
-            array($singlePeriodApi, array('idSite'       => 'all',
-                                          'date'         => $dateTime,
-                                          'periods'      => array('day', 'month'),
-                                          'setDateLastN' => false,
-                                          'testSuffix'   => '_NotLastNPeriods')),
+//            // Request data for the last 6 periods and idSite=1
+//            array($apiToCall, array('idSite'       => $idSite1,
+//                                    'date'         => $dateTime,
+//                                    'periods'      => $periods,
+//                                    'setDateLastN' => true,
+//                                    'testSuffix'   => '_idSiteOne_')),
+//
+//            // We also test a single period to check that this use case (Reports per idSite in the response) works
+//            array($singlePeriodApi, array('idSite'       => 'all',
+//                                          'date'         => $dateTime,
+//                                          'periods'      => array('day', 'month'),
+//                                          'setDateLastN' => false,
+//                                          'testSuffix'   => '_NotLastNPeriods')),
         );
 
         // testing metadata API for multiple periods
@@ -85,7 +91,7 @@ class Test_Piwik_Integration_TwoVisitors_TwoWebsites_DifferentDays_Conversions e
         // Tests that getting a visits summary metric (nb_visits) & a Goal's metric (Goal_revenue)
         // at the same time works.
         $dateTime = '2010-01-03,2010-01-06';
-        $columns = 'nb_visits,' . Piwik_Goals::getRecordName('conversion_rate');
+        $columns = 'nb_visits,' . Piwik_Goals_Archiver::getRecordName('conversion_rate');
 
         $result[] = array(
             'VisitsSummary.get', array('idSite'                 => 'all', 'date' => $dateTime, 'periods' => 'range',

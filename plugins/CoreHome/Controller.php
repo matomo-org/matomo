@@ -219,4 +219,25 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         $view->promoVideoUrl = 'http://www.youtube.com/watch?v=OslfF_EH81g';
         echo $view->render();
     }
+    
+    /**
+     * Redirects the user to a paypal so they can donate to Piwik.
+     */
+    public function redirectToPaypal()
+    {
+        $parameters = Piwik_API_Request::getRequestArrayFromString($request = null);
+        foreach ($paramaters as $name => $param) {
+            if ($name == 'idSite'
+                || $name == 'module'
+                || $name == 'action'
+            ) {
+                unset($parameters[$name]);
+            }
+        }
+        
+        $url = "https://www.paypal.com/cgi-bin/webscr?".Piwik_Url::getQueryStringFromParameters($parameters);
+        
+        header("Location: $url");
+        exit;
+    }
 }

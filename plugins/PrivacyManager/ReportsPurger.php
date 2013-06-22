@@ -203,24 +203,23 @@ class Piwik_PrivacyManager_ReportsPurger
         // reports whose creation date <= this month will be deleted
         // (NOTE: we ignore how far we are in the current month)
         $toRemoveDate = Piwik_Date::factory('today')->subMonth(1 + $this->deleteReportsOlderThan);
-        $toRemoveYear = (int)$toRemoveDate->toString('Y');
-        $toRemoveMonth = (int)$toRemoveDate->toString('m');
 
         // find all archive tables that are older than N months
         $oldNumericTables = array();
         $oldBlobTables = array();
         foreach (Piwik::getTablesInstalled() as $table) {
-            if (preg_match("/archive_(numeric|blob)_([0-9]+)_([0-9]+)/", $table, $matches)) {
-                $type = $matches[1];
-                $year = (int)$matches[2];
-                $month = (int)$matches[3];
+            $type = Piwik_DataAccess_ArchiveTableCreator::getTypeFromTableName($table);
+            if($type === false) {
+                continue;
+            }
+            $date = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
+            list($year, $month) = explode('_', $date);
 
-                if (self::shouldReportBePurged($year, $month, $toRemoveDate)) {
-                    if ($type == "numeric") {
-                        $oldNumericTables[] = $table;
-                    } else {
-                        $oldBlobTables[] = $table;
-                    }
+            if (self::shouldReportBePurged($year, $month, $toRemoveDate)) {
+                if ($type == Piwik_DataAccess_ArchiveTableCreator::NUMERIC_TABLE) {
+                    $oldNumericTables[] = $table;
+                } else {
+                    $oldBlobTables[] = $table;
                 }
             }
         }
@@ -285,7 +284,7 @@ class Piwik_PrivacyManager_ReportsPurger
             // if not keeping segments make sure segments w/ kept periods are also deleted
             if (!$this->keepSegmentReports) {
                 $this->findSegmentArchives($oldNumericTables);
-                $archiveIds = $this->segmentArchiveIds[$this->getArchiveTableDate($table)];
+                $archiveIds = $this->segmentArchiveIds[Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table)];
 
                 if (!empty($archiveIds)) {
                     $where .= " OR idarchive IN (" . implode(',', $archiveIds) . ")";
@@ -308,7 +307,7 @@ class Piwik_PrivacyManager_ReportsPurger
         }
 
         foreach ($numericTables as $table) {
-            $tableDate = $this->getArchiveTableDate($table);
+            $tableDate = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
 
             $maxIdArchive = Piwik_FetchOne("SELECT MAX(idarchive) FROM $table");
 
@@ -324,12 +323,6 @@ class Piwik_PrivacyManager_ReportsPurger
                 $this->segmentArchiveIds[$tableDate][] = $row['idarchive'];
             }
         }
-    }
-
-    private function getArchiveTableDate($table)
-    {
-        preg_match("/[a-zA-Z_]+([0-9]+_[0-9]+)/", $table, $matches);
-        return $matches[1];
     }
 
     /**
