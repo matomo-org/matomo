@@ -87,10 +87,16 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $timeout = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
         $this->assertTrue($timeout >= 10);
         $dateMinArchived = $now - $timeout;
+        $this->compareTimestamps($minTimestamp, $dateMinArchived);
 
-        $messageIfFails = Piwik_Date::factory($minTimestamp)->getDatetime() . " != " . Piwik_Date::factory($dateMinArchived)->getDatetime();
-        $this->assertTrue( $minTimestamp == $dateMinArchived || $minTimestamp == $dateMinArchived + 1, $messageIfFails);
         $this->assertTrue($archiveProcessor->isArchiveTemporary());
+    }
+
+
+    private function compareTimestamps($expected, $processed)
+    {
+        $messageIfFails = Piwik_Date::factory($expected)->getDatetime() . " != " . Piwik_Date::factory($processed)->getDatetime();
+        $this->assertTrue( $expected == $processed || $expected == ($processed + 1), $messageIfFails);
     }
 
     /**
@@ -254,7 +260,9 @@ class ArchiveProcessingTest extends DatabaseTestCase
 
         // we look at anything processed within the time to live range
         $dateMinArchived = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
-        $this->assertEquals($archiveProcessor->getMinTimeArchivedProcessed(), $dateMinArchived);
+
+        $minTimeArchivedProcessed = $archiveProcessor->getMinTimeArchivedProcessed();
+        $this->compareTimestamps($dateMinArchived, $minTimeArchivedProcessed);
         $this->assertTrue($archiveProcessor->isArchiveTemporary());
 
         // when browsers don't trigger archives, we force ArchiveProcessor
