@@ -113,22 +113,22 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
             $siteHasECommerce[$idSite] = Piwik_Site::isEcommerceEnabledFor($idSite);
         }
 
-        $smarty = new Piwik_Smarty();
-        $smarty->assign("isGoalPluginEnabled", $isGoalPluginEnabled);
-        $smarty->assign("reportRows", $dataRows);
-        $smarty->assign("reportRowsMetadata", $reportRowsMetadata);
-        $smarty->assign("prettyDate", $prettyDate);
-        $smarty->assign("siteHasECommerce", $siteHasECommerce);
-        $smarty->assign("displaySiteName", $processedReport['metadata']['action'] == 'getAll');
+        $view = new Piwik_Twig('@MobileMessaging/SMSReport');
+        $view->assign("isGoalPluginEnabled", $isGoalPluginEnabled);
+        $view->assign("reportRows", $dataRows);
+        $view->assign("reportRowsMetadata", $reportRowsMetadata);
+        $view->assign("prettyDate", $prettyDate);
+        $view->assign("siteHasECommerce", $siteHasECommerce);
+        $view->assign("displaySiteName", $processedReport['metadata']['action'] == 'getAll');
 
         // segment
         $segment = $processedReport['segment'];
         $displaySegment = ($segment != null);
-        $smarty->assign("displaySegment", $displaySegment);
+        $view->assign("displaySegment", $displaySegment);
         if ($displaySegment) {
-            $smarty->assign("segmentName", $segment['name']);
+            $view->assign("segmentName", $segment['name']);
         }
 
-        $this->rendering .= $smarty->fetch(PIWIK_USER_PATH . '/plugins/MobileMessaging/templates/SMSReport.tpl');
+        $this->rendering .= $view->render();
     }
 }
