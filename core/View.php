@@ -119,8 +119,8 @@ class Piwik_View implements Piwik_View_Interface
             // can fail, for example at installation (no plugin loaded yet)
         }
 
-        $this->totalTimeGeneration = Zend_Registry::get('timer')->getTime();
         try {
+            $this->totalTimeGeneration = Zend_Registry::get('timer')->getTime();
             $this->totalNumberOfQueries = Piwik::getQueryCount();
         } catch (Exception $e) {
             $this->totalNumberOfQueries = 0;
