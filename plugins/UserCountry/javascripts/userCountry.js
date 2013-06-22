@@ -242,5 +242,5 @@ $(document).ready(function () {
         }, 'post');
         ajaxRequest.setCallback(updateGeoIPSuccess);
         ajaxRequest.send(false);
-    });
-});
+    }
+);
