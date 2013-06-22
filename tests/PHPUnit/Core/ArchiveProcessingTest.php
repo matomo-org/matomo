@@ -261,9 +261,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 
         // we look at anything processed within the time to live range
         $dateMinArchived = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
-
-        $minTimeArchivedProcessed = $archiveProcessor->getMinTimeArchivedProcessed();
-        $this->compareTimestamps($dateMinArchived, $minTimeArchivedProcessed);
+        $this->assertEquals($archiveProcessor->getMinTimeArchivedProcessed(), $dateMinArchived);
         $this->assertTrue($archiveProcessor->isArchiveTemporary());
 
         // when browsers don't trigger archives, we force ArchiveProcessor
