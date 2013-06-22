@@ -318,8 +318,8 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['tooltip_metadata_name'] = false;
 
         $standardColumnNameToTranslation = array_merge(
-            Piwik_API_API::getInstance()->getDefaultMetrics(),
-            Piwik_API_API::getInstance()->getDefaultProcessedMetrics()
+            Piwik_Metrics::getDefaultMetrics(),
+            Piwik_Metrics::getDefaultProcessedMetrics()
         );
         $this->setColumnsTranslations($standardColumnNameToTranslation);
     }

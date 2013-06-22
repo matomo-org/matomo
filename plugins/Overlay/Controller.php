@@ -68,7 +68,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         if ($dataTable->getRowsCount() > 0) {
             $row = $dataTable->getFirstRow();
 
-            $translations = Piwik_API_API::getDefaultMetricTranslations();
+            $translations = Piwik_Metrics::getDefaultMetricTranslations();
             $showMetrics = array('nb_hits', 'nb_visits', 'nb_uniq_visitors',
                                  'bounce_rate', 'exit_rate', 'avg_time_on_page');
 

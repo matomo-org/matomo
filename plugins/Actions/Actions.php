@@ -29,7 +29,6 @@ class Piwik_Actions extends Piwik_Plugin
         return $info;
     }
 
-
     public function getListHooksRegistered()
     {
         $hooks = array(

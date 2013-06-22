@@ -1883,12 +1883,15 @@ class Piwik
      */
     static public function getArrayFromApiParameter($columns)
     {
-        return $columns === false
-            ? array()
-            : (is_array($columns)
-                ? $columns
-                : explode(',', $columns)
-            );
+        if(empty($columns)) {
+            return array();
+        }
+        if(is_array($columns)) {
+            return $columns;
+        }
+        $array = explode(',', $columns);
+        $array = array_unique($array);
+        return $array;
     }
 
     /**

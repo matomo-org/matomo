@@ -264,7 +264,7 @@ abstract class Piwik_DataTable_Renderer
                 return $names;
             }
 
-            $t = Piwik_API_API::getDefaultMetricTranslations();
+            $t = Piwik_Metrics::getDefaultMetricTranslations();
             foreach (array('metrics', 'processedMetrics', 'metricsGoal', 'processedMetricsGoal') as $index) {
                 if (isset($meta[$index]) && is_array($meta[$index])) {
                     $t = array_merge($t, $meta[$index]);
