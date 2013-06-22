@@ -113,7 +113,7 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
             $siteHasECommerce[$idSite] = Piwik_Site::isEcommerceEnabledFor($idSite);
         }
 
-        $view = new Piwik_Twig('@MobileMessaging/SMSReport');
+        $view = new Piwik_View('@MobileMessaging/SMSReport');
         $view->assign("isGoalPluginEnabled", $isGoalPluginEnabled);
         $view->assign("reportRows", $dataRows);
         $view->assign("reportRowsMetadata", $reportRowsMetadata);
