@@ -37,7 +37,7 @@
                 {% set rowMetrics=row.columns %}
 
                 {% if reportRowsMetadata[rowId] is defined %}
-                    {% set rowMetadata=reportRowsMetadata[rowId]->getColumns() %}
+                    {% set rowMetadata=reportRowsMetadata[rowId].columns %}
                 {% else %}
                     {% set rowMetadata=null %}
                 {% endif %}
