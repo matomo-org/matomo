@@ -34,7 +34,7 @@
             <tbody>
             {% set cycleValues=['','background-color: rgb('+tableBgColor+')'] %}
             {% for rowId,row in reportRows %}
-                {% set rowMetrics=row->getColumns() %}
+                {% set rowMetrics=row.columns %}
 
                 {% if reportRowsMetadata[rowId] is defined %}
                     {% set rowMetadata=reportRowsMetadata[rowId]->getColumns() %}

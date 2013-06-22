@@ -456,7 +456,7 @@ class Piwik_PDFReports extends Piwik_Plugin
     {
         $out =& $notification->getNotificationObject();
 
-        $view = Piwik_View::factory('report_parameters');
+        $view = Piwik_View::factory('@PDFReports/report_parameters');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
         $view->displayFormats = self::getDisplayFormats();
         $view->reportType = self::EMAIL_TYPE;
