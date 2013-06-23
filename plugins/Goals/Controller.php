@@ -165,7 +165,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
     protected function getGoalReportView($idGoal = false)
     {
         $view = new Piwik_View('@Goals/getGoalReportView');
-        if ($idGoal == Piwik_Archive::LABEL_ECOMMERCE_ORDER) {
+        if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             $goalDefinition['name'] = Piwik_Translate('Goals_Ecommerce');
             $goalDefinition['allow_multiple'] = true;
             $ecommerce = $view->ecommerce = true;
