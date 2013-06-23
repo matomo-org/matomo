@@ -560,6 +560,7 @@ class Piwik
         $directoriesToProtect = array(
             '/js'      => $allowAny,
             '/libs'    => $denyDirectPhp . $allowStaticAssets,
+            '/vendor'    => $denyDirectPhp . $allowStaticAssets,
             '/plugins' => $denyDirectPhp . $allowStaticAssets,
             '/misc/user'  => $denyDirectPhp . $allowStaticAssets,
         );
@@ -609,6 +610,7 @@ class Piwik
         // deny direct access to .php files
         $directoriesToProtect = array(
             '/libs',
+            '/vendor',
             '/plugins',
         );
         foreach ($directoriesToProtect as $directoryToProtect) {
