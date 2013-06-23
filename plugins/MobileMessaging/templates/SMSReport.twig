@@ -10,8 +10,8 @@
     {% endif %}
 
     {% for rowId, row in reportRows %}
-        {% set rowMetrics=row->getColumns() %}
-        {% set rowMetadata=reportRowsMetadata[rowId]->getColumns() %}
+        {% set rowMetrics=row.columns %}
+        {% set rowMetadata=reportRowsMetadata[rowId].columns %}
 
         {% if displaySiteName %}
             {{ rowMetrics.label }}:{% endspaceless %} {% spaceless %}
