@@ -51,7 +51,7 @@
                 <td>
                     <select id="report_period" class="inp">
                         {% for periodId, period in periods %}
-                            <option value="{$periodId}">
+                            <option value="{{ periodId }}">
                                 {{ period }}
                             </option>
                         {% endfor %}
@@ -89,7 +89,7 @@
 
                 <td>
                     {% for reportType, reportFormats in reportFormatsByReportType %}
-                        <select name='report_format' class='{$reportType}'>
+                        <select name='report_format' class='{{ reportType }}'>
                             {% for reportFormat, reportFormatIcon in reportFormats %}
                                 <option value="{{ reportFormat }}">{{ reportFormat|upper }}</option>
                             {% endfor %}
@@ -104,7 +104,7 @@
                 <td class="first">{{ 'PDFReports_ReportsIncluded'|translate }}</td>
                 <td>
                     {% for reportType, reportsByCategory in reportsByCategoryByReportType %}
-                        <div name='reportsList' class='{$reportType}'>
+                        <div name='reportsList' class='{{ reportType }}'>
 
                             {% if allowMultipleReportsByReportType[reportType] %}
                                 {% set reportInputType='checkbox' %}

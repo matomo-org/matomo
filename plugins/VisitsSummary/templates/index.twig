@@ -10,7 +10,7 @@
 {#
 Time page generation
 	<p style='color:lightgrey; size:0.8em;'>
-	{'VisitsSummary_GenerateTime'|translate:$totalTimeGeneration:$totalNumberOfQueries}
-	{if $totalNumberOfQueries != 0}, {'VisitsSummary_GenerateQueries'|translate:$totalNumberOfQueries}{/if}
+	{{ 'VisitsSummary_GenerateTime'|translate(totalTimeGeneration,totalNumberOfQueries) }}
+	{% if totalNumberOfQueries != 0 %}, {{ 'VisitsSummary_GenerateQueries'|translate(totalNumberOfQueries) }}{% endif %}
 	</p>
 #}

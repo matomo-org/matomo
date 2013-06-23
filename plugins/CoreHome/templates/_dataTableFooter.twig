@@ -94,11 +94,11 @@
                     </span>
 				    <span class="exportToFormatItems" style="display:none">
 					{{ 'General_Export'|translate }}:
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{$properties.exportLimit}">CSV</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{$properties.exportLimit}">TSV (Excel)</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{$properties.exportLimit}">XML</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{$properties.exportLimit}">Json</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{$properties.exportLimit}">Php</a>
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.exportLimit }}">CSV</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.exportLimit }}">TSV (Excel)</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.exportLimit }}">XML</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.exportLimit }}">Json</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.exportLimit }}">Php</a>
                     {% if properties.show_export_as_rss_feed %}
                         |
                         <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.exportLimit }}" date="last10">
@@ -155,7 +155,7 @@
                 {{ 'General_RelatedReports'|translate }}
             {% endif %}:
             <ul style="list-style:none;{% if properties.relatedReports|length == 1 %}display:inline-block;{% endif %}}">
-                <li><span href="{$properties.self_url}" style="display:none;">{{ properties.title }}</span></li>
+                <li><span href="{{ properties.self_url }}" style="display:none;">{{ properties.title }}</span></li>
 
                 {% for reportUrl,reportTitle in properties.relatedReports %}
                     <li><span href="{{ reportUrl }}">{{ reportTitle }}</span></li>

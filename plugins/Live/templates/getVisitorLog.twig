@@ -241,12 +241,12 @@
                                                 {% set revenueLeft %}{{ 'Live_GoalRevenue'|translate }}{% endset %}
                                                 {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
                                             {% endif %}
-                                                <strong>{$action.revenue|money:$javascriptVariablesToSet.idSite}</strong>
+                                                <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite) }}</strong>
                                             {% if action.type == 'ecommerceOrder' %}
                                             </abbr>
                                             {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
 
-                                            {##} Ecommerce items in Cart/Order #}
+                                            {# Ecommerce items in Cart/Order #}
                                             {% if action.itemDetails is not empty %}
                                                 <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px'>
                                                     {% for product in action.itemDetails %}

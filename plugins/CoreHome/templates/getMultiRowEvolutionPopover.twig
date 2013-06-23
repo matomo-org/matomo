@@ -27,7 +27,7 @@
             <h2>{{ 'RowEvolution_AvailableMetrics'|translate }}</h2>
             <select name="metric" class="multirowevoltion-metric">
                 {% for metric, metricName in availableMetrics %}
-                    <option value="{$metric|escape:'html'}"{% if selectedMetric == metric %} selected="selected"{% endif %}>
+                    <option value="{{ metric }}"{% if selectedMetric == metric %} selected="selected"{% endif %}>
                         {{ metricName }}
                     </option>
                 {% endfor %}

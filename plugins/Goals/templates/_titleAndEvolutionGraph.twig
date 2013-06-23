@@ -3,13 +3,13 @@
 {% if displayFullReport %}
     <h2>{% if goalName is defined %}{{ 'Goals_GoalX'|translate(goalName) }}{% else %}{{ 'Goals_GoalsOverview'|translate }}{% endif %}</h2>
 {% endif %}
-{{ graphEvolution }}
+{{ graphEvolution|raw }}
 
 <div id='leftcolumn' {% if not isWidget %}style='width:33%'{% endif %}>
     <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
-        {if isset($ecommerce)}
-            <strong>{$nb_conversions}</strong>
-            {'General_EcommerceOrders'|translate}
+        {% if ecommerce is defined %}
+            <strong>{{ nb_conversions }}</strong>
+            {{ 'General_EcommerceOrders'|translate }}
             <img src='plugins/Zeitgeist/images/ecommerceOrder.gif'>
         {% else %}
             {{ 'Goals_Conversions'|translate("<strong>"+nb_conversions+"</strong>")|raw }}
@@ -18,7 +18,7 @@
             ({{ 'VisitsSummary_NbVisits'|translate("<strong>"+nb_visits_converted+"</strong>")|raw }})
         {% endif %}
     </div>
-    {% if revenue != 0 or ecommerce is defined}
+    {% if revenue != 0 or ecommerce is defined %}
         <div class="sparkline">
             {{ sparkline(urlSparklineRevenue) }}
             {% set revenue=revenue|money(idSite) %}
