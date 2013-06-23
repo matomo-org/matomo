@@ -167,7 +167,7 @@
                             {% endif %}
                             {% set keyword %}{{ visitor.columns.referrerKeyword }}{% endset %}
                             {% set searchName %}{{ visitor.columns.referrerName }}{% endset %}
-                            {% set position}#{{ visitor.columns.referrerKeywordPosition }}{% endset %}
+                            {% set position %}#{{ visitor.columns.referrerKeywordPosition }}{% endset %}
                             {% if visitor.columns.referrerKeywordPosition %}
                                 <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank'>
                                     <span class='hash'>#</span>
