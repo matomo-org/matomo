@@ -74,7 +74,7 @@ class Piwik_Transitions_Controller extends Piwik_Controller
      */
     public function renderPopover()
     {
-        $view = new Piwik_View('@Transitions/transitions');
+        $view = new Piwik_View('@Transitions/renderPopover');
         $view->translations = $this->getTranslations();
         echo $view->render();
     }

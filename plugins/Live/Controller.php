@@ -38,7 +38,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
         $lastNData = Piwik_API_Request::processRequest('Live.getCounters', array('lastMinutes' => $lastMinutes));
 
-        $view = new Piwik_View('@Live/simpleLastVisitCount');
+        $view = new Piwik_View('@Live/getSimpleLastVisitCount');
         $view->lastMinutes = $lastMinutes;
         $view->visitors = Piwik::getPrettyNumber($lastNData[0]['visitors']);
         $view->visits = Piwik::getPrettyNumber($lastNData[0]['visits']);
@@ -59,7 +59,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     public function ajaxTotalVisitors($fetch = false)
     {
-        $view = new Piwik_View('@Live/totalVisits');
+        $view = new Piwik_View('@Live/ajaxTotalVisitors');
         $view = $this->setCounters($view);
         $view->idSite = $this->idSite;
         return $this->render($view, $fetch);
@@ -83,7 +83,7 @@ class Piwik_Live_Controller extends Piwik_Controller
         );
         $view->disableGenericFilters();
         $view->disableSort();
-        $view->setTemplate("@Live/visitorLog.twig");
+        $view->setTemplate("@Live/getVisitorLog.twig");
         $view->setSortedColumn('idVisit', 'ASC');
         $view->disableSearchBox();
         $view->setLimit(20);
@@ -118,7 +118,7 @@ class Piwik_Live_Controller extends Piwik_Controller
         // hack, ensure we load today's visits by default
         $_GET['date'] = 'today';
         $_GET['period'] = 'day';
-        $view = new Piwik_View('@Live/lastVisits');
+        $view = new Piwik_View('@Live/getLastVisitsStart');
         $view->idSite = $this->idSite;
 
         $api = new Piwik_API_Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");

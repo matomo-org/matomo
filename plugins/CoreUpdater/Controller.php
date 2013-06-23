@@ -37,7 +37,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         $newVersion = $this->checkNewVersionIsAvailableOrDie();
 
-        $view = new Piwik_View('@CoreUpdater/update_new_version_available');
+        $view = new Piwik_View('@CoreUpdater/newVersionAvailable');
         $view->piwik_version = Piwik_Version::VERSION;
         $view->piwik_new_version = $newVersion;
         $view->piwik_latest_version_url = self::getLatestZipUrl($newVersion);
@@ -89,7 +89,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         Piwik_API_Request::reloadAuthUsingTokenAuth($_POST);
         Piwik::checkUserIsSuperUser();
 
-        $view = new Piwik_View('@CoreUpdater/update_one_click_results');
+        $view = new Piwik_View('@CoreUpdater/oneClickResults');
         $view->coreError = Piwik_Common::getRequestVar('error', '', 'string', $_POST);
         $view->feedbackMessages = safe_unserialize(Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('messages', '', 'string', $_POST)));
         echo $view->render();
@@ -236,47 +236,33 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         $sqlQueries = $updater->getSqlQueriesToExecute();
         if (Piwik_Common::isPhpCliMode()) {
-            if (Piwik_Common::isPhpCliMode()) {
-                $view = new Piwik_View('@CoreUpdater/cli_update_welcome', array(), false);
-            } else {
-                $view = new Piwik_View('@CoreUpdater/update_welcome');
-            }
+            $view = new Piwik_View('@CoreUpdater/runUpdaterAndExit_cli_welcome', array(), false);
             $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
             echo $view->render();
 
             if (!$this->coreError && Piwik::getModule() == 'CoreUpdater') {
-                if (Piwik_Common::isPhpCliMode()) {
-                    $view = new Piwik_View('@CoreUpdater/cli_update_database_done', array(), false);
-                } else {
-                    $view = new Piwik_View('@CoreUpdater/update_database_done');
-                }
+                $view = new Piwik_View('@CoreUpdater/runUpdaterAndExit_cli_done', array(), false);
                 $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
                 echo $view->render();
             }
-        } else if (Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
-            $this->warningMessages = array();
-            if (Piwik_Common::isPhpCliMode()) {
-                $view = new Piwik_View('@CoreUpdater/cli_update_database_done', array(), false);
-            } else {
-                $view = new Piwik_View('@CoreUpdater/update_database_done');
-            }
-            $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
-
-            if (count($sqlQueries) == 1 && !$this->coreError) {
-                Piwik::redirectToModule('CoreHome');
-            }
-
-            echo $view->render();
         } else {
-            if (Piwik_Common::isPhpCliMode()) {
-                $view = new Piwik_View('@CoreUpdater/cli_update_welcome', array(), false);
+            if (Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
+                $this->warningMessages = array();
+                $view = new Piwik_View('@CoreUpdater/runUpdaterAndExit_done');
+                $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
+
+                if (count($sqlQueries) == 1 && !$this->coreError) {
+                    Piwik::redirectToModule('CoreHome');
+                }
+
+                echo $view->render();
             } else {
-                $view = new Piwik_View('@CoreUpdater/update_welcome');
+                $view = new Piwik_View('@CoreUpdater/runUpdaterAndExit_welcome');
+                $view->queries = $sqlQueries;
+                $view->isMajor = $updater->hasMajorDbUpdate();
+                $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
+                echo $view->render();
             }
-            $view->queries = $sqlQueries;
-            $view->isMajor = $updater->hasMajorDbUpdate();
-            $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
-            echo $view->render();
         }
         exit;
     }

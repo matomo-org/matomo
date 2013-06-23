@@ -50,7 +50,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
             $currentControllerAction,
             $apiMethodToRequestDataTable,
             $controllerActionCalledWhenRequestSubTable);
-        $this->dataTableTemplate = '@CoreHome/datatable';
+        $this->dataTableTemplate = '@CoreHome/_dataTable';
         $this->variablesDefault['enable_sort'] = '1';
         $this->setSortedColumn('nb_visits', 'desc');
         $this->setLimit(Piwik_Config::getInstance()->General['datatable_default_limit']);

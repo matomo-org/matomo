@@ -53,7 +53,6 @@
 			<fileset dir="${basedir}/../.." includes="libs/**" />
 			<fileset dir="${basedir}/../.." includes="misc/**" />
 			<fileset dir="${basedir}/../.." includes="plugins/**" />
-			<fileset dir="${basedir}/../.." includes="themes/**" />
 			<fileset dir="${basedir}/../.." includes="tmp/**" />
 			<fileset dir="${basedir}/../..">
 				<include name="*" />

@@ -315,9 +315,9 @@ class Piwik_API_API
     {
         $logo = 'plugins/Zeitgeist/images/logo.png';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo.png')
+            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.png')
         ) {
-            $logo = 'themes/logo.png';
+            $logo = 'misc/user/logo.png';
         }
         if (!$pathOnly) {
             return Piwik::getPiwikUrl() . $logo;
@@ -335,9 +335,9 @@ class Piwik_API_API
     {
         $logo = 'plugins/Zeitgeist/images/logo-header.png';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo-header.png')
+            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo-header.png')
         ) {
-            $logo = 'themes/logo-header.png';
+            $logo = 'misc/user/logo-header.png';
         }
         if (!$pathOnly) {
             return Piwik::getPiwikUrl() . $logo;
@@ -356,9 +356,9 @@ class Piwik_API_API
     {
         $logo = 'plugins/Zeitgeist/images/logo.svg';
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo.svg')
+            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
-            $logo = 'themes/logo.svg';
+            $logo = 'misc/user/logo.svg';
         }
         if (!$pathOnly) {
             return Piwik::getPiwikUrl() . $logo;
@@ -377,7 +377,7 @@ class Piwik_API_API
             /* We always have our application logo */
             return true;
         } else if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
-            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/themes/logo.svg')
+            && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             return true;
         }

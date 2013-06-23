@@ -11,28 +11,28 @@
             <meta name="description" content="Web Analytics report for '{{ siteName }}' - Piwik"/>
             <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
             {{ loadJavascriptTranslations(['CoreHome','Annotations'])|raw }}
-            {% include "@CoreHome/js_global_variables.twig" %}
+            {% include "_jsGlobalVariables.twig" %}
             <!--[if lt IE 9]>
             <script language="javascript" type="text/javascript" src="libs/jqplot/excanvas.min.js"></script>
             <![endif]-->
-            {% include "@CoreHome/js_css_includes.twig" %}
+            {% include "_jsCssIncludes.twig" %}
             <!--[if IE]>
             <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/ieonly.css"/>
             <![endif]-->
-            {% include "@CoreHome/iframe_buster_header.twig" %}
+            {% include "_iframeBusterHeader.twig" %}
         {% endblock %}
     </head>
     <body>
-    {% include "@CoreHome/iframe_buster_body.twig" %}
+    {% include "_iframeBusterBody.twig" %}
 
     <div id="root">
-        {% include "@CoreHome/index_before_menu.twig" %}
+        {% include "_indexBeforeMenu.twig" %}
 
         {% block content %}
         {% endblock %}
     </div>
 
-    {% include "@CoreHome/piwik_tag.twig" %}
+    {% include "_piwikTag.twig" %}
 
     </body>
 </html>

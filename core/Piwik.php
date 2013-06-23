@@ -561,7 +561,7 @@ class Piwik
             '/js'      => $allowAny,
             '/libs'    => $denyDirectPhp . $allowStaticAssets,
             '/plugins' => $denyDirectPhp . $allowStaticAssets,
-            '/themes'  => $denyDirectPhp . $allowStaticAssets,
+            '/misc/user'  => $denyDirectPhp . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);

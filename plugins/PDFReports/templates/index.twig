@@ -4,7 +4,7 @@
 {% set showSitesSelection=true %}
 
 <div class="top_controls_inner">
-    {% include "@CoreHome/period_select.twig" %}
+    {% include "@CoreHome/_periodSelect.twig" %}
 </div>
 
 <div class="centerLargeDiv">
@@ -14,8 +14,8 @@
         {% import 'ajaxMacros.twig' as ajax %}
         {{ ajax.errorDiv() }}
         {{ ajax.loadingDiv() }}
-        {% include "@PDFReports/list.twig" %}
-        {% include "@PDFReports/add.twig" %}
+        {% include "@PDFReports/_listReports.twig" %}
+        {% include "@PDFReports/_addReport.twig" %}
         <a id='bottom'></a>
     </div>
 </div>

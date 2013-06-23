@@ -273,7 +273,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
         }
 
         $out =& $notification->getNotificationObject();
-        $view = Piwik_View::factory('@MobileMessaging/ReportParameters');
+        $view = new Piwik_View('@MobileMessaging/reportParametersPDFReports');
         $view->reportType = self::MOBILE_TYPE;
         $view->phoneNumbers = Piwik_MobileMessaging_API::getInstance()->getActivatedPhoneNumbers();
         $out .= $view->render();

@@ -27,7 +27,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new Piwik_View('@UsersManager/UsersManager');
+        $view = new Piwik_View('@UsersManager/index');
 
         $IdSitesAdmin = Piwik_SitesManager_API::getInstance()->getSitesIdWithAdminAccess();
         $idSiteSelected = 1;

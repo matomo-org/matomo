@@ -28,7 +28,7 @@ class Piwik_MobileMessaging_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new Piwik_View('@MobileMessaging/Settings');
+        $view = new Piwik_View('@MobileMessaging/index');
 
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 

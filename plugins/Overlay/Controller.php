@@ -17,12 +17,12 @@ class Piwik_Overlay_Controller extends Piwik_Controller
     {
         Piwik::checkUserHasViewAccess($this->idSite);
 
-        $template = 'index';
+        $template = '@Overlay/index';
         if (Piwik_Config::getInstance()->General['overlay_disable_framed_mode']) {
-            $template = 'index_noframe';
+            $template = '@Overlay/index_noframe';
         }
 
-        $view = Piwik_View::factory($template);
+        $view = new Piwik_View($template);
 
         $this->setGeneralVariablesView($view);
         $view->showTopMenu = false;
@@ -100,7 +100,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         }
 
         // render template
-        $view = Piwik_View::factory('sidebar');
+        $view = new Piwik_View('@Overlay/renderSidebar');
         $view->data = $data;
         $view->location = $page;
         $view->normalizedUrl = $normalizedCurrentUrl;
@@ -194,7 +194,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         $message = Piwik_Translate('Overlay_RedirectUrlError', array($url, "\n"));
         $message = nl2br(htmlentities($message));
 
-        $view = Piwik_View::factory('error_wrong_domain');
+        $view = new Piwik_View('@Overlay/showErrorWrongDomain');
         $view->message = $message;
 
         if (Piwik::isUserHasAdminAccess($idSite)) {
@@ -221,7 +221,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
      */
     public function notifyParentIframe()
     {
-        $view = Piwik_View::factory('notify_parent_iframe');
+        $view = new Piwik_View('@Overlay/notifyParentIframe');
         echo $view->render();
     }
 
