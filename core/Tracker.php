@@ -635,13 +635,67 @@ class Piwik_Tracker
             $this->setState(self::STATE_LOGGING_DISABLE);
         }
     }
+    
+    private function generateRequestSignature($token_auth)
+    {
+	    $requestArrayToUse = $_GET + $_POST;
+	    
+        $keys = array_keys($requestArrayToUse);
+        usort($keys, function($a, $b) {
+	        return ord($a[0]) - ord($b[0]);
+        });
+        
+        $ordered = array();
+        foreach ($keys as $key)
+        {
+	        $ordered[$key] = $requestArrayToUse[$key];
+        }
+        
+        $variables = array();
+        foreach ($ordered as $key => $value)
+        {
+        	if ($key !== 'signature')
+		        $variables[] = $key . '=' . rawurlencode($value);
+        }
+        
+        //die(implode('&', $variables) . $token_auth);
+        return sha1(implode('&', $variables) . $token_auth);
+    }
 
     protected function authenticateSuperUserOrAdmin($request)
     {
         $tokenAuth = $this->getTokenAuth();
 
         if (!$tokenAuth) {
-            return false;
+        	$signature = Piwik_Common::getRequestVar('signature', '', 'string', $request);
+		    $nonce = Piwik_Common::getRequestVar('nonce', '', 'string', $request);
+		    $timestamp = Piwik_Common::getRequestVar('timestamp', '', 'string', $request);
+		    $access_token = Piwik_Common::getRequestVar('access_token', '', 'string', $request);
+		    
+		    if ($signature && $nonce && $timestamp && $access_token) {
+			    if ($access_token !== Piwik_Config::getInstance()->superuser['access_token']) {
+			    	return false;
+			    }
+			    
+		        $superUserLogin = Piwik_Config::getInstance()->superuser['login'];
+		        $superUserPassword = Piwik_Config::getInstance()->superuser['password'];
+		        
+            	$token_auth = md5($superUserLogin . $superUserPassword);
+            	
+            	if ($signature === $this->generateRequestSignature($token_auth))
+            	{
+            		$this->authenticated = true;
+		            return true;
+            	}
+            	
+            	/*
+            	die(json_encode(array(
+            		'signature'	=> $signature,
+            		'generated'	=> $this->generateRequestSignature($token_auth)
+            	)));
+            	*/
+	        }
+        	return false;
         }
         $superUserLogin = Piwik_Config::getInstance()->superuser['login'];
         $superUserPassword = Piwik_Config::getInstance()->superuser['password'];
