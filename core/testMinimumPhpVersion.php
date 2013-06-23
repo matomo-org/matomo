@@ -52,6 +52,16 @@ if ($minimumPhpInvalid) {
 					<p>It appears your PHP has disabled this function.
 					To enjoy Piwik, you need remove <pre>ini_set</pre> from your <pre>disable_functions</pre> directive in php.ini, and restart your webserver.</p>";
     }
+
+    $autoloadPath = '/vendor/autoload.php';
+    $autoloader = PIWIK_INCLUDE_PATH . $autoloadPath;
+    if(!file_exists($autoloader)) {
+        $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed.
+        You can install Composer in a few easy steps. In the piwik directory, run in the command line the following (eg. via ssh):
+                    <pre>$ curl -sS https://getcomposer.org/installer | php".
+                    "\n$ php composer.phar install</pre> </p><p>This will download and install composer, and initialize composer for Piwik (eg. download the twig library in vendor/twig).
+                    <br/>Then reload this page to access your analytics reports.</p>";
+    }
 }
 
 if (!function_exists('Piwik_ExitWithMessage')) {
