@@ -41,7 +41,7 @@
                 {% else %}
                     {% set rowMetadata=null %}
                 {% endif %}
-                <tr style="{{ cycle(cycleValues) }}">
+                <tr style="{{ cycle(cycleValues, rowId) }}">
                     {% for columnId, columnName in reportColumns %}
                         <td style="font-size: {{ reportTableRowTextSize }}pt; border-bottom: 1px solid rgb({{ tableCellBorderColor }}); padding: 5px 0 5px 5px;">
                             {% if columnId == 'label' %}
