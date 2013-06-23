@@ -1,4 +1,4 @@
-{% set tooltipIndex %}{{ column }}_tooltip{% endset %}
+{% set tooltipIndex = column ~ '_tooltip' %}
 {% if row.metadata[tooltipIndex] is defined %}<span class="cell-tooltip" data-tooltip="{{ row.metadata[tooltipIndex] }}">{% endif %}
 {% if not row.idsubdatatable and column=='label' and row.metadata.url is not empty %}
     <a target="_blank" href='{% if row.metadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.metadata.url }}'>
