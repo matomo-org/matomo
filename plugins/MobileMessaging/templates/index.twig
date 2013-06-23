@@ -97,7 +97,7 @@
                         <option value='{{ country.countryCallingCode }}'
                                 {% if defaultCountry==countryCode %} selected='selected' {% endif %}
                                 >
-                            {{ country.countryName|truncate(15) }}
+                            {{ country.countryName }}
                         </option>
                     {% endfor %}
                 </select>
