@@ -232,7 +232,7 @@
 					                        {% if action.type == 'ecommerceOrder' %}
                                             <abbr title="
                                                 {{ 'Live_GoalRevenue'|translate }}: {{ action.revenue|money(javascriptVariablesToSet.idSite) }}
-                                                {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite) %}{% endif %}
+                                                {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite) }}{% endif %}
                                                 {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(javascriptVariablesToSet.idSite) }}{% endif %}
                                                 {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(javascriptVariablesToSet.idSite) }}{% endif %}
                                                 {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(javascriptVariablesToSet.idSite) }}{% endif %}
@@ -289,7 +289,7 @@
                                         {# Goal conversion #}
                                         <img src="{{ action.icon }}" />
                                         <strong>{{ action.goalName }}</strong>
-                                        {% if action.revenue > 0}, {{ 'Live_GoalRevenue'|translate }}:
+                                        {% if action.revenue > 0 %}, {{ 'Live_GoalRevenue'|translate }}:
                                             <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite) }}</strong>
                                         {% endif %}
                                     {% endif %}
@@ -314,7 +314,7 @@
         {% include "@CoreHome/_dataTableFooter.twig" %}
     {% endif %}
 
-    {% include "@CoreHome/_dataTableJS.twig"}
+    {% include "@CoreHome/_dataTableJS.twig" %}
     <script type="text/javascript" defer="defer">
 
         var visitorLogTitle = '{{ 'Live_VisitorLog'|translate|e('js') }}';
