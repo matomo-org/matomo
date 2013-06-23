@@ -43,7 +43,7 @@
     </tr>
     </thead>
     <tbody>
-
+    {% set cycleIndex=0 %}
     {% for visitor in arrayDataTable %}
         {% set visitorColumnContent %}
             &nbsp;
@@ -94,7 +94,8 @@
         {% endset %}
 
         {% set visitorRow %}
-            <tr class="label{cycle values='odd,even'}">
+            <tr class="label{{ cycle([odd,even], cycleIndex) }}">
+            {% set cycleIndex=cycleIndex+1 %}
                 <td style="display:none;"></td>
                 <td class="label" style="width:12%" width="12%">
                     <strong title="{% if visitor.columns.visitorType=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitor.columns.daysSinceLastVisit) }}{% endif %}">
