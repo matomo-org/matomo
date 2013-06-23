@@ -84,7 +84,7 @@
                     </div>
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctCampaigns) }}
                         <strong>{{ numberDistinctCampaigns }}</strong> {{ 'Referers_DistinctCampaigns'|translate }}
-                        {% if numberDistinctCampaignsEvolution is not empty }}
+                        {% if numberDistinctCampaignsEvolution is not empty %}
                             {{ numberDistinctCampaignsEvolution }}
                         {% endif %}
                     </div>
@@ -96,7 +96,7 @@
 
     <p style="clear:both"/>
 
-    <div style="float:left">{'General_View'|translate}
+    <div style="float:left">{{ 'General_View'|translate }}
         <a href="javascript:broadcast.propagateAjax('module=Referers&action=getSearchEnginesAndKeywords')">{{ 'Referers_SubmenuSearchEngines'|translate }}</a>,
         <a href="javascript:broadcast.propagateAjax('module=Referers&action=indexWebsites')">{{ 'Referers_SubmenuWebsites'|translate }}</a>,
         <a href="javascript:broadcast.propagateAjax('module=Referers&action=indexCampaigns')">{{ 'Referers_SubmenuCampaigns'|translate }}</a>.
@@ -105,7 +105,7 @@
 
 <div id='rightcolumn'>
     <h2>{{ 'Referers_DetailsByRefererType'|translate }}</h2>
-    {{ dataTableRefererType }}
+    {{ dataTableRefererType|raw }}
 </div>
 
 <div style="clear:both;"></div>
