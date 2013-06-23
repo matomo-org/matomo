@@ -140,7 +140,7 @@ a {
   position:absolute;
   right:9px;
   top:7px;
-  background: url("images/icon-calendar.gif") no-repeat scroll;
+  background: url("../images/icon-calendar.gif") no-repeat scroll;
   cursor:pointer;
 }
 #periodString #date{
