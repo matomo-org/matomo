@@ -188,7 +188,7 @@ $(document).ready(function () {
             <th>{{ 'General_Name'|translate }}</th>
             <th>{{ 'SitesManager_Urls'|translate }}</th>
             <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
-            <th>{{ 'SitesManager_ExcludedParameters'|translate|replace({" ":"<br />"}) }}</th>
+            <th>{{ 'SitesManager_ExcludedParameters'|translate|replace({" ":"<br />"})|raw }}</th>
             <th id='exclude-user-agent-header'
                 {% if not allowSiteSpecificUserAgentExclude %}style="display:none"{% endif %}>{{ 'SitesManager_ExcludedUserAgents'|translate }}</th>
             <th>{{ 'Actions_SubmenuSitesearch'|translate }}</th>
@@ -202,7 +202,7 @@ $(document).ready(function () {
         </thead>
         <tbody>
             {% for i,site in adminSites %}
-            <tr id="row{$site.idsite}" data-keep-url-fragments="{{ site.keep_url_fragment }}">
+            <tr id="row{{ site.idsite }}" data-keep-url-fragments="{{ site.keep_url_fragment }}">
                 <td id="idSite">{{ site.idsite }}</td>
                 <td id="siteName" class="editableSite">{{ site.name }}</td>
                 <td id="urls" class="editableSite">
