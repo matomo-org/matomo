@@ -32,7 +32,7 @@
             {% endfor %}
             </thead>
             <tbody>
-            {% set cycleValues=['','background-color: rgb('+tableBgColor+')'] %}
+            {% set cycleValues=['','background-color: rgb('~tableBgColor~')'] %}
             {% set cycleIndex=0 %}
             {% for rowId,row in reportRows %}
                 {% set rowMetrics=row.columns %}
