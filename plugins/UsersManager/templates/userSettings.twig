@@ -49,7 +49,7 @@
                 {% else %}
                     {% set defaultReportIdSite=defaultReport %}
                 {% endif %}
-                {% include "@CoreHome/sites_selection.twig" with {
+                {% include "@CoreHome/_siteSelect.twig" with {
                     'siteName':defaultReportSiteName,
                     'idSite':defaultReportIdSite,
                     'switchSiteOnSelect':false,

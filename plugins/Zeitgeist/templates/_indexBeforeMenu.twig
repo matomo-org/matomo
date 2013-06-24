@@ -1,0 +1,12 @@
+{% include "@CoreHome/_warningInvalidHost.twig" %}
+
+{% if (showTopMenu == false or showTopMenu) %}
+    {% include "@CoreHome/_topBar.twig" %}
+{% endif %}
+{% include "@CoreHome/_topScreen.twig" %}
+
+<div class="ui-confirm" id="alert">
+    <h2></h2>
+    <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+</div>
+

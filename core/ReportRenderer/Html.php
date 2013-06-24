@@ -78,13 +78,13 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 
     private function epilogue()
     {
-        $view = new Piwik_View('@CoreHome/html_report_footer');
+        $view = new Piwik_View('@CoreHome/ReportRenderer/_htmlReportFooter');
         $this->rendering .= $view->render();
     }
 
     public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
     {
-        $frontPageView = new Piwik_View('@CoreHome/html_report_header');
+        $frontPageView = new Piwik_View('@CoreHome/ReportRenderer/_htmlReportHeader');
         $this->assignCommonParameters($frontPageView);
 
         // todo rename 'websiteName' to 'reportTitle' once branch twig is merged
@@ -121,7 +121,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 
     public function renderReport($processedReport)
     {
-        $reportView = new Piwik_View('@CoreHome/html_report_body');
+        $reportView = new Piwik_View('@CoreHome/ReportRenderer/_htmlReportBody');
         $this->assignCommonParameters($reportView);
 
         $reportMetadata = $processedReport['metadata'];

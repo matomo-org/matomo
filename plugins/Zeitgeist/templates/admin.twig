@@ -12,40 +12,40 @@
 
             {{ loadJavascriptTranslations(['CoreAdminHome','CoreHome'])|raw }}
 
-            {% include "@CoreHome/js_global_variables.twig" %}
-            {% include "@CoreHome/js_css_includes.twig" %}
+            {% include "_jsGlobalVariables.twig" %}
+            {% include "_jsCssIncludes.twig" %}
             <!--[if IE]>
             <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/ieonly.css"/>
             <![endif]-->
-            {% include "@CoreHome/iframe_buster_header.twig" %}
+            {% include "_iframeBusterHeader.twig" %}
         {% endblock %}
     </head>
     <body>
-    {% include "@CoreHome/iframe_buster_body.twig" %}
+    {% include "_iframeBusterBody.twig" %}
 
         <div id="root">
             {% if showTopMenu is not defined or showTopMenu %}
                 {% set showSitesSelection = false %}
                 {% set showPeriodSelection = false %}
-                {% include "@CoreHome/top_bar.twig" %}
+                {% include "@CoreHome/_topBar.twig" %}
             {% endif %}
 
             <div id="header">
-                {% include "@CoreHome/logo.twig" %}
-                {% if showPeriodSelection %}{% include "@CoreHome/period_select.twig"%}{% endif %}
-                {% include "@CoreHome/js_disabled_notice.twig" %}
+                {% include "@CoreHome/_logo.twig" %}
+                {% if showPeriodSelection %}{% include "@CoreHome/_periodSelect.twig"%}{% endif %}
+                {% include "@CoreHome/_javaScriptDisabled.twig" %}
             </div>
 
             {% import 'ajaxMacros.twig' as ajax %}
             {{ ajax.requestErrorDiv }}
             <div id="container">
                 {% if showMenu is not defined or showMenu %}
-                    {% include "@CoreAdminHome/menu.twig" %}
+                    {% include "@CoreAdminHome/_menu.twig" %}
                 {% endif %}
 
                 <div id="content" class="admin">
 
-                    {% include "@CoreHome/header_message.twig" %}
+                    {% include "@CoreHome/_headerMessage.twig" %}
 
                     {% if configFileNotWritable is not empty %}
                     <div class="ajaxSuccess" style="display:inline-block">
@@ -68,7 +68,7 @@
                         <input role="no" type="button" value="{{ 'General_Ok'|translate }}"/>
                     </div>
 
-                    {% include "@CoreHome/warning_invalid_host.twig" %}
+                    {% include "@CoreHome/_warningInvalidHost.twig" %}
 
                     {# missing plugins warning #}
                     {% if isSuperUser and missingPluginsWarning is not empty %}
@@ -90,7 +90,7 @@
 
                 </div>
             </div>
-            {% include "@CoreHome/piwik_tag.twig" %}
+            {% include "_piwikTag.twig" %}
         </div>
     </body>
 </html>

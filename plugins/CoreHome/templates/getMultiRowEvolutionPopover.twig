@@ -1,0 +1,37 @@
+<div class="rowevolution multirowevolution">
+    <div class="popover-title">{{ 'RowEvolution_MultiRowEvolutionTitle'|translate }}</div>
+    <div class="graph">
+        {{ graph }}
+    </div>
+    <div class="metrics-container">
+        <h2>{{ availableRecordsText|translate }}</h2>
+        <table class="metrics" border="0" cellpadding="0" cellspacing="0">
+            {% for metric in metrics %}
+                <tr>
+                    <td class="sparkline">
+                        {{ metric.sparkline|raw }}
+                    </td>
+                    <td class="text">
+                        {% import 'macros.twig' as piwik %}
+                        {{ piwik.logoHtml(metric, "") }}
+                        <span style="color:{{ metric.color }}">{{ metric.label }}</span><br/>
+                        <span class="details">{{ metric.details }}</span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="#" class="rowevolution-startmulti">&raquo; {{ 'RowEvolution_PickAnotherRow'|translate }}</a>
+    </div>
+    {% if availableMetrics|length > 1 %}
+        <div class="metric-selectbox">
+            <h2>{{ 'RowEvolution_AvailableMetrics'|translate }}</h2>
+            <select name="metric" class="multirowevoltion-metric">
+                {% for metric, metricName in availableMetrics %}
+                    <option value="{{ metric }}"{% if selectedMetric == metric %} selected="selected"{% endif %}>
+                        {{ metricName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    {% endif %}
+</div>

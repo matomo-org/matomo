@@ -119,7 +119,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
         $idSite = Piwik_Common::getRequestVar('idSite');
         Piwik::checkUserHasViewAccess($idSite);
         $jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
-        $view = new Piwik_View('@SitesManager/Tracking');
+        $view = new Piwik_View('@SitesManager/displayJavascriptCode');
         $this->setBasicVariablesView($view);
         $view->menu = Piwik_GetAdminMenu();
         $view->idSite = $idSite;
@@ -146,7 +146,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
      */
     function displayAlternativeTagsHelp()
     {
-        $view = new Piwik_View('@SitesManager/DisplayAlternativeTags');
+        $view = new Piwik_View('@SitesManager/displayAlternativeTagsHelp');
         $view->idSite = Piwik_Common::getRequestVar('idSite');
         $url = Piwik_Common::getRequestVar('piwikUrl', '', 'string');
         if (empty($url)

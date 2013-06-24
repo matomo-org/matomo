@@ -46,7 +46,7 @@
 
     <p><strong>{{ 'Feedback_WantToThankConsiderDonating'|translate }}</strong></p>
     <br/>
-    {% include "@CoreHome/donate.twig" with { 'msg':""} %}
+    {% include "@CoreHome/_donate.twig" with { 'msg':""} %}
 </div>
 <div id="feedback-form" style="display:none;">
     <form method="post" action="index.php?module=Feedback&action=sendFeedback">

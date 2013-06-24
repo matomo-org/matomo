@@ -1,0 +1,81 @@
+<a name="evolutionGraph" graphId="{{ nameGraphEvolution }}"></a>
+
+{% if displayFullReport %}
+    <h2>{% if goalName is defined %}{{ 'Goals_GoalX'|translate(goalName) }}{% else %}{{ 'Goals_GoalsOverview'|translate }}{% endif %}</h2>
+{% endif %}
+{{ graphEvolution|raw }}
+
+<div id='leftcolumn' {% if not isWidget %}style='width:33%'{% endif %}>
+    <div class="sparkline">{{ sparkline(urlSparklineConversions) }}
+        {% if ecommerce is defined %}
+            <strong>{{ nb_conversions }}</strong>
+            {{ 'General_EcommerceOrders'|translate }}
+            <img src='plugins/Zeitgeist/images/ecommerceOrder.gif'>
+        {% else %}
+            {{ 'Goals_Conversions'|translate("<strong>"+nb_conversions+"</strong>")|raw }}
+        {% endif %}
+        {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
+            ({{ 'VisitsSummary_NbVisits'|translate("<strong>"+nb_visits_converted+"</strong>")|raw }})
+        {% endif %}
+    </div>
+    {% if revenue != 0 or ecommerce is defined %}
+        <div class="sparkline">
+            {{ sparkline(urlSparklineRevenue) }}
+            {% set revenue=revenue|money(idSite) %}
+            {% if ecommerce is defined %}
+                <strong>{{ revenue }}</strong> {{ 'General_TotalRevenue'|translate }}
+            {% else %}
+                {{ 'Goals_OverallRevenue'|translate("<strong>"+revenue+"</strong>")|raw }}
+            {% endif %}
+        </div>
+    {% endif %}
+    {% if ecommerce is defined %}
+        <div class="sparkline">{{ sparkline(urlSparklineAverageOrderValue) }}
+            <strong>{{ avg_order_revenue|money(idSite) }}</strong>
+            {{ 'General_AverageOrderValue'|translate }}
+        </div>
+    {% endif %}
+
+</div>
+<div id='leftcolumn' {% if not isWidget %}style='width:33%'{% endif %}>
+    <div class="sparkline">{{ sparkline(urlSparklineConversionRate) }}
+        {% if ecommerce is defined %}
+            {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
+            {{ 'Goals_ConversionRate'|translate("<strong>"+conversion_rate+"</strong> "+ecommerceOrdersText)|raw }}
+        {% else %}
+            {{ 'Goals_OverallConversionRate'|translate("<strong>"+conversion_rate+"</strong>")|raw }}
+        {% endif %}
+    </div>
+    {% if ecommerce is defined %}
+        <div class="sparkline">{{ sparkline(urlSparklinePurchasedProducts) }}
+            <strong>{{ items }}</strong> {{ 'General_PurchasedProducts'|translate }}</div>
+    {% endif %}
+</div>
+{% if ecommerce is defined %}
+    <div id='rightcolumn' {% if not isWidget %}style='width:30%'{% endif %}>
+        <div>
+            <img src='plugins/Zeitgeist/images/ecommerceAbandonedCart.gif'> <i>{{ 'General_AbandonedCarts'|translate }}</i>
+        </div>
+
+        <div class="sparkline">
+            {{ sparkline(cart_urlSparklineConversions) }}
+            {% set ecommerceAbandonedCartsText %}{{ 'Goals_AbandonedCart'|translate }}{% endset %}
+            <strong>{{ cart_nb_conversions }}</strong> {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+        </div>
+
+        <div class="sparkline">
+            {{ sparkline(cart_urlSparklineRevenue) }}
+            {% set revenue %}{{ cart_revenue|money(idSite) }}{% endset %}
+            {% set revenueText %}{{ 'Live_GoalRevenue'|translate }}{% endset %}
+            <strong>{{ revenue }}</strong> {{ 'Goals_LeftInCart'|translate(revenueText) }}
+        </div>
+
+        <div class="sparkline">
+            {{ sparkline(cart_urlSparklineConversionRate) }}
+            <strong>{{ cart_conversion_rate }}</strong>
+            {{ 'General_VisitsWith'|translate(ecommerceAbandonedCartsText) }}
+        </div>
+    </div>
+{% endif %}
+{% include "_sparklineFooter.twig" %}
+

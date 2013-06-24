@@ -31,7 +31,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
 
     public function index($fetch = false)
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@DeviceDetection/index');
         $view->deviceTypes = $view->deviceModels = $view->deviceBrands = $view->osReport = $view->browserReport = "blank";
         $view->deviceTypes = $this->getType(true);
         $view->deviceBrands = $this->getBrand(true);

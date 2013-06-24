@@ -75,7 +75,7 @@ class Piwik_Login_Controller extends Piwik_Controller
             }
         }
 
-        $view = Piwik_View::factory('@Login/login');
+        $view = new Piwik_View('@Login/login');
         $view->AccessErrorString = $messageNoAccess;
         $view->infoMessage = nl2br($infoMessage);
         $view->addForm($form);
@@ -191,7 +191,7 @@ class Piwik_Login_Controller extends Piwik_Controller
             $formErrors = $formData['errors'];
         }
 
-        $view = Piwik_View::factory('message');
+        $view = new Piwik_View('@Login/resetPassword');
         $view->infoMessage = $infoMessage;
         $view->formErrors = $formErrors;
         echo $view->render();

@@ -29,7 +29,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $view = Piwik_View::factory('exportImage');
+        $view = new Piwik_View('@Proxy/exportImageWindow');
         $view->imageData = 'data:image/png;base64,' . Piwik_Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST);
         echo $view->render();
     }

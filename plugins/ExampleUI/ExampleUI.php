@@ -59,7 +59,6 @@ class Piwik_ExampleUI extends Piwik_Plugin
             'Pie graph'       => 'pieGraph',
             'Tag clouds'      => 'tagClouds',
             'Sparklines'      => 'sparklines',
-            'Misc'            => 'misc',
         );
 
         Piwik_AddMenu('UI Framework', '', array('module' => 'ExampleUI', 'action' => 'dataTables'), true, 30);

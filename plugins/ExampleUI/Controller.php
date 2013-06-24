@@ -123,13 +123,8 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
         $this->renderView($view);
     }
 
-    function misc()
-    {
-        echo "<h2>Evolution graph filtered to Google and Yahoo!</h2>";
-        $this->echoDataTableSearchEnginesFiltered();
-    }
-
-    function echoDataTableSearchEnginesFiltered()
+    // Example use
+    private function echoDataTableSearchEnginesFiltered()
     {
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Referers.getSearchEngines');
         $view->setColumnsToDisplay('nb_visits');
