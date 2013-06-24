@@ -11,7 +11,7 @@
             <div class="jqplot-{{ graphType }}" style="padding-left: 6px;">
                 <div class="piwik-graph"
                     style="position: relative; width: {{ width }}{% if width|slice(-1,1) != '%' %}px{% endif %}; height: {{ height }}{% if height|slice(-1,1) != '%' %}px{% endif %};"
-                    data-data="{{ data }}"
+                    data-data="{{ data|e('html') }}"
                     data-graph-type="{{ graphType }}"
                     {% if properties.externalSeriesToggle is defined and properties.externalSeriesToggle %}
                     data-external-series-toggle="{{ properties.externalSeriesToggle }}"

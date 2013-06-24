@@ -73,7 +73,7 @@
     bindGoalForm();
 
     {% if onlyShowAddNewGoal is not defined %}
-        piwik.goals = {{ goalsJSON }};
+        piwik.goals = {{ goalsJSON|raw }};
         bindListGoalEdit();
     {% else %}
         initAndShowAddGoalForm();

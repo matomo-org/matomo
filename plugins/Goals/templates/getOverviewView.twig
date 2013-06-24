@@ -11,7 +11,7 @@
     <div class="goalEntry">
         <h2>
             <a href="javascript:broadcast.propagateAjax('module=Goals&action=goalReport&idGoal={{ goal.id }}')">
-                {{ 'Goals_GoalX'|translate("'"+name+"'") }}
+                {{ 'Goals_GoalX'|translate("'"~name~"'") }}
             </a>
         </h2>
 
@@ -41,7 +41,7 @@
             {{ 'Goals_ConversionsOverviewBy'|translate }}
         {% endif %}
     </h2>
-    {{ goalReportsByDimension }}
+    {{ goalReportsByDimension|raw }}
     {% endif %}
 
     {% if userCanEditGoals %}
