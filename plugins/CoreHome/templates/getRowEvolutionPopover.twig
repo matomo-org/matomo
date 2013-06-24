@@ -1,5 +1,5 @@
 <div class="rowevolution">
-    <div class="popover-title">{{ popoverTitle }}</div>
+    <div class="popover-title">{{ popoverTitle | raw }}</div>
     <div class="graph">
         {{ graph|raw }}
     </div>
@@ -13,7 +13,7 @@
             {% for metric in metrics %}
                 <tr>
                     <td class="sparkline">
-                        {{ metric.sparkline }}
+                        {{ metric.sparkline | raw }}
                     </td>
                     <td class="text">
                         <span style="color:{{ metric.color }}">{{ metric.label }}</span>
