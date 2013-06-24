@@ -119,8 +119,8 @@
                     {% if visitor.columns.customVariables is not empty %}
                         <br/>
                         {% for id,customVariable in visitor.columns.customVariables %}
-                            {% set name %}customVariableName{{ id }}{% endset %}
-                            {% set value %}customVariableValue{{ id }}{% endset %}
+                            {% set name='customVariableName' ~ id %}
+                            {% set value='customVariableValue' ~ id %}
                             <br/>
                             <acronym title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
                                 {{ customVariable[name]|truncate(30) }}
@@ -196,8 +196,8 @@
                                 {% if action.customVariables is not empty %}
                                     {{ 'CustomVariables_CustomVariables'|translate }}
                                     {% for id,customVariable in action.customVariables %}
-                                        {% set name %}customVariablePageName{{ id }}{% endset %}
-                                        {% set value %}customVariablePageValue{{ id }}{% endset %}
+                                        {% set name = 'customVariablePageName' ~ id %}
+                                        {% set value = 'customVariablePageValue' ~ id %}
                                         - {{ customVariable[name] }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value] }}{% endif %}
                                     {% endfor %}
                                 {% endif %}
