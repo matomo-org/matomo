@@ -5,7 +5,6 @@
 {% block content %}
 <div id="multisites">
     <div id="main">
-        {% include "@MultiSites/_siteRow.twig" %}
         <script type="text/javascript">
             var allSites = [];
             var params = [];
@@ -30,6 +29,10 @@
             params['page'] = 1;
             params['prev'] = "{{ 'General_Previous'|translate|e("js") }}";
             params['next'] = "{{ 'General_Next'|translate|e("js") }}";
+
+            {% set row %}
+            {% include "@MultiSites/_siteRow.twig" %}
+            {% endset %}
             params['row'] = '{{ row|e("js") }}';
             params['dateSparkline'] = '{{ dateSparkline }}';
         </script>
