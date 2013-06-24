@@ -32,7 +32,7 @@
     ReportPlugin.defaultHour = '{{ defaultHour }}';
     ReportPlugin.defaultReportType = '{{ defaultReportType }}';
     ReportPlugin.defaultReportFormat = '{{ defaultReportFormat }}';
-    ReportPlugin.reportList = {{ reportsJSON }};
+    ReportPlugin.reportList = {{ reportsJSON | raw }};
     ReportPlugin.createReportString = "{{ 'PDFReports_CreateReport'|translate }}";
     ReportPlugin.updateReportString = "{{ 'PDFReports_UpdateReport'|translate }}";
         $(document).ready(function () {
