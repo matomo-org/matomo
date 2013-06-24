@@ -16,8 +16,8 @@
                 <li>{{ 'Goals_BestReferers'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.website} %}</li>
             {% endif %}
             <li>
-                {{ 'Goals_ReturningVisitorsConversionRateIs'|translate("<strong>"+conversion_rate_returning+"</strong>")|raw }}
-                , {{ 'Goals_NewVisitorsConversionRateIs'|translate("<strong>"+conversion_rate_new+"</strong>") }}
+                {{ 'Goals_ReturningVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_returning~"</strong>")|raw }}
+                , {{ 'Goals_NewVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_new~"</strong>") }}
             </li>
         {% else %}
             <li>
