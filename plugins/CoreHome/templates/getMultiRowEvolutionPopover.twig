@@ -9,7 +9,7 @@
             {% for metric in metrics %}
                 <tr>
                     <td class="sparkline">
-                        {{ metric.sparkline|raw }}
+                        {{ metric.sparkline }}
                     </td>
                     <td class="text">
                         {% import 'macros.twig' as piwik %}

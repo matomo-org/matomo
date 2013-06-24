@@ -12,7 +12,7 @@
             {% if infos.phpVersion_ok %}
                 {{ ok }}
             {% else %}
-                {{ error }} <span class="err">{{ 'General_Error'|translate }}: {{ 'General_Required'|translate(MinPHP)|raw }}</span>
+                {{ error }} <span class="err">{{ 'General_Error'|translate }}: {{ 'General_Required'|translate(MinPHP) }}</span>
             {% endif %}
         </td>
     </tr>
@@ -39,9 +39,9 @@
                     {{ 'Installation_SystemCheckDatabaseHelp'|translate }}
                     <p>
                         {% if infos.isWindows %}
-                            {{ 'Installation_SystemCheckWinPdoAndMysqliHelp'|translate("<br /><br /><code>extension=php_mysqli.dll</code><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />")|raw|nl2br }}
+                            {{ 'Installation_SystemCheckWinPdoAndMysqliHelp'|translate("<br /><br /><code>extension=php_mysqli.dll</code><br /><code>extension=php_pdo.dll</code><br /><code>extension=php_pdo_mysql.dll</code><br />")|nl2br }}
                         {% else %}
-                            {{ 'Installation_SystemCheckPdoAndMysqliHelp'|translate("<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br /><br />","<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />")|raw }}
+                            {{ 'Installation_SystemCheckPdoAndMysqliHelp'|translate("<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br /><br />","<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />") }}
                         {% endif %}
                         {{ 'Installation_RestartWebServer'|translate }}
                         <br/>

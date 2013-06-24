@@ -1,7 +1,7 @@
 <div id="topLeftBar">
     {% for label,menu in topMenu %}
         {% if menu._html is defined %}
-            {{ menu._html|raw }}
+            {{ menu._html }}
         {% elseif (menu._url.module == currentModule and (menu._url.action is empty or menu._url.action == currentAction)) %}
             <span class="topBarElem"><b>{{ label|translate }}</b></span> |
         {% else %}

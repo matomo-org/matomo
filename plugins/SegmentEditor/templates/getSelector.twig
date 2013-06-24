@@ -68,13 +68,13 @@
     <div class="segment-or">{{ 'SegmentEditor_OperatorOR'|translate }}</div>
     <div class="segment-add-or"><div>
             {% set orCondition %}<span>{{ 'SegmentEditor_OperatorOR'|translate }}</span>{% endset %}
-            <a href="#"> + {{ 'SegmentEditor_AddANDorORCondition'|translate(orCondition)|raw }} </a>
+            <a href="#"> + {{ 'SegmentEditor_AddANDorORCondition'|translate(orCondition) }} </a>
         </div>
     </div>
     <div class="segment-and">{{ 'SegmentEditor_OperatorAND'|translate }}</div>
     <div class="segment-add-row"><div>
             {% set andCondition %}<span>{{ 'SegmentEditor_OperatorAND'|translate }}</span>{% endset %}
-            <a href="#">+ {{ 'SegmentEditor_AddANDorORCondition'|translate(andCondition)|raw }}</a>
+            <a href="#">+ {{ 'SegmentEditor_AddANDorORCondition'|translate(andCondition) }}</a>
         </div>
     </div>
     <div style="position: absolute; z-index:999; width:1040px;" class="segment-element">
@@ -148,6 +148,6 @@
 </div>
 
 <script type="text/javascript">
-var availableSegments = {{ savedSegmentsJson|raw }};
-var segmentTranslations = {{ segmentTranslations|raw }};
+var availableSegments = {{ savedSegmentsJson }};
+var segmentTranslations = {{ segmentTranslations }};
 </script>

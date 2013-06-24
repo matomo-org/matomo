@@ -40,6 +40,7 @@ class Piwik_Twig
         // Create new Twig Environment and set cache dir
         $this->twig = new Twig_Environment($chainLoader,
             array(
+                 'autoescape' => false
                 //'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
             )
         );

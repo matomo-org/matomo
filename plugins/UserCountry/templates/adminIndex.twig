@@ -2,7 +2,7 @@
 
 {% block content %}
 {% import 'macros.twig' as piwik %}
-{{ loadJavascriptTranslations(['UserCountry'])|raw }}
+{{ loadJavascriptTranslations(['UserCountry']) }}
 
 <h2 id="location-providers">{{ 'UserCountry_Geolocation'|translate }}</h2>
 
@@ -14,9 +14,9 @@
         <h3 style="margin-top:0">{{ 'UserCountry_HowToSetupGeoIP'|translate }}</h3>
         <p>{{ 'UserCountry_HowToSetupGeoIPIntro'|translate }}</p>
         <ul style="list-style:disc;margin-left:2em">
-            <li>{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz">','</a>','<a target="_blank" href="http://www.maxmind.com/?rId=piwik">','</a>')|raw }}</li>
-            <li>{{ 'UserCountry_HowToSetupGeoIP_Step2'|translate("'GeoLiteCity.dat'",'<strong>','</strong>')|raw }}</li>
-            <li>{{ 'UserCountry_HowToSetupGeoIP_Step3'|translate('<strong>','</strong>','<span style="color:green"><strong>','</strong></span>')|raw }}</li>
+            <li>{{ 'UserCountry_HowToSetupGeoIP_Step1'|translate('<a href="http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz">','</a>','<a target="_blank" href="http://www.maxmind.com/?rId=piwik">','</a>') }}</li>
+            <li>{{ 'UserCountry_HowToSetupGeoIP_Step2'|translate("'GeoLiteCity.dat'",'<strong>','</strong>') }}</li>
+            <li>{{ 'UserCountry_HowToSetupGeoIP_Step3'|translate('<strong>','</strong>','<span style="color:green"><strong>','</strong></span>') }}</li>
             <li>{{ 'UserCountry_HowToSetupGeoIP_Step4'|translate }}</li>
         </ul>
         <p>&nbsp;</p>
@@ -52,9 +52,9 @@
                 </p>
             </td>
             <td>
-                <p>{{ provider.description|translate|raw }}</p>
+                <p>{{ provider.description|translate }}</p>
                 {% if provider.status != 1 and provider.install_docs is defined %}
-                    <p>{{ provider.install_docs|raw }}</p>
+                    <p>{{ provider.install_docs }}</p>
                 {% endif %}
             </td>
             <td width="164">
@@ -85,7 +85,7 @@
                 {% endif %}
                 {% if provider.extra_message is defined and provider.extra_message %}
                     {% set extraMessage %}
-                        {{ provider.extra_message|raw }}
+                        {{ provider.extra_message }}
                     {% endset %}
                     <br/>
                     {{ piwik.inlineHelp(extraMessage) }}
@@ -110,11 +110,11 @@
             <p>{{ 'UserCountry_PiwikNotManagingGeoIPDBs'|translate }}</p>
 
             <div class="geoipdb-column-1">
-                <p>{{ 'UserCountry_IWantToDownloadFreeGeoIP'|translate|raw }}</p>
+                <p>{{ 'UserCountry_IWantToDownloadFreeGeoIP'|translate }}</p>
                 <input type="button" class="submit" value="{{ 'General_GetStarted'|translate }}..." id="start-download-free-geoip"/>
             </div>
             <div class="geoipdb-column-2">
-                <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>')|raw }}</p>
+                <p>{{ 'UserCountry_IPurchasedGeoIPDBs'|translate('<a href="http://www.maxmind.com/en/geolocation_landing?rId=piwik">','</a>') }}</p>
                 <input type="button" class="submit" value="{{ 'General_GetStarted'|translate }}..." id="start-automatic-update-geoip"/>
             </div>
         </div>

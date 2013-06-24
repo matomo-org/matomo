@@ -2,13 +2,13 @@
     {% for level1,level2 in menu %}
     <li>
         <a name='{{ level2._url|urlRewriteWithParameters }}' href='#{{ level2._url|urlRewriteWithParameters|slice(1) }}'
-           onclick='return piwikMenu.onItemClick(this);'>{{ level1|translate }}</a>
+           onclick='return piwikMenu.onItemClick(this);'>{{ level1|translate|e('html') }}</a>
         <ul>
         {% for name,urlParameters in level2 %}
             {% if name|slice(0,1) != '_' %}
                 <li>
                     <a href='#{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}'
-                       onclick='return piwikMenu.onItemClick(this);'>{{ name|translate }}</a>
+                       onclick='return piwikMenu.onItemClick(this);'>{{ name|translate|e('html') }}</a>
                 </li>
             {% endif %}
         {% endfor %}

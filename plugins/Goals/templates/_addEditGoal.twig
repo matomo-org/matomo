@@ -4,7 +4,7 @@
     <p>{{ 'Goals_NewGoalDescription'|translate }}
         {{ 'Goals_NewWhatDoYouWantUsersToDo'|translate }}
         {{ 'Goals_NewGoalYouWillBeAbleTo'|translate }}</p>
-    <p>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}
+    <p>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>") }}
     </p>
 {% else %}
     <div class="clear"></div>
@@ -13,7 +13,7 @@
         <ul class='listCircle'>
             <li><a onclick='' name='linkAddNewGoal'>{{ 'Goals_CreateNewGOal'|translate }}</a></li>
             <li><a onclick='' name='linkEditGoals'>{{ 'Goals_ViewAndEditGoals'|translate }}</a></li>
-            <li>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>")|raw }}</li>
+            <li>{{ 'Goals_LearnMoreAboutGoalTrackingDocumentation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/tracking-goals-web-analytics/' target='_blank'>","</a>") }}</li>
 
             <li>
                 {% if not ecommerceEnabled %}
@@ -23,9 +23,9 @@
                     {% set ecommerceReportText %}
                         <a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">{{ 'Goals_EcommerceReports'|translate }}</a>
                     {% endset %}
-                    {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText)|raw }}
+                    {{ 'Goals_Optional'|translate }} {{ 'Goals_Ecommerce'|translate }}: {{ 'Goals_YouCanEnableEcommerceReports'|translate(ecommerceReportText,websiteManageText) }}
                 {% else %}
-                    {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">',"</a>")|raw }}
+                    {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">',"</a>") }}
                 {% endif %}
             </li>
         </ul>
@@ -73,7 +73,7 @@
     bindGoalForm();
 
     {% if onlyShowAddNewGoal is not defined %}
-        piwik.goals = {{ goalsJSON|raw }};
+        piwik.goals = {{ goalsJSON }};
         bindListGoalEdit();
     {% else %}
         initAndShowAddGoalForm();

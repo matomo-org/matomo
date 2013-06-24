@@ -1,4 +1,4 @@
-<div class="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
+<div class="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode|e('html') }}">
     {% if reportDocumentation is not empty and javascriptVariablesToSet.viewDataTable != 'tableGoals' %}
         <div class="reportDocumentation"><p>{{ reportDocumentation }}</p></div>
     {% endif %}

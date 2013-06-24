@@ -2,11 +2,11 @@
     {{ postEvent("template_leftColumnUserCountry") }}
 
     <h2>{{ 'UserCountry_Continent'|translate }}</h2>
-    {{ dataTableContinent|raw }}
+    {{ dataTableContinent }}
 
     <div class="sparkline">
         {{ sparkline(urlSparklineCountries) }}
-        {{ 'UserCountry_DistinctCountries'|translate("<strong>"~numberDistinctCountries~"</strong>")|raw }}
+        {{ 'UserCountry_DistinctCountries'|translate("<strong>"~numberDistinctCountries~"</strong>") }}
     </div>
 
     {{ postEvent("template_footerUserCountry") }}
@@ -15,12 +15,12 @@
 
 <div id="rightcolumn">
     <h2>{{ 'UserCountry_Country'|translate }}</h2>
-    {{ dataTableCountry|raw }}
+    {{ dataTableCountry }}
 
     <h2>{{ 'UserCountry_Region'|translate }}</h2>
-    {{ dataTableRegion|raw }}
+    {{ dataTableRegion }}
 
     <h2>{{ 'UserCountry_City'|translate }}</h2>
-    {{ dataTableCity|raw }}
+    {{ dataTableCity }}
 </div>
 

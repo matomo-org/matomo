@@ -103,7 +103,7 @@
     }
 </style>
 
-<div class='simple-realtime-visitor-widget' data-last-minutes="{{ lastMinutes }}" data-translations="{{ translations|json_encode }}">
+<div class='simple-realtime-visitor-widget' data-last-minutes="{{ lastMinutes }}" data-translations="{{ translations|json_encode|e('html') }}">
     <div class='simple-realtime-visitor-counter' title="{% if visitors == 1 %}{{ 'Live_NbVisitor'|translate }}{% else %}{{ 'Live_NbVisitors'|translate(visitors) }}{% endif %}">
         <div>{{ visitors }}</div>
     </div>

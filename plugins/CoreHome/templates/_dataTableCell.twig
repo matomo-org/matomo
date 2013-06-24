@@ -1,5 +1,5 @@
 {% set tooltipIndex = column ~ '_tooltip' %}
-{% if row.metadata[tooltipIndex] is defined %}<span class="cell-tooltip" data-tooltip="{{ row.metadata[tooltipIndex] }}">{% endif %}
+{% if row.metadata[tooltipIndex] is defined %}<span class="cell-tooltip" data-tooltip="{{ row.metadata[tooltipIndex]|e('html') }}">{% endif %}
 {% if not row.idsubdatatable and column=='label' and row.metadata.url is not empty %}
     <a target="_blank" href='{% if row.metadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.metadata.url }}'>
     {% if row.metadata.logo is empty %}
@@ -15,7 +15,7 @@
         {# make sure there are no whitespaces inside the span #}
     {% if row.metadata.html_label_suffix is not empty %}<span class='label-suffix'>{{ row.metadata.html_label_suffix }}</span>{% endif %}
 {% endif %}
-{% if row.columns[column] is defined %}{{ row.columns[column]|raw }}{% else %}{{ defaultWhenColumnValueNotDefined }}{% endif %}
+{% if row.columns[column] is defined %}{{ row.columns[column] }}{% else %}{{ defaultWhenColumnValueNotDefined }}{% endif %}
 {% if column=='label' %}</span>{% endif %}
 {% if not row.idsubdatatable and column=='label' and row.metadata.url is not empty %}
     </a>

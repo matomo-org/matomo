@@ -9,7 +9,7 @@
 {% else %}
     <p>{{ 'Installation_SystemCheckAutoUpdateHelp'|translate }}</p>
     <p>{{ 'CoreUpdater_YouMustDownloadPackageOrFixPermissions'|translate(piwik_new_version) }}
-        {{ makeWritableCommands|raw }}
+        {{ makeWritableCommands }}
     </p>
 {% endif %}
 

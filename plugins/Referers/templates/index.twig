@@ -1,6 +1,6 @@
 <a name="evolutionGraph" graphId="{{ nameGraphEvolutionReferers }}"></a>
 <h2>{{ 'Referers_Evolution'|translate }}</h2>
-{{ graphEvolutionReferers|raw }}
+{{ graphEvolutionReferers }}
 
 <br/>
 <div id='leftcolumn' style="position:relative">
@@ -8,16 +8,16 @@
 
     <div id='leftcolumn'>
         <div class="sparkline">{{ sparkline(urlSparklineDirectEntry) }}
-            {{ 'Referers_TypeDirectEntries'|translate("<strong>"~visitorsFromDirectEntry~"</strong>")|raw }}
+            {{ 'Referers_TypeDirectEntries'|translate("<strong>"~visitorsFromDirectEntry~"</strong>") }}
             {% if visitorsFromDirectEntryPercent is not empty %},
                 <strong>{{ visitorsFromDirectEntryPercent }}%</strong> of visits
             {% endif %}
             {% if visitorsFromDirectEntryEvolution is not empty %}
-                {{ visitorsFromDirectEntryEvolution|raw }}
+                {{ visitorsFromDirectEntryEvolution }}
             {% endif %}
         </div>
         <div class="sparkline">{{ sparkline(urlSparklineSearchEngines) }}
-            {{ 'Referers_TypeSearchEngines'|translate("<strong>"~visitorsFromSearchEngines~"</strong>")|raw }}
+            {{ 'Referers_TypeSearchEngines'|translate("<strong>"~visitorsFromSearchEngines~"</strong>") }}
             {% if visitorsFromSearchEnginesPercent is not empty %},
                 <strong>{{ visitorsFromSearchEnginesPercent }}%</strong> of visits
             {% endif %}
@@ -28,7 +28,7 @@
     </div>
     <div id='rightcolumn'>
         <div class="sparkline">{{ sparkline(urlSparklineWebsites) }}
-            {{ 'Referers_TypeWebsites'|translate("<strong>"~visitorsFromWebsites~"</strong>")|raw }}
+            {{ 'Referers_TypeWebsites'|translate("<strong>"~visitorsFromWebsites~"</strong>") }}
             {% if visitorsFromWebsitesPercent is not empty %},
                 <strong>{{ visitorsFromWebsitesPercent }}%</strong> of visits
             {% endif %}
@@ -37,7 +37,7 @@
             {% endif %}
         </div>
         <div class="sparkline">{{ sparkline(urlSparklineCampaigns) }}
-            {{ 'Referers_TypeCampaigns'|translate("<strong>"~visitorsFromCampaigns~"</strong>")|raw }}
+            {{ 'Referers_TypeCampaigns'|translate("<strong>"~visitorsFromCampaigns~"</strong>") }}
             {% if visitorsFromCampaignsPercent is not empty %},
                 <strong>{{ visitorsFromCampaignsPercent }}%</strong> of visits
             {% endif %}
@@ -105,14 +105,14 @@
 
 <div id='rightcolumn'>
     <h2>{{ 'Referers_DetailsByRefererType'|translate }}</h2>
-    {{ dataTableRefererType|raw }}
+    {{ dataTableRefererType }}
 </div>
 
 <div style="clear:both;"></div>
 
 {% if totalVisits > 0 %}
     <h2>{{ 'Referers_ReferrersOverview'|translate }}</h2>
-    {{ referrersReportsByDimension|raw }}
+    {{ referrersReportsByDimension }}
 {% endif %}
 
 {% include "_sparklineFooter.twig" %}

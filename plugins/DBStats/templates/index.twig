@@ -26,14 +26,14 @@
 <h2>{{ 'DBStats_DatabaseUsage'|translate }}</h2>
 <p>
     {{ 'DBStats_MainDescription'|translate(totalSpaceUsed) }}<br/>
-    {{ 'DBStats_LearnMore'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>")|raw }}
+    {{ 'DBStats_LearnMore'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>") }}
     <br/>
     <br/>
 </p>
 <table class="adminTable dbstatsTable">
     <tbody>
     <tr>
-        <td>{{ databaseUsageSummary|raw }}</td>
+        <td>{{ databaseUsageSummary }}</td>
         <td>
             <h3 style="margin-top:0">{{ 'General_GeneralInformation'|translate }}</h3><br/>
 
@@ -65,7 +65,7 @@
     <tr>
         <td>
             <h2>{{ 'DBStats_TrackerTables'|translate }}</h2>
-            {{ trackerDataSummary|raw }}
+            {{ trackerDataSummary }}
         </td>
         <td>&nbsp;</td>
     </tr>
@@ -78,7 +78,7 @@
     <tr>
         <td>
             <h2>{{ 'DBStats_ReportTables'|translate }}</h2>
-            {{ reportDataSummary|raw }}
+            {{ reportDataSummary }}
         </td>
         <td>
             <h2>{{ 'General_Reports'|translate }}</h2>
@@ -97,7 +97,7 @@
     <tr>
         <td>
             <h2>{{ 'DBStats_MetricTables'|translate }}</h2>
-            {{ metricDataSummary|raw }}
+            {{ metricDataSummary }}
         </td>
         <td>
             <h2>{{ 'General_Metrics'|translate }}</h2>
@@ -116,7 +116,7 @@
     <tr>
         <td>
             <h2>{{ 'DBStats_OtherTables'|translate }}</h2>
-            {{ adminDataSummary|raw }}
+            {{ adminDataSummary }}
         </td>
         <td>&nbsp;</td>
     </tr>

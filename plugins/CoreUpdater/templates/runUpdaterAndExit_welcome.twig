@@ -1,9 +1,9 @@
 {% extends '@CoreUpdater/layout.twig' %}
 
 {% block content %}
-<span style="float:right">{{ postEvent('template_topBar')|raw }}</span>
+<span style="float:right">{{ postEvent('template_topBar') }}</span>
 {% set helpMessage %}
-    {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>')|raw }}
+    {{ 'CoreUpdater_HelpMessageContent'|translate('<a target="_blank" href="?module=Proxy&action=redirect&url=http://piwik.org/faq/">','</a>','</li><li>') }}
 {% endset %}
 
 {% if coreError %}
@@ -12,13 +12,13 @@
     <div class="error">
         <img src="plugins/Zeitgeist/images/error_medium.png"/> {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
         {% for message in errorMessages %}
-            <pre>{{ message|raw }}</pre>
+            <pre>{{ message }}</pre>
         {% endfor %}
     </div>
     <br/>
     <p>{{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}
     <ul>
-        <li>{{ helpMessage|raw }}</li>
+        <li>{{ helpMessage }}</li>
     </ul>
     </p>
 {% else %}
@@ -41,7 +41,7 @@
             </p>
         {% endif %}
         <ul>
-            <li>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate(commandUpgradePiwik)|raw }}</li>
+            <li>{{ 'CoreUpdater_TheUpgradeProcessMayFailExecuteCommand'|translate(commandUpgradePiwik) }}</li>
             <li>It is also recommended for high traffic Piwik servers to <a target='_blank'
                                                                             href='?module=Proxy&action=redirect&url={{ "http://piwik.org/faq/how-to/#faq_111"|url_encode }}'>momentarily
                     disable visitor Tracking and put the Piwik User Interface in maintenance mode</a>.

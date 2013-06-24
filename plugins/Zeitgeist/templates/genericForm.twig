@@ -10,27 +10,27 @@
 	</div>
 {% endif %}
 
-<form {{ form_data.attributes|raw }}>
+<form {{ form_data.attributes }}>
 	<div class="centrer">
 		<table class="centrer">
             {% for fieldname in element_list %}
 				{% if form_data[fieldname].type == 'checkbox' %}
 					<tr>
-						<td colspan=2>{{ form_data[fieldname].html|raw }}</td>
+						<td colspan=2>{{ form_data[fieldname].html }}</td>
 					</tr>
 				{% elseif form_data[fieldname].label %}
 					<tr>
-						<td>{{ form_data[fieldname].label|raw }}</td>
-						<td>{{ form_data[fieldname].html|raw }}</td>
+						<td>{{ form_data[fieldname].label }}</td>
+						<td>{{ form_data[fieldname].html }}</td>
 					</tr>
 				{% elseif form_data[fieldname].type == 'hidden' %}
 					<tr>
-						<td colspan=2>{{ form_data[fieldname].html|raw }}</td>
+						<td colspan=2>{{ form_data[fieldname].html }}</td>
 					</tr>
 				{% endif %}
 			{% endfor %}
 		</table>
 	</div>
 
-	{{ form_data.submit.html|raw }}
+	{{ form_data.submit.html }}
 </form>

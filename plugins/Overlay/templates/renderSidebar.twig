@@ -3,7 +3,7 @@
     <!-- This div is removed by JS and the content is put in the location div -->
     <div class="Overlay_Location">
         <b>{{ 'Overlay_Location'|translate }}:</b>
-		<span data-normalized-url="{{ normalizedUrl }}" data-label="{{ label }}">
+		<span data-normalized-url="{{ normalizedUrl|e('html') }}" data-label="{{ label|e('html') }}">
 			{{ location }}
 		</span>
     </div>

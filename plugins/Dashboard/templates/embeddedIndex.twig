@@ -1,9 +1,9 @@
-{{ loadJavascriptTranslations(['CoreHome','Dashboard'])|raw }}
+{{ loadJavascriptTranslations(['CoreHome','Dashboard']) }}
 
 <script type="text/javascript">
-    widgetsHelper.availableWidgets = {{ availableWidgets|raw }};
+    widgetsHelper.availableWidgets = {{ availableWidgets }};
     $(document).ready(function () {
-        initDashboard({{ dashboardId }}, {{ dashboardLayout|raw }});
+        initDashboard({{ dashboardId }}, {{ dashboardLayout }});
     });
 </script>
 <div id="dashboard">

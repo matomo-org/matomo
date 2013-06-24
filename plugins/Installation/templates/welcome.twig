@@ -4,7 +4,7 @@
 <h2>{{ 'Installation_Welcome'|translate }}</h2>
 
 {% if newInstall %}
-    {{ 'Installation_WelcomeHelp'|translate(totalNumberOfSteps)|raw }}
+    {{ 'Installation_WelcomeHelp'|translate(totalNumberOfSteps) }}
 {% else %}
     <p>{{ 'Installation_ConfigurationHelp'|translate }}</p>
     <br/>
