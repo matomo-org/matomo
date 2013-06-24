@@ -55,7 +55,7 @@
                                     {% if rowMetadata.url is defined %}
                                         <a style="color: rgb({{ reportTextColor }});" href='{% if rowMetadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ rowMetadata.url }}'>
                                     {% endif %}
-                                    {{ rowMetrics[columnId] }}{# labels are escaped by SafeDecodeLabel filter in core/API/Response.php #}
+                                    {{ rowMetrics[columnId] | raw }}{# labels are escaped by SafeDecodeLabel filter in core/API/Response.php #}
                                     {% if rowMetadata.url is defined %}
                                         </a>
                                     {% endif %}
