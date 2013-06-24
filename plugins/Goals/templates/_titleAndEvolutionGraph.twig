@@ -12,10 +12,10 @@
             {{ 'General_EcommerceOrders'|translate }}
             <img src='plugins/Zeitgeist/images/ecommerceOrder.gif'>
         {% else %}
-            {{ 'Goals_Conversions'|translate("<strong>"+nb_conversions+"</strong>")|raw }}
+            {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
         {% endif %}
         {% if goalAllowMultipleConversionsPerVisit is defined and goalAllowMultipleConversionsPerVisit %}
-            ({{ 'VisitsSummary_NbVisits'|translate("<strong>"+nb_visits_converted+"</strong>")|raw }})
+            ({{ 'VisitsSummary_NbVisits'|translate("<strong>"~nb_visits_converted~"</strong>")|raw }})
         {% endif %}
     </div>
     {% if revenue != 0 or ecommerce is defined %}
@@ -25,7 +25,7 @@
             {% if ecommerce is defined %}
                 <strong>{{ revenue }}</strong> {{ 'General_TotalRevenue'|translate }}
             {% else %}
-                {{ 'Goals_OverallRevenue'|translate("<strong>"+revenue+"</strong>")|raw }}
+                {{ 'Goals_OverallRevenue'|translate("<strong>"~revenue~"</strong>")|raw }}
             {% endif %}
         </div>
     {% endif %}
@@ -41,9 +41,9 @@
     <div class="sparkline">{{ sparkline(urlSparklineConversionRate) }}
         {% if ecommerce is defined %}
             {% set ecommerceOrdersText %}{{ 'General_EcommerceOrders'|translate }}{% endset %}
-            {{ 'Goals_ConversionRate'|translate("<strong>"+conversion_rate+"</strong> "+ecommerceOrdersText)|raw }}
+            {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate~"</strong> "~ecommerceOrdersText)|raw }}
         {% else %}
-            {{ 'Goals_OverallConversionRate'|translate("<strong>"+conversion_rate+"</strong>")|raw }}
+            {{ 'Goals_OverallConversionRate'|translate("<strong>"~conversion_rate~"</strong>")|raw }}
         {% endif %}
     </div>
     {% if ecommerce is defined %}

@@ -50,7 +50,7 @@
                 {% set nVisitsLast %}{{ 'General_NVisits'|translate(pastTotalVisits) }}{% endset %}
                 <span class='smallTitle'
                 {% if totalVisitsEvolution %}title="{{ 'General_EvolutionSummaryGeneric'|translate(nVisits,prettyDate,nVisitsLast,pastPeriodPretty,totalVisitsEvolution) }}"{% endif %}>
-                    {{ 'General_TotalVisitsPageviewsRevenue'|translate("<strong>"+totalVisits+"</strong>","<strong>"+totalPageviews+"</strong>","<strong>"+totalRevenue+"</strong>")|raw }}
+                    {{ 'General_TotalVisitsPageviewsRevenue'|translate("<strong>"~totalVisits~"</strong>","<strong>"~totalPageviews~"</strong>","<strong>"~totalRevenue~"</strong>")|raw }}
 	            </span>
             </h2>
 

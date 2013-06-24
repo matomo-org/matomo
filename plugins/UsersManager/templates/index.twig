@@ -118,7 +118,7 @@
     <br/>
     <h2>{{ 'UsersManager_UsersManagement'|translate }}</h2>
     <p>{{ 'UsersManager_UsersManagementMainDescription'|translate }}
-        {{ 'UsersManager_ThereAreCurrentlyNRegisteredUsers'|translate("<b>"+usersCount+"</b>")|raw }}</p>
+        {{ 'UsersManager_ThereAreCurrentlyNRegisteredUsers'|translate("<b>"~usersCount~"</b>")|raw }}</p>
     {% import 'ajaxMacros.twig' as ajax %}
     {{ ajax.errorDiv('ajaxErrorUsersManagement') }}
     {{ ajax.loadingDiv('ajaxLoadingUsersManagement') }}

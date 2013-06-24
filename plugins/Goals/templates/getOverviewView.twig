@@ -11,21 +11,21 @@
     <div class="goalEntry">
         <h2>
             <a href="javascript:broadcast.propagateAjax('module=Goals&action=goalReport&idGoal={{ goal.id }}')">
-                {{ 'Goals_GoalX'|translate("'"+name+"'") }}
+                {{ 'Goals_GoalX'|translate("'"~name~"'") }}
             </a>
         </h2>
 
         <div id='leftcolumn'>
             <div class="sparkline">{{ sparkline(goal.urlSparklineConversions) }}
-                {{ 'Goals_Conversions'|translate("<strong>"+nb_conversions+"</strong>")|raw }}
+                {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
                 {% if goal.goalAllowMultipleConversionsPerVisit %}
-                    ({{ 'VisitsSummary_NbVisits'|translate("<strong>"+nb_visits_converted+"</strong>") }})
+                    ({{ 'VisitsSummary_NbVisits'|translate("<strong>"~nb_visits_converted~"</strong>") }})
                 {% endif %}
             </div>
         </div>
         <div id='rightcolumn'>
             <div class="sparkline">{{ sparkline(goal.urlSparklineConversionRate) }}
-                {{ 'Goals_ConversionRate'|translate("<strong>"+conversion_rate+"</strong>")|raw }}
+                {{ 'Goals_ConversionRate'|translate("<strong>"~conversion_rate~"</strong>")|raw }}
             </div>
         </div>
         <br class="clear"/>
@@ -41,7 +41,7 @@
             {{ 'Goals_ConversionsOverviewBy'|translate }}
         {% endif %}
     </h2>
-    {{ goalReportsByDimension }}
+    {{ goalReportsByDimension|raw }}
     {% endif %}
 
     {% if userCanEditGoals %}
