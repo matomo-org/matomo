@@ -104,7 +104,7 @@
 </style>
 
 <div class='simple-realtime-visitor-widget' data-last-minutes="{{ lastMinutes }}" data-translations="{{ translations|json_encode }}">
-    <div class='simple-realtime-visitor-counter' title="{% if visitors == 1}{{ 'Live_NbVisitor'|translate }}{% else %}{{ 'Live_NbVisitors'|translate(visitors) }}{% endif %}">
+    <div class='simple-realtime-visitor-counter' title="{% if visitors == 1 %}{{ 'Live_NbVisitor'|translate }}{% else %}{{ 'Live_NbVisitors'|translate(visitors) }}{% endif %}">
         <div>{{ visitors }}</div>
     </div>
     <br/>
@@ -120,6 +120,6 @@
             <span class="simple-realtime-metric" data-metric="minutes">{% if lastMinutes == 1 %}{{ 'General_OneMinute'|translate }}{% else %}{{ 'General_NMinutes'|translate(lastMinutes) }}{% endif %}</span>
         {% endset %}
 
-        {{ 'Live_SimpleRealTimeWidget_Message'|translate(visitsMessage,actionsMessage,minutesMessage) }}
+        {{ 'Live_SimpleRealTimeWidget_Message'|translate(visitsMessage,actionsMessage,minutesMessage) | raw }}
     </div>
 </div>
