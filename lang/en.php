@@ -1117,7 +1117,7 @@ Piwik will let you track visitors to your website for free. You should definitel
     'Live_NbVisitors'                                                   => '%s visitors',
     'Live_NbVisitor'                                                    => '1 visitor',
     'Live_RealTimeVisitorCount'                                         => 'Real Time Visitor Count',
-    'Live_SimpleRealTimeWidget_Message'                                 => '%s and %s in the last %s.',
+    'Live_SimpleRealTimeWidget_Message'                                 => '%s and %s in the last %s',
     'Login_PluginDescription'                                           => 'Login Authentication plugin, reading the credentials from the config/config.inc.php file for the Super User, and from the Database for the other users. Can be easily replaced to introduce a new Authentication mechanism (OpenID, htaccess, custom Auth, etc.).',
     'Login_LoginPasswordNotCorrect'                                     => 'Wrong Username and password combination.',
     'Login_Password'                                                    => 'Password',
