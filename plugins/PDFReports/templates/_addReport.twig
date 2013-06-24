@@ -1,6 +1,6 @@
 <div class='entityAddContainer' style='display:none'>
     <div class='entityCancel'>
-        {{ 'PDFReports_CancelAndReturnToReports'|translate("<a class='entityCancelLink'>","</a>") }}
+        {{ 'PDFReports_CancelAndReturnToReports'|translate("<a class='entityCancelLink'>","</a>")|raw }}
     </div>
     <div class='clear'></div>
     <form id='addEditReport'>
@@ -41,7 +41,7 @@
                     <div class="entityInlineHelp">
                         {% set SegmentEditor_DefaultAllVisits %}{{ 'SegmentEditor_DefaultAllVisits'|translate }}{% endset %}
                         {% set SegmentEditor_AddNewSegment %}{{ 'SegmentEditor_AddNewSegment'|translate }}{% endset %}
-                        {{ 'PDFReports_Segment_Help'|translate('<a href="./" target="_blank">','</a>',SegmentEditor_DefaultAllVisits,SegmentEditor_AddNewSegment) }}
+                        {{ 'PDFReports_Segment_Help'|translate('<a href="./" target="_blank">','</a>',SegmentEditor_DefaultAllVisits,SegmentEditor_AddNewSegment)|raw }}
                     </div>
                 </td>
             </tr>
@@ -155,6 +155,6 @@
 
     </form>
     <div class='entityCancel'>
-        {{ 'General_OrCancel'|translate("<a class='entityCancelLink'>","</a>") }}
+        {{ 'General_OrCancel'|translate("<a class='entityCancelLink'>","</a>")|raw }}
     </div>
 </div>

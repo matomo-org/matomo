@@ -24,14 +24,14 @@
                     <label>
                         <input type="radio" value="0" name="enableBrowserTriggerArchiving"{% if enableBrowserTriggerArchiving==0 %} checked="checked"{% endif %} />
                         {{ 'General_No'|translate }} <br/>
-                        <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>") }}</span>
+                        <span class="form-description">{{ 'General_ArchivingTriggerDescription'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}</span>
                     </label>
                 </fieldset>
             <td>
                 {% set browserArchivingHelp %}
                     {{ 'General_ArchivingInlineHelp'|translate }}
                     <br/>
-                    {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>") }}
+                    {{ 'General_SeeTheOfficialDocumentationForMoreInformation'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>","</a>")|raw }}
                 {% endset %}
                 {{ piwik.inlineHelp(browserArchivingHelp) }}
             </td>
@@ -43,7 +43,7 @@
                 </label>
             </td>
             <td>
-                {{ 'General_NSeconds'|translate("<input size='3' value='" ~ todayArchiveTimeToLive ~ "' id='todayArchiveTimeToLive' />") }}
+                {{ 'General_NSeconds'|translate("<input size='3' value='" ~ todayArchiveTimeToLive ~ "' id='todayArchiveTimeToLive' />")|raw }}
             </td>
             <td width='450px'>
                 {% set archiveTodayTTLHelp %}
@@ -77,9 +77,9 @@
                 </fieldset>
             <td>
                 {% set checkReleaseHelp %}
-                    {{ 'CoreAdminHome_DevelopmentProcess'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>","</a>") }}
+                    {{ 'CoreAdminHome_DevelopmentProcess'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/development-process/' target='_blank'>","</a>")|raw }}
                     <br/>
-                    {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/user-feedback/' target='_blank'>","</a>") }}
+                    {{ 'CoreAdminHome_StableReleases'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/participate/user-feedback/' target='_blank'>","</a>")|raw }}
                 {% endset %}
                 {{ piwik.inlineHelp(checkReleaseHelp) }}
             </td>
@@ -215,7 +215,7 @@
     <div id='logoSettings'>
         {% set giveUsFeedbackText %}"{{ 'General_GiveUsYourFeedback'|translate }}"{% endset %}
         {% set customLogoHelp %}
-            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=index' target='_blank'>","</a>") }}
+            {{ 'CoreAdminHome_CustomLogoFeedbackInfo'|translate(giveUsFeedbackText,"<a href='?module=CorePluginsAdmin&action=index' target='_blank'>","</a>")|raw }}
         {% endset %}
         {{ piwik.inlineHelp(customLogoHelp) }}
         <form id="logoUploadForm" method="post" enctype="multipart/form-data" action="index.php?module=CoreAdminHome&format=json&action=uploadCustomLogo">
@@ -233,7 +233,7 @@
                         </td>
                     {% else %}
                         <td>
-                            <span class="ajaxSuccess">{{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/misc/user/</li><li>/misc/user/logo.png</li><li>/misc/user/logo-header.png</li></ul>") }}</span>
+                            <span class="ajaxSuccess">{{ 'CoreAdminHome_LogoNotWriteable'|translate("<ul style='list-style: disc inside;'><li>/misc/user/</li><li>/misc/user/logo.png</li><li>/misc/user/logo-header.png</li></ul>")|raw }}</span>
                         </td>
                     {% endif %}
                 </tr>
@@ -262,7 +262,7 @@
     {% endset %}
     <code>{{ iframeOptOut }}</code>
     <br/>
-    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>") }}
+    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}
 </p>
 
 {% endblock %}

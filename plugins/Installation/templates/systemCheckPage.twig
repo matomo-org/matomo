@@ -6,7 +6,7 @@
     <p style="margin-left:1em">
         {% if infos.has_errors %}
             <img src='plugins/Zeitgeist/images/error.png'/>
-            {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong><em>','</em></strong>') }} {{ 'Installation_SeeBelowForMoreInfo'|translate }}
+            {{ 'Installation_SystemCheckSummaryThereWereErrors'|translate('<strong>','</strong>','<strong><em>','</em></strong>')|raw }} {{ 'Installation_SeeBelowForMoreInfo'|translate }}
         {% elseif infos.has_warnings %}
             <img src='plugins/Zeitgeist/images/warning.png'/>
             {{ 'Installation_SystemCheckSummaryThereWereWarnings'|translate }} {{ 'Installation_SeeBelowForMoreInfo'|translate }}

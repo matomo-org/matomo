@@ -89,7 +89,7 @@
                 <p class="message">{{ infoMessage}}</p>
             {% endif %}
         </div>
-        <form {{ form_data.attributes }}>
+        <form {{ form_data.attributes|raw }}>
             <h1>{{'Login_LogIn'|translate }}</h1>
             <fieldset class="inputs">
                 <input type="text" name="form_login" id="login_form_login" class="input" value="" size="20" tabindex="10"

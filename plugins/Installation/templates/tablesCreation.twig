@@ -4,7 +4,7 @@
 <h2>{{ 'Installation_Tables'|translate }}</h2>
 
 {% if someTablesInstalled is defined %}
-    <div class="warning">{{ 'Installation_TablesWithSameNamesFound'|translate("<span id='linkToggle'>","</span>") }}
+    <div class="warning">{{ 'Installation_TablesWithSameNamesFound'|translate("<span id='linkToggle'>","</span>")|raw }}
         <img src="plugins/Zeitgeist/images/warning_medium.png"/>
     </div>
     <div id="toggle" style="display:none;color:#4F2410">

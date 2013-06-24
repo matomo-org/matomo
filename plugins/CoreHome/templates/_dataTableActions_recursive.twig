@@ -1,4 +1,4 @@
-<div class="dataTable" data-table-type="actionDataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode|e('html') }}">
+<div class="dataTable" data-table-type="actionDataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
     <div class="dataTableActionsWrapper">
         {% if arrayDataTable.result is define and arrayDataTable.result == 'error' %}
             {{ arrayDataTable.message }}

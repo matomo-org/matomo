@@ -4,7 +4,7 @@
 {% import 'macros.twig' as piwik %}
 {% if isSuperUser %}
     <h2>{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
-    <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>") }}
+    <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
         See also our official guide <b><a href='http://piwik.org/privacy/' target='_blank'>Web Analytics Privacy</a></b></p>
     <a name="anonymizeIPAnchor"></a>
     <h2>{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
@@ -88,7 +88,7 @@
                         checked {% endif %}/>  {{ 'General_No'|translate }}
                     </label>
 				<span class="ajaxSuccess">
-					{{ 'PrivacyManager_DeleteLogDescription2'|translate }}
+					{{ 'PrivacyManager_DeleteLogDescription2'|translate|raw }}
                     <a href="http://piwik.org/faq/general/#faq_125" target="_blank">
                         {{ 'General_ClickHere'|translate }}
                     </a>
@@ -96,14 +96,14 @@
                 </td>
                 <td width="200">
                     {% set deleteLogInfo %}
-                        {{ 'PrivacyManager_DeleteLogInfo'|translate(deleteData.deleteTables) }}
+                        {{ 'PrivacyManager_DeleteLogInfo'|translate(deleteData.deleteTables)|raw }}
                         {% if not canDeleteLogActions %}
                             <br/>
                             <br/>
                             {{ 'PrivacyManager_CannotLockSoDeleteLogActions'|translate(dbUser) }}
                         {% endif %}
                     {% endset %}
-                    {{ piwik.inlineHelp(deleteLogInfo) }}
+                    {{ piwik.inlineHelp(deleteLogInfo)|raw }}
                 </td>
             </tr>
             <tr id="deleteLogSettings">
@@ -134,7 +134,7 @@
 				
 				<span class="ajaxSuccess">
 					{% set deleteOldLogs %}{{ 'PrivacyManager_UseDeleteLog'|translate }}{% endset %}
-                    {{ 'PrivacyManager_DeleteReportsInfo'|translate('<em>','</em>') }}
+                    {{ 'PrivacyManager_DeleteReportsInfo'|translate('<em>','</em>')|raw }}
                     <span id='deleteOldReportsMoreInfo'><br/><br/>
                         {{ 'PrivacyManager_DeleteReportsInfo2'|translate(deleteOldLogs) }}<br/><br/>
                         {{ 'PrivacyManager_DeleteReportsInfo3'|translate(deleteOldLogs) }}</span>
@@ -266,7 +266,7 @@
     {% set iframeOptOut %}<iframe frameborder="no" width="600px" height="200px" src="{{ optOutUrl }}"></iframe>{% endset %}
     <code>{{ iframeOptOut|e('html') }}</code>
     <br/>
-    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>") }}
+    {{ 'CoreAdminHome_OptOutExplanationBis'|translate("<a href='" ~ optOutUrl ~ "' target='_blank'>","</a>")|raw }}
 </p>
 
 <div style='height:100px'></div>

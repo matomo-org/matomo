@@ -2,11 +2,10 @@
 {% include "@Goals/_titleAndEvolutionGraph.twig" %}
 
 <div class="clear"></div>
-
 {% if nb_conversions > 0 %}
     <h2>{{ 'Goals_ConversionsOverview'|translate }}</h2>
     <ul class="ulGoalTopElements">
-        {% if ecommerce is not defined %}
+        {% if ecommerce is not defined}
             {% if topDimensions.country is defined %}
                 <li>{{ 'Goals_BestCountries'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.country} %}</li>
             {% endif %}
@@ -17,7 +16,7 @@
                 <li>{{ 'Goals_BestReferers'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.website} %}</li>
             {% endif %}
             <li>
-                {{ 'Goals_ReturningVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_returning~"</strong>") }}
+                {{ 'Goals_ReturningVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_returning~"</strong>")|raw }}
                 , {{ 'Goals_NewVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_new~"</strong>") }}
             </li>
         {% else %}

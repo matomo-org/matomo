@@ -17,17 +17,17 @@
         {% if piwikUrl == 'http://demo.piwik.org/' %}
             {{ 'General_YouAreViewingDemoShortMessage'|translate }}
             <br/>
-            {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>") }}
+            {{ 'General_DownloadFullVersion'|translate("<a href='http://piwik.org/'>","</a>","<a href='http://piwik.org'>piwik.org</a>")|raw }}
         {% elseif latest_version_available %}
             {% if isSuperUser %}
-                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>") }}
+                {{ 'General_PiwikXIsAvailablePleaseUpdateNow'|translate(latest_version_available,"<br /><a href='index.php?module=CoreUpdater&amp;action=newVersionAvailable'>","</a>","<a href='?module=Proxy&amp;action=redirect&amp;url=http://piwik.org/changelog/' target='_blank'>","</a>")|raw }}
                 <br/>
                 {{ 'General_YouAreCurrentlyUsing'|translate(piwik_version) }}
             {% else %}
-                {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>{{ latest_version_available }}</a>") }}
+                {{ 'General_PiwikXIsAvailablePleaseNotifyPiwikAdmin'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/' target='_blank'>Piwik</a> <a href='?module=Proxy&action=redirect&url=http://piwik.org/changelog/' target='_blank'>{{ latest_version_available }}</a>")|raw }}
             {% endif %}
         {% else %}
-            {{ 'General_PiwikIsACollaborativeProjectYouCanContributeAndDonate'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org' target='_blank'>",piwik_version+"</a>","<br />","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/contribute/'>","</a>",'<br/>',"<a href='http://piwik.org/donate/' target='_blank'><strong><em>","</em></strong></a>") }}
+            {{ 'General_PiwikIsACollaborativeProjectYouCanContributeAndDonate'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org' target='_blank'>",piwik_version+"</a>","<br />","<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/contribute/'>","</a>",'<br/>',"<a href='http://piwik.org/donate/' target='_blank'><strong><em>","</em></strong></a>")|raw }}
         {% endif %}
         {% if hasSomeAdminAccess %}
             <br/>

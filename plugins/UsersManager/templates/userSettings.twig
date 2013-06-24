@@ -1,7 +1,7 @@
 {% extends 'admin.twig' %}
 
 {% block content %}
-{{ loadJavascriptTranslations(['UsersManager']) }}
+{{ loadJavascriptTranslations(['UsersManager'])|raw }}
 <h2>{{ 'UsersManager_MenuUserSettings'|translate }}</h2>
 
 <br/>
@@ -86,7 +86,7 @@
 {% if isValidHost is not defined or not isValidHost %}
     <div class="ajaxSuccess">
         {{ 'UsersManager_InjectedHostCannotChangePwd'|translate(invalidHost) }}
-        &nbsp;{% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>') }}{% endif %}
+        &nbsp;{% if not isSuperUser %}{{ 'UsersManager_EmailYourAdministrator'|translate(invalidHostMailLinkStart,'</a>')|raw }}{% endif %}
     </div>
     <br/>
 {% endif %}
@@ -100,9 +100,9 @@
 <a name='excludeCookie'></a><h2>{{ 'UsersManager_ExcludeVisitsViaCookie'|translate }}</h2>
 <p>
 {% if ignoreCookieSet %}
-   {{ 'UsersManager_YourVisitsAreIgnoredOnDomain'|translate("<strong>", piwikHost, "</strong>") }}
+   {{ 'UsersManager_YourVisitsAreIgnoredOnDomain'|translate("<strong>", piwikHost, "</strong>")|raw }}
 {% else %}
-   {{ 'UsersManager_YourVisitsAreNotIgnored'|translate("<strong>","</strong>") }}
+   {{ 'UsersManager_YourVisitsAreNotIgnored'|translate("<strong>","</strong>")|raw }}
 {% endif %}
 </p>
 <span style='margin-left:20px'>

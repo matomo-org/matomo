@@ -8,7 +8,7 @@
 {% set excludedIpHelpPlain %}
     {{ 'SitesManager_HelpExcludedIps'|translate("1.2.3.*","1.2.*.*") }}
     <br/><br/>
-    {{ 'SitesManager_YourCurrentIpAddressIs'|translate("<i>" ~ currentIpAddress ~ "</i>") }}
+    {{ 'SitesManager_YourCurrentIpAddressIs'|translate("<i>" ~ currentIpAddress ~ "</i>")|raw }}
 {% endset %}
 {% set excludedIpHelp=piwik.inlineHelp(excludedIpHelpPlain) %}
 
@@ -35,7 +35,7 @@
 {% set ecommerceHelpPlain %}
     {{ 'SitesManager_EcommerceHelp'|translate }}
     <br/>
-    {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate("<a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>","</a>") }}
+    {{ 'SitesManager_PiwikOffersEcommerceAnalytics'|translate("<a href='http://piwik.org/docs/ecommerce-analytics/' target='_blank'>","</a>")|raw }}
 {% endset %}
 
 {% set excludedQueryParametersHelp %}
@@ -87,7 +87,7 @@ var searchCategoryHelp = '{{ searchCategoryHelp|e('js') }}';
 var sitesearchDesc = '{{ 'SitesManager_TrackingSiteSearch'|translate|e('js') }}';
 var keepURLFragmentSelectHTML = '{{ keepURLFragmentSelectHTML|e('js') }}';
 
-var sitesManager = new SitesManager({{ timezones }}, {{ currencies }}, '{{ defaultTimezone }}', '{{ defaultCurrency }}');
+var sitesManager = new SitesManager({{ timezones|raw }}, {{ currencies|raw }}, '{{ defaultTimezone|raw }}', '{{ defaultCurrency|raw }}');
 {% set searchKeywordLabel='SitesManager_SearchKeywordLabel'|translate %}
 {% set searchCategoryLabel='SitesManager_SearchCategoryLabel'|translate %}
 var searchKeywordLabel = '{{ searchKeywordLabel|e('js') }}';
@@ -154,10 +154,10 @@ $(document).ready(function () {
 
 <h2>{{ 'SitesManager_WebsitesManagement'|translate }}</h2>
 <p>{{ 'SitesManager_MainDescription'|translate }}
-{{ 'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate("<strong>" ~ adminSitesCount ~ "</strong>") }}
+{{ 'SitesManager_YouCurrentlyHaveAccessToNWebsites'|translate("<strong>" ~ adminSitesCount ~ "</strong>")|raw }}
 {% if isSuperUser %}
     <br/>
-    {{ 'SitesManager_SuperUserCan'|translate("<a href='#globalSettings'>","</a>") }}
+    {{ 'SitesManager_SuperUserCan'|translate("<a href='#globalSettings'>","</a>")|raw }}
 {% endif %}
 </p>
 {{ ajax.errorDiv() }}
@@ -188,7 +188,7 @@ $(document).ready(function () {
             <th>{{ 'General_Name'|translate }}</th>
             <th>{{ 'SitesManager_Urls'|translate }}</th>
             <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
-            <th>{{ 'SitesManager_ExcludedParameters'|translate|replace({" ":"<br />"}) }}</th>
+            <th>{{ 'SitesManager_ExcludedParameters'|translate|replace({" ":"<br />"})|raw }}</th>
             <th id='exclude-user-agent-header'
                 {% if not allowSiteSpecificUserAgentExclude %}style="display:none"{% endif %}>{{ 'SitesManager_ExcludedUserAgents'|translate }}</th>
             <th>{{ 'Actions_SubmenuSitesearch'|translate }}</th>
@@ -353,7 +353,7 @@ $(document).ready(function () {
         <td colspan="2">
             <strong>{{ 'SitesManager_KeepURLFragments'|translate }}</strong>
 
-            <p>{{ 'SitesManager_KeepURLFragmentsHelp'|translate("<em>#</em>","<em>example.org/index.html#first_section</em>","<em>example.org/index.html</em>") }}
+            <p>{{ 'SitesManager_KeepURLFragmentsHelp'|translate("<em>#</em>","<em>example.org/index.html#first_section</em>","<em>example.org/index.html</em>")|raw }}
             </p>
             <input type="checkbox" id="globalKeepURLFragments" name="globalKeepURLFragments"
                    {% if globalKeepURLFragments %}checked="checked"{% endif %}/>
