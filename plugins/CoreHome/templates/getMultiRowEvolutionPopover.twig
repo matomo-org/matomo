@@ -1,7 +1,7 @@
 <div class="rowevolution multirowevolution">
     <div class="popover-title">{{ 'RowEvolution_MultiRowEvolutionTitle'|translate }}</div>
     <div class="graph">
-        {{ graph }}
+        {{ graph | raw }}
     </div>
     <div class="metrics-container">
         <h2>{{ availableRecordsText|translate }}</h2>
@@ -9,7 +9,7 @@
             {% for metric in metrics %}
                 <tr>
                     <td class="sparkline">
-                        {{ metric.sparkline }}
+                        {{ metric.sparkline|raw }}
                     </td>
                     <td class="text">
                         {% import 'macros.twig' as piwik %}

@@ -58,7 +58,7 @@
             <tbody id="manual_trigger_section" style="display:none">
             <tr>
                 <td colspan="2" class="first">
-                    {{ 'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/%23toc-manually-trigger-a-conversion-for-a-goal'>","</a>") }}
+                    {{ 'Goals_WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore'|translate("<a target='_blank' href='?module=Proxy&action=redirect&url=http://piwik.org/docs/javascript-tracking/%23toc-manually-trigger-a-conversion-for-a-goal'>","</a>")|raw }}
                 </td>
             </tr>
             </tbody>
@@ -83,7 +83,7 @@
             <tbody>
             <tr>
                 <td class="first">{{ 'Goals_Optional'|translate }} {{ 'Goals_DefaultRevenue'|translate }}</td>
-                <td>{{ ' <input type="text" name="revenue" size="2" value="0" class="inp" /> '|money(idSite) }}
+                <td>{{ ' <input type="text" name="revenue" size="2" value="0" class="inp" /> '|money(idSite)|raw }}
                     <div class="entityInlineHelp"> {{ 'Goals_DefaultRevenueHelp'|translate }} </div>
                 </td>
             </tr>

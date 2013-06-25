@@ -1,4 +1,4 @@
-<div class="dataTable" data-table-type="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode|e('html') }}">
+<div class="dataTable" data-table-type="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
     <div class="reportDocumentation">
         {% if reportDocumentation is not empty %}<p>{{ reportDocumentation }}</p>{% endif %}
         {% if properties.metadata.archived_date is defined %}<span class='helpDate'>{{ properties.metadata.archived_date }}</span>{% endif %}

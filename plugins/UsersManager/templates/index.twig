@@ -1,7 +1,7 @@
 {% extends 'admin.twig' %}
 
 {% block content %}
-{{ loadJavascriptTranslations(['UsersManager']) }}
+{{ loadJavascriptTranslations(['UsersManager'])|raw }}
 
 <style type="text/css">
     .dialog {
@@ -99,7 +99,7 @@
 </div>
 
 <div class="ui-confirm" id="confirm">
-    <h2>{{ 'UsersManager_ChangeAllConfirm'|translate("<span id='login'></span>") }}</h2>
+    <h2>{{ 'UsersManager_ChangeAllConfirm'|translate("<span id='login'></span>")|raw }}</h2>
     <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
     <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
 </div>
@@ -118,7 +118,7 @@
     <br/>
     <h2>{{ 'UsersManager_UsersManagement'|translate }}</h2>
     <p>{{ 'UsersManager_UsersManagementMainDescription'|translate }}
-        {{ 'UsersManager_ThereAreCurrentlyNRegisteredUsers'|translate("<b>"~usersCount~"</b>") }}</p>
+        {{ 'UsersManager_ThereAreCurrentlyNRegisteredUsers'|translate("<b>"~usersCount~"</b>")|raw }}</p>
     {% import 'ajaxMacros.twig' as ajax %}
     {{ ajax.errorDiv('ajaxErrorUsersManagement') }}
     {{ ajax.loadingDiv('ajaxLoadingUsersManagement') }}

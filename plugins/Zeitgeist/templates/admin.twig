@@ -10,7 +10,7 @@
             <meta name="generator" content="Piwik - Open Source Web Analytics"/>
             <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
 
-            {{ loadJavascriptTranslations(['CoreAdminHome','CoreHome']) }}
+            {{ loadJavascriptTranslations(['CoreAdminHome','CoreHome'])|raw }}
 
             {% include "_jsGlobalVariables.twig" %}
             {% include "_jsCssIncludes.twig" %}
@@ -81,7 +81,7 @@
                     {% if isSuperUser and usingOldGeoIPPlugin is not empty %}
                     <div class="ajaxSuccess">
                         <strong>{{ 'General_Warning'|translate }}
-                            :&nbsp;</strong>{{ 'UserCountry_OldGeoIPWarning'|translate('<a href="index.php?module=CorePluginsAdmin&action=index&idSite=1&period=day&date=yesterday">','</a>','<a href="index.php?module=UserCountry&action=adminIndex&idSite=1&period=day&date=yesterday#location-providers">','</a>','<a href="http://piwik.org/faq/how-to/#faq_167">','</a>','<a href="http://piwik.org/faq/how-to/#faq_59">','</a>') }}
+                            :&nbsp;</strong>{{ 'UserCountry_OldGeoIPWarning'|translate('<a href="index.php?module=CorePluginsAdmin&action=index&idSite=1&period=day&date=yesterday">','</a>','<a href="index.php?module=UserCountry&action=adminIndex&idSite=1&period=day&date=yesterday#location-providers">','</a>','<a href="http://piwik.org/faq/how-to/#faq_167">','</a>','<a href="http://piwik.org/faq/how-to/#faq_59">','</a>')|raw }}
                     </div>
                     {% endif %}
 

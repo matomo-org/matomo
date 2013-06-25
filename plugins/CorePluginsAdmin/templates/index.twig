@@ -31,7 +31,7 @@
                         </td>
                         <td class="vers">{{ plugin.info.version }}</td>
                         <td class="desc">
-                            {{ plugin.info.description|nl2br }}
+                            {{ plugin.info.description|raw|nl2br }}
                             {% if plugin.info.license is defined %}
                                 &nbsp;({% if plugin.info.license_homepage is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" target="_blank" href="{{ plugin.info.license_homepage }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_homepage is defined %}</a>){% endif %}
                             {% endif %}

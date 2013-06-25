@@ -1,7 +1,7 @@
 {% extends 'admin.twig' %}
 
 {% block content %}
-{{ loadJavascriptTranslations(['MobileMessaging']) }}
+{{ loadJavascriptTranslations(['MobileMessaging'])|raw }}
 
 <style>#accountForm ul {
         list-style: circle;
@@ -24,7 +24,7 @@
         {{ 'MobileMessaging_Settings_CredentialProvided'|translate(provider) }}
         {{ creditLeft }}
         <br/>
-        {{ 'MobileMessaging_Settings_UpdateOrDeleteAccount'|translate("<a id='displayAccountForm'>","</a>","<a id='deleteAccount'>","</a>") }}
+        {{ 'MobileMessaging_Settings_UpdateOrDeleteAccount'|translate("<a id='displayAccountForm'>","</a>","<a id='deleteAccount'>","</a>")|raw }}
     {% else %}
         {{ 'MobileMessaging_Settings_PleaseSignUp'|translate }}
     {% endif %}
@@ -46,7 +46,7 @@
 
         {% for smsProvider, description in smsProviders %}
             <div class='providerDescription' id='{{ smsProvider }}'>
-                {{ description }}
+                {{ description|raw }}
             </div>
         {% endfor %}
 

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="js-tracking-generator-data" data-currencies="{{ currencySymbols|json_encode|e('html') }}"></div>
+<div id="js-tracking-generator-data" data-currencies="{{ currencySymbols|json_encode }}"></div>
 
 <h2>{{ 'CoreAdminHome_JavaScriptTracking'|translate }}</h2>
 
@@ -16,11 +16,11 @@
     <p>
         {{ 'CoreAdminHome_JSTrackingIntro1'|translate }}
         <br/><br/>
-        {{ 'CoreAdminHome_JSTrackingIntro2'|translate }} {{ 'CoreAdminHome_JSTrackingIntro3'|translate('<a href="http://piwik.org/integrate/" target="_blank">','</a>') }}
+        {{ 'CoreAdminHome_JSTrackingIntro2'|translate }} {{ 'CoreAdminHome_JSTrackingIntro3'|translate('<a href="http://piwik.org/integrate/" target="_blank">','</a>')|raw }}
         <br/><br/>
-        {{ 'CoreAdminHome_JSTrackingIntro4'|translate('<a href="#image-tracking-link">','</a>') }}
+        {{ 'CoreAdminHome_JSTrackingIntro4'|translate('<a href="#image-tracking-link">','</a>')|raw }}
         <br/><br/>
-        {{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a target="_blank" href="http://piwik.org/docs/javascript-tracking/">','</a>') }}
+        {{ 'CoreAdminHome_JSTrackingIntro5'|translate('<a target="_blank" href="http://piwik.org/docs/javascript-tracking/">','</a>')|raw }}
     </p>
 
     <div>
@@ -49,7 +49,7 @@
                     </label>
 
                     <div class="small-form-description">
-                        {{ 'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate("x.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>","y.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>") }}
+                        {{ 'CoreAdminHome_JSTracking_MergeSubdomainsDesc'|translate("x.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>","y.<span class='current-site-host'>"~defaultReportSiteDomain~"</span>")|raw }}
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@
                     <label for="javascript-tracking-group-by-domain">{{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomain'|translate }}</label>
 
                     <div class="small-form-description">
-                        {{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1'|translate("<span class='current-site-host'>" ~ defaultReportSiteDomain ~ "</span>") }}
+                        {{ 'CoreAdminHome_JSTracking_GroupPageTitlesByDomainDesc1'|translate("<span class='current-site-host'>" ~ defaultReportSiteDomain ~ "</span>")|raw }}
                     </div>
                 </div>
 
@@ -71,7 +71,7 @@
                     </label>
 
                     <div class="small-form-description">
-                        {{ 'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate("<span class='current-site-alias'>"~defaultReportSiteAlias~"</span>") }}
+                        {{ 'CoreAdminHome_JSTracking_MergeAliasesDesc'|translate("<span class='current-site-alias'>"~defaultReportSiteAlias~"</span>")|raw }}
                     </div>
                 </div>
 
@@ -148,7 +148,7 @@
                         <label for="custom-campaign-query-params-check">{{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParam'|translate }}</label>
 
                         <div class="small-form-description">
-                            {{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc'|translate('<a href="http://piwik.org/faq/general/#faq_119" target="_blank">','</a>') }}
+                            {{ 'CoreAdminHome_JSTracking_CustomCampaignQueryParamDesc'|translate('<a href="http://piwik.org/faq/general/#faq_119" target="_blank">','</a>')|raw }}
                         </div>
 
                         <table style="display:none" id="js-campaign-query-param-extra">
@@ -172,7 +172,7 @@
 <div id="javascript-output-section">
     <h3>{{ 'Installation_JsTag'|translate }}</h3>
 
-    <p class="form-description">{{ 'CoreAdminHome_JSTracking_CodeNote'|translate("&lt;/body&gt;") }}</p>
+    <p class="form-description">{{ 'CoreAdminHome_JSTracking_CodeNote'|translate("&lt;/body&gt;")|raw }}</p>
 
     <div id="javascript-text">
         <textarea> </textarea>
@@ -185,9 +185,9 @@
 <div id="image-tracking-code-options" class="adminTable">
 
     <p>
-        {{ 'CoreAdminHome_ImageTrackingIntro1'|translate }} {{ 'CoreAdminHome_ImageTrackingIntro2'|translate("<em>&lt;noscript&gt;&lt;/noscript&gt;</em>") }}
+        {{ 'CoreAdminHome_ImageTrackingIntro1'|translate }} {{ 'CoreAdminHome_ImageTrackingIntro2'|translate("<em>&lt;noscript&gt;&lt;/noscript&gt;</em>")|raw }}
         <br/><br/>
-        {{ 'CoreAdminHome_ImageTrackingIntro3'|translate('<a href="http://piwik.org/docs/tracking-api/reference/" target="_blank">','</a>') }}
+        {{ 'CoreAdminHome_ImageTrackingIntro3'|translate('<a href="http://piwik.org/docs/tracking-api/reference/" target="_blank">','</a>')|raw }}
     </p>
 
     <div>
@@ -253,7 +253,7 @@
 <h2>{{ 'CoreAdminHome_ImportingServerLogs'|translate }}</h2>
 
 <p>
-    {{ 'CoreAdminHome_ImportingServerLogsDesc'|translate('<a href="http://piwik.org/log-analytics/" target="_blank">','</a>') }}
+    {{ 'CoreAdminHome_ImportingServerLogsDesc'|translate('<a href="http://piwik.org/log-analytics/" target="_blank">','</a>')|raw }}
 </p>
 
 {% endblock %}

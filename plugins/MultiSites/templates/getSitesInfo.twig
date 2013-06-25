@@ -12,12 +12,12 @@
             allSites[{{ i }}] = new setRowData({{ site.idsite }},
                 {{ site.visits }},
                 {{ site.pageviews }},
-                {% if site.revenue is empty %}0{% else %}{{ site.revenue }}{% endif %},
+                {% if site.revenue is empty %}0{% else %}{{ site.revenue|raw }}{% endif %},
                 '{{ site.name|e("js") }}',
                 '{{ site.main_url|e("js") }}',
                 '{% if site.visits_evolution is defined %}{{ site.visits_evolution|replace({",":"."}) }}{% endif %}',
                 '{% if site.pageviews_evolution is defined %}{{ site.pageviews_evolution|replace({",":"."}) }}{% endif %}',
-                '{% if site.revenue_evolution is defined %}{{ site.revenue_evolution|replace({",":"."}) }}{% endif %}'
+                '{% if site.revenue_evolution is defined %}{{ site.revenue_evolution|replace({",":"."})|raw }}{% endif %}'
             );
             {% endfor %}
             params['period'] = '{{ period }}';
@@ -50,7 +50,7 @@
                 {% set nVisitsLast %}{{ 'General_NVisits'|translate(pastTotalVisits) }}{% endset %}
                 <span class='smallTitle'
                 {% if totalVisitsEvolution %}title="{{ 'General_EvolutionSummaryGeneric'|translate(nVisits,prettyDate,nVisitsLast,pastPeriodPretty,totalVisitsEvolution) }}"{% endif %}>
-                    {{ 'General_TotalVisitsPageviewsRevenue'|translate("<strong>"~totalVisits~"</strong>","<strong>"~totalPageviews~"</strong>","<strong>"~totalRevenue~"</strong>") }}
+                    {{ 'General_TotalVisitsPageviewsRevenue'|translate("<strong>"~totalVisits~"</strong>","<strong>"~totalPageviews~"</strong>","<strong>"~totalRevenue~"</strong>")|raw }}
 	            </span>
             </h2>
 
