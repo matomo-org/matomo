@@ -33,9 +33,9 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 
         foreach ($sites as &$site) {
             $site['alias_urls'] = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($site['idsite']);
-            $site['excluded_ips'] = str_replace(',', '<br/>', $site['excluded_ips']);
-            $site['excluded_parameters'] = str_replace(',', '<br/>', $site['excluded_parameters']);
-            $site['excluded_user_agents'] = str_replace(',', '<br/>', $site['excluded_user_agents']);
+            $site['excluded_ips'] = explode(',', $site['excluded_ips']);
+            $site['excluded_parameters'] = explode(',', $site['excluded_parameters']);
+            $site['excluded_user_agents'] = explode(',', $site['excluded_user_agents']);
         }
         $view->adminSites = $sites;
         $view->adminSitesCount = count($sites);

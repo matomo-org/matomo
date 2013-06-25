@@ -40,11 +40,12 @@ class Piwik_Twig
         // Create new Twig Environment and set cache dir
         $this->twig = new Twig_Environment($chainLoader,
             array(
+                 'debug' => true, // to use {{ dump(var) }} in twig templates
                 //'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
             )
         );
+        $this->twig->addExtension(new Twig_Extension_Debug());
         $this->twig->clearTemplateCache();
-
         // Add default filters
         $this->addFilters();
         // Register namespaces
