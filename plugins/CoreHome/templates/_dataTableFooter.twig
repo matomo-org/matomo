@@ -165,7 +165,7 @@
     </div>
 
     {% if properties.show_footer_message is not empty %}
-        <div class='datatableFooterMessage'>{{ properties.show_footer_message }}</div>
+        <div class='datatableFooterMessage'>{{ properties.show_footer_message | raw }}</div>
     {% endif %}
 
 </div>
