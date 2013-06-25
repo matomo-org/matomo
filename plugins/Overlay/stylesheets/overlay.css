@@ -150,3 +150,7 @@ body .ui-tooltip.Overlay_Tooltip {
     color: #E87500;
     font-weight: bold;
 }
+
+#topBars {
+    display: none;
+}
