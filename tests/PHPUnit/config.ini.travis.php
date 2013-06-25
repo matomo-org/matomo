@@ -8,7 +8,7 @@ password        = 098f6bcd4621d373cade4e832627b4f6
 email            = hello@example.org
 
 [database]
-host            = localhost
+host            = "127.0.0.1"
 username        = root
 password        =
 dbname            = piwik_test
