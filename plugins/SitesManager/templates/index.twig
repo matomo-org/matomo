@@ -386,7 +386,7 @@ $(document).ready(function () {
     <tr>
         <td colspan="2">
             <label>{{ searchKeywordLabel }} &nbsp;
-                <input type="text" size="15" id="globalSearchKeywordParameters" value="{{ globalSearchKeywordParameters|e('html_attr') }}"/>
+                <input type="text" size="15" id="globalSearchKeywordParameters" value="{{ globalSearchKeywordParameters|raw }}"/>
 
                 <div style='width: 200px;float:right;'>{{ searchKeywordHelp }}</div>
             </label>
@@ -405,7 +405,7 @@ $(document).ready(function () {
     <tr>
         <td colspan="2">
             <label>{{ searchCategoryLabel }}  &nbsp;
-                <input type="text" size="15" id="globalSearchCategoryParameters" value="{{ globalSearchCategoryParameters|e('html_attr') }}"/>
+                <input type="text" size="15" id="globalSearchCategoryParameters" value="{{ globalSearchCategoryParameters|raw }}"/>
 
                 <div style='width: 200px;float:right;'>{{ searchCategoryHelp }}</div>
             </label>
