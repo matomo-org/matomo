@@ -234,7 +234,7 @@ var piwikHelper = {
      */
     showAjaxLoading: function(loadingDivID)
     {
-        loadingDivID = loadingDivID || 'ajaxLoading';
+        loadingDivID = loadingDivID || 'ajaxLoadingDiv';
         $('#'+loadingDivID).show();
     },
 
@@ -245,7 +245,7 @@ var piwikHelper = {
      */
     hideAjaxLoading: function(loadingDivID)
     {
-        loadingDivID = loadingDivID || 'ajaxLoading';
+        loadingDivID = loadingDivID || 'ajaxLoadingDiv';
         $('#'+loadingDivID).hide();
     },
 
