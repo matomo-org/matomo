@@ -40,7 +40,7 @@
                 <ul class="custom_select_ul_list">
                     {% for info in sites %}
                         <li {% if (showSelectedSite is not defined or showSelectedSite == false) and idSite == info.idsite %} style="display: none"{% endif %}>
-                            <a href="#" siteid="{{ info.idsite }}">{{ info.name }}</a>
+                            <a href="#" siteid="{{ info.idsite }}">{{ info.name|raw }}</a>
                         </li>
                     {% endfor %}
                 </ul>
