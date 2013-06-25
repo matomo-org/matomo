@@ -78,6 +78,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
         urls = urls.trim().split("\n");
         var excludedIps = $(row).find('textarea#excludedIps').val();
         excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
+
         var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
         excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
         var excludedUserAgents = $(row).find('textarea#excludedUserAgents').val();
@@ -234,7 +235,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                         var idName = $(n).attr('id');
                         if (idName == 'siteName') {
                             siteBeingEditedName = contentBefore;
-                            var contentAfter = '<input id="' + idName + '" value="' + piwikHelper.htmlEntities(contentBefore) + '" size="15" />';
+                            var contentAfter = '<input id="' + idName + '" value="' + contentBefore + '" size="15" />';
 
                             var inputSave = $('<br/><input style="margin-top:50px" type="submit" class="submit" value="' + _pk_translate('General_Save_js') + '" />')
                                 .click(function () { submitUpdateSite($(this).parent()); });
@@ -248,8 +249,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                         }
                         else if (idName == 'urls') {
                             var keepURLFragmentsForSite = $(this).closest('tr').attr('data-keep-url-fragments');
-
-                            var contentAfter = '<textarea cols="25" rows="3" id="urls">' + contentBefore.replace(/<br *\/? *>/gi, "\n") + '</textarea>';
+                            var contentAfter = '<textarea cols="25" rows="3" id="urls">' + contentBefore.replace(/<br *\/? *> */gi, "\n") + '</textarea>';
                             contentAfter += '<br />' + aliasUrlsHelp + keepURLFragmentSelectHTML;
                             $(n).html(contentAfter).find('select').val(keepURLFragmentsForSite);
                         }

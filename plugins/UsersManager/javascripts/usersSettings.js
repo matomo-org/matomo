@@ -22,8 +22,9 @@ function sendUserSettingsAJAX() {
     var password = $('#password').val();
     var passwordBis = $('#passwordBis').val();
     var defaultReport = $('input[name=defaultReport]:checked').val();
+
     if (defaultReport == 1) {
-        defaultReport = $('#defaultReportSiteSelector').find('.custom_select_main_link').attr('siteid');
+        defaultReport = $('#userSettingsTable').find('.custom_select_main_link').attr('siteid');
     }
     var postParams = {};
     postParams.alias = alias;

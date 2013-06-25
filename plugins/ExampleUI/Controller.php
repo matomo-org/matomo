@@ -104,14 +104,10 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 
     function sparklines()
     {
-        require_once PIWIK_INCLUDE_PATH . '/core/SmartyPlugins/function.sparkline.php';
-        $srcSparkline1 = Piwik_Url::getCurrentQueryStringWithParametersModified(array('action' => 'generateSparkline', 'server' => 'server1', 'rand' => mt_rand()));
-        $htmlSparkline1 = smarty_function_sparkline(array('src' => $srcSparkline1));
-        echo "<div class='sparkline'>$htmlSparkline1 Evolution of temperature for server piwik.org</div>";
-
-        $srcSparkline2 = Piwik_Url::getCurrentQueryStringWithParametersModified(array('action' => 'generateSparkline', 'server' => 'server2', 'rand' => mt_rand()));
-        $htmlSparkline2 = smarty_function_sparkline(array('src' => $srcSparkline2));
-        echo "<div class='sparkline'>$htmlSparkline2 Evolution of temperature for server dev.piwik.org</div>";
+        $view = new Piwik_View('@ExampleUI/sparklines');
+        $view->urlSparkline1 = $this->getUrlSparkline('generateSparkline', array('server' => 'server1', 'rand' => mt_rand()));
+        $view->urlSparkline2 = $this->getUrlSparkline('generateSparkline', array('server' => 'server2', 'rand' => mt_rand()));
+        echo $view->render();
     }
 
     function generateSparkline()

@@ -1,7 +1,7 @@
 <div class="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
 
     <div class="reportDocumentation">
-        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation }}</p>{% endif %}
+        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation|raw }}</p>{% endif %}
         {% if properties.metadata.archived_date is defined %}<p>{{ properties.metadata.archived_date }}</p>{% endif %}
     </div>
 
@@ -33,7 +33,8 @@
 
         {% if properties.show_footer %}
             {% include "@CoreHome/_dataTableFooter.twig" %}
-            {% include "@CoreHome/_dataTableJS.twig" %}
         {% endif %}
+        
+        {% include "@CoreHome/_dataTableJS.twig" %}
     </div>
 </div>

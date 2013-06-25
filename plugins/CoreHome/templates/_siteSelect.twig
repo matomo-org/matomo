@@ -29,7 +29,7 @@
     <div class="custom_select">
 
         <a href="#" onclick="return false" class="custom_select_main_link" siteid="{% if idSite is defined %}{{ idSite }}{% else %}{{ sites[0].idsite }}{% endif %}">
-            {% if siteName is defined %}{{ siteName }}{% else %}{{ sites[0].name }}{% endif %}
+            {% if siteName is defined %}{{ siteName|raw }}{% else %}{{ sites[0].name|raw }}{% endif %}
         </a>
 
         <div class="custom_select_block">
@@ -40,7 +40,7 @@
                 <ul class="custom_select_ul_list">
                     {% for info in sites %}
                         <li {% if (showSelectedSite is not defined or showSelectedSite == false) and idSite == info.idsite %} style="display: none"{% endif %}>
-                            <a href="#" siteid="{{ info.idsite }}">{{ info.name }}</a>
+                            <a href="#" siteid="{{ info.idsite }}">{{ info.name|raw }}</a>
                         </li>
                     {% endfor %}
                 </ul>

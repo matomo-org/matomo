@@ -126,7 +126,6 @@ a {
     margin-right:12px;
     z-index:999;
     position:absolute;
-    background: url("../images/icon-calendar.gif") no-repeat scroll right 9px center #F7F7F7;
     background-color: #f7f7f7;
 }
 #periodString:hover {

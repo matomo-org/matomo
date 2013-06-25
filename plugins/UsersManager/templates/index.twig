@@ -81,7 +81,7 @@
         {% for login,access in usersAccessByWebsite %}
             <tr>
                 <td id='login'>{{ login }}</td>
-                <td>{{ usersAliasByLogin[login] }}</td>
+                <td>{{ usersAliasByLogin[login]|raw }}</td>
                 <td id='noaccess'>{% if access=='noaccess' and idSiteSelected != 'all' %}{{ accesValid }}{% else %}{{ accesInvalid }}{% endif %}&nbsp;</td>
                 <td id='view'>{% if access == 'view' and idSiteSelected != 'all' %}{{ accesValid }}{% else %}{{ accesInvalid }}{% endif %}&nbsp;</td>
                 <td id='admin'>
@@ -143,7 +143,7 @@
                         <td id="userLogin" class="editable">{{ user.login }}</td>
                         <td id="password" class="editable">-</td>
                         <td id="email" class="editable">{{ user.email }}</td>
-                        <td id="alias" class="editable">{{ user.alias }}</td>
+                        <td id="alias" class="editable">{{ user.alias|raw }}</td>
                         <td id="token_auth">{{ user.token_auth }}</td>
                         <td>
                             <span class="edituser link_but" id="row{{ i }}">

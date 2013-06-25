@@ -204,18 +204,27 @@ $(document).ready(function () {
             {% for i,site in adminSites %}
             <tr id="row{{ site.idsite }}" data-keep-url-fragments="{{ site.keep_url_fragment }}">
                 <td id="idSite">{{ site.idsite }}</td>
-                <td id="siteName" class="editableSite">{{ site.name }}</td>
+                <td id="siteName" class="editableSite">
+                    {{- site.name|raw -}}
+                </td>
                 <td id="urls" class="editableSite">
-                    {% for url in site.alias_urls %}{{ url|replace({'http://': ''}) }}<br />{% endfor %}
-                </td>
+                    {%- for url in site.alias_urls -%}
+                        {{- url|trim|replace({'http://': ''})|raw -}}<br />
+                    {%- endfor -%}</td>
                 <td id="excludedIps" class="editableSite">
-                    {% for ip in site.excluded_ips %}{{ ip }}<br/>{% endfor %}
-                </td>
+                    {%- for ip in site.excluded_ips -%}
+                        {{- ip -}}<br/>
+                    {%- endfor -%}</td>
                 <td id="excludedQueryParameters" class="editableSite">
-                    {% for parameter in site.excluded_parameters %}{{ parameter }}<br />{% endfor %}
+                    {%- for parameter in site.excluded_parameters -%}
+                        {{- parameter|raw -}}<br />
+                    {%- endfor -%}
                 </td>
-                <td id="excludedUserAgents" class="editableSite" {% if not allowSiteSpecificUserAgentExclude %}style="display:none"{% endif %}>
-                    {% for ua in site.excluded_user_agent %}{{ ua }}<br />{% endfor %}
+                <td id="excludedUserAgents" class="editableSite"
+                    {% if not allowSiteSpecificUserAgentExclude %}style="display:none"{% endif %}>
+                    {%- for ua in site.excluded_user_agents -%}
+                        {{- ua|raw -}}<br />
+                    {%- endfor -%}
                 </td>
                 <td id="sitesearch" class="editableSite">
                     {% if site.sitesearch %}
@@ -223,8 +232,8 @@ $(document).ready(function () {
                     {% else %}
                         <span class='sitesearchInactive'>-</span>
                     {% endif %}
-                    <span class='sskp' sitesearch_keyword_parameters="{{ site.sitesearch_keyword_parameters }}""
-                                      sitesearch_category_parameters="{{ site.sitesearch_category_parameters }}"
+                    <span class='sskp' sitesearch_keyword_parameters="{{- site.sitesearch_keyword_parameters -}}""
+                                      sitesearch_category_parameters="{{- site.sitesearch_category_parameters -}}"
                                                                       id="sitesearch_parameters">
                     </span>
                 </td>
@@ -289,7 +298,7 @@ $(document).ready(function () {
     </tr>
     <tr>
         <td>
-            <textarea cols="30" rows="3" id="globalExcludedIps">{{ globalExcludedIps }}
+            <textarea cols="30" rows="3" id="globalExcludedIps">{{- globalExcludedIps|raw -}}
             </textarea>
         </td>
         <td>
@@ -307,7 +316,7 @@ $(document).ready(function () {
 
     <tr>
         <td>
-            <textarea cols="30" rows="3" id="globalExcludedQueryParameters">{{ globalExcludedQueryParameters }}
+            <textarea cols="30" rows="3" id="globalExcludedQueryParameters">{{- globalExcludedQueryParameters|raw -}}
             </textarea>
         </td>
         <td>
@@ -326,7 +335,7 @@ $(document).ready(function () {
 
     <tr>
         <td>
-            <textarea cols="30" rows="3" id="globalExcludedUserAgents">{{ globalExcludedUserAgents }}</textarea>
+            <textarea cols="30" rows="3" id="globalExcludedUserAgents">{{- globalExcludedUserAgents|raw -}}</textarea>
         </td>
         <td><label for="globalExcludedUserAgents">{{ excludedUserAgentsHelp }}</label>
         </td>
@@ -377,7 +386,7 @@ $(document).ready(function () {
     <tr>
         <td colspan="2">
             <label>{{ searchKeywordLabel }} &nbsp;
-                <input type="text" size="15" id="globalSearchKeywordParameters" value="{{ globalSearchKeywordParameters }}"/>
+                <input type="text" size="15" id="globalSearchKeywordParameters" value="{{ globalSearchKeywordParameters|raw }}"/>
 
                 <div style='width: 200px;float:right;'>{{ searchKeywordHelp }}</div>
             </label>
@@ -396,7 +405,7 @@ $(document).ready(function () {
     <tr>
         <td colspan="2">
             <label>{{ searchCategoryLabel }}  &nbsp;
-                <input type="text" size="15" id="globalSearchCategoryParameters" value="{{ globalSearchCategoryParameters }}"/>
+                <input type="text" size="15" id="globalSearchCategoryParameters" value="{{ globalSearchCategoryParameters|raw }}"/>
 
                 <div style='width: 200px;float:right;'>{{ searchCategoryHelp }}</div>
             </label>

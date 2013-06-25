@@ -1,7 +1,7 @@
 <a name="evolutionGraph" graphId="{{ nameGraphEvolution }}"></a>
 
 {% if displayFullReport %}
-    <h2>{% if goalName is defined %}{{ 'Goals_GoalX'|translate(goalName) }}{% else %}{{ 'Goals_GoalsOverview'|translate }}{% endif %}</h2>
+    <h2>{% if goalName is defined %}{{ 'Goals_GoalX'|translate(goalName)|raw }}{% else %}{{ 'Goals_GoalsOverview'|translate }}{% endif %}</h2>
 {% endif %}
 {{ graphEvolution|raw }}
 

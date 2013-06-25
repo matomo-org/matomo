@@ -1,15 +1,15 @@
 <div id='leftcolumn'>
     <h2>{{ "DevicesDetection_DeviceType"|translate }}</h2>
-    {{ deviceTypes }}
+    {{ deviceTypes  | raw}}
     <h2>{{ "DevicesDetection_DeviceBrand"|translate }}</h2>
-    {{ deviceBrands }}
+    {{ deviceBrands | raw }}
     <h2>{{ "DevicesDetection_DeviceModel"|translate }}</h2>
-    {{ deviceModels }}
+    {{ deviceModels | raw }}
 </div>
 
 <div id='rightcolumn'>
     <h2>{{ "DeviceDetection_OperatingSystemFamilies"|translate }}</h2>
-    {{ osReport }}
+    {{ osReport  | raw}}
     <h2>{{ "DevicesDetection_BrowsersFamily"|translate }}</h2>
-    {{ browserReport }}
+    {{ browserReport | raw }}
 </div>

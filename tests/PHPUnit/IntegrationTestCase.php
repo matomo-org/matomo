@@ -142,7 +142,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
             Piwik_PluginsManager::getInstance()->loadPlugins(array());
         } catch (Exception $e) {
-            self::fail("TEST INITIALIZATION FAILED: " . $e->getMessage());
+            self::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
 
         include "DataFiles/SearchEngines.php";

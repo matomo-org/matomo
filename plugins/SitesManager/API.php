@@ -1289,6 +1289,7 @@ class Piwik_SitesManager_API
             if (strpos($url, 'http') !== 0) {
                 $url = 'http://' . $url;
             }
+            $url = trim($url);
             $url = Piwik_Common::sanitizeInputValue($url);
         }
         $urls = array_unique($urls);

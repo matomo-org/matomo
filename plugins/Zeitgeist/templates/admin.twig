@@ -49,7 +49,7 @@
 
                     {% if configFileNotWritable is not empty %}
                     <div class="ajaxSuccess" style="display:inline-block">
-                        {{ 'General_ConfigFileIsNotWritable'|translate("(config/config.ini.php)","<br/>") }}
+                        {{ 'General_ConfigFileIsNotWritable'|translate("(config/config.ini.php)","<br/>")|raw }}
                     </div>
                     {% elseif false %}
                     <div class="ajaxSuccess" style="display:inline-block">
