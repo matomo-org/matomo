@@ -19,14 +19,14 @@
     <td class="annotation-value">
         <div class="annotation-view-mode">
             <span {% if annotation.canEditOrDelete %}title="{{ 'Annotations_ClickToEdit'|translate }}"
-                  class="annotation-enter-edit-mode"{% endif %}>{{ annotation.note }}</span>
+                  class="annotation-enter-edit-mode"{% endif %}>{{ annotation.note|raw }}</span>
             {% if annotation.canEditOrDelete %}
                 <a href="#" class="edit-annotation annotation-enter-edit-mode" title="{{ 'Annotations_ClickToEdit'|translate }}">{{ 'General_Edit'|translate }}...</a>
             {% endif %}
         </div>
         {% if annotation.canEditOrDelete %}
             <div class="annotation-edit-mode" style="display:none">
-                <input class="annotation-edit" type="text" value="{{ annotation.note }}"/>
+                <input class="annotation-edit" type="text" value="{{ annotation.note|e('html') }}"/>
                 <br/>
                 <input class="annotation-save submit" type="button" value="{{ 'General_Save'|translate }}"/>
                 <input class="annotation-cancel submit" type="button" value="{{ 'General_Cancel'|translate }}"/>

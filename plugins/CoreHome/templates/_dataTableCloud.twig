@@ -1,6 +1,6 @@
 <div class="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
     {% if reportDocumentation is not empty and javascriptVariablesToSet.viewDataTable != 'tableGoals' %}
-        <div class="reportDocumentation"><p>{{ reportDocumentation }}</p></div>
+        <div class="reportDocumentation"><p>{{ reportDocumentation|raw }}</p></div>
     {% endif %}
     <div class="tagCloud">
         {% if cloudValues|length == 0 %}
