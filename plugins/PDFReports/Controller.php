@@ -69,6 +69,10 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
         $view->defaultHour = Piwik_PDFReports::DEFAULT_HOUR;
 
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
+		
+		// make sure we have only one date, even if the current period is range
+		$date = Piwik_Common::getRequestVar('date');
+		$view->reportDate = reset(explode(',', $date));
 
         $view->segmentEditorActivated = false;
         if (Piwik_PDFReports_API::isSegmentEditorActivated()) {
