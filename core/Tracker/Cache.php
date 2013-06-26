@@ -44,6 +44,7 @@ class Piwik_Tracker_Cache
 
         $cache = self::getInstance();
         if (($cacheContent = $cache->get($idSite)) !== false) {
+        echo "attributes for $idSite: ".print_r($cacheContent, true);
             return $cacheContent;
         }
 
