@@ -132,7 +132,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             }
             Piwik::createDatabase($dbName);
             Piwik::disconnectDatabase();
-throw new Exception("DB NAME IS: $dbName");
+
             // reconnect once we're sure the database exists
             Piwik_Config::getInstance()->database['dbname'] = $dbName;
             Piwik::createDatabaseObject();
