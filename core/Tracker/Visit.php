@@ -896,7 +896,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
         // Check if user agent should be excluded
         if (!$excluded) {
+        echo "HERE?\n";
             $excluded = $this->isUserAgentExcluded($ua);
+            echo "EXCLUDED: ".$excluded."\n";
             if ($excluded) {
                 printDebug("User agent excluded.");
             }
