@@ -34,7 +34,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
     }
 
     private function trackVisits()
-    {return;
+    {
         if (!$this->trackInvalidRequests) {
             return;
         }
@@ -49,7 +49,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
         $trackerUrl = self::getTrackerUrl();
         $response = Piwik_Http::fetchRemoteFile($trackerUrl);
         self::assertTrue(strpos($response, 'is a free open source web') !== false, 'Piwik empty request response not correct: ' . $response);
-
+return;
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
         // test GoogleBot UA visitor
