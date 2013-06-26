@@ -2,7 +2,7 @@
 
 if [ -n "$TEST_SUITE" ]
 then
-  if [ "$TEST_SUITE" -eq "Integration" ]
+  if [ "$TEST_SUITE" -eq "IntegrationTests" ]
   then
 	  phpunit --configuration phpunit.xml --filter Test_Piwik_Integration_NoVisit --colors Integration
 	else
