@@ -162,7 +162,8 @@ class Piwik_Twig
             if (strlen($string) < $size) {
                 return $string;
             } else {
-                return array_shift(str_split($string, $size)) . "...";
+                $array = str_split($string, $size);
+                return array_shift($array) . "...";
             }
         });
         $this->twig->addFilter($truncateFilter);

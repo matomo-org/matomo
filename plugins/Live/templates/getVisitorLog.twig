@@ -3,7 +3,7 @@
 {% if not isWidget %}
     <h2>{% if javascriptVariablesToSet.filterEcommerce %}{{ 'Goals_EcommerceLog'|translate }}{% else %}{{ 'Live_VisitorLog'|translate }}{% endif %}</h2>
     {% if reportDocumentation is not empty %}
-        <div class="reportDocumentation"><p>{{ reportDocumentation }}</p></div>
+        <div class="reportDocumentation"><p>{{ reportDocumentation|raw }}</p></div>
     {% endif %}
 {% endif %}
 {% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
@@ -186,7 +186,7 @@
                         {% else %}
                             {{ 'Live_Actions'|translate }}
                         {% endif %}
-                        {% if visitor.columns.visitDuration > 0 %}- {{ visitor.columns.visitDurationPretty }}{% endif %}
+                        {% if visitor.columns.visitDuration > 0 %}- {{ visitor.columns.visitDurationPretty|raw }}{% endif %}
                     </strong>
                     <br/>
                     <ol class='visitorLog'>
