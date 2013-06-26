@@ -962,7 +962,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
      * @return bool
      */
     protected function isUserAgentExcluded($ua)
-    {Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($this->idSite);
+    {Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($this->idsite);
         $websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->idsite);
         if (!empty($websiteAttributes['excluded_user_agents'])) {
             foreach ($websiteAttributes['excluded_user_agents'] as $excludedUserAgent) {
