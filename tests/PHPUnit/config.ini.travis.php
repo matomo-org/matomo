@@ -13,5 +13,5 @@ username        = root
 password        =
 dbname            = piwik_tests
 adapter            = PDO_MYSQL ; PDO_MYSQL, MYSQLI, or PDO_PGSQL
-tables_prefix        = piwik_
+tables_prefix        = piwiktests_
 ;charset        = utf8
