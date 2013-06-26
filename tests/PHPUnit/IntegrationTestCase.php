@@ -223,7 +223,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         // Make sure the browser running the test does not influence the Country detection code
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
 
-        Piwik_Tracker_Cache::deleteTrackerCache();
         $this->changeLanguage('en');
     }
 
