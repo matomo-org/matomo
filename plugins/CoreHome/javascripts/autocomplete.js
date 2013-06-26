@@ -73,6 +73,8 @@ $(function () {
                 source: '?module=SitesManager&action=getSitesForAutocompleter',
                 appendTo: $('.custom_select_container', selector),
                 select: function (event, ui) {
+                    event.preventDefault();
+                    
                     if (ui.item.id > 0) {
                         // set attributes of selected site display (what shows in the box)
                         $('.custom_select_main_link', selector)
@@ -133,12 +135,6 @@ $(function () {
                 listItem.data("item.ui-autocomplete", item)
                     .append(link)
                     .appendTo(ul);
-
-                link.click(function (e) {
-                    // in ie8, the event would bubble up and cause an error
-                    e.stopPropagation();
-                    return true;
-                });
 
                 return listItem;
             };
