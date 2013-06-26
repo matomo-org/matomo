@@ -106,14 +106,6 @@ class Piwik
     }
 
     /**
-     * Installation helper
-     */
-    static public function install()
-    {
-        Piwik_Common::mkdir(PIWIK_USER_PATH . '/' . Piwik_Config::getInstance()->smarty['compile_dir']);
-    }
-
-    /**
      * Uninstallation helper
      */
     static public function uninstall()

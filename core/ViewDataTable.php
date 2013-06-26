@@ -66,7 +66,7 @@ abstract class Piwik_ViewDataTable
     protected $variablesDefault = array();
 
     /**
-     * Array of properties that are available in the view (from smarty)
+     * Array of properties that are available in the view
      * Used to store UI properties, eg. "show_footer", "show_search", etc.
      *
      * @var array

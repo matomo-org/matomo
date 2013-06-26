@@ -68,7 +68,7 @@ class Piwik_Twig
     {
         $includeAssetsFunction = new Twig_SimpleFunction('includeAssets', function ($params) {
             if (!isset($params['type'])) {
-                throw new Exception("The smarty function includeAssets needs a 'type' parameter.");
+                throw new Exception("The function includeAssets needs a 'type' parameter.");
             }
 
             $assetType = strtolower($params['type']);
@@ -173,7 +173,7 @@ class Piwik_Twig
     {
         $moneyFilter = new Twig_SimpleFilter('money', function ($amount) {
             if (func_num_args() != 2) {
-                throw new Exception('the smarty modifier money expects one parameter: the idSite.');
+                throw new Exception('the money modifier expects one parameter: the idSite.');
             }
             $idSite = func_get_args();
             $idSite = $idSite[1];

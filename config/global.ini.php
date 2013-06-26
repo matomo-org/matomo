@@ -494,21 +494,6 @@ logger_file_path = tmp/logs
 ; disabled by default as it can cause serious overhead and should only be used wisely
 ;logger_api_call[] = file
 
-[smarty]
-; the list of directories in which to look for templates
-template_dir[] = plugins
-template_dir[] = themes/default
-template_dir[] = themes
-
-plugins_dir[] = core/SmartyPlugins
-plugins_dir[] = libs/Smarty/plugins
-
-compile_dir = tmp/templates_c
-cache_dir = tmp/cache
-
-; error reporting inside Smarty
-error_reporting = E_ALL|E_NOTICE
-
 [Plugins]
 Plugins[] = CorePluginsAdmin
 Plugins[] = CoreAdminHome

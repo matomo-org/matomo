@@ -426,7 +426,6 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 
-        // Assign the html output to a smarty variable
         $view->trackingHelp = $viewTrackingHelp->render();
         $view->displaySiteName = $siteName;
 
