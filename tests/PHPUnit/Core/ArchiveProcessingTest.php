@@ -79,15 +79,11 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $archiveProcessor = $this->_createArchiveProcessor('month', $dateLabel, $siteTimezone);
         $archiveProcessor->time = $now;
 
-        $minTimestamp = $archiveProcessor->getMinTimeArchivedProcessed();
-
-
-
         // min finished timestamp considered when looking at archive timestamp
         $timeout = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
         $this->assertTrue($timeout >= 10);
         $dateMinArchived = $now - $timeout;
-        $this->compareTimestamps($minTimestamp, $dateMinArchived);
+        $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed());
 
         $this->assertTrue($archiveProcessor->isArchiveTemporary());
     }
@@ -172,7 +168,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 
         // we look at anything processed within the time to live range
         $dateMinArchived = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
-        $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed());
+        $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed() );
         $this->assertTrue($archiveProcessor->isArchiveTemporary());
 
         // when browsers don't trigger archives, we force ArchiveProcessor
@@ -215,7 +211,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // we look at anything processed within the time to live range
         $dateMinArchived = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
         $minTimeArchivedProcessed = $archiveProcessor->getMinTimeArchivedProcessed();
-        $this->compareTimestamps($minTimeArchivedProcessed, $dateMinArchived);
+        $this->compareTimestamps($dateMinArchived, $minTimeArchivedProcessed);
         $this->assertTrue($archiveProcessor->isArchiveTemporary());
 
         // when browsers don't trigger archives, we force ArchiveProcessor
@@ -227,7 +223,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         if (!Piwik_Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
-        $this->compareTimestamps($archiveProcessor->getMinTimeArchivedProcessed(), $dateMinArchived);
+        $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed());
 
         // this test varies with DST
         $this->assertTrue($archiveProcessor->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp - 86400) . ' 22:00:00' ||
@@ -261,7 +257,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 
         // we look at anything processed within the time to live range
         $dateMinArchived = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
-        $this->assertEquals($archiveProcessor->getMinTimeArchivedProcessed(), $dateMinArchived);
+        $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed() );
         $this->assertTrue($archiveProcessor->isArchiveTemporary());
 
         // when browsers don't trigger archives, we force ArchiveProcessor
@@ -273,7 +269,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         if (!Piwik_Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
-        $this->assertEquals($archiveProcessor->getMinTimeArchivedProcessed(), $dateMinArchived);
+        $this->assertEquals($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed());
 
         // this test varies with DST
         $this->assertTrue($archiveProcessor->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp) . ' 04:00:00' ||

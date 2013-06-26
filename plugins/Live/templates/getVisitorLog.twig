@@ -198,7 +198,7 @@
                                     {% for id,customVariable in action.customVariables %}
                                         {% set name = 'customVariablePageName' ~ id %}
                                         {% set value = 'customVariablePageValue' ~ id %}
-                                        - {{ customVariable[name] }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value] }}{% endif %}
+                                        - {{ customVariable[name]|raw }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value]|raw }}{% endif %}
                                     {% endfor %}
                                 {% endif %}
                             {% endset %}
@@ -209,9 +209,9 @@
 
                                     {{ customVariablesTooltip|trim }}{% endif %}{% if action.timeSpentPretty is defined %}
 
-                                    {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty }}{% endif %}{% if action.generationTime is defined %}
+                                    {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}{% if action.generationTime is defined %}
 
-                                    {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime }}{% endif %}">
+                                    {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}">
                                     {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
                                     {# Ecommerce Abandoned Cart / Ecommerce Order #}
                                         <img src="{{ action.icon }}"/>
