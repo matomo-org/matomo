@@ -38,8 +38,7 @@ function formSetEditReport(idReport) {
 
     $('[name=reportsList] input').prop('checked', false);
 
-    var key;
-    for (key in report.reports) {
+    for (var key = 0; key < report.reports.length; key++) {
         $('.' + report.type + ' [report-unique-id=' + report.reports[key] + ']').prop('checked', 'checked');
     }
 
