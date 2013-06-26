@@ -60,7 +60,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
         foreach (array(false, true) as $enable) {
             $excludedIp = '154.1.12.34';
             Piwik_SitesManager_API::getInstance()->updateSite($idSite, 'new site name', $url = array('http://site.com'), $ecommerce = 0, $ss = 1, $ss_kwd = '', $ss_cat = '', $excludedIp . ',1.2.3.4', $excludedQueryParameters = null, $timezone = null, $currency = null, $group = null, $startDate = null, $excludedUserAgents = 'excludeduseragentstring');
-echo "\nAFTER UPDATE: ".print_r(Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite), true)."\n\n";
+throw new Exception("\nAFTER UPDATE: ".print_r(Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite), true)."\n\n");
             // Enable IP Anonymization
             $t->DEBUG_APPEND_URL = '&forceIpAnonymization=' . (int)$enable;
 
