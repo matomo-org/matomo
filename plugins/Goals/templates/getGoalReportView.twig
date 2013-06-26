@@ -17,22 +17,22 @@
             {% endif %}
             <li>
                 {{ 'Goals_ReturningVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_returning~"</strong>")|raw }}
-                , {{ 'Goals_NewVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_new~"</strong>") }}
+                , {{ 'Goals_NewVisitorsConversionRateIs'|translate("<strong>"~conversion_rate_new~"</strong>")|raw }}
             </li>
         {% else %}
             <li>
-                {{ 'Live_GoalRevenue'|translate }}: {{ revenue|money(idSite) }}
+                {{ 'Live_GoalRevenue'|translate }}: {{ revenue|money(idSite)|raw -}}
                 {% if revenue_subtotal is not empty %},
-                    {{ 'General_Subtotal'|translate }}: {{ revenue_subtotal|money(idSite) }}
+                    {{ 'General_Subtotal'|translate }}: {{ revenue_subtotal|money(idSite)|raw -}}
                 {% endif %}
-                {% if revenue_tax is not empty %},
-                    {{ 'General_Tax'|translate }}: {{ revenue_tax|money(idSite) }}
+                {%- if revenue_tax is not empty -%},
+                    {{ 'General_Tax'|translate }}: {{ revenue_tax|money(idSite)|raw -}}
                 {% endif %}
-                {% if revenue_shipping is not empty %},
-                    {{ 'General_Shipping'|translate }}: {{ revenue_shipping|money(idSite) }}
+                {%- if revenue_shipping is not empty -%},
+                    {{ 'General_Shipping'|translate }}: {{ revenue_shipping|money(idSite)|raw -}}
                 {% endif %}
-                {% if revenue_discount is not empty %},
-                    {{ 'General_Discount'|translate }}: {{ revenue_discount|money(idSite) }}
+                {%- if revenue_discount is not empty -%},
+                    {{ 'General_Discount'|translate }}: {{ revenue_discount|money(idSite)|raw -}}
                 {% endif %}
             </li>
         {% endif %}
@@ -56,11 +56,11 @@
     {% if nb_conversions > 0 or cart_nb_conversions is not empty %}
         <h2 id='titleGoalsByDimension'>
             {% if idGoal is defined %}
-                {{ 'Goals_GoalConversionsBy'|translate(goalName) }}
+                {{ 'Goals_GoalConversionsBy'|translate(goalName)|raw }}
             {% else %}
                 {{ 'Goals_ConversionsOverviewBy'|translate }}
             {% endif %}
         </h2>
-        {{ goalReportsByDimension }}
+        {{ goalReportsByDimension|raw }}
     {% endif %}
 {% endif %}
