@@ -6,8 +6,8 @@ then
   then
 	  phpunit --configuration phpunit.xml --filter Test_Piwik_Integration_NoVisit --colors Integration
 	else
-	  exit #phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
+	  exit 0 #phpunit --configuration phpunit.xml --testsuite $TEST_SUITE --colors
 	fi
 else
-	exit #phpunit --configuration phpunit.xml --coverage-text --colors
+	exit 0 #phpunit --configuration phpunit.xml --coverage-text --colors
 fi

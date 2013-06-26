@@ -34,7 +34,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
     }
 
     private function trackVisits()
-    {
+    {return;
         if (!$this->trackInvalidRequests) {
             return;
         }
