@@ -116,25 +116,6 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      * @group Core
      * @group ReleaseCheckList
      */
-    public function testAjaxLibraryVersions()
-    {
-        Piwik::createConfigObject();
-        Piwik_Config::getInstance()->setTestEnvironment();
-
-        $jqueryJs = file_get_contents(PIWIK_DOCUMENT_ROOT . '/libs/jquery/jquery.js', false, NULL, 0, 512);
-        $this->assertTrue((boolean)preg_match('/jQuery (?:JavaScript Library )?v?([0-9.]+)/', $jqueryJs, $matches));
-        $this->assertEquals(Piwik_Config::getInstance()->General['jquery_version'], $matches[1]);
-
-        $jqueryuiJs = file_get_contents(PIWIK_DOCUMENT_ROOT . '/libs/jquery/jquery-ui.js', false, NULL, 0, 512);
-        $this->assertTrue((boolean)preg_match('/jQuery UI (?:- v)?([0-9.]+)/', $jqueryuiJs, $matches));
-        $this->assertEquals(Piwik_Config::getInstance()->General['jqueryui_version'], $matches[1]);
-
-    }
-
-    /**
-     * @group Core
-     * @group ReleaseCheckList
-     */
     public function testEndOfLines()
     {
         if (Piwik_Common::isWindows()) {

@@ -279,6 +279,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
             if ($provider === false) {
                 throw new Exception("Invalid provider ID: '$providerId'.");
             }
+            echo 1;
         }
     }
 

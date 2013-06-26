@@ -120,7 +120,7 @@
         </div>
         <div id="geoipdb-screen2-download" style="display:none">
             <p class='loadingPiwik'><img src='./plugins/Zeitgeist/images/loading-blue.gif'/>
-            {{ 'UserCountry_DownloadingDb'|translate('<a href="'+geoLiteUrl+'">GeoLiteCity.dat</a>') }}...</p>
+            {{ 'UserCountry_DownloadingDb'|translate('<a href="'+geoLiteUrl+'">GeoLiteCity.dat</a>')|raw }}...</p>
 	        <div id="geoip-download-progress"></div>
         </div>
     {% endif %}

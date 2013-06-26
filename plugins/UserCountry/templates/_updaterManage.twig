@@ -1,7 +1,8 @@
 <div id="geoipdb-update-info" {% if not geoIPDatabasesInstalled %}style="display:none"{% endif %}>
-    <p>{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">','</a>','<a href="http://www.maxmind.com/?rId=piwik">','</a>') }}
+    <p>{{ 'UserCountry_GeoIPUpdaterInstructions'|translate('<a href="http://www.maxmind.com/en/download_files?rId=piwik" _target="blank">','</a>',
+        '<a href="http://www.maxmind.com/?rId=piwik">','</a>')|raw }}
         <br/><br/>
-{{ 'UserCountry_GeoLiteCityLink'|translate("<a href='"~geoLiteUrl~"'>",geoLiteUrl,'</a>') }}
+{{ 'UserCountry_GeoLiteCityLink'|translate("<a href='"~geoLiteUrl~"'>",geoLiteUrl,'</a>')|raw }}
 	{% if geoIPDatabasesInstalled %}
 	<br/><br/>{{ 'UserCountry_GeoIPUpdaterIntro'|translate }}:
 	{% endif %}
@@ -43,7 +44,7 @@
 			<td width="164">
 			{% set lastTimeRunNote %}
 				{% if lastTimeUpdaterRun is not empty %}
-					{{ 'UserCountry_UpdaterWasLastRun'|translate(lastTimeUpdaterRun) }}
+					{{ 'UserCountry_UpdaterWasLastRun'|translate(lastTimeUpdaterRun)|raw }}
 				{% else %}
 					{{ 'UserCountry_UpdaterHasNotBeenRun'|translate }}
 				{% endif %}
