@@ -44,7 +44,6 @@ class Piwik_Tracker_Cache
 
         $cache = self::getInstance();
         if (($cacheContent = $cache->get($idSite)) !== false) {
-        if (!class_exists('IntegrationTestCase')) {echo "CACHED: ".print_r($cacheContent, true);exit;}
             return $cacheContent;
         }
 
@@ -56,7 +55,7 @@ class Piwik_Tracker_Cache
 
         $content = array();
         Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
-if (!class_exists('IntegrationTestCase')) {echo "NOT CACHED: ".print_r($content, true);exit;}
+
         // restore original user privilege
         Piwik::setUserIsSuperUser($isSuperUser);
 
