@@ -43,9 +43,9 @@ class Piwik_Tracker_Cache
         $idSite = (int)$idSite;
 
         $cache = self::getInstance();
-        if (($cacheContent = $cache->get($idSite)) !== false) {
-            return $cacheContent;
-        }
+        //if (($cacheContent = $cache->get($idSite)) !== false) {
+        //    return $cacheContent;
+        //}
 
         Piwik_Tracker::initCorePiwikInTrackerMode();
 
