@@ -943,6 +943,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     protected function isVisitorIpExcluded($ip)
     {
         $websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->idsite);
+        printDebug("WEBSITE ATTRIBUTES: " . print_r($websiteAttributes, true));
         if (!empty($websiteAttributes['excluded_ips'])) {
             if (Piwik_IP::isIpInRange($ip, $websiteAttributes['excluded_ips'])) {
                 printDebug('Visitor IP ' . Piwik_IP::N2P($ip) . ' is excluded from being tracked');
