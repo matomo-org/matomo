@@ -37,7 +37,7 @@
       <directory>./Core</directory>
   </testsuite>
   <testsuite name="IntegrationTests">
-      <directory>./Integration</directory>
+      <file>./Integration/OneVisitorTwoVisitsTest.php</file>
   </testsuite>
 </testsuites>
 
