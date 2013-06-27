@@ -44,12 +44,9 @@ class Piwik_Tracker_Cache
 
         $cache = self::getInstance();
         if (($cacheContent = $cache->get($idSite)) !== false) {
-        if (function_exists('printDebug')) printDebug("Using cached content for $idSite.");
             return $cacheContent;
         }
         
-        if (function_exists('printDebug')) printDebug("Regenerating cache for $idSite.");
-
         Piwik_Tracker::initCorePiwikInTrackerMode();
 
         // save current user privilege and temporarily assume super user privilege

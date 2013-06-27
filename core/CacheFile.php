@@ -67,6 +67,7 @@ class Piwik_CacheFile
 
         // We are assuming that most of the time cache will exists
         $ok = @include($this->cachePath . $id . '.php');
+        if (function_exists('printDebug')) printDebug("Cache content for '".($this->cachePath . $id . '.php')."': ".print_r($content, true));
 
         if ($ok && $cache_complete == true) {
 
