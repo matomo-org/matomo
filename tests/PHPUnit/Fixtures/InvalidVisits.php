@@ -52,6 +52,9 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
 
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
 
+        $excludedIpBis = '145.5.3.4';
+        Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
+        
         // test GoogleBot UA visitor
         $t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
         self::checkResponse($t->doTrackPageView('bot visit, please do not record'));
@@ -80,8 +83,6 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
             self::checkResponse($t->doTrackPageView('visit from IP excluded'));
 
             // test with global list of excluded IPs
-            $excludedIpBis = '145.5.3.4';
-            Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
             $t->setIp($excludedIpBis);
             self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
             return;
