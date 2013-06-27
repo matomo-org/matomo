@@ -54,7 +54,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
 
         // test GoogleBot UA visitor
         $t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
-        //self::checkResponse($t->doTrackPageView('bot visit, please do not record'));
+        self::checkResponse($t->doTrackPageView('bot visit, please do not record'));
 
         // Test IP Exclusion works with or without IP exclusion
         foreach (array(false, true) as $enable) {
@@ -67,24 +67,23 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
             // test with excluded User Agent
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729) (excludeduseragentstring)');
             $t->setIp('211.1.2.3');
-            //self::checkResponse($t->doTrackPageView('visit from excluded User Agent'));
+            self::checkResponse($t->doTrackPageView('visit from excluded User Agent'));
 
             // test w/ global excluded User Agent
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729) (globalexcludeduseragent)');
             $t->setIp('211.1.2.3');
-            //self::checkResponse($t->doTrackPageView('visit from global excluded User Agent'));
+            self::checkResponse($t->doTrackPageView('visit from global excluded User Agent'));
 
             // test with excluded IP
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent
             $t->setIp($excludedIp);
-            //self::checkResponse($t->doTrackPageView('visit from IP excluded'));
+            self::checkResponse($t->doTrackPageView('visit from IP excluded'));
 
             // test with global list of excluded IPs
             $excludedIpBis = '145.5.3.4';
             Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
             $t->setIp($excludedIpBis);
             self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
-            return;
         }
 
         try {
