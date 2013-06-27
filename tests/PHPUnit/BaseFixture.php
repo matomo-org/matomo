@@ -143,7 +143,6 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function checkResponse($response)
     {
-    echo "TRACKING RESPONSE: " . var_export($response, true)."\n";return;
         $trans_gif_64 = "R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
         $expectedResponse = base64_decode($trans_gif_64);
         self::assertEquals($expectedResponse, $response, "Expected GIF beacon, got: <br/>\n"
