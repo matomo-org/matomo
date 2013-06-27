@@ -62,7 +62,7 @@ class Piwik_Referers_API
      * @param bool $expanded Whether to get report w/ subtables loaded or not.
      * @return Piwik_DataTable
      */
-    public function getRefererType($idSite, $period, $date, $segment = false, $typeReferer = false,
+    public function  getRefererType($idSite, $period, $date, $segment = false, $typeReferer = false,
                                    $idSubtable = false, $expanded = false)
     {
         // if idSubtable is supplied, interpret idSubtable as referrer type and return correct report
@@ -102,7 +102,7 @@ class Piwik_Referers_API
         }
 
         // set referrer type column to readable value
-        $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
+        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
 
         return $dataTable;
     }
