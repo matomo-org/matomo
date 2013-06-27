@@ -680,6 +680,8 @@ class Piwik_SitesManager_API
         $excludedIps = $this->checkAndReturnExcludedIps($excludedIps);
         Piwik_SetOption(self::OPTION_EXCLUDED_IPS_GLOBAL, $excludedIps);
         Piwik_Tracker_Cache::deleteTrackerCache();
+        $path = PIWIK_USER_PATH . '/tmp/cache/tracker';
+        echo "PATH: $path\n".print_r(glob($path . "/*"), true);
         return true;
     }
 
