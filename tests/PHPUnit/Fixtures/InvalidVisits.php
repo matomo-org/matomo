@@ -73,7 +73,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729) (globalexcludeduseragent)');
             $t->setIp('211.1.2.3');
             self::checkResponse($t->doTrackPageView('visit from global excluded User Agent'));
-
+return;
             // test with excluded IP
             $t->setUserAgent('Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.6) Gecko/20100625 Firefox/3.6.6 (.NET CLR 3.5.30729)'); // restore normal user agent
             $t->setIp($excludedIp);
