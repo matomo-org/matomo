@@ -54,7 +54,7 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
 
         // test GoogleBot UA visitor
         $t->setUserAgent('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
-        //self::checkResponse($t->doTrackPageView('bot visit, please do not record'));
+        self::checkResponse($t->doTrackPageView('bot visit, please do not record'));
 
         // Test IP Exclusion works with or without IP exclusion
         foreach (array(false, true) as $enable) {
