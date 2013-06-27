@@ -84,7 +84,6 @@ class Test_Piwik_Fixture_InvalidVisits extends Test_Piwik_BaseFixture
             Piwik_SitesManager_API::getInstance()->setGlobalExcludedIps($excludedIpBis);
             $t->setIp($excludedIpBis);
             self::checkResponse($t->doTrackPageView('visit from IP globally excluded'));
-            return;
         }
 
         try {
