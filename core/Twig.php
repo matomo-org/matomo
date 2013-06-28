@@ -52,6 +52,8 @@ class Piwik_Twig
         $this->addFilter_sumTime();
         $this->addFilter_money();
         $this->addFilter_truncate();
+        $this->twig->addFilter( new Twig_SimpleFilter('implode', 'implode'));
+        $this->twig->addFilter( new Twig_SimpleFilter('count', 'count'));
         /*
         $this->load_filter('output', 'cachebuster');
         $this->load_filter('output', 'trimwhitespace');*/

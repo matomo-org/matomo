@@ -34,16 +34,16 @@ class Piwik_View implements Piwik_View_Interface
     private $contentType = 'text/html; charset=utf-8';
     private $xFrameOptions = null;
 
-    public function __construct($templateFile, $smConf = array(), $filter = true)
+    public function __construct($templateFile)
     {
-        if(substr($templateFile, -5) !== '.twig') {
-            $templateFile .= '.twig';
+        $templateExt = '.twig';
+        if(substr($templateFile, -strlen($templateExt)) !== $templateExt) {
+            $templateFile .= $templateExt;
         }
         $this->template = $templateFile;
 
         $this->initializeTwig();
 
-        // global value accessible to all templates: the piwik base URL for the current request
         $this->piwik_version = Piwik_Version::VERSION;
         $this->cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
         $this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
@@ -221,29 +221,10 @@ class Piwik_View implements Piwik_View_Interface
     }
 
     /**
-     * View factory method
-     *
-     * @param string $templateName Template name (e.g., 'index')
-     * @throws Exception
-     * @return Piwik_View
+     * @deprecated
      */
     static public function factory($templateName = null)
     {
-        // get caller
-        $bt = @debug_backtrace();
-        if ($bt === null || !isset($bt[0])) {
-            throw new Exception("View factory cannot be invoked");
-        }
-        $path = basename(dirname($bt[0]['file']));
-
-        // TODO fixmea
-        if (Piwik_Common::isPhpCliMode()) {
-            $templateFile = $path . '/templates/cli_' . $templateName . '.tpl';
-            if (file_exists(PIWIK_INCLUDE_PATH . '/plugins/' . $templateFile)) {
-                return new Piwik_View($templateFile, array(), false);
-            }
-        }
-        $templateFile = $path . '/templates/' . $templateName . '.twig';
-        return new Piwik_View($templateName . '.twig');
+        throw new Exception("Piwik_View::factory is deprecated. Use 'new Piwik_View(\$templateFile)' instead.");
     }
 }
