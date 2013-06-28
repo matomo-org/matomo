@@ -92,7 +92,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
     private function compareTimestamps($expected, $processed)
     {
         $messageIfFails = Piwik_Date::factory($expected)->getDatetime() . " != " . Piwik_Date::factory($processed)->getDatetime();
-        $this->assertTrue( $expected == $processed || $expected == ($processed + 1), $messageIfFails);
+        $this->assertTrue( $expected == $processed || $expected == ($processed + 1) || ($expected + 1) == $processed, $messageIfFails);
     }
 
     /**
