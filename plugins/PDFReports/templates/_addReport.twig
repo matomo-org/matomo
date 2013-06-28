@@ -132,7 +132,8 @@
                                             <label for="{{ reportType }}{{ report.uniqueId }}">
                                                 {{ report.name }}
                                                 {% if report.uniqueId=='MultiSites_getAll' %}
-                                                    <div class="entityInlineHelp">{{ 'PDFReports_ReportIncludeNWebsites'|translate('"'+countWebsites+' "') }}</div>
+                                                    <div class="entityInlineHelp">{{ 'PDFReports_ReportIncludeNWebsites'|translate('"'~countWebsites~' "')
+                                                        }}</div>
                                                 {% endif %}
                                             </label>
                                         </li>
