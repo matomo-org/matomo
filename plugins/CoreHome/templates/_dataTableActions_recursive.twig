@@ -1,6 +1,6 @@
 <div class="dataTable" data-table-type="actionDataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
     <div class="dataTableActionsWrapper">
-        {% if arrayDataTable.result is define and arrayDataTable.result == 'error' %}
+        {% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
             {{ arrayDataTable.message }}
         {% else %}
             {% if arrayDataTable|length == 0 %}

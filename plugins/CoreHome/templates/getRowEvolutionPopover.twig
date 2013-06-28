@@ -16,7 +16,7 @@
                         {{ metric.sparkline | raw }}
                     </td>
                     <td class="text">
-                        <span style="color:{{ metric.color }}">{{ metric.label }}</span>
+                        <span style="color:{{ metric.color }}">{{ metric.label|raw }}</span>
                         {% if metric.details %}:
                             <span class="details">{{ metric.details }}</span>
                         {% endif %}
@@ -29,7 +29,7 @@
         <h2>{{ 'RowEvolution_CompareRows'|translate }}</h2>
 
         <div class="rowevolution-documentation">
-            {{ 'RowEvolution_CompareDocumentation'|translate }}
+            {{ 'RowEvolution_CompareDocumentation'|translate|raw }}
         </div>
         <a href="#" class="rowevolution-startmulti">&raquo; {{ 'RowEvolution_PickARow'|translate }}</a>
     </div>

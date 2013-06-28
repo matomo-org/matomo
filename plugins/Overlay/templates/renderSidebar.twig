@@ -12,7 +12,7 @@
         <h2 class="Overlay_MainMetrics">{{ 'Overlay_MainMetrics'|translate }}</h2>
         {% for metric in data %}
             <div class="Overlay_Metric">
-                <span class="Overlay_MetricValue">{{ metric.value }}</span> {{ metric.name }}
+                <span class="Overlay_MetricValue">{{ metric.value|raw }}</span> {{ metric.name }}
             </div>
         {% endfor %}
     {% else %}

@@ -66,7 +66,7 @@ abstract class Piwik_ViewDataTable
     protected $variablesDefault = array();
 
     /**
-     * Array of properties that are available in the view (from smarty)
+     * Array of properties that are available in the view
      * Used to store UI properties, eg. "show_footer", "show_search", etc.
      *
      * @var array
@@ -899,7 +899,7 @@ abstract class Piwik_ViewDataTable
     }
 
     /**
-     * When this method is called, the output will not contain the template datatable_footer.tpl
+     * When this method is called, the output will not include the template datatable_footer
      */
     public function disableFooter()
     {

@@ -13,14 +13,14 @@
         {% for goal in goals %}
             <tr>
                 <td class="first">{{ goal.idgoal }}</td>
-                <td>{{ goal.name }}</td>
+                <td>{{ goal.name|raw }}</td>{# NOTE: goal names are escaped in the DB #}
                 <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
                     {% if goal.pattern_type is defined %}
                         <br/>
-                        {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern }}</b>
+                        {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}</b>
                     {% endif %}
                 </td>
-                <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite) }}{% endif %}</td>
+                <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>
                 <td>
                     <a href='#' name="linkEditGoal" id="{{ goal.idgoal }}" class="link_but">
                         <img src='plugins/Zeitgeist/images/ico_edit.png' border="0"/>

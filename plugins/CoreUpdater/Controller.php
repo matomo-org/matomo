@@ -234,34 +234,35 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         Piwik::setMaxExecutionTime(0);
 
+        $cli = Piwik_Common::isPhpCliMode() ? '_cli' : '';
+        $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome' . $cli;
+        $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done' . $cli;
+        $viewWelcome = new Piwik_View($welcomeTemplate);
+        $viewDone = new Piwik_View($doneTemplate);
+
         $sqlQueries = $updater->getSqlQueriesToExecute();
         if (Piwik_Common::isPhpCliMode()) {
-            $view = new Piwik_View('@CoreUpdater/runUpdaterAndExit_cli_welcome', array(), false);
-            $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
-            echo $view->render();
+            $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
+            echo $viewWelcome->render();
 
             if (!$this->coreError && Piwik::getModule() == 'CoreUpdater') {
-                $view = new Piwik_View('@CoreUpdater/runUpdaterAndExit_cli_done', array(), false);
-                $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
-                echo $view->render();
+                $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
+                echo $viewDone->render();
             }
         } else {
             if (Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
                 $this->warningMessages = array();
-                $view = new Piwik_View('@CoreUpdater/runUpdaterAndExit_done');
-                $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
+                $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
 
                 if (count($sqlQueries) == 1 && !$this->coreError) {
                     Piwik::redirectToModule('CoreHome');
                 }
-
-                echo $view->render();
+                echo $viewDone->render();
             } else {
-                $view = new Piwik_View('@CoreUpdater/runUpdaterAndExit_welcome');
-                $view->queries = $sqlQueries;
-                $view->isMajor = $updater->hasMajorDbUpdate();
-                $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
-                echo $view->render();
+                $viewWelcome->queries = $sqlQueries;
+                $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
+                $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
+                echo $viewWelcome->render();
             }
         }
         exit;

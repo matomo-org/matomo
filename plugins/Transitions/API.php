@@ -73,10 +73,7 @@ class Piwik_Transitions_API
         );
 
         // add data to the report
-        $transitionsArchiving = new Piwik_Transitions;
-        if ($returnNormalizedUrls) {
-            $transitionsArchiving->returnNormalizedUrls();
-        }
+        $this->returnNormalizedUrls();
 
         $partsArray = explode(',', $parts);
 

@@ -11,7 +11,7 @@
     <div class="goalEntry">
         <h2>
             <a href="javascript:broadcast.propagateAjax('module=Goals&action=goalReport&idGoal={{ goal.id }}')">
-                {{ 'Goals_GoalX'|translate("'"~name~"'") }}
+                {{ 'Goals_GoalX'|translate("'"~name~"'")|raw }}
             </a>
         </h2>
 
@@ -19,7 +19,7 @@
             <div class="sparkline">{{ sparkline(goal.urlSparklineConversions) }}
                 {{ 'Goals_Conversions'|translate("<strong>"~nb_conversions~"</strong>")|raw }}
                 {% if goal.goalAllowMultipleConversionsPerVisit %}
-                    ({{ 'VisitsSummary_NbVisits'|translate("<strong>"~nb_visits_converted~"</strong>") }})
+                    ({{ 'VisitsSummary_NbVisits'|translate("<strong>"~nb_visits_converted~"</strong>") | raw }})
                 {% endif %}
             </div>
         </div>
@@ -36,7 +36,7 @@
     {% if sum_nb_conversions != 0 %}
     <h2 id='titleGoalsByDimension'>
         {% if idGoal is defined %}
-            {{ 'Goals_GoalConversionsBy'|translate(goalName) }}
+            {{ 'Goals_GoalConversionsBy'|translate(goalName)|raw }}
         {% else %}
             {{ 'Goals_ConversionsOverviewBy'|translate }}
         {% endif %}

@@ -556,7 +556,7 @@ If you use the latest beta and you find a bug or have a suggestion, please %ssee
     'CoreHome_DonateCall3'                                              => 'If you feel that Piwik has added significant value to your business or endeavour, %1$splease consider donating!%2$s',
     'CoreHome_HowMuchIsPiwikWorth'                                      => 'How much is Piwik worth to you?',
     'CoreHome_SupportPiwik'                                             => 'Support Piwik!',
-    'CoreHome_OnlyForAdmin'                                             => 'This is only displayed to you, the superuser.',
+    'CoreHome_OnlyForAdmin'                                             => 'This widget is only displayed to you, the superuser.',
     'CoreHome_DonateFormInstructions'                                   => 'Click on the slider to select an amount, then click subscribe to donate.',
     'CoreHome_SubscribeAndBecomePiwikSupporter'                         => 'Proceed to a secure credit card payment page (Paypal) to become a Piwik Supporter!',
     'CoreHome_CheckPiwikOut'                                            => 'Check Piwik out!',

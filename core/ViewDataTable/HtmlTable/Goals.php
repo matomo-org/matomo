@@ -138,7 +138,6 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
                 foreach ($goals as $goal) {
                     $idgoal = $goal['idgoal'];
 
-                    // Columns names are escaped in smarty via | escape:'html'
                     $goal['name'] = Piwik_Common::unsanitizeInputValue($goal['name']);
 
                     if ($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE

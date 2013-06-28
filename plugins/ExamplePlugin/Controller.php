@@ -48,7 +48,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 
     /**
      * this widgets shows how to make a remote API request to piwik.org
-     * you find the main JS code in templates/piwikDownloadCount.tpl
+     * you find the main JS code in templates/piwikDownloads.twig
      */
     public function piwikDownloads()
     {

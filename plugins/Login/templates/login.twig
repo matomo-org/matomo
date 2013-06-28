@@ -82,11 +82,11 @@
             {% endif %}
 
             {% if AccessErrorString %}
-                <div id="login_error"><strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString }}<br/></div>
+                <div id="login_error"><strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/></div>
             {% endif %}
 
             {% if infoMessage %}
-                <p class="message">{{ infoMessage}}</p>
+                <p class="message">{{ infoMessage|raw }}</p>
             {% endif %}
         </div>
         <form {{ form_data.attributes|raw }}>

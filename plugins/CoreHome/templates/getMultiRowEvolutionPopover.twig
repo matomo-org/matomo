@@ -14,7 +14,7 @@
                     <td class="text">
                         {% import 'macros.twig' as piwik %}
                         {{ piwik.logoHtml(metric, "") }}
-                        <span style="color:{{ metric.color }}">{{ metric.label }}</span><br/>
+                        <span style="color:{{ metric.color }}">{{ metric.label|raw }}</span><br/>
                         <span class="details">{{ metric.details }}</span>
                     </td>
                 </tr>

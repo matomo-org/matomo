@@ -302,7 +302,7 @@
                     <p>{{ 'Installation_LoadDataInfileRecommended'|translate }}</p>
                     {% if infos.extra.load_data_infile_error is defined %}
                         <em><strong>{{ 'General_Error'|translate }}:</strong></em>
-                        {{ infos.extra.load_data_infile_error }}
+                        {{ infos.extra.load_data_infile_error|raw }}
                     {% endif %}
                 {% endif %}
             </td>
