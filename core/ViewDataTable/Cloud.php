@@ -11,7 +11,7 @@
 
 /**
  * Reads the requested DataTable from the API, and prepares the data to give
- * to Piwik_Visualization_Cloud that will display the tag cloud (via the template cloud.tpl).
+ * to Piwik_Visualization_Cloud that will display the tag cloud (via the template _dataTable_cloud.twig).
  *
  * @package Piwik
  * @subpackage Piwik_ViewDataTable

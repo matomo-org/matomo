@@ -236,6 +236,7 @@ class Piwik_View implements Piwik_View_Interface
         }
         $path = basename(dirname($bt[0]['file']));
 
+        // TODO fixmea
         if (Piwik_Common::isPhpCliMode()) {
             $templateFile = $path . '/templates/cli_' . $templateName . '.tpl';
             if (file_exists(PIWIK_INCLUDE_PATH . '/plugins/' . $templateFile)) {

@@ -9,14 +9,6 @@
  *  broadcast object is to help maintain a hash for link clicks and ajax calls
  *  so we can have back button and refresh button working.
  *
- *   Other file that currently depending on this are:
- *     calendar.js
- *     period_select.tpl
- *     sites_selections.tpl
- *     menu.js, ...etc
- *
- * !! Load this once and only once. !!
- *
  * @type {object}
  */
 var broadcast = {
@@ -228,12 +220,6 @@ var broadcast = {
      *
      * Expecting:
      *         str = "param1=newVal1&param2=newVal2";
-     *
-     * Currently being use by:
-     *
-     *  handlePeriodClick,
-     *  calendar.js,
-     *  sites_selection.tpl
      *
      * NOTE: This method will refresh the page with new values.
      *

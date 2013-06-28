@@ -899,7 +899,7 @@ abstract class Piwik_ViewDataTable
     }
 
     /**
-     * When this method is called, the output will not contain the template datatable_footer.tpl
+     * When this method is called, the output will not include the template datatable_footer
      */
     public function disableFooter()
     {

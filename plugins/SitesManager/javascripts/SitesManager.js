@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// NOTE: if you cannot find the definition of a variable here, look in SitesManager.tpl
+// NOTE: if you cannot find the definition of a variable here, look in index.twig
 function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrency) {
 
     var timezones = _timezones;

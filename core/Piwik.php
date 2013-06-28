@@ -285,7 +285,7 @@ class Piwik
      */
     static public function copy($source, $dest, $excludePhp = false)
     {
-        static $phpExtensions = array('php', 'tpl');
+        static $phpExtensions = array('php', 'tpl', 'twig');
 
         if ($excludePhp) {
             $path_parts = pathinfo($source);
@@ -547,7 +547,7 @@ class Piwik
         // more selective allow/deny filters
         $allowAny = "<Files \"*\">\n" . $allow . "Satisfy any\n</Files>\n";
         $allowStaticAssets = "<Files ~ \"\\.(test\.php|gif|ico|jpg|png|svg|js|css|swf)$\">\n" . $allow . "Satisfy any\n</Files>\n";
-        $denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in)$\">\n" . $deny . "</Files>\n";
+        $denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in|twig)$\">\n" . $deny . "</Files>\n";
 
         $directoriesToProtect = array(
             '/js'      => $allowAny,
@@ -582,6 +582,7 @@ class Piwik
         </hiddenSegments>
         <fileExtensions>
           <add fileExtension=".tpl" allowed="false" />
+          <add fileExtension=".twig" allowed="false" />
           <add fileExtension=".php4" allowed="false" />
           <add fileExtension=".php5" allowed="false" />
           <add fileExtension=".inc" allowed="false" />

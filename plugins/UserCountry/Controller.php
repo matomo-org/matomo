@@ -141,7 +141,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
     }
 
     /**
-     * Sets some variables needed by the updaterSetup.tpl template.
+     * Sets some variables needed by the _updaterManage.twig template.
      *
      * @param Piwik_View $view
      */

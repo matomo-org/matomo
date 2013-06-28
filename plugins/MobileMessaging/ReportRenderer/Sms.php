@@ -87,7 +87,7 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 
         // evolution metrics formatting :
         //  - remove monetary, percentage and white spaces to shorten SMS content
-        //    (this is also needed to be able to test $value != 0 and see if there is an evolution at all in SMSReport.tpl)
+        //    (this is also needed to be able to test $value != 0 and see if there is an evolution at all in SMSReport.twig)
         //  - adds a plus sign
         $reportData->filter(
             'ColumnCallbackReplace',

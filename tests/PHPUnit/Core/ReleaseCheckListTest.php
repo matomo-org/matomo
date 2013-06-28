@@ -52,8 +52,8 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      */
     public function testTemplatesDontContainDebug()
     {
-        $patternFailIfFound = '{debug}';
-        $files = Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.tpl');
+        $patternFailIfFound = 'dump(';
+        $files = Piwik::globr(PIWIK_INCLUDE_PATH . '/plugins', '*.twig');
         foreach ($files as $file) {
             $content = file_get_contents($file);
             $this->assertFalse(strpos($content, $patternFailIfFound), 'found in ' . $file);
