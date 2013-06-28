@@ -62,6 +62,5 @@ tests/lib/xhprof-0.9.2/extension/mkinstalldirs
 tests/lib/xhprof-0.9.2/extension/run-tests.php
 docs/
 composer.phar
-composer.lock
 vendor/
 /.htaccess
