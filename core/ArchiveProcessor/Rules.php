@@ -35,7 +35,6 @@ class Piwik_ArchiveProcessor_Rules
      * @param string $plugin
      * @return string
      */
-    // FIXMEA: this is called all over the place, not right
     public static function getDoneStringFlagFor($segment, $periodLabel, $plugin)
     {
         if (!self::shouldProcessReportsAllPlugins($segment, $periodLabel)) {
