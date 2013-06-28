@@ -3,11 +3,11 @@
 	<date>Mar 2010</date>
 	<previousPages>
 		<row>
-			<label>https://example.org/the/third_page.html?foo=bar</label>
+			<label>example.org/the/third_page.html?foo=bar</label>
 			<referrals>3</referrals>
 		</row>
 		<row>
-			<label>http://www.example.org/sub/dir/page2.html</label>
+			<label>example.org/sub/dir/page2.html</label>
 			<referrals>2</referrals>
 		</row>
 		<row>
@@ -29,11 +29,11 @@
 	</pageMetrics>
 	<followingPages>
 		<row>
-			<label>https://example.org/the/third_page.html?foo=baz</label>
+			<label>example.org/the/third_page.html?foo=baz</label>
 			<referrals>3</referrals>
 		</row>
 		<row>
-			<label>http://www.example.org/sub/dir/page2.html</label>
+			<label>example.org/sub/dir/page2.html</label>
 			<referrals>2</referrals>
 		</row>
 		<row>

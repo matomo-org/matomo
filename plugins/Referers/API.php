@@ -102,7 +102,7 @@ class Piwik_Referers_API
         }
 
         // set referrer type column to readable value
-        $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
+        $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getRefererTypeLabel'));
 
         return $dataTable;
     }

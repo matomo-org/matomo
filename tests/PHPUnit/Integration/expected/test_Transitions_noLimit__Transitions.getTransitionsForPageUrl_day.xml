@@ -3,15 +3,15 @@
 	<date>Sat 6 Mar</date>
 	<previousPages>
 		<row>
-			<label>https://example.org/the/third_page.html?foo=bar</label>
+			<label>example.org/the/third_page.html?foo=bar</label>
 			<referrals>3</referrals>
 		</row>
 		<row>
-			<label>http://www.example.org/sub/dir/page2.html</label>
+			<label>example.org/sub/dir/page2.html</label>
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<label>https://example.org/the/third_page.html?foo=baz</label>
+			<label>example.org/the/third_page.html?foo=baz</label>
 			<referrals>2</referrals>
 		</row>
 	</previousPages>
@@ -29,19 +29,19 @@
 	</pageMetrics>
 	<followingPages>
 		<row>
-			<label>https://example.org/the/third_page.html?foo=baz</label>
+			<label>example.org/the/third_page.html?foo=baz</label>
 			<referrals>3</referrals>
 		</row>
 		<row>
-			<label>http://www.example.org/sub/dir/page2.html</label>
+			<label>example.org/sub/dir/page2.html</label>
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<label>https://example.org/the/third_page.html?foo=bar</label>
+			<label>example.org/the/third_page.html?foo=bar</label>
 			<referrals>2</referrals>
 		</row>
 		<row>
-			<label>http://example.org/page3.html</label>
+			<label>example.org/page3.html</label>
 			<referrals>1</referrals>
 		</row>
 	</followingPages>
