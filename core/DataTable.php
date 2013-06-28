@@ -156,13 +156,6 @@ class Piwik_DataTable
     protected $rows = array();
 
     /**
-     * Array of parent IDs
-     *
-     * @var array
-     */
-    protected $parents = null;
-
-    /**
      * Id assigned to the DataTable, used to lookup the table using the DataTable_Manager
      *
      * @var int
@@ -262,7 +255,6 @@ class Piwik_DataTable
 
     const ID_SUMMARY_ROW = -1;
     const LABEL_SUMMARY_ROW = -1;
-    const ID_PARENTS = -2;
 
     /**
      * Builds the DataTable, registers itself to the manager
@@ -798,7 +790,7 @@ class Piwik_DataTable
 
     public function __sleep()
     {
-        return array('rows', 'parents', 'summaryRow');
+        return array('rows', 'summaryRow');
     }
 
     /**
@@ -1029,10 +1021,7 @@ class Piwik_DataTable
 
         // we then serialize the rows and store them in the serialized dataTable
         $addToRows = array(self::ID_SUMMARY_ROW => $this->summaryRow);
-        //FIXMEA let's kill this soon * re-do if necessary
-        if ($this->parents && Piwik_Config::getInstance()->General['enable_archive_parents_of_datatable']) {
-            $addToRows[self::ID_PARENTS] = $this->parents;
-        }
+
         $aSerializedDataTable[$forcedId] = serialize($this->rows + $addToRows);
         foreach ($this->rows as &$row) {
             $row->cleanPostSerialize();
@@ -1078,11 +1067,6 @@ class Piwik_DataTable
     public function addRowsFromArray($array)
     {
         foreach ($array as $id => $row) {
-            if ($id == self::ID_PARENTS) {
-                $this->parents = $row;
-                continue;
-            }
-
             if (is_array($row)) {
                 $row = new Piwik_DataTable_Row($row);
             }
@@ -1221,31 +1205,6 @@ class Piwik_DataTable
             $table->addRow(new Piwik_DataTable_Row($cleanRow));
         }
         return $table;
-    }
-
-    /**
-     * Set the array of parent ids
-     *
-     * @param array $parents
-     *
-     * FIXMEA
-     */
-    public function setParents($parents)
-    {
-        $this->parents = $parents;
-    }
-
-    /**
-     * Get parents
-     *
-     * @return array  of all parents, root level first
-     */
-    public function getParents()
-    {
-        if ($this->parents == null) {
-            return array();
-        }
-        return $this->parents;
     }
 
     /**
