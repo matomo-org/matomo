@@ -1,7 +1,7 @@
 /*!
  * Piwik - Web Analytics
  *
- * Real time vistors map
+ * Real time visitors map
  * Using Kartograph.js http://kartograph.org/
  *
  * @link http://piwik.org
