@@ -16,7 +16,7 @@
 
     * {{ helpMessage }}
 
-{% elseif coreToUpdate or pluginNamesToUpdate|count > 0 %}
+{% elseif coreToUpdate or pluginNamesToUpdate|length > 0 %}
 
     {{ 'CoreUpdater_DatabaseUpgradeRequired'|translate }}
 
@@ -26,7 +26,7 @@
         {{ 'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY'|translate(current_piwik_version, new_piwik_version) }}
     {% endif %}
 
-    {% if pluginNamesToUpdate|count > 0 %}
+    {% if pluginNamesToUpdate|length > 0 %}
         {%- set listOfPlugins %}{{  pluginNamesToUpdate|implode(', ') }}{% endset %}
         {{ 'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate( listOfPlugins) }}
     {%  endif %}

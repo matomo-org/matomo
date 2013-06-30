@@ -19,14 +19,14 @@
     * {{ 'CoreUpdater_ErrorDIYHelp_5'|translate }}
 
 {% else %}
-{% if warningMessages|count > 0 %}
+{% if warningMessages|length > 0 %}
     [!] {{ 'CoreUpdater_WarningMessages'|translate }}
 
     {% for message in warningMessages -%}
     * {{ message }}
     {%- endfor %}
 {%- endif %}
-{% if errorMessages|count > 0 -%}
+{% if errorMessages|length > 0 -%}
 
     [X] {{ 'CoreUpdater_ErrorDuringPluginsUpdates'|translate }}
 
@@ -34,7 +34,7 @@
     * {{ message }}
     {% endfor %}
 
-    {% if deactivatedPlugins|count > 0 -%}
+    {% if deactivatedPlugins|length > 0 -%}
     {%  set listOfDeactivatedPlugins %}{{ deactivatedPlugins|implode(', ') }}{% endset %}
 
     [!] {{ 'CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins'|translate(listOfDeactivatedPlugins) }}
@@ -42,7 +42,7 @@
 
 {% endif %}
 
-{% if errorMessages|count > 0 or warningMessages|count > 0 %}
+{% if errorMessages|length > 0 or warningMessages|length > 0 %}
     {{ 'CoreUpdater_HelpMessageIntroductionWhenWarning'|translate }}
 
     * {{ helpMessage }}
