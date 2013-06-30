@@ -1,3 +1,4 @@
+{% spaceless %}
 {% set tooltipIndex = column ~ '_tooltip' %}
 {% if row.metadata[tooltipIndex] is defined %}<span class="cell-tooltip" data-tooltip="{{ row.metadata[tooltipIndex] }}">{% endif %}
 {% if not row.idsubdatatable and column=='label' and row.metadata.url is not empty %}
@@ -21,3 +22,4 @@
     </a>
 {% endif %}
 {% if row.metadata[tooltipIndex] is defined %}</span>{% endif %}
+{% endspaceless %}
