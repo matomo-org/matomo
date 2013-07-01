@@ -55,9 +55,6 @@ class Piwik_Twig
         $this->addFilter_truncate();
 
         $this->twig->addFilter( new Twig_SimpleFilter('implode', 'implode'));
-        /*
-        $this->load_filter('output', 'trimwhitespace');*/
-
 
         $this->addFunction_includeAssets();
         $this->addFunction_linkTo();
