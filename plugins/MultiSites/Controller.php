@@ -41,7 +41,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
     }
 
 
-    public function getSitesInfo($isWidgetized)
+    public function getSitesInfo($isWidgetized = false)
     {
         Piwik::checkUserHasSomeViewAccess();
         $displayRevenueColumn = Piwik_Common::isGoalPluginEnabled();

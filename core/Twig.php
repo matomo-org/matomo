@@ -41,6 +41,7 @@ class Piwik_Twig
         $this->twig = new Twig_Environment($chainLoader,
             array(
                  'debug' => true, // to use {{ dump(var) }} in twig templates
+                 'strict_variables' => true, // throw an exception if variables are invalid
                 //'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
             )
         );
@@ -52,9 +53,9 @@ class Piwik_Twig
         $this->addFilter_sumTime();
         $this->addFilter_money();
         $this->addFilter_truncate();
+
         $this->twig->addFilter( new Twig_SimpleFilter('implode', 'implode'));
         /*
-        $this->load_filter('output', 'cachebuster');
         $this->load_filter('output', 'trimwhitespace');*/
 
 

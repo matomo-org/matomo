@@ -12,7 +12,7 @@
         {% if alt is not empty %}
             {% set alt %}title='{{ alt }}' alt='{{ alt }}'{% endset %}
         {% endif %}
-        <img {{ alt }} {{ width }} {{ height }} src='{{ metadata['logo'] }}' />
+        <img {{ alt }} {{ width|default('') }} {{ height|default('') }} src='{{ metadata['logo'] }}' />
     {% endif %}
 {% endmacro %}
 

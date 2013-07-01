@@ -46,7 +46,7 @@
 
                     {% include "@CoreHome/_headerMessage.twig" %}
 
-                    {% if configFileNotWritable is not empty %}
+                    {% if configFileNotWritable is defined and configFileNotWritable%}
                     <div class="ajaxSuccess" style="display:inline-block">
                         {{ 'General_ConfigFileIsNotWritable'|translate("(config/config.ini.php)","<br/>")|raw }}
                     </div>
@@ -56,7 +56,7 @@
                     </div>
                     {% endif %}
 
-                    {% if statisticsNotRecorded is not empty %}
+                    {% if statisticsNotRecorded is defined and statisticsNotRecorded is not empty %}
                     <div class="ajaxSuccess" style="display:inline-block">
                         {{ 'General_StatisticsAreNotRecorded'|translate }}
                     </div>
@@ -70,7 +70,7 @@
                     {% include "@CoreHome/_warningInvalidHost.twig" %}
 
                     {# missing plugins warning #}
-                    {% if isSuperUser and missingPluginsWarning is not empty %}
+                    {% if isSuperUser and missingPluginsWarning is defined %}
                     <div class="ajaxSuccess">
                         <strong>{{ 'General_Warning'|translate }}:&nbsp;</strong>{{ missingPluginsWarning }}
                     </div>

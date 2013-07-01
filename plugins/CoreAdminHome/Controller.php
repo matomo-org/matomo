@@ -41,11 +41,9 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
             $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-            $config = Piwik_Config::getInstance();
+            $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
 
-            if (!$config->isFileWritable()) {
-                $view->configFileNotWritable = true;
-            }
+            $config = Piwik_Config::getInstance();
 
             $debug = $config->Debug;
             $view->enableBetaReleaseCheck = $debug['allow_upgrades_to_beta'];

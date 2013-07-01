@@ -45,7 +45,6 @@ class Piwik_View implements Piwik_View_Interface
         $this->initializeTwig();
 
         $this->piwik_version = Piwik_Version::VERSION;
-        $this->cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
         $this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
     }
 

@@ -69,17 +69,21 @@ class Piwik_MobileMessaging_SMSProvider_Clockwork extends Piwik_MobileMessaging_
 
         $timeout = self::SOCKET_TIMEOUT;
 
-        $result = Piwik_Http::sendHttpRequestBy(
-            Piwik_Http::getTransportMethod(),
-            $url,
-            $timeout,
-            $userAgent = null,
-            $destinationPath = null,
-            $file = null,
-            $followDepth = 0,
-            $acceptLanguage = false,
-            $acceptInvalidSslCertificate = true
-        );
+        try {
+            $result = Piwik_Http::sendHttpRequestBy(
+                Piwik_Http::getTransportMethod(),
+                $url,
+                $timeout,
+                $userAgent = null,
+                $destinationPath = null,
+                $file = null,
+                $followDepth = 0,
+                $acceptLanguage = false,
+                $acceptInvalidSslCertificate = true
+            );
+        } catch(Exception $e) {
+            $result = self::ERROR_STRING . " " . $e->getMessage();
+        }
 
         if (strpos($result, self::ERROR_STRING) !== false) {
             throw new Piwik_MobileMessaging_APIException(

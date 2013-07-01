@@ -39,7 +39,7 @@
                     {% if visitor.referrerUrl is not empty %}
                         <a href="{{ visitor.referrerUrl }}" target="_blank">
                     {% endif %}
-                    {% if visitor.searchEngineIcon is not empty %}
+                    {% if visitor.searchEngineIcon is defined %}
                         <img src="{{ visitor.searchEngineIcon }}" />
                     {% endif %}
                     {{ visitor.referrerName }}
@@ -124,7 +124,7 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
-                {% if actionDetails|length > maxPagesDisplayedByVisitor %}
+                {% if visitor.actionDetails|length > maxPagesDisplayedByVisitor %}
                     <i>({{ 'Live_MorePagesNotDisplayed'|translate }})</i>
                 {% endif %}
             </div>
