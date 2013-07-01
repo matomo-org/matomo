@@ -103,14 +103,14 @@
                             {{ 'PrivacyManager_CannotLockSoDeleteLogActions'|translate(dbUser) }}
                         {% endif %}
                     {% endset %}
-                    {{ piwik.inlineHelp(deleteLogInfo)|raw }}
+                    {{ piwik.inlineHelp(deleteLogInfo) }}
                 </td>
             </tr>
             <tr id="deleteLogSettings">
                 <td width="250">&nbsp;</td>
                 <td width="500">
                     <label>{{ 'PrivacyManager_DeleteLogsOlderThan'|translate }}
-                        <input type="text" id="deleteOlderThan" value="{{ deleteData.config.delete_logs_older_than }}" style="width:30px;"
+                        <input type="text" id="deleteOlderThan" value="{{ deleteData.config.delete_logs_older_than }}" style="width:35px;"
                                name="deleteOlderThan"/>
                         {{ 'CoreHome_PeriodDays'|translate }}</label><br/>
                     <span class="form-description">{{ 'PrivacyManager_LeastDaysInput'|translate("1") }}</span>

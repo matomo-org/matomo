@@ -9,6 +9,10 @@
  * @category Piwik_Plugins
  * @package Piwik_DevicesDetection
  */
+
+/**
+ * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
+ */
 class Piwik_DevicesDetection_API
 {
 
