@@ -1,4 +1,4 @@
-<?php
+g<?php
 /**
  * Piwik - Open source web analytics
  *
@@ -269,7 +269,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         if (!Piwik_Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
-        $this->assertEquals($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed());
+        $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed());
 
         // this test varies with DST
         $this->assertTrue($archiveProcessor->getDateStart()->getDateStartUTC() == date('Y-m-d', $timestamp) . ' 04:00:00' ||
