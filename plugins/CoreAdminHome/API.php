@@ -119,17 +119,17 @@ class Piwik_CoreAdminHome_API
 
             $month = $date->toString('Y_m');
             // For a given date, we must invalidate in the monthly archive table
-            $datesByYearMonth[$month][] = $date->toString();
+            $datesByMonth[$month][] = $date->toString();
 
             // But also the year stored in January
             $year = $date->toString('Y_01');
-            $datesByYearMonth[$year][] = $date->toString();
+            $datesByMonth[$year][] = $date->toString();
 
             // but also weeks overlapping several months stored in the month where the week is starting
             /* @var $week Piwik_Period_Week */
             $week = Piwik_Period::factory('week', $date);
             $week = $week->getDateStart()->toString('Y_m');
-            $datesByYearMonth[$week][] = $date->toString();
+            $datesByMonth[$week][] = $date->toString();
 
             // Keep track of the minimum date for each website
             if ($minDate === false
@@ -138,18 +138,42 @@ class Piwik_CoreAdminHome_API
                 $minDate = $date;
             }
         }
-        $deleteArchivesOlderThan = $minDate->subDay(1);
 
-        Piwik_DataAccess_ArchiveSelector::deleteArchives($idSites, $datesByYearMonth);
-
+        // In each table, invalidate day/week/month/year containing this date
         $sqlIdSites = implode(",", $idSites);
+        $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
+        foreach ($archiveTables as $table) {
+            // Extract Y_m from table name
+            $suffix = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
+            if (!isset($datesByMonth[$suffix])) {
+                continue;
+            }
+            // Dates which are to be deleted from this table
+            $datesToDeleteInTable = $datesByMonth[$suffix];
+
+            // Build one statement to delete all dates from the given table
+            $sql = $bind = array();
+            $datesToDeleteInTable = array_unique($datesToDeleteInTable);
+            foreach ($datesToDeleteInTable as $dateToDelete) {
+                $sql[] = '(date1 <= ? AND ? <= date2)';
+                $bind[] = $dateToDelete;
+                $bind[] = $dateToDelete;
+            }
+            $sql = implode(" OR ", $sql);
+
+            $query = "DELETE FROM $table " .
+                " WHERE ( $sql ) " .
+                " AND idsite IN (" . $sqlIdSites . ")";
+            Piwik_Query($query, $bind);
+        }
+
         // Update piwik_site.ts_created
         $query = "UPDATE " . Piwik_Common::prefixTable("site") .
             " SET ts_created = ?" .
             " WHERE idsite IN ( $sqlIdSites )
 					AND ts_created > ?";
-        $datetime = $deleteArchivesOlderThan->getDatetime();
-        $bind = array($datetime, $datetime);
+        $minDateSql = $minDate->subDay(1)->getDatetime();
+        $bind = array($minDateSql, $minDateSql);
         Piwik_Query($query, $bind);
 
         // Force to re-process data for these websites in the next archive.php cron run

@@ -282,39 +282,6 @@ class Piwik_DataAccess_ArchiveSelector
             . $dateStart->toString("Y-m") ." ] [Deleted IDs: " . implode (',', $idArchivesToDelete) . "]");
     }
 
-    public function deleteArchives($idSites, $datesByYearMonth)
-    {
-        // In each table, invalidate day/week/month/year containing this date
-        $sqlIdSites = implode(",", $idSites);
-        $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
-        foreach ($archiveTables as $table) {
-            // Extract Y_m from table name
-            $monthYear = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
-            if (!isset($datesByYearMonth[$monthYear])) {
-                continue;
-            }
-            // Dates which are to be deleted from this table
-            $datesToDeleteInTable = $datesByYearMonth[$monthYear];
-
-            // Build one statement to delete all dates from the given table
-            $sql = $bind = array();
-            $datesToDeleteInTable = array_unique($datesToDeleteInTable);
-            foreach ($datesToDeleteInTable as $dateToDelete) {
-                $sql[] = '(date1 <= ? AND ? <= date2)';
-                $bind[] = $dateToDelete;
-                $bind[] = $dateToDelete;
-            }
-            $sql = implode(" OR ", $sql);
-
-            $query = "DELETE FROM $table " .
-                " WHERE ( $sql ) " .
-                " AND idsite IN (" . $sqlIdSites . ")";
-            Piwik_Query($query, $bind);
-        }
-        return true;
-    }
-
-
     /*
      * Deleting "Custom Date Range" reports after 1 day, since they can be re-processed and would take up un-necessary space
      */
