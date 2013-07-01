@@ -42,7 +42,7 @@ class Piwik_Twig
             array(
                  'debug' => true, // to use {{ dump(var) }} in twig templates
                  'strict_variables' => true, // throw an exception if variables are invalid
-                //'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
+                 'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
             )
         );
         $this->twig->addExtension(new Twig_Extension_Debug());
@@ -53,7 +53,6 @@ class Piwik_Twig
         $this->addFilter_sumTime();
         $this->addFilter_money();
         $this->addFilter_truncate();
-
         $this->twig->addFilter( new Twig_SimpleFilter('implode', 'implode'));
 
         $this->addFunction_includeAssets();
