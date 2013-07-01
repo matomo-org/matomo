@@ -131,7 +131,36 @@ class Piwik_View implements Piwik_View_Interface
         // always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
         @header('X-Frame-Options: ' . (string)$this->xFrameOptions);
 
-        return $this->twig->render($this->template, $this->templateVars);
+        return $this->renderTwigTemplate();
+    }
+
+    protected function renderTwigTemplate()
+    {
+        $output = $this->twig->render($this->template, $this->templateVars);
+        $output = $this->applyFilter_cacheBuster($output);
+        return $output;
+    }
+
+    protected function applyFilter_cacheBuster($output)
+    {
+        $cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
+        $tag = 'cb=' . $cacheBuster;
+
+        $pattern = array(
+            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
+            '~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
+            '~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
+            '~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?cb=~',
+        );
+
+        $replace = array(
+            '<script type="text/javascript" src="$1?' . $tag . '">',
+            '<script type="text/javascript" src="$1?' . $tag . '">',
+            '<link rel="stylesheet" type="text/css" href="$1?' . $tag . '" />',
+            '$1="index.php?module=$2&amp;action=$3&amp;cb=',
+        );
+
+        return preg_replace($pattern, $replace, $output);
     }
 
     /**
