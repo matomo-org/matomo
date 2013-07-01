@@ -13,9 +13,8 @@
     {% if row.metadata.html_label_prefix is defined %}<span class='label-prefix'>{{ row.metadata.html_label_prefix | raw }}&nbsp;</span>{% endif -%}
         <span class='label{% if row.metadata.is_aggregate is defined and row.metadata.is_aggregate %} highlighted{% endif %}'
         {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.metadata[properties.tooltip_metadata_name] }}"{% endif %}>
-        {% if row.metadata.html_label_suffix is defined %}<span class='label-suffix'>{{ row.metadata.html_label_suffix | raw }}</span>{% endif %}
-    {% endif %}
-{% if row.columns[column] is defined %}{{ row.columns[column]|raw }}{% else %}{{ defaultWhenColumnValueNotDefined }}{% endif %}
+        {%- if row.metadata.html_label_suffix is defined %}<span class='label-suffix'>{{ row.metadata.html_label_suffix | raw }}</span>{% endif -%}
+{% endif %}{% if row.columns[column] is defined %}{{- row.columns[column]|raw -}}{% else %}{{ defaultWhenColumnValueNotDefined }}{% endif %}
 {% if column=='label' %}</span>{% endif %}
 {% if not row.idsubdatatable and column=='label' and row.metadata.url is defined %}
     </a>

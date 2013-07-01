@@ -36,7 +36,7 @@
                             <td>
                                 <div style='margin-left:15px'>
                                 {% if rank.logo_link is defined %}{{ seoLink|raw }}{% endif %}
-                                    {% if rank.rank %}{{ rank.rank }}{% else %}-{% endif %}
+                                    {% if rank.rank %}{{ rank.rank|raw }}{% else %}-{% endif %}
                                     {% if rank.id=='pagerank' %} /10
                                     {% elseif rank.id=='google-index' or rank.id=='bing-index' %} {{ 'SEO_Pages'|translate }}
                                     {% endif %}
