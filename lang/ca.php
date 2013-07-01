@@ -259,6 +259,7 @@ $translations = array(
 	'General_Daily' => 'Diariament',
 	'General_Weekly' => 'Setmanalment',
 	'General_Monthly' => 'Mensualment',
+	'General_WeeklyReport' => 'setmanal',
 	'General_DailyReports' => 'Informe diari',
 	'General_WeeklyReports' => 'Informe setmanal',
 	'General_MonthlyReports' => 'Informe mensual',
