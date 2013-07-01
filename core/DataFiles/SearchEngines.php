@@ -183,7 +183,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         '{}.search-results.com'          => array('Ask'),
         '{}.search.ask.com'              => array('Ask'),
         'avira-int.ask.com'              => array('Ask'),
-        'avira.search.ask.com'           => array('Ask')
+        'avira.search.ask.com'           => array('Ask'),
 
         // Atlas
         'searchatlas.centrum.cz'         => array('Atlas', 'q', '?q={k}'),
