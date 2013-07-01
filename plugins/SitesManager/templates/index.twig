@@ -94,7 +94,7 @@ var searchKeywordLabel = '{{ searchKeywordLabel|e('js') }}';
 var searchCategoryLabel = '{{ searchCategoryLabel|e('js') }}';
 {% set sitesearchIntro='SitesManager_SiteSearchUse'|translate %}
 var sitesearchIntro = '{{ piwik.inlineHelp(sitesearchIntro)|e('js') }}';
-var sitesearchUseDefault = '{% if isSuperUser %}{{ 'SitesManager_SearchUseDefault'|translate('<a href="#globalSiteSearch">','</a>')|e('js') }}{% else %}{{ 'SitesManager_SearchUseDefault'|translate('','')|e('js') }}{% endif %}';
+var sitesearchUseDefault = '{% if isSuperUser %}{{ 'SitesManager_SearchUseDefault'|translate('<a href="#globalSiteSearch">','</a>')|raw|e('js') }}{% else %}{{ 'SitesManager_SearchUseDefault'|translate('','')|e('js') }}{% endif %}';
 var strDefault = '{{ 'General_Default'|translate|e('js') }}';
 
 $(document).ready(function () {
@@ -353,7 +353,7 @@ $(document).ready(function () {
             </span>
         </td>
         <td>
-            {{ piwik.inlineHelp('SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate('<a href="#editSites">','</a>')) }}
+            {{ piwik.inlineHelp('SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate('<a href="#editSites">','</a>')|raw) }}
         </td>
     </tr>
 

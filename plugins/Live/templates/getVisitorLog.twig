@@ -94,7 +94,7 @@
         {% endset %}
 
         {% set visitorRow %}
-            <tr class="label{{ cycle([odd,even], cycleIndex) }}">
+            <tr class="label{{ cycle(['odd','even'], cycleIndex) }}">
             {% set cycleIndex=cycleIndex+1 %}
                 <td style="display:none;"></td>
                 <td class="label" style="width:12%" width="12%">
@@ -116,7 +116,7 @@
                             {{ visitor.columns.providerName }}
                         </a>
                     {% endif %}
-                    {% if visitor.columns.customVariables is not empty %}
+                    {% if visitor.columns.customVariables is defined %}
                         <br/>
                         {% for id,customVariable in visitor.columns.customVariables %}
                             {% set name='customVariableName' ~ id %}
@@ -156,7 +156,7 @@
                             {% if visitor.columns.referrerKeyword is not empty %} - {{ visitor.columns.referrerKeyword }}{% endif %}
                         {% endif %}
                         {% if visitor.columns.referrerType == 'search' %}
-                            {% if visitor.columns.searchEngineIcon is not empty %}
+                            {% if visitor.columns.searchEngineIcon is defined %}
                                 <img src="{{ visitor.columns.searchEngineIcon }}" alt="{{ visitor.columns.referrerName }}"/>
                             {% endif %}
                             {{ visitor.columns.referrerName }}
@@ -193,7 +193,7 @@
                         {% set visitorHasSomeEcommerceActivity %}0{% endset %}
                         {% for action in visitor.columns.actionDetails %}
                             {% set customVariablesTooltip %}
-                                {% if action.customVariables is not empty %}
+                                {% if action.customVariables is defined %}
                                     {{ 'CustomVariables_CustomVariables'|translate }}
                                     {% for id,customVariable in action.customVariables %}
                                         {% set name = 'customVariablePageName' ~ id %}
@@ -203,7 +203,7 @@
                                 {% endif %}
                             {% endset %}
                             {% if not javascriptVariablesToSet.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
-                                <li class="{% if action.goalName is not empty %}goal{% else %}action{% endif %}"
+                                <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
                                     title="{{ action.serverTimePretty }}{% if action.url is not empty and action.url|trim|length %}
                                     {{ action.url }}{% endif %} {% if customVariablesTooltip|trim|length %}
 
@@ -261,12 +261,12 @@
                                                 </ul>
                                             {% endif %}
                                         </span>
-                                    {% elseif action.goalName is empty %}
+                                    {% elseif action.goalName is not defined%}
                                         {# Page view / Download / Outlink #}
                                         {% if action.pageTitle is not empty %}
                                             {{ action.pageTitle|truncate(80) }}
                                         {% endif %}
-                                        {% if action.siteSearchKeyword is not empty %}
+                                        {% if action.siteSearchKeyword is defined %}
                                             {% if action.type == 'search' %}
                                                 <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}'>
                                             {% endif %}

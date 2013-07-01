@@ -1,6 +1,6 @@
 <div id="topRightBar">
     {% set helloAlias %}
-        {% if userAlias %}
+        {% if userAlias is defined %}
             <strong>{{ userAlias }}</strong>
         {% else %}
             <strong>{{ userLogin }}</strong>

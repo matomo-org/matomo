@@ -5,7 +5,7 @@
 <html><!--<![endif]-->
     <head>
         {% block head %}
-            <title>{{ siteName }} - {% if isCustomLogo == false %}Piwik &rsaquo; {% endif %} {{ 'CoreHome_WebAnalyticsReports'|translate }}</title>
+            <title>{{ siteName|raw }} - {% if isCustomLogo == false %}Piwik &rsaquo; {% endif %} {{ 'CoreHome_WebAnalyticsReports'|translate}}</title>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
             <meta name="generator" content="Piwik - Open Source Web Analytics"/>
             <meta name="description" content="Web Analytics report for '{{ siteName }}' - Piwik"/>
@@ -19,14 +19,20 @@
             <!--[if IE]>
             <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/ieonly.css"/>
             <![endif]-->
-            {% include "_iframeBusterHeader.twig" %}
         {% endblock %}
     </head>
     <body>
-    {% include "_iframeBusterBody.twig" %}
+    {% include "_iframeBuster.twig" %}
+    {% include "@CoreHome/_javaScriptDisabled.twig" %}
 
     <div id="root">
-        {% include "_indexBeforeMenu.twig" %}
+        {% include "@CoreHome/_warningInvalidHost.twig" %}
+        {% include "@CoreHome/_topBar.twig"  %}
+        {% include "@CoreHome/_topScreen.twig" %}
+        <div class="ui-confirm" id="alert">
+            <h2></h2>
+            <input role="yes" type="button" value="{{ 'General_Ok'|translate }}"/>
+        </div>
 
         {% block content %}
         {% endblock %}

@@ -53,7 +53,7 @@
 </script>
 
 {% if displayFullReport %}
-    {% if nb_conversions > 0 or cart_nb_conversions is not empty %}
+    {% if nb_conversions > 0 or cart_nb_conversions is defined %}
         <h2 id='titleGoalsByDimension'>
             {% if idGoal is defined %}
                 {{ 'Goals_GoalConversionsBy'|translate(goalName)|raw }}

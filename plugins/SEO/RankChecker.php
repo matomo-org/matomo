@@ -179,8 +179,13 @@ class Piwik_SEO_RankChecker
      */
     public function getExternalBacklinkCount()
     {
-        $majesticInfo = $this->getMajesticInfo();
-        return $majesticInfo['backlink_count'];
+        try {
+            $majesticInfo = $this->getMajesticInfo();
+            return $majesticInfo['backlink_count'];
+        } catch(Exception $e) {
+            Piwik::log($e->getMessage());
+            return 0;
+        }
     }
 
     /**
@@ -190,8 +195,13 @@ class Piwik_SEO_RankChecker
      */
     public function getReferrerDomainCount()
     {
-        $majesticInfo = $this->getMajesticInfo();
-        return $majesticInfo['referrer_domains_count'];
+        try {
+            $majesticInfo = $this->getMajesticInfo();
+            return $majesticInfo['referrer_domains_count'];
+        } catch(Exception $e) {
+            Piwik::log($e->getMessage());
+            return 0;
+        }
     }
 
     /**

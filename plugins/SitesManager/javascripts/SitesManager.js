@@ -334,8 +334,10 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
 
         if (searchGlobalHasValues) {
             var checkedStr = checked ? ' checked ' : '';
-            html += '<label><span id="sitesearchUseDefault"' + (!enabled ? ' style="display:none" ' : '') + '><input type="checkbox" ' + checkedStr + ' id="sitesearchUseDefaultCheck" onclick="return onClickSiteSearchUseDefault();"> ' + sitesearchUseDefault + ' </span>';
-            html += '</label>';
+            html += '<label><span id="sitesearchUseDefault"' + (!enabled ? ' style="display:none" ' : '') + '><input type="checkbox" '
+                + checkedStr + ' id="sitesearchUseDefaultCheck" onclick="return onClickSiteSearchUseDefault();"> '
+                + sitesearchUseDefault + ' </span>';
+                + '</label>';
 
             html += '<div ' + ((checked && enabled) ? '' : 'style="display-none"') + ' class="searchDisplayParams form-description">'
                 + searchKeywordLabel + ' (' + strDefault + ') ' + ': '

@@ -327,8 +327,7 @@ class Piwik_Transitions_API
      * @param $limitBeforeGrouping
      * @return Piwik_DataTable
      */
-    public function queryExternalReferrers($idaction, $actionType, $logAggregator,
-                                           $limitBeforeGrouping = false)
+    public function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
     {
         $rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
 
@@ -401,8 +400,7 @@ class Piwik_Transitions_API
      * @param $limitBeforeGrouping
      * @return array(previousPages:Piwik_DataTable, loops:integer)
      */
-    protected function queryInternalReferrers($idaction, $actionType, $logAggregator,
-                                           $limitBeforeGrouping = false)
+    protected function queryInternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
     {
         $rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
@@ -543,8 +541,7 @@ class Piwik_Transitions_API
      * @param string $actionType
      * @param $limitBeforeGrouping
      */
-    private function addExternalReferrers($logAggregator, &$report,
-                                          $idaction, $actionType, $limitBeforeGrouping)
+    private function addExternalReferrers($logAggregator, &$report, $idaction, $actionType, $limitBeforeGrouping)
     {
 
         $data = $this->queryExternalReferrers(

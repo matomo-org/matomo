@@ -143,10 +143,6 @@ time_before_today_archive_considered_outdated = 10
 ; to trigger the Piwik archiving process.
 enable_browser_archiving_triggering = 1
 
-; If set to 1, nested reports will be archived with parent references in the datatables
-; At the moment, this is not needed in core but it can be handy for plugins
-enable_archive_parents_of_datatable = 0
-
 ; By default Piwik runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Piwik tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
 ; so you can disable these special queries here:

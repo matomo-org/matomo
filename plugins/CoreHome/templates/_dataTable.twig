@@ -27,7 +27,7 @@
                             id="{{ row.idsubdatatable }}"{% endif %}{% if row.issummaryrow is defined and row.issummaryrow and properties.highlight_summary_row %} class="highlight"{% endif %}>
                             {% for column in dataTableColumns %}
                                 <td>
-                                    {% include "@CoreHome/_dataTableCell.twig" %}
+                                    {% include "@CoreHome/_dataTableCell.twig" with properties %}
                                 </td>
                             {% endfor %}
                         </tr>

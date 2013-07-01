@@ -132,6 +132,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
      */
     public function refreshParsedUserAgents()
     {
+        Piwik::checkUserIsSuperUser();
         $q = "SELECT idvisit, config_debug_ua FROM " . Piwik_Common::prefixTable("log_visit");
         $res = Piwik_FetchAll($q);
         foreach ($res as $rec) {

@@ -96,7 +96,7 @@ class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
             array('visit_total_actions', self::$pageGap, 'log_visit', $prefixes[self::PAGES_VIEWED_RECORD_NAME]),
             array('visitor_count_visits', self::$visitNumberGap, 'log_visit', $prefixes[self::VISITS_COUNT_RECORD_NAME]),
             array('visitor_days_since_last', self::$daysSinceLastVisitGap, 'log_visit', $prefixes[self::DAYS_SINCE_LAST_RECORD_NAME],
-                  $i_am_your_nightmare_DELETE_ME = true
+                  $restrictToReturningVisitors = true
             ),
         );
         $selects = array();

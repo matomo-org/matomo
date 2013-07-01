@@ -19,7 +19,7 @@
                             {% else %}class="actionsDataTable rowToProcess"{% endif %}>
                             {% for column in dataTableColumns %}
                                 <td>
-                                    {% include "@CoreHome/_dataTableCell.twig" with {'column': column, 'row': row} only %}
+                                    {% include "@CoreHome/_dataTableCell.twig" with {'column': column, 'row': row} %}
                                 </td>
                             {% endfor %}
                         </tr>

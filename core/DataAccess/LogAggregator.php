@@ -422,11 +422,11 @@ class Piwik_DataAccess_LogAggregator
      */
     public static function getSelectsFromRangedColumn($metadata)
     {
-        @list($column, $ranges, $table, $selectColumnPrefix, $i_am_your_nightmare_DELETE_ME) = $metadata;
+        @list($column, $ranges, $table, $selectColumnPrefix, $restrictToReturningVisitors) = $metadata;
 
         $selects = array();
         $extraCondition = '';
-        if ($i_am_your_nightmare_DELETE_ME) {
+        if ($restrictToReturningVisitors) {
             // extra condition for the SQL SELECT that makes sure only returning visits are counted
             // when creating the 'days since last visit' report
             $extraCondition = 'and log_visit.visitor_returning = 1';

@@ -1,11 +1,12 @@
-<div id="topBars">
 
+{% if showTopMenu is not defined or showTopMenu %}
+<div id="topBars">
     {% include "@CoreHome/_topBarTopMenu.twig" %}
     {% include "@CoreHome/_topBarHelloMenu.twig" %}
-
 </div>
+{% endif %}
 
-{% if showSitesSelection %}
+{% if showSitesSelection is not defined or showSitesSelection %}
     <div class="top_bar_sites_selector">
         <label>{{ 'General_Website'|translate }}</label>
         {% include "@CoreHome/_siteSelect.twig" %}
