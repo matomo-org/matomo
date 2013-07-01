@@ -5,7 +5,7 @@
 {% if nb_conversions > 0 %}
     <h2>{{ 'Goals_ConversionsOverview'|translate }}</h2>
     <ul class="ulGoalTopElements">
-        {% if ecommerce is not defined}
+        {% if ecommerce is not defined %}
             {% if topDimensions.country is defined %}
                 <li>{{ 'Goals_BestCountries'|translate }} {% include '@Goals/_listTopDimension.twig' with {'topDimension':topDimensions.country} %}</li>
             {% endif %}

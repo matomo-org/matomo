@@ -263,7 +263,7 @@
                                         </span>
                                     {% elseif action.goalName is not defined%}
                                         {# Page view / Download / Outlink #}
-                                        {% if action.pageTitle is not empty %}
+                                        {% if action.pageTitle is defined %}
                                             {{ action.pageTitle|truncate(80) }}
                                         {% endif %}
                                         {% if action.siteSearchKeyword is defined %}

@@ -42,7 +42,7 @@ class Piwik_Twig
             array(
                  'debug' => true, // to use {{ dump(var) }} in twig templates
                  'strict_variables' => true, // throw an exception if variables are invalid
-                 'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
+                 'cache' => PIWIK_USER_PATH . '/tmp/templates_c',
             )
         );
         $this->twig->addExtension(new Twig_Extension_Debug());
