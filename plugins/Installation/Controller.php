@@ -25,7 +25,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         'tablesCreation'        => 'Installation_Tables',
         'generalSetup'          => 'Installation_SuperUser',
         'firstWebsiteSetup'     => 'Installation_SetupWebsite',
-        'displayJavascriptCode' => 'Installation_JsTag',
+        'trackingCode'          => 'Installation_JsTag',
         'finished'              => 'Installation_Congratulations',
     );
 
@@ -132,7 +132,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         // case the user hits the back button
         $this->session->skipThisStep = array(
             'firstWebsiteSetup'     => false,
-            'displayJavascriptCode' => false,
+            'trackingCode'          => false,
         );
 
         $view = new Piwik_Installation_View(
@@ -246,7 +246,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             // workaround ZF-1743
             $tmp = $this->session->skipThisStep;
             $tmp['firstWebsiteSetup'] = false;
-            $tmp['displayJavascriptCode'] = false;
+            $tmp['trackingCode'] = false;
             $this->session->skipThisStep = $tmp;
         }
 
@@ -273,7 +273,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
                 // workaround ZF-1743
                 $tmp = $this->session->skipThisStep;
                 $tmp['firstWebsiteSetup'] = true;
-                $tmp['displayJavascriptCode'] = true;
+                $tmp['trackingCode'] = true;
                 $this->session->skipThisStep = $tmp;
             }
         } else {
@@ -400,12 +400,12 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     /**
      * Installation Step 8: Display JavaScript tracking code
      */
-    public function displayJavascriptCode()
+    public function trackingCode()
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            '@Installation/displayJavascriptCode',
+            '@Installation/trackingCode',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
