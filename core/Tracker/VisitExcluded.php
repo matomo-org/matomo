@@ -35,38 +35,7 @@ class Piwik_Tracker_VisitExcluded
     {
         $excluded = false;
 
-        /*
-         * Live/Bing/MSN bot and Googlebot are evolving to detect cloaked websites.
-         * As a result, these sophisticated bots exhibit characteristics of
-         * browsers (cookies enabled, executing JavaScript, etc).
-         */
-        $allowBots = Piwik_Common::getRequestVar('bots', false) != false;
-        if (!$allowBots
-            && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
-                || strpos($this->userAgent, 'Google Web Preview') !== false // Google Instant
-                || strpos($this->userAgent, 'bingbot') !== false // Bingbot
-                || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
-                || Piwik_IP::isIpInRange($this->ip,
-                    array(
-                         // Live/Bing/MSN
-                         '64.4.0.0/18',
-                         '65.52.0.0/14',
-                         '157.54.0.0/15',
-                         '157.56.0.0/14',
-                         '157.60.0.0/16',
-                         '207.46.0.0/16',
-                         '207.68.128.0/18',
-                         '207.68.192.0/20',
-                         '131.253.26.0/20',
-                         '131.253.24.0/20',
-                         // Yahoo
-                         '72.30.198.0/20',
-                         '72.30.196.0/20',
-                         '98.137.207.0/20',
-                         // Chinese bot hammering websites
-                         '1.202.218.8'
-                    )))
-        ) {
+        if ($this->isNonHumanBot()) {
             printDebug('Search bot detected, visit excluded');
             $excluded = true;
         }
@@ -104,7 +73,7 @@ class Piwik_Tracker_VisitExcluded
 
         // Checking for excluded IPs
         if (!$excluded) {
-            $excluded = $this->isVisitorIpExcluded($this->ip);
+            $excluded = $this->isVisitorIpExcluded();
             if ($excluded) {
                 printDebug("IP excluded.");
             }
@@ -119,11 +88,7 @@ class Piwik_Tracker_VisitExcluded
         }
 
         if (!$excluded) {
-            if ((isset($_SERVER["HTTP_X_PURPOSE"])
-                && in_array($_SERVER["HTTP_X_PURPOSE"], array("preview", "instant")))
-                || (isset($_SERVER['HTTP_X_MOZ'])
-                    && $_SERVER['HTTP_X_MOZ'] == "prefetch")
-            ) {
+            if ($this->isPrefetchDetected()) {
                 $excluded = true;
                 printDebug("Prefetch request detected, not a real visit so we Ignore this visit/pageview");
             }
@@ -135,6 +100,53 @@ class Piwik_Tracker_VisitExcluded
         }
 
         return false;
+    }
+
+    protected function isPrefetchDetected()
+    {
+        return (isset($_SERVER["HTTP_X_PURPOSE"])
+            && in_array($_SERVER["HTTP_X_PURPOSE"], array("preview", "instant")))
+            || (isset($_SERVER['HTTP_X_MOZ'])
+                && $_SERVER['HTTP_X_MOZ'] == "prefetch");
+    }
+
+    /*
+     * Live/Bing/MSN bot and Googlebot are evolving to detect cloaked websites.
+     * As a result, these sophisticated bots exhibit characteristics of
+     * browsers (cookies enabled, executing JavaScript, etc).
+     */
+    protected function isNonHumanBot()
+    {
+        $allowBots = Piwik_Common::getRequestVar('bots', false) != false;
+        return !$allowBots
+            && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
+                || strpos($this->userAgent, 'Google Web Preview') !== false // Google Instant
+                || strpos($this->userAgent, 'bingbot') !== false // Bingbot
+                || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
+                || Piwik_IP::isIpInRange($this->ip, $this->getBotIpRanges()));
+    }
+
+    protected function getBotIpRanges()
+    {
+        return array(
+            // Live/Bing/MSN
+            '64.4.0.0/18',
+            '65.52.0.0/14',
+            '157.54.0.0/15',
+            '157.56.0.0/14',
+            '157.60.0.0/16',
+            '207.46.0.0/16',
+            '207.68.128.0/18',
+            '207.68.192.0/20',
+            '131.253.26.0/20',
+            '131.253.24.0/20',
+            // Yahoo
+            '72.30.198.0/20',
+            '72.30.196.0/20',
+            '98.137.207.0/20',
+            // Chinese bot hammering websites
+            '1.202.218.8'
+        );
     }
 
     /**
@@ -190,5 +202,4 @@ class Piwik_Tracker_VisitExcluded
         }
         return false;
     }
-
 }
