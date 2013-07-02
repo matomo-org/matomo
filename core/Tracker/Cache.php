@@ -46,7 +46,7 @@ class Piwik_Tracker_Cache
         if (($cacheContent = $cache->get($idSite)) !== false) {
             return $cacheContent;
         }
-
+        
         Piwik_Tracker::initCorePiwikInTrackerMode();
 
         // save current user privilege and temporarily assume super user privilege
@@ -94,7 +94,7 @@ class Piwik_Tracker_Cache
 
         Piwik_Tracker::initCorePiwikInTrackerMode();
         $cacheContent = array(
-            'isBrowserTriggerArchivingEnabled' => Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled(),
+            'isBrowserTriggerEnabled' => Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled(),
             'lastTrackerCronRun'               => Piwik_GetOption('lastTrackerCronRun'),
             'currentLocationProviderId'        => Piwik_UserCountry_LocationProvider::getCurrentProviderId(),
         );

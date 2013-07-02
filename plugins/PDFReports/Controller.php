@@ -70,6 +70,17 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
 
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 
+        $view->segmentEditorActivated = false;
+        if (Piwik_PDFReports_API::isSegmentEditorActivated()) {
+
+            $savedSegmentsById = array();
+            foreach (Piwik_SegmentEditor_API::getInstance()->getAll($this->idSite) as $savedSegment) {
+                $savedSegmentsById[$savedSegment['idsegment']] = $savedSegment['name'];
+            }
+            $view->savedSegmentsById = $savedSegmentsById;
+            $view->segmentEditorActivated = true;
+        }
+
         echo $view->render();
     }
 }

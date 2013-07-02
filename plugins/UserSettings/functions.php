@@ -153,6 +153,16 @@ function Piwik_getBrowserVersion($str)
     return substr($str, strpos($str, ';') + 1);
 }
 
+function Piwik_getLogoImageFromId($dir, $id)
+{
+    $path = $dir.'/'.$id.'.gif';
+    if (file_exists(PIWIK_INCLUDE_PATH . '/' . $path)) {
+        return $path;
+    } else {
+        return $dir.'/UNK.gif';
+    }
+}
+
 function Piwik_getBrowsersLogo($label)
 {
     $id = Piwik_getBrowserId($label);
@@ -160,7 +170,7 @@ function Piwik_getBrowsersLogo($label)
     if (empty($id)) {
         $id = 'UNK';
     }
-    return 'plugins/UserSettings/images/browsers/' . $id . '.gif';
+    return Piwik_getLogoImageFromId('plugins/UserSettings/images/browsers', $id);
 }
 
 function Piwik_getOSLogo($label)
@@ -169,8 +179,7 @@ function Piwik_getOSLogo($label)
     if (empty($label)) {
         $label = 'UNK';
     }
-    $path = 'plugins/UserSettings/images/os/' . $label . '.gif';
-    return $path;
+    return Piwik_getLogoImageFromId('plugins/UserSettings/images/os', $label);
 }
 
 function Piwik_getScreensLogo($label)
@@ -198,7 +207,7 @@ function Piwik_UserSettings_keepStrlenGreater($value)
 
 function Piwik_getScreenTypeFromResolution($resolution)
 {
-    if ($resolution === 'unknown') {
+    if ($resolution === Piwik_Tracker_Request::UNKNOWN_RESOLUTION) {
         return $resolution;
     }
 

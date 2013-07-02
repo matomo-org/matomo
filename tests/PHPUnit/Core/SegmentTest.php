@@ -17,14 +17,13 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         Zend_Registry::set('access', $pseudoMockAccess);
 
         // Load and install plugins
-        $pluginsManager = Piwik_PluginsManager::getInstance();
-        $pluginsManager->loadPlugins(Piwik_Config::getInstance()->Plugins['Plugins']);
+        IntegrationTestCase::loadAllPlugins();
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        Piwik_PluginsManager::getInstance()->unloadPlugins();
+        IntegrationTestCase::unloadAllPlugins();
     }
 
     protected function _filterWhitsSpaces($valueToFilter)
@@ -55,7 +54,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
 
             // AND, with 2 values rewrites
             array('countryCode==a;visitorType!=returning;visitorType==new', array(
-                'where' => ' log_visit.location_country = ? AND log_visit.visitor_returning <> ? AND log_visit.visitor_returning = ? ',
+                'where' => ' log_visit.location_country = ? AND ( log_visit.visitor_returning IS NULL OR log_visit.visitor_returning <> ? ) AND log_visit.visitor_returning = ? ',
                 'bind'  => array('a', '1', '0'))),
 
             // OR, with 2 value rewrites
@@ -63,6 +62,27 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 'where' => ' (log_visit.referer_type = ? OR log_visit.referer_type = ? )',
                 'bind'  => array(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE,
                                  Piwik_Common::REFERER_TYPE_DIRECT_ENTRY))),
+
+            // IS NOT NULL
+            array('browserCode==ff;referrerKeyword!=', array(
+                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NOT NULL AND (log_visit.referer_keyword <> \'\' OR log_visit.referer_keyword = 0) ) ',
+                'bind'  => array('ff')
+            )),
+            array('referrerKeyword!=,browserCode==ff', array(
+                'where' => ' (( log_visit.referer_keyword IS NOT NULL AND (log_visit.referer_keyword <> \'\' OR log_visit.referer_keyword = 0) ) OR log_visit.config_browser_name = ? )',
+                'bind'  => array('ff')
+            )),
+
+            // IS NULL
+            array('browserCode==ff;referrerKeyword==', array(
+                'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' ) ',
+                'bind'  => array('ff')
+            )),
+            array('referrerKeyword==,browserCode==ff', array(
+                'where' => ' (( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' ) OR log_visit.config_browser_name = ? )',
+                'bind'  => array('ff')
+            )),
+
         );
     }
 
@@ -259,7 +279,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
-                    ( log_conversion.idgoal <> ? AND log_link_visit_action.custom_var_k1 = ? AND log_conversion.idgoal = ? )",
+                    ( ( log_conversion.idgoal IS NULL OR log_conversion.idgoal <> ? ) AND log_link_visit_action.custom_var_k1 = ? AND log_conversion.idgoal = ? )",
             "bind" => array(1, 2, 'Test', 1));
 
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($query));

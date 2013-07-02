@@ -204,11 +204,11 @@ class Test_Piwik_Fixture_ManyVisitsWithMockLocationProvider extends Test_Piwik_B
     {
         Piwik_UserCountry_LocationProvider::setCurrentProvider('mock_provider');
         MockLocationProvider::$locations = array(
-            self::makeLocation('Toronto', 'ON', 'CA'),
+            self::makeLocation('Toronto', 'ON', 'CA', $lat = null, $long = null, $isp = 'comcast.net'),
 
-            self::makeLocation('Nice', 'B8', 'FR'),
+            self::makeLocation('Nice', 'B8', 'FR', $lat = null, $long = null, $isp = 'comcast.net'),
 
-            self::makeLocation('Melbourne', '07', 'AU'),
+            self::makeLocation('Melbourne', '07', 'AU', $lat = null, $long = null, $isp = 'awesomeisp.com'),
 
             self::makeLocation('Yokohama', '19', 'JP'),
         );

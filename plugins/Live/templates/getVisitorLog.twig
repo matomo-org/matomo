@@ -3,7 +3,7 @@
 {% if not isWidget %}
     <h2>{% if javascriptVariablesToSet.filterEcommerce %}{{ 'Goals_EcommerceLog'|translate }}{% else %}{{ 'Live_VisitorLog'|translate }}{% endif %}</h2>
     {% if reportDocumentation is not empty %}
-        <div class="reportDocumentation"><p>{{ reportDocumentation }}</p></div>
+        <div class="reportDocumentation"><p>{{ reportDocumentation|raw }}</p></div>
     {% endif %}
 {% endif %}
 {% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
@@ -41,11 +41,11 @@
     </tr>
     </thead>
     <tbody>
-
+    {% set cycleIndex=0 %}
     {% for visitor in arrayDataTable %}
         {% set visitorColumnContent %}
             &nbsp;
-            <img src="{{ visitor.columns.countryFlag }}" title="{{ visitor.columns.location }}, Provider {{ visitor.columns.provider }}"/>
+            <img src="{{ visitor.columns.countryFlag }}" title="{{ visitor.columns.location }}, Provider {{ visitor.columns.providerName }}"/>
             &nbsp;
             {% if visitor.columns.plugins %}
             <img src="{{ visitor.columns.browserIcon }}" title="{{ 'UserSettings_BrowserWithPluginsEnabled'|translate(visitor.columns.browserName,visitor.columns.plugins) }}"/>
@@ -92,7 +92,8 @@
         {% endset %}
 
         {% set visitorRow %}
-            <tr class="label{cycle values='odd,even'}">
+            <tr class="label{{ cycle(['odd','even'], cycleIndex) }}">
+            {% set cycleIndex=cycleIndex+1 %}
                 <td style="display:none;"></td>
                 <td class="label" style="width:12%" width="12%">
                     <strong title="{% if visitor.columns.visitorType=='new' %}{{ 'General_NewVisitor'|translate }}{% else %}{{ 'Live_VisitorsLastVisit'|translate(visitor.columns.daysSinceLastVisit) }}{% endif %}">
@@ -106,18 +107,18 @@
                             GPS (lat/long): {{ visitor.columns.latitude }},{{ visitor.columns.longitude }}{% endif %}">
                         IP: {{ visitor.columns.visitIp }}</span>{% endif %}
 
-                    {% if visitor.columns.provider is defined and visitor.columns.provider!='IP' %}
+                    {% if visitor.columns.provider is defined and visitor.columns.providerName!='IP' %}
                         <br/>
                         {{ 'Provider_ColumnProvider'|translate }}:
                         <a href="{{ visitor.columns.providerUrl }}" target="_blank" title="{{ visitor.columns.providerUrl }}" style="text-decoration:underline;">
-                            {{ visitor.columns.provider }}
+                            {{ visitor.columns.providerName }}
                         </a>
                     {% endif %}
-                    {% if visitor.columns.customVariables is not empty %}
+                    {% if visitor.columns.customVariables is defined %}
                         <br/>
                         {% for id,customVariable in visitor.columns.customVariables %}
-                            {% set name %}customVariableName{{ id }}{% endset %}
-                            {% set value %}customVariableValue{{ id }}{% endset %}
+                            {% set name='customVariableName' ~ id %}
+                            {% set value='customVariableValue' ~ id %}
                             <br/>
                             <acronym title="{{ 'CustomVariables_CustomVariables'|translate }} (index {{ id }})">
                                 {{ customVariable[name]|truncate(30) }}
@@ -153,7 +154,7 @@
                             {% if visitor.columns.referrerKeyword is not empty %} - {{ visitor.columns.referrerKeyword }}{% endif %}
                         {% endif %}
                         {% if visitor.columns.referrerType == 'search' %}
-                            {% if visitor.columns.searchEngineIcon is not empty %}
+                            {% if visitor.columns.searchEngineIcon is defined %}
                                 <img src="{{ visitor.columns.searchEngineIcon }}" alt="{{ visitor.columns.referrerName }}"/>
                             {% endif %}
                             {{ visitor.columns.referrerName }}
@@ -164,7 +165,7 @@
                             {% endif %}
                             {% set keyword %}{{ visitor.columns.referrerKeyword }}{% endset %}
                             {% set searchName %}{{ visitor.columns.referrerName }}{% endset %}
-                            {% set position}#{{ visitor.columns.referrerKeywordPosition }}{% endset %}
+                            {% set position %}#{{ visitor.columns.referrerKeywordPosition }}{% endset %}
                             {% if visitor.columns.referrerKeywordPosition %}
                                 <span title='{{ 'Live_KeywordRankedOnSearchResultForThisVisitor'|translate(keyword,position,searchName) }}' class='visitorRank'>
                                     <span class='hash'>#</span>
@@ -183,32 +184,32 @@
                         {% else %}
                             {{ 'Live_Actions'|translate }}
                         {% endif %}
-                        {% if visitor.columns.visitDuration > 0 %}- {{ visitor.columns.visitDurationPretty }}{% endif %}
+                        {% if visitor.columns.visitDuration > 0 %}- {{ visitor.columns.visitDurationPretty|raw }}{% endif %}
                     </strong>
                     <br/>
                     <ol class='visitorLog'>
                         {% set visitorHasSomeEcommerceActivity %}0{% endset %}
                         {% for action in visitor.columns.actionDetails %}
                             {% set customVariablesTooltip %}
-                                {% if action.customVariables is not empty %}
+                                {% if action.customVariables is defined %}
                                     {{ 'CustomVariables_CustomVariables'|translate }}
                                     {% for id,customVariable in action.customVariables %}
-                                        {% set name %}customVariablePageName{{ id }}{% endset %}
-                                        {% set value %}customVariablePageValue{{ id }}{% endset %}
-                                        - {{ customVariable[name] }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value] }}{% endif %}
+                                        {% set name = 'customVariablePageName' ~ id %}
+                                        {% set value = 'customVariablePageValue' ~ id %}
+                                        - {{ customVariable[name]|raw }} {% if customVariable[value]|length > 0 %} = {{ customVariable[value]|raw }}{% endif %}
                                     {% endfor %}
                                 {% endif %}
                             {% endset %}
                             {% if not javascriptVariablesToSet.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
-                                <li class="{% if action.goalName is not empty %}goal{% else %}action{% endif %}"
+                                <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
                                     title="{{ action.serverTimePretty }}{% if action.url is not empty and action.url|trim|length %}
                                     {{ action.url }}{% endif %} {% if customVariablesTooltip|trim|length %}
 
                                     {{ customVariablesTooltip|trim }}{% endif %}{% if action.timeSpentPretty is defined %}
 
-                                    {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty }}{% endif %}{% if action.generationTime is defined %}
+                                    {{ 'General_TimeOnPage'|translate }}: {{ action.timeSpentPretty|raw }}{% endif %}{% if action.generationTime is defined %}
 
-                                    {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime }}{% endif %}">
+                                    {{ 'General_ColumnGenerationTime'|translate }}: {{ action.generationTime|raw }}{% endif %}">
                                     {% if action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
                                     {# Ecommerce Abandoned Cart / Ecommerce Order #}
                                         <img src="{{ action.icon }}"/>
@@ -229,7 +230,7 @@
 					                        {% if action.type == 'ecommerceOrder' %}
                                             <abbr title="
                                                 {{ 'Live_GoalRevenue'|translate }}: {{ action.revenue|money(javascriptVariablesToSet.idSite) }}
-                                                {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite) %}{% endif %}
+                                                {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite) }}{% endif %}
                                                 {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(javascriptVariablesToSet.idSite) }}{% endif %}
                                                 {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(javascriptVariablesToSet.idSite) }}{% endif %}
                                                 {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(javascriptVariablesToSet.idSite) }}{% endif %}
@@ -238,12 +239,12 @@
                                                 {% set revenueLeft %}{{ 'Live_GoalRevenue'|translate }}{% endset %}
                                                 {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
                                             {% endif %}
-                                                <strong>{$action.revenue|money:$javascriptVariablesToSet.idSite}</strong>
+                                                <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite) }}</strong>
                                             {% if action.type == 'ecommerceOrder' %}
                                             </abbr>
                                             {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
 
-                                            {##} Ecommerce items in Cart/Order #}
+                                            {# Ecommerce items in Cart/Order #}
                                             {% if action.itemDetails is not empty %}
                                                 <ul style='list-style:square;margin-left:{% if isWidget %}15{% else %}50{% endif %}px'>
                                                     {% for product in action.itemDetails %}
@@ -258,12 +259,12 @@
                                                 </ul>
                                             {% endif %}
                                         </span>
-                                    {% elseif action.goalName is empty %}
+                                    {% elseif action.goalName is not defined%}
                                         {# Page view / Download / Outlink #}
-                                        {% if action.pageTitle is not empty %}
+                                        {% if action.pageTitle is defined %}
                                             {{ action.pageTitle|truncate(80) }}
                                         {% endif %}
-                                        {% if action.siteSearchKeyword is not empty %}
+                                        {% if action.siteSearchKeyword is defined %}
                                             {% if action.type == 'search' %}
                                                 <img src='{{ action.icon }}' title='{{ 'Actions_SubmenuSitesearch'|translate }}'>
                                             {% endif %}
@@ -286,7 +287,7 @@
                                         {# Goal conversion #}
                                         <img src="{{ action.icon }}" />
                                         <strong>{{ action.goalName }}</strong>
-                                        {% if action.revenue > 0}, {{ 'Live_GoalRevenue'|translate }}:
+                                        {% if action.revenue > 0 %}, {{ 'Live_GoalRevenue'|translate }}:
                                             <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite) }}</strong>
                                         {% endif %}
                                     {% endif %}
@@ -311,7 +312,7 @@
         {% include "@CoreHome/_dataTableFooter.twig" %}
     {% endif %}
 
-    {% include "@CoreHome/_dataTableJS.twig"}
+    {% include "@CoreHome/_dataTableJS.twig" %}
     <script type="text/javascript" defer="defer">
 
         var visitorLogTitle = '{{ 'Live_VisitorLog'|translate|e('js') }}';

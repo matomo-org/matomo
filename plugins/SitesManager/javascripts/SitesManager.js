@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// NOTE: if you cannot find the definition of a variable here, look in SitesManager.tpl
+// NOTE: if you cannot find the definition of a variable here, look in index.twig
 function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrency) {
 
     var timezones = _timezones;
@@ -78,6 +78,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
         urls = urls.trim().split("\n");
         var excludedIps = $(row).find('textarea#excludedIps').val();
         excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
+
         var excludedQueryParameters = $(row).find('textarea#excludedQueryParameters').val();
         excludedQueryParameters = piwikHelper.getApiFormatTextarea(excludedQueryParameters);
         var excludedUserAgents = $(row).find('textarea#excludedUserAgents').val();
@@ -117,8 +118,8 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
     }
 
     function sendGlobalSettingsAJAX() {
-        var timezone = $('#defaultTimezone option:selected').val();
-        var currency = $('#defaultCurrency option:selected').val();
+        var timezone = $('#defaultTimezone').find('option:selected').val();
+        var currency = $('#defaultCurrency').find('option:selected').val();
         var excludedIps = $('textarea#globalExcludedIps').val();
         excludedIps = piwikHelper.getApiFormatTextarea(excludedIps);
         var excludedQueryParameters = $('textarea#globalExcludedQueryParameters').val();
@@ -157,6 +158,11 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
         $('.addRowSite').click(function () {
             piwikHelper.hideAjaxError();
             $('.addRowSite').toggle();
+            
+            var excludedUserAgentCell = '';
+            if ($('#exclude-user-agent-header').is(':visible')) {
+                excludedUserAgentCell = '<td><textarea cols="20" rows="4" id="excludedUserAgents"></textarea><br />' + excludedUserAgentsHelp + '</td>';
+            }
 
             var numberOfRows = $('table#editSites')[0].rows.length;
             var newRowId = 'rowNew' + numberOfRows;
@@ -166,9 +172,9 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
 				<td><input id="name" value="Name" size="15" /><br/><br/><br/>' + submitButtonHtml + '</td>\
 				<td><textarea cols="25" rows="3" id="urls">http://siteUrl.com/\nhttp://siteUrl2.com/</textarea><br />' + aliasUrlsHelp + keepURLFragmentSelectHTML + '</td>\
 				<td><textarea cols="20" rows="4" id="excludedIps"></textarea><br />' + excludedIpHelp + '</td>\
-				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />' + excludedQueryParametersHelp + '</td>\
-				<td><textarea cols="20" rows="4" id="excludedUserAgents"></textarea><br />' + excludedUserAgentsHelp + '</td>\
-				<td>' + getSitesearchSelector(false) + '</td>\
+				<td><textarea cols="20" rows="4" id="excludedQueryParameters"></textarea><br />' + excludedQueryParametersHelp + '</td>' +
+				excludedUserAgentCell +
+				'<td>' + getSitesearchSelector(false) + '</td>\
 				<td>' + getTimezoneSelector(defaultTimezone) + '<br />' + timezoneHelp + '</td>\
 				<td>' + getCurrencySelector(defaultCurrency) + '<br />' + currencyHelp + '</td>\
 				<td>' + getEcommerceSelector(0) + '<br />' + ecommerceHelp + '</td>\
@@ -199,7 +205,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                 var nameToDelete = $(this).parent().parent().find('input#siteName').val() || $(this).parent().parent().find('td#siteName').html();
                 var idsiteToDelete = $(this).parent().parent().find('#idSite').html();
 
-                $('#confirm h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'), '"' + nameToDelete + '" (idSite = ' + idsiteToDelete + ')'));
+                $('#confirm').find('h2').text(sprintf(_pk_translate('SitesManager_DeleteConfirm_js'), '"' + nameToDelete + '" (idSite = ' + idsiteToDelete + ')'));
                 piwikHelper.modalConfirm('#confirm', {yes: function () {
                     sendDeleteSiteAJAX(idsiteToDelete);
                 }});
@@ -213,7 +219,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                 var idRow = $(this).attr('id');
                 if (alreadyEdited[idRow] == 1) return;
                 if (siteBeingEdited) {
-                    $('#alert h2').text(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime_js'), '"' + $("<div/>").html(siteBeingEditedName).text() + '"'));
+                    $('#alert').find('h2').text(sprintf(_pk_translate('SitesManager_OnlyOneSiteAtTime_js'), '"' + $("<div/>").html(siteBeingEditedName).text() + '"'));
                     piwikHelper.modalConfirm('#alert', {});
                     return;
                 }
@@ -229,7 +235,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                         var idName = $(n).attr('id');
                         if (idName == 'siteName') {
                             siteBeingEditedName = contentBefore;
-                            var contentAfter = '<input id="' + idName + '" value="' + piwikHelper.htmlEntities(contentBefore) + '" size="15" />';
+                            var contentAfter = '<input id="' + idName + '" value="' + contentBefore + '" size="15" />';
 
                             var inputSave = $('<br/><input style="margin-top:50px" type="submit" class="submit" value="' + _pk_translate('General_Save_js') + '" />')
                                 .click(function () { submitUpdateSite($(this).parent()); });
@@ -243,8 +249,7 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
                         }
                         else if (idName == 'urls') {
                             var keepURLFragmentsForSite = $(this).closest('tr').attr('data-keep-url-fragments');
-
-                            var contentAfter = '<textarea cols="25" rows="3" id="urls">' + contentBefore.replace(/<br *\/? *>/gi, "\n") + '</textarea>';
+                            var contentAfter = '<textarea cols="25" rows="3" id="urls">' + contentBefore.replace(/<br *\/? *> */gi, "\n") + '</textarea>';
                             contentAfter += '<br />' + aliasUrlsHelp + keepURLFragmentSelectHTML;
                             $(n).html(contentAfter).find('select').val(keepURLFragmentsForSite);
                         }
@@ -329,8 +334,10 @@ function SitesManager(_timezones, _currencies, _defaultTimezone, _defaultCurrenc
 
         if (searchGlobalHasValues) {
             var checkedStr = checked ? ' checked ' : '';
-            html += '<label><span id="sitesearchUseDefault"' + (!enabled ? ' style="display:none" ' : '') + '><input type="checkbox" ' + checkedStr + ' id="sitesearchUseDefaultCheck" onclick="return onClickSiteSearchUseDefault();"> ' + sitesearchUseDefault + ' </span>';
-            html += '</label>';
+            html += '<label><span id="sitesearchUseDefault"' + (!enabled ? ' style="display:none" ' : '') + '><input type="checkbox" '
+                + checkedStr + ' id="sitesearchUseDefaultCheck" onclick="return onClickSiteSearchUseDefault();"> '
+                + sitesearchUseDefault + ' </span>';
+                + '</label>';
 
             html += '<div ' + ((checked && enabled) ? '' : 'style="display-none"') + ' class="searchDisplayParams form-description">'
                 + searchKeywordLabel + ' (' + strDefault + ') ' + ': '

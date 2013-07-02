@@ -161,6 +161,7 @@ class Piwik_API_Proxy
 
         // Temporarily sets the Request array to this API call context
         $saveGET = $_GET;
+        $saveQUERY_STRING = @$_SERVER['QUERY_STRING'];
         foreach ($parametersRequest as $param => $value) {
             $_GET[$param] = $value;
         }
@@ -199,6 +200,7 @@ class Piwik_API_Proxy
 
             // Restore the request
             $_GET = $saveGET;
+            $_SERVER['QUERY_STRING'] = $saveQUERY_STRING;
 
             // log the API Call
             try {
@@ -280,7 +282,13 @@ class Piwik_API_Proxy
                     $requestValue = Piwik_Common::getRequestVar($name, null, null, $parametersRequest);
                 } else {
                     try {
-                        $requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+
+                        if( $name == 'segment' && !empty($parametersRequest['segment'])) {
+                            // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
+                            $requestValue = ($parametersRequest['segment']);
+                        } else {
+                            $requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+                        }
                     } catch (Exception $e) {
                         // Special case: empty parameter in the URL, should return the empty string
                         if (isset($parametersRequest[$name])

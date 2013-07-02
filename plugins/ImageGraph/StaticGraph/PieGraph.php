@@ -114,7 +114,7 @@ abstract class Piwik_ImageGraph_StaticGraph_PieGraph extends Piwik_ImageGraph_St
         $smallValuesSum += $this->ordinateSeries[$metricColumn][$ordinateValuesCount - 1];
         if (($smallValuesSum / $ordinateValuesSum) > 0.01) {
             $truncatedOrdinateSeries[$metricColumn][] = $smallValuesSum;
-            $truncatedAbscissaSeries[] = Piwik_Translate('General_Others');
+            $truncatedAbscissaSeries[] = end($this->abscissaSeries);
         }
 
         $this->ordinateSeries = $truncatedOrdinateSeries;

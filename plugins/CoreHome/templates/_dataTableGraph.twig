@@ -1,7 +1,7 @@
 <div class="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
 
     <div class="reportDocumentation">
-        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation }}</p>{% endif %}
+        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation|raw }}</p>{% endif %}
         {% if properties.metadata.archived_date is defined %}<p>{{ properties.metadata.archived_date }}</p>{% endif %}
     </div>
 
@@ -11,7 +11,7 @@
             <div class="jqplot-{{ graphType }}" style="padding-left: 6px;">
                 <div class="piwik-graph"
                     style="position: relative; width: {{ width }}{% if width|slice(-1,1) != '%' %}px{% endif %}; height: {{ height }}{% if height|slice(-1,1) != '%' %}px{% endif %};"
-                    data-data="{{ data }}"
+                    data-data="{{ data|e('html') }}"
                     data-graph-type="{{ graphType }}"
                     {% if properties.externalSeriesToggle is defined and properties.externalSeriesToggle %}
                     data-external-series-toggle="{{ properties.externalSeriesToggle }}"
@@ -33,7 +33,8 @@
 
         {% if properties.show_footer %}
             {% include "@CoreHome/_dataTableFooter.twig" %}
-            {% include "@CoreHome/_dataTableJS.twig" %}
         {% endif %}
+        
+        {% include "@CoreHome/_dataTableJS.twig" %}
     </div>
 </div>

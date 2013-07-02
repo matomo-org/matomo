@@ -437,7 +437,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
             $value = 0;
             $row = $dataTableReferersType->getRowFromLabel($columnId);
             if ($row !== false) {
-                $value = $row->getColumn(Piwik_Archive::INDEX_NB_VISITS);
+                $value = $row->getColumn(Piwik_Metrics::INDEX_NB_VISITS);
             }
             $return[$nameVar] = $value;
         }

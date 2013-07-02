@@ -9,7 +9,7 @@
             {{ 'MobileMessaging_Settings_CredentialProvided'|translate(provider) }}
             {{ creditLeft }}
             <br/>
-            {{ 'MobileMessaging_Settings_UpdateOrDeleteAccount'|translate("<a id='displayAccountForm'>","</a>","<a id='deleteAccount'>","</a>") }}
+            {{ 'MobileMessaging_Settings_UpdateOrDeleteAccount'|translate("<a id='displayAccountForm'>","</a>","<a id='deleteAccount'>","</a>")|raw }}
         {% else %}
             {{ 'MobileMessaging_Settings_PleaseSignUp'|translate }}
         {% endif %}
@@ -64,11 +64,11 @@
                     <br/><br/>
                 </span>
 
-                    + <input id='countryCallingCode' size='4' maxlength='4'/>&nbsp;
-                    <input id='newPhoneNumber'/>
-                    <input type='submit' value='{{ 'MobileMessaging_Settings_AddPhoneNumber'|translate }}'
-                           id='addPhoneNumberSubmit'/>
-                    <br/>
+                + <input id='countryCallingCode' size='4' maxlength='4'/>&nbsp;
+                <input id='newPhoneNumber'/>
+                <input type='submit' value='{{ 'MobileMessaging_Settings_AddPhoneNumber'|translate }}'
+                       id='addPhoneNumberSubmit'/>
+                <br/>
 		
 		<span style=' font-size: 11px;'><span
                     class="form-description">{{ 'MobileMessaging_Settings_CountryCode'|translate }}</span>
@@ -85,7 +85,7 @@
                             <option value='{{ country.countryCallingCode }}'
                                     {% if defaultCountry==countryCode %} selected='selected' {% endif %}
                                     >
-                                {{ country.countryName|truncate(15) }}
+                                {{ country.countryName }}
                             </option>
                         {% endfor %}
                     </select>

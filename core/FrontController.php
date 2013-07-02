@@ -272,7 +272,9 @@ class Piwik_FrontController
             Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
 
             Piwik_PluginsManager::getInstance()->installLoadedPlugins();
-            Piwik::install();
+
+
+//            Piwik_Common::mkdir(PIWIK_USER_PATH . '/' . Piwik_Config::getInstance()->smarty['compile_dir']);
 
             // ensure the current Piwik URL is known for later use
             if (method_exists('Piwik', 'getPiwikUrl')) {

@@ -209,7 +209,6 @@ class Piwik_Dashboard extends Piwik_Plugin
                     $pos++;
                 }
             }
-
         }
     }
 

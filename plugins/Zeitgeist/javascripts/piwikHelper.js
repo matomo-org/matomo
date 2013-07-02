@@ -113,6 +113,32 @@ var piwikHelper = {
         });
     },
 
+    getQueryStringWithParametersModified: function (queryString, newParameters) {
+        if (queryString != '') {
+            var r, i, keyvalue, keysvalues = newParameters.split('&');
+            var appendUrl = '';
+            for (i = 0; i < keysvalues.length; i++) {
+                keyvalue = keysvalues[i].split('=');
+                r = new RegExp('(^|[?&])' + keyvalue[0] + '=[^&]*');
+                queryString = queryString.replace(r, '');
+
+                // empty value, eg. &segment=, we remove the parameter from URL entirely
+                if (keyvalue[1].length == 0) {
+                    continue;
+                }
+                appendUrl += '&' + keyvalue[0] + '=' + keyvalue[1];
+            }
+            queryString += appendUrl;
+            if (queryString[0] == '&') {
+                queryString = '?' + queryString.substring(1);
+            }
+        } else {
+            queryString = '?' + newParameters;
+        }
+
+        return queryString;
+    },
+
     /**
      * Returns the current query string with the given parameters modified
      * @param {object} newparams parameters to be modified
@@ -120,24 +146,13 @@ var piwikHelper = {
      */
     getCurrentQueryStringWithParametersModified: function(newparams)
     {
-        var parameters = String(window.location.search);
-        if(newparams) {
-            if(parameters != '') {
-                var r, i, keyvalue, keysvalues = newparams.split('&');
-                for(i = 0; i < keysvalues.length; i++) {
-                    keyvalue = keysvalues[i].split('=');
-                    r = new RegExp('(^|[?&])'+keyvalue[0]+'=[^&]*');
-                    parameters = parameters.replace(r, '');
-                }
-                parameters += '&' + newparams;
-                if(parameters[0] == '&') {
-                    parameters = '?' + parameters.substring(1);
-                }
-            } else {
-                parameters = '?' + newparams;
-            }
+        var queryString = String(window.location.search);
+        if (newparams) {
+            queryString = this.getQueryStringWithParametersModified(queryString, newparams);
         }
-        return String(window.location.pathname) + parameters;
+        var value = String(window.location.pathname) + queryString;
+
+        return value;
     },
 
   /**
@@ -219,7 +234,7 @@ var piwikHelper = {
      */
     showAjaxLoading: function(loadingDivID)
     {
-        loadingDivID = loadingDivID || 'ajaxLoading';
+        loadingDivID = loadingDivID || 'ajaxLoadingDiv';
         $('#'+loadingDivID).show();
     },
 
@@ -230,7 +245,7 @@ var piwikHelper = {
      */
     hideAjaxLoading: function(loadingDivID)
     {
-        loadingDivID = loadingDivID || 'ajaxLoading';
+        loadingDivID = loadingDivID || 'ajaxLoadingDiv';
         $('#'+loadingDivID).hide();
     },
 
@@ -365,6 +380,9 @@ var piwikHelper = {
      */
     getApiFormatTextarea: function (textareaContent)
     {
+        if(typeof textareaContent == 'undefined') {
+            return '';
+        }
         return textareaContent.trim().split("\n").join(',');
     }
 

@@ -70,13 +70,27 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
         $tests = array(
             // 5 blobs for the Actions plugin, 7 blobs for UserSettings, 2 blobs VisitTime
             'archive_blob_2010_12'    => (5 + 8 + 2) * 3,
-            // (VisitsSummary 5 metrics + 1 flag - no Unique visitors for range)
-            // + 1 flag archive UserSettings
-            // + (Actions 1 flag + 2 metrics - pageviews, unique pageviews + X??? metrics Site Search)
-            // + (Frequency 5 metrics + 1 flag)
-            // + 1 flag VisitTime
-            // * 3 segments
-            'archive_numeric_2010_12' => (6 + 1 + 3 + 6 + 1) * 3,
+
+            /**
+             *  In Each "Period=range" Archive, we expect following non zero numeric entries:
+             *                 5 metrics + 1 flag  //VisitsSummary
+             *               + 2 metrics + 1 flag //Actions
+             *               + 1 flag // UserSettings
+             *               + 1 flag //VisitTime
+             *               = 11
+             *
+             *   because we call VisitFrequency.get, this creates an archive for the visitorType==returning segment.
+             *          -> There are two archives for each segment (one for "countryCode!=aa"
+             *                      and VisitFrequency creates one for "countryCode!=aa;visitorType==returning")
+             *
+             * So each period=range will have = 11 records + (5 metrics + 1flag // VisitsSummary)
+             *                                = 17
+             *
+             * Total expected records = count unique archives * records per archive
+             *                        = 3 * 17
+             *                        = 51
+             */
+            'archive_numeric_2010_12' => 17 * 3,
 
             // all "Range" records are in December
             'archive_blob_2011_01'    => 0,
@@ -86,6 +100,9 @@ class Test_Piwik_Integration_OneVisitorOneWebsite_SeveralDaysDateRange_Archiving
             $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table) . " WHERE period = " . Piwik::$idPeriods['range'];
             $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
 
+            if($expectedRows != $countBlobs) {
+                var_export(Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Piwik_Common::prefixTable($table). " WHERE period = " . Piwik::$idPeriods['range'] . " ORDER BY idarchive ASC"));
+            }
             $this->assertEquals($expectedRows, $countBlobs, "$table expected $expectedRows, got $countBlobs");
         }
     }

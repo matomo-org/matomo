@@ -50,11 +50,7 @@ class Piwik_ExampleUI_API
             $value = array('server1' => $server1, 'server2' => $server2);
             $temperatures[$subPeriod->getLocalizedShortString()] = $value;
         }
-
-        // convert this array to a DataTable object
-        $dataTable = new Piwik_DataTable();
-        $dataTable->addRowsFromArrayWithIndexLabel($temperatures);
-        return $dataTable;
+        return Piwik_DataTable::makeFromIndexedArray($temperatures);
     }
 
     // we generate an array of random server temperatures
@@ -71,10 +67,7 @@ class Piwik_ExampleUI_API
             $temperatures[$xAxisLabel] = $temperatureValues[$i];
         }
 
-        // convert this array to a DataTable object
-        $dataTable = new Piwik_DataTable();
-        $dataTable->addRowsFromArrayWithIndexLabel($temperatures);
-        return $dataTable;
+        return Piwik_DataTable::makeFromIndexedArray($temperatures);
     }
 
     public function getPlanetRatios()
@@ -90,9 +83,7 @@ class Piwik_ExampleUI_API
             'Neptune' => 3.883,
         );
         // convert this array to a DataTable object
-        $dataTable = new Piwik_DataTable();
-        $dataTable->addRowsFromArrayWithIndexLabel($planetRatios);
-        return $dataTable;
+        return Piwik_DataTable::makeFromIndexedArray($planetRatios);
     }
 
     public function getPlanetRatiosWithLogos()

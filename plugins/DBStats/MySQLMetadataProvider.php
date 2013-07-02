@@ -243,7 +243,6 @@ class Piwik_DBStats_MySQLMetadataProvider
                 array($cols, 'estimated_size', $getEstimatedSize, array($status)));
 
             $dataTable->addDataTable($table);
-            destroy($table);
         }
         return $dataTable;
     }

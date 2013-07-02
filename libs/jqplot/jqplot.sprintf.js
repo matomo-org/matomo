@@ -243,15 +243,18 @@
                       var method = ['toExponential', 'toFixed', 'toPrecision']['efg'.indexOf(type.toLowerCase())];
                       var textTransform = ['toString', 'toUpperCase']['eEfFgG'.indexOf(type) % 2];
                       var number_str = Math.abs(number)[method](precision);
-                      number_str = thousandSeparation ? thousand_separate(number_str): number_str;
+                      
+                      // Apply the decimal mark properly by splitting the number by the
+                      //   decimalMark, applying thousands separator, and then placing it
+                      //   back in.
+                      var parts = number_str.toString().split('.');
+                      parts[0] = thousandSeparation ? thousand_separate(parts[0]) : parts[0];
+                      number_str = parts.join($.jqplot.sprintf.decimalMark);
+                      
                       value = prefix + number_str;
                       var justified = justify(value, prefix, leftJustify, minWidth, zeroPad, htmlSpace)[textTransform]();
-
-                      if ($.jqplot.sprintf.decimalMark !== '.' && $.jqplot.sprintf.decimalMark !== $.jqplot.sprintf.thousandsSeparator) {
-                          return justified.replace(/\./, $.jqplot.sprintf.decimalMark);
-                      } else {
-                          return justified;
-                      }
+                      
+                      return justified;
                   }
             case 'p':
             case 'P':
@@ -264,7 +267,7 @@
                 var prefix = number < 0 ? '-' : positivePrefix;
 
                 var parts = String(Number(Math.abs(number)).toExponential()).split(/e|E/);
-                var sd = (parts[0].indexOf('.') != -1) ? parts[0].length - 1 : parts[0].length;
+                var sd = (parts[0].indexOf('.') != -1) ? parts[0].length - 1 : String(number).length;
                 var zeros = (parts[1] < 0) ? -parts[1] - 1 : 0;
                 
                 if (Math.abs(number) < 1) {

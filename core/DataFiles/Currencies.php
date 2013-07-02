@@ -42,6 +42,7 @@ if (!isset($GLOBALS['Piwik_CurrencyList'])) {
         'BYR' => array('Br', 'Belarusian ruble'),
         'BZD' => array('$', 'Belize dollar'),
         'BMD' => array('$', 'Bermudian dollar'),
+        'BTC' => array('BTC', 'Bitcoin'),
         'BTN' => array('Nu.', 'Bhutanese ngultrum'),
         'BOB' => array('Bs.', 'Bolivian boliviano'),
         'BAM' => array('KM', 'Bosnia Herzegovina mark'),

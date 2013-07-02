@@ -1,0 +1,17 @@
+{% extends '@Installation/layout.twig' %}
+
+{% block content %}
+{% if displayfirstWebsiteSetupSuccess is defined %}
+    <span id="toFade" class="success">
+	{{ 'Installation_SetupWebsiteSetupSuccess'|translate(displaySiteName) }}
+        <img src="plugins/Zeitgeist/images/success_medium.png"/>
+</span>
+{% endif %}
+
+{{ trackingHelp|raw }}
+<br/><br/>
+<h2>{{ 'Installation_LargePiwikInstances'|translate }}</h2>
+{{ 'Installation_JsTagArchivingHelp1'|translate('<a target="_blank" href="http://piwik.org/docs/setup-auto-archiving/">','</a>')|raw }}
+{{ 'General_ReadThisToLearnMore'|translate('<a target="_blank" href="http://piwik.org/docs/optimize/">','</a>')|raw }}
+
+{% endblock %}

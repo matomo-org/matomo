@@ -25,6 +25,13 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 Piwik::createConfigObject();
 Piwik_Config::getInstance()->setTestEnvironment();
 Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'] = array();
+try {
+    $trackerPlugins = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+}catch(Exception $e) {
+    $trackerPlugins = array();
+}
+$trackerPlugins[] = 'DevicesDetection';
+Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $trackerPlugins;
 Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
 Piwik_Tracker::setTestEnvironment();

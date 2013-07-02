@@ -96,6 +96,11 @@
 		<english_name>Hebrew</english_name>
 	</row>
 	<row>
+		<code>hi</code>
+		<name>मानक हिन्दी</name>
+		<english_name>Hindi</english_name>
+	</row>
+	<row>
 		<code>hr</code>
 		<name>Hrvatski</name>
 		<english_name>Croatian</english_name>
@@ -209,6 +214,11 @@
 		<code>sv</code>
 		<name>Svenska</name>
 		<english_name>Swedish</english_name>
+	</row>
+	<row>
+		<code>ta</code>
+		<name>தமிழ்</name>
+		<english_name>Tamil</english_name>
 	</row>
 	<row>
 		<code>te</code>

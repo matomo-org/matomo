@@ -67,22 +67,23 @@ class Piwik_PDFReports extends Piwik_Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'TopMenu.add'                         => 'addTopMenu',
-            'TaskScheduler.getScheduledTasks'     => 'getScheduledTasks',
-            'AssetManager.getJsFiles'             => 'getJsFiles',
-            'PDFReports.getReportParameters'      => 'getReportParameters',
-            'PDFReports.validateReportParameters' => 'validateReportParameters',
-            'PDFReports.getReportMetadata'        => 'getReportMetadata',
-            'PDFReports.getReportTypes'           => 'getReportTypes',
-            'PDFReports.getReportFormats'         => 'getReportFormats',
-            'PDFReports.getRendererInstance'      => 'getRendererInstance',
-            'PDFReports.getReportRecipients'      => 'getReportRecipients',
-            'PDFReports.processReports'           => 'processReports',
-            'PDFReports.allowMultipleReports'     => 'allowMultipleReports',
-            'PDFReports.sendReport'               => 'sendReport',
-            'template_reportParametersPDFReports' => 'template_reportParametersPDFReports',
-            'UsersManager.deleteUser'             => 'deleteUserReport',
-            'SitesManager.deleteSite'             => 'deleteSiteReport',
+            'TopMenu.add'                                 => 'addTopMenu',
+            'TaskScheduler.getScheduledTasks'             => 'getScheduledTasks',
+            'AssetManager.getJsFiles'                     => 'getJsFiles',
+            'PDFReports.getReportParameters'              => 'getReportParameters',
+            'PDFReports.validateReportParameters'         => 'validateReportParameters',
+            'PDFReports.getReportMetadata'                => 'getReportMetadata',
+            'PDFReports.getReportTypes'                   => 'getReportTypes',
+            'PDFReports.getReportFormats'                 => 'getReportFormats',
+            'PDFReports.getRendererInstance'              => 'getRendererInstance',
+            'PDFReports.getReportRecipients'              => 'getReportRecipients',
+            'PDFReports.processReports'                   => 'processReports',
+            'PDFReports.allowMultipleReports'             => 'allowMultipleReports',
+            'PDFReports.sendReport'                       => 'sendReport',
+            'template_reportParametersPDFReports'         => 'template_reportParametersPDFReports',
+            'UsersManager.deleteUser'                     => 'deleteUserReport',
+            'SitesManager.deleteSite'                     => 'deleteSiteReport',
+            Piwik_SegmentEditor_API::DELETE_SEGMENT_EVENT => 'segmentDeletion',
         );
     }
 
@@ -310,7 +311,7 @@ class Piwik_PDFReports extends Piwik_Plugin
             $filename = $notificationInfo[Piwik_PDFReports_API::FILENAME_KEY];
             $additionalFiles = $notificationInfo[Piwik_PDFReports_API::ADDITIONAL_FILES_KEY];
 
-            $periods = self::getPeriodToFrequency();
+            $periods = self::getPeriodToFrequencyAsAdjective();
             $message = Piwik_Translate('PDFReports_EmailHello');
             $subject = Piwik_Translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
 
@@ -323,18 +324,36 @@ class Piwik_PDFReports extends Piwik_Plugin
             $attachmentName = $subject;
             $mail->setFrom($fromEmailAddress, $fromEmailName);
 
+            $displaySegmentInfo = false;
+            $segmentInfo = null;
+            $segment = Piwik_PDFReports_API::getSegment($report['idsegment']);
+            if($segment != null) {
+                $displaySegmentInfo = true;
+                $segmentInfo = Piwik_Translate('PDFReports_SegmentAppliedToReports', $segment['name']);
+            }
+
             switch ($report['format']) {
                 case 'html':
 
                     // Needed when using images as attachment with cid
                     $mail->setType(Zend_Mime::MULTIPART_RELATED);
                     $message .= "<br/>" . Piwik_Translate('PDFReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
+
+                    if($displaySegmentInfo) {
+                        $message .= " " . $segmentInfo;
+                    }
+
                     $mail->setBodyHtml($message . "<br/><br/>" . $contents);
                     break;
 
                 default:
                 case 'pdf':
                     $message .= "\n" . Piwik_Translate('PDFReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
+
+                    if($displaySegmentInfo) {
+                        $message .= " " . $segmentInfo;
+                    }
+
                     $mail->setBodyText($message);
                     $mail->createAttachment(
                         $contents,
@@ -487,11 +506,33 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
+    /**
+     * @param Piwik_Event_Notification $notification notification object
+     */
+    function segmentDeletion($notification)
+    {
+        $idSegment = & $notification->getNotificationObject();
+        $reportsUsingSegment = Piwik_PDFReports_API::getInstance()->getReports(false, false, false, true, $idSegment);
+
+        if (count($reportsUsingSegment) > 0) {
+
+            $reportList = '';
+            $reportNameJoinText = ' ' . Piwik_Translate('General_And') . ' ';
+            foreach ($reportsUsingSegment as $report) {
+                $reportList .= '\'' . $report['description'] . '\'' . $reportNameJoinText;
+            }
+            $reportList = rtrim($reportList, $reportNameJoinText);
+
+            $errorMessage = Piwik_Translate('PDFReports_Segment_Deletion_Error', $reportList);
+            throw new Exception($errorMessage);
+        }
+    }
+
     function addTopMenu()
     {
         Piwik_AddTopMenu(
             $this->getTopMenuTranslationKey(),
-            array('module' => 'PDFReports', 'action' => 'index'),
+            array('module' => 'PDFReports', 'action' => 'index', 'segment' => false),
             true,
             13,
             $isHTML = false,
@@ -555,6 +596,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 					`idsite` INTEGER(11) NOT NULL,
 					`login` VARCHAR(100) NOT NULL,
 					`description` VARCHAR(255) NOT NULL,
+					`idsegment` INT(11),
 					`period` VARCHAR(10) NOT NULL,
 					`hour` tinyint NOT NULL default 0,
 					`type` VARCHAR(10) NOT NULL,
@@ -606,6 +648,7 @@ class Piwik_PDFReports extends Piwik_Plugin
     }
 
     /**
+     * Used in the Report Listing
      * @ignore
      */
     static public function getPeriodToFrequency()
@@ -615,6 +658,21 @@ class Piwik_PDFReports extends Piwik_Plugin
             Piwik_ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_Daily'),
             Piwik_ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_Weekly'),
             Piwik_ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_Monthly'),
+        );
+    }
+
+    /**
+     * Used in the Report's email content, ie "monthly report"
+     * @ignore
+     */
+    static public function getPeriodToFrequencyAsAdjective()
+    {
+        return array(
+            Piwik_ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_DailyReport'),
+            Piwik_ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_WeeklyReport'),
+            Piwik_ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_MonthlyReport'),
+            Piwik_ScheduledTime::PERIOD_YEAR => Piwik_Translate('General_YearlyReport'),
+            Piwik_ScheduledTime::PERIOD_RANGE => Piwik_Translate('General_RangeReports'),
         );
     }
 }

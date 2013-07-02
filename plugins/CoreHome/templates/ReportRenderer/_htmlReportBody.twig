@@ -31,16 +31,18 @@
             {% endfor %}
             </thead>
             <tbody>
-            {% set cycleValues=['','background-color: rgb('+tableBgColor+')'] %}
+            {% set cycleValues=['','background-color: rgb('~tableBgColor~')'] %}
+            {% set cycleIndex=0 %}
             {% for rowId,row in reportRows %}
-                {% set rowMetrics=row->getColumns() %}
+                {% set rowMetrics=row.columns %}
 
                 {% if reportRowsMetadata[rowId] is defined %}
-                    {% set rowMetadata=reportRowsMetadata[rowId]->getColumns() %}
+                    {% set rowMetadata=reportRowsMetadata[rowId].columns %}
                 {% else %}
                     {% set rowMetadata=null %}
                 {% endif %}
-                <tr style="{{ cycle(cycleValues) }}">
+                <tr style="{{ cycle(cycleValues, cycleIndex) }}">
+                    {% set cycleIndex=cycleIndex+1 %}
                     {% for columnId, columnName in reportColumns %}
                         <td style="font-size: {{ reportTableRowTextSize }}pt; border-bottom: 1px solid rgb({{ tableCellBorderColor }}); padding: 5px 0 5px 5px;">
                             {% if columnId == 'label' %}
@@ -52,7 +54,7 @@
                                     {% if rowMetadata.url is defined %}
                                         <a style="color: rgb({{ reportTextColor }});" href='{% if rowMetadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ rowMetadata.url }}'>
                                     {% endif %}
-                                    {{ rowMetrics[columnId] }}
+                                    {{ rowMetrics[columnId] | raw }}{# labels are escaped by SafeDecodeLabel filter in core/API/Response.php #}
                                     {% if rowMetadata.url is defined %}
                                         </a>
                                     {% endif %}

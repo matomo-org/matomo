@@ -14,9 +14,9 @@
  */
 class Piwik_VisitorInterest_Controller extends Piwik_Controller
 {
-    function index()
+    public function index()
     {
-        $view = new Piwik_View('index');
+        $view = new Piwik_View('@VisitorInterest/index');
         $view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
         $view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
         $view->dataTableNumberOfVisitsByVisitNum = $this->getNumberOfVisitsByVisitCount(true);
@@ -24,7 +24,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
         echo $view->render();
     }
 
-    function getNumberOfVisitsPerVisitDuration($fetch = false)
+    public function getNumberOfVisitsPerVisitDuration($fetch = false)
     {
         $view = Piwik_ViewDataTable::factory('cloud');
         $view->init($this->pluginName, __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerVisitDuration");
@@ -42,7 +42,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
         return $this->renderView($view, $fetch);
     }
 
-    function getNumberOfVisitsPerPage($fetch = false)
+    public function getNumberOfVisitsPerPage($fetch = false)
     {
         $view = Piwik_ViewDataTable::factory('cloud');
         $view->init($this->pluginName, __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerPage");
@@ -73,7 +73,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
         $view->setColumnsToDisplay(array('label', 'nb_visits', 'nb_visits_percentage'));
         $view->setSortedColumn('label', 'asc');
         $view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_VisitNum'));
-        $view->setColumnTranslation('nb_visits_percentage', str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits')));
+        $view->setColumnTranslation('nb_visits_percentage', Piwik_Metrics::getPercentVisitColumn());
         $view->disableExcludeLowPopulation();
         $view->disableOffsetInformationAndPaginationControls();
         $view->disableShowAllViewsIcons();

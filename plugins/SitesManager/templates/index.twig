@@ -141,7 +141,7 @@
                     <th>{{ 'General_Name'|translate }}</th>
                     <th>{{ 'SitesManager_Urls'|translate }}</th>
                     <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
-                    <th>{{ 'SitesManager_ExcludedParameters'|translate|replace({" ":"<br />"}) }}</th>
+                    <th>{{ 'SitesManager_ExcludedParameters'|translate|replace({" ":"<br />"})|raw }}</th>
                     <th id='exclude-user-agent-header'
                         {% if not allowSiteSpecificUserAgentExclude %}style="display:none"{% endif %}>{{ 'SitesManager_ExcludedUserAgents'|translate }}</th>
                     <th>{{ 'Actions_SubmenuSitesearch'|translate }}</th>
@@ -157,19 +157,29 @@
                 {% for i,site in adminSites %}
                     <tr id="row{{ site.idsite }}" data-keep-url-fragments="{{ site.keep_url_fragment }}">
                         <td id="idSite">{{ site.idsite }}</td>
-                        <td id="siteName" class="editableSite">{{ site.name }}</td>
+                        <td id="siteName" class="editableSite">
+                            {{- site.name|raw -}}
+                        </td>
                         <td id="urls" class="editableSite">
-                            {% for url in site.alias_urls %}{{ url|replace({'http://': ''}) }}<br/>{% endfor %}
+                            {%- for url in site.alias_urls -%}
+                                {{- url|trim|replace({'http://': ''})|raw -}}<br />
+                            {%- endfor -%}
                         </td>
                         <td id="excludedIps" class="editableSite">
-                            {% for ip in site.excluded_ips %}{{ ip }}<br/>{% endfor %}
+                            {%- for ip in site.excluded_ips -%}
+                                {{- ip -}}<br/>
+                            {%- endfor -%}
                         </td>
                         <td id="excludedQueryParameters" class="editableSite">
-                            {% for parameter in site.excluded_parameters %}{{ parameter }}<br/>{% endfor %}
+                            {%- for parameter in site.excluded_parameters -%}
+                                {{- parameter|raw -}}<br />
+                            {%- endfor -%}
                         </td>
                         <td id="excludedUserAgents" class="editableSite"
                             {% if not allowSiteSpecificUserAgentExclude %}style="display:none"{% endif %}>
-                            {% for ua in site.excluded_user_agent %}{{ ua }}<br/>{% endfor %}
+                            {%- for ua in site.excluded_user_agents -%}
+                                {{- ua|raw -}}<br />
+                            {%- endfor -%}
                         </td>
                         <td id="sitesearch" class="editableSite">
                             {% if site.sitesearch %}
@@ -177,9 +187,9 @@
                             {% else %}
                                 <span class='sitesearchInactive'>-</span>
                             {% endif %}
-                            <span class='sskp' sitesearch_keyword_parameters="{{ site.sitesearch_keyword_parameters }}""
-                            sitesearch_category_parameters="{{ site.sitesearch_category_parameters }}"
-                            id="sitesearch_parameters">
+                            <span class='sskp' sitesearch_keyword_parameters="{{- site.sitesearch_keyword_parameters -}}"
+                                sitesearch_category_parameters="{{- site.sitesearch_category_parameters -}}"
+                                id="sitesearch_parameters">
                             </span>
                         </td>
                         <td id="timezone" class="editableSite">{{ site.timezone }}</td>
@@ -220,7 +230,6 @@
         </div>
     {% endif %}
 
-
     {# Admin users use these values for Site Search column, when editing websites #}
     {% if not isSuperUser %}
         <input type="hidden" size="15" id="globalSearchKeywordParameters"
@@ -245,7 +254,8 @@
             </tr>
             <tr>
                 <td>
-                    <textarea cols="30" rows="3" id="globalExcludedIps">{{ globalExcludedIps }}
+                    <textarea cols="30" rows="3" id="globalExcludedIps">
+                        {{- globalExcludedIps -}}
                     </textarea>
                 </td>
                 <td>
@@ -263,7 +273,8 @@
 
             <tr>
                 <td>
-                    <textarea cols="30" rows="3" id="globalExcludedQueryParameters">{{ globalExcludedQueryParameters }}
+                    <textarea cols="30" rows="3" id="globalExcludedQueryParameters">
+                        {{- globalExcludedQueryParameters -}}
                     </textarea>
                 </td>
                 <td>
@@ -282,7 +293,9 @@
 
             <tr>
                 <td>
-                    <textarea cols="30" rows="3" id="globalExcludedUserAgents">{{ globalExcludedUserAgents }}</textarea>
+                    <textarea cols="30" rows="3" id="globalExcludedUserAgents">
+                        {{- globalExcludedUserAgents -}}
+                    </textarea>
                 </td>
                 <td><label for="globalExcludedUserAgents">{{ excludedUserAgentsHelp }}</label>
                 </td>
@@ -300,7 +313,7 @@
             </span>
                 </td>
                 <td>
-                    {{ piwik.inlineHelp('SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate('<a href="#editSites">','</a>')) }}
+                    {{ piwik.inlineHelp('SitesManager_EnableSiteSpecificUserAgentExclude_Help'|translate('<a href="#editSites">','</a>'))|raw }}
                 </td>
             </tr>
 
@@ -334,7 +347,7 @@
                 <td colspan="2">
                     <label>{{ searchKeywordLabel }} &nbsp;
                         <input type="text" size="15" id="globalSearchKeywordParameters"
-                               value="{{ globalSearchKeywordParameters }}"/>
+                               value="{{ globalSearchKeywordParameters|raw }}"/>
 
                         <div style='width: 200px;float:right;'>{{ searchKeywordHelp }}</div>
                     </label>
@@ -355,7 +368,7 @@
                 <td colspan="2">
                     <label>{{ searchCategoryLabel }}  &nbsp;
                         <input type="text" size="15" id="globalSearchCategoryParameters"
-                               value="{{ globalSearchCategoryParameters }}"/>
+                               value="{{ globalSearchCategoryParameters|raw }}"/>
 
                         <div style='width: 200px;float:right;'>{{ searchCategoryHelp }}</div>
                     </label>

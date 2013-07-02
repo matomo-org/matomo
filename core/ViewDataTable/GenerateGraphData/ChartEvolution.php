@@ -191,7 +191,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
                     'idSite'  => $idSite,
                     'period'  => $period->getLabel(),
                     'date'    => $dateInUrl->toString(),
-                    'segment' => Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', false))
+                    'segment' => Piwik_ViewDataTable::getRawSegmentFromRequest()
                 );
                 $hash = '';
                 if (!empty($queryStringAsHash)) {

@@ -32,9 +32,9 @@
         <tr>
             <td width="140">
                 <p>
-                    <input class="location-provider" name="location-provider" value="{$id}" type="radio" {% if currentProviderId == id %}checked="checked"{% endif %}
-                           id="provider_input_{$id}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>
-                    <label for="provider_input_{$id}">{{ provider.title|translate }}</label><br/>
+                    <input class="location-provider" name="location-provider" value="{{ id }}" type="radio" {% if currentProviderId == id %}checked="checked"{% endif %}
+                           id="provider_input_{{ id }}" {% if provider.status != 1 %}disabled="disabled"{% endif %}/>
+                    <label for="provider_input_{{ id }}">{{ provider.title|translate }}</label><br/>
                     <span class='loadingPiwik' style='display:none'><img src='./plugins/Zeitgeist/images/loading-blue.gif'/></span>
                     <span class="ajaxSuccess" style='display:none'>{{ 'General_Done'|translate }}</span>
                 </p>
@@ -120,7 +120,7 @@
         </div>
         <div id="geoipdb-screen2-download" style="display:none">
             <p class='loadingPiwik'><img src='./plugins/Zeitgeist/images/loading-blue.gif'/>
-            {{ 'UserCountry_DownloadingDb'|translate('<a href="'+geoLiteUrl+'">GeoLiteCity.dat</a>') }}...</p>
+            {{ 'UserCountry_DownloadingDb'|translate('<a href="'~geoLiteUrl~'">GeoLiteCity.dat</a>')|raw }}...</p>
 	        <div id="geoip-download-progress"></div>
         </div>
     {% endif %}

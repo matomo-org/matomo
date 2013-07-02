@@ -34,18 +34,17 @@ class Piwik_View implements Piwik_View_Interface
     private $contentType = 'text/html; charset=utf-8';
     private $xFrameOptions = null;
 
-    public function __construct($templateFile, $smConf = array(), $filter = true)
+    public function __construct($templateFile)
     {
-        if(substr($templateFile, -5) !== '.twig') {
-            $templateFile .= '.twig';
+        $templateExt = '.twig';
+        if(substr($templateFile, -strlen($templateExt)) !== $templateExt) {
+            $templateFile .= $templateExt;
         }
         $this->template = $templateFile;
 
         $this->initializeTwig();
 
-        // global value accessible to all templates: the piwik base URL for the current request
         $this->piwik_version = Piwik_Version::VERSION;
-        $this->cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
         $this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
     }
 
@@ -119,8 +118,8 @@ class Piwik_View implements Piwik_View_Interface
             // can fail, for example at installation (no plugin loaded yet)
         }
 
-        $this->totalTimeGeneration = Zend_Registry::get('timer')->getTime();
         try {
+            $this->totalTimeGeneration = Zend_Registry::get('timer')->getTime();
             $this->totalNumberOfQueries = Piwik::getQueryCount();
         } catch (Exception $e) {
             $this->totalNumberOfQueries = 0;
@@ -132,7 +131,36 @@ class Piwik_View implements Piwik_View_Interface
         // always sending this header, sometimes empty, to ensure that Dashboard embed loads (which could call this header() multiple times, the last one will prevail)
         @header('X-Frame-Options: ' . (string)$this->xFrameOptions);
 
-        return $this->twig->render($this->template, $this->templateVars);
+        return $this->renderTwigTemplate();
+    }
+
+    protected function renderTwigTemplate()
+    {
+        $output = $this->twig->render($this->template, $this->templateVars);
+        $output = $this->applyFilter_cacheBuster($output);
+        return $output;
+    }
+
+    protected function applyFilter_cacheBuster($output)
+    {
+        $cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
+        $tag = 'cb=' . $cacheBuster;
+
+        $pattern = array(
+            '~<script type=[\'"]text/javascript[\'"] src=[\'"]([^\'"]+)[\'"]>~',
+            '~<script src=[\'"]([^\'"]+)[\'"] type=[\'"]text/javascript[\'"]>~',
+            '~<link rel=[\'"]stylesheet[\'"] type=[\'"]text/css[\'"] href=[\'"]([^\'"]+)[\'"] ?/?>~',
+            '~(src|href)=\"index.php\?module=([A-Za-z0-9_]+)&action=([A-Za-z0-9_]+)\?cb=~',
+        );
+
+        $replace = array(
+            '<script type="text/javascript" src="$1?' . $tag . '">',
+            '<script type="text/javascript" src="$1?' . $tag . '">',
+            '<link rel="stylesheet" type="text/css" href="$1?' . $tag . '" />',
+            '$1="index.php?module=$2&amp;action=$3&amp;cb=',
+        );
+
+        return preg_replace($pattern, $replace, $output);
     }
 
     /**
@@ -221,28 +249,10 @@ class Piwik_View implements Piwik_View_Interface
     }
 
     /**
-     * View factory method
-     *
-     * @param string $templateName Template name (e.g., 'index')
-     * @throws Exception
-     * @return Piwik_View
+     * @deprecated
      */
     static public function factory($templateName = null)
     {
-        // get caller
-        $bt = @debug_backtrace();
-        if ($bt === null || !isset($bt[0])) {
-            throw new Exception("View factory cannot be invoked");
-        }
-        $path = basename(dirname($bt[0]['file']));
-
-        if (Piwik_Common::isPhpCliMode()) {
-            $templateFile = $path . '/templates/cli_' . $templateName . '.tpl';
-            if (file_exists(PIWIK_INCLUDE_PATH . '/plugins/' . $templateFile)) {
-                return new Piwik_View($templateFile, array(), false);
-            }
-        }
-        $templateFile = $path . '/templates/' . $templateName . '.twig';
-        return new Piwik_View($templateName . '.twig');
+        throw new Exception("Piwik_View::factory is deprecated. Use 'new Piwik_View(\$templateFile)' instead.");
     }
 }

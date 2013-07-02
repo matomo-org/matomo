@@ -25,8 +25,7 @@
     <p>
         {{ 'API_UsingTokenAuth'|translate('<b>','</b>',"")|raw }}<br/>
         <span id='token_auth'>&amp;token_auth=<b>{{ token_auth }}</b></span><br/>
-        {{ 'API_KeepTokenSecret'|translate('<b>','</b>') }}
-        <!-- {'API_LoadedAPIs'|translate:$countLoadedAPI} -->
+        {{ 'API_KeepTokenSecret'|translate('<b>','</b>')|raw }}
         {{ list_api_methods_with_links|raw }}
         <br/>
 </div>

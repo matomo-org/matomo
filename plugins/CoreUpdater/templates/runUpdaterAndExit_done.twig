@@ -24,7 +24,7 @@
     <ul>
         <li>{{ 'CoreUpdater_ErrorDIYHelp_1'|translate }}</li>
         <li>{{ 'CoreUpdater_ErrorDIYHelp_2'|translate }}</li>
-        <li>{{ 'CoreUpdater_ErrorDIYHelp_3'|translate }}</li>
+        <li>{{ 'CoreUpdater_ErrorDIYHelp_3'|translate }} <a href='https://piwik.org/faq/how-to-update/#faq_179' target='_blank'>(see FAQ)</a></li>
         <li>{{ 'CoreUpdater_ErrorDIYHelp_4'|translate }}</li>
         <li>{{ 'CoreUpdater_ErrorDIYHelp_5'|translate }}</li>
     </ul>
@@ -68,7 +68,7 @@
     {% else %}
         <p class="success">{{ 'CoreUpdater_PiwikHasBeenSuccessfullyUpgraded'|translate }}</p>
         <div id="donate-form-container">
-            {% include "@CoreHome/_donate.tpl" %}
+            {% include "@CoreHome/_donate.twig" %}
         </div>
     {% endif %}
     <form action="index.php">

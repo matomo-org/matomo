@@ -34,7 +34,7 @@
 
 <script>
     $(document).ready(function () {
-        var strConfirmEraseTables = "{{ 'Installation_ConfirmDeleteExistingTables'|translate("[$tablesInstalled]","<br />") }} ";
+        var strConfirmEraseTables = "{{ 'Installation_ConfirmDeleteExistingTables'|translate("["~tablesInstalled~"]") }} ";
 
         // toggle the display of the tables detected during the installation when clicking
         // on the span "linkToggle"

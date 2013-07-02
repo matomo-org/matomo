@@ -10,7 +10,7 @@ $(function () {
     if (feedback.size()) {
         var fbDiv = $('<div id="feedback-dialog"></div>').appendTo('body');
 
-        $('a#topmenu-feedback').click(function () {
+        feedback.click(function () {
             if (fbDiv.html() == '') {
                 fbDiv.html('<div id="feedback-loading"><img alt="" src="plugins/Zeitgeist/images/loading-blue.gif"> ' + _pk_translate('General_Loading_js') + '</div>');
             }

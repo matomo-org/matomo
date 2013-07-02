@@ -56,7 +56,7 @@
         // whether to fill the shape.
         this.fill = false;
         // prop: isarc
-        // wether the shadow is an arc or not.
+        // whether the shadow is an arc or not.
         this.isarc = false;
         // prop: fillRect
         // true to draw shape as a filled rectangle.

@@ -42,11 +42,11 @@
 
     $.jqplot.LinePattern = function (ctx, pattern) {
 
-		var defaultLinePatterns = {
-			dotted: [ dotlen, $.jqplot.config.dotGapLength ],
-			dashed: [ $.jqplot.config.dashLength, $.jqplot.config.gapLength ],
-			solid: null
-		};   	
+        var defaultLinePatterns = {
+            dotted: [ dotlen, $.jqplot.config.dotGapLength ],
+            dashed: [ $.jqplot.config.dashLength, $.jqplot.config.gapLength ],
+            solid: null
+        };
 
         if (typeof pattern === 'string') {
             if (pattern[0] === '.' || pattern[0] === '-') {

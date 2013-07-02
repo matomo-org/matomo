@@ -6,9 +6,11 @@
         <ul>
         {% for name,urlParameters in level2 %}
             {% if name|slice(0,1) != '_' %}
-                <li id="{{ urlParameters._url|urlRewriteWithParameters }}">
-                    <a href="#{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}"
-                       onclick="return piwikMenu.onItemClick(this);">{{ name|translate }}</a>
+                <li>
+                    <a href='#{{ urlParameters._url|urlRewriteWithParameters|slice(1) }}'
+                       onclick='return piwikMenu.onItemClick(this);'>
+                        {{ name|translate }}
+                    </a>
                 </li>
             {% endif %}
         {% endfor %}

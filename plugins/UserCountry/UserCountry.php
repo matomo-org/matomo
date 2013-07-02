@@ -20,14 +20,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
  */
 class Piwik_UserCountry extends Piwik_Plugin
 {
-    const VISITS_BY_COUNTRY_RECORD_NAME = 'UserCountry_country';
-    const VISITS_BY_REGION_RECORD_NAME = 'UserCountry_region';
-    const VISITS_BY_CITY_RECORD_NAME = 'UserCountry_city';
-
-    const DISTINCT_COUNTRIES_METRIC = 'UserCountry_distinctCountries';
-
-    // separate region, city & country info in stored report labels
-    const LOCATION_SEPARATOR = '|';
 
     public function getInformation()
     {
@@ -299,26 +291,13 @@ class Piwik_UserCountry extends Piwik_Plugin
      */
     function archivePeriod($notification)
     {
-        /**
-         * @param Piwik_ArchiveProcessing_Period $archiveProcessing
-         */
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
-        $dataTableToSum = array(
-            self::VISITS_BY_COUNTRY_RECORD_NAME,
-            self::VISITS_BY_REGION_RECORD_NAME,
-            self::VISITS_BY_CITY_RECORD_NAME,
-        );
-
-        $nameToCount = $archiveProcessing->archiveDataTable($dataTableToSum);
-        $archiveProcessing->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
-            $nameToCount[self::VISITS_BY_COUNTRY_RECORD_NAME]['level0']);
+        $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
+        if($archiving->shouldArchive()) {
+            $archiving->archivePeriod();
+        }
     }
-
-    private $interestTables = null;
-    private $latLongForCities = null;
 
     /**
      * @param Piwik_Event_Notification $notification  notification object
@@ -326,160 +305,14 @@ class Piwik_UserCountry extends Piwik_Plugin
      */
     function archiveDay($notification)
     {
-        /**
-         * @var Piwik_ArchiveProcessing
-         */
-        $archiveProcessing = $notification->getNotificationObject();
+        $archiveProcessor = $notification->getNotificationObject();
 
-        if (!$archiveProcessing->shouldProcessReportsForPlugin($this->getPluginName())) return;
-
-        $this->interestTables = array('location_country' => array(),
-                                      'location_region'  => array(),
-                                      'location_city'    => array());
-        $this->latLongForCities = array();
-
-        $this->archiveDayAggregateVisits($archiveProcessing);
-        $this->archiveDayAggregateGoals($archiveProcessing);
-        $this->archiveDayRecordInDatabase($archiveProcessing);
-
-        unset($this->interestTables);
-        unset($this->latLongForCities);
-    }
-
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     */
-    protected function archiveDayAggregateVisits($archiveProcessing)
-    {
-        $dimensions = array_keys($this->interestTables);
-        $query = $archiveProcessing->queryVisitsByDimension(
-            $dimensions,
-            $where = '',
-            $metrics = false,
-            $orderBy = false,
-            $rankingQuery = null,
-            $addSelect = 'MAX(log_visit.location_latitude) as location_latitude,
-						  MAX(log_visit.location_longitude) as location_longitude'
-        );
-
-        if ($query === false) {
-            return;
-        }
-
-        while ($row = $query->fetch()) {
-            // get latitude/longitude if there's a city
-            $lat = $long = false;
-            if (!empty($row['location_city'])) {
-                if (!empty($row['location_latitude'])) {
-                    $lat = $row['location_latitude'];
-                }
-                if (!empty($row['location_longitude'])) {
-                    $long = $row['location_longitude'];
-                }
-            }
-
-            // make sure regions & cities w/ the same name don't get merged
-            $this->setLongCityRegionId($row);
-
-            // store latitude/longitude, if we should
-            if ($lat !== false && $long !== false) {
-                $this->latLongForCities[$row['location_city']] = array($lat, $long);
-            }
-
-            // add the stats to each dimension's table
-            foreach ($this->interestTables as $dimension => &$table) {
-                $label = (string)$row[$dimension];
-
-                if (!isset($table[$label])) {
-                    $table[$label] = $archiveProcessing->getNewInterestRow();
-                }
-                $archiveProcessing->updateInterestStats($row, $table[$label]);
-            }
+        $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
+        if($archiving->shouldArchive()) {
+            $archiving->archiveDay();
         }
     }
 
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     */
-    protected function archiveDayAggregateGoals($archiveProcessing)
-    {
-        $dimensions = array_keys($this->interestTables);
-        $query = $archiveProcessing->queryConversionsByDimension($dimensions);
-
-        if ($query === false) {
-            return;
-        }
-
-        while ($row = $query->fetch()) {
-            // make sure regions & cities w/ the same name don't get merged
-            $this->setLongCityRegionId($row);
-
-            $idGoal = $row['idgoal'];
-            foreach ($this->interestTables as $dimension => &$table) {
-                $label = (string)$row[$dimension];
-
-                if (!isset($table[$label][Piwik_Archive::INDEX_GOALS][$idGoal])) {
-                    $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal] = $archiveProcessing->getNewGoalRow($idGoal);
-                }
-
-                $archiveProcessing->updateGoalStats($row, $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal]);
-            }
-        }
-
-        foreach ($this->interestTables as &$table) {
-            $archiveProcessing->enrichConversionsByLabelArray($table);
-        }
-    }
-
-    /**
-     * @param Piwik_ArchiveProcessing_Day $archiveProcessing
-     */
-    protected function archiveDayRecordInDatabase($archiveProcessing)
-    {
-        $maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-
-        $tableCountry = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->interestTables['location_country']);
-        $archiveProcessing->insertBlobRecord(self::VISITS_BY_COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
-        $archiveProcessing->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
-        destroy($tableCountry);
-
-        $tableRegion = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->interestTables['location_region']);
-        $serialized = $tableRegion->getSerialized($maximumRows, $maximumRows, Piwik_Archive::INDEX_NB_VISITS);
-        $archiveProcessing->insertBlobRecord(self::VISITS_BY_REGION_RECORD_NAME, $serialized);
-        destroy($tableRegion);
-
-        $tableCity = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->interestTables['location_city']);
-        $this->setLatitudeLongitude($tableCity);
-        $serialized = $tableCity->getSerialized($maximumRows, $maximumRows, Piwik_Archive::INDEX_NB_VISITS);
-        $archiveProcessing->insertBlobRecord(self::VISITS_BY_CITY_RECORD_NAME, $serialized);
-        destroy($tableCity);
-    }
-
-    /**
-     * Makes sure the region and city of a query row are unique.
-     *
-     * @param array $row
-     */
-    private function setLongCityRegionId(&$row)
-    {
-        static $locationColumns = array('location_region', 'location_country', 'location_city');
-
-        // to be on the safe side, remove the location separator from the region/city/country we
-        // get from the query
-        foreach ($locationColumns as $column) {
-            $row[$column] = str_replace(self::LOCATION_SEPARATOR, '', $row[$column]);
-        }
-
-        if (!empty($row['location_region'])) // do not differentiate between unknown regions
-        {
-            $row['location_region'] = $row['location_region'] . self::LOCATION_SEPARATOR . $row['location_country'];
-        }
-
-        if (!empty($row['location_city'])) // do not differentiate between unknown cities
-        {
-            $row['location_city'] = $row['location_city'] . self::LOCATION_SEPARATOR . $row['location_region'];
-        }
-    }
 
     /**
      * Returns a list of country codes for a given continent code.
@@ -500,24 +333,4 @@ class Piwik_UserCountry extends Piwik_Plugin
                      'bind' => '-'); // HACK: SegmentExpression requires a $bind, even if there's nothing to bind
     }
 
-    /**
-     * Utility method, appends latitude/longitude pairs to city table labels, if that data
-     * exists for the city.
-     */
-    private function setLatitudeLongitude($tableCity)
-    {
-        foreach ($tableCity->getRows() as $row) {
-            $label = $row->getColumn('label');
-            if (isset($this->latLongForCities[$label])) {
-                // get lat/long for city
-                list($lat, $long) = $this->latLongForCities[$label];
-                $lat = round($lat, Piwik_UserCountry_LocationProvider::GEOGRAPHIC_COORD_PRECISION);
-                $long = round($long, Piwik_UserCountry_LocationProvider::GEOGRAPHIC_COORD_PRECISION);
-
-                // set latitude + longitude metadata
-                $row->setMetadata('lat', $lat);
-                $row->setMetadata('long', $long);
-            }
-        }
-    }
 }

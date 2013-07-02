@@ -116,7 +116,7 @@
             // call it within the scope of the axis.
             this.renderer.createTicks.call(this, plot);
             // fill a div with axes labels in the right direction.
-            // Need to pregenerate each axis to get it's bounds and
+            // Need to pregenerate each axis to get its bounds and
             // position it and the labels correctly on the plot.
             var dim=0;
             var temp;

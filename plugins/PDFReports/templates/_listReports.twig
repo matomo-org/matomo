@@ -36,7 +36,14 @@
     {% else %}
     {% for report in reports %}
         <tr>
-            <td class="first">{{ report.description }}</td>
+            <td class="first">
+                {{ report.description | raw }}
+                {% if segmentEditorActivated and report.idsegment %}
+                    <div class="entityInlineHelp" style="font-size: 9pt;">
+                        {{ savedSegmentsById[report.idsegment] }}
+                    </div>
+                {% endif %}
+            </td>
             <td>{{ periods[report.period] }}
                 <!-- Last sent on {{ report.ts_last_sent }} -->
             </td>
@@ -63,7 +70,7 @@
             </td>
             <td>
                 {# download link #}
-                <a href="{{ url({'module':'API', 'token_auth':token_auth, 'method':'PDFReports.generateReport', 'date':rawDate, 'idReport':report.idreport, 'outputType':downloadOutputType, 'language':language}) }}"
+                <a href="{{ linkTo({'module':'API', 'segment': null, 'token_auth':token_auth, 'method':'PDFReports.generateReport', 'idReport':report.idreport, 'outputType':downloadOutputType, 'language':language}) }}"
                    target="_blank" name="linkDownloadReport" id="{{ report.idreport }}" class="link_but">
                     <img src='{{ reportFormatsByReportType[report.type][report.format] }}' border="0"/>
                     {{ 'General_Download'|translate }}
@@ -77,7 +84,7 @@
                 </a>
             </td>
             <td>
-                {*delete link *}
+                {# delete link #}
                 <a href='#' name="linkDeleteReport" id="{{ report.idreport }}" class="link_but">
                     <img src='plugins/Zeitgeist/images/ico_delete.png' border="0"/>
                     {{ 'General_Delete'|translate }}

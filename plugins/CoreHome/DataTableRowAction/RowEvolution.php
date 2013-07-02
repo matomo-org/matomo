@@ -74,8 +74,9 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
         $this->apiMethod = Piwik_Common::getRequestVar('apiMethod', '', 'string');
         if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
 
-        $this->label = Piwik_Common::getRequestVar('label', '', 'string');
-        $this->label = Piwik_Common::unsanitizeInputValue($this->label);
+        $this->label = Piwik_API_ResponseBuilder::getLabelFromRequest($_GET);
+        $this->label = $this->label[0];
+
         if ($this->label === '') throw new Exception("Parameter label not set.");
 
         $this->period = Piwik_Common::getRequestVar('period', '', 'string');
@@ -90,7 +91,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             list($this->date, $lastN) =
                 Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution::getDateRangeAndLastN($this->period, $end);
         }
-        $this->segment = Piwik_Common::getRequestVar('segment', '', 'string');
+        $this->segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
 
         $this->loadEvolutionReport();
     }
@@ -132,7 +133,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 
         $parameters = array(
             'method'    => 'API.getRowEvolution',
-            'label'     => urlencode($this->label),
+            'label'     => $this->label,
             'apiModule' => $apiModule,
             'apiAction' => $apiAction,
             'idSite'    => $this->idSite,
@@ -212,14 +213,14 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             $min = isset($metricData['min']) ? $metricData['min'] : 0;
             $change = isset($metricData['change']) ? $metricData['change'] : false;
 
-            $unit = Piwik_API_API::getUnit($metric, $this->idSite);
+            $unit = Piwik_Metrics::getUnit($metric, $this->idSite);
             $min .= $unit;
             $max .= $unit;
 
             $details = Piwik_Translate('RowEvolution_MetricBetweenText', array($min, $max));
 
             if ($change !== false) {
-                $lowerIsBetter = Piwik_API_API::isLowerValueBetter($metric);
+                $lowerIsBetter = Piwik_Metrics::isLowerValueBetter($metric);
                 if (substr($change, 0, 1) == '+') {
                     $changeClass = $lowerIsBetter ? 'bad' : 'good';
                     $changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';

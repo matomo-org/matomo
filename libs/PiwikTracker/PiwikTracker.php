@@ -89,12 +89,12 @@ class PiwikTracker
 
         $this->requestCookie = '';
         $this->idSite = $idSite;
-        $this->urlReferrer = @$_SERVER['HTTP_REFERER'];
+        $this->urlReferrer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
         $this->pageCharset = self::DEFAULT_CHARSET_PARAMETER_VALUES;
         $this->pageUrl = self::getCurrentUrl();
-        $this->ip = @$_SERVER['REMOTE_ADDR'];
-        $this->acceptLanguage = @$_SERVER['HTTP_ACCEPT_LANGUAGE'];
-        $this->userAgent = @$_SERVER['HTTP_USER_AGENT'];
+        $this->ip = !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : false;
+        $this->acceptLanguage = !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : false;
+        $this->userAgent = !empty($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : false;
         if (!empty($apiUrl)) {
             self::$URL = $apiUrl;
         }
@@ -714,9 +714,18 @@ class PiwikTracker
      * Forces the requests to be recorded for the specified Visitor ID
      * rather than using the heuristics based on IP and other attributes.
      *
-     * This is typically used with the Javascript getVisitorId() function.
-     *
      * Allowed only for Admin/Super User, must be used along with setTokenAuth().
+     *
+     * For example, on your website if you use the Javascript tracker in some pages
+     * and the PHP tracker in other pages, you can write:
+     *      $v->setVisitorId( $v->getVisitorId() );
+     *
+     * This will set this visitor's ID to the ID found in the 1st party Piwik cookies
+     * (created earlier by the Javascript tracker).
+     *
+     * Alternatively you can set the Visitor ID based on a user attribute, for example the user email:
+     *      $v->setVisitorId( substr(md5( $userEmail ), 0, 16));
+     *
      * @see setTokenAuth()
      * @param string $visitorId 16 hexadecimal characters visitor ID, eg. "33c31e01394bdc63"
      * @throws Exception
@@ -1058,7 +1067,7 @@ class PiwikTracker
             (!empty($this->customData) ? '&data=' . $this->customData : '') .
             (!empty($this->visitorCustomVar) ? '&_cvar=' . urlencode(json_encode($this->visitorCustomVar)) : '') .
             (!empty($this->pageCustomVar) ? '&cvar=' . urlencode(json_encode($this->pageCustomVar)) : '') .
-            (!empty($this->generationTime) ? '&generation_time_ms=' . ((int)$this->generationTime) : '') .
+            (!empty($this->generationTime) ? '&gt_ms=' . ((int)$this->generationTime) : '') .
 
             // URL parameters
             '&url=' . urlencode($this->pageUrl) .

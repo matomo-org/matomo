@@ -359,9 +359,10 @@ class Tracker_ActionTest extends DatabaseTestCase
     {
         $this->setUpRootAccess();
         $idSite = Piwik_SitesManager_API::getInstance()->addSite("site1", array('http://example.org'));
-        $action = new Test_Piwik_TrackerAction_extractUrlAndActionNameFromRequest();
-        $action->setRequest($request);
-        $action->setIdSite($idSite);
+        $request['idsite'] = $idSite;
+        $request = new Piwik_Tracker_Request($request);
+        $action = new Test_Piwik_TrackerAction_extractUrlAndActionNameFromRequest($request);
+
         $this->assertEquals($action->public_extractUrlAndActionNameFromRequest(), $expected);
     }
 }

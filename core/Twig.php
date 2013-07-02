@@ -40,17 +40,33 @@ class Piwik_Twig
         // Create new Twig Environment and set cache dir
         $this->twig = new Twig_Environment($chainLoader,
             array(
-                //'cache' => PIWIK_DOCUMENT_ROOT . '/tmp/templates_c',
+                 'debug' => true, // to use {{ dump(var) }} in twig templates
+                 'strict_variables' => true, // throw an exception if variables are invalid
+                 'cache' => PIWIK_USER_PATH . '/tmp/templates_c',
             )
         );
+        $this->twig->addExtension(new Twig_Extension_Debug());
         $this->twig->clearTemplateCache();
 
-        // Add default filters
-        $this->addFilters();
-        // Register namespaces
+        $this->addFilter_translate();
+        $this->addFilter_urlRewriteWithParameters();
+        $this->addFilter_sumTime();
+        $this->addFilter_money();
+        $this->addFilter_truncate();
+        $this->twig->addFilter( new Twig_SimpleFilter('implode', 'implode'));
+
+        $this->addFunction_includeAssets();
+        $this->addFunction_linkTo();
+        $this->addFunction_loadJavascriptTranslations();
+        $this->addFunction_sparkline();
+        $this->addFunction_postEvent();
+    }
+
+    protected function addFunction_includeAssets()
+    {
         $includeAssetsFunction = new Twig_SimpleFunction('includeAssets', function ($params) {
             if (!isset($params['type'])) {
-                throw new Exception("The smarty function includeAssets needs a 'type' parameter.");
+                throw new Exception("The function includeAssets needs a 'type' parameter.");
             }
 
             $assetType = strtolower($params['type']);
@@ -68,12 +84,32 @@ class Piwik_Twig
             }
         });
         $this->twig->addFunction($includeAssetsFunction);
-        $urlFunction = new Twig_SimpleFunction('linkTo', function($params) {
-            return 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified($params);
-        });
-        $this->twig->addFunction($urlFunction);
+    }
 
-        $loadJsTranslationsFunction = new Twig_SimpleFunction('loadJavascriptTranslations', function(array $plugins, $disableScriptTag = false) {
+    protected function addFunction_postEvent()
+    {
+        $postEventFunction = new Twig_SimpleFunction('postEvent', function ($eventName) {
+            $str = '';
+            Piwik_PostEvent($eventName, $str);
+            return $str;
+        }, array('is_safe' => array('html')));
+        $this->twig->addFunction($postEventFunction);
+    }
+
+    protected function addFunction_sparkline()
+    {
+        $sparklineFunction = new Twig_SimpleFunction('sparkline', function ($src) {
+            $graph = new Piwik_Visualization_Sparkline();
+            $width = $graph->getWidth();
+            $height = $graph->getHeight();
+            return sprintf('<img class="sparkline" alt="" src="%s" width="%d" height="%d" />', $src, $width, $height);
+        }, array('is_safe' => array('html')));
+        $this->twig->addFunction($sparklineFunction);
+    }
+
+    protected function addFunction_loadJavascriptTranslations()
+    {
+        $loadJsTranslationsFunction = new Twig_SimpleFunction('loadJavascriptTranslations', function (array $plugins, $disableScriptTag = false) {
             static $pluginTranslationsAlreadyLoaded = array();
             if (in_array($plugins, $pluginTranslationsAlreadyLoaded)) {
                 return;
@@ -91,21 +127,14 @@ class Piwik_Twig
             return $jsCode;
         }, array('is_safe' => array('html')));
         $this->twig->addFunction($loadJsTranslationsFunction);
+    }
 
-        $sparklineFunction = new Twig_SimpleFunction('sparkline', function($src) {
-            $graph = new Piwik_Visualization_Sparkline();
-            $width = $graph->getWidth();
-            $height = $graph->getHeight();
-            return sprintf('<img class="sparkline" alt="" src="%s" width="%d" height="%d" />', $src, $width, $height);
-        }, array('is_safe' => array('html')));
-        $this->twig->addFunction($sparklineFunction);
-
-        $postEventFunction = new Twig_SimpleFunction('postEvent', function($eventName) {
-            $str = '';
-            Piwik_PostEvent($eventName, $str);
-            return $str;
-        }, array('is_safe' => array('html')));
-        $this->twig->addFunction($postEventFunction);
+    protected function addFunction_linkTo()
+    {
+        $urlFunction = new Twig_SimpleFunction('linkTo', function ($params) {
+            return 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+        });
+        $this->twig->addFunction($urlFunction);
     }
 
     /**
@@ -125,20 +154,51 @@ class Piwik_Twig
         return $this->twig;
     }
 
-    public function initFilters()
+    protected function addFilter_truncate()
     {
-        /*
-        $this->load_filter('output', 'cachebuster');
-
-        $use_ajax_cdn = Piwik_Config::getInstance()->General['use_ajax_cdn'];
-        if ($use_ajax_cdn) {
-            $this->load_filter('output', 'ajaxcdn');
-        }
-
-        $this->load_filter('output', 'trimwhitespace');*/
+        $truncateFilter = new Twig_SimpleFilter('truncate', function ($string, $size) {
+            if (strlen($string) < $size) {
+                return $string;
+            } else {
+                $array = str_split($string, $size);
+                return array_shift($array) . "...";
+            }
+        });
+        $this->twig->addFilter($truncateFilter);
     }
 
-    private function addFilters()
+    protected function addFilter_money()
+    {
+        $moneyFilter = new Twig_SimpleFilter('money', function ($amount) {
+            if (func_num_args() != 2) {
+                throw new Exception('the money modifier expects one parameter: the idSite.');
+            }
+            $idSite = func_get_args();
+            $idSite = $idSite[1];
+            return Piwik::getPrettyMoney($amount, $idSite);
+        });
+        $this->twig->addFilter($moneyFilter);
+    }
+
+    protected function addFilter_sumTime()
+    {
+        $sumtimeFilter = new Twig_SimpleFilter('sumtime', function ($numberOfSeconds) {
+            return Piwik::getPrettyTimeFromSeconds($numberOfSeconds);
+        });
+        $this->twig->addFilter($sumtimeFilter);
+    }
+
+    protected function addFilter_urlRewriteWithParameters()
+    {
+        $urlRewriteFilter = new Twig_SimpleFilter('urlRewriteWithParameters', function ($parameters) {
+            $parameters['updated'] = null;
+            $url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
+            return $url;
+        });
+        $this->twig->addFilter($urlRewriteFilter);
+    }
+
+    protected function addFilter_translate()
     {
         $translateFilter = new Twig_SimpleFilter('translate', function ($stringToken) {
             if (func_num_args() <= 1) {
@@ -156,38 +216,6 @@ class Piwik_Twig
             return $stringTranslated;
         });
         $this->twig->addFilter($translateFilter);
-
-        $urlRewriteFilter = new Twig_SimpleFilter('urlRewriteWithParameters', function ($parameters) {
-            $parameters['updated'] = null;
-            $url = Piwik_Url::getCurrentQueryStringWithParametersModified($parameters);
-            return $url;
-        });
-        $this->twig->addFilter($urlRewriteFilter);
-
-        $sumtimeFilter = new Twig_SimpleFilter('sumtime', function($numberOfSeconds) {
-            return Piwik::getPrettyTimeFromSeconds($numberOfSeconds);
-        });
-        $this->twig->addFilter($sumtimeFilter);
-
-        $moneyFilter = new Twig_SimpleFilter('money', function($amount)
-        {
-            if (func_num_args() != 2) {
-                throw new Exception('the smarty modifier money expects one parameter: the idSite.');
-            }
-            $idSite = func_get_args();
-            $idSite = $idSite[1];
-            return Piwik::getPrettyMoney($amount, $idSite);
-        });
-        $this->twig->addFilter($moneyFilter);
-
-        $truncateFilter = new Twig_SimpleFilter('truncate', function($string, $size) {
-            if(strlen($string) < $size) {
-                return $string;
-            } else {
-                return array_shift(str_split($string, $size)) . "...";
-            }
-        });
-        $this->twig->addFilter($truncateFilter);
     }
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)

@@ -84,7 +84,8 @@ dataTable.prototype =
             'disable_generic_filters',
             'columns',
             'flat',
-            'include_aggregate_rows'
+            'include_aggregate_rows',
+            'totalRows'
         ];
 
         for (var key in filters) {
@@ -1366,8 +1367,8 @@ dataTable.prototype =
                 // if this url is also the url of a menu item, better to click that menu item instead of
                 // doing AJAX request
                 var menuItem = null;
-                $("#root>ul.nav a").each(function () {
-                    if ($(this).attr('name') == url) {
+                $("#root").find(">ul.nav a").each(function () {
+                    if ($(this).attr('href') == url) {
                         menuItem = this;
                         return false
                     }

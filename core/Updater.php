@@ -56,7 +56,7 @@ class Piwik_Updater
     public function recordComponentSuccessfullyUpdated($name, $version)
     {
         try {
-            Piwik_SetOption($this->getNameInOptionTable($name), $version, $autoload = 1);
+            Piwik_SetOption($this->getNameInOptionTable($name), $version, $autoLoad = 1);
         } catch (Exception $e) {
             // case when the option table is not yet created (before 0.2.10)
         }

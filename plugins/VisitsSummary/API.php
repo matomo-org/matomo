@@ -62,19 +62,7 @@ class Piwik_VisitsSummary_API
             $columns = array_merge($columns, $tempColumns);
         } else {
             $bounceRateRequested = $actionsPerVisitRequested = $averageVisitDurationRequested = true;
-            $columns = array(
-                'nb_visits',
-                'nb_actions',
-                'nb_visits_converted',
-                'bounce_count',
-                'sum_visit_length',
-                'max_actions'
-            );
-            if (Piwik::isUniqueVisitorsEnabled($period)) {
-                $columns = array_merge(array('nb_uniq_visitors'), $columns);
-            }
-            // Force reindex from 0 to N otherwise the SQL bind will fail
-            $columns = array_values($columns);
+            $columns = $this->getCoreColumns($period);
         }
 
         $dataTable = $archive->getDataTableFromNumeric($columns);
@@ -96,11 +84,38 @@ class Piwik_VisitsSummary_API
         return $dataTable;
     }
 
+    /**
+     * @ignore
+     */
+    public function getColumns($period)
+    {
+        $columns = $this->getCoreColumns($period);
+        $columns = array_merge($columns, array('bounce_rate', 'nb_actions_per_visit', 'avg_time_on_site'));
+        return $columns;
+    }
+
+    protected function getCoreColumns($period)
+    {
+        $columns = array(
+            'nb_visits',
+            'nb_actions',
+            'nb_visits_converted',
+            'bounce_count',
+            'sum_visit_length',
+            'max_actions'
+        );
+        if (Piwik::isUniqueVisitorsEnabled($period)) {
+            $columns = array_merge(array('nb_uniq_visitors'), $columns);
+        }
+        $columns = array_values($columns);
+        return $columns;
+    }
+
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
-        $dataTable = $archive->getNumeric($toFetch);
+        $dataTable = $archive->getDataTableFromNumeric($toFetch);
         return $dataTable;
     }
 
@@ -142,8 +157,9 @@ class Piwik_VisitsSummary_API
     public function getSumVisitsLengthPretty($idSite, $period, $date, $segment = false)
     {
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
-        if ($table instanceof Piwik_DataTable_Array) {
-            $table->filter('ColumnCallbackReplace', array(0, array('Piwik', 'getPrettyTimeFromSeconds')));
+        if (is_object($table)) {
+            $table->filter('ColumnCallbackReplace',
+                array('sum_visit_length', array('Piwik', 'getPrettyTimeFromSeconds')));
         } else {
             $table = Piwik::getPrettyTimeFromSeconds($table);
         }

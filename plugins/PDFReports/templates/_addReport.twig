@@ -27,12 +27,31 @@
                     </div>
                 </td>
             </tr>
+            {% if segmentEditorActivated %}
+            <tr>
+                <td class="first">{{ 'SegmentEditor_ChooseASegment'|translate }} </td>
+                <td>
+                    <select id='report_segment'>
+                        <option value="">{{ 'SegmentEditor_DefaultAllVisits'|translate }}</option>
+                        {% for savedSegmentId, savedSegmentName in savedSegmentsById %}
+                            <option value="{{ savedSegmentId }}">{{ savedSegmentName }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <div class="entityInlineHelp">
+                        {% set SegmentEditor_DefaultAllVisits %}{{ 'SegmentEditor_DefaultAllVisits'|translate }}{% endset %}
+                        {% set SegmentEditor_AddNewSegment %}{{ 'SegmentEditor_AddNewSegment'|translate }}{% endset %}
+                        {{ 'PDFReports_Segment_Help'|translate('<a href="./" target="_blank">','</a>',SegmentEditor_DefaultAllVisits,SegmentEditor_AddNewSegment)|raw }}
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
             <tr>
                 <td class="first">{{ 'PDFReports_EmailSchedule'|translate }}</td>
                 <td>
                     <select id="report_period" class="inp">
                         {% for periodId, period in periods %}
-                            <option value="{$periodId}">
+                            <option value="{{ periodId }}">
                                 {{ period }}
                             </option>
                         {% endfor %}
@@ -70,7 +89,7 @@
 
                 <td>
                     {% for reportType, reportFormats in reportFormatsByReportType %}
-                        <select name='report_format' class='{$reportType}'>
+                        <select name='report_format' class='{{ reportType }}'>
                             {% for reportFormat, reportFormatIcon in reportFormats %}
                                 <option value="{{ reportFormat }}">{{ reportFormat|upper }}</option>
                             {% endfor %}
@@ -85,7 +104,7 @@
                 <td class="first">{{ 'PDFReports_ReportsIncluded'|translate }}</td>
                 <td>
                     {% for reportType, reportsByCategory in reportsByCategoryByReportType %}
-                        <div name='reportsList' class='{$reportType}'>
+                        <div name='reportsList' class='{{ reportType }}'>
 
                             {% if allowMultipleReportsByReportType[reportType] %}
                                 {% set reportInputType='checkbox' %}
@@ -113,7 +132,8 @@
                                             <label for="{{ reportType }}{{ report.uniqueId }}">
                                                 {{ report.name }}
                                                 {% if report.uniqueId=='MultiSites_getAll' %}
-                                                    <div class="entityInlineHelp">{{ 'PDFReports_ReportIncludeNWebsites'|translate('"'+countWebsites+' "') }}</div>
+                                                    <div class="entityInlineHelp">{{ 'PDFReports_ReportIncludeNWebsites'|translate('"'~countWebsites~' "')
+                                                        }}</div>
                                                 {% endif %}
                                             </label>
                                         </li>

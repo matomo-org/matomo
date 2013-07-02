@@ -23,17 +23,33 @@ class Piwik_Segment
     /**
      * Truncate the Segments to 4k
      */
-    const SEGMENT_TRUNCATE_LIMIT = 4096;
+    const SEGMENT_TRUNCATE_LIMIT = 8192;
 
     public function __construct($string, $idSites)
     {
-        $string = Piwik_Common::unsanitizeInputValue($string);
         $string = trim($string);
-        if (!Piwik_Archive::isSegmentationEnabled()
+        if (!Piwik::isSegmentationEnabled()
             && !empty($string)
         ) {
             throw new Exception("The Super User has disabled the Segmentation feature.");
         }
+
+        // First try with url decoded value. If that fails, try with raw value.
+        // If that also fails, it will throw the exception
+        try {
+            $this->initializeSegment( urldecode($string), $idSites);
+        } catch(Exception $e) {
+            $this->initializeSegment($string, $idSites);
+        }
+    }
+
+    /**
+     * @param $string
+     * @param $idSites
+     * @throws Exception
+     */
+    protected function initializeSegment($string, $idSites)
+    {
         // As a preventive measure, we restrict the filter size to a safe limit
         $string = substr($string, 0, self::SEGMENT_TRUNCATE_LIMIT);
 
@@ -64,7 +80,6 @@ class Piwik_Segment
     }
 
     protected $availableSegments = array();
-    protected $segmentsHumanReadable = '';
 
     protected function getCleanedExpression($expression)
     {
@@ -94,7 +109,8 @@ class Piwik_Segment
             // apply presentation filter
             if (isset($segment['sqlFilter'])
                 && !empty($segment['sqlFilter'])
-                && $matchType != Piwik_SegmentExpression::MATCH_IS_NOT_NULL
+                && $matchType != Piwik_SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+                && $matchType != Piwik_SegmentExpression::MATCH_IS_NULL_OR_EMPTY
             ) {
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
@@ -127,7 +143,9 @@ class Piwik_Segment
         if (empty($this->string)) {
             return '';
         }
-        return md5($this->string);
+        // normalize the string as browsers may send slightly different payloads for the same archive
+        $normalizedSegmentString = urldecode($this->string);
+        return md5($normalizedSegmentString);
     }
 
 
@@ -144,8 +162,6 @@ class Piwik_Segment
      */
     public function getSelectQuery($select, $from, $where = false, $bind = array(), $orderBy = false, $groupBy = false)
     {
-        $joinWithSubSelect = false;
-
         if (!is_array($from)) {
             $from = array($from);
         }

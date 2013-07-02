@@ -33,16 +33,16 @@ if (!isset($GLOBALS['XHPROF_LIB_ROOT'])) {
   $GLOBALS['XHPROF_LIB_ROOT'] = realpath(dirname(__FILE__) . '/..');
 }
 
-include_once $GLOBALS['XHPROF_LIB_ROOT'].'/utils/xhprof_lib.php';
-include_once $GLOBALS['XHPROF_LIB_ROOT'].'/utils/callgraph_utils.php';
-include_once $GLOBALS['XHPROF_LIB_ROOT'].'/utils/xhprof_runs.php';
+require_once $GLOBALS['XHPROF_LIB_ROOT'].'/utils/xhprof_lib.php';
+require_once $GLOBALS['XHPROF_LIB_ROOT'].'/utils/callgraph_utils.php';
+require_once $GLOBALS['XHPROF_LIB_ROOT'].'/utils/xhprof_runs.php';
 
 
 /**
  * Our coding convention disallows relative paths in hrefs.
  * Get the base URL path from the SCRIPT_NAME.
  */
-$base_path = rtrim(dirname($_SERVER['SCRIPT_NAME']), "/");
+$base_path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
 
 /**
@@ -58,16 +58,16 @@ $base_path = rtrim(dirname($_SERVER['SCRIPT_NAME']), "/");
 function xhprof_include_js_css($ui_dir_url_path = null) {
 
   if (empty($ui_dir_url_path)) {
-    $ui_dir_url_path = rtrim(dirname($_SERVER['SCRIPT_NAME']), "/");
+    $ui_dir_url_path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
   }
 
   // style sheets
   echo "<link href='$ui_dir_url_path/css/xhprof.css' rel='stylesheet' ".
-    " type='text/css'></link>";
+    " type='text/css' />";
   echo "<link href='$ui_dir_url_path/jquery/jquery.tooltip.css' ".
-    " rel='stylesheet' type='text/css'></link>";
+    " rel='stylesheet' type='text/css' />";
   echo "<link href='$ui_dir_url_path/jquery/jquery.autocomplete.css' ".
-    " rel='stylesheet' type='text/css'></link>";
+    " rel='stylesheet' type='text/css' />";
 
   // javascript
   echo "<script src='$ui_dir_url_path/jquery/jquery-1.2.6.js'>".
@@ -106,7 +106,7 @@ function xhprof_count_format($num) {
 }
 
 function xhprof_percent_format($s, $precision = 1) {
-  return sprintf('%.'.$precision.'f%%', 100*$s);
+  return sprintf('%.'.$precision.'f%%', 100 * $s);
 }
 
 /**
@@ -114,7 +114,7 @@ function xhprof_percent_format($s, $precision = 1) {
  * into a HTML list and returns the text.
  */
 function xhprof_render_actions($actions) {
-  $out = array( );
+  $out = array();
 
   if (count($actions)) {
     $out[] = '<ul class="xhprof_actions">';
@@ -380,8 +380,7 @@ $metrics = null;
  *
  * @author Kannan
  */
-function sort_cbk($a, $b)
-{
+function sort_cbk($a, $b) {
   global $sort_col;
   global $diff_mode;
 
@@ -410,82 +409,6 @@ function sort_cbk($a, $b)
     if ($left == $right)
       return 0;
     return ($left > $right) ? -1 : 1;
-  }
-}
-
-/**
- * Initialize the metrics we'll display based on the information
- * in the raw data.
- *
- * @author Kannan
- */
-function init_metrics($xhprof_data, $rep_symbol, $sort, $diff_report = false) {
-  global $stats;
-  global $pc_stats;
-  global $metrics;
-  global $diff_mode;
-  global $sortable_columns;
-  global $sort_col;
-  global $display_calls;
-
-  $diff_mode = $diff_report;
-
-  if (!empty($sort)) {
-    if (array_key_exists($sort, $sortable_columns)) {
-      $sort_col = $sort;
-    } else {
-      print("Invalid Sort Key $sort specified in URL");
-    }
-  }
-
-  // For C++ profiler runs, walltime attribute isn't present.
-  // In that case, use "samples" as the default sort column.
-  if (!isset($xhprof_data["main()"]["wt"])) {
-
-    if ($sort_col == "wt") {
-      $sort_col = "samples";
-    }
-
-    // C++ profiler data doesn't have call counts.
-    // ideally we should check to see if "ct" metric
-    // is present for "main()". But currently "ct"
-    // metric is artificially set to 1. So, relying
-    // on absence of "wt" metric instead.
-    $display_calls = false;
-  } else {
-    $display_calls = true;
-  }
-
-  // parent/child report doesn't support exclusive times yet.
-  // So, change sort hyperlinks to closest fit.
-  if (!empty($rep_symbol)) {
-    $sort_col = str_replace("excl_", "", $sort_col);
-  }
-
-  if ($display_calls) {
-    $stats = array("fn", "ct", "Calls%");
-  } else {
-    $stats = array("fn");
-  }
-
-  $pc_stats = $stats;
-
-  $possible_metrics = xhprof_get_possible_metrics($xhprof_data);
-  foreach ($possible_metrics as $metric => $desc) {
-    if (isset($xhprof_data["main()"][$metric])) {
-      $metrics[] = $metric;
-      // flat (top-level reports): we can compute
-      // exclusive metrics reports as well.
-      $stats[] = $metric;
-      $stats[] = "I" . $desc[0] . "%";
-      $stats[] = "excl_" . $metric;
-      $stats[] = "E" . $desc[0] . "%";
-
-      // parent/child report for a function: we can
-      // only breakdown inclusive times correctly.
-      $pc_stats[] = $metric;
-      $pc_stats[] = "I" . $desc[0] . "%";
-    }
   }
 }
 
@@ -584,7 +507,7 @@ function profiler_report ($url_params,
 
   // set up the action links for operations that can be done on this report
   $links = array();
-  $links []=  xhprof_render_link("View Top Level $diff_text Report",
+  $links [] =  xhprof_render_link("View Top Level $diff_text Report",
                                  $top_link_query_string);
 
   if ($diff_mode) {
@@ -593,9 +516,9 @@ function profiler_report ($url_params,
     $inverted_params['run2'] = $url_params['run1'];
 
     // view the different runs or invert the current diff
-    $links []= $run1_link;
-    $links []= $run2_link;
-    $links []= xhprof_render_link('Invert ' . $diff_text . ' Report',
+    $links [] = $run1_link;
+    $links [] = $run2_link;
+    $links [] = xhprof_render_link('Invert ' . $diff_text . ' Report',
                            "$base_path/?".
                            http_build_query($inverted_params));
   }
@@ -698,7 +621,7 @@ function print_td_num($num, $fmt_func, $bold=false, $attributes=null) {
 
   $class = get_print_class($num, $bold);
 
-  if (!empty($fmt_func)) {
+  if (!empty($fmt_func) && is_numeric($num) ) {
     $num = call_user_func($fmt_func, $num);
   }
 
@@ -755,6 +678,7 @@ function print_function_info($url_params, $info, $sort, $run1, $run2) {
 
   print('<td>');
   print(xhprof_render_link($info["fn"], $href));
+  print_source_link($info);
   print("</td>\n");
 
   if ($display_calls) {
@@ -824,20 +748,19 @@ function print_flat_data($url_params, $title, $flat_data, $sort, $run1, $run2, $
 
     if ($stat == "fn")
       print("<th align=left><nobr>$header</th>");
-    else
-      print("<th " . $vwbar . "><nobr>$header</th>");
+    else print("<th " . $vwbar . "><nobr>$header</th>");
   }
   print("</tr>\n");
 
   if ($limit >= 0) {
     $limit = min($size, $limit);
-    for($i=0; $i < $limit; $i++) {
+    for ($i = 0; $i < $limit; $i++) {
       print_function_info($url_params, $flat_data[$i], $sort, $run1, $run2);
     }
   } else {
     // if $limit is negative, print abs($limit) items starting from the end
     $limit = min($size, abs($limit));
-    for($i=0; $i < $limit; $i++) {
+    for ($i = 0; $i < $limit; $i++) {
       print_function_info($url_params, $flat_data[$size - $i - 1], $sort, $run1, $run2);
     }
   }
@@ -925,7 +848,7 @@ function full_report($url_params, $symbol_tab, $sort, $run1, $run2) {
           .'bgcolor="#bdc7d8" align=center>' . "\n");
     echo "<tr>";
     echo "<th style='text-align:right'>Overall Summary</th>";
-    echo "<th'></th>";
+    echo "<th></th>";
     echo "</tr>";
 
     foreach ($metrics as $metric) {
@@ -1017,8 +940,7 @@ function pc_info($info, $base_ct, $base_info, $parent) {
 
   if ($parent)
     $type = "Parent";
-  else
-    $type = "Child";
+  else $type = "Child";
 
   if ($display_calls) {
     $mouseoverct = get_tooltip_attributes($type, "ct");
@@ -1061,6 +983,7 @@ function print_pc_array($url_params, $results, $base_ct, $base_info, $parent,
     $href = "$base_path/?" .
       http_build_query(xhprof_array_set($url_params,
                                         'symbol', $info["fn"]));
+
     $odd_even = 1 - $odd_even;
 
     if ($odd_even) {
@@ -1070,9 +993,22 @@ function print_pc_array($url_params, $results, $base_ct, $base_info, $parent,
       print('<tr bgcolor="#e5e5e5">');
     }
 
-    print("<td>" . xhprof_render_link($info["fn"], $href) . "</td>");
+    print("<td>" . xhprof_render_link($info["fn"], $href));
+    print_source_link($info);
+    print("</td>");
     pc_info($info, $base_ct, $base_info, $parent);
     print("</tr>");
+  }
+}
+
+function print_source_link($info) {
+  if (strncmp($info['fn'], 'run_init', 8) && $info['fn'] !== 'main()') {
+	if (defined('XHPROF_SYMBOL_LOOKUP_URL')) {
+      $link = xhprof_render_link(
+        'source',
+        XHPROF_SYMBOL_LOOKUP_URL . '?symbol='.rawurlencode($info["fn"]));
+      print(' ('.$link.')');
+    }
   }
 }
 
@@ -1178,10 +1114,10 @@ function symbol_report($url_params,
       $avg_info1 = 'N/A';
       $avg_info2 = 'N/A';
       if ($symbol_info1['ct'] > 0) {
-        $avg_info1 = ($symbol_info1[$m]/$symbol_info1['ct']);
+        $avg_info1 = ($symbol_info1[$m] / $symbol_info1['ct']);
       }
       if ($symbol_info2['ct'] > 0) {
-        $avg_info2 = ($symbol_info2[$m]/$symbol_info2['ct']);
+        $avg_info2 = ($symbol_info2[$m] / $symbol_info2['ct']);
       }
       print_td_num($avg_info1, $format_cbk[$m]);
       print_td_num($avg_info2, $format_cbk[$m]);
@@ -1231,8 +1167,7 @@ function symbol_report($url_params,
 
     if ($stat == "fn")
       print("<th align=left><nobr>$header</th>");
-    else
-      print("<th " . $vwbar . "><nobr>$header</th>");
+    else print("<th " . $vwbar . "><nobr>$header</th>");
   }
   print("</tr>");
 
@@ -1242,7 +1177,9 @@ function symbol_report($url_params,
 
   print("<tr>");
   // make this a self-reference to facilitate copy-pasting snippets to e-mails
-  print("<td><a href=''>$rep_symbol</a></td>");
+  print("<td><a href=''>$rep_symbol</a>");
+  print_source_link(array('fn' => $rep_symbol));
+  print("</td>");
 
   if ($display_calls) {
     // Call Count
@@ -1333,7 +1270,7 @@ function symbol_report($url_params,
   print("var func_name = '\"" . $rep_symbol . "\"';\n");
   print("var total_child_ct  = " . $base_ct . ";\n");
   if ($display_calls) {
-    print("var func_ct   = " . $symbol_info["ct"] . ";\n" );
+    print("var func_ct   = " . $symbol_info["ct"] . ";\n");
   }
   print("var func_metrics = new Array();\n");
   print("var metrics_col  = new Array();\n");
@@ -1345,7 +1282,7 @@ function symbol_report($url_params,
   }
   $column_index = 3; // First three columns are Func Name, Calls, Calls%
   foreach ($metrics as $metric) {
-    print("func_metrics[\"" . $metric . "\"] = " . round($symbol_info[$metric]) . ";\n" );
+    print("func_metrics[\"" . $metric . "\"] = " . round($symbol_info[$metric]) . ";\n");
     print("metrics_col[\"". $metric . "\"] = " . $column_index . ";\n");
     print("metrics_desc[\"". $metric . "\"] = \"" . $possible_metrics[$metric][2] . "\";\n");
 
@@ -1495,5 +1432,8 @@ function displayXHProfReport($xhprof_runs_impl, $url_params, $source,
 
   } else {
     echo "No XHProf runs specified in the URL.";
+    if (method_exists($xhprof_runs_impl, 'list_runs')) {
+      $xhprof_runs_impl->list_runs();
+    }
   }
 }

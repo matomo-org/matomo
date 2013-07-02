@@ -4,7 +4,9 @@
 		<result date="2010-01">
 			<row>
 				<label>_pk_scount</label>
+				<nb_visits>7</nb_visits>
 				<nb_actions>9</nb_actions>
+				<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 				<subtable>
 					<row>
 						<label>0</label>
@@ -28,7 +30,9 @@
 			</row>
 			<row>
 				<label>_pk_scat</label>
+				<nb_visits>4</nb_visits>
 				<nb_actions>5</nb_actions>
+				<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 				<subtable>
 					<row>
 						<label>Search Category</label>
@@ -37,13 +41,13 @@
 						<sum_daily_nb_uniq_visitors>2</sum_daily_nb_uniq_visitors>
 					</row>
 					<row>
-						<label>Category</label>
+						<label>Bad No Result Category :(</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 					</row>
 					<row>
-						<label>Bad No Result Category :(</label>
+						<label>Category</label>
 						<nb_visits>1</nb_visits>
 						<nb_actions>1</nb_actions>
 						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
@@ -62,7 +66,9 @@
 		<result date="2010-01">
 			<row>
 				<label>_pk_scount</label>
+				<nb_visits>1</nb_visits>
 				<nb_actions>2</nb_actions>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<subtable>
 					<row>
 						<label>0</label>
@@ -74,7 +80,9 @@
 			</row>
 			<row>
 				<label>_pk_scat</label>
+				<nb_visits>1</nb_visits>
 				<nb_actions>1</nb_actions>
+				<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 				<subtable>
 					<row>
 						<label>Bad No Result Category bis :(</label>

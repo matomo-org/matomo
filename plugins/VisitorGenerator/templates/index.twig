@@ -10,8 +10,8 @@
         <tr>
             <td><label for="idSite">{{ 'General_ChooseWebsite'|translate }}</label></td>
             <td>
-                {% include file="@CoreHome/_siteSelect.twig" with {
-                'showAllSitesItem':false,'showSelectedSite':true,'switchSiteOnSelect':false,'inputName':idSite} %}
+                {% include "@CoreHome/_siteSelect.twig" with {
+                'showAllSitesItem':false,'showSelectedSite':true,'switchSiteOnSelect':false,'inputName':'idSite' } %}
             </td>
         </tr>
         <tr>

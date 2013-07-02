@@ -1,70 +1,48 @@
-{% spaceless %}
-    {{ prettyDate }}.{% endspaceless %} {% spaceless %}
+{{ prettyDate }}{% if displaySegment %}, {{ segmentName }}{% endif %}. {% if false %}{% endif %}
 
-    {% if reportRows is empty %}
-        {{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}
-    {% endif %}
+{%- if reportRows is empty -%}
+    {{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}
+{%- endif -%}
 
-    {% for rowId, row in reportRows %}
-        {% set rowMetrics=row->getColumns() %}
-        {% set rowMetadata=reportRowsMetadata[rowId]->getColumns() %}
+{%- for rowId, row in reportRows -%}
+    {%- set rowMetrics=row.columns -%}
+    {%- set rowMetadata=reportRowsMetadata[rowId].columns -%}
 
-        {% if displaySiteName %}
-            {{ rowMetrics.label }}:{% endspaceless %} {% spaceless %}
-        {% endif %}
+    {%- if displaySiteName -%}{{ rowMetrics.label }}: {% endif -%}
+    
+    {# visits #}
+    {{- rowMetrics.nb_visits }} {{ 'General_ColumnNbVisits'|translate }}
+    {%- if rowMetrics.visits_evolution != 0 %} ({{ rowMetrics.visits_evolution }}%){%- endif -%}
+    
+    {%- if rowMetrics.nb_visits != 0 -%}
+        {#- actions -#}
+        , {{ rowMetrics.nb_actions }} {{ 'General_ColumnNbActions'|translate }}
+        {%- if rowMetrics.actions_evolution != 0 %} ({{ rowMetrics.actions_evolution }}%){%- endif -%}
 
-        {# visits #}
-        {{ rowMetrics.nb_visits }} {{ 'General_ColumnNbVisits'|translate }}
-        {% if rowMetrics.visits_evolution != 0 %}
-            {% endspaceless %} {% spaceless %}({{ rowMetrics.visits_evolution }}%)
-        {% endif %}
-
-        {% if rowMetrics.nb_visits != 0 %}
-
-        {# actions #}
-            ,{% endspaceless %} {% spaceless %}
-            {{ rowMetrics.nb_actions }} {{ 'General_ColumnNbActions'|translate }}
-            {% if rowMetrics.actions_evolution != 0 %}
-                {% endspaceless %} {% spaceless %}({{ rowMetrics.actions_evolution }}%)
-            {% endif %}
-
-            {% if isGoalPluginEnabled %}
+        {%- if isGoalPluginEnabled -%}
 
             {# goal metrics #}
-                {% if rowMetrics.nb_conversions != 0 %}
+            {%- if rowMetrics.nb_conversions != 0 -%}
+                , {{ 'Goals_ColumnRevenue'|translate }}: {{ rowMetrics.revenue }}
+                {%- if rowMetrics.revenue_evolution != 0 %} ({{ rowMetrics.revenue_evolution }}%){%- endif -%}
 
-                    ,{% endspaceless %} {% spaceless %}
-                    {{ 'Goals_ColumnRevenue'|translate }}:{% endspaceless %} {% spaceless %}{{ rowMetrics.revenue }}
-                    {% if rowMetrics.revenue_evolution != 0 %}
-                        {% endspaceless %} {% spaceless %}({{ rowMetrics.revenue_evolution }}%)
-                    {% endif %}
-
-                    ,{% endspaceless %} {% spaceless %}
-                    {{ rowMetrics.nb_conversions }} {{ 'Goals_GoalConversions'|translate }}
-                    {% if rowMetrics.nb_conversions_evolution != 0 %}
-                        {% endspaceless %} {% spaceless %}({{ rowMetrics.nb_conversions_evolution }}%)
-                    {% endif %}
-                {% endif %}
+                , {{ rowMetrics.nb_conversions }} {{ 'Goals_GoalConversions'|translate }}
+                {%- if rowMetrics.nb_conversions_evolution != 0 %} ({{ rowMetrics.nb_conversions_evolution }}%){%- endif -%}
+            {%- endif -%}
 
             {# eCommerce metrics #}
-                {% if siteHasECommerce[rowMetadata.idsite] %}
+            {%- if siteHasECommerce[rowMetadata.idsite] -%}
 
-                    ,{% endspaceless %} {% spaceless %}
-                    {{ 'General_ProductRevenue'|translate }}:{% endspaceless %} {% spaceless %}{{ rowMetrics.ecommerce_revenue }}
-                    {% if rowMetrics.ecommerce_revenue_evolution != 0 %}
-                        {% endspaceless %} {% spaceless %}({{ rowMetrics.ecommerce_revenue_evolution }}%)
-                    {% endif %}
+                , {{ 'General_ProductRevenue'|translate }}: {{ rowMetrics.ecommerce_revenue }}
+                {%- if rowMetrics.ecommerce_revenue_evolution != 0 %} ({{ rowMetrics.ecommerce_revenue_evolution }}%){%- endif -%}
 
-                    ,{% endspaceless %} {% spaceless %}
-                    {{ rowMetrics.orders }} {{ 'General_EcommerceOrders'|translate }}
-                    {% if rowMetrics.orders_evolution != 0 %}
-                        {% endspaceless %} {% spaceless %}({{ rowMetrics.orders_evolution }}%)
-                    {% endif %}
-                {% endif %}
-            {% endif %}
+                , {{ rowMetrics.orders }} {{ 'General_EcommerceOrders'|translate }}
+                {%- if rowMetrics.orders_evolution != 0 %} ({{ rowMetrics.orders_evolution }}%){%- endif -%}
+            {%- endif -%}
+        
+        {%- endif -%}
 
-        {% endif %}
+    {%- endif -%}
 
-        {% if not loop.last %}.{% endspaceless %} {% spaceless %}{% endif %}
-    {% endfor %}
-{% endspaceless %}
+    {%- if not loop.last -%}. {% endif -%}
+{%- endfor -%}

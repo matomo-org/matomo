@@ -29,6 +29,7 @@
 
 {{ visitors|raw }}
 
+{% spaceless %}
 <div class="visitsLiveFooter">
     <a title="Pause Live!" href="javascript:void(0);" onclick="onClickPause();">
         <img id="pauseImage" border="0" src="plugins/Live/images/pause_disabled.gif" />
@@ -41,3 +42,4 @@
         <a class="rightLink" href="javascript:broadcast.propagateAjax('module=Live&action=getVisitorLog')">{{ 'Live_LinkVisitorLog'|translate }}</a>
     {% endif %}
 </div>
+{% endspaceless %}

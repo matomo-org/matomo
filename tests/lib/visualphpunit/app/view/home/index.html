@@ -21,7 +21,6 @@
   </head>
 
   <body>
-
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -65,6 +64,23 @@
                   You can also use shift+click to select a range of files, or
                   ctrl+click to select an entire directory.
                 </p>
+              </li>
+              
+              <li class='divider'></li>
+              
+              <li class='nav-header'>Benchmarking</li>
+              <li>
+                <label for='benchmark_fixture'>Fixture</label>
+                <select id='benchmark_fixture' name='benchmark_fixture'>
+                  <option value=''>No Fixture</option>
+                  <?php foreach ($benchmark_fixtures as $fixture) {?>
+                  <option value='<?php echo $fixture; ?>'><?php echo $fixture; ?></option>
+                  <?php } ?>
+                </select>
+              </li>
+              <li>
+                <label for='fixture_db_name'>Test DB Name</label>
+                <input id='fixture_db_name' placeholder="Store test data in this DB" type="text" value="" name="fixture_db_name"/>
               </li>
               
               <li class='divider'></li>

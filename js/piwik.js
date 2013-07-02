@@ -752,13 +752,10 @@ if (typeof Piwik !== 'object') {
          * Extract parameter from URL
          */
         function getParameter(url, name) {
-            // scheme : // [username [: password] @] hostame [: port] [/ [path] [? query] [# fragment]]
-            var e = new RegExp('^(?:https?|ftp)(?::/*(?:[^?]+)[?])([^#]+)'),
-                matches = e.exec(url),
-                f = new RegExp('(?:^|&)' + name + '=([^&]*)'),
-                result = matches ? f.exec(matches[1]) : 0;
-
-            return result ? decodeWrapper(result[1]) : '';
+            var regexSearch = "[\\?&#]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexSearch);
+            var results = regex.exec(url);
+            return results ? decodeWrapper(results[1]) : '';
         }
 
         /*
@@ -1550,7 +1547,20 @@ if (typeof Piwik !== 'object') {
                 ];
             }
 
-            /*
+            function deleteCookies() {
+                var savedConfigCookiesDisabled = configCookiesDisabled;
+
+                // Temporarily allow cookies just to delete the existing ones
+                configCookiesDisabled = false;
+                setCookie(getCookieName('id'), '', -86400, configCookiePath, configCookieDomain);
+                setCookie(getCookieName('ses'), '', -86400, configCookiePath, configCookieDomain);
+                setCookie(getCookieName('cvar'), '', -86400, configCookiePath, configCookieDomain);
+                setCookie(getCookieName('ref'), '', -86400, configCookiePath, configCookieDomain);
+
+                configCookiesDisabled = savedConfigCookiesDisabled;
+            }
+
+            /**
              * Returns the URL to call piwik.php,
              * with the standard parameters (plugins, resolution, url, referrer, etc.).
              * Sends the pageview and browser settings with every request in case of race conditions.
@@ -1572,7 +1582,6 @@ if (typeof Piwik !== 'object') {
                     currentReferrerHostName,
                     originalReferrerHostName,
                     customVariablesCopy = customVariables,
-                    idname = getCookieName('id'),
                     sesname = getCookieName('ses'),
                     refname = getCookieName('ref'),
                     cvarname = getCookieName('cvar'),
@@ -1584,13 +1593,7 @@ if (typeof Piwik !== 'object') {
                     campaignKeywordDetected;
 
                 if (configCookiesDisabled) {
-                    // Temporarily allow cookies just to delete the existing ones
-                    configCookiesDisabled = false;
-                    setCookie(idname, '', -86400, configCookiePath, configCookieDomain);
-                    setCookie(sesname, '', -86400, configCookiePath, configCookieDomain);
-                    setCookie(cvarname, '', -86400, configCookiePath, configCookieDomain);
-                    setCookie(refname, '', -86400, configCookiePath, configCookieDomain);
-                    configCookiesDisabled = true;
+                    deleteCookies();
                 }
 
                 if (configDoNotTrack) {
@@ -1750,10 +1753,10 @@ if (typeof Piwik !== 'object') {
 
                 // performance tracking
                 if (configPerformanceTrackingEnabled && configPerformanceGenerationTime) {
-                    request += '&generation_time_ms=' + configPerformanceGenerationTime;
+                    request += '&gt_ms=' + configPerformanceGenerationTime;
                 } else if (configPerformanceTrackingEnabled && performanceAlias && performanceAlias.timing
                         && performanceAlias.timing.requestStart && performanceAlias.timing.responseEnd) {
-                    request += '&generation_time_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
+                    request += '&gt_ms=' + (performanceAlias.timing.responseEnd - performanceAlias.timing.requestStart);
                 }
 
                 // update cookies
@@ -2379,6 +2382,7 @@ if (typeof Piwik !== 'object') {
                     return configCustomData;
                 },
 
+
                 /**
                  * Set custom variable within this visit
                  *
@@ -2666,6 +2670,15 @@ if (typeof Piwik !== 'object') {
                 disableCookies: function () {
                     configCookiesDisabled = true;
                     browserFeatures.cookie = '0';
+                },
+
+                /**
+                 * One off cookies clearing. Useful to call this when you know for sure a new visitor is using the same browser,
+                 * it maybe help to "reset" tracking cookies to prevent data reuse for different users.
+                 *
+                 */
+                deleteCookies: function() {
+                    deleteCookies();
                 },
 
                 /**
@@ -3016,7 +3029,7 @@ if (typeof Piwik !== 'object') {
 
         // Expose Piwik as an AMD module
         if (typeof define === 'function' && define.amd) {
-            define(['piwik'], [], function () { return Piwik; });
+            define('piwik', [], function () { return Piwik; });
         }
 
         return Piwik;

@@ -2,7 +2,7 @@
 <result>
 	<row>
 		<idSite>1</idSite>
-		<idVisit>27</idVisit>
+		<idVisit>35</idVisit>
 		<visitIp>194.57.91.215</visitIp>
 		
 		<visitorType>new</visitorType>
@@ -64,6 +64,7 @@
 		<latitude>1.000000</latitude>
 		<longitude>2.000000</longitude>
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>search</referrerType>
 		<referrerTypeName>Search Engines</referrerTypeName>
@@ -84,6 +85,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -202,6 +204,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -222,6 +225,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -323,6 +327,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -343,6 +348,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -444,6 +450,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -464,6 +471,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -565,6 +573,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -585,6 +594,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -703,6 +713,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -723,6 +734,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -824,6 +836,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -844,6 +857,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -945,6 +959,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -965,6 +980,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1066,6 +1082,7 @@
 		<latitude />
 		<longitude />
 		<provider>Unknown</provider>
+		<providerName>Unknown</providerName>
 		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
@@ -1086,6 +1103,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>
@@ -1203,8 +1221,9 @@
 		<location>Stratford-upon-Avon, Kent, United Kingdom</location>
 		<latitude />
 		<longitude />
-		<provider>Unknown</provider>
-		<providerUrl>http://piwik.org/faq/general/#faq_52</providerUrl>
+		<provider>awesomeisp.com</provider>
+		<providerName>Awesomeisp</providerName>
+		<providerUrl>http://www.awesomeisp.com/</providerUrl>
 		<referrerType>direct</referrerType>
 		<referrerTypeName>Direct Entry</referrerTypeName>
 		<referrerName />
@@ -1224,6 +1243,7 @@
 		<browserCode>FF</browserCode>
 		<browserVersion>3.6</browserVersion>
 		<screenType>normal</screenType>
+		<deviceType>desktop</deviceType>
 		<resolution>1024x768</resolution>
 		<screenTypeIcon>plugins/UserSettings/images/screens/normal.gif</screenTypeIcon>
 		<plugins>flash, java</plugins>

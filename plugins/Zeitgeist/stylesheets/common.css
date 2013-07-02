@@ -90,6 +90,13 @@ a {
     margin-right: 5px;
 }
 
+.loadingSegment {
+    color: grey;
+    font-size: 10pt;
+    margin-left: 28px;
+    display:none;
+}
+
 #loadingError {
     font-weight: bold;
     font-size: 1.1em;
@@ -126,7 +133,7 @@ a {
     margin-right: 12px;
     z-index: 999;
     position: absolute;
-    background: url("../images/icon-calendar.gif") no-repeat scroll right 9px top 8px #F7F7F7;
+    background-color: #f7f7f7;
 }
 
 #periodString:hover {
@@ -134,11 +141,21 @@ a {
     border-color: #a9a399;
 }
 
-#periodString #date {
-    cursor: pointer;
-    padding: 5px 10px 6px 10px;
-    margin: -5px -10px -6px -10px;
+#periodString .calendar-icon {
+  width: 13px;
+  height: 15px;
+  display:inline-block;
+  position:absolute;
+  right:9px;
+  top:7px;
+  background: url("../images/icon-calendar.gif") no-repeat scroll;
+  cursor:pointer;
+}
 
+#periodString #date{
+	cursor:pointer;
+	padding:5px 10px 6px 10px;
+	margin:-5px -10px -6px -10px;
 }
 
 #periodString #date img {
@@ -417,7 +434,8 @@ a {
     margin: 4px 0 8px;
 }
 
-#topLeftBar, #topRightBar {
+#topLeftBar,
+#topRightBar {
     background-color: #FFF;
     font-size: 13px;
     margin-bottom: 4px;

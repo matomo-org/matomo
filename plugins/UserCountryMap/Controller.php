@@ -66,18 +66,15 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
                                                            'no_data'              => Piwik_Translate('CoreHome_ThereIsNoDataForThisReport')
                                                       ));
 
-        // template for ajax requests
-        $view->reqParamsJSON = Piwik_Common::json_encode(array(
-                                                              'period'                      => $period,
-                                                              'idSite'                      => $idSite,
-                                                              'date'                        => $date,
-                                                              'token_auth'                  => $token_auth,
-                                                              'format'                      => 'json',
-                                                              'segment'                     => Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', '')),
-                                                              'showRawMetrics'              => 1,
-                                                              'enable_filter_excludelowpop' => 1,
-                                                              'filter_excludelowpop_value'  => -1
-                                                         ));
+        $view->reqParamsJSON = $this->getEnrichedRequest($params = array(
+            'period'                      => $period,
+            'idSite'                      => $idSite,
+            'date'                        => $date,
+            'token_auth'                  => $token_auth,
+            'enable_filter_excludelowpop' => 1,
+            'filter_excludelowpop_value'  => -1
+        ));
+
         $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
         $config['mapCssPath'] = 'plugins/UserCountryMap/stylesheets/map.css';
@@ -138,18 +135,28 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
                                              'goal_conversions' => Piwik_Translate('UserCountryMap_GoalConversions'),
                                         ));
 
-        $view->reqParamsJSON = json_encode(array(
+        $view->reqParamsJSON = $this->getEnrichedRequest(array(
                                                 'period'         => 'range',
                                                 'idSite'         => $idSite,
                                                 'date'           => self::REAL_TIME_WINDOW,
                                                 'token_auth'     => $token_auth,
-                                                'format'         => 'json',
-                                                'segment'        => Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', '')),
-                                                'showRawMetrics' => 1
                                            ));
 
         echo $view->render();
     }
+
+    private function getEnrichedRequest($params)
+    {
+        $params['format'] = 'json';
+        $params['showRawMetrics'] = 1;
+        $segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
+        if(!empty($segment)) {
+            $params['segment'] = $segment;
+        }
+
+        return Piwik_Common::json_encode($params);
+    }
+
 
     private function checkUserCountryPluginEnabled()
     {
@@ -192,7 +199,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             . "&period=" . $period
             . "&date=" . $date
             . "&token_auth=" . $token_auth
-            . "&segment=" . Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('segment', ''))
+            . "&segment=" . Piwik_ViewDataTable::getRawSegmentFromRequest()
             . "&enable_filter_excludelowpop=1"
             . "&showRawMetrics=1";
 

@@ -20,7 +20,6 @@ body #logo {
 }
 
 a#Overlay_Title {
-    display: block;
     font-size: 15px;
     font-weight: normal;
     color: #7e7363;
@@ -149,4 +148,8 @@ body .ui-tooltip.Overlay_Tooltip {
 #Overlay_Error_NotLoading span {
     color: #E87500;
     font-weight: bold;
+}
+
+#topBars {
+    display: none;
 }

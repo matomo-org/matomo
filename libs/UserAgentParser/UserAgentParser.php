@@ -653,6 +653,11 @@ class UserAgentParser
         if (isset(self::$browserIdToName[$browserId])) {
             return self::$browserIdToName[$browserId];
         }
+        if(class_exists('UserAgentParserEnhanced')) {
+            if( !empty(UserAgentParserEnhanced::$browsers[$browserId])) {
+                return UserAgentParserEnhanced::$browsers[$browserId];
+            }
+        }
         return false;
     }
 
@@ -683,6 +688,10 @@ class UserAgentParser
         self::init();
         if (isset(self::$operatingSystemsIdToName[$osId])) {
             return self::$operatingSystemsIdToName[$osId];
+        }
+
+        if(class_exists('UserAgentParserEnhanced')) {
+            return UserAgentParserEnhanced::getOsNameFromId($osId);
         }
         return false;
     }

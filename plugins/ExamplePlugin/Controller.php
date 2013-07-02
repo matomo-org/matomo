@@ -48,7 +48,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 
     /**
      * this widgets shows how to make a remote API request to piwik.org
-     * you find the main JS code in templates/piwikDownloadCount.tpl
+     * you find the main JS code in templates/piwikDownloads.twig
      */
     public function piwikDownloads()
     {
@@ -117,7 +117,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
         $out .= 'In order to translate strings within Javascript code, you can use the javascript function _pk_translate( token );.
 				<ul><li>The "token" parameter is the string unique key found in the translation file. For this token string to be available in Javascript, you must
 				suffix your token by "_js" in the language file. For example, you can add <code>\'Goals_AddGoal_js\' => \'Add Goal\',</code> in the lang/en.php file</li>
-				<li>You then need to instruct Piwik to load your Javascript translations for your plugin; by default, all translation strings are not loaded in Javascript for performance reasons. This can be done by calling a custom-made Smarty modifier before the Javascript code requiring translations, eg. 
+				<li>You then need to instruct Piwik to load your Javascript translations for your plugin; by default, all translation strings are not loaded in Javascript for performance reasons. This can be done by calling a custom-made Twig modifier before the Javascript code requiring translations, eg. 
 					<code>{loadJavascriptTranslations plugins=\'$YOUR_PLUGIN_NAME\'}</code>. In our previous example, the $YOUR_PLUGIN_NAME being Goals, we would write <code>{loadJavascriptTranslations plugins=\'Goals\'}</code>
 					</li><li>You can then print this string from your JS code by doing <code>_pk_translate(\'Goals_AddGoal_js\');</code>.
 					</li></ul>';
@@ -126,10 +126,10 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
         $out .= 'It is sometimes useful to reload one widget in the dashboard (for example, every 20 seconds for a real time widget, or after a setting change).
 					You can easily force your widget to reload in the dashboard by calling the helper function <code>$(this).parents(\'[widgetId]\').dashboardWidget(\'reload\');</code>.';
 
-        $out .= '<h2>Smarty plugins</h2>';
-        $out .= 'There are some builtin plugins for Smarty especially developped for Piwik. <br />
-				You can find them on the <a href="https://github.com/piwik/piwik/tree/master/core/SmartyPlugins">Git at /core/SmartyPlugins</a>. <br />
-				More documentation to come about smarty plugins.<br />';
+        $out .= '<h2>Twig plugins</h2>';
+        $out .= 'There are some builtin plugins for Twig especially developped for Piwik. <br />
+				You can find them on the <a href="https://github.com/piwik/piwik/tree/master/core/SmartyPlugins">Git at /core/TwigPlugins</a>. <br />
+				More documentation to come about Twig plugins.<br />';
 
         echo $out;
     }

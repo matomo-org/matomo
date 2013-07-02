@@ -139,7 +139,7 @@ var Piwik_Overlay = (function () {
 
     return {
 
-        /** This method is called when Overlay loads (from index.tpl) */
+        /** This method is called when Overlay loads  */
         init: function (iframeSrc, pIdSite, pPeriod, pDate) {
             iframeSrcBase = iframeSrc;
             idSite = pIdSite;

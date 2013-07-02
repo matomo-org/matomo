@@ -68,7 +68,6 @@ $(document).ready(function () {
         var data = {
             module: 'UserCountry',
             action: action,
-            token_auth: piwik.token_auth,
             'continue': cont ? 1 : 0
         };
         for (var k in extraData) {
@@ -140,44 +139,45 @@ $(document).ready(function () {
         .on('click', '#update-geoip-links', function () {
             $('#geoipdb-update-info-error').hide();
 
-            var currentDownloading = null,
-                updateGeoIPSuccess = function (response) {
-                    if (response && response.error) {
-                        $('#geoip-progressbar-container').hide();
-                        $('#geoipdb-update-info-error').html(response.error).show();
-                    }
-                    else if (response && response.to_download) {
-                        var continuing = currentDownloading == response.to_download;
-                        currentDownloading = response.to_download;
+            var currentDownloading = null;
+            var updateGeoIPSuccess = function (response) {
+                if (response && response.error) {
+                    $('#geoip-progressbar-container').hide();
+                    $('#geoipdb-update-info-error').html(response.error).show();
+                }
+                else if (response && response.to_download) {
+                    var continuing = currentDownloading == response.to_download;
+                    currentDownloading = response.to_download;
 
-                        // show progress bar w/ message
-                        $('#geoip-updater-progressbar').progressbar('option', 'value', 1);
-                        $('#geoip-updater-progressbar-label').html(response.to_download_label);
-                        $('#geoip-progressbar-container').show();
+                    // show progress bar w/ message
+                    $('#geoip-updater-progressbar').progressbar('option', 'value', 1);
+                    $('#geoip-updater-progressbar-label').html(response.to_download_label);
+                    $('#geoip-progressbar-container').show();
 
-                        // start/continue download
-                        downloadNextChunk(
-                            'downloadMissingGeoIpDb', 'geoipdb-update-info', 'geoip-updater-progressbar',
-                            continuing, {key: response.to_download}, updateGeoIPSuccess);
-                    }
-                    else {
-                        $('#geoipdb-update-info-error').hide();
-                        $('#geoip-updater-progressbar-label').html('');
-                        $('#geoip-progressbar-container').hide();
+                    // start/continue download
+                    downloadNextChunk(
+                        'downloadMissingGeoIpDb', 'geoipdb-update-info', 'geoip-updater-progressbar',
+                        continuing, {key: response.to_download}, updateGeoIPSuccess);
+                }
+                else {
+                    $('#geoipdb-update-info-error').hide();
+                    $('#geoip-updater-progressbar-label').html('');
+                    $('#geoip-progressbar-container').hide();
 
-                        // fade in/out Done message
-                        $('#done-updating-updater').fadeIn(1000, function () {
-                            setTimeout(function () {
-                                $('#done-updating-updater').fadeOut(1000);
-                            }, 3000);
-                        });
-                    }
-                };
+                    // fade in/out Done message
+                    $('#done-updating-updater').fadeIn(1000, function () {
+                        setTimeout(function () {
+                            $('#done-updating-updater').fadeOut(1000);
+                        }, 3000);
+                    });
+                }
+            };
 
             // setup the auto-updater
             var ajaxRequest = new ajaxHelper();
+            var periodSelected = $('#geoip-update-period-cell>input:checked').val();
             ajaxRequest.addParams({
-                period: $('#geoip-update-period-cell>input:checked').val()
+                period: periodSelected
             }, 'get');
             ajaxRequest.addParams({
                 module: 'UserCountry',
@@ -189,5 +189,6 @@ $(document).ready(function () {
             }, 'post');
             ajaxRequest.setCallback(updateGeoIPSuccess);
             ajaxRequest.send(false);
-        });
+        }
+    );
 });

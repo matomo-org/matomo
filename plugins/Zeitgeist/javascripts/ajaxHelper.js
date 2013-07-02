@@ -56,7 +56,7 @@ function ajaxHelper() {
     this.format =         'json';
 
     /**
-     * Should ajax request be synchronous
+     * Should ajax request be asynchronous
      * @type {Boolean}
      */
     this.async =          true;
@@ -66,11 +66,11 @@ function ajaxHelper() {
      */
     this.callback =       function () {};
 
-	/**
-	 * Use this.callback if an error is returned
-	 * @type {Boolean}
-	 */
-	this.useRegularCallbackInCaseOfError = false;
+    /**
+     * Use this.callback if an error is returned
+     * @type {Boolean}
+     */
+    this.useRegularCallbackInCaseOfError = false;
 
     /**
      * Callback function to be executed on error
@@ -118,18 +118,12 @@ function ajaxHelper() {
      * @return {void}
      */
     this.addParams = function (params, type) {
-        switch (type.toLowerCase()) {
-
-            case 'get':
-                for (var key in params) {
-                    this.getParams[key] = params[key];
-                }
-                break;
-            case 'post':
-                for (var key in params) {
-                    this.postParams[key] = params[key];
-                }
-                break;
+        for (var key in params) {
+            if(type.toLowerCase() == 'get') {
+                this.getParams[key] = params[key];
+            } else if(type.toLowerCase() == 'post') {
+                this.postParams[key] = params[key];
+            }
         }
     };
     
@@ -138,18 +132,17 @@ function ajaxHelper() {
      * function is a single request to use.
      */
     this.setBulkRequests = function () {
-    	var urls = [];
-    	for (var i = 0; i != arguments.length; ++i)
-    	{
-    		urls.push($.param(arguments[i]));
-    	}
-    	
-    	this.addParams({
-    		module: 'API',
-    		method: 'API.getBulkRequest',
-    		urls: urls,
-    		format: 'json'
-    	}, 'post');
+        var urls = [];
+        for (var i = 0; i != arguments.length; ++i) {
+            urls.push($.param(arguments[i]));
+        }
+
+        this.addParams({
+            module: 'API',
+            method: 'API.getBulkRequest',
+            urls: urls,
+            format: 'json'
+        }, 'post');
     };
 
     /**
@@ -162,15 +155,13 @@ function ajaxHelper() {
         this.callback = callback;
     };
 
-	/**
-	 * Set that the callback passed to setCallback() should be used if an application error (i.e. an
-	 * Exception in PHP) is returned.
-	 * 
-	 * @param {void}
-	 */
-	this.useCallbackInCaseOfError = function () {
-		this.useRegularCallbackInCaseOfError = true;
-	};
+    /**
+     * Set that the callback passed to setCallback() should be used if an application error (i.e. an
+     * Exception in PHP) is returned.
+     */
+    this.useCallbackInCaseOfError = function () {
+        this.useRegularCallbackInCaseOfError = true;
+    };
 
     /**
      * Set callback to redirect on success handler
@@ -306,10 +297,24 @@ function ajaxHelper() {
     this._buildAjaxCall = function () {
         var that = this;
 
+        var parameters = this._mixinDefaultGetParams(this.getParams);
+
+        var url = 'index.php?';
+
+        // we took care of encoding &segment properly already, so we don't use $.param for it ($.param URL encodes the values)
+        if(parameters['segment']) {
+            url += 'segment=' + parameters['segment'] + '&';
+            delete parameters['segment'];
+        }
+        if(parameters['date']) {
+            url += 'date=' + decodeURIComponent(parameters['date']) + '&';
+            delete parameters['date'];
+        }
+        url += $.param(parameters);
         var ajaxCall = {
             type:     'POST',
             async:    this.async !== false,
-            url:      'index.php?' + $.param(this._mixinDefaultGetParams(this.getParams)),
+            url:      url,
             dataType: this.format || 'json',
             error:    this.errorCallback,
             success:  function (response) {
@@ -369,7 +374,7 @@ function ajaxHelper() {
         var defaultParams = {
             idSite:  piwik.idSite || broadcast.getValueFromUrl('idSite'),
             period:  piwik.period || broadcast.getValueFromUrl('period'),
-            segment: broadcast.getValueFromHash('segment', window.location.href)
+            segment: broadcast.getValueFromHash('segment', window.location.href.split('#')[1])
         };
 
         // never append token_auth to url
@@ -379,13 +384,13 @@ function ajaxHelper() {
         }
 
         for (var key in defaultParams) {
-            if (!params[key] && defaultParams[key]) {
+            if (!params[key] && !this.postParams[key] && defaultParams[key]) {
                 params[key] = defaultParams[key];
             }
         }
 
         // handle default date & period if not already set
-        if (!params.date) {
+        if (!params.date && !this.postParams.date) {
             params.date = piwik.currentDateString || broadcast.getValueFromUrl('date');
             if (params.period == 'range' && piwik.currentDateString) {
                 params.date = piwik.startDateString + ',' + params.date;

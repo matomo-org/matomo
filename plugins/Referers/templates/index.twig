@@ -7,7 +7,7 @@
 
     <div id='leftcolumn'>
         <div class="sparkline">{{ sparkline(urlSparklineDirectEntry) }}
-            {{ 'Referers_TypeDirectEntries'|translate("<strong>"+visitorsFromDirectEntry+"</strong>")|raw }}
+            {{ 'Referers_TypeDirectEntries'|translate("<strong>"~visitorsFromDirectEntry~"</strong>")|raw }}
             {% if visitorsFromDirectEntryPercent is not empty %},
                 <strong>{{ visitorsFromDirectEntryPercent }}%</strong> of visits
             {% endif %}
@@ -16,32 +16,32 @@
             {% endif %}
         </div>
         <div class="sparkline">{{ sparkline(urlSparklineSearchEngines) }}
-            {{ 'Referers_TypeSearchEngines'|translate("<strong>"+visitorsFromSearchEngines+"</strong>")|raw }}
+            {{ 'Referers_TypeSearchEngines'|translate("<strong>"~visitorsFromSearchEngines~"</strong>")|raw }}
             {% if visitorsFromSearchEnginesPercent is not empty %},
                 <strong>{{ visitorsFromSearchEnginesPercent }}%</strong> of visits
             {% endif %}
             {% if visitorsFromSearchEnginesEvolution is not empty %}
-                {{ visitorsFromSearchEnginesEvolution }}
+                {{ visitorsFromSearchEnginesEvolution|raw }}
             {% endif %}
         </div>
     </div>
     <div id='rightcolumn'>
         <div class="sparkline">{{ sparkline(urlSparklineWebsites) }}
-            {{ 'Referers_TypeWebsites'|translate("<strong>"+visitorsFromWebsites+"</strong>")|raw }}
+            {{ 'Referers_TypeWebsites'|translate("<strong>"~visitorsFromWebsites~"</strong>")|raw }}
             {% if visitorsFromWebsitesPercent is not empty %},
                 <strong>{{ visitorsFromWebsitesPercent }}%</strong> of visits
             {% endif %}
             {% if visitorsFromWebsitesEvolution is not empty %}
-                {{ visitorsFromWebsitesEvolution }}
+                {{ visitorsFromWebsitesEvolution|raw }}
             {% endif %}
         </div>
         <div class="sparkline">{{ sparkline(urlSparklineCampaigns) }}
-            {{ 'Referers_TypeCampaigns'|translate("<strong>"+visitorsFromCampaigns+"</strong>")|raw }}
+            {{ 'Referers_TypeCampaigns'|translate("<strong>"~visitorsFromCampaigns~"</strong>")|raw }}
             {% if visitorsFromCampaignsPercent is not empty %},
                 <strong>{{ visitorsFromCampaignsPercent }}%</strong> of visits
             {% endif %}
             {% if visitorsFromCampaignsEvolution is not empty %}
-                {{ visitorsFromCampaignsEvolution }}
+                {{ visitorsFromCampaignsEvolution|raw }}
             {% endif %}
         </div>
     </div>
@@ -63,28 +63,28 @@
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctSearchEngines) }}
                         <strong>{{ numberDistinctSearchEngines }}</strong> {{ 'Referers_DistinctSearchEngines'|translate }}
                         {% if numberDistinctSearchEnginesEvolution is not empty %}
-                            {{ numberDistinctSearchEnginesEvolution }}
+                            {{ numberDistinctSearchEnginesEvolution|raw }}
                         {% endif %}
                     </div>
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctKeywords) }}
                         <strong>{{ numberDistinctKeywords }}</strong> {{ 'Referers_DistinctKeywords'|translate }}
                         {% if numberDistinctKeywordsEvolution is not empty %}
-                            {{ numberDistinctKeywordsEvolution }}
+                            {{ numberDistinctKeywordsEvolution|raw }}
                         {% endif %}
                     </div>
                 </td>
                 <td width="50%">
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctWebsites) }}
                         <strong>{{ numberDistinctWebsites }}</strong> {{ 'Referers_DistinctWebsites'|translate }}
-                        {{ 'Referers_UsingNDistinctUrls'|translate("<strong>"+numberDistinctWebsitesUrls+"</strong>") }}
+                        {{ 'Referers_UsingNDistinctUrls'|translate("<strong>"~numberDistinctWebsitesUrls~"</strong>") }}
                         {% if numberDistinctWebsitesEvolution is not empty %}
-                            {{ numberDistinctWebsitesEvolution }}
+                            {{ numberDistinctWebsitesEvolution|raw }}
                         {% endif %}
                     </div>
                     <div class="sparkline">{{ sparkline(urlSparklineDistinctCampaigns) }}
                         <strong>{{ numberDistinctCampaigns }}</strong> {{ 'Referers_DistinctCampaigns'|translate }}
                         {% if numberDistinctCampaignsEvolution is not empty %}
-                            {{ numberDistinctCampaignsEvolution }}
+                            {{ numberDistinctCampaignsEvolution|raw }}
                         {% endif %}
                     </div>
                 </td>
@@ -95,7 +95,7 @@
 
     <p style="clear:both"/>
 
-    <div style="float:left">{'General_View'|translate}
+    <div style="float:left">{{ 'General_View'|translate }}
         <a href="javascript:broadcast.propagateAjax('module=Referers&action=getSearchEnginesAndKeywords')">{{ 'Referers_SubmenuSearchEngines'|translate }}</a>,
         <a href="javascript:broadcast.propagateAjax('module=Referers&action=indexWebsites')">{{ 'Referers_SubmenuWebsites'|translate }}</a>,
         <a href="javascript:broadcast.propagateAjax('module=Referers&action=indexCampaigns')">{{ 'Referers_SubmenuCampaigns'|translate }}</a>.
@@ -104,7 +104,7 @@
 
 <div id='rightcolumn'>
     <h2>{{ 'Referers_DetailsByRefererType'|translate }}</h2>
-    {{ dataTableRefererType }}
+    {{ dataTableRefererType|raw }}
 </div>
 
 <div style="clear:both;"></div>

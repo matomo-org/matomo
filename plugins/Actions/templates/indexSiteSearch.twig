@@ -1,17 +1,17 @@
 <div id='leftcolumn'>
     <h2>{{ 'Actions_WidgetSearchKeywords'|translate }}</h2>
-    {{ keywords }}
+    {{ keywords|raw }}
 
     <h2>{{ 'Actions_WidgetSearchNoResultKeywords'|translate }}</h2>
-    {{ noResultKeywords }}
+    {{ noResultKeywords|raw }}
 
     {% if categories is defined %}
         <h2>{{ 'Actions_WidgetSearchCategories'|translate }}</h2>
-        {{ categories }}
+        {{ categories|raw }}
     {% endif %}
 </div>
 
 <div id='rightcolumn'>
     <h2>{{ 'Actions_WidgetPageUrlsFollowingSearch'|translate }}</h2>
-    {{ pagesUrlsFollowingSiteSearch }}
+    {{ pagesUrlsFollowingSiteSearch|raw }}
 </div>

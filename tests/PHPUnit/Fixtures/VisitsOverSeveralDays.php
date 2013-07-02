@@ -22,6 +22,7 @@ class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
 
     public $idSite = 1;
     public $idSite2 = 2;
+    public $forceLargeWindowLookBackForVisitor = false;
 
     // one per visit
     public $referrerUrls = array(
@@ -57,16 +58,18 @@ class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
     private function trackVisits()
     {
         $dateTimes = $this->dateTimes;
-        $idSite = $this->idSite;
 
-        $i = 0;
+        $days = 0;
         $ridx = 0;
         foreach ($dateTimes as $dateTime) {
-            $i++;
-            $visitor = self::getTracker($idSite, $dateTime, $defaultInit = true);
-            // Fake the visit count cookie
-            $visitor->setDebugStringAppend("&_idvc=$i");
+            $days++;
 
+            // Fake the visit count cookie
+            $debugStringAppend = "&_idvc=$days";
+
+            $visitor = $this->makeTracker($this->idSite, $dateTime, $debugStringAppend);
+
+            // FIRST VISIT THIS DAY
             $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
             $visitor->setUrl('http://example.org/homepage');
             $visitor->setUrlReferrer($this->referrerUrls[$ridx++]);
@@ -79,20 +82,36 @@ class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
             $visitor->setUrl('http://example.org/news');
             self::checkResponse($visitor->doTrackPageView('ou pas'));
 
+            // SECOND VISIT THIS DAY
             $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
             $visitor->setUrl('http://example.org/news');
             $visitor->setUrlReferrer($this->referrerUrls[$ridx++]);
             self::checkResponse($visitor->doTrackPageView('ou pas'));
 
-
-            if ($i <= 3) {
-
-                $visitor = self::getTracker($this->idSite2, $dateTime, $defaultInit = true);
+            if ($days <= 3) {
+                $visitor = $this->makeTracker($this->idSite2, $dateTime);
                 $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
                 $visitor->setUrl('http://example.org/homepage');
                 $visitor->setUrlReferrer($this->referrerUrls[$ridx - 1]);
                 self::checkResponse($visitor->doTrackPageView('Second website'));
             }
         }
+    }
+
+    protected function makeTracker($idSite, $dateTime, $debugStringAppend = '')
+    {
+        $tracker = parent::getTracker($idSite, $dateTime, $defaultInit = true);
+
+        if($this->forceLargeWindowLookBackForVisitor) {
+            // Fakes the config value window_look_back_for_visitor tested in TrackerWindowLookBack
+            $debugStringAppend .= '&forceLargeWindowLookBackForVisitor=1';
+
+            // Here we force the visitor ID cookie value sent to piwik.php, to create a "unique visitor" for all visits in fixture
+            // we do not use setVisitorId(), because we want shouldLookupOneVisitorFieldOnly() to return false for this particular test case
+            $debugStringAppend .= '&_id=2f4f673d4732e11d';
+
+        }
+        $tracker->setDebugStringAppend($debugStringAppend);
+        return $tracker;
     }
 }

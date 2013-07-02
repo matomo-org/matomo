@@ -35,7 +35,7 @@
         // Group: Properties
         
         // prop: show
-        // wether or not to show the marker.
+        // whether or not to show the marker.
         this.show = true;
         // prop: style
         // One of diamond, circle, square, x, plus, dash, filledDiamond, filledCircle, filledSquare
@@ -50,7 +50,7 @@
         // color of marker.  Will be set to color of series by default on init.
         this.color = '#666666';
         // prop: shadow
-        // wether or not to draw a shadow on the line
+        // whether or not to draw a shadow on the line
         this.shadow = true;
         // prop: shadowAngle
         // Shadow angle in degrees

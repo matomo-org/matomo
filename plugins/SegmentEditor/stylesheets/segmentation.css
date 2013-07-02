@@ -1,4 +1,22 @@
 /* ADDITIONAL STYLES*/
+.youMustBeLoggedIn {
+    font-size:8pt;
+    font-style: italic;
+
+}
+.segment-footer .segmentFooterNote {
+    display:none;
+    float: left;
+    padding-top: 9px;
+}
+.segment-footer .segmentFooterNote, .segment-element .segment-footer .segmentFooterNote a {
+    font-size: 8pt;
+    color: #888172;
+}
+.segment-element .segment-footer .segmentFooterNote a {
+    padding:0; margin:0;
+    text-decoration:underline;
+}
 .searchFound {
   border: 0px solid red;
 }
@@ -66,7 +84,7 @@ div.scrollable {
   font: 11px Arial;
   color: #454545;
   width: 125px;
-  padding: 3px 0px 3px 5px;
+  padding: 4px 0 3px 7px;
   border: none;
   background: none;
 }
@@ -349,7 +367,7 @@ div.scrollable {
 }
 
 .segment-element .segment-footer button {
-  width: 178px;
+  min-width: 178px;
   height: 30px;
   background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDE3OCAzMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGxpbmVhckdyYWRpZW50IGlkPSJoYXQwIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjUwJSIgeTE9IjEwMCUiIHgyPSI1MCUiIHkyPSItMS40MjEwODU0NzE1MjAyZS0xNCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODM3OTZiIiBzdG9wLW9wYWNpdHk9IjEiLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjYWJhMzkzIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgPC9saW5lYXJHcmFkaWVudD4KCjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxNzgiIGhlaWdodD0iMzAiIGZpbGw9InVybCgjaGF0MCkiIC8+Cjwvc3ZnPg==);
   background-image: -moz-linear-gradient(bottom, #83796b 0%, #aba393 100%);
@@ -371,7 +389,7 @@ div.scrollable {
   z-index: 2;
   background: #f7f7f7;
   border: 1px solid #e4e5e4;
-  padding: 5px 10px 6px 5px;
+  padding: 5px 10px 6px 10px;
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
@@ -387,7 +405,6 @@ div.scrollable {
 }
 .segmentationContainer .submenu {
   font-size: 13px;
-  font-weight: bold;
   min-width: 180px;
 }
 .segmentationContainer .submenu ul {
@@ -402,13 +419,14 @@ div.scrollable {
   padding-top: 10px;
 }
 .segmentationContainer .submenu ul li {
-  padding: 2px 0px 1px 10px;
+  padding: 2px 0px 1px 6px;
   margin: 3px 0 0 0;
   cursor: pointer;
 }
 .segmentationContainer .submenu ul li:hover {
   color: #255792;
   margin: 0;
+  margin-left:-3px;
   border: 1px solid #d5d2c6;
   border-bottom: 2px solid #918f88;
   border-radius: 4px;
@@ -446,6 +464,7 @@ div.scrollable {
   margin: 12px 0 10px;
   padding: 3px 10px;
   text-decoration: none;
+  width:130px;
 }
 .segmentationContainer  > ul.submenu > li {
   padding: 5px 0;

@@ -1,9 +1,13 @@
 {% extends 'dashboard.twig' %}
 
 {% block content %}
+
+    <div class="top_controls_inner">
+        {% include "@CoreHome/_periodSelect.twig" %}
+    </div>
+
 <div id="multisites">
     <div id="main">
-        {% include "@MultiSites/_siteRow.twig" %}
         <script type="text/javascript">
             var allSites = [];
             var params = [];
@@ -28,16 +32,13 @@
             params['page'] = 1;
             params['prev'] = "{{ 'General_Previous'|translate|e("js") }}";
             params['next'] = "{{ 'General_Next'|translate|e("js") }}";
+
+            {% set row %}
+            {% include "@MultiSites/_siteRow.twig" %}
+            {% endset %}
             params['row'] = '{{ row|e("js") }}';
             params['dateSparkline'] = '{{ dateSparkline }}';
         </script>
-
-        {% if not isWidgetized %}
-            <div class="top_controls_inner">
-                {% include "@CoreHome/_periodSelect.twig" %}
-                {% include "@CoreHome/_headerMessage.twig" %}
-            </div>
-        {% endif %}
 
         <div class="centerLargeDiv">
             <h2>{{ 'General_AllWebsitesDashboard'|translate }}
@@ -45,7 +46,7 @@
                 {% set nVisitsLast %}{{ 'General_NVisits'|translate(pastTotalVisits) }}{% endset %}
                 <span class='smallTitle'
                 {% if totalVisitsEvolution %}title="{{ 'General_EvolutionSummaryGeneric'|translate(nVisits,prettyDate,nVisitsLast,pastPeriodPretty,totalVisitsEvolution) }}"{% endif %}>
-                    {{ 'General_TotalVisitsPageviewsRevenue'|translate("<strong>"+totalVisits+"</strong>","<strong>"+totalPageviews+"</strong>","<strong>"+totalRevenue+"</strong>")|raw }}
+                    {{ 'General_TotalVisitsPageviewsRevenue'|translate("<strong>"~totalVisits~"</strong>","<strong>"~totalPageviews~"</strong>","<strong>"~totalRevenue~"</strong>")|raw }}
 	            </span>
             </h2>
 
@@ -54,15 +55,15 @@
                 <tr>
                     <th id="names" class="label" onClick="params = setOrderBy(this,allSites, params, 'names');">
                         <span>{{ 'General_Website'|translate }}</span>
-                        <span class="arrow {if $evolutionBy=='names'}multisites_{$order}{/if}"></span>
+                        <span class="arrow {% if evolutionBy=='names' %}multisites_{{ order }}{% endif %}"></span>
                     </th>
                     <th id="visits" class="multisites-column" style="width: 100px" onClick="params = setOrderBy(this,allSites, params, 'visits');">
                         <span>{{ 'General_ColumnNbVisits'|translate }}</span>
-                        <span class="arrow {if $evolutionBy=='visits'}multisites_{$order}{/if}"></span>
+                        <span class="arrow {% if evolutionBy=='visits' %}multisites_{{ order }}{% endif %}"></span>
                     </th>
                     <th id="pageviews" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'pageviews');">
                         <span>{{ 'General_ColumnPageviews'|translate }}</span>
-                        <span class="arrow {if $evolutionBy=='pageviews'}multisites_{$order}{/if}"></span>
+                        <span class="arrow {% if evolutionBy=='pageviews' %}multisites_{{ order }}{% endif %}"></span>
                     </th>
                     {% if displayRevenueColumn %}
                         <th id="revenue" class="multisites-column" style="width: 110px" onClick="params = setOrderBy(this,allSites, params, 'revenue');">
@@ -70,7 +71,7 @@
                             <span class="arrow {% if evolutionBy=='revenue' %}multisites_{{ order }}{% endif %}"></span>
                         </th>
                     {% endif %}
-                    <th id="evolution" style=" width:350px" colspan="{if $show_sparklines}2{else}1{/if}">
+                    <th id="evolution" style=" width:350px" colspan="{% if show_sparklines %}2{% else %}1{% endif %}">
                         <span class="arrow "></span>
                         <span class="evolution" style="cursor:pointer;"
                               onClick="params = setOrderBy(this,allSites, params, $('#evolution_selector').val() + 'Summary');"> {{ 'MultiSites_Evolution'|translate }}</span>

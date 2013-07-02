@@ -62,7 +62,7 @@ class Piwik_Dashboard_API
      *
      * @return array[]
      */
-    public function getDefaultDashboard()
+    private function getDefaultDashboard()
     {
         $defaultLayout = $this->dashboard->getDefaultLayout();
         $defaultLayout = $this->dashboard->decodeLayout($defaultLayout);
@@ -79,7 +79,7 @@ class Piwik_Dashboard_API
      *
      * @return array[]
      */
-    public function getUserDashboards()
+    private function getUserDashboards()
     {
         $userLogin      = Piwik::getCurrentUserLogin();
         $userDashboards = $this->dashboard->getAllDashboards($userLogin);

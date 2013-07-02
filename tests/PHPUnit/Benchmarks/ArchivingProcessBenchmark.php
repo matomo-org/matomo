@@ -23,6 +23,7 @@ class ArchivingProcessBenchmark extends BenchmarkTestCase
      */
     public function testArchivingProcess()
     {
-        Piwik_VisitsSummary_API::get(self::$fixture->idSite, self::$fixture->period, self::$fixture->date);
+        Piwik_VisitsSummary_API::getInstance()->get(
+            self::$fixture->idSite, self::$fixture->period, self::$fixture->date);
     }
 }

@@ -94,11 +94,11 @@
                     </span>
 				    <span class="exportToFormatItems" style="display:none">
 					{{ 'General_Export'|translate }}:
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{$properties.exportLimit}">CSV</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{$properties.exportLimit}">TSV (Excel)</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{$properties.exportLimit}">XML</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{$properties.exportLimit}">Json</a> |
-					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{$properties.exportLimit}">Php</a>
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.exportLimit }}">CSV</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.exportLimit }}">TSV (Excel)</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.exportLimit }}">XML</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.exportLimit }}">Json</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.exportLimit }}">Php</a>
                     {% if properties.show_export_as_rss_feed %}
                         |
                         <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.exportLimit }}" date="last10">
@@ -148,14 +148,14 @@
     {% endif %}
 
     <div class="datatableRelatedReports">
-        {% if (properties.relatedReports is not empty) and (arrayDataTable is not empty) or (cloudValues is not empty) or (isDataAvailable is defined and isDataAvailable) and properties.show_related_reports %}
+        {% if (properties.relatedReports is not empty) and properties.show_related_reports %}
             {% if properties.relatedReports|length == 1 %}
-                {{ 'General_RelatedReport'|translate }}
+                {{ 'General_RelatedReport'|translate }}:
             {% else %}
-                {{ 'General_RelatedReports'|translate }}
-            {% endif %}:
+                {{ 'General_RelatedReports'|translate }}:
+            {% endif %}
             <ul style="list-style:none;{% if properties.relatedReports|length == 1 %}display:inline-block;{% endif %}}">
-                <li><span href="{$properties.self_url}" style="display:none;">{{ properties.title }}</span></li>
+                <li><span href="{{ properties.self_url }}" style="display:none;">{{ properties.title }}</span></li>
 
                 {% for reportUrl,reportTitle in properties.relatedReports %}
                     <li><span href="{{ reportUrl }}">{{ reportTitle }}</span></li>
@@ -164,8 +164,8 @@
         {% endif %}
     </div>
 
-    {% if properties.show_footer_message is not empty %}
-        <div class='datatableFooterMessage'>{{ properties.show_footer_message }}</div>
+    {% if properties.show_footer_message is defined and properties.show_footer_message is not empty %}
+        <div class='datatableFooterMessage'>{{ properties.show_footer_message | raw }}</div>
     {% endif %}
 
 </div>

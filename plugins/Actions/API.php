@@ -72,17 +72,8 @@ class Piwik_Actions_API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
 
-        $metrics = array(
-            'Actions_nb_pageviews'        => 'nb_pageviews',
-            'Actions_nb_uniq_pageviews'   => 'nb_uniq_pageviews',
-            'Actions_nb_downloads'        => 'nb_downloads',
-            'Actions_nb_uniq_downloads'   => 'nb_uniq_downloads',
-            'Actions_nb_outlinks'         => 'nb_outlinks',
-            'Actions_nb_uniq_outlinks'    => 'nb_uniq_outlinks',
-            'Actions_nb_searches'         => 'nb_searches',
-            'Actions_nb_keywords'         => 'nb_keywords',
-			'Actions_avg_time_generation' => 'avg_time_generation'
-        );
+        $metrics = Piwik_Actions_Archiver::$actionsAggregateMetrics;
+        $metrics['Actions_avg_time_generation'] = 'avg_time_generation';
 
         // get requested columns
         $columns = Piwik::getArrayFromApiParameter($columns);
@@ -96,38 +87,39 @@ class Piwik_Actions_API
                 $columns[$i] = $fullColumn;
                 $nameReplace[$fullColumn] = $column;
             }
-			
-			if (false !== ($avgGenerationTimeRequested = array_search('Actions_avg_time_generation', $columns))) {
-				unset($columns[$avgGenerationTimeRequested]);
-				$avgGenerationTimeRequested = true;
-			}
+
+            if (false !== ($avgGenerationTimeRequested = array_search('Actions_avg_time_generation', $columns))) {
+                unset($columns[$avgGenerationTimeRequested]);
+                $avgGenerationTimeRequested = true;
+            }
         } else {
             // get all columns
-			unset($metrics['Actions_avg_time_generation']);
+            unset($metrics['Actions_avg_time_generation']);
             $columns = array_keys($metrics);
             $nameReplace = & $metrics;
-			$avgGenerationTimeRequested = true;
+            $avgGenerationTimeRequested = true;
         }
-		
-		if ($avgGenerationTimeRequested) {
-			$tempColumns[] = 'Actions_sum_time_generation';
-			$tempColumns[] = 'Actions_nb_hits_with_time_generation';
-			$nameReplace['Actions_sum_time_generation'] = 'sum_time_generation';
-			$nameReplace['Actions_nb_hits_with_time_generation'] = 'nb_hits_with_time_generation';
-			$columns = array_merge($columns, $tempColumns);
-			$columns = array_unique($columns);
-		}
-		
+
+        if ($avgGenerationTimeRequested) {
+			$tempColumns[] = Piwik_Actions_Archiver::METRIC_SUM_TIME_RECORD_NAME;
+			$tempColumns[] = Piwik_Actions_Archiver::METRIC_HITS_TIMED_RECORD_NAME;
+            $columns = array_merge($columns, $tempColumns);
+            $columns = array_unique($columns);
+
+            $nameReplace[Piwik_Actions_Archiver::METRIC_SUM_TIME_RECORD_NAME] = 'sum_time_generation';
+            $nameReplace[Piwik_Actions_Archiver::METRIC_HITS_TIMED_RECORD_NAME] = 'nb_hits_with_time_generation';
+        }
+
         $table = $archive->getDataTableFromNumeric($columns);
 
         // replace labels (remove Actions_)
         $table->filter('ReplaceColumnNames', array($nameReplace));
-		
-		// compute avg generation time
-		if ($avgGenerationTimeRequested) {
-			$table->filter('ColumnCallbackAddColumnQuotient', array('avg_time_generation', 'sum_time_generation', 'nb_hits_with_time_generation', 3));
-			$table->deleteColumns(array('sum_time_generation', 'nb_hits_with_time_generation'));
-		}
+
+        // compute avg generation time
+        if ($avgGenerationTimeRequested) {
+            $table->filter('ColumnCallbackAddColumnQuotient', array('avg_time_generation', 'sum_time_generation', 'nb_hits_with_time_generation', 3));
+            $table->deleteColumns(array('sum_time_generation', 'nb_hits_with_time_generation'));
+        }
 
         return $table;
     }
@@ -301,7 +293,7 @@ class Piwik_Actions_API
     public function getSiteSearchKeywords($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
-        $dataTable->deleteColumn(Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT);
+        $dataTable->deleteColumn(Piwik_Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         $this->addPagesPerSearchColumn($dataTable);
@@ -326,11 +318,11 @@ class Piwik_Actions_API
         // Delete all rows that have some results
         $dataTable->filter('ColumnCallbackDeleteRow',
             array(
-                 Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT,
+                 Piwik_Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
                  create_function('$value', 'return $value >= 1;')
             ));
         $dataTable->deleteRow(Piwik_DataTable::ID_SUMMARY_ROW);
-        $dataTable->deleteColumn(Piwik_Archive::INDEX_SITE_SEARCH_HAS_NO_RESULT);
+        $dataTable->deleteColumn(Piwik_Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         $this->addPagesPerSearchColumn($dataTable);
@@ -354,7 +346,7 @@ class Piwik_Actions_API
 
         $dataTable = new Piwik_DataTable();
         // Handle case where date=last30&period=day
-        // TODO: this logic should really be refactored somewhere, this is ugly!
+        // FIXMEA: this logic should really be refactored somewhere, this is ugly!
         if ($customVariables instanceof Piwik_DataTable_Array) {
             $dataTable = $customVariables->getEmptyClone();
 
@@ -496,7 +488,7 @@ class Piwik_Actions_API
         $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_visits', 0));
 
         // Handle performance analytics
-        $hasTimeGeneration = (array_sum($dataTable->getColumn(Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION)) > 0);
+        $hasTimeGeneration = (array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_PAGE_SUM_TIME_GENERATION)) > 0);
         if ($hasTimeGeneration) {
             // Average generation time = total generation time / number of pageviews
             $precisionAvgTimeGeneration = 3;
@@ -506,12 +498,12 @@ class Piwik_Actions_API
             // No generation time: remove it from the API output and add it to empty_columns metadata, so that
             // the columns can also be removed from the view
             $dataTable->filter('ColumnDelete', array(array(
-                Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION,
-                Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION,
-                Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION,
-                Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION
-            )));
-            
+                                                         Piwik_Metrics::INDEX_PAGE_SUM_TIME_GENERATION,
+                                                         Piwik_Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION,
+                                                         Piwik_Metrics::INDEX_PAGE_MIN_TIME_GENERATION,
+                                                         Piwik_Metrics::INDEX_PAGE_MAX_TIME_GENERATION
+                                                     )));
+
             if ($dataTable instanceof Piwik_DataTable) {
                 $emptyColumns = $dataTable->getMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
                 if (!is_array($emptyColumns)) {

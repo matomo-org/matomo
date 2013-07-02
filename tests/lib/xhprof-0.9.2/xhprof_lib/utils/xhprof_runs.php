@@ -68,6 +68,7 @@ interface iXHProfRuns {
 class XHProfRuns_Default implements iXHProfRuns {
 
   private $dir = '';
+  private $suffix = 'xhprof';
 
   private function gen_run_id($type) {
     return uniqid();
@@ -75,7 +76,7 @@ class XHProfRuns_Default implements iXHProfRuns {
 
   private function file_name($run_id, $type) {
 
-    $file = "$run_id.$type";
+    $file = "$run_id.$type." . $this->suffix;
 
     if (!empty($this->dir)) {
       $file = $this->dir . "/" . $file;
@@ -143,5 +144,22 @@ class XHProfRuns_Default implements iXHProfRuns {
 
     // echo "Saved run in {$file_name}.\nRun id = {$run_id}.\n";
     return $run_id;
+  }
+
+  function list_runs() {
+    if (is_dir($this->dir)) {
+        echo "<hr/>Existing runs:\n<ul>\n";
+        $files = glob("{$this->dir}/*.{$this->suffix}");
+        usort($files, create_function('$a,$b', 'return filemtime($b) - filemtime($a);'));
+        foreach ($files as $file) {
+            list($run,$source) = explode('.', basename($file));
+            echo '<li><a href="' . htmlentities($_SERVER['SCRIPT_NAME'])
+                . '?run=' . htmlentities($run) . '&source='
+                . htmlentities($source) . '">'
+                . htmlentities(basename($file)) . "</a><small> "
+                . date("Y-m-d H:i:s", filemtime($file)) . "</small></li>\n";
+        }
+        echo "</ul>\n";
+    }
   }
 }

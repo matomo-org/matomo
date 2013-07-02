@@ -29,8 +29,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
         $view = new Piwik_View('@CoreAdminHome/generalSettings');
 
         if (Piwik::isUserIsSuperUser()) {
-            $enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
-            $todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
+            $enableBrowserTriggerArchiving = Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled();
+            $todayArchiveTimeToLive = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
             $showWarningCron = false;
             if (!$enableBrowserTriggerArchiving
                 && $todayArchiveTimeToLive < 3600
@@ -41,11 +41,9 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
             $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-            $config = Piwik_Config::getInstance();
+            $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
 
-            if (!$config->isFileWritable()) {
-                $view->configFileNotWritable = true;
-            }
+            $config = Piwik_Config::getInstance();
 
             $debug = $config->Debug;
             $view->enableBetaReleaseCheck = $debug['allow_upgrades_to_beta'];
@@ -83,8 +81,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $enableBrowserTriggerArchiving = Piwik_Common::getRequestVar('enableBrowserTriggerArchiving');
             $todayArchiveTimeToLive = Piwik_Common::getRequestVar('todayArchiveTimeToLive');
 
-            Piwik_ArchiveProcessing::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
-            Piwik_ArchiveProcessing::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+            Piwik_ArchiveProcessor_Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
+            Piwik_ArchiveProcessor_Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
 
             // Update email settings
             $mail = array();

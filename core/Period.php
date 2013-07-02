@@ -84,6 +84,24 @@ abstract class Piwik_Period
         }
     }
 
+
+    /**
+     * Indicate if $dateString and $period correspond to multiple periods
+     *
+     * @static
+     * @param  $dateString
+     * @param  $period
+     * @return boolean
+     */
+    public static function isMultiplePeriod($dateString, $period)
+    {
+        return
+            is_string($dateString)
+            && (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
+            || Piwik_Period_Range::parseDateRange($dateString))
+            && $period != 'range';
+    }
+
     /**
      * The advanced factory method is easier to use from the API than the factory
      * method above. It doesn't require an instance of Piwik_Date and works for
@@ -97,12 +115,43 @@ abstract class Piwik_Period
      */
     static public function advancedFactory($strPeriod, $strDate)
     {
-        if (Piwik_Archive::isMultiplePeriod($strDate, $strPeriod) || $strPeriod == 'range') {
+        if (Piwik_Period::isMultiplePeriod($strDate, $strPeriod) || $strPeriod == 'range') {
             return new Piwik_Period_Range($strPeriod, $strDate);
         }
-        return self::factory($strPeriod, Piwik_Date::factory($strDate));
+        return Piwik_Period::factory($strPeriod, Piwik_Date::factory($strDate));
     }
 
+
+    /**
+     * Creates a period instance using a Piwik_Site instance and two strings describing
+     * the period & date.
+     *
+     * @param string $timezone
+     * @param string $period The period string: day, week, month, year, range
+     * @param string $strDate The date or date range string.
+     * @return Piwik_Period
+     */
+    public static function makePeriodFromQueryParams($timezone, $period, $date)
+    {
+        if (empty($timezone)) {
+            $timezone = 'UTC';
+        }
+
+        if ($period == 'range') {
+            $oPeriod = new Piwik_Period_Range('range', $date, $timezone, Piwik_Date::factory('today', $timezone));
+        } else {
+            if (!($date instanceof Piwik_Date)) {
+                if ($date == 'now' || $date == 'today') {
+                    $date = date('Y-m-d', Piwik_Date::factory('now', $timezone)->getTimestamp());
+                } elseif ($date == 'yesterday' || $date == 'yesterdaySameTime' ) {
+                    $date = date('Y-m-d', Piwik_Date::factory('now', $timezone)->subDay(1)->getTimestamp());
+                }
+                $date = Piwik_Date::factory( $date );
+            }
+            $oPeriod = Piwik_Period::factory($period, $date);
+        }
+        return $oPeriod;
+    }
 
     /**
      * Returns the first day of the period
@@ -265,4 +314,9 @@ abstract class Piwik_Period
     abstract public function getLocalizedShortString();
 
     abstract public function getLocalizedLongString();
+    
+    public function getRangeString()
+    {
+        return $this->getDateStart()->toString("Y-m-d").",".$this->getDateEnd()->toString("Y-m-d");
+    }
 }

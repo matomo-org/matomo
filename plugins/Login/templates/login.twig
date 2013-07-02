@@ -34,10 +34,9 @@
     {% if 'General_LayoutDirection'|translate =='rtl' %}
     <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/rtl.css"/>
     {% endif %}
-    {% include "_iframeBusterHeader.twig" %}
 </head>
 <body class="login">
-{% include "_iframeBusterBody.twig" %}
+{% include "_iframeBuster.twig" %}
 <div id="logo">
     {% if isCustomLogo == false %}<a href="http://piwik.org" title="{{ linkTitle }}">{% endif %}
     {% if hasSVGLogo %}
@@ -83,11 +82,11 @@
             {% endif %}
 
             {% if AccessErrorString %}
-                <div id="login_error"><strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString }}<br/></div>
+                <div id="login_error"><strong>{{ 'General_Error'|translate }}</strong>: {{ AccessErrorString|raw }}<br/></div>
             {% endif %}
 
             {% if infoMessage %}
-                <p class="message">{{ infoMessage}}</p>
+                <p class="message">{{ infoMessage|raw }}</p>
             {% endif %}
         </div>
         <form {{ form_data.attributes|raw }}>

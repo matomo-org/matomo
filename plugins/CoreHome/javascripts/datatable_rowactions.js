@@ -213,6 +213,7 @@ DataTable_RowAction.prototype.getLabelFromTr = function (tr) {
     if (!value) {
         value = label.text();
     }
+    value = value.trim();
 
     return encodeURIComponent(value);
 };

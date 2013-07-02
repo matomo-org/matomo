@@ -77,7 +77,7 @@ class Piwik_MultiSites extends Piwik_Plugin
 
     public function addTopMenu()
     {
-        $urlParams = array('module' => 'MultiSites', 'action' => 'index');
+        $urlParams = array('module' => 'MultiSites', 'action' => 'index', 'segment' => false);
         $tooltip = Piwik_Translate('MultiSites_TopLinkTooltip');
         Piwik_AddTopMenu('General_MultiSitesSummary', $urlParams, true, 3, $isHTML = false, $tooltip);
     }

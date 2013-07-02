@@ -40,6 +40,18 @@
 				</goals>
 				<nb_conversions>2</nb_conversions>
 				<revenue>0</revenue>
+				<subtable>
+					<row>
+						<label>Google</label>
+						<nb_visits>1</nb_visits>
+						<nb_actions>3</nb_actions>
+						<max_actions>3</max_actions>
+						<sum_visit_length>364</sum_visit_length>
+						<bounce_count>0</bounce_count>
+						<nb_visits_converted>1</nb_visits_converted>
+						<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
+					</row>
+				</subtable>
 			</row>
 		</result>
 		<result date="From 2010-01-04 to 2010-01-10" />

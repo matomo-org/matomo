@@ -1,6 +1,6 @@
 <div class="dataTable" data-table-type="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
     <div class="reportDocumentation">
-        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation }}</p>{% endif %}
+        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation|raw }}</p>{% endif %}
         {% if properties.metadata.archived_date is defined %}<span class='helpDate'>{{ properties.metadata.archived_date }}</span>{% endif %}
     </div>
     {% set class %}
@@ -26,7 +26,7 @@
                             id="{{ row.idsubdatatable }}"{% endif %}{% if row.issummaryrow is defined and row.issummaryrow and properties.highlight_summary_row %} class="highlight"{% endif %}>
                             {% for column in dataTableColumns %}
                                 <td>
-                                    {% include "@CoreHome/_dataTableCell.twig" %}
+                                    {% include "@CoreHome/_dataTableCell.twig" with properties %}
                                 </td>
                             {% endfor %}
                         </tr>

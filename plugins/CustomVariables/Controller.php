@@ -10,49 +10,52 @@
  */
 
 /**
- *
  * @package Piwik_CustomVariables
  */
 class Piwik_CustomVariables_Controller extends Piwik_Controller
 {
-
-    function index($fetch = false)
+    public function index($fetch = false)
     {
         return Piwik_View::singleReport(
             Piwik_Translate('CustomVariables_CustomVariables'),
             $this->getCustomVariables(true), $fetch);
     }
 
-    function getCustomVariables($fetch = false)
+    public function getCustomVariables($fetch = false)
     {
         $view = Piwik_ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__, "CustomVariables.getCustomVariables", "getCustomVariablesValuesFromNameId");
 
         $this->setPeriodVariablesView($view);
-        $view->enableShowGoals();
-
-        $view->setColumnsToDisplay(array('label', 'nb_visits', 'nb_actions'));
-        $view->setColumnTranslation('label', Piwik_Translate('CustomVariables_ColumnCustomVariableName'));
-        $view->setSortedColumn('nb_visits');
-        $view->setLimit(10);
-        $view->setFooterMessage(Piwik_Translate('CustomVariables_TrackingHelp', array('<a target="_blank" href="http://piwik.org/docs/custom-variables/">', '</a>')));
         $this->setMetricsVariablesView($view);
+
+        $this->configureView($view);
+        $view->setColumnTranslation('label', Piwik_Translate('CustomVariables_ColumnCustomVariableName'));
+
+        $view->setFooterMessage(Piwik_Translate('CustomVariables_TrackingHelp', array('<a target="_blank" href="http://piwik.org/docs/custom-variables/">', '</a>')));
+
         return $this->renderView($view, $fetch);
     }
 
-    function getCustomVariablesValuesFromNameId($fetch = false)
+    public function getCustomVariablesValuesFromNameId($fetch = false)
     {
         $view = Piwik_ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__, 'CustomVariables.getCustomVariablesValuesFromNameId');
 
+        $this->configureView($view);
         $view->disableSearchBox();
-        $view->enableShowGoals();
         $view->disableExcludeLowPopulation();
-        $view->setColumnsToDisplay(array('label', 'nb_visits', 'nb_actions'));
         $view->setColumnTranslation('label', Piwik_Translate('CustomVariables_ColumnCustomVariableValue'));
-
         return $this->renderView($view, $fetch);
     }
+
+    protected function configureView($view)
+    {
+        $view->setColumnsToDisplay(array('label', 'nb_actions', 'nb_visits'));
+        $view->setSortedColumn('nb_actions');
+        $view->enableShowGoals();
+    }
+
 
 }
 
