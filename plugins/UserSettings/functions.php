@@ -207,7 +207,7 @@ function Piwik_UserSettings_keepStrlenGreater($value)
 
 function Piwik_getScreenTypeFromResolution($resolution)
 {
-    if ($resolution === 'unknown') {
+    if ($resolution === Piwik_Tracker_Request::UNKNOWN_RESOLUTION) {
         return $resolution;
     }
 

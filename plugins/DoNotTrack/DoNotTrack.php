@@ -52,7 +52,8 @@ class Piwik_DoNotTrack extends Piwik_Plugin
         if ((isset($_SERVER['HTTP_X_DO_NOT_TRACK']) && $_SERVER['HTTP_X_DO_NOT_TRACK'] === '1')
             || (isset($_SERVER['HTTP_DNT']) && substr($_SERVER['HTTP_DNT'], 0, 1) === '1')
         ) {
-            $ua = Piwik_Tracker_Visit::getUserAgent($_REQUEST);
+            $request = new Piwik_Tracker_Request($_REQUEST);
+            $ua = $request->getUserAgent();
             if (strpos($ua, 'MSIE 10') !== false) {
                 printDebug("INTERNET EXPLORER 10 Enables DNT by default, so Piwik ignores DNT for all IE10 browsers...");
                 return;

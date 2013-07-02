@@ -14,12 +14,12 @@
  */
 class Piwik_Tracker_VisitExcluded
 {
-    public function __construct($request, $idSite, $ip, $ua)
+    public function __construct(Piwik_Tracker_Request $request, $ip)
     {
         $this->request = $request;
-        $this->idSite = $idSite;
+        $this->idSite = $request->getIdSite();
+        $this->userAgent = $request->getUserAgent();
         $this->ip = $ip;
-        $this->userAgent = $ua;
     }
 
     /**
@@ -46,8 +46,7 @@ class Piwik_Tracker_VisitExcluded
          * doesn't track non-JS visitors.
          */
         if (!$excluded) {
-            $parameterForceRecord = 'rec';
-            $toRecord = Piwik_Common::getRequestVar($parameterForceRecord, false, 'int', $this->request);
+            $toRecord = $this->request->getParam($parameterForceRecord = 'rec');
             if (!$toRecord) {
                 printDebug(@$_SERVER['REQUEST_METHOD'] . ' parameter ' . $parameterForceRecord . ' not found in URL, request excluded');
                 $excluded = true;

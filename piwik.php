@@ -7,7 +7,7 @@
  *
  * @package Piwik
  */
-$GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
+$GLOBALS['PIWIK_TRACKER_DEBUG'] = !false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
 define('PIWIK_ENABLE_TRACKING', true);
 
@@ -47,6 +47,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Tracker/IgnoreCookie.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Visit.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/GoalManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Action.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Request.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/Referer.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Tracker/VisitExcluded.php';
 require_once PIWIK_INCLUDE_PATH . '/core/CacheFile.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Cookie.php';
 
