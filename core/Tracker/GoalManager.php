@@ -286,7 +286,7 @@ class Piwik_Tracker_GoalManager
             $time = $referrerTimestamp;
         } // 2) Referrer URL parsing
         elseif (!empty($referrerUrl)) {
-            $referrer = new Piwik_Tracker_Visit_Referer();
+            $referrer = new Piwik_Tracker_Referer();
             $referrer = $referrer->getRefererInformation($referrerUrl, $currentUrl = '', $idSite);
 
             // if the parsed referer is interesting enough, ie. website or search engine 
