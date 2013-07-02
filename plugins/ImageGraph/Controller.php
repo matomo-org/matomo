@@ -60,7 +60,6 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
         );
         $view->graphSizes = array(
             array(null, null), // default graph size
-            array(Piwik_ReportRenderer::IMAGE_GRAPH_WIDTH, Piwik_ReportRenderer::IMAGE_GRAPH_HEIGHT), // PDF/HTML reports
             array(460, 150), // standard phone
             array(300, 150), // standard phone 2
             array(240, 150), // smallest mobile display

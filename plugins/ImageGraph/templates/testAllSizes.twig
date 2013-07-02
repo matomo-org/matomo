@@ -33,10 +33,12 @@
                                 <td>
                                     <h2>Graph {{ type }} for all supported sizes</h2>
                                     {% for sizes in graphSizes %}
-                                        <p>{{ sizes.0 }} x {{ sizes.1 }} {% if sizes.2 is not empty %} (scaled down to {{ sizes.3 }} x {{ sizes.4 }}){% endif %}</p>
-                                        <img src="{{ report.imageGraphUrl }}&graphType={{ type }}&width={{ sizes.0 }}&height={{ sizes.1 }}{% if sizes.2 is not empty %}&fontSize={{ sizes.2 }}{% endif %}"
-                                                {% if sizes.3 is not empty %}width={{ sizes.3 }}{% endif %}
-                                                {% if sizes.4 is not empty %}height={{ sizes.4 }}{% endif %}
+                                        <p>{{ sizes.0 }} x {{ sizes.1 }} {% if sizes.2 is defined %} (scaled down to {{ sizes.3 }} x {{ sizes.4 }}){% endif
+                                            %}</p>
+                                        <img src="{{ report.imageGraphUrl }}&graphType={{ type }}&width={{ sizes.0 }}&height={{ sizes.1 }}{% if sizes.2 is
+                                        defined %}&fontSize={{ sizes.2 }}{% endif %}"
+                                                {% if sizes.3 is defined %}width={{ sizes.3 }}{% endif %}
+                                                {% if sizes.4 is defined %}height={{ sizes.4 }}{% endif %}
                                                 />
                                     {% endfor %}
                                 </td>
