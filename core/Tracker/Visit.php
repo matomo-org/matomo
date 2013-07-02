@@ -16,7 +16,6 @@
 interface Piwik_Tracker_Visit_Interface
 {
     function setRequest(Piwik_Tracker_Request $request);
-
     function handle();
 }
 
@@ -38,36 +37,20 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 {
     const UNKNOWN_CODE = 'xx';
 
-    protected $visitorInfo = array();
-    protected $userSettingsInformation = null;
-    protected $visitorCustomVariables = array();
-    protected $visitorKnown;
-
     /**
      * @var Piwik_Tracker_GoalManager
      */
     protected $goalManager;
+
     /**
      * @var  Piwik_Tracker_Request
      */
     protected $request;
-    protected $forcedVisitorId = null;
 
-    // can be overwritten in constructor
-    protected $timestamp;
-    protected $ip;
-
-
-    public function __construct($forcedIpString = null)
-    {
-        $ipString = $forcedIpString;
-        if (empty($ipString)) {
-            $ipString = Piwik_IP::getIpFromHeader();
-        }
-
-        $ip = Piwik_IP::P2N($ipString);
-        $this->ip = $ip;
-    }
+    protected $visitorInfo = array();
+    protected $userSettingsInformation = null;
+    protected $visitorCustomVariables = array();
+    protected $visitorKnown;
 
     function setRequest(Piwik_Tracker_Request $request)
     {
@@ -97,18 +80,16 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     public function handle()
     {
         // the IP is needed by isExcluded() and GoalManager->recordGoals()
-        $this->visitorInfo['location_ip'] = $this->ip;
+        $ip = $this->request->getIp();
+        $this->visitorInfo['location_ip'] = $ip;
 
-        $ip = $this->getVisitorIp();
         $excluded = new Piwik_Tracker_VisitExcluded($this->request, $ip);
         if ($excluded->isExcluded()) {
             return;
         }
 
         // Anonymize IP (after testing for IP exclusion)
-        $ip = $this->ip;
-        Piwik_PostEvent('Tracker.Visit.setVisitorIp', $ip);
-        $this->visitorInfo['location_ip'] = $ip;
+        Piwik_PostEvent('Tracker.Visit.setVisitorIp', $this->visitorInfo['location_ip']);
 
         $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
         if (!empty($this->visitorCustomVariables)) {

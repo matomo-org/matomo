@@ -98,14 +98,6 @@ class Piwik_Tracker
         self::$forcedVisitorId = $visitorId;
     }
 
-    public function getCurrentTimestamp()
-    {
-        if (!is_null(self::$forcedDateTime)) {
-            return strtotime(self::$forcedDateTime);
-        }
-        return time();
-    }
-
     /**
      * Do not load the specified plugins (used during testing, to disable Provider plugin)
      * @param array $plugins
@@ -223,8 +215,9 @@ class Piwik_Tracker
                         self::connectDatabaseIfNotConnected();
 
                         $visit = $this->getNewVisitObject();
-
                         $request->setForcedVisitorId(self::$forcedVisitorId);
+                        $request->setForceDateTime(self::$forcedDateTime);
+                        $request->setForceIp(self::$forcedIpString);
 
                         $visit->setRequest($request);
                         $visit->handle();
@@ -252,14 +245,14 @@ class Piwik_Tracker
             try {
                 if (!$isAuthenticated // Do not run schedule task if we are importing logs or doing custom tracking (as it could slow down)
                     && $this->shouldRunScheduledTasks()) {
-                    self::runScheduledTasks($now = $this->getCurrentTimestamp());
+                    self::runScheduledTasks();
                 }
             } catch (Exception $e) {
                 $this->exitWithException($e);
             }
 
         } else {
-            $this->handleEmptyRequest($_GET + $_POST);
+            $this->handleEmptyRequest(new Piwik_Tracker_Request($_GET + $_POST));
         }
 
 
@@ -280,11 +273,11 @@ class Piwik_Tracker
      * but still want daily/weekly/monthly PDF reports emailed automatically.
      *
      * This is similar to calling the API CoreAdminHome.runScheduledTasks (see misc/cron/archive.php)
-     *
-     * @param int $now  Current timestamp
      */
-    protected static function runScheduledTasks($now)
+    protected static function runScheduledTasks()
     {
+        $now = time();
+
         // Currently, there is no hourly tasks. When there are some,
         // this could be too agressive minimum interval (some hours would be skipped in case of low traffic)
         $minimumInterval = Piwik_Config::getInstance()->Tracker['scheduled_tasks_min_interval'];
@@ -419,7 +412,7 @@ class Piwik_Tracker
         $this->handleDisabledTracker();
         $this->handleEmptyRequest($request);
 
-        printDebug("Current datetime: " . date("Y-m-d H:i:s", $this->getCurrentTimestamp()));
+        printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
     }
 
     /**
@@ -542,7 +535,7 @@ class Piwik_Tracker
         Piwik_PostEvent('Tracker.getNewVisitObject', $visit);
 
         if (is_null($visit)) {
-            $visit = new Piwik_Tracker_Visit(self::$forcedIpString);
+            $visit = new Piwik_Tracker_Visit();
         } elseif (!($visit instanceof Piwik_Tracker_Visit_Interface)) {
             throw new Exception("The Visit object set in the plugin must implement Piwik_Tracker_Visit_Interface");
         }
@@ -631,37 +624,6 @@ class Piwik_Tracker
         if ($saveStats == 0) {
             $this->setState(self::STATE_LOGGING_DISABLE);
         }
-    }
-
-    protected function authenticateSuperUserOrAdmin($request)
-    {
-        $tokenAuth = $this->getTokenAuth();
-
-        if (!$tokenAuth) {
-            return false;
-        }
-        $superUserLogin = Piwik_Config::getInstance()->superuser['login'];
-        $superUserPassword = Piwik_Config::getInstance()->superuser['password'];
-        if (md5($superUserLogin . $superUserPassword) == $tokenAuth) {
-            $this->authenticated = true;
-            return true;
-        }
-
-        // Now checking the list of admin token_auth cached in the Tracker config file
-        $idSite = Piwik_Common::getRequestVar('idsite', false, 'int', $request);
-        if (!empty($idSite)
-            && $idSite > 0
-        ) {
-            $website = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
-            $adminTokenAuth = $website['admin_token_auth'];
-            if (in_array($tokenAuth, $adminTokenAuth)) {
-                $this->authenticated = true;
-                return true;
-            }
-        }
-        printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
-
-        return false;
     }
 
     protected function getTokenAuth()

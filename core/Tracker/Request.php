@@ -16,10 +16,14 @@ class Piwik_Tracker_Request
      */
     protected $params;
 
-    public function __construct(array $params, $tokenAuth = false)
+    public function __construct($params, $tokenAuth = false)
     {
+        if(!is_array($params)) {
+            $params = array();
+        }
         $this->params = $params;
         $this->timestamp = time();
+        $this->enforcedIp = false;
 
         // When the 'url' and referer url parameter are not given, we might be in the 'Simple Image Tracker' mode.
         // The URL can default to the Referer, which will be in this case
@@ -27,7 +31,10 @@ class Piwik_Tracker_Request
         if (empty($this->params['urlref'])
             && empty($this->params['url'])
         ) {
-            $this->params['url'] = @$_SERVER['HTTP_REFERER'];
+            $url = @$_SERVER['HTTP_REFERER'];
+            if(!empty($url)) {
+                $this->params['url'] = $url;
+            }
         }
         $this->authenticateTrackingApi($tokenAuth);
     }
@@ -50,7 +57,12 @@ class Piwik_Tracker_Request
         $shouldAuthenticate = Piwik_Config::getInstance()->Tracker['tracking_requests_require_authentication'];
         if ($shouldAuthenticate) {
             $tokenAuth = $tokenAuthFromBulkRequest || Piwik_Common::getRequestVar('token_auth', false, 'string', $this->params);
-            $this->isAuthenticated = $this->authenticateSuperUserOrAdmin($tokenAuth, $this->getIdSite());
+            try {
+                $idSite = $this->getIdSite();
+                $this->isAuthenticated = $this->authenticateSuperUserOrAdmin($tokenAuth, $idSite);
+            } catch(Exception $e) {
+                $this->isAuthenticated = false;
+            }
             if (!$this->isAuthenticated) {
                 return;
             }
@@ -231,9 +243,6 @@ class Piwik_Tracker_Request
 
         $value = Piwik_Common::getRequestVar($name, $paramDefaultValue, $paramType, $this->params);
 
-        if ($paramType == 'string') {
-            return trim(urldecode($value));
-        }
         return $value;
     }
 
@@ -250,14 +259,10 @@ class Piwik_Tracker_Request
 
     public function getIdSite()
     {
-        static $idSite = null;
-
-        if (is_null($idSite)) {
-            $idSite = Piwik_Common::getRequestVar('idsite', 0, 'int', $this->params);
-            Piwik_PostEvent('Tracker.setRequest.idSite', $idSite, $this->params);
-            if ($idSite <= 0) {
-                throw new Exception('Invalid idSite');
-            }
+        $idSite = Piwik_Common::getRequestVar('idsite', 0, 'int', $this->params);
+        Piwik_PostEvent('Tracker.setRequest.idSite', $idSite, $this->params);
+        if ($idSite <= 0) {
+            throw new Exception('Invalid idSite');
         }
         return $idSite;
     }
@@ -403,6 +408,30 @@ class Piwik_Tracker_Request
             }
         }
         return false;
+    }
+
+    public function getIp()
+    {
+        if (!empty($this->enforcedIp)) {
+            $ipString = $this->enforcedIp;
+        } else {
+            $ipString = Piwik_IP::getIpFromHeader();
+        }
+        $ip = Piwik_IP::P2N($ipString);
+        return $ip;
+    }
+
+    public function setForceIp($ip)
+    {
+        $this->enforcedIp = $ip;
+    }
+
+    public function setForceDateTime($dateTime)
+    {
+        if (!is_numeric($dateTime)) {
+            $dateTime = strtotime($dateTime);
+        }
+        $this->timestamp = $dateTime;
     }
 
     public function setForcedVisitorId($visitorId)

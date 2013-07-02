@@ -225,8 +225,8 @@ class Piwik_Tracker_GoalManager
     {
         $refererTimestamp = $this->request->getParam('_refts');
         $refererUrl = $this->request->getParam('_ref');
-        $refererCampaignName = $this->request->getParam('_rcn');
-        $refererCampaignKeyword = $this->request->getParam('_rck');
+        $refererCampaignName = trim(urldecode($this->request->getParam('_rcn')));
+        $refererCampaignKeyword = trim(urldecode($this->request->getParam('_rck')));
         $browserLanguage = $this->request->getBrowserLanguage();
 
         $location_country = isset($visitorInformation['location_country'])
