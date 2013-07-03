@@ -239,7 +239,6 @@ class Piwik_Tracker
                 ++$this->countOfLoggedRequests;
             }
 
-            $this->outputTransparentGif();
 
             // run scheduled task
             try {
@@ -254,7 +253,7 @@ class Piwik_Tracker
         } else {
             $this->handleEmptyRequest(new Piwik_Tracker_Request($_GET + $_POST));
         }
-
+        $this->outputTransparentGif();
 
         $this->end();
     }
