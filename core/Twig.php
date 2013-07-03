@@ -90,7 +90,7 @@ class Piwik_Twig
     {
         $postEventFunction = new Twig_SimpleFunction('postEvent', function ($eventName) {
             $str = '';
-            Piwik_PostEvent($eventName, $str);
+            Piwik_PostEvent($eventName, array(&$str));
             return $str;
         }, array('is_safe' => array('html')));
         $this->twig->addFunction($postEventFunction);
@@ -222,7 +222,7 @@ class Piwik_Twig
     {
         $plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
         foreach($plugins as $name) {
-            $name = Piwik::unprefixClass($name);
+            $name = Piwik_Common::unprefixClass($name);
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {
                 $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $name . '/templates', $name);

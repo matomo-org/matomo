@@ -65,7 +65,7 @@ class Piwik_API_ProcessedReport
         $parameters = array('idSites' => $idSites, 'period' => $period, 'date' => $date);
 
         $availableReports = array();
-        Piwik_PostEvent('API.getReportMetadata', $availableReports, $parameters);
+        Piwik_PostEvent('API.getReportMetadata', array(&$availableReports, $parameters));
         foreach ($availableReports as &$availableReport) {
             if (!isset($availableReport['metrics'])) {
                 $availableReport['metrics'] = Piwik_Metrics::getDefaultMetrics();
@@ -84,9 +84,7 @@ class Piwik_API_ProcessedReport
         }
 
         // Some plugins need to add custom metrics after all plugins hooked in
-        Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $parameters);
-        // Oh this is not pretty! Until we have event listeners order parameter...
-        Piwik_PostEvent('API.getReportMetadata.end.end', $availableReports, $parameters);
+        Piwik_PostEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order
         usort($availableReports, array($this, 'sort'));
