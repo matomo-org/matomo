@@ -80,7 +80,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
             'dimension'         => Piwik_Translate('VisitorInterest_visitsByVisitCount'),
             'metrics'           => array(
                 'nb_visits',
-                'nb_visits_percentage' => Piwik_Metrics::getPercentVisitColumn(),
+                'nb_visits_percentage' => Piwik_Translate('General_ColumnPercentageVisits'),
             ),
             'processedMetrics'  => false,
             'constantRowsCount' => true,
