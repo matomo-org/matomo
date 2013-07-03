@@ -14,11 +14,19 @@
  */
 class Piwik_Tracker_VisitExcluded
 {
-    public function __construct(Piwik_Tracker_Request $request, $ip)
+    public function __construct(Piwik_Tracker_Request $request, $ip = false, $userAgent = false)
     {
+        if ($ip === false) {
+            $ip = $request->getIp();
+        }
+        
+        if ($userAgent === false) {
+            $userAgent = $request->getUserAgent();
+        }
+        
         $this->request = $request;
         $this->idSite = $request->getIdSite();
-        $this->userAgent = $request->getUserAgent();
+        $this->userAgent = $userAgent;
         $this->ip = $ip;
     }
 

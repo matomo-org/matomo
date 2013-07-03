@@ -212,6 +212,7 @@ class Piwik_Tracker
 
                 try {
                     if ($this->isVisitValid()) {
+
                         self::connectDatabaseIfNotConnected();
 
                         $visit = $this->getNewVisitObject();
@@ -239,7 +240,6 @@ class Piwik_Tracker
                 ++$this->countOfLoggedRequests;
             }
 
-            $this->outputTransparentGif();
 
             // run scheduled task
             try {
@@ -254,8 +254,6 @@ class Piwik_Tracker
         } else {
             $this->handleEmptyRequest(new Piwik_Tracker_Request($_GET + $_POST));
         }
-
-
         $this->end();
     }
 
@@ -376,19 +374,29 @@ class Piwik_Tracker
         if ($this->usingBulkTracking) {
             // when doing bulk tracking we return JSON so the caller will know how many succeeded
             $result = array('succeeded' => $this->countOfLoggedRequests);
-
             // send error when in debug mode or when authenticated (which happens when doing log importing,
-            // for example)
             if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) || $authenticated) {
                 $result['error'] = Piwik_Tracker_GetErrorMessage($e);
             }
-
             echo Piwik_Common::json_encode($result);
-
             exit;
-        } else {
-            Piwik_Tracker_ExitWithException($e, $authenticated);
         }
+        if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
+            Piwik_Common::sendHeader('Content-Type: text/html; charset=utf-8');
+            $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
+            $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutHeader.tpl');
+            $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
+            $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
+
+            echo $headerPage . '<p>' . Piwik_Tracker_GetErrorMessage($e) . '</p>' . $trailer . $footerPage;
+        } // If not debug, but running authenticated (eg. during log import) then we display raw errors
+        elseif ($authenticated) {
+            Piwik_Common::sendHeader('Content-Type: text/html; charset=utf-8');
+            echo Piwik_Tracker_GetErrorMessage($e);
+        } else {
+            $this->outputTransparentGif();
+        }
+        exit;
     }
 
     /**
@@ -422,6 +430,7 @@ class Piwik_Tracker
     {
         switch ($this->getState()) {
             case self::STATE_LOGGING_DISABLE:
+                $this->outputTransparentGif();
                 printDebug("Logging disabled, display transparent logo");
                 break;
 
@@ -433,6 +442,7 @@ class Piwik_Tracker
             case self::STATE_NOSCRIPT_REQUEST:
             case self::STATE_NOTHING_TO_NOTICE:
             default:
+                $this->outputTransparentGif();
                 printDebug("Nothing to notice => default behaviour");
                 break;
         }
@@ -750,28 +760,3 @@ function Piwik_Tracker_GetErrorMessage($e)
         return $e->getMessage();
     }
 }
-
-/**
- * Displays exception in a friendly UI and exits.
- *
- * @param Exception $e
- * @param bool      $authenticated
- */
-function Piwik_Tracker_ExitWithException($e, $authenticated = false)
-{
-    Piwik_Common::sendHeader('Content-Type: text/html; charset=utf-8');
-
-    if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-        $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
-        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutHeader.tpl');
-        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
-        $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
-
-        echo $headerPage . '<p>' . Piwik_Tracker_GetErrorMessage($e) . '</p>' . $trailer . $footerPage;
-    } // If not debug, but running authenticated (eg. during log import) then we display raw errors
-    elseif ($authenticated) {
-        echo Piwik_Tracker_GetErrorMessage($e);
-    }
-    exit;
-}
-
