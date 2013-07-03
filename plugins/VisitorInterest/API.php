@@ -117,8 +117,7 @@ class Piwik_VisitorInterest_API
             }
         } else {
             $totalVisits = array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_NB_VISITS));
-            $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array(
-                                                                              'nb_visits_percentage', 'nb_visits', $totalVisits));
+            $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', 'nb_visits', $totalVisits));
         }
     }
 }

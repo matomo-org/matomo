@@ -1808,7 +1808,7 @@
 		<documentation>This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-			<nb_visits_percentage>% Visits</nb_visits_percentage>
+			<nb_visits_percentage>% Visits</nb_visits_percentage>
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsDocumentation>
