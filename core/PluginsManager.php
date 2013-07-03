@@ -661,10 +661,6 @@ class Piwik_PluginsManager
                 $plugin = $this->getLoadedPlugin($plugin);
             }
             
-            if (!$this->isPluginActivated($plugin->getPluginName())) {
-                continue;
-            }
-            
             $hooks = $plugin->getListHooksRegistered();
             
             if (isset($hooks[$eventName])) {
