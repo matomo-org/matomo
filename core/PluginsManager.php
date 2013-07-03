@@ -681,7 +681,6 @@ class Piwik_PluginsManager
         // execute callbacks in order
         foreach ($callbacks as $callbackGroup) {
             foreach ($callbackGroup as $callback) {
-            if (is_object($params)) echo "WTF??: " . $eventName . "\n";
                 call_user_func_array($callback, $params);
             }
         }
