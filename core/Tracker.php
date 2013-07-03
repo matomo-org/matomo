@@ -227,7 +227,6 @@ class Piwik_Tracker
                         printDebug("The request is invalid: empty request, or maybe tracking is disabled in the config.ini.php via record_statistics=0");
                     }
                 } catch (Piwik_Tracker_Db_Exception $e) {
-                    $this->outputTransparentGif();
                     printDebug("<b>" . $e->getMessage() . "</b>");
                     $this->exitWithException($e, $isAuthenticated);
                 } catch (Piwik_Tracker_Visit_Excluded $e) {
