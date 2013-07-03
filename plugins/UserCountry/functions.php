@@ -17,7 +17,7 @@
  */
 function Piwik_getFlagFromCode($code)
 {
-    $pathInPiwik = 'plugins/UserCountry/flags/%s.png';
+    $pathInPiwik = 'plugins/UserCountry/images/flags/%s.png';
     $pathWithCode = sprintf($pathInPiwik, $code);
     $absolutePath = PIWIK_INCLUDE_PATH . '/' . $pathWithCode;
     if (file_exists($absolutePath)) {

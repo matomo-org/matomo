@@ -30,8 +30,7 @@ class Piwik_Overlay extends Piwik_Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = 'plugins/Overlay/templates/rowaction.js';
-        $jsFiles[] = 'plugins/Overlay/templates/helper.js';
+        $jsFiles[] = 'plugins/Overlay/javascripts/rowaction.js';
+        $jsFiles[] = 'plugins/Overlay/javascripts/Overlay_Helper.js';
     }
-
 }

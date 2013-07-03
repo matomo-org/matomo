@@ -1,0 +1,17 @@
+<thead>
+   <tr>
+       {% for column in dataTableColumns %}
+           <th class="sortable {% if loop.first %}first{% elseif loop.last %}last{% endif %}" id="{{ column }}">
+               {% if columnDocumentation[column] is not empty %}
+                   <div class="columnDocumentation">
+                       <div class="columnDocumentationTitle">
+                           {{ columnTranslations[column] }}
+                       </div>
+                       {{ columnDocumentation[column] }}
+                   </div>
+               {% endif %}
+               <div id="thDIV">{{ columnTranslations[column] }}</div>
+           </th>
+       {% endfor %}
+   </tr>
+</thead>

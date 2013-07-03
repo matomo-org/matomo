@@ -1,0 +1,23 @@
+{% spaceless %}
+{% set tooltipIndex = column ~ '_tooltip' %}
+{% if row.metadata[tooltipIndex] is defined %}<span class="cell-tooltip" data-tooltip="{{ row.metadata[tooltipIndex] }}">{% endif %}
+{% if not row.idsubdatatable and column=='label' and row.metadata.url is defined %}
+    <a target="_blank" href='{% if row.metadata.url|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.metadata.url }}'>
+    {% if row.metadata.logo is not defined %}
+        <img class="link" width="10" height="9" src="plugins/Zeitgeist/images/link.gif"/>
+    {% endif %}
+{% endif %}
+{% if column=='label' %}
+    {% import 'macros.twig' as piwik %}
+    {{ piwik.logoHtml(row.metadata, row.columns.label) }}
+    {% if row.metadata.html_label_prefix is defined %}<span class='label-prefix'>{{ row.metadata.html_label_prefix | raw }}&nbsp;</span>{% endif -%}
+        <span class='label{% if row.metadata.is_aggregate is defined and row.metadata.is_aggregate %} highlighted{% endif %}'
+        {% if properties is defined and properties.tooltip_metadata_name is not empty %}title="{{ row.metadata[properties.tooltip_metadata_name] }}"{% endif %}>
+        {%- if row.metadata.html_label_suffix is defined %}<span class='label-suffix'>{{ row.metadata.html_label_suffix | raw }}</span>{% endif -%}
+{% endif %}{% if row.columns[column] is defined %}{{- row.columns[column]|raw -}}{% else %}{{ defaultWhenColumnValueNotDefined }}{% endif %}
+{% if column=='label' %}</span>{% endif %}
+{% if not row.idsubdatatable and column=='label' and row.metadata.url is defined %}
+    </a>
+{% endif %}
+{% if row.metadata[tooltipIndex] is defined %}</span>{% endif %}
+{% endspaceless %}

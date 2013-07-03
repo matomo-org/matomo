@@ -23,7 +23,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     public function widget($fetch = false)
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@Live/index');
         $view->idSite = $this->idSite;
         $view = $this->setCounters($view);
         $view->liveRefreshAfterMs = (int)Piwik_Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
@@ -38,7 +38,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
         $lastNData = Piwik_API_Request::processRequest('Live.getCounters', array('lastMinutes' => $lastMinutes));
 
-        $view = Piwik_View::factory('simpleLastVisitCount');
+        $view = new Piwik_View('@Live/getSimpleLastVisitCount');
         $view->lastMinutes = $lastMinutes;
         $view->visitors = Piwik::getPrettyNumber($lastNData[0]['visitors']);
         $view->visits = Piwik::getPrettyNumber($lastNData[0]['visits']);
@@ -59,7 +59,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     public function ajaxTotalVisitors($fetch = false)
     {
-        $view = Piwik_View::factory('totalVisits');
+        $view = new Piwik_View('@Live/ajaxTotalVisitors');
         $view = $this->setCounters($view);
         $view->idSite = $this->idSite;
         return $this->render($view, $fetch);
@@ -83,7 +83,7 @@ class Piwik_Live_Controller extends Piwik_Controller
         );
         $view->disableGenericFilters();
         $view->disableSort();
-        $view->setTemplate("Live/templates/visitorLog.tpl");
+        $view->setTemplate("@Live/getVisitorLog.twig");
         $view->setSortedColumn('idVisit', 'ASC');
         $view->disableSearchBox();
         $view->setLimit(20);
@@ -118,10 +118,10 @@ class Piwik_Live_Controller extends Piwik_Controller
         // hack, ensure we load today's visits by default
         $_GET['date'] = 'today';
         $_GET['period'] = 'day';
-        $view = Piwik_View::factory('lastVisits');
+        $view = new Piwik_View('@Live/getLastVisitsStart');
         $view->idSite = $this->idSite;
 
-        $api = new Piwik_API_Request("method=Live.getLastVisitsDetails&idSite=$this->idSite&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
+        $api = new Piwik_API_Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
         $visitors = $api->process();
         $view->visitors = $visitors;
 

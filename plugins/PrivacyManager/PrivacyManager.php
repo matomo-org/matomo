@@ -84,7 +84,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/PrivacyManager/templates/privacySettings.js";
+        $jsFiles[] = "plugins/PrivacyManager/javascripts/privacySettings.js";
     }
 
     function addMenu()
@@ -322,7 +322,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
     private static function getGoalMetricsToKeep()
     {
         // keep all goal metrics
-        return array_values(Piwik_Archive::$mappingFromIdToNameGoal);
+        return array_values(Piwik_Metrics::$mappingFromIdToNameGoal);
     }
 
     /**

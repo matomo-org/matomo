@@ -43,9 +43,9 @@ class Piwik_SegmentEditor extends Piwik_Plugin
 
     public function getKnownSegmentsToArchiveAllSites(&$segments)
     {
-        $segmentToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getAll($idSite = false, $returnAutoArchived = true);
-        if (!empty($segmentToAutoArchive)) {
-            $segments = array_merge($segments, $segmentToAutoArchive);
+        $segmentsToAutoArchive = Piwik_SegmentEditor_API::getInstance()->getAll($idSite = false, $returnAutoArchived = true);
+        foreach ($segmentsToAutoArchive as $segment) {
+            $segments[] = $segment['definition'];
         }
     }
 
@@ -87,17 +87,16 @@ class Piwik_SegmentEditor extends Piwik_Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/SegmentEditor/templates/jquery.jscrollpane.js";
-        $jsFiles[] = "plugins/SegmentEditor/templates/Segmentation.js";
-        $jsFiles[] = "plugins/SegmentEditor/templates/jquery.mousewheel.js";
-        $jsFiles[] = "plugins/SegmentEditor/templates/mwheelIntent.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/jquery.jscrollpane.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/jquery.mousewheel.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/mwheelIntent.js";
     }
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/SegmentEditor/templates/Segmentation.css";
-        $cssFiles[] = "plugins/SegmentEditor/templates/jquery.jscrollpane.css";
-        $cssFiles[] = "plugins/SegmentEditor/templates/scroll.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/segmentation.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/jquery.jscrollpane.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/scroll.css";
     }
-
 }

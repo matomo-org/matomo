@@ -42,7 +42,7 @@ class Piwik_CustomVariables_API
     protected function getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable)
     {
         $dataTable = Piwik_Archive::getDataTableFromArchive(Piwik_CustomVariables_Archiver::CUSTOM_VARIABLE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $idSubtable);
-        $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_ACTIONS, 'desc', $naturalSort = false, $expanded));
+        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_ACTIONS, 'desc', $naturalSort = false, $expanded));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ColumnDelete', 'nb_uniq_visitors');
         return $dataTable;

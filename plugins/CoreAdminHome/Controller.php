@@ -26,11 +26,11 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
     public function generalSettings()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $view = Piwik_View::factory('generalSettings');
+        $view = new Piwik_View('@CoreAdminHome/generalSettings');
 
         if (Piwik::isUserIsSuperUser()) {
-            $enableBrowserTriggerArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
-            $todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
+            $enableBrowserTriggerArchiving = Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled();
+            $todayArchiveTimeToLive = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
             $showWarningCron = false;
             if (!$enableBrowserTriggerArchiving
                 && $todayArchiveTimeToLive < 3600
@@ -41,11 +41,9 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
             $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-            $config = Piwik_Config::getInstance();
+            $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
 
-            if (!$config->isFileWritable()) {
-                $view->configFileNotWritable = true;
-            }
+            $config = Piwik_Config::getInstance();
 
             $debug = $config->Debug;
             $view->enableBetaReleaseCheck = $debug['allow_upgrades_to_beta'];
@@ -54,8 +52,10 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 
             $view->branding = $config->branding;
 
-            $directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT . '/themes/');
-            $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/themes/logo.png') && is_writeable(PIWIK_DOCUMENT_ROOT . '/themes/logo-header.png');
+            $directoryWritable = is_writable(PIWIK_DOCUMENT_ROOT . '/misc/user/');
+            $logoFilesWriteable = is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png')
+                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo.svg')
+                && is_writeable(PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png');;
             $view->logosWriteable = ($logoFilesWriteable || $directoryWritable) && ini_get('file_uploads') == 1;
 
             $trustedHosts = array();
@@ -81,8 +81,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $enableBrowserTriggerArchiving = Piwik_Common::getRequestVar('enableBrowserTriggerArchiving');
             $todayArchiveTimeToLive = Piwik_Common::getRequestVar('todayArchiveTimeToLive');
 
-            Piwik_ArchiveProcessing::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
-            Piwik_ArchiveProcessing::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+            Piwik_ArchiveProcessor_Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
+            Piwik_ArchiveProcessor_Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
 
             // Update email settings
             $mail = array();
@@ -127,7 +127,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
      */
     public function trackingCodeGenerator()
     {
-        $view = Piwik_View::factory('jsTrackingGenerator');
+        $view = new Piwik_View('@CoreAdminHome/trackingCodeGenerator');
         $this->setBasicVariablesView($view);
         $view->topMenu = Piwik_GetTopMenu();
         $view->menu = Piwik_GetAdminMenu();
@@ -174,7 +174,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $trackVisits = !$trackVisits;
         }
 
-        $view = Piwik_View::factory('optOut');
+        $view = new Piwik_View('@CoreAdminHome/optOut');
         $view->trackVisits = $trackVisits;
         $view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
         $view->language = Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language)
@@ -224,8 +224,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
         imagecopyresized($logo, $image, 0, 0, 0, 0, $widthExpected, self::LOGO_HEIGHT, $width, $height);
         imagecopyresized($logoSmall, $image, 0, 0, 0, 0, $smallWidthExpected, self::LOGO_SMALL_HEIGHT, $width, $height);
 
-        imagepng($logo, PIWIK_DOCUMENT_ROOT . '/themes/logo.png', 3);
-        imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/themes/logo-header.png', 3);
+        imagepng($logo, PIWIK_DOCUMENT_ROOT . '/misc/user/logo.png', 3);
+        imagepng($logoSmall, PIWIK_DOCUMENT_ROOT . '/misc/user/logo-header.png', 3);
         echo '1';
         return;
     }

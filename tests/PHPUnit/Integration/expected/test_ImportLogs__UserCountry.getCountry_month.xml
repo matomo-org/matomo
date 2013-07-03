@@ -18,7 +18,7 @@
 		<revenue>50</revenue>
 		<sum_daily_nb_uniq_visitors>11</sum_daily_nb_uniq_visitors>
 		<code>jp</code>
-		<logo>plugins/UserCountry/flags/jp.png</logo>
+		<logo>plugins/UserCountry/images/flags/jp.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
@@ -40,7 +40,7 @@
 		<revenue>35</revenue>
 		<sum_daily_nb_uniq_visitors>7</sum_daily_nb_uniq_visitors>
 		<code>xx</code>
-		<logo>plugins/UserCountry/flags/xx.png</logo>
+		<logo>plugins/UserCountry/images/flags/xx.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
@@ -62,7 +62,7 @@
 		<revenue>20</revenue>
 		<sum_daily_nb_uniq_visitors>4</sum_daily_nb_uniq_visitors>
 		<code>us</code>
-		<logo>plugins/UserCountry/flags/us.png</logo>
+		<logo>plugins/UserCountry/images/flags/us.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
@@ -84,7 +84,7 @@
 		<revenue>15</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<code>br</code>
-		<logo>plugins/UserCountry/flags/br.png</logo>
+		<logo>plugins/UserCountry/images/flags/br.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>
@@ -98,7 +98,7 @@
 		<nb_visits_converted>0</nb_visits_converted>
 		<sum_daily_nb_uniq_visitors>1</sum_daily_nb_uniq_visitors>
 		<code>au</code>
-		<logo>plugins/UserCountry/flags/au.png</logo>
+		<logo>plugins/UserCountry/images/flags/au.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>

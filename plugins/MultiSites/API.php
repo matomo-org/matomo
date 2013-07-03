@@ -218,11 +218,13 @@ class Piwik_MultiSites_API
         ) {
             $dataTable = $dataTable->mergeChildren();
         } else {
-            if (!$dataTable instanceof Piwik_DataTable_Array
+            if (!($dataTable instanceof Piwik_DataTable_Array)
                 && $dataTable->getRowsCount() > 0
             ) {
+                $firstSite = is_array($sites) ? reset($sites) : $sites;
+                
                 $firstDataTableRow = $dataTable->getFirstRow();
-                $firstDataTableRow->setColumn('label', $sites);
+                $firstDataTableRow->setColumn('label', $firstSite);
             }
         }
 
@@ -239,11 +241,14 @@ class Piwik_MultiSites_API
                 //       put there is put directly in Piwik_DataTable::metadata.
                 $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
             }
-
-            $pastArchive = Piwik_Archive::build('all', $period, $strLastDate, $segment, $_restrictSitesToLogin);
+            $pastArchive = Piwik_Archive::build($sites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
             $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
-
-            $pastData = $pastData->mergeChildren();
+            
+            if ($pastData instanceof Piwik_DataTable_Array
+                && $multipleWebsitesRequested
+            ) {
+                $pastData = $pastData->mergeChildren();
+            }
 
             // use past data to calculate evolution percentages
             $this->calculateEvolutionPercentages($dataTable, $pastData, $apiMetrics);
@@ -314,6 +319,11 @@ class Piwik_MultiSites_API
      */
     private function calculateEvolutionPercentages($currentData, $pastData, $apiMetrics)
     {
+        if (get_class($currentData) != get_class($pastData)) { // sanity check for regressions
+            throw new Exception("Expected \$pastData to be of type ".get_class($currentData)." - got "
+                               . get_class($pastData).".");
+        }
+        
         if ($currentData instanceof Piwik_DataTable_Array) {
             $pastArray = $pastData->getArray();
             foreach ($currentData->getArray() as $subTable) {

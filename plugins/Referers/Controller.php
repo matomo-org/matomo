@@ -17,7 +17,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 {
     function index()
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@Referers/index');
 
         $view->graphEvolutionReferers = $this->getEvolutionGraph(true, Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
         $view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph';
@@ -120,7 +120,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getSearchEnginesAndKeywords()
     {
-        $view = Piwik_View::factory('searchEngines_Keywords');
+        $view = new Piwik_View('@Referers/getSearchEnginesAndKeywords');
         $view->searchEngines = $this->getSearchEngines(true);
         $view->keywords = $this->getKeywords(true);
         echo $view->render();
@@ -295,7 +295,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function indexWebsites($fetch = false)
     {
-        $view = Piwik_View::factory('Websites_SocialNetworks');
+        $view = new Piwik_View('@Referers/indexWebsites');
         $view->websites = $this->getWebsites(true);
         $view->socials = $this->getSocials(true);
         if ($fetch) {
@@ -437,7 +437,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
             $value = 0;
             $row = $dataTableReferersType->getRowFromLabel($columnId);
             if ($row !== false) {
-                $value = $row->getColumn(Piwik_Archive::INDEX_NB_VISITS);
+                $value = $row->getColumn(Piwik_Metrics::INDEX_NB_VISITS);
             }
             $return[$nameVar] = $value;
         }

@@ -17,9 +17,8 @@ abstract class Piwik_PluginsArchiver
 {
     protected $processor;
 
-    public function __construct(Piwik_ArchiveProcessing $processing)
+    public function __construct(Piwik_ArchiveProcessor $processing)
     {
-        $this->maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processing;
     }
@@ -37,10 +36,18 @@ abstract class Piwik_PluginsArchiver
     }
 
     /**
-     * @return Piwik_ArchiveProcessing_Day|Piwik_ArchiveProcessing_Period
+     * @return Piwik_ArchiveProcessor_Day|Piwik_ArchiveProcessor_Period
      */
     protected function getProcessor()
     {
         return $this->processor;
+    }
+
+    /**
+     * @return Piwik_DataAccess_LogAggregator
+     */
+    protected function getLogAggregator()
+    {
+        return $this->getProcessor()->getLogAggregator();
     }
 }

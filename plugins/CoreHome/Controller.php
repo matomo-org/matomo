@@ -54,7 +54,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 
     protected function getDefaultIndexView()
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
         $view->menu = Piwik_GetMenu();
         $view->content = '';
@@ -136,7 +136,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = false);
         self::$rowEvolutionCache = $rowEvolution;
-        $view = Piwik_View::factory('popover_rowevolution');
+        $view = new Piwik_View('@CoreHome/getRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 
@@ -145,7 +145,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = true);
         self::$rowEvolutionCache = $rowEvolution;
-        $view = Piwik_View::factory('popover_multirowevolution');
+        $view = new Piwik_View('@CoreHome/getMultiRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 
@@ -189,7 +189,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         // perform check (but only once every 10s)
         Piwik_UpdateCheck::check($force = false, Piwik_UpdateCheck::UI_CLICK_CHECK_INTERVAL);
 
-        $view = Piwik_View::factory('header_message');
+        $view = new Piwik_View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);
         echo $view->render();
     }
@@ -199,7 +199,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getDonateForm()
     {
-        $view = Piwik_View::factory('donate');
+        $view = new Piwik_View('@CoreHome/getDonateForm');
         if (Piwik_Common::getRequestVar('widget', false)
             && Piwik::isUserIsSuperUser()
         ) {
@@ -213,7 +213,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getPromoVideo()
     {
-        $view = Piwik_View::factory('promo_video');
+        $view = new Piwik_View('@CoreHome/getPromoVideo');
         $view->shareText = Piwik_Translate('CoreHome_SharePiwikShort');
         $view->shareTextLong = Piwik_Translate('CoreHome_SharePiwikLong');
         $view->promoVideoUrl = 'http://www.youtube.com/watch?v=OslfF_EH81g';

@@ -1,0 +1,40 @@
+{% if warningMessages is not defined %}
+    {% set warningMessages=infos.integrityErrorMessages %}
+{% endif %}
+<div id="integrity-results" title="{{ 'Installation_SystemCheckFileIntegrity'|translate }}" style="display:none; font-size: 62.5%;">
+    <table>
+        {% for msg in warningMessages %}
+            <tr>
+                <td>{{ msg }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+<script type="text/javascript">
+    <!--
+    $(function () {
+        $("#integrity-results").dialog({
+            modal: true,
+            autoOpen: false,
+            width: 600,
+            buttons: {
+                Ok: function () {
+                    $(this).dialog('close');
+                }
+            }
+        });
+    });
+    $('#more-results').click(function () {
+        $('#integrity-results').dialog('open');
+    }).hover(function () {
+        $(this).addClass("ui-state-hover");
+    },
+    function () {
+        $(this).removeClass("ui-state-hover");
+    }).mousedown(function () {
+        $(this).addClass("ui-state-active");
+    }).mouseup(function () {
+        $(this).removeClass("ui-state-active");
+    });
+    //-->
+</script>

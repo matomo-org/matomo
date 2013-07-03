@@ -40,7 +40,6 @@ class Piwik_Tracker
     const MAX_CUSTOM_VARIABLES = 5;
     const MAX_LENGTH_CUSTOM_VARIABLE = 200;
 
-    protected $authenticated = false;
     static protected $forcedDateTime = null;
     static protected $forcedIpString = null;
     static protected $forcedVisitorId = null;
@@ -82,7 +81,6 @@ class Piwik_Tracker
         self::$forcedDateTime = null;
         self::$forcedVisitorId = null;
         $this->stateValid = self::STATE_NOTHING_TO_NOTICE;
-        $this->authenticated = false;
     }
 
     public static function setForceIp($ipString)
@@ -98,14 +96,6 @@ class Piwik_Tracker
     public static function setForceVisitorId($visitorId)
     {
         self::$forcedVisitorId = $visitorId;
-    }
-
-    public function getCurrentTimestamp()
-    {
-        if (!is_null(self::$forcedDateTime)) {
-            return strtotime(self::$forcedDateTime);
-        }
-        return time();
     }
 
     /**
@@ -173,8 +163,8 @@ class Piwik_Tracker
         if (isset($jsonData['requests'])) {
             $this->requests = $jsonData['requests'];
         }
-        $this->tokenAuth = Piwik_Common::getRequestVar('token_auth', false, null, $jsonData);
-        if (empty($this->tokenAuth)) {
+        $tokenAuth = Piwik_Common::getRequestVar('token_auth', false, null, $jsonData);
+        if (empty($tokenAuth)) {
             throw new Exception(" token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
         }
         if (!empty($this->requests)) {
@@ -197,10 +187,11 @@ class Piwik_Tracker
             }
 
             // a Bulk Tracking request that is not authenticated should fail
-            if (!$this->authenticateSuperUserOrAdmin(array('idsite' => $idSiteForAuthentication))) {
+            if (!Piwik_Tracker_Request::authenticateSuperUserOrAdmin($tokenAuth, $idSiteForAuthentication)) {
                 throw new Exception(" token_auth specified is not valid for site " . intval($idSiteForAuthentication));
             }
         }
+        return $tokenAuth;
     }
 
     /**
@@ -211,22 +202,23 @@ class Piwik_Tracker
     public function main($args = null)
     {
         $displayedGIF = false;
-        $this->initRequests($args);
-        if (!empty($this->requests)) {
-            // handle all visits
-            foreach ($this->requests as $request) {
-                $this->init($request);
+        $tokenAuth = $this->initRequests($args);
 
-                if (!$displayedGIF && !$this->authenticated) {
-                    $this->outputTransparentGif();
-                    $displayedGIF = true;
-                }
+        $isAuthenticated = false;
+        if (!empty($this->requests)) {
+            foreach ($this->requests as $params) {
+                $request = new Piwik_Tracker_Request($params, $tokenAuth);
+                $this->init($request);
 
                 try {
                     if ($this->isVisitValid()) {
                         self::connectDatabaseIfNotConnected();
 
                         $visit = $this->getNewVisitObject();
+                        $request->setForcedVisitorId(self::$forcedVisitorId);
+                        $request->setForceDateTime(self::$forcedDateTime);
+                        $request->setForceIp(self::$forcedIpString);
+
                         $visit->setRequest($request);
                         $visit->handle();
                         unset($visit);
@@ -235,10 +227,10 @@ class Piwik_Tracker
                     }
                 } catch (Piwik_Tracker_Db_Exception $e) {
                     printDebug("<b>" . $e->getMessage() . "</b>");
-                    $this->exitWithException($e, $this->authenticated);
+                    $this->exitWithException($e, $isAuthenticated);
                 } catch (Piwik_Tracker_Visit_Excluded $e) {
                 } catch (Exception $e) {
-                    $this->exitWithException($e, $this->authenticated);
+                    $this->exitWithException($e, $isAuthenticated);
                 }
                 $this->clear();
 
@@ -247,22 +239,22 @@ class Piwik_Tracker
                 ++$this->countOfLoggedRequests;
             }
 
-            if (!$displayedGIF) {
-                $this->outputTransparentGif();
-                $displayedGIF = true;
+            $this->outputTransparentGif();
+
+            // run scheduled task
+            try {
+                if (!$isAuthenticated // Do not run schedule task if we are importing logs or doing custom tracking (as it could slow down)
+                    && $this->shouldRunScheduledTasks()) {
+                    self::runScheduledTasks();
+                }
+            } catch (Exception $e) {
+                $this->exitWithException($e);
             }
+
         } else {
-            $this->handleEmptyRequest($_GET + $_POST);
+            $this->handleEmptyRequest(new Piwik_Tracker_Request($_GET + $_POST));
         }
 
-        // run scheduled task
-        try {
-            if ($this->shouldRunScheduledTasks()) {
-                self::runScheduledTasks($now = $this->getCurrentTimestamp());
-            }
-        } catch (Exception $e) {
-            $this->exitWithException($e, $this->authenticated);
-        }
 
         $this->end();
     }
@@ -272,7 +264,6 @@ class Piwik_Tracker
         // don't run scheduled tasks in CLI mode from Tracker, this is the case
         // where we bulk load logs & don't want to lose time with tasks
         return !Piwik_Common::isPhpCliMode()
-            && !$this->authenticated
             && $this->getState() != self::STATE_LOGGING_DISABLE;
     }
 
@@ -282,11 +273,11 @@ class Piwik_Tracker
      * but still want daily/weekly/monthly PDF reports emailed automatically.
      *
      * This is similar to calling the API CoreAdminHome.runScheduledTasks (see misc/cron/archive.php)
-     *
-     * @param int $now  Current timestamp
      */
-    protected static function runScheduledTasks($now)
+    protected static function runScheduledTasks()
     {
+        $now = time();
+
         // Currently, there is no hourly tasks. When there are some,
         // this could be too agressive minimum interval (some hours would be skipped in case of low traffic)
         $minimumInterval = Piwik_Config::getInstance()->Tracker['scheduled_tasks_min_interval'];
@@ -380,7 +371,7 @@ class Piwik_Tracker
      * @param Exception $e
      * @param bool $authenticated
      */
-    protected function exitWithException($e, $authenticated)
+    protected function exitWithException($e, $authenticated = false)
     {
         if ($this->usingBulkTracking) {
             // when doing bulk tracking we return JSON so the caller will know how many succeeded
@@ -414,14 +405,14 @@ class Piwik_Tracker
     /**
      * Initialization
      */
-    protected function init($request)
+    protected function init(Piwik_Tracker_Request $request)
     {
         $this->handleTrackingApi($request);
         $this->loadTrackerPlugins($request);
         $this->handleDisabledTracker();
         $this->handleEmptyRequest($request);
 
-        printDebug("Current datetime: " . date("Y-m-d H:i:s", $this->getCurrentTimestamp()));
+        printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
     }
 
     /**
@@ -491,7 +482,7 @@ class Piwik_Tracker
 
         Piwik_PostEvent('Tracker.getDatabaseConfig', array(&$configDb));
 
-        $db = self::factory($configDb);
+        $db = Piwik_Tracker::factory($configDb);
         $db->connect();
 
         return $db;
@@ -544,8 +535,7 @@ class Piwik_Tracker
         Piwik_PostEvent('Tracker.getNewVisitObject', array(&$visit));
 
         if (is_null($visit)) {
-            $visit = new Piwik_Tracker_Visit(self::$forcedIpString, self::$forcedDateTime, $this->authenticated);
-            $visit->setForcedVisitorId(self::$forcedVisitorId);
+            $visit = new Piwik_Tracker_Visit();
         } elseif (!($visit instanceof Piwik_Tracker_Visit_Interface)) {
             throw new Exception("The Visit object set in the plugin must implement Piwik_Tracker_Visit_Interface");
         }
@@ -591,12 +581,12 @@ class Piwik_Tracker
         $this->stateValid = $value;
     }
 
-    protected function loadTrackerPlugins($request)
+    protected function loadTrackerPlugins(Piwik_Tracker_Request $request)
     {
         // Adding &dp=1 will disable the provider plugin, if token_auth is used (used to speed up bulk imports)
-        if (isset($request['dp'])
-            && !empty($request['dp'])
-            && $this->authenticated
+        $disableProvider = $request->getParam('dp');
+        if (!empty($disableProvider)
+            && $request->isAuthenticated()
         ) {
             Piwik_Tracker::setPluginsNotToLoad(array('Provider'));
         }
@@ -617,9 +607,9 @@ class Piwik_Tracker
         }
     }
 
-    protected function handleEmptyRequest($request)
+    protected function handleEmptyRequest(Piwik_Tracker_Request $request)
     {
-        $countParameters = count($request);
+        $countParameters = $request->getParamsCount();
         if ($countParameters == 0) {
             $this->setState(self::STATE_EMPTY_REQUEST);
         }
@@ -636,37 +626,6 @@ class Piwik_Tracker
         }
     }
 
-    protected function authenticateSuperUserOrAdmin($request)
-    {
-        $tokenAuth = $this->getTokenAuth();
-
-        if (!$tokenAuth) {
-            return false;
-        }
-        $superUserLogin = Piwik_Config::getInstance()->superuser['login'];
-        $superUserPassword = Piwik_Config::getInstance()->superuser['password'];
-        if (md5($superUserLogin . $superUserPassword) == $tokenAuth) {
-            $this->authenticated = true;
-            return true;
-        }
-
-        // Now checking the list of admin token_auth cached in the Tracker config file
-        $idSite = Piwik_Common::getRequestVar('idsite', false, 'int', $request);
-        if (!empty($idSite)
-            && $idSite > 0
-        ) {
-            $website = Piwik_Tracker_Cache::getCacheWebsiteAttributes($idSite);
-            $adminTokenAuth = $website['admin_token_auth'];
-            if (in_array($tokenAuth, $adminTokenAuth)) {
-                $this->authenticated = true;
-                return true;
-            }
-        }
-        printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
-
-        return false;
-    }
-
     protected function getTokenAuth()
     {
         if (!is_null($this->tokenAuth)) {
@@ -680,32 +639,26 @@ class Piwik_Tracker
      * This method allows to set custom IP + server time + visitor ID, when using Tracking API.
      * These two attributes can be only set by the Super User (passing token_auth).
      */
-    protected function handleTrackingApi($request)
+    protected function handleTrackingApi(Piwik_Tracker_Request $request)
     {
-        $shouldAuthenticate = Piwik_Config::getInstance()->Tracker['tracking_requests_require_authentication'];
-        if ($shouldAuthenticate) {
-            if (!$this->authenticateSuperUserOrAdmin($request)) {
-                return;
-            }
-            printDebug("token_auth is authenticated!");
-        } else {
-            printDebug("token_auth authentication not required");
+        if(!$request->isAuthenticated()) {
+            return;
         }
 
         // Custom IP to use for this visitor
-        $customIp = Piwik_Common::getRequestVar('cip', false, 'string', $request);
+        $customIp = $request->getParam('cip');
         if (!empty($customIp)) {
             $this->setForceIp($customIp);
         }
 
         // Custom server date time to use
-        $customDatetime = Piwik_Common::getRequestVar('cdt', false, 'string', $request);
+        $customDatetime = $request->getParam('cdt');
         if (!empty($customDatetime)) {
             $this->setForceDateTime($customDatetime);
         }
 
         // Forced Visitor ID to record the visit / action
-        $customVisitorId = Piwik_Common::getRequestVar('cid', false, 'string', $request);
+        $customVisitorId = $request->getParam('cid');
         if (!empty($customVisitorId)) {
             $this->setForceVisitorId($customVisitorId);
         }
@@ -773,7 +726,7 @@ class Piwik_Tracker
             $pluginsDisabled[] = 'AnonymizeIP';
         }
 
-        // Disable provider plugin, because it is so slow to do reverse ip lookup in dev environment somehow
+        // Disable provider plugin, because it is so slow to do many reverse ip lookups
         self::setPluginsNotToLoad($pluginsDisabled);
 
         // we load 'DevicesDetection' in tests only (disabled by default)
@@ -810,8 +763,8 @@ function Piwik_Tracker_ExitWithException($e, $authenticated = false)
 
     if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
         $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
-        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_header.tpl');
-        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/themes/default/simple_structure_footer.tpl');
+        $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutHeader.tpl');
+        $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
         $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
 
         echo $headerPage . '<p>' . Piwik_Tracker_GetErrorMessage($e) . '</p>' . $trailer . $footerPage;

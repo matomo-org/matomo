@@ -1,0 +1,37 @@
+{% autoescape false %}
+{% set helpMessage %}
+{{- 'CoreUpdater_HelpMessageContent'|translate('[',']','\n\n    *') }}
+{% endset %}
+
+*** {{ 'CoreUpdater_UpdateTitle'|translate }} ***
+{% if coreError %}
+
+    [X] {{ 'CoreUpdater_CriticalErrorDuringTheUpgradeProcess'|translate }}
+
+    {% for message in errorMessages %}
+        {{- message }}
+    {%  endfor %}
+
+    {{ 'CoreUpdater_HelpMessageIntroductionWhenError'|translate }}
+
+    * {{ helpMessage }}
+
+{% elseif coreToUpdate or pluginNamesToUpdate|length > 0 %}
+
+    {{ 'CoreUpdater_DatabaseUpgradeRequired'|translate }}
+
+    {{ 'CoreUpdater_YourDatabaseIsOutOfDate'|translate }}
+
+    {% if coreToUpdate %}
+        {{ 'CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY'|translate(current_piwik_version, new_piwik_version) }}
+    {% endif %}
+
+    {% if pluginNamesToUpdate|length > 0 %}
+        {%- set listOfPlugins %}{{  pluginNamesToUpdate|implode(', ') }}{% endset %}
+        {{ 'CoreUpdater_TheFollowingPluginsWillBeUpgradedX'|translate( listOfPlugins) }}
+    {%  endif %}
+
+    {{ 'CoreUpdater_TheUpgradeProcessMayTakeAWhilePleaseBePatient'|translate }}
+{%  endif %}
+{% endautoescape %}
+

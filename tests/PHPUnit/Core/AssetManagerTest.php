@@ -14,8 +14,6 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
     public function testPrioritySort()
     {
         $buckets = array(
-            'themes/base.css',
-            'themes/',
             'libs/base.css',
             'libs/',
             'plugins/',
@@ -24,18 +22,14 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
         $data = array(
             'plugins/xyz',
             'plugins/abc',
-            'themes/base.css',
             'libs/xyz',
             'libs/base.css',
             'libs/abc',
             'plugins/xyz',
-            'themes/test',
             'libs/xyz',
         );
 
         $expected = array(
-            'themes/base.css',
-            'themes/test',
             'libs/base.css',
             'libs/xyz',
             'libs/abc',

@@ -33,9 +33,9 @@ class Piwik_Annotations_Controller extends Piwik_Controller
      *
      * @param bool $fetch True if the annotation manager should be returned as a string,
      *                    false if it should be echo-ed.
-     * @param string $date Override for 'date' query parameter.
-     * @param string $period Override for 'period' query parameter.
-     * @param string $lastN Override for 'lastN' query parameter.
+     * @param bool|string $date Override for 'date' query parameter.
+     * @param bool|string $period Override for 'period' query parameter.
+     * @param bool|string $lastN Override for 'lastN' query parameter.
      * @return string|void
      */
     public function getAnnotationManager($fetch = false, $date = false, $period = false, $lastN = false)
@@ -55,7 +55,7 @@ class Piwik_Annotations_Controller extends Piwik_Controller
         }
 
         // create & render the view
-        $view = Piwik_View::factory('annotationManager');
+        $view = new Piwik_View('@Annotations/getAnnotationManager');
 
         $allAnnotations = Piwik_API_Request::processRequest(
             'Annotations.getAll', array('date' => $date, 'period' => $period, 'lastN' => $lastN));
@@ -103,7 +103,7 @@ class Piwik_Annotations_Controller extends Piwik_Controller
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
 
-            $view = Piwik_View::factory('annotation');
+            $view = new Piwik_View('@Annotations/saveAnnotation');
 
             // NOTE: permissions checked in API method
             // save the annotation
@@ -208,7 +208,7 @@ class Piwik_Annotations_Controller extends Piwik_Controller
             "Annotations.getAnnotationCountForDates", array('getAnnotationText' => 1));
 
         // create & render the view
-        $view = Piwik_View::factory('evolutionAnnotations');
+        $view = new Piwik_View('@Annotations/getEvolutionIcons');
         $view->annotationCounts = reset($annotationCounts); // only one idSite allowed for this action
 
         echo $view->render();

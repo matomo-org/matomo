@@ -31,7 +31,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
 
     public function index($fetch = false)
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@DevicesDetection/index');
         $view->deviceTypes = $view->deviceModels = $view->deviceBrands = $view->osReport = $view->browserReport = "blank";
         $view->deviceTypes = $this->getType(true);
         $view->deviceBrands = $this->getBrand(true);
@@ -132,6 +132,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
      */
     public function refreshParsedUserAgents()
     {
+        Piwik::checkUserIsSuperUser();
         $q = "SELECT idvisit, config_debug_ua FROM " . Piwik_Common::prefixTable("log_visit");
         $res = Piwik_FetchAll($q);
         foreach ($res as $rec) {
@@ -140,7 +141,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
             echo "Processing idvisit = " . $rec['idvisit'] . "<br/>";
             echo "UserAgent string: " . $rec['config_debug_ua'] . "<br/> Decoded values:";
             $uaDetails = $this->getArray($UAParser);
-            var_dump($uaDetails);
+            var_export($uaDetails);
             echo "<hr/>";
             $this->updateVisit($rec['idvisit'], $uaDetails);
             unset($UAParser);

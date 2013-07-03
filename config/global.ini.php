@@ -143,10 +143,6 @@ time_before_today_archive_considered_outdated = 10
 ; to trigger the Piwik archiving process.
 enable_browser_archiving_triggering = 1
 
-; If set to 1, nested reports will be archived with parent references in the datatables
-; At the moment, this is not needed in core but it can be handy for plugins
-enable_archive_parents_of_datatable = 0
-
 ; By default Piwik runs OPTIMIZE TABLE SQL queries to free spaces after deleting some data.
 ; If your Piwik tracks millions of pages, the OPTIMIZE TABLE queries might run for hours (seen in "SHOW FULL PROCESSLIST \g")
 ; so you can disable these special queries here:
@@ -267,14 +263,6 @@ live_widget_visitor_count_last_minutes = 3
 ; In "All Websites" dashboard, when looking at today's reports (or a date range including today),
 ; the page will automatically refresh every 5 minutes. Set to 0 to disable automatic refresh
 multisites_refresh_after_seconds = 300
-
-; by default, Piwik uses self-hosted AJAX libraries.
-; If set to 1, Piwik uses a Content Distribution Network
-use_ajax_cdn = 0
-
-; required AJAX library versions
-jquery_version = 1.10.1
-jqueryui_version = 1.10.3
 
 ; Set to 1 if you're using https on your Piwik server and Piwik can't detect it,
 ; e.g., a reverse proxy using https-to-http, or a web server that doesn't
@@ -501,21 +489,6 @@ logger_file_path = tmp/logs
 ; all calls to the API (method name, parameters, execution time, caller IP, etc.)
 ; disabled by default as it can cause serious overhead and should only be used wisely
 ;logger_api_call[] = file
-
-[smarty]
-; the list of directories in which to look for templates
-template_dir[] = plugins
-template_dir[] = themes/default
-template_dir[] = themes
-
-plugins_dir[] = core/SmartyPlugins
-plugins_dir[] = libs/Smarty/plugins
-
-compile_dir = tmp/templates_c
-cache_dir = tmp/cache
-
-; error reporting inside Smarty
-error_reporting = E_ALL|E_NOTICE
 
 [Plugins]
 Plugins[] = CorePluginsAdmin

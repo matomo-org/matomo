@@ -41,15 +41,23 @@ class Piwik_Tracker_GoalManager
     protected $action = null;
     protected $convertedGoals = array();
     protected $isThereExistingCartInVisit = false;
+    /**
+     * @var Piwik_Tracker_Request
+     */
     protected $request;
     protected $orderId;
 
-    function init($request)
+    public function __construct(Piwik_Tracker_Request $request)
     {
         $this->request = $request;
-        $this->orderId = Piwik_Common::getRequestVar('ec_id', false, 'string', $this->request);
+        $this->init();
+    }
+
+    function init()
+    {
+        $this->orderId = $this->request->getParam('ec_id');
         $this->isGoalAnOrder = !empty($this->orderId);
-        $this->idGoal = Piwik_Common::getRequestVar('idgoal', -1, 'int', $this->request);
+        $this->idGoal = $this->request->getParam('idgoal');
         $this->requestIsEcommerce = ($this->idGoal == 0);
     }
 
@@ -193,9 +201,9 @@ class Piwik_Tracker_GoalManager
         }
         $goal = $goals[$this->idGoal];
 
-        $url = Piwik_Common::getRequestVar('url', '', 'string', $this->request);
+        $url = $this->request->getParam('url');
         $goal['url'] = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite);
-        $goal['revenue'] = $this->getRevenue(Piwik_Common::getRequestVar('revenue', $goal['revenue'], 'float', $this->request));
+        $goal['revenue'] = $this->getRevenue( $this->request->getGoalRevenue($goal['revenue']));
         $this->convertedGoals[] = $goal;
         return true;
     }
@@ -213,8 +221,14 @@ class Piwik_Tracker_GoalManager
      * @param string $referrerCampaignKeyword
      * @param string $browserLanguage
      */
-    public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action, $referrerTimestamp, $referrerUrl, $referrerCampaignName, $referrerCampaignKeyword, $browserLanguage)
+    public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
     {
+        $refererTimestamp = $this->request->getParam('_refts');
+        $refererUrl = $this->request->getParam('_ref');
+        $refererCampaignName = trim(urldecode($this->request->getParam('_rcn')));
+        $refererCampaignKeyword = trim(urldecode($this->request->getParam('_rck')));
+        $browserLanguage = $this->request->getBrowserLanguage();
+
         $location_country = isset($visitorInformation['location_country'])
             ? $visitorInformation['location_country']
             : Piwik_Common::getCountry(
@@ -273,28 +287,28 @@ class Piwik_Tracker_GoalManager
 
         // 0) In some (unknown!?) cases the campaign is not found in the attribution cookie, but the URL ref was found.
         //    In this case we look up if the current visit is credited to a campaign and will credit this campaign rather than the URL ref (since campaigns have higher priority)
-        if (empty($referrerCampaignName)
+        if (empty($refererCampaignName)
             && $type == Piwik_Common::REFERER_TYPE_CAMPAIGN
             && !empty($name)
         ) {
             // Use default values per above
         } // 1) Campaigns from 1st party cookie
-        elseif (!empty($referrerCampaignName)) {
+        elseif (!empty($refererCampaignName)) {
             $type = Piwik_Common::REFERER_TYPE_CAMPAIGN;
-            $name = $referrerCampaignName;
-            $keyword = $referrerCampaignKeyword;
-            $time = $referrerTimestamp;
+            $name = $refererCampaignName;
+            $keyword = $refererCampaignKeyword;
+            $time = $refererTimestamp;
         } // 2) Referrer URL parsing
-        elseif (!empty($referrerUrl)) {
-            $referrer = new Piwik_Tracker_Visit_Referer();
-            $referrer = $referrer->getRefererInformation($referrerUrl, $currentUrl = '', $idSite);
+        elseif (!empty($refererUrl)) {
+            $referrer = new Piwik_Tracker_Referer();
+            $referrer = $referrer->getRefererInformation($refererUrl, $currentUrl = '', $idSite);
 
             // if the parsed referer is interesting enough, ie. website or search engine 
             if (in_array($referrer['referer_type'], array(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE, Piwik_Common::REFERER_TYPE_WEBSITE))) {
                 $type = $referrer['referer_type'];
                 $name = $referrer['referer_name'];
                 $keyword = $referrer['referer_keyword'];
-                $time = $referrerTimestamp;
+                $time = $refererTimestamp;
             }
         }
         $goal += array(
@@ -351,10 +365,10 @@ class Piwik_Tracker_GoalManager
             $goal['idgoal'] = self::IDGOAL_ORDER;
             $goal['idorder'] = $this->orderId;
             $goal['buster'] = $orderIdNumeric;
-            $goal['revenue_subtotal'] = $this->getRevenue(Piwik_Common::getRequestVar('ec_st', false, 'float', $this->request));
-            $goal['revenue_tax'] = $this->getRevenue(Piwik_Common::getRequestVar('ec_tx', false, 'float', $this->request));
-            $goal['revenue_shipping'] = $this->getRevenue(Piwik_Common::getRequestVar('ec_sh', false, 'float', $this->request));
-            $goal['revenue_discount'] = $this->getRevenue(Piwik_Common::getRequestVar('ec_dt', false, 'float', $this->request));
+            $goal['revenue_subtotal'] = $this->getRevenue( $this->request->getParam('ec_st'));
+            $goal['revenue_tax'] = $this->getRevenue($this->request->getParam('ec_tx'));
+            $goal['revenue_shipping'] = $this->getRevenue($this->request->getParam('ec_sh'));
+            $goal['revenue_discount'] = $this->getRevenue($this->request->getParam('ec_dt'));
 
             $debugMessage = 'The conversion is an Ecommerce order';
         } // If Cart update, select current items in the previous Cart
@@ -363,7 +377,7 @@ class Piwik_Tracker_GoalManager
             $goal['idgoal'] = self::IDGOAL_CART;
             $debugMessage = 'The conversion is an Ecommerce Cart Update';
         }
-        $goal['revenue'] = $this->getRevenue(Piwik_Common::getRequestVar('revenue', 0, 'float', $this->request));
+        $goal['revenue'] = $this->getRevenue($this->request->getGoalRevenue( $defaultRevenue = 0));
 
         printDebug($debugMessage . ':' . var_export($goal, true));
 
@@ -396,7 +410,7 @@ class Piwik_Tracker_GoalManager
      */
     protected function getEcommerceItemsFromRequest()
     {
-        $items = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('ec_items', '', 'string', $this->request));
+        $items = Piwik_Common::unsanitizeInputValue($this->request->getParam('ec_items'));
         if (empty($items)) {
             printDebug("There are no Ecommerce items in the request");
             // we still record an Ecommerce order without any item in it

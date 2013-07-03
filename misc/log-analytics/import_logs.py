@@ -1131,11 +1131,14 @@ class Recorder(object):
         path = hit.path
         if hit.query_string and not config.options.strip_query_string:
             path += config.options.query_string_delimiter + hit.query_string
+        
+        # only prepend main url if it's a path
+        url = (main_url if path.startswith('/') else '') + path[:1024]
 
         args = {
             'rec': '1',
             'apiv': '1',
-            'url': (main_url + path[:1024]).encode('utf8'),
+            'url': url.encode('utf8'),
             'urlref': hit.referrer[:1024].encode('utf8'),
             'cip': hit.ip,
             'cdt': self.date_to_piwik(hit.date),

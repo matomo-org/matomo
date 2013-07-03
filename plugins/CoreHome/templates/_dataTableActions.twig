@@ -1,0 +1,37 @@
+<div class="dataTable" data-table-type="actionDataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
+    <div class="reportDocumentation">
+        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation|raw }}</p>{% endif %}
+        {% if properties.metadata.archived_date is defined %}<span class='helpDate'>{{ properties.metadata.archived_date }}</span>{% endif %}
+    </div>
+    <div class="dataTableActionsWrapper">
+        {% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
+            {{ arrayDataTable.message }}
+        {% else %}
+            {% if arrayDataTable|length == 0 %}
+                <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
+            {% else %}
+                <table cellspacing="0" class="dataTable dataTableActions">
+                    {% include "@CoreHome/_dataTableHead.twig" %}
+
+                    <tbody>
+                    {% for row in arrayDataTable %}
+                        <tr {% if row.idsubdatatable %}class="rowToProcess subActionsDataTable" id="{{ row.idsubdatatable }}"
+                            {% else %}class="actionsDataTable rowToProcess"{% endif %}>
+                            {% for column in dataTableColumns %}
+                                <td>
+                                    {% include "@CoreHome/_dataTableCell.twig" with {'column': column, 'row': row} %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            {% if properties.show_footer %}
+                {% include "@CoreHome/_dataTableFooter.twig" %}
+            {% endif %}
+            {% include "@CoreHome/_dataTableJS.twig" %}
+        {% endif %}
+    </div>
+</div>

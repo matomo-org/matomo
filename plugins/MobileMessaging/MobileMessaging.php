@@ -105,7 +105,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/MobileMessaging/scripts/MobileMessagingSettings.js";
+        $jsFiles[] = "plugins/MobileMessaging/javascripts/MobileMessagingSettings.js";
     }
 
     public function validateReportParameters(&$parameters, $info)
@@ -226,7 +226,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
             return;
         }
 
-        $view = Piwik_View::factory('ReportParameters');
+        $view = new Piwik_View('@MobileMessaging/reportParametersPDFReports');
         $view->reportType = self::MOBILE_TYPE;
         $view->phoneNumbers = Piwik_MobileMessaging_API::getInstance()->getActivatedPhoneNumbers();
         $out .= $view->render();

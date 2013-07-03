@@ -40,7 +40,7 @@ class Piwik_UpdateCheck
             || time() - $interval > $lastTimeChecked
         ) {
             // set the time checked first, so that parallel Piwik requests don't all trigger the http requests
-            Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoload = 1);
+            Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoLoad = 1);
             $parameters = array(
                 'piwik_version' => Piwik_Version::VERSION,
                 'php_version'   => PHP_VERSION,

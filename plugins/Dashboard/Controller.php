@@ -29,7 +29,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
     protected function _getDashboardView($template)
     {
-        $view = Piwik_View::factory($template);
+        $view = new Piwik_View($template);
         $this->setGeneralVariablesView($view);
 
         $view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
@@ -43,14 +43,14 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
     public function embeddedIndex()
     {
-        $view = $this->_getDashboardView('index');
+        $view = $this->_getDashboardView('@Dashboard/embeddedIndex');
 
         echo $view->render();
     }
 
     public function index()
     {
-        $view = $this->_getDashboardView('standalone');
+        $view = $this->_getDashboardView('@Dashboard/index');
         $view->dashboards = array();
         if (!Piwik::isUserIsAnonymous()) {
             $login = Piwik::getCurrentUserLogin();
@@ -153,8 +153,11 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     public function getAllDashboards()
     {
         $this->checkTokenInUrl();
+        
         if (Piwik::isUserIsAnonymous()) {
+            Piwik_DataTable_Renderer_Json::sendHeaderJSON();
             echo '[]';
+            
             return;
         }
 

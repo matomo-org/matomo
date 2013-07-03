@@ -178,9 +178,9 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Link:  http://www.getrank.org/free-pagerank-script
 	License:  GPL
 
-	Name:  Smarty
-	Link:  http://smarty.net/
-	License:  LGPL v2.1 or later
+	Name:  Twig
+	Link:  http://twig.sensiolabs.org/
+	License:  BSD
 
 	Name:  TCPDF
 	Link:  http://sourceforge.net/projects/tcpdf
@@ -209,10 +209,6 @@ THIRD-PARTY COMPONENTS AND LIBRARIES
 	Name: Raphaël - JavaScript Vector Library
 	Link: http://raphaeljs.com/
 	License: MIT
-
-	Name: kmeans.js
-	Link: http://polymaps.org/ex/cluster.html
-	License: BSD
 
 THIRD-PARTY CONTENT
 

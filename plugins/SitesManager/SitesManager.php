@@ -53,7 +53,7 @@ class Piwik_SitesManager extends Piwik_Plugin
      */
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "themes/default/styles.css";
+        $cssFiles[] = "plugins/Zeitgeist/stylesheets/styles.css";
     }
 
     /**
@@ -61,7 +61,7 @@ class Piwik_SitesManager extends Piwik_Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/SitesManager/templates/SitesManager.js";
+        $jsFiles[] = "plugins/SitesManager/javascripts/SitesManager.js";
     }
 
     /**

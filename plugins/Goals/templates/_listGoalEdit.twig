@@ -1,0 +1,64 @@
+<div id='entityEditContainer' style="display:none;">
+    <table class="dataTable entityTable">
+        <thead>
+        <tr>
+            <th class="first">Id</th>
+            <th>{{ 'Goals_GoalName'|translate }}</th>
+            <th>{{ 'Goals_GoalIsTriggeredWhen'|translate }}</th>
+            <th>{{ 'Goals_ColumnRevenue'|translate }}</th>
+            <th>{{ 'General_Edit'|translate }}</th>
+            <th>{{ 'General_Delete'|translate }}</th>
+        </tr>
+        </thead>
+        {% for goal in goals %}
+            <tr>
+                <td class="first">{{ goal.idgoal }}</td>
+                <td>{{ goal.name|raw }}</td>{# NOTE: goal names are escaped in the DB #}
+                <td><span class='matchAttribute'>{{ goal.match_attribute }}</span>
+                    {% if goal.pattern_type is defined %}
+                        <br/>
+                        {{ 'Goals_Pattern'|translate }} {{ goal.pattern_type }}: {{ goal.pattern|raw }}</b>
+                    {% endif %}
+                </td>
+                <td>{% if goal.revenue==0 %}-{% else %}{{ goal.revenue|money(idSite)|raw }}{% endif %}</td>
+                <td>
+                    <a href='#' name="linkEditGoal" id="{{ goal.idgoal }}" class="link_but">
+                        <img src='plugins/Zeitgeist/images/ico_edit.png' border="0"/>
+                        {{ 'General_Edit'|translate }}
+                    </a>
+                </td>
+                <td>
+                    <a href='#' name="linkDeleteGoal" id="{{ goal.idgoal }}" class="link_but">
+                        <img src='plugins/Zeitgeist/images/ico_delete.png' border="0"/>
+                        {{ 'General_Delete'|translate }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div class="ui-confirm" id="confirm">
+    <h2></h2>
+    <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
+    <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
+</div>
+
+<script type="text/javascript">
+    var goalTypeToTranslation = {
+        "manually": "{{ 'Goals_ManuallyTriggeredUsingJavascriptFunction'|translate }}",
+        "file": "{{ 'Goals_Download'|translate }}",
+        "url": "{{ 'Goals_VisitUrl'|translate }}",
+        "title": "{{ 'Goals_VisitPageTitle'|translate }}",
+        "external_website": "{{ 'Goals_ClickOutlink'|translate }}"
+    }
+
+    $(document).ready(function () {
+        // translation of the goal "match attribute" to human readable description
+        $('.matchAttribute').each(function () {
+            var matchAttribute = $(this).text();
+            var translation = goalTypeToTranslation[matchAttribute];
+            $(this).text(translation);
+        });
+    });
+</script>

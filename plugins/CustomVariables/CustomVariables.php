@@ -133,17 +133,17 @@ class Piwik_CustomVariables extends Piwik_Plugin
     /**
      * Hooks on daily archive to trigger various log processing
      */
-    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiving = new Piwik_CustomVariables_Archiver($archiveProcessing);
+        $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiving = new Piwik_CustomVariables_Archiver($archiveProcessing);
+        $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }

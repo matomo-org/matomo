@@ -17,7 +17,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 {
     public function index()
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@VisitTime/index');
         $view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
         $view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
         echo $view->render();
@@ -58,15 +58,22 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
         if ($view instanceof Piwik_ViewDataTable_GenerateGraphHTML) {
             $view->showAllTicks();
         }
+        $dateRange = $this->getRangeDate();
 
+        $view->setFooterMessage(Piwik_Translate('General_ReportGeneratedFrom', $dateRange));
+
+        return $this->renderView($view, $fetch);
+    }
+
+    protected function getRangeDate()
+    {
         // get query params
-        $idsite = Piwik_Common::getRequestVar('idSite');
+        $idSite = Piwik_Common::getRequestVar('idSite');
         $date = Piwik_Common::getRequestVar('date');
         $period = Piwik_Common::getRequestVar('period');
 
         // create a period instance
-        $oSite = new Piwik_Site($idsite);
-        $oPeriod = Piwik_Archive::makePeriodFromQueryParams($oSite, $period, $date);
+        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
 
         // set the footer message using the period start & end date
         $start = $oPeriod->getDateStart()->toString();
@@ -76,10 +83,7 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
         } else {
             $dateRange = $start . " &ndash; " . $end;
         }
-
-        $view->setFooterMessage(Piwik_Translate('General_ReportGeneratedFrom', $dateRange));
-
-        return $this->renderView($view, $fetch);
+        return $dateRange;
     }
 
     private function getGraph($controllerMethod, $apiMethod, $labelTranslation, $limit = 24)

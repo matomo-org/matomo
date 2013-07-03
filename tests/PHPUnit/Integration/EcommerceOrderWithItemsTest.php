@@ -82,11 +82,11 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                                 // test metadata Goals.get for Ecommerce orders & Carts
                                 array($processedReportApi, array('idSite'     => $idSite, 'date' => $dateTime,
                                                                  'periods'    => array('day'), 'apiModule' => 'Goals', 'apiAction' => 'get',
-                                                                 'idGoal'     => Piwik_Archive::LABEL_ECOMMERCE_ORDER,
+                                                                 'idGoal'     => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
                                                                  'testSuffix' => '_Metadata_Goals.Get_Order')),
                                 array($processedReportApi, array('idSite'     => $idSite, 'date' => $dateTime,
                                                                  'periods'    => array('day'), 'apiModule' => 'Goals', 'apiAction' => 'get',
-                                                                 'idGoal'     => Piwik_Archive::LABEL_ECOMMERCE_CART,
+                                                                 'idGoal'     => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART,
                                                                  'testSuffix' => '_Metadata_Goals.Get_AbandonedCart')),
 
                                 // normal standard goal test
@@ -110,10 +110,10 @@ class Test_Piwik_Integration_EcommerceOrderWithItems extends IntegrationTestCase
                                 // Standard non metadata Goals.get
                                 // test Goals.get with idGoal=ecommerceOrder and ecommerceAbandonedCart
                                 array('Goals.get', array('idSite'     => $idSite, 'date' => $dateTime,
-                                                         'periods'    => array('day', 'week'), 'idGoal' => Piwik_Archive::LABEL_ECOMMERCE_CART,
+                                                         'periods'    => array('day', 'week'), 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART,
                                                          'testSuffix' => '_GoalAbandonedCart')),
                                 array('Goals.get', array('idSite'     => $idSite, 'date' => $dateTime,
-                                                         'periods'    => array('day', 'week'), 'idGoal' => Piwik_Archive::LABEL_ECOMMERCE_ORDER,
+                                                         'periods'    => array('day', 'week'), 'idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
                                                          'testSuffix' => '_GoalOrder')),
                                 array('Goals.get', array('idSite'  => $idSite, 'date' => $dateTime,
                                                          'periods' => array('day', 'week'), 'idGoal' => 1, 'testSuffix' => '_GoalMatchTitle')),

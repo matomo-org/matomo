@@ -169,7 +169,7 @@ class Piwik_ImageGraph_API
             $reportHasDimension = !empty($metadata['dimension']);
             $constantRowsCount = !empty($metadata['constantRowsCount']);
 
-            $isMultiplePeriod = Piwik_Archive::isMultiplePeriod($date, $period);
+            $isMultiplePeriod = Piwik_Period::isMultiplePeriod($date, $period);
             if (!$reportHasDimension && !$isMultiplePeriod) {
                 throw new Exception('The graph cannot be drawn for this combination of \'date\' and \'period\' parameters.');
             }

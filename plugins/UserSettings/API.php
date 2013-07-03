@@ -37,7 +37,7 @@ class Piwik_UserSettings_API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
-        $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
+        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
         return $dataTable;
@@ -103,8 +103,8 @@ class Piwik_UserSettings_API
     protected function ensureDefaultRowsInTable($dataTable)
     {
         $requiredRows = array(
-            'General_Desktop' => Piwik_Archive::INDEX_NB_VISITS,
-            'General_Mobile'  => Piwik_Archive::INDEX_NB_VISITS
+            'General_Desktop' => Piwik_Metrics::INDEX_NB_VISITS,
+            'General_Mobile'  => Piwik_Metrics::INDEX_NB_VISITS
         );
 
         $dataTables = array($dataTable);
@@ -189,7 +189,6 @@ class Piwik_UserSettings_API
 
         // walk through the results and calculate the percentage
         foreach ($tableArray as $key => $table) {
-
             // get according browserType table
             foreach ($browserTypesArray AS $k => $browsers) {
                 if ($k == $key) {
@@ -217,7 +216,7 @@ class Piwik_UserSettings_API
 
             $ieStats = $browserType->getRowFromLabel('ie');
             if ($ieStats !== false) {
-                $ieVisits = $ieStats->getColumn(Piwik_Archive::INDEX_NB_VISITS);
+                $ieVisits = $ieStats->getColumn(Piwik_Metrics::INDEX_NB_VISITS);
             }
 
             $visitsSum = $visitsSumTotal - $ieVisits;
@@ -229,7 +228,7 @@ class Piwik_UserSettings_API
 
             // The filter must be applied now so that the new column can
             // be sorted by the generic filters (applied right after this loop exits)
-            $table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Piwik_Archive::INDEX_NB_VISITS, $visitsSum, 1));
+            $table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Piwik_Metrics::INDEX_NB_VISITS, $visitsSum, 1));
             $table->filter('RangeCheck', array('nb_visits_percentage'));
         }
 

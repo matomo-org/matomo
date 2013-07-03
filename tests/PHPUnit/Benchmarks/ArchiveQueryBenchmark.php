@@ -16,7 +16,7 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
     
     public function setUp()
     {
-        $archivingTables = Piwik::getTablesArchivesInstalled();
+        $archivingTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
         if (empty($archivingTables)) {
             $this->archivingLaunched = true;
             Piwik_VisitsSummary_API::getInstance()->get(
@@ -33,8 +33,8 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
         if ($this->archivingLaunched) {
             echo "NOTE: Had to archive tables, memory results will not be accurate. Run again for better results.";
         }
-        
-        Piwik_ArchiveProcessing::$forceDisableArchiving = true;
+
+        Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = true;
         
         $period = Piwik_Period::factory(self::$fixture->period, Piwik_Date::factory(self::$fixture->date));
         $dateRange = $period->getDateStart().','.$period->getDateEnd();

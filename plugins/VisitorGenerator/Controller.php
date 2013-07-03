@@ -21,7 +21,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 
         $sitesList = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@VisitorGenerator/index');
         $this->setBasicVariablesView($view);
         $view->assign('sitesList', $sitesList);
         $view->nonce = Piwik_Nonce::getNonce('Piwik_VisitorGenerator.generate');
@@ -76,10 +76,10 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
         $api = Piwik_CoreAdminHome_API::getInstance();
         $api->invalidateArchivedReports($idSite, implode($dates, ","));
 
-        $browserArchiving = Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled();
+        $browserArchiving = Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled();
 
         // Init view
-        $view = Piwik_View::factory('generate');
+        $view = new Piwik_View('@VisitorGenerator/generate');
         $this->setBasicVariablesView($view);
         $view->menu = Piwik_GetAdminMenu();
         $view->assign('browserArchivingEnabled', $browserArchiving);

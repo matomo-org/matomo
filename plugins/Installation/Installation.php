@@ -89,6 +89,6 @@ class Piwik_Installation extends Piwik_Plugin
      */
     public function getCss(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Installation/templates/systemCheckPage.css";
+        $cssFiles[] = "plugins/Installation/stylesheets/systemCheckPage.css";
     }
 }

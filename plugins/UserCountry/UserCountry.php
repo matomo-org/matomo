@@ -60,12 +60,12 @@ class Piwik_UserCountry extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/UserCountry/templates/styles.css";
+        $cssFiles[] = "plugins/UserCountry/stylesheets/userCountry.css";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/UserCountry/templates/admin.js";
+        $jsFiles[] = "plugins/UserCountry/javascripts/userCountry.js";
     }
 
     public function getVisitorLocation(&$location, $visitorInfo)
@@ -252,17 +252,17 @@ class Piwik_UserCountry extends Piwik_Plugin
                                                ));
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiving = new Piwik_UserCountry_Archiver($archiveProcessing);
+        $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
 
-    public function archiveDay(Piwik_ArchiveProcessing $archiveProcessing)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiving = new Piwik_UserCountry_Archiver($archiveProcessing);
+        $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }

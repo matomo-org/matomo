@@ -1,0 +1,16 @@
+{% for element in topDimension %}
+    {% set goal_nb_conversion=element.nb_conversions %}
+    {% set goal_conversion_rate=element.conversion_rate %}
+    <span class='goalTopElement' title='{{ 'Goals_Conversions'|translate("<b>"~goal_nb_conversion~"</b>")|raw }},
+		{{ 'Goals_ConversionRate'|translate("<b>"~goal_conversion_rate~"</b>")|raw }}'>
+	    {{ element.name }}
+    </span>
+
+    {% import 'macros.twig' as piwik %}
+    {{ piwik.logoHtml(element.metadata, element.name) }}
+    {% if loop.index == loop.length-1 %}
+        and
+    {% elseif loop.index < loop.length-1 %}
+        ,
+    {% endif %}
+{% endfor %}

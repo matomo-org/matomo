@@ -24,6 +24,7 @@ abstract class Piwik_ScheduledTime
     const PERIOD_WEEK = 'week';
     const PERIOD_MONTH = 'month';
     const PERIOD_YEAR = 'year';
+    const PERIOD_RANGE = 'range';
 
     /**
      * @link http://php.net/manual/en/function.date.php, format string : 'G'

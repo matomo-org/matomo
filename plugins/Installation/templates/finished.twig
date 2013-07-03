@@ -1,0 +1,12 @@
+{% extends '@Installation/layout.twig' %}
+
+{% block content %}
+<h2>{{ 'Installation_Congratulations'|translate|raw }}</h2>
+
+{{ 'Installation_CongratulationsHelp'|translate|raw }}
+
+
+<p class="nextStep">
+    <a class="submit" href="index.php">{{ 'Installation_ContinueToPiwik'|translate }} &raquo;</a>
+</p>
+{% endblock %}

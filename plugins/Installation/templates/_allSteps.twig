@@ -1,0 +1,11 @@
+<ul>
+    {% for stepId,stepName in allStepsTitle %}
+        {% if currentStepId > stepId %}
+            <li class="pastStep">{{ stepName|translate }}</li>
+        {% elseif currentStepId == stepId %}
+            <li class="actualStep">{{ stepName|translate }}</li>
+        {% else %}
+            <li class="futureStep">{{ stepName|translate }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>

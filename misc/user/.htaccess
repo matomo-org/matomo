@@ -1,0 +1,6 @@
+<Files "*.png">
+    Allow from all
+</Files>
+<Files "*.svg">
+    Allow from all
+</Files>

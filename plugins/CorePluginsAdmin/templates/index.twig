@@ -1,0 +1,68 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+<div style="max-width:980px;">
+
+    <h2>{{ 'CorePluginsAdmin_PluginsManagement'|translate }}</h2>
+
+    <p>{{ 'CorePluginsAdmin_MainDescription'|translate }}</p>
+
+    <div class='entityContainer'>
+        <table class="dataTable entityTable">
+            <thead>
+            <tr>
+                <th>{{ 'CorePluginsAdmin_Plugin'|translate }}</th>
+                <th class="num">{{ 'CorePluginsAdmin_Version'|translate }}</th>
+                <th>{{ 'General_Description'|translate }}</th>
+                <th class="status">{{ 'CorePluginsAdmin_Status'|translate }}</th>
+                <th class="action-links">{{ 'CorePluginsAdmin_Action'|translate }}</th>
+            </tr>
+            </thead>
+            <tbody id="plugins">
+            {% for name,plugin in pluginsName %}
+                {% if plugin.alwaysActivated is defined and not plugin.alwaysActivated %}
+                    <tr {% if plugin.activated %}class="highlighted"{% endif %}>
+                        <td class="name">
+                            {% if plugin.info.homepage is defined %}
+                            <a title="{{ 'CorePluginsAdmin_PluginHomepage'|translate }}" href="{{ plugin.info.homepage }}" target="_blank">
+                            {% endif %}
+                            {{ name }}
+                            {% if plugin.info.homepage is defined %}</a>{% endif %}
+                        </td>
+                        <td class="vers">{{ plugin.info.version }}</td>
+                        <td class="desc">
+                            {{ plugin.info.description|raw|nl2br }}
+                            {% if plugin.info.license is defined %}
+                                &nbsp;({% if plugin.info.license_homepage is defined %}<a title="{{ 'CorePluginsAdmin_LicenseHomepage'|translate }}" target="_blank" href="{{ plugin.info.license_homepage }}">{% endif %}{{ plugin.info.license }}{% if plugin.info.license_homepage is defined %}</a>){% endif %}
+                            {% endif %}
+                            {% if plugin.info.author is defined %}
+                                &nbsp; <cite>By
+                                {% if plugin.info.author_homepage is defined %}
+                                    <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ plugin.info.author_homepage }}" target="_blank">
+                                {% endif %}{{ plugin.info.author }}{% if plugin.info.author_homepage is defined %}</a>{% endif %}
+                                .</cite>
+                            {% endif %}
+                        </td>
+                        <td class="status">
+                            {% if plugin.activated %}
+                                {{ 'CorePluginsAdmin_Active'|translate }}
+                            {% else %}
+                                {{ 'CorePluginsAdmin_Inactive'|translate }}
+                            {% endif %}
+                        </td>
+
+                        <td class="togl action-links">
+                            {% if plugin.activated %}
+                            <a href='index.php?module=CorePluginsAdmin&action=deactivate&pluginName={{ name }}&token_auth={{ token_auth }}'>{{ 'CorePluginsAdmin_Deactivate'|translate }}</a>
+                            {% else %}
+                            <a href='index.php?module=CorePluginsAdmin&action=activate&pluginName={{ name }}&token_auth={{ token_auth }}'>{{ 'CorePluginsAdmin_Activate'|translate }}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

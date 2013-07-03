@@ -1,0 +1,7 @@
+<p>{{ 'PrivacyManager_CurrentDBSize'|translate }}: {{ dbStats.currentSize }}</p>
+{% if dbStats.sizeAfterPurge is defined %}
+    <p>{{ 'PrivacyManager_EstimatedDBSizeAfterPurge'|translate }}: <strong>{{ dbStats.sizeAfterPurge }}</strong></p>
+{% endif %}
+{% if dbStats.spaceSaved is defined %}
+    <p>{{ 'PrivacyManager_EstimatedSpaceSaved'|translate }}: {{ dbStats.spaceSaved }}</p>
+{% endif %}

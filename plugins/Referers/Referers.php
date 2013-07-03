@@ -219,7 +219,7 @@ class Piwik_Referers extends Piwik_Plugin
         Piwik_AddWidget('Referers_Referers', 'Referers_WidgetCampaigns', 'Referers', 'getCampaigns');
         Piwik_AddWidget('Referers_Referers', 'Referers_WidgetOverview', 'Referers', 'getRefererType');
         Piwik_AddWidget('Referers_Referers', 'Referers_WidgetGetAll', 'Referers', 'getAll');
-        if (Piwik_Archive::isSegmentationEnabled()) {
+        if (Piwik::isSegmentationEnabled()) {
             Piwik_AddWidget('SEO', 'Referers_WidgetTopKeywordsForPages', 'Referers', 'getKeywordsForPage');
         }
     }
@@ -273,9 +273,9 @@ class Piwik_Referers extends Piwik_Plugin
     /**
      * Hooks on daily archive to trigger various log processing
      */
-    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiving = new Piwik_Referers_Archiver($archiveProcessing);
+        $archiving = new Piwik_Referers_Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
@@ -285,9 +285,9 @@ class Piwik_Referers extends Piwik_Plugin
      * Period archiving: sums up daily stats and sums report tables,
      * making sure that tables are still truncated.
      */
-    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiving = new Piwik_Referers_Archiver($archiveProcessing);
+        $archiving = new Piwik_Referers_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }

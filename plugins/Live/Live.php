@@ -37,12 +37,12 @@ class Piwik_Live extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Live/templates/live.css";
+        $cssFiles[] = "plugins/Live/stylesheets/live.css";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Live/templates/scripts/live.js";
+        $jsFiles[] = "plugins/Live/javascripts/live.js";
     }
 
     function addMenu()

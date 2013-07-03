@@ -15,20 +15,17 @@
  */
 class Piwik_Installation_View extends Piwik_View
 {
-    protected $mainTemplate = 'Installation/templates/structure.tpl';
-
-    function __construct($subtemplatePath, $installationSteps, $currentStepName)
+    public function __construct($subtemplatePath, $installationSteps, $currentStepName)
     {
-        parent::__construct($this->mainTemplate);
+        parent::__construct($subtemplatePath);
 
-        $this->subTemplateToLoad = $subtemplatePath;
         $this->steps = array_keys($installationSteps);
         $this->allStepsTitle = array_values($installationSteps);
         $this->currentStepName = $currentStepName;
         $this->showNextStep = false;
     }
 
-    function render()
+    public function render()
     {
         // prepare the all steps templates
         $this->currentStepId = array_search($this->currentStepName, $this->steps);

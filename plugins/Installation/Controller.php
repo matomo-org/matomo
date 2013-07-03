@@ -25,11 +25,9 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         'tablesCreation'        => 'Installation_Tables',
         'generalSetup'          => 'Installation_SuperUser',
         'firstWebsiteSetup'     => 'Installation_SetupWebsite',
-        'displayJavascriptCode' => 'Installation_JsTag',
+        'trackingCode'          => 'Installation_JsTag',
         'finished'              => 'Installation_Congratulations',
     );
-
-    protected $pathView = 'Installation/templates/';
 
     protected $session;
 
@@ -74,7 +72,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         Piwik::deleteAllCacheOnUpdate();
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'welcome.tpl',
+            '@Installation/welcome',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -94,7 +92,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'systemCheck.tpl',
+            '@Installation/systemCheck',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -134,11 +132,11 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         // case the user hits the back button
         $this->session->skipThisStep = array(
             'firstWebsiteSetup'     => false,
-            'displayJavascriptCode' => false,
+            'trackingCode'          => false,
         );
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'databaseSetup.tpl',
+            '@Installation/databaseSetup',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -174,7 +172,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
         $view = new Piwik_Installation_View(
-            $this->pathView . 'databaseCheck.tpl',
+            '@Installation/databaseCheck',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -233,7 +231,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'tablesCreation.tpl',
+            '@Installation/tablesCreation',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -248,24 +246,25 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             // workaround ZF-1743
             $tmp = $this->session->skipThisStep;
             $tmp['firstWebsiteSetup'] = false;
-            $tmp['displayJavascriptCode'] = false;
+            $tmp['trackingCode'] = false;
             $this->session->skipThisStep = $tmp;
         }
 
         $tablesInstalled = Piwik::getTablesInstalled();
-        $tablesToInstall = Piwik::getTablesNames();
         $view->tablesInstalled = '';
         if (count($tablesInstalled) > 0) {
             // we have existing tables
             $view->tablesInstalled = implode(', ', $tablesInstalled);
             $view->someTablesInstalled = true;
 
+            // remove monthly archive tables
+            $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
+            $baseTablesInstalled = count($tablesInstalled) - count($archiveTables);
             $minimumCountPiwikTables = 17;
-            $baseTablesInstalled = preg_grep('/archive_numeric|archive_blob/', $tablesInstalled, PREG_GREP_INVERT);
 
             Piwik::createAccessObject();
             Piwik::setUserIsSuperUser();
-            if (count($baseTablesInstalled) >= $minimumCountPiwikTables &&
+            if ($baseTablesInstalled >= $minimumCountPiwikTables &&
                 count(Piwik_SitesManager_API::getInstance()->getAllSitesId()) > 0 &&
                 count(Piwik_UsersManager_API::getInstance()->getUsers()) > 0
             ) {
@@ -274,7 +273,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
                 // workaround ZF-1743
                 $tmp = $this->session->skipThisStep;
                 $tmp['firstWebsiteSetup'] = true;
-                $tmp['displayJavascriptCode'] = true;
+                $tmp['trackingCode'] = true;
                 $this->session->skipThisStep = $tmp;
             }
         } else {
@@ -299,7 +298,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'generalSetup.tpl',
+            '@Installation/generalSetup',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -356,7 +355,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'firstWebsiteSetup.tpl',
+            '@Installation/firstWebsiteSetup',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -401,12 +400,12 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     /**
      * Installation Step 8: Display JavaScript tracking code
      */
-    public function displayJavascriptCode()
+    public function trackingCode()
     {
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'displayJavascriptCode.tpl',
+            '@Installation/trackingCode',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -421,13 +420,12 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $idSite = $this->session->site_idSite;
 
         // Load the Tracking code and help text from the SitesManager
-        $viewTrackingHelp = new Piwik_View('SitesManager/templates/DisplayJavascriptCode.tpl');
+        $viewTrackingHelp = new Piwik_View('@SitesManager/_displayJavascriptCode');
         $viewTrackingHelp->displaySiteName = $siteName;
         $viewTrackingHelp->jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
         $viewTrackingHelp->idSite = $idSite;
         $viewTrackingHelp->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
 
-        // Assign the html output to a smarty variable
         $view->trackingHelp = $viewTrackingHelp->render();
         $view->displaySiteName = $siteName;
 
@@ -445,7 +443,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->checkPreviousStepIsValid(__FUNCTION__);
 
         $view = new Piwik_Installation_View(
-            $this->pathView . 'finished.tpl',
+            '@Installation/finished',
             $this->getInstallationSteps(),
             __FUNCTION__
         );
@@ -475,7 +473,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = Piwik_View::factory('systemCheckPage');
+        $view = new Piwik_View('@Installation/systemCheckPage');
         $this->setBasicVariablesView($view);
         $view->menu = Piwik_GetAdminMenu();
 

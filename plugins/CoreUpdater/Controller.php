@@ -37,7 +37,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         $newVersion = $this->checkNewVersionIsAvailableOrDie();
 
-        $view = Piwik_View::factory('update_new_version_available');
+        $view = new Piwik_View('@CoreUpdater/newVersionAvailable');
         $view->piwik_version = Piwik_Version::VERSION;
         $view->piwik_new_version = $newVersion;
         $view->piwik_latest_version_url = self::getLatestZipUrl($newVersion);
@@ -78,7 +78,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         }
 
         // this is a magic template to trigger the Piwik_View_Update
-        $view = Piwik_View::factory(Piwik_View::COREUPDATER_ONE_CLICK_DONE);
+        $view = new Piwik_View_OneClickDone(Piwik::getCurrentUserTokenAuth());
         $view->coreError = $errorMessage;
         $view->feedbackMessages = $messages;
         echo $view->render();
@@ -89,7 +89,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         Piwik_API_Request::reloadAuthUsingTokenAuth($_POST);
         Piwik::checkUserIsSuperUser();
 
-        $view = Piwik_View::factory('update_one_click_results');
+        $view = new Piwik_View('@CoreUpdater/oneClickResults');
         $view->coreError = Piwik_Common::getRequestVar('error', '', 'string', $_POST);
         $view->feedbackMessages = safe_unserialize(Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('messages', '', 'string', $_POST)));
         echo $view->render();
@@ -163,7 +163,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         /*
          * Make sure the execute bit is set for this shell script
          */
-        if (!Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled()) {
+        if (!Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()) {
             @chmod($this->pathRootExtractedPiwik . '/misc/cron/archive.sh', 0755);
         }
 
@@ -234,35 +234,36 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         Piwik::setMaxExecutionTime(0);
 
+        $cli = Piwik_Common::isPhpCliMode() ? '_cli' : '';
+        $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome' . $cli;
+        $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done' . $cli;
+        $viewWelcome = new Piwik_View($welcomeTemplate);
+        $viewDone = new Piwik_View($doneTemplate);
+
         $sqlQueries = $updater->getSqlQueriesToExecute();
         if (Piwik_Common::isPhpCliMode()) {
-            $view = Piwik_View::factory('update_welcome');
-            $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
-            echo $view->render();
+            $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
+            echo $viewWelcome->render();
 
-            if (!$this->coreError
-                && Piwik::getModule() == 'CoreUpdater'
-            ) {
-                $view = Piwik_View::factory('update_database_done');
-                $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
-                echo $view->render();
+            if (!$this->coreError && Piwik::getModule() == 'CoreUpdater') {
+                $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
+                echo $viewDone->render();
             }
-        } else if (Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
-            $this->warningMessages = array();
-            $view = Piwik_View::factory('update_database_done');
-            $this->doExecuteUpdates($view, $updater, $componentsWithUpdateFile);
-
-            if (count($sqlQueries) == 1 && !$this->coreError) {
-                Piwik::redirectToModule('CoreHome');
-            }
-
-            echo $view->render();
         } else {
-            $view = Piwik_View::factory('update_welcome');
-            $view->queries = $sqlQueries;
-            $view->isMajor = $updater->hasMajorDbUpdate();
-            $this->doWelcomeUpdates($view, $componentsWithUpdateFile);
-            echo $view->render();
+            if (Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
+                $this->warningMessages = array();
+                $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
+
+                if (count($sqlQueries) == 1 && !$this->coreError) {
+                    Piwik::redirectToModule('CoreHome');
+                }
+                echo $viewDone->render();
+            } else {
+                $viewWelcome->queries = $sqlQueries;
+                $viewWelcome->isMajor = $updater->hasMajorDbUpdate();
+                $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
+                echo $viewWelcome->render();
+            }
         }
         exit;
     }

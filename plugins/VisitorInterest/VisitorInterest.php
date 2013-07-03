@@ -76,7 +76,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
             'dimension'         => Piwik_Translate('VisitorInterest_visitsByVisitCount'),
             'metrics'           => array(
                 'nb_visits',
-                'nb_visits_percentage' => Piwik_Translate('General_ColumnPercentageVisits')
+                'nb_visits_percentage' => Piwik_Metrics::getPercentVisitColumn(),
             ),
             'processedMetrics'  => false,
             'constantRowsCount' => true,
@@ -119,17 +119,17 @@ class Piwik_VisitorInterest extends Piwik_Plugin
         Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest', 'footerVisitsFrequency'));
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessing);
+        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
 
-    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessing);
+        $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }

@@ -89,8 +89,8 @@ class Piwik_UsersManager extends Piwik_Plugin
      */
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/UsersManager/templates/UsersManager.js";
-        $jsFiles[] = "plugins/UsersManager/templates/userSettings.js";
+        $jsFiles[] = "plugins/UsersManager/javascripts/usersManager.js";
+        $jsFiles[] = "plugins/UsersManager/javascripts/usersSettings.js";
     }
 
     /**

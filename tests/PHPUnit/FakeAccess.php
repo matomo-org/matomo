@@ -16,6 +16,11 @@ class FakeAccess
     public static $identity = 'superUserLogin';
     public static $superUserLogin = 'superUserLogin';
 
+    public function getTokenAuth()
+    {
+        return false;
+    }
+
     public function __construct()
     {
         self::$superUser = false;

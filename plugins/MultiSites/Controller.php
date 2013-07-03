@@ -41,7 +41,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
     }
 
 
-    public function getSitesInfo($isWidgetized)
+    public function getSitesInfo($isWidgetized = false)
     {
         Piwik::checkUserHasSomeViewAccess();
         $displayRevenueColumn = Piwik_Common::isGoalPluginEnabled();
@@ -116,7 +116,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 
         $this->applyPrettyMoney($digestableData);
 
-        $view = new Piwik_View("MultiSites/templates/index.tpl");
+        $view = new Piwik_View("@MultiSites/getSitesInfo");
         $view->isWidgetized = $isWidgetized;
         $view->sitesData = array_values($digestableData);
         $view->evolutionBy = $this->evolutionBy;

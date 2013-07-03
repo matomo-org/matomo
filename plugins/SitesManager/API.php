@@ -1068,8 +1068,6 @@ class Piwik_SitesManager_API
      * Returns the list of timezones supported.
      * Used for addSite and updateSite
      *
-     * @TODO NOT COMPATIBLE WITH API RESPONSE AUTO BUILDER
-     *
      * @return array of timezone strings
      */
     public function getTimezonesList()
@@ -1289,6 +1287,7 @@ class Piwik_SitesManager_API
             if (strpos($url, 'http') !== 0) {
                 $url = 'http://' . $url;
             }
+            $url = trim($url);
             $url = Piwik_Common::sanitizeInputValue($url);
         }
         $urls = array_unique($urls);

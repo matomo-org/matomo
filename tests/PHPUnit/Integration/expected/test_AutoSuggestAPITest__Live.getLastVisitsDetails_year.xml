@@ -8,7 +8,7 @@
 		<visitorType>new</visitorType>
 		<visitorTypeIcon />
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -22,7 +22,7 @@
 				<goalPageId>44</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -56,7 +56,7 @@
 		<continentCode>amn</continentCode>
 		<country>United States</country>
 		<countryCode>us</countryCode>
-		<countryFlag>plugins/UserCountry/flags/us.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/us.png</countryFlag>
 		<region>California</region>
 		<regionCode>CA</regionCode>
 		<city>not a city</city>
@@ -111,9 +111,9 @@
 		<visitIp>1.2.4.8</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -138,7 +138,7 @@
 				<goalPageId>22</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>search</type>
@@ -153,7 +153,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<icon>themes/default/images/search_ico.png</icon>
+				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -163,7 +163,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -196,7 +196,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/flags/xx.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -251,9 +251,9 @@
 		<visitIp>1.2.4.8</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -267,7 +267,7 @@
 				<goalPageId>21</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -319,7 +319,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/flags/xx.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -374,9 +374,9 @@
 		<visitIp>1.2.4.7</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -399,7 +399,7 @@
 				<goalPageId>20</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -409,7 +409,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -442,7 +442,7 @@
 		<continentCode>eur</continentCode>
 		<country>Macedonia, the Former Yugoslav Republic of</country>
 		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/flags/mk.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -497,9 +497,9 @@
 		<visitIp>1.2.4.7</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -513,7 +513,7 @@
 				<goalPageId>19</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -565,7 +565,7 @@
 		<continentCode>eur</continentCode>
 		<country>Macedonia, the Former Yugoslav Republic of</country>
 		<countryCode>mk</countryCode>
-		<countryFlag>plugins/UserCountry/flags/mk.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/mk.png</countryFlag>
 		<region>Miravci</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -620,9 +620,9 @@
 		<visitIp>1.2.4.6</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -647,7 +647,7 @@
 				<goalPageId>17</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>search</type>
@@ -662,7 +662,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<icon>themes/default/images/search_ico.png</icon>
+				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -672,7 +672,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -705,7 +705,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Hluboká nad Vltavou</city>
@@ -760,9 +760,9 @@
 		<visitIp>1.2.4.6</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -776,7 +776,7 @@
 				<goalPageId>16</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -828,7 +828,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Hluboká nad Vltavou</city>
@@ -883,9 +883,9 @@
 		<visitIp>1.2.4.5</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -908,7 +908,7 @@
 				<goalPageId>15</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -918,7 +918,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -951,7 +951,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -1006,9 +1006,9 @@
 		<visitIp>1.2.4.5</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>0</searches>
@@ -1022,7 +1022,7 @@
 				<goalPageId>14</goalPageId>
 				
 				<url>http://piwik.net/grue/lair</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>action</type>
@@ -1074,7 +1074,7 @@
 		<continentCode>eur</continentCode>
 		<country>Russian Federation</country>
 		<countryCode>ru</countryCode>
-		<countryFlag>plugins/UserCountry/flags/ru.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/ru.png</countryFlag>
 		<region>Saint Petersburg City</region>
 		<regionCode>66</regionCode>
 		<city>Stratford-upon-Avon</city>
@@ -1129,9 +1129,9 @@
 		<visitIp>1.2.4.4</visitIp>
 		
 		<visitorType>returningCustomer</visitorType>
-		<visitorTypeIcon>plugins/Live/templates/images/returningVisitor.gif</visitorTypeIcon>
+		<visitorTypeIcon>plugins/Live/images/returningVisitor.gif</visitorTypeIcon>
 		<visitConverted>1</visitConverted>
-		<visitConvertedIcon>themes/default/images/goal.png</visitConvertedIcon>
+		<visitConvertedIcon>plugins/Zeitgeist/images/goal.png</visitConvertedIcon>
 		<visitEcommerceStatus>none</visitEcommerceStatus>
 		<visitEcommerceStatusIcon />
 		<searches>1</searches>
@@ -1156,7 +1156,7 @@
 				<goalPageId>12</goalPageId>
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 			<row>
 				<type>search</type>
@@ -1171,7 +1171,7 @@
 					</row>
 				</customVariables>
 				<siteSearchKeyword>Bring on the party</siteSearchKeyword>
-				<icon>themes/default/images/search_ico.png</icon>
+				<icon>plugins/Zeitgeist/images/search_ico.png</icon>
 			</row>
 			<row>
 				<type>goal</type>
@@ -1181,7 +1181,7 @@
 				<goalPageId />
 				
 				<url>http://piwik.net/space/quest/iv</url>
-				<icon>themes/default/images/goal.png</icon>
+				<icon>plugins/Zeitgeist/images/goal.png</icon>
 			</row>
 		</actionDetails>
 		<customVariables>
@@ -1214,7 +1214,7 @@
 		<continentCode>eur</continentCode>
 		<country>United Kingdom</country>
 		<countryCode>gb</countryCode>
-		<countryFlag>plugins/UserCountry/flags/gb.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/gb.png</countryFlag>
 		<region>Kent</region>
 		<regionCode>G5</regionCode>
 		<city>Stratford-upon-Avon</city>

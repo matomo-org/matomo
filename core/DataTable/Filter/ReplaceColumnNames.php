@@ -38,7 +38,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
     public function __construct($table, $mappingToApply = null)
     {
         parent::__construct($table);
-        $this->mappingToApply = Piwik_Archive::$mappingFromIdToName;
+        $this->mappingToApply = Piwik_Metrics::$mappingFromIdToName;
         if (!is_null($mappingToApply)) {
             $this->mappingToApply = $mappingToApply;
         }
@@ -131,11 +131,11 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
     {
         $newSubColumns = array();
         foreach ($columnValue as $idGoal => $goalValues) {
-            $mapping = Piwik_Archive::$mappingFromIdToNameGoal;
+            $mapping = Piwik_Metrics::$mappingFromIdToNameGoal;
             if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART) {
-                $idGoal = Piwik_Archive::LABEL_ECOMMERCE_CART;
+                $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
             } elseif ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {
-                $idGoal = Piwik_Archive::LABEL_ECOMMERCE_ORDER;
+                $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
             }
             foreach ($goalValues as $id => $goalValue) {
                 $subColumnName = $mapping[$id];

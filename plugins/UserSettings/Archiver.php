@@ -22,12 +22,11 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
     const OS_RECORD_NAME = 'UserSettings_os';
     const CONFIGURATION_RECORD_NAME = 'UserSettings_configuration';
 
-    public function __construct($processor)
-    {
-        parent::__construct($processor);
-        $this->maximumRowsInDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
-        $this->columnToSortByBeforeTruncation = Piwik_Archive::INDEX_NB_VISITS;
-    }
+    const LANGUAGE_DIMENSION = "log_visit.location_browser_lang";
+    const RESOLUTION_DIMENSION = "log_visit.config_resolution";
+    const BROWSER_VERSION_DIMENSION = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
+    const OS_DIMENSION = "log_visit.config_os";
+    const CONFIGURATION_DIMENSION = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
 
     public function archiveDay()
     {
@@ -41,17 +40,16 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
 
     protected function aggregateByConfiguration()
     {
-        $labelSQL = "CONCAT(log_visit.config_os, ';', log_visit.config_browser_name, ';', log_visit.config_resolution)";
-        $metrics = $this->getProcessor()->getMetricsForLabel($labelSQL);
-        $table = $this->getProcessor()->getDataTableFromArray($metrics);
-        $this->getProcessor()->insertBlobRecord(self::CONFIGURATION_RECORD_NAME, $table->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
+        $metrics = $this->getProcessor()->getMetricsForDimension(self::CONFIGURATION_DIMENSION);
+        $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
+        $this->insertTable(self::CONFIGURATION_RECORD_NAME, $table);
     }
 
     protected function aggregateByOs()
     {
-        $metrics = $this->getProcessor()->getMetricsForLabel("log_visit.config_os");
-        $table = $this->getProcessor()->getDataTableFromArray($metrics);
-        $this->getProcessor()->insertBlobRecord(self::OS_RECORD_NAME, $table->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
+        $metrics = $this->getProcessor()->getMetricsForDimension(self::OS_DIMENSION);
+        $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
+        $this->insertTable(self::OS_RECORD_NAME, $table);
     }
 
     protected function aggregateByBrowser()
@@ -62,18 +60,16 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
 
     protected function aggregateByBrowserVersion()
     {
-        $labelSQL = "CONCAT(log_visit.config_browser_name, ';', log_visit.config_browser_version)";
-        $metrics = $this->getProcessor()->getMetricsForLabel($labelSQL);
-        $tableBrowser = $this->getProcessor()->getDataTableFromArray($metrics);
-
-        $this->getProcessor()->insertBlobRecord(self::BROWSER_RECORD_NAME, $tableBrowser->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
+        $metrics = $this->getProcessor()->getMetricsForDimension(self::BROWSER_VERSION_DIMENSION);
+        $tableBrowser = $this->getProcessor()->getDataTableFromDataArray($metrics);
+        $this->insertTable(self::BROWSER_RECORD_NAME, $tableBrowser);
         return $tableBrowser;
     }
 
     protected function aggregateByBrowserType(Piwik_DataTable $tableBrowser)
     {
         $tableBrowser->filter('GroupBy', array('label', 'Piwik_getBrowserFamily'));
-        $this->getProcessor()->insertBlobRecord(self::BROWSER_TYPE_RECORD_NAME, $tableBrowser->getSerialized());
+        $this->insertTable(self::BROWSER_TYPE_RECORD_NAME, $tableBrowser);
     }
 
     protected function aggregateByResolutionAndScreenType()
@@ -84,54 +80,58 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
 
     protected function aggregateByResolution()
     {
-        $metrics = $this->getProcessor()->getMetricsForLabel("log_visit.config_resolution");
-        $table = $this->getProcessor()->getDataTableFromArray($metrics);
+        $metrics = $this->getProcessor()->getMetricsForDimension(self::RESOLUTION_DIMENSION);
+        $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
         $table->filter('ColumnCallbackDeleteRow', array('label', 'Piwik_UserSettings_keepStrlenGreater'));
-        $this->getProcessor()->insertBlobRecord(self::RESOLUTION_RECORD_NAME, $table->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
+        $this->insertTable(self::RESOLUTION_RECORD_NAME, $table);
         return $table;
     }
 
     protected function aggregateByScreenType(Piwik_DataTable $resolutions)
     {
         $resolutions->filter('GroupBy', array('label', 'Piwik_getScreenTypeFromResolution'));
-        $this->getProcessor()->insertBlobRecord(self::SCREEN_TYPE_RECORD_NAME, $resolutions->getSerialized());
+        $this->insertTable(self::SCREEN_TYPE_RECORD_NAME, $resolutions);
     }
 
     protected function aggregateByPlugin()
     {
-        $toSelect = "sum(case log_visit.config_pdf when 1 then 1 else 0 end) as pdf,
-				sum(case log_visit.config_flash when 1 then 1 else 0 end) as flash,
-				sum(case log_visit.config_java when 1 then 1 else 0 end) as java,
-				sum(case log_visit.config_director when 1 then 1 else 0 end) as director,
-				sum(case log_visit.config_quicktime when 1 then 1 else 0 end) as quicktime,
-				sum(case log_visit.config_realplayer when 1 then 1 else 0 end) as realplayer,
-				sum(case log_visit.config_windowsmedia when 1 then 1 else 0 end) as windowsmedia,
-				sum(case log_visit.config_gears when 1 then 1 else 0 end) as gears,
-				sum(case log_visit.config_silverlight when 1 then 1 else 0 end) as silverlight,
-				sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie	";
+        $selects = array(
+            "sum(case log_visit.config_pdf when 1 then 1 else 0 end) as pdf",
+            "sum(case log_visit.config_flash when 1 then 1 else 0 end) as flash",
+            "sum(case log_visit.config_java when 1 then 1 else 0 end) as java",
+            "sum(case log_visit.config_director when 1 then 1 else 0 end) as director",
+            "sum(case log_visit.config_quicktime when 1 then 1 else 0 end) as quicktime",
+            "sum(case log_visit.config_realplayer when 1 then 1 else 0 end) as realplayer",
+            "sum(case log_visit.config_windowsmedia when 1 then 1 else 0 end) as windowsmedia",
+            "sum(case log_visit.config_gears when 1 then 1 else 0 end) as gears",
+            "sum(case log_visit.config_silverlight when 1 then 1 else 0 end) as silverlight",
+            "sum(case log_visit.config_cookie when 1 then 1 else 0 end) as cookie"
+        );
 
-        $processor = $this->getProcessor();
-        $data = $processor->queryVisitsSimple($toSelect);
-        $table =  $processor->getSimpleDataTableFromRow($data, Piwik_Archive::INDEX_NB_VISITS);
-        $processor->insertBlobRecord(self::PLUGIN_RECORD_NAME, $table->getSerialized());
+        $query = $this->getLogAggregator()->queryVisitsByDimension(array(), false, $selects, $metrics = array());
+        $data = $query->fetch();
+        $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($data, Piwik_Metrics::INDEX_NB_VISITS);
+        $table = Piwik_DataTable::makeFromIndexedArray($cleanRow);
+        $this->insertTable(self::PLUGIN_RECORD_NAME, $table);
     }
 
     protected function aggregateByLanguage()
     {
-        $query = $this->getProcessor()->queryVisitsByDimension("log_visit.location_browser_lang");
+        $query = $this->getLogAggregator()->queryVisitsByDimension( array("label" => self::LANGUAGE_DIMENSION) );
         $languageCodes = array_keys(Piwik_Common::getLanguagesList());
-        $metricsByLanguage = array();
+        $metricsByLanguage = new Piwik_DataArray();
         while ($row = $query->fetch()) {
             $code = Piwik_Common::extractLanguageCodeFromBrowserLanguage($row['label'], $languageCodes);
-
-            if (!isset($metricsByLanguage[$code])) {
-                $metricsByLanguage[$code] = $this->getProcessor()->makeEmptyRow();
-            }
-            $this->getProcessor()->sumMetrics($row, $metricsByLanguage[$code]);
+            $metricsByLanguage->sumMetricsVisits($code, $row);
         }
 
-        $tableLanguage = $this->getProcessor()->getDataTableFromArray($metricsByLanguage);
-        $this->getProcessor()->insertBlobRecord(self::LANGUAGE_RECORD_NAME, $tableLanguage->getSerialized($this->maximumRowsInDataTable, null, $this->columnToSortByBeforeTruncation));
+        $tableLanguage = $this->getProcessor()->getDataTableFromDataArray($metricsByLanguage);
+        $this->insertTable(self::LANGUAGE_RECORD_NAME, $tableLanguage);
+    }
+
+    protected function insertTable($recordName, Piwik_DataTable $table)
+    {
+        return $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Piwik_Metrics::INDEX_NB_VISITS));
     }
 
     public function archivePeriod()
@@ -146,7 +146,7 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
             self::PLUGIN_RECORD_NAME,
             self::LANGUAGE_RECORD_NAME,
         );
-        $this->getProcessor()->archiveDataTable($dataTableToSum, null, $this->maximumRowsInDataTable);
+        $this->getProcessor()->aggregateDataTableReports($dataTableToSum, $this->maximumRows);
     }
 }
 

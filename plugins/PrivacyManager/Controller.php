@@ -86,7 +86,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
     public function getDatabaseSize()
     {
         Piwik::checkUserIsSuperUser();
-        $view = Piwik_View::factory('databaseSize');
+        $view = new Piwik_View('@PrivacyManager/getDatabaseSize');
 
         $forceEstimate = Piwik_Common::getRequestVar('forceEstimate', 0);
         $view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
@@ -108,7 +108,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
     public function privacySettings()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $view = Piwik_View::factory('privacySettings');
+        $view = new Piwik_View('@PrivacyManager/privacySettings');
 
         if (Piwik::isUserIsSuperUser()) {
             $view->deleteData = $this->getDeleteDataInfo();
@@ -118,11 +118,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
             $view->dbUser = Piwik_Config::getInstance()->database['username'];
         }
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
-
-        if (!Piwik_Config::getInstance()->isFileWritable()) {
-            $view->configFileNotWritable = true;
-        }
-
+        $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
         $this->setBasicVariablesView($view);
         $view->menu = Piwik_GetAdminMenu();
 

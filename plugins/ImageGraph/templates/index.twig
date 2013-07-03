@@ -1,0 +1,6 @@
+{% for plot in titleAndUrls %}
+    <h2>{{ plot.0 }}</h2>
+    <a href='{{ plot.1 }}'>
+        <img border=0 src="{{ plot.1 }}">
+    </a>
+{% endfor %}

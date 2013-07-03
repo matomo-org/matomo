@@ -128,9 +128,7 @@ class Piwik_DBStats_API
             $rowToAddTo['row_count'] += $status['Rows'];
         }
 
-        $result = new Piwik_DataTable();
-        $result->addRowsFromArrayWithIndexLabel($rows);
-        return $result;
+        return Piwik_DataTable::makeFromIndexedArray($rows);
     }
 
     /**

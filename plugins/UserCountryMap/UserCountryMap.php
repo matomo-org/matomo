@@ -57,18 +57,17 @@ class Piwik_UserCountryMap extends Piwik_Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/UserCountryMap/js/vendor/raphael.min.js";
-        $jsFiles[] = "plugins/UserCountryMap/js/vendor/jquery.qtip.min.js";
-        $jsFiles[] = "plugins/UserCountryMap/js/vendor/kartograph.min.js";
-        $jsFiles[] = "plugins/UserCountryMap/js/vendor/chroma.min.js";
-        $jsFiles[] = "plugins/UserCountryMap/js/visitor-map.js";
-        $jsFiles[] = "plugins/UserCountryMap/js/realtime-map.js";
+        $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/raphael.min.js";
+        $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/jquery.qtip.min.js";
+        $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/kartograph.min.js";
+        $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/chroma.min.js";
+        $jsFiles[] = "plugins/UserCountryMap/javascripts/visitor-map.js";
+        $jsFiles[] = "plugins/UserCountryMap/javascripts/realtime-map.js";
     }
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/UserCountryMap/css/visitor-map.css";
-        $cssFiles[] = "plugins/UserCountryMap/css/realtime-map.css";
+        $cssFiles[] = "plugins/UserCountryMap/stylesheets/visitor-map.css";
+        $cssFiles[] = "plugins/UserCountryMap/stylesheets/realtime-map.css";
     }
-
 }

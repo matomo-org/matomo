@@ -60,6 +60,7 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
+require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
 
 // required to build code coverage for uncovered files
 require_once PIWIK_INCLUDE_PATH . '/plugins/SecurityInfo/PhpSecInfo/PhpSecInfo.php';
@@ -96,7 +97,7 @@ Try again.
     } catch (Exception $e) {
         $fetched = "ERROR fetching: " . $e->getMessage();
     }
-    $expectedString = 'plugins/CoreHome/templates/images/favicon.ico';
+    $expectedString = 'plugins/CoreHome/images/favicon.ico';
 
     if (strpos($fetched, $expectedString) === false) {
         echo "\nPiwik should be running at: " . $piwikServerUrl

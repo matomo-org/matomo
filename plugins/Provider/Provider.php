@@ -201,17 +201,17 @@ class Piwik_Provider extends Piwik_Plugin
     /**
      * Daily archive: processes the report Visits by Provider
      */
-    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiving = new Piwik_Provider_Archiver($archiveProcessing);
+        $archiving = new Piwik_Provider_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiving = new Piwik_Provider_Archiver($archiveProcessing);
+        $archiving = new Piwik_Provider_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }

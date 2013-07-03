@@ -9,6 +9,10 @@
  * @category Piwik_Plugins
  * @package Piwik_DevicesDetection
  */
+
+/**
+ * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
+ */
 class Piwik_DevicesDetection_API
 {
 
@@ -39,7 +43,7 @@ class Piwik_DevicesDetection_API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
-        $dataTable->filter('Sort', array(Piwik_Archive::INDEX_NB_VISITS));
+        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
         return $dataTable;

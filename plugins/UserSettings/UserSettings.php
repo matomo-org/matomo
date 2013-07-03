@@ -204,7 +204,7 @@ class Piwik_UserSettings extends Piwik_Plugin
             if ($apiAction == 'getPlugin') {
                 $report['metrics'] = array(
                     'nb_visits',
-                    'nb_visits_percentage' => Piwik_Translate('General_ColumnPercentageVisits')
+                    'nb_visits_percentage' => Piwik_Metrics::getPercentVisitColumn()
                 );
                 // There is no processedMetrics for this report
                 $report['processedMetrics'] = array();
@@ -261,9 +261,9 @@ class Piwik_UserSettings extends Piwik_Plugin
      * by Browser, Browser family, etc. Some reports are built from the logs, some reports
      * are superset of an existing report (eg. Browser family is built from the Browser report)
      */
-    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiving = new Piwik_UserSettings_Archiver($archiveProcessing);
+        $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
@@ -272,9 +272,9 @@ class Piwik_UserSettings extends Piwik_Plugin
     /**
      * Period archiving: simply sums up daily archives
      */
-    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiving = new Piwik_UserSettings_Archiver($archiveProcessing);
+        $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }

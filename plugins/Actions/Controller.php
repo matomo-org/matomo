@@ -120,7 +120,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
      */
     public function indexSiteSearch()
     {
-        $view = Piwik_View::factory('indexSiteSearch');
+        $view = new Piwik_View('@Actions/indexSiteSearch');
 
         $view->keywords = $this->getSiteSearchKeywords(true);
         $view->noResultKeywords = $this->getSiteSearchNoResultKeywords(true);
@@ -452,13 +452,13 @@ class Piwik_Actions_Controller extends Piwik_Controller
      */
     protected function configureGenericViewActions($view)
     {
-        $view->setTemplate('CoreHome/templates/datatable_actions.tpl');
+        $view->setTemplate('@CoreHome/_dataTableActions');
         if (Piwik_Common::getRequestVar('idSubtable', -1) != -1) {
-            $view->setTemplate('CoreHome/templates/datatable_actions_subdatable.tpl');
+            $view->setTemplate('@CoreHome/_dataTableActions_subDataTable');
         }
         $currentlySearching = $view->setSearchRecursive();
         if ($currentlySearching) {
-            $view->setTemplate('CoreHome/templates/datatable_actions_recursive.tpl');
+            $view->setTemplate('@CoreHome/_dataTableActions_recursive');
         }
         // disable Footer icons
         $view->disableShowAllViewsIcons();

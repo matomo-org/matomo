@@ -15,6 +15,8 @@
  */
 class Piwik_API_ResponseBuilder
 {
+    const DISPLAY_BACKTRACE_DEBUG = false;
+
     private $request = null;
     private $outputFormat = null;
 
@@ -133,6 +135,7 @@ class Piwik_API_ResponseBuilder
         return $renderer->renderException();
     }
 
+
     /**
      * @param Exception $e
      * @return Exception
@@ -141,13 +144,10 @@ class Piwik_API_ResponseBuilder
     {
         // If we are in tests, show full backtrace
         if( defined('PIWIK_PATH_TEST_TO_ROOT')) {
-            // Set this to true to see the light!
-            $SHOW_ME_BACKTRACE = false;
-
-            if($SHOW_ME_BACKTRACE) {
+            if(self::DISPLAY_BACKTRACE_DEBUG) {
                 $message = $e->getMessage() . " in \n " . $e->getFile() . ":" . $e->getLine() . " \n " . $e->getTraceAsString();
             } else {
-                $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set \$SHOW_ME_BACKTRACE=true; in " . basename(__FILE__) ;
+                $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in " . basename(__FILE__) ;
             }
             return new Exception($message);
         }

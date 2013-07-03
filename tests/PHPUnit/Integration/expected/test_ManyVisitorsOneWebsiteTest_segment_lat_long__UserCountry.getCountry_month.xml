@@ -23,7 +23,7 @@
 		<revenue>45</revenue>
 		<sum_daily_nb_uniq_visitors>3</sum_daily_nb_uniq_visitors>
 		<code>ca</code>
-		<logo>plugins/UserCountry/flags/ca.png</logo>
+		<logo>plugins/UserCountry/images/flags/ca.png</logo>
 		<logoWidth>16</logoWidth>
 		<logoHeight>11</logoHeight>
 	</row>

@@ -31,8 +31,10 @@ env:
 script: ./travis.sh
 
 before_script:
-  - echo `uname -a`
-  - echo `date`
+  - composer install
+  - uname -a
+  - date
+  - phpenv config-add ./tests/travis/php.ini # disables Zend OPCache
   - php -r "var_dump(gd_info());"
   - mysql -e 'create database piwik_test;'
   - ./tests/travis/prepare.sh

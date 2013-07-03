@@ -125,8 +125,8 @@ class Archiving
 
         $this->log("Notes");
         // Information about timeout
-        $this->todayArchiveTimeToLive = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
-        $this->log("- Reports for today will be processed at most every " . Piwik_ArchiveProcessing::getTodayArchiveTimeToLive()
+        $this->todayArchiveTimeToLive = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
+        $this->log("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
         $this->log("- Reports for the current week/month/year will be refreshed at most every "
             . $this->processPeriodsMaximumEverySeconds . " seconds.");
@@ -272,11 +272,14 @@ class Archiving
                 continue;
             }
             $visitsToday = end($response);
+            if(empty($visitsToday)) {
+                $visitsToday = 0;
+            }
             $this->requests++;
             $processed++;
 
             // If there is no visit today and we don't need to process this website, we can skip remaining archives
-            if ($visitsToday <= 0
+            if ($visitsToday == 0
                 && !$shouldArchivePeriods
             ) {
                 $this->log("Skipped website id $idsite, no visit today, " . $timerWebsite->__toString());
@@ -667,7 +670,7 @@ class Archiving
         ) // in case --force-timeout-for-periods= without [seconds] specified
         {
             // Ensure the cache for periods is at least as high as cache for today
-            $todayTTL = Piwik_ArchiveProcessing::getTodayArchiveTimeToLive();
+            $todayTTL = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
             if ($forceTimeoutPeriod < $todayTTL) {
                 $this->log("WARNING: Automatically increasing --force-timeout-for-periods from $forceTimeoutPeriod to "
                     . $todayTTL
@@ -678,7 +681,7 @@ class Archiving
         }
 
         // Recommend to disable browser archiving when using this script
-        if (Piwik_ArchiveProcessing::isBrowserTriggerArchivingEnabled()) {
+        if (Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()) {
             $this->log("NOTE: if you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings. ");
             $this->log("      see doc at: http://piwik.org/docs/setup-auto-archiving/");
         }

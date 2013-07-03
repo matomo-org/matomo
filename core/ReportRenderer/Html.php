@@ -78,72 +78,72 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 
     private function epilogue()
     {
-        $smarty = new Piwik_Smarty();
-        $this->rendering .= $smarty->fetch(self::prefixTemplatePath("html_report_footer.tpl"));
+        $view = new Piwik_View('@CoreHome/ReportRenderer/_htmlReportFooter');
+        $this->rendering .= $view->render();
     }
 
     public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
     {
-        $smarty = new Piwik_Smarty();
-        $this->assignCommonParameters($smarty);
+        $frontPageView = new Piwik_View('@CoreHome/ReportRenderer/_htmlReportHeader');
+        $this->assignCommonParameters($frontPageView);
 
         // todo rename 'websiteName' to 'reportTitle' once branch twig is merged
-        $smarty->assign("websiteName", $reportTitle);
-        $smarty->assign("prettyDate", $prettyDate);
-        $smarty->assign("description", $description);
-        $smarty->assign("reportMetadata", $reportMetadata);
+        $frontPageView->assign("websiteName", $reportTitle);
+        $frontPageView->assign("prettyDate", $prettyDate);
+        $frontPageView->assign("description", $description);
+        $frontPageView->assign("reportMetadata", $reportMetadata);
 
         // segment
         $displaySegment = ($segment != null);
-        $smarty->assign("displaySegment", $displaySegment);
+        $frontPageView->assign("displaySegment", $displaySegment);
         if ($displaySegment) {
-            $smarty->assign("segmentName", $segment['name']);
+            $frontPageView->assign("segmentName", $segment['name']);
         }
 
-        $this->rendering .= $smarty->fetch(self::prefixTemplatePath("html_report_header.tpl"));
+        $this->rendering .= $frontPageView->render();
     }
 
-    private function assignCommonParameters($smarty)
+    private function assignCommonParameters(Piwik_View $view)
     {
-        $smarty->assign("reportTitleTextColor", Piwik_ReportRenderer::REPORT_TITLE_TEXT_COLOR);
-        $smarty->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
-        $smarty->assign("reportTextColor", Piwik_ReportRenderer::REPORT_TEXT_COLOR);
-        $smarty->assign("tableHeaderBgColor", Piwik_ReportRenderer::TABLE_HEADER_BG_COLOR);
-        $smarty->assign("tableHeaderTextColor", Piwik_ReportRenderer::TABLE_HEADER_TEXT_COLOR);
-        $smarty->assign("tableCellBorderColor", Piwik_ReportRenderer::TABLE_CELL_BORDER_COLOR);
-        $smarty->assign("tableBgColor", Piwik_ReportRenderer::TABLE_BG_COLOR);
-        $smarty->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
-        $smarty->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
-        $smarty->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
-        $smarty->assign("currentPath", Piwik::getPiwikUrl());
-        $smarty->assign("logoHeader", Piwik_API_API::getInstance()->getHeaderLogoUrl());
+        $view->assign("reportTitleTextColor", Piwik_ReportRenderer::REPORT_TITLE_TEXT_COLOR);
+        $view->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
+        $view->assign("reportTextColor", Piwik_ReportRenderer::REPORT_TEXT_COLOR);
+        $view->assign("tableHeaderBgColor", Piwik_ReportRenderer::TABLE_HEADER_BG_COLOR);
+        $view->assign("tableHeaderTextColor", Piwik_ReportRenderer::TABLE_HEADER_TEXT_COLOR);
+        $view->assign("tableCellBorderColor", Piwik_ReportRenderer::TABLE_CELL_BORDER_COLOR);
+        $view->assign("tableBgColor", Piwik_ReportRenderer::TABLE_BG_COLOR);
+        $view->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
+        $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
+        $view->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
+        $view->assign("currentPath", Piwik::getPiwikUrl());
+        $view->assign("logoHeader", Piwik_API_API::getInstance()->getHeaderLogoUrl());
     }
 
     public function renderReport($processedReport)
     {
-        $smarty = new Piwik_Smarty();
-        $this->assignCommonParameters($smarty);
+        $reportView = new Piwik_View('@CoreHome/ReportRenderer/_htmlReportBody');
+        $this->assignCommonParameters($reportView);
 
         $reportMetadata = $processedReport['metadata'];
         $reportData = $processedReport['reportData'];
         $columns = $processedReport['columns'];
         list($reportData, $columns) = self::processTableFormat($reportMetadata, $reportData, $columns);
 
-        $smarty->assign("reportName", $reportMetadata['name']);
-        $smarty->assign("reportId", $reportMetadata['uniqueId']);
-        $smarty->assign("reportColumns", $columns);
-        $smarty->assign("reportRows", $reportData->getRows());
-        $smarty->assign("reportRowsMetadata", $processedReport['reportMetadata']->getRows());
-        $smarty->assign("displayTable", $processedReport['displayTable']);
+        $reportView->assign("reportName", $reportMetadata['name']);
+        $reportView->assign("reportId", $reportMetadata['uniqueId']);
+        $reportView->assign("reportColumns", $columns);
+        $reportView->assign("reportRows", $reportData->getRows());
+        $reportView->assign("reportRowsMetadata", $processedReport['reportMetadata']->getRows());
+        $reportView->assign("displayTable", $processedReport['displayTable']);
 
         $displayGraph = $processedReport['displayGraph'];
         $evolutionGraph = $processedReport['evolutionGraph'];
-        $smarty->assign("displayGraph", $displayGraph);
+        $reportView->assign("displayGraph", $displayGraph);
 
         if ($displayGraph) {
-            $smarty->assign("graphWidth", self::IMAGE_GRAPH_WIDTH);
-            $smarty->assign("graphHeight", self::IMAGE_GRAPH_HEIGHT);
-            $smarty->assign("renderImageInline", $this->renderImageInline);
+            $reportView->assign("graphWidth", self::IMAGE_GRAPH_WIDTH);
+            $reportView->assign("graphHeight", self::IMAGE_GRAPH_HEIGHT);
+            $reportView->assign("renderImageInline", $this->renderImageInline);
 
             if ($this->renderImageInline) {
                 $staticGraph = parent::getStaticGraph(
@@ -153,16 +153,11 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
                     $evolutionGraph,
                     $processedReport['segment']
                 );
-                $smarty->assign("generatedImageGraph", base64_encode($staticGraph));
+                $reportView->assign("generatedImageGraph", base64_encode($staticGraph));
                 unset($generatedImageGraph);
             }
         }
 
-        $this->rendering .= $smarty->fetch(self::prefixTemplatePath("html_report_body.tpl"));
-    }
-
-    private static function prefixTemplatePath($templateFile)
-    {
-        return PIWIK_USER_PATH . "/plugins/CoreHome/templates/" . $templateFile;
+        $this->rendering .= $reportView->render();
     }
 }

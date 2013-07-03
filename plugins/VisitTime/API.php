@@ -62,30 +62,31 @@ class Piwik_VisitTime_API
      */
     public function getByDayOfWeek($idSite, $period, $date, $segment = false)
     {
+
         Piwik::checkUserHasViewAccess($idSite);
 
-        // disabled for multiple sites/dates
-        if (Piwik_Archive::isMultipleSites($idSite)) {
-            throw new Exception("VisitTime.getByDayOfWeek does not support multiple sites.");
-        }
-
-        if (Piwik_Archive::isMultiplePeriod($date, $period)) {
+        // metrics to query
+        $metrics = Piwik_Metrics::getVisitsMetricNames();
+        unset($metrics[Piwik_Metrics::INDEX_MAX_ACTIONS]);
+        
+        // disabled for multiple dates
+        if (Piwik_Period::isMultiplePeriod($date, $period)) {
             throw new Exception("VisitTime.getByDayOfWeek does not support multiple dates.");
         }
 
-        // metrics to query
-        $metrics = Piwik_ArchiveProcessing::getCoreMetrics();
-
         // get metric data for every day within the supplied period
-        $oSite = new Piwik_Site($idSite);
-        $oPeriod = Piwik_Archive::makePeriodFromQueryParams($oSite, $period, $date);
+        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
         $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
-
         $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
+
+        // disabled for multiple sites
+        if (count($archive->getParams()->getIdSites()) > 1) {
+            throw new Exception("VisitTime.getByDayOfWeek does not support multiple sites.");
+        }
+
         $dataTable = $archive->getDataTableFromNumeric($metrics)->mergeChildren();
 
         // if there's no data for this report, don't bother w/ anything else
-        // TODO: with changes to getDataTableFromNumeric, this code would have to check if every row has 0 column values. is it really necessary? (assuming no for now)
         if ($dataTable->getRowsCount() == 0) {
             return $dataTable;
         }
@@ -98,7 +99,6 @@ class Piwik_VisitTime_API
         foreach (array(1, 2, 3, 4, 5, 6, 7) as $day) {
             $rows[] = array('label' => $day, 'nb_visits' => 0);
         }
-
         $result = new Piwik_DataTable();
         $result->addRowsFromSimpleArray($rows);
         $result->addDataTable($dataTable);

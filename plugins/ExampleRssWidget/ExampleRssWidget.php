@@ -47,7 +47,7 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/ExampleRssWidget/templates/styles.css";
+        $cssFiles[] = "plugins/ExampleRssWidget/stylesheets/rss.css";
     }
 
     public function addWidgets()

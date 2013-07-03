@@ -28,7 +28,7 @@
 		<country>xx</country>
 		<country_name>Unknown</country_name>
 		<region_name>Unknown</region_name>
-		<logo>plugins/UserCountry/flags/xx.png</logo>
+		<logo>plugins/UserCountry/images/flags/xx.png</logo>
 	</row>
 	<row>
 		<label>Vancouver, British Columbia, Canada</label>
@@ -59,7 +59,7 @@
 		<country>ca</country>
 		<country_name>Canada</country_name>
 		<region_name>British Columbia</region_name>
-		<logo>plugins/UserCountry/flags/ca.png</logo>
+		<logo>plugins/UserCountry/images/flags/ca.png</logo>
 	</row>
 	<row>
 		<label>Stratford-upon-Avon, Warwickshire, United Kingdom</label>
@@ -90,7 +90,7 @@
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Warwickshire</region_name>
-		<logo>plugins/UserCountry/flags/gb.png</logo>
+		<logo>plugins/UserCountry/images/flags/gb.png</logo>
 	</row>
 	<row>
 		<label>Besançon, Franche-Comte, France</label>
@@ -121,7 +121,7 @@
 		<country>fr</country>
 		<country_name>France</country_name>
 		<region_name>Franche-Comte</region_name>
-		<logo>plugins/UserCountry/flags/fr.png</logo>
+		<logo>plugins/UserCountry/images/flags/fr.png</logo>
 	</row>
 	<row>
 		<label>Hluboká nad Vltavou, Saint Petersburg City, Russian Federation</label>
@@ -150,7 +150,7 @@
 		<country>ru</country>
 		<country_name>Russian Federation</country_name>
 		<region_name>Saint Petersburg City</region_name>
-		<logo>plugins/UserCountry/flags/ru.png</logo>
+		<logo>plugins/UserCountry/images/flags/ru.png</logo>
 	</row>
 	<row>
 		<label>Lhasa, Unknown, Tibet</label>
@@ -181,7 +181,7 @@
 		<country>ti</country>
 		<country_name>Tibet</country_name>
 		<region_name>Unknown</region_name>
-		<logo>plugins/UserCountry/flags/ti.png</logo>
+		<logo>plugins/UserCountry/images/flags/ti.png</logo>
 	</row>
 	<row>
 		<label>London, London, City of, United Kingdom</label>
@@ -210,7 +210,7 @@
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>London, City of</region_name>
-		<logo>plugins/UserCountry/flags/gb.png</logo>
+		<logo>plugins/UserCountry/images/flags/gb.png</logo>
 	</row>
 	<row>
 		<label>Nuneaton and Bedworth, Warwickshire, United Kingdom</label>
@@ -239,7 +239,7 @@
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Warwickshire</region_name>
-		<logo>plugins/UserCountry/flags/gb.png</logo>
+		<logo>plugins/UserCountry/images/flags/gb.png</logo>
 	</row>
 	<row>
 		<label>Stratford-upon-Avon, Miravci, Macedonia, the Former Yugoslav Republic of</label>
@@ -268,7 +268,7 @@
 		<country>mk</country>
 		<country_name>Macedonia, the Former Yugoslav Republic of</country_name>
 		<region_name>Miravci</region_name>
-		<logo>plugins/UserCountry/flags/mk.png</logo>
+		<logo>plugins/UserCountry/images/flags/mk.png</logo>
 	</row>
 	<row>
 		<label>Stratford-upon-Avon, Saint Petersburg City, Russian Federation</label>
@@ -297,7 +297,7 @@
 		<country>ru</country>
 		<country_name>Russian Federation</country_name>
 		<region_name>Saint Petersburg City</region_name>
-		<logo>plugins/UserCountry/flags/ru.png</logo>
+		<logo>plugins/UserCountry/images/flags/ru.png</logo>
 	</row>
 	<row>
 		<label>Stratford-upon-Avon, Kent, United Kingdom</label>
@@ -326,7 +326,7 @@
 		<country>gb</country>
 		<country_name>United Kingdom</country_name>
 		<region_name>Kent</region_name>
-		<logo>plugins/UserCountry/flags/gb.png</logo>
+		<logo>plugins/UserCountry/images/flags/gb.png</logo>
 	</row>
 	<row>
 		<label>not a city, California, United States</label>
@@ -352,6 +352,6 @@
 		<country>us</country>
 		<country_name>United States</country_name>
 		<region_name>California</region_name>
-		<logo>plugins/UserCountry/flags/us.png</logo>
+		<logo>plugins/UserCountry/images/flags/us.png</logo>
 	</row>
 </result>

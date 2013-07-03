@@ -30,7 +30,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $date = Piwik_Common::getRequestVar('date');
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
-        $view = Piwik_View::factory('visitor-map');
+        $view = new Piwik_View('@UserCountryMap/visitorMap');
 
         // request visits summary
         $request = new Piwik_API_Request(
@@ -77,7 +77,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
         $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
-        $config['mapCssPath'] = 'plugins/UserCountryMap/css/map.css';
+        $config['mapCssPath'] = 'plugins/UserCountryMap/stylesheets/map.css';
         $view->config = Piwik_Common::json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
 
@@ -103,7 +103,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         Piwik::checkUserHasViewAccess($idSite);
 
         $token_auth = Piwik::getCurrentUserTokenAuth();
-        $view = Piwik_View::factory('realtime-map');
+        $view = new Piwik_View('@UserCountryMap/realtimeMap');
 
         $view->mapIsStandaloneNotWidget = $standalone;
 

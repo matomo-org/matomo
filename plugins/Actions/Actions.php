@@ -29,7 +29,6 @@ class Piwik_Actions extends Piwik_Plugin
         return $info;
     }
 
-
     public function getListHooksRegistered()
     {
         $hooks = array(
@@ -557,17 +556,17 @@ class Piwik_Actions extends Piwik_Plugin
      * For each action we process the "interest statistics" :
      * visits, unique visitors, bounce count, sum visit length.
      */
-    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiving = new Piwik_Actions_Archiver($archiveProcessing);
+        $archiving = new Piwik_Actions_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
 
-    function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiving = new Piwik_Actions_Archiver($archiveProcessing);
+        $archiving = new Piwik_Actions_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }

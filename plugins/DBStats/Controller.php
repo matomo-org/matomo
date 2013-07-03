@@ -25,7 +25,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function index()
     {
         Piwik::checkUserIsSuperUser();
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@DBStats/index');
         $this->setBasicVariablesView($view);
         $view->menu = Piwik_GetAdminMenu();
 
@@ -49,6 +49,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
      *
      * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
      *                    it is echoed.
+     * @return string
      */
     public function getDatabaseUsageSummary($fetch = false)
     {
@@ -76,6 +77,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
      *
      * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
      *                    it is echoed.
+     * @return string|void
      */
     public function getTrackerDataSummary($fetch = false)
     {
@@ -92,6 +94,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
      *
      * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
      *                    it is echoed.
+     * @return string|void
      */
     public function getMetricDataSummary($fetch = false)
     {
@@ -109,6 +112,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
      *
      * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
      *                    it is echoed.
+     * @return string|void
      */
     public function getMetricDataSummaryByYear($fetch = false)
     {
@@ -127,6 +131,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
      *
      * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
      *                    it is echoed.
+     * @return string|void
      */
     public function getReportDataSummary($fetch = false)
     {
@@ -144,6 +149,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
      *
      * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
      *                    it is echoed.
+     * @return string|void
      */
     public function getReportDataSummaryByYear($fetch = false)
     {
@@ -164,6 +170,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
      *
      * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
      *                    it is echoed.
+     * @return string|void
      */
     public function getIndividualReportsSummary($fetch = false)
     {
@@ -190,6 +197,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
      *
      * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
      *                    it is echoed.
+     * @return string|void
      */
     public function getIndividualMetricsSummary($fetch = false)
     {
@@ -212,6 +220,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
      *
      * @param bool $fetch If true, the rendered HTML datatable is returned, otherwise,
      *                    it is echoed.
+     * @return string|void
      */
     public function getAdminDataSummary($fetch = false)
     {

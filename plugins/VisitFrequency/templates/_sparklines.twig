@@ -1,0 +1,22 @@
+<div class="sparkline">
+    {{ sparkline(urlSparklineNbVisitsReturning) }}
+    {{ 'VisitFrequency_ReturnVisits'|translate("<strong>"~nbVisitsReturning~"</strong>")|raw }}
+</div>
+<div class="sparkline">
+    {{ sparkline(urlSparklineNbActionsReturning) }}
+    {{ 'VisitFrequency_ReturnActions'|translate("<strong>"~nbActionsReturning~"</strong>")|raw }}
+</div>
+<div class="sparkline">
+    {{ sparkline(urlSparklineActionsPerVisitReturning) }}
+    {{ 'VisitFrequency_ReturnAvgActions'|translate("<strong>"~nbActionsPerVisitReturning~"</strong>")|raw }}
+</div>
+<div class="sparkline">
+    {{ sparkline(urlSparklineAvgVisitDurationReturning) }}
+    {% set avgVisitDurationReturning=avgVisitDurationReturning|sumtime %}
+    {{ 'VisitFrequency_ReturnAverageVisitDuration'|translate("<strong>"~avgVisitDurationReturning~"</strong>")|raw }}
+</div>
+<div class="sparkline">
+    {{ sparkline(urlSparklineBounceRateReturning) }}
+    {{ 'VisitFrequency_ReturnBounceRate'|translate("<strong>"~bounceRateReturning~"%</strong>")|raw }}
+</div>
+{% include "_sparklineFooter.twig" %}

@@ -51,13 +51,11 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
             }
         }
 
-        $view = Piwik_View::factory('manage');
+        $view = new Piwik_View('@CorePluginsAdmin/index');
         $view->pluginsName = $plugins;
         $this->setBasicVariablesView($view);
         $view->menu = Piwik_GetAdminMenu();
-        if (!Piwik_Config::getInstance()->isFileWritable()) {
-            $view->configFileNotWritable = true;
-        }
+        $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
         echo $view->render();
     }
 

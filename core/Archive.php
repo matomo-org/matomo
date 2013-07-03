@@ -32,7 +32,7 @@
  *        return $nbVisits;
  * </pre>
  *
- * If the requested statistics are not yet processed, Archive uses ArchiveProcessing to archive the statistics.
+ * If the requested statistics are not yet processed, Archive uses ArchiveProcessor to archive the statistics.
  * 
  * TODO: create ticket for this: when building archives, should use each site's timezone (ONLY FOR 'now'). 
  * 
@@ -41,181 +41,12 @@
  */
 class Piwik_Archive
 {
-    /**
-     * When saving DataTables in the DB, we sometimes replace the columns name by these IDs so we save up lots of bytes
-     * Eg. INDEX_NB_UNIQ_VISITORS is an integer: 4 bytes, but 'nb_uniq_visitors' is 16 bytes at least
-     * (in php it's actually even much more)
-     *
-     */
-    const INDEX_NB_UNIQ_VISITORS = 1;
-    const INDEX_NB_VISITS = 2;
-    const INDEX_NB_ACTIONS = 3;
-    const INDEX_MAX_ACTIONS = 4;
-    const INDEX_SUM_VISIT_LENGTH = 5;
-    const INDEX_BOUNCE_COUNT = 6;
-    const INDEX_NB_VISITS_CONVERTED = 7;
-    const INDEX_NB_CONVERSIONS = 8;
-    const INDEX_REVENUE = 9;
-    const INDEX_GOALS = 10;
-    const INDEX_SUM_DAILY_NB_UNIQ_VISITORS = 11;
-
-    // Specific to the Actions reports
-    const INDEX_PAGE_NB_HITS = 12;
-    const INDEX_PAGE_SUM_TIME_SPENT = 13;
-
-    const INDEX_PAGE_EXIT_NB_UNIQ_VISITORS = 14;
-    const INDEX_PAGE_EXIT_NB_VISITS = 15;
-    const INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS = 16;
-
-    const INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS = 17;
-    const INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS = 18;
-    const INDEX_PAGE_ENTRY_NB_VISITS = 19;
-    const INDEX_PAGE_ENTRY_NB_ACTIONS = 20;
-    const INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH = 21;
-    const INDEX_PAGE_ENTRY_BOUNCE_COUNT = 22;
-
-    // Ecommerce Items reports
-    const INDEX_ECOMMERCE_ITEM_REVENUE = 23;
-    const INDEX_ECOMMERCE_ITEM_QUANTITY = 24;
-    const INDEX_ECOMMERCE_ITEM_PRICE = 25;
-    const INDEX_ECOMMERCE_ORDERS = 26;
-    const INDEX_ECOMMERCE_ITEM_PRICE_VIEWED = 27;
-
-    // Site Search
-    const INDEX_SITE_SEARCH_HAS_NO_RESULT = 28;
-    const INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS = 29;
-
-    // Performance Analytics
-    const INDEX_PAGE_SUM_TIME_GENERATION = 30;
-    const INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION = 31;
-    const INDEX_PAGE_MIN_TIME_GENERATION = 32;
-    const INDEX_PAGE_MAX_TIME_GENERATION = 33;
-
-    // Goal reports
-    const INDEX_GOAL_NB_CONVERSIONS = 1;
-    const INDEX_GOAL_REVENUE = 2;
-    const INDEX_GOAL_NB_VISITS_CONVERTED = 3;
-
-    const INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL = 4;
-    const INDEX_GOAL_ECOMMERCE_REVENUE_TAX = 5;
-    const INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING = 6;
-    const INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT = 7;
-    const INDEX_GOAL_ECOMMERCE_ITEMS = 8;
-
-    public static $mappingFromIdToName = array(
-        Piwik_Archive::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
-        Piwik_Archive::INDEX_NB_VISITS                             => 'nb_visits',
-        Piwik_Archive::INDEX_NB_ACTIONS                            => 'nb_actions',
-        Piwik_Archive::INDEX_MAX_ACTIONS                           => 'max_actions',
-        Piwik_Archive::INDEX_SUM_VISIT_LENGTH                      => 'sum_visit_length',
-        Piwik_Archive::INDEX_BOUNCE_COUNT                          => 'bounce_count',
-        Piwik_Archive::INDEX_NB_VISITS_CONVERTED                   => 'nb_visits_converted',
-        Piwik_Archive::INDEX_NB_CONVERSIONS                        => 'nb_conversions',
-        Piwik_Archive::INDEX_REVENUE                               => 'revenue',
-        Piwik_Archive::INDEX_GOALS                                 => 'goals',
-        Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS            => 'sum_daily_nb_uniq_visitors',
-
-        // Actions metrics
-        Piwik_Archive::INDEX_PAGE_NB_HITS                          => 'nb_hits',
-        Piwik_Archive::INDEX_PAGE_SUM_TIME_SPENT                   => 'sum_time_spent',
-        Piwik_Archive::INDEX_PAGE_SUM_TIME_GENERATION              => 'sum_time_generation',
-        Piwik_Archive::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION     => 'nb_hits_with_time_generation',
-        Piwik_Archive::INDEX_PAGE_MIN_TIME_GENERATION              => 'min_time_generation',
-        Piwik_Archive::INDEX_PAGE_MAX_TIME_GENERATION              => 'max_time_generation',
-
-        Piwik_Archive::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS            => 'exit_nb_uniq_visitors',
-        Piwik_Archive::INDEX_PAGE_EXIT_NB_VISITS                   => 'exit_nb_visits',
-        Piwik_Archive::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS  => 'sum_daily_exit_nb_uniq_visitors',
-
-        Piwik_Archive::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS           => 'entry_nb_uniq_visitors',
-        Piwik_Archive::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS => 'sum_daily_entry_nb_uniq_visitors',
-        Piwik_Archive::INDEX_PAGE_ENTRY_NB_VISITS                  => 'entry_nb_visits',
-        Piwik_Archive::INDEX_PAGE_ENTRY_NB_ACTIONS                 => 'entry_nb_actions',
-        Piwik_Archive::INDEX_PAGE_ENTRY_SUM_VISIT_LENGTH           => 'entry_sum_visit_length',
-        Piwik_Archive::INDEX_PAGE_ENTRY_BOUNCE_COUNT               => 'entry_bounce_count',
-        Piwik_Archive::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS => 'nb_hits_following_search',
-
-        // Items reports metrics
-        Piwik_Archive::INDEX_ECOMMERCE_ITEM_REVENUE                => 'revenue',
-        Piwik_Archive::INDEX_ECOMMERCE_ITEM_QUANTITY               => 'quantity',
-        Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE                  => 'price',
-        Piwik_Archive::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED           => 'price_viewed',
-        Piwik_Archive::INDEX_ECOMMERCE_ORDERS                      => 'orders',
-    );
-
-    public static $mappingFromIdToNameGoal = array(
-        Piwik_Archive::INDEX_GOAL_NB_CONVERSIONS             => 'nb_conversions',
-        Piwik_Archive::INDEX_GOAL_NB_VISITS_CONVERTED        => 'nb_visits_converted',
-        Piwik_Archive::INDEX_GOAL_REVENUE                    => 'revenue',
-        Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SUBTOTAL => 'revenue_subtotal',
-        Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_TAX      => 'revenue_tax',
-        Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING => 'revenue_shipping',
-        Piwik_Archive::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT => 'revenue_discount',
-        Piwik_Archive::INDEX_GOAL_ECOMMERCE_ITEMS            => 'items',
-    );
+    const REQUEST_ALL_WEBSITES_FLAG = 'all';
+    const ARCHIVE_ALL_PLUGINS_FLAG = 'all';
+    const ID_SUBTABLE_LOAD_ALL_SUBTABLES = 'all';
 
     /**
-     * string indexed column name => Integer indexed column name
-     * @var array
-     */
-    public static $mappingFromNameToId = array(
-        'nb_uniq_visitors'           => Piwik_Archive::INDEX_NB_UNIQ_VISITORS,
-        'nb_visits'                  => Piwik_Archive::INDEX_NB_VISITS,
-        'nb_actions'                 => Piwik_Archive::INDEX_NB_ACTIONS,
-        'max_actions'                => Piwik_Archive::INDEX_MAX_ACTIONS,
-        'sum_visit_length'           => Piwik_Archive::INDEX_SUM_VISIT_LENGTH,
-        'bounce_count'               => Piwik_Archive::INDEX_BOUNCE_COUNT,
-        'nb_visits_converted'        => Piwik_Archive::INDEX_NB_VISITS_CONVERTED,
-        'nb_conversions'             => Piwik_Archive::INDEX_NB_CONVERSIONS,
-        'revenue'                    => Piwik_Archive::INDEX_REVENUE,
-        'goals'                      => Piwik_Archive::INDEX_GOALS,
-        'sum_daily_nb_uniq_visitors' => Piwik_Archive::INDEX_SUM_DAILY_NB_UNIQ_VISITORS,
-    );
-
-    /**
-     * Metrics calculated and archived by the Actions plugin.
-     *
-     * @var array
-     */
-    public static $actionsMetrics = array(
-        'nb_pageviews',
-        'nb_uniq_pageviews',
-        'nb_downloads',
-        'nb_uniq_downloads',
-        'nb_outlinks',
-        'nb_uniq_outlinks',
-        'nb_searches',
-        'nb_keywords',
-        'nb_hits',
-        'nb_hits_following_search',
-    );
-
-    const LABEL_ECOMMERCE_CART = 'ecommerceAbandonedCart';
-    const LABEL_ECOMMERCE_ORDER = 'ecommerceOrder';
-    
-    /**
-     * The list of site IDs to query archive data for.
-     * 
-     * @var array
-     */
-    private $siteIds;
-    
-    /**
-     * The list of Piwik_Period's to query archive data for.
-     * 
-     * @var array
-     */
-    private $periods;
-    
-    /**
-     * Segment applied to the visits set.
-     * 
-     * @var Piwik_Segment
-     */
-    private $segment;
-    
-    /**
-     * List of archive IDs for the sites, periods and segment we are querying with.
+     * List of archive IDs for the site, periods and segment we are querying with.
      * Archive IDs are indexed by done flag and period, ie:
      * 
      * array(
@@ -257,175 +88,73 @@ class Piwik_Archive
      * @var bool
      */
     private $forceIndexedByDate;
-    
+
     /**
-     * Data Access Layer object.
-     * 
-     * @var Piwik_DataAccess_ArchiveQuery
+     * @var Piwik_Archive_Parameters
      */
-    private $dataAccess;
+    private $params;
     
     /**
-     * Cache of Piwik_ArchiveProcessing instances used when launching the archiving
-     * process.
-     * 
-     * @var array
-     */
-    private $processingCache = array();
-    
-    /**
-     * Constructor.
-     * 
-     * @param array|int $siteIds List of site IDs to query data for.
-     * @param array|Piwik_Period $periods List of periods to query data for.
-     * @param Piwik_Segment $segment The segment used to narrow the visits set.
+     * @param Piwik_Archive_Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
-    public function __construct($siteIds, $periods, Piwik_Segment $segment, $forceIndexedBySite = false,
+    protected function __construct(Piwik_Archive_Parameters $params, $forceIndexedBySite = false,
                                   $forceIndexedByDate = false)
     {
-        $this->siteIds = $this->getAsNonEmptyArray($siteIds, 'siteIds');
-        
-        $periods = $this->getAsNonEmptyArray($periods, 'periods');
-        $this->periods = array();
-        foreach ($periods as $period) {
-            $this->periods[$period->getRangeString()] = $period;
-        }
-        
-        $this->segment = $segment;
+        $this->params = $params;
         $this->forceIndexedBySite = $forceIndexedBySite;
         $this->forceIndexedByDate = $forceIndexedByDate;
-        $this->dataAccess = new Piwik_DataAccess_ArchiveQuery();
-    }
-    
-    /**
-     * Destructor.
-     */
-    public function __destruct()
-    {
-        $this->periods = null;
-        $this->siteIds = null;
-        $this->segment = null;
-        $this->idarchives = array();
-        $this->processingCache = array();
-    }
-    
-    /**
-     * Returns the IDs of sites we are querying archive data for.
-     * 
-     * @return array
-     */
-    public function getSiteIds()
-    {
-        return $this->siteIds;
-    }
-    
-    /**
-     * Returns the periods we are querying archive data for.
-     * 
-     * @return array
-     */
-    public function getPeriods()
-    {
-        return $this->periods;
-    }
-    
-    /**
-     * Returns the segment used to limit the visit set.
-     * 
-     * @return Piwik_Segment|null
-     */
-    public function getSegment()
-    {
-        return $this->segment;
     }
 
     /**
      * Builds an Archive object using query parameter values.
      *
-     * @param int|string $idSite Integer, or comma separated list of integer site IDs.
+     * @param $idSites
      * @param string $period 'day', 'week', 'month', 'year' or 'range'
      * @param Piwik_Date|string $strDate 'YYYY-MM-DD', magic keywords (ie, 'today'; @see Piwik_Date::factory())
      *                                   or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD').
-     * @param false|string $segment Segment definition - defaults to false for backward compatibility.
-     * @param false|string $_restrictSitesToLogin Used only when running as a scheduled task.
+     * @param bool|string $segment Segment definition - defaults to false for backward compatibility.
+     * @param bool|string $_restrictSitesToLogin Used only when running as a scheduled task.
      * @return Piwik_Archive
      */
-    public static function build($idSite, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
+    public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
+    {
+        $websiteIds = Piwik_Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
+
+        if (Piwik_Period::isMultiplePeriod($strDate, $period)) {
+            $oPeriod = new Piwik_Period_Range($period, $strDate);
+            $allPeriods = $oPeriod->getSubperiods();
+        } else {
+            $timezone = count($websiteIds) == 1 ? Piwik_Site::getTimezoneFor($websiteIds[0]) : false;
+            $oPeriod = Piwik_Period::makePeriodFromQueryParams($timezone, $period, $strDate);
+            $allPeriods = array($oPeriod);
+        }
+        $segment = new Piwik_Segment($segment, $websiteIds);
+        $idSiteIsAll = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
+        $isMultipleDate = Piwik_Period::isMultiplePeriod($strDate, $period);
+        return Piwik_Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
+    }
+
+    public static function factory(Piwik_Segment $segment, array $periods, $idSites, $idSiteIsAll = false, $isMultipleDate = false)
     {
         $forceIndexedBySite = false;
         $forceIndexedByDate = false;
-        
-        // determine site IDs to query from
-        if (is_array($idSite)
-            || $idSite == 'all'
-        ) {
+        if ($idSiteIsAll || count($idSites) > 1) {
             $forceIndexedBySite = true;
         }
-        $sites = Piwik_Site::getIdSitesFromIdSitesString($idSite, $_restrictSitesToLogin);
-        
-        // if a period date string is detected: either 'last30', 'previous10' or 'YYYY-MM-DD,YYYY-MM-DD'
-        if (is_string($strDate)
-            && self::isMultiplePeriod($strDate, $period)
-        ) {
-            $oPeriod = new Piwik_Period_Range($period, $strDate);
-            $allPeriods = $oPeriod->getSubperiods();
+        if (count($periods) > 1 || $isMultipleDate) {
             $forceIndexedByDate = true;
-        } else {
-            if (count($sites) == 1) {
-                $oSite = new Piwik_Site($sites[0]);
-            } else {
-                $oSite = null;
-            }
-            
-            $oPeriod = Piwik_Archive::makePeriodFromQueryParams($oSite, $period, $strDate);
-            $allPeriods = array($oPeriod);
         }
-        
-        return new Piwik_Archive(
-            $sites, $allPeriods, new Piwik_Segment($segment, $sites), $forceIndexedBySite, $forceIndexedByDate);
+
+        $params = new Piwik_Archive_Parameters();
+        $params->setIdSites($idSites);
+        $params->setPeriods($periods);
+        $params->setSegment($segment);
+
+        return new Piwik_Archive($params, $forceIndexedBySite, $forceIndexedByDate);
     }
 
-    /**
-     * Creates a period instance using a Piwik_Site instance and two strings describing
-     * the period & date.
-     *
-     * @param Piwik_Site|null $site
-     * @param string $strPeriod The period string: day, week, month, year, range
-     * @param string $strDate The date or date range string.
-     * @return Piwik_Period
-     */
-    public static function makePeriodFromQueryParams($site, $strPeriod, $strDate)
-    {
-        if ($site === null) {
-            $tz = 'UTC';
-        } else {
-            $tz = $site->getTimezone();
-        }
-
-        if ($strPeriod == 'range') {
-            $oPeriod = new Piwik_Period_Range('range', $strDate, $tz, Piwik_Date::factory('today', $tz));
-        } else {
-            $oDate = $strDate;
-            if (!($strDate instanceof Piwik_Date)) {
-                if ($strDate == 'now'
-                    || $strDate == 'today'
-                ) {
-                    $strDate = date('Y-m-d', Piwik_Date::factory('now', $tz)->getTimestamp());
-                } elseif ($strDate == 'yesterday'
-                          || $strDate == 'yesterdaySameTime'
-                ) {
-                    $strDate = date('Y-m-d', Piwik_Date::factory('now', $tz)->subDay(1)->getTimestamp());
-                }
-                $oDate = Piwik_Date::factory($strDate);
-            }
-            $date = $oDate->toString();
-            $oPeriod = Piwik_Period::factory($strPeriod, $oDate);
-        }
-
-        return $oPeriod;
-    }
     
     /**
      * Returns the value of the element $name from the current archive 
@@ -447,21 +176,23 @@ class Piwik_Archive
         // if only one metric is returned, just return it as a numeric value
         if (empty($resultIndices)
             && count($result) <= 1
+            && (!is_array($names) || count($names) == 1)
         ) {
             $result = (float)reset($result); // convert to float in case $result is empty
         }
         
         return $result;
     }
-    
+
     /**
      * Returns the value of the elements in $names from the current archive.
-     * 
+     *
      * The value to be returned is a blob value and is stored in the archive_blob_* tables.
-     * 
+     *
      * It can return anything from strings, to serialized PHP arrays or PHP objects, etc.
      *
      * @param string|array $names One or more archive names, eg, 'Referers_keywordBySearchEngine'.
+     * @param null $idSubtable
      * @return string|array|false False if no value with the given name, numeric if only one site
      *                            and date and we're not forcing an index, and array if multiple
      *                            sites/dates are queried.
@@ -513,64 +244,17 @@ class Piwik_Archive
      * Piwik_DataTable_Manager::getTable() function.
      *
      * @param string $name The name of the record to get.
-     * @param int|string|null $idSubtable The subtable ID (if any) or 'all' if requesting every datatable.
+     * @param int|string|null $idSubtable The subtable ID (if any) or self::ID_SUBTABLE_LOAD_ALL_SUBTABLES if requesting every datatable.
      * @param bool $addMetadataSubtableId Whether to add the DB subtable ID as metadata to each datatable,
      *                                    or not.
      * @return Piwik_DataTable
      */
     public function getDataTableExpanded($name, $idSubtable = null, $addMetadataSubtableId = true)
     {
-        $data = $this->get($name, 'blob', 'all');
+        $data = $this->get($name, 'blob', self::ID_SUBTABLE_LOAD_ALL_SUBTABLES);
         return $data->getExpandedDataTable($this->getResultIndices(), $idSubtable, $addMetadataSubtableId);
     }
-    
-    /**
-     * Returns true if we shouldn't launch the archiving process and false if we should.
-     * 
-     * @return bool
-     */
-    public function isArchivingDisabled()
-    {
-        return Piwik_ArchiveProcessing::isArchivingDisabledFor($this->segment, $this->getPeriodLabel());
-    }
 
-    /**
-     * Returns true if Segmentation is allowed for this user
-     *
-     * @return bool
-     */
-    public static function isSegmentationEnabled()
-    {
-        return !Piwik::isUserIsAnonymous()
-            || Piwik_Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
-    }
-
-    /**
-     * Indicate if $dateString and $period correspond to multiple periods
-     *
-     * @static
-     * @param  $dateString
-     * @param  $period
-     * @return boolean
-     */
-    public static function isMultiplePeriod($dateString, $period)
-    {
-        return (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
-            || Piwik_Period_Range::parseDateRange($dateString))
-            && $period != 'range';
-    }
-
-    /**
-     * Indicate if $idSiteString corresponds to multiple sites.
-     *
-     * @param string $idSiteString
-     * @return bool
-     */
-    public static function isMultipleSites($idSiteString)
-    {
-        return $idSiteString == 'all' || strpos($idSiteString, ',') !== false;
-    }
-    
     /**
      * Returns the list of plugins that archive the given reports.
      * 
@@ -585,7 +269,8 @@ class Piwik_Archive
         }
         return array_unique($result);
     }
-    
+
+
     /**
      * Helper - Loads a DataTable from the Archive.
      * Optionally loads the table recursively,
@@ -618,9 +303,14 @@ class Piwik_Archive
 
         return $dataTable;
     }
-    
+
+    private function appendIdSubtable($recordName, $id)
+    {
+        return $recordName . "_" . $id;
+    }
     /**
      * Queries archive tables for data and returns the result.
+     * @return Piwik_Archive_DataCollection
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
@@ -630,22 +320,23 @@ class Piwik_Archive
         
         // apply idSubtable
         if ($idSubtable !== null
-            && $idSubtable != 'all'
+            && $idSubtable != self::ID_SUBTABLE_LOAD_ALL_SUBTABLES
         ) {
             foreach ($archiveNames as &$name) {
-                $name .= "_$idSubtable";
+                $name = $this->appendIdsubtable($name, $idSubtable);
             }
         }
         
         $result = new Piwik_Archive_DataCollection(
-            $archiveNames, $archiveDataType, $this->siteIds, $this->periods, $defaultRow = null);
+            $archiveNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
         
         $archiveIds = $this->getArchiveIds($archiveNames);
         if (empty($archiveIds)) {
             return $result;
         }
-        
-        $archiveData = $this->dataAccess->getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
+
+        $loadAllSubtables = $idSubtable == self::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
+        $archiveData = Piwik_DataAccess_ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $loadAllSubtables);
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
             $idSite = $row['idsite'];
@@ -657,7 +348,7 @@ class Piwik_Archive
                 $value = $this->uncompress($row['value']);
                 $result->addMetadata($idSite, $periodStr, 'ts_archived', $row['ts_archived']);
             }
-            
+            //FIXMEA
             $resultRow = &$result->get($idSite, $periodStr);
             $resultRow[$row['name']] = $value;
         }
@@ -669,7 +360,7 @@ class Piwik_Archive
      * Returns archive IDs for the sites, periods and archive names that are being
      * queried. This function will use the idarchive cache if it has the right data,
      * query archive tables for IDs w/o launching archiving, or launch archiving and
-     * get the idarchive from Piwik_ArchiveProcessing instances.
+     * get the idarchive from Piwik_ArchiveProcessor instances.
      */
     private function getArchiveIds($archiveNames)
     {
@@ -692,7 +383,7 @@ class Piwik_Archive
         
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
-            if (!$this->isArchivingDisabled()) {
+            if (!Piwik_ArchiveProcessor_Rules::isArchivingDisabledFor($this->params->getSegment(), $this->getPeriodLabel())) {
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
@@ -715,7 +406,15 @@ class Piwik_Archive
         
         return $idArchivesByMonth;
     }
-    
+
+    /**
+     * @return Piwik_Archive_Parameters
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
     /**
      * Gets the IDs of the archives we're querying for and stores them in $this->archives.
      * This function will launch the archiving process for each period/site/plugin if 
@@ -728,14 +427,14 @@ class Piwik_Archive
     {
         $today = Piwik_Date::today();
         
-        // for every individual query permutation, launch the archiving process and get the archive ID
-        foreach ($this->periods as $period) {
+        /* @var Piwik_Period $period */
+        foreach ($this->params->getPeriods() as $period) {
             $periodStr = $period->getRangeString();
             
             $twoDaysBeforePeriod = $period->getDateStart()->subDay(2);
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
             
-            foreach ($this->siteIds as $idSite) {
+            foreach ($this->params->getIdSites() as $idSite) {
                 $site = new Piwik_Site($idSite);
                 
                 // if the END of the period is BEFORE the website creation date
@@ -753,44 +452,34 @@ class Piwik_Archive
                     Piwik::log("Archive $archiveDesc skipped, archive is after today.");
                     continue;
                 }
-                
-                // prepare the ArchiveProcessing instance
-                $processing = $this->getArchiveProcessingInstance($period);
-                $processing->setSite($site);
-                $processing->setPeriod($period);
-                $processing->setSegment($this->segment);
-                
-                $processing->isThereSomeVisits = null;
-                
+
+
+                if($period->getLabel() == 'day') {
+                    $processing = new Piwik_ArchiveProcessor_Day($period, $site, $this->params->getSegment());
+                } else {
+                    $processing = new Piwik_ArchiveProcessor_Period($period, $site, $this->params->getSegment());
+                }
+
                 // process for each plugin as well
                 foreach ($archiveGroups as $plugin) {
-                    if ($plugin == 'all') {
+                    if ($plugin == self::ARCHIVE_ALL_PLUGINS_FLAG) {
                         $plugin = reset($plugins);
                     }
-                    
+
                     $doneFlag = $this->getDoneStringForPlugin($plugin);
                     $this->initializeArchiveIdCache($doneFlag);
-                    
-                    $processing->init();
-                    $processing->setRequestedPlugin($plugin);
-                    
-                    // launch archiving if the requested data hasn't been archived
-                    $idArchive = $processing->loadArchive();
-                    if (empty($idArchive)) {
-                        $processing->launchArchiving();
-                        $idArchive = $processing->getIdArchive();
+
+                    $idArchive = $processing->preProcessArchive($plugin);
+
+                    $visits = $processing->getNumberOfVisits();
+                    if($visits > 0) {
+                        $this->idarchives[$doneFlag][$periodStr][] = $idArchive;
                     }
-                    
-                    if (!$processing->isThereSomeVisits()) {
-                        continue;
-                    }
-                    
-                    $this->idarchives[$doneFlag][$periodStr][] = $idArchive;
                 }
             }
         }
     }
-    
+
     /**
      * Gets the IDs of the archives we're querying for and stores them in $this->archives.
      * This function will not launch the archiving process (and is thus much, much faster
@@ -800,9 +489,9 @@ class Piwik_Archive
      */
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
-        $idarchivesByReport = $this->dataAccess->getArchiveIds(
-            $this->siteIds, $this->periods, $this->segment, $plugins);
-        
+        $idarchivesByReport = Piwik_DataAccess_ArchiveSelector::getArchiveIds(
+            $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
+
         // initialize archive ID cache for each report
         foreach ($plugins as $plugin) {
             $doneFlag = $this->getDoneStringForPlugin($plugin);
@@ -820,35 +509,18 @@ class Piwik_Archive
     
     /**
      * Returns the done string flag for a plugin using this instance's segment & periods.
-     * 
-     * @see Piwik_ArchiveProcessing::getDoneStringFlagFor
-     * 
      * @param string $plugin
      * @return string
      */
     private function getDoneStringForPlugin($plugin)
     {
-        return Piwik_ArchiveProcessing::getDoneStringFlagFor($this->segment, $this->getPeriodLabel(), $plugin);
+        return Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($this->params->getSegment(), $this->getPeriodLabel(), $plugin);
     }
-    
-    /**
-     * Returns an ArchiveProcessing instance that should be used for a specific
-     * period.
-     * 
-     * @param Piwik_Period $period
-     */
-    private function getArchiveProcessingInstance($period)
-    {
-        $label = $period->getLabel();
-        if (!isset($this->processingCache[$label])) {
-            $this->processingCache[$label] = Piwik_ArchiveProcessing::factory($label);
-        }
-        return $this->processingCache[$label];
-    }
-    
+
     private function getPeriodLabel()
     {
-        return reset($this->periods)->getLabel();
+        $periods = $this->params->getPeriods();
+        return reset($periods)->getLabel();
     }
     
     /**
@@ -861,13 +533,13 @@ class Piwik_Archive
     {
         $indices = array();
         
-        if (count($this->siteIds) > 1
+        if (count($this->params->getIdSites()) > 1
             || $this->forceIndexedBySite
         ) {
             $indices['site'] = 'idSite';
         }
         
-        if (count($this->periods) > 1
+        if (count($this->params->getPeriods()) > 1
             || $this->forceIndexedByDate
         ) {
             $indices['period'] = 'date';
@@ -901,20 +573,7 @@ class Piwik_Archive
     {
         return @gzuncompress($data);
     }
-    
-    private function getAsNonEmptyArray($array, $paramName)
-    {
-        if (!is_array($array)) {
-            $array = array($array);
-        }
-        
-        if (empty($array)) {
-            throw new Exception("Piwik_Archive::__construct: \$$paramName is empty.");
-        }
-        
-        return $array;
-    }
-    
+
     /**
      * Initializes the archive ID cache ($this->idarchives) for a particular 'done' flag.
      * 
@@ -949,7 +608,7 @@ class Piwik_Archive
     private function getArchiveGroupOfPlugin($plugin)
     {
         if ($this->getPeriodLabel() != 'range') {
-            return 'all';
+            return self::ARCHIVE_ALL_PLUGINS_FLAG;
         }
         
         return $plugin;
@@ -964,9 +623,7 @@ class Piwik_Archive
     public static function getPluginForReport($report)
     {
         // Core metrics are always processed in Core, for the requested date/period/segment
-        if (in_array($report, Piwik_ArchiveProcessing::getCoreMetrics())
-            || $report == 'max_actions'
-        ) {
+        if (in_array($report, Piwik_Metrics::getVisitsMetricNames())) {
             $report = 'VisitsSummary_CoreMetrics';
         }
         // Goal_* metrics are processed by the Goals plugin (HACK)

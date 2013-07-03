@@ -19,7 +19,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
      * Go to /piwik/?module=ExamplePlugin&action=helloWorld to execute this method
      *
      */
-    function helloWorld()
+    public function helloWorld()
     {
         echo "<p>Hello world! <br />";
         echo "Happy coding with Piwik :)</p>";
@@ -30,7 +30,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
      * or in the dashboard > Add a new widget
      *
      */
-    function exampleWidget()
+    public function exampleWidget()
     {
         echo "<p>Hello world! <br /> You can output whatever you want in widgets, and put them on dashboard or everywhere on the web (in your blog, website, etc.).
 		<br />Widgets can include graphs, tables, flash, text, images, etc.
@@ -41,18 +41,18 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 		<script type=\"text/javascript\">$('#happycoding').hide().fadeIn(5000);$('#jsenabled').hide().css({'color':'red'}).fadeIn(10000);</script>";
     }
 
-    function photostreamMatt()
+    public function photostreamMatt()
     {
         echo '<object width="400" height="400"> <param name="flashvars" value="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to="></param> <param name="movie" value="http://www.flickr.com/apps/slideshow/show.swf?v=109615"></param> <param name="allowFullScreen" value="true"></param><embed type="application/x-shockwave-flash" src="http://www.flickr.com/apps/slideshow/show.swf?v=109615" allowFullScreen="true" flashvars="offsite=true&lang=en-us&page_show_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2Fshow%2F&page_show_back_url=%2Fphotos%2Fmatthieu-aubry%2Fsets%2F72157602308487455%2F&set_id=72157602308487455&jump_to=" width="400" height="400"></embed></object>';
     }
 
     /**
      * this widgets shows how to make a remote API request to piwik.org
-     * you find the main JS code in templates/piwikDownloadCount.tpl
+     * you find the main JS code in templates/piwikDownloads.twig
      */
-    function piwikDownloads()
+    public function piwikDownloads()
     {
-        $view = Piwik_View::factory('piwikDownloads');
+        $view = new Piwik_View('@ExamplePlugin/piwikDownloads');
         $this->setGeneralVariablesView($view);
         echo $view->render();
     }
@@ -62,7 +62,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
      * This help is then used on http://piwik.org/docs/plugins/functions
      *
      */
-    function index()
+    public function index()
     {
         $out = '';
         $out .= '<i>This page aims to list the different functions you can use when programming plugins for Piwik.</i><br />';
@@ -117,7 +117,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
         $out .= 'In order to translate strings within Javascript code, you can use the javascript function _pk_translate( token );.
 				<ul><li>The "token" parameter is the string unique key found in the translation file. For this token string to be available in Javascript, you must
 				suffix your token by "_js" in the language file. For example, you can add <code>\'Goals_AddGoal_js\' => \'Add Goal\',</code> in the lang/en.php file</li>
-				<li>You then need to instruct Piwik to load your Javascript translations for your plugin; by default, all translation strings are not loaded in Javascript for performance reasons. This can be done by calling a custom-made Smarty modifier before the Javascript code requiring translations, eg. 
+				<li>You then need to instruct Piwik to load your Javascript translations for your plugin; by default, all translation strings are not loaded in Javascript for performance reasons. This can be done by calling a custom-made Twig modifier before the Javascript code requiring translations, eg. 
 					<code>{loadJavascriptTranslations plugins=\'$YOUR_PLUGIN_NAME\'}</code>. In our previous example, the $YOUR_PLUGIN_NAME being Goals, we would write <code>{loadJavascriptTranslations plugins=\'Goals\'}</code>
 					</li><li>You can then print this string from your JS code by doing <code>_pk_translate(\'Goals_AddGoal_js\');</code>.
 					</li></ul>';
@@ -126,15 +126,15 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
         $out .= 'It is sometimes useful to reload one widget in the dashboard (for example, every 20 seconds for a real time widget, or after a setting change).
 					You can easily force your widget to reload in the dashboard by calling the helper function <code>$(this).parents(\'[widgetId]\').dashboardWidget(\'reload\');</code>.';
 
-        $out .= '<h2>Smarty plugins</h2>';
-        $out .= 'There are some builtin plugins for Smarty especially developped for Piwik. <br />
-				You can find them on the <a href="https://github.com/piwik/piwik/tree/master/core/SmartyPlugins">Git at /core/SmartyPlugins</a>. <br />
-				More documentation to come about smarty plugins.<br />';
+        $out .= '<h2>Twig plugins</h2>';
+        $out .= 'There are some builtin plugins for Twig especially developped for Piwik. <br />
+				You can find them on the <a href="https://github.com/piwik/piwik/tree/master/core/SmartyPlugins">Git at /core/TwigPlugins</a>. <br />
+				More documentation to come about Twig plugins.<br />';
 
         echo $out;
     }
 
-    static private function boolToString($bool)
+    private static function boolToString($bool)
     {
         return $bool ? "true" : "false";
     }

@@ -17,7 +17,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 {
     function index()
     {
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@UserCountry/index');
 
         $view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
         $view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
@@ -33,7 +33,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
     function adminIndex()
     {
         Piwik::checkUserIsSuperUser();
-        $view = Piwik_View::factory('adminIndex');
+        $view = new Piwik_View('@UserCountry/adminIndex');
 
         $allProviderInfo = Piwik_UserCountry_LocationProvider::getAllProviderInfo(
             $newline = '<br/>', $includeExtra = true);
@@ -134,14 +134,14 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
      */
     private function getGeoIpUpdaterManageScreen()
     {
-        $view = Piwik_View::factory('updaterSetup');
+        $view = new Piwik_View('@UserCountry/getGeoIpUpdaterManageScreen');
         $view->geoIPDatabasesInstalled = true;
         $this->setUpdaterManageVars($view);
         return $view->render();
     }
 
     /**
-     * Sets some variables needed by the updaterSetup.tpl template.
+     * Sets some variables needed by the _updaterManage.twig template.
      *
      * @param Piwik_View $view
      */
@@ -191,6 +191,8 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
                 if ($info !== false) {
                     echo Piwik_Common::json_encode($info);
                     return;
+                } else {
+                    echo 1;
                 }
             } catch (Exception $ex) {
                 echo Piwik_Common::json_encode(array('error' => $ex->getMessage()));
@@ -279,6 +281,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
             if ($provider === false) {
                 throw new Exception("Invalid provider ID: '$providerId'.");
             }
+            echo 1;
         }
     }
 

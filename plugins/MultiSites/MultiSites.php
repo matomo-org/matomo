@@ -79,11 +79,11 @@ class Piwik_MultiSites extends Piwik_Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/MultiSites/templates/common.js";
+        $jsFiles[] = "plugins/MultiSites/javascripts/multiSites.js";
     }
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/MultiSites/templates/styles.css";
+        $cssFiles[] = "plugins/MultiSites/stylesheets/multiSites.css";
     }
 }

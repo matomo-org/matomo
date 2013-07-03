@@ -1576,7 +1576,9 @@ class Piwik_Common
  */
 function destroy(&$var)
 {
-    if (is_object($var)) $var->__destruct();
+    if (is_object($var) && method_exists($var, '__destruct')) {
+        $var->__destruct();
+    }
     unset($var);
     $var = null;
 }

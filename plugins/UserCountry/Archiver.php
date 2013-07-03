@@ -11,9 +11,9 @@
 
 class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 {
-    const VISITS_BY_COUNTRY_RECORD_NAME = 'UserCountry_country';
-    const VISITS_BY_REGION_RECORD_NAME = 'UserCountry_region';
-    const VISITS_BY_CITY_RECORD_NAME = 'UserCountry_city';
+    const COUNTRY_RECORD_NAME = 'UserCountry_country';
+    const REGION_RECORD_NAME = 'UserCountry_region';
+    const CITY_RECORD_NAME = 'UserCountry_city';
     const DISTINCT_COUNTRIES_METRIC = 'UserCountry_distinctCountries';
 
     // separate region, city & country info in stored report labels
@@ -21,15 +21,28 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 
     private $latLongForCities = array();
 
-    private $metricsByDimension = array();
+    private $dataArrays = array();
 
     protected $maximumRows;
 
+    const COUNTRY_FIELD = 'location_country';
+
+    const REGION_FIELD = 'location_region';
+
+    const CITY_FIELD = 'location_city';
+
+    protected $dimensions = array( self::COUNTRY_FIELD, self::REGION_FIELD, self::CITY_FIELD );
+
+    protected $arrays;
+    const LATITUDE_FIELD = 'location_latitude';
+    const LONGITUDE_FIELD = 'location_longitude';
+
+
     public function archiveDay()
     {
-        $this->metricsByDimension = array('location_country' => array(),
-                                          'location_region'  => array(),
-                                          'location_city'    => array());
+        foreach($this->dimensions as $dimension) {
+            $this->arrays[$dimension] = new Piwik_DataArray();
+        }
         $this->aggregateFromVisits();
         $this->aggregateFromConversions();
         $this->recordDayReports();
@@ -37,17 +50,9 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 
     protected function aggregateFromVisits()
     {
-        $dimensions = array_keys($this->metricsByDimension);
-        $query = $this->getProcessor()->queryVisitsByDimension(
-            $dimensions,
-            $where = '',
-            $metrics = false,
-            $orderBy = false,
-            $rankingQuery = null,
-            $addSelect = 'MAX(log_visit.location_latitude) as location_latitude,
-						  MAX(log_visit.location_longitude) as location_longitude'
-        );
-
+        $additionalSelects = array('MAX(log_visit.location_latitude) as location_latitude',
+                                   'MAX(log_visit.location_longitude) as location_longitude');
+        $query = $this->getLogAggregator()->queryVisitsByDimension($this->dimensions, $where = false, $additionalSelects);
         if ($query === false) {
             return;
         }
@@ -55,7 +60,11 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
         while ($row = $query->fetch()) {
             $this->makeRegionCityLabelsUnique($row);
             $this->rememberCityLatLong($row);
-            $this->aggregateVisit($row);
+
+            /* @var $dataArray Piwik_DataArray */
+            foreach ($this->arrays as $dimension => $dataArray) {
+                $dataArray->sumMetricsVisits($row[$dimension], $row);
+            }
         }
     }
 
@@ -66,61 +75,33 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
      */
     private function makeRegionCityLabelsUnique(&$row)
     {
-        static $locationColumns = array('location_region', 'location_country', 'location_city');
-
-        // to be on the safe side, remove the location separator from the region/city/country we
-        // get from the query
-        foreach ($locationColumns as $column) {
+        // remove the location separator from the region/city/country we get from the query
+        foreach ($this->dimensions as $column) {
             $row[$column] = str_replace(self::LOCATION_SEPARATOR, '', $row[$column]);
         }
 
-        if (!empty($row['location_region'])) // do not differentiate between unknown regions
-        {
-            $row['location_region'] = $row['location_region'] . self::LOCATION_SEPARATOR . $row['location_country'];
+        if (!empty($row[self::REGION_FIELD])) {
+            $row[self::REGION_FIELD] = $row[self::REGION_FIELD] . self::LOCATION_SEPARATOR . $row[self::COUNTRY_FIELD];
         }
 
-        if (!empty($row['location_city'])) // do not differentiate between unknown cities
-        {
-            $row['location_city'] = $row['location_city'] . self::LOCATION_SEPARATOR . $row['location_region'];
+        if (!empty($row[self::CITY_FIELD])) {
+            $row[self::CITY_FIELD] = $row[self::CITY_FIELD] . self::LOCATION_SEPARATOR . $row[self::REGION_FIELD];
         }
     }
 
     protected function rememberCityLatLong($row)
     {
-        $lat = $long = false;
-        if (!empty($row['location_city'])) {
-            if (!empty($row['location_latitude'])) {
-                $lat = $row['location_latitude'];
-            }
-            if (!empty($row['location_longitude'])) {
-                $long = $row['location_longitude'];
-            }
-        }
-
-        // store latitude/longitude, if we should
-        if ($lat !== false && $long !== false
-            && empty($this->latLongForCities[$row['location_city']])
-        ) {
-            $this->latLongForCities[$row['location_city']] = array($lat, $long);
-        }
-    }
-
-    protected function aggregateVisit($row)
-    {
-        foreach ($this->metricsByDimension as $dimension => &$table) {
-            $label = (string)$row[$dimension];
-
-            if (!isset($table[$label])) {
-                $table[$label] = $this->getProcessor()->makeEmptyRow();
-            }
-            $this->getProcessor()->sumMetrics($row, $table[$label]);
+        if (   !empty($row[self::CITY_FIELD])
+            && !empty($row[self::LATITUDE_FIELD])
+            && !empty($row[self::LONGITUDE_FIELD])
+            && empty($this->latLongForCities[$row[self::CITY_FIELD]])) {
+                $this->latLongForCities[$row[self::CITY_FIELD]] = array($row[self::LATITUDE_FIELD], $row[self::LONGITUDE_FIELD]);
         }
     }
 
     protected function aggregateFromConversions()
     {
-        $dimensions = array_keys($this->metricsByDimension);
-        $query = $this->getProcessor()->queryConversionsByDimension($dimensions);
+        $query = $this->getLogAggregator()->queryConversionsByDimension($this->dimensions);
 
         if ($query === false) {
             return;
@@ -129,36 +110,32 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
         while ($row = $query->fetch()) {
             $this->makeRegionCityLabelsUnique($row);
 
-            $idGoal = $row['idgoal'];
-            foreach ($this->metricsByDimension as $dimension => &$table) {
-                $label = (string)$row[$dimension];
-
-                if (!isset($table[$label][Piwik_Archive::INDEX_GOALS][$idGoal])) {
-                    $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal] = $this->getProcessor()->makeEmptyGoalRow($idGoal);
-                }
-                $this->getProcessor()->sumGoalMetrics($row, $table[$label][Piwik_Archive::INDEX_GOALS][$idGoal]);
+            /* @var $dataArray Piwik_DataArray */
+            foreach ($this->arrays as $dimension => $dataArray) {
+                $dataArray->sumMetricsGoals($row[$dimension], $row);
             }
         }
 
-        foreach ($this->metricsByDimension as &$table) {
-            $this->getProcessor()->enrichMetricsWithConversions($table);
+        /* @var $dataArray Piwik_DataArray */
+        foreach ($this->arrays as $dataArray) {
+            $dataArray->enrichMetricsWithConversions();
         }
     }
 
     protected function recordDayReports()
     {
-        $tableCountry = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_country']);
-        $this->getProcessor()->insertBlobRecord(self::VISITS_BY_COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
+        $tableCountry = Piwik_ArchiveProcessor_Day::getDataTableFromDataArray($this->arrays[self::COUNTRY_FIELD]);
+        $this->getProcessor()->insertBlobRecord(self::COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
 
-        $tableRegion = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_region']);
-        $serialized = $tableRegion->getSerialized($this->maximumRows, $this->maximumRows, Piwik_Archive::INDEX_NB_VISITS);
-        $this->getProcessor()->insertBlobRecord(self::VISITS_BY_REGION_RECORD_NAME, $serialized);
+        $tableRegion = Piwik_ArchiveProcessor_Day::getDataTableFromDataArray($this->arrays[self::REGION_FIELD]);
+        $serialized = $tableRegion->getSerialized($this->maximumRows, $this->maximumRows, Piwik_Metrics::INDEX_NB_VISITS);
+        $this->getProcessor()->insertBlobRecord(self::REGION_RECORD_NAME, $serialized);
 
-        $tableCity = Piwik_ArchiveProcessing_Day::getDataTableFromArray($this->metricsByDimension['location_city']);
+        $tableCity = Piwik_ArchiveProcessor_Day::getDataTableFromDataArray($this->arrays[self::CITY_FIELD]);
         $this->setLatitudeLongitude($tableCity);
-        $serialized = $tableCity->getSerialized($this->maximumRows, $this->maximumRows, Piwik_Archive::INDEX_NB_VISITS);
-        $this->getProcessor()->insertBlobRecord(self::VISITS_BY_CITY_RECORD_NAME, $serialized);
+        $serialized = $tableCity->getSerialized($this->maximumRows, $this->maximumRows, Piwik_Metrics::INDEX_NB_VISITS);
+        $this->getProcessor()->insertBlobRecord(self::CITY_RECORD_NAME, $serialized);
     }
 
     /**
@@ -185,14 +162,14 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
     public function archivePeriod()
     {
         $dataTableToSum = array(
-            self::VISITS_BY_COUNTRY_RECORD_NAME,
-            self::VISITS_BY_REGION_RECORD_NAME,
-            self::VISITS_BY_CITY_RECORD_NAME,
+            self::COUNTRY_RECORD_NAME,
+            self::REGION_RECORD_NAME,
+            self::CITY_RECORD_NAME,
         );
 
-        $nameToCount = $this->getProcessor()->archiveDataTable($dataTableToSum);
+        $nameToCount = $this->getProcessor()->aggregateDataTableReports($dataTableToSum);
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC,
-            $nameToCount[self::VISITS_BY_COUNTRY_RECORD_NAME]['level0']);
+            $nameToCount[self::COUNTRY_RECORD_NAME]['level0']);
     }
 
 }

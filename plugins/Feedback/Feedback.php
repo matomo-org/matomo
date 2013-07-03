@@ -48,11 +48,11 @@ class Piwik_Feedback extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Feedback/templates/styles.css";
+        $cssFiles[] = "plugins/Feedback/stylesheets/feedback.css";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Feedback/templates/feedback.js";
+        $jsFiles[] = "plugins/Feedback/javascripts/feedback.js";
     }
 }

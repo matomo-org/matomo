@@ -18,9 +18,9 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
     /*
      * Main view showing listing of websites and settings
      */
-    function index()
+    public function index()
     {
-        $view = Piwik_View::factory('SitesManager');
+        $view = new Piwik_View('@SitesManager/index');
 
         if (Piwik::isUserIsSuperUser()) {
             $sites = Piwik_SitesManager_API::getInstance()->getAllSites();
@@ -33,9 +33,9 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 
         foreach ($sites as &$site) {
             $site['alias_urls'] = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($site['idsite']);
-            $site['excluded_ips'] = str_replace(',', '<br/>', $site['excluded_ips']);
-            $site['excluded_parameters'] = str_replace(',', '<br/>', $site['excluded_parameters']);
-            $site['excluded_user_agents'] = str_replace(',', '<br/>', $site['excluded_user_agents']);
+            $site['excluded_ips'] = explode(',', $site['excluded_ips']);
+            $site['excluded_parameters'] = explode(',', $site['excluded_parameters']);
+            $site['excluded_user_agents'] = explode(',', $site['excluded_user_agents']);
         }
         $view->adminSites = $sites;
         $view->adminSitesCount = count($sites);
@@ -77,7 +77,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
     /*
      * Records Global settings when user submit changes
      */
-    function setGlobalSettings()
+    public function setGlobalSettings()
     {
         $response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
 
@@ -119,7 +119,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
         $idSite = Piwik_Common::getRequestVar('idSite');
         Piwik::checkUserHasViewAccess($idSite);
         $jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
-        $view = Piwik_View::factory('Tracking');
+        $view = new Piwik_View('@SitesManager/displayJavascriptCode');
         $this->setBasicVariablesView($view);
         $view->menu = Piwik_GetAdminMenu();
         $view->idSite = $idSite;
@@ -146,7 +146,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
      */
     function displayAlternativeTagsHelp()
     {
-        $view = Piwik_View::factory('DisplayAlternativeTags');
+        $view = new Piwik_View('@SitesManager/displayAlternativeTagsHelp');
         $view->idSite = Piwik_Common::getRequestVar('idSite');
         $url = Piwik_Common::getRequestVar('piwikUrl', '', 'string');
         if (empty($url)

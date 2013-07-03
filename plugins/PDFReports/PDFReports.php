@@ -45,11 +45,11 @@ class Piwik_PDFReports extends Piwik_Plugin
     );
 
     static private $managedReportTypes = array(
-        self::EMAIL_TYPE => 'themes/default/images/email.png'
+        self::EMAIL_TYPE => 'plugins/Zeitgeist/images/email.png'
     );
 
     static private $managedReportFormats = array(
-        Piwik_ReportRenderer::HTML_FORMAT => 'themes/default/images/html_icon.png',
+        Piwik_ReportRenderer::HTML_FORMAT => 'plugins/Zeitgeist/images/html_icon.png',
         Piwik_ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif'
     );
 
@@ -102,7 +102,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/PDFReports/templates/pdf.js";
+        $jsFiles[] = "plugins/PDFReports/javascripts/pdf.js";
     }
 
     public function validateReportParameters(&$parameters, $info)
@@ -394,7 +394,7 @@ class Piwik_PDFReports extends Piwik_Plugin
 
     static public function template_reportParametersPDFReports(&$out)
     {
-        $view = Piwik_View::factory('report_parameters');
+        $view = new Piwik_View('@PDFReports/reportParametersPDFReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
         $view->displayFormats = self::getDisplayFormats();
         $view->reportType = self::EMAIL_TYPE;
@@ -597,6 +597,7 @@ class Piwik_PDFReports extends Piwik_Plugin
             Piwik_ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_WeeklyReport'),
             Piwik_ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_MonthlyReport'),
             Piwik_ScheduledTime::PERIOD_YEAR => Piwik_Translate('General_YearlyReport'),
+            Piwik_ScheduledTime::PERIOD_RANGE => Piwik_Translate('General_RangeReports'),
         );
     }
 }

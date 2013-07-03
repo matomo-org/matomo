@@ -209,7 +209,6 @@ class Piwik_Dashboard extends Piwik_Plugin
                     $pos++;
                 }
             }
-
         }
     }
 
@@ -229,17 +228,17 @@ class Piwik_Dashboard extends Piwik_Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/Dashboard/templates/widgetMenu.js";
+        $jsFiles[] = "plugins/Dashboard/javascripts/widgetMenu.js";
         $jsFiles[] = "libs/javascript/json2.js";
-        $jsFiles[] = "plugins/Dashboard/templates/dashboardObject.js";
-        $jsFiles[] = "plugins/Dashboard/templates/dashboardWidget.js";
-        $jsFiles[] = "plugins/Dashboard/templates/dashboard.js";
+        $jsFiles[] = "plugins/Dashboard/javascripts/dashboardObject.js";
+        $jsFiles[] = "plugins/Dashboard/javascripts/dashboardWidget.js";
+        $jsFiles[] = "plugins/Dashboard/javascripts/dashboard.js";
     }
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/CoreHome/templates/datatable.css";
-        $cssFiles[] = "plugins/Dashboard/templates/dashboard.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/datatable.css";
+        $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.css";
     }
 
     public function deleteDashboardLayout($userLogin)

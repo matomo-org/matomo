@@ -45,7 +45,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/flags/xx.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -130,7 +130,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/flags/xx.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />
@@ -215,7 +215,7 @@
 		<continentCode>unk</continentCode>
 		<country>Unknown</country>
 		<countryCode>xx</countryCode>
-		<countryFlag>plugins/UserCountry/flags/xx.png</countryFlag>
+		<countryFlag>plugins/UserCountry/images/flags/xx.png</countryFlag>
 		<region />
 		<regionCode />
 		<city />

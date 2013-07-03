@@ -1,0 +1,175 @@
+<div class="dataTableFeatures">
+
+    {% if properties.show_offset_information %}
+    <span>
+	    <span class="dataTablePages"></span>
+    </span>
+    {% endif %}
+
+    {% if properties.show_pagination_control %}
+    <span>
+	    <span class="dataTablePrevious">&lsaquo; {% if javascriptVariablesToSet.dataTablePreviousIsFirst is defined %}{{ 'General_First'|translate }}{% else %}{{ 'General_Previous'|translate }}{% endif %} </span>
+	    <span class="dataTableNext">{{ 'General_Next'|translate }} &rsaquo;</span>
+    </span>
+    {% endif %}
+
+    {% if properties.show_search %}
+    <span class="dataTableSearchPattern">
+	    <input id="keyword" type="text" length="15" />
+	    <input type="submit" value="{{ 'General_Search'|translate }}" />
+    </span>
+    {% endif %}
+
+    <span class="loadingPiwik" style='display:none'><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+    {% if properties.show_footer_icons %}
+        <div class="dataTableFooterIcons">
+            <div class="dataTableFooterWrap" var="{{ javascriptVariablesToSet.viewDataTable }}">
+                {% if not properties.hide_all_views_icons %}
+                    <img src="plugins/Zeitgeist/images/data_table_footer_active_item.png" class="dataTableFooterActiveItem"/>
+                {% endif %}
+                <div class="tableIconsGroup">
+            	<span class="tableAllColumnsSwitch">
+                    {% if properties.show_table %}
+                        <a class="tableIcon" format="table" var="table">
+                            <img title="{{ 'General_DisplaySimpleTable'|translate }}" src="plugins/Zeitgeist/images/table.png"/>
+                        </a>
+                    {% endif %}
+                    {% if properties.show_table_all_columns %}
+                        <a class="tableIcon" format="tableAllColumns" var="tableAllColumns">
+                            <img title="{{ 'General_DisplayTableWithMoreMetrics'|translate }}" src="plugins/Zeitgeist/images/table_more.png"/>
+                        </a>
+                    {% endif %}
+                    {% if properties.show_goals %}
+                        <a class="tableIcon" format="tableGoals" var="tableGoals">
+                            <img title="{{ 'General_DisplayTableWithGoalMetrics'|translate }}"
+                                 src="plugins/Zeitgeist/images/{% if javascriptVariablesToSet.idGoal is defined and javascriptVariablesToSet.idGoal=='ecommerceOrder' %}ecommerceOrder.gif{% else %}goal.png{% endif %}"/>
+                        </a>
+                    {% endif %}
+                    {% if properties.show_ecommerce %}
+                        <a class="tableIcon" format="ecommerceOrder" var="ecommerceOrder">
+                            <img title="{{ 'General_EcommerceOrders'|translate }}" src="plugins/Zeitgeist/images/ecommerceOrder.gif" />
+                            <span>{{ 'General_EcommerceOrders'|translate }}</span>
+                        </a>
+                        <a class="tableIcon" format="ecommerceAbandonedCart" var="ecommerceAbandonedCart">
+                            <img title="{{ 'General_AbandonedCarts'|translate }}" src="plugins/Zeitgeist/images/ecommerceAbandonedCart.gif" />
+                            <span>{{ 'General_AbandonedCarts'|translate }}</span>
+                        </a>
+                    {% endif %}
+                </span>
+                </div>
+                {% if properties.show_all_views_icons %}
+                <div class="tableIconsGroup">
+            	    <span class="tableGraphViews tableGraphCollapsed">
+                    {% if properties.show_bar_chart %}
+                        <a class="tableIcon" format="graphVerticalBar" var="graphVerticalBar">
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/chart_bar.png" title="{{ 'General_VBarGraph'|translate }}"/>
+                        </a>
+                    {% endif %}
+                    {% if properties.show_pie_chart %}
+                        <a class="tableIcon" format="graphPie" var="graphPie">
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/chart_pie.png" title="{{ 'General_Piechart'|translate }}"/>
+                        </a>
+                    {% endif %}
+                    {% if properties.show_tag_cloud %}
+                        <a class="tableIcon" format="cloud" var="cloud">
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/tagcloud.png" title="{{ 'General_TagCloud'|translate }}"/>
+                        </a>
+                    {% endif %}
+				    </span>
+                </div>
+                {% elseif not properties.hide_all_views_icons and javascriptVariablesToSet.viewDataTable == "generateDataChartEvolution" %}
+                <div class="tableIconsGroup">
+            	    <span class="tableGraphViews">
+                        <a class="tableIcon" format="graphEvolution" var="graphEvolution">
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/chart_bar.png" title="{{ 'General_VBarGraph'|translate }}"/>
+                        </a>
+                    </span>
+                </div>
+                {% endif %}
+                <div class="tableIconsGroup">
+                    <span class="exportToFormatIcons">
+                        <a class="tableIcon" var="export">
+                            <img width="16" height="16" src="plugins/Zeitgeist/images/export.png" title="{{ 'General_ExportThisReport'|translate }}"/>
+                        </a>
+                    </span>
+				    <span class="exportToFormatItems" style="display:none">
+					{{ 'General_Export'|translate }}:
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="CSV" filter_limit="{{ properties.exportLimit }}">CSV</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="TSV" filter_limit="{{ properties.exportLimit }}">TSV (Excel)</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="XML" filter_limit="{{ properties.exportLimit }}">XML</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="JSON" filter_limit="{{ properties.exportLimit }}">Json</a> |
+					<a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="PHP" filter_limit="{{ properties.exportLimit }}">Php</a>
+                    {% if properties.show_export_as_rss_feed %}
+                        |
+                        <a target="_blank" methodToCall="{{ properties.apiMethodToRequestDataTable }}" format="RSS" filter_limit="{{ properties.exportLimit }}" date="last10">
+                            <img border="0" src="plugins/Zeitgeist/images/feed.png"/>
+                        </a>
+                    {% endif %}
+				    </span>
+                    {% if properties.show_export_as_image_icon %}
+                        <span id="dataTableFooterExportAsImageIcon">
+                            <a class="tableIcon" href="#" onclick="$(this).closest('.dataTable').find('div.jqplot-target').trigger('piwikExportAsImage'); return false;">
+                                <img title="{{ 'General_ExportAsImage_js'|translate }}" src="plugins/Zeitgeist/images/image.png"/>
+                            </a>
+                        </span>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="limitSelection {% if not properties.show_pagination_control and not properties.show_limit_control %} hidden{% endif %}"
+                 title="{{ 'General_RowsToDisplay'|translate }}"></div>
+            <div class="tableConfiguration">
+                <a class="tableConfigurationIcon" href="#"></a>
+                <ul>
+                    {% if javascriptVariablesToSet.flat is defined and javascriptVariablesToSet.flat == 1 %}
+                        <li>
+                            <div class="configItem dataTableIncludeAggregateRows"></div>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <div class="configItem dataTableFlatten"></div>
+                    </li>
+                    {% if properties.show_exclude_low_population %}
+                        <li>
+                            <div class="configItem dataTableExcludeLowPopulation"></div>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% if not properties.hide_annotations_view %}
+                <div class="annotationView" title="{{ 'Annotations_IconDesc_js'|translate }}">
+                    <a class="tableIcon">
+                        <img width="16" height="16" src="plugins/Zeitgeist/images/grey_marker.png"/>
+                    </a>
+                    <span>{{ 'Annotations_Annotations'|translate }}</span>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="datatableRelatedReports">
+        {% if (properties.relatedReports is not empty) and properties.show_related_reports %}
+            {% if properties.relatedReports|length == 1 %}
+                {{ 'General_RelatedReport'|translate }}:
+            {% else %}
+                {{ 'General_RelatedReports'|translate }}:
+            {% endif %}
+            <ul style="list-style:none;{% if properties.relatedReports|length == 1 %}display:inline-block;{% endif %}}">
+                <li><span href="{{ properties.self_url }}" style="display:none;">{{ properties.title }}</span></li>
+
+                {% for reportUrl,reportTitle in properties.relatedReports %}
+                    <li><span href="{{ reportUrl }}">{{ reportTitle }}</span></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    {% if properties.show_footer_message is defined and properties.show_footer_message is not empty %}
+        <div class='datatableFooterMessage'>{{ properties.show_footer_message | raw }}</div>
+    {% endif %}
+
+</div>
+
+<span class="loadingPiwikBelow" style='display:none'><img src="plugins/Zeitgeist/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+
+<div class="dataTableSpacer"></div>

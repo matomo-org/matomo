@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+{% if not trackVisits %}
+    {{ 'CoreAdminHome_OptOutComplete'|translate }}
+    <br/>
+    {{ 'CoreAdminHome_OptOutCompleteBis'|translate }}
+{% else %}
+    {{ 'CoreAdminHome_YouMayOptOut'|translate }}
+    <br/>
+    {{ 'CoreAdminHome_YouMayOptOutBis'|translate }}
+{% endif %}
+<br/><br/>
+
+<form method="post" action="?module=CoreAdminHome&amp;action=optOut{% if language %}&amp;language={{ language }}{% endif %}">
+    <input type="hidden" name="nonce" value="{{ nonce }}" />
+    <input type="hidden" name="fuzz" value="{{ "now"|date }}" />
+    <input onclick="this.form.submit()" type="checkbox" id="trackVisits" name="trackVisits" {% if trackVisits %}checked="checked"{% endif %} />
+    <label for="trackVisits"><strong>
+        {% if trackVisits %}
+            {{ 'CoreAdminHome_YouAreOptedIn'|translate }} {{ 'CoreAdminHome_ClickHereToOptOut'|translate }}
+        {% else %}
+            {{ 'CoreAdminHome_YouAreOptedOut'|translate }} {{ 'CoreAdminHome_ClickHereToOptIn'|translate }}
+        {% endif %}
+    </strong></label>
+</form>
+</body>
+</html>

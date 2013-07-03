@@ -118,18 +118,18 @@ class Piwik_VisitTime extends Piwik_Plugin
         );
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessing_Period $archiveProcessing)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiving = new Piwik_VisitTime_Archiver($archiveProcessing);
+        $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
 
 
-    public function archiveDay(Piwik_ArchiveProcessing_Day $archiveProcessing)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiving = new Piwik_VisitTime_Archiver($archiveProcessing);
+        $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }

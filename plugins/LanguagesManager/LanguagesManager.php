@@ -40,12 +40,12 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "themes/default/styles.css";
+        $cssFiles[] = "plugins/Zeitgeist/stylesheets/styles.css";
     }
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = "plugins/LanguagesManager/templates/languageSelector.js";
+        $jsFiles[] = "plugins/LanguagesManager/javascripts/languageSelector.js";
     }
 
     public function showLanguagesSelector()
@@ -55,14 +55,14 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
     /**
      * Adds the languages drop-down list to topbars other than the main one rendered
-     * in CoreHome/templates/top_bar.tpl. The 'other' topbars are on the Installation
+     * in CoreHome/templates/top_bar.twig. The 'other' topbars are on the Installation
      * and CoreUpdater screens.
      */
     public function addLanguagesManagerToOtherTopBar(&$str)
     {
         // piwik object & scripts aren't loaded in 'other' topbars
         $str .= "<script type='text/javascript'>if (!window.piwik) window.piwik={};</script>";
-        $str .= "<script type='text/javascript' src='plugins/LanguagesManager/templates/languageSelector.js'></script>";
+        $str .= "<script type='text/javascript' src='plugins/LanguagesManager/javascripts/languageSelector.js'></script>";
         $str .= $this->getLanguagesSelector();
     }
 
@@ -73,8 +73,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
      */
     private function getLanguagesSelector()
     {
-        // don't use Piwik_View::factory() here
-        $view = new Piwik_View("LanguagesManager/templates/languages.tpl");
+        $view = new Piwik_View("@LanguagesManager/getLanguagesSelector");
         $view->languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
         $view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
         $view->currentLanguageName = self::getLanguageNameForCurrentUser();

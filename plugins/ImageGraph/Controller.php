@@ -31,7 +31,7 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
                 );
             }
         }
-        $view = Piwik_View::factory('index');
+        $view = new Piwik_View('@ImageGraph/index');
         $view->titleAndUrls = $plot;
         echo $view->render();
     }
@@ -41,7 +41,7 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = Piwik_View::factory('debug_graphs_all_sizes');
+        $view = new Piwik_View('@ImageGraph/testAllSizes');
         $this->setGeneralVariablesView($view);
 
         $period = Piwik_Common::getRequestVar('period', 'day', 'string');
@@ -60,7 +60,6 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
         );
         $view->graphSizes = array(
             array(null, null), // default graph size
-            array(Piwik_ReportRenderer::IMAGE_GRAPH_WIDTH, Piwik_ReportRenderer::IMAGE_GRAPH_HEIGHT), // PDF/HTML reports
             array(460, 150), // standard phone
             array(300, 150), // standard phone 2
             array(240, 150), // smallest mobile display

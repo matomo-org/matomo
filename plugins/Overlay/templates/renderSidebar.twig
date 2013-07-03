@@ -1,0 +1,22 @@
+<div> <!-- Wrapper is needed that the html can be jqueryfied -->
+
+    <!-- This div is removed by JS and the content is put in the location div -->
+    <div class="Overlay_Location">
+        <b>{{ 'Overlay_Location'|translate }}:</b>
+		<span data-normalized-url="{{ normalizedUrl }}" data-label="{{ label }}">
+			{{ location }}
+		</span>
+    </div>
+
+    {% if data|length > 0 %}
+        <h2 class="Overlay_MainMetrics">{{ 'Overlay_MainMetrics'|translate }}</h2>
+        {% for metric in data %}
+            <div class="Overlay_Metric">
+                <span class="Overlay_MetricValue">{{ metric.value|raw }}</span> {{ metric.name }}
+            </div>
+        {% endfor %}
+    {% else %}
+        <!-- note: the class Overlay_NoData is used in Piwik_Overlay.js -->
+        <div class="Overlay_NoData">{{ 'Overlay_NoData'|translate }}</div>
+    {% endif %}
+</div>

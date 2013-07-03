@@ -24,11 +24,11 @@ class Piwik_MobileMessaging_Controller extends Piwik_Controller_Admin
      *  - add & activate phone numbers
      *  - check remaining credits
      */
-    function index()
+    public function index()
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = Piwik_View::factory('Settings');
+        $view = new Piwik_View('@MobileMessaging/index');
 
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 

@@ -217,7 +217,7 @@ class Piwik_Live_Visitor
         if ($type == 'returning'
             || $type == 'returningCustomer'
         ) {
-            return "plugins/Live/templates/images/returningVisitor.gif";
+            return "plugins/Live/images/returningVisitor.gif";
         }
         return null;
     }
@@ -555,9 +555,9 @@ class Piwik_Live_Visitor
         $status = $this->getVisitEcommerceStatus();
 
         if (in_array($status, array('ordered', 'orderedThenAbandonedCart'))) {
-            return "themes/default/images/ecommerceOrder.gif";
+            return "plugins/Zeitgeist/images/ecommerceOrder.gif";
         } elseif ($status == 'abandonedCart') {
-            return "themes/default/images/ecommerceAbandonedCart.gif";
+            return "plugins/Zeitgeist/images/ecommerceAbandonedCart.gif";
         }
         return null;
     }
@@ -570,7 +570,7 @@ class Piwik_Live_Visitor
     function getVisitorGoalConvertedIcon()
     {
         return $this->isVisitorGoalConverted()
-            ? "themes/default/images/goal.png"
+            ? "plugins/Zeitgeist/images/goal.png"
             : null;
     }
 
