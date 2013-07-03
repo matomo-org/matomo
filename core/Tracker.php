@@ -253,8 +253,6 @@ class Piwik_Tracker
         } else {
             $this->handleEmptyRequest(new Piwik_Tracker_Request($_GET + $_POST));
         }
-        $this->outputTransparentGif();
-
         $this->end();
     }
 
@@ -421,6 +419,7 @@ class Piwik_Tracker
     {
         switch ($this->getState()) {
             case self::STATE_LOGGING_DISABLE:
+                $this->outputTransparentGif();
                 printDebug("Logging disabled, display transparent logo");
                 break;
 
@@ -432,6 +431,7 @@ class Piwik_Tracker
             case self::STATE_NOSCRIPT_REQUEST:
             case self::STATE_NOTHING_TO_NOTICE:
             default:
+            $this->outputTransparentGif();
                 printDebug("Nothing to notice => default behaviour");
                 break;
         }
