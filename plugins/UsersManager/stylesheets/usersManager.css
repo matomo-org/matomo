@@ -1,0 +1,10 @@
+#users .editable:hover,
+#users .addrow:hover,
+#users .updateAccess:hover,
+#users .accessGranted:hover,
+#users .adduser:hover, .edituser:hover,
+#users .deleteuser:hover,
+#users .updateuser:hover,
+#users .cancel:hover {
+    cursor: pointer;
+}

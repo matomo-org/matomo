@@ -2,7 +2,9 @@
     max-height: 400px;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 0!important;
+    padding: 0 !important;
+    position: absolute;
+    z-index: 9999;
     background:#FFF;
     border: 1px solid #1F447F!important;
 }

@@ -1,0 +1,13 @@
+#accountForm ul {
+    list-style: circle;
+    margin-left: 17px;
+    line-height: 1.5em;
+}
+
+.providerDescription {
+    border: 2px dashed #C5BDAD;
+    border-radius: 16px 16px 16px 16px;
+    margin-left: 24px;
+    padding: 11px;
+    width: 600px;
+}

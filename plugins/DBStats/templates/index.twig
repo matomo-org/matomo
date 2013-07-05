@@ -3,27 +3,7 @@
 {% block content %}
 {{ loadJavascriptTranslations(['CoreAdminHome','CoreHome']) }}
 
-<style>
-    .dbstatsTable {
-        display: inline-block;
-    }
-
-    .dbstatsTable>tbody>tr>td:first-child {
-        width: 550px;
-    }
-
-    .dbstatsTable h2 {
-        width: 500px;
-    }
-
-    .adminTable.dbstatsTable a {
-        color: black;
-        text-decoration: underline;
-    }
-</style>
-
-<a name="databaseUsageSummary"></a>
-<h2>{{ 'DBStats_DatabaseUsage'|translate }}</h2>
+<h2 id="databaseUsageSummary">{{ 'DBStats_DatabaseUsage'|translate }}</h2>
 <p>
     {{ 'DBStats_MainDescription'|translate(totalSpaceUsed) }}<br/>
     {{ 'DBStats_LearnMore'|translate("<a href='?module=Proxy&action=redirect&url=http://piwik.org/docs/setup-auto-archiving/' target='_blank'>Piwik Auto Archiving</a>")|raw }}
@@ -59,8 +39,7 @@
 
 <br/>
 
-<a name="trackerDataSummary"></a>
-<table class="adminTable dbstatsTable">
+<table class="adminTable dbstatsTable" id="trackerDataSummary">
     <tbody>
     <tr>
         <td>
@@ -72,8 +51,7 @@
     </tbody>
 </table>
 
-<a name="reportDataSummary"></a>
-<table class="adminTable dbstatsTable">
+<table class="adminTable dbstatsTable" id="reportDataSummary">
     <tbody>
     <tr>
         <td>
@@ -91,8 +69,7 @@
     </tbody>
 </table>
 
-<a name="metricDataSummary"></a>
-<table class="adminTable dbstatsTable">
+<table class="adminTable dbstatsTable" id="metricDataSummary">
     <tbody>
     <tr>
         <td>
@@ -110,8 +87,7 @@
     </tbody>
 </table>
 
-<a name="adminDataSummary"></a>
-<table class="adminTable dbstatsTable">
+<table class="adminTable dbstatsTable" id="adminDataSummary">
     <tbody>
     <tr>
         <td>

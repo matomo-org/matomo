@@ -8,17 +8,15 @@
 {% endif %}
 {% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
 
-<a graphid="VisitsSummarygetEvolutionGraph" name="evolutionGraph"></a>
+<span data-graph-id="VisitsSummarygetEvolutionGraph"></span>
 
 {% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
     {{ arrayDataTable.message }}
 {% else %}
 {% if arrayDataTable|length == 0 %}
-    <a name="{{ properties.uniqueId }}"></a>
-    <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
+    <div class="pk-emptyDataTable" id="{{ properties.uniqueId }}">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
 {% else %}
-    <a name="{{ properties.uniqueId }}"></a>
-    <table class="dataTable" cellspacing="0" width="100%" style="width:100%;">
+    <table id="{{ properties.uniqueId }}" class="dataTable" cellspacing="0" width="100%" style="width:100%;">
     <thead>
     <tr>
         <th style="display:none"></th>

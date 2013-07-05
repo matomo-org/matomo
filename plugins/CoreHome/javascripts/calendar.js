@@ -442,14 +442,17 @@
         });
 
         // reset date/period when opening calendar
-        var firstClick = true;
-        $('#periodString').find('#date').click(function () {
-            if (!firstClick) {
-                datepickerElem.datepicker('setDate', currentDate);
-                $('#period_id_' + piwik.period).click();
+        $("#periodString").on('click', "#date,.calendar-icon", function () {
+            var periodMore = $("#periodMore").toggle();
+            if (periodMore.is(":visible")) {
+                periodMore.find(".ui-state-highlight").removeClass('ui-state-highlight');
             }
+        });
 
-            firstClick = false;
+        $('body').on('click', function(e) {
+            if (!$(e.target).parents('#periodString').length && !$(e.target).is('#periodString') && !$(e.target).is('option') && $("#periodMore").is(":visible")) {
+                $("#periodMore").hide();
+            }
         });
 
         function onDateRangeSelect(dateText, inst) {

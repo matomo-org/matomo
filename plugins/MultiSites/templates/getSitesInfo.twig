@@ -1,11 +1,11 @@
-{% if isWidgetized %}
-    {% set showTopMenu = false %}
-    {% set showSitesSelection = false %}
-{% endif %}
-
 {% extends 'dashboard.twig' %}
 
 {% block content %}
+
+    <div class="top_controls_inner">
+        {% include "@CoreHome/_periodSelect.twig" %}
+    </div>
+
 <div id="multisites">
     <div id="main">
         <script type="text/javascript">

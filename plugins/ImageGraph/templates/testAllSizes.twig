@@ -1,55 +1,55 @@
 {% extends 'dashboard.twig' %}
 
 {% block content %}
-{% set showSitesSelection=true %}
+    {% set showSitesSelection=true %}
 
-<div>
-    <h2>{{ 'ImageGraph_ImageGraph'|translate }} ::: {{ siteName }}</h2>
+    <div>
+        <h2>{{ 'ImageGraph_ImageGraph'|translate }} ::: {{ siteName }}</h2>
 
-    <div class="top_controls_inner">
-        {% include '@CoreHome/_periodSelect.twig' %}
-    </div>
-
-    <div class="entityContainer" style="width:100%;">
-        <div class="entityAddContainer">
-            <table class="dataTable entityTable">
-                <thead>
-                </thead>
-                <tbody>
-                <tr class="first">
-                    <th style="white-space:normal;">Category</th>
-                    <th style="white-space:normal;">Name</th>
-
-                    {% for type in graphTypes %}
-                        <th style="white-space:normal;">{{ type }}</th>
-                    {% endfor %}
-                </tr>
-                {% for report in availableReports %}
-                    {% if report.imageGraphUrl is defined %}
-                        <tr>
-                            <td>{{ report.category }}</td>
-                            <td>{{ report.name }}</td>
-                            {% for type in graphTypes %}
-                                <td>
-                                    <h2>Graph {{ type }} for all supported sizes</h2>
-                                    {% for sizes in graphSizes %}
-                                        <p>{{ sizes.0 }} x {{ sizes.1 }} {% if sizes.2 is defined %} (scaled down to {{ sizes.3 }} x {{ sizes.4 }}){% endif
-                                            %}</p>
-                                        <img src="{{ report.imageGraphUrl }}&graphType={{ type }}&width={{ sizes.0 }}&height={{ sizes.1 }}{% if sizes.2 is
-                                        defined %}&fontSize={{ sizes.2 }}{% endif %}"
-                                                {% if sizes.3 is defined %}width={{ sizes.3 }}{% endif %}
-                                                {% if sizes.4 is defined %}height={{ sizes.4 }}{% endif %}
-                                                />
-                                    {% endfor %}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-                </tbody>
-            </table>
+        <div class="top_controls_inner">
+            {% include '@CoreHome/_periodSelect.twig' %}
         </div>
-        <a id="bottom"></a>
+
+        <div class="entityContainer" style="width:100%;">
+            <div class="entityAddContainer">
+                <table class="dataTable entityTable">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <tr class="first">
+                        <th style="white-space:normal;">Category</th>
+                        <th style="white-space:normal;">Name</th>
+
+                        {% for type in graphTypes %}
+                            <th style="white-space:normal;">{{ type }}</th>
+                        {% endfor %}
+                    </tr>
+                    {% for report in availableReports %}
+                        {% if report.imageGraphUrl is defined %}
+                            <tr>
+                                <td>{{ report.category }}</td>
+                                <td>{{ report.name }}</td>
+                                {% for type in graphTypes %}
+                                    <td>
+                                        <h2>Graph {{ type }} for all supported sizes</h2>
+                                        {% for sizes in graphSizes %}
+                                            <p>{{ sizes.0 }}
+                                                x {{ sizes.1 }} {% if sizes.2 is defined %} (scaled down to {{ sizes.3 }} x {{ sizes.4 }}){% endif %}</p>
+                                            <img src="{{ report.imageGraphUrl }}&graphType={{ type }}&width={{ sizes.0 }}&height={{ sizes.1 }}{% if sizes.2 is
+                                            defined %}&fontSize={{ sizes.2 }}{% endif %}"
+                                                 {% if sizes.3 is defined %}width={{ sizes.3 }}{% endif %}
+                                                 {% if sizes.4 is defined %}height={{ sizes.4 }}{% endif %}
+                                                    />
+                                        {% endfor %}
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <a id="bottom"></a>
+        </div>
     </div>
-</div>
 {% endblock %}

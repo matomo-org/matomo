@@ -1,8 +1,11 @@
 {% extends "dashboard.twig" %}
 
-{% set showSitesSelection=true %}
-
 {% block content %}
+
+<div class="top_bar_sites_selector">
+    <label>{{ 'General_Website'|translate }}</label>
+    {% include "@CoreHome/_siteSelect.twig" %}
+</div>
 
 {% if (menu is defined and menu) %}
   {% include "@CoreHome/_menu.twig" %}

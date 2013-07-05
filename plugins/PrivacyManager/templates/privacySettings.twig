@@ -6,8 +6,7 @@
     <h2>{{ 'PrivacyManager_TeaserHeadline'|translate }}</h2>
     <p>{{ 'PrivacyManager_Teaser'|translate('<a href="#anonymizeIPAnchor">',"</a>",'<a href="#deleteLogsAnchor">',"</a>",'<a href="#optOutAnchor">',"</a>")|raw }}
         See also our official guide <b><a href='http://piwik.org/privacy/' target='_blank'>Web Analytics Privacy</a></b></p>
-    <a name="anonymizeIPAnchor"></a>
-    <h2>{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
+    <h2 id="anonymizeIPAnchor">{{ 'PrivacyManager_UseAnonymizeIp'|translate }}</h2>
     <form method="post" action="{{ {'action':'saveSettings', 'form':'formMaskLength', 'token_auth':token_auth} | urlRewriteWithParameters }}" id="formMaskLength" name="formMaskLength">
         <div id='anonymizeIpSettings'>
             <table class="adminTable" style='width:800px;'>
@@ -71,8 +70,7 @@
         <input role="yes" type="button" value="{{ 'General_Yes'|translate }}"/>
         <input role="no" type="button" value="{{ 'General_No'|translate }}"/>
     </div>
-    <a name="deleteLogsAnchor"></a>
-    <h2>{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
+    <h2 id="deleteLogsAnchor">{{ 'PrivacyManager_DeleteDataSettings'|translate }}</h2>
     <p>{{ 'PrivacyManager_DeleteDataDescription'|translate }} {{ 'PrivacyManager_DeleteDataDescription2'|translate }}</p>
     <form method="post" action="{{ {'action':'saveSettings','form':'formDeleteSettings','token_auth':token_auth} | urlRewriteWithParameters }}" id="formDeleteSettings" name="formMaskLength">
         <table class="adminTable" style='width:800px;'>
@@ -229,8 +227,7 @@
         </table>
         <input type="button" value="{{ 'General_Save'|translate }}" id="deleteLogSettingsSubmit" class="submit"/>
     </form>
-    <a name="DNT"></a>
-    <h2>{{ 'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate }}</h2>
+    <h2 id="DNT">{{ 'PrivacyManager_DoNotTrack_SupportDNTPreference'|translate }}</h2>
     <table class="adminTable" style='width:800px;'>
         <tr>
             <td width="650">
@@ -259,8 +256,7 @@
     </table>
 {% endif %}
 
-<a name="optOutAnchor"></a>
-<h2>{{ 'CoreAdminHome_OptOutForYourVisitors'|translate }}</h2>
+<h2 id="optOutAnchor">{{ 'CoreAdminHome_OptOutForYourVisitors'|translate }}</h2>
 <p>{{ 'CoreAdminHome_OptOutExplanation'|translate }}
     {% set optOutUrl %}{{ piwikUrl }}index.php?module=CoreAdminHome&action=optOut&language={{ language }}{% endset %}
     {% set iframeOptOut %}<iframe frameborder="no" width="600px" height="200px" src="{{ optOutUrl }}"></iframe>{% endset %}

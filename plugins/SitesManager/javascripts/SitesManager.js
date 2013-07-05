@@ -438,3 +438,28 @@ function onClickSiteSearchUseDefault() {
     }
 }
 
+$(function () {
+
+    // when code element is clicked, select the text
+    $('.trackingHelp code').click(function() {
+        // credit where credit is due:
+        //   http://stackoverflow.com/questions/1173194/select-all-div-text-with-single-mouse-click
+        var range;
+        if (document.body.createTextRange) // MSIE
+        {
+            range = document.body.createTextRange();
+            range.moveToElementText(this);
+            range.select();
+        }
+        else if (window.getSelection) // others
+        {
+            range = document.createRange();
+            range.selectNodeContents(this);
+
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    })
+      .click();
+});

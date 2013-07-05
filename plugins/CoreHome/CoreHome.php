@@ -60,6 +60,7 @@ class Piwik_CoreHome extends Piwik_Plugin
         $cssFiles[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
         $cssFiles[] = "plugins/CoreHome/stylesheets/jqplot.css";
         $cssFiles[] = "plugins/CoreHome/stylesheets/donate.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/promo.css";
     }
 
     /**
@@ -85,7 +86,6 @@ class Piwik_CoreHome extends Piwik_Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/menu.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/menu_init.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/calendar.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/date.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/autocomplete.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/sparkline.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/corehome.js";
@@ -93,6 +93,7 @@ class Piwik_CoreHome extends Piwik_Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/donate.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/jqplot.js";
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/promo.js";
     }
 
 }
