@@ -97,7 +97,7 @@ class Piwik_Translate
         if (is_null(self::$languageToLoad)) {
             $lang = Piwik_Common::getRequestVar('language', '', 'string');
 
-            Piwik_PostEvent('Translate.getLanguageToLoad', $lang);
+            Piwik_PostEvent('Translate.getLanguageToLoad', array(&$lang));
 
             self::$languageToLoad = $lang;
         }

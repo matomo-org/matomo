@@ -50,41 +50,32 @@ class Piwik_SitesManager extends Piwik_Plugin
 
     /**
      * Get CSS files
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function getCssFiles($notification)
+    public function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "plugins/SitesManager/stylesheets/SitesManager.css";
         $cssFiles[] = "plugins/Zeitgeist/stylesheets/styles.css";
     }
 
     /**
      * Get JavaScript files
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function getJsFiles($notification)
+    public function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "plugins/SitesManager/javascripts/SitesManager.js";
     }
 
     /**
      * Hooks when a website tracker cache is flushed (website updated, cache deleted, or empty cache)
      * Will record in the tracker config file all data needed for this website in Tracker.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
+     * 
      * @return void
      */
-    function recordWebsiteDataInCache($notification)
+    public function recordWebsiteDataInCache(&$array, $idSite)
     {
-        $idSite = (int)$notification->getNotificationInfo();
+        $idSite = (int)$idSite;
+        
         // add the 'hosts' entry in the website array
-        $array =& $notification->getNotificationObject();
         $array['hosts'] = $this->getTrackerHosts($idSite);
 
         $website = Piwik_SitesManager_API::getInstance()->getSiteFromId($idSite);

@@ -106,6 +106,10 @@ class PiwikTest extends DatabaseTestCase
      */
     public function testGetPrettyTimeFromSeconds($seconds, $expected)
     {
+        if (($seconds * 100) > PHP_INT_MAX) {
+            $this->markTestSkipped("Will not pass on 32-bit machine.");
+        }
+        
         Piwik_Translate::getInstance()->loadEnglishTranslation();
 
         $sentenceExpected = str_replace(' ', '&nbsp;', $expected[0]);

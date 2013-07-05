@@ -55,13 +55,8 @@ class Piwik_API extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getCssFiles($notification)
+    public function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "plugins/API/stylesheets/listAllAPI.css";
     }
 }
@@ -133,7 +128,7 @@ class Piwik_API_API
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)
     {
         $segments = array();
-        Piwik_PostEvent('API.getSegmentsMetadata', $segments, $idSites);
+        Piwik_PostEvent('API.getSegmentsMetadata', array(&$segments, $idSites));
 
         $isAuthenticatedWithViewAccess = Piwik::isUserHasViewAccess($idSites) && !Piwik::isUserIsAnonymous();
 
@@ -411,7 +406,6 @@ class Piwik_API_API
         $reporter = new Piwik_API_ProcessedReport();
         $metadata =  $reporter->getReportMetadata($idSites, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
-
     }
 
     public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,

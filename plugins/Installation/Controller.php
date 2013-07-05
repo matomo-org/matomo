@@ -39,7 +39,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $this->session->skipThisStep = array();
         }
 
-        Piwik_PostEvent('InstallationController.construct', $this);
+        Piwik_PostEvent('InstallationController.construct', array($this));
     }
 
     /**

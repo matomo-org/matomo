@@ -123,7 +123,7 @@ class Piwik_AssetManager
         $mergedContent = cssmin::minify($mergedContent);
         $mergedContent = str_replace("\n", "\r\n", $mergedContent);
 
-        Piwik_PostEvent('AssetManager.filterMergedCss', $mergedContent);
+        Piwik_PostEvent('AssetManager.filterMergedCss', array(&$mergedContent));
 
         self::writeAssetToFile($mergedContent, self::MERGED_CSS_FILE);
     }
@@ -174,7 +174,7 @@ class Piwik_AssetManager
     private static function getCssFiles()
     {
         $cssFiles = array();
-        Piwik_PostEvent(self::CSS_IMPORT_EVENT, $cssFiles);
+        Piwik_PostEvent(self::CSS_IMPORT_EVENT, array(&$cssFiles));
         $cssFiles = self::sortCssFiles($cssFiles);
         return $cssFiles;
     }
@@ -237,7 +237,7 @@ class Piwik_AssetManager
         }
         $mergedContent = str_replace("\n", "\r\n", $mergedContent);
 
-        Piwik_PostEvent('AssetManager.filterMergedJs', $mergedContent);
+        Piwik_PostEvent('AssetManager.filterMergedJs', array(&$mergedContent));
 
         self::writeAssetToFile($mergedContent, self::MERGED_JS_FILE);
     }
@@ -266,7 +266,7 @@ class Piwik_AssetManager
     private static function getJsFiles()
     {
         $jsFiles = array();
-        Piwik_PostEvent(self::JS_IMPORT_EVENT, $jsFiles);
+        Piwik_PostEvent(self::JS_IMPORT_EVENT, array(&$jsFiles));
         $jsFiles = self::sortJsFiles($jsFiles);
         return $jsFiles;
     }

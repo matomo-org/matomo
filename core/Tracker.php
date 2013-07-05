@@ -490,7 +490,7 @@ class Piwik_Tracker
             $configDb['port'] = '3306';
         }
 
-        Piwik_PostEvent('Tracker.getDatabaseConfig', $configDb);
+        Piwik_PostEvent('Tracker.getDatabaseConfig', array(&$configDb));
 
         $db = Piwik_Tracker::factory($configDb);
         $db->connect();
@@ -506,7 +506,7 @@ class Piwik_Tracker
 
         try {
             $db = null;
-            Piwik_PostEvent('Tracker.createDatabase', $db);
+            Piwik_PostEvent('Tracker.createDatabase', array(&$db));
             if (is_null($db)) {
                 $db = self::connectPiwikTrackerDb();
             }
@@ -542,7 +542,7 @@ class Piwik_Tracker
     protected function getNewVisitObject()
     {
         $visit = null;
-        Piwik_PostEvent('Tracker.getNewVisitObject', $visit);
+        Piwik_PostEvent('Tracker.getNewVisitObject', array(&$visit));
 
         if (is_null($visit)) {
             $visit = new Piwik_Tracker_Visit();

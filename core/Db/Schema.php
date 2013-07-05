@@ -128,7 +128,7 @@ class Piwik_Db_Schema
     private function loadSchema()
     {
         $schema = null;
-        Piwik_PostEvent('Schema.loadSchema', $schema);
+        Piwik_PostEvent('Schema.loadSchema', array(&$schema));
         if ($schema === null) {
             $config = Piwik_Config::getInstance();
             $dbInfos = $config->database;

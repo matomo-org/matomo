@@ -39,12 +39,8 @@ class Piwik_VisitsSummary extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports[] = array(
             'category'         => Piwik_Translate('VisitsSummary_VisitsSummary'),
             'name'             => Piwik_Translate('VisitsSummary_VisitsSummary'),

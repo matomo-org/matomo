@@ -131,13 +131,10 @@ class Piwik_DevicesDetection extends Piwik_Plugin
 
     /**
      * Get segments meta data
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
         // Note: only one field segmented so far: deviceType
-        $segments =& $notification->getNotificationObject();
         foreach ($this->getRawMetadataReports() as $report) {
             @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues) = $report;
 
@@ -154,14 +151,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         }
     }
 
-
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
-
         $i = 0;
         foreach ($this->getRawMetadataReports() as $report) {
             list($category, $name, $apiModule, $apiAction, $columnName) = $report;
@@ -211,11 +202,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         }
     }
 
-    public function parseMobileVisitData($notification)
+    public function parseMobileVisitData(&$visitorInfo, $extraInfo)
     {
-        $visitorInfo = &$notification->getNotificationObject();
-
-        $extraInfo = $notification->getNotificationInfo();
         $userAgent = $extraInfo['UserAgent'];
 
         $UAParser = new UserAgentParserEnhanced($userAgent);
@@ -237,19 +225,16 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         printDebug($deviceInfo);
     }
 
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
-
         $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
 
-    public function archivePeriod($notification)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
         $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
@@ -260,5 +245,4 @@ class Piwik_DevicesDetection extends Piwik_Plugin
     {
         Piwik_AddMenu('General_Visitors', 'DevicesDetection_submenu', array('module' => 'DevicesDetection', 'action' => 'index'));
     }
-
 }

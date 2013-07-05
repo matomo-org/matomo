@@ -46,13 +46,9 @@ class Piwik_DBStats extends Piwik_Plugin
 
     /**
      * Gets all scheduled tasks executed by this plugin.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getScheduledTasks($notification)
+    public function getScheduledTasks(&$tasks)
     {
-        $tasks = & $notification->getNotificationObject();
-
         $cacheDataByArchiveNameReportsTask = new Piwik_ScheduledTask(
             $this,
             'cacheDataByArchiveNameReports',
@@ -77,12 +73,8 @@ class Piwik_DBStats extends Piwik_Plugin
         Piwik_SetOption(self::TIME_OF_LAST_TASK_RUN_OPTION, $now);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getCssFiles($notification)
+    public function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
         $cssFiles[] = "plugins/DBStats/stylesheets/dbstatsTable.css";
     }
 

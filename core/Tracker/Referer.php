@@ -124,7 +124,7 @@ class Piwik_Tracker_Referer
     protected function detectRefererSearchEngine()
     {
         $searchEngineInformation = Piwik_Common::extractSearchEngineInformationFromUrl($this->refererUrl);
-        Piwik_PostEvent('Tracker.detectRefererSearchEngine', $searchEngineInformation, $this->refererUrl);
+        Piwik_PostEvent('Tracker.detectRefererSearchEngine', array(&$searchEngineInformation, $this->refererUrl));
         if ($searchEngineInformation === false) {
             return false;
         }

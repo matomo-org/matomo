@@ -16,6 +16,7 @@
  * @see core/Menu/Top.php
  * @see core/PluginsFunctions/WidgetsList.php
  * @see core/PluginsFunctions/Sql.php
+ * @see core/EventDispatcher.php
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Menu/Abstract.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Menu/Main.php';
@@ -23,6 +24,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Menu/Admin.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Menu/Top.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/WidgetsList.php';
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Sql.php';
+require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
 /**
  * Plugin manager
@@ -32,11 +34,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Sql.php';
  */
 class Piwik_PluginsManager
 {
-    /**
-     * @var Event_Dispatcher
-     */
-    public $dispatcher;
-
     protected $pluginsToLoad = array();
 
     protected $doLoadPlugins = true;
@@ -69,11 +66,6 @@ class Piwik_PluginsManager
             self::$instance = new self;
         }
         return self::$instance;
-    }
-
-    private function __construct()
-    {
-        $this->dispatcher = Event_Dispatcher::getInstance();
     }
 
     /**
@@ -377,12 +369,6 @@ class Piwik_PluginsManager
                 if ($newPlugin === null) {
                     continue;
                 }
-
-                if ($this->doLoadPlugins
-                    && $this->isPluginActivated($pluginName)
-                ) {
-                    $this->addPluginObservers($newPlugin);
-                }
             }
         }
     }
@@ -429,6 +415,8 @@ class Piwik_PluginsManager
         }
 
         $this->addLoadedPlugin($pluginName, $newPlugin);
+        
+        Piwik_EventDispatcher::getInstance()->postPendingEventsTo($newPlugin);
 
         return $newPlugin;
     }
@@ -450,14 +438,7 @@ class Piwik_PluginsManager
 
             $plugin = $oPlugin;
         }
-        $hooks = $plugin->getListHooksRegistered();
 
-        foreach ($hooks as $hookName => $methodToCall) {
-            $success = $this->dispatcher->removeObserver(array($plugin, $methodToCall), $hookName);
-            if ($success !== true) {
-                throw new Exception("Error unloading plugin = " . $plugin->getPluginName() . ", method = $methodToCall, hook = $hookName ");
-            }
-        }
         unset($this->loadedPlugins[$plugin->getPluginName()]);
     }
 
@@ -494,21 +475,6 @@ class Piwik_PluginsManager
             $plugin->install();
         } catch (Exception $e) {
             throw new Piwik_PluginsManager_PluginException($plugin->getPluginName(), $e->getMessage());
-        }
-    }
-
-
-    /**
-     * For the given plugin, add all the observers of this plugin.
-     *
-     * @param Piwik_Plugin $plugin
-     */
-    private function addPluginObservers(Piwik_Plugin $plugin)
-    {
-        $hooks = $plugin->getListHooksRegistered();
-
-        foreach ($hooks as $hookName => $methodToCall) {
-            $this->dispatcher->addObserver(array($plugin, $methodToCall), $hookName);
         }
     }
 
@@ -658,66 +624,3 @@ class Piwik_PluginsManager_PluginException extends Exception
     }
 }
 
-/**
- * Post an event to the dispatcher which will notice the observers
- *
- * @param string $eventName  The event name
- * @param mixed $object     Object, array or string that the listeners can read and/or modify.
- *                            Listeners can call $object =& $notification->getNotificationObject(); to fetch and then modify this variable.
- * @param array $info       Additional array of data that can be used by the listeners, but not edited
- * @param bool $pending    Should the notification be posted to plugins that register after the notification was sent?
- * @return void
- */
-function Piwik_PostEvent($eventName, &$object = null, $info = array(), $pending = false)
-{
-    $notification = new Piwik_Event_Notification($object, $eventName, $info);
-    Piwik_PluginsManager::getInstance()->dispatcher->postNotification($notification, $pending, $bubble = false);
-}
-
-/**
- * Register an action to execute for a given event
- *
- * @param string $hookName  Name of event
- * @param function $function  Callback hook
- */
-function Piwik_AddAction($hookName, $function)
-{
-    Piwik_PluginsManager::getInstance()->dispatcher->addObserver($function, $hookName);
-}
-
-/**
- * Event notification
- *
- * @package Piwik
- *
- * @see Event_Notification, libs/Event/Notification.php
- * @link http://pear.php.net/package/Event_Dispatcher/docs/latest/Event_Dispatcher/Event_Notification.html
- */
-class Piwik_Event_Notification extends Event_Notification
-{
-    static $showProfiler = false;
-
-    /**
-     * Use notification counter to profile runtime execution
-     * time and memory usage.
-     */
-    function increaseNotificationCount( /* array($className|object, $method) */)
-    {
-        parent::increaseNotificationCount();
-        if (self::$showProfiler && func_num_args() == 1) {
-            $callback = func_get_arg(0);
-            if (is_array($callback)) {
-                $className = is_object($callback[0]) ? get_class($callback[0]) : $callback[0];
-                $method = $callback[1];
-
-                echo "after $className -> $method <br />";
-                echo "-";
-                Piwik::printTimer();
-                echo "<br />";
-                echo "-";
-                Piwik::printMemoryLeak();
-                echo "<br />";
-            }
-        }
-    }
-}
