@@ -1326,7 +1326,7 @@
 		<dimension>Visits by Visit Number</dimension>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-			<nb_visits_percentage>% Visits</nb_visits_percentage>
+			<nb_visits_percentage>% Visits</nb_visits_percentage>
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
 		<documentation>In this report, you can see the number of visits who were the Nth visit, ie. visitors who visited your website at least N times.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
@@ -1808,7 +1808,7 @@
 		<documentation>This report shows which browser plugins your visitors had enabled. This information might be important for choosing the right way to deliver your content.</documentation>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
-			<nb_visits_percentage>% Visits</nb_visits_percentage>
+			<nb_visits_percentage>% Visits</nb_visits_percentage>
 		</metrics>
 		<constantRowsCount>1</constantRowsCount>
 		<metricsDocumentation>

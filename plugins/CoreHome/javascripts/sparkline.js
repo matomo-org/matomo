@@ -8,7 +8,7 @@
 function initializeSparklines() {
     var sparklineUrlParamsToIgnore = ['module', 'action', 'idSite', 'period', 'date', 'viewDataTable'];
 
-    $("a[name='evolutionGraph']").each(function () {
+    $("[data-graph-id]").each(function () {
         var graph = $(this);
 
         // try to find sparklines and add them clickable behaviour
@@ -32,7 +32,7 @@ function initializeSparklines() {
 
                 // on click, reload the graph with the new url
                 $(this).click(function () {
-                    var idDataTable = graph.attr('graphId'),
+                    var idDataTable = graph.attr('data-graph-id'),
                         dataTable = $('#' + idDataTable);
 
                     // when the metrics picker is used, the id of the data table might be updated (which is correct behavior).

@@ -99,32 +99,5 @@
 
 {% include "@Installation/_integrityDetails.twig" %}
 
-<style type="text/css">
-    code {
-        background-color: #F0F7FF;
-        border: 1px dashed #00008B;
-        border-left: 5px solid;
-        direction: ltr;
-        display: block;
-        margin: 2px 2px 20px;
-        padding: 4px;
-        text-align: left;
-    }
-
-    li {
-        margin-top: 10px;
-        margin-left: 30px;
-    }
-</style>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#showSql').click(function () {
-            $('#sqlQueries').toggle();
-        });
-        $('#upgradeCorePluginsForm').submit(function () {
-            $('input[type=submit]', this).prop('disabled', 'disabled');
-        });
-    });
-</script>
 {% endspaceless %}
 {% endblock %}

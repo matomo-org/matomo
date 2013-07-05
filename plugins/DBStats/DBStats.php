@@ -30,6 +30,7 @@ class Piwik_DBStats extends Piwik_Plugin
     function getListHooksRegistered()
     {
         return array(
+            'AssetManager.getCssFiles'        => 'getCssFiles',
             'AdminMenu.add'                   => 'addMenu',
             'TaskScheduler.getScheduledTasks' => 'getScheduledTasks',
         );
@@ -74,6 +75,15 @@ class Piwik_DBStats extends Piwik_Plugin
 
         $now = Piwik_Date::now()->getLocalized("%longYear%, %shortMonth% %day%");
         Piwik_SetOption(self::TIME_OF_LAST_TASK_RUN_OPTION, $now);
+    }
+
+    /**
+     * @param Piwik_Event_Notification $notification  notification object
+     */
+    function getCssFiles($notification)
+    {
+        $cssFiles = & $notification->getNotificationObject();
+        $cssFiles[] = "plugins/DBStats/stylesheets/dbstatsTable.css";
     }
 
     /** Returns the date when the cacheDataByArchiveNameReports was last run. */

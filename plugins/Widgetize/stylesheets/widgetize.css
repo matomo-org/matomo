@@ -1,0 +1,31 @@
+.widgetize {
+    width: 100%;
+    padding: 15px 15px 0 15px;
+    font-size: 13px;
+}
+
+.widgetize p {
+    padding: 0 0 20px 0;
+}
+
+.widgetize .formEmbedCode {
+    font-size: 11px;
+    text-decoration: none;
+    background-color: #FBFDFF;
+    border: 1px solid #ECECEC;
+    width: 220px;
+}
+
+.widgetize label {
+    color: #666666;
+    line-height: 18px;
+    margin-right: 5px;
+    font-weight: bold;
+    padding-bottom: 100px;
+}
+
+#embedThisWidgetIframe,
+#embedThisWidgetFlash,
+#embedThisWidgetEverywhere {
+    margin-top: 5px;
+}

@@ -1,0 +1,59 @@
+.trackingHelp ul {
+    padding-left: 40px;
+    list-style-type: square;
+}
+
+.trackingHelp ul li {
+    margin-bottom: 10px;
+}
+
+.trackingHelp h2 {
+    margin-top: 20px;
+}
+
+.trackingHelp p {
+    text-align: justify;
+}
+
+#editSites {
+    vertical-align: top;
+}
+
+#editSites h4 {
+    font-size: .8em;
+    margin: 1em 0 1em 0;
+    font-weight: bold;
+}
+
+#editSites .entityTable tr td {
+    vertical-align: top;
+    padding-top: 7px;
+}
+
+#editSites .addRowSite:hover,
+#editSites .editableSite:hover,
+#editSites .addsite:hover,
+#editSites .cancel:hover,
+#editSites .deleteSite:hover,
+#editSites .editSite:hover,
+#editSites .updateSite:hover {
+    cursor: pointer;
+}
+
+#editSites .addRowSite a {
+    text-decoration: none;
+}
+
+#editSites .addRowSite {
+    padding: 1em;
+    font-weight: bold;
+}
+
+.ecommerceInactive,
+.sitesearchInactive {
+    color: #666666;
+}
+
+#searchSiteParameters {
+    display: none;
+}

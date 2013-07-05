@@ -4,9 +4,9 @@
 <!--[if (gte IE 9)|!(IE)]><!-->
 <html><!--<![endif]-->
     <head>
-            {% block head %}
+        {% block head %}
+            <meta charset="utf-8">
             <title>{% if not isCustomLogo %}Piwik &rsaquo; {% endif %}{{ 'CoreAdminHome_Administration'|translate }}</title>
-            <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
             <meta name="generator" content="Piwik - Open Source Web Analytics"/>
             <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
 
@@ -24,20 +24,12 @@
     {% include "@CoreHome/_javaScriptDisabled.twig" %}
 
         <div id="root">
-            {% if showTopMenu is not defined or showTopMenu %}
-                {% set showSitesSelection = false %}
-                {% set showPeriodSelection = false %}
-                {% include "@CoreHome/_topBar.twig" %}
-            {% endif %}
-
-            <div id="header">
-                {% include "@CoreHome/_logo.twig" %}
-                {% if showPeriodSelection %}{% include "@CoreHome/_periodSelect.twig"%}{% endif %}
-            </div>
+            {% include "@CoreHome/_topScreen.twig" %}
 
             {% import 'ajaxMacros.twig' as ajax %}
             {{ ajax.requestErrorDiv }}
             <div id="container">
+
                 {% if showMenu is not defined or showMenu %}
                     {% include "@CoreAdminHome/_menu.twig" %}
                 {% endif %}

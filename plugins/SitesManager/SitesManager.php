@@ -57,6 +57,7 @@ class Piwik_SitesManager extends Piwik_Plugin
     {
         $cssFiles = & $notification->getNotificationObject();
 
+        $cssFiles[] = "plugins/SitesManager/stylesheets/SitesManager.css";
         $cssFiles[] = "plugins/Zeitgeist/stylesheets/styles.css";
     }
 

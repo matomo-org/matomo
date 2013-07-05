@@ -1,0 +1,16 @@
+.dbstatsTable {
+    display: inline-block;
+}
+
+.dbstatsTable > tbody > tr > td:first-child {
+    width: 550px;
+}
+
+.dbstatsTable h2 {
+    width: 500px;
+}
+
+.adminTable.dbstatsTable a {
+    color: black;
+    text-decoration: underline;
+}

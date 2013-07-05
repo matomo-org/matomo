@@ -36,7 +36,7 @@ class Test_Piwik_JsProxy extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($responseInfo["http_code"], 200, 'Ok response');
         $ok = $fullResponse == base64_decode("R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
-        $this->assertTrue($ok, 'image content');
+        $this->assertTrue($ok, '1*1 pixel was expected, got: "'.$fullResponse.'"');
     }
 
     /**

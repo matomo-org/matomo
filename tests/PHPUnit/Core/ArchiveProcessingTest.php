@@ -180,7 +180,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         if (!Piwik_Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
-        $this->assertEquals($archiveProcessor->getMinTimeArchivedProcessed(), $dateMinArchived);
+        $this->compareTimestamps($archiveProcessor->getMinTimeArchivedProcessed(), $dateMinArchived);
 
         $this->assertEquals(date('Y-m-d', $timestamp) . ' 01:00:00', $archiveProcessor->getDateStart()->getDateStartUTC());
         $this->assertEquals(date('Y-m-d', $timestamp + 86400) . ' 00:59:59', $archiveProcessor->getDateEnd()->getDateEndUTC());
