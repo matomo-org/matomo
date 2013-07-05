@@ -60,7 +60,6 @@ require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/DatabaseTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/FakeAccess.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockPiwikOption.php';
-require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockEventDispatcher.php';
 require_once PIWIK_INCLUDE_PATH . '/vendor/autoload.php';
 
 // required to build code coverage for uncovered files

@@ -36,7 +36,17 @@ abstract class Piwik_Plugin
     /**
      * Returns the list of hooks registered with the methods names
      *
-     * @return array
+     * @return array eg, array(
+     *                       'API.getReportMetadata' => 'myPluginFunction',
+     *                       'Another.event'         => array(
+     *                                                      'function' => 'myOtherPluginFunction',
+     *                                                      'after'    => true // execute after callbacks w/o ordering
+     *                                                  )
+     *                       'Yet.Another.event'     => array(
+     *                                                      'function' => 'myOtherPluginFunction',
+     *                                                      'before'   => true // execute before callbacks w/o ordering
+     *                                                  )
+     *                   )
      */
     public function getListHooksRegistered()
     {
@@ -106,7 +116,7 @@ abstract class Piwik_Plugin
      */
     final public function getPluginName()
     {
-        return Piwik::unprefixClass(get_class($this));
+        return Piwik_Common::unprefixClass(get_class($this));
     }
 
     /**

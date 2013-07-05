@@ -124,7 +124,7 @@ class Piwik_FrontController
         try {
             return call_user_func_array(array($params[0], $params[1]), $params[2]);
         } catch (Piwik_Access_NoAccessException $e) {
-            Piwik_PostEvent('FrontController.NoAccessException', $e);
+            Piwik_PostEvent('FrontController.NoAccessException', array($e), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
             $message = Piwik_Common::sanitizeInputValue($e->getMessage());
@@ -191,7 +191,7 @@ class Piwik_FrontController
         try {
             Piwik::createConfigObject();
         } catch (Exception $e) {
-            Piwik_PostEvent('FrontController.NoConfigurationFile', $e, $info = array(), $pending = true);
+            Piwik_PostEvent('FrontController.NoConfigurationFile', array($e), $pending = true);
             $exceptionToThrow = $e;
         }
         return $exceptionToThrow;
@@ -261,7 +261,7 @@ class Piwik_FrontController
                 if (self::shouldRethrowException()) {
                     throw $e;
                 }
-                Piwik_PostEvent('FrontController.badConfigurationFile', $e, $info = array(), $pending = true);
+                Piwik_PostEvent('FrontController.badConfigurationFile', array($e), $pending = true);
                 throw $e;
             }
 

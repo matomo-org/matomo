@@ -381,7 +381,7 @@ class PDFReportsTest extends DatabaseTestCase
 
         $pdfReportPlugin = new Piwik_PDFReports();
         $tasks = array();
-        $pdfReportPlugin->getScheduledTasks(new Piwik_Event_Notification($tasks, 'fakeEvent'));
+        $pdfReportPlugin->getScheduledTasks($tasks);
         $this->assertEquals($expectedTasks, $tasks);
 
         // restore Piwik_PDFReports_API

@@ -89,7 +89,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         }
 
         // Anonymize IP (after testing for IP exclusion)
-        Piwik_PostEvent('Tracker.Visit.setVisitorIp', $this->visitorInfo['location_ip']);
+        Piwik_PostEvent('Tracker.Visit.setVisitorIp', array(&$this->visitorInfo['location_ip']));
 
         $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
         if (!empty($this->visitorCustomVariables)) {
@@ -300,7 +300,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         $valuesToUpdate = array_merge($valuesToUpdate, $this->visitorCustomVariables);
 
         // trigger event before update
-        Piwik_PostEvent('Tracker.knownVisitorUpdate', $valuesToUpdate);
+        Piwik_PostEvent('Tracker.knownVisitorUpdate', array(&$valuesToUpdate));
 
         $this->visitorInfo['time_spent_ref_action'] = $this->getTimeSpentRefererAction();
 
@@ -341,7 +341,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
                     . " wasn't found in the DB, we fallback to a new visitor");
         }
 
-        Piwik_PostEvent('Tracker.knownVisitorInformation', $this->visitorInfo);
+        Piwik_PostEvent('Tracker.knownVisitorInformation', array(&$this->visitorInfo));
     }
 
     /**
@@ -461,7 +461,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         $extraInfo = array(
             'UserAgent' => $this->request->getUserAgent(),
         );
-        Piwik_PostEvent('Tracker.newVisitorInformation', $this->visitorInfo, $extraInfo);
+        Piwik_PostEvent('Tracker.newVisitorInformation', array(&$this->visitorInfo, $extraInfo));
 
         $debugVisitInfo = $this->visitorInfo;
         $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
@@ -494,7 +494,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     {
         $location = array();
         $userInfo = array('lang' => $browserLang, 'ip' => Piwik_IP::N2P($this->getVisitorIp()));
-        Piwik_PostEvent('Tracker.getVisitorLocation', $location, $userInfo);
+        Piwik_PostEvent('Tracker.getVisitorLocation', array(&$location, $userInfo));
 
         $location = $this->request->enrichLocation($location);
 
@@ -561,7 +561,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
      */
     protected function saveVisitorInformation()
     {
-        Piwik_PostEvent('Tracker.saveVisitorInformation', $this->visitorInfo);
+        Piwik_PostEvent('Tracker.saveVisitorInformation', array(&$this->visitorInfo));
 
         $this->visitorInfo['location_browser_lang'] = substr($this->visitorInfo['location_browser_lang'], 0, 20);
         $this->visitorInfo['referer_name'] = substr($this->visitorInfo['referer_name'], 0, 70);
@@ -581,7 +581,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         $this->visitorInfo['visit_first_action_time'] = $this->request->getCurrentTimestamp();
         $this->visitorInfo['visit_last_action_time'] = $this->request->getCurrentTimestamp();
 
-        Piwik_PostEvent('Tracker.saveVisitorInformation.end', $this->visitorInfo);
+        Piwik_PostEvent('Tracker.saveVisitorInformation.end', array(&$this->visitorInfo));
     }
 
     /**
@@ -621,7 +621,6 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     {
         return $this->visitorInfo['location_ip'];
     }
-
 
     /**
      * This methods tries to see if the visitor has visited the website before.
@@ -965,7 +964,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     protected function newAction()
     {
         $action = null;
-        Piwik_PostEvent('Tracker.newAction', $action);
+        Piwik_PostEvent('Tracker.newAction', array(&$action));
 
         if (is_null($action)) {
             $action = new Piwik_Tracker_Action($this->request);

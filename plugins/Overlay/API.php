@@ -106,7 +106,8 @@ class Piwik_Overlay_API
     private function authenticate($idSite)
     {
         $notification = null;
-        Piwik_PostEvent('FrontController.initAuthenticationObject', $notification, $allowCookieAuthentication = true);
+        Piwik_PostEvent('FrontController.initAuthenticationObject',
+            array(&$notification, $allowCookieAuthentication = true));
 
         $auth = Zend_Registry::get('auth');
         $success = Zend_Registry::get('access')->reloadAccess($auth);

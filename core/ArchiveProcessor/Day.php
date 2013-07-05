@@ -97,6 +97,6 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
 
     protected function compute()
     {
-        Piwik_PostEvent('ArchiveProcessing_Day.compute', $this);
+        Piwik_PostEvent('ArchiveProcessing_Day.compute', array(&$this));
     }
 }

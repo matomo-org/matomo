@@ -40,12 +40,8 @@ class Piwik_VisitTime extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports[] = array(
             'category'          => Piwik_Translate('VisitsSummary_VisitsSummary'),
             'name'              => Piwik_Translate('VisitTime_WidgetLocalTime'),
@@ -92,12 +88,8 @@ class Piwik_VisitTime extends Piwik_Plugin
         Piwik_AddMenu('General_Visitors', 'VisitTime_SubmenuTimes', array('module' => 'VisitTime', 'action' => 'index'));
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getReportsWithGoalMetrics($notification)
+    public function getReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions =& $notification->getNotificationObject();
         $dimensions[] = array('category' => Piwik_Translate('VisitTime_ColumnServerTime'),
                               'name'     => Piwik_Translate('VisitTime_ColumnServerTime'),
                               'module'   => 'VisitTime',
@@ -105,12 +97,8 @@ class Piwik_VisitTime extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $acceptedValues = "0, 1, 2, 3, ..., 20, 21, 22, 23";
         $segments[] = array(
             'type'           => 'dimension',
@@ -130,10 +118,8 @@ class Piwik_VisitTime extends Piwik_Plugin
         );
     }
 
-    function archivePeriod($notification)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
-
         $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
@@ -141,14 +127,11 @@ class Piwik_VisitTime extends Piwik_Plugin
     }
 
 
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
         $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
-
 }
-

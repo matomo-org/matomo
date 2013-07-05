@@ -42,12 +42,8 @@ class Piwik_Actions extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $sqlFilter = array($this, 'getIdActionFromSegment');
 
         // entry and exit pages of visit
@@ -176,15 +172,8 @@ class Piwik_Actions extends Piwik_Plugin
         );
     }
 
-    /**
-     * Returns metadata for available reports
-     *
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
-
         $reports[] = array(
             'category'             => Piwik_Translate('Actions_Actions'),
             'name'                 => Piwik_Translate('Actions_Actions') . ' - ' . Piwik_Translate('General_MainMetrics'),
@@ -561,30 +550,22 @@ class Piwik_Actions extends Piwik_Plugin
         return Piwik_Site::isSiteSearchEnabledFor($idSite);
     }
 
-
     /**
      * Compute all the actions along with their hierarchies.
      *
      * For each action we process the "interest statistics" :
      * visits, unique visitors, bounce count, sum visit length.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        /* @var $archiveProcessor Piwik_ArchiveProcessor_Day */
-        $archiveProcessor = $notification->getNotificationObject();
-
         $archiving = new Piwik_Actions_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
 
-    function archivePeriod($notification)
+    function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
-
         $archiving = new Piwik_Actions_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();

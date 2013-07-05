@@ -149,7 +149,7 @@ class Piwik_Login_Controller extends Piwik_Controller
                       'rememberMe'  => $rememberMe,
         );
         Piwik_Nonce::discardNonce('Piwik_Login.login');
-        Piwik_PostEvent('Login.initSession', $info);
+        Piwik_PostEvent('Login.initSession', array(&$info));
         Piwik_Url::redirectToUrl($urlToRedirect);
     }
 

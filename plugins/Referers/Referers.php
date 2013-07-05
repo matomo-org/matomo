@@ -43,12 +43,8 @@ class Piwik_Referers extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports = array_merge($reports, array(
                                               array(
                                                   'category'          => Piwik_Translate('Referers_Referers'),
@@ -174,12 +170,8 @@ class Piwik_Referers extends Piwik_Plugin
                                          ));
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         $segments[] = array(
             'type'           => 'dimension',
             'category'       => 'Referers_Referers',
@@ -246,13 +238,9 @@ class Piwik_Referers extends Piwik_Plugin
 
     /**
      * Adds Goal dimensions, so that the dimensions are displayed in the UI Goal Overview page
-     *
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return void
      */
-    function getReportsWithGoalMetrics($notification)
+    public function getReportsWithGoalMetrics(&$dimensions)
     {
-        $dimensions =& $notification->getNotificationObject();
         $dimensions = array_merge($dimensions, array(
                                                     array('category' => Piwik_Translate('Referers_Referers'),
                                                           'name'     => Piwik_Translate('Referers_Keywords'),
@@ -284,13 +272,9 @@ class Piwik_Referers extends Piwik_Plugin
 
     /**
      * Hooks on daily archive to trigger various log processing
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
-
         $archiving = new Piwik_Referers_Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
@@ -300,12 +284,9 @@ class Piwik_Referers extends Piwik_Plugin
     /**
      * Period archiving: sums up daily stats and sums report tables,
      * making sure that tables are still truncated.
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function archivePeriod($notification)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
         $archiving = new Piwik_Referers_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();

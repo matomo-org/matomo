@@ -127,7 +127,7 @@ class Piwik_SegmentEditor_API
         $this->checkUserIsNotAnonymous();
 
         // allow plugins using the segment to throw an exception or propagate the deletion
-        Piwik_PostEvent(self::DELETE_SEGMENT_EVENT, $idSegment);
+        Piwik_PostEvent(self::DELETE_SEGMENT_EVENT, array(&$idSegment));
 
         $segment = $this->getSegmentOrFail($idSegment);
         $db = Zend_Registry::get('db');

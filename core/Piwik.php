@@ -22,7 +22,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
  */
 class Piwik
 {
-    const CLASSES_PREFIX = 'Piwik_';
     const COMPRESSED_FILE_LOCATION = '/tmp/assets/';
 
     /**
@@ -84,25 +83,10 @@ class Piwik
      */
     static public function prefixClass($class)
     {
-        if (!strncmp($class, Piwik::CLASSES_PREFIX, strlen(Piwik::CLASSES_PREFIX))) {
+        if (!strncmp($class, Piwik_Common::CLASSES_PREFIX, strlen(Piwik_Common::CLASSES_PREFIX))) {
             return $class;
         }
-        return Piwik::CLASSES_PREFIX . $class;
-    }
-
-    /**
-     * Unprefix class name (if needed)
-     *
-     * @param string $class
-     * @return string
-     */
-    static public function unprefixClass($class)
-    {
-        $lenPrefix = strlen(Piwik::CLASSES_PREFIX);
-        if (!strncmp($class, Piwik::CLASSES_PREFIX, $lenPrefix)) {
-            return substr($class, $lenPrefix);
-        }
-        return $class;
+        return Piwik_Common::CLASSES_PREFIX . $class;
     }
 
     /**
@@ -1550,8 +1534,8 @@ class Piwik
             $segments = Piwik_Config::getInstance()->Segments;
             $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : array();
 
-            Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', $cachedResult);
-            
+            Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', array(&$cachedResult));
+
             $cachedResult = array_unique($cachedResult);
         }
 
@@ -1561,7 +1545,7 @@ class Piwik
     static public function getKnownSegmentsToArchiveForSite($idSite)
     {
         $segments = array();
-        Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveForSite', $segments, $idSite);
+        Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
         return $segments;
     }
 
@@ -1922,12 +1906,12 @@ class Piwik
             $dbInfos = $config->database;
         }
 
-        Piwik_PostEvent('Reporting.getDatabaseConfig', $dbInfos);
+        Piwik_PostEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
 
         $dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
 
         $db = null;
-        Piwik_PostEvent('Reporting.createDatabase', $db);
+        Piwik_PostEvent('Reporting.createDatabase', array(&$db));
         if (is_null($db)) {
             $adapter = $dbInfos['adapter'];
             $db = @Piwik_Db_Adapter::factory($adapter, $dbInfos);

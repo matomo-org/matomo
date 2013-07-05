@@ -35,10 +35,7 @@ class Piwik_MultiSites extends Piwik_Plugin
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
         $metadataMetrics = array();
         foreach (Piwik_MultiSites_API::getApiMetrics($enhanced = true) as $metricName => $metricSettings) {
@@ -47,8 +44,6 @@ class Piwik_MultiSites extends Piwik_Plugin
             $metadataMetrics[$metricSettings[Piwik_MultiSites_API::METRIC_EVOLUTION_COL_NAME_KEY]] =
                 Piwik_Translate($metricSettings[Piwik_MultiSites_API::METRIC_TRANSLATION_KEY]) . " " . Piwik_Translate('MultiSites_Evolution');
         }
-
-        $reports = & $notification->getNotificationObject();
 
         $reports[] = array(
             'category'          => Piwik_Translate('General_MultiSitesSummary'),
@@ -82,23 +77,13 @@ class Piwik_MultiSites extends Piwik_Plugin
         Piwik_AddTopMenu('General_MultiSitesSummary', $urlParams, true, 3, $isHTML = false, $tooltip);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getJsFiles($notification)
+    public function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
-
         $jsFiles[] = "plugins/MultiSites/javascripts/multiSites.js";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    function getCssFiles($notification)
+    public function getCssFiles(&$cssFiles)
     {
-        $cssFiles = & $notification->getNotificationObject();
-
         $cssFiles[] = "plugins/MultiSites/stylesheets/multiSites.css";
     }
 }

@@ -34,9 +34,8 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         Piwik_AddAction('template_leftColumnUserCountry', array('Piwik_UserCountryMap', 'insertMapInLocationReport'));
     }
 
-    static public function insertMapInLocationReport($notification)
+    static public function insertMapInLocationReport(&$out)
     {
-        $out =& $notification->getNotificationObject();
         $out = '<h2>' . Piwik_Translate('UserCountryMap_VisitorMap') . '</h2>';
         $out .= Piwik_FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap');
     }
@@ -51,17 +50,13 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         return $hooks;
     }
 
-    function addMenu()
+    public function addMenu()
     {
         Piwik_AddMenu('General_Visitors', 'UserCountryMap_RealTimeMap', array('module' => 'UserCountryMap', 'action' => 'realtimeWorldMap'), true, $order = 70);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getJsFiles($notification)
+    public function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
         $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/raphael.min.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/jquery.qtip.min.js";
         $jsFiles[] = "plugins/UserCountryMap/javascripts/vendor/kartograph.min.js";
@@ -70,11 +65,9 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         $jsFiles[] = "plugins/UserCountryMap/javascripts/realtime-map.js";
     }
 
-    public function getCssFiles($notification)
+    public function getCssFiles(&$cssFiles)
     {
-        $cssFiles = &$notification->getNotificationObject();
         $cssFiles[] = "plugins/UserCountryMap/stylesheets/visitor-map.css";
         $cssFiles[] = "plugins/UserCountryMap/stylesheets/realtime-map.css";
     }
-
 }

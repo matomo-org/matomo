@@ -388,7 +388,7 @@ class Piwik_UsersManager_API
         Zend_Registry::get('access')->reloadAccess();
         Piwik_Tracker_Cache::deleteTrackerCache();
 
-        Piwik_PostEvent('UsersManager.addUser', $userLogin);
+        Piwik_PostEvent('UsersManager.addUser', array($userLogin));
     }
 
     /**
@@ -445,7 +445,7 @@ class Piwik_UsersManager_API
         );
         Piwik_Tracker_Cache::deleteTrackerCache();
 
-        Piwik_PostEvent('UsersManager.updateUser', $userLogin);
+        Piwik_PostEvent('UsersManager.updateUser', array($userLogin));
     }
 
     /**
@@ -630,7 +630,7 @@ class Piwik_UsersManager_API
         $db = Zend_Registry::get('db');
         $db->query("DELETE FROM " . Piwik_Common::prefixTable("user") . " WHERE login = ?", $userLogin);
 
-        Piwik_PostEvent('UsersManager.deleteUser', $userLogin);
+        Piwik_PostEvent('UsersManager.deleteUser', array($userLogin));
     }
 
 
