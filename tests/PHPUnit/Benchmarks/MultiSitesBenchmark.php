@@ -8,9 +8,9 @@
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
 
 /**
- * Runs the archiving process.
+ * Tests MultiSites API. Should be used with ManyThousandSitesOneVisitEach benchmark fixture.
  */
-class ArchiveQueryBenchmark extends BenchmarkTestCase
+class MultiSitesBenchmark extends BenchmarkTestCase
 {
     private $archivingLaunched = false;
     
@@ -33,12 +33,8 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
         if ($this->archivingLaunched) {
             echo "NOTE: Had to archive data, memory results will not be accurate. Run again for better results.";
         }
-
+        
         Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = true;
-        
-        $period = Piwik_Period::factory(self::$fixture->period, Piwik_Date::factory(self::$fixture->date));
-        $dateRange = $period->getDateStart().','.$period->getDateEnd();
-        
-        Piwik_VisitsSummary_API::getInstance()->get(self::$fixture->idSite, 'day', $dateRange);
+        Piwik_MultiSites_API::getInstance()->getAll(self::$fixture->period, self::$fixture->date);
     }
 }
