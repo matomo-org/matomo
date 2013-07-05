@@ -1,9 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
+    <meta charset="utf-8">
     <title>Piwik &rsaquo; {{ 'Installation_Installation'|translate }}</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/common.css"/>
     <link rel="stylesheet" type="text/css" href="libs/jquery/themes/base/jquery-ui.css"/>
@@ -11,16 +10,7 @@
     <link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico"/>
     <script type="text/javascript" src="libs/jquery/jquery.js"></script>
     <script type="text/javascript" src="libs/jquery/jquery-ui.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#toFade').fadeOut(4000, function () { $(this).show().css({visibility: 'hidden'}); });
-            $('input:first').focus();
-            $('#progressbar').progressbar({
-                value: {{ percentDone }}
-            });
-        });
-    </script>
+    <script type="text/javascript" src="plugins/Installation/javascripts/installation.js"></script>
 
     <link rel="stylesheet" type="text/css" href="plugins/Installation/stylesheets/installation.css"/>
     {% if 'General_LayoutDirection'|translate =='rtl' %}
@@ -65,7 +55,7 @@
 
         <h3>{{ 'Installation_InstallationStatus'|translate }}</h3>
 
-        <div id="progressbar"></div>
+        <div id="progressbar" data-progress="{{ percentDone }}"></div>
         {{ 'Installation_PercentDone'|translate(percentDone) }}
     </div>
 </div>

@@ -50,6 +50,7 @@ class Piwik_UsersManager extends Piwik_Plugin
         return array(
             'AdminMenu.add'                 => 'addMenu',
             'AssetManager.getJsFiles'       => 'getJsFiles',
+            'AssetManager.getCssFiles'      => 'getCssFiles',
             'SitesManager.deleteSite'       => 'deleteSite',
             'Common.fetchWebsiteAttributes' => 'recordAdminUsersInCache',
         );
@@ -103,6 +104,18 @@ class Piwik_UsersManager extends Piwik_Plugin
 
         $jsFiles[] = "plugins/UsersManager/javascripts/usersManager.js";
         $jsFiles[] = "plugins/UsersManager/javascripts/usersSettings.js";
+    }
+
+    /**
+     * Get CSS files
+     *
+     * @param Piwik_Event_Notification $notification  notification object
+     */
+    function getCssFiles($notification)
+    {
+        $cssFiles = & $notification->getNotificationObject();
+
+        $cssFiles[] = "plugins/UsersManager/stylesheets/usersManager.css";
     }
 
     /**

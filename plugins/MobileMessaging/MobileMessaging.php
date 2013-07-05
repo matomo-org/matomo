@@ -78,6 +78,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
         return array(
             'AdminMenu.add'                       => 'addMenu',
             'AssetManager.getJsFiles'             => 'getJsFiles',
+            'AssetManager.getCssFiles'            => 'getCssFiles',
             'PDFReports.getReportParameters'      => 'getReportParameters',
             'PDFReports.validateReportParameters' => 'validateReportParameters',
             'PDFReports.getReportMetadata'        => 'getReportMetadata',
@@ -110,6 +111,16 @@ class Piwik_MobileMessaging extends Piwik_Plugin
         $jsFiles = & $notification->getNotificationObject();
 
         $jsFiles[] = "plugins/MobileMessaging/javascripts/MobileMessagingSettings.js";
+    }
+
+    /**
+     * @param Piwik_Event_Notification $notification  notification object
+     */
+    function getCssFiles($notification)
+    {
+        $cssFiles = & $notification->getNotificationObject();
+
+        $cssFiles[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.css";
     }
 
     /**

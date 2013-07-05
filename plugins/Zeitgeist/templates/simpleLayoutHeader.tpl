@@ -1,9 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>{$HTML_TITLE}</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="plugins/CoreHome/images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="plugins/Zeitgeist/stylesheets/simple_structure.css" />
 </head>

@@ -1,0 +1,78 @@
+#piwik-promo-thumbnail {
+    background: #fff url(plugins/CoreHome/images/promo_splash.png) no-repeat 0 0;
+    background-position: center;
+    width: 321px;
+    margin: 0 auto 0 auto;
+}
+
+#piwik-promo-embed {
+    margin-left: 1px;
+}
+
+#piwik-promo-embed>iframe {
+    z-index: 0;
+}
+
+#piwik-promo-thumbnail {
+    height: 178px;
+}
+
+#piwik-promo-thumbnail:hover {
+    opacity: .75;
+    cursor: pointer;
+}
+
+#piwik-promo-thumbnail>img {
+    display: block;
+    position: relative;
+    top: 53px;
+    left: 125px;
+}
+
+#piwik-promo-video {
+    margin: 2em 0 2em 0;
+}
+
+#piwik-widget-footer {
+    margin: 0 1em 1em 1em;
+}
+
+#piwik-promo-share {
+    margin: 0 2em 1em 0;
+    background-color: #CCC;
+
+    border: 1px solid #CCC;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+
+    display: inline-block;
+
+    padding: 0 .5em 0 .5em;
+
+    float: right;
+}
+
+#piwik-promo-share > a {
+    margin-left: .5em;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+#piwik-promo-share>span {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 4px;
+}
+
+#piwik-promo-videos-link {
+    font-size: .8em;
+    font-style: italic;
+    margin: 1em 0 0 1.25em;
+    color: #666;
+    display: inline-block;
+}
+
+#piwik-promo-videos-link:hover {
+    text-decoration: none;
+}

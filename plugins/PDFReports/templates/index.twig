@@ -1,7 +1,6 @@
 {% extends 'dashboard.twig' %}
 
 {% block content %}
-{% set showSitesSelection=true %}
 
 <div class="top_controls_inner">
     {% include "@CoreHome/_periodSelect.twig" %}
@@ -35,7 +34,7 @@
     ReportPlugin.reportList = {{ reportsJSON | raw }};
     ReportPlugin.createReportString = "{{ 'PDFReports_CreateReport'|translate }}";
     ReportPlugin.updateReportString = "{{ 'PDFReports_UpdateReport'|translate }}";
-        $(document).ready(function () {
+    $(function () {
         initManagePdf();
     });
 </script>
