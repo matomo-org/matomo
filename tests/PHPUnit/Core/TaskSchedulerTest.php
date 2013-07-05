@@ -307,7 +307,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedTimetable, $getTimetableFromOptionTable->invoke(new Piwik_TaskScheduler()));
 
         // restore loaded plugins & piwik options
-        Piwik_PluginsManager::getInstance()->clearObservers(Piwik_TaskScheduler::GET_TASKS_EVENT);
+        Piwik_EventDispatcher::getInstance()->clearObservers(Piwik_TaskScheduler::GET_TASKS_EVENT);
         Piwik_PluginsManager::getInstance()->loadPlugins($plugins);
         self::resetPiwikOption();
     }
