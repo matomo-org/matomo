@@ -16,6 +16,8 @@ class Tracker_ActionTest extends DatabaseTestCase
         $config->setTestEnvironment($userFile, false);
 
         Piwik_PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
+        
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
     }
 
     protected function setUpRootAccess()
