@@ -194,6 +194,8 @@ class Piwik_DataAccess_ArchiveWriter
      *
      * @param string $name
      * @param mixed $value
+     *
+     * @return bool
      */
     public function insertRecord($name, $value)
     {

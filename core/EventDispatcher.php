@@ -184,9 +184,11 @@ class Piwik_EventDispatcher
 
 /**
  * Post an event to the dispatcher which will notice the observers.
- * 
+ *
  * @param string $eventName  The event name.
  * @param array $params The parameter array to forward to observer callbacks.
+ * @param bool $pending
+ * @param null $plugins
  * @return void
  */
 function Piwik_PostEvent($eventName, $params = array(), $pending = false, $plugins = null)

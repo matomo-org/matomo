@@ -56,7 +56,7 @@ class Piwik_SitesManager_API
      * This tag must be included on every page to be tracked by Piwik
      *
      * @param int $idSite
-     * @param string $customTitle Custom title given to the pageview
+     * @param string $piwikUrl
      * @return string The Javascript tag ready to be included on the HTML pages
      */
     public function getJavascriptTag($idSite, $piwikUrl = '')
@@ -109,7 +109,8 @@ class Piwik_SitesManager_API
     /**
      * Returns the website information : name, main_url
      *
-     * @exception if the site ID doesn't exist or the user doesn't have access to it
+     * @throws Exception if the site ID doesn't exist or the user doesn't have access to it
+     * @param int $idSite
      * @return array
      */
     public function getSiteFromId($idSite)
@@ -125,14 +126,15 @@ class Piwik_SitesManager_API
      * Returns the list of alias URLs registered for the given idSite.
      * The website ID must be valid when calling this method!
      *
+     * @param int $idSite
      * @return array list of alias URLs
      */
-    private function getAliasSiteUrlsFromId($idsite)
+    private function getAliasSiteUrlsFromId($idSite)
     {
         $db = Zend_Registry::get('db');
         $result = $db->fetchAll("SELECT url
 								FROM " . Piwik_Common::prefixTable("site_url") . "
-								WHERE idsite = ?", $idsite);
+								WHERE idsite = ?", $idSite);
         $urls = array();
         foreach ($result as $url) {
             $urls[] = $url['url'];
@@ -143,7 +145,8 @@ class Piwik_SitesManager_API
     /**
      * Returns the list of all URLs registered for the given idSite (main_url + alias URLs).
      *
-     * @exception if the website ID doesn't exist or the user doesn't have access to it
+     * @throws Exception if the website ID doesn't exist or the user doesn't have access to it
+     * @param int $idSite
      * @return array list of URLs
      */
     public function getSiteUrlsFromId($idSite)
@@ -202,6 +205,7 @@ class Piwik_SitesManager_API
      * Returns the list of the website IDs that received some visits since the specified timestamp.
      * Requires super user access.
      *
+     * @param bool|int $timestamp
      * @return array The list of website IDs
      */
     public function getSitesIdWithVisits($timestamp = false)
@@ -260,7 +264,7 @@ class Piwik_SitesManager_API
      * Returns the list of websites with the 'view' or 'admin' access for the current user.
      * For the superUser it returns all the websites in the database.
      *
-     * @param int $limit Specify max number of sites to return
+     * @param bool|int $limit Specify max number of sites to return
      * @param bool $_restrictSitesToLogin Hack necessary when runnning scheduled tasks, where "Super User" is forced, but sometimes not desired, see #3017
      * @return array array for each site, an array of information (idsite, name, main_url, etc.)
      */
@@ -297,6 +301,7 @@ class Piwik_SitesManager_API
      * Returns the list of websites ID with the 'view' or 'admin' access for the current user.
      * For the superUser it returns all the websites in the database.
      *
+     * @param bool $_restrictSitesToLogin
      * @return array list of websites ID
      */
     public function getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin = false)
@@ -323,7 +328,9 @@ class Piwik_SitesManager_API
      * Returns the list of websites from the ID array in parameters.
      * The user access is not checked in this method so the ID have to be accessible by the user!
      *
-     * @param array list of website ID
+     * @param array $idSites list of website ID
+     * @param bool  $limit
+     * @return array
      */
     private function getSitesFromIds($idSites, $limit = false)
     {
@@ -394,6 +401,7 @@ class Piwik_SitesManager_API
      * Returns all websites with a timezone matching one the specified timezones
      *
      * @param array $timezones
+     * @return array
      * @ignore
      */
     public function getSitesIdFromTimezones($timezones)
@@ -419,19 +427,21 @@ class Piwik_SitesManager_API
      * Requires Super User access.
      *
      * The website is defined by a name and an array of URLs.
-     * @param string Site name
-     * @param array|string The URLs array must contain at least one URL called the 'main_url' ;
+     * @param string $siteName Site name
+     * @param array|string $urls The URLs array must contain at least one URL called the 'main_url' ;
      *                        if several URLs are provided in the array, they will be recorded
      *                        as Alias URLs for this website.
-     * @param int Is Ecommerce Reporting enabled for this website?
-     * @param int $sitesearch Whether site search is enabled, 0 or 1
+     * @param int $ecommerce Is Ecommerce Reporting enabled for this website?
+     * @param null $siteSearch
      * @param string $searchKeywordParameters Comma separated list of search keyword parameter names
      * @param string $searchCategoryParameters Comma separated list of search category parameter names
-     * @param string Comma separated list of IPs to exclude from the reports (allows wildcards)
-     * @param string Timezone string, eg. 'Europe/London'
-     * @param string Currency, eg. 'EUR'
-     * @param string Website group identifier
-     * @param string Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
+     * @param string $excludedIps Comma separated list of IPs to exclude from the reports (allows wildcards)
+     * @param null $excludedQueryParameters
+     * @param string $timezone Timezone string, eg. 'Europe/London'
+     * @param string $currency Currency, eg. 'EUR'
+     * @param string $group Website group identifier
+     * @param string $startDate Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
+     * @param null|string $excludedUserAgents
      * @param int $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
      *                              will be removed. If 0, the default global behavior will be used.
      * @see getKeepURLFragmentsGlobal.
@@ -634,6 +644,8 @@ class Piwik_SitesManager_API
      * If some URLs given in parameter are already recorded as alias URLs for this website,
      * they won't be duplicated. The 'main_url' of the website won't be affected by this method.
      *
+     * @param int  $idSite
+     * @param array|string $urls
      * @return int the number of inserted URLs
      */
     public function addSiteAliasUrls($idSite, $urls)
@@ -922,21 +934,22 @@ class Piwik_SitesManager_API
      * @param string $siteName website name
      * @param string|array $urls the website URLs
      * @param int $ecommerce Whether Ecommerce is enabled, 0 or 1
-     * @param int $sitesearch Whether site search is enabled, 0 or 1
+     * @param null|int $siteSearch Whether site search is enabled, 0 or 1
      * @param string $searchKeywordParameters Comma separated list of search keyword parameter names
      * @param string $searchCategoryParameters Comma separated list of search category parameter names
      * @param string $excludedIps Comma separated list of IPs to exclude from being tracked (allows wildcards)
-     * @param null $excludedQueryParameters
+     * @param null|string $excludedQueryParameters
      * @param string $timezone Timezone
      * @param string $currency Currency code
      * @param string $group Group name where this website belongs
      * @param string $startDate Date at which the statistics for this website will start. Defaults to today's date in YYYY-MM-DD format
+     * @param null|string $excludedUserAgents
      * @param int|null $keepURLFragments If 1, URL fragments will be kept when tracking. If 2, they
      *                                   will be removed. If 0, the default global behavior will be used.
+     * @throws Exception
      * @see getKeepURLFragmentsGlobal. If null, the existing value will
      *                                   not be modified.
      *
-     * @throws Exception
      * @return bool true on success
      */
     public function updateSite($idSite,
@@ -1180,6 +1193,7 @@ class Piwik_SitesManager_API
     /**
      * Remove the final slash in the URLs if found
      *
+     * @param string $url
      * @return string the URL without the trailing slash
      */
     private function removeTrailingSlash($url)
@@ -1196,6 +1210,7 @@ class Piwik_SitesManager_API
     /**
      * Tests if the URL is a valid URL
      *
+     * @param string $url
      * @return bool
      */
     private function isValidUrl($url)

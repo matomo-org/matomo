@@ -76,7 +76,7 @@ class Piwik_PDFReports_API
      * @param string $reportFormat 'pdf', 'html' or any other format provided via the PDFReports.getReportFormats hook
      * @param array $reports array of reports
      * @param array $parameters array of parameters
-     * @param int $idSegment Segment Identifier
+     * @param bool|int $idSegment Segment Identifier
      *
      * @return int idReport generated
      */
@@ -199,12 +199,13 @@ class Piwik_PDFReports_API
     /**
      * Returns the list of reports matching the passed parameters
      *
-     * @param int $idSite If specified, will filter reports that belong to a specific idsite
-     * @param string $period If specified, will filter reports that are scheduled for this period (day,week,month)
-     * @param int $idReport If specified, will filter the report that has the given idReport
-     * @param int $idSegment If specified, will filter the report that has the given idSegment
+     * @param bool|int $idSite If specified, will filter reports that belong to a specific idsite
+     * @param bool|string $period If specified, will filter reports that are scheduled for this period (day,week,month)
+     * @param bool|int $idReport If specified, will filter the report that has the given idReport
+     * @param bool $ifSuperUserReturnOnlySuperUserReports
+     * @param bool|int $idSegment If specified, will filter the report that has the given idSegment
+     * @throws Exception
      * @return array
-     * @throws Exception if $idReport was specified but the report wasn't found
      */
     public function getReports($idSite = false, $period = false, $idReport = false, $ifSuperUserReturnOnlySuperUserReports = false, $idSegment = false)
     {

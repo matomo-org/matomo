@@ -68,7 +68,9 @@ class Piwik_SitesManager extends Piwik_Plugin
     /**
      * Hooks when a website tracker cache is flushed (website updated, cache deleted, or empty cache)
      * Will record in the tracker config file all data needed for this website in Tracker.
-     * 
+     *
+     * @param array $array
+     * @param int   $idSite
      * @return void
      */
     public function recordWebsiteDataInCache(&$array, $idSite)
@@ -126,6 +128,7 @@ class Piwik_SitesManager extends Piwik_Plugin
     /**
      * Returns the array of excluded IPs to save in the config file
      *
+     * @param array $website
      * @return array
      */
     private function getTrackerExcludedIps($website)
@@ -164,6 +167,7 @@ class Piwik_SitesManager extends Piwik_Plugin
     /**
      * Returns the array of URL query parameters to exclude from URLs
      *
+     * @param array $website
      * @return array
      */
     public static function getTrackerExcludedQueryParameters($website)

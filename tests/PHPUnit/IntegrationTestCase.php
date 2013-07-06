@@ -55,7 +55,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $createEmptyDatabase
+     * @param bool $installPlugins
      */
     protected static function installAndLoadPlugins($installPlugins)
     {
@@ -314,6 +314,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      *
      * @param string $dateTime eg '2010-01-01 12:34:56'
      * @param string $period eg 'day', 'week', 'month', 'year'
+     * @return array
      */
     protected static function getApiForTestingScheduledReports($dateTime, $period)
     {
@@ -453,13 +454,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * @param array $parametersToSet Parameters to set in api call
      * @param array $formats         Array of 'format' to fetch from API
      * @param array $periods         Array of 'period' to query API
-     * @param bool $supertableApi
-     * @param bool $setDateLastN    If set to true, the 'date' parameter will be rewritten to query instead a range of dates, rather than one period only.
+     * @param bool  $supertableApi
+     * @param bool  $setDateLastN    If set to true, the 'date' parameter will be rewritten to query instead a range of dates, rather than one period only.
      * @param bool|string $language        2 letter language code, defaults to default piwik language
-     * @param bool|string $segment
      * @param bool|string $fileExtension
      *
      * @throws Exception
+     *
      * @return array of API URLs query strings
      */
     protected function generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $fileExtension = false)

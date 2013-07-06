@@ -208,23 +208,25 @@ class Piwik_Archive_DataCollection
         $index = $this->getArray($resultIndices);
         return $dataTableFactory->make($index, $resultIndices);
     }
-    
+
     /**
      * Returns archive data as a DataTable indexed by metadata. Indexed data will
      * be represented by Piwik_DataTable_Array instances. Each DataTable will have
      * its subtable IDs set.
-     * 
+     *
      * This function will only work if blob data was loaded and only one record
      * was loaded (not including subtables of the record).
-     * 
+     *
      * @param array $resultIndices An array mapping metadata names to pretty labels
      *                             for them. Each archive data row will be indexed
      *                             by the metadata specified here.
-     *                             
+     *
      *                             Eg, array('site' => 'idSite', 'period' => 'Date')
      * @param int $idSubtable The subtable to return.
      * @param bool $addMetadataSubtableId Whether to add the DB subtable ID as metadata
      *                                    to each datatable, or not.
+     * @throws Exception
+     * @return Piwik_DataTable|Piwik_DataTable_Array
      */
     public function getExpandedDataTable($resultIndices, $idSubtable = null, $addMetadataSubtableId = false)
     {
@@ -251,6 +253,7 @@ class Piwik_Archive_DataCollection
      * Returns metadata for a data row.
      * 
      * @param array $data The data row.
+     * @return array
      */
     public static function getDataRowMetadata($data)
     {
@@ -325,6 +328,7 @@ class Piwik_Archive_DataCollection
      *                    stored as metadata).
      * @param string $period eg, '2012-01-01,2012-01-31'. The period for the
      *                       row (needed since period is not stored as metadata).
+     * @return array
      */
     private function getRowKeys($metadataNames, $row, $idSite, $period)
     {

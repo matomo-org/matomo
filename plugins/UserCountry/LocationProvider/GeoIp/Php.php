@@ -46,7 +46,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Php extends Piwik_UserCountry_Loc
     /**
      * Constructor.
      *
-     * @param array|false $customDbNames The possible filenames for each type of GeoIP database.
+     * @param array|bool $customDbNames The possible filenames for each type of GeoIP database.
      *                                   eg array(
      *                                       'loc' => array('GeoLiteCity.dat'),
      *                                       'isp' => array('GeoIP.dat', 'GeoIPISP.dat')

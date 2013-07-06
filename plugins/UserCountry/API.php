@@ -160,8 +160,10 @@ class Piwik_UserCountry_API
      * of the result of this function.
      *
      * @param string $ip The IP address.
-     * @param string|false $provider The ID of the provider to use or false to use the
+     * @param bool|string $provider The ID of the provider to use or false to use the
      *                               currently configured one.
+     * @throws Exception
+     * @return array|false
      */
     public function getLocationFromIP($ip, $provider = false)
     {

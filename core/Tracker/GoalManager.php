@@ -215,11 +215,6 @@ class Piwik_Tracker_GoalManager
      * @param array  $visitorInformation
      * @param array  $visitCustomVariables
      * @param string $action
-     * @param int    $referrerTimestamp
-     * @param string $referrerUrl
-     * @param string $referrerCampaignName
-     * @param string $referrerCampaignKeyword
-     * @param string $browserLanguage
      */
     public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
     {

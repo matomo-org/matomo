@@ -472,6 +472,7 @@ class Piwik_API_ResponseBuilder
      * Returns the value for the label query parameter which can be either a string
      * (ie, label=...) or array (ie, label[]=...).
      *
+     * @param array  $request
      * @return array
      */
     static public function getLabelFromRequest($request)

@@ -398,6 +398,10 @@ class Piwik_API_API
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
      * @param string $idSites Comma separated list of website Ids
+     * @param bool|string $period
+     * @param bool|Piwik_Date $date
+     * @param bool $hideMetricsDoc
+     * @param bool $showSubtableReports
      * @return array
      */
     public function getReportMetadata($idSites = '', $period = false, $date = false, $hideMetricsDoc = false,
@@ -521,6 +525,18 @@ class Piwik_API_API
      * this function will query the API for the previous days/weeks/etc. and will return
      * a ready to use data structure containing the metrics for the requested Label, along with enriched information (min/max values, etc.)
      *
+     * @param int $idSite
+     * @param string $period
+     * @param Piwik_Date $date
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param bool|string $label
+     * @param bool|string $segment
+     * @param bool|string $column
+     * @param bool|string $language
+     * @param bool|int $idGoal
+     * @param bool|string $legendAppendMetric
+     * @param bool|string $labelUseAbsoluteUrl
      * @return array
      */
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true)
@@ -534,6 +550,7 @@ class Piwik_API_API
      * Performs multiple API requests at once and returns every result.
      *
      * @param array $urls The array of API requests.
+     * @return array
      */
     public function getBulkRequest($urls)
     {
@@ -556,6 +573,7 @@ class Piwik_API_API
      * Given a segment, will return a list of the most used values for this particular segment.
      * @param $segmentName
      * @param $idSite
+     * @return array
      * @throws Exception
      */
     public function getSuggestedValuesForSegment($segmentName, $idSite)

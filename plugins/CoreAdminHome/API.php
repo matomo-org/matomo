@@ -64,6 +64,7 @@ class Piwik_CoreAdminHome_API
      *
      * @param string $idSites Comma separated list of idSite that have had data imported for the specified dates
      * @param string $dates Comma separated list of dates to invalidate for all these websites
+     * @throws Exception
      * @return array
      */
     public function invalidateArchivedReports($idSites, $dates)

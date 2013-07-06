@@ -118,6 +118,7 @@ class Piwik_Actions extends Piwik_Plugin
      * @param string $valueToMatch
      * @param string $sqlField
      * @param string $matchType
+     * @param string $segmentName
      * @throws Exception
      * @return array|int|string
      */

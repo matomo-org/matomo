@@ -95,12 +95,13 @@ class Piwik_Archive_DataTableFactory
         $this->expandDataTable = true;
         $this->addMetadataSubtableId = $addMetadataSubtableId;
     }
-    
+
     /**
      * Tells the factory instance to create a DataTable using a blob with the
      * supplied subtable ID.
-     * 
+     *
      * @param int $idSubtable An in-database subtable ID.
+     * @throws Exception
      */
     public function useSubtable($idSubtable)
     {
@@ -230,6 +231,7 @@ class Piwik_Archive_DataTableFactory
      * @param array $index @see Piwik_Archive_DataCollection
      * @param array $resultIndices @see make
      * @param array $keyMetadata The metadata to add to the table when it's created.
+     * @return Piwik_DataTable_Array
      */
     private function createDataTableArrayFromIndex($index, $resultIndices, $keyMetadata = array())
     {

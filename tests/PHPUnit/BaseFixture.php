@@ -40,6 +40,10 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      * @param int $ecommerce
      * @param string $siteName
      *
+     * @param bool|string $siteUrl
+     * @param int $siteSearch
+     * @param null|string $searchKeywordParameters
+     * @param null|string $searchCategoryParameters
      * @return int    idSite of website created
      */
     public static function createWebsite($dateTime, $ecommerce = 0, $siteName = 'Piwik test', $siteUrl = false,
@@ -105,9 +109,10 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     /**
      * Returns a PiwikTracker object that you can then use to track pages or goals.
      *
-     * @param         $idSite
-     * @param         $dateTime
+     * @param int     $idSite
+     * @param string  $dateTime
      * @param boolean $defaultInit If set to true, the tracker object will have default IP, user agent, time, resolution, etc.
+     * @param bool    $useLocal
      *
      * @return PiwikTracker
      */

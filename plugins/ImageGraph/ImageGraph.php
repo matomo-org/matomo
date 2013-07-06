@@ -46,6 +46,8 @@ class Piwik_ImageGraph extends Piwik_Plugin
     const GRAPH_EVOLUTION_LAST_PERIODS = 30;
 
     /**
+     * @param array $reports
+     * @param array $info
      * @return mixed
      */
     public function getReportMetadata(&$reports, $info)

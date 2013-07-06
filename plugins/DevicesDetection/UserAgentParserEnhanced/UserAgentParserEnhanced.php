@@ -536,17 +536,17 @@ class UserAgentParserEnhanced
     }
 
     /**
-     * This method is used in this class for processing results of pregmatch 
+     * This method is used in this class for processing results of pregmatch
      * results into string containing recognized information.
-     * 
+     *
      * General algorithm:
      * Parsing UserAgent string consists of trying to match it against list of
-     * regular expressions for three different information: 
+     * regular expressions for three different information:
      * browser + version,
-     * OS + version, 
-     * device manufacturer + model. 
-     * 
-     * After match has been found iteration stops, and results are processed 
+     * OS + version,
+     * device manufacturer + model.
+     *
+     * After match has been found iteration stops, and results are processed
      * by buildByMatch.
      * As $item we get decoded name (name of browser, name of OS, name of manufacturer).
      * In array $match we recieve preg_match results containing whole string matched at index 0
@@ -556,29 +556,29 @@ class UserAgentParserEnhanced
      * In other cases, where whe know that preg_match may return more than 1 result,
      * we call buildByMatch with $nb = 2 or more, depending on what will be returned from
      * regular expression.
-     * 
+     *
      * Example:
-     * We are parsing UserAgent of Firefox 20.0 browser. 
+     * We are parsing UserAgent of Firefox 20.0 browser.
      * UserAgentParserEnhanced calls buildBrowserName() and buildBrowserVersion() in order
      * to retrieve those information.
      * In buildBrowserName() we only have one call of buildByMatch, where passed argument
      * is regular expression testing given string for browser name. In this case, we are only
      * interrested in first hit, so no $nb parameter will be set to 1. After finding match, and calling
      * buildByMatch - we will receive just the name of browser.
-     * 
+     *
      * Also after decoding browser we will get list of regular expressions for this browser name
      * testing UserAgent string for version number. Again we iterate over this list, and after finding first
      * occurence - we break loop and proceed to build by match. Since browser regular expressions can
      * contain two hits (major version and minor version) in function buildBrowserVersion() we have
      * two calls to buildByMatch, one without 3rd parameter, and second with $nb set to 2.
      * This way we can retrieve version number, and assign it to object property.
-     * 
+     *
      * In case of mobiles.yml this schema slightly varies, but general idea is the same.
-     * 
+     *
      * @param string $item
      * @param array $matches
-     * @param int $nb
-     * @return type
+     * @param int|string $nb
+     * @return string type
      */
     protected function buildByMatch($item, $matches, $nb = '1')
     {

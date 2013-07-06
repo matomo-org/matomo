@@ -474,6 +474,7 @@ class Piwik_UsersManager_API
     /**
      * Returns true if the given userLogin is known in the database
      *
+     * @param string $userLogin
      * @return bool true if the user is known
      */
     public function userExists($userLogin)
@@ -487,6 +488,7 @@ class Piwik_UsersManager_API
     /**
      * Returns true if user with given email (userEmail) is known in the database, or the super user
      *
+     * @param string $userEmail
      * @return bool true if the user is known
      */
     public function userEmailExists($userEmail)

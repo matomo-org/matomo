@@ -43,7 +43,7 @@ class Piwik_Annotations_API
      * @param string $idSite The site ID to add the annotation to.
      * @param string $date The date the annotation is attached to.
      * @param string $note The text of the annotation.
-     * @param string $starred Either 0 or 1. Whether the annotation should be starred.
+     * @param int    $starred Either 0 or 1. Whether the annotation should be starred.
      * @return array Returns an array of two elements. The first element (indexed by
      *               'annotation') is the new annotation. The second element (indexed
      *               by 'idNote' is the new note's ID).
@@ -159,9 +159,9 @@ class Piwik_Annotations_API
      *
      * @param string $idSite The site ID to add the annotation to. Can be one ID or
      *                       a list of site IDs.
-     * @param string|false $date The date of the period.
+     * @param bool|string $date The date of the period.
      * @param string $period The period type.
-     * @param int|false $lastN Whether to include the last N number of periods in the
+     * @param bool|int $lastN Whether to include the last N number of periods in the
      *                         date range or not.
      * @return array An array that indexes arrays of annotations by site ID. ie,
      *               array(
@@ -189,9 +189,10 @@ class Piwik_Annotations_API
      * starred annotations.
      *
      * @param string $idSite The site ID to add the annotation to.
-     * @param string|false $date The date of the period.
+     * @param string|bool $date The date of the period.
      * @param string $period The period type.
-     * @param int|false $lastN Whether to get counts for the last N number of periods or not.
+     * @param int|bool $lastN Whether to get counts for the last N number of periods or not.
+     * @param bool $getAnnotationText
      * @return array An array mapping site IDs to arrays holding dates & the count of
      *               annotations made for those dates. eg,
      *               array(
@@ -294,12 +295,13 @@ class Piwik_Annotations_API
      * Returns start & end dates for the range described by a period and optional lastN
      * argument.
      *
-     * @param string $date|false The start date of the period (or the date range of a range
+     * @param string|bool $date The start date of the period (or the date range of a range
      *                           period).
-     * @param string $period The period type ('day', 'week', 'month', 'year' or 'range').
-     * @param int|false $lastN Whether to include the last N periods in the range or not.
+     * @param string   $period The period type ('day', 'week', 'month', 'year' or 'range').
+     * @param bool|int $lastN  Whether to include the last N periods in the range or not.
      *                         Ignored if period == range.
      *
+     * @return array
      * @ignore
      */
     public static function getDateRangeForPeriod($date, $period, $lastN = false)

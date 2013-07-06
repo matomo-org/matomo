@@ -121,6 +121,7 @@ class Piwik_SegmentEditor_API
      * Deletes a stored segment.
      *
      * @param $idSegment
+     * @return bool
      */
     public function delete($idSegment)
     {
@@ -145,6 +146,7 @@ class Piwik_SegmentEditor_API
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
      *
+     * @return bool
      */
     public function update($idSegment, $name, $definition, $idSite = false, $autoArchive = false, $enabledAllUsers = false)
     {
@@ -213,6 +215,8 @@ class Piwik_SegmentEditor_API
      * Returns a stored segment by ID
      *
      * @param $idSegment
+     * @throws Exception
+     * @return bool
      */
     public function get($idSegment)
     {

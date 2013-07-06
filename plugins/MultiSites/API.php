@@ -314,8 +314,9 @@ class Piwik_MultiSites_API
      *
      * @param Piwik_DataTable|Piwik_DataTable_Array $currentData
      * @param Piwik_DataTable|Piwik_DataTable_Array $pastData
-     * @param array $fields The array of string fields to calculate evolution
-     *                      metrics for.
+     * @param array $apiMetrics The array of string fields to calculate evolution
+     *                          metrics for.
+     * @throws Exception
      */
     private function calculateEvolutionPercentages($currentData, $pastData, $apiMetrics)
     {

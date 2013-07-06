@@ -188,8 +188,6 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
 
     /**
      * Records the daily stats (numeric or datatable blob) into the archive tables.
-     *
-     * @param Piwik_ArchiveProcessor $this->getProcessor()
      */
     protected function recordDayReports()
     {

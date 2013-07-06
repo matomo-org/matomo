@@ -282,7 +282,7 @@ class Piwik_Archive
      * @param Piwik_Date $date
      * @param string $segment
      * @param bool $expanded
-     * @param null $idSubtable
+     * @param int|null $idSubtable
      * @return Piwik_DataTable|Piwik_DataTable_Array
      */
     public static function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null)
@@ -308,8 +308,12 @@ class Piwik_Archive
     {
         return $recordName . "_" . $id;
     }
+
     /**
      * Queries archive tables for data and returns the result.
+     * @param array|string $archiveNames
+     * @param $archiveDataType
+     * @param null|int $idSubtable
      * @return Piwik_Archive_DataCollection
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
@@ -613,11 +617,12 @@ class Piwik_Archive
         
         return $plugin;
     }
-    
+
     /**
      * Returns the name of the plugin that archives a given report.
-     * 
+     *
      * @param string $report Archive data name, ie, 'nb_visits', 'UserSettings_...', etc.
+     * @throws Exception
      * @return string
      */
     public static function getPluginForReport($report)

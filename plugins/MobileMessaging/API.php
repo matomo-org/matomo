@@ -36,6 +36,7 @@ class Piwik_MobileMessaging_API
     }
 
     /**
+     * @param string $provider
      * @return Piwik_MobileMessaging_SMSProvider
      */
     static private function getSMSProviderInstance($provider)
@@ -157,7 +158,9 @@ class Piwik_MobileMessaging_API
     /**
      * send a SMS
      *
+     * @param string $content
      * @param string $phoneNumber
+     * @param string $from
      * @return bool true
      * @ignore
      */

@@ -1304,7 +1304,6 @@ class Piwik
      * @param string $columnName
      * @param mixed $value
      * @param bool $htmlAllowed
-     * @param string $timeAsSentence
      * @return string
      */
     static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed)

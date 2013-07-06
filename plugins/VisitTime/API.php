@@ -57,7 +57,8 @@ class Piwik_VisitTime_API
      * @param string $idSite The site ID. Cannot refer to multiple sites.
      * @param string $period The period type: day, week, year, range...
      * @param string $date The start date of the period. Cannot refer to multiple dates.
-     * @param string $segment The segment.
+     * @param bool|string $segment The segment.
+     * @throws Exception
      * @return Piwik_DataTable
      */
     public function getByDayOfWeek($idSite, $period, $date, $segment = false)

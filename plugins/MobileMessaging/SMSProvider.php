@@ -166,6 +166,7 @@ abstract class Piwik_MobileMessaging_SMSProvider
      * @param string $apiKey
      * @param string $smsText
      * @param string $phoneNumber
+     * @param string $from
      * @return bool true
      */
     abstract public function sendSMS($apiKey, $smsText, $phoneNumber, $from);

@@ -35,6 +35,7 @@ class Piwik_DBStats_MySQLMetadataProvider
     /**
      * Gets general database info that is not specific to any table.
      *
+     * @throws Exception
      * @return array See http://dev.mysql.com/doc/refman/5.1/en/show-status.html .
      */
     public function getDBStatus()

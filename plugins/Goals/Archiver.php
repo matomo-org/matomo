@@ -368,7 +368,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
     }
 
     /**
-     * @param $this->getProcessor()
+     * @internal param $this->getProcessor()
      */
     public function archivePeriod()
     {

@@ -67,6 +67,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
      * Initialize some local variables from the request
      * @param int $idSite
      * @param Piwik_Date $date ($this->date from controller)
+     * @param null|string $graphType
      * @throws Exception
      */
     public function __construct($idSite, $date, $graphType = null)

@@ -62,6 +62,8 @@ class Piwik_UsersManager extends Piwik_Plugin
      * Will record in the tracker config file the list of Admin token_auth for this website. This
      * will be used when the Tracking API is used with setIp(), setForceDateTime(), setVisitorId(), etc.
      *
+     * @param $array
+     * @param $idSite
      * @return void
      */
     public function recordAdminUsersInCache(&$array, $idSite)
