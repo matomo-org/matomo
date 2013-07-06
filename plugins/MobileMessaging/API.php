@@ -242,6 +242,7 @@ class Piwik_MobileMessaging_API
                         $report['idsite'],
                         $report['description'],
                         $report['period'],
+                        $report['hour'],
                         $report['type'],
                         $report['format'],
                         $report['reports'],
