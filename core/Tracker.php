@@ -343,11 +343,7 @@ class Piwik_Tracker
             } catch (Exception $e) {
                 Piwik::createAccessObject();
             }
-            try {
-                $config = Piwik_Config::getInstance();
-            } catch (Exception $e) {
-                Piwik::createConfigObject();
-            }
+            $config = Piwik_Config::getInstance();
             try {
                 $db = Zend_Registry::get('db');
             } catch (Exception $e) {

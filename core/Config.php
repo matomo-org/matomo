@@ -51,6 +51,7 @@ class Piwik_Config
     {
         if (self::$instance == null) {
             self::$instance = new self;
+            self::$instance->init();
         }
         return self::$instance;
     }

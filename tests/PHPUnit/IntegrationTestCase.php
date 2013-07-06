@@ -27,7 +27,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     public static function createTestConfig()
     {
-        Piwik::createConfigObject();
         Piwik_Config::getInstance()->setTestEnvironment();
     }
 

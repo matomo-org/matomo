@@ -189,7 +189,7 @@ class Piwik_FrontController
     {
         $exceptionToThrow = false;
         try {
-            Piwik::createConfigObject();
+            Piwik_Config::getInstance();
         } catch (Exception $e) {
             Piwik_PostEvent('FrontController.NoConfigurationFile', array($e), $pending = true);
             $exceptionToThrow = $e;

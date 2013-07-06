@@ -24,7 +24,6 @@ class Piwik_FrontController_Test extends Piwik_FrontController
     protected function createConfigObject()
     {
         // Config files forced to use the test database
-        Piwik::createConfigObject();
         Piwik_Config::getInstance()->setTestEnvironment();
     }
 

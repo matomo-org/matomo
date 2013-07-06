@@ -23,7 +23,6 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
         try {
-            Piwik::createConfigObject();
             Piwik_Config::getInstance()->setTestEnvironment();
 
             $dbConfig = Piwik_Config::getInstance()->database;
