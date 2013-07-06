@@ -290,7 +290,7 @@ class Piwik_FrontController
 									<code>Plugins[] = Login</code><br />
 									under the <code>[Plugins]</code> section in your config/config.ini.php");
             }
-            Zend_Registry::get('access')->reloadAccess($authAdapter);
+            Piwik_Access::getInstance()->reloadAccess($authAdapter);
 
             // Force the auth to use the token_auth if specified, so that embed dashboard
             // and all other non widgetized controller methods works fine

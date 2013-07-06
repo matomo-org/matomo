@@ -198,7 +198,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         // fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'PDFReports.addReport'
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
 
         // retrieve available reports
         $availableReportMetadata = Piwik_PDFReports_API::getReportMetadata($idSite, Piwik_PDFReports::EMAIL_TYPE);

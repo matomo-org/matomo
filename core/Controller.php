@@ -448,7 +448,7 @@ abstract class Piwik_Controller
     protected function setBasicVariablesView($view)
     {
         $view->debugTrackVisitsInsidePiwikUI = Piwik_Config::getInstance()->Debug['track_visits_inside_piwik_ui'];
-        $view->isSuperUser = Zend_Registry::get('access')->isSuperUser();
+        $view->isSuperUser = Piwik_Access::getInstance()->isSuperUser();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->isCustomLogo = Piwik_Config::getInstance()->branding['use_custom_logo'];
         $view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();

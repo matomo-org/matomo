@@ -18,7 +18,7 @@ class MobileMessagingTest extends DatabaseTestCase
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
         //finally we set the user as a super user by default
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
 
         $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");
 

@@ -282,7 +282,7 @@ class Piwik_SitesManager_API
      */
     public function getSitesIdWithAdminAccess()
     {
-        $sitesId = Zend_Registry::get('access')->getSitesIdWithAdminAccess();
+        $sitesId = Piwik_Access::getInstance()->getSitesIdWithAdminAccess();
         return $sitesId;
     }
 
@@ -294,7 +294,7 @@ class Piwik_SitesManager_API
      */
     public function getSitesIdWithViewAccess()
     {
-        return Zend_Registry::get('access')->getSitesIdWithViewAccess();
+        return Piwik_Access::getInstance()->getSitesIdWithViewAccess();
     }
 
     /**
@@ -313,14 +313,14 @@ class Piwik_SitesManager_API
             && (Piwik::isUserIsSuperUserOrTheUser($_restrictSitesToLogin)
                 || Piwik_TaskScheduler::isTaskBeingExecuted())
         ) {
-            $accessRaw = Zend_Registry::get('access')->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
+            $accessRaw = Piwik_Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
             $sitesId = array();
             foreach ($accessRaw as $access) {
                 $sitesId[] = $access['idsite'];
             }
             return $sitesId;
         } else {
-            return Zend_Registry::get('access')->getSitesIdWithAtLeastViewAccess();
+            return Piwik_Access::getInstance()->getSitesIdWithAtLeastViewAccess();
         }
     }
 
@@ -525,7 +525,7 @@ class Piwik_SitesManager_API
         $this->insertSiteUrls($idSite, $urls);
 
         // we reload the access list which doesn't yet take in consideration this new website
-        Zend_Registry::get('access')->reloadAccess();
+        Piwik_Access::getInstance()->reloadAccess();
         $this->postUpdateWebsite($idSite);
 
         Piwik_PostEvent('SitesManager.addSite', array($idSite));

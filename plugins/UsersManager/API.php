@@ -385,7 +385,7 @@ class Piwik_UsersManager_API
         );
 
         // we reload the access list which doesn't yet take in consideration this new user
-        Zend_Registry::get('access')->reloadAccess();
+        Piwik_Access::getInstance()->reloadAccess();
         Piwik_Tracker_Cache::deleteTrackerCache();
 
         Piwik_PostEvent('UsersManager.addUser', array($userLogin));
@@ -564,7 +564,7 @@ class Piwik_UsersManager_API
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access
-        Zend_Registry::get('access')->reloadAccess();
+        Piwik_Access::getInstance()->reloadAccess();
         Piwik_Tracker_Cache::deleteTrackerCache();
     }
 

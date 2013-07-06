@@ -338,12 +338,10 @@ class Piwik_Tracker
             self::$initTrackerMode = true;
             require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
             require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
-            try {
-                $access = Zend_Registry::get('access');
-            } catch (Exception $e) {
-                Piwik::createAccessObject();
-            }
+            
+            $access = Piwik_Access::getInstance();
             $config = Piwik_Config::getInstance();
+            
             try {
                 $db = Zend_Registry::get('db');
             } catch (Exception $e) {

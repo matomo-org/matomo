@@ -14,7 +14,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
     }
 
     /**

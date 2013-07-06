@@ -110,7 +110,7 @@ class Piwik_Overlay_API
             array(&$notification, $allowCookieAuthentication = true));
 
         $auth = Zend_Registry::get('auth');
-        $success = Zend_Registry::get('access')->reloadAccess($auth);
+        $success = Piwik_Access::getInstance()->reloadAccess($auth);
 
         if (!$success) {
             throw new Exception('Authentication failed');

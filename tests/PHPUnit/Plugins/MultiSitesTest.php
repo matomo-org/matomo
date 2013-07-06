@@ -14,8 +14,7 @@ class MultiSitesTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
 
         $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");

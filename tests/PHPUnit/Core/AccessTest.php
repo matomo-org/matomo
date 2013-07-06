@@ -54,8 +54,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testIsSuperUserWithSuperUserAccess()
     {
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
         $this->assertTrue($access->isSuperUser());
     }
@@ -66,8 +65,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testIsSuperUserWithNoSuperUserAccess()
     {
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(false);
         $this->assertFalse($access->isSuperUser());
     }
@@ -119,8 +117,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserIsSuperUserWithSuperUserAccess()
     {
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserIsSuperUser();
     }
@@ -142,8 +139,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasSomeAdminAccessWithSuperUserAccess()
     {
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserHasSomeAdminAccess();
     }
@@ -183,8 +179,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasSomeViewAccessWithSuperUserAccess()
     {
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserHasSomeViewAccess();
     }
@@ -224,8 +219,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasViewAccessWithSuperUserAccess()
     {
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserHasViewAccess(array());
     }
@@ -291,8 +285,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testCheckUserHasAdminAccessWithSuperUserAccess()
     {
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
         $access->checkUserHasAdminAccess(array());
     }
@@ -383,8 +376,7 @@ class AccessTest extends DatabaseTestCase
      */
     public function testReloadAccessWithEmptyAuthSuperUser()
     {
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
         $this->assertTrue($access->reloadAccess(null));
     }
@@ -400,8 +392,7 @@ class AccessTest extends DatabaseTestCase
             ->method('authenticate')
             ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, 'login', 'token')));
 
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertFalse($access->isSuperUser());
     }
@@ -417,8 +408,7 @@ class AccessTest extends DatabaseTestCase
             ->method('authenticate')
             ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, 'superuser', 'superusertoken')));
 
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $this->assertTrue($access->reloadAccess($mock));
         $this->assertTrue($access->isSuperUser());
     }
@@ -434,8 +424,7 @@ class AccessTest extends DatabaseTestCase
             ->method('authenticate')
             ->will($this->returnValue(new Piwik_Auth_Result(Piwik_Auth_Result::FAILURE_CREDENTIAL_INVALID, null, null)));
 
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $this->assertFalse($access->reloadAccess($mock));
     }
 

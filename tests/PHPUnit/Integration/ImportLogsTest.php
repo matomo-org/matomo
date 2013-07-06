@@ -51,7 +51,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
         self::$fixture->logVisitsWithDynamicResolver();
 
         // reload access so new sites are viewable
-        Zend_Registry::get('access')->setSuperUser(true);
+        Piwik_Access::getInstance()->setSuperUser(true);
 
         // make sure sites aren't created twice
         $piwikDotNet = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');

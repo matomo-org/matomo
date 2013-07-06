@@ -165,7 +165,7 @@ class Piwik_API_Request
         $token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string', $request);
         if ($token_auth) {
             Piwik_PostEvent('API.Request.authenticate', array($token_auth));
-            Zend_Registry::get('access')->reloadAccess();
+            Piwik_Access::getInstance()->reloadAccess();
             Piwik::raiseMemoryLimitIfNecessary();
         }
     }

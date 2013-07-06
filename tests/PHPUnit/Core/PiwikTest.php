@@ -210,8 +210,7 @@ class PiwikTest extends DatabaseTestCase
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
 
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
 
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");

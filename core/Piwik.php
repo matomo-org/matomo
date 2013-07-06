@@ -1573,7 +1573,7 @@ class Piwik
      */
     static public function getSuperUserLogin()
     {
-        return Zend_Registry::get('access')->getSuperUserLogin();
+        return Piwik_Access::getInstance()->getSuperUserLogin();
     }
 
     /**
@@ -1594,7 +1594,7 @@ class Piwik
      */
     static public function getCurrentUserLogin()
     {
-        return Zend_Registry::get('access')->getLogin();
+        return Piwik_Access::getInstance()->getLogin();
     }
 
     /**
@@ -1604,7 +1604,7 @@ class Piwik
      */
     static public function getCurrentUserTokenAuth()
     {
-        return Zend_Registry::get('access')->getTokenAuth();
+        return Piwik_Access::getInstance()->getTokenAuth();
     }
 
     /**
@@ -1687,7 +1687,7 @@ class Piwik
      */
     static public function setUserIsSuperUser($bool = true)
     {
-        Zend_Registry::get('access')->setSuperUser($bool);
+        Piwik_Access::getInstance()->setSuperUser($bool);
     }
 
     /**
@@ -1697,7 +1697,7 @@ class Piwik
      */
     static public function checkUserIsSuperUser()
     {
-        Zend_Registry::get('access')->checkUserIsSuperUser();
+        Piwik_Access::getInstance()->checkUserIsSuperUser();
     }
 
     /**
@@ -1724,7 +1724,7 @@ class Piwik
      */
     static public function checkUserHasAdminAccess($idSites)
     {
-        Zend_Registry::get('access')->checkUserHasAdminAccess($idSites);
+        Piwik_Access::getInstance()->checkUserHasAdminAccess($idSites);
     }
 
     /**
@@ -1749,7 +1749,7 @@ class Piwik
      */
     static public function checkUserHasSomeAdminAccess()
     {
-        Zend_Registry::get('access')->checkUserHasSomeAdminAccess();
+        Piwik_Access::getInstance()->checkUserHasSomeAdminAccess();
     }
 
     /**
@@ -1776,7 +1776,7 @@ class Piwik
      */
     static public function checkUserHasViewAccess($idSites)
     {
-        Zend_Registry::get('access')->checkUserHasViewAccess($idSites);
+        Piwik_Access::getInstance()->checkUserHasViewAccess($idSites);
     }
 
     /**
@@ -1801,7 +1801,7 @@ class Piwik
      */
     static public function checkUserHasSomeViewAccess()
     {
-        Zend_Registry::get('access')->checkUserHasSomeViewAccess();
+        Piwik_Access::getInstance()->checkUserHasSomeViewAccess();
     }
 
     /*
@@ -2011,7 +2011,8 @@ class Piwik
      */
     static public function createAccessObject()
     {
-        Zend_Registry::set('access', new Piwik_Access());
+        Piwik_Access::getInstance();
+        //Zend_Registry::set('access', new Piwik_Access());
     }
 
     /*

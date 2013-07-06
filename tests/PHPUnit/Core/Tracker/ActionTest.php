@@ -24,7 +24,7 @@ class Tracker_ActionTest extends DatabaseTestCase
     {
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
     }
 
     public function getTestUrls()

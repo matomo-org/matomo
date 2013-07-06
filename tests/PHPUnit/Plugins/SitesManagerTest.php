@@ -14,7 +14,7 @@ class SitesManagerTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
     }
 
     /**
@@ -953,7 +953,7 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site2", array("http://piwik.com", "http://piwik.net"));
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3", array("http://piwik.com", "http://piwik.org"));
 
-        $saveAccess = Zend_Registry::get('access');
+        $saveAccess = Piwik_Access::getInstance();
 
         Piwik_UsersManager_API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
         Piwik_UsersManager_API::getInstance()->setUserAccess("user1", "view", array(1));
@@ -971,7 +971,7 @@ class SitesManagerTest extends DatabaseTestCase
         FakeAccess::$identity = 'user1';
         FakeAccess::setIdSitesView(array(1));
         FakeAccess::setIdSitesAdmin(array());
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
         $idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(1, count($idsites));
 
@@ -986,7 +986,7 @@ class SitesManagerTest extends DatabaseTestCase
         FakeAccess::$identity = 'user2';
         FakeAccess::setIdSitesView(array(1));
         FakeAccess::setIdSitesAdmin(array(3));
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
         $idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(2, count($idsites));
 
@@ -995,11 +995,11 @@ class SitesManagerTest extends DatabaseTestCase
         FakeAccess::$identity = 'user3';
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3));
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
         $idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(3, count($idsites));
 
-        Zend_Registry::set('access', $saveAccess);
+        Piwik_Access::setSingletonInstance($saveAccess);
     }
 
     /**
