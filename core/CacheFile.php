@@ -36,8 +36,8 @@ class Piwik_CacheFile
     const MINIMUM_TTL = 60;
 
     /**
-     * @param string $directory  directory to use
-     * @param int TTL
+     * @param string $directory            directory to use
+     * @param int    $timeToLiveInSeconds  TTL
      */
     public function __construct($directory, $timeToLiveInSeconds = 300)
     {
@@ -66,6 +66,7 @@ class Piwik_CacheFile
         $expires_on = false;
 
         // We are assuming that most of the time cache will exists
+        $cacheFilePath = $this->cachePath . $id . '.php';
         $ok = @include($cacheFilePath);
 
         if ($ok && $cache_complete == true) {
