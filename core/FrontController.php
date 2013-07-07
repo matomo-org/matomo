@@ -199,7 +199,7 @@ class Piwik_FrontController
 
     protected function createAccessObject()
     {
-        Piwik::createAccessObject();
+        Piwik_Access::getInstance();
     }
 
     /**

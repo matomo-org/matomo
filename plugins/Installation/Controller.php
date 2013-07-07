@@ -262,7 +262,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $baseTablesInstalled = count($tablesInstalled) - count($archiveTables);
             $minimumCountPiwikTables = 17;
 
-            Piwik::createAccessObject();
+            Piwik_Access::getInstance();
             Piwik::setUserIsSuperUser();
             if ($baseTablesInstalled >= $minimumCountPiwikTables &&
                 count(Piwik_SitesManager_API::getInstance()->getAllSitesId()) > 0 &&

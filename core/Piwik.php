@@ -2008,19 +2008,6 @@ class Piwik
     }
 
     /*
- * Global access object
- */
-
-    /**
-     * Create access object
-     */
-    static public function createAccessObject()
-    {
-        Piwik_Access::getInstance();
-        //Zend_Registry::set('access', new Piwik_Access());
-    }
-
-    /*
  * User input validation
  */
 

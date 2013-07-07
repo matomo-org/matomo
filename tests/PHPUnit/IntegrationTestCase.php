@@ -150,8 +150,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         include "DataFiles/Currencies.php";
         include "DataFiles/LanguageToCountry.php";
         include "DataFiles/Providers.php";
-
-        Piwik::createAccessObject();
+        
+        Piwik_Access::setSingletonInstance(null);
+        Piwik_Access::getInstance();
         Piwik_PostEvent('FrontController.initAuthenticationObject');
 
         // We need to be SU to create websites for tests
@@ -225,8 +226,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
 
         $this->changeLanguage('en');
-        
-        Piwik::$cachedKnownSegmentsToArchive = null;
     }
 
     protected static $apiToCall = array();
