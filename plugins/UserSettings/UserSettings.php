@@ -25,8 +25,10 @@ class Piwik_UserSettings extends Piwik_Plugin
         );
     }
 
-    /*
+    /**
      * Mapping between the browser family shortcode and the displayed name
+     *
+     * @type array
      */
     static public $browserType_display = array(
         'ie'     => 'Trident (IE)',
@@ -36,12 +38,14 @@ class Piwik_UserSettings extends Piwik_Plugin
         'opera'  => 'Presto (Opera)',
     );
 
-    /*
+    /**
      * Defines API reports.
      * Also used to define Widgets.
      *
-     * @array Category, Report Name, API Module, API action, Translated column name,
-     * 			$segment, $sqlSegment, $acceptedValues, $sqlFilter
+     * @type array
+     *
+     * Category, Report Name, API Module, API action, Translated column name,
+     * $segment, $sqlSegment, $acceptedValues, $sqlFilter
      */
     protected $reportMetadata = array(
         array('UserSettings_VisitorSettings',
@@ -159,8 +163,10 @@ class Piwik_UserSettings extends Piwik_Plugin
               null),
     );
 
-    /*
-     * List of hooks
+    /**
+     * returns list of hooks
+     *
+     * @return array
      */
     function getListHooksRegistered()
     {
@@ -175,8 +181,10 @@ class Piwik_UserSettings extends Piwik_Plugin
         return $hooks;
     }
 
-    /*
+    /**
      * Registers reports metadata
+     *
+     * @param array $reports
      */
     public function getReportMetadata(&$reports)
     {

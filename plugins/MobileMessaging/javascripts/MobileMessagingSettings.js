@@ -234,7 +234,7 @@ var MobileMessagingSettings = MobileMessagingSettings || (function () {
 
     return {
 
-        /*
+        /**
          * Initialize UI events
          */
         initUIEvents: function () {

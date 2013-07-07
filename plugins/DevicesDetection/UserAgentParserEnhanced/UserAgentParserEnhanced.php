@@ -655,7 +655,7 @@ class UserAgentParserEnhanced
         if (!isset($this->os[$attr])) {
             return self::UNKNOWN;
         }
-        
+
         return $this->os[$attr];
     }
 

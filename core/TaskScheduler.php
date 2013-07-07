@@ -110,10 +110,17 @@ class Piwik_TaskScheduler
         return self::taskHasBeenScheduledOnce($taskName, $timetable) ? $timetable[$taskName] : false;
     }
 
-    /*
+    /**
+     * Checks if the task should be executed
+     *
      * Task has to be executed if :
      *  - the task has already been scheduled once and the current system time is greater than the scheduled time.
-     * 	- execution is forced, see $forceTaskExecution
+     *  - execution is forced, see $forceTaskExecution
+     *
+     * @param string $taskName
+     * @param array $timetable
+     *
+     * @return boolean
      */
     static private function taskShouldBeExecuted($taskName, $timetable)
     {
@@ -124,10 +131,17 @@ class Piwik_TaskScheduler
         return $forceTaskExecution || (self::taskHasBeenScheduledOnce($taskName, $timetable) && time() >= $timetable[$taskName]);
     }
 
-    /*
+    /**
+     * Checks if a task should be rescheduled
+     *
      * Task has to be rescheduled if :
      *  - the task has to be executed
-     * 	- the task has never been scheduled before
+     *  - the task has never been scheduled before
+     *
+     * @param string $taskName
+     * @param array $timetable
+     *
+     * @return boolean
      */
     static private function taskShouldBeRescheduled($taskName, $timetable)
     {

@@ -117,10 +117,12 @@ class Piwik_Tracker_VisitExcluded
                 && $_SERVER['HTTP_X_MOZ'] == "prefetch");
     }
 
-    /*
+    /**
      * Live/Bing/MSN bot and Googlebot are evolving to detect cloaked websites.
      * As a result, these sophisticated bots exhibit characteristics of
      * browsers (cookies enabled, executing JavaScript, etc).
+     *
+     * @return boolean
      */
     protected function isNonHumanBot()
     {

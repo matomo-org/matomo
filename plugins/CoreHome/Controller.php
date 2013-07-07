@@ -92,7 +92,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         echo $view->render();
     }
 
-    /*
+    /**
      * This method is called when the asset manager is configured in merged mode.
      * It returns the content of the css merged file.
      *
@@ -104,7 +104,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         Piwik::serveStaticFile($cssMergedFile, "text/css");
     }
 
-    /*
+    /**
      * This method is called when the asset manager is configured in merged mode.
      * It returns the content of the js merged file.
      *

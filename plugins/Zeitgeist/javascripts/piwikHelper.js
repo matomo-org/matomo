@@ -12,7 +12,7 @@ var piwikHelper = {
         return $('<div/>').html(value).text();
     },
 
-    /*
+    /**
      * a nice cross-browser logging function
      */
     log: function() {

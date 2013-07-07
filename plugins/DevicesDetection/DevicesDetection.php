@@ -30,7 +30,7 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         );
     }
 
-    /*
+    /**
      * Defines API reports.
      * Also used to define Widgets, and Segment(s)
      *
