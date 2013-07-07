@@ -598,7 +598,6 @@ class Piwik_Tracker
         try {
             $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (count($pluginsTracker) > 0) {
-                $pluginsTracker = $pluginsTracker;
                 $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
                 Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
