@@ -6,6 +6,9 @@
  *
  */
 
+$GLOBALS['PIWIK_CONFIG_TEST_ENVIRONMENT'] = true;
+$GLOBALS['PIWIK_ACCESS_IS_SUPERUSER'] = true;
+
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking
 ob_start();
@@ -19,26 +22,11 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 Piwik_Tracker::setTestEnvironment();
 Piwik_Tracker_Cache::deleteTrackerCache();
 
-class Piwik_FrontController_Test extends Piwik_FrontController
-{
-    protected function createConfigObject()
-    {
-        // Config files forced to use the test database
-        Piwik_Config::getInstance()->setTestEnvironment();
-    }
-
-    protected function createAccessObject()
-    {
-        parent::createAccessObject();
-        Piwik::setUserIsSuperUser(true);
-    }
-}
-
 // Disable index.php dispatch since we do it manually below
 define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
-$controller = new Piwik_FrontController_Test;
+$controller = new Piwik_FrontController;
 $controller->init();
 $controller->dispatch();
 

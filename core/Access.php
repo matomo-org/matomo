@@ -45,6 +45,10 @@ class Piwik_Access
     {
         if (self::$instance == null) {
             self::$instance = new self;
+            
+            if (!empty($GLOBALS['PIWIK_ACCESS_IS_SUPERUSER'])) {
+                self::$instance->setSuperUser(true);
+            }
         }
         return self::$instance;
     }
