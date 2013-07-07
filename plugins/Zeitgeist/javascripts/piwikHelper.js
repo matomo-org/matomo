@@ -229,7 +229,7 @@ var piwikHelper = {
 
     /**
      * Shows the loading message with the given Id
-     * @param {string} loadingDivID   id of the domNode (defaults to ajaxLoading)
+     * @param {string} [loadingDivID]   id of the domNode (defaults to ajaxLoading)
      * @return {void}
      */
     showAjaxLoading: function(loadingDivID)
@@ -240,35 +240,13 @@ var piwikHelper = {
 
     /**
      * Hides the loading message with the given id
-     * @param {string} loadingDivID   id of the domNode (defaults to ajaxLoading)
+     * @param {string} [loadingDivID]   id of the domNode (defaults to ajaxLoading)
      * @return {void}
      */
     hideAjaxLoading: function(loadingDivID)
     {
         loadingDivID = loadingDivID || 'ajaxLoadingDiv';
         $('#'+loadingDivID).hide();
-    },
-
-    /**
-     * Returns default configuration for ajax requests
-     * @param {string} loadingDivID   id of domNode used for loading message
-     * @param {string} errorDivID     id of domNode used for error messages
-     * @param {object} params         params used for handling response
-     * @return {object}
-     * @deprecated sine 1.9.3 - will be removed in 2.0
-     * @see use ajaxHelper for ajax requests
-     */
-    getStandardAjaxConf: function(loadingDivID, errorDivID, params)
-    {
-        piwikHelper.showAjaxLoading(loadingDivID);
-        piwikHelper.hideAjaxError(errorDivID);
-        var ajaxRequest = {};
-        ajaxRequest.type = 'GET';
-        ajaxRequest.url = 'index.php';
-        ajaxRequest.dataType = 'json';
-        ajaxRequest.error = piwikHelper.ajaxHandleError;
-        ajaxRequest.success = function(response) { piwikHelper.ajaxHandleResponse(response, loadingDivID, errorDivID, params); };
-        return ajaxRequest;
     },
 
     /**
@@ -312,46 +290,6 @@ var piwikHelper = {
         setTimeout( function(){
             $('#loadingError').fadeOut('slow');
             }, 2000);
-    },
-
-    /**
-     * Method to handle ajax response
-     * @param {object} response
-     * @param {string} loadingDivID
-     * @param {string} errorDivID
-     * @param {object} params
-     * @return {void}
-     * @deprecated since 1.9.3 - will be removed in 2.0
-     * @see use ajaxHelper for ajax requests
-     */
-    ajaxHandleResponse: function(response, loadingDivID, errorDivID, params)
-    {
-        if(response.result == "error")
-        {
-            piwikHelper.hideAjaxLoading(loadingDivID);
-            piwikHelper.showAjaxError(response.message, errorDivID);
-        }
-        else
-        {
-            // add updated=1 to the URL so that a "Your changes have been saved" message is displayed
-            var urlToRedirect = piwikHelper.getCurrentQueryStringWithParametersModified(params);
-            var updatedUrl = new RegExp('&updated=([0-9]+)');
-            var updatedCounter = updatedUrl.exec(urlToRedirect);
-            if(!updatedCounter)
-            {
-                urlToRedirect += '&updated=1';
-            }
-            else
-            {
-                updatedCounter = 1 + parseInt(updatedCounter[1]);
-                urlToRedirect = urlToRedirect.replace(new RegExp('(&updated=[0-9]+)'), '&updated=' + updatedCounter);
-            }
-            var currentHashStr = window.location.hash;
-            if(currentHashStr.length > 0) {
-                urlToRedirect += currentHashStr;
-            }
-            piwikHelper.redirectToUrl(urlToRedirect);
-        }
     },
 
     /**

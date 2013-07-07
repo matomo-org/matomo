@@ -167,7 +167,7 @@ function ajaxHelper() {
      * Set callback to redirect on success handler
      * &update=1(+x) will be appended to the current url
      *
-     * @param {object} params to modify in redirect url
+     * @param {object} [params] to modify in redirect url
      * @return {void}
      */
     this.redirectOnSuccess = function (params) {
@@ -235,7 +235,7 @@ function ajaxHelper() {
     /**
      * Set the div element to show while request is loading
      *
-     * @param {String} element  selector for the loading element
+     * @param {String} [element]  selector for the loading element
      */
     this.setLoadingElement = function (element) {
         if (!element) {
@@ -258,7 +258,7 @@ function ajaxHelper() {
 
     /**
      * Send the request
-     * @param {Boolean} sync  indicates if the request should be synchronous (defaults to false)
+     * @param {Boolean} [sync]  indicates if the request should be synchronous (defaults to false)
      * @return {void}
      */
     this.send = function (sync) {

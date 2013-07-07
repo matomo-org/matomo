@@ -65,37 +65,6 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId) {
 };
 
 /**
- * Returns an parameter object to be used for an jquery ajax request to fetch the widget html
- *
- * @param {string} widgetUniqueId             unique id of the widget
- * @param {object} widgetParameters           parameters to be used for loading the widget
- * @param {function} onWidgetLoadedCallback   callback to be executed after widget is loaded
- * @return {object}
- * @deprecated  since 1.9.3 - will be removed in next major release. use widgetsHelper.loadWidgetAjax
- */
-widgetsHelper.getLoadWidgetAjaxRequest = function (widgetUniqueId, widgetParameters, onWidgetLoadedCallback) {
-    var token_auth = broadcast.getValueFromUrl('token_auth');
-    if (token_auth.length && token_auth != 'anonymous') {
-        widgetParameters['token_auth'] = token_auth;
-    }
-    var disableLink = broadcast.getValueFromUrl('disableLink');
-    if (disableLink.length) {
-        widgetParameters['disableLink'] = disableLink;
-    }
-
-    return {
-        widgetUniqueId: widgetUniqueId,
-        type: 'GET',
-        url: 'index.php',
-        dataType: 'html',
-        async: true,
-        error: piwikHelper.ajaxHandleError,
-        success: onWidgetLoadedCallback,
-        data: piwikHelper.getQueryStringFromParameters(widgetParameters) + "&widget=1&idSite=" + piwik.idSite + "&period=" + piwik.period + "&date=" + broadcast.getValueFromUrl('date') + "&token_auth=" + piwik.token_auth
-    };
-};
-
-/**
  * Sends and ajax request to query for the widgets html
  *
  * @param {string} widgetUniqueId             unique id of the widget

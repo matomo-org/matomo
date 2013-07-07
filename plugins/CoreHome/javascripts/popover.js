@@ -66,9 +66,9 @@ var Piwik_Popover = (function () {
         /**
          * Open the popover with a loading message
          *
-         * @param popoverName        string    name of the popover
-         * @param popoverSubject    string    subject of the popover (e.g. url, optional)
-         * @param height            int        height of the popover in px (optional)
+         * @param {string} popoverName        name of the popover
+         * @param {string} [popoverSubject]   subject of the popover (e.g. url, optional)
+         * @param {int}    [height]           height of the popover in px (optional)
          */
         showLoading: function (popoverName, popoverSubject, height) {
             var loading = $(document.createElement('div')).addClass('Piwik_Popover_Loading');
@@ -113,7 +113,11 @@ var Piwik_Popover = (function () {
             return container;
         },
 
-        /** Add a help button to the current popover */
+        /**
+         * Add a help button to the current popover
+         *
+         * @param {string} helpUrl
+         */
         addHelpButton: function (helpUrl) {
             if (!isOpen) {
                 return;
@@ -144,7 +148,13 @@ var Piwik_Popover = (function () {
             centerPopover();
         },
 
-        /** Show an error message. All params are HTML! */
+        /**
+         * Show an error message. All params are HTML!
+         *
+         * @param {string}  title
+         * @param {string}  [message]
+         * @param {string}  [backLabel]
+         */
         showError: function (title, message, backLabel) {
             var error = $(document.createElement('div')).addClass('Piwik_Popover_Error');
 
@@ -172,7 +182,11 @@ var Piwik_Popover = (function () {
             this.setContent(error);
         },
 
-        /** Add a callback for the next time the popover is closed or the content changes */
+        /**
+         * Add a callback for the next time the popover is closed or the content changes
+         *
+         * @param {function}  callback
+         */
         onClose: function (callback) {
             closeCallback = callback;
         },
@@ -186,8 +200,8 @@ var Piwik_Popover = (function () {
 
         /**
          * Create a Popover and load the specified URL in it
-         * @param url
-         * @param loadingName
+         * @param {string} url
+         * @param {string} loadingName
          */
         createPopupAndLoadUrl: function (url, loadingName) {
             // open the popover
