@@ -231,7 +231,7 @@ class Piwik_DataAccess_ArchiveWriter
         if (is_numeric($value)) {
             return $this->getTableNumeric();
         }
-        return Piwik_DataAccess_ArchiveTableCreator::getBlobTable($this->dateStart);;
+        return Piwik_DataAccess_ArchiveTableCreator::getBlobTable($this->dateStart);
     }
 
     protected function getTableNumeric()

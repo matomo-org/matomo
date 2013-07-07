@@ -424,7 +424,7 @@ class Piwik_PluginsManager
     /**
      * Unload plugin
      *
-     * @param Piwik_Plugin $plugin
+     * @param Piwik_Plugin|string $plugin
      * @throws Exception
      */
     public function unloadPlugin($plugin)

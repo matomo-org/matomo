@@ -84,8 +84,12 @@ class Piwik_Live_API
         $data = Piwik_FetchAll($query['sql'], $query['bind']);
 
         // These could be unset for some reasons, ensure they are set to 0
-        empty($data[0]['actions']) ? $data[0]['actions'] = 0 : '';
-        empty($data[0]['visitsConverted']) ? $data[0]['visitsConverted'] = 0 : '';
+        if (empty($data[0]['actions'])) {
+            $data[0]['actions'] = 0;
+        }
+        if (empty($data[0]['visitsConverted'])) {
+            $data[0]['visitsConverted'] = 0;
+        }
         return $data;
     }
 

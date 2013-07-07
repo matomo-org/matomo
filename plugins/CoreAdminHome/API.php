@@ -129,8 +129,8 @@ class Piwik_CoreAdminHome_API
             // but also weeks overlapping several months stored in the month where the week is starting
             /* @var $week Piwik_Period_Week */
             $week = Piwik_Period::factory('week', $date);
-            $week = $week->getDateStart()->toString('Y_m');
-            $datesByMonth[$week][] = $date->toString();
+            $weekAsString = $week->getDateStart()->toString('Y_m');
+            $datesByMonth[$weekAsString][] = $date->toString();
 
             // Keep track of the minimum date for each website
             if ($minDate === false

@@ -117,7 +117,7 @@ class Piwik_EventDispatcher
      * name.
      * 
      * @param string $eventName
-     * @param array $callback This can be a normal PHP callback or an array
+     * @param array|callable $callback This can be a normal PHP callback or an array
      *                        that looks like this:
      *                        array(
      *                            'function' => $callback,
@@ -200,7 +200,7 @@ function Piwik_PostEvent($eventName, $params = array(), $pending = false, $plugi
  * Register an action to execute for a given event
  *
  * @param string $eventName  Name of event
- * @param function $function  Callback hook
+ * @param callable $function  Callback hook
  */
 function Piwik_AddAction($eventName, $function)
 {

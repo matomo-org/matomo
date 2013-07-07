@@ -119,7 +119,7 @@ class Piwik_Tracker_Cache
     /**
      * Regenerate Tracker cache files
      *
-     * @param array $idSites  Array of idSites to clear cache for
+     * @param array|int $idSites  Array of idSites to clear cache for
      */
     static public function regenerateCacheWebsiteAttributes($idSites = array())
     {

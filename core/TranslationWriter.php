@@ -69,6 +69,7 @@ class Piwik_TranslationWriter
      */
     static public function loadTranslation($lang)
     {
+        $translations = array();
         $path = self::getTranslationPath($lang);
         if (!is_readable($path)) {
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($lang)));

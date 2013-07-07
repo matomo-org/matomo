@@ -226,7 +226,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
     public function redirectToPaypal()
     {
         $parameters = Piwik_API_Request::getRequestArrayFromString($request = null);
-        foreach ($paramaters as $name => $param) {
+        foreach ($parameters as $name => $param) {
             if ($name == 'idSite'
                 || $name == 'module'
                 || $name == 'action'

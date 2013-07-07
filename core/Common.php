@@ -970,7 +970,7 @@ class Piwik_Common
     /**
      * Returns the browser language code, eg. "en-gb,en;q=0.5"
      *
-     * @param string $browserLang  Optional browser language, otherwise taken from the request header
+     * @param string|null $browserLang  Optional browser language, otherwise taken from the request header
      * @return string
      */
     public static function getBrowserLanguage($browserLang = NULL)
@@ -1075,8 +1075,8 @@ class Piwik_Common
     /**
      * Returns the visitor language based only on the Browser 'accepted language' information
      *
-     * @param $browserLanguage  Browser's accepted langauge header
-     * @param $validLanguages   array of valid language codes
+     * @param string $browserLanguage  Browser's accepted langauge header
+     * @param array  $validLanguages   array of valid language codes
      * @return string  2 letter ISO 639 code
      */
     public static function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
