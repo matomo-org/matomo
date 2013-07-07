@@ -1420,7 +1420,6 @@ dataTable.prototype =
             for (var name in paramOverride) {
                 self.param[name] = paramOverride[name];
             }
-            ;
 
             self.reloadAjaxDataTable(true);
         });

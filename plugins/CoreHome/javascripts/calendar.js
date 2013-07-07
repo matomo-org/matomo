@@ -187,7 +187,7 @@
         result.stepMonths = selectedPeriod == 'year' ? 12 : 1;
         result.onSelect = function () { updateDate.apply(this, arguments); };
         return result;
-    };
+    }
 
     $(document).ready(function () {
 

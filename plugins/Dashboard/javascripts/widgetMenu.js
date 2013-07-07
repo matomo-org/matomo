@@ -191,7 +191,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                 }
 
                 return $('.' + settings.categorylistClass, widgetPreview);
-            };
+            }
 
             /**
              * Returns the div to show widget list in
@@ -219,7 +219,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                 }
 
                 return $('.' + settings.widgetlistClass, widgetPreview);
-            };
+            }
 
             /**
              * Display the given widgets in a widget list
@@ -290,7 +290,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                 }
 
                 return $('.' + settings.widgetpreviewClass, widgetPreview);
-            };
+            }
 
             /**
              * Show widget with the given uniqueId in preview
@@ -335,7 +335,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                 }
 
                 widgetAjaxRequest = widgetsHelper.loadWidgetAjax(widgetUniqueId, widgetParameters, onWidgetLoadedCallback);
-            };
+            }
 
             /**
              * Reset function
@@ -346,7 +346,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                 $('.' + settings.categorylistClass + ' li', widgetPreview).removeClass(settings.choosenClass);
                 createWidgetList();
                 createPreviewElement();
-            };
+            }
 
             /**
              * Constructor
