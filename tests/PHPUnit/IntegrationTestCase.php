@@ -225,6 +225,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
 
         $this->changeLanguage('en');
+        
+        Piwik::$cachedKnownSegmentsToArchive = null;
     }
 
     protected static $apiToCall = array();
