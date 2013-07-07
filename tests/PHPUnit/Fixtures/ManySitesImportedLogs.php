@@ -15,6 +15,9 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
     public $idSite = 1;
     public $idSite2 = 2;
     public $idGoal = 1;
+    public $segments = null; // should be array mapping segment name => segment definition
+    
+    public $addSegments = false;
 
     public function setUp()
     {
@@ -26,6 +29,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
         Piwik_UserCountry_LocationProvider::setCurrentProvider('geoip_php');
 
         $this->trackVisits();
+        $this->setupSegments();
     }
 
     public function tearDown()
@@ -43,6 +47,24 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
         self::createWebsite($this->dateTime, $ecommerce = 0, $siteName = 'Piwik test two',
             $siteUrl = 'http://example-site-two.com');
     }
+    
+    public function getDefaultSegments()
+    {
+        return array(
+            'segmentOnlyOneSite'   => array('definition'      => 'browserCode==IE',
+                                            'idSite'          => $this->idSite,
+                                            'autoArchive'     => true,
+                                            'enabledAllUsers' => true),
+            'segmentNoAutoArchive' => array('definition'      => 'customVariableName1==Not-bot',
+                                            'idSite'          => false,
+                                            'autoArchive'     => false,
+                                            'enabledAllUsers' => true),
+            'segmentOnlySuperuser' => array('definition'      => 'customVariablePageName1==HTTP-code',
+                                            'idSite'          => false,
+                                            'autoArchive'     => true,
+                                            'enabledAllUsers' => false),
+        );
+    }
 
     private function trackVisits()
     {
@@ -50,6 +72,37 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
         $this->logVisitsWithAllEnabled();
         $this->replayLogFile();
         $this->logCustomFormat();
+    }
+    
+    private function setupSegments()
+    {
+        if (!$this->addSegments) {
+            return;
+        }
+        
+        if ($this->segments === null) {
+            $this->segments = $this->getDefaultSegments();
+        }
+        
+        foreach ($this->segments as $segmentName => $info) {
+            $idSite = false;
+            if (isset($info['idSite'])) {
+                $idSite = $info['idSite'];
+            }
+            
+            $autoArchive = true;
+            if (isset($info['autoArchive'])) {
+                $autoArchive = $info['autoArchive'];
+            }
+            
+            $enabledAllUsers = true;
+            if (isset($info['enabledAllUsers'])) {
+                $enabledAllUsers = $info['enabledAllUsers'];
+            }
+            
+            Piwik_SegmentEditor_API::getInstance()->add(
+                $segmentName, $info['definition'], $idSite, $autoArchive, $enabledAllUsers);
+        }
     }
 
     /**
@@ -135,5 +188,4 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 
         self::executeLogImporter($logFile, $opts);
     }
-
 }

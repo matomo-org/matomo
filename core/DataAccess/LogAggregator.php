@@ -229,13 +229,29 @@ class Piwik_DataAccess_LogAggregator
             if ($selectAsString == $field
                 && $isKnownField
             ) {
-                $field = "$tableName.$field";
+                $field = $this->prefixColumn($field, $tableName);
             }
             if ($appendSelectAs && $selectAsString) {
-                $field = $field . $this->getSelectAliasAs($selectAsString);
+                $field = $this->prefixColumn($field, $tableName) . $this->getSelectAliasAs($selectAsString);
             }
         }
         return $dimensions;
+    }
+    
+    /**
+     * Prefixes a column name with a table name if not already done.
+     * 
+     * @param string $column eg, 'location_provider'
+     * @param string $tableName eg, 'log_visit'
+     * @return string eg, 'log_visit.location_provider'
+     */
+    private function prefixColumn($column, $tableName)
+    {
+        if (strpos($column, '.') === false) {
+            return $tableName . '.' . $column;
+        } else {
+            return $column;
+        }
     }
 
     protected function isFieldFunctionOrComplexExpression($field)

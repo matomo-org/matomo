@@ -46,12 +46,14 @@ Ideas for improvements:
 	- Core: check that on first day of month, if request last month from UI, 
 	  it returns last temporary monthly report generated, if the last month haven't yet been processed / finalized
  */
+
 define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 define('PIWIK_ENABLE_DISPATCH', false);
 define('PIWIK_ENABLE_ERROR_HANDLER', false);
 define('PIWIK_ENABLE_SESSION_START', false);
 define('PIWIK_MODE_ARCHIVE', true);
+
 require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 
@@ -165,7 +167,7 @@ class Archiving
 
     private function lastRunKey($idsite, $period)
     {
-        return "lastRunArchive" . $period . "_" . $idsite;
+        return Piwik::getArchiveCronLastRunOptionName($period, $idsite);
     }
 
     /**
@@ -417,7 +419,6 @@ class Archiving
         // already processed above for "day"
         if ($period != "day") {
             $ch = $this->getNewCurlHandle($url);
-            $this->addCurlHandleToMulti($mh, $ch);
             $aCurl[$url] = $ch;
             $this->requests++;
         }
@@ -425,7 +426,6 @@ class Archiving
         foreach ($this->getSegmentsForSite($idsite) as $segment) {
             $segmentUrl = $url . '&segment=' . urlencode($segment);
             $ch = $this->getNewCurlHandle($segmentUrl);
-            $this->addCurlHandleToMulti($mh, $ch);
             $aCurl[$segmentUrl] = $ch;
             $this->requests++;
         }
@@ -434,14 +434,13 @@ class Archiving
         $visitsAllDaysInPeriod = false;
 
         if (!empty($aCurl)) {
-            $running = null;
-            do {
-                usleep(10000);
-                curl_multi_exec($mh, $running);
-            } while ($running > 0);
-
+            // FIXME: This code used to execute multiple curl requests asynchronously. This caused
+            // deadlocks since archive tables are locked for the entire archiving process. Moving back
+            // to synchronous requests is a quick fix, but the locking mechanism can be changed to
+            // only lock when getting the new archive ID. When that is done, this code should be changed
+            // back to use asnychronous requests.
             foreach ($aCurl as $url => $ch) {
-                $content = curl_multi_getcontent($ch);
+                $content = curl_exec($ch);
                 $successResponse = $this->checkResponse($content, $url);
                 $success = $successResponse && $success;
                 if ($url == $urlNoSegment
@@ -453,12 +452,8 @@ class Archiving
                     }
                     $visitsAllDaysInPeriod = @array_sum($stats);
                 }
+                curl_close($ch);
             }
-
-            foreach ($aCurl as $ch) {
-                curl_multi_remove_handle($mh, $ch);
-            }
-            curl_multi_close($mh);
         }
 
         $this->log("Archived website id = $idsite, period = $period, "
