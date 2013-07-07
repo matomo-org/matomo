@@ -1228,8 +1228,6 @@ dataTable.prototype =
             return;
         }
 
-        var self = this;
-
         $('th:has(.columnDocumentation)', domElem).each(function () {
             var th = $(this);
             var tooltip = th.find('.columnDocumentation');

@@ -376,7 +376,7 @@ class Piwik_AssetManager
 
         if ($isGenerated) {
             if (!unlink(self::getAbsoluteMergedFileLocation($filename))) {
-                throw Exception("Unable to delete merged file : " . $filename . ". Please delete the file and refresh");
+                throw new Exception("Unable to delete merged file : " . $filename . ". Please delete the file and refresh");
             }
 
             // Tries to remove compressed version of the merged file.

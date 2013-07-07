@@ -24,6 +24,9 @@ $(document).ready(function () {
     // reloads purged database size estimate
     var currentRequest;
 
+    /**
+     * @param {boolean} [forceEstimate]  (defaults to false)
+     */
     function reloadDbStats(forceEstimate) {
         if (currentRequest) {
             currentRequest.abort();

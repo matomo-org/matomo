@@ -198,7 +198,6 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             echo '0';
             return;
         }
-        $error = false;
 
         list($width, $height) = getimagesize($file);
         switch ($_FILES['customLogo']['type']) {

@@ -54,7 +54,6 @@
         var dateMonth = date.getMonth();
         var dateYear = date.getFullYear();
         var dateDay = date.getDate();
-        var style = '';
 
         // we don't color dates in the future
         if (dateMonth == todayMonth

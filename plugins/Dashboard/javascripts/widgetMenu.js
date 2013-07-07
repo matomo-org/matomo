@@ -235,7 +235,7 @@ widgetsHelper.getEmptyWidgetHtml = function (uniqueId, widgetName) {
                 for (var j = 0; j < widgets.length; j++) {
                     var widgetName = widgets[j]["name"];
                     var widgetUniqueId = widgets[j]["uniqueId"];
-                    var widgetParameters = widgets[j]["parameters"];
+                    // var widgetParameters = widgets[j]["parameters"];
                     var widgetClass = '';
                     if (!settings.isWidgetAvailable(widgetUniqueId)) {
                         widgetClass += ' ' + settings.unavailableClass;

@@ -104,7 +104,7 @@ function hideAccessUpdated() {
 }
 function bindUpdateAccess() {
     var self = this;
-    hideAccessUpdated(1);
+    hideAccessUpdated();
     // callback called when the ajax request Update the user permissions is successful
     function successCallback(response) {
         var mainDiv = $(self).parent().parent();

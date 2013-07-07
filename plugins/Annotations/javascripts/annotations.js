@@ -442,6 +442,7 @@
      * @param {string} period The period type.
      * @param {int} lastN Whether to include the last N periods in the date range or not. Can
      *              be undefined.
+     * @param {function} [callback]
      */
     var showAnnotationViewer = function (domElem, idSite, date, period, lastN, callback) {
         var addToAnnotationCount = function (date, amt, starAmt) {

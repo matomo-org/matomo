@@ -525,7 +525,7 @@ var broadcast = {
      * NOTE: you should probably be using broadcast.getValueFromUrl instead!
      *
      * @param {string} param   parameter to search for
-     * @param {string} url     url to check
+     * @param {string} [url]   url to check
      * @return {string} value of the given param within the hash part of the given url
      */
     getValueFromHash: function (param, url) {

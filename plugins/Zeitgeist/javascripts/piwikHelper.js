@@ -218,7 +218,7 @@ var piwikHelper = {
 
     /**
      * Hides the error message with the given id
-     * @param {string} errorDivID   id of the domNode (defaults to ajaxError)
+     * @param {string} [errorDivID]   id of the domNode (defaults to ajaxError)
      * @return {void}
      */
     hideAjaxError: function(errorDivID)
@@ -296,7 +296,7 @@ var piwikHelper = {
      * Scrolls the window to the jquery element 'elem'
      * if the top of the element is not currently visible on screen
      * @param {string} elem Selector for the DOM node to scroll to, eg. '#myDiv'
-     * @param {int} time Specifies the duration of the animation in ms
+     * @param {int} [time] Specifies the duration of the animation in ms
      * @return {void}
      */
     lazyScrollTo: function(elem, time)
