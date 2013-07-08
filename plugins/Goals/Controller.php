@@ -502,6 +502,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
      * @param bool $ecommerce Whether to show ecommerce reports or not.
      * @param bool $cartNbConversions Whether there are cart conversions or not for this
      *                                goal.
+     * @return string
      */
     private function getGoalReportsByDimensionTable($conversions, $ecommerce = false, $cartNbConversions = false)
     {

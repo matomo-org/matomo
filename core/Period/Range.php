@@ -19,6 +19,12 @@ class Piwik_Period_Range extends Piwik_Period
 {
     protected $label = 'range';
 
+    /**
+     * @param string $strPeriod
+     * @param string $strDate
+     * @param string $timezone
+     * @param bool|Piwik_Date $today
+     */
     public function __construct($strPeriod, $strDate, $timezone = 'UTC', $today = false)
     {
         $this->strPeriod = $strPeriod;

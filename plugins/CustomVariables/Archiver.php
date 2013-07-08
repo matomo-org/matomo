@@ -113,6 +113,9 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
     }
 
     /**
+     * @param string $key
+     * @param string $value
+     * @param $row
      * @return bool True if the $row metrics were already added to the ->metrics
      */
     protected function aggregateEcommerceCategories($key, $value, $row)

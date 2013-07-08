@@ -15,7 +15,7 @@
  */
 class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 {
-    /*
+    /**
      * Main view showing listing of websites and settings
      */
     public function index()
@@ -74,7 +74,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
         echo $view->render();
     }
 
-    /*
+    /**
      * Records Global settings when user submit changes
      */
     public function setGlobalSettings()
@@ -112,7 +112,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 
     /**
      * Displays the admin UI page showing all tracking tags
-     * @return unknown_type
+     * @return void
      */
     function displayJavascriptCode()
     {
@@ -129,7 +129,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
         echo $view->render();
     }
 
-    /*
+    /**
      *  User will download a file called PiwikTracker.php that is the content of the actual script
      */
     function downloadPiwikTracker()

@@ -580,7 +580,6 @@ class IPTest extends PHPUnit_Framework_TestCase
      */
     public function testGetIpFromHeader($description, $test)
     {
-        Piwik::createConfigObject();
         Piwik_Config::getInstance()->setTestEnvironment();
 
         $_SERVER['REMOTE_ADDR'] = $test[0];

@@ -173,7 +173,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
 
     protected function compute()
     {
-        Piwik_PostEvent('ArchiveProcessing_Period.compute', $this);
+        Piwik_PostEvent('ArchiveProcessing_Period.compute', array(&$this));
     }
 
     protected function aggregateCoreVisitsMetrics()

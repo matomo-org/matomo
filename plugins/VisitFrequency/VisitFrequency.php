@@ -36,12 +36,8 @@ class Piwik_VisitFrequency extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports[] = array(
             'category'         => Piwik_Translate('General_Visitors'),
             'name'             => Piwik_Translate('VisitFrequency_ColumnReturningVisits'),
@@ -76,4 +72,3 @@ class Piwik_VisitFrequency extends Piwik_Plugin
         Piwik_AddMenu('General_Visitors', 'VisitFrequency_SubmenuFrequency', array('module' => 'VisitFrequency', 'action' => 'index'));
     }
 }
-

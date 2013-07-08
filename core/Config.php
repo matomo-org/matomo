@@ -51,6 +51,12 @@ class Piwik_Config
     {
         if (self::$instance == null) {
             self::$instance = new self;
+            
+            if (empty($GLOBALS['PIWIK_CONFIG_TEST_ENVIRONMENT'])) {
+                self::$instance->init();
+            } else {
+                self::$instance->setTestEnvironment();
+            }
         }
         return self::$instance;
     }

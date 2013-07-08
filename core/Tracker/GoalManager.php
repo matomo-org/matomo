@@ -215,11 +215,6 @@ class Piwik_Tracker_GoalManager
      * @param array  $visitorInformation
      * @param array  $visitCustomVariables
      * @param string $action
-     * @param int    $referrerTimestamp
-     * @param string $referrerUrl
-     * @param string $referrerCampaignName
-     * @param string $referrerCampaignKeyword
-     * @param string $browserLanguage
      */
     public function recordGoals($idSite, $visitorInformation, $visitCustomVariables, $action)
     {
@@ -401,7 +396,7 @@ class Piwik_Tracker_GoalManager
             $this->recordEcommerceItems($goal, $items);
         }
 
-        Piwik_PostEvent('Tracker.recordEcommerceGoal', $goal);
+        Piwik_PostEvent('Tracker.recordEcommerceGoal', array($goal));
     }
 
     /**
@@ -762,7 +757,7 @@ class Piwik_Tracker_GoalManager
 
             $this->recordGoal($newGoal);
 
-            Piwik_PostEvent('Tracker.recordStandardGoals', $newGoal);
+            Piwik_PostEvent('Tracker.recordStandardGoals', array($newGoal));
         }
     }
 

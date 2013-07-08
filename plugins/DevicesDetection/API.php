@@ -54,8 +54,8 @@ class Piwik_DevicesDetection_API
      * @param int $idSite
      * @param string $period
      * @param string $date
-     * @param string $segment
-     * @return DataTable
+     * @param bool|string $segment
+     * @return Piwik_DataTable
      */
     public function getType($idSite, $period, $date, $segment = false)
     {
@@ -71,8 +71,8 @@ class Piwik_DevicesDetection_API
      * @param int $idSite
      * @param string $period
      * @param string $date
-     * @param string $segment
-     * @return DataTable
+     * @param bool|string $segment
+     * @return Piwik_DataTable
      */
     public function getBrand($idSite, $period, $date, $segment = false)
     {
@@ -87,8 +87,8 @@ class Piwik_DevicesDetection_API
      * @param int $idSite
      * @param string $period
      * @param string $date
-     * @param string $segment
-     * @return DataTable
+     * @param bool|string $segment
+     * @return Piwik_DataTable
      */
     public function getModel($idSite, $period, $date, $segment = false)
     {
@@ -102,8 +102,8 @@ class Piwik_DevicesDetection_API
      * @param int $idSite
      * @param string $period
      * @param string $date
-     * @param string $segment
-     * @return DataTable
+     * @param bool|string $segment
+     * @return Piwik_DataTable
      */
     public function getOsFamilies($idSite, $period, $date, $segment = false)
     {
@@ -118,8 +118,8 @@ class Piwik_DevicesDetection_API
      * @param int $idSite
      * @param string $period
      * @param string $date
-     * @param string $segment
-     * @return DataTable
+     * @param bool|string $segment
+     * @return Piwik_DataTable
      */
     public function getOsVersions($idSite, $period, $date, $segment = false)
     {
@@ -132,11 +132,11 @@ class Piwik_DevicesDetection_API
 
     /**
      * Gets datatable displaying number of visits by Browser family (eg. Firefox, InternetExplorer)
-     * @param int $idSite
+     * @param int    $idSite
      * @param string $period
      * @param string $date
-     * @param string $segment
-     * @return DataTable
+     * @param bool|string $segment
+     * @return Piwik_DataTable
      */
     public function getBrowserFamilies($idSite, $period, $date, $segment = false)
     {
@@ -151,8 +151,8 @@ class Piwik_DevicesDetection_API
      * @param int $idSite
      * @param string $period
      * @param string $date
-     * @param string $segment
-     * @return DataTable
+     * @param bool|string $segment
+     * @return Piwik_DataTable
      */
     public function getBrowserVersions($idSite, $period, $date, $segment = false)
     {

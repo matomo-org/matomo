@@ -22,7 +22,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 // Config files forced to use the test database
 // Note that this also provides security for Piwik installs containing tests files: 
 // this proxy will not record any data in the production database.
-Piwik::createConfigObject();
 Piwik_Config::getInstance()->setTestEnvironment();
 Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'] = array();
 try {

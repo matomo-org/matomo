@@ -167,7 +167,7 @@ var broadcast = {
      * NOTE: this method will only make ajax call and replacing main content.
      *
      * @param {string} ajaxUrl  querystring with parameters to be updated
-     * @param {boolean} disableHistory  the hash change won't be available in the browser history
+     * @param {boolean} [disableHistory]  the hash change won't be available in the browser history
      * @return {void}
      */
     propagateAjax: function (ajaxUrl, disableHistory) {
@@ -224,7 +224,7 @@ var broadcast = {
      * NOTE: This method will refresh the page with new values.
      *
      * @param {string} str  url with parameters to be updated
-     * @param {boolean} showAjaxLoading whether to show the ajax loading gif or not.
+     * @param {boolean} [showAjaxLoading] whether to show the ajax loading gif or not.
      * @return {void}
      */
     propagateNewPage: function (str, showAjaxLoading) {
@@ -422,7 +422,7 @@ var broadcast = {
      * Return hash string if hash exists on address bar.
      * else return false;
      *
-     * @return {string|false}
+     * @return {string|boolean}  current hash or false if it is empty
      */
     isHashExists: function () {
         var hashStr = broadcast.getHashFromUrl();
@@ -438,7 +438,7 @@ var broadcast = {
      * Get Hash from given url or from current location.
      * return empty string if no hash present.
      *
-     * @param {string}  url
+     * @param {string}  [url]  url to get hash from (defaults to current location)
      * @return {string} the hash part of the given url
      */
     getHashFromUrl: function (url) {
@@ -513,7 +513,7 @@ var broadcast = {
      *   Empty String if param is not found.
      *
      * @param {string} param   parameter to search for
-     * @param {string} url     url to check
+     * @param {string} [url]     url to check, defaults to current location
      * @return {string} value of the given param within the given url
      */
     getValueFromUrl: function (param, url) {
@@ -525,7 +525,7 @@ var broadcast = {
      * NOTE: you should probably be using broadcast.getValueFromUrl instead!
      *
      * @param {string} param   parameter to search for
-     * @param {string} url     url to check
+     * @param {string} [url]   url to check
      * @return {string} value of the given param within the hash part of the given url
      */
     getValueFromHash: function (param, url) {

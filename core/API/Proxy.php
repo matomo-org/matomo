@@ -190,12 +190,13 @@ class Piwik_API_Proxy
             // allow plugins to manipulate the value
             if (substr($className, 0, 6) == 'Piwik_' && substr($className, -4) == '_API') {
                 $pluginName = substr($className, 6, -4);
-                Piwik_PostEvent('API.Proxy.processReturnValue', $returnedValue, array(
-                                                                                     'className'  => $className,
-                                                                                     'module'     => $pluginName,
-                                                                                     'action'     => $methodName,
-                                                                                     'parameters' => &$parametersRequest
-                                                                                ));
+                Piwik_PostEvent('API.Proxy.processReturnValue', array(
+                    &$returnedValue,
+                    array('className'  => $className,
+                          'module'     => $pluginName,
+                          'action'     => $methodName,
+                          'parameters' => &$parametersRequest)
+                ));
             }
 
             // Restore the request

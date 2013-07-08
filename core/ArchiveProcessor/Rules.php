@@ -92,7 +92,8 @@ class Piwik_ArchiveProcessor_Rules
      * Given a monthly archive table, will delete all reports that are now outdated,
      * or reports that ended with an error
      *
-     * @return int False, or timestamp indicating which archives to delete
+     * @param Piwik_Date $date
+     * @return int|bool  False, or timestamp indicating which archives to delete
      */
     public static function shouldPurgeOutdatedArchives(Piwik_Date $date)
     {

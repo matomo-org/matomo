@@ -4,7 +4,6 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        Piwik::createConfigObject();
         Piwik_Config::getInstance()->setTestEnvironment();
         Piwik_DataTable_Manager::getInstance()->deleteAll();
     }

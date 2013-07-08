@@ -168,6 +168,7 @@ abstract class Piwik_UserCountry_LocationProvider_GeoIp extends Piwik_UserCountr
     public static function getRegionNames()
     {
         if (is_null(self::$regionNames)) {
+            $GEOIP_REGION_NAME = array();
             require_once PIWIK_INCLUDE_PATH . '/libs/MaxMindGeoIP/geoipregionvars.php';
             self::$regionNames = $GEOIP_REGION_NAME;
         }

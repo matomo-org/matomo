@@ -192,9 +192,9 @@ class Piwik_Annotations_AnnotationList
      *
      * @see self::get for info on what attributes stored within annotations.
      *
-     * @param Piwik_Date|false $startDate The start of the date range.
-     * @param Piwik_Date|false $endDate The end of the date range.
-     * @param string|int|array|false $idSite IDs of the sites whose annotations to
+     * @param Piwik_Date|bool $startDate The start of the date range.
+     * @param Piwik_Date|bool $endDate The end of the date range.
+     * @param array|bool|int|string $idSite IDs of the sites whose annotations to
      *                                       search through.
      * @return array Array mapping site IDs with arrays of annotations, eg:
      *               array(
@@ -286,6 +286,7 @@ class Piwik_Annotations_AnnotationList
      * @param string $date
      * @param string $note
      * @param int $starred
+     * @return array
      */
     private function makeAnnotation($date, $note, $starred = 0)
     {
@@ -410,6 +411,7 @@ class Piwik_Annotations_AnnotationList
      * Returns true if the current user can add notes for a specific site.
      *
      * @param int $idSite The site to add notes to.
+     * @return bool
      */
     public static function canUserAddNotesFor($idSite)
     {
@@ -421,6 +423,7 @@ class Piwik_Annotations_AnnotationList
      * Returns the option name used to store annotations for a site.
      *
      * @param int $idSite The site ID.
+     * @return string
      */
     public static function getAnnotationCollectionOptionName($idSite)
     {

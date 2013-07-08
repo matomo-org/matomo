@@ -128,7 +128,7 @@ abstract class Piwik_Period
      *
      * @param string $timezone
      * @param string $period The period string: day, week, month, year, range
-     * @param string $strDate The date or date range string.
+     * @param string $date The date or date range string.
      * @return Piwik_Period
      */
     public static function makePeriodFromQueryParams($timezone, $period, $date)

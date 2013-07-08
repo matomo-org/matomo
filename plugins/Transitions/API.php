@@ -340,11 +340,11 @@ class Piwik_Transitions_API
         $dimensions = array('referrer_data', 'referer_type');
         $rankingQuery->addLabelColumn('referrer_data');
         $selects = array(
-            'CASE referer_type
+            'CASE log_visit.referer_type
 				WHEN ' . Piwik_Common::REFERER_TYPE_DIRECT_ENTRY . ' THEN \'\'
-				WHEN ' . Piwik_Common::REFERER_TYPE_SEARCH_ENGINE . ' THEN referer_keyword
-				WHEN ' . Piwik_Common::REFERER_TYPE_WEBSITE . ' THEN referer_url
-				WHEN ' . Piwik_Common::REFERER_TYPE_CAMPAIGN . ' THEN CONCAT(referer_name, \' \', referer_keyword)
+				WHEN ' . Piwik_Common::REFERER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_keyword
+				WHEN ' . Piwik_Common::REFERER_TYPE_WEBSITE . ' THEN log_visit.referer_url
+				WHEN ' . Piwik_Common::REFERER_TYPE_CAMPAIGN . ' THEN CONCAT(log_visit.referer_name, \' \', log_visit.referer_keyword)
 			END AS `referrer_data`');
 
         // get one limited group per referrer type

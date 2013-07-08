@@ -116,7 +116,7 @@ class Piwik_LanguagesManager_API
         }
 
         $filenames = $this->getAvailableLanguages();
-        $languagesInfo = array();
+        $translations = $languagesInfo = array();
         foreach ($filenames as $filename) {
             require PIWIK_INCLUDE_PATH . "/lang/$filename.php";
             $languagesInfo[] = array(
@@ -140,6 +140,7 @@ class Piwik_LanguagesManager_API
         if (!$this->isLanguageAvailable($languageCode)) {
             return false;
         }
+        $translations = array();
         require PIWIK_INCLUDE_PATH . "/lang/$languageCode.php";
         $languageInfo = array();
         foreach ($translations as $key => $value) {

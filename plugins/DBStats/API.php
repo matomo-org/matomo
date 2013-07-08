@@ -290,8 +290,8 @@ class Piwik_DBStats_API
      * Gets the year of an archive table from its name.
      *
      * @param string $tableName
-     * @param string The year.
      *
+     * @return string  the year
      * @ignore
      */
     public static function getArchiveTableYear($tableName)

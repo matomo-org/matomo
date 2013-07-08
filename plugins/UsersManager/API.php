@@ -385,10 +385,10 @@ class Piwik_UsersManager_API
         );
 
         // we reload the access list which doesn't yet take in consideration this new user
-        Zend_Registry::get('access')->reloadAccess();
+        Piwik_Access::getInstance()->reloadAccess();
         Piwik_Tracker_Cache::deleteTrackerCache();
 
-        Piwik_PostEvent('UsersManager.addUser', $userLogin);
+        Piwik_PostEvent('UsersManager.addUser', array($userLogin));
     }
 
     /**
@@ -445,7 +445,7 @@ class Piwik_UsersManager_API
         );
         Piwik_Tracker_Cache::deleteTrackerCache();
 
-        Piwik_PostEvent('UsersManager.updateUser', $userLogin);
+        Piwik_PostEvent('UsersManager.updateUser', array($userLogin));
     }
 
     /**
@@ -474,6 +474,7 @@ class Piwik_UsersManager_API
     /**
      * Returns true if the given userLogin is known in the database
      *
+     * @param string $userLogin
      * @return bool true if the user is known
      */
     public function userExists($userLogin)
@@ -487,6 +488,7 @@ class Piwik_UsersManager_API
     /**
      * Returns true if user with given email (userEmail) is known in the database, or the super user
      *
+     * @param string $userEmail
      * @return bool true if the user is known
      */
     public function userEmailExists($userEmail)
@@ -562,7 +564,7 @@ class Piwik_UsersManager_API
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access
-        Zend_Registry::get('access')->reloadAccess();
+        Piwik_Access::getInstance()->reloadAccess();
         Piwik_Tracker_Cache::deleteTrackerCache();
     }
 
@@ -630,7 +632,7 @@ class Piwik_UsersManager_API
         $db = Zend_Registry::get('db');
         $db->query("DELETE FROM " . Piwik_Common::prefixTable("user") . " WHERE login = ?", $userLogin);
 
-        Piwik_PostEvent('UsersManager.deleteUser', $userLogin);
+        Piwik_PostEvent('UsersManager.deleteUser', array($userLogin));
     }
 
 

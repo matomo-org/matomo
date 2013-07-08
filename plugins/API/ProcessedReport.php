@@ -53,6 +53,10 @@ class Piwik_API_ProcessedReport
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
      * @param string $idSites Comma separated list of website Ids
+     * @param bool|string $period
+     * @param bool|Piwik_Date $date
+     * @param bool $hideMetricsDoc
+     * @param bool $showSubtableReports
      * @return array
      */
     public function getReportMetadata($idSites, $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
@@ -65,7 +69,7 @@ class Piwik_API_ProcessedReport
         $parameters = array('idSites' => $idSites, 'period' => $period, 'date' => $date);
 
         $availableReports = array();
-        Piwik_PostEvent('API.getReportMetadata', $availableReports, $parameters);
+        Piwik_PostEvent('API.getReportMetadata', array(&$availableReports, $parameters));
         foreach ($availableReports as &$availableReport) {
             if (!isset($availableReport['metrics'])) {
                 $availableReport['metrics'] = Piwik_Metrics::getDefaultMetrics();
@@ -84,9 +88,7 @@ class Piwik_API_ProcessedReport
         }
 
         // Some plugins need to add custom metrics after all plugins hooked in
-        Piwik_PostEvent('API.getReportMetadata.end', $availableReports, $parameters);
-        // Oh this is not pretty! Until we have event listeners order parameter...
-        Piwik_PostEvent('API.getReportMetadata.end.end', $availableReports, $parameters);
+        Piwik_PostEvent('API.getReportMetadata.end', array(&$availableReports, $parameters));
 
         // Sort results to ensure consistent order
         usort($availableReports, array($this, 'sort'));
@@ -305,9 +307,9 @@ class Piwik_API_ProcessedReport
      * @param int $idSite enables monetary value formatting based on site currency
      * @param Piwik_DataTable|Piwik_DataTable_Array $dataTable
      * @param array $reportMetadata
-     * @param boolean $hasDimension
+     * @param bool $showRawMetrics
      * @return array Piwik_DataTable_Simple|Piwik_DataTable_Array $newReport with human readable format & array $columns list of translated column names & Piwik_DataTable_Simple|Piwik_DataTable_Array $rowsMetadata
-     **/
+     */
     private function handleTableReport($idSite, $dataTable, &$reportMetadata, $showRawMetrics = false)
     {
         $hasDimension = isset($reportMetadata['dimension']);

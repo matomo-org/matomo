@@ -204,7 +204,7 @@ class Piwik_Site
      * Checks the given string for valid site ids and returns them as an array
      *
      * @param string $ids comma separated idSite list
-     * @param false|string $_restrictSitesToLogin Used only when running as a scheduled task.
+     * @param bool|string $_restrictSitesToLogin Used only when running as a scheduled task.
      * @return array of valid integer
      */
     static public function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false)

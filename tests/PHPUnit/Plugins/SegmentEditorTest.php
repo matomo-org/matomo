@@ -22,7 +22,7 @@ class SegmentEditorTest extends DatabaseTestCase
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
 
         Piwik_SitesManager_API::getInstance()->addSite('test', 'http://example.org');
     }

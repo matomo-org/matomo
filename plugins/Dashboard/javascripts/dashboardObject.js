@@ -475,7 +475,7 @@
 
     /**
      * Save the current layout in database if it has changed
-     * @param {string} action
+     * @param {string}  [action]  action to perform (defaults to saveLayout)
      */
     function saveLayout(action) {
 

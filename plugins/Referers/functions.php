@@ -58,7 +58,7 @@ function Piwik_Referrers_getSocialNetworkFromDomain($url)
  * Returns true if a URL belongs to a social network, false if otherwise.
  *
  * @param string $url The URL to check.
- * @param string|false $socialName The social network's name to check for, or false to check
+ * @param string|bool $socialName The social network's name to check for, or false to check
  *                                 for any.
  * @return bool
  */

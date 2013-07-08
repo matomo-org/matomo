@@ -16,13 +16,15 @@ class Tracker_ActionTest extends DatabaseTestCase
         $config->setTestEnvironment($userFile, false);
 
         Piwik_PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
+        
+        Piwik_Translate::getInstance()->loadEnglishTranslation();
     }
 
     protected function setUpRootAccess()
     {
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
     }
 
     public function getTestUrls()

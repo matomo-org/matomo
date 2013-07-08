@@ -477,6 +477,7 @@ class Piwik_Goals_API
      * @param string $segment The segment.
      * @param int|bool $idGoal The id of the goal to get data for. If this is set to false,
      *                         data for every goal that belongs to $idSite is returned.
+     * @return false|Piwik_DataTable
      */
     protected function getGoalSpecificDataTable($recordName, $idSite, $period, $date, $segment, $idGoal)
     {
@@ -504,6 +505,7 @@ class Piwik_Goals_API
      * @param string|bool $segment The segment.
      * @param int|bool $idGoal The id of the goal to get data for. If this is set to false,
      *                         data for every goal that belongs to $idSite is returned.
+     * @return false|Piwik_DataTable
      */
     public function getDaysToConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {
@@ -527,6 +529,7 @@ class Piwik_Goals_API
      * @param string|bool $segment The segment.
      * @param int|bool $idGoal The id of the goal to get data for. If this is set to false,
      *                         data for every goal that belongs to $idSite is returned.
+     * @return bool|Piwik_DataTable
      */
     public function getVisitsUntilConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {

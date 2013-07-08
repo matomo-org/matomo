@@ -54,7 +54,7 @@ class Piwik_Tracker_Cache
         Piwik::setUserIsSuperUser();
 
         $content = array();
-        Piwik_PostEvent('Common.fetchWebsiteAttributes', $content, $idSite);
+        Piwik_PostEvent('Common.fetchWebsiteAttributes', array(&$content, $idSite));
 
         // restore original user privilege
         Piwik::setUserIsSuperUser($isSuperUser);
@@ -119,7 +119,7 @@ class Piwik_Tracker_Cache
     /**
      * Regenerate Tracker cache files
      *
-     * @param array $idSites  Array of idSites to clear cache for
+     * @param array|int $idSites  Array of idSites to clear cache for
      */
     static public function regenerateCacheWebsiteAttributes($idSites = array())
     {

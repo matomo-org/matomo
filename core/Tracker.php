@@ -326,7 +326,7 @@ class Piwik_Tracker
 
     static public $initTrackerMode = false;
 
-    /*
+    /**
      * Used to initialize core Piwik components on a piwik.php request
      * Eg. when cache is missed and we will be calling some APIs to generate cache
      */
@@ -338,16 +338,10 @@ class Piwik_Tracker
             self::$initTrackerMode = true;
             require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
             require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
-            try {
-                $access = Zend_Registry::get('access');
-            } catch (Exception $e) {
-                Piwik::createAccessObject();
-            }
-            try {
-                $config = Piwik_Config::getInstance();
-            } catch (Exception $e) {
-                Piwik::createConfigObject();
-            }
+            
+            $access = Piwik_Access::getInstance();
+            $config = Piwik_Config::getInstance();
+            
             try {
                 $db = Zend_Registry::get('db');
             } catch (Exception $e) {
@@ -490,7 +484,7 @@ class Piwik_Tracker
             $configDb['port'] = '3306';
         }
 
-        Piwik_PostEvent('Tracker.getDatabaseConfig', $configDb);
+        Piwik_PostEvent('Tracker.getDatabaseConfig', array(&$configDb));
 
         $db = Piwik_Tracker::factory($configDb);
         $db->connect();
@@ -506,7 +500,7 @@ class Piwik_Tracker
 
         try {
             $db = null;
-            Piwik_PostEvent('Tracker.createDatabase', $db);
+            Piwik_PostEvent('Tracker.createDatabase', array(&$db));
             if (is_null($db)) {
                 $db = self::connectPiwikTrackerDb();
             }
@@ -542,7 +536,7 @@ class Piwik_Tracker
     protected function getNewVisitObject()
     {
         $visit = null;
-        Piwik_PostEvent('Tracker.getNewVisitObject', $visit);
+        Piwik_PostEvent('Tracker.getNewVisitObject', array(&$visit));
 
         if (is_null($visit)) {
             $visit = new Piwik_Tracker_Visit();
@@ -604,7 +598,6 @@ class Piwik_Tracker
         try {
             $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (count($pluginsTracker) > 0) {
-                $pluginsTracker = $pluginsTracker;
                 $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
                 Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 

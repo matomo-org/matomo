@@ -21,8 +21,6 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 
     private $latLongForCities = array();
 
-    private $dataArrays = array();
-
     protected $maximumRows;
 
     const COUNTRY_FIELD = 'location_country';

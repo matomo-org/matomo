@@ -502,6 +502,8 @@ class Piwik_DataTable
     /**
      * Get an empty table with the same properties as this one
      *
+     * @param bool $keepFilters
+     *
      * @return Piwik_DataTable
      */
     public function getEmptyClone($keepFilters = true)
@@ -1186,6 +1188,7 @@ class Piwik_DataTable
      *
      * @param array $array Indexed array, two formats are supported
      * @param array|null $subtablePerLabel An indexed array of up to one DataTable to associate as a sub table
+     * @return Piwik_DataTable
      */
     public static function makeFromIndexedArray($array, $subtablePerLabel = null)
     {

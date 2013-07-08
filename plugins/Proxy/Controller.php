@@ -23,7 +23,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
      *
      * @deprecated 1.5.1
      *
-     * @param string $imageData Base-64 encoded image data (via $_POST)
+     * @internal param string $imageData Base-64 encoded image data (via $_POST)
      */
     static public function exportImageWindow()
     {
@@ -44,7 +44,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
      *
      * @deprecated 1.5.1
      *
-     * @param string $imageData Base-64 encoded image data (via $_POST)
+     * @internal param string $imageData Base-64 encoded image data (via $_POST)
      */
     static public function outputBinaryImage()
     {
@@ -113,7 +113,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
      * Output redirection page instead of linking directly to avoid
      * exposing the referrer on the Piwik demo.
      *
-     * @param string $url (via $_GET)
+     * @internal param string $url (via $_GET)
      */
     public function redirect()
     {

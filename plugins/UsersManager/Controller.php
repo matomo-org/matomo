@@ -312,7 +312,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
                     'md5Password' => md5($newPassword),
                     'rememberMe'  => false,
                 );
-                Piwik_PostEvent('Login.initSession', $info);
+                Piwik_PostEvent('Login.initSession', array($info));
             }
 
             Piwik_UsersManager_API::getInstance()->setUserPreference($userLogin,

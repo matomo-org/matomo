@@ -32,6 +32,13 @@ class Piwik_Referers_API
     }
 
     /**
+     * @param string $name
+     * @param int $idSite
+     * @param string $period
+     * @param Piwik_Date $date
+     * @param string $segment
+     * @param bool $expanded
+     * @param int|null $idSubtable
      * @return Piwik_DataTable
      */
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
@@ -53,10 +60,10 @@ class Piwik_Referers_API
      * @param string $period The period to get data for, either 'day', 'week', 'month', 'year',
      *                       or 'range'.
      * @param string $date The date of the period.
-     * @param string $segment The segment to use.
-     * @param int $typeReferer (deprecated) If you want to get data only for a specific referrer
+     * @param bool|string $segment The segment to use.
+     * @param bool|int $typeReferer (deprecated) If you want to get data only for a specific referrer
      *                         type, supply a type for this parameter.
-     * @param int $idSubtable For this report this value is a referrer type ID and not an actual
+     * @param bool|int $idSubtable For this report this value is a referrer type ID and not an actual
      *                        subtable ID. The result when using this parameter will be the
      *                        specific report for the given referrer type.
      * @param bool $expanded Whether to get report w/ subtables loaded or not.
@@ -330,8 +337,8 @@ class Piwik_Referers_API
      * @param string $idSite
      * @param string $period
      * @param string $date
-     * @param string|false $segment
-     * @param int|false $idSubtable This ID does not reference a real DataTable record. Instead, it
+     * @param bool|string $segment
+     * @param bool|int $idSubtable This ID does not reference a real DataTable record. Instead, it
      *                              is the array index of an item in the /core/DataFiles/Socials.php file.
      *                              The urls are filtered by the social network at this index.
      *                              If false, no filtering is done and every social URL is returned.

@@ -357,7 +357,7 @@ class Piwik_PrivacyManager_ReportsPurger
      * Utility function that returns an array period values based on the 'delete_reports_keep_*'
      * settings. The period values returned are the integer values stored in the DB.
      *
-     * @param array $deleteReportSettings The settings to use.
+     * @param array $settings The settings to use.
      * @return array An array of period values that should be kept when purging old data.
      */
     private static function getReportPeriodsToKeep($settings)

@@ -264,18 +264,6 @@
 - regex: 'IEMobile[ /](\d+\.\d+)'
   name: IE Mobile
   version: '$1'
-- regex: 'MSIE.*Trident/4.0'
-  name: Internet Explorer
-  version: 8.0
-- regex: 'MSIE.*Trident/5.0'
-  name: Internet Explorer
-  version: 9.0
-- regex: 'MSIE.*Trident/6.0'
-  name: Internet Explorer
-  version: 10.0
-- regex: 'MSIE.*Trident/7.0'
-  name: Internet Explorer
-  version: 11.0
 - regex: 'MSIE (\d+\.\d+).*XBLWP7'
   name: IE Mobile
   version: '$1'

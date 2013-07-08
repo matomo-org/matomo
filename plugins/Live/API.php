@@ -53,9 +53,9 @@ class Piwik_Live_API
     /**
      * This will return simple counters, for a given website ID, for visits over the last N minutes
      *
-     * @param int Id Site
-     * @param int Number of minutes to look back at
-     *
+     * @param int $idSite Id Site
+     * @param int $lastMinutes Number of minutes to look back at
+     * @param bool|string $segment
      * @return array( visits => N, actions => M, visitsConverted => P )
      */
     public function getCounters($idSite, $lastMinutes, $segment = false)
@@ -84,8 +84,12 @@ class Piwik_Live_API
         $data = Piwik_FetchAll($query['sql'], $query['bind']);
 
         // These could be unset for some reasons, ensure they are set to 0
-        empty($data[0]['actions']) ? $data[0]['actions'] = 0 : '';
-        empty($data[0]['visitsConverted']) ? $data[0]['visitsConverted'] = 0 : '';
+        if (empty($data[0]['actions'])) {
+            $data[0]['actions'] = 0;
+        }
+        if (empty($data[0]['visitsConverted'])) {
+            $data[0]['visitsConverted'] = 0;
+        }
         return $data;
     }
 
@@ -120,7 +124,8 @@ class Piwik_Live_API
      * @param bool|int $filter_limit (optional) Only return X visits
      * @param bool|int $filter_offset (optional) Skip the first X visits (useful when paginating)
      * @param bool|int $minTimestamp (optional) Minimum timestamp to restrict the query to (useful when paginating or refreshing visits)
-     *
+     * @param bool $flat
+     * @param bool $doNotFetchActions
      * @return Piwik_DataTable
      */
     public function getLastVisitsDetails($idSite, $period, $date, $segment = false, $filter_limit = false, $filter_offset = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false)
@@ -412,6 +417,8 @@ class Piwik_Live_API
      * Removes fields that are not meant to be displayed (md5 config hash)
      * Or that the user should only access if he is super user or admin (cookie, IP)
      *
+     * @param array $visitorDetails
+     * @param int $idSite
      * @return void
      */
     private function cleanVisitorDetails(&$visitorDetails, $idSite)

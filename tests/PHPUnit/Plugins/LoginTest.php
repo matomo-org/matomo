@@ -20,7 +20,7 @@ class LoginTest extends DatabaseTestCase
 
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
 
         // we make sure the tests don't depend on the config file content
         Piwik_Config::getInstance()->superuser = array(

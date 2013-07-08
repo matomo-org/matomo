@@ -25,8 +25,10 @@ class Piwik_UserSettings extends Piwik_Plugin
         );
     }
 
-    /*
+    /**
      * Mapping between the browser family shortcode and the displayed name
+     *
+     * @type array
      */
     static public $browserType_display = array(
         'ie'     => 'Trident (IE)',
@@ -36,12 +38,14 @@ class Piwik_UserSettings extends Piwik_Plugin
         'opera'  => 'Presto (Opera)',
     );
 
-    /*
+    /**
      * Defines API reports.
      * Also used to define Widgets.
      *
-     * @array Category, Report Name, API Module, API action, Translated column name,
-     * 			$segment, $sqlSegment, $acceptedValues, $sqlFilter
+     * @type array
+     *
+     * Category, Report Name, API Module, API action, Translated column name,
+     * $segment, $sqlSegment, $acceptedValues, $sqlFilter
      */
     protected $reportMetadata = array(
         array('UserSettings_VisitorSettings',
@@ -159,8 +163,10 @@ class Piwik_UserSettings extends Piwik_Plugin
               null),
     );
 
-    /*
-     * List of hooks
+    /**
+     * returns list of hooks
+     *
+     * @return array
      */
     function getListHooksRegistered()
     {
@@ -175,15 +181,13 @@ class Piwik_UserSettings extends Piwik_Plugin
         return $hooks;
     }
 
-    /*
+    /**
      * Registers reports metadata
      *
-     * @param Piwik_Event_Notification $notification  notification object
+     * @param array $reports
      */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
-
         $i = 0;
         foreach ($this->reportMetadata as $report) {
             list($category, $name, $apiModule, $apiAction, $columnName) = $report;
@@ -221,12 +225,9 @@ class Piwik_UserSettings extends Piwik_Plugin
 
     /**
      * Get segments meta data
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    public function getSegmentsMetadata($notification)
+    public function getSegmentsMetadata(&$segments)
     {
-        $segments =& $notification->getNotificationObject();
         foreach ($this->reportMetadata as $report) {
             @list($category, $name, $apiModule, $apiAction, $columnName, $segment, $sqlSegment, $acceptedValues, $sqlFilter) = $report;
             if (empty($segment)) continue;
@@ -267,30 +268,20 @@ class Piwik_UserSettings extends Piwik_Plugin
      * Daily archive of User Settings report. Processes reports for Visits by Resolution,
      * by Browser, Browser family, etc. Some reports are built from the logs, some reports
      * are superset of an existing report (eg. Browser family is built from the Browser report)
-     *
-     * @param Piwik_Event_Notification $notification  notification object
      */
-    function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
-
         $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
 
-
     /**
      * Period archiving: simply sums up daily archives
-     *
-     * @param Piwik_Event_Notification $notification  notification object
-     * @return void
      */
-    function archivePeriod($notification)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
-
         $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();

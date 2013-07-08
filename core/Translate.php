@@ -69,6 +69,7 @@ class Piwik_Translate
 
     private function loadTranslation($language)
     {
+        $translations = array();
         $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
         if (!Piwik_Common::isValidFilename($language) || !is_readable($path)) {
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
@@ -97,7 +98,7 @@ class Piwik_Translate
         if (is_null(self::$languageToLoad)) {
             $lang = Piwik_Common::getRequestVar('language', '', 'string');
 
-            Piwik_PostEvent('Translate.getLanguageToLoad', $lang);
+            Piwik_PostEvent('Translate.getLanguageToLoad', array(&$lang));
 
             self::$languageToLoad = $lang;
         }
@@ -181,7 +182,7 @@ class Piwik_Translate
  * Returns translated string or given message if translation is not found.
  *
  * @param string $string Translation string index
- * @param array $args sprintf arguments
+ * @param array|string|int $args sprintf arguments
  * @return string
  */
 function Piwik_Translate($string, $args = array())

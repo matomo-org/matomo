@@ -101,6 +101,12 @@ class Piwik_API_RowEvolution
 
     /**
      * Get row evolution for a single label
+     * @param Piwik_DataTable $dataTable
+     * @param array $metadata
+     * @param string $apiModule
+     * @param string $apiAction
+     * @param string $label
+     * @param bool $labelUseAbsoluteUrl
      * @return array containing  report data, metadata, label, logo
      */
     private function getSingleRowEvolution($dataTable, $metadata, $apiModule, $apiAction, $label, $labelUseAbsoluteUrl = true)

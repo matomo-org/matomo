@@ -22,7 +22,6 @@ require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
  */
 class Piwik
 {
-    const CLASSES_PREFIX = 'Piwik_';
     const COMPRESSED_FILE_LOCATION = '/tmp/assets/';
 
     /**
@@ -36,6 +35,13 @@ class Piwik
         'year'  => 4,
         'range' => 5,
     );
+    
+    /**
+     * @see getKnownSegmentsToArchive
+     * 
+     * @var array
+     */
+    public static $cachedKnownSegmentsToArchive = null;
 
     const LABEL_ID_GOAL_IS_ECOMMERCE_CART = 'ecommerceAbandonedCart';
     const LABEL_ID_GOAL_IS_ECOMMERCE_ORDER = 'ecommerceOrder';
@@ -84,25 +90,10 @@ class Piwik
      */
     static public function prefixClass($class)
     {
-        if (!strncmp($class, Piwik::CLASSES_PREFIX, strlen(Piwik::CLASSES_PREFIX))) {
+        if (!strncmp($class, Piwik_Common::CLASSES_PREFIX, strlen(Piwik_Common::CLASSES_PREFIX))) {
             return $class;
         }
-        return Piwik::CLASSES_PREFIX . $class;
-    }
-
-    /**
-     * Unprefix class name (if needed)
-     *
-     * @param string $class
-     * @return string
-     */
-    static public function unprefixClass($class)
-    {
-        $lenPrefix = strlen(Piwik::CLASSES_PREFIX);
-        if (!strncmp($class, Piwik::CLASSES_PREFIX, $lenPrefix)) {
-            return substr($class, $lenPrefix);
-        }
-        return $class;
+        return Piwik_Common::CLASSES_PREFIX . $class;
     }
 
     /**
@@ -1320,7 +1311,6 @@ class Piwik
      * @param string $columnName
      * @param mixed $value
      * @param bool $htmlAllowed
-     * @param string $timeAsSentence
      * @return string
      */
     static public function getPrettyValue($idSite, $columnName, $value, $htmlAllowed)
@@ -1544,24 +1534,22 @@ class Piwik
      */
     static public function getKnownSegmentsToArchive()
     {
-        static $cachedResult = null;
-
-        if (is_null($cachedResult)) {
+        if (self::$cachedKnownSegmentsToArchive === null) {
             $segments = Piwik_Config::getInstance()->Segments;
             $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : array();
 
-            Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', $cachedResult);
-            
-            $cachedResult = array_unique($cachedResult);
+            Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', array(&$cachedResult));
+
+            self::$cachedKnownSegmentsToArchive = array_unique($cachedResult);
         }
 
-        return $cachedResult;
+        return self::$cachedKnownSegmentsToArchive;
     }
 
     static public function getKnownSegmentsToArchiveForSite($idSite)
     {
         $segments = array();
-        Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveForSite', $segments, $idSite);
+        Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveForSite', array(&$segments, $idSite));
         return $segments;
     }
 
@@ -1590,7 +1578,7 @@ class Piwik
      */
     static public function getSuperUserLogin()
     {
-        return Zend_Registry::get('access')->getSuperUserLogin();
+        return Piwik_Access::getInstance()->getSuperUserLogin();
     }
 
     /**
@@ -1611,7 +1599,7 @@ class Piwik
      */
     static public function getCurrentUserLogin()
     {
-        return Zend_Registry::get('access')->getLogin();
+        return Piwik_Access::getInstance()->getLogin();
     }
 
     /**
@@ -1621,7 +1609,7 @@ class Piwik
      */
     static public function getCurrentUserTokenAuth()
     {
-        return Zend_Registry::get('access')->getTokenAuth();
+        return Piwik_Access::getInstance()->getTokenAuth();
     }
 
     /**
@@ -1704,7 +1692,7 @@ class Piwik
      */
     static public function setUserIsSuperUser($bool = true)
     {
-        Zend_Registry::get('access')->setSuperUser($bool);
+        Piwik_Access::getInstance()->setSuperUser($bool);
     }
 
     /**
@@ -1714,7 +1702,7 @@ class Piwik
      */
     static public function checkUserIsSuperUser()
     {
-        Zend_Registry::get('access')->checkUserIsSuperUser();
+        Piwik_Access::getInstance()->checkUserIsSuperUser();
     }
 
     /**
@@ -1741,7 +1729,7 @@ class Piwik
      */
     static public function checkUserHasAdminAccess($idSites)
     {
-        Zend_Registry::get('access')->checkUserHasAdminAccess($idSites);
+        Piwik_Access::getInstance()->checkUserHasAdminAccess($idSites);
     }
 
     /**
@@ -1766,7 +1754,7 @@ class Piwik
      */
     static public function checkUserHasSomeAdminAccess()
     {
-        Zend_Registry::get('access')->checkUserHasSomeAdminAccess();
+        Piwik_Access::getInstance()->checkUserHasSomeAdminAccess();
     }
 
     /**
@@ -1793,7 +1781,7 @@ class Piwik
      */
     static public function checkUserHasViewAccess($idSites)
     {
-        Zend_Registry::get('access')->checkUserHasViewAccess($idSites);
+        Piwik_Access::getInstance()->checkUserHasViewAccess($idSites);
     }
 
     /**
@@ -1818,7 +1806,7 @@ class Piwik
      */
     static public function checkUserHasSomeViewAccess()
     {
-        Zend_Registry::get('access')->checkUserHasSomeViewAccess();
+        Piwik_Access::getInstance()->checkUserHasSomeViewAccess();
     }
 
     /*
@@ -1922,12 +1910,12 @@ class Piwik
             $dbInfos = $config->database;
         }
 
-        Piwik_PostEvent('Reporting.getDatabaseConfig', $dbInfos);
+        Piwik_PostEvent('Reporting.getDatabaseConfig', array(&$dbInfos));
 
         $dbInfos['profiler'] = $config->Debug['enable_sql_profiler'];
 
         $db = null;
-        Piwik_PostEvent('Reporting.createDatabase', $db);
+        Piwik_PostEvent('Reporting.createDatabase', array(&$db));
         if (is_null($db)) {
             $adapter = $dbInfos['adapter'];
             $db = @Piwik_Db_Adapter::factory($adapter, $dbInfos);
@@ -2017,35 +2005,6 @@ class Piwik
             }
             Zend_Registry::set($loggerType, $logger);
         }
-    }
-
-    /*
- * Global config object
- */
-
-    /**
-     * Create configuration object
-     */
-    static public function createConfigObject()
-    {
-        // for backward compatibility
-        Zend_Registry::set('config', new Piwik_Config_Compat());
-
-        // instantiate the singleton
-        $config = Piwik_Config::getInstance();
-        $config->init();
-    }
-
-    /*
- * Global access object
- */
-
-    /**
-     * Create access object
-     */
-    static public function createAccessObject()
-    {
-        Zend_Registry::set('access', new Piwik_Access());
     }
 
     /*
@@ -2553,4 +2512,16 @@ class Piwik
         return false; // not NFS, or we can't run a program to find out
     }
 
+    /**
+     * Returns the option name of the option that stores the time the archive.php
+     * script was last run.
+     * 
+     * @param string $period
+     * @param string $idSite
+     * @return string
+     */
+    public static function getArchiveCronLastRunOptionName($period, $idSite)
+    {
+        return "lastRunArchive" . $period . "_" . $idSite;
+    }
 }

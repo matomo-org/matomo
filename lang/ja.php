@@ -354,6 +354,7 @@ $translations = array(
 	'Actions_ColumnEntryPageTitle' => '入口ページタイトル',
 	'Actions_ColumnExitPageURL' => '出口ページURL',
 	'Actions_ColumnExitPageTitle' => '出口ページタイトル',
+	'Actions_ColumnNoResultKeyword' => '検索結果がみつかりませんでした',
 	'Actions_EntryPagesReportDocumentation' => 'これは期間中の入口ページタイトルについてのリポートです。入口ページとは訪問者が最初に見たページです。%s 入口ページのURLはフォルダーの階層で表示されています。',
 	'Actions_EntryPageTitlesReportDocumentation' => 'これは期間中の入口ページタイトルについてのリポートです。',
 	'Actions_ExitPagesReportDocumentation' => 'これは期間中の出口ページタイトルについてのリポートです。出口ページとは訪問者が最後に見たページです。 %s 出口ページのURLはフォルダーの階層で表示されています。',

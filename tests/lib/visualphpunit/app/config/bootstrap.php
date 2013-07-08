@@ -67,7 +67,6 @@ $config = array(
     // Paths to any necessary bootstraps
     'bootstraps' => array(
         "{$piwik_root}/tests/PHPUnit/bootstrap.php",
-        "{$piwik_root}/libs/Event/Dispatcher.php",
         "{$piwik_root}/tests/lib/xhprof-0.9.2/xhprof_lib/utils/xhprof_runs.php"
     ),
     

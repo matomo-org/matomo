@@ -226,7 +226,7 @@ Segmentation = (function($) {
                     $(html).find(".add_new_segment").html(self.translations['SegmentEditor_AddNewSegment']);
                 }
                 else {
-                    $(html).find(".add_new_segment").hide();;
+                    $(html).find(".add_new_segment").hide();
                 }
             }
             else

@@ -20,6 +20,8 @@
  */
 class Piwik_Common
 {
+    const CLASSES_PREFIX = 'Piwik_';
+    
     /**
      * Const used to map the referer type to an integer in the log_visit table
      */
@@ -968,7 +970,7 @@ class Piwik_Common
     /**
      * Returns the browser language code, eg. "en-gb,en;q=0.5"
      *
-     * @param string $browserLang  Optional browser language, otherwise taken from the request header
+     * @param string|null $browserLang  Optional browser language, otherwise taken from the request header
      * @return string
      */
     public static function getBrowserLanguage($browserLang = NULL)
@@ -1025,7 +1027,7 @@ class Piwik_Common
     public static function getCountry($lang, $enableLanguageToCountryGuess, $ip)
     {
         $country = null;
-        Piwik_PostEvent('Common.getCountry', $country, $ip);
+        Piwik_PostEvent('Common.getCountry', array(&$country, $ip));
         if (!empty($country)) {
             return strtolower($country);
         }
@@ -1073,8 +1075,8 @@ class Piwik_Common
     /**
      * Returns the visitor language based only on the Browser 'accepted language' information
      *
-     * @param $browserLanguage  Browser's accepted langauge header
-     * @param $validLanguages   array of valid language codes
+     * @param string $browserLanguage  Browser's accepted langauge header
+     * @param array  $validLanguages   array of valid language codes
      * @return string  2 letter ISO 639 code
      */
     public static function extractLanguageCodeFromBrowserLanguage($browserLanguage, $validLanguages)
@@ -1548,6 +1550,21 @@ class Piwik_Common
         return empty($cache['currentLocationProviderId'])
             ? Piwik_UserCountry_LocationProvider_Default::ID
             : $cache['currentLocationProviderId'];
+    }
+
+    /**
+     * Unprefix class name (if needed)
+     *
+     * @param string $class
+     * @return string
+     */
+    public static function unprefixClass($class)
+    {
+        $lenPrefix = strlen(self::CLASSES_PREFIX);
+        if (!strncmp($class, self::CLASSES_PREFIX, $lenPrefix)) {
+            return substr($class, $lenPrefix);
+        }
+        return $class;
     }
 }
 

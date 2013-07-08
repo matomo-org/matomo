@@ -63,7 +63,7 @@ class Piwik_Tracker_VisitExcluded
         }
 
         /* custom filters can override the built-in filters above */
-        Piwik_PostEvent('Tracker.Visit.isExcluded', $excluded);
+        Piwik_PostEvent('Tracker.Visit.isExcluded', array(&$excluded));
 
         /*
          * Following exclude operations happen after the hook.
@@ -117,10 +117,12 @@ class Piwik_Tracker_VisitExcluded
                 && $_SERVER['HTTP_X_MOZ'] == "prefetch");
     }
 
-    /*
+    /**
      * Live/Bing/MSN bot and Googlebot are evolving to detect cloaked websites.
      * As a result, these sophisticated bots exhibit characteristics of
      * browsers (cookies enabled, executing JavaScript, etc).
+     *
+     * @return boolean
      */
     protected function isNonHumanBot()
     {
@@ -172,7 +174,6 @@ class Piwik_Tracker_VisitExcluded
     /**
      * Checks if the visitor ip is in the excluded list
      *
-     * @param string $this->ip Long IP
      * @return bool
      */
     protected function isVisitorIpExcluded()
@@ -193,7 +194,7 @@ class Piwik_Tracker_VisitExcluded
      * Visits whose user agent string contains one of the excluded_user_agents strings for the
      * site being tracked (or one of the global strings) will be excluded.
      *
-     * @param string $this->userAgent The user agent string.
+     * @internal param string $this ->userAgent The user agent string.
      * @return bool
      */
     protected function isUserAgentExcluded()

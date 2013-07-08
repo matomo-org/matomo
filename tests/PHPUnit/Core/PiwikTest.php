@@ -106,6 +106,10 @@ class PiwikTest extends DatabaseTestCase
      */
     public function testGetPrettyTimeFromSeconds($seconds, $expected)
     {
+        if (($seconds * 100) > PHP_INT_MAX) {
+            $this->markTestSkipped("Will not pass on 32-bit machine.");
+        }
+        
         Piwik_Translate::getInstance()->loadEnglishTranslation();
 
         $sentenceExpected = str_replace(' ', '&nbsp;', $expected[0]);
@@ -206,8 +210,7 @@ class PiwikTest extends DatabaseTestCase
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
 
-        $access = new Piwik_Access();
-        Zend_Registry::set('access', $access);
+        $access = Piwik_Access::getInstance();
         $access->setSuperUser(true);
 
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");

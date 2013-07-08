@@ -79,8 +79,10 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      * If something happens that causes the download to fail, no exception is thrown, but
      * an error is logged.
      *
+     * @param string $dbType
      * @param string $url URL to the database to download. The type of database is determined
      *                    from this URL.
+     * @throws Exception
      */
     private function downloadFile($dbType, $url)
     {
@@ -119,6 +121,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      *
      * @param string $path Path to zipped file.
      * @param bool $unlink Whether to unlink archive or not.
+     * @throws Exception
      */
     public static function unzipDownloadedFile($path, $unlink = false)
     {
@@ -286,6 +289,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      *   'period' - 'weekly' or 'monthly'. When to run the updates.
      *
      * @param array $options
+     * @throws Exception
      */
     public static function setUpdaterOptions($options)
     {
@@ -350,6 +354,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      * Returns the confiured URL (if any) for a type of database.
      *
      * @param string $key 'loc', 'isp' or 'org'
+     * @throws Exception
      * @return string|false
      */
     public static function getConfiguredUrl($key)

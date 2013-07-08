@@ -89,13 +89,9 @@ class Piwik_PDFReports extends Piwik_Plugin
 
     /**
      * Delete reports for the website
-     *
-     * @param Piwik_Event_Notification $notification notification object
      */
-    function deleteSiteReport($notification)
+    public function deleteSiteReport(&$idSite)
     {
-        $idSite = & $notification->getNotificationObject();
-
         $idReports = Piwik_PDFReports_API::getInstance()->getReports($idSite);
 
         foreach ($idReports as $report) {
@@ -104,23 +100,14 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getJsFiles($notification)
+    public function getJsFiles(&$jsFiles)
     {
-        $jsFiles = & $notification->getNotificationObject();
         $jsFiles[] = "plugins/PDFReports/javascripts/pdf.js";
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function validateReportParameters($notification)
+    public function validateReportParameters(&$parameters, $info)
     {
-        if (self::manageEvent($notification)) {
-            $parameters = & $notification->getNotificationObject();
-
+        if (self::manageEvent($info)) {
             $reportFormat = $parameters[self::DISPLAY_FORMAT_PARAMETER];
             $availableDisplayFormats = array_keys(self::getDisplayFormats());
             if (!in_array($reportFormat, $availableDisplayFormats)) {
@@ -160,15 +147,9 @@ class Piwik_PDFReports extends Piwik_Plugin
         return $value == 'true' || $value == 1 || $value == '1' || $value === true;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportMetadata($notification)
+    public function getReportMetadata(&$reportMetadata, $notificationInfo)
     {
-        if (self::manageEvent($notification)) {
-            $reportMetadata = & $notification->getNotificationObject();
-
-            $notificationInfo = $notification->getNotificationInfo();
+        if (self::manageEvent($notificationInfo)) {
             $idSite = $notificationInfo[Piwik_PDFReports_API::ID_SITE_INFO_KEY];
 
             $availableReportMetadata = Piwik_API_API::getInstance()->getReportMetadata($idSite);
@@ -188,46 +169,28 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportTypes($notification)
+    public function getReportTypes(&$reportTypes)
     {
-        $reportTypes = & $notification->getNotificationObject();
         $reportTypes = array_merge($reportTypes, self::$managedReportTypes);
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportFormats($notification)
+    public function getReportFormats(&$reportFormats, $info)
     {
-        if (self::manageEvent($notification)) {
-            $reportFormats = & $notification->getNotificationObject();
+        if (self::manageEvent($info)) {
             $reportFormats = self::$managedReportFormats;
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportParameters($notification)
+    public function getReportParameters(&$availableParameters, $info)
     {
-        if (self::manageEvent($notification)) {
-            $availableParameters = & $notification->getNotificationObject();
+        if (self::manageEvent($info)) {
             $availableParameters = self::$availableParameters;
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function processReports($notification)
+    public function processReports(&$processedReports, $notificationInfo)
     {
-        if (self::manageEvent($notification)) {
-            $processedReports = & $notification->getNotificationObject();
-
-            $notificationInfo = $notification->getNotificationInfo();
+        if (self::manageEvent($notificationInfo)) {
             $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
 
             $displayFormat = $report['parameters'][self::DISPLAY_FORMAT_PARAMETER];
@@ -266,15 +229,9 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getRendererInstance($notification)
+    public function getRendererInstance(&$reportRenderer, $notificationInfo)
     {
-        if (self::manageEvent($notification)) {
-            $reportRenderer = & $notification->getNotificationObject();
-            $notificationInfo = $notification->getNotificationInfo();
-
+        if (self::manageEvent($notificationInfo)) {
             $reportFormat = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY]['format'];
             $outputType = $notificationInfo[Piwik_PDFReports_API::OUTPUT_TYPE_INFO_KEY];
 
@@ -286,24 +243,16 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function allowMultipleReports($notification)
+    public function allowMultipleReports(&$allowMultipleReports, $info)
     {
-        if (self::manageEvent($notification)) {
-            $allowMultipleReports = & $notification->getNotificationObject();
+        if (self::manageEvent($info)) {
             $allowMultipleReports = true;
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function sendReport($notification)
+    public function sendReport($notificationInfo)
     {
-        if (self::manageEvent($notification)) {
-            $notificationInfo = $notification->getNotificationInfo();
+        if (self::manageEvent($notificationInfo)) {
             $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
             $reportTitle = $notificationInfo[Piwik_PDFReports_API::REPORT_TITLE_KEY];
             $prettyDate = $notificationInfo[Piwik_PDFReports_API::PRETTY_DATE_KEY];
@@ -424,15 +373,9 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getReportRecipients($notification)
+    public function getReportRecipients(&$recipients, $notificationInfo)
     {
-        if (self::manageEvent($notification)) {
-            $recipients = & $notification->getNotificationObject();
-            $notificationInfo = $notification->getNotificationInfo();
-
+        if (self::manageEvent($notificationInfo)) {
             $report = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY];
             $parameters = $report['parameters'];
             $eMailMe = $parameters[self::EMAIL_ME_PARAMETER];
@@ -449,13 +392,8 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    static public function template_reportParametersPDFReports($notification)
+    static public function template_reportParametersPDFReports(&$out)
     {
-        $out =& $notification->getNotificationObject();
-
         $view = new Piwik_View('@PDFReports/reportParametersPDFReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
         $view->displayFormats = self::getDisplayFormats();
@@ -466,22 +404,17 @@ class Piwik_PDFReports extends Piwik_Plugin
         $out .= $view->render();
     }
 
-    private static function manageEvent($notification)
+    private static function manageEvent($info)
     {
-        $notificationInfo = $notification->getNotificationInfo();
         return in_array(
-            $notificationInfo[Piwik_PDFReports_API::REPORT_TYPE_INFO_KEY],
+            $info[Piwik_PDFReports_API::REPORT_TYPE_INFO_KEY],
             array_keys(self::$managedReportTypes)
         );
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function getScheduledTasks($notification)
+    public function getScheduledTasks(&$tasks)
     {
         $arbitraryDateInUTC = Piwik_Date::factory('2011-01-01');
-        $tasks = & $notification->getNotificationObject();
         foreach (Piwik_PDFReports_API::getInstance()->getReports() as $report) {
             if (!$report['deleted'] && $report['period'] != Piwik_ScheduledTime::PERIOD_NEVER) {
                 $midnightInSiteTimezone =
@@ -506,12 +439,8 @@ class Piwik_PDFReports extends Piwik_Plugin
         }
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function segmentDeletion($notification)
+    public function segmentDeletion(&$idSegment)
     {
-        $idSegment = & $notification->getNotificationObject();
         $reportsUsingSegment = Piwik_PDFReports_API::getInstance()->getReports(false, false, false, true, $idSegment);
 
         if (count($reportsUsingSegment) > 0) {
@@ -579,16 +508,12 @@ class Piwik_PDFReports extends Piwik_Plugin
         return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification notification object
-     */
-    function deleteUserReport($notification)
+    public function deleteUserReport($userLogin)
     {
-        $userLogin = $notification->getNotificationObject();
         Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('report') . ' WHERE login = ?', $userLogin);
     }
 
-    function install()
+    public function install()
     {
         $queries[] = '
                 CREATE TABLE `' . Piwik_Common::prefixTable('report') . '` (

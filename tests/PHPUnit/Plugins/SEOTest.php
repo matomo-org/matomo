@@ -18,7 +18,7 @@ class SEOTest extends PHPUnit_Framework_TestCase
 
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
 
         $user_agents = array(
             'Mozilla/6.0 (Macintosh; I; Intel Mac OS X 11_7_9; de-LI; rv:1.9b4) Gecko/2012010317 Firefox/10.0a4',

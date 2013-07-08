@@ -14,7 +14,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         // setup the access layer (required in Segment contrustor testing if anonymous is allowed to use segments)
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
 
         // Load and install plugins
         IntegrationTestCase::loadAllPlugins();

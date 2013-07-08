@@ -31,7 +31,7 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
     public function testArchivingProcess()
     {
         if ($this->archivingLaunched) {
-            echo "NOTE: Had to archive tables, memory results will not be accurate. Run again for better results.";
+            echo "NOTE: Had to archive data, memory results will not be accurate. Run again for better results.";
         }
 
         Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = true;

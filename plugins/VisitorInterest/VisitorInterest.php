@@ -38,12 +38,8 @@ class Piwik_VisitorInterest extends Piwik_Plugin
         return $hooks;
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    public function getReportMetadata($notification)
+    public function getReportMetadata(&$reports)
     {
-        $reports = & $notification->getNotificationObject();
         $reports[] = array(
             'category'          => Piwik_Translate('General_Visitors'),
             'name'              => Piwik_Translate('VisitorInterest_WidgetLengths'),
@@ -123,42 +119,29 @@ class Piwik_VisitorInterest extends Piwik_Plugin
         Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest', 'footerVisitsFrequency'));
     }
 
-    function archivePeriod($notification)
+    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
-
         $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }
 
-    public function archiveDay($notification)
+    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
-        $archiveProcessor = $notification->getNotificationObject();
-
         $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
 
-
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    static public function headerVisitsFrequency($notification)
+    static public function headerVisitsFrequency(&$out)
     {
-        $out =& $notification->getNotificationObject();
         $out = '<div id="leftcolumn">';
     }
 
-    /**
-     * @param Piwik_Event_Notification $notification  notification object
-     */
-    static public function footerVisitsFrequency($notification)
+    static public function footerVisitsFrequency(&$out)
     {
-        $out =& $notification->getNotificationObject();
         $out = '</div>
 			<div id="rightcolumn">
 			';
@@ -166,4 +149,3 @@ class Piwik_VisitorInterest extends Piwik_Plugin
         $out .= '</div>';
     }
 }
-

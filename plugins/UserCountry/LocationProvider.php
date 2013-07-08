@@ -432,7 +432,7 @@ abstract class Piwik_UserCountry_LocationProvider
      * will return an IPv4 address or false if the address is IPv6 (IPv6 is not
      * supported yet).
      *
-     * @param array $ip Must have 'ip' key.
+     * @param  array $info Must have 'ip' key.
      * @return string|bool
      */
     protected function getIpFromInfo($info)

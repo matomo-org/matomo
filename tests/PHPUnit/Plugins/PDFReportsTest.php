@@ -208,7 +208,7 @@ class PDFReportsTest extends DatabaseTestCase
     {
         $anonymousAccess = new FakeAccess;
         FakeAccess::$identity = 'anonymous';
-        Zend_Registry::set('access', $anonymousAccess);
+        Piwik_Access::setSingletonInstance($anonymousAccess);
 
         $pdfReportPlugin = new Piwik_PDFReports();
         $this->assertEquals(
@@ -381,7 +381,7 @@ class PDFReportsTest extends DatabaseTestCase
 
         $pdfReportPlugin = new Piwik_PDFReports();
         $tasks = array();
-        $pdfReportPlugin->getScheduledTasks(new Piwik_Event_Notification($tasks, 'fakeEvent'));
+        $pdfReportPlugin->getScheduledTasks($tasks);
         $this->assertEquals($expectedTasks, $tasks);
 
         // restore Piwik_PDFReports_API
@@ -497,6 +497,6 @@ class PDFReportsTest extends DatabaseTestCase
     {
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Zend_Registry::set('access', $pseudoMockAccess);
+        Piwik_Access::setSingletonInstance($pseudoMockAccess);
     }
 }

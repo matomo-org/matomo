@@ -246,7 +246,7 @@ class Piwik_Db_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql implements Piwik_Db_A
             $version = $this->_connection->getAttribute(PDO::ATTR_CLIENT_VERSION);
             $requiredVersion = Piwik_Config::getInstance()->General['minimum_mssql_client_version'];
             if (version_compare($version['DriverVer'], $requiredVersion) === -1) {
-                throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('MSSQL', $serverVersion, $requiredVersion)));
+                throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('MSSQL', $version['DriverVer'], $requiredVersion)));
             } else {
                 return $version['DriverVer'];
             }

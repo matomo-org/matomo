@@ -78,7 +78,6 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     /**
      * Archives Actions reports for a Day
      *
-     * @param Piwik_ArchiveProcessor $this->getProcessor()
      * @return bool
      */
     public function archiveDay()

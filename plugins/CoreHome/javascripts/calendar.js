@@ -54,7 +54,6 @@
         var dateMonth = date.getMonth();
         var dateYear = date.getFullYear();
         var dateDay = date.getDate();
-        var style = '';
 
         // we don't color dates in the future
         if (dateMonth == todayMonth
@@ -188,7 +187,7 @@
         result.stepMonths = selectedPeriod == 'year' ? 12 : 1;
         result.onSelect = function () { updateDate.apply(this, arguments); };
         return result;
-    };
+    }
 
     $(document).ready(function () {
 

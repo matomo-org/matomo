@@ -142,6 +142,9 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
      *
      * @param string $query       Query
      * @param array $parameters  Parameters to bind
+     *
+     * @return array
+     *
      * @throws Piwik_Tracker_Db_Exception if an exception occurred
      */
     public function fetch($query, $parameters = array())

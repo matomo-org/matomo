@@ -1228,8 +1228,6 @@ dataTable.prototype =
             return;
         }
 
-        var self = this;
-
         $('th:has(.columnDocumentation)', domElem).each(function () {
             var th = $(this);
             var tooltip = th.find('.columnDocumentation');
@@ -1422,7 +1420,6 @@ dataTable.prototype =
             for (var name in paramOverride) {
                 self.param[name] = paramOverride[name];
             }
-            ;
 
             self.reloadAjaxDataTable(true);
         });

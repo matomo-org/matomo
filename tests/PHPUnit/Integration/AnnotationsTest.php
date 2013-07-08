@@ -306,7 +306,7 @@ class AnnotationsTest extends IntegrationTestCase
         FakeAccess::$superUser = false;
         FakeAccess::$idSitesAdmin = $hasAdminAccess ? array(self::$fixture->idSite1) : array();
         FakeAccess::$idSitesView = $hasViewAccess ? array(self::$fixture->idSite1) : array();
-        Zend_Registry::set('access', $access);
+        Piwik_Access::setSingletonInstance($access);
 
         if ($checkException) {
             try {

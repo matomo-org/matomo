@@ -36,6 +36,31 @@
  */
 class Piwik_Access
 {
+    private static $instance = null;
+    
+    /**
+     * Gets the singleton instance. Creates it if necessary.
+     */
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new self;
+            
+            if (!empty($GLOBALS['PIWIK_ACCESS_IS_SUPERUSER'])) {
+                self::$instance->setSuperUser(true);
+            }
+        }
+        return self::$instance;
+    }
+    
+    /**
+     * Sets the singleton instance. For testing purposes.
+     */
+    public static function setSingletonInstance($instance)
+    {
+        self::$instance = $instance;
+    }
+    
     /**
      * Array of idsites available to the current user, indexed by permission level
      * @see getSitesIdWith*()

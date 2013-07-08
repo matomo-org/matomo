@@ -260,7 +260,7 @@ class Piwik_Tracker_Request
     public function getIdSite()
     {
         $idSite = Piwik_Common::getRequestVar('idsite', 0, 'int', $this->params);
-        Piwik_PostEvent('Tracker.setRequest.idSite', $idSite, $this->params);
+        Piwik_PostEvent('Tracker.setRequest.idSite', array(&$idSite, $this->params));
         if ($idSite <= 0) {
             throw new Exception('Invalid idSite');
         }

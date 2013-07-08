@@ -27,7 +27,6 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     public static function createTestConfig()
     {
-        Piwik::createConfigObject();
         Piwik_Config::getInstance()->setTestEnvironment();
     }
 
@@ -55,7 +54,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $createEmptyDatabase
+     * @param bool $installPlugins
      */
     protected static function installAndLoadPlugins($installPlugins)
     {
@@ -151,8 +150,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         include "DataFiles/Currencies.php";
         include "DataFiles/LanguageToCountry.php";
         include "DataFiles/Providers.php";
-
-        Piwik::createAccessObject();
+        
+        Piwik_Access::setSingletonInstance(null);
+        Piwik_Access::getInstance();
         Piwik_PostEvent('FrontController.initAuthenticationObject');
 
         // We need to be SU to create websites for tests
@@ -176,6 +176,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         self::setApiToCall(array());
         
         FakeAccess::$superUserLogin = 'superUserLogin';
+        
+        Piwik::$cachedKnownSegmentsToArchive = null;
     }
 
     public static function tearDownAfterClass()
@@ -314,6 +316,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      *
      * @param string $dateTime eg '2010-01-01 12:34:56'
      * @param string $period eg 'day', 'week', 'month', 'year'
+     * @return array
      */
     protected static function getApiForTestingScheduledReports($dateTime, $period)
     {
@@ -453,13 +456,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      * @param array $parametersToSet Parameters to set in api call
      * @param array $formats         Array of 'format' to fetch from API
      * @param array $periods         Array of 'period' to query API
-     * @param bool $supertableApi
-     * @param bool $setDateLastN    If set to true, the 'date' parameter will be rewritten to query instead a range of dates, rather than one period only.
+     * @param bool  $supertableApi
+     * @param bool  $setDateLastN    If set to true, the 'date' parameter will be rewritten to query instead a range of dates, rather than one period only.
      * @param bool|string $language        2 letter language code, defaults to default piwik language
-     * @param bool|string $segment
      * @param bool|string $fileExtension
      *
      * @throws Exception
+     *
      * @return array of API URLs query strings
      */
     protected function generateUrlsApi($parametersToSet, $formats, $periods, $supertableApi = false, $setDateLastN = false, $language = false, $fileExtension = false)
@@ -953,8 +956,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         if (isset($params['disableArchiving']) && $params['disableArchiving'] === true) {
             Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = true;
+            Piwik_Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
         } else {
             Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = false;
+            Piwik_Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
         }
 
         if (isset($params['language'])) {

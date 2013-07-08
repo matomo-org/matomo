@@ -124,7 +124,7 @@ class Piwik_FrontController
         try {
             return call_user_func_array(array($params[0], $params[1]), $params[2]);
         } catch (Piwik_Access_NoAccessException $e) {
-            Piwik_PostEvent('FrontController.NoAccessException', $e);
+            Piwik_PostEvent('FrontController.NoAccessException', array($e), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
             $message = Piwik_Common::sanitizeInputValue($e->getMessage());
@@ -189,9 +189,9 @@ class Piwik_FrontController
     {
         $exceptionToThrow = false;
         try {
-            Piwik::createConfigObject();
+            Piwik_Config::getInstance();
         } catch (Exception $e) {
-            Piwik_PostEvent('FrontController.NoConfigurationFile', $e, $info = array(), $pending = true);
+            Piwik_PostEvent('FrontController.NoConfigurationFile', array($e), $pending = true);
             $exceptionToThrow = $e;
         }
         return $exceptionToThrow;
@@ -199,7 +199,7 @@ class Piwik_FrontController
 
     protected function createAccessObject()
     {
-        Piwik::createAccessObject();
+        Piwik_Access::getInstance();
     }
 
     /**
@@ -261,7 +261,7 @@ class Piwik_FrontController
                 if (self::shouldRethrowException()) {
                     throw $e;
                 }
-                Piwik_PostEvent('FrontController.badConfigurationFile', $e, $info = array(), $pending = true);
+                Piwik_PostEvent('FrontController.badConfigurationFile', array($e), $pending = true);
                 throw $e;
             }
 
@@ -290,7 +290,7 @@ class Piwik_FrontController
 									<code>Plugins[] = Login</code><br />
 									under the <code>[Plugins]</code> section in your config/config.ini.php");
             }
-            Zend_Registry::get('access')->reloadAccess($authAdapter);
+            Piwik_Access::getInstance()->reloadAccess($authAdapter);
 
             // Force the auth to use the token_auth if specified, so that embed dashboard
             // and all other non widgetized controller methods works fine

@@ -256,7 +256,7 @@ class Piwik_DataArray
      * Given an array of stats, it will process the sum of goal conversions
      * and sum of revenue and add it in the stats array in two new fields.
      *
-     * @param array $metricsByLabel  Passed by reference, two new columns
+     * @param array $data Passed by reference, two new columns
      *              will be added: total conversions, and total revenue, for all goals for this label/row
      */
     protected function enrichWithConversions(&$data)
