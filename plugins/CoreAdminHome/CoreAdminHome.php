@@ -57,9 +57,9 @@ class Piwik_CoreAdminHome extends Piwik_Plugin
     public function getCssFiles(&$cssFiles)
     {
         $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
-        $cssFiles[] = "plugins/CoreAdminHome/stylesheets/menu.css";
+        $cssFiles[] = "plugins/CoreAdminHome/stylesheets/menu.less";
         $cssFiles[] = "plugins/Zeitgeist/stylesheets/common.css";
-        $cssFiles[] = "plugins/CoreAdminHome/stylesheets/generalSettings.css";
+        $cssFiles[] = "plugins/CoreAdminHome/stylesheets/generalSettings.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/donate.css";
     }
 

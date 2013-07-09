@@ -84,6 +84,6 @@ class Piwik_MultiSites extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/MultiSites/stylesheets/multiSites.css";
+        $cssFiles[] = "plugins/MultiSites/stylesheets/multiSites.less";
     }
 }

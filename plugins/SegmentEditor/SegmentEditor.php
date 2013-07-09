@@ -95,8 +95,8 @@ class Piwik_SegmentEditor extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/SegmentEditor/stylesheets/segmentation.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/segmentation.less";
         $cssFiles[] = "plugins/SegmentEditor/stylesheets/jquery.jscrollpane.css";
-        $cssFiles[] = "plugins/SegmentEditor/stylesheets/scroll.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/scroll.less";
     }
 }

@@ -50,7 +50,7 @@ class Piwik_Annotations extends Piwik_Plugin
      */
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Annotations/stylesheets/annotations.css";
+        $cssFiles[] = "plugins/Annotations/stylesheets/annotations.less";
     }
 
     /**

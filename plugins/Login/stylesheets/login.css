@@ -14,14 +14,11 @@ form {
 }
 
 #login form input.submit {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     float: right;
     height: 35px;
     padding: 0 20px;
     cursor: pointer;
-    font: bold 15px Arial, Helvetica;
+    font: bold 15px Arial, Helvetica, sans-serif;
 }
 
 #login form div {

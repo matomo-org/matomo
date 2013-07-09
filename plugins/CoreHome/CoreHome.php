@@ -47,14 +47,14 @@ class Piwik_CoreHome extends Piwik_Plugin
     {
         $cssFiles[] = "libs/jquery/themes/base/jquery-ui.css";
         $cssFiles[] = "plugins/Zeitgeist/stylesheets/common.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/corehome.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/menu.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/datatable.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/cloud.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/coreHome.less";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/menu.less";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/dataTable.less";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/cloud.less";
         $cssFiles[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
         $cssFiles[] = "plugins/CoreHome/stylesheets/jqplot.css";
         $cssFiles[] = "plugins/CoreHome/stylesheets/donate.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/promo.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/promo.less";
     }
 
     public function getJsFiles(&$jsFiles)

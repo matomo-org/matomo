@@ -60,7 +60,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/UserCountry/stylesheets/userCountry.css";
+        $cssFiles[] = "plugins/UserCountry/stylesheets/userCountry.less";
     }
 
     public function getJsFiles(&$jsFiles)

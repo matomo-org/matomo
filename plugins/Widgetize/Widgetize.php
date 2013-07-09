@@ -56,10 +56,10 @@ class Piwik_Widgetize extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Widgetize/stylesheets/widgetize.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/corehome.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/datatable.css";
-        $cssFiles[] = "plugins/CoreHome/stylesheets/cloud.css";
-        $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.css";
+        $cssFiles[] = "plugins/Widgetize/stylesheets/widgetize.less";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/coreHome.less";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/dataTable.less";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/cloud.less";
+        $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.less";
     }
 }

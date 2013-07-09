@@ -101,7 +101,7 @@ class Piwik_UsersManager extends Piwik_Plugin
      */
     function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/UsersManager/stylesheets/usersManager.css";
+        $cssFiles[] = "plugins/UsersManager/stylesheets/usersManager.less";
     }
 
     /**

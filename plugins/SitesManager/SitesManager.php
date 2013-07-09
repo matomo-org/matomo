@@ -53,7 +53,7 @@ class Piwik_SitesManager extends Piwik_Plugin
      */
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/SitesManager/stylesheets/SitesManager.css";
+        $cssFiles[] = "plugins/SitesManager/stylesheets/SitesManager.less";
         $cssFiles[] = "plugins/Zeitgeist/stylesheets/styles.css";
     }
 
