@@ -10,11 +10,6 @@
  */
 
 /**
- * @see libs/cssmin/cssmin.php
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/cssmin/cssmin.php';
-
-/**
  * @see libs/jsmin/jsmin.php
  */
 require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
@@ -57,13 +52,11 @@ class Piwik_AssetManager
      */
     public static function getCssAssets()
     {
-        /*
         if (self::getDisableMergedAssets()) {
             // Individual includes mode
             self::removeMergedAsset(self::MERGED_CSS_FILE);
-            return self::getIndividualCssIncludes();
+            self::generateMergedCssFile();
         }
-        */
         return sprintf(self::CSS_IMPORT_DIRECTIVE, self::GET_CSS_MODULE_ACTION);
     }
 
@@ -122,10 +115,6 @@ class Piwik_AssetManager
             $mergedContent = $mergedContent . $content;
         }
 
-        /*
-        $mergedContent = cssmin::minify($mergedContent);
-        $mergedContent = str_replace("\n", "\r\n", $mergedContent);
-        */
         $less = new lessc;
         $mergedContent = $less->compile($mergedContent);
 
