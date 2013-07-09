@@ -83,10 +83,16 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
             Piwik::log("Failed to get data from API: " . $e->getMessage());
 
             $this->isDataAvailable = false;
+            $this->loadingError = array('message' => $e->getMessage());
         }
 
         $this->postDataTableLoadedFromAPI();
         $this->view = $this->buildView();
+    }
+    
+    public function getDataTableType()
+    {
+        return 'dataTableNormal';
     }
 
     /**
@@ -95,6 +101,12 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
     protected function buildView()
     {
         $view = new Piwik_View($this->dataTableTemplate);
+        
+        $view->dataTableType = $this->getDataTableType();
+
+        if (!empty($this->loadingError)) {
+            $view->error = $this->loadingError;
+        }
 
         if (!$this->isDataAvailable) {
             $view->arrayDataTable = array();

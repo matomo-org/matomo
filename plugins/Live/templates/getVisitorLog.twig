@@ -1,4 +1,4 @@
-<div class="visitorLog dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
+<div class="visitorLog dataTable" data-report="{{ properties.report_id }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
 
 {% if not isWidget %}
     <h2>{% if javascriptVariablesToSet.filterEcommerce %}{{ 'Goals_EcommerceLog'|translate }}{% else %}{{ 'Live_VisitorLog'|translate }}{% endif %}</h2>
@@ -14,9 +14,9 @@
     {{ arrayDataTable.message }}
 {% else %}
 {% if arrayDataTable|length == 0 %}
-    <div class="pk-emptyDataTable" id="{{ properties.uniqueId }}">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
+    <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
 {% else %}
-    <table id="{{ properties.uniqueId }}" class="dataTable" cellspacing="0" width="100%" style="width:100%;">
+    <table class="dataTable" cellspacing="0" width="100%" style="width:100%;">
     <thead>
     <tr>
         <th style="display:none"></th>

@@ -88,7 +88,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
      *
      * @return string
      */
-    function renderException()
+    public function renderException()
     {
         $this->renderHeader();
 

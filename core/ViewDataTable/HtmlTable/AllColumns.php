@@ -62,4 +62,9 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
 
         return true;
     }
+
+    public function getDataTableType()
+    {
+        return 'dataTableAllColumns';
+    }
 }

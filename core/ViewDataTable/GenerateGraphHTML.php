@@ -114,7 +114,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
         $originalViewDataTable = $original['viewDataTable'];
 
         $result = $this->parametersToModify + $original;
-        ;
         $result['viewDataTable'] = $originalViewDataTable;
 
         return $result;
@@ -153,7 +152,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
 
         $view->width = $this->width;
         $view->height = $this->height;
-        $view->chartDivId = $this->getUniqueIdViewDataTable() . "Chart";
         $view->graphType = $this->graphType;
 
         $view->data = $this->graphData;

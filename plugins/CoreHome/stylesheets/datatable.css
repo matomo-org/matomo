@@ -1,6 +1,5 @@
 /*Overriding some dataTable css for better dashboard display*/
 .widget .dataTableWrapper,
-.widget .dataTableAllColumnsWrapper,
 .widget .dataTableGraphWrapper,
 .widget .dataTableActionsWrapper,
 .widget .dataTableGraphEvolutionWrapper {
@@ -16,20 +15,16 @@
 }
 
 /* container of each table */
-.dataTableWrapper {
+.dataTableNormal > .dataTableWrapper {
     width: 450px;
     /* not more than 450px to make sure 2 tables can fit horizontally on a 1024 screen */
 }
 
-.dataTableAllColumnsWrapper {
+.dataTableAllColumns > .dataTableWrapper {
     width: 535px;
 }
 
-.subdataTableWrapper {
-    width: 95%;
-}
-
-.subdataTableAllColumnsWrapper {
+.subDataTable > .dataTableWrapper {
     width: 95%;
 }
 

@@ -256,4 +256,9 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
         }
         return true;
     }
+
+    public function getDataTableType()
+    {
+        return 'dataTableGoals';
+    }
 }

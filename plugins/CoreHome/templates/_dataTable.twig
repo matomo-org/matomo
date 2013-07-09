@@ -1,23 +1,26 @@
-<div class="dataTable" data-table-type="dataTable" data-report="{{ properties.uniqueId }}" data-params="{{ javascriptVariablesToSet|json_encode }}">
+{% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
+<div class="dataTable {{ dataTableType }} {% if isSubtable %}subDataTable{% endif %}"
+     data-table-type="dataTable"
+     data-report="{{ properties.report_id }}"
+     data-params="{{ javascriptVariablesToSet|json_encode }}">
     <div class="reportDocumentation">
-        {% if reportDocumentation is not empty %}<p>{{ reportDocumentation|raw }}</p>{% endif %}
+        {% if reportDocumentation|default is not empty %}<p>{{ reportDocumentation|raw }}</p>{% endif %}
         {% if properties.metadata.archived_date is defined %}<span class='helpDate'>{{ properties.metadata.archived_date }}</span>{% endif %}
     </div>
-    {% set class %}
-        {% if javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}sub {% endif %}{% if javascriptVariablesToSet.viewDataTable=='tableAllColumns' %}dataTableAllColumnsWrapper{% elseif javascriptVariablesToSet.viewDataTable=='tableGoals' %}dataTableAllColumnsWrapper {% else %}dataTableWrapper{% endif %}
-    {% endset %}
-    <div class="{{ class }}">
-        {% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
-            {{ arrayDataTable.message }}
+    <div class="dataTableWrapper">
+        {% if error is defined %}
+            {{ error.message }}
         {% else %}
             {% if arrayDataTable|length == 0 %}
+                <div class="pk-emptyDataTable">
                 {% if showReportDataWasPurgedMessage is defined and showReportDataWasPurgedMessage %}
-                    <div class="pk-emptyDataTable">{{ 'CoreHome_DataForThisReportHasBeenPurged'|translate(deleteReportsOlderThan) }}</div>
+                    {{ 'CoreHome_DataForThisReportHasBeenPurged'|translate(deleteReportsOlderThan) }}
                 {% else %}
-                    <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
+                    {{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}
                 {% endif %}
+                </div>
             {% else %}
-                <table cellspacing="0" class="dataTable" id="{{ properties.uniqueId }}">
+                <table cellspacing="0" class="dataTable">
                     {% include "@CoreHome/_dataTableHead.twig" %}
 
                     <tbody>

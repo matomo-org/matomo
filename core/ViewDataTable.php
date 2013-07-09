@@ -165,13 +165,6 @@ abstract class Piwik_ViewDataTable
     protected $columnsToDisplay = array();
 
     /**
-     * Variable that is used as the DIV ID in the rendered HTML
-     *
-     * @var string
-     */
-    protected $uniqIdTable = null;
-
-    /**
      * Method to be implemented by the ViewDataTable_*.
      * This method should create and initialize a $this->view object @see Piwik_View_Interface
      *
@@ -285,6 +278,7 @@ abstract class Piwik_ViewDataTable
         $this->controllerActionCalledWhenRequestSubTable = $controllerActionCalledWhenRequestSubTable;
         $this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false, 'int');
 
+        $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
         $this->viewProperties['show_goals'] = false;
         $this->viewProperties['show_ecommerce'] = false;
         $this->viewProperties['show_search'] = Piwik_Common::getRequestVar('show_search', true);
@@ -306,7 +300,6 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['show_footer_icons'] = ($this->idSubtable == false);
         $this->viewProperties['show_related_reports'] = Piwik_Common::getRequestVar('show_related_reports', true);
         $this->viewProperties['apiMethodToRequestDataTable'] = $this->apiMethodToRequestDataTable;
-        $this->viewProperties['uniqueId'] = $this->getUniqueIdViewDataTable();
         $this->viewProperties['exportLimit'] = Piwik_Config::getInstance()->General['API_datatable_default_limit'];
 
         $this->viewProperties['highlight_summary_row'] = false;
@@ -623,54 +616,6 @@ abstract class Piwik_ViewDataTable
      */
     public function __call($function, $args)
     {
-    }
-
-    /**
-     * Returns a unique ID for this ViewDataTable.
-     * This unique ID is used in the Javascript code:
-     *  Any ajax loaded data is loaded within a DIV that has id=$unique_id
-     *  The jquery code then replaces the existing html div id=$unique_id in the code with this data.
-     *
-     * @see datatable.js
-     * @return string
-     */
-    protected function loadUniqueIdViewDataTable()
-    {
-        // if we request a subDataTable the $this->currentControllerAction DIV ID is already there in the page
-        // we make the DIV ID really unique by appending the ID of the subtable requested
-        if ($this->idSubtable != 0 // parent DIV has a idSubtable = 0 but the html DIV must have the name of the module.action
-            && $this->idSubtable !== false // case there is no idSubtable
-        ) {
-            // see also datatable.js (the ID has to match with the html ID created to be replaced by the result of the ajax call)
-            $uniqIdTable = 'subDataTable_' . $this->idSubtable;
-        } else {
-            // the $uniqIdTable variable is used as the DIV ID in the rendered HTML
-            // we use the current Controller action name as it is supposed to be unique in the rendered page
-            $uniqIdTable = $this->currentControllerName . $this->currentControllerAction;
-        }
-        return $uniqIdTable;
-    }
-
-    /**
-     *  Sets the $uniqIdTable variable that is used as the DIV ID in the rendered HTML
-     * @param $uniqIdTable
-     */
-    public function setUniqueIdViewDataTable($uniqIdTable)
-    {
-        $this->viewProperties['uniqueId'] = $uniqIdTable;
-        $this->uniqIdTable = $uniqIdTable;
-    }
-
-    /**
-     * Returns current value of $uniqIdTable variable that is used as the DIV ID in the rendered HTML
-     * @return null|string
-     */
-    public function getUniqueIdViewDataTable()
-    {
-        if ($this->uniqIdTable == null) {
-            $this->uniqIdTable = $this->loadUniqueIdViewDataTable();
-        }
-        return $this->uniqIdTable;
     }
 
     /**
