@@ -57,11 +57,13 @@ class Piwik_AssetManager
      */
     public static function getCssAssets()
     {
+        /*
         if (self::getDisableMergedAssets()) {
             // Individual includes mode
             self::removeMergedAsset(self::MERGED_CSS_FILE);
             return self::getIndividualCssIncludes();
         }
+        */
         return sprintf(self::CSS_IMPORT_DIRECTIVE, self::GET_CSS_MODULE_ACTION);
     }
 
@@ -120,8 +122,12 @@ class Piwik_AssetManager
             $mergedContent = $mergedContent . $content;
         }
 
+        /*
         $mergedContent = cssmin::minify($mergedContent);
         $mergedContent = str_replace("\n", "\r\n", $mergedContent);
+        */
+        $less = new lessc;
+        $mergedContent = $less->compile($mergedContent);
 
         Piwik_PostEvent('AssetManager.filterMergedCss', array(&$mergedContent));
 
