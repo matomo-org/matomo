@@ -28,7 +28,7 @@ class Piwik_PleineLune extends Piwik_Plugin
     public function getListHooksRegistered()
     {
         return array(
-            'AssetManager.getCssFiles' => 'getCssFiles',
+            Piwik_AssetManager::CSS_IMPORT_EVENT => 'getCssFiles',
         );
     }
 
