@@ -202,7 +202,7 @@
                             {% endset %}
                             {% if not javascriptVariablesToSet.filterEcommerce or action.type == 'ecommerceOrder' or action.type == 'ecommerceAbandonedCart' %}
                                 <li class="{% if action.goalName is defined %}goal{% else %}action{% endif %}"
-                                    title="{{ action.serverTimePretty }}{% if action.url is not empty and action.url|trim|length %}
+                                    title="{{ action.serverTimePretty }}{% if action.url is defined and action.url|trim|length %}
                                     {{ action.url }}{% endif %} {% if customVariablesTooltip|trim|length %}
 
                                     {{ customVariablesTooltip|trim }}{% endif %}{% if action.timeSpentPretty is defined %}
