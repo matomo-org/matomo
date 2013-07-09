@@ -517,6 +517,7 @@ Plugins[] = ExamplePlugin
 Plugins[] = ExampleRssWidget
 Plugins[] = Provider
 Plugins[] = Feedback
+Plugins[] = PleineLune
 
 Plugins[] = Login
 Plugins[] = UsersManager

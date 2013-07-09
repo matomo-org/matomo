@@ -46,10 +46,6 @@
     width: 25%;
 }
 
-.sortable {
-    background: white;
-}
-
 .hover {
     border: 2px dashed #E3E3E3;
 }
@@ -62,8 +58,6 @@
     border-radius: 4px;
     font-size: 14px;
     border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
 }
 
 .widgetHover {
@@ -77,7 +71,6 @@
 
 .widgetContent.loading {
     opacity: 0.5;
-    filter: Alpha(opacity:50);
     background: url(../../../plugins/Zeitgeist/images/loading-blue.gif) no-repeat top right;
 }
 
@@ -90,8 +83,6 @@
 .widgetTop {
     background: #b5b0a7 url(../../../plugins/Zeitgeist/images/dashboard_h_bg.png) repeat-x 0 0;
     border-radius: 4px 4px 0 0;
-    -moz-border-radius: 4px 4px 0 0;
-    -webkit-border-radius: 4px 4px 0 0;
     width: 100%;
     cursor: move;
     font-size: 10pt;
