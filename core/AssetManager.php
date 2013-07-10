@@ -91,6 +91,8 @@ class Piwik_AssetManager
         }
         $rootDirectoryLen = strlen($rootDirectory);
 
+        $less = new lessc;
+
         // Loop through each css file
         $files = self::getCssFiles();
         foreach ($files as $file) {
@@ -98,6 +100,7 @@ class Piwik_AssetManager
             self::validateCssFile($file);
 
             $fileLocation = self::getAbsoluteLocation($file);
+            $less->addImportDir(dirname($fileLocation));
             $content = file_get_contents($fileLocation);
 
             // Rewrite css url directives
@@ -115,7 +118,6 @@ class Piwik_AssetManager
             $mergedContent = $mergedContent . $content;
         }
 
-        $less = new lessc;
         $mergedContent = $less->compile($mergedContent);
 
         Piwik_PostEvent('AssetManager.filterMergedCss', array(&$mergedContent));
