@@ -90,9 +90,19 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         $this->view = $this->buildView();
     }
     
-    public function getDataTableType()
+    public function getDefaultDataTableType()
     {
         return 'dataTableNormal';
+    }
+    
+    public function setDataTableType($type)
+    {
+        $this->viewProperties['dataTableType'] = $type;
+    }
+    
+    public function setJsType($type)
+    {
+        $this->dataTableJsType = $type;
     }
 
     /**
@@ -102,7 +112,13 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
     {
         $view = new Piwik_View($this->dataTableTemplate);
         
-        $view->dataTableType = $this->getDataTableType();
+        if (empty($this->viewProperties['dataTableType'])) {
+            $this->viewProperties['dataTableType'] = $this->getDataTableType();
+        }
+        
+        if (!empty($this->dataTableJsType)) {
+            $view->dataTableJsType = $this->dataTableJsType;
+        }
 
         if (!empty($this->loadingError)) {
             $view->error = $this->loadingError;

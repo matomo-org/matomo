@@ -24,13 +24,13 @@
     width: 535px;
 }
 
-.subDataTable > .dataTableWrapper {
-    width: 95%;
-}
-
-.dataTableActionsWrapper {
+.dataTableActions > .dataTableWrapper {
     width: 500px;
     min-height: 1px;
+}
+
+.subDataTable > .dataTableWrapper {
+    width: 95%;
 }
 
 .dataTableGraphWrapper {
@@ -52,15 +52,13 @@ table.dataTable {
 }
 
 table.dataTable td.label,
-table.subDataTable td.label,
-table.dataTableActions td.label {
+table.subDataTable td.label {
     width: 100%;
     white-space: nowrap;
 }
 
 table.dataTable img,
-table.subDataTable img,
-table.dataTableActions img {
+table.subDataTable img {
     vertical-align: middle;
 }
 
@@ -168,7 +166,7 @@ table.dataTable th.label {
     border-left: 0;
 }
 
-table.dataTableActions th.label {
+.dataTableActions table.dataTable th.label {
     /* Ensures tables have enough space to display subtable on click, and prevent the jumping effect */
     min-width: 250px;
 }
@@ -467,17 +465,13 @@ table thead div {
 }
 
 /* Actions table */
-table.dataTableActions tr td.labelodd {
+.dataTableActions table.dataTable tr td.labelodd {
     background-image: none;
 }
 
 /* levels higher than 4 have a default padding left */
-tr.subActionsDataTable td.label, tr.actionsDataTable td.label {
+.actionsDataTable tr td.label {
     padding-left: 7em;
-}
-
-tr.subActionsDataTable {
-    cursor: pointer;
 }
 
 tr.level0 td.label {
@@ -501,7 +495,7 @@ tr.level4 td.label {
 }
 
 /* less right margins for the link image in the Pa*/
-table.dataTableActions img.link {
+.dataTableActions table.dataTable img.link {
     margin-right: 0.3em;
     margin-left: -0.5em;
 }

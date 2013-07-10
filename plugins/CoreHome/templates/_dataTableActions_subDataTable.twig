@@ -1,4 +1,3 @@
-<tr id="subDataTable_{{ javascriptVariablesToSet.idSubtable }}"></tr>
 {% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
     {{ arrayDataTable.message }}
 {% else %}
@@ -8,7 +7,7 @@
         </tr>
     {% else %}
         {% for row in arrayDataTable %}
-            <tr {% if row.idsubdatatable %}class="subActionsDataTable" id="{{ row.idsubdatatable }}" {% else %}class="actionsDataTable"{% endif %}>
+            <tr {% if row.idsubdatatable %}class="subDataTable" id="{{ row.idsubdatatable }}"{% endif %}>
                 {% for column in dataTableColumns %}
                     <td>
                         {% include "@CoreHome/_dataTableCell.twig" with {'column': column} %}
