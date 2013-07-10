@@ -113,7 +113,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         $view = new Piwik_View($this->dataTableTemplate);
         
         if (empty($this->viewProperties['dataTableType'])) {
-            $this->viewProperties['dataTableType'] = $this->getDataTableType();
+            $this->viewProperties['dataTableType'] = $this->getDefaultDataTableType();
         }
         
         if (!empty($this->dataTableJsType)) {
