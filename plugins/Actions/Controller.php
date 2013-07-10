@@ -454,14 +454,11 @@ class Piwik_Actions_Controller extends Piwik_Controller
     {
         $view->setDataTableType('dataTableActions');
         $view->setJsType('actionDataTable');
+        $view->setSubtableTemplate('@CoreHome/_dataTableActions_subDataTable.twig');
         
-        
-        if (Piwik_Common::getRequestVar('idSubtable', -1) != -1) {
-            $view->setTemplate('@CoreHome/_dataTableActions_subDataTable');
-        }
-        $currentlySearching = $view->setSearchRecursive();
-        if ($currentlySearching) {
-            $view->showExpanded($subtableTemplate = '@CoreHome/_dataTableActions_subDataTable.twig');
+        $view->setSearchRecursive();
+        if ($view->isLoadingExpandedDataTable()) {
+            $view->showExpanded();
             
             // set levelN css class for each row
             $self = $this;

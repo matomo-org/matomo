@@ -1,5 +1,5 @@
-{% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
-    {{ arrayDataTable.message }}
+{% if error is defined %}
+    {{ error.message }}
 {% else %}
     {% if (dataTable is empty or dataTable.getRowsCount() == 0) and not properties.show_expanded|default(false) %}
         <tr>

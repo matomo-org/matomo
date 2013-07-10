@@ -42,7 +42,7 @@
                         
                         {# display subtable if present and showing expanded datatable #}
                         {% if properties.show_expanded|default(false) and rowHasSubtable %}
-                            {% include properties.subtable_template|default("@CoreHome/_dataTable.twig") with {'dataTable': row.getSubtable()} %}
+                            {% include properties.subtable_template with {'dataTable': row.getSubtable()} %}
                         {% endif %}
                     {% endfor %}
                     </tbody>
