@@ -452,7 +452,9 @@ class Piwik_Actions_Controller extends Piwik_Controller
      */
     protected function configureGenericViewActions($view)
     {
-        $view->setTemplate('@CoreHome/_dataTableActions');
+        $view->setDataTableType('dataTableActions');
+        $view->setJsType('actionDataTable');
+        
         if (Piwik_Common::getRequestVar('idSubtable', -1) != -1) {
             $view->setTemplate('@CoreHome/_dataTableActions_subDataTable');
         }

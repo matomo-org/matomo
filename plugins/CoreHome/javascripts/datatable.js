@@ -1625,22 +1625,26 @@ actionDataTable.prototype =
     },
 
     //see dataTable::bindEventsAndApplyStyle
-    bindEventsAndApplyStyle: function (domElem) {
+    bindEventsAndApplyStyle: function (domElem, rows) {
         var self = this;
 
         self.cleanParams();
+        
+        if (!rows) {
+            rows = $('tr', domElem);
+        }
 
         // we dont display the link on the row with subDataTable when we are already
         // printing all the subTables (case of recursive search when the content is
         // including recursively all the subtables
         if (!self.param.filter_pattern_recursive) {
-            self.numberOfSubtables = $('tr.subActionsDataTable.rowToProcess').click(function () {
+            self.numberOfSubtables = rows.filter('.subDataTable').click(function () {
                 self.onClickActionSubDataTable(this)
             }).size();
         }
 
-        self.applyCosmetics(domElem);
-        self.handleRowActions(domElem);
+        self.applyCosmetics(domElem, rows);
+        self.handleRowActions(domElem, rows);
         self.handleLimit(domElem);
         self.handleAnnotationsButton(domElem);
         self.handleExportBox(domElem);
@@ -1659,21 +1663,21 @@ actionDataTable.prototype =
         self.handleReportDocumentation(domElem);
         self.handleRelatedReports(domElem);
         self.handleTriggeredEvents(domElem);
-		self.handleCellTooltips(domElem);
+        self.handleCellTooltips(domElem);
     },
 
     //see dataTable::applyCosmetics
-    applyCosmetics: function (domElem) {
+    applyCosmetics: function (domElem, rows) {
         var self = this;
+        var rowsWithSubtables = rows.filter('.subDataTable');
 
-        $('tr.subActionsDataTable.rowToProcess')
-            .css('font-weight', 'bold');
+        rowsWithSubtables.css('font-weight', 'bold');
 
         $("th:first-child", domElem).addClass('label');
         $('td span.label', domElem).each(function () { self.truncate($(this)); });
         var imagePlusMinusWidth = 12;
         var imagePlusMinusHeight = 12;
-        $('tr.subActionsDataTable.rowToProcess td:first-child')
+        $('td:first-child', rowsWithSubtables)
             .each(function () {
                 $(this).prepend('<img width="' + imagePlusMinusWidth + '" height="' + imagePlusMinusHeight + '" class="plusMinus" src="" />');
                 if (self.param.filter_pattern_recursive) {
@@ -1684,39 +1688,35 @@ actionDataTable.prototype =
                 }
             });
 
-        $('tr.rowToProcess')
-            .each(function () {
-                // we add the CSS style depending on the level of the current loading category
-                // we look at the style of the parent row
-                var style = $(this).prev().attr('class');
-                var currentStyle = $(this).attr('class');
+        var rootRow = rows.first().prev();
+        
+        // we look at the style of the row before the new rows to determine the rows'
+        // level
+        var level = rootRow.length ? getLevelFromClass(rootRow.attr('class')) + 1 : 0;
+        
+        rows.each(function () {
+            var currentStyle = $(this).attr('class') || '';
 
-                if ((typeof currentStyle != 'undefined')
-                    && currentStyle.indexOf('level') >= 0) {
-                }
-                else {
-                    var level = getNextLevelFromClass(style);
-                    $(this).addClass('level' + level);
-                }
+            if (currentStyle.indexOf('level') == -1) {
+                $(this).addClass('level' + level);
+            }
 
-                // we add an attribute parent that contains the ID of all the parent categories
-                // this ID is used when collapsing a parent row, it searches for all children rows
-                // which 'parent' attribute's value contains the collapsed row ID
-                $(this).prop('parent', function () {
-                        return self.parentAttributeParent + ' ' + self.parentId;
-                    }
-                );
-
-                // Add some styles on the cells even/odd
-                // label (first column of a data row) or not
-                $("td:first-child:odd", this).addClass('label labeleven');
-                $("td:first-child:even", this).addClass('label labelodd');
+            // we add an attribute parent that contains the ID of all the parent categories
+            // this ID is used when collapsing a parent row, it searches for all children rows
+            // which 'parent' attribute's value contains the collapsed row ID
+            $(this).prop('parent', function () {
+                return self.parentAttributeParent + ' ' + self.parentId;
             });
+
+            // Add some styles on the cells even/odd
+            // label (first column of a data row) or not
+            $("td:first-child:odd", this).addClass('label labeleven');
+            $("td:first-child:even", this).addClass('label labelodd');
+        });
     },
 
-    handleRowActions: function (domElem) {
-        var rowsToProcess = $('tr.rowToProcess').removeClass('rowToProcess');
-        this.doHandleRowActions(rowsToProcess);
+    handleRowActions: function (domElem, rows) {
+        this.doHandleRowActions(rows);
     },
 
     // Called when the user click on an actionDataTable row
@@ -1764,7 +1764,7 @@ actionDataTable.prototype =
             self.param.action = self.param.controllerActionCalledWhenRequestSubTable;
 
             self.reloadAjaxDataTable(false, function (resp) {
-                self.actionsSubDataTableLoaded(resp);
+                self.actionsSubDataTableLoaded(resp, idSubTable);
                 self.repositionRowActions($(domElem));
             });
             self.param.action = savedActionVariable;
@@ -1837,16 +1837,16 @@ actionDataTable.prototype =
     },
 
     // Called when a set of rows for a category of actions is loaded
-    actionsSubDataTableLoaded: function (response) {
+    actionsSubDataTableLoaded: function (response, idSubTable) {
         var self = this;
-        var idToReplace = $(response).attr('id');
+        var idToReplace = 'subDataTable_' + idSubTable;
+        var root = $('#' + self.workingDivId);
 
-        // remove the first row of results which is only used to get the Id
-        var response = $(response).filter('tr').slice(1).addClass('rowToProcess');
+        var response = $(response);
         self.parentAttributeParent = $('tr#' + idToReplace).prev().prop('parent');
         self.parentId = idToReplace;
 
-        $('tr#' + idToReplace).after(response).remove();
+        $('tr#' + idToReplace, root).after(response).remove();
 
         var missingColumns = (response.prev().find('td').size() - response.find('td').size());
         for (var i = 0; i < missingColumns; i++) {
@@ -1862,7 +1862,7 @@ actionDataTable.prototype =
         }
 
         // we execute the bindDataTableEvent function for the new DIV
-        self.init(self.workingDivId, $('#' + idToReplace));
+        self.bindEventsAndApplyStyle($('#' + self.workingDivId), response);
 
         //bind back the click event (disabled to avoid double-click problem)
         self.disabledRowDom.click(
@@ -1882,18 +1882,6 @@ function getLevelFromClass(style) {
         currentLevel = Number(style.substr(currentLevelIndex + 5, 1));
     }
     return currentLevel;
-}
-
-//helper function for actionDataTable
-function getNextLevelFromClass(style) {
-    if (!style || typeof style == "undefined") return 0;
-    var currentLevel = getLevelFromClass(style);
-    var newLevel     = currentLevel;
-    // if this is not a row to process so
-    if (style.indexOf('rowToProcess') < 0) {
-        newLevel     = currentLevel + 1;
-    }
-    return newLevel;
 }
 
 //helper function for actionDataTable
