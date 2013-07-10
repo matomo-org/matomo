@@ -1273,7 +1273,7 @@ abstract class Piwik_ViewDataTable
      *                                    and should therefore be ran before Sort, Limit, etc.
      * @return void
      */
-    public function queueFilter($filterName, $parameters, $runBeforeGenericFilters = false)
+    public function queueFilter($filterName, $parameters = array(), $runBeforeGenericFilters = false)
     {
         if ($runBeforeGenericFilters) {
             $this->queuedFiltersPriority[] = array($filterName, $parameters);

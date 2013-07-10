@@ -104,6 +104,14 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
     {
         $this->dataTableJsType = $type;
     }
+    
+    public function showExpanded($subtableTemplate = false)
+    {
+        $this->viewProperties['show_expanded'] = true;
+        if ($subtableTemplate !== false) {
+            $this->viewProperties['subtable_template'] = $subtableTemplate;
+        }
+    }
 
     /**
      * @return Piwik_View with all data set
@@ -125,7 +133,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         }
 
         if (!$this->isDataAvailable) {
-            $view->arrayDataTable = array();
+            $view->dataTable = null;
         } else {
             $columns = $this->getColumnsToDisplay();
             $columnTranslations = $columnDocumentation = array();
@@ -139,7 +147,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
                 $nbColumns = count($this->columnsToDisplay);
             }
 
-            $view->arrayDataTable = $this->getPHPArrayFromDataTable();
+            $view->dataTable = $this->dataTable;
             $view->dataTableColumns = $columns;
             $view->reportDocumentation = $this->getReportDocumentation();
             $view->columnTranslations = $columnTranslations;

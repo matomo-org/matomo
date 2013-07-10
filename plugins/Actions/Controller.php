@@ -455,12 +455,19 @@ class Piwik_Actions_Controller extends Piwik_Controller
         $view->setDataTableType('dataTableActions');
         $view->setJsType('actionDataTable');
         
+        
         if (Piwik_Common::getRequestVar('idSubtable', -1) != -1) {
             $view->setTemplate('@CoreHome/_dataTableActions_subDataTable');
         }
         $currentlySearching = $view->setSearchRecursive();
         if ($currentlySearching) {
-            $view->setTemplate('@CoreHome/_dataTableActions_recursive');
+            $view->showExpanded($subtableTemplate = '@CoreHome/_dataTableActions_subDataTable.twig');
+            
+            // set levelN css class for each row
+            $self = $this;
+            $view->queueFilter(function ($dataTable) use ($self) {
+                $self->setDataTableRowLevels($dataTable);
+            });
         }
         // disable Footer icons
         $view->disableShowAllViewsIcons();
@@ -475,38 +482,18 @@ class Piwik_Actions_Controller extends Piwik_Controller
         }
 
         $view->main();
-        // we need to rewrite the phpArray so it contains all the recursive arrays
-        if ($currentlySearching) {
-            $phpArrayRecursive = $this->getArrayFromRecursiveDataTable($view->getDataTable());
-            $view->getView()->arrayDataTable = $phpArrayRecursive;
-        }
     }
-
-    protected function getArrayFromRecursiveDataTable($dataTable, $depth = 0)
+    
+    public function setDataTableRowLevels($dataTable, $level = 0)
     {
-        $table = array();
         foreach ($dataTable->getRows() as $row) {
-            $phpArray = array();
-            if (($idSubtable = $row->getIdSubDataTable()) !== null) {
-                $subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubtable);
-
-                if ($subTable->getRowsCount() > 0) {
-                    $phpArray = $this->getArrayFromRecursiveDataTable($subTable, $depth + 1);
-                }
-            }
-
-            $newRow = array(
-                'level'          => $depth,
-                'columns'        => $row->getColumns(),
-                'metadata'       => $row->getMetadata(),
-                'idsubdatatable' => $row->getIdSubDataTable()
-            );
-            $table[] = $newRow;
-            if (count($phpArray) > 0) {
-                $table = array_merge($table, $phpArray);
+            $row->setMetadata('css_class', 'level'.$level);
+            
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                $this->setDataTableRowLevels($subtable, $level + 1);
             }
         }
-        return $table;
     }
 
     /** Returns action to use when linking to the exit page URLs report. */

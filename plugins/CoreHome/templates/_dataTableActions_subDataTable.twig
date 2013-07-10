@@ -1,19 +1,28 @@
 {% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
     {{ arrayDataTable.message }}
 {% else %}
-    {% if arrayDataTable|length == 0 %}
+    {% if dataTable is empty or dataTable.getRowsCount() == 0 %}
         <tr>
             <td colspan="{{ nbColumns }}">{{ 'CoreHome_CategoryNoData'|translate }}</td>
         </tr>
     {% else %}
-        {% for row in arrayDataTable %}
-            <tr {% if row.idsubdatatable %}class="subDataTable" id="{{ row.idsubdatatable }}"{% endif %}>
+        {% for row in dataTable.getRows() %}
+            {# display this row if it doesn't have a subtable or if we don't replace the row with the subtable #}
+            {% if not row.getIdSubDataTable() or not properties.show_expanded|default(false) or not properties.replace_row_with_subtable|default(false) %}
+            <tr {% if row.getIdSubDataTable() %}id="{{ row.getIdSubDataTable() }}"{% endif %}
+                class="{{ row.getMetadata('css_class') }} {% if row.getIdSubDataTable() %}subDataTable{% endif %}">
                 {% for column in dataTableColumns %}
                     <td>
                         {% include "@CoreHome/_dataTableCell.twig" with {'column': column} %}
                     </td>
                 {% endfor %}
             </tr>
+            {% endif %}
+            
+            {# display subtable if present and showing expanded datatable #}
+            {% if properties.show_expanded|default(false) and row.getIdSubDataTable() %}
+                {% include properties.subtable_template|default("@CoreHome/_dataTable.twig") with {'dataTable': row.getSubtable()} %}
+            {% endif %}
         {% endfor %}
     {% endif %}
 {% endif %}
