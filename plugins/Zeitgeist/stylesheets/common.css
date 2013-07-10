@@ -287,6 +287,14 @@ a {
     float: left;
 }
 
+#logo > a {
+    text-decoration: none;
+}
+
+#logo > a {
+    height: 40px;
+}
+
 /*sites_autocomplete*/
 .sites_autocomplete {
     position: absolute;
