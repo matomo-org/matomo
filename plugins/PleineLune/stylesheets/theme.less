@@ -1,17 +1,9 @@
-body {
-    color: #67E750;
-    background-color: #141414;
-}
+@theme-color-text-highlight: #67E750;
+@theme-color-text-link: #766F31;
+@theme-color-text-base: #59867D;
+@theme-color-box-border: #777778;
+@theme-color-box-active: #472C47;
 
-#tablist li a:link,
-#tablist li a:visited,
-.admin a,
-a {
-    color: #59867D;
-}
-
-#tablist li a:hover,
-#tablist li a.active {
-    background-color: #472C47;
-}
-
+@import "_general.less";
+@import "_menuDashboard.less";
+@import "_menuAdmin.less";

@@ -13,12 +13,13 @@
     display: none;
 }
 
+#languageSelection .ui-autocomplete-input:after {
+    display: inline;
+    content: " \25BC"
+}
 #languageSelection .ui-autocomplete-input {
-    background: transparent url(../images/sortdesc.png) no-repeat right center!important;
     padding: 2px 18px 2px 4px;
-    color:#255792!important;
-    text-decoration: none;
-    font-size: 13px!important;
+    text-decoration: underline;
 }
 
 #languageSelect .ui-autocomplete-input:hover {

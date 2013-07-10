@@ -1,0 +1,45 @@
+
+/* FIRST LEVEL */
+.nav > li {
+  background: transparent;
+  border-color: @theme-color-box-border;
+}
+
+.nav > li:hover,
+.nav > li.sfHover{
+  background-color: @theme-color-box-active;
+}
+
+.nav > li.sfHover > a,
+.nav > li.sfActive.sfHover > a {
+  border-bottom: 1px solid @theme-color-box-active;
+}
+
+.nav > li > a,
+.nav > li.sfActive > a,
+.nav > li.sfHover > a,
+.nav > li.sfActive.sfHover > a {
+  color: @theme-color-text-link;
+}
+
+/* SECOND LEVEL */
+.nav_sep {
+  border-color: @theme-color-box-border;
+  background: @theme-color-box-active;
+}
+
+.nav > li li > a {
+  color: @theme-color-text-link;
+}
+
+.nav > li li:hover > a,
+.nav > li li:focus > a,
+.nav > li li:active > a {
+  color: @theme-color-text-highlight;
+}
+
+/* UNDER THE MENU */
+.page,
+.pageWrap {
+  background: none;
+}

@@ -1,8 +1,3 @@
-.nav, .nav * {
-    margin: 0;
-    padding: 0;
-}
-
 .nav {
     z-index: 10;
     height: 34px;
@@ -18,7 +13,7 @@
 }
 
 /* LEVEL1 NORMAL */
-.nav li {
+.nav > li {
     background: #f1f1f1;
     float: left;
     list-style: none;
@@ -29,12 +24,18 @@
     border-radius: 4px 4px 0 0;
 }
 
-.nav li.sfHover ul, ul.nav li:hover ul {
-    z-index: 50;
+.nav > li.sfHover > ul,
+.nav > li:hover > ul {
+  z-index: 50;
+  top: 35px;
+  opacity: 1;
+  -webkit-transition: opacity 300ms ease-out 10ms; /* property duration timing-function delay */
+  -moz-transition: opacity 300ms ease-out 10ms;
+  -o-transition: opacity 300ms ease-out 10ms;
+  transition: opacity 300ms ease-out 10ms;
 }
 
 .nav a {
-    border-bottom: 1px solid #ddd;
     color: #444;
     font-size: 18px;
     display: block;
@@ -46,23 +47,27 @@
 }
 
 /* LEVEL1 HOVER */
-.nav li:hover, .nav li.sfHover {
+.nav > li:hover,
+.nav > li.sfHover {
     background: #fff;
 }
 
-.nav li:hover a, .nav li.sfHover a, .nav li.sfActive a, .nav a:hover {
+.nav > li:hover > a,
+.nav > li.sfHover > a,
+.nav > li.sfActive a,
+.nav a:hover {
     color: #e87500;
 }
 
-.nav li:hover a {
+.nav > li:hover > a {
     text-decoration: underline;
 }
 
-.nav li.sfActive.sfHover a, .nav li.sfActive:hover a {
-    border-bottom-color: #fff;
+.nav > li.sfActive.sfHover > a {
+    border-bottom: 1px solid #fff;
 }
 
-.nav li ul {
+.nav > li > ul {
     padding: 9px 0 5px 0;
     left: 0;
     top: -999em;
@@ -73,46 +78,32 @@
 }
 
 /* LEVEL2 NORMAL */
-.nav li li {
-    background: none !important;
+.nav > li li {
+    float: left;
+    background: none;
     border: 0;
     text-align: center;
 }
 
-.nav li li a {
+.nav > li li > a {
     padding: 5px 15px;
     font-size: 14px;
     border: 0;
     float: none;
     display: inline-block;
     height: auto;
-    background: none !important;
-    color: #444 !important;
-    text-decoration: none !important;
+    background: none;
+    color: #444;
+    text-decoration: none;
 }
 
 /* LEVEL2 HOVER */
-.nav li li:hover a, .nav li li.sfHover a, .nav li li a:hover {
-    color: #e87500 !important;
+.nav > li li:hover > a,
+.nav > li li.sfHover > a {
+    color: #e87500;
 }
 
-.nav li li.sfHover a {
+.nav > li li.sfHover > a {
     font-weight: bold;
     text-decoration: none !important;
-}
-
-.nav li:hover ul, ul.nav li.sfHover ul {
-    top: 35px;
-    opacity: 1;
-}
-
-.nav li ul {
-    opacity: 0;
-}
-
-.nav li:hover ul {
-    -webkit-transition: opacity 300ms ease-out 10ms; /* property duration timing-function delay */
-    -moz-transition: opacity 300ms ease-out 10ms;
-    -o-transition: opacity 300ms ease-out 10ms;
-    transition: opacity 300ms ease-out 10ms;
 }
