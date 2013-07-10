@@ -72,13 +72,9 @@ class Piwik_Twig
             $assetType = strtolower($params['type']);
             switch ($assetType) {
                 case 'css':
-
                     return Piwik_AssetManager::getCssAssets();
-
                 case 'js':
-
                     return Piwik_AssetManager::getJsAssets();
-
                 default:
                     throw new Exception("The twig function includeAssets 'type' parameter needs to be either 'css' or 'js'.");
             }
