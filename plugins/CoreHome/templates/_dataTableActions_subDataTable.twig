@@ -1,7 +1,7 @@
 {% if arrayDataTable.result is defined and arrayDataTable.result == 'error' %}
     {{ arrayDataTable.message }}
 {% else %}
-    {% if dataTable is empty or dataTable.getRowsCount() == 0 %}
+    {% if (dataTable is empty or dataTable.getRowsCount() == 0) and not properties.show_expanded|default(false) %}
         <tr>
             <td colspan="{{ nbColumns }}">{{ 'CoreHome_CategoryNoData'|translate }}</td>
         </tr>
