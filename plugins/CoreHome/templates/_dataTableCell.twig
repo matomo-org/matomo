@@ -1,6 +1,6 @@
 {% spaceless %}
 {% set tooltipIndex = column ~ '_tooltip' %}
-{% if row.getMetadata(tooltipIndex) is defined %}<span class="cell-tooltip" data-tooltip="{{ row.getMetadata(tooltipIndex) }}">{% endif %}
+{% if row.getMetadata(tooltipIndex) %}<span class="cell-tooltip" data-tooltip="{{ row.getMetadata(tooltipIndex) }}">{% endif %}
 {% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
     <a target="_blank" href='{% if row.getMetadata('url')|slice(0,4) not in ['http','ftp:'] %}http://{% endif %}{{ row.getMetadata('url') }}'>
     {% if not row.getMetadata('logo') %}
@@ -16,8 +16,8 @@
         {%- if row.getMetadata('html_label_suffix') %}<span class='label-suffix'>{{ row.getMetadata('html_label_suffix') | raw }}</span>{% endif -%}
 {% endif %}{% if row.getColumn(column) %}{{- row.getColumn(column)|raw -}}{% else %}{{ defaultWhenColumnValueNotDefined }}{% endif %}
 {% if column=='label' %}</span>{% endif %}
-{% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') is defined %}
+{% if not row.getIdSubDataTable() and column=='label' and row.getMetadata('url') %}
     </a>
 {% endif %}
-{% if row.getMetadata(tooltipIndex) is defined %}</span>{% endif %}
+{% if row.getMetadata(tooltipIndex) %}</span>{% endif %}
 {% endspaceless %}
