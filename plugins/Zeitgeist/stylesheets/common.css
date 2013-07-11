@@ -440,17 +440,17 @@ a {
     float: right;
     color: #9c9c9c;
     margin: 4px 0 8px;
+    font-size: 13px;
 }
 
 #topLeftBar,
 #topRightBar {
-    font-size: 13px;
     margin-bottom: 4px;
     float: left;
 }
 
 #topLeftBar {
-    margin-right: 30px;
+    margin-right: 40px;
 }
 
 .topBarElem {
