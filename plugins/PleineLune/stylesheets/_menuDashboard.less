@@ -17,10 +17,13 @@
 }
 
 .nav > li > a,
-.nav > li.sfActive > a,
+.nav > li.sfActive > a {
+  color: @theme-color-text-base;
+}
+
 .nav > li.sfHover > a,
 .nav > li.sfActive.sfHover > a {
-  color: @theme-color-text-link;
+  color: @theme-color-text-active;
 }
 
 /* SECOND LEVEL */
@@ -30,13 +33,13 @@
 }
 
 .nav > li li > a {
-  color: @theme-color-text-link;
+  color: @theme-color-text-base;
 }
 
 .nav > li li:hover > a,
 .nav > li li:focus > a,
 .nav > li li:active > a {
-  color: @theme-color-text-highlight;
+  color: @theme-color-text-focus;
 }
 
 /* UNDER THE MENU */
