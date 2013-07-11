@@ -20,14 +20,6 @@
 class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 {
     /**
-     * Set to true when the DataTable must be loaded along with all its children subtables
-     * Useful when searching for a pattern in the DataTable Actions (we display the full hierarchy)
-     *
-     * @var bool
-     */
-    protected $recursiveDataTableLoad = false;
-
-    /**
      * PHP array conversion of the Piwik_DataTable
      *
      * @var array
@@ -208,35 +200,15 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
     public function setSearchRecursive()
     {
         $this->variablesDefault['search_recursive'] = true;
-        $this->setRecursiveLoadDataTableIfSearchingForPattern();
-    }
-    
-    public function isLoadingExpandedDataTable()
-    {
-        return $this->recursiveDataTableLoad;
     }
 
     protected function getRequestString()
     {
         $requestString = parent::getRequestString();
-        if ($this->recursiveDataTableLoad
-            && !Piwik_Common::getRequestVar('flat', false)
-        ) {
+        if (parent::shouldLoadExpanded()) {
             $requestString .= '&expanded=1';
         }
         return $requestString;
-    }
-
-    /**
-     * Set the flag to load the datatable recursively so we can search on subtables as well
-     */
-    protected function setRecursiveLoadDataTableIfSearchingForPattern()
-    {
-        // if the 2 variables are set we are searching for something.
-        // we have to load all the children subtables in this case
-        $this->recursiveDataTableLoad = Piwik_Common::getRequestVar('filter_column_recursive', false) !== false
-                                     && Piwik_Common::getRequestVar('filter_pattern_recursive', false) !== false;
-        return $this->recursiveDataTableLoad;
     }
 
     /**

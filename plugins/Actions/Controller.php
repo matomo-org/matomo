@@ -457,7 +457,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
         $view->setSubtableTemplate('@CoreHome/_dataTableActions_subDataTable.twig');
         
         $view->setSearchRecursive();
-        if ($view->isLoadingExpandedDataTable()) {
+        if (Piwik_ViewDataTable::shouldLoadExpanded()) {
             $view->showExpanded();
             
             // set levelN css class for each row

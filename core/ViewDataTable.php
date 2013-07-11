@@ -1428,4 +1428,19 @@ abstract class Piwik_ViewDataTable
         $url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
         return $url;
     }
+    
+    /**
+     * Returns whether the DataTable result will have to be expanded for the
+     * current request before rendering.
+     * 
+     * @return bool
+     */
+    public static function shouldLoadExpanded()
+    {
+        // if filter_column_recursive & filter_pattern_recursive are supplied, and flat isn't supplied
+        // we have to load all the child subtables.
+        return Piwik_Common::getRequestVar('filter_column_recursive', false) !== false
+             && Piwik_Common::getRequestVar('filter_pattern_recursive', false) !== false
+             && Piwik_Common::getRequestVar('flat', false) === false;
+    }
 }
