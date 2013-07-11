@@ -1,9 +1,8 @@
 .nav {
-    z-index: 10;
-    height: 34px;
     line-height: 1;
     position: relative;
-    width: 100%;
+    display: table;      // The nav has the height og his children
+    margin-bottom: -1px; // Allow tabs to merge with the submenu
 }
 
 .nav ul {
@@ -22,17 +21,6 @@
     border: 1px solid #ddd;
     border-bottom: 0;
     border-radius: 4px 4px 0 0;
-}
-
-.nav > li.sfHover > ul,
-.nav > li:hover > ul {
-  z-index: 50;
-  top: 35px;
-  opacity: 1;
-  -webkit-transition: opacity 300ms ease-out 10ms; /* property duration timing-function delay */
-  -moz-transition: opacity 300ms ease-out 10ms;
-  -o-transition: opacity 300ms ease-out 10ms;
-  transition: opacity 300ms ease-out 10ms;
 }
 
 .nav a {
@@ -67,17 +55,17 @@
     border-bottom: 1px solid #fff;
 }
 
+/* LEVEL2 NORMAL */
 .nav > li > ul {
-    padding: 9px 0 5px 0;
-    left: 0;
-    top: -999em;
-    position: absolute;
-    height: 25px;
-    width: 100%;
-    background: none;
+  padding: 9px 0 5px 0;
+  left: 0;
+  top: -999em;
+  position: absolute;
+  height: 25px;
+  width: 100%;
+  background: none;
 }
 
-/* LEVEL2 NORMAL */
 .nav > li li {
     float: left;
     background: none;
@@ -98,6 +86,17 @@
 }
 
 /* LEVEL2 HOVER */
+.nav > li.sfHover > ul,
+.nav > li:hover > ul {
+  z-index: 50;
+  top: 100%;
+  opacity: 1;
+  -webkit-transition: opacity 300ms ease-out 10ms; /* property duration timing-function delay */
+  -moz-transition: opacity 300ms ease-out 10ms;
+  -o-transition: opacity 300ms ease-out 10ms;
+  transition: opacity 300ms ease-out 10ms;
+}
+
 .nav > li li:hover > a,
 .nav > li li.sfHover > a {
     color: #e87500;
