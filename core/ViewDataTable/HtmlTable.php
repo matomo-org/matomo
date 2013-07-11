@@ -56,6 +56,8 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         $this->setLimit(Piwik_Config::getInstance()->General['datatable_default_limit']);
         $this->handleLowPopulation();
         $this->setSubtableTemplate("@CoreHome/_dataTable.twig");
+        $this->viewProperties['datatable_js_type'] = 'dataTable';
+        $this->viewProperties['datatable_css_class'] = $this->getDefaultDataTableCssClass();
     }
 
     protected function getViewDataTableId()
@@ -91,19 +93,19 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         $this->view = $this->buildView();
     }
     
-    public function getDefaultDataTableType()
+    public function getDefaultDataTableCssClass()
     {
         return 'dataTableNormal';
     }
     
-    public function setDataTableType($type)
+    public function setDataTableCssClass($type)
     {
-        $this->viewProperties['dataTableType'] = $type;
+        $this->viewProperties['datatable_css_class'] = $type;
     }
     
     public function setJsType($type)
     {
-        $this->dataTableJsType = $type;
+        $this->viewProperties['datatable_js_type'] = $type;
     }
     
     public function setSubtableTemplate($subtableTemplate)
@@ -121,16 +123,8 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      */
     protected function buildView()
     {
-        if (empty($this->viewProperties['dataTableType'])) {
-            $this->viewProperties['dataTableType'] = $this->getDefaultDataTableType();
-        }
-        
         $template = $this->idSubtable ? $this->viewProperties['subtable_template'] : $this->dataTableTemplate;
         $view = new Piwik_View($template);
-        
-        if (!empty($this->dataTableJsType)) {
-            $view->dataTableJsType = $this->dataTableJsType;
-        }
 
         if (!empty($this->loadingError)) {
             $view->error = $this->loadingError;
