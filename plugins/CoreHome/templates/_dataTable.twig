@@ -1,6 +1,6 @@
 {% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
-<div class="dataTable {{ properties.dataTableType }} {% if isSubtable %}subDataTable{% endif %}"
-     data-table-type="{{ dataTableJsType|default('dataTable') }}"
+<div class="dataTable {{ properties.datatable_css_class }} {% if isSubtable %}subDataTable{% endif %}"
+     data-table-type="{{ properties.datatable_js_type|default('dataTable') }}"
      data-report="{{ properties.report_id }}"
      data-params="{{ javascriptVariablesToSet|json_encode }}">
     <div class="reportDocumentation">
@@ -11,7 +11,7 @@
         {% if error is defined %}
             {{ error.message }}
         {% else %}
-            {% if arrayDataTable|length == 0 %}
+            {% if dataTable is empty or dataTable.getRowsCount() == 0 %}
                 <div class="pk-emptyDataTable">
                 {% if showReportDataWasPurgedMessage is defined and showReportDataWasPurgedMessage %}
                     {{ 'CoreHome_DataForThisReportHasBeenPurged'|translate(deleteReportsOlderThan) }}
@@ -24,17 +24,26 @@
                     {% include "@CoreHome/_dataTableHead.twig" %}
 
                     <tbody>
-                    {% for row in arrayDataTable %}
-                        {%- set rowHasSubtable = row.idsubdatatable and javascriptVariablesToSet.controllerActionCalledWhenRequestSubTable is not null -%}
+                    {% for rowId, row in dataTable.getRows() %}
+                        {%- set rowHasSubtable = row.getIdSubDataTable() and javascriptVariablesToSet.controllerActionCalledWhenRequestSubTable is not null -%}
+                        {%- set shouldHighlightRow = rowId == constant("Piwik_DataTable::ID_SUMMARY_ROW") and properties.highlight_summary_row -%}
                         
-                        <tr {% if rowHasSubtable %}class="subDataTable" id="{{ row.idsubdatatable }}"{% endif %}
-                            {% if row.issummaryrow is defined and row.issummaryrow and properties.highlight_summary_row %} class="highlight"{% endif %}>
+                        {# display this row if it doesn't have a subtable or if we don't replace the row with the subtable #}
+                        {% if not rowHasSubtable or not properties.show_expanded|default(false) or not properties.replace_row_with_subtable|default(false) %}
+                        <tr {% if rowHasSubtable %}id="{{ row.getIdSubDataTable() }}"{% endif %}
+                            class="{{ row.getMetadata('css_class') }} {% if rowHasSubtable %}subDataTable{% endif %}{% if shouldHighlightRow %} highlight{% endif %}">
                             {% for column in dataTableColumns %}
                                 <td>
                                     {% include "@CoreHome/_dataTableCell.twig" with properties %}
                                 </td>
                             {% endfor %}
                         </tr>
+                        {% endif %}
+                        
+                        {# display subtable if present and showing expanded datatable #}
+                        {% if properties.show_expanded|default(false) and rowHasSubtable %}
+                            {% include properties.subtable_template with {'dataTable': row.getSubtable()} %}
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
