@@ -171,14 +171,127 @@ class Piwik_UserSettings extends Piwik_Plugin
     function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'    => 'archiveDay',
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
-            'WidgetsList.add'                  => 'addWidgets',
-            'Menu.add'                         => 'addMenu',
-            'API.getReportMetadata'            => 'getReportMetadata',
-            'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
+            'ArchiveProcessing_Day.compute'            => 'archiveDay',
+            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
+            'WidgetsList.add'                          => 'addWidgets',
+            'Menu.add'                                 => 'addMenu',
+            'API.getReportMetadata'                    => 'getReportMetadata',
+            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
+    }
+    
+    public function getReportDisplayProperties(&$properties, $apiAction)
+    {
+        $basicUserSettingsProperties = array('show_search'                 => false,
+                                             'show_exclude_low_population' => false,
+                                             'filter_limit'                => 5,
+                                             'graph_limit'                 => 5);
+        
+        $osRelatedReports = array(
+            'UserSettings.getOSFamily' => Piwik_Translate('UserSettings_OperatingSystemFamily'),
+            'UserSettings.getOS'       => Piwik_Translate('UserSettings_OperatingSystems')
+        );
+        
+        $browserRelatedReports = array(
+            'UserSettings.getBrowser' => Piwik_Translate('UserSettings_Browsers'),
+            'UserSettings.getBrowserVersion' => Piwik_Translate('UserSettings_ColumnBrowserVersion')
+        );
+        
+        $wideScreenDeviceTypeRelatedReports = array(
+            'UserSettings.getMobileVsDesktop' => Piwik_Translate('UserSettings_MobileVsDesktop'),
+            'UserSettings.getWideScreen' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')
+        );
+        
+        $reportViewProperties = array(
+            'UserSettings.getResolution' => array_merge($basicUserSettingsProperties, array(
+                'translations' => array('label' => Piwik_Translate('UserSettings_ColumnResolution'))
+            )),
+            
+            'UserSettings.getConfiguration' => array_merge($basicUserSettingsProperties, array(
+                'filter_limit' => 3,
+                'translations' => array('label' => Piwik_Translate('UserSettings_ColumnConfiguration'))
+            )),
+            
+            'UserSettings.getOS' => array_merge($basicUserSettingsProperties, array(
+                'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnOperatingSystem')),
+                'title'          => Piwik_Translate('UserSettings_OperatingSystems'),
+                'relatedReports' => $osRelatedReports
+            )),
+            
+            'UserSettings.getOSFamily' => array_merge($basicUserSettingsProperties, array(
+                'translations'   => array('label' => Piwik_Translate('UserSettings_OperatingSystemFamily')),
+                'title'          => Piwik_Translate('UserSettings_OperatingSystemFamily'),
+                'relatedReports' => $osRelatedReports
+            )),
+            
+            'UserSettings.getBrowserVersion' => array_merge($basicUserSettingsProperties, array(
+                'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnBrowserVersion')),
+                'graph_limit'    => 7,
+                'title'          => Piwik_Translate('UserSettings_ColumnBrowserVersion'),
+                'relatedReports' => $browserRelatedReports
+            )),
+            
+            'UserSettings.getBrowser' => array_merge($basicUserSettingsProperties, array(
+                'translations'   => array('label' => Piwik_Translate('UserSettings_ColumnBrowser')),
+                'graph_limit'    => 7,
+                'title'          => Piwik_Translate('UserSettings_Browsers'),
+                'relatedReports' => $browserRelatedReports
+            )),
+            
+            'UserSettings.getBrowserType' => array_merge($basicUserSettingsProperties, array(
+                'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnBrowserFamily')),
+                'show_offset_information' => false,
+                'show_pagination_control' => false,
+                'default_view_type'       => 'graphPie',
+            )),
+            
+            'UserSettings.getWideScreen'  => array_merge($basicUserSettingsProperties, array(
+                'translations'            => array('label' => Piwik_Translate('UserSettings_ColumnTypeOfScreen')),
+                'show_offset_information' => false,
+                'show_pagination_control' => false,
+                'title'                   => Piwik_Translate('UserSettings_ColumnTypeOfScreen'),
+                'relatedReports'          => $wideScreenDeviceTypeRelatedReports
+            )),
+            
+            'UserSettings.getMobileVsDesktop' => array_merge($basicUserSettingsProperties, array(
+                'translations'            => array('label' => Piwik_Translate('UserSettings_MobileVsDesktop')),
+                'title'                   => Piwik_Translate('UserSettings_MobileVsDesktop'),
+                'relatedReports'          => $wideScreenDeviceTypeRelatedReports
+            )),
+            
+            'UserSettings.getPlugin' => array_merge($basicUserSettingsProperties, array(
+                'translations'             => array(
+                    'label'                => Piwik_Translate('UserSettings_ColumnPlugin'),
+                    'nb_visits_percentage' =>
+                        str_replace(' ', '&nbsp;', Piwik_Translate('General_ColumnPercentageVisits'))
+                ),
+                'show_offset_information'  => false,
+                'show_pagination_control'  => false,
+                'show_all_views_icons'     => false,
+                'show_table_all_columns'   => false,
+                'columns_to_display'       => array('label', 'nb_visits_percentage', 'nb_visits'),
+                'filter_sort_column'       => 'nb_visits_percentage',
+                'filter_sort_order'        => 'desc',
+                'filter_limit'             => 10,
+                'show_footer_message'      => Piwik_Translate('UserSettings_PluginDetectionDoesNotWorkInIE'),
+            )),
+            
+            'UserSettings.getLanguage' => array(
+                'translations'  => array('label' => Piwik_Translate('General_Language')),
+                'filter_sort_column'          => 'nb_visits',
+                'filter_sort_order'           => 'desc',
+                'show_search'                 => false,
+                'filter_limit'                => false,
+                'columns_to_display'          => array('label', 'nb_visits'),
+                'show_exclude_low_population' => false,
+            ),
+        );
+        
+        if (isset($reportViewProperties[$apiAction])) {
+            $properties = $reportViewProperties[$apiAction];
+        }
     }
 
     /**

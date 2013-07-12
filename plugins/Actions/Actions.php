@@ -18,6 +18,22 @@
  */
 class Piwik_Actions extends Piwik_Plugin
 {
+    const ACTIONS_REPORT_ROWS_DISPLAY = 100;
+    
+    private $columnTranslations;
+    
+    public function __construct()
+    {
+        $this->columnTranslations = array(
+            'nb_hits'             => Piwik_Translate('General_ColumnPageviews'),
+            'nb_visits'           => Piwik_Translate('General_ColumnUniquePageviews'),
+            'avg_time_on_page'    => Piwik_Translate('General_ColumnAverageTimeOnPage'),
+            'bounce_rate'         => Piwik_Translate('General_ColumnBounceRate'),
+            'exit_rate'           => Piwik_Translate('General_ColumnExitRate'),
+            'avg_time_generation' => Piwik_Translate('General_ColumnAverageGenerationTime'),
+        );
+    }
+    
     public function getInformation()
     {
         $info = array(
@@ -32,16 +48,17 @@ class Piwik_Actions extends Piwik_Plugin
     public function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'    => 'archiveDay',
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
-            'WidgetsList.add'                  => 'addWidgets',
-            'Menu.add'                         => 'addMenus',
-            'API.getReportMetadata'            => 'getReportMetadata',
-            'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
+            'ArchiveProcessing_Day.compute'            => 'archiveDay',
+            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
+            'WidgetsList.add'                          => 'addWidgets',
+            'Menu.add'                                 => 'addMenus',
+            'API.getReportMetadata'                    => 'getReportMetadata',
+            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }
-
+    
     public function getSegmentsMetadata(&$segments)
     {
         $sqlFilter = array($this, 'getIdActionFromSegment');
@@ -604,6 +621,390 @@ class Piwik_Actions extends Piwik_Plugin
         } else {
             throw new Exception(" The segment $segmentName has an unexpected value.");
         }
+    }
+
+    public function getReportDisplayProperties(&$properties, $apiAction)
+    {
+        $reportViewProperties = array(
+            'Actions.getPageUrls' => $this->getDisplayPropertiesForPageUrls(),
+            'Actions.getEntryPageUrls' => $this->getDisplayPropertiesForEntryPageUrls(),
+            'Actions.getExitPageUrls' => $this->getDisplayPropertiesForExitPageUrls(),
+            'Actions.getSiteSearchKeywords' => $this->getDisplayPropertiesForSiteSearchKeywords(),
+            'Actions.getSiteSearchNoResultKeywords' => $this->getDisplayPropertiesForSiteSearchNoResultKeywords(),
+            'Actions.getSiteSearchCategories' => $this->getDisplayPropertiesForSiteSearchCategories(),
+            'Actions.getPageUrlsFollowingSiteSearch' => $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(false),
+            'Actions.getPageTitlesFollowingSiteSearch' => $this->getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch(true),
+            'Actions.getPageTitles' => $this->getDisplayPropertiesForGetPageTitles(),
+            'Actions.getEntryPageTitles' => $this->getDisplayPropertiesForGetEntryPageTitles(),
+            'Actions.getExitPageTitles' => $this->getDisplayPropertiesForGetExitPageTitles(),
+            'Actions.getDownloads' => $this->getDisplayPropertiesForGetDownloads(),
+            'Actions.getOutlinks' => $this->getDisplayPropertiesForGetOutlinks(),
+        );
+        
+        if (isset($reportViewProperties[$apiAction])) {
+            $properties = $reportViewProperties[$apiAction];
+        }
+    }
+    
+    private function addBaseDisplayProperties(&$result)
+    {
+        $result['datatable_css_class'] = 'dataTableActions';
+        $result['datatable_js_type'] = 'actionDataTable';
+        $result['subtable_template'] = '@CoreHome/_dataTableActions_subDataTable.twig';
+        $result['search_recursive'] = true;
+        $result['show_all_views_icons'] = false;
+        $result['show_table_all_columns'] = false;
+        $result['filter_limit'] = self::ACTIONS_REPORT_ROWS_DISPLAY;
+        
+        // if the flat parameter is not provided, make sure it is set to 0 in the URL,
+        // so users can see that they can set it to 1 (see #3365)
+        $result['custom_parameters'] = array('flat' => 0);
+        
+        if (Piwik_ViewDataTable::shouldLoadExpanded()) {
+            $result['show_expanded'] = true;
+            
+            $result['filters'][] = function ($dataTable) {
+                Piwik_Actions::setDataTableRowLevels($dataTable);
+            };
+        }
+        
+        return $result;
+    }
+    
+    public static function setDataTableRowLevels($dataTable, $level = 0)
+    {
+        foreach ($dataTable->getRows() as $row) {
+            $row->setMetadata('css_class', 'level'.$level);
+            
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                self::setDataTableRowLevels($subtable, $level + 1);
+            }
+        }
+    }
+    
+    private function addExcludeLowPopDisplayProperties(&$result)
+    {
+        if (Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') != '0') {
+            $result['filter_excludelowpop'] = 'nb_hits';
+            $result['filter_excludelowpop_value'] = function () {
+                // computing minimum value to exclude (2 percent of the total number of actions)
+                $visitsInfo = Piwik_VisitsSummary_Controller::getVisitsSummary()->getFirstRow();
+                $nbActions = $visitsInfo->getColumn('nb_actions');
+                $nbActionsLowPopulationThreshold = floor(0.02 * $nbActions);
+                
+                // we remove 1 to make sure some actions/downloads are displayed in the case we have a very few of them
+                // and each of them has 1 or 2 hits...
+                return min($visitsInfo->getColumn('max_actions') - 1, $nbActionsLowPopulationThreshold - 1);
+            };
+        }
+    }
+    
+    private function addPageDisplayProperties(&$result)
+    {
+        // add common translations
+        $result['translations'] += array(
+            'nb_hits' => Piwik_Translate('General_ColumnPageviews'),
+            'nb_visits' => Piwik_Translate('General_ColumnUniquePageviews'),
+            'avg_time_on_page' => Piwik_Translate('General_ColumnAverageTimeOnPage'),
+            'bounce_rate' => Piwik_Translate('General_ColumnBounceRate'),
+            'exit_rate' => Piwik_Translate('General_ColumnExitRate'),
+            'avg_time_generation' => Piwik_Translate('General_ColumnAverageGenerationTime'),
+        );
+        
+        // prettify avg_time_on_page column
+        $getPrettyTimeFromSeconds = array('Piwik', 'getPrettyTimeFromSeconds');
+        $result['filters'][] = array('ColumnCallbackReplace', array('avg_time_on_page', $getPrettyTimeFromSeconds));
+        
+        // prettify avg_time_generation column
+        $avgTimeCallback = function ($time) {
+            return $time ? Piwik::getPrettyTimeFromSeconds($time, true, true, false) : "-";
+        };
+        $result['filters'][] = array('ColumnCallbackReplace', array('avg_time_generation', $avgTimeCallback));
+        
+        // add avg_generation_time tooltip
+        $tooltipCallback = function ($hits, $min, $max) {
+            if (!$hits) {
+                return false;
+            }
+            
+            return Piwik_Translate("Actions_AvgGenerationTimeTooltip", array(
+                $hits,
+                "<br />",
+                Piwik::getPrettyTimeFromSeconds($min), 
+			          Piwik::getPrettyTimeFromSeconds($max)
+	          ));
+        };
+        $result['filters'][] = array('ColumnCallbackAddMetadata',
+            array(
+                array('nb_hits_with_time_generation', 'min_time_generation', 'max_time_generation'),
+                'avg_time_generation_tooltip',
+                $tooltipCallback
+            )
+        );
+        
+        $this->addExcludeLowPopDisplayProperties($result);
+    }
+    
+    public function getDisplayPropertiesForPageUrls()
+    {
+        $result = array(
+            'translations'       => array('label' => Piwik_Translate('Actions_ColumnPageURL')),
+            'columns_to_display' => array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
+                                          'avg_time_on_page', 'exit_rate', 'avg_time_generation'),
+        );
+        
+        $this->addPageDisplayProperties($result);
+        $this->addBaseDisplayProperties($result);
+        
+        return $result;
+    }
+    
+    public function getDisplayPropertiesForEntryPageUrls()
+    {
+        // link to the page, not just the report, but only if not a widget
+        $widget = Piwik_Common::getRequestVar('widget', false);
+        $reportUrl = Piwik_API_Request::getCurrentUrlWithoutGenericFilters(array(
+            'module' => 'Actions',
+            'action' => $widget === false ? 'indexEntryPageUrls' : 'getEntryPageUrls'
+        ));
+        
+        $result = array(
+            'translations'       => array('label' => Piwik_Translate('Actions_ColumnEntryPageURL'),
+                                          'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'),
+                                          'entry_nb_visits' => Piwik_Translate('General_ColumnEntrances')),
+            'columns_to_display' => array('label', 'entry_nb_visits', 'entry_bounce_count', 'bounce_rate'),
+            'filter_sort_column' => 'entry_nb_visits',
+            'filter_sort_order'  => 'desc',
+            'title'              => Piwik_Translate('Actions_SubmenuPagesEntry'),
+            'relatedReports'     => array(
+                'Actions.getEntryPageTitles' => Piwik_Translate('Actions_EntryPageTitles')
+            ),
+            'self_url'           => $reportUrl
+        );
+        
+        $this->addPageDisplayProperties($result);
+        $this->addBaseDisplayProperties($result);
+        
+        return $result;
+    }
+    
+    public function getDisplayPropertiesForExitPageUrls()
+    {
+        // link to the page, not just the report, but only if not a widget
+        $widget = Piwik_Common::getRequestVar('widget', false);
+        $reportUrl = Piwik_API_Request::getCurrentUrlWithoutGenericFilters(array(
+            'module' => 'Actions',
+            'action' => $widget === false ? 'indexExitPageUrls' : 'getExitPageUrls'
+        ));
+        
+        $result = array(
+            'translations'       => array('label' => Piwik_Translate('Actions_ColumnExitPageURL'),
+                                          'exit_nb_visits' => Piwik_Translate('General_ColumnExits')),
+            'columns_to_display' => array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate'),
+            'filter_sort_column' => 'exit_nb_visits',
+            'filter_sort_order'  => 'desc',
+            'title'              => Piwik_Translate('Actions_SubmenuPagesExit'),
+            'relatedReports'     => array(
+                'Actions.getExitPageTitles' => Piwik_Translate('Actions_ExitPageTitles')
+            ),
+            'self_url'           => $reportUrl,
+        );
+        
+        $this->addPageDisplayProperties($result);
+        $this->addBaseDisplayProperties($result);
+        
+        return $result;
+    }
+    
+    private function addSiteSearchDisplayProperties(&$result)
+    {
+        $result['translations'] += array(
+            'nb_visits'           => Piwik_Translate('Actions_ColumnSearches'),
+            'exit_rate'           => str_replace("% ", "%&nbsp;", Piwik_Translate('Actions_ColumnSearchExits')),
+            'nb_pages_per_search' => Piwik_Translate('Actions_ColumnPagesPerSearch')
+        );
+        $result['show_bar_chart'] = false;
+        $result['show_table_all_columns'] = false;
+    }
+    
+    public function getDisplayPropertiesForSiteSearchKeywords()
+    {
+        $result = array(
+            'translations'       => array('label' => Piwik_Translate('Actions_ColumnSearchKeyword')),
+            'columns_to_display' => array('label', 'nb_visits', 'nb_pages_per_search', 'exit_rate'),
+        );
+        
+        $this->addSiteSearchDisplayProperties($result);
+        
+        return $result;
+    }
+
+    public function getDisplayPropertiesForSiteSearchNoResultKeywords()
+    {
+        $result = array(
+            'translations'       => array('label', Piwik_Translate('Actions_ColumnNoResultKeyword')),
+            'columns_to_display' => array('label', 'nb_visits', 'exit_rate')
+        );
+        
+        $this->addSiteSearchDisplayProperties($result);
+        
+        return $result;
+    }
+
+    public function getDisplayPropertiesForSiteSearchCategories()
+    {
+        return array(
+            'translations'           => array(
+                'label'               => Piwik_Translate('Actions_ColumnSearchCategory'),
+                'nb_visits'           => Piwik_Translate('Actions_ColumnSearches'),
+                'nb_pages_per_search' => Piwik_Translate('Actions_ColumnPagesPerSearch')
+            ),
+            'columns_to_display'     => array('label', 'nb_visits', 'nb_pages_per_search'),
+            'show_table_all_columns' => false,
+            'show_bar_chart'         => false,
+            'disable_row_evolution'  => false,
+        );
+    }
+
+    public function getDisplayPropertiesForGetPageUrlsOrTitlesFollowingSiteSearch($isTitle)
+    {
+        $title = $isTitle ? Piwik_Translate('Actions_WidgetPageTitlesFollowingSearch')
+            : Piwik_Translate('Actions_WidgetPageUrlsFollowingSearch');
+        
+        $relatedReports = array(
+            'Actions.getPageTitlesFollowingSiteSearch' => Piwik_Translate('Actions_WidgetPageTitlesFollowingSearch'),
+            'Actions.getPageUrlsFollowingSiteSearch' => Piwik_Translate('Actions_WidgetPageUrlsFollowingSearch'),
+        );
+        
+        $result = array(
+            'translations'                => array(
+                'label'                    => Piwik_Translate('General_ColumnDestinationPage'),
+                'nb_hits_following_search' => Piwik_Translate('General_ColumnViewedAfterSearch'),
+                'nb_hits'                  => Piwik_Translate('General_ColumnTotalPageviews')
+            ),
+            'columns_to_display'          => array('label', 'nb_hits_following_search', 'nb_hits'),
+            'filter_sort_column'          => 'nb_hits_following_search',
+            'filter_sort_order'           => 'desc',
+            'show_exclude_low_population' => false,
+            'title'                       => $title,
+            'relatedReports'              => $relatedReports
+        );
+        
+        $this->addExcludeLowPopDisplayProperties($result);
+        $this->addBaseDisplayProperties($result);
+        
+        return $result;
+    }
+
+    public function getDisplayPropertiesForGetPageTitles()
+    {
+        // link to the page, not just the report, but only if not a widget
+        $widget = Piwik_Common::getRequestVar('widget', false);
+        $reportUrl = Piwik_API_Request::getCurrentUrlWithoutGenericFilters(array(
+            'module' => 'Actions',
+            'action' => $widget === false ? 'indexPageTitles' : 'getPageTitles'
+        ));
+        
+        $result = array(
+            'translations'       => array('label' => Piwik_Translate('Actions_ColumnPageName')),
+            'columns_to_display' => array('label', 'nb_hits', 'nb_visits', 'bounce_rate',
+                                          'avg_time_on_page', 'exit_rate', 'avg_time_generation'),
+            'title'              => Piwik_Translate('Actions_SubmenuPageTitles'),
+            'relatedReports'     => array(
+                'Actions.getEntryPageTitles' => Piwik_Translate('Actions_EntryPageTitles'),
+                'Actions.getExitPageTitles'  => Piwik_Translate('Actions_ExitPageTitles'),
+            ),
+            'self_url'           => $reportUrl
+        );
+        
+        $this->addPageDisplayProperties($result);
+        $this->addBaseDisplayProperties($result);
+        
+        return $result;
+    }
+
+    public function getDisplayPropertiesForGetEntryPageTitles()
+    {
+        $entryPageUrlAction =
+            Piwik_Common::getRequestVar('widget', false) === false ? 'indexEntryPageUrls' : 'getEntryPageUrls';
+        
+        $result = array(
+            'translations'       => array(
+                'label'              => Piwik_Translate('Actions_ColumnEntryPageTitle'),
+                'entry_bounce_count' => Piwik_Translate('General_ColumnBounces'),
+                'entry_nb_visits'    => Piwik_Translate('General_ColumnEntrances'),
+            ),
+            'columns_to_display' => array('label', 'entry_nb_visits', 'entry_bounce_count', 'bounce_rate'),
+            'title'              => Piwik_Translate('Actions_EntryPageTitles'),
+            'relatedReports'     => array(
+                'Actions.getPageTitles'       => Piwik_Translate('Actions_SubmenuPageTitles'),
+                "Actions.$entryPageUrlAction" => Piwik_Translate('Actions_SubmenuPagesEntry')
+            ),
+        );
+        
+        $this->addPageDisplayProperties($result);
+        $this->addBaseDisplayProperties($result);
+        
+        return $result;
+    }
+
+    public function getDisplayPropertiesForGetExitPageTitles()
+    {
+        $exitPageUrlAction =
+            Piwik_Common::getRequestVar('widget', false) === false ? 'indexExitPageUrls' : 'getExitPageUrls';
+        
+        $result = array(
+            'translations'       => array(
+                'label'          => Piwik_Translate('Actions_ColumnExitPageTitle'),
+                'exit_nb_visits' => Piwik_Translate('General_ColumnExits'),
+            ),
+            'columns_to_display' => array('label', 'exit_nb_visits', 'nb_visits', 'exit_rate'),
+            'title'              => Piwik_Translate('Actions_ExitPageTitles'),
+            'relatedReports'     => array(
+                'Actions.getPageTitles'      => Piwik_Translate('Actions_SubmenuPageTitles'),
+                "Actions.$exitPageUrlAction" => Piwik_Translate('Actions_SubmenuPagesExit'),
+            ),
+        );
+        
+        $this->addPageDisplayProperties($result);
+        $this->addBaseDisplayProperties($result);
+        
+        return $result;
+    }
+
+    public function getDisplayPropertiesForGetDownloads()
+    {
+        $result = array(
+            'translations'                => array(
+                'label'     => Piwik_Translate('Actions_ColumnDownloadURL'),
+                'nb_visits' => Piwik_Translate('Actions_ColumnUniqueDownloads'),
+                'nb_hits'   => Piwik_Translate('Actions_ColumnDownloads'),
+            ),
+            'columns_to_display'          => array('label', 'nb_visits', 'nb_hits'),
+            'show_exclude_low_population' => false
+        );
+        
+        $this->addBaseDisplayProperties($result);
+        
+        return $result;
+    }
+
+    public function getDisplayPropertiesForGetOutlinks()
+    {
+        $result = array(
+            'translations'                => array(
+                'label'     => Piwik_Translate('Actions_ColumnClickedURL'),
+                'nb_visits' => Piwik_Translate('Actions_ColumnUniqueClicks'),
+                'nb_hits'   => Piwik_Translate('Actions_ColumnClicks'),
+            ),
+            'columns_to_display'          => array('label', 'nb_visits', 'nb_hits'),
+            'show_exclude_low_population' => false
+        );
+        
+        $this->addBaseDisplayProperties($result);
+        
+        return $result;
     }
 }
 

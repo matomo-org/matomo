@@ -25,83 +25,16 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 
     public function getVisitInformationPerServerTime($fetch = false)
     {
-        $view = $this->getGraph(__FUNCTION__, 'VisitTime.getVisitInformationPerServerTime',
-            'VisitTime_ColumnServerTime');
-
-        $view->setCustomParameter('hideFutureHoursWhenToday', 1);
-        $view->enableShowGoals();
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getVisitInformationPerLocalTime($fetch = false)
     {
-        $view = $this->getGraph(__FUNCTION__, 'VisitTime.getVisitInformationPerLocalTime',
-            'VisitTime_ColumnLocalTime');
-
-        // add the visits by day of week as a related report, if the current period is not 'day'
-        if (Piwik_Common::getRequestVar('period', 'day') != 'day') {
-            $view->addRelatedReports(Piwik_Translate('VisitTime_LocalTime'), array(
-                                                                                  'VisitTime.getByDayOfWeek' => Piwik_Translate('VisitTime_VisitsByDayOfWeek')
-                                                                             ));
-        }
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getByDayOfWeek($fetch = false)
     {
-        $view = $this->getGraph(
-            __FUNCTION__, 'VisitTime.getByDayOfWeek', 'VisitTime_DayOfWeek', $limit = 7, $sort = false);
-        $view->disableSort();
-
-        if ($view instanceof Piwik_ViewDataTable_GenerateGraphHTML) {
-            $view->showAllTicks();
-        }
-        $dateRange = $this->getRangeDate();
-
-        $view->setFooterMessage(Piwik_Translate('General_ReportGeneratedFrom', $dateRange));
-
-        return $this->renderView($view, $fetch);
-    }
-
-    protected function getRangeDate()
-    {
-        // get query params
-        $idSite = Piwik_Common::getRequestVar('idSite');
-        $date = Piwik_Common::getRequestVar('date');
-        $period = Piwik_Common::getRequestVar('period');
-
-        // create a period instance
-        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
-
-        // set the footer message using the period start & end date
-        $start = $oPeriod->getDateStart()->toString();
-        $end = $oPeriod->getDateEnd()->toString();
-        if ($start == $end) {
-            $dateRange = $start;
-        } else {
-            $dateRange = $start . " &ndash; " . $end;
-        }
-        return $dateRange;
-    }
-
-    private function getGraph($controllerMethod, $apiMethod, $labelTranslation, $limit = 24)
-    {
-        $view = Piwik_ViewDataTable::factory('graphVerticalBar');
-        $view->init($this->pluginName, $controllerMethod, $apiMethod);
-
-
-        $view->setColumnTranslation('label', Piwik_Translate($labelTranslation));
-        $view->setSortedColumn('label', 'asc');
-
-        $view->setLimit($limit);
-        $view->setGraphLimit($limit);
-        $view->disableSearchBox();
-        $view->disableExcludeLowPopulation();
-        $view->disableOffsetInformationAndPaginationControls();
-        $this->setMetricsVariablesView($view);
-
-        return $view;
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 }

@@ -29,13 +29,14 @@ class Piwik_VisitTime extends Piwik_Plugin
     function getListHooksRegistered()
     {
         $hooks = array(
-            'ArchiveProcessing_Day.compute'    => 'archiveDay',
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
-            'WidgetsList.add'                  => 'addWidgets',
-            'Menu.add'                         => 'addMenu',
-            'Goals.getReportsWithGoalMetrics'  => 'getReportsWithGoalMetrics',
-            'API.getReportMetadata'            => 'getReportMetadata',
-            'API.getSegmentsMetadata'          => 'getSegmentsMetadata',
+            'ArchiveProcessing_Day.compute'            => 'archiveDay',
+            'ArchiveProcessing_Period.compute'         => 'archivePeriod',
+            'WidgetsList.add'                          => 'addWidgets',
+            'Menu.add'                                 => 'addMenu',
+            'Goals.getReportsWithGoalMetrics'          => 'getReportsWithGoalMetrics',
+            'API.getReportMetadata'                    => 'getReportMetadata',
+            'API.getSegmentsMetadata'                  => 'getSegmentsMetadata',
+            'ViewDataTable.getReportDisplayProperties' => 'getReportDisplayProperties',
         );
         return $hooks;
     }
@@ -117,6 +118,59 @@ class Piwik_VisitTime extends Piwik_Plugin
             'acceptedValues' => $acceptedValues
         );
     }
+    
+    public function getReportDisplayProperties(&$properties, $apiAction)
+    {
+        $commonProperties = array(
+            'filter_sort_column'          => 'label',
+            'filter_sort_order'           => 'asc',
+            'show_search'                 => false,
+            'show_exclude_low_population' => false,
+            'show_offset_information'     => false,
+            'show_pagination_control'     => false,
+            'default_view_type'           => 'graphVerticalBar'
+        );
+        
+        $reportViewProperties = array(
+            'VisitTime.getVisitInformationPerServerTime' => array_merge($commonProperties, array(
+                'filter_limit' => 24,
+                'graph_limit' => 24,
+                'show_goals' => true,
+                'translations' => array('label' => Piwik_Translate('VisitTime_ColumnServerTime')),
+                
+                // custom parameter
+                'hideFutureHoursWhenToday' => 1,
+            )),
+            
+            'VisitTime.getVisitInformationPerLocalTime' => array_merge($commonProperties, array(
+                'filter_limit' => 24,
+                'graph_limit' => 24,
+                'title' => Piwik_Translate('VisitTime_ColumnLocalTime'),
+                'translations' => array('label' => Piwik_Translate('VisitTime_LocalTime')),
+            )),
+            
+            'VisitTime.getByDayOfWeek' => array_merge($commonProperties, array(
+                'filter_limit' => 7,
+                'graph_limit' => 7,
+                'enable_sort' => false,
+                'show_all_ticks' => true,
+                'show_footer_message' =>
+                    Piwik_Translate('General_ReportGeneratedFrom', self::getDateRangeForFooterMessage()),
+                'translations' => array('label' => Piwik_Translate('VisitTime_DayOfWeek')),
+            )),
+        );
+
+        // add the visits by day of week as a related report, if the current period is not 'day'
+        if (Piwik_Common::getRequestVar('period', 'day') != 'day') {
+            $reportViewProperties['VisitTime.getVisitInformationPerLocalTime']['relatedReports'] = array(
+                'VisitTime.getByDayOfWeek' => Piwik_Translate('VisitTime_VisitsByDayOfWeek')
+            );
+        }
+        
+        if (isset($reportViewProperties[$apiAction])) {
+            $properties = $reportViewProperties[$apiAction];
+        }
+    }
 
     public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
@@ -133,5 +187,26 @@ class Piwik_VisitTime extends Piwik_Plugin
         if($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
+    }
+    
+    private static function getDateRangeForFooterMessage()
+    {
+        // get query params
+        $idSite = Piwik_Common::getRequestVar('idSite');
+        $date = Piwik_Common::getRequestVar('date');
+        $period = Piwik_Common::getRequestVar('period');
+
+        // create a period instance
+        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+
+        // set the footer message using the period start & end date
+        $start = $oPeriod->getDateStart()->toString();
+        $end = $oPeriod->getDateEnd()->toString();
+        if ($start == $end) {
+            $dateRange = $start;
+        } else {
+            $dateRange = $start . " &ndash; " . $end;
+        }
+        return $dateRange;
     }
 }

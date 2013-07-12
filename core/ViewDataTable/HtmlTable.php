@@ -25,31 +25,29 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      * @var array
      */
     public $arrayDataTable; // phpArray
-
-    /**
-     * @see Piwik_ViewDataTable::init()
-     * @param string $currentControllerName
-     * @param string $currentControllerAction
-     * @param string $apiMethodToRequestDataTable
-     * @param null|string $controllerActionCalledWhenRequestSubTable
-     */
-    function init($currentControllerName,
-                  $currentControllerAction,
-                  $apiMethodToRequestDataTable,
-                  $controllerActionCalledWhenRequestSubTable = null)
+    
+    public function __construct()
     {
-        parent::init($currentControllerName,
-            $currentControllerAction,
-            $apiMethodToRequestDataTable,
-            $controllerActionCalledWhenRequestSubTable);
+        parent::__construct();
+
         $this->dataTableTemplate = '@CoreHome/_dataTable';
-        $this->variablesDefault['enable_sort'] = '1';
+        $this->viewProperties['enable_sort'] = '1';
+        $this->viewProperties['disable_row_evolution'] = false;
+        $this->viewProperties['disable_row_actions'] = false;
+        
         $this->setSortedColumn('nb_visits', 'desc');
         $this->setLimit(Piwik_Config::getInstance()->General['datatable_default_limit']);
         $this->handleLowPopulation();
         $this->setSubtableTemplate("@CoreHome/_dataTable.twig");
         $this->viewProperties['datatable_js_type'] = 'dataTable';
         $this->viewProperties['datatable_css_class'] = $this->getDefaultDataTableCssClass();
+    }
+    
+    public function getJavaScriptProperties()
+    {
+        $result = parent::getJavaScriptProperties();
+        $result[] = 'search_recursive';
+        return $result;
     }
 
     protected function getViewDataTableId()
@@ -190,7 +188,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      */
     public function addColumnToDisplay($columnName)
     {
-        $this->columnsToDisplay[] = $columnName;
+        $this->viewProperties['columns_to_display'][] = $columnName;
     }
 
     /**
@@ -199,7 +197,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      */
     public function setSearchRecursive()
     {
-        $this->variablesDefault['search_recursive'] = true;
+        $this->viewProperties['search_recursive'] = true;
     }
 
     protected function getRequestString()
@@ -216,7 +214,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      */
     public function disableRowEvolution()
     {
-        $this->variablesDefault['disable_row_evolution'] = true;
+        $this->viewProperties['disable_row_evolution'] = true;
     }
 
     /**
@@ -224,7 +222,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      */
     public function disableRowActions()
     {
-        $this->variablesDefault['disable_row_actions'] = true;
+        $this->viewProperties['disable_row_actions'] = true;
     }
 
 }

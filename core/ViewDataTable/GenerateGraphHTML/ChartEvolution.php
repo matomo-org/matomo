@@ -43,12 +43,14 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
     function init($currentControllerName,
                   $currentControllerAction,
                   $apiMethodToRequestDataTable,
-                  $controllerActionCalledWhenRequestSubTable = null)
+                  $controllerActionCalledWhenRequestSubTable = null,
+                  $defaultProperties = array())
     {
         parent::init($currentControllerName,
             $currentControllerAction,
             $apiMethodToRequestDataTable,
-            $controllerActionCalledWhenRequestSubTable);
+            $controllerActionCalledWhenRequestSubTable,
+            $defaultProperties);
 
         $this->calculateEvolutionDateRange();
         $this->disableShowAllViewsIcons();

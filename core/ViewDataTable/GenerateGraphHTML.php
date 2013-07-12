@@ -24,37 +24,28 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
     protected $graphType = 'unknown';
 
     /**
-     * Parameters to send to GenerateGraphData instance. Parameters are passed
-     * via the $_GET array.
-     *
-     * @var array
+     * Default constructor.
      */
-    protected $generateGraphDataParams = array();
-
-    /**
-     * @see Piwik_ViewDataTable::init()
-     * @param string $currentControllerName
-     * @param string $currentControllerAction
-     * @param string $apiMethodToRequestDataTable
-     * @param null $controllerActionCalledWhenRequestSubTable
-     */
-    function init($currentControllerName,
-                  $currentControllerAction,
-                  $apiMethodToRequestDataTable,
-                  $controllerActionCalledWhenRequestSubTable = null)
+    public function __construct()
     {
-        parent::init($currentControllerName,
-            $currentControllerAction,
-            $apiMethodToRequestDataTable,
-            $controllerActionCalledWhenRequestSubTable);
-
+        parent::__construct();
+        
         $this->dataTableTemplate = '@CoreHome/_dataTableGraph';
-
         $this->disableOffsetInformationAndPaginationControls();
         $this->disableExcludeLowPopulation();
         $this->disableSearchBox();
         $this->enableShowExportAsImageIcon();
-
+    }
+    
+    public function init($currentControllerName,
+                         $currentControllerAction,
+                         $apiMethodToRequestDataTable,
+                         $controllerActionCalledWhenRequestSubTable = null,
+                         $defaultProperties = array())
+    {
+        parent::init($currentControllerName, $currentControllerAction, $apiMethodToRequestDataTable,
+                     $controllerActionCalledWhenRequestSubTable, $defaultProperties);
+        
         $this->parametersToModify = array(
             'viewDataTable' => $this->getViewDataTableIdToLoad(),
             // in the case this controller is being executed by another controller
@@ -84,13 +75,24 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
     {
         $this->parametersToModify = array_merge($this->parametersToModify, $array);
     }
+    
+    /**
+     * Returns the names of the view properties to send to GenerateGraphData instance.
+     * Properties are passed via the $_GET array.
+     * 
+     * @return array
+     */
+    public function getViewPropertiesToForward()
+    {
+        return array('show_all_ticks', 'add_total_row');
+    }
 
     /**
      * Show every x-axis tick instead of just every other one.
      */
     public function showAllTicks()
     {
-        $this->generateGraphDataParams['show_all_ticks'] = 1;
+        $this->viewProperties['show_all_ticks'] = 1;
     }
 
     /**
@@ -99,7 +101,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
      */
     public function addTotalRow()
     {
-        $this->generateGraphDataParams['add_total_row'] = 1;
+        $this->viewProperties['add_total_row'] = 1;
     }
 
     /**
@@ -143,8 +145,12 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
         }
 
         // collect data
+        $jsonParameters = array();
+        foreach ($this->getJavaScriptProperties() as $name) {
+            $jsonParameters[$name] = $this->viewProperties[$name];
+        }
         $this->parametersToModify['action'] = $this->currentControllerAction;
-        $this->parametersToModify = array_merge($this->variablesDefault, $this->parametersToModify);
+        $this->parametersToModify = array_merge($jsonParameters, $this->parametersToModify);
         $this->graphData = $this->getGraphData();
 
         // build view
@@ -174,7 +180,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
     {
         $saveGet = $_GET;
 
-        $params = array_merge($this->generateGraphDataParams, $this->parametersToModify);
+        $params = array_merge($this->getGenerateGraphDataParams(), $this->parametersToModify);
         foreach ($params as $key => $val) {
             // We do not forward filter data to the graph controller.
             // This would cause the graph to have filter_limit=5 set by default,
@@ -192,5 +198,16 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
         $_GET = $saveGet;
 
         return str_replace(array("\r", "\n"), '', $content);
+    }
+    
+    private function getGenerateGraphDataParams()
+    {
+        $result = array();
+        foreach ($this->getViewPropertiesToForward() as $name) {
+            if (isset($this->viewProperties[$name])) {
+                $result[$name] = $this->viewProperties[$name];
+            }
+        }
+        return $result;
     }
 }
