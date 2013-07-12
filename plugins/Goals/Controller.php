@@ -84,7 +84,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     protected function getItemsView($fetch, $type, $function, $api, $abandonedCart = false)
     {
-        $saveGET = $_GET;
         $label = Piwik_Translate($type);
         $abandonedCart = Piwik_Common::getRequestVar('viewDataTable', 'ecommerceOrder', 'string') == 'ecommerceAbandonedCart';
 
@@ -111,7 +110,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
             $columns['avg_quantity'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_AverageQuantity'));
             unset($columns['orders']);
             unset($columns['conversion_rate']);
-            $_GET['abandonedCarts'] = 1;
+            $view->setRequestStringSuffix('&abandonedCarts=1');
         }
 
         $view->init($this->pluginName, $function, $api);
@@ -133,9 +132,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
         foreach (array('revenue', 'avg_price') as $column) {
             $view->queueFilter('ColumnCallbackReplace', array($column, array("Piwik", "getPrettyMoney"), array($this->idSite)));
         }
-        $return = $this->renderView($view, $fetch);
-        $_GET = $saveGET;
-        return $return;
+        return $this->renderView($view, $fetch);
     }
 
     public function getItemsSku($fetch = false)

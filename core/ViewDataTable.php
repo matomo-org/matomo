@@ -580,6 +580,11 @@ abstract class Piwik_ViewDataTable
         if(!empty($segment)) {
             $requestString .= '&segment=' . $segment;
         }
+        
+        if (!empty($this->viewProperties['request_string_suffix'])) {
+            $requestString .= $this->viewProperties['request_string_suffix'];
+        }
+        
         return $requestString;
     }
 
@@ -769,6 +774,16 @@ abstract class Piwik_ViewDataTable
             return false;
         }
         return $this->variablesDefault[$nameVar];
+    }
+    
+    /**
+     * Makes sure the supplied suffix is appended to the URL used to query API data.
+     * 
+     * @param string $suffix
+     */
+    public function setRequestStringSuffix($suffix)
+    {
+        $this->viewProperties['request_string_suffix'] = $suffix;
     }
 
     /**
