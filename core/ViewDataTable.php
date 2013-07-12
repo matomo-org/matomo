@@ -697,7 +697,9 @@ abstract class Piwik_ViewDataTable
 
         $javascriptVariablesToSet['module'] = $this->currentControllerName;
         $javascriptVariablesToSet['action'] = $this->currentControllerAction;
-        $javascriptVariablesToSet['viewDataTable'] = $this->getViewDataTableId();
+        if (!isset($javascriptVariablesToSet['viewDataTable'])) {
+            $javascriptVariablesToSet['viewDataTable'] = $this->getViewDataTableId();
+        }
         $javascriptVariablesToSet['controllerActionCalledWhenRequestSubTable'] = $this->controllerActionCalledWhenRequestSubTable;
 
         if ($this->dataTable &&

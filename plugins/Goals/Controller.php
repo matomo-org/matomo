@@ -90,7 +90,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
         // Products in Ecommerce Orders
         if ($abandonedCart === false) {
-            $view = new Piwik_ViewDataTable_HtmlTable_EcommerceOrder();
+            $view = new Piwik_ViewDataTable_HtmlTable();
+            $view->setCustomParameter('viewDataTable', Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);
             $columns = Piwik_Goals::getProductReportColumns();
             $view->setMetricDocumentation('revenue', Piwik_Translate('Goals_ColumnRevenueDocumentation', Piwik_Translate('Goals_DocumentationRevenueGeneratedByProductSales')));
             $view->setMetricDocumentation('quantity', Piwik_Translate('Goals_ColumnQuantityDocumentation', $label));
@@ -101,7 +102,8 @@ class Piwik_Goals_Controller extends Piwik_Controller
             $view->setMetricDocumentation('conversion_rate', Piwik_Translate('Goals_ColumnConversionRateProductDocumentation', $label));
         } // Products in Abandoned Carts
         else {
-            $view = new Piwik_ViewDataTable_HtmlTable_EcommerceAbandonedCart();
+            $view = new Piwik_ViewDataTable_HtmlTable();
+            $view->setCustomParameter('viewDataTable', Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART);
             $columns = Piwik_Goals::getProductReportColumns();
             $columns['abandoned_carts'] = Piwik_Translate('General_AbandonedCarts');
             $columns['revenue'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_ProductRevenue'));
@@ -553,23 +555,5 @@ class Piwik_Goals_Controller extends Piwik_Controller
         }
 
         return $goalReportsByDimension->render();
-    }
-}
-
-
-// Used so that the template knows which datatable is being currently viewed 
-class Piwik_ViewDataTable_HtmlTable_EcommerceOrder extends Piwik_ViewDataTable_HtmlTable
-{
-    protected function getViewDataTableId()
-    {
-        return Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
-    }
-}
-
-class Piwik_ViewDataTable_HtmlTable_EcommerceAbandonedCart extends Piwik_ViewDataTable_HtmlTable
-{
-    protected function getViewDataTableId()
-    {
-        return Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
     }
 }
