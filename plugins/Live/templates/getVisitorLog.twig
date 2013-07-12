@@ -2,11 +2,8 @@
      data-report="{{ properties.report_id }}"
      data-params="{{ javascriptVariablesToSet|json_encode }}">
 
-{% if not isWidget %}
-    <h2>{% if javascriptVariablesToSet.filterEcommerce %}{{ 'Goals_EcommerceLog'|translate }}{% else %}{{ 'Live_VisitorLog'|translate }}{% endif %}</h2>
-    {% if reportDocumentation is not empty %}
-        <div class="reportDocumentation"><p>{{ reportDocumentation|raw }}</p></div>
-    {% endif %}
+{% if reportDocumentation is not empty %}
+    <div class="reportDocumentation"><p>{{ reportDocumentation|raw }}</p></div>
 {% endif %}
 {% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
 
