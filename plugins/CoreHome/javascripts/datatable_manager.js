@@ -150,11 +150,9 @@
          *                   it cannot be found.
          */
         getDataTableByReport: function (report) {
-            var reportWithoutDot = report.replace('.', '');
-
             var result = undefined;
             $('.dataTable').each(function () {
-                if ($(this).attr('data-report') == reportWithoutDot) {
+                if ($(this).attr('data-report') == report) {
                     result = this;
                     return false;
                 }
