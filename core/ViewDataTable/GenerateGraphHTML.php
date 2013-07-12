@@ -145,12 +145,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
         }
 
         // collect data
-        $jsonParameters = array();
-        foreach ($this->getJavaScriptProperties() as $name) {
-            $jsonParameters[$name] = $this->viewProperties[$name];
-        }
         $this->parametersToModify['action'] = $this->currentControllerAction;
-        $this->parametersToModify = array_merge($jsonParameters, $this->parametersToModify);
         $this->graphData = $this->getGraphData();
 
         // build view
