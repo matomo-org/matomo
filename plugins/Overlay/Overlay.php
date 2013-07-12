@@ -11,6 +11,9 @@
 
 class Piwik_Overlay extends Piwik_Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -21,6 +24,9 @@ class Piwik_Overlay extends Piwik_Plugin
         );
     }
 
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
     function getListHooksRegistered()
     {
         return array(
@@ -28,6 +34,10 @@ class Piwik_Overlay extends Piwik_Plugin
         );
     }
 
+    /**
+     * Returns required Js Files
+     * @param $jsFiles
+     */
     public function getJsFiles(&$jsFiles)
     {
         $jsFiles[] = 'plugins/Overlay/javascripts/rowaction.js';

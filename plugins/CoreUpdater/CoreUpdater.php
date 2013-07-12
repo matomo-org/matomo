@@ -15,6 +15,9 @@
  */
 class Piwik_CoreUpdater extends Piwik_Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -25,7 +28,10 @@ class Piwik_CoreUpdater extends Piwik_Plugin
         );
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         $hooks = array(
             'FrontController.dispatchCoreAndPluginUpdatesScreen' => 'dispatch',

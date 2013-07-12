@@ -15,6 +15,9 @@
  */
 class Piwik_Login extends Piwik_Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         $info = array(
@@ -26,6 +29,9 @@ class Piwik_Login extends Piwik_Plugin
         return $info;
     }
 
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
     public function getListHooksRegistered()
     {
         $hooks = array(

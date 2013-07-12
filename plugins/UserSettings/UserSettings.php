@@ -15,6 +15,9 @@
  */
 class Piwik_UserSettings extends Piwik_Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -164,11 +167,9 @@ class Piwik_UserSettings extends Piwik_Plugin
     );
 
     /**
-     * returns list of hooks
-     *
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
-    function getListHooksRegistered()
+    public function getListHooksRegistered()
     {
         $hooks = array(
             'ArchiveProcessing_Day.compute'            => 'archiveDay',

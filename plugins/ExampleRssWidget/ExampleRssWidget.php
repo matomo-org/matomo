@@ -16,11 +16,7 @@
 class Piwik_ExampleRssWidget extends Piwik_Plugin
 {
     /**
-     * Return information about this plugin.
-     *
-     * @see Piwik_Plugin
-     *
-     * @return array
+     * @see Piwik_Plugin::getInformation
      */
     public function getInformation()
     {
@@ -33,9 +29,7 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
     }
 
     /**
-     * Returns a list of registered hooks.
-     *
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

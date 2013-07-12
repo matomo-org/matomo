@@ -61,6 +61,9 @@ class Piwik_Goals extends Piwik_Plugin
         return $columns;
     }
 
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         $info = array(
@@ -73,7 +76,10 @@ class Piwik_Goals extends Piwik_Plugin
         return $info;
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         $hooks = array(
             'AssetManager.getJsFiles'          => 'getJsFiles',

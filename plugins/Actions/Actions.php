@@ -33,7 +33,10 @@ class Piwik_Actions extends Piwik_Plugin
             'avg_time_generation' => Piwik_Translate('General_ColumnAverageGenerationTime'),
         );
     }
-    
+
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         $info = array(
@@ -45,6 +48,9 @@ class Piwik_Actions extends Piwik_Plugin
         return $info;
     }
 
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
     public function getListHooksRegistered()
     {
         $hooks = array(
