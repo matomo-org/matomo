@@ -5,12 +5,12 @@
                {% if columnDocumentation[column] is not empty %}
                    <div class="columnDocumentation">
                        <div class="columnDocumentationTitle">
-                           {{ columnTranslations[column] }}
+                           {{ columnTranslations[column]|raw }}
                        </div>
                        {{ columnDocumentation[column] }}
                    </div>
                {% endif %}
-               <div id="thDIV">{{ columnTranslations[column] }}</div>
+               <div id="thDIV">{{ columnTranslations[column]|raw }}</div>
            </th>
        {% endfor %}
    </tr>
