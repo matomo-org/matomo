@@ -81,7 +81,7 @@ class Piwik_DBStats extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/DBStats/stylesheets/dbstatsTable.css";
+        $cssFiles[] = "plugins/DBStats/stylesheets/dbStatsTable.less";
     }
 
     /** Returns the date when the cacheDataByArchiveNameReports was last run. */

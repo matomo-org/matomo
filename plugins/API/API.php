@@ -62,7 +62,7 @@ class Piwik_API extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/API/stylesheets/listAllAPI.css";
+        $cssFiles[] = "plugins/API/stylesheets/listAllAPI.less";
     }
 }
 

@@ -19,6 +19,7 @@ $(document).ready(function () {
         .text(select.children(':selected').text())
         .autocomplete({
             delay: 0,
+            position: { my : "right top", at: "right bottom" },
             minLength: 0,
             appendTo: '#languageSelection',
             source: function (request, response) {

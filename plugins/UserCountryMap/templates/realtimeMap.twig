@@ -26,7 +26,7 @@
     {% if mapIsStandaloneNotWidget %}
     function initStandaloneMap() {
         $('.top_controls').hide();
-        $('ul.nav').on('piwikSwitchPage', function (event, item) {
+        $('.nav').on('piwikSwitchPage', function (event, item) {
             var clickedMenuIsNotMap = ($(item).text() != "{{ 'UserCountryMap_RealTimeMap'|translate|e('js') }}");
             if (clickedMenuIsNotMap) {
                 $('.top_controls').show();

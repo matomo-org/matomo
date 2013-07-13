@@ -110,7 +110,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 
     public function getCssFiles($cssFiles)
     {
-        $cssFiles[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.css";
+        $cssFiles[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
     }
     
     public function validateReportParameters(&$parameters, $info)
