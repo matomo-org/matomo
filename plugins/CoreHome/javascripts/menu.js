@@ -68,7 +68,7 @@ menu.prototype =
                 $(this).attr({id: module + '_' + action});
             }
         });
-        
+
         menu.prototype.adaptSubMenuHeight();
     },
 

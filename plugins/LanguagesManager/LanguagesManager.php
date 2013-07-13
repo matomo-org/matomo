@@ -40,7 +40,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Zeitgeist/stylesheets/styles.css";
+        $cssFiles[] = "plugins/Zeitgeist/stylesheets/base.less";
     }
 
     public function getJsFiles(&$jsFiles)

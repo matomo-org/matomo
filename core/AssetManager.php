@@ -186,7 +186,7 @@ class Piwik_AssetManager
     {
         $priorityCssOrdered = array(
             'libs/',
-            'plugins/Zeitgeist/stylesheets/common.css',
+            'plugins/Zeitgeist/stylesheets/base.less',
             'plugins/Zeitgeist/stylesheets/',
             'plugins/',
         );
