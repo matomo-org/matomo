@@ -13,12 +13,16 @@ menu.prototype =
 {
     resetTimer: null,
 
+    adaptSubMenuHeight: function() {
+        var subNavHeight = $('.sfHover > ul').outerHeight();
+        $('.nav_sep').height(subNavHeight);
+    },
+
     overMainLI: function () {
         var $this = $(this);
         $this.siblings().removeClass('sfHover');
         $this.addClass('sfHover');
-        var subNavHeight = $this.find('> ul').outerHeight();
-        $('.nav_sep').height(subNavHeight);
+        menu.prototype.adaptSubMenuHeight();
         clearTimeout(menu.prototype.resetTimer);
     },
 
@@ -64,6 +68,8 @@ menu.prototype =
                 $(this).attr({id: module + '_' + action});
             }
         });
+        
+        menu.prototype.adaptSubMenuHeight();
     },
 
     activateMenu: function (module, action, id) {
