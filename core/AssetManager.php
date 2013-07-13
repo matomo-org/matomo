@@ -91,6 +91,9 @@ class Piwik_AssetManager
         }
         $rootDirectoryLen = strlen($rootDirectory);
 
+        if(!class_exists("lessc")) {
+            throw new Exception("Less was added to composer during 2.0. ==> Excecute this command to update composer packages: \$ php composer.phar update");
+        }
         $less = new lessc;
 
         // Loop through each css file
