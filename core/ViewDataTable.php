@@ -173,6 +173,7 @@ abstract class Piwik_ViewDataTable
             Piwik_Metrics::getDefaultMetrics(),
             Piwik_Metrics::getDefaultProcessedMetrics()
         );
+        $this->viewProperties['request_parameters_to_modify'] = array();
         $this->viewProperties['columns_to_display'] = array();
 
         $columns = Piwik_Common::getRequestVar('columns', false);
@@ -536,11 +537,11 @@ abstract class Piwik_ViewDataTable
             return;
         }
 
-        // we build the request string (URL) to call the API
-        $requestString = $this->getRequestString();
+        // we build the request (URL) to call the API
+        $requestArray = $this->getRequestArray();
 
         // we make the request to the API
-        $request = new Piwik_API_Request($requestString);
+        $request = new Piwik_API_Request($requestArray);
 
         // and get the DataTable structure
         $dataTable = $request->process();
@@ -589,8 +590,8 @@ abstract class Piwik_ViewDataTable
 
         if (!$this->areGenericFiltersDisabled()) {
             // Second, generic filters (Sort, Limit, Replace Column Names, etc.)
-            $requestString = $this->getRequestString();
-            $request = Piwik_API_Request::getRequestArrayFromString($requestString);
+            $requestArray = $this->getRequestArray();
+            $request = Piwik_API_Request::getRequestArrayFromString($requestArray);
 
             if (!empty($this->viewProperties['enable_sort'])
                 && $this->viewProperties['enable_sort'] === 'false'
@@ -692,15 +693,17 @@ abstract class Piwik_ViewDataTable
     /**
      * @return string URL to call the API, eg. "method=Referers.getKeywords&period=day&date=yesterday"...
      */
-    protected function getRequestString()
+    protected function getRequestArray()
     {
-        // we prepare the string to give to the API Request
+        // we prepare the array to give to the API Request
         // we setup the method and format variable
         // - we request the method to call to get this specific DataTable
         // - the format = original specifies that we want to get the original DataTable structure itself, not rendered
-        $requestString = 'method=' . $this->viewProperties['apiMethodToRequestDataTable'];
-        $requestString .= '&format=original';
-        $requestString .= '&disable_generic_filters=' . Piwik_Common::getRequestVar('disable_generic_filters', 1, 'int');
+        $requestArray = array(
+            'method' => $this->viewProperties['apiMethodToRequestDataTable'],
+            'format' => 'original',
+            'disable_generic_filters' => Piwik_Common::getRequestVar('disable_generic_filters', 1, 'int')
+        );
 
         $toSetEventually = array(
             'filter_limit',
@@ -717,26 +720,18 @@ abstract class Piwik_ViewDataTable
         foreach ($toSetEventually as $varToSet) {
             $value = $this->getDefaultOrCurrent($varToSet);
             if (false !== $value) {
-                if (is_array($value)) {
-                    foreach ($value as $v) {
-                        $requestString .= "&" . $varToSet . '[]=' . $v;
-                    }
-                } else {
-                    $requestString .= '&' . $varToSet . '=' . $value;
-                }
+                $requestArray[$varToSet] = $value;
             }
         }
-
+        
         $segment = $this->getRawSegmentFromRequest();
         if(!empty($segment)) {
-            $requestString .= '&segment=' . $segment;
+            $requestArray['segment'] = $segment;
         }
         
-        if (!empty($this->viewProperties['request_string_suffix'])) {
-            $requestString .= $this->viewProperties['request_string_suffix'];
-        }
+        $requestArray = array_merge($requestArray, $this->viewProperties['request_parameters_to_modify']);
         
-        return $requestString;
+        return $requestArray;
     }
 
     /**
@@ -933,13 +928,13 @@ abstract class Piwik_ViewDataTable
     }
     
     /**
-     * Makes sure the supplied suffix is appended to the URL used to query API data.
+     * Sets a set of extra request query parameters to be used when querying API data.
      * 
-     * @param string $suffix
+     * @param array $params
      */
-    public function setRequestStringSuffix($suffix)
+    public function setRequestParametersToModify($params)
     {
-        $this->viewProperties['request_string_suffix'] = $suffix;
+        $this->viewProperties['request_parameters_to_modify'] = $params;
     }
 
     /**

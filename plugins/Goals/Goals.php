@@ -605,7 +605,7 @@ class Piwik_Goals extends Piwik_Plugin
             unset($columns['orders']);
             unset($columns['conversion_rate']);
             
-            $result['request_string_suffix'] = '&abandonedCarts=1';
+            $result['request_parameters_to_modify'] = array('abandonedCarts' => '1');
         }
         
         $result['translations'] = array_merge(array('label' => $label), $columns);
