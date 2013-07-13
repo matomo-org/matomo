@@ -173,17 +173,12 @@ abstract class Piwik_ViewDataTable
             Piwik_Metrics::getDefaultMetrics(),
             Piwik_Metrics::getDefaultProcessedMetrics()
         );
+        $this->viewProperties['columns_to_display'] = array();
 
-        $this->viewProperties['columns_to_display'][] = 'label';
-        
         $columns = Piwik_Common::getRequestVar('columns', false);
         if ($columns !== false) {
-            $this->viewProperties['columns_to_display'] = array_merge(
-                $this->viewProperties['columns_to_display'], Piwik::getArrayFromApiParameter($columns));
-        } else if (Piwik_Common::getRequestVar('period', false) == 'day') {
-            $this->viewProperties['columns_to_display'][] = 'nb_uniq_visitors';
-        } else {
-            $this->viewProperties['columns_to_display'][] = 'nb_visits';
+            $this->viewProperties['columns_to_display'] = Piwik::getArrayFromApiParameter($columns);
+            array_unshift($this->viewProperties['columns_to_display'], 'label');
         }
     }
 
@@ -616,6 +611,27 @@ abstract class Piwik_ViewDataTable
                 $this->dataTable->filter($filterName, $filterParameters);
             }
         }
+        
+        // default columns_to_display to label, nb_uniq_visitors/nb_visits if those columns exist in the
+        // dataset
+        if ($this->dataTable instanceof Piwik_DataTable) {
+            $columns = $this->dataTable->getColumns();
+            if (empty($this->viewProperties['columns_to_display'])
+                && $this->dataTableColumnsContains($columns, array('nb_visits', 'nb_uniq_visitors'))
+            ) {
+                $columnsToDisplay = array('label');
+                
+                // if unique visitors data is available, show it, otherwise just visits
+                if ($this->dataTableColumnsContains($columns, 'nb_uniq_visitors')) {
+                    $columnsToDisplay[] = 'nb_uniq_visitors';
+                } else {
+                    $columnsToDisplay[] = 'nb_visits';
+                }
+                
+                $this->viewProperties['columns_to_display'] = $columnsToDisplay;
+            }
+        }
+        
         return true;
     }
 
@@ -1609,5 +1625,34 @@ abstract class Piwik_ViewDataTable
         return Piwik_Common::getRequestVar('filter_column_recursive', false) !== false
              && Piwik_Common::getRequestVar('filter_pattern_recursive', false) !== false
              && Piwik_Common::getRequestVar('flat', false) === false;
+    }
+    
+    /**
+     * Returns true if the first array contains one or more of the specified
+     * column names or their associated integer INDEX_ value.
+     * 
+     * @param array $columns Piwik_DataTable_Row columns.
+     * @param array|string $columnsToCheckFor eg, array('nb_visits', 'nb_uniq_visitors')
+     * @return bool
+     */
+    private function dataTableColumnsContains($columns, $columnsToCheckFor)
+    {
+        if (!is_array($columnsToCheckFor)) {
+            $columnsToCheckFor = array($columnsToCheckFor);
+        }
+        
+        foreach ($columnsToCheckFor as $columnToCheckFor) {
+            foreach ($columns as $column) {
+                // check for the column name and its associated integer INDEX_ value
+                if ($column == $columnToCheckFor
+                    || (isset(Piwik_Metrics::$mappingFromNameToId[$columnToCheckFor])
+                        && $column == Piwik_Metrics::$mappingFromNameToId[$columnToCheckFor])
+                ) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 }

@@ -132,7 +132,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
             $nbColumns = count($columns);
             // case no data in the array we use the number of columns set to be displayed
             if ($nbColumns == 0) {
-                $nbColumns = count($this->columnsToDisplay);
+                $nbColumns = count($this->viewProperties['columns_to_display']);
             }
 
             $view->dataTable = $this->dataTable;

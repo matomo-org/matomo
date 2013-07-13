@@ -694,6 +694,23 @@ class Piwik_DataTable
         }
         return $columnValues;
     }
+    
+    /**
+     * Returns the list of columns the rows in this datatable contain. This will return the
+     * columns of the first row with data and assume they occur in every other row as well.
+     * 
+     * @return array
+     */
+    public function getColumns()
+    {
+        foreach ($this->getRows() as $row) {
+            $columns = $row->getColumns();
+            if (!empty($columns)) {
+                return array_keys($columns);
+            }
+        }
+        return array();
+    }
 
     /**
      * Returns an array containing the rows Metadata values
