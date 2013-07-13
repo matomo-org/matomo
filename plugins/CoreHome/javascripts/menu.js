@@ -13,9 +13,16 @@ menu.prototype =
 {
     resetTimer: null,
 
+    adaptSubMenuHeight: function() {
+        var subNavHeight = $('.sfHover > ul').outerHeight();
+        $('.nav_sep').height(subNavHeight);
+    },
+
     overMainLI: function () {
-        $(this).siblings().removeClass('sfHover');
-        $(this).addClass('sfHover');
+        var $this = $(this);
+        $this.siblings().removeClass('sfHover');
+        $this.addClass('sfHover');
+        menu.prototype.adaptSubMenuHeight();
         clearTimeout(menu.prototype.resetTimer);
     },
 
@@ -28,7 +35,7 @@ menu.prototype =
     },
 
     onItemClick: function (item) {
-        $('ul.nav').trigger('piwikSwitchPage', item);
+        $('.nav').trigger('piwikSwitchPage', item);
         broadcast.propagateAjax( $(item).attr('href').substr(1) );
         return false;
     },
@@ -61,6 +68,8 @@ menu.prototype =
                 $(this).attr({id: module + '_' + action});
             }
         });
+
+        menu.prototype.adaptSubMenuHeight();
     },
 
     activateMenu: function (module, action, id) {

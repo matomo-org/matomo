@@ -73,7 +73,7 @@ class Piwik_UserCountryMap extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/UserCountryMap/stylesheets/visitor-map.css";
-        $cssFiles[] = "plugins/UserCountryMap/stylesheets/realtime-map.css";
+        $cssFiles[] = "plugins/UserCountryMap/stylesheets/visitor-map.less";
+        $cssFiles[] = "plugins/UserCountryMap/stylesheets/realtime-map.less";
     }
 }

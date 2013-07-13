@@ -249,7 +249,7 @@ JQPlot.prototype = {
 
         if (typeof $.jqplot.visiblePlots == 'undefined') {
             $.jqplot.visiblePlots = [];
-            $('ul.nav').on('piwikSwitchPage', function () {
+            $('.nav').on('piwikSwitchPage', function () {
                 for (var i = 0; i < $.jqplot.visiblePlots.length; i++) {
                     if ($.jqplot.visiblePlots[i] == null) {
                         continue;

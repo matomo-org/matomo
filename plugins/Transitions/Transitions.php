@@ -40,7 +40,7 @@ class Piwik_Transitions extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = 'plugins/Transitions/stylesheets/transitions.css';
+        $cssFiles[] = 'plugins/Transitions/stylesheets/transitions.less';
     }
 
     public function getJsFiles(&$jsFiles)

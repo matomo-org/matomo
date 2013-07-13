@@ -6,7 +6,7 @@
  */
 (function ($) {
 
-    $(document).ready(function () {
+    $(function() {
         var switchForm = function (fromFormId, toFormId, message, callback) {
             var fromLoginInputId = '#' + fromFormId + '_login',
                 toLoginInputId = '#' + toFormId + '_login',

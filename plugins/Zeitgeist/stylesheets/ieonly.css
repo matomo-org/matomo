@@ -40,25 +40,3 @@ input[type=checkbox], input[type=radio] {
 	margin: 0;
 	padding: 0;
 }
-
-
-/**
- * IE7 fixes
- */
-
-/* position of sub nav */
-*+html .pageWrap {
-	padding-top: 0!important;
-}
-*+html .nav_sep {
-	margin-top: 0!important;
-}
-
-*+html .ui-confirm.ui-widget-content {
-    padding-top: 0;
-}
-
-* html .ui-autocomplete {
-    height: 400px;
-}
-

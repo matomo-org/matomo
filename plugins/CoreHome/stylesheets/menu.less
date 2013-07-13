@@ -1,0 +1,131 @@
+.nav {
+  position: relative;
+}
+
+.nav_tab {
+    line-height: 1;
+    display: table;      // The nav has the height og his children
+    margin-bottom: -1px; // Allow tabs to merge with the submenu
+}
+
+.nav_tab ul {
+    background: #fff; /*IE6 needs this*/
+    float: left;
+    position: relative;
+}
+
+/* LEVEL1 NORMAL */
+.nav_tab > li {
+    background: #f1f1f1;
+    float: left;
+    list-style: none;
+    z-index: 49;
+    margin-right: -1px;
+    border: 1px solid #ddd;
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+}
+
+.nav_tab a {
+    color: #444;
+    font-size: 18px;
+    display: block;
+    float: left;
+    padding: 8px 27px 0 27px;
+    height: 25px;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+/* LEVEL1 HOVER */
+.nav_tab > li:hover,
+.nav_tab > li.sfHover {
+    background: #fff;
+}
+
+.nav_tab > li:hover > a,
+.nav_tab > li.sfHover > a,
+.nav_tab > li.sfActive a,
+.nav_tab a:hover {
+    color: #e87500;
+}
+
+.nav_tab > li:hover > a {
+    text-decoration: underline;
+}
+
+.nav_tab > li.sfHover > a {
+    border-bottom: 1px solid #fff;
+}
+
+/* LEVEL2 NORMAL */
+.nav_tab > li > ul {
+  padding: 9px 0 5px 0;
+  left: 0;
+  top: -999em;
+  position: absolute;
+  min-height: 25px;
+  width: 100%;
+  background: none;
+}
+
+.nav_tab > li li {
+    float: left;
+    background: none;
+    border: 0;
+    text-align: center;
+}
+
+.nav_tab > li li > a {
+    padding: 5px 15px;
+    font-size: 14px;
+    border: 0;
+    float: none;
+    display: inline-block;
+    height: auto;
+    background: none;
+    color: #444;
+    text-decoration: none;
+}
+
+/* LEVEL2 HOVER */
+.nav_tab > li.sfHover > ul,
+.nav_tab > li:hover > ul {
+  z-index: 50;
+  top: 100%;
+  opacity: 1;
+  -webkit-transition: opacity 300ms ease-out 10ms; /* property duration timing-function delay */
+  -moz-transition: opacity 300ms ease-out 10ms;
+  -o-transition: opacity 300ms ease-out 10ms;
+  transition: opacity 300ms ease-out 10ms;
+}
+
+.nav_tab > li li:hover > a,
+.nav_tab > li li.sfHover > a {
+    color: #e87500;
+}
+
+.nav_tab > li li.sfHover > a {
+    font-weight: bold;
+    text-decoration: none !important;
+}
+
+@media all and (max-width: 949px) {
+  .nav {
+    clear: right;
+  }
+}
+
+@media all and (max-width: 749px) {
+  .nav_tab a {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+@media all and (max-width: 549px) {
+  ul.nav_tab > li.sfHover > a,
+  ul.nav_tab > li.sfActive.sfHover > a {
+    border-bottom: 0;
+  }
+}

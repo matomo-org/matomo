@@ -292,7 +292,7 @@ table thead div {
     height: 17px;
     overflow: hidden;
     opacity: 0;
-    filter: Alpha(opacity:0);
+    filter: Alpha(opacity=0);
     cursor: pointer;
 }
 
@@ -307,7 +307,7 @@ table thead div {
     padding: 2px 6px;
     opacity: 1;
     cursor: text;
-    filter: Alpha(opacity:100);
+    filter: Alpha(opacity=100);
 }
 
 .dataTableNext, .dataTablePrevious {
@@ -382,8 +382,6 @@ table thead div {
     margin: 0 1px 0 0;
     padding: 2px;
     border-radius: 2px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
 }
 
 .tableIcon:hover {
@@ -407,8 +405,6 @@ table thead div {
     padding: 4px 6px 3px 6px;
     color: #968d7f;
     border-radius: 2px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
 }
 
 .exportToFormatItems img {
@@ -435,8 +431,6 @@ table thead div {
     float: left;
     background: #dcdacf;
     border-radius: 2px;
-    -moz-border-radius: 2px;
-    -webkit-border-radius: 2px;
 }
 
 .tableIconsGroupActive .tableIcon {
@@ -525,12 +519,8 @@ table.dataTable th .columnDocumentation {
     border: 1px solid #e4e5e4;
     padding: 5px 10px 6px 10px;
     border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
     z-index: 125;
     position: absolute;
-    -moz-box-shadow: 0 0 4px #e4e5e4;
-    -webkit-box-shadow: 0 0 4px #e4e5e4;
     box-shadow: 0 0 4px #e4e5e4;
     cursor: default;
 }
@@ -551,8 +541,6 @@ table.dataTable th .columnDocumentationTitle {
     margin: 0 0 10px 0;
     padding: 0;
     border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
     max-width: 500px;
 }
 
@@ -645,8 +633,6 @@ body .ui-tooltip.rowActionTooltip {
 .limitSelection div {
     border: 1px solid #DFDFDF;
     border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
     background: url(../../Zeitgeist/images/sort_subtable_desc_light.png) no-repeat right 2px;
     padding: 0 14px 0 4px;
     display: block;
@@ -658,13 +644,11 @@ body .ui-tooltip.rowActionTooltip {
 .limitSelection.disabled div {
     opacity: 0.5;
     cursor: not-allowed;
-    filter: Alpha(opacity:50);
+    filter: Alpha(opacity=50);
 }
 
 .limitSelection.visible div {
     border-radius: 0 0 4px 4px;
-    -moz-border-radius: 0 0 4px 4px;
-    -webkit-border-radius: 0 0 4px 4px;
     background-image: url(../../Zeitgeist/images/sort_subtable_asc_light.png)
 }
 
@@ -692,8 +676,6 @@ body .ui-tooltip.rowActionTooltip {
 .limitSelection ul li.last {
     border-top: 1px solid #DFDFDF;
     border-radius: 4px 4px 0 0;
-    -moz-border-radius: 4px 4px 0 0;
-    -webkit-border-radius: 4px 4px 0 0;
 }
 
 .limitSelection ul li:hover {
@@ -760,8 +742,6 @@ a.tableConfigurationIcon.highlighted {
 .tableConfiguration ul li.firstDummy {
     border-bottom: 1px solid #DFDFDF;
     border-radius: 0 0 4px 4px;
-    -moz-border-radius: 0 0 4px 4px;
-    -webkit-border-radius: 0 0 4px 4px;
     height: 25px;
     cursor: default;
     margin-top: -4px;
@@ -774,8 +754,6 @@ a.tableConfigurationIcon.highlighted {
 .tableConfiguration ul li.last {
     border-top: 1px solid #DFDFDF;
     border-radius: 4px 4px 0 0;
-    -moz-border-radius: 4px 4px 0 0;
-    -webkit-border-radius: 4px 4px 0 0;
 }
 
 .tableConfiguration div.configItem {

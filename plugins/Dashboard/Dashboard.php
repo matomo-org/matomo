@@ -243,8 +243,8 @@ class Piwik_Dashboard extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/CoreHome/stylesheets/datatable.css";
-        $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.css";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/dataTable.less";
+        $cssFiles[] = "plugins/Dashboard/stylesheets/dashboard.less";
     }
 
     public function deleteDashboardLayout($userLogin)
