@@ -126,7 +126,7 @@ textarea {
 input, select, textarea {
   border-radius: 4px;
   border: 1px solid #d4d4d4;
-  background: #ffffff url(../../images/inp_bg.png) repeat-x 0 0;
+  background: #ffffff url(plugins/Zeitgeist/images/inp_bg.png) repeat-x 0 0;
   padding: 3px 10px;
   color: #255792;
   margin-bottom: 3px;
@@ -209,7 +209,7 @@ html.old-ie .ie-hide {
   padding: 3px 10px;
   border-radius: 4px;
   border: 0;
-  background: #847b6d url(../../images/dashboard_h_bg_hover.png) repeat-x 0 0;
+  background: #847b6d url(plugins/Zeitgeist/images/dashboard_h_bg_hover.png) repeat-x 0 0;
   float: right;
   margin: 12px 0 10px 0;
   cursor: pointer;
@@ -291,7 +291,7 @@ table.entityTable tr td a {
   padding: 4px 0;
 }
 .entityList ul li {
-  background: #ffffff url(../../images/li_dbl_gray.gif) no-repeat 6px 10px;
+  background: #ffffff url(plugins/Zeitgeist/images/li_dbl_gray.gif) no-repeat 6px 10px;
   padding: 0 0 0 21px;
   line-height: 22px;
 }
@@ -498,7 +498,7 @@ body .ui-tooltip.small {
   margin: -8px 0 0 0;
   padding: 0;
   height: 16px;
-  background: url(../../images/help.png);
+  background: url(plugins/Zeitgeist/images/help.png);
   overflow: hidden;
 }
 /* Component styles */
@@ -544,6 +544,59 @@ body .ui-tooltip.small {
   padding: 0 5px;
   display: inline-block;
 }
+/* About Piwik box top right */
+#header_message {
+  z-index: 0;
+  cursor: default;
+  position: absolute;
+  right: 4px;
+  overflow: hidden;
+  display: block;
+  height: 20px;
+  line-height: 20px;
+  padding: 5px 8px 5px 38px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+#header_message:hover, #header_message.active {
+  width: auto;
+  height: auto;
+  z-index: 35;
+}
+#header_message .header_short {
+  display: block;
+  white-space: nowrap;
+}
+#header_message .header_full {
+  display: none;
+}
+#header_message:hover .header_short, #header_message.active .header_short {
+  display: none;
+}
+#header_message:hover .header_full, #header_message.active .header_full {
+  display: block;
+}
+.header_full {
+  padding-bottom: 5px;
+  line-height: 1.7em;
+}
+/* Orange alerts box */
+.header_alert {
+  background: #fffdf7 url(plugins/Zeitgeist/images/ico_alert.png) no-repeat 7px 4px;
+  border: 1px solid #FF7F00;
+  font-weight: bold;
+}
+.header_alert, .header_alert a {
+  color: #FF7F00;
+}
+/* Blue info box */
+.header_info {
+  background: #fafafa url(plugins/Zeitgeist/images/ico_info.png) no-repeat 7px 4px;
+  border: 1px solid #CBD9EB;
+}
+.header_info, .header_info a {
+  color: #444;
+}
 /*sites_autocomplete*/
 .sites_autocomplete {
   position: absolute;
@@ -572,7 +625,7 @@ body .ui-tooltip.small {
   position: relative;
   z-index: 19;
   padding: 6px 6px 5px 6px;
-  background: #ffffff url(../../images/sites_selection.png) repeat-x 0 0;
+  background: #ffffff url(plugins/Zeitgeist/images/sites_selection.png) repeat-x 0 0;
   border: 1px solid #d4d4d4;
   color: #255792;
   border-radius: 4px;
@@ -581,7 +634,7 @@ body .ui-tooltip.small {
   padding: 0 20px 0 4px;
   display: block;
   text-decoration: none;
-  background: url(../../images/sort_subtable_desc.png) no-repeat right 0;
+  background: url(plugins/Zeitgeist/images/sort_subtable_desc.png) no-repeat right 0;
 }
 .sites_autocomplete .custom_select_main_link.noselect {
   padding: 0 8px;
@@ -590,7 +643,7 @@ body .ui-tooltip.small {
   background: none;
 }
 .sites_autocomplete .custom_select_loading {
-  background: url(../../images/loading-blue.gif) no-repeat right 3px;
+  background: url(plugins/Zeitgeist/images/loading-blue.gif) no-repeat right 3px;
 }
 .sites_autocomplete .custom_select_ul_list, .sites_autocomplete ul.ui-autocomplete {
   position: relative;
@@ -617,7 +670,7 @@ body .ui-tooltip.small {
   height: 26px;
   display: block;
   white-space: nowrap;
-  background: url(../../images/search_bg.png) no-repeat 0 0;
+  background: url(plugins/Zeitgeist/images/search_bg.png) no-repeat 0 0;
 }
 .sites_autocomplete .custom_select_search .inp {
   vertical-align: top;
@@ -679,7 +732,7 @@ body .ui-tooltip.small {
   position: absolute;
   right: 9px;
   top: 7px;
-  background: url("../../images/icon-calendar.gif") no-repeat scroll;
+  background: url("plugins/Zeitgeist/images/icon-calendar.gif") no-repeat scroll;
   cursor: pointer;
 }
 #periodString #date {
@@ -757,59 +810,6 @@ body .ui-tooltip.small {
 #languageSelect a:hover {
   background: #176999!important;
   color: #FFF!important;
-}
-/* About Piwik box top right */
-#header_message {
-  z-index: 0;
-  cursor: default;
-  position: absolute;
-  right: 4px;
-  overflow: hidden;
-  display: block;
-  height: 20px;
-  line-height: 20px;
-  padding: 5px 8px 5px 38px;
-  font-size: 14px;
-  border-radius: 4px;
-}
-#header_message:hover, #header_message.active {
-  width: auto;
-  height: auto;
-  z-index: 35;
-}
-#header_message .header_short {
-  display: block;
-  white-space: nowrap;
-}
-#header_message .header_full {
-  display: none;
-}
-#header_message:hover .header_short, #header_message.active .header_short {
-  display: none;
-}
-#header_message:hover .header_full, #header_message.active .header_full {
-  display: block;
-}
-.header_full {
-  padding-bottom: 5px;
-  line-height: 1.7em;
-}
-/* Orange alerts box */
-.header_alert {
-  background: #fffdf7 url(../../images/ico_alert.png) no-repeat 7px 4px;
-  border: 1px solid #FF7F00;
-  font-weight: bold;
-}
-.header_alert, .header_alert a {
-  color: #FF7F00;
-}
-/* Blue info box */
-.header_info {
-  background: #fafafa url(../../images/ico_info.png) no-repeat 7px 4px;
-  border: 1px solid #CBD9EB;
-}
-.header_info, .header_info a {
-  color: #444;
 }
 .loadingPiwik {
   font-size: 1.1em;
