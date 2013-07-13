@@ -214,15 +214,16 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
         }
     }
 
-    protected function getRequestString()
+    protected function getRequestArray()
     {
-        $requestString = parent::getRequestString();
+        $requestArray = parent::getRequestArray();
         if ($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
             || $this->isEcommerce
         ) {
-            $requestString .= "&idGoal=" . $this->processOnlyIdGoal;
+            $requestArray["idGoal"] = $this->processOnlyIdGoal;
         }
-        return $requestString . '&filter_update_columns_when_show_all_goals=1';
+        $requestArray['filter_update_columns_when_show_all_goals'] = 1;
+        return $requestArray;
     }
 
     protected $columnsToRevenueFilter = array();

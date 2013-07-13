@@ -26,10 +26,11 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
         parent::main();
     }
 
-    protected function getRequestString()
+    protected function getRequestArray()
     {
-        $requestString = parent::getRequestString();
-        return $requestString . '&filter_add_columns_when_show_all_columns=1';
+        $requestArray = parent::getRequestArray();
+        $requestArray['filter_add_columns_when_show_all_columns'] = 1;
+        return $requestArray;
     }
 
     protected function postDataTableLoadedFromAPI()

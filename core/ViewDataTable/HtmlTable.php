@@ -200,13 +200,13 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         $this->viewProperties['search_recursive'] = true;
     }
 
-    protected function getRequestString()
+    protected function getRequestArray()
     {
-        $requestString = parent::getRequestString();
+        $requestArray = parent::getRequestArray();
         if (parent::shouldLoadExpanded()) {
-            $requestString .= '&expanded=1';
+            $requestArray['expanded'] = 1;
         }
-        return $requestString;
+        return $requestArray;
     }
 
     /**
