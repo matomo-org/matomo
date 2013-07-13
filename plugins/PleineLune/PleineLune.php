@@ -35,6 +35,6 @@ class Piwik_PleineLune extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/PleineLune/stylesheets/theme.less";
+        //$cssFiles[] = "plugins/PleineLune/stylesheets/theme.less";
     }
 }
