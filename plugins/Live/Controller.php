@@ -73,6 +73,14 @@ class Piwik_Live_Controller extends Piwik_Controller
         }
         echo $rendered;
     }
+    
+    public function indexVisitorLog()
+    {
+        $view = new Piwik_View('@Live/indexVisitorLog.twig');
+        $view->filterEcommerce = Piwik_Common::getRequestVar('filterEcommerce', 0, 'int');
+        $view->visitorLog = $this->getVisitorLog($fetch = true);
+        echo $view->render();
+    }
 
     public function getVisitorLog($fetch = false)
     {

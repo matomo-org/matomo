@@ -20,11 +20,7 @@ class Piwik_UsersManager extends Piwik_Plugin
     const PASSWORD_MAX_LENGTH = 26;
 
     /**
-     * Plugin information
-     *
-     * @see Piwik_Plugin
-     *
-     * @return array
+     * @see Piwik_Plugin::getInformation
      */
     public function getInformation()
     {
@@ -39,11 +35,7 @@ class Piwik_UsersManager extends Piwik_Plugin
     }
 
     /**
-     * Get list of hooks to register.
-     *
-     * @see Piwik_PluginsManager.loadPlugin()
-     *
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

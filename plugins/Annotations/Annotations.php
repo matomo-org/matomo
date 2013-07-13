@@ -18,9 +18,7 @@
 class Piwik_Annotations extends Piwik_Plugin
 {
     /**
-     * Returns information about this plugin.
-     *
-     * @return array
+     * @see Piwik_Plugin::getInformation
      */
     public function getInformation()
     {
@@ -33,9 +31,7 @@ class Piwik_Annotations extends Piwik_Plugin
     }
 
     /**
-     * Returns list of event hooks.
-     *
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

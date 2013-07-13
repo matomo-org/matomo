@@ -19,6 +19,9 @@
  */
 class Piwik_VisitsSummary extends Piwik_Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         $info = array(
@@ -30,7 +33,10 @@ class Piwik_VisitsSummary extends Piwik_Plugin
         return $info;
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         return array(
             'API.getReportMetadata' => 'getReportMetadata',

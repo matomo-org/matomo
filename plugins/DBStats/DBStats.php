@@ -17,6 +17,9 @@ class Piwik_DBStats extends Piwik_Plugin
 {
     const TIME_OF_LAST_TASK_RUN_OPTION = 'dbstats_time_of_last_cache_task_run';
 
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -27,7 +30,10 @@ class Piwik_DBStats extends Piwik_Plugin
         );
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         return array(
             'AssetManager.getCssFiles'        => 'getCssFiles',

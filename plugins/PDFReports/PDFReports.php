@@ -53,6 +53,9 @@ class Piwik_PDFReports extends Piwik_Plugin
         Piwik_ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif'
     );
 
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -64,6 +67,9 @@ class Piwik_PDFReports extends Piwik_Plugin
         );
     }
 
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
     public function getListHooksRegistered()
     {
         return array(

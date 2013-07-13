@@ -14,7 +14,9 @@
  */
 class Piwik_API extends Piwik_Plugin
 {
-
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -25,6 +27,9 @@ class Piwik_API extends Piwik_Plugin
         );
     }
 
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
     public function getListHooksRegistered()
     {
         return array(

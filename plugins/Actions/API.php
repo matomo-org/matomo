@@ -38,25 +38,6 @@ class Piwik_Actions_API
         return self::$instance;
     }
 
-
-    /**
-     * Backward compatibility. Fallsback to getPageTitles() instead.
-     * @deprecated Deprecated since Piwik 0.5
-     * @ignore
-     *
-     * @param int $idSite
-     * @param string $period
-     * @param $date
-     * @param bool $segment
-     * @param bool $expanded
-     * @param bool|int $idSubtable
-     * @return Piwik_DataTable|Piwik_DataTable_Array
-     */
-    public function getActions($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
-    {
-        return $this->getPageTitles($idSite, $period, $date, $segment, $expanded, $idSubtable);
-    }
-
     /**
      * Returns the list of metrics (pages, downloads, outlinks)
      *

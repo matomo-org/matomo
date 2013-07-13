@@ -15,6 +15,9 @@
  */
 class Piwik_SecurityInfo extends Piwik_Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         $info = array(
@@ -26,7 +29,10 @@ class Piwik_SecurityInfo extends Piwik_Plugin
         return $info;
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         return array(
             'AdminMenu.add' => 'addMenu',

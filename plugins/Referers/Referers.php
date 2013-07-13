@@ -19,6 +19,9 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
  */
 class Piwik_Referers extends Piwik_Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -29,7 +32,10 @@ class Piwik_Referers extends Piwik_Plugin
         );
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         $hooks = array(
             'ArchiveProcessing_Day.compute'    => 'archiveDay',

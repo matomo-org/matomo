@@ -20,6 +20,9 @@ class Piwik_ImageGraph extends Piwik_Plugin
         'Referers_getAll',
     );
 
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -33,7 +36,10 @@ class Piwik_ImageGraph extends Piwik_Plugin
         );
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         $hooks = array(
             'API.getReportMetadata.end' => array('function' => 'getReportMetadata',

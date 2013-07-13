@@ -19,6 +19,9 @@ class Piwik_SitesManager extends Piwik_Plugin
     const KEEP_URL_FRAGMENT_YES = 1;
     const KEEP_URL_FRAGMENT_NO = 2;
 
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         $info = array(
@@ -30,7 +33,10 @@ class Piwik_SitesManager extends Piwik_Plugin
         return $info;
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         return array(
             'AssetManager.getJsFiles'       => 'getJsFiles',

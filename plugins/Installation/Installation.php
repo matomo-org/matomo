@@ -17,6 +17,9 @@ class Piwik_Installation extends Piwik_Plugin
 {
     protected $installationControllerName = 'Piwik_Installation_Controller';
 
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         $info = array(
@@ -29,7 +32,10 @@ class Piwik_Installation extends Piwik_Plugin
         return $info;
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         $hooks = array(
             'FrontController.NoConfigurationFile'  => 'dispatch',

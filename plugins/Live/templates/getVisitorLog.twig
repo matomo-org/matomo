@@ -2,11 +2,8 @@
      data-report="{{ properties.report_id }}"
      data-params="{{ javascriptVariablesToSet|json_encode }}">
 
-{% if not isWidget %}
-    <h2>{% if javascriptVariablesToSet.filterEcommerce %}{{ 'Goals_EcommerceLog'|translate }}{% else %}{{ 'Live_VisitorLog'|translate }}{% endif %}</h2>
-    {% if reportDocumentation is not empty %}
-        <div class="reportDocumentation"><p>{{ reportDocumentation|raw }}</p></div>
-    {% endif %}
+{% if reportDocumentation is not empty %}
+    <div class="reportDocumentation"><p>{{ reportDocumentation|raw }}</p></div>
 {% endif %}
 {% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
 
@@ -220,7 +217,7 @@
                                             <strong>{{ 'Goals_EcommerceOrder'|translate }}</strong>
                                             <span style='color:#666666'>({{ action.orderId }})</span>
                                         {% else %}
-                                            <strong>{'Goals_AbandonedCart'|translate}</strong>
+                                            <strong>{{'Goals_AbandonedCart'|translate}}</strong>
 
                                             {# TODO: would be nice to have the icons Orders / Cart in the ecommerce log footer #}
                                             {% if javascriptVariablesToSet.filterEcommerce == 2 %}
@@ -231,17 +228,17 @@
                                         <span {% if not isWidget %}style='margin-left:20px'{% endif %}>
 					                        {% if action.type == 'ecommerceOrder' %}
                                             <abbr title="
-                                                {{ 'Live_GoalRevenue'|translate }}: {{ action.revenue|money(javascriptVariablesToSet.idSite) }}
-                                                {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite) }}{% endif %}
-                                                {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(javascriptVariablesToSet.idSite) }}{% endif %}
-                                                {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(javascriptVariablesToSet.idSite) }}{% endif %}
-                                                {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(javascriptVariablesToSet.idSite) }}{% endif %}
+                                                {{ 'Live_GoalRevenue'|translate }}: {{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}
+                                                {% if action.revenueSubTotal is not empty %} - {{ 'General_Subtotal'|translate }}: {{ action.revenueSubTotal|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
+                                                {% if action.revenueTax is not empty %} - {{ 'General_Tax'|translate }}: {{ action.revenueTax|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
+                                                {% if action.revenueShipping is not empty %} - {{ 'General_Shipping'|translate }}: {{ action.revenueShipping|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
+                                                {% if action.revenueDiscount is not empty %} - {{ 'General_Discount'|translate }}: {{ action.revenueDiscount|money(javascriptVariablesToSet.idSite)|raw }}{% endif %}
                                                 ">{{ 'Live_GoalRevenue'|translate }}:
                                             {% else %}
                                                 {% set revenueLeft %}{{ 'Live_GoalRevenue'|translate }}{% endset %}
                                                 {{ 'Goals_LeftInCart'|translate(revenueLeft) }}:
                                             {% endif %}
-                                                <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite) }}</strong>
+                                                <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}</strong>
                                             {% if action.type == 'ecommerceOrder' %}
                                             </abbr>
                                             {% endif %}, {{ 'General_Quantity'|translate }}: {{ action.items }}
@@ -255,7 +252,7 @@
                                                             {% if product.itemCategory is not empty %} ({{ product.itemCategory }}){% endif %}
                                                             ,
                                                             {{ 'General_Quantity'|translate }}: {{ product.quantity }},
-                                                            {{ 'General_Price'|translate }}: {{ product.price|money(javascriptVariablesToSet.idSite) }}
+                                                            {{ 'General_Price'|translate }}: {{ product.price|money(javascriptVariablesToSet.idSite)|raw }}
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
@@ -290,7 +287,7 @@
                                         <img src="{{ action.icon }}" />
                                         <strong>{{ action.goalName }}</strong>
                                         {% if action.revenue > 0 %}, {{ 'Live_GoalRevenue'|translate }}:
-                                            <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite) }}</strong>
+                                            <strong>{{ action.revenue|money(javascriptVariablesToSet.idSite)|raw }}</strong>
                                         {% endif %}
                                     {% endif %}
                                 </li>

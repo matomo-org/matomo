@@ -17,16 +17,17 @@
  */
 class Piwik_ViewDataTable_GenerateGraphData_ChartPie extends Piwik_ViewDataTable_GenerateGraphData
 {
-    protected $graphLimit = 6;
-
     protected function getViewDataTableId()
     {
         return 'generateDataChartPie';
     }
 
-    function __construct()
+    public function __construct()
     {
+        parent::__construct();
+        
         $this->view = new Piwik_Visualization_Chart_Pie();
+        $this->viewProperties['graph_limit'] = 6;
     }
 
     /**

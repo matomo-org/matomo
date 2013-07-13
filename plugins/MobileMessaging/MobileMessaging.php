@@ -53,11 +53,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
     );
 
     /**
-     * Return information about this plugin.
-     *
-     * @see Piwik_Plugin
-     *
-     * @return array
+     * @see Piwik_Plugin::getInformation
      */
     public function getInformation()
     {
@@ -73,7 +69,10 @@ class Piwik_MobileMessaging extends Piwik_Plugin
         );
     }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         return array(
             'AdminMenu.add'                       => 'addMenu',

@@ -29,23 +29,11 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
     {
         return 'cloud';
     }
-
-    /**
-     * @see Piwik_ViewDataTable::init()
-     * @param string $currentControllerName
-     * @param string $currentControllerAction
-     * @param string $apiMethodToRequestDataTable
-     * @param null|string $controllerActionCalledWhenRequestSubTable
-     */
-    function init($currentControllerName,
-                  $currentControllerAction,
-                  $apiMethodToRequestDataTable,
-                  $controllerActionCalledWhenRequestSubTable = null)
+    
+    public function __construct()
     {
-        parent::init($currentControllerName,
-            $currentControllerAction,
-            $apiMethodToRequestDataTable,
-            $controllerActionCalledWhenRequestSubTable);
+        parent::__construct();
+        
         $this->dataTableTemplate = '@CoreHome/_dataTableCloud';
         $this->disableOffsetInformation();
         $this->disableExcludeLowPopulation();

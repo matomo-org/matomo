@@ -15,6 +15,9 @@
  */
 class Piwik_UserCountryMap extends Piwik_Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -40,6 +43,9 @@ class Piwik_UserCountryMap extends Piwik_Plugin
         $out .= Piwik_FrontController::getInstance()->fetchDispatch('UserCountryMap', 'visitorMap');
     }
 
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
     public function getListHooksRegistered()
     {
         $hooks = array(
