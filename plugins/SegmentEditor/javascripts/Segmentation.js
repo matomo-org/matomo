@@ -84,12 +84,14 @@ Segmentation = (function($) {
             {
                 var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
                 var foundItems = $(selector);
+                var title = $('<b></b>');
                 if( foundItems.length > 0) {
                     var name = $(foundItems).first().find("span.segname").text();
-                    segmentationTitle.html("<b>"+name+"</b>");
+                    title.text(name);
                 } else {
-                    segmentationTitle.html("<b>Custom Segment</b>");
+                    title.text("Custom Segment");
                 }
+                segmentationTitle.html(title);
             }
             else {
                 $(self.content).find(".segmentationTitle").text(self.translations['SegmentEditor_DefaultAllVisits']);
