@@ -56,7 +56,7 @@ menu.prototype =
             var module = broadcast.getValueFromUrl("module", url);
             var action = broadcast.getValueFromUrl("action", url);
             var moduleId = broadcast.getValueFromUrl("idGoal", url) || broadcast.getValueFromUrl("idDashboard", url);
-            var main_menu = $(this).parent().hasClass('nav') ? true : false;
+            var main_menu = $(this).parent().hasClass('nav_tab') ? true : false;
             if (main_menu) {
                 $(this).attr({id: module});
             }
