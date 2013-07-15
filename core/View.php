@@ -143,7 +143,7 @@ class Piwik_View implements Piwik_View_Interface
 
     protected function applyFilter_cacheBuster($output)
     {
-        $cacheBuster = md5(Piwik_Common::getSalt() . PHP_VERSION . Piwik_Version::VERSION);
+        $cacheBuster = Piwik_AssetManager::generateAssetsCacheBuster();
         $tag = 'cb=' . $cacheBuster;
 
         $pattern = array(

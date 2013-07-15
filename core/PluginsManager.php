@@ -188,7 +188,6 @@ class Piwik_PluginsManager
             }
         }
 
-        // Delete merged js/css files to force regenerations to exclude the deactivated plugin
         Piwik_Config::getInstance()->forceSave();
         Piwik::deleteAllCacheOnUpdate();
     }
@@ -248,7 +247,6 @@ class Piwik_PluginsManager
         $this->updatePluginsConfig($plugins);
         Piwik_Config::getInstance()->forceSave();
 
-        // Delete merged js/css files to force regenerations to include the activated plugin
         Piwik::deleteAllCacheOnUpdate();
     }
 
