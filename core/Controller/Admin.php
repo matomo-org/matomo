@@ -29,7 +29,12 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
         self::setBasicVariablesAdminView($view);
     }
 
-    static public function setBasicVariablesAdminView($view)
+    static public function displayWarningIfConfigFileNotWritable(Piwik_View $view )
+    {
+        $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
+    }
+
+    static public function setBasicVariablesAdminView(Piwik_View $view)
     {
         $statsEnabled = Piwik_Config::getInstance()->Tracker['record_statistics'];
         if ($statsEnabled == "0") {
@@ -63,6 +68,8 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
         }
         
         self::checkPhpVersion($view);
+
+        $view->menu = Piwik_GetAdminMenu();
     }
     
     /**

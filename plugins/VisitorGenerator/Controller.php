@@ -27,7 +27,6 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
         $view->nonce = Piwik_Nonce::getNonce('Piwik_VisitorGenerator.generate');
         $view->countActionsPerRun = count($this->getAccessLog());
         $view->accessLogPath = $this->getAccessLogPath();
-        $view->menu = Piwik_GetAdminMenu();
         echo $view->render();
     }
 
@@ -81,7 +80,6 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
         // Init view
         $view = new Piwik_View('@VisitorGenerator/generate');
         $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
         $view->assign('browserArchivingEnabled', $browserArchiving);
         $view->assign('timer', $timer);
         $view->assign('days', $daysToCompute);

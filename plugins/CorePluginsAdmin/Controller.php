@@ -17,8 +17,21 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 {
     function index()
     {
-        Piwik::checkUserIsSuperUser();
+        return $this->plugins();
+    }
 
+    function plugins()
+    {
+        Piwik::checkUserIsSuperUser();
+        $view = new Piwik_View('@CorePluginsAdmin/plugins');
+        $view->pluginsInfo = $this->getPluginsInfo();
+        $this->setBasicVariablesView($view);
+        $this->displayWarningIfConfigFileNotWritable($view);
+        echo $view->render();
+    }
+
+    protected function getPluginsInfo()
+    {
         $plugins = array();
 
         $listPlugins = array_merge(
@@ -50,13 +63,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
                 );
             }
         }
-
-        $view = new Piwik_View('@CorePluginsAdmin/index');
-        $view->pluginsName = $plugins;
-        $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
-        $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
-        echo $view->render();
+        return $plugins;
     }
 
     public function deactivate($redirectAfter = true)

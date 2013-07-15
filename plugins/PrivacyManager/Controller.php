@@ -118,9 +118,8 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
             $view->dbUser = Piwik_Config::getInstance()->database['username'];
         }
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
-        $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
+        $this->displayWarningIfConfigFileNotWritable($view);
         $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
 
         echo $view->render();
     }

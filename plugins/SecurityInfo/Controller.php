@@ -36,7 +36,6 @@ class Piwik_SecurityInfo_Controller extends Piwik_Controller_Admin
 
         $view = new Piwik_View('@SecurityInfo/index');
         $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
         $view->results = $results;
         echo $view->render();
     }

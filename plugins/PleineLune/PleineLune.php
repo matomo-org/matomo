@@ -23,6 +23,7 @@ class Piwik_PleineLune extends Piwik_Plugin
             'author_homepage'      => 'http://piwik.org/',
             'version'              => Piwik_Version::VERSION,
             'translationAvailable' => true,
+            'theme'                => true,
         );
     }
 

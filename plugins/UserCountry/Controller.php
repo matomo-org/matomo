@@ -70,7 +70,6 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
         $this->setUpdaterManageVars($view);
         $this->setBasicVariablesView($view);
         Piwik_Controller_Admin::setBasicVariablesAdminView($view);
-        $view->menu = Piwik_GetAdminMenu();
 
         echo $view->render();
     }

@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody id="plugins">
-            {% for name,plugin in pluginsName %}
+            {% for name,plugin in pluginsInfo %}
                 {% if plugin.alwaysActivated is defined and not plugin.alwaysActivated %}
                     <tr {% if plugin.activated %}class="highlighted"{% endif %}>
                         <td class="name">

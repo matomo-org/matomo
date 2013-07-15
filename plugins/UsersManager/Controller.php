@@ -85,7 +85,6 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
         uasort($websites, array('Piwik_UsersManager_Controller', 'orderByName'));
         $view->websites = $websites;
         $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
         echo $view->render();
     }
 
@@ -126,7 +125,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
         if (Piwik::isUserIsSuperUser()) {
             $view->userAlias = $userLogin;
             $view->userEmail = Piwik::getSuperUserEmail();
-            $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
+            $this->displayWarningIfConfigFileNotWritable($view);
 
         } else {
             $user = Piwik_UsersManager_API::getInstance()->getUser($userLogin);
@@ -163,7 +162,6 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
         $this->initViewAnonymousUserSettings($view);
         $view->piwikHost = Piwik_Url::getCurrentHost();
         $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
         echo $view->render();
     }
 
