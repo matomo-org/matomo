@@ -590,7 +590,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Ei käytössä',
 	'CorePluginsAdmin_Deactivate' => 'Poistettu käytöstä',
 	'CorePluginsAdmin_Activate' => 'Aktivoi',
-	'CorePluginsAdmin_MenuPlugins' => 'Lisäosat',
 	'CorePluginsAdmin_PluginCannotBeFound' => 'Tätä lisäosaa ei löydy!',
 	'CoreUpdater_PluginDescription' => 'Piwikin päivitysjärjestelmä',
 	'CoreUpdater_UpdateTitle' => 'Piwik › Päivitys',

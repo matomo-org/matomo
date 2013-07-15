@@ -456,7 +456,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Неактыўныя',
 	'CorePluginsAdmin_Deactivate' => 'Дэактываваць',
 	'CorePluginsAdmin_Activate' => 'Актываваць',
-	'CorePluginsAdmin_MenuPlugins' => 'Плагіны',
 	'CoreUpdater_PluginDescription' => 'Механізм абнаўлення Piwik',
 	'CoreUpdater_UpdateTitle' => 'Абнаўленне',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Патрабуецца абнаўленне базы дадзеных',

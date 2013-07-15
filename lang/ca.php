@@ -632,7 +632,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Inactiu',
 	'CorePluginsAdmin_Deactivate' => 'Desactiva',
 	'CorePluginsAdmin_Activate' => 'Activa',
-	'CorePluginsAdmin_MenuPlugins' => 'Connectors',
 	'CorePluginsAdmin_PluginCannotBeFound' => 'No s\'ha pogut trobar el plugin',
 	'CoreUpdater_PluginDescription' => 'Mecanísme d\'actualització del Piwik',
 	'CoreUpdater_UpdateTitle' => 'Actualització del Piwik',

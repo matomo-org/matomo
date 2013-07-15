@@ -324,7 +324,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'არააქტიური',
 	'CorePluginsAdmin_Deactivate' => 'გამორთვა',
 	'CorePluginsAdmin_Activate' => 'ჩართვა',
-	'CorePluginsAdmin_MenuPlugins' => 'პლაგინები',
 	'CoreUpdater_PluginDescription' => 'Piwik-ის განახლების მექანიზმი',
 	'CoreUpdater_UpdateTitle' => 'განახლება',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'საჭიროა მონაცემთა ბაზის განახლება',

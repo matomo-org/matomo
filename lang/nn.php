@@ -465,7 +465,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Av',
 	'CorePluginsAdmin_Deactivate' => 'Slå av',
 	'CorePluginsAdmin_Activate' => 'Slå på',
-	'CorePluginsAdmin_MenuPlugins' => 'Innstikk',
 	'CoreUpdater_PluginDescription' => 'Oppdateraren til Piwik',
 	'CoreUpdater_UpdateTitle' => 'Oppdater',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Databaseoppdatering krevst',

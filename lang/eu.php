@@ -259,7 +259,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Ezgaituta',
 	'CorePluginsAdmin_Deactivate' => 'Ezgaitu',
 	'CorePluginsAdmin_Activate' => 'Gaitu',
-	'CorePluginsAdmin_MenuPlugins' => 'Pluginak',
 	'CoreUpdater_UpdateTitle' => 'Eguneratu',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Datu-basearen bertsio-berritzea beharrezkoa',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Zure Piwik datu-basea zaharkituta dago eta jarraitu aurretik bertsio-berritu behar da.',

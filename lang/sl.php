@@ -505,7 +505,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Neaktivno',
 	'CorePluginsAdmin_Deactivate' => 'Onemogoči',
 	'CorePluginsAdmin_Activate' => 'Omogoči',
-	'CorePluginsAdmin_MenuPlugins' => 'Vtičniki',
 	'CoreUpdater_PluginDescription' => 'Piwik-ov mehanizem za posodabljanje',
 	'CoreUpdater_UpdateTitle' => 'Posodobitev',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Potrebna je nadgraditev baze podatkov',

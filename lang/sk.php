@@ -417,7 +417,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Neaktívny',
 	'CorePluginsAdmin_Deactivate' => 'Deaktivovať',
 	'CorePluginsAdmin_Activate' => 'Aktivovať',
-	'CorePluginsAdmin_MenuPlugins' => 'Moduly',
 	'CoreUpdater_PluginDescription' => 'Piwik aktualizácia mechanizmu',
 	'CoreUpdater_UpdateTitle' => 'Piwik › Aktualizácia',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Vyžaduje sa aktualizácia databázy',

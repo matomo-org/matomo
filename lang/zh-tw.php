@@ -332,7 +332,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => '停用中',
 	'CorePluginsAdmin_Deactivate' => '停用',
 	'CorePluginsAdmin_Activate' => '啟用',
-	'CorePluginsAdmin_MenuPlugins' => '外掛',
 	'CoreUpdater_PluginDescription' => 'Piwik 更新機制',
 	'CoreUpdater_UpdateTitle' => 'Piwik › 更新',
 	'CoreUpdater_DatabaseUpgradeRequired' => '資料庫需要升級',

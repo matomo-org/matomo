@@ -429,7 +429,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Kikapcsolt',
 	'CorePluginsAdmin_Deactivate' => 'Kikapcsol',
 	'CorePluginsAdmin_Activate' => 'Bekapcsol',
-	'CorePluginsAdmin_MenuPlugins' => 'Bővítmények',
 	'CoreUpdater_PluginDescription' => 'Piwik frissítésére szolgáló alkalmazás',
 	'CoreUpdater_UpdateTitle' => 'Frissítés',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Adatbázis-frissítés szükséges',

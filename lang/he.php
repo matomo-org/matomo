@@ -341,7 +341,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'לא פעיל',
 	'CorePluginsAdmin_Deactivate' => 'כבה',
 	'CorePluginsAdmin_Activate' => 'הפעל',
-	'CorePluginsAdmin_MenuPlugins' => 'תוספים',
 	'CoreUpdater_PluginDescription' => 'מנגנון השדרוג של Piwik',
 	'CoreUpdater_UpdateTitle' => 'שדרוג',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'שדרוג בסיס נתונים נדרש',

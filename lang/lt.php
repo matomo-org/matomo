@@ -367,7 +367,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Pasyvus',
 	'CorePluginsAdmin_Deactivate' => 'Pasyvinti',
 	'CorePluginsAdmin_Activate' => 'Aktyvinti',
-	'CorePluginsAdmin_MenuPlugins' => 'Papildiniai',
 	'CoreUpdater_PluginDescription' => 'Piwik naujinimo įranga',
 	'CoreUpdater_UpdateTitle' => 'Naujinimas',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Reikalingas duombazės atnaujinimas',

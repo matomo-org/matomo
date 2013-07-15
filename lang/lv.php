@@ -413,7 +413,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Neaktīvs',
 	'CorePluginsAdmin_Deactivate' => 'Deaktivizēt',
 	'CorePluginsAdmin_Activate' => 'Aktivizēt',
-	'CorePluginsAdmin_MenuPlugins' => 'Spraudņi',
 	'CoreUpdater_PluginDescription' => 'Piwik atjaunināšanas mehānisms',
 	'CoreUpdater_UpdateTitle' => 'Atjaunināt',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Vajadzīgs datubāzes atjauninājums',

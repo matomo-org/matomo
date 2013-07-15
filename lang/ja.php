@@ -533,7 +533,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => '無効',
 	'CorePluginsAdmin_Deactivate' => '無効化',
 	'CorePluginsAdmin_Activate' => '有効化',
-	'CorePluginsAdmin_MenuPlugins' => 'プラグイン',
 	'CoreUpdater_PluginDescription' => 'Piwik アップデートメカニズム',
 	'CoreUpdater_UpdateTitle' => 'アップデート',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'データベースのアップグレードが必要',

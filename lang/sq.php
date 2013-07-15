@@ -509,7 +509,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Jovepruese',
 	'CorePluginsAdmin_Deactivate' => 'Çaktivizoje',
 	'CorePluginsAdmin_Activate' => 'Aktivizoje',
-	'CorePluginsAdmin_MenuPlugins' => 'Shtojca',
 	'CoreUpdater_PluginDescription' => 'Mekanizmi i përditësimit të Piwik-ut',
 	'CoreUpdater_UpdateTitle' => 'Piwik › Përditësim',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Lypset Përmirësim i Bazës së të Dhënave',

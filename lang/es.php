@@ -627,7 +627,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Inactivo',
 	'CorePluginsAdmin_Deactivate' => 'Desactivar',
 	'CorePluginsAdmin_Activate' => 'Activar',
-	'CorePluginsAdmin_MenuPlugins' => 'Plugins',
 	'CorePluginsAdmin_PluginCannotBeFound' => 'Esta extensión no puede encontrarse!',
 	'CoreUpdater_PluginDescription' => 'mecanismo de actualización de Piwik',
 	'CoreUpdater_UpdateTitle' => 'Actualizar',

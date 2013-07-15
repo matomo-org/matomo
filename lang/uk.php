@@ -325,7 +325,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Неактивний',
 	'CorePluginsAdmin_Deactivate' => 'Деактивувати',
 	'CorePluginsAdmin_Activate' => 'Активувати',
-	'CorePluginsAdmin_MenuPlugins' => 'Плагіни',
 	'CoreUpdater_PluginDescription' => 'Механізм поновлення Piwik',
 	'CoreUpdater_UpdateTitle' => 'Piwik › Поновлення',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Необхідно поновити базу даних',

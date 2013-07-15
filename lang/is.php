@@ -290,7 +290,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Slökkt',
 	'CorePluginsAdmin_Deactivate' => 'Slökkva',
 	'CorePluginsAdmin_Activate' => 'Kveikja',
-	'CorePluginsAdmin_MenuPlugins' => 'Íbætur',
 	'Dashboard_PluginDescription' => 'Vefgreiningarskjáborðið þitt. Þú getur sérsniðið skjáborðið þitt: bætt við nýjum aukahlutum, breytt uppröðun aukahluta. Sérhver notandi hefur aðgang að sínu eigin sérsniðna skjáborði.',
 	'Dashboard_Dashboard' => 'Skjáborð',
 	'Dashboard_DeleteWidgetConfirm' => 'Ertu viss um að þú viljir eyða þessum aukahlut af skjáborðinu.',

@@ -447,7 +447,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Nieaktywna',
 	'CorePluginsAdmin_Deactivate' => 'Wyłącz',
 	'CorePluginsAdmin_Activate' => 'Włącz',
-	'CorePluginsAdmin_MenuPlugins' => 'Wtyczki',
 	'CoreUpdater_PluginDescription' => 'Mechanizm aktualizacji Piwik',
 	'CoreUpdater_UpdateTitle' => 'Aktualizacja',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Wymagana aktualizacja bazy danych',

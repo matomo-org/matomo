@@ -149,7 +149,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Mitteaktiivne',
 	'CorePluginsAdmin_Deactivate' => 'Lülita välja',
 	'CorePluginsAdmin_Activate' => 'Aktiveeri',
-	'CorePluginsAdmin_MenuPlugins' => 'Pluginad',
 	'CoreUpdater_UpdateTitle' => 'Piwik › Uuendus',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Sinu piwik-i andmebaas on vananenud, enne jätkamist pead uuendama.',
 	'CoreUpdater_TheFollowingPluginsWillBeUpgradedX' => 'Käesolevad puginad uuendatakse: %s.',
