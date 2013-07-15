@@ -570,7 +570,6 @@ $translations = array(
 	'DBStats_TotalSize' => 'Skupna velikost',
 	'DBStats_DBSize' => 'Velikost podatkovne baze',
 	'DBStats_EstimatedSize' => 'Ocenjena velikost',
-	'ExampleAPI_PluginDescription' => 'Primer Vtičnika: Kako ustvariti API za vaš vtičnik za izvažanje vaših podatkov v večih formatih, brez posebnega programiranja.',
 	'Feedback_PluginDescription' => 'Podajte vašo povratno informacijo ekipi Piwik. Zaupajte nam vaše ideje in predloge!',
 	'Feedback_DoYouHaveBugReportOrFeatureRequest' => 'Imate napako ali pa željo, ki nam jo želite sporočiti?',
 	'Feedback_ViewAnswersToFAQ' => 'Oglejte si odgovore na %sPogosto Zastavljena Vprašanja (FAQ)%s',

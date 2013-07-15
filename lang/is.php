@@ -310,7 +310,6 @@ $translations = array(
 	'DBStats_DataSize' => 'Gagnastærð',
 	'DBStats_IndexSize' => 'stærð vísitöflu',
 	'DBStats_TotalSize' => 'Heildarstærð',
-	'ExampleAPI_PluginDescription' => 'Dæmi íbót: Hvernig á að búa til API fyrir þína íbót til að flytja gögn þín í mörgum sniðum án sérstakar kóðunar?',
 	'Goals_Goals' => 'Markmið',
 	'Goals_GoalsOverview' => 'Yfirlit Markmiða',
 	'Goals_GoalsManagement' => 'Markmiðastjórnun',
