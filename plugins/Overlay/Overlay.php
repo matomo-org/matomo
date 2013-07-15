@@ -11,17 +11,12 @@
 
 class Piwik_Overlay extends Piwik_Plugin
 {
-    /**
-     * @see Piwik_Plugin::getInformation
-     */
     public function getInformation()
     {
-        return array(
-            'description'     => Piwik_Translate('Overlay_PluginDescription') . ' Note: Requires the Transitions plugin enabled.',
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
+        $suffix = ' Note: Requires the Transitions plugin enabled.';
+        $info = parent::getInformation();
+        $info['description'] .= ' ' . $suffix;
+        return $info;
     }
 
     /**

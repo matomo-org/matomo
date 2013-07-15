@@ -15,17 +15,12 @@
  */
 class Piwik_MultiSites extends Piwik_Plugin
 {
-    /**
-     * @see Piwik_Plugin::getInformation
-     */
     public function getInformation()
     {
-        return array(
-            'description'     => Piwik_Translate('MultiSites_PluginDescription'),
-            'author'          => 'ClearCode.cc',
-            'author_homepage' => "http://clearcode.cc/",
-            'version'         => Piwik_Version::VERSION,
-        );
+        $info = parent::getInformation();
+        $info['author'] = 'Piwik PRO';
+        $info['author_homepage'] = 'http://piwik.pro';
+        return $info;
     }
 
     /**

@@ -1831,7 +1831,7 @@ Nota: Este código vencerá en 24 hora.
 	'VisitTime_WidgetByDayOfWeekDocumentation' => 'Este gráfico muestra el número de visitas que su sitio de internet recibió en cada día de la semana.',
 	'Widgetize_PluginDescription' => 'Este plugin hace muy fácil exportar cualquier Widget de Piwik a tu blog, sitio web o a iGoogle y Netvibes!',
 	'Widgetize_TopLinkTooltip' => 'Exportar los informes de Piwik como una aplicación (widget) e incrustar el panel en su aplicación como un elemento iframe.',
-	'PDFReports_PluginDescriptionReports' => 'Cree y descargue sus reportes personalizados, y envíelos por email diariamente, semanalmente o mensualmente.',
+	'PDFReports_PluginDescription' => 'Cree y descargue sus reportes personalizados, y envíelos por email diariamente, semanalmente o mensualmente.',
 	'PDFReports_ManageEmailReports' => 'Administrar los Reportes por Email',
 	'PDFReports_EmailReports' => 'Informes por correo electrónico',
 	'PDFReports_PDF' => 'PDF',

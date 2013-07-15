@@ -26,7 +26,6 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
             'version'         => Piwik_Version::VERSION,
-            'TrackerPlugin'   => true,
         );
     }
 

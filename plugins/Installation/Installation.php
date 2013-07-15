@@ -18,21 +18,6 @@ class Piwik_Installation extends Piwik_Plugin
     protected $installationControllerName = 'Piwik_Installation_Controller';
 
     /**
-     * @see Piwik_Plugin::getInformation
-     */
-    public function getInformation()
-    {
-        $info = array(
-            'description'     => Piwik_Translate('Installation_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-
-        return $info;
-    }
-
-    /**
      * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()

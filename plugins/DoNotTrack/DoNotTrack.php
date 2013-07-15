@@ -19,21 +19,6 @@
 class Piwik_DoNotTrack extends Piwik_Plugin
 {
     /**
-     * @see Piwik_Plugin::getInformation
-     */
-    public function getInformation()
-    {
-        return array(
-            'description'          => Piwik_Translate('DoNotTrack_PluginDescription'),
-            'author'               => 'Piwik',
-            'author_homepage'      => 'http://piwik.org/',
-            'version'              => Piwik_Version::VERSION,
-            'translationAvailable' => false,
-            'TrackerPlugin'        => true,
-        );
-    }
-
-    /**
      * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()

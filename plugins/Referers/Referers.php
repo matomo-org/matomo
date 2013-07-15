@@ -20,19 +20,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 class Piwik_Referers extends Piwik_Plugin
 {
     /**
-     * @see Piwik_Plugin::getInformation
-     */
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('Referers_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-    }
-
-    /**
      * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()

@@ -18,19 +18,6 @@ class Piwik_CoreHome extends Piwik_Plugin
     /**
      * @see Piwik_Plugin::getListHooksRegistered
      */
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('CoreHome_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-    }
-
-    /**
-     * @see Piwik_Plugin::getListHooksRegistered
-     */
     public function getListHooksRegistered()
     {
         return array(

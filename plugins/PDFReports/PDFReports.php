@@ -54,20 +54,6 @@ class Piwik_PDFReports extends Piwik_Plugin
     );
 
     /**
-     * @see Piwik_Plugin::getInformation
-     */
-    public function getInformation()
-    {
-        return array(
-            'name'            => 'Email Reports Plugin',
-            'description'     => Piwik_Translate('PDFReports_PluginDescriptionReports'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-    }
-
-    /**
      * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()

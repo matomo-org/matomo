@@ -31,7 +31,7 @@ class Piwik_Translate
 
     public function loadEnglishTranslation()
     {
-        $this->loadTranslation('en');
+        $this->loadCoreTranslationFile('en');
     }
 
     public function unloadEnglishTranslation()
@@ -64,10 +64,10 @@ class Piwik_Translate
         if ($this->loadedLanguage == $language) {
             return;
         }
-        $this->loadTranslation($language);
+        $this->loadCoreTranslationFile($language);
     }
 
-    private function loadTranslation($language)
+    private function loadCoreTranslationFile($language)
     {
         $translations = array();
         $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';

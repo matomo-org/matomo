@@ -53,7 +53,11 @@ class Piwik_PluginsManager
         'LanguagesManager',
     );
 
+    // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
+    const TRACKER_EVENT_PREFIX = 'Tracker.';
+
     static private $instance = null;
+    const PLUGIN_JSON_FILENAME = 'plugin.piwik.json';
 
     /**
      * Returns the singleton Piwik_PluginsManager
@@ -145,7 +149,7 @@ class Piwik_PluginsManager
      */
     public function readPluginsDirectory()
     {
-        $pluginsName = _glob(PIWIK_INCLUDE_PATH . '/plugins/*', GLOB_ONLYDIR);
+        $pluginsName = _glob($this->getPluginsDirectory() . '*', GLOB_ONLYDIR);
         $result = array();
         if ($pluginsName != false) {
             foreach ($pluginsName as $path) {
@@ -157,6 +161,28 @@ class Piwik_PluginsManager
             }
         }
         return $result;
+    }
+
+    public function loadInfoFromJson(Piwik_Plugin $plugin)
+    {
+        $path = $this->getPluginsDirectory() . $plugin->getPluginName() . '/' . self::PLUGIN_JSON_FILENAME;
+        if(!file_exists($path)) {
+            return false;
+        }
+        $json = file_get_contents($path);
+        if(!$json) {
+            return false;
+        }
+        $info = Piwik_Common::json_decode($json, $assoc = true);
+        if(!is_array($info) || empty($info)) {
+            throw new Exception("Invalid JSON file: $path");
+        }
+        return $info;
+    }
+
+    protected function getPluginsDirectory()
+    {
+        return PIWIK_INCLUDE_PATH . '/plugins/';
     }
 
     /**
@@ -391,7 +417,7 @@ class Piwik_PluginsManager
             throw new Exception(sprintf("The plugin filename '%s' is not a valid filename", $pluginFileName));
         }
 
-        $path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginFileName;
+        $path = $this->getPluginsDirectory() . $pluginFileName;
 
         if (!file_exists($path)) {
             // ToDo: We should log this - but this will crash in Tracker mode since core/Piwik is not loaded
@@ -413,7 +439,7 @@ class Piwik_PluginsManager
         }
 
         $this->addLoadedPlugin($pluginName, $newPlugin);
-        
+
         Piwik_EventDispatcher::getInstance()->postPendingEventsTo($newPlugin);
 
         return $newPlugin;
@@ -493,7 +519,7 @@ class Piwik_PluginsManager
      * @param Piwik_Plugin $plugin
      * @param string $langCode
      * @throws Exception
-     * @return void
+     * @return bool whether the translation was found and loaded
      */
     private function loadTranslation($plugin, $langCode)
     {
@@ -502,19 +528,9 @@ class Piwik_PluginsManager
             return;
         }
 
-        $infos = $plugin->getInformation();
-        if (!isset($infos['translationAvailable'])) {
-            $infos['translationAvailable'] = false;
-        }
-        $translationAvailable = $infos['translationAvailable'];
-
-        if (!$translationAvailable) {
-            return;
-        }
-
         $pluginName = $plugin->getPluginName();
 
-        $path = PIWIK_INCLUDE_PATH . '/plugins/' . $pluginName . '/lang/%s.php';
+        $path = $this->getPluginsDirectory() . $pluginName . '/lang/%s.php';
 
         $defaultLangPath = sprintf($path, $langCode);
         $defaultEnglishLangPath = sprintf($path, 'en');
@@ -526,9 +542,10 @@ class Piwik_PluginsManager
         } elseif (file_exists($defaultEnglishLangPath)) {
             require $defaultEnglishLangPath;
         } else {
-            throw new Exception("Language file not found for the plugin '$pluginName'.");
+            return false;
         }
         Piwik_Translate::getInstance()->mergeTranslationArray($translations);
+        return true;
     }
 
     /**
@@ -583,12 +600,7 @@ class Piwik_PluginsManager
             $saveConfig = true;
         }
 
-        $information = $plugin->getInformation();
-
-        // if the plugin is to be loaded during the statistics logging
-        if (isset($information['TrackerPlugin'])
-            && $information['TrackerPlugin'] === true
-        ) {
+        if ($this->isTrackerPlugin($plugin)) {
             $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (is_null($pluginsTracker)) {
                 $pluginsTracker = array();
@@ -603,6 +615,18 @@ class Piwik_PluginsManager
         if ($saveConfig) {
             Piwik_Config::getInstance()->forceSave();
         }
+    }
+
+    protected function isTrackerPlugin(Piwik_Plugin $plugin)
+    {
+        $hooks = $plugin->getListHooksRegistered();
+        $hookNames = array_keys($hooks);
+        foreach ($hookNames as $name) {
+            if (strpos($name, self::TRACKER_EVENT_PREFIX) === 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

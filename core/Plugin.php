@@ -26,13 +26,31 @@ abstract class Piwik_Plugin
      * - 'license' => string            // plugin license
      * - 'license_homepage' => string   // license homepage URL
      * - 'version' => string            // plugin version number; examples and 3rd party plugins must not use Piwik_Version::VERSION; 3rd party plugins must increment the version number with each plugin release
-     * - 'translationAvailable' => bool // is there a translation file in plugins/your-plugin/lang/* ?
-     * - 'TrackerPlugin' => bool        // should we load this plugin during the stats logging process?
      * - 'theme' => bool                // Whether this plugin is a theme (a theme is a plugin, but a plugin is not necessarily a theme)
      *
      * @return array
      */
-    abstract public function getInformation();
+    public function getInformation()
+    {
+        $descriptionKey = $this->getPluginName() . '_PluginDescription';
+        $translation = Piwik_Translate($descriptionKey);
+        $info = array(
+            'description'      => $translation,
+            'homepage'         => 'http://piwik.org/',
+            'author'           => 'Piwik',
+            'author_homepage'  => 'http://piwik.org/',
+            'license'          => 'GPL v3 or later',
+            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
+            'version'          => Piwik_Version::VERSION,
+            'theme'            => false,
+        );
+
+        $infoFromJson = Piwik_PluginsManager::getInstance()->loadInfoFromJson($this);
+        if(!empty($infoFromJson)) {
+            $info = array_merge($info, $infoFromJson);
+        }
+        return $info;
+    }
 
     /**
      * Returns the list of hooks registered with the methods names
@@ -129,18 +147,5 @@ abstract class Piwik_Plugin
     final public function getPluginName()
     {
         return Piwik_Common::unprefixClass(get_class($this));
-    }
-
-    /**
-     * Returns the plugin's base class name without the "Piwik_" prefix,
-     * e.g., "UserCountry" when the plugin class is "Piwik_UserCountry"
-     *
-     * @deprecated since 1.2 - for backward compatibility
-     *
-     * @return string
-     */
-    final public function getClassName()
-    {
-        return $this->getPluginName();
     }
 }

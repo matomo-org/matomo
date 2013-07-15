@@ -16,20 +16,4 @@
  */
 class Piwik_ExampleAPI extends Piwik_Plugin
 {
-    /**
-     * Return information about this plugin.
-     *
-     * @see Piwik_Plugin
-     *
-     * @return array
-     */
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('ExampleAPI_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => '0.1',
-        );
-    }
 }

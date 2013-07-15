@@ -61,18 +61,12 @@ class Piwik_Goals extends Piwik_Plugin
         return $columns;
     }
 
-    /**
-     * @see Piwik_Plugin::getInformation
-     */
     public function getInformation()
     {
-        $info = array(
-            'description'     => Piwik_Translate('Goals_PluginDescription') . ' ' . Piwik_Translate('SitesManager_PiwikOffersEcommerceAnalytics', array('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">', '</a>')),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-            'TrackerPlugin'   => true, // this plugin must be loaded during the stats logging
-        );
+        $suffix = Piwik_Translate('SitesManager_PiwikOffersEcommerceAnalytics',
+            array('<a href="http://piwik.org/docs/ecommerce-analytics/" target="_blank">', '</a>'));
+        $info = parent::getInformation();
+        $info['description'] .= ' ' . $suffix;
         return $info;
     }
 

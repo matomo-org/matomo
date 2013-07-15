@@ -20,20 +20,13 @@ class Piwik_ImageGraph extends Piwik_Plugin
         'Referers_getAll',
     );
 
-    /**
-     * @see Piwik_Plugin::getInformation
-     */
     public function getInformation()
     {
-        return array(
-            'description'     => Piwik_Translate('ImageGraph_PluginDescription')
-                . ' Debug: <a href="' . Piwik_Url::getCurrentQueryStringWithParametersModified(
-                array('module' => 'ImageGraph', 'action' => 'index'))
-                . '">All images</a>',
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION
-        );
+        $suffix = ' Debug: <a href="' . Piwik_Url::getCurrentQueryStringWithParametersModified(
+            array('module' => 'ImageGraph', 'action' => 'index')) . '">All images</a>';
+        $info = parent::getInformation();
+        $info['description'] .= ' ' . $suffix;
+        return $info;
     }
 
     /**
