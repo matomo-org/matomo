@@ -41,7 +41,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $view->todayArchiveTimeToLive = $todayArchiveTimeToLive;
             $view->enableBrowserTriggerArchiving = $enableBrowserTriggerArchiving;
 
-            $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
+            $this->displayWarningIfConfigFileNotWritable($view);
 
             $config = Piwik_Config::getInstance();
 
@@ -67,8 +67,6 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
-        $view->topMenu = Piwik_GetTopMenu();
-        $view->menu = Piwik_GetAdminMenu();
         echo $view->render();
     }
 
@@ -130,7 +128,6 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
         $view = new Piwik_View('@CoreAdminHome/trackingCodeGenerator');
         $this->setBasicVariablesView($view);
         $view->topMenu = Piwik_GetTopMenu();
-        $view->menu = Piwik_GetAdminMenu();
 
         $viewableIdSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
 

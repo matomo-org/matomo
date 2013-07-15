@@ -20,20 +20,10 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
  */
 class Piwik_UserCountry extends Piwik_Plugin
 {
-
-    public function getInformation()
-    {
-        $info = array(
-            'description'     => Piwik_Translate('UserCountry_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-            'TrackerPlugin'   => true,
-        );
-        return $info;
-    }
-
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         $hooks = array(
             'ArchiveProcessing_Day.compute'    => 'archiveDay',
@@ -60,7 +50,7 @@ class Piwik_UserCountry extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/UserCountry/stylesheets/userCountry.css";
+        $cssFiles[] = "plugins/UserCountry/stylesheets/userCountry.less";
     }
 
     public function getJsFiles(&$jsFiles)

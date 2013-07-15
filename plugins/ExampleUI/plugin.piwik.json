@@ -1,0 +1,15 @@
+{
+    "name": "ExampleUI",
+    "description": "Example Plugin: This plugin showcases the Piwik User Interface framework, how to easily display custom data tables, graphs, and more.",
+    "version": "1.0",
+    "keywords": ["example", "framework", "platform", "ui", "visualization"],
+    "homepage": "http://piwik.org",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Piwik",
+            "email": "hello@piwik.org",
+            "homepage": "http://piwik.org"
+        }
+    ]
+}

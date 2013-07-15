@@ -67,7 +67,6 @@ class Piwik_MobileMessaging_Controller extends Piwik_Controller_Admin
 
         $this->setBasicVariablesView($view);
 
-        $view->menu = Piwik_GetAdminMenu();
         echo $view->render();
     }
 }

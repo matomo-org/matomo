@@ -19,17 +19,10 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
  */
 class Piwik_Referers extends Piwik_Plugin
 {
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('Referers_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-    }
-
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         $hooks = array(
             'ArchiveProcessing_Day.compute'    => 'archiveDay',

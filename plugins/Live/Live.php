@@ -15,17 +15,10 @@
  */
 class Piwik_Live extends Piwik_Plugin
 {
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('Live_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-    }
-
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         return array(
             'AssetManager.getJsFiles'  => 'getJsFiles',
@@ -37,7 +30,7 @@ class Piwik_Live extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Live/stylesheets/live.css";
+        $cssFiles[] = "plugins/Live/stylesheets/live.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -47,7 +40,7 @@ class Piwik_Live extends Piwik_Plugin
 
     function addMenu()
     {
-        Piwik_AddMenu('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'getVisitorLog'), true, $order = 5);
+        Piwik_AddMenu('General_Visitors', 'Live_VisitorLog', array('module' => 'Live', 'action' => 'indexVisitorLog'), true, $order = 5);
     }
 
     public function addWidget()

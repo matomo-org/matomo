@@ -12,8 +12,9 @@ function switchSite(id, name, showAjaxLoading, idCanBeAll) {
     }
     else {
         $('.sites_autocomplete input').val(id);
-        $('.custom_select_main_link').text(name);
-        $('.custom_select_main_link').addClass('custom_select_loading');
+        $('.custom_select_main_link')
+            .text(name)
+            .addClass('custom_select_loading');
         broadcast.propagateNewPage('segment=&idSite=' + id, showAjaxLoading);
     }
     return false;

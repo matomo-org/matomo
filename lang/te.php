@@ -235,7 +235,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'అచేతనం',
 	'CorePluginsAdmin_Deactivate' => 'అచేతనించు',
 	'CorePluginsAdmin_Activate' => 'చేతనించు',
-	'CorePluginsAdmin_MenuPlugins' => 'ప్లగిన్లు',
 	'CoreUpdater_UpdateTitle' => 'నవీకరించు',
 	'CoreUpdater_ReadyToGo' => 'వెళ్ళడానికి సిద్ధమా?',
 	'CoreUpdater_UpgradePiwik' => 'పివిక్ నవీకరణ',

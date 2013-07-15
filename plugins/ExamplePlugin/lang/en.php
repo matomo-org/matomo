@@ -10,7 +10,6 @@
  */
 
 $translations = array(
-    'ExamplePlugin_PluginDescription'        => 'Example Plugin: This plugin shows how to create a very simple plugin, that exports two widgets in the Dashboard.',
     'ExamplePlugin_exampleWidgets'           => 'Example Widgets',
     'ExamplePlugin_exampleWidget'            => 'Example Widget',
     'ExamplePlugin_photostreamMatt'          => 'Matt\'s Photos',

@@ -15,10 +15,37 @@
  */
 class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 {
-    function index()
+    function marketplace()
+    {
+        $view = $this->configureView('@CorePluginsAdmin/marketplace');
+        echo $view->render();
+    }
+
+    function plugins()
+    {
+        $view = $this->configureView('@CorePluginsAdmin/plugins');
+        $view->pluginsInfo = $this->getPluginsInfo();
+        echo $view->render();
+    }
+
+    function themes()
+    {
+        $view = $this->configureView('@CorePluginsAdmin/themes');
+        $view->pluginsInfo = $this->getPluginsInfo($themesOnly = true);
+        echo $view->render();
+    }
+
+    protected function configureView($template)
     {
         Piwik::checkUserIsSuperUser();
+        $view = new Piwik_View($template);
+        $this->setBasicVariablesView($view);
+        $this->displayWarningIfConfigFileNotWritable($view);
+        return $view;
+    }
 
+    protected function getPluginsInfo( $themesOnly = false )
+    {
         $plugins = array();
 
         $listPlugins = array_merge(
@@ -39,6 +66,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
         foreach ($loadedPlugins as $oPlugin) {
             $pluginName = $oPlugin->getPluginName();
             $plugins[$pluginName]['info'] = $oPlugin->getInformation();
+            $plugins[$pluginName]['theme'] = $oPlugin->isTheme();
         }
 
         foreach ($plugins as $pluginName => &$plugin) {
@@ -46,17 +74,21 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
                 $plugin['info'] = array(
                     'description' => '<strong><em>' . Piwik_Translate('CorePluginsAdmin_PluginCannotBeFound')
                         . '</strong></em>',
-                    'version'     => Piwik_Translate('General_Unknown')
+                    'version'     => Piwik_Translate('General_Unknown'),
+                    'theme' => false,
                 );
             }
         }
 
-        $view = new Piwik_View('@CorePluginsAdmin/index');
-        $view->pluginsName = $plugins;
-        $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
-        $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
-        echo $view->render();
+        $pluginsFiltered = array();
+        foreach($plugins as $name => $plugin) {
+            $isTheme = $plugin['theme'];
+            if( ($themesOnly && $isTheme)
+                || (!$themesOnly && !$isTheme)) {
+                $pluginsFiltered[$name] = $plugin;
+            }
+        }
+        return $pluginsFiltered;
     }
 
     public function deactivate($redirectAfter = true)

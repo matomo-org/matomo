@@ -43,12 +43,14 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
     function init($currentControllerName,
                   $currentControllerAction,
                   $apiMethodToRequestDataTable,
-                  $controllerActionCalledWhenRequestSubTable = null)
+                  $controllerActionCalledWhenRequestSubTable = null,
+                  $defaultProperties = array())
     {
         parent::init($currentControllerName,
             $currentControllerAction,
             $apiMethodToRequestDataTable,
-            $controllerActionCalledWhenRequestSubTable);
+            $controllerActionCalledWhenRequestSubTable,
+            $defaultProperties);
 
         $this->calculateEvolutionDateRange();
         $this->disableShowAllViewsIcons();
@@ -70,20 +72,6 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
         // Other datatable features may require the original input date (eg. the limit dropdown below evolution graph)
         $result['date'] = $this->originalDate;
         return $result;
-    }
-
-    /**
-     * We ensure that the graph for a given Goal has a different ID than the 'Goals Overview' graph
-     * so that both can display on the dashboard at the same time
-     * @return null|string
-     */
-    public function getUniqueIdViewDataTable()
-    {
-        $id = parent::getUniqueIdViewDataTable();
-        if (!empty($this->parametersToModify['idGoal'])) {
-            $id .= $this->parametersToModify['idGoal'];
-        }
-        return $id;
     }
 
     /**

@@ -70,7 +70,6 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
         $view->showAddSite = (boolean)Piwik_Common::getRequestVar('showaddsite', false);
 
         $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
         echo $view->render();
     }
 
@@ -121,7 +120,6 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
         $jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
         $view = new Piwik_View('@SitesManager/displayJavascriptCode');
         $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
         $view->idSite = $idSite;
         $site = new Piwik_Site($idSite);
         $view->displaySiteName = $site->getName();

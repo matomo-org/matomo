@@ -20,30 +20,7 @@ class Piwik_UsersManager extends Piwik_Plugin
     const PASSWORD_MAX_LENGTH = 26;
 
     /**
-     * Plugin information
-     *
-     * @see Piwik_Plugin
-     *
-     * @return array
-     */
-    public function getInformation()
-    {
-        $info = array(
-            'description'     => Piwik_Translate('UsersManager_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-
-        return $info;
-    }
-
-    /**
-     * Get list of hooks to register.
-     *
-     * @see Piwik_PluginsManager.loadPlugin()
-     *
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {
@@ -101,7 +78,7 @@ class Piwik_UsersManager extends Piwik_Plugin
      */
     function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/UsersManager/stylesheets/usersManager.css";
+        $cssFiles[] = "plugins/UsersManager/stylesheets/usersManager.less";
     }
 
     /**

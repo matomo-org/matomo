@@ -60,15 +60,11 @@
 
 .ui-corner-all {
     border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
 }
 
 .ui-menu .ui-menu-item a.ui-state-focus {
     background: #ebeae6;
     border: 0;
     border-radius: 0;
-    -moz-border-radius: 0;
-    -webkit-radius-radius: 0;
 }
 

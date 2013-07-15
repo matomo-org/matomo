@@ -53,17 +53,9 @@ class Piwik_PDFReports extends Piwik_Plugin
         Piwik_ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif'
     );
 
-    public function getInformation()
-    {
-        return array(
-            'name'            => 'Email Reports Plugin',
-            'description'     => Piwik_Translate('PDFReports_PluginDescriptionReports'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-    }
-
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
     public function getListHooksRegistered()
     {
         return array(

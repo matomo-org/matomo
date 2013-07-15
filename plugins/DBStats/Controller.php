@@ -27,7 +27,6 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
         Piwik::checkUserIsSuperUser();
         $view = new Piwik_View('@DBStats/index');
         $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
 
         $view->databaseUsageSummary = $this->getDatabaseUsageSummary(true);
         $view->trackerDataSummary = $this->getTrackerDataSummary(true);

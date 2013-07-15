@@ -26,23 +26,9 @@
 class Piwik_ExampleUI extends Piwik_Plugin
 {
     /**
-     * Return information about this plugin.
-     *
-     * @see Piwik_Plugin
-     *
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('ExampleUI_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => '0.1',
-        );
-    }
-
-    function getListHooksRegistered()
+    public function getListHooksRegistered()
     {
         $hooks = array(
             'Menu.add' => 'addMenus',

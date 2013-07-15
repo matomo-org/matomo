@@ -8,7 +8,7 @@
     <div id='leftcolumn'>
         <div class="sparkline">{{ sparkline(urlSparklineDirectEntry) }}
             {{ 'Referers_TypeDirectEntries'|translate("<strong>"~visitorsFromDirectEntry~"</strong>")|raw }}
-            {% if visitorsFromDirectEntryPercent is not empty %},
+            {% if visitorsFromDirectEntryPercent|default is not empty %},
                 <strong>{{ visitorsFromDirectEntryPercent }}%</strong> of visits
             {% endif %}
             {% if visitorsFromDirectEntryEvolution is not empty %}
@@ -17,7 +17,7 @@
         </div>
         <div class="sparkline">{{ sparkline(urlSparklineSearchEngines) }}
             {{ 'Referers_TypeSearchEngines'|translate("<strong>"~visitorsFromSearchEngines~"</strong>")|raw }}
-            {% if visitorsFromSearchEnginesPercent is not empty %},
+            {% if visitorsFromSearchEnginesPercent|default is not empty %},
                 <strong>{{ visitorsFromSearchEnginesPercent }}%</strong> of visits
             {% endif %}
             {% if visitorsFromSearchEnginesEvolution is not empty %}
@@ -28,7 +28,7 @@
     <div id='rightcolumn'>
         <div class="sparkline">{{ sparkline(urlSparklineWebsites) }}
             {{ 'Referers_TypeWebsites'|translate("<strong>"~visitorsFromWebsites~"</strong>")|raw }}
-            {% if visitorsFromWebsitesPercent is not empty %},
+            {% if visitorsFromWebsitesPercent|default is not empty %},
                 <strong>{{ visitorsFromWebsitesPercent }}%</strong> of visits
             {% endif %}
             {% if visitorsFromWebsitesEvolution is not empty %}
@@ -37,7 +37,7 @@
         </div>
         <div class="sparkline">{{ sparkline(urlSparklineCampaigns) }}
             {{ 'Referers_TypeCampaigns'|translate("<strong>"~visitorsFromCampaigns~"</strong>")|raw }}
-            {% if visitorsFromCampaignsPercent is not empty %},
+            {% if visitorsFromCampaignsPercent|default is not empty %},
                 <strong>{{ visitorsFromCampaignsPercent }}%</strong> of visits
             {% endif %}
             {% if visitorsFromCampaignsEvolution is not empty %}

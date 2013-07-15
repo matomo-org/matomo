@@ -19,18 +19,10 @@ class Piwik_SitesManager extends Piwik_Plugin
     const KEEP_URL_FRAGMENT_YES = 1;
     const KEEP_URL_FRAGMENT_NO = 2;
 
-    public function getInformation()
-    {
-        $info = array(
-            'description'     => Piwik_Translate('SitesManager_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-        return $info;
-    }
-
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         return array(
             'AssetManager.getJsFiles'       => 'getJsFiles',
@@ -53,8 +45,8 @@ class Piwik_SitesManager extends Piwik_Plugin
      */
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/SitesManager/stylesheets/SitesManager.css";
-        $cssFiles[] = "plugins/Zeitgeist/stylesheets/styles.css";
+        $cssFiles[] = "plugins/SitesManager/stylesheets/SitesManager.less";
+        $cssFiles[] = "plugins/Zeitgeist/stylesheets/base.less";
     }
 
     /**

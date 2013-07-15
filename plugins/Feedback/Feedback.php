@@ -15,17 +15,11 @@
  */
 class Piwik_Feedback extends Piwik_Plugin
 {
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('Feedback_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-    }
 
-    function getListHooksRegistered()
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
     {
         return array(
             'AssetManager.getCssFiles' => 'getCssFiles',
@@ -48,7 +42,7 @@ class Piwik_Feedback extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Feedback/stylesheets/feedback.css";
+        $cssFiles[] = "plugins/Feedback/stylesheets/feedback.less";
     }
 
     public function getJsFiles(&$jsFiles)

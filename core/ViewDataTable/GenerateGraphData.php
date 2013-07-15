@@ -31,15 +31,58 @@
  */
 abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 {
-    /**
-     * Number of elements to display in the graph.
-     * @var int
-     */
-    protected $graphLimit = null;
     protected $yAxisUnit = '';
 
     // used for the series picker
     protected $selectableColumns = array();
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->viewProperties['graph_limit'] = null;
+        
+        $labelIdx = array_search('label', $this->viewProperties['columns_to_display']);
+        unset($this->viewProperties[$labelIdx]);
+    }
+    
+    public function init($currentControllerName,
+                           $currentControllerAction,
+                           $apiMethodToRequestDataTable,
+                           $controllerActionCalledWhenRequestSubTable = null,
+                           $defaultProperties = array())
+    {
+        parent::init($currentControllerName,
+                     $currentControllerAction,
+                     $apiMethodToRequestDataTable,
+                     $controllerActionCalledWhenRequestSubTable,
+                     $defaultProperties);
+        
+        $columns = Piwik_Common::getRequestVar('columns', false);
+        if ($columns !== false) {
+            $columns = Piwik::getArrayFromApiParameter($columns);
+        } else {
+            $columns = $this->viewProperties['columns_to_display'];
+        }
+        
+        // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
+        if ($this->getSortedColumn() != 'label') {
+            $firstColumn = reset($columns);
+            if ($firstColumn == 'label') {
+                $firstColumn = next($columns);
+            }
+            
+            $this->setSortedColumn($firstColumn);
+        }
+        
+        // selectable columns
+        if ($this->getViewDataTableId() != 'generateDataChartEvolution') {
+            $selectableColumns = array('nb_visits', 'nb_actions');
+            if (Piwik_Common::getRequestVar('period', false) == 'day') {
+                $selectableColumns[] = 'nb_uniq_visitors';
+            }
+            $this->setSelectableColumns($selectableColumns);
+        }
+    }
 
     public function setAxisYUnit($unit)
     {
@@ -54,7 +97,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
      */
     public function setGraphLimit($limit)
     {
-        $this->graphLimit = $limit;
+        $this->viewProperties['graph_limit'] = $limit;
     }
 
     /**
@@ -64,7 +107,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
      */
     public function getGraphLimit()
     {
-        return $this->graphLimit;
+        return $this->viewProperties['graph_limit'];
     }
 
     protected $displayPercentageInTooltip = true;

@@ -475,7 +475,6 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 
         $view = new Piwik_View('@Installation/systemCheckPage');
         $this->setBasicVariablesView($view);
-        $view->menu = Piwik_GetAdminMenu();
 
         $view->duringInstall = false;
 

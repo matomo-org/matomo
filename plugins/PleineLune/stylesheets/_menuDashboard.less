@@ -1,0 +1,49 @@
+
+/* FIRST LEVEL */
+.nav_tab> li {
+  background: transparent;
+  border-color: @theme-color-box-border;
+  margin-right: 5px;
+}
+
+.nav_tab> li:hover,
+.nav_tab> li.sfHover{
+  background-color: @theme-color-box-active;
+}
+
+.nav_tab> li.sfHover > a,
+.nav_tab> li.sfActive.sfHover > a {
+  border-bottom: 1px solid @theme-color-box-active;
+}
+
+.nav_tab> li > a,
+.nav_tab> li.sfActive > a {
+  color: @theme-color-text-base;
+}
+
+.nav_tab> li.sfHover > a,
+.nav_tab> li.sfActive.sfHover > a {
+  color: @theme-color-text-active;
+}
+
+/* SECOND LEVEL */
+.nav_sep {
+  border-color: @theme-color-box-border;
+  background: @theme-color-box-active;
+}
+
+.nav_tab> li li > a {
+  color: @theme-color-text-base;
+}
+
+.nav_tab> li li:hover > a,
+.nav_tab> li li:focus > a,
+.nav_tab> li li:active > a {
+  color: @theme-color-text-focus;
+}
+
+/* UNDER THE MENU */
+.page,
+.pageWrap {
+  background: none;
+}

@@ -82,75 +82,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
         echo $view->render();
     }
 
-    protected function getItemsView($fetch, $type, $function, $api, $abandonedCart = false)
-    {
-        $saveGET = $_GET;
-        $label = Piwik_Translate($type);
-        $abandonedCart = Piwik_Common::getRequestVar('viewDataTable', 'ecommerceOrder', 'string') == 'ecommerceAbandonedCart';
-
-        // Products in Ecommerce Orders
-        if ($abandonedCart === false) {
-            $view = new Piwik_ViewDataTable_HtmlTable_EcommerceOrder();
-            $columns = Piwik_Goals::getProductReportColumns();
-            $view->setMetricDocumentation('revenue', Piwik_Translate('Goals_ColumnRevenueDocumentation', Piwik_Translate('Goals_DocumentationRevenueGeneratedByProductSales')));
-            $view->setMetricDocumentation('quantity', Piwik_Translate('Goals_ColumnQuantityDocumentation', $label));
-            $view->setMetricDocumentation('orders', Piwik_Translate('Goals_ColumnOrdersDocumentation', $label));
-            $view->setMetricDocumentation('avg_price', Piwik_Translate('Goals_ColumnAveragePriceDocumentation', $label));
-            $view->setMetricDocumentation('avg_quantity', Piwik_Translate('Goals_ColumnAverageQuantityDocumentation', $label));
-            $view->setMetricDocumentation('nb_visits', Piwik_Translate('Goals_ColumnVisitsProductDocumentation', $label));
-            $view->setMetricDocumentation('conversion_rate', Piwik_Translate('Goals_ColumnConversionRateProductDocumentation', $label));
-        } // Products in Abandoned Carts
-        else {
-            $view = new Piwik_ViewDataTable_HtmlTable_EcommerceAbandonedCart();
-            $columns = Piwik_Goals::getProductReportColumns();
-            $columns['abandoned_carts'] = Piwik_Translate('General_AbandonedCarts');
-            $columns['revenue'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_ProductRevenue'));
-            $columns['quantity'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_Quantity'));
-            $columns['avg_quantity'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_AverageQuantity'));
-            unset($columns['orders']);
-            unset($columns['conversion_rate']);
-            $_GET['abandonedCarts'] = 1;
-        }
-
-        $view->init($this->pluginName, $function, $api);
-        $view->enableShowEcommerce();
-        $view->disableShowAllViewsIcons();
-        $view->disableShowTable();
-        $view->disableExcludeLowPopulation();
-        $view->disableShowAllColumns();
-        $this->setPeriodVariablesView($view);
-        $view->setLimit(10);
-
-        $view->setColumnsTranslations(array_merge(
-            array('label' => $label),
-            $columns
-        ));
-        $columnsToDisplay = array_merge(array('label'), array_keys($columns));
-        $view->setColumnsToDisplay($columnsToDisplay);
-        $view->setSortedColumn('revenue', 'desc');
-        foreach (array('revenue', 'avg_price') as $column) {
-            $view->queueFilter('ColumnCallbackReplace', array($column, array("Piwik", "getPrettyMoney"), array($this->idSite)));
-        }
-        $return = $this->renderView($view, $fetch);
-        $_GET = $saveGET;
-        return $return;
-    }
-
-    public function getItemsSku($fetch = false)
-    {
-        return $this->getItemsView($fetch, 'Goals_ProductSKU', __FUNCTION__, "Goals.getItemsSku");
-    }
-
-    public function getItemsName($fetch = false)
-    {
-        return $this->getItemsView($fetch, 'Goals_ProductName', __FUNCTION__, "Goals.getItemsName");
-    }
-
-    public function getItemsCategory($fetch = false)
-    {
-        return $this->getItemsView($fetch, 'Goals_ProductCategory', __FUNCTION__, "Goals.getItemsCategory");
-    }
-
     public function getEcommerceLog($fetch = false)
     {
         $saveGET = $_GET;
@@ -452,48 +383,6 @@ class Piwik_Goals_Controller extends Piwik_Controller
     }
 
     /**
-     * Gets the 'visits to conversion' report using the requested view type.
-     */
-    public function getVisitsUntilConversion($fetch = false)
-    {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__, 'Goals.getVisitsUntilConversion', 'getVisitsUntilConversion');
-        $view->disableSearchBox();
-        $view->disableExcludeLowPopulation();
-        $view->disableSubTableWhenShowGoals();
-        $view->disableShowAllColumns();
-        $view->setColumnsToDisplay(array('label', 'nb_conversions'));
-        $view->setSortedColumn('label', 'asc');
-        $view->setColumnTranslation('label', Piwik_Translate('Goals_VisitsUntilConv'));
-        $view->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
-        $view->setLimit(count(Piwik_Goals_Archiver::$visitCountRanges));
-        $view->disableOffsetInformationAndPaginationControls();
-        $view->disableShowAllViewsIcons();
-        return $this->renderView($view, $fetch);
-    }
-
-    /**
-     * Gets the 'days to conversion' report using the requested view type.
-     */
-    public function getDaysToConversion($fetch = false)
-    {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__, 'Goals.getDaysToConversion', 'getDaysToConversion');
-        $view->disableSearchBox();
-        $view->disableExcludeLowPopulation();
-        $view->disableSubTableWhenShowGoals();
-        $view->disableShowAllColumns();
-        $view->setColumnsToDisplay(array('label', 'nb_conversions'));
-        $view->setSortedColumn('label', 'asc');
-        $view->setColumnTranslation('label', Piwik_Translate('Goals_DaysToConv'));
-        $view->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
-        $view->disableShowAllViewsIcons();
-        $view->setLimit(count(Piwik_Goals_Archiver::$daysToConvRanges));
-        $view->disableOffsetInformationAndPaginationControls();
-        return $this->renderView($view, $fetch);
-    }
-
-    /**
      * Utility function that returns HTML that displays Goal information for reports. This
      * is the HTML that is at the bottom of every goals page.
      *
@@ -554,22 +443,33 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
         return $goalReportsByDimension->render();
     }
-}
+    
+    // 
+    // Report rendering actions
+    // 
 
-
-// Used so that the template knows which datatable is being currently viewed 
-class Piwik_ViewDataTable_HtmlTable_EcommerceOrder extends Piwik_ViewDataTable_HtmlTable
-{
-    protected function getViewDataTableId()
+    public function getItemsSku($fetch = false)
     {
-        return Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
-}
-
-class Piwik_ViewDataTable_HtmlTable_EcommerceAbandonedCart extends Piwik_ViewDataTable_HtmlTable
-{
-    protected function getViewDataTableId()
+    
+    public function getItemsName($fetch = false)
     {
-        return Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+    }
+
+    public function getItemsCategory($fetch = false)
+    {
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+    }
+
+    public function getVisitsUntilConversion($fetch = false)
+    {
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+    }
+
+    public function getDaysToConversion($fetch = false)
+    {
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 }

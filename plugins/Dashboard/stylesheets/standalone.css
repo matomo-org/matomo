@@ -27,8 +27,6 @@ body {
     border: 1px solid #e4e5e4;
     padding: 5px 10px 6px 10px;
     border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
     color: #444;
     height: 18px;
 }

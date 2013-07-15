@@ -15,8 +15,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 class Piwik_DevicesDetection extends Piwik_Plugin
 {
     /**
-     * Return information about this plugin.
-     * @return array
+     * @see Piwik_Plugin::getInformation
      */
     public function getInformation()
     {
@@ -25,8 +24,23 @@ class Piwik_DevicesDetection extends Piwik_Plugin
             'author' => 'Piwik and Clearcode.cc',
             'author_homepage' => 'http://clearcode.cc',
             'version' => '1.12-b6',
-            'TrackerPlugin' => true,
-            'translationAvailable' => true,
+        );
+    }
+
+
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
+    public function getListHooksRegistered()
+    {
+        return array(
+            'ArchiveProcessing_Day.compute' => "archiveDay",
+            'ArchiveProcessing_Period.compute' => 'archivePeriod',
+            'Menu.add' => 'addMenu',
+            'Tracker.newVisitorInformation' => 'parseMobileVisitData',
+            'WidgetsList.add' => 'addWidgets',
+            'API.getReportMetadata' => 'getReportMetadata',
+            'API.getSegmentsMetadata' => 'getSegmentsMetadata',
         );
     }
 
@@ -103,19 +117,6 @@ class Piwik_DevicesDetection extends Piwik_Plugin
             ),
         );
         return $report;
-    }
-
-    public function getListHooksRegistered()
-    {
-        return array(
-            'ArchiveProcessing_Day.compute' => "archiveDay",
-            'ArchiveProcessing_Period.compute' => 'archivePeriod',
-            'Menu.add' => 'addMenu',
-            'Tracker.newVisitorInformation' => 'parseMobileVisitData',
-            'WidgetsList.add' => 'addWidgets',
-            'API.getReportMetadata' => 'getReportMetadata',
-            'API.getSegmentsMetadata' => 'getSegmentsMetadata',
-        );
     }
 
     public function addWidgets()

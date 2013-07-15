@@ -16,16 +16,9 @@
  */
 class Piwik_LanguagesManager extends Piwik_Plugin
 {
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('LanguagesManager_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-    }
-
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
     public function getListHooksRegistered()
     {
         return array(
@@ -40,7 +33,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Zeitgeist/stylesheets/styles.css";
+        $cssFiles[] = "plugins/Zeitgeist/stylesheets/base.less";
     }
 
     public function getJsFiles(&$jsFiles)

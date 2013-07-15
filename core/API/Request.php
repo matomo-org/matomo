@@ -218,5 +218,26 @@ class Piwik_API_Request
         $GET = Piwik_Common::getArrayFromQueryString($_SERVER['QUERY_STRING']);
         return $GET;
     }
+    
+    /**
+     * Returns the current URL without generic filter query parameters.
+     * 
+     * @param array $params Query parameter values to override in the new URL.
+     * @return string
+     */
+    public static function getCurrentUrlWithoutGenericFilters($params)
+    {
+        // unset all filter query params so the related report will show up in its default state,
+        // unless the filter param was in $queryParams
+        $genericFiltersInfo = Piwik_API_DataTableGenericFilter::getGenericFiltersInformation();
+        foreach ($genericFiltersInfo as $filter) {
+            foreach ($filter as $queryParamName => $queryParamInfo) {
+                if (!isset($params[$queryParamName])) {
+                    $params[$queryParamName] = null;
+                }
+            }
+        }
 
+        return Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+    }
 }

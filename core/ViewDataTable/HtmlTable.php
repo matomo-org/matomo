@@ -20,41 +20,34 @@
 class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 {
     /**
-     * Set to true when the DataTable must be loaded along with all its children subtables
-     * Useful when searching for a pattern in the DataTable Actions (we display the full hierarchy)
-     *
-     * @var bool
-     */
-    protected $recursiveDataTableLoad = false;
-
-    /**
      * PHP array conversion of the Piwik_DataTable
      *
      * @var array
      */
     public $arrayDataTable; // phpArray
-
-    /**
-     * @see Piwik_ViewDataTable::init()
-     * @param string $currentControllerName
-     * @param string $currentControllerAction
-     * @param string $apiMethodToRequestDataTable
-     * @param null|string $controllerActionCalledWhenRequestSubTable
-     */
-    function init($currentControllerName,
-                  $currentControllerAction,
-                  $apiMethodToRequestDataTable,
-                  $controllerActionCalledWhenRequestSubTable = null)
+    
+    public function __construct()
     {
-        parent::init($currentControllerName,
-            $currentControllerAction,
-            $apiMethodToRequestDataTable,
-            $controllerActionCalledWhenRequestSubTable);
+        parent::__construct();
+
         $this->dataTableTemplate = '@CoreHome/_dataTable';
-        $this->variablesDefault['enable_sort'] = '1';
+        $this->viewProperties['enable_sort'] = '1';
+        $this->viewProperties['disable_row_evolution'] = false;
+        $this->viewProperties['disable_row_actions'] = false;
+        
         $this->setSortedColumn('nb_visits', 'desc');
         $this->setLimit(Piwik_Config::getInstance()->General['datatable_default_limit']);
         $this->handleLowPopulation();
+        $this->setSubtableTemplate("@CoreHome/_dataTable.twig");
+        $this->viewProperties['datatable_js_type'] = 'dataTable';
+        $this->viewProperties['datatable_css_class'] = $this->getDefaultDataTableCssClass();
+    }
+    
+    public function getJavaScriptProperties()
+    {
+        $result = parent::getJavaScriptProperties();
+        $result[] = 'search_recursive';
+        return $result;
     }
 
     protected function getViewDataTableId()
@@ -83,10 +76,36 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
             Piwik::log("Failed to get data from API: " . $e->getMessage());
 
             $this->isDataAvailable = false;
+            $this->loadingError = array('message' => $e->getMessage());
         }
 
         $this->postDataTableLoadedFromAPI();
         $this->view = $this->buildView();
+    }
+    
+    public function getDefaultDataTableCssClass()
+    {
+        return 'dataTableNormal';
+    }
+    
+    public function setDataTableCssClass($type)
+    {
+        $this->viewProperties['datatable_css_class'] = $type;
+    }
+    
+    public function setJsType($type)
+    {
+        $this->viewProperties['datatable_js_type'] = $type;
+    }
+    
+    public function setSubtableTemplate($subtableTemplate)
+    {
+        $this->viewProperties['subtable_template'] = $subtableTemplate;
+    }
+    
+    public function showExpanded()
+    {
+        $this->viewProperties['show_expanded'] = true;
     }
 
     /**
@@ -94,10 +113,15 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      */
     protected function buildView()
     {
-        $view = new Piwik_View($this->dataTableTemplate);
+        $template = $this->idSubtable ? $this->viewProperties['subtable_template'] : $this->dataTableTemplate;
+        $view = new Piwik_View($template);
+
+        if (!empty($this->loadingError)) {
+            $view->error = $this->loadingError;
+        }
 
         if (!$this->isDataAvailable) {
-            $view->arrayDataTable = array();
+            $view->dataTable = null;
         } else {
             $columns = $this->getColumnsToDisplay();
             $columnTranslations = $columnDocumentation = array();
@@ -108,10 +132,10 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
             $nbColumns = count($columns);
             // case no data in the array we use the number of columns set to be displayed
             if ($nbColumns == 0) {
-                $nbColumns = count($this->columnsToDisplay);
+                $nbColumns = count($this->viewProperties['columns_to_display']);
             }
 
-            $view->arrayDataTable = $this->getPHPArrayFromDataTable();
+            $view->dataTable = $this->dataTable;
             $view->dataTableColumns = $columns;
             $view->reportDocumentation = $this->getReportDocumentation();
             $view->columnTranslations = $columnTranslations;
@@ -164,51 +188,25 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      */
     public function addColumnToDisplay($columnName)
     {
-        $this->columnsToDisplay[] = $columnName;
+        $this->viewProperties['columns_to_display'][] = $columnName;
     }
 
     /**
      * Sets the search on a table to be recursive (also searches in subtables)
      * Works only on Actions/Downloads/Outlinks tables.
-     *
-     * @return bool If the pattern for a recursive search was set in the URL
      */
     public function setSearchRecursive()
     {
-        $this->variablesDefault['search_recursive'] = true;
-        return $this->setRecursiveLoadDataTableIfSearchingForPattern();
+        $this->viewProperties['search_recursive'] = true;
     }
 
-    protected function getRequestString()
+    protected function getRequestArray()
     {
-        $requestString = parent::getRequestString();
-        if ($this->recursiveDataTableLoad
-            && !Piwik_Common::getRequestVar('flat', false)
-        ) {
-            $requestString .= '&expanded=1';
+        $requestArray = parent::getRequestArray();
+        if (parent::shouldLoadExpanded()) {
+            $requestArray['expanded'] = 1;
         }
-        return $requestString;
-    }
-
-    /**
-     * Set the flag to load the datatable recursively so we can search on subtables as well
-     *
-     * @return bool if recursive search is enabled
-     */
-    protected function setRecursiveLoadDataTableIfSearchingForPattern()
-    {
-        try {
-            $requestValue = Piwik_Common::getRequestVar('filter_column_recursive');
-            $requestValue = Piwik_Common::getRequestVar('filter_pattern_recursive');
-            // if the 2 variables are set we are searching for something.
-            // we have to load all the children subtables in this case
-
-            $this->recursiveDataTableLoad = true;
-            return true;
-        } catch (Exception $e) {
-            $this->recursiveDataTableLoad = false;
-            return false;
-        }
+        return $requestArray;
     }
 
     /**
@@ -216,7 +214,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      */
     public function disableRowEvolution()
     {
-        $this->variablesDefault['disable_row_evolution'] = true;
+        $this->viewProperties['disable_row_evolution'] = true;
     }
 
     /**
@@ -224,7 +222,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
      */
     public function disableRowActions()
     {
-        $this->variablesDefault['disable_row_actions'] = true;
+        $this->viewProperties['disable_row_actions'] = true;
     }
 
 }

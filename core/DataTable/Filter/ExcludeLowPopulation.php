@@ -21,22 +21,29 @@
  */
 class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
 {
-    static public $minimumValue;
     const MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD = 0.02;
+    
+    /**
+     * The minimum value to enforce in a datatable for a specified column. Rows found with
+     * a value less than this are removed.
+     * 
+     * @var number
+     */
+    private $minimumValue;
 
     /**
      * Constructor
      *
      * @param Piwik_DataTable $table
      * @param string $columnToFilter              column to filter
-     * @param number $minimumValue                minimum value
+     * @param number|Closure $minimumValue                minimum value
      * @param bool $minimumPercentageThreshold
      */
     public function __construct($table, $columnToFilter, $minimumValue, $minimumPercentageThreshold = false)
     {
         parent::__construct($table);
         $this->columnToFilter = $columnToFilter;
-
+        
         if ($minimumValue == 0) {
             if ($minimumPercentageThreshold === false) {
                 $minimumPercentageThreshold = self::MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD;
@@ -45,7 +52,8 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
             $sumValues = array_sum($allValues);
             $minimumValue = $sumValues * $minimumPercentageThreshold;
         }
-        self::$minimumValue = $minimumValue;
+        
+        $this->minimumValue = $minimumValue;
     }
 
     /**
@@ -53,23 +61,13 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
      *
      * @param Piwik_DataTable $table
      */
-    function filter($table)
+    public function filter($table)
     {
-        $table->filter('ColumnCallbackDeleteRow',
-            array($this->columnToFilter,
-                  array("Piwik_DataTable_Filter_ExcludeLowPopulation", "excludeLowPopulation")
-            )
-        );
-    }
-
-    /**
-     * Checks whether the given value is below the defined minimum
-     *
-     * @param number $value  value to check
-     * @return bool
-     */
-    static public function excludeLowPopulation($value)
-    {
-        return $value >= self::$minimumValue;
+        $minimumValue = $this->minimumValue;
+        $isValueHighPopulation = function ($value) use ($minimumValue) {
+            return $value >= $minimumValue;
+        };
+        
+        $table->filter('ColumnCallbackDeleteRow', array($this->columnToFilter, $isValueHighPopulation));
     }
 }

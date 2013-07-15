@@ -1,10 +1,10 @@
 <span id="logo">
-    <a href="index.php" title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik # {{ 'General_OpenSourceWebAnalytics'|translate }}" style="text-decoration: none;">
+    <a href="index.php" title="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik # {{ 'General_OpenSourceWebAnalytics'|translate }}">
     {% if hasSVGLogo %}
-        <img src='{{ logoSVG }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik" style='margin-left: 10px' height='40' class="ie-hide" />
+        <img src='{{ logoSVG }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik"  class="ie-hide" />
         <!--[if lt IE 9]>
     {% endif %}
-    <img src='{{ logoHeader }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik" style='margin-left:10px' height='50'/>
+        <img src='{{ logoHeader }}' alt="{% if isCustomLogo %}{{ 'General_PoweredBy'|translate }} {% endif %}Piwik" />
     {% if hasSVGLogo %}<![endif]-->{% endif %}
 </a>
 </span>

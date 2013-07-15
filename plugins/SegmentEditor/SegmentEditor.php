@@ -14,6 +14,9 @@
  */
 class Piwik_SegmentEditor extends Piwik_Plugin
 {
+    /**
+     * @see Piwik_Plugin::getInformation
+     */
     public function getInformation()
     {
         return array(
@@ -24,6 +27,9 @@ class Piwik_SegmentEditor extends Piwik_Plugin
         );
     }
 
+    /**
+     * @see Piwik_Plugin::getListHooksRegistered
+     */
     public function getListHooksRegistered()
     {
         return array(
@@ -95,8 +101,8 @@ class Piwik_SegmentEditor extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/SegmentEditor/stylesheets/segmentation.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/segmentation.less";
         $cssFiles[] = "plugins/SegmentEditor/stylesheets/jquery.jscrollpane.css";
-        $cssFiles[] = "plugins/SegmentEditor/stylesheets/scroll.css";
+        $cssFiles[] = "plugins/SegmentEditor/stylesheets/scroll.less";
     }
 }

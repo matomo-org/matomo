@@ -17,8 +17,7 @@
 class Piwik_AnonymizeIP extends Piwik_Plugin
 {
     /**
-     * Get plugin information
-     * @return array
+     * @see Piwik_Plugin::getInformation
      */
     public function getInformation()
     {
@@ -27,13 +26,11 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
             'version'         => Piwik_Version::VERSION,
-            'TrackerPlugin'   => true,
         );
     }
 
     /**
-     * Get list of hooks to register
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {

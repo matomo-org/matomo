@@ -16,26 +16,7 @@
 class Piwik_ExampleRssWidget extends Piwik_Plugin
 {
     /**
-     * Return information about this plugin.
-     *
-     * @see Piwik_Plugin
-     *
-     * @return array
-     */
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('ExampleRssWidget_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => '0.1',
-        );
-    }
-
-    /**
-     * Returns a list of registered hooks.
-     *
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {
@@ -47,7 +28,7 @@ class Piwik_ExampleRssWidget extends Piwik_Plugin
 
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/ExampleRssWidget/stylesheets/rss.css";
+        $cssFiles[] = "plugins/ExampleRssWidget/stylesheets/rss.less";
     }
 
     public function addWidgets()

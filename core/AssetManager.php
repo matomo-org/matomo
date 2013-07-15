@@ -10,11 +10,6 @@
  */
 
 /**
- * @see libs/cssmin/cssmin.php
- */
-require_once PIWIK_INCLUDE_PATH . '/libs/cssmin/cssmin.php';
-
-/**
  * @see libs/jsmin/jsmin.php
  */
 require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
@@ -57,11 +52,6 @@ class Piwik_AssetManager
      */
     public static function getCssAssets()
     {
-        if (self::getDisableMergedAssets()) {
-            // Individual includes mode
-            self::removeMergedAsset(self::MERGED_CSS_FILE);
-            return self::getIndividualCssIncludes();
-        }
         return sprintf(self::CSS_IMPORT_DIRECTIVE, self::GET_CSS_MODULE_ACTION);
     }
 
@@ -81,6 +71,19 @@ class Piwik_AssetManager
     }
 
     /**
+     * Assets are cached in the browser and Piwik server returns 304 after initial download.
+     * when the Cache buster string changes, the assets will be re-generated
+     *
+     * @return string
+     */
+    public static function generateAssetsCacheBuster()
+    {
+        $pluginList = md5(implode(",", Piwik_PluginsManager::getInstance()->getLoadedPluginsName()));
+        $cacheBuster = md5(Piwik_Common::getSalt() . $pluginList . PHP_VERSION . Piwik_Version::VERSION);
+        return $cacheBuster;
+    }
+
+    /**
      * Generate the merged css file.
      *
      * @throws Exception if a file can not be opened in write mode
@@ -96,6 +99,11 @@ class Piwik_AssetManager
         }
         $rootDirectoryLen = strlen($rootDirectory);
 
+        if(!class_exists("lessc")) {
+            throw new Exception("Less was added to composer during 2.0. ==> Execute this command to update composer packages: \$ php composer.phar update");
+        }
+        $less = new lessc;
+
         // Loop through each css file
         $files = self::getCssFiles();
         foreach ($files as $file) {
@@ -103,6 +111,7 @@ class Piwik_AssetManager
             self::validateCssFile($file);
 
             $fileLocation = self::getAbsoluteLocation($file);
+            $less->addImportDir(dirname($fileLocation));
             $content = file_get_contents($fileLocation);
 
             // Rewrite css url directives
@@ -120,8 +129,7 @@ class Piwik_AssetManager
             $mergedContent = $mergedContent . $content;
         }
 
-        $mergedContent = cssmin::minify($mergedContent);
-        $mergedContent = str_replace("\n", "\r\n", $mergedContent);
+        $mergedContent = $less->compile($mergedContent);
 
         Piwik_PostEvent('AssetManager.filterMergedCss', array(&$mergedContent));
 
@@ -189,7 +197,7 @@ class Piwik_AssetManager
     {
         $priorityCssOrdered = array(
             'libs/',
-            'plugins/Zeitgeist/stylesheets/common.css',
+            'plugins/Zeitgeist/stylesheets/base.less',
             'plugins/Zeitgeist/stylesheets/',
             'plugins/',
         );

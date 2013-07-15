@@ -1,0 +1,15 @@
+{% extends 'admin.twig' %}
+
+{% import '@CorePluginsAdmin/macros.twig' as plugins %}
+
+{% block content %}
+<div style="max-width:980px;">
+
+    <h2>{{ 'CorePluginsAdmin_PluginsManagement'|translate }}</h2>
+
+    <p>{{ 'CorePluginsAdmin_MainDescription'|translate }}</p>
+
+    {{ plugins.tablePlugins(pluginsInfo, token_auth) }}
+
+</div>
+{% endblock %}

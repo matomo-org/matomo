@@ -18,24 +18,7 @@
 class Piwik_Annotations extends Piwik_Plugin
 {
     /**
-     * Returns information about this plugin.
-     *
-     * @return array
-     */
-    public function getInformation()
-    {
-        return array(
-            'description'     => Piwik_Translate('Annotations_PluginDescription'),
-            'author'          => 'Piwik',
-            'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
-        );
-    }
-
-    /**
-     * Returns list of event hooks.
-     *
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
     public function getListHooksRegistered()
     {
@@ -50,7 +33,7 @@ class Piwik_Annotations extends Piwik_Plugin
      */
     public function getCssFiles(&$cssFiles)
     {
-        $cssFiles[] = "plugins/Annotations/stylesheets/annotations.css";
+        $cssFiles[] = "plugins/Annotations/stylesheets/annotations.less";
     }
 
     /**

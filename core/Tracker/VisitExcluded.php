@@ -130,6 +130,7 @@ class Piwik_Tracker_VisitExcluded
         return !$allowBots
             && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
                 || strpos($this->userAgent, 'Google Web Preview') !== false // Google Instant
+                || strpos($this->userAgent, 'Google Page Speed Insights') !== false // #4049
                 || strpos($this->userAgent, 'bingbot') !== false // Bingbot
                 || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
                 || Piwik_IP::isIpInRange($this->ip, $this->getBotIpRanges()));

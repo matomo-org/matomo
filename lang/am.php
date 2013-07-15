@@ -149,7 +149,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'ያልተመረጠ',
 	'CorePluginsAdmin_Deactivate' => 'አቦዝን',
 	'CorePluginsAdmin_Activate' => 'አግብር',
-	'CorePluginsAdmin_MenuPlugins' => 'ተሰኪዎች',
 	'CoreUpdater_UpdateTitle' => 'ፒዊክ › አልቅ',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'የውሂብ ጎታ ማላቅ ያስፈልጋል',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'የፒዊክ የውሂብ ጎታዎ ቀኑ ሰላለፈበት ከመቀጠልዎ በፊት ማላቅ ያስፈልገዋል',

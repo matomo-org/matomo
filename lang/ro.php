@@ -450,7 +450,6 @@ $translations = array(
 	'CorePluginsAdmin_Inactive' => 'Inactiv',
 	'CorePluginsAdmin_Deactivate' => 'Dezactivare',
 	'CorePluginsAdmin_Activate' => 'Activare',
-	'CorePluginsAdmin_MenuPlugins' => 'Pluginuri',
 	'CoreUpdater_UpdateTitle' => 'Piwik › Actualizare',
 	'CoreUpdater_DatabaseUpgradeRequired' => 'Actualizare necesara a bazei de date',
 	'CoreUpdater_YourDatabaseIsOutOfDate' => 'Baza ta de date este expirata, si trebuie actualizata inainte de a continua.',

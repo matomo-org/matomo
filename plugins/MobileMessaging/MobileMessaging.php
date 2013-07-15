@@ -53,27 +53,9 @@ class Piwik_MobileMessaging extends Piwik_Plugin
     );
 
     /**
-     * Return information about this plugin.
-     *
-     * @see Piwik_Plugin
-     *
-     * @return array
+     * @see Piwik_Plugin::getListHooksRegistered
      */
-    public function getInformation()
-    {
-        return array(
-            'name'             => 'Mobile Messaging Plugin',
-            'description'      => Piwik_Translate('MobileMessaging_PluginDescription'),
-            'homepage'         => 'http://piwik.org/',
-            'author'           => 'Piwik',
-            'author_homepage'  => 'http://piwik.org/',
-            'license'          => 'GPL v3 or later',
-            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
-            'version'          => Piwik_Version::VERSION,
-        );
-    }
-
-    function getListHooksRegistered()
+    public function getListHooksRegistered()
     {
         return array(
             'AdminMenu.add'                       => 'addMenu',
@@ -111,7 +93,7 @@ class Piwik_MobileMessaging extends Piwik_Plugin
 
     public function getCssFiles($cssFiles)
     {
-        $cssFiles[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.css";
+        $cssFiles[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
     }
     
     public function validateReportParameters(&$parameters, $info)

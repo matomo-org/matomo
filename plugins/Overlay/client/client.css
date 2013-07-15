@@ -121,18 +121,7 @@
     border-top: 1px solid #ccc;
     border-left: 1px solid #ccc;
     background: #fbfbfb;
-    -webkit-border-top-left-radius: 6px;
-    -webkit-border-top-right-radius: 0px;
-    -webkit-border-bottom-right-radius: 0px;
-    -webkit-border-bottom-left-radius: 0px;
-    -moz-border-radius-topleft: 6px;
-    -moz-border-radius-topright: 0px;
-    -moz-border-radius-bottomright: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
+    border-radius: 6px 0 0;
 }
 
 #PIS_StatusBar .PIS_Item {
