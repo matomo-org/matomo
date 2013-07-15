@@ -120,7 +120,6 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
         $this->displayWarningIfConfigFileNotWritable($view);
         $this->setBasicVariablesView($view);
-
         echo $view->render();
     }
 

@@ -38,10 +38,18 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
 
     function addMenu()
     {
-        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlugins', null, "", Piwik::isUserIsSuperUser(), $order = 15);
-        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlugins', 'CorePluginsAdmin_MenuPluginsInstalled',
-            array('module' => 'CorePluginsAdmin', 'action' => 'index'),
+        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', null, "", Piwik::isUserIsSuperUser(), $order = 15);
+        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Plugins',
+            array('module' => 'CorePluginsAdmin', 'action' => 'plugins'),
             Piwik::isUserIsSuperUser(),
             $order = 1);
+        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_Themes',
+            array('module' => 'CorePluginsAdmin', 'action' => 'themes'),
+            Piwik::isUserIsSuperUser(),
+            $order = 3);
+        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_MenuMarketplace',
+            array('module' => 'CorePluginsAdmin', 'action' => 'marketplace'),
+            Piwik::isUserIsSuperUser(),
+            $order = 5);
     }
 }

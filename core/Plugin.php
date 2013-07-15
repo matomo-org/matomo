@@ -28,6 +28,7 @@ abstract class Piwik_Plugin
      * - 'version' => string            // plugin version number; examples and 3rd party plugins must not use Piwik_Version::VERSION; 3rd party plugins must increment the version number with each plugin release
      * - 'translationAvailable' => bool // is there a translation file in plugins/your-plugin/lang/* ?
      * - 'TrackerPlugin' => bool        // should we load this plugin during the stats logging process?
+     * - 'theme' => bool                // Whether this plugin is a theme (a theme is a plugin, but a plugin is not necessarily a theme)
      *
      * @return array
      */
@@ -106,6 +107,17 @@ abstract class Piwik_Plugin
     {
         $info = $this->getInformation();
         return $info['version'];
+    }
+
+    /**
+     * Whether this plugin is a theme
+     *
+     * @return bool
+     */
+    final public function isTheme()
+    {
+        $info = $this->getInformation();
+        return !empty($info['theme']) && (bool)$info['theme'];
     }
 
     /**
