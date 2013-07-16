@@ -15,9 +15,9 @@
  */
 class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 {
-    function marketplace()
+    function extend()
     {
-        $view = $this->configureView('@CorePluginsAdmin/marketplace');
+        $view = $this->configureView('@CorePluginsAdmin/extend');
         echo $view->render();
     }
 
@@ -66,7 +66,6 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
         foreach ($loadedPlugins as $oPlugin) {
             $pluginName = $oPlugin->getPluginName();
             $plugins[$pluginName]['info'] = $oPlugin->getInformation();
-            $plugins[$pluginName]['theme'] = $oPlugin->isTheme();
         }
 
         foreach ($plugins as $pluginName => &$plugin) {
@@ -80,12 +79,23 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
             }
         }
 
+        $pluginsFiltered = $this->keepPluginsOrThemes($themesOnly, $plugins);
+        return $pluginsFiltered;
+    }
+
+    protected function keepPluginsOrThemes($themesOnly, $plugins)
+    {
         $pluginsFiltered = array();
-        foreach($plugins as $name => $plugin) {
-            $isTheme = $plugin['theme'];
-            if( ($themesOnly && $isTheme)
-                || (!$themesOnly && !$isTheme)) {
-                $pluginsFiltered[$name] = $plugin;
+        foreach ($plugins as $name => $thisPlugin) {
+
+            $isTheme = false;
+            if (!empty($thisPlugin['info']['theme'])) {
+                $isTheme = (bool)$thisPlugin['info']['theme'];
+            }
+            if (($themesOnly && $isTheme)
+                || (!$themesOnly && !$isTheme)
+            ) {
+                $pluginsFiltered[$name] = $thisPlugin;
             }
         }
         return $pluginsFiltered;

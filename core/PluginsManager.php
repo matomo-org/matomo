@@ -51,6 +51,9 @@ class Piwik_PluginsManager
         'API',
         'Proxy',
         'LanguagesManager',
+
+        // default Piwik theme, always enabled
+        Piwik_Twig::DEFAULT_THEME,
     );
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
@@ -154,8 +157,8 @@ class Piwik_PluginsManager
         if ($pluginsName != false) {
             foreach ($pluginsName as $path) {
                 $name = basename($path);
-                if (file_exists($path . '/' . $name . '.php')) // only add folder if a Plugin/Plugin.php file exists
-                {
+                $pluginStructureLooksValid = file_exists($path . "/" . $name . ".php") || file_exists($path . "/" . self::PLUGIN_JSON_FILENAME);
+                if ($pluginStructureLooksValid) {
                     $result[] = $name;
                 }
             }
@@ -163,9 +166,9 @@ class Piwik_PluginsManager
         return $result;
     }
 
-    public function loadInfoFromJson(Piwik_Plugin $plugin)
+    public function loadInfoFromJson($pluginName)
     {
-        $path = $this->getPluginsDirectory() . $plugin->getPluginName() . '/' . self::PLUGIN_JSON_FILENAME;
+        $path = $this->getPluginsDirectory() . $pluginName . '/' . self::PLUGIN_JSON_FILENAME;
         if(!file_exists($path)) {
             return false;
         }
@@ -189,10 +192,13 @@ class Piwik_PluginsManager
      * Deactivate plugin
      *
      * @param string $pluginName  Name of plugin
+     * @param array $plugins Array of plugin names
      */
-    public function deactivatePlugin($pluginName)
+    public function deactivatePlugin($pluginName, $plugins = false)
     {
-        $plugins = $this->pluginsToLoad;
+        if(empty($plugins)) {
+            $plugins = $this->pluginsToLoad;
+        }
         $key = array_search($pluginName, $plugins);
 
         $plugin = $this->loadPlugin($pluginName);
@@ -216,6 +222,8 @@ class Piwik_PluginsManager
 
         Piwik_Config::getInstance()->forceSave();
         Piwik::deleteAllCacheOnUpdate();
+
+        return $plugins;
     }
 
     /**
@@ -264,9 +272,14 @@ class Piwik_PluginsManager
         // we add the plugin to the list of activated plugins
         if (!in_array($pluginName, $plugins)) {
             $plugins[] = $pluginName;
-        } else {
-            // clean up if we find a dupe
-            $plugins = array_unique($plugins);
+        }
+        $plugins = array_unique($plugins);
+
+        // Only one theme enabled at a time
+        $themeAlreadyEnabled = $this->getThemeEnabled();
+        if($plugin->isTheme()
+            && $themeAlreadyEnabled) {
+            $plugins = $this->deactivatePlugin( $themeAlreadyEnabled, $plugins );
         }
 
         // the config file will automatically be saved with the new plugin
@@ -274,6 +287,25 @@ class Piwik_PluginsManager
         Piwik_Config::getInstance()->forceSave();
 
         Piwik::deleteAllCacheOnUpdate();
+    }
+
+    /**
+     * Returns the name of the non default theme currently enabled.
+     * If Zeitgeist is enabled, returns false (nb: Zeitgeist cannot be disabled)
+     *
+     * @return string
+     */
+    protected function getThemeEnabled()
+    {
+        $plugins = $this->getLoadedPlugins();
+        foreach($plugins as $plugin) {
+            /* @var $plugin Piwik_Plugin */
+            if($plugin->isTheme()
+                && $plugin->getPluginName() != Piwik_Twig::DEFAULT_THEME) {
+                return $plugin->getPluginName();
+            }
+        }
+        return false;
     }
 
     /**
@@ -353,7 +385,7 @@ class Piwik_PluginsManager
      *        'UserSettings' => Piwik_Plugin $pluginObject,
      *    );
      *
-     * @return array
+     * @return array,Piwik_Plugin
      */
     public function getLoadedPlugins()
     {
@@ -410,6 +442,22 @@ class Piwik_PluginsManager
         if (isset($this->loadedPlugins[$pluginName])) {
             return $this->loadedPlugins[$pluginName];
         }
+        $newPlugin = $this->makePluginClass($pluginName);
+
+        $this->addLoadedPlugin($pluginName, $newPlugin);
+
+        Piwik_EventDispatcher::getInstance()->postPendingEventsTo($newPlugin);
+
+        return $newPlugin;
+    }
+
+    /**
+     * @param $pluginName
+     * @return Piwik_Plugin
+     * @throws Exception
+     */
+    protected function makePluginClass($pluginName)
+    {
         $pluginFileName = sprintf("%s/%s.php", $pluginName, $pluginName);
         $pluginClassName = sprintf('Piwik_%s', $pluginName);
 
@@ -420,14 +468,14 @@ class Piwik_PluginsManager
         $path = $this->getPluginsDirectory() . $pluginFileName;
 
         if (!file_exists($path)) {
-            // ToDo: We should log this - but this will crash in Tracker mode since core/Piwik is not loaded
-            //Piwik::log(sprintf("Unable to load plugin '%s' because '%s' couldn't be found.", $pluginName, $path));
-            throw new Exception(sprintf("Unable to load plugin '%s' because '%s' couldn't be found.", $pluginName, $path));
+            // Create the smallest minimal Piwik Plugin
+            // Eg. Used for Zeitgeist default theme which does not have a Zeitgeist.php file
+            $minimalistPlugin = new Piwik_Plugin();
+            $minimalistPlugin->setPluginName($pluginName);
+            return $minimalistPlugin;
         }
 
-        // Don't remove this.
-        // Our autoloader can't find plugins/PluginName/PluginName.php
-        require_once $path; // prefixed by PIWIK_INCLUDE_PATH
+        require_once $path;
 
         if (!class_exists($pluginClassName, false)) {
             throw new Exception("The class $pluginClassName couldn't be found in the file '$path'");
@@ -437,11 +485,6 @@ class Piwik_PluginsManager
         if (!($newPlugin instanceof Piwik_Plugin)) {
             throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
         }
-
-        $this->addLoadedPlugin($pluginName, $newPlugin);
-
-        Piwik_EventDispatcher::getInstance()->postPendingEventsTo($newPlugin);
-
         return $newPlugin;
     }
 

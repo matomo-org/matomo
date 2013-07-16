@@ -12,7 +12,9 @@ env:
     - TEST_SUITE=PluginTests
     - TEST_SUITE=CoreTests
     - TEST_SUITE=IntegrationTests
-
+  global:
+    secure: "AMhZmPZx4SUcuZRBzGHlQPxzM4D8FvFB3UThDa52gbi9KIBrwcumzV2VGi6B\n5fgjwtB4XTE1In7qhY2HMikPWBmWYYOQ5QcMPJsqqHt4iMmahx8WKzne6NOk\nNpqAuje/fulNGeP2LJZi0nrub3Fh4VwXaOvpNloKNQN/2JuqPtM="
+  
 # Run PHP 5.4 for aa tests to generate
 # code coverage.
 
@@ -44,6 +46,10 @@ before_script:
 after_success:
   - cd $TRAVIS_BUILD_DIR
   - ./tests/travis/generate_docs.sh
+
+after_script:
+  - cd $TRAVIS_BUILD_DIR
+  - ./tests/travis/upload_artifacts.sh
 
 notifications:
   irc:
