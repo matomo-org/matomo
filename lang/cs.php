@@ -274,7 +274,6 @@ $translations = array(
 	'General_ExceptionInvalidDateFormat' => 'Formát data musí být: %s nebo klíčové slovo podporované funkcí %s (více informací viz %s)',
 	'General_ExceptionLanguageFileNotFound' => 'Jazykový soubor \'%s\' nenalezen',
 	'General_ExceptionUnableToStartSession' => 'Otevřeno k start session',
-	'General_WarningFileIntegritySkipped' => 'Detekováno vývojářské nastavení. Test integrity souboru vynechán',
 	'General_WarningFileIntegrityNoManifest' => 'Test integrity nemůže být proveden z důvodů chybějícího souboru manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Test integrity nemůže být dokončen z důvodů chybějící funkce md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'Test integrity selhal a nahlásil nějaké chyby. To je díky částečně nebo špatně nahraným souborům Piwiku. Měli byste znova nahrát všechny soubory Piwiku v módu BINARY.',

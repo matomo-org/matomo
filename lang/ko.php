@@ -293,7 +293,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => '\'%s\' 언어 파일을 찾을 수 없습니다',
 	'General_ExceptionUnableToStartSession' => '세션을 시작할 수 없습니다.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => '사용자는 슈퍼 사용자 또는 사용자 중 \'%s\' 자체 여야합니다.',
-	'General_WarningFileIntegritySkipped' => '개발 환경이 검출 되었기 때문에, 파일 무결성 검사가 생략되었습니다.',
 	'General_WarningFileIntegrityNoManifest' => 'manifest.inc.php가 없기 때문에, 파일의 무결성 검사를 수행할 수 없습니다.',
 	'General_WarningFileIntegrityNoMd5file' => 'md5_file() 함수가 존재하지 않기 때문에, 파일 무결성 검사를 완료할 수 없습니다.',
 	'General_FileIntegrityWarningExplanation' => '파일의 무결성 검사가 실패하고 몇 가지 오류가 보고되었습니다. 이것은 대부분의 경우, 파일이 불완전하거나 일부 Piwik 파일을 업로드에 실패했을 때 입니다. 모든 Piwik 파일을 바이너리 모드로 다시 업로드하여 오류가 나타나지 않을 때까지 페이지를 새로 고침할 필요가 있습니다.',

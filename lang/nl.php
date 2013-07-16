@@ -289,7 +289,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Taal bestand \'%s\' is niet gevonden.',
 	'General_ExceptionUnableToStartSession' => 'Kan sessie niet starten.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'De gebruiker moet ofwel de Super User zijn ofwel de gebruiker \'%s\'.',
-	'General_WarningFileIntegritySkipped' => 'Ontwikkel omgeving gedetecteerd. Bestand integriteit controle overgeslagen',
 	'General_WarningFileIntegrityNoManifest' => 'Bestand integriteit controle kon niet worden uitgevoerd vanwege ontbrekend manifest.inc.php',
 	'General_WarningFileIntegrityNoMd5file' => 'Bestand integriteit controle kon niet worden voltooid vanwege ontbrekende md5_file() functie.',
 	'General_FileIntegrityWarningExplanation' => 'Bestand integriteit controle mislukt en er zijn fouten ontdekt. Dit komt waarschijnlijk door een gedeeltelijke of mislukte upload van enkele Piwik bestanden. We raden u aan alle Piwik bestanden opnieuw te uploaden en deze pagina te vernieuwen tot er geen fouten meer weergegeven worden.',

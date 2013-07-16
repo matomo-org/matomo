@@ -206,7 +206,6 @@ $translations = array(
 	'General_ExceptionInvalidToken' => 'הכרטיס לא תקף.',
 	'General_ExceptionInvalidDateFormat' => 'תבנית התאריך מוכרחה להיות: %s או כל מילת מפתח שנתמכת על ידי פונקצית ה %s (ראו %s בשביל מידע נוסף)',
 	'General_ExceptionLanguageFileNotFound' => 'קובץ השפה \'%s\' לא נמצא.',
-	'General_WarningFileIntegritySkipped' => 'זוהתה סביבת פיתוח. נפסחה בדיקת תקינות קבצים.',
 	'General_WarningFileIntegrityNoManifest' => 'לא ניתן לבצע בדיקת תקינות קבצים מכיוון שהקובץ manifest.inc.php חסר.',
 	'General_WarningFileIntegrityNoMd5file' => 'לא ניתן לבצע בדיקת תקינות קבצים מכיוון שהפונקציה md5_file() חסרה.',
 	'General_FileIntegrityWarningExplanation' => 'בדיקת תקינות קבצים נכשלה ודיווחה על מספר שגיאות. ייתכן וזה נגרם עקב העלאה חלקית או כושלת של קבצי המערכת. יש להעלות את הקבצים מחדש במצב BINARY ולרענן את העמוד עד שלא יוצגו שגיאות.',

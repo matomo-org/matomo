@@ -280,7 +280,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Fisierul de limba \'%s\' nu a fost gasit.',
 	'General_ExceptionUnableToStartSession' => 'Sesiunea nu a putut fi pornita',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Utilizatorul trebuie să fie ori Super User ori utilizatorul  \'%s\' însuşi.',
-	'General_WarningFileIntegritySkipped' => 'Mediu de development detectat. Verificare integritatii fisierelor a fost sarita.',
 	'General_WarningFileIntegrityNoManifest' => 'Verificare integritatii fisierelor nu a putut fi efectuata din cauza lipsei manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Verificare integritatii fisierelor nu a putut fi efectuata din cauza lipsei functiei md5_file()',
 	'General_FileIntegrityWarningExplanation' => 'Verificare integritatii fisierelor a esuat si a raportat erori. Acest lucru s-a intamplat din cauza incarcarii partiale a unor fisiere Piwik. Ar trebui sa urcati din nou toate fisierele Piwik in mod BINARY si sa faceti refresh.',

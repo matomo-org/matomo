@@ -293,7 +293,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'File di lingua \'%s\' non trovato.',
 	'General_ExceptionUnableToStartSession' => 'Impossibile avviare la sessione.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'L\'utente deve essere il Super Utente o l\'utente \'%s\' stesso.',
-	'General_WarningFileIntegritySkipped' => 'Individuato ambiente di sviluppo. Controllo dell\'integrità dei file saltato.',
 	'General_WarningFileIntegrityNoManifest' => 'Il controllo dell\'integrità dei file non può essere eseguito per la mancanza del file manifest.inc.php',
 	'General_WarningFileIntegrityNoMd5file' => 'Il controllo dell\'integrità dei file non può essere eseguito per la mancanza della funzione md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'Il controllo dell\'integrità dei file è fallito ed ha riportato alcuni errori. Ciò è molto probabilmente dovuto al parzioale o fallito upload di alcuni file di Piwik. Dovresti riprovare a rifare l\'upload di tutti i file di Piwik e aggiornare questa pagina fino a quando non mostrerà errori.',

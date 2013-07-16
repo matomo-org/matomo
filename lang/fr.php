@@ -307,7 +307,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Le fichier de langage \'%s\' n\'a pas été trouvé.',
 	'General_ExceptionUnableToStartSession' => 'Impossible de démarrer une session.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'L\'utilisateur doit être le super utilisateur ou l\'utilisateur \'%s\' lui-même.',
-	'General_WarningFileIntegritySkipped' => 'Environnement de développement détecté. Contrôle d\'intégrité ignoré.',
 	'General_WarningFileIntegrityNoManifest' => 'Le contrôle d\'intégrité n\'a pu être effectué car le fichier manifest.inc.php est manquant.',
 	'General_WarningFileIntegrityNoMd5file' => 'Le contrôle d\'intégrité n\'a pu être effectué car la fonction md5_file() est manquante.',
 	'General_FileIntegrityWarningExplanation' => 'Le contrôle d\'intégrité a échoué et a rapporté des erreurs. Cela est probablement dû à un envoi de fichier partiel ou en échec des fichiers de Piwik. Vous devriez envoyer de nouveau les fichiers de Piwik et rafraîchir cette page jusqu\'à ce qu\'elle n\'affiche plus aucune erreur.',

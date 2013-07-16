@@ -288,7 +288,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Kieltä %s ei löydy',
 	'General_ExceptionUnableToStartSession' => 'Session käynnistäminen ei onnistu.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Käyttäjän täytyy olla pääkäyttäjä tai käyttäjä \'%s\' itse.',
-	'General_WarningFileIntegritySkipped' => 'Kehitysympäristö tunnistettu. Tiedostojen eheystarkistus ohitettu.',
 	'General_WarningFileIntegrityNoManifest' => 'Tiedostojen eheystarkistusta ei voida suorittaa, tiedosto manifest.inc.php puuttuu',
 	'General_WarningFileIntegrityNoMd5file' => 'Tiedostojen eheystarkistusta ei voi suorittaa, funktio md5_file() puuttuu.',
 	'General_FileIntegrityWarningExplanation' => 'Tiedostojen eheystarkistus epäonnistui. Todennäköisesti osa Piwikin tiedostojen tallentamisesta epäonnistui. Tallenna kaikki tiedostot binääritilassa (BINARY mode) ja lataa tämä sivu uudelleen.',

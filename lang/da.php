@@ -307,7 +307,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Sprogfil \'%s\' blev ikke fundet.',
 	'General_ExceptionUnableToStartSession' => 'Kan ikke starte sessionen.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Brugeren skal enten være superbrugeren eller brugeren \'%s\' selv.',
-	'General_WarningFileIntegritySkipped' => 'Udviklingsmiljø opdaget. Fil integritetstjek springes over.',
 	'General_WarningFileIntegrityNoManifest' => 'Fil integritetstjek kunne ikke udføres på grund af manglende manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Fil integritetstjek kunne ikke gennemføres pga. manglende md5_file () funktion.',
 	'General_FileIntegrityWarningExplanation' => 'Fil integritetstjek mislykkedes og rapporterede nogle fejl. Det skyldes mest sandsynligt en delvis eller mislykket overførelse af nogle Piwik filer. Du bør overføre alle Piwik filer igen og opdatere denne side, indtil den ingen fejl viser.',

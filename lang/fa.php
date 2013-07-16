@@ -280,7 +280,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'فایل زبان \'%s\' یافت نشد',
 	'General_ExceptionUnableToStartSession' => 'قادر به شروع جلسه نیست.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'این کابر باید یک ابرکاربر یا خود کاربر \'%s\' باشد.',
-	'General_WarningFileIntegritySkipped' => 'محیط توسعه شناسایی شده است. چک کردن فایل صداقت قلم.',
 	'General_WarningFileIntegrityNoManifest' => 'چک کردن فایل یکپارچگی می تواند انجام نمی شود به دلیل از دست رفته manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'کنترل یکپارچگی فایل نمی تواند به دلیل md5_file گم شده تابع () تکمیل شده است.',
 	'General_FileIntegrityWarningExplanation' => 'تمامیت چک کردن فایل با شکست مواجه شد و برخی از اشتباهات را گزارش داد. این است که به احتمال زیاد به علت بخشی از ارسال و یا برخی از فایل های Piwik شکست خورد. شما باید reupload تمام فایل های Piwik در حالت باینری و تازه کردن این صفحه آن را نشان می دهد تا بدون خطا.',

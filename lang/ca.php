@@ -293,7 +293,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'El fitxer d\'idioma \'%s\' no s\'ha trobat.',
 	'General_ExceptionUnableToStartSession' => 'No s\'ha pogut començar la sessió.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'L\'usuari ha de ser o bé un Super Usuari o el mateix usuari \'%s\'.',
-	'General_WarningFileIntegritySkipped' => 'Entorn de desenvolupament detectat. Evitem la verificació de la integritat dels fitxers.',
 	'General_WarningFileIntegrityNoManifest' => 'La verificació de la integritat dels fitxers no s\'ha pogut fer perquè falta el manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'La verificació de la integritat dels fitxers no s\'ha pogut completar perquè falta la funció md5_file();',
 	'General_FileIntegrityWarningExplanation' => 'La verificació de la integritat dels fitxers ha fallat i ha trobat alguns errors. Això segurament és causa de una carrega parcial o incorrecta dels fitxers del Piwik. Haurieu de tornar a pujar tots els fitxers del Piwik en mode BINARY i refrescar aquesta pàgina fins que no mostri errors.',

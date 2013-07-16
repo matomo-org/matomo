@@ -226,7 +226,6 @@ $translations = array(
 	'General_ExceptionUnreadableFileDisabledMethod' => 'Klarte ikke lese konfigurasjonsfila {%s}. Verten din kan ha deaktivert %s.',
 	'General_ExceptionInvalidDateFormat' => 'Datoformatet må være %s eller et nøkkelord støttet av %s-funksjonen (se %s for mer informasjon).',
 	'General_ExceptionLanguageFileNotFound' => 'Fant ikke språkfila «%s».',
-	'General_WarningFileIntegritySkipped' => 'Utviklingsmiljø oppdaget. Hoppet over integritetskontroll.',
 	'General_WarningFileIntegrityNoManifest' => 'Klarte ikke utføre integritetskontroll av filer fordi manifest.inc.php mangler.',
 	'General_WarningFileIntegrityNoMd5file' => 'Klarte ikke utføre integritetskontroll av filer fordi funksjonen md5_file mangler.',
 	'General_FileIntegrityWarningExplanation' => 'Integritetskontrollen av filer oppdaget noen feil. Dette skyldes mest sannsynlig feil under opplasting av Piwik sine filer. Du bør laste opp alle Piwik sine filer på nytt i BINARY-modus og oppfriske siden inntil ingen feil vises.',

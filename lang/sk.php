@@ -263,7 +263,6 @@ $translations = array(
 	'General_ExceptionInvalidDateFormat' => 'Formát dátumu musí byť: %s alebo kľúčového slova ktoré podporuje funkciu %s (pozri %s pre viac informácií)',
 	'General_ExceptionLanguageFileNotFound' => 'Jazykový súbor \'%s\' nebol nájdený.',
 	'General_ExceptionUnableToStartSession' => 'Nepodarilo sa začať session.',
-	'General_WarningFileIntegritySkipped' => 'Vývojové prostredie detekované. Súbor kontrola integrity preskočený.',
 	'General_WarningFileIntegrityNoManifest' => 'Súbor kontrola integrity nemohla byť vykonaná z dôvodu chýbajúcich manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Súbor kontrola integrity nemožno dokončiť z dôvodu chýbajúcich md5_file () funkcie.',
 	'General_FileIntegrityWarningExplanation' => 'Súbor kontrola integrity zlyhal a vykazuje nejaké chyby. To je najviac pravdepodobné kvôli čiastočnému nahratiu alebo sa nepodarilo nahrať niektoré zo súborov Piwik. Mali by ste reupload všetky súbory v binárnom móde a obnovte túto stránku, kým nebude vykazovať žiadne chyby.',

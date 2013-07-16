@@ -293,7 +293,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Το αρχείο γλώσσας «%s» δεν βρέθηκε.',
 	'General_ExceptionUnableToStartSession' => 'Αδύνατη η έναρξη της συνεδρίας.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Ο χρήστης πρέπει να είναι είτε Υπερχρήστης ή ο ίδιος χρήστης «%s».',
-	'General_WarningFileIntegritySkipped' => 'Ανιχνεύτηκε περιβάλλον ανάπτυξης. Ο έλεγχος ακεραιότητας αρχείου παραβλέφθηκε.',
 	'General_WarningFileIntegrityNoManifest' => 'Ο έλεγχος ακεραιότητας αρχείου δεν μπορεί να πραγματοποιηθεί επειδή λείπει το αρχείο manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Ο έλεγχος ακεραιότητας αρχείου δεν μπορεί να ολοκληρωθεί γιατί είναι ανενεργή η συνάρτηση md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'Ο έλεγχος ακεραιότητας αρχείου απέτυχε και ανέφερε κάποια σφάλματα. Αυτό συμβαίνει πιθανόν λόγω μερικούς ή αποτυχημένης αποστολής ορισμένων αρχείων του Piwik. Πρέπει να τα αποστείλετε ξανά όλα και ανανεώστε αυτή τη σελίδα μέχρι να μην δείχνει σφάλματα.',

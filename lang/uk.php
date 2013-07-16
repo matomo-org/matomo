@@ -186,7 +186,6 @@ $translations = array(
 	'General_ExceptionInvalidToken' => 'Маркер невірний.',
 	'General_ExceptionInvalidDateFormat' => 'Формат дати: %s або текст що підтримується функцією %s (див. %s для детальнішої інформації)',
 	'General_ExceptionLanguageFileNotFound' => 'Файл мови \'%s\' не знайдено.',
-	'General_WarningFileIntegritySkipped' => 'Визначено що робота ведеться в середовищі розробки. Перевірка цілісності файлів не виконується.',
 	'General_WarningFileIntegrityNoManifest' => 'Перевірка цілісності файлу не може бути виконана через відсутність manifest.inc.php',
 	'General_WarningFileIntegrityNoMd5file' => 'Перевірка цілісності файлу не може бути виконана через відсутність функції md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'Перевірка цілісності файлу визначила пошкоджені файли. Можливо це відбулося через часткове завантаження або розриви зв’язку підчас завантаження файлів Piwik на сервер. Перезавантажте всі файли Piwik в двійковому режимі (BINARY mode) та обновіть цю сторінку щоб повторити перевірку.',

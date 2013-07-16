@@ -268,7 +268,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Nuk u gjet kartela e gjuhës \'%s\'.',
 	'General_ExceptionUnableToStartSession' => 'I pazoti të nisë sesion.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Përdoruesi duhet të jetë ose Super User ose vetë përdoruesi \'%s\'.',
-	'General_WarningFileIntegritySkipped' => 'U gjet mjedis zhvillimi. Kontrolli i pacënueshmërisë së kartelës u anashkalua.',
 	'General_WarningFileIntegrityNoManifest' => 'Kontrolli i pacënueshmërisë së kartelës nuk u krye dot për shkak të mungesës së manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Kontrolli i pacënueshmërisë së kartelës nuk u plotësua dot për shkak të mungesës së funksionit md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'Kontrolli i pacënueshmërisë së kartelës dështoi dhe njoftoi për disa gabime. Kjo ka shumë të ngjarë të vijë për shkak të një ngarkimi të pjesshëm ose të pasuksesshëm të disa kartelave Piwik. Do të duhej të ringarkonit krejt kartelat e Piwik-ut në trajtë DYORE dhe të rifreskoni faqen derisa të mos tregojë më gabim.',

@@ -291,7 +291,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Езиковия файл \'%s\' не бе намерен.',
 	'General_ExceptionUnableToStartSession' => 'Невъзможно е да се стартира сесия.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Потребителят трябва да е Администратор или самия потребител \'%s\'.',
-	'General_WarningFileIntegritySkipped' => 'Среда за разработка открита. Цялостната проверка пропусната.',
 	'General_WarningFileIntegrityNoManifest' => 'Цялостната проверка на файла не може да бъде изпълнена поради липсата на manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Цялостната проверка не може да бъде осъществена поради липсата на md5_file() функцията.',
 	'General_FileIntegrityWarningExplanation' => 'Проверката за целостта на файла се провали и се докладват някои грешки. Това най-вероятно се дължи на частичен файл или не е качен някой от файловете на Piwik. Трябва да качите отново всички файлове на Piwik в BINARY форма и да обновите тази страница, докато тя спре да показва грешки.',

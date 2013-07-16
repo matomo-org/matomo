@@ -270,7 +270,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Fann ikkje språkfila \'%s\'.',
 	'General_ExceptionUnableToStartSession' => 'Kunne ikkje starta økt.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Brukaren må anten vera superbrukaren eller brukaren \'%s\' sjølv.',
-	'General_WarningFileIntegritySkipped' => 'Utviklingsmiljø merka. Sjekking av filintegritet er ignorert.',
 	'General_WarningFileIntegrityNoManifest' => 'Sjekking av filintegritet kunne ikkje bli utført av di manifest.inc.php manglar.',
 	'General_WarningFileIntegrityNoMd5file' => 'Sjekking av filintegritet kunne ikkje bli utført av di md5_file()-funksjonen manglar.',
 	'General_FileIntegrityWarningExplanation' => 'Sjekking av filintegritet feila og gav feilmeldingar. Dette skuldast truleg at nokre av filane til Piwik berre vart delvis eller feilaktig lasta opp. Du bør lasta opp Piwik på nytt i BINÆR-modus og oppfriska denne sida til feilmeldingane forsvinn.',

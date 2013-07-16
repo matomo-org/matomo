@@ -277,7 +277,6 @@ $translations = array(
 	'General_ExceptionInvalidDateFormat' => '有効な日付の書式： %s または %s 関数でサポートされる任意のキーワード（詳細は %s を参照）',
 	'General_ExceptionLanguageFileNotFound' => '言語ファイル \'%s\' が見つかりませんでした',
 	'General_ExceptionUnableToStartSession' => 'セッションを開始できません',
-	'General_WarningFileIntegritySkipped' => '開発環境が検出されたため、ファイルの整合性チェックは省略されました。',
 	'General_WarningFileIntegrityNoManifest' => 'manifest.inc.php が不足しているため、ファイルの整合性チェックを実行することができませんでした。',
 	'General_WarningFileIntegrityNoMd5file' => 'md5_file() 関数が存在しないため、ファイルの整合性チェックを完了することができませんでした。',
 	'General_FileIntegrityWarningExplanation' => 'ファイルの整合性チェックが失敗し、いくつかのエラーが報告されました。 これはほとんどの場合、ファイルが不完全であるか、いくつかの Piwik ファイルのアップロードに失敗しています。 すべての Piwik ファイルをバイナリモードで再アップロードして、エラーが表示されなくなるまでページをリフレッシュする必要があります。',

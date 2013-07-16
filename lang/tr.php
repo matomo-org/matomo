@@ -234,7 +234,6 @@ $translations = array(
 	'General_ExceptionInvalidToken' => 'Güvenlik jetonu geçerli değil.',
 	'General_ExceptionLanguageFileNotFound' => '\'%s\' dil dosyası bulunamadı.',
 	'General_ExceptionUnableToStartSession' => 'Oturum başlatılamadı.',
-	'General_WarningFileIntegritySkipped' => 'Geliştirme Ortamı saptandı. Dosya bütünlük kontrolü gerçekleştirilmedi.',
 	'General_WarningFileIntegrityNoManifest' => 'manifest.inc.php dosyası bulunamadığı için dosya bütünlük kontrolü gerçekleştirilemedi.',
 	'General_WarningFileIntegrityNoMd5file' => 'md5_file() fonksiyonu bulunamadığı için dosya bütünlük kontrolü tamamlanamadı.',
 	'General_FileIntegrityWarningExplanation' => 'Dosya bütünlük kontrolü başarısız oldu ve hatalar raporlandı. Bu durum genellikle Piwik dosyalarının yüklenmesinde oluşan hatalardan meydana gelmektedir. Sorunu çözmek için tüm Piwik dosyalarını sunucunuza tekrar yüklemeniz ve sayfayı yenilemeniz gerekmektedir.',

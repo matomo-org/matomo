@@ -232,7 +232,6 @@ $translations = array(
 	'General_ExceptionInvalidDateFormat' => 'Datos formatas turi būti: %s ar bet kuris raktažodis palaikomas %s funkcijos (žiūrėkite %s išsamesnei informacijai gauti)',
 	'General_ExceptionLanguageFileNotFound' => '\'%s\' kalbos failas nerastas.',
 	'General_ExceptionUnableToStartSession' => 'Nepavyko pradėti sesijos',
-	'General_WarningFileIntegritySkipped' => 'Aptikta tobulinimo aplinka. Praleidžiamas vientisumo tikrinimas.',
 	'General_WarningFileIntegrityNoManifest' => 'Failo vientisumo patikra negali būti atlikta dėl nesamo manifest.inc.php failo.',
 	'General_WarningFileIntegrityNoMd5file' => 'Failo vientisumo patikra negali būti atlikta dėl nesamos md5_file() funkcijos.',
 	'General_FileIntegrityWarningExplanation' => 'Failo vientisumo patikra nutraukta ir pateikiama klaidų ataskaita. Tikėtina, jog tai įtakoja nepilnas arba nutrauktas Piwik failų įkėlimas į serverį. Prašome pabandyti pakartotinai perkelti Piwik failus ir atnaujinti šį puslapį kol nebebus rodomi klaidų pranešimai.',

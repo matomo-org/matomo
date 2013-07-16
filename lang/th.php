@@ -280,7 +280,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'ไม่พบไฟล์ภาษา \'%s\'',
 	'General_ExceptionUnableToStartSession' => 'ไม่สามารถเริ่มต้นเซสชัน',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'ผู้ใช้งานจะต้องมีทั้งผู้ใช้งานขั้นสูงหรือ \'%s\' ผู้ใช้เองด้วยเท่านั้น',
-	'General_WarningFileIntegritySkipped' => 'สภาพแวดล้อมพัฒนาตรวจพบ ข้ามการตรวจสอบความสมบูรณ์ของแฟ้มนี้',
 	'General_WarningFileIntegrityNoManifest' => 'ไม่สามารถทำการตรวจสอบความสมบูรณ์ของแฟ้มเนื่องจากการขาดหายไปของไฟล์ manifest.inc.php',
 	'General_WarningFileIntegrityNoMd5file' => 'ตรวจสอบความสมบูรณ์ของแฟ้มอาจไม่เสร็จสมบูรณ์ เนื่องจากการขาดหายไปของฟังก์ชั่น md5_file()',
 	'General_FileIntegrityWarningExplanation' => 'แฟ้มการตรวจสอบความถูกต้องล้มเหลว และรายงานข้อผิดพลาดบางอย่าง นี่คือคุณจะมีโอกาสมากที่สุด เนื่องจากการอัพโหลดบางส่วน หรือมีความล้มเหลวของแฟ้มบางแฟ้มของ Piwik คุณควรจะทำการอัพโหลดไฟล์ Piwik ใหม่อีกครั้ง ซึ่งทั้งหมดในนี้จะต้องเป็นโหมด BINARY และควรจะรีเฟรชหน้านี้จนกว่ามันจะไม่แสดงข้อความแสดงข้อผิดพลาดนี้อีก',

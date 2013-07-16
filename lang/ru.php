@@ -305,7 +305,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Файл языка \'%s\' не найден.',
 	'General_ExceptionUnableToStartSession' => 'Не удалось запустить сессию.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Пользователь должен быть права Супер администратора, либо Пользователя \'%s\'.',
-	'General_WarningFileIntegritySkipped' => 'Обнаружена среда разработки. Проверка целостности отключена.',
 	'General_WarningFileIntegrityNoManifest' => 'Проверка целостности не может быть проведена из-за отсутствия manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Проверка целостности не может быть проведена из-за отсутствия функции md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'Проверка целостности файлов завершилась неудачей и возвратила ошибки. Это произошло, возможно, из-за того, что на сервер, при загрузке на него системы Piwik, часть файлов была загружена некорректно. Рекомендуется перезагрузить фсе файлы Piwik на сервер, обновить страницу, и убедиться, что уже не возникает ошибок.',

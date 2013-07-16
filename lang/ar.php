@@ -229,7 +229,6 @@ $translations = array(
 	'General_ExceptionInvalidToken' => 'المفتاح غير صالح.',
 	'General_ExceptionInvalidDateFormat' => 'يجب أن تكون صيغة التاريخ: %s أو أي كلمة استدلالية مدعومة بواسطة الدالة %s (انظر %s لمزيد من المعلومات).',
 	'General_ExceptionLanguageFileNotFound' => 'ملف اللغة "%s" غير موجود.',
-	'General_WarningFileIntegritySkipped' => 'تم اكتشاف بيئة التطوير. تم تجاوز فحص سلامة الملفات.',
 	'General_WarningFileIntegrityNoManifest' => 'لم يمكن إجراء فحص سلامة الملفات بسبب فقد ملف manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'لم يمكن إتمام فحص سلامة الملفات بسبب فقد دالة md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'فشل فحص سلامة الملفات وتم تسجيل بعض الأخطاء. يحدث هذا غالباً نتيجة الرفع الناقص أو الخاطئ لبعض ملفات Piwik. يتوجب عليك إعادة رفع ملفات Piwik في وضع BINARY ثم إعادة تحديث هذه الصفحة حتى تنتهي هذه الأخطاء.',

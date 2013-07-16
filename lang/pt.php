@@ -262,7 +262,6 @@ $translations = array(
 	'General_ExceptionInvalidDateFormat' => 'O formato da data tem que ser: %s ou qualquer palavra-chave suportada pela função %s (veja %s para mais informação)',
 	'General_ExceptionLanguageFileNotFound' => 'O ficheiro de idioma \'%s\' não foi encontrado.',
 	'General_ExceptionUnableToStartSession' => 'Não foi possível começar a sessão.',
-	'General_WarningFileIntegritySkipped' => 'Ambiente de desenvolvimento detectado. Verificação da integridade dos ficheiros ignorada.',
 	'General_WarningFileIntegrityNoManifest' => 'A verificação da integridade dos ficheiros não pode ser executada devido a faltar manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'A verificação da integridade dos ficheiros não pode ser completada devido faltar a função md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'A verificação da integridade dos ficheiros falhou e reportou alguns erros. A causa mais provável é uma transferência dos ficheiros de Piwik incompleta ou com erros. Deve voltar a transferir todos os ficheiros de Piwik em modo BINÁRIO e actualizar a página até que não mostre erros.',

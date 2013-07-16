@@ -257,7 +257,6 @@ $translations = array(
 	'General_ExceptionInvalidDateFormat' => 'A dátumformátumnak a következőnek kell lennie: %s vagy bármely, a %s funkció által támogatott kulcsszó (további információ: %s)',
 	'General_ExceptionLanguageFileNotFound' => 'A \'%s\' nyelvi fájl nem található',
 	'General_ExceptionUnableToStartSession' => 'Nem lehet elindítani a munkamenetet.',
-	'General_WarningFileIntegritySkipped' => 'Fejlesztői környezetet észleltünk. Fájlintegritás-ellenőrzés kihagyva.',
 	'General_WarningFileIntegrityNoManifest' => 'A fájlintegritás-ellenőrzés nem hajtható végre, mivel hiányzik a manifest.inc.php fájl.',
 	'General_WarningFileIntegrityNoMd5file' => 'A fájlintegritás-ellenőrzés nem hajtható végre, mivel  az md5_file() funkció nem elérhető.',
 	'General_FileIntegrityWarningExplanation' => 'A fájlintegritás-ellenőrzés sikertelen volt; néhány hibát jelentve. Ezt nagy valószínűséggel valamelyik Piwik fájl  részleges vagy sikertelen feltöltése okozhatta. Kérjük, töltsd fel újra az összes Piwik fájlt BINARY módban és frissítsd ezt a weblapot addig, mindaddig, amíg itt hibaüzenetek jelennek meg.',

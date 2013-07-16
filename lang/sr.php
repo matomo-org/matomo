@@ -292,7 +292,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Datoteka sa jezikom \'%s\' nije nađena.',
 	'General_ExceptionUnableToStartSession' => 'Nije moguće pokrenuti sesiju',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Korisnik mora biti ili superkorisnik ili \'%s\'.',
-	'General_WarningFileIntegritySkipped' => 'Otkriveno je razvojno okruženje, stoga, provera integriteta datoteka je preskočena.',
 	'General_WarningFileIntegrityNoManifest' => 'Proveru integriteta datoteka nije moguće sprovesti zato što nedostaje datoteka manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Proveru integriteta datoteka nije moguće okončati zato što nedostaje funkcija md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'Provera integriteta datoteka je neuspešna i prijavljene su greške. Ovo se najverovatnije desilo zbog toga što neke datoteke nisu uspešno prenesene na server. Trebalo bi da ponovo prenesete sve Piwik datoteke na server u binarnom modu i da ponovo učitate ovu stranu sve dok ne nestane poruka o greški.',

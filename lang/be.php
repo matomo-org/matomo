@@ -263,7 +263,6 @@ $translations = array(
 	'General_ExceptionInvalidDateFormat' => 'Фармат даты павінен быць: %s, або на любое ключавое слова, падтрымліваемае функцыяй %s (глядзі %s для больш падрабязнай інфармацыі)',
 	'General_ExceptionLanguageFileNotFound' => 'Моўны файл \'%s\' не знойдзены.',
 	'General_ExceptionUnableToStartSession' => 'Немагчыма запусціць сесію.',
-	'General_WarningFileIntegritySkipped' => 'Выяўлена серада распрацоўкі. Праверка цэласнасці файлаў прапушчана.',
 	'General_WarningFileIntegrityNoManifest' => 'Праверка цэласнасці файлаў не можа быць выканана з-за адсутнасці файла manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Праверка цэласнасці файлаў не можа быць завершана з-за адсутнасці md5_file () функцыі.',
 	'General_FileIntegrityWarningExplanation' => 'Праверка цэласнасці файлаў не атрымалася і паведаміла аб некаторых памылках. Хутчэй за ўсё, гэта атрымалася з-за таго, што файлы Piwik не былі загружаныя належным чынам. Вам варта перазагрузіць ўсе файлы Piwik у бінарным рэжыме і абнавіць гэтую старонку, пакуль вы не ўбачыце, што паведамленні пра памылкі не паказваюцца.',

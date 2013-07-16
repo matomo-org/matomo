@@ -250,7 +250,6 @@ $translations = array(
 	'General_ExceptionInvalidDateFormat' => 'Rhaid i fformat dyddiadau fod yn: %s neu unrhyw air allweddol a gefnogir gan y gweithred %s (gweler %s am fwy o wybodaeth)',
 	'General_ExceptionLanguageFileNotFound' => 'Nid yw\'r ffeil Iaith \'%s\' wedi ei chanfod.',
 	'General_ExceptionUnableToStartSession' => 'Methu dechrau sesiwn',
-	'General_WarningFileIntegritySkipped' => 'Wedi canfod amgylchedd datblygu.  Mae gwirio cywirdeb y ffeil wedi ei hepgor.',
 	'General_WarningFileIntegrityNoManifest' => 'Nid oedd yn bosib perfformio gwiriad cywirdeb ar y ffeil am fod  manifest.inc.php ar goll.',
 	'General_WarningFileIntegrityNoMd5file' => 'Nid oedd yn bosib perfformio gwiriad cywirdeb ar y ffeil am fod gweithred md5_file() ar goll.',
 	'General_FileIntegrityWarningExplanation' => 'Mae rhai gwallau wedi eu darganfod wrth redeg gwiriad cywirdeb ar y ffeil.  O ganlyniad mae\'n debygol fod methiant rhannol neu llawn wedi digwydd wrth llwytho i fyny rhai o ffeiliau Piwik.  Dylech ail lwytho holl ffeiliau Piwik eto yn y modd BINARY ac adnewyddu\'r dudalen hon hyd nes ei fod yn dangos dim gwall.',

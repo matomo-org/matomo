@@ -253,7 +253,6 @@ $translations = array(
 	'General_ExceptionInvalidToken' => 'Kods nav pareizs.',
 	'General_ExceptionLanguageFileNotFound' => '\'%s\' valodas datne netika atrasta.',
 	'General_ExceptionUnableToStartSession' => 'Nav iespējams sākt sesiju.',
-	'General_WarningFileIntegritySkipped' => 'Detektēta izstrādes vide. Datņu integritātes pārbaude netiks veikta.',
 	'General_WarningFileIntegrityNoManifest' => 'Datņu integritātes pārbaudi nav iespējams veikt, jo trūkst manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Datņu integritātes pārbaudi nav iespējams pabeigt, jo trūkst md5_file() metodes.',
 	'General_UseSMTPServerForEmail' => 'Lietot SMTP serveri e-pastam',

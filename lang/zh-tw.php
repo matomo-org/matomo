@@ -189,7 +189,6 @@ $translations = array(
 	'General_ExceptionInvalidToken' => '符號不合法。',
 	'General_ExceptionInvalidDateFormat' => '日期格式必須為: %s 或任何被 %s 函式支援的關鍵字（查看 %s 取得更多資訊）',
 	'General_ExceptionLanguageFileNotFound' => '語系檔案 \'%s\' 找不到。',
-	'General_WarningFileIntegritySkipped' => '檢測到開發環境。跳過檔案完整性檢查。',
 	'General_WarningFileIntegrityNoManifest' => '缺少 manifest.inc.php 所以檔案完整性檢查無法執行。',
 	'General_WarningFileIntegrityNoMd5file' => '缺少 md5_file() 函式所以檔案完整性檢查無法玩成。',
 	'General_FileIntegrityWarningExplanation' => '檔案完整性檢查錯誤且回報了一些問題。這大多是因為上傳了部分或錯誤的 Piwik 檔案所致。你應該使用 BINARY 模式重新上傳所有的 Piwik 檔案然後重新整理此頁面直到它沒有顯示任何錯誤。',

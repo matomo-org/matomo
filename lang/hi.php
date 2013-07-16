@@ -257,7 +257,6 @@ $translations = array(
 	'General_ExceptionInvalidArchiveTimeToLive' => 'आज संग्रह जीने के लिए शून्य से अधिक सेकंड की संख्या होनी चाहिए',
 	'General_ExceptionInvalidToken' => 'टोकन मान्य नहीं है.',
 	'General_ExceptionUnableToStartSession' => 'सत्र प्रारंभ करने में अक्षम.',
-	'General_WarningFileIntegritySkipped' => 'डेवलपमेंट एनवायरनमेंट पता लगाया. फ़ाइल अखंडता की जांच को छोड़ दिया.',
 	'General_WarningFileIntegrityNoManifest' => 'फ़ाइल अखंडता की जांच manifest.inc.php गुम की वजह से नहीं किया जा सकता है.',
 	'General_WarningFileIntegrityNoMd5file' => 'फ़ाइल अखंडता की जांच लापता md5_file () फ़ंक्शन  के कारण पूरा नहीं हो सका.',
 	'General_FileIntegrityWarningExplanation' => 'फ़ाइल अखंडता की जाँच विफल रही है और कुछ त्रुटियों की सूचना दी. यह सबसे अधिक संभावना एक आंशिक के कारण है या Piwik फ़ाइलों में से कुछ का अपलोड विफल रहा है. तुम्हें बायनरी मोड में सभी Piwik फाइलें फिर से अपलोड करनी चाहिए',

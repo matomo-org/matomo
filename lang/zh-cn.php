@@ -302,7 +302,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => '没有语言文件 \'%s\'。',
 	'General_ExceptionUnableToStartSession' => '无法启动会话',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => '用户必须是超级用户或者\'%s\'自己。',
-	'General_WarningFileIntegritySkipped' => '检测到开发环境，跳过文件完整性检查。',
 	'General_WarningFileIntegrityNoManifest' => '缺少 manifest.inc.php，所以文件完整性检查无法完成。',
 	'General_WarningFileIntegrityNoMd5file' => '缺少 md5_file() 函数，所以文件完整性检查无法完成。',
 	'General_FileIntegrityWarningExplanation' => '文件完整性检查出错，并报告了一些问题。通常是因为上传了部分或错误的 Piwik 文件所致。您应该使用 BINARY 模式重新上传所有的 Piwik 文件然后刷新此页面直到不再显示错误。',

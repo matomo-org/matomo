@@ -185,7 +185,6 @@ $translations = array(
 	'General_ExceptionInvalidToken' => 'მარკერი ვალიდური არაა.',
 	'General_ExceptionInvalidDateFormat' => 'თარიღის ფორმატი უნდა იყოს: %s ან რაიმე საკვანძო სიტყვა, რომელსაც %s ფუნქციის მხარდაჭერა აქვს (დამატებითი ინფორმაციისთვის იხ. %s)',
 	'General_ExceptionLanguageFileNotFound' => 'ენის ფაილი \'%s\' ვერ მოიძებნა.',
-	'General_WarningFileIntegritySkipped' => 'შემჩნეულია შემუშავების გარემო. ფაილის მთლიანობის შემოწმება გამოტოვებულია.',
 	'General_WarningFileIntegrityNoManifest' => 'ფაილის მთლიანობის შემოწმება ვერ განხორციელდება, რადგან manifest.inc.php ფაილი არ არსებობს.',
 	'General_WarningFileIntegrityNoMd5file' => 'ფაილის მთლიანობის შემოწმება ვერ დასრულდება, რადგან  md5_file() ფუნქცია არ არსებობს.',
 	'General_FileIntegrityWarningExplanation' => 'ფაილის მთლიანობის შემოწმება ჩაიშალა და შეცდომების შესახებ გაიგზავნა რეპორტი. სავარაუდოდ, ამის მიზეზია Piwik ფაილების არასრულად ან უშედეგოდ ატვირთვა. ხელმეორედ უნდა ატვირთოთ Piwik–ის ყველა ფაილი BINARY რეჟიმში და განაახლოთ ეს გვერდი იქამდე, სანამ შეცდომის შეტყობინებები არ შეწყდება.',

@@ -266,7 +266,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Plik obsługi języka \'%s\' nie został odnaleziony.',
 	'General_ExceptionUnableToStartSession' => 'Nie można uruchomić sesji.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Musisz mieć prawa SuperUser\'a lub być zalogowanym jako \'%s\'.',
-	'General_WarningFileIntegritySkipped' => 'Wykryto wersję rozwojową środowiska skryptu. Weryfikacja integralności pliku zostanie pominięta.',
 	'General_WarningFileIntegrityNoManifest' => 'Weryfikacja integralności plików nie mogła zostać przeprowadzona z powodu braku pliku manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Weryfikacja integralności plików nie mogła zostać zakończona z powodu braku funkcji md5_file().',
 	'General_FileIntegrityWarningExplanation' => 'Weryfikacja integralności plików nie powiodła się i odnotowano pewne błędy. Jest to spowodowane najczęściej brakiem lub częściowym przesłaniem plików należących do Piwik. Należy ponowić wgranie wszystkich plików Piwik w trybie BINARNYM i odświeżyć wyświetlanie tej strony do czasu aż znikną wyświetlane błędy.',

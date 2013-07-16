@@ -307,7 +307,6 @@ $translations = array(
 	'General_ExceptionLanguageFileNotFound' => 'Berkas bahasa \'%s\' tak ditemukan.',
 	'General_ExceptionUnableToStartSession' => 'Tak dapat memulai sesi.',
 	'General_ExceptionCheckUserIsSuperUserOrTheUser' => 'Penguna harus merupakan Pengguna Super atau pengguna \'%s\' sendiri.',
-	'General_WarningFileIntegritySkipped' => 'Lingkungan pengembang ditemukan. Pemeriksaan integritas dilewati.',
 	'General_WarningFileIntegrityNoManifest' => 'Pemeriksaan integritas berkas tak dapat dilakukan sebab berkas manifest.inc.php tak ditemukan.',
 	'General_WarningFileIntegrityNoMd5file' => 'Pemeriksaan integritas berkas tak dapat diselesaikan sebab fungsi md5_file() tak ditemukan.',
 	'General_FileIntegrityWarningExplanation' => 'Pemeriksaan integritas berkas gagal dan melaporkan beberapa galat. Kemungkinan ada berkas Piwik yang gagal terunggah. Anda harus mengunggah ulang berkas Piwik dalam modus BINARY dan memuat ulang halaman ini hingga tak menampilkan galat.',

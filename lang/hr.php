@@ -257,7 +257,6 @@ $translations = array(
 	'General_ExceptionInvalidDateFormat' => 'Format datuma mora biti %s ili bilo koji izraz koji prepoznaje %s funkcija (vidi %s za više informacija)',
 	'General_ExceptionLanguageFileNotFound' => 'Jezična datoteka \'%s\' nije pronađena.',
 	'General_ExceptionUnableToStartSession' => 'Nije moguće pokrenuti vezu.',
-	'General_WarningFileIntegritySkipped' => 'Provjera integriteta datoteke je preskočena jer se radi o razvojnom okruženju.',
 	'General_WarningFileIntegrityNoManifest' => 'Nije moguće napraviti provjeru integriteta datoteke jer nedostaje manifest.inc.php.',
 	'General_WarningFileIntegrityNoMd5file' => 'Nije moguće napraviti provjeru integriteta datoteke jer funkcija md5_file() nije dostupna.',
 	'General_FileIntegrityWarningExplanation' => 'Provjera integriteta datoteke nije uspjela i prijavila je određene greške. Najvjerojatniji razlog je nepotpuno ili neuspjelo slanje nekih Piwik datoteka. Pošaljite nanovo sve Piwik datoteke na poslužitelj koristeći BINARY način slanja i osvježite ovu stranicu dok se greške ne otklone.',
