@@ -192,10 +192,13 @@ class Piwik_PluginsManager
      * Deactivate plugin
      *
      * @param string $pluginName  Name of plugin
+     * @param array $plugins Array of plugin names
      */
-    public function deactivatePlugin($pluginName)
+    public function deactivatePlugin($pluginName, $plugins = false)
     {
-        $plugins = $this->pluginsToLoad;
+        if(empty($plugins)) {
+            $plugins = $this->pluginsToLoad;
+        }
         $key = array_search($pluginName, $plugins);
 
         $plugin = $this->loadPlugin($pluginName);
@@ -219,6 +222,8 @@ class Piwik_PluginsManager
 
         Piwik_Config::getInstance()->forceSave();
         Piwik::deleteAllCacheOnUpdate();
+
+        return $plugins;
     }
 
     /**
@@ -267,9 +272,14 @@ class Piwik_PluginsManager
         // we add the plugin to the list of activated plugins
         if (!in_array($pluginName, $plugins)) {
             $plugins[] = $pluginName;
-        } else {
-            // clean up if we find a dupe
-            $plugins = array_unique($plugins);
+        }
+        $plugins = array_unique($plugins);
+
+        // Only one theme enabled at a time
+        $themeAlreadyEnabled = $this->getThemeEnabled();
+        if($plugin->isTheme()
+            && $themeAlreadyEnabled) {
+            $plugins = $this->deactivatePlugin( $themeAlreadyEnabled, $plugins );
         }
 
         // the config file will automatically be saved with the new plugin
@@ -277,6 +287,25 @@ class Piwik_PluginsManager
         Piwik_Config::getInstance()->forceSave();
 
         Piwik::deleteAllCacheOnUpdate();
+    }
+
+    /**
+     * Returns the name of the non default theme currently enabled.
+     * If Zeitgeist is enabled, returns false (nb: Zeitgeist cannot be disabled)
+     *
+     * @return string
+     */
+    protected function getThemeEnabled()
+    {
+        $plugins = $this->getLoadedPlugins();
+        foreach($plugins as $plugin) {
+            /* @var $plugin Piwik_Plugin */
+            if($plugin->isTheme()
+                && $plugin->getPluginName() != Piwik_Twig::DEFAULT_THEME) {
+                return $plugin->getPluginName();
+            }
+        }
+        return false;
     }
 
     /**
@@ -356,7 +385,7 @@ class Piwik_PluginsManager
      *        'UserSettings' => Piwik_Plugin $pluginObject,
      *    );
      *
-     * @return array
+     * @return array,Piwik_Plugin
      */
     public function getLoadedPlugins()
     {
