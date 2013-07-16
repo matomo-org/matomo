@@ -624,12 +624,6 @@ class Piwik
         $messages = array();
         $messages[] = true;
 
-        // ignore dev environments
-        if (file_exists(PIWIK_INCLUDE_PATH . '/.git')) {
-            $messages[] = Piwik_Translate('General_WarningFileIntegritySkipped');
-            return $messages;
-        }
-
         $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
         if (!file_exists($manifest)) {
             $messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest');
