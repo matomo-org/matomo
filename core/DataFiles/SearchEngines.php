@@ -184,6 +184,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.ask.com'                 => array('Ask'),
         '{}.search.ask.com'              => array('Ask'),
         'avira-int.ask.com'              => array('Ask'),
+        'avira.search.ask.com'           => array('Ask'),
 
         // Atlas
         'searchatlas.centrum.cz'         => array('Atlas', 'q', '?q={k}'),
@@ -292,6 +293,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // DuckDuckGo
         'duckduckgo.com'                 => array('DuckDuckGo', 'q', '?q={k}'),
+        
+        // Ebay
+        'ebay.de'                       => array('Ebay', '_nkw'),
 
         // earthlink
         'search.earthlink.net'           => array('Earthlink', 'q', 'search?q={k}'),
@@ -377,6 +381,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         // Gigablast
         'www.gigablast.com'              => array('Gigablast', 'q', 'search?q={k}'),
         'dir.gigablast.com'              => array('Gigablast (Directory)', 'q'),
+        
+        // GMX
+        'suche.gmx.net'                  => array('GMX', 'su'),
 
         // Gnadenmeer
         'www.gnadenmeer.de'              => array('Gnadenmeer', 'keyword'),
@@ -720,6 +727,9 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
 
         // Poisk.Ru
         'poisk.ru'                       => array('Poisk.Ru', 'text', 'cgi-bin/poisk?text={k}', 'windows-1251'),
+        
+        // Preisvergleich.de
+        'preisvergleich.de'              => array('Preisvergleich.de', 'query'),
 
         // qip
         'search.qip.ru'                  => array('qip.ru', 'query', 'search?query={k}'),
