@@ -34,8 +34,8 @@ class Piwik_CorePluginsAdmin extends Piwik_Plugin
             array('module' => 'CorePluginsAdmin', 'action' => 'themes'),
             Piwik::isUserIsSuperUser(),
             $order = 3);
-        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_MenuMarketplace',
-            array('module' => 'CorePluginsAdmin', 'action' => 'marketplace'),
+        Piwik_AddAdminSubMenu('CorePluginsAdmin_MenuPlatform', 'CorePluginsAdmin_MenuExtend',
+            array('module' => 'CorePluginsAdmin', 'action' => 'extend'),
             Piwik::isUserIsSuperUser(),
             $order = 5);
     }

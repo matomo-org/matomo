@@ -15,7 +15,7 @@
  *
  * @package Piwik
  */
-abstract class Piwik_Plugin
+class Piwik_Plugin
 {
     /**
      * Returns the plugin details
@@ -45,7 +45,8 @@ abstract class Piwik_Plugin
             'theme'            => false,
         );
 
-        $infoFromJson = Piwik_PluginsManager::getInstance()->loadInfoFromJson($this);
+        $pluginName = $this->getPluginName();
+        $infoFromJson = Piwik_PluginsManager::getInstance()->loadInfoFromJson($pluginName);
         if(!empty($infoFromJson)) {
             $info = array_merge($info, $infoFromJson);
         }
@@ -121,7 +122,7 @@ abstract class Piwik_Plugin
      *
      * @return string
      */
-    public function getVersion()
+    final public function getVersion()
     {
         $info = $this->getInformation();
         return $info['version'];
@@ -137,6 +138,7 @@ abstract class Piwik_Plugin
         $info = $this->getInformation();
         return !empty($info['theme']) && (bool)$info['theme'];
     }
+    protected $pluginName;
 
     /**
      * Returns the plugin's base class name without the "Piwik_" prefix,
@@ -146,6 +148,16 @@ abstract class Piwik_Plugin
      */
     final public function getPluginName()
     {
-        return Piwik_Common::unprefixClass(get_class($this));
+        if(!empty($this->pluginName)) {
+            return $this->pluginName;
+        }
+        $this->pluginName =  Piwik_Common::unprefixClass(get_class($this));
+        return $this->pluginName;
     }
+
+    final public function setPluginName($pluginName)
+    {
+        $this->pluginName = $pluginName;
+    }
+
 }

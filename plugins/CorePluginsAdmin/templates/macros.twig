@@ -13,7 +13,7 @@
         </thead>
         <tbody id="plugins">
         {% for name,plugin in pluginsInfo %}
-            {% if plugin.alwaysActivated is defined and not plugin.alwaysActivated %}
+            {% if (plugin.alwaysActivated is defined and not plugin.alwaysActivated) or isTheme %}
                 <tr {% if plugin.activated %}class="highlighted"{% endif %}>
                     <td class="name">
                         {% if plugin.info.homepage is defined %}

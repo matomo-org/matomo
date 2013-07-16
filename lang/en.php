@@ -734,7 +734,7 @@ Piwik will let you track visitors to your website for free. You should definitel
     'CorePluginsAdmin_Deactivate'                                       => 'Deactivate',
     'CorePluginsAdmin_Activate'                                         => 'Activate',
     'CorePluginsAdmin_MenuPlatform'                                  => 'Platform',
-    'CorePluginsAdmin_MenuMarketplace'                                  => 'Marketplace',
+    'CorePluginsAdmin_MenuExtend'                                  => 'Extend',
     'CorePluginsAdmin_PluginCannotBeFound'                              => 'This plugin cannot be found!',
     'CoreUpdater_PluginDescription'                                     => 'Piwik updating mechanism',
     'CoreUpdater_UpdateTitle'                                           => 'Update',
