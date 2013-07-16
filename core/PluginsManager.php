@@ -38,6 +38,10 @@ class Piwik_PluginsManager
 
     protected $doLoadPlugins = true;
     protected $loadedPlugins = array();
+    /**
+     * Default theme used in Piwik.
+     */
+    const DEFAULT_THEME="Zeitgeist";
 
     protected $doLoadAlwaysActivatedPlugins = true;
     protected $pluginToAlwaysActivate = array(
@@ -53,7 +57,7 @@ class Piwik_PluginsManager
         'LanguagesManager',
 
         // default Piwik theme, always enabled
-        Piwik_Twig::DEFAULT_THEME,
+        self::DEFAULT_THEME,
     );
 
     // If a plugin hooks onto at least an event starting with "Tracker.", we load the plugin during tracker
@@ -123,6 +127,21 @@ class Piwik_PluginsManager
     }
 
     /**
+     * Returns true if the plugin can be uninstalled. Any non-core plugin can be uninstalled.
+     *
+     * @param $name
+     * @return bool
+     */
+    public function isPluginUninstallable($name)
+    {
+        // Reading the plugins from the global.ini.php config file
+        $pluginsBundledWithPiwik = Piwik_Config::getInstance()->getFromDefaultConfig('Plugins');
+        $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
+
+        return !in_array($name, $pluginsBundledWithPiwik);
+    }
+
+    /**
      * Returns true if plugin has been activated
      *
      * @param string $name  Name of plugin
@@ -186,6 +205,32 @@ class Piwik_PluginsManager
     protected function getPluginsDirectory()
     {
         return PIWIK_INCLUDE_PATH . '/plugins/';
+    }
+
+    /**
+     * Uninstalls a Plugin (deletes plugin files from the disk)
+     * Only deactivated plugins can be uninstalled
+     *
+     * @param $pluginName
+     */
+    public function uninstallPlugin($pluginName)
+    {
+        if($this->isPluginActivated($pluginName)) {
+            throw new Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
+        }
+        if(!$this->isPluginInFilesystem($pluginName)) {
+            throw new Exception("You are trying to uninstall the plugin $pluginName but it was not found in the directory piwik/plugins/");
+        }
+        self::deletePluginFromFilesystem($pluginName);
+        if($this->isPluginInFilesystem($pluginName)) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function deletePluginFromFilesystem($plugin)
+    {
+        Piwik::unlinkRecursive(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin, $deleteRootToo = true);
     }
 
     /**
@@ -253,8 +298,7 @@ class Piwik_PluginsManager
             throw new Exception("Plugin '$pluginName' already activated.");
         }
 
-        $existingPlugins = $this->readPluginsDirectory();
-        if (array_search($pluginName, $existingPlugins) === false) {
+        if (!$this->isPluginInFilesystem($pluginName)) {
             // ToDo: This fails in tracker-mode. We should log this however.
             //Piwik::log(sprintf("Unable to find the plugin '%s' in activatePlugin.", $pluginName));
             return;
@@ -289,6 +333,14 @@ class Piwik_PluginsManager
         Piwik::deleteAllCacheOnUpdate();
     }
 
+    protected function isPluginInFilesystem($pluginName)
+    {
+        $existingPlugins = $this->readPluginsDirectory();
+        $isPluginInFilesystem = array_search($pluginName, $existingPlugins) !== false;
+        return Piwik_Common::isValidFilename($pluginName)
+                && $isPluginInFilesystem;
+    }
+
     /**
      * Returns the name of the non default theme currently enabled.
      * If Zeitgeist is enabled, returns false (nb: Zeitgeist cannot be disabled)
@@ -301,7 +353,7 @@ class Piwik_PluginsManager
         foreach($plugins as $plugin) {
             /* @var $plugin Piwik_Plugin */
             if($plugin->isTheme()
-                && $plugin->getPluginName() != Piwik_Twig::DEFAULT_THEME) {
+                && $plugin->getPluginName() != self::DEFAULT_THEME) {
                 return $plugin->getPluginName();
             }
         }

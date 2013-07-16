@@ -71,8 +71,9 @@ if (!function_exists('Piwik_ExitWithMessage')) {
      * @param string $message Main message, must be html encoded before calling
      * @param bool|string $optionalTrace Backtrace; will be displayed in lighter color
      * @param bool $optionalLinks If true, will show links to the Piwik website for help
+     * @param bool $goBack if true, displays a link to go back
      */
-    function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false)
+    function Piwik_ExitWithMessage($message, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = false)
     {
         @header('Content-Type: text/html; charset=utf-8');
         if ($optionalTrace) {
@@ -87,14 +88,20 @@ if (!function_exists('Piwik_ExitWithMessage')) {
                             <li><a target="_blank" href="http://demo.piwik.org">Piwik Online Demo</a></li>
                             </ul>';
         }
+        if($optionalLinkBack) {
+            $optionalLinkBack = '<a href="javascript:window.back();">Go Back</a><br/>';
+        }
         $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutHeader.tpl');
         $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
 
         $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
         $content = '<p>' . $message . '</p>
-                    <p><a href="index.php">Go to Piwik</a><br/>
-                    <a href="index.php?module=Login">Login</a></p>
-                    ' . $optionalTrace . ' ' . $optionalLinks;
+                    <p>'
+                    . $optionalLinkBack
+                    . '<a href="index.php">Go to Piwik</a><br/>
+                       <a href="index.php?module=Login">Login</a>'
+                    . '</p>'
+                    . ' ' . $optionalTrace . ' ' . $optionalLinks;
 
         echo $headerPage . $content . $footerPage;
         exit;

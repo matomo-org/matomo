@@ -44,7 +44,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
         return $view;
     }
 
-    protected function getPluginsInfo( $themesOnly = false )
+    protected function getPluginsInfo($themesOnly = false)
     {
         $plugins = array();
 
@@ -58,6 +58,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
             $plugins[$pluginName] = array(
                 'activated'       => Piwik_PluginsManager::getInstance()->isPluginActivated($pluginName),
                 'alwaysActivated' => Piwik_PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
+                'uninstallable'   => Piwik_PluginsManager::getInstance()->isPluginUninstallable($pluginName),
             );
         }
         Piwik_PluginsManager::getInstance()->loadPluginTranslations();
@@ -74,7 +75,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
                     'description' => '<strong><em>' . Piwik_Translate('CorePluginsAdmin_PluginCannotBeFound')
                         . '</strong></em>',
                     'version'     => Piwik_Translate('General_Unknown'),
-                    'theme' => false,
+                    'theme'       => false,
                 );
             }
         }
@@ -103,23 +104,46 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 
     public function deactivate($redirectAfter = true)
     {
-        Piwik::checkUserIsSuperUser();
-        $this->checkTokenInUrl();
-        $pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
+        $pluginName = $this->initPluginModification();
         Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginName);
+        $this->redirectAfterModification($redirectAfter);
+    }
+
+    protected function redirectAfterModification($redirectAfter)
+    {
         if ($redirectAfter) {
             Piwik_Url::redirectToReferer();
         }
     }
 
-    public function activate($redirectAfter = true)
+    protected function initPluginModification()
     {
         Piwik::checkUserIsSuperUser();
         $this->checkTokenInUrl();
         $pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
+        return $pluginName;
+    }
+
+    public function activate($redirectAfter = true)
+    {
+        $pluginName = $this->initPluginModification();
         Piwik_PluginsManager::getInstance()->activatePlugin($pluginName);
-        if ($redirectAfter) {
-            Piwik_Url::redirectToReferer();
+        $this->redirectAfterModification($redirectAfter);
+    }
+
+    public function uninstall($redirectAfter = true)
+    {
+        $pluginName = $this->initPluginModification();
+        $uninstalled = Piwik_PluginsManager::getInstance()->uninstallPlugin($pluginName);
+        if(!$uninstalled) {
+            $path = Piwik_Common::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
+            $messagePermissions = Piwik::getErrorMessageMissingPermissions($path);
+
+            $messageIntro = Piwik_Translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",
+                $pluginName);
+            $exitMessage = $messageIntro . "<br/><br/>" . $messagePermissions;
+            Piwik_ExitWithMessage($exitMessage, $optionalTrace = false, $optionalLinks = false, $optionalLinkBack = true);
         }
+        $this->redirectAfterModification($redirectAfter);
     }
 }

@@ -108,9 +108,5 @@ abstract class Piwik_Updates
         }
     }
 
-    public static function deletePluginFromFilesystem($plugin)
-    {
-        Piwik::unlinkRecursive(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin, $deleteRootToo = true);
-    }
 
 }

@@ -32,7 +32,7 @@
                             &nbsp; <cite>By
                             {% if plugin.info.author_homepage is defined %}
                             <a title="{{ 'CorePluginsAdmin_AuthorHomepage'|translate }}" href="{{ plugin.info.author_homepage }}" target="_blank">
-                                {% endif %}{{ plugin.info.author }}{% if plugin.info.author_homepage is defined %}</a>{% endif %}
+                                {% endif %}{{ plugin.info.author }}{% if plugin.info.author_homepage is defined -%}</a>{% endif -%}
                             .</cite>
                         {% endif %}
                     </td>
@@ -40,7 +40,9 @@
                         {% if plugin.activated %}
                             {{ 'CorePluginsAdmin_Active'|translate }}
                         {% else %}
-                            {{ 'CorePluginsAdmin_Inactive'|translate }}
+                            {{ 'CorePluginsAdmin_Inactive'|translate }} <br/>
+                            - {% if plugin.uninstallable %}<a href='index.php?module=CorePluginsAdmin&action=uninstall&pluginName={{ name }}&token_auth={{
+                        token_auth }}'>uninstall</a>{% endif %}
                         {% endif %}
                     </td>
 

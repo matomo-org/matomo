@@ -133,22 +133,9 @@ class Piwik_Config
      *
      * @return string
      */
-    public static function getGlobalConfigPath()
+    protected static function getGlobalConfigPath()
     {
         return PIWIK_USER_PATH . '/config/global.ini.php';
-    }
-
-    /**
-     * Backward compatibility stub
-     *
-     * @todo remove in 2.0
-     * @since 1.7
-     * @deprecated 1.7
-     * @return string
-     */
-    public static function getDefaultDefaultConfigPath()
-    {
-        return self::getGlobalConfigPath();
     }
 
     /**
@@ -272,12 +259,7 @@ class Piwik_Config
             return $tmp;
         }
 
-        $section = null;
-
-        // merge corresponding sections from global and local settings
-        if (isset($this->configGlobal[$name])) {
-            $section = $this->configGlobal[$name];
-        }
+        $section = $this->getFromDefaultConfig($name);
 
         if (isset($this->configLocal[$name])) {
             // local settings override the global defaults
@@ -295,6 +277,14 @@ class Piwik_Config
         $tmp =& $this->configCache[$name];
 
         return $tmp;
+    }
+
+    public function getFromDefaultConfig($name)
+    {
+        if (isset($this->configGlobal[$name])) {
+            return $this->configGlobal[$name];
+        }
+        return null;
     }
 
     /**
