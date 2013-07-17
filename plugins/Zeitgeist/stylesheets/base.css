@@ -518,9 +518,6 @@ body .ui-tooltip.small {
 #logo > a {
   text-decoration: none;
 }
-#logo img {
-  height: 40px;
-}
 #javascriptDisabled, #javascriptDisabled a {
   font-weight: bold;
   color: #F88D22;
