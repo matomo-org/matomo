@@ -39,6 +39,7 @@
   <testsuite name="IntegrationTests">
       <directory>./Integration</directory>
   </testsuite>
+  <!-- NOTE: UI Tests are not included here since they significantly add to the test run time. -->
 </testsuites>
 
 <logging>

@@ -31,6 +31,16 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Sets up access instance.
+     */
+    public static function createAccessInstance()
+    {
+        Piwik_Access::setSingletonInstance(null);
+        Piwik_Access::getInstance();
+        Piwik_PostEvent('FrontController.initAuthenticationObject');
+    }
+    
+    /**
      * Connects to MySQL w/o specifying a database.
      */
     public static function connectWithoutDatabase()
@@ -73,6 +83,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $pluginsManager = Piwik_PluginsManager::getInstance();
         $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
         $pluginsToLoad[] = 'DevicesDetection';
+        
         $pluginsManager->loadPlugins($pluginsToLoad);
     }
 
@@ -117,7 +128,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Piwik::$piwikUrlCache = '';
 
             if ($createConfig) {
-                self::createTestConfig();
+                static::createTestConfig();
             }
 
             if ($dbName === false) // must be after test config is created
@@ -151,9 +162,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         include "DataFiles/LanguageToCountry.php";
         include "DataFiles/Providers.php";
         
-        Piwik_Access::setSingletonInstance(null);
-        Piwik_Access::getInstance();
-        Piwik_PostEvent('FrontController.initAuthenticationObject');
+        static::createAccessInstance();
 
         // We need to be SU to create websites for tests
         Piwik::setUserIsSuperUser();
@@ -840,7 +849,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         return $input;
     }
 
-    private function getProcessedAndExpectedDirs()
+    protected function getProcessedAndExpectedDirs()
     {
         $path = $this->getPathToTestDirectory();
         return array($path . '/processed/', $path . '/expected/');

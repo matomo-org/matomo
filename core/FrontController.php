@@ -244,6 +244,7 @@ class Piwik_FrontController
 
             $pluginsManager = Piwik_PluginsManager::getInstance();
             $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
+
             $pluginsManager->loadPlugins($pluginsToLoad);
 
             if ($exceptionToThrow) {

@@ -131,6 +131,38 @@ work altered the expected images. The standard procedure described in the INTEGR
  - set up the vagrant piwik vm (which is used by the integration server) or
  - retrieve the files from the integration server.
 
+## UI Tests
+
+In the UI subdirectory are tests for Piwik's UI. Piwik's UI tests work by taking a screenshot
+of a URL and comparing it with an expected screenshot. If the screenshots do not match, there
+is a bug somewhere.
+
+**Requirements:**
+
+In order to run UI tests, you need to have CutyCapt installed on your machine. If you're
+using Ubuntu, you can install it with the following command:
+
+  $ sudo apt-get install cutycapt
+  
+If you're on a server without the X window system, you can still run UI tests, but you
+will need xvfb to do so. On Ubuntu, you can install xvfb with:
+
+  $ sudo apt-get install xvfb
+
+**Running Tests**
+
+Unfortunately, since different machines result in different screenshots, there is no expected
+set of screenshots. You must generate these yourself using an older commit. To do this, first
+find a commit where you know the UI works. Then run:
+
+  $ cd PHPUnit
+  $ ./populate-expected-screenshots.sh $commit_hash
+
+Once you have expected screenshots, you can test the UI by running:
+
+  $ cd PHPUnit
+  $ phpunit UI
+
 ## Continuous Integration
 
 We run a Jenkins server for continuous integration. It automatically downloads the latest version of the Piwik code

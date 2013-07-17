@@ -189,3 +189,12 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
         self::executeLogImporter($logFile, $opts);
     }
 }
+
+// needed by tests that use stored segments w/ the proxy index.php
+class Test_Piwik_Access_OverrideLogin extends Piwik_Access
+{
+    public function getLogin()
+    {
+        return 'superUserLogin';
+    }
+}

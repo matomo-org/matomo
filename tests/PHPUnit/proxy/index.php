@@ -1,13 +1,12 @@
 <?php
 /**
  * Proxy to index.php, but will use the Test DB
- * Currently only used only for the test: tests/PHPUnit/Integration/ImportLogsTest.php
- * since other integration tests do not call index.php via http but use the Piwik_API_Request object
- *
+ * Used by tests/PHPUnit/Integration/ImportLogsTest.php and tests/PHPUnit/Integration/UITest.php
  */
 
 $GLOBALS['PIWIK_CONFIG_TEST_ENVIRONMENT'] = true;
 $GLOBALS['PIWIK_ACCESS_IS_SUPERUSER'] = true;
+$GLOBALS['PIWIK_ACCESS_SUPERUSER_LOGIN'] = 'superUserLogin';
 
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking
@@ -18,6 +17,9 @@ define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
+
+Piwik_Visualization_Cloud::$debugDisableShuffle = true;
 
 Piwik_Tracker::setTestEnvironment();
 Piwik_Tracker_Cache::deleteTrackerCache();
