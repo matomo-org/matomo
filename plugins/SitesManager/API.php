@@ -198,7 +198,12 @@ class Piwik_SitesManager_API
     public function getAllSitesId()
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_SitesManager_API::getInstance()->getSitesId();
+        try {
+            return Piwik_SitesManager_API::getInstance()->getSitesId();
+        } catch(Exception $e) {
+            // can be called before Piwik tables are created so return empty
+            return array();
+        }
     }
 
     /**

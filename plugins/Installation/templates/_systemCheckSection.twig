@@ -274,6 +274,23 @@
             {% endfor %}
         </td>
     </tr>
+    <tr>
+        <td class="label">{{ 'Installation_Filesystem'|translate }}</td>
+        <td>
+            {% if not infos.is_nfs %}
+                {{ ok }} {{ 'General_Ok'|translate }}
+                <br/>
+            {% else %}
+                {{ warning }}
+                <span class="warn">{{ 'Installation_NfsFilesystemWarning'|translate }}</span>
+                {% if duringInstall is not empty %}
+                    <p>{{ 'Installation_NfsFilesystemWarningSuffixInstall'|translate }}</p>
+                {% else %}
+                    <p>{{ 'Installation_NfsFilesystemWarningSuffixAdmin'|translate }}</p>
+                {% endif %}
+            {% endif %}
+        </td>
+    </tr>
     {% if infos.general_infos.assume_secure_protocol is defined %}
         <tr>
             <td class="label">{{ 'Installation_SystemCheckSecureProtocol'|translate }}</td>
@@ -308,23 +325,7 @@
             </td>
         </tr>
     {% endif %}
-    <tr>
-        <td class="label">{{ 'Installation_Filesystem'|translate }}</td>
-        <td>
-            {% if not infos.is_nfs %}
-                {{ ok }} {{ 'General_Ok'|translate }}
-                <br/>
-            {% else %}
-                {{ warning }}
-                <span class="warn">{{ 'Installation_NfsFilesystemWarning'|translate }}</span>
-                {% if duringInstall is not empty %}
-                    <p>{{ 'Installation_NfsFilesystemWarningSuffixInstall'|translate }}</p>
-                {% else %}
-                    <p>{{ 'Installation_NfsFilesystemWarningSuffixAdmin'|translate }}</p>
-                {% endif %}
-            {% endif %}
-        </td>
-    </tr>
+
 </table>
 
 {% include "@Installation/_integrityDetails.twig" %}

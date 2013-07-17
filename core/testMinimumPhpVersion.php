@@ -58,8 +58,8 @@ if ($minimumPhpInvalid) {
     if(!file_exists($autoloader)) {
         $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed.
         You can install Composer in a few easy steps. In the piwik directory, run in the command line the following (eg. via ssh):
-                    <pre>$ curl -sS https://getcomposer.org/installer | php".
-                    "\n$ php composer.phar install</pre> </p><p>This will download and install composer, and initialize composer for Piwik (eg. download the twig library in vendor/twig).
+                    <pre>curl -sS https://getcomposer.org/installer | php".
+                    "\nphp composer.phar install</pre> </p><p>This will download and install composer, and initialize composer for Piwik (eg. download the twig library in vendor/twig).
                     <br/>Then reload this page to access your analytics reports.</p>";
     }
 }

@@ -495,7 +495,6 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         // connect to the database using the DB infos currently in the session
         $this->createDbFromSessionInformation();
 
-        Piwik::createAccessObject();
         Piwik::setUserIsSuperUser();
         Piwik::createLogObject();
     }
@@ -675,7 +674,26 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $infos = array();
 
         $infos['general_infos'] = array();
-        $infos['directories'] = Piwik::checkDirectoriesWritable();
+
+        $directoriesToCheck = array();
+
+        if(!Piwik::isInstalled()) {
+            // at install, need /config to be writable (so we can create config.ini.php)
+            $directoriesToCheck[] = '/config/';
+        }
+
+        $directoriesToCheck = array_merge($directoriesToCheck, array(
+                                    '/tmp/',
+                                    '/tmp/templates_c/',
+                                    '/tmp/cache/',
+                                    '/tmp/assets/',
+                                    '/tmp/latest/',
+                                    '/tmp/tcpdf/',
+                                    '/tmp/sessions/',
+        ));
+
+        $infos['directories'] = Piwik::checkDirectoriesWritable($directoriesToCheck);
+
         $infos['can_auto_update'] = Piwik::canAutoUpdate();
 
         if (Piwik_Common::isIIS()) {

@@ -390,7 +390,7 @@ class Piwik
      *
      * @param array $directoriesToCheck  Array of directory names to check
      */
-    static public function checkDirectoriesWritableOrDie($directoriesToCheck = null)
+    static public function dieIfDirectoriesNotWritable($directoriesToCheck = null)
     {
         $resultCheck = Piwik::checkDirectoriesWritable($directoriesToCheck);
         if (array_search(false, $resultCheck) === false) {
@@ -428,28 +428,17 @@ class Piwik
      * @param array $directoriesToCheck  array of directories to check - if not given default Piwik directories that needs write permission are checked
      * @return array  directory name => true|false (is writable)
      */
-    static public function checkDirectoriesWritable($directoriesToCheck = null)
+    static public function checkDirectoriesWritable($directoriesToCheck)
     {
-        if ($directoriesToCheck == null) {
-            $directoriesToCheck = array(
-                '/config/',
-                '/tmp/',
-                '/tmp/templates_c/',
-                '/tmp/cache/',
-                '/tmp/assets/',
-                '/tmp/latest/',
-                '/tmp/tcpdf/',
-                '/tmp/sessions/',
-            );
-        }
-
         $resultCheck = array();
         foreach ($directoriesToCheck as $directoryToCheck) {
             if (!preg_match('/^' . preg_quote(PIWIK_USER_PATH, '/') . '/', $directoryToCheck)) {
                 $directoryToCheck = PIWIK_USER_PATH . $directoryToCheck;
             }
 
-            if (!file_exists($directoryToCheck)) {
+            // Create an empty directory
+            $isFile = strpos($directoryToCheck, '.') !== false;
+            if (!$isFile && !file_exists($directoryToCheck)) {
                 Piwik_Common::mkdir($directoryToCheck);
             }
 
@@ -626,7 +615,8 @@ class Piwik
 
         $manifest = PIWIK_INCLUDE_PATH . '/config/manifest.inc.php';
         if (!file_exists($manifest)) {
-            $messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest');
+            $suffix = " If you are deploying Piwik from Git, this message is normal.";
+            $messages[] = Piwik_Translate('General_WarningFileIntegrityNoManifest') . $suffix;
             return $messages;
         }
 

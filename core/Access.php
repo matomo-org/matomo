@@ -206,7 +206,12 @@ class Piwik_Access
     protected function reloadAccessSuperUser()
     {
         $this->isSuperUser = true;
-        $this->idsitesByAccess['superuser'] = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        try {
+            $allSitesId = Piwik_SitesManager_API::getInstance()->getAllSitesId();
+        } catch(Exception $e) {
+            $allSitesId = array();
+        }
+        $this->idsitesByAccess['superuser'] = $allSitesId;
         $this->login = Piwik_Config::getInstance()->superuser['login'];
         return true;
     }

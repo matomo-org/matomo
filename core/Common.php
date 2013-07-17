@@ -62,10 +62,8 @@ class Piwik_Common
      */
     public static function prefixTable($table)
     {
-        if (is_null(self::$cachedTablePrefix)) {
-            self::$cachedTablePrefix = Piwik_Config::getInstance()->database['tables_prefix'];
-        }
-        return self::$cachedTablePrefix . $table;
+        $prefix = Piwik_Config::getInstance()->database['tables_prefix'];
+        return $prefix . $table;
     }
 
     /**

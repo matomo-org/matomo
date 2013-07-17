@@ -107,7 +107,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
     private function oneClick_Download()
     {
         $this->pathPiwikZip = PIWIK_USER_PATH . self::PATH_TO_EXTRACT_LATEST_VERSION . 'latest.zip';
-        Piwik::checkDirectoriesWritableOrDie(array(self::PATH_TO_EXTRACT_LATEST_VERSION));
+        Piwik::dieIfDirectoriesNotWritable(array(self::PATH_TO_EXTRACT_LATEST_VERSION));
 
         // we catch exceptions in the caller (i.e., oneClickUpdate)
         $url = self::getLatestZipUrl($this->newVersion) . '?cb=' . $this->newVersion;

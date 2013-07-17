@@ -296,7 +296,9 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkValidFilename extends HTML_
 {
     function validateOwner()
     {
-        return Piwik_Common::isValidFilename($this->owner->getValue());
+        $prefix = $this->owner->getValue();
+        return empty($prefix)
+            || Piwik_Common::isValidFilename($prefix);
     }
 }
 

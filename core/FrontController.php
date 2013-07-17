@@ -197,11 +197,6 @@ class Piwik_FrontController
         return $exceptionToThrow;
     }
 
-    protected function createAccessObject()
-    {
-        Piwik_Access::getInstance();
-    }
-
     /**
      * Must be called before dispatch()
      * - checks that directories are writable,
@@ -233,7 +228,7 @@ class Piwik_FrontController
                 '/tmp/tcpdf/'
             );
 
-            Piwik::checkDirectoriesWritableOrDie($directoriesToCheck);
+            Piwik::dieIfDirectoriesNotWritable($directoriesToCheck);
             Piwik_Common::assignCliParametersToRequest();
 
             Piwik_Translate::getInstance()->loadEnglishTranslation();
@@ -255,6 +250,7 @@ class Piwik_FrontController
                 throw $exceptionToThrow;
             }
 
+
             try {
                 Piwik::createDatabaseObject();
             } catch (Exception $e) {
@@ -267,14 +263,12 @@ class Piwik_FrontController
 
             Piwik::createLogObject();
 
-            // creating the access object, so that core/Updates/* can enforce Super User and use some APIs
-            $this->createAccessObject();
+            // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
+            Piwik_Access::getInstance();
+
             Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
 
             Piwik_PluginsManager::getInstance()->installLoadedPlugins();
-
-
-//            Piwik_Common::mkdir(PIWIK_USER_PATH . '/' . Piwik_Config::getInstance()->smarty['compile_dir']);
 
             // ensure the current Piwik URL is known for later use
             if (method_exists('Piwik', 'getPiwikUrl')) {
@@ -309,7 +303,8 @@ class Piwik_FrontController
                 throw $e;
             }
 
-            Piwik_ExitWithMessage($e->getMessage(), false, true);
+            $trace = $e->getTraceAsString();
+            Piwik_ExitWithMessage($e->getMessage(), false /* $debugTrace */, true);
         }
     }
 
