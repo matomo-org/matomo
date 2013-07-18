@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Config;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -80,7 +82,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
 
             $piwikSite = new Piwik_Site($idSite);
             if ($periodForSinglePeriodGraph == 'range') {
-                $periodForMultiplePeriodGraph = Piwik_Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
+                $periodForMultiplePeriodGraph = Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
             } else {
                 $periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;

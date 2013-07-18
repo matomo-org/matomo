@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\Core\Config;
 
 /**
  * @package Piwik_API
@@ -102,7 +103,7 @@ class Piwik_API_API
      */
     public function getSettings()
     {
-        return Piwik_Config::getInstance()->APISettings;
+        return Config::getInstance()->APISettings;
     }
 
     /**
@@ -301,7 +302,7 @@ class Piwik_API_API
     public function getLogoUrl($pathOnly = false)
     {
         $logo = 'plugins/Zeitgeist/images/logo.png';
-        if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.png')
         ) {
             $logo = 'misc/user/logo.png';
@@ -321,7 +322,7 @@ class Piwik_API_API
     public function getHeaderLogoUrl($pathOnly = false)
     {
         $logo = 'plugins/Zeitgeist/images/logo-header.png';
-        if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo-header.png')
         ) {
             $logo = 'misc/user/logo-header.png';
@@ -342,7 +343,7 @@ class Piwik_API_API
     public function getSVGLogoUrl($pathOnly = false)
     {
         $logo = 'plugins/Zeitgeist/images/logo.svg';
-        if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
+        if (Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             $logo = 'misc/user/logo.svg';
@@ -360,10 +361,10 @@ class Piwik_API_API
      */
     public function hasSVGLogo()
     {
-        if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 0) {
+        if (Config::getInstance()->branding['use_custom_logo'] == 0) {
             /* We always have our application logo */
             return true;
-        } else if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
+        } else if (Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             return true;

@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -19,7 +20,7 @@ class Piwik_API_Controller extends Piwik_Controller
     {
         // when calling the API through http, we limit the number of returned results
         if (!isset($_GET['filter_limit'])) {
-            $_GET['filter_limit'] = Piwik_Config::getInstance()->General['API_datatable_default_limit'];
+            $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
         }
         $request = new Piwik_API_Request('token_auth=' . Piwik_Common::getRequestVar('token_auth', 'anonymous', 'string'));
         echo $request->process();

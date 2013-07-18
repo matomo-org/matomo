@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Login
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -68,9 +69,9 @@ class Piwik_Login extends Piwik_Plugin
             return;
         }
 
-        $authCookieName = Piwik_Config::getInstance()->General['login_cookie_name'];
+        $authCookieName = Config::getInstance()->General['login_cookie_name'];
         $authCookieExpiry = 0;
-        $authCookiePath = Piwik_Config::getInstance()->General['login_cookie_path'];
+        $authCookiePath = Config::getInstance()->General['login_cookie_path'];
         $authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
         $defaultLogin = 'anonymous';
         $defaultTokenAuth = 'anonymous';
@@ -101,9 +102,9 @@ class Piwik_Login extends Piwik_Plugin
         $auth->setTokenAuth($tokenAuth);
         $authResult = $auth->authenticate();
 
-        $authCookieName = Piwik_Config::getInstance()->General['login_cookie_name'];
-        $authCookieExpiry = $rememberMe ? time() + Piwik_Config::getInstance()->General['login_cookie_expire'] : 0;
-        $authCookiePath = Piwik_Config::getInstance()->General['login_cookie_path'];
+        $authCookieName = Config::getInstance()->General['login_cookie_name'];
+        $authCookieExpiry = $rememberMe ? time() + Config::getInstance()->General['login_cookie_expire'] : 0;
+        $authCookiePath = Config::getInstance()->General['login_cookie_path'];
         $cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
         if (!$authResult->isValid()) {
             $cookie->delete();

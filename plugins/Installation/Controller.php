@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Installation
  */
+use Piwik\Core\Config;
 
 /**
  * Installation controller
@@ -76,7 +77,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $this->getInstallationSteps(),
             __FUNCTION__
         );
-        $view->newInstall = !file_exists(Piwik_Config::getLocalConfigPath());
+        $view->newInstall = !file_exists(Config::getLocalConfigPath());
         $view->errorMessage = $message;
         $this->skipThisStep(__FUNCTION__);
         $view->showNextStep = $view->newInstall;
@@ -316,7 +317,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 
             $this->session->superuser_infos = $superUserInfos;
 
-            $url = Piwik_Config::getInstance()->General['api_service_url'];
+            $url = Config::getInstance()->General['api_service_url'];
             $url .= '/1.0/subscribeNewsletter/';
             $params = array(
                 'email'     => $form->getSubmitValue('email'),
@@ -449,7 +450,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         );
         $this->skipThisStep(__FUNCTION__);
 
-        if (!file_exists(Piwik_Config::getLocalConfigPath())) {
+        if (!file_exists(Config::getLocalConfigPath())) {
 //			$this->addTrustedHosts();
             $this->writeConfigFileFromSession();
         }
@@ -505,7 +506,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     protected function createDbFromSessionInformation()
     {
         $dbInfos = $this->session->db_infos;
-        Piwik_Config::getInstance()->database = $dbInfos;
+        Config::getInstance()->database = $dbInfos;
         Piwik::createDatabaseObject($dbInfos);
     }
 
@@ -520,7 +521,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             return;
         }
 
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         try {
             // expect exception since config.ini.php doesn't exist yet
             $config->init();
@@ -567,7 +568,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         } else if ($currentStep == 'finished' && $this->session->currentStepDone == 'finished') {
             // ok to refresh this page or use language selector
         } else {
-            if (file_exists(Piwik_Config::getLocalConfigPath())) {
+            if (file_exists(Config::getLocalConfigPath())) {
                 $error = true;
             }
 
@@ -669,7 +670,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     public static function getSystemInformation()
     {
         global $piwik_minimumPHPVersion;
-        $minimumMemoryLimit = Piwik_Config::getInstance()->General['minimum_memory_limit'];
+        $minimumMemoryLimit = Config::getInstance()->General['minimum_memory_limit'];
 
         $infos = array();
 

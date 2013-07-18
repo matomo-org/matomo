@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_AnonymizeIP
  */
+use Piwik\Core\Config;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
@@ -65,6 +66,6 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
      */
     public function setVisitorIpAddress(&$ip)
     {
-        $ip = self::applyIPMask($ip, Piwik_Config::getInstance()->Tracker['ip_address_mask_length']);
+        $ip = self::applyIPMask($ip, Config::getInstance()->Tracker['ip_address_mask_length']);
     }
 }

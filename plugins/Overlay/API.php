@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Config;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -80,7 +82,7 @@ class Piwik_Overlay_API
         $resultDataTable = new Piwik_DataTable;
 
         try {
-            $limitBeforeGrouping = Piwik_Config::getInstance()->General['overlay_following_pages_limit'];
+            $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];
             $transitionsReport = Piwik_Transitions_API::getInstance()->getTransitionsForAction(
                 $url, $type = 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping,
                 $part = 'followingActions', $returnNormalizedUrls = true);

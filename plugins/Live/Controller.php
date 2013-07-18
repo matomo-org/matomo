@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Live
  */
+use Piwik\Core\Config;
 
 /**
  * @package Piwik_Live
@@ -26,7 +27,7 @@ class Piwik_Live_Controller extends Piwik_Controller
         $view = new Piwik_View('@Live/index');
         $view->idSite = $this->idSite;
         $view = $this->setCounters($view);
-        $view->liveRefreshAfterMs = (int)Piwik_Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
+        $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
         $view->visitors = $this->getLastVisitsStart($fetchPlease = true);
         $view->liveTokenAuth = Piwik::getCurrentUserTokenAuth();
         return $this->render($view, $fetch);
@@ -34,7 +35,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     public function getSimpleLastVisitCount($fetch = false)
     {
-        $lastMinutes = Piwik_Config::getInstance()->General[self::SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY];
+        $lastMinutes = Config::getInstance()->General[self::SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY];
 
         $lastNData = Piwik_API_Request::processRequest('Live.getCounters', array('lastMinutes' => $lastMinutes));
 
@@ -43,7 +44,7 @@ class Piwik_Live_Controller extends Piwik_Controller
         $view->visitors = Piwik::getPrettyNumber($lastNData[0]['visitors']);
         $view->visits = Piwik::getPrettyNumber($lastNData[0]['visits']);
         $view->actions = Piwik::getPrettyNumber($lastNData[0]['actions']);
-        $view->refreshAfterXSecs = Piwik_Config::getInstance()->General['live_widget_refresh_after_seconds'];
+        $view->refreshAfterXSecs = Config::getInstance()->General['live_widget_refresh_after_seconds'];
         $view->translations = array(
             'one_visitor' => Piwik_Translate('Live_NbVisitor'),
             'visitors'    => Piwik_Translate('Live_NbVisitors'),

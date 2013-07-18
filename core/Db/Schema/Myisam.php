@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * MySQL schema
@@ -51,7 +52,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
      */
     public function getTablesCreateSql()
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $prefixTables = $config->database['tables_prefix'];
         $tables = array(
             'user'                  => "CREATE TABLE {$prefixTables}user (
@@ -421,7 +422,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
     public function getTablesNames()
     {
         $aTables = array_keys($this->getTablesCreateSql());
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $prefixTables = $config->database['tables_prefix'];
         $return = array();
         foreach ($aTables as $table) {
@@ -444,7 +445,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
             || $forceReload === true
         ) {
             $db = Zend_Registry::get('db');
-            $config = Piwik_Config::getInstance();
+            $config = Config::getInstance();
             $prefixTables = $config->database['tables_prefix'];
 
             // '_' matches any character; force it to be literal
@@ -487,7 +488,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
     public function createDatabase($dbName = null)
     {
         if (is_null($dbName)) {
-            $dbName = Piwik_Config::getInstance()->database['dbname'];
+            $dbName = Config::getInstance()->database['dbname'];
         }
         Piwik_Exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
     }
@@ -497,7 +498,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
      */
     public function dropDatabase()
     {
-        $dbName = Piwik_Config::getInstance()->database['dbname'];
+        $dbName = Config::getInstance()->database['dbname'];
         Piwik_Exec("DROP DATABASE IF EXISTS " . $dbName);
     }
 
@@ -507,7 +508,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
     public function createTables()
     {
         $db = Zend_Registry::get('db');
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $prefixTables = $config->database['tables_prefix'];
 
         $tablesAlreadyInstalled = $this->getTablesInstalled();

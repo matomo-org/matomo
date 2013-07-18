@@ -9,6 +9,8 @@
  * @package Piwik
  */
 
+use Piwik\Core\Config;
+
 if (Piwik_Common::isWindows() || !function_exists('inet_ntop')) {
     function _inet_ntop($in_addr)
     {
@@ -365,7 +367,7 @@ class Piwik_IP
      */
     public static function getIpFromHeader()
     {
-        $clientHeaders = @Piwik_Config::getInstance()->General['proxy_client_headers'];
+        $clientHeaders = @Config::getInstance()->General['proxy_client_headers'];
         if (!is_array($clientHeaders)) {
             $clientHeaders = array();
         }
@@ -388,7 +390,7 @@ class Piwik_IP
      */
     public static function getNonProxyIpFromHeader($default, $proxyHeaders)
     {
-        $proxyIps = @Piwik_Config::getInstance()->General['proxy_ips'];
+        $proxyIps = @Config::getInstance()->General['proxy_ips'];
         if (!is_array($proxyIps)) {
             $proxyIps = array();
         }

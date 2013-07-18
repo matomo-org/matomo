@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Interface of the Action object.
@@ -616,7 +617,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             $urlType = Piwik_Tracker_Action::TYPE_ACTION_URL;
 
             // By default, Site Search does not record the URL for the Search Result page, to slightly improve performance
-            if (empty(Piwik_Config::getInstance()->Tracker['action_sitesearch_record_url'])) {
+            if (empty(Config::getInstance()->Tracker['action_sitesearch_record_url'])) {
                 $url = false;
             }
         }
@@ -784,9 +785,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             $url = $this->request->getParam('url');
 
             // get the delimiter, by default '/'; BC, we read the old action_category_delimiter first (see #1067)
-            $actionCategoryDelimiter = isset(Piwik_Config::getInstance()->General['action_category_delimiter'])
-                ? Piwik_Config::getInstance()->General['action_category_delimiter']
-                : Piwik_Config::getInstance()->General['action_url_category_delimiter'];
+            $actionCategoryDelimiter = isset(Config::getInstance()->General['action_category_delimiter'])
+                ? Config::getInstance()->General['action_category_delimiter']
+                : Config::getInstance()->General['action_url_category_delimiter'];
 
             // create an array of the categories delimited by the delimiter
             $split = explode($actionCategoryDelimiter, $actionName);
@@ -835,7 +836,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             return false;
         }
         $actionName = $url = $categoryName = $count = false;
-        $doTrackUrlForSiteSearch = !empty(Piwik_Config::getInstance()->Tracker['action_sitesearch_record_url']);
+        $doTrackUrlForSiteSearch = !empty(Config::getInstance()->Tracker['action_sitesearch_record_url']);
 
         $originalUrl = self::cleanupUrl($originalUrl);
 
@@ -1005,7 +1006,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         $string = trim($string);
         $string = str_replace(array("\n", "\r", "\0"), '', $string);
 
-        $limit = Piwik_Config::getInstance()->Tracker['page_maximum_length'];
+        $limit = Config::getInstance()->Tracker['page_maximum_length'];
         return substr($string, 0, $limit);
     }
 

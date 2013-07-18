@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * @package Piwik
@@ -228,7 +229,7 @@ class Piwik_Tracker_GoalManager
             ? $visitorInformation['location_country']
             : Piwik_Common::getCountry(
                 $browserLanguage,
-                $enableLanguageToCountryGuess = Piwik_Config::getInstance()->Tracker['enable_language_to_country_guess'],
+                $enableLanguageToCountryGuess = Config::getInstance()->Tracker['enable_language_to_country_guess'],
                 $visitorInformation['location_ip']
             );
 

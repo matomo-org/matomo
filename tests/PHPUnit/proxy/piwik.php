@@ -11,6 +11,8 @@
 
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking
+use Piwik\Core\Config;
+
 ob_start();
 
 define('PIWIK_INCLUDE_PATH', '../../..');
@@ -22,15 +24,15 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 // Config files forced to use the test database
 // Note that this also provides security for Piwik installs containing tests files: 
 // this proxy will not record any data in the production database.
-Piwik_Config::getInstance()->setTestEnvironment();
-Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'] = array();
+Config::getInstance()->setTestEnvironment();
+Config::getInstance()->PluginsInstalled['PluginsInstalled'] = array();
 try {
-    $trackerPlugins = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+    $trackerPlugins = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
 }catch(Exception $e) {
     $trackerPlugins = array();
 }
 $trackerPlugins[] = 'DevicesDetection';
-Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $trackerPlugins;
+Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $trackerPlugins;
 Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
 Piwik_Tracker::setTestEnvironment();

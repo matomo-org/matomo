@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * @see core/PluginsManager.php
@@ -189,7 +190,7 @@ class Piwik_FrontController
     {
         $exceptionToThrow = false;
         try {
-            Piwik_Config::getInstance();
+            Config::getInstance();
         } catch (Exception $e) {
             Piwik_PostEvent('FrontController.NoConfigurationFile', array($e), $pending = true);
             $exceptionToThrow = $e;
@@ -243,7 +244,7 @@ class Piwik_FrontController
             $this->handleSSLRedirection();
 
             $pluginsManager = Piwik_PluginsManager::getInstance();
-            $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
+            $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
 
             $pluginsManager->loadPlugins($pluginsToLoad);
 
@@ -311,7 +312,7 @@ class Piwik_FrontController
 
     protected function handleMaintenanceMode()
     {
-        if (Piwik_Config::getInstance()->General['maintenance_mode'] == 1
+        if (Config::getInstance()->General['maintenance_mode'] == 1
             && !Piwik_Common::isPhpCliMode()
         ) {
             $format = Piwik_Common::getRequestVar('format', '');
@@ -319,7 +320,7 @@ class Piwik_FrontController
             $message = "Piwik is in scheduled maintenance. Please come back later."
                 . " The administrator can disable maintenance by editing the file piwik/config/config.ini.php and removing the following: "
                 . " maintenance_mode=1 ";
-            if (Piwik_Config::getInstance()->Tracker['record_statistics'] == 0) {
+            if (Config::getInstance()->Tracker['record_statistics'] == 0) {
                 $message .= ' and record_statistics=0';
             }
 
@@ -338,7 +339,7 @@ class Piwik_FrontController
     protected function handleSSLRedirection()
     {
         if (!Piwik_Common::isPhpCliMode()
-            && Piwik_Config::getInstance()->General['force_ssl'] == 1
+            && Config::getInstance()->General['force_ssl'] == 1
             && !Piwik::isHttps()
             // Specifically disable for the opt out iframe
             && !(Piwik_Common::getRequestVar('module', '') == 'CoreAdminHome'

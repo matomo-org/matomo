@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CorePluginsAdmin
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -50,7 +51,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
 
         $listPlugins = array_merge(
             Piwik_PluginsManager::getInstance()->readPluginsDirectory(),
-            Piwik_Config::getInstance()->Plugins['Plugins']
+            Config::getInstance()->Plugins['Plugins']
         );
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {

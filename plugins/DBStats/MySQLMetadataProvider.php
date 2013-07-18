@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_DBStats
  */
+use Piwik\Core\Config;
 
 /**
  * Utility class that provides general information about databases, including the size of
@@ -41,7 +42,7 @@ class Piwik_DBStats_MySQLMetadataProvider
     public function getDBStatus()
     {
         if (function_exists('mysql_connect')) {
-            $configDb = Piwik_Config::getInstance()->database;
+            $configDb = Config::getInstance()->database;
             $link = mysql_connect($configDb['host'], $configDb['username'], $configDb['password']);
             $status = mysql_stat($link);
             mysql_close($link);

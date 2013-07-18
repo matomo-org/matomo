@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Config;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -32,8 +34,8 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     {
         parent::__construct($processor);
         $this->columnToSortByBeforeTruncation = Piwik_Metrics::INDEX_NB_VISITS;
-        $this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
-        $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
+        $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
+        $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
     }
 
     public function archiveDay()

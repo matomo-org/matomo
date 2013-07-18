@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Core\Config;
+
 require_once 'PrivacyManager/PrivacyManager.php';
 
 class PrivacyManagerTest extends IntegrationTestCase
@@ -842,7 +844,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     protected function _tableExists($tableName)
     {
-        $dbName = Piwik_Config::getInstance()->database['dbname'];
+        $dbName = Config::getInstance()->database['dbname'];
 
         $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = ? AND table_name = ?";
         return Piwik_FetchOne($sql, array($dbName, Piwik_Common::prefixTable($tableName))) == 1;

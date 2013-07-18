@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_PDFReports
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -258,10 +259,10 @@ class Piwik_PDFReports extends Piwik_Plugin
 
             $mail = new Piwik_Mail();
             $mail->setSubject($subject);
-            $fromEmailName = Piwik_Config::getInstance()->branding['use_custom_logo']
+            $fromEmailName = Config::getInstance()->branding['use_custom_logo']
                 ? Piwik_Translate('CoreHome_WebAnalyticsReports')
                 : Piwik_Translate('PDFReports_PiwikReports');
-            $fromEmailAddress = Piwik_Config::getInstance()->General['noreply_email_address'];
+            $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
             $attachmentName = $subject;
             $mail->setFrom($fromEmailAddress, $fromEmailName);
 

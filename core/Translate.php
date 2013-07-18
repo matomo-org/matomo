@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * @package Piwik
@@ -119,7 +120,7 @@ class Piwik_Translate
 
     public function getLanguageDefault()
     {
-        return Piwik_Config::getInstance()->General['default_language'];
+        return Config::getInstance()->General['default_language'];
     }
 
     /**

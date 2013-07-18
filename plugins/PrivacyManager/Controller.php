@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_PrivacyManager
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -27,10 +28,10 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
             switch (Piwik_Common::getRequestVar('form')) {
                 case("formMaskLength"):
                     $this->handlePluginState(Piwik_Common::getRequestVar("anonymizeIPEnable", 0));
-                    $trackerConfig = Piwik_Config::getInstance()->Tracker;
+                    $trackerConfig = Config::getInstance()->Tracker;
                     $trackerConfig['ip_address_mask_length'] = Piwik_Common::getRequestVar("maskLength", 1);
-                    Piwik_Config::getInstance()->Tracker = $trackerConfig;
-                    Piwik_Config::getInstance()->forceSave();
+                    Config::getInstance()->Tracker = $trackerConfig;
+                    Config::getInstance()->forceSave();
                     break;
 
                 case("formDeleteSettings"):
@@ -115,7 +116,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
             $view->anonymizeIP = $this->getAnonymizeIPInfo();
             $view->dntSupport = self::isDntSupported();
             $view->canDeleteLogActions = Piwik::isLockPrivilegeGranted();
-            $view->dbUser = Piwik_Config::getInstance()->database['username'];
+            $view->dbUser = Config::getInstance()->database['username'];
         }
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
         $this->displayWarningIfConfigFileNotWritable($view);
@@ -160,7 +161,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
             $settings = Piwik_PrivacyManager::getPurgeDataSettings();
         }
 
-        $doDatabaseSizeEstimate = Piwik_Config::getInstance()->Deletelogs['enable_auto_database_size_estimate'];
+        $doDatabaseSizeEstimate = Config::getInstance()->Deletelogs['enable_auto_database_size_estimate'];
 
         // determine the DB size & purged DB size
         $metadataProvider = new Piwik_DBStats_MySQLMetadataProvider();
@@ -215,7 +216,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 
         $anonymizeIP["name"] = self::ANONYMIZE_IP_PLUGIN_NAME;
         $anonymizeIP["enabled"] = Piwik_PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
-        $anonymizeIP["maskLength"] = Piwik_Config::getInstance()->Tracker['ip_address_mask_length'];
+        $anonymizeIP["maskLength"] = Config::getInstance()->Tracker['ip_address_mask_length'];
         $anonymizeIP["info"] = Piwik_PluginsManager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
 
         return $anonymizeIP;

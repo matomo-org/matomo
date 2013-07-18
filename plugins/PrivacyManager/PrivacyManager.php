@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_PrivacyManager
  */
+use Piwik\Core\Config;
 
 /**
  * @see plugins/PrivacyManager/LogDataPurger.php
@@ -108,7 +109,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
                 'delete_logs_older_than',
             );
 
-            $deleteLogsSettings = Piwik_Config::getInstance()->Deletelogs;
+            $deleteLogsSettings = Config::getInstance()->Deletelogs;
             foreach ($oldSettings as $settingName) {
                 $settings[$settingName] = $deleteLogsSettings[$settingName];
             }

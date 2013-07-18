@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Core\Config;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -176,8 +177,8 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
     public static function getTokenAuth()
     {
         return Piwik_UsersManager_API::getInstance()->getTokenAuth(
-            Piwik_Config::getInstance()->superuser['login'],
-            Piwik_Config::getInstance()->superuser['password']
+            Config::getInstance()->superuser['login'],
+            Config::getInstance()->superuser['password']
         );
     }
 

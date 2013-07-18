@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Outputs an AJAX Table for a given DataTable.
@@ -36,7 +37,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         $this->viewProperties['disable_row_actions'] = false;
         
         $this->setSortedColumn('nb_visits', 'desc');
-        $this->setLimit(Piwik_Config::getInstance()->General['datatable_default_limit']);
+        $this->setLimit(Config::getInstance()->General['datatable_default_limit']);
         $this->handleLowPopulation();
         $this->setSubtableTemplate("@CoreHome/_dataTable.twig");
         $this->viewProperties['datatable_js_type'] = 'dataTable';

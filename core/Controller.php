@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
@@ -430,7 +431,7 @@ abstract class Piwik_Controller
             $language = Piwik_LanguagesManager::getLanguageForSession();
             $view->language = !empty($language) ? $language : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 
-            $view->config_action_url_category_delimiter = Piwik_Config::getInstance()->General['action_url_category_delimiter'];
+            $view->config_action_url_category_delimiter = Config::getInstance()->General['action_url_category_delimiter'];
 
             $this->setBasicVariablesView($view);
 
@@ -447,17 +448,17 @@ abstract class Piwik_Controller
      */
     protected function setBasicVariablesView($view)
     {
-        $view->debugTrackVisitsInsidePiwikUI = Piwik_Config::getInstance()->Debug['track_visits_inside_piwik_ui'];
+        $view->debugTrackVisitsInsidePiwikUI = Config::getInstance()->Debug['track_visits_inside_piwik_ui'];
         $view->isSuperUser = Piwik_Access::getInstance()->isSuperUser();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
-        $view->isCustomLogo = Piwik_Config::getInstance()->branding['use_custom_logo'];
+        $view->isCustomLogo = Config::getInstance()->branding['use_custom_logo'];
         $view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
         $view->logoLarge = Piwik_API_API::getInstance()->getLogoUrl();
         $view->logoSVG = Piwik_API_API::getInstance()->getSVGLogoUrl();
         $view->hasSVGLogo = Piwik_API_API::getInstance()->hasSVGLogo();
 
-        $view->enableFrames = Piwik_Config::getInstance()->General['enable_framed_pages']
-            || @Piwik_Config::getInstance()->General['enable_framed_logins'];
+        $view->enableFrames = Config::getInstance()->General['enable_framed_pages']
+            || @Config::getInstance()->General['enable_framed_logins'];
         if (!$view->enableFrames) {
             $view->setXFrameOptions('sameorigin');
         }
@@ -480,7 +481,7 @@ abstract class Piwik_Controller
         $view->isValidHost = Piwik_Url::isValidHost();
         if (!$view->isValidHost) {
             // invalid host, so display warning to user
-            $validHost = Piwik_Config::getInstance()->General['trusted_hosts'][0];
+            $validHost = Config::getInstance()->General['trusted_hosts'][0];
             $invalidHost = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 
             $emailSubject = rawurlencode(Piwik_Translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
@@ -741,7 +742,7 @@ abstract class Piwik_Controller
     {
         $userSettingsDate = Piwik_UsersManager_API::getInstance()->getUserPreference(Piwik::getCurrentUserLogin(), Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT_DATE);
         if ($userSettingsDate === false) {
-            return Piwik_Config::getInstance()->General['default_period'];
+            return Config::getInstance()->General['default_period'];
         }
         if (in_array($userSettingsDate, array('today', 'yesterday'))) {
             return 'day';

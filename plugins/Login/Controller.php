@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Login
  */
+use Piwik\Core\Config;
 
 /**
  * Login controller
@@ -95,7 +96,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
         $view->linkTitle = Piwik::getRandomTitle();
 
-        $view->forceSslLogin = Piwik_Config::getInstance()->General['force_ssl_login'];
+        $view->forceSslLogin = Config::getInstance()->General['force_ssl_login'];
 
         // crsf token: don't trust the submitted value; generate/fetch it from session data
         $view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
@@ -117,7 +118,7 @@ class Piwik_Login_Controller extends Piwik_Controller
         }
 
         $login = Piwik_Common::getRequestVar('login', null, 'string');
-        if ($login == Piwik_Config::getInstance()->superuser['login']) {
+        if ($login == Config::getInstance()->superuser['login']) {
             throw new Exception(Piwik_TranslateException('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
         }
 
@@ -273,8 +274,8 @@ class Piwik_Login_Controller extends Piwik_Controller
         ) . "\n";
         $mail->setBodyText($bodyText);
 
-        $fromEmailName = Piwik_Config::getInstance()->General['login_password_recovery_email_name'];
-        $fromEmailAddress = Piwik_Config::getInstance()->General['login_password_recovery_email_address'];
+        $fromEmailName = Config::getInstance()->General['login_password_recovery_email_name'];
+        $fromEmailAddress = Config::getInstance()->General['login_password_recovery_email_address'];
         $mail->setFrom($fromEmailAddress, $fromEmailName);
         @$mail->send();
     }
@@ -334,13 +335,13 @@ class Piwik_Login_Controller extends Piwik_Controller
         }
 
         if ($user['email'] == Piwik::getSuperUserEmail()) {
-            if (!Piwik_Config::getInstance()->isFileWritable()) {
+            if (!Config::getInstance()->isFileWritable()) {
                 throw new Exception(Piwik_Translate('General_ConfigFileIsNotWritable', array("(config/config.ini.php)", "<br/>")));
             }
 
             $user['password'] = $passwordHash;
-            Piwik_Config::getInstance()->superuser = $user;
-            Piwik_Config::getInstance()->forceSave();
+            Config::getInstance()->superuser = $user;
+            Config::getInstance()->forceSave();
         } else {
             Piwik_UsersManager_API::getInstance()->updateUser(
                 $user['login'], $passwordHash, $email = false, $alias = false, $isPasswordHashed = true);
@@ -369,12 +370,12 @@ class Piwik_Login_Controller extends Piwik_Controller
 
         $user = null;
         if ($loginMail == Piwik::getSuperUserEmail()
-            || $loginMail == Piwik_Config::getInstance()->superuser['login']
+            || $loginMail == Config::getInstance()->superuser['login']
         ) {
             $user = array(
-                'login'    => Piwik_Config::getInstance()->superuser['login'],
+                'login'    => Config::getInstance()->superuser['login'],
                 'email'    => Piwik::getSuperUserEmail(),
-                'password' => Piwik_Config::getInstance()->superuser['password'],
+                'password' => Config::getInstance()->superuser['password'],
             );
         } else if (Piwik_UsersManager_API::getInstance()->userExists($loginMail)) {
             $user = Piwik_UsersManager_API::getInstance()->getUser($loginMail);
@@ -441,7 +442,7 @@ class Piwik_Login_Controller extends Piwik_Controller
      */
     static public function clearSession()
     {
-        $authCookieName = Piwik_Config::getInstance()->General['login_cookie_name'];
+        $authCookieName = Config::getInstance()->General['login_cookie_name'];
         $cookie = new Piwik_Cookie($authCookieName);
         $cookie->delete();
 
@@ -458,7 +459,7 @@ class Piwik_Login_Controller extends Piwik_Controller
     {
         self::clearSession();
 
-        $logoutUrl = @Piwik_Config::getInstance()->General['login_logout_url'];
+        $logoutUrl = @Config::getInstance()->General['login_logout_url'];
         if (empty($logoutUrl)) {
             Piwik::redirectToModule('CoreHome');
         } else {
@@ -474,7 +475,7 @@ class Piwik_Login_Controller extends Piwik_Controller
      */
     protected function checkForceSslLogin()
     {
-        $forceSslLogin = Piwik_Config::getInstance()->General['force_ssl_login'];
+        $forceSslLogin = Config::getInstance()->General['force_ssl_login'];
         if ($forceSslLogin
             && !Piwik::isHttps()
         ) {

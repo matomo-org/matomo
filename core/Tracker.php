@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -136,9 +137,9 @@ class Piwik_Tracker
      */
     static private function updateTrackerConfig($name, $value)
     {
-        $section = Piwik_Config::getInstance()->Tracker;
+        $section = Config::getInstance()->Tracker;
         $section[$name] = $value;
-        Piwik_Config::getInstance()->Tracker = $section;
+        Config::getInstance()->Tracker = $section;
     }
 
     protected function initRequests($args)
@@ -278,7 +279,7 @@ class Piwik_Tracker
 
         // Currently, there is no hourly tasks. When there are some,
         // this could be too agressive minimum interval (some hours would be skipped in case of low traffic)
-        $minimumInterval = Piwik_Config::getInstance()->Tracker['scheduled_tasks_min_interval'];
+        $minimumInterval = Config::getInstance()->Tracker['scheduled_tasks_min_interval'];
 
         // If the user disabled browser archiving, he has already setup a cron
         // To avoid parallel requests triggering the Scheduled Tasks,
@@ -340,7 +341,7 @@ class Piwik_Tracker
             require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
             
             $access = Piwik_Access::getInstance();
-            $config = Piwik_Config::getInstance();
+            $config = Config::getInstance();
             
             try {
                 $db = Zend_Registry::get('db');
@@ -349,7 +350,7 @@ class Piwik_Tracker
             }
 
             $pluginsManager = Piwik_PluginsManager::getInstance();
-            $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
+            $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
             $pluginsForcedNotToLoad = Piwik_Tracker::getPluginsNotToLoad();
             $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
             $pluginsToLoad = array_merge($pluginsToLoad, Piwik_Tracker::getPluginsToLoad());
@@ -477,7 +478,7 @@ class Piwik_Tracker
     public static function connectPiwikTrackerDb()
     {
         $db = null;
-        $configDb = Piwik_Config::getInstance()->database;
+        $configDb = Config::getInstance()->database;
 
         if (!isset($configDb['port'])) {
             // before 0.2.4 there is no port specified in config file
@@ -596,7 +597,7 @@ class Piwik_Tracker
         }
 
         try {
-            $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+            $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (count($pluginsTracker) > 0) {
                 $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
                 Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
@@ -623,7 +624,7 @@ class Piwik_Tracker
 
     protected function handleDisabledTracker()
     {
-        $saveStats = Piwik_Config::getInstance()->Tracker['record_statistics'];
+        $saveStats = Config::getInstance()->Tracker['record_statistics'];
         if ($saveStats == 0) {
             $this->setState(self::STATE_LOGGING_DISABLE);
         }
@@ -700,9 +701,9 @@ class Piwik_Tracker
         if (Piwik_Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
             self::updateTrackerConfig('ip_address_mask_length', 2);
 
-            $section = Piwik_Config::getInstance()->Plugins_Tracker;
+            $section = Config::getInstance()->Plugins_Tracker;
             $section['Plugins_Tracker'][] = "AnonymizeIP";
-            Piwik_Config::getInstance()->Plugins_Tracker = $section;
+            Config::getInstance()->Plugins_Tracker = $section;
 
             $forceIpAnonymization = true;
         }

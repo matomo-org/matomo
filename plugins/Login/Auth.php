@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Login
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -35,8 +36,8 @@ class Piwik_Login_Auth implements Piwik_Auth
      */
     public function authenticate()
     {
-        $rootLogin = Piwik_Config::getInstance()->superuser['login'];
-        $rootPassword = Piwik_Config::getInstance()->superuser['password'];
+        $rootLogin = Config::getInstance()->superuser['login'];
+        $rootPassword = Config::getInstance()->superuser['password'];
         $rootToken = Piwik_UsersManager_API::getInstance()->getTokenAuth($rootLogin, $rootPassword);
 
         if (is_null($this->login)) {

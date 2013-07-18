@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Core\Config;
+
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 /**
@@ -106,7 +108,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
         $generalConfig['datatable_archiving_maximum_rows_custom_variables'] = 4;
         $generalConfig['datatable_archiving_maximum_rows_subtable_custom_variables'] = 4;
         $generalConfig['datatable_archiving_maximum_rows_standard'] = 4;
-        Piwik_Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
+        Config::getInstance()->General['archiving_ranking_query_row_limit'] = 3;
         Piwik_Actions_ArchivingHelper::reloadConfig();
 
         foreach ($this->getApiForTesting() as $pair) {
@@ -128,7 +130,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
     public function testApiWithRankingQueryDisabled()
     {
         self::deleteArchiveTables();
-        $generalConfig =& Piwik_Config::getInstance()->General;
+        $generalConfig =& Config::getInstance()->General;
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 500;
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 500;
@@ -158,7 +160,7 @@ class Test_Piwik_Integration_BlobReportLimitingTest extends IntegrationTestCase
     protected static function setUpConfigOptions()
     {
         self::createTestConfig();
-        $generalConfig =& Piwik_Config::getInstance()->General;
+        $generalConfig =& Config::getInstance()->General;
         $generalConfig['datatable_archiving_maximum_rows_referers'] = 3;
         $generalConfig['datatable_archiving_maximum_rows_subtable_referers'] = 2;
         $generalConfig['datatable_archiving_maximum_rows_actions'] = 3;

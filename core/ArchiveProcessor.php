@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.
@@ -225,7 +226,7 @@ abstract class Piwik_ArchiveProcessor
         } elseif ($period == 'range') {
             $debugSetting = 'always_archive_data_range';
         }
-        return Piwik_Config::getInstance()->Debug[$debugSetting];
+        return Config::getInstance()->Debug[$debugSetting];
     }
 
     /**

@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * @see core/Menu/Abstract.php
@@ -85,9 +86,9 @@ class Piwik_PluginsManager
      */
     private function updatePluginsConfig($plugins)
     {
-        $section = Piwik_Config::getInstance()->Plugins;
+        $section = Config::getInstance()->Plugins;
         $section['Plugins'] = $plugins;
-        Piwik_Config::getInstance()->Plugins = $section;
+        Config::getInstance()->Plugins = $section;
     }
 
     /**
@@ -97,9 +98,9 @@ class Piwik_PluginsManager
      */
     private function updatePluginsTrackerConfig($plugins)
     {
-        $section = Piwik_Config::getInstance()->Plugins_Tracker;
+        $section = Config::getInstance()->Plugins_Tracker;
         $section['Plugins_Tracker'] = $plugins;
-        Piwik_Config::getInstance()->Plugins_Tracker = $section;
+        Config::getInstance()->Plugins_Tracker = $section;
     }
 
     /**
@@ -109,9 +110,9 @@ class Piwik_PluginsManager
      */
     private function updatePluginsInstalledConfig($plugins)
     {
-        $section = Piwik_Config::getInstance()->PluginsInstalled;
+        $section = Config::getInstance()->PluginsInstalled;
         $section['PluginsInstalled'] = $plugins;
-        Piwik_Config::getInstance()->PluginsInstalled = $section;
+        Config::getInstance()->PluginsInstalled = $section;
     }
 
     /**
@@ -134,7 +135,7 @@ class Piwik_PluginsManager
     public function isPluginUninstallable($name)
     {
         // Reading the plugins from the global.ini.php config file
-        $pluginsBundledWithPiwik = Piwik_Config::getInstance()->getFromDefaultConfig('Plugins');
+        $pluginsBundledWithPiwik = Config::getInstance()->getFromDefaultConfig('Plugins');
         $pluginsBundledWithPiwik = $pluginsBundledWithPiwik['Plugins'];
 
         return !in_array($name, $pluginsBundledWithPiwik);
@@ -236,7 +237,7 @@ class Piwik_PluginsManager
         }
         $this->updatePluginsConfig($plugins);
 
-        $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+        $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         if (!is_null($pluginsTracker)) {
             $key = array_search($pluginName, $pluginsTracker);
             if ($key !== false) {
@@ -245,7 +246,7 @@ class Piwik_PluginsManager
             }
         }
 
-        Piwik_Config::getInstance()->forceSave();
+        Config::getInstance()->forceSave();
         Piwik::deleteAllCacheOnUpdate();
 
         return $plugins;
@@ -273,7 +274,7 @@ class Piwik_PluginsManager
      */
     public function activatePlugin($pluginName)
     {
-        $plugins = Piwik_Config::getInstance()->Plugins['Plugins'];
+        $plugins = Config::getInstance()->Plugins['Plugins'];
         if (in_array($pluginName, $plugins)) {
             throw new Exception("Plugin '$pluginName' already activated.");
         }
@@ -308,7 +309,7 @@ class Piwik_PluginsManager
 
         // the config file will automatically be saved with the new plugin
         $this->updatePluginsConfig($plugins);
-        Piwik_Config::getInstance()->forceSave();
+        Config::getInstance()->forceSave();
 
         Piwik::deleteAllCacheOnUpdate();
     }
@@ -628,7 +629,7 @@ class Piwik_PluginsManager
      */
     public function getInstalledPluginsName()
     {
-        $pluginNames = Piwik_Config::getInstance()->PluginsInstalled['PluginsInstalled'];
+        $pluginNames = Config::getInstance()->PluginsInstalled['PluginsInstalled'];
         return $pluginNames;
     }
 
@@ -641,8 +642,8 @@ class Piwik_PluginsManager
     public function getMissingPlugins()
     {
         $missingPlugins = array();
-        if (isset(Piwik_Config::getInstance()->Plugins['Plugins'])) {
-            $plugins = Piwik_Config::getInstance()->Plugins['Plugins'];
+        if (isset(Config::getInstance()->Plugins['Plugins'])) {
+            $plugins = Config::getInstance()->Plugins['Plugins'];
             foreach ($plugins as $pluginName) {
                 // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
                 if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginName)) {
@@ -674,7 +675,7 @@ class Piwik_PluginsManager
         }
 
         if ($this->isTrackerPlugin($plugin)) {
-            $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+            $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (is_null($pluginsTracker)) {
                 $pluginsTracker = array();
             }
@@ -686,7 +687,7 @@ class Piwik_PluginsManager
         }
 
         if ($saveConfig) {
-            Piwik_Config::getInstance()->forceSave();
+            Config::getInstance()->forceSave();
         }
     }
 

@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Config;
+
 $USAGE = "
 Usage: 
 	/path/to/cli/php \"" . @$_SERVER['argv'][0] . "\" --url=http://your-website.org/path/to/piwik/ [arguments]
@@ -602,7 +604,7 @@ class Archiving
 
     private function initLog()
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $config->log['log_only_when_debug_parameter'] = 0;
         $config->log['logger_message'] = array("logger_message" => "screen");
         Piwik::createLogObject();
@@ -770,8 +772,8 @@ class Archiving
 
     private function initTokenAuth()
     {
-        $login = Piwik_Config::getInstance()->superuser['login'];
-        $md5Password = Piwik_Config::getInstance()->superuser['password'];
+        $login = Config::getInstance()->superuser['login'];
+        $md5Password = Config::getInstance()->superuser['password'];
         $this->token_auth = md5($login . $md5Password);
         $this->login = $login;
     }
@@ -797,7 +799,7 @@ class Archiving
                 $piwikUrl .= '/';
             }
         }
-        if (Piwik_Config::getInstance()->General['force_ssl'] == 1) {
+        if (Config::getInstance()->General['force_ssl'] == 1) {
             $piwikUrl = str_replace('http://', 'https://', $piwikUrl);
         }
         $this->piwikUrl = $piwikUrl . "index.php";

@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Core\Config;
 
 /**
  * @package Updates
@@ -16,7 +17,7 @@ class Piwik_Updates_1_1 extends Piwik_Updates
 {
     static function update($schema = 'Myisam')
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
 
         $rootLogin = $config->superuser['login'];
         try {

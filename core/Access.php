@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Class to handle User Access:
@@ -217,7 +218,7 @@ class Piwik_Access
         if (isset($GLOBALS['PIWIK_ACCESS_SUPERUSER_LOGIN'])) {
             $this->login = $GLOBALS['PIWIK_ACCESS_SUPERUSER_LOGIN'];
         } else {
-            $this->login = Piwik_Config::getInstance()->superuser['login'];
+            $this->login = Config::getInstance()->superuser['login'];
         }
         
         return true;
@@ -276,7 +277,7 @@ class Piwik_Access
      */
     public function getSuperUserLogin()
     {
-        $superuser = Piwik_Config::getInstance()->superuser;
+        $superuser = Config::getInstance()->superuser;
         return $superuser['login'];
     }
 

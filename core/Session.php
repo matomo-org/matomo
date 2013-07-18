@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Session initialization.
@@ -26,7 +27,7 @@ class Piwik_Session extends Zend_Session
      */
     public static function isFileBasedSessions()
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         return !isset($config->General['session_save_handler'])
             || $config->General['session_save_handler'] === 'files';
     }
@@ -70,7 +71,7 @@ class Piwik_Session extends Zend_Session
         @ini_set('session.referer_check', '');
 
         $currentSaveHandler = ini_get('session.save_handler');
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
 
         if (self::isFileBasedSessions()) {
             // Note: this handler doesn't work well in load-balanced environments and may have a concurrency issue with locked session files

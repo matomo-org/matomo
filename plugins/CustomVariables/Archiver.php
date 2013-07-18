@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Config;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -25,8 +27,8 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_custom_variables'];
-        $this->maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
+        $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_custom_variables'];
+        $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_custom_variables'];
     }
 
     public function archiveDay()

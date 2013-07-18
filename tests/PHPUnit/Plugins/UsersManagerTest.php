@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Config;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -25,7 +27,7 @@ class UsersManagerTest extends DatabaseTestCase
         Piwik_Access::setSingletonInstance($pseudoMockAccess);
 
         // we make sure the tests don't depend on the config file content
-        Piwik_Config::getInstance()->superuser = array(
+        Config::getInstance()->superuser = array(
             'login'    => 'superusertest',
             'password' => 'passwordsuperusertest',
             'email'    => 'superuser@example.com'
@@ -71,7 +73,7 @@ class UsersManagerTest extends DatabaseTestCase
      */
     public function testAllSuperUserIncluded()
     {
-        Piwik_Config::getInstance()->superuser = array(
+        Config::getInstance()->superuser = array(
             'login'    => 'superusertest',
             'password' => 'passwordsuperusertest',
             'email'    => 'superuser@example.com'

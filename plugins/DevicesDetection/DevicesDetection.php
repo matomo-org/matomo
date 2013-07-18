@@ -9,6 +9,8 @@
  * @category Piwik_Plugins
  * @package Piwik_DevicesDetection
  */
+use Piwik\Core\Config;
+
 require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
@@ -191,7 +193,7 @@ class Piwik_DevicesDetection extends Piwik_Plugin
                 ADD `config_device_model` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_brand`";
             Piwik_Exec($q1);
             // conditionaly add this column
-            if (@Piwik_Config::getInstance()->Debug['store_user_agent_in_visit']) {
+            if (@Config::getInstance()->Debug['store_user_agent_in_visit']) {
                 $q2 = "ALTER TABLE `" . Piwik_Common::prefixTable("log_visit") . "` 
                 ADD `config_debug_ua` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_model`";
                 Piwik_Exec($q2);
@@ -217,7 +219,7 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         $deviceInfo['config_device_model'] = $UAParser->getModel();
         $deviceInfo['config_device_brand'] = $UAParser->getBrand();
 
-        if (@Piwik_Config::getInstance()->Debug['store_user_agent_in_visit']) {
+        if (@Config::getInstance()->Debug['store_user_agent_in_visit']) {
             $deviceInfo['config_debug_ua'] = $userAgent;
         }
 

@@ -9,6 +9,7 @@
  * @category Piwik
  * @package Piwik_PluginArchiver
  */
+use Piwik\Core\Config;
 
 /**
  * Plugins that archive metrics for websites can implement an Archiver that extends this class
@@ -19,7 +20,7 @@ abstract class Piwik_PluginsArchiver
 
     public function __construct(Piwik_ArchiveProcessor $processing)
     {
-        $this->maximumRows = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
+        $this->maximumRows = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processing;
     }
 

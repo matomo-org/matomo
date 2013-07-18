@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Config;
+
 ini_set("memory_limit", "512M");
 error_reporting(E_ALL | E_NOTICE);
 
@@ -24,7 +26,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_ENABLE_DISPATCH', false);
 
-Piwik_Config::getInstance()->log['logger_message'][] = 'screen';
+Config::getInstance()->log['logger_message'][] = 'screen';
 Piwik_FrontController::getInstance()->init();
 
 $query = "SELECT count(*) FROM " . Piwik_Common::prefixTable('log_visit');

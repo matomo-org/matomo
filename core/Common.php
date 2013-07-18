@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Static class providing functions used by both the CORE of Piwik and the visitor Tracking engine.
@@ -62,7 +63,7 @@ class Piwik_Common
      */
     public static function prefixTable($table)
     {
-        $prefix = Piwik_Config::getInstance()->database['tables_prefix'];
+        $prefix = Config::getInstance()->database['tables_prefix'];
         return $prefix . $table;
     }
 
@@ -91,7 +92,7 @@ class Piwik_Common
     {
         static $prefixTable = null;
         if (is_null($prefixTable)) {
-            $prefixTable = Piwik_Config::getInstance()->database['tables_prefix'];
+            $prefixTable = Config::getInstance()->database['tables_prefix'];
         }
         if (empty($prefixTable)
             || strpos($table, $prefixTable) !== 0
@@ -671,7 +672,7 @@ class Piwik_Common
     {
         static $salt = null;
         if (is_null($salt)) {
-            $salt = @Piwik_Config::getInstance()->superuser['salt'];
+            $salt = @Config::getInstance()->superuser['salt'];
         }
         return $salt;
     }
@@ -687,7 +688,7 @@ class Piwik_Common
     {
         static $hashAlgorithm = null;
         if (is_null($hashAlgorithm)) {
-            $hashAlgorithm = @Piwik_Config::getInstance()->General['hash_algorithm'];
+            $hashAlgorithm = @Config::getInstance()->General['hash_algorithm'];
         }
 
         if ($hashAlgorithm) {
@@ -1130,8 +1131,8 @@ class Piwik_Common
     public static function getCampaignParameters()
     {
         $return = array(
-            Piwik_Config::getInstance()->Tracker['campaign_var_name'],
-            Piwik_Config::getInstance()->Tracker['campaign_keyword_var_name'],
+            Config::getInstance()->Tracker['campaign_var_name'],
+            Config::getInstance()->Tracker['campaign_keyword_var_name'],
         );
 
         foreach ($return as &$list) {

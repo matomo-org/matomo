@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * @see libs/jsmin/jsmin.php
@@ -322,7 +323,7 @@ class Piwik_AssetManager
      */
     private static function getDisableMergedAssets()
     {
-        return Piwik_Config::getInstance()->Debug['disable_merged_assets'];
+        return Config::getInstance()->Debug['disable_merged_assets'];
     }
 
     /**

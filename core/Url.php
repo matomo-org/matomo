@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Class to retrieve absolute URL or URI components of the current URL,
@@ -143,7 +144,7 @@ class Piwik_Url
     static public function getCurrentScheme()
     {
         try {
-            $assume_secure_protocol = @Piwik_Config::getInstance()->General['assume_secure_protocol'];
+            $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
         } catch (Exception $e) {
             $assume_secure_protocol = false;
         }
@@ -168,8 +169,8 @@ class Piwik_Url
     static public function isValidHost($host = false)
     {
         // only do trusted host check if it's enabled
-        if (isset(Piwik_Config::getInstance()->General['enable_trusted_host_check'])
-            && Piwik_Config::getInstance()->General['enable_trusted_host_check'] == 0
+        if (isset(Config::getInstance()->General['enable_trusted_host_check'])
+            && Config::getInstance()->General['enable_trusted_host_check'] == 0
         ) {
             return true;
         }
@@ -186,7 +187,7 @@ class Piwik_Url
             return true;
         }
 
-        $trustedHosts = @Piwik_Config::getInstance()->General['trusted_hosts'];
+        $trustedHosts = @Config::getInstance()->General['trusted_hosts'];
         // if no trusted hosts, just assume it's valid
         if (empty($trustedHosts)) {
             self::saveTrustedHostnameInConfig($host);
@@ -220,9 +221,9 @@ class Piwik_Url
     public static function saveTrustedHostnameInConfig($host)
     {
         if (Piwik::isUserIsSuperUser()
-            && file_exists(Piwik_Config::getLocalConfigPath())
+            && file_exists(Config::getLocalConfigPath())
         ) {
-            $general = Piwik_Config::getInstance()->General;
+            $general = Config::getInstance()->General;
             if (!is_array($host)) {
                 $host = array($host);
             }
@@ -231,8 +232,8 @@ class Piwik_Url
                 return false;
             }
             $general['trusted_hosts'] = $host;
-            Piwik_Config::getInstance()->General = $general;
-            Piwik_Config::getInstance()->forceSave();
+            Config::getInstance()->General = $general;
+            Config::getInstance()->forceSave();
             return true;
         }
         return false;
@@ -275,7 +276,7 @@ class Piwik_Url
      */
     static public function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
     {
-        $hostHeaders = @Piwik_Config::getInstance()->General['proxy_host_headers'];
+        $hostHeaders = @Config::getInstance()->General['proxy_host_headers'];
         if (!is_array($hostHeaders)) {
             $hostHeaders = array();
         }
@@ -434,7 +435,7 @@ class Piwik_Url
         // drop port numbers from hostnames and IP addresses
         $hosts = array_map(array('Piwik_IP', 'sanitizeIp'), $hosts);
 
-        $disableHostCheck = Piwik_Config::getInstance()->General['enable_trusted_host_check'] == 0;
+        $disableHostCheck = Config::getInstance()->General['enable_trusted_host_check'] == 0;
         // compare scheme and host
         $parsedUrl = @parse_url($url);
         $host = Piwik_IP::sanitizeIp(@$parsedUrl['host']);

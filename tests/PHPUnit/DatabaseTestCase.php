@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Core\Config;
+
 /**
  * Tests extending DatabaseTestCase are much slower to run: the setUp will
  * create all Piwik tables in a freshly empty test database.
@@ -23,9 +25,9 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
         try {
-            Piwik_Config::getInstance()->setTestEnvironment();
+            Config::getInstance()->setTestEnvironment();
 
-            $dbConfig = Piwik_Config::getInstance()->database;
+            $dbConfig = Config::getInstance()->database;
             $dbName = $dbConfig['dbname'];
             $dbConfig['dbname'] = null;
 
@@ -66,7 +68,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         Piwik_PDFReports_API::$cache = array();
         Piwik_Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
-        Piwik_Config::getInstance()->clear();
+        Config::getInstance()->clear();
         Piwik_DataAccess_ArchiveTableCreator::clear();
         Zend_Registry::_unsetInstance();
     }

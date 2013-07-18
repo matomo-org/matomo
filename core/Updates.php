@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Abstract class for update scripts
@@ -53,7 +54,7 @@ abstract class Piwik_Updates
      */
     static function enableMaintenanceMode()
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $config->init();
 
         $tracker = $config->Tracker;
@@ -72,7 +73,7 @@ abstract class Piwik_Updates
      */
     static function disableMaintenanceMode()
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $config->init();
 
         $tracker = $config->Tracker;
@@ -89,7 +90,7 @@ abstract class Piwik_Updates
 
     public static function deletePluginFromConfigFile($pluginToDelete)
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $config->init();
         if (isset($config->Plugins['Plugins'])) {
             $plugins = $config->Plugins['Plugins'];

@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Class for sending mails, for more information see:
@@ -38,7 +39,7 @@ class Piwik_Mail extends Zend_Mail
      */
     public function setFrom($email, $name = null)
     {
-        $hostname = Piwik_Config::getInstance()->mail['defaultHostnameIfEmpty'];
+        $hostname = Config::getInstance()->mail['defaultHostnameIfEmpty'];
         $piwikHost = Piwik_Url::getCurrentHost($hostname);
 
         // If known Piwik URL, use it instead of "localhost"
@@ -59,7 +60,7 @@ class Piwik_Mail extends Zend_Mail
      */
     private function initSmtpTransport()
     {
-        $mailConfig = Piwik_Config::getInstance()->mail;
+        $mailConfig = Config::getInstance()->mail;
         if (empty($mailConfig['host'])
             || $mailConfig['transport'] != 'smtp'
         ) {

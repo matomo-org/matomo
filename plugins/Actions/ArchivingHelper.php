@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Actions
  */
+use Piwik\Core\Config;
 
 /**
  * This static class provides:
@@ -205,18 +206,18 @@ class Piwik_Actions_ArchivingHelper
     static public function reloadConfig()
     {
         // for BC, we read the old style delimiter first (see #1067)Row
-        $actionDelimiter = @Piwik_Config::getInstance()->General['action_category_delimiter'];
+        $actionDelimiter = @Config::getInstance()->General['action_category_delimiter'];
         if (empty($actionDelimiter)) {
-            self::$actionUrlCategoryDelimiter = Piwik_Config::getInstance()->General['action_url_category_delimiter'];
-            self::$actionTitleCategoryDelimiter = Piwik_Config::getInstance()->General['action_title_category_delimiter'];
+            self::$actionUrlCategoryDelimiter = Config::getInstance()->General['action_url_category_delimiter'];
+            self::$actionTitleCategoryDelimiter = Config::getInstance()->General['action_title_category_delimiter'];
         } else {
             self::$actionUrlCategoryDelimiter = self::$actionTitleCategoryDelimiter = $actionDelimiter;
         }
 
-        self::$defaultActionName = Piwik_Config::getInstance()->General['action_default_name'];
+        self::$defaultActionName = Config::getInstance()->General['action_default_name'];
         self::$columnToSortByBeforeTruncation = Piwik_Metrics::INDEX_NB_VISITS;
-        self::$maximumRowsInDataTableLevelZero = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
-        self::$maximumRowsInSubDataTable = Piwik_Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
+        self::$maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
+        self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
 
         Piwik_DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
@@ -412,7 +413,7 @@ class Piwik_Actions_ArchivingHelper
      */
     public static function getSubCategoryLevelLimit()
     {
-        return Piwik_Config::getInstance()->General['action_category_level_limit'];
+        return Config::getInstance()->General['action_category_level_limit'];
     }
 
     /**

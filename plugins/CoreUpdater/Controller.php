@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -25,10 +26,10 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
     static protected function getLatestZipUrl($newVersion)
     {
-        if (@Piwik_Config::getInstance()->Debug['allow_upgrades_to_beta']) {
+        if (@Config::getInstance()->Debug['allow_upgrades_to_beta']) {
             return 'http://builds.piwik.org/piwik-' . $newVersion . '.zip';
         }
-        return Piwik_Config::getInstance()->General['latest_version_url'];
+        return Config::getInstance()->General['latest_version_url'];
     }
 
     public function newVersionAvailable()
@@ -277,7 +278,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         // handle case of existing database with no tables
         if (!Piwik::isInstalled()) {
-            $this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Piwik_Config::getInstance()->database['dbname']);
+            $this->errorMessages[] = Piwik_Translate('CoreUpdater_EmptyDatabaseError', Config::getInstance()->database['dbname']);
             $this->coreError = true;
             $currentVersion = 'N/A';
         } else {

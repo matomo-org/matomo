@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
  */
+use Piwik\Core\Config;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -97,7 +98,7 @@ class Piwik_UsersManager_API
                 $viewableSiteIds = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
                 return reset($viewableSiteIds);
             case self::PREFERENCE_DEFAULT_REPORT_DATE:
-                return Piwik_Config::getInstance()->General['default_day'];
+                return Config::getInstance()->General['default_day'];
             default:
                 return false;
         }
@@ -498,7 +499,7 @@ class Piwik_UsersManager_API
 								FROM " . Piwik_Common::prefixTable("user") . "
 								WHERE email = ?", $userEmail);
         return $count != 0
-            || Piwik_Config::getInstance()->superuser['email'] == $userEmail;
+            || Config::getInstance()->superuser['email'] == $userEmail;
     }
 
     /**

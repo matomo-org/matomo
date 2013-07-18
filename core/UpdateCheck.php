@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Class to check if a newer version of Piwik is available
@@ -49,12 +50,12 @@ class Piwik_UpdateCheck
                 'timezone'      => Piwik_SitesManager_API::getInstance()->getDefaultTimezone(),
             );
 
-            $url = Piwik_Config::getInstance()->General['api_service_url']
+            $url = Config::getInstance()->General['api_service_url']
                 . '/1.0/getLatestVersion/'
                 . '?' . http_build_query($parameters, '', '&');
             $timeout = self::SOCKET_TIMEOUT;
 
-            if (@Piwik_Config::getInstance()->Debug['allow_upgrades_to_beta']) {
+            if (@Config::getInstance()->Debug['allow_upgrades_to_beta']) {
                 $url = 'http://builds.piwik.org/LATEST_BETA';
             }
 

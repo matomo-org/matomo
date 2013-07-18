@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Core\Config;
+
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
 /**
@@ -27,7 +29,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     public static function createTestConfig()
     {
-        Piwik_Config::getInstance()->setTestEnvironment();
+        Config::getInstance()->setTestEnvironment();
     }
 
     /**
@@ -45,7 +47,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     public static function connectWithoutDatabase()
     {
-        $dbConfig = Piwik_Config::getInstance()->database;
+        $dbConfig = Config::getInstance()->database;
         $oldDbName = $dbConfig['dbname'];
         $dbConfig['dbname'] = null;
 
@@ -81,7 +83,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function loadAllPlugins()
     {
         $pluginsManager = Piwik_PluginsManager::getInstance();
-        $pluginsToLoad = Piwik_Config::getInstance()->Plugins['Plugins'];
+        $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
         $pluginsToLoad[] = 'DevicesDetection';
         
         $pluginsManager->loadPlugins($pluginsToLoad);
@@ -133,7 +135,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
             if ($dbName === false) // must be after test config is created
             {
-                $dbName = Piwik_Config::getInstance()->database['dbname'];
+                $dbName = Config::getInstance()->database['dbname'];
             }
 
             self::connectWithoutDatabase();
@@ -144,7 +146,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Piwik::disconnectDatabase();
 
             // reconnect once we're sure the database exists
-            Piwik_Config::getInstance()->database['dbname'] = $dbName;
+            Config::getInstance()->database['dbname'] = $dbName;
             Piwik::createDatabaseObject();
 
             Piwik::createTables();
@@ -217,7 +219,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Piwik_Option::getInstance()->clearCache();
         Piwik_Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
-        Piwik_Config::getInstance()->clear();
+        Config::getInstance()->clear();
         Piwik_DataAccess_ArchiveTableCreator::clear();
         Piwik_PDFReports_API::$cache = array();
         Zend_Registry::_unsetInstance();
@@ -965,10 +967,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
         if (isset($params['disableArchiving']) && $params['disableArchiving'] === true) {
             Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = true;
-            Piwik_Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
+            Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
         } else {
             Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = false;
-            Piwik_Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
+            Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
         }
 
         if (isset($params['language'])) {

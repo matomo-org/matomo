@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -279,7 +280,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 
             $userLogin = Piwik::getCurrentUserLogin();
             if (Piwik::isUserIsSuperUser()) {
-                $superUser = Piwik_Config::getInstance()->superuser;
+                $superUser = Config::getInstance()->superuser;
                 $updatedSuperUser = false;
 
                 if ($newPassword !== false) {
@@ -293,8 +294,8 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
                     $updatedSuperUser = true;
                 }
                 if ($updatedSuperUser) {
-                    Piwik_Config::getInstance()->superuser = $superUser;
-                    Piwik_Config::getInstance()->forceSave();
+                    Config::getInstance()->superuser = $superUser;
+                    Config::getInstance()->forceSave();
                 }
             } else {
                 Piwik_UsersManager_API::getInstance()->updateUser($userLogin, $newPassword, $email, $alias);

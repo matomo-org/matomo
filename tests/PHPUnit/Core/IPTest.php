@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Config;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -580,12 +582,12 @@ class IPTest extends PHPUnit_Framework_TestCase
      */
     public function testGetIpFromHeader($description, $test)
     {
-        Piwik_Config::getInstance()->setTestEnvironment();
+        Config::getInstance()->setTestEnvironment();
 
         $_SERVER['REMOTE_ADDR'] = $test[0];
         $_SERVER['HTTP_X_FORWARDED_FOR'] = $test[1];
-        Piwik_Config::getInstance()->General['proxy_client_headers'] = array($test[2]);
-        Piwik_Config::getInstance()->General['proxy_ips'] = array($test[3]);
+        Config::getInstance()->General['proxy_client_headers'] = array($test[2]);
+        Config::getInstance()->General['proxy_ips'] = array($test[3]);
         $this->assertEquals($test[4], Piwik_IP::getIpFromHeader(), $description);
     }
 

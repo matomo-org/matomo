@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * @package Piwik
@@ -53,7 +54,7 @@ class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db
     public function checkServerVersion()
     {
         $serverVersion = $this->getServerVersion();
-        $requiredVersion = Piwik_Config::getInstance()->General['minimum_mysql_version'];
+        $requiredVersion = Config::getInstance()->General['minimum_mysql_version'];
         if (version_compare($serverVersion, $requiredVersion) === -1) {
             throw new Exception(Piwik_TranslateException('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
         }

@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Server-side http client to retrieve content from remote servers, and optionally save to a local file.
@@ -145,10 +146,10 @@ class Piwik_Http
         }
 
         // proxy configuration
-        $proxyHost = Piwik_Config::getInstance()->proxy['host'];
-        $proxyPort = Piwik_Config::getInstance()->proxy['port'];
-        $proxyUser = Piwik_Config::getInstance()->proxy['username'];
-        $proxyPassword = Piwik_Config::getInstance()->proxy['password'];
+        $proxyHost = Config::getInstance()->proxy['host'];
+        $proxyPort = Config::getInstance()->proxy['port'];
+        $proxyUser = Config::getInstance()->proxy['username'];
+        $proxyPassword = Config::getInstance()->proxy['password'];
 
         // other result data
         $status = null;

@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Backward compatibility layer
@@ -28,10 +29,10 @@ class Piwik_Tracker_Config
     /**
      * Returns the singleton Piwik_Config
      *
-     * @return Piwik_Config
+     * @return Config
      */
     static public function getInstance()
     {
-        return Piwik_Config::getInstance();
+        return Config::getInstance();
     }
 }

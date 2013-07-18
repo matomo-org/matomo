@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Live
  */
+use Piwik\Core\Config;
 
 /**
  * @see plugins/Referers/functions.php
@@ -159,7 +160,7 @@ class Piwik_Live_API
      */
     private function getCleanedVisitorsFromDetails($visitorDetails, $idSite, $flat = false, $doNotFetchActions = false)
     {
-        $actionsLimit = (int)Piwik_Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
+        $actionsLimit = (int)Config::getInstance()->General['visitor_log_maximum_actions_per_visit'];
 
         $table = new Piwik_DataTable();
 

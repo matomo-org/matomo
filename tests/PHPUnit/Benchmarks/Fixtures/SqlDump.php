@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Core\Config;
 
 /**
  * Reusable fixture. Loads a ~1GB SQL dump into the DB.
@@ -50,10 +51,10 @@ class Piwik_Test_Fixture_SqlDump
         }
 
         // load the data into the correct database
-        $user = Piwik_Config::getInstance()->database['username'];
-        $password = Piwik_Config::getInstance()->database['password'];
-        $dbName = Piwik_Config::getInstance()->database['dbname'];
-        Piwik_Config::getInstance()->database['tables_prefix'] = 'piwik_';
+        $user = Config::getInstance()->database['username'];
+        $password = Config::getInstance()->database['password'];
+        $dbName = Config::getInstance()->database['dbname'];
+        Config::getInstance()->database['tables_prefix'] = 'piwik_';
         Piwik_Common::$cachedTablePrefix = null;
 
         exec("mysql -u \"$user\" \"--password=$password\" $dbName < \"" . $deflatedDumpPath . "\" 2>&1", $output, $return);

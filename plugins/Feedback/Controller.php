@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Feedback
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -34,7 +35,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
         $nonce = Piwik_Common::getRequestVar('nonce', '', 'string');
 
         $view = new Piwik_View('@Feedback/sendFeedback');
-        $view->feedbackEmailAddress = Piwik_Config::getInstance()->General['feedback_email_address'];
+        $view->feedbackEmailAddress = Config::getInstance()->General['feedback_email_address'];
         try {
             $minimumBodyLength = 40;
             if (strlen($body) < $minimumBodyLength

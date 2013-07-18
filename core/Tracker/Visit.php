@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * @package Piwik
@@ -351,7 +352,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     {
         $timeSpent = $this->request->getCurrentTimestamp() - $this->visitorInfo['visit_last_action_time'];
         if ($timeSpent < 0
-            || $timeSpent > Piwik_Config::getInstance()->Tracker['visit_standard_length']
+            || $timeSpent > Config::getInstance()->Tracker['visit_standard_length']
         ) {
             $timeSpent = 0;
         }
@@ -398,7 +399,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
             : ($visitCount > 1 || $this->isVisitorKnown() || $daysSinceLastVisit > 0
                 ? 1 /* Returning */
                 : 0 /* New */);
-        $defaultTimeOnePageVisit = Piwik_Config::getInstance()->Tracker['default_time_one_page_visit'];
+        $defaultTimeOnePageVisit = Config::getInstance()->Tracker['default_time_one_page_visit'];
 
         /**
          * Save the visitor
@@ -762,8 +763,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         $isNewVisitForced = !empty($isNewVisitForced);
         $newVisitEnforcedAPI = $isNewVisitForced
                                 && ($this->request->isAuthenticated()
-                                    || !Piwik_Config::getInstance()->Tracker['new_visit_api_requires_admin']);
-        $enforceNewVisit = $newVisitEnforcedAPI || Piwik_Config::getInstance()->Debug['tracker_always_new_visitor'];
+                                    || !Config::getInstance()->Tracker['new_visit_api_requires_admin']);
+        $enforceNewVisit = $newVisitEnforcedAPI || Config::getInstance()->Debug['tracker_always_new_visitor'];
 
         if (!$enforceNewVisit
             && $visitRow
@@ -836,8 +837,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
      */
     protected function getWindowLookupThisVisit()
     {
-        $visitStandardLength = Piwik_Config::getInstance()->Tracker['visit_standard_length'];
-        $lookBackNSecondsCustom = Piwik_Config::getInstance()->Tracker['window_look_back_for_visitor'];
+        $visitStandardLength = Config::getInstance()->Tracker['visit_standard_length'];
+        $lookBackNSecondsCustom = Config::getInstance()->Tracker['window_look_back_for_visitor'];
 
         $lookAheadNSeconds = $visitStandardLength;
         $lookBackNSeconds = $visitStandardLength;
@@ -856,7 +857,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     {
         // This setting would be enabled for Intranet websites, to ensure that visitors using all the same computer config, same IP
         // are not counted as 1 visitor. In this case, we want to enforce and trust the visitor ID from the cookie.
-        $trustCookiesOnly = Piwik_Config::getInstance()->Tracker['trust_visitors_cookies'];
+        $trustCookiesOnly = Config::getInstance()->Tracker['trust_visitors_cookies'];
 
         // If a &cid= was set, we force to select this visitor (or create a new one)
         $isForcedVisitorIdMustMatch = ($this->request->getForcedVisitorId() != null);
@@ -942,7 +943,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     {
         return isset($this->visitorInfo['visit_last_action_time'])
             && ($this->visitorInfo['visit_last_action_time']
-                > ($this->request->getCurrentTimestamp() - Piwik_Config::getInstance()->Tracker['visit_standard_length']));
+                > ($this->request->getCurrentTimestamp() - Config::getInstance()->Tracker['visit_standard_length']));
     }
 
     /**

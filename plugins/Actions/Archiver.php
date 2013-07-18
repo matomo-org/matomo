@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Actions
  */
+use Piwik\Core\Config;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
@@ -130,7 +131,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
      */
     private static function getRankingQueryLimit()
     {
-        $configGeneral = Piwik_Config::getInstance()->General;
+        $configGeneral = Config::getInstance()->General;
         $configLimit = $configGeneral['archiving_ranking_query_row_limit'];
         return $configLimit == 0 ? 0 : max(
             $configLimit,

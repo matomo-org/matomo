@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Simple cache mechanism used in Tracker to avoid requesting settings from mysql on every request
@@ -26,7 +27,7 @@ class Piwik_Tracker_Cache
     static protected function getInstance()
     {
         if (is_null(self::$trackerCache)) {
-            $ttl = Piwik_Config::getInstance()->Tracker['tracker_cache_file_ttl'];
+            $ttl = Config::getInstance()->Tracker['tracker_cache_file_ttl'];
             self::$trackerCache = new Piwik_CacheFile('tracker', $ttl);
         }
         return self::$trackerCache;

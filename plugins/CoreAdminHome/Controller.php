@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -43,7 +44,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 
             $this->displayWarningIfConfigFileNotWritable($view);
 
-            $config = Piwik_Config::getInstance();
+            $config = Config::getInstance();
 
             $debug = $config->Debug;
             $view->enableBetaReleaseCheck = $debug['allow_upgrades_to_beta'];
@@ -92,7 +93,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $mail['password'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailPassword', ''));
             $mail['encryption'] = Piwik_Common::getRequestVar('mailEncryption', '');
 
-            $config = Piwik_Config::getInstance();
+            $config = Config::getInstance();
             $config->mail = $mail;
 
             // update branding settings

@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Config;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -54,7 +56,7 @@ class Piwik_Tracker_Request
      */
     protected function authenticateTrackingApi($tokenAuthFromBulkRequest)
     {
-        $shouldAuthenticate = Piwik_Config::getInstance()->Tracker['tracking_requests_require_authentication'];
+        $shouldAuthenticate = Config::getInstance()->Tracker['tracking_requests_require_authentication'];
         if ($shouldAuthenticate) {
             $tokenAuth = $tokenAuthFromBulkRequest || Piwik_Common::getRequestVar('token_auth', false, 'string', $this->params);
             try {
@@ -78,8 +80,8 @@ class Piwik_Tracker_Request
         if (!$tokenAuth) {
             return false;
         }
-        $superUserLogin = Piwik_Config::getInstance()->superuser['login'];
-        $superUserPassword = Piwik_Config::getInstance()->superuser['password'];
+        $superUserLogin = Config::getInstance()->superuser['login'];
+        $superUserPassword = Config::getInstance()->superuser['password'];
         if (md5($superUserLogin . $superUserPassword) == $tokenAuth) {
             return true;
         }
@@ -318,7 +320,7 @@ class Piwik_Tracker_Request
 
     protected function shouldUseThirdPartyCookie()
     {
-        return (bool)Piwik_Config::getInstance()->Tracker['use_third_party_id_cookie'];
+        return (bool)Config::getInstance()->Tracker['use_third_party_id_cookie'];
     }
 
     /**
@@ -349,17 +351,17 @@ class Piwik_Tracker_Request
 
     protected function getCookieName()
     {
-        return Piwik_Config::getInstance()->Tracker['cookie_name'];
+        return Config::getInstance()->Tracker['cookie_name'];
     }
 
     protected function getCookieExpire()
     {
-        return $this->getCurrentTimestamp() + Piwik_Config::getInstance()->Tracker['cookie_expire'];
+        return $this->getCurrentTimestamp() + Config::getInstance()->Tracker['cookie_expire'];
     }
 
     protected function getCookiePath()
     {
-        return Piwik_Config::getInstance()->Tracker['cookie_path'];
+        return Config::getInstance()->Tracker['cookie_path'];
     }
 
     /**

@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * This class contains Archiving rules/logic which are used in several places
@@ -171,7 +172,7 @@ class Piwik_ArchiveProcessor_Rules
         if ($timeToLive !== false) {
             return $timeToLive;
         }
-        return Piwik_Config::getInstance()->General['time_before_today_archive_considered_outdated'];
+        return Config::getInstance()->General['time_before_today_archive_considered_outdated'];
     }
 
     public static function isArchivingDisabledFor(Piwik_Segment $segment, $periodLabel)
@@ -188,7 +189,7 @@ class Piwik_ArchiveProcessor_Rules
             // if browser archiving is not allowed, then archiving is disabled
             if (!$segment->isEmpty()
                 && $isArchivingDisabled
-                && Piwik_Config::getInstance()->General['browser_archiving_disabled_enforce']
+                && Config::getInstance()->General['browser_archiving_disabled_enforce']
             ) {
                 Piwik::log("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1");
                 return true;
@@ -213,7 +214,7 @@ class Piwik_ArchiveProcessor_Rules
         if ($browserArchivingEnabled !== false) {
             return (bool)$browserArchivingEnabled;
         }
-        return (bool)Piwik_Config::getInstance()->General['enable_browser_archiving_triggering'];
+        return (bool)Config::getInstance()->General['enable_browser_archiving_triggering'];
     }
 
     public static function setBrowserTriggerArchiving($enabled)

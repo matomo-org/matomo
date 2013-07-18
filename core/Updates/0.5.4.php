@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Core\Config;
 
 /**
  * @package Updates
@@ -25,11 +26,11 @@ class Piwik_Updates_0_5_4 extends Piwik_Updates
     static function update()
     {
         $salt = Piwik_Common::generateUniqId();
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $superuser = $config->superuser;
         if (!isset($superuser['salt'])) {
             try {
-                if (is_writable(Piwik_Config::getLocalConfigPath())) {
+                if (is_writable(Config::getLocalConfigPath())) {
                     $superuser['salt'] = $salt;
                     $config->superuser = $superuser;
                     $config->forceSave();
@@ -44,7 +45,7 @@ class Piwik_Updates_0_5_4 extends Piwik_Updates
         $plugins = $config->Plugins;
         if (!in_array('MultiSites', $plugins)) {
             try {
-                if (is_writable(Piwik_Config::getLocalConfigPath())) {
+                if (is_writable(Config::getLocalConfigPath())) {
                     $plugins[] = 'MultiSites';
                     $config->Plugins = $plugins;
                     $config->forceSave();

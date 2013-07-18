@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * @see core/Translate.php
@@ -56,7 +57,7 @@ class Piwik
      */
     static public function isUniqueVisitorsEnabled($periodLabel)
     {
-        $generalSettings = Piwik_Config::getInstance()->General;
+        $generalSettings = Config::getInstance()->General;
 
         $settingName = "enable_processing_unique_visitors_$periodLabel";
         $result = !empty($generalSettings[$settingName]) && $generalSettings[$settingName] == 1;
@@ -79,7 +80,7 @@ class Piwik
     public static function isSegmentationEnabled()
     {
         return !Piwik::isUserIsAnonymous()
-            || Piwik_Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
+            || Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
     }
 
     /**
@@ -941,14 +942,14 @@ class Piwik
         if ($memoryLimit === false) {
             return false;
         }
-        $minimumMemoryLimit = Piwik_Config::getInstance()->General['minimum_memory_limit'];
+        $minimumMemoryLimit = Config::getInstance()->General['minimum_memory_limit'];
 
         if (Piwik_Common::isArchivePhpTriggered()
             && Piwik::isUserIsSuperUser()
         ) {
             // archive.php: no time limit, high memory limit
             self::setMaxExecutionTime(0);
-            $minimumMemoryLimitWhenArchiving = Piwik_Config::getInstance()->General['minimum_memory_limit_when_archiving'];
+            $minimumMemoryLimitWhenArchiving = Config::getInstance()->General['minimum_memory_limit_when_archiving'];
             if ($memoryLimit < $minimumMemoryLimitWhenArchiving) {
                 return self::setMemoryLimit($minimumMemoryLimitWhenArchiving);
             }
@@ -997,9 +998,9 @@ class Piwik
     {
         try {
             $shouldLog = (Piwik_Common::isPhpCliMode()
-                || Piwik_Config::getInstance()->log['log_only_when_cli'] == 0)
+                || Config::getInstance()->log['log_only_when_cli'] == 0)
                 &&
-                (Piwik_Config::getInstance()->log['log_only_when_debug_parameter'] == 0
+                (Config::getInstance()->log['log_only_when_debug_parameter'] == 0
                     || isset($_REQUEST['debug']));
         } catch (Exception $e) {
             $shouldLog = false;
@@ -1506,8 +1507,8 @@ class Piwik
      */
     static public function getWebsitesCountToDisplay()
     {
-        $count = max(Piwik_Config::getInstance()->General['site_selector_max_sites'],
-            Piwik_Config::getInstance()->General['autocomplete_min_sites']);
+        $count = max(Config::getInstance()->General['site_selector_max_sites'],
+            Config::getInstance()->General['autocomplete_min_sites']);
         return (int)$count;
     }
 
@@ -1519,7 +1520,7 @@ class Piwik
     static public function getKnownSegmentsToArchive()
     {
         if (self::$cachedKnownSegmentsToArchive === null) {
-            $segments = Piwik_Config::getInstance()->Segments;
+            $segments = Config::getInstance()->Segments;
             $cachedResult = isset($segments['Segments']) ? $segments['Segments'] : array();
 
             Piwik_PostEvent('Piwik.getKnownSegmentsToArchiveAllSites', array(&$cachedResult));
@@ -1572,7 +1573,7 @@ class Piwik
      */
     static public function getSuperUserEmail()
     {
-        $superuser = Piwik_Config::getInstance()->superuser;
+        $superuser = Config::getInstance()->superuser;
         return $superuser['email'];
     }
 
@@ -1888,7 +1889,7 @@ class Piwik
      */
     static public function createDatabaseObject($dbInfos = null)
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
 
         if (is_null($dbInfos)) {
             $dbInfos = $config->database;
@@ -1948,7 +1949,7 @@ class Piwik
      */
     static public function createLogObject()
     {
-        $configAPI = Piwik_Config::getInstance()->log;
+        $configAPI = Config::getInstance()->log;
 
         $aLoggers = array(
             'logger_api_call'  => new Piwik_Log_APICall,
@@ -2039,7 +2040,7 @@ class Piwik
      */
     static public function isChecksEnabled()
     {
-        return Piwik_Config::getInstance()->General['disable_checks_usernames_attributes'] == 0;
+        return Config::getInstance()->General['disable_checks_usernames_attributes'] == 0;
     }
 
     /**
@@ -2308,7 +2309,7 @@ class Piwik
                 );
 
                 // hack for charset mismatch
-                if (!self::isDatabaseConnectionUTF8() && !isset(Piwik_Config::getInstance()->database['charset'])) {
+                if (!self::isDatabaseConnectionUTF8() && !isset(Config::getInstance()->database['charset'])) {
                     $fileSpec['charset'] = 'latin1';
                 }
 

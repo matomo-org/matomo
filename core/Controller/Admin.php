@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Parent class of all plugins Controllers with admin functions
@@ -31,12 +32,12 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
 
     static public function displayWarningIfConfigFileNotWritable(Piwik_View $view )
     {
-        $view->configFileNotWritable = !Piwik_Config::getInstance()->isFileWritable();
+        $view->configFileNotWritable = !Config::getInstance()->isFileWritable();
     }
 
     static public function setBasicVariablesAdminView(Piwik_View $view)
     {
-        $statsEnabled = Piwik_Config::getInstance()->Tracker['record_statistics'];
+        $statsEnabled = Config::getInstance()->Tracker['record_statistics'];
         if ($statsEnabled == "0") {
             $view->statisticsNotRecorded = true;
         }
@@ -44,7 +45,7 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
         $view->topMenu = Piwik_GetTopMenu();
         $view->currentAdminMenuName = Piwik_GetCurrentAdminMenuName();
 
-        $view->enableFrames = Piwik_Config::getInstance()->General['enable_framed_settings'];
+        $view->enableFrames = Config::getInstance()->General['enable_framed_settings'];
         if (!$view->enableFrames) {
             $view->setXFrameOptions('sameorigin');
         }

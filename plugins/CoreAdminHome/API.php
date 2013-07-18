@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
  */
+use Piwik\Core\Config;
 
 /**
  * @package Piwik_CoreAdminHome
@@ -95,8 +96,8 @@ class Piwik_CoreAdminHome_API
 
 
         // If using the feature "Delete logs older than N days"...
-        $logsAreDeletedBeforeThisDate = Piwik_Config::getInstance()->Deletelogs['delete_logs_schedule_lowest_interval'];
-        $logsDeleteEnabled = Piwik_Config::getInstance()->Deletelogs['delete_logs_enable'];
+        $logsAreDeletedBeforeThisDate = Config::getInstance()->Deletelogs['delete_logs_schedule_lowest_interval'];
+        $logsDeleteEnabled = Config::getInstance()->Deletelogs['delete_logs_enable'];
         $minimumDateWithLogs = false;
         if ($logsDeleteEnabled
             && $logsAreDeletedBeforeThisDate

@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * This class is used to create a new Archive.
@@ -112,7 +113,7 @@ class Piwik_DataAccess_ArchiveWriter
 
     protected static function makeLockName($idsite, Piwik_Period $period, Piwik_Segment $segment)
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
 
         $lockName = 'piwik.'
             . $config->database['dbname'] . '.'

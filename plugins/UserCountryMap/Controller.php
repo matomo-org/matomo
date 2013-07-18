@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountryMap
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -109,7 +110,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
         $view->metrics = $this->getMetrics($idSite, 'range', self::REAL_TIME_WINDOW, $token_auth);
         $view->defaultMetric = 'nb_visits';
-        $view->liveRefreshAfterMs = (int)Piwik_Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
+        $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
         $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
         $site = new Piwik_Site($idSite);

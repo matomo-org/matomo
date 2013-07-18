@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Core\Config;
+
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';
 
@@ -43,7 +45,7 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
         $installedFixture = false;
         try {
             if (isset(self::$fixture->tablesPrefix)) {
-                Piwik_Config::getInstance()->database['tables_prefix'] = self::$fixture->tablesPrefix;
+                Config::getInstance()->database['tables_prefix'] = self::$fixture->tablesPrefix;
                 Piwik_Common::$cachedTablePrefix = null;
             }
 

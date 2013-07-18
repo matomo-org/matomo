@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -27,7 +28,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
     {
         parent::__construct();
 
-        $this->limit = Piwik_Config::getInstance()->General['all_websites_website_per_page'];
+        $this->limit = Config::getInstance()->General['all_websites_website_per_page'];
     }
 
     function index()
@@ -152,12 +153,12 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
                                   Piwik_Date::factory('now', 'UTC+14')->toString('Y-m-d')))
         ) {
 
-            $view->autoRefreshTodayReport = Piwik_Config::getInstance()->General['multisites_refresh_after_seconds'];
+            $view->autoRefreshTodayReport = Config::getInstance()->General['multisites_refresh_after_seconds'];
         }
         $this->setGeneralVariablesView($view);
         $this->setMinDateView($minDate, $view);
         $this->setMaxDateView($maxDate, $view);
-        $view->show_sparklines = Piwik_Config::getInstance()->General['show_multisites_sparklines'];
+        $view->show_sparklines = Config::getInstance()->General['show_multisites_sparklines'];
 
         echo $view->render();
     }

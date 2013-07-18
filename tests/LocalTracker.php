@@ -1,5 +1,7 @@
 <?php
 
+use Piwik\Core\Config;
+
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
 if (!defined('PIWIK_ENABLE_TRACKING')) {
@@ -46,10 +48,10 @@ class Piwik_LocalTracker extends PiwikTracker
         Piwik_Tracker::setForceVisitorId(null);
 
         // save some values
-        $plugins = Piwik_Config::getInstance()->Plugins['Plugins'];
+        $plugins = Config::getInstance()->Plugins['Plugins'];
         $plugins[] = 'DevicesDetection';
-        $pluginsTracker = Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
-        $oldTrackerConfig = Piwik_Config::getInstance()->Tracker;
+        $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
+        $oldTrackerConfig = Config::getInstance()->Tracker;
 
         Piwik_PluginsManager::getInstance()->unloadPlugins();
 
@@ -82,8 +84,8 @@ class Piwik_LocalTracker extends PiwikTracker
         ob_end_clean();
 
         // restore vars
-        Piwik_Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
-        Piwik_Config::getInstance()->Tracker = $oldTrackerConfig;
+        Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $pluginsTracker;
+        Config::getInstance()->Tracker = $oldTrackerConfig;
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = $oldLang;
         $_SERVER['HTTP_USER_AGENT'] = $oldUserAgent;
         $_COOKIE = $oldCookie;

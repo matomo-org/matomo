@@ -1,10 +1,12 @@
 <?php
+use Piwik\Core\Config;
+
 class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         parent::setUp();
-        Piwik_Config::getInstance()->setTestEnvironment();
+        Config::getInstance()->setTestEnvironment();
         Piwik_DataTable_Manager::getInstance()->deleteAll();
     }
 

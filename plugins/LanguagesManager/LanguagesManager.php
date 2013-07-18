@@ -9,6 +9,7 @@
  * @package Piwik_LanguagesManager
  *
  */
+use Piwik\Core\Config;
 
 /**
  *
@@ -172,7 +173,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
      */
     static public function getLanguageForSession()
     {
-        $cookieName = Piwik_Config::getInstance()->General['language_cookie_name'];
+        $cookieName = Config::getInstance()->General['language_cookie_name'];
         $cookie = new Piwik_Cookie($cookieName);
         if ($cookie->isCookieFound()) {
             return $cookie->get('language');
@@ -192,7 +193,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
             return false;
         }
 
-        $cookieName = Piwik_Config::getInstance()->General['language_cookie_name'];
+        $cookieName = Config::getInstance()->General['language_cookie_name'];
         $cookie = new Piwik_Cookie($cookieName, 0);
         $cookie->set('language', $languageCode);
         $cookie->save();

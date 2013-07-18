@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Core\Config;
 
 /**
  * @package Updates
@@ -26,11 +27,11 @@ class Piwik_Updates_0_6_3 extends Piwik_Updates
 
     static function update()
     {
-        $config = Piwik_Config::getInstance();
+        $config = Config::getInstance();
         $dbInfos = $config->database;
         if (!isset($dbInfos['schema'])) {
             try {
-                if (is_writable(Piwik_Config::getLocalConfigPath())) {
+                if (is_writable(Config::getLocalConfigPath())) {
                     $dbInfos['schema'] = 'Myisam';
                     $config->database = $dbInfos;
                     $config->forceSave();

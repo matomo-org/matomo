@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -151,7 +152,7 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['show_limit_control'] = false;
         $this->viewProperties['show_footer'] = true;
         $this->viewProperties['show_related_reports'] = true;
-        $this->viewProperties['exportLimit'] = Piwik_Config::getInstance()->General['API_datatable_default_limit'];
+        $this->viewProperties['exportLimit'] = Config::getInstance()->General['API_datatable_default_limit'];
         $this->viewProperties['highlight_summary_row'] = false;
         $this->viewProperties['metadata'] = array();
         $this->viewProperties['relatedReports'] = array();

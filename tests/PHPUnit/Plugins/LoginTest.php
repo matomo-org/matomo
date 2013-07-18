@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Core\Config;
+
 require_once 'Login/Auth.php';
 
 class LoginTest extends DatabaseTestCase
@@ -23,7 +25,7 @@ class LoginTest extends DatabaseTestCase
         Piwik_Access::setSingletonInstance($pseudoMockAccess);
 
         // we make sure the tests don't depend on the config file content
-        Piwik_Config::getInstance()->superuser = array(
+        Config::getInstance()->superuser = array(
             'login'    => 'superusertest',
             'password' => md5('passwordsuperusertest'),
             'email'    => 'superuser@example.com'
@@ -383,7 +385,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateFailureSuperUserEmptyTokenAuth()
     {
-        $user = Piwik_Config::getInstance()->superuser;
+        $user = Config::getInstance()->superuser;
         $password = $user['password'];
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
 
@@ -401,7 +403,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateFailureSuperUserInvalidTokenAuth()
     {
-        $user = Piwik_Config::getInstance()->superuser;
+        $user = Config::getInstance()->superuser;
         $password = $user['password'];
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
 
@@ -419,7 +421,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateFailureSuperUserInvalidTokenAuth2()
     {
-        $user = Piwik_Config::getInstance()->superuser;
+        $user = Config::getInstance()->superuser;
         $password = $user['password'];
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
 
@@ -437,7 +439,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateFailureSuperUserEmptyLogin()
     {
-        $user = Piwik_Config::getInstance()->superuser;
+        $user = Config::getInstance()->superuser;
         $password = $user['password'];
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
 
@@ -455,7 +457,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateFailureSuperUserLoginTokenAuthMissmatch()
     {
-        $user = Piwik_Config::getInstance()->superuser;
+        $user = Config::getInstance()->superuser;
         $password = $user['password'];
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
 
@@ -473,7 +475,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateSuccessSuperUserTokenAuth()
     {
-        $user = Piwik_Config::getInstance()->superuser;
+        $user = Config::getInstance()->superuser;
         $password = $user['password'];
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
 
@@ -491,7 +493,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateSuccessSuperLoginAndTokenAuth()
     {
-        $user = Piwik_Config::getInstance()->superuser;
+        $user = Config::getInstance()->superuser;
         $password = $user['password'];
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
 
@@ -509,7 +511,7 @@ class LoginTest extends DatabaseTestCase
      */
     public function testAuthenticateSuccessSuperUserLoginAndHashedTokenAuth()
     {
-        $user = Piwik_Config::getInstance()->superuser;
+        $user = Config::getInstance()->superuser;
         $password = $user['password'];
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($user['login'], $password);
 

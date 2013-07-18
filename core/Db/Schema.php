@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Config;
 
 /**
  * Schema abstraction
@@ -130,7 +131,7 @@ class Piwik_Db_Schema
         $schema = null;
         Piwik_PostEvent('Schema.loadSchema', array(&$schema));
         if ($schema === null) {
-            $config = Piwik_Config::getInstance();
+            $config = Config::getInstance();
             $dbInfos = $config->database;
             if (isset($dbInfos['schema'])) {
                 $schemaName = $dbInfos['schema'];
