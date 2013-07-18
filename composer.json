@@ -22,5 +22,11 @@
         "php": ">=5.3.0",
         "twig/twig": "1.*",
         "leafo/lessphp": "0.3.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Piwik\\Core\\": "core/",
+            "Piwik\\Plugin\\": "plugins/"
+        }
     }
 }
