@@ -64,7 +64,6 @@ class Piwik_PluginsManager
     const TRACKER_EVENT_PREFIX = 'Tracker.';
 
     static private $instance = null;
-    const PLUGIN_JSON_FILENAME = 'plugin.piwik.json';
 
     /**
      * Returns the singleton Piwik_PluginsManager
@@ -171,38 +170,19 @@ class Piwik_PluginsManager
      */
     public function readPluginsDirectory()
     {
-        $pluginsName = _glob($this->getPluginsDirectory() . '*', GLOB_ONLYDIR);
+        $pluginsName = _glob(self::getPluginsDirectory() . '*', GLOB_ONLYDIR);
         $result = array();
         if ($pluginsName != false) {
             foreach ($pluginsName as $path) {
-                $name = basename($path);
-                $pluginStructureLooksValid = file_exists($path . "/" . $name . ".php") || file_exists($path . "/" . self::PLUGIN_JSON_FILENAME);
-                if ($pluginStructureLooksValid) {
-                    $result[] = $name;
+                if (self::pluginStructureLooksValid($path)) {
+                    $result[] = basename($path);
                 }
             }
         }
         return $result;
     }
 
-    public function loadInfoFromJson($pluginName)
-    {
-        $path = $this->getPluginsDirectory() . $pluginName . '/' . self::PLUGIN_JSON_FILENAME;
-        if(!file_exists($path)) {
-            return false;
-        }
-        $json = file_get_contents($path);
-        if(!$json) {
-            return false;
-        }
-        $info = Piwik_Common::json_decode($json, $assoc = true);
-        if(!is_array($info) || empty($info)) {
-            throw new Exception("Invalid JSON file: $path");
-        }
-        return $info;
-    }
-
-    protected function getPluginsDirectory()
+    public static function getPluginsDirectory()
     {
         return PIWIK_INCLUDE_PATH . '/plugins/';
     }
@@ -517,14 +497,12 @@ class Piwik_PluginsManager
             throw new Exception(sprintf("The plugin filename '%s' is not a valid filename", $pluginFileName));
         }
 
-        $path = $this->getPluginsDirectory() . $pluginFileName;
+        $path = self::getPluginsDirectory() . $pluginFileName;
 
         if (!file_exists($path)) {
             // Create the smallest minimal Piwik Plugin
             // Eg. Used for Zeitgeist default theme which does not have a Zeitgeist.php file
-            $minimalistPlugin = new Piwik_Plugin();
-            $minimalistPlugin->setPluginName($pluginName);
-            return $minimalistPlugin;
+            return new Piwik_Plugin($pluginName);
         }
 
         require_once $path;
@@ -625,7 +603,7 @@ class Piwik_PluginsManager
 
         $pluginName = $plugin->getPluginName();
 
-        $path = $this->getPluginsDirectory() . $pluginName . '/lang/%s.php';
+        $path = self::getPluginsDirectory() . $pluginName . '/lang/%s.php';
 
         $defaultLangPath = sprintf($path, $langCode);
         $defaultEnglishLangPath = sprintf($path, 'en');
@@ -722,6 +700,13 @@ class Piwik_PluginsManager
             }
         }
         return false;
+    }
+    
+    private static function pluginStructureLooksValid($path)
+    {
+        $name = basename($path);
+        return file_exists($path . "/" . $name . ".php")
+             || file_exists($path . "/" . Piwik_Plugin_MetadataLoader::PLUGIN_JSON_FILENAME);
     }
 }
 

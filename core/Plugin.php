@@ -18,6 +18,37 @@
 class Piwik_Plugin
 {
     /**
+     * Name of this plugin.
+     * 
+     * @var string
+     */
+    protected $pluginName;
+    
+    /**
+     * Holds plugin metadata.
+     * 
+     * @var array
+     */
+    private $pluginInformation;
+    
+    /**
+     * Constructor.
+     * 
+     * @param string|bool $pluginName A plugin name to force. If not supplied, it is set
+     *                                to last part of the class name.
+     */
+    public function __construct($pluginName = false)
+    {
+        if (empty($pluginName)) {
+            $pluginName = Piwik_Common::unprefixClass(get_class($this));
+        }
+        $this->pluginName = $pluginName;
+        
+        $metadataLoader = new Piwik_Plugin_MetadataLoader($pluginName);
+        $this->pluginInformation = $metadataLoader->load();
+    }
+    
+    /**
      * Returns the plugin details
      * - 'description' => string        // 1-2 sentence description of the plugin
      * - 'author' => string             // plugin author
@@ -32,25 +63,7 @@ class Piwik_Plugin
      */
     public function getInformation()
     {
-        $descriptionKey = $this->getPluginName() . '_PluginDescription';
-        $translation = Piwik_Translate($descriptionKey);
-        $info = array(
-            'description'      => $translation,
-            'homepage'         => 'http://piwik.org/',
-            'author'           => 'Piwik',
-            'author_homepage'  => 'http://piwik.org/',
-            'license'          => 'GPL v3 or later',
-            'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
-            'version'          => Piwik_Version::VERSION,
-            'theme'            => false,
-        );
-
-        $pluginName = $this->getPluginName();
-        $infoFromJson = Piwik_PluginsManager::getInstance()->loadInfoFromJson($pluginName);
-        if(!empty($infoFromJson)) {
-            $info = array_merge($info, $infoFromJson);
-        }
-        return $info;
+        return $this->pluginInformation;
     }
 
     /**
@@ -138,7 +151,6 @@ class Piwik_Plugin
         $info = $this->getInformation();
         return !empty($info['theme']) && (bool)$info['theme'];
     }
-    protected $pluginName;
 
     /**
      * Returns the plugin's base class name without the "Piwik_" prefix,
@@ -148,16 +160,6 @@ class Piwik_Plugin
      */
     final public function getPluginName()
     {
-        if(!empty($this->pluginName)) {
-            return $this->pluginName;
-        }
-        $this->pluginName =  Piwik_Common::unprefixClass(get_class($this));
         return $this->pluginName;
     }
-
-    final public function setPluginName($pluginName)
-    {
-        $this->pluginName = $pluginName;
-    }
-
 }
