@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Piwik_Common;
+
 /**
  * Tests the URL normalization.
  */

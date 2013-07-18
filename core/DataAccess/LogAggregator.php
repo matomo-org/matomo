@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Piwik_Common;
 
 /**
  * This class queries the Visitor logs tables (visits, actions, conversions, ecommerce)

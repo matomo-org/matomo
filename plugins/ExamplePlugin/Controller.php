@@ -9,6 +9,7 @@
  * @package Piwik_ExamplePlugin
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  *

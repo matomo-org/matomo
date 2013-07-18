@@ -10,6 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Class to retrieve absolute URL or URI components of the current URL,

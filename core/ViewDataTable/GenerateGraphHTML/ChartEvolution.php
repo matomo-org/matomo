@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Piwik_Common;
 
 /**
  * Generates HTML embed for the Evolution graph

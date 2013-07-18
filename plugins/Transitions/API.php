@@ -9,6 +9,7 @@
  * @package Piwik_Transitions
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * @package Piwik_Transitions

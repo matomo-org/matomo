@@ -10,6 +10,7 @@
  *
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.

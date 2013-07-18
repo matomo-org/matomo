@@ -10,6 +10,7 @@
  */
 
 use Piwik\Core\Config;
+use Piwik\Core\Piwik_Common;
 
 if (Piwik_Common::isWindows() || !function_exists('inet_ntop')) {
     function _inet_ntop($in_addr)

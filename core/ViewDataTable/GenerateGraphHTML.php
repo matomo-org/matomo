@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * This class generates the HTML code to embed graphs in the page.

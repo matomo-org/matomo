@@ -10,6 +10,7 @@
  * @package Piwik_PluginArchiver
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Plugins that archive metrics for websites can implement an Archiver that extends this class

@@ -10,6 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Transition for pre-Piwik 0.4.4

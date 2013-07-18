@@ -10,6 +10,7 @@
  * serveStaticFile.test.php has been created to avoid making too many modifications to /tests/core/Piwik.test.php
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__).'/../../');
 if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php'))

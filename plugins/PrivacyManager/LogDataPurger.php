@@ -9,6 +9,7 @@
  * @package Piwik_PrivacyManager
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Purges the log_visit, log_conversion and related tables of old visit data.

@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Class to check if a newer version of Piwik is available

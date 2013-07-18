@@ -10,6 +10,7 @@
  * @package Piwik_DevicesDetection
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik_Common;
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';

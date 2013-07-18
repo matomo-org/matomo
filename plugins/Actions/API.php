@@ -9,6 +9,7 @@
  * @package Piwik_Actions
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),

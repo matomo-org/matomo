@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Generates the data in the Open Flash Chart format, from the given data.

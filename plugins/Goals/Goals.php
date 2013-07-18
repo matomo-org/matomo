@@ -9,6 +9,7 @@
  * @package Piwik_Goals
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  *

@@ -10,6 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * @see libs/jsmin/jsmin.php

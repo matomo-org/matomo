@@ -16,7 +16,7 @@ use Piwik\Core\Config;
 use Piwik_Access;
 use Piwik_Access_NoAccessException;
 use Piwik_AssetManager;
-use Piwik_Common;
+use Piwik\Core\Piwik_Common;
 use Piwik_Db_Adapter;
 use Piwik_Db_Schema;
 use Piwik_Log_APICall;

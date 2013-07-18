@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Piwik_Common;
 
 /**
  * Piwik_Option provides a very simple mechanism to save/retrieve key-values pair

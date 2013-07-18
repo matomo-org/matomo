@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
+use Piwik\Core\Piwik_Common;
 
 /**
  * MULTI ROW EVOLUTION

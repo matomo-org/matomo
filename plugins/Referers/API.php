@@ -9,6 +9,7 @@
  * @package Piwik_Referers
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * The Referrers API lets you access reports about Websites, Search engines, Keywords, Campaigns used to access your website.

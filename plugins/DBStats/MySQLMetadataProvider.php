@@ -9,6 +9,7 @@
  * @package Piwik_DBStats
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Utility class that provides general information about databases, including the size of

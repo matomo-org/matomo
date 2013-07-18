@@ -9,6 +9,7 @@
  * @package Piwik_API
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * @package Piwik_API
@@ -552,7 +553,7 @@ class Piwik_API_API
         }
 
         $urls = array_map('urldecode', $urls);
-        $urls = array_map(array('Piwik_Common', 'unsanitizeInputValue'), $urls);
+        $urls = array_map(array('Piwik\Core\Piwik_Common', 'unsanitizeInputValue'), $urls);
 
         $result = array();
         foreach ($urls as $url) {
@@ -628,7 +629,7 @@ class Piwik_API_API
         arsort($values);
         $values = array_keys($values);
 
-        $values = array_map(array('Piwik_Common', 'unsanitizeInputValue'), $values);
+        $values = array_map(array('Piwik\Core\Piwik_Common', 'unsanitizeInputValue'), $values);
 
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
         return $values;

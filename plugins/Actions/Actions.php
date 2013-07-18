@@ -9,6 +9,7 @@
  * @package Piwik_Actions
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Actions plugin

@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Data Access object used to query archives

@@ -9,6 +9,7 @@
  * @package Piwik_MultiSites
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  *

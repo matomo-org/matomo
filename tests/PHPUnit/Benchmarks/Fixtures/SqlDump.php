@@ -7,6 +7,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Reusable fixture. Loads a ~1GB SQL dump into the DB.

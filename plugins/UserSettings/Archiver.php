@@ -9,6 +9,8 @@
  * @package Piwik_UserSettings
  */
 
+use Piwik\Core\Piwik_Common;
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 
 class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver

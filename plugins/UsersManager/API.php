@@ -10,6 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.

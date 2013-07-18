@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Piwik_Common;
 
 /**
  * from a starting date to an ending date

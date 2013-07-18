@@ -9,6 +9,7 @@
  * @package Piwik_Proxy
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Controller for proxy services

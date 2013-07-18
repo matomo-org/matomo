@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Piwik_Common;
 
 /**
  * To differentiate between "no value" and default value of null

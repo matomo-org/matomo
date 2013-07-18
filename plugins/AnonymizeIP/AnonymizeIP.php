@@ -9,6 +9,7 @@
  * @package Piwik_AnonymizeIP
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.

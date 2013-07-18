@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Class used to log a standard message event.

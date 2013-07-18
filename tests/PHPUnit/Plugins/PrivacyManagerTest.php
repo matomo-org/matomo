@@ -7,6 +7,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 require_once 'PrivacyManager/PrivacyManager.php';
 

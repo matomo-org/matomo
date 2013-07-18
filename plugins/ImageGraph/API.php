@@ -9,6 +9,7 @@
  * @package Piwik_ImageGraph
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.

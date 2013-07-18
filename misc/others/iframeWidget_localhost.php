@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Piwik_Common;
+
 exit;
 $date = date('Y-m-d');
 $period = 'month';

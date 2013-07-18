@@ -9,6 +9,7 @@
  * @package Piwik_API
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * This class generates a Row evolution dataset, from input request

@@ -9,6 +9,7 @@
  * @package Piwik_UserCountry
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's

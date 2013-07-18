@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * Tests some API using range periods & makes sure the correct amount of blob/numeric

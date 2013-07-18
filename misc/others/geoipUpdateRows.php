@@ -1,6 +1,7 @@
 <?php
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 ini_set("memory_limit", "512M");
 error_reporting(E_ALL | E_NOTICE);

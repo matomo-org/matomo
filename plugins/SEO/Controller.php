@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_SEO
  */
+use Piwik\Core\Piwik_Common;
 
 /**
  * @package Piwik_SEO

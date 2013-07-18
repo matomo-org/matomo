@@ -9,6 +9,7 @@
  * @package Piwik
  *
  */
+use Piwik\Core\Piwik_Common;
 
 /**
  * Write translations to file

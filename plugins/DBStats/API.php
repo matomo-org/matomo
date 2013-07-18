@@ -9,6 +9,7 @@
  * @package Piwik_DBStats
  */
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 /**
  * @see plugins/DBStats/MySQLMetadataProvider.php

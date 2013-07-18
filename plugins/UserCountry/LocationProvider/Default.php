@@ -9,6 +9,7 @@
  * @package Piwik_UserCountry
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik_Common;
 
 /**
  * The default LocationProvider, this LocationProvider guesses a visitor's country

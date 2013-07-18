@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Annotations
  */
+use Piwik\Core\Piwik_Common;
 
 /**
  * Controller for the Annotations plugin.

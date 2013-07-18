@@ -2,6 +2,7 @@
 // Script that creates 100 websites, then outputs a IMG that records a pageview in each website
 // Used initially to test how to handle cookies for this use case (see http://dev.piwik.org/trac/ticket/409)
 use Piwik\Core\Piwik;
+use Piwik\Core\Piwik_Common;
 
 exit;
 
