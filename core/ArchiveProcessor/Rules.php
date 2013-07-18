@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * This class contains Archiving rules/logic which are used in several places

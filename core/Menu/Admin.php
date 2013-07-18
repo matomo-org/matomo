@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik_Menu
  */
+use Piwik\Core\Piwik;
 
 /**
  * @package Piwik_Menu

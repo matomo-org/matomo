@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik_ReportRenderer
  */
+use Piwik\Core\Piwik;
 
 
 /**

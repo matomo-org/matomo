@@ -9,6 +9,7 @@
  * @package Updates
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * @package Updates

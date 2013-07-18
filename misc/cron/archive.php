@@ -1,5 +1,6 @@
 <?php
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 $USAGE = "
 Usage: 

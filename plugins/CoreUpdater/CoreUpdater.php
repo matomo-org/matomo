@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
  */
+use Piwik\Core\Piwik;
 
 /**
  *

@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Core\Piwik;
 
 /**
  * @package Updates

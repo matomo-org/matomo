@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_PDFReports
  */
-use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  *

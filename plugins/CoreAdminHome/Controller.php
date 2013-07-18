@@ -9,6 +9,7 @@
  * @package Piwik_CoreAdminHome
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  *

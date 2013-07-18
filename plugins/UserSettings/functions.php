@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
  */
+use Piwik\Core\Piwik;
 
 /**
  * @see libs/UserAgentParser/UserAgentParser.php

@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging
  */
+use Piwik\Core\Piwik;
 
 /**
  * The MobileMessaging API lets you manage and access all the MobileMessaging plugin features including :

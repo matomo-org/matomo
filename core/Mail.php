@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * Class for sending mails, for more information see:

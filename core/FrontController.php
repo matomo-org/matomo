@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * @see core/PluginsManager.php
@@ -273,7 +274,7 @@ class Piwik_FrontController
             Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 
             // ensure the current Piwik URL is known for later use
-            if (method_exists('Piwik', 'getPiwikUrl')) {
+            if (method_exists('Piwik\Core\Piwik', 'getPiwikUrl')) {
                 $host = Piwik::getPiwikUrl();
             }
 

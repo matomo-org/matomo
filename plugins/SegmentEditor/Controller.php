@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_SegmentEditor
  */
+use Piwik\Core\Piwik;
 
 /**
  * @package Piwik_SegmentEditor

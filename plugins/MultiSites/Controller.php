@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
  */
-use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  *

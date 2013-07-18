@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Piwik;
 
 /**
  * This filter replaces column names using a mapping table that maps from the old name to the new name.

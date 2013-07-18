@@ -8,7 +8,34 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Core;
+use Exception;
+use false;
+use Manifest;
 use Piwik\Core\Config;
+use Piwik_Access;
+use Piwik_Access_NoAccessException;
+use Piwik_AssetManager;
+use Piwik_Common;
+use Piwik_Db_Adapter;
+use Piwik_Db_Schema;
+use Piwik_Log_APICall;
+use Piwik_Log_Error;
+use Piwik_Log_Exception;
+use Piwik_Log_Formatter_ScreenFormatter;
+use Piwik_Log_Message;
+use Piwik_Plugin;
+use Piwik_PluginsManager;
+use Piwik_Session;
+use Piwik_Site;
+use Piwik_Tracker;
+use Piwik_Tracker_Cache;
+use Piwik_Tracker_Db;
+use Piwik_Tracker_GoalManager;
+use Piwik_Url;
+use Piwik_UsersManager_API;
+use Piwik_View;
+use Zend_Registry;
 
 /**
  * @see core/Translate.php
@@ -30,16 +57,16 @@ class Piwik
      * @var array
      */
     public static $idPeriods = array(
-        'day'   => 1,
-        'week'  => 2,
+        'day' => 1,
+        'week' => 2,
         'month' => 3,
-        'year'  => 4,
+        'year' => 4,
         'range' => 5,
     );
-    
+
     /**
      * @see getKnownSegmentsToArchive
-     * 
+     *
      * @var array
      */
     public static $cachedKnownSegmentsToArchive = null;
@@ -80,7 +107,7 @@ class Piwik
     public static function isSegmentationEnabled()
     {
         return !Piwik::isUserIsAnonymous()
-            || Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
+        || Config::getInstance()->General['anonymous_user_enable_use_segments_API'];
     }
 
     /**
@@ -308,10 +335,10 @@ class Piwik
         $message = "Please check that the web server has enough permission to write to these files/directories:<br />";
 
         if (Piwik_Common::isWindows()) {
-            $message .= "On Windows, check that the folder is not read only and is writable. 
+            $message .= "On Windows, check that the folder is not read only and is writable.
 						You can try to execute:<br />";
         } else {
-            $message .= "For example, on a Linux server if your Apache httpd user 
+            $message .= "For example, on a Linux server if your Apache httpd user
 						is www-data, you can try to execute:<br />"
                 . "<code>chown -R www-data:www-data " . $path . "</code><br />";
         }
@@ -413,7 +440,7 @@ class Piwik
         }
 
         // The error message mentions chmod 777 in case users can't chown
-        $directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p> 
+        $directoryMessage = "<p><b>Piwik couldn't write to some directories</b>.</p>
 							<p>Try to Execute the following commands on your server, to allow Write access on these directories:</p>"
             . "<blockquote>$directoryList</blockquote>"
             . "<p>If this doesn't work, you can try to create the directories with your FTP software, and set the CHMOD to 0755 (or 0777 if 0755 is not enough). To do so with your FTP software, right click on the directories then click permissions.</p>"
@@ -531,11 +558,11 @@ class Piwik
         $denyDirectPhp = "<Files ~ \"\\.(php|php4|php5|inc|tpl|in|twig)$\">\n" . $deny . "</Files>\n";
 
         $directoriesToProtect = array(
-            '/js'      => $allowAny,
-            '/libs'    => $denyDirectPhp . $allowStaticAssets,
-            '/vendor'    => $denyDirectPhp . $allowStaticAssets,
+            '/js' => $allowAny,
+            '/libs' => $denyDirectPhp . $allowStaticAssets,
+            '/vendor' => $denyDirectPhp . $allowStaticAssets,
             '/plugins' => $denyDirectPhp . $allowStaticAssets,
-            '/misc/user'  => $denyDirectPhp . $allowStaticAssets,
+            '/misc/user' => $denyDirectPhp . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
             Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
@@ -683,10 +710,10 @@ class Piwik
         $autoAppendFile = ini_get('auto_append_file');
 
         return !empty($zlibOutputCompression) ||
-            !empty($outputHandler) ||
-            !empty($obHandlers) ||
-            !empty($autoPrependFile) ||
-            !empty($autoAppendFile);
+        !empty($outputHandler) ||
+        !empty($obHandlers) ||
+        !empty($autoPrependFile) ||
+        !empty($autoAppendFile);
     }
 
     /**
@@ -977,8 +1004,8 @@ class Piwik
         if (is_null(self::$shouldLog)) {
             self::$shouldLog = self::shouldLoggerLog();
             // It is possible that the logger is not setup:
-            // - Tracker request, and debug disabled, 
-            // - and some scheduled tasks call code that tries and log something  
+            // - Tracker request, and debug disabled,
+            // - and some scheduled tasks call code that tries and log something
             try {
                 Zend_Registry::get('logger_message');
             } catch (Exception $e) {
@@ -998,7 +1025,7 @@ class Piwik
     {
         try {
             $shouldLog = (Piwik_Common::isPhpCliMode()
-                || Config::getInstance()->log['log_only_when_cli'] == 0)
+                    || Config::getInstance()->log['log_only_when_cli'] == 0)
                 &&
                 (Config::getInstance()->log['log_only_when_debug_parameter'] == 0
                     || isset($_REQUEST['debug']));
@@ -1126,8 +1153,8 @@ class Piwik
             } else {
                 $existing = array('count' => 0, 'sumTimeMs' => 0);
             }
-            $new = array('count'     => $existing['count'] + 1,
-                         'sumTimeMs' => $existing['count'] + $query->getElapsedSecs() * 1000);
+            $new = array('count' => $existing['count'] + 1,
+                'sumTimeMs' => $existing['count'] + $query->getElapsedSecs() * 1000);
             $infoIndexedByQuery[$query->getQuery()] = $new;
         }
 
@@ -1851,10 +1878,10 @@ class Piwik
      */
     static public function getArrayFromApiParameter($columns)
     {
-        if(empty($columns)) {
+        if (empty($columns)) {
             return array();
         }
-        if(is_array($columns)) {
+        if (is_array($columns)) {
             return $columns;
         }
         $array = explode(',', $columns);
@@ -1873,9 +1900,9 @@ class Piwik
     static public function redirectToModule($newModule, $newAction = '', $parameters = array())
     {
         $newUrl = 'index.php' . Piwik_Url::getCurrentQueryStringWithParametersModified(
-            array('module' => $newModule, 'action' => $newAction)
+                array('module' => $newModule, 'action' => $newAction)
                 + $parameters
-        );
+            );
         Piwik_Url::redirectToUrl($newUrl);
     }
 
@@ -1952,10 +1979,10 @@ class Piwik
         $configAPI = Config::getInstance()->log;
 
         $aLoggers = array(
-            'logger_api_call'  => new Piwik_Log_APICall,
+            'logger_api_call' => new Piwik_Log_APICall,
             'logger_exception' => new Piwik_Log_Exception,
-            'logger_error'     => new Piwik_Log_Error,
-            'logger_message'   => new Piwik_Log_Message,
+            'logger_error' => new Piwik_Log_Error,
+            'logger_message' => new Piwik_Log_Message,
         );
 
         foreach ($configAPI as $loggerType => $aRecordTo) {
@@ -2192,9 +2219,9 @@ class Piwik
      * Batch insert into table from CSV (or other delimited) file.
      *
      * @param string $tableName  Name of table
-     * @param array  $fields     Field names
+     * @param array $fields     Field names
      * @param string $filePath   Path name of a file.
-     * @param array  $fileSpec   File specifications (delimiter, line terminator, etc)
+     * @param array $fileSpec   File specifications (delimiter, line terminator, etc)
      *
      * @throws Exception
      * @return bool  True if successful; false otherwise
@@ -2300,12 +2327,12 @@ class Piwik
 //				throw new Exception('');
 
                 $fileSpec = array(
-                    'delim'            => "\t",
-                    'quote'            => '"', // chr(34)
-                    'escape'           => '\\\\', // chr(92)
+                    'delim' => "\t",
+                    'quote' => '"', // chr(34)
+                    'escape' => '\\\\', // chr(92)
                     'escapespecial_cb' => create_function('$str', 'return str_replace(array(chr(92), chr(34)), array(chr(92).chr(92), chr(92).chr(34)), $str);'),
-                    'eol'              => "\r\n",
-                    'null'             => 'NULL',
+                    'eol' => "\r\n",
+                    'null' => 'NULL',
                 );
 
                 // hack for charset mismatch
@@ -2500,7 +2527,7 @@ class Piwik
     /**
      * Returns the option name of the option that stores the time the archive.php
      * script was last run.
-     * 
+     *
      * @param string $period
      * @param string $idSite
      * @return string

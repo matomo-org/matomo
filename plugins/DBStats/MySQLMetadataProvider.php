@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_DBStats
  */
-use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * Utility class that provides general information about databases, including the size of

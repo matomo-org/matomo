@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.

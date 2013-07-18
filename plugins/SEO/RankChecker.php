@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_SEO
  */
+use Piwik\Core\Piwik;
 
 /**
  * The functions below are derived/adapted from GetRank.org's

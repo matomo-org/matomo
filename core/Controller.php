@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php

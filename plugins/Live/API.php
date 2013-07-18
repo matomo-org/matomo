@@ -9,6 +9,7 @@
  * @package Piwik_Live
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * @see plugins/Referers/functions.php

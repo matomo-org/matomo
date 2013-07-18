@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Piwik;
 
 /**
  * An API request is the object used to make a call to the API and get the result.

@@ -9,6 +9,7 @@
  * @package Piwik_LanguagesManager
  *
  */
+use Piwik\Core\Piwik;
 
 /**
  * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.

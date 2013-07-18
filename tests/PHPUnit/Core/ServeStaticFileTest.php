@@ -12,6 +12,8 @@
  */
 
 // This is Piwik logo, the static file used in this test suit
+use Piwik\Core\Piwik;
+
 define("TEST_FILE_LOCATION", realpath(dirname(__FILE__) . "/../../resources/lipsum.txt"));
 define("TEST_FILE_CONTENT_TYPE", "text/plain");
 

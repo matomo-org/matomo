@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
  */
+use Piwik\Core\Piwik;
 
 /**
  * Manage Piwik users

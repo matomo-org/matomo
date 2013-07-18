@@ -9,6 +9,7 @@
  * @package Piwik_UsersManager
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.

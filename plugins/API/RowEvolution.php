@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\Core\Piwik;
 
 /**
  * This class generates a Row evolution dataset, from input request

@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Core\Piwik;
 
 /**
  * This class provides generic methods to archive data for a period (week / month / year).

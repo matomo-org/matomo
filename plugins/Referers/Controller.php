@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
+use Piwik\Core\Piwik;
 
 /**
  *

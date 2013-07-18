@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Proxy
  */
+use Piwik\Core\Piwik;
 
 /**
  * Controller for proxy services

@@ -9,6 +9,8 @@
  * @package Piwik_MobileMessaging
  */
 
+use Piwik\Core\Piwik;
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 /**

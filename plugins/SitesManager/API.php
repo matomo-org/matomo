@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
  */
+use Piwik\Core\Piwik;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.

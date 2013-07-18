@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Goals
  */
+use Piwik\Core\Piwik;
 
 /**
  *

@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Goals
  */
+use Piwik\Core\Piwik;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",

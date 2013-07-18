@@ -1,4 +1,6 @@
 <?php
+use Piwik\Core\Piwik;
+
 /**
  * Piwik - Open source web analytics
  *

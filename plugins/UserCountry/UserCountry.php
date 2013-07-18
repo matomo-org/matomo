@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\Core\Piwik;
 
 /**
  * @see plugins/UserCountry/GeoIPAutoUpdater.php

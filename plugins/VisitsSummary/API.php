@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
+use Piwik\Core\Piwik;
 
 /**
  * VisitsSummary API lets you access the core web analytics metrics (visits, unique visitors,

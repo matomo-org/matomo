@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_ExampleAPI
  */
+use Piwik\Core\Piwik;
 
 /**
  * The ExampleAPI is useful to developers building a custom Piwik plugin.

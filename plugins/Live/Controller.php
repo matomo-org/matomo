@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Live
  */
-use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * @package Piwik_Live

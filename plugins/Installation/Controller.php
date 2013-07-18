@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Installation
  */
-use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  * Installation controller

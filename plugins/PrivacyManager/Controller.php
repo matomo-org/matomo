@@ -9,6 +9,7 @@
  * @package Piwik_PrivacyManager
  */
 use Piwik\Core\Config;
+use Piwik\Core\Piwik;
 
 /**
  *
