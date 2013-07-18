@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -70,7 +70,7 @@ class Piwik_API_Request
             $request = trim($request);
             $request = str_replace(array("\n", "\t"), '', $request);
 
-            $requestParsed = Piwik_Common::getArrayFromQueryString($request);
+            $requestParsed = Common::getArrayFromQueryString($request);
             $requestArray = $requestParsed + $defaultRequest;
 
         }
@@ -125,14 +125,14 @@ class Piwik_API_Request
     public function process()
     {
         // read the format requested for the output data
-        $outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'xml', 'string', $this->request));
+        $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
 
         // create the response
         $response = new Piwik_API_ResponseBuilder($outputFormat, $this->request);
 
         try {
             // read parameters
-            $moduleMethod = Piwik_Common::getRequestVar('method', null, 'string', $this->request);
+            $moduleMethod = Common::getRequestVar('method', null, 'string', $this->request);
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
@@ -164,7 +164,7 @@ class Piwik_API_Request
     static public function reloadAuthUsingTokenAuth($request = null)
     {
         // if a token_auth is specified in the API request, we load the right permissions
-        $token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string', $request);
+        $token_auth = Common::getRequestVar('token_auth', '', 'string', $request);
         if ($token_auth) {
             Piwik_PostEvent('API.Request.authenticate', array($token_auth));
             Piwik_Access::getInstance()->reloadAccess();
@@ -217,7 +217,7 @@ class Piwik_API_Request
         if(empty($_SERVER['QUERY_STRING'])) {
             return array();
         }
-        $GET = Piwik_Common::getArrayFromQueryString($_SERVER['QUERY_STRING']);
+        $GET = Common::getArrayFromQueryString($_SERVER['QUERY_STRING']);
         return $GET;
     }
     

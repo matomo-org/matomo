@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings
@@ -127,7 +127,7 @@ class Piwik_Tracker_VisitExcluded
      */
     protected function isNonHumanBot()
     {
-        $allowBots = Piwik_Common::getRequestVar('bots', false) != false;
+        $allowBots = Common::getRequestVar('bots', false) != false;
         return !$allowBots
             && (strpos($this->userAgent, 'Googlebot') !== false // Googlebot
                 || strpos($this->userAgent, 'Google Web Preview') !== false // Google Instant

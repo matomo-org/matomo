@@ -9,7 +9,7 @@
  * @package Piwik_MultiSites
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -46,10 +46,10 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
     public function getSitesInfo($isWidgetized = false)
     {
         Piwik::checkUserHasSomeViewAccess();
-        $displayRevenueColumn = Piwik_Common::isGoalPluginEnabled();
+        $displayRevenueColumn = Common::isGoalPluginEnabled();
 
-        $date = Piwik_Common::getRequestVar('date', 'today');
-        $period = Piwik_Common::getRequestVar('period', 'day');
+        $date = Common::getRequestVar('date', 'today');
+        $period = Common::getRequestVar('period', 'day');
         $siteIds = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
         list($minDate, $maxDate) = $this->getMinMaxDateAcrossWebsites($siteIds);
 
@@ -210,7 +210,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
     public function getEvolutionGraph($fetch = false, $columns = false)
     {
         if (empty($columns)) {
-            $columns = Piwik_Common::getRequestVar('columns');
+            $columns = Common::getRequestVar('columns');
         }
         $api = "API.get";
 

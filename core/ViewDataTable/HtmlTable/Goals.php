@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik
@@ -24,13 +24,13 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 
     public function main()
     {
-        $this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-        $this->processOnlyIdGoal = Piwik_Common::getRequestVar('idGoal', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
+        $this->idSite = Common::getRequestVar('idSite', null, 'int');
+        $this->processOnlyIdGoal = Common::getRequestVar('idGoal', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
         $this->isEcommerce = $this->processOnlyIdGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
         $this->viewProperties['show_exclude_low_population'] = true;
         $this->viewProperties['show_goals'] = true;
 
-        if (Piwik_Common::getRequestVar('documentationForGoalsPage', 0, 'int') == 1) {
+        if (Common::getRequestVar('documentationForGoalsPage', 0, 'int') == 1) {
             $this->setReportDocumentation(Piwik_Translate('Goals_ConversionByTypeReportDocumentation',
                 array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>')));
         }
@@ -140,7 +140,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
                 foreach ($goals as $goal) {
                     $idgoal = $goal['idgoal'];
 
-                    $goal['name'] = Piwik_Common::unsanitizeInputValue($goal['name']);
+                    $goal['name'] = Common::unsanitizeInputValue($goal['name']);
 
                     if ($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
                         && $this->processOnlyIdGoal != $idgoal

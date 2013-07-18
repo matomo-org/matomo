@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * MULTI ROW EVOLUTION
@@ -36,7 +36,7 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
      */
     public function __construct($idSite, $date)
     {
-        $this->metric = Piwik_Common::getRequestVar('column', '', 'string');
+        $this->metric = Common::getRequestVar('column', '', 'string');
         parent::__construct($idSite, $date);
     }
 

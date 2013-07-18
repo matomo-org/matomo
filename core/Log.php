@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -35,7 +35,7 @@ abstract class Piwik_Log extends Zend_Log
     {
         parent::__construct();
 
-        $this->currentRequestKey = substr(Piwik_Common::generateUniqId(), 0, 8);
+        $this->currentRequestKey = substr(Common::generateUniqId(), 0, 8);
 
         $log_dir = Config::getInstance()->log['logger_file_path'];
         if ($log_dir[0] != '/' && $log_dir[0] != DIRECTORY_SEPARATOR) {
@@ -45,13 +45,13 @@ abstract class Piwik_Log extends Zend_Log
 
         $this->fileFormatter = $fileFormatter;
         $this->screenFormatter = $screenFormatter;
-        $this->logToDatabaseTableName = Piwik_Common::prefixTable($logToDatabaseTableName);
+        $this->logToDatabaseTableName = Common::prefixTable($logToDatabaseTableName);
         $this->logToDatabaseColumnMapping = $logToDatabaseColumnMapping;
     }
 
     function addWriteToFile()
     {
-        Piwik_Common::mkdir(dirname($this->logToFileFilename));
+        Common::mkdir(dirname($this->logToFileFilename));
         $writerFile = new Zend_Log_Writer_Stream($this->logToFileFilename);
         $writerFile->setFormatter($this->fileFormatter);
         $this->addWriter($writerFile);
@@ -176,7 +176,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
     function formatEvent($event)
     {
         // no injection in error messages, backtrace when displayed on screen
-        return array_map(array('Piwik\Core\Piwik_Common', 'sanitizeInputValue'), $event);
+        return array_map(array('Piwik\Core\Common', 'sanitizeInputValue'), $event);
     }
 
     function format($string)
@@ -186,7 +186,7 @@ class Piwik_Log_Formatter_ScreenFormatter implements Zend_Log_Formatter_Interfac
 
     static public function getFormattedString($string)
     {
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             @header('Content-Type: text/html; charset=utf-8');
         }
         return $string;

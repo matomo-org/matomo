@@ -9,7 +9,7 @@
  * @package Piwik_UserCountry
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * The default LocationProvider, this LocationProvider guesses a visitor's country
@@ -33,9 +33,9 @@ class Piwik_UserCountry_LocationProvider_Default extends Piwik_UserCountry_Locat
         $enableLanguageToCountryGuess = Config::getInstance()->Tracker['enable_language_to_country_guess'];
 
         if (empty($info['lang'])) {
-            $info['lang'] = Piwik_Common::getBrowserLanguage();
+            $info['lang'] = Common::getBrowserLanguage();
         }
-        $country = Piwik_Common::getCountry($info['lang'], $enableLanguageToCountryGuess, $info['ip']);
+        $country = Common::getCountry($info['lang'], $enableLanguageToCountryGuess, $info['ip']);
 
         $location = array(parent::COUNTRY_CODE_KEY => $country);
         $this->completeLocationResult($location);

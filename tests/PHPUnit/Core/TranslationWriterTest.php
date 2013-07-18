@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -64,7 +64,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
      */
     public function testQuote($data, $expected)
     {
-        if (Piwik_Common::isWindows() && $data == "\n") {
+        if (Common::isWindows() && $data == "\n") {
             return;
         }
         $this->assertEquals($expected, Piwik_TranslationWriter::quote($data));
@@ -164,7 +164,7 @@ class TranslationWriterTest extends PHPUnit_Framework_TestCase
 
         $contents = file_get_contents($path);
         $expected = "<?php\n\$translations = array(\n\t'General_Locale' => 'en_CA.UTF-8',\n\t'General_Id' => 'Id',\n\t'Goals_Goals' => 'Goals',\n\n\t// FOR REVIEW\n\t'Plugin_Body' => 'Message\nBody',\n);\n";
-        if (Piwik_Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
+        if (Common::isWindows()) $expected = str_replace("\r\n", "\n", $expected);
         $this->assertEquals($expected, $contents);
     }
 }

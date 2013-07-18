@@ -9,7 +9,7 @@
  * @package Piwik_Actions
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Actions plugin
@@ -144,7 +144,7 @@ class Piwik_Actions extends Piwik_Plugin
             $valueToMatch = preg_replace('@^http[s]?://(www\.)?@i', '', $valueToMatch);
         }
 
-        $valueToMatch = Piwik_Common::sanitizeInputValue(Piwik_Common::unsanitizeInputValue($valueToMatch));
+        $valueToMatch = Common::sanitizeInputValue(Common::unsanitizeInputValue($valueToMatch));
 
         // exact matches work by returning the id directly
         if ($matchType == Piwik_SegmentExpression::MATCH_EQUAL
@@ -164,7 +164,7 @@ class Piwik_Actions extends Piwik_Plugin
         // now, we handle the cases =@ (contains) and !@ (does not contain)
 
         // build the expression based on the match type
-        $sql = 'SELECT idaction FROM ' . Piwik_Common::prefixTable('log_action') . ' WHERE ';
+        $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE ';
         $sqlMatchType = 'AND type = ' . $actionType;
         switch ($matchType) {
             case '=@':
@@ -557,7 +557,7 @@ class Piwik_Actions extends Piwik_Plugin
 
     protected function isSiteSearchEnabled()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite', 0, 'int');
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
         if ($idSite == 0) {
             return false;
         }
@@ -681,7 +681,7 @@ class Piwik_Actions extends Piwik_Plugin
     
     private function addExcludeLowPopDisplayProperties(&$result)
     {
-        if (Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') != '0') {
+        if (Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') != '0') {
             $result['filter_excludelowpop'] = 'nb_hits';
             $result['filter_excludelowpop_value'] = function () {
                 // computing minimum value to exclude (2 percent of the total number of actions)
@@ -759,7 +759,7 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForEntryPageUrls()
     {
         // link to the page, not just the report, but only if not a widget
-        $widget = Piwik_Common::getRequestVar('widget', false);
+        $widget = Common::getRequestVar('widget', false);
         $reportUrl = Piwik_API_Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => 'Actions',
             'action' => $widget === false ? 'indexEntryPageUrls' : 'getEntryPageUrls'
@@ -788,7 +788,7 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForExitPageUrls()
     {
         // link to the page, not just the report, but only if not a widget
-        $widget = Piwik_Common::getRequestVar('widget', false);
+        $widget = Common::getRequestVar('widget', false);
         $reportUrl = Piwik_API_Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => 'Actions',
             'action' => $widget === false ? 'indexExitPageUrls' : 'getExitPageUrls'
@@ -896,7 +896,7 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForGetPageTitles()
     {
         // link to the page, not just the report, but only if not a widget
-        $widget = Piwik_Common::getRequestVar('widget', false);
+        $widget = Common::getRequestVar('widget', false);
         $reportUrl = Piwik_API_Request::getCurrentUrlWithoutGenericFilters(array(
             'module' => 'Actions',
             'action' => $widget === false ? 'indexPageTitles' : 'getPageTitles'
@@ -923,7 +923,7 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForGetEntryPageTitles()
     {
         $entryPageUrlAction =
-            Piwik_Common::getRequestVar('widget', false) === false ? 'indexEntryPageUrls' : 'getEntryPageUrls';
+            Common::getRequestVar('widget', false) === false ? 'indexEntryPageUrls' : 'getEntryPageUrls';
         
         $result = array(
             'translations'       => array(
@@ -948,7 +948,7 @@ class Piwik_Actions extends Piwik_Plugin
     public function getDisplayPropertiesForGetExitPageTitles()
     {
         $exitPageUrlAction =
-            Piwik_Common::getRequestVar('widget', false) === false ? 'indexExitPageUrls' : 'getExitPageUrls';
+            Common::getRequestVar('widget', false) === false ? 'indexExitPageUrls' : 'getExitPageUrls';
         
         $result = array(
             'translations'       => array(

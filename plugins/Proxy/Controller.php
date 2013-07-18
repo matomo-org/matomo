@@ -9,7 +9,7 @@
  * @package Piwik_Proxy
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Controller for proxy services
@@ -32,7 +32,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
         Piwik::checkUserHasSomeViewAccess();
 
         $view = new Piwik_View('@Proxy/exportImageWindow');
-        $view->imageData = 'data:image/png;base64,' . Piwik_Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST);
+        $view->imageData = 'data:image/png;base64,' . Common::getRequestVar('imageData', self::TRANSPARENT_PNG_PIXEL, 'string', $_POST);
         echo $view->render();
     }
 
@@ -52,13 +52,13 @@ class Piwik_Proxy_Controller extends Piwik_Controller
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        $rawData = Piwik_Common::getRequestVar('imageData', '', 'string', $_POST);
+        $rawData = Common::getRequestVar('imageData', '', 'string', $_POST);
 
         // returns false if any illegal characters in input
         $data = base64_decode($rawData);
         if ($data !== false) {
             // check for PNG header
-            if (Piwik_Common::substr($data, 0, 8) === "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a") {
+            if (Common::substr($data, 0, 8) === "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a") {
                 header('Content-Type: image/png');
 
                 // more robust validation (if available)
@@ -119,7 +119,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
      */
     public function redirect()
     {
-        $url = Piwik_Common::getRequestVar('url', '', 'string', $_GET);
+        $url = Common::getRequestVar('url', '', 'string', $_GET);
 
         // validate referrer
         $referrer = Piwik_Url::getReferer();
@@ -135,7 +135,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
         if (!self::isPiwikUrl($url)) {
             Piwik::checkUserHasSomeViewAccess();
         }
-        if (!Piwik_Common::isLookLikeUrl($url)) {
+        if (!Common::isLookLikeUrl($url)) {
             die('Please check the &url= parameter: it should to be a valid URL');
         }
         @header('Content-Type: text/html; charset=utf-8');

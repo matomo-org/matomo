@@ -16,7 +16,7 @@ use Piwik\Core\Config;
 use Piwik_Access;
 use Piwik_Access_NoAccessException;
 use Piwik_AssetManager;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 use Piwik_Db_Adapter;
 use Piwik_Db_Schema;
 use Piwik_Log_APICall;
@@ -118,10 +118,10 @@ class Piwik
      */
     static public function prefixClass($class)
     {
-        if (!strncmp($class, Piwik_Common::CLASSES_PREFIX, strlen(Piwik_Common::CLASSES_PREFIX))) {
+        if (!strncmp($class, Common::CLASSES_PREFIX, strlen(Common::CLASSES_PREFIX))) {
             return $class;
         }
-        return Piwik_Common::CLASSES_PREFIX . $class;
+        return Common::CLASSES_PREFIX . $class;
     }
 
     /**
@@ -184,15 +184,15 @@ class Piwik
 
         $key = 'piwikUrl';
         $url = Piwik_GetOption($key);
-        if (Piwik_Common::isPhpCliMode()
+        if (Common::isPhpCliMode()
             // in case archive.php is triggered with domain localhost
-            || Piwik_Common::isArchivePhpTriggered()
+            || Common::isArchivePhpTriggered()
             || defined('PIWIK_MODE_ARCHIVE')
         ) {
             return $url;
         }
 
-        $currentUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+        $currentUrl = Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
 
         if (empty($url)
             // if URL changes, always update the cache
@@ -272,7 +272,7 @@ class Piwik
     static public function copyRecursive($source, $target, $excludePhp = false)
     {
         if (is_dir($source)) {
-            Piwik_Common::mkdir($target, false);
+            Common::mkdir($target, false);
             $d = dir($source);
             while (false !== ($entry = $d->read())) {
                 if ($entry == '.' || $entry == '..') {
@@ -317,7 +317,7 @@ class Piwik
             @chmod($dest, 0755);
             if (!@copy($source, $dest)) {
                 $message = "Error while creating/copying file to <code>$dest</code>. <br />"
-                    . self::getErrorMessageMissingPermissions(Piwik_Common::getPathToPiwikRoot());
+                    . self::getErrorMessageMissingPermissions(Common::getPathToPiwikRoot());
                 throw new Exception($message);
             }
         }
@@ -334,7 +334,7 @@ class Piwik
     {
         $message = "Please check that the web server has enough permission to write to these files/directories:<br />";
 
-        if (Piwik_Common::isWindows()) {
+        if (Common::isWindows()) {
             $message .= "On Windows, check that the folder is not read only and is writable.
 						You can try to execute:<br />";
         } else {
@@ -406,7 +406,7 @@ class Piwik
      */
     static private function getMakeWritableCommand($realpath)
     {
-        if (Piwik_Common::isWindows()) {
+        if (Common::isWindows()) {
             return "<code>cacls $realpath /t /g " . get_current_user() . ":f</code><br />";
         }
         return "<code>chmod -R 0755 $realpath</code><br />";
@@ -427,15 +427,15 @@ class Piwik
 
         $directoryList = '';
         foreach ($resultCheck as $dir => $bool) {
-            $realpath = Piwik_Common::realpath($dir);
+            $realpath = Common::realpath($dir);
             if (!empty($realpath) && $bool === false) {
                 $directoryList .= self::getMakeWritableCommand($realpath);
             }
         }
 
         // Also give the chown since the chmod is only 755
-        if (!Piwik_Common::isWindows()) {
-            $realpath = Piwik_Common::realpath(PIWIK_INCLUDE_PATH . '/');
+        if (!Common::isWindows()) {
+            $realpath = Common::realpath(PIWIK_INCLUDE_PATH . '/');
             $directoryList = "<code>chown -R www-data:www-data " . $realpath . "</code><br/>" . $directoryList;
         }
 
@@ -467,10 +467,10 @@ class Piwik
             // Create an empty directory
             $isFile = strpos($directoryToCheck, '.') !== false;
             if (!$isFile && !file_exists($directoryToCheck)) {
-                Piwik_Common::mkdir($directoryToCheck);
+                Common::mkdir($directoryToCheck);
             }
 
-            $directory = Piwik_Common::realpath($directoryToCheck);
+            $directory = Common::realpath($directoryToCheck);
             $resultCheck[$directory] = false;
             if ($directory !== false // realpath() returns FALSE on failure
                 && is_writable($directoryToCheck)
@@ -506,7 +506,7 @@ class Piwik
      */
     static public function getAutoUpdateMakeWritableMessage()
     {
-        $realpath = Piwik_Common::realpath(PIWIK_INCLUDE_PATH . '/');
+        $realpath = Common::realpath(PIWIK_INCLUDE_PATH . '/');
         $message = '';
         $message .= "<code>chown -R www-data:www-data " . $realpath . "</code><br />";
         $message .= "<code>chmod -R 0755 " . $realpath . "</code><br />";
@@ -545,7 +545,7 @@ class Piwik
             '/tmp',
         );
         foreach ($directoriesToProtect as $directoryToProtect) {
-            Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true);
+            Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true);
         }
 
         // Allow/Deny lives in different modules depending on the Apache version
@@ -565,7 +565,7 @@ class Piwik
             '/misc/user' => $denyDirectPhp . $allowStaticAssets,
         );
         foreach ($directoriesToProtect as $directoryToProtect => $content) {
-            Piwik_Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
+            Common::createHtAccess(PIWIK_INCLUDE_PATH . $directoryToProtect, $overwrite = true, $content);
         }
     }
 
@@ -971,7 +971,7 @@ class Piwik
         }
         $minimumMemoryLimit = Config::getInstance()->General['minimum_memory_limit'];
 
-        if (Piwik_Common::isArchivePhpTriggered()
+        if (Common::isArchivePhpTriggered()
             && Piwik::isUserIsSuperUser()
         ) {
             // archive.php: no time limit, high memory limit
@@ -1024,7 +1024,7 @@ class Piwik
     static public function shouldLoggerLog()
     {
         try {
-            $shouldLog = (Piwik_Common::isPhpCliMode()
+            $shouldLog = (Common::isPhpCliMode()
                     || Config::getInstance()->log['log_only_when_cli'] == 0)
                 &&
                 (Config::getInstance()->log['log_only_when_debug_parameter'] == 0
@@ -1115,7 +1115,7 @@ class Piwik
         if (is_null($db)) {
             $db = Piwik_Tracker::getDatabase();
         }
-        $tableName = Piwik_Common::prefixTable('log_profiling');
+        $tableName = Common::prefixTable('log_profiling');
 
         $all = $db->fetchAll('SELECT * FROM ' . $tableName);
         if ($all === false) {
@@ -1499,7 +1499,7 @@ class Piwik
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
         $piwikUrl = @$matches[2];
         $jsCode = str_replace('{$idSite}', $idSite, $jsCode);
-        $jsCode = str_replace('{$piwikUrl}', Piwik_Common::sanitizeInputValue($piwikUrl), $jsCode);
+        $jsCode = str_replace('{$piwikUrl}', Common::sanitizeInputValue($piwikUrl), $jsCode);
         return $jsCode;
     }
 
@@ -1854,7 +1854,7 @@ class Piwik
      */
     static public function getModule()
     {
-        return Piwik_Common::getRequestVar('module', '', 'string');
+        return Common::getRequestVar('module', '', 'string');
     }
 
     /**
@@ -1864,7 +1864,7 @@ class Piwik
      */
     static public function getAction()
     {
-        return Piwik_Common::getRequestVar('action', '', 'string');
+        return Common::getRequestVar('action', '', 'string');
     }
 
     /**
@@ -2229,7 +2229,7 @@ class Piwik
     static public function createTableFromCSVFile($tableName, $fields, $filePath, $fileSpec)
     {
         // On Windows, MySQL expects forward slashes as directory separators
-        if (Piwik_Common::isWindows()) {
+        if (Common::isWindows()) {
             $filePath = str_replace('\\', '/', $filePath);
         }
 
@@ -2320,7 +2320,7 @@ class Piwik
      */
     static public function tableInsertBatch($tableName, $fields, $values, $throwException = false)
     {
-        $filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-' . Piwik_Common::generateUniqId() . '.csv';
+        $filePath = PIWIK_USER_PATH . '/' . Piwik_AssetManager::MERGED_FILE_DIR . $tableName . '-' . Common::generateUniqId() . '.csv';
 
         if (Zend_Registry::get('db')->hasBulkLoader()) {
             try {
@@ -2385,7 +2385,7 @@ class Piwik
             $query = "INSERT $ignore
 					INTO " . $tableName . "
 					$fieldList
-					VALUES (" . Piwik_Common::getSqlStringFieldsArray($row) . ")";
+					VALUES (" . Common::getSqlStringFieldsArray($row) . ")";
             Piwik_Query($query, $row);
         }
     }
@@ -2408,7 +2408,7 @@ class Piwik
     {
         if (is_null(self::$lockPrivilegeGranted)) {
             try {
-                Piwik_LockTables(Piwik_Common::prefixTable('log_visit'));
+                Piwik_LockTables(Common::prefixTable('log_visit'));
                 Piwik_UnlockAllTables();
 
                 self::$lockPrivilegeGranted = true;

@@ -9,7 +9,7 @@
  * @package Piwik_VisitorGenerator
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -46,19 +46,19 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
     public function generate()
     {
         Piwik::checkUserIsSuperUser();
-        $nonce = Piwik_Common::getRequestVar('form_nonce', '', 'string', $_POST);
-        if (Piwik_Common::getRequestVar('choice', 'no') != 'yes' ||
+        $nonce = Common::getRequestVar('form_nonce', '', 'string', $_POST);
+        if (Common::getRequestVar('choice', 'no') != 'yes' ||
             !Piwik_Nonce::verifyNonce('Piwik_VisitorGenerator.generate', $nonce)
         ) {
             Piwik::redirectToModule('VisitorGenerator', 'index');
         }
         Piwik_Nonce::discardNonce('Piwik_VisitorGenerator.generate');
 
-        $daysToCompute = Piwik_Common::getRequestVar('daysToCompute', 1, 'int');
+        $daysToCompute = Common::getRequestVar('daysToCompute', 1, 'int');
 
         // get idSite from POST with fallback to GET
-        $idSite = Piwik_Common::getRequestVar('idSite', false, 'int', $_GET);
-        $idSite = Piwik_Common::getRequestVar('idSite', $idSite, 'int', $_POST);
+        $idSite = Common::getRequestVar('idSite', false, 'int', $_GET);
+        $idSite = Common::getRequestVar('idSite', $idSite, 'int', $_POST);
 
         Piwik::setMaxExecutionTime(0);
 

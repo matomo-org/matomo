@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * from a starting date to an ending date
@@ -356,11 +356,11 @@ class Piwik_Period_Range extends Piwik_Period
     public static function getLastDate($date = false, $period = false)
     {
         if ($date === false) {
-            $date = Piwik_Common::getRequestVar('date');
+            $date = Common::getRequestVar('date');
         }
 
         if ($period === false) {
-            $period = Piwik_Common::getRequestVar('period');
+            $period = Common::getRequestVar('period');
         }
 
         // can't get the last date for range periods & dates that use lastN/previousN

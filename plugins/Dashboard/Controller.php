@@ -8,7 +8,7 @@
  * @package  Piwik_Dashboard
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Dashboard Controller
@@ -34,10 +34,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $view = new Piwik_View($template);
         $this->setGeneralVariablesView($view);
 
-        $view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
+        $view->availableWidgets = Common::json_encode(Piwik_GetWidgetsList());
         $view->availableLayouts = $this->getAvailableLayouts();
 
-        $view->dashboardId = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
+        $view->dashboardId = Common::getRequestVar('idDashboard', 1, 'int');
         $view->dashboardLayout = $this->getLayout($view->dashboardId);
 
         return $view;
@@ -67,14 +67,14 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $this->checkTokenInUrl();
 
         Piwik_DataTable_Renderer_Json::sendHeaderJSON();
-        echo Piwik_Common::json_encode(Piwik_GetWidgetsList());
+        echo Common::json_encode(Piwik_GetWidgetsList());
     }
 
     public function getDashboardLayout()
     {
         $this->checkTokenInUrl();
 
-        $idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
+        $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
 
         $layout = $this->getLayout($idDashboard);
 
@@ -88,7 +88,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     {
         $this->checkTokenInUrl();
         $layout = $this->dashboard->getDefaultLayout();
-        $idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
+        $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
         if (Piwik::isUserIsAnonymous()) {
             $session = new Piwik_Session_Namespace("Piwik_Dashboard");
             $session->dashboardLayout = $layout;
@@ -109,7 +109,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     {
         $paramsBind = array($login, $idDashboard, $layout, $layout);
         $query = sprintf('INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
-            Piwik_Common::prefixTable('user_dashboard'));
+            Common::prefixTable('user_dashboard'));
         Piwik_Query($query, $paramsBind);
     }
 
@@ -124,7 +124,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     {
         $paramsBind = array($name, $login, $idDashboard);
         $query = sprintf('UPDATE %s SET name = ? WHERE login = ? AND iddashboard = ?',
-            Piwik_Common::prefixTable('user_dashboard'));
+            Common::prefixTable('user_dashboard'));
         Piwik_Query($query, $paramsBind);
     }
 
@@ -139,12 +139,12 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
             return;
         }
 
-        $idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
+        $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
 
         // first layout can't be removed
         if ($idDashboard != 1) {
             $query = sprintf('DELETE FROM %s WHERE iddashboard = ? AND login = ?',
-                Piwik_Common::prefixTable('user_dashboard'));
+                Common::prefixTable('user_dashboard'));
             Piwik_Query($query, array($idDashboard, Piwik::getCurrentUserLogin()));
         }
     }
@@ -167,7 +167,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $dashboards = $this->dashboard->getAllDashboards($login);
 
         Piwik_DataTable_Renderer_Json::sendHeaderJSON();
-        echo Piwik_Common::json_encode($dashboards);
+        echo Common::json_encode($dashboards);
     }
 
     /**
@@ -185,8 +185,8 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $user = Piwik::getCurrentUserLogin();
         $nextId = $this->getNextIdDashboard($user);
 
-        $name = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
-        $type = urldecode(Piwik_Common::getRequestVar('type', 'default', 'string'));
+        $name = urldecode(Common::getRequestVar('name', '', 'string'));
+        $type = urldecode(Common::getRequestVar('type', 'default', 'string'));
         $layout = '{}';
 
         if ($type == 'default') {
@@ -194,17 +194,17 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         }
 
         $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
-            Piwik_Common::prefixTable('user_dashboard'));
+            Common::prefixTable('user_dashboard'));
         Piwik_Query($query, array($user, $nextId, $name, $layout));
 
         Piwik_DataTable_Renderer_Json::sendHeaderJSON();
-        echo Piwik_Common::json_encode($nextId);
+        echo Common::json_encode($nextId);
     }
 
     private function getNextIdDashboard($login)
     {
         $nextIdQuery = sprintf('SELECT MAX(iddashboard)+1 FROM %s WHERE login = ?',
-            Piwik_Common::prefixTable('user_dashboard'));
+            Common::prefixTable('user_dashboard'));
         $nextId = Piwik_FetchOne($nextIdQuery, array($login));
 
         if (empty($nextId)) {
@@ -223,20 +223,20 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
             return;
         }
         $login = Piwik::getCurrentUserLogin();
-        $name = urldecode(Piwik_Common::getRequestVar('name', '', 'string'));
-        $user = urldecode(Piwik_Common::getRequestVar('user', '', 'string'));
-        $idDashboard = Piwik_Common::getRequestVar('dashboardId', 0, 'int');
+        $name = urldecode(Common::getRequestVar('name', '', 'string'));
+        $user = urldecode(Common::getRequestVar('user', '', 'string'));
+        $idDashboard = Common::getRequestVar('dashboardId', 0, 'int');
         $layout = $this->dashboard->getLayoutForUser($login, $idDashboard);
 
         if ($layout !== false) {
             $nextId = $this->getNextIdDashboard($user);
 
             $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
-                Piwik_Common::prefixTable('user_dashboard'));
+                Common::prefixTable('user_dashboard'));
             Piwik_Query($query, array($user, $nextId, $name, $layout));
 
             Piwik_DataTable_Renderer_Json::sendHeaderJSON();
-            echo Piwik_Common::json_encode($nextId);
+            echo Common::json_encode($nextId);
             return;
         }
     }
@@ -250,9 +250,9 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     {
         $this->checkTokenInUrl();
 
-        $layout = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('layout'));
-        $idDashboard = Piwik_Common::getRequestVar('idDashboard', 1, 'int');
-        $name = Piwik_Common::getRequestVar('name', '', 'string');
+        $layout = Common::unsanitizeInputValue(Common::getRequestVar('layout'));
+        $idDashboard = Common::getRequestVar('idDashboard', 1, 'int');
+        $name = Common::getRequestVar('name', '', 'string');
         if (Piwik::isUserIsAnonymous()) {
             $session = new Piwik_Session_Namespace("Piwik_Dashboard");
             $session->dashboardLayout = $layout;
@@ -273,10 +273,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $this->checkTokenInUrl();
 
         if (Piwik::isUserIsSuperUser()) {
-            $layout = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('layout'));
+            $layout = Common::unsanitizeInputValue(Common::getRequestVar('layout'));
             $paramsBind = array('', '1', $layout, $layout);
             $query = sprintf('INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
-                Piwik_Common::prefixTable('user_dashboard'));
+                Common::prefixTable('user_dashboard'));
             Piwik_Query($query, $paramsBind);
         }
     }

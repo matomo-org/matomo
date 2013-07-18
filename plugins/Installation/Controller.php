@@ -9,7 +9,7 @@
  * @package Piwik_Installation
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Installation controller
@@ -159,7 +159,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
                 $this->session->db_infos = $dbInfos;
                 $this->redirectToNextStep(__FUNCTION__);
             } catch (Exception $e) {
-                $view->errorMessage = Piwik_Common::sanitizeInputValue($e->getMessage());
+                $view->errorMessage = Common::sanitizeInputValue($e->getMessage());
             }
         }
         $view->addForm($form);
@@ -240,7 +240,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->skipThisStep(__FUNCTION__);
         $this->createDbFromSessionInformation();
 
-        if (Piwik_Common::getRequestVar('deleteTables', 0, 'int') == 1) {
+        if (Common::getRequestVar('deleteTables', 0, 'int') == 1) {
             Piwik::dropTables();
             $view->existingTablesDeleted = true;
 
@@ -313,7 +313,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
                 'login'    => $form->getSubmitValue('login'),
                 'password' => md5($form->getSubmitValue('password')),
                 'email'    => $form->getSubmitValue('email'),
-                'salt'     => Piwik_Common::generateUniqId(),
+                'salt'     => Common::generateUniqId(),
             );
 
             $this->session->superuser_infos = $superUserInfos;
@@ -418,7 +418,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $this->session->firstWebsiteSetupSuccessMessage = true;
         }
         $siteName = $this->session->site_name;
-        $siteName = Piwik_Common::sanitizeInputValue(urldecode($siteName));
+        $siteName = Common::sanitizeInputValue(urldecode($siteName));
         $idSite = $this->session->site_idSite;
 
         // Load the Tracking code and help text from the SitesManager
@@ -547,7 +547,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
      */
     public function saveLanguage()
     {
-        $language = Piwik_Common::getRequestVar('language');
+        $language = Common::getRequestVar('language');
         Piwik_LanguagesManager::setLanguageForSession($language);
         Piwik_Url::redirectToReferer();
     }
@@ -591,7 +591,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $message = Piwik_Translate('Installation_ErrorInvalidState',
                 array('<br /><b>',
                       '</b>',
-                      '<a href=\'' . Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName()) . '\'>',
+                      '<a href=\'' . Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName()) . '\'>',
                       '</a>')
             );
             Piwik::exitWithErrorMessage($message);
@@ -698,7 +698,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 
         $infos['can_auto_update'] = Piwik::canAutoUpdate();
 
-        if (Piwik_Common::isIIS()) {
+        if (Common::isIIS()) {
             Piwik::createWebConfigFiles();
         } else {
             Piwik::createHtAccessFiles();
@@ -807,7 +807,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $infos['memory_ok'] = $memoryValue >= $minimumMemoryLimit;
         }
 
-        $infos['isWindows'] = Piwik_Common::isWindows();
+        $infos['isWindows'] = Common::isWindows();
 
         $integrityInfo = Piwik::getFileIntegrityInformation();
         $infos['integrity'] = $integrityInfo[0];
@@ -822,7 +822,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 
         $infos['timezone'] = Piwik::isTimezoneSupportEnabled();
 
-        $infos['tracker_status'] = Piwik_Common::getRequestVar('trackerStatus', 0, 'int');
+        $infos['tracker_status'] = Common::getRequestVar('trackerStatus', 0, 'int');
 
         $infos['protocol'] = Piwik_ProxyHeaders::getProtocolInformation();
         if (!Piwik::isHttps() && $infos['protocol'] !== null) {
@@ -945,7 +945,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $result = array();
 
         // check if LOAD DATA INFILE works
-        $optionTable = Piwik_Common::prefixTable('option');
+        $optionTable = Common::prefixTable('option');
         $testOptionNames = array('test_system_check1', 'test_system_check2');
 
         $result['load_data_infile_available'] = false;

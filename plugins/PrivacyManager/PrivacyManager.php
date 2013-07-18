@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see plugins/PrivacyManager/LogDataPurger.php
@@ -330,7 +330,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         $metricsToKeep = self::getMetricsToKeep();
 
         // convert goal metric names to correct archive names
-        if (Piwik_Common::isGoalPluginEnabled()) {
+        if (Common::isGoalPluginEnabled()) {
             $goalMetricsToKeep = self::getGoalMetricsToKeep();
 
             $maxGoalId = self::getMaxGoalId();
@@ -387,7 +387,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
 
     private static function getMaxGoalId()
     {
-        return Piwik_FetchOne("SELECT MAX(idgoal) FROM " . Piwik_Common::prefixTable('goal'));
+        return Piwik_FetchOne("SELECT MAX(idgoal) FROM " . Common::prefixTable('goal'));
     }
 }
 

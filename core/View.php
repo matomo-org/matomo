@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Transition for pre-Piwik 0.4.4
@@ -48,7 +48,7 @@ class Piwik_View implements Piwik_View_Interface
         $this->initializeTwig();
 
         $this->piwik_version = Piwik_Version::VERSION;
-        $this->piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+        $this->piwikUrl = Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
     }
 
     /**
@@ -99,13 +99,13 @@ class Piwik_View implements Piwik_View_Interface
             $sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess($count);
             usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
             $this->sites = $sites;
-            $this->url = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrl());
+            $this->url = Common::sanitizeInputValue(Piwik_Url::getCurrentUrl());
             $this->token_auth = Piwik::getCurrentUserTokenAuth();
             $this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
             $this->userIsSuperUser = Piwik::isUserIsSuperUser();
             $this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
-            $this->disableLink = Piwik_Common::getRequestVar('disableLink', 0, 'int');
-            $this->isWidget = Piwik_Common::getRequestVar('widget', 0, 'int');
+            $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
+            $this->isWidget = Common::getRequestVar('widget', 0, 'int');
             if (Config::getInstance()->General['autocomplete_min_sites'] <= count($sites)) {
                 $this->show_autocompleter = true;
             } else {

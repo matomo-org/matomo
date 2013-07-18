@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Generates a tag cloud from a given data array.
@@ -52,8 +52,8 @@ class Piwik_Visualization_Cloud implements Piwik_View_Interface
         $maxValue = max($this->wordsArray);
         foreach ($this->wordsArray as $word => $popularity) {
             $wordTruncated = $word;
-            if (Piwik_Common::mb_strlen($word) > $this->truncatingLimit) {
-                $wordTruncated = Piwik_Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
+            if (Common::mb_strlen($word) > $this->truncatingLimit) {
+                $wordTruncated = Common::mb_substr($word, 0, $this->truncatingLimit - 3) . '...';
             }
 
             // case hideFutureHoursWhenToday=1 shows hours with no visits

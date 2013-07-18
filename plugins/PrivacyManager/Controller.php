@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -27,11 +27,11 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         Piwik::checkUserIsSuperUser();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
-            switch (Piwik_Common::getRequestVar('form')) {
+            switch (Common::getRequestVar('form')) {
                 case("formMaskLength"):
-                    $this->handlePluginState(Piwik_Common::getRequestVar("anonymizeIPEnable", 0));
+                    $this->handlePluginState(Common::getRequestVar("anonymizeIPEnable", 0));
                     $trackerConfig = Config::getInstance()->Tracker;
-                    $trackerConfig['ip_address_mask_length'] = Piwik_Common::getRequestVar("maskLength", 1);
+                    $trackerConfig['ip_address_mask_length'] = Common::getRequestVar("maskLength", 1);
                     Config::getInstance()->Tracker = $trackerConfig;
                     Config::getInstance()->forceSave();
                     break;
@@ -60,22 +60,22 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         $settings = array();
 
         // delete logs settings
-        $settings['delete_logs_enable'] = Piwik_Common::getRequestVar("deleteEnable", 0);
-        $settings['delete_logs_schedule_lowest_interval'] = Piwik_Common::getRequestVar("deleteLowestInterval", 7);
-        $settings['delete_logs_older_than'] = ((int)Piwik_Common::getRequestVar("deleteOlderThan", 180) < 1) ?
-            1 : Piwik_Common::getRequestVar("deleteOlderThan", 180);
+        $settings['delete_logs_enable'] = Common::getRequestVar("deleteEnable", 0);
+        $settings['delete_logs_schedule_lowest_interval'] = Common::getRequestVar("deleteLowestInterval", 7);
+        $settings['delete_logs_older_than'] = ((int)Common::getRequestVar("deleteOlderThan", 180) < 1) ?
+            1 : Common::getRequestVar("deleteOlderThan", 180);
 
         // delete reports settings
-        $settings['delete_reports_enable'] = Piwik_Common::getRequestVar("deleteReportsEnable", 0);
-        $deleteReportsOlderThan = Piwik_Common::getRequestVar("deleteReportsOlderThan", 3);
+        $settings['delete_reports_enable'] = Common::getRequestVar("deleteReportsEnable", 0);
+        $deleteReportsOlderThan = Common::getRequestVar("deleteReportsOlderThan", 3);
         $settings['delete_reports_older_than'] = $deleteReportsOlderThan < 3 ? 3 : $deleteReportsOlderThan;
-        $settings['delete_reports_keep_basic_metrics'] = Piwik_Common::getRequestVar("deleteReportsKeepBasic", 0);
-        $settings['delete_reports_keep_day_reports'] = Piwik_Common::getRequestVar("deleteReportsKeepDay", 0);
-        $settings['delete_reports_keep_week_reports'] = Piwik_Common::getRequestVar("deleteReportsKeepWeek", 0);
-        $settings['delete_reports_keep_month_reports'] = Piwik_Common::getRequestVar("deleteReportsKeepMonth", 0);
-        $settings['delete_reports_keep_year_reports'] = Piwik_Common::getRequestVar("deleteReportsKeepYear", 0);
-        $settings['delete_reports_keep_range_reports'] = Piwik_Common::getRequestVar("deleteReportsKeepRange", 0);
-        $settings['delete_reports_keep_segment_reports'] = Piwik_Common::getRequestVar("deleteReportsKeepSegments", 0);
+        $settings['delete_reports_keep_basic_metrics'] = Common::getRequestVar("deleteReportsKeepBasic", 0);
+        $settings['delete_reports_keep_day_reports'] = Common::getRequestVar("deleteReportsKeepDay", 0);
+        $settings['delete_reports_keep_week_reports'] = Common::getRequestVar("deleteReportsKeepWeek", 0);
+        $settings['delete_reports_keep_month_reports'] = Common::getRequestVar("deleteReportsKeepMonth", 0);
+        $settings['delete_reports_keep_year_reports'] = Common::getRequestVar("deleteReportsKeepYear", 0);
+        $settings['delete_reports_keep_range_reports'] = Common::getRequestVar("deleteReportsKeepRange", 0);
+        $settings['delete_reports_keep_segment_reports'] = Common::getRequestVar("deleteReportsKeepSegments", 0);
 
         $settings['delete_logs_max_rows_per_query'] = Piwik_PrivacyManager::DEFAULT_MAX_ROWS_PER_QUERY;
 
@@ -91,7 +91,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         Piwik::checkUserIsSuperUser();
         $view = new Piwik_View('@PrivacyManager/getDatabaseSize');
 
-        $forceEstimate = Piwik_Common::getRequestVar('forceEstimate', 0);
+        $forceEstimate = Common::getRequestVar('forceEstimate', 0);
         $view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
         $view->language = Piwik_LanguagesManager::getLanguageCodeForCurrentUser();
 
@@ -137,7 +137,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
 
         // if the request isn't a POST, redirect to index
         if ($_SERVER["REQUEST_METHOD"] != "POST"
-            && !Piwik_Common::isPhpCliMode()
+            && !Common::isPhpCliMode()
         ) {
             return $this->redirectToIndex('PrivacyManager', 'privacySettings');
         }

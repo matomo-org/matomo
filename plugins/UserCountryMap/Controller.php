@@ -9,7 +9,7 @@
  * @package Piwik_UserCountryMap
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -25,11 +25,11 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
     {
         $this->checkUserCountryPluginEnabled();
 
-        $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
+        $idSite = Common::getRequestVar('idSite', 1, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
-        $period = Piwik_Common::getRequestVar('period');
-        $date = Piwik_Common::getRequestVar('date');
+        $period = Common::getRequestVar('period');
+        $date = Common::getRequestVar('date');
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
         $view = new Piwik_View('@UserCountryMap/visitorMap');
@@ -56,7 +56,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $view->defaultMetric = 'nb_visits';
 
         // some translations
-        $view->localeJSON = Piwik_Common::json_encode(array(
+        $view->localeJSON = Common::json_encode(array(
                                                            'nb_visits'            => Piwik_Translate('VisitsSummary_NbVisits'),
                                                            'one_visit'            => Piwik_Translate('General_OneVisit'),
                                                            'no_visit'             => Piwik_Translate('UserCountryMap_NoVisit'),
@@ -80,7 +80,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $view->metrics = $config['metrics'] = $this->getMetrics($idSite, $period, $date, $token_auth);
         $config['svgBasePath'] = 'plugins/UserCountryMap/svg/';
         $config['mapCssPath'] = 'plugins/UserCountryMap/stylesheets/map.css';
-        $view->config = Piwik_Common::json_encode($config);
+        $view->config = Common::json_encode($config);
         $view->noData = empty($config['visitsSummary']['nb_visits']);
 
         echo $view->render();
@@ -101,7 +101,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
     {
         $this->checkUserCountryPluginEnabled();
 
-        $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
+        $idSite = Common::getRequestVar('idSite', 1, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
         $token_auth = Piwik::getCurrentUserTokenAuth();
@@ -118,7 +118,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $view->hasGoals = !empty($goals) || $site->isEcommerceEnabled() ? 'true' : 'false';
 
         // maximum number of visits to be displayed in the map
-        $view->maxVisits = Piwik_Common::getRequestVar('format_limit', 100, 'int');
+        $view->maxVisits = Common::getRequestVar('format_limit', 100, 'int');
 
         // some translations
         $view->localeJSON = json_encode(array(
@@ -156,7 +156,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             $params['segment'] = $segment;
         }
 
-        return Piwik_Common::json_encode($params);
+        return Common::json_encode($params);
     }
 
 
@@ -182,7 +182,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
         $metrics = array();
         foreach ($metaData[0]['metrics'] as $id => $val) {
-            if (Piwik_Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
+            if (Common::getRequestVar('period') == 'day' || $id != 'nb_uniq_visitors') {
                 $metrics[] = array($id, $val);
             }
         }

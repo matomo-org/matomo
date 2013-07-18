@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -19,7 +19,7 @@ class Piwik_Updates_1_10_2_b1 extends Piwik_Updates
     {
         return array(
             // ignore existing column name error (1060)
-            'ALTER TABLE ' . Piwik_Common::prefixTable('report')
+            'ALTER TABLE ' . Common::prefixTable('report')
                 . " ADD COLUMN hour tinyint NOT NULL default 0 AFTER period" => 1060,
         );
     }

@@ -9,7 +9,7 @@
  * @package Piwik_MobileMessaging
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * The MobileMessaging API lets you manage and access all the MobileMessaging plugin features including :
@@ -399,7 +399,7 @@ class Piwik_MobileMessaging_API
     {
         Piwik_SetOption(
             $user . Piwik_MobileMessaging::USER_SETTINGS_POSTFIX_OPTION,
-            Piwik_Common::json_encode($settings)
+            Common::json_encode($settings)
         );
     }
 
@@ -426,7 +426,7 @@ class Piwik_MobileMessaging_API
         if (empty($userSettings)) {
             $userSettings = array();
         } else {
-            $userSettings = Piwik_Common::json_decode($userSettings, true);
+            $userSettings = Common::json_decode($userSettings, true);
         }
 
         return $userSettings;

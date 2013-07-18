@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -18,7 +18,7 @@ class Piwik_Updates_1_9_1_b2 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE ' . Piwik_Common::prefixTable('site') . " DROP `feedburnerName`" => 1091
+            'ALTER TABLE ' . Common::prefixTable('site') . " DROP `feedburnerName`" => 1091
         );
     }
 

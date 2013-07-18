@@ -9,7 +9,7 @@
  * @package Piwik_UserSettings
  */
 
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 
@@ -120,10 +120,10 @@ class Piwik_UserSettings_Archiver extends Piwik_PluginsArchiver
     protected function aggregateByLanguage()
     {
         $query = $this->getLogAggregator()->queryVisitsByDimension( array("label" => self::LANGUAGE_DIMENSION) );
-        $languageCodes = array_keys(Piwik_Common::getLanguagesList());
+        $languageCodes = array_keys(Common::getLanguagesList());
         $metricsByLanguage = new Piwik_DataArray();
         while ($row = $query->fetch()) {
-            $code = Piwik_Common::extractLanguageCodeFromBrowserLanguage($row['label'], $languageCodes);
+            $code = Common::extractLanguageCodeFromBrowserLanguage($row['label'], $languageCodes);
             $metricsByLanguage->sumMetricsVisits($code, $row);
         }
 

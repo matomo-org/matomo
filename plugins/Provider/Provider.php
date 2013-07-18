@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Provider
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -61,7 +61,7 @@ class Piwik_Provider extends Piwik_Plugin
     function install()
     {
         // add column hostname / hostname ext in the visit table
-        $query = "ALTER IGNORE TABLE `" . Piwik_Common::prefixTable('log_visit') . "` ADD `location_provider` VARCHAR( 100 ) NULL";
+        $query = "ALTER IGNORE TABLE `" . Common::prefixTable('log_visit') . "` ADD `location_provider` VARCHAR( 100 ) NULL";
 
         // if the column already exist do not throw error. Could be installed twice...
         try {
@@ -77,7 +77,7 @@ class Piwik_Provider extends Piwik_Plugin
     function uninstall()
     {
         // add column hostname / hostname ext in the visit table
-        $query = "ALTER TABLE `" . Piwik_Common::prefixTable('log_visit') . "` DROP `location_provider`";
+        $query = "ALTER TABLE `" . Common::prefixTable('log_visit') . "` DROP `location_provider`";
         Piwik_Exec($query);
     }
 
@@ -127,7 +127,7 @@ class Piwik_Provider extends Piwik_Plugin
         if ($hostnameDomain == 'uk') {
             $hostnameDomain = 'gb';
         }
-        if (array_key_exists($hostnameDomain, Piwik_Common::getCountriesList())) {
+        if (array_key_exists($hostnameDomain, Common::getCountriesList())) {
             $visitorInfo['location_country'] = $hostnameDomain;
         }
     }

@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik
@@ -132,7 +132,7 @@ class Piwik_API_DataTableGenericFilter
                 }
 
                 try {
-                    $value = Piwik_Common::getRequestVar($name, $defaultValue, $type, $this->request);
+                    $value = Common::getRequestVar($name, $defaultValue, $type, $this->request);
                     settype($value, $type);
                     $filterParameters[] = $value;
                 } catch (Exception $e) {

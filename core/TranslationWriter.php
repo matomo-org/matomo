@@ -9,7 +9,7 @@
  * @package Piwik
  *
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Write translations to file
@@ -52,7 +52,7 @@ class Piwik_TranslationWriter
      */
     static public function getTranslationPath($lang, $base = 'lang')
     {
-        if (!Piwik_Common::isValidFilename($lang) ||
+        if (!Common::isValidFilename($lang) ||
             ($base !== 'lang' && $base !== 'tmp')
         ) {
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($lang)));

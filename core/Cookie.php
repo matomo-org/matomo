@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Simple class to handle the cookies:
@@ -156,7 +156,7 @@ class Piwik_Cookie
             . (!$Secure ? '' : '; secure')
             . (!$HTTPOnly ? '' : '; HttpOnly');
 
-        Piwik_Common::sendHeader($header, false);
+        Common::sendHeader($header, false);
     }
 
     /**
@@ -164,7 +164,7 @@ class Piwik_Cookie
      */
     protected function setP3PHeader()
     {
-        Piwik_Common::sendHeader("P3P: CP='OTI DSP COR NID STP UNI OTPa OUR'");
+        Common::sendHeader("P3P: CP='OTI DSP COR NID STP UNI OTPa OUR'");
     }
 
     /**
@@ -204,7 +204,7 @@ class Piwik_Cookie
     {
         $signature = substr($content, -40);
         if (substr($content, -43, 3) == self::VALUE_SEPARATOR . '_=' &&
-            $signature == sha1(substr($content, 0, -40) . Piwik_Common::getSalt())
+            $signature == sha1(substr($content, 0, -40) . Common::getSalt())
         ) {
             // strip trailing: VALUE_SEPARATOR '_=' signature"
             return substr($content, 0, -43);
@@ -270,7 +270,7 @@ class Piwik_Cookie
             $cookieStr .= '_=';
 
             // sign cookie
-            $signature = sha1($cookieStr . Piwik_Common::getSalt());
+            $signature = sha1($cookieStr . Common::getSalt());
             return $cookieStr . $signature;
         }
 
@@ -381,6 +381,6 @@ class Piwik_Cookie
      */
     protected static function escapeValue($value)
     {
-        return Piwik_Common::sanitizeInputValues($value);
+        return Common::sanitizeInputValues($value);
     }
 }

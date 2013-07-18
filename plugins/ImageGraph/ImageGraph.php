@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -95,7 +95,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
             }
         }
 
-        $token_auth = Piwik_Common::getRequestVar('token_auth', false);
+        $token_auth = Common::getRequestVar('token_auth', false);
 
         $urlPrefix = "index.php?";
         foreach ($reports as &$report) {
@@ -126,7 +126,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
             }
 
             // add the idSubtable if it exists
-            $idSubtable = Piwik_Common::getRequestVar('idSubtable', false);
+            $idSubtable = Common::getRequestVar('idSubtable', false);
             if ($idSubtable !== false) {
                 $parameters['idSubtable'] = $idSubtable;
             }

@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * JSON export.
@@ -77,7 +77,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
         $callback = create_function('&$value,$key', 'if(is_string($value)){$value = html_entity_decode($value, ENT_QUOTES, "UTF-8");}');
         array_walk_recursive($array, $callback);
 
-        $str = Piwik_Common::json_encode($array);
+        $str = Common::json_encode($array);
 
         return $this->jsonpWrap($str);
     }
@@ -88,8 +88,8 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
      */
     protected function jsonpWrap($str)
     {
-        if (($jsonCallback = Piwik_Common::getRequestVar('callback', false)) === false)
-            $jsonCallback = Piwik_Common::getRequestVar('jsoncallback', false);
+        if (($jsonCallback = Common::getRequestVar('callback', false)) === false)
+            $jsonCallback = Common::getRequestVar('jsoncallback', false);
         if ($jsonCallback !== false) {
             if (preg_match('/^[0-9a-zA-Z_]*$/D', $jsonCallback) > 0) {
                 $str = $jsonCallback . "(" . $str . ")";

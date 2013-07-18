@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Generates HTML embed for the Evolution graph
@@ -100,10 +100,10 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
      */
     private function calculateEvolutionDateRange()
     {
-        $period = Piwik_Common::getRequestVar('period');
+        $period = Common::getRequestVar('period');
 
         $defaultLastN = self::getDefaultLastN($period);
-        $this->originalDate = Piwik_Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
+        $this->originalDate = Common::getRequestVar('date', 'last' . $defaultLastN, 'string');
 
         if ($period != 'range') // show evolution limit if the period is not a range
         {
@@ -143,9 +143,9 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
         }
 
         $lastNParamName = self::getLastNParamName($period);
-        $lastN = Piwik_Common::getRequestVar($lastNParamName, $defaultLastN, 'int');
+        $lastN = Common::getRequestVar($lastNParamName, $defaultLastN, 'int');
 
-        $site = new Piwik_Site(Piwik_Common::getRequestVar('idSite'));
+        $site = new Piwik_Site(Common::getRequestVar('idSite'));
 
         $dateRange = Piwik_Controller::getDateRangeRelativeToEndDate($period, 'last' . $lastN, $endDate, $site);
 

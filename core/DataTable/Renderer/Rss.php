@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * RSS Feed.
@@ -59,8 +59,8 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
                 "\nPlease specify only one idSite or consider using &format=XML instead.");
         }
 
-        $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
-        $period = Piwik_Common::getRequestVar('period');
+        $idSite = Common::getRequestVar('idSite', 1, 'int');
+        $period = Common::getRequestVar('period');
 
         $piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName()
             . "?module=CoreHome&action=index&idSite=" . $idSite . "&period=" . $period;
@@ -73,7 +73,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
             $pudDate = date('r', $timestamp);
 
             $dateInSiteTimezone = Piwik_Date::factory($timestamp)->setTimezone($site->getTimezone())->toString('Y-m-d');
-            $thisPiwikUrl = Piwik_Common::sanitizeInputValue($piwikUrl . "&date=$dateInSiteTimezone");
+            $thisPiwikUrl = Common::sanitizeInputValue($piwikUrl . "&date=$dateInSiteTimezone");
             $siteName = $site->getName();
             $title = $siteName . " on " . $date;
 
@@ -85,7 +85,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 		<author>http://piwik.org</author>
 		<description>";
 
-            $out .= Piwik_Common::sanitizeInputValue($this->renderDataTable($subtable));
+            $out .= Common::sanitizeInputValue($this->renderDataTable($subtable));
             $out .= "</description>\n\t</item>\n";
         }
 

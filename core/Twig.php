@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 
 /**
@@ -215,7 +215,7 @@ class Piwik_Twig
     {
         $plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
         foreach($plugins as $name) {
-            $name = Piwik_Common::unprefixClass($name);
+            $name = Common::unprefixClass($name);
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {
                 $loader->addPath(PIWIK_INCLUDE_PATH . '/plugins/' . $name . '/templates', $name);

@@ -10,7 +10,7 @@
  * @package Piwik_DevicesDetection
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
@@ -187,7 +187,7 @@ class Piwik_DevicesDetection extends Piwik_Plugin
     {
 // we catch the exception
         try {
-            $q1 = "ALTER TABLE `" . Piwik_Common::prefixTable("log_visit") . "`
+            $q1 = "ALTER TABLE `" . Common::prefixTable("log_visit") . "`
                 ADD `config_os_version` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_os` ,
                 ADD `config_device_type` TINYINT( 10 ) NULL DEFAULT NULL AFTER `config_browser_version` ,
                 ADD `config_device_brand` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_type` ,
@@ -195,7 +195,7 @@ class Piwik_DevicesDetection extends Piwik_Plugin
             Piwik_Exec($q1);
             // conditionaly add this column
             if (@Config::getInstance()->Debug['store_user_agent_in_visit']) {
-                $q2 = "ALTER TABLE `" . Piwik_Common::prefixTable("log_visit") . "` 
+                $q2 = "ALTER TABLE `" . Common::prefixTable("log_visit") . "`
                 ADD `config_debug_ua` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_model`";
                 Piwik_Exec($q2);
             }

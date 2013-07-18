@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see core/Version.php
@@ -132,7 +132,7 @@ class Piwik_Plugin_MetadataLoader
             return array();
         }
         
-        $info = Piwik_Common::json_decode($json, $assoc = true);
+        $info = Common::json_decode($json, $assoc = true);
         if (!is_array($info)
             || empty($info)
         ) {

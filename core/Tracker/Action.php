@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Interface of the Action object.
@@ -142,7 +142,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         // Clean up host & hash tags, for URLs
         $parsedUrl = @parse_url($fullUrl);
         $parsedUrl = self::cleanupHostAndHashTag($parsedUrl);
-        $url = Piwik_Common::getParseUrlReverse($parsedUrl);
+        $url = Common::getParseUrlReverse($parsedUrl);
         if (!empty($url)) {
             return $url;
         }
@@ -261,7 +261,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
     static public function cleanupUrl($url)
     {
-        $url = Piwik_Common::unsanitizeInputValue($url);
+        $url = Common::unsanitizeInputValue($url);
         $url = self::cleanupString($url);
         $url = self::convertMatrixUrl($url);
         return $url;
@@ -353,17 +353,17 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
         if (empty($parsedUrl['query'])) {
             if (empty($parsedUrl['fragment'])) {
-                return Piwik_Common::getParseUrlReverse($parsedUrl);
+                return Common::getParseUrlReverse($parsedUrl);
             }
             // Exclude from the hash tag as well
-            $queryParameters = Piwik_Common::getArrayFromQueryString($parsedUrl['fragment']);
+            $queryParameters = Common::getArrayFromQueryString($parsedUrl['fragment']);
             $parsedUrl['fragment'] = self::getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude);
-            $url = Piwik_Common::getParseUrlReverse($parsedUrl);
+            $url = Common::getParseUrlReverse($parsedUrl);
             return $url;
         }
-        $queryParameters = Piwik_Common::getArrayFromQueryString($parsedUrl['query']);
+        $queryParameters = Common::getArrayFromQueryString($parsedUrl['query']);
         $parsedUrl['query'] = self::getQueryStringWithExcludedParameters($queryParameters, $parametersToExclude);
-        $url = Piwik_Common::getParseUrlReverse($parsedUrl);
+        $url = Common::getParseUrlReverse($parsedUrl);
         return $url;
     }
 
@@ -375,7 +375,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
      */
     public static function getQueryParametersToExclude($idSite)
     {
-        $campaignTrackingParameters = Piwik_Common::getCampaignParameters();
+        $campaignTrackingParameters = Common::getCampaignParameters();
 
         $campaignTrackingParameters = array_merge(
             $campaignTrackingParameters[0], // campaign name parameters
@@ -459,7 +459,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
     static public function getSqlSelectActionId()
     {
         $sql = "SELECT idaction, type, name
-							FROM " . Piwik_Common::prefixTable('log_action')
+							FROM " . Common::prefixTable('log_action')
             . "  WHERE "
             . "		( hash = CRC32(?) AND name = ? AND type = ? ) ";
         return $sql;
@@ -533,7 +533,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             }
         }
 
-        $sql = "INSERT INTO " . Piwik_Common::prefixTable('log_action') .
+        $sql = "INSERT INTO " . Common::prefixTable('log_action') .
             "( name, hash, type, url_prefix ) VALUES (?,CRC32(?),?,?)";
         // Then, we insert all new actions in the lookup table
         foreach ($actionsToInsert as $actionToInsert) {
@@ -691,9 +691,9 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
         $fields = implode(", ", array_keys($insertWithoutNulls));
         $bind = array_values($insertWithoutNulls);
-        $values = Piwik_Common::getSqlStringFieldsArray($insertWithoutNulls);
+        $values = Common::getSqlStringFieldsArray($insertWithoutNulls);
 
-        $sql = "INSERT INTO " . Piwik_Common::prefixTable('log_link_visit_action') . " ($fields) VALUES ($values)";
+        $sql = "INSERT INTO " . Common::prefixTable('log_link_visit_action') . " ($fields) VALUES ($values)";
         Piwik_Tracker::getDatabase()->query($sql, $bind);
 
         $this->idLinkVisitAction = Piwik_Tracker::getDatabase()->lastInsertId();
@@ -804,7 +804,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         }
         $url = self::cleanupString($url);
 
-        if (!Piwik_Common::isLookLikeUrl($url)) {
+        if (!Common::isLookLikeUrl($url)) {
             printDebug("WARNING: URL looks invalid and is discarded");
             $url = '';
         }
@@ -923,19 +923,19 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             ? $website['sitesearch_keyword_parameters']
             : array();
         $queryString = (!empty($parsedUrl['query']) ? $parsedUrl['query'] : '') . (!empty($parsedUrl['fragment']) ? $separator . $parsedUrl['fragment'] : '');
-        $parametersRaw = Piwik_Common::getArrayFromQueryString($queryString);
+        $parametersRaw = Common::getArrayFromQueryString($queryString);
 
         // strtolower the parameter names for smooth site search detection
         $parameters = array();
         foreach ($parametersRaw as $k => $v) {
-            $parameters[Piwik_Common::mb_strtolower($k)] = $v;
+            $parameters[Common::mb_strtolower($k)] = $v;
         }
         // decode values if they were sent from a client using another charset
         self::reencodeParameters($parameters, $this->pageEncoding);
 
         // Detect Site Search keyword
         foreach ($keywordParameters as $keywordParameterRaw) {
-            $keywordParameter = Piwik_Common::mb_strtolower($keywordParameterRaw);
+            $keywordParameter = Common::mb_strtolower($keywordParameterRaw);
             if (!empty($parameters[$keywordParameter])) {
                 $actionName = $parameters[$keywordParameter];
                 break;
@@ -951,7 +951,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             : array();
 
         foreach ($categoryParameters as $categoryParameterRaw) {
-            $categoryParameter = Piwik_Common::mb_strtolower($categoryParameterRaw);
+            $categoryParameter = Common::mb_strtolower($categoryParameterRaw);
             if (!empty($parameters[$categoryParameter])) {
                 $categoryName = $parameters[$categoryParameter];
                 break;
@@ -968,10 +968,10 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             // @see excludeQueryParametersFromUrl()
             // Excluded the detected parameters from the URL
             $parametersToExclude = array($categoryParameterRaw, $keywordParameterRaw);
-            $parsedUrl['query'] = self::getQueryStringWithExcludedParameters(Piwik_Common::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
-            $parsedUrl['fragment'] = self::getQueryStringWithExcludedParameters(Piwik_Common::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
+            $parsedUrl['query'] = self::getQueryStringWithExcludedParameters(Common::getArrayFromQueryString($parsedUrl['query']), $parametersToExclude);
+            $parsedUrl['fragment'] = self::getQueryStringWithExcludedParameters(Common::getArrayFromQueryString($parsedUrl['fragment']), $parametersToExclude);
         }
-        $url = Piwik_Common::getParseUrlReverse($parsedUrl);
+        $url = Common::getParseUrlReverse($parsedUrl);
         if (is_array($actionName)) {
             $actionName = reset($actionName);
         }

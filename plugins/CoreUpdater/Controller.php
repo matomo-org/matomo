@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -93,8 +93,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         Piwik::checkUserIsSuperUser();
 
         $view = new Piwik_View('@CoreUpdater/oneClickResults');
-        $view->coreError = Piwik_Common::getRequestVar('error', '', 'string', $_POST);
-        $view->feedbackMessages = safe_unserialize(Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('messages', '', 'string', $_POST)));
+        $view->coreError = Common::getRequestVar('error', '', 'string', $_POST);
+        $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
         echo $view->render();
     }
 
@@ -220,7 +220,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
     public function index()
     {
-        $language = Piwik_Common::getRequestVar('language', '');
+        $language = Common::getRequestVar('language', '');
         if (!empty($language)) {
             Piwik_LanguagesManager::setLanguageForSession($language);
         }
@@ -237,14 +237,14 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         Piwik::setMaxExecutionTime(0);
 
-        $cli = Piwik_Common::isPhpCliMode() ? '_cli' : '';
+        $cli = Common::isPhpCliMode() ? '_cli' : '';
         $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome' . $cli;
         $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done' . $cli;
         $viewWelcome = new Piwik_View($welcomeTemplate);
         $viewDone = new Piwik_View($doneTemplate);
 
         $sqlQueries = $updater->getSqlQueriesToExecute();
-        if (Piwik_Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             $this->doWelcomeUpdates($viewWelcome, $componentsWithUpdateFile);
             echo $viewWelcome->render();
 
@@ -253,7 +253,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
                 echo $viewDone->render();
             }
         } else {
-            if (Piwik_Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
+            if (Common::getRequestVar('updateCorePlugins', 0, 'integer') == 1) {
                 $this->warningMessages = array();
                 $this->doExecuteUpdates($viewDone, $updater, $componentsWithUpdateFile);
 
@@ -274,7 +274,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
     private function doWelcomeUpdates($view, $componentsWithUpdateFile)
     {
         $view->new_piwik_version = Piwik_Version::VERSION;
-        $view->commandUpgradePiwik = "<br /><code>php " . Piwik_Common::getPathToPiwikRoot() . "/index.php  -- \"module=CoreUpdater\" </code>";
+        $view->commandUpgradePiwik = "<br /><code>php " . Common::getPathToPiwikRoot() . "/index.php  -- \"module=CoreUpdater\" </code>";
         $pluginNamesToUpdate = array();
         $coreToUpdate = false;
 

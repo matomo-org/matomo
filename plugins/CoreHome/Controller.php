@@ -9,7 +9,7 @@
  * @package Piwik_CoreHome
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -37,15 +37,15 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         if ($defaultReport == Piwik::getLoginPluginName()) {
             $module = Piwik::getLoginPluginName();
         }
-        $idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
+        $idSite = Common::getRequestVar('idSite', false, 'int');
 
         parent::redirectToIndex($module, $action, !empty($idSite) ? $idSite : null);
     }
 
     public function showInContext()
     {
-        $controllerName = Piwik_Common::getRequestVar('moduleToLoad');
-        $actionName = Piwik_Common::getRequestVar('actionToLoad', 'index');
+        $controllerName = Common::getRequestVar('moduleToLoad');
+        $actionName = Common::getRequestVar('actionToLoad', 'index');
         if ($actionName == 'showInContext') {
             throw new Exception("Preventing infinite recursion...");
         }
@@ -65,13 +65,13 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 
     protected function setDateTodayIfWebsiteCreatedToday()
     {
-        $date = Piwik_Common::getRequestVar('date', false);
+        $date = Common::getRequestVar('date', false);
         if ($date == 'today'
-            || Piwik_Common::getRequestVar('period', false) == 'range'
+            || Common::getRequestVar('period', false) == 'range'
         ) {
             return;
         }
-        $websiteId = Piwik_Common::getRequestVar('idSite', false, 'int');
+        $websiteId = Common::getRequestVar('idSite', false, 'int');
         if ($websiteId) {
             $website = new Piwik_Site($websiteId);
             $datetimeCreationDate = $this->site->getCreationDate()->getDatetime();
@@ -81,7 +81,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
                 Piwik::redirectToModule('CoreHome', 'index',
                     array('date'   => 'today',
                           'idSite' => $websiteId,
-                          'period' => Piwik_Common::getRequestVar('period'))
+                          'period' => Common::getRequestVar('period'))
                 );
             }
         }
@@ -157,7 +157,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         $rowEvolution = self::$rowEvolutionCache;
         if ($rowEvolution === null) {
             $paramName = Piwik_CoreHome_DataTableRowAction_MultiRowEvolution::IS_MULTI_EVOLUTION_PARAM;
-            $isMultiRowEvolution = Piwik_Common::getRequestVar($paramName, false, 'int');
+            $isMultiRowEvolution = Common::getRequestVar($paramName, false, 'int');
 
             $rowEvolution = $this->makeRowEvolution($isMultiRowEvolution, $graphType = 'graphEvolution');
             $rowEvolution->useAvailableMetrics();
@@ -202,7 +202,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
     public function getDonateForm()
     {
         $view = new Piwik_View('@CoreHome/getDonateForm');
-        if (Piwik_Common::getRequestVar('widget', false)
+        if (Common::getRequestVar('widget', false)
             && Piwik::isUserIsSuperUser()
         ) {
             $view->footerMessage = Piwik_Translate('CoreHome_OnlyForAdmin');

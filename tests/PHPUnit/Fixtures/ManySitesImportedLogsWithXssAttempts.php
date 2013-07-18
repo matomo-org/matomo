@@ -5,7 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
 
@@ -87,7 +87,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
         
         foreach ($dashboards as $id => $layout) {
             $_GET['name'] = self::makeXssContent('dashboard name' . $id);
-            $_GET['layout'] = Piwik_Common::json_encode($layout);
+            $_GET['layout'] = Common::json_encode($layout);
             $_GET['idDashboard'] = $id + 1;
             Piwik_FrontController::getInstance()->fetchDispatch('Dashboard', 'saveLayout');
         }
@@ -117,7 +117,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogsWithXssAttempts extends Test_Piwik
     {
         $result = "<script>$('body').html('$type XSS!');</script>";
         if ($sanitize) {
-            $result = Piwik_Common::sanitizeInputValue($result);
+            $result = Common::sanitizeInputValue($result);
         }
         return $result;
     }

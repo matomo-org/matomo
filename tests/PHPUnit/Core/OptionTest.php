@@ -5,7 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 require_once "Option.php";
 
@@ -21,11 +21,11 @@ class OptionTest extends DatabaseTestCase
         $this->assertFalse(Piwik_Option::getInstance()->get('anonymous_defaultReport'));
 
         // populate table, expect '1' (i.e., found)
-        Piwik_Query("INSERT INTO " . Piwik_Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1', false)");
+        Piwik_Query("INSERT INTO " . Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1', false)");
         $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
 
         // delete row (bypassing API), expect '1' (i.e., from cache)
-        Piwik_Query("DELETE FROM " . Piwik_Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
+        Piwik_Query("DELETE FROM " . Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
         $this->assertSame('1', Piwik_Option::getInstance()->get('anonymous_defaultReport'));
 
         // force cache reload, expect false (i.e., not found)
@@ -43,11 +43,11 @@ class OptionTest extends DatabaseTestCase
         $this->assertFalse(Piwik_GetOption('anonymous_defaultReport'));
 
         // populate table, expect '1' (i.e., found)
-        Piwik_Query("INSERT INTO " . Piwik_Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1',true)");
+        Piwik_Query("INSERT INTO " . Common::prefixTable('option') . " VALUES ('anonymous_defaultReport', '1',true)");
         $this->assertSame('1', Piwik_GetOption('anonymous_defaultReport'));
 
         // delete row (bypassing API), expect '1' (i.e., from cache)
-        Piwik_Query("DELETE FROM " . Piwik_Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
+        Piwik_Query("DELETE FROM " . Common::prefixTable('option') . " WHERE option_name = ?", array('anonymous_defaultReport'));
         $this->assertSame('1', Piwik_GetOption('anonymous_defaultReport'));
 
         // force cache reload, expect false (i.e., not found)

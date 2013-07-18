@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -241,7 +241,7 @@ class Piwik_Segment
                 // join condition provided
                 $alias = isset($table['tableAlias']) ? $table['tableAlias'] : $table['table'];
                 $sql .= "
-				LEFT JOIN " . Piwik_Common::prefixTable($table['table']) . " AS " . $alias
+				LEFT JOIN " . Common::prefixTable($table['table']) . " AS " . $alias
                     . " ON " . $table['joinOn'];
                 continue;
             }
@@ -250,7 +250,7 @@ class Piwik_Segment
                 throw new Exception("Table '$table' can't be used for segmentation");
             }
 
-            $tableSql = Piwik_Common::prefixTable($table) . " AS $table";
+            $tableSql = Common::prefixTable($table) . " AS $table";
 
             if ($i == 0) {
                 // first table

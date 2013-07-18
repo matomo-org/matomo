@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -154,7 +154,7 @@ class Piwik_VisitTime extends Piwik_Plugin
         );
 
         // add the visits by day of week as a related report, if the current period is not 'day'
-        if (Piwik_Common::getRequestVar('period', 'day') != 'day') {
+        if (Common::getRequestVar('period', 'day') != 'day') {
             $reportViewProperties['VisitTime.getVisitInformationPerLocalTime']['relatedReports'] = array(
                 'VisitTime.getByDayOfWeek' => Piwik_Translate('VisitTime_VisitsByDayOfWeek')
             );
@@ -185,9 +185,9 @@ class Piwik_VisitTime extends Piwik_Plugin
     private static function getDateRangeForFooterMessage()
     {
         // get query params
-        $idSite = Piwik_Common::getRequestVar('idSite');
-        $date = Piwik_Common::getRequestVar('date');
-        $period = Piwik_Common::getRequestVar('period');
+        $idSite = Common::getRequestVar('idSite');
+        $date = Common::getRequestVar('date');
+        $period = Common::getRequestVar('period');
 
         // create a period instance
         $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);

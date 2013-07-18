@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see plugins/UserCountry/LocationProvider/Default.php
@@ -217,7 +217,7 @@ abstract class Piwik_UserCountry_LocationProvider
                 if ($workingOrError === true) // if the implementation is configured correctly, get the location
                 {
                     $locInfo = array('ip'                => Piwik_IP::getIpFromHeader(),
-                                     'lang'              => Piwik_Common::getBrowserLanguage(),
+                                     'lang'              => Common::getBrowserLanguage(),
                                      'disable_fallbacks' => true);
 
                     $location = $provider->getLocation($locInfo);
@@ -325,7 +325,7 @@ abstract class Piwik_UserCountry_LocationProvider
             && !empty($location[self::COUNTRY_CODE_KEY])
         ) {
             $countryCode = strtolower($location[self::COUNTRY_CODE_KEY]);
-            $location[self::CONTINENT_CODE_KEY] = Piwik_Common::getContinent($countryCode);
+            $location[self::CONTINENT_CODE_KEY] = Common::getContinent($countryCode);
         }
 
         // fill in continent name if continent code is present

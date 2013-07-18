@@ -9,7 +9,7 @@
  * @package Piwik_Goals
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -49,26 +49,26 @@ class Piwik_Goals_Controller extends Piwik_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+        $this->idSite = Common::getRequestVar('idSite', null, 'int');
         $this->goals = Piwik_Goals_API::getInstance()->getGoals($this->idSite);
         foreach ($this->goals as &$goal) {
-            $goal['name'] = Piwik_Common::sanitizeInputValue($goal['name']);
+            $goal['name'] = Common::sanitizeInputValue($goal['name']);
             if (isset($goal['pattern'])) {
-                $goal['pattern'] = Piwik_Common::sanitizeInputValue($goal['pattern']);
+                $goal['pattern'] = Common::sanitizeInputValue($goal['pattern']);
             }
         }
     }
 
     public function widgetGoalReport()
     {
-        $view = $this->getGoalReportView($idGoal = Piwik_Common::getRequestVar('idGoal', null, 'string'));
+        $view = $this->getGoalReportView($idGoal = Common::getRequestVar('idGoal', null, 'string'));
         $view->displayFullReport = false;
         echo $view->render();
     }
 
     public function goalReport()
     {
-        $view = $this->getGoalReportView($idGoal = Piwik_Common::getRequestVar('idGoal', null, 'string'));
+        $view = $this->getGoalReportView($idGoal = Common::getRequestVar('idGoal', null, 'string'));
         $view->displayFullReport = true;
         echo $view->render();
     }
@@ -87,7 +87,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
     public function getEcommerceLog($fetch = false)
     {
         $saveGET = $_GET;
-        $_GET['filterEcommerce'] = Piwik_Common::getRequestVar('filterEcommerce', 1, 'int');
+        $_GET['filterEcommerce'] = Common::getRequestVar('filterEcommerce', 1, 'int');
         $_GET['widget'] = 1;
         $_GET['segment'] = 'visitEcommerceStatus!=none';
         $output = Piwik_FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
@@ -129,10 +129,10 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
         // conversion rate for new and returning visitors
         $segment = 'visitorType==returning,visitorType==returningCustomer';
-        $conversionRateReturning = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $segment, $idGoal);
+        $conversionRateReturning = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
         $view->conversion_rate_returning = $this->formatConversionRate($conversionRateReturning);
         $segment = 'visitorType==new';
-        $conversionRateNew = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), $segment, $idGoal);
+        $conversionRateNew = Piwik_Goals_API::getInstance()->getConversionRate($this->idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), $segment, $idGoal);
         $view->conversion_rate_new = $this->formatConversionRate($conversionRateNew);
         $view->goalReportsByDimension = $this->getGoalReportsByDimensionTable(
             $view->nb_conversions, isset($ecommerce), !empty($view->cart_nb_conversions));
@@ -147,12 +147,12 @@ class Piwik_Goals_Controller extends Piwik_Controller
         // any other code/cause security issues)
         $goals = $this->goals;
         foreach ($goals as &$goal) {
-            $goal['name'] = Piwik_Common::unsanitizeInputValue($goal['name']);
+            $goal['name'] = Common::unsanitizeInputValue($goal['name']);
             if (isset($goal['pattern'])) {
-                $goal['pattern'] = Piwik_Common::unsanitizeInputValue($goal['pattern']);
+                $goal['pattern'] = Common::unsanitizeInputValue($goal['pattern']);
             }
         }
-        $view->goalsJSON = Piwik_Common::json_encode($goals);
+        $view->goalsJSON = Common::json_encode($goals);
         
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
@@ -233,14 +233,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
     public function getEvolutionGraph($fetch = false, array $columns = array(), $idGoal = false)
     {
         if (empty($columns)) {
-            $columns = Piwik_Common::getRequestVar('columns');
+            $columns = Common::getRequestVar('columns');
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
 
         $columns = !is_array($columns) ? array($columns) : $columns;
 
         if (empty($idGoal)) {
-            $idGoal = Piwik_Common::getRequestVar('idGoal', false, 'string');
+            $idGoal = Common::getRequestVar('idGoal', false, 'string');
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
         $view->setParametersToModify(array('idGoal' => $idGoal));
@@ -423,7 +423,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
             // for non-Goals reports, we show the goals table
             $customParams = $ecommerceCustomParams + array('documentationForGoalsPage' => '1');
 
-            if (Piwik_Common::getRequestVar('idGoal', '') === '') // if no idGoal, use 0 for overview
+            if (Common::getRequestVar('idGoal', '') === '') // if no idGoal, use 0 for overview
             {
                 $customParams['idGoal'] = '0'; // NOTE: Must be string! Otherwise Piwik_View_HtmlTable_Goals fails.
             }

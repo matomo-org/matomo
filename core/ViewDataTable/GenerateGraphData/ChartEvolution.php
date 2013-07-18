@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik_ViewDataTable_GenerateGraphData for the Evolution graph (eg. Last 30 days visits) using Piwik_Visualization_Chart_Evolution
@@ -93,7 +93,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
 
     protected function loadDataTableFromAPI()
     {
-        $period = Piwik_Common::getRequestVar('period');
+        $period = Common::getRequestVar('period');
         // period will be overridden when 'range' is requested in the UI
         // but the graph will display for each day of the range.
         // Default 'range' behavior is to return the 'sum' for the range
@@ -129,7 +129,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
             $uniqueIdsDataTable[] = $idDataTable;
         }
 
-        $idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+        $idSite = Common::getRequestVar('idSite', null, 'int');
         $requestedColumnNames = $this->getColumnsToDisplay();
         $units = $this->getUnitsForColumnsToDisplay();
 
@@ -276,8 +276,8 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
             // 1) Custom Date Range always have link disabled, otherwise
             // the graph data set is way too big and fails to display
             // 2) disableLink parameter is set in the Widgetize "embed" code
-            $linkEnabled = !Piwik_Common::getRequestVar('disableLink', 0, 'int')
-                && Piwik_Common::getRequestVar('period', 'day') != 'range';
+            $linkEnabled = !Common::getRequestVar('disableLink', 0, 'int')
+                && Common::getRequestVar('period', 'day') != 'range';
         }
         return $linkEnabled;
     }

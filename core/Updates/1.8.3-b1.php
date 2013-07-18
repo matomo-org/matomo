@@ -8,7 +8,7 @@
  * @category Piwik‚
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -19,10 +19,10 @@ class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('site') . '`
+            'ALTER TABLE `' . Common::prefixTable('site') . '`
 				CHANGE `excluded_parameters` `excluded_parameters` TEXT NOT NULL'                            => false,
 
-            'CREATE TABLE `' . Piwik_Common::prefixTable('report') . '` (
+            'CREATE TABLE `' . Common::prefixTable('report') . '` (
 					`idreport` INT(11) NOT NULL AUTO_INCREMENT,
 					`idsite` INTEGER(11) NOT NULL,
 					`login` VARCHAR(100) NOT NULL,
@@ -55,7 +55,7 @@ class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
             // - migrate previous reports, if any, from Piwik_Common::prefixTable('pdf') to Piwik_Common::prefixTable('report')
             // - delete Piwik_Common::prefixTable('pdf')
 
-            $reports = Piwik_FetchAll('SELECT * FROM `' . Piwik_Common::prefixTable('pdf') . '`');
+            $reports = Piwik_FetchAll('SELECT * FROM `' . Common::prefixTable('pdf') . '`');
             foreach ($reports AS $report) {
 
                 $idreport = $report['idreport'];
@@ -82,7 +82,7 @@ class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
                 $parameters[Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER] = $display_format;
 
                 Piwik_Query(
-                    'INSERT INTO `' . Piwik_Common::prefixTable('report') . '` SET
+                    'INSERT INTO `' . Common::prefixTable('report') . '` SET
 					idreport = ?, idsite = ?, login = ?, description = ?, period = ?,
 					type = ?, format = ?, reports = ?, parameters = ?, ts_created = ?,
 					ts_last_sent = ?, deleted = ?',
@@ -94,8 +94,8 @@ class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
                          is_null($period) ? Piwik_PDFReports::DEFAULT_PERIOD : $period,
                          Piwik_PDFReports::EMAIL_TYPE,
                          is_null($format) ? Piwik_PDFReports::DEFAULT_REPORT_FORMAT : $format,
-                         Piwik_Common::json_encode(preg_split('/,/', $reports)),
-                         Piwik_Common::json_encode($parameters),
+                         Common::json_encode(preg_split('/,/', $reports)),
+                         Common::json_encode($parameters),
                          $ts_created,
                          $ts_last_sent,
                          $deleted
@@ -103,7 +103,7 @@ class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
                 );
             }
 
-            Piwik_Query('DROP TABLE `' . Piwik_Common::prefixTable('pdf') . '`');
+            Piwik_Query('DROP TABLE `' . Common::prefixTable('pdf') . '`');
         } catch (Exception $e) {
         }
 

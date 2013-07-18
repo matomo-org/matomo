@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * CSV export
@@ -345,8 +345,8 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
     {
         $fileName = 'Piwik ' . Piwik_Translate('General_Export');
 
-        $period = Piwik_Common::getRequestVar('period', false);
-        $date = Piwik_Common::getRequestVar('date', false);
+        $period = Common::getRequestVar('period', false);
+        $date = Common::getRequestVar('date', false);
         if ($period || $date) // in test cases, there are no request params set
         {
             if ($period == 'range') {

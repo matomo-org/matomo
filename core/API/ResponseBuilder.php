@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik
@@ -164,7 +164,7 @@ class Piwik_API_ResponseBuilder
      */
     protected function caseRendererPHPSerialize($defaultSerializeValue = 1)
     {
-        $serialize = Piwik_Common::getRequestVar('serialize', $defaultSerializeValue, 'int', $this->request);
+        $serialize = Common::getRequestVar('serialize', $defaultSerializeValue, 'int', $this->request);
         if ($serialize) {
             return true;
         }
@@ -190,27 +190,27 @@ class Piwik_API_ResponseBuilder
             return $dataTable;
         }
 
-        $method = Piwik_Common::getRequestVar('method', '', 'string', $this->request);
+        $method = Common::getRequestVar('method', '', 'string', $this->request);
 
         $renderer = Piwik_DataTable_Renderer::factory($format);
         $renderer->setTable($dataTable);
-        $renderer->setRenderSubTables(Piwik_Common::getRequestVar('expanded', false, 'int', $this->request));
-        $renderer->setHideIdSubDatableFromResponse(Piwik_Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request));
+        $renderer->setRenderSubTables(Common::getRequestVar('expanded', false, 'int', $this->request));
+        $renderer->setHideIdSubDatableFromResponse(Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request));
 
         if ($format == 'php') {
             $renderer->setSerialize($this->caseRendererPHPSerialize());
-            $renderer->setPrettyDisplay(Piwik_Common::getRequestVar('prettyDisplay', false, 'int', $this->request));
+            $renderer->setPrettyDisplay(Common::getRequestVar('prettyDisplay', false, 'int', $this->request));
         } else if ($format == 'html') {
             $renderer->setTableId($this->request['method']);
         } else if ($format == 'csv' || $format == 'tsv') {
-            $renderer->setConvertToUnicode(Piwik_Common::getRequestVar('convertToUnicode', true, 'int', $this->request));
+            $renderer->setConvertToUnicode(Common::getRequestVar('convertToUnicode', true, 'int', $this->request));
         }
 
         // prepare translation of column names
         if ($format == 'html' || $format == 'csv' || $format == 'tsv' || $format = 'rss') {
             $renderer->setApiMethod($method);
-            $renderer->setIdSite(Piwik_Common::getRequestVar('idSite', false, 'int', $this->request));
-            $renderer->setTranslateColumnNames(Piwik_Common::getRequestVar('translateColumnNames', false, 'int', $this->request));
+            $renderer->setIdSite(Common::getRequestVar('idSite', false, 'int', $this->request));
+            $renderer->setTranslateColumnNames(Common::getRequestVar('translateColumnNames', false, 'int', $this->request));
         }
 
         return $renderer->render();
@@ -282,16 +282,16 @@ class Piwik_API_ResponseBuilder
     protected function handleDataTable($datatable)
     {
         // if requested, flatten nested tables
-        if (Piwik_Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
+        if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
             $flattener = new Piwik_API_DataTableManipulator_Flattener($this->apiModule, $this->apiMethod, $this->request);
-            if (Piwik_Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1') {
+            if (Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1') {
                 $flattener->includeAggregateRows();
             }
             $datatable = $flattener->flatten($datatable);
         }
 
         // if the flag disable_generic_filters is defined we skip the generic filters
-        if (0 == Piwik_Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
+        if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
             $genericFilter = new Piwik_API_DataTableGenericFilter($this->request);
             $genericFilter->filter($datatable);
         }
@@ -300,14 +300,14 @@ class Piwik_API_ResponseBuilder
         $datatable->queueFilter('SafeDecodeLabel');
 
         // if the flag disable_queued_filters is defined we skip the filters that were queued
-        if (Piwik_Common::getRequestVar('disable_queued_filters', 'false', 'string', $this->request) == 'false') {
+        if (Common::getRequestVar('disable_queued_filters', 'false', 'string', $this->request) == 'false') {
             $datatable->applyQueuedFilters();
         }
 
         // use the ColumnDelete filter if hideColumns/showColumns is provided (must be done
         // after queued filters are run so processed metrics can be removed, too)
-        $hideColumns = Piwik_Common::getRequestVar('hideColumns', '', 'string', $this->request);
-        $showColumns = Piwik_Common::getRequestVar('showColumns', '', 'string', $this->request);
+        $hideColumns = Common::getRequestVar('hideColumns', '', 'string', $this->request);
+        $showColumns = Common::getRequestVar('showColumns', '', 'string', $this->request);
         if ($hideColumns !== '' || $showColumns !== '') {
             $datatable->filter('ColumnDelete', array($hideColumns, $showColumns));
         }
@@ -315,7 +315,7 @@ class Piwik_API_ResponseBuilder
         // apply label filter: only return rows matching the label parameter (more than one if more than one label)
         $label = $this->getLabelFromRequest($this->request);
         if (!empty($label)) {
-            $addLabelIndex = Piwik_Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
+            $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
 
             $filter = new Piwik_API_DataTableManipulator_LabelFilter($this->apiModule, $this->apiMethod, $this->request);
             $datatable = $filter->filter($label, $datatable, $addLabelIndex);
@@ -437,7 +437,7 @@ class Piwik_API_ResponseBuilder
                 // Case dimension is a PHP array
                 case (is_array($value)):
 
-                    $json .= Piwik_Common::json_encode($value);
+                    $json .= Common::json_encode($value);
                     break;
 
                 // Case dimension is a Piwik_DataTable_Array or a Piwik_DataTable
@@ -452,7 +452,7 @@ class Piwik_API_ResponseBuilder
                 // Case scalar
                 default:
 
-                    $json .= Piwik_Common::json_encode($value);
+                    $json .= Common::json_encode($value);
                     break;
             }
 
@@ -479,9 +479,9 @@ class Piwik_API_ResponseBuilder
      */
     static public function getLabelFromRequest($request)
     {
-        $label = Piwik_Common::getRequestVar('label', array(), 'array', $request);
+        $label = Common::getRequestVar('label', array(), 'array', $request);
         if (empty($label)) {
-            $label = Piwik_Common::getRequestVar('label', '', 'string', $request);
+            $label = Common::getRequestVar('label', '', 'string', $request);
             if (!empty($label)) {
                 $label = array($label);
             }
@@ -496,7 +496,7 @@ class Piwik_API_ResponseBuilder
         // this is needed because Piwik_API_Proxy uses Piwik_Common::getRequestVar which in turn
         // uses Piwik_Common::sanitizeInputValue. This causes the > that separates recursive labels
         // to become &gt; and we need to undo that here.
-        $label = Piwik_Common::unsanitizeInputValues($label);
+        $label = Common::unsanitizeInputValues($label);
         return $label;
     }
 }

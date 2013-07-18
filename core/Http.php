@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Server-side http client to retrieve content from remote servers, and optionally save to a local file.
@@ -75,7 +75,7 @@ class Piwik_Http
         $file = null;
         if ($destinationPath) {
             // Ensure destination directory exists
-            Piwik_Common::mkdir(dirname($destinationPath));
+            Common::mkdir(dirname($destinationPath));
             if (($file = @fopen($destinationPath, 'wb')) === false || !is_resource($file)) {
                 throw new Exception('Error while creating the file: ' . $destinationPath);
             }
@@ -338,7 +338,7 @@ class Piwik_Http
                     throw new Exception('Timed out waiting for server response');
                 }
 
-                $fileLength += Piwik_Common::strlen($line);
+                $fileLength += Common::strlen($line);
 
                 if (is_resource($file)) {
                     // save to file
@@ -390,13 +390,13 @@ class Piwik_Http
                 $handle = fopen($aUrl, 'rb', false, $ctx);
                 while (!feof($handle)) {
                     $response = fread($handle, 8192);
-                    $fileLength += Piwik_Common::strlen($response);
+                    $fileLength += Common::strlen($response);
                     fwrite($file, $response);
                 }
                 fclose($handle);
             } else {
                 $response = file_get_contents($aUrl, 0, $ctx);
-                $fileLength = Piwik_Common::strlen($response);
+                $fileLength = Common::strlen($response);
             }
 
             // restore the socket_timeout value
@@ -498,7 +498,7 @@ class Piwik_Http
             }
 
             $contentLength = @curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-            $fileLength = is_resource($file) ? @curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : Piwik_Common::strlen($response);
+            $fileLength = is_resource($file) ? @curl_getinfo($ch, CURLINFO_SIZE_DOWNLOAD) : Common::strlen($response);
             $status = @curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
             @curl_close($ch);

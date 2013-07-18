@@ -9,7 +9,7 @@
  * @package Piwik_UserCountry
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's
@@ -274,10 +274,10 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     public static function setUpdaterOptionsFromUrl()
     {
         self::setUpdaterOptions(array(
-                                     'loc'    => Piwik_Common::getRequestVar('loc_db', false, 'string'),
-                                     'isp'    => Piwik_Common::getRequestVar('isp_db', false, 'string'),
-                                     'org'    => Piwik_Common::getRequestVar('org_db', false, 'string'),
-                                     'period' => Piwik_Common::getRequestVar('period', false, 'string'),
+                                     'loc'    => Common::getRequestVar('loc_db', false, 'string'),
+                                     'isp'    => Common::getRequestVar('isp_db', false, 'string'),
+                                     'org'    => Common::getRequestVar('org_db', false, 'string'),
+                                     'period' => Common::getRequestVar('period', false, 'string'),
                                 ));
     }
 

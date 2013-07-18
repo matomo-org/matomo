@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Generates the data in the Open Flash Chart format, from the given data.
@@ -57,7 +57,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
                 // unsanitize here is safe since data gets outputted as JSON, not HTML
                 // NOTE: this is a quick fix for a double-encode issue. if this file is refactored,
                 // this fix can probably be removed (or at least made more understandable).
-                'label'         => Piwik_Common::unsanitizeInputValue($label),
+                'label'         => Common::unsanitizeInputValue($label),
                 'internalLabel' => $label
             );
 
@@ -168,7 +168,7 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
         );
 
         Piwik_PostEvent('Visualization_Chart.render', array(&$data));
-        return Piwik_Common::json_encode($data);
+        return Common::json_encode($data);
     }
 
     public function customizeChartProperties()

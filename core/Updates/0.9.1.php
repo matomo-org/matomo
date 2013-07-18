@@ -9,7 +9,7 @@
  * @package Updates
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -35,11 +35,11 @@ class Piwik_Updates_0_9_1 extends Piwik_Updates
         $timezoneList = '"' . implode('","', $brokenTZ) . '"';
 
         return array(
-            'UPDATE ' . Piwik_Common::prefixTable('site') . '
+            'UPDATE ' . Common::prefixTable('site') . '
 				SET timezone = "UTC" 
 				WHERE timezone IN (' . $timezoneList . ')'                                                                  => false,
 
-            'UPDATE `' . Piwik_Common::prefixTable('option') . '`
+            'UPDATE `' . Common::prefixTable('option') . '`
 				SET option_value = "UTC" 
 			WHERE option_name = "SitesManager_DefaultTimezone" 
 				AND option_value IN (' . $timezoneList . ')' => false,

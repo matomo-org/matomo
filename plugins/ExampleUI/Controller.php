@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_ExampleUI
@@ -113,7 +113,7 @@ class Piwik_ExampleUI_Controller extends Piwik_Controller
 
     function generateSparkline()
     {
-        $serverRequested = Piwik_Common::getRequestVar('server', '');
+        $serverRequested = Common::getRequestVar('server', '');
         $view = Piwik_ViewDataTable::factory('sparkline');
         $view->init($this->pluginName, __FUNCTION__, 'ExampleUI.getTemperaturesEvolution');
         $view->setColumnsToDisplay($serverRequested);

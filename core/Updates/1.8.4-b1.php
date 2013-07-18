@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -23,11 +23,11 @@ class Piwik_Updates_1_8_4_b1 extends Piwik_Updates
 
     static function getSql($schema = 'Myisam')
     {
-        $action = Piwik_Common::prefixTable('log_action');
-        $duplicates = Piwik_Common::prefixTable('log_action_duplicates');
-        $visitAction = Piwik_Common::prefixTable('log_link_visit_action');
-        $conversion = Piwik_Common::prefixTable('log_conversion');
-        $visit = Piwik_Common::prefixTable('log_visit');
+        $action = Common::prefixTable('log_action');
+        $duplicates = Common::prefixTable('log_action_duplicates');
+        $visitAction = Common::prefixTable('log_link_visit_action');
+        $conversion = Common::prefixTable('log_conversion');
+        $visit = Common::prefixTable('log_visit');
 
         return array(
 

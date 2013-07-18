@@ -9,7 +9,7 @@
  * @package Updates
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -19,7 +19,7 @@ class Piwik_Updates_0_2_10 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'CREATE TABLE `' . Piwik_Common::prefixTable('option') . '` (
+            'CREATE TABLE `' . Common::prefixTable('option') . '` (
 				idoption BIGINT NOT NULL AUTO_INCREMENT ,
 				option_name VARCHAR( 64 ) NOT NULL ,
 				option_value LONGTEXT NOT NULL ,
@@ -27,23 +27,23 @@ class Piwik_Updates_0_2_10 extends Piwik_Updates
 			)'                                                                                                                                                             => false,
 
             // 0.1.7 [463]
-            'ALTER IGNORE TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
+            'ALTER IGNORE TABLE `' . Common::prefixTable('log_visit') . '`
 				 CHANGE `location_provider` `location_provider` VARCHAR( 100 ) DEFAULT NULL' => '1054',
 
             // 0.1.7 [470]
-            'ALTER TABLE `' . Piwik_Common::prefixTable('logger_api_call') . '`
+            'ALTER TABLE `' . Common::prefixTable('logger_api_call') . '`
 				CHANGE `parameter_names_default_values` `parameter_names_default_values` TEXT,
 				CHANGE `parameter_values` `parameter_values` TEXT,
 				CHANGE `returned_value` `returned_value` TEXT'                                => false,
-            'ALTER TABLE `' . Piwik_Common::prefixTable('logger_error') . '`
+            'ALTER TABLE `' . Common::prefixTable('logger_error') . '`
 				CHANGE `message` `message` TEXT'                                                 => false,
-            'ALTER TABLE `' . Piwik_Common::prefixTable('logger_exception') . '`
+            'ALTER TABLE `' . Common::prefixTable('logger_exception') . '`
 				CHANGE `message` `message` TEXT'                                             => false,
-            'ALTER TABLE `' . Piwik_Common::prefixTable('logger_message') . '`
+            'ALTER TABLE `' . Common::prefixTable('logger_message') . '`
 				CHANGE `message` `message` TEXT'                                               => false,
 
             // 0.2.2 [489]
-            'ALTER IGNORE TABLE `' . Piwik_Common::prefixTable('site') . '`
+            'ALTER IGNORE TABLE `' . Common::prefixTable('site') . '`
 				 CHANGE `feedburnerName` `feedburnerName` VARCHAR( 100 ) DEFAULT NULL'            => '1054',
         );
     }

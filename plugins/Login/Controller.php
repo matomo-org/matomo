@@ -9,7 +9,7 @@
  * @package Piwik_Login
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Login controller
@@ -29,9 +29,9 @@ class Piwik_Login_Controller extends Piwik_Controller
     {
         // mitigate rainbow table attack
         $passwordLen = strlen($password) / 2;
-        $hash = Piwik_Common::hash(
+        $hash = Common::hash(
             $userInfo . substr($password, 0, $passwordLen)
-                . Piwik_Common::getSalt() . substr($password, $passwordLen)
+                . Common::getSalt() . substr($password, $passwordLen)
         );
         return $hash;
     }
@@ -113,24 +113,24 @@ class Piwik_Login_Controller extends Piwik_Controller
     {
         self::checkForceSslLogin();
 
-        $password = Piwik_Common::getRequestVar('password', null, 'string');
+        $password = Common::getRequestVar('password', null, 'string');
         if (strlen($password) != 32) {
             throw new Exception(Piwik_TranslateException('Login_ExceptionPasswordMD5HashExpected'));
         }
 
-        $login = Piwik_Common::getRequestVar('login', null, 'string');
+        $login = Common::getRequestVar('login', null, 'string');
         if ($login == Config::getInstance()->superuser['login']) {
             throw new Exception(Piwik_TranslateException('Login_ExceptionInvalidSuperUserAuthenticationMethod', array("logme")));
         }
 
         $currentUrl = 'index.php';
 
-        if (($idSite = Piwik_Common::getRequestVar('idSite', false, 'int')) !== false) {
+        if (($idSite = Common::getRequestVar('idSite', false, 'int')) !== false) {
             $currentUrl .= '?idSite=' . $idSite;
         }
 
-        $urlToRedirect = Piwik_Common::getRequestVar('url', $currentUrl, 'string');
-        $urlToRedirect = Piwik_Common::unsanitizeInputValue($urlToRedirect);
+        $urlToRedirect = Common::getRequestVar('url', $currentUrl, 'string');
+        $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
 
         $this->authenticateAndRedirect($login, $password, false, $urlToRedirect);
     }
@@ -289,8 +289,8 @@ class Piwik_Login_Controller extends Piwik_Controller
     {
         $errorMessage = null;
 
-        $login = Piwik_Common::getRequestVar('login', '');
-        $resetToken = Piwik_Common::getRequestVar('resetToken', '');
+        $login = Common::getRequestVar('login', '');
+        $resetToken = Common::getRequestVar('resetToken', '');
 
         try {
             // get password reset info & user info

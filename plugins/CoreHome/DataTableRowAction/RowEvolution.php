@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * ROW EVOLUTION
@@ -73,7 +73,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
      */
     public function __construct($idSite, $date, $graphType = null)
     {
-        $this->apiMethod = Piwik_Common::getRequestVar('apiMethod', '', 'string');
+        $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
         if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
 
         $this->label = Piwik_API_ResponseBuilder::getLabelFromRequest($_GET);
@@ -81,7 +81,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 
         if ($this->label === '') throw new Exception("Parameter label not set.");
 
-        $this->period = Piwik_Common::getRequestVar('period', '', 'string');
+        $this->period = Common::getRequestVar('period', '', 'string');
         if (empty($this->period)) throw new Exception("Parameter period not set.");
 
         $this->idSite = $idSite;
@@ -163,7 +163,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     protected function extractEvolutionReport($report)
     {
         $this->dataTable = $report['reportData'];
-        $this->rowLabel = Piwik_Common::sanitizeInputValue($report['label']);
+        $this->rowLabel = Common::sanitizeInputValue($report['label']);
         $this->rowIcon = !empty($report['logo']) ? $report['logo'] : false;
         $this->availableMetrics = $report['metadata']['metrics'];
         $this->dimension = $report['metadata']['dimension'];

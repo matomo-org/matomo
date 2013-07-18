@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see core/Menu/Abstract.php
@@ -320,7 +320,7 @@ class Piwik_PluginsManager
     {
         $existingPlugins = $this->readPluginsDirectory();
         $isPluginInFilesystem = array_search($pluginName, $existingPlugins) !== false;
-        return Piwik_Common::isValidFilename($pluginName)
+        return Common::isValidFilename($pluginName)
                 && $isPluginInFilesystem;
     }
 
@@ -496,7 +496,7 @@ class Piwik_PluginsManager
         $pluginFileName = sprintf("%s/%s.php", $pluginName, $pluginName);
         $pluginClassName = sprintf('Piwik_%s', $pluginName);
 
-        if (!Piwik_Common::isValidFilename($pluginName)) {
+        if (!Common::isValidFilename($pluginName)) {
             throw new Exception(sprintf("The plugin filename '%s' is not a valid filename", $pluginFileName));
         }
 

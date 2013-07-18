@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Outputs an AJAX Table for a given DataTable.
@@ -158,7 +158,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 
     protected function handleLowPopulation($columnToApplyFilter = null)
     {
-        if (Piwik_Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') == '0') {
+        if (Common::getRequestVar('enable_filter_excludelowpop', '0', 'string') == '0') {
             return;
         }
         if (is_null($columnToApplyFilter)) {

@@ -10,9 +10,9 @@
  */
 
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
-if (Piwik_Common::isWindows() || !function_exists('inet_ntop')) {
+if (Common::isWindows() || !function_exists('inet_ntop')) {
     function _inet_ntop($in_addr)
     {
         return php_compat_inet_ntop($in_addr);
@@ -23,7 +23,7 @@ if (Piwik_Common::isWindows() || !function_exists('inet_ntop')) {
         return inet_ntop($in_addr);
     }
 }
-if (Piwik_Common::isWindows() || !function_exists('inet_pton')) {
+if (Common::isWindows() || !function_exists('inet_pton')) {
     function _inet_pton($address)
     {
         return php_compat_inet_pton($address);
@@ -137,7 +137,7 @@ class Piwik_IP
         if (($ip = @_inet_pton($ipRangeString)) === false)
             return false;
 
-        $maxbits = Piwik_Common::strlen($ip) * 8;
+        $maxbits = Common::strlen($ip) * 8;
         if (!isset($bits))
             $bits = $maxbits;
 
@@ -230,17 +230,17 @@ class Piwik_IP
     public static function long2ip($ip)
     {
         // IPv4
-        if (Piwik_Common::strlen($ip) == 4) {
+        if (Common::strlen($ip) == 4) {
             return self::N2P($ip);
         }
 
         // IPv6 - transitional address?
-        if (Piwik_Common::strlen($ip) == 16) {
+        if (Common::strlen($ip) == 16) {
             if (substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\xff", 0, 12) === 0
                 || substr_compare($ip, "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 0, 12) === 0
             ) {
                 // remap 128-bit IPv4-mapped and IPv4-compat addresses
-                return self::N2P(Piwik_Common::substr($ip, 12));
+                return self::N2P(Common::substr($ip, 12));
             }
         }
 
@@ -298,7 +298,7 @@ class Piwik_IP
             return false;
         }
 
-        $lowLen = Piwik_Common::strlen($low);
+        $lowLen = Common::strlen($low);
         $i = $lowLen - 1;
         $bits = $lowLen * 8 - $bits;
 
@@ -327,7 +327,7 @@ class Piwik_IP
      */
     public static function isIpInRange($ip, $ipRanges)
     {
-        $ipLen = Piwik_Common::strlen($ip);
+        $ipLen = Common::strlen($ip);
         if (empty($ip) || empty($ipRanges) || ($ipLen != 4 && $ipLen != 16)) {
             return false;
         }
@@ -347,7 +347,7 @@ class Piwik_IP
 
             $low = $range[0];
             $high = $range[1];
-            if (Piwik_Common::strlen($low) != $ipLen) {
+            if (Common::strlen($low) != $ipLen) {
                 continue;
             }
 
@@ -423,13 +423,13 @@ class Piwik_IP
         if ($p !== false) {
             $elements = explode(',', $csv);
             for ($i = count($elements); $i--;) {
-                $element = trim(Piwik_Common::sanitizeInputValue($elements[$i]));
+                $element = trim(Common::sanitizeInputValue($elements[$i]));
                 if (empty($excludedIps) || (!in_array($element, $excludedIps) && !self::isIpInRange(self::P2N(self::sanitizeIp($element)), $excludedIps))) {
                     return $element;
                 }
             }
         }
-        return trim(Piwik_Common::sanitizeInputValue($csv));
+        return trim(Common::sanitizeInputValue($csv));
     }
 
     /**
@@ -460,7 +460,7 @@ function php_compat_inet_ntop($in_addr)
 {
     $r = bin2hex($in_addr);
 
-    switch (Piwik_Common::strlen($in_addr)) {
+    switch (Common::strlen($in_addr)) {
         case 4:
             // IPv4 address
             $prefix = '';

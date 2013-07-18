@@ -7,7 +7,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 require_once 'PrivacyManager/PrivacyManager.php';
 
@@ -110,7 +110,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         Piwik_Tracker_Cache::deleteTrackerCache();
         Piwik_DataAccess_ArchiveTableCreator::clear();
 
-        $tempTableName = Piwik_Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
+        $tempTableName = Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
         Piwik_Query("DROP TABLE IF EXISTS " . $tempTableName);
     }
 
@@ -182,12 +182,12 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $expectedPrediction = array(
-            Piwik_Common::prefixTable('log_conversion')          => 6,
-            Piwik_Common::prefixTable('log_link_visit_action')   => 6,
-            Piwik_Common::prefixTable('log_visit')               => 3,
-            Piwik_Common::prefixTable('log_conversion_item')     => 3,
-            Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-            Piwik_Common::prefixTable('archive_blob_2012_01')    => -1
+            Common::prefixTable('log_conversion')          => 6,
+            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_visit')               => 3,
+            Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('archive_numeric_2012_01') => -1,
+            Common::prefixTable('archive_blob_2012_01')    => -1
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -300,12 +300,12 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // perform checks on prediction
         $expectedPrediction = array(
-            Piwik_Common::prefixTable('log_conversion')          => 6,
-            Piwik_Common::prefixTable('log_link_visit_action')   => 6,
-            Piwik_Common::prefixTable('log_visit')               => 3,
-            Piwik_Common::prefixTable('log_conversion_item')     => 3,
-            Piwik_Common::prefixTable('archive_numeric_2012_01') => 1, // remove the garbage metric
-            Piwik_Common::prefixTable('archive_blob_2012_01')    => -1
+            Common::prefixTable('log_conversion')          => 6,
+            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_visit')               => 3,
+            Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('archive_numeric_2012_01') => 1, // remove the garbage metric
+            Common::prefixTable('archive_blob_2012_01')    => -1
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -326,7 +326,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals($janRowCount, $tableCount); // January
 
         if($janRowCount != $tableCount) {
-            var_export(Piwik_FetchAll("SELECT * FROM " . Piwik_Common::prefixTable($tableName) ));
+            var_export(Piwik_FetchAll("SELECT * FROM " . Common::prefixTable($tableName) ));
         }
 
         // check february numerics not deleted
@@ -358,12 +358,12 @@ class PrivacyManagerTest extends IntegrationTestCase
         // perform checks on prediction
         $unexplained = 0;//-2;
         $expectedPrediction = array(
-            Piwik_Common::prefixTable('log_conversion')          => 6,
-            Piwik_Common::prefixTable('log_link_visit_action')   => 6,
-            Piwik_Common::prefixTable('log_visit')               => 3,
-            Piwik_Common::prefixTable('log_conversion_item')     => 3,
-            Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-            Piwik_Common::prefixTable('archive_blob_2012_01')    => 10 + $unexplained // removing 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('log_conversion')          => 6,
+            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_visit')               => 3,
+            Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('archive_numeric_2012_01') => -1,
+            Common::prefixTable('archive_blob_2012_01')    => 10 + $unexplained // removing 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -395,12 +395,12 @@ class PrivacyManagerTest extends IntegrationTestCase
         // perform checks on prediction
         $unexplained = 0;//-2;
         $expectedPrediction = array(
-            Piwik_Common::prefixTable('log_conversion')          => 6,
-            Piwik_Common::prefixTable('log_link_visit_action')   => 6,
-            Piwik_Common::prefixTable('log_visit')               => 3,
-            Piwik_Common::prefixTable('log_conversion_item')     => 3,
-            Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-            Piwik_Common::prefixTable('archive_blob_2012_01')    => 11 + $unexplained // 5 days, 1 month & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('log_conversion')          => 6,
+            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_visit')               => 3,
+            Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('archive_numeric_2012_01') => -1,
+            Common::prefixTable('archive_blob_2012_01')    => 11 + $unexplained // 5 days, 1 month & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -432,12 +432,12 @@ class PrivacyManagerTest extends IntegrationTestCase
         $unexplained = 0;//-1;
         // perform checks on prediction
         $expectedPrediction = array(
-            Piwik_Common::prefixTable('log_conversion')          => 6,
-            Piwik_Common::prefixTable('log_link_visit_action')   => 6,
-            Piwik_Common::prefixTable('log_visit')               => 3,
-            Piwik_Common::prefixTable('log_conversion_item')     => 3,
-            Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-            Piwik_Common::prefixTable('archive_blob_2012_01')    => 14 + $unexplained // 5 days, 4 weeks, 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('log_conversion')          => 6,
+            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_visit')               => 3,
+            Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('archive_numeric_2012_01') => -1,
+            Common::prefixTable('archive_blob_2012_01')    => 14 + $unexplained // 5 days, 4 weeks, 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -469,12 +469,12 @@ class PrivacyManagerTest extends IntegrationTestCase
         // perform checks on prediction
         $unexplained = 0;//-1;
         $expectedPrediction = array(
-            Piwik_Common::prefixTable('log_conversion')          => 6,
-            Piwik_Common::prefixTable('log_link_visit_action')   => 6,
-            Piwik_Common::prefixTable('log_visit')               => 3,
-            Piwik_Common::prefixTable('log_conversion_item')     => 3,
-            Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-            Piwik_Common::prefixTable('archive_blob_2012_01')    => 14 + $unexplained // 5 days, 4 weeks & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('log_conversion')          => 6,
+            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_visit')               => 3,
+            Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('archive_numeric_2012_01') => -1,
+            Common::prefixTable('archive_blob_2012_01')    => 14 + $unexplained // 5 days, 4 weeks & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -501,7 +501,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $purger = Piwik_PrivacyManager_LogDataPurger::make($this->settings, true);
 
         $this->unusedIdAction = Piwik_FetchOne(
-            "SELECT idaction FROM " . Piwik_Common::prefixTable('log_action') . " WHERE name = ?",
+            "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",
             array('whatever.com/_40'));
         $this->assertTrue($this->unusedIdAction > 0);
 
@@ -513,7 +513,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // check that the unused action still exists
         $count = Piwik_FetchOne(
-            "SELECT COUNT(*) FROM " . Piwik_Common::prefixTable('log_action') . " WHERE idaction = ?",
+            "SELECT COUNT(*) FROM " . Common::prefixTable('log_action') . " WHERE idaction = ?",
             array($this->unusedIdAction));
         $this->assertEquals(1, $count);
 
@@ -538,12 +538,12 @@ class PrivacyManagerTest extends IntegrationTestCase
         // perform checks on prediction
         $unexplained = 0;//-2;
         $expectedPrediction = array(
-            Piwik_Common::prefixTable('log_conversion')          => 6,
-            Piwik_Common::prefixTable('log_link_visit_action')   => 6,
-            Piwik_Common::prefixTable('log_visit')               => 3,
-            Piwik_Common::prefixTable('log_conversion_item')     => 3,
-            Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-            Piwik_Common::prefixTable('archive_blob_2012_01')    => 13 + $unexplained // 5 days, 4 weeks, 1 month & 1 year + 1 garbage report + 1 segmented report
+            Common::prefixTable('log_conversion')          => 6,
+            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_visit')               => 3,
+            Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('archive_numeric_2012_01') => -1,
+            Common::prefixTable('archive_blob_2012_01')    => 13 + $unexplained // 5 days, 4 weeks, 1 month & 1 year + 1 garbage report + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -576,12 +576,12 @@ class PrivacyManagerTest extends IntegrationTestCase
         // perform checks on prediction
         $unexplained = 0;//-2;
         $expectedPrediction = array(
-            Piwik_Common::prefixTable('log_conversion')          => 6,
-            Piwik_Common::prefixTable('log_link_visit_action')   => 6,
-            Piwik_Common::prefixTable('log_visit')               => 3,
-            Piwik_Common::prefixTable('log_conversion_item')     => 3,
-            Piwik_Common::prefixTable('archive_numeric_2012_01') => -1,
-            Piwik_Common::prefixTable('archive_blob_2012_01')    => 9 + $unexplained // 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports
+            Common::prefixTable('log_conversion')          => 6,
+            Common::prefixTable('log_link_visit_action')   => 6,
+            Common::prefixTable('log_visit')               => 3,
+            Common::prefixTable('log_conversion_item')     => 3,
+            Common::prefixTable('archive_numeric_2012_01') => -1,
+            Common::prefixTable('archive_blob_2012_01')    => 9 + $unexplained // 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -715,12 +715,12 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $archiveTables = self::_getArchiveTableNames();
         foreach ($archiveTables['numeric'] as $table) {
-            $realTable = Piwik_Common::prefixTable($table);
+            $realTable = Common::prefixTable($table);
             $sql = "DELETE FROM $realTable WHERE name NOT IN ('" . implode("','", $metricsToSave) . "') AND name NOT LIKE 'done%'";
             Piwik_Query($sql);
         }
         foreach ($archiveTables['blob'] as $table) {
-            $realTable = Piwik_Common::prefixTable($table);
+            $realTable = Common::prefixTable($table);
             Piwik_Query("DELETE FROM $realTable WHERE name NOT IN ('VisitorInterest_timeGap')");
         }
 
@@ -732,15 +732,15 @@ class PrivacyManagerTest extends IntegrationTestCase
                         VALUES (10000,?,1,?,?,?,?,?)";
 
         // one metric for jan & one for feb
-        Piwik_Query(sprintf($sql, Piwik_Common::prefixTable($archiveTables['numeric'][0])),
+        Piwik_Query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][0])),
             array(self::GARBAGE_FIELD, $janDate1, $janDate1, $janDate1, 1, 100));
-        Piwik_Query(sprintf($sql, Piwik_Common::prefixTable($archiveTables['numeric'][1])),
+        Piwik_Query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][1])),
             array(self::GARBAGE_FIELD, $febDate1, $febDate1, $febDate1, 1, 200));
 
         // add garbage reports
-        Piwik_Query(sprintf($sql, Piwik_Common::prefixTable($archiveTables['blob'][0])),
+        Piwik_Query(sprintf($sql, Common::prefixTable($archiveTables['blob'][0])),
             array(self::GARBAGE_FIELD, $janDate1, $janDate1, $janDate1, 10, 'blobval'));
-        Piwik_Query(sprintf($sql, Piwik_Common::prefixTable($archiveTables['blob'][1])),
+        Piwik_Query(sprintf($sql, Common::prefixTable($archiveTables['blob'][1])),
             array(self::GARBAGE_FIELD, $febDate1, $febDate1, $febDate1, 20, 'blobval'));
     }
 
@@ -817,8 +817,8 @@ class PrivacyManagerTest extends IntegrationTestCase
             return;
         }
 
-        $tempTableName = Piwik_Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
-        $logLinkVisitActionTable = Piwik_Common::prefixTable("log_link_visit_action");
+        $tempTableName = Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
+        $logLinkVisitActionTable = Common::prefixTable("log_link_visit_action");
 
         $sql = "INSERT INTO $logLinkVisitActionTable
                             (idsite, idvisitor, server_time, idvisit, idaction_url, idaction_url_ref,
@@ -840,7 +840,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     protected function _getTableCount($tableName, $where = '')
     {
-        $sql = "SELECT COUNT(*) FROM " . Piwik_Common::prefixTable($tableName) . " $where";
+        $sql = "SELECT COUNT(*) FROM " . Common::prefixTable($tableName) . " $where";
         return Piwik_FetchOne($sql);
     }
 
@@ -849,7 +849,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $dbName = Config::getInstance()->database['dbname'];
 
         $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = ? AND table_name = ?";
-        return Piwik_FetchOne($sql, array($dbName, Piwik_Common::prefixTable($tableName))) == 1;
+        return Piwik_FetchOne($sql, array($dbName, Common::prefixTable($tableName))) == 1;
     }
 
     protected static function _getArchiveTableNames()

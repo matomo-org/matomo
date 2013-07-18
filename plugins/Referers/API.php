@@ -9,7 +9,7 @@
  * @package Piwik_Referers
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * The Referrers API lets you access reports about Websites, Search engines, Keywords, Campaigns used to access your website.
@@ -78,13 +78,13 @@ class Piwik_Referers_API
         if ($idSubtable !== false) {
             $result = false;
             switch ($idSubtable) {
-                case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+                case Common::REFERER_TYPE_SEARCH_ENGINE:
                     $result = $this->getKeywords($idSite, $period, $date, $segment);
                     break;
-                case Piwik_Common::REFERER_TYPE_WEBSITE:
+                case Common::REFERER_TYPE_WEBSITE:
                     $result = $this->getWebsites($idSite, $period, $date, $segment);
                     break;
-                case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+                case Common::REFERER_TYPE_CAMPAIGN:
                     $result = $this->getCampaigns($idSite, $period, $date, $segment);
                     break;
                 default: // invalid idSubtable, return whole report
@@ -507,7 +507,7 @@ class Piwik_Referers_API
     {
         foreach ($dataTable->getRows() as $row) {
             $typeReferrer = $row->getColumn('label');
-            if ($typeReferrer != Piwik_Common::REFERER_TYPE_DIRECT_ENTRY) {
+            if ($typeReferrer != Common::REFERER_TYPE_DIRECT_ENTRY) {
                 if (!$expanded) // if we don't want the expanded datatable, then don't do any extra queries
                 {
                     $row->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $typeReferrer;

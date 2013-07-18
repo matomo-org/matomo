@@ -1,6 +1,6 @@
 <?php
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -30,8 +30,8 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         $this->setGeneralVariablesView($view);
 
         $view->idSite = $this->idSite;
-        $view->date = Piwik_Common::getRequestVar('date', 'today');
-        $view->period = Piwik_Common::getRequestVar('period', 'day');
+        $view->date = Common::getRequestVar('date', 'today');
+        $view->period = Common::getRequestVar('period', 'day');
 
         $view->ssl = Piwik::isHttps();
 
@@ -41,14 +41,14 @@ class Piwik_Overlay_Controller extends Piwik_Controller
     /** Render the area left of the iframe */
     public function renderSidebar()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite');
-        $period = Piwik_Common::getRequestVar('period');
-        $date = Piwik_Common::getRequestVar('date');
-        $currentUrl = Piwik_Common::getRequestVar('currentUrl');
-        $currentUrl = Piwik_Common::unsanitizeInputValue($currentUrl);
+        $idSite = Common::getRequestVar('idSite');
+        $period = Common::getRequestVar('period');
+        $date = Common::getRequestVar('date');
+        $currentUrl = Common::getRequestVar('currentUrl');
+        $currentUrl = Common::unsanitizeInputValue($currentUrl);
 
         $normalizedCurrentUrl = Piwik_Tracker_Action::excludeQueryParametersFromUrl($currentUrl, $idSite);
-        $normalizedCurrentUrl = Piwik_Common::unsanitizeInputValue($normalizedCurrentUrl);
+        $normalizedCurrentUrl = Common::unsanitizeInputValue($normalizedCurrentUrl);
 
         // load the appropriate row of the page urls report using the label filter
         Piwik_Actions_ArchivingHelper::reloadConfig();
@@ -118,7 +118,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
      */
     public function startOverlaySession()
     {
-        $idSite = Piwik_Common::getRequestVar('idsite', 0, 'int');
+        $idSite = Common::getRequestVar('idsite', 0, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
         $sitesManager = Piwik_SitesManager_API::getInstance();
@@ -147,7 +147,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
 					var urlToRedirect = window.location.hash.substr(1);
 					var urlToRedirectWithoutPrefix = removeUrlPrefix(urlToRedirect);
 					
-					var knownUrls = ' . Piwik_Common::json_encode($urls) . ';
+					var knownUrls = ' . Common::json_encode($urls) . ';
 					for (var i = 0; i < knownUrls.length; i++) {
 						var testUrl = removeUrlPrefix(knownUrls[i]);
 						if (urlToRedirectWithoutPrefix.substr(0, testUrl.length) == testUrl) {
@@ -186,11 +186,11 @@ class Piwik_Overlay_Controller extends Piwik_Controller
      */
     public function showErrorWrongDomain()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite', 0, 'int');
+        $idSite = Common::getRequestVar('idSite', 0, 'int');
         Piwik::checkUserHasViewAccess($idSite);
 
-        $url = Piwik_Common::getRequestVar('url', '');
-        $url = Piwik_Common::unsanitizeInputValue($url);
+        $url = Common::getRequestVar('url', '');
+        $url = Common::unsanitizeInputValue($url);
 
         $message = Piwik_Translate('Overlay_RedirectUrlError', array($url, "\n"));
         $message = nl2br(htmlentities($message));

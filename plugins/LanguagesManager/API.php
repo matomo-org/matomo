@@ -10,7 +10,7 @@
  *
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.
@@ -51,7 +51,7 @@ class Piwik_LanguagesManager_API
     public function isLanguageAvailable($languageCode)
     {
         return $languageCode !== false
-            && Piwik_Common::isValidFilename($languageCode)
+            && Common::isValidFilename($languageCode)
             && in_array($languageCode, $this->getAvailableLanguages());
     }
 
@@ -161,7 +161,7 @@ class Piwik_LanguagesManager_API
     {
         Piwik::checkUserIsSuperUserOrTheUser($login);
         Piwik::checkUserIsNotAnonymous();
-        return Piwik_FetchOne('SELECT language FROM ' . Piwik_Common::prefixTable('user_language') .
+        return Piwik_FetchOne('SELECT language FROM ' . Common::prefixTable('user_language') .
             ' WHERE login = ? ', array($login));
     }
 
@@ -180,7 +180,7 @@ class Piwik_LanguagesManager_API
             return false;
         }
         $paramsBind = array($login, $languageCode, $languageCode);
-        Piwik_Query('INSERT INTO ' . Piwik_Common::prefixTable('user_language') .
+        Piwik_Query('INSERT INTO ' . Common::prefixTable('user_language') .
                 ' (login, language)
                     VALUES (?,?)
                 ON DUPLICATE KEY UPDATE language=?',

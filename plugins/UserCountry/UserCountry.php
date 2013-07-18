@@ -9,7 +9,7 @@
  * @package Piwik_UserCountry
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see plugins/UserCountry/GeoIPAutoUpdater.php
@@ -64,7 +64,7 @@ class Piwik_UserCountry extends Piwik_Plugin
     {
         require_once PIWIK_INCLUDE_PATH . "/plugins/UserCountry/LocationProvider.php";
 
-        $id = Piwik_Common::getCurrentLocationProviderId();
+        $id = Common::getCurrentLocationProviderId();
         $provider = Piwik_UserCountry_LocationProvider::getProviderById($id);
         if ($provider === false) {
             $id = Piwik_UserCountry_LocationProvider_Default::ID;
@@ -271,7 +271,7 @@ class Piwik_UserCountry extends Piwik_Plugin
     {
         $result = array();
         $continent = strtolower($continent);
-        foreach (Piwik_Common::getCountriesList() as $countryCode => $continentCode) {
+        foreach (Common::getCountriesList() as $countryCode => $continentCode) {
             if ($continent == $continentCode) {
                 $result[] = $countryCode;
             }

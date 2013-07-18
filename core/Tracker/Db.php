@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Simple database wrapper.
@@ -98,7 +98,7 @@ abstract class Piwik_Tracker_Db
             $time = $info['sum_time_ms'];
             $count = $info['count'];
 
-            $queryProfiling = "INSERT INTO " . Piwik_Common::prefixTable('log_profiling') . "
+            $queryProfiling = "INSERT INTO " . Common::prefixTable('log_profiling') . "
 						(query,count,sum_time_ms) VALUES (?,$count,$time)
 						ON DUPLICATE KEY 
 							UPDATE count=count+$count,sum_time_ms=sum_time_ms+$time";

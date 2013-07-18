@@ -9,7 +9,7 @@
  * @package Piwik_ImageGraph
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
@@ -283,10 +283,10 @@ class Piwik_ImageGraph_API
                 // when no labels are specified, getRowEvolution returns the top N=filter_limit row evolutions
                 // rows are sorted using filter_sort_column (see Piwik_API_DataTableGenericFilter for more info)
                 if (!$labels) {
-                    $savedFilterSortColumnValue = Piwik_Common::getRequestVar('filter_sort_column', '');
+                    $savedFilterSortColumnValue = Common::getRequestVar('filter_sort_column', '');
                     $_GET['filter_sort_column'] = $plottedMetric;
 
-                    $savedFilterLimitValue = Piwik_Common::getRequestVar('filter_limit', -1, 'int');
+                    $savedFilterLimitValue = Common::getRequestVar('filter_limit', -1, 'int');
                     if ($savedFilterLimitValue == -1 || $savedFilterLimitValue > self::MAX_NB_ROW_LABELS) {
                         $_GET['filter_limit'] = self::DEFAULT_NB_ROW_EVOLUTIONS;
                     }
@@ -382,7 +382,7 @@ class Piwik_ImageGraph_API
                 {
                     // $row instanceof Piwik_DataTable_Row
                     $rowData = $row->getColumns(); // Associative Array
-                    $abscissaSeries[] = Piwik_Common::unsanitizeInputValue($rowData['label']);
+                    $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
 
                     foreach ($ordinateColumns as $column) {
                         $parsedOrdinateValue = $this->parseOrdinateValue($rowData[$column]);
@@ -442,7 +442,7 @@ class Piwik_ImageGraph_API
                     }
 
                     $rowId = $periodsData[$i]->metadata['period']->getLocalizedShortString();
-                    $abscissaSeries[] = Piwik_Common::unsanitizeInputValue($rowId);
+                    $abscissaSeries[] = Common::unsanitizeInputValue($rowId);
                 }
             }
 
@@ -502,7 +502,7 @@ class Piwik_ImageGraph_API
                 $fileName = self::$DEFAULT_PARAMETERS[$graphType][self::FILENAME_KEY] . '_' . $apiModule . '_' . $apiAction . $idGoal . ' ' . str_replace(',', '-', $date) . ' ' . $idSite . '.png';
                 $fileName = str_replace(array(' ', '/'), '_', $fileName);
 
-                if (!Piwik_Common::isValidFilename($fileName)) {
+                if (!Common::isValidFilename($fileName)) {
                     throw new Exception('Error: Image graph filename ' . $fileName . ' is not valid.');
                 }
 
@@ -520,7 +520,7 @@ class Piwik_ImageGraph_API
 
     private function setFilterTruncate($default)
     {
-        $_GET['filter_truncate'] = Piwik_Common::getRequestVar('filter_truncate', $default, 'int');
+        $_GET['filter_truncate'] = Common::getRequestVar('filter_truncate', $default, 'int');
     }
 
     private static function parseOrdinateValue($ordinateValue)

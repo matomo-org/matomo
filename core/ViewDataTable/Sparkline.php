@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
@@ -35,7 +35,7 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
         $this->mainAlreadyExecuted = true;
 
         // If period=range, we force the sparkline to draw daily data points
-        $period = Piwik_Common::getRequestVar('period');
+        $period = Common::getRequestVar('period');
         if ($period == 'range') {
             $_GET['period'] = 'day';
         }
@@ -53,12 +53,12 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
         $graph = new Piwik_Visualization_Sparkline();
         $graph->setValues($values);
 
-        $height = Piwik_Common::getRequestVar('height', 0, 'int');
+        $height = Common::getRequestVar('height', 0, 'int');
         if (!empty($height)) {
             $graph->setHeight($height);
         }
 
-        $width = Piwik_Common::getRequestVar('width', 0, 'int');
+        $width = Common::getRequestVar('width', 0, 'int');
         if (!empty($width)) {
             $graph->setWidth($width);
         }

@@ -9,7 +9,7 @@
  * @package Piwik_Goals
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
@@ -62,7 +62,7 @@ class Piwik_Goals_API
         }
         Piwik::checkUserHasViewAccess($idSite);
         $goals = Piwik_FetchAll("SELECT *
-								FROM " . Piwik_Common::prefixTable('goal') . "
+								FROM " . Common::prefixTable('goal') . "
 								WHERE idsite IN (" . implode(", ", $idSite) . ")
 									AND deleted = 0");
         $cleanedGoals = array();
@@ -101,12 +101,12 @@ class Piwik_Goals_API
         // save in db
         $db = Zend_Registry::get('db');
         $idGoal = $db->fetchOne("SELECT max(idgoal) + 1
-								FROM " . Piwik_Common::prefixTable('goal') . "
+								FROM " . Common::prefixTable('goal') . "
 								WHERE idsite = ?", $idSite);
         if ($idGoal == false) {
             $idGoal = 1;
         }
-        $db->insert(Piwik_Common::prefixTable('goal'),
+        $db->insert(Common::prefixTable('goal'),
             array(
                  'idsite'          => $idSite,
                  'idgoal'          => $idGoal,
@@ -145,7 +145,7 @@ class Piwik_Goals_API
         $name = $this->checkName($name);
         $pattern = $this->checkPattern($pattern);
         $this->checkPatternIsValid($patternType, $pattern);
-        Zend_Registry::get('db')->update(Piwik_Common::prefixTable('goal'),
+        Zend_Registry::get('db')->update(Common::prefixTable('goal'),
             array(
                  'name'            => $name,
                  'match_attribute' => $matchAttribute,
@@ -190,12 +190,12 @@ class Piwik_Goals_API
     public function deleteGoal($idSite, $idGoal)
     {
         Piwik::checkUserHasAdminAccess($idSite);
-        Piwik_Query("UPDATE " . Piwik_Common::prefixTable('goal') . "
+        Piwik_Query("UPDATE " . Common::prefixTable('goal') . "
 										SET deleted = 1
 										WHERE idsite = ? 
 											AND idgoal = ?",
             array($idSite, $idGoal));
-        Piwik_DeleteAllRows(Piwik_Common::prefixTable("log_conversion"), "WHERE idgoal = ?", 100000, array($idGoal));
+        Piwik_DeleteAllRows(Common::prefixTable("log_conversion"), "WHERE idgoal = ?", 100000, array($idGoal));
         Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 

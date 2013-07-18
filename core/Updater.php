@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see core/Option.php
@@ -131,7 +131,7 @@ class Piwik_Updater
                 }
             }
             // unfortunately had to extract this query from the Piwik_Option class
-            $queries[] = 'UPDATE `' . Piwik_Common::prefixTable('option') . '`
+            $queries[] = 'UPDATE `' . Common::prefixTable('option') . '`
     				SET option_value = \'' . $fileVersion . '\'
     				WHERE option_name = \'' . $this->getNameInOptionTable($componentName) . '\';';
         }

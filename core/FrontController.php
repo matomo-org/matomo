@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see core/PluginsManager.php
@@ -74,11 +74,11 @@ class Piwik_FrontController
 
         if (is_null($module)) {
             $defaultModule = 'CoreHome';
-            $module = Piwik_Common::getRequestVar('module', $defaultModule, 'string');
+            $module = Common::getRequestVar('module', $defaultModule, 'string');
         }
 
         if (is_null($action)) {
-            $action = Piwik_Common::getRequestVar('action', false);
+            $action = Common::getRequestVar('action', false);
         }
 
         if (!Piwik_Session::isFileBasedSessions()
@@ -130,7 +130,7 @@ class Piwik_FrontController
             Piwik_PostEvent('FrontController.NoAccessException', array($e), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
-            $message = Piwik_Common::sanitizeInputValue($e->getMessage());
+            $message = Common::sanitizeInputValue($e->getMessage());
             Piwik_ExitWithMessage($message, '' /* $debugTrace */, true);
         }
     }
@@ -178,8 +178,8 @@ class Piwik_FrontController
         // which load the HTML page of the installer with the error.
         // This is at least required for misc/cron/archive.php and useful to all other scripts
         return (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH)
-            || Piwik_Common::isPhpCliMode()
-            || Piwik_Common::isArchivePhpTriggered();
+            || Common::isPhpCliMode()
+            || Common::isArchivePhpTriggered();
     }
 
     /**
@@ -232,7 +232,7 @@ class Piwik_FrontController
             );
 
             Piwik::dieIfDirectoriesNotWritable($directoriesToCheck);
-            Piwik_Common::assignCliParametersToRequest();
+            Common::assignCliParametersToRequest();
 
             Piwik_Translate::getInstance()->loadEnglishTranslation();
 
@@ -292,7 +292,7 @@ class Piwik_FrontController
 
             // Force the auth to use the token_auth if specified, so that embed dashboard
             // and all other non widgetized controller methods works fine
-            if (($token_auth = Piwik_Common::getRequestVar('token_auth', false, 'string')) !== false) {
+            if (($token_auth = Common::getRequestVar('token_auth', false, 'string')) !== false) {
                 Piwik_API_Request::reloadAuthUsingTokenAuth();
             }
             Piwik::raiseMemoryLimitIfNecessary();
@@ -315,9 +315,9 @@ class Piwik_FrontController
     protected function handleMaintenanceMode()
     {
         if (Config::getInstance()->General['maintenance_mode'] == 1
-            && !Piwik_Common::isPhpCliMode()
+            && !Common::isPhpCliMode()
         ) {
-            $format = Piwik_Common::getRequestVar('format', '');
+            $format = Common::getRequestVar('format', '');
 
             $message = "Piwik is in scheduled maintenance. Please come back later."
                 . " The administrator can disable maintenance by editing the file piwik/config/config.ini.php and removing the following: "
@@ -340,12 +340,12 @@ class Piwik_FrontController
 
     protected function handleSSLRedirection()
     {
-        if (!Piwik_Common::isPhpCliMode()
+        if (!Common::isPhpCliMode()
             && Config::getInstance()->General['force_ssl'] == 1
             && !Piwik::isHttps()
             // Specifically disable for the opt out iframe
-            && !(Piwik_Common::getRequestVar('module', '') == 'CoreAdminHome'
-                && Piwik_Common::getRequestVar('action', '') == 'optOut')
+            && !(Common::getRequestVar('module', '') == 'CoreAdminHome'
+                && Common::getRequestVar('action', '') == 'optOut')
         ) {
             $url = Piwik_Url::getCurrentUrl();
             $url = str_replace("http://", "https://", $url);

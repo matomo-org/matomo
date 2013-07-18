@@ -9,7 +9,7 @@
  * @package Piwik_SegmentEditor
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
@@ -36,7 +36,7 @@ class Piwik_SegmentEditor_API
     protected function checkSegmentValue($definition, $idSite)
     {
         // unsanitize so we don't record the HTML entitied segment
-        $definition = Piwik_Common::unsanitizeInputValue($definition);
+        $definition = Common::unsanitizeInputValue($definition);
         $definition = str_replace("#", '%23', $definition); // hash delimiter
         $definition = str_replace("'", '%27', $definition); // not encoded in JS
         $definition = str_replace("&", '%26', $definition);
@@ -134,7 +134,7 @@ class Piwik_SegmentEditor_API
 
         $segment = $this->getSegmentOrFail($idSegment);
         $db = Zend_Registry::get('db');
-        $db->delete(Piwik_Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
+        $db->delete(Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
         return true;
     }
 
@@ -171,7 +171,7 @@ class Piwik_SegmentEditor_API
         );
 
         $db = Zend_Registry::get('db');
-        $db->update(Piwik_Common::prefixTable("segment"),
+        $db->update(Common::prefixTable("segment"),
             $bind,
             "idsegment = $idSegment"
         );
@@ -209,7 +209,7 @@ class Piwik_SegmentEditor_API
             'ts_created'         => Piwik_Date::now()->getDatetime(),
             'deleted'            => 0,
         );
-        $db->insert(Piwik_Common::prefixTable("segment"), $bind);
+        $db->insert(Common::prefixTable("segment"), $bind);
         return $db->lastInsertId();
     }
 
@@ -227,7 +227,7 @@ class Piwik_SegmentEditor_API
             throw new Exception("idSegment should be numeric.");
         }
         $segment = Zend_Registry::get('db')->fetchRow("SELECT * " .
-                                                    " FROM " . Piwik_Common::prefixTable("segment") .
+                                                    " FROM " . Common::prefixTable("segment") .
                                                     " WHERE idsegment = ?", $idSegment);
 
         if (empty($segment)) {
@@ -278,7 +278,7 @@ class Piwik_SegmentEditor_API
 
         // Query
         $sql = "SELECT * " .
-                " FROM " . Piwik_Common::prefixTable("segment") .
+                " FROM " . Common::prefixTable("segment") .
                 " WHERE ($whereIdSite enable_only_idsite = 0)
                         AND  (enable_all_users = 1 OR login = ?)
                         AND deleted = 0

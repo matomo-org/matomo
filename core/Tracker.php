@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -161,12 +161,12 @@ class Piwik_Tracker
     private function initBulkTrackingRequests($rawData)
     {
         // POST data can be array of string URLs or array of arrays w/ visit info
-        $jsonData = Piwik_Common::json_decode($rawData, $assoc = true);
+        $jsonData = Common::json_decode($rawData, $assoc = true);
 
         if (isset($jsonData['requests'])) {
             $this->requests = $jsonData['requests'];
         }
-        $tokenAuth = Piwik_Common::getRequestVar('token_auth', false, null, $jsonData);
+        $tokenAuth = Common::getRequestVar('token_auth', false, null, $jsonData);
         if (empty($tokenAuth)) {
             throw new Exception(" token_auth must be specified when using Bulk Tracking Import. See <a href='http://piwik.org/docs/tracking-api/reference/'>Tracking Doc</a>");
         }
@@ -264,7 +264,7 @@ class Piwik_Tracker
     {
         // don't run scheduled tasks in CLI mode from Tracker, this is the case
         // where we bulk load logs & don't want to lose time with tasks
-        return !Piwik_Common::isPhpCliMode()
+        return !Common::isPhpCliMode()
             && $this->getState() != self::STATE_LOGGING_DISABLE;
     }
 
@@ -375,11 +375,11 @@ class Piwik_Tracker
             if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) || $authenticated) {
                 $result['error'] = Piwik_Tracker_GetErrorMessage($e);
             }
-            echo Piwik_Common::json_encode($result);
+            echo Common::json_encode($result);
             exit;
         }
         if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
-            Piwik_Common::sendHeader('Content-Type: text/html; charset=utf-8');
+            Common::sendHeader('Content-Type: text/html; charset=utf-8');
             $trailer = '<span style="color: #888888">Backtrace:<br /><pre>' . $e->getTraceAsString() . '</pre></span>';
             $headerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutHeader.tpl');
             $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
@@ -388,7 +388,7 @@ class Piwik_Tracker
             echo $headerPage . '<p>' . Piwik_Tracker_GetErrorMessage($e) . '</p>' . $trailer . $footerPage;
         } // If not debug, but running authenticated (eg. during log import) then we display raw errors
         elseif ($authenticated) {
-            Piwik_Common::sendHeader('Content-Type: text/html; charset=utf-8');
+            Common::sendHeader('Content-Type: text/html; charset=utf-8');
             echo Piwik_Tracker_GetErrorMessage($e);
         } else {
             $this->outputTransparentGif();
@@ -569,7 +569,7 @@ class Piwik_Tracker
 
     protected function sendHeader($header)
     {
-        Piwik_Common::sendHeader($header);
+        Common::sendHeader($header);
     }
 
     protected function isVisitValid()
@@ -638,7 +638,7 @@ class Piwik_Tracker
             return $this->tokenAuth;
         }
 
-        return Piwik_Common::getRequestVar('token_auth', false);
+        return Common::getRequestVar('token_auth', false);
     }
 
     /**
@@ -689,18 +689,18 @@ class Piwik_Tracker
         }
 
         // Tests can force the use of 3rd party cookie for ID visitor
-        if (Piwik_Common::getRequestVar('forceUseThirdPartyCookie', false, null, $args) == 1) {
+        if (Common::getRequestVar('forceUseThirdPartyCookie', false, null, $args) == 1) {
             self::updateTrackerConfig('use_third_party_id_cookie', 1);
         }
 
         // Tests using window_look_back_for_visitor
-        if (Piwik_Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1) {
+        if (Common::getRequestVar('forceLargeWindowLookBackForVisitor', false, null, $args) == 1) {
             self::updateTrackerConfig('window_look_back_for_visitor', 2678400);
         }
 
         // Tests can force the enabling of IP anonymization
         $forceIpAnonymization = false;
-        if (Piwik_Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
+        if (Common::getRequestVar('forceIpAnonymization', false, null, $args) == 1) {
             self::updateTrackerConfig('ip_address_mask_length', 2);
 
             $section = Config::getInstance()->Plugins_Tracker;
@@ -711,19 +711,19 @@ class Piwik_Tracker
         }
 
         // Custom IP to use for this visitor
-        $customIp = Piwik_Common::getRequestVar('cip', false, null, $args);
+        $customIp = Common::getRequestVar('cip', false, null, $args);
         if (!empty($customIp)) {
             self::setForceIp($customIp);
         }
 
         // Custom server date time to use
-        $customDatetime = Piwik_Common::getRequestVar('cdt', false, null, $args);
+        $customDatetime = Common::getRequestVar('cdt', false, null, $args);
         if (!empty($customDatetime)) {
             self::setForceDateTime($customDatetime);
         }
 
         // Custom visitor id
-        $customVisitorId = Piwik_Common::getRequestVar('cid', false, null, $args);
+        $customVisitorId = Common::getRequestVar('cid', false, null, $args);
         if (!empty($customVisitorId)) {
             self::setForceVisitorId($customVisitorId);
         }

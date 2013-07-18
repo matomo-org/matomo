@@ -9,7 +9,7 @@
  * @package Piwik_Referers
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -21,7 +21,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
     {
         $view = new Piwik_View('@Referers/index');
 
-        $view->graphEvolutionReferers = $this->getEvolutionGraph(true, Piwik_Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
+        $view->graphEvolutionReferers = $this->getEvolutionGraph(true, Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
         $view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph';
 
         // building the referers summary report
@@ -51,8 +51,8 @@ class Piwik_Referers_Controller extends Piwik_Controller
         // calculate evolution for visit metrics & distinct metrics
         list($lastPeriodDate, $ignore) = Piwik_Period_Range::getLastDate();
         if ($lastPeriodDate !== false) {
-            $date = Piwik_Common::getRequestVar('date');
-            $period = Piwik_Common::getRequestVar('period');
+            $date = Common::getRequestVar('date');
+            $period = Common::getRequestVar('period');
 
             $prettyDate = self::getPrettyDate($date, $period);
             $prettyLastPeriodDate = self::getPrettyDate($lastPeriodDate, $period);
@@ -67,10 +67,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
         }
 
         // sparkline for the historical data of the above values
-        $view->urlSparklineSearchEngines = $this->getReferrerUrlSparkline(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE);
-        $view->urlSparklineDirectEntry = $this->getReferrerUrlSparkline(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY);
-        $view->urlSparklineWebsites = $this->getReferrerUrlSparkline(Piwik_Common::REFERER_TYPE_WEBSITE);
-        $view->urlSparklineCampaigns = $this->getReferrerUrlSparkline(Piwik_Common::REFERER_TYPE_CAMPAIGN);
+        $view->urlSparklineSearchEngines = $this->getReferrerUrlSparkline(Common::REFERER_TYPE_SEARCH_ENGINE);
+        $view->urlSparklineDirectEntry = $this->getReferrerUrlSparkline(Common::REFERER_TYPE_DIRECT_ENTRY);
+        $view->urlSparklineWebsites = $this->getReferrerUrlSparkline(Common::REFERER_TYPE_WEBSITE);
+        $view->urlSparklineCampaigns = $this->getReferrerUrlSparkline(Common::REFERER_TYPE_CAMPAIGN);
 
         // sparklines for the evolution of the distinct keywords count/websites count/ etc
         $view->urlSparklineDistinctSearchEngines = $this->getUrlSparkline('getLastDistinctSearchEnginesGraph');
@@ -144,17 +144,17 @@ class Piwik_Referers_Controller extends Piwik_Controller
         $view->setLimit(10);
         $view->setColumnsToDisplay(array('label', 'nb_visits'));
 
-        $idSubtable = Piwik_Common::getRequestVar('idSubtable', false);
+        $idSubtable = Common::getRequestVar('idSubtable', false);
         $labelColumnTitle = Piwik_Translate('Referers_ColumnRefererType');
         if ($idSubtable !== false) {
             switch ($idSubtable) {
-                case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+                case Common::REFERER_TYPE_SEARCH_ENGINE:
                     $labelColumnTitle = Piwik_Translate('Referers_ColumnSearchEngine');
                     break;
-                case Piwik_Common::REFERER_TYPE_WEBSITE:
+                case Common::REFERER_TYPE_WEBSITE:
                     $labelColumnTitle = Piwik_Translate('Referers_ColumnWebsite');
                     break;
-                case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+                case Common::REFERER_TYPE_CAMPAIGN:
                     $labelColumnTitle = Piwik_Translate('Referers_ColumnCampaign');
                     break;
                 default:
@@ -207,16 +207,16 @@ class Piwik_Referers_Controller extends Piwik_Controller
         // get singular label for referrer type
         $indexTranslation = '';
         switch ($referrerType) {
-            case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERER_TYPE_DIRECT_ENTRY:
                 $indexTranslation = 'Referers_DirectEntry';
                 break;
-            case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERER_TYPE_SEARCH_ENGINE:
                 $indexTranslation = 'Referers_ColumnKeyword';
                 break;
-            case Piwik_Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERER_TYPE_WEBSITE:
                 $indexTranslation = 'Referers_ColumnWebsite';
                 break;
-            case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERER_TYPE_CAMPAIGN:
                 $indexTranslation = 'Referers_ColumnCampaign';
                 break;
             default:
@@ -419,7 +419,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
     protected function getReferersVisitorsByType($date = false)
     {
         if ($date === false) {
-            $date = Piwik_Common::getRequestVar('date', false);
+            $date = Common::getRequestVar('date', false);
         }
 
         // we disable the queued filters because here we want to get the visits coming from search engines
@@ -429,10 +429,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
             "Referers.getRefererType", array('disable_queued_filters' => '1', 'date' => $date));
 
         $nameToColumnId = array(
-            'visitorsFromSearchEngines' => Piwik_Common::REFERER_TYPE_SEARCH_ENGINE,
-            'visitorsFromDirectEntry'   => Piwik_Common::REFERER_TYPE_DIRECT_ENTRY,
-            'visitorsFromWebsites'      => Piwik_Common::REFERER_TYPE_WEBSITE,
-            'visitorsFromCampaigns'     => Piwik_Common::REFERER_TYPE_CAMPAIGN,
+            'visitorsFromSearchEngines' => Common::REFERER_TYPE_SEARCH_ENGINE,
+            'visitorsFromDirectEntry'   => Common::REFERER_TYPE_DIRECT_ENTRY,
+            'visitorsFromWebsites'      => Common::REFERER_TYPE_WEBSITE,
+            'visitorsFromCampaigns'     => Common::REFERER_TYPE_CAMPAIGN,
         );
         $return = array();
         foreach ($nameToColumnId as $nameVar => $columnId) {
@@ -447,10 +447,10 @@ class Piwik_Referers_Controller extends Piwik_Controller
     }
 
     protected $referrerTypeToLabel = array(
-        Piwik_Common::REFERER_TYPE_DIRECT_ENTRY  => 'Referers_DirectEntry',
-        Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 'Referers_SearchEngines',
-        Piwik_Common::REFERER_TYPE_WEBSITE       => 'Referers_Websites',
-        Piwik_Common::REFERER_TYPE_CAMPAIGN      => 'Referers_Campaigns',
+        Common::REFERER_TYPE_DIRECT_ENTRY  => 'Referers_DirectEntry',
+        Common::REFERER_TYPE_SEARCH_ENGINE => 'Referers_SearchEngines',
+        Common::REFERER_TYPE_WEBSITE       => 'Referers_Websites',
+        Common::REFERER_TYPE_CAMPAIGN      => 'Referers_Campaigns',
     );
 
     public function getEvolutionGraph($fetch = false, $typeReferer = false, array $columns = array())
@@ -461,14 +461,14 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
         // configure displayed columns
         if (empty($columns)) {
-            $columns = Piwik_Common::getRequestVar('columns');
+            $columns = Common::getRequestVar('columns');
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
         $columns = !is_array($columns) ? array($columns) : $columns;
         $view->setColumnsToDisplay($columns);
 
         // configure selectable columns
-        if (Piwik_Common::getRequestVar('period', false) == 'day') {
+        if (Common::getRequestVar('period', false) == 'day') {
             $selectable = array('nb_visits', 'nb_uniq_visitors', 'nb_actions');
         } else {
             $selectable = array('nb_visits', 'nb_actions');
@@ -476,7 +476,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
         $view->setSelectableColumns($selectable);
 
         // configure displayed rows
-        $visibleRows = Piwik_Common::getRequestVar('rows', false);
+        $visibleRows = Common::getRequestVar('rows', false);
         if ($visibleRows !== false) {
             // this happens when the row picker has been used
             $visibleRows = Piwik::getArrayFromApiParameter($visibleRows);
@@ -486,7 +486,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
         } else {
             // use $typeReferer as default
             if ($typeReferer === false) {
-                $typeReferer = Piwik_Common::getRequestVar('typeReferer', false);
+                $typeReferer = Common::getRequestVar('typeReferer', false);
             }
             $label = self::getTranslatedReferrerTypeLabel($typeReferer);
             $total = Piwik_Translate('General_Total');

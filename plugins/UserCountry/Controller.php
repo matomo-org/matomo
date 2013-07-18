@@ -9,7 +9,7 @@
  * @package Piwik_UserCountry
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -104,7 +104,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
                 $result = Piwik_Http::downloadChunk(
                     $url = Piwik_UserCountry_LocationProvider_GeoIp::GEO_LITE_URL,
                     $outputPath,
-                    $continue = Piwik_Common::getRequestVar('continue', true, 'int')
+                    $continue = Common::getRequestVar('continue', true, 'int')
                 );
 
                 // if the file is done
@@ -121,9 +121,9 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
                     $result['next_screen'] = $this->getGeoIpUpdaterManageScreen();
                 }
 
-                echo Piwik_Common::json_encode($result);
+                echo Common::json_encode($result);
             } catch (Exception $ex) {
-                echo Piwik_Common::json_encode(array('error' => $ex->getMessage()));
+                echo Common::json_encode(array('error' => $ex->getMessage()));
             }
         }
     }
@@ -190,13 +190,13 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
                 // the browser so it can download it next
                 $info = $this->getNextMissingDbUrlInfo();
                 if ($info !== false) {
-                    echo Piwik_Common::json_encode($info);
+                    echo Common::json_encode($info);
                     return;
                 } else {
                     echo 1;
                 }
             } catch (Exception $ex) {
-                echo Piwik_Common::json_encode(array('error' => $ex->getMessage()));
+                echo Common::json_encode(array('error' => $ex->getMessage()));
             }
         }
     }
@@ -229,7 +229,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 
                 // based on the database type (provided by the 'key' query param) determine the
                 // url & output file name
-                $key = Piwik_Common::getRequestVar('key', null, 'string');
+                $key = Common::getRequestVar('key', null, 'string');
                 $url = Piwik_UserCountry_GeoIPAutoUpdater::getConfiguredUrl($key);
 
                 $ext = Piwik_UserCountry_GeoIPAutoUpdater::getGeoIPUrlExtension($url);
@@ -242,7 +242,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 
                 // download part of the file
                 $result = Piwik_Http::downloadChunk(
-                    $url, $outputPath, Piwik_Common::getRequestVar('continue', true, 'int'));
+                    $url, $outputPath, Common::getRequestVar('continue', true, 'int'));
 
                 // if the file is done
                 if ($result['current_size'] >= $result['expected_file_size']) {
@@ -250,14 +250,14 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 
                     $info = $this->getNextMissingDbUrlInfo();
                     if ($info !== false) {
-                        echo Piwik_Common::json_encode($info);
+                        echo Common::json_encode($info);
                         return;
                     }
                 }
 
-                echo Piwik_Common::json_encode($result);
+                echo Common::json_encode($result);
             } catch (Exception $ex) {
-                echo Piwik_Common::json_encode(array('error' => $ex->getMessage()));
+                echo Common::json_encode(array('error' => $ex->getMessage()));
             }
         }
     }
@@ -277,7 +277,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
 
-            $providerId = Piwik_Common::getRequestVar('id');
+            $providerId = Common::getRequestVar('id');
             $provider = Piwik_UserCountry_LocationProvider::setCurrentProvider($providerId);
             if ($provider === false) {
                 throw new Exception("Invalid provider ID: '$providerId'.");
@@ -297,14 +297,14 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
      */
     public function getLocationUsingProvider()
     {
-        $providerId = Piwik_Common::getRequestVar('id');
+        $providerId = Common::getRequestVar('id');
         $provider = $provider = Piwik_UserCountry_LocationProvider::getProviderById($providerId);
         if ($provider === false) {
             throw new Exception("Invalid provider ID: '$providerId'.");
         }
 
         $location = $provider->getLocation(array('ip'                => Piwik_IP::getIpFromHeader(),
-                                                 'lang'              => Piwik_Common::getBrowserLanguage(),
+                                                 'lang'              => Common::getBrowserLanguage(),
                                                  'disable_fallbacks' => true));
         $location = Piwik_UserCountry_LocationProvider::prettyFormatLocation(
             $location, $newline = '<br/>', $includeExtra = true);

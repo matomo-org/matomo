@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Data Access object used to query archives
@@ -200,7 +200,7 @@ class Piwik_DataAccess_ArchiveSelector
     static public function getArchiveData($archiveIds, $recordNames, $archiveDataType, $loadAllSubtables)
     {
         // create the SQL to select archive data
-        $inNames = Piwik_Common::getSqlStringFieldsArray($recordNames);
+        $inNames = Common::getSqlStringFieldsArray($recordNames);
         if ($loadAllSubtables) {
             $name = reset($recordNames);
 

@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Class to check if a newer version of Piwik is available
@@ -47,7 +47,7 @@ class Piwik_UpdateCheck
                 'piwik_version' => Piwik_Version::VERSION,
                 'php_version'   => PHP_VERSION,
                 'url'           => Piwik_Url::getCurrentUrlWithoutQueryString(),
-                'trigger'       => Piwik_Common::getRequestVar('module', '', 'string'),
+                'trigger'       => Common::getRequestVar('module', '', 'string'),
                 'timezone'      => Piwik_SitesManager_API::getInstance()->getDefaultTimezone(),
             );
 

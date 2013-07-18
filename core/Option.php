@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik_Option provides a very simple mechanism to save/retrieve key-values pair
@@ -69,7 +69,7 @@ class Piwik_Option
             return $this->all[$name];
         }
         $value = Piwik_FetchOne('SELECT option_value ' .
-            'FROM `' . Piwik_Common::prefixTable('option') . '`' .
+            'FROM `' . Common::prefixTable('option') . '`' .
             'WHERE option_name = ?', $name);
         if ($value === false) {
             return false;
@@ -88,7 +88,7 @@ class Piwik_Option
     public function set($name, $value, $autoLoad = 0)
     {
         $autoLoad = (int)$autoLoad;
-        Piwik_Query('INSERT INTO `' . Piwik_Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
+        Piwik_Query('INSERT INTO `' . Common::prefixTable('option') . '` (option_name, option_value, autoload) ' .
                 ' VALUES (?, ?, ?) ' .
                 ' ON DUPLICATE KEY UPDATE option_value = ?',
             array($name, $value, $autoLoad, $value));
@@ -103,7 +103,7 @@ class Piwik_Option
      */
     public function delete($name, $value = null)
     {
-        $sql = 'DELETE FROM `' . Piwik_Common::prefixTable('option') . '` WHERE option_name = ?';
+        $sql = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name = ?';
         $bind[] = $name;
 
         if (isset($value)) {
@@ -125,7 +125,7 @@ class Piwik_Option
      */
     public function deleteLike($name, $value = null)
     {
-        $sql = 'DELETE FROM `' . Piwik_Common::prefixTable('option') . '` WHERE option_name LIKE ?';
+        $sql = 'DELETE FROM `' . Common::prefixTable('option') . '` WHERE option_name LIKE ?';
         $bind[] = $name;
 
         if (isset($value)) {
@@ -150,7 +150,7 @@ class Piwik_Option
         }
 
         $all = Piwik_FetchAll('SELECT option_value, option_name
-								FROM `' . Piwik_Common::prefixTable('option') . '`
+								FROM `' . Common::prefixTable('option') . '`
 								WHERE autoload = 1');
         foreach ($all as $option) {
             $this->all[$option['option_name']] = $option['option_value'];

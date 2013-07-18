@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * To differentiate between "no value" and default value of null
@@ -281,7 +281,7 @@ class Piwik_API_Proxy
         foreach ($requiredParameters as $name => $defaultValue) {
             try {
                 if ($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue) {
-                    $requestValue = Piwik_Common::getRequestVar($name, null, null, $parametersRequest);
+                    $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
                 } else {
                     try {
 
@@ -289,7 +289,7 @@ class Piwik_API_Proxy
                             // segment parameter is an exception: we do not want to sanitize user input or it would break the segment encoding
                             $requestValue = ($parametersRequest['segment']);
                         } else {
-                            $requestValue = Piwik_Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
+                            $requestValue = Common::getRequestVar($name, $defaultValue, null, $parametersRequest);
                         }
                     } catch (Exception $e) {
                         // Special case: empty parameter in the URL, should return the empty string

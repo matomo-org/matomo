@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_SegmentEditor
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_SegmentEditor
@@ -68,7 +68,7 @@ class Piwik_SegmentEditor extends Piwik_Plugin
 
     public function install()
     {
-        $queries[] = 'CREATE TABLE `' . Piwik_Common::prefixTable('segment') . '` (
+        $queries[] = 'CREATE TABLE `' . Common::prefixTable('segment') . '` (
 					`idsegment` INT(11) NOT NULL AUTO_INCREMENT,
 					`name` VARCHAR(255) NOT NULL,
 					`definition` TEXT NOT NULL,

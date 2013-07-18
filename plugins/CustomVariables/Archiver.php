@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -130,7 +130,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
             if (substr($value, -2) != '"]') {
                 $value .= '"]';
             }
-            $decoded = @Piwik_Common::json_decode($value);
+            $decoded = @Common::json_decode($value);
             if (is_array($decoded)) {
                 $count = 0;
                 foreach ($decoded as $category) {

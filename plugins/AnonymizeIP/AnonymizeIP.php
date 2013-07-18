@@ -9,7 +9,7 @@
  * @package Piwik_AnonymizeIP
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
@@ -50,7 +50,7 @@ class Piwik_AnonymizeIP extends Piwik_Plugin
      */
     static public function applyIPMask($ip, $maskLength)
     {
-        $i = Piwik_Common::strlen($ip);
+        $i = Common::strlen($ip);
         if ($maskLength > $i) {
             $maskLength = $i;
         }

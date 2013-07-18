@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -18,9 +18,9 @@ class Piwik_Updates_0_4_1 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_conversion') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 				CHANGE `idlink_va` `idlink_va` INT(11) DEFAULT NULL'                                                                           => false,
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_conversion') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_conversion') . '`
 				CHANGE `idaction` `idaction` INT(11) DEFAULT NULL' => '1054',
         );
     }

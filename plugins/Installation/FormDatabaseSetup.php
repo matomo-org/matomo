@@ -9,7 +9,7 @@
  * @package Piwik_Installation
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -300,7 +300,7 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkValidFilename extends HTML_
     {
         $prefix = $this->owner->getValue();
         return empty($prefix)
-            || Piwik_Common::isValidFilename($prefix);
+            || Common::isValidFilename($prefix);
     }
 }
 

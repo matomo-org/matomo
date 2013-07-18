@@ -1,7 +1,7 @@
 <?php
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -181,7 +181,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // see isArchivingDisabled()
         // Running in CLI doesn't impact the time to live today's archive we are loading
         // From CLI, we will not return data that is 'stale' 
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
         $this->compareTimestamps($archiveProcessor->getMinTimeArchivedProcessed(), $dateMinArchived);
@@ -224,7 +224,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // see isArchivingDisabled()
         // Running in CLI doesn't impact the time to live today's archive we are loading
         // From CLI, we will not return data that is 'stale'
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed());
@@ -270,7 +270,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // see isArchivingDisabled()
         // Running in CLI doesn't impact the time to live today's archive we are loading
         // From CLI, we will not return data that is 'stale'
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             $dateMinArchived = 0;
         }
         $this->compareTimestamps($dateMinArchived, $archiveProcessor->getMinTimeArchivedProcessed());
@@ -291,7 +291,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
      */
     public function testTableInsertBatch()
     {
-        $table = Piwik_Common::prefixTable('site_url');
+        $table = Common::prefixTable('site_url');
         $data = $this->_getDataInsert();
         try {
             $didWeUseBulk = Piwik::tableInsertBatch($table,
@@ -343,7 +343,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
      */
     public function testTableInsertBatchIterate()
     {
-        $table = Piwik_Common::prefixTable('site_url');
+        $table = Common::prefixTable('site_url');
         $data = $this->_getDataInsert();
         Piwik::tableInsertBatchIterate($table, array('idsite', 'url'), $data);
         $this->_checkTableIsExpected($table, $data);

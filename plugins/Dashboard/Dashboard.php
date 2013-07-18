@@ -9,7 +9,7 @@
  * @package Piwik_Dashboard
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_Dashboard
@@ -43,7 +43,7 @@ class Piwik_Dashboard extends Piwik_Plugin
     {
         $paramsBind = array($login, $idDashboard);
         $query = sprintf('SELECT layout FROM %s WHERE login = ? AND iddashboard = ?',
-            Piwik_Common::prefixTable('user_dashboard'));
+            Common::prefixTable('user_dashboard'));
         $return = Piwik_FetchAll($query, $paramsBind);
 
         if (count($return) == 0) {
@@ -95,7 +95,7 @@ class Piwik_Dashboard extends Piwik_Plugin
     public function getAllDashboards($login)
     {
         $dashboards = Piwik_FetchAll('SELECT iddashboard, name, layout
-                                      FROM ' . Piwik_Common::prefixTable('user_dashboard') .
+                                      FROM ' . Common::prefixTable('user_dashboard') .
             ' WHERE login = ? ORDER BY iddashboard', array($login));
 
         $nameless = 1;
@@ -110,7 +110,7 @@ class Piwik_Dashboard extends Piwik_Plugin
                 $nameless++;
             }
 
-            $dashboard['name'] = Piwik_Common::unsanitizeInputValue($dashboard['name']);
+            $dashboard['name'] = Common::unsanitizeInputValue($dashboard['name']);
 
             $layout = '[]';
             if (!empty($dashboard['layout'])) {
@@ -181,12 +181,12 @@ class Piwik_Dashboard extends Piwik_Plugin
         $layout = str_replace("\\\"", "\"", $layout);
         $layout = str_replace("\n", "", $layout);
 
-        return Piwik_Common::json_decode($layout, $assoc = false);
+        return Common::json_decode($layout, $assoc = false);
     }
 
     public function encodeLayout($layout)
     {
-        return Piwik_Common::json_encode($layout);
+        return Common::json_encode($layout);
     }
 
     public function addMenus()
@@ -211,7 +211,7 @@ class Piwik_Dashboard extends Piwik_Plugin
     {
         $tooltip = false;
         try {
-            $idSite = Piwik_Common::getRequestVar('idSite');
+            $idSite = Common::getRequestVar('idSite');
             $tooltip = Piwik_Translate('Dashboard_TopLinkTooltip', Piwik_Site::getNameFor($idSite));
         } catch (Exception $ex) {
             // if no idSite parameter, show no tooltip
@@ -238,14 +238,14 @@ class Piwik_Dashboard extends Piwik_Plugin
 
     public function deleteDashboardLayout($userLogin)
     {
-        Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
+        Piwik_Query('DELETE FROM ' . Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
     }
 
     public function install()
     {
         // we catch the exception
         try {
-            $sql = "CREATE TABLE " . Piwik_Common::prefixTable('user_dashboard') . " (
+            $sql = "CREATE TABLE " . Common::prefixTable('user_dashboard') . " (
 					login VARCHAR( 100 ) NOT NULL ,
 					iddashboard INT NOT NULL ,
 					name VARCHAR( 100 ) NULL DEFAULT NULL ,
@@ -264,6 +264,6 @@ class Piwik_Dashboard extends Piwik_Plugin
 
     public function uninstall()
     {
-        Piwik_DropTables(Piwik_Common::prefixTable('user_dashboard'));
+        Piwik_DropTables(Common::prefixTable('user_dashboard'));
     }
 }

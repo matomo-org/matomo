@@ -9,7 +9,7 @@
  * @package Piwik_Live
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_Live
@@ -79,7 +79,7 @@ class Piwik_Live_Controller extends Piwik_Controller
     public function indexVisitorLog()
     {
         $view = new Piwik_View('@Live/indexVisitorLog.twig');
-        $view->filterEcommerce = Piwik_Common::getRequestVar('filterEcommerce', 0, 'int');
+        $view->filterEcommerce = Common::getRequestVar('filterEcommerce', 0, 'int');
         $view->visitorLog = $this->getVisitorLog($fetch = true);
         echo $view->render();
     }
@@ -117,7 +117,7 @@ class Piwik_Live_Controller extends Piwik_Controller
         // set a very high row count so that the next link in the footer of the data table is always shown
         $view->setCustomParameter('totalRows', 10000000);
 
-        $view->setCustomParameter('filterEcommerce', Piwik_Common::getRequestVar('filterEcommerce', 0, 'int'));
+        $view->setCustomParameter('filterEcommerce', Common::getRequestVar('filterEcommerce', 0, 'int'));
         $view->setCustomParameter('pageUrlNotDefined', Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL')));
 
         return $this->renderView($view, $fetch);

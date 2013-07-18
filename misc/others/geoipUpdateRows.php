@@ -1,7 +1,7 @@
 <?php
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 ini_set("memory_limit", "512M");
 error_reporting(E_ALL | E_NOTICE);
@@ -31,11 +31,11 @@ define('PIWIK_ENABLE_DISPATCH', false);
 Config::getInstance()->log['logger_message'][] = 'screen';
 Piwik_FrontController::getInstance()->init();
 
-$query = "SELECT count(*) FROM " . Piwik_Common::prefixTable('log_visit');
+$query = "SELECT count(*) FROM " . Common::prefixTable('log_visit');
 $count = Piwik_FetchOne($query);
 
 // when script run via browser, check for Super User & output html page to do conversion via AJAX
-if (!Piwik_Common::isPhpCliMode()) {
+if (!Common::isPhpCliMode()) {
     try {
         Piwik::checkUserIsSuperUser();
     } catch (Exception $e) {
@@ -44,7 +44,7 @@ if (!Piwik_Common::isPhpCliMode()) {
     }
     // the 'start' query param will be supplied by the AJAX requests, so if it's not there, the
     // user is viewing the page in the browser.
-    if (Piwik_Common::getRequestVar('start', false) === false) {
+    if (Common::getRequestVar('start', false) === false) {
         // output HTML page that runs update via AJAX
         ?>
         <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -92,8 +92,8 @@ if (!Piwik_Common::isPhpCliMode()) {
         <?php
         exit;
     } else {
-        $start = Piwik_Common::getRequestVar('start', 0, 'int');
-        $end = min($count, Piwik_Common::getRequestVar('end', $count, 'int'));
+        $start = Common::getRequestVar('start', 0, 'int');
+        $end = min($count, Common::getRequestVar('end', $count, 'int'));
         $limit = $end - $start;
     }
 } else // command line
@@ -106,7 +106,7 @@ if (!Piwik_Common::isPhpCliMode()) {
 function geoipUpdateError($message)
 {
     Piwik::log($message);
-    if (!Piwik_Common::isPhpCliMode()) {
+    if (!Common::isPhpCliMode()) {
         @header('HTTP/1.1 500 Internal Server Error', $replace = true, $responseCode = 500);
     }
     exit;
@@ -130,7 +130,7 @@ if (!$provider->isAvailable()) {
         if ($displayNotes) {
             Piwik::log("[note] The GeoIP PECL extension is broken: $workingOrError");
         }
-        if (Piwik_Common::isPhpCliMode()) {
+        if (Common::isPhpCliMode()) {
             Piwik::log("[note] Make sure your command line PHP is configured to use the PECL extension.");
         }
         $provider = null;
@@ -177,13 +177,13 @@ $logVisitFieldsToUpdate = array('location_country'   => Piwik_UserCountry_Locati
                                 'location_longitude' => Piwik_UserCountry_LocationProvider::LONGITUDE_KEY);
 
 if ($displayNotes) {
-    Piwik::log("\n$count rows to process in " . Piwik_Common::prefixTable('log_visit')
-        . " and " . Piwik_Common::prefixTable('log_conversion') . "...");
+    Piwik::log("\n$count rows to process in " . Common::prefixTable('log_visit')
+        . " and " . Common::prefixTable('log_conversion') . "...");
 }
 flush();
 for (; $start < $end; $start += $limit) {
     $rows = Piwik_FetchAll("SELECT idvisit, location_ip, " . implode(',', array_keys($logVisitFieldsToUpdate)) . "
-						FROM " . Piwik_Common::prefixTable('log_visit') . "
+						FROM " . Common::prefixTable('log_visit') . "
 						LIMIT $start, $limit");
     if (!count($rows)) {
         continue;
@@ -229,13 +229,13 @@ for (; $start < $end; $start += $limit) {
         $bind[] = $row['idvisit'];
 
         // update log_visit
-        $sql = "UPDATE " . Piwik_Common::prefixTable('log_visit') . "
+        $sql = "UPDATE " . Common::prefixTable('log_visit') . "
 				   SET " . implode(', ', $columnsToSet) . "
 				 WHERE idvisit = ?";
         Piwik_Query($sql, $bind);
 
         // update log_conversion
-        $sql = "UPDATE " . Piwik_Common::prefixTable('log_conversion') . "
+        $sql = "UPDATE " . Common::prefixTable('log_conversion') . "
 				   SET " . implode(', ', $columnsToSet) . "
 				 WHERE idvisit = ?";
         Piwik_Query($sql, $bind);

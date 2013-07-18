@@ -10,7 +10,7 @@
  * @package Piwik_PluginArchiver
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Plugins that archive metrics for websites can implement an Archiver that extends this class
@@ -32,7 +32,7 @@ abstract class Piwik_PluginsArchiver
     // todo: review this concept, each plugin should somehow maintain the list of report names they generate
     public function shouldArchive()
     {
-        $pluginName = Piwik_Common::unprefixClass(get_class($this));
+        $pluginName = Common::unprefixClass(get_class($this));
         $pluginName = str_replace("_Archiver", "", $pluginName);
         return $this->getProcessor()->shouldProcessReportsForPlugin($pluginName);
     }

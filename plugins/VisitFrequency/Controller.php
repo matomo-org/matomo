@@ -9,7 +9,7 @@
  * @package Piwik_VisitFrequency
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -35,7 +35,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
     public function getEvolutionGraph($fetch = false, array $columns = array())
     {
         if (empty($columns)) {
-            $columns = Piwik_Common::getRequestVar('columns');
+            $columns = Common::getRequestVar('columns');
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
 
@@ -59,7 +59,7 @@ class Piwik_VisitFrequency_Controller extends Piwik_Controller
             'avg_time_on_site'
         );
 
-        $period = Piwik_Common::getRequestVar('period', false);
+        $period = Common::getRequestVar('period', false);
         if ($period == 'day') {
             // add number of unique (returning) visitors for period=day
             $selectableColumns = array_merge(

@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Widgetize
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -19,7 +19,7 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
     public function index()
     {
         $view = new Piwik_View('@Widgetize/index');
-        $view->availableWidgets = Piwik_Common::json_encode(Piwik_GetWidgetsList());
+        $view->availableWidgets = Common::json_encode(Piwik_GetWidgetsList());
         $this->setGeneralVariablesView($view);
         echo $view->render();
     }
@@ -45,8 +45,8 @@ class Piwik_Widgetize_Controller extends Piwik_Controller
     {
         Piwik_API_Request::reloadAuthUsingTokenAuth();
         $this->init();
-        $controllerName = Piwik_Common::getRequestVar('moduleToWidgetize');
-        $actionName = Piwik_Common::getRequestVar('actionToWidgetize');
+        $controllerName = Common::getRequestVar('moduleToWidgetize');
+        $actionName = Common::getRequestVar('actionToWidgetize');
         $parameters = array($fetch = true);
         $outputDataTable = Piwik_FrontController::getInstance()->fetchDispatch($controllerName, $actionName, $parameters);
         if ($controllerName == 'Dashboard' && $actionName == 'index') {

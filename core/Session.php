@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Session initialization.
@@ -42,7 +42,7 @@ class Piwik_Session extends Zend_Session
      */
     public static function start($options = false)
     {
-        if (Piwik_Common::isPhpCliMode()
+        if (Common::isPhpCliMode()
             || self::$sessionStarted
             || (defined('PIWIK_ENABLE_SESSION_START') && !PIWIK_ENABLE_SESSION_START)
         ) {
@@ -81,7 +81,7 @@ class Piwik_Session extends Zend_Session
             // for "files", use our own folder to prevent local session file hijacking
             $sessionPath = self::getSessionsDirectory();
             // We always call mkdir since it also chmods the directory which might help when permissions were reverted for some reasons
-            Piwik_Common::mkdir($sessionPath);
+            Common::mkdir($sessionPath);
 
             @ini_set('session.save_handler', 'files');
             @ini_set('session.save_path', $sessionPath);
@@ -95,7 +95,7 @@ class Piwik_Session extends Zend_Session
             $db = Zend_Registry::get('db');
 
             $config = array(
-                'name'           => Piwik_Common::prefixTable('session'),
+                'name'           => Common::prefixTable('session'),
                 'primary'        => 'id',
                 'modifiedColumn' => 'modified',
                 'dataColumn'     => 'data',
@@ -128,7 +128,7 @@ class Piwik_Session extends Zend_Session
 
             $message = sprintf("Error: %s %s %s\n<pre>Debug: the original error was \n%s</pre>",
                 Piwik_Translate('General_ExceptionUnableToStartSession'),
-                Piwik::getErrorMessageMissingPermissions(Piwik_Common::getPathToPiwikRoot() . '/tmp/sessions/'),
+                Piwik::getErrorMessageMissingPermissions(Common::getPathToPiwikRoot() . '/tmp/sessions/'),
                 $enableDbSessions,
                 $e->getMessage()
             );

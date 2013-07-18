@@ -9,7 +9,7 @@
  * @package Piwik_CoreUpdater
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -47,8 +47,8 @@ class Piwik_CoreUpdater extends Piwik_Plugin
 
     public function dispatch()
     {
-        $module = Piwik_Common::getRequestVar('module', '', 'string');
-        $action = Piwik_Common::getRequestVar('action', '', 'string');
+        $module = Common::getRequestVar('module', '', 'string');
+        $action = Common::getRequestVar('action', '', 'string');
 
         $updater = new Piwik_Updater();
         $updater->addComponentToCheck('core', Piwik_Version::VERSION);

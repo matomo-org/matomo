@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Provider
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Return hostname portion of a domain name
@@ -66,7 +66,7 @@ function Piwik_Provider_getPrettyProviderName( $in )
 {
     $providerName = Piwik_getHostnameName($in);
 
-    $prettyNames = Piwik_Common::getProviderNames();
+    $prettyNames = Common::getProviderNames();
 
     if(is_array($prettyNames)
         && array_key_exists(strtolower($providerName), $prettyNames))

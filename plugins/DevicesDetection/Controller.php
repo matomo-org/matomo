@@ -1,6 +1,6 @@
 <?php
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -135,7 +135,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
     public function refreshParsedUserAgents()
     {
         Piwik::checkUserIsSuperUser();
-        $q = "SELECT idvisit, config_debug_ua FROM " . Piwik_Common::prefixTable("log_visit");
+        $q = "SELECT idvisit, config_debug_ua FROM " . Common::prefixTable("log_visit");
         $res = Piwik_FetchAll($q);
         foreach ($res as $rec) {
             $UAParser = new UserAgentParserEnhanced($rec['config_debug_ua']);
@@ -165,7 +165,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
 
     private function updateVisit($idVisit, $uaDetails)
     {
-        $q = "UPDATE " . Piwik_Common::prefixTable("log_visit") . " SET " .
+        $q = "UPDATE " . Common::prefixTable("log_visit") . " SET " .
             "config_browser_name = '" . $uaDetails['config_browser_name'] . "' ," .
             "config_browser_version = '" . $uaDetails['config_browser_version'] . "' ," .
             "config_os = '" . $uaDetails['config_os'] . "' ," .

@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 exit;
 $date = date('Y-m-d');
@@ -36,7 +36,7 @@ foreach ($widgets as $category => $widgetsInCategory) {
     echo '<h2>' . $category . '</h2>';
     foreach ($widgetsInCategory as $widget) {
         echo '<h3>' . $widget['name'] . '</h3>';
-        $widgetUrl = Piwik_Common::getArrayFromQueryString($url);
+        $widgetUrl = Common::getArrayFromQueryString($url);
         $widgetUrl['moduleToWidgetize'] = $widget['parameters']['module'];
         $widgetUrl['actionToWidgetize'] = $widget['parameters']['action'];
         $parameters = $widget['parameters'];

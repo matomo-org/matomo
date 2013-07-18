@@ -1,6 +1,6 @@
 <?php
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -121,7 +121,7 @@ class ReleaseCheckListTest extends PHPUnit_Framework_TestCase
      */
     public function testEndOfLines()
     {
-        if (Piwik_Common::isWindows()) {
+        if (Common::isWindows()) {
             // SVN native does not make this work on windows
             return;
         }

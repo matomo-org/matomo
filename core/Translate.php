@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik
@@ -73,7 +73,7 @@ class Piwik_Translate
     {
         $translations = array();
         $path = PIWIK_INCLUDE_PATH . '/lang/' . $language . '.php';
-        if (!Piwik_Common::isValidFilename($language) || !is_readable($path)) {
+        if (!Common::isValidFilename($language) || !is_readable($path)) {
             throw new Exception(Piwik_TranslateException('General_ExceptionLanguageFileNotFound', array($language)));
         }
         require $path;
@@ -98,7 +98,7 @@ class Piwik_Translate
     public function getLanguageToLoad()
     {
         if (is_null(self::$languageToLoad)) {
-            $lang = Piwik_Common::getRequestVar('language', '', 'string');
+            $lang = Common::getRequestVar('language', '', 'string');
 
             Piwik_PostEvent('Translate.getLanguageToLoad', array(&$lang));
 

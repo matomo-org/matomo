@@ -9,7 +9,7 @@
  * @package Updates
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -19,14 +19,14 @@ class Piwik_Updates_0_5_4 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_action') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_action') . '`
 				 CHANGE `name` `name` TEXT' => false,
         );
     }
 
     static function update()
     {
-        $salt = Piwik_Common::generateUniqId();
+        $salt = Common::generateUniqId();
         $config = Config::getInstance();
         $superuser = $config->superuser;
         if (!isset($superuser['salt'])) {

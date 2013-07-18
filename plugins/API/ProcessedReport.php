@@ -1,6 +1,6 @@
 <?php
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -425,7 +425,7 @@ class Piwik_API_ProcessedReport
         }
 
         // remove columns if hideColumns query parameters exist
-        $columnsToRemove = Piwik_Common::getRequestVar('hideColumns', '');
+        $columnsToRemove = Common::getRequestVar('hideColumns', '');
         if ($columnsToRemove != '') {
             $columnsToRemove = explode(',', $columnsToRemove);
             foreach ($columnsToRemove as $name) {
@@ -437,7 +437,7 @@ class Piwik_API_ProcessedReport
         }
 
         // remove columns if showColumns query parameters exist
-        $columnsToKeep = Piwik_Common::getRequestVar('showColumns', '');
+        $columnsToKeep = Common::getRequestVar('showColumns', '');
         if ($columnsToKeep != '') {
             $columnsToKeep = explode(',', $columnsToKeep);
             $columnsToKeep[] = 'label';

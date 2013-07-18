@@ -9,7 +9,7 @@
  * @package Updates
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -19,9 +19,9 @@ class Piwik_Updates_0_6_3 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				CHANGE `location_ip` `location_ip` INT UNSIGNED NOT NULL'                                                                 => false,
-            'ALTER TABLE `' . Piwik_Common::prefixTable('logger_api_call') . '`
+            'ALTER TABLE `' . Common::prefixTable('logger_api_call') . '`
 				CHANGE `caller_ip` `caller_ip` INT UNSIGNED' => false,
         );
     }

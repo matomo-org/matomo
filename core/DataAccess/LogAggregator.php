@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * This class queries the Visitor logs tables (visits, actions, conversions, ecommerce)
@@ -312,8 +312,8 @@ class Piwik_DataAccess_LogAggregator
 						count(distinct idorder) as `" . Piwik_Metrics::INDEX_ECOMMERCE_ORDERS . "`,
 						count(idvisit) as `" . Piwik_Metrics::INDEX_NB_VISITS . "`,
 						case idorder when '0' then " . Piwik_Tracker_GoalManager::IDGOAL_CART . " else " . Piwik_Tracker_GoalManager::IDGOAL_ORDER . " end as ecommerceType
-			 	FROM " . Piwik_Common::prefixTable('log_conversion_item') . "
-			 		LEFT JOIN " . Piwik_Common::prefixTable('log_action') . "
+			 	FROM " . Common::prefixTable('log_conversion_item') . "
+			 		LEFT JOIN " . Common::prefixTable('log_action') . "
 			 		ON $field = idaction
 			 	WHERE server_time >= ?
 						AND server_time <= ?

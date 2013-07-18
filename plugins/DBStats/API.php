@@ -9,7 +9,7 @@
  * @package Piwik_DBStats
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see plugins/DBStats/MySQLMetadataProvider.php
@@ -273,19 +273,19 @@ class Piwik_DBStats_API
     /** Returns true if $name is the name of a numeric archive table, false if otherwise. */
     private function isNumericArchiveTable($name)
     {
-        return strpos($name, Piwik_Common::prefixTable('archive_numeric_')) === 0;
+        return strpos($name, Common::prefixTable('archive_numeric_')) === 0;
     }
 
     /** Returns true if $name is the name of a blob archive table, false if otherwise. */
     private function isBlobArchiveTable($name)
     {
-        return strpos($name, Piwik_Common::prefixTable('archive_blob_')) === 0;
+        return strpos($name, Common::prefixTable('archive_blob_')) === 0;
     }
 
     /** Returns true if $name is the name of a log table, false if otherwise. */
     private function isTrackerTable($name)
     {
-        return strpos($name, Piwik_Common::prefixTable('log_')) === 0;
+        return strpos($name, Common::prefixTable('log_')) === 0;
     }
 
     /**

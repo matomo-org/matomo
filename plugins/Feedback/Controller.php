@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -31,10 +31,10 @@ class Piwik_Feedback_Controller extends Piwik_Controller
      */
     function sendFeedback()
     {
-        $email = Piwik_Common::getRequestVar('email', '', 'string');
-        $body = Piwik_Common::getRequestVar('body', '', 'string');
-        $category = Piwik_Common::getRequestVar('category', '', 'string');
-        $nonce = Piwik_Common::getRequestVar('nonce', '', 'string');
+        $email = Common::getRequestVar('email', '', 'string');
+        $body = Common::getRequestVar('body', '', 'string');
+        $category = Common::getRequestVar('category', '', 'string');
+        $nonce = Common::getRequestVar('nonce', '', 'string');
 
         $view = new Piwik_View('@Feedback/sendFeedback');
         $view->feedbackEmailAddress = Config::getInstance()->General['feedback_email_address'];
@@ -59,10 +59,10 @@ class Piwik_Feedback_Controller extends Piwik_Controller
             Piwik_Nonce::discardNonce('Piwik_Feedback.sendFeedback');
 
             $mail = new Piwik_Mail();
-            $mail->setFrom(Piwik_Common::unsanitizeInputValue($email));
+            $mail->setFrom(Common::unsanitizeInputValue($email));
             $mail->addTo($view->feedbackEmailAddress, 'Piwik Team');
             $mail->setSubject('[ Feedback form - Piwik ] ' . $category);
-            $mail->setBodyText(Piwik_Common::unsanitizeInputValue($body) . "\n"
+            $mail->setBodyText(Common::unsanitizeInputValue($body) . "\n"
                 . 'Piwik ' . Piwik_Version::VERSION . "\n"
                 . 'IP: ' . Piwik_IP::getIpFromHeader() . "\n"
                 . 'URL: ' . Piwik_Url::getReferer() . "\n");

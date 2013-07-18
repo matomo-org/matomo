@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * This class is responsible for handling the label parameter that can be
@@ -120,7 +120,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
         $label = urldecode($label);
         $label = trim($label);
 
-        $sanitizedLabel = Piwik_Common::sanitizeInputValue( $label );
+        $sanitizedLabel = Common::sanitizeInputValue( $label );
         $variations[] = $sanitizedLabel;
 
         if ($this->apiModule == 'Actions'

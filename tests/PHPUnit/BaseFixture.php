@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -64,7 +64,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         );
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for
-        Zend_Registry::get('db')->update(Piwik_Common::prefixTable("site"),
+        Zend_Registry::get('db')->update(Common::prefixTable("site"),
             array('ts_created' => Piwik_Date::factory($dateTime)->subDay(1)->getDatetime()),
             "idsite = $idSite"
         );
@@ -333,7 +333,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
     protected static function executeLogImporter($logFile, $options)
     {
-        $python = Piwik_Common::isWindows() ? "C:\Python27\python.exe" : 'python';
+        $python = Common::isWindows() ? "C:\Python27\python.exe" : 'python';
 
         // create the command
         $cmd = $python

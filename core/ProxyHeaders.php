@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Proxy headers
@@ -24,7 +24,7 @@ class Piwik_ProxyHeaders
      */
     public static function getProtocolInformation()
     {
-        if (Piwik_Common::getRequestVar('clientProtocol', 'http', 'string') == 'https') {
+        if (Common::getRequestVar('clientProtocol', 'http', 'string') == 'https') {
             return 'https';
         }
 

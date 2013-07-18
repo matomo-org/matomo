@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -75,14 +75,14 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     protected function makeRefererTypeNonEmpty(&$row)
     {
         if (empty($row['referer_type'])) {
-            $row['referer_type'] = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+            $row['referer_type'] = Common::REFERER_TYPE_DIRECT_ENTRY;
         }
     }
 
     protected function aggregateVisit($row)
     {
         switch ($row['referer_type']) {
-            case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERER_TYPE_SEARCH_ENGINE:
                 if (empty($row['referer_keyword'])) {
                     $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
                 }
@@ -94,7 +94,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
                 $keywordsDataArray->sumMetricsVisitsPivot($row['referer_keyword'], $row['referer_name'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERER_TYPE_WEBSITE:
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_url'], $row);
 
@@ -104,14 +104,14 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
                 }
                 break;
 
-            case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERER_TYPE_CAMPAIGN:
                 if (!empty($row['referer_keyword'])) {
                     $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisitsPivot($row['referer_name'], $row['referer_keyword'], $row);
                 }
                 $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsVisits($row['referer_name'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERER_TYPE_DIRECT_ENTRY:
                 // direct entry are aggregated below in $this->metricsByType array
                 break;
 
@@ -155,7 +155,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     {
         $skipAggregateByType = false;
         switch ($row['referer_type']) {
-            case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERER_TYPE_SEARCH_ENGINE:
                 if (empty($row['referer_keyword'])) {
                     $row['referer_keyword'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
                 }
@@ -164,18 +164,18 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
                 $this->getDataArray(self::KEYWORDS_RECORD_NAME)->sumMetricsGoals($row['referer_keyword'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERER_TYPE_WEBSITE:
                 $this->getDataArray(self::WEBSITES_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERER_TYPE_CAMPAIGN:
                 if (!empty($row['referer_keyword'])) {
                     $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoalsPivot($row['referer_name'], $row['referer_keyword'], $row);
                 }
                 $this->getDataArray(self::CAMPAIGNS_RECORD_NAME)->sumMetricsGoals($row['referer_name'], $row);
                 break;
 
-            case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERER_TYPE_DIRECT_ENTRY:
                 // Direct entry, no sub dimension
                 break;
 

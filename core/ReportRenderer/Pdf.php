@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik_ReportRenderer
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see libs/tcpdf
@@ -314,7 +314,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
 
     private function formatText($text)
     {
-        return Piwik_Common::unsanitizeInputValue($text);
+        return Common::unsanitizeInputValue($text);
     }
 
     private function paintReportTable()
@@ -373,7 +373,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
                         if ($logoHeight < 16) {
                             $topMargin = 2;
                         }
-                        $path = Piwik_Common::getPathToPiwikRoot() . "/" . $rowMetadata['logo'];
+                        $path = Common::getPathToPiwikRoot() . "/" . $rowMetadata['logo'];
                         if (file_exists($path)) {
                             $this->TCPDF->Image($path, $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth / 4);
                         }

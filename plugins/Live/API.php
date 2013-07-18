@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see plugins/Referers/functions.php
@@ -325,7 +325,7 @@ class Piwik_Live_API
         $orderByParent = "sub.visit_last_action_time DESC";
         if (!empty($visitorId)) {
             $where[] = "log_visit.idvisitor = ? ";
-            $whereBind[] = @Piwik_Common::hex2bin($visitorId);
+            $whereBind[] = @Common::hex2bin($visitorId);
         }
 
         if (!empty($minTimestamp)) {
@@ -466,10 +466,10 @@ class Piwik_Live_API
 					log_link_visit_action.time_spent_ref_action as timeSpentRef,
 					log_link_visit_action.custom_float
 					$sqlCustomVariables
-				FROM " . Piwik_Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-					LEFT JOIN " . Piwik_Common::prefixTable('log_action') . " AS log_action
+				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
-					LEFT JOIN " . Piwik_Common::prefixTable('log_action') . " AS log_action_title
+					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
 				WHERE log_link_visit_action.idvisit = ?
 				ORDER BY server_time ASC
@@ -531,8 +531,8 @@ class Piwik_Live_API
 						log_conversion.idlink_va as goalPageId,
 						log_conversion.server_time as serverTimePretty,
 						log_conversion.url as url
-				FROM " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion
-				LEFT JOIN " . Piwik_Common::prefixTable('goal') . " AS goal
+				FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
+				LEFT JOIN " . Common::prefixTable('goal') . " AS goal
 					ON (goal.idsite = log_conversion.idsite
 						AND
 						goal.idgoal = log_conversion.idgoal)
@@ -555,7 +555,7 @@ class Piwik_Live_API
 						items as items,
 
 						log_conversion.server_time as serverTimePretty
-					FROM " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion
+					FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
 					WHERE idvisit = ?
 						AND idgoal <= " . Piwik_Tracker_GoalManager::IDGOAL_ORDER . "
 					ORDER BY server_time ASC
@@ -590,12 +590,12 @@ class Piwik_Live_API
 							log_action_category.name as itemCategory,
 							" . Piwik_DataAccess_LogAggregator::getSqlRevenue('price') . " as price,
 							quantity as quantity
-						FROM " . Piwik_Common::prefixTable('log_conversion_item') . "
-							INNER JOIN " . Piwik_Common::prefixTable('log_action') . " AS log_action_sku
+						FROM " . Common::prefixTable('log_conversion_item') . "
+							INNER JOIN " . Common::prefixTable('log_action') . " AS log_action_sku
 							ON  idaction_sku = log_action_sku.idaction
-							LEFT JOIN " . Piwik_Common::prefixTable('log_action') . " AS log_action_name
+							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_name
 							ON  idaction_name = log_action_name.idaction
-							LEFT JOIN " . Piwik_Common::prefixTable('log_action') . " AS log_action_category
+							LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_category
 							ON idaction_category = log_action_category.idaction
 						WHERE idvisit = ?
 							AND idorder = ?

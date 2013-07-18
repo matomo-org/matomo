@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * This class generates the HTML code to embed graphs in the page.
@@ -140,7 +140,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
     protected function buildView()
     {
         // access control
-        $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
+        $idSite = Common::getRequestVar('idSite', 1, 'int');
         Piwik_API_Request::reloadAuthUsingTokenAuth();
         if (!Piwik::isUserHasViewAccess($idSite)) {
             throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idSite)));

@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Nonce class.
@@ -42,7 +42,7 @@ class Piwik_Nonce
         // to handle browser pre-fetch or double fetch caused by some browser add-ons/extensions
         if (empty($nonce)) {
             // generate a new nonce
-            $nonce = md5(Piwik_Common::getSalt() . time() . Piwik_Common::generateUniqId());
+            $nonce = md5(Common::getSalt() . time() . Common::generateUniqId());
             $ns->nonce = $nonce;
             $ns->setExpirationSeconds($ttl, 'nonce');
         }

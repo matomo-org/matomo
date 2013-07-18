@@ -1,6 +1,6 @@
 <?php
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -18,9 +18,9 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
     public function index()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $idSite = Piwik_Common::getRequestVar('idSite', 1, 'int');
-        $period = Piwik_Common::getRequestVar('period', 'day', 'string');
-        $date = Piwik_Common::getRequestVar('date', 'today', 'string');
+        $idSite = Common::getRequestVar('idSite', 1, 'int');
+        $period = Common::getRequestVar('period', 'day', 'string');
+        $date = Common::getRequestVar('date', 'today', 'string');
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
         $reports = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
         $plot = array();
@@ -47,8 +47,8 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
         $view = new Piwik_View('@ImageGraph/testAllSizes');
         $this->setGeneralVariablesView($view);
 
-        $period = Piwik_Common::getRequestVar('period', 'day', 'string');
-        $date = Piwik_Common::getRequestVar('date', 'today', 'string');
+        $period = Common::getRequestVar('period', 'day', 'string');
+        $date = Common::getRequestVar('date', 'today', 'string');
 
         $_GET['token_auth'] = Piwik::getCurrentUserTokenAuth();
         $availableReports = Piwik_API_API::getInstance()->getReportMetadata($this->idSite, $period, $date);

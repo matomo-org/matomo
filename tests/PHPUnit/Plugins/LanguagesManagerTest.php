@@ -5,7 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 require_once 'LanguagesManager/API.php';
 
@@ -26,8 +26,8 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
 
     function getTestDataForLanguageFiles()
     {
-        self::$allLanguages = Piwik_Common::getLanguagesList();
-        self::$allCountries = Piwik_Common::getCountriesList();
+        self::$allLanguages = Common::getLanguagesList();
+        self::$allCountries = Common::getCountriesList();
         self::$englishStringsWithParameters = array();
         self::$englishStringsIndexed = array();
         self::$expectedLanguageKeys = array();
@@ -283,7 +283,7 @@ class Test_LanguagesManager extends PHPUnit_Framework_TestCase
      */
     function testGetLanguagesList()
     {
-        $languages = Piwik_Common::getLanguagesList();
+        $languages = Common::getLanguagesList();
         $this->assertTrue(count($languages) > 0);
         foreach ($languages as $langCode => $langs) {
             $this->assertTrue(strlen($langCode) == 2, "$langCode length = 2");

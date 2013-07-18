@@ -11,7 +11,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -88,7 +88,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
 
     public function deleteUserLanguage($userLogin)
     {
-        Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
+        Piwik_Query('DELETE FROM ' . Common::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
     }
 
     /**
@@ -98,7 +98,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
     {
         // we catch the exception
         try {
-            $sql = "CREATE TABLE " . Piwik_Common::prefixTable('user_language') . " (
+            $sql = "CREATE TABLE " . Common::prefixTable('user_language') . " (
 					login VARCHAR( 100 ) NOT NULL ,
 					language VARCHAR( 10 ) NOT NULL ,
 					PRIMARY KEY ( login )
@@ -118,7 +118,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
      */
     public function uninstall()
     {
-        Piwik_DropTables(Piwik_Common::prefixTable('user_language'));
+        Piwik_DropTables(Common::prefixTable('user_language'));
     }
 
     /**
@@ -128,7 +128,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
     {
         $languageCode = self::getLanguageFromPreferences();
         if (!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Piwik_Common::extractLanguageCodeFromBrowserLanguage(Piwik_Common::getBrowserLanguage(), Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages());
+            $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages());
         }
         if (!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode)) {
             $languageCode = Piwik_Translate::getInstance()->getLanguageDefault();

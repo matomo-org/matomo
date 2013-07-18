@@ -9,7 +9,7 @@
  * @package Piwik_Login
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -48,7 +48,7 @@ class Piwik_Login_Auth implements Piwik_Auth
 
             $login = Piwik_FetchOne(
                 'SELECT login
-                FROM ' . Piwik_Common::prefixTable('user') . '
+                FROM ' . Common::prefixTable('user') . '
 					WHERE token_auth = ?',
                 array($this->token_auth)
             );
@@ -67,7 +67,7 @@ class Piwik_Login_Auth implements Piwik_Auth
             $login = $this->login;
             $userToken = Piwik_FetchOne(
                 'SELECT token_auth
-                FROM ' . Piwik_Common::prefixTable('user') . '
+                FROM ' . Common::prefixTable('user') . '
 					WHERE login = ?',
                 array($login)
             );

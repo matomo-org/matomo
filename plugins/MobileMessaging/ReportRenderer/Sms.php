@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging_ReportRenderer
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 
 /**
@@ -55,7 +55,7 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
 
     public function renderReport($processedReport)
     {
-        $isGoalPluginEnabled = Piwik_Common::isGoalPluginEnabled();
+        $isGoalPluginEnabled = Common::isGoalPluginEnabled();
         $prettyDate = $processedReport['prettyDate'];
         $reportData = $processedReport['reportData'];
 

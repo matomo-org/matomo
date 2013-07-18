@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * This class contains Archiving rules/logic which are used in several places
@@ -205,9 +205,9 @@ class Piwik_ArchiveProcessor_Rules
     {
         return !self::$archivingDisabledByTests &&
             (Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()
-                || Piwik_Common::isPhpCliMode()
+                || Common::isPhpCliMode()
                 || (Piwik::isUserIsSuperUser()
-                    && Piwik_Common::isArchivePhpTriggered()));
+                    && Common::isArchivePhpTriggered()));
     }
 
     public static function isBrowserTriggerEnabled()

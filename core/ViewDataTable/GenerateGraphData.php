@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Reads data from the API and prepares data to give to the renderer Piwik_Visualization_Chart.
@@ -59,7 +59,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
                      $controllerActionCalledWhenRequestSubTable,
                      $defaultProperties);
         
-        $columns = Piwik_Common::getRequestVar('columns', false);
+        $columns = Common::getRequestVar('columns', false);
         if ($columns !== false) {
             $columns = Piwik::getArrayFromApiParameter($columns);
         } else {
@@ -79,7 +79,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
         // selectable columns
         if ($this->getViewDataTableId() != 'generateDataChartEvolution') {
             $selectableColumns = array('nb_visits', 'nb_actions');
-            if (Piwik_Common::getRequestVar('period', false) == 'day') {
+            if (Common::getRequestVar('period', false) == 'day') {
                 $selectableColumns[] = 'nb_uniq_visitors';
             }
             $this->setSelectableColumns($selectableColumns);
@@ -161,7 +161,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
     protected function addSeriesPickerToView($multiSelect = true)
     {
         if (count($this->selectableColumns)
-            && Piwik_Common::getRequestVar('showSeriesPicker', 1) == 1
+            && Common::getRequestVar('showSeriesPicker', 1) == 1
         ) {
             // build the final configuration for the series picker
             $columnsToDisplay = $this->getColumnsToDisplay();
@@ -181,7 +181,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
     protected function getUnitsForColumnsToDisplay()
     {
         // derive units from column names
-        $idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+        $idSite = Common::getRequestVar('idSite', null, 'int');
         $units = $this->deriveUnitsFromRequestedColumnNames($this->getColumnsToDisplay(), $idSite);
         if (!empty($this->yAxisUnit)) {
             // force unit to the value set via $this->setAxisYUnit()
@@ -240,7 +240,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
 
         // if addTotalRow was called in GenerateGraphHTML, add a row containing totals of
         // different metrics
-        if (Piwik_Common::getRequestVar('add_total_row', 0) == 1) {
+        if (Common::getRequestVar('add_total_row', 0) == 1) {
             $this->dataTable->queueFilter('AddSummaryRow', array(0, Piwik_Translate('General_Total'), null, false));
         }
 
@@ -275,7 +275,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphData extends Piwik_ViewDataTable
         $this->view->setDisplayPercentageInTooltip($this->displayPercentageInTooltip);
 
         // show_all_ticks is not real query param, it is set by GenerateGraphHTML.
-        if (Piwik_Common::getRequestVar('show_all_ticks', 0) == 1) {
+        if (Common::getRequestVar('show_all_ticks', 0) == 1) {
             $this->view->showAllTicks();
         }
 

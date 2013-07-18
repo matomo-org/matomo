@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik
@@ -27,7 +27,7 @@ class Piwik_API_DocumentationGenerator
     {
         $plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $plugin) {
-            $plugin = Piwik_Common::unprefixClass($plugin);
+            $plugin = Common::unprefixClass($plugin);
             try {
                 Piwik_API_Proxy::getInstance()->registerClass('Piwik_' . $plugin . '_API');
             } catch (Exception $e) {
@@ -52,9 +52,9 @@ class Piwik_API_DocumentationGenerator
         $str = $toc = '';
         $token_auth = "&token_auth=" . Piwik::getCurrentUserTokenAuth();
         $parametersToSet = array(
-            'idSite' => Piwik_Common::getRequestVar('idSite', 1, 'int'),
-            'period' => Piwik_Common::getRequestVar('period', 'day', 'string'),
-            'date'   => Piwik_Common::getRequestVar('date', 'today', 'string')
+            'idSite' => Common::getRequestVar('idSite', 1, 'int'),
+            'period' => Common::getRequestVar('period', 'day', 'string'),
+            'date'   => Common::getRequestVar('date', 'today', 'string')
         );
 
         foreach (Piwik_API_Proxy::getInstance()->getMetadata() as $class => $info) {

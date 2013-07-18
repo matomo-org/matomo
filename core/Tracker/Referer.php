@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik
@@ -64,9 +64,9 @@ class Piwik_Tracker_Referer
         $this->idsite = $idSite;
 
         // default values for the referer_* fields
-        $refererUrl = Piwik_Common::unsanitizeInputValue($refererUrl);
+        $refererUrl = Common::unsanitizeInputValue($refererUrl);
         if (!empty($refererUrl)
-            && !Piwik_Common::isLookLikeUrl($refererUrl)
+            && !Common::isLookLikeUrl($refererUrl)
         ) {
             $refererUrl = '';
         }
@@ -76,7 +76,7 @@ class Piwik_Tracker_Referer
         $this->refererUrl = $refererUrl;
         $this->refererUrlParse = @parse_url($this->refererUrl);
         $this->currentUrlParse = @parse_url($currentUrl);
-        $this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+        $this->typeRefererAnalyzed = Common::REFERER_TYPE_DIRECT_ENTRY;
         $this->nameRefererAnalyzed = '';
         $this->keywordRefererAnalyzed = '';
         $this->refererHost = '';
@@ -104,7 +104,7 @@ class Piwik_Tracker_Referer
         if (!empty($this->refererHost)
             && !$refererDetected
         ) {
-            $this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_WEBSITE;
+            $this->typeRefererAnalyzed = Common::REFERER_TYPE_WEBSITE;
             $this->nameRefererAnalyzed = mb_strtolower($this->refererHost, 'UTF-8');
         }
 
@@ -124,12 +124,12 @@ class Piwik_Tracker_Referer
      */
     protected function detectRefererSearchEngine()
     {
-        $searchEngineInformation = Piwik_Common::extractSearchEngineInformationFromUrl($this->refererUrl);
+        $searchEngineInformation = Common::extractSearchEngineInformationFromUrl($this->refererUrl);
         Piwik_PostEvent('Tracker.detectRefererSearchEngine', array(&$searchEngineInformation, $this->refererUrl));
         if ($searchEngineInformation === false) {
             return false;
         }
-        $this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_SEARCH_ENGINE;
+        $this->typeRefererAnalyzed = Common::REFERER_TYPE_SEARCH_ENGINE;
         $this->nameRefererAnalyzed = $searchEngineInformation['name'];
         $this->keywordRefererAnalyzed = $searchEngineInformation['keywords'];
         return true;
@@ -142,18 +142,18 @@ class Piwik_Tracker_Referer
     protected function detectCampaignFromString($string)
     {
         foreach ($this->campaignNames as $campaignNameParameter) {
-            $campaignName = trim(urldecode(Piwik_Common::getParameterFromQueryString($string, $campaignNameParameter)));
+            $campaignName = trim(urldecode(Common::getParameterFromQueryString($string, $campaignNameParameter)));
             if (!empty($campaignName)) {
                 break;
             }
         }
 
         if (!empty($campaignName)) {
-            $this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_CAMPAIGN;
+            $this->typeRefererAnalyzed = Common::REFERER_TYPE_CAMPAIGN;
             $this->nameRefererAnalyzed = $campaignName;
 
             foreach ($this->campaignKeywords as $campaignKeywordParameter) {
-                $campaignKeyword = Piwik_Common::getParameterFromQueryString($string, $campaignKeywordParameter);
+                $campaignKeyword = Common::getParameterFromQueryString($string, $campaignKeywordParameter);
                 if (!empty($campaignKeyword)) {
                     $this->keywordRefererAnalyzed = trim(urldecode($campaignKeyword));
                     break;
@@ -163,7 +163,7 @@ class Piwik_Tracker_Referer
             // if the campaign keyword is empty, try to get a keyword from the referrer URL
             if (empty($this->keywordRefererAnalyzed)) {
                 // Set the Campaign keyword to the keyword found in the Referer URL if any
-                $referrerUrlInfo = Piwik_Common::extractSearchEngineInformationFromUrl($this->refererUrl);
+                $referrerUrlInfo = Common::extractSearchEngineInformationFromUrl($this->refererUrl);
                 if (!empty($referrerUrlInfo['keywords'])) {
                     $this->keywordRefererAnalyzed = $referrerUrlInfo['keywords'];
                 }
@@ -176,7 +176,7 @@ class Piwik_Tracker_Referer
                 ) {
                     // This parameter sometimes is found & contains the page with the adsense ad bringing visitor to our site
                     $adsenseReferrerParameter = 'url';
-                    $value = trim(urldecode(Piwik_Common::getParameterFromQueryString($this->refererUrlParse['query'], $adsenseReferrerParameter)));
+                    $value = trim(urldecode(Common::getParameterFromQueryString($this->refererUrlParse['query'], $adsenseReferrerParameter)));
                     if (!empty($value)) {
                         $parsedAdsenseReferrerUrl = parse_url($value);
                         if (!empty($parsedAdsenseReferrerUrl['host'])) {
@@ -207,7 +207,7 @@ class Piwik_Tracker_Referer
         ) {
             return false;
         }
-        $campaignParameters = Piwik_Common::getCampaignParameters();
+        $campaignParameters = Common::getCampaignParameters();
         $this->campaignNames = $campaignParameters[0];
         $this->campaignKeywords = $campaignParameters[1];
 
@@ -241,12 +241,12 @@ class Piwik_Tracker_Referer
             if (isset($this->currentUrlParse['host'])) {
                 $currentHost = mb_strtolower($this->currentUrlParse['host'], 'UTF-8');
                 if ($currentHost == mb_strtolower($this->refererHost, 'UTF-8')) {
-                    $this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+                    $this->typeRefererAnalyzed = Common::REFERER_TYPE_DIRECT_ENTRY;
                     return true;
                 }
             }
             if (Piwik_Tracker_Visit::isHostKnownAliasHost($this->refererHost, $this->idsite)) {
-                $this->typeRefererAnalyzed = Piwik_Common::REFERER_TYPE_DIRECT_ENTRY;
+                $this->typeRefererAnalyzed = Common::REFERER_TYPE_DIRECT_ENTRY;
                 return true;
             }
         }

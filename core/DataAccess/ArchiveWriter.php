@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * This class is used to create a new Archive.
@@ -78,7 +78,7 @@ class Piwik_DataAccess_ArchiveWriter
         $idSite = $this->idSite;
 
         $db = Zend_Registry::get('db');
-        $locked = self::PREFIX_SQL_LOCK . Piwik_Common::generateUniqId();
+        $locked = self::PREFIX_SQL_LOCK . Common::generateUniqId();
         $date = date("Y-m-d H:i:s");
         $dbLockName = "allocateNewArchiveId.$numericTable";
 
@@ -125,7 +125,7 @@ class Piwik_DataAccess_ArchiveWriter
             . $period->getId() . '/'
             . $period->getDateStart()->toString('Y-m-d') . ','
             . $period->getDateEnd()->toString('Y-m-d');
-        return $lockName . '/' . md5($lockName . Piwik_Common::getSalt());
+        return $lockName . '/' . md5($lockName . Common::getSalt());
     }
 
     public function finalizeArchive()

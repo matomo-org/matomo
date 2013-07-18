@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_SEO
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_SEO
@@ -17,16 +17,16 @@ class Piwik_SEO_Controller extends Piwik_Controller
 {
     function getRank()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite');
+        $idSite = Common::getRequestVar('idSite');
         $site = new Piwik_Site($idSite);
 
-        $url = urldecode(Piwik_Common::getRequestVar('url', '', 'string'));
+        $url = urldecode(Common::getRequestVar('url', '', 'string'));
 
         if (!empty($url) && strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
             $url = 'http://' . $url;
         }
 
-        if (empty($url) || !Piwik_Common::isLookLikeUrl($url)) {
+        if (empty($url) || !Common::isLookLikeUrl($url)) {
             $url = $site->getMainUrl();
         }
 

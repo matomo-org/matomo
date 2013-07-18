@@ -9,7 +9,7 @@
  * @package Piwik_Actions
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),
@@ -369,7 +369,7 @@ class Piwik_Actions_API
         if ($searchTree === false) {
             // build the query parts that are searched inside the tree
             if ($actionType == Piwik_Tracker_Action::TYPE_ACTION_NAME) {
-                $searchedString = Piwik_Common::unsanitizeInputValue($search);
+                $searchedString = Common::unsanitizeInputValue($search);
             } else {
                 $idSite = $callBackParameters[1];
                 try {

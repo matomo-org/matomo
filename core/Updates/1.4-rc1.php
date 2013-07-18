@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -18,9 +18,9 @@ class Piwik_Updates_1_4_rc1 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('pdf') . '`
+            'ALTER TABLE `' . Common::prefixTable('pdf') . '`
 		    	ADD COLUMN `format` VARCHAR(10)'                                                => false,
-            'UPDATE `' . Piwik_Common::prefixTable('pdf') . '`
+            'UPDATE `' . Common::prefixTable('pdf') . '`
 		    	SET format = "pdf"' => false,
         );
     }

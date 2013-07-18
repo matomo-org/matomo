@@ -9,7 +9,7 @@
  * @package Piwik_PDFReports
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -62,7 +62,7 @@ class Piwik_PDFReports_Controller extends Piwik_Controller
             }
         }
         $view->reports = $reports;
-        $view->reportsJSON = Piwik_Common::json_encode($reportsById);
+        $view->reportsJSON = Common::json_encode($reportsById);
 
         $view->downloadOutputType = Piwik_PDFReports_API::OUTPUT_INLINE;
 

@@ -9,7 +9,7 @@
  * @package Piwik_DBStats
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Utility class that provides general information about databases, including the size of
@@ -78,7 +78,7 @@ class Piwik_DBStats_MySQLMetadataProvider
      */
     public function getTableStatus($table)
     {
-        $prefixed = Piwik_Common::prefixTable($table);
+        $prefixed = Common::prefixTable($table);
 
         // if we've already gotten every table status, don't issue an uneeded query
         if (!is_null($this->tableStatuses) && isset($this->tableStatuses[$prefixed])) {
@@ -130,7 +130,7 @@ class Piwik_DBStats_MySQLMetadataProvider
      */
     public function getAllLogTableStatus()
     {
-        $regex = "/^" . Piwik_Common::prefixTable('log_') . "(?!profiling)/";
+        $regex = "/^" . Common::prefixTable('log_') . "(?!profiling)/";
         return $this->getAllTablesStatus($regex);
     }
 
@@ -141,7 +141,7 @@ class Piwik_DBStats_MySQLMetadataProvider
      */
     public function getAllNumericArchiveStatus()
     {
-        $regex = "/^" . Piwik_Common::prefixTable('archive_numeric') . "_/";
+        $regex = "/^" . Common::prefixTable('archive_numeric') . "_/";
         return $this->getAllTablesStatus($regex);
     }
 
@@ -152,7 +152,7 @@ class Piwik_DBStats_MySQLMetadataProvider
      */
     public function getAllBlobArchiveStatus()
     {
-        $regex = "/^" . Piwik_Common::prefixTable('archive_blob') . "_/";
+        $regex = "/^" . Common::prefixTable('archive_blob') . "_/";
         return $this->getAllTablesStatus($regex);
     }
 
@@ -163,7 +163,7 @@ class Piwik_DBStats_MySQLMetadataProvider
      */
     public function getAllAdminTableStatus()
     {
-        $regex = "/^" . Piwik_Common::prefixTable('') . "(?!archive_|(?:log_(?!profiling)))/";
+        $regex = "/^" . Common::prefixTable('') . "(?!archive_|(?:log_(?!profiling)))/";
         return $this->getAllTablesStatus($regex);
     }
 

@@ -9,7 +9,7 @@
  * @package Piwik_MultiSites
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
@@ -363,7 +363,7 @@ class Piwik_MultiSites_API
             }
         } else {
             $revenueMetric = '';
-            if (Piwik_Common::isGoalPluginEnabled()) {
+            if (Common::isGoalPluginEnabled()) {
                 $revenueMetric = Piwik_Goals_Archiver::getRecordName(self::GOAL_REVENUE_METRIC);
             }
 
@@ -431,7 +431,7 @@ class Piwik_MultiSites_API
     public static function getApiMetrics($enhanced)
     {
         $metrics = self::$baseMetrics;
-        if (Piwik_Common::isGoalPluginEnabled()) {
+        if (Common::isGoalPluginEnabled()) {
             // goal revenue metric
             $metrics[self::GOAL_REVENUE_METRIC] = array(
                 self::METRIC_TRANSLATION_KEY        => 'Goals_ColumnRevenue',

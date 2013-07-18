@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -76,39 +76,39 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
     public function setGeneralSettings()
     {
         Piwik::checkUserIsSuperUser();
-        $response = new Piwik_API_ResponseBuilder(Piwik_Common::getRequestVar('format'));
+        $response = new Piwik_API_ResponseBuilder(Common::getRequestVar('format'));
         try {
             $this->checkTokenInUrl();
-            $enableBrowserTriggerArchiving = Piwik_Common::getRequestVar('enableBrowserTriggerArchiving');
-            $todayArchiveTimeToLive = Piwik_Common::getRequestVar('todayArchiveTimeToLive');
+            $enableBrowserTriggerArchiving = Common::getRequestVar('enableBrowserTriggerArchiving');
+            $todayArchiveTimeToLive = Common::getRequestVar('todayArchiveTimeToLive');
 
             Piwik_ArchiveProcessor_Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
             Piwik_ArchiveProcessor_Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
 
             // Update email settings
             $mail = array();
-            $mail['transport'] = (Piwik_Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
-            $mail['port'] = Piwik_Common::getRequestVar('mailPort', '');
-            $mail['host'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailHost', ''));
-            $mail['type'] = Piwik_Common::getRequestVar('mailType', '');
-            $mail['username'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailUsername', ''));
-            $mail['password'] = Piwik_Common::unsanitizeInputValue(Piwik_Common::getRequestVar('mailPassword', ''));
-            $mail['encryption'] = Piwik_Common::getRequestVar('mailEncryption', '');
+            $mail['transport'] = (Common::getRequestVar('mailUseSmtp') == '1') ? 'smtp' : '';
+            $mail['port'] = Common::getRequestVar('mailPort', '');
+            $mail['host'] = Common::unsanitizeInputValue(Common::getRequestVar('mailHost', ''));
+            $mail['type'] = Common::getRequestVar('mailType', '');
+            $mail['username'] = Common::unsanitizeInputValue(Common::getRequestVar('mailUsername', ''));
+            $mail['password'] = Common::unsanitizeInputValue(Common::getRequestVar('mailPassword', ''));
+            $mail['encryption'] = Common::getRequestVar('mailEncryption', '');
 
             $config = Config::getInstance();
             $config->mail = $mail;
 
             // update branding settings
             $branding = $config->branding;
-            $branding['use_custom_logo'] = Piwik_Common::getRequestVar('useCustomLogo', '0');
+            $branding['use_custom_logo'] = Common::getRequestVar('useCustomLogo', '0');
             $config->branding = $branding;
 
             // update beta channel setting
             $debug = $config->Debug;
-            $debug['allow_upgrades_to_beta'] = Piwik_Common::getRequestVar('enableBetaReleaseCheck', '0', 'int');
+            $debug['allow_upgrades_to_beta'] = Common::getRequestVar('enableBetaReleaseCheck', '0', 'int');
             $config->Debug = $debug;
             // update trusted host settings
-            $trustedHosts = Piwik_Common::getRequestVar('trustedHosts', false, 'json');
+            $trustedHosts = Common::getRequestVar('trustedHosts', false, 'json');
             if ($trustedHosts !== false) {
                 Piwik_Url::saveTrustedHostnameInConfig($trustedHosts);
             }
@@ -135,7 +135,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
         $viewableIdSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
 
         $defaultIdSite = reset($viewableIdSites);
-        $view->idSite = Piwik_Common::getRequestVar('idSite', $defaultIdSite, 'int');
+        $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
 
         $view->defaultReportSiteName = Piwik_Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = Piwik::getCurrency($view->idSite);
@@ -166,8 +166,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
     {
         $trackVisits = !Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound();
 
-        $nonce = Piwik_Common::getRequestVar('nonce', false);
-        $language = Piwik_Common::getRequestVar('language', '');
+        $nonce = Common::getRequestVar('nonce', false);
+        $language = Common::getRequestVar('language', '');
         if ($nonce !== false && Piwik_Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
             Piwik_Nonce::discardNonce('Piwik_OptOut');
             Piwik_Tracker_IgnoreCookie::setIgnoreCookie();

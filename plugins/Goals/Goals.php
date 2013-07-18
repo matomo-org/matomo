@@ -9,7 +9,7 @@
  * @package Piwik_Goals
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -99,7 +99,7 @@ class Piwik_Goals extends Piwik_Plugin
      */
     function deleteSiteGoals($idSite)
     {
-        Piwik_Query("DELETE FROM " . Piwik_Common::prefixTable('goal') . " WHERE idsite = ? ", array($idSite));
+        Piwik_Query("DELETE FROM " . Common::prefixTable('goal') . " WHERE idsite = ? ", array($idSite));
     }
 
     /**
@@ -410,7 +410,7 @@ class Piwik_Goals extends Piwik_Plugin
 
     public function addWidgets()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+        $idSite = Common::getRequestVar('idSite', null, 'int');
 
         // Ecommerce widgets
         $site = new Piwik_Site($idSite);
@@ -427,14 +427,14 @@ class Piwik_Goals extends Piwik_Plugin
         $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
         if (count($goals) > 0) {
             foreach ($goals as $goal) {
-                Piwik_AddWidget('Goals_Goals', Piwik_Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+                Piwik_AddWidget('Goals_Goals', Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
             }
         }
     }
 
     function addMenus()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+        $idSite = Common::getRequestVar('idSite', null, 'int');
         $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
         $mainGoalMenu = $this->getGoalCategoryName($idSite);
         $site = new Piwik_Site($idSite);
@@ -570,7 +570,7 @@ class Piwik_Goals extends Piwik_Plugin
     
     private function getDisplayPropertiesForItemsReport($label)
     {
-        $idSite = Piwik_Common::getRequestVar('idSite');
+        $idSite = Common::getRequestVar('idSite');
         
         $moneyColumns = array('revenue', 'avg_price');
         $prettifyMoneyColumns = array(
@@ -592,7 +592,7 @@ class Piwik_Goals extends Piwik_Plugin
         // set columns/translations which differ based on viewDataTable TODO: shouldn't have to do this check... amount of reports should be dynamic, but metadata should be static
         $columns = Piwik_Goals::getProductReportColumns();
         
-        $abandonedCart = Piwik_Common::getRequestVar('viewDataTable', 'ecommerceOrder', 'string') == 'ecommerceAbandonedCart';
+        $abandonedCart = Common::getRequestVar('viewDataTable', 'ecommerceOrder', 'string') == 'ecommerceAbandonedCart';
         if ($abandonedCart) {
             $columns['abandoned_carts'] = Piwik_Translate('General_AbandonedCarts');
             $columns['revenue'] = Piwik_Translate('Goals_LeftInCart', Piwik_Translate('General_ProductRevenue'));

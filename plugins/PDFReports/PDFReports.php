@@ -9,7 +9,7 @@
  * @package Piwik_PDFReports
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -504,13 +504,13 @@ class Piwik_PDFReports extends Piwik_Plugin
 
     public function deleteUserReport($userLogin)
     {
-        Piwik_Query('DELETE FROM ' . Piwik_Common::prefixTable('report') . ' WHERE login = ?', $userLogin);
+        Piwik_Query('DELETE FROM ' . Common::prefixTable('report') . ' WHERE login = ?', $userLogin);
     }
 
     public function install()
     {
         $queries[] = '
-                CREATE TABLE `' . Piwik_Common::prefixTable('report') . '` (
+                CREATE TABLE `' . Common::prefixTable('report') . '` (
 					`idreport` INT(11) NOT NULL AUTO_INCREMENT,
 					`idsite` INTEGER(11) NOT NULL,
 					`login` VARCHAR(100) NOT NULL,

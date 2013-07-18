@@ -1,7 +1,7 @@
 <?php
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 $USAGE = "
 Usage: 
@@ -623,8 +623,8 @@ class Archiving
      */
     private function initCheckCli()
     {
-        if (!Piwik_Common::isPhpCliMode()) {
-            $token_auth = Piwik_Common::getRequestVar('token_auth', '', 'string');
+        if (!Common::isPhpCliMode()) {
+            $token_auth = Common::getRequestVar('token_auth', '', 'string');
             if ($token_auth != $this->token_auth
                 || strlen($token_auth) != 32
             ) {
@@ -783,16 +783,16 @@ class Archiving
     private function initPiwikHost()
     {
         // If archive.php run as a web cron, we use the current hostname
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             // example.org/piwik/misc/cron/
-            $piwikUrl = Piwik_Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+            $piwikUrl = Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
             // example.org/piwik/
             $piwikUrl = $piwikUrl . "../../";
         } // If archive.php run as CLI/shell we require the piwik url to be set
         else {
             $piwikUrl = $this->isParameterSet("url", true);
             if (!$piwikUrl
-                || !Piwik_Common::isLookLikeUrl($piwikUrl)
+                || !Common::isLookLikeUrl($piwikUrl)
             ) {
                 $this->logFatalError("archive.php expects the argument --url to be set to your Piwik URL, for example: --url=http://example.org/piwik/ ", $backtrace = false);
             }
@@ -819,7 +819,7 @@ class Archiving
      */
     private function isParameterSet($parameter, $valuePossible = false)
     {
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             return false;
         }
         $parameters = array(

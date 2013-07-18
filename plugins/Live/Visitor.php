@@ -9,7 +9,7 @@
  * @package Piwik_Live
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see plugins/Referers/functions.php
@@ -256,7 +256,7 @@ class Piwik_Live_Visitor
 
     function getContinentCode()
     {
-        return Piwik_Common::getContinent($this->details['location_country']);
+        return Common::getContinent($this->details['location_country']);
     }
 
     function getCityName()
@@ -370,7 +370,7 @@ class Piwik_Live_Visitor
                 }
             }
         }
-        if (Piwik_Common::isLookLikeUrl($this->details['referer_url'])) {
+        if (Common::isLookLikeUrl($this->details['referer_url'])) {
             return $this->details['referer_url'];
         }
         return null;
@@ -385,7 +385,7 @@ class Piwik_Live_Visitor
             if (empty($url['query'])) {
                 return null;
             }
-            $position = Piwik_Common::getParameterFromQueryString($url['query'], 'cd');
+            $position = Common::getParameterFromQueryString($url['query'], 'cd');
             if (!empty($position)) {
                 return $position;
             }

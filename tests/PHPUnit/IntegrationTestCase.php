@@ -7,7 +7,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -706,7 +706,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                                 && $isTestLogImportReverseChronological;
 
         $request = new Piwik_API_Request($requestUrl);
-        $dateTime = Piwik_Common::getRequestVar('date', '', 'string', Piwik_Common::getArrayFromQueryString($requestUrl));
+        $dateTime = Common::getRequestVar('date', '', 'string', Common::getArrayFromQueryString($requestUrl));
 
         list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths($testName, $apiId);
 
@@ -1089,7 +1089,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 $tableType = strpos($table, 'archive_numeric') !== false ? 'archive_numeric' : 'archive_blob';
 
                 $createSql = Piwik::getTableCreateSql($tableType);
-                $createSql = str_replace(Piwik_Common::prefixTable($tableType), $table, $createSql);
+                $createSql = str_replace(Common::prefixTable($tableType), $table, $createSql);
                 Piwik_Query($createSql);
             }
 

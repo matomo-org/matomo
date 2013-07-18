@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see core/Plugin/MetadataLoader.php
@@ -46,7 +46,7 @@ class Piwik_Plugin
     public function __construct($pluginName = false)
     {
         if (empty($pluginName)) {
-            $pluginName = Piwik_Common::unprefixClass(get_class($this));
+            $pluginName = Common::unprefixClass(get_class($this));
         }
         $this->pluginName = $pluginName;
         

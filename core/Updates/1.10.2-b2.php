@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -19,7 +19,7 @@ class Piwik_Updates_1_10_2_b2 extends Piwik_Updates
     {
         return array(
             // ignore existing column name error (1060)
-            'ALTER TABLE ' . Piwik_Common::prefixTable('site')
+            'ALTER TABLE ' . Common::prefixTable('site')
                 . " ADD COLUMN `keep_url_fragment` TINYINT NOT NULL DEFAULT 0 AFTER `group`" => 1060,
         );
     }

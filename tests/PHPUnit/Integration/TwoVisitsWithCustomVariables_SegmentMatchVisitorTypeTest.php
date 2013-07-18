@@ -5,7 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Tests use of custom variable segments.
@@ -86,11 +86,11 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
             'archive_numeric_2009_12' => (6 + 2 + 3) * 2,
         );
         foreach ($tests as $table => $expectedRows) {
-            $sql = "SELECT count(*) FROM " . Piwik_Common::prefixTable($table);
+            $sql = "SELECT count(*) FROM " . Common::prefixTable($table);
             $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
 
             if($expectedRows != $countBlobs) {
-                var_export(Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Piwik_Common::prefixTable($table) . " ORDER BY name, idarchive ASC"));
+                var_export(Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " ORDER BY name, idarchive ASC"));
             }
             $this->assertEquals($expectedRows, $countBlobs, "$table: %s");
         }

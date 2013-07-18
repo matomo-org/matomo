@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -23,7 +23,7 @@ class Piwik_Updates_1_12_b1 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_link_visit_action') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_link_visit_action') . '`
 			 ADD `custom_float` FLOAT NULL DEFAULT NULL' => 1060
         );
     }

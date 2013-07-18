@@ -9,7 +9,7 @@
  * @package Piwik_PDFReports
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * The PDFReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
@@ -99,13 +99,13 @@ class Piwik_PDFReports_API
         $reports = self::validateRequestedReports($idSite, $reportType, $reports);
 
         $db = Zend_Registry::get('db');
-        $idReport = $db->fetchOne("SELECT max(idreport) + 1 FROM " . Piwik_Common::prefixTable('report'));
+        $idReport = $db->fetchOne("SELECT max(idreport) + 1 FROM " . Common::prefixTable('report'));
 
         if ($idReport == false) {
             $idReport = 1;
         }
 
-        $db->insert(Piwik_Common::prefixTable('report'),
+        $db->insert(Common::prefixTable('report'),
             array(
                  'idreport'    => $idReport,
                  'idsite'      => $idSite,
@@ -158,7 +158,7 @@ class Piwik_PDFReports_API
         // validation of requested reports
         $reports = self::validateRequestedReports($idSite, $reportType, $reports);
 
-        Zend_Registry::get('db')->update(Piwik_Common::prefixTable('report'),
+        Zend_Registry::get('db')->update(Common::prefixTable('report'),
             array(
                  'description' => $description,
                  'idsegment'   => $idSegment,
@@ -186,7 +186,7 @@ class Piwik_PDFReports_API
         $report = reset($pdfReports);
         Piwik::checkUserIsSuperUserOrTheUser($report['login']);
 
-        Zend_Registry::get('db')->update(Piwik_Common::prefixTable('report'),
+        Zend_Registry::get('db')->update(Common::prefixTable('report'),
             array(
                  'deleted' => 1,
             ),
@@ -235,7 +235,7 @@ class Piwik_PDFReports_API
         }
         if (!empty($idSite)) {
             Piwik::checkUserHasViewAccess($idSite);
-            $sqlWhere .= " AND " . Piwik_Common::prefixTable('site') . ".idsite = ?";
+            $sqlWhere .= " AND " . Common::prefixTable('site') . ".idsite = ?";
             $bind[] = $idSite;
         }
         if (!empty($idReport)) {
@@ -249,8 +249,8 @@ class Piwik_PDFReports_API
 
         // Joining with the site table to work around pre-1.3 where reports could still be linked to a deleted site
         $reports = Piwik_FetchAll("SELECT *
-								FROM " . Piwik_Common::prefixTable('report') . "
-									JOIN " . Piwik_Common::prefixTable('site') . "
+								FROM " . Common::prefixTable('report') . "
+									JOIN " . Common::prefixTable('site') . "
 									USING (idsite)
 								WHERE deleted = 0
 									$sqlWhere", $bind);
@@ -263,10 +263,10 @@ class Piwik_PDFReports_API
 
         foreach ($reports as &$report) {
             // decode report parameters
-            $report['parameters'] = Piwik_Common::json_decode($report['parameters'], true);
+            $report['parameters'] = Common::json_decode($report['parameters'], true);
 
             // decode report list
-            $report['reports'] = Piwik_Common::json_decode($report['reports'], true);
+            $report['reports'] = Common::json_decode($report['reports'], true);
         }
 
         // static cache
@@ -318,7 +318,7 @@ class Piwik_PDFReports_API
         }
 
         // override and/or validate report parameters
-        $report['parameters'] = Piwik_Common::json_decode(
+        $report['parameters'] = Common::json_decode(
             self::validateReportParameters($reportType, empty($parameters) ? $report['parameters'] : $parameters),
             true
         );
@@ -336,7 +336,7 @@ class Piwik_PDFReports_API
 
         // the report will be rendered with the first 23 rows and will aggregate other rows in a summary row
         // 23 rows table fits in one portrait page
-        $initialFilterTruncate = Piwik_Common::getRequestVar('filter_truncate', false);
+        $initialFilterTruncate = Common::getRequestVar('filter_truncate', false);
         $_GET['filter_truncate'] = self::REPORT_TRUNCATE;
 
         $prettyDate = null;
@@ -536,7 +536,7 @@ class Piwik_PDFReports_API
         );
 
         // Update flag in DB
-        Zend_Registry::get('db')->update(Piwik_Common::prefixTable('report'),
+        Zend_Registry::get('db')->update(Common::prefixTable('report'),
             array('ts_last_sent' => Piwik_Date::now()->getDatetime()),
             "idreport = " . $report['idreport']
         );
@@ -591,7 +591,7 @@ class Piwik_PDFReports_API
         // delegate report parameter validation
         Piwik_PostEvent(self::VALIDATE_PARAMETERS_EVENT, array(&$parameters, $notificationInfo));
 
-        return Piwik_Common::json_encode($parameters);
+        return Common::json_encode($parameters);
     }
 
     private static function validateAndTruncateDescription(&$description)
@@ -620,7 +620,7 @@ class Piwik_PDFReports_API
             }
         }
 
-        return Piwik_Common::json_encode($requestedReports);
+        return Common::json_encode($requestedReports);
     }
 
     private static function validateCommonReportAttributes($period, $hour, &$description, &$idSegment, $reportType, $reportFormat)

@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
@@ -62,9 +62,9 @@ abstract class Piwik_Controller
     {
         $aPluginName = explode('_', get_class($this));
         $this->pluginName = $aPluginName[1];
-        $date = Piwik_Common::getRequestVar('date', 'yesterday', 'string');
+        $date = Common::getRequestVar('date', 'yesterday', 'string');
         try {
-            $this->idSite = Piwik_Common::getRequestVar('idSite', false, 'int');
+            $this->idSite = Common::getRequestVar('idSite', false, 'int');
             $this->site = new Piwik_Site($this->idSite);
             $date = $this->getDateParameterInTimezone($date, $this->site->getTimezone());
             $this->setDate($date);
@@ -198,9 +198,9 @@ abstract class Piwik_Controller
         $_GET['columns'] = implode(',', $columnsToDisplay);
 
         // load translations from meta data
-        $idSite = Piwik_Common::getRequestVar('idSite');
-        $period = Piwik_Common::getRequestVar('period');
-        $date = Piwik_Common::getRequestVar('date');
+        $idSite = Common::getRequestVar('idSite');
+        $period = Common::getRequestVar('period');
+        $date = Common::getRequestVar('date');
         $meta = Piwik_API_API::getInstance()->getReportMetadata($idSite, $period, $date);
 
         $columns = array_merge($columnsToDisplay, $selectableColumns);
@@ -254,7 +254,7 @@ abstract class Piwik_Controller
     protected function getGraphParamsModified($paramsToSet = array())
     {
         if (!isset($paramsToSet['period'])) {
-            $period = Piwik_Common::getRequestVar('period');
+            $period = Common::getRequestVar('period');
         } else {
             $period = $paramsToSet['period'];
         }
@@ -396,8 +396,8 @@ abstract class Piwik_Controller
             }
             $this->setPeriodVariablesView($view);
 
-            $rawDate = Piwik_Common::getRequestVar('date');
-            $periodStr = Piwik_Common::getRequestVar('period');
+            $rawDate = Common::getRequestVar('date');
+            $periodStr = Common::getRequestVar('period');
             if ($periodStr != 'range') {
                 $date = Piwik_Date::factory($this->strDate);
                 $period = Piwik_Period::factory($periodStr, $date);
@@ -484,7 +484,7 @@ abstract class Piwik_Controller
         if (!$view->isValidHost) {
             // invalid host, so display warning to user
             $validHost = Config::getInstance()->General['trusted_hosts'][0];
-            $invalidHost = Piwik_Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
+            $invalidHost = Common::sanitizeInputValue($_SERVER['HTTP_HOST']);
 
             $emailSubject = rawurlencode(Piwik_Translate('CoreHome_InjectedHostEmailSubject', $invalidHost));
             $emailBody = rawurlencode(Piwik_Translate('CoreHome_InjectedHostEmailBody'));
@@ -496,8 +496,8 @@ abstract class Piwik_Controller
             $invalidUrl = Piwik_Url::getCurrentUrlWithoutQueryString($checkIfTrusted = false);
             $validUrl = Piwik_Url::getCurrentScheme() . '://' . $validHost
                 . Piwik_Url::getCurrentScriptName();
-            $invalidUrl = Piwik_Common::sanitizeInputValue($invalidUrl);
-            $validUrl = Piwik_Common::sanitizeInputValue($validUrl);
+            $invalidUrl = Common::sanitizeInputValue($invalidUrl);
+            $validUrl = Common::sanitizeInputValue($validUrl);
 
             $changeTrustedHostsUrl = "index.php"
                 . Piwik_Url::getCurrentQueryStringWithParametersModified(array(
@@ -553,7 +553,7 @@ abstract class Piwik_Controller
             return;
         }
 
-        $currentPeriod = Piwik_Common::getRequestVar('period');
+        $currentPeriod = Common::getRequestVar('period');
         $view->displayUniqueVisitors = Piwik::isUniqueVisitorsEnabled($currentPeriod);
         $availablePeriods = array('day', 'week', 'month', 'year', 'range');
         if (!in_array($currentPeriod, $availablePeriods)) {
@@ -594,7 +594,7 @@ abstract class Piwik_Controller
                                                $metricsForAllPeriods = array('nb_visits', 'nb_actions'), $labelDisplayed = true)
     {
         // columns is set in the request if metrics picker has been used
-        $columns = Piwik_Common::getRequestVar('columns', false);
+        $columns = Common::getRequestVar('columns', false);
         if ($columns !== false) {
             $columns = Piwik::getArrayFromApiParameter($columns);
             $firstColumn = $columns[0];
@@ -669,7 +669,7 @@ abstract class Piwik_Controller
 
         if (Piwik::isUserIsSuperUser()) {
             Piwik_ExitWithMessage("Error: no website was found in this Piwik installation.
-			<br />Check the table '" . Piwik_Common::prefixTable('site') . "' in your database, it should contain your Piwik websites.", false, true);
+			<br />Check the table '" . Common::prefixTable('site') . "' in your database, it should contain your Piwik websites.", false, true);
         }
 
         $currentLogin = Piwik::getCurrentUserLogin();
@@ -769,7 +769,7 @@ abstract class Piwik_Controller
      */
     protected function checkTokenInUrl()
     {
-        if (Piwik_Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
+        if (Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
             throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
         }
     }

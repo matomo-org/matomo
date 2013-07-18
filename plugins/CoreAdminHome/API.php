@@ -9,7 +9,7 @@
  * @package Piwik_CoreAdminHome
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_CoreAdminHome
@@ -171,7 +171,7 @@ class Piwik_CoreAdminHome_API
         }
 
         // Update piwik_site.ts_created
-        $query = "UPDATE " . Piwik_Common::prefixTable("site") .
+        $query = "UPDATE " . Common::prefixTable("site") .
             " SET ts_created = ?" .
             " WHERE idsite IN ( $sqlIdSites )
 					AND ts_created > ?";

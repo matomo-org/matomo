@@ -9,7 +9,7 @@
  * @package Piwik_VisitsSummary
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -37,7 +37,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
     public function getEvolutionGraph($fetch = false, array $columns = array())
     {
         if (empty($columns)) {
-            $columns = Piwik_Common::getRequestVar('columns');
+            $columns = Common::getRequestVar('columns');
             $columns = Piwik::getArrayFromApiParameter($columns);
         }
 
@@ -75,7 +75,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
             'avg_time_generation'
         );
 
-        $idSite = Piwik_Common::getRequestVar('idSite');
+        $idSite = Common::getRequestVar('idSite');
         $displaySiteSearch = Piwik_Site::isSiteSearchEnabledFor($idSite);
 
         if ($displaySiteSearch) {
@@ -121,7 +121,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
         $view->urlSparklineBounceRate = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('bounce_rate')));
 		$view->urlSparklineAvgGenerationTime = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_time_generation')));
 
-        $idSite = Piwik_Common::getRequestVar('idSite');
+        $idSite = Common::getRequestVar('idSite');
         $displaySiteSearch = Piwik_Site::isSiteSearchEnabledFor($idSite);
         if ($displaySiteSearch) {
             $view->urlSparklineNbSearches = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_searches', 'nb_keywords')));
@@ -131,7 +131,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
         $dataTableVisit = self::getVisitsSummary();
         $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Piwik_DataTable_Row() : $dataTableVisit->getFirstRow();
 
-        $dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), Piwik_ViewDataTable::getRawSegmentFromRequest());
+        $dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), Piwik_ViewDataTable::getRawSegmentFromRequest());
         $dataActionsRow =
             $dataTableActions->getRowsCount() == 0 ? new Piwik_DataTable_Row() : $dataTableActions->getFirstRow();
 

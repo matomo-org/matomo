@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -18,7 +18,7 @@ class Piwik_Updates_0_2_37 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'DELETE FROM `' . Piwik_Common::prefixTable('user_dashboard') . "`
+            'DELETE FROM `' . Common::prefixTable('user_dashboard') . "`
 				WHERE layout LIKE '%.getLastVisitsGraph%'
 				OR layout LIKE '%.getLastVisitsReturningGraph%'" => false,
         );

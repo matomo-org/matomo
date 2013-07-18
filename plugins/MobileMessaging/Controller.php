@@ -10,7 +10,7 @@
  */
 
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
@@ -49,7 +49,7 @@ class Piwik_MobileMessaging_Controller extends Piwik_Controller_Admin
 
         // construct the list of countries from the lang files
         $countries = array();
-        foreach (Piwik_Common::getCountriesList() as $countryCode => $continentCode) {
+        foreach (Common::getCountriesList() as $countryCode => $continentCode) {
             if (isset(Piwik_MobileMessaging_CountryCallingCodes::$countryCallingCodes[$countryCode])) {
                 $countries[$countryCode] =
                     array(
@@ -60,7 +60,7 @@ class Piwik_MobileMessaging_Controller extends Piwik_Controller_Admin
         }
         $view->countries = $countries;
 
-        $view->defaultCountry = Piwik_Common::getCountry(
+        $view->defaultCountry = Common::getCountry(
             Piwik_LanguagesManager::getLanguageCodeForCurrentUser(),
             true,
             Piwik_IP::getIpFromHeader()

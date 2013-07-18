@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Returns path component from a URL
@@ -18,7 +18,7 @@ use Piwik\Core\Piwik_Common;
  */
 function Piwik_getPathFromUrl($url)
 {
-    $path = Piwik_Common::getPathAndQueryFromUrl($url);
+    $path = Common::getPathAndQueryFromUrl($url);
     if (empty($path)) {
         return 'index';
     }
@@ -114,7 +114,7 @@ function Piwik_getSocialsLogoFromUrl($domain)
  */
 function Piwik_getSearchEngineUrlFromName($name)
 {
-    $searchEngineNames = Piwik_Common::getSearchEngineNames();
+    $searchEngineNames = Common::getSearchEngineNames();
     if (isset($searchEngineNames[$name])) {
         $url = 'http://' . $searchEngineNames[$name];
     } else {
@@ -182,7 +182,7 @@ function Piwik_getSearchEngineUrlFromUrlAndKeyword($url, $keyword)
     if ($keyword === Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED) {
         return 'http://piwik.org/faq/general/#faq_144';
     }
-    $searchEngineUrls = Piwik_Common::getSearchEngineUrls();
+    $searchEngineUrls = Common::getSearchEngineUrls();
     $keyword = urlencode($keyword);
     $keyword = str_replace(urlencode('+'), urlencode(' '), $keyword);
     $path = @$searchEngineUrls[Piwik_getSearchEngineHostPathFromUrl($url)][2];
@@ -217,16 +217,16 @@ function Piwik_getRefererTypeLabel($label)
 {
     $indexTranslation = '';
     switch ($label) {
-        case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+        case Common::REFERER_TYPE_DIRECT_ENTRY:
             $indexTranslation = 'Referers_DirectEntry';
             break;
-        case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+        case Common::REFERER_TYPE_SEARCH_ENGINE:
             $indexTranslation = 'Referers_SearchEngines';
             break;
-        case Piwik_Common::REFERER_TYPE_WEBSITE:
+        case Common::REFERER_TYPE_WEBSITE:
             $indexTranslation = 'Referers_Websites';
             break;
-        case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+        case Common::REFERER_TYPE_CAMPAIGN:
             $indexTranslation = 'Referers_Campaigns';
             break;
         default:
@@ -246,10 +246,10 @@ function Piwik_getRefererTypeLabel($label)
 function Piwik_getRefererTypeFromShortName($name)
 {
     $map = array(
-        Piwik_Common::REFERER_TYPE_SEARCH_ENGINE => 'search',
-        Piwik_Common::REFERER_TYPE_WEBSITE       => 'website',
-        Piwik_Common::REFERER_TYPE_DIRECT_ENTRY  => 'direct',
-        Piwik_Common::REFERER_TYPE_CAMPAIGN      => 'campaign',
+        Common::REFERER_TYPE_SEARCH_ENGINE => 'search',
+        Common::REFERER_TYPE_WEBSITE       => 'website',
+        Common::REFERER_TYPE_DIRECT_ENTRY  => 'direct',
+        Common::REFERER_TYPE_CAMPAIGN      => 'campaign',
     );
     if (isset($map[$name])) {
         return $map[$name];

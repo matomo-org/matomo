@@ -35,7 +35,7 @@
  * Any contribution is appreciated. <milky*users#sf#net>
  *
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @since PHP 5
@@ -996,7 +996,7 @@ function _readfile($filename, $useIncludePath = false, $context = null)
 	}
 
 	// when in doubt (or when readfile() function is disabled)
-	$handle = @fopen($filename, Piwik_Common::isWindows() ? "rb" : "r");
+	$handle = @fopen($filename, Common::isWindows() ? "rb" : "r");
 	if ($handle) {
 		while(!feof($handle)) {
 			echo fread($handle, 8192);

@@ -7,7 +7,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Reusable fixture. Loads a ~1GB SQL dump into the DB.
@@ -57,7 +57,7 @@ class Piwik_Test_Fixture_SqlDump
         $password = Config::getInstance()->database['password'];
         $dbName = Config::getInstance()->database['dbname'];
         Config::getInstance()->database['tables_prefix'] = 'piwik_';
-        Piwik_Common::$cachedTablePrefix = null;
+        Common::$cachedTablePrefix = null;
 
         exec("mysql -u \"$user\" \"--password=$password\" $dbName < \"" . $deflatedDumpPath . "\" 2>&1", $output, $return);
         if ($return !== 0) {

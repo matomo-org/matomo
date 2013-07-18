@@ -9,7 +9,7 @@
  * @package Piwik_CorePluginsAdmin
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -122,7 +122,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsSuperUser();
         $this->checkTokenInUrl();
-        $pluginName = Piwik_Common::getRequestVar('pluginName', null, 'string');
+        $pluginName = Common::getRequestVar('pluginName', null, 'string');
         return $pluginName;
     }
 
@@ -138,7 +138,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
         $pluginName = $this->initPluginModification();
         $uninstalled = Piwik_PluginsManager::getInstance()->uninstallPlugin($pluginName);
         if(!$uninstalled) {
-            $path = Piwik_Common::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
+            $path = Common::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
             $messagePermissions = Piwik::getErrorMessageMissingPermissions($path);
 
             $messageIntro = Piwik_Translate("Warning: \"%s\" could not be uninstalled. Piwik did not have enough permission to delete the files in $path. ",

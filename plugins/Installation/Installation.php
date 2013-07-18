@@ -9,7 +9,7 @@
  * @package Piwik_Installation
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  *
@@ -55,7 +55,7 @@ class Piwik_Installation extends Piwik_Plugin
 
         Piwik_PostEvent('Installation.startInstallation', array($this));
 
-        $step = Piwik_Common::getRequestVar('action', 'welcome', 'string');
+        $step = Common::getRequestVar('action', 'welcome', 'string');
         $controller = $this->getInstallationController();
         if (in_array($step, array_keys($controller->getInstallationSteps())) || $step == 'saveLanguage') {
             $controller->$step($message);

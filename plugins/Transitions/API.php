@@ -9,7 +9,7 @@
  * @package Piwik_Transitions
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_Transitions
@@ -128,7 +128,7 @@ class Piwik_Transitions_API
         switch ($actionType) {
             case 'url':
                 $originalActionName = $actionName;
-                $actionName = Piwik_Common::unsanitizeInputValue($actionName);
+                $actionName = Common::unsanitizeInputValue($actionName);
                 $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', Piwik_SegmentExpression::MATCH_EQUAL, 'pageUrl');
 
                 if ($id < 0) {
@@ -343,18 +343,18 @@ class Piwik_Transitions_API
         $rankingQuery->addLabelColumn('referrer_data');
         $selects = array(
             'CASE log_visit.referer_type
-				WHEN ' . Piwik_Common::REFERER_TYPE_DIRECT_ENTRY . ' THEN \'\'
-				WHEN ' . Piwik_Common::REFERER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_keyword
-				WHEN ' . Piwik_Common::REFERER_TYPE_WEBSITE . ' THEN log_visit.referer_url
-				WHEN ' . Piwik_Common::REFERER_TYPE_CAMPAIGN . ' THEN CONCAT(log_visit.referer_name, \' \', log_visit.referer_keyword)
+				WHEN ' . Common::REFERER_TYPE_DIRECT_ENTRY . ' THEN \'\'
+				WHEN ' . Common::REFERER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_keyword
+				WHEN ' . Common::REFERER_TYPE_WEBSITE . ' THEN log_visit.referer_url
+				WHEN ' . Common::REFERER_TYPE_CAMPAIGN . ' THEN CONCAT(log_visit.referer_name, \' \', log_visit.referer_keyword)
 			END AS `referrer_data`');
 
         // get one limited group per referrer type
         $rankingQuery->partitionResultIntoMultipleGroups('referer_type', array(
-                                                                              Piwik_Common::REFERER_TYPE_DIRECT_ENTRY,
-                                                                              Piwik_Common::REFERER_TYPE_SEARCH_ENGINE,
-                                                                              Piwik_Common::REFERER_TYPE_WEBSITE,
-                                                                              Piwik_Common::REFERER_TYPE_CAMPAIGN
+                                                                              Common::REFERER_TYPE_DIRECT_ENTRY,
+                                                                              Common::REFERER_TYPE_SEARCH_ENGINE,
+                                                                              Common::REFERER_TYPE_WEBSITE,
+                                                                              Common::REFERER_TYPE_CAMPAIGN
                                                                          ));
 
         $type = $this->getColumnTypeSuffix($actionType);
@@ -368,12 +368,12 @@ class Piwik_Transitions_API
 
         foreach ($data as $referrerType => &$subData) {
             $referrerData[$referrerType] = array(Piwik_Metrics::INDEX_NB_VISITS => 0);
-            if ($referrerType != Piwik_Common::REFERER_TYPE_DIRECT_ENTRY) {
+            if ($referrerType != Common::REFERER_TYPE_DIRECT_ENTRY) {
                 $referrerSubData[$referrerType] = array();
             }
 
             foreach ($subData as &$row) {
-                if ($referrerType == Piwik_Common::REFERER_TYPE_SEARCH_ENGINE && empty($row['referrer_data'])) {
+                if ($referrerType == Common::REFERER_TYPE_SEARCH_ENGINE && empty($row['referrer_data'])) {
                     $row['referrer_data'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
                 }
 
@@ -581,8 +581,8 @@ class Piwik_Transitions_API
         // causes an exception.
         if (count($report['referrers']) == 0) {
             $report['referrers'][] = array(
-                'label'     => $this->getReferrerLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY),
-                'shortName' => Piwik_getRefererTypeLabel(Piwik_Common::REFERER_TYPE_DIRECT_ENTRY),
+                'label'     => $this->getReferrerLabel(Common::REFERER_TYPE_DIRECT_ENTRY),
+                'shortName' => Piwik_getRefererTypeLabel(Common::REFERER_TYPE_DIRECT_ENTRY),
                 'visits'    => 0
             );
         }
@@ -591,13 +591,13 @@ class Piwik_Transitions_API
     private function getReferrerLabel($referrerId)
     {
         switch ($referrerId) {
-            case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERER_TYPE_DIRECT_ENTRY:
                 return Piwik_Transitions_Controller::getTranslation('directEntries');
-            case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERER_TYPE_SEARCH_ENGINE:
                 return Piwik_Transitions_Controller::getTranslation('fromSearchEngines');
-            case Piwik_Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERER_TYPE_WEBSITE:
                 return Piwik_Transitions_Controller::getTranslation('fromWebsites');
-            case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERER_TYPE_CAMPAIGN:
                 return Piwik_Transitions_Controller::getTranslation('fromCampaigns');
             default:
                 return Piwik_Translate('General_Others');

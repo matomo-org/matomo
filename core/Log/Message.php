@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Class used to log a standard message event.
@@ -77,14 +77,14 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
         } else {
             $message = $event['message'];
         }
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             $message .= "<br/>";
         }
         $message .= "\n";
 
         $memory = '';
         // Hacky: let's hide the memory usage in CLI to hide from the archive.php output
-        if (!Piwik_Common::isPhpCliMode()) {
+        if (!Common::isPhpCliMode()) {
             $memory = '[' . Piwik::getMemoryUsage() . '] ';
         }
         $message = '[' . $event['timestamp'] . '] [' . $event['requestKey'] . '] ' . $memory . $message;

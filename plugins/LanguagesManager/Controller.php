@@ -10,7 +10,7 @@
  *
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_LanguagesManager
@@ -23,7 +23,7 @@ class Piwik_LanguagesManager_Controller extends Piwik_Controller
      */
     public function saveLanguage()
     {
-        $language = Piwik_Common::getRequestVar('language');
+        $language = Common::getRequestVar('language');
 
         // Prevent CSRF only when piwik is not installed yet (During install user can change language)
         if (Piwik::isInstalled()) {

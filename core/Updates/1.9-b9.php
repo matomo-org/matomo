@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -22,8 +22,8 @@ class Piwik_Updates_1_9_b9 extends Piwik_Updates
 
     static function getSql($schema = 'Myisam')
     {
-        $logVisit = Piwik_Common::prefixTable('log_visit');
-        $logConversion = Piwik_Common::prefixTable('log_conversion');
+        $logVisit = Common::prefixTable('log_visit');
+        $logConversion = Common::prefixTable('log_conversion');
 
         $addColumns = "DROP `location_continent`,
 					   ADD `location_region` CHAR(2) NULL AFTER `location_country`,

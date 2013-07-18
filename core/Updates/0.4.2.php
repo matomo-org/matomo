@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Updates
@@ -18,11 +18,11 @@ class Piwik_Updates_0_4_2 extends Piwik_Updates
     static function getSql($schema = 'Myisam')
     {
         return array(
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				ADD `config_java` TINYINT(1) NOT NULL AFTER `config_flash`'                                                                                => '1060',
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				ADD `config_quicktime` TINYINT(1) NOT NULL AFTER `config_director`' => '1060',
-            'ALTER TABLE `' . Piwik_Common::prefixTable('log_visit') . '`
+            'ALTER TABLE `' . Common::prefixTable('log_visit') . '`
 				ADD `config_gears` TINYINT(1) NOT NULL AFTER  `config_windowsmedia`,
 				ADD `config_silverlight` TINYINT(1) NOT NULL AFTER `config_gears`'  => false,
         );

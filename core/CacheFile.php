@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Code originally inspired from OpenX
@@ -91,7 +91,7 @@ class Piwik_CacheFile
 
     protected function cleanupId($id)
     {
-        if (!Piwik_Common::isValidFilename($id)) {
+        if (!Common::isValidFilename($id)) {
             throw new Exception("Invalid cache ID request $id");
         }
         return $id;
@@ -110,7 +110,7 @@ class Piwik_CacheFile
             return false;
         }
         if (!is_dir($this->cachePath)) {
-            Piwik_Common::mkdir($this->cachePath);
+            Common::mkdir($this->cachePath);
         }
         if (!is_writable($this->cachePath)) {
             return false;

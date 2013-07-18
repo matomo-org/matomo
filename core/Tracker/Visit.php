@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik
@@ -318,7 +318,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
             $updateParts[] = $name . " = ?";
             $sqlBind[] = $value;
         }
-        $sqlQuery = "UPDATE " . Piwik_Common::prefixTable('log_visit') . "
+        $sqlQuery = "UPDATE " . Common::prefixTable('log_visit') . "
 						SET $sqlActionUpdate " . implode($updateParts, ', ') . "
 						WHERE idsite = ?
 							AND idvisit = ?";
@@ -571,9 +571,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         $this->visitorInfo['config_resolution'] = substr($this->visitorInfo['config_resolution'], 0, 9);
 
         $fields = implode(", ", array_keys($this->visitorInfo));
-        $values = Piwik_Common::getSqlStringFieldsArray($this->visitorInfo);
+        $values = Common::getSqlStringFieldsArray($this->visitorInfo);
 
-        $sql = "INSERT INTO " . Piwik_Common::prefixTable('log_visit') . " ($fields) VALUES ($values)";
+        $sql = "INSERT INTO " . Common::prefixTable('log_visit') . " ($fields) VALUES ($values)";
         $bind = array_values($this->visitorInfo);
         Piwik_Tracker::getDatabase()->query($sql, $bind);
 
@@ -602,7 +602,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         ) {
             return $this->visitorInfo['idvisitor'];
         }
-        return Piwik_Common::hex2bin($this->generateUniqueVisitorId());
+        return Common::hex2bin($this->generateUniqueVisitorId());
     }
 
     /**
@@ -610,7 +610,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
      */
     static public function generateUniqueVisitorId()
     {
-        $uniqueId = substr(Piwik_Common::generateUniqId(), 0, Piwik_Tracker::LENGTH_HEX_ID_STRING);
+        $uniqueId = substr(Common::generateUniqId(), 0, Piwik_Tracker::LENGTH_HEX_ID_STRING);
         return $uniqueId;
     }
 
@@ -680,7 +680,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 							visit_goal_buyer
 							$selectCustomVariables 
 		";
-        $from = "FROM " . Piwik_Common::prefixTable('log_visit');
+        $from = "FROM " . Common::prefixTable('log_visit');
 
         list($timeLookBack,$timeLookAhead) = $this->getWindowLookupThisVisit();
 
@@ -1018,7 +1018,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     protected function getConfigHash($os, $browserName, $browserVersion, $resolution, $plugin_Flash, $plugin_Java, $plugin_Director, $plugin_Quicktime, $plugin_RealPlayer, $plugin_PDF, $plugin_WindowsMedia, $plugin_Gears, $plugin_Silverlight, $plugin_Cookie, $ip, $browserLang)
     {
         $hash = md5($os . $browserName . $browserVersion . $plugin_Flash . $plugin_Java . $plugin_Director . $plugin_Quicktime . $plugin_RealPlayer . $plugin_PDF . $plugin_WindowsMedia . $plugin_Gears . $plugin_Silverlight . $plugin_Cookie . $ip . $browserLang, $raw_output = true);
-        return Piwik_Common::substr($hash, 0, Piwik_Tracker::LENGTH_BINARY_ID);
+        return Common::substr($hash, 0, Piwik_Tracker::LENGTH_BINARY_ID);
     }
 
     /**
@@ -1032,7 +1032,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         if ($this->isVisitorKnown()) {
             return -1;
         }
-        return Piwik_Common::generateUniqId();
+        return Common::generateUniqId();
     }
 
     // is the referer host any of the registered URLs for this website?

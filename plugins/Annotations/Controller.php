@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Annotations
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Controller for the Annotations plugin.
@@ -41,18 +41,18 @@ class Piwik_Annotations_Controller extends Piwik_Controller
      */
     public function getAnnotationManager($fetch = false, $date = false, $period = false, $lastN = false)
     {
-        $idSite = Piwik_Common::getRequestVar('idSite');
+        $idSite = Common::getRequestVar('idSite');
 
         if ($date === false) {
-            $date = Piwik_Common::getRequestVar('date', false);
+            $date = Common::getRequestVar('date', false);
         }
 
         if ($period === false) {
-            $period = Piwik_Common::getRequestVar('period', 'day');
+            $period = Common::getRequestVar('period', 'day');
         }
 
         if ($lastN === false) {
-            $lastN = Piwik_Common::getRequestVar('lastN', false);
+            $lastN = Common::getRequestVar('lastN', false);
         }
 
         // create & render the view
@@ -141,7 +141,7 @@ class Piwik_Annotations_Controller extends Piwik_Controller
             // the date used is for the annotation manager HTML that gets echo'd. we
             // use this date for the new annotation, unless it is a date range, in
             // which case we use the first date of the range.
-            $date = Piwik_Common::getRequestVar('date');
+            $date = Common::getRequestVar('date');
             if (strpos($date, ',') !== false) {
                 $date = reset(explode(',', $date));
             }
@@ -149,8 +149,8 @@ class Piwik_Annotations_Controller extends Piwik_Controller
             // add the annotation. NOTE: permissions checked in API method
             Piwik_API_Request::processRequest("Annotations.add", array('date' => $date));
 
-            $managerDate = Piwik_Common::getRequestVar('managerDate', false);
-            $managerPeriod = Piwik_Common::getRequestVar('managerPeriod', false);
+            $managerDate = Common::getRequestVar('managerDate', false);
+            $managerPeriod = Common::getRequestVar('managerPeriod', false);
             echo $this->getAnnotationManager($fetch = true, $managerDate, $managerPeriod);
         }
     }

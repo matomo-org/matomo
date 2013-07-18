@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @see libs/jsmin/jsmin.php
@@ -82,7 +82,7 @@ class Piwik_AssetManager
     public static function generateAssetsCacheBuster()
     {
         $pluginList = md5(implode(",", Piwik_PluginsManager::getInstance()->getLoadedPluginsName()));
-        $cacheBuster = md5(Piwik_Common::getSalt() . $pluginList . PHP_VERSION . Piwik_Version::VERSION);
+        $cacheBuster = md5(Common::getSalt() . $pluginList . PHP_VERSION . Piwik_Version::VERSION);
         return $cacheBuster;
     }
 
@@ -430,7 +430,7 @@ class Piwik_AssetManager
         $mergedFileDirectory = PIWIK_USER_PATH . '/' . self::MERGED_FILE_DIR;
 
         if (!is_dir($mergedFileDirectory)) {
-            Piwik_Common::mkdir($mergedFileDirectory);
+            Common::mkdir($mergedFileDirectory);
         }
 
         if (!is_writable($mergedFileDirectory)) {

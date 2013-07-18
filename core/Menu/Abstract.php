@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik_Menu
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_Menu
@@ -56,7 +56,7 @@ abstract class Piwik_Menu_Abstract
     {
         if ($displayedForCurrentUser) {
             // make sure the idSite value used is numeric (hack-y fix for #3426)
-            if (!is_numeric(Piwik_Common::getRequestVar('idSite', false))) {
+            if (!is_numeric(Common::getRequestVar('idSite', false))) {
                 $idSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess();
                 $url['idSite'] = reset($idSites);
             }

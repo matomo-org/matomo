@@ -1,6 +1,6 @@
 <?php
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -34,7 +34,7 @@ class Piwik_DataAccess_ArchiveTableCreator
     {
         $tableNamePrefix = "archive_" . $type;
         $tableName = $tableNamePrefix . "_" . $date->toString('Y_m');
-        $tableName = Piwik_Common::prefixTable($tableName);
+        $tableName = Common::prefixTable($tableName);
         self::createArchiveTablesIfAbsent($tableName, $tableNamePrefix);
         return $tableName;
     }
@@ -50,7 +50,7 @@ class Piwik_DataAccess_ArchiveTableCreator
             $sql = Piwik::getTableCreateSql($tableNamePrefix);
 
             // replace table name template by real name
-            $tableNamePrefix = Piwik_Common::prefixTable($tableNamePrefix);
+            $tableNamePrefix = Common::prefixTable($tableNamePrefix);
             $sql = str_replace($tableNamePrefix, $tableName, $sql);
             try {
                 $db->query($sql);
@@ -96,7 +96,7 @@ class Piwik_DataAccess_ArchiveTableCreator
 
     static public function getDateFromTableName($tableName)
     {
-        $tableName = Piwik_Common::unprefixTable($tableName);
+        $tableName = Common::unprefixTable($tableName);
         $date = str_replace(array('archive_numeric_', 'archive_blob_'), '', $tableName);
         return $date;
     }

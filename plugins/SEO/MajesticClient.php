@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_SEO
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Client for Majestic SEO's HTTP API.
@@ -64,7 +64,7 @@ class Piwik_SEO_MajesticClient
             'referrer_domains_count' => false
         );
 
-        $apiResponse = Piwik_Common::json_decode($apiResponse, $assoc = true);
+        $apiResponse = Common::json_decode($apiResponse, $assoc = true);
         if (!empty($apiResponse)
             && !empty($apiResponse['Data'])
         ) {

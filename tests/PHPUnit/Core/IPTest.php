@@ -1,6 +1,6 @@
 <?php
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -357,7 +357,7 @@ class IPTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($P, Piwik_IP::long2ip($N), bin2hex($N));
         // this is our compatibility function
-        $this->assertEquals($P, Piwik_Common::long2ip($N), bin2hex($N));
+        $this->assertEquals($P, Common::long2ip($N), bin2hex($N));
     }
 
     /**
@@ -691,7 +691,7 @@ class IPTest extends PHPUnit_Framework_TestCase
         $hosts = array('localhost', 'localhost.localdomain', strtolower(@php_uname('n')), '127.0.0.1');
         $this->assertTrue(in_array(strtolower(Piwik_IP::getHostByAddr('127.0.0.1')), $hosts), '127.0.0.1 -> localhost');
 
-        if (!Piwik_Common::isWindows() || PHP_VERSION >= '5.3') {
+        if (!Common::isWindows() || PHP_VERSION >= '5.3') {
             $hosts = array('ip6-localhost', 'localhost', 'localhost.localdomain', strtolower(@php_uname('n')), '::1');
             $this->assertTrue(in_array(strtolower(Piwik_IP::getHostByAddr('::1')), $hosts), '::1 -> ip6-localhost');
         }
@@ -729,7 +729,7 @@ class IPTest extends PHPUnit_Framework_TestCase
     public function testPhpCompatInetNtop($k, $v)
     {
         $this->assertEquals($k, php_compat_inet_ntop(pack('H*', $v)));
-        if (!Piwik_Common::isWindows()) {
+        if (!Common::isWindows()) {
             $this->assertEquals($k, @inet_ntop(pack('H*', $v)));
         }
     }
@@ -805,7 +805,7 @@ class IPTest extends PHPUnit_Framework_TestCase
     public function testPhpCompatInetPton($k, $v)
     {
         $this->assertEquals($v, bin2hex(php_compat_inet_pton($k)));
-        if (!Piwik_Common::isWindows()) {
+        if (!Common::isWindows()) {
             $this->assertEquals($v, bin2hex(@inet_pton($k)));
         }
     }

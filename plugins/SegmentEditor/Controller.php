@@ -9,7 +9,7 @@
  * @package Piwik_SegmentEditor
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * @package Piwik_SegmentEditor
@@ -20,7 +20,7 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
     public function getSelector()
     {
         $view = new Piwik_View('@SegmentEditor/getSelector');
-        $idSite = Piwik_Common::getRequestVar('idSite');
+        $idSite = Common::getRequestVar('idSite');
         $this->setGeneralVariablesView($view);
         $segments = Piwik_API_API::getInstance()->getSegmentsMetadata($idSite);
 
@@ -40,12 +40,12 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
 
         $savedSegments = Piwik_SegmentEditor_API::getInstance()->getAll($idSite);
         foreach($savedSegments as &$savedSegment) {
-            $savedSegment['name'] = Piwik_Common::sanitizeInputValue($savedSegment['name']);
+            $savedSegment['name'] = Common::sanitizeInputValue($savedSegment['name']);
         }
-        $view->savedSegmentsJson = Piwik_Common::json_encode($savedSegments);
+        $view->savedSegmentsJson = Common::json_encode($savedSegments);
         $view->authorizedToCreateSegments = !Piwik::isUserIsAnonymous();
 
-        $view->segmentTranslations = Piwik_Common::json_encode($this->getTranslations());
+        $view->segmentTranslations = Common::json_encode($this->getTranslations());
         $out = $view->render();
         echo $out;
     }

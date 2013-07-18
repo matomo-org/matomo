@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Class to retrieve absolute URL or URI components of the current URL,
@@ -197,7 +197,7 @@ class Piwik_Url
         }
 
         // Only punctuation we allow is '[', ']', ':', '.' and '-'
-        $hostLength = Piwik_Common::strlen($host);
+        $hostLength = Common::strlen($host);
         if ($hostLength !== strcspn($host, '`~!@#$%^&*()_+={}\\|;"\'<>,?/ ')) {
             return false;
         }
@@ -205,9 +205,9 @@ class Piwik_Url
         foreach ($trustedHosts as &$trustedHost) {
             $trustedHost = preg_quote($trustedHost);
         }
-        $untrustedHost = Piwik_Common::mb_strtolower($host);
+        $untrustedHost = Common::mb_strtolower($host);
         $untrustedHost = rtrim($untrustedHost, '.');
-        $hostRegex = Piwik_Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '$/');
+        $hostRegex = Common::mb_strtolower('/(^|.)' . implode('|', $trustedHosts) . '$/');
         $result = preg_match($hostRegex, $untrustedHost);
         return 0 !== $result;
     }
@@ -284,7 +284,7 @@ class Piwik_Url
         }
 
         $host = self::getHost($checkTrustedHost);
-        $default = Piwik_Common::sanitizeInputValue($host ? $host : $default);
+        $default = Common::sanitizeInputValue($host ? $host : $default);
 
         return Piwik_IP::getNonProxyIpFromHeader($default, $hostHeaders);
     }
@@ -318,7 +318,7 @@ class Piwik_Url
     static function getArrayFromCurrentQueryString()
     {
         $queryString = self::getCurrentQueryString();
-        $urlValues = Piwik_Common::getArrayFromQueryString($queryString);
+        $urlValues = Common::getArrayFromQueryString($queryString);
         return $urlValues;
     }
 
@@ -391,7 +391,7 @@ class Piwik_Url
      */
     static public function redirectToUrl($url)
     {
-        if (Piwik_Common::isLookLikeUrl($url)
+        if (Common::isLookLikeUrl($url)
             || strpos($url, 'index.php') === 0
         ) {
             @header("Location: $url");

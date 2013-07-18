@@ -10,7 +10,7 @@
  */
 use Piwik\Core\Config;
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -179,7 +179,7 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['request_parameters_to_modify'] = array();
         $this->viewProperties['columns_to_display'] = array();
 
-        $columns = Piwik_Common::getRequestVar('columns', false);
+        $columns = Common::getRequestVar('columns', false);
         if ($columns !== false) {
             $this->viewProperties['columns_to_display'] = Piwik::getArrayFromApiParameter($columns);
             array_unshift($this->viewProperties['columns_to_display'], 'label');
@@ -225,7 +225,7 @@ abstract class Piwik_ViewDataTable
             $defaultType = 'table';
         }
 
-        $type = Piwik_Common::getRequestVar('viewDataTable', $defaultType, 'string');
+        $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
         switch ($type) {
             case 'cloud':
                 $result = new Piwik_ViewDataTable_Cloud();
@@ -366,7 +366,7 @@ abstract class Piwik_ViewDataTable
         $this->currentControllerName = $currentControllerName;
         $this->currentControllerAction = $currentControllerAction;
         $this->controllerActionCalledWhenRequestSubTable = $controllerActionCalledWhenRequestSubTable;
-        $this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false, 'int');
+        $this->idSubtable = Common::getRequestVar('idSubtable', false, 'int');
         
         foreach ($defaultProperties as $name => $value) {
             $this->setViewProperty($name, $value);
@@ -647,7 +647,7 @@ abstract class Piwik_ViewDataTable
     private function areGenericFiltersDisabled()
     {
         // if disable_generic_filters query param is set to '1', generic filters are disabled
-        if (Piwik_Common::getRequestVar('disable_generic_filters', '0', 'string') == 1) {
+        if (Common::getRequestVar('disable_generic_filters', '0', 'string') == 1) {
             return true;
         }
 
@@ -705,7 +705,7 @@ abstract class Piwik_ViewDataTable
         $requestArray = array(
             'method' => $this->viewProperties['apiMethodToRequestDataTable'],
             'format' => 'original',
-            'disable_generic_filters' => Piwik_Common::getRequestVar('disable_generic_filters', 1, 'int')
+            'disable_generic_filters' => Common::getRequestVar('disable_generic_filters', 1, 'int')
         );
 
         $toSetEventually = array(
@@ -744,7 +744,7 @@ abstract class Piwik_ViewDataTable
     {
         // we need the URL encoded segment parameter, we fetch it from _SERVER['QUERY_STRING'] instead of default URL decoded _GET
         $segmentRaw = false;
-        $segment = Piwik_Common::getRequestVar('segment', '', 'string');
+        $segment = Common::getRequestVar('segment', '', 'string');
         if (!empty($segment)) {
             $request = Piwik_API_Request::getRequestParametersGET();
             if(!empty($request['segment'])) {
@@ -826,7 +826,7 @@ abstract class Piwik_ViewDataTable
 
         foreach ($_GET as $name => $value) {
             try {
-                $requestValue = Piwik_Common::getRequestVar($name);
+                $requestValue = Common::getRequestVar($name);
             } catch (Exception $e) {
                 $requestValue = '';
             }
@@ -909,7 +909,7 @@ abstract class Piwik_ViewDataTable
     protected function getDefaultOrCurrent($nameVar)
     {
         if (isset($_GET[$nameVar])) {
-            return Piwik_Common::sanitizeInputValue($_GET[$nameVar]);
+            return Common::sanitizeInputValue($_GET[$nameVar]);
         }
         $default = $this->getDefault($nameVar);
         return $default;
@@ -1530,8 +1530,8 @@ abstract class Piwik_ViewDataTable
      */
     public function hasReportBeenPurged()
     {
-        $strPeriod = Piwik_Common::getRequestVar('period', false);
-        $strDate = Piwik_Common::getRequestVar('date', false);
+        $strPeriod = Common::getRequestVar('period', false);
+        $strDate = Common::getRequestVar('date', false);
 
         if ($strPeriod !== false
             && $strDate !== false
@@ -1539,7 +1539,7 @@ abstract class Piwik_ViewDataTable
         ) {
             // if range, only look at the first date
             if ($strPeriod == 'range') {
-                $idSite = Piwik_Common::getRequestVar('idSite', '');
+                $idSite = Common::getRequestVar('idSite', '');
                 if (intval($idSite) != 0) {
                     $site = new Piwik_Site($idSite);
                     $timezone = $site->getTimezone();
@@ -1620,9 +1620,9 @@ abstract class Piwik_ViewDataTable
     {
         // if filter_column_recursive & filter_pattern_recursive are supplied, and flat isn't supplied
         // we have to load all the child subtables.
-        return Piwik_Common::getRequestVar('filter_column_recursive', false) !== false
-             && Piwik_Common::getRequestVar('filter_pattern_recursive', false) !== false
-             && Piwik_Common::getRequestVar('flat', false) === false;
+        return Common::getRequestVar('filter_column_recursive', false) !== false
+             && Common::getRequestVar('filter_pattern_recursive', false) !== false
+             && Common::getRequestVar('flat', false) === false;
     }
     
     /**

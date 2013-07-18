@@ -9,7 +9,7 @@
  * @package Piwik_API
  */
 use Piwik\Core\Piwik;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * This class generates a Row evolution dataset, from input request
@@ -92,7 +92,7 @@ class Piwik_API_RowEvolution
 
         // if the filter_limit query param is set, treat it as a request to limit
         // the number of labels used
-        $limit = Piwik_Common::getRequestVar('filter_limit', false);
+        $limit = Common::getRequestVar('filter_limit', false);
         if ($limit != false
             && $limit >= 0
         ) {

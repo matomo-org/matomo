@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Class used to log an exception event.
@@ -94,7 +94,7 @@ class Piwik_Log_Exception_Formatter_ScreenFormatter extends Piwik_Log_Formatter_
         $event = parent::formatEvent($event);
         $errstr = $event['message'];
 
-        $outputFormat = strtolower(Piwik_Common::getRequestVar('format', 'html', 'string'));
+        $outputFormat = strtolower(Common::getRequestVar('format', 'html', 'string'));
         $response = new Piwik_API_ResponseBuilder($outputFormat);
         $message = $response->getResponseException(new Exception($errstr));
         return parent::format($message);

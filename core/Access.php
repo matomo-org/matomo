@@ -9,7 +9,7 @@
  * @package Piwik
  */
 use Piwik\Core\Config;
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Class to handle User Access:
@@ -195,8 +195,8 @@ class Piwik_Access
     public static function getSqlAccessSite($select)
     {
         return "SELECT " . $select . "
-						  FROM " . Piwik_Common::prefixTable('access') . " as t1
-							JOIN " . Piwik_Common::prefixTable('site') . " as t2 USING (idsite) " .
+						  FROM " . Common::prefixTable('access') . " as t1
+							JOIN " . Common::prefixTable('site') . " as t2 USING (idsite) " .
             " WHERE login = ?";
     }
 

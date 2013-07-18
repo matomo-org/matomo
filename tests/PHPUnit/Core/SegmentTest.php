@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Piwik_Common;
+use Piwik\Core\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -62,8 +62,8 @@ class SegmentTest extends PHPUnit_Framework_TestCase
             // OR, with 2 value rewrites
             array('referrerType==search,referrerType==direct', array(
                 'where' => ' (log_visit.referer_type = ? OR log_visit.referer_type = ? )',
-                'bind'  => array(Piwik_Common::REFERER_TYPE_SEARCH_ENGINE,
-                                 Piwik_Common::REFERER_TYPE_DIRECT_ENTRY))),
+                'bind'  => array(Common::REFERER_TYPE_SEARCH_ENGINE,
+                                 Common::REFERER_TYPE_DIRECT_ENTRY))),
 
             // IS NOT NULL
             array('browserCode==ff;referrerKeyword!=', array(
@@ -103,7 +103,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     log_visit.idvisit
                 FROM
-                    ' . Piwik_Common::prefixTable('log_visit') . ' AS log_visit
+                    ' . Common::prefixTable('log_visit') . ' AS log_visit
                 WHERE
                     ' . $expected['where'],
             'bind' => $expected['bind']
@@ -142,7 +142,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     *
                 FROM
-                    " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
+                    " . Common::prefixTable('log_visit') . " AS log_visit
                 WHERE
                     ( idsite = ? )
                     AND
@@ -173,8 +173,8 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     *
                 FROM
-                    " . Piwik_Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+                    " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+                    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
                 WHERE
                     ( log_link_visit_action.idvisit = ? )
                     AND
@@ -210,8 +210,8 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                     log_visit.visit_total_actions,
                     log_visit.visit_total_time
                 FROM
-                    " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
@@ -244,8 +244,8 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     *
                 FROM
-                    " . Piwik_Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
+                    " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
                 WHERE
                     ( log_link_visit_action.idvisit = ? )
                     AND
@@ -276,8 +276,8 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     *
                 FROM
-                    " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idlink_va = log_link_visit_action.idlink_va
+                    " . Common::prefixTable('log_conversion') . " AS log_conversion
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_conversion.idlink_va = log_link_visit_action.idlink_va
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
@@ -312,8 +312,8 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     log_visit.*
                 FROM
-                    " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idvisit = log_visit.idvisit
                 WHERE
                     ( log_visit.idvisit = ? )
                     AND
@@ -346,7 +346,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     log_conversion.*
                 FROM
-                    " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion
+                    " . Common::prefixTable('log_conversion') . " AS log_conversion
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
@@ -377,8 +377,8 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     *
                 FROM
-                    " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_visit') . " AS log_visit ON log_conversion.idvisit = log_visit.idvisit
+                    " . Common::prefixTable('log_conversion') . " AS log_conversion
+                    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_conversion.idvisit = log_visit.idvisit
                 WHERE
                     ( log_conversion.idvisit = ? )
                     AND
@@ -412,9 +412,9 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     *
                 FROM
-                    " . Piwik_Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
+                    " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+                    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
                 WHERE
                      HOUR(log_visit.visit_last_action_time) = ? AND log_conversion.idgoal = ? ",
             "bind" => array(12, 1));
@@ -450,9 +450,9 @@ class SegmentTest extends PHPUnit_Framework_TestCase
                 SELECT
                     log_visit.*
                 FROM
-                    " . Piwik_Common::prefixTable('log_visit') . " AS log_visit
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
-                    LEFT JOIN " . Piwik_Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
+                    " . Common::prefixTable('log_visit') . " AS log_visit
+                    LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action ON log_link_visit_action.idvisit = log_visit.idvisit
+                    LEFT JOIN " . Common::prefixTable('log_conversion') . " AS log_conversion ON log_conversion.idlink_va = log_link_visit_action.idlink_va AND log_conversion.idsite = log_link_visit_action.idsite
                 WHERE
                      log_conversion.idgoal = ? AND HOUR(log_visit.visit_last_action_time) = ? AND log_link_visit_action.custom_var_k1 = ?
                 GROUP BY log_visit.idvisit

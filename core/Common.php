@@ -16,7 +16,7 @@ namespace Piwik\Core {
      *
      * @package Piwik
      */
-    class Piwik_Common
+    class Common
     {
         const CLASSES_PREFIX = 'Piwik_';
 
@@ -185,10 +185,10 @@ namespace Piwik\Core {
                     $value = false;
                 }
                 if (!empty($name)) {
-                    $name = \Piwik\Core\Piwik_Common::sanitizeInputValue($name);
+                    $name = \Piwik\Core\Common::sanitizeInputValue($name);
                 }
                 if (!empty($value)) {
-                    $value = \Piwik\Core\Piwik_Common::sanitizeInputValue($value);
+                    $value = \Piwik\Core\Common::sanitizeInputValue($value);
                 }
 
                 // if array without indexes
@@ -497,7 +497,7 @@ namespace Piwik\Core {
             // $_GET and $_REQUEST already urldecode()'d
             // decode
             // note: before php 5.2.7, htmlspecialchars() double encodes &#x hex items
-            $value = html_entity_decode($value, \Piwik\Core\Piwik_Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
+            $value = html_entity_decode($value, \Piwik\Core\Common::HTML_ENCODING_QUOTE_STYLE, 'UTF-8');
 
             // filter
             $value = str_replace(array("\n", "\r", "\0"), '', $value);
@@ -611,7 +611,7 @@ namespace Piwik\Core {
             // we deal w/ json differently
             if ($varType == 'json') {
                 $value = \Piwik\Core\self::undoMagicQuotes($requestArrayToUse[$varName]);
-                $value = \Piwik\Core\Piwik_Common::json_decode($value, $assoc = true);
+                $value = \Piwik\Core\Common::json_decode($value, $assoc = true);
                 return \Piwik\Core\self::sanitizeInputValues($value, $alreadyStripslashed = true);
             }
 
