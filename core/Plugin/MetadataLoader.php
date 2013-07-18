@@ -10,6 +10,11 @@
  */
 
 /**
+ * @see core/Version.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/core/Version.php';
+
+/**
  * Loads plugin metadata found in the following files:
  * - plugin.piwik.json
  * - colors.piwik.json

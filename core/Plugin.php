@@ -10,6 +10,11 @@
  */
 
 /**
+ * @see core/Plugin/MetadataLoader.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
+
+/**
  * Abstract class to define a Piwik_Plugin.
  * Any plugin has to at least implement the abstract methods of this class.
  *

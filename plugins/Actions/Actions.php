@@ -24,6 +24,8 @@ class Piwik_Actions extends Piwik_Plugin
     
     public function __construct()
     {
+        parent::__construct();
+        
         $this->columnTranslations = array(
             'nb_hits'             => Piwik_Translate('General_ColumnPageviews'),
             'nb_visits'           => Piwik_Translate('General_ColumnUniquePageviews'),
