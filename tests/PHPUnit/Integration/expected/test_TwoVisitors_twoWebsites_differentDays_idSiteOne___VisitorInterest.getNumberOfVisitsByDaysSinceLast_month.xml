@@ -2,10 +2,6 @@
 <results>
 	<result date="2010-01">
 		<row>
-			<label>New visits</label>
-			<nb_visits>2</nb_visits>
-		</row>
-		<row>
 			<label>0 days</label>
 			<nb_visits>0</nb_visits>
 		</row>
@@ -60,6 +56,10 @@
 		<row>
 			<label>365+ days</label>
 			<nb_visits>0</nb_visits>
+		</row>
+		<row>
+			<label>New visits</label>
+			<nb_visits>2</nb_visits>
 		</row>
 	</result>
 	<result date="2010-02" />

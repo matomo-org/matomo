@@ -35,10 +35,6 @@
 	<reportData>
 		<result prettyDate="Sunday 3 January 2010">
 			<row>
-				<label>New visits</label>
-				<nb_visits>1</nb_visits>
-			</row>
-			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
 			</row>
@@ -93,14 +89,14 @@
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>New visits</label>
+				<nb_visits>1</nb_visits>
 			</row>
 		</result>
 		<result prettyDate="Monday 4 January 2010">
 			<row>
-				<label>New visits</label>
-				<nb_visits>1</nb_visits>
-			</row>
-			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
 			</row>
@@ -155,14 +151,14 @@
 			<row>
 				<label>365+ days</label>
 				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>New visits</label>
+				<nb_visits>1</nb_visits>
 			</row>
 		</result>
 		<result prettyDate="Tuesday 5 January 2010">
 			<row>
-				<label>New visits</label>
-				<nb_visits>0</nb_visits>
-			</row>
-			<row>
 				<label>0 days</label>
 				<nb_visits>0</nb_visits>
 			</row>
@@ -216,6 +212,10 @@
 			</row>
 			<row>
 				<label>365+ days</label>
+				<nb_visits>0</nb_visits>
+			</row>
+			<row>
+				<label>New visits</label>
 				<nb_visits>0</nb_visits>
 			</row>
 		</result>
