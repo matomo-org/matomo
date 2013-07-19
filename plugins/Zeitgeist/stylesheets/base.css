@@ -503,7 +503,6 @@ body .ui-tooltip.small {
 }
 /* Component styles */
 #header {
-  padding: 5px 0 0;
   min-height: 60px;
 }
 /* Clear fix */
@@ -514,6 +513,7 @@ body .ui-tooltip.small {
 }
 #logo {
   float: left;
+  padding-top:5px;
 }
 #logo > a {
   text-decoration: none;
