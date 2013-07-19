@@ -593,9 +593,7 @@ abstract class Piwik_ViewDataTable
             $requestArray = $this->getRequestArray();
             $request = Piwik_API_Request::getRequestArrayFromString($requestArray);
 
-            if (!empty($this->viewProperties['enable_sort'])
-                && $this->viewProperties['enable_sort'] === 'false'
-            ) {
+            if ($this->viewProperties['enable_sort'] === false) {
                 $request['filter_sort_column'] = $request['filter_sort_order'] = '';
             }
 
