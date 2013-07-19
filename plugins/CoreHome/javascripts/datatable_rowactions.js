@@ -376,6 +376,7 @@ DataTable_RowActions_RowEvolution.prototype.showRowEvolution = function (apiMeth
 
     requestParams.module = 'CoreHome';
     requestParams.action = action;
+    requestParams.colors = JSON.stringify(piwik.getSparklineColors());
 
     var ajaxRequest = new ajaxHelper();
     ajaxRequest.addParams(requestParams, 'get');

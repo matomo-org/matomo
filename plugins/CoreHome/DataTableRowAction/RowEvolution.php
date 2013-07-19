@@ -204,8 +204,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     protected function getMetricsToggles()
     {
         $chart = new Piwik_Visualization_Chart_Evolution;
-        $colors = $chart->getSeriesColors();
-
+        
         $i = 0;
         $metrics = array();
         foreach ($this->availableMetrics as $metric => $metricData) {
@@ -239,10 +238,8 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
                 $details .= ', ' . Piwik_Translate('RowEvolution_MetricChangeText', $change);
             }
 
-            $color = $colors[$i % count($colors)];
             $newMetric = array(
                 'label'     => $metricData['name'],
-                'color'     => $color,
                 'details'   => $details,
                 'sparkline' => $this->getSparkline($metric),
             );
@@ -261,11 +258,11 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     protected function getSparkline($metric)
     {
         // sparkline is always echoed, so we need to buffer the output
-        ob_start();
         $view = $this->getRowEvolutionGraph($graphType = 'sparkline', $metrics = array($metric => $metric));
         $view->main();
-        $view->getView()->render();
 
+        ob_start();
+        $view->getView()->render();
         $spark = ob_get_contents();
         ob_end_clean();
 

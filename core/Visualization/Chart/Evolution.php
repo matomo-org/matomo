@@ -17,9 +17,7 @@
  */
 class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
 {
-
-    protected $seriesColors = array('#5170AE', '#F29007', '#CC3399', '#9933CC', '#80a033',
-                                    '#246AD2', '#FD16EA', '#49C100');
+    const SERIES_COLOR_COUNT = 8;
 
     public function customizeChartProperties()
     {
@@ -34,14 +32,8 @@ class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
         }
     }
 
-    public function getSeriesColors()
-    {
-        return $this->seriesColors;
-    }
-
     public function setSelectableRows($selectableRows)
     {
         $this->seriesPicker['selectableRows'] = $selectableRows;
     }
-
 }

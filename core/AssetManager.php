@@ -253,6 +253,7 @@ class Piwik_AssetManager
     {
         $priorityCssOrdered = array(
             'libs/',
+            'plugins/CoreHome/stylesheets/color_manager.css', // must be before other Piwik stylesheets
             'plugins/Zeitgeist/stylesheets/base.less',
             'plugins/Zeitgeist/stylesheets/',
             'plugins/',
