@@ -18,9 +18,14 @@
 
 class Piwik_ViewDataTable_GenerateGraphHTML_ChartPie extends Piwik_ViewDataTable_GenerateGraphHTML
 {
-
-    protected $graphType = 'pie';
-
+    public function __construct()
+    {
+        parent::__construct();
+        $this->graphType = 'pie';
+        $this->viewProperties['graph_limit'] = 6;
+        $this->viewProperties['allow_multi_select_series_picker'] = false;
+    }
+    
     protected function getViewDataTableId()
     {
         return 'graphPie';

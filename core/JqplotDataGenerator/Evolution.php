@@ -10,117 +10,33 @@
  */
 
 /**
- * Piwik_ViewDataTable_GenerateGraphData for the Evolution graph (eg. Last 30 days visits) using Piwik_Visualization_Chart_Evolution
- *
- * @package Piwik
- * @subpackage Piwik_ViewDataTable
+ * Generates JQPlot JSON data/config for evolution graphs.
  */
-class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphData
+class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
 {
-
-    // used for the row picker
-    // (the series picker configuration resides in the parent class)
-    protected $rowPicker = false;
-    protected $visibleRows = array();
     protected $rowPickerConfig = array();
-
-    protected function checkStandardDataTable()
-    {
-        // DataTable_Array and DataTable allowed for the evolution chart
-        Piwik::checkObjectTypeIs($this->dataTable, array('Piwik_DataTable_Array', 'Piwik_DataTable'));
-    }
-
-    protected function getViewDataTableId()
-    {
-        return 'generateDataChartEvolution';
-    }
-
-    public function __construct()
-    {
-        parent::__construct();
-        
-        $this->view = new Piwik_Visualization_Chart_Evolution();
-    }
-
+    
     /**
-     * Adds the same series picker as parent::setSelectableColumns but the selectable series are not
-     * columns of a single row but the same column across multiple rows, e.g. the number of visits
-     * for each referrer type.
-     * @param array $visibleRows the rows that are initially visible
-     * @param string $matchBy the way the items in $visibleRows are matched with the data. possible values:
-     *                            - label: matches the label of the row
+     * Constructor.
      */
-    public function addRowPicker($visibleRows, $matchBy = 'label')
+    public function __construct($properties)
     {
-        $this->rowPicker = $matchBy;
-
-        if (!is_array($visibleRows)) {
-            $visibleRows = array($visibleRows);
-        }
-        $this->visibleRows = $visibleRows;
+        parent::__construct(new Piwik_Visualization_Chart_Evolution(), $properties);
     }
 
-    /**
-     * This method is called for every row of every table in the DataTable_Array.
-     * It incrementally builds the row picker configuration and determines whether
-     * the row is initially visible or not.
-     * @param string $rowLabel
-     * @return bool
-     */
-    protected function handleRowForRowPicker(&$rowLabel)
-    {
-        // determine whether row is visible
-        $isVisible = true;
-        switch ($this->rowPicker) {
-            case 'label':
-                $isVisible = in_array($rowLabel, $this->visibleRows);
-                break;
-        }
-
-        // build config
-        if (!isset($this->rowPickerConfig[$rowLabel])) {
-            $this->rowPickerConfig[$rowLabel] = array(
-                'label'     => $rowLabel,
-                'matcher'   => $rowLabel,
-                'displayed' => $isVisible
-            );
-        }
-
-        return $isVisible;
-    }
-
-    protected function loadDataTableFromAPI()
-    {
-        $period = Piwik_Common::getRequestVar('period');
-        // period will be overridden when 'range' is requested in the UI
-        // but the graph will display for each day of the range.
-        // Default 'range' behavior is to return the 'sum' for the range
-        if ($period == 'range') {
-            $_GET['period'] = 'day';
-        }
-        // throws exception if no view access
-        parent::loadDataTableFromAPI();
-        if ($period == 'range') {
-            $_GET['period'] = $period;
-        }
-    }
-
-    protected function initChartObjectData()
+    protected function initChartObjectData($dataTable)
     {
         // if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
         // we don't expect plugin developers to return a well defined Piwik_DataTable_Array
-        if ($this->dataTable instanceof Piwik_DataTable) {
-            return parent::initChartObjectData();
+        if ($dataTable instanceof Piwik_DataTable) {
+            return parent::initChartObjectData($dataTable);
         }
 
-        $this->dataTable->applyQueuedFilters();
-        if (!($this->dataTable instanceof Piwik_DataTable_Array)) {
-            throw new Exception("Expecting a DataTable_Array with custom format to draw an evolution chart");
-        }
+        $dataTable->applyQueuedFilters();
 
         // the X label is extracted from the 'period' object in the table's metadata
         $xLabels = $uniqueIdsDataTable = array();
-        foreach ($this->dataTable->getArray() as $idDataTable => $metadataDataTable) {
+        foreach ($dataTable->getArray() as $idDataTable => $metadataDataTable) {
             //eg. "Aug 2009"
             $xLabels[] = $metadataDataTable->getMetadata('period')->getLocalizedShortString();
             // we keep track of all unique data table that we need to set a Y value for
@@ -128,19 +44,19 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
         }
 
         $idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-        $requestedColumnNames = $this->getColumnsToDisplay();
+        $requestedColumnNames = $this->properties['columns_to_display'];
         $units = $this->getUnitsForColumnsToDisplay();
 
         $yAxisLabelToUnit = array();
         $yAxisLabelToValue = array();
-        foreach ($this->dataTable->getArray() as $idDataTable => $dataTable) {
-            foreach ($dataTable->getRows() as $row) {
+        foreach ($dataTable->getArray() as $idDataTable => $childTable) {
+            foreach ($childTable->getRows() as $row) {
                 $rowLabel = $row->getColumn('label');
 
                 // put together configuration for row picker.
                 // do this for every data table in the array because rows do not
                 // have to present for each date.
-                if ($this->rowPicker !== false) {
+                if ($this->properties['row_picker_mach_rows_by'] !== false) {
                     $rowVisible = $this->handleRowForRowPicker($rowLabel);
                     if (!$rowVisible) {
                         continue;
@@ -170,23 +86,24 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
                 $yAxisLabelToValueCleaned[$yAxisLabel][] = $columnValue;
             }
         }
+        
+        $visualization = $this->visualization;
+        $visualization->setAxisXLabels($xLabels);
+        $visualization->setAxisYValues($yAxisLabelToValueCleaned);
+        $visualization->setAxisYUnits($yAxisLabelToUnit);
 
-        $this->view->setAxisXLabels($xLabels);
-        $this->view->setAxisYValues($yAxisLabelToValueCleaned);
-        $this->view->setAxisYUnits($yAxisLabelToUnit);
-
-        $countGraphElements = $this->dataTable->getRowsCount();
-        $dataTables = $this->dataTable->getArray();
+        $countGraphElements = $dataTable->getRowsCount();
+        $dataTables = $dataTable->getArray();
         $firstDatatable = reset($dataTables);
         $period = $firstDatatable->getMetadata('period');
 
         $stepSize = $this->getXAxisStepSize($period->getLabel(), $countGraphElements);
-        $this->view->setXSteps($stepSize);
+        $visualization->setXSteps($stepSize);
 
         if ($this->isLinkEnabled()) {
             $axisXOnClick = array();
             $queryStringAsHash = $this->getQueryStringAsHash();
-            foreach ($this->dataTable->getArray() as $idDataTable => $metadataDataTable) {
+            foreach ($dataTable->getArray() as $idDataTable => $metadataDataTable) {
                 $period = $metadataDataTable->getMetadata('period');
                 $dateInUrl = $period->getDateStart();
                 $parameters = array(
@@ -207,14 +124,42 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
                     . $hash;
                 $axisXOnClick[] = $link;
             }
-            $this->view->setAxisXOnClick($axisXOnClick);
+            $visualization->setAxisXOnClick($axisXOnClick);
         }
 
         $this->addSeriesPickerToView();
-        if ($this->rowPicker !== false) {
-            // configure the row picker
-            $this->view->setSelectableRows(array_values($this->rowPickerConfig));
+        
+        // configure the row picker
+        if ($this->properties['row_picker_mach_rows_by'] !== false) {
+            $visualization->setSelectableRows(array_values($this->rowPickerConfig));
         }
+    }
+
+    /**
+     * This method is called for every row of every table in the DataTable_Array.
+     * It incrementally builds the row picker configuration and determines whether
+     * the row is initially visible or not.
+     * @param string $rowLabel
+     * @return bool
+     */
+    private function handleRowForRowPicker(&$rowLabel)
+    {
+        // determine whether row is visible
+        $isVisible = true;
+        if ($this->properties['row_picker_mach_rows_by'] == 'label') {
+            $isVisible = in_array($rowLabel, $this->properties['row_picker_visible_rows']);
+        }
+
+        // build config
+        if (!isset($this->rowPickerConfig[$rowLabel])) {
+            $this->rowPickerConfig[$rowLabel] = array(
+                'label'     => $rowLabel,
+                'matcher'   => $rowLabel,
+                'displayed' => $isVisible
+            );
+        }
+
+        return $isVisible;
     }
 
     /**
@@ -226,7 +171,7 @@ class Piwik_ViewDataTable_GenerateGraphData_ChartEvolution extends Piwik_ViewDat
      */
     private function getSeriesLabel($rowLabel, $columnName)
     {
-        $metricLabel = $this->getColumnTranslation($columnName);
+        $metricLabel = @$this->properties['translations'][$columnName];
 
         if ($rowLabel !== false) {
             // eg. "Yahoo! (Visits)"
