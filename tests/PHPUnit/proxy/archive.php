@@ -1,8 +1,8 @@
 <?php
 
-// include archive.php, and let 'er rip
-$GLOBALS['PIWIK_CONFIG_TEST_ENVIRONMENT'] = true;
-$GLOBALS['PIWIK_ACCESS_IS_SUPERUSER'] = true;
-$GLOBALS['PIWIK_ACCESS_SUPERUSER_LOGIN'] = 'superUserLogin';
-require realpath(dirname(__FILE__)) . "/../../../misc/cron/archive.php";
+// make sure the test environment is loaded
+require realpath(dirname(__FILE__)) . "/../../../tests/PHPUnit/TestingEnvironment.php";
+Piwik_TestingEnvironment::addHooks();
 
+// include archive.php, and let 'er rip
+require realpath(dirname(__FILE__)) . "/../../../misc/cron/archive.php";

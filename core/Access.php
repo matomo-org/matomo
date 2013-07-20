@@ -46,9 +46,7 @@ class Piwik_Access
         if (self::$instance == null) {
             self::$instance = new self;
             
-            if (!empty($GLOBALS['PIWIK_ACCESS_IS_SUPERUSER'])) {
-                self::$instance->setSuperUser(true);
-            }
+            Piwik_PostTestEvent('Access.createAccessSingleton', array(self::$instance));
         }
         return self::$instance;
     }
@@ -213,12 +211,9 @@ class Piwik_Access
             $allSitesId = array();
         }
         $this->idsitesByAccess['superuser'] = $allSitesId;
-        
-        if (isset($GLOBALS['PIWIK_ACCESS_SUPERUSER_LOGIN'])) {
-            $this->login = $GLOBALS['PIWIK_ACCESS_SUPERUSER_LOGIN'];
-        } else {
-            $this->login = Piwik_Config::getInstance()->superuser['login'];
-        }
+        $this->login = Piwik_Config::getInstance()->superuser['login'];
+
+        Piwik_PostTestEvent('Access.loadingSuperUserAccess', array(&$this->idsitesByAccess, &$this->login));
         
         return true;
     }
