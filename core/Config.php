@@ -9,7 +9,7 @@
  * @package Piwik
  */
 
-namespace Piwik\Core;
+namespace Piwik;
 use Exception;
 
 /**
@@ -48,7 +48,7 @@ class Config
     /**
      * Returns the singleton Piwik_Config
      *
-     * @return \Piwik\Core\Config
+     * @return \Piwik\Config
      */
     public static function getInstance()
     {

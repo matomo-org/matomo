@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * Reads data from the API and prepares data to give to the renderer Piwik_Visualization_Chart.

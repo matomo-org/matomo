@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 /**
  * A DataTable Renderer can produce an output given a DataTable object.

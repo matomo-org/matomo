@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
+use Piwik\Config;
+use Piwik\Piwik;
 
 /**
  * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.

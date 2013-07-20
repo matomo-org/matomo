@@ -8,8 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 /**
  * The default LocationProvider, this LocationProvider guesses a visitor's country

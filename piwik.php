@@ -7,7 +7,7 @@
  *
  * @package Piwik
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
@@ -66,7 +66,7 @@ if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
     $timer = new Piwik_Timer();
     set_error_handler('Piwik_ErrorHandler');
     set_exception_handler('Piwik_ExceptionHandler');
-    printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
+    Common::printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
     Piwik_Tracker_Db::enableProfiling();
     Piwik::createConfigObject();
     Piwik::createLogObject();
@@ -81,7 +81,7 @@ if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
     }
     ob_end_flush();
     if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
-        printDebug($_COOKIE);
-        printDebug($timer);
+        Common::printDebug($_COOKIE);
+        Common::printDebug($timer);
     }
 }

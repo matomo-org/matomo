@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Actions
  */
-use Piwik\Core\Config;
+use Piwik\Config;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports

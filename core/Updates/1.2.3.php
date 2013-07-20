@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Updates
  */
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 /**
  * @package Updates

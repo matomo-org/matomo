@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Actions
  */
-use Piwik\Core\Config;
+use Piwik\Config;
 
 /**
  * This static class provides:

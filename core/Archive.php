@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 /**
  * The archive object is used to query specific data for a day or a period of statistics for a given website.

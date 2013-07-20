@@ -8,8 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's

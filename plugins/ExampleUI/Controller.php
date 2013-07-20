@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  * @package Piwik_ExampleUI

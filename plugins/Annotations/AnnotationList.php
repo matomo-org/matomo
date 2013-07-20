@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Annotations
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 /**
  * This class can be used to query & modify annotations for multiple sites

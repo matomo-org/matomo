@@ -9,6 +9,8 @@
  * @package Piwik
  */
 
+use Piwik\Common;
+
 /**
  * The DataTable_Manager registers all the instanciated DataTable and provides an
  * easy way to access them. This is used to store all the DataTable during the archiving process.
@@ -112,7 +114,7 @@ class Piwik_DataTable_Manager
     public function deleteTable($id)
     {
         if (isset($this->tables[$id])) {
-            destroy($this->tables[$id]);
+            Common::destroy($this->tables[$id]);
             $this->setTableDeleted($id);
         }
     }

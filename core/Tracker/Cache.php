@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
+use Piwik\Config;
+use Piwik\Piwik;
 
 /**
  * Simple cache mechanism used in Tracker to avoid requesting settings from mysql on every request

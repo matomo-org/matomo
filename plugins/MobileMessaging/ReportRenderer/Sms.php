@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_MobileMessaging_ReportRenderer
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 
 /**

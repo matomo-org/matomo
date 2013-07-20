@@ -9,8 +9,8 @@
  * @category Piwik_Plugins
  * @package Piwik_DevicesDetection
  */
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
@@ -225,8 +225,8 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         }
 
         $visitorInfo = array_merge($visitorInfo, $deviceInfo);
-        printDebug("Device Detection:");
-        printDebug($deviceInfo);
+        Common::printDebug("Device Detection:");
+        Common::printDebug($deviceInfo);
     }
 
     public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)

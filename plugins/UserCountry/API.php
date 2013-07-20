@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 /**
  * @see plugins/UserCountry/functions.php

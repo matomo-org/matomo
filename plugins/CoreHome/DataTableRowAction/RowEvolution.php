@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  * ROW EVOLUTION

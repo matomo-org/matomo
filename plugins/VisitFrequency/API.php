@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.

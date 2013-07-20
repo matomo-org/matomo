@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Common;
+use Piwik\Common;
 
 exit;
 $date = date('Y-m-d');

@@ -8,8 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.

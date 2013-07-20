@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 /**
  * Creating a new Piwik_Period subclass:

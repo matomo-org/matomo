@@ -8,8 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * This class generates a Row evolution dataset, from input request

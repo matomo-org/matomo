@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 /**
  * Interface of the Action object.
@@ -388,7 +388,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             : array();
 
         if (!empty($excludedParameters)) {
-            printDebug('Excluding parameters "' . implode(',', $excludedParameters) . '" from URL');
+            Common::printDebug('Excluding parameters "' . implode(',', $excludedParameters) . '" from URL');
         }
 
         $parametersToExclude = array_merge($excludedParameters,
@@ -446,8 +446,8 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         $info['url'] = self::excludeQueryParametersFromUrl($originalUrl, $this->request->getIdSite());
 
         if ($originalUrl != $info['url']) {
-            printDebug(' Before was "' . $originalUrl . '"');
-            printDebug(' After is "' . $info['url'] . '"');
+            Common::printDebug(' Before was "' . $originalUrl . '"');
+            Common::printDebug(' After is "' . $info['url'] . '"');
         }
 
         // Set Final attributes for this Action (Pageview, Search, etc.)
@@ -547,7 +547,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
 
             Piwik_Tracker::getDatabase()->query($sql, array($name, $name, $type, $urlPrefix));
             $actionId = Piwik_Tracker::getDatabase()->lastInsertId();
-            printDebug("Recorded a new action (" . self::getActionTypeName($type) . ") in the lookup table: " . $name . " (idaction = " . $actionId . ")");
+            Common::printDebug("Recorded a new action (" . self::getActionTypeName($type) . ") in the lookup table: " . $name . " (idaction = " . $actionId . ")");
 
             $actionNamesAndTypes[$actionToInsert][] = $actionId;
         }
@@ -706,7 +706,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
             'idRefererActionName'    => $idRefererActionName,
             'timeSpentRefererAction' => $timeSpentRefererAction,
         );
-        printDebug($insertWithoutNulls);
+        Common::printDebug($insertWithoutNulls);
 
         /*
         * send the Action object ($this)  and the list of ids ($info) as arguments to the event
@@ -721,22 +721,22 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         // Enrich Site Search actions with Custom Variables, overwriting existing values
         if (!empty($this->searchCategory)) {
             if (!empty($customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_CATEGORY])) {
-                printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_CATEGORY . " for this page view");
+                Common::printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_CATEGORY . " for this page view");
             }
             $customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_CATEGORY] = self::CVAR_KEY_SEARCH_CATEGORY;
             $customVariables['custom_var_v' . self::CVAR_INDEX_SEARCH_CATEGORY] = Piwik_Tracker_Request::truncateCustomVariable($this->searchCategory);
         }
         if ($this->searchCount !== false) {
             if (!empty($customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_COUNT])) {
-                printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_COUNT . " for this page view");
+                Common::printDebug("WARNING: Overwriting existing Custom Variable  in slot " . self::CVAR_INDEX_SEARCH_COUNT . " for this page view");
             }
             $customVariables['custom_var_k' . self::CVAR_INDEX_SEARCH_COUNT] = self::CVAR_KEY_SEARCH_COUNT;
             $customVariables['custom_var_v' . self::CVAR_INDEX_SEARCH_COUNT] = (int)$this->searchCount;
         }
 
         if (!empty($customVariables)) {
-            printDebug("Page level Custom Variables: ");
-            printDebug($customVariables);
+            Common::printDebug("Page level Custom Variables: ");
+            Common::printDebug($customVariables);
         }
         return $customVariables;
     }
@@ -805,7 +805,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         $url = self::cleanupString($url);
 
         if (!Common::isLookLikeUrl($url)) {
-            printDebug("WARNING: URL looks invalid and is discarded");
+            Common::printDebug("WARNING: URL looks invalid and is discarded");
             $url = '';
         }
 
@@ -833,7 +833,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
     {
         $website = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->request->getIdSite());
         if (empty($website['sitesearch'])) {
-            printDebug("Internal 'Site Search' tracking is not enabled for this site. ");
+            Common::printDebug("Internal 'Site Search' tracking is not enabled for this site. ");
             return false;
         }
         $actionName = $url = $categoryName = $count = false;
@@ -873,19 +873,19 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
         }
 
         if (empty($actionName)) {
-            printDebug("(this is not a Site Search request)");
+            Common::printDebug("(this is not a Site Search request)");
             return false;
         }
 
-        printDebug("Detected Site Search keyword '$actionName'. ");
+        Common::printDebug("Detected Site Search keyword '$actionName'. ");
         if (!empty($categoryName)) {
-            printDebug("- Detected Site Search Category '$categoryName'. ");
+            Common::printDebug("- Detected Site Search Category '$categoryName'. ");
         }
         if ($count !== false) {
-            printDebug("- Search Results Count was '$count'. ");
+            Common::printDebug("- Search Results Count was '$count'. ");
         }
         if ($url != $originalUrl) {
-            printDebug("NOTE: The Page URL was changed / removed, during the Site Search detection, was '$originalUrl', now is '$url'");
+            Common::printDebug("NOTE: The Page URL was changed / removed, during the Site Search detection, was '$originalUrl', now is '$url'");
         }
 
         if (!empty($categoryName) || $count !== false) {

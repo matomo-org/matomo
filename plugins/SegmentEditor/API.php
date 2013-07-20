@@ -8,8 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_SegmentEditor
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a

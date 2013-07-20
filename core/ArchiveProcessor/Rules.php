@@ -8,9 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * This class contains Archiving rules/logic which are used in several places

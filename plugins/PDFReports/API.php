@@ -8,8 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_PDFReports
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * The PDFReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.

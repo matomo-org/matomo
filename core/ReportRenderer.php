@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.

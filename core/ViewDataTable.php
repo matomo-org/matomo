@@ -8,9 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.

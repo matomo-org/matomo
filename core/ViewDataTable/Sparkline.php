@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.

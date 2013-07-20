@@ -8,8 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_AnonymizeIP
  */
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.

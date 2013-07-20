@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings
@@ -45,7 +45,7 @@ class Piwik_Tracker_VisitExcluded
         $excluded = false;
 
         if ($this->isNonHumanBot()) {
-            printDebug('Search bot detected, visit excluded');
+            Common::printDebug('Search bot detected, visit excluded');
             $excluded = true;
         }
 
@@ -57,9 +57,9 @@ class Piwik_Tracker_VisitExcluded
         if (!$excluded) {
             $toRecord = $this->request->getParam($parameterForceRecord = 'rec');
             if (!$toRecord) {
-                printDebug(@$_SERVER['REQUEST_METHOD'] . ' parameter ' . $parameterForceRecord . ' not found in URL, request excluded');
+                Common::printDebug(@$_SERVER['REQUEST_METHOD'] . ' parameter ' . $parameterForceRecord . ' not found in URL, request excluded');
                 $excluded = true;
-                printDebug("'$parameterForceRecord' parameter not found.");
+                Common::printDebug("'$parameterForceRecord' parameter not found.");
             }
         }
 
@@ -75,7 +75,7 @@ class Piwik_Tracker_VisitExcluded
         if (!$excluded) {
             $excluded = $this->isIgnoreCookieFound();
             if ($excluded) {
-                printDebug("Ignore cookie found.");
+                Common::printDebug("Ignore cookie found.");
             }
         }
 
@@ -83,7 +83,7 @@ class Piwik_Tracker_VisitExcluded
         if (!$excluded) {
             $excluded = $this->isVisitorIpExcluded();
             if ($excluded) {
-                printDebug("IP excluded.");
+                Common::printDebug("IP excluded.");
             }
         }
 
@@ -91,19 +91,19 @@ class Piwik_Tracker_VisitExcluded
         if (!$excluded) {
             $excluded = $this->isUserAgentExcluded();
             if ($excluded) {
-                printDebug("User agent excluded.");
+                Common::printDebug("User agent excluded.");
             }
         }
 
         if (!$excluded) {
             if ($this->isPrefetchDetected()) {
                 $excluded = true;
-                printDebug("Prefetch request detected, not a real visit so we Ignore this visit/pageview");
+                Common::printDebug("Prefetch request detected, not a real visit so we Ignore this visit/pageview");
             }
         }
 
         if ($excluded) {
-            printDebug("Visitor excluded.");
+            Common::printDebug("Visitor excluded.");
             return true;
         }
 
@@ -167,7 +167,7 @@ class Piwik_Tracker_VisitExcluded
     protected function isIgnoreCookieFound()
     {
         if (Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound()) {
-            printDebug('Piwik ignore cookie was found, visit not tracked.');
+            Common::printDebug('Piwik ignore cookie was found, visit not tracked.');
             return true;
         }
         return false;
@@ -183,7 +183,7 @@ class Piwik_Tracker_VisitExcluded
         $websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->idSite);
         if (!empty($websiteAttributes['excluded_ips'])) {
             if (Piwik_IP::isIpInRange($this->ip, $websiteAttributes['excluded_ips'])) {
-                printDebug('Visitor IP ' . Piwik_IP::N2P($this->ip) . ' is excluded from being tracked');
+                Common::printDebug('Visitor IP ' . Piwik_IP::N2P($this->ip) . ' is excluded from being tracked');
                 return true;
             }
         }

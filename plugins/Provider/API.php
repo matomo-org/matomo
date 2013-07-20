@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Provider
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 /**
  * @see plugins/Provider/functions.php

@@ -9,8 +9,8 @@
  * @package Piwik
  */
 
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 if (Common::isWindows() || !function_exists('inet_ntop')) {
     function _inet_ntop($in_addr)

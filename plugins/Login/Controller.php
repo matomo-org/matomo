@@ -8,8 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_Login
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+
+require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * Login controller

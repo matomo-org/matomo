@@ -36,12 +36,12 @@ class Piwik_DoNotTrack extends Piwik_Plugin
             $request = new Piwik_Tracker_Request($_REQUEST);
             $ua = $request->getUserAgent();
             if (strpos($ua, 'MSIE 10') !== false) {
-                printDebug("INTERNET EXPLORER 10 Enables DNT by default, so Piwik ignores DNT for all IE10 browsers...");
+                Common::printDebug("INTERNET EXPLORER 10 Enables DNT by default, so Piwik ignores DNT for all IE10 browsers...");
                 return;
             }
 
             $exclude = true;
-            printDebug("DoNotTrack found.");
+            Common::printDebug("DoNotTrack found.");
 
             $trackingCookie = Piwik_Tracker_IgnoreCookie::getTrackingCookie();
             $trackingCookie->delete();

@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik_ReportRenderer
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  * @see libs/tcpdf

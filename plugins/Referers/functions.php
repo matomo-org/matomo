@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  * Returns path component from a URL

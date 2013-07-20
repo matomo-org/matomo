@@ -9,8 +9,10 @@
  * @package Piwik
  */
 
+use Piwik\Common;
+
 /**
- * @see destroy()
+ * @see Common::destroy()
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
 
@@ -249,7 +251,7 @@ class Piwik_DataTable
 
     /**
      * The operations that should be used when aggregating columns from multiple rows.
-     * @see self::addDataTable() and Piwik_DataTable_Row::sumRow() 
+     * @see self::addDataTable() and Piwik_DataTable_Row::sumRow()
      */
     protected $columnAggregationOperations = array();
 
@@ -277,7 +279,7 @@ class Piwik_DataTable
         ) {
             $depth++;
             foreach ($this->getRows() as $row) {
-                destroy($row);
+                Common::destroy($row);
             }
             unset($this->rows);
             Piwik_DataTable_Manager::getInstance()->setTableDeleted($this->getId());
@@ -371,7 +373,7 @@ class Piwik_DataTable
             $className($this);
             return;
         }
-        
+
         if (!class_exists($className, false)) {
             $className = "Piwik_DataTable_Filter_" . $className;
         }
@@ -686,19 +688,19 @@ class Piwik_DataTable
         $columnValues = array();
         foreach ($this->getRows() as $row) {
             $columns = $row->getColumns();
-            foreach($columns as $column => $value) {
-                if(strpos($column, $name) === 0) {
+            foreach ($columns as $column => $value) {
+                if (strpos($column, $name) === 0) {
                     $columnValues[] = $row->getColumn($column);
                 }
             }
         }
         return $columnValues;
     }
-    
+
     /**
      * Returns the list of columns the rows in this datatable contain. This will return the
      * columns of the first row with data and assume they occur in every other row as well.
-     * 
+     *
      * @return array
      */
     public function getColumns()
@@ -857,7 +859,7 @@ class Piwik_DataTable
     /**
      * Deletes the ith row
      *
-     * @param int  $id
+     * @param int $id
      *
      * @throws Exception if the row $id cannot be found
      * @return void
@@ -1122,7 +1124,6 @@ class Piwik_DataTable
             "; you will get the original php data structure serialized." .
             " The data structure looks like this: \n \$data = " . var_export($array, true) . "; ");
 
-
         // first pass to see if the array has the structure
         // array(col1_name => val1, col2_name => val2, etc.)
         // with val* that are never arrays (only strings/numbers/bool/etc.)
@@ -1296,12 +1297,12 @@ class Piwik_DataTable
      * a subtable is encountered w/o the queried label, a new row is created
      * with the label, and a subtable is added to the row.
      *
-     * @param array        $path            The path to walk. An array of label values.
-     * @param array|bool   $missingRowColumns
+     * @param array $path            The path to walk. An array of label values.
+     * @param array|bool $missingRowColumns
      *                                      The default columns to use when creating new arrays.
      *                                      If this parameter is supplied, new rows will be
      *                                      created if labels cannot be found.
-     * @param int          $maxSubtableRows The maximum number of allowed rows in new
+     * @param int $maxSubtableRows The maximum number of allowed rows in new
      *                                      subtables.
      *
      * @return array First element is the found row or false. Second element is
@@ -1363,11 +1364,11 @@ class Piwik_DataTable
     /**
      * Returns a new DataTable that contains the rows of each of this table's subtables.
      *
-     * @param string|bool  $labelColumn       If supplied the label of the parent row will be
+     * @param string|bool $labelColumn       If supplied the label of the parent row will be
      *                                        added to a new column in each subtable row. If set to,
      *                                  'label' each subtable row's label will be prepended w/
      *                                        the parent row's label.
-     * @param bool         $useMetadataColumn If true and if $labelColumn is supplied, the parent row's
+     * @param bool $useMetadataColumn If true and if $labelColumn is supplied, the parent row's
      *                                        label will be added as metadata.
      *
      * @return Piwik_DataTable
@@ -1430,11 +1431,11 @@ class Piwik_DataTable
         $dataTable->addRowsFromSimpleArray($array);
         return $dataTable;
     }
-    
+
     /**
      * Set the aggregation operation for a column, e.g. "min".
      * @see self::addDataTable() and Piwik_DataTable_Row::sumRow()
-     * 
+     *
      * @param string $columnName
      * @param string $operation
      */
@@ -1442,7 +1443,7 @@ class Piwik_DataTable
     {
         $this->columnAggregationOperations[$columnName] = $operation;
     }
-    
+
     /**
      * Set multiple aggregation operations at once.
      * @param array $operations  format: column name => operation
@@ -1453,7 +1454,7 @@ class Piwik_DataTable
             $this->setColumnAggregationOperation($columnName, $operation);
         }
     }
-    
+
     /**
      * Get the configured column aggregation operations
      */
@@ -1461,10 +1462,10 @@ class Piwik_DataTable
     {
         return $this->columnAggregationOperations;
     }
-    
+
     /**
      * Creates a new DataTable instance from a serialize()'d array of rows.
-     * 
+     *
      * @param string $data
      * @return Piwik_DataTable
      */

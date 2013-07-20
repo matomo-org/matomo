@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
+use Piwik\Config;
+use Piwik\Piwik;
 
 /**
  * Class for sending mails, for more information see:

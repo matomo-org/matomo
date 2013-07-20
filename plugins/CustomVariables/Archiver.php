@@ -1,5 +1,7 @@
 <?php
-use Piwik\Core\Common;
+use Piwik\Common;
+use Piwik\Config;
+
 
 /**
  * Piwik - Open source web analytics

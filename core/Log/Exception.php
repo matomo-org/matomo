@@ -8,7 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  * Class used to log an exception event.

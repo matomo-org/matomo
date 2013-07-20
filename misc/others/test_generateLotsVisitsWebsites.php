@@ -1,7 +1,7 @@
 <?php
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
 
 define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 define('PIWIK_ENABLE_DISPATCH', false);

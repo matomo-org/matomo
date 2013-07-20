@@ -8,8 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * @see plugins/UserCountry/GeoIPAutoUpdater.php
@@ -69,7 +69,7 @@ class Piwik_UserCountry extends Piwik_Plugin
         if ($provider === false) {
             $id = Piwik_UserCountry_LocationProvider_Default::ID;
             $provider = Piwik_UserCountry_LocationProvider::getProviderById($id);
-            printDebug("GEO: no current location provider sent, falling back to default '$id' one.");
+            Common::printDebug("GEO: no current location provider sent, falling back to default '$id' one.");
         }
 
         $location = $provider->getLocation($visitorInfo);
@@ -79,10 +79,10 @@ class Piwik_UserCountry extends Piwik_Plugin
             $defaultId = Piwik_UserCountry_LocationProvider_Default::ID;
             $provider = Piwik_UserCountry_LocationProvider::getProviderById($defaultId);
             $location = $provider->getLocation($visitorInfo);
-            printDebug("GEO: couldn't find a location with Geo Module '$id', using Default '$defaultId' provider as fallback...");
+            Common::printDebug("GEO: couldn't find a location with Geo Module '$id', using Default '$defaultId' provider as fallback...");
             $id = $defaultId;
         }
-        printDebug("GEO: Found IP location (provider '" . $id . "'): " . var_export($location, true));
+        Common::printDebug("GEO: Found IP location (provider '" . $id . "'): " . var_export($location, true));
     }
 
     function addWidgets()

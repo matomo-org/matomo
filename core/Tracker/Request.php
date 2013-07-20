@@ -1,6 +1,6 @@
 <?php
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 /**
  * Piwik - Open source web analytics
@@ -69,10 +69,10 @@ class Piwik_Tracker_Request
             if (!$this->isAuthenticated) {
                 return;
             }
-            printDebug("token_auth is authenticated!");
+            Common::printDebug("token_auth is authenticated!");
         } else {
             $this->isAuthenticated = true;
-            printDebug("token_auth authentication not required");
+            Common::printDebug("token_auth authentication not required");
         }
     }
 
@@ -97,7 +97,7 @@ class Piwik_Tracker_Request
                 return true;
             }
         }
-        printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
+        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin was NOT authenticated");
 
         return false;
     }
@@ -296,7 +296,7 @@ class Piwik_Tracker_Request
                 || count($keyValue) != 2
                 || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
             ) {
-                printDebug("Invalid custom variables detected (id=$id)");
+                Common::printDebug("Invalid custom variables detected (id=$id)");
                 continue;
             }
             if (strlen($keyValue[1]) == 0) {
@@ -332,7 +332,7 @@ class Piwik_Tracker_Request
         if (!$this->shouldUseThirdPartyCookie()) {
             return;
         }
-        printDebug("We manage the cookie...");
+        Common::printDebug("We manage the cookie...");
 
         $cookie = $this->makeThirdPartyCookie();
         // idcookie has been generated in handleNewVisit or we simply propagate the old value
@@ -346,7 +346,7 @@ class Piwik_Tracker_Request
             $this->getCookieName(),
             $this->getCookieExpire(),
             $this->getCookiePath());
-        printDebug($cookie);
+        Common::printDebug($cookie);
         return $cookie;
     }
 
@@ -379,7 +379,7 @@ class Piwik_Tracker_Request
             if (strlen($idVisitor) != Piwik_Tracker::LENGTH_HEX_ID_STRING) {
                 throw new Exception("Visitor ID (cid) $idVisitor must be " . Piwik_Tracker::LENGTH_HEX_ID_STRING . " characters long");
             }
-            printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
+            Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
             $found = true;
         }
 

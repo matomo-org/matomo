@@ -8,9 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  *

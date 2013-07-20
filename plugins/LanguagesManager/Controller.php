@@ -9,8 +9,8 @@
  * @package Piwik_LanguagesManager
  *
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * @package Piwik_LanguagesManager

@@ -8,8 +8,11 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Config;
+
+require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * @package Piwik_API
@@ -553,7 +556,7 @@ class Piwik_API_API
         }
 
         $urls = array_map('urldecode', $urls);
-        $urls = array_map(array('Piwik\Core\Common', 'unsanitizeInputValue'), $urls);
+        $urls = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $urls);
 
         $result = array();
         foreach ($urls as $url) {
@@ -629,7 +632,7 @@ class Piwik_API_API
         arsort($values);
         $values = array_keys($values);
 
-        $values = array_map(array('Piwik\Core\Common', 'unsanitizeInputValue'), $values);
+        $values = array_map(array('Piwik\Common', 'unsanitizeInputValue'), $values);
 
         $values = array_slice($values, 0, $maxSuggestionsToReturn);
         return $values;

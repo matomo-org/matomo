@@ -9,7 +9,7 @@
  * @package Piwik_UserSettings
  */
 
-use Piwik\Core\Common;
+use Piwik\Common;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
 

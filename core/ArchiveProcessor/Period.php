@@ -8,7 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * This class provides generic methods to archive data for a period (week / month / year).
@@ -85,7 +86,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
             $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
 
             $blob = $table->getSerialized($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable, $columnToSortByBeforeTruncation);
-            destroy($table);
+            Common::destroy($table);
             $this->insertBlobRecord($recordName, $blob);
         }
         Piwik_DataTable_Manager::getInstance()->deleteAll($latestUsedTableId);

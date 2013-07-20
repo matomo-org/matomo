@@ -8,15 +8,14 @@
  * @category Piwik
  * @package Piwik
  */
-namespace Piwik\Core;
+namespace Piwik;
+
 use Exception;
-use false;
-use Manifest;
-use Piwik\Core\Config;
+use Piwik\Config;
 use Piwik_Access;
 use Piwik_Access_NoAccessException;
 use Piwik_AssetManager;
-use Piwik\Core\Common;
+use Piwik\Common;
 use Piwik_Db_Adapter;
 use Piwik_Db_Schema;
 use Piwik_Log_APICall;
@@ -41,6 +40,8 @@ use Zend_Registry;
  * @see core/Translate.php
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * Main piwik helper class.

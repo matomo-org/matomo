@@ -8,9 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * @see core/PluginsManager.php
@@ -20,6 +20,7 @@ use Piwik\Core\Common;
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
+require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 
 /**
  * Front controller.
@@ -275,7 +276,7 @@ class Piwik_FrontController
             Piwik_PluginsManager::getInstance()->installLoadedPlugins();
 
             // ensure the current Piwik URL is known for later use
-            if (method_exists('Piwik\Core\Piwik', 'getPiwikUrl')) {
+            if (method_exists('Piwik\Piwik', 'getPiwikUrl')) {
                 $host = Piwik::getPiwikUrl();
             }
 

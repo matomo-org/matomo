@@ -8,9 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -227,10 +227,10 @@ class Piwik_Tracker
                         $visit->handle();
                         unset($visit);
                     } else {
-                        printDebug("The request is invalid: empty request, or maybe tracking is disabled in the config.ini.php via record_statistics=0");
+                        Common::printDebug("The request is invalid: empty request, or maybe tracking is disabled in the config.ini.php via record_statistics=0");
                     }
                 } catch (Piwik_Tracker_Db_Exception $e) {
-                    printDebug("<b>" . $e->getMessage() . "</b>");
+                    Common::printDebug("<b>" . $e->getMessage() . "</b>");
                     $this->exitWithException($e, $isAuthenticated);
                 } catch (Piwik_Tracker_Visit_Excluded $e) {
                 } catch (Exception $e) {
@@ -290,7 +290,7 @@ class Piwik_Tracker
         if ($minimumInterval <= 0
             || empty($cache['isBrowserTriggerArchivingEnabled'])
         ) {
-            printDebug("-> Scheduled tasks not running in Tracker: Browser archiving is disabled.");
+            Common::printDebug("-> Scheduled tasks not running in Tracker: Browser archiving is disabled.");
             return;
         }
         $nextRunTime = $cache['lastTrackerCronRun'] + $minimumInterval;
@@ -302,7 +302,7 @@ class Piwik_Tracker
             Piwik_Tracker_Cache::setCacheGeneral($cache);
             self::initCorePiwikInTrackerMode();
             Piwik_SetOption('lastTrackerCronRun', $cache['lastTrackerCronRun']);
-            printDebug('-> Scheduled Tasks: Starting...');
+            Common::printDebug('-> Scheduled Tasks: Starting...');
 
             // save current user privilege and temporarily assume super user privilege
             $isSuperUser = Piwik::isUserIsSuperUser();
@@ -319,12 +319,12 @@ class Piwik_Tracker
             // restore original user privilege
             Piwik::setUserIsSuperUser($isSuperUser);
 
-            printDebug($resultTasks);
-            printDebug('Finished Scheduled Tasks.');
+            Common::printDebug($resultTasks);
+            Common::printDebug('Finished Scheduled Tasks.');
         } else {
-            printDebug("-> Scheduled tasks not triggered.");
+            Common::printDebug("-> Scheduled tasks not triggered.");
         }
-        printDebug("Next run will be from: " . date('Y-m-d H:i:s', $nextRunTime) . ' UTC');
+        Common::printDebug("Next run will be from: " . date('Y-m-d H:i:s', $nextRunTime) . ' UTC');
     }
 
     static public $initTrackerMode = false;
@@ -417,7 +417,7 @@ class Piwik_Tracker
         $this->handleDisabledTracker();
         $this->handleEmptyRequest($request);
 
-        printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
+        Common::printDebug("Current datetime: " . date("Y-m-d H:i:s", $request->getCurrentTimestamp()));
     }
 
     /**
@@ -428,11 +428,11 @@ class Piwik_Tracker
         switch ($this->getState()) {
             case self::STATE_LOGGING_DISABLE:
                 $this->outputTransparentGif();
-                printDebug("Logging disabled, display transparent logo");
+                Common::printDebug("Logging disabled, display transparent logo");
                 break;
 
             case self::STATE_EMPTY_REQUEST:
-                printDebug("Empty request => Piwik page");
+                Common::printDebug("Empty request => Piwik page");
                 echo "<a href='/'>Piwik</a> is a free open source web <a href='http://piwik.org'>analytics</a> that lets you keep control of your data.";
                 break;
 
@@ -440,10 +440,10 @@ class Piwik_Tracker
             case self::STATE_NOTHING_TO_NOTICE:
             default:
                 $this->outputTransparentGif();
-                printDebug("Nothing to notice => default behaviour");
+                Common::printDebug("Nothing to notice => default behaviour");
                 break;
         }
-        printDebug("End of the page.");
+        Common::printDebug("End of the page.");
 
         if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
             if (isset(self::$db)) {
@@ -606,10 +606,10 @@ class Piwik_Tracker
 
                 Piwik_PluginsManager::getInstance()->loadPlugins($pluginsTracker);
 
-                printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
+                Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
             }
         } catch (Exception $e) {
-            printDebug("ERROR: " . $e->getMessage());
+            Common::printDebug("ERROR: " . $e->getMessage());
         }
     }
 

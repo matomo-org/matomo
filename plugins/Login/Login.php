@@ -8,8 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_Login
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
+use Piwik\Config;
+use Piwik\Piwik;
 
 /**
  *

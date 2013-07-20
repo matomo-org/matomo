@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitorInterest
  */
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
 
 /**
  * VisitorInterest API lets you access two Visitor Engagement reports: number of visits per number of pages,

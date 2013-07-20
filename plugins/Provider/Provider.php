@@ -8,7 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Provider
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  *
@@ -111,7 +111,7 @@ class Piwik_Provider extends Piwik_Plugin
 
         // In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
         if (substr($ip, -2, 2) == '.0') {
-            printDebug("IP Was anonymized so we skip the Provider DNS reverse lookup...");
+            Common::printDebug("IP Was anonymized so we skip the Provider DNS reverse lookup...");
             return;
         }
 

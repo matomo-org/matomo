@@ -8,8 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 /**
  * @package Piwik
@@ -95,8 +95,8 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
         $this->visitorCustomVariables = $this->request->getCustomVariables($scope = 'visit');
         if (!empty($this->visitorCustomVariables)) {
-            printDebug("Visit level Custom Variables: ");
-            printDebug($this->visitorCustomVariables);
+            Common::printDebug("Visit level Custom Variables: ");
+            Common::printDebug($this->visitorCustomVariables);
         }
 
         $this->goalManager = new Piwik_Tracker_GoalManager($this->request);
@@ -120,7 +120,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
             $visitIsConverted = $someGoalsConverted;
             // if we find a idgoal in the URL, but then the goal is not valid, this is most likely a fake request
             if (!$someGoalsConverted) {
-                printDebug('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
+                Common::printDebug('Invalid goal tracking request for goal id = ' . $this->goalManager->idGoal);
                 unset($this->goalManager);
                 return;
             }
@@ -129,11 +129,11 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
             $action = $this->newAction();
 
             if ($this->detectActionIsOutlinkOnAliasHost($action)) {
-                printDebug("INFO: The outlink URL host is one of the known host for this website. ");
+                Common::printDebug("INFO: The outlink URL host is one of the known host for this website. ");
             }
             if (isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) {
                 $type = Piwik_Tracker_Action::getActionTypeName($action->getActionType());
-                printDebug("Action is a $type,
+                Common::printDebug("Action is a $type,
 						Action name =  " . $action->getActionName() . ",
 						Action URL = " . $action->getActionUrl());
             }
@@ -155,7 +155,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         $isLastActionInTheSameVisit = $this->isLastActionInTheSameVisit();
 
         if (!$isLastActionInTheSameVisit) {
-            printDebug("Visitor detected, but last action was more than 30 minutes ago...");
+            Common::printDebug("Visitor detected, but last action was more than 30 minutes ago...");
         }
         // Known visit when:
         // ( - the visitor has the Piwik cookie with the idcookie ID used by Piwik to match the visitor
@@ -268,7 +268,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         if ($incrementActions) {
             $sqlActionUpdate .= "visit_total_actions = visit_total_actions + 1, ";
         }
-        printDebug("Visit is known (IP = " . Piwik_IP::N2P($this->getVisitorIp()) . ")");
+        Common::printDebug("Visit is known (IP = " . Piwik_IP::N2P($this->getVisitorIp()) . ")");
 
         $datetimeServer = Piwik_Tracker::getDatetimeFromTimestamp($this->request->getCurrentTimestamp());
         $valuesToUpdate['visit_last_action_time'] = $datetimeServer;
@@ -332,12 +332,12 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         if (isset($valuesToUpdate['idvisitor'])) {
             $valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);
         }
-        printDebug('Updating existing visit: ' . var_export($valuesToUpdate, true));
+        Common::printDebug('Updating existing visit: ' . var_export($valuesToUpdate, true));
 
         if (Piwik_Tracker::getDatabase()->rowCount($result) == 0) {
-            printDebug("Visitor with this idvisit wasn't found in the DB.");
-            printDebug("$sqlQuery --- ");
-            printDebug($sqlBind);
+            Common::printDebug("Visitor with this idvisit wasn't found in the DB.");
+            Common::printDebug("$sqlQuery --- ");
+            Common::printDebug($sqlBind);
             throw new Piwik_Tracker_Visit_VisitorNotFoundInDatabase(
                 "The visitor with idvisitor=" . bin2hex($this->visitorInfo['idvisitor']) . " and idvisit=" . $this->visitorInfo['idvisit']
                     . " wasn't found in the DB, we fallback to a new visitor");
@@ -373,7 +373,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
      */
     protected function handleNewVisit($idActionUrl, $idActionName, $actionType, $visitIsConverted)
     {
-        printDebug("New Visit (IP = " . Piwik_IP::N2P($this->getVisitorIp()) . ")");
+        Common::printDebug("New Visit (IP = " . Piwik_IP::N2P($this->getVisitorIp()) . ")");
 
         $daysSinceFirstVisit = $this->request->getDaysSinceFirstVisit();
         $visitCount = $this->request->getVisitCount();
@@ -468,7 +468,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         $debugVisitInfo = $this->visitorInfo;
         $debugVisitInfo['idvisitor'] = bin2hex($debugVisitInfo['idvisitor']);
         $debugVisitInfo['config_id'] = bin2hex($debugVisitInfo['config_id']);
-        printDebug($debugVisitInfo);
+        Common::printDebug($debugVisitInfo);
 
         $this->saveVisitorInformation();
     }
@@ -643,9 +643,9 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
 
         if ($isVisitorIdToLookup) {
             $this->visitorInfo['idvisitor'] = $idVisitor;
-            printDebug("Matching visitors with: visitorId=" . bin2hex($this->visitorInfo['idvisitor']) . " OR configId=" . bin2hex($configId));
+            Common::printDebug("Matching visitors with: visitorId=" . bin2hex($this->visitorInfo['idvisitor']) . " OR configId=" . bin2hex($configId));
         } else {
-            printDebug("Visitor doesn't have the piwik cookie...");
+            Common::printDebug("Visitor doesn't have the piwik cookie...");
         }
 
         $selectCustomVariables = '';
@@ -813,14 +813,14 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
             }
 
             $this->visitorKnown = true;
-            printDebug("The visitor is known (idvisitor = " . bin2hex($this->visitorInfo['idvisitor']) . ",
+            Common::printDebug("The visitor is known (idvisitor = " . bin2hex($this->visitorInfo['idvisitor']) . ",
 						config_id = " . bin2hex($configId) . ",
 						idvisit = {$this->visitorInfo['idvisit']},
 						last action = " . date("r", $this->visitorInfo['visit_last_action_time']) . ",
 						first action = " . date("r", $this->visitorInfo['visit_first_action_time']) . ",
 						visit_goal_buyer' = " . $this->visitorInfo['visit_goal_buyer'] . ")");
         } else {
-            printDebug("The visitor was not matched with an existing visitor...");
+            Common::printDebug("The visitor was not matched with an existing visitor...");
         }
     }
 

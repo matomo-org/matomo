@@ -8,7 +8,7 @@
  * @category Piwik
  * @package PluginsFunctions
  */
-use Piwik\Core\Config;
+use Piwik\Config;
 
 /**
  * SQL wrapper
