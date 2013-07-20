@@ -71,7 +71,12 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
         }
     }
 
-    // test that redundant checks work
+    /**
+     * Test that redundant checks work.
+     * 
+     * @group Plugins
+     * @group UserCountry
+     */
     public function testGeoIpUpdaterRedundantChecks()
     {
         Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
@@ -81,7 +86,7 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
         $this->createEmptyISPOrgFiles();
 
         // run redundant checks
-        $updater = new Piwik_UserCountry_GeoIPAutoUpdater_publictestRedundantChecks();
+        $updater = new Piwik_UserCountry_GeoIPAutoUpdater_publictest();
         $updater->performRedundantDbChecks();
 
         // check that files are renamed correctly
@@ -93,6 +98,29 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
 
         // check that w/ broken files already there, redundant checks still work correctly
         $this->checkBrokenGeoIPState();
+    }
+
+    /**
+     * @group Plugins
+     * @group UserCountry
+     * @dataProvider getInvalidGeoIpUrlsToTest
+     */
+    public function testGeoIpDownloadInvalidUrl($url)
+    {
+        $updater = new Piwik_UserCountry_GeoIPAutoUpdater_publictest();
+        try {
+            $updater->downloadFile('loc', $url);
+            $this->fail("Downloading invalid url succeeded!");
+        } catch (Exception $ex) {
+            $this->assertEquals("UserCountry_UnsupportedArchiveType", $ex->getMessage());
+        }
+    }
+
+    public function getInvalidGeoIpUrlsToTest()
+    {
+        return array(array("http://localhost/tests/resources/geoip.tar"),
+                     array("http://localhost/tests/resources/geoip.tar.bz2"),
+                     array("http://localhost/tests/resources/geoip.dat"));
     }
 
     public function setUp()
@@ -138,10 +166,15 @@ class Test_Piwik_UserCountry extends PHPUnit_Framework_Testcase
     }
 }
 
-class Piwik_UserCountry_GeoIPAutoUpdater_publictestRedundantChecks extends Piwik_UserCountry_GeoIPAutoUpdater
+class Piwik_UserCountry_GeoIPAutoUpdater_publictest extends Piwik_UserCountry_GeoIPAutoUpdater
 {
     public function performRedundantDbChecks()
     {
         parent::performRedundantDbChecks();
+    }
+
+    public function downloadFile($type, $url)
+    {
+        parent::downloadFile($type, $url);
     }
 }

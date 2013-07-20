@@ -276,8 +276,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
 
         $runPrettySizeFilterBeforeGeneric = false;
         $fixedMemoryUnit = false;
-        if ($view instanceof Piwik_ViewDataTable_HtmlTable) // if displaying a table
-        {
+        if ($view instanceof Piwik_ViewDataTable_HtmlTable) { // if displaying a table
             $view->disableRowEvolution();
 
             // add summary row only if displaying a table
@@ -292,8 +291,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
                     $runBeforeGenericFilters = true);
                 $view->setSortedColumn('percent_total', $orderDir);
             }
-        } else if ($view instanceof Piwik_ViewDataTable_GenerateGraphData) // if displaying a graph
-        {
+        } else if ($view instanceof Piwik_ViewDataTable_GenerateGraphHtml) { // if displaying a graph
             if (in_array('total_size', $sizeColumns)) {
                 $view->setColumnsToDisplay(array('label', 'total_size'));
 
@@ -321,7 +319,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
             'ColumnCallbackReplace', array($sizeColumns, $getPrettySize, $params), $runPrettySizeFilterBeforeGeneric);
 
         // jqPlot will display &nbsp; as, well, '&nbsp;', so don't replace the spaces when rendering as a graph
-        if (!($view instanceof Piwik_ViewDataTable_GenerateGraphData)) {
+        if (!($view instanceof Piwik_ViewDataTable_GenerateGraphHtml)) {
             $replaceSpaces = array($this, 'replaceColumnSpaces');
             $view->queueFilter('ColumnCallbackReplace', array($sizeColumns, $replaceSpaces));
         }

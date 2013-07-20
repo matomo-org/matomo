@@ -19,9 +19,13 @@
 
 class Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar extends Piwik_ViewDataTable_GenerateGraphHTML
 {
-
-    protected $graphType = 'bar';
-
+    public function __construct()
+    {
+        parent::__construct();
+        $this->graphType = 'bar';
+        $this->viewProperties['graph_limit'] = 6;
+    }
+    
     protected function getViewDataTableId()
     {
         return 'graphVerticalBar';

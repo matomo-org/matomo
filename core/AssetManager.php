@@ -65,7 +65,7 @@ class Piwik_AssetManager
      */
     public static function getJsAssets()
     {
-        if (self::getDisableMergedAssets()) {
+        if (self::isMergedAssetsDisabled()) {
             // Individual includes mode
             self::removeMergedAsset(self::MERGED_JS_FILE);
             return self::getIndividualJsIncludes();
@@ -91,52 +91,108 @@ class Piwik_AssetManager
      *
      * @throws Exception if a file can not be opened in write mode
      */
-    private static function generateMergedCssFile()
+    private static function prepareMergedCssFile()
     {
-        $mergedContent = "";
+        $mergedCssAlreadyGenerated = self::isGenerated(self::MERGED_CSS_FILE);
+        $isDevelopingPiwik = self::isMergedAssetsDisabled();
 
-        // absolute path to doc root
-        $rootDirectory = realpath(PIWIK_DOCUMENT_ROOT);
-        if ($rootDirectory != '/' && substr_compare($rootDirectory, '/', -1)) {
-            $rootDirectory .= '/';
+        if ($mergedCssAlreadyGenerated
+            && !$isDevelopingPiwik
+        ) {
+            return;
         }
-        $rootDirectoryLen = strlen($rootDirectory);
 
-        if(!class_exists("lessc")) {
-            throw new Exception("Less was added to composer during 2.0. ==> Execute this command to update composer packages: \$ php composer.phar update");
-        }
-        $less = new lessc;
+        $less = self::makeLess();
 
         // Loop through each css file
         $files = self::getCssFiles();
+        $mergedContent = "";
         foreach ($files as $file) {
 
             self::validateCssFile($file);
 
             $fileLocation = self::getAbsoluteLocation($file);
             $less->addImportDir(dirname($fileLocation));
+
             $content = file_get_contents($fileLocation);
 
-            // Rewrite css url directives
-            // - assumes these are all relative paths
-            // - rewrite windows directory separator \\ to /
-            $baseDirectory = dirname($file);
-            $content = preg_replace_callback(
-                "/(url\(['\"]?)([^'\")]*)/",
-                create_function(
-                    '$matches',
-                    "return \$matches[1] . str_replace('\\\\', '/', substr(realpath(PIWIK_DOCUMENT_ROOT . '/$baseDirectory/' . \$matches[2]), $rootDirectoryLen));"
-                ),
-                $content
-            );
+            $content = self::rewriteCssPathsDirectives($file, $content);
+
             $mergedContent = $mergedContent . $content;
+        }
+
+        $fileHash = md5($mergedContent);
+        $firstLineCompileHash = "/* compile_me_once=$fileHash */";
+
+        // Disable Merged Assets ==> Check on each request if file needs re-compiling
+        if ($mergedCssAlreadyGenerated
+            && $isDevelopingPiwik
+        ) {
+            $pathMerged = self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
+            $f = fopen($pathMerged, 'r');
+            $firstLine = fgets($f);
+            fclose($f);
+            if (!empty($firstLine)
+                && trim($firstLine) == trim($firstLineCompileHash)) {
+                return;
+            }
+            // Some CSS file in the merge, has changed since last merged asset was generated
+            // Note: we do not detect changes in @import'ed LESS files
         }
 
         $mergedContent = $less->compile($mergedContent);
 
         Piwik_PostEvent('AssetManager.filterMergedCss', array(&$mergedContent));
 
+        $mergedContent =
+              $firstLineCompileHash . "\n"
+            . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n"
+            . $mergedContent;
+
         self::writeAssetToFile($mergedContent, self::MERGED_CSS_FILE);
+    }
+
+    protected static function makeLess()
+    {
+        if (!class_exists("lessc")) {
+            throw new Exception("Less was added to composer during 2.0. ==> Execute this command to update composer packages: \$ php composer.phar update");
+        }
+        $less = new lessc;
+        return $less;
+    }
+
+    /*
+     * Rewrite css url directives
+     * - assumes these are all relative paths
+     *  - rewrite windows directory separator \\ to /
+     */
+    protected static function rewriteCssPathsDirectives($relativePath, $content)
+    {
+        static $rootDirectoryLength = null;
+        if (is_null($rootDirectoryLength)) {
+            $rootDirectoryLength = self::countDirectoriesInPathToRoot();
+        }
+
+        $baseDirectory = dirname($relativePath);
+        $content = preg_replace_callback(
+            "/(url\(['\"]?)([^'\")]*)/",
+            create_function(
+                '$matches',
+                "return \$matches[1] . str_replace('\\\\', '/', substr(realpath(PIWIK_DOCUMENT_ROOT . '/$baseDirectory/' . \$matches[2]), $rootDirectoryLength));"
+            ),
+            $content
+        );
+        return $content;
+    }
+
+    protected static function countDirectoriesInPathToRoot()
+    {
+        $rootDirectory = realpath(PIWIK_DOCUMENT_ROOT);
+        if ($rootDirectory != '/' && substr_compare($rootDirectory, '/', -1)) {
+            $rootDirectory .= '/';
+        }
+        $rootDirectoryLen = strlen($rootDirectory);
+        return $rootDirectoryLen;
     }
 
     private static function writeAssetToFile($mergedContent, $name)
@@ -323,9 +379,9 @@ class Piwik_AssetManager
      *
      * @return string
      */
-    private static function getDisableMergedAssets()
+    private static function isMergedAssetsDisabled()
     {
-        return Config::getInstance()->Debug['disable_merged_assets'];
+        return Piwik_Config::getInstance()->Debug['disable_merged_assets'];
     }
 
     /**
@@ -336,12 +392,7 @@ class Piwik_AssetManager
      */
     public static function getMergedCssFileLocation()
     {
-        $isGenerated = self::isGenerated(self::MERGED_CSS_FILE);
-
-        if (!$isGenerated) {
-            self::generateMergedCssFile();
-        }
-
+        self::prepareMergedCssFile();
         return self::getAbsoluteMergedFileLocation(self::MERGED_CSS_FILE);
     }
 

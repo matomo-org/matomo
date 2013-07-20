@@ -22,9 +22,11 @@ do
 done
 
 # run UI tests
+echo "Running UI tests..."
 phpunit UI &> /dev/null
 
 # copy processed png
+echo "Copying to expected screenshot dir..."
 if [ ! -d "UI/expected-ui-screenshots" ]; then
     mkdir UI/expected-ui-screenshots
 fi

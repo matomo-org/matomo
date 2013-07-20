@@ -56,12 +56,13 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
      */
     public function filter($table)
     {
-        if ($table->getRowsCount() <= $this->startRowToSummarize + 1) {
-            return;
-        }
         $table->filter('Sort',
             array($this->columnToSortByBeforeTruncating, 'desc'));
 
+        if ($table->getRowsCount() <= $this->startRowToSummarize + 1) {
+            return;
+        }
+        
         $rows = $table->getRows();
         $count = $table->getRowsCount();
         $newRow = new Piwik_DataTable_Row();

@@ -247,18 +247,6 @@ abstract class Piwik_ViewDataTable
                 $result = new Piwik_ViewDataTable_Sparkline();
                 break;
 
-            case 'generateDataChartVerticalBar':
-                $result = new Piwik_ViewDataTable_GenerateGraphData_ChartVerticalBar();
-                break;
-
-            case 'generateDataChartPie':
-                $result = new Piwik_ViewDataTable_GenerateGraphData_ChartPie();
-                break;
-
-            case 'generateDataChartEvolution':
-                $result = new Piwik_ViewDataTable_GenerateGraphData_ChartEvolution();
-                break;
-
             case 'tableAllColumns':
                 $result = new Piwik_ViewDataTable_HtmlTable_AllColumns();
                 break;
@@ -590,15 +578,13 @@ abstract class Piwik_ViewDataTable
             $filterParameters = $filter[1];
             $this->dataTable->filter($filterName, $filterParameters);
         }
-
+        
         if (!$this->areGenericFiltersDisabled()) {
             // Second, generic filters (Sort, Limit, Replace Column Names, etc.)
             $requestArray = $this->getRequestArray();
             $request = Piwik_API_Request::getRequestArrayFromString($requestArray);
 
-            if (!empty($this->viewProperties['enable_sort'])
-                && $this->viewProperties['enable_sort'] === 'false'
-            ) {
+            if ($this->viewProperties['enable_sort'] === false) {
                 $request['filter_sort_column'] = $request['filter_sort_order'] = '';
             }
 
@@ -937,7 +923,7 @@ abstract class Piwik_ViewDataTable
      */
     public function setRequestParametersToModify($params)
     {
-        $this->viewProperties['request_parameters_to_modify'] = $params;
+        $this->viewProperties['request_parameters_to_modify'] += $params;
     }
 
     /**
@@ -1003,7 +989,7 @@ abstract class Piwik_ViewDataTable
      */
     public function disableSort()
     {
-        $this->viewProperties['enable_sort'] = 'false';
+        $this->viewProperties['enable_sort'] = false;
     }
 
     /**

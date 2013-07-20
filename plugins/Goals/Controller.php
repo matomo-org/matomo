@@ -243,7 +243,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
             $idGoal = Common::getRequestVar('idGoal', false, 'string');
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, 'Goals.get');
-        $view->setParametersToModify(array('idGoal' => $idGoal));
+        $view->setRequestParametersToModify(array('idGoal' => $idGoal));
 
         $nameToLabel = $this->goalColumnNameToLabel;
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {

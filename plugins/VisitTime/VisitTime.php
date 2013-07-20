@@ -127,7 +127,7 @@ class Piwik_VisitTime extends Piwik_Plugin
         $reportViewProperties = array(
             'VisitTime.getVisitInformationPerServerTime' => array_merge($commonProperties, array(
                 'filter_limit' => 24,
-                'graph_limit' => 24,
+                'graph_limit' => null,
                 'show_goals' => true,
                 'translations' => array('label' => Piwik_Translate('VisitTime_ColumnServerTime')),
                 
@@ -137,14 +137,14 @@ class Piwik_VisitTime extends Piwik_Plugin
             
             'VisitTime.getVisitInformationPerLocalTime' => array_merge($commonProperties, array(
                 'filter_limit' => 24,
-                'graph_limit' => 24,
+                'graph_limit' => null,
                 'title' => Piwik_Translate('VisitTime_ColumnLocalTime'),
                 'translations' => array('label' => Piwik_Translate('VisitTime_LocalTime')),
             )),
             
             'VisitTime.getByDayOfWeek' => array_merge($commonProperties, array(
                 'filter_limit' => 7,
-                'graph_limit' => 7,
+                'graph_limit' => null,
                 'enable_sort' => false,
                 'show_all_ticks' => true,
                 'show_footer_message' =>

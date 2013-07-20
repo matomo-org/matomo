@@ -491,7 +491,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
             $label = self::getTranslatedReferrerTypeLabel($typeReferer);
             $total = Piwik_Translate('General_Total');
             $visibleRows = array($label, $total);
-            $view->setParametersToModify(array('rows' => $label . ',' . $total));
+            $view->setRequestParametersToModify(array('rows' => $label . ',' . $total));
         }
         $view->addRowPicker($visibleRows);
 
