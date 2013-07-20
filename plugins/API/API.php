@@ -146,7 +146,7 @@ class Piwik_API_API
             'segment'        => 'visitorId',
             'acceptedValues' => '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()',
             'sqlSegment'     => 'log_visit.idvisitor',
-            'sqlFilter'      => array('Piwik_Common', 'convertVisitorIdToBin'),
+            'sqlFilter'      => array('Piwik\Common', 'convertVisitorIdToBin'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(

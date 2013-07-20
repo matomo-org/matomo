@@ -858,7 +858,7 @@ abstract class Piwik_ViewDataTable
 
         // we escape the values that will be displayed in the javascript footer of each datatable
         // to make sure there is no malicious code injected (the value are already htmlspecialchar'ed as they
-        // are loaded with Piwik_Common::getRequestVar()
+        // are loaded with Common::getRequestVar()
         foreach ($javascriptVariablesToSet as &$value) {
             if (is_array($value)) {
                 $value = array_map('addslashes', $value);

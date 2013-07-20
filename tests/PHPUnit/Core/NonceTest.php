@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Config;
+use Piwik\Config;
 
 /**
  * Piwik - Open source web analytics

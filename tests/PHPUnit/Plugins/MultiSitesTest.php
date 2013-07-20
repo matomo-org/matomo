@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Access;
+
 class MultiSitesTest extends DatabaseTestCase
 {
     protected $idSiteAccess;
@@ -14,7 +16,7 @@ class MultiSitesTest extends DatabaseTestCase
     {
         parent::setUp();
 
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
 
         $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");

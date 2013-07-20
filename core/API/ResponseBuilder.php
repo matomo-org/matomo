@@ -493,8 +493,8 @@ class Piwik_API_ResponseBuilder
 
     static public function unsanitizeLabelParameter($label)
     {
-        // this is needed because Piwik_API_Proxy uses Piwik_Common::getRequestVar which in turn
-        // uses Piwik_Common::sanitizeInputValue. This causes the > that separates recursive labels
+        // this is needed because Piwik_API_Proxy uses Common::getRequestVar which in turn
+        // uses Common::sanitizeInputValue. This causes the > that separates recursive labels
         // to become &gt; and we need to undo that here.
         $label = Common::unsanitizeInputValues($label);
         return $label;

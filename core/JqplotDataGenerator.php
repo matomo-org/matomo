@@ -9,6 +9,8 @@
  * @package Piwik
  */
 
+use Piwik\Common;
+
 /**
  * Generates JSON data used to configure and populate JQPlot graphs.
  * 
@@ -159,7 +161,7 @@ class Piwik_JqplotDataGenerator
 
     private function deriveUnitsFromRequestedColumnNames()
     {
-        $idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+        $idSite = Common::getRequestVar('idSite', null, 'int');
         
         $units = array();
         foreach ($this->properties['columns_to_display'] as $columnName) {
@@ -176,7 +178,7 @@ class Piwik_JqplotDataGenerator
     protected function addSeriesPickerToView()
     {
         if (count($this->properties['selectable_columns'])
-            && Piwik_Common::getRequestVar('showSeriesPicker', 1) == 1
+            && Common::getRequestVar('showSeriesPicker', 1) == 1
         ) {
             $selectableColumns = array();
             foreach ($this->properties['selectable_columns'] as $column) {

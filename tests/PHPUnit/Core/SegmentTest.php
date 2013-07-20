@@ -1,5 +1,6 @@
 <?php
-use Piwik\Core\Common;
+use Piwik\Common;
+use Piwik\Access;
 
 /**
  * Piwik - Open source web analytics
@@ -16,7 +17,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         // setup the access layer (required in Segment contrustor testing if anonymous is allowed to use segments)
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         // Load and install plugins
         IntegrationTestCase::loadAllPlugins();

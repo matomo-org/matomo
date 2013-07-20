@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
 
 /**
  * Tests the log importer.
@@ -54,7 +55,7 @@ class Test_Piwik_Integration_ImportLogs extends IntegrationTestCase
         self::$fixture->logVisitsWithDynamicResolver();
 
         // reload access so new sites are viewable
-        Piwik_Access::getInstance()->setSuperUser(true);
+        Access::getInstance()->setSuperUser(true);
 
         // make sure sites aren't created twice
         $piwikDotNet = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.net');

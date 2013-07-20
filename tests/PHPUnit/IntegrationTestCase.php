@@ -5,9 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Access;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -39,8 +40,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     public static function createAccessInstance()
     {
-        Piwik_Access::setSingletonInstance(null);
-        Piwik_Access::getInstance();
+        Access::setSingletonInstance(null);
+        Access::getInstance();
         Piwik_PostEvent('FrontController.initAuthenticationObject');
     }
     

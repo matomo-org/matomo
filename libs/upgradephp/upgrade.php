@@ -35,7 +35,7 @@
  * Any contribution is appreciated. <milky*users#sf#net>
  *
  */
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  * @since PHP 5

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Access;
+
 class MobileMessagingTest extends DatabaseTestCase
 {
     protected $idSiteAccess;
@@ -18,7 +20,7 @@ class MobileMessagingTest extends DatabaseTestCase
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
         //finally we set the user as a super user by default
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");
 

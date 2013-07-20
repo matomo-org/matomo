@@ -555,7 +555,7 @@ if (!isset($GLOBALS['Piwik_SearchEngines'])) {
         'search.handycafe.com'           => array('InfoSpace', 'q'),
 
         /*
-         * Other InfoSpace powered metasearches are handled in Piwik_Common::extractSearchEngineInformationFromUrl()
+         * Other InfoSpace powered metasearches are handled in Common::extractSearchEngineInformationFromUrl()
          *
          * This includes sites such as:
          * - search.nation.com

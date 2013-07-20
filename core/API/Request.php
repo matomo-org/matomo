@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Access;
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -167,7 +168,7 @@ class Piwik_API_Request
         $token_auth = Common::getRequestVar('token_auth', '', 'string', $request);
         if ($token_auth) {
             Piwik_PostEvent('API.Request.authenticate', array($token_auth));
-            Piwik_Access::getInstance()->reloadAccess();
+            Access::getInstance()->reloadAccess();
             Piwik::raiseMemoryLimitIfNecessary();
         }
     }

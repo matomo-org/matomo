@@ -5,9 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
 
 require_once 'PrivacyManager/PrivacyManager.php';
 
@@ -754,7 +754,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals(27, $this->_getTableCount('log_action'));
 
         $archiveTables = self::_getArchiveTableNames();
-//        var_export(Piwik_FetchAll("SELECT * FROM " . Piwik_Common::prefixTable($archiveTables['numeric'][0])));
+//        var_export(Piwik_FetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
 
         $janMetricCount = $this->_getExpectedNumericArchiveCountJan();
         $this->assertEquals($janMetricCount, $this->_getTableCount($archiveTables['numeric'][0])); // January

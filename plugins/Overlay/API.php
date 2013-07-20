@@ -1,6 +1,7 @@
 <?php
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Access;
 
 /**
  * Piwik - Open source web analytics
@@ -113,7 +114,7 @@ class Piwik_Overlay_API
             array(&$notification, $allowCookieAuthentication = true));
 
         $auth = Zend_Registry::get('auth');
-        $success = Piwik_Access::getInstance()->reloadAccess($auth);
+        $success = Access::getInstance()->reloadAccess($auth);
 
         if (!$success) {
             throw new Exception('Authentication failed');

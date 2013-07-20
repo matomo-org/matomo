@@ -45,7 +45,7 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
             $uniqueIdsDataTable[] = $idDataTable;
         }
 
-        $idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
+        $idSite = Common::getRequestVar('idSite', null, 'int');
         $requestedColumnNames = $this->properties['columns_to_display'];
         $units = $this->getUnitsForColumnsToDisplay();
 

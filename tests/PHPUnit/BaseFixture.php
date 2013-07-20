@@ -5,8 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
+use Piwik\Access;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -200,7 +201,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         // fake access is needed so API methods can call Piwik::getCurrentUserLogin(), e.g: 'PDFReports.addReport'
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         // retrieve available reports
         $availableReportMetadata = Piwik_PDFReports_API::getReportMetadata($idSite, Piwik_PDFReports::EMAIL_TYPE);

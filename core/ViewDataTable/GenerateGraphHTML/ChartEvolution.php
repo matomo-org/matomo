@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+
 use Piwik\Common;
 
 /**
@@ -176,7 +177,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
         // period will be overridden when 'range' is requested in the UI // TODO: this code probably shouldn't be here...
         // but the graph will display for each day of the range.
         // Default 'range' behavior is to return the 'sum' for the range
-        if (Piwik_Common::getRequestVar('period', false) == 'range') {
+        if (Common::getRequestVar('period', false) == 'range') {
             $this->viewProperties['request_parameters_to_modify']['period'] = 'day';
         }
 

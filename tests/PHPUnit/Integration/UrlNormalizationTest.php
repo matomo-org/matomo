@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Common;
+use Piwik\Common;
 
 /**
  * Tests the URL normalization.

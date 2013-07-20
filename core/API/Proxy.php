@@ -154,7 +154,7 @@ class Piwik_API_Proxy
      * @param array $parametersRequest  The parameters pairs (name=>value)
      *
      * @return mixed|null
-     * @throws Exception|Piwik_Access_NoAccessException
+     * @throws Exception|Access_NoAccessException
      */
     public function call($className, $methodName, $parametersRequest)
     {

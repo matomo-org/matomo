@@ -1,5 +1,5 @@
 <?php
-use Piwik\Core\Config;
+use Piwik\Config;
 
 class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
 {

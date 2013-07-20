@@ -26,13 +26,17 @@ class Piwik_Loader
      * @return string Class file name
      * @throws Exception if class name is invalid
      */
-    protected static function getClassFileName($class)
+    protected static function  getClassFileName($class)
     {
-        if (!preg_match("/^[A-Za-z0-9_]+$/D", $class)) {
+        if (!preg_match('/^[A-Za-z0-9_\\\\]+$/D', $class)) {
             throw new Exception("Invalid class name \"$class\".");
         }
 
+        // prefixed class
         $class = str_replace('_', '/', $class);
+
+        // namespace \Piwik\Common
+        $class = str_replace('\\', '/', $class);
 
         if ($class == 'Piwik') {
             return $class;
@@ -54,7 +58,8 @@ class Piwik_Loader
     public static function loadClass($class)
     {
         $classPath = self::getClassFileName($class);
-        if ($class == 'Piwik' || !strncmp($class, 'Piwik_', 6)) {
+        if ($class == 'Piwik'
+            || !strncmp($class, 'Piwik', 5) /* catches Piwik_ and Piwik\ */ ) {
             // Piwik classes are in core/ or plugins/
             do {
                 // auto-discover class location

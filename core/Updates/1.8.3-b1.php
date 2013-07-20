@@ -49,11 +49,11 @@ class Piwik_Updates_1_8_3_b1 extends Piwik_Updates
 
         try {
 
-            // Piwik_Common::prefixTable('pdf') has been heavily refactored to be more generic
+            // Common::prefixTable('pdf') has been heavily refactored to be more generic
             // The following actions are taken in this update script :
-            // - create the new generic report table Piwik_Common::prefixTable('report')
-            // - migrate previous reports, if any, from Piwik_Common::prefixTable('pdf') to Piwik_Common::prefixTable('report')
-            // - delete Piwik_Common::prefixTable('pdf')
+            // - create the new generic report table Common::prefixTable('report')
+            // - migrate previous reports, if any, from Common::prefixTable('pdf') to Common::prefixTable('report')
+            // - delete Common::prefixTable('pdf')
 
             $reports = Piwik_FetchAll('SELECT * FROM `' . Common::prefixTable('pdf') . '`');
             foreach ($reports AS $report) {

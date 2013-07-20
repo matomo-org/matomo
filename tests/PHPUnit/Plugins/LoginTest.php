@@ -5,8 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Access;
 
 require_once 'Login/Auth.php';
 
@@ -23,7 +24,7 @@ class LoginTest extends DatabaseTestCase
 
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         // we make sure the tests don't depend on the config file content
         Config::getInstance()->superuser = array(
@@ -42,7 +43,7 @@ class LoginTest extends DatabaseTestCase
         // no login; no token auth
         $auth = new Piwik_Login_Auth();
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -55,7 +56,7 @@ class LoginTest extends DatabaseTestCase
         $auth = new Piwik_Login_Auth();
         $auth->setLogin('');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -68,7 +69,7 @@ class LoginTest extends DatabaseTestCase
         $auth = new Piwik_Login_Auth();
         $auth->setLogin('nobody');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -82,7 +83,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin('anonymous');
         $auth->setTokenAuth('');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -96,7 +97,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin('');
         $auth->setTokenAuth('anonymous');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -110,7 +111,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin(null);
         $auth->setTokenAuth('anonymous');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -124,7 +125,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin('anonymous');
         $auth->setTokenAuth('anonymous');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -140,7 +141,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin('anonymous');
         $auth->setTokenAuth('');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -156,7 +157,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin('');
         $auth->setTokenAuth('anonymous');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -172,7 +173,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin('anonymous');
         $auth->setTokenAuth(0);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -188,7 +189,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin(null);
         $auth->setTokenAuth('anonymous');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::SUCCESS, $rc->getCode());
+        $this->assertEquals(AuthResult::SUCCESS, $rc->getCode());
     }
 
     /**
@@ -204,7 +205,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin('anonymous');
         $auth->setTokenAuth('anonymous');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::SUCCESS, $rc->getCode());
+        $this->assertEquals(AuthResult::SUCCESS, $rc->getCode());
     }
 
     protected function _setUpUser()
@@ -232,7 +233,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth('');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -248,7 +249,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth($user['password']);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -264,7 +265,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth(md5($user['password']));
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -280,7 +281,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin('');
         $auth->setTokenAuth($user['tokenAuth']);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -296,7 +297,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin(0);
         $auth->setTokenAuth(0);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -312,7 +313,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin(0);
         $auth->setTokenAuth($user['tokenAuth']);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -328,7 +329,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth(0);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -344,7 +345,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin(null);
         $auth->setTokenAuth($user['tokenAuth']);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::SUCCESS, $rc->getCode());
+        $this->assertEquals(AuthResult::SUCCESS, $rc->getCode());
     }
 
     /**
@@ -360,7 +361,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth($user['tokenAuth']);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::SUCCESS, $rc->getCode());
+        $this->assertEquals(AuthResult::SUCCESS, $rc->getCode());
     }
 
     /**
@@ -377,7 +378,7 @@ class LoginTest extends DatabaseTestCase
         $hash = $auth->getHashTokenAuth($user['login'], $user['tokenAuth']);
         $auth->setTokenAuth($hash);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::SUCCESS, $rc->getCode());
+        $this->assertEquals(AuthResult::SUCCESS, $rc->getCode());
     }
 
     /**
@@ -395,7 +396,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth('');
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -413,7 +414,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth($user['password']);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -431,7 +432,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth($password);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -449,7 +450,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin('');
         $auth->setTokenAuth($tokenAuth);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -467,7 +468,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth(0);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::FAILURE, $rc->getCode());
+        $this->assertEquals(AuthResult::FAILURE, $rc->getCode());
     }
 
     /**
@@ -485,7 +486,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin(null);
         $auth->setTokenAuth($tokenAuth);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rc->getCode());
+        $this->assertEquals(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $rc->getCode());
     }
 
     /**
@@ -503,7 +504,7 @@ class LoginTest extends DatabaseTestCase
         $auth->setLogin($user['login']);
         $auth->setTokenAuth($tokenAuth);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rc->getCode());
+        $this->assertEquals(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $rc->getCode());
     }
 
     /**
@@ -522,6 +523,6 @@ class LoginTest extends DatabaseTestCase
         $hash = $auth->getHashTokenAuth($user['login'], $tokenAuth);
         $auth->setTokenAuth($hash);
         $rc = $auth->authenticate();
-        $this->assertEquals(Piwik_Auth_Result::SUCCESS_SUPERUSER_AUTH_CODE, $rc->getCode());
+        $this->assertEquals(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $rc->getCode());
     }
 }

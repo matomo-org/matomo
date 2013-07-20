@@ -381,7 +381,7 @@ class Piwik_AssetManager
      */
     private static function isMergedAssetsDisabled()
     {
-        return Piwik_Config::getInstance()->Debug['disable_merged_assets'];
+        return Config::getInstance()->Debug['disable_merged_assets'];
     }
 
     /**

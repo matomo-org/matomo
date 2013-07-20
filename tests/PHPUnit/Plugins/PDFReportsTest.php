@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
+
 require_once 'PDFReports/PDFReports.php';
 
 class PDFReportsTest extends DatabaseTestCase
@@ -208,7 +210,7 @@ class PDFReportsTest extends DatabaseTestCase
     {
         $anonymousAccess = new FakeAccess;
         FakeAccess::$identity = 'anonymous';
-        Piwik_Access::setSingletonInstance($anonymousAccess);
+        Access::setSingletonInstance($anonymousAccess);
 
         $pdfReportPlugin = new Piwik_PDFReports();
         $this->assertEquals(
@@ -497,6 +499,6 @@ class PDFReportsTest extends DatabaseTestCase
     {
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
     }
 }

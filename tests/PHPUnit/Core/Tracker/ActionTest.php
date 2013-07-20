@@ -1,5 +1,6 @@
 <?php
-use Piwik\Core\Config;
+use Piwik\Config;
+use Piwik\Access;
 
 /**
  * Piwik - Open source web analytics
@@ -26,7 +27,7 @@ class Tracker_ActionTest extends DatabaseTestCase
     {
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     public function getTestUrls()

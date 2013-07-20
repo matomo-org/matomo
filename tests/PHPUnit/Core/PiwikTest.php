@@ -1,5 +1,6 @@
 <?php
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
+use Piwik\Access;
 
 /**
  * Piwik - Open source web analytics
@@ -212,7 +213,7 @@ class PiwikTest extends DatabaseTestCase
     {
         Piwik_Translate::getInstance()->loadEnglishTranslation();
 
-        $access = Piwik_Access::getInstance();
+        $access = Access::getInstance();
         $access->setSuperUser(true);
 
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");

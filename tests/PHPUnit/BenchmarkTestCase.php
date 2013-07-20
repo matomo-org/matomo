@@ -5,8 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/IntegrationTestCase.php';
 require_once PIWIK_INCLUDE_PATH . '/tests/LocalTracker.php';

@@ -12,8 +12,8 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Config;
-use Piwik_Access;
-use Piwik_Access_NoAccessException;
+use Piwik\Access;
+use Access_NoAccessException;
 use Piwik_AssetManager;
 use Piwik\Common;
 use Piwik_Db_Adapter;
@@ -40,8 +40,6 @@ use Zend_Registry;
  * @see core/Translate.php
  */
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Common.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * Main piwik helper class.
@@ -387,11 +385,15 @@ class Piwik
      */
     public static function globr($sDir, $sPattern, $nFlags = null)
     {
-        if (($aFiles = _glob("$sDir/$sPattern", $nFlags)) == false) {
+        if (($aFiles = \_glob("$sDir/$sPattern", $nFlags)) == false) {
             $aFiles = array();
         }
-        if (($aDirs = _glob("$sDir/*", GLOB_ONLYDIR)) != false) {
+        if (($aDirs = \_glob("$sDir/*", GLOB_ONLYDIR)) != false) {
             foreach ($aDirs as $sSubDir) {
+                // avoid infinite recursion of symlink'ed directories
+                if(strpos($sSubDir, "tests/PHPUnit/proxy/tests/PHPUnit/proxy") !== false) {
+                    continue;
+                }
                 $aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
                 $aFiles = array_merge($aFiles, $aSubFiles);
             }
@@ -1591,7 +1593,7 @@ class Piwik
      */
     static public function getSuperUserLogin()
     {
-        return Piwik_Access::getInstance()->getSuperUserLogin();
+        return Access::getInstance()->getSuperUserLogin();
     }
 
     /**
@@ -1612,7 +1614,7 @@ class Piwik
      */
     static public function getCurrentUserLogin()
     {
-        return Piwik_Access::getInstance()->getLogin();
+        return Access::getInstance()->getLogin();
     }
 
     /**
@@ -1622,7 +1624,7 @@ class Piwik
      */
     static public function getCurrentUserTokenAuth()
     {
-        return Piwik_Access::getInstance()->getTokenAuth();
+        return Access::getInstance()->getTokenAuth();
     }
 
     /**
@@ -1646,7 +1648,7 @@ class Piwik
      * Check that current user is either the specified user or the superuser
      *
      * @param string $theUser
-     * @throws Piwik_Access_NoAccessException  if the user is neither the super user nor the user $theUser
+     * @throws Access_NoAccessException  if the user is neither the super user nor the user $theUser
      */
     static public function checkUserIsSuperUserOrTheUser($theUser)
     {
@@ -1655,8 +1657,8 @@ class Piwik
                 // or to the super user
                 Piwik::checkUserIsSuperUser();
             }
-        } catch (Piwik_Access_NoAccessException $e) {
-            throw new Piwik_Access_NoAccessException(Piwik_Translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
+        } catch (Access_NoAccessException $e) {
+            throw new Access_NoAccessException(Piwik_Translate('General_ExceptionCheckUserIsSuperUserOrTheUser', array($theUser)));
         }
     }
 
@@ -1688,12 +1690,12 @@ class Piwik
     /**
      * Checks if user is not the anonymous user.
      *
-     * @throws Piwik_Access_NoAccessException  if user is anonymous.
+     * @throws Access_NoAccessException  if user is anonymous.
      */
     static public function checkUserIsNotAnonymous()
     {
         if (self::isUserIsAnonymous()) {
-            throw new Piwik_Access_NoAccessException(Piwik_Translate('General_YouMustBeLoggedIn'));
+            throw new \Piwik\NoAccessException(Piwik_Translate('General_YouMustBeLoggedIn'));
         }
     }
 
@@ -1705,7 +1707,7 @@ class Piwik
      */
     static public function setUserIsSuperUser($bool = true)
     {
-        Piwik_Access::getInstance()->setSuperUser($bool);
+        Access::getInstance()->setSuperUser($bool);
     }
 
     /**
@@ -1715,7 +1717,7 @@ class Piwik
      */
     static public function checkUserIsSuperUser()
     {
-        Piwik_Access::getInstance()->checkUserIsSuperUser();
+        Access::getInstance()->checkUserIsSuperUser();
     }
 
     /**
@@ -1742,7 +1744,7 @@ class Piwik
      */
     static public function checkUserHasAdminAccess($idSites)
     {
-        Piwik_Access::getInstance()->checkUserHasAdminAccess($idSites);
+        Access::getInstance()->checkUserHasAdminAccess($idSites);
     }
 
     /**
@@ -1767,7 +1769,7 @@ class Piwik
      */
     static public function checkUserHasSomeAdminAccess()
     {
-        Piwik_Access::getInstance()->checkUserHasSomeAdminAccess();
+        Access::getInstance()->checkUserHasSomeAdminAccess();
     }
 
     /**
@@ -1794,7 +1796,7 @@ class Piwik
      */
     static public function checkUserHasViewAccess($idSites)
     {
-        Piwik_Access::getInstance()->checkUserHasViewAccess($idSites);
+        Access::getInstance()->checkUserHasViewAccess($idSites);
     }
 
     /**
@@ -1819,7 +1821,7 @@ class Piwik
      */
     static public function checkUserHasSomeViewAccess()
     {
-        Piwik_Access::getInstance()->checkUserHasSomeViewAccess();
+        Access::getInstance()->checkUserHasSomeViewAccess();
     }
 
     /*
@@ -2311,7 +2313,7 @@ class Piwik
      * Performs a batch insert into a specific table using either LOAD DATA INFILE or plain INSERTs,
      * as a fallback. On MySQL, LOAD DATA INFILE is 20x faster than a series of plain INSERTs.
      *
-     * @param string $tableName  PREFIXED table name! you must call Piwik_Common::prefixTable() before passing the table name
+     * @param string $tableName  PREFIXED table name! you must call Common::prefixTable() before passing the table name
      * @param array $fields     array of unquoted field names
      * @param array $values     array of data to be inserted
      * @param bool $throwException Whether to throw an exception that was caught while trying
@@ -2372,7 +2374,7 @@ class Piwik
      *
      * NOTE: you should use tableInsertBatch() which will fallback to this function if LOAD DATA INFILE not available
      *
-     * @param string $tableName            PREFIXED table name! you must call Piwik_Common::prefixTable() before passing the table name
+     * @param string $tableName            PREFIXED table name! you must call Common::prefixTable() before passing the table name
      * @param array $fields               array of unquoted field names
      * @param array $values               array of data to be inserted
      * @param bool $ignoreWhenDuplicate  Ignore new rows that contain unique key values that duplicate old rows

@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
+
 class SitesManagerTest extends DatabaseTestCase
 {
     public function setUp()
@@ -14,7 +16,7 @@ class SitesManagerTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     /**
@@ -953,7 +955,7 @@ class SitesManagerTest extends DatabaseTestCase
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site2", array("http://piwik.com", "http://piwik.net"));
         $idsite = Piwik_SitesManager_API::getInstance()->addSite("site3", array("http://piwik.com", "http://piwik.org"));
 
-        $saveAccess = Piwik_Access::getInstance();
+        $saveAccess = Access::getInstance();
 
         Piwik_UsersManager_API::getInstance()->addUser("user1", "geqgegagae", "tegst@tesgt.com", "alias");
         Piwik_UsersManager_API::getInstance()->setUserAccess("user1", "view", array(1));
@@ -971,7 +973,7 @@ class SitesManagerTest extends DatabaseTestCase
         FakeAccess::$identity = 'user1';
         FakeAccess::setIdSitesView(array(1));
         FakeAccess::setIdSitesAdmin(array());
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
         $idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(1, count($idsites));
 
@@ -986,7 +988,7 @@ class SitesManagerTest extends DatabaseTestCase
         FakeAccess::$identity = 'user2';
         FakeAccess::setIdSitesView(array(1));
         FakeAccess::setIdSitesAdmin(array(3));
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
         $idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(2, count($idsites));
 
@@ -995,11 +997,11 @@ class SitesManagerTest extends DatabaseTestCase
         FakeAccess::$identity = 'user3';
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3));
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
         $idsites = Piwik_SitesManager_API::getInstance()->getSitesIdFromSiteUrl('http://piwik.com');
         $this->assertEquals(3, count($idsites));
 
-        Piwik_Access::setSingletonInstance($saveAccess);
+        Access::setSingletonInstance($saveAccess);
     }
 
     /**

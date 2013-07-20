@@ -1,5 +1,6 @@
 <?php
-use Piwik\Core\Piwik;
+use Piwik\Piwik;
+use Piwik\Access;
 
 /**
  * Piwik - Open source web analytics
@@ -24,7 +25,7 @@ class SegmentEditorTest extends DatabaseTestCase
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         Piwik_SitesManager_API::getInstance()->addSite('test', 'http://example.org');
     }

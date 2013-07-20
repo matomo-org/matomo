@@ -1,7 +1,8 @@
 <?php
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Access;
 
 /**
  * Piwik - Open source web analytics
@@ -18,7 +19,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
     }
 
     /**

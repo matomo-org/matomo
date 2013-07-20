@@ -11,6 +11,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Access;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -388,7 +389,7 @@ class Piwik_UsersManager_API
         );
 
         // we reload the access list which doesn't yet take in consideration this new user
-        Piwik_Access::getInstance()->reloadAccess();
+        Access::getInstance()->reloadAccess();
         Piwik_Tracker_Cache::deleteTrackerCache();
 
         Piwik_PostEvent('UsersManager.addUser', array($userLogin));
@@ -567,7 +568,7 @@ class Piwik_UsersManager_API
         }
 
         // we reload the access list which doesn't yet take in consideration this new user access
-        Piwik_Access::getInstance()->reloadAccess();
+        Access::getInstance()->reloadAccess();
         Piwik_Tracker_Cache::deleteTrackerCache();
     }
 
@@ -613,7 +614,7 @@ class Piwik_UsersManager_API
 
     private function checkAccessType($access)
     {
-        $accessList = Piwik_Access::getListAccess();
+        $accessList = Access::getListAccess();
 
         // do not allow to set the superUser access
         unset($accessList[array_search("superuser", $accessList)]);

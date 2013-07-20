@@ -107,7 +107,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
      * Use variations of the label to make it easier to specify the desired label
      *
      * Note: The HTML Encoded version must be tried first, since in Piwik_API_ResponseBuilder the $label is unsanitized
-     * via Piwik_Common::unsanitizeLabelParameter.
+     * via Common::unsanitizeLabelParameter.
      *
      * @param string $label
      * @return array

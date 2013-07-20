@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Access;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -289,7 +290,7 @@ class Piwik_SitesManager_API
      */
     public function getSitesIdWithAdminAccess()
     {
-        $sitesId = Piwik_Access::getInstance()->getSitesIdWithAdminAccess();
+        $sitesId = Access::getInstance()->getSitesIdWithAdminAccess();
         return $sitesId;
     }
 
@@ -301,7 +302,7 @@ class Piwik_SitesManager_API
      */
     public function getSitesIdWithViewAccess()
     {
-        return Piwik_Access::getInstance()->getSitesIdWithViewAccess();
+        return Access::getInstance()->getSitesIdWithViewAccess();
     }
 
     /**
@@ -320,14 +321,14 @@ class Piwik_SitesManager_API
             && (Piwik::isUserIsSuperUserOrTheUser($_restrictSitesToLogin)
                 || Piwik_TaskScheduler::isTaskBeingExecuted())
         ) {
-            $accessRaw = Piwik_Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
+            $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
             $sitesId = array();
             foreach ($accessRaw as $access) {
                 $sitesId[] = $access['idsite'];
             }
             return $sitesId;
         } else {
-            return Piwik_Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+            return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
         }
     }
 
@@ -392,12 +393,12 @@ class Piwik_SitesManager_API
                 'SELECT idsite
                 FROM ' . Common::prefixTable('site') . '
 					WHERE (main_url = ? OR main_url = ?)' .
-                    'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ') ' .
+                    'AND idsite IN (' . Access::getSqlAccessSite('idsite') . ') ' .
                     'UNION
                     SELECT idsite
                     FROM ' . Common::prefixTable('site_url') . '
 					WHERE (url = ? OR url = ?)' .
-                    'AND idsite IN (' . Piwik_Access::getSqlAccessSite('idsite') . ')',
+                    'AND idsite IN (' . Access::getSqlAccessSite('idsite') . ')',
                 array($url, $urlBis, $login, $url, $urlBis, $login));
         }
 
@@ -532,7 +533,7 @@ class Piwik_SitesManager_API
         $this->insertSiteUrls($idSite, $urls);
 
         // we reload the access list which doesn't yet take in consideration this new website
-        Piwik_Access::getInstance()->reloadAccess();
+        Access::getInstance()->reloadAccess();
         $this->postUpdateWebsite($idSite);
 
         Piwik_PostEvent('SitesManager.addSite', array($idSite));

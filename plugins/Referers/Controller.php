@@ -656,7 +656,7 @@ function DisplayTopKeywords($url = "")
     /**
      * Returns the i18n-ized label for a referrer type.
      *
-     * @param int $typeReferrer The referrer type. Referrer types are defined in Piwik_Common class.
+     * @param int $typeReferrer The referrer type. Referrer types are defined in Common class.
      * @return string The i18n-ized label.
      */
     public static function getTranslatedReferrerTypeLabel($typeReferrer)
@@ -668,7 +668,7 @@ function DisplayTopKeywords($url = "")
     /**
      * Returns the URL for the sparkline of visits with a specific referrer type.
      *
-     * @param int $referrerType The referrer type. Referrer types are defined in Piwik_Common class.
+     * @param int $referrerType The referrer type. Referrer types are defined in Common class.
      * @return string The URL that can be used to get a sparkline image.
      */
     private function getReferrerUrlSparkline($referrerType)

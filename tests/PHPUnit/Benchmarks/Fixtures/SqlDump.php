@@ -5,9 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-use Piwik\Core\Config;
-use Piwik\Core\Piwik;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * Reusable fixture. Loads a ~1GB SQL dump into the DB.

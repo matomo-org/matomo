@@ -1,6 +1,6 @@
 <?php
 
-use Piwik\Core\Config;
+use Piwik\Config;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;

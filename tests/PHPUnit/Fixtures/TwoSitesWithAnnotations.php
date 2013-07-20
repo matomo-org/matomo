@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
 
 /**
  * A fixture that adds two websites and annotations for each website.
@@ -31,7 +32,7 @@ class Test_Piwik_Fixture_TwoSitesWithAnnotations extends Test_Piwik_BaseFixture
         // create fake access for fake username
         $access = new FakeAccess();
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($access);
+        Access::setSingletonInstance($access);
 
         // add two annotations per week for three months, starring every third annotation
         // first month in 2011, second two in 2012

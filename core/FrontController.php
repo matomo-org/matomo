@@ -11,6 +11,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Access;
 
 /**
  * @see core/PluginsManager.php
@@ -20,7 +21,6 @@ use Piwik\Common;
 require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Piwik.php';
 
 /**
  * Front controller.
@@ -127,7 +127,7 @@ class Piwik_FrontController
 
         try {
             return call_user_func_array(array($params[0], $params[1]), $params[2]);
-        } catch (Piwik_Access_NoAccessException $e) {
+        } catch (Access_NoAccessException $e) {
             Piwik_PostEvent('FrontController.NoAccessException', array($e), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
@@ -269,7 +269,7 @@ class Piwik_FrontController
             Piwik::createLogObject();
 
             // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
-            Piwik_Access::getInstance();
+            Access::getInstance();
 
             Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
 
@@ -289,7 +289,7 @@ class Piwik_FrontController
 									<code>Plugins[] = Login</code><br />
 									under the <code>[Plugins]</code> section in your config/config.ini.php");
             }
-            Piwik_Access::getInstance()->reloadAccess($authAdapter);
+            Access::getInstance()->reloadAccess($authAdapter);
 
             // Force the auth to use the token_auth if specified, so that embed dashboard
             // and all other non widgetized controller methods works fine

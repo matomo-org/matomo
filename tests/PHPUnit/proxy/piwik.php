@@ -11,7 +11,7 @@
 
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking
-use Piwik\Core\Config;
+use Piwik\Config;
 
 ob_start();
 

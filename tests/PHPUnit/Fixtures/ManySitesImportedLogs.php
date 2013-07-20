@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
 
 /**
  * Imports visits from several log files using the python log importer.
@@ -191,7 +192,7 @@ class Test_Piwik_Fixture_ManySitesImportedLogs extends Test_Piwik_BaseFixture
 }
 
 // needed by tests that use stored segments w/ the proxy index.php
-class Test_Piwik_Access_OverrideLogin extends Piwik_Access
+class Test_Access_OverrideLogin extends Access
 {
     public function getLogin()
     {

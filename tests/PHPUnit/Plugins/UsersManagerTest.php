@@ -1,5 +1,6 @@
 <?php
-use Piwik\Core\Config;
+use Piwik\Config;
+use Piwik\Access;
 
 /**
  * Piwik - Open source web analytics
@@ -24,7 +25,7 @@ class UsersManagerTest extends DatabaseTestCase
         //finally we set the user as a super user by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         // we make sure the tests don't depend on the config file content
         Config::getInstance()->superuser = array(

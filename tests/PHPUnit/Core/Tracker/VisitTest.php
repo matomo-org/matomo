@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Access;
+
 class Tracker_VisitTest extends DatabaseTestCase
 {
     public function setUp()
@@ -14,7 +16,7 @@ class Tracker_VisitTest extends DatabaseTestCase
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
         FakeAccess::$superUser = true;
-        Piwik_Access::setSingletonInstance($pseudoMockAccess);
+        Access::setSingletonInstance($pseudoMockAccess);
 
         Piwik_PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
     }

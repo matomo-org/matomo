@@ -49,7 +49,7 @@ class Piwik_UserCountry_API
     {
         $dataTable = $this->getDataTable(Piwik_UserCountry_Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
-        $getContinent = array('Piwik_Common', 'getContinent');
+        $getContinent = array('Piwik\Common', 'getContinent');
         $dataTable->filter('GroupBy', array('label', $getContinent));
 
         $dataTable->filter('ColumnCallbackReplace', array('label', 'Piwik_ContinentTranslate'));

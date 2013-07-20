@@ -1,4 +1,7 @@
 <?php
+
+use Piwik\Common;
+
 /**
  * Piwik - Open source web analytics
  *
@@ -748,7 +751,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         // when the expanded parameter is false.
         $rowBeingDestructed->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $mockedDataTable->getId();
 
-        destroy($rowBeingDestructed);
+        Common::destroy($rowBeingDestructed);
     }
 
     /**
@@ -778,7 +781,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
         $rowBeingDestructed = new Piwik_DataTable_Row();
         $rowBeingDestructed->setSubtable($mockedDataTable);
 
-        destroy($rowBeingDestructed);
+        Common::destroy($rowBeingDestructed);
     }
 
     protected function _getDataTable1ForTest()

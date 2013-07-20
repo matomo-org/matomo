@@ -1024,7 +1024,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     /**
      * Returns either
      * - "-1" for a known visitor
-     * - at least 16 char identifier in hex @see Piwik_Common::generateUniqId()
+     * - at least 16 char identifier in hex @see Common::generateUniqId()
      * @return int|string
      */
     protected function getVisitorUniqueId()

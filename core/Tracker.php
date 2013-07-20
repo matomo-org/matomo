@@ -11,6 +11,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Access;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -342,7 +343,7 @@ class Piwik_Tracker
             require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
             require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
             
-            $access = Piwik_Access::getInstance();
+            $access = Access::getInstance();
             $config = Config::getInstance();
             
             try {

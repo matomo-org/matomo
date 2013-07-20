@@ -11,6 +11,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Access;
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
@@ -248,7 +249,7 @@ abstract class Piwik_Controller
      * - period: day, week, month, year
      *
      * @param array $paramsToSet  array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
-     * @throws Piwik_Access_NoAccessException
+     * @throws Access_NoAccessException
      * @return array
      */
     protected function getGraphParamsModified($paramsToSet = array())
@@ -274,7 +275,7 @@ abstract class Piwik_Controller
         }
 
         if (is_null($this->site)) {
-            throw new Piwik_Access_NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
+            throw new Access_NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
         }
         $paramDate = self::getDateRangeRelativeToEndDate($period, $range, $endDate, $this->site);
 
@@ -451,7 +452,7 @@ abstract class Piwik_Controller
     protected function setBasicVariablesView($view)
     {
         $view->debugTrackVisitsInsidePiwikUI = Config::getInstance()->Debug['track_visits_inside_piwik_ui'];
-        $view->isSuperUser = Piwik_Access::getInstance()->isSuperUser();
+        $view->isSuperUser = Access::getInstance()->isSuperUser();
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->isCustomLogo = Config::getInstance()->branding['use_custom_logo'];
         $view->logoHeader = Piwik_API_API::getInstance()->getHeaderLogoUrl();
@@ -745,13 +746,13 @@ abstract class Piwik_Controller
      * within the site.  The token should never appear in the browser's
      * address bar.
      *
-     * @throws Piwik_Access_NoAccessException  if token doesn't match
+     * @throws Access_NoAccessException  if token doesn't match
      * @return void
      */
     protected function checkTokenInUrl()
     {
         if (Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
-            throw new Piwik_Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
+            throw new Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
         }
     }
 

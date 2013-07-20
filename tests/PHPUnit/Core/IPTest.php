@@ -1,6 +1,6 @@
 <?php
-use Piwik\Core\Config;
-use Piwik\Core\Common;
+use Piwik\Config;
+use Piwik\Common;
 
 /**
  * Piwik - Open source web analytics
