@@ -10,6 +10,7 @@
  */
 
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * Generates HTML embed for the Evolution graph
@@ -132,7 +133,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
         $lastNParamName = self::getLastNParamName($period);
         $lastN = Common::getRequestVar($lastNParamName, $defaultLastN, 'int');
 
-        $site = new Piwik_Site(Common::getRequestVar('idSite'));
+        $site = new Site(Common::getRequestVar('idSite'));
 
         $dateRange = Piwik_Controller::getDateRangeRelativeToEndDate($period, 'last' . $lastN, $endDate, $site);
 

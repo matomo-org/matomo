@@ -9,8 +9,10 @@
  * @package Piwik_Live
  */
 use Piwik\Config;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * @see plugins/Referers/functions.php
@@ -166,7 +168,7 @@ class Piwik_Live_API
 
         $table = new Piwik_DataTable();
 
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
         $timezone = $site->getTimezone();
         $currencies = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
         foreach ($visitorDetails as $visitorDetail) {
@@ -345,7 +347,7 @@ class Piwik_Live_API
 
         // SQL Filter with provided period
         if (!empty($period) && !empty($date)) {
-            $currentSite = new Piwik_Site($idSite);
+            $currentSite = new Site($idSite);
             $currentTimezone = $currentSite->getTimezone();
 
             $dateString = $date;
@@ -362,7 +364,7 @@ class Piwik_Live_API
                 ) {
                     $processedDate = $processedDate->subDay(1);
                 }
-                $processedPeriod = Piwik_Period::factory($period, $processedDate);
+                $processedPeriod = Period::factory($period, $processedDate);
             }
             $dateStart = $processedPeriod->getDateStart()->setTimezone($currentTimezone);
             $where[] = "log_visit.visit_last_action_time >= ?";

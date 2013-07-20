@@ -9,6 +9,7 @@
  * @package Piwik_SEO
  */
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * @package Piwik_SEO
@@ -18,7 +19,7 @@ class Piwik_SEO_Controller extends Piwik_Controller
     function getRank()
     {
         $idSite = Common::getRequestVar('idSite');
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
 
         $url = urldecode(Common::getRequestVar('url', '', 'string'));
 

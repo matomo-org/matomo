@@ -11,6 +11,7 @@
 use Piwik\Archive;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * The MultiSites API lets you request the key metrics (visits, page views, revenue) for all Websites in Piwik.
@@ -178,11 +179,11 @@ class Piwik_MultiSites_API
                 // Instead, we make sure that only the right set of data is returned
                 && !Piwik_TaskScheduler::isTaskBeingExecuted()
             ) {
-                Piwik_Site::setSites(
+                Site::setSites(
                     Piwik_SitesManager_API::getInstance()->getAllSites()
                 );
             } else {
-                Piwik_Site::setSitesFromArray(
+                Site::setSitesFromArray(
                     Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin)
                 );
             }
@@ -267,7 +268,7 @@ class Piwik_MultiSites_API
 
             foreach ($dataTableRows as $dataTableRow) {
                 $siteId = $dataTableRow->getColumn('label');
-                if (!Piwik_Site::isEcommerceEnabledFor($siteId)) {
+                if (!Site::isEcommerceEnabledFor($siteId)) {
                     foreach ($apiECommerceMetrics as $metricSettings) {
                         $dataTableRow->deleteColumn($metricSettings[self::METRIC_RECORD_NAME_KEY]);
                         $dataTableRow->deleteColumn($metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY]);
@@ -281,7 +282,7 @@ class Piwik_MultiSites_API
 
         // set the label of each row to the site name
         if ($multipleWebsitesRequested) {
-            $getNameFor = array('Piwik_Site', 'getNameFor');
+            $getNameFor = array('Site', 'getNameFor');
             $dataTable->filter('ColumnCallbackReplace', array('label', $getNameFor));
         } else {
             $dataTable->filter('ColumnDelete', array('label'));

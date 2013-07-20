@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Access;
+use Piwik\Site;
 
 require_once 'PDFReports/PDFReports.php';
 
@@ -356,7 +357,7 @@ class PDFReportsTest extends DatabaseTestCase
         $stubbedPDFReportsAPIClass->setValue($stubbedPDFReportsAPI);
 
         // initialize sites 1 and 2
-        Piwik_Site::$infoSites = array(
+        Site::$infoSites = array(
             1 => array('timezone' => 'Europe/Paris'),
             2 => array('timezone' => 'UTC-6.5'),
         );

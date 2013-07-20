@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Period;
+
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
 
 /**
@@ -36,7 +38,7 @@ class ArchiveQueryBenchmark extends BenchmarkTestCase
 
         Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = true;
         
-        $period = Piwik_Period::factory(self::$fixture->period, Piwik_Date::factory(self::$fixture->date));
+        $period = Period::factory(self::$fixture->period, Piwik_Date::factory(self::$fixture->date));
         $dateRange = $period->getDateStart().','.$period->getDateEnd();
         
         Piwik_VisitsSummary_API::getInstance()->get(self::$fixture->idSite, 'day', $dateRange);

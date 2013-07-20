@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -27,7 +28,7 @@ class Piwik_API_RowEvolution
             $period = 'day';
         }
 
-        if (!Piwik_Period::isMultiplePeriod($date, $period)) {
+        if (!Period::isMultiplePeriod($date, $period)) {
             throw new Exception("Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.");
         }
 

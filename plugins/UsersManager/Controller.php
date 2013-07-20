@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  *
@@ -44,7 +45,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
             $defaultReportSiteName = Piwik_Translate('UsersManager_ApplyToAllWebsites');
         } else {
             $usersAccessByWebsite = Piwik_UsersManager_API::getInstance()->getUsersAccessFromSite($idSiteSelected);
-            $defaultReportSiteName = Piwik_Site::getNameFor($idSiteSelected);
+            $defaultReportSiteName = Site::getNameFor($idSiteSelected);
         }
 
         // we dont want to display the user currently logged so that the user can't change his settings from admin to view...
@@ -142,9 +143,9 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
         $view->defaultReport = $defaultReport;
 
         if ($defaultReport == 'MultiSites') {
-            $view->defaultReportSiteName = Piwik_Site::getNameFor($this->getDefaultWebsiteId());
+            $view->defaultReportSiteName = Site::getNameFor($this->getDefaultWebsiteId());
         } else {
-            $view->defaultReportSiteName = Piwik_Site::getNameFor($defaultReport);
+            $view->defaultReportSiteName = Site::getNameFor($defaultReport);
         }
 
         $view->defaultDate = $this->getDefaultDateForUser($userLogin);

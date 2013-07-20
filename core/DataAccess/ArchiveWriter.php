@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Config;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -30,7 +31,7 @@ class Piwik_DataAccess_ArchiveWriter
                               'name',
                               'value');
 
-    public function __construct($idSite, Piwik_Segment $segment, Piwik_Period $period, $requestedPlugin, $isArchiveTemporary)
+    public function __construct($idSite, Piwik_Segment $segment, Period $period, $requestedPlugin, $isArchiveTemporary)
     {
         $this->idArchive = false;
         $this->idSite = $idSite;
@@ -113,7 +114,7 @@ class Piwik_DataAccess_ArchiveWriter
         return self::makeLockName($this->idSite, $this->period, $this->segment);
     }
 
-    protected static function makeLockName($idsite, Piwik_Period $period, Piwik_Segment $segment)
+    protected static function makeLockName($idsite, Period $period, Piwik_Segment $segment)
     {
         $config = Config::getInstance();
 

@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * The PDFReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
@@ -379,7 +380,7 @@ class Piwik_PDFReports_API
 
             $processedReport['segment'] = $segment;
 
-            // TODO add static method getPrettyDate($period, $date) in Piwik_Period
+            // TODO add static method getPrettyDate($period, $date) in Period
             $prettyDate = $processedReport['prettyDate'];
 
             if ($mustRestoreGET) {
@@ -419,7 +420,7 @@ class Piwik_PDFReports_API
         // render report
         $description = str_replace(array("\r", "\n"), ' ', $report['description']);
 
-        list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Piwik_Site::getNameFor($idSite), $report['reports']);
+        list($reportSubject, $reportTitle) = self::getReportSubjectAndReportTitle(Site::getNameFor($idSite), $report['reports']);
         $filename = "$reportTitle - $prettyDate - $description";
 
         $reportRenderer->renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment);

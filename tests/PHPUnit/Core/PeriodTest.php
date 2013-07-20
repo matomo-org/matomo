@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Period;
+
 class PeriodTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -53,7 +55,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryDay()
     {
-        $period = Piwik_Period::factory('day', Piwik_Date::today());
+        $period = Period::factory('day', Piwik_Date::today());
         $this->assertInstanceOf('Piwik_Period_Day', $period);
     }
 
@@ -63,7 +65,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryMonth()
     {
-        $period = Piwik_Period::factory('month', Piwik_Date::today());
+        $period = Period::factory('month', Piwik_Date::today());
         $this->assertInstanceOf('Piwik_Period_Month', $period);
     }
 
@@ -73,7 +75,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryWeek()
     {
-        $period = Piwik_Period::factory('week', Piwik_Date::today());
+        $period = Period::factory('week', Piwik_Date::today());
         $this->assertInstanceOf('Piwik_Period_Week', $period);
     }
 
@@ -83,7 +85,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryYear()
     {
-        $period = Piwik_Period::factory('year', Piwik_Date::today());
+        $period = Period::factory('year', Piwik_Date::today());
         $this->assertInstanceOf('Piwik_Period_Year', $period);
     }
 
@@ -94,7 +96,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
     public function testFactoryInvalid()
     {
         try {
-            $period = Piwik_Period::factory('inValid', Piwik_Date::today());
+            $period = Period::factory('inValid', Piwik_Date::today());
         } catch (Exception $e) {
             return;
         }

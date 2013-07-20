@@ -9,7 +9,9 @@
  * @package Piwik_VisitTime
  */
 use Piwik\Archive;
+use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Site;
 
 /**
  * VisitTime API lets you access reports by Hour (Server time), and by Hour Local Time of your visitors.
@@ -73,12 +75,12 @@ class Piwik_VisitTime_API
         unset($metrics[Piwik_Metrics::INDEX_MAX_ACTIONS]);
         
         // disabled for multiple dates
-        if (Piwik_Period::isMultiplePeriod($date, $period)) {
+        if (Period::isMultiplePeriod($date, $period)) {
             throw new Exception("VisitTime.getByDayOfWeek does not support multiple dates.");
         }
 
         // get metric data for every day within the supplied period
-        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+        $oPeriod = Period::makePeriodFromQueryParams(Site::getTimezoneFor($idSite), $period, $date);
         $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
         $archive = Archive::build($idSite, 'day', $dateRange, $segment);
 
@@ -121,7 +123,7 @@ class Piwik_VisitTime_API
 
     protected function removeHoursInFuture($table, $idSite, $period, $date)
     {
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
 
         if ($period == 'day'
             && ($date == 'today'

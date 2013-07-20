@@ -9,6 +9,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Site;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -220,7 +221,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         }
         Piwik_DataTable_Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
-        Piwik_Site::clearCache();
+        Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
         Config::getInstance()->clear();
         Piwik_DataAccess_ArchiveTableCreator::clear();

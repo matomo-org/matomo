@@ -11,6 +11,7 @@
 use Piwik\Archive;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
@@ -57,7 +58,7 @@ class Piwik_Goals_API
     {
         //TODO calls to this function could be cached as static
         // would help UI at least, since some UI requests would call this 2-3 times..
-        $idSite = Piwik_Site::getIdSitesFromIdSitesString($idSite);
+        $idSite = Site::getIdSitesFromIdSitesString($idSite);
         if (empty($idSite)) {
             return array();
         }

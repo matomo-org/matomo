@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * @package Piwik_Dashboard
@@ -212,7 +213,7 @@ class Piwik_Dashboard extends Piwik_Plugin
         $tooltip = false;
         try {
             $idSite = Common::getRequestVar('idSite');
-            $tooltip = Piwik_Translate('Dashboard_TopLinkTooltip', Piwik_Site::getNameFor($idSite));
+            $tooltip = Piwik_Translate('Dashboard_TopLinkTooltip', Site::getNameFor($idSite));
         } catch (Exception $ex) {
             // if no idSite parameter, show no tooltip
         }

@@ -1,6 +1,8 @@
 <?php
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * Piwik - Open source web analytics
@@ -64,7 +66,7 @@ class Piwik_API_ProcessedReport
      */
     public function getReportMetadata($idSites, $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
-        $idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
+        $idSites = Site::getIdSitesFromIdSitesString($idSites);
         if (!empty($idSites)) {
             Piwik::checkUserHasViewAccess($idSites);
         }
@@ -279,9 +281,9 @@ class Piwik_API_ProcessedReport
         foreach ($columns as $columnId => &$name) {
             $name = ucfirst($name);
         }
-        $website = new Piwik_Site($idSite);
+        $website = new Site($idSite);
 
-        $period = Piwik_Period::advancedFactory($period, $date);
+        $period = Period::advancedFactory($period, $date);
         $period = $period->getLocalizedLongString();
 
         $return = array(

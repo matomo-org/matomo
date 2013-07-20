@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * @package Piwik
@@ -114,7 +115,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
                 'name'   => Piwik_Translate('Goals_EcommerceOrder')
             );
 
-            $site = new Piwik_Site($idSite);
+            $site = new Site($idSite);
             //Case Ecommerce report table
             if ($this->isEcommerce) {
                 $goals = array($ecommerceGoal);

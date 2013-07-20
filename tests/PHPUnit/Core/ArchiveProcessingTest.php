@@ -1,8 +1,10 @@
 <?php
 use Piwik\Config;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Site;
 
 /**
  * Piwik - Open source web analytics
@@ -26,7 +28,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
      * Creates a new website
      *
      * @param string $timezone
-     * @return Piwik_Site
+     * @return Site
      */
     private function _createWebsite($timezone = 'UTC')
     {
@@ -39,8 +41,8 @@ class ArchiveProcessingTest extends DatabaseTestCase
             $excludedQueryParameters = "",
             $timezone);
 
-        Piwik_Site::clearCache();
-        return new Piwik_Site($idSite);
+        Site::clearCache();
+        return new Site($idSite);
     }
 
     /**
@@ -55,7 +57,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
     {
         $site = $this->_createWebsite($siteTimezone);
         $date = Piwik_Date::factory($dateLabel);
-        $period = Piwik_Period::factory($periodLabel, $date);
+        $period = Period::factory($periodLabel, $date);
         $segment = new Piwik_Segment('', $site->getId());
 
 

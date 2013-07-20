@@ -10,7 +10,7 @@ class Piwik_Archive_Parameters
     private $idSites = array();
 
     /**
-     * The list of Piwik_Period's to query archive data for.
+     * The list of Period's to query archive data for.
      *
      * @var array
      */

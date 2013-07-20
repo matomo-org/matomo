@@ -9,6 +9,8 @@
  * @package Piwik_VisitTime
  */
 use Piwik\Common;
+use Piwik\Period;
+use Piwik\Site;
 
 /**
  *
@@ -190,7 +192,7 @@ class Piwik_VisitTime extends Piwik_Plugin
         $period = Common::getRequestVar('period');
 
         // create a period instance
-        $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+        $oPeriod = Period::makePeriodFromQueryParams(Site::getTimezoneFor($idSite), $period, $date);
 
         // set the footer message using the period start & end date
         $start = $oPeriod->getDateStart()->toString();

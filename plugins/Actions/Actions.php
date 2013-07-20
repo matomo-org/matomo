@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * Actions plugin
@@ -561,7 +562,7 @@ class Piwik_Actions extends Piwik_Plugin
         if ($idSite == 0) {
             return false;
         }
-        return Piwik_Site::isSiteSearchEnabledFor($idSite);
+        return Site::isSiteSearchEnabledFor($idSite);
     }
 
     /**

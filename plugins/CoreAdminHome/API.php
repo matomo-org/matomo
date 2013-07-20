@@ -8,8 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
  */
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * @package Piwik_CoreAdminHome
@@ -71,7 +73,7 @@ class Piwik_CoreAdminHome_API
      */
     public function invalidateArchivedReports($idSites, $dates)
     {
-        $idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
+        $idSites = Site::getIdSitesFromIdSitesString($idSites);
         if (empty($idSites)) {
             throw new Exception("Specify a value for &idSites= as a comma separated list of website IDs, for which your token_auth has 'admin' permission");
         }
@@ -130,7 +132,7 @@ class Piwik_CoreAdminHome_API
 
             // but also weeks overlapping several months stored in the month where the week is starting
             /* @var $week Piwik_Period_Week */
-            $week = Piwik_Period::factory('week', $date);
+            $week = Period::factory('week', $date);
             $weekAsString = $week->getDateStart()->toString('Y_m');
             $datesByMonth[$weekAsString][] = $date->toString();
 
@@ -186,7 +188,7 @@ class Piwik_CoreAdminHome_API
         $invalidatedIdSites = array_values($invalidatedIdSites);
         Piwik_SetOption(self::OPTION_INVALIDATED_IDSITES, serialize($invalidatedIdSites));
 
-        Piwik_Site::clearCache();
+        Site::clearCache();
 
         $output = array();
         // output logs

@@ -1,5 +1,7 @@
 <?php
 use Piwik\Common;
+use Piwik\Period;
+use Piwik\Site;
 
 /**
  * Piwik - Open source web analytics
@@ -70,7 +72,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
         }
 
         // need two sets of period & date, one for single period graphs, one for multiple periods graphs
-        if (Piwik_Period::isMultiplePeriod($info['date'], $info['period'])) {
+        if (Period::isMultiplePeriod($info['date'], $info['period'])) {
             $periodForMultiplePeriodGraph = $info['period'];
             $dateForMultiplePeriodGraph = $info['date'];
 
@@ -80,7 +82,7 @@ class Piwik_ImageGraph extends Piwik_Plugin
             $periodForSinglePeriodGraph = $info['period'];
             $dateForSinglePeriodGraph = $info['date'];
 
-            $piwikSite = new Piwik_Site($idSite);
+            $piwikSite = new Site($idSite);
             if ($periodForSinglePeriodGraph == 'range') {
                 $periodForMultiplePeriodGraph = Config::getInstance()->General['graphs_default_period_to_plot_when_period_range'];
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;

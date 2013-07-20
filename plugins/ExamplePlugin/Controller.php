@@ -76,7 +76,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
         $out .= '<code>$this->date</code> = current selected <b>Piwik_Date</b> object (<a href="https://github.com/piwik/piwik/blob/master/core/Date.php">class</a>)<br />';
         $out .= '<code>$period = Common::getRequestVar("period");</code> - Get the current selected period<br />';
         $out .= '<code>$idSite = Common::getRequestVar("idSite");</code> - Get the selected idSite<br />';
-        $out .= '<code>$site = new Piwik_Site($idSite);</code> - Build the Piwik_Site object (<a href="https://github.com/piwik/piwik/tree/master/core/Site.php">class</a>)<br />';
+        $out .= '<code>$site = new Site($idSite);</code> - Build the Site object (<a href="https://github.com/piwik/piwik/tree/master/core/Site.php">class</a>)<br />';
         $out .= '<code>$this->str_date</code> = current selected date in YYYY-MM-DD format<br />';
 
         $out .= '<h3>Misc</h3>';

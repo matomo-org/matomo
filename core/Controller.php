@@ -9,9 +9,12 @@
  * @package Piwik
  */
 use Piwik\Config;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Site;
+
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
@@ -47,7 +50,7 @@ abstract class Piwik_Controller
     protected $idSite;
 
     /**
-     * @var Piwik_Site
+     * @var Site
      */
     protected $site = null;
 
@@ -66,7 +69,7 @@ abstract class Piwik_Controller
         $date = Common::getRequestVar('date', 'yesterday', 'string');
         try {
             $this->idSite = Common::getRequestVar('idSite', false, 'int');
-            $this->site = new Piwik_Site($this->idSite);
+            $this->site = new Site($this->idSite);
             $date = $this->getDateParameterInTimezone($date, $this->site->getTimezone());
             $this->setDate($date);
         } catch (Exception $e) {
@@ -290,7 +293,7 @@ abstract class Piwik_Controller
      * @param string $period
      * @param string $lastN
      * @param string $endDate
-     * @param Piwik_Site $site
+     * @param Site $site
      * @return string
      */
     public static function getDateRangeRelativeToEndDate($period, $lastN, $endDate, $site)
@@ -401,7 +404,7 @@ abstract class Piwik_Controller
             $periodStr = Common::getRequestVar('period');
             if ($periodStr != 'range') {
                 $date = Piwik_Date::factory($this->strDate);
-                $period = Piwik_Period::factory($periodStr, $date);
+                $period = Period::factory($periodStr, $date);
             } else {
                 $period = new Piwik_Period_Range($periodStr, $rawDate, $this->site->getTimezone());
             }
@@ -671,7 +674,7 @@ abstract class Piwik_Controller
     /**
      * Returns default website that Piwik should load
      *
-     * @return Piwik_Site
+     * @return Site
      */
     protected function getDefaultWebsiteId()
     {
@@ -759,7 +762,7 @@ abstract class Piwik_Controller
     /**
      * Returns pretty date for use in period selector widget.
      *
-     * @param Piwik_Period $period
+     * @param Period $period
      * @return string
      */
     public static function getCalendarPrettyDate($period)
@@ -782,7 +785,7 @@ abstract class Piwik_Controller
      */
     public static function getPrettyDate($date, $period)
     {
-        return self::getCalendarPrettyDate(Piwik_Period::factory($period, Piwik_Date::factory($date)));
+        return self::getCalendarPrettyDate(Period::factory($period, Piwik_Date::factory($date)));
     }
 
 

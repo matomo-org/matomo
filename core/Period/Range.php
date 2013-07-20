@@ -9,14 +9,15 @@
  * @package Piwik
  */
 use Piwik\Common;
+use Piwik\Period;
 
 /**
  * from a starting date to an ending date
  *
  * @package Piwik
- * @subpackage Piwik_Period
+ * @subpackage Period
  */
-class Piwik_Period_Range extends Piwik_Period
+class Piwik_Period_Range extends Period
 {
     protected $label = 'range';
 
@@ -328,14 +329,14 @@ class Piwik_Period_Range extends Piwik_Period
     protected function fillArraySubPeriods($startDate, $endDate, $period)
     {
         $arrayPeriods = array();
-        $endSubperiod = Piwik_Period::factory($period, $endDate);
+        $endSubperiod = Period::factory($period, $endDate);
         $arrayPeriods[] = $endSubperiod;
 
         // set end date to start of end period since we're comparing against start date.
         $endDate = $endSubperiod->getDateStart();
         while ($endDate->isLater($startDate)) {
             $endDate = self::removePeriod($period, $endDate, 1);
-            $subPeriod = Piwik_Period::factory($period, $endDate);
+            $subPeriod = Period::factory($period, $endDate);
             $arrayPeriods[] = $subPeriod;
         }
         $arrayPeriods = array_reverse($arrayPeriods);
@@ -351,7 +352,7 @@ class Piwik_Period_Range extends Piwik_Period
      * @param bool|string $period The period to use (either 'day', 'week', 'month', 'year');
      *
      * @return array An array with two elements, a string for the date before $date and
-     *               a Piwik_Period instance for the period before $date.
+     *               a Period instance for the period before $date.
      */
     public static function getLastDate($date = false, $period = false)
     {

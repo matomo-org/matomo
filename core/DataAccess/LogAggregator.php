@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * This class queries the Visitor logs tables (visits, actions, conversions, ecommerce)
@@ -50,13 +51,13 @@ class Piwik_DataAccess_LogAggregator
     /** @var \Piwik_Date */
     protected $dateEnd;
 
-    /** @var \Piwik_Site */
+    /** @var \Piwik\Site */
     protected $site;
 
     /** @var \Piwik_Segment */
     protected $segment;
 
-    public function __construct(Piwik_Date $dateStart, Piwik_Date $dateEnd, Piwik_Site $site, Piwik_Segment $segment)
+    public function __construct(Piwik_Date $dateStart, Piwik_Date $dateEnd, Site $site, Piwik_Segment $segment)
     {
         $this->dateStart = $dateStart;
         $this->dateEnd = $dateEnd;

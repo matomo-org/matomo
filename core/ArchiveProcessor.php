@@ -9,7 +9,9 @@
  * @package Piwik
  */
 use Piwik\Config;
+use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Site;
 
 /**
  * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.
@@ -80,12 +82,12 @@ abstract class Piwik_ArchiveProcessor
      * Site of the current archive
      * Can be accessed by plugins (that is why it's public)
      *
-     * @var Piwik_Site
+     * @var Site
      */
     private $site = null;
 
     /**
-     * @var Piwik_Period
+     * @var Period
      */
     private $period = null;
 
@@ -94,7 +96,7 @@ abstract class Piwik_ArchiveProcessor
      */
     private $segment = null;
 
-    public function __construct(Piwik_Period $period, Piwik_Site $site, Piwik_Segment $segment)
+    public function __construct(Period $period, Site $site, Piwik_Segment $segment)
     {
         $this->period = $period;
         $this->site = $site;
@@ -114,7 +116,7 @@ abstract class Piwik_ArchiveProcessor
     }
 
     /**
-     * @return Piwik_Period
+     * @return Period
      */
     protected function getPeriod()
     {
@@ -122,7 +124,7 @@ abstract class Piwik_ArchiveProcessor
     }
 
     /**
-     * @return Piwik_Site
+     * @return Site
      */
     public function getSite()
     {

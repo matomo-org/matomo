@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -354,7 +355,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
             } else if (strpos($date, ',') !== false) {
                 $period = new Piwik_Period_Range('range', $date);
             } else {
-                $period = Piwik_Period::factory($period, Piwik_Date::factory($date));
+                $period = Period::factory($period, Piwik_Date::factory($date));
             }
 
             $prettyDate = $period->getLocalizedLongString();

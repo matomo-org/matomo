@@ -83,8 +83,8 @@ class Piwik_Archive_DataCollection
      * the period's range string. Eg,
      * 
      * array(
-     *     '2012-01-01,2012-01-31' => new Piwik_Period(...),
-     *     '2012-02-01,2012-02-28' => new Piwik_Period(...),
+     *     '2012-01-01,2012-01-31' => new Period(...),
+     *     '2012-02-01,2012-02-28' => new Period(...),
      * )
      * 
      * @var array

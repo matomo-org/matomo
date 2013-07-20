@@ -122,19 +122,19 @@ class Archive
      */
     public static function build($idSites, $period, $strDate, $segment = false, $_restrictSitesToLogin = false)
     {
-        $websiteIds = Piwik_Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
+        $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
 
-        if (Piwik_Period::isMultiplePeriod($strDate, $period)) {
+        if (Period::isMultiplePeriod($strDate, $period)) {
             $oPeriod = new Piwik_Period_Range($period, $strDate);
             $allPeriods = $oPeriod->getSubperiods();
         } else {
-            $timezone = count($websiteIds) == 1 ? Piwik_Site::getTimezoneFor($websiteIds[0]) : false;
-            $oPeriod = Piwik_Period::makePeriodFromQueryParams($timezone, $period, $strDate);
+            $timezone = count($websiteIds) == 1 ? Site::getTimezoneFor($websiteIds[0]) : false;
+            $oPeriod = Period::makePeriodFromQueryParams($timezone, $period, $strDate);
             $allPeriods = array($oPeriod);
         }
         $segment = new Piwik_Segment($segment, $websiteIds);
         $idSiteIsAll = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
-        $isMultipleDate = Piwik_Period::isMultiplePeriod($strDate, $period);
+        $isMultipleDate = Period::isMultiplePeriod($strDate, $period);
         return Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
     }
 
@@ -431,7 +431,7 @@ class Archive
     {
         $today = Piwik_Date::today();
 
-        /* @var Piwik_Period $period */
+        /* @var Period $period */
         foreach ($this->params->getPeriods() as $period) {
             $periodStr = $period->getRangeString();
 
@@ -439,7 +439,7 @@ class Archive
             $twoDaysAfterPeriod = $period->getDateEnd()->addDay(2);
 
             foreach ($this->params->getIdSites() as $idSite) {
-                $site = new Piwik_Site($idSite);
+                $site = new Site($idSite);
 
                 // if the END of the period is BEFORE the website creation date
                 // we already know there are no stats for this period

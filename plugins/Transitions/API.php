@@ -8,8 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_Transitions
  */
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * @package Piwik_Transitions
@@ -65,8 +67,8 @@ class Piwik_Transitions_API
 
         // prepare archive processing that can be used by the archiving code
         $segment = new Piwik_Segment($segment, $idSite);
-        $site = new Piwik_Site($idSite);
-        $period = Piwik_Period::advancedFactory($period, $date);
+        $site = new Site($idSite);
+        $period = Period::advancedFactory($period, $date);
         $archiveProcessor = new Piwik_ArchiveProcessor_Day($period, $site, $segment);
         $logAggregator = $archiveProcessor->getLogAggregator();
         // prepare the report

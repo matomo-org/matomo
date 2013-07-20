@@ -7,6 +7,7 @@
  */
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Site;
 
 /**
  * Tests extending DatabaseTestCase are much slower to run: the setUp will
@@ -67,7 +68,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         Piwik_DataTable_Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
         Piwik_PDFReports_API::$cache = array();
-        Piwik_Site::clearCache();
+        Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
         Config::getInstance()->clear();
         Piwik_DataAccess_ArchiveTableCreator::clear();

@@ -8,9 +8,11 @@
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
  */
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Site;
 
 /**
  *
@@ -69,12 +71,12 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
         // put data into a form the template will understand better
         $digestableData = array();
         foreach ($siteIds as $idSite) {
-            $isEcommerceEnabled = Piwik_Site::isEcommerceEnabledFor($idSite);
+            $isEcommerceEnabled = Site::isEcommerceEnabledFor($idSite);
 
             $digestableData[$idSite] = array(
                 'idsite'    => $idSite,
-                'main_url'  => Piwik_Site::getMainUrlFor($idSite),
-                'name'      => Piwik_Site::getNameFor($idSite),
+                'main_url'  => Site::getMainUrlFor($idSite),
+                'name'      => Site::getNameFor($idSite),
                 'visits'    => 0,
                 'pageviews' => 0
             );
@@ -140,7 +142,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
         }
 
         if ($period != 'range') {
-            $lastPeriod = Piwik_Period::factory($period, $dataTable->getMetadata('last_period_date'));
+            $lastPeriod = Period::factory($period, $dataTable->getMetadata('last_period_date'));
             $view->pastPeriodPretty = self::getCalendarPrettyDate($lastPeriod);
         }
 
@@ -180,14 +182,14 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
         $maxDate = $now->subDay(1)->getTimestamp();
         foreach ($siteIds as $idsite) {
             // look for 'now' in the website's timezone
-            $timezone = Piwik_Site::getTimezoneFor($idsite);
+            $timezone = Site::getTimezoneFor($idsite);
             $date = Piwik_Date::adjustForTimezone($now->getTimestamp(), $timezone);
             if ($date > $maxDate) {
                 $maxDate = $date;
             }
 
             // look for the absolute minimum date
-            $creationDate = Piwik_Site::getCreationDateFor($idsite);
+            $creationDate = Site::getCreationDateFor($idsite);
             $date = Piwik_Date::adjustForTimezone(strtotime($creationDate), $timezone);
             if (is_null($minDate) || $date < $minDate) {
                 $minDate = $date;

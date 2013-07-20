@@ -11,6 +11,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  *
@@ -137,7 +138,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
         $defaultIdSite = reset($viewableIdSites);
         $view->idSite = Common::getRequestVar('idSite', $defaultIdSite, 'int');
 
-        $view->defaultReportSiteName = Piwik_Site::getNameFor($view->idSite);
+        $view->defaultReportSiteName = Site::getNameFor($view->idSite);
         $view->defaultSiteRevenue = Piwik::getCurrency($view->idSite);
 
         $allUrls = Piwik_SitesManager_API::getInstance()->getSiteUrlsFromId($view->idSite);
@@ -148,7 +149,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
         }
         $view->defaultReportSiteAlias = $aliasUrl;
 
-        $mainUrl = Piwik_Site::getMainUrlFor($view->idSite);
+        $mainUrl = Site::getMainUrlFor($view->idSite);
         $view->defaultReportSiteDomain = @parse_url($mainUrl, PHP_URL_HOST);
 
         // get currencies for each viewable site

@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  *
@@ -416,7 +417,7 @@ class Piwik_PDFReports extends Piwik_Plugin
                         'H',
                         Piwik_Date::factory(
                             $arbitraryDateInUTC,
-                            Piwik_Site::getTimezoneFor($report['idsite'])
+                            Site::getTimezoneFor($report['idsite'])
                         )->getTimestamp()
                     );
 

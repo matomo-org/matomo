@@ -9,7 +9,7 @@
  * @package Piwik_MobileMessaging_ReportRenderer
  */
 use Piwik\Common;
-
+use Piwik\Site;
 
 /**
  *
@@ -111,7 +111,7 @@ class Piwik_MobileMessaging_ReportRenderer_Sms extends Piwik_ReportRenderer
         $siteHasECommerce = array();
         foreach ($reportRowsMetadata as $rowMetadata) {
             $idSite = $rowMetadata->getColumn('idsite');
-            $siteHasECommerce[$idSite] = Piwik_Site::isEcommerceEnabledFor($idSite);
+            $siteHasECommerce[$idSite] = Site::isEcommerceEnabledFor($idSite);
         }
 
         $view = new Piwik_View('@MobileMessaging/SMSReport');

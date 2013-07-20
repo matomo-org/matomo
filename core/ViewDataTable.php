@@ -9,8 +9,10 @@
  * @package Piwik
  */
 use Piwik\Config;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
@@ -1527,7 +1529,7 @@ abstract class Piwik_ViewDataTable
             if ($strPeriod == 'range') {
                 $idSite = Common::getRequestVar('idSite', '');
                 if (intval($idSite) != 0) {
-                    $site = new Piwik_Site($idSite);
+                    $site = new Site($idSite);
                     $timezone = $site->getTimezone();
                 } else {
                     $timezone = 'UTC';
@@ -1536,7 +1538,7 @@ abstract class Piwik_ViewDataTable
                 $period = new Piwik_Period_Range('range', $strDate, $timezone);
                 $reportDate = $period->getDateStart();
             } // if a multiple period, this function is irrelevant
-            else if (Piwik_Period::isMultiplePeriod($strDate, $strPeriod)) {
+            else if (Period::isMultiplePeriod($strDate, $strPeriod)) {
                 return false;
             } // otherwise, use the date as given
             else {

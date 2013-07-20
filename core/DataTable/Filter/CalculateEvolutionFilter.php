@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Site;
 
 /**
  * A DataTable filter that calculates the evolution of a metric and adds
@@ -66,7 +67,7 @@ class Piwik_DataTable_Filter_CalculateEvolutionFilter extends Piwik_DataTable_Fi
         // we don't add the new column
         if ($currentValue === false
             && $this->isRevenueEvolution
-            && !Piwik_Site::isEcommerceEnabledFor($row->getColumn('label'))
+            && !Site::isEcommerceEnabledFor($row->getColumn('label'))
         ) {
             return false;
         }

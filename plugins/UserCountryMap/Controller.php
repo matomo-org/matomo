@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  *
@@ -114,7 +115,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
         $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
         $view->hasGoals = !empty($goals) || $site->isEcommerceEnabled() ? 'true' : 'false';
 
         // maximum number of visits to be displayed in the map

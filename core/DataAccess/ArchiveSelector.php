@@ -8,8 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * Data Access object used to query archives
@@ -31,7 +33,7 @@ class Piwik_DataAccess_ArchiveSelector
 
     const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
-    static public function getArchiveIdAndVisits(Piwik_Site $site, Piwik_Period $period, Piwik_Segment $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin)
+    static public function getArchiveIdAndVisits(Site $site, Period $period, Piwik_Segment $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin)
     {
         $dateStart = $period->getDateStart();
         $bindSQL = array($site->getId(),
@@ -146,7 +148,7 @@ class Piwik_DataAccess_ArchiveSelector
 
         $monthToPeriods = array();
         foreach ($periods as $period) {
-            /** @var Piwik_Period $period */
+            /** @var Period $period */
             $table = Piwik_DataAccess_ArchiveTableCreator::getNumericTable($period->getDateStart());
             $monthToPeriods[$table][] = $period;
         }

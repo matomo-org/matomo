@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  *
@@ -216,7 +217,7 @@ class Piwik_Goals extends Piwik_Plugin
                 );
             }
 
-            $site = new Piwik_Site($idSite);
+            $site = new Site($idSite);
             if ($site->isEcommerceEnabled()) {
                 $category = Piwik_Translate('Goals_Ecommerce');
                 $ecommerceMetrics = array_merge($goalMetrics, array(
@@ -413,7 +414,7 @@ class Piwik_Goals extends Piwik_Plugin
         $idSite = Common::getRequestVar('idSite', null, 'int');
 
         // Ecommerce widgets
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
         if ($site->isEcommerceEnabled()) {
             Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
             Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceLog', 'Goals', 'getEcommerceLog');
@@ -437,7 +438,7 @@ class Piwik_Goals extends Piwik_Plugin
         $idSite = Common::getRequestVar('idSite', null, 'int');
         $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
         $mainGoalMenu = $this->getGoalCategoryName($idSite);
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
         if (count($goals) == 0) {
             Piwik_AddMenu($mainGoalMenu, '', array(
                                                   'module' => 'Goals',
@@ -469,7 +470,7 @@ class Piwik_Goals extends Piwik_Plugin
 
     protected function getGoalCategoryName($idSite)
     {
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
         return $site->isEcommerceEnabled() ? 'Goals_EcommerceAndGoalsMenu' : 'Goals_Goals';
     }
 

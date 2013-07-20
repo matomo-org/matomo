@@ -9,8 +9,10 @@
  * @package Piwik
  */
 use Piwik\Config;
+use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  * This class contains Archiving rules/logic which are used in several places
@@ -137,7 +139,7 @@ class Piwik_ArchiveProcessor_Rules
         return false;
     }
 
-    public static function getMinTimeProcessedForTemporaryArchive(Piwik_Date $dateStart, Piwik_Period $period, Piwik_Segment $segment, Piwik_Site $site)
+    public static function getMinTimeProcessedForTemporaryArchive(Piwik_Date $dateStart, Period $period, Piwik_Segment $segment, Site $site)
     {
         $now = time();
         $minimumArchiveTime = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();

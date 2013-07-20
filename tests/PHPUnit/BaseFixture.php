@@ -8,6 +8,7 @@
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Site;
 
 /**
  * Base type for all integration test fixtures. Integration test fixtures
@@ -71,7 +72,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
         );
 
         // Clear the memory Website cache
-        Piwik_Site::clearCache();
+        Site::clearCache();
 
         return $idSite;
     }

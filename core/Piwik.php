@@ -26,7 +26,7 @@ use Piwik_Log_Message;
 use Piwik_Plugin;
 use Piwik_PluginsManager;
 use Piwik_Session;
-use Piwik_Site;
+use Piwik\Site;
 use Piwik_Tracker;
 use Piwik_Tracker_Cache;
 use Piwik_Tracker_Db;
@@ -1311,7 +1311,7 @@ class Piwik
     static public function getCurrency($idSite)
     {
         $symbols = self::getCurrencyList();
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
         $currency = $site->getCurrency();
         if (isset($symbols[$currency])) {
             return $symbols[$currency][0];

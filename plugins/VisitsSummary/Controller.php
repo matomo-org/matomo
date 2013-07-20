@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  *
@@ -76,7 +77,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
         );
 
         $idSite = Common::getRequestVar('idSite');
-        $displaySiteSearch = Piwik_Site::isSiteSearchEnabledFor($idSite);
+        $displaySiteSearch = Site::isSiteSearchEnabledFor($idSite);
 
         if ($displaySiteSearch) {
             $selectableColumns[] = 'nb_searches';
@@ -122,7 +123,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 		$view->urlSparklineAvgGenerationTime = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('avg_time_generation')));
 
         $idSite = Common::getRequestVar('idSite');
-        $displaySiteSearch = Piwik_Site::isSiteSearchEnabledFor($idSite);
+        $displaySiteSearch = Site::isSiteSearchEnabledFor($idSite);
         if ($displaySiteSearch) {
             $view->urlSparklineNbSearches = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('nb_searches', 'nb_keywords')));
         }

@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Site;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -540,7 +541,7 @@ class Piwik_UsersManager_API
             $idSites = Piwik_SitesManager_API::getInstance()->getSitesIdWithAdminAccess();
         } // in case the idSites is an integer we build an array
         else {
-            $idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
+            $idSites = Site::getIdSitesFromIdSitesString($idSites);
         }
 
         if (empty($idSites)) {

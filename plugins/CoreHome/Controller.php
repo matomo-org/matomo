@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  *
@@ -73,7 +74,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         }
         $websiteId = Common::getRequestVar('idSite', false, 'int');
         if ($websiteId) {
-            $website = new Piwik_Site($websiteId);
+            $website = new Site($websiteId);
             $datetimeCreationDate = $this->site->getCreationDate()->getDatetime();
             $creationDateLocalTimezone = Piwik_Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
             $todayLocalTimezone = Piwik_Date::factory('now', $website->getTimezone())->toString('Y-m-d');

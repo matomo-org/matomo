@@ -8,12 +8,13 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Period;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Period
+ * @subpackage Period
  */
-class Piwik_Period_Month extends Piwik_Period
+class Piwik_Period_Month extends Period
 {
     protected $label = 'month';
 

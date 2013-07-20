@@ -9,6 +9,7 @@
  * @package Piwik
  */
 
+use Piwik\Site;
 const FIX_ME_OMG = 'this is a warning and reminder to fix this code ';
 
 /**
@@ -352,14 +353,14 @@ class Piwik_Archive_DataTableFactory
     }
     
     /**
-     * Converts site IDs and period string ranges into Piwik_Site instances and
-     * Piwik_Period instances in DataTable metadata.
+     * Converts site IDs and period string ranges into Site instances and
+     * Period instances in DataTable metadata.
      */
     private function transformMetadata($table)
     {
         $periods = $this->periods;
         $table->filter(function ($table) use($periods) {
-            $table->metadata['site'] = new Piwik_Site($table->metadata['site']);
+            $table->metadata['site'] = new Site($table->metadata['site']);
             $table->metadata['period'] = empty($periods[$table->metadata['period']])
                                             ? FIX_ME_OMG
                                             : $periods[$table->metadata['period']];

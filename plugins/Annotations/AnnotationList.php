@@ -9,6 +9,7 @@
  * @package Piwik_Annotations
  */
 use Piwik\Piwik;
+use Piwik\Site;
 
 /**
  * This class can be used to query & modify annotations for multiple sites
@@ -52,7 +53,7 @@ class Piwik_Annotations_AnnotationList
      */
     public function __construct($idSites)
     {
-        $this->idSites = Piwik_Site::getIdSitesFromIdSitesString($idSites);
+        $this->idSites = Site::getIdSitesFromIdSitesString($idSites);
         $this->annotations = $this->getAnnotationsForSite();
     }
 
@@ -214,7 +215,7 @@ class Piwik_Annotations_AnnotationList
     public function search($startDate, $endDate, $idSite = false)
     {
         if ($idSite) {
-            $idSites = Piwik_Site::getIdSitesFromIdSitesString($idSite);
+            $idSites = Site::getIdSitesFromIdSitesString($idSite);
         } else {
             $idSites = array_keys($this->annotations);
         }

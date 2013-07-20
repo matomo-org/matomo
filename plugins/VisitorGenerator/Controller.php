@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  *
@@ -87,7 +88,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
         $view->assign('days', $daysToCompute);
         $view->assign('nbActionsTotal', $nbActionsTotal);
         $view->assign('nbRequestsPerSec', round($nbActionsTotal / $timer->getTime(), 0));
-        $view->assign('siteName', Piwik_Site::getNameFor($idSite));
+        $view->assign('siteName', Site::getNameFor($idSite));
         echo $view->render();
     }
 

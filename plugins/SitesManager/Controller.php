@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Site;
 
 /**
  *
@@ -26,11 +27,11 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 
         if (Piwik::isUserIsSuperUser()) {
             $sites = Piwik_SitesManager_API::getInstance()->getAllSites();
-            Piwik_Site::setSites($sites);
+            Site::setSites($sites);
             $sites = array_values($sites);
         } else {
             $sites = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
-            Piwik_Site::setSitesFromArray($sites);
+            Site::setSitesFromArray($sites);
         }
 
         foreach ($sites as &$site) {
@@ -123,7 +124,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
         $view = new Piwik_View('@SitesManager/displayJavascriptCode');
         $this->setBasicVariablesView($view);
         $view->idSite = $idSite;
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
         $view->displaySiteName = $site->getName();
         $view->jsTag = $jsTag;
         echo $view->render();

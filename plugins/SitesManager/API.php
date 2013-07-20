@@ -11,6 +11,7 @@
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Site;
 
 /**
  * The SitesManager API gives you full control on Websites in Piwik (create, update and delete), and many methods to retrieve websites based on various attributes.
@@ -155,7 +156,7 @@ class Piwik_SitesManager_API
     public function getSiteUrlsFromId($idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $site = new Piwik_Site($idSite);
+        $site = new Site($idSite);
         $urls = $this->getAliasSiteUrlsFromId($idSite);
         return array_merge(array($site->getMainUrl()), $urls);
     }
@@ -543,7 +544,7 @@ class Piwik_SitesManager_API
 
     private function postUpdateWebsite($idSite)
     {
-        Piwik_Site::clearCache();
+        Site::clearCache();
         Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 

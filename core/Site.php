@@ -9,11 +9,16 @@
  * @package Piwik
  */
 
+namespace Piwik;
+use Exception;
+use Piwik_Date;
+use Piwik_SitesManager_API;
+
 /**
  *
  * @package Piwik
  */
-class Piwik_Site
+class Site
 {
     /**
      * @var int|null
