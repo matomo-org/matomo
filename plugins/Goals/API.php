@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Goals
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -210,7 +211,7 @@ class Piwik_Goals_API
         if ($abandonedCarts) {
             $recordNameFinal = Piwik_Goals_Archiver::getItemRecordNameAbandonedCart($recordName);
         }
-        $archive = Piwik_Archive::build($idSite, $period, $date);
+        $archive = Archive::build($idSite, $period, $date);
         $dataTable = $archive->getDataTable($recordNameFinal);
         
         $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_ECOMMERCE_ITEM_REVENUE));
@@ -371,7 +372,7 @@ class Piwik_Goals_API
     public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array())
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $columns = Piwik::getArrayFromApiParameter($columns);
 
         // Mapping string idGoal to internal ID
@@ -430,7 +431,7 @@ class Piwik_Goals_API
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTableFromNumeric($toFetch);
         return $dataTable;
     }
@@ -485,7 +486,7 @@ class Piwik_Goals_API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
 
         // check for the special goal ids
         $realGoalId = $idGoal != true ? false : self::convertSpecialGoalIds($idGoal);

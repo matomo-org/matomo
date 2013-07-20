@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -188,7 +189,7 @@ class Piwik_MultiSites_API
         }
 
         // build the archive type used to query archive data
-        $archive = Piwik_Archive::build(
+        $archive = Archive::build(
             $sites,
             $period,
             $date,
@@ -243,7 +244,7 @@ class Piwik_MultiSites_API
                 //       put there is put directly in Piwik_DataTable::metadata.
                 $dataTable->setMetadata(self::getLastPeriodMetadataName('date'), $lastPeriod);
             }
-            $pastArchive = Piwik_Archive::build($sites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
+            $pastArchive = Archive::build($sites, $period, $strLastDate, $segment, $_restrictSitesToLogin);
             $pastData = $pastArchive->getDataTableFromNumeric($fieldsToGet);
             
             if ($pastData instanceof Piwik_DataTable_Array

@@ -8,6 +8,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Access;
+use Piwik\AuthResult;
 
 require_once 'Login/Auth.php';
 

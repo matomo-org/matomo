@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 
 /**
@@ -191,7 +192,7 @@ class Piwik_UserCountry_API
     protected function getDataTable($name, $idSite, $period, $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
         $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS));
         $dataTable->queueFilter('ReplaceColumnNames');
@@ -201,7 +202,7 @@ class Piwik_UserCountry_API
     public function getNumberOfDistinctCountries($idSite, $period, $date, $segment = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         return $archive->getDataTableFromNumeric(Piwik_UserCountry_Archiver::DISTINCT_COUNTRIES_METRIC);
     }
 }

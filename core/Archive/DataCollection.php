@@ -10,7 +10,7 @@
  */
 
 /**
- * This class is used to hold and transform archive data for the Piwik_Archive class.
+ * This class is used to hold and transform archive data for the Archive class.
  * 
  * Archive data is loaded into an instance of this type, can be indexed by archive
  * metadata (such as the site ID, period string, etc.), and can be transformed into

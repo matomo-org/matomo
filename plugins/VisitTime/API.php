@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 
 /**
@@ -30,7 +31,7 @@ class Piwik_VisitTime_API
     protected function getDataTable($name, $idSite, $period, $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
         $dataTable->filter('Sort', array('label', 'asc', true));
         $dataTable->queueFilter('ColumnCallbackReplace', array('label', 'Piwik_getTimeLabel'));
@@ -79,7 +80,7 @@ class Piwik_VisitTime_API
         // get metric data for every day within the supplied period
         $oPeriod = Piwik_Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
         $dateRange = $oPeriod->getDateStart()->toString() . ',' . $oPeriod->getDateEnd()->toString();
-        $archive = Piwik_Archive::build($idSite, 'day', $dateRange, $segment);
+        $archive = Archive::build($idSite, 'day', $dateRange, $segment);
 
         // disabled for multiple sites
         if (count($archive->getParams()->getIdSites()) > 1) {

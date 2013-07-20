@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -33,7 +34,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
     );
 
     /**
-     * @var Piwik_Archive
+     * @var Archive
      */
     protected $archiver = null;
 
@@ -135,7 +136,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
     {
         if (empty($this->archiver)) {
             $subPeriods = $this->getPeriod()->getSubperiods();
-            $this->archiver = Piwik_Archive::factory($this->getSegment(), $subPeriods, array($this->getSite()->getId()));
+            $this->archiver = Archive::factory($this->getSegment(), $subPeriods, array($this->getSite()->getId()));
         }
     }
 

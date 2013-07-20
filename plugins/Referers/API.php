@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -45,7 +46,7 @@ class Piwik_Referers_API
      */
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
     {
-        $dataTable = Piwik_Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable);
         $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS, 'desc', $naturalSort = false, $expanded));
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
@@ -410,7 +411,7 @@ class Piwik_Referers_API
     private function getNumeric($name, $idSite, $period, $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         return $archive->getDataTableFromNumeric($name);
     }
 

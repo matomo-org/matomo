@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Actions
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -53,7 +54,7 @@ class Piwik_Actions_API
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
 
         $metrics = Piwik_Actions_Archiver::$actionsAggregateMetrics;
         $metrics['Actions_avg_time_generation'] = 'avg_time_generation';
@@ -119,7 +120,7 @@ class Piwik_Actions_API
      */
     public function getPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
-        $dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::getDataTableFromArchive('Actions_actions_url', $idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;
@@ -204,7 +205,7 @@ class Piwik_Actions_API
 
     public function getPageTitles($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
-        $dataTable = Piwik_Archive::getDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::getDataTableFromArchive('Actions_actions', $idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;
@@ -245,7 +246,7 @@ class Piwik_Actions_API
 
     public function getDownloads($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
-        $dataTable = Piwik_Archive::getDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::getDataTableFromArchive('Actions_downloads', $idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;
     }
@@ -260,7 +261,7 @@ class Piwik_Actions_API
 
     public function getOutlinks($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
-        $dataTable = Piwik_Archive::getDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::getDataTableFromArchive('Actions_outlink', $idSite, $period, $date, $segment, $expanded, $idSubtable);
         $this->filterActionsDataTable($dataTable, $expanded);
         return $dataTable;
     }
@@ -291,7 +292,7 @@ class Piwik_Actions_API
 
     protected function getSiteSearchKeywordsRaw($idSite, $period, $date, $segment)
     {
-        $dataTable = Piwik_Archive::getDataTableFromArchive('Actions_sitesearch', $idSite, $period, $date, $segment, $expanded = false);
+        $dataTable = Archive::getDataTableFromArchive('Actions_sitesearch', $idSite, $period, $date, $segment, $expanded = false);
         return $dataTable;
     }
 
@@ -384,7 +385,7 @@ class Piwik_Actions_API
 
         if ($table === false) {
             // fetch the data table
-            $table = call_user_func_array(array('Piwik_Archive', 'getDataTableFromArchive'), $callBackParameters);
+            $table = call_user_func_array(array('Piwik\Archive', 'getDataTableFromArchive'), $callBackParameters);
 
             if ($table instanceof Piwik_DataTable_Array) {
                 // search an array of tables, e.g. when using date=last30
@@ -449,7 +450,7 @@ class Piwik_Actions_API
             // match found on this level and more levels remaining: go deeper
             $idSubTable = $row->getIdSubDataTable();
             $callBackParameters[6] = $idSubTable;
-            $table = call_user_func_array(array('Piwik_Archive', 'getDataTableFromArchive'), $callBackParameters);
+            $table = call_user_func_array(array('Piwik\Archive', 'getDataTableFromArchive'), $callBackParameters);
             return $this->doFilterPageDatatableSearch($callBackParameters, $table, $searchTree);
         }
 

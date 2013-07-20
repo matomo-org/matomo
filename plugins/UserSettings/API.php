@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 
 /**
@@ -36,7 +37,7 @@ class Piwik_UserSettings_API
     protected function getDataTable($name, $idSite, $period, $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
         $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS));
         $dataTable->queueFilter('ReplaceColumnNames');
@@ -174,7 +175,7 @@ class Piwik_UserSettings_API
         // fetch all archive data required
         $dataTable = $this->getDataTable(Piwik_UserSettings_Archiver::PLUGIN_RECORD_NAME, $idSite, $period, $date, $segment);
         $browserTypes = $this->getDataTable(Piwik_UserSettings_Archiver::BROWSER_TYPE_RECORD_NAME, $idSite, $period, $date, $segment);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $visitsSums = $archive->getDataTableFromNumeric('nb_visits');
 
         // check whether given tables are arrays

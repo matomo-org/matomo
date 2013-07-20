@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Archive;
 
 /**
  * This use case covers many simple tracking features.
@@ -162,7 +163,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
      */
     public function testArchiveSinglePreFetchBlob()
     {
-        $archive = Piwik_Archive::build(self::$fixture->idSite, 'day', self::$fixture->dateTime);
+        $archive = Archive::build(self::$fixture->idSite, 'day', self::$fixture->dateTime);
         $cache = $archive->getBlob('Actions_actions', 'all');
 
         $foundSubtable = false;
@@ -190,7 +191,7 @@ class Test_Piwik_Integration_OneVisitorTwoVisits extends IntegrationTestCase
     {
         try
         {
-            Piwik_Archive::build(
+            Archive::build(
                 'all', 'day', self::$fixture->dateTime, $segment = false, $_restrictToLogin = 'anotherLogin');
             $this->fail("Restricting sites to invalid login did not return 0 sites.");
         }

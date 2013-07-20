@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CustomVariables
  */
+use Piwik\Archive;
 
 /**
  * The Custom Variables API lets you access reports for your <a href='http://piwik.org/docs/custom-variables/' target='_blank'>Custom Variables</a> names and values.
@@ -41,7 +42,7 @@ class Piwik_CustomVariables_API
      */
     protected function getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable)
     {
-        $dataTable = Piwik_Archive::getDataTableFromArchive(Piwik_CustomVariables_Archiver::CUSTOM_VARIABLE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $idSubtable);
+        $dataTable = Archive::getDataTableFromArchive(Piwik_CustomVariables_Archiver::CUSTOM_VARIABLE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $idSubtable);
         $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_ACTIONS, 'desc', $naturalSort = false, $expanded));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ColumnDelete', 'nb_uniq_visitors');

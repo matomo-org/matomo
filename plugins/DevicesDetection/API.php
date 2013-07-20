@@ -9,6 +9,7 @@
  * @category Piwik_Plugins
  * @package Piwik_DevicesDetection
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 
 /**
@@ -42,7 +43,7 @@ class Piwik_DevicesDetection_API
     protected function getDataTable($name, $idSite, $period, $date, $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
         $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS));
         $dataTable->queueFilter('ReplaceColumnNames');

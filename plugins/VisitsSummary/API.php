@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
+use Piwik\Archive;
 use Piwik\Piwik;
 
 /**
@@ -34,7 +35,7 @@ class Piwik_VisitsSummary_API
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
 
         // array values are comma separated
         $columns = Piwik::getArrayFromApiParameter($columns);
@@ -115,7 +116,7 @@ class Piwik_VisitsSummary_API
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $archive = Piwik_Archive::build($idSite, $period, $date, $segment);
+        $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTableFromNumeric($toFetch);
         return $dataTable;
     }

@@ -97,7 +97,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
      * - datatables processed resulting of API calls, which columns have human readable english names
      *
      * @param Piwik_DataTable_Row $row
-     * @param int $columnIdRaw see consts in Piwik_Archive::
+     * @param int $columnIdRaw see consts in Archive::
      * @param bool $mappingIdToName
      * @return mixed  Value of column, false if not found
      */

@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Archive;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -658,7 +659,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         $date = Piwik_Date::factory(self::$dateTime);
 
-        $archive = Piwik_Archive::build(self::$idSite, 'year', $date);
+        $archive = Archive::build(self::$idSite, 'year', $date);
 
         Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'year', $date);
 //        Piwik_Goals_API::getInstance()->get(self::$idSite, 'month', $date, $segment = false, self::$idSite);
@@ -668,7 +669,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         {
             $dateTime = $date->subDay($daysAgo);
 
-            $archive = Piwik_Archive::build(self::$idSite, 'week', $dateTime);
+            $archive = Archive::build(self::$idSite, 'week', $dateTime);
             $archive->getNumeric('nb_visits');
 
             Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(
@@ -676,7 +677,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         }
 
         // add segment for one day
-        $archive = Piwik_Archive::build(self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
+        $archive = Archive::build(self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
         $archive->getNumeric('nb_visits', 'nb_hits');
 
         Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(
@@ -687,7 +688,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $rangeStart = $rangeEnd->subDay(1);
         $range = $rangeStart->toString('Y-m-d') . "," . $rangeEnd->toString('Y-m-d');
 
-        $rangeArchive = Piwik_Archive::build(self::$idSite, 'range', $range);
+        $rangeArchive = Archive::build(self::$idSite, 'range', $range);
         $rangeArchive->getNumeric('nb_visits', 'nb_hits');
 
         Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);
@@ -697,7 +698,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $rangeEnd = $rangeStart->addDay(3);
         $range = $rangeStart->toString('Y-m-d') . "," . $rangeEnd->toString('Y-m-d');
 
-        $rangeArchive = Piwik_Archive::build(self::$idSite, 'range', $range);
+        $rangeArchive = Archive::build(self::$idSite, 'range', $range);
         $rangeArchive->getNumeric('nb_visits', 'nb_hits');
 
         Piwik_VisitorInterest_API::getInstance()->getNumberOfVisitsPerVisitDuration(self::$idSite, 'range', $range);

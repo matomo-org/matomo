@@ -60,7 +60,7 @@ class Piwik_Archive_Parameters
         }
 
         if (empty($array)) {
-            throw new Exception("Piwik_Archive::__construct: \$$paramName is empty.");
+            throw new Exception("Archive::__construct: \$$paramName is empty.");
         }
 
         return $array;
