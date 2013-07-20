@@ -21,8 +21,8 @@ class MultiSitesTest extends DatabaseTestCase
 
         $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");
 
-        Piwik_PluginsManager::getInstance()->loadPlugins(array('MultiSites', 'VisitsSummary', 'Actions'));
-        Piwik_PluginsManager::getInstance()->installLoadedPlugins();
+        PluginsManager::getInstance()->loadPlugins(array('MultiSites', 'VisitsSummary', 'Actions'));
+        PluginsManager::getInstance()->installLoadedPlugins();
     }
 
 

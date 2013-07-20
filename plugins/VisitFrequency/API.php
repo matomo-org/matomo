@@ -9,6 +9,7 @@
  * @package Piwik_VisitFrequency
  */
 use Piwik\Piwik;
+use Piwik\SegmentExpression;
 
 /**
  * VisitFrequency API lets you access a list of metrics related to Returning Visitors.
@@ -52,7 +53,7 @@ class Piwik_VisitFrequency_API
         if (empty($segment)) {
             $segment = '';
         } else {
-            $segment .= Piwik_SegmentExpression::AND_DELIMITER;
+            $segment .= SegmentExpression::AND_DELIMITER;
         }
         $segment .= self::RETURNING_VISITOR_SEGMENT;
         return $segment;

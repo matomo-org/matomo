@@ -24,7 +24,6 @@ use Piwik_Log_Exception;
 use Piwik_Log_Formatter_ScreenFormatter;
 use Piwik_Log_Message;
 use Piwik_Plugin;
-use Piwik_PluginsManager;
 use Piwik_Session;
 use Piwik\Site;
 use Piwik_Tracker;
@@ -1847,7 +1846,7 @@ class Piwik
      */
     static public function getCurrentPlugin()
     {
-        return Piwik_PluginsManager::getInstance()->getLoadedPlugin(Piwik::getModule());
+        return PluginsManager::getInstance()->getLoadedPlugin(Piwik::getModule());
     }
 
     /**

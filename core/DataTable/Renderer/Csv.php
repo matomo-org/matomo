@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Period;
+use Piwik\Period_Range;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -351,9 +352,9 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
         if ($period || $date) // in test cases, there are no request params set
         {
             if ($period == 'range') {
-                $period = new Piwik_Period_Range($period, $date);
+                $period = new Period_Range($period, $date);
             } else if (strpos($date, ',') !== false) {
-                $period = new Piwik_Period_Range('range', $date);
+                $period = new Period_Range('range', $date);
             } else {
                 $period = Period::factory($period, Piwik_Date::factory($date));
             }

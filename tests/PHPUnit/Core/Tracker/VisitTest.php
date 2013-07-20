@@ -18,7 +18,7 @@ class Tracker_VisitTest extends DatabaseTestCase
         FakeAccess::$superUser = true;
         Access::setSingletonInstance($pseudoMockAccess);
 
-        Piwik_PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
+        PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
     }
 
     /**

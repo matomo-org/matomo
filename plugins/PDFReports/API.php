@@ -798,6 +798,6 @@ class Piwik_PDFReports_API
      */
     public static function isSegmentEditorActivated()
     {
-        return Piwik_PluginsManager::getInstance()->isPluginActivated('SegmentEditor');
+        return PluginsManager::getInstance()->isPluginActivated('SegmentEditor');
     }
 }

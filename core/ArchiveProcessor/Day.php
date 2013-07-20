@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Metrics;
 
 /**
  * This class
@@ -51,7 +52,7 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
      * The returned array will have a row per distinct operating systems,
      * and a column per stat (nb of visits, max  actions, etc)
      *
-     * 'label'    Piwik_Metrics::INDEX_NB_UNIQ_VISITORS    Piwik_Metrics::INDEX_NB_VISITS    etc.
+     * 'label'    Metrics::INDEX_NB_UNIQ_VISITORS    Metrics::INDEX_NB_VISITS    etc.
      * Linux    27    66    ...
      * Windows XP    12    ...
      * Mac OS    15    36    ...
@@ -89,7 +90,7 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
     {
         $metrics = array();
         foreach ($data as $metricId => $value) {
-            $readableMetric = Piwik_Metrics::$mappingFromIdToName[$metricId];
+            $readableMetric = Metrics::$mappingFromIdToName[$metricId];
             $metrics[$readableMetric] = $value;
         }
         return $metrics;

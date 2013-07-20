@@ -3,7 +3,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik_IP;
-use Piwik_PluginsManager;
 use Piwik_Tracker;
 use Piwik_Tracker_Cache;
 use Piwik_UserCountry_LocationProvider_Default;
@@ -106,7 +105,7 @@ class Common
      */
     public static function isGoalPluginEnabled()
     {
-        return Piwik_PluginsManager::getInstance()->isPluginActivated('Goals');
+        return PluginsManager::getInstance()->isPluginActivated('Goals');
     }
 
     /*
@@ -970,7 +969,7 @@ class Common
      * @param string|null $browserLang  Optional browser language, otherwise taken from the request header
      * @return string
      */
-    public static function getBrowserLanguage($browserLang = NULL)
+    public static function getBrowserLanguage($browserLang = null)
     {
         static $replacementPatterns = array(
             // extraneous bits of RFC 3282 that we ignore

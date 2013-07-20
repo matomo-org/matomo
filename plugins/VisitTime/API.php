@@ -9,6 +9,7 @@
  * @package Piwik_VisitTime
  */
 use Piwik\Archive;
+use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Site;
@@ -71,8 +72,8 @@ class Piwik_VisitTime_API
         Piwik::checkUserHasViewAccess($idSite);
 
         // metrics to query
-        $metrics = Piwik_Metrics::getVisitsMetricNames();
-        unset($metrics[Piwik_Metrics::INDEX_MAX_ACTIONS]);
+        $metrics = Metrics::getVisitsMetricNames();
+        unset($metrics[Metrics::INDEX_MAX_ACTIONS]);
         
         // disabled for multiple dates
         if (Period::isMultiplePeriod($date, $period)) {

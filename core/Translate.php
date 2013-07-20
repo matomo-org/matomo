@@ -49,7 +49,7 @@ class Piwik_Translate
         $this->unloadEnglishTranslation();
         $this->loadEnglishTranslation();
         $this->loadCoreTranslation($language);
-        Piwik_PluginsManager::getInstance()->loadPluginTranslations($language);
+        PluginsManager::getInstance()->loadPluginTranslations($language);
     }
 
     /**

@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\SegmentExpression;
+
 class SegmentExpressionTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -44,7 +46,7 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
      */
     public function testSegmentSqlSimpleNoOperation($expression, $expectedSql)
     {
-        $segment = new Piwik_SegmentExpression($expression);
+        $segment = new SegmentExpression($expression);
         $expected = array('where' => $expectedSql, 'bind' => array(), 'join' => '');
         $processed = $segment->getSql();
         $this->assertEquals($expected, $processed);
@@ -85,7 +87,7 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
      */
     public function testSegmentSqlWithOperations($expression, $expectedSql)
     {
-        $segment = new Piwik_SegmentExpression($expression);
+        $segment = new SegmentExpression($expression);
         $segment->parseSubExpressions();
         $segment->parseSubExpressionsIntoSqlExpressions();
         $processed = $segment->getSql();
@@ -119,7 +121,7 @@ class SegmentExpressionTest extends PHPUnit_Framework_TestCase
     public function testBogusFiltersExpectExceptionThrown($bogus)
     {
         try {
-            $segment = new Piwik_SegmentExpression($bogus);
+            $segment = new SegmentExpression($bogus);
             $segment->parseSubExpressions();
             $segment->getSql();
         } catch (Exception $e) {

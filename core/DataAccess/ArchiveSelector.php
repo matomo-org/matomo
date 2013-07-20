@@ -9,8 +9,10 @@
  * @package Piwik
  */
 use Piwik\Period;
+use Piwik\Period_Range;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Segment;
 use Piwik\Site;
 
 /**
@@ -33,7 +35,7 @@ class Piwik_DataAccess_ArchiveSelector
 
     const NB_VISITS_CONVERTED_RECORD_LOOKED_UP = "nb_visits_converted";
 
-    static public function getArchiveIdAndVisits(Site $site, Period $period, Piwik_Segment $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin)
+    static public function getArchiveIdAndVisits(Site $site, Period $period, Segment $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin)
     {
         $dateStart = $period->getDateStart();
         $bindSQL = array($site->getId(),
@@ -107,7 +109,7 @@ class Piwik_DataAccess_ArchiveSelector
         return array($visits, $visitsConverted);
     }
 
-    protected static function getMostRecentIdArchiveFromResults(Piwik_Segment $segment, $requestedPlugin, $results)
+    protected static function getMostRecentIdArchiveFromResults(Segment $segment, $requestedPlugin, $results)
     {
         $idArchive = false;
         $namesRequestedPlugin = Piwik_ArchiveProcessor_Rules::getDoneFlags(array($requestedPlugin), $segment);
@@ -127,7 +129,7 @@ class Piwik_DataAccess_ArchiveSelector
      *
      * @param array $siteIds
      * @param array $periods
-     * @param Piwik_Segment $segment
+     * @param Segment $segment
      * @param array $plugins List of plugin names for which data is being requested.
      * @return array Archive IDs are grouped by archive name and period range, ie,
      *               array(
@@ -160,7 +162,7 @@ class Piwik_DataAccess_ArchiveSelector
 
             // if looking for a range archive. NOTE: we assume there's only one period if its a range.
             $bind = array($firstPeriod->getId());
-            if ($firstPeriod instanceof Piwik_Period_Range) {
+            if ($firstPeriod instanceof Period_Range) {
                 $dateCondition = "date1 = ? AND date2 = ?";
                 $bind[] = $firstPeriod->getDateStart()->toString('Y-m-d');
                 $bind[] = $firstPeriod->getDateEnd()->toString('Y-m-d');
@@ -251,7 +253,7 @@ class Piwik_DataAccess_ArchiveSelector
      * this instance is querying for.
      *
      * @param array $plugins
-     * @param Piwik_Segment $segment
+     * @param Segment $segment
      * @return string
      */
     static private function getNameCondition(array $plugins, $segment)

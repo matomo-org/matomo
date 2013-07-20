@@ -163,7 +163,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
     private function checkUserCountryPluginEnabled()
     {
-        if (!Piwik_PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
+        if (!PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
             throw new Exception(Piwik_Translate('General_Required', 'Plugin UserCountry'));
         }
     }

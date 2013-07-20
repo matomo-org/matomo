@@ -49,7 +49,7 @@ class Piwik_Actions_Controller extends Piwik_Controller
         $view->noResultKeywords = $this->getSiteSearchNoResultKeywords(true);
         $view->pagesUrlsFollowingSiteSearch = $this->getPageUrlsFollowingSiteSearch(true);
 
-        $categoryTrackingEnabled = Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+        $categoryTrackingEnabled = PluginsManager::getInstance()->isPluginActivated('CustomVariables');
         if ($categoryTrackingEnabled) {
             $view->categories = $this->getSiteSearchCategories(true);
         }

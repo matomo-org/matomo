@@ -278,9 +278,9 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     public function testRunTasks($expectedTimetable, $expectedExecutedTasks, $timetableBeforeTaskExecution, $configuredTasks)
     {
         // temporarily unload plugins
-        $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+        $plugins = PluginsManager::getInstance()->getLoadedPlugins();
         $plugins = array_map(function ($p) { return $p->getPluginName(); }, $plugins);
-        Piwik_PluginsManager::getInstance()->unloadPlugins();
+        PluginsManager::getInstance()->unloadPlugins();
         
         // make sure the get tasks event returns our configured tasks
         Piwik_AddAction(Piwik_TaskScheduler::GET_TASKS_EVENT, function(&$tasks) use($configuredTasks) {
@@ -303,12 +303,12 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
         // assert the timetable is correctly updated
         $getTimetableFromOptionTable = new ReflectionMethod('Piwik_TaskScheduler', 'getTimetableFromOptionTable');
-        $getTimetableFromOptionTable->setAccessible(TRUE);
+        $getTimetableFromOptionTable->setAccessible(true);
         $this->assertEquals($expectedTimetable, $getTimetableFromOptionTable->invoke(new Piwik_TaskScheduler()));
 
         // restore loaded plugins & piwik options
         Piwik_EventDispatcher::getInstance()->clearObservers(Piwik_TaskScheduler::GET_TASKS_EVENT);
-        Piwik_PluginsManager::getInstance()->loadPlugins($plugins);
+        PluginsManager::getInstance()->loadPlugins($plugins);
         self::resetPiwikOption();
     }
 

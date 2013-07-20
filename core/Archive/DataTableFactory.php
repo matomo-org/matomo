@@ -9,24 +9,25 @@
  * @package Piwik
  */
 
+use Piwik\Archive_DataCollection;
 use Piwik\Site;
 const FIX_ME_OMG = 'this is a warning and reminder to fix this code ';
 
 /**
  * Creates a Piwik_DataTable or Piwik_DataTable_Array instance based on an array
- * index created by Piwik_Archive_DataCollection.
+ * index created by Archive_DataCollection.
  * 
- * This class is only used by Piwik_Archive_DataCollection.
+ * This class is only used by Archive_DataCollection.
  */
 class Piwik_Archive_DataTableFactory
 {
     /**
-     * @see Piwik_Archive_DataCollection::$dataNames.
+     * @see Archive_DataCollection::$dataNames.
      */
     private $dataNames;
     
     /**
-     * @see Piwik_Archive_DataCollection::$dataType.
+     * @see Archive_DataCollection::$dataType.
      */
     private $dataType;
     
@@ -48,12 +49,12 @@ class Piwik_Archive_DataTableFactory
     private $addMetadataSubtableId = false;
     
     /**
-     * @see Piwik_Archive_DataCollection::$sitesId.
+     * @see Archive_DataCollection::$sitesId.
      */
     private $sitesId;
     
     /**
-     * @see Piwik_Archive_DataCollection::$periods.
+     * @see Archive_DataCollection::$periods.
      */
     private $periods;
     
@@ -65,7 +66,7 @@ class Piwik_Archive_DataTableFactory
     private $idSubtable = null;
     
     /**
-     * @see Piwik_Archive_DataCollection::$defaultRow.
+     * @see Archive_DataCollection::$defaultRow.
      */
     private $defaultRow;
     
@@ -118,7 +119,7 @@ class Piwik_Archive_DataTableFactory
      * Creates a Piwik_DataTable|Piwik_DataTable_Array instance using an index of
      * archive data.
      * 
-     * @param array $index @see Piwik_Archive_DataCollection
+     * @param array $index @see Archive_DataCollection
      * @param array $resultIndices an array mapping metadata names with pretty metadata
      *                             labels.
      * @return Piwik_DataTable|Piwik_DataTable_Array
@@ -192,7 +193,7 @@ class Piwik_Archive_DataTableFactory
         }
         
         // set table metadata
-        $table->metadata = Piwik_Archive_DataCollection::getDataRowMetadata($blobRow);
+        $table->metadata = Archive_DataCollection::getDataRowMetadata($blobRow);
         
         if ($this->expandDataTable) {
             $table->enableRecursiveFilters();
@@ -214,7 +215,7 @@ class Piwik_Archive_DataTableFactory
         $table = new Piwik_DataTable_Array();
         $table->setKeyName('recordName');
         
-        $tableMetadata = Piwik_Archive_DataCollection::getDataRowMetadata($blobRow);
+        $tableMetadata = Archive_DataCollection::getDataRowMetadata($blobRow);
         
         foreach ($blobRow as $name => $blob) {
             $newTable = Piwik_DataTable::fromSerializedArray($blob);
@@ -229,7 +230,7 @@ class Piwik_Archive_DataTableFactory
     /**
      * Creates a Piwik_DataTable_Array from an array index.
      * 
-     * @param array $index @see Piwik_Archive_DataCollection
+     * @param array $index @see Archive_DataCollection
      * @param array $resultIndices @see make
      * @param array $keyMetadata The metadata to add to the table when it's created.
      * @return Piwik_DataTable_Array
@@ -274,9 +275,9 @@ class Piwik_Archive_DataTableFactory
             $table = new Piwik_DataTable_Simple();
             
             if (!empty($data)) {
-                $table->metadata = Piwik_Archive_DataCollection::getDataRowMetadata($data);
+                $table->metadata = Archive_DataCollection::getDataRowMetadata($data);
                 
-                Piwik_Archive_DataCollection::removeMetadataFromDataRow($data);
+                Archive_DataCollection::removeMetadataFromDataRow($data);
                 
                 $table->addRow(new Piwik_DataTable_Row(array(Piwik_DataTable_Row::COLUMNS => $data)));
             } else {

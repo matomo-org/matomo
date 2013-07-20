@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
+
+namespace Piwik;
+
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -33,9 +36,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
  * Plugin manager
  *
  * @package Piwik
- * @subpackage Piwik_PluginsManager
+ * @subpackage PluginsManager
  */
-class Piwik_PluginsManager
+class PluginsManager
 {
     protected $pluginsToLoad = array();
 
@@ -69,9 +72,9 @@ class Piwik_PluginsManager
     static private $instance = null;
 
     /**
-     * Returns the singleton Piwik_PluginsManager
+     * Returns the singleton PluginsManager
      *
-     * @return Piwik_PluginsManager
+     * @return PluginsManager
      */
     static public function getInstance()
     {
@@ -515,8 +518,9 @@ class Piwik_PluginsManager
         }
         $newPlugin = new $pluginClassName();
 
+        var_dump(get_class($newPlugin));
         if (!($newPlugin instanceof Piwik_Plugin)) {
-            throw new Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
+            throw new \Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
         }
         return $newPlugin;
     }
@@ -648,7 +652,7 @@ class Piwik_PluginsManager
             $plugins = Config::getInstance()->Plugins['Plugins'];
             foreach ($plugins as $pluginName) {
                 // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-                if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginName)) {
+                if (!PluginsManager::getInstance()->isPluginLoaded($pluginName)) {
                     $missingPlugins[] = $pluginName;
                 }
             }
@@ -704,7 +708,7 @@ class Piwik_PluginsManager
         }
         return false;
     }
-    
+
     private static function pluginStructureLooksValid($path)
     {
         $name = basename($path);
@@ -713,11 +717,12 @@ class Piwik_PluginsManager
     }
 }
 
+namespace Piwik;
 /**
  * @package Piwik
- * @subpackage Piwik_PluginsManager
+ * @subpackage PluginsManager
  */
-class Piwik_PluginsManager_PluginException extends Exception
+class PluginsManager_PluginException extends \Exception
 {
     function __construct($pluginName, $message)
     {

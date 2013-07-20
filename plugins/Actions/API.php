@@ -9,6 +9,7 @@
  * @package Piwik_Actions
  */
 use Piwik\Archive;
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -277,7 +278,7 @@ class Piwik_Actions_API
     public function getSiteSearchKeywords($idSite, $period, $date, $segment = false)
     {
         $dataTable = $this->getSiteSearchKeywordsRaw($idSite, $period, $date, $segment);
-        $dataTable->deleteColumn(Piwik_Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
+        $dataTable->deleteColumn(Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         $this->addPagesPerSearchColumn($dataTable);
@@ -302,11 +303,11 @@ class Piwik_Actions_API
         // Delete all rows that have some results
         $dataTable->filter('ColumnCallbackDeleteRow',
             array(
-                 Piwik_Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
+                 Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
                  create_function('$value', 'return $value >= 1;')
             ));
         $dataTable->deleteRow(Piwik_DataTable::ID_SUMMARY_ROW);
-        $dataTable->deleteColumn(Piwik_Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
+        $dataTable->deleteColumn(Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
         $this->addPagesPerSearchColumn($dataTable);
@@ -472,7 +473,7 @@ class Piwik_Actions_API
         $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('exit_rate', 'exit_nb_visits', 'nb_visits', 0));
 
         // Handle performance analytics
-        $hasTimeGeneration = (array_sum($dataTable->getColumn(Piwik_Metrics::INDEX_PAGE_SUM_TIME_GENERATION)) > 0);
+        $hasTimeGeneration = (array_sum($dataTable->getColumn(Metrics::INDEX_PAGE_SUM_TIME_GENERATION)) > 0);
         if ($hasTimeGeneration) {
             // Average generation time = total generation time / number of pageviews
             $precisionAvgTimeGeneration = 3;
@@ -482,10 +483,10 @@ class Piwik_Actions_API
             // No generation time: remove it from the API output and add it to empty_columns metadata, so that
             // the columns can also be removed from the view
             $dataTable->filter('ColumnDelete', array(array(
-                                                         Piwik_Metrics::INDEX_PAGE_SUM_TIME_GENERATION,
-                                                         Piwik_Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION,
-                                                         Piwik_Metrics::INDEX_PAGE_MIN_TIME_GENERATION,
-                                                         Piwik_Metrics::INDEX_PAGE_MAX_TIME_GENERATION
+                                                         Metrics::INDEX_PAGE_SUM_TIME_GENERATION,
+                                                         Metrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION,
+                                                         Metrics::INDEX_PAGE_MIN_TIME_GENERATION,
+                                                         Metrics::INDEX_PAGE_MAX_TIME_GENERATION
                                                      )));
 
             if ($dataTable instanceof Piwik_DataTable) {

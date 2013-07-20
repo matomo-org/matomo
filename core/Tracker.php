@@ -352,7 +352,7 @@ class Piwik_Tracker
                 Piwik::createDatabaseObject();
             }
 
-            $pluginsManager = Piwik_PluginsManager::getInstance();
+            $pluginsManager = PluginsManager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
             $pluginsForcedNotToLoad = Piwik_Tracker::getPluginsNotToLoad();
             $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
@@ -603,9 +603,9 @@ class Piwik_Tracker
             $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (count($pluginsTracker) > 0) {
                 $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
-                Piwik_PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
+                PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
-                Piwik_PluginsManager::getInstance()->loadPlugins($pluginsTracker);
+                PluginsManager::getInstance()->loadPlugins($pluginsTracker);
 
                 Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
             }

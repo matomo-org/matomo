@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitorInterest
  */
+use Piwik\Metrics;
 
 /**
  * @package Piwik_VisitorInterest
@@ -73,7 +74,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
         $view->setColumnsToDisplay(array('label', 'nb_visits', 'nb_visits_percentage'));
         $view->setSortedColumn('label', 'asc');
         $view->setColumnTranslation('label', Piwik_Translate('VisitorInterest_VisitNum'));
-        $view->setColumnTranslation('nb_visits_percentage', Piwik_Metrics::getPercentVisitColumn());
+        $view->setColumnTranslation('nb_visits_percentage', Metrics::getPercentVisitColumn());
         $view->disableExcludeLowPopulation();
         $view->disableOffsetInformationAndPaginationControls();
         $view->disableShowAllViewsIcons();

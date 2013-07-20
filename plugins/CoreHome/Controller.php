@@ -31,7 +31,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 
         // User preference: default report to load is the All Websites dashboard
         if ($defaultReport == 'MultiSites'
-            && Piwik_PluginsManager::getInstance()->isPluginActivated('MultiSites')
+            && PluginsManager::getInstance()->isPluginActivated('MultiSites')
         ) {
             $module = 'MultiSites';
         }

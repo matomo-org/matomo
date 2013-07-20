@@ -122,8 +122,8 @@ class Piwik_Updates_1_2_rc1 extends Piwik_Updates
         );
         $disabledPlugins = array();
         foreach ($pluginsToDisableMessage as $pluginToDisable => $warningMessage) {
-            if (Piwik_PluginsManager::getInstance()->isPluginActivated($pluginToDisable)) {
-                Piwik_PluginsManager::getInstance()->deactivatePlugin($pluginToDisable);
+            if (PluginsManager::getInstance()->isPluginActivated($pluginToDisable)) {
+                PluginsManager::getInstance()->deactivatePlugin($pluginToDisable);
                 $disabledPlugins[] = $warningMessage;
             }
         }

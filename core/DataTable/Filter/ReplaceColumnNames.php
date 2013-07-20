@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Metrics;
 use Piwik\Piwik;
 
 /**
@@ -39,7 +40,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
     public function __construct($table, $mappingToApply = null)
     {
         parent::__construct($table);
-        $this->mappingToApply = Piwik_Metrics::$mappingFromIdToName;
+        $this->mappingToApply = Metrics::$mappingFromIdToName;
         if (!is_null($mappingToApply)) {
             $this->mappingToApply = $mappingToApply;
         }
@@ -132,7 +133,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
     {
         $newSubColumns = array();
         foreach ($columnValue as $idGoal => $goalValues) {
-            $mapping = Piwik_Metrics::$mappingFromIdToNameGoal;
+            $mapping = Metrics::$mappingFromIdToNameGoal;
             if ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_CART) {
                 $idGoal = Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
             } elseif ($idGoal == Piwik_Tracker_GoalManager::IDGOAL_ORDER) {

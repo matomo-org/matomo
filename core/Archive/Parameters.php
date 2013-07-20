@@ -1,6 +1,10 @@
 <?php
 
-class Piwik_Archive_Parameters
+namespace Piwik;
+use Exception;
+use Piwik\Segment;
+
+class Archive_Parameters
 {
     /**
      * The list of site IDs to query archive data for.
@@ -19,7 +23,7 @@ class Piwik_Archive_Parameters
     /**
      * Segment applied to the visits set.
      *
-     * @var Piwik_Segment
+     * @var Segment
      */
     private $segment;
 
@@ -28,7 +32,7 @@ class Piwik_Archive_Parameters
         return $this->segment;
     }
 
-    public function setSegment(Piwik_Segment $segment)
+    public function setSegment(Segment $segment)
     {
         $this->segment = $segment;
     }

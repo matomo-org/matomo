@@ -4,6 +4,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Segment;
 use Piwik\Site;
 
 /**
@@ -58,7 +59,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
         $site = $this->_createWebsite($siteTimezone);
         $date = Piwik_Date::factory($dateLabel);
         $period = Period::factory($periodLabel, $date);
-        $segment = new Piwik_Segment('', $site->getId());
+        $segment = new Segment('', $site->getId());
 
 
         if($period->getLabel() == 'day') {

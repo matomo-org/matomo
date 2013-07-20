@@ -9,6 +9,7 @@
  * @package Piwik_UserSettings
  */
 use Piwik\Archive;
+use Piwik\Metrics;
 use Piwik\Piwik;
 
 /**
@@ -39,7 +40,7 @@ class Piwik_UserSettings_API
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTable($name);
-        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_NB_VISITS));
+        $dataTable->filter('Sort', array(Metrics::INDEX_NB_VISITS));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
         return $dataTable;
@@ -105,8 +106,8 @@ class Piwik_UserSettings_API
     protected function ensureDefaultRowsInTable($dataTable)
     {
         $requiredRows = array(
-            'General_Desktop' => Piwik_Metrics::INDEX_NB_VISITS,
-            'General_Mobile'  => Piwik_Metrics::INDEX_NB_VISITS
+            'General_Desktop' => Metrics::INDEX_NB_VISITS,
+            'General_Mobile'  => Metrics::INDEX_NB_VISITS
         );
 
         $dataTables = array($dataTable);
@@ -218,7 +219,7 @@ class Piwik_UserSettings_API
 
             $ieStats = $browserType->getRowFromLabel('ie');
             if ($ieStats !== false) {
-                $ieVisits = $ieStats->getColumn(Piwik_Metrics::INDEX_NB_VISITS);
+                $ieVisits = $ieStats->getColumn(Metrics::INDEX_NB_VISITS);
             }
 
             $visitsSum = $visitsSumTotal - $ieVisits;
@@ -230,7 +231,7 @@ class Piwik_UserSettings_API
 
             // The filter must be applied now so that the new column can
             // be sorted by the generic filters (applied right after this loop exits)
-            $table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Piwik_Metrics::INDEX_NB_VISITS, $visitsSum, 1));
+            $table->filter('ColumnCallbackAddColumnPercentage', array('nb_visits_percentage', Metrics::INDEX_NB_VISITS, $visitsSum, 1));
             $table->filter('RangeCheck', array('nb_visits_percentage'));
         }
 

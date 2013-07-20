@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\SegmentExpression;
 use Piwik\Site;
 
 /**
@@ -148,8 +149,8 @@ class Piwik_Actions extends Piwik_Plugin
         $valueToMatch = Common::sanitizeInputValue(Common::unsanitizeInputValue($valueToMatch));
 
         // exact matches work by returning the id directly
-        if ($matchType == Piwik_SegmentExpression::MATCH_EQUAL
-            || $matchType == Piwik_SegmentExpression::MATCH_NOT_EQUAL
+        if ($matchType == SegmentExpression::MATCH_EQUAL
+            || $matchType == SegmentExpression::MATCH_NOT_EQUAL
         ) {
             $sql = Piwik_Tracker_Action::getSqlSelectActionId();
             $bind = array($valueToMatch, $valueToMatch, $actionType);
@@ -596,7 +597,7 @@ class Piwik_Actions extends Piwik_Plugin
 
     static protected function isCustomVariablesPluginsEnabled()
     {
-        return Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+        return PluginsManager::getInstance()->isPluginActivated('CustomVariables');
     }
 
     /**

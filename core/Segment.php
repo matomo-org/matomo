@@ -8,17 +8,21 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik_API_API;
+use Piwik\SegmentExpression;
 
 /**
  *
  * @package Piwik
  */
-class Piwik_Segment
+class Segment
 {
     /**
-     * @var Piwik_SegmentExpression
+     * @var SegmentExpression
      */
     protected $segment = null;
 
@@ -39,8 +43,8 @@ class Piwik_Segment
         // First try with url decoded value. If that fails, try with raw value.
         // If that also fails, it will throw the exception
         try {
-            $this->initializeSegment( urldecode($string), $idSites);
-        } catch(Exception $e) {
+            $this->initializeSegment(urldecode($string), $idSites);
+        } catch (Exception $e) {
             $this->initializeSegment($string, $idSites);
         }
     }
@@ -57,7 +61,7 @@ class Piwik_Segment
 
         $this->string = $string;
         $this->idSites = $idSites;
-        $segment = new Piwik_SegmentExpression($string);
+        $segment = new SegmentExpression($string);
         $this->segment = $segment;
 
         // parse segments
@@ -68,9 +72,9 @@ class Piwik_Segment
         // and apply a filter to the value to match if necessary (to map DB fields format)
         $cleanedExpressions = array();
         foreach ($expressions as $expression) {
-            $operand = $expression[Piwik_SegmentExpression::INDEX_OPERAND];
+            $operand = $expression[SegmentExpression::INDEX_OPERAND];
             $cleanedExpression = $this->getCleanedExpression($operand);
-            $expression[Piwik_SegmentExpression::INDEX_OPERAND] = $cleanedExpression;
+            $expression[SegmentExpression::INDEX_OPERAND] = $cleanedExpression;
             $cleanedExpressions[] = $expression;
         }
         $segment->setSubExpressionsAfterCleanup($cleanedExpressions);
@@ -111,8 +115,8 @@ class Piwik_Segment
             // apply presentation filter
             if (isset($segment['sqlFilter'])
                 && !empty($segment['sqlFilter'])
-                && $matchType != Piwik_SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
-                && $matchType != Piwik_SegmentExpression::MATCH_IS_NULL_OR_EMPTY
+                && $matchType != SegmentExpression::MATCH_IS_NOT_NULL_NOR_EMPTY
+                && $matchType != SegmentExpression::MATCH_IS_NULL_OR_EMPTY
             ) {
                 $value = call_user_func($segment['sqlFilter'], $value, $segment['sqlSegment'], $matchType, $name);
 
@@ -122,7 +126,7 @@ class Piwik_Segment
                     && isset($value['SQL'])
                 ) {
                     // Special case: returned value is a sub sql expression!
-                    $matchType = Piwik_SegmentExpression::MATCH_ACTIONS_CONTAINS;
+                    $matchType = SegmentExpression::MATCH_ACTIONS_CONTAINS;
                 }
             }
             break;
@@ -149,7 +153,6 @@ class Piwik_Segment
         $normalizedSegmentString = urldecode($this->string);
         return md5($normalizedSegmentString);
     }
-
 
     /**
      * Extend SQL query with segment expressions
@@ -382,5 +385,4 @@ class Piwik_Segment
         $where = false;
         return $this->buildSelectQuery($select, $from, $where, $orderBy, $groupBy);
     }
-
 }

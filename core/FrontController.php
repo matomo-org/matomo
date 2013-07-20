@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\PluginsManager;
 
 /**
  * @see core/PluginsManager.php
@@ -96,7 +97,7 @@ class Piwik_FrontController
             throw new Exception("Invalid module name '$module'");
         }
 
-        if (!Piwik_PluginsManager::getInstance()->isPluginActivated($module)) {
+        if (!PluginsManager::getInstance()->isPluginActivated($module)) {
             throw new Piwik_FrontController_PluginDeactivatedException($module);
         }
 
@@ -246,7 +247,7 @@ class Piwik_FrontController
             $this->handleMaintenanceMode();
             $this->handleSSLRedirection();
 
-            $pluginsManager = Piwik_PluginsManager::getInstance();
+            $pluginsManager = PluginsManager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
 
             $pluginsManager->loadPlugins($pluginsToLoad);
@@ -273,7 +274,7 @@ class Piwik_FrontController
 
             Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
 
-            Piwik_PluginsManager::getInstance()->installLoadedPlugins();
+            PluginsManager::getInstance()->installLoadedPlugins();
 
             // ensure the current Piwik URL is known for later use
             if (method_exists('Piwik\Piwik', 'getPiwikUrl')) {

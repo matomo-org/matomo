@@ -10,6 +10,7 @@
  */
 use Piwik\Config;
 use Piwik\Period;
+use Piwik\Period_Range;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
@@ -298,7 +299,7 @@ abstract class Piwik_Controller
      */
     public static function getDateRangeRelativeToEndDate($period, $lastN, $endDate, $site)
     {
-        $last30Relative = new Piwik_Period_Range($period, $lastN, $site->getTimezone());
+        $last30Relative = new Period_Range($period, $lastN, $site->getTimezone());
         $last30Relative->setDefaultEndDate(Piwik_Date::factory($endDate));
         $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
         return $date;
@@ -406,7 +407,7 @@ abstract class Piwik_Controller
                 $date = Piwik_Date::factory($this->strDate);
                 $period = Period::factory($periodStr, $date);
             } else {
-                $period = new Piwik_Period_Range($periodStr, $rawDate, $this->site->getTimezone());
+                $period = new Period_Range($periodStr, $rawDate, $this->site->getTimezone());
             }
             $view->rawDate = $rawDate;
             $view->prettyDate = self::getCalendarPrettyDate($period);

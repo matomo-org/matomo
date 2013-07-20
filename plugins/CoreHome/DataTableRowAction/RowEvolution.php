@@ -9,6 +9,7 @@
  * @package Piwik_CoreHome
  */
 use Piwik\Common;
+use Piwik\Metrics;
 
 /**
  * ROW EVOLUTION
@@ -215,14 +216,14 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             $min = isset($metricData['min']) ? $metricData['min'] : 0;
             $change = isset($metricData['change']) ? $metricData['change'] : false;
 
-            $unit = Piwik_Metrics::getUnit($metric, $this->idSite);
+            $unit = Metrics::getUnit($metric, $this->idSite);
             $min .= $unit;
             $max .= $unit;
 
             $details = Piwik_Translate('RowEvolution_MetricBetweenText', array($min, $max));
 
             if ($change !== false) {
-                $lowerIsBetter = Piwik_Metrics::isLowerValueBetter($metric);
+                $lowerIsBetter = Metrics::isLowerValueBetter($metric);
                 if (substr($change, 0, 1) == '+') {
                     $changeClass = $lowerIsBetter ? 'bad' : 'good';
                     $changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';

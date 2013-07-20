@@ -1,6 +1,7 @@
 <?php
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Metrics;
 
 /**
  * Piwik - Open source web analytics
@@ -34,7 +35,7 @@ class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
     function __construct($processor)
     {
         parent::__construct($processor);
-        $this->columnToSortByBeforeTruncation = Piwik_Metrics::INDEX_NB_VISITS;
+        $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
         $this->maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
         $this->maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
     }

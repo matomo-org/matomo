@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Period_Range;
 
 /**
  * Base class for manipulating data tables.
@@ -110,7 +111,7 @@ abstract class Piwik_API_DataTableManipulator
         $request['idSubtable'] = $idSubTable;
         if ($dataTable) {
             $period = $dataTable->metadata['period'];
-            if ($period instanceof Piwik_Period_Range) {
+            if ($period instanceof Period_Range) {
                 $request['date'] = $period->getDateStart().','.$period->getDateEnd();
             } else {
                 $request['date'] = $period->getDateStart()->toString();

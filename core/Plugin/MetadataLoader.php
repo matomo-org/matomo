@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Common;
+use Piwik\PluginsManager;
 
 /**
  * @see core/Version.php
@@ -76,13 +77,13 @@ class Piwik_Plugin_MetadataLoader
     
     private function loadPluginInfoJson()
     {
-        $path = Piwik_PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
+        $path = PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
         return $this->loadJsonMetadata($path);
     }
     
     private function loadPluginColorsJson()
     {
-        $path = Piwik_PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::COLORS_JSON_FILENAME;
+        $path = PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::COLORS_JSON_FILENAME;
         $info = $this->loadJsonMetadata($path);
         $info = $this->cleanAndValidatePluginColorsJson($path, $info);
         return $info;

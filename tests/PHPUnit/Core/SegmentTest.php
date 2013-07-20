@@ -1,6 +1,7 @@
 <?php
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Segment;
 
 /**
  * Piwik - Open source web analytics
@@ -110,7 +111,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
             'bind' => $expected['bind']
         );
 
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
         $sql = $segment->getSelectQuery($select, $from, false);
 
         $this->assertEquals($this->_filterWhitsSpaces($expected), $this->_filterWhitsSpaces($sql));
@@ -134,7 +135,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array(1);
 
         $segment = 'customVariableName1==Test;visitorType==new';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -165,7 +166,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array(1);
 
         $segment = 'customVariablePageName1==Test;visitorType==new';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -197,7 +198,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array(1);
 
         $segment = 'customVariablePageName1==Test;visitorType==new';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -236,7 +237,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array(1);
 
         $segment = 'customVariablePageName1==Test;visitConvertedGoalId==1;customVariablePageName2==Test2';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -268,7 +269,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array(1);
 
         $segment = 'visitConvertedGoalId!=2;customVariablePageName1==Test;visitConvertedGoalId==1';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -300,7 +301,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array(1);
 
         $segment = 'visitConvertedGoalId==1';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -338,7 +339,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array(1);
 
         $segment = 'visitConvertedGoalId==1';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -369,7 +370,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array(1);
 
         $segment = 'visitConvertedGoalId==1,visitServerHour==12';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -404,7 +405,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array();
 
         $segment = 'visitServerHour==12;visitConvertedGoalId==1';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -438,7 +439,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
         $bind = array();
 
         $segment = 'visitConvertedGoalId==1;visitServerHour==12;customVariablePageName1==Test';
-        $segment = new Piwik_Segment($segment, $idSites = array());
+        $segment = new Segment($segment, $idSites = array());
 
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
@@ -483,7 +484,7 @@ class SegmentTest extends PHPUnit_Framework_TestCase
     public function testBogusSegmentThrowsException($segment)
     {
         try {
-            $segment = new Piwik_Segment($segment, $idSites = array());
+            $segment = new Segment($segment, $idSites = array());
         } catch (Exception $e) {
             return;
         }

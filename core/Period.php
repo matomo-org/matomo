@@ -14,7 +14,7 @@ use Piwik\Piwik;
 use Piwik_Date;
 use Piwik_Period_Day;
 use Piwik_Period_Month;
-use Piwik_Period_Range;
+use Piwik\Period_Range;
 use Piwik_Period_Week;
 use Piwik_Period_Year;
 
@@ -106,7 +106,7 @@ abstract class Period
         return
             is_string($dateString)
             && (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
-            || Piwik_Period_Range::parseDateRange($dateString))
+            || Period_Range::parseDateRange($dateString))
             && $period != 'range';
     }
 
@@ -124,7 +124,7 @@ abstract class Period
     static public function advancedFactory($strPeriod, $strDate)
     {
         if (Period::isMultiplePeriod($strDate, $strPeriod) || $strPeriod == 'range') {
-            return new Piwik_Period_Range($strPeriod, $strDate);
+            return new Period_Range($strPeriod, $strDate);
         }
         return Period::factory($strPeriod, Piwik_Date::factory($strDate));
     }
@@ -145,7 +145,7 @@ abstract class Period
         }
 
         if ($period == 'range') {
-            $oPeriod = new Piwik_Period_Range('range', $date, $timezone, Piwik_Date::factory('today', $timezone));
+            $oPeriod = new Period_Range('range', $date, $timezone, Piwik_Date::factory('today', $timezone));
         } else {
             if (!($date instanceof Piwik_Date)) {
                 if ($date == 'now' || $date == 'today') {

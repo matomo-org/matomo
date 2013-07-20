@@ -11,6 +11,7 @@
 use Piwik\Config;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Segment;
 use Piwik\Site;
 
 /**
@@ -92,11 +93,11 @@ abstract class Piwik_ArchiveProcessor
     private $period = null;
 
     /**
-     * @var Piwik_Segment
+     * @var Segment
      */
     private $segment = null;
 
-    public function __construct(Period $period, Site $site, Piwik_Segment $segment)
+    public function __construct(Period $period, Site $site, Segment $segment)
     {
         $this->period = $period;
         $this->site = $site;
@@ -132,7 +133,7 @@ abstract class Piwik_ArchiveProcessor
     }
 
     /**
-     * @return Piwik_Segment
+     * @return Segment
      */
     public function getSegment()
     {
@@ -436,7 +437,7 @@ abstract class Piwik_ArchiveProcessor
         if ($pluginBeingProcessed == $pluginName) {
             return true;
         }
-        if (!Piwik_PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
+        if (!PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
             return true;
         }
         return false;

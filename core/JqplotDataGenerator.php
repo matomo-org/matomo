@@ -10,6 +10,7 @@
  */
 
 use Piwik\Common;
+use Piwik\Metrics;
 
 /**
  * Generates JSON data used to configure and populate JQPlot graphs.
@@ -79,7 +80,7 @@ class Piwik_JqplotDataGenerator
             $offsetStartSummary = $this->properties['graph_limit'] - 1;
             $sortColumn = !empty($this->properties['filter_sort_column'])
                         ? $this->properties['filter_sort_column']
-                        : Piwik_Metrics::INDEX_NB_VISITS;
+                        : Metrics::INDEX_NB_VISITS;
             
             $dataTable->filter(
                 'AddSummaryRow', array($offsetStartSummary, Piwik_Translate('General_Others'), $sortColumn));
@@ -165,7 +166,7 @@ class Piwik_JqplotDataGenerator
         
         $units = array();
         foreach ($this->properties['columns_to_display'] as $columnName) {
-            $derivedUnit = Piwik_Metrics::getUnit($columnName, $idSite);
+            $derivedUnit = Metrics::getUnit($columnName, $idSite);
             $units[$columnName] = empty($derivedUnit) ? false : $derivedUnit;
         }
         return $units;

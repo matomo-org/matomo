@@ -75,7 +75,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     public function ecommerceReport()
     {
-        if (!Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables')) {
+        if (!PluginsManager::getInstance()->isPluginActivated('CustomVariables')) {
             throw new Exception("Ecommerce Tracking requires that the plugin Custom Variables is enabled. Please enable the plugin CustomVariables (or ask your admin).");
         }
 
@@ -294,14 +294,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
         $topDimensionsToLoad = array();
 
-        if (Piwik_PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
+        if (PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
             $topDimensionsToLoad += array(
                 'country' => 'UserCountry.getCountry',
             );
         }
 
         $keywordNotDefinedString = '';
-        if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')) {
+        if (PluginsManager::getInstance()->isPluginActivated('Referers')) {
             $keywordNotDefinedString = Piwik_Referers_API::getKeywordNotDefinedString();
             $topDimensionsToLoad += array(
                 'keyword' => 'Referers.getKeywords',

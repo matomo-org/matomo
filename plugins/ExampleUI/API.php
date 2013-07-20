@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
  */
+use Piwik\Period_Range;
 
 /**
  * ExampleUI API is also an example API useful if you are developing a Piwik plugin.
@@ -31,7 +32,7 @@ class Piwik_ExampleUI_API
 
     public function getTemperaturesEvolution($date, $period)
     {
-        $period = new Piwik_Period_Range($period, 'last30');
+        $period = new Period_Range($period, 'last30');
         $dateStart = $period->getDateStart()->toString('Y-m-d'); // eg. "2009-04-01"
         $dateEnd = $period->getDateEnd()->toString('Y-m-d'); // eg. "2009-04-30"
 

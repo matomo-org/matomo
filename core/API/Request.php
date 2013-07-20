@@ -137,7 +137,7 @@ class Piwik_API_Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
-            if (!Piwik_PluginsManager::getInstance()->isPluginActivated($module)) {
+            if (!PluginsManager::getInstance()->isPluginActivated($module)) {
                 throw new Piwik_FrontController_PluginDeactivatedException($module);
             }
             $moduleClass = "Piwik_" . $module . "_API";

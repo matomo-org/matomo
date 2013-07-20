@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Metrics;
 
 /**
  * Sort the DataTable based on the value of column $columnToSort ordered by $order.
@@ -151,8 +152,8 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
             return $this->columnToSort;
         }
 
-        $columnIdToName = Piwik_Metrics::getMappingFromIdToName();
-        // sorting by "nb_visits" but the index is Piwik_Metrics::INDEX_NB_VISITS in the table
+        $columnIdToName = Metrics::getMappingFromIdToName();
+        // sorting by "nb_visits" but the index is Metrics::INDEX_NB_VISITS in the table
         if (isset($columnIdToName[$this->columnToSort])) {
             $column = $columnIdToName[$this->columnToSort];
             $value = $row->getColumn($column);
@@ -164,7 +165,7 @@ class Piwik_DataTable_Filter_Sort extends Piwik_DataTable_Filter
 
         // eg. was previously sorted by revenue_per_visit, but this table
         // doesn't have this column; defaults with nb_visits
-        $column = Piwik_Metrics::INDEX_NB_VISITS;
+        $column = Metrics::INDEX_NB_VISITS;
         $value = $row->getColumn($column);
         if ($value !== false) {
             return $column;

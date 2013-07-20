@@ -9,11 +9,14 @@
  * @package Piwik
  */
 
+namespace Piwik;
+use Exception;
+
 /**
  *
  * @package Piwik
  */
-class Piwik_SegmentExpression
+class SegmentExpression
 {
     const AND_DELIMITER = ';';
     const OR_DELIMITER = ',';
@@ -88,9 +91,9 @@ class Piwik_SegmentExpression
 
             // is null / is not null
             if ($valueRightMember === '') {
-                if($operation == self::MATCH_NOT_EQUAL) {
+                if ($operation == self::MATCH_NOT_EQUAL) {
                     $operation = self::MATCH_IS_NOT_NULL_NOR_EMPTY;
-                } elseif($operation == self::MATCH_EQUAL) {
+                } elseif ($operation == self::MATCH_EQUAL) {
                     $operation = self::MATCH_IS_NULL_OR_EMPTY;
                 } else {
                     throw new Exception('The segment \'' . $operand . '\' has no value specified. You can leave this value empty ' .
@@ -205,12 +208,12 @@ class Piwik_SegmentExpression
                 break;
 
             case self::MATCH_IS_NOT_NULL_NOR_EMPTY:
-                $sqlMatch = 'IS NOT NULL AND ('.$field.' <> \'\' OR '.$field.' = 0)';
+                $sqlMatch = 'IS NOT NULL AND (' . $field . ' <> \'\' OR ' . $field . ' = 0)';
                 $value = null;
                 break;
 
             case self::MATCH_IS_NULL_OR_EMPTY:
-                $sqlMatch = 'IS NULL OR '.$field.' = \'\' ';
+                $sqlMatch = 'IS NULL OR ' . $field . ' = \'\' ';
                 $value = null;
                 break;
 
@@ -218,7 +221,7 @@ class Piwik_SegmentExpression
                 // this match type is not accessible from the outside
                 // (it won't be matched in self::parseSubExpressions())
                 // it can be used internally to inject sub-expressions into the query.
-                // see Piwik_Segment::getCleanedExpression()
+                // see Segment::getCleanedExpression()
                 $sqlMatch = 'IN (' . $value['SQL'] . ')';
                 $value = $this->escapeLikeString($value['bind']);
                 break;
@@ -231,10 +234,11 @@ class Piwik_SegmentExpression
         $alsoMatchNULLValues = $alsoMatchNULLValues && !empty($value);
 
         if ($matchType === self::MATCH_ACTIONS_CONTAINS
-            || is_null($value)) {
+            || is_null($value)
+        ) {
             $sqlExpression = "( $field $sqlMatch )";
         } else {
-            if($alsoMatchNULLValues) {
+            if ($alsoMatchNULLValues) {
                 $sqlExpression = "( $field IS NULL OR $field $sqlMatch ? )";
             } else {
                 $sqlExpression = "$field $sqlMatch ?";
@@ -260,7 +264,7 @@ class Piwik_SegmentExpression
         $table = count($fieldParts) == 2 ? $fieldParts[0] : false;
 
         // remove sql functions from field name
-        // example: `HOUR(log_visit.visit_last_action_time)` gets `HOUR(log_visit` => remove `HOUR(` 
+        // example: `HOUR(log_visit.visit_last_action_time)` gets `HOUR(log_visit` => remove `HOUR(`
         $table = preg_replace('/^[A-Z_]+\(/', '', $table);
         $tableExists = !$table || in_array($table, $availableTables);
 

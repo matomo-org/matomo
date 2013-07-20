@@ -9,7 +9,9 @@
  * @package Piwik
  */
 use Piwik\Config;
+use Piwik\Metrics;
 use Piwik\Period;
+use Piwik\Period_Range;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Site;
@@ -175,8 +177,8 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['filter_sort_order'] = false;
         $this->viewProperties['custom_parameters'] = array();
         $this->viewProperties['translations'] = array_merge(
-            Piwik_Metrics::getDefaultMetrics(),
-            Piwik_Metrics::getDefaultProcessedMetrics()
+            Metrics::getDefaultMetrics(),
+            Metrics::getDefaultProcessedMetrics()
         );
         $this->viewProperties['request_parameters_to_modify'] = array();
         $this->viewProperties['columns_to_display'] = array();
@@ -375,7 +377,7 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
         $this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
         
-        if (!Piwik_PluginsManager::getInstance()->isPluginActivated('Goals')) {
+        if (!PluginsManager::getInstance()->isPluginActivated('Goals')) {
             $this->viewProperties['show_goals'] = false;
         }
         
@@ -838,8 +840,8 @@ abstract class Piwik_ViewDataTable
             // which can be different from the one specified (eg. if the column doesn't exist)
             $javascriptVariablesToSet['filter_sort_column'] = $this->dataTable->getSortedByColumnName();
             // datatable can return "2" but we want to write "nb_visits" in the js
-            if (isset(Piwik_Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']])) {
-                $javascriptVariablesToSet['filter_sort_column'] = Piwik_Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']];
+            if (isset(Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']])) {
+                $javascriptVariablesToSet['filter_sort_column'] = Metrics::$mappingFromIdToName[$javascriptVariablesToSet['filter_sort_column']];
             }
         }
 
@@ -1059,7 +1061,7 @@ abstract class Piwik_ViewDataTable
      */
     public function showAnnotationsView()
     {
-        if (!Piwik_PluginsManager::getInstance()->isPluginLoaded('Annotations')) {
+        if (!PluginsManager::getInstance()->isPluginLoaded('Annotations')) {
             return;
         }
 
@@ -1111,7 +1113,7 @@ abstract class Piwik_ViewDataTable
      */
     public function enableShowGoals()
     {
-        if (Piwik_PluginsManager::getInstance()->isPluginActivated('Goals')) {
+        if (PluginsManager::getInstance()->isPluginActivated('Goals')) {
             $this->viewProperties['show_goals'] = true;
         }
     }
@@ -1185,7 +1187,7 @@ abstract class Piwik_ViewDataTable
     /**
      * Sets the dataTable column to sort by. This sorting will be applied before applying the (offset, limit) filter.
      *
-     * @param int|string $columnId eg. 'nb_visits' for some tables, or Piwik_Metrics::INDEX_NB_VISITS for others
+     * @param int|string $columnId eg. 'nb_visits' for some tables, or Metrics::INDEX_NB_VISITS for others
      * @param string $order desc or asc
      */
     public function setSortedColumn($columnId, $order = 'desc')
@@ -1535,7 +1537,7 @@ abstract class Piwik_ViewDataTable
                     $timezone = 'UTC';
                 }
 
-                $period = new Piwik_Period_Range('range', $strDate, $timezone);
+                $period = new Period_Range('range', $strDate, $timezone);
                 $reportDate = $period->getDateStart();
             } // if a multiple period, this function is irrelevant
             else if (Period::isMultiplePeriod($strDate, $strPeriod)) {
@@ -1631,8 +1633,8 @@ abstract class Piwik_ViewDataTable
             foreach ($columns as $column) {
                 // check for the column name and its associated integer INDEX_ value
                 if ($column == $columnToCheckFor
-                    || (isset(Piwik_Metrics::$mappingFromNameToId[$columnToCheckFor])
-                        && $column == Piwik_Metrics::$mappingFromNameToId[$columnToCheckFor])
+                    || (isset(Metrics::$mappingFromNameToId[$columnToCheckFor])
+                        && $column == Metrics::$mappingFromNameToId[$columnToCheckFor])
                 ) {
                     return true;
                 }

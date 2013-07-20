@@ -20,8 +20,8 @@ class PDFReportsTest extends DatabaseTestCase
 
         // setup the access layer
         self::setSuperUser();
-        Piwik_PluginsManager::getInstance()->loadPlugins(array('API', 'UserCountry', 'PDFReports', 'MobileMessaging'));
-        Piwik_PluginsManager::getInstance()->installLoadedPlugins();
+        PluginsManager::getInstance()->loadPlugins(array('API', 'UserCountry', 'PDFReports', 'MobileMessaging'));
+        PluginsManager::getInstance()->installLoadedPlugins();
 
         Piwik_SitesManager_API::getInstance()->addSite("Test", array("http://piwik.net"));
 
@@ -194,7 +194,7 @@ class PDFReportsTest extends DatabaseTestCase
     public function testGetTopMenuTranslationKeyMobileMessagingInactive()
     {
         // unload MobileMessaging plugin
-        Piwik_PluginsManager::getInstance()->loadPlugins(array('PDFReports'));
+        PluginsManager::getInstance()->loadPlugins(array('PDFReports'));
 
         $pdfReportPlugin = new Piwik_PDFReports();
         $this->assertEquals(

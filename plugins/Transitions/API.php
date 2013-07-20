@@ -8,9 +8,12 @@
  * @category Piwik_Plugins
  * @package Piwik_Transitions
  */
+use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Segment;
+use Piwik\SegmentExpression;
 use Piwik\Site;
 
 /**
@@ -66,7 +69,7 @@ class Piwik_Transitions_API
         }
 
         // prepare archive processing that can be used by the archiving code
-        $segment = new Piwik_Segment($segment, $idSite);
+        $segment = new Segment($segment, $idSite);
         $site = new Site($idSite);
         $period = Period::advancedFactory($period, $date);
         $archiveProcessor = new Piwik_ArchiveProcessor_Day($period, $site, $segment);
@@ -110,9 +113,9 @@ class Piwik_Transitions_API
         );
         foreach ($reportNames as $reportName => $replaceLabel) {
             if (isset($report[$reportName])) {
-                $columnNames = array(Piwik_Metrics::INDEX_NB_ACTIONS => 'referrals');
+                $columnNames = array(Metrics::INDEX_NB_ACTIONS => 'referrals');
                 if ($replaceLabel) {
-                    $columnNames[Piwik_Metrics::INDEX_NB_ACTIONS] = 'referrals';
+                    $columnNames[Metrics::INDEX_NB_ACTIONS] = 'referrals';
                 }
                 $report[$reportName]->filter('ReplaceColumnNames', array($columnNames));
             }
@@ -131,25 +134,25 @@ class Piwik_Transitions_API
             case 'url':
                 $originalActionName = $actionName;
                 $actionName = Common::unsanitizeInputValue($actionName);
-                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', Piwik_SegmentExpression::MATCH_EQUAL, 'pageUrl');
+                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', SegmentExpression::MATCH_EQUAL, 'pageUrl');
 
                 if ($id < 0) {
                     // an example where this is needed is urls containing < or >
                     $actionName = $originalActionName;
-                    $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', Piwik_SegmentExpression::MATCH_EQUAL, 'pageUrl');
+                    $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_url', SegmentExpression::MATCH_EQUAL, 'pageUrl');
                 }
 
                 return $id;
 
             case 'title':
-                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name', Piwik_SegmentExpression::MATCH_EQUAL, 'pageTitle');
+                $id = $actionsPlugin->getIdActionFromSegment($actionName, 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
 
                 if ($id < 0) {
                     $unknown = Piwik_Actions_ArchivingHelper::getUnknownActionName(
                         Piwik_Tracker_Action::TYPE_ACTION_NAME);
 
                     if (trim($actionName) == trim($unknown)) {
-                        $id = $actionsPlugin->getIdActionFromSegment('', 'idaction_name', Piwik_SegmentExpression::MATCH_EQUAL, 'pageTitle');
+                        $id = $actionsPlugin->getIdActionFromSegment('', 'idaction_name', SegmentExpression::MATCH_EQUAL, 'pageTitle');
                     }
                 }
 
@@ -287,7 +290,7 @@ class Piwik_Transitions_API
                 . 'log_link_visit_action.idaction_' . $type . ' != ' . intval($idaction) . ')';
         }
 
-        $metrics = array(Piwik_Metrics::INDEX_NB_ACTIONS);
+        $metrics = array(Metrics::INDEX_NB_ACTIONS);
         $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionColumn);
 
         $this->totalTransitionsToFollowingActions = 0;
@@ -296,11 +299,11 @@ class Piwik_Transitions_API
             $dataTable = new Piwik_DataTable;
             if (isset($data[$type])) {
                 foreach ($data[$type] as &$record) {
-                    $actions = intval($record[Piwik_Metrics::INDEX_NB_ACTIONS]);
+                    $actions = intval($record[Metrics::INDEX_NB_ACTIONS]);
                     $dataTable->addRow(new Piwik_DataTable_Row(array(
                                                                     Piwik_DataTable_Row::COLUMNS => array(
                                                                         'label'                         => $this->getPageLabel($record, $isTitle),
-                                                                        Piwik_Metrics::INDEX_NB_ACTIONS => $actions
+                                                                        Metrics::INDEX_NB_ACTIONS => $actions
                                                                     )
                                                                )));
                     $this->totalTransitionsToFollowingActions += $actions;
@@ -362,14 +365,14 @@ class Piwik_Transitions_API
         $type = $this->getColumnTypeSuffix($actionType);
         $where = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
 
-        $metrics = array(Piwik_Metrics::INDEX_NB_VISITS);
+        $metrics = array(Metrics::INDEX_NB_VISITS);
         $data = $logAggregator->queryVisitsByDimension($dimensions, $where, $selects, $metrics, $rankingQuery);
 
         $referrerData = array();
         $referrerSubData = array();
 
         foreach ($data as $referrerType => &$subData) {
-            $referrerData[$referrerType] = array(Piwik_Metrics::INDEX_NB_VISITS => 0);
+            $referrerData[$referrerType] = array(Metrics::INDEX_NB_VISITS => 0);
             if ($referrerType != Common::REFERER_TYPE_DIRECT_ENTRY) {
                 $referrerSubData[$referrerType] = array();
             }
@@ -379,12 +382,12 @@ class Piwik_Transitions_API
                     $row['referrer_data'] = Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED;
                 }
 
-                $referrerData[$referrerType][Piwik_Metrics::INDEX_NB_VISITS] += $row[Piwik_Metrics::INDEX_NB_VISITS];
+                $referrerData[$referrerType][Metrics::INDEX_NB_VISITS] += $row[Metrics::INDEX_NB_VISITS];
 
                 $label = $row['referrer_data'];
                 if ($label) {
                     $referrerSubData[$referrerType][$label] = array(
-                        Piwik_Metrics::INDEX_NB_VISITS => $row[Piwik_Metrics::INDEX_NB_VISITS]
+                        Metrics::INDEX_NB_VISITS => $row[Metrics::INDEX_NB_VISITS]
                     );
                 }
             }
@@ -443,7 +446,7 @@ class Piwik_Transitions_API
         } else {
             $joinLogActionOn = $dimension;
         }
-        $metrics = array(Piwik_Metrics::INDEX_NB_ACTIONS);
+        $metrics = array(Metrics::INDEX_NB_ACTIONS);
         $data = $logAggregator->queryActionsByDimension(array($dimension), $where, $selects, $metrics, $rankingQuery, $joinLogActionOn);
 
         $loops = 0;
@@ -451,11 +454,11 @@ class Piwik_Transitions_API
         $previousPagesDataTable = new Piwik_DataTable;
         if (isset($data['result'][1])) {
             foreach ($data['result'][1] as &$page) {
-                $nbActions = intval($page[Piwik_Metrics::INDEX_NB_ACTIONS]);
+                $nbActions = intval($page[Metrics::INDEX_NB_ACTIONS]);
                 $previousPagesDataTable->addRow(new Piwik_DataTable_Row(array(
                                                                              Piwik_DataTable_Row::COLUMNS => array(
                                                                                  'label'                         => $this->getPageLabel($page, $isTitle),
-                                                                                 Piwik_Metrics::INDEX_NB_ACTIONS => $nbActions
+                                                                                 Metrics::INDEX_NB_ACTIONS => $nbActions
                                                                              )
                                                                         )));
                 $nbPageviews += $nbActions;
@@ -465,11 +468,11 @@ class Piwik_Transitions_API
         $previousSearchesDataTable = new Piwik_DataTable;
         if (isset($data['result'][2])) {
             foreach ($data['result'][2] as &$search) {
-                $nbActions = intval($search[Piwik_Metrics::INDEX_NB_ACTIONS]);
+                $nbActions = intval($search[Metrics::INDEX_NB_ACTIONS]);
                 $previousSearchesDataTable->addRow(new Piwik_DataTable_Row(array(
                                                                                 Piwik_DataTable_Row::COLUMNS => array(
                                                                                     'label'                         => $search['name'],
-                                                                                    Piwik_Metrics::INDEX_NB_ACTIONS => $nbActions
+                                                                                    Metrics::INDEX_NB_ACTIONS => $nbActions
                                                                                 )
                                                                            )));
                 $nbPageviews += $nbActions;
@@ -478,12 +481,12 @@ class Piwik_Transitions_API
 
         if (isset($data['result'][0])) {
             foreach ($data['result'][0] as &$referrer) {
-                $nbPageviews += intval($referrer[Piwik_Metrics::INDEX_NB_ACTIONS]);
+                $nbPageviews += intval($referrer[Metrics::INDEX_NB_ACTIONS]);
             }
         }
 
         if (count($data['excludedFromLimit'])) {
-            $loops += intval($data['excludedFromLimit'][0][Piwik_Metrics::INDEX_NB_ACTIONS]);
+            $loops += intval($data['excludedFromLimit'][0][Metrics::INDEX_NB_ACTIONS]);
             $nbPageviews += $loops;
         }
 
@@ -555,7 +558,7 @@ class Piwik_Transitions_API
         $report['referrers'] = array();
         foreach ($data->getRows() as $row) {
             $referrerId = $row->getColumn('label');
-            $visits = $row->getColumn(Piwik_Metrics::INDEX_NB_VISITS);
+            $visits = $row->getColumn(Metrics::INDEX_NB_VISITS);
             if ($visits) {
                 // load details (i.e. subtables)
                 $details = array();
@@ -564,7 +567,7 @@ class Piwik_Transitions_API
                     foreach ($subTable->getRows() as $subRow) {
                         $details[] = array(
                             'label'     => $subRow->getColumn('label'),
-                            'referrals' => $subRow->getColumn(Piwik_Metrics::INDEX_NB_VISITS)
+                            'referrals' => $subRow->getColumn(Metrics::INDEX_NB_VISITS)
                         );
                     }
                 }

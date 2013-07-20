@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
@@ -119,7 +120,7 @@ class Piwik_API_API
      */
     static public function getDefaultMetricTranslations()
     {
-        return Piwik_Metrics::getDefaultMetricTranslations();
+        return Metrics::getDefaultMetricTranslations();
     }
 
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true)

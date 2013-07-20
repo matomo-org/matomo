@@ -9,6 +9,8 @@
  * @package Piwik_DevicesDetection
  */
 
+use Piwik\Metrics;
+
 class Piwik_DevicesDetection_Archiver extends Piwik_PluginsArchiver
 {
     const DEVICE_TYPE_RECORD_NAME = 'DevicesDetection_types';
@@ -42,7 +44,7 @@ class Piwik_DevicesDetection_Archiver extends Piwik_PluginsArchiver
     {
         $metrics = $this->getProcessor()->getMetricsForDimension($labelSQL);
         $table = $this->getProcessor()->getDataTableFromDataArray($metrics);
-        $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Piwik_Metrics::INDEX_NB_VISITS));
+        $this->getProcessor()->insertBlobRecord($recordName, $table->getSerialized($this->maximumRows, null, Metrics::INDEX_NB_VISITS));
     }
 
     public function archivePeriod()

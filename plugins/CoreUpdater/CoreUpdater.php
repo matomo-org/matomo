@@ -32,7 +32,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
     public static function getComponentUpdates(Piwik_Updater $updater)
     {
         $updater->addComponentToCheck('core', Piwik_Version::VERSION);
-        $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+        $plugins = PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $pluginName => $plugin) {
             $updater->addComponentToCheck($pluginName, $plugin->getVersion());
         }

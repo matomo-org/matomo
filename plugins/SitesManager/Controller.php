@@ -62,7 +62,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 
         $view->globalSearchKeywordParameters = Piwik_SitesManager_API::getInstance()->getSearchKeywordParametersGlobal();
         $view->globalSearchCategoryParameters = Piwik_SitesManager_API::getInstance()->getSearchCategoryParametersGlobal();
-        $view->isSearchCategoryTrackingEnabled = Piwik_PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+        $view->isSearchCategoryTrackingEnabled = PluginsManager::getInstance()->isPluginActivated('CustomVariables');
         $view->allowSiteSpecificUserAgentExclude =
             Piwik_SitesManager_API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
 

@@ -9,6 +9,8 @@
  * @package Piwik_VisitorInterest
  */
 
+use Piwik\Metrics;
+
 class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
 {
     // third element is unit (s for seconds, default is munutes)
@@ -107,7 +109,7 @@ class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
         $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = false, $selects, array());
         $row = $query->fetch();
         foreach($prefixes as $recordName => $selectAsPrefix) {
-            $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Piwik_Metrics::INDEX_NB_VISITS, $selectAsPrefix);
+            $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_VISITS, $selectAsPrefix);
             $dataTable = Piwik_DataTable::makeFromIndexedArray($cleanRow);
             $this->getProcessor()->insertBlobRecord($recordName, $dataTable->getSerialized());
         }

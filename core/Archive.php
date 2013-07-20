@@ -10,6 +10,7 @@
  */
 namespace Piwik;
 use Piwik\Piwik;
+use Piwik\Metrics;
 
 /**
  * The archive object is used to query specific data for a day or a period of statistics for a given website.
@@ -92,16 +93,16 @@ class Archive
     private $forceIndexedByDate;
 
     /**
-     * @var Piwik_Archive_Parameters
+     * @var Archive_Parameters
      */
     private $params;
 
     /**
-     * @param Piwik_Archive_Parameters $params
+     * @param Archive_Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
-    protected function __construct(Piwik_Archive_Parameters $params, $forceIndexedBySite = false,
+    protected function __construct(Archive_Parameters $params, $forceIndexedBySite = false,
                                    $forceIndexedByDate = false)
     {
         $this->params = $params;
@@ -125,20 +126,20 @@ class Archive
         $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
 
         if (Period::isMultiplePeriod($strDate, $period)) {
-            $oPeriod = new Piwik_Period_Range($period, $strDate);
+            $oPeriod = new Period_Range($period, $strDate);
             $allPeriods = $oPeriod->getSubperiods();
         } else {
             $timezone = count($websiteIds) == 1 ? Site::getTimezoneFor($websiteIds[0]) : false;
             $oPeriod = Period::makePeriodFromQueryParams($timezone, $period, $strDate);
             $allPeriods = array($oPeriod);
         }
-        $segment = new Piwik_Segment($segment, $websiteIds);
+        $segment = new Segment($segment, $websiteIds);
         $idSiteIsAll = $idSites == self::REQUEST_ALL_WEBSITES_FLAG;
         $isMultipleDate = Period::isMultiplePeriod($strDate, $period);
         return Archive::factory($segment, $allPeriods, $websiteIds, $idSiteIsAll, $isMultipleDate);
     }
 
-    public static function factory(Piwik_Segment $segment, array $periods, $idSites, $idSiteIsAll = false, $isMultipleDate = false)
+    public static function factory(Segment $segment, array $periods, $idSites, $idSiteIsAll = false, $isMultipleDate = false)
     {
         $forceIndexedBySite = false;
         $forceIndexedByDate = false;
@@ -149,7 +150,7 @@ class Archive
             $forceIndexedByDate = true;
         }
 
-        $params = new Piwik_Archive_Parameters();
+        $params = new Archive_Parameters();
         $params->setIdSites($idSites);
         $params->setPeriods($periods);
         $params->setSegment($segment);
@@ -314,7 +315,7 @@ class Archive
      * @param array|string $archiveNames
      * @param $archiveDataType
      * @param null|int $idSubtable
-     * @return Piwik_Archive_DataCollection
+     * @return Archive_DataCollection
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
@@ -331,7 +332,7 @@ class Archive
             }
         }
 
-        $result = new Piwik_Archive_DataCollection(
+        $result = new Archive_DataCollection(
             $archiveNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
@@ -412,7 +413,7 @@ class Archive
     }
 
     /**
-     * @return Piwik_Archive_Parameters
+     * @return Archive_Parameters
      */
     public function getParams()
     {
@@ -528,7 +529,7 @@ class Archive
 
     /**
      * Returns an array describing what metadata to use when indexing a query result.
-     * For use with Piwik_Archive_DataCollection.
+     * For use with Archive_DataCollection.
      *
      * @return array
      */
@@ -627,7 +628,7 @@ class Archive
     public static function getPluginForReport($report)
     {
         // Core metrics are always processed in Core, for the requested date/period/segment
-        if (in_array($report, Piwik_Metrics::getVisitsMetricNames())) {
+        if (in_array($report, Metrics::getVisitsMetricNames())) {
             $report = 'VisitsSummary_CoreMetrics';
         } // Goal_* metrics are processed by the Goals plugin (HACK)
         else if (strpos($report, 'Goal_') === 0) {

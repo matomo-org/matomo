@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
+use Piwik\Metrics;
+use Piwik\Period_Range;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -49,7 +51,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
         }
 
         // calculate evolution for visit metrics & distinct metrics
-        list($lastPeriodDate, $ignore) = Piwik_Period_Range::getLastDate();
+        list($lastPeriodDate, $ignore) = Period_Range::getLastDate();
         if ($lastPeriodDate !== false) {
             $date = Common::getRequestVar('date');
             $period = Common::getRequestVar('period');
@@ -439,7 +441,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
             $value = 0;
             $row = $dataTableReferersType->getRowFromLabel($columnId);
             if ($row !== false) {
-                $value = $row->getColumn(Piwik_Metrics::INDEX_NB_VISITS);
+                $value = $row->getColumn(Metrics::INDEX_NB_VISITS);
             }
             $return[$nameVar] = $value;
         }

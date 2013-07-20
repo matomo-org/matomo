@@ -74,7 +74,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function installAndLoadPlugins($installPlugins)
     {
-        $pluginsManager = Piwik_PluginsManager::getInstance();
+        $pluginsManager = PluginsManager::getInstance();
         $plugins = $pluginsManager->readPluginsDirectory();
 
         $pluginsManager->loadPlugins($plugins);
@@ -86,7 +86,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function loadAllPlugins()
     {
-        $pluginsManager = Piwik_PluginsManager::getInstance();
+        $pluginsManager = PluginsManager::getInstance();
         $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
         $pluginsToLoad[] = 'DevicesDetection';
         
@@ -96,11 +96,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function unloadAllPlugins()
     {
         try {
-            $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+            $plugins = PluginsManager::getInstance()->getLoadedPlugins();
             foreach ($plugins AS $plugin) {
                 $plugin->uninstall();
             }
-            Piwik_PluginsManager::getInstance()->unloadPlugins();
+            PluginsManager::getInstance()->unloadPlugins();
         } catch (Exception $e) {
         }
     }
@@ -156,7 +156,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Piwik::createTables();
             Piwik::createLogObject();
 
-            Piwik_PluginsManager::getInstance()->loadPlugins(array());
+            PluginsManager::getInstance()->loadPlugins(array());
         } catch (Exception $e) {
             self::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
@@ -205,7 +205,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Piwik::$piwikUrlCache = null;
         IntegrationTestCase::unloadAllPlugins();
 /*
-        $plugins = Piwik_PluginsManager::getInstance()->getLoadedPlugins();
+        $plugins = PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins AS $plugin) {
             if ($dropDatabase) {
                 try {
@@ -215,7 +215,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 }
             }
         }
-        Piwik_PluginsManager::getInstance()->unloadPlugins();*/
+        PluginsManager::getInstance()->unloadPlugins();*/
         if ($dropDatabase) {
             Piwik::dropDatabase();
         }

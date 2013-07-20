@@ -9,6 +9,7 @@
  * @package Piwik_Annotations
  */
 use Piwik\Period;
+use Piwik\Period_Range;
 use Piwik\Piwik;
 
 /**
@@ -317,7 +318,7 @@ class Piwik_Annotations_API
             || $period == 'range'
         ) {
             if ($period == 'range') {
-                $oPeriod = new Piwik_Period_Range('day', $date);
+                $oPeriod = new Period_Range('day', $date);
             } else {
                 $oPeriod = Period::factory($period, Piwik_Date::factory($date));
             }

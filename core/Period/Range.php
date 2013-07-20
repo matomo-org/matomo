@@ -8,8 +8,13 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+use Exception;
 use Piwik\Common;
 use Piwik\Period;
+use Piwik_Date;
+use Piwik_Period_Month;
+use Piwik_Period_Week;
 
 /**
  * from a starting date to an ending date
@@ -17,7 +22,7 @@ use Piwik\Period;
  * @package Piwik
  * @subpackage Period
  */
-class Piwik_Period_Range extends Period
+class Period_Range extends Period
 {
     protected $label = 'range';
 
@@ -196,7 +201,7 @@ class Piwik_Period_Range extends Period
             $lastN = abs($lastN);
 
             $startDate = self::removePeriod($period, $endDate, $lastN);
-        } elseif ($dateRange = Piwik_Period_Range::parseDateRange($this->strDate)) {
+        } elseif ($dateRange = Period_Range::parseDateRange($this->strDate)) {
             $strDateStart = $dateRange[1];
             $strDateEnd = $dateRange[2];
             $startDate = Piwik_Date::factory($strDateStart);
@@ -370,14 +375,14 @@ class Piwik_Period_Range extends Period
         if ($period != 'range' && !preg_match('/(last|previous)([0-9]*)/', $date, $regs)) {
             if (strpos($date, ',')) // date in the form of 2011-01-01,2011-02-02
             {
-                $rangePeriod = new Piwik_Period_Range($period, $date);
+                $rangePeriod = new Period_Range($period, $date);
 
-                $lastStartDate = Piwik_Period_Range::removePeriod($period, $rangePeriod->getDateStart(), $n = 1);
-                $lastEndDate = Piwik_Period_Range::removePeriod($period, $rangePeriod->getDateEnd(), $n = 1);
+                $lastStartDate = Period_Range::removePeriod($period, $rangePeriod->getDateStart(), $n = 1);
+                $lastEndDate = Period_Range::removePeriod($period, $rangePeriod->getDateEnd(), $n = 1);
 
                 $strLastDate = "$lastStartDate,$lastEndDate";
             } else {
-                $lastPeriod = Piwik_Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1);
+                $lastPeriod = Period_Range::removePeriod($period, Piwik_Date::factory($date), $n = 1);
                 $strLastDate = $lastPeriod->toString();
             }
         }

@@ -10,8 +10,10 @@
  */
 use Piwik\Config;
 use Piwik\Period;
+use Piwik\Period_Range;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Segment;
 use Piwik\Site;
 
 /**
@@ -83,7 +85,7 @@ class Piwik_Live_API
             Piwik_Date::factory(time() - $lastMinutes * 60)->toString('Y-m-d H:i:s')
         );
 
-        $segment = new Piwik_Segment($segment, $idSite);
+        $segment = new Segment($segment, $idSite);
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
         $data = Piwik_FetchAll($query['sql'], $query['bind']);
@@ -352,8 +354,8 @@ class Piwik_Live_API
 
             $dateString = $date;
             if ($period == 'range') {
-                $processedPeriod = new Piwik_Period_Range('range', $date);
-                if ($parsedDate = Piwik_Period_Range::parseDateRange($date)) {
+                $processedPeriod = new Period_Range('range', $date);
+                if ($parsedDate = Period_Range::parseDateRange($date)) {
                     $dateString = $parsedDate[2];
                 }
             } else {
@@ -389,7 +391,7 @@ class Piwik_Live_API
             $where = false;
         }
 
-        $segment = new Piwik_Segment($segment, $idSite);
+        $segment = new Segment($segment, $idSite);
 
         // Subquery to use the indexes for ORDER BY
         $select = "log_visit.*";

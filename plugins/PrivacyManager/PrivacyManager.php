@@ -9,6 +9,7 @@
  * @package Piwik_PrivacyManager
  */
 use Piwik\Config;
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -145,7 +146,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
      */
     public static function savePurgeDataSettings($settings)
     {
-        $plugin = Piwik_PluginsManager::getInstance()->getLoadedPlugin('PrivacyManager');
+        $plugin = PluginsManager::getInstance()->getLoadedPlugin('PrivacyManager');
 
         foreach (self::$defaultPurgeDataOptions as $optionName => $defaultValue) {
             if (isset($settings[$optionName])) {
@@ -318,7 +319,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
     private static function getGoalMetricsToKeep()
     {
         // keep all goal metrics
-        return array_values(Piwik_Metrics::$mappingFromIdToNameGoal);
+        return array_values(Metrics::$mappingFromIdToNameGoal);
     }
 
     /**

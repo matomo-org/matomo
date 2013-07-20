@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Segment;
 
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.a
@@ -42,7 +43,7 @@ class Piwik_SegmentEditor_API
         $definition = str_replace("&", '%26', $definition);
 
         try {
-            $segment = new Piwik_Segment($definition, $idSite);
+            $segment = new Segment($definition, $idSite);
             $segment->getHash();
         } catch (Exception $e) {
             throw new Exception("The specified segment is invalid: " . $e->getMessage());

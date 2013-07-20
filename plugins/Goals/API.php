@@ -9,6 +9,7 @@
  * @package Piwik_Goals
  */
 use Piwik\Archive;
+use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Site;
@@ -215,14 +216,14 @@ class Piwik_Goals_API
         $archive = Archive::build($idSite, $period, $date);
         $dataTable = $archive->getDataTable($recordNameFinal);
         
-        $dataTable->filter('Sort', array(Piwik_Metrics::INDEX_ECOMMERCE_ITEM_REVENUE));
+        $dataTable->filter('Sort', array(Metrics::INDEX_ECOMMERCE_ITEM_REVENUE));
         $dataTable->queueFilter('ReplaceColumnNames');
         $dataTable->queueFilter('ReplaceSummaryRowLabel');
 
         $ordersColumn = 'orders';
         if ($abandonedCarts) {
             $ordersColumn = 'abandoned_carts';
-            $dataTable->renameColumn(Piwik_Metrics::INDEX_ECOMMERCE_ORDERS, $ordersColumn);
+            $dataTable->renameColumn(Metrics::INDEX_ECOMMERCE_ORDERS, $ordersColumn);
         }
 
         // Average price = sum product revenue / quantity
@@ -308,15 +309,15 @@ class Piwik_Goals_API
             // If there is not already a 'sum price' for this product
             $rowFound = $dataTable->getRowFromLabel($rowView->getColumn('label'));
             $price = $rowFound
-                ? $rowFound->getColumn(Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE)
+                ? $rowFound->getColumn(Metrics::INDEX_ECOMMERCE_ITEM_PRICE)
                 : false;
             if (empty($price)) {
                 // If a price was tracked on the product page
-                if ($rowView->getColumn(Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED)) {
-                    $rowView->renameColumn(Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED, 'avg_price');
+                if ($rowView->getColumn(Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED)) {
+                    $rowView->renameColumn(Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED, 'avg_price');
                 }
             }
-            $rowView->deleteColumn(Piwik_Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED);
+            $rowView->deleteColumn(Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED);
         }
 
         $dataTable->addDataTable($ecommerceViews);

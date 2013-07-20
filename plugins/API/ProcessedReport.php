@@ -1,4 +1,5 @@
 <?php
+use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -77,10 +78,10 @@ class Piwik_API_ProcessedReport
         Piwik_PostEvent('API.getReportMetadata', array(&$availableReports, $parameters));
         foreach ($availableReports as &$availableReport) {
             if (!isset($availableReport['metrics'])) {
-                $availableReport['metrics'] = Piwik_Metrics::getDefaultMetrics();
+                $availableReport['metrics'] = Metrics::getDefaultMetrics();
             }
             if (!isset($availableReport['processedMetrics'])) {
-                $availableReport['processedMetrics'] = Piwik_Metrics::getDefaultProcessedMetrics();
+                $availableReport['processedMetrics'] = Metrics::getDefaultProcessedMetrics();
             }
 
             if ($hideMetricsDoc) // remove metric documentation if it's not wanted
@@ -88,7 +89,7 @@ class Piwik_API_ProcessedReport
                 unset($availableReport['metricsDocumentation']);
             } else if (!isset($availableReport['metricsDocumentation'])) {
                 // set metric documentation to default if it's not set
-                $availableReport['metricsDocumentation'] = Piwik_Metrics::getDefaultMetricsDocumentation();
+                $availableReport['metricsDocumentation'] = Metrics::getDefaultMetricsDocumentation();
             }
         }
 
@@ -101,7 +102,7 @@ class Piwik_API_ProcessedReport
         // Add the magic API.get report metadata aggregating all plugins API.get API calls automatically
         $this->addApiGetMetdata($availableReports);
 
-        $knownMetrics = array_merge(Piwik_Metrics::getDefaultMetrics(), Piwik_Metrics::getDefaultProcessedMetrics());
+        $knownMetrics = array_merge(Metrics::getDefaultMetrics(), Metrics::getDefaultProcessedMetrics());
         foreach ($availableReports as &$availableReport) {
             // Ensure all metrics have a translation
             $metrics = $availableReport['metrics'];
@@ -327,7 +328,7 @@ class Piwik_API_ProcessedReport
             );
 
             if (isset($reportMetadata['processedMetrics'])) {
-                $processedMetricsAdded = Piwik_Metrics::getDefaultProcessedMetrics();
+                $processedMetricsAdded = Metrics::getDefaultProcessedMetrics();
                 foreach ($processedMetricsAdded as $processedMetricId => $processedMetricTranslation) {
                     // this processed metric can be displayed for this report
                     if (isset($reportMetadata['processedMetrics'][$processedMetricId])) {

@@ -343,7 +343,7 @@ class Piwik_Live_Visitor
     function getKeyword()
     {
         $keyword = $this->details['referer_keyword'];
-        if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')
+        if (PluginsManager::getInstance()->isPluginActivated('Referers')
             && $this->getRefererType() == 'search'
         ) {
             $keyword = Piwik_Referers_API::getCleanKeyword($keyword);
@@ -354,7 +354,7 @@ class Piwik_Live_Visitor
     function getRefererUrl()
     {
         if ($this->getRefererType() == 'search') {
-            if (Piwik_PluginsManager::getInstance()->isPluginActivated('Referers')
+            if (PluginsManager::getInstance()->isPluginActivated('Referers')
                 && $this->details['referer_keyword'] == Piwik_Referers_API::LABEL_KEYWORD_NOT_DEFINED
             ) {
                 return 'http://piwik.org/faq/general/#faq_144';
@@ -512,7 +512,7 @@ class Piwik_Live_Visitor
 
     function getDeviceType()
     {
-        if(Piwik_PluginsManager::getInstance()->isPluginActivated('DevicesDetection')) {
+        if(PluginsManager::getInstance()->isPluginActivated('DevicesDetection')) {
             return Piwik_getDeviceTypeLabel($this->details['config_device_type']);
         }
         return false;

@@ -345,7 +345,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
                     $this->coreError = true;
                     break;
                 } else {
-                    Piwik_PluginsManager::getInstance()->deactivatePlugin($name);
+                    PluginsManager::getInstance()->deactivatePlugin($name);
                     $this->deactivatedPlugins[] = $name;
                 }
             }
