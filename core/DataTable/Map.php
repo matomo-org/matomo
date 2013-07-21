@@ -9,6 +9,7 @@
  * @package Piwik
  */
 namespace Piwik\DataTable;
+use Piwik\DataTable;
 
 /**
  * The DataTable_Array is a way to store an array of dataTable.
@@ -294,7 +295,7 @@ class Map
     {
         $firstChild = reset($this->array);
 
-        if ($firstChild instanceof Set) {
+        if ($firstChild instanceof Map) {
             $result = $firstChild->getEmptyClone();
 
             foreach ($this->array as $label => $subTableArray) {
@@ -328,7 +329,7 @@ class Map
      * @param DataTable $fromTable  The table to copy rows from.
      * @param string $label      The value to set the 'label' column of every copied row.
      */
-    private function copyRowsAndSetLabel(DataTable $toTable, DataTable $fromTable, $label)
+    private function copyRowsAndSetLabel($toTable, $fromTable, $label)
     {
         foreach ($fromTable->getRows() as $fromRow) {
             $oldColumns = $fromRow->getColumns();

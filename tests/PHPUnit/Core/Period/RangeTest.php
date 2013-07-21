@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Period\Month;
+use Piwik\Period\Year;
 use Piwik\Period\Week;
 use Piwik\Period\Range;
 use Piwik\Date;
@@ -460,7 +461,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
         $correct = array();
         for ($i = 0; $i < 10; $i++) {
             $date = $today->subMonth(12 * $i);
-            $week = new Piwik_Period_Year($date);
+            $week = new Year($date);
 
             $correct[] = $week->toString();
         }
@@ -479,7 +480,7 @@ class Period_RangeTest extends PHPUnit_Framework_TestCase
     public function testRangeYearLast1()
     {
         $range = new Range('year', 'last1');
-        $currentYear = new Piwik_Period_Year(Date::today());
+        $currentYear = new Year(Date::today());
         $this->assertEquals(1, $range->getNumberOfSubperiods());
         $this->assertEquals(array($currentYear->toString()), $range->toString());
     }

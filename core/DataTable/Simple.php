@@ -9,6 +9,7 @@
  * @package Piwik
  */
 namespace Piwik\DataTable;
+use Piwik\DataTable;
 
 /**
  * The DataTable\Simple is used to provide an easy way to create simple DataGrid.

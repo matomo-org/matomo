@@ -8,6 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Period;
+
 use Piwik\Period;
 use Piwik\Date;
 use Piwik\Period\Month;
@@ -16,7 +18,7 @@ use Piwik\Period\Month;
  * @package Piwik
  * @subpackage Period
  */
-class Piwik_Period_Year extends Period
+class Year extends Period
 {
     protected $label = 'year';
 

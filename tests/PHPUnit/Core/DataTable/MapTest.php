@@ -64,7 +64,7 @@ class Test_DataTable_Map extends PHPUnit_Framework_TestCase
         $result = $dataTable->mergeChildren();
 
         // check that the result is a DataTable w/ 4 rows
-        $this->assertInstanceOf('DataTable', $result);
+        $this->assertInstanceOf('\Piwik\DataTable', $result);
         $this->assertEquals(4, $result->getRowsCount());
 
         // check that the first two rows have 'subDataTable1' as the label
@@ -95,7 +95,7 @@ class Test_DataTable_Map extends PHPUnit_Framework_TestCase
         $result = $dataTable->mergeChildren();
 
         // check that the result is a DataTable_Array w/ two DataTable children
-        $this->assertInstanceOf('Set', $result);
+        $this->assertInstanceOf('\Piwik\DataTable\Map', $result);
         $this->assertEquals(2, $result->getRowsCount());
 
         // check that the first sub-DataTable is a DataTable with 4 rows

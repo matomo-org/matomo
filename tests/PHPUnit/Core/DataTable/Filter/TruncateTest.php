@@ -51,7 +51,7 @@ class DataTable_Filter_TruncateTest extends PHPUnit_Framework_TestCase
 
         // remark: this unit test would become invalid and would need to be rewritten if
         // Truncate filter stops calling getIdSubDataTable() on rows associated with a SubDataTable
-        $rowBeingFiltered = $this->getMock('Row', array('getIdSubDataTable'));
+        $rowBeingFiltered = $this->getMock('\Piwik\DataTable\Row', array('getIdSubDataTable'));
         $rowBeingFiltered->expects($this->never())->method('getIdSubDataTable');
 
         $dataTableBeingFiltered->addRow($rowBeingFiltered);

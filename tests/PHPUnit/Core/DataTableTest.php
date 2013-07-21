@@ -774,7 +774,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSerializedCallsCleanPostSerialize()
     {
-        $mockedDataTableRow = $this->getMock('Row', array('cleanPostSerialize'));
+        $mockedDataTableRow = $this->getMock('\Piwik\DataTable\Row', array('cleanPostSerialize'));
         $mockedDataTableRow->expects($this->once())->method('cleanPostSerialize');
 
         $dataTableBeingSerialized = new DataTable();

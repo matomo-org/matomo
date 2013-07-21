@@ -9,6 +9,7 @@ use Piwik\Period;
 use Piwik\Date;
 use Piwik\Period\Month;
 use Piwik\Period\Day;
+use Piwik\Period\Year;
 use Piwik\Period\Week;
 
 class PeriodTest extends PHPUnit_Framework_TestCase
@@ -25,7 +26,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals(0, $period->getId());
         $period = new Month(Date::today());
         $this->assertNotEquals(0, $period->getId());
-        $period = new Piwik_Period_Year(Date::today());
+        $period = new Year(Date::today());
         $this->assertNotEquals(0, $period->getId());
     }
 
@@ -47,7 +48,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
         $label = $period->getLabel();
         $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
-        $period = new Piwik_Period_Year(Date::today());
+        $period = new Year(Date::today());
         $label = $period->getLabel();
         $this->assertInternalType('string', $label);
         $this->assertNotEmpty($label);
@@ -60,7 +61,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
     public function testFactoryDay()
     {
         $period = Period::factory('day', Date::today());
-        $this->assertInstanceOf('Day', $period);
+        $this->assertInstanceOf('\Piwik\Period\Day', $period);
     }
 
     /**
@@ -70,7 +71,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
     public function testFactoryMonth()
     {
         $period = Period::factory('month', Date::today());
-        $this->assertInstanceOf('Month', $period);
+        $this->assertInstanceOf('\Piwik\Period\Month', $period);
     }
 
     /**
@@ -80,7 +81,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
     public function testFactoryWeek()
     {
         $period = Period::factory('week', Date::today());
-        $this->assertInstanceOf('Week', $period);
+        $this->assertInstanceOf('\Piwik\Period\Week', $period);
     }
 
     /**
@@ -90,7 +91,7 @@ class PeriodTest extends PHPUnit_Framework_TestCase
     public function testFactoryYear()
     {
         $period = Period::factory('year', Date::today());
-        $this->assertInstanceOf('Piwik_Period_Year', $period);
+        $this->assertInstanceOf('\Piwik\Period\Year', $period);
     }
 
     /**

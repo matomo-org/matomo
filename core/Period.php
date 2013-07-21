@@ -16,7 +16,7 @@ use Piwik\Period\Day;
 use Piwik\Period\Month;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
-use Piwik_Period_Year;
+use Piwik\Period\Year;
 
 /**
  * Creating a new Period subclass:
@@ -84,7 +84,7 @@ abstract class Period
                 break;
 
             case 'year':
-                return new Piwik_Period_Year($date);
+                return new Year($date);
                 break;
 
             default:

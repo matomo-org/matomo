@@ -282,6 +282,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         // temporarily unload plugins
         $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
         $plugins = array_map(function ($p) { return $p->getPluginName(); }, $plugins);
+
         \Piwik\PluginsManager::getInstance()->unloadPlugins();
         
         // make sure the get tasks event returns our configured tasks
