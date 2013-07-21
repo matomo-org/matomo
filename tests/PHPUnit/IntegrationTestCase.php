@@ -5,11 +5,15 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
 use Piwik\Site;
+use Piwik\Translate;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -74,7 +78,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     protected static function installAndLoadPlugins($installPlugins)
     {
-        $pluginsManager = PluginsManager::getInstance();
+        $pluginsManager = \Piwik\PluginsManager::getInstance();
         $plugins = $pluginsManager->readPluginsDirectory();
 
         $pluginsManager->loadPlugins($plugins);
@@ -86,7 +90,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     public static function loadAllPlugins()
     {
-        $pluginsManager = PluginsManager::getInstance();
+        $pluginsManager = \Piwik\PluginsManager::getInstance();
         $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
         $pluginsToLoad[] = 'DevicesDetection';
         
@@ -96,11 +100,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function unloadAllPlugins()
     {
         try {
-            $plugins = PluginsManager::getInstance()->getLoadedPlugins();
+            $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
             foreach ($plugins AS $plugin) {
                 $plugin->uninstall();
             }
-            PluginsManager::getInstance()->unloadPlugins();
+            \Piwik\PluginsManager::getInstance()->unloadPlugins();
         } catch (Exception $e) {
         }
     }
@@ -156,7 +160,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Piwik::createTables();
             Piwik::createLogObject();
 
-            PluginsManager::getInstance()->loadPlugins(array());
+            \Piwik\PluginsManager::getInstance()->loadPlugins(array());
         } catch (Exception $e) {
             self::fail("TEST INITIALIZATION FAILED: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
@@ -182,7 +186,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_REFERER'] = '';
 
         // Make sure translations are loaded to check messages in English
-        Piwik_Translate::getInstance()->reloadLanguage('en');
+        Translate::getInstance()->reloadLanguage('en');
         Piwik_LanguagesManager_API::getInstance()->setLanguageForUser('superUserLogin', 'en');
 
         // List of Modules, or Module.Method that should not be called as part of the XML output compare
@@ -205,7 +209,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Piwik::$piwikUrlCache = null;
         IntegrationTestCase::unloadAllPlugins();
 /*
-        $plugins = PluginsManager::getInstance()->getLoadedPlugins();
+        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins AS $plugin) {
             if ($dropDatabase) {
                 try {
@@ -215,21 +219,21 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                 }
             }
         }
-        PluginsManager::getInstance()->unloadPlugins();*/
+        \Piwik\PluginsManager::getInstance()->unloadPlugins();*/
         if ($dropDatabase) {
             Piwik::dropDatabase();
         }
-        Piwik_DataTable_Manager::getInstance()->deleteAll();
+        Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
         Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
         Config::getInstance()->clear();
-        Piwik_DataAccess_ArchiveTableCreator::clear();
+        ArchiveTableCreator::clear();
         Piwik_PDFReports_API::$cache = array();
         Zend_Registry::_unsetInstance();
 
         $_GET = $_REQUEST = array();
-        Piwik_Translate::getInstance()->unloadEnglishTranslation();
+        Translate::getInstance()->unloadEnglishTranslation();
 
         // re-enable tag cloud shuffling
         Piwik_Visualization_Cloud::$debugDisableShuffle = true;
@@ -970,10 +974,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $this->_setCallableApi($api);
 
         if (isset($params['disableArchiving']) && $params['disableArchiving'] === true) {
-            Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = true;
+            Rules::$archivingDisabledByTests = true;
             Config::getInstance()->General['browser_archiving_disabled_enforce'] = 1;
         } else {
-            Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = false;
+            Rules::$archivingDisabledByTests = false;
             Config::getInstance()->General['browser_archiving_disabled_enforce'] = 0;
         }
 
@@ -1043,8 +1047,8 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         if ($this->lastLanguage != $langId) {
             $_GET['language'] = $langId;
-            Piwik_Translate::reset();
-            Piwik_Translate::getInstance()->reloadLanguage($langId);
+            Translate::reset();
+            Translate::getInstance()->reloadLanguage($langId);
         }
 
         $this->lastLanguage = $langId;
@@ -1127,11 +1131,11 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
      */
     public static function deleteArchiveTables()
     {
-        foreach (Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
+        foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
             Piwik_Query("DROP TABLE IF EXISTS $table");
         }
 
-        Piwik_DataAccess_ArchiveTableCreator::refreshTableList($forceReload = true);
+        ArchiveTableCreator::refreshTableList($forceReload = true);
     }
 
 }

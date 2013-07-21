@@ -8,13 +8,15 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Period;
+namespace Piwik\Period;
+
+use Piwik\Period\Day;
 
 /**
  * @package Piwik
  * @subpackage Period
  */
-class Piwik_Period_Week extends Period
+class Week extends Period
 {
     protected $label = 'week';
 
@@ -88,7 +90,7 @@ class Piwik_Period_Week extends Period
 
         $currentDay = clone $startWeek;
         while ($currentDay->compareWeek($startWeek) == 0) {
-            $this->addSubperiod(new Piwik_Period_Day($currentDay));
+            $this->addSubperiod(new Day($currentDay));
             $currentDay = $currentDay->addDay(1);
         }
     }

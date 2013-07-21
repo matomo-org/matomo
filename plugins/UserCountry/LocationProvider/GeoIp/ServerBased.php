@@ -9,6 +9,8 @@
  * @package Piwik_UserCountry
  */
 
+use Piwik\Common;
+
 /**
  * A LocationProvider that uses an GeoIP module installed in an HTTP Server.
  *

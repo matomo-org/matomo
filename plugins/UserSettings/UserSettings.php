@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
  */
+use Piwik\ArchiveProcessor;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_UserSettings
  */
-class Piwik_UserSettings extends Piwik_Plugin
+class Piwik_UserSettings extends Plugin
 {
     /**
      * Mapping between the browser family shortcode and the displayed name
@@ -370,7 +372,7 @@ class Piwik_UserSettings extends Piwik_Plugin
      * by Browser, Browser family, etc. Some reports are built from the logs, some reports
      * are superset of an existing report (eg. Browser family is built from the Browser report)
      */
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -381,7 +383,7 @@ class Piwik_UserSettings extends Piwik_Plugin
     /**
      * Period archiving: simply sums up daily archives
      */
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_UserSettings_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {

@@ -11,6 +11,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 
 /**
  * MySQL schema
@@ -535,7 +536,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
         $db = Zend_Registry::get('db');
         $db->query("INSERT INTO " . Common::prefixTable("user") . "
-					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '" . Piwik_Date::factory('now')->getDatetime() . "' );");
+					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '" . Date::factory('now')->getDatetime() . "' );");
     }
 
     /**

@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 use Piwik\Site;
 
@@ -43,7 +45,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
             Piwik::createTables();
             Piwik::createLogObject();
 
-//            PluginsManager::getInstance()->loadPlugins(array());
+//            \Piwik\PluginsManager::getInstance()->loadPlugins(array());
             IntegrationTestCase::loadAllPlugins();
 
         } catch (Exception $e) {
@@ -65,13 +67,13 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         parent::tearDown();
         IntegrationTestCase::unloadAllPlugins();
         Piwik::dropDatabase();
-        Piwik_DataTable_Manager::getInstance()->deleteAll();
+        Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
         Piwik_PDFReports_API::$cache = array();
         Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
         Config::getInstance()->clear();
-        Piwik_DataAccess_ArchiveTableCreator::clear();
+        ArchiveTableCreator::clear();
         Zend_Registry::_unsetInstance();
     }
 

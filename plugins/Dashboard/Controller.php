@@ -7,6 +7,7 @@
  * @category Piwik_Plugins
  * @package  Piwik_Dashboard
  */
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -66,7 +67,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     {
         $this->checkTokenInUrl();
 
-        Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+        Json::sendHeaderJSON();
         echo Common::json_encode(Piwik_GetWidgetsList());
     }
 
@@ -157,7 +158,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $this->checkTokenInUrl();
         
         if (Piwik::isUserIsAnonymous()) {
-            Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+            Json::sendHeaderJSON();
             echo '[]';
             
             return;
@@ -166,7 +167,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $login      = Piwik::getCurrentUserLogin();
         $dashboards = $this->dashboard->getAllDashboards($login);
 
-        Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+        Json::sendHeaderJSON();
         echo Common::json_encode($dashboards);
     }
 
@@ -197,7 +198,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
             Common::prefixTable('user_dashboard'));
         Piwik_Query($query, array($user, $nextId, $name, $layout));
 
-        Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+        Json::sendHeaderJSON();
         echo Common::json_encode($nextId);
     }
 
@@ -235,7 +236,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
                 Common::prefixTable('user_dashboard'));
             Piwik_Query($query, array($user, $nextId, $name, $layout));
 
-            Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+            Json::sendHeaderJSON();
             echo Common::json_encode($nextId);
             return;
         }

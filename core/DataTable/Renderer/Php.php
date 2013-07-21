@@ -8,7 +8,14 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Renderer;
+
+use Exception;
+use Piwik\DataTable\Manager;
+use Piwik\DataTable\Simple;
+use Piwik\DataTable\Renderer;
 use Piwik\Piwik;
+use Piwik\DataTable;
 
 /**
  * Returns the equivalent PHP array for a given DataTable.
@@ -19,9 +26,9 @@ use Piwik\Piwik;
  * Works with recursive DataTable (when a row can be associated with a subDataTable).
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
+class Php extends Renderer
 {
     protected $prettyDisplay = false;
     protected $serialize = true;
@@ -63,7 +70,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
     /**
      * Computes the dataTable output and returns the string/binary
      *
-     * @param null|Piwik_DataTable_Array|Piwik_DataTable_Simple $dataTable
+     * @param null|DataTable\Map|Simple $dataTable
      * @return string
      */
     public function render($dataTable = null)
@@ -116,7 +123,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
      *            'col2_name' => value2,
      *            'metadata1_name' => value_metadata )
      *
-     * @param null|Piwik_DataTable_Array|Piwik_DataTable_Simple $dataTable
+     * @param null|DataTable\Map|Simple $dataTable
      * @return array  Php array representing the 'flat' version of the datatable
      */
     public function flatRender($dataTable = null)
@@ -130,7 +137,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
             if (self::shouldWrapArrayBeforeRendering($flatArray)) {
                 $flatArray = array($flatArray);
             }
-        } else if ($dataTable instanceof Piwik_DataTable_Array) {
+        } else if ($dataTable instanceof DataTable\Map) {
             $flatArray = array();
             foreach ($dataTable->getArray() as $keyName => $table) {
                 $serializeSave = $this->serialize;
@@ -138,7 +145,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
                 $flatArray[$keyName] = $this->flatRender($table);
                 $this->serialize = $serializeSave;
             }
-        } else if ($dataTable instanceof Piwik_DataTable_Simple) {
+        } else if ($dataTable instanceof Simple) {
             $flatArray = $this->renderSimpleTable($dataTable);
 
             // if we return only one numeric value then we print out the result in a simple <result> tag
@@ -146,7 +153,6 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
             if (count($flatArray) == 1) {
                 $flatArray = current($flatArray);
             }
-
         } // A normal DataTable needs to be handled specifically
         else {
             $array = $this->renderTable($dataTable);
@@ -191,11 +197,11 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
      */
     public function originalRender()
     {
-        Piwik::checkObjectTypeIs($this->table, array('Piwik_DataTable_Simple', 'Piwik_DataTable'));
+        Piwik::checkObjectTypeIs($this->table, array('Simple', 'DataTable'));
 
-        if ($this->table instanceof Piwik_DataTable_Simple) {
+        if ($this->table instanceof Simple) {
             $array = $this->renderSimpleTable($this->table);
-        } elseif ($this->table instanceof Piwik_DataTable) {
+        } elseif ($this->table instanceof DataTable) {
             $array = $this->renderTable($this->table);
         }
 
@@ -208,7 +214,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
     /**
      * Converts the given data table to an array
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @return array
      */
     protected function renderTable($table)
@@ -222,14 +228,14 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
                 'idsubdatatable' => $row->getIdSubDataTable(),
             );
 
-            if ($id == Piwik_DataTable::ID_SUMMARY_ROW) {
+            if ($id == DataTable::ID_SUMMARY_ROW) {
                 $newRow['issummaryrow'] = true;
             }
 
             if ($this->isRenderSubtables()
                 && $row->isSubtableLoaded()
             ) {
-                $subTable = $this->renderTable(Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable()));
+                $subTable = $this->renderTable(Manager::getInstance()->getTable($row->getIdSubDataTable()));
                 $newRow['subtable'] = $subTable;
                 if ($this->hideIdSubDatatable === false
                     && isset($newRow['metadata']['idsubdatatable_in_db'])
@@ -250,7 +256,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
     /**
      * Converts the simple data table to an array
      *
-     * @param Piwik_DataTable_Simple $table
+     * @param Simple $table
      * @return array
      */
     protected function renderSimpleTable($table)

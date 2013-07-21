@@ -8,8 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
+use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Site;
 
 /**
@@ -98,7 +100,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
             "&disable_generic_filters=1";
         $request = new Piwik_API_Request($requestString);
         $result = $request->process();
-        return empty($result) ? new Piwik_DataTable() : $result;
+        return empty($result) ? new DataTable() : $result;
     }
 
     static public function getVisits()
@@ -130,11 +132,11 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
         $view->displaySiteSearch = $displaySiteSearch;
 
         $dataTableVisit = self::getVisitsSummary();
-        $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Piwik_DataTable_Row() : $dataTableVisit->getFirstRow();
+        $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Row() : $dataTableVisit->getFirstRow();
 
         $dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), Piwik_ViewDataTable::getRawSegmentFromRequest());
         $dataActionsRow =
-            $dataTableActions->getRowsCount() == 0 ? new Piwik_DataTable_Row() : $dataTableActions->getFirstRow();
+            $dataTableActions->getRowsCount() == 0 ? new Row() : $dataTableActions->getFirstRow();
 
         $view->nbUniqVisitors = (int)$dataRow->getColumn('nb_uniq_visitors');
         $nbVisits = (int)$dataRow->getColumn('nb_visits');

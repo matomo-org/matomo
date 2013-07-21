@@ -9,12 +9,14 @@
  * @package Piwik_DBStats
  */
 use Piwik\Piwik;
+use Piwik\Date;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_DBStats
  */
-class Piwik_DBStats extends Piwik_Plugin
+class Piwik_DBStats extends Plugin
 {
     const TIME_OF_LAST_TASK_RUN_OPTION = 'dbstats_time_of_last_cache_task_run';
 
@@ -63,7 +65,7 @@ class Piwik_DBStats extends Piwik_Plugin
         $api->getIndividualReportsSummary(true);
         $api->getIndividualMetricsSummary(true);
 
-        $now = Piwik_Date::now()->getLocalized("%longYear%, %shortMonth% %day%");
+        $now = Date::now()->getLocalized("%longYear%, %shortMonth% %day%");
         Piwik_SetOption(self::TIME_OF_LAST_TASK_RUN_OPTION, $now);
     }
 

@@ -9,6 +9,8 @@
  * @package Piwik
  */
 use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 
 /**
  * This class is responsible for handling the label parameter that can be
@@ -38,10 +40,10 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
      * are not needed.
      *
      * @param string $labels      the labels to search for
-     * @param Piwik_DataTable $dataTable  the data table to be filtered
+     * @param DataTable $dataTable  the data table to be filtered
      * @param bool $addLabelIndex Whether to add label_index metadata describing which
      *                            label a row corresponds to.
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function filter($labels, $dataTable, $addLabelIndex = false)
     {
@@ -58,8 +60,8 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
      * Method for the recursive descend
      *
      * @param array $labelParts
-     * @param Piwik_DataTable $dataTable
-     * @return Piwik_DataTable_Row|false
+     * @param DataTable $dataTable
+     * @return Row|false
      */
     private function doFilterRecursiveDescend($labelParts, $dataTable)
     {
@@ -137,7 +139,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
     }
 
     /**
-     * Filter a Piwik_DataTable instance. See @filter for more info.
+     * Filter a DataTable instance. See @filter for more info.
      */
     protected function manipulateDataTable($dataTable)
     {

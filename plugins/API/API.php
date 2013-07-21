@@ -8,17 +8,23 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\DataTable\Filter\ColumnDelete;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Date;
+use Piwik\DataTable;
+use Piwik\Plugin;
+use Piwik\Translate;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
 /**
  * @package Piwik_API
  */
-class Piwik_API extends Piwik_Plugin
+class Piwik_API extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -385,7 +391,7 @@ class Piwik_API_API
     public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
                                 $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
     {
-        Piwik_Translate::getInstance()->reloadLanguage($language);
+        Translate::getInstance()->reloadLanguage($language);
         $reporter = new Piwik_API_ProcessedReport();
         $metadata =  $reporter->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
@@ -397,7 +403,7 @@ class Piwik_API_API
      *
      * @param string $idSites Comma separated list of website Ids
      * @param bool|string $period
-     * @param bool|Piwik_Date $date
+     * @param bool|Date $date
      * @param bool $hideMetricsDoc
      * @param bool $showSubtableReports
      * @return array
@@ -466,13 +472,13 @@ class Piwik_API_API
             $params['columns'] = implode(',', $columns);
             $dataTable = Piwik_API_Proxy::getInstance()->call($className, 'get', $params);
             // make sure the table has all columns
-            $array = ($dataTable instanceof Piwik_DataTable_Array ? $dataTable->getArray() : array($dataTable));
+            $array = ($dataTable instanceof DataTable\Map ? $dataTable->getArray() : array($dataTable));
             foreach ($array as $table) {
                 // we don't support idSites=all&date=DATE1,DATE2
-                if ($table instanceof Piwik_DataTable) {
+                if ($table instanceof DataTable) {
                     $firstRow = $table->getFirstRow();
                     if (!$firstRow) {
-                        $firstRow = new Piwik_DataTable_Row;
+                        $firstRow = new Row;
                         $table->addRow($firstRow);
                     }
                     foreach ($columns as $column) {
@@ -500,7 +506,7 @@ class Piwik_API_API
     private function mergeDataTables($table1, $table2)
     {
         // handle table arrays
-        if ($table1 instanceof Piwik_DataTable_Array && $table2 instanceof Piwik_DataTable_Array) {
+        if ($table1 instanceof DataTable\Map && $table2 instanceof DataTable\Map) {
             $subTables2 = $table2->getArray();
             foreach ($table1->getArray() as $index => $subTable1) {
                 $subTable2 = $subTables2[$index];
@@ -511,7 +517,7 @@ class Piwik_API_API
 
         $firstRow1 = $table1->getFirstRow();
         $firstRow2 = $table2->getFirstRow();
-        if ($firstRow2 instanceof Piwik_DataTable_Row) {
+        if ($firstRow2 instanceof Row) {
             foreach ($firstRow2->getColumns() as $metric => $value) {
                 $firstRow1->setColumn($metric, $value);
             }
@@ -525,7 +531,7 @@ class Piwik_API_API
      *
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param string $apiModule
      * @param string $apiAction
      * @param bool|string $label
@@ -591,7 +597,7 @@ class Piwik_API_API
             throw new Exception("Requested segment not found.");
         }
 
-        $startDate = Piwik_Date::now()->subDay(60)->toString();
+        $startDate = Date::now()->subDay(60)->toString();
         $requestLastVisits = "method=Live.getLastVisitsDetails
             &idSite=$idSite
             &period=range
@@ -622,7 +628,7 @@ class Piwik_API_API
         $values = $table->getColumn($segmentName);
 
         // Select also flattened keys (custom variables "page" scope, page URLs for one visit, page titles for one visit)
-        $valuesBis = $table->getColumnsStartingWith($segmentName . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
+        $valuesBis = $table->getColumnsStartingWith($segmentName . ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP);
         $values = array_merge($values, $valuesBis);
 
         // remove false values (while keeping zeros)

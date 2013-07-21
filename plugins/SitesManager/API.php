@@ -11,6 +11,7 @@
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Date;
 use Piwik\Site;
 
 /**
@@ -223,7 +224,7 @@ class Piwik_SitesManager_API
 
         if (empty($timestamp)) $timestamp = time();
 
-        $time = Piwik_Date::factory((int)$timestamp)->getDatetime();
+        $time = Date::factory((int)$timestamp)->getDatetime();
         $result = Piwik_FetchAll("
             SELECT
                 idsite
@@ -236,7 +237,7 @@ class Piwik_SitesManager_API
                 AND visit_last_action_time > ?
                 AND visit_last_action_time <= ?
                 LIMIT 1)
-        ", array($time, $now = Piwik_Date::now()->addHour(1)->getDatetime()));
+        ", array($time, $now = Date::now()->addHour(1)->getDatetime()));
         $idSites = array();
         foreach ($result as $idSite) {
             $idSites[] = $idSite['idsite'];
@@ -516,8 +517,8 @@ class Piwik_SitesManager_API
         $bind['sitesearch_keyword_parameters'] = $searchKeywordParameters;
         $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
         $bind['ts_created'] = !is_null($startDate)
-            ? Piwik_Date::factory($startDate)->getDatetime()
-            : Piwik_Date::now()->getDatetime();
+            ? Date::factory($startDate)->getDatetime()
+            : Date::now()->getDatetime();
 
         if (!empty($group)
             && Piwik::isUserIsSuperUser()
@@ -692,7 +693,7 @@ class Piwik_SitesManager_API
      * Sets IPs to be excluded from all websites. IPs can contain wildcards.
      * Will also apply to websites created in the future.
      *
-     * @param string Comma separated list of IPs to exclude from being tracked (allows wildcards)
+     * @param string $excludedIps Comma separated list of IPs to exclude from being tracked (allows wildcards)
      * @return bool
      */
     public function setGlobalExcludedIps($excludedIps)
@@ -853,7 +854,7 @@ class Piwik_SitesManager_API
      * Sets list of URL query parameters to be excluded on all websites.
      * Will also apply to websites created in the future.
      *
-     * @param string Comma separated list of URL query parameters to exclude from URLs
+     * @param string $excludedQueryParameters Comma separated list of URL query parameters to exclude from URLs
      * @return bool
      */
     public function setGlobalExcludedQueryParameters($excludedQueryParameters)
@@ -1015,7 +1016,7 @@ class Piwik_SitesManager_API
             $bind['ecommerce'] = (int)(bool)$ecommerce;
         }
         if (!is_null($startDate)) {
-            $bind['ts_created'] = Piwik_Date::factory($startDate)->getDatetime();
+            $bind['ts_created'] = Date::factory($startDate)->getDatetime();
         }
         $bind['excluded_ips'] = $this->checkAndReturnExcludedIps($excludedIps);
         $bind['excluded_parameters'] = $this->checkAndReturnCommaSeparatedStringList($excludedQueryParameters);

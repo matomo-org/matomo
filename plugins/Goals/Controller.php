@@ -8,8 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_Goals
  */
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable;
 
 /**
  *
@@ -35,7 +37,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     private function formatConversionRate($conversionRate)
     {
-        if ($conversionRate instanceof Piwik_DataTable) {
+        if ($conversionRate instanceof DataTable) {
             if ($conversionRate->getRowsCount() == 0) {
                 $conversionRate = 0;
             } else {
@@ -75,7 +77,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     public function ecommerceReport()
     {
-        if (!PluginsManager::getInstance()->isPluginActivated('CustomVariables')) {
+        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('CustomVariables')) {
             throw new Exception("Ecommerce Tracking requires that the plugin Custom Variables is enabled. Please enable the plugin CustomVariables (or ask your admin).");
         }
 
@@ -294,14 +296,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
         $topDimensionsToLoad = array();
 
-        if (PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
+        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('UserCountry')) {
             $topDimensionsToLoad += array(
                 'country' => 'UserCountry.getCountry',
             );
         }
 
         $keywordNotDefinedString = '';
-        if (PluginsManager::getInstance()->isPluginActivated('Referers')) {
+        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Referers')) {
             $keywordNotDefinedString = Piwik_Referers_API::getKeywordNotDefinedString();
             $topDimensionsToLoad += array(
                 'keyword' => 'Referers.getKeywords',
@@ -313,7 +315,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
             $request = new Piwik_API_Request("method=$apiMethod
 								&format=original
 								&filter_update_columns_when_show_all_goals=1
-								&idGoal=" . Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE . "
+								&idGoal=" . AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE . "
 								&filter_sort_order=desc
 								&filter_sort_column=$columnNbConversions" .
                 // select a couple more in case some are not valid (ie. conversions==0 or they are "Keyword not defined")

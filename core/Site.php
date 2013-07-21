@@ -11,7 +11,7 @@
 
 namespace Piwik;
 use Exception;
-use Piwik_Date;
+use Piwik\Date;
 use Piwik_SitesManager_API;
 
 /**
@@ -127,12 +127,12 @@ class Site
     /**
      * Returns the creation date of the site
      *
-     * @return Piwik_Date
+     * @return Date
      */
     function getCreationDate()
     {
         $date = $this->get('ts_created');
-        return Piwik_Date::factory($date);
+        return Date::factory($date);
     }
 
     /**

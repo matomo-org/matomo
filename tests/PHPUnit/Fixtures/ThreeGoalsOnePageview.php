@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Fixture that adds one site with three goals and tracks one pageview & one manual
@@ -53,7 +54,7 @@ class Test_Piwik_Fixture_ThreeGoalsOnePageview extends Test_Piwik_BaseFixture
         $t->setUrl('http://example.org/index.htm');
         self::checkResponse($t->doTrackPageView('0'));
 
-        $t->setForceVisitDateTime(Piwik_Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.3)->getDatetime());
         self::checkResponse($t->doTrackGoal($this->idGoal3, $revenue = 42.256));
     }
 }

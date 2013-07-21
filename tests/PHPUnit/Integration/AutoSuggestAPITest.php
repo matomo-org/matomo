@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * testing a the auto suggest API for all known segments
@@ -129,4 +130,4 @@ class Test_Piwik_Integration_AutoSuggestAPITest extends IntegrationTestCase
 }
 
 Test_Piwik_Integration_AutoSuggestAPITest::$fixture = new Test_Piwik_Fixture_ManyVisitsWithGeoIP();
-Test_Piwik_Integration_AutoSuggestAPITest::$fixture->dateTime = Piwik_Date::yesterday()->subDay(30)->getDatetime();
+Test_Piwik_Integration_AutoSuggestAPITest::$fixture->dateTime = Date::yesterday()->subDay(30)->getDatetime();

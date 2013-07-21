@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's
@@ -48,7 +49,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     public function update()
     {
         try {
-            Piwik_SetOption(self::LAST_RUN_TIME_OPTION_NAME, Piwik_Date::factory('today')->getTimestamp());
+            Piwik_SetOption(self::LAST_RUN_TIME_OPTION_NAME, Date::factory('today')->getTimestamp());
 
             $locUrl = Piwik_GetOption(self::LOC_URL_OPTION_NAME);
             if (!empty($locUrl)) {
@@ -570,11 +571,11 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     /**
      * Returns the time the auto updater was last run.
      *
-     * @return Piwik_Date|false
+     * @return Date|false
      */
     public static function getLastRunTime()
     {
         $timestamp = Piwik_GetOption(self::LAST_RUN_TIME_OPTION_NAME);
-        return $timestamp === false ? false : Piwik_Date::factory((int)$timestamp);
+        return $timestamp === false ? false : Date::factory((int)$timestamp);
     }
 }

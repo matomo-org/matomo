@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 
 /**
  * Purges the log_visit, log_conversion and related tables of old visit data.
@@ -155,7 +156,7 @@ class Piwik_PrivacyManager_LogDataPurger
         }
 
         // select highest idvisit to delete from
-        $dateStart = Piwik_Date::factory("today")->subDay($this->deleteLogsOlderThan);
+        $dateStart = Date::factory("today")->subDay($this->deleteLogsOlderThan);
         $sql = "SELECT idvisit
 		          FROM $logVisit
 		         WHERE '" . $dateStart->toString('Y-m-d H:i:s') . "' > visit_last_action_time

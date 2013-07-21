@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
  */
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_MultiSites
  */
-class Piwik_MultiSites extends Piwik_Plugin
+class Piwik_MultiSites extends Plugin
 {
     public function getInformation()
     {

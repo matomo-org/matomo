@@ -53,7 +53,7 @@ class Piwik_LocalTracker extends PiwikTracker
         $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
         $oldTrackerConfig = Config::getInstance()->Tracker;
 
-        PluginsManager::getInstance()->unloadPlugins();
+        \Piwik\PluginsManager::getInstance()->unloadPlugins();
 
         // modify config
         $GLOBALS['PIWIK_TRACKER_MODE'] = true;
@@ -94,7 +94,7 @@ class Piwik_LocalTracker extends PiwikTracker
         unset($_GET['bots']);
 
         // reload plugins
-        PluginsManager::getInstance()->loadPlugins($plugins);
+        \Piwik\PluginsManager::getInstance()->loadPlugins($plugins);
 
         return $output;
     }

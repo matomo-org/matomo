@@ -12,6 +12,7 @@ use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Site;
 
 /**
@@ -249,11 +250,11 @@ class Piwik_Goals_API
         $customVarNameToLookFor = $mapping[$recordName];
 
         // Handle case where date=last30&period=day
-        if ($customVariables instanceof Piwik_DataTable_Array) {
+        if ($customVariables instanceof DataTable\Map) {
             $customVariableDatatables = $customVariables->getArray();
             $dataTables = $dataTable->getArray();
             foreach ($customVariableDatatables as $key => $customVariableTableForDate) {
-                $dataTableForDate = isset($dataTables[$key]) ? $dataTables[$key] : new Piwik_DataTable();
+                $dataTableForDate = isset($dataTables[$key]) ? $dataTables[$key] : new DataTable();
 
                 // we do not enter the IF
                 // if case idSite=1,3 AND period=day&date=datefrom,dateto,
@@ -268,7 +269,7 @@ class Piwik_Goals_API
                 }
                 $this->renameNotDefinedRow($dataTableForDate, $notDefinedStringPretty);
             }
-        } elseif ($customVariables instanceof Piwik_DataTable) {
+        } elseif ($customVariables instanceof DataTable) {
             $row = $customVariables->getRowFromLabel($customVarNameToLookFor);
             if ($row) {
                 $idSubtable = $row->getIdSubDataTable();
@@ -285,7 +286,7 @@ class Piwik_Goals_API
 
     protected function renameNotDefinedRow($dataTable, $notDefinedStringPretty)
     {
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getArray() as $table) {
                 $this->renameNotDefinedRow($table, $notDefinedStringPretty);
             }
@@ -369,7 +370,7 @@ class Piwik_Goals_API
      * @param bool $segment
      * @param bool|int $idGoal
      * @param array $columns Array of metrics to fetch: nb_conversions, conversion_rate, revenue
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array())
     {
@@ -404,7 +405,7 @@ class Piwik_Goals_API
             $dataTable->renameColumn($oldName, $columns[$id]);
         }
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
-            if ($dataTable instanceof Piwik_DataTable_Array) {
+            if ($dataTable instanceof DataTable\Map) {
                 foreach ($dataTable->getArray() as $row) {
                     $this->enrichTable($row);
                 }
@@ -482,7 +483,7 @@ class Piwik_Goals_API
      * @param string $segment The segment.
      * @param int|bool $idGoal The id of the goal to get data for. If this is set to false,
      *                         data for every goal that belongs to $idSite is returned.
-     * @return false|Piwik_DataTable
+     * @return false|DataTable
      */
     protected function getGoalSpecificDataTable($recordName, $idSite, $period, $date, $segment, $idGoal)
     {
@@ -510,7 +511,7 @@ class Piwik_Goals_API
      * @param string|bool $segment The segment.
      * @param int|bool $idGoal The id of the goal to get data for. If this is set to false,
      *                         data for every goal that belongs to $idSite is returned.
-     * @return false|Piwik_DataTable
+     * @return false|DataTable
      */
     public function getDaysToConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {
@@ -534,7 +535,7 @@ class Piwik_Goals_API
      * @param string|bool $segment The segment.
      * @param int|bool $idGoal The id of the goal to get data for. If this is set to false,
      *                         data for every goal that belongs to $idSite is returned.
-     * @return bool|Piwik_DataTable
+     * @return bool|DataTable
      */
     public function getVisitsUntilConversion($idSite, $period, $date, $segment = false, $idGoal = false)
     {

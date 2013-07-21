@@ -8,7 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
 use Piwik\Piwik;
+use Piwik\DataTable\Filter\ColumnCallbackAddColumnQuotient;
 
 /**
  * Add a new column to the table which is a percentage based on the value resulting
@@ -23,9 +26,9 @@ use Piwik\Piwik;
  *   $dataTable->queueFilter('ColumnCallbackAddColumnPercentage', array('nb_visits', 'nb_visits_percentage', $nbVisits, 1));
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_ColumnCallbackAddColumnPercentage extends Piwik_DataTable_Filter_ColumnCallbackAddColumnQuotient
+class ColumnCallbackAddColumnPercentage extends ColumnCallbackAddColumnQuotient
 {
     /**
      * Formats the given value

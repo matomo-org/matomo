@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Annotations
  */
+use Piwik\Plugin;
 
 /**
  * Annotations plugins. Provides the ability to attach text notes to
@@ -15,7 +16,7 @@
  *
  * @package Piwik_Annotations
  */
-class Piwik_Annotations extends Piwik_Plugin
+class Piwik_Annotations extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

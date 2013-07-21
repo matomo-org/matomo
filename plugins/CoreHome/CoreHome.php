@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_CoreHome
  */
-class Piwik_CoreHome extends Piwik_Plugin
+class Piwik_CoreHome extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

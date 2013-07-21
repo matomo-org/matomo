@@ -9,11 +9,14 @@
  * @package Piwik
  */
 use Piwik\Config;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Period;
-use Piwik\Period_Range;
+use Piwik\Period\Month;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Date;
 use Piwik\Site;
 
 
@@ -39,9 +42,9 @@ abstract class Piwik_Controller
     protected $strDate;
 
     /**
-     * Piwik_Date object or null if the requested date is a range
+     * Date object or null if the requested date is a range
      *
-     * @var Piwik_Date|null
+     * @var Date|null
      */
     protected $date;
 
@@ -85,7 +88,7 @@ abstract class Piwik_Controller
      *
      * @param string $date             today, yesterday, YYYY-MM-DD
      * @param string $defaultTimezone  default timezone to use
-     * @return Piwik_Date
+     * @return Date
      */
     protected function getDateParameterInTimezone($date, $defaultTimezone)
     {
@@ -103,17 +106,17 @@ abstract class Piwik_Controller
             }
             $timezone = $defaultTimezone;
         }
-        return Piwik_Date::factory($date, $timezone);
+        return Date::factory($date, $timezone);
     }
 
     /**
      * Sets the date to be used by all other methods in the controller.
      * If the date has to be modified, it should be called just after the controller construct
      *
-     * @param Piwik_Date $date
+     * @param Date $date
      * @return void
      */
-    protected function setDate(Piwik_Date $date)
+    protected function setDate(Date $date)
     {
         $this->date = $date;
         $strDate = $this->date->toString();
@@ -299,8 +302,8 @@ abstract class Piwik_Controller
      */
     public static function getDateRangeRelativeToEndDate($period, $lastN, $endDate, $site)
     {
-        $last30Relative = new Period_Range($period, $lastN, $site->getTimezone());
-        $last30Relative->setDefaultEndDate(Piwik_Date::factory($endDate));
+        $last30Relative = new Range($period, $lastN, $site->getTimezone());
+        $last30Relative->setDefaultEndDate(Date::factory($endDate));
         $date = $last30Relative->getDateStart()->toString() . "," . $last30Relative->getDateEnd()->toString();
         return $date;
     }
@@ -355,11 +358,11 @@ abstract class Piwik_Controller
     /**
      * Sets the first date available in the calendar
      *
-     * @param Piwik_Date $minDate
+     * @param Date $minDate
      * @param Piwik_View $view
      * @return void
      */
-    protected function setMinDateView(Piwik_Date $minDate, $view)
+    protected function setMinDateView(Date $minDate, $view)
     {
         $view->minDateYear = $minDate->toString('Y');
         $view->minDateMonth = $minDate->toString('m');
@@ -369,11 +372,11 @@ abstract class Piwik_Controller
     /**
      * Sets "today" in the calendar. Today does not always mean "UTC" today, eg. for websites in UTC+12.
      *
-     * @param Piwik_Date $maxDate
+     * @param Date $maxDate
      * @param Piwik_View $view
      * @return void
      */
-    protected function setMaxDateView(Piwik_Date $maxDate, $view)
+    protected function setMaxDateView(Date $maxDate, $view)
     {
         $view->maxDateYear = $maxDate->toString('Y');
         $view->maxDateMonth = $maxDate->toString('m');
@@ -404,10 +407,10 @@ abstract class Piwik_Controller
             $rawDate = Common::getRequestVar('date');
             $periodStr = Common::getRequestVar('period');
             if ($periodStr != 'range') {
-                $date = Piwik_Date::factory($this->strDate);
+                $date = Date::factory($this->strDate);
                 $period = Period::factory($periodStr, $date);
             } else {
-                $period = new Period_Range($periodStr, $rawDate, $this->site->getTimezone());
+                $period = new Range($periodStr, $rawDate, $this->site->getTimezone());
             }
             $view->rawDate = $rawDate;
             $view->prettyDate = self::getCalendarPrettyDate($period);
@@ -416,10 +419,10 @@ abstract class Piwik_Controller
             $view->siteMainUrl = $this->site->getMainUrl();
 
             $datetimeMinDate = $this->site->getCreationDate()->getDatetime();
-            $minDate = Piwik_Date::factory($datetimeMinDate, $this->site->getTimezone());
+            $minDate = Date::factory($datetimeMinDate, $this->site->getTimezone());
             $this->setMinDateView($minDate, $view);
 
-            $maxDate = Piwik_Date::factory('now', $this->site->getTimezone());
+            $maxDate = Date::factory('now', $this->site->getTimezone());
             $this->setMaxDateView($maxDate, $view);
 
             // Setting current period start & end dates, for pre-setting the calendar when "Date Range" is selected
@@ -768,7 +771,7 @@ abstract class Piwik_Controller
      */
     public static function getCalendarPrettyDate($period)
     {
-        if ($period instanceof Piwik_Period_Month) // show month name when period is for a month
+        if ($period instanceof Month) // show month name when period is for a month
         {
             return $period->getLocalizedLongString();
         } else {
@@ -786,7 +789,7 @@ abstract class Piwik_Controller
      */
     public static function getPrettyDate($date, $period)
     {
-        return self::getCalendarPrettyDate(Period::factory($period, Piwik_Date::factory($date)));
+        return self::getCalendarPrettyDate(Period::factory($period, Date::factory($date)));
     }
 
 
@@ -805,7 +808,7 @@ abstract class Piwik_Controller
      */
     protected function getEvolutionHtml($date, $currentValue, $pastDate, $pastValue)
     {
-        $evolutionPercent = Piwik_DataTable_Filter_CalculateEvolutionFilter::calculate(
+        $evolutionPercent = CalculateEvolutionFilter::calculate(
             $currentValue, $pastValue, $precision = 1);
 
         // do not display evolution if evolution percent is 0 and current value is 0

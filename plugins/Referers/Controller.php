@@ -9,7 +9,7 @@
  * @package Piwik_Referers
  */
 use Piwik\Metrics;
-use Piwik\Period_Range;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -51,7 +51,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
         }
 
         // calculate evolution for visit metrics & distinct metrics
-        list($lastPeriodDate, $ignore) = Period_Range::getLastDate();
+        list($lastPeriodDate, $ignore) = Range::getLastDate();
         if ($lastPeriodDate !== false) {
             $date = Common::getRequestVar('date');
             $period = Common::getRequestVar('period');

@@ -8,8 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_Actions
  */
+use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Plugin;
 use Piwik\SegmentExpression;
 use Piwik\Site;
 
@@ -20,7 +22,7 @@ use Piwik\Site;
  *
  * @package Piwik_Actions
  */
-class Piwik_Actions extends Piwik_Plugin
+class Piwik_Actions extends Plugin
 {
     const ACTIONS_REPORT_ROWS_DISPLAY = 100;
     
@@ -572,7 +574,7 @@ class Piwik_Actions extends Piwik_Plugin
      * For each action we process the "interest statistics" :
      * visits, unique visitors, bounce count, sum visit length.
      */
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_Actions_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -580,7 +582,7 @@ class Piwik_Actions extends Piwik_Plugin
         }
     }
 
-    function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_Actions_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -597,7 +599,7 @@ class Piwik_Actions extends Piwik_Plugin
 
     static protected function isCustomVariablesPluginsEnabled()
     {
-        return PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+        return \Piwik\PluginsManager::getInstance()->isPluginActivated('CustomVariables');
     }
 
     /**
@@ -711,7 +713,7 @@ class Piwik_Actions extends Piwik_Plugin
         );
         
         // prettify avg_time_on_page column
-        $getPrettyTimeFromSeconds = array('Piwik', 'getPrettyTimeFromSeconds');
+        $getPrettyTimeFromSeconds = '\Piwik\Piwik::getPrettyTimeFromSeconds';
         $result['filters'][] = array('ColumnCallbackReplace', array('avg_time_on_page', $getPrettyTimeFromSeconds));
         
         // prettify avg_time_generation column

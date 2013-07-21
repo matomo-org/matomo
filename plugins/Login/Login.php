@@ -10,12 +10,13 @@
  */
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_Login
  */
-class Piwik_Login extends Piwik_Plugin
+class Piwik_Login extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

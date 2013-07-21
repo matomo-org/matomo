@@ -8,15 +8,20 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
+use Piwik\DataTable\Manager;
 
 /**
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_Truncate extends Piwik_DataTable_Filter
+class Truncate extends Filter
 {
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param int $truncateAfter
      */
     public function __construct($table, $truncateAfter)
@@ -28,7 +33,7 @@ class Piwik_DataTable_Filter_Truncate extends Piwik_DataTable_Filter
     /**
      * Truncates the table after X rows and adds a summary row
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
@@ -38,7 +43,7 @@ class Piwik_DataTable_Filter_Truncate extends Piwik_DataTable_Filter
         foreach ($table->getRows() as $row) {
             if ($row->isSubtableLoaded()) {
                 $idSubTable = $row->getIdSubDataTable();
-                $subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
+                $subTable = Manager::getInstance()->getTable($idSubTable);
                 $subTable->filter('Truncate', array($this->truncateAfter));
             }
         }

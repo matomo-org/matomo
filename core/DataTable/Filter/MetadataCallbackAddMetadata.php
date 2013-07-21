@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * Add a new metadata to the table based on the value resulting
@@ -18,9 +22,9 @@
  * the path of the logo for this search engine URL (which has the format URL.png).
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_MetadataCallbackAddMetadata extends Piwik_DataTable_Filter
+class MetadataCallbackAddMetadata extends Filter
 {
     private $metadataToRead;
     private $functionToApply;
@@ -28,7 +32,7 @@ class Piwik_DataTable_Filter_MetadataCallbackAddMetadata extends Piwik_DataTable
     private $applyToSummaryRow;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string|array $metadataToRead
      * @param string $metadataToAdd
      * @param callback $functionToApply
@@ -50,12 +54,12 @@ class Piwik_DataTable_Filter_MetadataCallbackAddMetadata extends Piwik_DataTable
     }
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
         foreach ($table->getRows() as $key => $row) {
-            if (!$this->applyToSummaryRow && $key == Piwik_DataTable::ID_SUMMARY_ROW) {
+            if (!$this->applyToSummaryRow && $key == DataTable::ID_SUMMARY_ROW) {
                 continue;
             }
 

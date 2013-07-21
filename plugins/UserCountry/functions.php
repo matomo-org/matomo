@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\DataTable;
 
 /**
  * Return the flag image path for a given country
@@ -67,7 +68,7 @@ function Piwik_CountryTranslate($label)
  */
 function Piwik_UserCountry_getElementFromStringArray($label, $separator, $index, $emptyValue = false)
 {
-    if ($label == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+    if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return false; // so no metadata/column is added
     }
 
@@ -80,11 +81,11 @@ function Piwik_UserCountry_getElementFromStringArray($label, $separator, $index,
  *
  * @param string $label A label containing a region code followed by '|' and a country code, eg,
  *                      'P3|GB'.
- * @return string|false The region name or false if $label == Piwik_DataTable::LABEL_SUMMARY_ROW.
+ * @return string|false The region name or false if $label == DataTable::LABEL_SUMMARY_ROW.
  */
 function Piwik_UserCountry_getRegionName($label)
 {
-    if ($label == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+    if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return false; // so no metadata/column is added
     }
 
@@ -102,11 +103,11 @@ function Piwik_UserCountry_getRegionName($label)
  *
  * @param string $label A label containing a region code followed by '|' and a country code, eg,
  *                      'P3|GB'.
- * @return string|false eg. 'Ile de France, France' or false if $label == Piwik_DataTable::LABEL_SUMMARY_ROW.
+ * @return string|false eg. 'Ile de France, France' or false if $label == DataTable::LABEL_SUMMARY_ROW.
  */
 function Piwik_UserCountry_getPrettyRegionName($label)
 {
-    if ($label == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+    if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return $label;
     }
 
@@ -130,11 +131,11 @@ function Piwik_UserCountry_getPrettyRegionName($label)
  * @param string $label A label containing a city name, region code + country code,
  *                      separated by two '|' chars: 'Paris|A8|FR'
  * @return string|false eg. 'Paris, Ile de France, France' or false if $label ==
- *                      Piwik_DataTable::LABEL_SUMMARY_ROW.
+ *                      DataTable::LABEL_SUMMARY_ROW.
  */
 function Piwik_UserCountry_getPrettyCityName($label)
 {
-    if ($label == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+    if ($label == DataTable::LABEL_SUMMARY_ROW) {
         return $label;
     }
 

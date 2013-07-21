@@ -9,6 +9,7 @@
  * @package Piwik_Annotations
  */
 use Piwik\Piwik;
+use Piwik\Date;
 use Piwik\Site;
 
 /**
@@ -172,7 +173,6 @@ class Piwik_Annotations_AnnotationList
      *
      * @param int $idSite The ID of the site to get an annotation for.
      * @param int $idNote The ID of the note to get.
-     * @param array The annotation.
      * @throws Exception if $idSite is not an ID that was supplied upon construction.
      * @throws Exception if $idNote does not refer to valid note for the site.
      */
@@ -194,8 +194,8 @@ class Piwik_Annotations_AnnotationList
      *
      * @see self::get for info on what attributes stored within annotations.
      *
-     * @param Piwik_Date|bool $startDate The start of the date range.
-     * @param Piwik_Date|bool $endDate The end of the date range.
+     * @param Date|bool $startDate The start of the date range.
+     * @param Date|bool $endDate The end of the date range.
      * @param array|bool|int|string $idSite IDs of the sites whose annotations to
      *                                       search through.
      * @return array Array mapping site IDs with arrays of annotations, eg:
@@ -230,7 +230,7 @@ class Piwik_Annotations_AnnotationList
 
             foreach ($this->annotations[$idSite] as $idNote => $annotation) {
                 if ($startDate !== false) {
-                    $annotationDate = Piwik_Date::factory($annotation['date']);
+                    $annotationDate = Date::factory($annotation['date']);
                     if ($annotationDate->getTimestamp() < $startDate->getTimestamp()
                         || $annotationDate->getTimestamp() > $endDate->getTimestamp()
                     ) {
@@ -266,7 +266,7 @@ class Piwik_Annotations_AnnotationList
         $this->checkIdSiteIsLoaded($idSite);
 
         // search includes end date, and count should not, so subtract one from the timestamp
-        $annotations = $this->search($startDate, Piwik_Date::factory($endDate->getTimestamp() - 1));
+        $annotations = $this->search($startDate, Date::factory($endDate->getTimestamp() - 1));
 
         // count the annotations
         $count = $starred = 0;

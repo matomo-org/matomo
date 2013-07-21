@@ -5,6 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\DataAccess\ArchiveTableCreator;
+
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/BenchmarkTestCase.php';
 
 /**
@@ -16,7 +19,7 @@ class MultiSitesBenchmark extends BenchmarkTestCase
     
     public function setUp()
     {
-        $archivingTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
+        $archivingTables = ArchiveTableCreator::getTablesArchivesInstalled();
         if (empty($archivingTables)) {
             $this->archivingLaunched = true;
             Piwik_VisitsSummary_API::getInstance()->get(
@@ -34,7 +37,7 @@ class MultiSitesBenchmark extends BenchmarkTestCase
             echo "NOTE: Had to archive data, memory results will not be accurate. Run again for better results.";
         }
         
-        Piwik_ArchiveProcessor_Rules::$archivingDisabledByTests = true;
+        Rules::$archivingDisabledByTests = true;
         Piwik_MultiSites_API::getInstance()->getAll(self::$fixture->period, self::$fixture->date);
     }
 }

@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds one site and tracks 7 visits w/ some long-ish urls (as page urls and
@@ -70,32 +71,32 @@ class Test_Piwik_Fixture_SomeVisitsWithLongUrls extends Test_Piwik_BaseFixture
         self::checkResponse($t->doTrackPageView('Hello'));
 
         // VISIT 2 = Another keyword
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
         $t->setUrlReferrer('http://www.google.com.vn/url?q=Salut');
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // Visit 3 = Another keyword
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(2)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(2)->getDatetime());
         $t->setUrlReferrer('http://www.google.com.vn/url?q=Kia Ora');
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // Visit 4 = Kia Ora again
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(3)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(3)->getDatetime());
         $t->setUrlReferrer('http://www.google.com.vn/url?q=Kia Ora');
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // Visit 5 = Another search engine
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(4)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(4)->getDatetime());
         $t->setUrlReferrer('http://nz.search.yahoo.com/search?p=Kia Ora');
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // Visit 6 = Another search engine
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(5)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(5)->getDatetime());
         $t->setUrlReferrer('http://images.search.yahoo.com/search/images;_ylt=A2KcWcNKJzF?p=Kia%20Ora%20');
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // Visit 7 = Another search engine
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(6)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(6)->getDatetime());
         $t->setUrlReferrer('http://nz.bing.com/images/search?q=+++Kia+ora+++');
         self::checkResponse($t->doTrackPageView('incredible title!'));
     }

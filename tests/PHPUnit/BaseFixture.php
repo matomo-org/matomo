@@ -8,6 +8,7 @@
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Date;
 use Piwik\Site;
 
 /**
@@ -67,7 +68,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
 
         // Manually set the website creation date to a day earlier than the earliest day we record stats for
         Zend_Registry::get('db')->update(Common::prefixTable("site"),
-            array('ts_created' => Piwik_Date::factory($dateTime)->subDay(1)->getDatetime()),
+            array('ts_created' => Date::factory($dateTime)->subDay(1)->getDatetime()),
             "idsite = $idSite"
         );
 

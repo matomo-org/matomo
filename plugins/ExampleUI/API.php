@@ -8,7 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_ExampleUI
  */
-use Piwik\Period_Range;
+use Piwik\Period\Range;
+use Piwik\DataTable;
 
 /**
  * ExampleUI API is also an example API useful if you are developing a Piwik plugin.
@@ -32,7 +33,7 @@ class Piwik_ExampleUI_API
 
     public function getTemperaturesEvolution($date, $period)
     {
-        $period = new Period_Range($period, 'last30');
+        $period = new Range($period, 'last30');
         $dateStart = $period->getDateStart()->toString('Y-m-d'); // eg. "2009-04-01"
         $dateEnd = $period->getDateEnd()->toString('Y-m-d'); // eg. "2009-04-30"
 
@@ -51,7 +52,7 @@ class Piwik_ExampleUI_API
             $value = array('server1' => $server1, 'server2' => $server2);
             $temperatures[$subPeriod->getLocalizedShortString()] = $value;
         }
-        return Piwik_DataTable::makeFromIndexedArray($temperatures);
+        return DataTable::makeFromIndexedArray($temperatures);
     }
 
     // we generate an array of random server temperatures
@@ -68,7 +69,7 @@ class Piwik_ExampleUI_API
             $temperatures[$xAxisLabel] = $temperatureValues[$i];
         }
 
-        return Piwik_DataTable::makeFromIndexedArray($temperatures);
+        return DataTable::makeFromIndexedArray($temperatures);
     }
 
     public function getPlanetRatios()
@@ -84,7 +85,7 @@ class Piwik_ExampleUI_API
             'Neptune' => 3.883,
         );
         // convert this array to a DataTable object
-        return Piwik_DataTable::makeFromIndexedArray($planetRatios);
+        return DataTable::makeFromIndexedArray($planetRatios);
     }
 
     public function getPlanetRatiosWithLogos()

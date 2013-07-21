@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Translate;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -313,7 +314,7 @@ class Piwik_Tracker
 
             // While each plugins should ensure that necessary languages are loaded,
             // we ensure English translations at least are loaded
-            Piwik_Translate::getInstance()->loadEnglishTranslation();
+            Translate::getInstance()->loadEnglishTranslation();
 
             $resultTasks = Piwik_TaskScheduler::runTasks();
 
@@ -352,7 +353,7 @@ class Piwik_Tracker
                 Piwik::createDatabaseObject();
             }
 
-            $pluginsManager = PluginsManager::getInstance();
+            $pluginsManager = \Piwik\PluginsManager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
             $pluginsForcedNotToLoad = Piwik_Tracker::getPluginsNotToLoad();
             $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
@@ -603,9 +604,9 @@ class Piwik_Tracker
             $pluginsTracker = Config::getInstance()->Plugins_Tracker['Plugins_Tracker'];
             if (count($pluginsTracker) > 0) {
                 $pluginsTracker = array_diff($pluginsTracker, self::getPluginsNotToLoad());
-                PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
+                \Piwik\PluginsManager::getInstance()->doNotLoadAlwaysActivatedPlugins();
 
-                PluginsManager::getInstance()->loadPlugins($pluginsTracker);
+                \Piwik\PluginsManager::getInstance()->loadPlugins($pluginsTracker);
 
                 Common::printDebug("Loading plugins: { " . implode(",", $pluginsTracker) . " }");
             }

@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
  */
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -33,8 +34,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
         $view = new Piwik_View('@CoreAdminHome/generalSettings');
 
         if (Piwik::isUserIsSuperUser()) {
-            $enableBrowserTriggerArchiving = Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled();
-            $todayArchiveTimeToLive = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
+            $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
+            $todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
             $showWarningCron = false;
             if (!$enableBrowserTriggerArchiving
                 && $todayArchiveTimeToLive < 3600
@@ -83,8 +84,8 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             $enableBrowserTriggerArchiving = Common::getRequestVar('enableBrowserTriggerArchiving');
             $todayArchiveTimeToLive = Common::getRequestVar('todayArchiveTimeToLive');
 
-            Piwik_ArchiveProcessor_Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
-            Piwik_ArchiveProcessor_Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
+            Rules::setBrowserTriggerArchiving((bool)$enableBrowserTriggerArchiving);
+            Rules::setTodayArchiveTimeToLive($todayArchiveTimeToLive);
 
             // Update email settings
             $mail = array();

@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * test Metadata API + period=range&date=lastN
@@ -24,7 +25,7 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
             return;
         }
 
-        self::$fixture->dateTime = Piwik_Date::factory('now')->getDateTime();
+        self::$fixture->dateTime = Date::factory('now')->getDateTime();
         parent::setUpBeforeClass();
     }
 
@@ -75,8 +76,8 @@ class Test_Piwik_Integration_PeriodIsRange_DateIsLastN_MetadataAndNormalAPI exte
         );
         $dates = array(
             'last7',
-            Piwik_Date::factory('now')->subDay(6)->toString() . ',today',
-            Piwik_Date::factory('now')->subDay(6)->toString() . ',now',
+            Date::factory('now')->subDay(6)->toString() . ',today',
+            Date::factory('now')->subDay(6)->toString() . ',now',
         );
 
         $result = array();

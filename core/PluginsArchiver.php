@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Piwik - Open source web analytics
  *
@@ -9,17 +8,22 @@
  * @category Piwik
  * @package Piwik_PluginArchiver
  */
+
+namespace Piwik;
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\ArchiveProcessor;
+use Piwik\ArchiveProcessor\Day;
+use Piwik\DataAccess\LogAggregator;
 
 /**
  * Plugins that archive metrics for websites can implement an Archiver that extends this class
  */
-abstract class Piwik_PluginsArchiver
+abstract class PluginsArchiver
 {
     protected $processor;
 
-    public function __construct(Piwik_ArchiveProcessor $processing)
+    public function __construct(ArchiveProcessor $processing)
     {
         $this->maximumRows = Config::getInstance()->General['datatable_archiving_maximum_rows_standard'];
         $this->processor = $processing;
@@ -38,7 +42,7 @@ abstract class Piwik_PluginsArchiver
     }
 
     /**
-     * @return Piwik_ArchiveProcessor_Day|Piwik_ArchiveProcessor_Period
+     * @return Day|Period
      */
     protected function getProcessor()
     {
@@ -46,7 +50,7 @@ abstract class Piwik_PluginsArchiver
     }
 
     /**
-     * @return Piwik_DataAccess_LogAggregator
+     * @return \Piwik\DataAccess\LogAggregator
      */
     protected function getLogAggregator()
     {

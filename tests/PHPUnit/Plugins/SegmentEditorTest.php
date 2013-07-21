@@ -1,21 +1,23 @@
 <?php
-use Piwik\Piwik;
-use Piwik\Access;
-
 /**
  * Piwik - Open source web analytics
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Piwik;
+use Piwik\Access;
+use Piwik\Date;
+
+
 class SegmentEditorTest extends DatabaseTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        PluginsManager::getInstance()->loadPlugin('SegmentEditor');
-        PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\PluginsManager::getInstance()->loadPlugin('SegmentEditor');
+        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
 
         // setup the access layer
         $pseudoMockAccess = new FakeAccess;
@@ -123,8 +125,8 @@ class SegmentEditorTest extends DatabaseTestCase
             'enable_only_idsite' => '0',
             'enable_all_users' => '0',
             'auto_archive' => '0',
-            'ts_last_edit' => Piwik_Date::now()->getDatetime(),
-            'ts_created' => Piwik_Date::now()->getDatetime(),
+            'ts_last_edit' => Date::now()->getDatetime(),
+            'ts_created' => Date::now()->getDatetime(),
             'login' => Piwik::getCurrentUserLogin(),
             'deleted' => '0',
         );

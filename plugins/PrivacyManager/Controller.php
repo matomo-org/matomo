@@ -11,6 +11,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 
 /**
  *
@@ -105,7 +106,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
      */
     public static function isDntSupported()
     {
-        return PluginsManager::getInstance()->isPluginActivated('DoNotTrack');
+        return \Piwik\PluginsManager::getInstance()->isPluginActivated('DoNotTrack');
     }
 
     public function privacySettings()
@@ -214,12 +215,12 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         Piwik::checkUserIsSuperUser();
         $anonymizeIP = array();
 
-        PluginsManager::getInstance()->loadPlugin(self::ANONYMIZE_IP_PLUGIN_NAME);
+        \Piwik\PluginsManager::getInstance()->loadPlugin(self::ANONYMIZE_IP_PLUGIN_NAME);
 
         $anonymizeIP["name"] = self::ANONYMIZE_IP_PLUGIN_NAME;
-        $anonymizeIP["enabled"] = PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
+        $anonymizeIP["enabled"] = \Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME);
         $anonymizeIP["maskLength"] = Config::getInstance()->Tracker['ip_address_mask_length'];
-        $anonymizeIP["info"] = PluginsManager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
+        $anonymizeIP["info"] = \Piwik\PluginsManager::getInstance()->getLoadedPlugin(self::ANONYMIZE_IP_PLUGIN_NAME)->getInformation();
 
         return $anonymizeIP;
     }
@@ -241,7 +242,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
         if (!empty($scheduleTimetable) && ($scheduleTimetable - time() > 0)) {
             $nextPossibleSchedule = (int)$scheduleTimetable;
         } else {
-            $date = Piwik_Date::factory("today");
+            $date = Date::factory("today");
             $nextPossibleSchedule = $date->addDay(1)->getTimestamp();
         }
 
@@ -250,11 +251,11 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
             $deleteDataInfos["lastRun"] = false;
 
             //next run ASAP (with next schedule run)
-            $date = Piwik_Date::factory("today");
+            $date = Date::factory("today");
             $deleteDataInfos["nextScheduleTime"] = $nextPossibleSchedule;
         } else {
             $deleteDataInfos["lastRun"] = $optionTable;
-            $deleteDataInfos["lastRunPretty"] = Piwik_Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
+            $deleteDataInfos["lastRunPretty"] = Date::factory((int)$optionTable)->getLocalized('%day% %shortMonth% %longYear%');
 
             //Calculate next run based on last run + interval
             $nextScheduleRun = (int)($deleteDataInfos["lastRun"] + $deleteDataInfos["config"]["delete_logs_schedule_lowest_interval"] * 24 * 60 * 60);
@@ -276,9 +277,9 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
     {
         $pluginController = new Piwik_CorePluginsAdmin_Controller();
 
-        if ($state == 1 && !PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
+        if ($state == 1 && !\Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
             $pluginController->activate($redirectAfter = false);
-        } elseif ($state == 0 && PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
+        } elseif ($state == 0 && \Piwik\PluginsManager::getInstance()->isPluginActivated(self::ANONYMIZE_IP_PLUGIN_NAME)) {
             $pluginController->deactivate($redirectAfter = false);
         } else {
             //nothing to do

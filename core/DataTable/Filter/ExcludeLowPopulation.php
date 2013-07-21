@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * Delete all rows that have a $columnToFilter value less than the $minimumValue
@@ -17,16 +21,16 @@
  * You can obviously apply this filter on a percentaged column, eg. remove all countries with the column 'percent_visits' less than 0.05
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
+class ExcludeLowPopulation extends Filter
 {
     const MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD = 0.02;
-    
+
     /**
      * The minimum value to enforce in a datatable for a specified column. Rows found with
      * a value less than this are removed.
-     * 
+     *
      * @var number
      */
     private $minimumValue;
@@ -34,7 +38,7 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
     /**
      * Constructor
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string $columnToFilter              column to filter
      * @param number|Closure $minimumValue                minimum value
      * @param bool $minimumPercentageThreshold
@@ -43,7 +47,7 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
     {
         parent::__construct($table);
         $this->columnToFilter = $columnToFilter;
-        
+
         if ($minimumValue == 0) {
             if ($minimumPercentageThreshold === false) {
                 $minimumPercentageThreshold = self::MINIMUM_SIGNIFICANT_PERCENTAGE_THRESHOLD;
@@ -52,14 +56,14 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
             $sumValues = array_sum($allValues);
             $minimumValue = $sumValues * $minimumPercentageThreshold;
         }
-        
+
         $this->minimumValue = $minimumValue;
     }
 
     /**
      * Executes filter and removes all rows below the defined minimum
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
@@ -67,7 +71,7 @@ class Piwik_DataTable_Filter_ExcludeLowPopulation extends Piwik_DataTable_Filter
         $isValueHighPopulation = function ($value) use ($minimumValue) {
             return $value >= $minimumValue;
         };
-        
+
         $table->filter('ColumnCallbackDeleteRow', array($this->columnToFilter, $isValueHighPopulation));
     }
 }

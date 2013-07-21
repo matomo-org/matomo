@@ -10,6 +10,7 @@
  */
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Common;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
@@ -315,7 +316,7 @@ class Piwik_Login_Controller extends Piwik_Controller
 
         if (is_null($errorMessage)) // if success, show login w/ success message
         {
-            $this->redirectToIndex('Login', 'resetPasswordSuccess');
+            return $this->redirectToIndex('Login', 'resetPasswordSuccess');
         } else {
             // show login page w/ error. this will keep the token in the URL
             return $this->login($errorMessage);
@@ -392,7 +393,7 @@ class Piwik_Login_Controller extends Piwik_Controller
     /**
      * Generate a password reset token.  Expires in (roughly) 24 hours.
      *
-     * @param array user information
+     * @param array $user user information
      * @param int $timestamp Unix timestamp
      * @return string generated token
      */

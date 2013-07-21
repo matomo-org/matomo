@@ -12,6 +12,8 @@ use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
+use Piwik\DataTable;
 
 /**
  * The Actions API lets you request reports for all your Visitor Actions: Page URLs, Page titles (Piwik Events),
@@ -50,7 +52,7 @@ class Piwik_Actions_API
      * @param string $date
      * @param bool|string $segment
      * @param bool|array $columns
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
@@ -112,12 +114,12 @@ class Piwik_Actions_API
     /**
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param bool $segment
      * @param bool $expanded
      * @param bool $idSubtable
      *
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return DataTable|DataTable\Map
      */
     public function getPageUrls($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
@@ -130,12 +132,12 @@ class Piwik_Actions_API
     /**
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param bool $segment
      * @param bool $expanded
      * @param bool $idSubtable
      *
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return DataTable|DataTable\Map
      */
     public function getPageUrlsFollowingSiteSearch($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
@@ -147,12 +149,12 @@ class Piwik_Actions_API
     /**
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param bool $segment
      * @param bool $expanded
      * @param bool $idSubtable
      *
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return DataTable|DataTable\Map
      */
     public function getPageTitlesFollowingSiteSearch($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
@@ -162,7 +164,7 @@ class Piwik_Actions_API
     }
 
     /**
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
      */
     protected function keepPagesFollowingSearch($dataTable)
     {
@@ -213,7 +215,7 @@ class Piwik_Actions_API
     }
 
     /**
-     * Returns a Piwik_DataTable with analytics information for every unique entry page title
+     * Returns a DataTable with analytics information for every unique entry page title
      * for the given site, time period & segment.
      */
     public function getEntryPageTitles($idSite, $period, $date, $segment = false, $expanded = false,
@@ -225,7 +227,7 @@ class Piwik_Actions_API
     }
 
     /**
-     * Returns a Piwik_DataTable with analytics information for every unique exit page title
+     * Returns a DataTable with analytics information for every unique exit page title
      * for the given site, time period & segment.
      */
     public function getExitPageTitles($idSite, $period, $date, $segment = false, $expanded = false,
@@ -306,7 +308,7 @@ class Piwik_Actions_API
                  Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
                  create_function('$value', 'return $value >= 1;')
             ));
-        $dataTable->deleteRow(Piwik_DataTable::ID_SUMMARY_ROW);
+        $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
         $dataTable->deleteColumn(Metrics::INDEX_SITE_SEARCH_HAS_NO_RESULT);
         $this->filterPageDatatable($dataTable);
         $this->filterActionsDataTable($dataTable);
@@ -317,10 +319,10 @@ class Piwik_Actions_API
     /**
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param bool $segment
      *
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return DataTable|DataTable\Map
      */
     public function getSiteSearchCategories($idSite, $period, $date, $segment = false)
     {
@@ -329,10 +331,10 @@ class Piwik_Actions_API
 
         $customVarNameToLookFor = Piwik_Tracker_Action::CVAR_KEY_SEARCH_CATEGORY;
 
-        $dataTable = new Piwik_DataTable();
+        $dataTable = new DataTable();
         // Handle case where date=last30&period=day
         // FIXMEA: this logic should really be refactored somewhere, this is ugly!
-        if ($customVariables instanceof Piwik_DataTable_Array) {
+        if ($customVariables instanceof DataTable\Map) {
             $dataTable = $customVariables->getEmptyClone();
 
             $customVariableDatatables = $customVariables->getArray();
@@ -349,7 +351,7 @@ class Piwik_Actions_API
                     }
                 }
             }
-        } elseif ($customVariables instanceof Piwik_DataTable) {
+        } elseif ($customVariables instanceof DataTable) {
             $row = $customVariables->getRowFromLabel($customVarNameToLookFor);
             if ($row) {
                 $idSubtable = $row->getIdSubDataTable();
@@ -388,7 +390,7 @@ class Piwik_Actions_API
             // fetch the data table
             $table = call_user_func_array(array('Piwik\Archive', 'getDataTableFromArchive'), $callBackParameters);
 
-            if ($table instanceof Piwik_DataTable_Array) {
+            if ($table instanceof DataTable\Map) {
                 // search an array of tables, e.g. when using date=last30
                 // note that if the root is an array, we filter all children
                 // if an array occurs inside the nested table, we only look for the first match (see below)
@@ -414,7 +416,7 @@ class Piwik_Actions_API
     protected function doFilterPageDatatableSearch($callBackParameters, $table, $searchTree)
     {
         // filter a data table array
-        if ($table instanceof Piwik_DataTable_Array) {
+        if ($table instanceof DataTable\Map) {
             foreach ($table->getArray() as $subTable) {
                 $filteredSubTable = $this->doFilterPageDatatableSearch($callBackParameters, $subTable, $searchTree);
 
@@ -425,24 +427,24 @@ class Piwik_Actions_API
             }
 
             // nothing found in all sub tables
-            return new Piwik_DataTable;
+            return new DataTable;
         }
 
         // filter regular data table
-        if ($table instanceof Piwik_DataTable) {
+        if ($table instanceof DataTable) {
             // search for the first part of the tree search
             $search = array_shift($searchTree);
             $row = $table->getRowFromLabel($search);
             if ($row === false) {
                 // not found
-                $result = new Piwik_DataTable;
+                $result = new DataTable;
                 $result->metadata = $table->metadata;
                 return $result;
             }
 
             // end of tree search reached
             if (count($searchTree) == 0) {
-                $result = new Piwik_DataTable();
+                $result = new DataTable();
                 $result->addRow($row);
                 $result->metadata = $table->metadata;
                 return $result;
@@ -489,8 +491,8 @@ class Piwik_Actions_API
                                                          Metrics::INDEX_PAGE_MAX_TIME_GENERATION
                                                      )));
 
-            if ($dataTable instanceof Piwik_DataTable) {
-                $emptyColumns = $dataTable->getMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+            if ($dataTable instanceof DataTable) {
+                $emptyColumns = $dataTable->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
                 if (!is_array($emptyColumns)) {
                     $emptyColumns = array();
                 }
@@ -498,7 +500,7 @@ class Piwik_Actions_API
                 $emptyColumns[] = 'avg_time_generation';
                 $emptyColumns[] = 'min_time_generation';
                 $emptyColumns[] = 'max_time_generation';
-                $dataTable->setMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME, $emptyColumns);
+                $dataTable->setMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME, $emptyColumns);
             }
         }
     }
@@ -519,7 +521,7 @@ class Piwik_Actions_API
     /**
      * Removes DataTable rows referencing actions that were never the first action of a visit.
      *
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
      */
     private function filterNonEntryActions($dataTable)
     {
@@ -529,7 +531,7 @@ class Piwik_Actions_API
     /**
      * Removes DataTable rows referencing actions that were never the last action of a visit.
      *
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
      */
     private function filterNonExitActions($dataTable)
     {

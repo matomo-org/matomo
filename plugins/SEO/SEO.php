@@ -8,11 +8,12 @@
  * @category Piwik_Plugins
  * @package Piwik_SEO
  */
+use Piwik\Plugin;
 
 /**
  * @package Piwik_SEO
  */
-class Piwik_SEO extends Piwik_Plugin
+class Piwik_SEO extends Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation

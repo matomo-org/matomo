@@ -25,7 +25,7 @@ class Piwik_API_DocumentationGenerator
      */
     public function __construct()
     {
-        $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
+        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPluginsName();
         foreach ($plugins as $plugin) {
             $plugin = Common::unprefixClass($plugin);
             try {

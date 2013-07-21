@@ -5,6 +5,10 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
+use Piwik\Period\Day;
+use Piwik\Translate;
+
 /**
  * Testing Period_Day
  */
@@ -18,7 +22,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testInvalidDate()
     {
         try {
-            $period = new Piwik_Period_Day('Invalid Date');
+            $period = new Day('Invalid Date');
         } catch (Exception $e) {
             return;
         }
@@ -32,7 +36,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testToString()
     {
-        $period = new Piwik_Period_Day(Piwik_Date::today());
+        $period = new Day(Date::today());
         $this->assertEquals(date("Y-m-d"), $period->getPrettyString());
         $this->assertEquals(date("Y-m-d"), (string)$period);
         $this->assertEquals(date("Y-m-d"), $period->toString());
@@ -46,7 +50,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testDayIsFinishedToday()
     {
-        $period = new Piwik_Period_Day(Piwik_Date::today());
+        $period = new Day(Date::today());
         $this->assertEquals(date("Y-m-d"), $period->toString());
         $this->assertEquals(array(), $period->getSubperiods());
         $this->assertEquals(0, $period->getNumberOfSubperiods());
@@ -61,7 +65,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testDayIsFinishedYesterday()
     {
 
-        $period = new Piwik_Period_Day(Piwik_Date::yesterday());
+        $period = new Day(Date::yesterday());
         $this->assertEquals(date("Y-m-d", time() - 86400), $period->toString());
         $this->assertEquals(array(), $period->getSubperiods());
         $this->assertEquals(0, $period->getNumberOfSubperiods());
@@ -75,7 +79,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testDayIsFinishedTomorrow()
     {
-        $period = new Piwik_Period_Day(Piwik_Date::factory(date("Y-m-d", time() + 86400)));
+        $period = new Day(Date::factory(date("Y-m-d", time() + 86400)));
         $this->assertEquals(date("Y-m-d", time() + 86400), $period->toString());
         $this->assertEquals(array(), $period->getSubperiods());
         $this->assertEquals(0, $period->getNumberOfSubperiods());
@@ -89,7 +93,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testDayIsFinished31stfeb()
     {
-        $period = new Piwik_Period_Day(Piwik_Date::factory("2007-02-31"));
+        $period = new Day(Date::factory("2007-02-31"));
         $this->assertEquals("2007-03-03", $period->toString());
         $this->assertEquals(array(), $period->getSubperiods());
         $this->assertEquals(0, $period->getNumberOfSubperiods());
@@ -104,7 +108,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testDayGetDateStart1()
     {
         // create the period
-        $period = new Piwik_Period_Day(Piwik_Date::factory("2007-02-31"));
+        $period = new Day(Date::factory("2007-02-31"));
 
         // start date
         $startDate = $period->getDateStart();
@@ -125,7 +129,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testDayGetDateStart2()
     {
         // create the period
-        $period = new Piwik_Period_Day(Piwik_Date::factory("2007-01-03"));
+        $period = new Day(Date::factory("2007-01-03"));
 
         // start date
         $startDate = $period->getDateStart();
@@ -146,7 +150,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testDayGetDateStart3()
     {
         // create the period
-        $period = new Piwik_Period_Day(Piwik_Date::factory("2007-12-31"));
+        $period = new Day(Date::factory("2007-12-31"));
 
         // start date
         $startDate = $period->getDateStart();
@@ -167,7 +171,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testDayGetDateEnd1()
     {
         // create the period
-        $period = new Piwik_Period_Day(Piwik_Date::factory("2007-02-31"));
+        $period = new Day(Date::factory("2007-02-31"));
 
         // end date
         $endDate = $period->getDateEnd();
@@ -185,7 +189,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testDayGetDateEnd2()
     {
         // create the period
-        $period = new Piwik_Period_Day(Piwik_Date::factory("2007-04-15"));
+        $period = new Day(Date::factory("2007-04-15"));
 
         // end date
         $endDate = $period->getDateEnd();
@@ -203,7 +207,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testDayGetDateEnd3()
     {
         // create the period
-        $period = new Piwik_Period_Day(Piwik_Date::factory("2007-12-31"));
+        $period = new Day(Date::factory("2007-12-31"));
 
         // end date
         $endDate = $period->getDateEnd();
@@ -221,7 +225,7 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
     public function testAddSubperiodFails()
     {
         // create the period
-        $period = new Piwik_Period_Day(Piwik_Date::factory("2007-12-31"));
+        $period = new Day(Date::factory("2007-12-31"));
 
         try {
             $period->addSubperiod('');
@@ -239,8 +243,8 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedShortString()
     {
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $month = new Piwik_Period_Day(Piwik_Date::factory('2024-10-09'));
+        Translate::getInstance()->loadEnglishTranslation();
+        $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = 'Wed 9 Oct';
         $this->assertEquals($shouldBe, $month->getLocalizedShortString());
     }
@@ -252,8 +256,8 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLocalizedLongString()
     {
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $month = new Piwik_Period_Day(Piwik_Date::factory('2024-10-09'));
+        Translate::getInstance()->loadEnglishTranslation();
+        $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = 'Wednesday 9 October 2024';
         $this->assertEquals($shouldBe, $month->getLocalizedLongString());
     }
@@ -265,8 +269,8 @@ class Period_DayTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPrettyString()
     {
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
-        $month = new Piwik_Period_Day(Piwik_Date::factory('2024-10-09'));
+        Translate::getInstance()->loadEnglishTranslation();
+        $month = new Day(Date::factory('2024-10-09'));
         $shouldBe = '2024-10-09';
         $this->assertEquals($shouldBe, $month->getPrettyString());
     }

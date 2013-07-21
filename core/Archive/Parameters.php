@@ -1,10 +1,19 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @category Piwik
+ * @package Piwik
+ */
 
-namespace Piwik;
+namespace Piwik\Archive;
 use Exception;
 use Piwik\Segment;
 
-class Archive_Parameters
+class Parameters
 {
     /**
      * The list of site IDs to query archive data for.

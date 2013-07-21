@@ -10,6 +10,7 @@
  */
 use Piwik\Common;
 use Piwik\Metrics;
+use Piwik\Date;
 
 /**
  * ROW EVOLUTION
@@ -45,7 +46,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 
     /**
      * The data
-     * @var Piwik_DataTable_Array
+     * @var DataTable
      */
     protected $dataTable;
 
@@ -68,7 +69,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
      * The constructor
      * Initialize some local variables from the request
      * @param int $idSite
-     * @param Piwik_Date $date ($this->date from controller)
+     * @param Date $date ($this->date from controller)
      * @param null|string $graphType
      * @throws Exception
      */

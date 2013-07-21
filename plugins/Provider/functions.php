@@ -9,6 +9,7 @@
  * @package Piwik_Provider
  */
 use Piwik\Common;
+use Piwik\DataTable;
 
 /**
  * Return hostname portion of a domain name
@@ -38,7 +39,7 @@ function Piwik_getHostnameName($in)
  */
 function Piwik_getHostnameUrl($in)
 {
-    if ($in == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+    if ($in == DataTable::LABEL_SUMMARY_ROW) {
         return false;
     }
     if (empty($in)

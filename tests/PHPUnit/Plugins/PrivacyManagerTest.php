@@ -6,9 +6,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Archive;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Site;
 
 require_once 'PrivacyManager/PrivacyManager.php';
@@ -50,12 +54,12 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         // Temporarily disable the purge of old archives so that getNumeric('nb_visits')
         // in _addReportData does not trigger the data purge of data we've just imported
-        Piwik_ArchiveProcessor_Rules::$purgeDisabledByTests = false;
+        Rules::$purgeDisabledByTests = false;
 
         self::_addLogData();
         self::_addReportData();
 
-        Piwik_ArchiveProcessor_Rules::$purgeDisabledByTests = true;
+        Rules::$purgeDisabledByTests = true;
 
         self::$dbData = self::getDbTablesWithData();
     }
@@ -70,10 +74,10 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         self::restoreDbTables(self::$dbData);
 
-        $dateTime = Piwik_Date::factory(self::$dateTime);
+        $dateTime = Date::factory(self::$dateTime);
 
         // purging depends upon today's date, so 'older_than' parts must be dependent upon today
-        $today = Piwik_Date::factory('today');
+        $today = Date::factory('today');
         $daysSinceToday = ($today->getTimestamp() - $dateTime->getTimestamp()) / (24 * 60 * 60);
 
         $monthsSinceToday = 0;
@@ -106,11 +110,11 @@ class PrivacyManagerTest extends IntegrationTestCase
     public function tearDown()
     {
         parent::tearDown();
-        Piwik_DataTable_Manager::getInstance()->deleteAll();
+        Manager::getInstance()->deleteAll();
         Piwik_Option::getInstance()->clearCache();
         Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
-        Piwik_DataAccess_ArchiveTableCreator::clear();
+        ArchiveTableCreator::clear();
 
         $tempTableName = Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
         Piwik_Query("DROP TABLE IF EXISTS " . $tempTableName);
@@ -159,7 +163,7 @@ class PrivacyManagerTest extends IntegrationTestCase
      */
     public function testPurgeDataNotTimeToRun()
     {
-        $yesterdaySecs = Piwik_Date::factory('yesterday')->getTimestamp();
+        $yesterdaySecs = Date::factory('yesterday')->getTimestamp();
 
         Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
         Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $yesterdaySecs);
@@ -256,7 +260,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     public function testPurgeDataDeleteLogsNoData()
     {
         Piwik::truncateAllTables();
-        foreach (Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
+        foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
             Piwik_Exec("DROP TABLE $table");
         }
 
@@ -625,7 +629,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         //   - http://whatever.com/_{$daysSinceLastVisit}
         //   - http://whatever.com/42/{$daysSinceLastVisit}
 
-        $start = Piwik_Date::factory(self::$dateTime);
+        $start = Date::factory(self::$dateTime);
         self::$idSite = Test_Piwik_BaseFixture::createWebsite('2012-01-01', $ecommerce = 1);
         $idGoal = Piwik_Goals_API::getInstance()->addGoal(self::$idSite, 'match all', 'url', 'http', 'contains');
 
@@ -658,7 +662,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     protected static function _addReportData()
     {
-        $date = Piwik_Date::factory(self::$dateTime);
+        $date = Date::factory(self::$dateTime);
 
         $archive = Archive::build(self::$idSite, 'year', $date);
 
@@ -685,7 +689,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             self::$idSite, 'day', '2012-01-14', 'browserCode==FF');
 
         // add range within January
-        $rangeEnd = Piwik_Date::factory('2012-01-29');
+        $rangeEnd = Date::factory('2012-01-29');
         $rangeStart = $rangeEnd->subDay(1);
         $range = $rangeStart->toString('Y-m-d') . "," . $rangeEnd->toString('Y-m-d');
 
@@ -833,7 +837,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
     protected function _setTimeToRun()
     {
-        $lastDateSecs = Piwik_Date::factory('today')->subDay(8)->getTimestamp();
+        $lastDateSecs = Date::factory('today')->subDay(8)->getTimestamp();
 
         Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS_INITIAL, 1);
         Piwik_SetOption(Piwik_PrivacyManager::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDateSecs);

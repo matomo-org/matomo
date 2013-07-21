@@ -9,14 +9,18 @@
  * @package Piwik_Actions
  */
 use Piwik\Config;
+use Piwik\DataTable\Manager;
+use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Metrics;
+use Piwik\DataTable;
+use Piwik\PluginsArchiver;
 
 /**
  * Class encapsulating logic to process Day/Period Archiving for the Actions reports
  *
  * @package Piwik_Actions
  */
-class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
+class Piwik_Actions_Archiver extends PluginsArchiver
 {
     const DOWNLOADS_RECORD_NAME = 'Actions_downloads';
     const OUTLINKS_RECORD_NAME = 'Actions_outlink';
@@ -152,7 +156,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
     {
         $this->actionsTablesByType = array();
         foreach (self::$actionTypes as $type) {
-            $dataTable = new Piwik_DataTable();
+            $dataTable = new DataTable();
             $dataTable->setMaximumAllowedRows(Piwik_Actions_ArchivingHelper::$maximumRowsInDataTableLevelZero);
 
             if ($type == Piwik_Tracker_Action::TYPE_ACTION_URL
@@ -212,7 +216,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
+            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('idaction', 'name'));
             $rankingQuery->addColumn(array('url_prefix', Metrics::INDEX_NB_UNIQ_VISITORS));
             $rankingQuery->addColumn(array(Metrics::INDEX_PAGE_NB_HITS, Metrics::INDEX_NB_VISITS), 'sum');
@@ -291,7 +295,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
+            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS);
             $rankingQuery->addColumn(array(Metrics::INDEX_PAGE_ENTRY_NB_VISITS,
@@ -342,7 +346,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
+            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS);
             $rankingQuery->addColumn(Metrics::INDEX_PAGE_EXIT_NB_VISITS, 'sum');
@@ -388,7 +392,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
             $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
-            $rankingQuery->setOthersLabel(Piwik_DataTable::LABEL_SUMMARY_ROW);
+            $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(Metrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');
             $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($this->actionsTablesByType));
@@ -454,7 +458,7 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
 
     /**
      * @param $typeId
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     protected function getDataTable($typeId)
     {
@@ -472,20 +476,20 @@ class Piwik_Actions_Archiver extends Piwik_PluginsArchiver
      * For rows which have subtables (eg. directories with sub pages),
      * deletes columns which don't make sense when all values of sub pages are summed.
      *
-     * @param $dataTable Piwik_DataTable
+     * @param $dataTable DataTable
      */
     static public function deleteInvalidSummedColumnsFromDataTable($dataTable)
     {
         foreach ($dataTable->getRows() as $id => $row) {
             if (($idSubtable = $row->getIdSubDataTable()) !== null
-                || $id === Piwik_DataTable::ID_SUMMARY_ROW
+                || $id === DataTable::ID_SUMMARY_ROW
             ) {
                 if ($idSubtable !== null) {
-                    $subtable = Piwik_DataTable_Manager::getInstance()->getTable($idSubtable);
+                    $subtable = Manager::getInstance()->getTable($idSubtable);
                     self::deleteInvalidSummedColumnsFromDataTable($subtable);
                 }
 
-                if ($row instanceof Piwik_DataTable_Row_DataTableSummary) {
+                if ($row instanceof DataTableSummaryRow) {
                     $row->recalculate();
                 }
 

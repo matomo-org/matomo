@@ -11,6 +11,7 @@
 use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\DataTable;
 
 /**
  * @see plugins/UserSettings/functions.php
@@ -111,7 +112,7 @@ class Piwik_UserSettings_API
         );
 
         $dataTables = array($dataTable);
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             $dataTables = $dataTable->getArray();
         }
         foreach ($dataTables AS $table) {
@@ -180,7 +181,7 @@ class Piwik_UserSettings_API
         $visitsSums = $archive->getDataTableFromNumeric('nb_visits');
 
         // check whether given tables are arrays
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             $tableArray = $dataTable->getArray();
             $browserTypesArray = $browserTypes->getArray();
             $visitSumsArray = $visitsSums->getArray();

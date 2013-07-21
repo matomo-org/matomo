@@ -10,13 +10,16 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\Date;
+use Piwik\Plugin;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_PDFReports
  */
-class Piwik_PDFReports extends Piwik_Plugin
+class Piwik_PDFReports extends Plugin
 {
     const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
     const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'PDFReports_EmailReports';
@@ -204,7 +207,7 @@ class Piwik_PDFReports extends Piwik_Plugin
                         :
                         $displayFormat != self::DISPLAY_FORMAT_TABLES_ONLY)
                         && Piwik::isGdExtensionEnabled()
-                        && PluginsManager::getInstance()->isPluginActivated('ImageGraph')
+                        && \Piwik\PluginsManager::getInstance()->isPluginActivated('ImageGraph')
                         && !empty($metadata['imageGraphUrl']);
 
                 $processedReport['evolutionGraph'] = $evolutionGraph;
@@ -409,13 +412,13 @@ class Piwik_PDFReports extends Piwik_Plugin
 
     public function getScheduledTasks(&$tasks)
     {
-        $arbitraryDateInUTC = Piwik_Date::factory('2011-01-01');
+        $arbitraryDateInUTC = Date::factory('2011-01-01');
         foreach (Piwik_PDFReports_API::getInstance()->getReports() as $report) {
             if (!$report['deleted'] && $report['period'] != Piwik_ScheduledTime::PERIOD_NEVER) {
                 $midnightInSiteTimezone =
                     date(
                         'H',
-                        Piwik_Date::factory(
+                        Date::factory(
                             $arbitraryDateInUTC,
                             Site::getTimezoneFor($report['idsite'])
                         )->getTimestamp()
@@ -461,7 +464,7 @@ class Piwik_PDFReports extends Piwik_Plugin
             13,
             $isHTML = false,
             $tooltip = Piwik_Translate(
-                PluginsManager::getInstance()->isPluginActivated('MobileMessaging')
+                \Piwik\PluginsManager::getInstance()->isPluginActivated('MobileMessaging')
                     ? 'MobileMessaging_TopLinkTooltip' : 'PDFReports_TopLinkTooltip'
             )
         );
@@ -470,7 +473,7 @@ class Piwik_PDFReports extends Piwik_Plugin
     function getTopMenuTranslationKey()
     {
         // if MobileMessaging is not activated, display 'Email reports'
-        if (!PluginsManager::getInstance()->isPluginActivated('MobileMessaging'))
+        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('MobileMessaging'))
             return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
 
         if (Piwik::isUserIsAnonymous()) {

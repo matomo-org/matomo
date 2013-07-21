@@ -8,17 +8,24 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Renderer;
+
+use Exception;
 use Piwik\Common;
+use Piwik\DataTable\Renderer;
+use Piwik\Date;
+use Piwik\DataTable;
+use Piwik_Url;
 
 /**
  * RSS Feed.
- * The RSS renderer can be used only on Piwik_DataTable_Array that are arrays of Piwik_DataTable.
- * A RSS feed contains one dataTable per element in the Piwik_DataTable_Array.
+ * The RSS renderer can be used only on Set that are arrays of DataTable.
+ * A RSS feed contains one dataTable per element in the Set.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
+class Rss extends Renderer
 {
     /**
      * Computes the dataTable output and returns the string/binary
@@ -46,13 +53,13 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
     /**
      * Computes the output for the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @return string
      * @throws Exception
      */
     protected function renderTable($table)
     {
-        if (!($table instanceof Piwik_DataTable_Array)
+        if (!($table instanceof DataTable\Map)
             || $table->getKeyName() != 'date'
         ) {
             throw new Exception("RSS feeds can be generated for one specific website &idSite=X." .
@@ -72,7 +79,7 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
 
             $pudDate = date('r', $timestamp);
 
-            $dateInSiteTimezone = Piwik_Date::factory($timestamp)->setTimezone($site->getTimezone())->toString('Y-m-d');
+            $dateInSiteTimezone = Date::factory($timestamp)->setTimezone($site->getTimezone())->toString('Y-m-d');
             $thisPiwikUrl = Common::sanitizeInputValue($piwikUrl . "&date=$dateInSiteTimezone");
             $siteName = $site->getName();
             $title = $siteName . " on " . $date;
@@ -189,7 +196,6 @@ class Piwik_DataTable_Renderer_Rss extends Piwik_DataTable_Renderer
                 }
             }
             $html .= "</tr>";
-
         }
         $html .= "\n\n</table>";
         return $html;

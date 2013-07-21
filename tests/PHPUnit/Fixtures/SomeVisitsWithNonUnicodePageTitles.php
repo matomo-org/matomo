@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds one website and some visits with non unicode page titles.
@@ -33,7 +34,7 @@ class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Test_Piwik_B
     private function setUpWebsites()
     {
         Piwik_SitesManager_API::getInstance()->setGlobalSearchParameters($searchKeywordParameters = 'gkwd', $searchCategoryParameters = 'gcat');
-        self::createWebsite(Piwik_Date::factory($this->dateTime)->getDatetime(), 0, "Site 1 - Site search", $siteurl = false, $search = 1, $searchKwd = 'q,mykwd,p', $searchCat = 'cats');
+        self::createWebsite(Date::factory($this->dateTime)->getDatetime(), 0, "Site 1 - Site search", $siteurl = false, $search = 1, $searchKwd = 'q,mykwd,p', $searchCat = 'cats');
     }
 
     private function trackVisits()
@@ -48,7 +49,7 @@ class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Test_Piwik_B
         $visitor = self::getTracker($idSite1, $dateTime, $defaultInit = true);
 
         // Test w/ iso-8859-15
-        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
         $visitor->setUrlReferrer('http://anothersite.com/whatever.html?whatever=Ato%FC');
         // Also testing that the value is encoded when passed as an array
         $visitor->setUrl('http://example.org/index.htm?random=param&mykwd[]=Search 2%FC&test&cats= Search Kategory &search_count=INCORRECT!');
@@ -58,13 +59,13 @@ class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Test_Piwik_B
 
         // Test w/ windows-1251
         $visitor = self::getTracker($idSite1, $dateTime, $defaultInit = true);
-        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
         $visitor->setUrlReferrer('http://anothersite.com/whatever.html?txt=%EC%E5%F8%EA%EE%E2%FB%E5');
         $visitor->setUrl('http://example.org/page/index.htm?whatever=%EC%E5%F8%EA%EE%E2%FB%E5');
         $visitor->setPageCharset('windows-1251');
         self::checkResponse($visitor->doTrackPageView('Page title is always UTF-8'));
 
-        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
+        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
         $nonUnicodeKeyword = '%EC%E5%F8%EA%EE%E2%FB%E5';
         $visitor->setUrl('http://example.org/page/index.htm?q=' . $nonUnicodeKeyword);
         $visitor->setPageCharset('windows-1251');
@@ -72,7 +73,7 @@ class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Test_Piwik_B
 
 
         // Test URL with non unicode Site Search keyword
-        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.5)->getDatetime());
+        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->getDatetime());
         //TESTS: on jenkins somehow the "<-was here" was cut off so removing this test case and simply append the wrong keyword
 //		$visitor->setUrl('http://example.org/page/index.htm?q=non unicode keyword %EC%E5%F8%EAe%EE%E2%FBf%E5 <-was here');
         $visitor->setUrl('http://example.org/page/index.htm?q=non unicode keyword %EC%E5%F8%EA%EE%E2%FB%E5');
@@ -81,13 +82,13 @@ class Test_Piwik_Fixture_SomeVisitsWithNonUnicodePageTitles extends Test_Piwik_B
 
 
         $visitor->setPageCharset('');
-        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.5)->getDatetime());
+        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->getDatetime());
         $visitor->setUrl('http://example.org/exit-page');
         self::checkResponse($visitor->doTrackPageView('Page title is always UTF-8'));
 
         // Test set invalid page char set
         $visitor = self::getTracker($idSite1, $dateTime, $defaultInit = true);
-        $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
+        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
         $visitor->setUrlReferrer('http://anothersite.com/whatever.html');
         $visitor->setUrl('http://example.org/index.htm?random=param&mykwd=a+keyword&test&cats= Search Kategory &search_count=INCORRECT!');
         $visitor->setPageCharset('GTF-42'); // galactic transformation format

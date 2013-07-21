@@ -161,7 +161,7 @@ class Piwik_VisitsSummary_API
         $table = $this->getSumVisitsLength($idSite, $period, $date, $segment);
         if (is_object($table)) {
             $table->filter('ColumnCallbackReplace',
-                array('sum_visit_length', array('Piwik', 'getPrettyTimeFromSeconds')));
+                array('sum_visit_length', '\Piwik\Piwik::getPrettyTimeFromSeconds'));
         } else {
             $table = Piwik::getPrettyTimeFromSeconds($table);
         }

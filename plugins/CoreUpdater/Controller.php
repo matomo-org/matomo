@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
  */
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -166,7 +167,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         /*
          * Make sure the execute bit is set for this shell script
          */
-        if (!Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()) {
+        if (!Rules::isBrowserTriggerEnabled()) {
             @chmod($this->pathRootExtractedPiwik . '/misc/cron/archive.sh', 0755);
         }
 
@@ -345,7 +346,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
                     $this->coreError = true;
                     break;
                 } else {
-                    PluginsManager::getInstance()->deactivatePlugin($name);
+                    \Piwik\PluginsManager::getInstance()->deactivatePlugin($name);
                     $this->deactivatedPlugins[] = $name;
                 }
             }

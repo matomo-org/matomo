@@ -8,14 +8,19 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Exception;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\AddColumnsProcessedMetrics;
 
 /**
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTable_Filter_AddColumnsProcessedMetrics
+class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
 {
     /**
      * Process main goal metrics: conversion rate, revenue per visit
@@ -41,13 +46,13 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
      * - nb conversions
      * - revenue per visit
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param bool $enable             should be true (automatically set to true when filter_update_columns_when_show_all_goals is found in the API request)
      * @param string $processOnlyIdGoal  Defines what metrics to add (don't process metrics when you don't display them)
      *                                             If self::GOALS_FULL_TABLE, all Goal metrics (and per goal metrics) will be processed
      *                                             If self::GOALS_OVERVIEW, only the main goal metrics will be added
      *                                             If an int > 0, then will process only metrics for this specific Goal
-     * @return Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal
+     * @return \Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal
      */
     public function __construct($table, $enable = true, $processOnlyIdGoal)
     {
@@ -61,13 +66,13 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal extends Piwik_DataTa
     /**
      * Filters the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
         // Add standard processed metrics
         parent::filter($table);
-        $roundingPrecision = Piwik_Tracker_GoalManager::REVENUE_PRECISION;
+        $roundingPrecision = \Piwik_Tracker_GoalManager::REVENUE_PRECISION;
         $expectedColumns = array();
         foreach ($table->getRows() as $key => $row) {
             $currentColumns = $row->getColumns();

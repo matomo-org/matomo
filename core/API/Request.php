@@ -11,6 +11,7 @@
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\DataTable;
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -121,7 +122,7 @@ class Piwik_API_Request
      * It then calls the API Proxy which will call the requested method.
      *
      * @throws Piwik_FrontController_PluginDeactivatedException
-     * @return Piwik_DataTable|mixed  The data resulting from the API call
+     * @return DataTable|mixed  The data resulting from the API call
      */
     public function process()
     {
@@ -137,7 +138,7 @@ class Piwik_API_Request
 
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
-            if (!PluginsManager::getInstance()->isPluginActivated($module)) {
+            if (!\Piwik\PluginsManager::getInstance()->isPluginActivated($module)) {
                 throw new Piwik_FrontController_PluginDeactivatedException($module);
             }
             $moduleClass = "Piwik_" . $module . "_API";

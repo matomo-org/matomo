@@ -11,6 +11,7 @@
 
 use Piwik\Common;
 use Piwik\Metrics;
+use Piwik\DataTable;
 
 /**
  * Generates JSON data used to configure and populate JQPlot graphs.
@@ -71,7 +72,7 @@ class Piwik_JqplotDataGenerator
     /**
      * Generates JSON graph data and returns it.
      * 
-     * @param Piwik_DataTable|Piwik_DataTable_Array $dataTable
+     * @param DataTable|DataTable\Map $dataTable
      * @return string
      */
     public function generate($dataTable)

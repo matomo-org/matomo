@@ -9,8 +9,13 @@
  * @package Piwik
  */
 namespace Piwik;
+use Piwik\Archive\Parameters;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Metrics;
+use Piwik\Date;
+use Piwik\ArchiveProcessor\Rules;
+use Piwik\DataAccess\ArchiveSelector;
 
 /**
  * The archive object is used to query specific data for a day or a period of statistics for a given website.
@@ -93,16 +98,16 @@ class Archive
     private $forceIndexedByDate;
 
     /**
-     * @var Archive_Parameters
+     * @var Parameters
      */
     private $params;
 
     /**
-     * @param Archive_Parameters $params
+     * @param Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
-    protected function __construct(Archive_Parameters $params, $forceIndexedBySite = false,
+    protected function __construct(Parameters $params, $forceIndexedBySite = false,
                                    $forceIndexedByDate = false)
     {
         $this->params = $params;
@@ -115,7 +120,7 @@ class Archive
      *
      * @param $idSites
      * @param string $period 'day', 'week', 'month', 'year' or 'range'
-     * @param Piwik_Date|string $strDate 'YYYY-MM-DD', magic keywords (ie, 'today'; @see Piwik_Date::factory())
+     * @param Date|string $strDate 'YYYY-MM-DD', magic keywords (ie, 'today'; @see Date::factory())
      *                                   or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD').
      * @param bool|string $segment Segment definition - defaults to false for backward compatibility.
      * @param bool|string $_restrictSitesToLogin Used only when running as a scheduled task.
@@ -126,7 +131,7 @@ class Archive
         $websiteIds = Site::getIdSitesFromIdSitesString($idSites, $_restrictSitesToLogin);
 
         if (Period::isMultiplePeriod($strDate, $period)) {
-            $oPeriod = new Period_Range($period, $strDate);
+            $oPeriod = new Range($period, $strDate);
             $allPeriods = $oPeriod->getSubperiods();
         } else {
             $timezone = count($websiteIds) == 1 ? Site::getTimezoneFor($websiteIds[0]) : false;
@@ -150,7 +155,7 @@ class Archive
             $forceIndexedByDate = true;
         }
 
-        $params = new Archive_Parameters();
+        $params = new Parameters();
         $params->setIdSites($idSites);
         $params->setPeriods($periods);
         $params->setSegment($segment);
@@ -212,7 +217,7 @@ class Archive
      *
      * @param string|array $names One or more archive names, eg, 'nb_visits', 'Referers_distinctKeywords',
      *                            etc.
-     * @return Piwik_DataTable|false False if no value with the given names. Based on the number
+     * @return DataTable|false False if no value with the given names. Based on the number
      *                               of sites/periods, the result can be a DataTable_Array, which
      *                               contains DataTable instances.
      */
@@ -226,13 +231,13 @@ class Archive
      * This method will build a dataTable from the blob value $name in the current archive.
      *
      * For example $name = 'Referers_searchEngineByKeyword' will return a
-     * Piwik_DataTable containing all the keywords. If a $idSubtable is given, the method
+     * DataTable containing all the keywords. If a $idSubtable is given, the method
      * will return the subTable of $name. If 'all' is supplied for $idSubtable every subtable
      * will be returned.
      *
      * @param string $name The name of the record to get.
      * @param int|string|null $idSubtable The subtable ID (if any) or 'all' if requesting every datatable.
-     * @return Piwik_DataTable|false
+     * @return DataTable|false
      */
     public function getDataTable($name, $idSubtable = null)
     {
@@ -243,13 +248,13 @@ class Archive
     /**
      * Same as getDataTable() except that it will also load in memory all the subtables
      * for the DataTable $name. You can then access the subtables by using the
-     * Piwik_DataTable_Manager::getTable() function.
+     * Manager::getTable() function.
      *
      * @param string $name The name of the record to get.
      * @param int|string|null $idSubtable The subtable ID (if any) or self::ID_SUBTABLE_LOAD_ALL_SUBTABLES if requesting every datatable.
      * @param bool $addMetadataSubtableId Whether to add the DB subtable ID as metadata to each datatable,
      *                                    or not.
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getDataTableExpanded($name, $idSubtable = null, $addMetadataSubtableId = true)
     {
@@ -280,11 +285,11 @@ class Archive
      * @param string $name
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param string $segment
      * @param bool $expanded
      * @param int|null $idSubtable
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return DataTable|DataTable\Map
      */
     public static function getDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $idSubtable = null)
     {
@@ -315,7 +320,7 @@ class Archive
      * @param array|string $archiveNames
      * @param $archiveDataType
      * @param null|int $idSubtable
-     * @return Archive_DataCollection
+     * @return DataCollection
      */
     private function get($archiveNames, $archiveDataType, $idSubtable = null)
     {
@@ -332,7 +337,7 @@ class Archive
             }
         }
 
-        $result = new Archive_DataCollection(
+        $result = new Archive\DataCollection(
             $archiveNames, $archiveDataType, $this->params->getIdSites(), $this->params->getPeriods(), $defaultRow = null);
 
         $archiveIds = $this->getArchiveIds($archiveNames);
@@ -341,7 +346,7 @@ class Archive
         }
 
         $loadAllSubtables = $idSubtable == self::ID_SUBTABLE_LOAD_ALL_SUBTABLES;
-        $archiveData = Piwik_DataAccess_ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $loadAllSubtables);
+        $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $loadAllSubtables);
         foreach ($archiveData as $row) {
             // values are grouped by idsite (site ID), date1-date2 (date range), then name (field name)
             $idSite = $row['idsite'];
@@ -365,7 +370,7 @@ class Archive
      * Returns archive IDs for the sites, periods and archive names that are being
      * queried. This function will use the idarchive cache if it has the right data,
      * query archive tables for IDs w/o launching archiving, or launch archiving and
-     * get the idarchive from Piwik_ArchiveProcessor instances.
+     * get the idarchive from ArchiveProcessor instances.
      */
     private function getArchiveIds($archiveNames)
     {
@@ -388,7 +393,7 @@ class Archive
 
         // cache id archives for plugins we haven't processed yet
         if (!empty($archiveGroups)) {
-            if (!Piwik_ArchiveProcessor_Rules::isArchivingDisabledFor($this->params->getSegment(), $this->getPeriodLabel())) {
+            if (!Rules::isArchivingDisabledFor($this->params->getSegment(), $this->getPeriodLabel())) {
                 $this->cacheArchiveIdsAfterLaunching($archiveGroups, $plugins);
             } else {
                 $this->cacheArchiveIdsWithoutLaunching($plugins);
@@ -413,7 +418,7 @@ class Archive
     }
 
     /**
-     * @return Archive_Parameters
+     * @return Parameters
      */
     public function getParams()
     {
@@ -430,7 +435,7 @@ class Archive
      */
     private function cacheArchiveIdsAfterLaunching($archiveGroups, $plugins)
     {
-        $today = Piwik_Date::today();
+        $today = Date::today();
 
         /* @var Period $period */
         foreach ($this->params->getPeriods() as $period) {
@@ -459,9 +464,9 @@ class Archive
                 }
 
                 if ($period->getLabel() == 'day') {
-                    $processing = new Piwik_ArchiveProcessor_Day($period, $site, $this->params->getSegment());
+                    $processing = new ArchiveProcessor\Day($period, $site, $this->params->getSegment());
                 } else {
-                    $processing = new Piwik_ArchiveProcessor_Period($period, $site, $this->params->getSegment());
+                    $processing = new ArchiveProcessor\Period($period, $site, $this->params->getSegment());
                 }
 
                 // process for each plugin as well
@@ -493,7 +498,7 @@ class Archive
      */
     private function cacheArchiveIdsWithoutLaunching($plugins)
     {
-        $idarchivesByReport = Piwik_DataAccess_ArchiveSelector::getArchiveIds(
+        $idarchivesByReport = ArchiveSelector::getArchiveIds(
             $this->params->getIdSites(), $this->params->getPeriods(), $this->params->getSegment(), $plugins);
 
         // initialize archive ID cache for each report
@@ -518,7 +523,7 @@ class Archive
      */
     private function getDoneStringForPlugin($plugin)
     {
-        return Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($this->params->getSegment(), $this->getPeriodLabel(), $plugin);
+        return Rules::getDoneStringFlagFor($this->params->getSegment(), $this->getPeriodLabel(), $plugin);
     }
 
     private function getPeriodLabel()
@@ -529,7 +534,7 @@ class Archive
 
     /**
      * Returns an array describing what metadata to use when indexing a query result.
-     * For use with Archive_DataCollection.
+     * For use with DataCollection.
      *
      * @return array
      */
@@ -637,7 +642,7 @@ class Archive
 
         $plugin = substr($report, 0, strpos($report, '_'));
         if (empty($plugin)
-            || !Piwik_PluginsManager::getInstance()->isPluginActivated($plugin)
+            || !\Piwik\PluginsManager::getInstance()->isPluginActivated($plugin)
         ) {
             $pluginStr = empty($plugin) ? '' : "($plugin)";
             throw new Exception("Error: The report '$report' was requested but it is not available "

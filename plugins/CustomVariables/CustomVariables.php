@@ -8,11 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_CustomVariables
  */
+use Piwik\ArchiveProcessor;
+use Piwik\Plugin;
 
 /**
  * @package Piwik_CustomVariables
  */
-class Piwik_CustomVariables extends Piwik_Plugin
+class Piwik_CustomVariables extends Plugin
 {
     public function getInformation()
     {
@@ -130,7 +132,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
     /**
      * Hooks on daily archive to trigger various log processing
      */
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -138,7 +140,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
         }
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {

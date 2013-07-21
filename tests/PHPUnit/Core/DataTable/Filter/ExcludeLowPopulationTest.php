@@ -5,19 +5,23 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\ExcludeLowPopulation;
+use Piwik\DataTable\Row;
+
 class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCase
 {
     protected function getTestDataTable()
     {
-        $table = new Piwik_DataTable;
+        $table = new DataTable;
         $table->addRowsFromArray(
             array(
-                 array(Piwik_DataTable_Row::COLUMNS => array('label' => 'zero', 'count' => 0)),
-                 array(Piwik_DataTable_Row::COLUMNS => array('label' => 'one', 'count' => 1)),
-                 array(Piwik_DataTable_Row::COLUMNS => array('label' => 'onedotfive', 'count' => 1.5)),
-                 array(Piwik_DataTable_Row::COLUMNS => array('label' => 'ten', 'count' => 10)),
-                 array(Piwik_DataTable_Row::COLUMNS => array('label' => 'ninety', 'count' => 90)),
-                 array(Piwik_DataTable_Row::COLUMNS => array('label' => 'hundred', 'count' => 100)),
+                 array(Row::COLUMNS => array('label' => 'zero', 'count' => 0)),
+                 array(Row::COLUMNS => array('label' => 'one', 'count' => 1)),
+                 array(Row::COLUMNS => array('label' => 'onedotfive', 'count' => 1.5)),
+                 array(Row::COLUMNS => array('label' => 'ten', 'count' => 10)),
+                 array(Row::COLUMNS => array('label' => 'ninety', 'count' => 90)),
+                 array(Row::COLUMNS => array('label' => 'hundred', 'count' => 100)),
             )
         );
         return $table;
@@ -33,7 +37,7 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
     public function testStandardTable()
     {
         $table = $this->getTestDataTable();
-        $filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'count', 1.1);
+        $filter = new ExcludeLowPopulation($table, 'count', 1.1);
         $filter->filter($table);
         $this->assertEquals(4, $table->getRowsCount());
         $this->assertEquals(array(1.5, 10, 90, 100), $table->getColumn('count'));
@@ -49,7 +53,7 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
     public function testFilterEqualOneDoesFilter()
     {
         $table = $this->getTestDataTable();
-        $filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'count', 1);
+        $filter = new ExcludeLowPopulation($table, 'count', 1);
         $filter->filter($table);
         $this->assertEquals(5, $table->getRowsCount());
     }
@@ -64,7 +68,7 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
     public function testFilterEqualZeroDoesFilter()
     {
         $table = $this->getTestDataTable();
-        $filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'count', 0);
+        $filter = new ExcludeLowPopulation($table, 'count', 0);
         $filter->filter($table);
         $this->assertEquals(3, $table->getRowsCount());
         $this->assertEquals(array(10, 90, 100), $table->getColumn('count'));
@@ -80,7 +84,7 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
     public function testFilterSpecifyExcludeLowPopulationThresholdDoesFilter()
     {
         $table = $this->getTestDataTable();
-        $filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'count', 0, 0.4); //40%
+        $filter = new ExcludeLowPopulation($table, 'count', 0, 0.4); //40%
         $filter->filter($table);
         $this->assertEquals(2, $table->getRowsCount());
         $this->assertEquals(array(90, 100), $table->getColumn('count'));
@@ -98,9 +102,9 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
     public function testFilterLowpop1()
     {
 
-        $idcol = Piwik_DataTable_Row::COLUMNS;
+        $idcol = Row::COLUMNS;
 
-        $table = new Piwik_DataTable();
+        $table = new DataTable();
         $rows = array(
             array($idcol => array('label' => 'google', 'nb_visits' => 897)), //0
             array($idcol => array('label' => 'ask', 'nb_visits' => -152)), //1
@@ -114,7 +118,7 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
         );
         $table->addRowsFromArray($rows);
 
-        $expectedtable = new Piwik_DataTable();
+        $expectedtable = new DataTable();
         $rows = array(
             array($idcol => array('label' => 'google', 'nb_visits' => 897)), //0
             array($idcol => array('label' => 'piwik', 'nb_visits' => 1.5)), //2
@@ -124,9 +128,9 @@ class DataTable_Filter_ExcludeLowPopulationTest extends PHPUnit_Framework_TestCa
         );
         $expectedtable->addRowsFromArray($rows);
 
-        $filter = new Piwik_DataTable_Filter_ExcludeLowPopulation($table, 'nb_visits', 1.4);
+        $filter = new ExcludeLowPopulation($table, 'nb_visits', 1.4);
         $filter->filter($table);
 
-        $this->assertTrue(Piwik_DataTable::isEqual($table, $expectedtable));
+        $this->assertTrue(DataTable::isEqual($table, $expectedtable));
     }
 }

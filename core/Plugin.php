@@ -8,7 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
 use Piwik\Common;
+use Piwik\Plugin\MetadataLoader;
 
 /**
  * @see core/Plugin/MetadataLoader.php
@@ -16,30 +18,30 @@ use Piwik\Common;
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/MetadataLoader.php';
 
 /**
- * Abstract class to define a Piwik_Plugin.
+ * Abstract class to define a Plugin.
  * Any plugin has to at least implement the abstract methods of this class.
  *
  * @package Piwik
  */
-class Piwik_Plugin
+class Plugin
 {
     /**
      * Name of this plugin.
-     * 
+     *
      * @var string
      */
     protected $pluginName;
-    
+
     /**
      * Holds plugin metadata.
-     * 
+     *
      * @var array
      */
     private $pluginInformation;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param string|bool $pluginName A plugin name to force. If not supplied, it is set
      *                                to last part of the class name.
      */
@@ -49,11 +51,11 @@ class Piwik_Plugin
             $pluginName = Common::unprefixClass(get_class($this));
         }
         $this->pluginName = $pluginName;
-        
-        $metadataLoader = new Piwik_Plugin_MetadataLoader($pluginName);
+
+        $metadataLoader = new MetadataLoader($pluginName);
         $this->pluginInformation = $metadataLoader->load();
     }
-    
+
     /**
      * Returns the plugin details
      * - 'description' => string        // 1-2 sentence description of the plugin

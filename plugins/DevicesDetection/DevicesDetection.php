@@ -9,13 +9,15 @@
  * @category Piwik_Plugins
  * @package Piwik_DevicesDetection
  */
+use Piwik\ArchiveProcessor;
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\Plugin;
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
-class Piwik_DevicesDetection extends Piwik_Plugin
+class Piwik_DevicesDetection extends Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation
@@ -229,7 +231,7 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         Common::printDebug($deviceInfo);
     }
 
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -237,7 +239,7 @@ class Piwik_DevicesDetection extends Piwik_Plugin
         }
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_DevicesDetection_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {

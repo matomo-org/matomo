@@ -14,6 +14,9 @@ namespace Piwik;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\EventDispatcher;
+use Piwik\Translate;
+use Piwik\Plugin\MetadataLoader;
 
 /**
  * @see core/Menu/Abstract.php
@@ -337,7 +340,7 @@ class PluginsManager
     {
         $plugins = $this->getLoadedPlugins();
         foreach($plugins as $plugin) {
-            /* @var $plugin Piwik_Plugin */
+            /* @var $plugin Plugin */
             if($plugin->isTheme()
                 && $plugin->getPluginName() != self::DEFAULT_THEME) {
                 return $plugin->getPluginName();
@@ -385,7 +388,7 @@ class PluginsManager
     public function loadPluginTranslations($language = false)
     {
         if (empty($language)) {
-            $language = Piwik_Translate::getInstance()->getLanguageToLoad();
+            $language = Translate::getInstance()->getLanguageToLoad();
         }
         $plugins = $this->getLoadedPlugins();
 
@@ -419,11 +422,11 @@ class PluginsManager
 
     /**
      * Returns an array of key,value with the following format: array(
-     *        'UserCountry' => Piwik_Plugin $pluginObject,
-     *        'UserSettings' => Piwik_Plugin $pluginObject,
+     *        'UserCountry' => Plugin $pluginObject,
+     *        'UserSettings' => Plugin $pluginObject,
      *    );
      *
-     * @return array,Piwik_Plugin
+     * @return array,Plugin
      */
     public function getLoadedPlugins()
     {
@@ -431,7 +434,7 @@ class PluginsManager
     }
 
     /**
-     * Returns the given Piwik_Plugin object
+     * Returns the given Plugin object
      *
      * @param string $name
      * @throws Exception
@@ -484,7 +487,7 @@ class PluginsManager
 
         $this->addLoadedPlugin($pluginName, $newPlugin);
 
-        Piwik_EventDispatcher::getInstance()->postPendingEventsTo($newPlugin);
+        EventDispatcher::getInstance()->postPendingEventsTo($newPlugin);
 
         return $newPlugin;
     }
@@ -508,19 +511,18 @@ class PluginsManager
         if (!file_exists($path)) {
             // Create the smallest minimal Piwik Plugin
             // Eg. Used for Zeitgeist default theme which does not have a Zeitgeist.php file
-            return new Piwik_Plugin($pluginName);
+            return new Plugin($pluginName);
         }
 
         require_once $path;
 
         if (!class_exists($pluginClassName, false)) {
-            throw new Exception("The class $pluginClassName couldn't be found in the file '$path'");
+            throw new \Exception("The class $pluginClassName couldn't be found in the file '$path'");
         }
         $newPlugin = new $pluginClassName();
 
-        var_dump(get_class($newPlugin));
-        if (!($newPlugin instanceof Piwik_Plugin)) {
-            throw new \Exception("The plugin $pluginClassName in the file $path must inherit from Piwik_Plugin.");
+        if (!($newPlugin instanceof Plugin)) {
+            throw new \Exception("The plugin $pluginClassName in the file $path must inherit from Plugin.");
         }
         return $newPlugin;
     }
@@ -570,10 +572,10 @@ class PluginsManager
     /**
      * Install a specific plugin
      *
-     * @param Piwik_Plugin $plugin
+     * @param Plugin $plugin
      * @throws Piwik_PluginsManager_PluginException if installation fails
      */
-    private function installPlugin(Piwik_Plugin $plugin)
+    private function installPlugin(Plugin $plugin)
     {
         try {
             $plugin->install();
@@ -586,9 +588,9 @@ class PluginsManager
      * Add a plugin in the loaded plugins array
      *
      * @param string $pluginName  plugin name without prefix (eg. 'UserCountry')
-     * @param Piwik_Plugin $newPlugin
+     * @param Plugin $newPlugin
      */
-    private function addLoadedPlugin($pluginName, Piwik_Plugin $newPlugin)
+    private function addLoadedPlugin($pluginName, Plugin $newPlugin)
     {
         $this->loadedPlugins[$pluginName] = $newPlugin;
     }
@@ -596,15 +598,15 @@ class PluginsManager
     /**
      * Load translation
      *
-     * @param Piwik_Plugin $plugin
+     * @param Plugin $plugin
      * @param string $langCode
      * @throws Exception
      * @return bool whether the translation was found and loaded
      */
     private function loadTranslation($plugin, $langCode)
     {
-        // we are in Tracker mode if Piwik_Loader is not (yet) loaded
-        if (!class_exists('Piwik_Loader', false)) {
+        // we are in Tracker mode if Loader is not (yet) loaded
+        if (!class_exists('Piwik\Loader', false)) {
             return;
         }
 
@@ -624,7 +626,7 @@ class PluginsManager
         } else {
             return false;
         }
-        Piwik_Translate::getInstance()->mergeTranslationArray($translations);
+        Translate::getInstance()->mergeTranslationArray($translations);
         return true;
     }
 
@@ -652,7 +654,7 @@ class PluginsManager
             $plugins = Config::getInstance()->Plugins['Plugins'];
             foreach ($plugins as $pluginName) {
                 // if a plugin is listed in the config, but is not loaded, it does not exist in the folder
-                if (!PluginsManager::getInstance()->isPluginLoaded($pluginName)) {
+                if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded($pluginName)) {
                     $missingPlugins[] = $pluginName;
                 }
             }
@@ -663,9 +665,9 @@ class PluginsManager
     /**
      * Install a plugin, if necessary
      *
-     * @param Piwik_Plugin $plugin
+     * @param Plugin $plugin
      */
-    private function installPluginIfNecessary(Piwik_Plugin $plugin)
+    private function installPluginIfNecessary(Plugin $plugin)
     {
         $pluginName = $plugin->getPluginName();
 
@@ -697,7 +699,7 @@ class PluginsManager
         }
     }
 
-    protected function isTrackerPlugin(Piwik_Plugin $plugin)
+    protected function isTrackerPlugin(Plugin $plugin)
     {
         $hooks = $plugin->getListHooksRegistered();
         $hookNames = array_keys($hooks);
@@ -713,7 +715,7 @@ class PluginsManager
     {
         $name = basename($path);
         return file_exists($path . "/" . $name . ".php")
-             || file_exists($path . "/" . Piwik_Plugin_MetadataLoader::PLUGIN_JSON_FILENAME);
+             || file_exists($path . "/" . MetadataLoader::PLUGIN_JSON_FILENAME);
     }
 }
 

@@ -17,7 +17,7 @@ class Piwik_Updates_1_12_b15 extends Piwik_Updates
     static function update()
     {
         try {
-            PluginsManager::getInstance()->activatePlugin('SegmentEditor');
+            \Piwik\PluginsManager::getInstance()->activatePlugin('SegmentEditor');
         } catch (Exception $e) {
             // pass
         }

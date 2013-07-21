@@ -8,15 +8,17 @@
  * @category Piwik_Plugins
  * @package Piwik_Goals
  */
+use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Plugin;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_Goals
  */
-class Piwik_Goals extends Piwik_Plugin
+class Piwik_Goals extends Plugin
 {
     protected $ecommerceReports = array(
         array('Goals_ProductSKU', 'Goals', 'getItemsSku'),
@@ -479,7 +481,7 @@ class Piwik_Goals extends Piwik_Plugin
      * Will process Goal stats overall and for each Goal.
      * Also processes the New VS Returning visitors conversion stats.
      */
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_Goals_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -491,7 +493,7 @@ class Piwik_Goals extends Piwik_Plugin
      * Hooks on Period archiving.
      * Sums up Goal conversions stats, and processes overall conversion rate
      */
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_Goals_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -575,7 +577,7 @@ class Piwik_Goals extends Piwik_Plugin
         
         $moneyColumns = array('revenue', 'avg_price');
         $prettifyMoneyColumns = array(
-            'ColumnCallbackReplace', array($moneyColumns, array("Piwik", "getPrettyMoney"), array($idSite)));
+            'ColumnCallbackReplace', array($moneyColumns, '\Piwik\Piwik::getPrettyMoney', array($idSite)));
         
         $result = array(
             'show_ecommerce' => true,

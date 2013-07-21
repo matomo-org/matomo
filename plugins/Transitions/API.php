@@ -8,10 +8,17 @@
  * @category Piwik_Plugins
  * @package Piwik_Transitions
  */
+
+use Piwik\ArchiveProcessor;
+use Piwik\DataAccess\LogAggregator;
+use Piwik\DataTable\Manager;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period;
+use Piwik\Period\Day;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable;
 use Piwik\Segment;
 use Piwik\SegmentExpression;
 use Piwik\Site;
@@ -72,11 +79,11 @@ class Piwik_Transitions_API
         $segment = new Segment($segment, $idSite);
         $site = new Site($idSite);
         $period = Period::advancedFactory($period, $date);
-        $archiveProcessor = new Piwik_ArchiveProcessor_Day($period, $site, $segment);
+        $archiveProcessor = new ArchiveProcessor\Day($period, $site, $segment);
         $logAggregator = $archiveProcessor->getLogAggregator();
         // prepare the report
         $report = array(
-            'date' => Piwik_Period_Day::advancedFactory($period->getLabel(), $date)->getLocalizedShortString()
+            'date' => Day::advancedFactory($period->getLabel(), $date)->getLocalizedShortString()
         );
 
         // add data to the report
@@ -167,7 +174,7 @@ class Piwik_Transitions_API
      * Add the internal referrers to the report:
      * previous pages and previous site searches
      *
-     * @param Piwik_DataAccess_LogAggregator $logAggregator
+     * @param LogAggregator $logAggregator
      * @param $report
      * @param $idaction
      * @param string $actionType
@@ -193,7 +200,7 @@ class Piwik_Transitions_API
      * Add the following actions to the report:
      * following pages, downloads, outlinks
      *
-     * @param Piwik_DataAccess_LogAggregator $logAggregator
+     * @param LogAggregator $logAggregator
      * @param $report
      * @param $idaction
      * @param string $actionType
@@ -218,12 +225,12 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_DataAccess_LogAggregator  $logAggregator
+     * @param LogAggregator  $logAggregator
      * @param $limitBeforeGrouping
      * @param $includeLoops
-     * @return array(followingPages:Piwik_DataTable, outlinks:Piwik_DataTable, downloads:Piwik_DataTable)
+     * @return array(followingPages:DataTable, outlinks:DataTable, downloads:DataTable)
      */
-    public function queryFollowingActions($idaction, $actionType, Piwik_DataAccess_LogAggregator $logAggregator,
+    public function queryFollowingActions($idaction, $actionType, LogAggregator $logAggregator,
                                           $limitBeforeGrouping = false, $includeLoops = false)
     {
         $types = array();
@@ -296,12 +303,12 @@ class Piwik_Transitions_API
         $this->totalTransitionsToFollowingActions = 0;
         $dataTables = array();
         foreach ($types as $type => $recordName) {
-            $dataTable = new Piwik_DataTable;
+            $dataTable = new DataTable;
             if (isset($data[$type])) {
                 foreach ($data[$type] as &$record) {
                     $actions = intval($record[Metrics::INDEX_NB_ACTIONS]);
-                    $dataTable->addRow(new Piwik_DataTable_Row(array(
-                                                                    Piwik_DataTable_Row::COLUMNS => array(
+                    $dataTable->addRow(new Row(array(
+                                                                    Row::COLUMNS => array(
                                                                         'label'                         => $this->getPageLabel($record, $isTitle),
                                                                         Metrics::INDEX_NB_ACTIONS => $actions
                                                                     )
@@ -330,9 +337,9 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessor_Day $logAggregator
+     * @param Day $logAggregator
      * @param $limitBeforeGrouping
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
     {
@@ -395,7 +402,7 @@ class Piwik_Transitions_API
 
         //FIXMEA refactor after integration tests written
         $array = new Piwik_DataArray($referrerData, $referrerSubData);
-        return Piwik_ArchiveProcessor_Day::getDataTableFromDataArray($array);
+        return Day::getDataTableFromDataArray($array);
     }
 
     /**
@@ -403,9 +410,9 @@ class Piwik_Transitions_API
      *
      * @param $idaction
      * @param $actionType
-     * @param Piwik_ArchiveProcessor_Day $logAggregator
+     * @param Day $logAggregator
      * @param $limitBeforeGrouping
-     * @return array(previousPages:Piwik_DataTable, loops:integer)
+     * @return array(previousPages:DataTable, loops:integer)
      */
     protected function queryInternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
     {
@@ -451,12 +458,12 @@ class Piwik_Transitions_API
 
         $loops = 0;
         $nbPageviews = 0;
-        $previousPagesDataTable = new Piwik_DataTable;
+        $previousPagesDataTable = new DataTable;
         if (isset($data['result'][1])) {
             foreach ($data['result'][1] as &$page) {
                 $nbActions = intval($page[Metrics::INDEX_NB_ACTIONS]);
-                $previousPagesDataTable->addRow(new Piwik_DataTable_Row(array(
-                                                                             Piwik_DataTable_Row::COLUMNS => array(
+                $previousPagesDataTable->addRow(new Row(array(
+                                                                             Row::COLUMNS => array(
                                                                                  'label'                         => $this->getPageLabel($page, $isTitle),
                                                                                  Metrics::INDEX_NB_ACTIONS => $nbActions
                                                                              )
@@ -465,12 +472,12 @@ class Piwik_Transitions_API
             }
         }
 
-        $previousSearchesDataTable = new Piwik_DataTable;
+        $previousSearchesDataTable = new DataTable;
         if (isset($data['result'][2])) {
             foreach ($data['result'][2] as &$search) {
                 $nbActions = intval($search[Metrics::INDEX_NB_ACTIONS]);
-                $previousSearchesDataTable->addRow(new Piwik_DataTable_Row(array(
-                                                                                Piwik_DataTable_Row::COLUMNS => array(
+                $previousSearchesDataTable->addRow(new Row(array(
+                                                                                Row::COLUMNS => array(
                                                                                     'label'                         => $search['name'],
                                                                                     Metrics::INDEX_NB_ACTIONS => $nbActions
                                                                                 )
@@ -542,7 +549,7 @@ class Piwik_Transitions_API
      * Add the external referrers to the report:
      * direct entries, websites, campaigns, search engines
      *
-     * @param Piwik_DataAccess_LogAggregator  $logAggregator
+     * @param LogAggregator  $logAggregator
      * @param $report
      * @param $idaction
      * @param string $actionType
@@ -563,7 +570,7 @@ class Piwik_Transitions_API
                 // load details (i.e. subtables)
                 $details = array();
                 if ($idSubTable = $row->getIdSubDataTable()) {
-                    $subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
+                    $subTable = Manager::getInstance()->getTable($idSubTable);
                     foreach ($subTable->getRows() as $subRow) {
                         $details[] = array(
                             'label'     => $subRow->getColumn('label'),

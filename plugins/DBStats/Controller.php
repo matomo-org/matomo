@@ -313,7 +313,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
             }
         }
 
-        $getPrettySize = array('Piwik', 'getPrettySizeFromBytes');
+        $getPrettySize = '\Piwik\Piwik::getPrettySizeFromBytes';
         $params = $fixedMemoryUnit === false ? array() : array($fixedMemoryUnit);
         $view->queueFilter(
             'ColumnCallbackReplace', array($sizeColumns, $getPrettySize, $params), $runPrettySizeFilterBeforeGeneric);
@@ -324,8 +324,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
             $view->queueFilter('ColumnCallbackReplace', array($sizeColumns, $replaceSpaces));
         }
 
-        $getPrettyNumber = array('Piwik', 'getPrettyNumber');
-        $view->queueFilter('ColumnCallbackReplace', array(array('row_count'), $getPrettyNumber));
+        $view->queueFilter('ColumnCallbackReplace', array(array('row_count'), '\Piwik\Piwik::getPrettyNumber'));
 
         return $view;
     }

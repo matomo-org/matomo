@@ -12,6 +12,8 @@ use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
+use Piwik\Plugin;
 
 /**
  * @see plugins/PrivacyManager/LogDataPurger.php
@@ -27,7 +29,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/ReportsPurger.php';
  *
  * @package Piwik_PrivacyManager
  */
-class Piwik_PrivacyManager extends Piwik_Plugin
+class Piwik_PrivacyManager extends Plugin
 {
     const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
     const OPTION_LAST_DELETE_PIWIK_REPORTS = 'lastDelete_piwik_reports';
@@ -146,7 +148,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
      */
     public static function savePurgeDataSettings($settings)
     {
-        $plugin = PluginsManager::getInstance()->getLoadedPlugin('PrivacyManager');
+        $plugin = \Piwik\PluginsManager::getInstance()->getLoadedPlugin('PrivacyManager');
 
         foreach (self::$defaultPurgeDataOptions as $optionName => $defaultValue) {
             if (isset($settings[$optionName])) {
@@ -189,7 +191,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         }
 
         // set last run time
-        Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_REPORTS, Piwik_Date::factory('today')->getTimestamp());
+        Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_REPORTS, Date::factory('today')->getTimestamp());
 
         Piwik_PrivacyManager_ReportsPurger::make($settings, self::getAllMetricsToKeep())->purgeData();
     }
@@ -226,7 +228,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
          * If deletion / table optimization exceeds execution time, other tasks maybe prevented of being executed
          * every time, when the schedule is triggered.
          */
-        $lastDeleteDate = Piwik_Date::factory("today")->getTimestamp();
+        $lastDeleteDate = Date::factory("today")->getTimestamp();
         Piwik_SetOption(self::OPTION_LAST_DELETE_PIWIK_LOGS, $lastDeleteDate);
 
         // execute the purge
@@ -274,7 +276,7 @@ class Piwik_PrivacyManager extends Piwik_Plugin
      *
      * @param int $reportDateYear The year of the report in question.
      * @param int $reportDateMonth The month of the report in question.
-     * @param int|Piwik_Date $reportsOlderThan If an int, the number of months a report must be older than
+     * @param int|Date $reportsOlderThan If an int, the number of months a report must be older than
      *                                         in order to be purged. If a date, the date a report must be
      *                                         older than in order to be purged.
      * @return bool
@@ -293,8 +295,8 @@ class Piwik_PrivacyManager extends Piwik_Plugin
         }
 
         // if a integer was supplied, assume it is the number of months a report must be older than
-        if (!($reportsOlderThan instanceof Piwik_Date)) {
-            $reportsOlderThan = Piwik_Date::factory('today')->subMonth(1 + $reportsOlderThan);
+        if (!($reportsOlderThan instanceof Date)) {
+            $reportsOlderThan = Date::factory('today')->subMonth(1 + $reportsOlderThan);
         }
 
         return Piwik_PrivacyManager_ReportsPurger::shouldReportBePurged(

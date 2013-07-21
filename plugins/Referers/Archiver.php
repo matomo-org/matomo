@@ -2,6 +2,7 @@
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
+use Piwik\PluginsArchiver;
 
 /**
  * Piwik - Open source web analytics
@@ -13,7 +14,7 @@ use Piwik\Metrics;
  * @package Piwik_Referers
  */
 
-class Piwik_Referers_Archiver extends Piwik_PluginsArchiver
+class Piwik_Referers_Archiver extends PluginsArchiver
 {
     const SEARCH_ENGINES_RECORD_NAME = 'Referers_keywordBySearchEngine';
     const KEYWORDS_RECORD_NAME = 'Referers_searchEngineByKeyword';

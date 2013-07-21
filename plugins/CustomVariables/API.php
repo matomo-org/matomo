@@ -10,6 +10,8 @@
  */
 use Piwik\Archive;
 use Piwik\Metrics;
+use Piwik\Date;
+use Piwik\DataTable;
 
 /**
  * The Custom Variables API lets you access reports for your <a href='http://piwik.org/docs/custom-variables/' target='_blank'>Custom Variables</a> names and values.
@@ -34,12 +36,12 @@ class Piwik_CustomVariables_API
     /**
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param string $segment
      * @param bool $expanded
      * @param int $idSubtable
      *
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return DataTable|DataTable\Map
      */
     protected function getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable)
     {
@@ -53,18 +55,18 @@ class Piwik_CustomVariables_API
     /**
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param string|bool $segment
      * @param bool $expanded
      * @param bool $_leavePiwikCoreVariables
      *
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return DataTable|DataTable\Map
      */
     public function getCustomVariables($idSite, $period, $date, $segment = false, $expanded = false, $_leavePiwikCoreVariables = false)
     {
         $dataTable = $this->getDataTable($idSite, $period, $date, $segment, $expanded, $idSubtable = null);
 
-        if ($dataTable instanceof Piwik_DataTable
+        if ($dataTable instanceof DataTable
             && !$_leavePiwikCoreVariables
         ) {
             $mapping = self::getReservedCustomVariableKeys();
@@ -90,12 +92,12 @@ class Piwik_CustomVariables_API
     /**
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param int $idSubtable
      * @param string|bool $segment
      * @param bool $_leavePriceViewedColumn
      *
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return DataTable|DataTable\Map
      */
     public function getCustomVariablesValuesFromNameId($idSite, $period, $date, $idSubtable, $segment = false, $_leavePriceViewedColumn = false)
     {

@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds one website and tracks several visits from one visitor on
@@ -70,7 +71,7 @@ class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
             $visitor = $this->makeTracker($this->idSite, $dateTime, $debugStringAppend);
 
             // FIRST VISIT THIS DAY
-            $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
+            $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());
             $visitor->setUrl('http://example.org/homepage');
             $visitor->setUrlReferrer($this->referrerUrls[$ridx++]);
             self::checkResponse($visitor->doTrackPageView('ou pas'));
@@ -78,19 +79,19 @@ class Test_Piwik_Fixture_VisitsOverSeveralDays extends Test_Piwik_BaseFixture
             // Test change the IP, the visit should not be split but recorded to the same idvisitor
             $visitor->setIp('200.1.15.22');
 
-            $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
+            $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
             $visitor->setUrl('http://example.org/news');
             self::checkResponse($visitor->doTrackPageView('ou pas'));
 
             // SECOND VISIT THIS DAY
-            $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(1)->getDatetime());
+            $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
             $visitor->setUrl('http://example.org/news');
             $visitor->setUrlReferrer($this->referrerUrls[$ridx++]);
             self::checkResponse($visitor->doTrackPageView('ou pas'));
 
             if ($days <= 3) {
                 $visitor = $this->makeTracker($this->idSite2, $dateTime);
-                $visitor->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
+                $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());
                 $visitor->setUrl('http://example.org/homepage');
                 $visitor->setUrlReferrer($this->referrerUrls[$ridx - 1]);
                 self::checkResponse($visitor->doTrackPageView('Second website'));

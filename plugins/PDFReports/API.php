@@ -10,7 +10,9 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Site;
+use Piwik\Translate;
 
 /**
  * The PDFReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
@@ -119,7 +121,7 @@ class Piwik_PDFReports_API
                  'format'      => $reportFormat,
                  'parameters'  => $parameters,
                  'reports'     => $reports,
-                 'ts_created'  => Piwik_Date::now()->getDatetime(),
+                 'ts_created'  => Date::now()->getDatetime(),
                  'deleted'     => 0,
             ));
 
@@ -294,10 +296,10 @@ class Piwik_PDFReports_API
 
         // load specified language
         if (empty($language)) {
-            $language = Piwik_Translate::getInstance()->getLanguageDefault();
+            $language = Translate::getInstance()->getLanguageDefault();
         }
 
-        Piwik_Translate::getInstance()->reloadLanguage($language);
+        Translate::getInstance()->reloadLanguage($language);
 
         $reports = $this->getReports($idSite = false, $_period = false, $idReport);
         $report = reset($reports);
@@ -496,7 +498,7 @@ class Piwik_PDFReports_API
         }
 
         if (empty($date)) {
-            $date = Piwik_Date::now()->subPeriod(1, $report['period'])->toString();
+            $date = Date::now()->subPeriod(1, $report['period'])->toString();
         }
 
         $language = Piwik_LanguagesManager_API::getInstance()->getLanguageForUser($report['login']);
@@ -538,7 +540,7 @@ class Piwik_PDFReports_API
 
         // Update flag in DB
         Zend_Registry::get('db')->update(Common::prefixTable('report'),
-            array('ts_last_sent' => Piwik_Date::now()->getDatetime()),
+            array('ts_last_sent' => Date::now()->getDatetime()),
             "idreport = " . $report['idreport']
         );
 
@@ -798,6 +800,6 @@ class Piwik_PDFReports_API
      */
     public static function isSegmentEditorActivated()
     {
-        return PluginsManager::getInstance()->isPluginActivated('SegmentEditor');
+        return \Piwik\PluginsManager::getInstance()->isPluginActivated('SegmentEditor');
     }
 }

@@ -8,8 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
-use Piwik\Piwik;
+use Piwik\ArchiveProcessor;
 use Piwik\Common;
+use Piwik\Piwik;
+use Piwik\Plugin;
 
 /**
  * @see plugins/UserCountry/GeoIPAutoUpdater.php
@@ -20,7 +22,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/GeoIPAutoUpdater.php';
  *
  * @package Piwik_UserCountry
  */
-class Piwik_UserCountry extends Piwik_Plugin
+class Piwik_UserCountry extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -244,7 +246,7 @@ class Piwik_UserCountry extends Piwik_Plugin
                                                ));
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -252,7 +254,7 @@ class Piwik_UserCountry extends Piwik_Plugin
         }
     }
 
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_UserCountry_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {

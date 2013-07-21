@@ -9,6 +9,7 @@
  * @package Piwik_SEO
  */
 use Piwik\Common;
+use Piwik\DataTable\Renderer;
 use Piwik\Site;
 
 /**
@@ -36,7 +37,7 @@ class Piwik_SEO_Controller extends Piwik_Controller
         $view = new Piwik_View('@SEO/getRank');
         $view->urlToRank = Piwik_SEO_RankChecker::extractDomainFromUrl($url);
 
-        $renderer = Piwik_DataTable_Renderer::factory('php');
+        $renderer = Renderer::factory('php');
         $renderer->setSerialize(false);
         $view->ranks = $renderer->render($dataTable);
         echo $view->render();

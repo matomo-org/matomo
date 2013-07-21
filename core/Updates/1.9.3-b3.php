@@ -19,9 +19,9 @@ class Piwik_Updates_1_9_3_b3 extends Piwik_Updates
         // Insight was a temporary code name for Overlay
         $pluginToDelete = 'Insight';
         self::deletePluginFromConfigFile($pluginToDelete);
-        PluginsManager::getInstance()->deletePluginFromFilesystem($pluginToDelete);
+        \Piwik\PluginsManager::getInstance()->deletePluginFromFilesystem($pluginToDelete);
 
         // We also clean up 1.9.1 and delete Feedburner plugin
-        PluginsManager::getInstance()->deletePluginFromFilesystem('Feedburner');
+        \Piwik\PluginsManager::getInstance()->deletePluginFromFilesystem('Feedburner');
     }
 }

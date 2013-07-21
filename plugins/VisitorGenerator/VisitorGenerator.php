@@ -9,12 +9,13 @@
  * @package Piwik_VisitorGenerator
  */
 use Piwik\Piwik;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_VisitorGenerator
  */
-class Piwik_VisitorGenerator extends Piwik_Plugin
+class Piwik_VisitorGenerator extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

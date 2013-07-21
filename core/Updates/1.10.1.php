@@ -22,7 +22,7 @@ class Piwik_Updates_1_10_1 extends Piwik_Updates
     static function update()
     {
         try {
-            PluginsManager::getInstance()->activatePlugin('Overlay');
+            \Piwik\PluginsManager::getInstance()->activatePlugin('Overlay');
         } catch (Exception $e) {
             // pass
         }

@@ -11,6 +11,7 @@
 use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\DataTable;
 
 /**
  * @see plugins/UserCountry/functions.php
@@ -67,7 +68,7 @@ class Piwik_UserCountry_API
      * @param string $period
      * @param string $date
      * @param string|bool $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getRegion($idSite, $period, $date, $segment = false)
     {
@@ -109,7 +110,7 @@ class Piwik_UserCountry_API
      * @param string $period
      * @param string $date
      * @param string|bool $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getCity($idSite, $period, $date, $segment = false)
     {

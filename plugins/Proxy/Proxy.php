@@ -8,13 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_Proxy
  */
+use Piwik\Plugin;
 
 /**
  * Proxy services for the UI
  *
  * @package Piwik_Proxy
  */
-class Piwik_Proxy extends Piwik_Plugin
+class Piwik_Proxy extends Plugin
 {
     /**
      * Return information about this plugin.

@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountryMap
  */
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_UserCountryMap
  */
-class Piwik_UserCountryMap extends Piwik_Plugin
+class Piwik_UserCountryMap extends Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation

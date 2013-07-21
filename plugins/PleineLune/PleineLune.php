@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_PleineLune
  */
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_PleineLune
  */
-class Piwik_PleineLune extends Piwik_Plugin
+class Piwik_PleineLune extends Plugin
 {
     public function getListHooksRegistered()
     {

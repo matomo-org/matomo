@@ -8,19 +8,27 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Date;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveWriter;
+use Piwik\DataAccess\LogAggregator;
+use Zend_Registry;
 
 /**
  * The ArchiveProcessor class is used by the Archive object to make sure the given Archive is processed and available in the DB.
  *
  * @package Piwik
- * @subpackage Piwik_ArchiveProcessor
+ * @subpackage ArchiveProcessor
  */
-abstract class Piwik_ArchiveProcessor
+abstract class ArchiveProcessor
 {
     /**
      * Flag stored at the end of the archiving
@@ -53,7 +61,7 @@ abstract class Piwik_ArchiveProcessor
     protected $idArchive;
 
     /**
-     * @var Piwik_DataAccess_ArchiveWriter
+     * @var \Piwik\DataAccess\ArchiveWriter
      */
     protected $archiveWriter;
 
@@ -65,7 +73,7 @@ abstract class Piwik_ArchiveProcessor
     protected $temporaryArchive;
 
     /**
-     * @var Piwik_DataAccess_LogAggregator
+     * @var LogAggregator
      */
     protected $logAggregator = null;
 
@@ -105,12 +113,12 @@ abstract class Piwik_ArchiveProcessor
     }
 
     /**
-     * @return Piwik_DataAccess_LogAggregator
+     * @return LogAggregator
      */
     public function getLogAggregator()
     {
         if (empty($this->logAggregator)) {
-            $this->logAggregator = new Piwik_DataAccess_LogAggregator($this->getPeriod()->getDateStart(), $this->getPeriod()->getDateEnd(),
+            $this->logAggregator = new LogAggregator($this->getPeriod()->getDateStart(), $this->getPeriod()->getDateEnd(),
                 $this->getSite(), $this->getSegment());
         }
         return $this->logAggregator;
@@ -212,7 +220,7 @@ abstract class Piwik_ArchiveProcessor
         $period = $this->getPeriod();
         $segment = $this->getSegment();
 
-        $idAndVisits = Piwik_DataAccess_ArchiveSelector::getArchiveIdAndVisits($site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
+        $idAndVisits = ArchiveSelector::getArchiveIdAndVisits($site, $period, $segment, $minDatetimeArchiveProcessedUTC, $requestedPlugin);
         if (!$idAndVisits) {
             return false;
         }
@@ -257,14 +265,14 @@ abstract class Piwik_ArchiveProcessor
 
     protected function doesRequestedPluginIncludeVisitsSummary($requestedPlugin)
     {
-        $processAllReportsIncludingVisitsSummary = Piwik_ArchiveProcessor_Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel());
+        $processAllReportsIncludingVisitsSummary = Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel());
         $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary || $requestedPlugin == 'VisitsSummary';
         return $doesRequestedPluginIncludeVisitsSummary;
     }
 
     protected function computeNewArchive($requestedPlugin, $enforceProcessCoreMetricsOnly)
     {
-        $archiveWriter = new Piwik_DataAccess_ArchiveWriter($this->getSite()->getId(), $this->getSegment(), $this->getPeriod(), $requestedPlugin, $this->isArchiveTemporary());
+        $archiveWriter = new ArchiveWriter($this->getSite()->getId(), $this->getSegment(), $this->getPeriod(), $requestedPlugin, $this->isArchiveTemporary());
         $archiveWriter->initNewArchive();
 
         $this->archiveWriter = $archiveWriter;
@@ -286,14 +294,15 @@ abstract class Piwik_ArchiveProcessor
 
         $isVisitsToday = $this->getNumberOfVisits() > 0;
         if ($isVisitsToday
-            && !$enforceProcessCoreMetricsOnly) {
+            && !$enforceProcessCoreMetricsOnly
+        ) {
             $this->compute();
         }
 
         $archiveWriter->finalizeArchive();
 
         if ($isVisitsToday && $this->period->getLabel() != 'day') {
-            Piwik_DataAccess_ArchiveSelector::purgeOutdatedArchives($this->getPeriod()->getDateStart());
+            ArchiveSelector::purgeOutdatedArchives($this->getPeriod()->getDateStart());
         }
 
         return $archiveWriter->getIdArchive();
@@ -317,7 +326,7 @@ abstract class Piwik_ArchiveProcessor
             return $endDateTimestamp;
         }
         // Temporary archive
-        return Piwik_ArchiveProcessor_Rules::getMinTimeProcessedForTemporaryArchive($this->getDateStart(), $this->getPeriod(), $this->getSegment(), $this->getSite());
+        return Rules::getMinTimeProcessedForTemporaryArchive($this->getDateStart(), $this->getPeriod(), $this->getSegment(), $this->getSite());
     }
 
     public function isArchiveTemporary()
@@ -356,7 +365,7 @@ abstract class Piwik_ArchiveProcessor
      */
     abstract protected function compute();
 
-    protected static function determineIfArchivePermanent(Piwik_Date $dateEnd)
+    protected static function determineIfArchivePermanent(Date $dateEnd)
     {
         $now = time();
         $endTimestampUTC = strtotime($dateEnd->getDateEndUTC());
@@ -369,7 +378,7 @@ abstract class Piwik_ArchiveProcessor
     }
 
     /**
-     * @return Piwik_Date
+     * @return Date
      */
     public function getDateEnd()
     {
@@ -377,7 +386,7 @@ abstract class Piwik_ArchiveProcessor
     }
 
     /**
-     * @return Piwik_Date
+     * @return Date
      */
     public function getDateStart()
     {
@@ -429,7 +438,7 @@ abstract class Piwik_ArchiveProcessor
      */
     public function shouldProcessReportsForPlugin($pluginName)
     {
-        if (Piwik_ArchiveProcessor_Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel())) {
+        if (Rules::shouldProcessReportsAllPlugins($this->getSegment(), $this->getPeriod()->getLabel())) {
             return true;
         }
         // If any other segment, only process if the requested report belong to this plugin
@@ -437,7 +446,7 @@ abstract class Piwik_ArchiveProcessor
         if ($pluginBeingProcessed == $pluginName) {
             return true;
         }
-        if (!PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
+        if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded($pluginBeingProcessed)) {
             return true;
         }
         return false;

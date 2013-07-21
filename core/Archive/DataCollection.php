@@ -9,15 +9,20 @@
  * @package Piwik
  */
 
-namespace Piwik;
+namespace Piwik\Archive;
+
+use Exception;
+use Piwik\Archive\DataTableFactory;
+use Piwik\DataTable;
+
 /**
  * This class is used to hold and transform archive data for the Archive class.
  *
  * Archive data is loaded into an instance of this type, can be indexed by archive
  * metadata (such as the site ID, period string, etc.), and can be transformed into
- * Piwik_DataTable and Piwik_DataTable_Array instances.
+ * DataTable and Set instances.
  */
-class Archive_DataCollection
+class DataCollection
 {
     /**
      * The archive data, indexed first by site ID and then by period date range. Eg,
@@ -192,18 +197,18 @@ class Archive_DataCollection
 
     /**
      * Returns archive data as a DataTable indexed by metadata. Indexed data will
-     * be represented by Piwik_DataTable_Array instances.
+     * be represented by Set instances.
      *
      * @param array $resultIndices An array mapping metadata names to pretty labels
      *                             for them. Each archive data row will be indexed
      *                             by the metadata specified here.
      *
      *                             Eg, array('site' => 'idSite', 'period' => 'Date')
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return \Piwik\DataTable|Set
      */
     public function getDataTable($resultIndices)
     {
-        $dataTableFactory = new Piwik_Archive_DataTableFactory(
+        $dataTableFactory = new DataTableFactory(
             $this->dataNames, $this->dataType, $this->sitesId, $this->periods, $this->defaultRow);
 
         $index = $this->getArray($resultIndices);
@@ -212,7 +217,7 @@ class Archive_DataCollection
 
     /**
      * Returns archive data as a DataTable indexed by metadata. Indexed data will
-     * be represented by Piwik_DataTable_Array instances. Each DataTable will have
+     * be represented by Set instances. Each DataTable will have
      * its subtable IDs set.
      *
      * This function will only work if blob data was loaded and only one record
@@ -227,21 +232,21 @@ class Archive_DataCollection
      * @param bool $addMetadataSubtableId Whether to add the DB subtable ID as metadata
      *                                    to each datatable, or not.
      * @throws Exception
-     * @return Piwik_DataTable|Piwik_DataTable_Array
+     * @return \Piwik\DataTable|Set
      */
     public function getExpandedDataTable($resultIndices, $idSubtable = null, $addMetadataSubtableId = false)
     {
         if ($this->dataType != 'blob') {
-            throw new Exception("Archive_DataCollection: cannot call getExpandedDataTable with "
+            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
                 . "{$this->dataType} data types. Only works with blob data.");
         }
 
         if (count($this->dataNames) !== 1) {
-            throw new Exception("Archive_DataCollection: cannot call getExpandedDataTable with "
+            throw new Exception("DataCollection: cannot call getExpandedDataTable with "
                 . "more than one record.");
         }
 
-        $dataTableFactory = new Piwik_Archive_DataTableFactory(
+        $dataTableFactory = new DataTableFactory(
             $this->dataNames, 'blob', $this->sitesId, $this->periods, $this->defaultRow);
         $dataTableFactory->expandDataTable($addMetadataSubtableId);
         $dataTableFactory->useSubtable($idSubtable);

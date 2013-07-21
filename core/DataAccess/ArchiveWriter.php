@@ -8,18 +8,25 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataAccess;
+
+use Exception;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\ArchiveProcessor;
 use Piwik\Segment;
+use Zend_Registry;
 
 /**
  * This class is used to create a new Archive.
  * An Archive is a set of reports (numeric and data tables).
  * New data can be inserted in the archive with insertRecord/insertBulkRecords
  */
-class Piwik_DataAccess_ArchiveWriter
+class ArchiveWriter
 {
     const PREFIX_SQL_LOCK = "locked_";
 
@@ -38,7 +45,7 @@ class Piwik_DataAccess_ArchiveWriter
         $this->idSite = $idSite;
         $this->segment = $segment;
         $this->period = $period;
-        $this->doneFlag = Piwik_ArchiveProcessor_Rules::getDoneStringFlagFor($segment, $period->getLabel(), $requestedPlugin);
+        $this->doneFlag = Rules::getDoneStringFlagFor($segment, $period->getLabel(), $requestedPlugin);
         $this->isArchiveTemporary = $isArchiveTemporary;
 
         $this->dateStart = $this->period->getDateStart();
@@ -106,7 +113,7 @@ class Piwik_DataAccess_ArchiveWriter
 
     protected function logArchiveStatusAsIncomplete()
     {
-        $statusWhileProcessing = Piwik_ArchiveProcessor::DONE_ERROR;
+        $statusWhileProcessing = ArchiveProcessor::DONE_ERROR;
         $this->insertRecord($this->doneFlag, $statusWhileProcessing);
     }
 
@@ -148,9 +155,9 @@ class Piwik_DataAccess_ArchiveWriter
 
     protected function logArchiveStatusAsFinal()
     {
-        $status = Piwik_ArchiveProcessor::DONE_OK;
+        $status = ArchiveProcessor::DONE_OK;
         if ($this->isArchiveTemporary) {
-            $status = Piwik_ArchiveProcessor::DONE_OK_TEMPORARY;
+            $status = ArchiveProcessor::DONE_OK_TEMPORARY;
         }
         $this->insertRecord($this->doneFlag, $status);
     }
@@ -236,12 +243,12 @@ class Piwik_DataAccess_ArchiveWriter
         if (is_numeric($value)) {
             return $this->getTableNumeric();
         }
-        return Piwik_DataAccess_ArchiveTableCreator::getBlobTable($this->dateStart);
+        return ArchiveTableCreator::getBlobTable($this->dateStart);
     }
 
     protected function getTableNumeric()
     {
-        return Piwik_DataAccess_ArchiveTableCreator::getNumericTable($this->dateStart);
+        return ArchiveTableCreator::getNumericTable($this->dateStart);
     }
 
     protected function getInsertFields()

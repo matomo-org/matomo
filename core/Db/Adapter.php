@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Loader;
 
 /**
  * @package Piwik
@@ -39,7 +40,7 @@ class Piwik_Db_Adapter
         }
 
         $className = self::getAdapterClassName($adapterName);
-        Piwik_Loader::loadClass($className);
+        Loader::loadClass($className);
 
         /*
          * 5.2.1 fixes various bugs with references that caused PDO_MYSQL getConnection()

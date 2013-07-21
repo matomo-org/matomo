@@ -8,6 +8,13 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Exception;
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
+use Piwik\DataTable\Filter\Pattern;
+use Piwik\DataTable\Manager;
 
 /**
  * Delete all rows for which
@@ -18,16 +25,16 @@
  * Example: from the pages viewed report, keep only the rows that contain "piwik" or for which a subpage contains "piwik".
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
+class PatternRecursive extends Filter
 {
     private $columnToFilter;
     private $patternToSearch;
     private $patternToSearchQuoted;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string $columnToFilter
      * @param string $patternToSearch
      */
@@ -35,13 +42,13 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
     {
         parent::__construct($table);
         $this->patternToSearch = $patternToSearch;
-        $this->patternToSearchQuoted = Piwik_DataTable_Filter_Pattern::getPatternQuoted($patternToSearch);
+        $this->patternToSearchQuoted = Pattern::getPatternQuoted($patternToSearch);
         $this->patternToSearch = $patternToSearch; //preg_quote($patternToSearch);
         $this->columnToFilter = $columnToFilter;
     }
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @return int
      */
     public function filter($table)
@@ -56,7 +63,7 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
 
             try {
                 $idSubTable = $row->getIdSubDataTable();
-                $subTable = Piwik_DataTable_Manager::getInstance()->getTable($idSubTable);
+                $subTable = Manager::getInstance()->getTable($idSubTable);
 
                 // we delete the row if we couldn't find the pattern in any row in the
                 // children hierarchy
@@ -69,7 +76,7 @@ class Piwik_DataTable_Filter_PatternRecursive extends Piwik_DataTable_Filter
             }
 
             if ($patternNotFoundInChildren
-                && !Piwik_DataTable_Filter_Pattern::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $invertedMatch = false)
+                && !Pattern::match($this->patternToSearch, $this->patternToSearchQuoted, $row->getColumn($this->columnToFilter), $invertedMatch = false)
             ) {
                 $table->deleteRow($key);
             }

@@ -9,12 +9,13 @@
  * @package Piwik_SecurityInfo
  */
 use Piwik\Piwik;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_SecurityInfo
  */
-class Piwik_SecurityInfo extends Piwik_Plugin
+class Piwik_SecurityInfo extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

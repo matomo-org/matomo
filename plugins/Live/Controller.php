@@ -8,8 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_Live
  */
-use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Piwik;
+use Piwik\Config;
 
 /**
  * @package Piwik_Live
@@ -67,7 +68,7 @@ class Piwik_Live_Controller extends Piwik_Controller
         return $this->render($view, $fetch);
     }
 
-    private function render($view, $fetch)
+    private function render(Piwik_View $view, $fetch)
     {
         $rendered = $view->render();
         if ($fetch) {
@@ -102,7 +103,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
         // disable the tag cloud,  pie charts, bar chart icons
         $view->disableShowAllViewsIcons();
-        // disable the button "show more datas"
+        // disable the button "show more data"
         $view->disableShowAllColumns();
         // disable the RSS feed
         $view->disableShowExportAsRssFeed();

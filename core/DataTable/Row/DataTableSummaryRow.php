@@ -8,6 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Row;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Manager;
+use Piwik\DataTable\Row;
 
 /**
  * This class creates a row from a given DataTable.
@@ -15,15 +20,15 @@
  * - for each numeric column, the returned "summary" column is the sum of all the subRows
  * - for every other column, it is ignored and will not be in the "summary row"
  *
- * @see Piwik_DataTable_Row::sumRow() for more information on the algorithm
+ * @see \DataTable\Row::sumRow() for more information on the algorithm
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Row_DataTableSummary extends Piwik_DataTable_Row
+class DataTableSummaryRow extends Row
 {
     /**
-     * @param Piwik_DataTable $subTable
+     * @param DataTable $subTable
      */
     function __construct($subTable = null)
     {
@@ -41,7 +46,7 @@ class Piwik_DataTable_Row_DataTableSummary extends Piwik_DataTable_Row
     {
         $id = $this->getIdSubDataTable();
         if ($id !== null) {
-            $subtable = Piwik_DataTable_Manager::getInstance()->getTable($id);
+            $subtable = Manager::getInstance()->getTable($id);
             $this->sumTable($subtable);
         }
     }
@@ -49,7 +54,7 @@ class Piwik_DataTable_Row_DataTableSummary extends Piwik_DataTable_Row
     /**
      * Sums a tables row with this one.
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     private function sumTable($table)
     {

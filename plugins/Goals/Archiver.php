@@ -9,9 +9,12 @@
  * @package Piwik_Goals
  */
 
+use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
+use Piwik\DataTable;
+use Piwik\PluginsArchiver;
 
-class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
+class Piwik_Goals_Archiver extends PluginsArchiver
 {
     const VISITS_UNTIL_RECORD_NAME = 'visits_until_conv';
     const DAYS_UNTIL_CONV_RECORD_NAME = 'days_until_conv';
@@ -96,7 +99,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
         );
         $selects = array();
         foreach ($aggregatesMetadata as $aggregateMetadata) {
-            $selects = array_merge($selects, Piwik_DataAccess_LogAggregator::getSelectsFromRangedColumn($aggregateMetadata));
+            $selects = array_merge($selects, LogAggregator::getSelectsFromRangedColumn($aggregateMetadata));
         }
 
         $query = $this->getLogAggregator()->queryConversionsByDimension(array(), false, $selects);
@@ -121,16 +124,16 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
             $goals->sumMetrics($idGoal, $values);
 
             if (empty($visitsToConversions[$idGoal])) {
-                $visitsToConversions[$idGoal] = new Piwik_DataTable();
+                $visitsToConversions[$idGoal] = new DataTable();
             }
-            $array = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::VISITS_UNTIL_RECORD_NAME]);
-            $visitsToConversions[$idGoal]->addDataTable(Piwik_DataTable::makeFromIndexedArray($array));
+            $array = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::VISITS_UNTIL_RECORD_NAME]);
+            $visitsToConversions[$idGoal]->addDataTable(DataTable::makeFromIndexedArray($array));
 
             if (empty($daysToConversions[$idGoal])) {
-                $daysToConversions[$idGoal] = new Piwik_DataTable();
+                $daysToConversions[$idGoal] = new DataTable();
             }
-            $array = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]);
-            $daysToConversions[$idGoal]->addDataTable(Piwik_DataTable::makeFromIndexedArray($array));
+            $array = LogAggregator::makeArrayOneColumn($row, Metrics::INDEX_NB_CONVERSIONS, $prefixes[self::DAYS_UNTIL_CONV_RECORD_NAME]);
+            $daysToConversions[$idGoal]->addDataTable(DataTable::makeFromIndexedArray($array));
 
             // We don't want to sum Abandoned cart metrics in the overall revenue/conversions/converted visits
             // since it is a "negative conversion"
@@ -209,7 +212,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
 
     protected function getOverviewFromGoalTables($tableByGoal)
     {
-        $overview = new Piwik_DataTable();
+        $overview = new DataTable();
         foreach ($tableByGoal as $idGoal => $table) {
             if ($this->isStandardGoal($idGoal)) {
                 $overview->addDataTable($table);

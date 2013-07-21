@@ -8,9 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
+use Piwik\DataTable\Filter\SafeDecodeLabel;
+use Piwik\DataTable\Row;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable;
 
 /**
  * This class generates a Row evolution dataset, from input request
@@ -104,7 +108,7 @@ class Piwik_API_RowEvolution
 
     /**
      * Get row evolution for a single label
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
      * @param array $metadata
      * @param string $apiModule
      * @param string $apiAction
@@ -119,10 +123,10 @@ class Piwik_API_RowEvolution
         $logo = $actualLabel = false;
         $urlFound = false;
         foreach ($dataTable->getArray() as $date => $subTable) {
-            /** @var $subTable Piwik_DataTable */
+            /** @var $subTable DataTable */
             $subTable->applyQueuedFilters();
             if ($subTable->getRowsCount() > 0) {
-                /** @var $row Piwik_DataTable_Row */
+                /** @var $row Row */
                 $row = $subTable->getFirstRow();
 
                 if (!$actualLabel) {
@@ -155,7 +159,7 @@ class Piwik_API_RowEvolution
         }
 
         $return = array(
-            'label'      => Piwik_DataTable_Filter_SafeDecodeLabel::safeDecodeLabel($actualLabel),
+            'label'      => SafeDecodeLabel::safeDecodeLabel($actualLabel),
             'reportData' => $dataTable,
             'metadata'   => $metadata
         );
@@ -190,7 +194,7 @@ class Piwik_API_RowEvolution
      * @param $segment
      * @param $idGoal
      * @throws Exception
-     * @return Piwik_DataTable_Array|Piwik_DataTable
+     * @return DataTable\Map|DataTable
      */
     private function loadRowEvolutionDataFromAPI($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $idGoal = false)
     {
@@ -289,7 +293,7 @@ class Piwik_API_RowEvolution
      * Given the Row evolution dataTable, and the associated metadata,
      * enriches the metadata with min/max values, and % change between the first period and the last one
      * @param array $metadata
-     * @param Piwik_DataTable_Array $dataTable
+     * @param DataTable\Map $dataTable
      */
     private function enhanceRowEvolutionMetaData(&$metadata, $dataTable)
     {
@@ -345,8 +349,8 @@ class Piwik_API_RowEvolution
                 continue;
             }
 
-            $change = Piwik_DataTable_Filter_CalculateEvolutionFilter::calculate($last, $first, $quotientPrecision = 0);
-            $change = Piwik_DataTable_Filter_CalculateEvolutionFilter::prependPlusSignToNumber($change);
+            $change = CalculateEvolutionFilter::calculate($last, $first, $quotientPrecision = 0);
+            $change = CalculateEvolutionFilter::prependPlusSignToNumber($change);
             $metricsResult[$metric]['change'] = $change;
         }
 
@@ -391,7 +395,7 @@ class Piwik_API_RowEvolution
         // array('label' => $label, 'column' => $value).
         $dataTableMulti = $dataTable->getEmptyClone();
         foreach ($dataTable->getArray() as $tableLabel => $table) {
-            $newRow = new Piwik_DataTable_Row();
+            $newRow = new Row();
 
             foreach ($labels as $labelIdx => $label) {
                 $row = $this->getRowEvolutionRowFromLabelIdx($table, $labelIdx);
@@ -429,7 +433,7 @@ class Piwik_API_RowEvolution
                 $label .= ' (' . $metadata['columns'][$column] . ')';
             }
             $metricName = $column . '_' . $labelIndex;
-            $metadata['metrics'][$metricName] = Piwik_DataTable_Filter_SafeDecodeLabel::safeDecodeLabel($label);
+            $metadata['metrics'][$metricName] = SafeDecodeLabel::safeDecodeLabel($label);
 
             if (!empty($logos[$labelIndex])) {
                 $metadata['logos'][$metricName] = $logos[$labelIndex];
@@ -448,9 +452,9 @@ class Piwik_API_RowEvolution
     /**
      * Returns the row in a datatable by its Piwik_API_DataTableManipulator_LabelFilter::FLAG_IS_ROW_EVOLUTION metadata.
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param int $labelIdx
-     * @return Piwik_DataTable_Row|false
+     * @return Row|false
      */
     private function getRowEvolutionRowFromLabelIdx($table, $labelIdx)
     {

@@ -17,6 +17,7 @@ define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
 
 require_once PIWIK_INCLUDE_PATH . '/libs/upgradephp/upgrade.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
+require_once PIWIK_INCLUDE_PATH . '/core/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
 Piwik_Visualization_Cloud::$debugDisableShuffle = true;

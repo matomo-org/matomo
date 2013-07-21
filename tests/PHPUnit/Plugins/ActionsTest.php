@@ -5,18 +5,20 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Translate;
+
 require_once 'Actions/Actions.php';
 
 class ActionsTests extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        Translate::getInstance()->loadEnglishTranslation();
     }
 
     public function tearDown()
     {
-        Piwik_Translate::getInstance()->unloadEnglishTranslation();
+        Translate::getInstance()->unloadEnglishTranslation();
     }
 
     public function getActionNameTestData()

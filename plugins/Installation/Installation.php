@@ -10,12 +10,14 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Plugin;
+use Piwik\Translate;
 
 /**
  *
  * @package Piwik_Installation
  */
-class Piwik_Installation extends Piwik_Plugin
+class Piwik_Installation extends Plugin
 {
     protected $installationControllerName = 'Piwik_Installation_Controller';
 
@@ -51,7 +53,7 @@ class Piwik_Installation extends Piwik_Plugin
             $message = '';
         }
 
-        Piwik_Translate::getInstance()->loadCoreTranslation();
+        Translate::getInstance()->loadCoreTranslation();
 
         Piwik_PostEvent('Installation.startInstallation', array($this));
 

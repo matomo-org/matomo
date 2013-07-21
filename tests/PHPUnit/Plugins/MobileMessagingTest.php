@@ -24,8 +24,8 @@ class MobileMessagingTest extends DatabaseTestCase
 
         $this->idSiteAccess = Piwik_SitesManager_API::getInstance()->addSite("test", "http://test");
 
-        PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging', 'MultiSites'));
-        PluginsManager::getInstance()->installLoadedPlugins();
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging', 'MultiSites'));
+        \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
     }
 
 
@@ -38,8 +38,8 @@ class MobileMessagingTest extends DatabaseTestCase
     public function testWarnUserViaSMSMultiSitesDeactivated()
     {
         // safety net
-        PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging'));
-        $this->assertFalse(PluginsManager::getInstance()->isPluginActivated('MultiSites'));
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('PDFReports', 'MobileMessaging'));
+        $this->assertFalse(\Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites'));
 
         $PdfReportsAPIInstance = Piwik_PDFReports_API::getInstance();
         $reportId = $PdfReportsAPIInstance->addReport(

@@ -9,6 +9,7 @@
  * @package Piwik_SEO
  */
 use Piwik\Piwik;
+use Piwik\DataTable;
 
 /**
  * @see plugins/Referers/functions.php
@@ -40,7 +41,7 @@ class Piwik_SEO_API
      * Returns SEO statistics for a URL.
      *
      * @param string $url URL to request SEO stats for
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getRank($url)
     {
@@ -101,6 +102,6 @@ class Piwik_SEO_API
             $data[Piwik_Translate('SEO_Dmoz')] = $dmozRank;
         }
 
-        return Piwik_DataTable::makeFromIndexedArray($data);
+        return DataTable::makeFromIndexedArray($data);
     }
 }

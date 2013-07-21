@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -98,7 +99,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
         Piwik::checkUserIsSuperUser();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
-            Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+            Json::sendHeaderJSON();
             $outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase('GeoIPCity.dat') . '.gz';
             try {
                 $result = Piwik_Http::downloadChunk(
@@ -180,7 +181,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsSuperUser();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+            Json::sendHeaderJSON();
             try {
                 $this->checkTokenInUrl();
 
@@ -225,7 +226,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
             try {
                 $this->checkTokenInUrl();
 
-                Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+                Json::sendHeaderJSON();
 
                 // based on the database type (provided by the 'key' query param) determine the
                 // url & output file name

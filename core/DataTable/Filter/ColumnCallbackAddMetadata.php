@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * Add a new 'metadata' column to the table based on the value resulting
@@ -17,9 +21,9 @@
  * with the icon URI built from the label (LINUX => UserSettings/icons/linux.png)
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_Filter
+class ColumnCallbackAddMetadata extends Filter
 {
     private $columnsToRead;
     private $functionToApply;
@@ -28,12 +32,12 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
     private $applyToSummaryRow;
 
     /**
-     * @param Piwik_DataTable $table
-     * @param string|array    $columnsToRead
-     * @param string          $metadataToAdd
-     * @param string          $functionToApply
-     * @param array           $functionParameters
-     * @param bool            $applyToSummaryRow
+     * @param DataTable $table
+     * @param string|array $columnsToRead
+     * @param string $metadataToAdd
+     * @param string $functionToApply
+     * @param array $functionParameters
+     * @param bool $applyToSummaryRow
      */
     public function __construct($table, $columnsToRead, $metadataToAdd, $functionToApply = null,
                                 $functionParameters = null, $applyToSummaryRow = true)
@@ -54,12 +58,12 @@ class Piwik_DataTable_Filter_ColumnCallbackAddMetadata extends Piwik_DataTable_F
     /**
      * Filters the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
         foreach ($table->getRows() as $key => $row) {
-            if (!$this->applyToSummaryRow && $key == Piwik_DataTable::ID_SUMMARY_ROW) {
+            if (!$this->applyToSummaryRow && $key == DataTable::ID_SUMMARY_ROW) {
                 continue;
             }
 

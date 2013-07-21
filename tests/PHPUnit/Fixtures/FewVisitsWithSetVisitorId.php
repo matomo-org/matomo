@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds one site and tracks a couple visits using a custom visitor ID.
@@ -48,13 +49,13 @@ class Test_Piwik_Fixture_FewVisitsWithSetVisitorId extends Test_Piwik_BaseFixtur
 
         // VISITOR B: few minutes later, we trigger the same tracker but with a custom visitor ID,
         // => this will create a new visit B
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.05)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.05)->getDatetime());
         $t->setUrl('http://example.org/index2.htm');
         $t->setVisitorId(Piwik_Tracker_Visit::generateUniqueVisitorId());
         self::checkResponse($t->doTrackPageView('incredible title!'));
 
         // This new visit B will have 2 page views
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.1)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.org/index3.htm');
         self::checkResponse($t->doTrackPageView('incredible title!'));
 

@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds one site and tracks a couple conversions.
@@ -55,15 +56,15 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Test_Piwik_BaseFixture
 
         // Record 1st goal, should only have 1 conversion
         $t->setUrl('http://example.org/index.htm');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
         self::checkResponse($t->doTrackPageView('Thank you mate'));
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 10000000));
 
         // Record 2nd goal, should record both conversions
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.5)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal_MultipleConversionPerVisit, $revenue = 300));
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.6)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.6)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal_MultipleConversionPerVisit, $revenue = 366));
 
         // Update & set to not allow multiple
@@ -74,7 +75,7 @@ class Piwik_Test_Fixture_SomeVisitsAllConversions extends Test_Piwik_BaseFixture
         self::assertTrue($goal['allow_multiple'] == 1);
 
         // 1st goal should Now be tracked
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.61)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.61)->getDatetime());
         self::checkResponse($t->doTrackGoal($idGoal_OneConversionPerVisit, $revenue = 656));
     }
 }

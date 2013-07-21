@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Site;
@@ -26,7 +27,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
     public function main()
     {
         $this->idSite = Common::getRequestVar('idSite', null, 'int');
-        $this->processOnlyIdGoal = Common::getRequestVar('idGoal', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
+        $this->processOnlyIdGoal = Common::getRequestVar('idGoal', AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
         $this->isEcommerce = $this->processOnlyIdGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
         $this->viewProperties['show_exclude_low_population'] = true;
         $this->viewProperties['show_goals'] = true;
@@ -143,7 +144,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 
                     $goal['name'] = Common::unsanitizeInputValue($goal['name']);
 
-                    if ($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
+                    if ($this->processOnlyIdGoal > AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
                         && $this->processOnlyIdGoal != $idgoal
                         && !$this->isEcommerce
                     ) {
@@ -155,7 +156,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
                     $this->setDynamicMetricDocumentation($columnName, $columnNameGoal, $goal['name'], $goal['idgoal']);
                     if (strpos($columnNameGoal, '_rate') === false
                         // For the goal table (when the flag icon is clicked), we only display the per Goal Conversion rate
-                        && $this->processOnlyIdGoal == Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW
+                        && $this->processOnlyIdGoal == AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW
                     ) {
                         continue;
                     }
@@ -220,7 +221,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
     protected function getRequestArray()
     {
         $requestArray = parent::getRequestArray();
-        if ($this->processOnlyIdGoal > Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
+        if ($this->processOnlyIdGoal > AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE
             || $this->isEcommerce
         ) {
             $requestArray["idGoal"] = $this->processOnlyIdGoal;
@@ -251,7 +252,7 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
         $this->columnsToRevenueFilter[] = 'revenue_per_visit';
         foreach ($this->columnsToRevenueFilter as $columnName) {
             $this->dataTable->filter('ColumnCallbackReplace', array($columnName, create_function('$value', 'return sprintf("%.1f",$value);')));
-            $this->dataTable->filter('ColumnCallbackReplace', array($columnName, array("Piwik", "getPrettyMoney"), array($this->getIdSite())));
+            $this->dataTable->filter('ColumnCallbackReplace', array($columnName, '\Piwik\Piwik::getPrettyMoney', array($this->getIdSite())));
         }
 
         foreach ($this->columnsToConversionFilter as $columnName) {

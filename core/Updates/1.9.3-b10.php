@@ -22,7 +22,7 @@ class Piwik_Updates_1_9_3_b10 extends Piwik_Updates
     static function update()
     {
         try {
-            PluginsManager::getInstance()->activatePlugin('Annotations');
+            \Piwik\PluginsManager::getInstance()->activatePlugin('Annotations');
         } catch (Exception $e) {
             // pass
         }

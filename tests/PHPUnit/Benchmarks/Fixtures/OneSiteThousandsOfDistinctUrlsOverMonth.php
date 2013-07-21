@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds one site and 1000 actions for every day of one month (January). Each
@@ -28,7 +29,7 @@ class Piwik_Test_Fixture_OneSiteThousandsOfDistinctUrlsOverMonth
         $goals->addGoal($this->idSite, 'all', 'url', 'http', 'contains', false, 5);
         $goals->addGoal($this->idSite, 'all', 'url', 'thing2', 'contains');
         
-        $start = Piwik_Date::factory($this->date);
+        $start = Date::factory($this->date);
         
         $dates = array();
         for ($day = 0; $day != 31; ++$day) {

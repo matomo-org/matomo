@@ -10,7 +10,7 @@
  */
 
 use Piwik\Common;
-use Piwik\Period_Range;
+use Piwik\Period\Range;
 use Piwik\Site;
 
 /**
@@ -99,10 +99,10 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
             $this->alwaysShowLimitDropdown();
 
             // set the evolution_{$period}_last_n query param
-            if (Period_Range::parseDateRange($this->originalDate)) // if a multiple period
+            if (Range::parseDateRange($this->originalDate)) // if a multiple period
             {
                 // overwrite last_n param using the date range
-                $oPeriod = new Period_Range($period, $this->originalDate);
+                $oPeriod = new Range($period, $this->originalDate);
                 $lastN = count($oPeriod->getSubperiods());
             } else // if not a multiple period
             {

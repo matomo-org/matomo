@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Date;
 use Piwik\Site;
 
 /**
@@ -198,7 +199,7 @@ class Piwik_UsersManager_API
      * If a user doesn't have any access to the $idSite ('noaccess'),
      * the user will not be in the returned array.
      *
-     * @param string website ID
+     * @param int website ID
      *
      * @return array    The returned array has the format
      *                    array(
@@ -249,7 +250,7 @@ class Piwik_UsersManager_API
      * this website will not be in the returned array.
      * If the user doesn't have any access, the returned array will be an empty array.
      *
-     * @param string User that has to be valid
+     * @param string $userLogin User that has to be valid
      *
      * @return array    The returned array has the format
      *                    array(
@@ -282,7 +283,7 @@ class Piwik_UsersManager_API
     /**
      * Returns the user information (login, password md5, alias, email, date_registered, etc.)
      *
-     * @param string the user login
+     * @param string $userLogin the user login
      *
      * @return array the user information
      */
@@ -302,7 +303,7 @@ class Piwik_UsersManager_API
     /**
      * Returns the user information (login, password md5, alias, email, date_registered, etc.)
      *
-     * @param string the user email
+     * @param string $userEmail the user email
      *
      * @return array the user information
      */
@@ -385,7 +386,7 @@ class Piwik_UsersManager_API
                                                             'alias'           => $alias,
                                                             'email'           => $email,
                                                             'token_auth'      => $token_auth,
-                                                            'date_registered' => Piwik_Date::now()->getDatetime()
+                                                            'date_registered' => Date::now()->getDatetime()
                                                        )
         );
 
@@ -629,7 +630,7 @@ class Piwik_UsersManager_API
      * Delete a user given its login.
      * The user's access are not deleted.
      *
-     * @param string the user login.
+     * @param string $userLogin the user login.
      *
      */
     private function deleteUserOnly($userLogin)
@@ -645,8 +646,8 @@ class Piwik_UsersManager_API
      * Delete the user access for the given websites.
      * The array of idsite must be either null OR the values must have been checked before for their validity!
      *
-     * @param string the user login
-     * @param array array of idsites on which to delete the access. If null then delete all the access for this user.
+     * @param string $userLogin the user login
+     * @param array $idSites array of idsites on which to delete the access. If null then delete all the access for this user.
      *
      * @return bool true on success
      */

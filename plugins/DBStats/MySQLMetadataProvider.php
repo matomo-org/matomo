@@ -10,6 +10,8 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
+use Piwik\DataTable;
 
 /**
  * Utility class that provides general information about databases, including the size of
@@ -175,7 +177,7 @@ class Piwik_DBStats_MySQLMetadataProvider
      *
      * @param bool $forceCache false to use the cached result, true to run the queries again and
      *                         cache the result.
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getRowCountsAndSizeByBlobName($forceCache = false)
     {
@@ -194,7 +196,7 @@ class Piwik_DBStats_MySQLMetadataProvider
      *
      * @param bool $forceCache false to use the cached result, true to run the queries again and
      *                         cache the result.
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getRowCountsAndSizeByMetricName($forceCache = false)
     {
@@ -216,20 +218,20 @@ class Piwik_DBStats_MySQLMetadataProvider
 
         $cols = array_merge(array('row_count'), $otherDataTableColumns);
 
-        $dataTable = new Piwik_DataTable();
+        $dataTable = new DataTable();
         foreach ($statuses as $status) {
             $dataTableOptionName = $this->getCachedOptionName($status['Name'], 'byArchiveName');
 
             // if option exists && !$forceCache, use the cached data, otherwise create the
             $cachedData = Piwik_GetOption($dataTableOptionName);
             if ($cachedData !== false && !$forceCache) {
-                $table = new Piwik_DataTable();
+                $table = new DataTable();
                 $table->addRowsFromSerializedArray($cachedData);
             } else {
                 // otherwise, create data table & cache it
                 $sql = "SELECT name as 'label', COUNT(*) as 'row_count'$extraCols FROM {$status['Name']} GROUP BY name";
 
-                $table = new Piwik_DataTable();
+                $table = new DataTable();
                 $table->addRowsFromSimpleArray(Piwik_FetchAll($sql));
 
                 $reduceArchiveRowName = array($this, 'reduceArchiveRowName');

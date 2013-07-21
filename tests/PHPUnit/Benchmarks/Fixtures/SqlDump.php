@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
@@ -65,6 +66,6 @@ class Piwik_Test_Fixture_SqlDump
         }
 
         // make sure archiving will be called
-        Piwik_ArchiveProcessor_Rules::setBrowserTriggerArchiving(true);
+        Rules::setBrowserTriggerArchiving(true);
     }
 }

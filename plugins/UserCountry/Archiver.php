@@ -9,9 +9,12 @@
  * @package Piwik_UserCountry
  */
 
+use Piwik\ArchiveProcessor\Day;
 use Piwik\Metrics;
+use Piwik\DataTable;
+use Piwik\PluginsArchiver;
 
-class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
+class Piwik_UserCountry_Archiver extends PluginsArchiver
 {
     const COUNTRY_RECORD_NAME = 'UserCountry_country';
     const REGION_RECORD_NAME = 'UserCountry_region';
@@ -124,15 +127,15 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 
     protected function recordDayReports()
     {
-        $tableCountry = Piwik_ArchiveProcessor_Day::getDataTableFromDataArray($this->arrays[self::COUNTRY_FIELD]);
+        $tableCountry = Day::getDataTableFromDataArray($this->arrays[self::COUNTRY_FIELD]);
         $this->getProcessor()->insertBlobRecord(self::COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
 
-        $tableRegion = Piwik_ArchiveProcessor_Day::getDataTableFromDataArray($this->arrays[self::REGION_FIELD]);
+        $tableRegion = Day::getDataTableFromDataArray($this->arrays[self::REGION_FIELD]);
         $serialized = $tableRegion->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::REGION_RECORD_NAME, $serialized);
 
-        $tableCity = Piwik_ArchiveProcessor_Day::getDataTableFromDataArray($this->arrays[self::CITY_FIELD]);
+        $tableCity = Day::getDataTableFromDataArray($this->arrays[self::CITY_FIELD]);
         $this->setLatitudeLongitude($tableCity);
         $serialized = $tableCity->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::CITY_RECORD_NAME, $serialized);
@@ -142,7 +145,7 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
      * Utility method, appends latitude/longitude pairs to city table labels, if that data
      * exists for the city.
      */
-    private function setLatitudeLongitude(Piwik_DataTable $tableCity)
+    private function setLatitudeLongitude(DataTable $tableCity)
     {
         foreach ($tableCity->getRows() as $row) {
             $label = $row->getColumn('label');

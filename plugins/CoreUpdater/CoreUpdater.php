@@ -10,12 +10,13 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_CoreUpdater
  */
-class Piwik_CoreUpdater extends Piwik_Plugin
+class Piwik_CoreUpdater extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -32,7 +33,7 @@ class Piwik_CoreUpdater extends Piwik_Plugin
     public static function getComponentUpdates(Piwik_Updater $updater)
     {
         $updater->addComponentToCheck('core', Piwik_Version::VERSION);
-        $plugins = PluginsManager::getInstance()->getLoadedPlugins();
+        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $pluginName => $plugin) {
             $updater->addComponentToCheck($pluginName, $plugin->getVersion());
         }

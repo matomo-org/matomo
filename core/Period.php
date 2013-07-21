@@ -11,11 +11,11 @@
 namespace Piwik;
 use Exception;
 use Piwik\Piwik;
-use Piwik_Date;
-use Piwik_Period_Day;
-use Piwik_Period_Month;
-use Piwik\Period_Range;
-use Piwik_Period_Week;
+use Piwik\Date;
+use Piwik\Period\Day;
+use Piwik\Period\Month;
+use Piwik\Period\Range;
+use Piwik\Period\Week;
 use Piwik_Period_Year;
 
 /**
@@ -47,14 +47,14 @@ abstract class Period
     protected $label = null;
 
     /**
-     * @var Piwik_Date
+     * @var Date
      */
     protected $date = null;
     static protected $errorAvailablePeriods = 'day, week, month, year, range';
 
     /**
      * Constructor
-     * @param Piwik_Date $date
+     * @param Date $date
      */
     public function __construct($date)
     {
@@ -64,23 +64,23 @@ abstract class Period
 
     /**
      * @param string $strPeriod "day", "week", "month", "year"
-     * @param Piwik_Date $date Piwik_Date object
+     * @param Date $date Date object
      * @throws Exception
      * @return \Piwik\Period
      */
-    static public function factory($strPeriod, Piwik_Date $date)
+    static public function factory($strPeriod, Date $date)
     {
         switch ($strPeriod) {
             case 'day':
-                return new Piwik_Period_Day($date);
+                return new Day($date);
                 break;
 
             case 'week':
-                return new Piwik_Period_Week($date);
+                return new Week($date);
                 break;
 
             case 'month':
-                return new Piwik_Period_Month($date);
+                return new Month($date);
                 break;
 
             case 'year':
@@ -106,13 +106,13 @@ abstract class Period
         return
             is_string($dateString)
             && (preg_match('/^(last|previous){1}([0-9]*)$/D', $dateString, $regs)
-            || Period_Range::parseDateRange($dateString))
+            || Range::parseDateRange($dateString))
             && $period != 'range';
     }
 
     /**
      * The advanced factory method is easier to use from the API than the factory
-     * method above. It doesn't require an instance of Piwik_Date and works for
+     * method above. It doesn't require an instance of Date and works for
      * period=range. Generally speaking, anything that can be passed as period
      * and range to the API methods can directly be forwarded to this factory
      * method in order to get a suitable instance of Period.
@@ -124,9 +124,9 @@ abstract class Period
     static public function advancedFactory($strPeriod, $strDate)
     {
         if (Period::isMultiplePeriod($strDate, $strPeriod) || $strPeriod == 'range') {
-            return new Period_Range($strPeriod, $strDate);
+            return new Range($strPeriod, $strDate);
         }
-        return Period::factory($strPeriod, Piwik_Date::factory($strDate));
+        return Period::factory($strPeriod, Date::factory($strDate));
     }
 
     /**
@@ -145,15 +145,15 @@ abstract class Period
         }
 
         if ($period == 'range') {
-            $oPeriod = new Period_Range('range', $date, $timezone, Piwik_Date::factory('today', $timezone));
+            $oPeriod = new Period\Range('range', $date, $timezone, Date::factory('today', $timezone));
         } else {
-            if (!($date instanceof Piwik_Date)) {
+            if (!($date instanceof Date)) {
                 if ($date == 'now' || $date == 'today') {
-                    $date = date('Y-m-d', Piwik_Date::factory('now', $timezone)->getTimestamp());
+                    $date = date('Y-m-d', Date::factory('now', $timezone)->getTimestamp());
                 } elseif ($date == 'yesterday' || $date == 'yesterdaySameTime') {
-                    $date = date('Y-m-d', Piwik_Date::factory('now', $timezone)->subDay(1)->getTimestamp());
+                    $date = date('Y-m-d', Date::factory('now', $timezone)->subDay(1)->getTimestamp());
                 }
-                $date = Piwik_Date::factory($date);
+                $date = Date::factory($date);
             }
             $oPeriod = Period::factory($period, $date);
         }
@@ -163,7 +163,7 @@ abstract class Period
     /**
      * Returns the first day of the period
      *
-     * @return Piwik_Date First day of the period
+     * @return Date First day of the period
      */
     public function getDateStart()
     {
@@ -185,7 +185,7 @@ abstract class Period
     /**
      * Returns the last day of the period ; can be a date in the future
      *
-     * @return Piwik_Date Last day of the period
+     * @return Date Last day of the period
      */
     public function getDateEnd()
     {
@@ -219,7 +219,7 @@ abstract class Period
     }
 
     /**
-     * @return Piwik_Date
+     * @return Date
      */
     protected function getDate()
     {
@@ -227,16 +227,16 @@ abstract class Period
     }
 
     /**
-     * Checks if the given date is an instance of Piwik_Date
+     * Checks if the given date is an instance of Date
      *
-     * @param Piwik_Date $date
+     * @param Date $date
      *
      * @throws Exception
      */
     protected function checkInputDate($date)
     {
-        if (!($date instanceof Piwik_Date)) {
-            throw new Exception("The date must be a Piwik_Date object. " . var_export($date, true));
+        if (!($date instanceof Date)) {
+            throw new Exception("The date must be a Date object. " . var_export($date, true));
         }
     }
 

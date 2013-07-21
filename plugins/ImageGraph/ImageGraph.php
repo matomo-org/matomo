@@ -1,7 +1,9 @@
 <?php
 use Piwik\Common;
 use Piwik\Period;
+use Piwik\Plugin;
 use Piwik\Site;
+use Piwik\Config;
 
 /**
  * Piwik - Open source web analytics
@@ -13,7 +15,7 @@ use Piwik\Site;
  * @package Piwik_ImageGraph
  */
 
-class Piwik_ImageGraph extends Piwik_Plugin
+class Piwik_ImageGraph extends Plugin
 {
     static private $CONSTANT_ROW_COUNT_REPORT_EXCEPTIONS = array(
         'Referers_getRefererType',

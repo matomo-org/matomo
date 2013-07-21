@@ -10,12 +10,13 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Plugin;
 use Piwik\Site;
 
 /**
  * @package Piwik_Dashboard
  */
-class Piwik_Dashboard extends Piwik_Plugin
+class Piwik_Dashboard extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

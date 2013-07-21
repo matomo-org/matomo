@@ -12,12 +12,14 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Plugin;
+use Piwik\Translate;
 
 /**
  *
  * @package Piwik_LanguagesManager
  */
-class Piwik_LanguagesManager extends Piwik_Plugin
+class Piwik_LanguagesManager extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -82,7 +84,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
             $language = self::getLanguageCodeForCurrentUser();
         }
         if (!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language)) {
-            $language = Piwik_Translate::getInstance()->getLanguageDefault();
+            $language = Translate::getInstance()->getLanguageDefault();
         }
     }
 
@@ -131,7 +133,7 @@ class Piwik_LanguagesManager extends Piwik_Plugin
             $languageCode = Common::extractLanguageCodeFromBrowserLanguage(Common::getBrowserLanguage(), Piwik_LanguagesManager_API::getInstance()->getAvailableLanguages());
         }
         if (!Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($languageCode)) {
-            $languageCode = Piwik_Translate::getInstance()->getLanguageDefault();
+            $languageCode = Translate::getInstance()->getLanguageDefault();
         }
         return $languageCode;
     }

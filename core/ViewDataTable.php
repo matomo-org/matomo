@@ -11,9 +11,11 @@
 use Piwik\Config;
 use Piwik\Metrics;
 use Piwik\Period;
-use Piwik\Period_Range;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
+use Piwik\DataTable;
 use Piwik\Site;
 
 /**
@@ -82,7 +84,7 @@ abstract class Piwik_ViewDataTable
     /**
      * DataTable loaded from the API for this ViewDataTable.
      *
-     * @var Piwik_DataTable
+     * @var DataTable
      */
     protected $dataTable = null;
 
@@ -377,7 +379,7 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['report_id'] = $currentControllerName . '.' . $currentControllerAction;
         $this->viewProperties['self_url'] = $this->getBaseReportUrl($currentControllerName, $currentControllerAction);
         
-        if (!PluginsManager::getInstance()->isPluginActivated('Goals')) {
+        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated('Goals')) {
             $this->viewProperties['show_goals'] = false;
         }
         
@@ -444,7 +446,7 @@ abstract class Piwik_ViewDataTable
     /**
      * Returns the DataTable loaded from the API
      *
-     * @return Piwik_DataTable
+     * @return DataTable
      * @throws exception if not yet defined
      */
     public function getDataTable()
@@ -460,7 +462,7 @@ abstract class Piwik_ViewDataTable
      * It won't be loaded again from the API in this case
      *
      * @param $dataTable
-     * @return void $dataTable Piwik_DataTable
+     * @return void $dataTable DataTable
      */
     public function setDataTable($dataTable)
     {
@@ -522,7 +524,7 @@ abstract class Piwik_ViewDataTable
      * Function called by the ViewDataTable objects in order to fetch data from the API.
      * The function init() must have been called before, so that the object knows which API module and action to call.
      * It builds the API request string and uses Piwik_API_Request to call the API.
-     * The requested Piwik_DataTable object is stored in $this->dataTable.
+     * The requested DataTable object is stored in $this->dataTable.
      */
     protected function loadDataTableFromAPI()
     {
@@ -551,7 +553,7 @@ abstract class Piwik_ViewDataTable
      */
     protected function checkStandardDataTable()
     {
-        Piwik::checkObjectTypeIs($this->dataTable, array('Piwik_DataTable'));
+        Piwik::checkObjectTypeIs($this->dataTable, array('\Piwik\DataTable'));
     }
 
     /**
@@ -567,11 +569,11 @@ abstract class Piwik_ViewDataTable
         }
 
         // deal w/ table metadata
-        if ($this->dataTable instanceof Piwik_DataTable) {
+        if ($this->dataTable instanceof DataTable) {
             $this->viewProperties['metadata'] = $this->dataTable->getAllTableMetadata();
 
-            if (isset($this->viewProperties['metadata'][Piwik_DataTable::ARCHIVED_DATE_METADATA_NAME])) {
-                $this->viewProperties['metadata'][Piwik_DataTable::ARCHIVED_DATE_METADATA_NAME] =
+            if (isset($this->viewProperties['metadata'][DataTable::ARCHIVED_DATE_METADATA_NAME])) {
+                $this->viewProperties['metadata'][DataTable::ARCHIVED_DATE_METADATA_NAME] =
                     $this->makePrettyArchivedOnText();
             }
         }
@@ -608,7 +610,7 @@ abstract class Piwik_ViewDataTable
         
         // default columns_to_display to label, nb_uniq_visitors/nb_visits if those columns exist in the
         // dataset
-        if ($this->dataTable instanceof Piwik_DataTable) {
+        if ($this->dataTable instanceof DataTable) {
             $columns = $this->dataTable->getColumns();
             if (empty($this->viewProperties['columns_to_display'])
                 && $this->dataTableColumnsContains($columns, array('nb_visits', 'nb_uniq_visitors'))
@@ -669,8 +671,8 @@ abstract class Piwik_ViewDataTable
      */
     private function makePrettyArchivedOnText()
     {
-        $dateText = $this->viewProperties['metadata'][Piwik_DataTable::ARCHIVED_DATE_METADATA_NAME];
-        $date = Piwik_Date::factory($dateText);
+        $dateText = $this->viewProperties['metadata'][DataTable::ARCHIVED_DATE_METADATA_NAME];
+        $date = Date::factory($dateText);
         $today = mktime(0, 0, 0);
         if ($date->getTimestamp() > $today) {
             $elapsedSeconds = time() - $date->getTimestamp();
@@ -835,7 +837,7 @@ abstract class Piwik_ViewDataTable
             }
         }
 
-        if ($this->dataTable instanceof Piwik_DataTable) {
+        if ($this->dataTable instanceof DataTable) {
             // we override the filter_sort_column with the column used for sorting,
             // which can be different from the one specified (eg. if the column doesn't exist)
             $javascriptVariablesToSet['filter_sort_column'] = $this->dataTable->getSortedByColumnName();
@@ -853,8 +855,8 @@ abstract class Piwik_ViewDataTable
         $javascriptVariablesToSet['controllerActionCalledWhenRequestSubTable'] = $this->controllerActionCalledWhenRequestSubTable;
 
         if ($this->dataTable &&
-            // Piwik_DataTable_Array doesn't have the method
-            !($this->dataTable instanceof Piwik_DataTable_Array)
+            // Set doesn't have the method
+            !($this->dataTable instanceof DataTable\Map)
             && empty($javascriptVariablesToSet['totalRows'])
         ) {
             $javascriptVariablesToSet['totalRows'] = $this->dataTable->getRowsCountBeforeLimitFilter();
@@ -1061,7 +1063,7 @@ abstract class Piwik_ViewDataTable
      */
     public function showAnnotationsView()
     {
-        if (!PluginsManager::getInstance()->isPluginLoaded('Annotations')) {
+        if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded('Annotations')) {
             return;
         }
 
@@ -1113,7 +1115,7 @@ abstract class Piwik_ViewDataTable
      */
     public function enableShowGoals()
     {
-        if (PluginsManager::getInstance()->isPluginActivated('Goals')) {
+        if (\Piwik\PluginsManager::getInstance()->isPluginActivated('Goals')) {
             $this->viewProperties['show_goals'] = true;
         }
     }
@@ -1360,10 +1362,10 @@ abstract class Piwik_ViewDataTable
         if(empty($this->dataTable)) {
             return;
         }
-        if ($this->dataTable instanceof Piwik_DataTable_Array) {
-            $emptyColumns = $this->dataTable->getMetadataIntersectArray(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+        if ($this->dataTable instanceof DataTable\Map) {
+            $emptyColumns = $this->dataTable->getMetadataIntersectArray(DataTable::EMPTY_COLUMNS_METADATA_NAME);
         } else {
-            $emptyColumns = $this->dataTable->getMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+            $emptyColumns = $this->dataTable->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
         }
         if (is_array($emptyColumns)) {
             foreach ($emptyColumns as $emptyColumn) {
@@ -1537,14 +1539,14 @@ abstract class Piwik_ViewDataTable
                     $timezone = 'UTC';
                 }
 
-                $period = new Period_Range('range', $strDate, $timezone);
+                $period = new Range('range', $strDate, $timezone);
                 $reportDate = $period->getDateStart();
             } // if a multiple period, this function is irrelevant
             else if (Period::isMultiplePeriod($strDate, $strPeriod)) {
                 return false;
             } // otherwise, use the date as given
             else {
-                $reportDate = Piwik_Date::factory($strDate);
+                $reportDate = Date::factory($strDate);
             }
 
             $reportYear = $reportDate->toString('Y');
@@ -1619,7 +1621,7 @@ abstract class Piwik_ViewDataTable
      * Returns true if the first array contains one or more of the specified
      * column names or their associated integer INDEX_ value.
      * 
-     * @param array $columns Piwik_DataTable_Row columns.
+     * @param array $columns Row columns.
      * @param array|string $columnsToCheckFor eg, array('nb_visits', 'nb_uniq_visitors')
      * @return bool
      */

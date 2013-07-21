@@ -12,6 +12,8 @@ use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Date;
+use Piwik\DataTable;
 use Piwik\Site;
 
 /**
@@ -64,7 +66,7 @@ class Piwik_VisitTime_API
      * @param string $date The start date of the period. Cannot refer to multiple dates.
      * @param bool|string $segment The segment.
      * @throws Exception
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getByDayOfWeek($idSite, $period, $date, $segment = false)
     {
@@ -105,7 +107,7 @@ class Piwik_VisitTime_API
         foreach (array(1, 2, 3, 4, 5, 6, 7) as $day) {
             $rows[] = array('label' => $day, 'nb_visits' => 0);
         }
-        $result = new Piwik_DataTable();
+        $result = new DataTable();
         $result->addRowsFromSimpleArray($rows);
         $result->addDataTable($dataTable);
 
@@ -128,9 +130,9 @@ class Piwik_VisitTime_API
 
         if ($period == 'day'
             && ($date == 'today'
-                || $date == Piwik_Date::factory('now', $site->getTimezone())->toString())
+                || $date == Date::factory('now', $site->getTimezone())->toString())
         ) {
-            $currentHour = Piwik_Date::factory('now', $site->getTimezone())->toString('G');
+            $currentHour = Date::factory('now', $site->getTimezone())->toString('G');
             // If no data for today, this is an exception to the API output rule, as we normally return nothing:
             // we shall return all hours of the day, with nb_visits = 0
             if ($table->getRowsCount() == 0) {
@@ -160,7 +162,7 @@ function Piwik_getTimeLabel($label)
 
 /**
  * Returns the day of the week for a date string, without creating a new
- * Piwik_Date instance.
+ * Date instance.
  *
  * @param string $dateStr
  * @return int The day of the week (1-7)

@@ -12,6 +12,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Date;
 use Piwik\Site;
 
 /**
@@ -153,8 +154,8 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
         // if the current date is today, or yesterday,
         // in case the website is set to UTC-12), or today in UTC+14, we refresh the page every 5min
         if (in_array($date, array('today', date('Y-m-d'),
-                                  'yesterday', Piwik_Date::factory('yesterday')->toString('Y-m-d'),
-                                  Piwik_Date::factory('now', 'UTC+14')->toString('Y-m-d')))
+                                  'yesterday', Date::factory('yesterday')->toString('Y-m-d'),
+                                  Date::factory('now', 'UTC+14')->toString('Y-m-d')))
         ) {
 
             $view->autoRefreshTodayReport = Config::getInstance()->General['multisites_refresh_after_seconds'];
@@ -171,32 +172,32 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
      * The Multisites reports displays the first calendar date as the earliest day available for all websites.
      * Also, today is the later "today" available across all timezones.
      * @param array $siteIds Array of IDs for each site being displayed.
-     * @return array of two Piwik_Date instances. First is the min-date & the second
+     * @return array of two Date instances. First is the min-date & the second
      *               is the max date.
      */
     private function getMinMaxDateAcrossWebsites($siteIds)
     {
-        $now = Piwik_Date::now();
+        $now = Date::now();
 
         $minDate = null;
         $maxDate = $now->subDay(1)->getTimestamp();
         foreach ($siteIds as $idsite) {
             // look for 'now' in the website's timezone
             $timezone = Site::getTimezoneFor($idsite);
-            $date = Piwik_Date::adjustForTimezone($now->getTimestamp(), $timezone);
+            $date = Date::adjustForTimezone($now->getTimestamp(), $timezone);
             if ($date > $maxDate) {
                 $maxDate = $date;
             }
 
             // look for the absolute minimum date
             $creationDate = Site::getCreationDateFor($idsite);
-            $date = Piwik_Date::adjustForTimezone(strtotime($creationDate), $timezone);
+            $date = Date::adjustForTimezone(strtotime($creationDate), $timezone);
             if (is_null($minDate) || $date < $minDate) {
                 $minDate = $date;
             }
         }
 
-        return array(Piwik_Date::factory($minDate), Piwik_Date::factory($maxDate));
+        return array(Date::factory($minDate), Date::factory($maxDate));
     }
 
     protected function applyPrettyMoney(&$sites)

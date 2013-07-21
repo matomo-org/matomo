@@ -1,8 +1,12 @@
 <?php
+use Piwik\DataTable\Simple;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
+use Piwik\DataTable;
 use Piwik\Site;
 
 /**
@@ -60,7 +64,7 @@ class Piwik_API_ProcessedReport
      *
      * @param string $idSites Comma separated list of website Ids
      * @param bool|string $period
-     * @param bool|Piwik_Date $date
+     * @param bool|Date $date
      * @param bool $hideMetricsDoc
      * @param bool $showSubtableReports
      * @return array
@@ -272,7 +276,7 @@ class Piwik_API_ProcessedReport
         $url = Piwik_Url::getQueryStringFromParameters($parameters);
         $request = new Piwik_API_Request($url);
         try {
-            /** @var Piwik_DataTable */
+            /** @var DataTable */
             $dataTable = $request->process();
         } catch (Exception $e) {
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
@@ -307,14 +311,14 @@ class Piwik_API_ProcessedReport
      * - remove metrics based on $reportMetadata['metrics']
      * - add 0 valued metrics if $dataTable doesn't provide all $reportMetadata['metrics']
      * - format metric values to a 'human readable' format
-     * - extract row metadata to a separate Piwik_DataTable_Simple|Piwik_DataTable_Array : $rowsMetadata
+     * - extract row metadata to a separate Simple|Set : $rowsMetadata
      * - translate metric names to a separate array : $columns
      *
      * @param int $idSite enables monetary value formatting based on site currency
-     * @param Piwik_DataTable|Piwik_DataTable_Array $dataTable
+     * @param \Piwik\DataTable\Set $dataTable
      * @param array $reportMetadata
      * @param bool $showRawMetrics
-     * @return array Piwik_DataTable_Simple|Piwik_DataTable_Array $newReport with human readable format & array $columns list of translated column names & Piwik_DataTable_Simple|Piwik_DataTable_Array $rowsMetadata
+     * @return array Simple|Set $newReport with human readable format & array $columns list of translated column names & Simple|Set $rowsMetadata
      */
     private function handleTableReport($idSite, $dataTable, &$reportMetadata, $showRawMetrics = false)
     {
@@ -356,17 +360,17 @@ class Piwik_API_ProcessedReport
 
         $columns = $this->hideShowMetrics($columns);
 
-        // $dataTable is an instance of Piwik_DataTable_Array when multiple periods requested
-        if ($dataTable instanceof Piwik_DataTable_Array) {
-            // Need a new Piwik_DataTable_Array to store the 'human readable' values
-            $newReport = new Piwik_DataTable_Array();
+        // $dataTable is an instance of Set when multiple periods requested
+        if ($dataTable instanceof DataTable\Map) {
+            // Need a new Set to store the 'human readable' values
+            $newReport = new DataTable\Map();
             $newReport->setKeyName("prettyDate");
 
-            // Need a new Piwik_DataTable_Array to store report metadata
-            $rowsMetadata = new Piwik_DataTable_Array();
+            // Need a new Set to store report metadata
+            $rowsMetadata = new DataTable\Map();
             $rowsMetadata->setKeyName("prettyDate");
 
-            // Process each Piwik_DataTable_Simple entry
+            // Process each Simple entry
             foreach ($dataTable->getArray() as $label => $simpleDataTable) {
                 $this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
 
@@ -395,7 +399,7 @@ class Piwik_API_ProcessedReport
      */
     private function removeEmptyColumns(&$columns, &$reportMetadata, $dataTable)
     {
-        $emptyColumns = $dataTable->getMetadata(Piwik_DataTable::EMPTY_COLUMNS_METADATA_NAME);
+        $emptyColumns = $dataTable->getMetadata(DataTable::EMPTY_COLUMNS_METADATA_NAME);
 
         if (!is_array($emptyColumns)) {
             return;
@@ -473,26 +477,26 @@ class Piwik_API_ProcessedReport
      * - remove metrics based on $reportMetadata['metrics']
      * - add 0 valued metrics if $simpleDataTable doesn't provide all $reportMetadata['metrics']
      * - format metric values to a 'human readable' format
-     * - extract row metadata to a separate Piwik_DataTable_Simple $rowsMetadata
+     * - extract row metadata to a separate Simple $rowsMetadata
      *
      * @param int $idSite enables monetary value formatting based on site currency
-     * @param Piwik_DataTable_Simple $simpleDataTable
+     * @param Simple $simpleDataTable
      * @param array $metadataColumns
      * @param boolean $hasDimension
      * @param bool $returnRawMetrics If set to true, the original metrics will be returned
      *
-     * @return array Piwik_DataTable $enhancedDataTable filtered metrics with human readable format & Piwik_DataTable_Simple $rowsMetadata
+     * @return array DataTable $enhancedDataTable filtered metrics with human readable format & Simple $rowsMetadata
      */
     private function handleSimpleDataTable($idSite, $simpleDataTable, $metadataColumns, $hasDimension, $returnRawMetrics = false)
     {
         // new DataTable to store metadata
-        $rowsMetadata = new Piwik_DataTable();
+        $rowsMetadata = new DataTable();
 
         // new DataTable to store 'human readable' values
         if ($hasDimension) {
-            $enhancedDataTable = new Piwik_DataTable();
+            $enhancedDataTable = new DataTable();
         } else {
-            $enhancedDataTable = new Piwik_DataTable_Simple();
+            $enhancedDataTable = new Simple();
         }
 
         // add missing metrics
@@ -506,7 +510,7 @@ class Piwik_API_ProcessedReport
         }
 
         foreach ($simpleDataTable->getRows() as $row) {
-            $enhancedRow = new Piwik_DataTable_Row();
+            $enhancedRow = new Row();
             $enhancedDataTable->addRow($enhancedRow);
             $rowMetrics = $row->getColumns();
             foreach ($rowMetrics as $columnName => $columnValue) {
@@ -528,7 +532,7 @@ class Piwik_API_ProcessedReport
 
                 // Create a row metadata only if there are metadata to insert
                 if (count($rowMetadata) > 0 || !is_null($idSubDataTable)) {
-                    $metadataRow = new Piwik_DataTable_Row();
+                    $metadataRow = new Row();
                     $rowsMetadata->addRow($metadataRow);
 
                     foreach ($rowMetadata as $metadataKey => $metadataValue) {

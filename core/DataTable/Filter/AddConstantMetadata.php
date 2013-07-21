@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * Add a new metadata column to the table.
@@ -16,14 +20,14 @@
  * This value is fixed for all icons so we simply add the same value for all rows.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_AddConstantMetadata extends Piwik_DataTable_Filter
+class AddConstantMetadata extends Filter
 {
     /**
      * Creates a new filter and sets all required parameters
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string $metadataName
      * @param mixed $metadataValue
      */
@@ -37,7 +41,7 @@ class Piwik_DataTable_Filter_AddConstantMetadata extends Piwik_DataTable_Filter
     /**
      * Filters the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {

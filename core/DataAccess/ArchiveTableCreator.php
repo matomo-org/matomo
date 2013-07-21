@@ -1,6 +1,11 @@
 <?php
+namespace Piwik\DataAccess;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
+use Zend_Registry;
 
 /**
  * Piwik - Open source web analytics
@@ -12,7 +17,7 @@ use Piwik\Common;
  * @package Piwik
  */
 
-class Piwik_DataAccess_ArchiveTableCreator
+class ArchiveTableCreator
 {
     const NUMERIC_TABLE = "numeric";
 
@@ -20,17 +25,17 @@ class Piwik_DataAccess_ArchiveTableCreator
 
     static public $tablesAlreadyInstalled = null;
 
-    static public function getNumericTable(Piwik_Date $date)
+    static public function getNumericTable(Date $date)
     {
         return self::getTable($date, self::NUMERIC_TABLE);
     }
 
-    static public function getBlobTable(Piwik_Date $date)
+    static public function getBlobTable(Date $date)
     {
         return self::getTable($date, self::BLOB_TABLE);
     }
 
-    static protected function getTable(Piwik_Date $date, $type)
+    static protected function getTable(Date $date, $type)
     {
         $tableNamePrefix = "archive_" . $type;
         $tableName = $tableNamePrefix . "_" . $date->toString('Y_m');
@@ -68,6 +73,7 @@ class Piwik_DataAccess_ArchiveTableCreator
     {
         self::$tablesAlreadyInstalled = null;
     }
+
     static public function refreshTableList($forceReload = false)
     {
         self::$tablesAlreadyInstalled = Piwik::getTablesInstalled($forceReload);
@@ -87,7 +93,8 @@ class Piwik_DataAccess_ArchiveTableCreator
         $archiveTables = array();
         foreach (self::$tablesAlreadyInstalled as $table) {
             if (strpos($table, 'archive_numeric_') !== false
-                || strpos($table, 'archive_blob_') !== false ) {
+                || strpos($table, 'archive_blob_') !== false
+            ) {
                 $archiveTables[] = $table;
             }
         }
@@ -103,13 +110,12 @@ class Piwik_DataAccess_ArchiveTableCreator
 
     static public function getTypeFromTableName($tableName)
     {
-        if(strpos($tableName, 'archive_numeric_') !== false) {
+        if (strpos($tableName, 'archive_numeric_') !== false) {
             return self::NUMERIC_TABLE;
         }
-        if(strpos($tableName, 'archive_blob_') !== false) {
+        if (strpos($tableName, 'archive_blob_') !== false) {
             return self::BLOB_TABLE;
         }
         return false;
     }
-
 }

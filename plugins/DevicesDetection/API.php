@@ -12,6 +12,7 @@
 use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\DataTable;
 
 /**
  * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
@@ -58,7 +59,7 @@ class Piwik_DevicesDetection_API
      * @param string $period
      * @param string $date
      * @param bool|string $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getType($idSite, $period, $date, $segment = false)
     {
@@ -75,7 +76,7 @@ class Piwik_DevicesDetection_API
      * @param string $period
      * @param string $date
      * @param bool|string $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getBrand($idSite, $period, $date, $segment = false)
     {
@@ -91,7 +92,7 @@ class Piwik_DevicesDetection_API
      * @param string $period
      * @param string $date
      * @param bool|string $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getModel($idSite, $period, $date, $segment = false)
     {
@@ -106,7 +107,7 @@ class Piwik_DevicesDetection_API
      * @param string $period
      * @param string $date
      * @param bool|string $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getOsFamilies($idSite, $period, $date, $segment = false)
     {
@@ -122,7 +123,7 @@ class Piwik_DevicesDetection_API
      * @param string $period
      * @param string $date
      * @param bool|string $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getOsVersions($idSite, $period, $date, $segment = false)
     {
@@ -139,7 +140,7 @@ class Piwik_DevicesDetection_API
      * @param string $period
      * @param string $date
      * @param bool|string $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getBrowserFamilies($idSite, $period, $date, $segment = false)
     {
@@ -155,7 +156,7 @@ class Piwik_DevicesDetection_API
      * @param string $period
      * @param string $date
      * @param bool|string $segment
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getBrowserVersions($idSite, $period, $date, $segment = false)
     {

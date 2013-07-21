@@ -8,16 +8,17 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
+use Piwik\Plugin;
 
 /**
  * Note: This plugin does not hook on Daily and Period Archiving like other Plugins because it reports the
  * very core metrics (visits, actions, visit duration, etc.) which are processed in the Core
- * Piwik_ArchiveProcessor_Day class directly.
+ * Day class directly.
  * These metrics can be used by other Plugins so they need to be processed up front.
  *
  * @package Piwik_VisitsSummary
  */
-class Piwik_VisitsSummary extends Piwik_Plugin
+class Piwik_VisitsSummary extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

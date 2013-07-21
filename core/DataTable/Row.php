@@ -8,7 +8,12 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable;
+
+use Exception;
+use Piwik\DataTable\Manager;
 use Piwik\Metrics;
+use Piwik\DataTable;
 
 /**
  * A DataTable is composed of rows.
@@ -27,9 +32,9 @@ use Piwik\Metrics;
  *              serialized and recorded in the DB millions of times. This object size is critical and must be under control.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Row
+class Row
 {
     /**
      * List of columns that cannot be summed. An associative array for speed.
@@ -45,7 +50,7 @@ class Piwik_DataTable_Row
      * This array contains the row information:
      * - array indexed by self::COLUMNS contains the columns, pairs of (column names, value)
      * - (optional) array indexed by self::METADATA contains the metadata,  pairs of (metadata name, value)
-     * - (optional) integer indexed by self::DATATABLE_ASSOCIATED contains the ID of the Piwik_DataTable associated to this row.
+     * - (optional) integer indexed by self::DATATABLE_ASSOCIATED contains the ID of the DataTable associated to this row.
      *   This ID can be used to read the DataTable from the DataTable_Manager.
      *
      * @var array
@@ -61,22 +66,21 @@ class Piwik_DataTable_Row
     const METADATA = 1;
     const DATATABLE_ASSOCIATED = 3;
 
-
     /**
      * Efficient load of the Row structure from a well structured php array
      *
      * @param array $row  The row array has the structure
      *                     array(
-     *                           Piwik_DataTable_Row::COLUMNS => array(
+     *                           Row::COLUMNS => array(
      *                                                                 'label' => 'Piwik',
      *                                                                 'column1' => 42,
      *                                                                 'visits' => 657,
      *                                                                 'time_spent' => 155744,
      *                                                                 ),
-     *                            Piwik_DataTable_Row::METADATA => array(
+     *                            Row::METADATA => array(
      *                                                                  'logo' => 'test.png'
      *                                                                  ),
-     *                            Piwik_DataTable_Row::DATATABLE_ASSOCIATED => #Piwik_DataTable object
+     *                            Row::DATATABLE_ASSOCIATED => #DataTable object
      *                                                                         (but in the row only the ID will be stored)
      *                           )
      */
@@ -93,7 +97,7 @@ class Piwik_DataTable_Row
             $this->c[self::METADATA] = $row[self::METADATA];
         }
         if (isset($row[self::DATATABLE_ASSOCIATED])
-            && $row[self::DATATABLE_ASSOCIATED] instanceof Piwik_DataTable
+            && $row[self::DATATABLE_ASSOCIATED] instanceof DataTable
         ) {
             $this->setSubtable($row[self::DATATABLE_ASSOCIATED]);
         }
@@ -134,7 +138,7 @@ class Piwik_DataTable_Row
     public function __destruct()
     {
         if ($this->isSubtableLoaded()) {
-            Piwik_DataTable_Manager::getInstance()->deleteTable($this->getIdSubDataTable());
+            Manager::getInstance()->deleteTable($this->getIdSubDataTable());
             $this->c[self::DATATABLE_ASSOCIATED] = null;
         }
     }
@@ -257,12 +261,12 @@ class Piwik_DataTable_Row
     /**
      * Returns the associated subtable, if one exists.
      *
-     * @return Piwik_DataTable|false
+     * @return DataTable|false
      */
     public function getSubtable()
     {
         if ($this->isSubtableLoaded()) {
-            return Piwik_DataTable_Manager::getInstance()->getTable($this->getIdSubDataTable());
+            return Manager::getInstance()->getTable($this->getIdSubDataTable());
         }
         return false;
     }
@@ -272,31 +276,30 @@ class Piwik_DataTable_Row
      * If this row doesn't have a SubDataTable yet, we create a new one.
      * Then we add the values of the given DataTable to this row's DataTable.
      *
-     * @param Piwik_DataTable $subTable  Table to sum to this row's subDatatable
+     * @param DataTable $subTable  Table to sum to this row's subDatatable
      * @see Piwik_DataTable::addDataTable() for the algorithm used for the sum
      */
-    public function sumSubtable(Piwik_DataTable $subTable)
+    public function sumSubtable(DataTable $subTable)
     {
         if ($this->isSubtableLoaded()) {
             $thisSubTable = $this->getSubtable();
         } else {
-            $thisSubTable = new Piwik_DataTable();
+            $thisSubTable = new DataTable();
             $this->addSubtable($thisSubTable);
         }
         $thisSubTable->setColumnAggregationOperations($subTable->getColumnAggregationOperations());
         $thisSubTable->addDataTable($subTable);
     }
 
-
     /**
      * Set a DataTable to be associated to this row.
      * If the row already has a DataTable associated to it, throws an Exception.
      *
-     * @param Piwik_DataTable $subTable  DataTable to associate to this row
-     * @return Piwik_DataTable Returns $subTable.
+     * @param DataTable $subTable  DataTable to associate to this row
+     * @return DataTable Returns $subTable.
      * @throws Exception
      */
-    public function addSubtable(Piwik_DataTable $subTable)
+    public function addSubtable(DataTable $subTable)
     {
         if (!is_null($this->c[self::DATATABLE_ASSOCIATED])) {
             throw new Exception("Adding a subtable to the row, but it already has a subtable associated.");
@@ -308,10 +311,10 @@ class Piwik_DataTable_Row
      * Set a DataTable to this row. If there is already
      * a DataTable associated, it is simply overwritten.
      *
-     * @param Piwik_DataTable $subTable  DataTable to associate to this row
-     * @return Piwik_DataTable Returns $subTable.
+     * @param DataTable $subTable  DataTable to associate to this row
+     * @return DataTable Returns $subTable.
      */
-    public function setSubtable(Piwik_DataTable $subTable)
+    public function setSubtable(DataTable $subTable)
     {
         // Hacking -1 to ensure value is negative, so we know the table was loaded
         // @see isSubtableLoaded()
@@ -456,22 +459,22 @@ class Piwik_DataTable_Row
      * If the column already exists in $this then we have
      *         this.columns[idThisCol] += $row.columns[idThisCol]
      *
-     * @param Piwik_DataTable_Row $rowToSum
-     * @param bool                $enableCopyMetadata
-     * @param array               $aggregationOperations  for columns that should not be summed, determine which
+     * @param \Piwik\DataTable\Row $rowToSum
+     * @param bool $enableCopyMetadata
+     * @param array $aggregationOperations  for columns that should not be summed, determine which
      *                                                    aggregation should be used (min, max).
      *                                                    format: column name => function name
      */
-    public function sumRow(Piwik_DataTable_Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = null)
+    public function sumRow(Row $rowToSum, $enableCopyMetadata = true, $aggregationOperations = null)
     {
         foreach ($rowToSum->getColumns() as $columnToSumName => $columnToSumValue) {
             if (!isset(self::$unsummableColumns[$columnToSumName])) // make sure we can add this column
             {
                 $thisColumnValue = $this->getColumn($columnToSumName);
 
-                $operation = (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName]) ? 
+                $operation = (is_array($aggregationOperations) && isset($aggregationOperations[$columnToSumName]) ?
                     strtolower($aggregationOperations[$columnToSumName]) : 'sum');
-                
+
                 // max_actions is a core metric that is generated in ArchiveProcess_Day. Therefore, it can be
                 // present in any data table and is not part of the $aggregationOperations mechanism.
                 if ($columnToSumName == Metrics::INDEX_MAX_ACTIONS) {
@@ -536,13 +539,13 @@ class Piwik_DataTable_Row
 
     public function isSummaryRow()
     {
-        return $this->getColumn('label') === Piwik_DataTable::LABEL_SUMMARY_ROW;
+        return $this->getColumn('label') === DataTable::LABEL_SUMMARY_ROW;
     }
 
     /**
      * Helper function: sums 2 values
      *
-     * @param number|bool  $thisColumnValue
+     * @param number|bool $thisColumnValue
      * @param number|array $columnToSumValue
      *
      * @throws Exception
@@ -577,7 +580,7 @@ class Piwik_DataTable_Row
             } else if ($columnToSumValue === false) {
                 return $thisColumnValue;
             } else {
-                throw new Exception("Trying to add two strings values in DataTable_Row::sumRowArray: "
+                throw new Exception("Trying to add two strings values in DataTable\Row::sumRowArray: "
                     . "'$thisColumnValue' + '$columnToSumValue'");
             }
         }
@@ -616,11 +619,11 @@ class Piwik_DataTable_Row
      * - if they have exactly the same columns / metadata
      * - if they have a subDataTable associated, then we check that both of them are the same.
      *
-     * @param Piwik_DataTable_Row $row1  first to compare
-     * @param Piwik_DataTable_Row $row2  second to compare
+     * @param \Piwik\DataTable\Row $row1  first to compare
+     * @param \Piwik\DataTable\Row $row2  second to compare
      * @return bool
      */
-    static public function isEqual(Piwik_DataTable_Row $row1, Piwik_DataTable_Row $row2)
+    static public function isEqual(Row $row1, Row $row2)
     {
         //same columns
         $cols1 = $row1->getColumns();
@@ -651,7 +654,7 @@ class Piwik_DataTable_Row
         ) {
             $subtable1 = $row1->getSubtable();
             $subtable2 = $row2->getSubtable();
-            if (!Piwik_DataTable::isEqual($subtable1, $subtable2)) {
+            if (!DataTable::isEqual($subtable1, $subtable2)) {
                 return false;
             }
         }

@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.
@@ -29,8 +30,8 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
     protected function initChartObjectData($dataTable)
     {
         // if the loaded datatable is a simple DataTable, it is most likely a plugin plotting some custom data
-        // we don't expect plugin developers to return a well defined Piwik_DataTable_Array
-        if ($dataTable instanceof Piwik_DataTable) {
+        // we don't expect plugin developers to return a well defined Set
+        if ($dataTable instanceof DataTable) {
             return parent::initChartObjectData($dataTable);
         }
 

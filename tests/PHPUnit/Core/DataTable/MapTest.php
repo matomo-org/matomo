@@ -1,22 +1,25 @@
 <?php
 use Piwik\Config;
+use Piwik\DataTable;
+use Piwik\DataTable\Manager;
+use Piwik\DataTable\Row;
 
-class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
+class Test_DataTable_Map extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         parent::setUp();
         Config::getInstance()->setTestEnvironment();
-        Piwik_DataTable_Manager::getInstance()->deleteAll();
+        Manager::getInstance()->deleteAll();
     }
 
     private function createTestDataTable()
     {
-        $result = new Piwik_DataTable();
+        $result = new DataTable();
 
         $result->addRowsFromArray(array(
-                                       array(Piwik_DataTable_Row::COLUMNS => array('label' => 'row1', 'col1' => 1)),
-                                       array(Piwik_DataTable_Row::COLUMNS => array('label' => 'row2', 'col1' => 2))
+                                       array(Row::COLUMNS => array('label' => 'row1', 'col1' => 1)),
+                                       array(Row::COLUMNS => array('label' => 'row2', 'col1' => 2))
                                   ));
 
         return $result;
@@ -24,7 +27,7 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
 
     private function createInstanceWithDataTables()
     {
-        $dataTable = new Piwik_DataTable_Array();
+        $dataTable = new DataTable\Map();
 
         $subDataTable1 = $this->createTestDataTable();
         $dataTable->addTable($subDataTable1, 'subDataTable1');
@@ -37,7 +40,7 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
 
     private function createInstanceWithDataTableArrays()
     {
-        $dataTable = new Piwik_DataTable_Array();
+        $dataTable = new DataTable\Map();
 
         $subDataTableArray1 = $this->createInstanceWithDataTables();
         $dataTable->addTable($subDataTableArray1, 'subArray1');
@@ -49,7 +52,7 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that Piwik_DataTable_Array::mergeChildren works when the DataTable_Array contains DataTables.
+     * Tests that Set::mergeChildren works when the DataTable_Array contains DataTables.
      * @group Core
      * @group DataTable
      * @group DataTable_Array
@@ -61,7 +64,7 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
         $result = $dataTable->mergeChildren();
 
         // check that the result is a DataTable w/ 4 rows
-        $this->assertInstanceOf('Piwik_DataTable', $result);
+        $this->assertInstanceOf('DataTable', $result);
         $this->assertEquals(4, $result->getRowsCount());
 
         // check that the first two rows have 'subDataTable1' as the label
@@ -80,7 +83,7 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that Piwik_DataTable_Array::mergeChildren works when the DataTable_Array contains DataTable_Arrays.
+     * Tests that Set::mergeChildren works when the DataTable_Array contains DataTable_Arrays.
      * @group Core
      * @group DataTable
      * @group DataTable_Array
@@ -92,12 +95,12 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
         $result = $dataTable->mergeChildren();
 
         // check that the result is a DataTable_Array w/ two DataTable children
-        $this->assertInstanceOf('Piwik_DataTable_Array', $result);
+        $this->assertInstanceOf('Set', $result);
         $this->assertEquals(2, $result->getRowsCount());
 
         // check that the first sub-DataTable is a DataTable with 4 rows
         $subDataTable1 = $result->getTable('subDataTable1');
-        $this->assertTrue($subDataTable1 instanceof Piwik_DataTable);
+        $this->assertTrue($subDataTable1 instanceof DataTable);
         $this->assertEquals(4, $subDataTable1->getRowsCount());
 
         // check that the first two rows of the first sub-table have 'subArray1' as the label
@@ -110,7 +113,7 @@ class Test_Piwik_DataTable_Array extends PHPUnit_Framework_TestCase
 
         // check that the second sub-DataTable is a DataTable with 4 rows
         $subDataTable2 = $result->getTable('subDataTable2');
-        $this->assertTrue($subDataTable2 instanceof Piwik_DataTable);
+        $this->assertTrue($subDataTable2 instanceof DataTable);
         $this->assertEquals(4, $subDataTable2->getRowsCount());
 
         // check that the first two rows of the second sub-table have 'subArray1' as the label

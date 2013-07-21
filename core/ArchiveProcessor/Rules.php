@@ -8,17 +8,21 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ArchiveProcessor;
+
+use Exception;
 use Piwik\Config;
-use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\Date;
+use Piwik_Tracker_Cache;
 
 /**
  * This class contains Archiving rules/logic which are used in several places
  */
-class Piwik_ArchiveProcessor_Rules
+class Rules
 {
     const OPTION_TODAY_ARCHIVE_TTL = 'todayArchiveTimeToLive';
 
@@ -98,10 +102,10 @@ class Piwik_ArchiveProcessor_Rules
      * Given a monthly archive table, will delete all reports that are now outdated,
      * or reports that ended with an error
      *
-     * @param Piwik_Date $date
+     * @param \Piwik\Date $date
      * @return int|bool  False, or timestamp indicating which archives to delete
      */
-    public static function shouldPurgeOutdatedArchives(Piwik_Date $date)
+    public static function shouldPurgeOutdatedArchives(Date $date)
     {
         if (self::$purgeDisabledByTests) {
             return false;
@@ -128,10 +132,10 @@ class Piwik_ArchiveProcessor_Rules
             if (self::isBrowserTriggerEnabled()) {
                 // If Browser Archiving is enabled, it is likely there are many more temporary archives
                 // We delete more often which is safe, since reports are re-processed on demand
-                $purgeArchivesOlderThan = Piwik_Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
+                $purgeArchivesOlderThan = Date::factory(time() - 2 * $temporaryArchivingTimeout)->getDateTime();
             } else {
                 // If archive.php via Cron is building the reports, we should keep all temporary reports from today
-                $purgeArchivesOlderThan = Piwik_Date::factory('today')->getDateTime();
+                $purgeArchivesOlderThan = Date::factory('today')->getDateTime();
             }
             return $purgeArchivesOlderThan;
         }
@@ -140,12 +144,12 @@ class Piwik_ArchiveProcessor_Rules
         return false;
     }
 
-    public static function getMinTimeProcessedForTemporaryArchive(Piwik_Date $dateStart, Period $period, Segment $segment, Site $site)
+    public static function getMinTimeProcessedForTemporaryArchive(Date $dateStart, \Piwik\Period $period, Segment $segment, Site $site)
     {
         $now = time();
-        $minimumArchiveTime = $now - Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
+        $minimumArchiveTime = $now - Rules::getTodayArchiveTimeToLive();
 
-        $isArchivingDisabled = Piwik_ArchiveProcessor_Rules::isArchivingDisabledFor($segment, $period->getLabel());
+        $isArchivingDisabled = Rules::isArchivingDisabledFor($segment, $period->getLabel());
         if ($isArchivingDisabled) {
             if ($period->getNumberOfSubperiods() == 0
                 && $dateStart->getTimestamp() <= $now
@@ -156,7 +160,7 @@ class Piwik_ArchiveProcessor_Rules
                 // This week, this month, this year:
                 // accept any archive that was processed today after 00:00:01 this morning
                 $timezone = $site->getTimezone();
-                $minimumArchiveTime = Piwik_Date::factory(Piwik_Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
+                $minimumArchiveTime = Date::factory(Date::factory('now', $timezone)->getDateStartUTC())->setTimezone($timezone)->getTimestamp();
             }
         }
         return $minimumArchiveTime;
@@ -207,7 +211,7 @@ class Piwik_ArchiveProcessor_Rules
     protected static function isRequestAuthorizedToArchive()
     {
         return !self::$archivingDisabledByTests &&
-            (Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()
+            (Rules::isBrowserTriggerEnabled()
                 || Common::isPhpCliMode()
                 || (Piwik::isUserIsSuperUser()
                     && Common::isArchivePhpTriggered()));

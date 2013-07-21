@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_ExamplePlugin
  */
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_ExamplePlugin
  */
-class Piwik_ExamplePlugin extends Piwik_Plugin
+class Piwik_ExamplePlugin extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

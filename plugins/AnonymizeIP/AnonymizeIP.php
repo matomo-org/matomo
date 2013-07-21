@@ -10,13 +10,14 @@
  */
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\Plugin;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
  *
  * @package Piwik_AnonymizeIP
  */
-class Piwik_AnonymizeIP extends Piwik_Plugin
+class Piwik_AnonymizeIP extends Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation

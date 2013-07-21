@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Common;
+use Piwik\DataTable;
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
@@ -101,11 +102,11 @@ class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
             $columnToPlot = $columns[0];
         }
         $values = false;
-        // a Piwik_DataTable_Array is returned when using the normal code path to request data from Archives, in all core plugins
+        // a Set is returned when using the normal code path to request data from Archives, in all core plugins
         // however plugins can also return simple datatable, hence why the sparkline can accept both data types
-        if ($this->dataTable instanceof Piwik_DataTable_Array) {
+        if ($this->dataTable instanceof DataTable\Map) {
             $values = $this->getValuesFromDataTableArray($dataTable, $columnToPlot);
-        } elseif ($this->dataTable instanceof Piwik_DataTable) {
+        } elseif ($this->dataTable instanceof DataTable) {
             $values = $this->dataTable->getColumn($columnToPlot);
         }
         return $values;

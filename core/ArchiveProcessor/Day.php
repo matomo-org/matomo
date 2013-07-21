@@ -8,19 +8,23 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ArchiveProcessor;
 use Piwik\Metrics;
+use Piwik\ArchiveProcessor;
+use Piwik_DataArray;
+use Piwik\DataTable;
 
 /**
  * This class
  * @package Piwik
- * @subpackage Piwik_ArchiveProcessor
+ * @subpackage ArchiveProcessor
  */
-class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
+class Day extends ArchiveProcessor
 {
     /**
      * Converts the given array to a datatable
      * @param Piwik_DataArray $array
-     * @return Piwik_DataTable
+     * @return \Piwik\DataTable
      */
     static public function getDataTableFromDataArray(Piwik_DataArray $array)
     {
@@ -31,10 +35,10 @@ class Piwik_ArchiveProcessor_Day extends Piwik_ArchiveProcessor
         if (!empty($dataArrayTwoLevels)) {
             $subtableByLabel = array();
             foreach ($dataArrayTwoLevels as $label => $subTable) {
-                $subtableByLabel[$label] = Piwik_DataTable::makeFromIndexedArray($subTable);
+                $subtableByLabel[$label] = DataTable::makeFromIndexedArray($subTable);
             }
         }
-        return Piwik_DataTable::makeFromIndexedArray($dataArray, $subtableByLabel);
+        return DataTable::makeFromIndexedArray($dataArray, $subtableByLabel);
     }
 
     /**

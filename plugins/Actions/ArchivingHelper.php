@@ -9,7 +9,9 @@
  * @package Piwik_Actions
  */
 use Piwik\Config;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\DataTable;
 
 /**
  * This static class provides:
@@ -55,7 +57,7 @@ class Piwik_Actions_ArchivingHelper
             ) {
                 $url = null;
             } elseif (!empty($row['name'])
-                && $row['name'] != Piwik_DataTable::LABEL_SUMMARY_ROW
+                && $row['name'] != DataTable::LABEL_SUMMARY_ROW
             ) {
                 $url = Piwik_Tracker_Action::reconstructNormalizedUrl((string)$row['name'], $row['url_prefix']);
             }
@@ -70,7 +72,7 @@ class Piwik_Actions_ArchivingHelper
 
                 // in some unknown case, the type field is NULL, as reported in #1082 - we ignore this page view
                 if (empty($actionType)) {
-                    if ($idaction != Piwik_DataTable::LABEL_SUMMARY_ROW) {
+                    if ($idaction != DataTable::LABEL_SUMMARY_ROW) {
                         self::setCachedActionRow($idaction, $actionType, false);
                     }
                     continue;
@@ -97,7 +99,7 @@ class Piwik_Actions_ArchivingHelper
             // This is to ensure that when, different URLs are loaded with the same page name.
             // For example http://piwik.org and http://id.piwik.org are reported in Piwik > Actions > Pages with /index
             // But, we must make sure http://piwik.org is used to link & for transitions
-            // Note: this code is partly duplicated from Piwik_DataTable_Row->sumRowMetadata()
+            // Note: this code is partly duplicated from Row->sumRowMetadata()
             if (!is_null($url)
                 && !$actionRow->isSummaryRow()
             ) {
@@ -220,7 +222,7 @@ class Piwik_Actions_ArchivingHelper
         self::$maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
         self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
 
-        Piwik_DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
+        DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
 
 
@@ -229,7 +231,7 @@ class Piwik_Actions_ArchivingHelper
      * there could be pages that have exit/entry hits, but don't yet
      * have a record in the table (or the record was truncated).
      *
-     * @return Piwik_DataTable_Row
+     * @return Row
      */
     static private function getDefaultRow()
     {
@@ -238,8 +240,8 @@ class Piwik_Actions_ArchivingHelper
             // This row is used in the case where an action is know as an exit_action
             // but this action was not properly recorded when it was hit in the first place
             // so we add this fake row information to make sure there is a nb_hits, etc. column for every action
-            $row = new Piwik_DataTable_Row(array(
-                                                Piwik_DataTable_Row::COLUMNS => array(
+            $row = new Row(array(
+                                                Row::COLUMNS => array(
                                                     Metrics::INDEX_NB_VISITS        => 1,
                                                     Metrics::INDEX_NB_UNIQ_VISITORS => 1,
                                                     Metrics::INDEX_PAGE_NB_HITS     => 1,
@@ -256,17 +258,17 @@ class Piwik_Actions_ArchivingHelper
      * @param int $actionType
      * @param int $urlPrefix
      * @param array $actionsTablesByType
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     protected static function getActionRow($actionName, $actionType, $urlPrefix = null, &$actionsTablesByType)
     {
         // we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
-        /* @var Piwik_DataTable $currentTable */
+        /* @var DataTable $currentTable */
         $currentTable =& $actionsTablesByType[$actionType];
 
         // check for ranking query cut-off
-        if ($actionName == Piwik_DataTable::LABEL_SUMMARY_ROW) {
-            $summaryRow = $currentTable->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
+        if ($actionName == DataTable::LABEL_SUMMARY_ROW) {
+            $summaryRow = $currentTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
             if ($summaryRow === false) {
                 $summaryRow = $currentTable->addSummaryRow(self::createSummaryRow());
             }
@@ -296,11 +298,11 @@ class Piwik_Actions_ArchivingHelper
      *  we explode link http://piwik.org/some/path into an array( 'some', 'path' );
      *
      * for action names:
-     *   we explode name 'Piwik / Category 1 / Category 2' into an array('Piwik', 'Category 1', 'Category 2');
+     *   we explode name 'Piwik / Category 1 / Category 2' into an array('\Piwik\Piwik', 'Category 1', 'Category 2');
      *
-     * @param string action name
-     * @param int action type
-     * @param int url prefix (only used for TYPE_ACTION_URL)
+     * @param string $name action name
+     * @param int $type action type
+     * @param int $urlPrefix url prefix (only used for TYPE_ACTION_URL)
      * @return array of exploded elements from $name
      */
     static public function getActionExplodedNames($name, $type, $urlPrefix = null)
@@ -402,7 +404,7 @@ class Piwik_Actions_ArchivingHelper
      */
     private static function getCachedActionRowKey($idAction, $actionType)
     {
-        return $idAction == Piwik_DataTable::LABEL_SUMMARY_ROW
+        return $idAction == DataTable::LABEL_SUMMARY_ROW
             ? $actionType . '_others'
             : $idAction;
     }
@@ -451,7 +453,7 @@ class Piwik_Actions_ArchivingHelper
      *
      * @param int $idAction
      * @param int $actionType
-     * @return Piwik_DataTable_Row|false
+     * @return Row|false
      */
     private static function getCachedActionRow($idAction, $actionType)
     {
@@ -472,7 +474,7 @@ class Piwik_Actions_ArchivingHelper
      *
      * @param int $idAction
      * @param int $actionType
-     * @param Piwik_DataTable_Row
+     * @param \DataTable\Row
      */
     private static function setCachedActionRow($idAction, $actionType, $actionRow)
     {
@@ -496,13 +498,13 @@ class Piwik_Actions_ArchivingHelper
     /**
      * Creates a summary row for an Actions DataTable.
      *
-     * @return Piwik_DataTable_Row
+     * @return Row
      */
     private static function createSummaryRow()
     {
-        return new Piwik_DataTable_Row(array(
-                                            Piwik_DataTable_Row::COLUMNS =>
-                                            array('label' => Piwik_DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
+        return new Row(array(
+                                            Row::COLUMNS =>
+                                            array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
                                        ));
     }
 }

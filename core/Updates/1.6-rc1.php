@@ -17,7 +17,7 @@ class Piwik_Updates_1_6_rc1 extends Piwik_Updates
     static function update()
     {
         try {
-            PluginsManager::getInstance()->activatePlugin('ImageGraph');
+            \Piwik\PluginsManager::getInstance()->activatePlugin('ImageGraph');
         } catch (Exception $e) {
         }
     }

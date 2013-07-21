@@ -9,12 +9,13 @@
  * @package Piwik_CorePluginsAdmin
  */
 use Piwik\Piwik;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_CorePluginsAdmin
  */
-class Piwik_CorePluginsAdmin extends Piwik_Plugin
+class Piwik_CorePluginsAdmin extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

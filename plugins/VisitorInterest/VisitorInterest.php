@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitorInterest
  */
+use Piwik\ArchiveProcessor;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_VisitorInterest
  */
-class Piwik_VisitorInterest extends Piwik_Plugin
+class Piwik_VisitorInterest extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -111,7 +113,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
         Piwik_AddAction('template_footerVisitsFrequency', array('Piwik_VisitorInterest', 'footerVisitsFrequency'));
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -119,7 +121,7 @@ class Piwik_VisitorInterest extends Piwik_Plugin
         }
     }
 
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_VisitorInterest_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {

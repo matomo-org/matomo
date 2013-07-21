@@ -8,16 +8,21 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
+use Piwik\DataTable\Manager;
 
 /**
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_ReplaceSummaryRowLabel extends Piwik_DataTable_Filter
+class ReplaceSummaryRowLabel extends Filter
 {
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string|null $newLabel  new label for summary row
      */
     public function __construct($table, $newLabel = null)
@@ -32,13 +37,13 @@ class Piwik_DataTable_Filter_ReplaceSummaryRowLabel extends Piwik_DataTable_Filt
     /**
      * Updates the summary row label
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
         $rows = $table->getRows();
         foreach ($rows as $row) {
-            if ($row->getColumn('label') == Piwik_DataTable::LABEL_SUMMARY_ROW) {
+            if ($row->getColumn('label') == DataTable::LABEL_SUMMARY_ROW) {
                 $row->setColumn('label', $this->newLabel);
                 break;
             }
@@ -47,7 +52,7 @@ class Piwik_DataTable_Filter_ReplaceSummaryRowLabel extends Piwik_DataTable_Filt
         // recurse
         foreach ($rows as $row) {
             if ($row->isSubtableLoaded()) {
-                $subTable = Piwik_DataTable_Manager::getInstance()->getTable($row->getIdSubDataTable());
+                $subTable = Manager::getInstance()->getTable($row->getIdSubDataTable());
                 $this->filter($subTable);
             }
         }

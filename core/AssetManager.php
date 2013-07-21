@@ -81,7 +81,7 @@ class Piwik_AssetManager
      */
     public static function generateAssetsCacheBuster()
     {
-        $pluginList = md5(implode(",", PluginsManager::getInstance()->getLoadedPluginsName()));
+        $pluginList = md5(implode(",", \Piwik\PluginsManager::getInstance()->getLoadedPluginsName()));
         $cacheBuster = md5(Common::getSalt() . $pluginList . PHP_VERSION . Piwik_Version::VERSION);
         return $cacheBuster;
     }

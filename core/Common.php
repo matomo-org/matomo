@@ -105,7 +105,7 @@ class Common
      */
     public static function isGoalPluginEnabled()
     {
-        return PluginsManager::getInstance()->isPluginActivated('Goals');
+        return \Piwik\PluginsManager::getInstance()->isPluginActivated('Goals');
     }
 
     /*

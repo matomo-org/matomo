@@ -12,6 +12,7 @@
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking
 use Piwik\Config;
+use Piwik\DataTable\Manager;
 use Piwik\Site;
 
 ob_start();
@@ -37,7 +38,7 @@ Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $trackerPlugins;
 Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
 Piwik_Tracker::setTestEnvironment();
-Piwik_DataTable_Manager::getInstance()->deleteAll();
+Manager::getInstance()->deleteAll();
 Piwik_Option::getInstance()->clearCache();
 Site::clearCache();
 Piwik_Tracker_Cache::deleteTrackerCache();

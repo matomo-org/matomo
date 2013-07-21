@@ -8,10 +8,18 @@
  * @category Piwik
  * @package Piwik
  */
+
+namespace Piwik\ArchiveProcessor;
+
+use Exception;
 use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\ArchiveProcessor;
+use Piwik\DataTable;
+use Piwik\DataTable\Map;
+use Piwik\DataTable\Manager;
 
 /**
  * This class provides generic methods to archive data for a period (week / month / year).
@@ -21,9 +29,9 @@ use Piwik\Common;
  * Public methods can be called by the plugins that hook on the event 'ArchiveProcessing_Period.compute'
  *
  * @package Piwik
- * @subpackage Piwik_ArchiveProcessor
+ * @subpackage ArchiveProcessor
  */
-class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
+class Period extends ArchiveProcessor
 {
     /**
      * Array of (column name before => column name renamed) of the columns for which sum operation is invalid.
@@ -58,7 +66,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
      * @param int $maximumRowsInDataTableLevelZero       Max row count of parent datatable to archive
      * @param int $maximumRowsInSubDataTable             Max row count of children datatable(s) to archive
      * @param string $columnToSortByBeforeTruncation     Column name to sort by, before truncating rows (ie. if there are more rows than the specified max row count)
-     * @param array $columnAggregationOperations         Operations for aggregating columns, @see Piwik_DataTable_Row::sumRow()
+     * @param array $columnAggregationOperations         Operations for aggregating columns, @see Row::sumRow()
      * @param array $invalidSummedColumnNameToRenamedName  (current_column_name => new_column_name) for columns that must change names when summed
      *                                                             (eg. unique visitors go from nb_uniq_visitors to sum_daily_nb_uniq_visitors)
      *
@@ -75,7 +83,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
                                               $invalidSummedColumnNameToRenamedName = null)
     {
         // We clean up below all tables created during this function call (and recursive calls)
-        $latestUsedTableId = Piwik_DataTable_Manager::getInstance()->getMostRecentTableId();
+        $latestUsedTableId = Manager::getInstance()->getMostRecentTableId();
         if (!is_array($recordNames)) {
             $recordNames = array($recordNames);
         }
@@ -91,7 +99,7 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
             Common::destroy($table);
             $this->insertBlobRecord($recordName, $blob);
         }
-        Piwik_DataTable_Manager::getInstance()->deleteAll($latestUsedTableId);
+        Manager::getInstance()->deleteAll($latestUsedTableId);
 
         return $nameToCount;
     }
@@ -147,18 +155,18 @@ class Piwik_ArchiveProcessor_Period extends Piwik_ArchiveProcessor
      *
      * @param string $name
      * @param array $invalidSummedColumnNameToRenamedName  columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
-     * @param array $columnAggregationOperations           Operations for aggregating columns, @see Piwik_DataTable_Row::sumRow()
-     * @return Piwik_DataTable
+     * @param array $columnAggregationOperations           Operations for aggregating columns, @see Row::sumRow()
+     * @return DataTable
      */
     protected function getRecordDataTableSum($name, $invalidSummedColumnNameToRenamedName, $columnAggregationOperations = null)
     {
-        $table = new Piwik_DataTable();
+        $table = new DataTable();
         if (!empty($columnAggregationOperations)) {
             $table->setColumnAggregationOperations($columnAggregationOperations);
         }
 
         $data = $this->archiver->getDataTableExpanded($name, $idSubTable = null, $addMetadataSubtableId = false);
-        if ($data instanceof Piwik_DataTable_Array) {
+        if ($data instanceof DataTable\Map) {
             foreach ($data->getArray() as $date => $tableToSum) {
                 $table->addDataTable($tableToSum);
             }

@@ -8,6 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
+use Piwik\DataTable\Row;
 
 /**
  * Add a new row to the table containing a summary
@@ -23,14 +28,14 @@
  * This row is assigned a label of 'Others'.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
+class AddSummaryRow extends Filter
 {
     /**
      * Creates a new filter and set all required parameters
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param int $startRowToSummarize
      * @param int $labelSummaryRow
      * @param null $columnToSortByBeforeTruncating
@@ -38,7 +43,7 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
      */
     public function __construct($table,
                                 $startRowToSummarize,
-                                $labelSummaryRow = Piwik_DataTable::LABEL_SUMMARY_ROW,
+                                $labelSummaryRow = DataTable::LABEL_SUMMARY_ROW,
                                 $columnToSortByBeforeTruncating = null,
                                 $deleteRows = true)
     {
@@ -52,7 +57,7 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
     /**
      * Adds a summary row to the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
@@ -62,14 +67,14 @@ class Piwik_DataTable_Filter_AddSummaryRow extends Piwik_DataTable_Filter
         if ($table->getRowsCount() <= $this->startRowToSummarize + 1) {
             return;
         }
-        
+
         $rows = $table->getRows();
         $count = $table->getRowsCount();
-        $newRow = new Piwik_DataTable_Row();
+        $newRow = new Row();
         for ($i = $this->startRowToSummarize; $i < $count; $i++) {
             if (!isset($rows[$i])) {
-                // case when the last row is a summary row, it is not indexed by $cout but by Piwik_DataTable::ID_SUMMARY_ROW
-                $summaryRow = $table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
+                // case when the last row is a summary row, it is not indexed by $cout but by DataTable::ID_SUMMARY_ROW
+                $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
 
                 //FIXME: I'm not sure why it could return false, but it was reported in: http://forum.piwik.org/read.php?2,89324,page=1#msg-89442
                 if ($summaryRow) {

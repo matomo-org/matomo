@@ -9,11 +9,12 @@
  * @package Piwik_SegmentEditor
  */
 use Piwik\Common;
+use Piwik\Plugin;
 
 /**
  * @package Piwik_SegmentEditor
  */
-class Piwik_SegmentEditor extends Piwik_Plugin
+class Piwik_SegmentEditor extends Plugin
 {
     /**
      * @see Piwik_Plugin::getInformation

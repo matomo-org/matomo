@@ -1,7 +1,9 @@
 <?php
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 
 $USAGE = "
 Usage: 
@@ -131,7 +133,7 @@ class Archiving
 
         $this->log("Notes");
         // Information about timeout
-        $this->todayArchiveTimeToLive = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
+        $this->todayArchiveTimeToLive = Rules::getTodayArchiveTimeToLive();
         $this->log("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Piwik UI > Settings > General Settings.");
         $this->log("- Reports for the current week/month/year will be refreshed at most every "
@@ -669,7 +671,7 @@ class Archiving
         ) // in case --force-timeout-for-periods= without [seconds] specified
         {
             // Ensure the cache for periods is at least as high as cache for today
-            $todayTTL = Piwik_ArchiveProcessor_Rules::getTodayArchiveTimeToLive();
+            $todayTTL = Rules::getTodayArchiveTimeToLive();
             if ($forceTimeoutPeriod < $todayTTL) {
                 $this->log("WARNING: Automatically increasing --force-timeout-for-periods from $forceTimeoutPeriod to "
                     . $todayTTL
@@ -680,7 +682,7 @@ class Archiving
         }
 
         // Recommend to disable browser archiving when using this script
-        if (Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled()) {
+        if (Rules::isBrowserTriggerEnabled()) {
             $this->log("NOTE: if you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Piwik UI > Settings > General Settings. ");
             $this->log("      see doc at: http://piwik.org/docs/setup-auto-archiving/");
         }
@@ -752,8 +754,8 @@ class Archiving
             $uniqueTimezones = Piwik_SitesManager_API::getInstance()->getUniqueSiteTimezones();
             $timezoneToProcess = array();
             foreach ($uniqueTimezones as &$timezone) {
-                $processedDateInTz = Piwik_Date::factory((int)$timestampActiveTraffic, $timezone);
-                $currentDateInTz = Piwik_Date::factory('now', $timezone);
+                $processedDateInTz = Date::factory((int)$timestampActiveTraffic, $timezone);
+                $currentDateInTz = Date::factory('now', $timezone);
 
                 if ($processedDateInTz->toString() != $currentDateInTz->toString()) {
                     $timezoneToProcess[] = $timezone;

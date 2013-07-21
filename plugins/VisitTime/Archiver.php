@@ -9,7 +9,10 @@
  * @package Piwik_VisitTime
  */
 
-class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
+use Piwik\Date;
+use Piwik\PluginsArchiver;
+
+class Piwik_VisitTime_Archiver extends PluginsArchiver
 {
     const SERVER_TIME_RECORD_NAME = 'VisitTime_serverTime';
     const LOCAL_TIME_RECORD_NAME = 'VisitTime_localTime';
@@ -46,13 +49,13 @@ class Piwik_VisitTime_Archiver extends Piwik_PluginsArchiver
 
     protected function convertTimeToLocalTimezone(Piwik_DataArray &$array)
     {
-        $date = Piwik_Date::factory($this->getProcessor()->getDateStart()->getDateStartUTC())->toString();
+        $date = Date::factory($this->getProcessor()->getDateStart()->getDateStartUTC())->toString();
         $timezone = $this->getProcessor()->getSite()->getTimezone();
 
         $converted = array();
         foreach ($array->getDataArray() as $hour => $stats) {
             $datetime = $date . ' ' . $hour . ':00:00';
-            $hourInTz = (int)Piwik_Date::factory($datetime, $timezone)->toString('H');
+            $hourInTz = (int)Date::factory($datetime, $timezone)->toString('H');
             $converted[$hourInTz] = $stats;
         }
         return new Piwik_DataArray($converted);

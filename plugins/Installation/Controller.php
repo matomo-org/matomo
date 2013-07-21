@@ -8,7 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_Installation
  */
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Piwik;
+use Piwik\Config;
 use Piwik\Common;
 use Piwik\Access;
 
@@ -261,7 +263,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $view->someTablesInstalled = true;
 
             // remove monthly archive tables
-            $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
+            $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
             $baseTablesInstalled = count($tablesInstalled) - count($archiveTables);
             $minimumCountPiwikTables = 17;
 

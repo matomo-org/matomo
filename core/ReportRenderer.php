@@ -8,7 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\DataTable\Simple;
+use Piwik\DataTable\Row;
 use Piwik\Piwik;
+use Piwik\DataTable;
+use Piwik\Loader;
 
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.
@@ -48,7 +52,7 @@ abstract class Piwik_ReportRenderer
         $className = 'Piwik_ReportRenderer_' . $name;
 
         try {
-            Piwik_Loader::loadClass($className);
+            Loader::loadClass($className);
             return new $className;
         } catch (Exception $e) {
 
@@ -186,9 +190,9 @@ abstract class Piwik_ReportRenderer
      *
      * @static
      * @param  $reportMetadata array
-     * @param  $report Piwik_DataTable
+     * @param  $report DataTable
      * @param  $reportColumns array
-     * @return array Piwik_DataTable $report & array $columns
+     * @return array DataTable $report & array $columns
      */
     protected static function processTableFormat($reportMetadata, $report, $reportColumns)
     {
@@ -196,9 +200,9 @@ abstract class Piwik_ReportRenderer
         if (empty($reportMetadata['dimension'])) {
             $simpleReportMetrics = $report->getFirstRow();
             if ($simpleReportMetrics) {
-                $finalReport = new Piwik_DataTable_Simple();
+                $finalReport = new Simple();
                 foreach ($simpleReportMetrics->getColumns() as $metricId => $metric) {
-                    $newRow = new Piwik_DataTable_Row();
+                    $newRow = new Row();
                     $newRow->addColumn("label", $reportColumns[$metricId]);
                     $newRow->addColumn("value", $metric);
                     $finalReport->addRow($newRow);

@@ -8,17 +8,22 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Renderer;
+
+use Piwik\DataTable\Renderer;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable;
+use Piwik\DataTable\Renderer\Php;
 
 /**
  * JSON export.
  * Works with recursive DataTable (when a row can be associated with a subDataTable).
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
+class Json extends Renderer
 {
     /**
      * Computes the dataTable output and returns the string/binary
@@ -50,7 +55,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
     /**
      * Computes the output for the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @return string
      */
     protected function renderTable($table)
@@ -61,7 +66,7 @@ class Piwik_DataTable_Renderer_Json extends Piwik_DataTable_Renderer
                 $array = array($array);
             }
         } else {
-            $renderer = new Piwik_DataTable_Renderer_Php();
+            $renderer = new Php();
             $renderer->setTable($table);
             $renderer->setRenderSubTables($this->isRenderSubtables());
             $renderer->setSerialize(false);

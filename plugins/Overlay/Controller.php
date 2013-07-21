@@ -1,6 +1,7 @@
 <?php
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Config;
 use Piwik\Common;
 
 /**
@@ -22,7 +23,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         Piwik::checkUserHasViewAccess($this->idSite);
 
         $template = '@Overlay/index';
-        if (Piwik_Config::getInstance()->General['overlay_disable_framed_mode']) {
+        if (Config::getInstance()->General['overlay_disable_framed_mode']) {
             $template = '@Overlay/index_noframe';
         }
 

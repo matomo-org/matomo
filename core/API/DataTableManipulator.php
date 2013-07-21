@@ -8,7 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Period_Range;
+use Piwik\DataTable\Row;
+use Piwik\Period\Range;
+use Piwik\DataTable;
 
 /**
  * Base class for manipulating data tables.
@@ -52,15 +54,15 @@ abstract class Piwik_API_DataTableManipulator
      * data table arrays. It calls back the template method self::doManipulate for each table.
      * This way, data table arrays can be handled in a transparent fashion.
      *
-     * @param Piwik_DataTable_Array|Piwik_DataTable $dataTable
+     * @param DataTable\Map|DataTable $dataTable
      * @throws Exception
-     * @return Piwik_DataTable_Array|Piwik_DataTable
+     * @return DataTable\Map|DataTable
      */
     protected function manipulate($dataTable)
     {
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             return $this->manipulateDataTableArray($dataTable);
-        } else if ($dataTable instanceof Piwik_DataTable) {
+        } else if ($dataTable instanceof DataTable) {
             return $this->manipulateDataTable($dataTable);
         } else {
             return $dataTable;
@@ -81,7 +83,7 @@ abstract class Piwik_API_DataTableManipulator
     }
 
     /**
-     * Manipulates a single Piwik_DataTable instance. Derived classes must define
+     * Manipulates a single DataTable instance. Derived classes must define
      * this function.
      */
     protected abstract function manipulateDataTable($dataTable);
@@ -90,10 +92,10 @@ abstract class Piwik_API_DataTableManipulator
      * Load the subtable for a row.
      * Returns null if none is found.
      *
-     * @param Piwik_DataTable     $dataTable
-     * @param Piwik_DataTable_Row $row
+     * @param DataTable     $dataTable
+     * @param Row $row
      *
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     protected function loadSubtable($dataTable, $row)
     {
@@ -111,7 +113,7 @@ abstract class Piwik_API_DataTableManipulator
         $request['idSubtable'] = $idSubTable;
         if ($dataTable) {
             $period = $dataTable->metadata['period'];
-            if ($period instanceof Period_Range) {
+            if ($period instanceof Range) {
                 $request['date'] = $period->getDateStart().','.$period->getDateEnd();
             } else {
                 $request['date'] = $period->getDateStart()->toString();

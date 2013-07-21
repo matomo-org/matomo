@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds one site and tracks one visit with several pageviews.
@@ -42,22 +43,22 @@ class Test_Piwik_Fixture_OneVisitSeveralPageViews extends Test_Piwik_BaseFixture
         self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
 
         $t->setUrl('http://example.org/dir/file.php?foo=bar&foo2=bar');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.2)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->getDatetime());
         $t->setGenerationTime(123);
         self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
 
         $t->setUrl('http://example.org/dir/file.php?foo=bar&foo2=bar2');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
         $t->setGenerationTime(153);
         self::checkResponse($t->doTrackPageView('incredible parent title! <>,; / subtitle <>,;'));
 
         $t->setUrl('http://example.org/dir2/file.php?foo=bar&foo2=bar');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
         $t->setGenerationTime(1233);
         self::checkResponse($t->doTrackPageView('incredible title! <>,;'));
 
         $t->setUrl('http://example.org/dir2/sub/0/file.php');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
 
         // Very high Generation time should be ignored
         $t->setGenerationTime(6350000);
@@ -65,7 +66,7 @@ class Test_Piwik_Fixture_OneVisitSeveralPageViews extends Test_Piwik_BaseFixture
 
 
         $t->setUrl('http://example.org/0');
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addHour(0.4)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.4)->getDatetime());
         $t->setGenerationTime(635);
         self::checkResponse($t->doTrackPageView('I am URL zero!'));
 

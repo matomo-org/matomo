@@ -8,8 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Plugin;
+
+use Exception;
 use Piwik\Common;
-use Piwik\PluginsManager;
+use Piwik_Version;
 
 /**
  * @see core/Version.php
@@ -21,24 +24,24 @@ require_once PIWIK_INCLUDE_PATH . '/core/Version.php';
  * - plugin.piwik.json
  * - colors.piwik.json
  */
-class Piwik_Plugin_MetadataLoader
+class MetadataLoader
 {
     const PLUGIN_JSON_FILENAME = 'plugin.piwik.json';
     const COLORS_JSON_FILENAME = 'colors.piwik.json';
-    
+
     const SHORT_COLOR_LENGTH = 4;
     const LONG_COLOR_LENGTH = 7;
-    
+
     /**
      * The name of the plugin whose metadata will be loaded.
-     * 
+     *
      * @var string
      */
     private $pluginName;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param string $pluginName Name of the plugin to load metadata.
      */
     public function __construct($pluginName)
@@ -48,7 +51,7 @@ class Piwik_Plugin_MetadataLoader
 
     /**
      * Loads plugin metadata. @see Piwik_Plugin::getInformation.
-     * 
+     *
      * @return array
      */
     public function load()
@@ -59,7 +62,7 @@ class Piwik_Plugin_MetadataLoader
             $this->loadPluginColorsJson()
         );
     }
-    
+
     private function getDefaultPluginInformation()
     {
         $descriptionKey = $this->pluginName . '_PluginDescription';
@@ -74,21 +77,21 @@ class Piwik_Plugin_MetadataLoader
             'theme'            => false,
         );
     }
-    
+
     private function loadPluginInfoJson()
     {
-        $path = PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
+        $path = \Piwik\PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::PLUGIN_JSON_FILENAME;
         return $this->loadJsonMetadata($path);
     }
-    
+
     private function loadPluginColorsJson()
     {
-        $path = PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::COLORS_JSON_FILENAME;
+        $path = \Piwik\PluginsManager::getPluginsDirectory() . $this->pluginName . '/' . self::COLORS_JSON_FILENAME;
         $info = $this->loadJsonMetadata($path);
         $info = $this->cleanAndValidatePluginColorsJson($path, $info);
         return $info;
     }
-    
+
     private function cleanAndValidatePluginColorsJson($path, $info)
     {
         // check that if "colors" exists, it is an array
@@ -96,17 +99,17 @@ class Piwik_Plugin_MetadataLoader
         if (!is_array($colors)) {
             throw new Exception("The 'colors' value in '$path' must be an object mapping names with colors.");
         }
-        
+
         // validate each color
         foreach ($colors as $color) {
             if (!$this->isStringColorValid($color)) {
                 throw new Exception("Invalid color string '$color' in '$path'.");
             }
         }
-        
+
         return array("colors" => $colors); // make sure only 'colors' element is loaded
     }
-    
+
     private function isStringColorValid($color)
     {
         if (strlen($color) !== self::SHORT_COLOR_LENGTH
@@ -114,25 +117,25 @@ class Piwik_Plugin_MetadataLoader
         ) {
             return false;
         }
-        
+
         if ($color[0] !== '#') {
             return false;
         }
-        
+
         return ctype_xdigit(substr($color, 1)); // check if other digits are hex
     }
-    
+
     private function loadJsonMetadata($path)
     {
         if (!file_exists($path)) {
             return array();
         }
-        
+
         $json = file_get_contents($path);
         if (!$json) {
             return array();
         }
-        
+
         $info = Common::json_decode($json, $assoc = true);
         if (!is_array($info)
             || empty($info)

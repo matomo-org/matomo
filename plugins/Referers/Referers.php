@@ -8,7 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
+use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
+use Piwik\Plugin;
 
 /**
  * @see plugins/Referers/functions.php
@@ -18,7 +20,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/Referers/functions.php';
 /**
  * @package Piwik_Referers
  */
-class Piwik_Referers extends Piwik_Plugin
+class Piwik_Referers extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -267,7 +269,7 @@ class Piwik_Referers extends Piwik_Plugin
     /**
      * Hooks on daily archive to trigger various log processing
      */
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_Referers_Archiver($archiveProcessor);
         if ($archiving->shouldArchive()) {
@@ -279,7 +281,7 @@ class Piwik_Referers extends Piwik_Plugin
      * Period archiving: sums up daily stats and sums report tables,
      * making sure that tables are still truncated.
      */
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_Referers_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {

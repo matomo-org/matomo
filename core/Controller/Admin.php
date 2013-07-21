@@ -54,10 +54,10 @@ abstract class Piwik_Controller_Admin extends Piwik_Controller
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 
         // for old geoip plugin warning
-        $view->usingOldGeoIPPlugin = PluginsManager::getInstance()->isPluginActivated('GeoIP');
+        $view->usingOldGeoIPPlugin = \Piwik\PluginsManager::getInstance()->isPluginActivated('GeoIP');
 
         // for cannot find installed plugin warning
-        $missingPlugins = PluginsManager::getInstance()->getMissingPlugins();
+        $missingPlugins = \Piwik\PluginsManager::getInstance()->getMissingPlugins();
         if (!empty($missingPlugins)) {
             $pluginsLink = Piwik_Url::getCurrentQueryStringWithParametersModified(array(
                                                                                        'module' => 'CorePluginsAdmin', 'action' => 'index'

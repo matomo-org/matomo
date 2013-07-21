@@ -1,13 +1,14 @@
 <?php
-use Piwik\Piwik;
-use Piwik\Access;
-
 /**
  * Piwik - Open source web analytics
  *
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Piwik;
+use Piwik\Access;
+use Piwik\Translate;
+
 class PiwikTest extends DatabaseTestCase
 {
     /**
@@ -113,14 +114,14 @@ class PiwikTest extends DatabaseTestCase
             $this->markTestSkipped("Will not pass on 32-bit machine.");
         }
         
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        Translate::getInstance()->loadEnglishTranslation();
 
         $sentenceExpected = str_replace(' ', '&nbsp;', $expected[0]);
         $numericExpected = $expected[1];
         $this->assertEquals($sentenceExpected, Piwik::getPrettyTimeFromSeconds($seconds, $sentence = true));
         $this->assertEquals($numericExpected, Piwik::getPrettyTimeFromSeconds($seconds, $sentence = false));
 
-        Piwik_Translate::getInstance()->unloadEnglishTranslation();
+        Translate::getInstance()->unloadEnglishTranslation();
     }
 
     /**
@@ -211,7 +212,7 @@ class PiwikTest extends DatabaseTestCase
      */
     public function testGetPrettyValue($columnName, $value, $expected)
     {
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        Translate::getInstance()->loadEnglishTranslation();
 
         $access = Access::getInstance();
         $access->setSuperUser(true);
@@ -223,7 +224,7 @@ class PiwikTest extends DatabaseTestCase
             Piwik::getPrettyValue($idsite, $columnName, $value, false, false)
         );
 
-        Piwik_Translate::getInstance()->unloadEnglishTranslation();
+        Translate::getInstance()->unloadEnglishTranslation();
     }
 
     /**

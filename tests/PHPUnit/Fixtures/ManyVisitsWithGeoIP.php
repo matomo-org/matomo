@@ -6,6 +6,8 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\Date;
+
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/MockLocationProvider.php';
 
 /**
@@ -89,7 +91,7 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
             }
 
             // first visit
-            $date = Piwik_Date::factory($dateTime)->addDay($i);
+            $date = Date::factory($dateTime)->addDay($i);
             $t->setForceVisitDateTime($date->getDatetime());
             $t->setUrl("http://piwik.net/grue/lair");
             $t->setCustomVariable(1, 'Cvar 1 name', 'Cvar1 value is ' .$i , 'visit');
@@ -151,7 +153,7 @@ class Test_Piwik_Fixture_ManyVisitsWithGeoIP extends Test_Piwik_BaseFixture
         $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
         $t->setVisitorId('fed33392d3a48ab2');
         $t->setTokenAuth(self::getTokenAuth());
-        $t->setForceVisitDateTime(Piwik_Date::factory($dateTime)->addDay(20)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addDay(20)->getDatetime());
         $t->setIp('194.57.91.215');
         $t->setCountry('us');
         $t->setRegion('CA');

@@ -7,6 +7,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Access;
+use Piwik\Date;
 
 /**
  * Tests the archive.php cron script.
@@ -91,7 +92,7 @@ class Test_Piwik_Integration_ArchiveCronTest extends IntegrationTestCase
         $periodTypes = array('day', 'periods');
         $idSites = Piwik_SitesManager_API::getInstance()->getAllSitesId();
         
-        $time = Piwik_Date::factory(self::$fixture->dateTime)->subDay(1)->getTimestamp();
+        $time = Date::factory(self::$fixture->dateTime)->subDay(1)->getTimestamp();
         
         foreach ($periodTypes as $period) {
             foreach ($idSites as $idSite) {

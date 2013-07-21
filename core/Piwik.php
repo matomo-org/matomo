@@ -23,7 +23,7 @@ use Piwik_Log_Error;
 use Piwik_Log_Exception;
 use Piwik_Log_Formatter_ScreenFormatter;
 use Piwik_Log_Message;
-use Piwik_Plugin;
+use Piwik\Plugin;
 use Piwik_Session;
 use Piwik\Site;
 use Piwik_Tracker;
@@ -1250,7 +1250,7 @@ class Piwik
         return "$usage Mb";
     }
 
-    /*
+/*
  * Amounts, Percentages, Currency, Time, Math Operations, and Pretty Printing
  */
 
@@ -1842,11 +1842,11 @@ class Piwik
     /**
      * Returns the plugin currently being used to display the page
      *
-     * @return Piwik_Plugin
+     * @return Plugin
      */
     static public function getCurrentPlugin()
     {
-        return PluginsManager::getInstance()->getLoadedPlugin(Piwik::getModule());
+        return \Piwik\PluginsManager::getInstance()->getLoadedPlugin(Piwik::getModule());
     }
 
     /**

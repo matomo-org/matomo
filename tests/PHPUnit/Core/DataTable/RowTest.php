@@ -5,51 +5,54 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
+
 class RowTest extends PHPUnit_Framework_TestCase
 {
     /**
      *
      * @group Core
      * @group DataTable
-     * @group Piwik_DataTable_Row
+     * @group Row
      */
     public function testDataTableAssociatedIsNegativeWhenSubDataTableInMemory()
     {
         $testRow = $this->getTestRowWithSubDataTableLoaded();
-        $this->assertTrue($testRow->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] < 0);
+        $this->assertTrue($testRow->c[Row::DATATABLE_ASSOCIATED] < 0);
     }
 
     /**
      *
      * @group Core
      * @group DataTable
-     * @group Piwik_DataTable_Row
+     * @group Row
      */
     public function testDataTableAssociatedIsNegativeWhenSubDataTableAdded()
     {
         $testRow = $this->getTestRowWithSubDataTableNotLoaded();
         $testRow->addSubtable($this->getTestSubDataTable());
-        $this->assertTrue($testRow->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] < 0);
+        $this->assertTrue($testRow->c[Row::DATATABLE_ASSOCIATED] < 0);
     }
 
     /**
      *
      * @group Core
      * @group DataTable
-     * @group Piwik_DataTable_Row
+     * @group Row
      */
     public function testDataTableAssociatedIsNegativeWhenSubDataTableSetted()
     {
         $testRow = $this->getTestRowWithSubDataTableNotLoaded();
         $testRow->setSubtable($this->getTestSubDataTable());
-        $this->assertTrue($testRow->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] < 0);
+        $this->assertTrue($testRow->c[Row::DATATABLE_ASSOCIATED] < 0);
     }
 
     /**
      *
      * @group Core
      * @group DataTable
-     * @group Piwik_DataTable_Row
+     * @group Row
      */
     public function testIdSubDataTabledIsPositiveWhenSubDataTableInMemory()
     {
@@ -61,7 +64,7 @@ class RowTest extends PHPUnit_Framework_TestCase
     /**
      * @group Core
      * @group DataTable
-     * @group Piwik_DataTable_Row
+     * @group Row
      */
     public function testDataTableAssociatedIsPositiveOnSerializedRow()
     {
@@ -73,13 +76,13 @@ class RowTest extends PHPUnit_Framework_TestCase
         $serializedTestRow = serialize($testRow);
         $unserializedTestRow = unserialize($serializedTestRow);
 
-        $this->assertTrue($unserializedTestRow->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] > 0);
+        $this->assertTrue($unserializedTestRow->c[Row::DATATABLE_ASSOCIATED] > 0);
     }
 
     /**
      * @group Core
      * @group DataTable
-     * @group Piwik_DataTable_Row
+     * @group Row
      */
     public function testDataTableAssociatedIsNegativeAfterSerialize()
     {
@@ -89,14 +92,14 @@ class RowTest extends PHPUnit_Framework_TestCase
 
         $testRow->cleanPostSerialize();
 
-        $this->assertTrue($testRow->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] < 0);
+        $this->assertTrue($testRow->c[Row::DATATABLE_ASSOCIATED] < 0);
     }
 
     /**
      *
      * @group Core
      * @group DataTable
-     * @group Piwik_DataTable_Row
+     * @group Row
      */
     public function testIsSubDataTableLoadedIsTrueWhenSubDataTableInMemory()
     {
@@ -108,7 +111,7 @@ class RowTest extends PHPUnit_Framework_TestCase
      *
      * @group Core
      * @group DataTable
-     * @group Piwik_DataTable_Row
+     * @group Row
      */
     public function testIsSubDataTableLoadedIsFalseWhenSubDataTableNotInMemory()
     {
@@ -120,9 +123,9 @@ class RowTest extends PHPUnit_Framework_TestCase
     {
         $testSubDataTable = $this->getTestSubDataTable();
 
-        $testRow = new Piwik_DataTable_Row(
+        $testRow = new Row(
             array(
-                 Piwik_DataTable_Row::DATATABLE_ASSOCIATED => $testSubDataTable
+                 Row::DATATABLE_ASSOCIATED => $testSubDataTable
             )
         );
 
@@ -131,14 +134,14 @@ class RowTest extends PHPUnit_Framework_TestCase
 
     protected function getTestSubDataTable()
     {
-        return new Piwik_DataTable();
+        return new DataTable();
     }
 
     protected function getTestRowWithSubDataTableNotLoaded()
     {
-        $testRow = new Piwik_DataTable_Row(
+        $testRow = new Row(
             array(
-                 Piwik_DataTable_Row::DATATABLE_ASSOCIATED => 50
+                 Row::DATATABLE_ASSOCIATED => 50
             )
         );
 

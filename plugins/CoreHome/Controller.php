@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Site;
 
 /**
@@ -31,7 +32,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
 
         // User preference: default report to load is the All Websites dashboard
         if ($defaultReport == 'MultiSites'
-            && PluginsManager::getInstance()->isPluginActivated('MultiSites')
+            && \Piwik\PluginsManager::getInstance()->isPluginActivated('MultiSites')
         ) {
             $module = 'MultiSites';
         }
@@ -76,8 +77,8 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         if ($websiteId) {
             $website = new Site($websiteId);
             $datetimeCreationDate = $this->site->getCreationDate()->getDatetime();
-            $creationDateLocalTimezone = Piwik_Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
-            $todayLocalTimezone = Piwik_Date::factory('now', $website->getTimezone())->toString('Y-m-d');
+            $creationDateLocalTimezone = Date::factory($datetimeCreationDate, $website->getTimezone())->toString('Y-m-d');
+            $todayLocalTimezone = Date::factory('now', $website->getTimezone())->toString('Y-m-d');
             if ($creationDateLocalTimezone == $todayLocalTimezone) {
                 Piwik::redirectToModule('CoreHome', 'index',
                     array('date'   => 'today',

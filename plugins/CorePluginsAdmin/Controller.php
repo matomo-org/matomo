@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Config;
 
 /**
  *
@@ -51,21 +52,21 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
         $plugins = array();
 
         $listPlugins = array_merge(
-            PluginsManager::getInstance()->readPluginsDirectory(),
+            \Piwik\PluginsManager::getInstance()->readPluginsDirectory(),
             Config::getInstance()->Plugins['Plugins']
         );
         $listPlugins = array_unique($listPlugins);
         foreach ($listPlugins as $pluginName) {
-            PluginsManager::getInstance()->loadPlugin($pluginName);
+            \Piwik\PluginsManager::getInstance()->loadPlugin($pluginName);
             $plugins[$pluginName] = array(
-                'activated'       => PluginsManager::getInstance()->isPluginActivated($pluginName),
-                'alwaysActivated' => PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
-                'uninstallable'   => PluginsManager::getInstance()->isPluginUninstallable($pluginName),
+                'activated'       => \Piwik\PluginsManager::getInstance()->isPluginActivated($pluginName),
+                'alwaysActivated' => \Piwik\PluginsManager::getInstance()->isPluginAlwaysActivated($pluginName),
+                'uninstallable'   => \Piwik\PluginsManager::getInstance()->isPluginUninstallable($pluginName),
             );
         }
-        PluginsManager::getInstance()->loadPluginTranslations();
+        \Piwik\PluginsManager::getInstance()->loadPluginTranslations();
 
-        $loadedPlugins = PluginsManager::getInstance()->getLoadedPlugins();
+        $loadedPlugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($loadedPlugins as $oPlugin) {
             $pluginName = $oPlugin->getPluginName();
             $plugins[$pluginName]['info'] = $oPlugin->getInformation();
@@ -107,7 +108,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
     public function deactivate($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification();
-        PluginsManager::getInstance()->deactivatePlugin($pluginName);
+        \Piwik\PluginsManager::getInstance()->deactivatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
     }
 
@@ -129,14 +130,14 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
     public function activate($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification();
-        PluginsManager::getInstance()->activatePlugin($pluginName);
+        \Piwik\PluginsManager::getInstance()->activatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
     }
 
     public function uninstall($redirectAfter = true)
     {
         $pluginName = $this->initPluginModification();
-        $uninstalled = PluginsManager::getInstance()->uninstallPlugin($pluginName);
+        $uninstalled = \Piwik\PluginsManager::getInstance()->uninstallPlugin($pluginName);
         if(!$uninstalled) {
             $path = Common::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
             $messagePermissions = Piwik::getErrorMessageMissingPermissions($path);

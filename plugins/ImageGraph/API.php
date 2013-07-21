@@ -11,6 +11,7 @@
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Translate;
 
 /**
  * The ImageGraph.get API call lets you generate beautiful static PNG Graphs for any existing Piwik report.
@@ -145,7 +146,7 @@ class Piwik_ImageGraph_API
         $useUnicodeFont = array(
             'am', 'ar', 'el', 'fa', 'fi', 'he', 'ja', 'ka', 'ko', 'te', 'th', 'zh-cn', 'zh-tw',
         );
-        $languageLoaded = Piwik_Translate::getInstance()->getLanguageLoaded();
+        $languageLoaded = Translate::getInstance()->getLanguageLoaded();
         $font = self::getFontPath(self::DEFAULT_FONT);
         if (in_array($languageLoaded, $useUnicodeFont)) {
             $unicodeFontPath = self::getFontPath(self::UNICODE_FONT);
@@ -378,10 +379,10 @@ class Piwik_ImageGraph_API
                 $reportMetadata = $processedReport['reportMetadata']->getRows();
 
                 $i = 0;
-                // $reportData instanceof Piwik_DataTable
-                foreach ($reportData->getRows() as $row) // Piwik_DataTable_Row[]
+                // $reportData instanceof DataTable
+                foreach ($reportData->getRows() as $row) // Row[]
                 {
-                    // $row instanceof Piwik_DataTable_Row
+                    // $row instanceof Row
                     $rowData = $row->getColumns(); // Associative Array
                     $abscissaSeries[] = Common::unsanitizeInputValue($rowData['label']);
 
@@ -408,13 +409,13 @@ class Piwik_ImageGraph_API
                 }
             } else // if the report has no dimension we have multiple reports each with only one row within the reportData
             {
-                // $periodsData instanceof Piwik_DataTable_Simple[]
+                // $periodsData instanceof Simple[]
                 $periodsData = array_values($reportData->getArray());
                 $periodsCount = count($periodsData);
 
                 for ($i = 0; $i < $periodsCount; $i++) {
-                    // $periodsData[$i] instanceof Piwik_DataTable_Simple
-                    // $rows instanceof Piwik_DataTable_Row[]
+                    // $periodsData[$i] instanceof Simple
+                    // $rows instanceof Row[]
                     if (empty($periodsData[$i])) {
                         continue;
                     }

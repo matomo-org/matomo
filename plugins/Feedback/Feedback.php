@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_Feedback
  */
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_Feedback
  */
-class Piwik_Feedback extends Piwik_Plugin
+class Piwik_Feedback extends Plugin
 {
 
     /**

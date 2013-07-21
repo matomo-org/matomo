@@ -8,13 +8,15 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Period;
+use Exception;
 use Piwik\Period;
 
 /**
  * @package Piwik
  * @subpackage Period
  */
-class Piwik_Period_Day extends Period
+class Day extends Period
 {
     protected $label = 'day';
 
@@ -76,7 +78,7 @@ class Piwik_Period_Day extends Period
      */
     public function addSubperiod($date)
     {
-        throw new Exception("Adding a subperiod is not supported for Piwik_Period_Day");
+        throw new Exception("Adding a subperiod is not supported for Day");
     }
 
     /**

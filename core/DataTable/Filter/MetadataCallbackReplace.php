@@ -8,18 +8,24 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\ColumnCallbackReplace;
+use Piwik\DataTable\Row;
+use false;
 
 /**
  * Replace a metadata value with a new value resulting
  * from the function called with the metadata's value
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_MetadataCallbackReplace extends Piwik_DataTable_Filter_ColumnCallbackReplace
+class MetadataCallbackReplace extends ColumnCallbackReplace
 {
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param array|string $metadataToFilter
      * @param callback $functionToApply
      * @param null|array $functionParameters
@@ -32,7 +38,7 @@ class Piwik_DataTable_Filter_MetadataCallbackReplace extends Piwik_DataTable_Fil
     }
 
     /**
-     * @param Piwik_DataTable_Row $row
+     * @param Row $row
      * @param string $metadataToFilter
      * @param mixed $newValue
      */
@@ -42,7 +48,7 @@ class Piwik_DataTable_Filter_MetadataCallbackReplace extends Piwik_DataTable_Fil
     }
 
     /**
-     * @param Piwik_DataTable_Row $row
+     * @param Row $row
      * @param string $metadataToFilter
      * @return array|false|mixed
      */

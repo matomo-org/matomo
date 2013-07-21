@@ -8,18 +8,22 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
+class SafeDecodeLabel extends Filter
 {
     private $columnToDecode;
     static private $outputHtml = true;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function __construct($table)
     {
@@ -57,7 +61,7 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
     /**
      * Decodes all columns of the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
@@ -71,5 +75,4 @@ class Piwik_DataTable_Filter_SafeDecodeLabel extends Piwik_DataTable_Filter
             }
         }
     }
-
 }

@@ -9,6 +9,8 @@
  * @package Piwik
  */
 use Piwik\Period;
+use Piwik\Date;
+use Piwik\Period\Month;
 
 /**
  * @package Piwik
@@ -63,8 +65,8 @@ class Piwik_Period_Year extends Period
 
         $year = $this->date->toString("Y");
         for ($i = 1; $i <= 12; $i++) {
-            $this->addSubperiod(new Piwik_Period_Month(
-                    Piwik_Date::factory("$year-$i-01")
+            $this->addSubperiod(new Month(
+                    Date::factory("$year-$i-01")
                 )
             );
         }

@@ -9,7 +9,11 @@
  * @package Piwik
  */
 
+namespace Piwik\DataTable;
+
+use Exception;
 use Piwik\Common;
+use Piwik\DataTable;
 
 /**
  * The DataTable_Manager registers all the instanciated DataTable and provides an
@@ -17,16 +21,16 @@ use Piwik\Common;
  * At the end of archiving, the ArchiveProcessor will read the stored datatable and record them in the DB.
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Manager
+class Manager
 {
     static private $instance = null;
 
     /**
      * Returns instance
      *
-     * @return Piwik_DataTable_Manager
+     * @return \Piwik\DataTable\Manager
      */
     static public function getInstance()
     {
@@ -52,7 +56,7 @@ class Piwik_DataTable_Manager
     /**
      * Add a DataTable to the registry
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @return int  Index of the table in the manager array
      */
     public function addTable($table)
@@ -69,7 +73,7 @@ class Piwik_DataTable_Manager
      *
      * @param int $idTable
      * @throws Exception If the table can't be found
-     * @return Piwik_DataTable  The table
+     * @return DataTable  The table
      */
     public function getTable($idTable)
     {
@@ -134,9 +138,9 @@ class Piwik_DataTable_Manager
      */
     public function dumpAllTables()
     {
-        echo "<hr />Piwik_DataTable_Manager->dumpAllTables()<br />";
+        echo "<hr />Manager->dumpAllTables()<br />";
         foreach ($this->tables as $id => $table) {
-            if (!($table instanceof Piwik_DataTable)) {
+            if (!($table instanceof DataTable)) {
                 echo "Error table $id is not instance of datatable<br />";
                 var_export($table);
             } else {
@@ -146,6 +150,6 @@ class Piwik_DataTable_Manager
                 echo "<br />";
             }
         }
-        echo "<br />-- End Piwik_DataTable_Manager->dumpAllTables()<hr />";
+        echo "<br />-- End Manager->dumpAllTables()<hr />";
     }
 }

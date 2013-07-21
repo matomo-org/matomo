@@ -33,7 +33,7 @@ class Piwik_Updates_1_9_b19 extends Piwik_Updates
 
 
         try {
-            PluginsManager::getInstance()->activatePlugin('Transitions');
+            \Piwik\PluginsManager::getInstance()->activatePlugin('Transitions');
         } catch (Exception $e) {
         }
     }

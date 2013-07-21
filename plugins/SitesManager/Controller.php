@@ -8,8 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
  */
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Site;
 
 /**
@@ -51,7 +53,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
         $view->currencies = Common::json_encode(Piwik_SitesManager_API::getInstance()->getCurrencyList());
         $view->defaultCurrency = Piwik_SitesManager_API::getInstance()->getDefaultCurrency();
 
-        $view->utcTime = Piwik_Date::now()->getDatetime();
+        $view->utcTime = Date::now()->getDatetime();
         $excludedIpsGlobal = Piwik_SitesManager_API::getInstance()->getExcludedIpsGlobal();
         $view->globalExcludedIps = str_replace(',', "\n", $excludedIpsGlobal);
         $excludedQueryParametersGlobal = Piwik_SitesManager_API::getInstance()->getExcludedQueryParametersGlobal();
@@ -62,7 +64,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 
         $view->globalSearchKeywordParameters = Piwik_SitesManager_API::getInstance()->getSearchKeywordParametersGlobal();
         $view->globalSearchCategoryParameters = Piwik_SitesManager_API::getInstance()->getSearchCategoryParametersGlobal();
-        $view->isSearchCategoryTrackingEnabled = PluginsManager::getInstance()->isPluginActivated('CustomVariables');
+        $view->isSearchCategoryTrackingEnabled = \Piwik\PluginsManager::getInstance()->isPluginActivated('CustomVariables');
         $view->allowSiteSpecificUserAgentExclude =
             Piwik_SitesManager_API::getInstance()->isSiteSpecificUserAgentExcludeEnabled();
 
@@ -187,7 +189,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
             }
         }
 
-        Piwik_DataTable_Renderer_Json::sendHeaderJSON();
+        Json::sendHeaderJSON();
         print Common::json_encode($results);
     }
 }

@@ -8,7 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_ExampleAPI
  */
+use Piwik\DataTable\Row;
 use Piwik\Piwik;
+use Piwik\DataTable;
 
 /**
  * The ExampleAPI is useful to developers building a custom Piwik plugin.
@@ -126,13 +128,13 @@ class Piwik_ExampleAPI_API
      * This data table will be converted to all available formats
      * when requested in the API request.
      *
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getCompetitionDatatable()
     {
-        $dataTable = new Piwik_DataTable();
+        $dataTable = new DataTable();
 
-        $row1 = new Piwik_DataTable_Row();
+        $row1 = new Row();
         $row1->setColumns(array('name' => 'piwik', 'license' => 'GPL'));
 
         // Rows Metadata is useful to store non stats data for example (logos, urls, etc.)

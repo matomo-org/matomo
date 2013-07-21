@@ -1,6 +1,7 @@
 <?php
 use Piwik\Config;
 use Piwik\Access;
+use Piwik\Translate;
 
 /**
  * Piwik - Open source web analytics
@@ -18,9 +19,9 @@ class Tracker_ActionTest extends DatabaseTestCase
         $config->clear();
         $config->setTestEnvironment($userFile, false);
 
-        PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
+        \Piwik\PluginsManager::getInstance()->loadPlugins(array('SitesManager'));
         
-        Piwik_Translate::getInstance()->loadEnglishTranslation();
+        Translate::getInstance()->loadEnglishTranslation();
     }
 
     protected function setUpRootAccess()

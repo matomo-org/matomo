@@ -8,12 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_VisitFrequency
  */
-class Piwik_VisitFrequency extends Piwik_Plugin
+class Piwik_VisitFrequency extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

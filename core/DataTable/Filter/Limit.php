@@ -8,19 +8,23 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * Delete all rows from the table that are not in the offset,offset+limit range
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
+class Limit extends Filter
 {
     /**
      * Filter constructor.
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param int $offset          Starting row (indexed from 0)
      * @param int $limit           Number of rows to keep (specify -1 to keep all rows)
      * @param bool $keepSummaryRow  Whether to keep the summary row or not.
@@ -40,14 +44,14 @@ class Piwik_DataTable_Filter_Limit extends Piwik_DataTable_Filter
     /**
      * Limits the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
         $table->setRowsCountBeforeLimitFilter();
 
         if ($this->keepSummaryRow) {
-            $summaryRow = $table->getRowFromId(Piwik_DataTable::ID_SUMMARY_ROW);
+            $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
         }
 
         // we delete from 0 to offset

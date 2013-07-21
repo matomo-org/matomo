@@ -9,12 +9,14 @@
  * @package Piwik_Provider
  */
 use Piwik\Common;
+use Piwik\Plugin;
+use Piwik\ArchiveProcessor;
 
 /**
  *
  * @package Piwik_Provider
  */
-class Piwik_Provider extends Piwik_Plugin
+class Piwik_Provider extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -192,7 +194,7 @@ class Piwik_Provider extends Piwik_Plugin
     /**
      * Daily archive: processes the report Visits by Provider
      */
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_Provider_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -200,7 +202,7 @@ class Piwik_Provider extends Piwik_Plugin
         }
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_Provider_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {

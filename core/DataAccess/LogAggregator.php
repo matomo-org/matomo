@@ -8,16 +8,23 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataAccess;
+
+use PDOStatement;
 use Piwik\Common;
 use Piwik\Metrics;
+use Piwik\Date;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik_RankingQuery;
+use Piwik_Tracker_GoalManager;
+use Zend_Registry;
 
 /**
  * This class queries the Visitor logs tables (visits, actions, conversions, ecommerce)
  * and returns aggregate data.
  */
-class Piwik_DataAccess_LogAggregator
+class LogAggregator
 {
     const LOG_VISIT_TABLE = 'log_visit';
 
@@ -47,10 +54,10 @@ class Piwik_DataAccess_LogAggregator
 
     const FIELDS_SEPARATOR = ", \n\t\t\t";
 
-    /** @var \Piwik_Date */
+    /** @var \Piwik\Date */
     protected $dateStart;
 
-    /** @var \Piwik_Date */
+    /** @var \Piwik\Date */
     protected $dateEnd;
 
     /** @var \Piwik\Site */
@@ -59,7 +66,7 @@ class Piwik_DataAccess_LogAggregator
     /** @var \Piwik\Segment */
     protected $segment;
 
-    public function __construct(Piwik_Date $dateStart, Piwik_Date $dateEnd, Site $site, Segment $segment)
+    public function __construct(Date $dateStart, Date $dateEnd, Site $site, Segment $segment)
     {
         $this->dateStart = $dateStart;
         $this->dateEnd = $dateEnd;
@@ -241,10 +248,10 @@ class Piwik_DataAccess_LogAggregator
         }
         return $dimensions;
     }
-    
+
     /**
      * Prefixes a column name with a table name if not already done.
-     * 
+     *
      * @param string $column eg, 'location_provider'
      * @param string $tableName eg, 'log_visit'
      * @return string eg, 'log_visit.location_provider'

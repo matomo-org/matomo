@@ -11,6 +11,7 @@
 use Piwik\Archive;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\DataTable;
 
 /**
  * VisitorInterest API lets you access two Visitor Engagement reports: number of visits per number of pages,
@@ -68,7 +69,7 @@ class Piwik_VisitorInterest_API
      * @param string $period The period type.
      * @param string $date The date type.
      * @param string|bool $segment The segment.
-     * @return Piwik_DataTable the archived report data.
+     * @return DataTable the archived report data.
      */
     public function getNumberOfVisitsByDaysSinceLast($idSite, $period, $date, $segment = false)
     {
@@ -89,7 +90,7 @@ class Piwik_VisitorInterest_API
      * @param string $period The period type.
      * @param string $date The date type.
      * @param string|bool $segment The segment.
-     * @return Piwik_DataTable the archived report data.
+     * @return DataTable the archived report data.
      */
     public function getNumberOfVisitsByVisitCount($idSite, $period, $date, $segment = false)
     {
@@ -110,11 +111,11 @@ class Piwik_VisitorInterest_API
      * regardless of whether the data table is an data table array or just
      * a data table.
      *
-     * @param Piwik_DataTable $dataTable The data table to modify.
+     * @param DataTable $dataTable The data table to modify.
      */
     private static function addVisitsPercentColumn($dataTable)
     {
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getArray() as $table) {
                 self::addVisitsPercentColumn($table);
             }

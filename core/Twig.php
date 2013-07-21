@@ -10,7 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
-
+use Piwik\Translate;
 
 /**
  * Twig class
@@ -108,7 +108,7 @@ class Piwik_Twig
                 return;
             }
             $pluginTranslationsAlreadyLoaded[] = $plugins;
-            $jsTranslations = Piwik_Translate::getInstance()->getJavascriptTranslations($plugins);
+            $jsTranslations = Translate::getInstance()->getJavascriptTranslations($plugins);
             $jsCode = '';
             if ($disableScriptTag) {
                 $jsCode .= $jsTranslations;
@@ -136,7 +136,7 @@ class Piwik_Twig
     private function getDefaultThemeLoader()
     {
         $themeLoader = new Twig_Loader_Filesystem(array(
-            sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, PluginsManager::DEFAULT_THEME)
+            sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, \Piwik\PluginsManager::DEFAULT_THEME)
         ));
 
         return $themeLoader;
@@ -213,7 +213,7 @@ class Piwik_Twig
 
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
     {
-        $plugins = PluginsManager::getInstance()->getLoadedPluginsName();
+        $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPluginsName();
         foreach($plugins as $name) {
             $name = Common::unprefixClass($name);
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);

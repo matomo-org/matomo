@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 #
+use Piwik\Date;
 
 /**
  * Adds one site and tracks 13 visits all with custom variables and referrer URLs
@@ -40,7 +41,7 @@ class Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars extends Test
         for ($referrerSite = 1; $referrerSite < 4; $referrerSite++) {
             for ($referrerPage = 1; $referrerPage < 3; $referrerPage++) {
                 $offset = $referrerSite * 3 + $referrerPage;
-                $t = self::getTracker($idSite, Piwik_Date::factory($dateTime)->addHour($offset)->getDatetime());
+                $t = self::getTracker($idSite, Date::factory($dateTime)->addHour($offset)->getDatetime());
                 $t->setUrlReferrer('http://www.referrer' . $referrerSite . '.com/sub/dir/page' . $referrerPage . '.html');
                 $t->setCustomVariable(1, 'CustomVarVisit', 'CustomVarValue' . $referrerPage, 'visit');
                 for ($page = 0; $page < 3; $page++) {
@@ -52,7 +53,7 @@ class Test_Piwik_Fixture_ManyVisitsWithSubDirReferrersAndCustomVars extends Test
             }
         }
 
-        $t = self::getTracker($idSite, Piwik_Date::factory($dateTime)->addHour(24)->getDatetime());
+        $t = self::getTracker($idSite, Date::factory($dateTime)->addHour(24)->getDatetime());
         $t->setCustomVariable(1, 'CustomVarVisit', 'CustomVarValue1', 'visit');
         $t->setUrl('http://example.org/sub/dir/dir1/page1.html');
         $t->setCustomVariable(1, 'CustomVarPage', 'CustomVarValue1', 'page');

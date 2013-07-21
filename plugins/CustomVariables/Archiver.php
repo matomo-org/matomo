@@ -1,7 +1,9 @@
 <?php
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
+use Piwik\PluginsArchiver;
 
 /**
  * Piwik - Open source web analytics
@@ -13,7 +15,7 @@ use Piwik\Metrics;
  * @package Piwik_CustomVariables
  */
 
-class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
+class Piwik_CustomVariables_Archiver extends PluginsArchiver
 {
     const LABEL_CUSTOM_VALUE_NOT_DEFINED = "Value not defined";
     const CUSTOM_VARIABLE_RECORD_NAME = 'CustomVariables_valueByName';
@@ -78,7 +80,7 @@ class Piwik_CustomVariables_Archiver extends Piwik_PluginsArchiver
 
     protected function getSelectAveragePrice()
     {
-        return Piwik_DataAccess_LogAggregator::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
+        return LogAggregator::getSqlRevenue("AVG(log_link_visit_action.custom_var_v2)")
             . " as `" . Metrics::INDEX_ECOMMERCE_ITEM_PRICE_VIEWED . "`";
     }
 

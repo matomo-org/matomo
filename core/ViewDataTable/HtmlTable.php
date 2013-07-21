@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Config;
+use Piwik\DataTable\Renderer;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -23,7 +24,7 @@ use Piwik\Common;
 class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 {
     /**
-     * PHP array conversion of the Piwik_DataTable
+     * PHP array conversion of the DataTable
      *
      * @var array
      */
@@ -168,13 +169,13 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
     }
 
     /**
-     * Returns friendly php array from the Piwik_DataTable
+     * Returns friendly php array from the DataTable
      * @see Piwik_DataTable_Renderer_Php
      * @return array
      */
     protected function getPHPArrayFromDataTable()
     {
-        $renderer = Piwik_DataTable_Renderer::factory('php');
+        $renderer = Renderer::factory('php');
         $renderer->setTable($this->dataTable);
         $renderer->setSerialize(false);
         // we get the php array from the datatable but conserving the original datatable format,

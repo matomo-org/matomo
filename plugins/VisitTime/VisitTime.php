@@ -8,15 +8,17 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
  */
+use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Period;
+use Piwik\Plugin;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_VisitTime
  */
-class Piwik_VisitTime extends Piwik_Plugin
+class Piwik_VisitTime extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered
@@ -167,7 +169,7 @@ class Piwik_VisitTime extends Piwik_Plugin
         }
     }
 
-    public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
+    public function archivePeriod(ArchiveProcessor\Period $archiveProcessor)
     {
         $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {
@@ -176,7 +178,7 @@ class Piwik_VisitTime extends Piwik_Plugin
     }
 
 
-    public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
+    public function archiveDay(ArchiveProcessor\Day $archiveProcessor)
     {
         $archiving = new Piwik_VisitTime_Archiver($archiveProcessor);
         if($archiving->shouldArchive()) {

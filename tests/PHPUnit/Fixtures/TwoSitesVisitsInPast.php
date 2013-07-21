@@ -5,6 +5,7 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Date;
 
 /**
  * Adds two sites and tracks several visits all in the past.
@@ -97,7 +98,7 @@ class Test_Piwik_Fixture_TwoSitesVisitsInPast extends Test_Piwik_BaseFixture
         self::checkResponse($t->doTrackPageView('Hello'));
         $t->setUrl('http://example.org/category/Pageyy');
         self::checkResponse($t->doTrackPageView('Blabla'));
-        $t->setForceVisitDateTime(Piwik_Date::factory($this->dateTimeDateInPastWebsite2)->addHour(0.1)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($this->dateTimeDateInPastWebsite2)->addHour(0.1)->getDatetime());
         $t->setUrl('http://example.org/category/Pageyy');
         self::checkResponse($t->doTrackPageView('Blabla'));
     }

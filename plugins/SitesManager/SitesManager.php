@@ -9,12 +9,13 @@
  * @package Piwik_SitesManager
  */
 use Piwik\Piwik;
+use Piwik\Plugin;
 
 /**
  *
  * @package Piwik_SitesManager
  */
-class Piwik_SitesManager extends Piwik_Plugin
+class Piwik_SitesManager extends Plugin
 {
     const KEEP_URL_FRAGMENT_USE_DEFAULT = 0;
     const KEEP_URL_FRAGMENT_YES = 1;

@@ -8,22 +8,27 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable\Filter;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
+use Piwik\DataTable;
 
 /**
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_Filter
+class AddColumnsProcessedMetrics extends Filter
 {
     protected $invalidDivision = 0;
     protected $roundPrecision = 2;
     protected $deleteRowsWithNoVisit = true;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param bool $deleteRowsWithNoVisit  Automatically set to true when filter_add_columns_when_show_all_columns is found in the API request
-     * @return Piwik_DataTable_Filter_AddColumnsProcessedMetrics
+     * @return AddColumnsProcessedMetrics
      */
     public function __construct($table, $deleteRowsWithNoVisit = true)
     {
@@ -34,7 +39,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
     /**
      * Filters the given data table
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {
@@ -97,7 +102,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
      * - raw datatables coming from the archive DB, which columns are int indexed
      * - datatables processed resulting of API calls, which columns have human readable english names
      *
-     * @param Piwik_DataTable_Row $row
+     * @param Row $row
      * @param int $columnIdRaw see consts in Archive::
      * @param bool $mappingIdToName
      * @return mixed  Value of column, false if not found
@@ -108,7 +113,7 @@ class Piwik_DataTable_Filter_AddColumnsProcessedMetrics extends Piwik_DataTable_
             $mappingIdToName = Metrics::$mappingFromIdToName;
         }
         $columnIdReadable = $mappingIdToName[$columnIdRaw];
-        if ($row instanceof Piwik_DataTable_Row) {
+        if ($row instanceof Row) {
             $raw = $row->getColumn($columnIdRaw);
             if ($raw !== false) {
                 return $raw;

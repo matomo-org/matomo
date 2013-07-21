@@ -10,8 +10,9 @@
  */
 
 use Piwik\Metrics;
+use Piwik\PluginsArchiver;
 
-class Piwik_DevicesDetection_Archiver extends Piwik_PluginsArchiver
+class Piwik_DevicesDetection_Archiver extends PluginsArchiver
 {
     const DEVICE_TYPE_RECORD_NAME = 'DevicesDetection_types';
     const DEVICE_BRAND_RECORD_NAME = 'DevicesDetection_brands';

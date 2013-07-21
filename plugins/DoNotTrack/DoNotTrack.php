@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_DoNotTrack
  */
+use Piwik\Plugin;
+use Piwik\Common;
 
 /**
  * Ignore visits where user agent's request contains either:
@@ -16,7 +18,7 @@
  *
  * @package Piwik_DoNotTrack
  */
-class Piwik_DoNotTrack extends Piwik_Plugin
+class Piwik_DoNotTrack extends Plugin
 {
     /**
      * @see Piwik_Plugin::getListHooksRegistered

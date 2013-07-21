@@ -8,8 +8,12 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\DataTable\Renderer\Json;
+use Piwik\DataTable\Simple;
+use Piwik\DataTable\Renderer;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\DataTable;
 
 /**
  * @package Piwik
@@ -38,7 +42,7 @@ class Piwik_API_ResponseBuilder
     /**
      * This method processes the data resulting from the API call.
      *
-     * - If the data resulted from the API call is a Piwik_DataTable then
+     * - If the data resulted from the API call is a DataTable then
      *         - we apply the standard filters if the parameters have been found
      *           in the URL. For example to offset,limit the Table you can add the following parameters to any API
      *        call that returns a DataTable: filter_limit=10&filter_offset=20
@@ -75,8 +79,8 @@ class Piwik_API_ResponseBuilder
         // If the returned value is an object DataTable we
         // apply the set of generic filters if asked in the URL
         // and we render the DataTable according to the format specified in the URL
-        if ($value instanceof Piwik_DataTable
-            || $value instanceof Piwik_DataTable_Array
+        if ($value instanceof DataTable
+            || $value instanceof DataTable\Map
         ) {
             return $this->handleDataTable($value);
         }
@@ -121,7 +125,7 @@ class Piwik_API_ResponseBuilder
         }
 
         try {
-            $renderer = Piwik_DataTable_Renderer::factory($format);
+            $renderer = Renderer::factory($format);
         } catch (Exception $exceptionRenderer) {
             return "Error: " . $e->getMessage() . " and: " . $exceptionRenderer->getMessage();
         }
@@ -174,7 +178,7 @@ class Piwik_API_ResponseBuilder
     /**
      * Apply the specified renderer to the DataTable
      *
-     * @param Piwik_DataTable|array $dataTable
+     * @param DataTable|array $dataTable
      * @return string
      */
     protected function getRenderedDataTable($dataTable)
@@ -192,7 +196,7 @@ class Piwik_API_ResponseBuilder
 
         $method = Common::getRequestVar('method', '', 'string', $this->request);
 
-        $renderer = Piwik_DataTable_Renderer::factory($format);
+        $renderer = Renderer::factory($format);
         $renderer->setTable($dataTable);
         $renderer->setRenderSubTables(Common::getRequestVar('expanded', false, 'int', $this->request));
         $renderer->setHideIdSubDatableFromResponse(Common::getRequestVar('hideIdSubDatable', false, 'int', $this->request));
@@ -268,7 +272,7 @@ class Piwik_API_ResponseBuilder
      */
     protected function handleScalar($scalar)
     {
-        $dataTable = new Piwik_DataTable_Simple();
+        $dataTable = new Simple();
         $dataTable->addRowsFromArray(array($scalar));
         return $this->getRenderedDataTable($dataTable);
     }
@@ -276,7 +280,7 @@ class Piwik_API_ResponseBuilder
     /**
      * Handles the given data table
      *
-     * @param Piwik_DataTable $datatable
+     * @param DataTable $datatable
      * @return string
      */
     protected function handleDataTable($datatable)
@@ -404,10 +408,10 @@ class Piwik_API_ResponseBuilder
 
     /**
      * Render a multidimensional array to Json
-     * Handle Piwik_DataTable|Piwik_DataTable_Array elements in the first dimension only, following case does not work:
+     * Handle DataTable|Set elements in the first dimension only, following case does not work:
      * array(
      *        array(
-     *            Piwik_DataTable,
+     *            DataTable,
      *            2 => array(
      *                1,
      *                2
@@ -415,7 +419,7 @@ class Piwik_API_ResponseBuilder
      *        ),
      *    );
      *
-     * @param array $array  can contain scalar, arrays, Piwik_DataTable and Piwik_DataTable_Array
+     * @param array $array  can contain scalar, arrays, DataTable and Set
      * @return string
      */
     public static function convertMultiDimensionalArrayToJson($array)
@@ -440,10 +444,10 @@ class Piwik_API_ResponseBuilder
                     $json .= Common::json_encode($value);
                     break;
 
-                // Case dimension is a Piwik_DataTable_Array or a Piwik_DataTable
-                case ($value instanceof Piwik_DataTable_Array || $value instanceof Piwik_DataTable):
+                // Case dimension is a Set or a DataTable
+                case ($value instanceof DataTable\Map || $value instanceof DataTable):
 
-                    $XMLRenderer = new Piwik_DataTable_Renderer_Json();
+                    $XMLRenderer = new Json();
                     $XMLRenderer->setTable($value);
                     $renderedReport = $XMLRenderer->render();
                     $json .= $renderedReport;

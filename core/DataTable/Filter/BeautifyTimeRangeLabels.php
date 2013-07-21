@@ -8,6 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter\BeautifyRangeLabels;
 
 /**
  * A DataTable filter replaces range labels that are in seconds with
@@ -17,7 +21,7 @@
  * so range values that span values that are less than one minute are
  * displayed in seconds but other ranges are displayed in minutes.
  */
-class Piwik_DataTable_Filter_BeautifyTimeRangeLabels extends Piwik_DataTable_Filter_BeautifyRangeLabels
+class BeautifyTimeRangeLabels extends BeautifyRangeLabels
 {
     /**
      * A format string used to create pretty range labels when the range's
@@ -31,7 +35,7 @@ class Piwik_DataTable_Filter_BeautifyTimeRangeLabels extends Piwik_DataTable_Fil
     /**
      * Constructor.
      *
-     * @param Piwik_DataTable $table                 The DataTable this filter will run over.
+     * @param DataTable $table                 The DataTable this filter will run over.
      * @param string $labelSecondsPlural    A string to use when beautifying range labels
      *                                                whose lower bound is between 0 and 60. Must be
      *                                                a format string that takes two numeric params.

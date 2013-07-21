@@ -8,6 +8,7 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Piwik;
 
@@ -96,7 +97,7 @@ class Piwik_Tracker_Cache
 
         Piwik_Tracker::initCorePiwikInTrackerMode();
         $cacheContent = array(
-            'isBrowserTriggerEnabled' => Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled(),
+            'isBrowserTriggerEnabled' => Rules::isBrowserTriggerEnabled(),
             'lastTrackerCronRun'               => Piwik_GetOption('lastTrackerCronRun'),
             'currentLocationProviderId'        => Piwik_UserCountry_LocationProvider::getCurrentProviderId(),
         );

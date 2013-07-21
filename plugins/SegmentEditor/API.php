@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Segment;
 
 /**
@@ -142,9 +143,9 @@ class Piwik_SegmentEditor_API
     /**
      * Modifies an existing stored segment.
      *
-     * @param $idSegment The ID of the stored segment to modify.
-     * @param $name  The new name of the segment.
-     * @param $definition  The new definition of the segment.
+     * @param int $idSegment The ID of the stored segment to modify.
+     * @param string $name  The new name of the segment.
+     * @param string $definition  The new definition of the segment.
      * @param bool $idSite  If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
@@ -168,7 +169,7 @@ class Piwik_SegmentEditor_API
             'enable_all_users'   => $enabledAllUsers,
             'enable_only_idsite' => $idSite,
             'auto_archive'       => $autoArchive,
-            'ts_last_edit'       => Piwik_Date::now()->getDatetime(),
+            'ts_last_edit'       => Date::now()->getDatetime(),
         );
 
         $db = Zend_Registry::get('db');
@@ -182,8 +183,8 @@ class Piwik_SegmentEditor_API
     /**
      * Adds a new stored segment.
      *
-     * @param $name  The new name of the segment.
-     * @param $definition  The new definition of the segment.
+     * @param string $name  The new name of the segment.
+     * @param string $definition  The new definition of the segment.
      * @param bool $idSite  If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
@@ -207,7 +208,7 @@ class Piwik_SegmentEditor_API
             'enable_all_users'   => $enabledAllUsers,
             'enable_only_idsite' => $idSite,
             'auto_archive'       => $autoArchive,
-            'ts_created'         => Piwik_Date::now()->getDatetime(),
+            'ts_created'         => Date::now()->getDatetime(),
             'deleted'            => 0,
         );
         $db->insert(Common::prefixTable("segment"), $bind);

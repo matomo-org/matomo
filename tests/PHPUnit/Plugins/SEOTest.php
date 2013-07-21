@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Access;
+use Piwik\DataTable\Renderer;
 
 class SEOTest extends PHPUnit_Framework_TestCase
 {
@@ -45,7 +46,7 @@ class SEOTest extends PHPUnit_Framework_TestCase
         } catch(Exception $e) {
             $this->markTestSkipped('A SEO http request failed, Skipping this test for now. Error was: '.$e->getMessage());
         }
-        $renderer = Piwik_DataTable_Renderer::factory('php');
+        $renderer = Renderer::factory('php');
         $renderer->setSerialize(false);
         $ranks = $renderer->render($dataTable);
         foreach ($ranks as $rank) {

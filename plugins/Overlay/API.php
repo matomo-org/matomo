@@ -2,6 +2,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Access;
+use Piwik\DataTable;
 
 /**
  * Piwik - Open source web analytics
@@ -81,7 +82,7 @@ class Piwik_Overlay_API
         $url = Piwik_Tracker_Action::excludeQueryParametersFromUrl($url, $idSite);
         // we don't unsanitize $url here. it will be done in the Transitions plugin.
 
-        $resultDataTable = new Piwik_DataTable;
+        $resultDataTable = new DataTable;
 
         try {
             $limitBeforeGrouping = Config::getInstance()->General['overlay_following_pages_limit'];

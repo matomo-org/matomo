@@ -8,7 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_PrivacyManager
  */
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Piwik;
+use Piwik\Date;
 
 /**
  * Purges archived reports and metrics that are considered old.
@@ -203,21 +205,21 @@ class Piwik_PrivacyManager_ReportsPurger
         // get month for which reports as old or older than, should be deleted
         // reports whose creation date <= this month will be deleted
         // (NOTE: we ignore how far we are in the current month)
-        $toRemoveDate = Piwik_Date::factory('today')->subMonth(1 + $this->deleteReportsOlderThan);
+        $toRemoveDate = Date::factory('today')->subMonth(1 + $this->deleteReportsOlderThan);
 
         // find all archive tables that are older than N months
         $oldNumericTables = array();
         $oldBlobTables = array();
         foreach (Piwik::getTablesInstalled() as $table) {
-            $type = Piwik_DataAccess_ArchiveTableCreator::getTypeFromTableName($table);
+            $type = ArchiveTableCreator::getTypeFromTableName($table);
             if($type === false) {
                 continue;
             }
-            $date = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
+            $date = ArchiveTableCreator::getDateFromTableName($table);
             list($year, $month) = explode('_', $date);
 
             if (self::shouldReportBePurged($year, $month, $toRemoveDate)) {
-                if ($type == Piwik_DataAccess_ArchiveTableCreator::NUMERIC_TABLE) {
+                if ($type == ArchiveTableCreator::NUMERIC_TABLE) {
                     $oldNumericTables[] = $table;
                 } else {
                     $oldBlobTables[] = $table;
@@ -233,7 +235,7 @@ class Piwik_PrivacyManager_ReportsPurger
      *
      * @param int $reportDateYear The year of the report in question.
      * @param int $reportDateMonth The month of the report in question.
-     * @param Piwik_Date $toRemoveDate The date a report must be older than in order to be purged.
+     * @param Date $toRemoveDate The date a report must be older than in order to be purged.
      * @return bool
      */
     public static function shouldReportBePurged($reportDateYear, $reportDateMonth, $toRemoveDate)
@@ -285,7 +287,7 @@ class Piwik_PrivacyManager_ReportsPurger
             // if not keeping segments make sure segments w/ kept periods are also deleted
             if (!$this->keepSegmentReports) {
                 $this->findSegmentArchives($oldNumericTables);
-                $archiveIds = $this->segmentArchiveIds[Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table)];
+                $archiveIds = $this->segmentArchiveIds[ArchiveTableCreator::getDateFromTableName($table)];
 
                 if (!empty($archiveIds)) {
                     $where .= " OR idarchive IN (" . implode(',', $archiveIds) . ")";
@@ -308,7 +310,7 @@ class Piwik_PrivacyManager_ReportsPurger
         }
 
         foreach ($numericTables as $table) {
-            $tableDate = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
+            $tableDate = ArchiveTableCreator::getDateFromTableName($table);
 
             $maxIdArchive = Piwik_FetchOne("SELECT MAX(idarchive) FROM $table");
 

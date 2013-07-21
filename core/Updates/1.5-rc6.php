@@ -17,7 +17,7 @@ class Piwik_Updates_1_5_rc6 extends Piwik_Updates
     static function update()
     {
         try {
-            PluginsManager::getInstance()->activatePlugin('PrivacyManager');
+            \Piwik\PluginsManager::getInstance()->activatePlugin('PrivacyManager');
         } catch (Exception $e) {
         }
     }

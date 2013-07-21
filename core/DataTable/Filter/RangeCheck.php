@@ -8,20 +8,24 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\DataTable\Filter;
+
+use Piwik\DataTable;
+use Piwik\DataTable\Filter;
 
 /**
  * Check range
  *
  * @package Piwik
- * @subpackage Piwik_DataTable
+ * @subpackage DataTable
  */
-class Piwik_DataTable_Filter_RangeCheck extends Piwik_DataTable_Filter
+class RangeCheck extends Filter
 {
     static public $minimumValue = 0.00;
     static public $maximumValue = 100.0;
 
     /**
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      * @param string $columnToFilter  name of the column to filter
      * @param float $minimumValue    minimum value for range
      * @param float $maximumValue    maximum value for range
@@ -41,7 +45,7 @@ class Piwik_DataTable_Filter_RangeCheck extends Piwik_DataTable_Filter
     /**
      * Executes the filter an adjusts all columns to fit the defined range
      *
-     * @param Piwik_DataTable $table
+     * @param DataTable $table
      */
     public function filter($table)
     {

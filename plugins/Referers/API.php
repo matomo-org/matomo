@@ -9,9 +9,12 @@
  * @package Piwik_Referers
  */
 use Piwik\Archive;
+use Piwik\DataTable\Row;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
+use Piwik\DataTable;
 
 /**
  * The Referrers API lets you access reports about Websites, Search engines, Keywords, Campaigns used to access your website.
@@ -39,11 +42,11 @@ class Piwik_Referers_API
      * @param string $name
      * @param int $idSite
      * @param string $period
-     * @param Piwik_Date $date
+     * @param Date $date
      * @param string $segment
      * @param bool $expanded
      * @param int|null $idSubtable
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
     {
@@ -71,7 +74,7 @@ class Piwik_Referers_API
      *                        subtable ID. The result when using this parameter will be the
      *                        specific report for the given referrer type.
      * @param bool $expanded Whether to get report w/ subtables loaded or not.
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function  getRefererType($idSite, $period, $date, $segment = false, $typeReferer = false,
                                    $idSubtable = false, $expanded = false)
@@ -108,7 +111,7 @@ class Piwik_Referers_API
 
         // set subtable IDs for each row to the label (which holds the int referrer type)
         // NOTE: not yet possible to do this w/ DataTable_Array instances
-        if (!($dataTable instanceof Piwik_DataTable_Array)) {
+        if (!($dataTable instanceof DataTable\Map)) {
             $this->setGetReferrerTypeSubtables($dataTable, $idSite, $period, $date, $segment, $expanded);
         }
 
@@ -125,7 +128,7 @@ class Piwik_Referers_API
     {
         $dataTable = $this->getRefererType($idSite, $period, $date, $segment, $typeReferer = false, $idSubtable = false, $expanded = true);
 
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             throw new Exception("Referrers.getAll with multiple sites or dates is not supported (yet).");
         }
 
@@ -190,11 +193,11 @@ class Piwik_Referers_API
     }
 
     /**
-     * @param Piwik_Datatable $table
+     * @param DataTable $table
      */
     private function filterOutKeywordNotDefined($table)
     {
-        if ($table instanceof Piwik_Datatable) {
+        if ($table instanceof DataTable) {
             $row = $table->getRowIdFromLabel('');
             if ($row) {
                 $table->deleteRow($row);
@@ -212,7 +215,7 @@ class Piwik_Referers_API
         $table = $response->getResponse($table);
 
         // If period=lastX we only keep the first resultset as we want to return a plain list
-        if ($table instanceof Piwik_DataTable_Array) {
+        if ($table instanceof DataTable\Map) {
             $tables = $table->getArray();
             $table = current($tables);
         }
@@ -253,7 +256,7 @@ class Piwik_Referers_API
         $searchEngines = $this->getSearchEngines($idSite, $period, $date, $segment);
         $searchEngines->applyQueuedFilters();
 
-        if ($searchEngines instanceof Piwik_DataTable_Array) {
+        if ($searchEngines instanceof DataTable\Map) {
             $dataTables = $searchEngines->getArray();
 
             // find first datatable containing data
@@ -313,7 +316,7 @@ class Piwik_Referers_API
      * @param string $date
      * @param string|bool $segment
      * @param bool $expanded
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getSocials($idSite, $period, $date, $segment = false, $expanded = false)
     {
@@ -346,7 +349,7 @@ class Piwik_Referers_API
      *                              is the array index of an item in the /core/DataFiles/Socials.php file.
      *                              The urls are filtered by the social network at this index.
      *                              If false, no filtering is done and every social URL is returned.
-     * @return Piwik_DataTable
+     * @return DataTable
      */
     public function getUrlsForSocial($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
@@ -420,11 +423,11 @@ class Piwik_Referers_API
      * Removes idsubdatatable_in_db metadata from a DataTable. Used by Social tables since
      * they use fake subtable IDs.
      *
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
      */
     private function removeSubtableMetadata($dataTable)
     {
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getArray() as $childTable) {
                 $this->removeSubtableMetadata($childTable);
             }
@@ -440,11 +443,11 @@ class Piwik_Referers_API
      *
      * The IDs are int indexes into the array in /core/DataFiles/Socials.php.
      *
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
      */
     private function setSocialIdSubtables($dataTable)
     {
-        if ($dataTable instanceof Piwik_DataTable_Array) {
+        if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getArray() as $childTable) {
                 $this->setSocialIdSubtables($childTable);
             }
@@ -455,7 +458,7 @@ class Piwik_Referers_API
                 $i = 1; // start at one because idSubtable=0 is equivalent to idSubtable=false
                 foreach ($GLOBALS['Piwik_socialUrl'] as $domain => $name) {
                     if ($name == $socialName) {
-                        $row->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $i;
+                        $row->c[Row::DATATABLE_ASSOCIATED] = $i;
                         break;
                     }
 
@@ -471,12 +474,12 @@ class Piwik_Referers_API
      * the grandchildren of the report will be the original report, and it will
      * recurse when trying to get a flat report).
      *
-     * @param Piwik_DataTable $table
-     * @return Piwik_DataTable Returns $table for convenience.
+     * @param DataTable $table
+     * @return DataTable Returns $table for convenience.
      */
     private function removeSubtableIds($table)
     {
-        if ($table instanceof Piwik_DataTable_Array) {
+        if ($table instanceof DataTable\Map) {
             foreach ($table->getArray() as $childTable) {
                 $this->removeSubtableIds($childTable);
             }
@@ -498,7 +501,7 @@ class Piwik_Referers_API
      * If we are getting an expanded datatable, the datatable for the row's referrer
      * type is loaded and attached to the appropriate row in the getRefererType report.
      *
-     * @param Piwik_DataTable $dataTable
+     * @param DataTable $dataTable
      * @param string $idSite
      * @param string $period
      * @param string $date
@@ -512,7 +515,7 @@ class Piwik_Referers_API
             if ($typeReferrer != Common::REFERER_TYPE_DIRECT_ENTRY) {
                 if (!$expanded) // if we don't want the expanded datatable, then don't do any extra queries
                 {
-                    $row->c[Piwik_DataTable_Row::DATATABLE_ASSOCIATED] = $typeReferrer;
+                    $row->c[Row::DATATABLE_ASSOCIATED] = $typeReferrer;
                 } else // otherwise, we have to get the othe datatables
                 {
                     $subtable = $this->getRefererType($idSite, $period, $date, $segment, $type = false,

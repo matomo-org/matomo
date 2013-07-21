@@ -12,7 +12,7 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
-use Piwik\PluginsManager;
+use Piwik\Translate;
 
 /**
  * @see core/PluginsManager.php
@@ -97,7 +97,7 @@ class Piwik_FrontController
             throw new Exception("Invalid module name '$module'");
         }
 
-        if (!PluginsManager::getInstance()->isPluginActivated($module)) {
+        if (!\Piwik\PluginsManager::getInstance()->isPluginActivated($module)) {
             throw new Piwik_FrontController_PluginDeactivatedException($module);
         }
 
@@ -236,7 +236,7 @@ class Piwik_FrontController
             Piwik::dieIfDirectoriesNotWritable($directoriesToCheck);
             Common::assignCliParametersToRequest();
 
-            Piwik_Translate::getInstance()->loadEnglishTranslation();
+            Translate::getInstance()->loadEnglishTranslation();
 
             $exceptionToThrow = $this->createConfigObject();
 
@@ -247,7 +247,7 @@ class Piwik_FrontController
             $this->handleMaintenanceMode();
             $this->handleSSLRedirection();
 
-            $pluginsManager = PluginsManager::getInstance();
+            $pluginsManager = \Piwik\PluginsManager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
 
             $pluginsManager->loadPlugins($pluginsToLoad);
@@ -274,7 +274,7 @@ class Piwik_FrontController
 
             Piwik_PostEvent('FrontController.dispatchCoreAndPluginUpdatesScreen');
 
-            PluginsManager::getInstance()->installLoadedPlugins();
+            \Piwik\PluginsManager::getInstance()->installLoadedPlugins();
 
             // ensure the current Piwik URL is known for later use
             if (method_exists('Piwik\Piwik', 'getPiwikUrl')) {
@@ -299,7 +299,7 @@ class Piwik_FrontController
             }
             Piwik::raiseMemoryLimitIfNecessary();
 
-            Piwik_Translate::getInstance()->reloadLanguage();
+            Translate::getInstance()->reloadLanguage();
             $pluginsManager->postLoadPlugins();
 
             Piwik_PostEvent('FrontController.checkForUpdates');

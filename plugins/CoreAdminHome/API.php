@@ -8,9 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
  */
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Period;
+use Piwik\Period\Week;
 use Piwik\Piwik;
+use Piwik\Config;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Site;
 
 /**
@@ -85,7 +89,7 @@ class Piwik_CoreAdminHome_API
         $dates = array_unique($dates);
         foreach ($dates as $theDate) {
             try {
-                $date = Piwik_Date::factory($theDate);
+                $date = Date::factory($theDate);
             } catch (Exception $e) {
                 $invalidDates[] = $theDate;
                 continue;
@@ -105,13 +109,13 @@ class Piwik_CoreAdminHome_API
         if ($logsDeleteEnabled
             && $logsAreDeletedBeforeThisDate
         ) {
-            $minimumDateWithLogs = Piwik_Date::factory('today')->subDay($logsAreDeletedBeforeThisDate);
+            $minimumDateWithLogs = Date::factory('today')->subDay($logsAreDeletedBeforeThisDate);
         }
 
         // Given the list of dates, process which tables they should be deleted from
         $minDate = false;
         $warningDates = $processedDates = array();
-        /* @var $date Piwik_Date */
+        /* @var $date Date */
         foreach ($toInvalidate as $date) {
             // we should only delete reports for dates that are more recent than N days
             if ($minimumDateWithLogs
@@ -131,7 +135,7 @@ class Piwik_CoreAdminHome_API
             $datesByMonth[$year][] = $date->toString();
 
             // but also weeks overlapping several months stored in the month where the week is starting
-            /* @var $week Piwik_Period_Week */
+            /* @var $week Week */
             $week = Period::factory('week', $date);
             $weekAsString = $week->getDateStart()->toString('Y_m');
             $datesByMonth[$weekAsString][] = $date->toString();
@@ -146,10 +150,10 @@ class Piwik_CoreAdminHome_API
 
         // In each table, invalidate day/week/month/year containing this date
         $sqlIdSites = implode(",", $idSites);
-        $archiveTables = Piwik_DataAccess_ArchiveTableCreator::getTablesArchivesInstalled();
+        $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
         foreach ($archiveTables as $table) {
             // Extract Y_m from table name
-            $suffix = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);
+            $suffix = ArchiveTableCreator::getDateFromTableName($table);
             if (!isset($datesByMonth[$suffix])) {
                 continue;
             }

@@ -8,8 +8,10 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitorGenerator
  */
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Site;
 
 /**
@@ -78,7 +80,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
         $api = Piwik_CoreAdminHome_API::getInstance();
         $api->invalidateArchivedReports($idSite, implode($dates, ","));
 
-        $browserArchiving = Piwik_ArchiveProcessor_Rules::isBrowserTriggerEnabled();
+        $browserArchiving = Rules::isBrowserTriggerEnabled();
 
         // Init view
         $view = new Piwik_View('@VisitorGenerator/generate');
@@ -126,7 +128,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 
             $start = strpos($url, 'piwik.php?') + strlen('piwik.php?');
             $url = substr($url, $start, strrpos($url, " ") - $start);
-            $datetime = $date . " " . Piwik_Date::factory($time)->toString("H:i:s");
+            $datetime = $date . " " . Date::factory($time)->toString("H:i:s");
             $ip = strlen($ip) < 10 ? "13.5.111.3" : $ip;
 
             // Force date/ip & authenticate
