@@ -11,17 +11,24 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\IP;
+use Piwik\Mail;
+use Piwik\Nonce;
+use Piwik\View;
+use Piwik\Version;
+use Piwik\Url;
 
 /**
  *
  * @package Piwik_Feedback
  */
-class Piwik_Feedback_Controller extends Piwik_Controller
+class Piwik_Feedback_Controller extends Controller
 {
     function index()
     {
-        $view = new Piwik_View('@Feedback/index');
-        $view->nonce = Piwik_Nonce::getNonce('Piwik_Feedback.sendFeedback', 3600);
+        $view = new View('@Feedback/index');
+        $view->nonce = Nonce::getNonce('Piwik_Feedback.sendFeedback', 3600);
         echo $view->render();
     }
 
@@ -36,7 +43,7 @@ class Piwik_Feedback_Controller extends Piwik_Controller
         $category = Common::getRequestVar('category', '', 'string');
         $nonce = Common::getRequestVar('nonce', '', 'string');
 
-        $view = new Piwik_View('@Feedback/sendFeedback');
+        $view = new View('@Feedback/sendFeedback');
         $view->feedbackEmailAddress = Config::getInstance()->General['feedback_email_address'];
         try {
             $minimumBodyLength = 40;
@@ -53,19 +60,19 @@ class Piwik_Feedback_Controller extends Piwik_Controller
             if (preg_match('/https?:/i', $body)) {
                 throw new Exception(Piwik_TranslateException('Feedback_ExceptionNoUrls'));
             }
-            if (!Piwik_Nonce::verifyNonce('Piwik_Feedback.sendFeedback', $nonce)) {
+            if (!Nonce::verifyNonce('Piwik_Feedback.sendFeedback', $nonce)) {
                 throw new Exception(Piwik_TranslateException('General_ExceptionNonceMismatch'));
             }
-            Piwik_Nonce::discardNonce('Piwik_Feedback.sendFeedback');
+            Nonce::discardNonce('Piwik_Feedback.sendFeedback');
 
-            $mail = new Piwik_Mail();
+            $mail = new Mail();
             $mail->setFrom(Common::unsanitizeInputValue($email));
             $mail->addTo($view->feedbackEmailAddress, 'Piwik Team');
             $mail->setSubject('[ Feedback form - Piwik ] ' . $category);
             $mail->setBodyText(Common::unsanitizeInputValue($body) . "\n"
-                . 'Piwik ' . Piwik_Version::VERSION . "\n"
-                . 'IP: ' . Piwik_IP::getIpFromHeader() . "\n"
-                . 'URL: ' . Piwik_Url::getReferer() . "\n");
+                . 'Piwik ' . Version::VERSION . "\n"
+                . 'IP: ' . IP::getIpFromHeader() . "\n"
+                . 'URL: ' . Url::getReferer() . "\n");
             @$mail->send();
         } catch (Exception $e) {
             $view->errorString = $e->getMessage();

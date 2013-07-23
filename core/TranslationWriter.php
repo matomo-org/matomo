@@ -9,6 +9,9 @@
  * @package Piwik
  *
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\Common;
 
 /**
@@ -16,7 +19,7 @@ use Piwik\Common;
  *
  * @package Piwik
  */
-class Piwik_TranslationWriter
+class TranslationWriter
 {
     static private $baseTranslation = null;
 

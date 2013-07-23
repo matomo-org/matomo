@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\API;
+
+use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
@@ -16,7 +19,7 @@ use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
  * @package Piwik
  * @subpackage Piwik_API
  */
-class Piwik_API_DataTableGenericFilter
+class DataTableGenericFilter
 {
     private static $genericFiltersInfo = null;
 

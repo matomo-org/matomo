@@ -9,6 +9,7 @@
  * @package Piwik_MobileMessaging
  */
 use Piwik\Piwik;
+use Piwik\View;
 use Piwik\Plugin;
 
 /**
@@ -216,7 +217,7 @@ class Piwik_MobileMessaging extends Plugin
             return;
         }
 
-        $view = new Piwik_View('@MobileMessaging/reportParametersPDFReports');
+        $view = new View('@MobileMessaging/reportParametersPDFReports');
         $view->reportType = self::MOBILE_TYPE;
         $view->phoneNumbers = Piwik_MobileMessaging_API::getInstance()->getActivatedPhoneNumbers();
         $out .= $view->render();

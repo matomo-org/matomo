@@ -8,17 +8,23 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik_Session_SaveHandler_DbTable;
+use Zend_Registry;
+use Zend_Session;
 
 /**
  * Session initialization.
  *
  * @package Piwik
- * @subpackage Piwik_Session
+ * @subpackage Session
  */
-class Piwik_Session extends Zend_Session
+class Session extends Zend_Session
 {
     protected static $sessionStarted = false;
 

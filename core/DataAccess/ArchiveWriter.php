@@ -13,13 +13,13 @@ namespace Piwik\DataAccess;
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\Db;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\ArchiveProcessor;
 use Piwik\Segment;
-use Zend_Registry;
 
 /**
  * This class is used to create a new Archive.
@@ -69,7 +69,7 @@ class ArchiveWriter
     protected function acquireLock()
     {
         $lockName = $this->getArchiveProcessorLockName();
-        $result = Piwik_GetDbLock($lockName, $maxRetries = 30);
+        $result = Db::getDbLock($lockName, $maxRetries = 30);
         if (!$result) {
             Piwik::log("SELECT GET_LOCK failed to acquire lock. Proceeding anyway.");
         }
@@ -86,12 +86,12 @@ class ArchiveWriter
         $numericTable = $this->getTableNumeric();
         $idSite = $this->idSite;
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $locked = self::PREFIX_SQL_LOCK . Common::generateUniqId();
         $date = date("Y-m-d H:i:s");
         $dbLockName = "allocateNewArchiveId.$numericTable";
 
-        if (Piwik_GetDbLock($dbLockName, $maxRetries = 30) === false) {
+        if (Db::getDbLock($dbLockName, $maxRetries = 30) === false) {
             throw new Exception("allocateNewArchiveId: Cannot get named lock for table $numericTable.");
         }
         $insertSql = "INSERT INTO $numericTable "
@@ -105,7 +105,7 @@ class ArchiveWriter
 								0 "
             . " FROM $numericTable as tb1";
         $db->exec($insertSql);
-        Piwik_ReleaseDbLock($dbLockName);
+        Db::releaseDbLock($dbLockName);
         $selectIdSql = "SELECT idarchive FROM $numericTable WHERE name = ? LIMIT 1";
         $id = $db->fetchOne($selectIdSql, $locked);
         return $id;
@@ -147,7 +147,7 @@ class ArchiveWriter
     protected function deletePreviousArchiveStatus()
     {
 
-        Piwik_Query("DELETE FROM " . $this->getTableNumeric() . "
+        Db::query("DELETE FROM " . $this->getTableNumeric() . "
 					WHERE idarchive = ? AND (name = '" . $this->doneFlag . "' OR name LIKE '" . self::PREFIX_SQL_LOCK . "%')",
             array($this->getIdArchive())
         );
@@ -165,7 +165,7 @@ class ArchiveWriter
     protected function releaseArchiveProcessorLock()
     {
         $lockName = $this->getArchiveProcessorLockName();
-        return Piwik_ReleaseDbLock($lockName);
+        return Db::releaseDbLock($lockName);
     }
 
     public function insertBulkRecords($records)
@@ -224,7 +224,7 @@ class ArchiveWriter
         $bindSql = $this->getInsertRecordBind();
         $bindSql[] = $name;
         $bindSql[] = $value;
-        Piwik_Query($query, $bindSql);
+        Db::query($query, $bindSql);
         return true;
     }
 

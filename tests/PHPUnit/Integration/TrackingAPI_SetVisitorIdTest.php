@@ -5,6 +5,7 @@
  * @link    http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\API\Proxy;
 
 /**
  * This test tests that when using &cid=, the visitor ID is enforced
@@ -16,12 +17,12 @@ class Test_Piwik_Integration_TrackingAPI_SetVisitorId extends IntegrationTestCas
 
     public function setUp()
     {
-        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(false);
+        Proxy::getInstance()->setHideIgnoredFunctions(false);
     }
 
     public function tearDown()
     {
-        Piwik_API_Proxy::getInstance()->setHideIgnoredFunctions(true);
+        Proxy::getInstance()->setHideIgnoredFunctions(true);
     }
 
     /**

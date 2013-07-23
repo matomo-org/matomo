@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Tracker;
 use Piwik\Segment;
 use Piwik\Site;
 
@@ -93,7 +94,7 @@ class Piwik_Live_API
         $segment = new Segment($segment, $idSite);
         $query = $segment->getSelectQuery($select, $from, $where, $bind);
 
-        $data = Piwik_FetchAll($query['sql'], $query['bind']);
+        $data = Db::fetchAll($query['sql'], $query['bind']);
 
         // These could be unset for some reasons, ensure they are set to 0
         if (empty($data[0]['actions'])) {
@@ -416,7 +417,7 @@ class Piwik_Live_API
 			ORDER BY $orderByParent
 		";
         try {
-            $data = Piwik_FetchAll($sql, $subQuery['bind']);
+            $data = Db::fetchAll($sql, $subQuery['bind']);
         } catch (Exception $e) {
             echo $e->getMessage();
             exit;
@@ -458,7 +459,7 @@ class Piwik_Live_API
         $idVisit = $visitorDetailsArray['idVisit'];
 
         $sqlCustomVariables = '';
-        for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             $sqlCustomVariables .= ', custom_var_k' . $i . ', custom_var_v' . $i;
         }
         // The second join is a LEFT join to allow returning records that don't have a matching page title
@@ -484,12 +485,12 @@ class Piwik_Live_API
 				ORDER BY server_time ASC
 				LIMIT 0, $actionsLimit
 				 ";
-        $actionDetails = Piwik_FetchAll($sql, array($idVisit));
+        $actionDetails = Db::fetchAll($sql, array($idVisit));
 
         foreach ($actionDetails as $actionIdx => &$actionDetail) {
             $actionDetail =& $actionDetails[$actionIdx];
             $customVariablesPage = array();
-            for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+            for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
                 if (!empty($actionDetail['custom_var_k' . $i])) {
                     $cvarKey = $actionDetail['custom_var_k' . $i];
                     $cvarKey = $this->getCustomVariablePrettyKey($cvarKey);
@@ -551,7 +552,7 @@ class Piwik_Live_API
                 ORDER BY server_time ASC
 				LIMIT 0, $actionsLimit
 			";
-        $goalDetails = Piwik_FetchAll($sql, array($idVisit));
+        $goalDetails = Db::fetchAll($sql, array($idVisit));
 
         $sql = "SELECT
 						case idgoal when " . Piwik_Tracker_GoalManager::IDGOAL_CART . " then '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART . "' else '" . Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER . "' end as type,
@@ -569,7 +570,7 @@ class Piwik_Live_API
 						AND idgoal <= " . Piwik_Tracker_GoalManager::IDGOAL_ORDER . "
 					ORDER BY server_time ASC
 					LIMIT 0, $actionsLimit";
-        $ecommerceDetails = Piwik_FetchAll($sql, array($idVisit));
+        $ecommerceDetails = Db::fetchAll($sql, array($idVisit));
 
         foreach ($ecommerceDetails as &$ecommerceDetail) {
             if ($ecommerceDetail['type'] == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
@@ -616,7 +617,7 @@ class Piwik_Live_API
                 : Piwik_Tracker_GoalManager::ITEM_IDORDER_ABANDONED_CART
             );
 
-            $itemsDetails = Piwik_FetchAll($sql, $bind);
+            $itemsDetails = Db::fetchAll($sql, $bind);
             foreach ($itemsDetails as &$detail) {
                 if ($detail['price'] == round($detail['price'])) {
                     $detail['price'] = round($detail['price']);

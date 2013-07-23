@@ -8,14 +8,17 @@
  * @category Piwik_Plugins
  * @package Piwik_Annotations
  */
+use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  * Controller for the Annotations plugin.
  *
  * @package Piwik_Annotations
  */
-class Piwik_Annotations_Controller extends Piwik_Controller
+class Piwik_Annotations_Controller extends Controller
 {
     /**
      * Controller action that returns HTML displaying annotations for a site and
@@ -56,9 +59,9 @@ class Piwik_Annotations_Controller extends Piwik_Controller
         }
 
         // create & render the view
-        $view = new Piwik_View('@Annotations/getAnnotationManager');
+        $view = new View('@Annotations/getAnnotationManager');
 
-        $allAnnotations = Piwik_API_Request::processRequest(
+        $allAnnotations = Request::processRequest(
             'Annotations.getAll', array('date' => $date, 'period' => $period, 'lastN' => $lastN));
         $view->annotations = empty($allAnnotations[$idSite]) ? array() : $allAnnotations[$idSite];
 
@@ -104,11 +107,11 @@ class Piwik_Annotations_Controller extends Piwik_Controller
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->checkTokenInUrl();
 
-            $view = new Piwik_View('@Annotations/saveAnnotation');
+            $view = new View('@Annotations/saveAnnotation');
 
             // NOTE: permissions checked in API method
             // save the annotation
-            $view->annotation = Piwik_API_Request::processRequest("Annotations.save");
+            $view->annotation = Request::processRequest("Annotations.save");
 
             echo $view->render();
         }
@@ -147,7 +150,7 @@ class Piwik_Annotations_Controller extends Piwik_Controller
             }
 
             // add the annotation. NOTE: permissions checked in API method
-            Piwik_API_Request::processRequest("Annotations.add", array('date' => $date));
+            Request::processRequest("Annotations.add", array('date' => $date));
 
             $managerDate = Common::getRequestVar('managerDate', false);
             $managerPeriod = Common::getRequestVar('managerPeriod', false);
@@ -178,7 +181,7 @@ class Piwik_Annotations_Controller extends Piwik_Controller
             $this->checkTokenInUrl();
 
             // delete annotation. NOTE: permissions checked in API method
-            Piwik_API_Request::processRequest("Annotations.delete");
+            Request::processRequest("Annotations.delete");
 
             echo $this->getAnnotationManager($fetch = true);
         }
@@ -205,11 +208,11 @@ class Piwik_Annotations_Controller extends Piwik_Controller
     public function getEvolutionIcons()
     {
         // get annotation the count
-        $annotationCounts = Piwik_API_Request::processRequest(
+        $annotationCounts = Request::processRequest(
             "Annotations.getAnnotationCountForDates", array('getAnnotationText' => 1));
 
         // create & render the view
-        $view = new Piwik_View('@Annotations/getEvolutionIcons');
+        $view = new View('@Annotations/getEvolutionIcons');
         $view->annotationCounts = reset($annotationCounts); // only one idSite allowed for this action
 
         echo $view->render();

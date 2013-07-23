@@ -9,6 +9,7 @@
  * @package Piwik_CoreHome
  */
 use Piwik\Common;
+use Piwik\ViewDataTable;
 
 /**
  * MULTI ROW EVOLUTION
@@ -76,7 +77,7 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
      * Generic method to get an evolution graph or a sparkline for the row evolution popover.
      * Do as much as possible from outside the controller.
      *
-     * @return Piwik_ViewDataTable
+     * @return ViewDataTable
      */
     public function getRowEvolutionGraph()
     {

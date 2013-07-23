@@ -4,6 +4,11 @@ use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\FrontController;
+use Piwik\Http;
+use Piwik\Version;
+use Piwik\Url;
+use Piwik\Timer;
 
 $USAGE = "
 Usage: 
@@ -118,7 +123,7 @@ class Archiving
 
         $this->logSection("INIT");
         $this->log("Querying Piwik API at: {$this->piwikUrl}");
-        $this->log("Running Piwik " . Piwik_Version::VERSION . " as Super User: " . $this->login);
+        $this->log("Running Piwik " . Version::VERSION . " as Super User: " . $this->login);
 
         $this->acceptInvalidSSLCertificate = $this->isParameterSet("accept-invalid-ssl-certificate");
 
@@ -187,7 +192,7 @@ class Archiving
         $skipped =
         $processed =
         $archivedPeriodsArchivesWebsite = 0;
-        $timer = new Piwik_Timer;
+        $timer = new Timer;
 
         $this->logSection("START");
         $this->log("Starting Piwik reports archiving...");
@@ -200,7 +205,7 @@ class Archiving
                 continue;
             }
 
-            $timerWebsite = new Piwik_Timer;
+            $timerWebsite = new Timer;
 
             $lastTimestampWebsiteProcessedPeriods = $lastTimestampWebsiteProcessedDay = false;
             if (!$this->shouldResetState) {
@@ -412,12 +417,12 @@ class Archiving
      * @param $idsite int
      * @param $period
      * @param $lastTimestampWebsiteProcessed
-     * @param Piwik_Timer $timerWebsite
+     * @param Timer $timerWebsite
      * @return bool True on success, false if some request failed
      */
-    private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, Piwik_Timer $timerWebsite = null)
+    private function archiveVisitsAndSegments($idsite, $period, $lastTimestampWebsiteProcessed, Timer $timerWebsite = null)
     {
-        $timer = new Piwik_Timer;
+        $timer = new Timer;
         $aCurl = array();
         $mh = false;
         $url = $this->piwikUrl . $this->getVisitsRequestUrl($idsite, $period, $lastTimestampWebsiteProcessed) . $this->requestPrepend;
@@ -485,8 +490,8 @@ class Archiving
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         }
-        curl_setopt($ch, CURLOPT_USERAGENT, Piwik_Http::getUserAgent());
-        Piwik_Http::configCurlCertificate($ch);
+        curl_setopt($ch, CURLOPT_USERAGENT, Http::getUserAgent());
+        Http::configCurlCertificate($ch);
         return $ch;
     }
 
@@ -541,7 +546,7 @@ class Archiving
         $url = $this->piwikUrl . $url . $this->requestPrepend;
         //$this->log($url);
         try {
-            $response = Piwik_Http::sendHttpRequestBy('curl', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
+            $response = Http::sendHttpRequestBy('curl', $url, $timeout = 300, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $acceptInvalidSSLCertificate = $this->acceptInvalidSSLCertificate);
         } catch (Exception $e) {
             return $this->logNetworkError($url, $e->getMessage());
         }
@@ -611,7 +616,7 @@ class Archiving
         $config = Config::getInstance();
         $config->log['log_only_when_debug_parameter'] = 0;
         $config->log['logger_message'] = array("logger_message" => "screen");
-        Piwik::createLogObject();
+        \Piwik\Log::make();
 
         if (!function_exists("curl_multi_init")) {
             $this->log("ERROR: this script requires curl extension php_curl enabled in your CLI php.ini");
@@ -644,7 +649,7 @@ class Archiving
     private function initCore()
     {
         try {
-            Piwik_FrontController::getInstance()->init();
+            FrontController::getInstance()->init();
         } catch (Exception $e) {
             echo "ERROR: During Piwik init, Message: " . $e->getMessage();
             exit;
@@ -787,7 +792,7 @@ class Archiving
         // If archive.php run as a web cron, we use the current hostname
         if (!Common::isPhpCliMode()) {
             // example.org/piwik/misc/cron/
-            $piwikUrl = Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+            $piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
             // example.org/piwik/
             $piwikUrl = $piwikUrl . "../../";
         } // If archive.php run as CLI/shell we require the piwik url to be set

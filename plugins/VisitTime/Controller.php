@@ -8,16 +8,19 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitTime
  */
+use Piwik\Controller;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  *
  * @package Piwik_VisitTime
  */
-class Piwik_VisitTime_Controller extends Piwik_Controller
+class Piwik_VisitTime_Controller extends Controller
 {
     public function index()
     {
-        $view = new Piwik_View('@VisitTime/index');
+        $view = new View('@VisitTime/index');
         $view->dataTableVisitInformationPerLocalTime = $this->getVisitInformationPerLocalTime(true);
         $view->dataTableVisitInformationPerServerTime = $this->getVisitInformationPerServerTime(true);
         echo $view->render();
@@ -25,16 +28,16 @@ class Piwik_VisitTime_Controller extends Piwik_Controller
 
     public function getVisitInformationPerServerTime($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getVisitInformationPerLocalTime($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getByDayOfWeek($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 }

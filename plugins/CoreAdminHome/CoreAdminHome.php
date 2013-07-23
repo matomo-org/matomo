@@ -12,6 +12,7 @@ use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Piwik;
 use Piwik\Date;
+use Piwik\ScheduledTask;
 use Piwik\Plugin;
 
 /**
@@ -36,19 +37,19 @@ class Piwik_CoreAdminHome extends Plugin
     public function getScheduledTasks(&$tasks)
     {
         // general data purge on older archive tables, executed daily
-        $purgeArchiveTablesTask = new Piwik_ScheduledTask ($this,
+        $purgeArchiveTablesTask = new ScheduledTask ($this,
             'purgeOutdatedArchives',
             null,
             new Piwik_ScheduledTime_Daily(),
-            Piwik_ScheduledTask::HIGH_PRIORITY);
+            ScheduledTask::HIGH_PRIORITY);
         $tasks[] = $purgeArchiveTablesTask;
 
         // lowest priority since tables should be optimized after they are modified
-        $optimizeArchiveTableTask = new Piwik_ScheduledTask ($this,
+        $optimizeArchiveTableTask = new ScheduledTask ($this,
             'optimizeArchiveTable',
             null,
             new Piwik_ScheduledTime_Daily(),
-            Piwik_ScheduledTask::LOWEST_PRIORITY);
+            ScheduledTask::LOWEST_PRIORITY);
         $tasks[] = $optimizeArchiveTableTask;
     }
 
@@ -104,6 +105,6 @@ class Piwik_CoreAdminHome extends Plugin
     function optimizeArchiveTable()
     {
         $archiveTables = ArchiveTableCreator::getTablesArchivesInstalled();
-        Piwik_OptimizeTables($archiveTables);
+        Db::optimizeTables($archiveTables);
     }
 }

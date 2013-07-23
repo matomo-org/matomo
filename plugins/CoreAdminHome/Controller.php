@@ -8,17 +8,22 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreAdminHome
  */
+use Piwik\API\ResponseBuilder;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
+use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Nonce;
+use Piwik\View;
+use Piwik\Url;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_CoreAdminHome
  */
-class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
+class Piwik_CoreAdminHome_Controller extends Admin
 {
     const LOGO_HEIGHT = 300;
     const LOGO_SMALL_HEIGHT = 100;
@@ -31,7 +36,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
     public function generalSettings()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $view = new Piwik_View('@CoreAdminHome/generalSettings');
+        $view = new View('@CoreAdminHome/generalSettings');
 
         if (Piwik::isUserIsSuperUser()) {
             $enableBrowserTriggerArchiving = Rules::isBrowserTriggerEnabled();
@@ -78,7 +83,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
     public function setGeneralSettings()
     {
         Piwik::checkUserIsSuperUser();
-        $response = new Piwik_API_ResponseBuilder(Common::getRequestVar('format'));
+        $response = new ResponseBuilder(Common::getRequestVar('format'));
         try {
             $this->checkTokenInUrl();
             $enableBrowserTriggerArchiving = Common::getRequestVar('enableBrowserTriggerArchiving');
@@ -112,7 +117,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
             // update trusted host settings
             $trustedHosts = Common::getRequestVar('trustedHosts', false, 'json');
             if ($trustedHosts !== false) {
-                Piwik_Url::saveTrustedHostnameInConfig($trustedHosts);
+                Url::saveTrustedHostnameInConfig($trustedHosts);
             }
 
             $config->forceSave();
@@ -130,7 +135,7 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
      */
     public function trackingCodeGenerator()
     {
-        $view = new Piwik_View('@CoreAdminHome/trackingCodeGenerator');
+        $view = new View('@CoreAdminHome/trackingCodeGenerator');
         $this->setBasicVariablesView($view);
         $view->topMenu = Piwik_GetTopMenu();
 
@@ -170,15 +175,15 @@ class Piwik_CoreAdminHome_Controller extends Piwik_Controller_Admin
 
         $nonce = Common::getRequestVar('nonce', false);
         $language = Common::getRequestVar('language', '');
-        if ($nonce !== false && Piwik_Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
-            Piwik_Nonce::discardNonce('Piwik_OptOut');
+        if ($nonce !== false && Nonce::verifyNonce('Piwik_OptOut', $nonce)) {
+            Nonce::discardNonce('Piwik_OptOut');
             Piwik_Tracker_IgnoreCookie::setIgnoreCookie();
             $trackVisits = !$trackVisits;
         }
 
-        $view = new Piwik_View('@CoreAdminHome/optOut');
+        $view = new View('@CoreAdminHome/optOut');
         $view->trackVisits = $trackVisits;
-        $view->nonce = Piwik_Nonce::getNonce('Piwik_OptOut', 3600);
+        $view->nonce = Nonce::getNonce('Piwik_OptOut', 3600);
         $view->language = Piwik_LanguagesManager_API::getInstance()->isLanguageAvailable($language)
             ? $language
             : Piwik_LanguagesManager::getLanguageCodeForCurrentUser();

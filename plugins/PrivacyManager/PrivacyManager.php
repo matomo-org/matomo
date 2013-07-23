@@ -13,6 +13,7 @@ use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\ScheduledTask;
 use Piwik\Plugin;
 
 /**
@@ -70,13 +71,13 @@ class Piwik_PrivacyManager extends Plugin
         // both tasks are low priority so they will execute after most others, but not lowest, so
         // they will execute before the optimize tables task
 
-        $purgeReportDataTask = new Piwik_ScheduledTask(
-            $this, 'deleteReportData', null, new Piwik_ScheduledTime_Daily(), Piwik_ScheduledTask::LOW_PRIORITY
+        $purgeReportDataTask = new ScheduledTask(
+            $this, 'deleteReportData', null, new Piwik_ScheduledTime_Daily(), ScheduledTask::LOW_PRIORITY
         );
         $tasks[] = $purgeReportDataTask;
 
-        $purgeLogDataTask = new Piwik_ScheduledTask(
-            $this, 'deleteLogData', null, new Piwik_ScheduledTime_Daily(), Piwik_ScheduledTask::LOW_PRIORITY
+        $purgeLogDataTask = new ScheduledTask(
+            $this, 'deleteLogData', null, new Piwik_ScheduledTime_Daily(), ScheduledTask::LOW_PRIORITY
         );
         $tasks[] = $purgeLogDataTask;
     }
@@ -390,7 +391,7 @@ class Piwik_PrivacyManager extends Plugin
 
     private static function getMaxGoalId()
     {
-        return Piwik_FetchOne("SELECT MAX(idgoal) FROM " . Common::prefixTable('goal'));
+        return Db::fetchOne("SELECT MAX(idgoal) FROM " . Common::prefixTable('goal'));
     }
 }
 

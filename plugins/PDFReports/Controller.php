@@ -10,18 +10,20 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  *
  * @package Piwik_PDFReports
  */
-class Piwik_PDFReports_Controller extends Piwik_Controller
+class Piwik_PDFReports_Controller extends Controller
 {
     const DEFAULT_REPORT_TYPE = Piwik_PDFReports::EMAIL_TYPE;
 
     public function index()
     {
-        $view = new Piwik_View('@PDFReports/index');
+        $view = new View('@PDFReports/index');
         $this->setGeneralVariablesView($view);
 
         $view->countWebsites = count(Piwik_SitesManager_API::getInstance()->getSitesIdWithAtLeastViewAccess());

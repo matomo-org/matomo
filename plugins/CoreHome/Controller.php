@@ -8,16 +8,23 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\AssetManager;
+use Piwik\Controller;
+use Piwik\FrontController;
+use Piwik\View;
+use Piwik\Url;
+use Piwik\UpdateCheck;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_CoreHome
  */
-class Piwik_CoreHome_Controller extends Piwik_Controller
+class Piwik_CoreHome_Controller extends Controller
 {
     function getDefaultAction()
     {
@@ -52,13 +59,13 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
             throw new Exception("Preventing infinite recursion...");
         }
         $view = $this->getDefaultIndexView();
-        $view->content = Piwik_FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
+        $view->content = FrontController::getInstance()->fetchDispatch($controllerName, $actionName);
         echo $view->render();
     }
 
     protected function getDefaultIndexView()
     {
-        $view = new Piwik_View('@CoreHome/getDefaultIndexView');
+        $view = new View('@CoreHome/getDefaultIndexView');
         $this->setGeneralVariablesView($view);
         $view->menu = Piwik_GetMenu();
         $view->content = '';
@@ -104,7 +111,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getCss()
     {
-        $cssMergedFile = Piwik_AssetManager::getMergedCssFileLocation();
+        $cssMergedFile = AssetManager::getMergedCssFileLocation();
         Piwik::serveStaticFile($cssMergedFile, "text/css");
     }
 
@@ -116,7 +123,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getJs()
     {
-        $jsMergedFile = Piwik_AssetManager::getMergedJsFileLocation();
+        $jsMergedFile = AssetManager::getMergedJsFileLocation();
         Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
     }
 
@@ -140,7 +147,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = false);
         self::$rowEvolutionCache = $rowEvolution;
-        $view = new Piwik_View('@CoreHome/getRowEvolutionPopover');
+        $view = new View('@CoreHome/getRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 
@@ -149,7 +156,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = true);
         self::$rowEvolutionCache = $rowEvolution;
-        $view = new Piwik_View('@CoreHome/getMultiRowEvolutionPopover');
+        $view = new View('@CoreHome/getMultiRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 
@@ -191,9 +198,9 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
         $this->checkTokenInUrl();
 
         // perform check (but only once every 10s)
-        Piwik_UpdateCheck::check($force = false, Piwik_UpdateCheck::UI_CLICK_CHECK_INTERVAL);
+        UpdateCheck::check($force = false, UpdateCheck::UI_CLICK_CHECK_INTERVAL);
 
-        $view = new Piwik_View('@CoreHome/checkForUpdates');
+        $view = new View('@CoreHome/checkForUpdates');
         $this->setGeneralVariablesView($view);
         echo $view->render();
     }
@@ -203,7 +210,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getDonateForm()
     {
-        $view = new Piwik_View('@CoreHome/getDonateForm');
+        $view = new View('@CoreHome/getDonateForm');
         if (Common::getRequestVar('widget', false)
             && Piwik::isUserIsSuperUser()
         ) {
@@ -217,7 +224,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function getPromoVideo()
     {
-        $view = new Piwik_View('@CoreHome/getPromoVideo');
+        $view = new View('@CoreHome/getPromoVideo');
         $view->shareText = Piwik_Translate('CoreHome_SharePiwikShort');
         $view->shareTextLong = Piwik_Translate('CoreHome_SharePiwikLong');
         $view->promoVideoUrl = 'http://www.youtube.com/watch?v=OslfF_EH81g';
@@ -229,7 +236,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
      */
     public function redirectToPaypal()
     {
-        $parameters = Piwik_API_Request::getRequestArrayFromString($request = null);
+        $parameters = Request::getRequestArrayFromString($request = null);
         foreach ($parameters as $name => $param) {
             if ($name == 'idSite'
                 || $name == 'module'
@@ -239,7 +246,7 @@ class Piwik_CoreHome_Controller extends Piwik_Controller
             }
         }
         
-        $url = "https://www.paypal.com/cgi-bin/webscr?".Piwik_Url::getQueryStringFromParameters($parameters);
+        $url = "https://www.paypal.com/cgi-bin/webscr?".Url::getQueryStringFromParameters($parameters);
         
         header("Location: $url");
         exit;

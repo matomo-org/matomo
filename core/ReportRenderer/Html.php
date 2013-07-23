@@ -6,16 +6,20 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  *
  * @category Piwik
- * @package Piwik_ReportRenderer
+ * @package ReportRenderer
  */
-use Piwik\Piwik;
+namespace Piwik\ReportRenderer;
 
+use Piwik\Piwik;
+use Piwik\View;
+use Piwik\ReportRenderer;
+use Piwik_API_API;
 
 /**
  *
- * @package Piwik_ReportRenderer
+ * @package ReportRenderer
  */
-class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
+class Html extends ReportRenderer
 {
     const IMAGE_GRAPH_WIDTH = 700;
     const IMAGE_GRAPH_HEIGHT = 200;
@@ -53,21 +57,21 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
     {
         $this->epilogue();
 
-        return Piwik_ReportRenderer::writeFile($filename, self::HTML_FILE_EXTENSION, $this->rendering);
+        return ReportRenderer::writeFile($filename, self::HTML_FILE_EXTENSION, $this->rendering);
     }
 
     public function sendToBrowserDownload($filename)
     {
         $this->epilogue();
 
-        Piwik_ReportRenderer::sendToBrowser($filename, self::HTML_FILE_EXTENSION, self::HTML_CONTENT_TYPE, $this->rendering);
+        ReportRenderer::sendToBrowser($filename, self::HTML_FILE_EXTENSION, self::HTML_CONTENT_TYPE, $this->rendering);
     }
 
     public function sendToBrowserInline($filename)
     {
         $this->epilogue();
 
-        Piwik_ReportRenderer::inlineToBrowser(self::HTML_CONTENT_TYPE, $this->rendering);
+        ReportRenderer::inlineToBrowser(self::HTML_CONTENT_TYPE, $this->rendering);
     }
 
     public function getRenderedReport()
@@ -79,13 +83,13 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 
     private function epilogue()
     {
-        $view = new Piwik_View('@CoreHome/ReportRenderer/_htmlReportFooter');
+        $view = new View('@CoreHome/ReportRenderer/_htmlReportFooter');
         $this->rendering .= $view->render();
     }
 
     public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment)
     {
-        $frontPageView = new Piwik_View('@CoreHome/ReportRenderer/_htmlReportHeader');
+        $frontPageView = new View('@CoreHome/ReportRenderer/_htmlReportHeader');
         $this->assignCommonParameters($frontPageView);
 
         // todo rename 'websiteName' to 'reportTitle' once branch twig is merged
@@ -104,15 +108,15 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
         $this->rendering .= $frontPageView->render();
     }
 
-    private function assignCommonParameters(Piwik_View $view)
+    private function assignCommonParameters(View $view)
     {
-        $view->assign("reportTitleTextColor", Piwik_ReportRenderer::REPORT_TITLE_TEXT_COLOR);
+        $view->assign("reportTitleTextColor", ReportRenderer::REPORT_TITLE_TEXT_COLOR);
         $view->assign("reportTitleTextSize", self::REPORT_TITLE_TEXT_SIZE);
-        $view->assign("reportTextColor", Piwik_ReportRenderer::REPORT_TEXT_COLOR);
-        $view->assign("tableHeaderBgColor", Piwik_ReportRenderer::TABLE_HEADER_BG_COLOR);
-        $view->assign("tableHeaderTextColor", Piwik_ReportRenderer::TABLE_HEADER_TEXT_COLOR);
-        $view->assign("tableCellBorderColor", Piwik_ReportRenderer::TABLE_CELL_BORDER_COLOR);
-        $view->assign("tableBgColor", Piwik_ReportRenderer::TABLE_BG_COLOR);
+        $view->assign("reportTextColor", ReportRenderer::REPORT_TEXT_COLOR);
+        $view->assign("tableHeaderBgColor", ReportRenderer::TABLE_HEADER_BG_COLOR);
+        $view->assign("tableHeaderTextColor", ReportRenderer::TABLE_HEADER_TEXT_COLOR);
+        $view->assign("tableCellBorderColor", ReportRenderer::TABLE_CELL_BORDER_COLOR);
+        $view->assign("tableBgColor", ReportRenderer::TABLE_BG_COLOR);
         $view->assign("reportTableHeaderTextSize", self::REPORT_TABLE_HEADER_TEXT_SIZE);
         $view->assign("reportTableRowTextSize", self::REPORT_TABLE_ROW_TEXT_SIZE);
         $view->assign("reportBackToTopTextSize", self::REPORT_BACK_TO_TOP_TEXT_SIZE);
@@ -122,7 +126,7 @@ class Piwik_ReportRenderer_Html extends Piwik_ReportRenderer
 
     public function renderReport($processedReport)
     {
-        $reportView = new Piwik_View('@CoreHome/ReportRenderer/_htmlReportBody');
+        $reportView = new View('@CoreHome/ReportRenderer/_htmlReportBody');
         $this->assignCommonParameters($reportView);
 
         $reportMetadata = $processedReport['metadata'];

@@ -5,6 +5,9 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\API\DocumentationGenerator;
+use Piwik\API\Request;
+use Piwik\API\Proxy;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -12,6 +15,8 @@ use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Piwik_Option;
+use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Translate;
 
@@ -158,7 +163,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Piwik::createDatabaseObject();
 
             Piwik::createTables();
-            Piwik::createLogObject();
+            \Piwik\Log::make();
 
             \Piwik\PluginsManager::getInstance()->loadPlugins(array());
         } catch (Exception $e) {
@@ -354,7 +359,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                      'fileExtension'          => 'html',
                      'otherRequestParameters' => array(
                          'idReport'     => 1,
-                         'reportFormat' => Piwik_ReportRenderer::HTML_FORMAT,
+                         'reportFormat' => ReportRenderer::HTML_FORMAT,
                          'outputType'   => Piwik_PDFReports_API::OUTPUT_RETURN
                      )
                  )
@@ -377,7 +382,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                          'fileExtension'          => 'pdf',
                          'otherRequestParameters' => array(
                              'idReport'     => 1,
-                             'reportFormat' => Piwik_ReportRenderer::PDF_FORMAT,
+                             'reportFormat' => ReportRenderer::PDF_FORMAT,
                              'outputType'   => Piwik_PDFReports_API::OUTPUT_RETURN
                          )
                      )
@@ -437,7 +442,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                          'fileExtension'          => 'html',
                          'otherRequestParameters' => array(
                              'idReport'     => 4,
-                             'reportFormat' => Piwik_ReportRenderer::HTML_FORMAT,
+                             'reportFormat' => ReportRenderer::HTML_FORMAT,
                              'outputType'   => Piwik_PDFReports_API::OUTPUT_RETURN
                          )
                      )
@@ -488,9 +493,9 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         // Get the URLs to query against the API for all functions starting with get*
         $skipped = $requestUrls = array();
-        $apiMetadata = new Piwik_API_DocumentationGenerator;
-        foreach (Piwik_API_Proxy::getInstance()->getMetadata() as $class => $info) {
-            $moduleName = Piwik_API_Proxy::getInstance()->getModuleNameFromClassName($class);
+        $apiMetadata = new DocumentationGenerator;
+        foreach (Proxy::getInstance()->getMetadata() as $class => $info) {
+            $moduleName = Proxy::getInstance()->getModuleNameFromClassName($class);
             foreach ($info as $methodName => $infoMethod) {
                 $apiId = $moduleName . '.' . $methodName;
 
@@ -543,7 +548,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
                     // set idSubtable if subtable API is set
                     if ($supertableApi !== false) {
-                        $request = new Piwik_API_Request(array(
+                        $request = new Request(array(
                                                               'module'    => 'API',
                                                               'method'    => $supertableApi,
                                                               'idSite'    => $parametersToSet['idSite'],
@@ -711,7 +716,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
                                 // except for that particular test that we care about dates!
                                 && $isTestLogImportReverseChronological;
 
-        $request = new Piwik_API_Request($requestUrl);
+        $request = new Request($requestUrl);
         $dateTime = Common::getRequestVar('date', '', 'string', Common::getArrayFromQueryString($requestUrl));
 
         list($processedFilePath, $expectedFilePath) = $this->getProcessedAndExpectedPaths($testName, $apiId);
@@ -1071,7 +1076,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     {
         $result = array();
         foreach (Piwik::getTablesInstalled() as $tableName) {
-            $result[$tableName] = Piwik_FetchAll("SELECT * FROM $tableName");
+            $result[$tableName] = Db::fetchAll("SELECT * FROM $tableName");
         }
         return $result;
     }
@@ -1096,7 +1101,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 
                 $createSql = Piwik::getTableCreateSql($tableType);
                 $createSql = str_replace(Common::prefixTable($tableType), $table, $createSql);
-                Piwik_Query($createSql);
+                Db::query($createSql);
             }
 
             if (empty($rows)) {
@@ -1122,7 +1127,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             }
 
             $sql = "INSERT INTO $table VALUES " . implode(',', $rowsSql);
-            Piwik_Query($sql);
+            Db::query($sql);
         }
     }
 
@@ -1132,7 +1137,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
     public static function deleteArchiveTables()
     {
         foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
-            Piwik_Query("DROP TABLE IF EXISTS $table");
+            Db::query("DROP TABLE IF EXISTS $table");
         }
 
         ArchiveTableCreator::refreshTableList($forceReload = true);

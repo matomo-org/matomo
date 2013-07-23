@@ -8,21 +8,25 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitsSummary
  */
+use Piwik\API\Request;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Controller;
+use Piwik\ViewDataTable;
+use Piwik\View;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_VisitsSummary
  */
-class Piwik_VisitsSummary_Controller extends Piwik_Controller
+class Piwik_VisitsSummary_Controller extends Controller
 {
     public function index()
     {
-        $view = new Piwik_View('@VisitsSummary/index');
+        $view = new View('@VisitsSummary/index');
         $this->setPeriodVariablesView($view);
         $view->graphEvolutionVisitsSummary = $this->getEvolutionGraph(true, array('nb_visits'));
         $this->setSparklinesAndNumbers($view);
@@ -31,7 +35,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
 
     public function getSparklines()
     {
-        $view = new Piwik_View('@VisitsSummary/getSparklines');
+        $view = new View('@VisitsSummary/getSparklines');
         $this->setPeriodVariablesView($view);
         $this->setSparklinesAndNumbers($view);
         echo $view->render();
@@ -98,7 +102,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
             // we disable filters for example "search for pattern", in the case this method is called
             // by a method that already calls the API with some generic filters applied
             "&disable_generic_filters=1";
-        $request = new Piwik_API_Request($requestString);
+        $request = new Request($requestString);
         $result = $request->process();
         return empty($result) ? new DataTable() : $result;
     }
@@ -108,7 +112,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
         $requestString = "method=VisitsSummary.getVisits" .
             "&format=original" .
             "&disable_generic_filters=1";
-        $request = new Piwik_API_Request($requestString);
+        $request = new Request($requestString);
         return $request->process();
     }
 
@@ -134,7 +138,7 @@ class Piwik_VisitsSummary_Controller extends Piwik_Controller
         $dataTableVisit = self::getVisitsSummary();
         $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Row() : $dataTableVisit->getFirstRow();
 
-        $dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), Piwik_ViewDataTable::getRawSegmentFromRequest());
+        $dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'), ViewDataTable::getRawSegmentFromRequest());
         $dataActionsRow =
             $dataTableActions->getRowsCount() == 0 ? new Row() : $dataTableActions->getFirstRow();
 

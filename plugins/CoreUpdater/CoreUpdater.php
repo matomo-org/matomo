@@ -10,6 +10,10 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\FrontController;
+use Piwik\Piwik_Updater;
+use Piwik\Version;
+use Piwik\UpdateCheck;
 use Piwik\Plugin;
 
 /**
@@ -32,7 +36,7 @@ class Piwik_CoreUpdater extends Plugin
 
     public static function getComponentUpdates(Piwik_Updater $updater)
     {
-        $updater->addComponentToCheck('core', Piwik_Version::VERSION);
+        $updater->addComponentToCheck('core', Version::VERSION);
         $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
         foreach ($plugins as $pluginName => $plugin) {
             $updater->addComponentToCheck($pluginName, $plugin->getVersion());
@@ -52,7 +56,7 @@ class Piwik_CoreUpdater extends Plugin
         $action = Common::getRequestVar('action', '', 'string');
 
         $updater = new Piwik_Updater();
-        $updater->addComponentToCheck('core', Piwik_Version::VERSION);
+        $updater->addComponentToCheck('core', Version::VERSION);
         $updates = $updater->getComponentsWithNewVersion();
         if (!empty($updates)) {
             Piwik::deleteAllCacheOnUpdate();
@@ -64,7 +68,7 @@ class Piwik_CoreUpdater extends Plugin
             && !($module == 'LanguagesManager'
                 && $action == 'saveLanguage')
         ) {
-            if (Piwik_FrontController::shouldRethrowException()) {
+            if (FrontController::shouldRethrowException()) {
                 throw new Exception("Piwik and/or some plugins have been upgraded to a new version. \n".
                     "--> Please run the update process first. See documentation: http://piwik.org/docs/update/ \n");
             } else {
@@ -75,6 +79,6 @@ class Piwik_CoreUpdater extends Plugin
 
     public function updateCheck()
     {
-        Piwik_UpdateCheck::check();
+        UpdateCheck::check();
     }
 }

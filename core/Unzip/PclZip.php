@@ -18,7 +18,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/PclZip/pclzip.lib.php';
  * Unzip wrapper around PclZip
  *
  * @package Piwik
- * @subpackage Piwik_Unzip
+ * @subpackage Unzip
  */
 class Piwik_Unzip_PclZip implements Piwik_Unzip_Interface
 {

@@ -16,7 +16,7 @@ use Piwik\Metrics;
 use Piwik\Date;
 use Piwik\Segment;
 use Piwik\Site;
-use Piwik_RankingQuery;
+use Piwik\RankingQuery;
 use Piwik_Tracker_GoalManager;
 use Zend_Registry;
 
@@ -128,9 +128,9 @@ class LogAggregator
      * @param array $additionalSelects Additional SELECT clause
      * @param bool|array $metrics   Set this if you want to limit the columns that are returned.
      *                                      The possible values in the array are Metrics::INDEX_*.
-     * @param bool|Piwik_RankingQuery $rankingQuery
+     * @param bool|\Piwik\RankingQuery $rankingQuery
      *                                      A pre-configured ranking query instance that is used to limit the result.
-     *                                      If set, the return value is the array returned by Piwik_RankingQuery::execute().
+     *                                      If set, the return value is the array returned by RankingQuery::execute().
      *
      * @return mixed
      */
@@ -347,7 +347,7 @@ class LogAggregator
      * @param array|bool $additionalSelects additional select clause
      * @param bool|array $metrics    Set this if you want to limit the columns that are returned.
      *                                  The possible values in the array are Metrics::INDEX_*.
-     * @param Piwik_RankingQuery $rankingQuery     pre-configured ranking query instance
+     * @param \Piwik\RankingQuery $rankingQuery     pre-configured ranking query instance
      * @param bool|string $joinLogActionOnColumn  column from log_link_visit_action that
      *                                              log_action should be joined on.
      *                                                can be an array to join multiple times.

@@ -15,7 +15,7 @@ use Piwik\Site;
 
 /**
  * @package Piwik
- * @subpackage Piwik_ViewDataTable
+ * @subpackage ViewDataTable
  */
 class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 {

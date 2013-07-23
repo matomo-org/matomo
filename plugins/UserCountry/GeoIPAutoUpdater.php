@@ -11,6 +11,9 @@
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Http;
+use Piwik\Unzip;
+use Piwik\ScheduledTask;
 
 /**
  * Used to automatically update installed GeoIP databases, and manages the updater's
@@ -96,7 +99,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
 
         // download zipped file to misc dir
         try {
-            $success = Piwik_Http::sendHttpRequest($url, $timeout = 3600, $userAgent = null, $zippedOutputPath);
+            $success = Http::sendHttpRequest($url, $timeout = 3600, $userAgent = null, $zippedOutputPath);
         } catch (Exception $ex) {
             throw new Exception("Piwik_UserCountry_GeoIPAutoUpdater: failed to download '$url' to "
                 . "'$zippedOutputPath': " . $ex->getMessage());
@@ -138,7 +141,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
         // extract file
         if (substr($path, -7, 7) == '.tar.gz') {
             // find the .dat file in the tar archive
-            $unzip = Piwik_Unzip::factory('tar.gz', $path);
+            $unzip = Unzip::factory('tar.gz', $path);
             $content = $unzip->listContent();
 
             if (empty($content)) {
@@ -172,7 +175,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
             fwrite($fd, $unzipped);
             fclose($fd);
         } else if (substr($path, -3, 3) == '.gz') {
-            $unzip = Piwik_Unzip::factory('gz', $path);
+            $unzip = Unzip::factory('gz', $path);
             $success = $unzip->extract($outputPath);
 
             if ($success !== true) {
@@ -242,7 +245,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     /**
      * Creates a ScheduledTask instance based on set option values.
      *
-     * @return Piwik_ScheduledTask
+     * @return ScheduledTask
      */
     public static function makeScheduledTask()
     {
@@ -264,7 +267,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
                 break;
         }
 
-        return new Piwik_ScheduledTask($instance, 'update', null, $schedulePeriod, Piwik_ScheduledTask::LOWEST_PRIORITY);
+        return new ScheduledTask($instance, 'update', null, $schedulePeriod, ScheduledTask::LOWEST_PRIORITY);
     }
 
     /**

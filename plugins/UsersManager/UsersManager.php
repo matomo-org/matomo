@@ -9,6 +9,7 @@
  * @package Piwik_UsersManager
  */
 use Piwik\Piwik;
+use Piwik\Piwik_Option;
 use Piwik\Plugin;
 
 /**

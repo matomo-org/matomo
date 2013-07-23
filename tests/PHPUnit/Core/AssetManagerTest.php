@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\AssetManager;
+
 class AssetManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -37,6 +39,6 @@ class AssetManagerTest extends PHPUnit_Framework_TestCase
             'plugins/abc',
         );
 
-        $this->assertEquals($expected, Piwik_AssetManager::prioritySort($buckets, $data));
+        $this->assertEquals($expected, AssetManager::prioritySort($buckets, $data));
     }
 }

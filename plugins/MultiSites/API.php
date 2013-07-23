@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_MultiSites
  */
+use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\TaskScheduler;
 use Piwik\Site;
 
 /**
@@ -132,7 +134,7 @@ class Piwik_MultiSites_API
             return $idSites;
         }
         $idSites = array();
-        $sites = Piwik_API_Request::processRequest('SitesManager.getPatternMatchSites',
+        $sites = Request::processRequest('SitesManager.getPatternMatchSites',
             array('pattern'   => $pattern,
                   // added because caller could overwrite these
                   'serialize' => 0,
@@ -180,7 +182,7 @@ class Piwik_MultiSites_API
                 // Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
                 // This means this function would return ALL websites in all cases.
                 // Instead, we make sure that only the right set of data is returned
-                && !Piwik_TaskScheduler::isTaskBeingExecuted()
+                && !TaskScheduler::isTaskBeingExecuted()
             ) {
                 Site::setSites(
                     Piwik_SitesManager_API::getInstance()->getAllSites()
@@ -298,7 +300,7 @@ class Piwik_MultiSites_API
 
         // filter rows without visits
         // note: if only one website is queried and there are no visits, we can not remove the row otherwise
-        // Piwik_API_ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
+        // ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
         if ($multipleWebsitesRequested
         // We don't delete the 0 visits row, if "Enhanced" mode is on.
             && !$enhanced) {

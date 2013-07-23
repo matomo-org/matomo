@@ -10,14 +10,15 @@
  */
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\ViewDataTable;
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
  *
  * @package Piwik
- * @subpackage Piwik_ViewDataTable
+ * @subpackage ViewDataTable
  */
-class Piwik_ViewDataTable_Sparkline extends Piwik_ViewDataTable
+class Piwik_ViewDataTable_Sparkline extends ViewDataTable
 {
     protected function getViewDataTableId()
     {

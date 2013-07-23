@@ -12,6 +12,8 @@ use Piwik\Config;
 use Piwik\DataTable\Renderer;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  * Outputs an AJAX Table for a given DataTable.
@@ -19,9 +21,9 @@ use Piwik\Common;
  * Reads the requested DataTable from the API.
  *
  * @package Piwik
- * @subpackage Piwik_ViewDataTable
+ * @subpackage ViewDataTable
  */
-class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
+class Piwik_ViewDataTable_HtmlTable extends ViewDataTable
 {
     /**
      * PHP array conversion of the DataTable
@@ -61,7 +63,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 
     /**
      * @see Piwik_ViewDataTable::main()
-     * @throws Exception|Access_NoAccessException
+     * @throws Exception|\Piwik\NoAccessException
      * @return null
      */
     public function main()
@@ -74,7 +76,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         $this->isDataAvailable = true;
         try {
             $this->loadDataTableFromAPI();
-        } catch (Access_NoAccessException $e) {
+        } catch (\Piwik\NoAccessException $e) {
             throw $e;
         } catch (Exception $e) {
             Piwik::log("Failed to get data from API: " . $e->getMessage());
@@ -113,12 +115,12 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
     }
 
     /**
-     * @return Piwik_View with all data set
+     * @return View with all data set
      */
     protected function buildView()
     {
         $template = $this->idSubtable ? $this->viewProperties['subtable_template'] : $this->dataTableTemplate;
-        $view = new Piwik_View($template);
+        $view = new View($template);
 
         if (!empty($this->loadingError)) {
             $view->error = $this->loadingError;

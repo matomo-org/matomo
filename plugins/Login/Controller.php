@@ -11,6 +11,15 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\Cookie;
+use Piwik\IP;
+use Piwik\Mail;
+use Piwik\Nonce;
+use Piwik\View;
+use Piwik\Url;
+use Piwik\QuickForm2;
+use Piwik\Session;
 
 require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
 
@@ -19,7 +28,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Config.php';
  *
  * @package Piwik_Login
  */
-class Piwik_Login_Controller extends Piwik_Controller
+class Piwik_Login_Controller extends Controller
 {
     /**
      * Generate hash on user info and password
@@ -65,7 +74,7 @@ class Piwik_Login_Controller extends Piwik_Controller
         $form = new Piwik_Login_FormLogin();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Piwik_Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
+            if (Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
                 $login = $form->getSubmitValue('form_login');
                 $password = $form->getSubmitValue('form_password');
                 $rememberMe = $form->getSubmitValue('form_rememberme') == '1';
@@ -80,7 +89,7 @@ class Piwik_Login_Controller extends Piwik_Controller
             }
         }
 
-        $view = new Piwik_View('@Login/login');
+        $view = new View('@Login/login');
         $view->AccessErrorString = $messageNoAccess;
         $view->infoMessage = nl2br($infoMessage);
         $view->addForm($form);
@@ -92,7 +101,7 @@ class Piwik_Login_Controller extends Piwik_Controller
     /**
      * Configure common view properties
      *
-     * @param Piwik_View $view
+     * @param View $view
      */
     private function configureView($view)
     {
@@ -103,7 +112,7 @@ class Piwik_Login_Controller extends Piwik_Controller
         $view->forceSslLogin = Config::getInstance()->General['force_ssl_login'];
 
         // crsf token: don't trust the submitted value; generate/fetch it from session data
-        $view->nonce = Piwik_Nonce::getNonce('Piwik_Login.login');
+        $view->nonce = Nonce::getNonce('Piwik_Login.login');
     }
 
     /**
@@ -153,9 +162,9 @@ class Piwik_Login_Controller extends Piwik_Controller
                       'md5Password' => $md5Password,
                       'rememberMe'  => $rememberMe,
         );
-        Piwik_Nonce::discardNonce('Piwik_Login.login');
+        Nonce::discardNonce('Piwik_Login.login');
         Piwik_PostEvent('Login.initSession', array(&$info));
-        Piwik_Url::redirectToUrl($urlToRedirect);
+        Url::redirectToUrl($urlToRedirect);
     }
 
     protected function getMessageExceptionNoAccess()
@@ -182,7 +191,7 @@ class Piwik_Login_Controller extends Piwik_Controller
         $form = new Piwik_Login_FormResetPassword();
         if ($form->validate()) {
             $nonce = $form->getSubmitValue('form_nonce');
-            if (Piwik_Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
+            if (Nonce::verifyNonce('Piwik_Login.login', $nonce)) {
                 $formErrors = $this->resetPasswordFirstStep($form);
                 if (empty($formErrors)) {
                     $infoMessage = Piwik_Translate('Login_ConfirmationLinkSent');
@@ -196,7 +205,7 @@ class Piwik_Login_Controller extends Piwik_Controller
             $formErrors = $formData['errors'];
         }
 
-        $view = new Piwik_View('@Login/resetPassword');
+        $view = new View('@Login/resetPassword');
         $view->infoMessage = $infoMessage;
         $view->formErrors = $formErrors;
         echo $view->render();
@@ -205,7 +214,7 @@ class Piwik_Login_Controller extends Piwik_Controller
     /**
      * Saves password reset info and sends confirmation email.
      *
-     * @param Piwik_QuickForm2 $form
+     * @param QuickForm2 $form
      * @return array Error message(s) if an error occurs.
      */
     private function resetPasswordFirstStep($form)
@@ -262,13 +271,13 @@ class Piwik_Login_Controller extends Piwik_Controller
         // construct a password reset token from user information
         $resetToken = self::generatePasswordResetToken($user);
 
-        $ip = Piwik_IP::getIpFromHeader();
-        $url = Piwik_Url::getCurrentUrlWithoutQueryString()
+        $ip = IP::getIpFromHeader();
+        $url = Url::getCurrentUrlWithoutQueryString()
             . "?module=Login&action=confirmResetPassword&login=" . urlencode($login)
             . "&resetToken=" . urlencode($resetToken);
 
         // send email with new password
-        $mail = new Piwik_Mail();
+        $mail = new Mail();
         $mail->addTo($email, $login);
         $mail->setSubject(Piwik_Translate('Login_MailTopicPasswordChange'));
         $bodyText = str_replace(
@@ -447,10 +456,10 @@ class Piwik_Login_Controller extends Piwik_Controller
     static public function clearSession()
     {
         $authCookieName = Config::getInstance()->General['login_cookie_name'];
-        $cookie = new Piwik_Cookie($authCookieName);
+        $cookie = new Cookie($authCookieName);
         $cookie->delete();
 
-        Piwik_Session::expireSessionCookie();
+        Session::expireSessionCookie();
     }
 
     /**
@@ -467,7 +476,7 @@ class Piwik_Login_Controller extends Piwik_Controller
         if (empty($logoutUrl)) {
             Piwik::redirectToModule('CoreHome');
         } else {
-            Piwik_Url::redirectToUrl($logoutUrl);
+            Url::redirectToUrl($logoutUrl);
         }
     }
 
@@ -484,10 +493,10 @@ class Piwik_Login_Controller extends Piwik_Controller
             && !Piwik::isHttps()
         ) {
             $url = 'https://'
-                . Piwik_Url::getCurrentHost()
-                . Piwik_Url::getCurrentScriptName()
-                . Piwik_Url::getCurrentQueryString();
-            Piwik_Url::redirectToUrl($url);
+                . Url::getCurrentHost()
+                . Url::getCurrentScriptName()
+                . Url::getCurrentQueryString();
+            Url::redirectToUrl($url);
         }
     }
 }

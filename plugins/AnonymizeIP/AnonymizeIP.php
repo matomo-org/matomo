@@ -10,6 +10,7 @@
  */
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\Version;
 use Piwik\Plugin;
 
 /**
@@ -28,7 +29,7 @@ class Piwik_AnonymizeIP extends Plugin
             'description'     => Piwik_Translate('AnonymizeIP_PluginDescription'),
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
+            'version'         => Version::VERSION,
         );
     }
 

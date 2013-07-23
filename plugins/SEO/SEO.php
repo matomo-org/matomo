@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_SEO
  */
+use Piwik\Version;
 use Piwik\Plugin;
 
 /**
@@ -24,7 +25,7 @@ class Piwik_SEO extends Plugin
             'description'     => 'This Plugin extracts and displays SEO metrics: Alexa web ranking, Google Pagerank, number of Indexed pages and backlinks of the currently selected website.',
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
+            'version'         => Version::VERSION,
         );
     }
 
@@ -39,6 +40,6 @@ class Piwik_SEO extends Plugin
 
     function addWidgets()
     {
-        Piwik_AddWidget('SEO', 'SEO_SeoRankings', 'SEO', 'getRank');
+        WidgetsList::add('SEO', 'SEO_SeoRankings', 'SEO', 'getRank');
     }
 }

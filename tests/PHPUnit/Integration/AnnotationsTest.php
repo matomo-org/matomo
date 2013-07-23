@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+use Piwik\API\Request;
 use Piwik\Access;
 
 class AnnotationsTest extends IntegrationTestCase
@@ -312,14 +313,14 @@ class AnnotationsTest extends IntegrationTestCase
 
         if ($checkException) {
             try {
-                $request = new Piwik_API_Request($request);
+                $request = new Request($request);
                 $request->process();
                 $this->fail($failMessage);
             } catch (Exception $ex) {
                 // pass
             }
         } else {
-            $request = new Piwik_API_Request($request);
+            $request = new Request($request);
             $request->process();
         }
     }

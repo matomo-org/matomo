@@ -8,61 +8,19 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Log;
 use Piwik\Piwik;
 use Piwik\Common;
-
-/**
- * Class used to log a standard message event.
- *
- * @package Piwik
- * @subpackage Piwik_Log
- */
-class Piwik_Log_Message extends Piwik_Log
-{
-    const ID = 'logger_message';
-
-    /**
-     * Constructor
-     */
-    function __construct()
-    {
-        $logToFileFilename = self::ID . ".htm";
-        $logToDatabaseTableName = self::ID;
-        $logToDatabaseColumnMapping = array(
-            'message'   => 'message',
-            'timestamp' => 'timestamp'
-        );
-        $screenFormatter = new Piwik_Log_Message_Formatter_ScreenFormatter();
-        $fileFormatter = new Piwik_Log_Formatter_FileFormatter();
-
-        parent::__construct($logToFileFilename,
-            $fileFormatter,
-            $screenFormatter,
-            $logToDatabaseTableName,
-            $logToDatabaseColumnMapping);
-    }
-
-    /**
-     * Logs the given message
-     *
-     * @param string $message
-     */
-    public function logEvent($message)
-    {
-        $event = array();
-        $event['message'] = $message;
-        parent::log($event, Piwik_Log::INFO, null);
-    }
-}
+use Piwik\Log;
 
 /**
  * Format a standard message event to be displayed on the screen.
  * The message can be a PHP array or a string.
  *
  * @package Piwik
- * @subpackage Piwik_Log
+ * @subpackage Log
  */
-class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter
+class Message_Formatter_ScreenFormatter extends Formatter_ScreenFormatter
 {
     /**
      * Formats data into a single line to be written by the writer.
@@ -89,5 +47,49 @@ class Piwik_Log_Message_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Sc
         }
         $message = '[' . $event['timestamp'] . '] [' . $event['requestKey'] . '] ' . $memory . $message;
         return parent::format($message);
+    }
+}
+
+/**
+ * Class used to log a standard message event.
+ *
+ * @package Piwik
+ * @subpackage Log
+ */
+class Message extends Log
+{
+    const ID = 'logger_message';
+
+    /**
+     * Constructor
+     */
+    function __construct()
+    {
+        $logToFileFilename = self::ID . ".htm";
+        $logToDatabaseTableName = self::ID;
+        $logToDatabaseColumnMapping = array(
+            'message'   => 'message',
+            'timestamp' => 'timestamp'
+        );
+        $screenFormatter = new Log\Message_Formatter_ScreenFormatter();
+        $fileFormatter = new Formatter_FileFormatter();
+
+        parent::__construct($logToFileFilename,
+            $fileFormatter,
+            $screenFormatter,
+            $logToDatabaseTableName,
+            $logToDatabaseColumnMapping);
+    }
+
+    /**
+     * Logs the given message
+     *
+     * @param string $message
+     */
+    public function logEvent($message)
+    {
+        $event = array();
+        $event['message'] = $message;
+        parent::log($event, Log::INFO, null);
     }
 }

@@ -10,16 +10,18 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  * @package Piwik_SegmentEditor
  */
-class Piwik_SegmentEditor_Controller extends Piwik_Controller
+class Piwik_SegmentEditor_Controller extends Controller
 {
 
     public function getSelector()
     {
-        $view = new Piwik_View('@SegmentEditor/getSelector');
+        $view = new View('@SegmentEditor/getSelector');
         $idSite = Common::getRequestVar('idSite');
         $this->setGeneralVariablesView($view);
         $segments = Piwik_API_API::getInstance()->getSegmentsMetadata($idSite);

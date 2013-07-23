@@ -8,6 +8,12 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\API;
+
+use Exception;
+use Piwik\API\DataTableManipulator\Flattener;
+use Piwik\API\DataTableManipulator\LabelFilter;
+use Piwik\API\DataTableGenericFilter;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable\Renderer;
@@ -19,7 +25,7 @@ use Piwik\DataTable;
  * @package Piwik
  * @subpackage Piwik_API
  */
-class Piwik_API_ResponseBuilder
+class ResponseBuilder
 {
     const DISPLAY_BACKTRACE_DEBUG = false;
 
@@ -141,7 +147,6 @@ class Piwik_API_ResponseBuilder
         return $renderer->renderException();
     }
 
-
     /**
      * @param Exception $e
      * @return Exception
@@ -149,11 +154,11 @@ class Piwik_API_ResponseBuilder
     protected function decorateExceptionWithDebugTrace(Exception $e)
     {
         // If we are in tests, show full backtrace
-        if( defined('PIWIK_PATH_TEST_TO_ROOT')) {
-            if(self::DISPLAY_BACKTRACE_DEBUG) {
+        if (defined('PIWIK_PATH_TEST_TO_ROOT')) {
+            if (self::DISPLAY_BACKTRACE_DEBUG) {
                 $message = $e->getMessage() . " in \n " . $e->getFile() . ":" . $e->getLine() . " \n " . $e->getTraceAsString();
             } else {
-                $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in " . basename(__FILE__) ;
+                $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in " . basename(__FILE__);
             }
             return new Exception($message);
         }
@@ -287,7 +292,7 @@ class Piwik_API_ResponseBuilder
     {
         // if requested, flatten nested tables
         if (Common::getRequestVar('flat', '0', 'string', $this->request) == '1') {
-            $flattener = new Piwik_API_DataTableManipulator_Flattener($this->apiModule, $this->apiMethod, $this->request);
+            $flattener = new Flattener($this->apiModule, $this->apiMethod, $this->request);
             if (Common::getRequestVar('include_aggregate_rows', '0', 'string', $this->request) == '1') {
                 $flattener->includeAggregateRows();
             }
@@ -296,7 +301,7 @@ class Piwik_API_ResponseBuilder
 
         // if the flag disable_generic_filters is defined we skip the generic filters
         if (0 == Common::getRequestVar('disable_generic_filters', '0', 'string', $this->request)) {
-            $genericFilter = new Piwik_API_DataTableGenericFilter($this->request);
+            $genericFilter = new DataTableGenericFilter($this->request);
             $genericFilter->filter($datatable);
         }
 
@@ -321,7 +326,7 @@ class Piwik_API_ResponseBuilder
         if (!empty($label)) {
             $addLabelIndex = Common::getRequestVar('labelFilterAddLabelIndex', 0, 'int', $this->request) == 1;
 
-            $filter = new Piwik_API_DataTableManipulator_LabelFilter($this->apiModule, $this->apiMethod, $this->request);
+            $filter = new LabelFilter($this->apiModule, $this->apiMethod, $this->request);
             $datatable = $filter->filter($label, $datatable, $addLabelIndex);
         }
         return $this->getRenderedDataTable($datatable);
@@ -478,7 +483,7 @@ class Piwik_API_ResponseBuilder
      * Returns the value for the label query parameter which can be either a string
      * (ie, label=...) or array (ie, label[]=...).
      *
-     * @param array  $request
+     * @param array $request
      * @return array
      */
     static public function getLabelFromRequest($request)
@@ -497,7 +502,7 @@ class Piwik_API_ResponseBuilder
 
     static public function unsanitizeLabelParameter($label)
     {
-        // this is needed because Piwik_API_Proxy uses Common::getRequestVar which in turn
+        // this is needed because Proxy uses Common::getRequestVar which in turn
         // uses Common::sanitizeInputValue. This causes the > that separates recursive labels
         // to become &gt; and we need to undo that here.
         $label = Common::unsanitizeInputValues($label);

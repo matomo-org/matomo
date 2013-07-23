@@ -13,6 +13,7 @@ use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\RankingQuery;
 use Piwik\PluginsArchiver;
 
 /**
@@ -215,7 +216,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
 
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
-            $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn(array('idaction', 'name'));
             $rankingQuery->addColumn(array('url_prefix', Metrics::INDEX_NB_UNIQ_VISITORS));
@@ -294,7 +295,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
-            $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(Metrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS);
@@ -345,7 +346,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
-            $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(Metrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS);
@@ -391,7 +392,7 @@ class Piwik_Actions_Archiver extends PluginsArchiver
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
-            $rankingQuery = new Piwik_RankingQuery($rankingQueryLimit);
+            $rankingQuery = new RankingQuery($rankingQueryLimit);
             $rankingQuery->setOthersLabel(DataTable::LABEL_SUMMARY_ROW);
             $rankingQuery->addLabelColumn('idaction');
             $rankingQuery->addColumn(Metrics::INDEX_PAGE_SUM_TIME_SPENT, 'sum');

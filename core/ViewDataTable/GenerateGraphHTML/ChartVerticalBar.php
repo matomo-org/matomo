@@ -14,7 +14,7 @@
  * Generates HTML embed for the vertical bar chart
  *
  * @package Piwik
- * @subpackage Piwik_ViewDataTable
+ * @subpackage ViewDataTable
  */
 
 class Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar extends Piwik_ViewDataTable_GenerateGraphHTML

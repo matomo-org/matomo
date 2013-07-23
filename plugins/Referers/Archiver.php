@@ -2,6 +2,7 @@
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Metrics;
+use Piwik\DataArray;
 use Piwik\PluginsArchiver;
 
 /**
@@ -29,7 +30,7 @@ class Piwik_Referers_Archiver extends PluginsArchiver
     protected $columnToSortByBeforeTruncation;
     protected $maximumRowsInDataTableLevelZero;
     protected $maximumRowsInSubDataTable;
-    /* @var array[Piwik_DataArray] $arrays */
+    /* @var array[DataArray] $arrays */
     protected $arrays = array();
     protected $distinctUrls = array();
 
@@ -44,7 +45,7 @@ class Piwik_Referers_Archiver extends PluginsArchiver
     public function archiveDay()
     {
         foreach ($this->getRecordNames() as $record) {
-            $this->arrays[$record] = new Piwik_DataArray();
+            $this->arrays[$record] = new DataArray();
         }
         $query = $this->getLogAggregator()->queryVisitsByDimension(array("referer_type", "referer_name", "referer_keyword", "referer_url"));
         $this->aggregateFromVisits($query);
@@ -127,7 +128,7 @@ class Piwik_Referers_Archiver extends PluginsArchiver
 
     /**
      * @param $name
-     * @return Piwik_DataArray
+     * @return DataArray
      */
     protected function getDataArray($name)
     {
@@ -149,7 +150,7 @@ class Piwik_Referers_Archiver extends PluginsArchiver
         }
 
         foreach ($this->arrays as $dataArray) {
-            /* @var Piwik_DataArray $dataArray */
+            /* @var DataArray $dataArray */
             $dataArray->enrichMetricsWithConversions();
         }
     }

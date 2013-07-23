@@ -9,11 +9,13 @@
  * @package Updates
  */
 use Piwik\Common;
+use Piwik\Piwik_Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_7_2_rc7 extends Piwik_Updates
+class Piwik_Updates_1_7_2_rc7 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {
@@ -26,14 +28,14 @@ class Piwik_Updates_1_7_2_rc7 extends Piwik_Updates
     static function update()
     {
         try {
-            $dashboards = Piwik_FetchAll('SELECT * FROM `' . Common::prefixTable('user_dashboard') . '`');
+            $dashboards = Db::fetchAll('SELECT * FROM `' . Common::prefixTable('user_dashboard') . '`');
             foreach ($dashboards AS $dashboard) {
                 $idDashboard = $dashboard['iddashboard'];
                 $login = $dashboard['login'];
                 $layout = $dashboard['layout'];
                 $layout = html_entity_decode($layout);
                 $layout = str_replace("\\\"", "\"", $layout);
-                Piwik_Query('UPDATE `' . Common::prefixTable('user_dashboard') . '` SET layout = ? WHERE iddashboard = ? AND login = ?', array($layout, $idDashboard, $login));
+                Db::query('UPDATE `' . Common::prefixTable('user_dashboard') . '` SET layout = ? WHERE iddashboard = ? AND login = ?', array($layout, $idDashboard, $login));
             }
             Piwik_Updater::updateDatabase(__FILE__, self::getSql());
         } catch (Exception $e) {

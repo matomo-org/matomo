@@ -3,6 +3,7 @@
 // Used initially to test how to handle cookies for this use case (see http://dev.piwik.org/trac/ticket/409)
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\FrontController;
 
 exit;
 
@@ -14,7 +15,7 @@ require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/PiwikTracker/PiwikTracker.php";
 
-Piwik_FrontController::getInstance()->init();
+FrontController::getInstance()->init();
 Piwik::setUserIsSuperUser();
 $count = 100;
 for ($i = 0; $i <= $count; $i++) {

@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\Config;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Period;
@@ -18,7 +21,18 @@ use Piwik\Common;
 use Piwik\Access;
 use Piwik\Date;
 use Piwik\Site;
-
+use Piwik_API_API;
+use Piwik\API\Request;
+use Piwik\FrontController;
+use Piwik_LanguagesManager;
+use Piwik_SitesManager_API;
+use Piwik\Url;
+use Piwik_UsersManager_API;
+use Piwik\View;
+use Piwik\ViewDataTable;
+use Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution;
+use Zend_Registry;
+use false;
 
 /**
  * Parent class of all plugins Controllers (located in /plugins/PluginName/Controller.php
@@ -26,7 +40,7 @@ use Piwik\Site;
  *
  * @package Piwik
  */
-abstract class Piwik_Controller
+abstract class Controller
 {
     /**
      * Plugin name, eg. Referers
@@ -139,21 +153,21 @@ abstract class Piwik_Controller
      * - echo the output of the rendering if fetch = false
      * - returns the output of the rendering if fetch = true
      *
-     * @param Piwik_ViewDataTable $view   view object to use
+     * @param ViewDataTable $view   view object to use
      * @param bool $fetch  indicates whether to output or return the content
      * @return string|void
      */
-    protected function renderView(Piwik_ViewDataTable $view, $fetch = false)
+    protected function renderView(ViewDataTable $view, $fetch = false)
     {
         Piwik_PostEvent('Controller.renderView', array(
-            $this,
-            array('view'                                      => $view,
-                  'controllerName'                            => $view->getCurrentControllerName(),
-                  'controllerAction'                          => $view->getCurrentControllerAction(),
-                  'apiMethodToRequestDataTable'               => $view->getApiMethodToRequestDataTable(),
-                  'controllerActionCalledWhenRequestSubTable' => $view->getControllerActionCalledWhenRequestSubTable(),
-            )
-        ));
+                                                      $this,
+                                                      array('view'                                      => $view,
+                                                            'controllerName'                            => $view->getCurrentControllerName(),
+                                                            'controllerAction'                          => $view->getCurrentControllerAction(),
+                                                            'apiMethodToRequestDataTable'               => $view->getApiMethodToRequestDataTable(),
+                                                            'controllerActionCalledWhenRequestSubTable' => $view->getControllerActionCalledWhenRequestSubTable(),
+                                                      )
+                                                 ));
 
         $view->main();
 
@@ -175,7 +189,7 @@ abstract class Piwik_Controller
      */
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
-        $view = Piwik_ViewDataTable::factory('graphEvolution');
+        $view = ViewDataTable::factory('graphEvolution');
         $view->init($currentModuleName, $currentControllerAction, $apiMethod);
         return $view;
     }
@@ -256,7 +270,7 @@ abstract class Piwik_Controller
      * - period: day, week, month, year
      *
      * @param array $paramsToSet  array( 'date' => 'last50', 'viewDataTable' =>'sparkline' )
-     * @throws Access_NoAccessException
+     * @throws \Piwik\NoAccessException
      * @return array
      */
     protected function getGraphParamsModified($paramsToSet = array())
@@ -282,7 +296,7 @@ abstract class Piwik_Controller
         }
 
         if (is_null($this->site)) {
-            throw new Access_NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
+            throw new \Piwik\NoAccessException("Website not initialized, check that you are logged in and/or using the correct token_auth.");
         }
         $paramDate = self::getDateRangeRelativeToEndDate($period, $range, $endDate, $this->site);
 
@@ -312,8 +326,8 @@ abstract class Piwik_Controller
      * Returns a numeric value from the API.
      * Works only for API methods that originally returns numeric values (there is no cast here)
      *
-     * @param string             $methodToCall  Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
-     * @param bool|string        $date          A custom date to use when getting the value. If false, the 'date' query
+     * @param string $methodToCall  Name of method to call, eg. Referers.getNumberOfDistinctSearchEngines
+     * @param bool|string $date          A custom date to use when getting the value. If false, the 'date' query
      *                                          parameter is used.
      *
      * @return int|float
@@ -322,14 +336,14 @@ abstract class Piwik_Controller
     {
         $params = $date === false ? array() : array('date' => $date);
 
-        $return = Piwik_API_Request::processRequest($methodToCall, $params);
+        $return = Request::processRequest($methodToCall, $params);
         $columns = $return->getFirstRow()->getColumns();
         return reset($columns);
     }
 
     /**
      * Returns the current URL to use in a img src=X to display a sparkline.
-     * $action must be the name of a Controller method that requests data using the Piwik_ViewDataTable::factory
+     * $action must be the name of a Controller method that requests data using the ViewDataTable::factory
      * It will automatically build a sparkline by setting the viewDataTable=sparkline parameter in the URL.
      * It will also computes automatically the 'date' for the 'last30' days/weeks/etc.
      *
@@ -351,7 +365,7 @@ abstract class Piwik_Controller
                 $value = rawurlencode(implode(',', $value));
             }
         }
-        $url = Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+        $url = Url::getCurrentQueryStringWithParametersModified($params);
         return $url;
     }
 
@@ -359,7 +373,7 @@ abstract class Piwik_Controller
      * Sets the first date available in the calendar
      *
      * @param Date $minDate
-     * @param Piwik_View $view
+     * @param View $view
      * @return void
      */
     protected function setMinDateView(Date $minDate, $view)
@@ -373,7 +387,7 @@ abstract class Piwik_Controller
      * Sets "today" in the calendar. Today does not always mean "UTC" today, eg. for websites in UTC+12.
      *
      * @param Date $maxDate
-     * @param Piwik_View $view
+     * @param View $view
      * @return void
      */
     protected function setMaxDateView(Date $maxDate, $view)
@@ -388,7 +402,7 @@ abstract class Piwik_Controller
      * various templates and Javascript.
      * If any error happens, displays the login screen
      *
-     * @param Piwik_View $view
+     * @param View $view
      * @throws Exception
      * @return void
      */
@@ -454,7 +468,7 @@ abstract class Piwik_Controller
     /**
      * Set the minimal variables in the view object
      *
-     * @param Piwik_View $view
+     * @param View $view
      */
     protected function setBasicVariablesView($view)
     {
@@ -488,7 +502,7 @@ abstract class Piwik_Controller
     public static function setHostValidationVariablesView($view)
     {
         // check if host is valid
-        $view->isValidHost = Piwik_Url::isValidHost();
+        $view->isValidHost = Url::isValidHost();
         if (!$view->isValidHost) {
             // invalid host, so display warning to user
             $validHost = Config::getInstance()->General['trusted_hosts'][0];
@@ -501,14 +515,14 @@ abstract class Piwik_Controller
             $mailToUrl = "mailto:$superUserEmail?subject=$emailSubject&body=$emailBody";
             $mailLinkStart = "<a href=\"$mailToUrl\">";
 
-            $invalidUrl = Piwik_Url::getCurrentUrlWithoutQueryString($checkIfTrusted = false);
-            $validUrl = Piwik_Url::getCurrentScheme() . '://' . $validHost
-                . Piwik_Url::getCurrentScriptName();
+            $invalidUrl = Url::getCurrentUrlWithoutQueryString($checkIfTrusted = false);
+            $validUrl = Url::getCurrentScheme() . '://' . $validHost
+                . Url::getCurrentScriptName();
             $invalidUrl = Common::sanitizeInputValue($invalidUrl);
             $validUrl = Common::sanitizeInputValue($validUrl);
 
             $changeTrustedHostsUrl = "index.php"
-                . Piwik_Url::getCurrentQueryStringWithParametersModified(array(
+                . Url::getCurrentQueryStringWithParametersModified(array(
                                                                               'module' => 'CoreAdminHome',
                                                                               'action' => 'generalSettings'
                                                                          ))
@@ -551,7 +565,7 @@ abstract class Piwik_Controller
     /**
      * Sets general period variables (available periods, current period, period labels) used by templates
      *
-     * @param Piwik_View $view
+     * @param View $view
      * @throws Exception
      * @return void
      */
@@ -589,7 +603,7 @@ abstract class Piwik_Controller
      * Set metrics variables (displayed metrics, available metrics) used by template
      * Handles the server-side of the metrics picker
      *
-     * @param Piwik_View|Piwik_ViewDataTable $view
+     * @param View|ViewDataTable $view
      * @param string $defaultMetricDay      name of the default metric for period=day
      * @param string $defaultMetric         name of the default metric for other periods
      * @param array $metricsForDay         metrics that are only available for period=day
@@ -597,7 +611,7 @@ abstract class Piwik_Controller
      * @param bool $labelDisplayed        add 'label' to columns to display?
      * @return void
      */
-    protected function setMetricsVariablesView(Piwik_ViewDataTable $view, $defaultMetricDay = 'nb_uniq_visitors',
+    protected function setMetricsVariablesView(ViewDataTable $view, $defaultMetricDay = 'nb_uniq_visitors',
                                                $defaultMetric = 'nb_visits', $metricsForDay = array('nb_uniq_visitors'),
                                                $metricsForAllPeriods = array('nb_visits', 'nb_actions'), $labelDisplayed = true)
     {
@@ -642,7 +656,7 @@ abstract class Piwik_Controller
         }
         $parametersString = '';
         if (!empty($parameters)) {
-            $parametersString = '&' . Piwik_Url::getQueryStringFromParameters($parameters);
+            $parametersString = '&' . Url::getQueryStringFromParameters($parameters);
         }
 
         if ($websiteId) {
@@ -670,10 +684,9 @@ abstract class Piwik_Controller
             Piwik_ExitWithMessage($errorMessage, false, true);
         }
 
-        Piwik_FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);
+        FrontController::getInstance()->dispatch(Piwik::getLoginPluginName(), false);
         exit;
     }
-
 
     /**
      * Returns default website that Piwik should load
@@ -753,13 +766,13 @@ abstract class Piwik_Controller
      * within the site.  The token should never appear in the browser's
      * address bar.
      *
-     * @throws Access_NoAccessException  if token doesn't match
+     * @throws \Piwik\NoAccessException  if token doesn't match
      * @return void
      */
     protected function checkTokenInUrl()
     {
         if (Common::getRequestVar('token_auth', false) != Piwik::getCurrentUserTokenAuth()) {
-            throw new Access_NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
+            throw new \Piwik\NoAccessException(Piwik_TranslateException('General_ExceptionInvalidToken'));
         }
     }
 
@@ -779,7 +792,6 @@ abstract class Piwik_Controller
         }
     }
 
-
     /**
      * Returns the pretty date representation
      *
@@ -791,7 +803,6 @@ abstract class Piwik_Controller
     {
         return self::getCalendarPrettyDate(Period::factory($period, Date::factory($date)));
     }
-
 
     /**
      * Calculates the evolution from one value to another and returns HTML displaying

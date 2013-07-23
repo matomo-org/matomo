@@ -10,13 +10,16 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\AssetManager;
+use Piwik\Controller;
+use Piwik\Url;
 
 /**
  * Controller for proxy services
  *
  * @package Piwik_Proxy
  */
-class Piwik_Proxy_Controller extends Piwik_Controller
+class Piwik_Proxy_Controller extends Controller
 {
     const TRANSPARENT_PNG_PIXEL = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=';
 
@@ -28,7 +31,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
      */
     public function getCss()
     {
-        $cssMergedFile = Piwik_AssetManager::getMergedCssFileLocation();
+        $cssMergedFile = AssetManager::getMergedCssFileLocation();
         Piwik::serveStaticFile($cssMergedFile, "text/css");
     }
 
@@ -40,7 +43,7 @@ class Piwik_Proxy_Controller extends Piwik_Controller
      */
     public function getJs()
     {
-        $jsMergedFile = Piwik_AssetManager::getMergedJsFileLocation();
+        $jsMergedFile = AssetManager::getMergedJsFileLocation();
         Piwik::serveStaticFile($jsMergedFile, "application/javascript; charset=UTF-8");
     }
 
@@ -55,8 +58,8 @@ class Piwik_Proxy_Controller extends Piwik_Controller
         $url = Common::getRequestVar('url', '', 'string', $_GET);
 
         // validate referrer
-        $referrer = Piwik_Url::getReferer();
-        if (empty($referrer) || !Piwik_Url::isLocalUrl($referrer)) {
+        $referrer = Url::getReferer();
+        if (empty($referrer) || !Url::isLocalUrl($referrer)) {
             die('Invalid Referer detected - This means that your web browser is not sending the "Referer URL" which is
 				required to proceed with the redirect. Verify your browser settings and add-ons, to check why your browser
 				 is not sending this referer.

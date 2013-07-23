@@ -8,15 +8,18 @@
  * @category Piwik_Plugins
  * @package Piwik_CorePluginsAdmin
  */
+use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\View;
+use Piwik\Url;
 
 /**
  *
  * @package Piwik_CorePluginsAdmin
  */
-class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
+class Piwik_CorePluginsAdmin_Controller extends Admin
 {
     function extend()
     {
@@ -41,7 +44,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
     protected function configureView($template)
     {
         Piwik::checkUserIsSuperUser();
-        $view = new Piwik_View($template);
+        $view = new View($template);
         $this->setBasicVariablesView($view);
         $this->displayWarningIfConfigFileNotWritable($view);
         return $view;
@@ -115,7 +118,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
     protected function redirectAfterModification($redirectAfter)
     {
         if ($redirectAfter) {
-            Piwik_Url::redirectToReferer();
+            Url::redirectToReferer();
         }
     }
 

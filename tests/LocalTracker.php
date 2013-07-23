@@ -1,6 +1,7 @@
 <?php
 
 use Piwik\Config;
+use Piwik\Tracker;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
@@ -43,9 +44,9 @@ class Piwik_LocalTracker extends PiwikTracker
 
         // unset cached values
         Piwik_Tracker_Cache::$trackerCache = null;
-        Piwik_Tracker::setForceIp(null);
-        Piwik_Tracker::setForceDateTime(null);
-        Piwik_Tracker::setForceVisitorId(null);
+        Tracker::setForceIp(null);
+        Tracker::setForceDateTime(null);
+        Tracker::setForceVisitorId(null);
 
         // save some values
         $plugins = Config::getInstance()->Plugins['Plugins'];
@@ -58,8 +59,8 @@ class Piwik_LocalTracker extends PiwikTracker
         // modify config
         $GLOBALS['PIWIK_TRACKER_MODE'] = true;
         $GLOBALS['PIWIK_TRACKER_LOCAL_TRACKING'] = true;
-        Piwik_Tracker::$initTrackerMode = false;
-        Piwik_Tracker::setTestEnvironment($testEnvironmentArgs, $method);
+        Tracker::$initTrackerMode = false;
+        Tracker::setTestEnvironment($testEnvironmentArgs, $method);
 
         // set language
         $oldLang = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
@@ -76,7 +77,7 @@ class Piwik_LocalTracker extends PiwikTracker
         // do tracking and capture output
         ob_start();
 
-        $localTracker = new Piwik_Tracker();
+        $localTracker = new Tracker();
         $localTracker->main($requests);
 
         $output = ob_get_contents();

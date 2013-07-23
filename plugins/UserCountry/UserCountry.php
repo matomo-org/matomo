@@ -98,10 +98,10 @@ class Piwik_UserCountry extends Plugin
         $widgetCityLabel = Piwik_Translate('UserCountry_WidgetLocation')
             . ' (' . Piwik_Translate('UserCountry_City') . ')';
 
-        Piwik_AddWidget('General_Visitors', $widgetContinentLabel, 'UserCountry', 'getContinent');
-        Piwik_AddWidget('General_Visitors', $widgetCountryLabel, 'UserCountry', 'getCountry');
-        Piwik_AddWidget('General_Visitors', $widgetRegionLabel, 'UserCountry', 'getRegion');
-        Piwik_AddWidget('General_Visitors', $widgetCityLabel, 'UserCountry', 'getCity');
+        WidgetsList::add('General_Visitors', $widgetContinentLabel, 'UserCountry', 'getContinent');
+        WidgetsList::add('General_Visitors', $widgetCountryLabel, 'UserCountry', 'getCountry');
+        WidgetsList::add('General_Visitors', $widgetRegionLabel, 'UserCountry', 'getRegion');
+        WidgetsList::add('General_Visitors', $widgetCityLabel, 'UserCountry', 'getCity');
     }
 
     function addMenu()

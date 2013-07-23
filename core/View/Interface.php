@@ -10,7 +10,7 @@
  */
 
 /**
- * Rendering interface for Piwik_View and Piwik_Visualization
+ * Rendering interface for View and Piwik_Visualization
  *
  * @package Piwik
  */

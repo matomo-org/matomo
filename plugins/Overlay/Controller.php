@@ -1,8 +1,11 @@
 <?php
+use Piwik\API\Request;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  * Piwik - Open source web analytics
@@ -14,7 +17,7 @@ use Piwik\Common;
  * @package Piwik_Overlay
  */
 
-class Piwik_Overlay_Controller extends Piwik_Controller
+class Piwik_Overlay_Controller extends Controller
 {
 
     /** The index of the plugin */
@@ -27,7 +30,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
             $template = '@Overlay/index_noframe';
         }
 
-        $view = new Piwik_View($template);
+        $view = new View($template);
 
         $this->setGeneralVariablesView($view);
 
@@ -57,7 +60,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         $path = Piwik_Actions_ArchivingHelper::getActionExplodedNames($normalizedCurrentUrl, Piwik_Tracker_Action::TYPE_ACTION_URL);
         $path = array_map('urlencode', $path);
         $label = implode('>', $path);
-        $request = new Piwik_API_Request(
+        $request = new Request(
             'method=Actions.getPageUrls'
                 . '&idSite=' . urlencode($idSite)
                 . '&date=' . urlencode($date)
@@ -103,7 +106,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         }
 
         // render template
-        $view = new Piwik_View('@Overlay/renderSidebar');
+        $view = new View('@Overlay/renderSidebar');
         $view->data = $data;
         $view->location = $page;
         $view->normalizedUrl = $normalizedCurrentUrl;
@@ -197,7 +200,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
         $message = Piwik_Translate('Overlay_RedirectUrlError', array($url, "\n"));
         $message = nl2br(htmlentities($message));
 
-        $view = new Piwik_View('@Overlay/showErrorWrongDomain');
+        $view = new View('@Overlay/showErrorWrongDomain');
         $view->message = $message;
 
         if (Piwik::isUserHasAdminAccess($idSite)) {
@@ -224,7 +227,7 @@ class Piwik_Overlay_Controller extends Piwik_Controller
      */
     public function notifyParentIframe()
     {
-        $view = new Piwik_View('@Overlay/notifyParentIframe');
+        $view = new View('@Overlay/notifyParentIframe');
         echo $view->render();
     }
 

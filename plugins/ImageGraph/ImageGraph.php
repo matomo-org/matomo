@@ -1,6 +1,8 @@
 <?php
 use Piwik\Common;
 use Piwik\Period;
+use Piwik\Controller;
+use Piwik\Url;
 use Piwik\Plugin;
 use Piwik\Site;
 use Piwik\Config;
@@ -28,7 +30,7 @@ class Piwik_ImageGraph extends Plugin
 
     public function getInformation()
     {
-        $suffix = ' Debug: <a href="' . Piwik_Url::getCurrentQueryStringWithParametersModified(
+        $suffix = ' Debug: <a href="' . Url::getCurrentQueryStringWithParametersModified(
             array('module' => 'ImageGraph', 'action' => 'index')) . '">All images</a>';
         $info = parent::getInformation();
         $info['description'] .= ' ' . $suffix;
@@ -90,7 +92,7 @@ class Piwik_ImageGraph extends Plugin
                 $dateForMultiplePeriodGraph = $dateForSinglePeriodGraph;
             } else {
                 $periodForMultiplePeriodGraph = $periodForSinglePeriodGraph;
-                $dateForMultiplePeriodGraph = Piwik_Controller::getDateRangeRelativeToEndDate(
+                $dateForMultiplePeriodGraph = Controller::getDateRangeRelativeToEndDate(
                     $periodForSinglePeriodGraph,
                     'last' . self::GRAPH_EVOLUTION_LAST_PERIODS,
                     $dateForSinglePeriodGraph,
@@ -135,7 +137,7 @@ class Piwik_ImageGraph extends Plugin
                 $parameters['idSubtable'] = $idSubtable;
             }
 
-            $report['imageGraphUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);
+            $report['imageGraphUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);
 
             // thanks to API.getRowEvolution, reports with dimensions can now be plotted using an evolution graph
             // however, most reports with a fixed set of dimension values are excluded
@@ -148,7 +150,7 @@ class Piwik_ImageGraph extends Plugin
                 && $reportWithDimensionsSupportsEvolution) {
                 $parameters['period'] = $periodForMultiplePeriodGraph;
                 $parameters['date'] = $dateForMultiplePeriodGraph;
-                $report['imageGraphEvolutionUrl'] = $urlPrefix . Piwik_Url::getQueryStringFromParameters($parameters);
+                $report['imageGraphEvolutionUrl'] = $urlPrefix . Url::getQueryStringFromParameters($parameters);
             }
         }
     }

@@ -11,6 +11,7 @@
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
 
 /**
  * Purges the log_visit, log_conversion and related tables of old visit data.
@@ -73,7 +74,7 @@ class Piwik_PrivacyManager_LogDataPurger
         foreach ($logTables as $logTable) {
             // deleting from log_action must be handled differently, so we do it later
             if ($logTable != Common::prefixTable('log_action')) {
-                Piwik_DeleteAllRows($logTable, $where, $this->maxRowsToDeletePerQuery, array($maxIdVisit));
+                Db::deleteAllRows($logTable, $where, $this->maxRowsToDeletePerQuery, array($maxIdVisit));
             }
         }
 
@@ -86,7 +87,7 @@ class Piwik_PrivacyManager_LogDataPurger
         }
 
         // optimize table overhead after deletion
-        Piwik_OptimizeTables($logTables);
+        Db::optimizeTables($logTables);
     }
 
     /**
@@ -138,7 +139,7 @@ class Piwik_PrivacyManager_LogDataPurger
         // delete before unlocking tables so there's no chance a new log row that references an
         // unused action will be inserted.
         $this->deleteUnusedActions();
-        $this->unlockLogTables();
+        Db::unlockAllTables();
     }
 
     /**
@@ -150,7 +151,7 @@ class Piwik_PrivacyManager_LogDataPurger
         $logVisit = Common::prefixTable("log_visit");
 
         // get max idvisit
-        $maxIdVisit = Piwik_FetchOne("SELECT MAX(idvisit) FROM $logVisit");
+        $maxIdVisit = Db::fetchOne("SELECT MAX(idvisit) FROM $logVisit");
         if (empty($maxIdVisit)) {
             return false;
         }
@@ -165,13 +166,13 @@ class Piwik_PrivacyManager_LogDataPurger
 		      ORDER BY idvisit DESC
 		         LIMIT 1";
 
-        return Piwik_SegmentedFetchFirst($sql, $maxIdVisit, 0, -self::$selectSegmentSize);
+        return Db::segmentedFetchFirst($sql, $maxIdVisit, 0, -self::$selectSegmentSize);
     }
 
     private function getLogTableDeleteCount($table, $maxIdVisit)
     {
         $sql = "SELECT COUNT(*) FROM $table WHERE idvisit <= ?";
-        return (int)Piwik_FetchOne($sql, array($maxIdVisit));
+        return (int)Db::fetchOne($sql, array($maxIdVisit));
     }
 
     private function createTempTable()
@@ -180,7 +181,7 @@ class Piwik_PrivacyManager_LogDataPurger
 					idaction INT(11),
 					PRIMARY KEY (idaction)
 				)";
-        Piwik_Query($sql);
+        Db::query($sql);
     }
 
     private function getMaxIdsInLogTables()
@@ -191,7 +192,7 @@ class Piwik_PrivacyManager_LogDataPurger
         $result = array();
         foreach ($tables as $table) {
             $idCol = $idColumns[$table];
-            $result[$table] = Piwik_FetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
+            $result[$table] = Db::fetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
         }
 
         return $result;
@@ -214,10 +215,10 @@ class Piwik_PrivacyManager_LogDataPurger
                     $finish = $maxIds[$table];
                 } else {
                     $start = $maxIds[$table];
-                    $finish = Piwik_FetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
+                    $finish = Db::fetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
                 }
 
-                Piwik_SegmentedQuery($sql, $start, $finish, self::$selectSegmentSize);
+                Db::segmentedQuery($sql, $start, $finish, self::$selectSegmentSize);
             }
         }
 
@@ -231,18 +232,13 @@ class Piwik_PrivacyManager_LogDataPurger
 
     private function lockLogTables()
     {
-        Piwik_LockTables(
+        Db::lockTables(
             $readLocks = Common::prefixTables('log_conversion',
                 'log_link_visit_action',
                 'log_visit',
                 'log_conversion_item'),
             $writeLocks = Common::prefixTables('log_action')
         );
-    }
-
-    private function unlockLogTables()
-    {
-        Piwik_UnlockAllTables();
     }
 
     private function deleteUnusedActions()
@@ -254,7 +250,7 @@ class Piwik_PrivacyManager_LogDataPurger
 				   LEFT JOIN $tempTableName tmp ON tmp.idaction = $logActionTable.idaction
 					   WHERE tmp.idaction IS NULL";
 
-        Piwik_Query($deleteSql);
+        Db::query($deleteSql);
     }
 
     private function getIdActionColumns()

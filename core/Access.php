@@ -186,7 +186,7 @@ class Access
 
     public function getRawSitesWithSomeViewAccess($login)
     {
-        return Piwik_FetchAll(self::getSqlAccessSite("access, t2.idsite"), $login);
+        return Db::fetchAll(self::getSqlAccessSite("access, t2.idsite"), $login);
     }
 
     /**
@@ -331,7 +331,7 @@ class Access
     /**
      * Throws an exception if the user is not the SuperUser
      *
-     * @throws Access_NoAccessException
+     * @throws \Piwik\NoAccessException
      */
     public function checkUserIsSuperUser()
     {
@@ -343,7 +343,7 @@ class Access
     /**
      * If the user doesn't have an ADMIN access for at least one website, throws an exception
      *
-     * @throws Access_NoAccessException
+     * @throws \Piwik\NoAccessException
      */
     public function checkUserHasSomeAdminAccess()
     {
@@ -359,7 +359,7 @@ class Access
     /**
      * If the user doesn't have any view permission, throw exception
      *
-     * @throws Access_NoAccessException
+     * @throws \Piwik\NoAccessException
      */
     public function checkUserHasSomeViewAccess()
     {
@@ -377,7 +377,7 @@ class Access
      * If the user doesn't have ADMIN access for at least one website of the list, we throw an exception.
      *
      * @param int|array $idSites  List of ID sites to check
-     * @throws Access_NoAccessException If for any of the websites the user doesn't have an ADMIN access
+     * @throws \Piwik\NoAccessException If for any of the websites the user doesn't have an ADMIN access
      */
     public function checkUserHasAdminAccess($idSites)
     {
@@ -398,7 +398,7 @@ class Access
      * If the user doesn't have VIEW or ADMIN access for at least one website of the list, we throw an exception.
      *
      * @param int|array|string $idSites  List of ID sites to check (integer, array of integers, string comma separated list of integers)
-     * @throws Access_NoAccessException  If for any of the websites the user doesn't have an VIEW or ADMIN access
+     * @throws \Piwik\NoAccessException  If for any of the websites the user doesn't have an VIEW or ADMIN access
      */
     public function checkUserHasViewAccess($idSites)
     {
@@ -417,7 +417,7 @@ class Access
     /**
      * @param int|array|string $idSites
      * @return array
-     * @throws Access_NoAccessException
+     * @throws \Piwik\NoAccessException
      */
     protected function getIdSites($idSites)
     {

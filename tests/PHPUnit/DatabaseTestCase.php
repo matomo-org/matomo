@@ -9,6 +9,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
 use Piwik\Piwik;
+use Piwik\Piwik_Option;
 use Piwik\Site;
 
 /**
@@ -43,7 +44,7 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
 
             Piwik::createDatabaseObject();
             Piwik::createTables();
-            Piwik::createLogObject();
+            \Piwik\Log::make();
 
 //            \Piwik\PluginsManager::getInstance()->loadPlugins(array());
             IntegrationTestCase::loadAllPlugins();

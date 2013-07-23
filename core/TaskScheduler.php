@@ -10,10 +10,16 @@
  */
 
 // When set to true, all scheduled tasks will be triggered in all requests (careful!)
+namespace Piwik;
+
+use Exception;
+use Piwik\ScheduledTask;
+use Piwik\Timer;
+
 define('DEBUG_FORCE_SCHEDULED_TASKS', false);
 
 /**
- * Piwik_TaskScheduler is the class used to manage the execution of periodicaly planned task.
+ * TaskScheduler is the class used to manage the execution of periodicaly planned task.
  *
  * It performs the following actions :
  *    - Identifies tasks of Piwik
@@ -22,7 +28,7 @@ define('DEBUG_FORCE_SCHEDULED_TASKS', false);
  * @package Piwik
  */
 
-class Piwik_TaskScheduler
+class TaskScheduler
 {
     const GET_TASKS_EVENT = "TaskScheduler.getScheduledTasks";
     const TIMETABLE_OPTION_STRING = "TaskScheduler.timetable";
@@ -56,8 +62,8 @@ class Piwik_TaskScheduler
 
         // for every priority level, starting with the highest and concluding with the lowest
         $executionResults = array();
-        for ($priority = Piwik_ScheduledTask::HIGHEST_PRIORITY;
-             $priority <= Piwik_ScheduledTask::LOWEST_PRIORITY;
+        for ($priority = ScheduledTask::HIGHEST_PRIORITY;
+             $priority <= ScheduledTask::LOWEST_PRIORITY;
              ++$priority) {
             // loop through each task
             foreach ($tasks as $task) {
@@ -105,7 +111,7 @@ class Piwik_TaskScheduler
         // get the array where rescheduled timetables are stored
         $timetable = self::getTimetableFromOptionTable();
 
-        $taskName = Piwik_ScheduledTask::getTaskName($className, $methodName, $methodParameter);
+        $taskName = ScheduledTask::getTaskName($className, $methodName, $methodParameter);
 
         return self::taskHasBeenScheduledOnce($taskName, $timetable) ? $timetable[$taskName] : false;
     }
@@ -167,7 +173,7 @@ class Piwik_TaskScheduler
     static private function executeTask($task)
     {
         try {
-            $timer = new Piwik_Timer();
+            $timer = new Timer();
             call_user_func(array($task->getObjectInstance(), $task->getMethodName()), $task->getMethodParameter());
             $message = $timer->__toString();
         } catch (Exception $e) {

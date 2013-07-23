@@ -9,11 +9,12 @@
  * @package Updates
  */
 use Piwik\Piwik;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_34 extends Piwik_Updates
+class Piwik_Updates_0_2_34 extends Updates
 {
     static function update($schema = 'Myisam')
     {

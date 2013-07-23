@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\API\ResponseBuilder;
+
 class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -24,7 +26,7 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
                        "thirdElement");
 
         $expected = json_encode($input);
-        $actual = Piwik_API_ResponseBuilder::convertMultiDimensionalArrayToJson($input);
+        $actual = ResponseBuilder::convertMultiDimensionalArrayToJson($input);
         $this->assertEquals($expected, $actual);
     }
 
@@ -46,7 +48,7 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
             "thirdElement"  => "isThird");
 
         $expected = json_encode($input);
-        $actual = Piwik_API_ResponseBuilder::convertMultiDimensionalArrayToJson($input);
+        $actual = ResponseBuilder::convertMultiDimensionalArrayToJson($input);
         $this->assertEquals($expected, $actual);
     }
 
@@ -72,7 +74,7 @@ class API_ResponseBuilderTest extends PHPUnit_Framework_TestCase
         );
 
         $expected = json_encode($input);
-        $actual = Piwik_API_ResponseBuilder::convertMultiDimensionalArrayToJson($input);
+        $actual = ResponseBuilder::convertMultiDimensionalArrayToJson($input);
         $this->assertEquals($expected, $actual);
     }
 }

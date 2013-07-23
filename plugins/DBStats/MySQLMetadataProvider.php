@@ -51,7 +51,7 @@ class Piwik_DBStats_MySQLMetadataProvider
             mysql_close($link);
             $status = explode("  ", $status);
         } else {
-            $fullStatus = Piwik_FetchAssoc('SHOW STATUS');
+            $fullStatus = Db::fetchAssoc('SHOW STATUS');
             if (empty($fullStatus)) {
                 throw new Exception('Error, SHOW STATUS failed');
             }
@@ -86,7 +86,7 @@ class Piwik_DBStats_MySQLMetadataProvider
         if (!is_null($this->tableStatuses) && isset($this->tableStatuses[$prefixed])) {
             return $this->tableStatuses[$prefixed];
         } else {
-            return Piwik_FetchRow("SHOW TABLE STATUS LIKE ?", array($prefixed));
+            return Db::fetchRow("SHOW TABLE STATUS LIKE ?", array($prefixed));
         }
     }
 
@@ -105,7 +105,7 @@ class Piwik_DBStats_MySQLMetadataProvider
             $tablesPiwik = Piwik::getTablesInstalled();
 
             $this->tableStatuses = array();
-            foreach (Piwik_FetchAll("SHOW TABLE STATUS") as $t) {
+            foreach (Db::fetchAll("SHOW TABLE STATUS") as $t) {
                 if (in_array($t['Name'], $tablesPiwik)) {
                     $this->tableStatuses[$t['Name']] = $t;
                 }
@@ -232,7 +232,7 @@ class Piwik_DBStats_MySQLMetadataProvider
                 $sql = "SELECT name as 'label', COUNT(*) as 'row_count'$extraCols FROM {$status['Name']} GROUP BY name";
 
                 $table = new DataTable();
-                $table->addRowsFromSimpleArray(Piwik_FetchAll($sql));
+                $table->addRowsFromSimpleArray(Db::fetchAll($sql));
 
                 $reduceArchiveRowName = array($this, 'reduceArchiveRowName');
                 $table->filter('GroupBy', array('label', $reduceArchiveRowName));
@@ -275,7 +275,7 @@ class Piwik_DBStats_MySQLMetadataProvider
         static $fixedSizeColumnLength = null;
         if (is_null($fixedSizeColumnLength)) {
             $fixedSizeColumnLength = 0;
-            foreach (Piwik_FetchAll("SHOW COLUMNS FROM " . $status['Name']) as $column) {
+            foreach (Db::fetchAll("SHOW COLUMNS FROM " . $status['Name']) as $column) {
                 $columnType = $column['Type'];
 
                 if (($paren = strpos($columnType, '(')) !== false) {

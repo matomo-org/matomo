@@ -8,7 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\Metrics;
+use Piwik_Tracker_GoalManager;
 
 /**
  * The DataArray is a data structure used to aggregate datasets,
@@ -17,7 +21,7 @@ use Piwik\Metrics;
  *
  */
 
-class Piwik_DataArray
+class DataArray
 {
     protected $data = array();
     protected $dataTwoLevels = array();
@@ -198,16 +202,16 @@ class Piwik_DataArray
      * @param $row
      * @throws Exception if the the data row contains non numeric values
      */
-    public function sumMetrics( $label, $row)
+    public function sumMetrics($label, $row)
     {
-        foreach($row as $columnName => $columnValue) {
-            if(empty($columnValue)) {
+        foreach ($row as $columnName => $columnValue) {
+            if (empty($columnValue)) {
                 continue;
             }
-            if(empty($this->data[$label][$columnName])) {
+            if (empty($this->data[$label][$columnName])) {
                 $this->data[$label][$columnName] = 0;
             }
-            if(!is_numeric($columnValue)) {
+            if (!is_numeric($columnValue)) {
                 throw new Exception("DataArray->sumMetricsPivot expects rows of numeric values, non numeric found: " . var_export($columnValue, true) . " for column $columnName");
             }
             $this->data[$label][$columnName] += $columnValue;

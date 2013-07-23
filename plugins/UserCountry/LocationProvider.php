@@ -9,6 +9,7 @@
  * @package Piwik_UserCountry
  */
 use Piwik\Common;
+use Piwik\IP;
 
 /**
  * @see plugins/UserCountry/LocationProvider/Default.php
@@ -179,7 +180,7 @@ abstract class Piwik_UserCountry_LocationProvider
      *   'status' - Either self::NOT_INSTALLED, self::INSTALLED or self::BROKEN.
      *   'statusMessage' - If the status is self::BROKEN, then the message describes why.
      *   'location' - A pretty formatted location of the current IP address
-     *                (Piwik_IP::getIpFromHeader()).
+     *                (IP::getIpFromHeader()).
      *
      * An example result:
      * array(
@@ -216,7 +217,7 @@ abstract class Piwik_UserCountry_LocationProvider
                 $workingOrError = $provider->isWorking();
                 if ($workingOrError === true) // if the implementation is configured correctly, get the location
                 {
-                    $locInfo = array('ip'                => Piwik_IP::getIpFromHeader(),
+                    $locInfo = array('ip'                => IP::getIpFromHeader(),
                                      'lang'              => Common::getBrowserLanguage(),
                                      'disable_fallbacks' => true);
 
@@ -439,9 +440,9 @@ abstract class Piwik_UserCountry_LocationProvider
     protected function getIpFromInfo($info)
     {
         $ip = $info['ip'];
-        if (Piwik_IP::isMappedIPv4($ip)) {
-            return Piwik_IP::getIPv4FromMappedIPv6($ip);
-        } else if (Piwik_IP::isIPv6($ip)) // IPv6 is not supported (yet)
+        if (IP::isMappedIPv4($ip)) {
+            return IP::getIPv4FromMappedIPv6($ip);
+        } else if (IP::isIPv6($ip)) // IPv6 is not supported (yet)
         {
             return false;
         } else {

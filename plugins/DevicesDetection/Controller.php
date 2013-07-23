@@ -1,6 +1,9 @@
 <?php
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  * Piwik - Open source web analytics
@@ -11,7 +14,7 @@ use Piwik\Common;
  * @category Piwik_Plugins
  * @package Piwik_DevicesDetection
  */
-class Piwik_DevicesDetection_Controller extends Piwik_Controller
+class Piwik_DevicesDetection_Controller extends Controller
 {
 
     /** The set of related reports displayed under the 'Operating Systems' header. */
@@ -33,7 +36,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
 
     public function index($fetch = false)
     {
-        $view = new Piwik_View('@DevicesDetection/index');
+        $view = new View('@DevicesDetection/index');
         $view->deviceTypes = $view->deviceModels = $view->deviceBrands = $view->osReport = $view->browserReport = "blank";
         $view->deviceTypes = $this->getType(true);
         $view->deviceBrands = $this->getBrand(true);
@@ -120,7 +123,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
 
     protected function getStandardDataTableUserSettings($currentControllerAction, $APItoCall, $defaultDatatableType = null)
     {
-        $view = Piwik_ViewDataTable::factory($defaultDatatableType);
+        $view = ViewDataTable::factory($defaultDatatableType);
         $view->init($this->pluginName, $currentControllerAction, $APItoCall);
         $view->disableSearchBox();
         $view->disableExcludeLowPopulation();
@@ -136,7 +139,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
     {
         Piwik::checkUserIsSuperUser();
         $q = "SELECT idvisit, config_debug_ua FROM " . Common::prefixTable("log_visit");
-        $res = Piwik_FetchAll($q);
+        $res = Db::fetchAll($q);
         foreach ($res as $rec) {
             $UAParser = new UserAgentParserEnhanced($rec['config_debug_ua']);
             $UAParser->parse();
@@ -174,7 +177,7 @@ class Piwik_DevicesDetection_Controller extends Piwik_Controller
             "config_device_model = " . (isset($uaDetails['config_device_model']) ? "'" . $uaDetails['config_device_model'] . "'" : "NULL") . " ," .
             "config_device_brand = " . (isset($uaDetails['config_device_brand']) ? "'" . $uaDetails['config_device_brand'] . "'" : "NULL") . "
                     WHERE idvisit = " . $idVisit;
-        Piwik_Query($q);
+        Db::query($q);
     }
 
 }

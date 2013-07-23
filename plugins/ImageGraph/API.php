@@ -283,7 +283,7 @@ class Piwik_ImageGraph_API
                 $plottedMetric = reset($ordinateColumns);
 
                 // when no labels are specified, getRowEvolution returns the top N=filter_limit row evolutions
-                // rows are sorted using filter_sort_column (see Piwik_API_DataTableGenericFilter for more info)
+                // rows are sorted using filter_sort_column (see DataTableGenericFilter for more info)
                 if (!$labels) {
                     $savedFilterSortColumnValue = Common::getRequestVar('filter_sort_column', '');
                     $_GET['filter_sort_column'] = $plottedMetric;

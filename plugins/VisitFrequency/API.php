@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_VisitFrequency
  */
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\SegmentExpression;
 
@@ -43,7 +44,7 @@ class Piwik_VisitFrequency_API
             'format'    => 'original',
             'serialize' => 0 // tests set this to 1
         );
-        $table = Piwik_API_Request::processRequest('VisitsSummary.get', $params);
+        $table = Request::processRequest('VisitsSummary.get', $params);
         $this->prefixColumns($table, $period);
         return $table;
     }

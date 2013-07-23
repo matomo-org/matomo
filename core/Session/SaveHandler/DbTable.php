@@ -13,7 +13,7 @@
  * Database-backed session save handler
  *
  * @package Piwik
- * @subpackage Piwik_Session
+ * @subpackage Session
  */
 class Piwik_Session_SaveHandler_DbTable implements Zend_Session_SaveHandler_Interface
 {

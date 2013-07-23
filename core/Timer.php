@@ -8,13 +8,15 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
 use Piwik\Piwik;
 
 /**
  *
  * @package Piwik
  */
-class Piwik_Timer
+class Timer
 {
     private $timerStart;
     private $memoryStart;

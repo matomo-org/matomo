@@ -8,16 +8,24 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreUpdater
  */
+use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\Http;
+use Piwik\Piwik_Updater;
+use Piwik\View;
+use Piwik\Version;
+use Piwik\UpdateCheck;
+use Piwik\Unzip;
 
 /**
  *
  * @package Piwik_CoreUpdater
  */
-class Piwik_CoreUpdater_Controller extends Piwik_Controller
+class Piwik_CoreUpdater_Controller extends Controller
 {
     const CONFIG_FILE_BACKUP = '/config/global.ini.auto-backup-before-update.php';
     const PATH_TO_EXTRACT_LATEST_VERSION = '/tmp/latest/';
@@ -41,8 +49,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         $newVersion = $this->checkNewVersionIsAvailableOrDie();
 
-        $view = new Piwik_View('@CoreUpdater/newVersionAvailable');
-        $view->piwik_version = Piwik_Version::VERSION;
+        $view = new View('@CoreUpdater/newVersionAvailable');
+        $view->piwik_version = Version::VERSION;
         $view->piwik_new_version = $newVersion;
         $view->piwik_latest_version_url = self::getLatestZipUrl($newVersion);
         $view->can_auto_update = Piwik::canAutoUpdate();
@@ -90,10 +98,10 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
     public function oneClickResults()
     {
-        Piwik_API_Request::reloadAuthUsingTokenAuth($_POST);
+        Request::reloadAuthUsingTokenAuth($_POST);
         Piwik::checkUserIsSuperUser();
 
-        $view = new Piwik_View('@CoreUpdater/oneClickResults');
+        $view = new View('@CoreUpdater/oneClickResults');
         $view->coreError = Common::getRequestVar('error', '', 'string', $_POST);
         $view->feedbackMessages = safe_unserialize(Common::unsanitizeInputValue(Common::getRequestVar('messages', '', 'string', $_POST)));
         echo $view->render();
@@ -101,9 +109,9 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
     private function checkNewVersionIsAvailableOrDie()
     {
-        $newVersion = Piwik_UpdateCheck::isNewestVersionAvailable();
+        $newVersion = UpdateCheck::isNewestVersionAvailable();
         if (!$newVersion) {
-            throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionAlreadyLatestVersion', Piwik_Version::VERSION));
+            throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionAlreadyLatestVersion', Version::VERSION));
         }
         return $newVersion;
     }
@@ -115,7 +123,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
         // we catch exceptions in the caller (i.e., oneClickUpdate)
         $url = self::getLatestZipUrl($this->newVersion) . '?cb=' . $this->newVersion;
-        $fetched = Piwik_Http::fetchRemoteFile($url, $this->pathPiwikZip);
+        $fetched = Http::fetchRemoteFile($url, $this->pathPiwikZip);
     }
 
     private function oneClick_Unpack()
@@ -127,7 +135,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
             Piwik::unlinkRecursive($this->pathRootExtractedPiwik, true);
         }
 
-        $archive = Piwik_Unzip::factory('PclZip', $this->pathPiwikZip);
+        $archive = Unzip::factory('PclZip', $this->pathPiwikZip);
 
         if (0 == ($archive_files = $archive->extract($pathExtracted))) {
             throw new Exception(Piwik_TranslateException('CoreUpdater_ExceptionArchiveIncompatible', $archive->errorInfo()));
@@ -241,8 +249,8 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
         $cli = Common::isPhpCliMode() ? '_cli' : '';
         $welcomeTemplate = '@CoreUpdater/runUpdaterAndExit_welcome' . $cli;
         $doneTemplate = '@CoreUpdater/runUpdaterAndExit_done' . $cli;
-        $viewWelcome = new Piwik_View($welcomeTemplate);
-        $viewDone = new Piwik_View($doneTemplate);
+        $viewWelcome = new View($welcomeTemplate);
+        $viewDone = new View($doneTemplate);
 
         $sqlQueries = $updater->getSqlQueriesToExecute();
         if (Common::isPhpCliMode()) {
@@ -274,7 +282,7 @@ class Piwik_CoreUpdater_Controller extends Piwik_Controller
 
     private function doWelcomeUpdates($view, $componentsWithUpdateFile)
     {
-        $view->new_piwik_version = Piwik_Version::VERSION;
+        $view->new_piwik_version = Version::VERSION;
         $view->commandUpgradePiwik = "<br /><code>php " . Common::getPathToPiwikRoot() . "/index.php  -- \"module=CoreUpdater\" </code>";
         $pluginNamesToUpdate = array();
         $coreToUpdate = false;

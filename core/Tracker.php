@@ -8,11 +8,25 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
 use Piwik\Translate;
+use Piwik\TaskScheduler;
+use Piwik_Tracker_Cache;
+use Piwik_Tracker_Db;
+use Piwik_Tracker_Db_Exception;
+use Piwik_Tracker_Db_Mysqli;
+use Piwik_Tracker_Db_Pdo_Mysql;
+use Piwik_Tracker_Request;
+use Piwik_Tracker_Visit;
+use Piwik_Tracker_Visit_Excluded;
+use Piwik_Tracker_Visit_Interface;
+use Zend_Registry;
 
 /**
  * Class used by the logging script piwik.php called by the javascript tag.
@@ -22,9 +36,9 @@ use Piwik\Translate;
  * We try to include as little files as possible (no dependency on 3rd party modules).
  *
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
-class Piwik_Tracker
+class Tracker
 {
     protected $stateValid = self::STATE_NOTHING_TO_NOTICE;
     /**
@@ -126,12 +140,11 @@ class Piwik_Tracker
     {
         return self::$pluginsToLoad;
     }
+
     static public function setPluginsToLoad($plugins)
     {
         self::$pluginsToLoad = $plugins;
     }
-
-
 
     /**
      * Update Tracker config
@@ -245,17 +258,16 @@ class Piwik_Tracker
                 ++$this->countOfLoggedRequests;
             }
 
-
             // run scheduled task
             try {
                 if (!$isAuthenticated // Do not run schedule task if we are importing logs or doing custom tracking (as it could slow down)
-                    && $this->shouldRunScheduledTasks()) {
+                    && $this->shouldRunScheduledTasks()
+                ) {
                     self::runScheduledTasks();
                 }
             } catch (Exception $e) {
                 $this->exitWithException($e);
             }
-
         } else {
             $this->handleEmptyRequest(new Piwik_Tracker_Request($_GET + $_POST));
         }
@@ -316,7 +328,7 @@ class Piwik_Tracker
             // we ensure English translations at least are loaded
             Translate::getInstance()->loadEnglishTranslation();
 
-            $resultTasks = Piwik_TaskScheduler::runTasks();
+            $resultTasks = TaskScheduler::runTasks();
 
             // restore original user privilege
             Piwik::setUserIsSuperUser($isSuperUser);
@@ -343,10 +355,10 @@ class Piwik_Tracker
             self::$initTrackerMode = true;
             require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
             require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
-            
+
             $access = Access::getInstance();
             $config = Config::getInstance();
-            
+
             try {
                 $db = Zend_Registry::get('db');
             } catch (Exception $e) {
@@ -355,9 +367,9 @@ class Piwik_Tracker
 
             $pluginsManager = \Piwik\PluginsManager::getInstance();
             $pluginsToLoad = Config::getInstance()->Plugins['Plugins'];
-            $pluginsForcedNotToLoad = Piwik_Tracker::getPluginsNotToLoad();
+            $pluginsForcedNotToLoad = Tracker::getPluginsNotToLoad();
             $pluginsToLoad = array_diff($pluginsToLoad, $pluginsForcedNotToLoad);
-            $pluginsToLoad = array_merge($pluginsToLoad, Piwik_Tracker::getPluginsToLoad());
+            $pluginsToLoad = array_merge($pluginsToLoad, Tracker::getPluginsToLoad());
             $pluginsManager->loadPlugins($pluginsToLoad);
         }
     }
@@ -375,7 +387,7 @@ class Piwik_Tracker
             $result = array('succeeded' => $this->countOfLoggedRequests);
             // send error when in debug mode or when authenticated (which happens when doing log importing,
             if ((isset($GLOBALS['PIWIK_TRACKER_DEBUG']) && $GLOBALS['PIWIK_TRACKER_DEBUG']) || $authenticated) {
-                $result['error'] = Piwik_Tracker_GetErrorMessage($e);
+                $result['error'] = $this->getMessageFromException($e);
             }
             echo Common::json_encode($result);
             exit;
@@ -387,11 +399,11 @@ class Piwik_Tracker
             $footerPage = file_get_contents(PIWIK_INCLUDE_PATH . '/plugins/Zeitgeist/templates/simpleLayoutFooter.tpl');
             $headerPage = str_replace('{$HTML_TITLE}', 'Piwik &rsaquo; Error', $headerPage);
 
-            echo $headerPage . '<p>' . Piwik_Tracker_GetErrorMessage($e) . '</p>' . $trailer . $footerPage;
+            echo $headerPage . '<p>' . $this->getMessageFromException($e) . '</p>' . $trailer . $footerPage;
         } // If not debug, but running authenticated (eg. during log import) then we display raw errors
         elseif ($authenticated) {
             Common::sendHeader('Content-Type: text/html; charset=utf-8');
-            echo Piwik_Tracker_GetErrorMessage($e);
+            echo $this->getMessageFromException($e);
         } else {
             $this->outputTransparentGif();
         }
@@ -491,7 +503,7 @@ class Piwik_Tracker
 
         Piwik_PostEvent('Tracker.getDatabaseConfig', array(&$configDb));
 
-        $db = Piwik_Tracker::factory($configDb);
+        $db = Tracker::factory($configDb);
         $db->connect();
 
         return $db;
@@ -597,7 +609,7 @@ class Piwik_Tracker
         if (!empty($disableProvider)
             && $request->isAuthenticated()
         ) {
-            Piwik_Tracker::setPluginsNotToLoad(array('Provider'));
+            Tracker::setPluginsNotToLoad(array('Provider'));
         }
 
         try {
@@ -649,7 +661,7 @@ class Piwik_Tracker
      */
     protected function handleTrackingApi(Piwik_Tracker_Request $request)
     {
-        if(!$request->isAuthenticated()) {
+        if (!$request->isAuthenticated()) {
             return;
         }
 
@@ -738,23 +750,23 @@ class Piwik_Tracker
         self::setPluginsNotToLoad($pluginsDisabled);
 
         // we load 'DevicesDetection' in tests only (disabled by default)
-        self::setPluginsToLoad( array('DevicesDetection') );
+        self::setPluginsToLoad(array('DevicesDetection'));
     }
-}
 
-/**
- * Gets the error message to output when a tracking request fails.
- *
- * @param Exception $e
- * @return string
- */
-function Piwik_Tracker_GetErrorMessage($e)
-{
-    // Note: duplicated from FormDatabaseSetup.isAccessDenied
-    // Avoid leaking the username/db name when access denied
-    if ($e->getCode() == 1044 || $e->getCode() == 42000) {
-        return "Error while connecting to the Piwik database - please check your credentials in config/config.ini.php file";
-    } else {
-        return $e->getMessage();
+    /**
+     * Gets the error message to output when a tracking request fails.
+     *
+     * @param Exception $e
+     * @return string
+     */
+    private function getMessageFromException($e)
+    {
+        // Note: duplicated from FormDatabaseSetup.isAccessDenied
+        // Avoid leaking the username/db name when access denied
+        if ($e->getCode() == 1044 || $e->getCode() == 42000) {
+            return "Error while connecting to the Piwik database - please check your credentials in config/config.ini.php file";
+        } else {
+            return $e->getMessage();
+        }
     }
 }

@@ -1,6 +1,8 @@
 <?php
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  * Piwik - Open source web analytics
@@ -12,7 +14,7 @@ use Piwik\Common;
  * @package Piwik_ImageGraph
  */
 
-class Piwik_ImageGraph_Controller extends Piwik_Controller
+class Piwik_ImageGraph_Controller extends Controller
 {
     // Call metadata reports, and draw the default graph for each report.
     public function index()
@@ -34,7 +36,7 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
                 );
             }
         }
-        $view = new Piwik_View('@ImageGraph/index');
+        $view = new View('@ImageGraph/index');
         $view->titleAndUrls = $plot;
         echo $view->render();
     }
@@ -44,7 +46,7 @@ class Piwik_ImageGraph_Controller extends Piwik_Controller
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = new Piwik_View('@ImageGraph/testAllSizes');
+        $view = new View('@ImageGraph/testAllSizes');
         $this->setGeneralVariablesView($view);
 
         $period = Common::getRequestVar('period', 'day', 'string');

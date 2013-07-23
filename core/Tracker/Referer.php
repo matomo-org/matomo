@@ -12,7 +12,7 @@ use Piwik\Common;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
 class Piwik_Tracker_Referer
 {

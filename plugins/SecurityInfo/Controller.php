@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_SecurityInfo
  */
+use Piwik\Controller\Admin;
 use Piwik\Piwik;
+use Piwik\View;
 
 /**
  * @package Piwik_SecurityInfo
  */
-class Piwik_SecurityInfo_Controller extends Piwik_Controller_Admin
+class Piwik_SecurityInfo_Controller extends Admin
 {
     function index()
     {
@@ -35,7 +37,7 @@ class Piwik_SecurityInfo_Controller extends Piwik_Controller_Admin
         unset($results['test_results']['Core']['post_max_size']);
         unset($results['test_results']['Core']['upload_max_filesize']);
 
-        $view = new Piwik_View('@SecurityInfo/index');
+        $view = new View('@SecurityInfo/index');
         $this->setBasicVariablesView($view);
         $view->results = $results;
         echo $view->render();

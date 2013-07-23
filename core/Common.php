@@ -1,9 +1,18 @@
 <?php
+/**
+ * Piwik - Open source web analytics
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ *
+ * @category Piwik
+ * @package Piwik
+ */
 namespace Piwik;
 
 use Exception;
-use Piwik_IP;
-use Piwik_Tracker;
+use Piwik\IP;
+use Piwik\Tracker;
 use Piwik_Tracker_Cache;
 use Piwik_UserCountry_LocationProvider_Default;
 
@@ -753,10 +762,10 @@ class Common
      */
     public static function convertVisitorIdToBin($id)
     {
-        if (strlen($id) !== Piwik_Tracker::LENGTH_HEX_ID_STRING
+        if (strlen($id) !== Tracker::LENGTH_HEX_ID_STRING
             || @bin2hex(self::hex2bin($id)) != $id
         ) {
-            throw new Exception("visitorId is expected to be a " . Piwik_Tracker::LENGTH_HEX_ID_STRING . " hex char string");
+            throw new Exception("visitorId is expected to be a " . Tracker::LENGTH_HEX_ID_STRING . " hex char string");
         }
         return self::hex2bin($id);
     }
@@ -778,7 +787,7 @@ class Common
      */
     public static function long2ip($ip)
     {
-        return Piwik_IP::long2ip($ip);
+        return IP::long2ip($ip);
     }
 
     /**

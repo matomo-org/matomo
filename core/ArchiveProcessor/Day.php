@@ -11,7 +11,7 @@
 namespace Piwik\ArchiveProcessor;
 use Piwik\Metrics;
 use Piwik\ArchiveProcessor;
-use Piwik_DataArray;
+use Piwik\DataArray;
 use Piwik\DataTable;
 
 /**
@@ -23,10 +23,10 @@ class Day extends ArchiveProcessor
 {
     /**
      * Converts the given array to a datatable
-     * @param Piwik_DataArray $array
+     * @param DataArray $array
      * @return \Piwik\DataTable
      */
-    static public function getDataTableFromDataArray(Piwik_DataArray $array)
+    static public function getDataTableFromDataArray(DataArray $array)
     {
         $dataArray = $array->getDataArray();
         $dataArrayTwoLevels = $array->getDataArrayWithTwoLevels();
@@ -62,7 +62,7 @@ class Day extends ArchiveProcessor
      * Mac OS    15    36    ...
      *
      * @param string $dimension  Table log_visit field name to be use to compute common stats
-     * @return Piwik_DataArray
+     * @return DataArray
      */
     public function getMetricsForDimension($dimension)
     {
@@ -73,7 +73,7 @@ class Day extends ArchiveProcessor
             $dimension = array("label" => reset($dimension));
         }
         $query = $this->getLogAggregator()->queryVisitsByDimension($dimension);
-        $metrics = new Piwik_DataArray();
+        $metrics = new DataArray();
         while ($row = $query->fetch()) {
             $metrics->sumMetricsVisits($row["label"], $row);
         }

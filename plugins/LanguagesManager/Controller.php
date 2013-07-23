@@ -11,11 +11,13 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\Url;
 
 /**
  * @package Piwik_LanguagesManager
  */
-class Piwik_LanguagesManager_Controller extends Piwik_Controller
+class Piwik_LanguagesManager_Controller extends Controller
 {
     /**
      * anonymous = in the session
@@ -36,6 +38,6 @@ class Piwik_LanguagesManager_Controller extends Piwik_Controller
                 Piwik_LanguagesManager_API::getInstance()->setLanguageForUser($currentUser, $language);
             }
         }
-        Piwik_Url::redirectToReferer();
+        Url::redirectToReferer();
     }
 }

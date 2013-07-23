@@ -46,9 +46,9 @@ class Piwik_Live extends Plugin
 
     public function addWidget()
     {
-        Piwik_AddWidget('Live!', 'Live_VisitorsInRealTime', 'Live', 'widget');
-        Piwik_AddWidget('Live!', 'Live_VisitorLog', 'Live', 'getVisitorLog');
-        Piwik_AddWidget('Live!', 'Live_RealTimeVisitorCount', 'Live', 'getSimpleLastVisitCount');
+        WidgetsList::add('Live!', 'Live_VisitorsInRealTime', 'Live', 'widget');
+        WidgetsList::add('Live!', 'Live_VisitorLog', 'Live', 'getVisitorLog');
+        WidgetsList::add('Live!', 'Live_RealTimeVisitorCount', 'Live', 'getSimpleLastVisitCount');
     }
 
 }

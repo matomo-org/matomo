@@ -12,6 +12,9 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
 use Piwik\Date;
+use Piwik\IP;
+use Piwik\Url;
+use Piwik\TaskScheduler;
 use Piwik\Site;
 
 /**
@@ -69,7 +72,7 @@ class Piwik_SitesManager_API
         Piwik::checkUserHasViewAccess($idSite);
 
         if (empty($piwikUrl)) {
-            $piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
+            $piwikUrl = Url::getCurrentUrlWithoutFileName();
         }
         $piwikUrl = Common::sanitizeInputValues($piwikUrl);
 
@@ -170,7 +173,7 @@ class Piwik_SitesManager_API
      */
     private function getSitesId()
     {
-        $result = Piwik_FetchAll("SELECT idsite FROM " . Common::prefixTable('site'));
+        $result = Db::fetchAll("SELECT idsite FROM " . Common::prefixTable('site'));
         $idSites = array();
         foreach ($result as $idSite) {
             $idSites[] = $idSite['idsite'];
@@ -225,7 +228,7 @@ class Piwik_SitesManager_API
         if (empty($timestamp)) $timestamp = time();
 
         $time = Date::factory((int)$timestamp)->getDatetime();
-        $result = Piwik_FetchAll("
+        $result = Db::fetchAll("
             SELECT
                 idsite
             FROM
@@ -321,7 +324,7 @@ class Piwik_SitesManager_API
             // but during scheduled task execution, we sometimes want to restrict sites to
             // a different login than the superuser.
             && (Piwik::isUserIsSuperUserOrTheUser($_restrictSitesToLogin)
-                || Piwik_TaskScheduler::isTaskBeingExecuted())
+                || TaskScheduler::isTaskBeingExecuted())
         ) {
             $accessRaw = Access::getInstance()->getRawSitesWithSomeViewAccess($_restrictSitesToLogin);
             $sitesId = array();
@@ -681,12 +684,12 @@ class Piwik_SitesManager_API
      */
     public function getIpsForRange($ipRange)
     {
-        $range = Piwik_IP::getIpsForRange($ipRange);
+        $range = IP::getIpsForRange($ipRange);
         if ($range === false) {
             return false;
         }
 
-        return array(Piwik_IP::N2P($range[0]), Piwik_IP::N2P($range[1]));
+        return array(IP::N2P($range[0]), IP::N2P($range[1]));
     }
 
     /**
@@ -1164,7 +1167,7 @@ class Piwik_SitesManager_API
     public function getUniqueSiteTimezones()
     {
         Piwik::checkUserIsSuperUser();
-        $results = Piwik_FetchAll("SELECT distinct timezone FROM " . Common::prefixTable('site'));
+        $results = Db::fetchAll("SELECT distinct timezone FROM " . Common::prefixTable('site'));
         $timezones = array();
         foreach ($results as $result) {
             $timezones[] = $result['timezone'];
@@ -1237,7 +1240,7 @@ class Piwik_SitesManager_API
      */
     private function isValidIp($ip)
     {
-        return Piwik_IP::getIpsForRange($ip) !== false;
+        return IP::getIpsForRange($ip) !== false;
     }
 
     /**

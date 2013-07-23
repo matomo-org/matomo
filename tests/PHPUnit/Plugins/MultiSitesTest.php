@@ -28,7 +28,7 @@ class MultiSitesTest extends DatabaseTestCase
 
     /**
      * Testing that getOne returns a row even when there are no data
-     * This is necessary otherwise Piwik_API_ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
+     * This is necessary otherwise ResponseBuilder throws 'Call to a member function getColumns() on a non-object'
      *
      * @group Plugins
      * @group MultiSites

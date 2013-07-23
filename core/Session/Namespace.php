@@ -14,7 +14,7 @@ use Piwik\Common;
  * Session namespace.
  *
  * @package Piwik
- * @subpackage Piwik_Session
+ * @subpackage Session
  */
 class Piwik_Session_Namespace extends Zend_Session_Namespace
 {

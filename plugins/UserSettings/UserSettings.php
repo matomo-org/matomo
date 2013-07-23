@@ -355,7 +355,7 @@ class Piwik_UserSettings extends Plugin
         foreach ($this->reportMetadata as $report) {
             list($category, $name, $controllerName, $controllerAction) = $report;
             if ($category == false) continue;
-            Piwik_AddWidget($category, $name, $controllerName, $controllerAction);
+            WidgetsList::add($category, $name, $controllerName, $controllerAction);
         }
     }
 

@@ -9,12 +9,20 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
+use Piwik_Unzip_Gzip;
+use Piwik_Unzip_Interface;
+use Piwik_Unzip_PclZip;
+use Piwik_Unzip_Tar;
+use Piwik_Unzip_ZipArchive;
+
 /**
  * Unzip wrapper around ZipArchive and PclZip
  *
  * @package Piwik
  */
-class Piwik_Unzip
+class Unzip
 {
     /**
      * Factory method to create an unarchiver

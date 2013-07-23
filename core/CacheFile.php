@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 
@@ -21,7 +24,7 @@ use Piwik\Common;
  *
  * @package Piwik
  */
-class Piwik_CacheFile
+class CacheFile
 {
     /**
      * @var string
@@ -39,7 +42,7 @@ class Piwik_CacheFile
 
     /**
      * @param string $directory            directory to use
-     * @param int    $timeToLiveInSeconds  TTL
+     * @param int $timeToLiveInSeconds  TTL
      */
     public function __construct($directory, $timeToLiveInSeconds = 300)
     {

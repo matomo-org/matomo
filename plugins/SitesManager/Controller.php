@@ -8,24 +8,29 @@
  * @category Piwik_Plugins
  * @package Piwik_SitesManager
  */
+use Piwik\API\ResponseBuilder;
+use Piwik\Controller\Admin;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\IP;
+use Piwik\View;
+use Piwik\Url;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_SitesManager
  */
-class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
+class Piwik_SitesManager_Controller extends Admin
 {
     /**
      * Main view showing listing of websites and settings
      */
     public function index()
     {
-        $view = new Piwik_View('@SitesManager/index');
+        $view = new View('@SitesManager/index');
 
         if (Piwik::isUserIsSuperUser()) {
             $sites = Piwik_SitesManager_API::getInstance()->getAllSites();
@@ -70,7 +75,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
 
         $view->globalKeepURLFragments = Piwik_SitesManager_API::getInstance()->getKeepURLFragmentsGlobal();
 
-        $view->currentIpAddress = Piwik_IP::getIpFromHeader();
+        $view->currentIpAddress = IP::getIpFromHeader();
 
         $view->showAddSite = (boolean)Common::getRequestVar('showaddsite', false);
 
@@ -83,7 +88,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
      */
     public function setGlobalSettings()
     {
-        $response = new Piwik_API_ResponseBuilder(Common::getRequestVar('format'));
+        $response = new ResponseBuilder(Common::getRequestVar('format'));
 
         try {
             $this->checkTokenInUrl();
@@ -122,8 +127,8 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
     {
         $idSite = Common::getRequestVar('idSite');
         Piwik::checkUserHasViewAccess($idSite);
-        $jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
-        $view = new Piwik_View('@SitesManager/displayJavascriptCode');
+        $jsTag = Piwik::getJavascriptCode($idSite, Url::getCurrentUrlWithoutFileName());
+        $view = new View('@SitesManager/displayJavascriptCode');
         $this->setBasicVariablesView($view);
         $view->idSite = $idSite;
         $site = new Site($idSite);
@@ -149,7 +154,7 @@ class Piwik_SitesManager_Controller extends Piwik_Controller_Admin
      */
     function displayAlternativeTagsHelp()
     {
-        $view = new Piwik_View('@SitesManager/displayAlternativeTagsHelp');
+        $view = new View('@SitesManager/displayAlternativeTagsHelp');
         $view->idSite = Common::getRequestVar('idSite');
         $url = Common::getRequestVar('piwikUrl', '', 'string');
         if (empty($url)

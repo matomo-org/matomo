@@ -8,17 +8,21 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\JqplotDataGenerator;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  * This class generates the HTML code to embed graphs in the page.
  * It doesn't call the API but simply prints the html snippet.
  *
  * @package Piwik
- * @subpackage Piwik_ViewDataTable
+ * @subpackage ViewDataTable
  */
-abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
+abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
 {
     protected $width = '100%';
     protected $height = 250;
@@ -89,7 +93,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
     }
 
     /**
-     * The implementation of this method in Piwik_ViewDataTable passes to the graph whether the
+     * The implementation of this method in ViewDataTable passes to the graph whether the
      * goals icon should be displayed or not. Here, we use it to implicitly add the goal metrics
      * to the metrics picker.
      */
@@ -236,7 +240,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
     {
         // access control
         $idSite = Common::getRequestVar('idSite', 1, 'int');
-        Piwik_API_Request::reloadAuthUsingTokenAuth();
+        Request::reloadAuthUsingTokenAuth();
         if (!Piwik::isUserHasViewAccess($idSite)) {
             throw new Exception(Piwik_TranslateException('General_ExceptionPrivilegeAccessWebsite', array("'view'", $idSite)));
         }
@@ -245,7 +249,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
         $this->graphData = $this->getGraphData($this->dataTable);
 
         // build view
-        $view = new Piwik_View($this->dataTableTemplate);
+        $view = new View($this->dataTableTemplate);
 
         $view->width = $this->width;
         $view->height = $this->height;
@@ -270,7 +274,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
     protected function getGraphData($dataTable)
     {
         $properties = array_merge($this->viewProperties, $this->viewProperties['request_parameters_to_modify']);
-        $dataGenerator = Piwik_JqplotDataGenerator::factory($this->graphType, $properties);
+        $dataGenerator = JqplotDataGenerator::factory($this->graphType, $properties);
         
         $jsonData = $dataGenerator->generate($dataTable);
         return str_replace(array("\r", "\n"), '', $jsonData);

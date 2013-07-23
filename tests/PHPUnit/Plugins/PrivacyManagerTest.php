@@ -13,6 +13,7 @@ use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Piwik_Option;
 use Piwik\Site;
 
 require_once 'PrivacyManager/PrivacyManager.php';
@@ -117,7 +118,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         ArchiveTableCreator::clear();
 
         $tempTableName = Common::prefixTable(Piwik_PrivacyManager_LogDataPurger::TEMP_TABLE_NAME);
-        Piwik_Query("DROP TABLE IF EXISTS " . $tempTableName);
+        Db::query("DROP TABLE IF EXISTS " . $tempTableName);
     }
 
     /**
@@ -261,7 +262,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         Piwik::truncateAllTables();
         foreach (ArchiveTableCreator::getTablesArchivesInstalled() as $table) {
-            Piwik_Exec("DROP TABLE $table");
+            Db::exec("DROP TABLE $table");
         }
 
         // get purge data prediction
@@ -332,7 +333,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals($janRowCount, $tableCount); // January
 
         if($janRowCount != $tableCount) {
-            var_export(Piwik_FetchAll("SELECT * FROM " . Common::prefixTable($tableName) ));
+            var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($tableName) ));
         }
 
         // check february numerics not deleted
@@ -506,7 +507,7 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $purger = Piwik_PrivacyManager_LogDataPurger::make($this->settings, true);
 
-        $this->unusedIdAction = Piwik_FetchOne(
+        $this->unusedIdAction = Db::fetchOne(
             "SELECT idaction FROM " . Common::prefixTable('log_action') . " WHERE name = ?",
             array('whatever.com/_40'));
         $this->assertTrue($this->unusedIdAction > 0);
@@ -518,7 +519,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals(22, $this->_getTableCount('log_action')); // January
 
         // check that the unused action still exists
-        $count = Piwik_FetchOne(
+        $count = Db::fetchOne(
             "SELECT COUNT(*) FROM " . Common::prefixTable('log_action') . " WHERE idaction = ?",
             array($this->unusedIdAction));
         $this->assertEquals(1, $count);
@@ -723,11 +724,11 @@ class PrivacyManagerTest extends IntegrationTestCase
         foreach ($archiveTables['numeric'] as $table) {
             $realTable = Common::prefixTable($table);
             $sql = "DELETE FROM $realTable WHERE name NOT IN ('" . implode("','", $metricsToSave) . "') AND name NOT LIKE 'done%'";
-            Piwik_Query($sql);
+            Db::query($sql);
         }
         foreach ($archiveTables['blob'] as $table) {
             $realTable = Common::prefixTable($table);
-            Piwik_Query("DELETE FROM $realTable WHERE name NOT IN ('VisitorInterest_timeGap')");
+            Db::query("DELETE FROM $realTable WHERE name NOT IN ('VisitorInterest_timeGap')");
         }
 
         // add garbage metrics
@@ -738,15 +739,15 @@ class PrivacyManagerTest extends IntegrationTestCase
                         VALUES (10000,?,1,?,?,?,?,?)";
 
         // one metric for jan & one for feb
-        Piwik_Query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][0])),
+        Db::query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][0])),
             array(self::GARBAGE_FIELD, $janDate1, $janDate1, $janDate1, 1, 100));
-        Piwik_Query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][1])),
+        Db::query(sprintf($sql, Common::prefixTable($archiveTables['numeric'][1])),
             array(self::GARBAGE_FIELD, $febDate1, $febDate1, $febDate1, 1, 200));
 
         // add garbage reports
-        Piwik_Query(sprintf($sql, Common::prefixTable($archiveTables['blob'][0])),
+        Db::query(sprintf($sql, Common::prefixTable($archiveTables['blob'][0])),
             array(self::GARBAGE_FIELD, $janDate1, $janDate1, $janDate1, 10, 'blobval'));
-        Piwik_Query(sprintf($sql, Common::prefixTable($archiveTables['blob'][1])),
+        Db::query(sprintf($sql, Common::prefixTable($archiveTables['blob'][1])),
             array(self::GARBAGE_FIELD, $febDate1, $febDate1, $febDate1, 20, 'blobval'));
     }
 
@@ -760,7 +761,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $this->assertEquals(27, $this->_getTableCount('log_action'));
 
         $archiveTables = self::_getArchiveTableNames();
-//        var_export(Piwik_FetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
+//        var_export(Db::fetchAll("SELECT * FROM " . Common::prefixTable($archiveTables['numeric'][0])));
 
         $janMetricCount = $this->_getExpectedNumericArchiveCountJan();
         $this->assertEquals($janMetricCount, $this->_getTableCount($archiveTables['numeric'][0])); // January
@@ -832,7 +833,7 @@ class PrivacyManagerTest extends IntegrationTestCase
                      VALUES (1, 'abc', NOW(), 15, $unusedIdAction, $unusedIdAction,
                              $unusedIdAction, $unusedIdAction, 1000)";
 
-        Piwik_Query($sql);
+        Db::query($sql);
     }
 
     protected function _setTimeToRun()
@@ -847,7 +848,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     protected function _getTableCount($tableName, $where = '')
     {
         $sql = "SELECT COUNT(*) FROM " . Common::prefixTable($tableName) . " $where";
-        return Piwik_FetchOne($sql);
+        return Db::fetchOne($sql);
     }
 
     protected function _tableExists($tableName)
@@ -855,7 +856,7 @@ class PrivacyManagerTest extends IntegrationTestCase
         $dbName = Config::getInstance()->database['dbname'];
 
         $sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = ? AND table_name = ?";
-        return Piwik_FetchOne($sql, array($dbName, Common::prefixTable($tableName))) == 1;
+        return Db::fetchOne($sql, array($dbName, Common::prefixTable($tableName))) == 1;
     }
 
     protected static function _getArchiveTableNames()

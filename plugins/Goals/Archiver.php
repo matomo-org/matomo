@@ -12,6 +12,7 @@
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\DataArray;
 use Piwik\PluginsArchiver;
 
 class Piwik_Goals_Archiver extends PluginsArchiver
@@ -108,7 +109,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
         }
 
         $totalConversions = $totalRevenue = 0;
-        $goals = new Piwik_DataArray();
+        $goals = new DataArray();
         $visitsToConversions = $daysToConversions = array();
 
         $conversionMetrics = $this->getLogAggregator()->getConversionsMetricFields();
@@ -161,7 +162,7 @@ class Piwik_Goals_Archiver extends PluginsArchiver
         $this->getProcessor()->insertNumericRecords($metrics);
     }
 
-    protected function getConversionsNumericMetrics(Piwik_DataArray $goals)
+    protected function getConversionsNumericMetrics(DataArray $goals)
     {
         $numericRecords = array();
         $goals = $goals->getDataArray();
@@ -246,14 +247,14 @@ class Piwik_Goals_Archiver extends PluginsArchiver
     {
         foreach ($this->getEcommerceIdGoals() as $ecommerceType) {
             foreach ($this->dimensionRecord as $dimension => $record) {
-                $this->itemReports[$dimension][$ecommerceType] = new Piwik_DataArray();
+                $this->itemReports[$dimension][$ecommerceType] = new DataArray();
             }
         }
     }
 
     protected function recordItemReports()
     {
-        /** @var Piwik_DataArray $array */
+        /** @var DataArray $array */
         foreach ($this->itemReports as $dimension => $itemAggregatesByType) {
             foreach ($itemAggregatesByType as $ecommerceType => $itemAggregate) {
                 $recordName = $this->dimensionRecord[$dimension];

@@ -11,6 +11,8 @@
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\ReportRenderer;
+use Piwik\ReportRenderer\Html;
 use Piwik\Site;
 use Piwik\Translate;
 
@@ -251,7 +253,7 @@ class Piwik_PDFReports_API
         }
 
         // Joining with the site table to work around pre-1.3 where reports could still be linked to a deleted site
-        $reports = Piwik_FetchAll("SELECT *
+        $reports = Db::fetchAll("SELECT *
 								FROM " . Common::prefixTable('report') . "
 									JOIN " . Common::prefixTable('site') . "
 									USING (idsite)
@@ -434,17 +436,17 @@ class Piwik_PDFReports_API
                 $outputFilename = $reportRenderer->sendToDisk($outputFilename);
 
                 $additionalFiles = array();
-                if ($reportRenderer instanceof Piwik_ReportRenderer_Html) {
+                if ($reportRenderer instanceof Html) {
                     foreach ($processedReports as &$report) {
                         if ($report['displayGraph']) {
                             $additionalFile = array();
                             $additionalFile['filename'] = $report['metadata']['name'] . '.png';
                             $additionalFile['cid'] = $report['metadata']['uniqueId'];
                             $additionalFile['content'] =
-                                Piwik_ReportRenderer::getStaticGraph(
+                                ReportRenderer::getStaticGraph(
                                     $report['metadata'],
-                                    Piwik_ReportRenderer_Html::IMAGE_GRAPH_WIDTH,
-                                    Piwik_ReportRenderer_Html::IMAGE_GRAPH_HEIGHT,
+                                    Html::IMAGE_GRAPH_WIDTH,
+                                    Html::IMAGE_GRAPH_HEIGHT,
                                     $report['evolutionGraph'],
                                     $segment
                                 );

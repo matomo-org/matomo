@@ -8,9 +8,15 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
+use JSMin;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Version;
+use lessc;
 
 /**
  * @see libs/jsmin/jsmin.php
@@ -18,7 +24,7 @@ use Piwik\Common;
 require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
 
 /**
- * Piwik_AssetManager is the class used to manage the inclusion of UI assets:
+ * AssetManager is the class used to manage the inclusion of UI assets:
  * JavaScript and CSS files.
  *
  * It performs the following actions:
@@ -35,7 +41,7 @@ require_once PIWIK_INCLUDE_PATH . '/libs/jsmin/jsmin.php';
  *
  * @package Piwik
  */
-class Piwik_AssetManager
+class AssetManager
 {
     const MERGED_CSS_FILE = "asset_manager_global_css.css";
     const MERGED_JS_FILE = "asset_manager_global_js.js";
@@ -82,7 +88,7 @@ class Piwik_AssetManager
     public static function generateAssetsCacheBuster()
     {
         $pluginList = md5(implode(",", \Piwik\PluginsManager::getInstance()->getLoadedPluginsName()));
-        $cacheBuster = md5(Common::getSalt() . $pluginList . PHP_VERSION . Piwik_Version::VERSION);
+        $cacheBuster = md5(Common::getSalt() . $pluginList . PHP_VERSION . Version::VERSION);
         return $cacheBuster;
     }
 
@@ -133,7 +139,8 @@ class Piwik_AssetManager
             $firstLine = fgets($f);
             fclose($f);
             if (!empty($firstLine)
-                && trim($firstLine) == trim($firstLineCompileHash)) {
+                && trim($firstLine) == trim($firstLineCompileHash)
+            ) {
                 return;
             }
             // Some CSS file in the merge, has changed since last merged asset was generated
@@ -145,9 +152,9 @@ class Piwik_AssetManager
         Piwik_PostEvent('AssetManager.filterMergedCss', array(&$mergedContent));
 
         $mergedContent =
-              $firstLineCompileHash . "\n"
-            . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n"
-            . $mergedContent;
+            $firstLineCompileHash . "\n"
+                . "/* Piwik CSS file is compiled with Less. You may be interested in writing a custom Theme for Piwik! */\n"
+                . $mergedContent;
 
         self::writeAssetToFile($mergedContent, self::MERGED_CSS_FILE);
     }

@@ -12,6 +12,8 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Cookie;
+use Piwik\View;
 use Piwik\Plugin;
 use Piwik\Translate;
 
@@ -71,7 +73,7 @@ class Piwik_LanguagesManager extends Plugin
      */
     private function getLanguagesSelector()
     {
-        $view = new Piwik_View("@LanguagesManager/getLanguagesSelector");
+        $view = new View("@LanguagesManager/getLanguagesSelector");
         $view->languages = Piwik_LanguagesManager_API::getInstance()->getAvailableLanguageNames();
         $view->currentLanguageCode = self::getLanguageCodeForCurrentUser();
         $view->currentLanguageName = self::getLanguageNameForCurrentUser();
@@ -90,7 +92,7 @@ class Piwik_LanguagesManager extends Plugin
 
     public function deleteUserLanguage($userLogin)
     {
-        Piwik_Query('DELETE FROM ' . Common::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
+        Db::query('DELETE FROM ' . Common::prefixTable('user_language') . ' WHERE login = ?', $userLogin);
     }
 
     /**
@@ -105,7 +107,7 @@ class Piwik_LanguagesManager extends Plugin
 					language VARCHAR( 10 ) NOT NULL ,
 					PRIMARY KEY ( login )
 					)  DEFAULT CHARSET=utf8 ";
-            Piwik_Exec($sql);
+            Db::exec($sql);
         } catch (Exception $e) {
             // mysql code error 1050:table already exists
             // see bug #153 http://dev.piwik.org/trac/ticket/153
@@ -120,7 +122,7 @@ class Piwik_LanguagesManager extends Plugin
      */
     public function uninstall()
     {
-        Piwik_DropTables(Common::prefixTable('user_language'));
+        Db::dropTables(Common::prefixTable('user_language'));
     }
 
     /**
@@ -178,7 +180,7 @@ class Piwik_LanguagesManager extends Plugin
     static public function getLanguageForSession()
     {
         $cookieName = Config::getInstance()->General['language_cookie_name'];
-        $cookie = new Piwik_Cookie($cookieName);
+        $cookie = new Cookie($cookieName);
         if ($cookie->isCookieFound()) {
             return $cookie->get('language');
         }
@@ -198,7 +200,7 @@ class Piwik_LanguagesManager extends Plugin
         }
 
         $cookieName = Config::getInstance()->General['language_cookie_name'];
-        $cookie = new Piwik_Cookie($cookieName, 0);
+        $cookie = new Cookie($cookieName, 0);
         $cookie->set('language', $languageCode);
         $cookie->save();
     }

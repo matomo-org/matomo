@@ -18,21 +18,6 @@ use Piwik\EventDispatcher;
 use Piwik\Translate;
 use Piwik\Plugin\MetadataLoader;
 
-/**
- * @see core/Menu/Abstract.php
- * @see core/Menu/Main.php
- * @see core/Menu/Admin.php
- * @see core/Menu/Top.php
- * @see core/PluginsFunctions/WidgetsList.php
- * @see core/PluginsFunctions/Sql.php
- * @see core/EventDispatcher.php
- */
-require_once PIWIK_INCLUDE_PATH . '/core/Menu/Abstract.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Menu/Main.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Menu/Admin.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Menu/Top.php';
-require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/WidgetsList.php';
-require_once PIWIK_INCLUDE_PATH . '/core/PluginsFunctions/Sql.php';
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
 /**
@@ -535,7 +520,7 @@ class PluginsManager
      */
     public function unloadPlugin($plugin)
     {
-        if (!($plugin instanceof Piwik_Plugin)) {
+        if (!($plugin instanceof Plugin)) {
             $oPlugin = $this->loadPlugin($plugin);
             if ($oPlugin === null) {
                 unset($this->loadedPlugins[$plugin]);
@@ -719,7 +704,6 @@ class PluginsManager
     }
 }
 
-namespace Piwik;
 /**
  * @package Piwik
  * @subpackage PluginsManager

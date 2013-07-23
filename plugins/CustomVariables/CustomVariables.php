@@ -9,6 +9,7 @@
  * @package Piwik_CustomVariables
  */
 use Piwik\ArchiveProcessor;
+use Piwik\Tracker;
 use Piwik\Plugin;
 
 /**
@@ -42,7 +43,7 @@ class Piwik_CustomVariables extends Plugin
 
     public function addWidgets()
     {
-        Piwik_AddWidget('General_Visitors', 'CustomVariables_CustomVariables', 'CustomVariables', 'getCustomVariables');
+        WidgetsList::add('General_Visitors', 'CustomVariables_CustomVariables', 'CustomVariables', 'getCustomVariables');
     }
 
     public function addMenus()
@@ -79,7 +80,7 @@ class Piwik_CustomVariables extends Plugin
 
     public function getSegmentsMetadata(&$segments)
     {
-        for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             $segments[] = array(
                 'type'       => 'dimension',
                 'category'   => 'CustomVariables_CustomVariables',

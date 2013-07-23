@@ -9,8 +9,17 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
+use HTML_QuickForm2;
+use HTML_QuickForm2_InvalidArgumentException;
+use HTML_QuickForm2_Node;
+use HTML_QuickForm2_NotFoundException;
+use HTML_QuickForm2_Renderer;
+use Piwik\Url;
+
 /**
- * Parent class for forms to be included in Smarty
+ * Manages forms displayed in Twig
  *
  * For an example, @see Piwik_Login_FormLogin
  *
@@ -18,14 +27,14 @@
  * @see                 HTML_QuickForm2, libs/HTML/QuickForm2.php
  * @link http://pear.php.net/package/HTML_QuickForm2/
  */
-abstract class Piwik_QuickForm2 extends HTML_QuickForm2
+abstract class QuickForm2 extends HTML_QuickForm2
 {
     protected $a_formElements = array();
 
     function __construct($id, $method = 'post', $attributes = null, $trackSubmit = false)
     {
         if (!isset($attributes['action'])) {
-            $attributes['action'] = Piwik_Url::getCurrentQueryString();
+            $attributes['action'] = Url::getCurrentQueryString();
         }
         if (!isset($attributes['name'])) {
             $attributes['name'] = $id;

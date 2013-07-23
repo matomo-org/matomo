@@ -8,7 +8,10 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Db;
+
 use Piwik\Config;
+use Piwik\Db\Schema\SchemaInterface;
 
 /**
  * Schema abstraction
@@ -18,12 +21,12 @@ use Piwik\Config;
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Schema
+class Schema
 {
     /**
      * Singleton instance
      *
-     * @var Piwik_Db_Schema
+     * @var \Piwik\Db\Schema
      */
     static private $instance = null;
 
@@ -35,9 +38,9 @@ class Piwik_Db_Schema
     private $schema = null;
 
     /**
-     * Returns the singleton Piwik_Db_Schema
+     * Returns the singleton Schema
      *
-     * @return Piwik_Db_Schema
+     * @return \Piwik\Db\Schema
      */
     static public function getInstance()
     {
@@ -145,9 +148,9 @@ class Piwik_Db_Schema
     }
 
     /**
-     * Returns an instance that subclasses Piwik_Db_Schema
+     * Returns an instance that subclasses Schema
      *
-     * @return Piwik_Db_Schema_Interface
+     * @return \Piwik\Db\Schema\SchemaInterface
      */
     private function getSchema()
     {

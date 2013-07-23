@@ -9,6 +9,7 @@
  * @package Piwik_VisitorInterest
  */
 use Piwik\ArchiveProcessor;
+use Piwik\FrontController;
 use Piwik\Plugin;
 
 /**
@@ -95,10 +96,10 @@ class Piwik_VisitorInterest extends Plugin
 
     function addWidgets()
     {
-        Piwik_AddWidget('General_Visitors', 'VisitorInterest_WidgetLengths', 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration');
-        Piwik_AddWidget('General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
-        Piwik_AddWidget('General_Visitors', 'VisitorInterest_visitsByVisitCount', 'VisitorInterest', 'getNumberOfVisitsByVisitCount');
-        Piwik_AddWidget('General_Visitors', 'VisitorInterest_WidgetVisitsByDaysSinceLast', 'VisitorInterest', 'getNumberOfVisitsByDaysSinceLast');
+        WidgetsList::add('General_Visitors', 'VisitorInterest_WidgetLengths', 'VisitorInterest', 'getNumberOfVisitsPerVisitDuration');
+        WidgetsList::add('General_Visitors', 'VisitorInterest_WidgetPages', 'VisitorInterest', 'getNumberOfVisitsPerPage');
+        WidgetsList::add('General_Visitors', 'VisitorInterest_visitsByVisitCount', 'VisitorInterest', 'getNumberOfVisitsByVisitCount');
+        WidgetsList::add('General_Visitors', 'VisitorInterest_WidgetVisitsByDaysSinceLast', 'VisitorInterest', 'getNumberOfVisitsByDaysSinceLast');
     }
 
     function addMenu()
@@ -139,7 +140,7 @@ class Piwik_VisitorInterest extends Plugin
         $out = '</div>
 			<div id="rightcolumn">
 			';
-        $out .= Piwik_FrontController::getInstance()->fetchDispatch('VisitorInterest', 'index');
+        $out .= FrontController::getInstance()->fetchDispatch('VisitorInterest', 'index');
         $out .= '</div>';
     }
 }

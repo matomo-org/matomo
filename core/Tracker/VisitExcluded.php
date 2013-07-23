@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Common;
+use Piwik\IP;
 
 /**
  * This class contains the logic to exclude some visitors from being tracked as per user settings
@@ -134,7 +135,7 @@ class Piwik_Tracker_VisitExcluded
                 || strpos($this->userAgent, 'Google Page Speed Insights') !== false // #4049
                 || strpos($this->userAgent, 'bingbot') !== false // Bingbot
                 || strpos($this->userAgent, 'YottaaMonitor') !== false // Yottaa
-                || Piwik_IP::isIpInRange($this->ip, $this->getBotIpRanges()));
+                || IP::isIpInRange($this->ip, $this->getBotIpRanges()));
     }
 
     protected function getBotIpRanges()
@@ -182,8 +183,8 @@ class Piwik_Tracker_VisitExcluded
     {
         $websiteAttributes = Piwik_Tracker_Cache::getCacheWebsiteAttributes($this->idSite);
         if (!empty($websiteAttributes['excluded_ips'])) {
-            if (Piwik_IP::isIpInRange($this->ip, $websiteAttributes['excluded_ips'])) {
-                Common::printDebug('Visitor IP ' . Piwik_IP::N2P($this->ip) . ' is excluded from being tracked');
+            if (IP::isIpInRange($this->ip, $websiteAttributes['excluded_ips'])) {
+                Common::printDebug('Visitor IP ' . IP::N2P($this->ip) . ' is excluded from being tracked');
                 return true;
             }
         }

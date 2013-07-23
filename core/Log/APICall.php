@@ -8,14 +8,18 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Log;
+
+use Piwik\IP;
+use Piwik\Log;
 
 /**
  * Class used to log all the API Calls information (class / method / parameters / returned value / time spent)
  *
  * @package Piwik
- * @subpackage Piwik_Log
+ * @subpackage Log
  */
-class Piwik_Log_APICall extends Piwik_Log
+class APICall extends Log
 {
     const ID = 'logger_api_call';
 
@@ -36,8 +40,8 @@ class Piwik_Log_APICall extends Piwik_Log
             'timestamp'                      => 'timestamp',
             'returned_value'                 => 'returned_value'
         );
-        $screenFormatter = new Piwik_Log_APICall_Formatter_ScreenFormatter();
-        $fileFormatter = new Piwik_Log_Formatter_FileFormatter();
+        $screenFormatter = new APICall_Formatter_ScreenFormatter();
+        $fileFormatter = new Formatter_FileFormatter();
 
         parent::__construct($logToFileFilename,
             $fileFormatter,
@@ -45,7 +49,7 @@ class Piwik_Log_APICall extends Piwik_Log
             $logToDatabaseTableName,
             $logToDatabaseColumnMapping);
 
-        $this->setEventItem('caller_ip', Piwik_IP::P2N(Piwik_IP::getIpFromHeader()));
+        $this->setEventItem('caller_ip', IP::P2N(IP::getIpFromHeader()));
     }
 
     /**
@@ -67,7 +71,7 @@ class Piwik_Log_APICall extends Piwik_Log
         $event['parameter_values'] = serialize($parameterValues);
         $event['execution_time'] = $executionTime;
         $event['returned_value'] = is_array($returnedValue) ? serialize($returnedValue) : $returnedValue;
-        parent::log($event, Piwik_Log::INFO, null);
+        parent::log($event, Log::INFO, null);
     }
 }
 
@@ -75,9 +79,9 @@ class Piwik_Log_APICall extends Piwik_Log
  * Class used to format the API Call log on the screen.
  *
  * @package Piwik
- * @subpackage Piwik_Log
+ * @subpackage Log
  */
-class Piwik_Log_APICall_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter
+class APICall_Formatter_ScreenFormatter extends Formatter_ScreenFormatter
 {
     /**
      * Formats data into a single line to be written by the writer.

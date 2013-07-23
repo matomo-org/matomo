@@ -299,7 +299,7 @@ abstract class Renderer
                 $this->apiMetaData = false;
             }
 
-            $api = Piwik_API_API::getInstance();
+            $api = \Piwik_API_API::getInstance();
             $meta = $api->getMetadata($this->idSite, $apiModule, $apiAction);
             if (is_array($meta[0])) {
                 $meta = $meta[0];

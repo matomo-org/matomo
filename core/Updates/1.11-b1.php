@@ -8,11 +8,12 @@
  * @category Piwik
  * @package Updates
  */
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_1_11_b1 extends Piwik_Updates
+class Piwik_Updates_1_11_b1 extends Updates
 {
     static function isMajorUpdate()
     {

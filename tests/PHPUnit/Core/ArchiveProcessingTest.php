@@ -432,7 +432,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 
     protected function _checkTableIsExpected($table, $data)
     {
-        $fetched = Piwik_FetchAll('SELECT * FROM ' . $table);
+        $fetched = Db::fetchAll('SELECT * FROM ' . $table);
         foreach ($data as $id => $row) {
             $this->assertEquals($fetched[$id]['idsite'], $data[$id][0], "record $id is not {$data[$id][0]}");
             $this->assertEquals($fetched[$id]['url'], $data[$id][1], "Record $id bug, not {$data[$id][1]} BUT {$fetched[$id]['url']}");
@@ -441,7 +441,7 @@ class ArchiveProcessingTest extends DatabaseTestCase
 
     protected function _checkTableIsExpectedBlob($table, $data)
     {
-        $fetched = Piwik_FetchAll('SELECT * FROM ' . $table);
+        $fetched = Db::fetchAll('SELECT * FROM ' . $table);
         foreach ($data as $id => $row) {
             $this->assertEquals($fetched[$id]['idarchive'], $data[$id][0], "record $id idarchive is not '{$data[$id][0]}'");
             $this->assertEquals($fetched[$id]['name'], $data[$id][1], "record $id name is not '{$data[$id][1]}'");

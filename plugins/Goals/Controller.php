@@ -8,16 +8,21 @@
  * @category Piwik_Plugins
  * @package Piwik_Goals
  */
+use Piwik\API\Request;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Controller;
+use Piwik\FrontController;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  *
  * @package Piwik_Goals
  */
-class Piwik_Goals_Controller extends Piwik_Controller
+class Piwik_Goals_Controller extends Controller
 {
     const CONVERSION_RATE_PRECISION = 1;
 
@@ -92,14 +97,14 @@ class Piwik_Goals_Controller extends Piwik_Controller
         $_GET['filterEcommerce'] = Common::getRequestVar('filterEcommerce', 1, 'int');
         $_GET['widget'] = 1;
         $_GET['segment'] = 'visitEcommerceStatus!=none';
-        $output = Piwik_FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
+        $output = FrontController::getInstance()->dispatch('Live', 'getVisitorLog', array($fetch));
         $_GET = $saveGET;
         return $output;
     }
 
     protected function getGoalReportView($idGoal = false)
     {
-        $view = new Piwik_View('@Goals/getGoalReportView');
+        $view = new View('@Goals/getGoalReportView');
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             $goalDefinition['name'] = Piwik_Translate('Goals_Ecommerce');
             $goalDefinition['allow_multiple'] = true;
@@ -171,7 +176,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     protected function getOverviewView()
     {
-        $view = new Piwik_View('@Goals/getOverviewView');
+        $view = new View('@Goals/getOverviewView');
         $this->setGeneralVariablesView($view);
 
         $view->graphEvolution = $this->getEvolutionGraph(true, array('nb_conversions'));
@@ -183,7 +188,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
         $view->urlSparklineRevenue = $this->getUrlSparkline('getEvolutionGraph', array('columns' => array('revenue'), 'idGoal' => ''));
 
         // Pass empty idGoal will return Goal overview
-        $request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=");
+        $request = new Request("method=Goals.get&format=original&idGoal=");
         $datatable = $request->process();
         $dataRow = $datatable->getFirstRow();
         $view->nb_conversions = $dataRow->getColumn('nb_conversions');
@@ -225,7 +230,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     public function addNewGoal()
     {
-        $view = new Piwik_View('@Goals/addNewGoal');
+        $view = new View('@Goals/addNewGoal');
         $this->setGeneralVariablesView($view);
         $view->userCanEditGoals = Piwik::isUserHasAdminAccess($this->idSite);
         $view->onlyShowAddNewGoal = true;
@@ -312,7 +317,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
         }
         $topDimensions = array();
         foreach ($topDimensionsToLoad as $dimensionName => $apiMethod) {
-            $request = new Piwik_API_Request("method=$apiMethod
+            $request = new Request("method=$apiMethod
 								&format=original
 								&filter_update_columns_when_show_all_goals=1
 								&idGoal=" . AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE . "
@@ -348,7 +353,7 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     protected function getMetricsForGoal($idGoal)
     {
-        $request = new Piwik_API_Request("method=Goals.get&format=original&idGoal=$idGoal");
+        $request = new Request("method=Goals.get&format=original&idGoal=$idGoal");
         $datatable = $request->process();
         $dataRow = $datatable->getFirstRow();
         $nbConversions = $dataRow->getColumn('nb_conversions');
@@ -454,26 +459,26 @@ class Piwik_Goals_Controller extends Piwik_Controller
 
     public function getItemsSku($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
     
     public function getItemsName($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getItemsCategory($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getVisitsUntilConversion($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getDaysToConversion($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 }

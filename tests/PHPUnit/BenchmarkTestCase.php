@@ -50,7 +50,7 @@ abstract class BenchmarkTestCase extends IntegrationTestCase
                 Common::$cachedTablePrefix = null;
             }
 
-            Piwik_Query("USE " . $dbName);
+            Db::query("USE " . $dbName);
             $installedFixture = Piwik_GetOption('benchmark_fixture_name');
         } catch (Exception $ex) {
             // ignore

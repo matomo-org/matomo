@@ -8,15 +8,17 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  * Reads the requested DataTable from the API, and prepares the data to give
  * to Piwik_Visualization_Cloud that will display the tag cloud (via the template _dataTable_cloud.twig).
  *
  * @package Piwik
- * @subpackage Piwik_ViewDataTable
+ * @subpackage ViewDataTable
  */
-class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
+class Piwik_ViewDataTable_Cloud extends ViewDataTable
 {
     protected $displayLogoInsteadOfLabel = false;
 
@@ -76,7 +78,7 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
 
     protected function buildView()
     {
-        $view = new Piwik_View($this->dataTableTemplate);
+        $view = new View($this->dataTableTemplate);
         if (!$this->isDataAvailable) {
             $view->cloudValues = array();
         } else {

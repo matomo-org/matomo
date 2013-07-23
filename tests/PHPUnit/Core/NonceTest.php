@@ -1,5 +1,6 @@
 <?php
 use Piwik\Config;
+use Piwik\Nonce;
 
 /**
  * Piwik - Open source web analytics
@@ -33,6 +34,6 @@ class NonceTest extends PHPUnit_Framework_TestCase
         Config::getInstance()->General['enable_trusted_host_check'] = 0;
         $_SERVER['HTTP_HOST'] = $host;
         Config::getInstance()->General['trusted_hosts'] = array('example.com');
-        $this->assertEquals($expected, Piwik_Nonce::getAcceptableOrigins(), $host);
+        $this->assertEquals($expected, Nonce::getAcceptableOrigins(), $host);
     }
 }

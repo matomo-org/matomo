@@ -15,6 +15,7 @@ use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\TaskScheduler;
 use Piwik\Site;
 
 /**
@@ -43,7 +44,7 @@ class Piwik_CoreAdminHome_API
     public function runScheduledTasks()
     {
         Piwik::checkUserIsSuperUser();
-        return Piwik_TaskScheduler::runTasks();
+        return TaskScheduler::runTasks();
     }
 
     public function getKnownSegmentsToArchive()
@@ -173,7 +174,7 @@ class Piwik_CoreAdminHome_API
             $query = "DELETE FROM $table " .
                 " WHERE ( $sql ) " .
                 " AND idsite IN (" . $sqlIdSites . ")";
-            Piwik_Query($query, $bind);
+            Db::query($query, $bind);
         }
 
         // Update piwik_site.ts_created
@@ -183,7 +184,7 @@ class Piwik_CoreAdminHome_API
 					AND ts_created > ?";
         $minDateSql = $minDate->subDay(1)->getDatetime();
         $bind = array($minDateSql, $minDateSql);
-        Piwik_Query($query, $bind);
+        Db::query($query, $bind);
 
         // Force to re-process data for these websites in the next archive.php cron run
         $invalidatedIdSites = Piwik_CoreAdminHome_API::getWebsiteIdsToInvalidate();

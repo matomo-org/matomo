@@ -1,4 +1,5 @@
 <?php
+use Piwik\API\Request;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
@@ -7,6 +8,8 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Url;
+use Piwik\Timer;
 use Piwik\Site;
 
 /**
@@ -243,7 +246,7 @@ class Piwik_API_ProcessedReport
                                        $apiParameters = false, $idGoal = false, $language = false,
                                        $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false)
     {
-        $timer = new Piwik_Timer();
+        $timer = new Timer();
         if (empty($apiParameters)) {
             $apiParameters = array();
         }
@@ -273,8 +276,8 @@ class Piwik_API_ProcessedReport
                                                   ));
         if (!empty($segment)) $parameters['segment'] = $segment;
 
-        $url = Piwik_Url::getQueryStringFromParameters($parameters);
-        $request = new Piwik_API_Request($url);
+        $url = Url::getQueryStringFromParameters($parameters);
+        $request = new Request($url);
         try {
             /** @var DataTable */
             $dataTable = $request->process();

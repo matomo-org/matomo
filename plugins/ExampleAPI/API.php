@@ -11,6 +11,7 @@
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\DataTable;
+use Piwik\Version;
 
 /**
  * The ExampleAPI is useful to developers building a custom Piwik plugin.
@@ -61,7 +62,7 @@ class Piwik_ExampleAPI_API
     public function getPiwikVersion()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return Piwik_Version::VERSION;
+        return Version::VERSION;
     }
 
     /**

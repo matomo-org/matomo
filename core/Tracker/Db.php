@@ -9,6 +9,7 @@
  * @package Piwik
  */
 use Piwik\Common;
+use Piwik\Timer;
 
 /**
  * Simple database wrapper.
@@ -16,7 +17,7 @@ use Piwik\Common;
  * We wrote this simple class
  *
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
 abstract class Piwik_Tracker_Db
 {
@@ -60,18 +61,18 @@ abstract class Piwik_Tracker_Db
     /**
      * Initialize profiler
      *
-     * @return Piwik_Timer
+     * @return Timer
      */
     protected function initProfiler()
     {
-        return new Piwik_Timer;
+        return new Timer;
     }
 
     /**
      * Record query profile
      *
      * @param string $query
-     * @param Piwik_Timer $timer
+     * @param Timer $timer
      */
     protected function recordQueryProfile($query, $timer)
     {

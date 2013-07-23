@@ -485,7 +485,7 @@ class Piwik_UsersManager_API
      */
     public function userExists($userLogin)
     {
-        $count = Piwik_FetchOne("SELECT count(*)
+        $count = Db::fetchOne("SELECT count(*)
 													FROM " . Common::prefixTable("user") . "
 													WHERE login = ?", $userLogin);
         return $count != 0;
@@ -500,7 +500,7 @@ class Piwik_UsersManager_API
     public function userEmailExists($userEmail)
     {
         Piwik::checkUserIsNotAnonymous();
-        $count = Piwik_FetchOne("SELECT count(*)
+        $count = Db::fetchOne("SELECT count(*)
 								FROM " . Common::prefixTable("user") . "
 								WHERE email = ?", $userEmail);
         return $count != 0

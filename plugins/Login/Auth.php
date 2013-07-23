@@ -48,7 +48,7 @@ class Piwik_Login_Auth implements Auth
                 return new AuthResult(AuthResult::SUCCESS_SUPERUSER_AUTH_CODE, $rootLogin, $this->token_auth);
             }
 
-            $login = Piwik_FetchOne(
+            $login = Db::fetchOne(
                 'SELECT login
                 FROM ' . Common::prefixTable('user') . '
 					WHERE token_auth = ?',
@@ -67,7 +67,7 @@ class Piwik_Login_Auth implements Auth
             }
 
             $login = $this->login;
-            $userToken = Piwik_FetchOne(
+            $userToken = Db::fetchOne(
                 'SELECT token_auth
                 FROM ' . Common::prefixTable('user') . '
 					WHERE login = ?',

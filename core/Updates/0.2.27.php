@@ -10,11 +10,13 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Piwik_Updater;
+use Piwik\Updates;
 
 /**
  * @package Updates
  */
-class Piwik_Updates_0_2_27 extends Piwik_Updates
+class Piwik_Updates_0_2_27 extends Updates
 {
     static function getSql($schema = 'Myisam')
     {

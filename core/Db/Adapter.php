@@ -8,13 +8,17 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Db;
+
+use Piwik\Db\AdapterInterface;
 use Piwik\Loader;
+use Zend_Db_Table;
 
 /**
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Adapter
+class Adapter
 {
     /**
      * Create adapter
@@ -22,7 +26,7 @@ class Piwik_Db_Adapter
      * @param string $adapterName database adapter name
      * @param array $dbInfos database connection info
      * @param bool $connect
-     * @return Piwik_Db_Adapter_Interface
+     * @return AdapterInterface
      */
     public static function factory($adapterName, & $dbInfos, $connect = true)
     {

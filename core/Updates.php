@@ -8,6 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
 use Piwik\Config;
 
 /**
@@ -16,7 +18,7 @@ use Piwik\Config;
  * @example core/Updates/0.4.2.php
  * @package Piwik
  */
-abstract class Piwik_Updates
+abstract class Updates
 {
     /**
      * Return SQL to be executed in this update
@@ -87,7 +89,6 @@ abstract class Piwik_Updates
         $config->forceSave();
     }
 
-
     public static function deletePluginFromConfigFile($pluginToDelete)
     {
         $config = Config::getInstance();
@@ -108,6 +109,4 @@ abstract class Piwik_Updates
             $config->forceSave();
         }
     }
-
-
 }

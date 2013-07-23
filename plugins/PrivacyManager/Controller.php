@@ -9,15 +9,18 @@
  * @package Piwik_PrivacyManager
  */
 use Piwik\Config;
+use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\View;
+use Piwik\TaskScheduler;
 
 /**
  *
  * @package Piwik_PrivacyManager
  */
-class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
+class Piwik_PrivacyManager_Controller extends Admin
 {
 
     const ANONYMIZE_IP_PLUGIN_NAME = "AnonymizeIP";
@@ -90,7 +93,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
     public function getDatabaseSize()
     {
         Piwik::checkUserIsSuperUser();
-        $view = new Piwik_View('@PrivacyManager/getDatabaseSize');
+        $view = new View('@PrivacyManager/getDatabaseSize');
 
         $forceEstimate = Common::getRequestVar('forceEstimate', 0);
         $view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
@@ -112,7 +115,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
     public function privacySettings()
     {
         Piwik::checkUserHasSomeAdminAccess();
-        $view = new Piwik_View('@PrivacyManager/privacySettings');
+        $view = new View('@PrivacyManager/privacySettings');
 
         if (Piwik::isUserIsSuperUser()) {
             $view->deleteData = $this->getDeleteDataInfo();
@@ -229,7 +232,7 @@ class Piwik_PrivacyManager_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsSuperUser();
         $deleteDataInfos = array();
-        $taskScheduler = new Piwik_TaskScheduler();
+        $taskScheduler = new TaskScheduler();
         $deleteDataInfos["config"] = Piwik_PrivacyManager::getPurgeDataSettings();
         $deleteDataInfos["deleteTables"] =
             "<br/>" . implode(", ", Piwik_PrivacyManager_LogDataPurger::getDeleteTableLogTables());

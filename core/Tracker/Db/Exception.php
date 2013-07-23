@@ -13,7 +13,7 @@
  * Database Exception
  *
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
 class Piwik_Tracker_Db_Exception extends Exception
 {

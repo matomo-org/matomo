@@ -2,6 +2,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\FrontController;
 
 define('PIWIK_INCLUDE_PATH', realpath(dirname(__FILE__) . "/../.."));
 define('PIWIK_ENABLE_DISPATCH', false);
@@ -11,7 +12,7 @@ require_once PIWIK_INCLUDE_PATH . "/index.php";
 require_once PIWIK_INCLUDE_PATH . "/core/API/Request.php";
 require_once PIWIK_INCLUDE_PATH . "/libs/PiwikTracker/PiwikTracker.php";
 
-Piwik_FrontController::getInstance()->init();
+FrontController::getInstance()->init();
 
 // SECURITY: DO NOT DELETE THIS LINE!
 if (!Common::isPhpCliMode()) {
@@ -30,7 +31,7 @@ class Piwik_StressTests_CopyLogs
         $config = Config::getInstance();
         $config->log['log_only_when_debug_parameter'] = 0;
         $config->log['logger_message'] = array("logger_message" => "screen");
-        Piwik::createLogObject();
+        \Piwik\Log::make();
     }
 
     function run()

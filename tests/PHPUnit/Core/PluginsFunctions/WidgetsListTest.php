@@ -7,6 +7,7 @@
  */
 
 use Piwik\Access;
+use Piwik\WidgetsList;
 
 class WidgetsListTest extends DatabaseTestCase
 {
@@ -28,9 +29,9 @@ class WidgetsListTest extends DatabaseTestCase
 
         IntegrationTestCase::loadAllPlugins();
 
-        Piwik_WidgetsList::_reset();
-        $widgets = Piwik_GetWidgetsList();
-        Piwik_WidgetsList::_reset();
+        WidgetsList::_reset();
+        $widgets = WidgetsList::get();
+        WidgetsList::_reset();
 
         // number of main categories
         $this->assertEquals(12, count($widgets));
@@ -75,9 +76,9 @@ class WidgetsListTest extends DatabaseTestCase
 
         IntegrationTestCase::loadAllPlugins();
 
-        Piwik_WidgetsList::_reset();
-        $widgets = Piwik_GetWidgetsList();
-        Piwik_WidgetsList::_reset();
+        WidgetsList::_reset();
+        $widgets = WidgetsList::get();
+        WidgetsList::_reset();
 
         // number of main categories
         $this->assertEquals(12, count($widgets));
@@ -112,9 +113,9 @@ class WidgetsListTest extends DatabaseTestCase
 
         IntegrationTestCase::loadAllPlugins();
 
-        Piwik_WidgetsList::_reset();
-        $widgets = Piwik_GetWidgetsList();
-        Piwik_WidgetsList::_reset();
+        WidgetsList::_reset();
+        $widgets = WidgetsList::get();
+        WidgetsList::_reset();
 
         // number of main categories
         $this->assertEquals(13, count($widgets));

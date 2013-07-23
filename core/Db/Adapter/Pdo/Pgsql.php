@@ -8,13 +8,20 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Db\Adapter\Pdo;
+
+use Exception;
+use PDO;
+use PDOException;
 use Piwik\Config;
+use Piwik\Db\Adapter\AdapterInterface;
+use Zend_Db_Adapter_Pdo_Pgsql;
 
 /**
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Adapter_Pdo_Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements Piwik_Db_Adapter_Interface
+class Pgsql extends Zend_Db_Adapter_Pdo_Pgsql implements AdapterInterface
 {
     /**
      * Reset the configuration variables in this adapter.

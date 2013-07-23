@@ -8,14 +8,16 @@
  * @category Piwik_Plugins
  * @package Piwik_Installation
  */
+use Piwik\Db\Adapter;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\QuickForm2;
 
 /**
  *
  * @package Piwik_Installation
  */
-class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
+class Piwik_Installation_FormDatabaseSetup extends QuickForm2
 {
     function __construct($id = 'databasesetupform', $method = 'post', $attributes = null, $trackSubmit = false)
     {
@@ -29,7 +31,7 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
         $checkUserPrivilegesClass = 'Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges';
         HTML_QuickForm2_Factory::registerRule('checkUserPrivileges', $checkUserPrivilegesClass);
 
-        $availableAdapters = Piwik_Db_Adapter::getAdapters();
+        $availableAdapters = Adapter::getAdapters();
         $adapters = array();
         foreach ($availableAdapters as $adapter => $port) {
             $adapters[$adapter] = $adapter;
@@ -88,7 +90,7 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
         }
 
         $adapter = $this->getSubmitValue('adapter');
-        $port = Piwik_Db_Adapter::getDefaultPortForAdapter($adapter);
+        $port = Adapter::getDefaultPortForAdapter($adapter);
 
         $dbInfos = array(
             'host'          => $this->getSubmitValue('host'),
@@ -113,7 +115,7 @@ class Piwik_Installation_FormDatabaseSetup extends Piwik_QuickForm2
         try {
             @Piwik::createDatabaseObject($dbInfos);
         } catch (Zend_Db_Adapter_Exception $e) {
-            $db = Piwik_Db_Adapter::factory($adapter, $dbInfos, $connect = false);
+            $db = Adapter::factory($adapter, $dbInfos, $connect = false);
 
             // database not found, we try to create  it
             if ($db->isErrNo($e, '1049')) {

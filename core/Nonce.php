@@ -8,7 +8,12 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
 use Piwik\Common;
+use Piwik_Session_Namespace;
+use Piwik\Url;
+use false;
 
 /**
  * Nonce class.
@@ -23,7 +28,7 @@ use Piwik\Common;
  *
  * @package Piwik
  */
-class Piwik_Nonce
+class Nonce
 {
     /**
      * Generate nonce
@@ -68,8 +73,8 @@ class Piwik_Nonce
         }
 
         // validate referer
-        $referer = Piwik_Url::getReferer();
-        if (!empty($referer) && !Piwik_Url::isLocalUrl($referer)) {
+        $referer = Url::getReferer();
+        if (!empty($referer) && !Url::isLocalUrl($referer)) {
             return false;
         }
 
@@ -117,7 +122,7 @@ class Piwik_Nonce
      */
     static public function getAcceptableOrigins()
     {
-        $host = Piwik_Url::getCurrentHost(null);
+        $host = Url::getCurrentHost(null);
         $port = '';
 
         // parse host:port

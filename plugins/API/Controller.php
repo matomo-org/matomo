@@ -8,14 +8,19 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\API\DocumentationGenerator;
+use Piwik\API\Request;
+use Piwik\API\Proxy;
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  *
  * @package Piwik_API
  */
-class Piwik_API_Controller extends Piwik_Controller
+class Piwik_API_Controller extends Controller
 {
     function index()
     {
@@ -23,23 +28,23 @@ class Piwik_API_Controller extends Piwik_Controller
         if (!isset($_GET['filter_limit'])) {
             $_GET['filter_limit'] = Config::getInstance()->General['API_datatable_default_limit'];
         }
-        $request = new Piwik_API_Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
+        $request = new Request('token_auth=' . Common::getRequestVar('token_auth', 'anonymous', 'string'));
         echo $request->process();
     }
 
     public function listAllMethods()
     {
-        $ApiDocumentation = new Piwik_API_DocumentationGenerator();
+        $ApiDocumentation = new DocumentationGenerator();
         echo $ApiDocumentation->getAllInterfaceString($outputExampleUrls = true, $prefixUrls = Common::getRequestVar('prefixUrl', ''));
     }
 
     public function listAllAPI()
     {
-        $view = new Piwik_View("@API/listAllAPI");
+        $view = new View("@API/listAllAPI");
         $this->setGeneralVariablesView($view);
 
-        $ApiDocumentation = new Piwik_API_DocumentationGenerator();
-        $view->countLoadedAPI = Piwik_API_Proxy::getInstance()->getCountRegisteredClasses();
+        $ApiDocumentation = new DocumentationGenerator();
+        $view->countLoadedAPI = Proxy::getInstance()->getCountRegisteredClasses();
         $view->list_api_methods_with_links = $ApiDocumentation->getAllInterfaceString();
         echo $view->render();
     }

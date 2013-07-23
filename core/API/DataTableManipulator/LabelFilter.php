@@ -8,9 +8,13 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\API\DataTableManipulator;
+
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\API\DataTableManipulator;
+use false;
 
 /**
  * This class is responsible for handling the label parameter that can be
@@ -23,7 +27,7 @@ use Piwik\DataTable\Row;
  * @package Piwik
  * @subpackage Piwik_API
  */
-class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableManipulator
+class LabelFilter extends DataTableManipulator
 {
     const SEPARATOR_RECURSIVE_LABEL = '>';
 
@@ -96,7 +100,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
     }
 
     /**
-     * Clean up request for Piwik_API_ResponseBuilder to behave correctly
+     * Clean up request for ResponseBuilder to behave correctly
      *
      * @param $request
      */
@@ -108,7 +112,7 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
     /**
      * Use variations of the label to make it easier to specify the desired label
      *
-     * Note: The HTML Encoded version must be tried first, since in Piwik_API_ResponseBuilder the $label is unsanitized
+     * Note: The HTML Encoded version must be tried first, since in ResponseBuilder the $label is unsanitized
      * via Common::unsanitizeLabelParameter.
      *
      * @param string $label
@@ -117,19 +121,19 @@ class Piwik_API_DataTableManipulator_LabelFilter extends Piwik_API_DataTableMani
     private function getLabelVariations($label)
     {
         static $pageTitleReports = array('getPageTitles', 'getEntryPageTitles', 'getExitPageTitles');
-        
+
         $variations = array();
         $label = urldecode($label);
         $label = trim($label);
 
-        $sanitizedLabel = Common::sanitizeInputValue( $label );
+        $sanitizedLabel = Common::sanitizeInputValue($label);
         $variations[] = $sanitizedLabel;
 
         if ($this->apiModule == 'Actions'
             && in_array($this->apiMethod, $pageTitleReports)
         ) {
             // special case: the Actions.getPageTitles report prefixes some labels with a blank.
-            // the blank might be passed by the user but is removed in Piwik_API_Request::getRequestArrayFromString.
+            // the blank might be passed by the user but is removed in Request::getRequestArrayFromString.
             $variations[] = ' ' . $sanitizedLabel;
             $variations[] = ' ' . $label;
         }

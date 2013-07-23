@@ -130,7 +130,7 @@ class Piwik_DevicesDetection extends Plugin
             list($category, $name, $controllerName, $controllerAction) = $report;
             if ($category == false)
                 continue;
-            Piwik_AddWidget($category, $name, $controllerName, $controllerAction);
+            WidgetsList::add($category, $name, $controllerName, $controllerAction);
         }
     }
 
@@ -194,12 +194,12 @@ class Piwik_DevicesDetection extends Plugin
                 ADD `config_device_type` TINYINT( 10 ) NULL DEFAULT NULL AFTER `config_browser_version` ,
                 ADD `config_device_brand` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_type` ,
                 ADD `config_device_model` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_brand`";
-            Piwik_Exec($q1);
+            Db::exec($q1);
             // conditionaly add this column
             if (@Config::getInstance()->Debug['store_user_agent_in_visit']) {
                 $q2 = "ALTER TABLE `" . Common::prefixTable("log_visit") . "`
                 ADD `config_debug_ua` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `config_device_model`";
-                Piwik_Exec($q2);
+                Db::exec($q2);
             }
         } catch (Exception $e) {
            if (!Zend_Registry::get('db')->isErrNo($e, '1060')) {

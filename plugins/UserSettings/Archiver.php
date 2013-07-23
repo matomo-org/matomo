@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\DataArray;
 use Piwik\PluginsArchiver;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserSettings/functions.php';
@@ -125,7 +126,7 @@ class Piwik_UserSettings_Archiver extends PluginsArchiver
     {
         $query = $this->getLogAggregator()->queryVisitsByDimension( array("label" => self::LANGUAGE_DIMENSION) );
         $languageCodes = array_keys(Common::getLanguagesList());
-        $metricsByLanguage = new Piwik_DataArray();
+        $metricsByLanguage = new DataArray();
         while ($row = $query->fetch()) {
             $code = Common::extractLanguageCodeFromBrowserLanguage($row['label'], $languageCodes);
             $metricsByLanguage->sumMetricsVisits($code, $row);

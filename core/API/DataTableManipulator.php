@@ -8,15 +8,21 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\API;
+
+use Exception;
 use Piwik\DataTable\Row;
 use Piwik\Period\Range;
 use Piwik\DataTable;
+use Piwik_API_API;
+use Piwik\API\Proxy;
+use Piwik\API\ResponseBuilder;
 
 /**
  * Base class for manipulating data tables.
  * It provides generic mechanisms like iteration and loading subtables.
  *
- * The manipulators are used in Piwik_API_ResponseBuilder and are triggered by
+ * The manipulators are used in ResponseBuilder and are triggered by
  * API parameters. They are not filters because they don't work on the pre-
  * fetched nested data tables. Instead, they load subtables using this base
  * class. This way, they can only load the tables they really need instead
@@ -27,7 +33,7 @@ use Piwik\DataTable;
  * @package Piwik
  * @subpackage Piwik_API
  */
-abstract class Piwik_API_DataTableManipulator
+abstract class DataTableManipulator
 {
     protected $apiModule;
     protected $apiMethod;
@@ -92,7 +98,7 @@ abstract class Piwik_API_DataTableManipulator
      * Load the subtable for a row.
      * Returns null if none is found.
      *
-     * @param DataTable     $dataTable
+     * @param DataTable $dataTable
      * @param Row $row
      *
      * @return DataTable
@@ -114,7 +120,7 @@ abstract class Piwik_API_DataTableManipulator
         if ($dataTable) {
             $period = $dataTable->metadata['period'];
             if ($period instanceof Range) {
-                $request['date'] = $period->getDateStart().','.$period->getDateEnd();
+                $request['date'] = $period->getDateStart() . ',' . $period->getDateEnd();
             } else {
                 $request['date'] = $period->getDateStart()->toString();
             }
@@ -132,8 +138,8 @@ abstract class Piwik_API_DataTableManipulator
         // run it on the flattened table.
         unset($request['filter_pattern_recursive']);
 
-        $dataTable = Piwik_API_Proxy::getInstance()->call($class, $method, $request);
-        $response = new Piwik_API_ResponseBuilder($format = 'original', $request);
+        $dataTable = Proxy::getInstance()->call($class, $method, $request);
+        $response = new ResponseBuilder($format = 'original', $request);
         $dataTable = $response->getResponse($dataTable);
         if (method_exists($dataTable, 'applyQueuedFilters')) {
             $dataTable->applyQueuedFilters();
@@ -144,7 +150,7 @@ abstract class Piwik_API_DataTableManipulator
 
     /**
      * In this method, subclasses can clean up the request array for loading subtables
-     * in order to make Piwik_API_ResponseBuilder behave correctly (e.g. not trigger the
+     * in order to make ResponseBuilder behave correctly (e.g. not trigger the
      * manipulator again).
      *
      * @param $request
@@ -169,5 +175,4 @@ abstract class Piwik_API_DataTableManipulator
         }
         return $this->apiMethodForSubtable;
     }
-
 }

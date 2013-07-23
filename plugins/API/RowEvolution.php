@@ -8,6 +8,9 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\API\DataTableManipulator\LabelFilter;
+use Piwik\API\ResponseBuilder;
+use Piwik\API\Request;
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Filter\SafeDecodeLabel;
 use Piwik\DataTable\Row;
@@ -15,6 +18,7 @@ use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Url;
 
 /**
  * This class generates a Row evolution dataset, from input request
@@ -36,7 +40,7 @@ class Piwik_API_RowEvolution
             throw new Exception("Row evolutions can not be processed with this combination of \'date\' and \'period\' parameters.");
         }
 
-        $label = Piwik_API_ResponseBuilder::unsanitizeLabelParameter($label);
+        $label = ResponseBuilder::unsanitizeLabelParameter($label);
         $labels = Piwik::getArrayFromApiParameter($label);
 
 
@@ -80,7 +84,7 @@ class Piwik_API_RowEvolution
             foreach ($table->getRows() as $row) {
                 $label = $row->getColumn('label');
                 if (isset($labelsToIndex[$label])) {
-                    $row->setMetadata(Piwik_API_DataTableManipulator_LabelFilter::FLAG_IS_ROW_EVOLUTION, $labelsToIndex[$label]);
+                    $row->setMetadata(LabelFilter::FLAG_IS_ROW_EVOLUTION, $labelsToIndex[$label]);
                 }
             }
         }
@@ -155,7 +159,7 @@ class Piwik_API_RowEvolution
 
         // if we have a recursive label and no url, use the path
         if (!$urlFound) {
-            $actualLabel = str_replace(Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
+            $actualLabel = str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
         }
 
         $return = array(
@@ -237,9 +241,9 @@ class Piwik_API_RowEvolution
             $parameters['filter_add_columns_when_show_all_columns'] = '1';
         }
 
-        $url = Piwik_Url::getQueryStringFromParameters($parameters);
+        $url = Url::getQueryStringFromParameters($parameters);
 
-        $request = new Piwik_API_Request($url);
+        $request = new Request($url);
 
         try {
             $dataTable = $request->process();
@@ -450,7 +454,7 @@ class Piwik_API_RowEvolution
     }
 
     /**
-     * Returns the row in a datatable by its Piwik_API_DataTableManipulator_LabelFilter::FLAG_IS_ROW_EVOLUTION metadata.
+     * Returns the row in a datatable by its LabelFilter::FLAG_IS_ROW_EVOLUTION metadata.
      *
      * @param DataTable $table
      * @param int $labelIdx
@@ -461,7 +465,7 @@ class Piwik_API_RowEvolution
         $labelIdx = (int)$labelIdx;
         foreach ($table->getRows() as $row)
         {
-            if ($row->getMetadata(Piwik_API_DataTableManipulator_LabelFilter::FLAG_IS_ROW_EVOLUTION) === $labelIdx)
+            if ($row->getMetadata(LabelFilter::FLAG_IS_ROW_EVOLUTION) === $labelIdx)
             {
                 return $row;
             }
@@ -476,6 +480,6 @@ class Piwik_API_RowEvolution
      */
     private function cleanOriginalLabel($label)
     {
-        return str_replace(Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
+        return str_replace(LabelFilter::SEPARATOR_RECURSIVE_LABEL, ' - ', $label);
     }
 }

@@ -8,9 +8,23 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\AssetManager;
+use Piwik\Version;
+use Piwik\Url;
+use Piwik\UpdateCheck;
+use Piwik\Twig;
+use Piwik\QuickForm2;
+use Piwik_SitesManager_API;
+use Piwik_UsersManager_API;
+use Piwik_View_Interface;
+use Twig_Environment;
+use Zend_Registry;
 
 /**
  * Transition for pre-Piwik 0.4.4
@@ -24,7 +38,7 @@ if (!defined('PIWIK_USER_PATH')) {
  *
  * @package Piwik
  */
-class Piwik_View implements Piwik_View_Interface
+class View implements Piwik_View_Interface
 {
     private $template = '';
 
@@ -40,15 +54,15 @@ class Piwik_View implements Piwik_View_Interface
     public function __construct($templateFile)
     {
         $templateExt = '.twig';
-        if(substr($templateFile, -strlen($templateExt)) !== $templateExt) {
+        if (substr($templateFile, -strlen($templateExt)) !== $templateExt) {
             $templateFile .= $templateExt;
         }
         $this->template = $templateFile;
 
         $this->initializeTwig();
 
-        $this->piwik_version = Piwik_Version::VERSION;
-        $this->piwikUrl = Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName());
+        $this->piwik_version = Version::VERSION;
+        $this->piwikUrl = Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName());
     }
 
     /**
@@ -77,7 +91,7 @@ class Piwik_View implements Piwik_View_Interface
 
     public function initializeTwig()
     {
-        $piwikTwig = new Piwik_Twig();
+        $piwikTwig = new Twig();
         $this->twig = $piwikTwig->getTwigEnvironment();
     }
 
@@ -99,11 +113,11 @@ class Piwik_View implements Piwik_View_Interface
             $sites = Piwik_SitesManager_API::getInstance()->getSitesWithAtLeastViewAccess($count);
             usort($sites, create_function('$site1, $site2', 'return strcasecmp($site1["name"], $site2["name"]);'));
             $this->sites = $sites;
-            $this->url = Common::sanitizeInputValue(Piwik_Url::getCurrentUrl());
+            $this->url = Common::sanitizeInputValue(Url::getCurrentUrl());
             $this->token_auth = Piwik::getCurrentUserTokenAuth();
             $this->userHasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
             $this->userIsSuperUser = Piwik::isUserIsSuperUser();
-            $this->latest_version_available = Piwik_UpdateCheck::isNewestVersionAvailable();
+            $this->latest_version_available = UpdateCheck::isNewestVersionAvailable();
             $this->disableLink = Common::getRequestVar('disableLink', 0, 'int');
             $this->isWidget = Common::getRequestVar('widget', 0, 'int');
             if (Config::getInstance()->General['autocomplete_min_sites'] <= count($sites)) {
@@ -116,7 +130,6 @@ class Piwik_View implements Piwik_View_Interface
 
             $user = Piwik_UsersManager_API::getInstance()->getUser($userLogin);
             $this->userAlias = $user['alias'];
-
         } catch (Exception $e) {
             // can fail, for example at installation (no plugin loaded yet)
         }
@@ -146,7 +159,7 @@ class Piwik_View implements Piwik_View_Interface
 
     protected function applyFilter_cacheBuster($output)
     {
-        $cacheBuster = Piwik_AssetManager::generateAssetsCacheBuster();
+        $cacheBuster = AssetManager::generateAssetsCacheBuster();
         $tag = 'cb=' . $cacheBuster;
 
         $pattern = array(
@@ -195,9 +208,9 @@ class Piwik_View implements Piwik_View_Interface
     /**
      * Add form to view
      *
-     * @param Piwik_QuickForm2 $form
+     * @param QuickForm2 $form
      */
-    public function addForm(Piwik_QuickForm2 $form)
+    public function addForm(QuickForm2 $form)
     {
 
         // assign array with form data
@@ -227,7 +240,7 @@ class Piwik_View implements Piwik_View_Interface
      */
     static public function clearCompiledTemplates()
     {
-        $view = new Piwik_View(null);
+        $view = new View(null);
         $view->twig->clearTemplateCache();
     }
 
@@ -241,7 +254,7 @@ class Piwik_View implements Piwik_View_Interface
      */
     static public function singleReport($title, $reportHtml, $fetch = false)
     {
-        $view = new Piwik_View('@CoreHome/_singleReport');
+        $view = new View('@CoreHome/_singleReport');
         $view->title = $title;
         $view->report = $reportHtml;
 
@@ -256,6 +269,6 @@ class Piwik_View implements Piwik_View_Interface
      */
     static public function factory($templateName = null)
     {
-        throw new Exception("Piwik_View::factory is deprecated. Use 'new Piwik_View(\$templateFile)' instead.");
+        throw new Exception("View::factory is deprecated. Use 'new View(\$templateFile)' instead.");
     }
 }

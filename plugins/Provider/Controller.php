@@ -8,12 +8,14 @@
  * @category Piwik_Plugins
  * @package Piwik_Provider
  */
+use Piwik\Controller;
+use Piwik\ViewDataTable;
 
 /**
  *
  * @package Piwik_Provider
  */
-class Piwik_Provider_Controller extends Piwik_Controller
+class Piwik_Provider_Controller extends Controller
 {
     /**
      * Provider
@@ -22,7 +24,7 @@ class Piwik_Provider_Controller extends Piwik_Controller
      */
     function getProvider($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__, "Provider.getProvider");
 
         $this->setPeriodVariablesView($view);

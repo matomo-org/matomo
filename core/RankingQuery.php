@@ -9,6 +9,10 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
+use Exception;
+
 /**
  * The ranking query class wraps an arbitrary SQL query with more SQL that limits
  * the number of results while grouping the rest to "Others" and allows for some
@@ -18,7 +22,7 @@
  * The general use case looks like this:
  *
  * // limit to 500 rows + "Others"
- * $rankingQuery = new Piwik_RankingQuery(500);
+ * $rankingQuery = new RankingQuery(500);
  *
  * // idaction_url will be "Others" in the row that contains the aggregated rest
  * $rankingQuery->addLabelColumn('idaction_url');
@@ -38,7 +42,7 @@
  *
  * @package Piwik
  */
-class Piwik_RankingQuery
+class RankingQuery
 {
 
     /**
@@ -205,7 +209,7 @@ class Piwik_RankingQuery
     public function execute($innerQuery, $bind = array())
     {
         $query = $this->generateQuery($innerQuery);
-        $data = Piwik_FetchAll($query, $bind);
+        $data = Db::fetchAll($query, $bind);
 
         if ($this->columnToMarkExcludedRows !== false) {
             // split the result into the regular result and the rows with special treatment
@@ -285,7 +289,6 @@ class Piwik_RankingQuery
             } else {
                 $additionalColumnsAggregatedString .= ', `' . $additionalColumn . '`';
             }
-
         }
 
         // initialize the counters
@@ -359,5 +362,4 @@ class Piwik_RankingQuery
 			END
 		";
     }
-
 }

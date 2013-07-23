@@ -8,15 +8,22 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\Http;
+use Piwik_SitesManager_API;
+use Piwik\Url;
+use Piwik\Version;
 
 /**
  * Class to check if a newer version of Piwik is available
  *
  * @package Piwik
  */
-class Piwik_UpdateCheck
+class UpdateCheck
 {
     const CHECK_INTERVAL = 28800; // every 8 hours
     const UI_CLICK_CHECK_INTERVAL = 10; // every 10s when user clicks UI link
@@ -28,7 +35,7 @@ class Piwik_UpdateCheck
      * Check for a newer version
      *
      * @param bool $force     Force check
-     * @param int  $interval  Interval used for update checks
+     * @param int $interval  Interval used for update checks
      */
     public static function check($force = false, $interval = null)
     {
@@ -44,9 +51,9 @@ class Piwik_UpdateCheck
             // set the time checked first, so that parallel Piwik requests don't all trigger the http requests
             Piwik_SetOption(self::LAST_TIME_CHECKED, time(), $autoLoad = 1);
             $parameters = array(
-                'piwik_version' => Piwik_Version::VERSION,
+                'piwik_version' => Version::VERSION,
                 'php_version'   => PHP_VERSION,
-                'url'           => Piwik_Url::getCurrentUrlWithoutQueryString(),
+                'url'           => Url::getCurrentUrlWithoutQueryString(),
                 'trigger'       => Common::getRequestVar('module', '', 'string'),
                 'timezone'      => Piwik_SitesManager_API::getInstance()->getDefaultTimezone(),
             );
@@ -61,7 +68,7 @@ class Piwik_UpdateCheck
             }
 
             try {
-                $latestVersion = Piwik_Http::sendHttpRequest($url, $timeout);
+                $latestVersion = Http::sendHttpRequest($url, $timeout);
                 if (!preg_match('~^[0-9][0-9a-zA-Z_.-]*$~D', $latestVersion)) {
                     $latestVersion = '';
                 }
@@ -83,7 +90,7 @@ class Piwik_UpdateCheck
     {
         $latestVersion = Piwik_GetOption(self::LATEST_VERSION);
         if (!empty($latestVersion)
-            && version_compare(Piwik_Version::VERSION, $latestVersion) == -1
+            && version_compare(Version::VERSION, $latestVersion) == -1
         ) {
             return $latestVersion;
         }

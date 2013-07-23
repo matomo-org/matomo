@@ -9,16 +9,22 @@
  * @package Piwik_VisitorGenerator
  */
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Http;
+use Piwik\Nonce;
+use Piwik\View;
+use Piwik\Url;
+use Piwik\Timer;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_VisitorGenerator
  */
-class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
+class Piwik_VisitorGenerator_Controller extends Admin
 {
     public function index()
     {
@@ -26,10 +32,10 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 
         $sitesList = Piwik_SitesManager_API::getInstance()->getSitesWithAdminAccess();
 
-        $view = new Piwik_View('@VisitorGenerator/index');
+        $view = new View('@VisitorGenerator/index');
         $this->setBasicVariablesView($view);
         $view->assign('sitesList', $sitesList);
-        $view->nonce = Piwik_Nonce::getNonce('Piwik_VisitorGenerator.generate');
+        $view->nonce = Nonce::getNonce('Piwik_VisitorGenerator.generate');
         $view->countActionsPerRun = count($this->getAccessLog());
         $view->accessLogPath = $this->getAccessLogPath();
         echo $view->render();
@@ -51,11 +57,11 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
         Piwik::checkUserIsSuperUser();
         $nonce = Common::getRequestVar('form_nonce', '', 'string', $_POST);
         if (Common::getRequestVar('choice', 'no') != 'yes' ||
-            !Piwik_Nonce::verifyNonce('Piwik_VisitorGenerator.generate', $nonce)
+            !Nonce::verifyNonce('Piwik_VisitorGenerator.generate', $nonce)
         ) {
             Piwik::redirectToModule('VisitorGenerator', 'index');
         }
-        Piwik_Nonce::discardNonce('Piwik_VisitorGenerator.generate');
+        Nonce::discardNonce('Piwik_VisitorGenerator.generate');
 
         $daysToCompute = Common::getRequestVar('daysToCompute', 1, 'int');
 
@@ -65,7 +71,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 
         Piwik::setMaxExecutionTime(0);
 
-        $timer = new Piwik_Timer;
+        $timer = new Timer;
         $time = time() - ($daysToCompute - 1) * 86400;
 
         $nbActionsTotal = 0;
@@ -83,7 +89,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
         $browserArchiving = Rules::isBrowserTriggerEnabled();
 
         // Init view
-        $view = new Piwik_View('@VisitorGenerator/generate');
+        $view = new View('@VisitorGenerator/generate');
         $this->setBasicVariablesView($view);
         $view->assign('browserArchivingEnabled', $browserArchiving);
         $view->assign('timer', $timer);
@@ -114,7 +120,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
             "fr-ch",
             "fr",
         );
-        $prefix = Piwik_Url::getCurrentUrlWithoutFileName() . "piwik.php";
+        $prefix = Url::getCurrentUrlWithoutFileName() . "piwik.php";
         $count = 0;
         foreach ($logs as $log) {
             if (!preg_match('/^(\S+) \S+ \S+ \[(.*?)\] "GET (\S+.*?)" \d+ \d+ "(.*?)" "(.*?)"/', $log, $m)) {
@@ -150,7 +156,7 @@ class Piwik_VisitorGenerator_Controller extends Piwik_Controller_Admin
 
             $acceptLanguage = $acceptLanguages[$count % count($acceptLanguages)];
 
-            if ($output = Piwik_Http::sendHttpRequest($url, $timeout = 5, $ua, $path = null, $follow = 0, $acceptLanguage)) {
+            if ($output = Http::sendHttpRequest($url, $timeout = 5, $ua, $path = null, $follow = 0, $acceptLanguage)) {
                 $count++;
             }
         }

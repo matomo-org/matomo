@@ -13,6 +13,8 @@
 // calling us waits for the full request to process before unblocking
 use Piwik\Config;
 use Piwik\DataTable\Manager;
+use Piwik\Piwik_Option;
+use Piwik\Tracker;
 use Piwik\Site;
 
 ob_start();
@@ -37,7 +39,7 @@ $trackerPlugins[] = 'DevicesDetection';
 Config::getInstance()->Plugins_Tracker['Plugins_Tracker'] = $trackerPlugins;
 Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-files';
 
-Piwik_Tracker::setTestEnvironment();
+Tracker::setTestEnvironment();
 Manager::getInstance()->deleteAll();
 Piwik_Option::getInstance()->clearCache();
 Site::clearCache();

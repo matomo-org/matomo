@@ -12,7 +12,7 @@ namespace Piwik\Plugin;
 
 use Exception;
 use Piwik\Common;
-use Piwik_Version;
+use Piwik\Version;
 
 /**
  * @see core/Version.php
@@ -73,7 +73,7 @@ class MetadataLoader
             'author_homepage'  => 'http://piwik.org/',
             'license'          => 'GPL v3 or later',
             'license_homepage' => 'http://www.gnu.org/licenses/gpl.html',
-            'version'          => Piwik_Version::VERSION,
+            'version'          => Version::VERSION,
             'theme'            => false,
         );
     }

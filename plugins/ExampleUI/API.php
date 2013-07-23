@@ -44,7 +44,7 @@ class Piwik_ExampleUI_API
 						AND date < ?
 					GROUP BY date
 					ORDER BY date ASC";
-        //$result = Piwik_FetchAll($query, array($dateStart, $dateEnd));
+        //$result = Db::fetchAll($query, array($dateStart, $dateEnd));
         // to keep things simple, we generate the data
         foreach ($period->getSubperiods() as $subPeriod) {
             $server1 = mt_rand(50, 90);

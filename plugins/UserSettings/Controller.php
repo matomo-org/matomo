@@ -8,16 +8,19 @@
  * @category Piwik_Plugins
  * @package Piwik_UserSettings
  */
+use Piwik\Controller;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  *
  * @package Piwik_UserSettings
  */
-class Piwik_UserSettings_Controller extends Piwik_Controller
+class Piwik_UserSettings_Controller extends Controller
 {
     public function index()
     {
-        $view = new Piwik_View('@UserSettings/index');
+        $view = new View('@UserSettings/index');
 
         $view->dataTablePlugin = $this->getPlugin(true);
         $view->dataTableResolution = $this->getResolution(true);
@@ -33,56 +36,56 @@ class Piwik_UserSettings_Controller extends Piwik_Controller
     
     public function getResolution($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
     
     public function getConfiguration($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getOS($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getOSFamily($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getMobileVsDesktop($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowserVersion($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowser($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getBrowserType($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getWideScreen($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getPlugin($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getLanguage($fetch = false)
     {
-        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+        return ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 }

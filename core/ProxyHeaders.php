@@ -8,6 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
 use Piwik\Common;
 
 /**
@@ -15,7 +17,7 @@ use Piwik\Common;
  *
  * @package Piwik
  */
-class Piwik_ProxyHeaders
+class ProxyHeaders
 {
     /**
      * Get protocol information, with the exception of HTTPS

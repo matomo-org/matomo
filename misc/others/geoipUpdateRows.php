@@ -2,6 +2,8 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\FrontController;
+use Piwik\IP;
 
 ini_set("memory_limit", "512M");
 error_reporting(E_ALL | E_NOTICE);
@@ -29,10 +31,10 @@ $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 define('PIWIK_ENABLE_DISPATCH', false);
 
 Config::getInstance()->log['logger_message'][] = 'screen';
-Piwik_FrontController::getInstance()->init();
+FrontController::getInstance()->init();
 
 $query = "SELECT count(*) FROM " . Common::prefixTable('log_visit');
-$count = Piwik_FetchOne($query);
+$count = Db::fetchOne($query);
 
 // when script run via browser, check for Super User & output html page to do conversion via AJAX
 if (!Common::isPhpCliMode()) {
@@ -182,7 +184,7 @@ if ($displayNotes) {
 }
 flush();
 for (; $start < $end; $start += $limit) {
-    $rows = Piwik_FetchAll("SELECT idvisit, location_ip, " . implode(',', array_keys($logVisitFieldsToUpdate)) . "
+    $rows = Db::fetchAll("SELECT idvisit, location_ip, " . implode(',', array_keys($logVisitFieldsToUpdate)) . "
 						FROM " . Common::prefixTable('log_visit') . "
 						LIMIT $start, $limit");
     if (!count($rows)) {
@@ -202,7 +204,7 @@ for (; $start < $end; $start += $limit) {
             continue;
         }
 
-        $ip = Piwik_IP::N2P($row['location_ip']);
+        $ip = IP::N2P($row['location_ip']);
         $location = $provider->getLocation(array('ip' => $ip));
 
         if (!empty($location[Piwik_UserCountry_LocationProvider::COUNTRY_CODE_KEY])) {
@@ -232,13 +234,13 @@ for (; $start < $end; $start += $limit) {
         $sql = "UPDATE " . Common::prefixTable('log_visit') . "
 				   SET " . implode(', ', $columnsToSet) . "
 				 WHERE idvisit = ?";
-        Piwik_Query($sql, $bind);
+        Db::query($sql, $bind);
 
         // update log_conversion
         $sql = "UPDATE " . Common::prefixTable('log_conversion') . "
 				   SET " . implode(', ', $columnsToSet) . "
 				 WHERE idvisit = ?";
-        Piwik_Query($sql, $bind);
+        Db::query($sql, $bind);
     }
     Piwik::log(round($start * 100 / $count) . "% done...");
     flush();

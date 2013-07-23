@@ -8,6 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
 use Piwik\Common;
 
 /**
@@ -18,7 +20,7 @@ use Piwik\Common;
  *
  * @package Piwik
  */
-class Piwik_Cookie
+class Cookie
 {
     /**
      * Don't create a cookie bigger than 1k

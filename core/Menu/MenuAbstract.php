@@ -8,12 +8,15 @@
  * @category Piwik
  * @package Piwik_Menu
  */
+namespace Piwik\Menu;
+
 use Piwik\Common;
+use Piwik_SitesManager_API;
 
 /**
  * @package Piwik_Menu
  */
-abstract class Piwik_Menu_Abstract
+abstract class MenuAbstract
 {
 
     protected $menu = null;
@@ -45,11 +48,11 @@ abstract class Piwik_Menu_Abstract
     /**
      * Adds a new entry to the menu.
      *
-     * @param string      $menuName
-     * @param string      $subMenuName
-     * @param string      $url
-     * @param bool        $displayedForCurrentUser
-     * @param int         $order
+     * @param string $menuName
+     * @param string $subMenuName
+     * @param string $url
+     * @param bool $displayedForCurrentUser
+     * @param int $order
      * @param bool|string $tooltip Tooltip to display.
      */
     public function add($menuName, $subMenuName, $url, $displayedForCurrentUser, $order = 50, $tooltip = false)
@@ -74,10 +77,10 @@ abstract class Piwik_Menu_Abstract
     /**
      * Builds a single menu item
      *
-     * @param string      $menuName
-     * @param string      $subMenuName
-     * @param string      $url
-     * @param int         $order
+     * @param string $menuName
+     * @param string $subMenuName
+     * @param string $url
+     * @param int $order
      * @param bool|string $tooltip Tooltip to display.
      */
     private function buildMenuItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false)

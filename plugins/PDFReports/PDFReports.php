@@ -12,6 +12,11 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Mail;
+use Piwik\View;
+use Piwik\ScheduledTime;
+use Piwik\ScheduledTask;
+use Piwik\ReportRenderer;
 use Piwik\Plugin;
 use Piwik\Site;
 
@@ -30,7 +35,7 @@ class Piwik_PDFReports extends Plugin
     const DISPLAY_FORMAT_TABLES_ONLY = 4; // Display only tables for all reports
     const DEFAULT_DISPLAY_FORMAT = self::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS;
 
-    const DEFAULT_REPORT_FORMAT = Piwik_ReportRenderer::HTML_FORMAT;
+    const DEFAULT_REPORT_FORMAT = ReportRenderer::HTML_FORMAT;
     const DEFAULT_PERIOD = 'week';
     const DEFAULT_HOUR = '0';
 
@@ -55,8 +60,8 @@ class Piwik_PDFReports extends Plugin
     );
 
     static private $managedReportFormats = array(
-        Piwik_ReportRenderer::HTML_FORMAT => 'plugins/Zeitgeist/images/html_icon.png',
-        Piwik_ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif'
+        ReportRenderer::HTML_FORMAT => 'plugins/Zeitgeist/images/html_icon.png',
+        ReportRenderer::PDF_FORMAT  => 'plugins/UserSettings/images/plugins/pdf.gif'
     );
 
     /**
@@ -233,9 +238,9 @@ class Piwik_PDFReports extends Plugin
             $reportFormat = $notificationInfo[Piwik_PDFReports_API::REPORT_KEY]['format'];
             $outputType = $notificationInfo[Piwik_PDFReports_API::OUTPUT_TYPE_INFO_KEY];
 
-            $reportRenderer = Piwik_ReportRenderer::factory($reportFormat);
+            $reportRenderer = ReportRenderer::factory($reportFormat);
 
-            if ($reportFormat == Piwik_ReportRenderer::HTML_FORMAT) {
+            if ($reportFormat == ReportRenderer::HTML_FORMAT) {
                 $reportRenderer->setRenderImageInline($outputType != Piwik_PDFReports_API::OUTPUT_SAVE_ON_DISK);
             }
         }
@@ -262,7 +267,7 @@ class Piwik_PDFReports extends Plugin
             $message = Piwik_Translate('PDFReports_EmailHello');
             $subject = Piwik_Translate('General_Report') . ' ' . $reportTitle . " - " . $prettyDate;
 
-            $mail = new Piwik_Mail();
+            $mail = new Mail();
             $mail->setSubject($subject);
             $fromEmailName = Config::getInstance()->branding['use_custom_logo']
                 ? Piwik_Translate('CoreHome_WebAnalyticsReports')
@@ -392,7 +397,7 @@ class Piwik_PDFReports extends Plugin
 
     static public function template_reportParametersPDFReports(&$out)
     {
-        $view = new Piwik_View('@PDFReports/reportParametersPDFReports');
+        $view = new View('@PDFReports/reportParametersPDFReports');
         $view->currentUserEmail = Piwik::getCurrentUserEmail();
         $view->displayFormats = self::getDisplayFormats();
         $view->reportType = self::EMAIL_TYPE;
@@ -414,7 +419,7 @@ class Piwik_PDFReports extends Plugin
     {
         $arbitraryDateInUTC = Date::factory('2011-01-01');
         foreach (Piwik_PDFReports_API::getInstance()->getReports() as $report) {
-            if (!$report['deleted'] && $report['period'] != Piwik_ScheduledTime::PERIOD_NEVER) {
+            if (!$report['deleted'] && $report['period'] != ScheduledTime::PERIOD_NEVER) {
                 $midnightInSiteTimezone =
                     date(
                         'H',
@@ -426,9 +431,9 @@ class Piwik_PDFReports extends Plugin
 
                 $hourInUTC = (24 - $midnightInSiteTimezone + $report['hour']) % 24;
 
-                $schedule = Piwik_ScheduledTime::getScheduledTimeForPeriod($report['period']);
+                $schedule = ScheduledTime::getScheduledTimeForPeriod($report['period']);
                 $schedule->setHour($hourInUTC);
-                $tasks[] = new Piwik_ScheduledTask (
+                $tasks[] = new ScheduledTask (
                     Piwik_PDFReports_API::getInstance(),
                     'sendReport',
                     $report['idreport'], $schedule
@@ -508,7 +513,7 @@ class Piwik_PDFReports extends Plugin
 
     public function deleteUserReport($userLogin)
     {
-        Piwik_Query('DELETE FROM ' . Common::prefixTable('report') . ' WHERE login = ?', $userLogin);
+        Db::query('DELETE FROM ' . Common::prefixTable('report') . ' WHERE login = ?', $userLogin);
     }
 
     public function install()
@@ -533,7 +538,7 @@ class Piwik_PDFReports extends Plugin
 				) DEFAULT CHARSET=utf8';
         try {
             foreach ($queries as $query) {
-                Piwik_Exec($query);
+                Db::exec($query);
             }
         } catch (Exception $e) {
             if (!Zend_Registry::get('db')->isErrNo($e, '1050')) {
@@ -577,10 +582,10 @@ class Piwik_PDFReports extends Plugin
     static public function getPeriodToFrequency()
     {
         return array(
-            Piwik_ScheduledTime::PERIOD_NEVER => Piwik_Translate('General_Never'),
-            Piwik_ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_Daily'),
-            Piwik_ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_Weekly'),
-            Piwik_ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_Monthly'),
+            ScheduledTime::PERIOD_NEVER => Piwik_Translate('General_Never'),
+            ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_Daily'),
+            ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_Weekly'),
+            ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_Monthly'),
         );
     }
 
@@ -591,11 +596,11 @@ class Piwik_PDFReports extends Plugin
     static public function getPeriodToFrequencyAsAdjective()
     {
         return array(
-            Piwik_ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_DailyReport'),
-            Piwik_ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_WeeklyReport'),
-            Piwik_ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_MonthlyReport'),
-            Piwik_ScheduledTime::PERIOD_YEAR => Piwik_Translate('General_YearlyReport'),
-            Piwik_ScheduledTime::PERIOD_RANGE => Piwik_Translate('General_RangeReports'),
+            ScheduledTime::PERIOD_DAY   => Piwik_Translate('General_DailyReport'),
+            ScheduledTime::PERIOD_WEEK  => Piwik_Translate('General_WeeklyReport'),
+            ScheduledTime::PERIOD_MONTH => Piwik_Translate('General_MonthlyReport'),
+            ScheduledTime::PERIOD_YEAR => Piwik_Translate('General_YearlyReport'),
+            ScheduledTime::PERIOD_RANGE => Piwik_Translate('General_RangeReports'),
         );
     }
 }

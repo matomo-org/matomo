@@ -9,15 +9,18 @@
  * @package Piwik_VisitorInterest
  */
 use Piwik\Metrics;
+use Piwik\Controller;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  * @package Piwik_VisitorInterest
  */
-class Piwik_VisitorInterest_Controller extends Piwik_Controller
+class Piwik_VisitorInterest_Controller extends Controller
 {
     public function index()
     {
-        $view = new Piwik_View('@VisitorInterest/index');
+        $view = new View('@VisitorInterest/index');
         $view->dataTableNumberOfVisitsPerVisitDuration = $this->getNumberOfVisitsPerVisitDuration(true);
         $view->dataTableNumberOfVisitsPerPage = $this->getNumberOfVisitsPerPage(true);
         $view->dataTableNumberOfVisitsByVisitNum = $this->getNumberOfVisitsByVisitCount(true);
@@ -27,7 +30,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 
     public function getNumberOfVisitsPerVisitDuration($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory('cloud');
+        $view = ViewDataTable::factory('cloud');
         $view->init($this->pluginName, __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerVisitDuration");
 
         $view->setColumnsToDisplay(array('label', 'nb_visits'));
@@ -45,7 +48,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
 
     public function getNumberOfVisitsPerPage($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory('cloud');
+        $view = ViewDataTable::factory('cloud');
         $view->init($this->pluginName, __FUNCTION__, "VisitorInterest.getNumberOfVisitsPerPage");
         $view->setColumnsToDisplay(array('label', 'nb_visits'));
         $view->setSortedColumn('label', 'asc');
@@ -69,7 +72,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
      */
     public function getNumberOfVisitsByVisitCount($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__, "VisitorInterest.getNumberOfVisitsByVisitCount");
         $view->setColumnsToDisplay(array('label', 'nb_visits', 'nb_visits_percentage'));
         $view->setSortedColumn('label', 'asc');
@@ -95,7 +98,7 @@ class Piwik_VisitorInterest_Controller extends Piwik_Controller
      */
     public function getNumberOfVisitsByDaysSinceLast($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__, 'VisitorInterest.getNumberOfVisitsByDaysSinceLast');
         $view->setColumnsToDisplay(array('label', 'nb_visits'));
         $view->setSortedColumn('label', 'asc');

@@ -11,13 +11,14 @@
 
 use Piwik\Common;
 use Piwik\Period\Range;
+use Piwik\Controller;
 use Piwik\Site;
 
 /**
  * Generates HTML embed for the Evolution graph
  *
  * @package Piwik
- * @subpackage Piwik_ViewDataTable
+ * @subpackage ViewDataTable
  */
 
 class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphHTML
@@ -136,7 +137,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 
         $site = new Site(Common::getRequestVar('idSite'));
 
-        $dateRange = Piwik_Controller::getDateRangeRelativeToEndDate($period, 'last' . $lastN, $endDate, $site);
+        $dateRange = Controller::getDateRangeRelativeToEndDate($period, 'last' . $lastN, $endDate, $site);
 
         return array($dateRange, $lastN);
     }

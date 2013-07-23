@@ -8,8 +8,12 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountryMap
  */
+use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\ViewDataTable;
+use Piwik\View;
 use Piwik\Site;
 use Piwik\Config;
 
@@ -17,7 +21,7 @@ use Piwik\Config;
  *
  * @package Piwik_UserCountryMap
  */
-class Piwik_UserCountryMap_Controller extends Piwik_Controller
+class Piwik_UserCountryMap_Controller extends Controller
 {
 
     // By default plot up to the last 30 days of visitors on the map, for low traffic sites
@@ -34,10 +38,10 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $date = Common::getRequestVar('date');
         $token_auth = Piwik::getCurrentUserTokenAuth();
 
-        $view = new Piwik_View('@UserCountryMap/visitorMap');
+        $view = new View('@UserCountryMap/visitorMap');
 
         // request visits summary
-        $request = new Piwik_API_Request(
+        $request = new Request(
             'method=VisitsSummary.get&format=PHP'
                 . '&idSite=' . $idSite
                 . '&period=' . $period
@@ -107,7 +111,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         Piwik::checkUserHasViewAccess($idSite);
 
         $token_auth = Piwik::getCurrentUserTokenAuth();
-        $view = new Piwik_View('@UserCountryMap/realtimeMap');
+        $view = new View('@UserCountryMap/realtimeMap');
 
         $view->mapIsStandaloneNotWidget = $standalone;
 
@@ -153,7 +157,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
     {
         $params['format'] = 'json';
         $params['showRawMetrics'] = 1;
-        $segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
+        $segment = ViewDataTable::getRawSegmentFromRequest();
         if(!empty($segment)) {
             $params['segment'] = $segment;
         }
@@ -171,7 +175,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
 
     private function getMetrics($idSite, $period, $date, $token_auth)
     {
-        $request = new Piwik_API_Request(
+        $request = new Request(
             'method=API.getMetadata&format=PHP'
                 . '&apiModule=UserCountry&apiAction=getCountry'
                 . '&idSite=' . $idSite
@@ -203,7 +207,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             . "&period=" . $period
             . "&date=" . $date
             . "&token_auth=" . $token_auth
-            . "&segment=" . Piwik_ViewDataTable::getRawSegmentFromRequest()
+            . "&segment=" . ViewDataTable::getRawSegmentFromRequest()
             . "&enable_filter_excludelowpop=1"
             . "&showRawMetrics=1";
 

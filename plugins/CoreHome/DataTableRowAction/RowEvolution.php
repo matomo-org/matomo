@@ -8,9 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_CoreHome
  */
+use Piwik\API\ResponseBuilder;
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Metrics;
 use Piwik\Date;
+use Piwik\ViewDataTable;
+use Piwik\Url;
 
 /**
  * ROW EVOLUTION
@@ -78,7 +82,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
         $this->apiMethod = Common::getRequestVar('apiMethod', '', 'string');
         if (empty($this->apiMethod)) throw new Exception("Parameter apiMethod not set.");
 
-        $this->label = Piwik_API_ResponseBuilder::getLabelFromRequest($_GET);
+        $this->label = ResponseBuilder::getLabelFromRequest($_GET);
         $this->label = $this->label[0];
 
         if ($this->label === '') throw new Exception("Parameter label not set.");
@@ -95,7 +99,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             list($this->date, $lastN) =
                 Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution::getDateRangeAndLastN($this->period, $end);
         }
-        $this->segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
+        $this->segment = ViewDataTable::getRawSegmentFromRequest();
 
         $this->loadEvolutionReport();
     }
@@ -154,9 +158,9 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             $parameters['column'] = $column;
         }
 
-        $url = Piwik_Url::getQueryStringFromParameters($parameters);
+        $url = Url::getQueryStringFromParameters($parameters);
 
-        $request = new Piwik_API_Request($url);
+        $request = new Request($url);
         $report = $request->process();
 
         $this->extractEvolutionReport($report);
@@ -174,12 +178,12 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     /**
      * Generic method to get an evolution graph or a sparkline for the row evolution popover.
      * Do as much as possible from outside the controller.
-     * @return Piwik_ViewDataTable
+     * @return ViewDataTable
      */
     public function getRowEvolutionGraph()
     {
         // set up the view data table
-        $view = Piwik_ViewDataTable::factory($this->graphType);
+        $view = ViewDataTable::factory($this->graphType);
         $view->setDataTable($this->dataTable);
         $view->init('CoreHome', 'getRowEvolutionGraph', $this->apiMethod);
 

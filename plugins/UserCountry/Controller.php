@@ -8,19 +8,25 @@
  * @category Piwik_Plugins
  * @package Piwik_UserCountry
  */
+use Piwik\Controller\Admin;
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Http;
+use Piwik\IP;
+use Piwik\ViewDataTable;
+use Piwik\View;
+use Piwik\Url;
 
 /**
  *
  * @package Piwik_UserCountry
  */
-class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
+class Piwik_UserCountry_Controller extends Admin
 {
     function index()
     {
-        $view = new Piwik_View('@UserCountry/index');
+        $view = new View('@UserCountry/index');
 
         $view->urlSparklineCountries = $this->getUrlSparkline('getLastDistinctCountriesGraph');
         $view->numberDistinctCountries = $this->getNumberOfDistinctCountries(true);
@@ -36,13 +42,13 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
     function adminIndex()
     {
         Piwik::checkUserIsSuperUser();
-        $view = new Piwik_View('@UserCountry/adminIndex');
+        $view = new View('@UserCountry/adminIndex');
 
         $allProviderInfo = Piwik_UserCountry_LocationProvider::getAllProviderInfo(
             $newline = '<br/>', $includeExtra = true);
         $view->locationProviders = $allProviderInfo;
         $view->currentProviderId = Piwik_UserCountry_LocationProvider::getCurrentProviderId();
-        $view->thisIP = Piwik_IP::getIpFromHeader();
+        $view->thisIP = IP::getIpFromHeader();
         $geoIPDatabasesInstalled = Piwik_UserCountry_LocationProvider_GeoIp::isDatabaseInstalled();
         $view->geoIPDatabasesInstalled = $geoIPDatabasesInstalled;
 
@@ -72,7 +78,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
 
         $this->setUpdaterManageVars($view);
         $this->setBasicVariablesView($view);
-        Piwik_Controller_Admin::setBasicVariablesAdminView($view);
+        Admin::setBasicVariablesAdminView($view);
 
         echo $view->render();
     }
@@ -102,7 +108,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
             Json::sendHeaderJSON();
             $outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase('GeoIPCity.dat') . '.gz';
             try {
-                $result = Piwik_Http::downloadChunk(
+                $result = Http::downloadChunk(
                     $url = Piwik_UserCountry_LocationProvider_GeoIp::GEO_LITE_URL,
                     $outputPath,
                     $continue = Common::getRequestVar('continue', true, 'int')
@@ -136,7 +142,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
      */
     private function getGeoIpUpdaterManageScreen()
     {
-        $view = new Piwik_View('@UserCountry/getGeoIpUpdaterManageScreen');
+        $view = new View('@UserCountry/getGeoIpUpdaterManageScreen');
         $view->geoIPDatabasesInstalled = true;
         $this->setUpdaterManageVars($view);
         return $view->render();
@@ -145,7 +151,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
     /**
      * Sets some variables needed by the _updaterManage.twig template.
      *
-     * @param Piwik_View $view
+     * @param View $view
      */
     private function setUpdaterManageVars($view)
     {
@@ -242,7 +248,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
                 $outputPath = Piwik_UserCountry_LocationProvider_GeoIp::getPathForGeoIpDatabase($filename);
 
                 // download part of the file
-                $result = Piwik_Http::downloadChunk(
+                $result = Http::downloadChunk(
                     $url, $outputPath, Common::getRequestVar('continue', true, 'int'));
 
                 // if the file is done
@@ -304,7 +310,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
             throw new Exception("Invalid provider ID: '$providerId'.");
         }
 
-        $location = $provider->getLocation(array('ip'                => Piwik_IP::getIpFromHeader(),
+        $location = $provider->getLocation(array('ip'                => IP::getIpFromHeader(),
                                                  'lang'              => Common::getBrowserLanguage(),
                                                  'disable_fallbacks' => true));
         $location = Piwik_UserCountry_LocationProvider::prettyFormatLocation(
@@ -380,7 +386,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
                                                        $APItoCall,
                                                        $defaultDatatableType = null)
     {
-        $view = Piwik_ViewDataTable::factory($defaultDatatableType);
+        $view = ViewDataTable::factory($defaultDatatableType);
         $view->init($this->pluginName, $currentControllerAction, $APItoCall);
         $view->disableExcludeLowPopulation();
 
@@ -427,7 +433,7 @@ class Piwik_UserCountry_Controller extends Piwik_Controller_Admin
             if (!$this->isGeoIPWorking()) {
                 $params = array('module' => 'UserCountry', 'action' => 'adminIndex');
                 $footerMessage .= ' ' . Piwik_Translate('UserCountry_NoDataForGeoIPReport2', array(
-                                                                                                  '<a target="_blank" href="' . Piwik_Url::getCurrentQueryStringWithParametersModified($params) . '">',
+                                                                                                  '<a target="_blank" href="' . Url::getCurrentQueryStringWithParametersModified($params) . '">',
                                                                                                   '</a>',
                                                                                                   '<a target="_blank" href="http://dev.maxmind.com/geoip/geolite?rId=piwik">',
                                                                                                   '</a>'

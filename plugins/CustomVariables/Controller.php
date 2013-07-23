@@ -8,22 +8,25 @@
  * @category Piwik_Plugins
  * @package Piwik_CustomVariables
  */
+use Piwik\Controller;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  * @package Piwik_CustomVariables
  */
-class Piwik_CustomVariables_Controller extends Piwik_Controller
+class Piwik_CustomVariables_Controller extends Controller
 {
     public function index($fetch = false)
     {
-        return Piwik_View::singleReport(
+        return View::singleReport(
             Piwik_Translate('CustomVariables_CustomVariables'),
             $this->getCustomVariables(true), $fetch);
     }
 
     public function getCustomVariables($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__, "CustomVariables.getCustomVariables", "getCustomVariablesValuesFromNameId");
 
         $this->setPeriodVariablesView($view);
@@ -39,7 +42,7 @@ class Piwik_CustomVariables_Controller extends Piwik_Controller
 
     public function getCustomVariablesValuesFromNameId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__, 'CustomVariables.getCustomVariablesValuesFromNameId');
 
         $this->configureView($view);

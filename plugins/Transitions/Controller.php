@@ -8,11 +8,13 @@
  * @category Piwik_Plugins
  * @package Piwik_Transitions
  */
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  * @package Piwik_Transitions
  */
-class Piwik_Transitions_Controller extends Piwik_Controller
+class Piwik_Transitions_Controller extends Controller
 {
 
     /**
@@ -74,7 +76,7 @@ class Piwik_Transitions_Controller extends Piwik_Controller
      */
     public function renderPopover()
     {
-        $view = new Piwik_View('@Transitions/renderPopover');
+        $view = new View('@Transitions/renderPopover');
         $view->translations = $this->getTranslations();
         echo $view->render();
     }

@@ -13,7 +13,7 @@
  * mysqli wrapper
  *
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
 class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
 {

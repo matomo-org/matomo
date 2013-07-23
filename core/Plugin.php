@@ -64,7 +64,7 @@ class Plugin
      * - 'homepage' => string           // plugin homepage URL
      * - 'license' => string            // plugin license
      * - 'license_homepage' => string   // license homepage URL
-     * - 'version' => string            // plugin version number; examples and 3rd party plugins must not use Piwik_Version::VERSION; 3rd party plugins must increment the version number with each plugin release
+     * - 'version' => string            // plugin version number; examples and 3rd party plugins must not use Version::VERSION; 3rd party plugins must increment the version number with each plugin release
      * - 'theme' => bool                // Whether this plugin is a theme (a theme is a plugin, but a plugin is not necessarily a theme)
      *
      * @return array

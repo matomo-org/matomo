@@ -8,10 +8,15 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Db\Schema;
+
+use Exception;
 use Piwik\Config;
+use Piwik\Db\Schema\SchemaInterface;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Zend_Registry;
 
 /**
  * MySQL schema
@@ -19,7 +24,7 @@ use Piwik\Date;
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
+class Myisam implements SchemaInterface
 {
     /**
      * Is this MySQL storage engine available?
@@ -92,7 +97,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
   						  excluded_ips TEXT NOT NULL,
   						  excluded_parameters TEXT NOT NULL,
   						  excluded_user_agents TEXT NOT NULL,
-  						  `group` VARCHAR(250) NOT NULL, 
+  						  `group` VARCHAR(250) NOT NULL,
   						  keep_url_fragment TINYINT NOT NULL DEFAULT 0,
 						  PRIMARY KEY(idsite)
 						)  DEFAULT CHARSET=utf8
@@ -197,7 +202,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 							  visit_total_searches SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_total_time SMALLINT(5) UNSIGNED NOT NULL,
 							  visit_goal_converted TINYINT(1) NOT NULL,
-							  visit_goal_buyer TINYINT(1) NOT NULL, 
+							  visit_goal_buyer TINYINT(1) NOT NULL,
 							  referer_type TINYINT(1) UNSIGNED NULL,
 							  referer_name VARCHAR(70) NULL,
 							  referer_url TEXT NOT NULL,
@@ -247,7 +252,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 										          server_time DATETIME NOT NULL,
 												  idvisit INTEGER(10) UNSIGNED NOT NULL,
 												  idorder varchar(100) NOT NULL,
-												  
+
 												  idaction_sku INTEGER(10) UNSIGNED NOT NULL,
 												  idaction_name INTEGER(10) UNSIGNED NOT NULL,
 												  idaction_category INTEGER(10) UNSIGNED NOT NULL,
@@ -258,7 +263,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 												  price FLOAT NOT NULL,
 												  quantity INTEGER(10) UNSIGNED NOT NULL,
 												  deleted TINYINT(1) UNSIGNED NOT NULL,
-												  
+
 												  PRIMARY KEY(idvisit, idorder, idaction_sku),
 										          INDEX index_idsite_servertime ( idsite, server_time )
 												)  DEFAULT CHARSET=utf8
@@ -287,7 +292,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 									  url text NOT NULL,
 									  idgoal int(10) NOT NULL,
 									  buster int unsigned NOT NULL,
-									  
+
 									  idorder varchar(100) default NULL,
 									  items SMALLINT UNSIGNED DEFAULT NULL,
 									  revenue float default NULL,
@@ -295,7 +300,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
 									  revenue_tax float default NULL,
 									  revenue_shipping float default NULL,
 									  revenue_discount float default NULL,
-        							  
+
 									  custom_var_k1 VARCHAR(200) DEFAULT NULL,
         							  custom_var_v1 VARCHAR(200) DEFAULT NULL,
         							  custom_var_k2 VARCHAR(200) DEFAULT NULL,
@@ -493,7 +498,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
         if (is_null($dbName)) {
             $dbName = Config::getInstance()->database['dbname'];
         }
-        Piwik_Exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
+        Db::exec("CREATE DATABASE IF NOT EXISTS " . $dbName . " DEFAULT CHARACTER SET utf8");
     }
 
     /**
@@ -502,7 +507,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
     public function dropDatabase()
     {
         $dbName = Config::getInstance()->database['dbname'];
-        Piwik_Exec("DROP DATABASE IF EXISTS " . $dbName);
+        Db::exec("DROP DATABASE IF EXISTS " . $dbName);
     }
 
     /**
@@ -546,7 +551,7 @@ class Piwik_Db_Schema_Myisam implements Piwik_Db_Schema_Interface
     {
         $tablesAlreadyInstalled = $this->getTablesInstalled($forceReload = true);
         foreach ($tablesAlreadyInstalled as $table) {
-            Piwik_Query("TRUNCATE `$table`");
+            Db::query("TRUNCATE `$table`");
         }
     }
 

@@ -8,20 +8,25 @@
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
+use Piwik\API\Request;
 use Piwik\Metrics;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\ViewDataTable;
+use Piwik\View;
+use Piwik\Url;
 
 /**
  *
  * @package Piwik_Referers
  */
-class Piwik_Referers_Controller extends Piwik_Controller
+class Piwik_Referers_Controller extends Controller
 {
     function index()
     {
-        $view = new Piwik_View('@Referers/index');
+        $view = new View('@Referers/index');
 
         $view->graphEvolutionReferers = $this->getEvolutionGraph(true, Common::REFERER_TYPE_DIRECT_ENTRY, array('nb_visits'));
         $view->nameGraphEvolutionReferers = 'ReferersgetEvolutionGraph';
@@ -124,7 +129,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getSearchEnginesAndKeywords()
     {
-        $view = new Piwik_View('@Referers/getSearchEnginesAndKeywords');
+        $view = new View('@Referers/getSearchEnginesAndKeywords');
         $view->searchEngines = $this->getSearchEngines(true);
         $view->keywords = $this->getKeywords(true);
         echo $view->render();
@@ -132,7 +137,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getRefererType($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory('tableAllColumns');
+        $view = ViewDataTable::factory('tableAllColumns');
         $view->init($this->pluginName,
             __FUNCTION__,
             'Referers.getRefererType',
@@ -179,7 +184,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
      */
     public function getAll($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__, 'Referers.getAll');
         $view->disableExcludeLowPopulation();
         $view->setColumnTranslation('label', Piwik_Translate('Referers_Referrer'));
@@ -235,7 +240,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getKeywords($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__,
             'Referers.getKeywords',
             'getSearchEnginesFromKeywordId'
@@ -253,7 +258,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getSearchEnginesFromKeywordId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__,
             'Referers.getSearchEnginesFromKeywordId'
         );
@@ -267,7 +272,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getSearchEngines($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__,
             'Referers.getSearchEngines',
             'getKeywordsFromSearchEngineId'
@@ -286,7 +291,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getKeywordsFromSearchEngineId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__,
             'Referers.getKeywordsFromSearchEngineId'
         );
@@ -299,7 +304,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function indexWebsites($fetch = false)
     {
-        $view = new Piwik_View('@Referers/indexWebsites');
+        $view = new View('@Referers/indexWebsites');
         $view->websites = $this->getWebsites(true);
         $view->socials = $this->getSocials(true);
         if ($fetch) {
@@ -311,7 +316,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getWebsites($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__,
             'Referers.getWebsites',
             'getUrlsFromWebsiteId'
@@ -329,7 +334,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getSocials($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory('graphPie');
+        $view = ViewDataTable::factory('graphPie');
         $view->init($this->pluginName, __FUNCTION__, 'Referers.getSocials', 'getUrlsForSocial');
         $view->disableExcludeLowPopulation();
         $view->setLimit(10);
@@ -348,7 +353,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getUrlsForSocial($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__, 'Referers.getUrlsForSocial');
         $view->disableExcludeLowPopulation();
         $view->setLimit(10);
@@ -362,14 +367,14 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function indexCampaigns($fetch = false)
     {
-        return Piwik_View::singleReport(
+        return View::singleReport(
             Piwik_Translate('Referers_Campaigns'),
             $this->getCampaigns(true), $fetch);
     }
 
     function getCampaigns($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__,
             'Referers.getCampaigns',
             'getKeywordsFromCampaignId'
@@ -391,7 +396,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getKeywordsFromCampaignId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__,
             'Referers.getKeywordsFromCampaignId'
         );
@@ -406,7 +411,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
 
     function getUrlsFromWebsiteId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName, __FUNCTION__,
             'Referers.getUrlsFromWebsiteId'
         );
@@ -427,7 +432,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
         // we disable the queued filters because here we want to get the visits coming from search engines
         // if the filters were applied we would have to look up for a label looking like "Search Engines"
         // which is not good when we have translations
-        $dataTableReferersType = Piwik_API_Request::processRequest(
+        $dataTableReferersType = Request::processRequest(
             "Referers.getRefererType", array('disable_queued_filters' => '1', 'date' => $date));
 
         $nameToColumnId = array(
@@ -548,7 +553,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
             . '&method=Actions.getPageUrls'
             . '&filter_limit=50'
             . '&format=original';
-        $request = new Piwik_API_Request($topPageUrlRequest);
+        $request = new Request($topPageUrlRequest);
         $request = $request->process();
         $tables = $request->getArray();
 
@@ -566,7 +571,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
         $url = $topPageUrl;
 
         // HTML
-        $api = Piwik_Url::getCurrentUrlWithoutFileName()
+        $api = Url::getCurrentUrlWithoutFileName()
             . '?module=API&method=Referers.getKeywordsForPageUrl'
             . '&format=php'
             . '&filter_limit=10'
@@ -711,9 +716,9 @@ function DisplayTopKeywords($url = "")
 
     /**
      * Utility method that calculates evolution values for a set of current & past values
-     * and sets properties on a Piwik_View w/ HTML that displays the evolution percents.
+     * and sets properties on a View w/ HTML that displays the evolution percents.
      *
-     * @param Piwik_View $view The view to set properties on.
+     * @param View $view The view to set properties on.
      * @param string $date The date of the current values.
      * @param array $currentValues Array mapping view property names w/ present values.
      * @param string $lastPeriodDate The date of the period in the past.

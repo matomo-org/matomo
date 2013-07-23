@@ -9,6 +9,8 @@
  * @package Piwik_Provider
  */
 use Piwik\Common;
+use Piwik\FrontController;
+use Piwik\IP;
 use Piwik\Plugin;
 use Piwik\ArchiveProcessor;
 
@@ -67,7 +69,7 @@ class Piwik_Provider extends Plugin
 
         // if the column already exist do not throw error. Could be installed twice...
         try {
-            Piwik_Exec($query);
+            Db::exec($query);
         } catch (Exception $e) {
             if (!Zend_Registry::get('db')->isErrNo($e, '1060')) {
                 throw $e;
@@ -80,12 +82,12 @@ class Piwik_Provider extends Plugin
     {
         // add column hostname / hostname ext in the visit table
         $query = "ALTER TABLE `" . Common::prefixTable('log_visit') . "` DROP `location_provider`";
-        Piwik_Exec($query);
+        Db::exec($query);
     }
 
     function addWidget()
     {
-        Piwik_AddWidget('General_Visitors', 'Provider_WidgetProviders', 'Provider', 'getProvider');
+        WidgetsList::add('General_Visitors', 'Provider_WidgetProviders', 'Provider', 'getProvider');
     }
 
     function addMenu()
@@ -109,7 +111,7 @@ class Piwik_Provider extends Plugin
             return;
         }
 
-        $ip = Piwik_IP::N2P($visitorInfo['location_ip']);
+        $ip = IP::N2P($visitorInfo['location_ip']);
 
         // In case the IP was anonymized, we should not continue since the DNS reverse lookup will fail and this will slow down tracking
         if (substr($ip, -2, 2) == '.0') {
@@ -180,14 +182,14 @@ class Piwik_Provider extends Plugin
      */
     private function getHost($ip)
     {
-        return trim(strtolower(@Piwik_IP::getHostByAddr($ip)));
+        return trim(strtolower(@IP::getHostByAddr($ip)));
     }
 
     static public function footerUserCountry(&$out)
     {
         $out = '<div>
 			<h2>' . Piwik_Translate('Provider_WidgetProviders') . '</h2>';
-        $out .= Piwik_FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
+        $out .= FrontController::getInstance()->fetchDispatch('Provider', 'getProvider');
         $out .= '</div>';
     }
 

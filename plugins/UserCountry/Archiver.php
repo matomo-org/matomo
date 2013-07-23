@@ -12,6 +12,7 @@
 use Piwik\ArchiveProcessor\Day;
 use Piwik\Metrics;
 use Piwik\DataTable;
+use Piwik\DataArray;
 use Piwik\PluginsArchiver;
 
 class Piwik_UserCountry_Archiver extends PluginsArchiver
@@ -44,7 +45,7 @@ class Piwik_UserCountry_Archiver extends PluginsArchiver
     public function archiveDay()
     {
         foreach($this->dimensions as $dimension) {
-            $this->arrays[$dimension] = new Piwik_DataArray();
+            $this->arrays[$dimension] = new DataArray();
         }
         $this->aggregateFromVisits();
         $this->aggregateFromConversions();
@@ -64,7 +65,7 @@ class Piwik_UserCountry_Archiver extends PluginsArchiver
             $this->makeRegionCityLabelsUnique($row);
             $this->rememberCityLatLong($row);
 
-            /* @var $dataArray Piwik_DataArray */
+            /* @var $dataArray DataArray */
             foreach ($this->arrays as $dimension => $dataArray) {
                 $dataArray->sumMetricsVisits($row[$dimension], $row);
             }
@@ -113,13 +114,13 @@ class Piwik_UserCountry_Archiver extends PluginsArchiver
         while ($row = $query->fetch()) {
             $this->makeRegionCityLabelsUnique($row);
 
-            /* @var $dataArray Piwik_DataArray */
+            /* @var $dataArray DataArray */
             foreach ($this->arrays as $dimension => $dataArray) {
                 $dataArray->sumMetricsGoals($row[$dimension], $row);
             }
         }
 
-        /* @var $dataArray Piwik_DataArray */
+        /* @var $dataArray DataArray */
         foreach ($this->arrays as $dataArray) {
             $dataArray->enrichMetricsWithConversions();
         }

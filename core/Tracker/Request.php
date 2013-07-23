@@ -1,6 +1,9 @@
 <?php
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\Cookie;
+use Piwik\IP;
+use Piwik\Tracker;
 
 /**
  * Piwik - Open source web analytics
@@ -292,7 +295,7 @@ class Piwik_Tracker_Request
         foreach ($customVar as $id => $keyValue) {
             $id = (int)$id;
             if ($id < 1
-                || $id > Piwik_Tracker::MAX_CUSTOM_VARIABLES
+                || $id > Tracker::MAX_CUSTOM_VARIABLES
                 || count($keyValue) != 2
                 || (!is_string($keyValue[0]) && !is_numeric($keyValue[0]))
             ) {
@@ -316,7 +319,7 @@ class Piwik_Tracker_Request
 
     static public function truncateCustomVariable($input)
     {
-        return substr(trim($input), 0, Piwik_Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
+        return substr(trim($input), 0, Tracker::MAX_LENGTH_CUSTOM_VARIABLE);
     }
 
     protected function shouldUseThirdPartyCookie()
@@ -342,7 +345,7 @@ class Piwik_Tracker_Request
 
     protected function makeThirdPartyCookie()
     {
-        $cookie = new Piwik_Cookie(
+        $cookie = new Cookie(
             $this->getCookieName(),
             $this->getCookieExpire(),
             $this->getCookiePath());
@@ -376,8 +379,8 @@ class Piwik_Tracker_Request
         // Was a Visitor ID "forced" (@see Tracking API setVisitorId()) for this request?
         $idVisitor = $this->getForcedVisitorId();
         if (!empty($idVisitor)) {
-            if (strlen($idVisitor) != Piwik_Tracker::LENGTH_HEX_ID_STRING) {
-                throw new Exception("Visitor ID (cid) $idVisitor must be " . Piwik_Tracker::LENGTH_HEX_ID_STRING . " characters long");
+            if (strlen($idVisitor) != Tracker::LENGTH_HEX_ID_STRING) {
+                throw new Exception("Visitor ID (cid) $idVisitor must be " . Tracker::LENGTH_HEX_ID_STRING . " characters long");
             }
             Common::printDebug("Request will be recorded for this idvisitor = " . $idVisitor);
             $found = true;
@@ -391,7 +394,7 @@ class Piwik_Tracker_Request
                 $cookie = $this->makeThirdPartyCookie();
                 $idVisitor = $cookie->get(0);
                 if ($idVisitor !== false
-                    && strlen($idVisitor) == Piwik_Tracker::LENGTH_HEX_ID_STRING
+                    && strlen($idVisitor) == Tracker::LENGTH_HEX_ID_STRING
                 ) {
                     $found = true;
                 }
@@ -400,11 +403,11 @@ class Piwik_Tracker_Request
         // If a third party cookie was not found, we default to the first party cookie
         if (!$found) {
             $idVisitor = Common::getRequestVar('_id', '', 'string', $this->params);
-            $found = strlen($idVisitor) >= Piwik_Tracker::LENGTH_HEX_ID_STRING;
+            $found = strlen($idVisitor) >= Tracker::LENGTH_HEX_ID_STRING;
         }
 
         if ($found) {
-            $truncated = substr($idVisitor, 0, Piwik_Tracker::LENGTH_HEX_ID_STRING);
+            $truncated = substr($idVisitor, 0, Tracker::LENGTH_HEX_ID_STRING);
             $binVisitorId = @Common::hex2bin($truncated);
             if (!empty($binVisitorId)) {
                 return $binVisitorId;
@@ -418,9 +421,9 @@ class Piwik_Tracker_Request
         if (!empty($this->enforcedIp)) {
             $ipString = $this->enforcedIp;
         } else {
-            $ipString = Piwik_IP::getIpFromHeader();
+            $ipString = IP::getIpFromHeader();
         }
-        $ip = Piwik_IP::P2N($ipString);
+        $ip = IP::P2N($ipString);
         return $ip;
     }
 

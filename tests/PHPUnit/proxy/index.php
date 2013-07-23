@@ -4,6 +4,9 @@
  * Used by tests/PHPUnit/Integration/ImportLogsTest.php and tests/PHPUnit/Integration/UITest.php
  */
 
+use Piwik\FrontController;
+use Piwik\Tracker;
+
 $GLOBALS['PIWIK_CONFIG_TEST_ENVIRONMENT'] = true;
 $GLOBALS['PIWIK_ACCESS_IS_SUPERUSER'] = true;
 $GLOBALS['PIWIK_ACCESS_SUPERUSER_LOGIN'] = 'superUserLogin';
@@ -22,14 +25,14 @@ require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
 Piwik_Visualization_Cloud::$debugDisableShuffle = true;
 
-Piwik_Tracker::setTestEnvironment();
+Tracker::setTestEnvironment();
 Piwik_Tracker_Cache::deleteTrackerCache();
 
 // Disable index.php dispatch since we do it manually below
 define('PIWIK_ENABLE_DISPATCH', false);
 include PIWIK_INCLUDE_PATH . '/index.php';
 
-$controller = new Piwik_FrontController;
+$controller = new FrontController;
 $controller->init();
 $controller->dispatch();
 

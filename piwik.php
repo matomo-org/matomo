@@ -8,6 +8,8 @@
  * @package Piwik
  */
 use Piwik\Piwik;
+use Piwik\Timer;
+use Piwik\Tracker;
 
 $GLOBALS['PIWIK_TRACKER_DEBUG'] = false;
 $GLOBALS['PIWIK_TRACKER_DEBUG_FORCE_SCHEDULED_TASKS'] = false;
@@ -64,17 +66,17 @@ if ($GLOBALS['PIWIK_TRACKER_DEBUG'] === true) {
     require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
     require_once PIWIK_INCLUDE_PATH . '/core/ErrorHandler.php';
     require_once PIWIK_INCLUDE_PATH . '/core/ExceptionHandler.php';
-    $timer = new Piwik_Timer();
+    $timer = new Timer();
     set_error_handler('Piwik_ErrorHandler');
     set_exception_handler('Piwik_ExceptionHandler');
     Common::printDebug("Debug enabled - Input parameters: <br/>" . var_export($_GET, true));
     Piwik_Tracker_Db::enableProfiling();
     Piwik::createConfigObject();
-    Piwik::createLogObject();
+    \Piwik\Log::make();
 }
 
 if (!defined('PIWIK_ENABLE_TRACKING') || PIWIK_ENABLE_TRACKING) {
-    $process = new Piwik_Tracker();
+    $process = new Tracker();
     try {
         $process->main();
     } catch (Exception $e) {

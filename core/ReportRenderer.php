@@ -8,20 +8,25 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\DataTable\Simple;
 use Piwik\DataTable\Row;
 use Piwik\Piwik;
 use Piwik\DataTable;
 use Piwik\Loader;
+use Piwik\API\Request;
+use Piwik_ImageGraph_API;
 
 /**
  * A Report Renderer produces user friendly renderings of any given Piwik report.
  * All new Renderers must be copied in ReportRenderer and added to the $availableReportRenderers.
  *
  * @package Piwik
- * @subpackage Piwik_ReportRenderer
+ * @subpackage ReportRenderer
  */
-abstract class Piwik_ReportRenderer
+abstract class ReportRenderer
 {
     const DEFAULT_REPORT_FONT = 'dejavusans';
     const REPORT_TEXT_COLOR = "68,68,68";
@@ -44,7 +49,7 @@ abstract class Piwik_ReportRenderer
      *
      * @throws exception If the renderer is unknown
      * @param string $rendererType
-     * @return Piwik_ReportRenderer
+     * @return \Piwik\ReportRenderer
      */
     static public function factory($rendererType)
     {
@@ -108,8 +113,8 @@ abstract class Piwik_ReportRenderer
      * @param string $reportTitle
      * @param string $prettyDate formatted date
      * @param string $description
-     * @param array  $reportMetadata metadata for all reports
-     * @param array  $segment segment applied to all reports
+     * @param array $reportMetadata metadata for all reports
+     * @param array $segment segment applied to all reports
      */
     abstract public function renderFrontPage($reportTitle, $prettyDate, $description, $reportMetadata, $segment);
 
@@ -168,7 +173,7 @@ abstract class Piwik_ReportRenderer
 
     protected static function sendToBrowser($filename, $extension, $contentType, $content)
     {
-        $filename = Piwik_ReportRenderer::appendExtension($filename, $extension);
+        $filename = ReportRenderer::appendExtension($filename, $extension);
 
         Piwik::overrideCacheControlHeaders();
         header('Content-Description: File Transfer');
@@ -237,7 +242,7 @@ abstract class Piwik_ReportRenderer
             '&height=' . $height .
             ($segment != null ? '&segment=' . urlencode($segment['definition']) : '');
 
-        $request = new Piwik_API_Request($requestGraph);
+        $request = new Request($requestGraph);
 
         try {
             $imageGraph = $request->process();
@@ -250,7 +255,6 @@ abstract class Piwik_ReportRenderer
             imagedestroy($imageGraph);
 
             return $imageGraphData;
-
         } catch (Exception $e) {
             throw new Exception("ImageGraph API returned an error: " . $e->getMessage() . "\n");
         }

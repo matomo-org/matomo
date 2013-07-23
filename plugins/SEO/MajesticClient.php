@@ -9,6 +9,7 @@
  * @package Piwik_SEO
  */
 use Piwik\Common;
+use Piwik\Http;
 
 /**
  * Client for Majestic SEO's HTTP API.
@@ -57,7 +58,7 @@ class Piwik_SEO_MajesticClient
             'items' => '1',
             'item0' => $siteDomain
         ));
-        $apiResponse = Piwik_Http::sendHttpRequest($apiUrl, $timeout);
+        $apiResponse = Http::sendHttpRequest($apiUrl, $timeout);
 
         $result = array(
             'backlink_count'         => false,

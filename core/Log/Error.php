@@ -8,14 +8,17 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Log;
+use Piwik\Log;
+use Zend_Log_Writer_Stream;
 
 /**
  * Class used to log an error event.
  *
  * @package Piwik
- * @subpackage Piwik_Log
+ * @subpackage Log
  */
-class Piwik_Log_Error extends Piwik_Log
+class Error extends Log
 {
     const ID = 'logger_error';
 
@@ -34,8 +37,8 @@ class Piwik_Log_Error extends Piwik_Log
             'errfile'   => 'errfile',
             'backtrace' => 'backtrace'
         );
-        $screenFormatter = new Piwik_Log_Error_Formatter_ScreenFormatter();
-        $fileFormatter = new Piwik_Log_Formatter_FileFormatter();
+        $screenFormatter = new Error_Formatter_ScreenFormatter();
+        $fileFormatter = new Formatter_FileFormatter();
         parent::__construct($logToFileFilename,
             $fileFormatter,
             $screenFormatter,
@@ -49,7 +52,7 @@ class Piwik_Log_Error extends Piwik_Log
     function addWriteToScreen()
     {
         parent::addWriteToScreen();
-        $writerScreen = new Zend_Log_Writer_Stream('php://stderr');
+        $writerScreen = new \Zend_Log_Writer_Stream('php://stderr');
         $writerScreen->setFormatter($this->screenFormatter);
         $this->addWriter($writerScreen);
     }
@@ -72,7 +75,7 @@ class Piwik_Log_Error extends Piwik_Log
         $event['errline'] = $errline;
         $event['backtrace'] = $backtrace;
 
-        parent::log($event, Piwik_Log::ERR, null);
+        parent::log($event, Log::ERR, null);
     }
 }
 
@@ -80,9 +83,9 @@ class Piwik_Log_Error extends Piwik_Log
  * Format an error event to be displayed on the screen.
  *
  * @package Piwik
- * @subpackage Piwik_Log
+ * @subpackage Log
  */
-class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter
+class Error_Formatter_ScreenFormatter extends Formatter_ScreenFormatter
 {
     /**
      * Formats data into a single line to be written by the writer.
@@ -108,9 +111,9 @@ class Piwik_Log_Error_Formatter_ScreenFormatter extends Piwik_Log_Formatter_Scre
         // is there any other case where the errno is zero at this point?
         if ($errno == 0) return '';
         $strReturned .= "\n<div style='word-wrap: break-word; border: 3px solid red; padding:4px; width:70%; background-color:#FFFF96;'>
-	    <strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik_Version') ? Piwik_Version::VERSION : '') . ")
-	    and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
-	    ";
+    <strong>There is an error. Please report the message (Piwik " . (class_exists('Piwik\Version') ? Piwik_Version::VERSION : '') . ")
+    and full backtrace in the <a href='?module=Proxy&action=redirect&url=http://forum.piwik.org' target='_blank'>Piwik forums</a> (please do a Search first as it might have been reported already!).<br /><br/>
+    ";
         switch ($errno) {
             case E_ERROR:
                 $strReturned .= "Error";

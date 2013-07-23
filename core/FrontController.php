@@ -8,20 +8,16 @@
  * @category Piwik
  * @package Piwik
  */
-use Piwik\Config;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Access;
-use Piwik\Translate;
 
-/**
- * @see core/PluginsManager.php
- * @see core/Translate.php
- * @see core/Option.php
- */
-require_once PIWIK_INCLUDE_PATH . '/core/PluginsManager.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Translate.php';
-require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
+namespace Piwik;
+use \Piwik\NoAccessException;
+use Exception;
+use Piwik\API\Request;
+use Piwik\API\ResponseBuilder;
+use Piwik\Session;
+use Piwik\Timer;
+use Piwik\Url;
+use Zend_Registry;
 
 /**
  * Front controller.
@@ -31,9 +27,9 @@ require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
  * For a detailed explanation, see the documentation on http://piwik.org/docs/plugins/framework-overview
  *
  * @package Piwik
- * @subpackage Piwik_FrontController
+ * @subpackage FrontController
  */
-class Piwik_FrontController
+class FrontController
 {
     /**
      * Set to false and the Front Controller will not dispatch the request
@@ -47,7 +43,7 @@ class Piwik_FrontController
     /**
      * returns singleton
      *
-     * @return Piwik_FrontController
+     * @return \Piwik\FrontController
      */
     public static function getInstance()
     {
@@ -83,10 +79,10 @@ class Piwik_FrontController
             $action = Common::getRequestVar('action', false);
         }
 
-        if (!Piwik_Session::isFileBasedSessions()
+        if (!Session::isFileBasedSessions()
             && ($module !== 'API' || ($action && $action !== 'index'))
         ) {
-            Piwik_Session::start();
+            Session::start();
         }
 
         if (is_null($parameters)) {
@@ -128,7 +124,7 @@ class Piwik_FrontController
 
         try {
             return call_user_func_array(array($params[0], $params[1]), $params[2]);
-        } catch (Access_NoAccessException $e) {
+        } catch (\Piwik\NoAccessException $e) {
             Piwik_PostEvent('FrontController.NoAccessException', array($e), $pending = true);
         } catch (Exception $e) {
             $debugTrace = $e->getTraceAsString();
@@ -190,7 +186,7 @@ class Piwik_FrontController
      *
      * @return Exception
      */
-    protected function createConfigObject()
+    public function createConfigObject()
     {
         $exceptionToThrow = false;
         try {
@@ -221,9 +217,8 @@ class Piwik_FrontController
         }
         $initialized = true;
 
-
         try {
-            Zend_Registry::set('timer', new Piwik_Timer);
+            Zend_Registry::set('timer', new Timer);
 
             $directoriesToCheck = array(
                 '/tmp/',
@@ -240,8 +235,8 @@ class Piwik_FrontController
 
             $exceptionToThrow = $this->createConfigObject();
 
-            if (Piwik_Session::isFileBasedSessions()) {
-                Piwik_Session::start();
+            if (Session::isFileBasedSessions()) {
+                Session::start();
             }
 
             $this->handleMaintenanceMode();
@@ -256,7 +251,6 @@ class Piwik_FrontController
                 throw $exceptionToThrow;
             }
 
-
             try {
                 Piwik::createDatabaseObject();
             } catch (Exception $e) {
@@ -267,7 +261,7 @@ class Piwik_FrontController
                 throw $e;
             }
 
-            Piwik::createLogObject();
+            \Piwik\Log::make();
 
             // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
             Access::getInstance();
@@ -286,16 +280,16 @@ class Piwik_FrontController
                 $authAdapter = Zend_Registry::get('auth');
             } catch (Exception $e) {
                 throw new Exception("Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
-									<br />You can activate the plugin by adding:<br />
-									<code>Plugins[] = Login</code><br />
-									under the <code>[Plugins]</code> section in your config/config.ini.php");
+                                <br />You can activate the plugin by adding:<br />
+                                <code>Plugins[] = Login</code><br />
+                                under the <code>[Plugins]</code> section in your config/config.ini.php");
             }
             Access::getInstance()->reloadAccess($authAdapter);
 
             // Force the auth to use the token_auth if specified, so that embed dashboard
             // and all other non widgetized controller methods works fine
             if (($token_auth = Common::getRequestVar('token_auth', false, 'string')) !== false) {
-                Piwik_API_Request::reloadAuthUsingTokenAuth();
+                Request::reloadAuthUsingTokenAuth();
             }
             Piwik::raiseMemoryLimitIfNecessary();
 
@@ -334,7 +328,7 @@ class Piwik_FrontController
             if (empty($format)) {
                 throw $exception;
             }
-            $response = new Piwik_API_ResponseBuilder($format);
+            $response = new ResponseBuilder($format);
             echo $response->getResponseException($exception);
             exit;
         }
@@ -349,18 +343,19 @@ class Piwik_FrontController
             && !(Common::getRequestVar('module', '') == 'CoreAdminHome'
                 && Common::getRequestVar('action', '') == 'optOut')
         ) {
-            $url = Piwik_Url::getCurrentUrl();
+            $url = Url::getCurrentUrl();
             $url = str_replace("http://", "https://", $url);
-            Piwik_Url::redirectToUrl($url);
+            Url::redirectToUrl($url);
         }
     }
 }
+
 
 /**
  * Exception thrown when the requested plugin is not activated in the config file
  *
  * @package Piwik
- * @subpackage Piwik_FrontController
+ * @subpackage FrontController
  */
 class Piwik_FrontController_PluginDeactivatedException extends Exception
 {
@@ -369,4 +364,5 @@ class Piwik_FrontController_PluginDeactivatedException extends Exception
         parent::__construct("The plugin $module is not enabled. You can activate the plugin on Settings > Plugins page in Piwik.");
     }
 }
+
 

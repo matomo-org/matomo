@@ -9,15 +9,22 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
+use Exception;
+use Piwik_ScheduledTime_Daily;
+use Piwik_ScheduledTime_Monthly;
+use Piwik_ScheduledTime_Weekly;
+
 /**
- * The Piwik_ScheduledTime abstract class is used as a base class for different types of scheduling intervals.
- * Piwik_ScheduledTime subclasses are used to schedule tasks within Piwik.
+ * The ScheduledTime abstract class is used as a base class for different types of scheduling intervals.
+ * ScheduledTime subclasses are used to schedule tasks within Piwik.
  *
  * @see Piwik_ScheduledTask
  * @package Piwik
- * @subpackage Piwik_ScheduledTime
+ * @subpackage ScheduledTime
  */
-abstract class Piwik_ScheduledTime
+abstract class ScheduledTime
 {
     const PERIOD_NEVER = 'never';
     const PERIOD_DAY = 'day';

@@ -4,6 +4,8 @@
 //$_SERVER['REQUEST_URI'] = '/piwik-master/index.php';
 //$_SERVER['HTTP_HOST'] = 'localhost';
 
+use Piwik\Http;
+
 if (!defined("PIWIK_PATH_TEST_TO_ROOT")) {
     define('PIWIK_PATH_TEST_TO_ROOT', realpath(dirname(__FILE__) . '/../..'));
 }
@@ -94,7 +96,7 @@ Try again.
     // Now testing if the webserver is running
     $piwikServerUrl = Test_Piwik_BaseFixture::getRootUrl();
     try {
-        $fetched = Piwik_Http::sendHttpRequest($piwikServerUrl, $timeout = 3);
+        $fetched = Http::sendHttpRequest($piwikServerUrl, $timeout = 3);
     } catch (Exception $e) {
         $fetched = "ERROR fetching: " . $e->getMessage();
     }

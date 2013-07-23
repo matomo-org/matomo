@@ -9,12 +9,13 @@
  * @package Piwik
  */
 use Piwik\Config;
+use Piwik\Db\AdapterInterface;
 
 /**
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements Piwik_Db_Adapter_Interface
+class Piwik_Db_Adapter_Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
 {
     /**
      * Constructor

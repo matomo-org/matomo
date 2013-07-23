@@ -15,7 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable\Renderer;
 use Piwik\Date;
 use Piwik\DataTable;
-use Piwik_Url;
+use Piwik\Url;
 
 /**
  * RSS Feed.
@@ -69,7 +69,7 @@ class Rss extends Renderer
         $idSite = Common::getRequestVar('idSite', 1, 'int');
         $period = Common::getRequestVar('period');
 
-        $piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName()
+        $piwikUrl = Url::getCurrentUrlWithoutFileName()
             . "?module=CoreHome&action=index&idSite=" . $idSite . "&period=" . $period;
         $out = "";
         $moreRecentFirst = array_reverse($table->getArray(), true);

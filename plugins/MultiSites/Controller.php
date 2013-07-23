@@ -13,13 +13,15 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Controller;
+use Piwik\View;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_MultiSites
  */
-class Piwik_MultiSites_Controller extends Piwik_Controller
+class Piwik_MultiSites_Controller extends Controller
 {
     protected $orderBy = 'visits';
     protected $order = 'desc';
@@ -122,7 +124,7 @@ class Piwik_MultiSites_Controller extends Piwik_Controller
 
         $this->applyPrettyMoney($digestableData);
 
-        $view = new Piwik_View("@MultiSites/getSitesInfo");
+        $view = new View("@MultiSites/getSitesInfo");
         $view->isWidgetized = $isWidgetized;
         $view->sitesData = array_values($digestableData);
         $view->evolutionBy = $this->evolutionBy;

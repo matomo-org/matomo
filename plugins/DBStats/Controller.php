@@ -8,13 +8,16 @@
  * @category Piwik_Plugins
  * @package Piwik_DBStats
  */
+use Piwik\Controller\Admin;
 use Piwik\Piwik;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  *
  * @package Piwik_DBStats
  */
-class Piwik_DBStats_Controller extends Piwik_Controller_Admin
+class Piwik_DBStats_Controller extends Admin
 {
     /**
      * Returns the index for this plugin. Shows every other report defined by this plugin,
@@ -26,7 +29,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
     public function index()
     {
         Piwik::checkUserIsSuperUser();
-        $view = new Piwik_View('@DBStats/index');
+        $view = new View('@DBStats/index');
         $this->setBasicVariablesView($view);
 
         $view->databaseUsageSummary = $this->getDatabaseUsageSummary(true);
@@ -248,7 +251,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
             'estimated_size' => Piwik_Translate('DBStats_EstimatedSize')
         );
 
-        $view = Piwik_ViewDataTable::factory($viewType);
+        $view = ViewDataTable::factory($viewType);
         $view->init($this->pluginName, $function, "DBStats.$function");
         $view->setSortedColumn('label', $orderDir);
         $view->setLimit($limit);

@@ -13,7 +13,7 @@
  * PDO MySQL wrapper
  *
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
 class Piwik_Tracker_Db_Pdo_Mysql extends Piwik_Tracker_Db
 {

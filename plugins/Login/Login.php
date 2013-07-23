@@ -10,6 +10,9 @@
  */
 use Piwik\Config;
 use Piwik\Piwik;
+use Piwik\Cookie;
+use Piwik\Piwik_Option;
+use Piwik\Session;
 use Piwik\Plugin;
 
 /**
@@ -74,7 +77,7 @@ class Piwik_Login extends Plugin
         $authCookieName = Config::getInstance()->General['login_cookie_name'];
         $authCookieExpiry = 0;
         $authCookiePath = Config::getInstance()->General['login_cookie_path'];
-        $authCookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+        $authCookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
         $defaultLogin = 'anonymous';
         $defaultTokenAuth = 'anonymous';
         if ($authCookie->isCookieFound()) {
@@ -107,7 +110,7 @@ class Piwik_Login extends Plugin
         $authCookieName = Config::getInstance()->General['login_cookie_name'];
         $authCookieExpiry = $rememberMe ? time() + Config::getInstance()->General['login_cookie_expire'] : 0;
         $authCookiePath = Config::getInstance()->General['login_cookie_path'];
-        $cookie = new Piwik_Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
+        $cookie = new Cookie($authCookieName, $authCookieExpiry, $authCookiePath);
         if (!$authResult->isValid()) {
             $cookie->delete();
             throw new Exception(Piwik_Translate('Login_LoginPasswordNotCorrect'));
@@ -119,7 +122,7 @@ class Piwik_Login extends Plugin
         $cookie->setHttpOnly(true);
         $cookie->save();
 
-        @Piwik_Session::regenerateId();
+        @Session::regenerateId();
 
         // remove password reset entry if it exists
         self::removePasswordResetInfo($login);

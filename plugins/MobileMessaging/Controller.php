@@ -9,8 +9,11 @@
  * @package Piwik_MobileMessaging
  */
 
+use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\IP;
+use Piwik\View;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
@@ -18,7 +21,7 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
  *
  * @package Piwik_MobileMessaging
  */
-class Piwik_MobileMessaging_Controller extends Piwik_Controller_Admin
+class Piwik_MobileMessaging_Controller extends Admin
 {
     /*
      * Mobile Messaging Settings tab :
@@ -31,7 +34,7 @@ class Piwik_MobileMessaging_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new Piwik_View('@MobileMessaging/index');
+        $view = new View('@MobileMessaging/index');
 
         $view->isSuperUser = Piwik::isUserIsSuperUser();
 
@@ -63,7 +66,7 @@ class Piwik_MobileMessaging_Controller extends Piwik_Controller_Admin
         $view->defaultCountry = Common::getCountry(
             Piwik_LanguagesManager::getLanguageCodeForCurrentUser(),
             true,
-            Piwik_IP::getIpFromHeader()
+            IP::getIpFromHeader()
         );
 
         $view->phoneNumbers = $mobileMessagingAPI->getPhoneNumbers();

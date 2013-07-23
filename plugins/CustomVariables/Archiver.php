@@ -3,6 +3,8 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\Metrics;
+use Piwik\DataArray;
+use Piwik\Tracker;
 use Piwik\PluginsArchiver;
 
 /**
@@ -21,7 +23,7 @@ class Piwik_CustomVariables_Archiver extends PluginsArchiver
     const CUSTOM_VARIABLE_RECORD_NAME = 'CustomVariables_valueByName';
 
     /**
-     * @var Piwik_DataArray
+     * @var DataArray
      */
     protected $dataArray;
     protected $maximumRowsInDataTableLevelZero;
@@ -37,9 +39,9 @@ class Piwik_CustomVariables_Archiver extends PluginsArchiver
 
     public function archiveDay()
     {
-        $this->dataArray = new Piwik_DataArray();
+        $this->dataArray = new DataArray();
 
-        for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             $this->aggregateCustomVariable($i);
         }
 
@@ -190,7 +192,7 @@ class Piwik_CustomVariables_Archiver extends PluginsArchiver
         $dataArray = &$this->dataArray->getDataArray();
         foreach ($dataArray as $key => &$row) {
             if (!self::isReservedKey($key)
-                && Piwik_DataArray::isRowActions($row)
+                && DataArray::isRowActions($row)
             ) {
                 unset($row[Metrics::INDEX_NB_UNIQ_VISITORS]);
                 unset($row[Metrics::INDEX_NB_VISITS]);

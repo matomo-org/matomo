@@ -10,7 +10,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\DataTable\Manager;
 use Piwik\DataTable\Row;
-
+use Piwik\Timer;
 
 class DataTableTest extends PHPUnit_Framework_TestCase
 {
@@ -226,7 +226,7 @@ class DataTableTest extends PHPUnit_Framework_TestCase
     public function testRow()
     {
         $columns = array('test_column' => 145,
-                         092582495     => new Piwik_Timer,
+                         092582495     => new Timer,
                          'super'       => array('this column has an array value, amazing'));
         $metadata = array('logo'  => 'piwik.png',
                           'super' => array('this column has an array value, amazing'));

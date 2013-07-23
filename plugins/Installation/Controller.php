@@ -8,18 +8,27 @@
  * @category Piwik_Plugins
  * @package Piwik_Installation
  */
+use Piwik\API\Request;
+use Piwik\Controller\Admin;
 use Piwik\DataAccess\ArchiveTableCreator;
+use Piwik\Db\Adapter;
 use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Access;
+use Piwik\Http;
+use Piwik\Piwik_Updater;
+use Piwik\View;
+use Piwik\Version;
+use Piwik\Url;
+use Piwik\ProxyHeaders;
 
 /**
  * Installation controller
  *
  * @package Piwik_Installation
  */
-class Piwik_Installation_Controller extends Piwik_Controller_Admin
+class Piwik_Installation_Controller extends Admin
 {
     // public so plugins can add/delete installation steps
     public $steps = array(
@@ -286,7 +295,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             Piwik::createAnonymousUser();
 
             $updater = new Piwik_Updater();
-            $updater->recordComponentSuccessfullyUpdated('core', Piwik_Version::VERSION);
+            $updater->recordComponentSuccessfullyUpdated('core', Version::VERSION);
             $view->tablesCreated = true;
             $view->showNextStep = true;
         }
@@ -327,7 +336,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
                 'email'     => $form->getSubmitValue('email'),
                 'security'  => $form->getSubmitValue('subscribe_newsletter_security'),
                 'community' => $form->getSubmitValue('subscribe_newsletter_community'),
-                'url'       => Piwik_Url::getCurrentUrlWithoutQueryString(),
+                'url'       => Url::getCurrentUrlWithoutQueryString(),
             );
             if ($params['security'] == '1'
                 || $params['community'] == '1'
@@ -340,7 +349,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
                 }
                 $url .= '?' . http_build_query($params, '', '&');
                 try {
-                    Piwik_Http::sendHttpRequest($url, $timeout = 2);
+                    Http::sendHttpRequest($url, $timeout = 2);
                 } catch (Exception $e) {
                     // e.g., disable_functions = fsockopen; allow_url_open = Off
                 }
@@ -378,7 +387,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $url = urlencode($form->getSubmitValue('url'));
             $ecommerce = (int)$form->getSubmitValue('ecommerce');
 
-            $request = new Piwik_API_Request("
+            $request = new Request("
 							method=SitesManager.addSite
 							&siteName=$name
 							&urls=$url
@@ -425,11 +434,11 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $idSite = $this->session->site_idSite;
 
         // Load the Tracking code and help text from the SitesManager
-        $viewTrackingHelp = new Piwik_View('@SitesManager/_displayJavascriptCode');
+        $viewTrackingHelp = new View('@SitesManager/_displayJavascriptCode');
         $viewTrackingHelp->displaySiteName = $siteName;
-        $viewTrackingHelp->jsTag = Piwik::getJavascriptCode($idSite, Piwik_Url::getCurrentUrlWithoutFileName());
+        $viewTrackingHelp->jsTag = Piwik::getJavascriptCode($idSite, Url::getCurrentUrlWithoutFileName());
         $viewTrackingHelp->idSite = $idSite;
-        $viewTrackingHelp->piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
+        $viewTrackingHelp->piwikUrl = Url::getCurrentUrlWithoutFileName();
 
         $view->trackingHelp = $viewTrackingHelp->render();
         $view->displaySiteName = $siteName;
@@ -478,7 +487,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsSuperUser();
 
-        $view = new Piwik_View('@Installation/systemCheckPage');
+        $view = new View('@Installation/systemCheckPage');
         $this->setBasicVariablesView($view);
 
         $view->duringInstall = false;
@@ -501,7 +510,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $this->createDbFromSessionInformation();
 
         Piwik::setUserIsSuperUser();
-        Piwik::createLogObject();
+        \Piwik\Log::make();
     }
 
     /**
@@ -552,7 +561,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     {
         $language = Common::getRequestVar('language');
         Piwik_LanguagesManager::setLanguageForSession($language);
-        Piwik_Url::redirectToReferer();
+        Url::redirectToReferer();
     }
 
     /**
@@ -594,7 +603,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $message = Piwik_Translate('Installation_ErrorInvalidState',
                 array('<br /><b>',
                       '</b>',
-                      '<a href=\'' . Common::sanitizeInputValue(Piwik_Url::getCurrentUrlWithoutFileName()) . '\'>',
+                      '<a href=\'' . Common::sanitizeInputValue(Url::getCurrentUrlWithoutFileName()) . '\'>',
                       '</a>')
             );
             Piwik::exitWithErrorMessage($message);
@@ -653,7 +662,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         $trustedHosts = array();
 
         // extract host from the request header
-        if (($host = $this->extractHost('http://' . Piwik_Url::getHost())) !== false) {
+        if (($host = $this->extractHost('http://' . Url::getHost())) !== false) {
             $trustedHosts[] = $host;
         }
 
@@ -733,7 +742,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             $infos['pdo_ok'] = true;
         }
 
-        $infos['adapters'] = Piwik_Db_Adapter::getAdapters();
+        $infos['adapters'] = Adapter::getAdapters();
 
         $needed_functions = array(
             'debug_backtrace',
@@ -780,7 +789,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
             }
         }
 
-        $infos['openurl'] = Piwik_Http::getTransportMethod();
+        $infos['openurl'] = Http::getTransportMethod();
 
         $infos['gd_ok'] = Piwik::isGdExtensionEnabled();
 
@@ -827,14 +836,14 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 
         $infos['tracker_status'] = Common::getRequestVar('trackerStatus', 0, 'int');
 
-        $infos['protocol'] = Piwik_ProxyHeaders::getProtocolInformation();
+        $infos['protocol'] = ProxyHeaders::getProtocolInformation();
         if (!Piwik::isHttps() && $infos['protocol'] !== null) {
             $infos['general_infos']['assume_secure_protocol'] = '1';
         }
-        if (count($headers = Piwik_ProxyHeaders::getProxyClientHeaders()) > 0) {
+        if (count($headers = ProxyHeaders::getProxyClientHeaders()) > 0) {
             $infos['general_infos']['proxy_client_headers'] = $headers;
         }
-        if (count($headers = Piwik_ProxyHeaders::getProxyHostHeaders()) > 0) {
+        if (count($headers = ProxyHeaders::getProxyHostHeaders()) > 0) {
             $infos['general_infos']['proxy_host_headers'] = $headers;
         }
 
@@ -902,7 +911,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
     /**
      * Utility function, sets up a view that will display system check info.
      *
-     * @param Piwik_View $view
+     * @param View $view
      */
     private function setupSystemCheckView($view)
     {
@@ -967,7 +976,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
         }
 
         // delete the temporary rows that were created
-        Piwik_Exec("DELETE FROM `$optionTable` WHERE option_name IN ('" . implode("','", $testOptionNames) . "')");
+        Db::exec("DELETE FROM `$optionTable` WHERE option_name IN ('" . implode("','", $testOptionNames) . "')");
 
         return $result;
     }

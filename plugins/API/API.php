@@ -8,6 +8,8 @@
  * @category Piwik_Plugins
  * @package Piwik_API
  */
+use Piwik\API\Request;
+use Piwik\API\Proxy;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
@@ -16,6 +18,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\DataTable;
+use Piwik\Version;
 use Piwik\Plugin;
 use Piwik\Translate;
 
@@ -105,7 +108,7 @@ class Piwik_API_API
     public function getPiwikVersion()
     {
         Piwik::checkUserHasSomeViewAccess();
-        return Piwik_Version::VERSION;
+        return Version::VERSION;
     }
 
     /**
@@ -143,7 +146,7 @@ class Piwik_API_API
             'segment'        => 'visitIp',
             'acceptedValues' => '13.54.122.1, etc.',
             'sqlSegment'     => 'log_visit.location_ip',
-            'sqlFilter'      => array('Piwik_IP', 'P2N'),
+            'sqlFilter'      => array('IP', 'P2N'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(
@@ -470,7 +473,7 @@ class Piwik_API_API
             // load the data
             $className = 'Piwik_' . $plugin . '_API';
             $params['columns'] = implode(',', $columns);
-            $dataTable = Piwik_API_Proxy::getInstance()->call($className, 'get', $params);
+            $dataTable = Proxy::getInstance()->call($className, 'get', $params);
             // make sure the table has all columns
             $array = ($dataTable instanceof DataTable\Map ? $dataTable->getArray() : array($dataTable));
             foreach ($array as $table) {
@@ -567,7 +570,7 @@ class Piwik_API_API
 
         $result = array();
         foreach ($urls as $url) {
-            $req = new Piwik_API_Request($url . '&format=php&serialize=0');
+            $req = new Request($url . '&format=php&serialize=0');
             $result[] = $req->process();
         }
         return $result;
@@ -618,7 +621,7 @@ class Piwik_API_API
             $requestLastVisits .= "&filter_limit=1000";
         }
 
-        $request = new Piwik_API_Request($requestLastVisits);
+        $request = new Request($requestLastVisits);
         $table = $request->process();
         if (empty($table)) {
             throw new Exception("There was no data to suggest for $segmentName");

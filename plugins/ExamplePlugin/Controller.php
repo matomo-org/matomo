@@ -10,12 +10,14 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  *
  * @package Piwik_ExamplePlugin
  */
-class Piwik_ExamplePlugin_Controller extends Piwik_Controller
+class Piwik_ExamplePlugin_Controller extends Controller
 {
     /**
      * Go to /piwik/?module=ExamplePlugin&action=helloWorld to execute this method
@@ -54,7 +56,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
      */
     public function piwikDownloads()
     {
-        $view = new Piwik_View('@ExamplePlugin/piwikDownloads');
+        $view = new View('@ExamplePlugin/piwikDownloads');
         $this->setGeneralVariablesView($view);
         echo $view->render();
     }
@@ -81,7 +83,7 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 
         $out .= '<h3>Misc</h3>';
         $out .= '<code>Piwik_AddMenu( $mainMenuName, $subMenuName, $url );</code> - Adds an entry to the menu in the Piwik interface (See the example in the <a href="https://github.com/piwik/piwik/blob/1.0/plugins/UserCountry/UserCountry.php#L76">UserCountry Plugin file</a>)<br />';
-        $out .= '<code>Piwik_AddWidget( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array());</code> - Adds a widget that users can add in the dashboard, or export using the Widgets link at the top of the screen. See the example in the <a href="https://github.com/piwik/piwik/blob/1.0/plugins/UserCountry/UserCountry.php#L70">UserCountry Plugin file</a> or any other plugin)<br />';
+        $out .= '<code>WidgetsList::add( $widgetCategory, $widgetName, $controllerName, $controllerAction, $customParameters = array());</code> - Adds a widget that users can add in the dashboard, or export using the Widgets link at the top of the screen. See the example in the <a href="https://github.com/piwik/piwik/blob/1.0/plugins/UserCountry/UserCountry.php#L70">UserCountry Plugin file</a> or any other plugin)<br />';
         $out .= '<code>Common::prefixTable("site")</code> = <b>' . Common::prefixTable("site") . '</b><br />';
 
 
@@ -94,15 +96,15 @@ class Piwik_ExamplePlugin_Controller extends Piwik_Controller
 
         $out .= '<h2>Execute SQL queries</h2>';
         $txtQuery = "SELECT token_auth FROM " . Common::prefixTable('user') . " WHERE login = ?";
-        $result = Piwik_FetchOne($txtQuery, array('anonymous'));
-        $out .= '<code>Piwik_FetchOne("' . $txtQuery . '", array("anonymous"))</code> = <b>' . var_export($result, true) . '</b><br />';
+        $result = Db::fetchOne($txtQuery, array('anonymous'));
+        $out .= '<code>Db::fetchOne("' . $txtQuery . '", array("anonymous"))</code> = <b>' . var_export($result, true) . '</b><br />';
         $out .= '<br />';
 
-        $query = Piwik_Query($txtQuery, array('anonymous'));
+        $query = Db::query($txtQuery, array('anonymous'));
         $fetched = $query->fetch();
         $token_auth = $fetched['token_auth'];
 
-        $out .= '<code>$query = Piwik_Query("' . $txtQuery . '", array("anonymous"))</code><br />';
+        $out .= '<code>$query = Db::query("' . $txtQuery . '", array("anonymous"))</code><br />';
         $out .= '<code>$fetched = $query->fetch();</code><br />';
         $out .= 'At this point, we have: <code>$fetched[\'token_auth\'] == <b>' . var_export($token_auth, true) . '</b></code><br />';
 

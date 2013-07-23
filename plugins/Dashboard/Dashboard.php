@@ -46,7 +46,7 @@ class Piwik_Dashboard extends Plugin
         $paramsBind = array($login, $idDashboard);
         $query = sprintf('SELECT layout FROM %s WHERE login = ? AND iddashboard = ?',
             Common::prefixTable('user_dashboard'));
-        $return = Piwik_FetchAll($query, $paramsBind);
+        $return = Db::fetchAll($query, $paramsBind);
 
         if (count($return) == 0) {
             return false;
@@ -96,7 +96,7 @@ class Piwik_Dashboard extends Plugin
 
     public function getAllDashboards($login)
     {
-        $dashboards = Piwik_FetchAll('SELECT iddashboard, name, layout
+        $dashboards = Db::fetchAll('SELECT iddashboard, name, layout
                                       FROM ' . Common::prefixTable('user_dashboard') .
             ' WHERE login = ? ORDER BY iddashboard', array($login));
 
@@ -161,7 +161,7 @@ class Piwik_Dashboard extends Plugin
                 if (isset($widget->parameters->module)) {
                     $controllerName = $widget->parameters->module;
                     $controllerAction = $widget->parameters->action;
-                    if (!Piwik_IsWidgetDefined($controllerName, $controllerAction)) {
+                    if (!WidgetsList::isDefined($controllerName, $controllerAction)) {
                         unset($row[$widgetId]);
                     }
                 } else {
@@ -240,7 +240,7 @@ class Piwik_Dashboard extends Plugin
 
     public function deleteDashboardLayout($userLogin)
     {
-        Piwik_Query('DELETE FROM ' . Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
+        Db::query('DELETE FROM ' . Common::prefixTable('user_dashboard') . ' WHERE login = ?', array($userLogin));
     }
 
     public function install()
@@ -254,7 +254,7 @@ class Piwik_Dashboard extends Plugin
 					layout TEXT NOT NULL,
 					PRIMARY KEY ( login , iddashboard )
 					)  DEFAULT CHARSET=utf8 ";
-            Piwik_Exec($sql);
+            Db::exec($sql);
         } catch (Exception $e) {
             // mysql code error 1050:table already exists
             // see bug #153 http://dev.piwik.org/trac/ticket/153
@@ -266,6 +266,6 @@ class Piwik_Dashboard extends Plugin
 
     public function uninstall()
     {
-        Piwik_DropTables(Common::prefixTable('user_dashboard'));
+        Db::dropTables(Common::prefixTable('user_dashboard'));
     }
 }

@@ -9,6 +9,8 @@ use Piwik\Config;
 use Piwik\Common;
 use Piwik\Access;
 use Piwik\Date;
+use Piwik\Url;
+use Piwik\ReportRenderer;
 use Piwik\Site;
 
 /**
@@ -85,7 +87,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
      */
     public static function getRootUrl()
     {
-        $piwikUrl = Piwik_Url::getCurrentUrlWithoutFileName();
+        $piwikUrl = Url::getCurrentUrlWithoutFileName();
 
         $pathBeforeRoot = 'tests';
         // Running from a plugin
@@ -221,7 +223,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
             'day', // overridden in getApiForTestingScheduledReports()
             0,
             Piwik_PDFReports::EMAIL_TYPE,
-            Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
+            ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
             $availableReportIds,
             array(Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER => Piwik_PDFReports::DISPLAY_FORMAT_TABLES_ONLY)
         );
@@ -258,7 +260,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
                 'day', // overridden in getApiForTestingScheduledReports()
                 0,
                 Piwik_PDFReports::EMAIL_TYPE,
-                Piwik_ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
+                ReportRenderer::HTML_FORMAT, // overridden in getApiForTestingScheduledReports()
                 $availableReportIds,
                 array(Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER => Piwik_PDFReports::DISPLAY_FORMAT_TABLES_AND_GRAPHS)
             );
@@ -270,7 +272,7 @@ abstract class Test_Piwik_BaseFixture extends PHPUnit_Framework_Assert
                 'day',
                 0,
                 Piwik_PDFReports::EMAIL_TYPE,
-                Piwik_ReportRenderer::HTML_FORMAT,
+                ReportRenderer::HTML_FORMAT,
                 array('Actions_getPageTitles'),
                 array(
                      Piwik_PDFReports::DISPLAY_FORMAT_PARAMETER => Piwik_PDFReports::DISPLAY_FORMAT_GRAPHS_ONLY,

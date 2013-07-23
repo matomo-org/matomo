@@ -8,13 +8,23 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Db\Adapter\Pdo;
+
+use Exception;
+use PDO;
+use PDOException;
 use Piwik\Config;
+use Piwik\Db\Adapter\AdapterInterface;
+use Zend_Config;
+use Zend_Db_Adapter_Pdo_Mysql;
+use Zend_Db_Select;
+use Zend_Db_Statement_Interface;
 
 /**
  * @package Piwik
  * @subpackage Piwik_Db
  */
-class Piwik_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements Piwik_Db_Adapter_Interface
+class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 {
     /**
      * Constructor

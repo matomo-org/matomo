@@ -10,6 +10,7 @@
  */
 
 use Piwik\Date;
+use Piwik\DataArray;
 use Piwik\PluginsArchiver;
 
 class Piwik_VisitTime_Archiver extends PluginsArchiver
@@ -47,7 +48,7 @@ class Piwik_VisitTime_Archiver extends PluginsArchiver
         $this->getProcessor()->insertBlobRecord(self::LOCAL_TIME_RECORD_NAME, $this->getProcessor()->getDataTableFromDataArray($array)->getSerialized());
     }
 
-    protected function convertTimeToLocalTimezone(Piwik_DataArray &$array)
+    protected function convertTimeToLocalTimezone(DataArray &$array)
     {
         $date = Date::factory($this->getProcessor()->getDateStart()->getDateStartUTC())->toString();
         $timezone = $this->getProcessor()->getSite()->getTimezone();
@@ -58,16 +59,16 @@ class Piwik_VisitTime_Archiver extends PluginsArchiver
             $hourInTz = (int)Date::factory($datetime, $timezone)->toString('H');
             $converted[$hourInTz] = $stats;
         }
-        return new Piwik_DataArray($converted);
+        return new DataArray($converted);
     }
 
 
-    private function ensureAllHoursAreSet( Piwik_DataArray &$array)
+    private function ensureAllHoursAreSet( DataArray &$array)
     {
         $data = $array->getDataArray();
         for ($i = 0; $i <= 23; $i++) {
             if (empty($data[$i])) {
-                $array->sumMetricsVisits( $i, Piwik_DataArray::makeEmptyRow());
+                $array->sumMetricsVisits( $i, DataArray::makeEmptyRow());
             }
         }
     }

@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_PleineLune
  */
+use Piwik\AssetManager;
 use Piwik\Plugin;
 
 /**
@@ -19,7 +20,7 @@ class Piwik_PleineLune extends Plugin
     public function getListHooksRegistered()
     {
         return array(
-            Piwik_AssetManager::CSS_IMPORT_EVENT => 'getCssFiles',
+            AssetManager::CSS_IMPORT_EVENT => 'getCssFiles',
         );
     }
 

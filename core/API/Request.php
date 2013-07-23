@@ -8,10 +8,18 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\API;
+
+use Exception;
+use Piwik\API\DataTableGenericFilter;
+use Piwik\API\Proxy;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
 use Piwik\DataTable;
+use Piwik\Url;
+use Piwik\API\ResponseBuilder;
+use Piwik_FrontController_PluginDeactivatedException;
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -23,7 +31,7 @@ use Piwik\DataTable;
  * (see examples in the documentation http://piwik.org/docs/analytics-api)
  *
  * Example:
- * $request = new Piwik_API_Request('
+ * $request = new Request('
  *                method=UserSettings.getWideScreen
  *                &idSite=1
  *            &date=yesterday
@@ -39,7 +47,7 @@ use Piwik\DataTable;
  * @package Piwik
  * @subpackage Piwik_API
  */
-class Piwik_API_Request
+class Request
 {
     protected $request = null;
 
@@ -54,7 +62,7 @@ class Piwik_API_Request
         $defaultRequest = $_GET + $_POST;
 
         $requestRaw = self::getRequestParametersGET();
-        if(!empty($requestRaw['segment'])) {
+        if (!empty($requestRaw['segment'])) {
             $defaultRequest['segment'] = $requestRaw['segment'];
         }
 
@@ -74,7 +82,6 @@ class Piwik_API_Request
 
             $requestParsed = Common::getArrayFromQueryString($request);
             $requestArray = $requestParsed + $defaultRequest;
-
         }
 
         foreach ($requestArray as &$element) {
@@ -130,7 +137,7 @@ class Piwik_API_Request
         $outputFormat = strtolower(Common::getRequestVar('format', 'xml', 'string', $this->request));
 
         // create the response
-        $response = new Piwik_API_ResponseBuilder($outputFormat, $this->request);
+        $response = new ResponseBuilder($outputFormat, $this->request);
 
         try {
             // read parameters
@@ -146,7 +153,7 @@ class Piwik_API_Request
             self::reloadAuthUsingTokenAuth($this->request);
 
             // call the method
-            $returnedValue = Piwik_API_Proxy::getInstance()->call($moduleClass, $method, $this->request);
+            $returnedValue = Proxy::getInstance()->call($moduleClass, $method, $this->request);
 
             $toReturn = $response->getResponse($returnedValue, $module, $method);
         } catch (Exception $e) {
@@ -207,7 +214,7 @@ class Piwik_API_Request
         $params = $paramOverride + $params;
 
         // process request
-        $request = new Piwik_API_Request($params);
+        $request = new Request($params);
         return $request->process();
     }
 
@@ -216,16 +223,16 @@ class Piwik_API_Request
      */
     public static function getRequestParametersGET()
     {
-        if(empty($_SERVER['QUERY_STRING'])) {
+        if (empty($_SERVER['QUERY_STRING'])) {
             return array();
         }
         $GET = Common::getArrayFromQueryString($_SERVER['QUERY_STRING']);
         return $GET;
     }
-    
+
     /**
      * Returns the current URL without generic filter query parameters.
-     * 
+     *
      * @param array $params Query parameter values to override in the new URL.
      * @return string
      */
@@ -233,7 +240,7 @@ class Piwik_API_Request
     {
         // unset all filter query params so the related report will show up in its default state,
         // unless the filter param was in $queryParams
-        $genericFiltersInfo = Piwik_API_DataTableGenericFilter::getGenericFiltersInformation();
+        $genericFiltersInfo = DataTableGenericFilter::getGenericFiltersInformation();
         foreach ($genericFiltersInfo as $filter) {
             foreach ($filter as $queryParamName => $queryParamInfo) {
                 if (!isset($params[$queryParamName])) {
@@ -242,6 +249,6 @@ class Piwik_API_Request
             }
         }
 
-        return Piwik_Url::getCurrentQueryStringWithParametersModified($params);
+        return Url::getCurrentQueryStringWithParametersModified($params);
     }
 }

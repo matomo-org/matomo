@@ -11,6 +11,7 @@
 use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\TranslationWriter;
 use Piwik\Plugin;
 use Piwik\Site;
 
@@ -102,7 +103,7 @@ class Piwik_Goals extends Plugin
      */
     function deleteSiteGoals($idSite)
     {
-        Piwik_Query("DELETE FROM " . Common::prefixTable('goal') . " WHERE idsite = ? ", array($idSite));
+        Db::query("DELETE FROM " . Common::prefixTable('goal') . " WHERE idsite = ? ", array($idSite));
     }
 
     /**
@@ -418,19 +419,19 @@ class Piwik_Goals extends Plugin
         // Ecommerce widgets
         $site = new Site($idSite);
         if ($site->isEcommerceEnabled()) {
-            Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
-            Piwik_AddWidget('Goals_Ecommerce', 'Goals_EcommerceLog', 'Goals', 'getEcommerceLog');
+            WidgetsList::add('Goals_Ecommerce', 'Goals_EcommerceOverview', 'Goals', 'widgetGoalReport', array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER));
+            WidgetsList::add('Goals_Ecommerce', 'Goals_EcommerceLog', 'Goals', 'getEcommerceLog');
             foreach ($this->ecommerceReports as $widget) {
-                Piwik_AddWidget('Goals_Ecommerce', $widget[0], $widget[1], $widget[2]);
+                WidgetsList::add('Goals_Ecommerce', $widget[0], $widget[1], $widget[2]);
             }
         }
 
         // Goals widgets
-        Piwik_AddWidget('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
+        WidgetsList::add('Goals_Goals', 'Goals_GoalsOverview', 'Goals', 'widgetGoalsOverview');
         $goals = Piwik_Goals_API::getInstance()->getGoals($idSite);
         if (count($goals) > 0) {
             foreach ($goals as $goal) {
-                Piwik_AddWidget('Goals_Goals', Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
+                WidgetsList::add('Goals_Goals', Common::sanitizeInputValue($goal['name']), 'Goals', 'widgetGoalReport', array('idGoal' => $goal['idgoal']));
             }
         }
     }
@@ -465,7 +466,7 @@ class Piwik_Goals extends Plugin
             }
             Piwik_AddMenu($mainGoalMenu, 'Goals_GoalsOverview', array('module' => 'Goals', 'action' => 'index'), true, 2);
             foreach ($goals as $goal) {
-                Piwik_AddMenu($mainGoalMenu, str_replace('%', '%%', Piwik_TranslationWriter::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
+                Piwik_AddMenu($mainGoalMenu, str_replace('%', '%%', TranslationWriter::clean($goal['name'])), array('module' => 'Goals', 'action' => 'goalReport', 'idGoal' => $goal['idgoal']));
             }
         }
     }

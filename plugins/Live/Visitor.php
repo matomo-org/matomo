@@ -10,6 +10,8 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\IP;
+use Piwik\Tracker;
 
 /**
  * @see plugins/Referers/functions.php
@@ -168,7 +170,7 @@ class Piwik_Live_Visitor
     function getIp()
     {
         if (isset($this->details['location_ip'])) {
-            return Piwik_IP::N2P($this->details['location_ip']);
+            return IP::N2P($this->details['location_ip']);
         }
         return false;
     }
@@ -319,7 +321,7 @@ class Piwik_Live_Visitor
     function getCustomVariables()
     {
         $customVariables = array();
-        for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             if (!empty($this->details['custom_var_k' . $i])) {
                 $customVariables[$i] = array(
                     'customVariableName' . $i  => $this->details['custom_var_k' . $i],

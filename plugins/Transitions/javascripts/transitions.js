@@ -47,7 +47,7 @@ DataTable_RowActions_Transitions.prototype.trigger = function (tr, e, subTableLa
 };
 
 DataTable_RowAction.prototype.performAction = function (label, tr, e) {
-    var separator = ' > '; // Piwik_API_DataTableManipulator_LabelFilter::SEPARATOR_RECURSIVE_LABEL
+    var separator = ' > '; // LabelFilter::SEPARATOR_RECURSIVE_LABEL
     var labelParts = label.split(separator);
     for (var i = 0; i < labelParts.length; i++) {
         labelParts[i] = $.trim(decodeURIComponent(labelParts[i]));

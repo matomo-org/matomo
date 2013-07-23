@@ -8,9 +8,13 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
+use Exception;
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\IP;
 
 /**
  * Class to retrieve absolute URL or URI components of the current URL,
@@ -18,7 +22,7 @@ use Piwik\Common;
  *
  * @package Piwik
  */
-class Piwik_Url
+class Url
 {
     /**
      * List of hosts that are never checked for validity.
@@ -44,7 +48,7 @@ class Piwik_Url
      * will return "http://example.org/dir1/dir2/index.php"
      *
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
-     *                               except in Piwik_Controller.
+     *                               except in Controller.
      * @return string
      */
     static public function getCurrentUrlWithoutQueryString($checkTrustedHost = true)
@@ -245,7 +249,7 @@ class Piwik_Url
      * Get host
      *
      * @param bool $checkIfTrusted Whether to do trusted host check. Should ALWAYS be true,
-     *                             except in Piwik_Controller.
+     *                             except in Controller.
      * @return string|false
      */
     static public function getHost($checkIfTrusted = true)
@@ -273,7 +277,7 @@ class Piwik_Url
      *
      * @param string $default Default value to return if host unknown
      * @param bool $checkTrustedHost Whether to do trusted host check. Should ALWAYS be true,
-     *                               except in Piwik_Controller.
+     *                               except in Controller.
      * @return string
      */
     static public function getCurrentHost($default = 'unknown', $checkTrustedHost = true)
@@ -286,7 +290,7 @@ class Piwik_Url
         $host = self::getHost($checkTrustedHost);
         $default = Common::sanitizeInputValue($host ? $host : $default);
 
-        return Piwik_IP::getNonProxyIpFromHeader($default, $hostHeaders);
+        return IP::getNonProxyIpFromHeader($default, $hostHeaders);
     }
 
     /**
@@ -435,12 +439,12 @@ class Piwik_Url
         }
 
         // drop port numbers from hostnames and IP addresses
-        $hosts = array_map(array('Piwik_IP', 'sanitizeIp'), $hosts);
+        $hosts = array_map(array('Piwik\IP', 'sanitizeIp'), $hosts);
 
         $disableHostCheck = Config::getInstance()->General['enable_trusted_host_check'] == 0;
         // compare scheme and host
         $parsedUrl = @parse_url($url);
-        $host = Piwik_IP::sanitizeIp(@$parsedUrl['host']);
+        $host = IP::sanitizeIp(@$parsedUrl['host']);
         return !empty($host)
             && ($disableHostCheck || in_array($host, $hosts))
             && !empty($parsedUrl['scheme'])

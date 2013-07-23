@@ -8,8 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\API\DataTableManipulator;
+
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\API\DataTableManipulator;
 
 /**
  * This class is responsible for flattening data tables.
@@ -20,7 +23,7 @@ use Piwik\DataTable\Row;
  * @package Piwik
  * @subpackage Piwik_API
  */
-class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipulator
+class Flattener extends DataTableManipulator
 {
 
     private $includeAggregateRows = false;
@@ -66,7 +69,7 @@ class Piwik_API_DataTableManipulator_Flattener extends Piwik_API_DataTableManipu
         if ($this->includeAggregateRows) {
             $dataTable->applyQueuedFilters();
         }
-        
+
         $newDataTable = $dataTable->getEmptyClone($keepFilters = false);
         foreach ($dataTable->getRows() as $row) {
             $this->flattenRow($row, $newDataTable);

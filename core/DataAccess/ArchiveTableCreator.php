@@ -1,12 +1,4 @@
 <?php
-namespace Piwik\DataAccess;
-
-use Exception;
-use Piwik\Piwik;
-use Piwik\Common;
-use Piwik\Date;
-use Zend_Registry;
-
 /**
  * Piwik - Open source web analytics
  *
@@ -16,6 +8,14 @@ use Zend_Registry;
  * @category Piwik
  * @package Piwik
  */
+
+namespace Piwik\DataAccess;
+
+use Exception;
+use Piwik\Piwik;
+use Piwik\Common;
+use Piwik\Date;
+use Zend_Registry;
 
 class ArchiveTableCreator
 {

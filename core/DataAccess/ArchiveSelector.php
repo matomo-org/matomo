@@ -72,7 +72,7 @@ class ArchiveSelector
 								  OR name = '" . self::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
 							$timeStampWhere
 						ORDER BY idarchive DESC";
-        $results = Piwik_FetchAll($sqlQuery, $bindSQL);
+        $results = Db::fetchAll($sqlQuery, $bindSQL);
         if (empty($results)) {
             return false;
         }
@@ -185,7 +185,7 @@ class ArchiveSelector
             $sql = sprintf($getArchiveIdsSql, $table, $dateCondition);
 
             // get the archive IDs
-            foreach (Piwik_FetchAll($sql, $bind) as $row) {
+            foreach (Db::fetchAll($sql, $bind) as $row) {
                 $archiveName = $row['name'];
 
                 //FIXMEA duplicate with Archive.php
@@ -246,7 +246,7 @@ class ArchiveSelector
                 $table = ArchiveTableCreator::getBlobTable($date);
             }
             $sql = sprintf($getValuesSql, $table, implode(',', $ids));
-            $dataRows = Piwik_FetchAll($sql, $bind);
+            $dataRows = Db::fetchAll($sql, $bind);
             foreach ($dataRows as $row) {
                 $rows[] = $row;
             }
@@ -305,10 +305,10 @@ class ArchiveSelector
         $yesterday = Date::factory('yesterday')->getDateTime();
         $bind = array(Piwik::$idPeriods['range'], $yesterday);
         $numericTable = ArchiveTableCreator::getNumericTable($date);
-        Piwik_Query(sprintf($query, $numericTable), $bind);
+        Db::query(sprintf($query, $numericTable), $bind);
         Piwik::log("Purging Custom Range archives: done [ purged archives older than $yesterday from $numericTable / blob ]");
         try {
-            Piwik_Query(sprintf($query, ArchiveTableCreator::getBlobTable($date)), $bind);
+            Db::query(sprintf($query, ArchiveTableCreator::getBlobTable($date)), $bind);
         } catch (Exception $e) {
             // Individual blob tables could be missing
         }
@@ -318,9 +318,9 @@ class ArchiveSelector
     {
         $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idArchivesToDelete) . ")";
 
-        Piwik_Query(sprintf($query, ArchiveTableCreator::getNumericTable($date)));
+        Db::query(sprintf($query, ArchiveTableCreator::getNumericTable($date)));
         try {
-            Piwik_Query(sprintf($query, ArchiveTableCreator::getBlobTable($date)));
+            Db::query(sprintf($query, ArchiveTableCreator::getBlobTable($date)));
         } catch (Exception $e) {
             // Individual blob tables could be missing
         }
@@ -335,7 +335,7 @@ class ArchiveSelector
                             AND ts_archived < ?)
                          OR value = " . ArchiveProcessor::DONE_ERROR . ")";
 
-        $result = Piwik_FetchAll($query, array($purgeArchivesOlderThan));
+        $result = Db::fetchAll($query, array($purgeArchivesOlderThan));
         $idArchivesToDelete = array();
         if (!empty($result)) {
             foreach ($result as $row) {

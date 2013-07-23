@@ -9,12 +9,14 @@
  * @package Piwik
  */
 
+namespace Piwik\Plugin;
+
 /**
  * Read / write local plugin-specific configuration
  *
  * @package Piwik
  */
-class Piwik_Plugin_Config
+class Config
 {
     private $pluginName;
     private $configFileName;

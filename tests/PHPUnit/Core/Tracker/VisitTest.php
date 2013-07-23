@@ -6,6 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 use Piwik\Access;
+use Piwik\IP;
 
 class Tracker_VisitTest extends DatabaseTestCase
 {
@@ -78,7 +79,7 @@ class Tracker_VisitTest extends DatabaseTestCase
 
         // test that IPs within the range, or the given IP, are excluded
         foreach ($tests as $ip => $expected) {
-            $testIpIsExcluded = Piwik_IP::P2N($ip);
+            $testIpIsExcluded = IP::P2N($ip);
 
             $excluded = new Test_Piwik_Tracker_VisitExcluded_public($request, $testIpIsExcluded);
             $this->assertSame($expected, $excluded->public_isVisitorIpExcluded($testIpIsExcluded));

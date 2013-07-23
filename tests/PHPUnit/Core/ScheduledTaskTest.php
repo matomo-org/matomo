@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\ScheduledTask;
+
 require_once PIWIK_INCLUDE_PATH . '/plugins/PDFReports/PDFReports.php';
 
 class ScheduledTaskTest extends PHPUnit_Framework_TestCase
@@ -15,7 +17,7 @@ class ScheduledTaskTest extends PHPUnit_Framework_TestCase
      */
     public function testGetClassName()
     {
-        $scheduledTask = new Piwik_ScheduledTask (new Piwik_PDFReports(), null, null, null);
+        $scheduledTask = new ScheduledTask (new Piwik_PDFReports(), null, null, null);
         $this->assertEquals('Piwik_PDFReports', $scheduledTask->getClassName());
     }
 
@@ -39,7 +41,7 @@ class ScheduledTaskTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTaskName($expectedTaskName, $className, $methodName, $methodParameter)
     {
-        $this->assertEquals($expectedTaskName, Piwik_ScheduledTask::getTaskName($className, $methodName, $methodParameter));
+        $this->assertEquals($expectedTaskName, ScheduledTask::getTaskName($className, $methodName, $methodParameter));
     }
 
 }

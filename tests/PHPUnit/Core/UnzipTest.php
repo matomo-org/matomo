@@ -5,6 +5,8 @@
  * @link http://piwik.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+use Piwik\Unzip;
+
 class UnzipTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -19,7 +21,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
         $filename = dirname(__FILE__) . '/Unzip/' . $test . '.zip';
 
         if (class_exists('ZipArchive', false)) {
-            $unzip = Piwik_Unzip::factory('ZipArchive', $filename);
+            $unzip = Unzip::factory('ZipArchive', $filename);
             $res = $unzip->extract($extractDir);
             $this->assertEquals(1, count($res));
             $this->assertFileExists($extractDir . $test . '.txt');
@@ -36,7 +38,7 @@ class UnzipTest extends PHPUnit_Framework_TestCase
             unlink($extractDir . $test . '.txt');
         }
 
-        $unzip = Piwik_Unzip::factory('PclZip', $filename);
+        $unzip = Unzip::factory('PclZip', $filename);
         $res = $unzip->extract($extractDir);
         $this->assertEquals(1, count($res));
         $this->assertFileExists($extractDir . $test . '.txt');

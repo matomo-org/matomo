@@ -8,10 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+use Piwik\Controller;
 
 /**
  * @package Piwik
- * @subpackage Piwik_ViewDataTable
+ * @subpackage ViewDataTable
  */
 class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlTable
 {
@@ -38,7 +39,7 @@ class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlT
         $valid = parent::postDataTableLoadedFromAPI();
         if (!$valid) return false;
 
-        Piwik_Controller::setPeriodVariablesView($this);
+        Controller::setPeriodVariablesView($this);
         $columnUniqueVisitors = false;
         if ($this->period == 'day') {
             $columnUniqueVisitors = 'nb_uniq_visitors';

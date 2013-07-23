@@ -8,17 +8,23 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\JqplotDataGenerator;
+
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\ViewDataTable;
+use Piwik\Url;
+use Piwik\JqplotDataGenerator;
+use Piwik_Visualization_Chart_Evolution;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.
  */
-class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
+class Evolution extends JqplotDataGenerator
 {
     protected $rowPickerConfig = array();
-    
+
     /**
      * Constructor.
      */
@@ -89,7 +95,7 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
                 $yAxisLabelToValueCleaned[$yAxisLabel][] = $columnValue;
             }
         }
-        
+
         $visualization = $this->visualization;
         $visualization->setAxisXLabels($xLabels);
         $visualization->setAxisYValues($yAxisLabelToValueCleaned);
@@ -113,14 +119,14 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
                     'idSite'  => $idSite,
                     'period'  => $period->getLabel(),
                     'date'    => $dateInUrl->toString(),
-                    'segment' => Piwik_ViewDataTable::getRawSegmentFromRequest()
+                    'segment' => ViewDataTable::getRawSegmentFromRequest()
                 );
                 $hash = '';
                 if (!empty($queryStringAsHash)) {
-                    $hash = '#' . Piwik_Url::getQueryStringFromParameters($queryStringAsHash + $parameters);
+                    $hash = '#' . Url::getQueryStringFromParameters($queryStringAsHash + $parameters);
                 }
                 $link = 'index.php?' .
-                    Piwik_Url::getQueryStringFromParameters(array(
+                    Url::getQueryStringFromParameters(array(
                         'module' => 'CoreHome',
                         'action' => 'index',
                     ) + $parameters)
@@ -131,7 +137,7 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
         }
 
         $this->addSeriesPickerToView();
-        
+
         // configure the row picker
         if ($this->properties['row_picker_mach_rows_by'] !== false) {
             $visualization->setSelectableRows(array_values($this->rowPickerConfig));
@@ -204,12 +210,12 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
      */
     private function getQueryStringAsHash()
     {
-        $queryString = Piwik_Url::getArrayFromCurrentQueryString();
+        $queryString = Url::getArrayFromCurrentQueryString();
         $piwikParameters = array('idSite', 'date', 'period', 'XDEBUG_SESSION_START', 'KEY');
         foreach ($piwikParameters as $parameter) {
             unset($queryString[$parameter]);
         }
-        if (Piwik_IsMenuUrlFound($queryString)) {
+        if (Piwik_Menu_Main::getInstance()->isUrlFound($queryString)) {
             return $queryString;
         }
         return false;

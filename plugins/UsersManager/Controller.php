@@ -8,16 +8,20 @@
  * @category Piwik_Plugins
  * @package Piwik_UsersManager
  */
+use Piwik\API\ResponseBuilder;
+use Piwik\Controller\Admin;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\View;
+use Piwik\Url;
 use Piwik\Site;
 
 /**
  *
  * @package Piwik_UsersManager
  */
-class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
+class Piwik_UsersManager_Controller extends Admin
 {
     static function orderByName($a, $b)
     {
@@ -31,7 +35,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new Piwik_View('@UsersManager/index');
+        $view = new View('@UsersManager/index');
 
         $IdSitesAdmin = Piwik_SitesManager_API::getInstance()->getSitesIdWithAdminAccess();
         $idSiteSelected = 1;
@@ -123,7 +127,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $view = new Piwik_View('@UsersManager/userSettings');
+        $view = new View('@UsersManager/userSettings');
 
         $userLogin = Piwik::getCurrentUserLogin();
         if (Piwik::isUserIsSuperUser()) {
@@ -164,7 +168,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 
         $view->ignoreCookieSet = Piwik_Tracker_IgnoreCookie::isIgnoreCookieFound();
         $this->initViewAnonymousUserSettings($view);
-        $view->piwikHost = Piwik_Url::getCurrentHost();
+        $view->piwikHost = Url::getCurrentHost();
         $this->setBasicVariablesView($view);
         echo $view->render();
     }
@@ -181,7 +185,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
 
     /**
      * The Super User can modify Anonymous user settings
-     * @param Piwik_View $view
+     * @param View $view
      */
     protected function initViewAnonymousUserSettings($view)
     {
@@ -226,7 +230,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
      */
     public function recordAnonymousUserSettings()
     {
-        $response = new Piwik_API_ResponseBuilder(Common::getRequestVar('format'));
+        $response = new ResponseBuilder(Common::getRequestVar('format'));
         try {
             Piwik::checkUserIsSuperUser();
             $this->checkTokenInUrl();
@@ -253,7 +257,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
      */
     public function recordUserSettings()
     {
-        $response = new Piwik_API_ResponseBuilder(Common::getRequestVar('format'));
+        $response = new ResponseBuilder(Common::getRequestVar('format'));
         try {
             $this->checkTokenInUrl();
 
@@ -275,7 +279,7 @@ class Piwik_UsersManager_Controller extends Piwik_Controller_Admin
             }
 
             // UI disables password change on invalid host, but check here anyway
-            if (!Piwik_Url::isValidHost()
+            if (!Url::isValidHost()
                 && $newPassword !== false
             ) {
                 throw new Exception("Cannot change password with untrusted hostname!");

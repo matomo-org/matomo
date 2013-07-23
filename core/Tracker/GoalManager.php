@@ -10,10 +10,11 @@
  */
 use Piwik\Config;
 use Piwik\Common;
+use Piwik\Tracker;
 
 /**
  * @package Piwik
- * @subpackage Piwik_Tracker
+ * @subpackage Tracker
  */
 class Piwik_Tracker_GoalManager
 {
@@ -238,7 +239,7 @@ class Piwik_Tracker_GoalManager
             'idvisit'                  => $visitorInformation['idvisit'],
             'idsite'                   => $idSite,
             'idvisitor'                => $visitorInformation['idvisitor'],
-            'server_time'              => Piwik_Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
+            'server_time'              => Tracker::getDatetimeFromTimestamp($visitorInformation['visit_last_action_time']),
             'location_country'         => $location_country,
             'visitor_returning'        => $visitorInformation['visitor_returning'],
             'visitor_days_since_first' => $visitorInformation['visitor_days_since_first'],
@@ -254,7 +255,7 @@ class Piwik_Tracker_GoalManager
         }
 
         // Copy Custom Variables from Visit row to the Goal conversion
-        for ($i = 1; $i <= Piwik_Tracker::MAX_CUSTOM_VARIABLES; $i++) {
+        for ($i = 1; $i <= Tracker::MAX_CUSTOM_VARIABLES; $i++) {
             if (isset($visitorInformation['custom_var_k' . $i])
                 && strlen($visitorInformation['custom_var_k' . $i])
             ) {
@@ -449,7 +450,7 @@ class Piwik_Tracker_GoalManager
                       self::ITEM_IDORDER_ABANDONED_CART
         );
 
-        $itemsInDb = Piwik_Tracker::getDatabase()->fetchAll($sql, $bind);
+        $itemsInDb = Tracker::getDatabase()->fetchAll($sql, $bind);
 
         Common::printDebug("Items found in current cart, for conversion_item (visit,idorder)=" . var_export($bind, true));
         Common::printDebug($itemsInDb);
@@ -668,7 +669,7 @@ class Piwik_Tracker_GoalManager
             $sqlBind[] = $newRow['idvisit'];
             $sqlBind[] = $item['idorder_original_value'];
             $sqlBind[] = $newRow['idaction_sku'];
-            Piwik_Tracker::getDatabase()->query($sql, $sqlBind);
+            Tracker::getDatabase()->query($sql, $sqlBind);
         }
     }
 
@@ -704,7 +705,7 @@ class Piwik_Tracker_GoalManager
             $i++;
             $bind = array_merge($bind, $newRow);
         }
-        Piwik_Tracker::getDatabase()->query($sql, $bind);
+        Tracker::getDatabase()->query($sql, $bind);
         Common::printDebug($sql);
         Common::printDebug($bind);
     }
@@ -793,16 +794,16 @@ class Piwik_Tracker_GoalManager
             $sql = 'UPDATE  ' . Common::prefixTable('log_conversion') . "
 					SET " . implode($updateParts, ', ') . "
 						WHERE " . implode($updateWhereParts, ' AND ');
-            Piwik_Tracker::getDatabase()->query($sql, $sqlBind);
+            Tracker::getDatabase()->query($sql, $sqlBind);
             return true;
         } else {
             $sql = 'INSERT IGNORE INTO ' . Common::prefixTable('log_conversion') . "
 					($fields) VALUES ($bindFields) ";
             $bind = array_values($newGoal);
-            $result = Piwik_Tracker::getDatabase()->query($sql, $bind);
+            $result = Tracker::getDatabase()->query($sql, $bind);
 
             // If a record was inserted, we return true
-            return Piwik_Tracker::getDatabase()->rowCount($result) > 0;
+            return Tracker::getDatabase()->rowCount($result) > 0;
         }
     }
 

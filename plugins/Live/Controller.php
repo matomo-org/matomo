@@ -8,14 +8,18 @@
  * @category Piwik_Plugins
  * @package Piwik_Live
  */
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Config;
+use Piwik\Controller;
+use Piwik\ViewDataTable;
+use Piwik\View;
 
 /**
  * @package Piwik_Live
  */
-class Piwik_Live_Controller extends Piwik_Controller
+class Piwik_Live_Controller extends Controller
 {
     const SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY = 'live_widget_visitor_count_last_minutes';
 
@@ -26,7 +30,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     public function widget($fetch = false)
     {
-        $view = new Piwik_View('@Live/index');
+        $view = new View('@Live/index');
         $view->idSite = $this->idSite;
         $view = $this->setCounters($view);
         $view->liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
@@ -39,9 +43,9 @@ class Piwik_Live_Controller extends Piwik_Controller
     {
         $lastMinutes = Config::getInstance()->General[self::SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY];
 
-        $lastNData = Piwik_API_Request::processRequest('Live.getCounters', array('lastMinutes' => $lastMinutes));
+        $lastNData = Request::processRequest('Live.getCounters', array('lastMinutes' => $lastMinutes));
 
-        $view = new Piwik_View('@Live/getSimpleLastVisitCount');
+        $view = new View('@Live/getSimpleLastVisitCount');
         $view->lastMinutes = $lastMinutes;
         $view->visitors = Piwik::getPrettyNumber($lastNData[0]['visitors']);
         $view->visits = Piwik::getPrettyNumber($lastNData[0]['visits']);
@@ -62,13 +66,13 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     public function ajaxTotalVisitors($fetch = false)
     {
-        $view = new Piwik_View('@Live/ajaxTotalVisitors');
+        $view = new View('@Live/ajaxTotalVisitors');
         $view = $this->setCounters($view);
         $view->idSite = $this->idSite;
         return $this->render($view, $fetch);
     }
 
-    private function render(Piwik_View $view, $fetch)
+    private function render(View $view, $fetch)
     {
         $rendered = $view->render();
         if ($fetch) {
@@ -79,7 +83,7 @@ class Piwik_Live_Controller extends Piwik_Controller
     
     public function indexVisitorLog()
     {
-        $view = new Piwik_View('@Live/indexVisitorLog.twig');
+        $view = new View('@Live/indexVisitorLog.twig');
         $view->filterEcommerce = Common::getRequestVar('filterEcommerce', 0, 'int');
         $view->visitorLog = $this->getVisitorLog($fetch = true);
         echo $view->render();
@@ -87,7 +91,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     public function getVisitorLog($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
+        $view = ViewDataTable::factory();
         $view->init($this->pluginName,
             __FUNCTION__,
             'Live.getLastVisitsDetails'
@@ -129,10 +133,10 @@ class Piwik_Live_Controller extends Piwik_Controller
         // hack, ensure we load today's visits by default
         $_GET['date'] = 'today';
         $_GET['period'] = 'day';
-        $view = new Piwik_View('@Live/getLastVisitsStart');
+        $view = new View('@Live/getLastVisitsStart');
         $view->idSite = $this->idSite;
 
-        $api = new Piwik_API_Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
+        $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=php&serialize=0&disable_generic_filters=1");
         $visitors = $api->process();
         $view->visitors = $visitors;
 
@@ -141,7 +145,7 @@ class Piwik_Live_Controller extends Piwik_Controller
 
     private function setCounters($view)
     {
-        $segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
+        $segment = ViewDataTable::getRawSegmentFromRequest();
         $last30min = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment);
         $last30min = $last30min[0];
         $today = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment);

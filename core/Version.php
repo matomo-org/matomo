@@ -9,12 +9,14 @@
  * @package Piwik
  */
 
+namespace Piwik;
+
 /**
  * Piwik version information.
  *
  * @package Piwik
  */
-final class Piwik_Version
+final class Version
 {
     /**
      * Current Piwik version

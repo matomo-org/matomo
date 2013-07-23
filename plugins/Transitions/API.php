@@ -19,6 +19,8 @@ use Piwik\Period\Day;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataArray;
+use Piwik\RankingQuery;
 use Piwik\Segment;
 use Piwik\SegmentExpression;
 use Piwik\Site;
@@ -286,7 +288,7 @@ class Piwik_Transitions_API
         $types[Piwik_Tracker_Action::TYPE_OUTLINK] = 'outlinks';
         $types[Piwik_Tracker_Action::TYPE_DOWNLOAD] = 'downloads';
 
-        $rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->partitionResultIntoMultipleGroups('type', array_keys($types));
 
@@ -343,7 +345,7 @@ class Piwik_Transitions_API
      */
     public function queryExternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
     {
-        $rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
 
         // we generate a single column that contains the interesting data for each referrer.
         // the reason we cannot group by referer_* becomes clear when we look at search engine keywords.
@@ -401,7 +403,7 @@ class Piwik_Transitions_API
         }
 
         //FIXMEA refactor after integration tests written
-        $array = new Piwik_DataArray($referrerData, $referrerSubData);
+        $array = new DataArray($referrerData, $referrerSubData);
         return Day::getDataTableFromDataArray($array);
     }
 
@@ -416,7 +418,7 @@ class Piwik_Transitions_API
      */
     protected function queryInternalReferrers($idaction, $actionType, $logAggregator, $limitBeforeGrouping = false)
     {
-        $rankingQuery = new Piwik_RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
+        $rankingQuery = new RankingQuery($limitBeforeGrouping ? $limitBeforeGrouping : $this->limitBeforeGrouping);
         $rankingQuery->addLabelColumn(array('name', 'url_prefix'));
         $rankingQuery->setColumnToMarkExcludedRows('is_self');
         $rankingQuery->partitionResultIntoMultipleGroups('action_partition', array(0, 1, 2));
@@ -588,7 +590,7 @@ class Piwik_Transitions_API
             }
         }
 
-        // if there's no data for referrers, Piwik_API_ResponseBuilder::handleMultiDimensionalArray
+        // if there's no data for referrers, ResponseBuilder::handleMultiDimensionalArray
         // does not detect the multi dimensional array and the data is rendered differently, which
         // causes an exception.
         if (count($report['referrers']) == 0) {

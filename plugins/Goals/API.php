@@ -65,7 +65,7 @@ class Piwik_Goals_API
             return array();
         }
         Piwik::checkUserHasViewAccess($idSite);
-        $goals = Piwik_FetchAll("SELECT *
+        $goals = Db::fetchAll("SELECT *
 								FROM " . Common::prefixTable('goal') . "
 								WHERE idsite IN (" . implode(", ", $idSite) . ")
 									AND deleted = 0");
@@ -194,12 +194,12 @@ class Piwik_Goals_API
     public function deleteGoal($idSite, $idGoal)
     {
         Piwik::checkUserHasAdminAccess($idSite);
-        Piwik_Query("UPDATE " . Common::prefixTable('goal') . "
+        Db::query("UPDATE " . Common::prefixTable('goal') . "
 										SET deleted = 1
 										WHERE idsite = ? 
 											AND idgoal = ?",
             array($idSite, $idGoal));
-        Piwik_DeleteAllRows(Common::prefixTable("log_conversion"), "WHERE idgoal = ?", 100000, array($idGoal));
+        Db::deleteAllRows(Common::prefixTable("log_conversion"), "WHERE idgoal = ?", 100000, array($idGoal));
         Piwik_Tracker_Cache::regenerateCacheWebsiteAttributes($idSite);
     }
 

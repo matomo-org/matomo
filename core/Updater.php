@@ -9,19 +9,15 @@
  * @package Piwik
  */
 use Piwik\Common;
-
-/**
- * @see core/Option.php
- */
-require_once PIWIK_INCLUDE_PATH . '/core/Option.php';
+use Piwik\Version;
 
 /**
  * Load and execute all relevant, incremental update scripts for Piwik core and plugins, and bump the component version numbers for completed updates.
  *
  * @package Piwik
- * @subpackage Piwik_Updater
+ * @subpackage Updater
  */
-class Piwik_Updater
+class Updater
 {
     const INDEX_CURRENT_VERSION = 0;
     const INDEX_NEW_VERSION = 1;
@@ -130,7 +126,7 @@ class Piwik_Updater
                     $this->hasMajorDbUpdate = $this->hasMajorDbUpdate || call_user_func(array($className, 'isMajorUpdate'));
                 }
             }
-            // unfortunately had to extract this query from the Piwik_Option class
+            // unfortunately had to extract this query from the Option class
             $queries[] = 'UPDATE `' . Common::prefixTable('option') . '`
     				SET option_value = \'' . $fileVersion . '\'
     				WHERE option_name = \'' . $this->getNameInOptionTable($componentName) . '\';';
@@ -257,7 +253,7 @@ class Piwik_Updater
             if ($currentVersion === false) {
                 if ($name === 'core') {
                     // This should not happen
-                    $currentVersion = Piwik_Version::VERSION;
+                    $currentVersion = Version::VERSION;
                 } else {
                     $currentVersion = '0.0.1';
                 }
@@ -288,7 +284,7 @@ class Piwik_Updater
     {
         foreach ($sqlarray as $update => $ignoreError) {
             try {
-                Piwik_Exec($update);
+                Db::exec($update);
             } catch (Exception $e) {
                 if (($ignoreError === false)
                     || !Zend_Registry::get('db')->isErrNo($e, $ignoreError)
@@ -305,7 +301,7 @@ class Piwik_Updater
  * Exception thrown by updater if a non-recoverable error occurs
  *
  * @package Piwik
- * @subpackage Piwik_Updater
+ * @subpackage Updater
  */
 class Piwik_Updater_UpdateErrorException extends Exception
 {

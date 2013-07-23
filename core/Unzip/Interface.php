@@ -13,7 +13,7 @@
  * Unzip interface
  *
  * @package Piwik
- * @subpackage Piwik_Unzip
+ * @subpackage Unzip
  */
 interface Piwik_Unzip_Interface
 {

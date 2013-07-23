@@ -8,16 +8,19 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Log;
+
 use Piwik\Common;
+use Piwik\Log;
 
 /**
  * Class used to log an exception event.
  * Displays the exception with a user friendly error message, suggests to get support from piwik.org
  *
  * @package Piwik
- * @subpackage Piwik_Log
+ * @subpackage Log
  */
-class Piwik_Log_Exception extends Piwik_Log
+class Exception extends Log
 {
     const ID = 'logger_exception';
 
@@ -36,8 +39,8 @@ class Piwik_Log_Exception extends Piwik_Log
             'errfile'   => 'errfile',
             'backtrace' => 'backtrace'
         );
-        $screenFormatter = new Piwik_Log_Exception_Formatter_ScreenFormatter();
-        $fileFormatter = new Piwik_Log_Formatter_FileFormatter();
+        $screenFormatter = new Exception_Formatter_ScreenFormatter();
+        $fileFormatter = new Formatter_FileFormatter();
 
         parent::__construct($logToFileFilename,
             $fileFormatter,
@@ -52,7 +55,7 @@ class Piwik_Log_Exception extends Piwik_Log
     function addWriteToScreen()
     {
         parent::addWriteToScreen();
-        $writerScreen = new Zend_Log_Writer_Stream('php://stderr');
+        $writerScreen = new \Zend_Log_Writer_Stream('php://stderr');
         $writerScreen->setFormatter($this->screenFormatter);
         $this->addWriter($writerScreen);
     }
@@ -71,7 +74,7 @@ class Piwik_Log_Exception extends Piwik_Log
         $event['errline'] = $exception->getLine();
         $event['backtrace'] = $exception->getTraceAsString();
 
-        parent::log($event, Piwik_Log::CRIT, null);
+        parent::log($event, Log::CRIT, null);
     }
 }
 
@@ -79,9 +82,9 @@ class Piwik_Log_Exception extends Piwik_Log
  * Format an exception event to be displayed on the screen.
  *
  * @package Piwik
- * @subpackage Piwik_Log
+ * @subpackage Log
  */
-class Piwik_Log_Exception_Formatter_ScreenFormatter extends Piwik_Log_Formatter_ScreenFormatter
+class Exception_Formatter_ScreenFormatter extends Formatter_ScreenFormatter
 {
     /**
      * Formats data into a single line to be written by the writer.
@@ -96,7 +99,7 @@ class Piwik_Log_Exception_Formatter_ScreenFormatter extends Piwik_Log_Formatter_
 
         $outputFormat = strtolower(Common::getRequestVar('format', 'html', 'string'));
         $response = new Piwik_API_ResponseBuilder($outputFormat);
-        $message = $response->getResponseException(new Exception($errstr));
+        $message = $response->getResponseException(new \Exception($errstr));
         return parent::format($message);
     }
 }

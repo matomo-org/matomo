@@ -13,7 +13,7 @@
  * Unzip wrapper around ZipArchive
  *
  * @package Piwik
- * @subpackage Piwik_Unzip
+ * @subpackage Unzip
  */
 class Piwik_Unzip_ZipArchive implements Piwik_Unzip_Interface
 {

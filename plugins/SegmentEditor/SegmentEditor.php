@@ -9,6 +9,7 @@
  * @package Piwik_SegmentEditor
  */
 use Piwik\Common;
+use Piwik\Version;
 use Piwik\Plugin;
 
 /**
@@ -25,7 +26,7 @@ class Piwik_SegmentEditor extends Plugin
             'description'     => 'Create and reuse custom visitor Segments with the Segment Editor.',
             'author'          => 'Piwik',
             'author_homepage' => 'http://piwik.org/',
-            'version'         => Piwik_Version::VERSION,
+            'version'         => Version::VERSION,
         );
     }
 
@@ -84,7 +85,7 @@ class Piwik_SegmentEditor extends Plugin
 				) DEFAULT CHARSET=utf8';
         try {
             foreach ($queries as $query) {
-                Piwik_Exec($query);
+                Db::exec($query);
             }
         } catch (Exception $e) {
             if (!Zend_Registry::get('db')->isErrNo($e, '1050')) {

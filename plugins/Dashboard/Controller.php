@@ -10,13 +10,15 @@
 use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Controller;
+use Piwik\View;
 
 /**
  * Dashboard Controller
  *
  * @package Piwik_Dashboard
  */
-class Piwik_Dashboard_Controller extends Piwik_Controller
+class Piwik_Dashboard_Controller extends Controller
 {
     /**
      * @var Piwik_Dashboard
@@ -32,10 +34,10 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
     protected function _getDashboardView($template)
     {
-        $view = new Piwik_View($template);
+        $view = new View($template);
         $this->setGeneralVariablesView($view);
 
-        $view->availableWidgets = Common::json_encode(Piwik_GetWidgetsList());
+        $view->availableWidgets = Common::json_encode(WidgetsList::get());
         $view->availableLayouts = $this->getAvailableLayouts();
 
         $view->dashboardId = Common::getRequestVar('idDashboard', 1, 'int');
@@ -68,7 +70,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $this->checkTokenInUrl();
 
         Json::sendHeaderJSON();
-        echo Common::json_encode(Piwik_GetWidgetsList());
+        echo Common::json_encode(WidgetsList::get());
     }
 
     public function getDashboardLayout()
@@ -111,7 +113,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $paramsBind = array($login, $idDashboard, $layout, $layout);
         $query = sprintf('INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
             Common::prefixTable('user_dashboard'));
-        Piwik_Query($query, $paramsBind);
+        Db::query($query, $paramsBind);
     }
 
     /**
@@ -126,7 +128,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         $paramsBind = array($name, $login, $idDashboard);
         $query = sprintf('UPDATE %s SET name = ? WHERE login = ? AND iddashboard = ?',
             Common::prefixTable('user_dashboard'));
-        Piwik_Query($query, $paramsBind);
+        Db::query($query, $paramsBind);
     }
 
     /**
@@ -146,7 +148,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
         if ($idDashboard != 1) {
             $query = sprintf('DELETE FROM %s WHERE iddashboard = ? AND login = ?',
                 Common::prefixTable('user_dashboard'));
-            Piwik_Query($query, array($idDashboard, Piwik::getCurrentUserLogin()));
+            Db::query($query, array($idDashboard, Piwik::getCurrentUserLogin()));
         }
     }
 
@@ -196,7 +198,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
         $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
             Common::prefixTable('user_dashboard'));
-        Piwik_Query($query, array($user, $nextId, $name, $layout));
+        Db::query($query, array($user, $nextId, $name, $layout));
 
         Json::sendHeaderJSON();
         echo Common::json_encode($nextId);
@@ -206,7 +208,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
     {
         $nextIdQuery = sprintf('SELECT MAX(iddashboard)+1 FROM %s WHERE login = ?',
             Common::prefixTable('user_dashboard'));
-        $nextId = Piwik_FetchOne($nextIdQuery, array($login));
+        $nextId = Db::fetchOne($nextIdQuery, array($login));
 
         if (empty($nextId)) {
             $nextId = 1;
@@ -234,7 +236,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
 
             $query = sprintf('INSERT INTO %s (login, iddashboard, name, layout) VALUES (?, ?, ?, ?)',
                 Common::prefixTable('user_dashboard'));
-            Piwik_Query($query, array($user, $nextId, $name, $layout));
+            Db::query($query, array($user, $nextId, $name, $layout));
 
             Json::sendHeaderJSON();
             echo Common::json_encode($nextId);
@@ -278,7 +280,7 @@ class Piwik_Dashboard_Controller extends Piwik_Controller
             $paramsBind = array('', '1', $layout, $layout);
             $query = sprintf('INSERT INTO %s (login, iddashboard, layout) VALUES (?,?,?) ON DUPLICATE KEY UPDATE layout=?',
                 Common::prefixTable('user_dashboard'));
-            Piwik_Query($query, $paramsBind);
+            Db::query($query, $paramsBind);
         }
     }
 

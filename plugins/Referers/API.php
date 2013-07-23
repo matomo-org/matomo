@@ -8,6 +8,7 @@
  * @category Piwik_Plugins
  * @package Piwik_Referers
  */
+use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
 use Piwik\DataTable\Row;
 use Piwik\Metrics;
@@ -211,7 +212,7 @@ class Piwik_Referers_API
         $request['serialize'] = 0;
 
         // Apply generic filters
-        $response = new Piwik_API_ResponseBuilder($format = 'original', $request);
+        $response = new ResponseBuilder($format = 'original', $request);
         $table = $response->getResponse($table);
 
         // If period=lastX we only keep the first resultset as we want to return a plain list
