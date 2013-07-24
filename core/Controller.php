@@ -809,12 +809,13 @@ abstract class Piwik_Controller
 
         $titleEvolutionPercent = $evolutionPercent;
         if ($evolutionPercent < 0) {
-            $color = "#e02a3b"; //red
+            $class = "negative-evolution";
             $img = "arrow_down.png";
         } else if ($evolutionPercent == 0) {
+            $class = "neutral-evolution";
             $img = "stop.png";
         } else {
-            $color = "green";
+            $class = "positive-evolution";
             $img = "arrow_up.png";
             $titleEvolutionPercent = '+' . $titleEvolutionPercent;
         }
@@ -830,8 +831,8 @@ abstract class Piwik_Controller
         $result = '<span class="metricEvolution" title="' . $title
             . '"><img style="padding-right:4px" src="plugins/MultiSites/images/' . $img . '"/><strong';
 
-        if (isset($color)) {
-            $result .= ' style="color:' . $color . '"';
+        if (isset($class)) {
+            $result .= ' class="' . $class . '"';
         }
         $result .= '>' . $evolutionPercent . '</strong></span>';
 

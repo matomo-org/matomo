@@ -107,10 +107,10 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
         // render main evolution graph
         $this->graphType = 'graphEvolution';
         $this->graphMetrics = $this->availableMetrics;
-        $view->graph = $controller->getRowEvolutionGraph(true);
+        $view->graph = $controller->getRowEvolutionGraph($fetch = true, $rowEvolution = $this);
 
         // render metrics overview
-        $view->metrics = $this->getMetricsToggles($controller);
+        $view->metrics = $this->getMetricsToggles();
 
         // available metrics text
         $metricsText = Piwik_Translate('RowEvolution_AvailableMetrics');
@@ -173,16 +173,16 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
      * Do as much as possible from outside the controller.
      * @return Piwik_ViewDataTable
      */
-    public function getRowEvolutionGraph()
+    public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         // set up the view data table
-        $view = Piwik_ViewDataTable::factory($this->graphType);
+        $view = Piwik_ViewDataTable::factory($graphType ?: $this->graphType);
         $view->setDataTable($this->dataTable);
         $view->init('CoreHome', 'getRowEvolutionGraph', $this->apiMethod);
 
         if (!empty($this->graphMetrics)) // In row Evolution popover, this is empty
         {
-            $view->setColumnsToDisplay(array_keys($this->graphMetrics));
+            $view->setColumnsToDisplay(array_keys($metrics ?: $this->graphMetrics));
         }
         $view->hideAllViewsIcons();
 
@@ -199,14 +199,12 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
 
     /**
      * Prepare metrics toggles with spark lines
-     * @param $controller
      * @return array
      */
-    protected function getMetricsToggles($controller)
+    protected function getMetricsToggles()
     {
         $chart = new Piwik_Visualization_Chart_Evolution;
-        $colors = $chart->getSeriesColors();
-
+        
         $i = 0;
         $metrics = array();
         foreach ($this->availableMetrics as $metric => $metricData) {
@@ -240,12 +238,10 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
                 $details .= ', ' . Piwik_Translate('RowEvolution_MetricChangeText', $change);
             }
 
-            $color = $colors[$i % count($colors)];
             $newMetric = array(
                 'label'     => $metricData['name'],
-                'color'     => $color,
                 'details'   => $details,
-                'sparkline' => $this->getSparkline($metric, $controller),
+                'sparkline' => $this->getSparkline($metric),
             );
             // Multi Rows, each metric can be for a particular row and display an icon
             if (!empty($metricData['logo'])) {
@@ -259,14 +255,14 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     }
 
     /** Get the img tag for a sparkline showing a single metric */
-    protected function getSparkline($metric, $controller)
+    protected function getSparkline($metric)
     {
-        $this->graphType = 'sparkline';
-        $this->graphMetrics = array($metric => $metric);
-
         // sparkline is always echoed, so we need to buffer the output
+        $view = $this->getRowEvolutionGraph($graphType = 'sparkline', $metrics = array($metric => $metric));
+        $view->main();
+
         ob_start();
-        $controller->getRowEvolutionGraph();
+        $view->getView()->render();
         $spark = ob_get_contents();
         ob_end_clean();
 

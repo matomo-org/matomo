@@ -79,7 +79,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
     {
         @header('Content-Type: text/html; charset=utf-8');
         if ($optionalTrace) {
-            $optionalTrace = '<span style="color:#888888">Backtrace:<br /><pre>' . $optionalTrace . '</pre></span>';
+            $optionalTrace = '<span class="exception-backtrace">Backtrace:<br /><pre>' . $optionalTrace . '</pre></span>';
         }
         if ($optionalLinks) {
             $optionalLinks = '<ul>

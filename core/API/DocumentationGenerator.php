@@ -98,7 +98,7 @@ class Piwik_API_DocumentationGenerator
                 $str .= '</small>';
                 $str .= "</div>\n";
             }
-            $str .= '<div style="margin:15px;"><a href="#topApiRef" style="color:#95AECB">↑ Back to top</a></div>';
+            $str .= '<div style="margin:15px;"><a href="#topApiRef">↑ Back to top</a></div>';
         }
 
         $str = "<h2 id='topApiRef' name='topApiRef'>Quick access to APIs</h2>

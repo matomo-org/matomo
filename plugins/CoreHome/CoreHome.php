@@ -47,6 +47,7 @@ class Piwik_CoreHome extends Piwik_Plugin
         $cssFiles[] = "plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css";
         $cssFiles[] = "plugins/CoreHome/stylesheets/jqplot.css";
         $cssFiles[] = "plugins/CoreHome/stylesheets/promo.less";
+        $cssFiles[] = "plugins/CoreHome/stylesheets/color_manager.css";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -75,6 +76,7 @@ class Piwik_CoreHome extends Piwik_Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/jqplot.js";
         $jsFiles[] = "libs/jqplot/jqplot-custom.min.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/promo.js";
+        $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
     }
 
 }

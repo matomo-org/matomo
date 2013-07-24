@@ -9,6 +9,8 @@
  * @package Piwik
  */
 
+require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
+
 /**
  * For general performance (and specifically, the Tracker), we use deferred (lazy) initialization
  * and cache sections.  We also avoid any dependency on Zend Framework's Zend_Config.
@@ -51,12 +53,9 @@ class Piwik_Config
     {
         if (self::$instance == null) {
             self::$instance = new self;
-            
-            if (empty($GLOBALS['PIWIK_CONFIG_TEST_ENVIRONMENT'])) {
-                self::$instance->init();
-            } else {
-                self::$instance->setTestEnvironment();
-            }
+            self::$instance->init();
+
+            Piwik_PostTestEvent('Config.createConfigSingleton', array(self::$instance));
         }
         return self::$instance;
     }

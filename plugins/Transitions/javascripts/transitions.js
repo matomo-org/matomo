@@ -415,10 +415,10 @@ Piwik_Transitions.prototype.renderLoops = function () {
 Piwik_Transitions.prototype.renderEntries = function (onlyBg) {
     if (this.model.directEntries > 0) {
         var self = this;
-        var gradient = this.canvas.createHorizontalGradient('#FFFFFF', '#BACFE8', 'left');
-        if (this.highlightedGroup == 'directEntries') {
-            gradient = this.canvas.createHorizontalGradient('#FFFFFF', '#FAD293', 'left');
-        }
+
+        var isHighlighted = this.highlightedGroup == 'directEntries';
+        var gradient = this.canvas.createHorizontalGradient('entries', 'left', isHighlighted);
+
         this.canvas.renderBox({
             side: 'left',
             onlyBg: onlyBg,
@@ -442,10 +442,10 @@ Piwik_Transitions.prototype.renderEntries = function (onlyBg) {
 Piwik_Transitions.prototype.renderExits = function (onlyBg) {
     if (this.model.exits > 0) {
         var self = this;
-        var gradient = this.canvas.createHorizontalGradient('#FFFFFF', '#BACFE8', 'right');
-        if (this.highlightedGroup == 'exits') {
-            gradient = this.canvas.createHorizontalGradient('#FFFFFF', '#FAD293', 'right');
-        }
+
+        var isHighlighted = this.highlightedGroup == 'exits';
+        var gradient = this.canvas.createHorizontalGradient('exits', 'right', isHighlighted);
+
         this.canvas.renderBox({
             side: 'right',
             onlyBg: onlyBg,
@@ -481,12 +481,10 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
     var details = self.model.getDetailsForGroup(groupName);
 
     // prepare gradients
-    var gradientItems = this.canvas.createHorizontalGradient('#E3DFD1', '#E8E4D5', side);
-    var gradientOthers = this.canvas.createHorizontalGradient('#F5F3EB', '#E8E4D5', side);
-    var gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#BACFE8', side);
-    if (groupName == this.highlightedGroup) {
-        gradientBackground = this.canvas.createHorizontalGradient('#FFFFFF', '#FAD293', side);
-    }
+    var gradientItems = this.canvas.createHorizontalGradient('items', side);
+    var gradientOthers = this.canvas.createHorizontalGradient('others', side);
+    var gradientBackground =
+        this.canvas.createHorizontalGradient('background', side, groupName == this.highlightedGroup);
 
     // remember current offsets to reset them later for drawing the background
     var boxPositionBefore, curvePositionBefore;
@@ -600,10 +598,9 @@ Piwik_Transitions.prototype.renderOpenGroup = function (groupName, side, onlyBg)
 /** Render a closed group without detailed data, only one box for the sum */
 Piwik_Transitions.prototype.renderClosedGroup = function (groupName, side, onlyBg) {
     var self = this;
-    var gradient = this.canvas.createHorizontalGradient('#DDE4ED', '#9BBADE', side);
-    if (groupName == this.highlightedGroup) {
-        gradient = this.canvas.createHorizontalGradient('#FAE2C0', '#FAD293', side);
-    }
+
+    var isHighlighted = groupName == this.highlightedGroup;
+    var gradient = this.canvas.createHorizontalGradient('closed-group', side, isHighlighted);
 
     var nbTransitionsVarName = groupName + 'NbTransitions';
 
@@ -782,6 +779,16 @@ function Piwik_Transitions_Canvas(canvasBgLeft, canvasBgRight, canvasLeft, canva
     this.rightBoxEndX = this.width;
     this.rightBoxBeginX = this.rightCurveEndX = this.rightBoxEndX - this.boxWidth;
     this.rightCurveBeginX = this.rightCurveEndX - this.curveWidth;
+
+    // load gradient colors from CSS
+    this.colors = {};
+
+    var transitionsColorNamespaces = ['entries', 'exits', 'background', 'closed-group', 'items', 'others', 'loops'];
+    var gradientColorNames = ['light', 'dark', 'light-highlighted', 'dark-highlighted'];
+    for (var i = 0; i != transitionsColorNamespaces.length; ++i) {
+        var namespace = 'transition-' + transitionsColorNamespaces[i];
+        this.colors[namespace] = piwik.ColorManager.getColors(namespace, gradientColorNames);
+    }
 }
 
 /**
@@ -800,13 +807,22 @@ Piwik_Transitions_Canvas.prototype.isNarrowMode = function () {
 
 /**
  * Helper to create horizontal gradients
- *
+ * TODO
  * @param    lightColor
  * @param    darkColor
  * @param    position    left|right
  */
-Piwik_Transitions_Canvas.prototype.createHorizontalGradient = function (lightColor, darkColor, position) {
-    var fromX, toX, fromColor, toColor;
+Piwik_Transitions_Canvas.prototype.createHorizontalGradient = function (colorGroup, position, isHighlighted) {
+    var fromX, toX, fromColor, toColor, lightColor, darkColor;
+
+    colorGroup = 'transition-' + colorGroup;
+    if (isHighlighted) {
+        lightColor = this.colors[colorGroup]['light-highlighted'];
+        darkColor = this.colors[colorGroup]['dark-highlighted'];
+    } else {
+        lightColor = this.colors[colorGroup]['light'];
+        darkColor = this.colors[colorGroup]['dark'];
+    }
 
     if (position == 'left') {
         // gradient is used to fill a box on the left
@@ -1109,8 +1125,8 @@ Piwik_Transitions_Canvas.prototype.renderLoops = function (share) {
 
     // create gradient
     var gradient = this.contextLoops.createLinearGradient(this.leftCurveEndX - 50, 0, this.rightCurveBeginX + 50, 0);
-    var light = '#F5F3EB';
-    var dark = '#E8E4D5';
+    var light = this.colors['transition-loops']['light'];
+    var dark = this.colors['transition-loops']['dark'];
     gradient.addColorStop(0, dark);
     gradient.addColorStop(.5, light);
     gradient.addColorStop(1, dark);
