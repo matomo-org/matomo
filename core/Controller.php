@@ -601,29 +601,10 @@ abstract class Piwik_Controller
             $columns = array($firstColumn);
         }
         // displayed columns
-        if ($labelDisplayed
-            && !($view instanceof Piwik_ViewDataTable_GenerateGraphData)
-        ) {
+        if ($labelDisplayed) {
             array_unshift($columns, 'label');
         }
         $view->setColumnsToDisplay($columns);
-
-
-        // Continue only for graphs
-        if (!($view instanceof Piwik_ViewDataTable_GenerateGraphData)) {
-            return;
-        }
-        // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
-        if ($view->getSortedColumn() != 'label') {
-            $view->setSortedColumn($firstColumn);
-        }
-        // selectable columns
-        if (isset($view->period) && $view->period == 'day') {
-            $selectableColumns = array_merge($metricsForDay, $metricsForAllPeriods);
-        } else {
-            $selectableColumns = $metricsForAllPeriods;
-        }
-        $view->setSelectableColumns($selectableColumns);
     }
 
     /**
@@ -828,12 +809,13 @@ abstract class Piwik_Controller
 
         $titleEvolutionPercent = $evolutionPercent;
         if ($evolutionPercent < 0) {
-            $color = "#e02a3b"; //red
+            $class = "negative-evolution";
             $img = "arrow_down.png";
         } else if ($evolutionPercent == 0) {
+            $class = "neutral-evolution";
             $img = "stop.png";
         } else {
-            $color = "green";
+            $class = "positive-evolution";
             $img = "arrow_up.png";
             $titleEvolutionPercent = '+' . $titleEvolutionPercent;
         }
@@ -849,8 +831,8 @@ abstract class Piwik_Controller
         $result = '<span class="metricEvolution" title="' . $title
             . '"><img style="padding-right:4px" src="plugins/MultiSites/images/' . $img . '"/><strong';
 
-        if (isset($color)) {
-            $result .= ' style="color:' . $color . '"';
+        if (isset($class)) {
+            $result .= ' class="' . $class . '"';
         }
         $result .= '>' . $evolutionPercent . '</strong></span>';
 

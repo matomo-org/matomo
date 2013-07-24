@@ -58,9 +58,11 @@ if ($minimumPhpInvalid) {
     if(!file_exists($autoloader)) {
         $piwik_errorMessage .= "<p>It appears the <a href='https://getcomposer.org/' target='_blank'>composer</a> tool is not yet installed.
         You can install Composer in a few easy steps. In the piwik directory, run in the command line the following (eg. via ssh):
-                    <pre>curl -sS https://getcomposer.org/installer | php".
-                    "\nphp composer.phar install</pre> </p><p>This will download and install composer, and initialize composer for Piwik (eg. download the twig library in vendor/twig).
-                    <br/>Then reload this page to access your analytics reports.</p>";
+                    <pre> curl -sS https://getcomposer.org/installer | php".
+                    "\n php composer.phar install</pre> </p><p>This will download and install composer, and initialize composer for Piwik (eg. download the twig library in vendor/twig).
+                    <br/>Then reload this page to access your analytics reports.
+                    <br/><br/>Note: if for some reasons you cannot execute this command, install the latest Piwik release from <a
+                    href='http://builds.piwik.org/latest.zip'>builds.piwik.org</a>.</p>";
     }
 }
 
@@ -77,7 +79,7 @@ if (!function_exists('Piwik_ExitWithMessage')) {
     {
         @header('Content-Type: text/html; charset=utf-8');
         if ($optionalTrace) {
-            $optionalTrace = '<span style="color:#888888">Backtrace:<br /><pre>' . $optionalTrace . '</pre></span>';
+            $optionalTrace = '<span class="exception-backtrace">Backtrace:<br /><pre>' . $optionalTrace . '</pre></span>';
         }
         if ($optionalLinks) {
             $optionalLinks = '<ul>

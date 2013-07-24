@@ -71,7 +71,7 @@ class Piwik_VisitorInterest_API
     {
         $dataTable = $this->getDataTable(
             Piwik_VisitorInterest_Archiver::DAYS_SINCE_LAST_RECORD_NAME, $idSite, $period, $date, $segment, Piwik_Metrics::INDEX_NB_VISITS);
-
+        $dataTable->queueFilter('Sort', array('label', 'asc', true));
         $dataTable->queueFilter('BeautifyRangeLabels', array(
                                                             Piwik_Translate('General_OneDay'), Piwik_Translate('General_NDays')));
 

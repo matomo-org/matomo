@@ -114,8 +114,9 @@ class Piwik_SEO_RankChecker
     {
         $url = 'http://www.google.com/search?hl=en&q=site%3A' . urlencode($this->url);
         $data = $this->getPage($url);
-        if (preg_match('#about ([0-9\,]+) results#i', $data, $p)) {
-            return (int)str_replace(',', '', $p[1]);
+        if (preg_match('#([0-9\,]+) results#i', $data, $p)) {
+            $indexedPages = (int)str_replace(',', '', $p[1]);
+            return $indexedPages;
         }
         return 0;
     }

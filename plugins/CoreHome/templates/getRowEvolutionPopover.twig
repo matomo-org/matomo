@@ -1,3 +1,4 @@
+{% set seriesColorCount = constant("Piwik_Visualization_Chart_Evolution::SERIES_COLOR_COUNT") %}
 <div class="rowevolution">
     <div class="popover-title">{{ popoverTitle | raw }}</div>
     <div class="graph">
@@ -9,14 +10,16 @@
         <div class="rowevolution-documentation">
             {{ 'RowEvolution_Documentation'|translate }}
         </div>
-        <table class="metrics" border="0" cellpadding="0" cellspacing="0">
-            {% for metric in metrics %}
-                <tr>
+        <table class="metrics" border="0" cellpadding="0" cellspacing="0" data-thing="{{ seriesColorCount }}">
+            {% for i, metric in metrics %}
+                <tr data-i="{{ i }}">
                     <td class="sparkline">
-                        {{ metric.sparkline | raw }}
+                        {{ metric.sparkline|raw }}
                     </td>
                     <td class="text">
-                        <span style="color:{{ metric.color }}">{{ metric.label|raw }}</span>
+                        <span class="evolution-graph-colors" data-name="series{{ (i % seriesColorCount) + 1 }}">
+                            {{- metric.label|raw -}}
+                        </span>
                         {% if metric.details %}:
                             <span class="details">{{ metric.details }}</span>
                         {% endif %}

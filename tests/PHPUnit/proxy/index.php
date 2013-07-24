@@ -4,9 +4,9 @@
  * Used by tests/PHPUnit/Integration/ImportLogsTest.php and tests/PHPUnit/Integration/UITest.php
  */
 
-$GLOBALS['PIWIK_CONFIG_TEST_ENVIRONMENT'] = true;
-$GLOBALS['PIWIK_ACCESS_IS_SUPERUSER'] = true;
-$GLOBALS['PIWIK_ACCESS_SUPERUSER_LOGIN'] = 'superUserLogin';
+// make sure the test environment is loaded
+require realpath(dirname(__FILE__)) . "/../../../tests/PHPUnit/TestingEnvironment.php";
+Piwik_TestingEnvironment::addHooks();
 
 // Wrapping the request inside ob_start() calls to ensure that the Test
 // calling us waits for the full request to process before unblocking

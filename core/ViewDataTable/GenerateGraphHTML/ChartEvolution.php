@@ -19,7 +19,6 @@
 class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphHTML
 {
     protected $height = 170;
-    protected $graphType = 'evolution';
 
     /**
      * The value of the date query parameter (or a default value) before it is turned
@@ -29,6 +28,12 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
      * @var string
      */
     private $originalDate;
+    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->graphType = 'evolution';
+    }
 
     protected function getViewDataTableId()
     {
@@ -75,25 +80,6 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
     }
 
     /**
-     * Sets the columns that will be displayed on output evolution chart
-     * By default all columns are displayed ($columnsNames = array() will display all columns)
-     *
-     * @param array $columnsNames Array of column names eg. array('nb_visits','nb_hits')
-     */
-    public function setColumnsToDisplay($columnsNames)
-    {
-        if (!is_array($columnsNames)) {
-            if (strpos($columnsNames, ',') !== false) {
-                // array values are comma separated
-                $columnsNames = explode(',', $columnsNames);
-            } else {
-                $columnsNames = array($columnsNames);
-            }
-        }
-        $this->setParametersToModify(array('columns' => $columnsNames));
-    }
-
-    /**
      * Based on the period, date and evolution_{$period}_last_n query parameters,
      * calculates the date range this evolution chart will display data for.
      */
@@ -117,10 +103,10 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
             } else // if not a multiple period
             {
                 list($newDate, $lastN) = self::getDateRangeAndLastN($period, $this->originalDate, $defaultLastN);
-                $this->setParametersToModify(array('date' => $newDate));
+                $this->viewProperties['request_parameters_to_modify']['date'] = $newDate;
             }
             $lastNParamName = self::getLastNParamName($period);
-            $this->setParametersToModify(array($lastNParamName => $lastN));
+            $this->viewProperties['request_parameters_to_modify'][$lastNParamName] = $lastN;
         }
     }
 
@@ -182,5 +168,25 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
     public static function getLastNParamName($period)
     {
         return "evolution_{$period}_last_n";
+    }
+
+    protected function getRequestArray()
+    {
+        // period will be overridden when 'range' is requested in the UI // TODO: this code probably shouldn't be here...
+        // but the graph will display for each day of the range.
+        // Default 'range' behavior is to return the 'sum' for the range
+        if (Piwik_Common::getRequestVar('period', false) == 'range') {
+            $this->viewProperties['request_parameters_to_modify']['period'] = 'day';
+        }
+
+        // FIXME: This appears to be a hack used to ensure a graph is plotted even if there is no data. there's probably
+        //        a less complicated way of doing it... (this is complicated because it modifies the request used to get 
+        //        data so a loop is entered in JqplotDataGenerator_Evolution::initChartObjectData)
+        if (!empty($this->viewProperties['columns_to_display'])) {
+            $columns = implode(',', $this->viewProperties['columns_to_display']);
+            $this->viewProperties['request_parameters_to_modify']['columns'] = $columns;
+        }
+
+        return parent::getRequestArray();
     }
 }

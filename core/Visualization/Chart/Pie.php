@@ -17,10 +17,6 @@
  */
 class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
 {
-
-    protected $seriesColors = array('#59727F', '#7DAAC0', '#7F7259', '#C09E7D', '#9BB39B',
-                                    '#B1D8B3', '#B39BA7', '#D8B1C5', '#A5A5A5');
-
     function customizeChartProperties()
     {
         if (count($this->data) == 0) {

@@ -206,3 +206,14 @@ function Piwik_AddAction($eventName, $function)
 {
     Piwik_EventDispatcher::getInstance()->addObserver($eventName, $function);
 }
+
+/**
+ * Posts an event if we are currently running tests. Whether we are running tests is
+ * determined by looking for the PIWIK_TEST_MODE constant.
+ */
+function Piwik_PostTestEvent($eventName, $params = array(), $pending = false, $plugins = null)
+{
+    if (defined('PIWIK_TEST_MODE')) {
+        Piwik_PostEvent($eventName, $params, $pending, $plugins);
+    }
+}

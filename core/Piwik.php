@@ -363,6 +363,10 @@ class Piwik
         }
         if (($aDirs = _glob("$sDir/*", GLOB_ONLYDIR)) != false) {
             foreach ($aDirs as $sSubDir) {
+                if (is_link($sSubDir)) {
+                    continue;
+                }
+
                 $aSubFiles = self::globr($sSubDir, $sPattern, $nFlags);
                 $aFiles = array_merge($aFiles, $aSubFiles);
             }

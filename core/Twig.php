@@ -18,6 +18,9 @@
  */
 class Piwik_Twig
 {
+    const SPARKLINE_TEMPLATE = '<img class="sparkline" alt="" data-src="%s" width="%d" height="%d" />
+    <script type="text/javascript">$(document).ready(function () { piwik.initSparklines(); });</script>';
+    
     /**
      * @var Twig_Environment
      */
@@ -90,10 +93,9 @@ class Piwik_Twig
     protected function addFunction_sparkline()
     {
         $sparklineFunction = new Twig_SimpleFunction('sparkline', function ($src) {
-            $graph = new Piwik_Visualization_Sparkline();
-            $width = $graph->getWidth();
-            $height = $graph->getHeight();
-            return sprintf('<img class="sparkline" alt="" src="%s" width="%d" height="%d" />', $src, $width, $height);
+            $width = Piwik_Visualization_Sparkline::DEFAULT_WIDTH;
+            $height = Piwik_Visualization_Sparkline::DEFAULT_HEIGHT;
+            return sprintf(Piwik_Twig::SPARKLINE_TEMPLATE, $src, $width, $height);
         }, array('is_safe' => array('html')));
         $this->twig->addFunction($sparklineFunction);
     }

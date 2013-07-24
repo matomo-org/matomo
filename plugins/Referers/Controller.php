@@ -226,7 +226,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
         $label = strtolower(Piwik_Translate($indexTranslation));
 
         // return html that displays it as grey & italic
-        return '<span style="color:#999"><em>(' . $label . ')</em></span>';
+        return '<span class="datatable-label-category"><em>(' . $label . ')</em></span>';
     }
 
     function getKeywords($fetch = false)
@@ -489,7 +489,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
             $label = self::getTranslatedReferrerTypeLabel($typeReferer);
             $total = Piwik_Translate('General_Total');
             $visibleRows = array($label, $total);
-            $view->setParametersToModify(array('rows' => $label . ',' . $total));
+            $view->setRequestParametersToModify(array('rows' => $label . ',' . $total));
         }
         $view->addRowPicker($visibleRows);
 

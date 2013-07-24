@@ -5,7 +5,29 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-function initializeSparklines() {
+(function ($) {
+
+var sparklineColorNames = ['lineColor', 'red', 'blue', 'green'];
+
+piwik.getSparklineColors = function () {
+    return piwik.ColorManager.getColors('sparkline-colors', sparklineColorNames);
+};
+
+// initializes each sparkline so they use colors defined in CSS
+piwik.initSparklines = function () {
+    $('.sparkline').each(function () {
+        var $self = $(this);
+        
+        if ($self.attr('src')) {
+            return;
+        }
+        
+        var colors = JSON.stringify(piwik.getSparklineColors());
+        $self.attr('src', $self.attr('data-src') + '&colors=' + encodeURIComponent(colors));
+    });
+};
+
+window.initializeSparklines = function () {
     var sparklineUrlParamsToIgnore = ['module', 'action', 'idSite', 'period', 'date', 'viewDataTable'];
 
     $("[data-graph-id]").each(function () {
@@ -46,18 +68,9 @@ function initializeSparklines() {
                     // reload the datatable w/ a new column & scroll to the graph
                     dataTable.trigger('reload', params);
                 });
-                $(this).hover(
-                    function () {
-                        $(this).css({
-                            "cursor": "pointer",
-                            "border-bottom": "1px dashed #C3C3C3"
-                        });
-                    },
-                    function () {
-                        $(this).css({"border-bottom": "1px solid white"});
-                    }
-                );
             }
         });
     });
-}
+};
+
+}(jQuery));
