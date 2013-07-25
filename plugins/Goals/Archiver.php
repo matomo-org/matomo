@@ -113,7 +113,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
             unset($row['label']);
 
             $values = array();
-            foreach($conversionMetrics as $field => $statement) {
+            foreach ($conversionMetrics as $field => $statement) {
                 $values[$field] = $row[$field];
             }
             $goals->sumMetrics($idGoal, $values);

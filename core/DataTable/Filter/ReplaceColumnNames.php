@@ -72,7 +72,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
     {
         foreach ($table->getRows() as $row) {
             $columns = array_keys( $row->getColumns() );
-            foreach($columns as $column) {
+            foreach ($columns as $column) {
                 $newName = $this->getRenamedColumn($column);
                 if ($newName) {
                     $row->renameColumn($column, $newName);

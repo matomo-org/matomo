@@ -23,7 +23,7 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
         $segments = Piwik_API_API::getInstance()->getSegmentsMetadata($idSite);
 
         $segmentsByCategory = $customVariablesSegments = array();
-        foreach($segments as $segment) {
+        foreach ($segments as $segment) {
             if ($segment['category'] == Piwik_Translate('General_Visit')
                 && $segment['type'] == 'metric') {
                 $metricsLabel = Piwik_Translate('General_Metrics');
@@ -37,7 +37,7 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
         $view->segmentsByCategory = $segmentsByCategory;
 
         $savedSegments = Piwik_SegmentEditor_API::getInstance()->getAll($idSite);
-        foreach($savedSegments as &$savedSegment) {
+        foreach ($savedSegments as &$savedSegment) {
             $savedSegment['name'] = Piwik_Common::sanitizeInputValue($savedSegment['name']);
         }
         $view->savedSegmentsJson = Piwik_Common::json_encode($savedSegments);
@@ -82,7 +82,7 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
             '',
             '',
         );
-        foreach($translationKeys as $key) {
+        foreach ($translationKeys as $key) {
             $translations[$key] = Piwik_Translate($key);
         }
         return $translations;

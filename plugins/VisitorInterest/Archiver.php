@@ -100,13 +100,13 @@ class Piwik_VisitorInterest_Archiver extends Piwik_PluginsArchiver
             ),
         );
         $selects = array();
-        foreach($aggregatesMetadata as $aggregateMetadata) {
+        foreach ($aggregatesMetadata as $aggregateMetadata) {
             $selectsFromRangedColumn = Piwik_DataAccess_LogAggregator::getSelectsFromRangedColumn($aggregateMetadata);
             $selects = array_merge( $selects, $selectsFromRangedColumn);
         }
         $query = $this->getLogAggregator()->queryVisitsByDimension(array(), $where = false, $selects, array());
         $row = $query->fetch();
-        foreach($prefixes as $recordName => $selectAsPrefix) {
+        foreach ($prefixes as $recordName => $selectAsPrefix) {
             $cleanRow = Piwik_DataAccess_LogAggregator::makeArrayOneColumn($row, Piwik_Metrics::INDEX_NB_VISITS, $selectAsPrefix);
             $dataTable = Piwik_DataTable::makeFromIndexedArray($cleanRow);
             $this->getProcessor()->insertBlobRecord($recordName, $dataTable->getSerialized());

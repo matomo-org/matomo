@@ -214,7 +214,7 @@ class Piwik_Twig
     private function addPluginNamespaces(Twig_Loader_Filesystem $loader)
     {
         $plugins = Piwik_PluginsManager::getInstance()->getLoadedPluginsName();
-        foreach($plugins as $name) {
+        foreach ($plugins as $name) {
             $name = Piwik_Common::unprefixClass($name);
             $path = sprintf("%s/plugins/%s/templates/", PIWIK_INCLUDE_PATH, $name);
             if (is_dir($path)) {

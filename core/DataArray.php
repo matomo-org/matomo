@@ -199,7 +199,7 @@ class Piwik_DataArray
      */
     public function sumMetrics( $label, $row)
     {
-        foreach($row as $columnName => $columnValue) {
+        foreach ($row as $columnName => $columnValue) {
             if (empty($columnValue)) {
                 continue;
             }

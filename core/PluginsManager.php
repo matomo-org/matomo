@@ -330,7 +330,7 @@ class Piwik_PluginsManager
     protected function getThemeEnabled()
     {
         $plugins = $this->getLoadedPlugins();
-        foreach($plugins as $plugin) {
+        foreach ($plugins as $plugin) {
             /* @var $plugin Piwik_Plugin */
             if ($plugin->isTheme()
                 && $plugin->getPluginName() != self::DEFAULT_THEME) {
