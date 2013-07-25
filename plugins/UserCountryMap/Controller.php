@@ -150,7 +150,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
         $params['format'] = 'json';
         $params['showRawMetrics'] = 1;
         $segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
-        if(!empty($segment)) {
+        if (!empty($segment)) {
             $params['segment'] = $segment;
         }
 

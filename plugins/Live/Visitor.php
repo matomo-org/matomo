@@ -510,7 +510,7 @@ class Piwik_Live_Visitor
 
     function getDeviceType()
     {
-        if(Piwik_PluginsManager::getInstance()->isPluginActivated('DevicesDetection')) {
+        if (Piwik_PluginsManager::getInstance()->isPluginActivated('DevicesDetection')) {
             return Piwik_getDeviceTypeLabel($this->details['config_device_type']);
         }
         return false;
@@ -579,3 +579,4 @@ class Piwik_Live_Visitor
         return $this->details['visit_goal_converted'];
     }
 }
+

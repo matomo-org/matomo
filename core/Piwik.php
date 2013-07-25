@@ -1854,10 +1854,10 @@ class Piwik
      */
     static public function getArrayFromApiParameter($columns)
     {
-        if(empty($columns)) {
+        if (empty($columns)) {
             return array();
         }
-        if(is_array($columns)) {
+        if (is_array($columns)) {
             return $columns;
         }
         $array = explode(',', $columns);

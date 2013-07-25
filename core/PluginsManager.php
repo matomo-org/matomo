@@ -195,14 +195,14 @@ class Piwik_PluginsManager
      */
     public function uninstallPlugin($pluginName)
     {
-        if($this->isPluginActivated($pluginName)) {
+        if ($this->isPluginActivated($pluginName)) {
             throw new Exception("To uninstall the plugin $pluginName, first disable it in Piwik > Settings > Plugins");
         }
-        if(!$this->isPluginInFilesystem($pluginName)) {
+        if (!$this->isPluginInFilesystem($pluginName)) {
             throw new Exception("You are trying to uninstall the plugin $pluginName but it was not found in the directory piwik/plugins/");
         }
         self::deletePluginFromFilesystem($pluginName);
-        if($this->isPluginInFilesystem($pluginName)) {
+        if ($this->isPluginInFilesystem($pluginName)) {
             return false;
         }
         return true;
@@ -221,7 +221,7 @@ class Piwik_PluginsManager
      */
     public function deactivatePlugin($pluginName, $plugins = false)
     {
-        if(empty($plugins)) {
+        if (empty($plugins)) {
             $plugins = $this->pluginsToLoad;
         }
         $key = array_search($pluginName, $plugins);
@@ -301,7 +301,7 @@ class Piwik_PluginsManager
 
         // Only one theme enabled at a time
         $themeAlreadyEnabled = $this->getThemeEnabled();
-        if($plugin->isTheme()
+        if ($plugin->isTheme()
             && $themeAlreadyEnabled) {
             $plugins = $this->deactivatePlugin( $themeAlreadyEnabled, $plugins );
         }
@@ -332,7 +332,7 @@ class Piwik_PluginsManager
         $plugins = $this->getLoadedPlugins();
         foreach($plugins as $plugin) {
             /* @var $plugin Piwik_Plugin */
-            if($plugin->isTheme()
+            if ($plugin->isTheme()
                 && $plugin->getPluginName() != self::DEFAULT_THEME) {
                 return $plugin->getPluginName();
             }

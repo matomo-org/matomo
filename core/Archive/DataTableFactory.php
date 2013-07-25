@@ -375,7 +375,7 @@ class Piwik_Archive_DataTableFactory
      */
     private function prettifyIndexLabel($labelType, $label)
     {
-        if(empty($this->periods[$label])) {
+        if (empty($this->periods[$label])) {
             return $label; // BAD BUG FIXME
         }
         if ($labelType == 'period') { // prettify period labels

@@ -711,7 +711,7 @@ abstract class Piwik_ViewDataTable
         }
         
         $segment = $this->getRawSegmentFromRequest();
-        if(!empty($segment)) {
+        if (!empty($segment)) {
             $requestArray['segment'] = $segment;
         }
         
@@ -730,7 +730,7 @@ abstract class Piwik_ViewDataTable
         $segment = Piwik_Common::getRequestVar('segment', '', 'string');
         if (!empty($segment)) {
             $request = Piwik_API_Request::getRequestParametersGET();
-            if(!empty($request['segment'])) {
+            if (!empty($request['segment'])) {
                 $segmentRaw = $request['segment'];
             }
         }
@@ -875,7 +875,7 @@ abstract class Piwik_ViewDataTable
         }
 
         $rawSegment = $this->getRawSegmentFromRequest();
-        if(!empty($rawSegment)) {
+        if (!empty($rawSegment)) {
             $javascriptVariablesToSet['segment'] = $rawSegment;
         }
 
@@ -1350,7 +1350,7 @@ abstract class Piwik_ViewDataTable
 
     private function removeEmptyColumnsFromDisplay()
     {
-        if(empty($this->dataTable)) {
+        if (empty($this->dataTable)) {
             return;
         }
         if ($this->dataTable instanceof Piwik_DataTable_Array) {

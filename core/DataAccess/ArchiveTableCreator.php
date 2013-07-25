@@ -100,10 +100,10 @@ class Piwik_DataAccess_ArchiveTableCreator
 
     static public function getTypeFromTableName($tableName)
     {
-        if(strpos($tableName, 'archive_numeric_') !== false) {
+        if (strpos($tableName, 'archive_numeric_') !== false) {
             return self::NUMERIC_TABLE;
         }
-        if(strpos($tableName, 'archive_blob_') !== false) {
+        if (strpos($tableName, 'archive_blob_') !== false) {
             return self::BLOB_TABLE;
         }
         return false;

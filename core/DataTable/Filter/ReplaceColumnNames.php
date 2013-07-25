@@ -51,7 +51,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
      */
     public function filter($table)
     {
-        if($table instanceof Piwik_DataTable_Simple) {
+        if ($table instanceof Piwik_DataTable_Simple) {
             $this->filterSimple($table);
         } else {
             $this->filterTable($table);
@@ -74,7 +74,7 @@ class Piwik_DataTable_Filter_ReplaceColumnNames extends Piwik_DataTable_Filter
             $columns = array_keys( $row->getColumns() );
             foreach($columns as $column) {
                 $newName = $this->getRenamedColumn($column);
-                if($newName) {
+                if ($newName) {
                     $row->renameColumn($column, $newName);
                 }
             }

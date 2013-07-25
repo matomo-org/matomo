@@ -24,7 +24,7 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
 
         $segmentsByCategory = $customVariablesSegments = array();
         foreach($segments as $segment) {
-            if($segment['category'] == Piwik_Translate('General_Visit')
+            if ($segment['category'] == Piwik_Translate('General_Visit')
                 && $segment['type'] == 'metric') {
                 $metricsLabel = Piwik_Translate('General_Metrics');
                 $metricsLabel[0] = strtolower($metricsLabel[0]);
@@ -51,7 +51,7 @@ class Piwik_SegmentEditor_Controller extends Piwik_Controller
     public function sortSegmentCategories($a, $b)
     {
         // Custom Variables last
-        if($a == Piwik_Translate('CustomVariables_CustomVariables')) {
+        if ($a == Piwik_Translate('CustomVariables_CustomVariables')) {
             return 1;
         }
         return 0;

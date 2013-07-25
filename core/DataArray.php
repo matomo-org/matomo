@@ -200,13 +200,13 @@ class Piwik_DataArray
     public function sumMetrics( $label, $row)
     {
         foreach($row as $columnName => $columnValue) {
-            if(empty($columnValue)) {
+            if (empty($columnValue)) {
                 continue;
             }
-            if(empty($this->data[$label][$columnName])) {
+            if (empty($this->data[$label][$columnName])) {
                 $this->data[$label][$columnName] = 0;
             }
-            if(!is_numeric($columnValue)) {
+            if (!is_numeric($columnValue)) {
                 throw new Exception("DataArray->sumMetricsPivot expects rows of numeric values, non numeric found: " . var_export($columnValue, true) . " for column $columnName");
             }
             $this->data[$label][$columnName] += $columnValue;

@@ -113,7 +113,7 @@ class Piwik_DataTable_Filter_ColumnDelete extends Piwik_DataTable_Filter
                     $keep = false;
                     // @see self::APPEND_TO_COLUMN_NAME_TO_KEEP
                     foreach($this->columnsToKeep as $nameKeep => $true) {
-                        if(strpos($name, $nameKeep . self::APPEND_TO_COLUMN_NAME_TO_KEEP) === 0) {
+                        if (strpos($name, $nameKeep . self::APPEND_TO_COLUMN_NAME_TO_KEEP) === 0) {
                             $keep = true;
                         }
                     }

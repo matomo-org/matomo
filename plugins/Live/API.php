@@ -183,11 +183,11 @@ class Piwik_Live_API
             $visitorDetailsArray['serverTimePrettyFirstAction'] = $dateTimeVisitFirstAction->getLocalized('%time%');
 
             $visitorDetailsArray['actionDetails'] = array();
-            if(!$doNotFetchActions) {
+            if (!$doNotFetchActions) {
                 $visitorDetailsArray = $this->enrichVisitorArrayWithActions($visitorDetailsArray, $actionsLimit, $timezone);
             }
 
-            if($flat) {
+            if ($flat) {
                 $visitorDetailsArray = $this->flattenVisitorDetailsArray($visitorDetailsArray);
             }
             $table->addRowFromArray(array(Piwik_DataTable_Row::COLUMNS => $visitorDetailsArray));
@@ -243,8 +243,8 @@ class Piwik_Live_API
 
         // Flatten Goals
         $count = 1;
-        foreach($visitorDetailsArray['actionDetails'] as $action) {
-            if(!empty($action['goalId'])) {
+        foreach ($visitorDetailsArray['actionDetails'] as $action) {
+            if (!empty($action['goalId'])) {
                 $flattenedKeyName = 'visitConvertedGoalId' . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                 $visitorDetailsArray[$flattenedKeyName] = $action['goalId'];
                 $count++;
@@ -253,18 +253,18 @@ class Piwik_Live_API
 
         // Flatten Page Titles/URLs
         $count = 1;
-        foreach($visitorDetailsArray['actionDetails'] as $action) {
-            if(!empty($action['url'])) {
+        foreach ($visitorDetailsArray['actionDetails'] as $action) {
+            if (!empty($action['url'])) {
                 $flattenedKeyName = 'pageUrl' . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                 $visitorDetailsArray[$flattenedKeyName] = $action['url'];
             }
 
-            if(!empty($action['pageTitle'])) {
+            if (!empty($action['pageTitle'])) {
                 $flattenedKeyName = 'pageTitle' . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                 $visitorDetailsArray[$flattenedKeyName] = $action['pageTitle'];
             }
 
-            if(!empty($action['siteSearchKeyword'])) {
+            if (!empty($action['siteSearchKeyword'])) {
                 $flattenedKeyName = 'siteSearchKeyword' . Piwik_DataTable_Filter_ColumnDelete::APPEND_TO_COLUMN_NAME_TO_KEEP . $count;
                 $visitorDetailsArray[$flattenedKeyName] = $action['siteSearchKeyword'];
             }
@@ -273,25 +273,25 @@ class Piwik_Live_API
 
         // Entry/exit pages
         $firstAction = $lastAction = false;
-        foreach($visitorDetailsArray['actionDetails'] as $action) {
-            if($action['type'] == 'action')  {
-                if(empty($firstAction)) {
+        foreach ($visitorDetailsArray['actionDetails'] as $action) {
+            if ($action['type'] == 'action')  {
+                if (empty($firstAction)) {
                     $firstAction = $action;
                 }
                 $lastAction = $action;
             }
         }
 
-        if(!empty($firstAction['pageTitle'])) {
+        if (!empty($firstAction['pageTitle'])) {
             $visitorDetailsArray['entryPageTitle'] = $firstAction['pageTitle'];
         }
-        if(!empty($firstAction['url'])) {
+        if (!empty($firstAction['url'])) {
             $visitorDetailsArray['entryPageUrl'] = $firstAction['url'];
         }
-        if(!empty($lastAction['pageTitle'])) {
+        if (!empty($lastAction['pageTitle'])) {
             $visitorDetailsArray['exitPageTitle'] = $lastAction['pageTitle'];
         }
-        if(!empty($lastAction['url'])) {
+        if (!empty($lastAction['url'])) {
             $visitorDetailsArray['exitPageUrl'] = $lastAction['url'];
         }
 
@@ -653,3 +653,4 @@ class Piwik_Live_API
         return $visitorDetailsArray;
     }
 }
+

@@ -687,7 +687,7 @@ class Piwik_DataTable
         foreach ($this->getRows() as $row) {
             $columns = $row->getColumns();
             foreach($columns as $column => $value) {
-                if(strpos($column, $name) === 0) {
+                if (strpos($column, $name) === 0) {
                     $columnValues[] = $row->getColumn($column);
                 }
             }

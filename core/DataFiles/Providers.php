@@ -12,7 +12,7 @@
 /**
  * Providers names
  */
-if(!isset($GLOBALS['Piwik_ProviderNames']))
+if (!isset($GLOBALS['Piwik_ProviderNames']))
 {
     $GLOBALS['Piwik_ProviderNames'] = array(
         // France

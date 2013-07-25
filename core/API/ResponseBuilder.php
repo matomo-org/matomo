@@ -143,8 +143,8 @@ class Piwik_API_ResponseBuilder
     protected function decorateExceptionWithDebugTrace(Exception $e)
     {
         // If we are in tests, show full backtrace
-        if( defined('PIWIK_PATH_TEST_TO_ROOT')) {
-            if(self::DISPLAY_BACKTRACE_DEBUG) {
+        if ( defined('PIWIK_PATH_TEST_TO_ROOT')) {
+            if (self::DISPLAY_BACKTRACE_DEBUG) {
                 $message = $e->getMessage() . " in \n " . $e->getFile() . ":" . $e->getLine() . " \n " . $e->getTraceAsString();
             } else {
                 $message = $e->getMessage() . "\n \n --> To temporarily debug this error further, set const DISPLAY_BACKTRACE_DEBUG=true; in " . basename(__FILE__) ;

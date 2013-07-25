@@ -50,7 +50,7 @@ class Piwik_API_Request
         $defaultRequest = $_GET + $_POST;
 
         $requestRaw = self::getRequestParametersGET();
-        if(!empty($requestRaw['segment'])) {
+        if (!empty($requestRaw['segment'])) {
             $defaultRequest['segment'] = $requestRaw['segment'];
         }
 
@@ -212,7 +212,7 @@ class Piwik_API_Request
      */
     public static function getRequestParametersGET()
     {
-        if(empty($_SERVER['QUERY_STRING'])) {
+        if (empty($_SERVER['QUERY_STRING'])) {
             return array();
         }
         $GET = Piwik_Common::getArrayFromQueryString($_SERVER['QUERY_STRING']);

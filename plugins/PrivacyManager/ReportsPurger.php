@@ -209,7 +209,7 @@ class Piwik_PrivacyManager_ReportsPurger
         $oldBlobTables = array();
         foreach (Piwik::getTablesInstalled() as $table) {
             $type = Piwik_DataAccess_ArchiveTableCreator::getTypeFromTableName($table);
-            if($type === false) {
+            if ($type === false) {
                 continue;
             }
             $date = Piwik_DataAccess_ArchiveTableCreator::getDateFromTableName($table);

@@ -677,7 +677,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 
         $directoriesToCheck = array();
 
-        if(!Piwik::isInstalled()) {
+        if (!Piwik::isInstalled()) {
             // at install, need /config to be writable (so we can create config.ini.php)
             $directoriesToCheck[] = '/config/';
         }

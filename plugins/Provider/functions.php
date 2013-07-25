@@ -67,7 +67,7 @@ function Piwik_Provider_getPrettyProviderName( $in )
 
     $prettyNames = Piwik_Common::getProviderNames();
 
-    if(is_array($prettyNames)
+    if (is_array($prettyNames)
         && array_key_exists(strtolower($providerName), $prettyNames))
     {
         $providerName = $prettyNames[strtolower($providerName)];

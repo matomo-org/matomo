@@ -98,7 +98,7 @@ class Piwik_MultiSites_API
 
         $idSites = $this->getSitesIdFromPattern($pattern);
 
-        if(empty($idSites)) {
+        if (empty($idSites)) {
             return new Piwik_DataTable();
         }
         return $this->buildDataTable(
@@ -121,7 +121,7 @@ class Piwik_MultiSites_API
     private function getSitesIdFromPattern($pattern)
     {
         $idSites = 'all';
-        if(empty($pattern)) {
+        if (empty($pattern)) {
             return $idSites;
         }
         $idSites = array();
