@@ -129,7 +129,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
             if (self::shouldWrapArrayBeforeRendering($flatArray)) {
                 $flatArray = array($flatArray);
             }
-        } else if ($dataTable instanceof Piwik_DataTable_Array) {
+        } elseif ($dataTable instanceof Piwik_DataTable_Array) {
             $flatArray = array();
             foreach ($dataTable->getArray() as $keyName => $table) {
                 $serializeSave = $this->serialize;
@@ -137,7 +137,7 @@ class Piwik_DataTable_Renderer_Php extends Piwik_DataTable_Renderer
                 $flatArray[$keyName] = $this->flatRender($table);
                 $this->serialize = $serializeSave;
             }
-        } else if ($dataTable instanceof Piwik_DataTable_Simple) {
+        } elseif ($dataTable instanceof Piwik_DataTable_Simple) {
             $flatArray = $this->renderSimpleTable($dataTable);
 
             // if we return only one numeric value then we print out the result in a simple <result> tag

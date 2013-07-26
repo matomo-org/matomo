@@ -269,7 +269,7 @@ class Piwik_Updater
                     self::INDEX_CURRENT_VERSION => $currentVersion,
                     self::INDEX_NEW_VERSION     => $version
                 );
-            } else if ($versionCompare == 1) {
+            } elseif ($versionCompare == 1) {
                 // the version in the DB is newest.. we choose to ignore (for the time being)
             }
         }

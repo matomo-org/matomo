@@ -632,7 +632,7 @@ class Piwik_Archive
             $report = 'VisitsSummary_CoreMetrics';
         }
         // Goal_* metrics are processed by the Goals plugin (HACK)
-        else if (strpos($report, 'Goal_') === 0) {
+        elseif (strpos($report, 'Goal_') === 0) {
             $report = 'Goals_Metrics';
         }
         

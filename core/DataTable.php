@@ -1345,7 +1345,7 @@ class Piwik_DataTable
                 // missing rows, return false
                 if ($missingRowColumns === false) {
                     return array(false, $i);
-                } else if ($i != $pathLength - 1) // create subtable if missing, but only if not on the last segment
+                } elseif ($i != $pathLength - 1) // create subtable if missing, but only if not on the last segment
                 {
                     $table = new Piwik_DataTable();
                     $table->setMaximumAllowedRows($maxSubtableRows);

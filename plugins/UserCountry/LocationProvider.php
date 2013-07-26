@@ -391,7 +391,7 @@ abstract class Piwik_UserCountry_LocationProvider
 
         if (!empty($locationInfo[self::REGION_CODE_KEY])) {
             $cityState[] = $locationInfo[self::REGION_CODE_KEY];
-        } else if (!empty($locationInfo[self::REGION_NAME_KEY])) {
+        } elseif (!empty($locationInfo[self::REGION_NAME_KEY])) {
             $cityState[] = $locationInfo[self::REGION_NAME_KEY];
         }
 
@@ -407,7 +407,7 @@ abstract class Piwik_UserCountry_LocationProvider
         // add country line
         if (!empty($locationInfo[self::COUNTRY_NAME_KEY])) {
             $lines[] = $locationInfo[self::COUNTRY_NAME_KEY];
-        } else if (!empty($locationInfo[self::COUNTRY_CODE_KEY])) {
+        } elseif (!empty($locationInfo[self::COUNTRY_CODE_KEY])) {
             $lines[] = $locationInfo[self::COUNTRY_CODE_KEY];
         }
 
@@ -440,7 +440,7 @@ abstract class Piwik_UserCountry_LocationProvider
         $ip = $info['ip'];
         if (Piwik_IP::isMappedIPv4($ip)) {
             return Piwik_IP::getIPv4FromMappedIPv6($ip);
-        } else if (Piwik_IP::isIPv6($ip)) // IPv6 is not supported (yet)
+        } elseif (Piwik_IP::isIPv6($ip)) // IPv6 is not supported (yet)
         {
             return false;
         } else {

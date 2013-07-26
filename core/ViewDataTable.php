@@ -495,9 +495,9 @@ abstract class Piwik_ViewDataTable
         
         if ($name == 'translations') {
             $this->viewProperties[$name] = array_merge($this->viewProperties[$name], $value);
-        } else if ($name == 'relatedReports') {
+        } elseif ($name == 'relatedReports') {
             $this->addRelatedReports($reportTitle = false, $value);
-        } else if ($name == 'filters') {
+        } elseif ($name == 'filters') {
             foreach ($value as $filterInfo) {
                 if (!is_array($filterInfo)) {
                     $this->queueFilter($filterInfo);
@@ -1533,7 +1533,7 @@ abstract class Piwik_ViewDataTable
                 $period = new Piwik_Period_Range('range', $strDate, $timezone);
                 $reportDate = $period->getDateStart();
             } // if a multiple period, this function is irrelevant
-            else if (Piwik_Period::isMultiplePeriod($strDate, $strPeriod)) {
+            elseif (Piwik_Period::isMultiplePeriod($strDate, $strPeriod)) {
                 return false;
             } // otherwise, use the date as given
             else {

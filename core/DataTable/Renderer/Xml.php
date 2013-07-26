@@ -190,7 +190,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
                 $result .= $prefixLines . $prefix . "\n";
                 $result .= $this->renderArray($value, $prefixLines . "\t");
                 $result .= $prefixLines . $suffix . "\n";
-            } else if ($value instanceof Piwik_DataTable
+            } elseif ($value instanceof Piwik_DataTable
                 || $value instanceof Piwik_DataTable_Array
             ) {
                 if ($value->getRowsCount() == 0) {
@@ -199,7 +199,7 @@ class Piwik_DataTable_Renderer_Xml extends Piwik_DataTable_Renderer
                     $result .= $prefixLines . $prefix . "\n";
                     if ($value instanceof Piwik_DataTable_Array) {
                         $result .= $this->renderDataTableArray($value, $this->getArrayFromDataTable($value), $prefixLines);
-                    } else if ($value instanceof Piwik_DataTable_Simple) {
+                    } elseif ($value instanceof Piwik_DataTable_Simple) {
                         $result .= $this->renderDataTableSimple($this->getArrayFromDataTable($value), $prefixLines);
                     } else {
                         $result .= $this->renderDataTable($this->getArrayFromDataTable($value), $prefixLines);

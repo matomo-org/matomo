@@ -348,7 +348,7 @@ class Piwik_Http
 
             // determine success or failure
             @fclose(@$fsock);
-        } else if ($method == 'fopen') {
+        } elseif ($method == 'fopen') {
             $response = false;
 
             // we make sure the request takes less than a few seconds to fail
@@ -400,7 +400,7 @@ class Piwik_Http
             if (!empty($default_socket_timeout)) {
                 @ini_set('default_socket_timeout', $default_socket_timeout);
             }
-        } else if ($method == 'curl') {
+        } elseif ($method == 'curl') {
             if (!self::isCurlEnabled()) {
                 // can be triggered in tests
                 throw new Exception("CURL is not enabled in php.ini, but is being used.");
@@ -475,7 +475,7 @@ class Piwik_Http
 
             if ($response === true) {
                 $response = '';
-            } else if ($response === false) {
+            } elseif ($response === false) {
                 $errstr = curl_error($ch);
                 if ($errstr != '') {
                     throw new Exception('curl_exec: ' . $errstr);

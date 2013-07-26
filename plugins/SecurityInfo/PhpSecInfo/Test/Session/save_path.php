@@ -76,7 +76,7 @@ class PhpSecInfo_Test_Session_Save_Path extends PhpSecInfo_Test_Session
         $perms = @fileperms($this->current_value);
         if ($perms === false) {
             return PHPSECINFO_TEST_RESULT_WARN;
-        } else if ($this->current_value
+        } elseif ($this->current_value
             && !preg_match("|" . PHPSECINFO_TEST_COMMON_TMPDIR . "/?|", $this->current_value)
             && !($perms & 0x0004)
             && !($perms & 0x0002)

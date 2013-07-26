@@ -84,7 +84,7 @@ class Piwik_IP
                     $ipString = substr($ipString, 0, $posColon);
                 }
                 // else: Dotted quad IPv6 address, A:B:C:D:E:F:G.H.I.J
-            } else if (strpos($ipString, ':') === $posColon) {
+            } elseif (strpos($ipString, ':') === $posColon) {
                 $ipString = substr($ipString, 0, $posColon);
             }
             // else: IPv6 address, A:B:C:D:E:F:G:H

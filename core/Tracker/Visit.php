@@ -546,7 +546,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
             ) {
                 $providerValue .= ' - ' . $location[Piwik_UserCountry_LocationProvider::ORG_KEY];
             }
-        } else if (!empty($location[Piwik_UserCountry_LocationProvider::ORG_KEY])) {
+        } elseif (!empty($location[Piwik_UserCountry_LocationProvider::ORG_KEY])) {
             $providerValue = $location[Piwik_UserCountry_LocationProvider::ORG_KEY];
         }
 

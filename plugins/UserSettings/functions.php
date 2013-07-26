@@ -54,7 +54,7 @@ function Piwik_UserSettings_getOSFamily($osLabel)
 
     if ($osFamily == 'unknown') {
         $osFamily = Piwik_Translate('General_Unknown');
-    } else if ($osFamily == 'Gaming Console') {
+    } elseif ($osFamily == 'Gaming Console') {
         $osFamily = Piwik_Translate('UserSettings_GamingConsole');
     }
 
@@ -219,7 +219,7 @@ function Piwik_getScreenTypeFromResolution($resolution)
         $name = 'mobile';
     } elseif ($ratio < 1.4) {
         $name = 'normal';
-    } else if ($ratio < 2) {
+    } elseif ($ratio < 2) {
         $name = 'wide';
     } else {
         $name = 'dual';

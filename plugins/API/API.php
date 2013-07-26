@@ -363,7 +363,7 @@ class Piwik_API_API
         if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 0) {
             /* We always have our application logo */
             return true;
-        } else if (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
+        } elseif (Piwik_Config::getInstance()->branding['use_custom_logo'] == 1
             && file_exists(Piwik_Common::getPathToPiwikRoot() . '/misc/user/logo.svg')
         ) {
             return true;

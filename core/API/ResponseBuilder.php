@@ -198,9 +198,9 @@ class Piwik_API_ResponseBuilder
         if ($format == 'php') {
             $renderer->setSerialize($this->caseRendererPHPSerialize());
             $renderer->setPrettyDisplay(Piwik_Common::getRequestVar('prettyDisplay', false, 'int', $this->request));
-        } else if ($format == 'html') {
+        } elseif ($format == 'html') {
             $renderer->setTableId($this->request['method']);
-        } else if ($format == 'csv' || $format == 'tsv') {
+        } elseif ($format == 'csv' || $format == 'tsv') {
             $renderer->setConvertToUnicode(Piwik_Common::getRequestVar('convertToUnicode', true, 'int', $this->request));
         }
 

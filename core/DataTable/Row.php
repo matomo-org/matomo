@@ -501,7 +501,7 @@ class Piwik_DataTable_Row
             case 'min':
                 if (!$thisColumnValue) {
                     $newValue = $columnToSumValue;
-                } else if (!$columnToSumValue) {
+                } elseif (!$columnToSumValue) {
                     $newValue = $thisColumnValue;
                 } else {
                     $newValue = min($thisColumnValue, $columnToSumValue);
@@ -573,7 +573,7 @@ class Piwik_DataTable_Row
         if (is_string($columnToSumValue)) {
             if ($thisColumnValue === false) {
                 return $columnToSumValue;
-            } else if ($columnToSumValue === false) {
+            } elseif ($columnToSumValue === false) {
                 return $thisColumnValue;
             } else {
                 throw new Exception("Trying to add two strings values in DataTable_Row::sumRowArray: "

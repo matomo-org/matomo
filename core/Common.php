@@ -202,7 +202,7 @@ class Piwik_Common
                     $nameToValue[$name] = array();
                 }
                 array_push($nameToValue[$name], $value);
-            } else if (!empty($name)) {
+            } elseif (!empty($name)) {
                 $nameToValue[$name] = $value;
             }
         }
@@ -804,7 +804,7 @@ class Piwik_Common
             $useLib = false;
             if (version_compare(PHP_VERSION, '5.2.1') < 0) {
                 $useLib = true;
-            } else if (version_compare(PHP_VERSION, '5.2.5') < 0) {
+            } elseif (version_compare(PHP_VERSION, '5.2.5') < 0) {
                 $info = localeconv();
                 $useLib = $info['decimal_point'] != '.';
             }
@@ -1285,7 +1285,7 @@ class Piwik_Common
                 $query = str_replace('&', '&amp;', strstr($query, '?'));
             }
             $searchEngineName = 'Google Images';
-        } else if ($searchEngineName === 'Google'
+        } elseif ($searchEngineName === 'Google'
             && (strpos($query, '&as_') !== false || strpos($query, 'as_') === 0)
         ) {
             $keys = array();

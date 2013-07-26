@@ -811,7 +811,7 @@ abstract class Piwik_Controller
         if ($evolutionPercent < 0) {
             $class = "negative-evolution";
             $img = "arrow_down.png";
-        } else if ($evolutionPercent == 0) {
+        } elseif ($evolutionPercent == 0) {
             $class = "neutral-evolution";
             $img = "stop.png";
         } else {

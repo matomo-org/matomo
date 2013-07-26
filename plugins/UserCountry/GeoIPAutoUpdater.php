@@ -168,7 +168,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
             $fd = fopen($outputPath, 'wb');
             fwrite($fd, $unzipped);
             fclose($fd);
-        } else if (substr($path, -3, 3) == '.gz') {
+        } elseif (substr($path, -3, 3) == '.gz') {
             $unzip = Piwik_Unzip::factory('gz', $path);
             $success = $unzip->extract($outputPath);
 

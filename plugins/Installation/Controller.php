@@ -564,7 +564,7 @@ class Piwik_Installation_Controller extends Piwik_Controller_Admin
 
         if (empty($this->session->currentStepDone)) {
             $error = true;
-        } else if ($currentStep == 'finished' && $this->session->currentStepDone == 'finished') {
+        } elseif ($currentStep == 'finished' && $this->session->currentStepDone == 'finished') {
             // ok to refresh this page or use language selector
         } else {
             if (file_exists(Piwik_Config::getLocalConfigPath())) {

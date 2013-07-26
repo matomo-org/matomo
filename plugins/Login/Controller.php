@@ -376,9 +376,9 @@ class Piwik_Login_Controller extends Piwik_Controller
                 'email'    => Piwik::getSuperUserEmail(),
                 'password' => Piwik_Config::getInstance()->superuser['password'],
             );
-        } else if (Piwik_UsersManager_API::getInstance()->userExists($loginMail)) {
+        } elseif (Piwik_UsersManager_API::getInstance()->userExists($loginMail)) {
             $user = Piwik_UsersManager_API::getInstance()->getUser($loginMail);
-        } else if (Piwik_UsersManager_API::getInstance()->userEmailExists($loginMail)) {
+        } elseif (Piwik_UsersManager_API::getInstance()->userEmailExists($loginMail)) {
             $user = Piwik_UsersManager_API::getInstance()->getUserByEmail($loginMail);
         }
 

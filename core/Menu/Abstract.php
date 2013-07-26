@@ -171,7 +171,7 @@ abstract class Piwik_Menu_Abstract
                     $this->menu[$mainMenuRenamed][$subMenuRenamed] = $save;
                 }
             } // Changing a first-level element
-            else if (isset($this->menu[$mainMenuOriginal])) {
+            elseif (isset($this->menu[$mainMenuOriginal])) {
                 $save = $this->menu[$mainMenuOriginal];
                 $save['_name'] = $mainMenuRenamed;
                 unset($this->menu[$mainMenuOriginal]);
@@ -195,7 +195,7 @@ abstract class Piwik_Menu_Abstract
         foreach ($this->menu as $key => &$element) {
             if (is_null($element)) {
                 unset($this->menu[$key]);
-            } else if ($element['_hasSubmenu']) {
+            } elseif ($element['_hasSubmenu']) {
                 uasort($element, array($this, 'menuCompare'));
             }
         }
