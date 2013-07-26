@@ -2,8 +2,8 @@
      data-report="{{ properties.report_id }}"
      data-params="{{ javascriptVariablesToSet|json_encode }}">
 
-{% if reportDocumentation is not empty %}
-    <div class="reportDocumentation"><p>{{ reportDocumentation|raw }}</p></div>
+{% if properties.documentation|default is not empty %}
+    <div class="reportDocumentation"><p>{{ properties.documentation|raw }}</p></div>
 {% endif %}
 {% set displayVisitorsInOwnColumn %}{% if isWidget %}0{% else %}1{% endif %}{% endset %}
 

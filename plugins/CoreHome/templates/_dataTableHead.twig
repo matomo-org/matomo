@@ -1,16 +1,16 @@
 <thead>
    <tr>
-       {% for column in dataTableColumns %}
+       {% for column in properties.columns_to_display %}
            <th class="sortable {% if loop.first %}first{% elseif loop.last %}last{% endif %}" id="{{ column }}">
-               {% if columnDocumentation[column] is not empty %}
+               {% if properties.metrics_documentation[column]|default is not empty %}
                    <div class="columnDocumentation">
                        <div class="columnDocumentationTitle">
-                           {{ columnTranslations[column] }}
+                           {{ properties.translations[column] }}
                        </div>
-                       {{ columnDocumentation[column] }}
+                       {{ properties.metrics_documentation[column] }}
                    </div>
                {% endif %}
-               <div id="thDIV">{{ columnTranslations[column] }}</div>
+               <div id="thDIV">{{ properties.translations[column] }}</div>
            </th>
        {% endfor %}
    </tr>
