@@ -120,28 +120,12 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
             $view->error = $this->loadingError;
         }
 
+        $view->visualization = new Piwik_Visualization_HtmlTable($this->viewProperties);
+        
         if (!$this->isDataAvailable) {
             $view->dataTable = null;
         } else {
-            $columns = $this->getColumnsToDisplay();
-            $columnTranslations = $columnDocumentation = array();
-            foreach ($columns as $columnName) {
-                $columnTranslations[$columnName] = $this->getColumnTranslation($columnName);
-                $columnDocumentation[$columnName] = $this->getMetricDocumentation($columnName);
-            }
-            $nbColumns = count($columns);
-            // case no data in the array we use the number of columns set to be displayed
-            if ($nbColumns == 0) {
-                $nbColumns = count($this->viewProperties['columns_to_display']);
-            }
-
             $view->dataTable = $this->dataTable;
-            $view->dataTableColumns = $columns;
-            $view->reportDocumentation = $this->getReportDocumentation();
-            $view->columnTranslations = $columnTranslations;
-            $view->columnDocumentation = $columnDocumentation;
-            $view->nbColumns = $nbColumns;
-            $view->defaultWhenColumnValueNotDefined = '-';
 
             // if it's likely that the report data for this data table has been purged,
             // set whether we should display a message to that effect.

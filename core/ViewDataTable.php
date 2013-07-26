@@ -106,12 +106,6 @@ abstract class Piwik_ViewDataTable
     protected $currentControllerName;
 
     /**
-     * @see init()
-     * @var string
-     */
-    protected $controllerActionCalledWhenRequestSubTable = null;
-
-    /**
      * This view should be an implementation of the Interface Piwik_View_Interface
      * The $view object should be created in the main() method.
      *
@@ -119,13 +113,6 @@ abstract class Piwik_ViewDataTable
      */
     protected $view = null;
 
-    /**
-     * Documentation for the report.
-     * Received from the Plugin API, used for inline help.
-     *
-     * @var array
-     */
-    protected $documentation = false;
     
     /**
      * Default constructor.
@@ -174,6 +161,8 @@ abstract class Piwik_ViewDataTable
             Piwik_Metrics::getDefaultProcessedMetrics()
         );
         $this->viewProperties['request_parameters_to_modify'] = array();
+        $this->viewProperties['documentation'] = false;
+        $this->viewProperties['subtable_controller_action'] = false;
         $this->viewProperties['columns_to_display'] = array();
 
         $columns = Piwik_Common::getRequestVar('columns', false);
@@ -350,7 +339,7 @@ abstract class Piwik_ViewDataTable
     {
         $this->currentControllerName = $currentControllerName;
         $this->currentControllerAction = $currentControllerAction;
-        $this->controllerActionCalledWhenRequestSubTable = $controllerActionCalledWhenRequestSubTable;
+        $this->viewProperties['subtable_controller_action'] = $controllerActionCalledWhenRequestSubTable;
         $this->idSubtable = Piwik_Common::getRequestVar('idSubtable', false, 'int');
         
         foreach ($defaultProperties as $name => $value) {
@@ -383,6 +372,8 @@ abstract class Piwik_ViewDataTable
             $function = $this->viewProperties['filter_excludelowpop_value'];
             $this->viewProperties['filter_excludelowpop_value'] = $function();
         }
+
+        $this->loadDocumentation();
     }
     
     /**
@@ -431,7 +422,7 @@ abstract class Piwik_ViewDataTable
 
     public function getControllerActionCalledWhenRequestSubTable()
     {
-        return $this->controllerActionCalledWhenRequestSubTable;
+        return $this->viewProperties['subtable_controller_action'];
     }
 
     /**
@@ -600,25 +591,29 @@ abstract class Piwik_ViewDataTable
         }
         
         // default columns_to_display to label, nb_uniq_visitors/nb_visits if those columns exist in the
-        // dataset
+        // dataset. otherwise, default to all columns in dataset.
         if ($this->dataTable instanceof Piwik_DataTable) {
             $columns = $this->dataTable->getColumns();
-            if (empty($this->viewProperties['columns_to_display'])
-                && $this->dataTableColumnsContains($columns, array('nb_visits', 'nb_uniq_visitors'))
-            ) {
-                $columnsToDisplay = array('label');
-                
-                // if unique visitors data is available, show it, otherwise just visits
-                if ($this->dataTableColumnsContains($columns, 'nb_uniq_visitors')) {
-                    $columnsToDisplay[] = 'nb_uniq_visitors';
+            if (empty($this->viewProperties['columns_to_display'])) {
+                if ($this->dataTableColumnsContains($columns, array('nb_visits', 'nb_uniq_visitors'))) {
+                    $columnsToDisplay = array('label');
+                    
+                    // if unique visitors data is available, show it, otherwise just visits
+                    if ($this->dataTableColumnsContains($columns, 'nb_uniq_visitors')) {
+                        $columnsToDisplay[] = 'nb_uniq_visitors';
+                    } else {
+                        $columnsToDisplay[] = 'nb_visits';
+                    }
                 } else {
-                    $columnsToDisplay[] = 'nb_visits';
+                    $columnsToDisplay = $columns;
                 }
-                
-                $this->viewProperties['columns_to_display'] = $columnsToDisplay;
+
+                $this->viewProperties['columns_to_display'] = array_filter($columnsToDisplay);
             }
+
+            $this->removeEmptyColumnsFromDisplay();
         }
-        
+
         return true;
     }
 
@@ -843,7 +838,7 @@ abstract class Piwik_ViewDataTable
         if (!isset($javascriptVariablesToSet['viewDataTable'])) {
             $javascriptVariablesToSet['viewDataTable'] = $this->getViewDataTableId();
         }
-        $javascriptVariablesToSet['controllerActionCalledWhenRequestSubTable'] = $this->controllerActionCalledWhenRequestSubTable;
+        $javascriptVariablesToSet['controllerActionCalledWhenRequestSubTable'] = $this->viewProperties['subtable_controller_action'];
 
         if ($this->dataTable &&
             // Piwik_DataTable_Array doesn't have the method
@@ -1271,7 +1266,7 @@ abstract class Piwik_ViewDataTable
      */
     public function setReportDocumentation($documentation)
     {
-        $this->documentation = $documentation;
+        $this->viewProperties['documentation'] = $documentation;
     }
 
     /**
@@ -1280,11 +1275,7 @@ abstract class Piwik_ViewDataTable
      */
     public function getReportDocumentation()
     {
-        if ($this->documentation === false) {
-            $this->loadDocumentation();
-        }
-
-        return $this->documentation;
+        return $this->viewProperties['documentation'];
     }
 
     /** Load documentation from the API */
@@ -1300,7 +1291,7 @@ abstract class Piwik_ViewDataTable
         }
 
         if (isset($report['documentation'])) {
-            $this->documentation = $report['documentation'];
+            $this->viewProperties['documentation'] = $report['documentation'];
         }
     }
 
