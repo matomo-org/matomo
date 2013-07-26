@@ -82,7 +82,7 @@ class Piwik_UserCountry_GeoIPAutoUpdater
      * @param string $url URL to the database to download. The type of database is determined
      *                    from this URL.
      */
-    private function downloadFile($dbType, $url)
+    protected function downloadFile($dbType, $url)
     {
         $ext = Piwik_UserCountry_GeoIPAutoUpdater::getGeoIPUrlExtension($url);
         $zippedFilename = Piwik_UserCountry_LocationProvider_GeoIp::$dbNames[$dbType][0] . '.' . $ext;
@@ -416,15 +416,34 @@ class Piwik_UserCountry_GeoIPAutoUpdater
     {
         // check for &suffix= query param that is special to MaxMind URLs
         if (preg_match('/suffix=([^&]+)/', $url, $matches)) {
-            return $matches[1];
+            $ext = $matches[1];
         }
 
         // use basename of url
         $filenameParts = explode('.', basename($url), 2);
         if (count($filenameParts) > 1) {
-            return end($filenameParts);
+            $ext = end($filenameParts);
         } else {
-            return reset($filenameParts);
+            $ext = reset($filenameParts);
+        }
+
+        self::checkForSupportedArchiveType($ext);
+
+        return $ext;
+    }
+
+    /**
+     * Avoid downloading archive types we don't support. No point in downloading it,
+     * if we can't unzip it...
+     * 
+     * @param string $ext The URL file's extension.
+     */
+    private static function checkForSupportedArchiveType($ext)
+    {
+        if ($ext != 'tar.gz'
+            && $ext != 'gz'
+        ) {
+            throw new Exception(Piwik_Translate('UserCountry_UnsupportedArchiveType', "'$ext'"));
         }
     }
 
