@@ -15,6 +15,11 @@
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/Default.php';
 
 /**
+ * @see plugins/UserCountry/LocationProvider/CloudFlare.php
+ */
+require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/CloudFlare.php';
+
+/**
  * @see plugins/UserCountry/LocationProvider/GeoIp.php
  */
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/LocationProvider/GeoIp.php';
