@@ -423,7 +423,7 @@ class Piwik_Tracker_Action implements Piwik_Tracker_Action_Interface
                             $validQuery .= $name . '[]=' . $param . $separator;
                         }
                     }
-                } else if ($value === false) {
+                } elseif ($value === false) {
                     $validQuery .= $name . $separator;
                 } else {
                     $validQuery .= $name . '=' . $value . $separator;

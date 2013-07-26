@@ -176,7 +176,7 @@ class Piwik_Actions_ArchivingHelper
         if ($columnName == Piwik_Metrics::INDEX_PAGE_MIN_TIME_GENERATION) {
             if (empty($alreadyValue)) {
                 $newValue = $value;
-            } else if (empty($value)) {
+            } elseif (empty($value)) {
                 $newValue = $alreadyValue;
             } else {
                 $newValue = min($alreadyValue, $value);

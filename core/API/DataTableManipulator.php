@@ -59,7 +59,7 @@ abstract class Piwik_API_DataTableManipulator
     {
         if ($dataTable instanceof Piwik_DataTable_Array) {
             return $this->manipulateDataTableArray($dataTable);
-        } else if ($dataTable instanceof Piwik_DataTable) {
+        } elseif ($dataTable instanceof Piwik_DataTable) {
             return $this->manipulateDataTable($dataTable);
         } else {
             return $dataTable;

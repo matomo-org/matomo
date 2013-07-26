@@ -13,7 +13,7 @@
  * Creating a new Piwik_Period subclass:
  *
  * Every overloaded method must start with the code
- *        if(!$this->subperiodsProcessed)
+ *        if (!$this->subperiodsProcessed)
  *        {
  *            $this->generate();
  *        }

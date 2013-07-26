@@ -92,7 +92,7 @@ class Piwik_SitesManager extends Piwik_Plugin
     {
         if ($site['keep_url_fragment'] == self::KEEP_URL_FRAGMENT_YES) {
             return true;
-        } else if ($site['keep_url_fragment'] == self::KEEP_URL_FRAGMENT_NO) {
+        } elseif ($site['keep_url_fragment'] == self::KEEP_URL_FRAGMENT_NO) {
             return false;
         }
 

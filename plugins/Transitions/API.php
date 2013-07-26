@@ -500,7 +500,7 @@ class Piwik_Transitions_API
                     Piwik_Tracker_Action::TYPE_ACTION_NAME);
             }
             return $label;
-        } else if ($this->returnNormalizedUrls) {
+        } elseif ($this->returnNormalizedUrls) {
             return $pageRecord['name'];
         } else {
             return Piwik_Tracker_Action::reconstructNormalizedUrl(

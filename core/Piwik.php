@@ -635,7 +635,7 @@ class Piwik
 
             if (!file_exists($file)) {
                 $messages[] = Piwik_Translate('General_ExceptionMissingFile', $file);
-            } else if (filesize($file) != $props[0]) {
+            } elseif (filesize($file) != $props[0]) {
                 if (!$hasMd5 || in_array(substr($path, -4), array('.gif', '.ico', '.jpg', '.png', '.swf'))) {
                     // files that contain binary data (e.g., images) must match the file size
                     $messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
@@ -649,7 +649,7 @@ class Piwik
                         $messages[] = Piwik_Translate('General_ExceptionFilesizeMismatch', array($file, $props[0], filesize($file)));
                     }
                 }
-            } else if ($hasMd5file && (@md5_file($file) !== $props[1])) {
+            } elseif ($hasMd5file && (@md5_file($file) !== $props[1])) {
                 $messages[] = Piwik_Translate('General_ExceptionFileIntegrity', $file);
             }
         }
@@ -764,7 +764,7 @@ class Piwik
                         if (preg_match('/(?:^|, ?)(deflate)(?:,|$)/', $acceptEncoding, $matches)) {
                             $encoding = 'deflate';
                             $filegz = $compressedFileLocation . '.deflate';
-                        } else if (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches)) {
+                        } elseif (preg_match('/(?:^|, ?)((x-)?gzip)(?:,|$)/', $acceptEncoding, $matches)) {
                             $encoding = $matches[1];
                             $filegz = $compressedFileLocation . '.gz';
                         }
@@ -776,7 +776,7 @@ class Piwik
 
                                 if ($encoding == 'deflate') {
                                     $data = gzdeflate($data, 9);
-                                } else if ($encoding == 'gzip' || $encoding == 'x-gzip') {
+                                } elseif ($encoding == 'gzip' || $encoding == 'x-gzip') {
                                     $data = gzencode($data, 9);
                                 }
 
@@ -1854,10 +1854,10 @@ class Piwik
      */
     static public function getArrayFromApiParameter($columns)
     {
-        if(empty($columns)) {
+        if (empty($columns)) {
             return array();
         }
-        if(is_array($columns)) {
+        if (is_array($columns)) {
             return $columns;
         }
         $array = explode(',', $columns);
@@ -2444,7 +2444,7 @@ class Piwik
 
             if ($next === null) {
                 break;
-            } else if ($current + 1 != $next) {
+            } elseif ($current + 1 != $next) {
                 return true;
             }
         }
@@ -2485,7 +2485,7 @@ class Piwik
             ) {
                 return true;
             }
-        } else if (function_exists('shell_exec')) // use shell_exec
+        } elseif (function_exists('shell_exec')) // use shell_exec
         {
             $output = @shell_exec($command);
             if ($output) {

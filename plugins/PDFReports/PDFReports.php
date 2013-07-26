@@ -268,7 +268,7 @@ class Piwik_PDFReports extends Piwik_Plugin
             $displaySegmentInfo = false;
             $segmentInfo = null;
             $segment = Piwik_PDFReports_API::getSegment($report['idsegment']);
-            if($segment != null) {
+            if ($segment != null) {
                 $displaySegmentInfo = true;
                 $segmentInfo = Piwik_Translate('PDFReports_SegmentAppliedToReports', $segment['name']);
             }
@@ -280,7 +280,7 @@ class Piwik_PDFReports extends Piwik_Plugin
                     $mail->setType(Zend_Mime::MULTIPART_RELATED);
                     $message .= "<br/>" . Piwik_Translate('PDFReports_PleaseFindBelow', array($periods[$report['period']], $reportTitle));
 
-                    if($displaySegmentInfo) {
+                    if ($displaySegmentInfo) {
                         $message .= " " . $segmentInfo;
                     }
 
@@ -291,7 +291,7 @@ class Piwik_PDFReports extends Piwik_Plugin
                 case 'pdf':
                     $message .= "\n" . Piwik_Translate('PDFReports_PleaseFindAttachedFile', array($periods[$report['period']], $reportTitle));
 
-                    if($displaySegmentInfo) {
+                    if ($displaySegmentInfo) {
                         $message .= " " . $segmentInfo;
                     }
 

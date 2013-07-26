@@ -292,7 +292,7 @@ class Piwik_Archive_DataCollection
                 foreach ($this->sitesId as $idSite) {
                     $result[$idSite] = $this->createEmptyIndex($indexKeys);
                 }
-            } else if ($index == 'period') {
+            } elseif ($index == 'period') {
                 foreach ($this->periods as $period => $periodObject) {
                     $result[$period] = $this->createEmptyIndex($indexKeys);
                 }
@@ -312,7 +312,7 @@ class Piwik_Archive_DataCollection
         if ($keyCount > 1) {
             $firstKey = array_shift($keys);
             $this->setIndexRow($result[$firstKey], $keys, $row);
-        } else if ($keyCount == 1) {
+        } elseif ($keyCount == 1) {
             $result[reset($keys)] = $row;
         } else {
             $result = $row;
@@ -336,9 +336,9 @@ class Piwik_Archive_DataCollection
         foreach ($metadataNames as $name) {
             if ($name == 'site') {
                 $result['site'] = $idSite;
-            } else if ($name == 'period') {
+            } elseif ($name == 'period') {
                 $result['period'] = $period;
-            } else if (isset($row['_metadata'][$name])) {
+            } elseif (isset($row['_metadata'][$name])) {
                 $result[$name] = $row['_metadata'][$name];
             }
         }

@@ -81,7 +81,7 @@ class Piwik_API_ProcessedReport
             if ($hideMetricsDoc) // remove metric documentation if it's not wanted
             {
                 unset($availableReport['metricsDocumentation']);
-            } else if (!isset($availableReport['metricsDocumentation'])) {
+            } elseif (!isset($availableReport['metricsDocumentation'])) {
                 // set metric documentation to default if it's not set
                 $availableReport['metricsDocumentation'] = Piwik_Metrics::getDefaultMetricsDocumentation();
             }

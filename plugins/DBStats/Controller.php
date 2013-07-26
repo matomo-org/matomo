@@ -290,7 +290,7 @@ class Piwik_DBStats_Controller extends Piwik_Controller_Admin
                     $runBeforeGenericFilters = true);
                 $view->setSortedColumn('percent_total', $orderDir);
             }
-        } else if ($view instanceof Piwik_ViewDataTable_GenerateGraphHtml) { // if displaying a graph
+        } elseif ($view instanceof Piwik_ViewDataTable_GenerateGraphHtml) { // if displaying a graph
             if (in_array('total_size', $sizeColumns)) {
                 $view->setColumnsToDisplay(array('label', 'total_size'));
 

@@ -486,9 +486,9 @@ abstract class Piwik_ViewDataTable
         
         if ($name == 'translations') {
             $this->viewProperties[$name] = array_merge($this->viewProperties[$name], $value);
-        } else if ($name == 'relatedReports') {
+        } elseif ($name == 'relatedReports') {
             $this->addRelatedReports($reportTitle = false, $value);
-        } else if ($name == 'filters') {
+        } elseif ($name == 'filters') {
             foreach ($value as $filterInfo) {
                 if (!is_array($filterInfo)) {
                     $this->queueFilter($filterInfo);
@@ -706,7 +706,7 @@ abstract class Piwik_ViewDataTable
         }
         
         $segment = $this->getRawSegmentFromRequest();
-        if(!empty($segment)) {
+        if (!empty($segment)) {
             $requestArray['segment'] = $segment;
         }
         
@@ -725,7 +725,7 @@ abstract class Piwik_ViewDataTable
         $segment = Piwik_Common::getRequestVar('segment', '', 'string');
         if (!empty($segment)) {
             $request = Piwik_API_Request::getRequestParametersGET();
-            if(!empty($request['segment'])) {
+            if (!empty($request['segment'])) {
                 $segmentRaw = $request['segment'];
             }
         }
@@ -870,7 +870,7 @@ abstract class Piwik_ViewDataTable
         }
 
         $rawSegment = $this->getRawSegmentFromRequest();
-        if(!empty($rawSegment)) {
+        if (!empty($rawSegment)) {
             $javascriptVariablesToSet['segment'] = $rawSegment;
         }
 
@@ -1341,7 +1341,7 @@ abstract class Piwik_ViewDataTable
 
     private function removeEmptyColumnsFromDisplay()
     {
-        if(empty($this->dataTable)) {
+        if (empty($this->dataTable)) {
             return;
         }
         if ($this->dataTable instanceof Piwik_DataTable_Array) {
@@ -1524,7 +1524,7 @@ abstract class Piwik_ViewDataTable
                 $period = new Piwik_Period_Range('range', $strDate, $timezone);
                 $reportDate = $period->getDateStart();
             } // if a multiple period, this function is irrelevant
-            else if (Piwik_Period::isMultiplePeriod($strDate, $strPeriod)) {
+            elseif (Piwik_Period::isMultiplePeriod($strDate, $strPeriod)) {
                 return false;
             } // otherwise, use the date as given
             else {

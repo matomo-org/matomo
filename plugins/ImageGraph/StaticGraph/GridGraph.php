@@ -421,11 +421,11 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
     // see http://dev.piwik.org/trac/ticket/3396
 //	protected function displayMinMaxValues()
 //	{
-//		if($displayMinMax)
+//		if ($displayMinMax)
 //		{
 //			// when plotting multiple metrics, display min & max on both series
 //			// to fix: in vertical bars, labels are hidden when multiple metrics are plotted, hence the restriction on count($this->ordinateSeries) == 1
-//			if($this->multipleMetrics && count($this->ordinateSeries) == 1)
+//			if ($this->multipleMetrics && count($this->ordinateSeries) == 1)
 //			{
 //				$colorIndex = 1;
 //				foreach($this->ordinateSeries as $column => $data)
@@ -469,13 +469,13 @@ abstract class Piwik_ImageGraph_StaticGraph_GridGraph extends Piwik_ImageGraph_S
 //		$maxValueIndex = 0;
 //		foreach($data as $index => $value)
 //		{
-//			if($value > $maxValue)
+//			if ($value > $maxValue)
 //			{
 //				$maxValue = $value;
 //				$maxValueIndex = $index;
 //			}
 //
-//			if($value < $minValue)
+//			if ($value < $minValue)
 //			{
 //				$minValue = $value;
 //				$minValueIndex = $index;

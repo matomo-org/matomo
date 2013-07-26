@@ -37,7 +37,7 @@ class Piwik_View implements Piwik_View_Interface
     public function __construct($templateFile)
     {
         $templateExt = '.twig';
-        if(substr($templateFile, -strlen($templateExt)) !== $templateExt) {
+        if (substr($templateFile, -strlen($templateExt)) !== $templateExt) {
             $templateFile .= $templateExt;
         }
         $this->template = $templateFile;

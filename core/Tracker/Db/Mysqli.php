@@ -38,7 +38,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['unix_socket'];
-        } else if ($dbInfo['port'][0] == '/') {
+        } elseif ($dbInfo['port'][0] == '/') {
             $this->host = null;
             $this->port = null;
             $this->socket = $dbInfo['port'];
@@ -231,7 +231,7 @@ class Piwik_Tracker_Db_Mysqli extends Piwik_Tracker_Db
     {
         if (!$parameters) {
             $parameters = array();
-        } else if (!is_array($parameters)) {
+        } elseif (!is_array($parameters)) {
             $parameters = array($parameters);
         }
 

@@ -18,7 +18,7 @@ class Piwik_Tracker_Request
 
     public function __construct($params, $tokenAuth = false)
     {
-        if(!is_array($params)) {
+        if (!is_array($params)) {
             $params = array();
         }
         $this->params = $params;
@@ -32,7 +32,7 @@ class Piwik_Tracker_Request
             && empty($this->params['url'])
         ) {
             $url = @$_SERVER['HTTP_REFERER'];
-            if(!empty($url)) {
+            if (!empty($url)) {
                 $this->params['url'] = $url;
             }
         }

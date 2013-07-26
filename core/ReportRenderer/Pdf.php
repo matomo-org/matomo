@@ -456,7 +456,7 @@ class Piwik_ReportRenderer_Pdf extends Piwik_ReportRenderer
             && $columnsCount <= 3
         ) {
             $totalWidth = $this->reportWidthPortrait * 2 / 3;
-        } else if ($this->orientation == self::LANDSCAPE) {
+        } elseif ($this->orientation == self::LANDSCAPE) {
             $totalWidth = $this->reportWidthLandscape;
         } else {
             $totalWidth = $this->reportWidthPortrait;

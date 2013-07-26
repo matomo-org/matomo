@@ -112,7 +112,7 @@ class Piwik_SegmentEditor_API
 
     protected function checkUserIsNotAnonymous()
     {
-        if(Piwik::isUserIsAnonymous()) {
+        if (Piwik::isUserIsAnonymous()) {
             throw new Exception("To create, edit or delete Custom Segments, please sign in first.");
         }
     }
@@ -253,7 +253,7 @@ class Piwik_SegmentEditor_API
      */
     public function getAll($idSite = false, $returnOnlyAutoArchived = false)
     {
-        if(!empty($idSite) ) {
+        if (!empty($idSite) ) {
             Piwik::checkUserHasViewAccess($idSite);
         } else {
             Piwik::checkUserHasSomeViewAccess();
@@ -262,7 +262,7 @@ class Piwik_SegmentEditor_API
 
         // Build basic segment filtering
         $whereIdSite = '';
-        if(!empty($idSite)) {
+        if (!empty($idSite)) {
             $whereIdSite = 'enable_only_idsite = ? OR ';
             $bind[] = $idSite;
         }
@@ -270,7 +270,7 @@ class Piwik_SegmentEditor_API
         $bind[] = Piwik::getCurrentUserLogin();
 
         $extraWhere = '';
-        if($returnOnlyAutoArchived) {
+        if ($returnOnlyAutoArchived) {
             $extraWhere = ' AND auto_archive = 1';
         }
 

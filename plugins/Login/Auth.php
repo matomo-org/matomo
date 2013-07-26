@@ -53,7 +53,7 @@ class Piwik_Login_Auth implements Piwik_Auth
             if (!empty($login)) {
                 return new Piwik_Auth_Result(Piwik_Auth_Result::SUCCESS, $login, $this->token_auth);
             }
-        } else if (!empty($this->login)) {
+        } elseif (!empty($this->login)) {
             if ($this->login === $rootLogin
                 && ($this->getHashTokenAuth($rootLogin, $rootToken) === $this->token_auth)
                 || $rootToken === $this->token_auth

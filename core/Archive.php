@@ -458,7 +458,7 @@ class Piwik_Archive
                 }
 
 
-                if($period->getLabel() == 'day') {
+                if ($period->getLabel() == 'day') {
                     $processing = new Piwik_ArchiveProcessor_Day($period, $site, $this->params->getSegment());
                 } else {
                     $processing = new Piwik_ArchiveProcessor_Period($period, $site, $this->params->getSegment());
@@ -476,7 +476,7 @@ class Piwik_Archive
                     $idArchive = $processing->preProcessArchive($plugin);
 
                     $visits = $processing->getNumberOfVisits();
-                    if($visits > 0) {
+                    if ($visits > 0) {
                         $this->idarchives[$doneFlag][$periodStr][] = $idArchive;
                     }
                 }
@@ -632,7 +632,7 @@ class Piwik_Archive
             $report = 'VisitsSummary_CoreMetrics';
         }
         // Goal_* metrics are processed by the Goals plugin (HACK)
-        else if(strpos($report, 'Goal_') === 0) {
+        elseif (strpos($report, 'Goal_') === 0) {
             $report = 'Goals_Metrics';
         }
         

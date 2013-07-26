@@ -348,7 +348,7 @@ class Piwik_Goals_API
     {
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             return Piwik_Tracker_GoalManager::IDGOAL_ORDER;
-        } else if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
+        } elseif ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART) {
             return Piwik_Tracker_GoalManager::IDGOAL_CART;
         } else {
             return $idGoal;

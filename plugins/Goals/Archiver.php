@@ -113,7 +113,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
             unset($row['label']);
 
             $values = array();
-            foreach($conversionMetrics as $field => $statement) {
+            foreach ($conversionMetrics as $field => $statement) {
                 $values[$field] = $row[$field];
             }
             $goals->sumMetrics($idGoal, $values);
@@ -166,7 +166,7 @@ class Piwik_Goals_Archiver extends Piwik_PluginsArchiver
                 $recordName = self::getRecordName($metricName, $idGoal);
                 $numericRecords[$recordName] = $value;
             }
-            if(!empty($array[Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED])) {
+            if (!empty($array[Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED])) {
                 $conversion_rate = $this->getConversionRate($array[Piwik_Metrics::INDEX_GOAL_NB_VISITS_CONVERTED]);
                 $recordName = self::getRecordName('conversion_rate', $idGoal);
                 $numericRecords[$recordName] = $conversion_rate;

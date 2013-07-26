@@ -223,7 +223,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
                 if (substr($change, 0, 1) == '+') {
                     $changeClass = $lowerIsBetter ? 'bad' : 'good';
                     $changeImage = $lowerIsBetter ? 'arrow_up_red' : 'arrow_up';
-                } else if (substr($change, 0, 1) == '-') {
+                } elseif (substr($change, 0, 1) == '-') {
                     $changeClass = $lowerIsBetter ? 'good' : 'bad';
                     $changeImage = $lowerIsBetter ? 'arrow_down_green' : 'arrow_down';
                 } else {

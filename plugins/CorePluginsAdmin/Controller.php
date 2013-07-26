@@ -135,7 +135,7 @@ class Piwik_CorePluginsAdmin_Controller extends Piwik_Controller_Admin
     {
         $pluginName = $this->initPluginModification();
         $uninstalled = Piwik_PluginsManager::getInstance()->uninstallPlugin($pluginName);
-        if(!$uninstalled) {
+        if (!$uninstalled) {
             $path = Piwik_Common::getPathToPiwikRoot() . '/plugins/' . $pluginName . '/';
             $messagePermissions = Piwik::getErrorMessageMissingPermissions($path);
 

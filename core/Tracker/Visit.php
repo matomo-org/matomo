@@ -380,7 +380,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
         $daysSinceLastOrder = $this->request->getDaysSinceLastOrder();
         $isReturningCustomer = ($daysSinceLastOrder !== false);
 
-        if($daysSinceLastOrder === false) {
+        if ($daysSinceLastOrder === false) {
             $daysSinceLastOrder = 0;
         }
 
@@ -474,7 +474,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
     static private function cleanupVisitTotalTime($t)
     {
         $t = (int)$t;
-        if($t < 0) {
+        if ($t < 0) {
             $t = 0;
         }
         $smallintMysqlLimit = 65534;
@@ -546,7 +546,7 @@ class Piwik_Tracker_Visit implements Piwik_Tracker_Visit_Interface
             ) {
                 $providerValue .= ' - ' . $location[Piwik_UserCountry_LocationProvider::ORG_KEY];
             }
-        } else if (!empty($location[Piwik_UserCountry_LocationProvider::ORG_KEY])) {
+        } elseif (!empty($location[Piwik_UserCountry_LocationProvider::ORG_KEY])) {
             $providerValue = $location[Piwik_UserCountry_LocationProvider::ORG_KEY];
         }
 

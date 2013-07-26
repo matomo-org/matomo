@@ -38,7 +38,7 @@ class Piwik_UserCountry_Archiver extends Piwik_PluginsArchiver
 
     public function archiveDay()
     {
-        foreach($this->dimensions as $dimension) {
+        foreach ($this->dimensions as $dimension) {
             $this->arrays[$dimension] = new Piwik_DataArray();
         }
         $this->aggregateFromVisits();

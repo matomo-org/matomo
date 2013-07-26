@@ -133,7 +133,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
     public function archiveDay(Piwik_ArchiveProcessor_Day $archiveProcessor)
     {
         $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        if ($archiving->shouldArchive()) {
             $archiving->archiveDay();
         }
     }
@@ -141,7 +141,7 @@ class Piwik_CustomVariables extends Piwik_Plugin
     public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
         $archiving = new Piwik_CustomVariables_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        if ($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }

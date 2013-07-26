@@ -63,7 +63,7 @@ class Piwik_DataTable_Filter_BeautifyTimeRangeLabels extends Piwik_DataTable_Fil
     {
         if ($lowerBound < 60) {
             return sprintf($this->labelSecondsPlural, $lowerBound, $lowerBound);
-        } else if ($lowerBound == 60) {
+        } elseif ($lowerBound == 60) {
             return $this->labelSingular;
         } else {
             return sprintf($this->labelPlural, ceil($lowerBound / 60));

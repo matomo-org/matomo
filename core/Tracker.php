@@ -644,7 +644,7 @@ class Piwik_Tracker
      */
     protected function handleTrackingApi(Piwik_Tracker_Request $request)
     {
-        if(!$request->isAuthenticated()) {
+        if (!$request->isAuthenticated()) {
             return;
         }
 

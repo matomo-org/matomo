@@ -281,7 +281,7 @@ class Piwik_Referers extends Piwik_Plugin
     public function archivePeriod(Piwik_ArchiveProcessor_Period $archiveProcessor)
     {
         $archiving = new Piwik_Referers_Archiver($archiveProcessor);
-        if($archiving->shouldArchive()) {
+        if ($archiving->shouldArchive()) {
             $archiving->archivePeriod();
         }
     }

@@ -168,7 +168,7 @@ class Piwik_EventDispatcher
             $pluginFunction = $hookInfo['function'];
             if (!empty($hookInfo['before'])) {
                 $callbackGroup = self::EVENT_CALLBACK_GROUP_FIRST;
-            } else if (!empty($hookInfo['after'])) {
+            } elseif (!empty($hookInfo['after'])) {
                 $callbackGroup = self::EVENT_CALLBACK_GROUP_SECOND;
             } else {
                 $callbackGroup = self::EVENT_CALLBACK_GROUP_THIRD;

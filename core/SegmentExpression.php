@@ -88,9 +88,9 @@ class Piwik_SegmentExpression
 
             // is null / is not null
             if ($valueRightMember === '') {
-                if($operation == self::MATCH_NOT_EQUAL) {
+                if ($operation == self::MATCH_NOT_EQUAL) {
                     $operation = self::MATCH_IS_NOT_NULL_NOR_EMPTY;
-                } elseif($operation == self::MATCH_EQUAL) {
+                } elseif ($operation == self::MATCH_EQUAL) {
                     $operation = self::MATCH_IS_NULL_OR_EMPTY;
                 } else {
                     throw new Exception('The segment \'' . $operand . '\' has no value specified. You can leave this value empty ' .
@@ -234,7 +234,7 @@ class Piwik_SegmentExpression
             || is_null($value)) {
             $sqlExpression = "( $field $sqlMatch )";
         } else {
-            if($alsoMatchNULLValues) {
+            if ($alsoMatchNULLValues) {
                 $sqlExpression = "( $field IS NULL OR $field $sqlMatch ? )";
             } else {
                 $sqlExpression = "$field $sqlMatch ?";

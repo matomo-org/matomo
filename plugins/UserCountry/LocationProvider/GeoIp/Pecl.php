@@ -63,7 +63,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
                 $result[self::LONGITUDE_KEY] = $location['longitude'];
                 $result[self::POSTAL_CODE_KEY] = $location['postal_code'];
             }
-        } else if (self::isRegionDatabaseAvailable()) {
+        } elseif (self::isRegionDatabaseAvailable()) {
             $location = @geoip_region_by_name($ip);
             if (!empty($location)) {
                 $result[self::REGION_CODE_KEY] = $location['region'];
@@ -178,7 +178,7 @@ class Piwik_UserCountry_LocationProvider_GeoIp_Pecl extends Piwik_UserCountry_Lo
             $result[self::LATITUDE_KEY] = true;
             $result[self::LONGITUDE_KEY] = true;
             $result[self::POSTAL_CODE_KEY] = true;
-        } else if (self::isRegionDatabaseAvailable()) {
+        } elseif (self::isRegionDatabaseAvailable()) {
             $result[self::REGION_CODE_KEY] = true;
             $result[self::REGION_NAME_KEY] = true;
         }

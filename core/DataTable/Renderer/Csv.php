@@ -349,7 +349,7 @@ class Piwik_DataTable_Renderer_Csv extends Piwik_DataTable_Renderer
         {
             if ($period == 'range') {
                 $period = new Piwik_Period_Range($period, $date);
-            } else if (strpos($date, ',') !== false) {
+            } elseif (strpos($date, ',') !== false) {
                 $period = new Piwik_Period_Range('range', $date);
             } else {
                 $period = Piwik_Period::factory($period, Piwik_Date::factory($date));
