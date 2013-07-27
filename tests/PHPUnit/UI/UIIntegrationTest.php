@@ -198,7 +198,7 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
     {
         $url = self::getProxyUrl() . $urlQuery;
         
-        $cmd = "cutycapt --url=\"$url\" --out=\"$processedPath\" --min-width=1366 --delay=500 2>&1";
+        $cmd = "cutycapt --url=\"$url\" --out=\"$processedPath\" --min-width=1366 --delay=1000 2>&1";
         if (self::$useXvfb) {
             $cmd = 'xvfb-run --server-args="-screen 0, 1024x768x24" ' . $cmd;
         }

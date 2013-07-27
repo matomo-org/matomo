@@ -5,12 +5,12 @@
                {% if properties.metrics_documentation[column]|default is not empty %}
                    <div class="columnDocumentation">
                        <div class="columnDocumentationTitle">
-                           {{ properties.translations[column] }}
+                           {{ properties.translations[column]|default(column) }}
                        </div>
                        {{ properties.metrics_documentation[column] }}
                    </div>
                {% endif %}
-               <div id="thDIV">{{ properties.translations[column] }}</div>
+               <div id="thDIV">{{ properties.translations[column]|default(column) }}</div>
            </th>
        {% endfor %}
    </tr>

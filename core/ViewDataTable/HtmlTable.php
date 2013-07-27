@@ -40,7 +40,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         $this->handleLowPopulation();
         $this->setSubtableTemplate("@CoreHome/_dataTable.twig");
         $this->viewProperties['datatable_js_type'] = 'dataTable';
-        $this->viewProperties['datatable_css_class'] = $this->getDefaultDataTableCssClass();
     }
     
     public function getJavaScriptProperties()
@@ -80,7 +79,9 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
         }
 
         $this->postDataTableLoadedFromAPI();
-        $this->view = $this->buildView();
+
+        $template = $this->idSubtable ? $this->viewProperties['subtable_template'] : $this->dataTableTemplate;
+        $this->view = $this->buildView(new Piwik_Visualization_HtmlTable(), $template);
     }
     
     public function getDefaultDataTableCssClass()
@@ -106,35 +107,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
     public function showExpanded()
     {
         $this->viewProperties['show_expanded'] = true;
-    }
-
-    /**
-     * @return Piwik_View with all data set
-     */
-    protected function buildView()
-    {
-        $template = $this->idSubtable ? $this->viewProperties['subtable_template'] : $this->dataTableTemplate;
-        $view = new Piwik_View($template);
-
-        if (!empty($this->loadingError)) {
-            $view->error = $this->loadingError;
-        }
-
-        $view->visualization = new Piwik_Visualization_HtmlTable($this->viewProperties);
-        
-        if (!$this->isDataAvailable) {
-            $view->dataTable = null;
-        } else {
-            $view->dataTable = $this->dataTable;
-
-            // if it's likely that the report data for this data table has been purged,
-            // set whether we should display a message to that effect.
-            $view->showReportDataWasPurgedMessage = $this->hasReportBeenPurged();
-            $view->deleteReportsOlderThan = Piwik_GetOption('delete_reports_older_than');
-        }
-        $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
-        $view->properties = $this->getViewProperties();
-        return $view;
     }
 
     protected function handleLowPopulation($columnToApplyFilter = null)

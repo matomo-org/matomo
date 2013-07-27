@@ -15,31 +15,14 @@
 class Piwik_Visualization_HtmlTable
 {
     /**
-     * View properties.
-     * 
-     * @var array
-     */
-    private $properties;
-
-    /**
-     * Constructor.
-     * 
-     * @param array $viewProperties
-     */
-    public function __construct($viewProperties)
-    {
-        $this->properties = $viewProperties;
-    }
-
-    /**
      * Renders this visualization.
      * 
      * @param Piwik_DataTable $dataTable
      */
-    public function render($dataTable)
+    public function render($dataTable, $properties)
     {
         $view = new Piwik_View("@CoreHome/_dataTableViz_htmlTable.twig");
-        $view->properties = $this->properties;
+        $view->properties = $properties;
         $view->dataTable = $dataTable;
         return $view->render();
     }

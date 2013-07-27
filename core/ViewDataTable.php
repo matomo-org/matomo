@@ -163,6 +163,7 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['request_parameters_to_modify'] = array();
         $this->viewProperties['documentation'] = false;
         $this->viewProperties['subtable_controller_action'] = false;
+        $this->viewProperties['datatable_css_class'] = $this->getDefaultDataTableCssClass();
         $this->viewProperties['columns_to_display'] = array();
 
         $columns = Piwik_Common::getRequestVar('columns', false);
@@ -1625,6 +1626,40 @@ abstract class Piwik_ViewDataTable
             }
         }
         
+        return false;
+    }
+
+    protected function buildView($visualization, $template = false)
+    {
+        if ($template === false) {
+            $template = $this->dataTableTemplate;
+        }
+
+        $view = new Piwik_View($template);
+
+        if (!empty($this->loadingError)) {
+            $view->error = $this->loadingError;
+        }
+
+        $view->visualization = $visualization;
+        
+        if (!$this->isDataAvailable) {
+            $view->dataTable = null;
+        } else {
+            $view->dataTable = $this->dataTable;
+
+            // if it's likely that the report data for this data table has been purged,
+            // set whether we should display a message to that effect.
+            $view->showReportDataWasPurgedMessage = $this->hasReportBeenPurged();
+            $view->deleteReportsOlderThan = Piwik_GetOption('delete_reports_older_than');
+        }
+        $view->javascriptVariablesToSet = $this->getJavascriptVariablesToSet();
+        $view->properties = $this->getViewProperties();
+        return $view;
+    }
+
+    public function getDefaultDataTableCssClass()
+    {
         return false;
     }
 }
