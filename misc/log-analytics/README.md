@@ -35,9 +35,19 @@ popular ways to implement this are using either:
 Your logs should be automatically rotated and stored on your webserver, for instance in daily logs
 `/var/log/apache/access-%Y-%m-%d.log` (where %Y, %m and %d represent the year,
 month and day).
+
+Make a small shell script containing your importer and options. Remember to make it executable with `chmod +x your_script.sh`.
+
+    #/bin/sh
+    /path/to/python2.7 /path/to/piwik/misc/log-analytics/import_logs.py -u piwik.example.com $(date --date=yesterday +/var/log/apache/access-\%Y-\%m-\%d.log)
+
+Take care with the log file names (the last argument), and try to use wildcards sparingly.
+
 You can then import your logs automatically each day (at 0:01). Setup a cron job with the command:
 
-    0 1 * * * /path/to/piwik/misc/log-analytics/import-logs.py -u piwik.example.com `date --date=yesterday +/var/log/apache/access-\%Y-\%m-\%d.log`
+    0 1 * * * /path/to/your_script.sh > /dev/null
+
+For Apache on Debian/Ubuntu, you should call your script from logrotate directly instead. Change the keyword `weekly` to `daily` in `/etc/logrotate.d/apache2`. Then add `/path/to/your_script.sh > /dev/null` in the `postrotate` section (on the line immediately after apache configuration is reloaded.)
 
 ## Performance
 
