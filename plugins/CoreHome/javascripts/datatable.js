@@ -532,7 +532,7 @@ dataTable.prototype =
                     // set position of evolution annotation icons
                     annotations.css({
                         top: -datatableFeatures.height() - annotationAxisHeight + noteSize / 2,
-                        left: 6 // padding-left of .jqplot-evolution element (in graph.tpl)
+                        left: 6 // padding-left of .jqplot-graph element (in _dataTableViz_jqplotGraph.tpl)
                     });
 
                     piwik.annotations.placeEvolutionIcons(annotations, domElem);

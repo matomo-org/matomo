@@ -121,23 +121,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
     }
 
     /**
-     * Returns friendly php array from the Piwik_DataTable
-     * @see Piwik_DataTable_Renderer_Php
-     * @return array
-     */
-    protected function getPHPArrayFromDataTable()
-    {
-        $renderer = Piwik_DataTable_Renderer::factory('php');
-        $renderer->setTable($this->dataTable);
-        $renderer->setSerialize(false);
-        // we get the php array from the datatable but conserving the original datatable format,
-        // ie. rows 'columns', 'metadata' and 'idsubdatatable'
-        $phpArray = $renderer->originalRender();
-        return $phpArray;
-    }
-
-
-    /**
      * Adds a column to the list of columns to be displayed
      *
      * @param string $columnName

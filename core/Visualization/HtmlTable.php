@@ -18,6 +18,7 @@ class Piwik_Visualization_HtmlTable
      * Renders this visualization.
      * 
      * @param Piwik_DataTable $dataTable
+     * @param array $properties View Properties.
      */
     public function render($dataTable, $properties)
     {

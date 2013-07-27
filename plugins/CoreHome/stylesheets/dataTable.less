@@ -25,20 +25,17 @@
     width: 95%;
 }
 
-.dataTableGraphWrapper {
+.dataTableGraph > .dataTableWrapper {
     width: 500px;
     min-height: 1px;
 }
 
-.dataTableGraphEvolutionWrapper {
+.dataTableEvolutionGraph > .dataTableWrapper {
     width: 100%;
 }
 
 /*Overriding some dataTable css for better dashboard display*/
-.widget .dataTableWrapper,
-.widget .dataTableGraphWrapper,
-.widget .dataTableActionsWrapper,
-.widget .dataTableGraphEvolutionWrapper {
+.widget .dataTableWrapper {
     width: 100%;
 }
 
@@ -773,4 +770,12 @@ a.tableConfigurationIcon.highlighted {
 
 table.dataTable span.cell-tooltip {
 	cursor: default;
+}
+
+.dataTable .jqplot-graph {
+    padding-left: 6px;
+
+    > div {
+        position: relative;
+    }
 }
