@@ -565,6 +565,36 @@ abstract class Piwik_ViewDataTable
         if (empty($this->dataTable)) {
             return false;
         }
+        
+        // default columns_to_display to label, nb_uniq_visitors/nb_visits if those columns exist in the
+        // dataset. otherwise, default to all columns in dataset.
+        if ($this->dataTable instanceof Piwik_DataTable) {
+            $columns = $this->dataTable->getColumns();
+            if (empty($this->viewProperties['columns_to_display'])) {
+                if ($this->dataTableColumnsContains($columns, array('nb_visits', 'nb_uniq_visitors'))) {
+                    $columnsToDisplay = array('label');
+                    
+                    // if unique visitors data is available, show it, otherwise just visits
+                    if ($this->dataTableColumnsContains($columns, 'nb_uniq_visitors')) {
+                        $columnsToDisplay[] = 'nb_uniq_visitors';
+                    } else {
+                        $columnsToDisplay[] = 'nb_visits';
+                    }
+
+                    // default sort order to visits/visitors data
+                    if (empty($this->viewProperties['filter_sort_column'])) {
+                        $this->viewProperties['filter_sort_column'] = $columnsToDisplay[1];
+                        $this->viewProperties['filter_sort_order'] = 'desc';
+                    }
+                } else {
+                    $columnsToDisplay = $columns;
+                }
+
+                $this->viewProperties['columns_to_display'] = array_filter($columnsToDisplay);
+            }
+
+            $this->removeEmptyColumnsFromDisplay();
+        }
 
         // deal w/ table metadata
         if ($this->dataTable instanceof Piwik_DataTable) {
@@ -604,30 +634,6 @@ abstract class Piwik_ViewDataTable
                 $filterParameters = $filter[1];
                 $this->dataTable->filter($filterName, $filterParameters);
             }
-        }
-        
-        // default columns_to_display to label, nb_uniq_visitors/nb_visits if those columns exist in the
-        // dataset. otherwise, default to all columns in dataset.
-        if ($this->dataTable instanceof Piwik_DataTable) {
-            $columns = $this->dataTable->getColumns();
-            if (empty($this->viewProperties['columns_to_display'])) {
-                if ($this->dataTableColumnsContains($columns, array('nb_visits', 'nb_uniq_visitors'))) {
-                    $columnsToDisplay = array('label');
-                    
-                    // if unique visitors data is available, show it, otherwise just visits
-                    if ($this->dataTableColumnsContains($columns, 'nb_uniq_visitors')) {
-                        $columnsToDisplay[] = 'nb_uniq_visitors';
-                    } else {
-                        $columnsToDisplay[] = 'nb_visits';
-                    }
-                } else {
-                    $columnsToDisplay = $columns;
-                }
-
-                $this->viewProperties['columns_to_display'] = array_filter($columnsToDisplay);
-            }
-
-            $this->removeEmptyColumnsFromDisplay();
         }
 
         return true;
