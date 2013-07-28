@@ -726,7 +726,7 @@ abstract class Piwik_ViewDataTable
             }
         }
         
-        $segment = $this->getRawSegmentFromRequest();
+        $segment = Piwik_API_Request::getRawSegmentFromRequest();
         if(!empty($segment)) {
             $requestArray['segment'] = $segment;
         }
@@ -734,23 +734,6 @@ abstract class Piwik_ViewDataTable
         $requestArray = array_merge($requestArray, $this->viewProperties['request_parameters_to_modify']);
         
         return $requestArray;
-    }
-
-    /**
-     * @return array|bool
-     */
-    static public function getRawSegmentFromRequest()
-    {
-        // we need the URL encoded segment parameter, we fetch it from _SERVER['QUERY_STRING'] instead of default URL decoded _GET
-        $segmentRaw = false;
-        $segment = Piwik_Common::getRequestVar('segment', '', 'string');
-        if (!empty($segment)) {
-            $request = Piwik_API_Request::getRequestParametersGET();
-            if(!empty($request['segment'])) {
-                $segmentRaw = $request['segment'];
-            }
-        }
-        return $segmentRaw;
     }
 
     /**
@@ -890,7 +873,7 @@ abstract class Piwik_ViewDataTable
             }
         }
 
-        $rawSegment = $this->getRawSegmentFromRequest();
+        $rawSegment = Piwik_API_Request::getRawSegmentFromRequest();
         if(!empty($rawSegment)) {
             $javascriptVariablesToSet['segment'] = $rawSegment;
         }

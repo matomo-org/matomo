@@ -110,7 +110,7 @@ class Piwik_JqplotDataGenerator_Evolution extends Piwik_JqplotDataGenerator
                     'idSite'  => $idSite,
                     'period'  => $period->getLabel(),
                     'date'    => $dateInUrl->toString(),
-                    'segment' => Piwik_ViewDataTable::getRawSegmentFromRequest()
+                    'segment' => Piwik_API_Request::getRawSegmentFromRequest()
                 );
                 $hash = '';
                 if (!empty($queryStringAsHash)) {

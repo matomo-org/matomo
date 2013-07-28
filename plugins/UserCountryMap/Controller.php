@@ -149,7 +149,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
     {
         $params['format'] = 'json';
         $params['showRawMetrics'] = 1;
-        $segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
+        $segment = Piwik_API_Request::getRawSegmentFromRequest();
         if(!empty($segment)) {
             $params['segment'] = $segment;
         }
@@ -199,7 +199,7 @@ class Piwik_UserCountryMap_Controller extends Piwik_Controller
             . "&period=" . $period
             . "&date=" . $date
             . "&token_auth=" . $token_auth
-            . "&segment=" . Piwik_ViewDataTable::getRawSegmentFromRequest()
+            . "&segment=" . Piwik_API_Request::getRawSegmentFromRequest()
             . "&enable_filter_excludelowpop=1"
             . "&showRawMetrics=1";
 

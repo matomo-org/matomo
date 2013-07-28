@@ -92,7 +92,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             list($this->date, $lastN) =
                 Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution::getDateRangeAndLastN($this->period, $end);
         }
-        $this->segment = Piwik_ViewDataTable::getRawSegmentFromRequest();
+        $this->segment = Piwik_API_Request::getRawSegmentFromRequest();
 
         $this->loadEvolutionReport();
     }
