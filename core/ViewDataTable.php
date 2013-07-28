@@ -43,6 +43,13 @@
 abstract class Piwik_ViewDataTable
 {
     /**
+     * Cache for getAllReportDisplayProperties result.
+     * 
+     * @var array
+     */
+    public static $reportPropertiesCache = null;
+
+    /**
      * Template file that will be loaded for this view.
      * Usually set in the Piwik_ViewDataTable_*
      *
@@ -463,10 +470,23 @@ abstract class Piwik_ViewDataTable
      */
     private static function getDefaultPropertiesForReport($apiAction)
     {
-        $properties = array();
-        Piwik_PostEvent('ViewDataTable.getReportDisplayProperties', array(&$properties, $apiAction));
-        
-        return $properties;
+        $reportDisplayProperties = self::getAllReportDisplayProperties();
+        return isset($reportDisplayProperties[$apiAction]) ? $reportDisplayProperties[$apiAction] : array();
+    }
+
+    /**
+     * Returns the list of display properties for all available reports.
+     * 
+     * @return array
+     */
+    private static function getAllReportDisplayProperties()
+    {
+        if (self::$reportPropertiesCache === null) {
+            self::$reportPropertiesCache = array();
+            Piwik_PostEvent('ViewDataTable.getReportDisplayProperties', array(&self::$reportPropertiesCache));
+        }
+
+        return self::$reportPropertiesCache;
     }
     
     /**
