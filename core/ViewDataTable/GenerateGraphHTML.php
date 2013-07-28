@@ -138,6 +138,10 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
             }
             $this->viewProperties['selectable_columns'] = $selectableColumns;
         }
+
+        if ($this->viewProperties['show_goals']) {
+            $this->enableShowGoals();
+        }
     }
 
     public function enableShowExportAsImageIcon()
