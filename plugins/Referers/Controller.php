@@ -15,7 +15,7 @@
  */
 class Piwik_Referers_Controller extends Piwik_Controller
 {
-    function index()
+    public function index()
     {
         $view = new Piwik_View('@Referers/index');
 
@@ -118,7 +118,7 @@ class Piwik_Referers_Controller extends Piwik_Controller
         return $result;
     }
 
-    function getSearchEnginesAndKeywords()
+    public function getSearchEnginesAndKeywords()
     {
         $view = new Piwik_View('@Referers/getSearchEnginesAndKeywords');
         $view->searchEngines = $this->getSearchEngines(true);
@@ -126,43 +126,9 @@ class Piwik_Referers_Controller extends Piwik_Controller
         echo $view->render();
     }
 
-    function getRefererType($fetch = false)
+    public function getRefererType($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory('tableAllColumns');
-        $view->init($this->pluginName,
-            __FUNCTION__,
-            'Referers.getRefererType',
-            'getRefererType'
-        );
-        $view->disableSearchBox();
-        $view->disableOffsetInformationAndPaginationControls();
-        $view->disableExcludeLowPopulation();
-        $view->disableSubTableWhenShowGoals();
-        $view->enableShowGoals();
-        $view->setLimit(10);
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-
-        $idSubtable = Piwik_Common::getRequestVar('idSubtable', false);
-        $labelColumnTitle = Piwik_Translate('Referers_ColumnRefererType');
-        if ($idSubtable !== false) {
-            switch ($idSubtable) {
-                case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
-                    $labelColumnTitle = Piwik_Translate('Referers_ColumnSearchEngine');
-                    break;
-                case Piwik_Common::REFERER_TYPE_WEBSITE:
-                    $labelColumnTitle = Piwik_Translate('Referers_ColumnWebsite');
-                    break;
-                case Piwik_Common::REFERER_TYPE_CAMPAIGN:
-                    $labelColumnTitle = Piwik_Translate('Referers_ColumnCampaign');
-                    break;
-                default:
-                    break;
-            }
-        }
-        $view->setColumnTranslation('label', $labelColumnTitle);
-
-        $this->setMetricsVariablesView($view);
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     /**
@@ -175,125 +141,30 @@ class Piwik_Referers_Controller extends Piwik_Controller
      */
     public function getAll($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__, 'Referers.getAll');
-        $view->disableExcludeLowPopulation();
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_Referrer'));
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-        $view->enableShowGoals();
-        $view->setLimit(20);
-        $view->setCustomParameter('disable_row_actions', '1');
-
-        $setGetAllHtmlPrefix = array($this, 'setGetAllHtmlPrefix');
-        $view->queueFilter(
-            'MetadataCallbackAddMetadata', array('referrer_type', 'html_label_prefix', $setGetAllHtmlPrefix));
-
-        $view->setMetricsVariablesView($view);
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-    /**
-     * DataTable filter callback that returns the HTML prefix for a label in the
-     * 'getAll' report based on the row's referrer type.
-     *
-     * @param int $referrerType The referrer type.
-     * @return string
-     */
-    public function setGetAllHtmlPrefix($referrerType)
+    public function getKeywords($fetch = false)
     {
-        // get singular label for referrer type
-        $indexTranslation = '';
-        switch ($referrerType) {
-            case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
-                $indexTranslation = 'Referers_DirectEntry';
-                break;
-            case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
-                $indexTranslation = 'Referers_ColumnKeyword';
-                break;
-            case Piwik_Common::REFERER_TYPE_WEBSITE:
-                $indexTranslation = 'Referers_ColumnWebsite';
-                break;
-            case Piwik_Common::REFERER_TYPE_CAMPAIGN:
-                $indexTranslation = 'Referers_ColumnCampaign';
-                break;
-            default:
-                // case of newsletter, partners, before Piwik 0.2.25
-                $indexTranslation = 'General_Others';
-                break;
-        }
-
-        $label = strtolower(Piwik_Translate($indexTranslation));
-
-        // return html that displays it as grey & italic
-        return '<span class="datatable-label-category"><em>(' . $label . ')</em></span>';
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-    function getKeywords($fetch = false)
+    public function getSearchEnginesFromKeywordId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__,
-            'Referers.getKeywords',
-            'getSearchEnginesFromKeywordId'
-        );
-        $view->disableExcludeLowPopulation();
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnKeyword'));
-        $view->enableShowGoals();
-        $view->setLimit(25);
-        $view->disableSubTableWhenShowGoals();
-
-        $this->setMetricsVariablesView($view);
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-    function getSearchEnginesFromKeywordId($fetch = false)
+    public function getSearchEngines($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__,
-            'Referers.getSearchEnginesFromKeywordId'
-        );
-        $view->disableSearchBox();
-        $view->disableExcludeLowPopulation();
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnSearchEngine'));
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-
-    function getSearchEngines($fetch = false)
+    public function getKeywordsFromSearchEngineId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__,
-            'Referers.getSearchEngines',
-            'getKeywordsFromSearchEngineId'
-        );
-        $view->disableSearchBox();
-        $view->disableExcludeLowPopulation();
-        $view->enableShowGoals();
-        $view->setLimit(25);
-        $view->disableSubTableWhenShowGoals();
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnSearchEngine'));
-
-        $this->setMetricsVariablesView($view);
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-    function getKeywordsFromSearchEngineId($fetch = false)
-    {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__,
-            'Referers.getKeywordsFromSearchEngineId'
-        );
-        $view->disableSearchBox();
-        $view->disableExcludeLowPopulation();
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnKeyword'));
-        return $this->renderView($view, $fetch);
-    }
-
-    function indexWebsites($fetch = false)
+    public function indexWebsites($fetch = false)
     {
         $view = new Piwik_View('@Referers/indexWebsites');
         $view->websites = $this->getWebsites(true);
@@ -305,113 +176,41 @@ class Piwik_Referers_Controller extends Piwik_Controller
         }
     }
 
-    function getWebsites($fetch = false)
+    public function getWebsites($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__,
-            'Referers.getWebsites',
-            'getUrlsFromWebsiteId'
-        );
-        $view->disableExcludeLowPopulation();
-        $view->enableShowGoals();
-        $view->setLimit(25);
-        $view->disableSubTableWhenShowGoals();
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnWebsite'));
-
-        $this->setMetricsVariablesView($view);
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-    function getSocials($fetch = false)
+    public function getSocials($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory('graphPie');
-        $view->init($this->pluginName, __FUNCTION__, 'Referers.getSocials', 'getUrlsForSocial');
-        $view->disableExcludeLowPopulation();
-        $view->setLimit(10);
-        $view->enableShowGoals();
-        $view->disableSubTableWhenShowGoals();
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnSocial'));
-
-        if (empty($_REQUEST['widget'])) {
-            $view->setFooterMessage(Piwik_Translate('Referers_SocialFooterMessage'));
-        }
-
-        $this->setMetricsVariablesView($view);
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-    function getUrlsForSocial($fetch = false)
+    public function getUrlsForSocial($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__, 'Referers.getUrlsForSocial');
-        $view->disableExcludeLowPopulation();
-        $view->setLimit(10);
-        $view->enableShowGoals();
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnWebsitePage'));
-
-        $this->setMetricsVariablesView($view);
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-    function indexCampaigns($fetch = false)
+    public function indexCampaigns($fetch = false)
     {
         return Piwik_View::singleReport(
             Piwik_Translate('Referers_Campaigns'),
             $this->getCampaigns(true), $fetch);
     }
 
-    function getCampaigns($fetch = false)
+    public function getCampaigns($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__,
-            'Referers.getCampaigns',
-            'getKeywordsFromCampaignId'
-        );
-        $view->disableExcludeLowPopulation();
-        $view->enableShowGoals();
-        $view->setLimit(25);
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnCampaign'));
-
-        $help = Piwik_Translate('Referers_CampaignFooterHelp', array('<a target="_blank" href="http://piwik.org/docs/tracking-campaigns/">',
-                                                                     '</a> - <a target="_blank" href="http://piwik.org/docs/tracking-campaigns/url-builder/">',
-                                                                     '</a>'
-                                                               ));
-        $view->setFooterMessage($help);
-        $this->setMetricsVariablesView($view);
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-    function getKeywordsFromCampaignId($fetch = false)
+    public function getKeywordsFromCampaignId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__,
-            'Referers.getKeywordsFromCampaignId'
-        );
-
-        $view->disableSearchBox();
-        $view->disableExcludeLowPopulation();
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnKeyword'));
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
-    function getUrlsFromWebsiteId($fetch = false)
+    public function getUrlsFromWebsiteId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__,
-            'Referers.getUrlsFromWebsiteId'
-        );
-        $view->disableSearchBox();
-        $view->disableExcludeLowPopulation();
-        $view->setColumnsToDisplay(array('label', 'nb_visits'));
-        $view->setColumnTranslation('label', Piwik_Translate('Referers_ColumnWebsitePage'));
-        $view->setTooltipMetadataName('url');
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     protected function getReferersVisitorsByType($date = false)

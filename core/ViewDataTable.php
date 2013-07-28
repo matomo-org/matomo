@@ -580,12 +580,6 @@ abstract class Piwik_ViewDataTable
                     } else {
                         $columnsToDisplay[] = 'nb_visits';
                     }
-
-                    // default sort order to visits/visitors data
-                    if (empty($this->viewProperties['filter_sort_column'])) {
-                        $this->viewProperties['filter_sort_column'] = $columnsToDisplay[1];
-                        $this->viewProperties['filter_sort_order'] = 'desc';
-                    }
                 } else {
                     $columnsToDisplay = $columns;
                 }
@@ -594,6 +588,16 @@ abstract class Piwik_ViewDataTable
             }
 
             $this->removeEmptyColumnsFromDisplay();
+
+            // default sort order to visits/visitors data
+            if (empty($this->viewProperties['filter_sort_column'])) {
+                if ($this->dataTableColumnsContains($columns, 'nb_uniq_visitors')) {
+                    $this->viewProperties['filter_sort_column'] = 'nb_uniq_visitors';
+                } else {
+                    $this->viewProperties['filter_sort_column'] = 'nb_visits';
+                }
+                $this->viewProperties['filter_sort_order'] = 'desc';
+            }
         }
 
         // deal w/ table metadata

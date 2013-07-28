@@ -22,6 +22,10 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
 
     public function main()
     {
+        if (!empty($this->viewProperties['disable_subtable_when_show_goals'])) {
+            $this->viewProperties['subtable_controller_action'] = null;
+        }
+
         $this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
         $this->processOnlyIdGoal = Piwik_Common::getRequestVar('idGoal', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
         $this->isEcommerce = $this->processOnlyIdGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
