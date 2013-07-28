@@ -23,39 +23,12 @@ class Piwik_CustomVariables_Controller extends Piwik_Controller
 
     public function getCustomVariables($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__, "CustomVariables.getCustomVariables", "getCustomVariablesValuesFromNameId");
-
-        $this->setPeriodVariablesView($view);
-        $this->setMetricsVariablesView($view);
-
-        $this->configureView($view);
-        $view->setColumnTranslation('label', Piwik_Translate('CustomVariables_ColumnCustomVariableName'));
-
-        $view->setFooterMessage(Piwik_Translate('CustomVariables_TrackingHelp', array('<a target="_blank" href="http://piwik.org/docs/custom-variables/">', '</a>')));
-
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
 
     public function getCustomVariablesValuesFromNameId($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName, __FUNCTION__, 'CustomVariables.getCustomVariablesValuesFromNameId');
-
-        $this->configureView($view);
-        $view->disableSearchBox();
-        $view->disableExcludeLowPopulation();
-        $view->setColumnTranslation('label', Piwik_Translate('CustomVariables_ColumnCustomVariableValue'));
-        return $this->renderView($view, $fetch);
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
     }
-
-    protected function configureView($view)
-    {
-        $view->setColumnsToDisplay(array('label', 'nb_actions', 'nb_visits'));
-        $view->setSortedColumn('nb_actions');
-        $view->enableShowGoals();
-    }
-
-
 }
 
