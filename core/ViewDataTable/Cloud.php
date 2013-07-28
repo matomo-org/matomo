@@ -32,7 +32,6 @@ class Piwik_ViewDataTable_Cloud extends Piwik_ViewDataTable
     {
         parent::__construct();
 
-        $this->dataTableTemplate = '@CoreHome/_dataTable';
         $this->disableOffsetInformation();
         $this->disableExcludeLowPopulation();
         $this->viewProperties['display_logo_instead_of_label'] = false;

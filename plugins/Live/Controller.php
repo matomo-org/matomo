@@ -78,47 +78,21 @@ class Piwik_Live_Controller extends Piwik_Controller
     {
         $view = new Piwik_View('@Live/indexVisitorLog.twig');
         $view->filterEcommerce = Piwik_Common::getRequestVar('filterEcommerce', 0, 'int');
-        $view->visitorLog = $this->getVisitorLog($fetch = true);
+        $view->visitorLog = $this->getLastVisitsDetails($fetch = true);
         echo $view->render();
     }
 
+    public function getLastVisitsDetails($fetch = false)
+    {
+        return Piwik_ViewDataTable::render($this->pluginName, __FUNCTION__, $fetch);
+    }
+
+    /**
+     * @deprecated
+     */
     public function getVisitorLog($fetch = false)
     {
-        $view = Piwik_ViewDataTable::factory();
-        $view->init($this->pluginName,
-            __FUNCTION__,
-            'Live.getLastVisitsDetails'
-        );
-        $view->disableGenericFilters();
-        $view->disableSort();
-        $view->setTemplate("@Live/getVisitorLog.twig");
-        $view->setSortedColumn('idVisit', 'ASC');
-        $view->disableSearchBox();
-        $view->setLimit(20);
-        $view->disableOffsetInformation();
-        $view->disableExcludeLowPopulation();
-
-        // disable the tag cloud,  pie charts, bar chart icons
-        $view->disableShowAllViewsIcons();
-        // disable the button "show more datas"
-        $view->disableShowAllColumns();
-        // disable the RSS feed
-        $view->disableShowExportAsRssFeed();
-
-        // disable all row actions
-        if ($view instanceof Piwik_ViewDataTable_HtmlTable) {
-            $view->disableRowActions();
-        }
-
-        $view->setReportDocumentation(Piwik_Translate('Live_VisitorLogDocumentation', array('<br />', '<br />')));
-
-        // set a very high row count so that the next link in the footer of the data table is always shown
-        $view->setCustomParameter('totalRows', 10000000);
-
-        $view->setCustomParameter('filterEcommerce', Piwik_Common::getRequestVar('filterEcommerce', 0, 'int'));
-        $view->setCustomParameter('pageUrlNotDefined', Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL')));
-
-        return $this->renderView($view, $fetch);
+        return $this->getLastVisitsDetails($fetch);
     }
 
     public function getLastVisitsStart($fetch = false)

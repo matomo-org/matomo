@@ -50,14 +50,6 @@ abstract class Piwik_ViewDataTable
     public static $reportPropertiesCache = null;
 
     /**
-     * Template file that will be loaded for this view.
-     * Usually set in the Piwik_ViewDataTable_*
-     *
-     * @var string eg. 'CoreHome/templates/cloud.twig'
-     */
-    protected $dataTableTemplate = null;
-
-    /**
      * Flag used to make sure the main() is only executed once
      *
      * @var bool
@@ -126,6 +118,7 @@ abstract class Piwik_ViewDataTable
      */
     public function __construct()
     {
+        $this->viewProperties['datatable_template'] = '@CoreHome/_dataTable';
         $this->viewProperties['show_goals'] = false;
         $this->viewProperties['show_ecommerce'] = false;
         $this->viewProperties['show_search'] = true;
@@ -390,11 +383,13 @@ abstract class Piwik_ViewDataTable
      * eg. 'CoreHome/templates/cloud'
      * But some users may want to force this template to some other value
      *
+     * TODO: after visualization refactor, should remove this.
+     * 
      * @param string $tpl eg .'@MyPlugin/templateToUse'
      */
     public function setTemplate($tpl)
     {
-        $this->dataTableTemplate = $tpl;
+        $this->viewProperties['datatable_template'] = $tpl;
     }
 
     /**
@@ -1635,7 +1630,7 @@ abstract class Piwik_ViewDataTable
     protected function buildView($visualization, $template = false)
     {
         if ($template === false) {
-            $template = $this->dataTableTemplate;
+            $template = $this->viewProperties['datatable_template'];
         }
 
         $view = new Piwik_View($template);

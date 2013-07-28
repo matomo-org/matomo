@@ -30,7 +30,6 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
     {
         parent::__construct();
 
-        $this->dataTableTemplate = '@CoreHome/_dataTable';
         $this->viewProperties['enable_sort'] = '1';
         $this->viewProperties['disable_row_evolution'] = false;
         $this->viewProperties['disable_row_actions'] = false;
@@ -80,7 +79,7 @@ class Piwik_ViewDataTable_HtmlTable extends Piwik_ViewDataTable
 
         $this->postDataTableLoadedFromAPI();
 
-        $template = $this->idSubtable ? $this->viewProperties['subtable_template'] : $this->dataTableTemplate;
+        $template = $this->idSubtable ? $this->viewProperties['subtable_template'] : $this->viewProperties['datatable_template'];
         $this->view = $this->buildView(new Piwik_Visualization_HtmlTable(), $template);
     }
     

@@ -26,7 +26,6 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends Piwik_ViewDataTable
     {
         parent::__construct();
         
-        $this->dataTableTemplate = '@CoreHome/_dataTable';
         $this->disableOffsetInformationAndPaginationControls();
         $this->disableExcludeLowPopulation();
         $this->disableSearchBox();
