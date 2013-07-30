@@ -125,7 +125,7 @@ abstract class Piwik_ViewDataTable
         $this->viewProperties['show_table'] = true;
         $this->viewProperties['show_table_all_columns'] = true;
         $this->viewProperties['show_all_views_icons'] = true;
-        $this->viewProperties['hide_all_views_icons'] = false;
+        $this->viewProperties['show_active_view_icon'] = true;
         $this->viewProperties['hide_annotations_view'] = true;
         $this->viewProperties['show_bar_chart'] = true;
         $this->viewProperties['show_pie_chart'] = true;
@@ -310,7 +310,7 @@ abstract class Piwik_ViewDataTable
             'show_table',
             'show_table_all_columns',
             'show_all_views_icons',
-            'hide_all_views_icons',
+            'show_active_view_icon',
             'hide_annotations_view',
             'show_barchart',
             'show_piechart',
@@ -1093,7 +1093,7 @@ abstract class Piwik_ViewDataTable
     public function hideAllViewsIcons()
     {
         $this->viewProperties['show_all_views_icons'] = false;
-        $this->viewProperties['hide_all_views_icons'] = true;
+        $this->viewProperties['show_active_view_icon'] = false;
     }
 
     /**

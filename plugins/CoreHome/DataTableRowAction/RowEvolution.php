@@ -176,23 +176,24 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     public function getRowEvolutionGraph($graphType = false, $metrics = false)
     {
         // set up the view data table
-        $view = Piwik_ViewDataTable::factory($graphType ?: $this->graphType);
+        $view = Piwik_ViewDataTable::factory(
+            $graphType ?: $this->graphType, $this->apiMethod, $controllerAction = 'CoreHome.getRowEvolutionGraph');
         $view->setDataTable($this->dataTable);
-        $view->init('CoreHome', 'getRowEvolutionGraph', $this->apiMethod);
 
-        if (!empty($this->graphMetrics)) // In row Evolution popover, this is empty
-        {
-            $view->setColumnsToDisplay(array_keys($metrics ?: $this->graphMetrics));
+        if (!empty($this->graphMetrics)) { // In row Evolution popover, this is empty
+            $view->columns_to_display = array_keys($metrics ?: $this->graphMetrics);
         }
-        $view->hideAllViewsIcons();
+
+        $view->show_all_views_icons = false;
+        $view->show_active_view_icon = false;
+        $view->show_related_reports = false;
 
         foreach ($this->availableMetrics as $metric => $metadata) {
-            $view->setColumnTranslation($metric, $metadata['name']);
+            $view->translations[$metric] = $metadata['name'];
         }
 
-        if (method_exists($view, 'addRowEvolutionSeriesToggle')) {
-            $view->addRowEvolutionSeriesToggle($this->initiallyShowAllMetrics);
-        }
+        $view->external_series_toggle = 'RowEvolutionSeriesToggle';
+        $view->external_series_toggle_show_all = $this->initiallyShowAllMetrics;
 
         return $view;
     }

@@ -107,6 +107,27 @@ class Piwik_ViewDataTable_Properties
     const DISPLAY_LOGO_INSTEAD_OF_LABEL = 'display_logo_instead_of_label';
 
     /**
+     * Controls whether the footer icons that change the ViewDataTable type of a view are shown
+     * or not.
+     */
+    const SHOW_ALL_VIEW_ICONS = 'show_all_views_icons';
+
+    /**
+     * Controls whether to display a tiny upside-down caret over the currently active view icon.
+     */
+    const SHOW_ACTIVE_VIEW_ICON = 'show_active_view_icon';
+
+    /**
+     * TODO: this property is specific ONLY to the row evolution popup. Need to move it.
+     */
+    const EXTERNAL_SERIES_TOGGLE = 'external_series_toggle';
+
+    /**
+     * TODO: this property is specific ONLY to the row evolution popup. Need to move it.
+     */
+    const EXTERNAL_SERIES_TOGGLE_SHOW_ALL = 'external_series_toggle_show_all';
+
+    /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property
      * name as a key. Values of the array are undefined.
      * 
