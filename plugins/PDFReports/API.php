@@ -15,6 +15,7 @@ use Piwik\ReportRenderer;
 use Piwik\ReportRenderer\Html;
 use Piwik\Site;
 use Piwik\Translate;
+use Piwik\Db;
 
 /**
  * The PDFReports API lets you manage Scheduled Email reports, as well as generate, download or email any existing report.
@@ -103,7 +104,7 @@ class Piwik_PDFReports_API
         // validation of requested reports
         $reports = self::validateRequestedReports($idSite, $reportType, $reports);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $idReport = $db->fetchOne("SELECT max(idreport) + 1 FROM " . Common::prefixTable('report'));
 
         if ($idReport == false) {
@@ -163,7 +164,7 @@ class Piwik_PDFReports_API
         // validation of requested reports
         $reports = self::validateRequestedReports($idSite, $reportType, $reports);
 
-        Zend_Registry::get('db')->update(Common::prefixTable('report'),
+        \Zend_Registry::get('db')->update(Common::prefixTable('report'),
             array(
                  'description' => $description,
                  'idsegment'   => $idSegment,
@@ -191,7 +192,7 @@ class Piwik_PDFReports_API
         $report = reset($pdfReports);
         Piwik::checkUserIsSuperUserOrTheUser($report['login']);
 
-        Zend_Registry::get('db')->update(Common::prefixTable('report'),
+        \Zend_Registry::get('db')->update(Common::prefixTable('report'),
             array(
                  'deleted' => 1,
             ),
@@ -541,7 +542,7 @@ class Piwik_PDFReports_API
         );
 
         // Update flag in DB
-        Zend_Registry::get('db')->update(Common::prefixTable('report'),
+        \Zend_Registry::get('db')->update(Common::prefixTable('report'),
             array('ts_last_sent' => Date::now()->getDatetime()),
             "idreport = " . $report['idreport']
         );

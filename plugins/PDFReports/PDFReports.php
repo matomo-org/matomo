@@ -19,6 +19,7 @@ use Piwik\ScheduledTask;
 use Piwik\ReportRenderer;
 use Piwik\Plugin;
 use Piwik\Site;
+use Piwik\Db;
 
 /**
  *

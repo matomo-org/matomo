@@ -9,12 +9,13 @@
  * @package Piwik
  */
 namespace Piwik\Log;
+use Piwik\Common;
 
 /**
  * @package Piwik
  * @subpackage Log
  */
-class Formatter_FileFormatter implements \Zend_Log_Formatter_Interface
+class FileFormatter implements \Zend_Log_Formatter_Interface
 {
     /**
      * Formats data into a single line to be written by the writer.
@@ -31,32 +32,5 @@ class Formatter_FileFormatter implements \Zend_Log_Formatter_Interface
         $ts = $event['timestamp'];
         unset($event['timestamp']);
         return $ts . ' ' . implode(" ", $event) . "\n";
-    }
-}
-
-/**
- *
- * @package Piwik
- * @subpackage Log
- */
-class Formatter_ScreenFormatter implements \Zend_Log_Formatter_Interface
-{
-    function formatEvent($event)
-    {
-        // no injection in error messages, backtrace when displayed on screen
-        return array_map(array('Piwik\Common', 'sanitizeInputValue'), $event);
-    }
-
-    function format($string)
-    {
-        return self::getFormattedString($string);
-    }
-
-    static public function getFormattedString($string)
-    {
-        if (!Common::isPhpCliMode()) {
-            @header('Content-Type: text/html; charset=utf-8');
-        }
-        return $string;
     }
 }

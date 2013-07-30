@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Controller;
 use Piwik\FrontController;
 use Piwik\View;
+use Piwik\WidgetsList;
 
 /**
  *

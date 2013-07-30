@@ -9,7 +9,7 @@
  * @package Updates
  */
 use Piwik\Common;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\Updates;
 
 /**
@@ -33,6 +33,6 @@ class Piwik_Updates_0_4_2 extends Updates
     // when restoring (possibly) previousy dropped columns, ignore mysql code error 1060: duplicate column
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }

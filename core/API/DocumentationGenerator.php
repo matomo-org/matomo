@@ -14,8 +14,7 @@ use Exception;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\API\Proxy;
-use Piwik_API_Proxy_NoDefaultValue;
-use Piwik_Url;
+use Piwik\Url;
 
 /**
  * @package Piwik
@@ -203,11 +202,11 @@ class DocumentationGenerator
                 $defaultValue = $knowExampleDefaultParametersValues[$nameVariable];
             } // if there isn't a default value for a given parameter,
             // we need a 'know default value' or we can't generate the link
-            elseif ($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue) {
+            elseif ($defaultValue instanceof NoDefaultValue) {
                 return false;
             }
         }
-        return '?' . Piwik_Url::getQueryStringFromParameters($aParameters);
+        return '?' . Url::getQueryStringFromParameters($aParameters);
     }
 
     /**
@@ -228,7 +227,7 @@ class DocumentationGenerator
                 continue;
             }
             $str = $nameVariable;
-            if (!($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue)) {
+            if (!($defaultValue instanceof NoDefaultValue)) {
                 if (is_array($defaultValue)) {
                     $str .= " = 'Array'";
                 } else {

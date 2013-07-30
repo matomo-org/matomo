@@ -10,6 +10,7 @@
  */
 use Piwik\FrontController;
 use Piwik\Version;
+use Piwik\WidgetsList;
 use Piwik\Plugin;
 
 /**

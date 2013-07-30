@@ -1,6 +1,7 @@
 <?php
 use Piwik\Common;
 use Piwik\FrontController;
+use Piwik\WidgetsList;
 use Piwik\Url;
 
 exit;

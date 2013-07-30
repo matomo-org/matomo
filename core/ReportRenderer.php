@@ -54,7 +54,7 @@ abstract class ReportRenderer
     static public function factory($rendererType)
     {
         $name = ucfirst(strtolower($rendererType));
-        $className = 'Piwik_ReportRenderer_' . $name;
+        $className = 'Piwik\ReportRenderer\\' . $name;
 
         try {
             Loader::loadClass($className);

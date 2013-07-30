@@ -13,7 +13,7 @@
 // calling us waits for the full request to process before unblocking
 use Piwik\Config;
 use Piwik\DataTable\Manager;
-use Piwik\Piwik_Option;
+use Piwik\Option;
 use Piwik\Tracker;
 use Piwik\Site;
 
@@ -41,7 +41,7 @@ Piwik_UserCountry_LocationProvider_GeoIp::$geoIPDatabaseDir = 'tests/lib/geoip-f
 
 Tracker::setTestEnvironment();
 Manager::getInstance()->deleteAll();
-Piwik_Option::getInstance()->clearCache();
+Option::getInstance()->clearCache();
 Site::clearCache();
 Piwik_Tracker_Cache::deleteTrackerCache();
 

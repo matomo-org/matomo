@@ -12,6 +12,7 @@ use Piwik\Config;
 use Piwik\Common;
 use Piwik\Auth;
 use Piwik\AuthResult;
+use Piwik\Db;
 
 /**
  *

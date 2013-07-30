@@ -11,6 +11,7 @@
 use Piwik\ArchiveProcessor;
 use Piwik\FrontController;
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  *

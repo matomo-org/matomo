@@ -10,6 +10,7 @@
  */
 use Piwik\Version;
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  * @package Piwik_SEO

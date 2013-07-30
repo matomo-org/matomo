@@ -218,7 +218,7 @@ class FrontController
         $initialized = true;
 
         try {
-            Zend_Registry::set('timer', new Timer);
+            \Zend_Registry::set('timer', new Timer);
 
             $directoriesToCheck = array(
                 '/tmp/',
@@ -277,7 +277,7 @@ class FrontController
 
             Piwik_PostEvent('FrontController.initAuthenticationObject');
             try {
-                $authAdapter = Zend_Registry::get('auth');
+                $authAdapter = \Zend_Registry::get('auth');
             } catch (Exception $e) {
                 throw new Exception("Authentication object cannot be found in the Registry. Maybe the Login plugin is not activated?
                                 <br />You can activate the plugin by adding:<br />

@@ -456,7 +456,7 @@ class Archive
                     continue;
                 }
 
-                // if the starting date is in the future we know there is no visit
+                // if the starting date is in the future we know there is no visiidsite = ?t
                 if ($twoDaysBeforePeriod->isLater($today)) {
                     $archiveDesc = $this->getArchiveDescriptor($idSite, $period);
                     Piwik::log("Archive $archiveDesc skipped, archive is after today.");

@@ -11,7 +11,7 @@
 use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Cookie;
-use Piwik\Piwik_Option;
+use Piwik\Option;
 use Piwik\Session;
 use Piwik\Plugin;
 
@@ -53,8 +53,8 @@ class Piwik_Login extends Plugin
      */
     public function ApiRequestAuthenticate($tokenAuth)
     {
-        Zend_Registry::get('auth')->setLogin($login = null);
-        Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
+        \Zend_Registry::get('auth')->setLogin($login = null);
+        \Zend_Registry::get('auth')->setTokenAuth($tokenAuth);
     }
 
     /**
@@ -64,7 +64,7 @@ class Piwik_Login extends Plugin
     function initAuthenticationObject($allowCookieAuthentication = false)
     {
         $auth = new Piwik_Login_Auth();
-        Zend_Registry::set('auth', $auth);
+        \Zend_Registry::set('auth', $auth);
 
         $action = Piwik::getAction();
         if (Piwik::getModule() === 'API'
@@ -102,7 +102,7 @@ class Piwik_Login extends Plugin
 
         $tokenAuth = Piwik_UsersManager_API::getInstance()->getTokenAuth($login, $md5Password);
 
-        $auth = Zend_Registry::get('auth');
+        $auth = \Zend_Registry::get('auth');
         $auth->setLogin($login);
         $auth->setTokenAuth($tokenAuth);
         $authResult = $auth->authenticate();
@@ -150,7 +150,7 @@ class Piwik_Login extends Plugin
     public static function removePasswordResetInfo($login)
     {
         $optionName = self::getPasswordResetInfoOptionName($login);
-        Piwik_Option::getInstance()->delete($optionName);
+        Option::getInstance()->delete($optionName);
     }
 
     /**

@@ -11,6 +11,7 @@
 use Piwik\Common;
 use Piwik\Version;
 use Piwik\Plugin;
+use Piwik\Db;
 
 /**
  * @package Piwik_SegmentEditor

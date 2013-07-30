@@ -9,7 +9,7 @@
  * @package Piwik_UserCountry
  */
 
-use Piwik\ArchiveProcessor\Day;
+use Piwik\ArchiveProcessor;
 use Piwik\Metrics;
 use Piwik\DataTable;
 use Piwik\DataArray;
@@ -128,15 +128,15 @@ class Piwik_UserCountry_Archiver extends PluginsArchiver
 
     protected function recordDayReports()
     {
-        $tableCountry = Day::getDataTableFromDataArray($this->arrays[self::COUNTRY_FIELD]);
+        $tableCountry = ArchiveProcessor\Day::getDataTableFromDataArray($this->arrays[self::COUNTRY_FIELD]);
         $this->getProcessor()->insertBlobRecord(self::COUNTRY_RECORD_NAME, $tableCountry->getSerialized());
         $this->getProcessor()->insertNumericRecord(self::DISTINCT_COUNTRIES_METRIC, $tableCountry->getRowsCount());
 
-        $tableRegion = Day::getDataTableFromDataArray($this->arrays[self::REGION_FIELD]);
+        $tableRegion = ArchiveProcessor\Day::getDataTableFromDataArray($this->arrays[self::REGION_FIELD]);
         $serialized = $tableRegion->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::REGION_RECORD_NAME, $serialized);
 
-        $tableCity = Day::getDataTableFromDataArray($this->arrays[self::CITY_FIELD]);
+        $tableCity = ArchiveProcessor\Day::getDataTableFromDataArray($this->arrays[self::CITY_FIELD]);
         $this->setLatitudeLongitude($tableCity);
         $serialized = $tableCity->getSerialized($this->maximumRows, $this->maximumRows, Metrics::INDEX_NB_VISITS);
         $this->getProcessor()->insertBlobRecord(self::CITY_RECORD_NAME, $serialized);

@@ -9,8 +9,9 @@
  * @package Updates
  */
 use Piwik\Common;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Db;
 
 /**
  * @package Updates
@@ -37,7 +38,7 @@ class Piwik_Updates_1_7_2_rc7 extends Updates
                 $layout = str_replace("\\\"", "\"", $layout);
                 Db::query('UPDATE `' . Common::prefixTable('user_dashboard') . '` SET layout = ? WHERE iddashboard = ? AND login = ?', array($layout, $idDashboard, $login));
             }
-            Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+            Updater::updateDatabase(__FILE__, self::getSql());
         } catch (Exception $e) {
         }
     }

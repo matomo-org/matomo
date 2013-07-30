@@ -9,7 +9,7 @@
  * @package Updates
  */
 use Piwik\Common;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\Updates;
 
 /**
@@ -28,7 +28,7 @@ class Piwik_Updates_1_7_2_rc5 extends Updates
     static function update()
     {
         try {
-            Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+            Updater::updateDatabase(__FILE__, self::getSql());
         } catch (Exception $e) {
         }
     }

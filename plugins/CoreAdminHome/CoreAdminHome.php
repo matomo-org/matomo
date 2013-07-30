@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Date;
 use Piwik\ScheduledTask;
 use Piwik\Plugin;
+use Piwik\Db;
 
 /**
  *

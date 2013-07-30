@@ -172,7 +172,7 @@ class Piwik_Installation_FormDatabaseSetup_Rule_checkUserPrivileges extends HTML
             }
         }
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         try {
             // try to drop tables before running privilege tests

@@ -11,6 +11,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\Db;
 
 /**
  * The LanguagesManager API lets you access existing Piwik translations, and change Users languages preferences.

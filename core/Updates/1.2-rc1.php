@@ -9,7 +9,7 @@
  * @package Updates
  */
 use Piwik\Common;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\Updates;
 
 /**
@@ -131,7 +131,7 @@ class Piwik_Updates_1_2_rc1 extends Updates
         }
 
         // Run the SQL
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
 
         // Outputs warning message, pointing users to the plugin download page
         if (!empty($disabledPlugins)) {

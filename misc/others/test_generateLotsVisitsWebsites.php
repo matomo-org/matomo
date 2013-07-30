@@ -41,7 +41,7 @@ class Piwik_StressTests_CopyLogs
         $endDate = '2011-08-12';
 
         $this->log("Starting...");
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         $initial = $this->getVisitsToday();
         $this->log(" Visits today so far: " . $initial);
@@ -102,7 +102,7 @@ class Piwik_StressTests_CopyLogs
     function delete()
     {
         $this->log("Deleting logs for today...");
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $sql = "DELETE FROM " . Common::prefixTable('log_visit') . "
 				WHERE date(visit_last_action_time) = CURRENT_DATE();";
         $db->query($sql);
@@ -124,13 +124,13 @@ class Piwik_StressTests_CopyLogs
     function getVisitsToday()
     {
         $sql = "SELECT count(*) FROM `" . Common::prefixTable('log_visit') . "` WHERE idsite >= 1 AND DATE(`visit_last_action_time`) = CURRENT_DATE;";
-        return Zend_Registry::get('db')->fetchOne($sql);
+        return \Zend_Registry::get('db')->fetchOne($sql);
     }
 
     function getConversionItemsToday($table = 'log_conversion_item')
     {
         $sql = "SELECT count(*) FROM `" . Common::prefixTable($table) . "` WHERE idsite >= 1 AND DATE(`server_time`) = CURRENT_DATE;";
-        return Zend_Registry::get('db')->fetchOne($sql);
+        return \Zend_Registry::get('db')->fetchOne($sql);
     }
 
     function getConversionsToday()
@@ -141,6 +141,6 @@ class Piwik_StressTests_CopyLogs
     function getActionsToday()
     {
         $sql = "SELECT count(*) FROM `" . Common::prefixTable('log_link_visit_action') . "` WHERE idsite >= 1 AND DATE(`server_time`) = CURRENT_DATE;";
-        return Zend_Registry::get('db')->fetchOne($sql);
+        return \Zend_Registry::get('db')->fetchOne($sql);
     }
 }

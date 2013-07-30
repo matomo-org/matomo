@@ -78,8 +78,8 @@ class Test_Piwik_Integration_UIIntegrationTest extends IntegrationTestCase
     {
         parent::tearDown();
         
-        Zend_Registry::get('db')->closeConnection();
-        Zend_Registry::set('db', false);
+        \Zend_Registry::get('db')->closeConnection();
+        \Zend_Registry::set('db', false);
     }
     
     public function getUrlsForTesting()

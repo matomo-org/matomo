@@ -9,8 +9,9 @@
  * @package Updates
  */
 use Piwik\Common;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\Updates;
+use Piwik\Db;
 
 /**
  * @package Updates
@@ -44,7 +45,7 @@ class Piwik_Updates_1_8_3_b1 extends Updates
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
         if (!\Piwik\PluginsManager::getInstance()->isPluginLoaded('PDFReports')) {
             return;
         }

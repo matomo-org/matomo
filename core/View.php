@@ -135,7 +135,7 @@ class View implements Piwik_View_Interface
         }
 
         try {
-            $this->totalTimeGeneration = Zend_Registry::get('timer')->getTime();
+            $this->totalTimeGeneration = \Zend_Registry::get('timer')->getTime();
             $this->totalNumberOfQueries = Piwik::getQueryCount();
         } catch (Exception $e) {
             $this->totalNumberOfQueries = 0;

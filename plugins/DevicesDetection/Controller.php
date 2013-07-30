@@ -4,6 +4,8 @@ use Piwik\Common;
 use Piwik\Controller;
 use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik\Db;
+
 
 /**
  * Piwik - Open source web analytics

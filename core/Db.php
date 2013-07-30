@@ -31,7 +31,7 @@ class Db
             $db = Tracker::getDatabase();
         }
         if ($db === null) {
-            $db = Zend_Registry::get('db');
+            $db = \Zend_Registry::get('db');
         }
         return $db;
     }
@@ -42,13 +42,13 @@ class Db
      * If you want to fetch data from the DB you should use the function Db::fetchAll()
      *
      * @param string $sql  SQL Query
-     * @return integer|Zend_Db_Statement
+     * @return integer|\Zend_Db_Statement
      */
     static public function exec($sql)
     {
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $profiler = $db->getProfiler();
-        $q = $profiler->queryStart($sql, Zend_Db_Profiler::INSERT);
+        $q = $profiler->queryStart($sql, \Zend_Db_Profiler::INSERT);
         $return = self::getDb()->exec($sql);
         $profiler->queryEnd($q);
         return $return;
@@ -315,7 +315,7 @@ class Db
      *
      * @return array
      */
-    static public function segmentedFetchAll($sql, $first, $last, $step, $params)
+    static public function segmentedFetchAll($sql, $first, $last, $step, $params = array())
     {
         $result = array();
         if ($step > 0) {
@@ -378,7 +378,7 @@ class Db
          */
         $sql = 'SELECT GET_LOCK(?, 1)';
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         while ($maxRetries > 0) {
             if ($db->fetchOne($sql, array($lockName)) == '1') {
@@ -399,7 +399,7 @@ class Db
     {
         $sql = 'SELECT RELEASE_LOCK(?)';
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         return $db->fetchOne($sql, array($lockName)) == '1';
     }
 }

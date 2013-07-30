@@ -9,6 +9,7 @@
  * @package Piwik_CoreHome
  */
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  *

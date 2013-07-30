@@ -12,6 +12,8 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Plugin;
 use Piwik\Site;
+use Piwik\Db;
+use Piwik\WidgetsList;
 
 /**
  * @package Piwik_Dashboard

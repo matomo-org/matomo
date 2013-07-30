@@ -51,7 +51,7 @@ class ArchiveTableCreator
         }
 
         if (!in_array($tableName, self::$tablesAlreadyInstalled)) {
-            $db = Zend_Registry::get('db');
+            $db = \Zend_Registry::get('db');
             $sql = Piwik::getTableCreateSql($tableNamePrefix);
 
             // replace table name template by real name

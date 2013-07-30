@@ -404,7 +404,7 @@ class Piwik_Transitions_API
 
         //FIXMEA refactor after integration tests written
         $array = new DataArray($referrerData, $referrerSubData);
-        return Day::getDataTableFromDataArray($array);
+        return ArchiveProcessor\Day::getDataTableFromDataArray($array);
     }
 
     /**

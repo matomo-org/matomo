@@ -10,6 +10,7 @@
  */
 use Piwik\ArchiveProcessor;
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  *

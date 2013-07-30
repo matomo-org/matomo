@@ -9,6 +9,7 @@
  * @package Piwik_VisitFrequency
  */
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  *

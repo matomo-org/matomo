@@ -135,7 +135,7 @@ class Piwik_SegmentEditor_API
         Piwik_PostEvent(self::DELETE_SEGMENT_EVENT, array(&$idSegment));
 
         $segment = $this->getSegmentOrFail($idSegment);
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $db->delete(Common::prefixTable('segment'), 'idsegment = ' . $idSegment);
         return true;
     }
@@ -172,7 +172,7 @@ class Piwik_SegmentEditor_API
             'ts_last_edit'       => Date::now()->getDatetime(),
         );
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $db->update(Common::prefixTable("segment"),
             $bind,
             "idsegment = $idSegment"
@@ -200,7 +200,7 @@ class Piwik_SegmentEditor_API
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $bind = array(
             'name'               => $name,
             'definition'         => $definition,
@@ -228,7 +228,7 @@ class Piwik_SegmentEditor_API
         if (!is_numeric($idSegment)) {
             throw new Exception("idSegment should be numeric.");
         }
-        $segment = Zend_Registry::get('db')->fetchRow("SELECT * " .
+        $segment = \Zend_Registry::get('db')->fetchRow("SELECT * " .
                                                     " FROM " . Common::prefixTable("segment") .
                                                     " WHERE idsegment = ?", $idSegment);
 
@@ -286,7 +286,7 @@ class Piwik_SegmentEditor_API
                         AND deleted = 0
                         $extraWhere
                       ORDER BY name ASC";
-        $segments = Zend_Registry::get('db')->fetchAll($sql, $bind);
+        $segments = \Zend_Registry::get('db')->fetchAll($sql, $bind);
 
         return $segments;
     }

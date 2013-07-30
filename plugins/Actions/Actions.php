@@ -13,8 +13,10 @@ use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\ViewDataTable;
+use Piwik\WidgetsList;
 use Piwik\Plugin;
 use Piwik\SegmentExpression;
+use Piwik\Db;
 use Piwik\Site;
 
 /**

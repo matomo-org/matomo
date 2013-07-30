@@ -17,6 +17,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\TaskScheduler;
 use Piwik\Site;
+use Piwik\Db;
 
 /**
  * @package Piwik_CoreAdminHome

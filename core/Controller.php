@@ -680,7 +680,7 @@ abstract class Controller
             && $currentLogin != 'anonymous'
         ) {
             $errorMessage = sprintf(Piwik_Translate('CoreHome_NoPrivilegesAskPiwikAdmin'), $currentLogin, "<br/><a href='mailto:" . Piwik::getSuperUserEmail() . "?subject=Access to Piwik for user $currentLogin'>", "</a>");
-            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . Zend_Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik_Translate('General_Logout') . "</a></b><br />";
+            $errorMessage .= "<br /><br />&nbsp;&nbsp;&nbsp;<b><a href='index.php?module=" . \Zend_Registry::get('auth')->getName() . "&amp;action=logout'>&rsaquo; " . Piwik_Translate('General_Logout') . "</a></b><br />";
             Piwik_ExitWithMessage($errorMessage, false, true);
         }
 

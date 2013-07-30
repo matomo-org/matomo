@@ -14,6 +14,7 @@ use Piwik\Common;
 use Piwik\Access;
 use Piwik\Date;
 use Piwik\Site;
+use Piwik\Db;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -40,7 +41,7 @@ class Piwik_UsersManager_API
      * Example of how you would overwrite the UsersManager_API with your own class:
      * Call the following in your plugin __construct() for example:
      *
-     * Zend_Registry::set('UsersManager_API',Piwik_MyCustomUsersManager_API::getInstance());
+     * \Zend_Registry::set('UsersManager_API',Piwik_MyCustomUsersManager_API::getInstance());
      *
      * @throws Exception
      * @return Piwik_UsersManager_API
@@ -48,7 +49,7 @@ class Piwik_UsersManager_API
     static public function getInstance()
     {
         try {
-            $instance = Zend_Registry::get('UsersManager_API');
+            $instance = \Zend_Registry::get('UsersManager_API');
             if (!($instance instanceof Piwik_UsersManager_API)) {
                 // Exception is caught below and corrected
                 throw new Exception('UsersManager_API must inherit Piwik_UsersManager_API');
@@ -56,7 +57,7 @@ class Piwik_UsersManager_API
             self::$instance = $instance;
         } catch (Exception $e) {
             self::$instance = new self;
-            Zend_Registry::set('UsersManager_API', self::$instance);
+            \Zend_Registry::set('UsersManager_API', self::$instance);
         }
         return self::$instance;
     }
@@ -126,7 +127,7 @@ class Piwik_UsersManager_API
             $where = 'WHERE login IN (' . Common::getSqlStringFieldsArray($userLogins) . ')';
             $bind = $userLogins;
         }
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $users = $db->fetchAll("SELECT *
 								FROM " . Common::prefixTable("user") . "
 								$where 
@@ -149,7 +150,7 @@ class Piwik_UsersManager_API
     {
         Piwik::checkUserHasSomeAdminAccess();
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $users = $db->fetchAll("SELECT login
 								FROM " . Common::prefixTable("user") . "
 								ORDER BY login ASC");
@@ -181,7 +182,7 @@ class Piwik_UsersManager_API
 
         $this->checkAccessType($access);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $users = $db->fetchAll("SELECT login,idsite
 								FROM " . Common::prefixTable("access")
             . " WHERE access = ?
@@ -213,7 +214,7 @@ class Piwik_UsersManager_API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $users = $db->fetchAll("SELECT login,access
 								FROM " . Common::prefixTable("access")
             . " WHERE idsite = ?", $idSite);
@@ -229,7 +230,7 @@ class Piwik_UsersManager_API
         Piwik::checkUserHasAdminAccess($idSite);
         $this->checkAccessType($access);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $users = $db->fetchAll("SELECT login
 								FROM " . Common::prefixTable("access")
             . " WHERE idsite = ? AND access = ?", array($idSite, $access));
@@ -266,7 +267,7 @@ class Piwik_UsersManager_API
         $this->checkUserExists($userLogin);
         $this->checkUserIsNotSuperUser($userLogin);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $users = $db->fetchAll("SELECT idsite,access
 								FROM " . Common::prefixTable("access")
             . " WHERE login = ?", $userLogin);
@@ -293,7 +294,7 @@ class Piwik_UsersManager_API
         $this->checkUserExists($userLogin);
         $this->checkUserIsNotSuperUser($userLogin);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $user = $db->fetchRow("SELECT *
 								FROM " . Common::prefixTable("user")
             . " WHERE login = ?", $userLogin);
@@ -312,7 +313,7 @@ class Piwik_UsersManager_API
         Piwik::checkUserIsSuperUser();
         $this->checkUserEmailExists($userEmail);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $user = $db->fetchRow("SELECT *
 								FROM " . Common::prefixTable("user")
             . " WHERE email = ?", $userEmail);
@@ -378,7 +379,7 @@ class Piwik_UsersManager_API
 
         $token_auth = $this->getTokenAuth($userLogin, $passwordTransformed);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         $db->insert(Common::prefixTable("user"), array(
                                                             'login'           => $userLogin,
@@ -438,7 +439,7 @@ class Piwik_UsersManager_API
         $alias = $this->getCleanAlias($alias, $userLogin);
         $token_auth = $this->getTokenAuth($userLogin, $password);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         $db->update(Common::prefixTable("user"),
             array(
@@ -555,7 +556,7 @@ class Piwik_UsersManager_API
         $this->deleteUserAccess($userLogin, $idSites);
 
         // delete UserAccess
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         // if the access is noaccess then we don't save it as this is the default value
         // when no access are specified
@@ -635,7 +636,7 @@ class Piwik_UsersManager_API
      */
     private function deleteUserOnly($userLogin)
     {
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $db->query("DELETE FROM " . Common::prefixTable("user") . " WHERE login = ?", $userLogin);
 
         Piwik_PostEvent('UsersManager.deleteUser', array($userLogin));
@@ -653,7 +654,7 @@ class Piwik_UsersManager_API
      */
     private function deleteUserAccess($userLogin, $idSites = null)
     {
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         if (is_null($idSites)) {
             $db->query("DELETE FROM " . Common::prefixTable("access") .

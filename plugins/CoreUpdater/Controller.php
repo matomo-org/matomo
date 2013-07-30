@@ -15,7 +15,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Controller;
 use Piwik\Http;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\View;
 use Piwik\Version;
 use Piwik\UpdateCheck;
@@ -238,7 +238,7 @@ class Piwik_CoreUpdater_Controller extends Controller
 
     protected function runUpdaterAndExit()
     {
-        $updater = new Piwik_Updater();
+        $updater = new Updater();
         $componentsWithUpdateFile = Piwik_CoreUpdater::getComponentUpdates($updater);
         if (empty($componentsWithUpdateFile)) {
             Piwik::redirectToModule('CoreHome');
@@ -348,7 +348,7 @@ class Piwik_CoreUpdater_Controller extends Controller
         foreach ($componentsWithUpdateFile as $name => $filenames) {
             try {
                 $this->warningMessages = array_merge($this->warningMessages, $updater->update($name));
-            } catch (Piwik_Updater_UpdateErrorException $e) {
+            } catch (Updater_UpdateErrorException $e) {
                 $this->errorMessages[] = $e->getMessage();
                 if ($name == 'core') {
                     $this->coreError = true;

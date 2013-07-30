@@ -9,6 +9,7 @@
  * @package Piwik_ExampleRssWidget
  */
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  *

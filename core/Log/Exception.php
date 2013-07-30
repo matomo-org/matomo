@@ -39,8 +39,8 @@ class Exception extends Log
             'errfile'   => 'errfile',
             'backtrace' => 'backtrace'
         );
-        $screenFormatter = new Exception_Formatter_ScreenFormatter();
-        $fileFormatter = new Formatter_FileFormatter();
+        $screenFormatter = new ExceptionScreenFormatter();
+        $fileFormatter = new FileFormatter();
 
         parent::__construct($logToFileFilename,
             $fileFormatter,
@@ -65,7 +65,7 @@ class Exception extends Log
      *
      * @param Exception $exception
      */
-    public function logEvent($exception)
+    public function logEvent(\Exception $exception)
     {
         $event = array();
         $event['errno'] = $exception->getCode();
@@ -75,31 +75,5 @@ class Exception extends Log
         $event['backtrace'] = $exception->getTraceAsString();
 
         parent::log($event, Log::CRIT, null);
-    }
-}
-
-/**
- * Format an exception event to be displayed on the screen.
- *
- * @package Piwik
- * @subpackage Log
- */
-class Exception_Formatter_ScreenFormatter extends Formatter_ScreenFormatter
-{
-    /**
-     * Formats data into a single line to be written by the writer.
-     *
-     * @param  array $event    event data
-     * @return string  formatted line to write to the log
-     */
-    public function format($event)
-    {
-        $event = parent::formatEvent($event);
-        $errstr = $event['message'];
-
-        $outputFormat = strtolower(Common::getRequestVar('format', 'html', 'string'));
-        $response = new Piwik_API_ResponseBuilder($outputFormat);
-        $message = $response->getResponseException(new \Exception($errstr));
-        return parent::format($message);
     }
 }

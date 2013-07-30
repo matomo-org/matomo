@@ -12,11 +12,13 @@ namespace Piwik\Db\Schema;
 
 use Exception;
 use Piwik\Config;
-use Piwik\Db\Schema\SchemaInterface;
+use Piwik\Db\SchemaInterface;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Db;
 use Zend_Registry;
+
 
 /**
  * MySQL schema
@@ -34,7 +36,7 @@ class Myisam implements SchemaInterface
      */
     static private function hasStorageEngine($engineName)
     {
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $allEngines = $db->fetchAssoc('SHOW ENGINES');
         if (array_key_exists($engineName, $allEngines)) {
             $support = $allEngines[$engineName]['Support'];
@@ -452,7 +454,7 @@ class Myisam implements SchemaInterface
         if (is_null($this->tablesInstalled)
             || $forceReload === true
         ) {
-            $db = Zend_Registry::get('db');
+            $db = \Zend_Registry::get('db');
             $config = Config::getInstance();
             $prefixTables = $config->database['tables_prefix'];
 
@@ -515,7 +517,7 @@ class Myisam implements SchemaInterface
      */
     public function createTables()
     {
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $config = Config::getInstance();
         $prefixTables = $config->database['tables_prefix'];
 
@@ -539,7 +541,7 @@ class Myisam implements SchemaInterface
     {
         // The anonymous user is the user that is assigned by default
         // note that the token_auth value is anonymous, which is assigned by default as well in the Login plugin
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $db->query("INSERT INTO " . Common::prefixTable("user") . "
 					VALUES ( 'anonymous', '', 'anonymous', 'anonymous@example.org', 'anonymous', '" . Date::factory('now')->getDatetime() . "' );");
     }
@@ -563,7 +565,7 @@ class Myisam implements SchemaInterface
     public function dropTables($doNotDelete = array())
     {
         $tablesAlreadyInstalled = $this->getTablesInstalled();
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         $doNotDeletePattern = '/(' . implode('|', $doNotDelete) . ')/';
 

@@ -52,7 +52,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     public function testGetTimetableFromOptionValue($expectedTimetable, $option)
     {
         $getTimetableFromOptionValue = new ReflectionMethod(
-            'TaskScheduler', 'getTimetableFromOptionValue'
+            '\Piwik\TaskScheduler', 'getTimetableFromOptionValue'
         );
         $getTimetableFromOptionValue->setAccessible(true);
 
@@ -81,7 +81,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     public function testTaskHasBeenScheduledOnce($expectedDecision, $taskName, $timetable)
     {
         $taskHasBeenScheduledOnce = new ReflectionMethod(
-            'TaskScheduler', 'taskHasBeenScheduledOnce'
+            '\Piwik\TaskScheduler', 'taskHasBeenScheduledOnce'
         );
         $taskHasBeenScheduledOnce->setAccessible(true);
 
@@ -144,7 +144,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
     public function testTaskShouldBeExecuted($expectedDecision, $taskName, $timetable)
     {
         $taskShouldBeExecuted = new ReflectionMethod(
-            'TaskScheduler', 'taskShouldBeExecuted'
+            '\Piwik\TaskScheduler', 'taskShouldBeExecuted'
         );
         $taskShouldBeExecuted->setAccessible(true);
 
@@ -174,7 +174,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         $mock = $this->getMock('TaskSchedulerTest', array($methodName));
         $mock->expects($this->once())->method($methodName)->with($this->equalTo($parameterValue));
 
-        $executeTask = new ReflectionMethod('TaskScheduler', 'executeTask');
+        $executeTask = new ReflectionMethod('\Piwik\TaskScheduler', 'executeTask');
         $executeTask->setAccessible(true);
 
         $this->assertNotEmpty($executeTask->invoke(
@@ -307,7 +307,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedExecutedTasks, $executedTasks);
 
         // assert the timetable is correctly updated
-        $getTimetableFromOptionTable = new ReflectionMethod('TaskScheduler', 'getTimetableFromOptionTable');
+        $getTimetableFromOptionTable = new ReflectionMethod('\Piwik\TaskScheduler', 'getTimetableFromOptionTable');
         $getTimetableFromOptionTable->setAccessible(true);
         $this->assertEquals($expectedTimetable, $getTimetableFromOptionTable->invoke(new TaskScheduler()));
 
@@ -329,7 +329,7 @@ class TaskSchedulerTest extends PHPUnit_Framework_TestCase
 
     private static function getReflectedPiwikOptionInstance()
     {
-        $piwikOptionInstance = new ReflectionProperty('Option', 'instance');
+        $piwikOptionInstance = new ReflectionProperty('\Piwik\Option', 'instance');
         $piwikOptionInstance->setAccessible(true);
         return $piwikOptionInstance;
     }

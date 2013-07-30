@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Cookie;
 use Piwik\View;
 use Piwik\Plugin;
+use Piwik\Db;
 use Piwik\Translate;
 
 /**
@@ -173,7 +174,7 @@ class Piwik_LanguagesManager extends Plugin
 
 
     /**
-     * Returns the langage for the session
+     * Returns the language for the session
      *
      * @return string|null
      */

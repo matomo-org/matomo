@@ -8,6 +8,8 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik;
+
 use Piwik\Common;
 use Piwik\Version;
 
@@ -147,7 +149,7 @@ class Updater
      * Update the named component
      *
      * @param string $componentName 'core', or plugin name
-     * @throws Exception|Piwik_Updater_UpdateErrorException
+     * @throws Exception|Updater_UpdateErrorException
      * @return array of warning strings if applicable
      */
     public function update($componentName)
@@ -163,7 +165,7 @@ class Updater
                 }
 
                 $this->recordComponentSuccessfullyUpdated($componentName, $fileVersion);
-            } catch (Piwik_Updater_UpdateErrorException $e) {
+            } catch (Updater_UpdateErrorException $e) {
                 throw $e;
             } catch (Exception $e) {
                 $warningMessages[] = $e->getMessage();
@@ -278,7 +280,7 @@ class Updater
      *
      * @param string $file Update script filename
      * @param array $sqlarray An array of SQL queries to be executed
-     * @throws Piwik_Updater_UpdateErrorException
+     * @throws Updater_UpdateErrorException
      */
     static function updateDatabase($file, $sqlarray)
     {
@@ -290,7 +292,7 @@ class Updater
                     || !Zend_Registry::get('db')->isErrNo($e, $ignoreError)
                 ) {
                     $message = $file . ":\nError trying to execute the query '" . $update . "'.\nThe error was: " . $e->getMessage();
-                    throw new Piwik_Updater_UpdateErrorException($message);
+                    throw new Updater_UpdateErrorException($message);
                 }
             }
         }
@@ -303,6 +305,6 @@ class Updater
  * @package Piwik
  * @subpackage Updater
  */
-class Piwik_Updater_UpdateErrorException extends Exception
+class Updater_UpdateErrorException extends \Exception
 {
 }

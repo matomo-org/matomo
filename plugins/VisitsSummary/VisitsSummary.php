@@ -9,6 +9,7 @@
  * @package Piwik_VisitsSummary
  */
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  * Note: This plugin does not hook on Daily and Period Archiving like other Plugins because it reports the

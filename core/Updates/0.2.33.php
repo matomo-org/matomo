@@ -10,7 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\Updates;
 
 /**
@@ -40,6 +40,6 @@ class Piwik_Updates_0_2_33 extends Updates
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }

@@ -11,7 +11,7 @@
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\FrontController;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\Version;
 use Piwik\UpdateCheck;
 use Piwik\Plugin;
@@ -34,7 +34,7 @@ class Piwik_CoreUpdater extends Plugin
         return $hooks;
     }
 
-    public static function getComponentUpdates(Piwik_Updater $updater)
+    public static function getComponentUpdates(Updater $updater)
     {
         $updater->addComponentToCheck('core', Version::VERSION);
         $plugins = \Piwik\PluginsManager::getInstance()->getLoadedPlugins();
@@ -55,7 +55,7 @@ class Piwik_CoreUpdater extends Plugin
         $module = Common::getRequestVar('module', '', 'string');
         $action = Common::getRequestVar('action', '', 'string');
 
-        $updater = new Piwik_Updater();
+        $updater = new Updater();
         $updater->addComponentToCheck('core', Version::VERSION);
         $updates = $updater->getComponentsWithNewVersion();
         if (!empty($updates)) {

@@ -98,7 +98,7 @@ class Session extends Zend_Session
             // - user  - we can't verify that user-defined session handler functions have already been set via session_set_save_handler()
             // - mm    - this handler is not recommended, unsupported, not available for Windows, and has a potential concurrency issue
 
-            $db = Zend_Registry::get('db');
+            $db = \Zend_Registry::get('db');
 
             $config = array(
                 'name'           => Common::prefixTable('session'),

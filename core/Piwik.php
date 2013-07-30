@@ -1003,13 +1003,13 @@ class Piwik
             // - Tracker request, and debug disabled,
             // - and some scheduled tasks call code that tries and log something
             try {
-                Zend_Registry::get('logger_message');
+                \Zend_Registry::get('logger_message');
             } catch (Exception $e) {
                 self::$shouldLog = false;
             }
         }
         if (self::$shouldLog) {
-            Zend_Registry::get('logger_message')->logEvent($message);
+            \Zend_Registry::get('logger_message')->logEvent($message);
         }
     }
 
@@ -1069,7 +1069,7 @@ class Piwik
      */
     static public function getQueryCount()
     {
-        $profiler = Zend_Registry::get('db')->getProfiler();
+        $profiler = \Zend_Registry::get('db')->getProfiler();
         return $profiler->getTotalNumQueries();
     }
 
@@ -1080,7 +1080,7 @@ class Piwik
      */
     static public function getDbElapsedSecs()
     {
-        $profiler = Zend_Registry::get('db')->getProfiler();
+        $profiler = \Zend_Registry::get('db')->getProfiler();
         return $profiler->getTotalElapsedSecs();
     }
 
@@ -1136,7 +1136,7 @@ class Piwik
      */
     static function printSqlProfilingReportZend()
     {
-        $profiler = Zend_Registry::get('db')->getProfiler();
+        $profiler = \Zend_Registry::get('db')->getProfiler();
 
         if (!$profiler->getEnabled()) {
             throw new Exception("To display the profiler you should enable enable_sql_profiler on your config/config.ini.php file");
@@ -1220,7 +1220,7 @@ class Piwik
     static public function printMemoryLeak($prefix = '', $suffix = '<br />')
     {
         echo $prefix;
-        echo Zend_Registry::get('timer')->getMemoryLeak();
+        echo \Zend_Registry::get('timer')->getMemoryLeak();
         echo $suffix;
     }
 
@@ -1830,7 +1830,7 @@ class Piwik
      */
     static public function getLoginPluginName()
     {
-        return Zend_Registry::get('auth')->getName();
+        return \Zend_Registry::get('auth')->getName();
     }
 
     /**
@@ -1928,7 +1928,7 @@ class Piwik
             $adapter = $dbInfos['adapter'];
             $db = @Adapter::factory($adapter, $dbInfos);
         }
-        Zend_Registry::set('db', $db);
+        \Zend_Registry::set('db', $db);
     }
 
     /**
@@ -1936,7 +1936,7 @@ class Piwik
      */
     static public function disconnectDatabase()
     {
-        Zend_Registry::get('db')->closeConnection();
+        \Zend_Registry::get('db')->closeConnection();
     }
 
     /**
@@ -1949,7 +1949,7 @@ class Piwik
      */
     static public function checkDatabaseVersion()
     {
-        Zend_Registry::get('db')->checkServerVersion();
+        \Zend_Registry::get('db')->checkServerVersion();
     }
 
     /**
@@ -1959,7 +1959,7 @@ class Piwik
      */
     static public function isDatabaseConnectionUTF8()
     {
-        return Zend_Registry::get('db')->isConnectionUTF8();
+        return \Zend_Registry::get('db')->isConnectionUTF8();
     }
 
     /*

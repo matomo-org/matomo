@@ -7,6 +7,7 @@
  */
 use Piwik\Common;
 use Piwik\FrontController;
+use Piwik\WidgetsList;
 
 require_once PIWIK_INCLUDE_PATH . '/tests/PHPUnit/Fixtures/ManySitesImportedLogs.php';
 

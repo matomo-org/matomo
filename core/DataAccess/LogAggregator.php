@@ -511,6 +511,6 @@ class LogAggregator
 
     public function getDb()
     {
-        return Zend_Registry::get('db');
+        return \Zend_Registry::get('db');
     }
 }

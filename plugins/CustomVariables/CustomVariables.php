@@ -11,6 +11,7 @@
 use Piwik\ArchiveProcessor;
 use Piwik\Tracker;
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  * @package Piwik_CustomVariables

@@ -17,11 +17,12 @@ use Piwik\Config;
 use Piwik\Common;
 use Piwik\Access;
 use Piwik\Http;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\View;
 use Piwik\Version;
 use Piwik\Url;
 use Piwik\ProxyHeaders;
+use Piwik\Db;
 
 /**
  * Installation controller
@@ -213,7 +214,7 @@ class Piwik_Installation_Controller extends Admin
         }
 
         $this->createDbFromSessionInformation();
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         try {
             $db->checkClientVersion();
@@ -294,7 +295,7 @@ class Piwik_Installation_Controller extends Admin
             Piwik::createTables();
             Piwik::createAnonymousUser();
 
-            $updater = new Piwik_Updater();
+            $updater = new Updater();
             $updater->recordComponentSuccessfullyUpdated('core', Version::VERSION);
             $view->tablesCreated = true;
             $view->showNextStep = true;

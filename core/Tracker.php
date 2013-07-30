@@ -360,7 +360,7 @@ class Tracker
             $config = Config::getInstance();
 
             try {
-                $db = Zend_Registry::get('db');
+                $db = \Zend_Registry::get('db');
             } catch (Exception $e) {
                 Piwik::createDatabaseObject();
             }

@@ -14,6 +14,8 @@ use Piwik\Common;
 use Piwik\TranslationWriter;
 use Piwik\Plugin;
 use Piwik\Site;
+use Piwik\WidgetsList;
+use Piwik\Db;
 
 /**
  *

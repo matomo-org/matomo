@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Site;
+use Piwik\Db;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
@@ -103,7 +104,7 @@ class Piwik_Goals_API
         $pattern = $this->checkPattern($pattern);
 
         // save in db
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $idGoal = $db->fetchOne("SELECT max(idgoal) + 1
 								FROM " . Common::prefixTable('goal') . "
 								WHERE idsite = ?", $idSite);
@@ -149,7 +150,7 @@ class Piwik_Goals_API
         $name = $this->checkName($name);
         $pattern = $this->checkPattern($pattern);
         $this->checkPatternIsValid($patternType, $pattern);
-        Zend_Registry::get('db')->update(Common::prefixTable('goal'),
+        \Zend_Registry::get('db')->update(Common::prefixTable('goal'),
             array(
                  'name'            => $name,
                  'match_attribute' => $matchAttribute,

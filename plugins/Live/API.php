@@ -21,6 +21,7 @@ use Piwik\DataTable;
 use Piwik\Tracker;
 use Piwik\Segment;
 use Piwik\Site;
+use Piwik\Db;
 
 /**
  * @see plugins/Referers/functions.php

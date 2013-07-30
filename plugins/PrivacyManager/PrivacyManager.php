@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\Date;
 use Piwik\ScheduledTask;
 use Piwik\Plugin;
+use Piwik\Db;
 
 /**
  * @see plugins/PrivacyManager/LogDataPurger.php

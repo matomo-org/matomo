@@ -1,4 +1,6 @@
 <?php
+use Piwik\Db;
+
 /**
  * Piwik - Open source web analytics
  *

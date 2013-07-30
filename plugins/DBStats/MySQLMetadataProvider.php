@@ -12,6 +12,8 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\DataTable;
+use Piwik\Db;
+
 
 /**
  * Utility class that provides general information about databases, including the size of

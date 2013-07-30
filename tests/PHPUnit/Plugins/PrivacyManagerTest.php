@@ -13,8 +13,9 @@ use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\Piwik_Option;
+use Piwik\Option;
 use Piwik\Site;
+use Piwik\Db;
 
 require_once 'PrivacyManager/PrivacyManager.php';
 
@@ -112,7 +113,7 @@ class PrivacyManagerTest extends IntegrationTestCase
     {
         parent::tearDown();
         Manager::getInstance()->deleteAll();
-        Piwik_Option::getInstance()->clearCache();
+        Option::getInstance()->clearCache();
         Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
         ArchiveTableCreator::clear();

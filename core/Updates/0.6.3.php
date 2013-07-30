@@ -10,7 +10,7 @@
  */
 use Piwik\Config;
 use Piwik\Common;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\Updates;
 
 /**
@@ -42,10 +42,10 @@ class Piwik_Updates_0_6_3 extends Updates
                     throw new Exception('mandatory update failed');
                 }
             } catch (Exception $e) {
-                throw new Piwik_Updater_UpdateErrorException("Please edit your config/config.ini.php file and add below <code>[database]</code> the following line: <br /><code>schema = Myisam</code>");
+                throw new Updater_UpdateErrorException("Please edit your config/config.ini.php file and add below <code>[database]</code> the following line: <br /><code>schema = Myisam</code>");
             }
         }
 
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
     }
 }

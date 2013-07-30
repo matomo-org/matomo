@@ -9,7 +9,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataTable\Manager;
 use Piwik\Piwik;
-use Piwik\Piwik_Option;
+use Piwik\Option;
 use Piwik\Site;
 
 /**
@@ -69,13 +69,13 @@ class DatabaseTestCase extends PHPUnit_Framework_TestCase
         IntegrationTestCase::unloadAllPlugins();
         Piwik::dropDatabase();
         Manager::getInstance()->deleteAll();
-        Piwik_Option::getInstance()->clearCache();
+        Option::getInstance()->clearCache();
         Piwik_PDFReports_API::$cache = array();
         Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
-        Zend_Registry::_unsetInstance();
+        \Zend_Registry::_unsetInstance();
     }
 
 }

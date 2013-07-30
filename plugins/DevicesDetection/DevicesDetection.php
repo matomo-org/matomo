@@ -13,6 +13,9 @@ use Piwik\ArchiveProcessor;
 use Piwik\Config;
 use Piwik\Common;
 use Piwik\Plugin;
+use Piwik\WidgetsList;
+use Piwik\Db;
+
 
 require_once PIWIK_INCLUDE_PATH . "/plugins/DevicesDetection/UserAgentParserEnhanced/UserAgentParserEnhanced.php";
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';

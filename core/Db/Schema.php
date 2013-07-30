@@ -11,7 +11,6 @@
 namespace Piwik\Db;
 
 use Piwik\Config;
-use Piwik\Db\Schema\SchemaInterface;
 
 /**
  * Schema abstraction
@@ -58,7 +57,7 @@ class Schema
      */
     private static function getSchemaClassName($schemaName)
     {
-        return 'Piwik_Db_Schema_' . str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($schemaName))));
+        return '\Piwik\Db\Schema\\' . str_replace(' ', '\\', ucwords(str_replace('_', ' ', strtolower($schemaName))));
     }
 
     /**
@@ -150,7 +149,7 @@ class Schema
     /**
      * Returns an instance that subclasses Schema
      *
-     * @return \Piwik\Db\Schema\SchemaInterface
+     * @return \Piwik\Db\SchemaInterface
      */
     private function getSchema()
     {

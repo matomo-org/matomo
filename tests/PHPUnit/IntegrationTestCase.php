@@ -15,10 +15,11 @@ use Piwik\DataTable\Manager;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Access;
-use Piwik\Piwik_Option;
+use Piwik\Option;
 use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Translate;
+use Piwik\Db;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -229,13 +230,13 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
             Piwik::dropDatabase();
         }
         Manager::getInstance()->deleteAll();
-        Piwik_Option::getInstance()->clearCache();
+        Option::getInstance()->clearCache();
         Site::clearCache();
         Piwik_Tracker_Cache::deleteTrackerCache();
         Config::getInstance()->clear();
         ArchiveTableCreator::clear();
         Piwik_PDFReports_API::$cache = array();
-        Zend_Registry::_unsetInstance();
+        \Zend_Registry::_unsetInstance();
 
         $_GET = $_REQUEST = array();
         Translate::getInstance()->unloadEnglishTranslation();

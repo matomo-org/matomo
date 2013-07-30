@@ -146,7 +146,7 @@ class Piwik_API_API
             'segment'        => 'visitIp',
             'acceptedValues' => '13.54.122.1, etc.',
             'sqlSegment'     => 'log_visit.location_ip',
-            'sqlFilter'      => array('IP', 'P2N'),
+            'sqlFilter'      => array('Piwik\IP', 'P2N'),
             'permission'     => $isAuthenticatedWithViewAccess,
         );
         $segments[] = array(

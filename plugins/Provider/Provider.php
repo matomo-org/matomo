@@ -13,6 +13,8 @@ use Piwik\FrontController;
 use Piwik\IP;
 use Piwik\Plugin;
 use Piwik\ArchiveProcessor;
+use Piwik\Db;
+use Piwik\WidgetsList;
 
 /**
  *

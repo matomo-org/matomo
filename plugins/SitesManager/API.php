@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Access;
 use Piwik\Date;
 use Piwik\IP;
+use Piwik\Db;
 use Piwik\Url;
 use Piwik\TaskScheduler;
 use Piwik\Site;
@@ -90,7 +91,7 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         $group = trim($group);
 
-        $sites = Zend_Registry::get('db')->fetchAll("SELECT *
+        $sites = \Zend_Registry::get('db')->fetchAll("SELECT *
 													FROM " . Common::prefixTable("site") . "
 													WHERE `group` = ?", $group);
         return $sites;
@@ -105,7 +106,7 @@ class Piwik_SitesManager_API
     public function getSitesGroups()
     {
         Piwik::checkUserIsSuperUser();
-        $groups = Zend_Registry::get('db')->fetchAll("SELECT DISTINCT `group` FROM " . Common::prefixTable("site"));
+        $groups = \Zend_Registry::get('db')->fetchAll("SELECT DISTINCT `group` FROM " . Common::prefixTable("site"));
         $cleanedGroups = array();
         foreach ($groups as $group) {
             $cleanedGroups[] = $group['group'];
@@ -124,7 +125,7 @@ class Piwik_SitesManager_API
     public function getSiteFromId($idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $site = Zend_Registry::get('db')->fetchRow("SELECT *
+        $site = \Zend_Registry::get('db')->fetchRow("SELECT *
 													FROM " . Common::prefixTable("site") . "
 													WHERE idsite = ?", $idSite);
         return $site;
@@ -139,7 +140,7 @@ class Piwik_SitesManager_API
      */
     private function getAliasSiteUrlsFromId($idSite)
     {
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $result = $db->fetchAll("SELECT url
 								FROM " . Common::prefixTable("site_url") . "
 								WHERE idsite = ?", $idSite);
@@ -189,7 +190,7 @@ class Piwik_SitesManager_API
     public function getAllSites()
     {
         Piwik::checkUserIsSuperUser();
-        $sites = Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Common::prefixTable("site"));
+        $sites = \Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Common::prefixTable("site"));
         $return = array();
         foreach ($sites as $site) {
             $return[$site['idsite']] = $site;
@@ -355,7 +356,7 @@ class Piwik_SitesManager_API
             $limit = "LIMIT " . (int)$limit;
         }
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $sites = $db->fetchAll("SELECT *
 								FROM " . Common::prefixTable("site") . "
 								WHERE idsite IN (" . implode(", ", $idSites) . ")
@@ -384,7 +385,7 @@ class Piwik_SitesManager_API
         $url = $this->removeTrailingSlash($url);
         list($url, $urlBis) = $this->getNormalizedUrls($url);
         if (Piwik::isUserIsSuperUser()) {
-            $ids = Zend_Registry::get('db')->fetchAll(
+            $ids = \Zend_Registry::get('db')->fetchAll(
                 'SELECT idsite
                 FROM ' . Common::prefixTable('site') . '
 					WHERE (main_url = ? OR main_url = ?) ' .
@@ -394,7 +395,7 @@ class Piwik_SitesManager_API
 					WHERE (url = ? OR url = ?) ', array($url, $urlBis, $url, $urlBis));
         } else {
             $login = Piwik::getCurrentUserLogin();
-            $ids = Zend_Registry::get('db')->fetchAll(
+            $ids = \Zend_Registry::get('db')->fetchAll(
                 'SELECT idsite
                 FROM ' . Common::prefixTable('site') . '
 					WHERE (main_url = ? OR main_url = ?)' .
@@ -422,7 +423,7 @@ class Piwik_SitesManager_API
         Piwik::checkUserIsSuperUser();
         $timezones = Piwik::getArrayFromApiParameter($timezones);
         $timezones = array_unique($timezones);
-        $ids = Zend_Registry::get('db')->fetchAll(
+        $ids = \Zend_Registry::get('db')->fetchAll(
             'SELECT idsite
             FROM ' . Common::prefixTable('site') . '
 					WHERE timezone IN (' . Common::getSqlStringFieldsArray($timezones) . ')
@@ -499,7 +500,7 @@ class Piwik_SitesManager_API
         }
         $this->checkValidCurrency($currency);
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         $url = $urls[0];
         $urls = array_slice($urls, 1);
@@ -573,7 +574,7 @@ class Piwik_SitesManager_API
             throw new Exception(Piwik_TranslateException("SitesManager_ExceptionDeleteSite"));
         }
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
 
         $db->query("DELETE FROM " . Common::prefixTable("site") . "
 					WHERE idsite = ?", $idSite);
@@ -1038,7 +1039,7 @@ class Piwik_SitesManager_API
         $bind['sitesearch_category_parameters'] = $searchCategoryParameters;
 
         $bind['name'] = $siteName;
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $db->update(Common::prefixTable("site"),
             $bind,
             "idsite = $idSite"
@@ -1182,7 +1183,7 @@ class Piwik_SitesManager_API
     private function insertSiteUrls($idSite, $urls)
     {
         if (count($urls) != 0) {
-            $db = Zend_Registry::get('db');
+            $db = \Zend_Registry::get('db');
             foreach ($urls as $url) {
                 $db->insert(Common::prefixTable("site_url"), array(
                                                                         'idsite' => $idSite,
@@ -1198,7 +1199,7 @@ class Piwik_SitesManager_API
      */
     private function deleteSiteAliasUrls($idsite)
     {
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $db->query("DELETE FROM " . Common::prefixTable("site_url") . "
 					WHERE idsite = ?", $idsite);
     }
@@ -1335,7 +1336,7 @@ class Piwik_SitesManager_API
         }
         $ids_str .= $id_val;
 
-        $db = Zend_Registry::get('db');
+        $db = \Zend_Registry::get('db');
         $bind = array('%' . $pattern . '%', 'http%' . $pattern . '%');
 
         // Also match the idsite

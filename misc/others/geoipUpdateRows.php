@@ -4,6 +4,7 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\FrontController;
 use Piwik\IP;
+use Piwik\Db;
 
 ini_set("memory_limit", "512M");
 error_reporting(E_ALL | E_NOTICE);

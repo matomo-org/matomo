@@ -390,7 +390,7 @@ abstract class Zend_Validate_Abstract implements Zend_Validate_Interface
         if (null === self::$_defaultTranslator) {
             // require_once 'Zend/Registry.php';
             if (Zend_Registry::isRegistered('Zend_Translate')) {
-                $translator = Zend_Registry::get('Zend_Translate');
+                $translator = \Zend_Registry::get('Zend_Translate');
                 if ($translator instanceof Zend_Translate_Adapter) {
                     return $translator;
                 } elseif ($translator instanceof Zend_Translate) {

@@ -50,7 +50,7 @@ class Proxy
      */
     protected function __construct()
     {
-        $this->noDefaultValue = new Piwik_API_Proxy_NoDefaultValue();
+        $this->noDefaultValue = new NoDefaultValue();
     }
 
     /**
@@ -60,10 +60,10 @@ class Proxy
      */
     static public function getInstance()
     {
-        if (\Piwik\API\self::$instance == null) {
-            \Piwik\API\self::$instance = new \Piwik\API\self;
+        if (self::$instance == null) {
+            self::$instance = new self;
         }
-        return \Piwik\API\self::$instance;
+        return self::$instance;
     }
 
     /**
@@ -203,7 +203,7 @@ class Proxy
 
             // log the API Call
             try {
-                Zend_Registry::get('logger_api_call')->logEvent(
+                \Zend_Registry::get('logger_api_call')->logEvent(
                     $className,
                     $methodName,
                     $parameterNamesDefaultValues,
@@ -277,7 +277,7 @@ class Proxy
         $finalParameters = array();
         foreach ($requiredParameters as $name => $defaultValue) {
             try {
-                if ($defaultValue instanceof Piwik_API_Proxy_NoDefaultValue) {
+                if ($defaultValue instanceof NoDefaultValue) {
                     $requestValue = Common::getRequestVar($name, null, null, $parametersRequest);
                 } else {
                     try {
@@ -315,7 +315,7 @@ class Proxy
      */
     private function includeApiFile($fileName)
     {
-        $module = \Piwik\API\self::getModuleNameFromClassName($fileName);
+        $module = self::getModuleNameFromClassName($fileName);
         $path = PIWIK_INCLUDE_PATH . '/plugins/' . $module . '/API.php';
 
         if (is_readable($path)) {
@@ -414,6 +414,6 @@ class Proxy
  * @package Piwik
  * @subpackage Piwik_API
  */
-class Piwik_API_Proxy_NoDefaultValue
+class NoDefaultValue
 {
 }

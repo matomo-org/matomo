@@ -87,7 +87,7 @@ class Test_Piwik_Integration_TwoVisitsWithCustomVariables_SegmentMatchVisitorTyp
         );
         foreach ($tests as $table => $expectedRows) {
             $sql = "SELECT count(*) FROM " . Common::prefixTable($table);
-            $countBlobs = Zend_Registry::get('db')->fetchOne($sql);
+            $countBlobs = \Zend_Registry::get('db')->fetchOne($sql);
 
             if($expectedRows != $countBlobs) {
                 var_export(Zend_Registry::get('db')->fetchAll("SELECT * FROM " . Common::prefixTable($table) . " ORDER BY name, idarchive ASC"));

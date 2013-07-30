@@ -14,7 +14,7 @@ use Exception;
 use PDO;
 use PDOException;
 use Piwik\Config;
-use Piwik\Db\Adapter\AdapterInterface;
+use Piwik\Db\AdapterInterface;
 use Zend_Db;
 use Zend_Db_Adapter_Exception;
 use Zend_Db_Adapter_Pdo_Mssql;

@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Period;
 use Piwik\Plugin;
 use Piwik\Site;
+use Piwik\WidgetsList;
 
 /**
  *

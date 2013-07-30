@@ -12,6 +12,8 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Controller;
 use Piwik\View;
+use Piwik\Db;
+use Piwik\WidgetsList;
 
 /**
  * Dashboard Controller

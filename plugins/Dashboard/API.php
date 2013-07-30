@@ -8,6 +8,7 @@
  * @package  Piwik_Dashboard
  */
 use Piwik\Piwik;
+use Piwik\WidgetsList;
 
 
 /**

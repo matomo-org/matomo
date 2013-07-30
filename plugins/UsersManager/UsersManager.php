@@ -9,7 +9,7 @@
  * @package Piwik_UsersManager
  */
 use Piwik\Piwik;
-use Piwik\Piwik_Option;
+use Piwik\Option;
 use Piwik\Plugin;
 
 /**
@@ -62,7 +62,7 @@ class Piwik_UsersManager extends Plugin
      */
     public function deleteSite(&$idSite)
     {
-        Piwik_Option::getInstance()->deleteLike('%\_' . Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, $idSite);
+        Option::getInstance()->deleteLike('%\_' . Piwik_UsersManager_API::PREFERENCE_DEFAULT_REPORT, $idSite);
     }
 
     /**

@@ -10,7 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Common;
-use Piwik\Piwik_Updater;
+use Piwik\Updater;
 use Piwik\Updates;
 
 /**
@@ -52,7 +52,7 @@ class Piwik_Updates_0_2_10 extends Updates
 
     static function update()
     {
-        Piwik_Updater::updateDatabase(__FILE__, self::getSql());
+        Updater::updateDatabase(__FILE__, self::getSql());
 
         $obsoleteFile = '/plugins/ExamplePlugin/API.php';
         if (file_exists(PIWIK_INCLUDE_PATH . $obsoleteFile)) {

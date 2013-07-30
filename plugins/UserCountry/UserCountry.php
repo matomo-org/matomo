@@ -12,6 +12,7 @@ use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  * @see plugins/UserCountry/GeoIPAutoUpdater.php

@@ -11,6 +11,7 @@
 use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\WidgetsList;
 
 /**
  * @see plugins/Referers/functions.php
