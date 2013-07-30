@@ -9,18 +9,23 @@
  * @package Piwik
  */
 
+namespace Piwik\ViewDataTable;
+
+use Exception;
+use ReflectionClass;
+
 /**
  * Contains the list of all core DataTable display properties for use with ViewDataTable.
- * 
+ *
  * @see Piwik_ViewDataTable for more info.
- * 
+ *
  * TODO: change the names of properties to match the const names where appropriate.
  */
-class Piwik_ViewDataTable_Properties
+class Properties
 {
     /**
      * This property determines which Twig template to use when rendering a ViewDataTable.
-     * 
+     *
      * TODO: shouldn't have this property. should only use visualization classes.
      */
     const DATATABLE_TEMPLATE = 'datatable_template';
@@ -42,14 +47,14 @@ class Piwik_ViewDataTable_Properties
 
     /**
      * Controls the sort order. Either 'asc' or 'desc'.
-     * 
+     *
      * @see self::SORTED_COLUMN
      */
     const SORT_ORDER = 'filter_sort_order';
 
     /**
      * The limit used when rendering a jqPlot graph.
-     * 
+     *
      * TODO: either replace w/ filter_limit, or make it a visualization property.
      */
     const GRAPH_LIMIT = 'graph_limit';
@@ -77,7 +82,7 @@ class Piwik_ViewDataTable_Properties
 
     /**
      * The unit to display in jqPlot graphs.
-     * 
+     *
      * TODO: Either this should be a visualization property, or should be named something different.
      */
     const Y_AXIS_UNIT = 'y_axis_unit';
@@ -95,7 +100,7 @@ class Piwik_ViewDataTable_Properties
     /**
      * Array property that determines which columns will be shown. Columns not in this array
      * should not appear in ViewDataTable visualizations.
-     * 
+     *
      * Example: array('label', 'nb_visits', 'nb_uniq_visitors')
      */
     const COLUMNS_TO_DISPLAY = 'columns_to_display';
@@ -134,7 +139,7 @@ class Piwik_ViewDataTable_Properties
 
     /**
      * Array property that contains the names of columns that can be selected in the Series Picker.
-     * 
+     *
      * TODO: this is only applicable to graph views. move this.
      */
     const SELECTABLE_COLUMNS = 'selectable_columns';
@@ -147,7 +152,7 @@ class Piwik_ViewDataTable_Properties
     /**
      * Returns the set of all valid ViewDataTable properties. The result is an array with property
      * name as a key. Values of the array are undefined.
-     * 
+     *
      * @return array
      */
     public static function getAllProperties()
@@ -173,7 +178,7 @@ class Piwik_ViewDataTable_Properties
         $properties = self::getAllProperties();
         if (!isset($properties[$name])) {
             throw new Exception("Invalid ViewDataTable display property '$name'. Is this a visualization property? "
-                              . "If so, set it with \$view->visualization_properties->$name = ...");
+                . "If so, set it with \$view->visualization_properties->$name = ...");
         }
     }
 }

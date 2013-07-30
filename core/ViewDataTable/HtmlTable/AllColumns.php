@@ -8,13 +8,16 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ViewDataTable\HtmlTable;
+
 use Piwik\Controller;
+use Piwik\ViewDataTable\HtmlTable;
 
 /**
  * @package Piwik
  * @subpackage ViewDataTable
  */
-class Piwik_ViewDataTable_HtmlTable_AllColumns extends Piwik_ViewDataTable_HtmlTable
+class AllColumns extends HtmlTable
 {
     protected function getViewDataTableId()
     {

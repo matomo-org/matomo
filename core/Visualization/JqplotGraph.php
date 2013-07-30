@@ -9,20 +9,26 @@
  * @package Piwik
  */
 
+namespace Piwik\Visualization;
+
+use Piwik\View;
+use Piwik\JqplotDataGenerator;
+use Piwik_DataTable;
+
 /**
  * DataTable visualization that displays DataTable data in a JQPlot graph.
  */
-class Piwik_Visualization_JqplotGraph
+class JqplotGraph
 {
     /**
      * Renders this visualization.
-     * 
+     *
      * @param Piwik_DataTable $dataTable
      * @param array $properties View Properties.
      */
     public function render($dataTable, $properties)
     {
-        $view = new Piwik_View("@CoreHome/_dataTableViz_jqplotGraph.twig");
+        $view = new View("@CoreHome/_dataTableViz_jqplotGraph.twig");
         $view->properties = $properties;
         $view->dataTable = $dataTable;
         $view->data = $this->getGraphData($dataTable, $properties);
@@ -35,8 +41,8 @@ class Piwik_Visualization_JqplotGraph
     private function getGraphData($dataTable, $properties)
     {
         $properties = array_merge($properties, $properties['request_parameters_to_modify']);
-        $dataGenerator = Piwik_JqplotDataGenerator::factory($properties['graph_type'], $properties);
-        
+        $dataGenerator = JqplotDataGenerator::factory($properties['graph_type'], $properties);
+
         $jsonData = $dataGenerator->generate($dataTable);
         return str_replace(array("\r", "\n"), '', $jsonData);
     }

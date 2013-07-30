@@ -16,7 +16,7 @@ use Piwik\Common;
 use Piwik\AssetManager;
 use Piwik\Translate;
 use Piwik\Url;
-use Piwik_Visualization_Sparkline;
+use Piwik\Visualization\Sparkline;
 use Twig_Environment;
 use Twig_Extension_Debug;
 use Twig_Loader_Chain;
@@ -107,9 +107,9 @@ class Twig
     protected function addFunction_sparkline()
     {
         $sparklineFunction = new Twig_SimpleFunction('sparkline', function ($src) {
-            $width = Piwik_Visualization_Sparkline::DEFAULT_WIDTH;
-            $height = Piwik_Visualization_Sparkline::DEFAULT_HEIGHT;
-            return sprintf(Piwik_Twig::SPARKLINE_TEMPLATE, $src, $width, $height);
+            $width = Sparkline::DEFAULT_WIDTH;
+            $height = Sparkline::DEFAULT_HEIGHT;
+            return sprintf(Twig::SPARKLINE_TEMPLATE, $src, $width, $height);
         }, array('is_safe' => array('html')));
         $this->twig->addFunction($sparklineFunction);
     }

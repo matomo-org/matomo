@@ -8,6 +8,8 @@
  * @category Piwik
  * @package SmartyPlugins
  */
+namespace Piwik\View;
+
 use Piwik\FrontController;
 use Piwik\View;
 use Piwik\Url;
@@ -19,7 +21,7 @@ use Piwik\Url;
  * loads them by AJAX when clicked. The loaded report is displayed to the right
  * of the report listing.
  */
-class Piwik_View_ReportsByDimension extends View
+class ReportsByDimension extends View
 {
     /**
      * Constructor.

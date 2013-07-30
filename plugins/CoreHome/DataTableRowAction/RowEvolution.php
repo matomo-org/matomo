@@ -15,6 +15,8 @@ use Piwik\Metrics;
 use Piwik\Date;
 use Piwik\ViewDataTable;
 use Piwik\Url;
+use Piwik\ViewDataTable\GenerateGraphHtml\ChartEvolution;
+use Piwik\Visualization\Chart\Evolution;
 
 /**
  * ROW EVOLUTION
@@ -97,7 +99,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
             // handle day, week, month and year: display last X periods
             $end = $date->toString();
             list($this->date, $lastN) =
-                Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution::getDateRangeAndLastN($this->period, $end);
+                ChartEvolution::getDateRangeAndLastN($this->period, $end);
         }
         $this->segment = \Piwik\API\Request::getRawSegmentFromRequest();
 
@@ -107,7 +109,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
     /**
      * Render the popover
      * @param Piwik_CoreHome_Controller
-     * @param Piwik_View (the popover_rowevolution template)
+     * @param View (the popover_rowevolution template)
      */
     public function renderPopover($controller, $view)
     {
@@ -211,7 +213,7 @@ class Piwik_CoreHome_DataTableRowAction_RowEvolution
      */
     protected function getMetricsToggles()
     {
-        $chart = new Piwik_Visualization_Chart_Evolution;
+        $chart = new Evolution;
         
         $i = 0;
         $metrics = array();

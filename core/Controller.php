@@ -30,7 +30,7 @@ use Piwik\Url;
 use Piwik_UsersManager_API;
 use Piwik\View;
 use Piwik\ViewDataTable;
-use Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution;
+use Piwik\ViewDataTable\GenerateGraphHtml\ChartEvolution;
 use Zend_Registry;
 use false;
 
@@ -149,7 +149,7 @@ abstract class Controller
     }
 
     /**
-     * Given an Object implementing Piwik_View_Interface, we either:
+     * Given an Object implementing ViewInterface, we either:
      * - echo the output of the rendering if fetch = false
      * - returns the output of the rendering if fetch = true
      *
@@ -185,7 +185,7 @@ abstract class Controller
      * @param string $currentModuleName
      * @param string $currentControllerAction
      * @param string $apiMethod
-     * @return Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution
+     * @return ChartEvolution
      */
     protected function getLastUnitGraph($currentModuleName, $currentControllerAction, $apiMethod)
     {
@@ -206,7 +206,7 @@ abstract class Controller
      * @param bool|string $reportDocumentation
      * @param string $apiMethod The method to request the report from
      *                                (by default, this is API.get but it can be changed for custom stuff)
-     * @return Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution
+     * @return ChartEvolution
      */
     protected function getLastUnitGraphAcrossPlugins($currentModuleName, $currentControllerAction,
                                                      $columnsToDisplay, $selectableColumns = array(), $reportDocumentation = false, $apiMethod = 'API.get')

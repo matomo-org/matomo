@@ -138,7 +138,8 @@ class Piwik_VisitsSummary_Controller extends Controller
         $dataTableVisit = self::getVisitsSummary();
         $dataRow = $dataTableVisit->getRowsCount() == 0 ? new Row() : $dataTableVisit->getFirstRow();
 
-        $dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Piwik_Common::getRequestVar('period'), Piwik_Common::getRequestVar('date'), Piwik_API_Request::getRawSegmentFromRequest());
+        $dataTableActions = Piwik_Actions_API::getInstance()->get($idSite, Common::getRequestVar('period'), Common::getRequestVar('date'),
+            \Piwik\API\Request::getRawSegmentFromRequest());
         $dataActionsRow =
             $dataTableActions->getRowsCount() == 0 ? new Row() : $dataTableActions->getFirstRow();
 

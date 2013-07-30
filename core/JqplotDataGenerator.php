@@ -13,12 +13,9 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Common;
-use Piwik\JqplotDataGenerator\Evolution;
 use Piwik\Metrics;
 use Piwik\DataTable;
-use Piwik_Visualization;
-use Piwik_Visualization_Chart_Pie;
-use Piwik_Visualization_Chart_VerticalBar;
+use Piwik\Visualization;
 
 /**
  * Generates JSON data used to configure and populate JQPlot graphs.
@@ -52,12 +49,12 @@ class JqplotDataGenerator
     {
         switch ($type) {
             case 'evolution':
-                return new Evolution($properties);
+                return new \Piwik\JqplotDataGenerator\Evolution($properties);
             case 'pie':
-                $visualization = new Piwik_Visualization_Chart_Pie();
+                $visualization = new Visualization\Chart\Pie();
                 return new JqplotDataGenerator($visualization, $properties);
             case 'bar':
-                $visualization = new Piwik_Visualization_Chart_VerticalBar();
+                $visualization = new Visualization\Chart\VerticalBar();
                 return new JqplotDataGenerator($visualization, $properties);
             default:
                 throw new Exception("Unknown JqplotDataGenerator type '$type'.");
@@ -161,7 +158,7 @@ class JqplotDataGenerator
 
         // the bar charts contain the labels a first series
         // this series has to be removed from the units
-        if ($this->visualization instanceof Piwik_Visualization_Chart_VerticalBar) {
+        if ($this->visualization instanceof Visualization\Chart\VerticalBar) {
             array_shift($units);
         }
 

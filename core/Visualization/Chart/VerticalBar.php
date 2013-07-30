@@ -9,13 +9,17 @@
  * @package Piwik
  */
 
+namespace Piwik\Visualization\Chart;
+
+use Piwik\Visualization\Chart;
+
 /**
  * Customize & set values for the Vertical bar chart
  *
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Piwik_Visualization_Chart_VerticalBar extends Piwik_Visualization_Chart
+class VerticalBar extends Chart
 {
     public function customizeChartProperties()
     {

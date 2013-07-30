@@ -9,13 +9,17 @@
  * @package Piwik
  */
 
+namespace Piwik\Visualization\Chart;
+
+use Piwik\Visualization\Chart;
+
 /**
  * Customize & set values for the Flash Pie chart
  *
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Piwik_Visualization_Chart_Pie extends Piwik_Visualization_Chart
+class Pie extends Chart
 {
     function customizeChartProperties()
     {

@@ -16,7 +16,6 @@ use Piwik\DataTable;
 use Piwik\ViewDataTable;
 use Piwik\Url;
 use Piwik\JqplotDataGenerator;
-use Piwik_Visualization_Chart_Evolution;
 
 /**
  * Generates JQPlot JSON data/config for evolution graphs.
@@ -30,7 +29,7 @@ class Evolution extends JqplotDataGenerator
      */
     public function __construct($properties)
     {
-        parent::__construct(new Piwik_Visualization_Chart_Evolution(), $properties);
+        parent::__construct(new \Piwik\Visualization\Chart\Evolution(), $properties);
     }
 
     protected function initChartObjectData($dataTable)
@@ -215,7 +214,7 @@ class Evolution extends JqplotDataGenerator
         foreach ($piwikParameters as $parameter) {
             unset($queryString[$parameter]);
         }
-        if (Piwik_Menu_Main::getInstance()->isUrlFound($queryString)) {
+        if (\Piwik\Menu\Main::getInstance()->isUrlFound($queryString)) {
             return $queryString;
         }
         return false;

@@ -12,6 +12,7 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Date;
+use Piwik\ViewDataTable\GenerateGraphHtml\ChartEvolution;
 
 /**
  * @see plugins/Annotations/AnnotationList.php
@@ -329,7 +330,7 @@ class Piwik_Annotations_API
         } else // if the range includes the last N periods
         {
             list($date, $lastN) =
-                Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution::getDateRangeAndLastN($period, $date, $lastN);
+                ChartEvolution::getDateRangeAndLastN($period, $date, $lastN);
             list($startDate, $endDate) = explode(',', $date);
 
             $startDate = Date::factory($startDate);

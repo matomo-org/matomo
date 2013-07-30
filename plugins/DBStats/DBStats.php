@@ -10,6 +10,7 @@
  */
 use Piwik\Piwik;
 use Piwik\Date;
+use Piwik\Common;
 use Piwik\ScheduledTask;
 use Piwik\Plugin;
 
@@ -285,7 +286,7 @@ class Piwik_DBStats extends Plugin
         $runPrettySizeFilterBeforeGeneric = false;
 
         $viewDataTable = empty($properties['default_view_type']) ? 'table' : $properties['default_view_type'];
-        $viewDataTable = Piwik_Common::getRequestVar('viewDataTable', $viewDataTable);
+        $viewDataTable = Common::getRequestVar('viewDataTable', $viewDataTable);
 
         if ($viewDataTable == 'table') {
             // add summary row only if displaying a table

@@ -1,4 +1,4 @@
-{% set summaryRowId = -1 %}{# ID_SUMMARY_ROW #}
+{% set summaryRowId = constant('Piwik\\DataTable::ID_SUMMARY_ROW') %}{# ID_SUMMARY_ROW #}
 {% set isSubtable = javascriptVariablesToSet.idSubtable is defined and javascriptVariablesToSet.idSubtable != 0 %}
 <div class="dataTable {{ properties.datatable_css_class }} {% if isSubtable %}subDataTable{% endif %}"
      data-table-type="{{ properties.datatable_js_type|default('dataTable') }}"

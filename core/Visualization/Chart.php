@@ -8,8 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Visualization;
+
 use Piwik\Piwik;
 use Piwik\Common;
+use Piwik\View\ViewInterface;
 
 /**
  * Generates the data in the Open Flash Chart format, from the given data.
@@ -17,7 +20,7 @@ use Piwik\Common;
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
+abstract class Chart implements ViewInterface
 {
 
     // the data kept here conforms to the jqplot data layout
@@ -157,8 +160,8 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
         // See http://www.jqplot.com/docs/files/jqPlotOptions-txt.html
         $data = array(
             'params'       => array(
-                'axes'         => &$this->axes,
-                'series'       => &$this->series
+                'axes'   => &$this->axes,
+                'series' => &$this->series
             ),
             'data'         => &$this->data,
             'tooltip'      => &$this->tooltip,
@@ -181,5 +184,4 @@ abstract class Piwik_Visualization_Chart implements Piwik_View_Interface
             }
         }
     }
-
 }

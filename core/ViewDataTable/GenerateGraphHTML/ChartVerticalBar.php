@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ViewDataTable\GenerateGraphHtml;
+
+use Piwik\ViewDataTable\GenerateGraphHTML;
 
 /**
  *
@@ -17,7 +20,7 @@
  * @subpackage ViewDataTable
  */
 
-class Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar extends Piwik_ViewDataTable_GenerateGraphHTML
+class ChartVerticalBar extends GenerateGraphHTML
 {
     public function __construct()
     {
@@ -25,7 +28,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar extends Piwik_ViewD
         $this->viewProperties['graph_type'] = 'bar';
         $this->viewProperties['graph_limit'] = 6;
     }
-    
+
     protected function getViewDataTableId()
     {
         return 'graphVerticalBar';

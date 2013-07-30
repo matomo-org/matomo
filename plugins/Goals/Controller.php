@@ -15,6 +15,7 @@ use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\Controller;
 use Piwik\FrontController;
+use Piwik\View\ReportsByDimension;
 use Piwik\ViewDataTable;
 use Piwik\View;
 
@@ -406,7 +407,7 @@ class Piwik_Goals_Controller extends Controller
     {
         $preloadAbandonedCart = $cartNbConversions !== false && $conversions == 0;
 
-        $goalReportsByDimension = new Piwik_View_ReportsByDimension();
+        $goalReportsByDimension = new ReportsByDimension();
 
         // add ecommerce reports
         $ecommerceCustomParams = array();

@@ -118,7 +118,7 @@ class Piwik_ExampleUI_Controller extends Controller
         $view = ViewDataTable::factory(
             'sparkline', 'ExampleUI.getTemperaturesEvolution', $controllerAction = 'ExampleUI.generateSparkline');
 
-        $serverRequested = Piwik_Common::getRequestVar('server', false);
+        $serverRequested = Common::getRequestVar('server', false);
         if ($serverRequested !== false) {
             $view->columns_to_display = array($serverRequested);
         }

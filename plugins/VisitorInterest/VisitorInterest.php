@@ -11,6 +11,7 @@
 use Piwik\ArchiveProcessor;
 use Piwik\FrontController;
 use Piwik\Plugin;
+use Piwik\Metrics;
 use Piwik\WidgetsList;
 
 /**
@@ -199,7 +200,7 @@ class Piwik_VisitorInterest extends Plugin
             'filter_sort_column' => 'label',
             'filter_sort_order' => 'asc',
             'translations' => array('label' => Piwik_Translate('VisitorInterest_VisitNum'),
-                                    'nb_visits_percentage' => Piwik_Metrics::getPercentVisitColumn()),
+                                    'nb_visits_percentage' => Metrics::getPercentVisitColumn()),
             'show_exclude_low_population' => false,
             'show_offset_information' => false,
             'show_pagination_control' => false,

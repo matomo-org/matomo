@@ -357,7 +357,7 @@ class FrontController
  * @package Piwik
  * @subpackage FrontController
  */
-class Piwik_FrontController_PluginDeactivatedException extends Exception
+class PluginDeactivatedException extends Exception
 {
     public function __construct($module)
     {

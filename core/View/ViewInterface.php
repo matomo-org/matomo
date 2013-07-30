@@ -9,12 +9,14 @@
  * @package Piwik
  */
 
+namespace Piwik\View;
+
 /**
  * Rendering interface for View and Piwik_Visualization
  *
  * @package Piwik
  */
-interface Piwik_View_Interface
+interface ViewInterface
 {
     /**
      * Outputs the data.

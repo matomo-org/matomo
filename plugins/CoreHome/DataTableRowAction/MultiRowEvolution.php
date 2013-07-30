@@ -59,7 +59,7 @@ class Piwik_CoreHome_DataTableRowAction_MultiRowEvolution
     /**
      * Render the popover
      * @param Piwik_CoreHome_Controller
-     * @param Piwik_View (the popover_rowevolution template)
+     * @param View (the popover_rowevolution template)
      */
     public function renderPopover($controller, $view)
     {

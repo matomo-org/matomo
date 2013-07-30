@@ -5,6 +5,8 @@
  */
 
 // make sure the test environment is loaded
+use Piwik\Visualization\Cloud;
+
 require realpath(dirname(__FILE__)) . "/../../../tests/PHPUnit/TestingEnvironment.php";
 Piwik_TestingEnvironment::addHooks();
 
@@ -20,7 +22,7 @@ require_once PIWIK_INCLUDE_PATH . '/core/Loader.php';
 require_once PIWIK_INCLUDE_PATH . '/core/functions.php';
 require_once PIWIK_INCLUDE_PATH . '/core/EventDispatcher.php';
 
-Piwik_Visualization_Cloud::$debugDisableShuffle = true;
+Cloud::$debugDisableShuffle = true;
 
 Tracker::setTestEnvironment();
 Piwik_Tracker_Cache::deleteTrackerCache();

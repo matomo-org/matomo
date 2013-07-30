@@ -20,10 +20,12 @@ use Piwik\Date;
 use Piwik\DataTable;
 use Piwik\Url;
 use Piwik\Site;
+use Piwik\ViewDataTable\Properties;
+use Piwik_API_API;
 
 /**
  * This class is used to load (from the API) and customize the output of a given DataTable.
- * The main() method will create an object implementing Piwik_View_Interface
+ * The main() method will create an object implementing ViewInterface
  * You can customize the dataTable using the disable* methods.
  *
  * You can also customize the dataTable rendering using row metadata:
@@ -118,10 +120,10 @@ abstract class ViewDataTable
     protected $currentControllerName;
 
     /**
-     * This view should be an implementation of the Interface Piwik_View_Interface
+     * This view should be an implementation of the Interface ViewInterface
      * The $view object should be created in the main() method.
      *
-     * @var Piwik_View_Interface
+     * @var ViewInterface
      */
     protected $view = null;
 
@@ -189,14 +191,14 @@ abstract class ViewDataTable
     /**
      * Gets a view property by reference.
      * 
-     * @param string $name A valid view property name. @see Piwik_ViewDataTable_Properties for all
+     * @param string $name A valid view property name. @see Properties for all
      *                     valid view properties.
      * @return mixed
      * @throws Exception if the property name is invalid.
      */
     public function &__get($name)
     {
-        Piwik_ViewDataTable_Properties::checkValidPropertyName($name);
+        Properties::checkValidPropertyName($name);
 
         return $this->viewProperties[$name];
     }
@@ -204,7 +206,7 @@ abstract class ViewDataTable
     /**
      * Sets a view property.
      * 
-     * @param string $name A valid view property name. @see Piwik_ViewDataTable_Properties for all
+     * @param string $name A valid view property name. @see Properties for all
      *                     valid view properties.
      * @param mixed $value
      * @return mixed Returns $value.
@@ -212,7 +214,7 @@ abstract class ViewDataTable
      */
     public function __set($name, $value)
     {
-        Piwik_ViewDataTable_Properties::checkValidPropertyName($name);
+        Properties::checkValidPropertyName($name);
 
         return $this->viewProperties[$name] = $value;
     }
@@ -264,36 +266,36 @@ abstract class ViewDataTable
         $type = Common::getRequestVar('viewDataTable', $defaultType, 'string');
         switch ($type) {
             case 'cloud':
-                $result = new Piwik_ViewDataTable_Cloud();
+                $result = new ViewDataTable\Cloud();
                 break;
 
             case 'graphPie':
-                $result = new Piwik_ViewDataTable_GenerateGraphHTML_ChartPie();
+                $result = new ViewDataTable\GenerateGraphHTML\ChartPie();
                 break;
 
             case 'graphVerticalBar':
-                $result = new Piwik_ViewDataTable_GenerateGraphHTML_ChartVerticalBar();
+                $result = new ViewDataTable\GenerateGraphHTML\ChartVerticalBar();
                 break;
 
             case 'graphEvolution':
-                $result = new Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution();
+                $result = new ViewDataTable\GenerateGraphHTML\ChartEvolution();
                 break;
 
             case 'sparkline':
-                $result = new Piwik_ViewDataTable_Sparkline();
+                $result = new ViewDataTable\Sparkline();
                 break;
 
             case 'tableAllColumns':
-                $result = new Piwik_ViewDataTable_HtmlTable_AllColumns();
+                $result = new ViewDataTable\HtmlTable\AllColumns();
                 break;
 
             case 'tableGoals':
-                $result = new Piwik_ViewDataTable_HtmlTable_Goals();
+                $result = new ViewDataTable\HtmlTable\Goals();
                 break;
 
             case 'table':
             default:
-                $result = new Piwik_ViewDataTable_HtmlTable();
+                $result = new ViewDataTable\HtmlTable();
                 break;
         }
         
@@ -452,7 +454,7 @@ abstract class ViewDataTable
     {
         if (is_null($this->view)) {
             throw new Exception('The $this->view object has not been created.
-					It should be created in the main() method of the Piwik_ViewDataTable_* subclass you are using.');
+					It should be created in the main() method of the ViewDataTable_* subclass you are using.');
         }
         return $this->view;
     }
@@ -585,7 +587,7 @@ abstract class ViewDataTable
         $requestArray = $this->getRequestArray();
 
         // we make the request to the API
-        $request = new Piwik_API_Request($requestArray);
+        $request = new API\Request($requestArray);
 
         // and get the DataTable structure
         $dataTable = $request->process();
@@ -672,13 +674,13 @@ abstract class ViewDataTable
         if (!$this->areGenericFiltersDisabled()) {
             // Second, generic filters (Sort, Limit, Replace Column Names, etc.)
             $requestArray = $this->getRequestArray();
-            $request = Piwik_API_Request::getRequestArrayFromString($requestArray);
+            $request = API\Request::getRequestArrayFromString($requestArray);
 
             if ($this->viewProperties['enable_sort'] === false) {
                 $request['filter_sort_column'] = $request['filter_sort_order'] = '';
             }
 
-            $genericFilter = new Piwik_API_DataTableGenericFilter($request);
+            $genericFilter = new API\DataTableGenericFilter($request);
             $genericFilter->filter($this->dataTable);
         }
 
@@ -845,7 +847,7 @@ abstract class ViewDataTable
         // build javascript variables to set
         $javascriptVariablesToSet = array();
 
-        $genericFilters = Piwik_API_DataTableGenericFilter::getGenericFiltersInformation();
+        $genericFilters = API\DataTableGenericFilter::getGenericFiltersInformation();
         foreach ($genericFilters as $filter) {
             foreach ($filter as $filterVariableName => $filterInfo) {
                 // if there is a default value for this filter variable we set it
@@ -1601,7 +1603,7 @@ abstract class ViewDataTable
             $reportMonth = $reportDate->toString('m');
 
             if (class_exists('Piwik_PrivacyManager')
-                && Piwik_PrivacyManager::shouldReportBePurged($reportYear, $reportMonth)
+                && \Piwik_PrivacyManager::shouldReportBePurged($reportYear, $reportMonth)
             ) {
                 return true;
             }
@@ -1621,7 +1623,7 @@ abstract class ViewDataTable
     private function getBaseReportUrl($module, $action, $queryParams = array())
     {
         $params = array_merge($queryParams, array('module' => $module, 'action' => $action));
-        return Piwik_API_Request::getCurrentUrlWithoutGenericFilters($params);
+        return API\Request::getCurrentUrlWithoutGenericFilters($params);
     }
 
     /**
@@ -1710,7 +1712,7 @@ abstract class ViewDataTable
             $template = $this->viewProperties['datatable_template'];
         }
 
-        $view = new Piwik_View($template);
+        $view = new View($template);
 
         if (!empty($this->loadingError)) {
             $view->error = $this->loadingError;

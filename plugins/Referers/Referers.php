@@ -10,6 +10,7 @@
  */
 use Piwik\ArchiveProcessor;
 use Piwik\Piwik;
+use Piwik\Common;
 use Piwik\Plugin;
 use Piwik\WidgetsList;
 
@@ -309,16 +310,16 @@ class Piwik_Referers extends Plugin
 
     private function getDisplayPropertiesForGetRefererType()
     {
-        $idSubtable = Piwik_Common::getRequestVar('idSubtable', false);
+        $idSubtable = Common::getRequestVar('idSubtable', false);
         $labelColumnTitle = Piwik_Translate('Referers_ColumnRefererType');
         switch ($idSubtable) {
-            case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERER_TYPE_SEARCH_ENGINE:
                 $labelColumnTitle = Piwik_Translate('Referers_ColumnSearchEngine');
                 break;
-            case Piwik_Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERER_TYPE_WEBSITE:
                 $labelColumnTitle = Piwik_Translate('Referers_ColumnWebsite');
                 break;
-            case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERER_TYPE_CAMPAIGN:
                 $labelColumnTitle = Piwik_Translate('Referers_ColumnCampaign');
                 break;
             default:
@@ -420,7 +421,7 @@ class Piwik_Referers extends Plugin
             'translations' => array('label' => Piwik_Translate('Referers_ColumnSocial'))
         );
 
-        $widget = Piwik_Common::getRequestVar('widget', false);
+        $widget = Common::getRequestVar('widget', false);
         if (empty($widget)) {
             $result['show_footer_message'] = Piwik_Translate('Referers_SocialFooterMessage');
         }
@@ -487,16 +488,16 @@ class Piwik_Referers extends Plugin
         // get singular label for referrer type
         $indexTranslation = '';
         switch ($referrerType) {
-            case Piwik_Common::REFERER_TYPE_DIRECT_ENTRY:
+            case Common::REFERER_TYPE_DIRECT_ENTRY:
                 $indexTranslation = 'Referers_DirectEntry';
                 break;
-            case Piwik_Common::REFERER_TYPE_SEARCH_ENGINE:
+            case Common::REFERER_TYPE_SEARCH_ENGINE:
                 $indexTranslation = 'Referers_ColumnKeyword';
                 break;
-            case Piwik_Common::REFERER_TYPE_WEBSITE:
+            case Common::REFERER_TYPE_WEBSITE:
                 $indexTranslation = 'Referers_ColumnWebsite';
                 break;
-            case Piwik_Common::REFERER_TYPE_CAMPAIGN:
+            case Common::REFERER_TYPE_CAMPAIGN:
                 $indexTranslation = 'Referers_ColumnCampaign';
                 break;
             default:

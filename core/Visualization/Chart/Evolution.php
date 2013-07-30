@@ -9,13 +9,17 @@
  * @package Piwik
  */
 
+namespace Piwik\Visualization\Chart;
+
+use Piwik\Visualization\Chart;
+
 /**
  * Customize the Evolution chart style
  *
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Piwik_Visualization_Chart_Evolution extends Piwik_Visualization_Chart
+class Evolution extends Chart
 {
     const SERIES_COLOR_COUNT = 8;
 

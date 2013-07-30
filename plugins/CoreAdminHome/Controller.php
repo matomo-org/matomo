@@ -161,7 +161,7 @@ class Piwik_CoreAdminHome_Controller extends Admin
         // get currencies for each viewable site
         $view->currencySymbols = Piwik_SitesManager_API::getInstance()->getCurrencySymbols();
 
-        $view->serverSideDoNotTrackEnabled = Piwik_PrivacyManager_Controller::isDntSupported();
+        $view->serverSideDoNotTrackEnabled = \Piwik_PrivacyManager_Controller::isDntSupported();
 
         echo $view->render();
     }

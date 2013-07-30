@@ -22,7 +22,7 @@ use Piwik\Twig;
 use Piwik\QuickForm2;
 use Piwik_SitesManager_API;
 use Piwik_UsersManager_API;
-use Piwik_View_Interface;
+use Piwik\View\ViewInterface;
 use Twig_Environment;
 use Zend_Registry;
 
@@ -38,7 +38,7 @@ if (!defined('PIWIK_USER_PATH')) {
  *
  * @package Piwik
  */
-class View implements Piwik_View_Interface
+class View implements ViewInterface
 {
     private $template = '';
 

@@ -8,6 +8,9 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ViewDataTable\GenerateGraphHtml;
+
+use Piwik\ViewDataTable\GenerateGraphHTML;
 
 /**
  * Generates HTML embed for the Pie chart
@@ -15,7 +18,7 @@
  * @package Piwik
  * @subpackage ViewDataTable
  */
-class Piwik_ViewDataTable_GenerateGraphHTML_ChartPie extends Piwik_ViewDataTable_GenerateGraphHTML
+class ChartPie extends GenerateGraphHTML
 {
     public function __construct()
     {
@@ -24,7 +27,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartPie extends Piwik_ViewDataTable
         $this->viewProperties['graph_limit'] = 6;
         $this->viewProperties['allow_multi_select_series_picker'] = false;
     }
-    
+
     protected function getViewDataTableId()
     {
         return 'graphPie';

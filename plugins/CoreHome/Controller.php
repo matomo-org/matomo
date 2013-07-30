@@ -20,6 +20,7 @@ use Piwik\Url;
 use Piwik\UpdateCheck;
 use Piwik\Site;
 
+
 /**
  *
  * @package Piwik_CoreHome
@@ -138,7 +139,7 @@ class Piwik_CoreHome_Controller extends Controller
     public function getRowEvolutionPopover()
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = false);
-        $view = new Piwik_View('@CoreHome/getRowEvolutionPopover');
+        $view = new View('@CoreHome/getRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 
@@ -146,7 +147,7 @@ class Piwik_CoreHome_Controller extends Controller
     public function getMultiRowEvolutionPopover()
     {
         $rowEvolution = $this->makeRowEvolution($isMulti = true);
-        $view = new Piwik_View('@CoreHome/getMultiRowEvolutionPopover');
+        $view = new View('@CoreHome/getMultiRowEvolutionPopover');
         echo $rowEvolution->renderPopover($this, $view);
     }
 

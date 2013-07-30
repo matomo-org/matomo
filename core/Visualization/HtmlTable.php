@@ -9,20 +9,25 @@
  * @package Piwik
  */
 
+namespace Piwik\Visualization;
+
+use Piwik\DataTable;
+use Piwik\View;
+
 /**
  * DataTable visualization that shows DataTable data in an HTML table.
  */
-class Piwik_Visualization_HtmlTable
+class HtmlTable
 {
     /**
      * Renders this visualization.
-     * 
-     * @param Piwik_DataTable $dataTable
+     *
+     * @param DataTable $dataTable
      * @param array $properties View Properties.
      */
-    public function render($dataTable, $properties)
+    public function render(DataTable $dataTable, $properties)
     {
-        $view = new Piwik_View("@CoreHome/_dataTableViz_htmlTable.twig");
+        $view = new View("@CoreHome/_dataTableViz_htmlTable.twig");
         $view->properties = $properties;
         $view->dataTable = $dataTable;
         return $view->render();

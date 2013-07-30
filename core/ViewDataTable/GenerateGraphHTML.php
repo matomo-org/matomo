@@ -8,12 +8,17 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ViewDataTable;
+
+use Exception;
 use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\JqplotDataGenerator;
 use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik_Access_NoAccessException;
+use Piwik\Visualization\JqplotGraph;
 
 /**
  * This class generates the HTML code to embed graphs in the page.
@@ -22,7 +27,7 @@ use Piwik\View;
  * @package Piwik
  * @subpackage ViewDataTable
  */
-abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
+abstract class GenerateGraphHTML extends ViewDataTable
 {
     const DEFAULT_GRAPH_HEIGHT = 250;
 
@@ -31,12 +36,12 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->disableOffsetInformationAndPaginationControls();
         $this->disableExcludeLowPopulation();
         $this->disableSearchBox();
         $this->enableShowExportAsImageIcon();
-        
+
         $this->viewProperties['display_percentage_in_tooltip'] = true;
         $this->viewProperties['y_axis_unit'] = '';
         $this->viewProperties['show_all_ticks'] = 0;
@@ -47,7 +52,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
         $this->viewProperties['row_picker_visible_rows'] = array();
         $this->viewProperties['selectable_columns'] = array();
         $this->viewProperties['graph_width'] = '100%';
-        $this->viewProperties['graph_height'] = self::DEFAULT_GRAPH_HEIGHT.'px';
+        $this->viewProperties['graph_height'] = self::DEFAULT_GRAPH_HEIGHT . 'px';
     }
 
     /**
@@ -108,7 +113,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
         $this->setColumnTranslation('nb_conversions', Piwik_Translate('Goals_ColumnConversions'));
         $this->setColumnTranslation('revenue', Piwik_Translate('General_TotalRevenue'));
     }
-    
+
     public function init($currentControllerName,
                          $currentControllerAction,
                          $apiMethodToRequestDataTable,
@@ -116,26 +121,26 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
                          $defaultProperties = array())
     {
         parent::init($currentControllerName, $currentControllerAction, $apiMethodToRequestDataTable,
-                     $controllerActionCalledWhenRequestSubTable, $defaultProperties);
-        
+            $controllerActionCalledWhenRequestSubTable, $defaultProperties);
+
         // in the case this controller is being executed by another controller
         // eg. when being widgetized in an IFRAME
         // we need to put in the URL of the graph data the real module and action
         $this->viewProperties['request_parameters_to_modify']['module'] = $currentControllerName;
         $this->viewProperties['request_parameters_to_modify']['action'] = $currentControllerAction;
-        
+
         // do not sort if sorted column was initially "label" or eg. it would make "Visits by Server time" not pretty
         if ($this->getSortedColumn() != 'label') {
             $columns = $this->viewProperties['columns_to_display'];
-            
+
             $firstColumn = reset($columns);
             if ($firstColumn == 'label') {
                 $firstColumn = next($columns);
             }
-            
+
             $this->setSortedColumn($firstColumn);
         }
-        
+
         // selectable columns
         if ($this->viewProperties['graph_type'] != 'evolution') {
             $selectableColumns = array('nb_visits', 'nb_actions');
@@ -222,7 +227,7 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
 
         // Graphs require the full dataset, so no filters
         $this->disableGenericFilters();
-        
+
         // the queued filters will be manually applied later. This is to ensure that filtering using search
         // will be done on the table before the labels are enhanced (see ReplaceColumnNames)
         $this->disableQueuedFilters();
@@ -245,8 +250,8 @@ abstract class Piwik_ViewDataTable_GenerateGraphHTML extends ViewDataTable
         // re-enable generic & queued filters so they do not appear in JS output
         $this->viewProperties['disable_generic_filters'] = false;
         $this->viewProperties['disable_queued_filters'] = false;
-        
-        $visualization = new Piwik_Visualization_JqplotGraph();
+
+        $visualization = new JqplotGraph();
         $this->view = $this->buildView($visualization);
     }
 

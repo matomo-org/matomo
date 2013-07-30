@@ -8,9 +8,13 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ViewDataTable;
+
+use Exception;
 use Piwik\Common;
 use Piwik\DataTable;
 use Piwik\ViewDataTable;
+use Piwik\Visualization\Sparkline;
 
 /**
  * Reads the requested DataTable from the API and prepare data for the Sparkline view.
@@ -18,7 +22,7 @@ use Piwik\ViewDataTable;
  * @package Piwik
  * @subpackage ViewDataTable
  */
-class Piwik_ViewDataTable_Sparkline extends ViewDataTable
+class Sparkline extends ViewDataTable
 {
     protected function getViewDataTableId()
     {
@@ -50,7 +54,7 @@ class Piwik_ViewDataTable_Sparkline extends ViewDataTable
             $values = array_fill(0, 30, 0);
         }
 
-        $graph = new Piwik_Visualization_Sparkline();
+        $graph = new Sparkline();
         $graph->setValues($values);
 
         $height = Common::getRequestVar('height', 0, 'int');

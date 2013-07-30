@@ -9,6 +9,12 @@
  * @package Piwik
  */
 
+namespace Piwik\Visualization;
+
+use Piwik\Common;
+use Piwik\View\ViewInterface;
+use Sparkline_Line;
+
 /**
  * @see libs/sparkline/lib/Sparkline_Line.php
  * @link http://sparkline.org
@@ -22,13 +28,13 @@ require_once PIWIK_INCLUDE_PATH . '/libs/sparkline/lib/Sparkline_Line.php';
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Piwik_Visualization_Sparkline implements Piwik_View_Interface
+class Sparkline implements ViewInterface
 {
     const DEFAULT_WIDTH = 100;
     const DEFAULT_HEIGHT = 25;
 
     private static $colorNames = array('lineColor', 'red', 'blue', 'green');
-    
+
     /**
      * Width of the sparkline
      * @var int
@@ -146,7 +152,7 @@ class Piwik_Visualization_Sparkline implements Piwik_View_Interface
 
     private function setSparklineColors($sparkline)
     {
-        $colors = Piwik_Common::getRequestVar('colors', false, 'json');
+        $colors = Common::getRequestVar('colors', false, 'json');
         if (!empty($colors)) {
             foreach (self::$colorNames as $name) {
                 if (!empty($colors[$name])) {

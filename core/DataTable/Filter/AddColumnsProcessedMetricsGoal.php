@@ -11,10 +11,11 @@
 namespace Piwik\DataTable\Filter;
 
 use Exception;
-use Piwik\Metrics;
-use Piwik\Piwik;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\AddColumnsProcessedMetrics;
+use Piwik\Metrics;
+use Piwik\Piwik;
+use Piwik_Tracker_GoalManager;
 
 /**
  * @package Piwik
@@ -72,7 +73,7 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
     {
         // Add standard processed metrics
         parent::filter($table);
-        $roundingPrecision = \Piwik_Tracker_GoalManager::REVENUE_PRECISION;
+        $roundingPrecision = Piwik_Tracker_GoalManager::REVENUE_PRECISION;
         $expectedColumns = array();
         foreach ($table->getRows() as $key => $row) {
             $currentColumns = $row->getColumns();

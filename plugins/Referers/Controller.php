@@ -105,7 +105,7 @@ class Piwik_Referers_Controller extends Controller
 
         // only display the reports by dimension view if there are visits
         if ($visits > 0) {
-            $referrersReportsByDimension = new Piwik_View_ReportsByDimension();
+            $referrersReportsByDimension = new View_ReportsByDimension();
 
             $referrersReportsByDimension->addReport(
                 'Referers_ViewAllReferrers', 'Referers_WidgetGetAll', 'Referers.getAll');
@@ -175,7 +175,7 @@ class Piwik_Referers_Controller extends Controller
 
     public function indexWebsites($fetch = false)
     {
-        $view = new Piwik_View('@Referers/indexWebsites');
+        $view = new View('@Referers/indexWebsites');
         $view->websites = $this->getWebsites(true);
         $view->socials = $this->getSocials(true);
         if ($fetch) {

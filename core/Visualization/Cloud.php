@@ -8,7 +8,11 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\Visualization;
+
 use Piwik\Common;
+use Piwik\View;
+use Piwik_DataTable;
 
 /**
  * Generates a tag cloud from a given data array.
@@ -19,7 +23,7 @@ use Piwik\Common;
  * @package Piwik
  * @subpackage Piwik_Visualization
  */
-class Piwik_Visualization_Cloud
+class Cloud
 {
     /** Used by integration tests to make sure output is consistent. */
     public static $debugDisableShuffle = false;
@@ -44,12 +48,12 @@ class Piwik_Visualization_Cloud
 
     /**
      * Renders this visualization.
-     * 
+     *
      * @param Piwik_DataTable $dataTable
      */
     public function render($dataTable, $properties)
     {
-        $view = new Piwik_View("@CoreHome/_dataTableViz_tagCloud.twig");
+        $view = new View("@CoreHome/_dataTableViz_tagCloud.twig");
         $view->properties = $properties;
 
         $columnToDisplay = $properties['columns_to_display'][1];

@@ -20,6 +20,7 @@ use Piwik\ReportRenderer;
 use Piwik\Site;
 use Piwik\Translate;
 use Piwik\Db;
+use Piwik\Visualization\Cloud;
 
 require_once PIWIK_INCLUDE_PATH . '/libs/PiwikTracker/PiwikTracker.php';
 
@@ -242,7 +243,7 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         Translate::getInstance()->unloadEnglishTranslation();
 
         // re-enable tag cloud shuffling
-        Piwik_Visualization_Cloud::$debugDisableShuffle = true;
+        Cloud::$debugDisableShuffle = true;
     }
 
     public function setUp()

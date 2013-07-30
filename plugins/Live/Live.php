@@ -9,6 +9,7 @@
  * @package Piwik_Live
  */
 use Piwik\Plugin;
+use Piwik\Common;
 use Piwik\WidgetsList;
 
 /**
@@ -79,7 +80,7 @@ class Piwik_Live extends Plugin
                 // set a very high row count so that the next link in the footer of the data table is always shown
                 'totalRows' => 10000000,
 
-                'filterEcommerce' => Piwik_Common::getRequestVar('filterEcommerce', 0, 'int'),
+                'filterEcommerce' => Common::getRequestVar('filterEcommerce', 0, 'int'),
                 'pageUrlNotDefined' => Piwik_Translate('General_NotDefined', Piwik_Translate('Actions_ColumnPageURL'))
             ),
         );

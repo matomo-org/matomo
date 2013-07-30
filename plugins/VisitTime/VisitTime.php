@@ -190,7 +190,7 @@ class Piwik_VisitTime extends Plugin
 
         // create a period instance
         try {
-            $oPeriod = Period::makePeriodFromQueryParams(Piwik_Site::getTimezoneFor($idSite), $period, $date);
+            $oPeriod = Period::makePeriodFromQueryParams(Site::getTimezoneFor($idSite), $period, $date);
         } catch (Exception $ex) {
             return ''; // if query params are incorrect, forget about the footer message
         }

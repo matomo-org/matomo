@@ -8,17 +8,22 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ViewDataTable;
+
+use Exception;
 use Piwik\ViewDataTable;
 use Piwik\View;
+use Piwik;
+use Piwik\Visualization\Cloud;
 
 /**
  * Reads the requested DataTable from the API, and prepares the data to give
- * to Piwik_Visualization_Cloud that will display the tag cloud (via the template _dataTable_cloud.twig).
+ * to Cloud that will display the tag cloud (via the template _dataTable_cloud.twig).
  *
  * @package Piwik
  * @subpackage ViewDataTable
  */
-class Piwik_ViewDataTable_Cloud extends ViewDataTable
+class Cloud extends ViewDataTable
 {
     public function setDisplayLogoInTagCloud($bool)
     {
@@ -29,7 +34,7 @@ class Piwik_ViewDataTable_Cloud extends ViewDataTable
     {
         return 'cloud';
     }
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -62,7 +67,7 @@ class Piwik_ViewDataTable_Cloud extends ViewDataTable
         $this->checkStandardDataTable();
         $this->postDataTableLoadedFromAPI();
 
-        $visualization = new Piwik_Visualization_Cloud();
+        $visualization = new Cloud();
         $this->view = $this->buildView($visualization);
     }
 }

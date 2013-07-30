@@ -8,16 +8,21 @@
  * @category Piwik
  * @package Piwik
  */
+namespace Piwik\ViewDataTable\HtmlTable;
+
 use Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal;
 use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Site;
+use Piwik\ViewDataTable\HtmlTable;
+use Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal;
+use Piwik_Goals_API;
 
 /**
  * @package Piwik
  * @subpackage ViewDataTable
  */
-class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
+class Goals extends HtmlTable
 {
     private $processOnlyIdGoal = null;
     private $isEcommerce = false;
@@ -33,8 +38,8 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
             $this->viewProperties['subtable_controller_action'] = null;
         }
 
-        $this->idSite = Piwik_Common::getRequestVar('idSite', null, 'int');
-        $this->processOnlyIdGoal = Piwik_Common::getRequestVar('idGoal', Piwik_DataTable_Filter_AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
+        $this->idSite = Common::getRequestVar('idSite', null, 'int');
+        $this->processOnlyIdGoal = Common::getRequestVar('idGoal', \Piwik\DataTable\Filter\AddColumnsProcessedMetricsGoal::GOALS_OVERVIEW, 'string');
         $this->isEcommerce = $this->processOnlyIdGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER;
         $this->viewProperties['show_exclude_low_population'] = true;
         $this->viewProperties['show_goals'] = true;
@@ -43,7 +48,6 @@ class Piwik_ViewDataTable_HtmlTable_Goals extends Piwik_ViewDataTable_HtmlTable
             $this->setReportDocumentation(Piwik_Translate('Goals_ConversionByTypeReportDocumentation',
                 array('<br />', '<br />', '<a href="http://piwik.org/docs/tracking-goals-web-analytics/" target="_blank">', '</a>')));
         }
-
 
         $this->setMetricDocumentation('nb_visits', Piwik_Translate('Goals_ColumnVisits'));
         if ($this->isEcommerce) {

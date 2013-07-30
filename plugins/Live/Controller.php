@@ -83,7 +83,7 @@ class Piwik_Live_Controller extends Controller
     
     public function indexVisitorLog()
     {
-        $view = new Piwik_View('@Live/indexVisitorLog.twig');
+        $view = new View('@Live/indexVisitorLog.twig');
         $view->filterEcommerce = Common::getRequestVar('filterEcommerce', 0, 'int');
         $view->visitorLog = $this->getLastVisitsDetails($fetch = true);
         echo $view->render();
@@ -119,7 +119,7 @@ class Piwik_Live_Controller extends Controller
 
     private function setCounters($view)
     {
-        $segment = Piwik_API_Request::getRawSegmentFromRequest();
+        $segment = Request::getRawSegmentFromRequest();
         $last30min = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 30, $segment);
         $last30min = $last30min[0];
         $today = Piwik_Live_API::getInstance()->getCounters($this->idSite, $lastMinutes = 24 * 60, $segment);

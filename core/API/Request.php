@@ -19,7 +19,7 @@ use Piwik\Access;
 use Piwik\DataTable;
 use Piwik\Url;
 use Piwik\API\ResponseBuilder;
-use Piwik_FrontController_PluginDeactivatedException;
+use Piwik\PluginDeactivatedException;
 
 /**
  * An API request is the object used to make a call to the API and get the result.
@@ -128,7 +128,7 @@ class Request
      * It then reads the parameters from the request string and throws an exception if there are missing parameters.
      * It then calls the API Proxy which will call the requested method.
      *
-     * @throws Piwik_FrontController_PluginDeactivatedException
+     * @throws PluginDeactivatedException
      * @return DataTable|mixed  The data resulting from the API call
      */
     public function process()
@@ -146,7 +146,7 @@ class Request
             list($module, $method) = $this->extractModuleAndMethod($moduleMethod);
 
             if (!\Piwik\PluginsManager::getInstance()->isPluginActivated($module)) {
-                throw new Piwik_FrontController_PluginDeactivatedException($module);
+                throw new PluginDeactivatedException($module);
             }
             $moduleClass = "Piwik_" . $module . "_API";
 
@@ -259,9 +259,9 @@ class Request
     {
         // we need the URL encoded segment parameter, we fetch it from _SERVER['QUERY_STRING'] instead of default URL decoded _GET
         $segmentRaw = false;
-        $segment = Piwik_Common::getRequestVar('segment', '', 'string');
+        $segment = Common::getRequestVar('segment', '', 'string');
         if (!empty($segment)) {
-            $request = Piwik_API_Request::getRequestParametersGET();
+            $request = Request::getRequestParametersGET();
             if(!empty($request['segment'])) {
                 $segmentRaw = $request['segment'];
             }

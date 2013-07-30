@@ -20,6 +20,7 @@ use Piwik\View;
 use Piwik\Version;
 use Piwik\UpdateCheck;
 use Piwik\Unzip;
+use Piwik\View\OneClickDone;
 
 /**
  *
@@ -90,7 +91,7 @@ class Piwik_CoreUpdater_Controller extends Controller
         }
 
         // this is a magic template to trigger the Piwik_View_Update
-        $view = new Piwik_View_OneClickDone(Piwik::getCurrentUserTokenAuth());
+        $view = new OneClickDone(Piwik::getCurrentUserTokenAuth());
         $view->coreError = $errorMessage;
         $view->feedbackMessages = $messages;
         echo $view->render();

@@ -9,10 +9,13 @@
  * @package Piwik
  */
 
+namespace Piwik\ViewDataTable\GenerateGraphHtml;
+
 use Piwik\Common;
 use Piwik\Period\Range;
 use Piwik\Controller;
 use Piwik\Site;
+use Piwik\ViewDataTable\GenerateGraphHTML;
 
 /**
  * Generates HTML embed for the Evolution graph
@@ -20,7 +23,7 @@ use Piwik\Site;
  * @package Piwik
  * @subpackage ViewDataTable
  */
-class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDataTable_GenerateGraphHTML
+class ChartEvolution extends GenerateGraphHTML
 {
     const GRAPH_HEIGHT = 170;
 
@@ -32,12 +35,12 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
      * @var string
      */
     private $originalDate;
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->viewProperties['graph_type'] = 'evolution';
-        $this->viewProperties['graph_height'] = self::GRAPH_HEIGHT.'px';
+        $this->viewProperties['graph_height'] = self::GRAPH_HEIGHT . 'px';
     }
 
     protected function getViewDataTableId()
@@ -51,10 +54,10 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
     }
 
     public function init($currentControllerName,
-                  $currentControllerAction,
-                  $apiMethodToRequestDataTable,
-                  $controllerActionCalledWhenRequestSubTable = null,
-                  $defaultProperties = array())
+                         $currentControllerAction,
+                         $apiMethodToRequestDataTable,
+                         $controllerActionCalledWhenRequestSubTable = null,
+                         $defaultProperties = array())
     {
         parent::init($currentControllerName,
             $currentControllerAction,
@@ -185,7 +188,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
         }
 
         // FIXME: This appears to be a hack used to ensure a graph is plotted even if there is no data. there's probably
-        //        a less complicated way of doing it... (this is complicated because it modifies the request used to get 
+        //        a less complicated way of doing it... (this is complicated because it modifies the request used to get
         //        data so a loop is entered in JqplotDataGenerator_Evolution::initChartObjectData)
         if (!empty($this->viewProperties['columns_to_display'])) {
             $columns = implode(',', $this->viewProperties['columns_to_display']);
@@ -194,7 +197,7 @@ class Piwik_ViewDataTable_GenerateGraphHTML_ChartEvolution extends Piwik_ViewDat
 
         return parent::getRequestArray();
     }
-    
+
     public function getDefaultDataTableCssClass()
     {
         return 'dataTableEvolutionGraph';
